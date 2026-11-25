@@ -28,8 +28,6 @@ struct TOAttackableCol : public TObjChara {
     virtual void run_task();
     virtual void render();
     static void *create(void *arg0);
-    void bswap_state();
-    void broadcast_state();
     s32 script_kind;  // set_params[1]: 100-999 picks the mission script manager, else the area's
     s32 label;
     s32 done_switch;  // floor switch set when it is destroyed, -1 for none (only used while label is 0)
@@ -42,7 +40,8 @@ void TOAttackableCol__sub_80157310(void *_w0);
 void TOAttackableCol__sub_80157C20(void *p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void *p);
 void *__dt__15TOAttackableColFv(void *arg0, s16 arg1);
-void *init_6x91_subcommand(void *barrier_energy01);
+struct G_UpdateAttackableColState_6x91;
+G_UpdateAttackableColState_6x91 *init_6x91_subcommand(G_UpdateAttackableColState_6x91 *msg);
 }
 
 #endif

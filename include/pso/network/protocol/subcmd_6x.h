@@ -27,6 +27,7 @@
 #include "pso/system/vector.h"
 #include <stddef.h>
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #include "pso/network/protocol/cast_packets.h"
 #include "pso/quest/challenge/ChallengeRecord.h"
@@ -125,7 +126,7 @@ struct G_AttackFinished_Header_6x46 {
 
 struct G_Attack_6x43_6x44_6x45 {
  struct G_ClientIDHeader header;
- u16 angle_y;
+ s16 angle_y;
  s16 action_type; // the receiver passes it to the attack state's set_attack_kind
 };
 
@@ -135,18 +136,21 @@ struct G_Attack_6x43 : G_Attack_6x43_6x44_6x45 {
  void init();
  void bswap();
  void send();
+ G_Attack_6x43 &operator=(G_Attack_6x43 &src);
 };
 
 struct G_Attack_6x44 : G_Attack_6x43_6x44_6x45 {
  void init();
  void bswap();
  void send();
+ G_Attack_6x44 &operator=(G_Attack_6x44 &src);
 };
 
 struct G_Attack_6x45 : G_Attack_6x43_6x44_6x45 {
  void init();
  void bswap();
  void send();
+ G_Attack_6x45 &operator=(G_Attack_6x45 &src);
 };
 
 // 6xA9/6xAA: Barba Ray (TBoss7DeRolLeC) action changes. The client swaps
@@ -187,7 +191,11 @@ struct G_CardCounts_Ep3NTE_6xBC {
 struct G_CastTechniqueComplete_6x48 {
  struct G_ClientIDHeader header;
  s16 technique_number;
- u16 level;
+ s16 level;
+ void bswap();
+ G_CastTechniqueComplete_6x48 &operator=(G_CastTechniqueComplete_6x48 &src);
+ void init();
+ void send();
 };
 
 struct G_CastTechnique_Header_6x47 {
@@ -529,11 +537,34 @@ struct G_GolDragonBossActions_6xA8 {
  void init();
 };
 
+// The velocity the hit packets carry: copied as two words and byte-swapped by
+// its own helper, not by VectorXZF::bswap.
+struct PacketVelocityXZ {
+ f32 xz[2];
+ void bswap();
+};
+
 struct G_HitByEnemy_6x4B_6x4C {
  struct G_ClientIDHeader header;
- u16 angle;
+ s16 angle;
  s16 current_hp;
- struct VectorXZF velocity;
+ struct PacketVelocityXZ velocity;
+};
+
+// 6x4B (hurt) and 6x4C (knocked down) share the hit fields; each has its own
+// packet class.
+struct G_HitByEnemy_6x4B : G_HitByEnemy_6x4B_6x4C {
+ void bswap();
+ G_HitByEnemy_6x4B &operator=(G_HitByEnemy_6x4B &src);
+ void init();
+ void send();
+};
+
+struct G_HitByEnemy_6x4C : G_HitByEnemy_6x4B_6x4C {
+ void bswap();
+ void init();
+ void send();
+ G_HitByEnemy_6x4C &operator=(G_HitByEnemy_6x4C &src);
 };
 
 struct G_UpdateEnemyState_6x0A {
@@ -547,6 +578,9 @@ struct G_UpdateObjectState_6x0B {
  struct G_EntityIDHeader header;
  u32 flags;
  u32 object_index;
+ void bswap();
+ void init();
+ void send();
 };
 
 struct G_HitDestructibleObject_6x86 {
@@ -781,7 +815,11 @@ struct G_PlayerCameraShutterSound_6x9E {
 
 struct G_PlayerDied_6x4D {
  struct G_ClientIDHeader header;
- u32 death_flags;
+ FlagWord death_flags;
+ G_PlayerDied_6x4D();
+ void bswap();
+ void send();
+ G_PlayerDied_6x4D &operator=(G_PlayerDied_6x4D &src);
 };
 
 struct G_PlayerRevivable_6x4E {
@@ -816,7 +854,11 @@ struct G_RestoreShrunkenPlayer_6x88 {
 struct G_RevivePlayer_6x33 {
  struct G_ClientIDHeader header;
  u16 client_id2;
- u16 unused;
+ s16 unused;
+ void bswap();
+ G_RevivePlayer_6x33 &operator=(G_RevivePlayer_6x33 &src);
+ void init();
+ void send();
 };
 
 struct G_RevivePlayer_V3_BB_6xA1 {
@@ -994,17 +1036,17 @@ struct G_SetPlayerInvisible_6x22 {
  struct G_ClientIDHeader header;
  void init();
  void send();
+ G_SetPlayerInvisible_6x22 &operator=(const G_SetPlayerInvisible_6x22 &src);
 };
 
 struct G_SetPlayerVisible_6x23 {
  struct G_ClientIDHeader header;
  void init();
  void send();
-};
-
-struct G_SetPlayerVisibility_6x22_6x23 {
- struct G_ClientIDHeader header;
- G_SetPlayerVisibility_6x22_6x23 &operator=(const G_SetPlayerVisibility_6x22_6x23 &src);
+ G_SetPlayerVisible_6x23 &operator=(const G_SetPlayerVisible_6x23 &src) {
+  copy_subcommand_header(this, &src);
+  return *this;
+ }
 };
 
 struct G_SetPosition_6x20 {
@@ -1047,7 +1089,11 @@ struct G_SetTechniqueLevelOverride_6x8D {
  struct G_ClientIDHeader header;
  u8 level_upgrade;
  u8 unused1;
- u16 unused2;
+ s16 unused2;
+ void bswap();
+ G_SetTechniqueLevelOverride_6x8D &operator=(G_SetTechniqueLevelOverride_6x8D &src);
+ void init();
+ void send();
 };
 
 struct G_SetTelepipeState_6x68 {
@@ -1306,6 +1352,8 @@ struct G_UpdateAttackableColState_6x91 : G_UpdateObjectState_6x0B {
  u16 switch_flag_num;
  u8 should_set;
  s8 floor;
+ void bswap();
+ void send();
 };
 
 struct G_UpdateEntityStat_6x9A {

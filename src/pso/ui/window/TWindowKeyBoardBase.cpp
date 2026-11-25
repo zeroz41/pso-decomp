@@ -64,7 +64,6 @@ void draw_textured_quad_at_depth(void *, f32);
 s32 dispatch_request_0x27__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x26__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x25__19TWindowKeyBoardSoftFll(void *, s32 *);
-s32 dispatch_request_0x23__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x24__19TWindowKeyBoardSoftFll(void *, void *);
 extern s32 actor_frame_tick;
 s32 dispatch_request_0x22__19TWindowKeyBoardSoftFll(void *, void *);
@@ -198,7 +197,7 @@ void TWindowKeyBoardBase::sub_8025CFA8(s32 *name) {
         TWindowKeyBoardSoft__sub_803E6868(out, tmp);
         return;
     }
-    TWindowKeyBoardSoft::dispatch_request_0x28((s32)out, (s32)((s32 *)tmp));
+    TWindowKeyBoardSoft::dispatch_request_0x28(out, tmp);
     if (strcmp(text, out) != 0) {
         candidate_index++;
         candidate_count++;
@@ -310,7 +309,7 @@ void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
     u8 *p;
     rec = reinterpret_cast<Rec_8025D3CC *>(current_candidate);
     idx = rec->len;
-    p = (u8 *)(idx + (s32)rec);
+    p = (u8 *)(idx + (saddr)rec);
     n = TWindowKeyBoardSoft::strnlen((s8 *)arg1, 0x100);
     p[3] = idx;
     p[4] = n;
@@ -409,7 +408,7 @@ void TWindowKeyBoardBase::sub_8025D664() {
             i++;
             if (i > count) {
                 current_candidate = rec;
-                TWindowKeyBoardSoft::dispatch_request_0x23((s32)name, (s32)text);
+                TWindowKeyBoardSoft::dispatch_request_0x23(name, text);
                 sub_8025CF50(candidate_index);
                 return;
             }
@@ -433,7 +432,7 @@ void TWindowKeyBoardBase::process_input() {
     u8 *temp_r5;
 
     if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
-        temp_r3 = dispatch_request_0x23__19TWindowKeyBoardSoftFll(sp8, sp108);
+        temp_r3 = TWindowKeyBoardSoft::dispatch_request_0x23(sp8, sp108);
         if (temp_r3 != 0) {
             candidate_count = temp_r3;
             current_candidate[2] = (u8) candidate_index;

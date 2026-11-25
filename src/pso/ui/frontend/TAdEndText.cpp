@@ -174,7 +174,7 @@ void TAdEndText::render() {
             break;
         default:
             if (col != 0xFFFFFF) {
-                draw_small_font_text((void *)col, credit_script_lines[i], m_line_pos[i].x, y, text_depth);
+                draw_small_font_text(col, credit_script_lines[i], m_line_pos[i].x, y, text_depth);
             }
             break;
         }

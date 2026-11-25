@@ -2,6 +2,7 @@
 #define PSO_PLAYER_BATTLEMUSICSTATE_H
 
 #include "types.h"
+#include "pso/system/data/FlagWord.h"
 
 class TObjPlayer;
 
@@ -10,7 +11,7 @@ class TObjPlayer;
 // its timer. Flag 1: the battle music is on; flag 2: a quest holds it
 // (update_target_lock leaves it alone).
 struct BattleMusicState {
-    s32 flags;  // a FlagWord
+    FlagWord flags;
     s32 timer;  // frames left before the music stops, -1 when not counting
 
     BattleMusicState();

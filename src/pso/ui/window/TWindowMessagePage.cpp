@@ -47,13 +47,13 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
     update_message();
 }
 
-u8 *TWindowMessagePage::create(s32 parent, saddr extent, saddr rows, s32 client) {
+u8 *TWindowMessagePage::create(const NJS_POINT2 *position, saddr extent, saddr rows, s32 client) {
     TLobby__sub_80269DA4((void *)extent, (u32)rows);
-    return (u8 *)new TWindowMessagePage(parent, rows, client);
+    return (u8 *)new TWindowMessagePage(position, rows, client);
 }
 
-u8 *TWindowMessagePage::set_text(s32 a, s32 b, s32 c) {
-    return TWindowMessagePage::create(a, b, c, local_client_id);
+u8 *TWindowMessagePage::set_text(const NJS_POINT2 *position, saddr extent, saddr rows) {
+    return TWindowMessagePage::create(position, extent, rows, local_client_id);
 }
 
 void TWindowMessagePage::render() { { (void)(this->TWindowMessage::render()); return; } }
@@ -73,7 +73,7 @@ TWindowMessagePage::~TWindowMessagePage() {
 
 }
 
-TWindowMessagePage::TWindowMessagePage(s32 parent, s32 rows, s32 client) : TWindowMessage(parent, rows, client) {
+TWindowMessagePage::TWindowMessagePage(const NJS_POINT2 *position, s32 rows, s32 client) : TWindowMessage(position, rows, client) {
     this->m_name = TWindowMessagePage__name;
     *(s32 *)((s8 *)this + 0x90) = 0;
     this->client_index = (s16) client;

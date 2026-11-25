@@ -567,7 +567,7 @@ void TBoss7DeRolLeC::load_resources() {
         last->evalflags = 0x1F;
         last->child = NULL;
     }
-    TWindowCtrl::init_all_slots();
+    TWindowCtrl::suppress_all_slots();
 }
 
 void *TBoss7DeRolLeC::create(void *set_data) {
@@ -1755,7 +1755,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
         body_offset.y = 0.0f;
         state_step = 0;
         state_ints[0] = 0;
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         get_target_state_b();
         break;
     case 2:
@@ -1814,7 +1814,7 @@ void TBoss7DeRolLeC::handle_intro_camera_state(u32 event) {
         break;
     case 5:
         restore_player_cameras();
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         get_target_state_a();
         break;
     }
@@ -3238,7 +3238,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
             crawfish_parent->queue_destruction_for_each_node();
         }
         TObjBoss7Tunnel::clear_flags_0x3000();
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         {
             cam.index = 0;
             cam.bank = 2;
@@ -3265,7 +3265,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         advance_animation();
         if (get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) {
             state_step = 1;
-            TWindowCtrl::init_all_slots2();
+            TWindowCtrl::unsuppress_all_slots();
             restore_player_cameras();
         }
         if (is_passing_frame(85.0f) != 0) {
@@ -3298,7 +3298,7 @@ void TBoss7DeRolLeC::handle_death_state(u32 event) {
         update_prev_position();
         actorFlags = 0x12008;
         sync_enemy_state(0);
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         restore_player_cameras();
         break;
     }

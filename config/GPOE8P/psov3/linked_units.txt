@@ -383,7 +383,6 @@ pso/enemy/dd/TObjEneDD.cpp
 pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp
 pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp
 pso/enemy/deldepth/TObjEneDelDepth.cpp
-pso/enemy/deldepth/TObjEneDelDepthAccessors.cpp
 pso/enemy/dellbiter/TObjEneDellBiter.cpp
 pso/enemy/dellbiter/TObjEneDellBiterEffects.cpp
 pso/enemy/bringer/TObjEneDf2Bringer.cpp
@@ -798,7 +797,6 @@ pso/unk/TLobby_8020D0B0.cpp
 pso/unk/TLobby_8020D1BC.cpp
 pso/unk/text_80184C2C.cpp
 pso/unk/TLobby_8020E400.cpp
-pso/unk/TLobby_802173F0.cpp
 pso/unk/TLobby_8021B268.cpp
 pso/unk/TLobby_80221820.cpp
 pso/unk/text_80222C28.cpp
@@ -892,8 +890,7 @@ pso/ui/TLogo_8030818C.cpp
 pso/network/TPlyJoinLobbySdata2.cpp
 pso/ui/hud/TMainCursor.cpp
 pso/ui/hud/TMainCursor_80154090.cpp
-pso/ui/hud/TMainCursor_801D7A78.cpp
-pso/ui/hud/TMainCursor_801D7AC8.cpp
+pso/player/ActionPaletteSlots.cpp
 pso/map/TMapCsnCtrl.cpp
 pso/ui/city/TMedicalCenterSequence.cpp
 pso/object/TMotorcycle.cpp
@@ -1575,6 +1572,7 @@ pso/player/MaterialUsage.cpp
 pso/effect/TIndirectEffectDrawTask.cpp
 pso/player/PlayerPadBinding.cpp
 pso/player/Palettex.cpp
+pso/player/PalettexState.cpp
 pso/weapon/TItemWeaponTsumikiri.cpp
 pso/weapon/TItemWeaponDarkMeteor.cpp
 pso/player/TObjPlayer_80357B2C.cpp
@@ -1786,7 +1784,6 @@ pso/unk/text_80076E84.cpp
 pso/network/protocol/choice_search.cpp
 pso/unk/text_8007C0CC.cpp
 pso/effect/TDuelEffectCtrl.cpp
-pso/enemy/beast/TObjEneBeast_80092AE0.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp
 pso/enemy/TObjEneBeastBase_800C69E8.cpp
@@ -1824,7 +1821,6 @@ pso/unk/text_801D6D8C.cpp
 pso/unk/text_801D6DB0.cpp
 pso/unk/text_801D7134.cpp
 pso/unk/text_801D7238.cpp
-pso/unk/text_801D7BF4.cpp
 pso/unk/text_801D9870.cpp
 pso/unk/text_801D98F8.cpp
 pso/unk/text_801E4BCC.cpp
@@ -1898,7 +1894,6 @@ pso/unk/text_80290BE0.cpp
 pso/unk/text_80290BEC.cpp
 pso/ui/UISprite.cpp
 pso/unk/text_802948A8.cpp
-pso/unk/text_80298F8C.cpp
 pso/unk/text_80299420.cpp
 pso/unk/text_8029A97C.cpp
 pso/unk/text_802A0A30.cpp

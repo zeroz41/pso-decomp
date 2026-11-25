@@ -37,7 +37,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_8024ACEC.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/network/client_id.h"
@@ -48,7 +47,6 @@ const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
 static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
 static const char lbl_80444A58[] = "<- KEY ID : %d";
 
-void initialize_option_dialog(void *dialog, saddr message, s32 position, f32 width);
 
 extern "C" {
 s32 is_local_client_floor_leader(s32);
@@ -187,10 +185,10 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         if (this->yes_no_window == 0) {
             this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
             if (this->yes_no_window != 0) {
-                ((TWindowMessageYesNo *)this->yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (saddr)get_window_layout_position(0x36), 368.0f);
+                ((TWindowMessageYesNo *)this->yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
                 ((TWindowMessageYesNo *)this->yes_no_window)->set_menu_selected_index(1);
                 ((TWindowMessageYesNo *)this->yes_no_window)->set_choice_menu_flag70_bit10();
-                begin_player_keyboard_hold(local_client_id);
+                TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
             }
@@ -200,7 +198,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         if (this->yes_no_window == 0) {
             this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
             if (this->yes_no_window != 0) {
-                initialize_option_dialog(this->yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), (saddr)get_window_layout_position(0x36), 368.0f);
+                initialize_option_dialog(this->yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
             }
         }
         break;

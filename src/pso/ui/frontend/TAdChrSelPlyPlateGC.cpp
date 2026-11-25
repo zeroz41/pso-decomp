@@ -23,7 +23,7 @@ typedef struct Jump_802C5C84 {
 } Jump_802C5C84;
 
 extern s32 multi_ply_chr_select_slot_table[][5];
-s32 lbl_805D67D0;
+NJS_TEXLIST *lbl_805D67D0;
 s32 lbl_805D67D4;
 
 s32 multi_ply_chr_select_player_slot[4] = {
@@ -70,8 +70,8 @@ const f32 multi_ply_chr_select_tag_size[2] = { 180.0f, 38.0f };
 
 const char *TAdChrSelPlyPlateGC__name = "TAdChrSelPlyPlateGC";
 
-#define WIN_802C6008 ((void *)(&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::selected_slot]))
-#define WIN_802C61E4 ((void *)(&controller_physical_port_bank.controllers[multi_ply_chr_select_active_player]))
+#define WIN_802C6008 (&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::selected_slot])
+#define WIN_802C61E4 (&controller_physical_port_bank.controllers[multi_ply_chr_select_active_player])
 
 int multi_ply_chr_select_active_player;
 s32 TAdMultiPlyChrSelectGC::select_mode;
@@ -411,16 +411,16 @@ void TAdChrSelPlyPlateGC::handle_dpad_input() {
     n = TAdMultiPlyChrSelectGC::count_ready();
     m = TAdMultiPlyChrSelectGC::count_selected_slots();
     if (m != n && unk_4dc[cursor_col] != 0 && unk_4f8 == 0) {
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)WIN_802C61E4, 0x10, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x10, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, -1, unk_4dc[cursor_col]);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)WIN_802C61E4, 0x20, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x20, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, 1, unk_4dc[cursor_col]);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)WIN_802C61E4, 0x80, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x80, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 1, 0, 2);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)WIN_802C61E4, 0x40, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x40, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], -1, 0, 2);
         }
     }
@@ -433,11 +433,11 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
     unk_1c++;
     update_cell_uvs();
     if (unk_4dc[cursor_col] != 0 && unk_4f8 == 0) {
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)WIN_802C6008, 0x10, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C6008, 0x10, 6, 1) != 0) {
             play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]--;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)WIN_802C6008, 0x20, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C6008, 0x20, 6, 1) != 0) {
             play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]++;
         }
@@ -803,7 +803,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags() {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             s32 alpha = (s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f);
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D67D0));
+            TObjFish::set_global_param(lbl_805D67D0);
             set_draw_texture_and_color(0, (alpha << 24) | 0xFFFFFF);
             draw_textured_quad_at_depth(&quad[i + 4][0].x, 0.54f);
             TWindowSubStatusDisp::get_player();
@@ -822,7 +822,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags_shifted() {
     for (i = 0; i < 4; i++) {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D67D0));
+            TObjFish::set_global_param(lbl_805D67D0);
             set_draw_texture_and_color(0, ((s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f) << 24) | 0xFFFFFF);
             q.u0 = quad[i + 4][0].u0;
             q.u1 = quad[i + 4][0].u1;

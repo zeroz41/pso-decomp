@@ -7,6 +7,7 @@
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TItemTimerEventTpRegen.h"
 #include "pso/item/TItemTimerEventHpRegen.h"
+#include "pso/effect/item/TItemEffShield.h"
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -43,7 +44,6 @@ s16 obj_getS16_2BA(u8 *p);
 const char *TItemProShield__name = "TItemProShield";
 const char *lbl_805D2C3C = "ItemShieldEntry.dat";
 // Called with the item index widened to int.
-void __ct__18TItemEffShieldAuraFP7TObjectUs(void *effect, TItemHeapObject *parent, u16 client);
 void __ct__19TItemEffShieldPulseFP7TObjectUsUc(void *object, TItemHeapObject *parent, u16 client, int index);
 }
 
@@ -147,10 +147,7 @@ void TItemProShield::on_equip() {
             break;
         case 26:
             if (effect_objects != NULL) {
-                event = TObject::operator new(0x2C);
-                if (event != NULL) {
-                    __ct__18TItemEffShieldAuraFP7TObjectUs(event, effect_objects, get_owner_client());
-                }
+                new TItemEffShieldAura(effect_objects, get_owner_client());
             }
             break;
         }

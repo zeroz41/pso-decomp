@@ -15,25 +15,23 @@
 const char *trade_collision_name = "TObjTradeCollision";
 
 
-extern "C" {
-s32 is_player_outside_trade_radius__18TObjTradeCollisionFUl(void *, int);
+extern "C" s32 is_player_outside_trade_radius__18TObjTradeCollisionFUl(TObjTradeCollision *object, u32 client);
 
 void TObjTradeCollision::render() {  }
 
-void run_task__18TObjTradeCollisionFv(saddr arg0) {
+void TObjTradeCollision::run_task() {
     s32 i;
     i = 0;
     do {
-        if (is_player_outside_trade_radius__18TObjTradeCollisionFUl((void *)arg0, (int)i) != 0) {
-            set_trade_range_bit((i));
+        if (is_player_outside_trade_radius__18TObjTradeCollisionFUl(this, i) != 0) {
+            set_trade_range_bit(i);
         } else {
-            clear_trade_range_bit((i));
+            clear_trade_range_bit(i);
         }
         i += 1;
     } while (i < 4);
 }
 
-}
 TObjTradeCollision::~TObjTradeCollision() {
 
 }

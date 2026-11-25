@@ -6,6 +6,7 @@
 
 class TItemWeaponHeavenPunisher : public TItemWeapon {
 public:
+    TItemWeaponHeavenPunisher(TObject *parent, u8 *item);
     virtual ~TItemWeaponHeavenPunisher();
     virtual void activate_effect(s32);
     void heaven_punisher_strike_locks();

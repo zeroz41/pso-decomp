@@ -3,7 +3,7 @@
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "types.h"
-#include "pso/unk/text_8033F314.h"
+#include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
@@ -98,7 +98,7 @@ TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
     }
     TAdMcSelectCursorGC::get_instance(this)->set_render_direct(0);
     for (j = 0; j < 2; j++) {
-        fn_8033F314((saddr)this, j);
+        TAdMcCheckGC::get_instance(this, j);
     }
 }
 

@@ -522,7 +522,7 @@ void TBoss2DeRolLe::load_resources() {
     p->child = 0;
     TBoss2JointBreakUp::create_model();
     TBoss2BodyBreakUp::create_model();
-    TWindowCtrl::init_all_slots();
+    TWindowCtrl::suppress_all_slots();
 }
 
 void *TBoss2DeRolLe::create(void *set_data) {
@@ -1839,7 +1839,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
             activate_camera_mode(5);
             cam2.play(0x1C71);
         }
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         get_target_state_b();
         break;
     case 2:
@@ -1943,7 +1943,7 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
         break;
     case 5:
         restore_player_cameras();
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         get_target_state_a();
         break;
     }
@@ -3529,7 +3529,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         for (i = 0; i < 4; i++) {
             tentacles[i]->speed_up_sway();
         }
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         cam.index = 0;
         cam.bank = 2;
         cam.flags = 0;
@@ -3603,7 +3603,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
             height_offset -= 1.0f;
             if (height_offset < -100.0f) {
                 state_step = 3;
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
                 restore_player_cameras();
             }
             break;
@@ -3628,7 +3628,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         update_prev_position();
         actorFlags = 0x12008;
         sync_enemy_state(0);
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         restore_player_cameras();
         break;
     case 6:

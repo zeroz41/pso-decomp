@@ -25,24 +25,23 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
 
 struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 
 extern "C" {
-s32 set_info_board_text__6TLobbyFv();
-void *create_titled_window_menu_default(s32, s32, void *);
 
 const char *lbl_805D4348 = "TWindowSubInformationBoard";
 
 }
 
-TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *object, void *arg2) : TObject(object) {
+TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *parent, s32 client) : TObject(parent) {
     this->m_name = lbl_805D4348;
-    *(void **)((s8 *)this + 0x20) = arg2;
+    this->client = client;
     this->shown_index = -1;
-    parent_menu = static_cast<TWindowMainMenu *>(object);
+    parent_menu = static_cast<TWindowMainMenu *>(parent);
     this->menu_window = 0;
     this->page_menu = 0;
     this->message_window = 0;
@@ -158,7 +157,7 @@ void TWindowSubInformationBoard::run_task() {
         }
         if (this->keyboard->is_confirmed() != 0) {
             temp_r30 = (saddr)this->keyboard->realloc_buffer();
-            set_info_board_text__6TLobbyFv();
+            TLobby::set_info_board_text((char *)temp_r30);
             TLobby::flush_pending_send();
             mem_free((void *)temp_r30);
             this->m_1c = 0xBU;
@@ -180,20 +179,20 @@ void TWindowSubInformationBoard::run_task() {
 void TWindowSubInformationBoard::render() {  }
 
 u32 TWindowSubInformationBoard::create_info_board_menu() {
-  void *list;
-  list = create_titled_window_menu_default((saddr)get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
+  TWindowMenu *list;
+  list = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
   {
-    ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
+    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
   }
   else
   {
-    add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
+    add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
   }
-  ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x118)), 6, 9);
-  ((TWindowMenu *)list)->set_flag70_bit10();
-  ((TWindowMenu *)list)->update_layout_height(179.0f);
-  align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
+  list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x118)), 6, 9);
+  list->set_flag70_bit10();
+  list->update_layout_height(179.0f);
+  align_menu_entry_positions(list);
   return (uaddr)list;
 }
 
@@ -206,7 +205,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     if (it == NULL) {
         return 0;
     }
-    w = create_titled_window_menu_default((saddr)get_window_layout_position(0xA6), 0xC, TWindowSubStatusDisp::get_message_10(0x1D));
+    w = create_titled_window_menu_default(get_window_layout_position(0xA6), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
     n = ((L_8034CDE0 *)it)->n;
     it = ((L_8034CDE0 *)it)->items;
     for (i = 0; i < n; i++, it++) {

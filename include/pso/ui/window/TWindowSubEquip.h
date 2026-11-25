@@ -21,7 +21,6 @@ struct TWindowSubEquip : public TObject {
     uaddr equip_kind_list;
     void update_displayed_item();
     void update();
-    static void open_submenu(saddr window_main_menu, s32 arg1);
     s32 open_equip_kind_list(u32 arg1);
     virtual void render();
     virtual void run_task();

@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowSubLog.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/unk/text_8026A93C.h"
-#include "pso/ui/window/TWindowCtrl_8024ADAC.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
 #include "pso/unk/text_80076BC4.h"
@@ -24,7 +24,7 @@ const char *TWindowSubLog__class_name = "TWindowSubLog";
 
 struct Lg_8027B194 { s32 f0; u8 pad4[0x14]; void *vt; void *client_id; void *f20; s32 f24; void *f28; u8 f2c[0x10]; };
 
-const u8 lbl_8044F9C8[8] = {65, 136, 0, 0, 66, 16, 0, 0};
+const NJS_POINT2 lbl_8044F9C8 = {17.0f, 36.0f};
 const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
 
 void TWindowSubLog::render() {  }
@@ -66,17 +66,17 @@ TWindowSubLog::~TWindowSubLog() {
         parent_menu->clear_log_active();
         parent_menu->restore_after_subwindow();
     }
-    TWindowCtrl__sub_8024ADF0((saddr)(*(void **)((s8 *)this + 0x1C)));
+    TWindowCtrl::show_client_status_window(client);
 }
-TWindowSubLog::TWindowSubLog(TObject *parent, void *arg2) : TObject(parent) {
+TWindowSubLog::TWindowSubLog(TObject *parent, s32 client) : TObject(parent) {
     void *w;
     ((Lg_8027B194 *)this)->f0 = ((saddr)TWindowSubLog__class_name);
     parent_menu = static_cast<TWindowMainMenu *>(parent);
-    ((Lg_8027B194 *)this)->client_id = arg2;
-    TWindowCtrl__sub_8024ADAC((saddr)(((Lg_8027B194 *)this)->client_id));
+    this->client = client;
+    TWindowCtrl::hide_client_status_window(this->client);
     parent_menu->hide_for_subwindow();
     parent_menu->set_log_active();
-    ((Lg_8027B194 *)this)->f24 = (saddr)create_message_log_window((saddr)lbl_8044F9C8, (saddr)lbl_8044F9D0, (saddr)(((Lg_8027B194 *)this)->client_id));
+    ((Lg_8027B194 *)this)->f24 = (saddr)create_message_log_window(&lbl_8044F9C8, (saddr)lbl_8044F9D0, (saddr)(((Lg_8027B194 *)this)->client_id));
     w = new TWindowChat((TObject *)((Lg_8027B194 *)this), (void *)((Lg_8027B194 *)this)->f2c);
     ((Lg_8027B194 *)this)->f28 = w;
     fn_8027B2A8((void*)(((Lg_8027B194 *)this)->f28));

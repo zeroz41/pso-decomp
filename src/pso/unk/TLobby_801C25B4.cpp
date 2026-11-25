@@ -1,4 +1,5 @@
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/effect/TDuelEffectCtrl.h"
 #include "pso/network/client_id.h"
 #include "pso/system/memory.h"
 #include "pso/system/task/TMainTask.h"
@@ -31,6 +32,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800C7FEC.h"
@@ -51,6 +53,7 @@
 #include "pso/player/PlayerTrapCounts.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/unk/TLobby_801A3C48.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -181,7 +184,6 @@ void send_6x7D_set_battle_mode_data(void *);
 s32 obj_set_flag_20000();
 s32 get_battle_time_limit_frames();
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
-void init__6TLobbyFPv(void *arg0);
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
 }
@@ -288,9 +290,6 @@ void TLobby__sub_801C38A4(void);
 void TLobby__sub_801B09A4(void);
 
 
-void end_player_keyboard_hold(saddr client_id);
-
-void begin_player_keyboard_hold(saddr client_id);
 void request_active_window_close(void);
 s32 get_battle_time_limit_frames(void);
 void __destroy_new_array(void *, void *);
@@ -302,7 +301,6 @@ void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 void construct__19PlayerCharDataEntryFv(void);
 
-void *get_window_layout_position(s32);
 void TLobby__sub_801C3AF4(UpdatePlayerBattleCtrlStateLobby *self);
 
 
@@ -317,15 +315,14 @@ extern u32 player_slot_table[];
 
 extern s32 battle_intro_value_table[];
 void obj_clear_flag30_20000(void *actor);
-s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, int);
 }
 
 void record_local_battle_placement(void *);
 extern "C" {
 
-void *create_window_menu_default(void *, int);
 
 void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl);
+
 
 
 extern char battle_intro_message_buffer[];
@@ -459,7 +456,7 @@ void TLobby::update_battle_intro() {
     case 0:
         if (((UpdateBattleIntroLobby *)this)->window == NULL) {
             UpdateBattleIntroPair p = lbl_80446F94[0];
-            ((UpdateBattleIntroLobby *)this)->window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x52)), (const f32 *)(&p), 1);
+            ((UpdateBattleIntroLobby *)this)->window = TWindowMessage::create(get_window_layout_position(0x52), (const f32 *)(&p), 1);
         }
         lbl_805D5DA4 = 0;
         ((UpdateBattleIntroLobby *)this)->state = 1;
@@ -522,10 +519,7 @@ void TLobby::update_battle_intro() {
     case 7:
         ((UpdateBattleIntroLobby *)this)->timer2--;
         if (TLobby::check_all_players_ready(((UpdateBattleIntroLobby *)this)) != 0 || ((UpdateBattleIntroLobby *)this)->timer2 <= 0) {
-            void *o = (void *)TObject::operator new(0x28);
-            if (o != NULL) {
-                __ct__15TDuelEffectCtrlFP7TObjectUc(o, ((UpdateBattleIntroLobby *)this), 0);
-            }
+            new TDuelEffectCtrl(this, 0);
             ((UpdateBattleIntroLobby *)this)->timer = 0x96;
             ((UpdateBattleIntroLobby *)this)->state = 8;
         }
@@ -594,10 +588,7 @@ void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
         TLobby::init(ctrl);
         lbl_805D5DA8 = 0;
         lbl_805D5DAC = 0;
-        p = (void *)TObject::operator new(0x28);
-        if (p != NULL) {
-            __ct__15TDuelEffectCtrlFP7TObjectUc(p, ctrl, 1);
-        }
+        new TDuelEffectCtrl((TObject *)ctrl, 1);
         ctrl->timer = 0x78;
         TWindowCtrl::close_timer_window();
         TWindowCtrl::suppress_slot(local_client_id);
@@ -678,7 +669,7 @@ void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
             q = (void *)(saddr)get_local_player();
             if (local_client_id == designated_client_id && TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
                 if (ctrl->window_4c == NULL) {
-                    ctrl->window_4c = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x53)), (const f32 *)lbl_80446FA4, 1);
+                    ctrl->window_4c = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)lbl_80446FA4, 1);
                     if (ctrl->window_4c != NULL) {
                         ((TWindowMessage *)(ctrl->window_4c))->append_line(((s32 *)ctrl->text)[0], 0x80);
                     }
@@ -810,7 +801,7 @@ void TLobby::close_and_play_effect(int client, s32 local) {
         send_impose_hold(player, -1);
     }
     if (local != 0) {
-        begin_player_keyboard_hold(local_client_id);
+        TWindowCtrl::begin_client_keyboard_hold(local_client_id);
         request_active_window_close();
         TWindowCtrl::suppress_slot(local_client_id);
     }
@@ -822,7 +813,7 @@ void TLobby::handle_battle_result(int client, s32 local) {
         send_release_hold(player);
     }
     if (local != 0) {
-        end_player_keyboard_hold(local_client_id);
+        TWindowCtrl::end_client_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
         TWindowCtrl::unsuppress_slot(local_client_id);
     }
@@ -952,7 +943,7 @@ void TLobby__sub_801C3AF4(UpdatePlayerBattleCtrlStateLobby *self) {
             TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
         }
         TLobbyPair p = lbl_80446FB4[0];
-        self->window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xB3)), (const f32 *)(&p), 1);
+        self->window = TWindowMessage::create(get_window_layout_position(0xB3), (const f32 *)(&p), 1);
         if (self->window != NULL) {
             ((TWindowMessage *)(self->window))->append_line(self->msgs[idx], 0x80);
         }
@@ -1319,7 +1310,7 @@ void TLobby::start_duel_battle() {
     ((StartDuelBattleLobby *)this)->f64 = battle_ctrl_default_value;
 }
 
-void init__6TLobbyFPv(void *arg0) {
+void TLobby::init(void *arg0) {
     saddr temp_r3;
     s32 i;
     TObjPlayer *player;
@@ -1438,13 +1429,13 @@ void TLobby::show_score_results() {
     TObjPlayer *p;
     TLobby::clear_counter(this);
     TLobby::calc_player_rankings((UpdateTimedWaitLobby *)this);
-    ((TWindowCtrl *)"SCORE")->init_all_default();
+    TWindowCtrl::append_message_all("SCORE");
     for (i = 0; i < 4; i++) {
         e = &duel_result_table[i];
         p = get_player_by_client_id(e->client_id);
         if (p != NULL) {
             sprintf(buf, "%s %s", lobby_rank_ordinal_text_table[e->place], p->get_name());
-            ((TWindowCtrl *)buf)->init_all_default();
+            TWindowCtrl::append_message_all(buf);
         }
     }
     play_duel_result_stream("start.adx", 0x3C);

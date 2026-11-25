@@ -8,6 +8,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80160804.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/switch/TSwitch.h"
@@ -328,7 +329,6 @@ void TODoorAncient09::vfunc_6(s16 *state, s32) {
 // The 6x0B object-state message (see the lane report: the stack structs
 // still call the packet helpers under their TLobby / TOBarrierEnergy01 names).
 struct State_80160838 { s16 a; s16 b; };
-struct Pkt_80160838 { s16 hdr; u16 id; s32 state; s32 kind; };
 struct Obj_80160838 { u8 pad[4]; s16 kind; };
 
 void TODoorAncient09::door_ancient09_sync_state(void *src_arg) {
@@ -342,11 +342,11 @@ void TODoorAncient09::door_ancient09_sync_state(void *src_arg) {
     }
     obj = (Obj_80160838 *)set_entry;
     if (obj != NULL) {
-        Pkt_80160838 pkt;
+        G_UpdateObjectState_6x0B pkt;
         init_collision_subcommand_header(&pkt);
-        pkt.id = entity_id;
-        pkt.state = st.a;
-        pkt.kind = obj->kind;
-        TLobby::update_and_send_60(&pkt);
+        pkt.header.entity_id = entity_id;
+        pkt.flags = st.a;
+        pkt.object_index = obj->kind;
+        send_object_state(&pkt);
     }
 }

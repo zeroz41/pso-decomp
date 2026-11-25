@@ -290,16 +290,16 @@ void TWindowInputNumber::run_task() {
             }
         } else {
             temp_r29_2 = &controller_input_state.controllers[temp_r30];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
                 self->update_value();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
                 self->update();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
                 self->move_cursor_next();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
                 self->handle_decrement();
             }
         }
@@ -325,7 +325,7 @@ TWindowInputNumber::~TWindowInputNumber() {
 }
 
 
-TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high, s32 initial, s16 client)
+TWindowInputNumber::TWindowInputNumber(const NJS_POINT2 *position, s32 low, s32 high, s32 initial, s16 client)
     : TWindowBase((u8 *)&window_input_number_layout, client, (u8 *)position) {
     m_name = TWindowInputNumber__name;
     client_index = client;

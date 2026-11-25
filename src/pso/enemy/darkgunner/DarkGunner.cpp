@@ -405,7 +405,7 @@ void TObjEneDarkGunner::cleanup_effects() {
         TObjEneDarkGunner::bml_resource = NULL;
     }
     if (dark_gunner_effect_resource != NULL) {
-        TObjPlayer::free_if_valid((s32)dark_gunner_effect_resource);
+        TObjPlayer::free_if_valid((saddr)dark_gunner_effect_resource);
         dark_gunner_effect_resource = NULL;
     }
     TObjPlayer::reset_effect_count();

@@ -13,7 +13,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 extern f32 TAdRayGC_ray_quad_table[4][8];
-uaddr TAdRayGC::ray_texture_list;
+NJS_TEXLIST *TAdRayGC::ray_texture_list;
 
 void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
     u32 texture;
@@ -23,7 +23,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
         texture = frame;
         for (i = 0; i < 2; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdRayGC::ray_texture_list));
+            TObjFish::set_global_param(TAdRayGC::ray_texture_list);
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
@@ -33,7 +33,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
         texture = frame + 0x14;
         for (i = 2; i < 4; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdRayGC::ray_texture_list));
+            TObjFish::set_global_param(TAdRayGC::ray_texture_list);
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
@@ -97,10 +97,7 @@ TAdRayGC::TAdRayGC(TObject *parent) : TObject(parent) {
     frames = -1;
 }
 
-struct TexName_804DC0F8 { const char *name; s32 a; s32 b; };
-struct TexList_804DC2D8 { TexName_804DC0F8 *list; s32 n; };
-
-TexName_804DC0F8 lbl_804DC0F8[40] = {
+NJS_TEXNAME lbl_804DC0F8[40] = {
     { "f128_ray_left01", 0, 0 },
     { "f128_ray_left02", 0, 0 },
     { "f128_ray_left03", 0, 0 },
@@ -142,7 +139,7 @@ TexName_804DC0F8 lbl_804DC0F8[40] = {
     { "f128_ray_right19", 0, 0 },
     { "f128_ray_right20", 0, 0 },
 };
-__declspec(section ".data") TexList_804DC2D8 lbl_804DC2D8 = { lbl_804DC0F8, 40 };
+__declspec(section ".data") NJS_TEXLIST lbl_804DC2D8 = { lbl_804DC0F8, 40 };
 
 f32 TAdRayGC_ray_quad_table[4][8] = {
     { 0.0f, 0.0f, 319.0f, 239.0f, 0.0f, 0.0f, 1.0f, 1.0f },
@@ -154,11 +151,11 @@ f32 TAdRayGC_ray_quad_table[4][8] = {
 const char *TAdRayGC__name = "TAdRayGC";
 
 void TAdRayGC::destroy_instance() {
-    if (TAdRayGC::ray_texture_list != 0) {
-        release_texture_list((NJS_TEXLIST *)TAdRayGC::ray_texture_list);
-        TAdRayGC::ray_texture_list = 0;
+    if (TAdRayGC::ray_texture_list != NULL) {
+        release_texture_list(TAdRayGC::ray_texture_list);
+        TAdRayGC::ray_texture_list = NULL;
     }
 }
 
 
-void register_texture_f128_ray(void) { TAdRayGC::ray_texture_list = (uaddr)&lbl_804DC2D8; load_streamed_prs_texture((saddr)"f128_ray", (saddr)&lbl_804DC2D8); }
+void register_texture_f128_ray(void) { TAdRayGC::ray_texture_list = &lbl_804DC2D8; load_streamed_prs_texture("f128_ray", &lbl_804DC2D8); }

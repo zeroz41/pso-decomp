@@ -27,7 +27,7 @@ TWindowMessageScroll::~TWindowMessageScroll() {
 
 }
 
-TWindowMessageScroll::TWindowMessageScroll(s32 parent, s32 *completion) : TWindowMessageQuest(parent) {
+TWindowMessageScroll::TWindowMessageScroll(const NJS_POINT2 *position, s32 *completion) : TWindowMessageQuest(position) {
     this->m_name = TWindowMessageScroll__class_name;
     scroll_speed = 0.0f;
     completion_register = completion;

@@ -103,7 +103,7 @@ extern "C" s8 TWindowComCard__sub_80249C18(void* p) { return *(s8*)((char*)p + 0
 
 void*TWindowComCard::get_kbd_ptr() { return (char*)this + 0x20; }
 
-TWindowComCard::TWindowComCard(void *position, void *data)
+TWindowComCard::TWindowComCard(const NJS_POINT2 *position, void *data)
     : TWindowBase((u8 *)&com_card_window_descriptor, 4, (u8 *)position) {
     m_name = TWindowComCard__class_name;
     update_com_card_display((ComCardDisplay *)&entry_list, data);
@@ -123,7 +123,7 @@ void TWindowComCard::render() {
     draw_visible_window_entries(this, &entry_list, context);
 }
 
-s32 TWindowSubComCard::create_com_card_window(s32 position) {
+TWindowComCard *TWindowSubComCard::create_com_card_window(const NJS_POINT2 *position) {
     saddr keyboard_mode = TWindowSubComCard::get_keyboard_mode();
     if (keyboard_mode == 0) {
         return 0;
@@ -131,23 +131,23 @@ s32 TWindowSubComCard::create_com_card_window(s32 position) {
     if (TWindowSubComCard__sub_8007B070(keyboard_mode) != 0) {
         ((TWindowSubComCard *)keyboard_mode)->clear_and_init((void *)(saddr)local_client_id);
     }
-    return (s32)new TWindowComCard((void *)position, (void *)keyboard_mode);
+    return new TWindowComCard(position, (void *)keyboard_mode);
 }
 
-void *TWindowComCard::create(void *position, void *index) {
-    void *entry = TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(index)));
+void *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
+    void *entry = TWindowSubComCard::get_card_entry(index);
     if (entry == NULL) {
         return NULL;
     }
     return new TWindowComCard(position, entry);
 }
 
-u8 *TWindowComCard::create_for_card(s32 position, s32 index, s32 records) {
+u8 *TWindowComCard::create_for_card(const NJS_POINT2 *position, s32 index, saddr records) {
     if (index < 0) {
         return NULL;
     }
-    s32 data = records + index * 0x90;
-    return (u8 *)new TWindowComCard((void *)position, (void *)data);
+    saddr data = records + index * 0x90;
+    return (u8 *)new TWindowComCard(position, (void *)data);
 }
 
 void TWindowComCard::set_display_value(s32 card_index, s32 cards) {

@@ -623,9 +623,9 @@ struct DispatchRequest0x25Req { s32 id; s32 a; s32 b; };
 
 struct DispatchRequest0x24Req { s32 id; s32 a; s32 b; };
 
-struct DispatchRequest0x23Req { s32 id; s32 a; s32 b; };
+struct DispatchRequest0x23Req { s32 id; void *a; void *b; };
 
-struct DispatchRequest0x28Req { s32 id; s32 a; s32 b; };
+struct DispatchRequest0x28Req { s32 id; void *a; void *b; };
 
 struct DispatchRequest0x26Req { s32 id; s32 a; s32 b; };
 
@@ -654,7 +654,7 @@ s32 TWindowKeyBoardSoft::dispatch_by_index() {
     return keyboard_soft_dispatch_fn_table[i - 1](rest);
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x28(s32 a, s32 b) {
+void TWindowKeyBoardSoft::dispatch_request_0x28(void *a, void *b) {
     DispatchRequest0x28Req req;
     req.id = 0x28;
     req.a = a;
@@ -694,12 +694,12 @@ void TWindowKeyBoardSoft::dispatch_request_0x24(s32 a, s32 b) {
     ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x23(s32 a, s32 b) {
+s32 TWindowKeyBoardSoft::dispatch_request_0x23(void *a, void *b) {
     DispatchRequest0x23Req req;
     req.id = 0x23;
     req.a = a;
     req.b = b;
-    ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
+    return ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x22(s32 a, s32 b) {

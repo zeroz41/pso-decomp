@@ -3,8 +3,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjCityMainWarp_80186E24.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
-#include "pso/unk/text_8024ACEC.h"
-#include "pso/unk/text_8024AD30.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -30,14 +28,14 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
     case 1:
         if (find_local_city_warp_player(warp, warp->warp_range) != NULL) {
             if ((u32) warp->menu_window == 0U) {
-                warp->menu_window = create_window_menu_default((saddr)get_window_layout_position(0x35), 7);
+                warp->menu_window = (uaddr)create_window_menu_default(get_window_layout_position(0x35), 7);
                 if ((u32) warp->menu_window != 0U) {
                     ((TWindowMenu *)(warp->menu_window))->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TWindowMenu *)(warp->menu_window))->set_flag_40();
                     ((TWindowMenu *)(warp->menu_window))->calc_window_size();
                     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(warp->menu_window));
                 }
-                begin_player_keyboard_hold(local_client_id);
+                TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
             }
@@ -46,7 +44,7 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
                 ((TWindowBase *)(*(void **)((s8 *)warp + 0xB0)))->close();
                 warp->menu_window = 0U;
             }
-            end_player_keyboard_hold(local_client_id);
+            TWindowCtrl::end_client_keyboard_hold(local_client_id);
             TWindowCtrl::clear_flag();
             TWindowCtrl::unsuppress_slot(local_client_id);
         }
@@ -59,7 +57,7 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
             ((TWindowBase *)(*(void **)((s8 *)warp + 0xB0)))->close();
             warp->menu_window = 0U;
         }
-        end_player_keyboard_hold(local_client_id);
+        TWindowCtrl::end_client_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
         TWindowCtrl::unsuppress_slot(local_client_id);
         break;

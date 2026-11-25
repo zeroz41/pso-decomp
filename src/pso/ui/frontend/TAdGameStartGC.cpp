@@ -118,16 +118,16 @@ void TAdGameStartGC::run_task() {
         if (test_pressed_buttons_packed(pad, 8) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x10, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x20, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x40, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x40, 6, 1) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x80, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x80, 6, 1) != 0) {
             destroy_windows();
         }
     }
@@ -161,7 +161,7 @@ void TAdGameStartSubGC::destroy_instance() {
 }
 extern const unsigned char lbl_80472C28[];
 __declspec(section ".data") extern NJS_TEXLIST texture_f512_multiplay_descriptor;
-void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = &texture_f512_multiplay_descriptor; load_streamed_prs_texture((saddr)lbl_80472C28, (saddr)&texture_f512_multiplay_descriptor); }
+void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = &texture_f512_multiplay_descriptor; load_streamed_prs_texture((const char *)lbl_80472C28, &texture_f512_multiplay_descriptor); }
 __declspec(section ".rodata") extern const unsigned char lbl_80472C28[] = "f512_multiplay";
 __declspec(section ".rodata") extern const char TAdGameStartGC__class_name_string[] = "TAdGameStartGC";
 NJS_TEXNAME lbl_804E3B60[1] = {{(char *)lbl_80472C28, 0, {0}}};

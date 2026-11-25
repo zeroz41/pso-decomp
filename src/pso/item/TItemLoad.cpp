@@ -19,6 +19,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/unk/text_800F7DAC.h"
+#include "pso/unk/text_800F7D30.h"
 #include "pso/system/Adxf.h"
 #include "pso/weapon/TItemAttacker.h"
 
@@ -27,7 +28,6 @@
 
 extern "C" {
 void TLobby__sub_801E3E9C(s32 partition_id, const char *path, void *partition_info, s32);
-s32 prs_decompress_alloc(s32 src, u32 dst, s32 size);
 }
 
 __declspec(section ".data") const char *item_model_names[15] = {
@@ -292,15 +292,15 @@ void AfsPartition::read(void *destination) {
 
 RelocatedFile::RelocatedFile(const char *path, s32 size) {
     s32 decompressed_size;
-    saddr item_buff;
+    void *item_buff;
 
     buffer = NULL;
     root = NULL;
     if ((size != 0) && (path != NULL)) {
         buffer = mem_alloc(size);
         item_buff = create_item_buff(size);
-        if ((item_buff != 0) && (buffer != NULL) && (read_disc_file(path, (void *)item_buff) > 0)) {
-            decompressed_size = prs_decompress_alloc(item_buff, (uaddr)buffer, size);
+        if ((item_buff != NULL) && (buffer != NULL) && (read_disc_file(path, item_buff) > 0)) {
+            decompressed_size = prs_decompress_alloc(item_buff, buffer, size);
             TRelDataFile file;
             file.data = (u8 *)buffer;
             file.size = decompressed_size;
@@ -326,7 +326,7 @@ void TItemLoad::free_work_buffer() {
 
 s32 TItemLoad::decompress_buffer(void *dst) {
     if ((item_load_compressed_work_buffer != NULL) && (dst != 0)) {
-        return prs_decompress_buffer((saddr)item_load_compressed_work_buffer, (saddr)dst);
+        return prs_decompress_buffer(item_load_compressed_work_buffer, dst);
     }
     return 0;
 }

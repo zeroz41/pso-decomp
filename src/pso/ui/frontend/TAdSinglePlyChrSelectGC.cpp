@@ -46,10 +46,10 @@ const vec2f single_chr_select_item_rect_table[4] = {
     { 131.0f, 182.0f }, { 131.0f, 225.0f }, { 131.0f, 268.0f }, { 131.0f, 311.0f },
 };
 const vec2f single_chr_select_cursor_size = { 180.0f, 38.0f };
-const vec2f single_chr_select_message_pos = { 432.0f, 172.0f };
-const vec2f single_chr_select_yes_no_pos = { 91.0f, 160.0f };
-const vec2f single_chr_select_menu_pos = { 428.0f, 132.0f };
-const vec2f single_chr_select_slot_message_pos = { 428.0f, 132.0f };
+const NJS_POINT2 single_chr_select_message_pos = { 432.0f, 172.0f };
+const NJS_POINT2 single_chr_select_yes_no_pos = { 91.0f, 160.0f };
+const NJS_POINT2 single_chr_select_menu_pos = { 428.0f, 132.0f };
+const NJS_POINT2 single_chr_select_slot_message_pos = { 428.0f, 132.0f };
 
 struct T_802D4F2C { NJS_POINT2 p[3]; };
 
@@ -60,17 +60,17 @@ void TAdSinglePlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
 }
 
-TWindowMenu *TAdSinglePlyChrSelectGC::create_chr_warp(s32 pos) {
+TWindowMenu *TAdSinglePlyChrSelectGC::create_chr_warp(NJS_POINT2 *pos) {
     TWindowMenu *menu;
 
     if (can_pay_fee() != 0) {
-        menu = (TWindowMenu *)create_window_menu_default(pos, 4);
+        menu = create_window_menu_default(pos, 4);
         menu->add_text_entry(get_localized_text_entry(0x1E, 1), 6, 0);
         menu->add_text_entry(get_localized_text_entry(0x1E, 2), 6, 1);
         menu->add_text_entry(get_localized_text_entry(0x1E, 3), 6, 2);
         menu->add_text_entry(get_localized_text_entry(0x1E, 4), 6, 3);
     } else {
-        menu = (TWindowMenu *)create_window_menu_default(pos, 3);
+        menu = create_window_menu_default(pos, 3);
         menu->add_text_entry(get_localized_text_entry(0x1E, 1), 6, 0);
         menu->add_text_entry(get_localized_text_entry(0x1E, 3), 6, 2);
         menu->add_text_entry(get_localized_text_entry(0x1E, 4), 6, 3);
@@ -263,7 +263,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             return;
         case 1:
             this->chr_menu->open();
-            this->meseta_prompt = this->slot_window->create_format_message_window((saddr)&single_chr_select_message_pos, 0);
+            this->meseta_prompt = this->slot_window->create_format_message_window((NJS_POINT2 *)&single_chr_select_message_pos, 0);
             this->state = 9;
             return;
         case 2:
@@ -272,7 +272,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             return;
         case 3:
             this->chr_menu->open();
-            this->replace_prompt = this->slot_window->open_replace_character_prompt((saddr)&single_chr_select_message_pos, 0);
+            this->replace_prompt = this->slot_window->open_replace_character_prompt((NJS_POINT2 *)&single_chr_select_message_pos, 0);
             this->state = 0xA;
             return;
         }
@@ -341,16 +341,16 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         load_tables(cursor->selection_index());
         if (TAdSinglePlyChrSelectGC::is_slot_active(cursor->selection_index()) != 0) {
             if (this->slot_window->is_character_transferred((u32)(this->cursor->selection_index())) != 0) {
-                this->fade_task = new TAdFadeGC(tl_fade, NULL);
-                this->yes_no_prompt = this->slot_window->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
+                this->fade_task = new TAdFadeGC(tl_fade, 0);
+                this->yes_no_prompt = this->slot_window->open_yes_no_window((NJS_POINT2 *)&single_chr_select_yes_no_pos, 0);
                 this->state = 7;
                 return;
             }
-            this->chr_menu = create_chr_warp((saddr)&single_chr_select_menu_pos);
+            this->chr_menu = create_chr_warp((NJS_POINT2 *)&single_chr_select_menu_pos);
             this->state = 6;
             return;
         }
-        this->create_character_prompt = this->slot_window->open_create_character_prompt((saddr)&single_chr_select_slot_message_pos);
+        this->create_character_prompt = this->slot_window->open_create_character_prompt((NJS_POINT2 *)&single_chr_select_slot_message_pos);
         this->state = 8;
     }
 }

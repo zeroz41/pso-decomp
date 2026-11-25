@@ -1258,7 +1258,7 @@ pso/enemy/balclaw/TObjEneBalClawClaw.cpp:
 	.sdata2     start:0x805D9688 end:0x805D96D8
 
 pso/enemy/beast/TObjEneBeast.cpp:
-	.text       start:0x80091CCC end:0x80092AE0
+	.text       start:0x80091CCC end:0x80092B10
 	.rodata     start:0x80439BA0 end:0x80439DA0
 	.data       start:0x8048F2C8 end:0x8048F650
 	.sdata      start:0x805D2980 end:0x805D2988
@@ -1267,9 +1267,6 @@ pso/enemy/beast/TObjEneBeast.cpp:
 
 pso/enemy/berura/BeruraData.cpp:
 	.rodata     start:0x80439DA0 end:0x80439DC0
-
-pso/enemy/beast/TObjEneBeast_80092AE0.cpp:
-	.text       start:0x80092AE0 end:0x80092B10
 
 pso/enemy/berura/TObjEneRe7Berura.cpp:
 	.text       start:0x80092B10 end:0x80095E18
@@ -4875,14 +4872,8 @@ pso/system/data/pso_const_ids4.cpp:
 	.text       start:0x801D78E4 end:0x801D7A78
 	.rodata     start:0x80447178 end:0x80447190
 
-pso/ui/hud/TMainCursor_801D7A78.cpp:
-	.text       start:0x801D7A78 end:0x801D7AC8
-
-pso/ui/hud/TMainCursor_801D7AC8.cpp:
-	.text       start:0x801D7AC8 end:0x801D7BF4
-
-pso/unk/text_801D7BF4.cpp:
-	.text       start:0x801D7BF4 end:0x801D7C5C
+pso/player/ActionPaletteSlots.cpp:
+	.text       start:0x801D7A78 end:0x801D7C5C
 
 pso/player/TObjPlayer_801D7C5C.cpp:
 	.text       start:0x801D7C5C end:0x801D7CF4
@@ -5420,15 +5411,12 @@ pso/ui/city/TMedicalCenterSequence.cpp:
 	.sdata2     start:0x805DC688 end:0x805DC690
 
 pso/quest/TQuestListOffline.cpp:
-	.text       start:0x80216B44 end:0x802173F0
+	.text       start:0x80216B44 end:0x80217454
 	.rodata     start:0x8044BDA0 end:0x8044BEB0
 	.data       start:0x804C9900 end:0x804C9CE8
 	.sdata      start:0x805D3680 end:0x805D3684
 	.sbss       start:0x805D61D8 end:0x805D61DC
 	.sdata2     start:0x805DC690 end:0x805DC6A0
-
-pso/unk/TLobby_802173F0.cpp:
-	.text       start:0x802173F0 end:0x80217454
 
 pso/ui/city/TShopWindowBase_80217454.cpp:
 	.text       start:0x80217454 end:0x80217464
@@ -7205,11 +7193,8 @@ pso/ui/charcreate/TObjCMName.cpp:
 pso/ui/charcreate/TChCrEffCtrlPl.cpp:
 	.text       start:0x80298F08 end:0x80298F8C
 
-pso/unk/text_80298F8C.cpp:
-	.text       start:0x80298F8C end:0x80298FAC
-
 pso/ui/charcreate/TObjCMProportion.cpp:
-	.text       start:0x80298FAC end:0x80299420
+	.text       start:0x80298F8C end:0x80299420
 	.rodata     start:0x80465150 end:0x80465180
 	.data       start:0x804DBDC0 end:0x804DBDE0
 	.bss        start:0x805409C8 end:0x805409E0
@@ -8511,11 +8496,8 @@ pso/enemy/deldepth/TObjEneDelDepth.cpp:
 	.sbss       start:0x805D6AC0 end:0x805D6AC8
 	.sdata2     start:0x805DF250 end:0x805DF2E4
 
-pso/enemy/deldepth/TObjEneDelDepthAccessors.cpp:
-	.text       start:0x8031623C end:0x8031624C
-
 pso/enemy/deldepth/DelDepthMotion.cpp:
-	.text       start:0x8031624C end:0x80316690
+	.text       start:0x8031623C end:0x80316690
 	.rodata     start:0x80475DE8 end:0x80475DF0
 	.data       start:0x804E8760 end:0x804E87A8
 	.sbss       start:0x805D6AC8 end:0x805D6AD8
@@ -9446,9 +9428,12 @@ pso/boss/olgaflow/TBoss6Rock.cpp:
 	.sdata2     start:0x805DFF48 end:0x805DFFA8
 
 pso/player/Palettex.cpp:
-	.text       start:0x80354BE4 end:0x8035510C
+	.text       start:0x80354BE4 end:0x80354F7C
 	.ctors      start:0x80434010 end:0x80434014
 	.bss        start:0x80543978 end:0x805439A8
+
+pso/player/PalettexState.cpp:
+	.text       start:0x80354F7C end:0x8035510C
 
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp:
 	.text       start:0x8035510C end:0x803554F0

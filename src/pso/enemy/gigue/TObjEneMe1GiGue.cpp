@@ -33,6 +33,7 @@
 #include "pso/enemy/gigue/TObjEneMe1GiGueBarrier.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/technique/TTecJelin.h"
 #include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
 #include "pso/enemy/TObjEneMe1GiGueHomingShot.h"
@@ -73,9 +74,6 @@ f32 gigue_shot_homing;
 f32 gigue_shot_homing_step;
 s32 gigue_missile_power;
 s32 gigue_shot_power;
-extern "C" {
-s32 create__9TTecJelinFllll(void *, void *, void *, s32);
-}
 
 // What movementParameters points at: EnemyMoveParams and four more words.
 struct GiGueMoveParams {
@@ -757,7 +755,7 @@ void TObjEneMe1GiGue::update_technique_state() {
                 capture_shot_origins();
                 state = 3;
                 TTecZarua::create_instance((saddr)this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
-                create__9TTecJelinFllll(this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
+                TTecJelin::create(this, &body_center, &body_center, get_gigue_int_parameter(this, 2));
             }
             break;
         }

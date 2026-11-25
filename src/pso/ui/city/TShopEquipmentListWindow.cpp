@@ -270,7 +270,7 @@ void TShopEquipmentListWindow::open_menu_window() {
 
     if (this->confirm_menu == NULL) {
         entity_id = this->player->get_entity_id();
-        this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, entity_id);
+        this->confirm_menu = create_window_menu(get_window_layout_position(0x2B), 2, entity_id);
         this->confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
         this->confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
         confirm_menu->calc_window_size();

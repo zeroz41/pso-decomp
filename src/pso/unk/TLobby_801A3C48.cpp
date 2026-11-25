@@ -124,7 +124,6 @@ s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
 int request_main_phase(int);
 
-s32 cleanup__6TLobbyFv();
 s32 PPCSync();
 extern s32 lbl_805D5718;
 s32 unlock_main_warp_destination();
@@ -133,7 +132,6 @@ s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
 s32 set_fallback_main_phase(int);
 int set_queued_main_phase(int);
-s32 run_join_lobby_connect__6TLobbyFi(void *);
 s32 TLobby__sub_80146908();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
@@ -570,7 +568,7 @@ void cleanup_online_lobby_scene(void) {
         render_tick();
         i += 1;
     } while (i < 0x1E);
-    cleanup__6TLobbyFv();
+    TLobby::cleanup();
     if (online_lobby_scene_handle == 0) {
         var_r3 = (s32 *)&floor_transition_state;
         var_r3 = (s32 *)&floor_transition_state;
@@ -776,7 +774,7 @@ void run_online_lobby_scene(void) {
         if (TLobby__sub_801A3E8C() != 0) {
             TLobby::start_udp_test_game();
         } else {
-            run_join_lobby_connect__6TLobbyFi(lobby);
+            TLobby::run_join_lobby_connect(lobby);
         }
     }
     actor_frame_tick = 0;

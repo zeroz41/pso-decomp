@@ -4,7 +4,6 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
-#include "pso/unk/text_802993F0.h"
 #include "pso/unk/text_80299420.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -13,6 +12,10 @@ __declspec(section ".rodata") CreationInputState default_creation_input_state = 
 static s32 cm_proportion_pad_button_masks[4] = {0x10, 0x20, 0x40, 0x80};
 static s32 creation_direction_priority_masks[4] = {0x10, 0x20, 0x40, 0x80};
 CreationInputState creation_input_state;
+
+s32 creation_direction_repeated(s32 mask) {
+    return (u8) ((creation_input_state.repeated_buttons & mask) != 0);
+}
 
 f32 TObjCMProportion::get_ratio() {
     return (f32) get_creation_pad()->trigR / 255.0f;
@@ -121,6 +124,6 @@ __declspec(section ".sdata2") extern const f32 creation_stick_zero = 0.0f;
 
 void TChCrCharSelect::reset_proportions() { TObjCMProportion::poll_pad_buttons(); update_creation_direction_repeat(); }
 
-void fn_802993F0(void) {
+void reset_creation_input_state() {
     fn_80299420(&creation_input_state, &default_creation_input_state);
 }

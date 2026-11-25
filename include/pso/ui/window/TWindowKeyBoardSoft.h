@@ -44,12 +44,12 @@ struct TWindowKeyBoardSoft : public TWindowBase
     static s32 strnlen(s8 *str, u32 max);
     virtual void run_task();
     s32 dispatch_by_index();
-    static void dispatch_request_0x28(s32 a, s32 b);
+    static void dispatch_request_0x28(void *a, void *b);
     static void dispatch_request_0x27(s32 a, s32 b);
     static void dispatch_request_0x26(s32 a, s32 b);
     static void dispatch_request_0x25(s32 a, s32 b);
     static void dispatch_request_0x24(s32 a, s32 b);
-    static void dispatch_request_0x23(s32 a, s32 b);
+    static s32 dispatch_request_0x23(void *a, void *b);
     static void dispatch_request_0x22(s32 a, s32 b);
     static s32 dispatch_request_0x20(const char *a, const char *b);
     static s32 dispatch_request_0x1c();

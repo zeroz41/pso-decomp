@@ -12,7 +12,7 @@ struct TWindowMessageLine {
 };
 
 struct TWindowMessage : public TWindowAddition {
-    TWindowMessage(saddr parent, u32 rows, s32 client);
+    TWindowMessage(const NJS_POINT2 *position, u32 rows, s32 client);
     virtual ~TWindowMessage();
     virtual void run_task();
     virtual void render();
@@ -21,7 +21,7 @@ struct TWindowMessage : public TWindowAddition {
     void advance_reveal_cursor();
     void scroll_up_line(u8 *);
     int append_line(int text, int mode);
-    static u8 *create(saddr parent, const f32 *size, uaddr rows, s32 client);
+    static u8 *create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client);
     static u8 *create(const NJS_POINT2 *pos, const f32 *size, saddr rows);
     s32 oldest_line;
     s32 reveal_line;

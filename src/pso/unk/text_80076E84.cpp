@@ -41,7 +41,7 @@ void handle_6x07_symbol_chat(Handle6x07SymbolChatPacket *command) {
 struct Handle6x07SymbolChatSymBody { u32 w[12]; };
 struct Handle6x07SymbolChatSymPair { u32 b; u32 c; };
 struct CopySymbolChatEntrySym { u32 a; Handle6x07SymbolChatSymPair mid; Handle6x07SymbolChatSymBody body; };
-void *copy_symbol_chat_entry__6TLobbyFPvPv(void *dst, void *src) {
+void *TLobby::copy_symbol_chat_entry(void *dst, void *src) {
     *(CopySymbolChatEntrySym *)dst = *(CopySymbolChatEntrySym *)src;
     return dst;
 }

@@ -1,12 +1,11 @@
-// One original TU runs from calc_triangle_normal (0x801412D0) to the weak inline copies at
-// 0x80142624-0x80142770, but its out-of-line copy of sqrt_double sits at the TU end while the
+// One original TU runs from calc_triangle_normal to the weak inline copies at its end, but its
+// out-of-line copy of sqrt_double sits at the TU end while the
 // copy's constants sit between the tev tables and the pulse constants. No compiler here emits
 // that (a copy follows its first caller, its constants with it), so the TU is built as two
 // units: render_util_head.cpp and this one (set_cull_none to the weak copies at the end).
 
 #include "pso/render/render_util.h"
 #include <dolphin/gx.h>
-#include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
@@ -216,8 +215,8 @@ void *TObjMapWarp__sub_80141CA4(void *self) {
 
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color) {}
-void fn_80141CB4(const Vec *pos, f32 size) {}
-void fn_80141CB8(const Vec *pos, const s32 *rotation, const Vec *size, const NJS_ARGB *color) {}
+void debug_draw_marker(const Vec *pos, f32 size) {}
+void debug_draw_box(const Vec *pos, const s32 *rotation, const Vec *size, const NJS_ARGB *color) {}
 
 extern "C" void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size) {
     Vec scale;

@@ -182,23 +182,23 @@ void TMessageWindowController::close() {
         window = NULL;
     }
 }
-TWindowMessagePage *TMessageWindowController::create_message_window(s32 x, s32 y, s32 flags) {
+TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_POINT2 *position, s32 extent, s32 flags) {
     f32 scale;
     if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
     if (window == NULL) {
-        window = (TWindowMessagePage *)TWindowMessagePage::create(x, y, 1, flags);
+        window = (TWindowMessagePage *)TWindowMessagePage::create(position, extent, 1, flags);
         ((TWindowAddition *)window)->set_position_xy(scale, scale);
         return window;
     }
     return NULL;
 }
-TWindowMessagePage *TMessageWindowController::create_window(s32 x, s32 y) {
+TWindowMessagePage *TMessageWindowController::create_window(const NJS_POINT2 *position, s32 extent) {
     f32 scale;
     if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
     if (window == NULL) {
-        window = (TWindowMessagePage *)TWindowMessagePage::set_text(x, y, 1);
+        window = (TWindowMessagePage *)TWindowMessagePage::set_text(position, extent, 1);
         ((TWindowAddition *)window)->set_position_xy(scale, scale);
         return window;
     }

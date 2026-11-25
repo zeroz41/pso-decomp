@@ -14,12 +14,14 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/task/TObject.h"
 
 
 #include "types.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -51,10 +53,7 @@ TQuestVmDownLoadServer *quest_vm_download_server_instance;
 
 extern TObject *tl_00;
 
-struct StatusWindowPos { f32 a; f32 b; };extern "C" {
-saddr get_window_layout_position(s32);
-
-}
+struct StatusWindowPos { f32 a; f32 b; };
 extern s32 lbl_805D55C0;
 extern uaddr lobby_player_construction_window;
 extern s32 memcard_access_active;
@@ -192,8 +191,8 @@ void TQuestVmDownLoadServer::free_buffers() {
     quest_received_file_bytes = 0;
     TQuestVmDownLoadServer::reset_download();
 }
-void TQuestVmDownLoadServer::begin_file_download() {
-    u8 *self_bytes = (u8 *)this;
+void TQuestVmDownLoadServer::begin_file_download(TRecvDownloadHead &download_head) {
+    u8 *self_bytes = (u8 *)&download_head;
     char buf[0x10];
     char *ext;
     QuestDownloadRecord *s;
@@ -201,7 +200,7 @@ void TQuestVmDownLoadServer::begin_file_download() {
     if (quest_download_window == NULL) {
         static const DownloadWindowPos window_size = {444.0f, 84.0f};
         DownloadWindowPos pos = window_size;
-        quest_download_window = (TWindowMessage *)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (saddr)&pos, 1);
+        quest_download_window = (TWindowMessage *)TWindowMessagePage::set_text(get_window_layout_position(0x2F), (saddr)&pos, 1);
         quest_download_window->append_line(get_message_text(0x3E), 0x81);
         quest_download_window->complete_reveal();
         quest_total_download_bytes = 0;
@@ -256,8 +255,8 @@ void TQuestVmDownLoadServer::begin_file_download() {
         }
     }
 }
-void TQuestVmDownLoadServer::receive_file_chunk() {
-    u8 *self_bytes = (u8 *)this;
+void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
+    u8 *self_bytes = (u8 *)&download;
     u8 *dst;
     s32 *flag;
     s32 v;
@@ -278,7 +277,7 @@ void TQuestVmDownLoadServer::receive_file_chunk() {
         } else {
             return;
         }
-        memcpy(dst + (self_bytes[1] << 10), (u8 *)&this->m_down, *(u32 *)(self_bytes + 0x414));
+        memcpy(dst + (self_bytes[1] << 10), download.data, *(u32 *)(self_bytes + 0x414));
         quest_received_file_bytes += *(u32 *)(self_bytes + 0x414);
         TDLGraph::update_graph(quest_received_file_bytes, quest_total_download_bytes);
         if (*(u32 *)(self_bytes + 0x414) < 0x400) {
@@ -1195,7 +1194,7 @@ void TMCFormatSequence::open_windows() {
     if (this->message_window == NULL) {
         static const FormatWindowPos window_size = {444.0f, 84.0f};
         FormatWindowPos t = window_size;
-        this->message_window = (TWindowMessagePage *)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (saddr)&t, 1);
+        this->message_window = (TWindowMessagePage *)TWindowMessagePage::set_text(get_window_layout_position(0x2F), (saddr)&t, 1);
         show_message(get_localized_text_entry(this->message_group, this->message_id), 0);
     }
     if (this->confirm_menu == NULL) {

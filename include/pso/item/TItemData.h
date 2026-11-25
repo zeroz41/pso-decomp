@@ -55,7 +55,8 @@ struct TItemData {
     void decode_from_network();
     void encode_for_network();
     u8 get_entry_field16();
-    int register_drop();
+    void register_drop();
+    static void register_item_drop(TItemData *item);
     s32 get_max_stack_size();
     // A tool's stack count (data1 byte 5); 1 for an item that does not stack.
     s32 get_stack_count();

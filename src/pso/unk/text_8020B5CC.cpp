@@ -137,7 +137,7 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
 
 #pragma push
 #pragma opt_propagation off
-s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *src, u32 size) {
+s32 TLobby::load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 size) {
     if (floor_saved_row_heap != 0 && floor_set_archive_pool != 0) {
     uaddr sz = size;
     s32 n = sz / 68;

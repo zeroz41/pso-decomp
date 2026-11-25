@@ -50,7 +50,6 @@ const NJS_ARGB TPlyPhotonChair__section_id_color_table[10] = {
 };
 
 extern "C" {
-s32 get_rader_map__11TMainCursorFv(void *, void *);
 int TPlyPhotonChair__sub_8035B520(void* p);
 
 void TPlyPhotonChair::render() {
@@ -149,7 +148,7 @@ TPlyPhotonChair::TPlyPhotonChair(s32 owner_id, TObject *parent) : TObjBase(paren
         queue_destruction();
         return;
     }
-    get_rader_map__11TMainCursorFv(&marker, (void *)&TPlyPhotonChair__section_id_color_table[(s32)player->get_section_id()]);
+    marker.set_color(const_cast<NJS_ARGB *>(&TPlyPhotonChair__section_id_color_table[(s32)player->get_section_id()]));
     texlist = get_bml_texlist(TPlyPhotonChair__shared_model_resource, 1);
     lobby_seat.set_model(get_bml_model(TPlyPhotonChair__shared_model_resource, 1));
     lobby_seat.set_motion(reinterpret_cast<NJS_MOTION *>(get_bml_motion(TPlyPhotonChair__shared_model_resource, 1)));
@@ -166,7 +165,7 @@ TPlyPhotonChair::TPlyPhotonChair(s32 owner_id, TObject *parent) : TObjBase(paren
 int TPlyPhotonChair__sub_8035B520(void* p) { return ((TPlyPhotonChair *)p)->owner_dismounted == 0; }
 u16 TPlyPhotonChair::get_owner_id() { return owner_id; }
 void TPlyPhotonChair::set_owner_id(s32 owner_id) { this->owner_id = owner_id; }
-void TUnk_804A7254::get_color(NJS_ARGB *out) { copy_argb(out, &color); }
+void MarkerColor::get_color(NJS_ARGB *out) { copy_argb(out, &color); }
 void TMotionModel::set_speed(f32 speed) { this->speed = speed; }
 void TMotionModel::play_to_end() { state = 2; }
 

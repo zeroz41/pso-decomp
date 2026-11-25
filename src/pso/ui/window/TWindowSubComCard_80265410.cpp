@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -74,8 +75,6 @@ void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
 void fn_80266378(s32 rows);
 
 u8 * init_shop_judgment_window(void* p);
-saddr create_window_menu_default(saddr pos, s32 entries);
-saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title);
 }
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 const f64 lbl_8044F330 = 0.0;
@@ -565,7 +564,7 @@ void fn_80266378(s32 rows) {
 }
 
 TWindowMenu *create_yes_no_window(const NJS_POINT2 *position, s32 id, const char *yes_text, const char *no_text) {
-  TWindowMenu *window_menu = create_window_menu((saddr)position, 2, id);
+  TWindowMenu *window_menu = create_window_menu(position, 2, id);
   if (yes_text == NULL)
   {
     window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5B)), 6, 0);
@@ -595,31 +594,27 @@ TWindowMenu *create_yes_no_window(const NJS_POINT2 *position, s32 id, const char
 
 u8 * init_shop_judgment_window(void* p) { return (u8 *)create_yes_no_window((const NJS_POINT2 *)p, 4, NULL, NULL); }
 
-TWindowMenu *create_window_menu(saddr position, s32 count, s32 client_id) {
+TWindowMenu *create_window_menu(const NJS_POINT2 *position, s32 count, s32 client_id) {
     fn_80266378(count);
     return new TWindowMenu(count, client_id, position);
 }
 
-saddr create_window_menu_default(saddr pos, s32 entries) {
-    return reinterpret_cast<saddr>(create_window_menu(pos, entries, 4));
+TWindowMenu *create_window_menu_default(const NJS_POINT2 *pos, s32 entries) {
+    return create_window_menu(pos, entries, 4);
 }
 
-saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id) {
-    saddr menu;
-    saddr heading_window;
-    saddr var_r0;
-    menu = reinterpret_cast<saddr>(create_window_menu(position, count, client_id));
-    heading_window = (saddr)::operator new(0x24);
-    var_r0 = heading_window;
-    if (var_r0 != 0) {
-        var_r0 = (saddr)((TWindowSubStatusDisp *)heading_window)->construct_type1_heading(title, client_id);
+TWindowMenu *create_titled_window_menu(const NJS_POINT2 *position, s32 count, saddr title, s32 client_id) {
+    TWindowMenu *menu = create_window_menu(position, count, client_id);
+    TWindowSubStatusDisp *heading = (TWindowSubStatusDisp *)::operator new(0x24);
+    if (heading != NULL) {
+        heading = (TWindowSubStatusDisp *)heading->construct_type1_heading(title, client_id);
     }
-    reinterpret_cast<TWindowMenu *>(menu)->heading = reinterpret_cast<TWindowSubStatusDisp *>(var_r0);
-    *(s32 *)((s8 *)menu + 0x2C) = (s32) (*(s32 *)((s8 *)menu + 0x2C) | 0x40);
+    menu->heading = heading;
+    menu->window_flags |= 0x40;
     return menu;
 }
 
-saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title) {
+TWindowMenu *create_titled_window_menu_default(const NJS_POINT2 *pos, s32 entries, saddr title) {
     return create_titled_window_menu(pos, entries, title, 4);
 }
 
@@ -689,10 +684,10 @@ void TWindowMenu::run_task() {
             }
         } else {
             temp_r29_2 = &controller_input_state.controllers[player_idx];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
                 move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
                 select_next_item();
             }
         }
@@ -727,7 +722,7 @@ TWindowMenu::~TWindowMenu() {
     mem_free(rows);
 }
 
-TWindowMenu::TWindowMenu(u32 count, s32 client, saddr parent) : TWindowAddition((u8 *)&lbl_804D05CC, (s16)client, (u8 *)parent) {
+TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TWindowAddition((u8 *)&lbl_804D05CC, (s16)client, (u8 *)position) {
     #define window_menu ((u8 *)this)
     u32 i;
     u8 *p;

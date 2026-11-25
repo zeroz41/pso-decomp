@@ -35,6 +35,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
 #pragma readonly_strings on
@@ -45,7 +46,6 @@ const char *luker_name = "TObjLuker";
 
 extern "C" {
 s32 is_split_screen(void);
-void *create_window_menu_default(const void *p, s32 a);
 s32 TTecLuker__sub_8023401C(void *);
 extern s32 lbl_805D55C0;
 
@@ -112,7 +112,7 @@ void TObjLuker::open_destination_windows() {
     for (i = 0; i < 4; i++) {
         if (windows[i] == 0 && target > 0) {
             if (is_split_screen() != 0) {
-                windows[i] = (TObject *)create_window_menu((saddr)get_window_layout_position(0x33), 1, i);
+                windows[i] = (TObject *)create_window_menu(get_window_layout_position(0x33), 1, i);
             } else {
                 windows[i] = (TObject *)create_window_menu_default(get_window_layout_position(0x33), 1);
             }
@@ -357,7 +357,7 @@ void TObjLuker::run_task() {
                             send_impose_hold(p, 0xA);
                             play_sound_effect(0x40022D1A, &this->position, 0, 0);
                         }
-                        TWindowCtrl::init_all_slots();
+                        TWindowCtrl::suppress_all_slots();
                         this->slots_locked = 1;
                     }
                 }
@@ -377,7 +377,7 @@ void TObjLuker::run_task() {
             this->state = this->warp_active = 0;
             if (this->slots_locked != 0) {
                 this->slots_locked = 0;
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
             }
             this->hold_frames = 0;
             if (this->effect != NULL) {

@@ -5,14 +5,10 @@
 #include "pso/unk/text_80104FCC.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/item/TItem.h"
 
 // Written from the last function back (deferred code generation), which also
 // puts the vtable before the switch table.
-
-// calc_base_tp_bonus/calc_base_hp_bonus(u16) as this file's callers see them:
-// the client id still in r3 from get_entity_id.
-extern "C" s16 calc_base_tp_bonus__FUs();
-extern "C" s16 calc_base_hp_bonus__FUs();
 
 
 TItem *TItemToolMaterial::create(u8 *item) {
@@ -40,14 +36,12 @@ void TItemToolMaterial::apply_use_effect() {
         ((TObjPlayer *)(this->owner))->add_evp_material(2);
         break;
     case 3:
-        this->owner->get_entity_id();
-        if (calc_base_hp_bonus__FUs() < 0xFA) {
+        if (calc_base_hp_bonus(owner->get_entity_id()) < 0xFA) {
             ((TObjPlayer *)(this->owner))->add_hp_material((u8)(2));
         }
         break;
     case 4:
-        this->owner->get_entity_id();
-        if ((calc_base_tp_bonus__FUs() < 0xFA) && (check_class_equip_permission(this->owner, 0xD7) == 0)) {
+        if ((calc_base_tp_bonus(owner->get_entity_id()) < 0xFA) && (check_class_equip_permission(this->owner, 0xD7) == 0)) {
             ((TObjPlayer *)(this->owner))->add_tp_material((u8)(2));
         }
         break;

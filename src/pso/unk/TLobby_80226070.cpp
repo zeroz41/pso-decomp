@@ -88,14 +88,13 @@ void TLobby::init_layout_positions() {
     TLobby::close_option_window();
     TLobby::reset_global();
 }
-void set_menu_index_main__6TLobbyFPUc(void);
 }
 
 int TLobby::get_lobby_data() {  return music_user_gain; }
 extern "C" {
 
 void TLobby__sub_8022614C(s32 gain) {
-    set_menu_index_main__6TLobbyFPUc();
+    TLobby::set_menu_index_main(gain);
     cue_stream_user_gain = gain;
     lbl_805D629C = lbl_805D6290 + cue_stream_user_gain + lobby_layout_offset_c;
     lbl_805D62A0 = lbl_805D6290 + lobby_layout_offset_c;

@@ -12,25 +12,22 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
 s32 get_game_play_mode();
 
 s32 TObjPlayer__sub_801AF694(void *, s32);
-s32 TWindowCtrl__sub_8024A228(saddr);
 s32 TMainCursor__sub_8013F244(void *);
 s32 fn_8013F24C(void *, s32);
-// Works on a TPlyDispConfigSmth (its layout, and it sits right after
-// TPlyDispConfigSmth::bswap at 0x801D7CF4); owner inferred, not yet moved.
-void TObjPlayer::init_action_config() {
-    TPlyDispConfigSmth *smth = (TPlyDispConfigSmth *)this;
+void TPlyDispConfigSmth::init() {
     s32 i;
     i = 0;
-    smth->bank = 0;
+    bank = 0;
     do {
-        smth->m_tags[i].init();
-        smth->m_tags1[i].init();
+        m_tags[i].init();
+        m_tags1[i].init();
         i++;
     } while (i < 4);
 }
@@ -226,7 +223,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
                 if (TObjPlayer__sub_801AF694(this, 0) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(get_entity_id()) == 0) {
+                if (TWindowCtrl::is_client_countdown_done(get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
@@ -234,7 +231,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
                 if (TObjPlayer__sub_801AF694(this, 1) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(get_entity_id()) == 0) {
+                if (TWindowCtrl::is_client_countdown_done(get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
@@ -242,7 +239,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
                 if (TObjPlayer__sub_801AF694(this, 2) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(get_entity_id()) == 0) {
+                if (TWindowCtrl::is_client_countdown_done(get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
@@ -250,7 +247,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
                 if (TObjPlayer__sub_801AF694(this, 3) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(get_entity_id()) == 0) {
+                if (TWindowCtrl::is_client_countdown_done(get_entity_id()) == 0) {
                     return 0;
                 }
                 break;

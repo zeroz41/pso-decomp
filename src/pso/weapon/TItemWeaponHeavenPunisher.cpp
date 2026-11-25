@@ -7,14 +7,13 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_8012AE50.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012AEA8.h"
 #include "pso/item/TItem.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/system/task/TMainTask.h"
 
 
 extern "C" {
 u32 *copy_attack_targets(u32 *dst, u32 *src);
-extern saddr tl_05;
 
 void TItemWeaponHeavenPunisher::activate_effect(s32 effect_variant) {
   if (owner != NULL)
@@ -46,7 +45,7 @@ void TItemWeaponHeavenPunisher::heaven_punisher_strike_locks() {
         for (i = 0; i != captured_targets.get_captured_target_count(); i++) {
             e = captured_targets.get_captured_target_entry(i);
             v = e->get_captured_target_collider_index();
-            spawn_heaven_effect((TObject *)tl_05, owner, e->get_uid(), v);
+            spawn_heaven_effect(tl_05, owner, e->get_uid(), v);
         }
     } else {
         get_gun_point(&muzzle);
@@ -87,30 +86,13 @@ u32 *copy_attack_targets(u32 *dst, u32 *src) {
 
 }
 
-extern "C" {
-
-void __ct__11TItemWeaponFP7TObjectPUc(void *, s32, s32);
-}
-
-extern s32 __vt__25TItemWeaponHeavenPunisher[];
-
-void *heaven_punisher_ct(void *weapon, s32 parent, s32 item) {
-    __ct__11TItemWeaponFP7TObjectPUc(weapon, parent, item);
-    *(s32 **)((s8 *)weapon + 0x18) = __vt__25TItemWeaponHeavenPunisher;
-    TObjPlayer__sub_8012AF00((CapturedTargetList *)((char *)weapon + 504));
-    ((TItemWeapon *)weapon)->set_weapon_flags(34);
-    return weapon;
+TItemWeaponHeavenPunisher::TItemWeaponHeavenPunisher(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    TObjPlayer__sub_8012AF00(&captured_targets);
+    set_weapon_flags(34);
 }
 TItem *create_heaven_punisher(u8 *item) {
-    u8 *weapon;
-    u8 *created;
     if (item != NULL) {
-        weapon = (u8 *)TItem::operator new(0x230);
-        created = weapon;
-        if (created != NULL) {
-            created = (u8 *)(heaven_punisher_ct(weapon, tl_05, (saddr)item));
-        }
-        return reinterpret_cast<TItem *>(created);
+        return new TItemWeaponHeavenPunisher(tl_05, item);
     }
     return NULL;
 }

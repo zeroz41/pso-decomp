@@ -311,6 +311,8 @@ void TLobby__sub_803CB194(void *context) {
     seek_adx_stream_sector(file, loop_start_byte / 2048);
 }
 
+}
+
 void adxt_trap_entry_update(void *context) {
     AdxtPlayer *player = static_cast<AdxtPlayer *>(context);
     SjChunk b;
@@ -343,6 +345,4 @@ void adxt_trap_entry_update(void *context) {
         s->interface->put_chunk(s, 0, &b);
     }
     player->reserved_4C += 1;
-}
-
 }

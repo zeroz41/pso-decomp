@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 // Data-only unit split off TAdMultiPlyChrSelectGC.cpp: its .rodata tables.
 // The referencing unit keeps these as extern, so its per-object lis/addi
@@ -42,50 +43,26 @@ __declspec(section ".rodata") extern const u32 lbl_80472848[2] = {
     0x00000000, 0x00000000,
 };
 
-__declspec(section ".rodata") extern const u32 lbl_80472850[2] = {
-    0x42B60000, 0x43200000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472850 = {91.0f, 160.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_80472858[2] = {
-    0x43D60000, 0x43040000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472858 = {428.0f, 132.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_80472860[2] = {
-    0x42B60000, 0x43200000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472860 = {91.0f, 160.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_80472868[2] = {
-    0x43610000, 0x43040000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472868 = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_80472870[2] = {
-    0x43610000, 0x43040000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472870 = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_80472878[2] = {
-    0x43610000, 0x43040000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472878 = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_80472880[2] = {
-    0x43610000, 0x43040000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472880 = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_80472888[2] = {
-    0x43610000, 0x43040000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472888 = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_80472890[2] = {
-    0x43C68000, 0x43040000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472890 = {397.0f, 132.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_80472898[2] = {
-    0x43610000, 0x43040000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472898 = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_804728A0[2] = {
-    0x43610000, 0x43040000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_804728A0 = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const u32 lbl_804728A8[2] = {
-    0x43CB8000, 0x432C0000,
-};
+__declspec(section ".rodata") extern const NJS_POINT2 lbl_804728A8 = {407.0f, 172.0f};

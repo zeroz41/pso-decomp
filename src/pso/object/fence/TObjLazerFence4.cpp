@@ -14,7 +14,6 @@
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_80193524.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/camera/CameraDistanceFade.h"

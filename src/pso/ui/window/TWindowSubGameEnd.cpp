@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/unk/text_8024AB54.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -53,7 +53,7 @@ void TWindowSubGameEnd::run_task() {
             if (slot == 0) {
                 if (window_sub_game_end_active_flag != 1) {
                     new TScreenFadeOut(tl_00, TKeyBoardControl::init_char_select);
-                    fn_8024AB54(client);
+                    TWindowCtrl::lock_client_main_menu(client);
                     TLobby::send_logout();
                     window_sub_game_end_active_flag = 1;
                 }
@@ -93,7 +93,7 @@ TWindowSubGameEnd::TWindowSubGameEnd(TWindowMainMenu *parent, s32 client) : TObj
         width = 469.0f;
     }
     yes_no_window = TWindowMessageYesNo::create(this, this->client, 0, 0);
-    yes_no_window->open_yes_no_prompt_with_text(text, (saddr)get_window_layout_position(0x17), width);
+    yes_no_window->open_yes_no_prompt_with_text(text, get_window_layout_position(0x17), width);
     yes_no_window->set_menu_selected_index(1);
     yes_no_window->set_choice_menu_flag70_bit10();
     state = 0;

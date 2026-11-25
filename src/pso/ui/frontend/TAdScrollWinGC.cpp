@@ -20,7 +20,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInputState.h"
 
-s32 scroll_win_texture_handle;
+NJS_TEXLIST *scroll_win_texture_handle;
 
 // Functions are written last-to-first: with -inline off,deferred CodeWarrior emits them in reverse source order.
 
@@ -39,7 +39,7 @@ TAdScrollWinGC::TAdScrollWinGC(TObject *parent, s32 mode, s32 text) : TObject(pa
     m_state = 0;
     m_close_timer = 0;
     base = get_scroll_delay_for_mode();
-    m_window = (TWindowMessageLog *)create_message_log_window((saddr)pos, (saddr)size, 0);
+    m_window = (TWindowMessageLog *)create_message_log_window((const NJS_POINT2 *)pos, (saddr)size, 0);
     switch (m_mode) {
     case 0:
     case 1:
@@ -134,7 +134,7 @@ void TAdScrollWinGC::render() { if (TMainTask::get_render_pass() != 1) { set_col
 
 void TAdScrollWinGC::render_status_value() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(scroll_win_texture_handle));
+    TObjFish::set_global_param(scroll_win_texture_handle);
     set_draw_texture_and_color(0, ((m_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&m_marker.x0, 0.1f);
     TWindowSubStatusDisp::get_player();

@@ -31,10 +31,6 @@ void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1);
 }
 s32 default_clock_offset_frames(void);
 extern "C" {
-s32 get_card_window_area__6TLobbyFv(void);
-ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1);
-int get_flag_bit0__6TLobbyFv(void);
-BattleMovementParams *get_player_entry__6TLobbyFii(int a0, int a1);
 s32 *get_shared_text_buffer(void);
 u8 is_valid_player_index__6TLobbyFi(s32 arg0);
 }

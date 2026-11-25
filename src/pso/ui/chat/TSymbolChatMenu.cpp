@@ -39,7 +39,7 @@ TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
     s32 i;
     u8 *text;
     u8 *symbol_chat_preset;
-    preset_list = (TWindowSubComCardList *)(u8 *)(saddr)create_window_menu_default((saddr)(&preset_list_pos), 0xC);
+    preset_list = (TWindowSubComCardList *)(u8 *)(saddr)create_window_menu_default(&preset_list_pos, 0xC);
     i = 0;
     do {
         symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));
@@ -54,5 +54,5 @@ TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(preset_list));
-    chat_symbol = new TWindowChatSymbol((saddr)&lbl_8044EAC8, (saddr)&lbl_8044EAD0);
+    chat_symbol = new TWindowChatSymbol(&lbl_8044EAC8, (saddr)&lbl_8044EAD0);
 }

@@ -27,6 +27,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowSubCustomEquip_80275D9C.h"
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
@@ -104,7 +105,6 @@ WindowDescriptor lbl_804D1488 = {
     {212.0f, 188.0f}, 50050.0f, &lbl_804D1198, 3,
 };
 
-extern "C" {
 
 int TWindowSubCustomEquip::is_selected() { return this->m_60 & 0x1; }
 int TWindowSubCustomEquip__sub_80275DA8(void* p) { return *(u8*)((char*)p + 0x60) & 0x2; }
@@ -180,10 +180,9 @@ void TWindowSubCustomEquip::update_palette_slot(s32 arg1, u16 kind, u16 index) {
     }
 }
 
-}
 
 
-s32 TWindowSubCustomEquip::is_type_valid() {
+s32 TWindowSubCustomEquip::is_type_valid(u8 type) {
 
     switch ((s8) this->m_62) {
     case 0:
@@ -193,8 +192,8 @@ s32 TWindowSubCustomEquip::is_type_valid() {
         return 1;
     }
 }
-s32 TWindowSubCustomEquip::get_saved_slot_for_index(s32 arg0, s8 arg1) {
-    switch (arg1) {
+s32 TWindowSubCustomEquip::get_saved_slot_for_index(u8 slot) {
+    switch ((s8)slot) {
     case 0:
         return 2;
     case 1:
@@ -205,9 +204,6 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(s32 arg0, s8 arg1) {
 }
 
 
-extern "C" {
-s32 is_type_valid__21TWindowSubCustomEquipFv(void *, u8);
-s32 get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(void *, u8);
 void TWindowSubCustomEquip::get_cursor_pos(void *arg1) {
     s32 i;
     TObjPlayer *player;
@@ -219,8 +215,8 @@ void TWindowSubCustomEquip::get_cursor_pos(void *arg1) {
         *(s16 *)((s8 *)arg1 + 2) = 0;
         return;
     }
-    i = is_type_valid__21TWindowSubCustomEquipFv(this, this->m_62);
-    saved_slot = get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(this, this->m_61);
+    i = is_type_valid(this->m_62);
+    saved_slot = get_saved_slot_for_index(this->m_61);
     *(s16 *)((s8 *)arg1 + 0) = palette->get_tag_mode(i, saved_slot);
     *(s16 *)((s8 *)arg1 + 2) = (s16)palette->get_tag_slot(i, saved_slot);
 }
@@ -257,8 +253,8 @@ void TWindowSubCustomEquip::toggle_action_binding(void *arg1) {
     if ((player = get_player_by_client_id(this->client_index)) == NULL || (palette = player->select_action_palette(0)) == NULL) {
         return;
     }
-    valid = is_type_valid__21TWindowSubCustomEquipFv(this, this->m_62);
-    idx = get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(this, this->m_61);
+    valid = is_type_valid(this->m_62);
+    idx = get_saved_slot_for_index(this->m_61);
     if (*(u16 *)((s8 *)arg1 + 0) == (u16)palette->get_tag_mode(valid, idx) && *(u16 *)((s8 *)arg1 + 2) == (u16)palette->get_tag_slot(valid, idx)) {
         player->set_action_palette_entry(0, valid, idx, 0, 0);
         return;
@@ -536,6 +532,4 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_
 
 void *TWindowSubCustomSelect::get_selected_action() {
     return reinterpret_cast<void *>(m_78 + (static_cast<s8>(m_70) + static_cast<s8>(m_71) * 3) * 4);
-}
-
 }

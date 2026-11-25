@@ -20,13 +20,13 @@
 extern "C" {
 s32 set_menu_icon_line_params(void *, int);
 
-u8 *TWindowSubStatusDisp__sub_80248BE8(saddr parent, saddr size, s32 client) {
+u8 *TWindowSubStatusDisp__sub_80248BE8(const NJS_POINT2 *position, saddr size, s32 client) {
     set_menu_icon_line_params((void *)size, 0x5);
-    return (u8 *)new TWindowCheckBox((u8 *)parent, client);
+    return (u8 *)new TWindowCheckBox((u8 *)position, client);
 }
 
 void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position) {
-    return TWindowSubStatusDisp__sub_80248BE8((saddr)layout_position, (saddr)position, local_client_id);
+    return TWindowSubStatusDisp__sub_80248BE8(layout_position, (saddr)position, local_client_id);
 }
 
 void TWindowCheckBox::render() {
@@ -61,10 +61,10 @@ void TWindowCheckBox::run_task() {
             }
         } else {
             temp_r29_2 = &controller_input_state.controllers[temp_r31];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 this->move_cursor_next();
             }
         }

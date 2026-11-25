@@ -116,7 +116,7 @@ void TShopEquipmentGearSequence::open_greeting() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
-    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
+    create_message_window(get_window_layout_position(0x2C), (saddr)pos);
     display_shop_message(0x2b, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_player_entity_id());
     set_state(2);
@@ -130,7 +130,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
     TShopEquipmentGearSequence *sequence = static_cast<TShopEquipmentGearSequence *>(self);
     if (sequence->choice_menu == NULL) {
         id = ((TObjBase *)(sequence->player))->get_entity_id();
-        sequence->choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
+        sequence->choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, id);
         sequence->choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         sequence->choice_menu->add_text_entry(get_shop_text(6), 6, 1);
         sequence->choice_menu->calc_window_size();

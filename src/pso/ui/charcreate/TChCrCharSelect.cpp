@@ -9,7 +9,6 @@
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CreationInput.h"
-#include "pso/ui/charcreate/TObjCMIcon_80299488.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/ui/charcreate/TChCrTagName.h"
 #include "pso/ui/charcreate/TChCrTagOccHeader.h"
@@ -17,7 +16,6 @@
 #include "pso/ui/charcreate/TChCrTagPlBack.h"
 #include "pso/ui/charcreate/TChCrTagPlGraphic.h"
 #include "pso/ui/charcreate/TChCrTagInformation.h"
-#include "pso/unk/text_802993F0.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
@@ -135,10 +133,10 @@ void TChCrCharSelect::run_task() {
     (this->*tbl[TChCrCharSelect::input_mode])();
     switch (TChCrCharSelect::input_mode) {
     case 0:
-        show_only_creation_icons(1, lbl_805DD9D8);
+        TObjCMIcon::show_only_creation_icons(1, lbl_805DD9D8);
         return;
     case 1:
-        show_only_creation_icons(2, lbl_80464E90);
+        TObjCMIcon::show_only_creation_icons(2, lbl_80464E90);
         return;
     case 2:
     default:
@@ -155,7 +153,7 @@ TChCrCharSelect::~TChCrCharSelect() {}
 TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     m_name = TChCrCharSelect__name;
     TChCrEffTag::set_eff_tag(0);
-    fn_802993F0();
+    reset_creation_input_state();
     if (TChCrCharSelect::selected_char_index == -1 || TChCrCharSelect::selected_slot_index == -1) {
         TChCrCharSelect::selected_char_index = 0;
         TChCrCharSelect::selected_slot_index = 0;
@@ -163,6 +161,6 @@ TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     } else {
         TChCrCharSelect::input_mode = 1;
     }
-    fn_8029945C(&lbl_80464E88);
+    TObjCMIcon::set_screen_position(&lbl_80464E88);
     init_widgets();
 }

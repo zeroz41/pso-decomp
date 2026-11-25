@@ -170,9 +170,9 @@ struct WeightedChunkVertex {
 LAYOUT_ASSERT(WeightedChunkVertex_size, sizeof(WeightedChunkVertex) == 0x1C);
 
 extern "C" {
-// The store loop at 0x803E1E84 writes the current 3x4 as these pairs.
-// reorder_current_matrix_ps (0x803E1E74) falls into it; push_reordered_matrix_ps
-// (0x803E1ED0) advances the matrix slot by 0x30 and branches to it.
+// One store loop writes the current 3x4 as these pairs: reorder_current_matrix_ps
+// falls into it, and push_reordered_matrix_ps advances the matrix slot by 0x30 and
+// branches to it.
 // Position uses the translation column; the normal uses only the 3x3.
 
 // This chunk command transforms indexed positions and normals with signed 8.8 weights.

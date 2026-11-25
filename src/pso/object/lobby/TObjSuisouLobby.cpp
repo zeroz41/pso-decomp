@@ -30,7 +30,7 @@ NJS_TEXLIST *TObjSuisouLobby::lobby_texlist;
 void TObjSuisouLobby::demo_step() {}
 
 void TObjSuisouLobby::render() {
-    if (fade_state != 0 && (u32)texlist != 0) {
+    if (fade_state != 0 && texlist != NULL) {
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();

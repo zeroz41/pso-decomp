@@ -8,6 +8,9 @@ void *mem_alloc(u32 bytes);
 void mem_free(void *allocation);
 }
 
+// new[] takes its block, array header included, from mem_alloc.
+inline void *operator new[](size_t size) { return mem_alloc(size); }
+
 void move_words(void *destination, const void *source, s32 count);
 
 void safe_free(void *allocation);

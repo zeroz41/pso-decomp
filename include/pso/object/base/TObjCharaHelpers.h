@@ -21,7 +21,6 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 hover_height);
 extern "C" {
 void assign_slots_from_list(void *arg0, saddr arg1);
 f32 atan2_float(f32 y, f32 x);
-void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1);
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
@@ -30,7 +29,6 @@ f32 fabs_float(f32 x);
 s16 get_attack_params_atp_max(void *p);
 s16 get_attack_params_atp_min(void *p);
 s32 get_current_floor(void);
-int get_player_data__10TObjPlayerFi(int a0);
 BOOL is_split_screen(void);
 void main(void);
 f32 newton_sqrtf(f32 x);

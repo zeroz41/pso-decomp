@@ -180,7 +180,7 @@ extern const f32 lbl_805DBD08;
 // ---- TObjContainerItem
 // ---- TLazerFenceSw
 
-void TLazerFenceSw__sub_8018A554(void* p, f32 v) { *(f32*)((char*)p + 0x1c) = v; }
+void CameraDistanceFade::set_fade_distance(f32 distance) { fade_distance = distance; }
 
 void TObjContainerCommon::spawn_break_effects() const {  }
 
@@ -282,7 +282,7 @@ TObjContainerCommon::TObjContainerCommon(TObject *parent, void *set_data) : TObj
         random_item = 0;
     }
     distance_fade.reset();
-    TLazerFenceSw__sub_8018A554(&distance_fade, lbl_805DBD08);
+    distance_fade.set_fade_distance(lbl_805DBD08);
     in_view = 0;
 }
 

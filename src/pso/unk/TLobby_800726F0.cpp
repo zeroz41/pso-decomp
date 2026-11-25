@@ -17,7 +17,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/unk/TLobby_802268F4.h"
@@ -40,7 +39,6 @@ extern "C" {
 void build_6x95_packet(u8 *arg0);
 void build_6x8A_packet(u8 *arg0);
 u8 is_challenge_lobby__6TLobbyFv(void);
-void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 
@@ -202,7 +200,7 @@ void TObjChallengeRetry::open_loss_menu() {
         this->menu->close();
         this->menu = NULL;
     }
-    this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(reinterpret_cast<saddr>(get_window_layout_position(0x3A)), 3));
+    this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(get_window_layout_position(0x3A), 3));
     if (this->menu != NULL) {
         this->menu->add_text_entry(get_message_text(0x5B), 5, 0);
         this->menu->add_text_entry(get_message_text(0x5C), 5, 1);
@@ -223,7 +221,7 @@ void TLobby::send_45_and_close_windows(void * _w0) {
 }
 void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void TLobby::play_default_effect(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
-void play_player_default_effect__6TLobbyFv(s32 _w0) {
+void TLobby::play_player_default_effect() {
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->check_player_flag1() == 0)) {

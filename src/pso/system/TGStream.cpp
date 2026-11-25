@@ -2,7 +2,6 @@
 #include "pso/system/Adxf.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby_80131794.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/text_800F7DAC.h"
@@ -174,7 +173,7 @@ s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
             TLobby::debug_print("TGStream::gsSctLoadFile Malloc Failed.");
         }
         stream.read_sectors_sync(sectors, buf);
-        prs_decompress_buffer((saddr)buf, (saddr)dst);
+        prs_decompress_buffer(buf, dst);
         safe_free(buf);
         return stream.archive_entry->decoded_size;
     }
@@ -290,7 +289,7 @@ void TGStream::align_read_offset(s32 alignment) {
     gstream_buffer_read_offset = alignment * ((gstream_buffer_read_offset + alignment - 1) / alignment);
 }
 
-s32 TGStream::read_data(saddr dst, s32 size) {
+s32 TGStream::read_data(void *dst, s32 size) {
     s32 total;
     s32 n;
     total = 0;
@@ -303,8 +302,8 @@ s32 TGStream::read_data(saddr dst, s32 size) {
         } else {
             n = get_gstream_buffered_bytes();
         }
-        move_data((void *)(dst), (const void *)((const void *)(gstream_tmp_buffer + gstream_buffer_read_offset)), (u32)n);
-        dst += n;
+        move_data(dst, (const void *)(gstream_tmp_buffer + gstream_buffer_read_offset), (u32)n);
+        dst = (u8 *)dst + n;
         size -= n;
         total += n;
         gstream_buffer_read_offset += n;

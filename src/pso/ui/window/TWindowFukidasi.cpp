@@ -12,6 +12,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -60,7 +61,6 @@ struct Fuki_802506E8 {
     f32 center[2];
 };
 extern "C" {
-f32 * get_message_by_type__11TWindowCtrlFScl(u8, int);
 f32 xyz_distance(void *, void *);
 s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2);
 s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 *o);
@@ -78,7 +78,7 @@ struct Fuki_802504C0 {
     u8 pad0[0x20]; s16 viewport; u8 pad22[0xE];
     f32 rect[2]; f32 anchor[2];
     u8 pad40[0x30];
-    u8 phase; u8 options; u8 kind; u8 slot;
+    u8 phase; u8 options; u8 kind; s8 slot;
 };
 
 struct Fuki_80250F70;
@@ -88,7 +88,7 @@ struct Fuki_80251028 {
     u8 pad0[0x20]; s16 viewport; u8 pad22[0xE];
     f32 rect[2]; f32 anchor[2];
     u8 pad40[0x30];
-    u8 phase; u8 options; u8 kind; u8 slot;
+    u8 phase; u8 options; u8 kind; s8 slot;
 };
 
 struct Fuki_80251380 {
@@ -135,7 +135,6 @@ s32 shift_rect_with_head__15TWindowFukidasiFPvPvPv(Fuki_80250F70 *b, f32 *rect, 
 void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b);
 void TWindowFukidasi__sub_80252C38(void *p);
 s32 fn_80252CBC(void);
-s32 reset_float_field__15TWindowHelpItemFv();
 s32 measure_message_text_width(int, f32);
 }
 
@@ -158,9 +157,7 @@ u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
 const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
 
 #define F70_80250A24 ((Fuki_80250F70 *)b)
-#define CLAMP_80250A24 ((s32 (*)(Fuki_80250F70 *, f32 *, f32))clamp_position__15TWindowFukidasiFPvf)
 #define F70_802506E8 ((Fuki_80250F70 *)b)
-#define CLAMP_802506E8 ((s32 (*)(Fuki_80250F70 *, f32 *, f32))clamp_position__15TWindowFukidasiFPvf)
 extern "C" {
 struct Fuki_80251790 {
     u8 pad0[0x20];
@@ -181,7 +178,7 @@ void TWindowFukidasi::set_flag2c_bit200() { this->window_flags |= 0x200; }
 void TWindowFukidasi::clear_flag2c_bit200() { this->window_flags &= 0xfffffdff; }
 
 void TWindowFukidasi::set_flag2c_bit100() { this->window_flags |= 0x100; }
-TWindowFukidasi::TWindowFukidasi(u16 speaker, s32 text, s32 client, f32 scale)
+TWindowFukidasi::TWindowFukidasi(u16 speaker, const char *text, s32 client, f32 scale)
     : TWindowAddition((u8 *)window_fukidasi_addition_params, (s16)client, (u8 *)get_zero_vec2()) {
     init_balloon(speaker, text, client, scale);
 }
@@ -521,7 +518,7 @@ void TWindowFukidasi::draw_name_plate(WindowDrawContext *context, u32 argb) {
 }
 
 #pragma pop
-void TWindowFukidasi::init_balloon(u16 speaker, s32 str, s32 client, f32 scale) {
+void TWindowFukidasi::init_balloon(u16 speaker, const char *str, s32 client, f32 scale) {
     u32 len;
 
     *(s32 *)(this + 0) = (saddr) window_fukidasi_class_name;
@@ -531,10 +528,10 @@ void TWindowFukidasi::init_balloon(u16 speaker, s32 str, s32 client, f32 scale) 
     this->slot = -1;
     this->speaker_id = speaker;
     this->client_index = client;
-    if (str != 0) {
+    if (str != NULL) {
         len = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
         this->name = (char *)mem_alloc(len + 1);
-        strncpy(this->name, (const char *)str, len + 1);
+        strncpy(this->name, str, len + 1);
     } else {
         this->name = 0;
     }
@@ -907,15 +904,15 @@ void TWindowFukidasi::clear_width() {
 #pragma fp_contract on
 void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b) {
     if (((TWindowFukidasi *)b)->is_speaker_far_or_offscreen() != 0) {
-        f32 *m;
-        if ((s8)b->slot == -1) {
+        const NJS_POINT2 *m;
+        if (b->slot == -1) {
             ((TWindowFukidasi *)b)->set_flag();
             ((TWindowFukidasi *)b)->set_flag2c_bit200();
             b->slot = ((TWindowFukidasi *)b)->alloc_nearest_free_slot();
         }
-        m = get_message_by_type__11TWindowCtrlFScl(b->slot, b->viewport);
-        b->rect[0] = m[0] - 0.5f * b->anchor[0];
-        b->rect[1] = m[1] - 0.5f * b->anchor[1];
+        m = TWindowCtrl::get_message_by_type(b->slot, b->viewport);
+        b->rect[0] = m->x - 0.5f * b->anchor[0];
+        b->rect[1] = m->y - 0.5f * b->anchor[1];
         ((TWindowFukidasi *)b)->clamp_position(b->rect, 1.0f);
     } else {
         f32 a[2];
@@ -923,10 +920,10 @@ void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b) {
         f32 d[2];
         f32 e[2];
         f32 *res;
-        if ((s8)b->slot != -1) {
+        if (b->slot != -1) {
             ((TWindowFukidasi *)b)->clear_visible_flag();
             ((TWindowFukidasi *)b)->clear_flag2c_bit200();
-            TWindowCtrl::release_slot((s8 *)&b->slot);
+            TWindowCtrl::release_slot(&b->slot);
         }
         res = NULL;
         if (((TWindowFukidasi *)b)->is_bit10_set() == 0) {
@@ -1009,7 +1006,7 @@ s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
     }
     o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position((f32 *)o, 1.0f) != 0) {
         return 0;
     }
     if (((TWindowFukidasi *)b)->draw_resolved_window((f32 *)o, b->size, 4) == NULL) {
@@ -1030,7 +1027,7 @@ s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
     edge[1] += reach * sin_table_lookup(a);
     o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position((f32 *)o, 1.0f) != 0) {
         return 0;
     }
     if (((TWindowFukidasi *)b)->draw_resolved_window((f32 *)o, b->size, 4) == NULL) {
@@ -1043,7 +1040,7 @@ s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
     edge[1] += reach * sin_table_lookup(a);
     o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position((f32 *)o, 1.0f) != 0) {
         return 0;
     }
     return (u32) __cntlzw((uaddr) ((TWindowFukidasi *)b)->draw_resolved_window((f32 *)o, b->size, 4)) >> 5;
@@ -1075,7 +1072,7 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
     edge[1] += reach * sin_table_lookup(a);
     o[0] = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o[1] = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_802506E8(F70_802506E8, o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position(o, 1.0f) != 0) {
         return 0;
     }
     if (((TWindowFukidasi *)b)->draw_resolved_window(o, b->size, 4) == NULL) {
@@ -1088,7 +1085,7 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
     edge[1] += reach * sin_table_lookup(a);
     o[0] = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o[1] = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_802506E8(F70_802506E8, o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position(o, 1.0f) != 0) {
         return 0;
     }
     return (u32) __cntlzw((uaddr) ((TWindowFukidasi *)b)->draw_resolved_window(o, b->size, 4)) >> 5;
@@ -1096,9 +1093,7 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
 
 #pragma pop
 #undef F70_80250A24
-#undef CLAMP_80250A24
 #undef F70_802506E8
-#undef CLAMP_802506E8
 s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out) {
     f32 x = TWindowCtrlMain::get_position_z(b->viewport);
     f32 w = (TWindowCtrlMain::get_ctrl_field14(b->viewport) - TWindowCtrlMain::get_position_z(b->viewport)) - b->anchor[0];
@@ -1111,28 +1106,28 @@ s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out) {
     h = (TWindowCtrlMain::get_field_18(b->viewport) - TWindowCtrlMain::get_field10(b->viewport)) - b->anchor[1];
     t = 0.000030517578f * (f32) rand();
     out[1] = t * h + y;
-    return (u32) __cntlzw((u32) ((TWindowFukidasi *)b)->draw_resolved_window(out, b->anchor, 4)) >> 5;
+    return (u32) __cntlzw((uaddr) ((TWindowFukidasi *)b)->draw_resolved_window(out, b->anchor, 4)) >> 5;
 }
 
 void TWindowFukidasi::place_rect_at_head_or_slot() {
     Fuki_802504C0 *b = (Fuki_802504C0 *)this;
     if (is_speaker_far_or_offscreen() != 0) {
-        f32 *m;
-        if ((s8)b->slot == -1) {
+        const NJS_POINT2 *m;
+        if (b->slot == -1) {
             ((TWindowFukidasi *)b)->set_flag();
             ((TWindowFukidasi *)b)->set_flag2c_bit200();
             b->slot = ((TWindowFukidasi *)b)->alloc_nearest_free_slot();
         }
-        m = get_message_by_type__11TWindowCtrlFScl(b->slot, b->viewport);
-        b->rect[0] = m[0] - 0.5f * b->anchor[0];
-        b->rect[1] = m[1] - 0.5f * b->anchor[1];
+        m = TWindowCtrl::get_message_by_type(b->slot, b->viewport);
+        b->rect[0] = m->x - 0.5f * b->anchor[0];
+        b->rect[1] = m->y - 0.5f * b->anchor[1];
         ((TWindowFukidasi *)b)->clamp_position(b->rect, 1.0f);
     } else {
         f32 p[2];
-        if ((s8)b->slot != -1) {
+        if (b->slot != -1) {
             ((TWindowFukidasi *)b)->clear_visible_flag();
             ((TWindowFukidasi *)b)->clear_flag2c_bit200();
-            TWindowCtrl::release_slot((s8 *)&b->slot);
+            TWindowCtrl::release_slot(&b->slot);
         }
         project_anchor((f32 *)(0), p);
         b->rect[0] = p[0] - 0.5f * b->anchor[0];
@@ -1263,8 +1258,7 @@ void complete_speech_balloon(u8 *arg0) {
     t = *(u8 *)(arg0 + 0x72);
     switch (t) {
     case 0:
-        ((TWindowBase *)arg0)->get_array_entry(0);
-        reset_float_field__15TWindowHelpItemFv();
+        ((TWindowHelpItem *)((TWindowBase *)arg0)->get_array_entry(0))->reset_float_field();
         break;
     case 1:
     case 2:

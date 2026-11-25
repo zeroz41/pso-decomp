@@ -55,7 +55,7 @@ struct TKeyBoardControl : public TObject {
     static s32 read_key_checked(u8 key);
     static void update_input_frame();
     static void init_pad_state();
-    static s32 get_function_key_menu(void *menu);
+    static s16 get_function_key_menu(void *menu);
 };
 
 LAYOUT_ASSERT(TKeyBoardControl_size, sizeof(TKeyBoardControl) == 0x2C);

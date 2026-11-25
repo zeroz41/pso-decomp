@@ -66,7 +66,7 @@ TWindowMessageQuest::~TWindowMessageQuest() {
 }
 
 
-TWindowMessageQuest::TWindowMessageQuest(s32 parent) : TWindowMessage(parent, 1, local_client_id) {
+TWindowMessageQuest::TWindowMessageQuest(const NJS_POINT2 *position) : TWindowMessage(position, 1, local_client_id) {
     this->m_name = TWindowMessageQuest__name;
     frame_mode = 0;
 }

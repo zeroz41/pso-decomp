@@ -6,8 +6,10 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/vector.h"
-extern "C" {
-s32 draw_menu_font_string_white(const char *, f32, f32, f32);
+
+// The label call passes the label size as a fourth float, which the white-text helper ignores.
+extern "C" s32 draw_menu_font_string_white(const char *, f32, f32, f32);
+
 extern const GuideButtonPoint guide_button_atlas_origins[4] = {
     {212.0f,78.0f},{190.0f,78.0f},{234.0f,78.0f},{190.0f,100.0f},
 };
@@ -15,9 +17,9 @@ extern const GuideButtonPoint guide_button_atlas_origins[4] = {
 #pragma readonly_strings on
 const char *guide_button_type_name = "TAdGuideButtonGC";
 #pragma pop
-u32 guide_button_texture_handle;
+NJS_TEXLIST *guide_button_texture_handle;
 TAdGuideButtonGC *guide_button_instance;
-}
+
 #pragma push
 #pragma fp_contract on
 void TAdGuideButtonGC::draw_label(int style, const char *text) {
@@ -25,8 +27,8 @@ void TAdGuideButtonGC::draw_label(int style, const char *text) {
 }
 #pragma pop
 void TAdGuideButtonGC::draw_quad(int style) {
-    if (guide_button_texture_handle != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(guide_button_texture_handle));
+    if (guide_button_texture_handle != NULL) {
+        TObjFish::set_global_param(guide_button_texture_handle);
         begin_screen_draw(1);
         set_draw_texture_and_color(0,-1);
         draw_textured_quad_at_depth((f32 *)quads, 0.5f);

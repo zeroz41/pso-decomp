@@ -4,8 +4,8 @@
 #include "types.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
 
-// Own TU: its .sdata2 pool holds a second -1.0f (0x805E1078, padded to 8) next to
-// ScreenPrimitiveDraw's (0x805E1070).
+// Own TU: its .sdata2 pool holds a second -1.0f, padded to 8, right after
+// ScreenPrimitiveDraw's.
 
 #pragma scheduling off
 #pragma dont_inline off

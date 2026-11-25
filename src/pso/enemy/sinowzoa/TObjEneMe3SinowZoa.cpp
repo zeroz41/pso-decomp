@@ -68,6 +68,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/technique/TTecJelin.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
@@ -99,10 +100,6 @@ s32 me3_sinow_zoa_render_node_index;
 TBreakUpMdlData * me3_sinow_zoa_breakup_model;
 
 
-extern "C" {
-
-void create__9TTecJelinFllll(void *, void *, void *, int);
-}
 
 
 
@@ -232,7 +229,7 @@ void TObjEneMe3SinowZoa::load_resources() {
 
 extern "C" {
 
-int TObjEneMe3SinowZoaReal__create(void* p) { return (saddr)TObjEneMe3SinowZoaReal::create_instance(p); }
+void *TObjEneMe3SinowZoa::create_real(void *set_data) { return TObjEneMe3SinowZoaReal::create_instance(set_data); }
 
 void TObjEneMe3SinowZoa::free_resources() {
     if (me3_sinow_zoa_breakup_model != NULL) {
@@ -505,7 +502,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                         TItem *held;
                         if (pl->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(pl)) != 0) {
                             TObjPlayer::send_6x26_unequip_item(static_cast<TObjPlayer *>(pl), held->get_item_id());
-                            ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&hand_position);
+                            ((TObjPlayer *)pl)->get_hand_joint_position(&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
                         }
                     } else if (near != 0 && this->random_ratio() <= 0.1666f) {
@@ -611,7 +608,7 @@ void TObjEneMe3SinowZoa::cast_technique() {
             TTecDeband::create(this, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
         } else {
             TTecZarua::create_instance((saddr)this, &position, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
-            create__9TTecJelinFllll(this, &position, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
+            TTecJelin::create(this, &position, &position, TObjEneDD::clamp_frame_index(me3_sinow_zoa_kind_param_tbls[kind_index]->support_tech_level));
         }
     } else {
         TTecResta::create(this, &position, lv);

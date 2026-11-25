@@ -1,5 +1,4 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/text_8024AB98.h"
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -60,9 +59,6 @@ Challenge4PItemCode challenge4p_item_select_item_table[8] = {
 };
 
 s32 challenge4p_result_slot_entries[4];
-struct E_8034B694 { u8 b[0x14]; };
-struct Q_8034B694 { s32 v; };
-struct SetEntryItemW { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_8034B694 f[1]; };
 
 extern "C" {
 
@@ -72,7 +68,6 @@ void get_player_result__18TChallenge4PResultFPv(TObjPlayer *, s32);
 void fn_8034BE48(TObjPlayer *);
 void request_active_window_close();
 void fn_8034BE38(TObjPlayer *);
-void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1);
 s32 __ct__18TChallenge4PResultFP7TObjectUsl(void *, s32, int, s32);
 
 }
@@ -206,7 +201,7 @@ void TChallenge4PResult::handle_third_reward() {
     TChallenge4PItemSelect *selector;
     if (reward_available[2] != 0) {
         show_message(get_localized_text_entry(0x2B, 0));
-        challenge_create_reward_item((saddr)&reward_items[2], slot_index);
+        challenge_create_reward_item(&reward_items[2], slot_index);
         wait_frames = 90;
         state_1c = 5;
         return;
@@ -220,13 +215,13 @@ void TChallenge4PResult::handle_third_reward() {
 
 void TChallenge4PResult::sub_8034B918() {
     this->show_message((s32)((s32)((int) (get_localized_text_entry(0x2B, 2)))));
-    challenge_create_reward_item((saddr)(((u8 *)this) + 0x48), (this->slot_index));
+    challenge_create_reward_item(&reward_items[1], slot_index);
     this->wait_frames = 0x5A;
     this->state_1c = 5;
 }
 void TChallenge4PResult::sub_8034B8BC() {
     this->show_message((s32)((s32)((int) (get_localized_text_entry(0x2B, 1)))));
-    challenge_create_reward_item((saddr)(((u8 *)this) + 0x34), (this->slot_index));
+    challenge_create_reward_item(&reward_items[0], slot_index);
     this->wait_frames = 0x5A;
     this->state_1c = 5;
 }
@@ -250,7 +245,7 @@ void TChallenge4PResult::init_timer() {
 void TChallenge4PResult::show_message(saddr text_handle) {
     if (message_window == NULL) {
         f32 pos[2] = {332.0f, 80.0f};
-        message_window = (TWindowMessagePage *)TWindowMessagePage::create((s32)get_window_layout_position(0x40), (saddr)pos, 1, slot_index);
+        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), (saddr)pos, 1, slot_index);
     }
     if (message_window != NULL) {
         ((TWindowMessagePage *)message_window)->set_message((void *)text_handle, 0x81);
@@ -262,10 +257,9 @@ void TChallenge4PResult::show_message(saddr text_handle) {
 
 
 void TChallenge4PResult::close_window() { if (this->message_window != 0) { this->message_window->close(); this->message_window = 0; } }
-void TChallenge4PResult::set_entry_item(void *arg1, s32 arg2) {
-    SetEntryItemW *arg0 = (SetEntryItemW *)this;
-    ((TItemData *)(&arg0->e[arg2]))->copy_from((TItemData *)(arg1));
-    arg0->f[arg2].v = 1;
+void TChallenge4PResult::set_entry_item(TItemData *item, s32 slot) {
+    reward_items[slot].copy_from(item);
+    reward_available[slot] = 1;
 }
 void TChallenge4PResult::clear_slot_entries() {
     s32 i;
@@ -323,14 +317,14 @@ s32 update_challenge_result_player_locks() {
 }
 
 
-void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1) {
+void TChallenge4PResult::update_entries(TItemData *item, s32 slot) {
     s32 i = 0;
     s32 *slot_entries = challenge4p_result_slot_entries;
     s32 index = 0;
     do {
         uaddr v = (u32)slot_entries[index];
         if (v != 0U) {
-            ((TChallenge4PResult *)v)->set_entry_item((void *)arg0, arg1);
+            ((TChallenge4PResult *)v)->set_entry_item(item, slot);
         }
         i += 1;
         index += 1;
@@ -384,7 +378,7 @@ void TChallenge4PItemSelect::open_menu() {
     waitFrames = frames_left;
     if (frames_left <= 0) {
         client_id = fn_8034BE30(result);
-        (uaddr &)menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x42), 8, client_id);
+        (uaddr &)menu_window = (uaddr)create_window_menu(get_window_layout_position(0x42), 8, client_id);
         if ((uaddr)menu_window != 0U) {
             i = 0;
             do {
@@ -419,7 +413,7 @@ void TChallenge4PItemSelect::submit_selected_item() {
         stack.spA = (s8) *(s32 *)((s8 *)item_entry + 8);
         result_addr = (uaddr)result;
         if (result_addr != 0U) {
-            ((TChallenge4PResult *)result_addr)->set_entry_item((void *)((saddr) &stack.sp8), 2);
+            ((TChallenge4PResult *)result_addr)->set_entry_item((TItemData *)&stack, 2);
         }
         state = 2;
     }

@@ -15,6 +15,8 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -27,11 +29,6 @@
 typedef struct WindowPos {
     f32 a, b;
 } WindowPos;
-
-extern "C" {
-s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
-void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
-}
 
 extern void *tl_00;
 
@@ -75,7 +72,7 @@ void TAdDialingSelectGC::run_task() {
         if (this->card != NULL && this->card->is_card_ready() == 1) {
             this->card->queue_destruction();
             this->card = NULL;
-            if (verify_system_file__23TAdSinglePlyChrSelectGCFPv() != 0) {
+            if (TAdSinglePlyChrSelectGC::verify_system_file() != 0) {
                 pso_system_load_gc();
             }
             this->timer = 0;
@@ -132,13 +129,9 @@ TAdDialingSelectGC::~TAdDialingSelectGC() {
 TAdDialingSelectGC::TAdDialingSelectGC() : TObject((TObject *)tl_00) {
     void *o;
     void *o2;
-    void *o3;
     o = new TAdBackGC(this);
     o2 = new TAdBackTxtGC(this);
-    o3 = TObject::operator new(0x138);
-    if (o3 != NULL) {
-        __ct__10TAdTitleGCFP7TObjectl(o3, this, 3);
-    }
+    new TAdTitleGC(this, 3);
     set_fallback_main_phase(9);
     this->selection = 4;
     this->state = 0;

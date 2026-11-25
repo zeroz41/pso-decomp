@@ -146,7 +146,7 @@ void TMedicalCenterSequence::open_greeting_window() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
-    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
+    create_message_window(get_window_layout_position(0x2C), (saddr)pos);
     display_shop_message(0x1F, 1);
     meseta_window = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
     set_state(2);
@@ -220,7 +220,7 @@ void TMedicalCenterSequence::show_fee_prompt() {
     s32 id;
     display_shop_message(0x20, 1);
     id = player->get_entity_id();
-    yes_no_menu = create_yes_no_window((const NJS_POINT2 *)(((s32 (*)(int))get_window_layout_position)(0x2B)), id, NULL, NULL);
+    yes_no_menu = create_yes_no_window((const NJS_POINT2 *)(get_window_layout_position(0x2B)), id, NULL, NULL);
     ((TWindowAddition *)yes_no_menu)->set_position_xy(get_scale(), get_scale());
     set_state(3);
 }
@@ -280,7 +280,7 @@ void TMedicalCenterMes::run_task() {
         TWindowCtrl::suppress_slot(player->get_entity_id());
         f32 pos[2] = {332.0f, 80.0f};
         s32 id = player->get_entity_id();
-        create_message_window(((s32 (*)(int))get_window_layout_position)(0x2C), (saddr)pos, id);
+        create_message_window(get_window_layout_position(0x2C), (saddr)pos, id);
         format_shop_message(0x25, 1);
         if (player != NULL) {
             ((TObjPlayer *)player)->init_effect_5f0();

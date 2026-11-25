@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-saddr create_message_information_window(saddr parent, saddr extent, saddr client);
+struct NJS_POINT2;
+
+saddr create_message_information_window(const NJS_POINT2 *position, saddr extent, saddr client);
 
 #endif

@@ -4,9 +4,11 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct NJS_TEXLIST;
+
 class TAdBackTxtGC : public TObject {
 public:
-    static saddr backtext_texture_list;
+    static NJS_TEXLIST *backtext_texture_list;
     TAdBackTxtGC(TObject *parent);
     virtual ~TAdBackTxtGC();
     void draw_character_background_frame(s32, s32);

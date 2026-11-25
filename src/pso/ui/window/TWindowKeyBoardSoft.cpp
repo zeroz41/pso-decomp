@@ -44,7 +44,6 @@ WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 5004
 
 
 extern u8 *TWindowKeyBoardSoft__language_text_resources;
-extern s32 local_client_id;
 
 const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
 
@@ -319,19 +318,19 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
         }
     } else {
         input = &controller_input_state.controllers[port];
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0xF0, 6, 2) == 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0xF0, 6, 2) == 0) {
             return;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 2) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x10, 6, 2) != 0) {
             dy = -1;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 2) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x20, 6, 2) != 0) {
             dy++;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x40, 6, 2) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x40, 6, 2) != 0) {
             dx = -1;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x80, 6, 2) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x80, 6, 2) != 0) {
             dx++;
         }
     }

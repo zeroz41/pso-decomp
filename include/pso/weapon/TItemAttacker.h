@@ -47,7 +47,7 @@ extern s32 item_buffer_temp_mode;
 extern void *item_buff_buffer;
 
 void spawn_item_attacker(TObject *parent, const Vec *position, s32 frames, DelayedWeaponHit *attack_record);
-s32 create_item_buff(s32 size);
+void *create_item_buff(s32 size);
 saddr get_item_chunk_buffer(int a0);
 
 #endif

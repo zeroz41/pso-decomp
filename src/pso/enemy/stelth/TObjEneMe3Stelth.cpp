@@ -57,8 +57,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecSifta.h"
-#include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
-#include "pso/unk/text_803DC86C.h"
+#include "pso/render/GinjaMaterial.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
@@ -279,7 +278,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
                                                   reinterpret_cast<NJS_TEXLIST *>(me3_stelth_bml_resource->models->texlist), &b, 8.0f, 0.0f);
     }
 }
-void *TObjEneMe3Stelth::create_real() { return TObjEneMe3StelthReal::create(this); }
+void *TObjEneMe3Stelth::create_real(void *set_data) { return TObjEneMe3StelthReal::create(set_data); }
 void TObjEneMe3Stelth::free_shared_resources() {
     if (me3_stelth_trail_buffer != NULL) {
         delete me3_stelth_trail_buffer;
@@ -496,7 +495,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
                 TItem *held;
                 if (t->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(t)) != 0) {
                     TObjPlayer::send_6x26_unequip_item((TObjPlayer *)t, held->get_item_id());
-                    ((TObjPlayer *)t)->get_hand_joint_position((saddr)&hand_position);
+                    ((TObjPlayer *)t)->get_hand_joint_position(&hand_position);
                     spawn_particle_effect(&hand_position, 0x1D0);
                 }
             } else if (near != 0 && random_ratio() <= 0.1666f) {

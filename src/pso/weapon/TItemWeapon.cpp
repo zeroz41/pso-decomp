@@ -6,7 +6,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80120150.h"
-#include "pso/unk/text_803DC86C.h"
+#include "pso/render/GinjaMaterial.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/item/ItemCreateFunction.h"
 #include "pso/weapon/TItemWeapon.h"

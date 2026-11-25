@@ -313,7 +313,6 @@ struct Send6x05WaveClearSwitchPacket {
 };
 
 
-
 void TLobby::load_item_data() {
     MapSetModule *temp_r3_2;
     MapSetArea *areas;
@@ -347,9 +346,8 @@ void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_ev
 extern s32 local_client_id;
 void send_6x67_wave_trigger_event(s32 arg0) {
     G_FloorEvent_6x67 pkt;
-    s32 t = wave_event_trigger_count;
-    wave_event_trigger_count = t + 1;
-    ((void (*)(int, int))set_destroy_event__6TLobbyFi)(1, t);
+    wave_event_trigger_count++;
+    TLobby::set_destroy_event(1);
     pkt.init();
     pkt.header.client_id = 0xFFFF;
     pkt.floor = get_current_floor();

@@ -36,7 +36,7 @@ s32 TObjCurtainLobby::get_lobby_theme_clamped() {
 void TObjCurtainLobby::demo_step() {}
 
 void TObjCurtainLobby::render() {
-    if (state != 0 && (u32)texlist != 0) {
+    if (state != 0 && texlist != NULL) {
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();

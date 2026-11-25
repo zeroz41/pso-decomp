@@ -23,6 +23,7 @@ public:
     s32 is_visible();
     void step_fade();
     void reset();
+    void set_fade_distance(f32 distance);
 
     s32 fade_out;  // 0 fades in, 1 fades out
     f32 fade_distance;

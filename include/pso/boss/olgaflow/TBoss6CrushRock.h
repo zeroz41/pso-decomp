@@ -10,7 +10,7 @@ struct NJS_TEXLIST;
 
 class TBoss6CrushRock : public TObject {
 public:
-    TBoss6CrushRock(TObject *parent, const Vec *point, saddr model_index);
+    TBoss6CrushRock(TObject *parent, const Vec *point, s32 model_index);
     virtual ~TBoss6CrushRock();
     virtual void run_task();
     virtual void render();

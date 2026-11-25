@@ -170,7 +170,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         position.x -= 0.5f * width;
         size.y = height;
         position.y -= 0.5f * height;
-        TWindowChatSymbol *symbol = (TWindowChatSymbol *)new TWindowChatSymbol((saddr)&position, (saddr)&size);
+        TWindowChatSymbol *symbol = (TWindowChatSymbol *)new TWindowChatSymbol(&position, (saddr)&size);
         symbol_preview = symbol;
         symbol_preview->set_selection(preset);
         symbol_preview->set_depth(50060.0f);

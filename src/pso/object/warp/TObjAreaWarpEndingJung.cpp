@@ -334,7 +334,7 @@ void TObjMapWarp::closePlayerWindow(u16 slot) {
 
 void TObjMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
-        playerPopups[client_id] = create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
+        playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         playerPopups[client_id]->add_text_entry(get_localized_text_entry(9, 0x25), 2, 0, -1);
         playerPopups[client_id]->calc_window_size();
         align_menu_entry_positions(playerPopups[client_id]);
@@ -456,7 +456,7 @@ void TObjMapWarp::draw_debug_destinations() {
         b.y += 5.0f;
         a.y += 5.0f;
         debug_draw_line(&b, &a, 0xFFFF0000, 0xFFFF0000);
-        fn_80141CB4(end, 15.0f);
+        debug_draw_marker(end, 15.0f);
     }
 }
 
@@ -514,7 +514,7 @@ void TObjAreaWarp::open_confirm_window(s32 client_id) {
     uaddr player;
 
     if ((u32) this->menu_window == 0U) {
-        this->menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
+        this->menu_window = (uaddr)create_window_menu(get_window_layout_position(0x33), 1, client_id);
         if (get_game_play_mode() == 1) {
             ((TWindowMenu *)(this->menu_window))->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
         } else {
@@ -935,7 +935,7 @@ void TObjAreaWarpEnding::debug_print_area_num() {
 
 void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
     if ((u32) this->menu_window == 0U) {
-        this->menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
+        this->menu_window = (uaddr)create_window_menu(get_window_layout_position(0x33), 1, client_id);
         if (get_main_phase() == 0xE) {
             ((TWindowMenu *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x26), 3, 0, -1);
         } else {

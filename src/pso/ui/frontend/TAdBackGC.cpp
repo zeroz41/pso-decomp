@@ -87,5 +87,5 @@ void TAdSinglePlyChrSelectGC::free_global() {
         chr_select_ad_pic_texture = NULL;
     }
 }
-void register_texture_f256_ad_pic_2(void) { chr_select_ad_pic_texture = &chr_select_ad_pic_2_texture_descriptor; load_streamed_prs_texture((saddr)"f256_ad_pic_2", (saddr)&chr_select_ad_pic_2_texture_descriptor); }
+void register_texture_f256_ad_pic_2(void) { chr_select_ad_pic_texture = &chr_select_ad_pic_2_texture_descriptor; load_streamed_prs_texture("f256_ad_pic_2", &chr_select_ad_pic_2_texture_descriptor); }
 

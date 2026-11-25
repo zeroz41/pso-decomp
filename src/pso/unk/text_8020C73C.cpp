@@ -4,11 +4,8 @@
 #include "types.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-extern "C" {
-s32 set_flags_on_matching_entries__6TLobbyFlssl(s32, s32, s32, s32);
-}
 
-s32 unhide_enemies_at(s32 floor, s32 room, s32 wave) {
+s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {
     s32 n;
     s32 count;
     s32 local;
@@ -21,7 +18,7 @@ s32 unhide_enemies_at(s32 floor, s32 room, s32 wave) {
         local = 1;
     }
     if (local == 0) {
-        return set_flags_on_matching_entries__6TLobbyFlssl(floor, room, wave, 1);
+        return TLobby::set_flags_on_matching_entries(floor, room, wave, 1);
     }
     set = get_active_floor_enemy_rows(floor);
     n = TLobby::get_object_type(floor);
@@ -29,8 +26,8 @@ s32 unhide_enemies_at(s32 floor, s32 room, s32 wave) {
         if (set->flags & 8) continue;
         if (set->flags & 2) continue;
         if (set->flags & 1) continue;
-        if (set->placement.room != (s16)room) continue;
-        if (set->placement.wave != (s16)wave) continue;
+        if (set->placement.room != room) continue;
+        if (set->placement.wave != wave) continue;
         if (local != 0) {
             obj = construct_enemy_from_set_row(set);
             if (obj != NULL) {

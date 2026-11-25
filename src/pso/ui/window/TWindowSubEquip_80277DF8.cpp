@@ -130,7 +130,7 @@ void TWindowSubEquip::render() {  }
 s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
     saddr equip_kind_window;
     equip_kind_window = reinterpret_cast<saddr>(create_equip_kind_window(
-        reinterpret_cast<saddr>(get_window_layout_position(1)), &equip_kind_window_size, this->client_id));
+        get_window_layout_position(1), &equip_kind_window_size, this->client_id));
     ((TWindowBase *)equip_kind_window)->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 1));
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x24)));
     ((TWindowSubShortCutList *)equip_kind_window)->set_flag70_bit10();

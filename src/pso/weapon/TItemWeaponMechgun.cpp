@@ -6,10 +6,7 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffLandHit.h"
-
-extern "C" {
-
-s32 rotate_matrix_y(s32, s32);
+#include "pso/unk/text_803D8F74.h"
 
 void TItemWeaponMechgun::transform_model_node() {
     if ((s32) this->effectJoint == TObjPlayer::get_player_list()) {
@@ -17,7 +14,6 @@ void TItemWeaponMechgun::transform_model_node() {
     }
 }
 
-}
 void TItemWeaponMechgun::emit_marker_effects() {
     if (launch_shot((u8 *)&muzzle[0], 0, 0, 1) != 0) {
         launch_shot((u8 *)&muzzle[1], 0, 0, 0);
@@ -42,8 +38,7 @@ void TItemWeaponMechgun::update_weapon() {
 }
 
 void TItemWeaponMechgun::draw_held_model() {
-    u8 *arg0 = (u8 *)this;
-    ((TItemWeapon *)arg0)->sample_dual_muzzles(&this->muzzle[0], &this->muzzle[1]);
+    sample_dual_muzzles(&muzzle[0], &muzzle[1]);
 }
 
 TItemWeaponMechgun::TItemWeaponMechgun(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

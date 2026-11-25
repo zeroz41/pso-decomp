@@ -270,7 +270,7 @@ s32 CharacterSaveRecord::find_bank_item(saddr item) {
     return 0;
 }
 
-s32 CharacterSaveRecord::register_in_free_room_slot(saddr item) {
+s32 CharacterSaveRecord::register_in_free_room_slot(TItemData *item) {
     BankItemRecord *entry;
     s32 i;
 
@@ -278,7 +278,7 @@ s32 CharacterSaveRecord::register_in_free_room_slot(saddr item) {
     entry = bank_items;
     do {
         if (entry->is_empty() != 0) {
-            TCheckRoomSequence::copy_item_to_bank_entry(entry, (TItemData *)item);
+            TCheckRoomSequence::copy_item_to_bank_entry(entry, item);
             bank_item_count++;
             return 1;
         }
@@ -421,7 +421,7 @@ s32 TAdSinglePlyChrSelectGC::load_player_by_slot(s32 chan) {
     return card_file;
 }
 
-s32 TAdSinglePlyChrSelectGC::verify_system_file(void* _w0) {
+s32 TAdSinglePlyChrSelectGC::verify_system_file() {
     saddr temp_r3;
     s32 var_r30;
     var_r30 = 0;
@@ -544,7 +544,7 @@ s32 TAdSinglePlyChrSelectGC::verify_card_player_data() {
     return ret;
 }
 
-s32 TAdSinglePlyChrSelectGC::poll_memcard_status() { return TAdSinglePlyChrSelectGC::verify_system_file(this); }
+s32 TAdSinglePlyChrSelectGC::poll_memcard_status() { return verify_system_file(); }
 
 
 s32 TAdSinglePlyChrSelectGC::has_valid_slot() {
@@ -1801,7 +1801,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
     };
     static f32 message_text_width = chr_select_save_message_window_size.x - 40.0f;
     if (TAdSinglePlyChrSelectGC::load_save_from_card() == 0) {
-        w = reinterpret_cast<TWindowMessage *>(TWindowMessage::create((saddr)&chr_select_save_message_window_pos, &chr_select_save_message_window_size.x, 1, 4));
+        w = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(&chr_select_save_message_window_pos, &chr_select_save_message_window_size.x, 1, 4));
         if (w != NULL) {
             w->append_line(get_localized_text_entry(0x20, 4), 3);
             w->reparent_to_main_ctrl();
@@ -1849,7 +1849,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
         render_tick();
     }
     TLobby__sub_80269CA4(0x23);
-    w = reinterpret_cast<TWindowMessage *>(TWindowMessage::create((saddr)&chr_select_save_message_window_pos, &chr_select_save_message_window_size.x, 1, 4));
+    w = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(&chr_select_save_message_window_pos, &chr_select_save_message_window_size.x, 1, 4));
     TLobby__sub_80269C90();
     if (w != NULL) {
         if (TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF81 || TAdPlayerLoadGC::get_load_result(0) == 0xFFFFFF83) {

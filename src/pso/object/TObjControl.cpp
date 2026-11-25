@@ -71,7 +71,6 @@ s32 get_current_floor();
 
 
 
-void award_enemy_experience__9TObjEnemyFl(u8 *arg0, s32 arg1);
 
 
 
@@ -536,16 +535,16 @@ void TObjEnemy::update_prev_position() {
 }
 
 #pragma pop
-void TObjEnemy::award_enemy_experience(s32 client) {
+void TObjEnemy::award_enemy_experience(u16 client) {
     s32 val;
     TObjPlayer *p;
 
-    if ((u16)client >= 0x1000 || (p = get_player_by_client_id((u16)client)) == NULL ||
+    if (client >= 0x1000 || (p = get_player_by_client_id(client)) == NULL ||
         p->test_actor_flags(0x800) != 0 || p->get_floor() != get_current_floor()) {
         return;
     }
     val = this->stat_block->exp;
-    if ((u16)client == this->attacker_id) {
+    if (client == this->attacker_id) {
         if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
             p->record_kill(this, 1);
             draw_player_status(p, p, "\tC1");
@@ -571,7 +570,7 @@ void TObjEnemy::distribute_experience() {
     s32 i;
     u16 id;
     if (is_split_screen() == 0) {
-        ((void (*)(void *, u16))award_enemy_experience__9TObjEnemyFl)(this, local_attacker_id);
+        award_enemy_experience(local_attacker_id);
     } else {
         count = get_attack_credit_slot_count(this);
         for (i = 0; i < count; i++) {
@@ -579,7 +578,7 @@ void TObjEnemy::distribute_experience() {
             if (id == 0xFFFF) {
                 break;
             }
-            ((void (*)(TObjEnemy *, u16))award_enemy_experience__9TObjEnemyFl)(this, id);
+            award_enemy_experience(id);
         }
     }
 }

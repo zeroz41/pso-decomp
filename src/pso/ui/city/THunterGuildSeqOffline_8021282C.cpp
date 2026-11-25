@@ -22,7 +22,6 @@
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {
-extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 void fn_802233F8(void *);
 
     extern int evt2_random_enemies_mode;
@@ -48,8 +47,8 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 this->choice_menu = NULL;
                 this->display_guild_message(9, 1);
                 *(s32 *)&this->unk_38 = 1;
-                if (THunterGuildSeqOffline__quest_result_callbacks[2] != -1) {
-                    quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[2]);
+                if (quest_result_callbacks[2] != -1) {
+                    quest_thread = TQuestThread::create_in_root(quest_result_callbacks[2]);
                 }
                 this->set_state(5);
                 return;

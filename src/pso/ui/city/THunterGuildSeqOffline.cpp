@@ -55,7 +55,7 @@ struct Guild_8021317C : Base_8021317C {
 };
 
 extern "C" {
-s32 THunterGuildSeqOffline__quest_result_callbacks[4];
+s32 quest_result_callbacks[4];
 s32 THunterGuildSeqOffline::instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline::active_instance;
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
@@ -66,7 +66,7 @@ int fn_80223480(void*);
 
 void THunterGuildSeqOnline_Client::open_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)player))->get_entity_id(), NULL, NULL);
+        choice_menu = create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         ((TWindowAddition *)choice_menu)->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
@@ -82,8 +82,8 @@ void THunterGuildSeqOnline_Client::handle_confirm_window() {
             choice_menu = NULL;
             display_guild_message(9, 1);
             exit_action = 1;
-            if (THunterGuildSeqOffline__quest_result_callbacks[2] != -1) {
-                quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[2]));
+            if (quest_result_callbacks[2] != -1) {
+                quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(quest_result_callbacks[2]));
             }
             set_state(0xC);
             break;
@@ -138,13 +138,13 @@ s32 THunterGuildSeqOffline__sub_80213458(void) {
 
 void THunterGuildSeqOffline::reset_quest_result_callbacks() {
     s32 i;
-    for (i = 0; i < 4; i++) THunterGuildSeqOffline__quest_result_callbacks[i] = -1;
+    for (i = 0; i < 4; i++) quest_result_callbacks[i] = -1;
 }
 
 void THunterGuildSeqOffline__sub_80213410(void) { THunterGuildSeqOffline::reset_quest_result_callbacks(); }
 
 void THunterGuildSeqOffline::notify_quest_thread() {
-    s32 v = THunterGuildSeqOffline__quest_result_callbacks[3];
+    s32 v = quest_result_callbacks[3];
     if (v != -1) {
         void *obj = TQuestThread::create(v);
         if (obj != NULL) {
@@ -218,7 +218,7 @@ void THunterGuildSeqOffline::open_greeting() {
     Stack_802130AC stack;
     stack.sp8 = 332.0f;
     stack.spC = 80.0f;
-    this->create_message_window((s32)((saddr) (((u8 *)get_window_layout_position(0x2C)))), (saddr)&stack.sp8);
+    this->create_message_window(get_window_layout_position(0x2C), (saddr)&stack.sp8);
     this->display_guild_message(1, 1);
     counter_camera = set_service_counter_camera(this, 1);
     this->set_state((saddr)((void*)(2)));
@@ -229,16 +229,16 @@ void THunterGuildSeqOffline::resolve_active_quest_result() {
         if (is_quest_active() == 1) {
             if (TQuestThread::get_register(quest_mission_manager, 0xFF) == 1) {
                 this->display_guild_message(0xB, 1);
-                if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 4) != -1) {
-                    this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 4)));
+                if ((s32) *(s32 *)((s8 *)&quest_result_callbacks + 4) != -1) {
+                    this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&quest_result_callbacks + 4)));
                 }
                 this->set_state((saddr)((void*)(7)));
                 return;
             }
             if (TQuestThread::get_register(quest_mission_manager, 0xFD) == 1) {
                 this->display_guild_message(0x12, 1);
-                if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 0) != -1) {
-                    this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 0)));
+                if ((s32) *(s32 *)((s8 *)&quest_result_callbacks + 0) != -1) {
+                    this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&quest_result_callbacks + 0)));
                 }
                 this->set_state((saddr)((void*)(8)));
                 return;
@@ -256,7 +256,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
 
     if ((this->is_message_ready() != 0)
         && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        *(s32 *)&this->choice_menu = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)this->player))->get_entity_id(), NULL, NULL);
+        *(s32 *)&this->choice_menu = (saddr)create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)this->player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)(this->choice_menu))->set_selected_index(1);
         ((TWindowAddition *)(this->choice_menu))->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);

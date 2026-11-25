@@ -118,9 +118,9 @@ void TObjPlayer::alloc_shared_buffers() {
     }
 }
 
-void TObjPlayer::finalize_shared() { TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(0)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
+void TObjPlayer::finalize_shared() { TLobby::set_player_count(0); TObjPlayer::set_shared_count(0); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
 
-void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(1)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags[0] = 0; }
+void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count(0); TObjPlayer::set_shared_count(1); TObjPlayer::set_shared_flag(0); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags[0] = 0; }
 
 extern "C" {
 extern u8 TObjPlayer__char_data_array[];
@@ -176,10 +176,10 @@ void TObjPlayer::set_regen_timer(s32 v) { this->regen_timer = v; }
 s32 TObjPlayer::get_regen_timer() { return this->regen_timer; }
 int TObjPlayer::is_newman() { return (this->class_flags & CLASS_FLAG_NEWMAN) != 0; }
 int TObjPlayer::is_android() { return (this->class_flags & CLASS_FLAG_ANDROID) != 0; }
-void TObjPlayer::check_stat_flag_41c() { m_41c.set(32); }
-void TObjPlayer::check_flag_at_41c() { m_41c.set(4); }
-void TObjPlayer::set_flag_41c_bit1() { m_41c.set(2); }
-void TObjPlayer::clamp_stat_41c() { m_41c.set(8); }
+void TObjPlayer::check_stat_flag_41c() { pending_actions.set(32); }
+void TObjPlayer::check_flag_at_41c() { pending_actions.set(4); }
+void TObjPlayer::set_flag_41c_bit1() { pending_actions.set(2); }
+void TObjPlayer::clamp_stat_41c() { pending_actions.set(8); }
 
 }
 
@@ -234,11 +234,11 @@ short TObjPlayer::get_state() {
     return action_provider->get_attack2_action();
 }
 
-short TObjPlayer::call_subobject_m15() {
+short TObjPlayer::get_attack1_action() {
     return action_provider->get_attack1_action();
 }
 
-short TObjPlayer::get_vobj_state_28() {
+short TObjPlayer::get_run_action() {
     return action_provider->get_run_action();
 }
 
@@ -255,11 +255,11 @@ void TObjPlayer::clear_flag_200000() {
     clear_state_flags(0x200000);
 }
 int TObjPlayer::check_flag_4() { return check_flag(4); }
-G_SetPlayerVisibility_6x22_6x23 &G_SetPlayerVisibility_6x22_6x23::operator=(const G_SetPlayerVisibility_6x22_6x23 &src) {
+G_SetPlayerInvisible_6x22 &G_SetPlayerInvisible_6x22::operator=(const G_SetPlayerInvisible_6x22 &src) {
     copy_subcommand_header(this, &src);
     return *this;
 }
-void TObjPlayer::clear_flag_4000_callback() { clear_flag_4000(); }
+void TObjPlayer::clear_flag_4000_callback(TObjPlayer *player) { player->clear_flag_4000(); }
 void TObjPlayer::clear_flag_4000() { clear_state_flags(16384); }
 void TObjPlayer::set_flag_4000() { this->set_state_flags(16384); }
 void TObjPlayer::set_battle_flag(s32 v) { this->m_3b4 = v; }
@@ -354,8 +354,8 @@ void set_flag_400000(TObjPlayer *player) {
 int TObjPlayer::check_flag_48() { return check_flag(48); }
 int TObjPlayer::is_status_locked() { return this->actorFlags & 0x10000; }
 int TObjPlayer::is_status_flag_200() { return this->actorFlags & 0x200; }
-int end_player_camera_pan(TObjPlayer *player) { return player->end_camera_pan(); }
-int TObjPlayer::start_freeze_self() { return start_freeze(); }
+void end_player_camera_pan(TObjPlayer *player) { player->end_camera_pan(); }
+void TObjPlayer::start_freeze_self(TObjPlayer *player) { player->start_freeze(); }
 void TObjPlayer::set_floor(s32 v) { this->current_floor = v; }
 void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 
@@ -420,16 +420,12 @@ extern "C" {
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-Vec *TObjPlayer__sub_801BF31C(PlayerFollowParticles *particles);
-void TObjPlayer__sub_801BF3A0(PlayerFollowParticles *particles, const Vec *point);
-int VecCopy__FP3VecPC3Vec(void*);
 u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 }
-Vec *get_surface_contact_point(PlayerFollowParticles *particles);
 void emit_grass_footstep_effect(PlayerFollowParticles *particles);
 void emit_water_footstep_effect(PlayerFollowParticles *particles);
 void emit_sand_footstep_effect(PlayerFollowParticles *particles);
@@ -459,7 +455,7 @@ void UnitScale::reset() {
 
 void BattleMusicState::reset_counter_field4() {
     timer = 0;
-    ((FlagWord *)&flags)->reset();
+    flags.reset();
 }
 
 void PlayerActionPaletteState::init_tag() {
@@ -609,9 +605,9 @@ s32 ContactSurfaceState::is_timer_running() {
     return (u8)(timer != -1);
 }
 
-void BattleMusicState::set_flag_2() { ((FlagWord *)&flags)->set(2); }
+void BattleMusicState::set_flag_2() { flags.set(2); }
 
-void BattleMusicState::clear_flag0_bit1() { ((FlagWord *)&flags)->clear(2); }
+void BattleMusicState::clear_flag0_bit1() { flags.clear(2); }
 
 void set_player_action_palette_mode(PlayerActionPaletteState *state, u8 mode) {
     set_action_palette_tag_mode(&state->tag, mode);
@@ -644,9 +640,9 @@ void TPlayerLobbyMarker::set_material_index(u8 v) { this->material_index = v; }
 
 int ContactSurfaceState::has_water_ground_flag() { return test_flags_any(&word.bits, 4); }
 
-int TObjPlayer::copy_vec_at_18() { return VecCopy__FP3VecPC3Vec((char*)this + 0x18); }
+void PlayerFollowParticles::set_grass_contact_point(const Vec *point) { VecCopy(&contact_points[1], point); }
 
-void TObjPlayer__sub_801BF3A0(PlayerFollowParticles *particles, const Vec *point) { VecCopy(&particles->contact_points[2], point); }
+void PlayerFollowParticles::set_surface_contact_point(const Vec *point) { VecCopy(&contact_points[2], point); }
 
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id) {
     TObjPlayer::check_hit_by_id(owner, target_id, 5);
@@ -659,20 +655,20 @@ void TObjPlayer::emit_photon_blast_feedback_from_packet() {
     emit_photon_blast_feedback_effects((saddr)((s8 *)arg0 + 4), *arg0);
 }
 
-Vec *TObjPlayer__sub_801BF31C(PlayerFollowParticles *particles) { return &particles->contact_points[1]; }
+Vec *PlayerFollowParticles::get_grass_contact_point() { return &contact_points[1]; }
 
 TParticleCtrl *PlayerHandParticles::emit_grass_footstep_particle(const Vec *position) { return emit_player_particle(this, position, 570); }
 
 void emit_grass_footstep_effect(PlayerFollowParticles *particles) {
-    particles->hands.emit_grass_footstep_particle(TObjPlayer__sub_801BF31C(particles));
+    particles->hands.emit_grass_footstep_particle(particles->get_grass_contact_point());
 }
 
 void emit_water_footstep_effect(PlayerFollowParticles *particles) {
-    emit_water_step_particles(&particles->hands, get_surface_contact_point(particles));
+    emit_water_step_particles(&particles->hands, particles->get_surface_contact_point());
 }
 
 void emit_sand_footstep_effect(PlayerFollowParticles *particles) {
-    emit_sand_step_particles(&particles->hands, get_surface_contact_point(particles));
+    emit_sand_step_particles(&particles->hands, particles->get_surface_contact_point());
 }
 
 void TObjPlayer::check_hit_by_id_431_from_packet() {
@@ -684,10 +680,10 @@ int PlayerHandParticles::emit_movement_effect(u16 target_id) { return TObjPlayer
 
 int PlayerFollowParticles::emit_movement_effect() { return hands.emit_movement_effect(owner_id); }
 
-Vec *get_surface_contact_point(PlayerFollowParticles *particles) { return &particles->contact_points[2]; }
+Vec *PlayerFollowParticles::get_surface_contact_point() { return &contact_points[2]; }
 
 void emit_idle_water_effect(PlayerFollowParticles *particles) {
-    emit_idle_water_splash(&particles->hands, get_surface_contact_point(particles));
+    emit_idle_water_splash(&particles->hands, particles->get_surface_contact_point());
 }
 
 #pragma push
@@ -874,7 +870,7 @@ PlayerIntraMapWarp::PlayerIntraMapWarp() {
 
 ProtectionTimer::ProtectionTimer() { reset_type(); }
 
-BattleMusicState::BattleMusicState() { __ct__8FlagWordFv(&flags); reset_counter_field4(); }
+BattleMusicState::BattleMusicState() { reset_counter_field4(); }
 PlayerAppearFade::PlayerAppearFade() { reset(); }
 
 void PlayerAppearFade::reset() {
@@ -1004,14 +1000,14 @@ extern "C" {
 const TObjMotionAction *PlayerActionProvider::get_motion_actions(s32, s32) { return 0; }
 BmlMotionEntry *PlayerActionProvider::get_current_motion_list() { return NULL; }
 
-u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *techs, s16 technique) {
-    return techs->levels[technique];
+u8 PlayerTechniqueState::get_technique_level(s16 technique) const {
+    return levels[technique];
 }
 
 void PlayerTechniqueState::set_technique_id(s16 v) { technique = v; }
 
-u8 TObjPlayer__sub_801C0124(const PlayerTechniqueState *state, s16 i) {
-    return state->learned_levels[i];
+u8 PlayerTechniqueState::get_learned_level(s16 technique) const {
+    return learned_levels[technique];
 }
 
 u8 TObjPlayer::get_item_count_max() { return 255; }
@@ -1617,11 +1613,11 @@ void TObjPlayer::set_flags_bit1() { ((FlagWord *)((char*)this + 0x1c))->set(1); 
 
 void TObjPlayer::clear_flag_1_at_1c() { ((FlagWord *)((char*)this + 0x1c))->clear(1); }
 
-s32 TUnk_8013EF0C::get_candidate_part_index() { return candidate_part_index; }
+s32 LockOnNearestTarget::get_candidate_part_index() { return candidate_part_index; }
 
-f32 TUnk_8013EF0C::get_published_target_dist() { return published_target_dist; }
+f32 LockOnNearestTarget::get_published_target_dist() { return published_target_dist; }
 
-u16 TUnk_8013EF0C::get_published_target_id() { return published_target_id; }
+u16 LockOnNearestTarget::get_published_target_id() { return published_target_id; }
 
 s32 TDeathTintFade::get_viewport_index() { return viewport_index; }
 

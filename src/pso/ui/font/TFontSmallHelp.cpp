@@ -112,7 +112,7 @@ void TFontSmallHelp::render() {
     f32 scale = TWindowCtrlMain::get_scale();
     f32 size = -1.0f;
     size /= 0.1495f + scale;
-    draw_small_font_text((void *)rgba, text, screen[0], screen[1], size);
+    draw_small_font_text(rgba, text, screen[0], screen[1], size);
 }
 #pragma pop
 

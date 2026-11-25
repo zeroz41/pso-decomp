@@ -53,4 +53,6 @@ struct THunterGuildSeqOffline : public TShopSequence {
 LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3C);
 
 extern "C" void THunterGuildSeqOffline__sub_80213410(void);
+// Quest thread ids started per quest result ([1] success, [2] cancel, [3] exit); -1 when unset.
+extern "C" s32 quest_result_callbacks[4];
 #endif

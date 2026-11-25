@@ -70,7 +70,6 @@ struct Target_8022D27C { u16 id; s16 part; };
 extern "C" {
 void set_target__20PlayerTechniqueStateFlls(void *, int, u16, s16);
 s32 is_split_screen();
-void get_hand_joint_position__10TObjPlayerFl(void *, void *);
 u8 get_cast_technique_level(void *, int);
 }
 extern u8 identity_matrix[];
@@ -476,7 +475,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
     ofs.x += pl->position.x;
     ofs.y += pl->position.y;
     ofs.z += pl->position.z;
-    get_hand_joint_position__10TObjPlayerFl(pl, &hand);
+    pl->get_hand_joint_position(&hand);
     switch (tech) {
     case 0:
         if (n != 0) {
@@ -625,7 +624,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
     case 7: {
         int n = 0;
         int i;
-        for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
+        for (i = 0; i < c->target_records.get_count(); i++) {
             if (c->target_records.get_record(n)->get_entity_id() != 0xFFFF) {
                 set_target__20PlayerTechniqueStateFlls(slots, n,
                     c->target_records.get_record(n)->get_entity_id(),
@@ -647,7 +646,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
     case 16: {
         int i;
         int n = 0;
-        for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
+        for (i = 0; i < c->target_records.get_count(); i++) {
             set_target__20PlayerTechniqueStateFlls(slots, n,
                 c->target_records.get_record(n)->get_entity_id(),
                 c->target_records.get_record(n)->get_part());

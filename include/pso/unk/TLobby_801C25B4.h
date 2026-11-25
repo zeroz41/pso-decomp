@@ -31,7 +31,6 @@ s32 fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
 void handle_6x7E(void);
 void handle_6x7F_battle_scores(saddr command);
 void handle_battle_result__6TLobbyFil(int arg0, s32 arg1);
-void init__6TLobbyFPv(void *arg0);
 void init_and_set_flag__6TLobbyFv(void);
 void init_battle_ctrl__6TLobbyFll(s32 arg0, s32 arg1);
 void init_battle_round__17TPlayerBattleCtrlFv(void *arg0);
@@ -44,7 +43,6 @@ void send_battle_mode_params__6TLobbyFScll(s8 arg0, s32 arg1, s32 arg2);
 void send_battle_mode_state__6TLobbyFv(void *self);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
-void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl);
 }
 void update_player_battle_ctrl_state(void *player_battle_ctrl);
 
@@ -73,7 +71,6 @@ s32 fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
 void handle_6x7E(void);
 void handle_6x7F_battle_scores(saddr command);
 void handle_battle_result__6TLobbyFil(int arg0, s32 arg1);
-void init__6TLobbyFPv(void *arg0);
 void init_and_set_flag__6TLobbyFv(void);
 void init_battle_ctrl__6TLobbyFll(s32 arg0, s32 arg1);
 void init_char_slots__6TLobbyFv(void);
@@ -85,7 +82,6 @@ void send_battle_mode_params__6TLobbyFScll(s8 arg0, s32 arg1, s32 arg2);
 void send_battle_mode_state__6TLobbyFv(void *self);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
-void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl);
 }
 void update_player_battle_ctrl_state(void *player_battle_ctrl);
 // --- end of C functions

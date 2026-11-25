@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowDD_8034435C.h"
 #include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -138,8 +139,7 @@ struct Obj_80343C64
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/PlayerSlots.h"
-
-struct NumberWindow;
+#include "pso/system/NinjaTypes.h"
 
 struct WordSelectPage;
 
@@ -148,10 +148,8 @@ struct WordSelectWindowState {
     s32 activePage;
     WordSelectPage* pages[7];
     u8 unknown40[0x84 - 0x40];
-    NumberWindow* numberWindow;
+    TWindowInputNumber* numberWindow;
 };
-
-struct WindowPosition { f32 x, y; };
 
 s32 TWindowDD::window_mode;
 
@@ -178,7 +176,7 @@ TWindowDDValueList *TWindowDD::ws_data_table;
 u32 lbl_805D6E34;
 extern "C" {
 s32 apply_input__9TWindowDDFPvPv(int, int);
-s32 update__9TWindowDDFl(int, int, int);
+s32 update__9TWindowDDFP17TWindowDD_WS_Word(int, int, int);
 void TWindowDD__sub_803434F4(u8 *arg0);
 void TWindowDD__sub_80342800(u8 *arg0);
 void update__9TWindowDDFi(saddr window_dd);
@@ -273,8 +271,6 @@ s32 classify_id__9TWindowDDFs();
 
 void clear_window_dd_nodes(void);
 extern "C" {
-NumberWindow* __ct__18TWindowInputNumberFPvllls(void* storage, const WindowPosition* position,
-                                   s32 minimum, s32 maximum, s32 initial, s16 client);
 
 
 
@@ -494,7 +490,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
     saddr w = TWindowDD__sub_80342384(self->f88, (s32) lbl_805DFB54);
     if (w != 0)
     {
-      TWindowDD::set_default_positions(self, (TWindowDD_WS_Word *)w);
+      set_default_positions((TWindowDD_WS_Word *)w);
       self->a24[0] = w;
     }
   }
@@ -864,7 +860,7 @@ void TWindowDD__sub_803434F4(u8 *arg0) {
     *(s32 *)((s8 *)var_r31 + 0x20) = (saddr)(var_r4 + 1);
     var_r4 = (u8 *)(var_r31 + (*(s32 *)((s8 *)var_r31 + 0x20) * 4));
     var_r4 = (u8 *)(*(u8 **)((s8 *)var_r4 + 0x24));
-    update__9TWindowDDFl((saddr)var_r3, (saddr)var_r4, (saddr)var_r5);
+    update__9TWindowDDFP17TWindowDD_WS_Word((saddr)var_r3, (saddr)var_r4, (saddr)var_r5);
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB4));
     *(u8 **)((s8 *)var_r31 + 0xB0) = var_r3;
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0x8C));
@@ -967,15 +963,10 @@ void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *window) {
 }
 
 void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self, s32 minimum, s32 maximum, s32 initial) {
-    WindowPosition position;
+    NJS_POINT2 position;
     position.x = 60.0f + TWindowDD__data_805DFB6C;
     position.y = 10.0f + lbl_805DFB70;
-    NumberWindow* window = (NumberWindow*)TObject::operator new(0x7C);
-    if (window) {
-        window = __ct__18TWindowInputNumberFPvllls(window, &position, minimum, maximum, initial,
-                                      (s16)local_client_id);
-    }
-    self->numberWindow = window;
+    self->numberWindow = new TWindowInputNumber(&position, minimum, maximum, initial, (s16)local_client_id);
     if (self->numberWindow) {
         ((TWindowBase *)(self->numberWindow))->set_depth(lbl_805DFC28);
         ((TWindowSubItem *)(self->numberWindow))->set_flag60_bit10();

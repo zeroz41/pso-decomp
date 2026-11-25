@@ -2,7 +2,6 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/TOBind.h"
-#include "pso/object/TOBind_801586B8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/MatrixStack.h"
@@ -20,6 +19,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
@@ -32,12 +32,8 @@ CollisionBody bind_collision_body_parts[2] = {
     {{0.0f, 20.0f, -10.0f}, 5.0f, 10.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-extern "C" {
-BmlResource *bind_static_model_resource;
-s32 __ct__14TObjCollidableFP7TObject(void *, int);
-extern s32 __vt__6TOBind[];
-const char *lbl_805D2EA8 = "TOBind";
-extern s32 tl_05;
+BmlResource *TOBind::static_model_resource;
+const char *TOBind::class_name = "TOBind";
 
 void TOBind::render() {
     if (this->update_object_view_visibility(draw_distance, this->m_d4) != 0) {
@@ -57,55 +53,46 @@ void TOBind::render() {
 }
 
 void *TOBind::create(void *set_data) {
-    void *o = TObject::operator new(0xD8);
-    if (o != NULL) {
-        o = TOBind__ct((TOBind *)((u8 *)o), (saddr)set_data);
-    }
-    return o;
+    return new TOBind(set_data);
 }
 
 void TOBind::free_static_model() {
-    if (bind_static_model_resource != NULL) {
-        delete (BmlResource *)bind_static_model_resource;
-        bind_static_model_resource = NULL;
+    if (static_model_resource != NULL) {
+        delete static_model_resource;
+        static_model_resource = NULL;
     }
 }
 
 void TOBind::load_static_resource() {
     BmlResource *storage = new BmlResource(1, (BmlResourceDescriptor *)&bm_o_bind_resource_descriptor, 0, 0, NULL);
-    bind_static_model_resource = storage;
+    static_model_resource = storage;
 }
 
-}
 TOBind::~TOBind() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
-u8 *TOBind__ct(TOBind *bind, saddr set_data) {
-    __ct__14TObjCollidableFP7TObject(bind, tl_05);
-    *(s32 **)((s8 *)bind + 0x18) = __vt__6TOBind;
-    ((TOBind *)bind)->m_name = lbl_805D2EA8;
-    ((TOBind *)(bind))->apply_object_set_data((void *)set_data);
-    bind->m_b0 = 0;
-    bind->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)bind_static_model_resource, 0));
-    bind->texlist = get_bml_texlist((BmlResource *)bind_static_model_resource, 0);
-    bind->animated_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)bind_static_model_resource, 1));
-    bind->animated_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)bind_static_model_resource, 1));
-    bind->motion = get_bml_motion(bind_static_model_resource, 0);
-    bind->motion_frame = 0.0f;
-    bind->m_bc = static_cast<f32>(bind->motion->frameCount) - 1.0f;
-    bind->motion_step = 1.0f;
-    init_collision_body_parts(bind, bind_collision_body_parts, 2);
-    ((TObjCollidable *)bind)->refresh_collision_body_centers();
-    ((TObjPlayer *)bind)->register_object_by_id();
-    bind->actorFlags = (s32) (bind->actorFlags | 0x40000000);
-    bind->index = (s32) bind->set_params[0];
-    if ((s32) bind->index < 0) {
-        bind->index = 0;
+TOBind::TOBind(void *set_data) : TObjCollidable(tl_05) {
+    m_name = class_name;
+    apply_object_set_data(set_data);
+    m_b0 = 0;
+    model = get_bml_model(static_model_resource, 0);
+    texlist = get_bml_texlist(static_model_resource, 0);
+    animated_model = get_bml_model(static_model_resource, 1);
+    animated_textures = get_bml_texlist(static_model_resource, 1);
+    motion = get_bml_motion(static_model_resource, 0);
+    motion_frame = 0.0f;
+    m_bc = static_cast<f32>(motion->frameCount) - 1.0f;
+    motion_step = 1.0f;
+    init_collision_body_parts(this, bind_collision_body_parts, 2);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    actorFlags |= 0x40000000;
+    index = set_params[0];
+    if ((s32)index < 0) {
+        index = 0;
     }
-    bind->draw_distance = 400.0f;
-    bind->m_d4 = 40.0f;
-    return (u8 *)bind;
+    draw_distance = 400.0f;
+    m_d4 = 40.0f;
 }
-

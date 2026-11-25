@@ -104,7 +104,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void update_distance_state();
     static void set_slot_min_clamped_value(s32 index, f32 speed);
     static void free_shared_resources();
-    void *create_real();
+    static void *create_real(void *set_data);
     static void load_shared_resources();
     // dispatch_action's state handlers; same slots and names as the TObjEneMe3SinowZoa
     // twin (see its header for the motion and transition evidence).

@@ -7,8 +7,9 @@
 
 extern "C" {
 void *allocate_bml_chunk(BmlResource *resource, u8 *file, u32 *offset, u32 *tag);
-void increment_ref_and_set_flag__6TLobbyFPv(void *context);
 }
+void check_bin_model_loaded(BmlResource *resource);
+void increment_ref_and_set_flag(void *context);
 struct BmlModelLoadRequest;
 struct BmlMotionLoadRequest;
 struct AnimationMotion;
@@ -21,7 +22,6 @@ extern "C" {
 int fn_8001ED90(void *p);
 
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
-void increment_ref_and_set_flag__6TLobbyFPv(void *context);
 }
 // --- end of C functions
 

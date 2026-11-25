@@ -127,19 +127,11 @@ const char *TForceOperate::class_name = "TForceOperate";
 
 #pragma defer_codegen on
 
-extern "C" {
-extern void *__vt__18TPlayerLobbyMarker[6];
-void __ct__7TObjectFP7TObject(TObject *object, TObject *parent);
-
-TPlayerLobbyMarker *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(TPlayerLobbyMarker *marker, TObject *parent, s16 player_id, s8 material_index) {
-    __ct__7TObjectFP7TObject(marker, parent);
-    *(void ***)((u8 *)marker + 0x18) = __vt__18TPlayerLobbyMarker;
-    *(s8 *)&marker->material_index = material_index;
-    *(s8 *)&marker->flags = 0;
-    *(s16 *)&marker->player_id = player_id;
-    marker->rotation = 0;
-    return marker;
-}
+TPlayerLobbyMarker::TPlayerLobbyMarker(TObject *parent, u16 player_id, u8 material_index) : TObject(parent) {
+    this->material_index = material_index;
+    flags = 0;
+    this->player_id = player_id;
+    rotation = 0;
 }
 
 
@@ -166,13 +158,13 @@ void TPlayerSoul::set_player_id(u16 value) { player_id = value; }
 void TPlayerSoul::set_particle(TParticleCtrl*value) { particle = value; }
 
 
-int BattleMusicState::is_quest_held() { return test_flags_any(&flags, 2); }
+int BattleMusicState::is_quest_held() { return test_flags_any(&flags.bits, 2); }
 
 
-int BattleMusicState::set_lock_flag() { return test_flags_any(&flags, 1); }
+int BattleMusicState::set_lock_flag() { return test_flags_any(&flags.bits, 1); }
 
 
-void BattleMusicState::clear_target_lock_flag() { ((FlagWord *)&flags)->clear(1); }
+void BattleMusicState::clear_target_lock_flag() { flags.clear(1); }
 
 
 void BattleMusicState::set_lock_timer(s32 v) { timer = v; }
@@ -215,8 +207,8 @@ BOOL PlayerRef::resolve() {
 }
 
 
-TPlayerLobbyMarker *TPlayerLobbyMarker::create(s16 client, s8 material_index) {
-    TObjPlayer *player = get_player_by_client_id((u16)client);
+TPlayerLobbyMarker *TPlayerLobbyMarker::create(u16 client, u8 material_index) {
+    TObjPlayer *player = get_player_by_client_id(client);
     if (player == NULL) {
         return NULL;
     }
@@ -627,9 +619,9 @@ s32 BattleMusicState::tick_battle_music_timer() {
     return --timer < 0 ? 0 : 1;
 }
 
-void BattleMusicState::clear_target_lock() { ((FlagWord *)&flags)->set(1); TLobby::set_target_id(1); }
+void BattleMusicState::clear_target_lock() { flags.set(1); TLobby::set_target_id(1); }
 
-void BattleMusicState::reset_ring() { ((FlagWord *)&flags)->clear(1); set_lock_timer(-1); TLobby::set_target_id(0); }
+void BattleMusicState::reset_ring() { flags.clear(1); set_lock_timer(-1); TLobby::set_target_id(0); }
 
 void RenderMaterialState::reset_fade_color() {
     fade_color.a = 1.0f;
@@ -739,7 +731,7 @@ void TForceOperate::run_task() {
     if (player_ref.resolve() != 0) {
         player = player_ref.get_player();
         if ((player->is_target_valid() != 0) && (player->has_action_palette_entry() != 0)) {
-            entity = find_entity_by_id(((TMainCursor *)&player->lock_on_cursor->selection.target)->get_id());
+            entity = find_entity_by_id(player->lock_on_cursor->selection.target.get_entity_id());
             if (entity != NULL) {
                 entity->interact(player->get_entity_id());
                 queue_destruction();

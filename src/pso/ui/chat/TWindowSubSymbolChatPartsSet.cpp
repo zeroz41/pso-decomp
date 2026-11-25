@@ -376,11 +376,11 @@ void TWindowSubSymbolChatPartsSet::run_task() {
 
 }
 TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
-    TWindowSubStatusDisp::destroy_status_display((s32)heading_display, 1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)heading_display, 1);
 }
 
-TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(void *position, s16 index, s32 *first, s32 *second)
-    : TWindowChatSymbol((saddr)position, (saddr)&lbl_8044FC30) {
+TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second)
+    : TWindowChatSymbol(position, (saddr)&lbl_8044FC30) {
     m_name = TWindowSubSymbolChatPartsSet__name;
     set_depth(50030.0f);
     m_68 = 0;

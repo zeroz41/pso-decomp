@@ -20,11 +20,11 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/network/client_id.h"
 #include "pso/system/prs.h"
+#include "pso/unk/text_800F7DAC.h"
 
 
 extern "C" {
 
-u32 prs_decompress_buffer(s32 src, s32 dst);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 
 }
@@ -312,7 +312,7 @@ void TScreenFadeController::render() {
     TCameraCtrl::restore_saved_view();
 }
 
-u32 prs_decompress_buffer(s32 src, s32 dst) {
+u32 prs_decompress_buffer(const void *src, void *dst) {
     u32 size;
     PrsDecoder *prs = new PrsDecoder;
     if (prs != NULL) {

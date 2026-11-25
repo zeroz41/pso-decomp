@@ -49,12 +49,12 @@ void TAdSelectCurGC::run_task() {
             ok = 1;
         }
         if (ok != 0) {
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(&controller_input_state.controllers[0]), 0x10, 6, 1) != 0 ||
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command(&controller_input_state.controllers[0], 0x10, 6, 1) != 0 ||
                 test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 selected_index--;
             }
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(&controller_input_state.controllers[0]), 0x20, 6, 1) != 0 ||
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command(&controller_input_state.controllers[0], 0x20, 6, 1) != 0 ||
                 test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 selected_index++;
@@ -139,7 +139,7 @@ void TLobby::apply_menu_cursor_selection() {
     };
     NJS_TEXLIST *list = lists[current_language];
     menu_selection_cursor_texture_list = list;
-    load_streamed_prs_texture((saddr)names[current_language], (saddr)list);
+    load_streamed_prs_texture(names[current_language], list);
 }
 
 void TAdSelectCurGC::set_draw_depth(f32 depth) { draw_depth = depth; }

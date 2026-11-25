@@ -16,8 +16,6 @@ void send_6x2F_change_player_hp(s32 sender, s32 client, s16 hp);
 void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);
 void TObjPlayer__sub_801B1BA4(void);
 void TObjPlayer__sub_801B1C8C(void);
-// Restores the player to full health and clears its status effects.
-void recover_player_full(void *player);
 }
 
 // 6x24: moves player `slot` to pos, facing heading.

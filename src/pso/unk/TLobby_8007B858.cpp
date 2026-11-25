@@ -65,7 +65,6 @@ void TSceneSora__sub_80207430(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
 s32 activate_triggered_floor_events();
-s32 cleanup_game_objects__9TMainTaskFv();
 s32 restore_floor_telepipes();
 s32 __ct__15TWindowCtrlMainFv();
 
@@ -121,7 +120,7 @@ void TLobby::create_tasks() {
         new TDeferredRenderQueue(tl_particlemodel);
         new TIndirectEffectDrawTask(tl_particlemodel);
     }
-    cleanup_game_objects__9TMainTaskFv();
+    TMainTask::cleanup_game_objects();
     TScene::create();
     TSceneSora::create_instance();
     TSetManager::create();

@@ -1,6 +1,9 @@
 #include "types.h"
 #include "pso/unk/TLobby_80160804.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/network/TLobby.h"
+#include "pso/unk/TLobby_80156B18.h"
 
-void TLobby::update_and_send_60(void* p) { TLobby::bswap_60_header(p); send_subcommand((u8 *)p); }
+void send_object_state(G_UpdateObjectState_6x0B *packet) {
+    bswap_object_state(packet);
+    send_subcommand(packet);
+}

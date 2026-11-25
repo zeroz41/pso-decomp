@@ -16,16 +16,4 @@ struct TObjTradeCollision : public TObjCollidable {
 
 LAYOUT_ASSERT(TObjTradeCollision_size, sizeof(TObjTradeCollision) == 0xB0);
 
-extern "C" {
-void *__dt__18TObjTradeCollisionFv(void *arg0, s16 arg1);
-void run_task__18TObjTradeCollisionFv(saddr arg0);
-}
-
-// --- C functions defined in TObjTradeCollision.cpp ---
-extern "C" {
-void *__dt__18TObjTradeCollisionFv(void *arg0, s16 arg1);
-void run_task__18TObjTradeCollisionFv(saddr arg0);
-}
-// --- end of C functions
-
 #endif

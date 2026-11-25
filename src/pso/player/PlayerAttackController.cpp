@@ -187,7 +187,7 @@ CapturedTargetList *PlayerAttackController::capture_lockon_targets(TObjPlayer *p
     horizontal_cone_cos = slot->horizontal_cone_cos;
     vertical_cone_cos = slot->vertical_cone_cos;
     cone_apex_offset = slot->cone_apex_offset;
-    count = ((TLockOnCursor *)&slot->target_records)->get_target();
+    count = slot->target_records.get_count();
     entry = lockon_targets.entries;
     lockon_targets.set_count(count);
     for (i = 0; i != count; i++) {
@@ -216,7 +216,7 @@ void PlayerAttackController::reset() {
     lockon_targets.clear_lockon_list();
 }
 
-s16 LockOnTargetRecord::get_part() { return part; }
+s16 LockOnTargetRecord::get_part() { return flag; }
 
 void PlayerAttackController::set_saved_attack_stage(s16 stage) { pending_stage = stage; }
 

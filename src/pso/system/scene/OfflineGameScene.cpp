@@ -196,7 +196,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {prepare_adventure_maps, TLobby__sub_802075F4},
     {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
     {start_challenge_mode, NULL},
-    {(FloorResourceCallback)load_tombstone_resources, TLobby::destroy_tombstone},
+    {load_tombstone_resources, TLobby::destroy_tombstone},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
@@ -301,7 +301,7 @@ void TLobby::reload_offline_area() {
             p->set_parent(tl_03);
             p->reset_motion_fields();
             rebuild_player_inventory(p);
-            TObjPlayer::for_each_player_slot(recover_player_full);
+            TObjPlayer::for_each_player_slot(TObjPlayer::recover_player_full);
         }
     }
     load_battle_param_entry();
@@ -374,7 +374,7 @@ void TLobby::rebuild_area_keep_players() {
             p->set_parent(tl_03);
             p->reset_motion_fields();
             rebuild_player_inventory(p);
-            TObjPlayer::for_each_player_slot(recover_player_full);
+            TObjPlayer::for_each_player_slot(TObjPlayer::recover_player_full);
         }
     }
     TQuestThread::create_for_floor();

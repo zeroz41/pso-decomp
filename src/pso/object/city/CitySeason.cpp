@@ -478,7 +478,7 @@ void TObjCity_Season_FireWorkCtrl::sub_8018355C() {
         size.x = scale.x;
         size.y = 3.0f;
         size.z = scale.z;
-        fn_80141CB8(&position, &rotation_x, &size, &color);
+        debug_draw_box(&position, &rotation_x, &size, &color);
     }
 }
 void TObjCity_Season_FireWorkCtrl::vfunc_13(s32) {

@@ -3,14 +3,11 @@
 
 #include <stddef.h>
 #include "types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
-// The 6x86 wall hit subcommand contains four 32-bit words.
-struct WallHitPacket {
-    u8 subcommand;
-    u8 word_count;
-    u16 entity_id;
-    s32 state;
-    s32 set_entry_index;
+// The 6x86 wall hit subcommand: a 6x0B object-state message plus the hit
+// reason and the wall's remaining hits (four 32-bit words).
+struct WallHitPacket : G_UpdateObjectState_6x0B {
     u16 update_reason;
     u16 remaining_hits;
     WallHitPacket *init();

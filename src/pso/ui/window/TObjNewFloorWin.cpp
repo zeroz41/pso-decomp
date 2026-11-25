@@ -62,12 +62,12 @@ void TObjNewFloorWin::run_task() {
 
 void TObjNewFloorWin::open_window() {
     u8 *arg0 = (u8 *)this;
-    s32 pos;
-    pos = (s32)get_window_layout_position(0x3D);
+    const NJS_POINT2 *pos;
+    pos = get_window_layout_position(0x3D);
     if ((s32) *(s32 *)((s8 *)arg0 + 0x4C) < 0) {
-        *(u32 *)((s8 *)arg0 + 0x20) = ((u32 (*)(s32, s32, s32)) create_window_menu_default)(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
+        *(uaddr *)((s8 *)arg0 + 0x20) = (uaddr)create_window_menu_default(pos, 1);
     } else {
-        *(uaddr *)((s8 *)arg0 + 0x20) = (uaddr)create_window_menu((saddr)(pos), 1, *(s32 *)((s8 *)arg0 + 0x4C));
+        *(uaddr *)((s8 *)arg0 + 0x20) = (uaddr)create_window_menu(pos, 1, *(s32 *)((s8 *)arg0 + 0x4C));
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x20) != 0U) {
         sprintf((char *)arg0 + 0x2C, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());

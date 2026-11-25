@@ -56,6 +56,7 @@ CreationModelPart creation_cap_model_parts[10];
 CreationModelPart creation_head_model_parts[5];
 __declspec(section ".data") u32 creation_models_ready;
 #pragma common reset
+s32 creation_resource_ready_state;
 extern "C" {
 s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 s32 creation_motion_group(CharacterAppearanceFields *);
@@ -69,7 +70,6 @@ void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, Cha
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
 extern s32 memcard_access_active;
 
-s32 creation_resource_ready_state;
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void rotate_matrix_y(int, u32);
 int fn_8001ED90(void *p);
@@ -382,9 +382,9 @@ void TCMCharacter::reset_model_parts() {
 s32 TAdSinglePlyChrSelectGC::is_active() {
     return (u8)((u8) (char_select_active_flag == 1));
 }
-int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
-void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 }
+int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
+extern "C" void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 void reset_creation_shape_set(saddr arg0) {
     TAdSinglePlyChrSelectGC__sub_802905A4((void*)arg0, (void*)((void *)&creation_empty_model_node));
 }

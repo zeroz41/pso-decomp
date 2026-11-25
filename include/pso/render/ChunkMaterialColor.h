@@ -5,7 +5,7 @@
 #include "pso/system/NinjaTypes.h"
 
 // The constant material colour set_constant_material is restored to after a
-// tinted draw ({0.5, 0, 0, 0}; 0x804A7418, .data not yet owned by a unit).
+// tinted draw ({0.5, 0, 0, 0}).
 extern NJS_ARGB chunk_material_color_half_alpha_f32;
 
 #endif

@@ -36,11 +36,12 @@ u32 TKeyBoardControl_key_bit_table[6] = { 16, 32, 64, 128, 4, 2 };
 u32 keyboard_poll_key_codes[6] = { 94, 93, 92, 95, 97, 76 };
 s32 controller_device_id_table[4] = { 0, 6, 12, 18 };
 
-extern "C" {
 s32 lbl_805D34C8 = 1;
 ControllerInputState controller_input_state;
 ControllerInputState controller_physical_port_bank;
 u32 pad_recalibration_counters[4];
+
+extern "C" {
 
 void TKeyBoardControl::reset() { controller_reset_requested = 0; }
 
@@ -676,7 +677,7 @@ void update_button_hold_counters(ControllerInputContext *pad) {
 
 }
 
-s32 TRaderMapCore::pack_color_bits(s32 input, s32 mask) {
+s32 TRaderMapCore::pack_color_bits(ControllerInputContext *pad, s32 mask) {
     s32 bits = mask | ((mask << 0x10) & 0xF00000);
     return bits | ((bits << 0x16) & 0x3C000000);
 }
@@ -696,7 +697,7 @@ s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask) {
 }
 
 s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
-    return (pad->pressed_with_sticks & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
+    return (pad->pressed_with_sticks & TRaderMapCore::pack_color_bits(pad, mask)) != 0;
 }
 
 s32 test_pressed_buttons_packed(void *pad, s32 mask) {
@@ -704,7 +705,7 @@ s32 test_pressed_buttons_packed(void *pad, s32 mask) {
 }
 
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
-    return (pad->held_with_sticks & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
+    return (pad->held_with_sticks & TRaderMapCore::pack_color_bits(pad, mask)) != 0;
 }
 
 s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
@@ -717,9 +718,9 @@ s32 test_previous_buttons_packed(void *pad, s32 mask) {
 
 }
 
-s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(saddr input, s32 buttons, s32 delay, s32 period) {
+s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(ControllerInputContext *input, s32 buttons, s32 delay, s32 period) {
     u32 mask = TRaderMapCore::pack_color_bits(input, buttons);
-    return input_press_or_repeat((ControllerInputContext *)input, mask, delay, period);
+    return input_press_or_repeat(input, mask, delay, period);
 }
 
 s32 TRaderMapCore::apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 period) {

@@ -34,7 +34,7 @@ void fn_803000C8(void) {
     if (is_split_screen() != 0) {
         switch (multi_sel_rule) {
         case 1:
-            set_player_count__6TLobbyFi(1);
+            TLobby::set_player_count(1);
             break;
         case 2:
             enable_split_screen_challenge_mode();
@@ -49,6 +49,7 @@ void fn_803000C8(void) {
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
 typedef void (TAdMultiSelGameModeGC::*Action_80300770)();
@@ -66,7 +67,6 @@ typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
 typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
 
 extern "C" {
-s32 create_window_menu_default(void *, u32);
 
 static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {
     { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
@@ -99,7 +99,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
     Pos3_803001B4 pos = multi_sel_game_mode_position;
     u32 counts[3];
     u32 n;
-    saddr r;
+    TWindowMenu *r;
     u32 i;
     counts[0] = 4;
     counts[1] = 3;
@@ -111,15 +111,15 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
     r = create_window_menu_default(&pos.p[menu], n);
     for (i = 0; i < n; i++) {
         if (is_mode_entry_enabled(menu, i) != 0) {
-            ((TWindowMenu *)r)->add_text_entry(get_localized_text_entry(0x18, i + b.v[menu]), 6, i + a.v[menu]);
+            r->add_text_entry(get_localized_text_entry(0x18, i + b.v[menu]), 6, i + a.v[menu]);
         } else {
-            add_gray_text_entry((TWindowMenu *)r, (const char *)(get_localized_text_entry(0x18, i + b.v[menu])), 6, i + a.v[menu]);
+            add_gray_text_entry(r, (const char *)(get_localized_text_entry(0x18, i + b.v[menu])), 6, i + a.v[menu]);
         }
-        ((TWindowMenu *)r)->update_layout_height(206.0f);
+        r->update_layout_height(206.0f);
         ((TWindowSubComCardList *)r)->set_selected_index(a.v[menu]);
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
+        align_menu_entry_positions(r);
     }
-    return r;
+    return (saddr)r;
     }
 }
 

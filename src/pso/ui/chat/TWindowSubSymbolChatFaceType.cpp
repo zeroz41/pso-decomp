@@ -218,7 +218,7 @@ void TWindowSubSymbolChatFaceType::run_task() {
 
 
 TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
-    TWindowSubStatusDisp::destroy_status_display((s32)status_disp, 1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)status_disp, 1);
 }
 
 
@@ -244,7 +244,7 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
 };
 
 const char *TWindowSubSymbolChatFaceType__name = TWindowSubSymbolChatFaceType__class_name_string;
-TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(void *position, s8 *selection)
+TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selection)
     : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, 4, (u8 *)position) {
     TWindowSubStatusDisp *heading;
     m_name = TWindowSubSymbolChatFaceType__name;

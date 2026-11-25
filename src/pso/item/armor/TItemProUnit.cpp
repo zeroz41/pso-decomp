@@ -12,7 +12,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/item_pmt.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/unk/text_801D98F8.h"
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
@@ -154,7 +153,7 @@ void TItemProUnit::apply_owner_bonuses() {
                 } else {
                     technique_added[i] = bonus;
                 }
-                set_technique_level_entry(&owner->technique_state, i, total);
+                owner->technique_state.set_learned_level(i, total);
             }
         }
     }
@@ -178,8 +177,8 @@ void TItemProUnit::remove_owner_bonuses() {
     }
     i = 0;
     do {
-        set_technique_level_entry(&owner->technique_state, (s16)i,
-                                  (u8)(get_cast_technique_level(&owner->technique_state, (s16)i) - technique_added[i]));
+        owner->technique_state.set_learned_level((s16)i,
+                                                 (u8)(get_cast_technique_level(&owner->technique_state, (s16)i) - technique_added[i]));
         i += 1;
     } while (i != 19);
     memset(technique_added, 0, sizeof(technique_added));

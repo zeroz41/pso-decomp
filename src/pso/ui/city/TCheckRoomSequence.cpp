@@ -185,7 +185,7 @@ void TCheckRoomSequence::begin_meseta_withdrawal() {
         amount = (amount < bank_meseta) ? amount : bank_meseta;
         if (amount > 0) {
             if (number_input == NULL) {
-                number_input = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
+                number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
                 if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
@@ -243,7 +243,7 @@ void TCheckRoomSequence::begin_meseta_deposit() {
             amount = get_bank_meseta_capacity(slot);
             amount = (amount < meseta) ? amount : meseta;
             if (number_input == NULL) {
-                number_input = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
+                number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
                 if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
@@ -289,7 +289,7 @@ void TCheckRoomSequence::handle_withdraw_choice() {
     switch (menu_step) {
     case 0:
         if (choice_menu == NULL) {
-            choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+            choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
             choice_menu->add_text_entry(get_shop_text(2), 6, 0);
             choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             choice_menu->calc_window_size();
@@ -331,7 +331,7 @@ void TCheckRoomSequence::handle_deposit_choice() {
     switch (menu_step) {
     case 0:
         if (choice_menu == NULL) {
-            choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+            choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
             choice_menu->add_text_entry(get_shop_text(2), 6, 0);
             choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             choice_menu->calc_window_size();
@@ -375,7 +375,7 @@ void TCheckRoomSequence::handle_root_choice() {
         switch (menu_step) {
         case 0:
             if (choice_menu == NULL) {
-                choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+                choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
                 choice_menu->add_text_entry(get_shop_text(8), 6, 0);
                 choice_menu->add_text_entry(get_shop_text(9), 6, 1);
                 choice_menu->calc_window_size();
@@ -414,7 +414,7 @@ void TCheckRoomSequence::handle_root_choice() {
         switch (menu_step) {
         case 0:
             if (choice_menu == NULL) {
-                choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+                choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
                 choice_menu->add_text_entry(get_shop_text(0xA), 6, 1);
                 choice_menu->calc_window_size();
                 align_menu_entry_positions(choice_menu);
@@ -466,7 +466,7 @@ void TCheckRoomSequence::open_bank() {
     NJS_POINT2 position;
     position.x = 332.0f;
     position.y = 80.0f;
-    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)&position);
+    create_message_window(get_window_layout_position(0x2C), (saddr)&position);
     display_shop_message(0x31, 1);
     meseta_window = create_meseta_window(get_player_entity_id());
     deposit_window = new TWindowDeposit(get_player_entity_id());

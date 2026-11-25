@@ -22,7 +22,7 @@ public:
     static void reset();
     s32 get_file_size();
     void align_read_offset(s32 alignment);
-    s32 read_data(saddr destination, s32 byte_count);
+    s32 read_data(void *destination, s32 byte_count);
 
     char name[0x20];
     AdxfHandle *adxf_handle;

@@ -12,6 +12,8 @@
 
 #include "types.h"
 #include "pso/ui/frontend/TAdADXlogo.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/frontend/TAdSEGAlogo.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -31,12 +33,7 @@
 
 extern "C" {
 s32 set_fallback_main_phase(int);
-s32 __ct__15TWindowCtrlMainFv(u32);
 void request_main_phase(s32 arg0);
-u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
-u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
-u32 __ct__13TAdVIConfigGCFP7TObject(void *, void *);
-u32 __ct__18TAdTrialModemChkGCFP7TObject(void *, void *);
 s32 switch_to_fallback_main_phase();
 s8 func_801A5E54__Fv();
 
@@ -58,7 +55,6 @@ void (*logo_load_callback_table[18])(void) = {
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern int sega_logo_done_flag;
-extern int logo_clear_flag;
 
 // This unit was built with deferred inlining (-inline off,deferred): the compiler emits
 // function bodies in reverse source order, so the functions below are listed from the
@@ -70,13 +66,12 @@ s32 TLogo__sub_8013F800(void* p) { return *(s32*)((char*)p + 0x48); }
 
 int is_sega_logo_done(TAdSEGAlogo *logo) {  return sega_logo_done_flag; }
 
-int is_logo_exit_requested(int _w0) {  return TLogo::exit_requested_flag; }
+int is_logo_exit_requested(TAdSoniclogo *logo) {  return TLogo::exit_requested_flag; }
 
-int TLogo__sub_8013F7E8(int _w0) {  return TAdADXlogo::done; }
+int TLogo__sub_8013F7E8(TAdADXlogo *logo) {  return TAdADXlogo::done; }
 
 void TLogo::init_logo_scene() {
     s32 i;
-    u32 p;
 
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
@@ -100,10 +95,7 @@ void TLogo::init_logo_scene() {
     TLobby::clear_callback_and_reset_keyboard();
     TParticleCtrl::create_quad_sprites();
     new TLogo(tl_01);
-    p = (uaddr)TObject::operator new(0x1C);
-    if (p != 0) {
-        __ct__15TWindowCtrlMainFv(p);
-    }
+    new TWindowCtrlMain();
 }
 
 void TLogo::run_frame() {
@@ -138,29 +130,21 @@ void TLogo__sub_8013F5AC() {
 TLogo::TLogo(TObject *parent) : TObject(parent) {
     m_name = TLogo__class_name;
     state = 0;
-    vi_config = 0;
-    modem_check = 0;
+    vi_config = NULL;
+    modem_check = NULL;
     sega_logo = NULL;
-    sonic_logo = 0;
-    adx_logo = 0;
+    sonic_logo = NULL;
+    adx_logo = NULL;
 }
 
 TLogo::~TLogo() {}
 
 void TLogo::run_task() {
-    uaddr var_r0;
-    uaddr var_r0_5;
-    uaddr var_r0_7;
-    uaddr var_r0_8;
     switch (state) {
     case 0:
         if (TLogo::check_progressive_ready() != 0) {
             if (((s32)TLogo__sub_8013F808()) != 0) {
-                var_r0 = (uaddr)TObject::operator new(0x4C);
-                if (var_r0 != 0U) {
-                    var_r0 = __ct__13TAdVIConfigGCFP7TObject((void *)var_r0, this);
-                }
-                vi_config = var_r0;
+                vi_config = new TAdVIConfigGC(this);
                 state = 1U;
                 return;
             }
@@ -172,7 +156,7 @@ void TLogo::run_task() {
         state = 4U;
         return;
     case 1:
-        if (((u32) vi_config != 0U) && (TLogo__sub_8013F800((void *)vi_config) != 0)) {
+        if ((vi_config != NULL) && (TLogo__sub_8013F800(vi_config) != 0)) {
             sega_logo = new TAdSEGAlogo(this);
             state = 4U;
             return;
@@ -180,11 +164,7 @@ void TLogo::run_task() {
         break;
     case 2:
         if (TLobby__sub_80145DB4(1) == 0) {
-            var_r0_5 = (uaddr)TObject::operator new(0x30);
-            if (var_r0_5 != 0U) {
-                var_r0_5 = __ct__18TAdTrialModemChkGCFP7TObject((void *)var_r0_5, this);
-            }
-            modem_check = var_r0_5;
+            modem_check = new TAdTrialModemChkGC(this);
             state = 3U;
             return;
         }
@@ -195,32 +175,24 @@ void TLogo::run_task() {
         if (is_sega_logo_done(sega_logo) != 0) {
             sega_logo->queue_destruction();
             sega_logo = NULL;
-            var_r0_7 = (uaddr)TObject::operator new(0x20);
-            if (var_r0_7 != 0U) {
-                var_r0_7 = __ct__12TAdSoniclogoFP7TObject((void *)var_r0_7, this);
-            }
-            sonic_logo = var_r0_7;
+            sonic_logo = new TAdSoniclogo(this);
             state = 5U;
             return;
         }
         break;
     case 5:
-        if (((s32)is_logo_exit_requested((int)(sonic_logo))) != 0) {
-            ((TObject *)sonic_logo)->queue_destruction();
-            sonic_logo = 0U;
-            var_r0_8 = (uaddr)TObject::operator new(0x20);
-            if (var_r0_8 != 0U) {
-                var_r0_8 = __ct__10TAdADXlogoFP7TObject((void *)var_r0_8, this);
-            }
-            adx_logo = var_r0_8;
+        if (is_logo_exit_requested(sonic_logo) != 0) {
+            sonic_logo->queue_destruction();
+            sonic_logo = NULL;
+            adx_logo = new TAdADXlogo(this);
             state = 6U;
             return;
         }
         break;
     case 6:
-        if (((s32)TLogo__sub_8013F7E8((int)(adx_logo))) != 0) {
-            ((TObject *)adx_logo)->queue_destruction();
-            adx_logo = 0U;
+        if (TLogo__sub_8013F7E8(adx_logo) != 0) {
+            adx_logo->queue_destruction();
+            adx_logo = NULL;
             state = 7U;
             return;
         }

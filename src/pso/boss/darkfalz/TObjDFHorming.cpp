@@ -649,7 +649,7 @@ void TBoss4DarkFalz::place_players_for_demo() {
 void TBoss4DarkFalz::end_player_camera_pans() {
     s32 i;
     void *p;
-    TWindowCtrl::init_all_slots2();
+    TWindowCtrl::unsuppress_all_slots();
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
@@ -661,7 +661,7 @@ void TBoss4DarkFalz::end_player_camera_pans() {
 void TBoss4DarkFalz::freeze_all_players() {
     s32 i;
     void *p;
-    TWindowCtrl::init_all_slots();
+    TWindowCtrl::suppress_all_slots();
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
@@ -873,7 +873,7 @@ void TBoss4DarkFalz::load_resources() {
     }
 }
 
-TBoss4DarkFalz *TBoss4DarkFalz::create(saddr set_data) {
+void *TBoss4DarkFalz::create(void *set_data) {
     return new TBoss4DarkFalz(new TObjControl(tl_04), (TBoss4DarkFalzSetEntry *)set_data);
 }
 

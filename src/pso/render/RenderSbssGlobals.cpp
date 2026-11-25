@@ -2,7 +2,7 @@
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTexture.h"
 
-// Data-only unit split off the shared render/geometry small statics at 0x805D7748.
+// Data-only unit holding the shared render/geometry small statics.
 // Plain uninitialized globals (-sdata 8) land in .sbss in source order; the
 // many referencing units keep these extern.
 

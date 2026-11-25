@@ -135,12 +135,12 @@ void TWindowSoundBalance::sub_8027095C() {
 void TWindowSoundBalance::handle_lr_input() {
     ControllerInputContext *input;
     input = &controller_input_state.controllers[0];
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x30, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x30, 6, 1) != 0)) {
         play_sound_effect(0x54100, NULL, 0, 0);
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }
-        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+        if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
             this->selection = (this->selection + 1);
         }
         if ((s8) this->selection < 0) {

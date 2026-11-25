@@ -32,7 +32,7 @@ void TObjPlayer__sub_80128A70(void) {  }
 
 void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
     Obj_80128A74 *o;
-    ((TObjPlayer *)player)->clear_rico_ring_flag();
+    TItemWeaponSRankPunch::clear_rico_ring_flag((TObject *)player);
     o = find_entity_by_id(target_id);
     if (o != 0 && o->elems != 0 && body < o->count) {
         spawn_particle_effect((const Vec *)o->elems[body].position, 0x45);
@@ -43,7 +43,7 @@ void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
 
 void TObjPlayer::notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr pos) {
     if ((player != 0U) && (pos != 0U)) {
-        ((TObjPlayer *)player)->clear_rico_ring_flag();
+        TItemWeaponSRankPunch::clear_rico_ring_flag((TObject *)player);
         spawn_particle_effect((const Vec *)pos, 0x45);
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
@@ -83,7 +83,6 @@ u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 fram
 }
 
 extern "C" {
-void clear_rico_ring_flag__10TObjPlayerFv(u32);
 
 void TItemWeaponSRankPunch::emit_marker_effects() {
     saddr burst_state;
@@ -100,7 +99,7 @@ void TItemWeaponSRankPunch::emit_marker_effects() {
             i += 1;
         } while (i != 2);
         this->flags.set(2);
-        TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)clear_rico_ring_flag__10TObjPlayerFv, 0x3C);
+        TItemAttacker::spawn_item_timer(this, clear_rico_ring_flag, 0x3C);
         this->flags.set(4);
         if (launch_shot((u8 *)&shot_origins[0], 0, 0, 1) == 1) {
             this->flags.clear(4);
@@ -169,10 +168,10 @@ TItemShootSRankPunch::~TItemShootSRankPunch() {
 
 }
 
-void TObjPlayer::clear_rico_ring_flag() {
-    uaddr arg0 = (uaddr)this;
-    if (arg0 != 0U) {
-        ((FlagWord *)(arg0 + 0x1FC))->clear(2);
+void TItemWeaponSRankPunch::clear_rico_ring_flag(TObject *object) {
+    TItemWeaponSRankPunch *weapon = (TItemWeaponSRankPunch *)object;
+    if (weapon != NULL) {
+        weapon->flags.clear(2);
     }
 }
 

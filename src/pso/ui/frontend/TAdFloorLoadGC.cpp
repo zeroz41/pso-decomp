@@ -14,8 +14,8 @@ void TAdFloorLoadGC::run_task() {  }
 const char *lbl_805D4328 = "TAdFloorLoadGC";
 
 TAdFloorLoadGC::~TAdFloorLoadGC() {}
-TAdFloorLoadGC::TAdFloorLoadGC(TObject *object, void *arg2) : TObject(object) {
+TAdFloorLoadGC::TAdFloorLoadGC(TObject *parent, s32 mode) : TObject(parent) {
     this->m_name = lbl_805D4328;
-    new TAdFloorLoadCamGC(this, arg2);
+    new TAdFloorLoadCamGC(this, mode);
     new TAdFloorLoadPrtGC(this);
 }

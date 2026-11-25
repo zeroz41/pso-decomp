@@ -1,11 +1,11 @@
 #include "pso/system/save/CardFileInfo.h"
+#include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/object/TObjRoomId.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/player/InventoryItemList.h"
 #include "pso/player/PlayerLevelTable.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/player/PlayerState.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/player/PlayerHoldPacket.h"
@@ -140,6 +140,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/Palettex.h"
+#include "pso/player/TPlayerLobbyMarker.h"
 
 #pragma readonly_strings on
 
@@ -178,12 +179,6 @@ s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, PlayerRequirementSta
 s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, PlayerRequirementStats *out, s32 key);
 }
 
-typedef struct Msg_801CD6BC {
-    u8 pad0[2];
-    u16 id;
-    u8 level;
-    u8 pad5[3];
-} Msg_801CD6BC;
 
 
 struct Pkt_801B01AC {
@@ -210,10 +205,6 @@ struct pkt_801B1FA4 {
     s32 heading;
     Vec pos;
 };
-
-typedef struct Ctx_801B1BA4 { s16 f0; s16 f2; } Ctx_801B1BA4;
-
-typedef struct Ctx_801B1C8C { s16 f0; s16 f2; } Ctx_801B1C8C;
 
 typedef struct Msg_801B1E54 {
     u8 pad0[2];
@@ -468,7 +459,6 @@ struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-u16 get_id__11TMainCursorFv(void* p);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
 saddr TObjPlayer__sub_80116620(void *, int);
@@ -484,8 +474,7 @@ void show_sub_status_window(void *window, s32 *str, s32 *name);
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
 void TLobby__sub_801B09A4(void);
 
-void foreach_player__10TObjPlayerFv(s32 (*callback)(u32));
-void *handle_set_visible__10TObjPlayerFi(void *dst, void *src);
+void foreach_player__10TObjPlayerFv(void (*callback)(TObjPlayer *));
 s32 calc_scaled_value__10TObjPlayerFii(TObjPlayer *player, s32 value);
 s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out);
 void prepare_guild_return__10TObjPlayerFPv(void *player);
@@ -511,27 +500,20 @@ s32 try_send_6x27_use_item(void *player, s32 key);
 bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
 void release_players_from_cutscene(void);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
-void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
 s32 TObjPlayer__sub_801BE8F4(TObjCollidable *obj, s32 body, u32 mask);
 void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 void TObjPlayer__sub_801BEEE0(void *, void *);
 void TObjPlayer__sub_801BEF30(void *, void *);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-void TObjPlayer__sub_801BF3A0(PlayerFollowParticles *particles, const Vec *point);
-s32 copy_vec_at_18__10TObjPlayerFv(void *, void *);
-s32 set_material_index__18TPlayerLobbyMarkerFUc(u32 a0 = 0, s32 a1 = 0);
 u8 TObjPlayer__sub_801BF460(s32 *bits, s32 bit);
 void TObjPlayer__sub_801BF47C(void *p);
 void TObjPlayer__sub_801BF488(s32 *bits, s32 bit);
 void TObjPlayer__sub_801BF4A0(s32 *bits, s32 bit);
 void set_equip_slot_entry(saddr, s32, s32);
 s32 is_action_id_none(s32);
-u8 TObjPlayer__sub_801C0124(const PlayerTechniqueState *state, s16 i);
 void *__ct__12StatusEffectFv(void *);
-u32 create__18TPlayerLobbyMarkerFsSc(u16 a0 = 0, s32 a1 = 0);
 void release_all_players_control_lock(void);
-s32 check_conditions__10TObjPlayerFv(void *, s16);
 s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
 
 
@@ -548,11 +530,6 @@ u8 fn_801D719C(s32 *);
 u8 fn_801D71D0(s32 *);
 u8 fn_801D7204(s32 *);
 s32 TObjPlayer__sub_801D91B8(void *, void *);
-void update_all_units__10TObjPlayerFll(void *, u8);
-s32 __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(void *, void *, void *);
-u32 __nw__7TObjectFUl(s32);
-u8 * __ct__7TObjectFP7TObject(void *, void *);
-s32 get_battle_ctrl_default__6TLobbyFv();
 s32 validate_6xAE_set_animation_state(void *);
 s32 fn_8000F740(void *);
 void run_palettex_callback(u16);
@@ -561,7 +538,6 @@ s32 is_local_client(u16 client_index);
 void reset_client_quest_slot_table(void);
 s32 fn_8036B748(void *);
 s32 fn_8036B770(void *);
-s32 TWindowCtrl__sub_8024A228(u16);
 void *__construct_array(void *, void *, void *, u32, u32);
 
 extern const char *TOMineTrap__data_805D3080;
@@ -589,7 +565,6 @@ extern const f32 player_shadow_lift;
 extern const f32 player_view_detail_near;
 extern const f32 player_view_detail_far;
 extern const f32 player_shadow_range;
-extern RecoveredGlobal_8000F7FC_lbl_80515F48 start_freeze_self__10TObjPlayerFv;
 }
 
 
@@ -606,12 +581,6 @@ extern const f32 player_feedback_light_dir_y;
 extern const f32 player_feedback_light_blue;
 extern const f32 player_feedback_light_alpha;
 extern const f32 player_feedback_light_step;
-struct Pkt_801B1B08 { u16 f0; u16 client; u32 pad; };
-
-struct Pkt_801B1C00 { u16 f0; u16 client; u32 pad; };
-extern "C" {
-void __as__31G_SetPlayerVisibility_6x22_6x23FRC31G_SetPlayerVisibility_6x22_6x23(Pkt_801B1C00 *, void *);
-}
 
 // An equipped item and the slot it sits in, kept while apply_battle_level_reset rebuilds the stats.
 struct Unk_801B67C4 {
@@ -886,7 +855,7 @@ void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record) {
     u32 state = record[0x143] | (record[0x15F] << 8);
     state |= (record[0x17B] << 16) & 0xFF0000;
     state |= record[0x197] << 24;
-    ((TTecLuker *)&player->m_41c)->set_state(state);
+    ((TTecLuker *)&player->pending_actions)->set_state(state);
 }
 
 void TObjPlayer::reset_motion_fields() {
@@ -942,12 +911,7 @@ void TObjPlayer::reset_motion_fields() {
             TObjPlayer::set_camera_mode(2);
             this->send_field_state();
             this->set_meseta(0);
-            {
-                void *m = ((void * (*)(int))__nw__7TObjectFUl)(0x234);
-                if (m != 0) {
-                    __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(m, (void *)tl_05, this);
-                }
-            }
+            new TMedicalCenterMes(tl_05, this);
             break;
         case 1:
             TObjPlayer::set_camera_mode(1);
@@ -1413,7 +1377,7 @@ s32 TObjPlayer::start_camera_pan(s16 action, s32 angle) {
 }
 
 void TObjPlayer::freeze_all_players() {
-    ((s32 (*)(s32 *))foreach_player__10TObjPlayerFv)(&start_freeze_self__10TObjPlayerFv.value);
+    foreach_player__10TObjPlayerFv(TObjPlayer::start_freeze_self);
 }
 
 s32 TObjPlayer::end_camera_pan() {
@@ -1428,7 +1392,7 @@ s32 TObjPlayer::end_camera_pan() {
 }
 
 void release_players_from_cutscene(void) {
-    ((s32 (*)(void *))foreach_player__10TObjPlayerFv)((void *)end_player_camera_pan);
+    foreach_player__10TObjPlayerFv(end_player_camera_pan);
     release_all_players_control_lock();
 }
 
@@ -2025,7 +1989,7 @@ void TObjPlayer::delete_multiple_inventory_items(s32 *item_ids, s32 count) {
     this->inventory_objects->remove_items(this, item_ids, count);
 }
 
-s32 TObjPlayer::count_items_of_type(s8 kind, s8 group, s8 subgroup) {
+s32 TObjPlayer::count_items_of_type(u8 kind, u8 group, u8 subgroup) {
     TItemData item_data;
     if (this->inventory_objects == NULL) {
         return 0;
@@ -2086,7 +2050,7 @@ s32 TObjPlayer::send_trap_packet(int kind) {
     if ((u8 *)this != NULL && this->obj_isState2_324() != 0) {
         return 0;
     }
-    if (TWindowCtrl__sub_8024A228((u16)((TObjBase *)this)->get_entity_id()) == 0) {
+    if (TWindowCtrl::is_client_countdown_done((u16)((TObjBase *)this)->get_entity_id()) == 0) {
         return 0;
     }
     if (is_action_available() == 0) {
@@ -2113,7 +2077,7 @@ void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
         if (p != NULL && create_placed_trap__10TOMineTrapFUiss((u8 *)p, pkt.trap_type, pkt.trap_index) != 0) {
             p->trap_counts.consume(1, pkt.trap_type);
             if (p->is_locally_controlled() != 0) {
-                TWindowCtrl::call_window_method_with_default_vec((u16)p->get_entity_id());
+                TWindowCtrl::start_client_countdown((u16)p->get_entity_id());
             }
         }
     }
@@ -2272,18 +2236,11 @@ s32 TObjPlayer::query_state_if_present(void *out) {
 }
 
 void TObjPlayer::create_inventory() {
-    u8 *object;
-    u8 *inventory;
     if ((void *) this->inventory_objects == NULL) {
         this->inventory_objects = new TPlyItem(this);
     }
     this->inventory_objects->item_list = new TItemList((TObject *)this->inventory_objects);
-    object = (u8 *)(((u8 * (*)(s32))__nw__7TObjectFUl)(0x1C));
-    inventory = object;
-    if (inventory != NULL) {
-        inventory = (u8 *)(__ct__7TObjectFP7TObject(object, this));
-    }
-    this->inventory_objects->item_root = (TObject *)inventory;
+    this->inventory_objects->item_root = new TObject(this);
     clear_equip_slots((s32 *)(((u8 *)this) + 0xD04));
 }
 
@@ -2516,15 +2473,15 @@ CsnHit *TObjPlayer::update_actor_ground_y_at(Vec *pos) {
     mask = hit->hit_mask;
     if (mask & 0x10) {
         contact_surface.check_flag_2();
-        copy_vec_at_18__10TObjPlayerFv((u8 *)&follow_particles, &hit->contact[1].point);
+        follow_particles.set_grass_contact_point(&hit->contact[1].point);
     }
     if ((mask & 4) && (player_auxiliary_surfaces_enabled() != 0)) {
         contact_surface.set_flag_4();
-        TObjPlayer__sub_801BF3A0(&follow_particles, &hit->contact[2].point);
+        follow_particles.set_surface_contact_point(&hit->contact[2].point);
     }
     if ((mask & 2) && (player_auxiliary_surfaces_enabled() != 0)) {
         contact_surface.set_sand();
-        TObjPlayer__sub_801BF3A0(&follow_particles, &hit->contact[3].point);
+        follow_particles.set_surface_contact_point(&hit->contact[3].point);
     }
     if (mask & 8) {
         this->contact_surface.test_flag_16();
@@ -2713,8 +2670,8 @@ CsnHit *TObjPlayer::apply_wall_response() {
     return reinterpret_cast<CsnHit *>(blocked);
 }
 
-void TObjPlayer::get_hand_joint_position(saddr out_pos) {
-    this->get_anim_node_position(*(s32 *)(get_cast_motion_record() + 0x10), (Vec *)out_pos);
+void TObjPlayer::get_hand_joint_position(Vec *out_pos) {
+    this->get_anim_node_position(*(s32 *)(get_cast_motion_record() + 0x10), out_pos);
 }
 
 void TObjPlayer::init_effect_5f0() {
@@ -3240,15 +3197,15 @@ void TObjPlayer::update_ground_contact() {
 
 void TObjPlayer::select_contextual_pickup_action() {
     s32 type;
-    TMainCursor *cursor;
+    CursorTarget *cursor;
     saddr ent;
     TLockOnCursor *obj;
     obj = this->lock_on_cursor;
     if (obj != NULL) {
-        cursor = (TMainCursor *)&obj->selection.target;
+        cursor = &obj->selection.target;
         type = 0;
-        if (cursor->get_id() != 0xFFFF) {
-            ent = ((s32 (*)(u16))find_entity_by_id)(cursor->get_id());
+        if (cursor->get_entity_id() != 0xFFFF) {
+            ent = ((s32 (*)(u16))find_entity_by_id)(cursor->get_entity_id());
             if (ent != 0) {
                 type = ((TObjCollidable *)ent)->get_cursor_action();
                 if (type != 0) {
@@ -3257,7 +3214,7 @@ void TObjPlayer::select_contextual_pickup_action() {
                         if (test_action_mask(0xE0) != 0) {
                             type = 0;
                         } else {
-                            TItem *item = (TItem *)find_entity_by_id(cursor->get_id());
+                            TItem *item = (TItem *)find_entity_by_id(cursor->get_entity_id());
                             if (this->can_pickup_item_by_id(item) != 0) {
                                 if ((((s32 (*)(void *))is_flag_400_set__10TObjPlayerFPv)(this)) != 0) {
                                     get_field_340__18TChallenge4PResultFPv(this, 1);
@@ -3314,8 +3271,8 @@ u16 TObjPlayer::get_action_palette_entry(s32 index) {
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer::select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3) {
-    this->select_action_palette(secondary)->get_tag_slot(arg2, arg3);
+u16 TObjPlayer::select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3) {
+    return this->select_action_palette(secondary)->get_tag_slot(arg2, arg3);
 }
 #pragma pop
 
@@ -3676,7 +3633,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     ((PlayerSyncRecord *)dst)->set_def_materials_used(((TObjPlayer *)src)->get_def_materials_used());
     ((PlayerSyncRecord *)dst)->set_luck_materials_used(((TObjPlayer *)src)->get_luck_materials_used());
     for (i = 0; i < 0x13; i++) {
-        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(&src->f428, i), &dst->fB4[i], dst->f142[i].b);
+        TObjPlayer::split_capped_value(src->f428.get_learned_level(i), &dst->fB4[i], dst->f142[i].b);
     }
     for (j = 0; j != 0xD; j++) {
         TItem *e = ((TObjPlayer *)src)->get_equipped_item(j);
@@ -3777,7 +3734,7 @@ void submit_cursor_candidate(void *self, s32) {
     }
 }
 
-s32 TObjPlayer::get_battle_ctrl_id(u16 client) {
+u16 TObjPlayer::get_battle_ctrl_id(u16 client) {
     TLockOnCursor *cursor;
     TObjPlayer *player;
 
@@ -3789,7 +3746,7 @@ s32 TObjPlayer::get_battle_ctrl_id(u16 client) {
     if (cursor == NULL) {
         return 0xFFFF;
     }
-    return ((s32 (*)(void *))get_id__11TMainCursorFv)(&cursor->selection.target);
+    return cursor->selection.target.get_entity_id();
 }
 
 void TObjPlayer::update_subsystems() {
@@ -4092,7 +4049,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
         }
         break;
     case 5:
-        if (check_conditions__10TObjPlayerFv(this, act) != 0) {
+        if (check_conditions(act) != 0) {
             this->photon_blast_gauge.set_blast(act);
             run_action_state_phase(9, 5);
             return 1;
@@ -4114,7 +4071,7 @@ s32 TObjPlayer::handle_palette_button_input() {
         s32 mode;
         void *target;
         if (has_action_palette_entry() != 0) {
-            target = find_entity_by_id(((TMainCursor *)&this->lock_on_cursor->selection.target)->get_id());
+            target = find_entity_by_id(this->lock_on_cursor->selection.target.get_entity_id());
             mode = 0;
         } else {
             target = 0;
@@ -4407,7 +4364,7 @@ void handle_6x34(void) {  }
 
 int TObjPlayer::check_player_state_flag_2() { return test_flags_any((s32 *)((char*)this + 0x858), 2); }
 
-void TLobby::player_flag_1() { ((TObjPlayer *)this)->set_battle_flag(1); }
+void TObjPlayer::set_return_hunter() { set_battle_flag(1); }
 
 #pragma push
 #pragma scheduling off
@@ -4429,7 +4386,7 @@ void prepare_guild_return__10TObjPlayerFPv(void *player) {
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-void recover_player_full(void *player) { ((TObjPlayer *)player)->recover_full(); }
+void TObjPlayer::recover_player_full(TObjPlayer *player) { player->recover_full(); }
 #pragma pop
 
 #pragma push
@@ -4852,7 +4809,7 @@ void handle_6x24_teleport_player(G_TeleportPlayer_6x24 *command) {
     ((TObjChara *)player)->calc_attach_pos();
     ((TObjPlayer *)player)->set_flag_4000();
     ((TObjPlayer *)player)->refresh_equipment_slot();
-    TPlyOnCountOver::create(((TObjBase *)player)->get_entity_id(), 2, clear_flag_4000_callback__10TObjPlayerFv);
+    TPlyOnCountOver::create(((TObjBase *)player)->get_entity_id(), 2, TObjPlayer::clear_flag_4000_callback);
     if (((TObjChara *)player)->is_locally_controlled() != 0) {
         reset_cameras_to_actor(reinterpret_cast<TObjPlayer *>(player), 0);
     }
@@ -4921,22 +4878,22 @@ void TObjPlayer::play_sound_if_on_floor(s32 sound_id) {
 }
 
 void TObjPlayer::send_local_player_invisible() {
-    Ctx_801B1C8C ctx;
+    G_SetPlayerInvisible_6x22 cmd;
     void *p;
-    ((G_SetPlayerInvisible_6x22 *)&ctx)->init();
+    cmd.init();
     p = get_local_player();
     if (p != NULL && (p == NULL || ((TObjChara *)p)->obj_isState2_324() == 0)) {
-        ctx.f2 = ((TObjBase *)(p))->get_entity_id();
-        ((G_SetPlayerInvisible_6x22 *)&ctx)->send();
+        cmd.header.client_id = ((TObjBase *)(p))->get_entity_id();
+        cmd.send();
     }
 }
-void handle_6x22_set_player_invisible(G_SetPlayerVisibility_6x22_6x23 *command) {
-    Pkt_801B1C00 pkt;
-    ((G_SetPlayerInvisible_6x22 *)&pkt)->init();
-    __as__31G_SetPlayerVisibility_6x22_6x23FRC31G_SetPlayerVisibility_6x22_6x23(&pkt, command);
-    bswap_g_client_id_header(&pkt);
-    if (validate_6x22_set_player_invisible((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.client);
+void handle_6x22_set_player_invisible(G_SetPlayerInvisible_6x22 *command) {
+    G_SetPlayerInvisible_6x22 pkt;
+    pkt.init();
+    pkt = *command;
+    bswap_g_client_id_header(&pkt.header);
+    if (validate_6x22_set_player_invisible(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL && ((TObjPlayer *)p)->check_flag_4() == 0) {
             ((TObjPlayer *)p)->set_state_flags(0x40000);
             ((TObjPlayer *)p)->deactivate_body_collision();
@@ -4947,28 +4904,23 @@ void handle_6x22_set_player_invisible(G_SetPlayerVisibility_6x22_6x23 *command) 
 
 
 void TObjPlayer::send_local_player_visible() {
-    Ctx_801B1BA4 ctx;
+    G_SetPlayerVisible_6x23 cmd;
     void *p;
-    ((G_SetPlayerVisible_6x23 *)&ctx)->init();
+    cmd.init();
     p = get_local_player();
     if (p != NULL && (p == NULL || ((TObjChara *)p)->obj_isState2_324() == 0)) {
-        ctx.f2 = ((TObjBase *)(p))->get_entity_id();
-        ((G_SetPlayerVisible_6x23 *)&ctx)->send();
+        cmd.header.client_id = ((TObjBase *)(p))->get_entity_id();
+        cmd.send();
     }
 }
 
-void *handle_set_visible__10TObjPlayerFi(void *dst, void *src) {
-    copy_subcommand_header(dst, src);
-    return dst;
-}
-
-void handle_6x23_set_player_visible(G_SetPlayerVisibility_6x22_6x23 *command) {
-    Pkt_801B1B08 pkt;
-    ((G_SetPlayerVisible_6x23 *)&pkt)->init();
-    handle_set_visible__10TObjPlayerFi(&pkt, command);
-    bswap_g_client_id_header(&pkt);
-    if (validate_6x23_set_player_visible((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.client);
+void handle_6x23_set_player_visible(G_SetPlayerVisible_6x23 *command) {
+    G_SetPlayerVisible_6x23 pkt;
+    pkt.init();
+    pkt = *command;
+    bswap_g_client_id_header(&pkt.header);
+    if (validate_6x23_set_player_visible(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->clear_state_flags(0x40000);
         }
@@ -4979,7 +4931,7 @@ int TObjPlayer::check_flag_40000() {
     return check_flag(0x40000);
 }
 
-void TObjPlayer::for_each_player_slot(void (*callback)(void *)) {
+void TObjPlayer::for_each_player_slot(void (*callback)(TObjPlayer *)) {
     s32 i;
     TObjPlayer **p;
     p = player_slot_table;
@@ -4990,20 +4942,20 @@ void TObjPlayer::for_each_player_slot(void (*callback)(void *)) {
     }
 }
 
-void foreach_player__10TObjPlayerFv(s32 (*callback)(u32)) {
-    s32 (*fn)(u32);
+void foreach_player__10TObjPlayerFv(void (*callback)(TObjPlayer *)) {
+    void (*fn)(TObjPlayer *);
     s32 i;
-    s32 *slots;
+    TObjPlayer **slots;
     s32 slot;
-    uaddr player;
+    TObjPlayer *player;
 
     fn = callback;
     i = 0;
-    slots = (s32 *)player_slot_table;
+    slots = player_slot_table;
     slot = 0;
     do {
         player = slots[slot];
-        if ((player != 0U) && (((TObjChara *)player)->is_locally_controlled() != 0)) {
+        if ((player != NULL) && (player->is_locally_controlled() != 0)) {
             fn(player);
         }
         i += 1;
@@ -5033,9 +4985,9 @@ s16 TObjPlayer::get_mode_animation(u32 mode) {
     case 3:
         return TObjPlayer__sub_801CFBFC((u8 *)this);
     case 4:
-        return this->get_vobj_state_28();
+        return this->get_run_action();
     case 5:
-        return this->call_subobject_m15();
+        return this->get_attack1_action();
     case 6:
         return this->get_state();
     case 7:
@@ -5298,10 +5250,10 @@ void TObjPlayer::refresh_equipment_slot() {
     }
 }
 
-void TObjPlayer::update_photon_chair() {
-    appear_fade.begin();
-    if (this->obj_isState2_324() != 0) {
-        this->clear_flag_400000();
+void TObjPlayer::update_photon_chair(TObjPlayer *player) {
+    player->appear_fade.begin();
+    if (player->obj_isState2_324() != 0) {
+        player->clear_flag_400000();
     }
 }
 
@@ -5401,12 +5353,12 @@ void TLobby::apply_battle_rules_to_players() {
         lv = TLobby__sub_801D6DDC(q);
         switch (fn_801D7204(q)) {
         case 1:
-            ((TObjPlayer *)&p->technique_state)->copy_all_technique_entries((void *)0xFF);
-            ((TObjPlayer *)&p->technique_state)->set_all_technique_levels((void *)0xFF);
+            p->technique_state.copy_all_technique_entries(0xFF);
+            p->technique_state.set_all_technique_levels(0xFF);
             break;
         case 2:
-            ((TObjPlayer *)&p->technique_state)->copy_all_technique_entries((void *)0x1D);
-            update_all_units__10TObjPlayerFll(&p->technique_state, lv);
+            p->technique_state.copy_all_technique_entries(0x1D);
+            p->technique_state.set_learned_technique_levels(lv);
             break;
         }
         p->set_flag_drop_weapon_on_death();
@@ -5610,7 +5562,7 @@ void draw_status_line(void *window, s32 *str, s32 *name, s32 value) {
     text_builder_append((u8 *)status_line_break);
     text_builder_append_int(value);
     text_builder_append((u8 *)status_line_break);
-    TWindowCtrl::init_all((void*)(get_shared_text_buffer()), (void*)0x200);
+    TWindowCtrl::append_message_all((const char *)get_shared_text_buffer(), 0x200);
 }
 
 void show_sub_status_window(void *window, s32 *str, s32 *name) {
@@ -5618,7 +5570,7 @@ void show_sub_status_window(void *window, s32 *str, s32 *name) {
     text_builder_append((u8 *)str);
     text_builder_append((u8 *)name);
     text_builder_append((u8 *)status_line_break);
-    TWindowCtrl::init_all((void*)(get_shared_text_buffer()), (void*)0x200);
+    TWindowCtrl::append_message_all((const char *)get_shared_text_buffer(), 0x200);
 }
 
 void draw_player_status(saddr window, void *player, saddr str) {
@@ -6004,7 +5956,7 @@ s32 TObjPlayer::get_battle_place() {
 
 s32 TObjPlayer::update_movement_by_screen() {
     if (is_single_screen() != 0) {
-        return get_battle_ctrl_default__6TLobbyFv();
+        return TLobby::get_battle_ctrl_default();
     }
     return TLobby__sub_801C2678();
 }
@@ -6036,19 +5988,16 @@ s32 TObjPlayer::is_action_available() {
 
 bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind) { return player->trap_counts.is_empty(kind); }
 
-u32 TObjPlayer::set_lobby_marker(s32 material) {
-    u32 temp;
-
+TPlayerLobbyMarker *TObjPlayer::set_lobby_marker(u8 material) {
     if (TFontSmallLobby::is_lobby_floor_15() == 0) {
-        return 0U;
+        return NULL;
     }
-    temp = *(u32 *)((s8 *)this + 0x3B8);
-    if (temp == 0U) {
-        *(u32 *)((s8 *)this + 0x3B8) = create__18TPlayerLobbyMarkerFsSc(this->get_entity_id(), material);
+    if (lobby_marker == NULL) {
+        lobby_marker = TPlayerLobbyMarker::create(get_entity_id(), material);
     } else {
-        set_material_index__18TPlayerLobbyMarkerFUc(temp, material);
+        lobby_marker->set_material_index(material);
     }
-    return *(u32 *)((s8 *)this + 0x3B8);
+    return lobby_marker;
 }
 
 void TObjPlayer::reset_pose() { this->clear_actor_flags((uaddr)((void*)2048)); update_rotation(); }
@@ -6069,16 +6018,15 @@ void TObjPlayer::send_level_up_all_techniques(u8 num_levels) {
 }
 }
 void handle_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *command) {
-    u8 *raw = (u8 *)command;
-    Msg_801CD6BC m;
-    u8 *p;
-    ((G_LevelUpAllTechniques_6x9B *)&m)->init();
-    *(G_LevelUpAllTechniques_6x9B *)&m = *reinterpret_cast<G_LevelUpAllTechniques_6x9B *>(raw);
-    bswap_g_client_id_header(&m);
-    if (validate_6x9B_level_up_all_techniques((G_LevelUpAllTechniques_6x9B *)&m) != 0) {
-        p = (u8 *)get_player_by_client_id((u16)m.id);
+    G_LevelUpAllTechniques_6x9B pkt;
+    TObjPlayer *p;
+    pkt.init();
+    pkt = *command;
+    bswap_g_client_id_header(&pkt);
+    if (validate_6x9B_level_up_all_techniques(&pkt) != 0) {
+        p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)(p + 0x428))->level_up_all_techniques(m.level);
+            p->technique_state.level_up_all_techniques(pkt.num_levels);
         }
     }
 }

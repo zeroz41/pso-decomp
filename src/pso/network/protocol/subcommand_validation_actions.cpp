@@ -90,7 +90,7 @@ s32 validate_6x4C_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *packet) {
     if (hp < 0) {
         return 0;
     }
-    return (u32) __cntlzw(fn_800FD7C0(&packet->velocity.x)) >> 5;
+    return (u32) __cntlzw(fn_800FD7C0(packet->velocity.xz)) >> 5;
 }
 
 s32 validate_6x4B_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *packet) {
@@ -102,7 +102,7 @@ s32 validate_6x4B_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *packet) {
     if (hp < 0) {
         return 0;
     }
-    return (u32) __cntlzw(fn_800FD7C0(&packet->velocity.x)) >> 5;
+    return (u32) __cntlzw(fn_800FD7C0(packet->velocity.xz)) >> 5;
 }
 
 s32 validate_6x4A_shield_attack(G_ClientIDHeader *packet) {

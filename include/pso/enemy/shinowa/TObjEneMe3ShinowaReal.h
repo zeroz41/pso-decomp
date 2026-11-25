@@ -19,7 +19,7 @@ struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
     void spawn_mirages();
     TObjEneMe3ShinowaMirage *get_or_create_mirage(s32 index);
     void try_spawn_mirages();
-    TObjEneMe3ShinowaReal *create();
+    static TObjEneMe3ShinowaReal *create(void *set_data);
     u16 mirage_ids[4];
     u16 get_target_id();
 };

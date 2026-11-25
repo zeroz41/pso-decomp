@@ -6,23 +6,23 @@
 #include "pso/render/RenderFadeState.h"
 
 struct TObjMapCsn;
+struct BmlResource;
 
 struct TObjTuitate : public TObjCollidable {
-    TObjTuitate(TObject *parent, void *arg2);
+    TObjTuitate(TObject *parent, void *set_data);
     virtual ~TObjTuitate();
     void render();
     void run_task();
-    RenderFadeState m_fade;  // fades the model out while it is close to the camera
-    TObjMapCsn *m_csn;       // its collision wall
+    RenderFadeState fade;    // fades the model out while the camera is close
+    TObjMapCsn *map_csn;     // the object's map collision
     static void *create(void *set_data);
+    static const char *class_name;
+    static CollisionBody collision_parts[1];
+    static BmlResource *bml_resource;
+    static void load_resources();
+    static void free_resources();
 };
 
 LAYOUT_ASSERT(TObjTuitate_size, sizeof(TObjTuitate) == 0xCC);
-
-extern "C" {
-void *__dt__11TObjTuitateFv(void *arg0, s16 arg1);
-void free_tuitate_bml_resource(void);
-void load_tuitate_bml_resource(void);
-}
 
 #endif

@@ -100,7 +100,7 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     void update_collision_center();
     void init_enemy();
     static void destroy_children();
-    void *create();
+    static void *create(void *set_data);
     static void load_static_resources();
     static void advance_state(NJS_OBJECT *);
     static void demo_frame_callback(NJS_OBJECT *);

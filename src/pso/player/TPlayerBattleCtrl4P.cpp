@@ -54,11 +54,10 @@
 #include "pso/unk/TLobby_801D726C.h"
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/text_8020BC50.h"
-#include "pso/unk/text_8024AD30.h"
-#include "pso/unk/text_8024ACEC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
 // Window size {width, height} passed to TWindowMessage::create.
@@ -81,7 +80,6 @@ extern s16 battle_event_second_table[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
 extern "C" {
-void *create_window_menu_default(const NJS_POINT2 *pos, int entries);
 void reset_map();
 }
 char team_matchup_message_buffer[256];
@@ -799,7 +797,7 @@ void TPlayerBattleCtrl4P::hold_player(u16 client_id, s32 hold_input) {
         send_impose_hold(player, -1);
     }
     if (hold_input != 0) {
-        begin_player_keyboard_hold(id);
+        TWindowCtrl::begin_client_keyboard_hold(id);
         request_active_window_close();
         TWindowCtrl::suppress_slot(id);
     }
@@ -889,7 +887,7 @@ void TPlayerBattleCtrl4P::release_player(u16 client_id, s32 release_input) {
         send_release_hold(player);
     }
     if (release_input != 0) {
-        end_player_keyboard_hold(client_id);
+        TWindowCtrl::end_client_keyboard_hold(client_id);
         TWindowCtrl::clear_flag();
         TWindowCtrl::unsuppress_slot(client_id);
     }
@@ -967,13 +965,13 @@ void TPlayerBattleCtrl4P::start_match() {
     TObjPlayer *p;
     reset_score_counters();
     calculate_rankings();
-    TWindowCtrl::init_all((void*)"SCORE", (void*)0x200);
+    TWindowCtrl::append_message_all("SCORE", 0x200);
     for (i = 0; i < 4; i++) {
         e = &split_screen_battle_rankings[i];
         p = get_player_by_client_id(e->client_id);
         if (p != 0) {
             sprintf(buf, "%s %s", TPlayerBattleCtrl4P_player_name_formats[e->place], p->get_name());
-            TWindowCtrl::init_all((void*)buf, (void*)0x200);
+            TWindowCtrl::append_message_all(buf, 0x200);
         }
     }
     notify_lobby("start.adx", 0x3C);

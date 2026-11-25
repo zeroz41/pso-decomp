@@ -199,7 +199,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         break;
     }
     if (count > 1 && this->number_window == NULL) {
-        this->number_window = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
+        this->number_window = new TWindowInputNumber(get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
         if (this->number_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
             this->number_window->set_scale(0.75f, 0.75f);
         }
@@ -207,7 +207,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         return;
     }
     if (this->confirm_window == NULL) {
-        this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (this->player->get_entity_id()), NULL, NULL);
+        this->confirm_window = create_yes_no_window(get_window_layout_position(0x2B), (this->player->get_entity_id()), NULL, NULL);
         ((TWindowMenu *)this->confirm_window)->set_ready_flag();
         f32 scale = get_scale();
         ((TWindowAddition *)this->confirm_window)->set_position_xy(get_scale(), scale);
@@ -223,7 +223,7 @@ void TShopKeepItemWindow::update_number_input() {
     if ((w != NULL) && (w->is_confirmed() != 0)) {
         if (this->confirm_window == NULL) {
             entity_id = this->player->get_entity_id();
-            this->confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), entity_id, NULL, NULL);
+            this->confirm_window = create_yes_no_window(get_window_layout_position(0x2B), entity_id, NULL, NULL);
             ((TWindowMenu *)(this->confirm_window))->set_ready_flag();
             scale = get_scale();
             ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), scale);

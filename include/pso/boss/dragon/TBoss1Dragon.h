@@ -28,7 +28,7 @@ struct DragonEffectResource { saddr particle_ids[8]; };
 struct TBoss1Dragon : public TObjEneDD_ST {
     TBoss1Dragon(TObject *parent, void *set_data);
     virtual ~TBoss1Dragon();
-    void load_resources();
+    static void load_resources();
     void request_state_change(u32 state);
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void run_task();
@@ -72,7 +72,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void select_sequence(int secondary);
     void restart_primary_sequence();
     static void clearControlOverride();
-    static void setControlOverride(s16 controlId);
+    static void setControlOverride(u16 controlId);
     static void requestActionRefresh();
     u32 flags;
     TObject sub_tasks;

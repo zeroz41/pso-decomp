@@ -37,7 +37,6 @@
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/map/FloorPopulation.h"
 
-extern "C" void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 n);
 
 // The entity table, sorted by entity id (CollisionActorLookup.h).
 extern TObjCollidable *TObjPlayer__data_8050D460[0x18C];
@@ -237,7 +236,7 @@ TObjChara *resolve_hittable_target(u16 actor_id, s16 collider) {
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
     QuestObjectEntry state;
     TObjCollidable *object;
-    TLobby::bswap_60_header(packet);
+    bswap_object_state(packet);
     object = find_entity_by_id(packet->header.entity_id);
     if (object != NULL) {
         object->access_object_saved_state(&state, 1);
@@ -263,11 +262,11 @@ void TObjCollidable::send_object_state_update(void *saved_state) {
     entry = (FloorObjectSetRow *)set_entry;
     if (entry != NULL) {
         G_UpdateObjectState_6x0B packet;
-        build_6x0B_packet(&packet);
+        packet.init();
         packet.header.entity_id = entity_id;
         packet.flags = state.flags;
         packet.object_index = entry->placement.set_index;
-        ((TLobby *)&packet)->update_and_send_60();
+        packet.send();
     }
 }
 
@@ -1060,9 +1059,7 @@ CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionB
     }
     if (actor->body_flags == NULL) {
         n = actor->body_count;
-        actor->body_flags = (FlagWord *)__construct_new_array(mem_alloc(n * sizeof(FlagWord) + 0x10),
-                                                              (void *)__ct__8FlagWordFv, NULL,
-                                                              sizeof(FlagWord), n);
+        actor->body_flags = new FlagWord[n];
     }
     return actor->bodies;
 }

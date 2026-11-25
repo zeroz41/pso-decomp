@@ -256,8 +256,8 @@ void TObjEneRe7Berura::load_static_resources() {
     }
 }
 
-void *TObjEneRe7Berura::create() {
-    return new TObjEneRe7Berura(tl_04, this);
+void *TObjEneRe7Berura::create(void *set_data) {
+    return new TObjEneRe7Berura(tl_04, set_data);
 }
 
 void TObjEneRe7Berura::destroy_children() {

@@ -3,20 +3,24 @@
 #include "pso/unk/TLobby_80156B18.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
-#include "pso/network/TLobby.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
 
-void TLobby::bswap_60_header(void* p) { ((TLobby *)p)->bswap_header(); }
-void TLobby::bswap_header() {
-    saddr arg0 = (saddr)this;
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)(arg0 + 4));
-    bswap_32((u32 *)(arg0 + 8));
+void bswap_object_state(G_UpdateObjectState_6x0B *packet) { packet->bswap(); }
+
+void G_UpdateObjectState_6x0B::bswap() {
+    ((G_ClientIDHeader *)&header)->bswap();
+    bswap_32(&flags);
+    bswap_32(&object_index);
 }
-void TLobby::update_and_send_60() {
-    saddr arg0 = (saddr)this;
-    TLobby::bswap_60_header(this);
-    send_subcommand((u8 *)arg0);
+
+void G_UpdateObjectState_6x0B::send() {
+    bswap_object_state(this);
+    send_subcommand(this);
 }
-void build_6x0B_packet(void* p) { *(u8*)((char*)p + 0x0) = 11; *(u8*)((char*)p + 0x1) = 3; }
+
+void G_UpdateObjectState_6x0B::init() {
+    header.subcommand = 0x0B;
+    header.size = 3;
+}
 

@@ -27,20 +27,20 @@ void assign_default_photon_blast_palette_slots(TPlyDispConfig *palettes) {
 }
 
 extern "C" {
-int default_setting_01(void) { return 0; }
-int default_setting_02(void) { return 0; }
-int default_setting_03(void) { return 0; }
-int default_setting_04(void) { return 0; }
-int default_setting_05(void) { return 0; }
-int default_setting_06(void) { return 0; }
-int default_setting_07(void) { return 0; }
-int default_setting_08(void) { return 0; }
-int default_setting_09(void) { return 0; }
-int default_setting_0A(void) { return 0; }
-int default_setting_0B(void) { return 0; }
-int default_setting_0C(void) { return 0; }
-int default_setting_0D(void) { return 0; }
-int default_setting_0E(void) { return 0; }
-int default_setting_16(void) { return 0; }
-int default_setting_18(void) { return 0; }
+u8 default_setting_01(void *) { return 0; }
+u8 default_setting_02(void *) { return 0; }
+u8 default_setting_03(void *) { return 0; }
+u8 default_setting_04(void *) { return 0; }
+u8 default_setting_05(void *) { return 0; }
+u8 default_setting_06(void *) { return 0; }
+u8 default_setting_07(void *) { return 0; }
+u8 default_setting_08(void *) { return 0; }
+u8 default_setting_09(void *) { return 0; }
+u8 default_setting_0A(void *) { return 0; }
+u8 default_setting_0B(void *) { return 0; }
+u8 default_setting_0C(void *) { return 0; }
+u8 default_setting_0D(void *) { return 0; }
+u8 default_setting_0E(void *) { return 0; }
+u8 default_setting_16(void *) { return 0; }
+u8 default_setting_18(void *) { return 0; }
 }

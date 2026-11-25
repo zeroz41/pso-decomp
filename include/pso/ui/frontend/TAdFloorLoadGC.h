@@ -5,7 +5,7 @@
 
 class TAdFloorLoadGC : public TObject {
 public:
-    TAdFloorLoadGC(TObject *arg1, void *arg2);
+    TAdFloorLoadGC(TObject *parent, s32 mode);
     virtual ~TAdFloorLoadGC();
     virtual void run_task();
     virtual void render();

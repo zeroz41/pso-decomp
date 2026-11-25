@@ -65,7 +65,6 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
 };
 
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
-extern s32 local_client_id;
 
 
 

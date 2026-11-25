@@ -3,6 +3,8 @@
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
@@ -58,34 +60,15 @@ TWindowMessage *TQuestListOnline__download_barrier_window;
 s32 quest_download_active;
 s32 quest_download_received_bytes;
 s32 quest_download_graph_current_bytes;
-extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-
-    extern int evt2_random_enemies_mode;
-
-
-    extern int evt2_random_enemies_mode;
 
 // Set by each class's ctor, cleared by its dtor.
 THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;
 THunterGuildSeqOnline_Client *hunter_guild_seq_online_client_instance;
 
-
-
-
 struct Stack_8021488C {
     f32 sp8;
     f32 spC;
 };
-
-extern "C" {
-
-
-extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-
-saddr get_window_layout_position(s32);
-
-
-}
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
@@ -210,16 +193,16 @@ void THunterGuildSeqOnline_Server::sub_802145F8() {
                 if (is_quest_active() != 0) {
                     if (TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) {
                         display_guild_message(0xB, 1);
-                        if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
-                            quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
+                        if (quest_result_callbacks[1] != -1) {
+                            quest_thread = TQuestThread::create_in_root(quest_result_callbacks[1]);
                         }
                         set_state(4);
                         return;
                     }
                     if (TQuestThread::get_register(quest_mission_manager, 0xFD) != 0) {
                         display_guild_message(0x12, 1);
-                        if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
-                            quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
+                        if (quest_result_callbacks[0] != -1) {
+                            quest_thread = TQuestThread::create_in_root(quest_result_callbacks[0]);
                         }
                         set_state(5);
                         return;
@@ -267,7 +250,7 @@ void THunterGuildSeqOnline_Server::update() {
 
 void THunterGuildSeqOnline_Server::create_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), ((TObjBase *)(player))->get_entity_id(), NULL, NULL);
+        choice_menu = create_yes_no_window(get_window_layout_position(0x2B), ((TObjBase *)(player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
@@ -283,8 +266,8 @@ void THunterGuildSeqOnline_Server::sub_80214254() {
             choice_menu = NULL;
             display_guild_message(9, 1);
             exit_action = 1;
-            if ((s32) THunterGuildSeqOffline__quest_result_callbacks[2] != -1) {
-                quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[2]);
+            if ((s32) quest_result_callbacks[2] != -1) {
+                quest_thread = TQuestThread::create_in_root(quest_result_callbacks[2]);
             }
             set_state(0xC);
             break;
@@ -461,7 +444,7 @@ void THunterGuildSeqOnline_Client::sub_80213B18() {
     Stack_80213B18 stack;
     stack.sp8 = 332.0f;
     stack.spC = 80.0f;
-    create_message_window((s32)(get_window_layout_position(0x2C)), (s32)((saddr) &stack.sp8));
+    create_message_window(get_window_layout_position(0x2C), (saddr)&stack.sp8);
     display_guild_message(1, 1);
     pad_30 = 0;
     set_state(2);
@@ -478,14 +461,14 @@ void THunterGuildSeqOnline_Client::sub_80213980() {
         if (is_quest_active() != 0) {
             if (TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) {
                 display_guild_message(0xB, 1);
-                if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
-                    quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
+                if (quest_result_callbacks[1] != -1) {
+                    quest_thread = TQuestThread::create_in_root(quest_result_callbacks[1]);
                 }
                 set_state(4);
             } else if (TQuestThread::get_register(quest_mission_manager, 0xFD) != 0) {
                 display_guild_message(0x12, 1);
-                if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
-                    quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
+                if (quest_result_callbacks[0] != -1) {
+                    quest_thread = TQuestThread::create_in_root(quest_result_callbacks[0]);
                 }
                 set_state(5);
             } else {

@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "pso/system/byteswap.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -38,6 +39,8 @@
 
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/network/protocol/subcmd_6x.h"
@@ -56,12 +59,12 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_800F7DAC.h"
+#include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/unk/TColorOverlayFade.h"
 #include "pso/object/door/TObjDoor_801F3754.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/text_8024AB18.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/unk/text_80278460.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/base/TObjBase.h"
@@ -71,6 +74,7 @@ s32 qst_call_stack_pop(void);
 int qst_label_address(int label);
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/trap/TOMineTrap.h"
@@ -198,9 +202,6 @@ namespace pf2_p0 { extern "C" { s32 parse_r_index(const char *); } }
 namespace pf2_p0 { extern "C" { int strcmp(const char *, const char *); } }
 #define strcmp pf2_p0::strcmp
 void append_team_name(void);
-extern "C" {
-s32 dispatch_chat_message_to_children__12TOChatSensorFl();
-}
 void append_episode_progress_string(void);
 void append_entered_item_name_pair(void);
 void append_challenge_title(void);
@@ -262,7 +263,7 @@ const QuestCommandTable message_substitution_handlers = { {
 
 void TLobby::capture_chat_sensor() {
     saddr message = (saddr)this;
-    dispatch_chat_message_to_children__12TOChatSensorFl();
+    TOChatSensor::dispatch_chat_message_to_children(message);
     TOChatSensorCapture::capture_message((u16)((u16) local_client_id), (const char *)message);
 }
 
@@ -648,23 +649,11 @@ void qst_op_va_call(s32 label) {
 }
 extern "C" {
 
-struct ItemCreateMultiCmData {
-    u8 data1[12];
-    u32 id;
-    u8 data2[4];
-};
-
 struct WriteCounterWindow { u8 pad[0x2314]; s32 t[16]; };
 
 struct GetSlotMesetaCard {
     u8 pad[0x24C];
     s32 v;
-};
-
-struct FindBankItemData {
-    u8 data1[12];
-    u32 id;
-    u8 data2[4];
 };
 
 struct GetItemInfoData {
@@ -768,20 +757,6 @@ struct SetEventflag32Context { u8 pad[0x10]; u8 buf[0xFD]; };
 
 struct SetEventflag16Context { u8 pad[0x10]; u8 buf[0xFF]; };
 
-struct EquipItemData { s8 a; s8 b; s8 c; u8 pad[0x1D]; };
-
-struct VaCallItemSlot {
-    u8 data[12];
-    s32 id;
-    u32 f10;
-};
-
-struct DeleteBankItemData {
-    u8 data[12];
-    s32 id;
-    u32 f10;
-};
-
 struct UpdateSwitchFlagPacket {
     u8 cmd;
     u8 size;
@@ -841,29 +816,24 @@ struct PlWalkObject {
     u32 f30;
 };
 
-void VecCopy__FP3VecPC3Vec(Vec *, const void *);
 s16 get_actor_tp(u8 *);
 s32 get_actor_meseta();
 s16 obj_getS16_2BA(u8 *);
 s32 get_current_floor();
 f64 atan2_float(void *, f32, f32);
-s32 setControlOverride__12TBoss1DragonFs(int, void *);
 int set_camera_capture_overlay_alpha(void*);
 s32 copy_player_visual_record(void *, int);
 s32 fn_80077788(void);
 s32 fn_80077790(void);
 s32 __ct__16TPlyGuildCardTagFv(s32);
 s32 reset_map();
-void init__9TItemDataFv(VaCallItemRecord *);
 s32 advance_item_id_counter(u16);
-void *find_entity_by_id(u16 id);
 void set_mine_trap_damage(f32);
 int clear_enabled_main_warps(void*);
 int set_hashi_versus2_flag(void*);
 int clear_hashi_versus2_flag(void*);
 s32 foreach_player__10TObjPlayerFv(s32 *);
 s32 prepare_guild_return__10TObjPlayerFPv(void *player, s32);
-s32 player_flag_1__6TLobbyFv();
 s32 enable_action_input__10TObjPlayerFPv();
 }
 void play_cue_stream_file(const char *name);
@@ -880,15 +850,14 @@ void gba_set_identifiers(int a0, int a1);
 int get_gba_download_state(void);
 int set_screen_bw(void*);
 s32 clear_lobby_count();
-void copy_position__6TLobbyFv(void *, Vec *);
 void disable_player_techniques(void *p);
 int set_ult_map(void*);
 int override_warp_dest_floor(void*);
 int disable_quest_warp(void*);
 s32 TLobby__sub_801F36F0(int);
-void TLobby__sub_801F36F8(s32, s32, s32, VaCallItemSlot *);
+void TLobby__sub_801F36F8(s32, s32, s32, TItemData *);
 s32 TLobby__sub_801F3700(int);
-void TLobby__sub_801F3708(s32, s32, s32, VaCallItemSlot *);
+void TLobby__sub_801F3708(s32, s32, s32, TItemData *);
 int set_quest_exit_callback(void*);
 int set_quest_cancel_callback(void*);
 int set_quest_success_callback(void*);
@@ -909,10 +878,7 @@ void set_quest_floor_designation(s16, s32, s32, s32);
 s32 get_story_flag(s32 flag);
 void clear_story_flag(s32 flag);
 extern "C" {
-saddr get_window_layout_position(s32);
 saddr create_equip_kind_window(saddr, const f32 *, s32);
-s32 update_screen__6TLobbyFv();
-s32 set_challenge_split_flag__6TLobbyFv();
 s32 challenge_set_min_clear_time(int);
 s32 challenge_set_boss_warp_disabled(s32);
 s32 challenge_get_time_record();
@@ -948,7 +914,6 @@ extern f32 battle_player_take_damage_score;
 extern f32 battle_player_kill_score;
 extern f32 battle_player_death_score;
 extern f32 battle_enemy_give_damage_score;
-extern saddr resource_decompress_buffer;
 extern s32 game_difficulty_selection;
 extern f32 battle_enemy_take_damage_score;
 
@@ -986,25 +951,25 @@ void qst_op_scroll_text() {
 }
 
 void qst_op_item_create_multi_cm(u8 i) {
-    ItemCreateMultiCmData item;
+    TItemData item;
     s32 mode = qst_registers[i++];
-    ((void (*)(ItemCreateMultiCmData *))init__9TItemDataFv)(&item);
-    item.data1[0] = qst_registers[i++];
-    item.data1[1] = qst_registers[i++];
-    item.data1[2] = qst_registers[i++];
-    item.data1[3] = qst_registers[i++];
-    item.data1[4] = qst_registers[i++];
-    item.data1[5] = qst_registers[i];
+    item.init();
+    item.data1.data_u8[0] = qst_registers[i++];
+    item.data1.data_u8[1] = qst_registers[i++];
+    item.data1.data_u8[2] = qst_registers[i++];
+    item.data1.data_u8[3] = qst_registers[i++];
+    item.data1.data_u8[4] = qst_registers[i++];
+    item.data1.data_u8[5] = qst_registers[i];
     item.id = ((u32 (*)(u16))advance_item_id_counter)(local_client_id);
     switch (mode) {
     case 0:
-        TChallenge4PResult::update_entries((saddr)&item, 2);
+        TChallenge4PResult::update_entries(&item, 2);
         break;
     case 1:
-        TChallenge4PResult::update_entries((saddr)&item, 0);
+        TChallenge4PResult::update_entries(&item, 0);
         break;
     case 2:
-        TChallenge4PResult::update_entries((saddr)&item, 1);
+        TChallenge4PResult::update_entries(&item, 1);
         break;
     }
 }
@@ -1099,7 +1064,7 @@ void qst_op_prevent_item_select(s32 reg) {
 }
 
 void qst_op_open_pack_select() {
-    qst_pack_select_window = (void *)create_equip_kind_window(get_window_layout_position(3), pack_select_window_pos, local_client_id);
+    qst_pack_select_window = (void *)create_equip_kind_window((saddr)get_window_layout_position(3), pack_select_window_pos, local_client_id);
     ((TWindowMenuIconLine *)qst_pack_select_window)->refresh_judgment_item_list();
     qst_pack_select_help_window = new TWindowHelpItem((void *)get_window_layout_position(2), local_client_id);
 }
@@ -1124,16 +1089,16 @@ void qst_op_get_players_present(u8 out) {
 }
 
 void qst_op_find_bank_item(u8 i, u8 out) {
-    FindBankItemData item;
+    TItemData item;
     saddr card;
     qst_registers[out] = -1;
     card = get_character_save_record(0xFFFF);
     if (card != 0) {
-        ((void (*)(FindBankItemData *))init__9TItemDataFv)(&item);
-        item.data1[0] = qst_registers[i++];
-        item.data1[1] = qst_registers[i++];
-        item.data1[2] = qst_registers[i++];
-        item.data1[4] = qst_registers[i];
+        item.init();
+        item.data1.data_u8[0] = qst_registers[i++];
+        item.data1.data_u8[1] = qst_registers[i++];
+        item.data1.data_u8[2] = qst_registers[i++];
+        item.data1.data_u8[4] = qst_registers[i];
         if (((CharacterSaveRecord *)card)->find_bank_item((saddr)&item) != 0) {
             qst_registers[out] = 1;
         } else {
@@ -1445,10 +1410,6 @@ void qst_op_toggle_freeze_and_hide_equip() {
         ((TObject *)temp)->toggle_pause();
     }
 }
-extern "C" {
-
-s32 count_items_of_type__10TObjPlayerFScScSc(void *player, u8, u8, u8);
-}
 void qst_op_get_stackable_item_count(s32 i, s32 dst) {
     u16 a = qst_registers[(u8)i++];
     u8 b = qst_registers[(u8)i++];
@@ -1456,7 +1417,7 @@ void qst_op_get_stackable_item_count(s32 i, s32 dst) {
     u8 d = qst_registers[(u8)i];
     TObjPlayer *player = get_player_by_client_id(a);
     if (player != NULL) {
-        qst_registers[(u8)dst] = count_items_of_type__10TObjPlayerFScScSc(player, b, c, d);
+        qst_registers[(u8)dst] = player->count_items_of_type(b, c, d);
     }
 }
 
@@ -2002,7 +1963,7 @@ void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
 
 void qst_op_chl_show_dead_player_list() {
     if (is_split_screen() == 1) {
-        update_screen__6TLobbyFv();
+        TLobby::update_screen();
         return;
     }
     show_challenge_dead_player_list();
@@ -2010,7 +1971,7 @@ void qst_op_chl_show_dead_player_list() {
 
 void qst_op_disable_retry_menu() {
     if (is_split_screen() == 1) {
-        set_challenge_split_flag__6TLobbyFv();
+        TLobby::set_challenge_split_flag();
         return;
     }
     disable_challenge_retry_menu();
@@ -2595,12 +2556,12 @@ void qst_op_nop_F8EF(void) {  }
 
 void qst_op_call_image_data() {
     s32 size;
-    u32 source_data;
+    void *source_data;
     size = qst_args[0];
-    source_data = ((int)((u32 (*)(void *))qst_label_address)((void *)((saddr) (u16) qst_args[1])));
-    if (source_data != 0U) {
-        prs_decompress_buffer((s32) source_data, resource_decompress_buffer);
-        load_sin_board_image((void *)resource_decompress_buffer, size);
+    source_data = ((void *(*)(void *))qst_label_address)((void *)((saddr) (u16) qst_args[1]));
+    if (source_data != NULL) {
+        prs_decompress_buffer(source_data, resource_decompress_buffer);
+        load_sin_board_image(resource_decompress_buffer, size);
     }
 }
 
@@ -3033,12 +2994,12 @@ void qst_op_unequip_item() {
 }
 
 void qst_op_equip_item(u8 i) {
-    EquipItemData item;
+    TItemData item;
     u16 id = qst_registers[i++];
-    ((s32 (*)(void *))init__9TItemDataFv)(&item);
-    item.a = qst_registers[i++];
-    item.b = qst_registers[i++];
-    item.c = qst_registers[i++];
+    item.init();
+    item.data1.data_u8[0] = qst_registers[i++];
+    item.data1.data_u8[1] = qst_registers[i++];
+    item.data1.data_u8[2] = qst_registers[i++];
     TLobby::forward_to_player(id, &item);
 }
 
@@ -3228,7 +3189,7 @@ void qst_op_set_shrink_cam2(u8 regs) {
             pos.x = cur->x + (f32)qst_registers[regs++];
             pos.y = cur->y + (f32)qst_registers[regs++];
             pos.z = cur->z + (f32)qst_registers[regs];
-            copy_position__6TLobbyFv(&player->scale_state.camera.target, &pos);
+            copy_position(&player->scale_state.camera.target, &pos);
         }
     }
 }
@@ -3244,7 +3205,7 @@ void qst_op_set_shrink_cam1(u8 regs) {
             pos.x = cur->x + (f32)qst_registers[regs++];
             pos.y = cur->y + (f32)qst_registers[regs++];
             pos.z = cur->z + (f32)qst_registers[regs];
-            copy_position__6TLobbyFv(&player->scale_state.camera.position, &pos);
+            copy_position(&player->scale_state.camera.position, &pos);
         }
     }
 }
@@ -3346,7 +3307,7 @@ void qst_op_go_floor(s32 a, s32 b) {
 void qst_op_release_dragon(void* p) { TBoss1Dragon::clearControlOverride(); }
 
 void qst_op_control_dragon(s32 reg) {
-    setControlOverride__12TBoss1DragonFs((int) ((u16) qst_registers[(u8)reg]), qst_registers);
+    TBoss1Dragon::setControlOverride(qst_registers[(u8)reg]);
 }
 
 void qst_op_cmode_check_any_player_dead(s32 reg) {
@@ -3407,20 +3368,20 @@ void qst_op_nop_F822(s32 reg) {
 }
 
 void qst_op_nop_F821(u8 regs) {
-    VaCallItemSlot item;
+    TItemData item;
     s32 a;
     s32 b;
     s32 c;
     a = qst_registers[(u8)regs++];
     b = qst_registers[(u8)regs++];
     c = qst_registers[(u8)regs++];
-    ((void (*)(VaCallItemSlot *))init__9TItemDataFv)(&item);
-    item.data[0] = qst_registers[(u8)regs++];
-    item.data[1] = qst_registers[(u8)regs++];
-    item.data[2] = qst_registers[(u8)regs++];
-    item.data[3] = qst_registers[(u8)regs++];
-    item.data[4] = qst_registers[(u8)regs++];
-    item.data[5] = qst_registers[regs];
+    item.init();
+    item.data1.data_u8[0] = qst_registers[(u8)regs++];
+    item.data1.data_u8[1] = qst_registers[(u8)regs++];
+    item.data1.data_u8[2] = qst_registers[(u8)regs++];
+    item.data1.data_u8[3] = qst_registers[(u8)regs++];
+    item.data1.data_u8[4] = qst_registers[(u8)regs++];
+    item.data1.data_u8[5] = qst_registers[regs];
     item.id = advance_item_id_counter(local_client_id);
     if (is_split_screen() == 1) {
         TLobby__sub_801F3708(a, b, c, &item);
@@ -3649,14 +3610,14 @@ void qst_op_start_setevt() {
 void qst_op_pad_dragon(void* p) { TBoss1Dragon::requestActionRefresh(); }
 
 void qst_op_delete_bank_item(u8 regs, u8 dst) {
-    DeleteBankItemData item;
-    ((void (*)(DeleteBankItemData *))init__9TItemDataFv)(&item);
-    item.data[0] = qst_registers[(u8)regs++];
-    item.data[1] = qst_registers[(u8)regs++];
-    item.data[2] = qst_registers[(u8)regs++];
-    item.data[3] = qst_registers[(u8)regs++];
-    item.data[4] = qst_registers[(u8)regs++];
-    item.data[5] = qst_registers[regs];
+    TItemData item;
+    item.init();
+    item.data1.data_u8[0] = qst_registers[(u8)regs++];
+    item.data1.data_u8[1] = qst_registers[(u8)regs++];
+    item.data1.data_u8[2] = qst_registers[(u8)regs++];
+    item.data1.data_u8[3] = qst_registers[(u8)regs++];
+    item.data1.data_u8[4] = qst_registers[(u8)regs++];
+    item.data1.data_u8[5] = qst_registers[regs];
     if (TCheckRoomSequence__delete_bank_item((u8 *)&item, 0) != 0) {
         qst_registers[dst] = 1;
     } else {
@@ -3672,8 +3633,9 @@ void qst_op_set_returncity() {
 }
 
 void qst_op_set_returnhunter() {
-    if (get_player_by_client_id(local_client_id) != NULL) {
-        player_flag_1__6TLobbyFv();
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        player->set_return_hunter();
     }
 }
 
@@ -4437,7 +4399,7 @@ void qst_op_player_effect_nc(u8 regs) {
     s16 kind;
     s32 extra;
     f32 dy;
-    u8 *p;
+    TObjCollidable *actor;
     uaddr r;
     s32 i;
 
@@ -4446,9 +4408,9 @@ void qst_op_player_effect_nc(u8 regs) {
     extra = qst_registers[i++];
     id = qst_registers[i++];
     dy = qst_registers[i];
-    p = (u8 *)find_entity_by_id(id);
-    if (p != NULL) {
-        VecCopy__FP3VecPC3Vec(&v, p + 0x38);
+    actor = find_entity_by_id(id);
+    if (actor != NULL) {
+        VecCopy(&v, &actor->position);
         v.y += dy;
         r = (uaddr)create_timed_particle_emitter(&v, kind, 0, extra);
         if (r != 0) {
@@ -4476,9 +4438,9 @@ void qst_op_particle_id(u8 first) {
     s32 lifetime = qst_registers[i++];
     u16 id = (u16) qst_registers[i++];
     f32 height = (f32) qst_registers[i];
-    saddr actor = (saddr)find_entity_by_id(id);
-    if (actor != 0) {
-        ((void (*)(Vec *, const Vec *))VecCopy__FP3VecPC3Vec)(&point, (const Vec *) (actor + 0x38));
+    TObjCollidable *actor = find_entity_by_id(id);
+    if (actor != NULL) {
+        VecCopy(&point, &actor->position);
         point.y += height;
         create_timed_particle_emitter(&point, effect, 0, lifetime);
     }
@@ -4946,7 +4908,7 @@ void qst_op_list(void) {
     ((char * (*)(char *, const char *, u32))strncpy)(buf, text, 0x1FF);
     trim_whitespace(buf);
     list->tokenize_args(buf);
-    qst_list_window = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x37), list->count);
+    qst_list_window = create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
         ((TWindowMenu *)qst_list_window)->add_text_entry((saddr)list->tokens[i], 7, i);
     }
@@ -5465,58 +5427,31 @@ void qst_call_stack_push(s32 a0)
   qst_call_stack[qst_call_stack_depth++] = a0;
 }
 int qst_label_address(int label) {  return (saddr)(qst_code + qst_function_table[(u16)label]); }
-extern "C" {
-
-namespace pf2_p12 { extern "C" { s32 expand_message_substitutions(s32, s32, s32); } }
-#define expand_message_substitutions pf2_p12::expand_message_substitutions
-s32 bswap_32__FPUl(s32 *, s32);
-}
-namespace pf2_p12 { extern "C" { s32 memcpy(s32 *, s32, s32); } }
-#define memcpy pf2_p12::memcpy
-namespace pf2_p12 { extern "C" { s32 strlen(s32, s32); } }
-#define strlen pf2_p12::strlen
-
 void append_string_to_buffer(s32 dest) {
     s32 string_length;
 
-    string_length = strlen((saddr)(qst_code + qst_pc), (saddr)qst_code);
-    expand_message_substitutions((saddr)(qst_code + qst_pc), dest, (saddr)qst_code);
+    string_length = strlen((const char *)(qst_code + qst_pc));
+    expand_message_substitutions((saddr)(qst_code + qst_pc), dest);
     qst_pc += string_length + 1;
 }
-extern "C" {
 
 s32 stream_read_be32(void) {
-    s32 value;
-    s32 read_pc;
+    u32 value;
 
-    memcpy(&value, (saddr)(qst_code + qst_pc), 4);
-    read_pc = qst_pc;
-    qst_pc = read_pc + 4;
-    bswap_32__FPUl(&value, read_pc);
+    memcpy(&value, qst_code + qst_pc, 4);
+    qst_pc += 4;
+    bswap_32(&value);
     return value;
 }
-
-#undef expand_message_substitutions
-#undef memcpy
-#undef strlen
-
-s32 bswap_16__FPUs(u16 *, s32);
-}
-namespace pf2_p13 { extern "C" { s32 memcpy(u16 *, s32, s32); } }
-#define memcpy pf2_p13::memcpy
 
 u16 read_be_u16(void) {
     u16 value;
-    s32 read_pc;
 
-    memcpy(&value, (saddr)(qst_code + qst_pc), 2);
-    read_pc = qst_pc;
-    qst_pc = read_pc + 2;
-    bswap_16__FPUs(&value, read_pc);
+    memcpy(&value, qst_code + qst_pc, 2);
+    qst_pc += 2;
+    bswap_16(&value);
     return value;
 }
-
-#undef memcpy
 
 saddr qst_args[8];
 s32 qst_call_stack[64];

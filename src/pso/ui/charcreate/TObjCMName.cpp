@@ -25,7 +25,6 @@
 #include "pso/ui/charcreate/TChCrEffCtrlPl.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
-#include "pso/ui/charcreate/TObjCMIcon_80299488.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
@@ -48,7 +47,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
-#include "pso/unk/text_802993F0.h"
 #include "pso/object/TCMCharacter.h"
 
 
@@ -91,8 +89,7 @@ struct CreationMenuModeList {
 
 
 
-extern "C" {
-void copy_player_visual_record(void *, void *);
+extern "C" void copy_player_visual_record(void *, void *);
 
 const char *TObjCMMainMenu::class_name = "TObjCMMainMenu";
 
@@ -128,7 +125,6 @@ CreationMenuModeList creation_menu_mode_lists[6] = {
     {2, creation_menu_modes_2}, {3, creation_menu_modes_3},
     {3, creation_menu_modes_4}, {1, creation_menu_modes_5},
 };
-}
 
 void reset_character_creation_figure_rotation(void);
 NJS_COLOR proportion_frame_colors[4];
@@ -200,7 +196,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     state = 0;
     selected_entry = 0;
     creation_menu_selected_entry = entries[selected_entry];
-    fn_802993F0();
+    reset_creation_input_state();
     reveal = 0.0f;
     submenu_fade = 0.0f;
     slide_offset = 0.0f;
@@ -211,7 +207,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     set_speed(30.0f);
     nodes = new TObject(NULL);
     fn_802947A8();
-    fn_8029945C(&main_menu_icon_position);
+    TObjCMIcon::set_screen_position(&main_menu_icon_position);
     after_construct();
 }
 
@@ -613,13 +609,13 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
         if (TAdSinglePlyChrSelectGC::is_active() != 0) {
             if (entries[selected_entry] == 9 && TObjCMMainMenu::validate_character_name((s8 *)character->name) == 0) {
                 s32 icon_ids[] = {1};
-                show_only_creation_icons(1, icon_ids);
+                TObjCMIcon::show_only_creation_icons(1, icon_ids);
             } else if (character->section == -1) {
                 s32 icon_ids[] = {1, 4};
-                show_only_creation_icons(2, icon_ids);
+                TObjCMIcon::show_only_creation_icons(2, icon_ids);
             } else {
                 s32 icon_ids[] = {4};
-                show_only_creation_icons(1, icon_ids);
+                TObjCMIcon::show_only_creation_icons(1, icon_ids);
             }
         } else {
             TObjCMIcon::reset_icon_flags();
@@ -634,14 +630,14 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
             break;
         default:
             s32 icon_ids[] = {3};
-            show_only_creation_icons(1, icon_ids);
+            TObjCMIcon::show_only_creation_icons(1, icon_ids);
             break;
         }
         break;
     case 2:
         if (delay == 0 || creation_resource_ready_state == 2) {
             s32 icon_ids[] = {6};
-            show_only_creation_icons(1, icon_ids);
+            TObjCMIcon::show_only_creation_icons(1, icon_ids);
         } else {
             TObjCMIcon::reset_icon_flags();
         }
@@ -1653,7 +1649,7 @@ void TObjCMAutoMkData::run_task() {
     case 1:
     {
       s32 icon_ids[] = {2, 5};
-      show_only_creation_icons(2, icon_ids);
+      TObjCMIcon::show_only_creation_icons(2, icon_ids);
       break;
     }
     case 2:

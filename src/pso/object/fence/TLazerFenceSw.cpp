@@ -15,7 +15,7 @@ struct NJS_TEXLIST;
 #include "pso/render/render_util.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_80193524.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/object/door/TObjDoorJung.h"
@@ -39,7 +39,6 @@ struct NJS_TEXLIST;
 #include "pso/system/TLanguage_801E4874.h"
 
 
-extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); }
 extern s32 model_render_flags;
 
 extern const char *fe_obj_switch_laz_model_names[4];
@@ -55,6 +54,7 @@ extern "C" {
 
 void debug_printf_at(int, void *, ...);
 extern u8 lbl_80445CD8[];
+
 
 __declspec(section ".data") NJS_OBJECT *lazer_fence_sw_ginja_model_table[2];
 __declspec(section ".data") uaddr lazer_fence_beam_motions[2];
@@ -74,7 +74,9 @@ CollisionBody lazer_fence_sw_collision_body_part[] = {
     {{0.0f, 10.0f, 0.0f}, 7.0f, 12.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
 const u16 lbl_80445CB8[4] = { 0, 1, 2, 3 };
-const char *lazer_fence_sw_class_name = "TLazerFenceSw";
+}
+const char *TLazerFenceSw::class_name = "TLazerFenceSw";
+extern "C" {
 
 BmlResource *lazer_fence_switch_bml_resource;
 NJS_TEXLIST *lazer_fence_sw_texture_list;
@@ -99,7 +101,7 @@ void TLazerFenceSw::draw_laser_beam() {
     case 0:
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, (void *)rotation_y);
+        rotate_matrix_y(NULL, rotation_y);
         draw_ginja_object(lazer_fence_sw_ginja_model_table[1]);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
@@ -111,7 +113,7 @@ void TLazerFenceSw::draw_laser_beam() {
     case 1:
         push_matrix();
         post_translate_matrix(&position.x);
-        rotate_matrix_y(0, (void *)rotation_y);
+        rotate_matrix_y(NULL, rotation_y);
         draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], (void *)lazer_fence_beam_motions[1], (f32)switch_frame);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
@@ -199,15 +201,15 @@ void TLazerFenceSw::run_task() {
 void *TLazerFenceSw::create(void *set_data) {
     return new TLazerFenceSw(tl_05, set_data);
 }
+}
 
-void free_lazer_fence_switch_resources(void) {
+void free_lazer_fence_switch_resources() {
     if (lazer_fence_switch_bml_resource != NULL) {
         delete (BmlResource *)lazer_fence_switch_bml_resource;
         lazer_fence_switch_bml_resource = NULL;
     }
     TObjPlayer::free_if_valid((saddr)lazer_fence_sw_texture_list);
     lazer_fence_sw_texture_list = NULL;
-}
 }
 
 #pragma push
@@ -268,7 +270,7 @@ TLazerFenceSw::~TLazerFenceSw() {
 #pragma push
 #pragma opt_common_subs off
 TLazerFenceSw::TLazerFenceSw(TObject *parent, void *set_entry) : TOKey(parent) {
-    m_name = lazer_fence_sw_class_name;
+    m_name = class_name;
     init_key(set_entry);
     if (this->set_params[2] < 0) {
         this->set_params[2] = 0;
@@ -280,7 +282,7 @@ TLazerFenceSw::TLazerFenceSw(TObject *parent, void *set_entry) : TOKey(parent) {
     actorFlags |= 0x40000000;
     this->register_object_by_id();
     distance_fade.reset();
-    TLazerFenceSw__sub_8018A554(&distance_fade, 2.9e+02f);
+    distance_fade.set_fade_distance(2.9e+02f);
     uv_scroll = 0.0f;
     last_scroll_tick = 0;
 }

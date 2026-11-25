@@ -6,7 +6,7 @@
 
 class TItemEffectWeapon : public TItemHeapObject {
 public:
-    TItemEffectWeapon(saddr parent, s32 param);
+    TItemEffectWeapon(TObject *parent, u32 color);
     virtual ~TItemEffectWeapon();
     void run_task();
     void update_hidden();  // each frame the weapon is hidden (TItemWeapon::update_equipped)

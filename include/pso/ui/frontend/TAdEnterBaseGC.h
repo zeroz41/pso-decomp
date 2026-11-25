@@ -6,6 +6,8 @@
 
 class TAdSelectCurGC;
 class TKeyBoardControl;
+class TWindowBase;
+struct TWindowCallBack;
 
 struct TAdEnterBaseGC : public TObject {
     static s32 entry_mode;
@@ -15,15 +17,16 @@ struct TAdEnterBaseGC : public TObject {
     void create_parts();
     struct Position { f32 x, y; };
     void fn_8032B318(Position *position);
+    TWindowCallBack *create_default_callback();
     virtual void render();
     virtual void run_task();
     s32 m_1c;
-    int m_20;
-    u32 m_24;
+    int pending_dispatch_state;  // copied to password_entry_dispatch_state once the close delay ends
+    u32 close_delay_ticks;
     int m_28;
     TAdSelectCurGC *select_cursor;
-    int m_30;
-    u8 unk_34[0x4];
+    TWindowBase *prompt_window;
+    TWindowCallBack *callback_window;
 };
 
 LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x38);

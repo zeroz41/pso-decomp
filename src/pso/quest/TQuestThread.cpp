@@ -48,7 +48,6 @@
 #include "pso/unk/text_800F8A18.h"
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
@@ -157,7 +156,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
         ((TWindowSubComCardList *)confirm_menu)->set_scroll_target(104.0f, 74.0f);
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(confirm_menu));
     }
-    name_menu = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x56), 1);
+    name_menu = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x56), 1);
     if (name_menu != NULL) {
         name = (saddr)TObjItemNameSelect::get_selected_name();
         if (name != 0) {
@@ -217,7 +216,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
 
     m_name = obj_item_name_select_class_name;
     item_name_selection_table = TLobby::get_instance() == 0 ? item_name_table_a : item_name_table_b;
-    selection_menu = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x58), 0x19);
+    selection_menu = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x58), 0x19);
     for (i = 0; item_name_selection_table[i].text_id != -1; i++) {
         ((TWindowMenu *)selection_menu)->add_text_entry(get_text_collection(item_name_selection_table[i].text_id), 6, i);
     }
@@ -276,7 +275,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
         ((TKeyBoardControl *)keyboard)->set_soft_position((u8 *)get_window_layout_position(0xC0));
         ((TKeyBoardControl *)keyboard)->set_hard_position((u8 *)fn_8026CB5C());
     }
-    prompt_menu = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x56), 1);
+    prompt_menu = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x56), 1);
     if (prompt_menu != NULL) {
         ((TWindowMenu *)prompt_menu)->add_text_entry(get_message_text(0x47), 0x81, 0);
     }

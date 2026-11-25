@@ -7,12 +7,11 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/player/TargetCursorList.h"
 
 
 struct Self_80127BE0 { u8 pad[0xF0]; saddr caster; };
 
-
-struct Tec_80127BE0 { s32 kind; u16 a; s16 b; u8 rest[0x58]; };
 
 extern "C" {
 void TItemWeaponMaserBeam::emit_marker_effects() {
@@ -20,7 +19,6 @@ void TItemWeaponMaserBeam::emit_marker_effects() {
     saddr kind;
     CapturedTargetList *ext;
     s32 i;
-    Tec_80127BE0 tec;
     u8 buf[0xC];
     switch (((TObjPlayer *)(((Self_80127BE0 *)this)->caster))->is_status_subsystem_ready()) {
     case 1:
@@ -39,11 +37,11 @@ void TItemWeaponMaserBeam::emit_marker_effects() {
             for (i = 0; i != ext->get_captured_target_count(); i++) {
                 item = ext->get_captured_target_entry(i);
                 if (item != NULL) {
-                    __ct__16TargetCursorListFv((&tec));
-                    tec.kind = 1;
-                    tec.a = item->uid;
-                    tec.b = item->collider_index;
-                    TTecGiZonde::create((void *)((Self_80127BE0 *)this)->caster, (Vec *)buf, &tec, kind);
+                    TargetCursorList targets;
+                    targets.count = 1;
+                    targets.records[0].id = item->uid;
+                    targets.records[0].flag = item->collider_index;
+                    TTecGiZonde::create((void *)((Self_80127BE0 *)this)->caster, (Vec *)buf, &targets, kind);
                 }
             }
         }

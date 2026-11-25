@@ -9,7 +9,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/text_8024AD30.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
@@ -44,7 +43,7 @@ void TObjCityMainWarpChallenge::close_windows() {
         ((TWindowBase *)(this->player_list_window))->close();
         *(u32 *)((s8 *)this + 0x164) = 0U;
     }
-    end_player_keyboard_hold(local_client_id);
+    TWindowCtrl::end_client_keyboard_hold(local_client_id);
     TWindowCtrl::clear_flag();
     TWindowCtrl::unsuppress_slot(local_client_id);
 }

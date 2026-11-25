@@ -26,6 +26,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 
 // Photon blast motion frames of one weapon handle.
@@ -40,9 +41,9 @@ s32 TObjPlayer__sub_801AFDBC(s32);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 s32 TObjPlayer__sub_801D91B8(saddr player);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
-int load_encrypted_archive_data(const char *);
 }
-int ply_level_table;
+// The PlyLevelTbl.cpt archive: its first word points to the per-class level rows.
+PlayerLevelTableRow ***ply_level_table;
 f32 lookup_attack_marker(s32 handle, s16 falz_phase, s16 strike_count, s32 class_flags);
 extern PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6];
 extern const s32 (*player_footstep_floor_table[3])[5];
@@ -293,13 +294,13 @@ s32 TObjPlayer::get_class_state_field(s32 lvl) {
     return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), lvl); }
 
 PlayerLevelTableRow *get_ply_level_table_row(s32 cls, s32 level) {
-    PlayerLevelTableRow **table = *(PlayerLevelTableRow ***)ply_level_table;
+    PlayerLevelTableRow **table = *ply_level_table;
     return &table[(s8)TObjPlayer__sub_801AFDBC(cls)][TObjPlayer::clamp_index_to_max(level)];
 }
 
-void free_ply_level_tbl() { TLobby::free_nodes_with_id(ply_level_table); }
+void free_ply_level_tbl() { TLobby::free_nodes_with_id((uaddr)ply_level_table); }
 
-void load_ply_level_tbl(void) { ply_level_table = load_encrypted_archive_data("PlyLevelTbl.cpt"); }
+void load_ply_level_tbl(void) { ply_level_table = (PlayerLevelTableRow ***)load_encrypted_archive_data("PlyLevelTbl.cpt"); }
 
 
 extern "C" AttackParams *get_class_attack_template(TObjPlayer *player) {

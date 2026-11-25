@@ -7,9 +7,9 @@
 struct TWindowMainMenu;
 
 struct TWindowSubLog : public TObject {
-    TWindowSubLog(TObject *parent, void *arg2);
+    TWindowSubLog(TObject *parent, s32 client);
     virtual ~TWindowSubLog();
-    u32 m_1c;
+    s32 client;
     TWindowMainMenu *parent_menu;
     uaddr m_24;
     uaddr chat;

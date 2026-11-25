@@ -24,6 +24,9 @@ public:
     void close_and_clear_flag();
     void set_keyboard_flag62_bit4();
     void set_flag1e_bit80();
+    void set_flag1e_bit40();
+    void set_flag1e_bit8();
+    void clear_flag1e_bit8();
     void open_next_input_window();
 
     u8 inputMode;

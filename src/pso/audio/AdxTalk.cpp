@@ -225,10 +225,14 @@ s16 TLobby__sub_803C96B0(AdxtPlayer *player) {
     return player->output_vol;
 }
 
+}
+
 void set_field_40_and_notify(AdxtPlayer *player, s32 volume) {
     player->output_vol = volume;
     trigger_sub_task(player->rna_handle, volume);
 }
+
+extern "C" {
 
 s16 TLobby__sub_803C96E0(AdxtPlayer *player, s32 ch) {
     return player->out_pan[ch];

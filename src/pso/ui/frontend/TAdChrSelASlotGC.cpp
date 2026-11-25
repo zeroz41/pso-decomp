@@ -104,7 +104,7 @@ TWindowBase *TAdChrSelASlotGC::create_format_failed_window(s32 kind) {
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w = (TWindowMenu *)create_window_menu_default((saddr)&pos, 1);
+    w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
     w->set_flag_40();
     TQuestThread::set_status_flag_80(w);
@@ -123,7 +123,7 @@ TWindowBase *TAdChrSelASlotGC::create_not_formatted_window(s32 kind) {
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w = (TWindowMenu *)create_window_menu_default((saddr)&pos, 1);
+    w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
     w->set_flag_40();
     TQuestThread::set_status_flag_80(w);
@@ -142,7 +142,7 @@ TWindowBase *TAdChrSelASlotGC::create_formatted_window(s32 kind) {
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w = (TWindowMenu *)create_window_menu_default((saddr)&pos, 1);
+    w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
     w->set_flag_40();
     TQuestThread::set_status_flag_80(w);
@@ -162,7 +162,7 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_confirm_message(s32 kind, s32 client
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, kind + 0x25), (saddr)&pos, 190.0f);
+    w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, kind + 0x25), &pos, 190.0f);
     w->set_menu_selected_index(1);
     return w;
 }
@@ -179,12 +179,13 @@ TWindowMessageYesNo *TAdChrSelASlotGC::create_message_window(s32 kind, s32 clien
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, kind + 0x23), (saddr)&pos, 190.0f);
+    w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, kind + 0x23), &pos, 190.0f);
     w->set_menu_selected_index(1);
     return w;
 }
 
-TWindowMessageYesNo *TAdChrSelASlotGC::create_format_message_window(s32 pos, s32 client_id) {
+TWindowMessageYesNo *TAdChrSelASlotGC::create_format_message_window(NJS_POINT2 *pos, s32 client_id) {
+
     TWindowMessageYesNo *w;
     w = TWindowMessageYesNo::create(this, client_id, 0, 0);
     memset(char_select_format_message_buffer, 0, 0x100);
@@ -196,7 +197,7 @@ TWindowMessageYesNo *TAdChrSelASlotGC::create_format_message_window(s32 pos, s32
 
 #pragma push
 #pragma fp_contract on
-TWindowMessageYesNo *TAdChrSelASlotGC::open_replace_character_prompt(s32 pos, s32 client_id) {
+TWindowMessageYesNo *TAdChrSelASlotGC::open_replace_character_prompt(NJS_POINT2 *pos, s32 client_id) {
     TWindowMessageYesNo *w;
     w = TWindowMessageYesNo::create(this, client_id, 0, 0);
     w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, 0x1D), pos, 193.0f);
@@ -205,7 +206,7 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_replace_character_prompt(s32 pos, s3
 }
 #pragma pop
 
-TWindowMessageYesNo *TAdChrSelASlotGC::open_yes_no_window(s32 pos, s32 client_id) {
+TWindowMessageYesNo *TAdChrSelASlotGC::open_yes_no_window(NJS_POINT2 *pos, s32 client_id) {
     TWindowMessageYesNo *window;
 
     play_sound_effect(0x53F06, 0, 0, 0);
@@ -216,7 +217,7 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_yes_no_window(s32 pos, s32 client_id
     return window;
 }
 
-TWindowMessageYesNo *TAdChrSelASlotGC::open_create_character_prompt(s32 pos) {
+TWindowMessageYesNo *TAdChrSelASlotGC::open_create_character_prompt(NJS_POINT2 *pos) {
     TWindowMessageYesNo *w;
     w = TWindowMessageYesNo::create(this, TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
     w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, 0x1A), pos, 196.0f);
@@ -236,7 +237,7 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w = (TWindowMenu *)create_window_menu_default((saddr)&pos, 1);
+    w = create_window_menu_default(&pos, 1);
     w->add_text_entry(get_localized_text_entry(0x16, text), 0x21, 0);
     w->set_flag_40();
     TQuestThread::set_status_flag_80(w);

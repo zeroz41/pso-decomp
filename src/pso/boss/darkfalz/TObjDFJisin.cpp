@@ -82,7 +82,6 @@ Vec dark_falz_part_node_position;
 Mtx34 df_captured_matrix_pair[2];
 
 #include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803DC86C.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"

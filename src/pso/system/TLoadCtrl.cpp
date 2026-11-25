@@ -3,11 +3,14 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80228154.h"
 #include "pso/system/TLoadCtrl.h"
+#include "pso/ui/frontend/TAdFadeGC.h"
+#include "pso/ui/frontend/TAdFloorLoadGC.h"
 #include "pso/ui/frontend/TAdFloorLoadPrtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdLoadQuestGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/network/TLobby.h"
@@ -26,18 +29,13 @@ void TLoadCtrl::set_field1C(s32 arg0) {
 struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 
 extern "C" {
-s32 __ct__9TAdFadeGCFP7TObjectPv(int, int, int);
 s32 TLoadCtrl__loading_mode;
 saddr load_ctrl_fade_task;
-extern s32 tl_fade;
 void TNowLoading__sub_8001D4D4(void);
 void TLoadCtrl__sub_80226DA0(s32 index);
-extern s32 tl_su;
-extern TObject *tl_camera;
 }
 void update_sound_request_slots(void);
 extern "C" {
-s32 __ct__14TAdFloorLoadGCFP7TObjectPv(s32, void *, int);
 void TNowLoading__sub_8001D4D0(void);
 
 BOOL TLoadCtrl::is_loading() {
@@ -51,7 +49,6 @@ const Vec now_loading_pos = {0.0f, 0.0f, -100.0f}; // inferred: the TNowLoading 
 
 void TLoadCtrl::run_task() {
     Obj_8001C620 *self = (Obj_8001C620 *)this;
-    saddr o;
     if (TLoadCtrl__instance != 0U) {
         if ((u32)load_ctrl_fade_task != 0U && ((TObject *)load_ctrl_fade_task)->all_parents_unqueued_for_destruction() == 0) {
             load_ctrl_fade_task = 0;
@@ -67,16 +64,10 @@ void TLoadCtrl::run_task() {
             case 2:
                 break;
             case 3:
-                o = (saddr)TObject::operator new(0x1C);
-                if ((u32)o != 0) {
-                    __ct__14TAdFloorLoadGCFP7TObjectPv(o, self, 0);
-                }
+                new TAdFloorLoadGC(this, 0);
                 break;
             case 4:
-                o = (saddr)TObject::operator new(0x1C);
-                if ((u32)o != 0) {
-                    __ct__14TAdFloorLoadGCFP7TObjectPv(o, self, 1);
-                }
+                new TAdFloorLoadGC(this, 1);
                 break;
             }
         }
@@ -103,20 +94,13 @@ TLoadCtrl::~TLoadCtrl() {
 }
 
 }
-TLoadCtrl::TLoadCtrl(saddr task) : TObject((TObject *)((void *)task)) {
-    s32 temp_r3;
-    s32 var_r0;
+TLoadCtrl::TLoadCtrl(TObject *parent) : TObject(parent) {
     this->m_1c = 1;
     load_ctrl_fade_task = 0;
     this->m_20 = 0;
     this->m_name = TLoadCtrl__class_name;
     if (((u32)TLoadCtrl__loading_mode == 0U) || ((u32)TLoadCtrl__loading_mode == 1U)) {
-        temp_r3 = (saddr)TObject::operator new(0x38);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = __ct__9TAdFadeGCFP7TObjectPv(temp_r3, tl_fade, 2);
-        }
-        load_ctrl_fade_task = var_r0;
+        load_ctrl_fade_task = (saddr)new TAdFadeGC(tl_fade, 2);
     }
 }
 extern "C" {

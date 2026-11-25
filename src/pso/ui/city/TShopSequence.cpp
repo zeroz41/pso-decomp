@@ -45,12 +45,12 @@ void TShopSequence::close_message_window() {
     }
 }
 
-u32 TShopSequence::create_message_window(s32 x, s32 y) {
+u32 TShopSequence::create_message_window(const NJS_POINT2 *position, s32 extent) {
     if (message_window != NULL) {
         if (player != NULL) {
-            return (uaddr)message_window->create_message_window(x, y, (u16)((TObjBase *)((uaddr)player))->get_entity_id());
+            return (uaddr)message_window->create_message_window(position, extent, (u16)((TObjBase *)((uaddr)player))->get_entity_id());
         }
-        return (uaddr)message_window->create_window(x, y);
+        return (uaddr)message_window->create_window(position, extent);
     }
     return 0;
 }

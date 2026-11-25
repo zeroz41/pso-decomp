@@ -31,6 +31,7 @@
 #include "pso/ui/window/TWindowMakeTeam.h"
 
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/TWindowCallBack.h"
 
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
@@ -151,11 +152,11 @@ TAdEnterBaseGC::TAdEnterBaseGC(TObject *parent) : TObject(parent) {
 
 TAdEnterBaseGC::~TAdEnterBaseGC() {
     if (this->select_cursor != NULL) { ((TObject *)this->select_cursor)->queue_destruction(); *(s32 *)((s8 *)this + 0x2C) = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction(); this->m_30 = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction(); *(s32 *)((s8 *)this + 0x34) = 0; }
+    if (prompt_window != NULL) { prompt_window->queue_destruction(); prompt_window = NULL; }
+    if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
 }
 
-void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC::entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
+void TAdEnterBaseGC::sub_8032B460(int a1) { this->close_delay_ticks = 0; this->pending_dispatch_state = 0; TAdEnterBaseGC::entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; prompt_window = NULL; callback_window = NULL; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
     new TAdBackGC(this);
@@ -295,13 +296,13 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 field) {
     return (u8 *)"";
 }
 
-s32 TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
-    saddr r = (saddr)create_message_window_for_size((NJS_POINT2 *)lbl_80477178, (NJS_POINT2 *)lbl_80477180);
-    ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x17, (saddr)arg1), 1);
-    return r;
+TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
+    TWindowMessage *window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)lbl_80477178, (NJS_POINT2 *)lbl_80477180);
+    window->append_line(get_localized_text_entry(0x17, (saddr)arg1), 1);
+    return window;
 }
 
-void *TAdEnterSerialAccessGC::create_default_callback() {
+TWindowCallBack *TAdEnterBaseGC::create_default_callback() {
     return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, fn_8032AC9C);
 }
 

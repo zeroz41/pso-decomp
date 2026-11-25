@@ -46,9 +46,6 @@ s32 run_wave_event_actions(void);
 void send_6x05_wave_clear_switch(s32 arg0);
 void send_6x05_wave_set_switch(s16 arg0);
 void send_6x67_wave_trigger_event(s32 arg0);
-extern "C" {
-void set_destroy_event__6TLobbyFi(int a0);
-}
 s32 set_floor_event_flags(s32 floor, s32 id, s32 flags);
 extern "C" {
 int spawn_objects_at_pos__6TLobbyFPv(void *p);

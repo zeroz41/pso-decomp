@@ -37,6 +37,7 @@ struct TWindowMainMenu : public TObject {
     void handle_menu_selection();
     void create_submenu(u32);
     void destroy_submenu();
+    void replace_submenu(s16 id);
     void close_child_window();
     void sub_80263FE0();
     void update_keyboard_card_state();
@@ -52,7 +53,7 @@ struct TWindowMainMenu : public TObject {
     TWindowMessage *help_window;
     MainMenuSlotState slots[4];
     u32 description_item_id;
-    u32 menu_flags;
+    u32 menu_flags; // bit 0 open, bit 3 log window active
     s16 submenu_depth;
     s16 selected_slot;
     s32 client_index;
@@ -64,6 +65,8 @@ struct TWindowMainMenu : public TObject {
     void hide_for_subwindow();
     void clear_log_active();
     void set_log_active();
+    s32 is_log_active();
+    s32 is_open();
     void update_submenu();
     void close_submenu(void* window_main_menu_entry);
     void refresh_submenu(void* window_main_menu_entry);

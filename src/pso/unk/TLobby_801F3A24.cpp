@@ -297,7 +297,7 @@ loop_1:
         if ((sp14 == 1) && (spC == floor)) {
             rows = var_r31 + 0x10;
             convert_quest_object_rows((struct ConvertQuestObjectRowsQuestObjRow *)rows, byte_size);
-            ((TLobby *)rows)->assign_object_ids((s32)((u32) byte_size / 68U), (void *)(get_floor_area(spC)));
+            assign_object_ids((FloorObjectSetRow *)rows, (s32)((u32) byte_size / 68U), get_floor_area(spC));
             TLobby::load_object_set_entries(spC, rows, byte_size);
             return 1;
         }

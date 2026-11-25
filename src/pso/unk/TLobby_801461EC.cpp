@@ -31,11 +31,11 @@ s32 arp_term();
 s32 loopback_shutdown();
 void dhcp_stop(void);
 s32 DHCP_release(s32 session, s32 ip, s32 retries);
-void TLobby__sub_801469B8(void* p);
+void TLobby__sub_801469B8(void);
 void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);
 s32 dns_term();
-saddr lobby_local_ip_addr;
+s32 lobby_local_ip_addr;
 s32 lobby_dns_server_addr;
 s32 lobby_dns_server_addr2;
 s32 lobby_gateway_addr;
@@ -404,7 +404,7 @@ int get_link_status() {
 }
 void TLobby::cleanup() {
     if ((s32) net_session_mode != 0) {
-        TLobby__sub_801469B8(this);
+        TLobby__sub_801469B8();
     } else {
         TLobby__sub_80147284();
     }
@@ -440,7 +440,7 @@ s32 TLobby__sub_80146908() {
     }
     return TLobby__sub_801478C4(ppp_init());
 }
-void TLobby__sub_801469B8(void* p) { TLobby::flush_pending_flags(); }
+void TLobby__sub_801469B8(void) { TLobby::flush_pending_flags(); }
 }
 void TLobby::flush_pending_flags() {
     NetLinkStatus status;

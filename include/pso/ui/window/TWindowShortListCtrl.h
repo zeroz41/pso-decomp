@@ -2,6 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWSHORTLISTCTRL_H
 
 #include "types.h"
+struct NJS_POINT2;
 #include "pso/system/task/TObject.h"
 
 struct TWindowShortListCtrl : public TObject {
@@ -36,7 +37,7 @@ struct TWindowShortListCtrl : public TObject {
     void swap_card_entries(s32 arg1, s32 arg2);
     static void assign_item_to_palette(u32 item_id, u32 client_id);
     void destroy_children();
-    void *create_window(s32 position, saddr arg2_arg);
+    void *create_window(const NJS_POINT2 *position, saddr arg2_arg);
     virtual void render();
     static void set_card_window_flags(saddr client_id, s32 page);
     s16 get_cursor_pos();

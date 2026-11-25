@@ -94,6 +94,8 @@ public:
     // Sets attacker_id; a local player's id also becomes local_attacker_id
     // (single screen) or goes to TObjPlayer::add_id_to_slots (split screen).
     void record_attack_source(u16 id);
+    // Records a non-null attacker's entity id as the attack source.
+    void attach_mine_trap(TObjBase *attacker);
     u16 get_local_attacker_id();
     void clear_immunity_flags();
     // Status-effect particles at body_center; play_sound adds the cue.

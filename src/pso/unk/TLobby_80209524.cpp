@@ -19,7 +19,6 @@
 #include "pso/unk/TLobby_8020A350.h"
 #include "pso/unk/TLobby_8020A568.h"
 #include "pso/system/EventShuffleTable.h"
-#include "pso/unk/TLobby_80209BD8.h"
 #include "string.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -27,7 +26,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_8020A6B0.h"
 #include "pso/unk/text_8020A768.h"
-#include "pso/unk/TLobby_80131794.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/text_800F8A18.h"
 #include "pso/object/base/TObjMotion.h"
@@ -81,10 +79,6 @@ s32 challenge_event_source_size;
 
 // ---- pso/unk/text_80209584
 
-struct FindType5HeaderHdr { s32 type; s32 size; s32 id; s32 x; };
-
-struct FindChunkByIdHdr { s32 type; s32 size; s32 id; s32 x; };
-
 extern "C" {
 EventShuffleTable *TLobby__sub_80209584(EventShuffleTable *table, s32 capacity) {
     void *storage = ::operator new(0xE8);
@@ -99,12 +93,15 @@ EventShuffleTable *TLobby__sub_80209584(EventShuffleTable *table, s32 capacity) 
     table->capacity = capacity;
     return table;
 }
-FindType5HeaderHdr *find_type5_header__6TLobbyFPvi(FindType5HeaderHdr *arg, s32 id) {
-    FindType5HeaderHdr *p;
-    if ((p = arg) != NULL) {
+
+}
+
+QuestChunkHeader *find_type5_header(QuestChunkHeader *chunks, s32 id) {
+    QuestChunkHeader *p;
+    if ((p = chunks) != NULL) {
         for (;;) {
-            FindType5HeaderHdr h = *p;
-            ((TLobby *)(&h))->bswap_quad_word();
+            QuestChunkHeader h = *p;
+            h.bswap();
             if (h.type == 5) {
                 if (h.id == id) {
                     return p + 1;
@@ -113,17 +110,17 @@ FindType5HeaderHdr *find_type5_header__6TLobbyFPvi(FindType5HeaderHdr *arg, s32 
             if (h.type == 0) {
                 break;
             }
-            p = (FindType5HeaderHdr *)((u8 *)p + h.size);
+            p = (QuestChunkHeader *)((u8 *)p + h.size);
         }
     }
     return NULL;
 }
-FindChunkByIdHdr *find_chunk_by_id__6TLobbyFPvi(FindChunkByIdHdr *arg, s32 id) {
-    FindChunkByIdHdr *p;
-    if ((p = arg) != NULL) {
+QuestChunkHeader *find_chunk_by_id(QuestChunkHeader *chunks, s32 id) {
+    QuestChunkHeader *p;
+    if ((p = chunks) != NULL) {
         for (;;) {
-            FindChunkByIdHdr h = *p;
-            ((TLobby *)(&h))->bswap_quad_word();
+            QuestChunkHeader h = *p;
+            h.bswap();
             if (h.type == 4) {
                 if (h.id == id) {
                     return p + 1;
@@ -132,12 +129,10 @@ FindChunkByIdHdr *find_chunk_by_id__6TLobbyFPvi(FindChunkByIdHdr *arg, s32 id) {
             if (h.type == 0) {
                 break;
             }
-            p = (FindChunkByIdHdr *)((u8 *)p + h.size);
+            p = (QuestChunkHeader *)((u8 *)p + h.size);
         }
     }
     return NULL;
-}
-
 }
 
 // ---- pso/unk/TLobby_8020970C
@@ -238,7 +233,7 @@ void TLobby::pick_random_entry() {
     out->f = e.f;
 }
 
-AppendRecord *bsearch_record__6TLobbyFPvii(void *arg0, s32 n, s32 key) {
+void *TLobby::bsearch_record(void *arg0, int n, int key) {
     u8 *arr = (u8 *)arg0;
     u8 *e;
     BsearchRecordTmp t;
@@ -323,15 +318,15 @@ extern const s32 lobby_random_slot_id_table[42] = {
     214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 224, 225, 0,
 };
 
-s32 pick_random_slot__6TLobbyFPv(s16 *arg0) {
+s32 TLobby::pick_random_slot(s16 *slot) {
     s32 key;
     s32 sp8;
 
     TLobby::pick_weighted_entry(&key, &sp8);
     if ((key != -1) && (sp8 != -1)) {
-        *arg0 = (s16) lobby_random_slot_id_table[sp8];
-        lookup_item_data_record((AppendOut *)arg0, key);
-        ((TLobby *)arg0)->pick_random_entry();
+        *slot = (s16) lobby_random_slot_id_table[sp8];
+        lookup_item_data_record((AppendOut *)slot, key);
+        ((TLobby *)slot)->pick_random_entry();
         return 0;
     }
     return 1;
@@ -339,31 +334,26 @@ s32 pick_random_slot__6TLobbyFPv(s16 *arg0) {
 
 
 // ---- pso/unk/text_80209C58
-struct FindHeaderByIdHdr { s32 type; s32 size; s32 id; s32 x; };
-
-extern "C" {
-FindHeaderByIdHdr *find_header_by_id__6TLobbyFPvi(FindHeaderByIdHdr *arg, s32 id) {
-    FindHeaderByIdHdr *p;
-    if ((p = arg) != NULL) {
+QuestChunkHeader *find_header_by_id(QuestChunkHeader *chunks, s32 id) {
+    QuestChunkHeader *p;
+    if ((p = chunks) != NULL) {
         for (;;) {
-            FindHeaderByIdHdr h = *p;
-            ((TLobby *)(&h))->bswap_quad_word();
+            QuestChunkHeader h = *p;
+            h.bswap();
             if (h.type == 3) {
                 if (h.id == id) {
-                    challenge_event_source_size = h.x;
+                    challenge_event_source_size = h.data_size;
                     return p + 1;
                 }
             }
             if (h.type == 0) {
                 break;
             }
-            p = (FindHeaderByIdHdr *)((u8 *)p + h.size);
+            p = (QuestChunkHeader *)((u8 *)p + h.size);
         }
     }
     challenge_event_source_size = -1;
     return NULL;
-}
-
 }
 
 // ---- pso/unk/TLobby_80209CF8
@@ -394,7 +384,6 @@ struct DestroyEventShuffleTableSpawnRecord {
 
 extern "C" {
 void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *slots, s32 count, s32 floor);
-s32 init_floor_enemy_count__6TLobbyFlPUcUl(s32 floor, u8 *slots, s32 size);
 }
 
 #pragma push
@@ -531,11 +520,12 @@ void build_challenge_enemy_set(s32 floor) {
 extern "C" {
 
 void TLobby::init_buffers(int id, u8 *quest) {
-    FindType5HeaderHdr *items;
+    QuestChunkHeader *chunks = (QuestChunkHeader *)quest;
+    QuestChunkHeader *items;
 
-    challenge_event_source = (u8 *)TLobby::find_header_by_id((FindHeaderByIdHdr *)quest, id);
-    lbl_805D60AC = (u8 *)TLobby::find_chunk_by_id((FindChunkByIdHdr *)quest, id);
-    items = find_type5_header__6TLobbyFPvi((FindType5HeaderHdr *)quest, id);
+    challenge_event_source = (u8 *)find_header_by_id(chunks, id);
+    lbl_805D60AC = (u8 *)find_chunk_by_id(chunks, id);
+    items = find_type5_header(chunks, id);
     item_data_table_buffer = (u8 *)items;
     if (challenge_event_source != NULL && lbl_805D60AC != NULL && items != NULL) {
         challenge_enemy_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeEnemyBufferSize));
@@ -593,7 +583,12 @@ void TLobby__sub_8020A2AC(void) {
 
 // ---- pso/unk/TLobby_8020A350
 
-void TLobby::bswap_quad_word() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); }
+void QuestChunkHeader::bswap() {
+    bswap_32((u32 *)&type);
+    bswap_32((u32 *)&size);
+    bswap_32((u32 *)&id);
+    bswap_32((u32 *)&data_size);
+}
 
 void bswap_event_table_entry(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_32((u32 *)((char*)p + 0x4)); }
 
@@ -697,10 +692,6 @@ struct LoadObjectSetFileEntry { s16 a; s16 b; u8 pad[0x44 - 4]; };
 
 struct LoadObjectSetFileName { char s[0x20]; };
 
-extern "C" {
-// The callers pass the signed file size as the count.
-s32 load_object_set_entries__6TLobbyFlPUcUl(s32, u8 *, s32);
-}
 s32 load_enemy_set_file(s32 idx, const char *filename) {
     LoadEnemySetFileName name;
     s32 size;
@@ -708,7 +699,7 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
     s32 n;
     s32 i;
     s32 floor;
-    replace_file_extension__6TLobbyFPvPvPv((char *)&name, (char *)filename, "e.dat");
+    TLobby::replace_file_extension((char *)&name, (char *)filename, "e.dat");
     size = read_disc_file(name.s, map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -724,7 +715,7 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
     }
     floor = get_floor_area(idx);
     reserve_enemy_set_actor_ids((struct DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, n, floor);
-    init_floor_enemy_count__6TLobbyFlPUcUl(idx, map_set_file_buffer, size);
+    TLobby::init_floor_enemy_count(idx, map_set_file_buffer, size);
     return 1;
 }
 s32 load_object_set_file(s32 idx, const char *filename) {
@@ -734,7 +725,7 @@ s32 load_object_set_file(s32 idx, const char *filename) {
     s32 n;
     s32 i;
     saddr floor;
-    replace_file_extension__6TLobbyFPvPvPv(name.s, (char *)filename, "o.dat");
+    TLobby::replace_file_extension(name.s, (char *)filename, "o.dat");
     size = read_disc_file(name.s, map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -749,8 +740,8 @@ s32 load_object_set_file(s32 idx, const char *filename) {
         p->b = 0;
     }
     floor = get_floor_area(idx);
-    ((TLobby *)map_set_file_buffer)->assign_object_ids(n, (void *)floor);
-    load_object_set_entries__6TLobbyFlPUcUl(idx, map_set_file_buffer, size);
+    assign_object_ids((FloorObjectSetRow *)map_set_file_buffer, n, floor);
+    TLobby::load_object_set_entries(idx, map_set_file_buffer, size);
     return 1;
 }
 
@@ -777,17 +768,8 @@ void load_map_set_data(s32 idx, const char *filename) {
     copy_name("..");
 }
 
-struct LoadMapSetDataRecord {
-    u8 pad0[4];
-    s16 f4;
-    u8 pad6[2];
-    s16 f8;
-    u8 padA[0x44 - 0xA];
-};
-
 extern "C" {
 s32 get_enemy_factory_child_count(s32, DestroyEventShuffleTableSpawnRecord *);
-s32 find_floor_object_factory__6TLobbyFlPs(void *, LoadMapSetDataRecord *);
 void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *lobby, s32 count, s32 floor) {
     DestroyEventShuffleTableSpawnRecord *r;
     s32 i;
@@ -809,13 +791,15 @@ void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *lobby, s32
         }
     }
 }
-void TLobby::assign_object_ids(s32 count, void *area) {
+}
+
+void assign_object_ids(FloorObjectSetRow *rows, s32 count, s32 area) {
     s32 i;
     s32 r;
     for (i = 0; i < count; i++) {
-        ((LoadMapSetDataRecord *)this)[i].f8 = map_object_id_counter++ + 0x4000;
-        ((LoadMapSetDataRecord *)this)[i].f4 = map_set_object_id_counter++;
-        r = find_floor_object_factory__6TLobbyFlPs(area, &((LoadMapSetDataRecord *)this)[i]);
+        rows[i].placement.entity_id = map_object_id_counter++ + 0x4000;
+        rows[i].placement.set_index = map_set_object_id_counter++;
+        r = TLobby::find_floor_object_factory(area, &rows[i].type);
         if (r >= 0) {
             map_set_object_id_counter += r;
             map_object_id_counter += r;
@@ -826,8 +810,6 @@ void TLobby::assign_object_ids(s32 count, void *area) {
 // ---- pso/unk/TLobby_8020AB30
 
 int TLobby::rebuild_entry() { return clear_record_flags_a(); }
-
-}
 
 // ---- pso/unk/text_8020AB50
 
@@ -854,17 +836,17 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (area == 0 || area == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv(buf, (char *)filename, "e.dat");
+            TLobby::replace_file_extension(buf, (char *)filename, "e.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv(buf, (char *)filename, "e_c1.dat");
+            TLobby::replace_file_extension(buf, (char *)filename, "e_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv(buf, (char *)filename, "e_d.dat");
+            TLobby::replace_file_extension(buf, (char *)filename, "e_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv(buf, (char *)filename, "e.dat");
+        TLobby::replace_file_extension(buf, (char *)filename, "e.dat");
     }
     size = read_disc_file(buf, map_set_file_buffer);
     if (size < 0) {
@@ -880,7 +862,7 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
         *(s16 *)(p + 2) = 0;
     }
     reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, count, area);
-    init_floor_enemy_count__6TLobbyFlPUcUl(floor, map_set_file_buffer, size);
+    TLobby::init_floor_enemy_count(floor, map_set_file_buffer, size);
     return 1;
 }
 
@@ -920,17 +902,17 @@ s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
     if (lobby == 0 || lobby == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv(name, (char *)filename, "o.dat");
+            TLobby::replace_file_extension(name, (char *)filename, "o.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv(name, (char *)filename, "o_c1.dat");
+            TLobby::replace_file_extension(name, (char *)filename, "o_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv(name, (char *)filename, "o_d.dat");
+            TLobby::replace_file_extension(name, (char *)filename, "o_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv(name, (char *)filename, "o.dat");
+        TLobby::replace_file_extension(name, (char *)filename, "o.dat");
     }
     len = read_disc_file(name, map_set_file_buffer);
     if (len < 0) {
@@ -945,8 +927,8 @@ s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
         swap_object_row_endian(r);
         r->f2 = 0;
     }
-    ((TLobby *)map_set_file_buffer)->assign_object_ids(n, (void *)lobby);
-    load_object_set_entries__6TLobbyFlPUcUl(arg0, map_set_file_buffer, len);
+    assign_object_ids((FloorObjectSetRow *)map_set_file_buffer, n, lobby);
+    TLobby::load_object_set_entries(arg0, map_set_file_buffer, len);
     return 1;
 }
 
@@ -1124,7 +1106,7 @@ EnemySetRecord *get_active_floor_enemy_rows(s32) { return get_loaded_enemy_set_r
 FloorObjectSetRow *get_active_floor_object_rows(s32) { return get_loaded_object_set_rows(); }
 
 // ---- pso/unk/text_8020B374
-s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, u32 size) {
+s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, s32 size) {
     if (init_quest_floor_enemies(floor, (EnemySetRecord *)source, size) == 1) {
         floor_enemy_set_counts[floor] = size / 72U;
         return 1;
@@ -1133,7 +1115,7 @@ s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, u32 size) {
     return 0;
 }
 
-s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, u32 byte_size) {
+s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, s32 byte_size) {
     if (TLobby::load_floor_enemy_group_entries(floor, (FloorObjectSetRow *)rows, byte_size) == 1) {
         floor_object_set_counts[floor] = byte_size / 68U;
         return 1;

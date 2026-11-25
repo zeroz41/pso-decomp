@@ -49,7 +49,6 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/unk/text_801057A8.h"
-#include "pso/unk/text_801D98F8.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixStack.h"
@@ -1199,7 +1198,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
                     equipped->remove_equip_stats(1);
                 }
             }
-            set_technique_level_entry(&owner->technique_state, technique, (u8)level);
+            owner->technique_state.set_learned_level(technique, (u8)level);
             for (slot = 9; slot != 13; slot++) {
                 TItem *equipped = owner->get_equipped_item(slot);
                 if (equipped != NULL) {

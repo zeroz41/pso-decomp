@@ -23,9 +23,9 @@ struct TAdWarningBaseGC : public TObject {
     TWindowBase *message_window; // 0x2C: create_message_window's message window
     static void create();
     static void init_heap();
-    static s32 load_from_aram_sync(int buf);
+    static s32 load_from_aram_sync(void *buf);
     static int get_alloc_size();
-    static s32 post_aram_request(int buf, int size);
+    static s32 post_aram_request(void *buf, int size);
 };
 
 LAYOUT_ASSERT(TAdWarningBaseGC_size, sizeof(TAdWarningBaseGC) == 0x30);

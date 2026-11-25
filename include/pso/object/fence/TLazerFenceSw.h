@@ -13,7 +13,7 @@ struct TLazerFenceSw : public TOKey {
     virtual void debug_draw_key_id();
     virtual void update_switch_off();
     virtual void update_switch_on();
-    u16 color_slot;             // which beam colour (set_params[2] % 4)
+    u16 color_slot;             // the beams' texture slot, picked by set param 2 ("SELECT COLOR")
     u16 pad_EA;
     f32 switch_frame;           // motion frame of the switch's own model
     CameraDistanceFade distance_fade;  // fades the fence out in split screen
@@ -24,9 +24,15 @@ struct TLazerFenceSw : public TOKey {
     void run_task();
     static void *create(void *set_data);
     static void load_resources();
+
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TLazerFenceSw_size, sizeof(TLazerFenceSw) == 0x118);
+LAYOUT_ASSERT(TLazerFenceSw_distance_fade, offsetof(TLazerFenceSw, distance_fade) == 0xF0);
+
+// Frees what TLazerFenceSw::load_resources loaded (the floor's resource table).
+void free_lazer_fence_switch_resources();
 
 // The texture lists TLazerFenceSw::load_resources picks from. The unit defines
 // them after that function, which reaches each with its own lis/addi while it
@@ -34,9 +40,5 @@ LAYOUT_ASSERT(TLazerFenceSw_size, sizeof(TLazerFenceSw) == 0x118);
 extern const char fe_obj_switch_laz_j_gvm[];
 extern const char fe_obj_switch_laz_a_gvm[];
 extern const char fe_obj_switch_laz_gvm[];
-
-extern "C" {
-void TLazerFenceSw__sub_8018A554(void *p, f32 v);
-}
 
 #endif

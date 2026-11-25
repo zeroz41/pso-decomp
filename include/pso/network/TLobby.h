@@ -7,6 +7,8 @@ struct NJS_SPRITE;
 struct BmlResource;
 struct AsyncFileReadRequest;
 struct EnemySetRecord;
+struct FloorObjectSetRow;
+struct GuildCardRecord;
 
 struct ShortMailEntry;
 struct player_stats;
@@ -140,7 +142,7 @@ struct TLobby : public TObject {
     void bswap_enemy_state();
     static void wait_ready_loop();
     static s32 run_disk_error_check();
-    s32 alloc_download_quest(s32 size, s32 *out_size);
+    void *alloc_download_quest(s32 size, s32 *out_size);
     static void run_frame();
     static void free_static_buffer(void* a0);
     static void *alloc_from_heap(size_t size);
@@ -209,11 +211,7 @@ struct TLobby : public TObject {
     static s32 is_status_zero();
     static s32 is_state_active();
     static void init_account_entries();
-    static void bswap_60_header(void* p);
-    void bswap_header();
     static void bswap_header(void *p);
-    void update_and_send_60();
-    static void update_and_send_60(void *p);
 
     static void *create_npc(void *set_data);
     static s32 is_idle();
@@ -274,7 +272,6 @@ struct TLobby : public TObject {
     static void append_swapped_u32(s32 *value);
     static u32 clamp_min_drop(u32 min, u32 max);
     static void free_boss4rock();
-    void bswap_quad_word();
     void bswap_vec3();
     void swap_header_endian();
     static void init_sub_objects();
@@ -302,8 +299,6 @@ struct TLobby : public TObject {
     static int get_selected_quest_id();
     static s32 handle_main_phase(saddr player);
     static void *create_tl05_object(void *player);
-    static void free_global();
-    static void clear_flag_if_not_split_screen();
     static int get_shop_value();
     static void free_singleton();
     static void create_named_lobby_object();
@@ -324,7 +319,7 @@ struct TLobby : public TObject {
     static s32 is_camera_state_active();
     static void set_mode(s32 mode);
     static int init_sound_mode();
-    static void set_menu_index_main(u8 *index);
+    static void set_menu_index_main(s32 index);
     static void refresh_render_state();
     static void wait_for_sound_init();
     s32 get_id();
@@ -338,8 +333,8 @@ struct TLobby : public TObject {
     static void alloc_download_server();
     static void free_chr_select_singleton();
     static void free_all_resources();
-    void update_screen();
-    void set_challenge_split_flag();
+    static void update_screen();
+    static void set_challenge_split_flag();
     static s32 get_normalized_mode();
     static void draw_if_ready2();
     static s32 check_ready_status();
@@ -388,9 +383,9 @@ struct TLobby : public TObject {
     static void init_once_data(u32 buffer);
     static void flush_pending_send();
     static saddr get_card_window_field();
-    void set_info_board_text();
+    static void set_info_board_text(char *text);
     static void reset_info_board();
-    static void *create_dialing_message_window(void *message, void *delay);
+    static void *create_dialing_message_window(const char *message, u32 delay);
     static void release_bg_multi_textures();
     static void clear_session_buffer();
     static void reset_sound_buffers();
@@ -421,7 +416,7 @@ struct TLobby : public TObject {
     static void close_trade_request();
     static void reset_trade_state();
     static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
-    s32 get_battle_ctrl_default();
+    static s32 get_battle_ctrl_default();
     static s32 find_free_chat_log_slot();
     static void apply_menu_cursor_selection();
     static void send_challenge_retry_cmd(s32 choice);
@@ -516,7 +511,7 @@ struct TLobby : public TObject {
     static void set_default_gateway(s32 gateway);
     static s32 query_task_active();
     static int get_link_status_value();
-    void cleanup();
+    static void cleanup();
     static void flush_pending_flags();
     static s32 run_connect_sequence();
     static char *get_dialing_phone_number();
@@ -537,7 +532,6 @@ struct TLobby : public TObject {
     void sync_quest_register_and_send();
     static int get_field_6CE8();
     static int get_lobby_count();
-    int copy_position();
     static void bswap_entry_words(s32 entry);
     static void set_lobby_id(int a0);
     static void set_area_total(int a0);
@@ -590,7 +584,6 @@ struct TLobby : public TObject {
     static void free_map_resources();
     static s32 count_members();
     static void apply_battle_rules_to_players();
-    void player_flag_1();
     static void handle_reset_choice(s32 choice);
     static void clear_flag400();
     static void check_flags_and_proceed();
@@ -601,9 +594,8 @@ struct TLobby : public TObject {
     static void send_trade_proposal_result(s8 what, s8 result);
     static s32 write_zero_padded_block(void *arg0p);
     void apply_sync_item_state();
-    void assign_object_ids(s32 count, void *area);
-    static s32 init_floor_enemy_count(s32 floor, u8 *source, u32 size);
-    static s32 load_object_set_entries(s32 floor, u8 *rows, u32 byte_size);
+    static s32 init_floor_enemy_count(s32 floor, u8 *source, s32 size);
+    static s32 load_object_set_entries(s32 floor, u8 *rows, s32 byte_size);
     s32 copy_current_entry_name(s32 len);
     void capture_chat_sensor();
     static void parse_message_tag();
@@ -688,8 +680,7 @@ struct TLobby : public TObject {
     static void bswap_inventory(void*);
     static void bswap_player_data(void *data);
     static s32 calc_player_rankings(void *);
-    static s32 change_file_extension(void *, void *, void *);
-    static void check_bin_model_loaded(void *, void *);
+    static s32 change_file_extension(char *dest, char *filename, char *ext);
     static s32 check_team_balance(void *, int);
     static void close_all_windows(void *);
     static void close_all_windows();
@@ -709,13 +700,10 @@ struct TLobby : public TObject {
     static void *create_quest_col_apc_inw(void *, void *);
     static void create_warp_menu();
     static void destroy_all_objects();
-    static void destroy_child_recursive(void *, void *);
+    static void destroy_child_recursive(TObject *task, TObject *object);
     static void destroy_join_entries();
     static void destroy_lobby_ui();
     static void disable_window_flags(void*);
-    static void *find_chunk_by_id(void *, int);
-    static void *find_header_by_id(void *, int);
-    static void *find_type5_header(void *, int);
     static saddr get_card_window_area();
     static ActorParamBlock *get_entry(int, int);
     static int get_flag_bit0();
@@ -738,14 +726,13 @@ struct TLobby : public TObject {
     static void handle_team_select();
     static void handle_verify_result(unsigned int);
     static void handle_warp_menu_input();
-    static void increment_ref_and_set_flag(void *);
     static void init(void *);
     static void init_buffers(int floor, u8 *quest);
-    static void init_player_entry(void *, void *);
+    static void init_player_entry(GuildCardRecord *entry, u8 *response);
     static void init_player_window_effect();
     static u8 is_challenge_lobby();
     static u8 is_valid_player_index(int);
-    static s32 load_floor_enemy_group_entries(int, void *, unsigned int);
+    static s32 load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 size);
     static u8 lookup_key_value(char);
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
     static void open_city_warp_menu();
@@ -759,8 +746,8 @@ struct TLobby : public TObject {
     static void open_session(const char *path);
     static void open_ship_block_select_menu(int, void *, void *);
     static void open_warp_menu();
-    static char *parse_csv_token(void *, void *);
-    static s32 pick_random_slot(void *);
+    static char *parse_csv_token(char *src, char *dst);
+    static s32 pick_random_slot(s16 *slot);
     static void play_all_players_effect(void*);
     static void play_effect_all_players(void*);
     void play_player_default_effect();
@@ -770,7 +757,7 @@ struct TLobby : public TObject {
     static void rebuild_all(u8 *quest);
     static void refresh_quest_list(const char *path);
     static void remove_player(unsigned int, int, int);
-    static s32 replace_file_extension(void *, void *, void *);
+    static s32 replace_file_extension(char *dest, char *filename, char *suffix);
     static void request_game_list();
     static void reset(int);
     static void reset_camera_if_fullscreen(void*);
@@ -780,7 +767,7 @@ struct TLobby : public TObject {
     static void retire_lobby_player(int, int);
     static void return_to_main_menu();
     static void run_floor_cleanup_callbacks(int);
-    static void run_join_lobby_connect(int);
+    static void run_join_lobby_connect(TObject *parent);
     static void send_6x6E_sync_game_state(int);
     static void send_6x70_player_data(int);
     static void send_giveup_to_all_players();

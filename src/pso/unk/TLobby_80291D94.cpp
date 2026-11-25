@@ -31,6 +31,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/TLobby_80291D94.h"
 
 ChallengeModeState challenge_default_settings = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
@@ -95,8 +96,6 @@ void challenge_set_time_record(s32 arg0);
 }
 void set_challenge_time_window_timer(int);
 extern "C" {
-s32 challenge_create_reward_item(s32 arg0, u16 arg1);
-s32 challenge_set_rank_threshold(s32 idx, s32 value, s32 arg);
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
 s32 challenge_check_rank_time(s32 arg0, s32 card);
@@ -275,30 +274,24 @@ s32 challenge_set_rank_threshold(s32 idx, s32 value, s32 arg) {
     return 1;
 }
 
-s32 challenge_create_reward_item(s32 arg0, u16 slot_index) {
-  s32 new_var2;
-  s32 character_save_record;
-  ChallengeRankThreshold *temp_r30;
-  int new_var;
-  if ((challenge4p_mode_state.result_rank < 0) || (challenge4p_mode_state.result_rank > 2))
-  {
+s32 challenge_create_reward_item(TItemData *item, u16 slot_index) {
+    CharacterSaveRecord *record;
+    ChallengeRankThreshold *threshold;
+    s32 set;
+    if ((challenge4p_mode_state.result_rank < 0) || (challenge4p_mode_state.result_rank > 2)) {
+        return 0;
+    }
+    record = (CharacterSaveRecord *)get_character_save_record(slot_index);
+    if (record == NULL) {
+        return 0;
+    }
+    if (record->register_in_free_room_slot(item) != 0) {
+        threshold = &challenge4p_mode_state.rank_thresholds[challenge4p_mode_state.result_rank];
+        set = resolve_challenge_record_set(-1);
+        challenge_set_rank(&record->challenge, set)->award_flags |= threshold->award_flags;
+        return 1;
+    }
     return 0;
-  }
-  character_save_record = get_character_save_record((s32) slot_index);
-  new_var = 0;
-  if (character_save_record == new_var)
-  {
-    return new_var;
-  }
-  if (((CharacterSaveRecord *)(character_save_record & 0xFFFFFFFFFFFFFFFFu))->register_in_free_room_slot(arg0) != 0)
-  {
-    temp_r30 = &challenge4p_mode_state.rank_thresholds[challenge4p_mode_state.result_rank];
-    new_var2 = resolve_challenge_record_set(-1);
-    challenge_set_rank((ChallengeRecord *)(character_save_record + 0x21C4), new_var2)->award_flags |= temp_r30->award_flags;
-    return 1;
-  }
-  return 0;
-  arg0 = arg0;
 }
 
 }
@@ -329,7 +322,6 @@ struct RebuildPlayersForStageInfo { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flag
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(void *, u8, s16);
 
 
 s32 TLobby::set_camera_height_if_valid(f32 multiplier) {
@@ -401,10 +393,10 @@ void TLobby::rebuild_players_for_stage(s32 stage) {
             p->set_position_from(&pos);
             p->save_previous_position();
             p->reset_motion_fields();
-            ((TObjPlayer *)((u8 *)p + 0x428))->set_all_technique_levels((void *)0xFF);
+            p->technique_state.set_all_technique_levels(0xFF);
             if (tbl->techniques != NULL) {
                 for (e = tbl->techniques; e->level != 0xFF; e++) {
-                    set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(p, e->level, e->technique);
+                    TObjPlayer::set_technique_level_clamped(p, e->level, e->technique);
                 }
             }
             *(s32 *)((s8 *)p + 0xD58) = 0;
@@ -711,8 +703,6 @@ void clear_challenge_and_split_screen_flags(void) { challenge_mode_active_flag =
 
 void enable_split_screen_challenge_mode(void) { challenge_mode_active_flag = 1; split_screen_flag = 1; }
 
-int load_tombstone_resources(void* p);
-int load_resources__13TObjTombstoneFv(void*);
 }
 
 const char *challenge4p_class_name = "TChallenge4P";
@@ -722,7 +712,7 @@ TChallenge4P *TChallenge4P::create() {
 }
 
 void TLobby::destroy_tombstone() { TObjTombstone::destroy(); }
-int load_tombstone_resources(void* p) { return load_resources__13TObjTombstoneFv(p); }
+void load_tombstone_resources() { TObjTombstone::load_resources(); }
 
 
 struct ByteBlock_690 { u8 bytes[0x690]; };
@@ -742,8 +732,8 @@ void setup_split_screen(void);
 
 void setup_split_screen(void) {
     u32 i;
-    u32 player;
-    u32 char_index;
+    TObjPlayer *player;
+    TPlyCharData *char_data;
 
     split_screen_flag = 1;
     split_screen_challenge_created = 0;
@@ -762,10 +752,10 @@ void setup_split_screen(void) {
         ((TLobby *)((saddr)"Area00"))->set_split_screen_name();
         i = 0U;
         do {
-            player = (uaddr)get_player_by_client_id(i);
-            char_index = (u32)TAdSinglePlyChrSelectGC::get_char_index(i);
-            if ((player != 0U) && (char_index != 0U)) {
-                reinterpret_cast<TObjPlayer *>(player)->export_character_data(reinterpret_cast<TPlyCharData *>(char_index));
+            player = get_player_by_client_id(i);
+            char_data = TAdSinglePlyChrSelectGC::get_char_index(i);
+            if ((player != NULL) && (char_data != NULL)) {
+                player->export_character_data(char_data);
             }
             i += 1;
         } while (i != 4U);
@@ -774,7 +764,7 @@ void setup_split_screen(void) {
 extern "C" {
 
 void TLobby__sub_80293218(s32 client) {
-    TObjPlayer *p = reinterpret_cast<TObjPlayer *>(((uaddr)get_player_by_client_id(client)));
+    TObjPlayer *p = get_player_by_client_id(client);
     if (p != NULL) {
         ChallengeClientRecords *r = &challenge4p_mode_state.client_records[client];
         if (r->present != 0) {

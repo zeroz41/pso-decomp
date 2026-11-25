@@ -48,7 +48,6 @@ s32 client_cleared_stages(s32 client, s32 slot) {
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(TObjPlayer *, u8, s16);
 extern s32 local_client_id;
 void TObjPlayer::rebuild_players_for_stage(s32 stage) {
     RebuildPlayersForStageHdr hdr;
@@ -104,10 +103,10 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
             p->set_position_from(&pos);
             p->save_previous_position();
             p->reset_motion_fields();
-            ((TObjPlayer *)((u8 *)p + 0x428))->set_all_technique_levels((void *)0xff);
+            p->technique_state.set_all_technique_levels(0xff);
             if (t->techniques != NULL) {
                 for (e = t->techniques; e->level != 0xff; e++) {
-                    set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(p, e->level, e->technique);
+                    TObjPlayer::set_technique_level_clamped(p, e->level, e->technique);
                 }
             }
             *(s32 *)((u8 *)p + 0xd58) = 0;

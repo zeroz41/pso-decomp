@@ -25,7 +25,6 @@
 #include "pso/render/TFogCtrl.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayerActions.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"

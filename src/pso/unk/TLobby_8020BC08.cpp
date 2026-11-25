@@ -5,10 +5,9 @@
 #include "pso/map/FloorPopulation.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_80207DA8.h"
+#include "pso/network/TLobby.h"
 
-extern "C" {
-
-void destroy_child_recursive__6TLobbyFPvPv(TObject *task, TObject *object) {
+void TLobby::destroy_child_recursive(TObject *task, TObject *object) {
     TObject *p = task->m_down;
     TObject *cur;
     while (task->m_down != 0 && p != 0) {
@@ -17,13 +16,11 @@ void destroy_child_recursive__6TLobbyFPvPv(TObject *task, TObject *object) {
         if (cur == object) {
             cur->queue_destruction();
         } else {
-            destroy_child_recursive__6TLobbyFPvPv(cur, object);
+            destroy_child_recursive(cur, object);
         }
     }
 }
-}
 void init_switch_table(void);
-#include "pso/network/TLobby.h"
 #include "pso/map/TSetManager.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 

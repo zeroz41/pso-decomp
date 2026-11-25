@@ -85,13 +85,11 @@ struct Stack_8011E56C {
 };
 
 
-
 struct ShotVector { f32 x,y,z; };
 
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 TObjChara *resolve_hittable_target(s32, s32);
-void * __ct__17TItemEffectWeaponFll(void *, u32, u32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
 
@@ -254,11 +252,7 @@ void TItemWeapon::create_weapon_trail_effects() {
     if (effect_objects != NULL) {
         for (i = 0; i != 4; i++) {
             if (trail_start_joints[i] != -1) {
-                void *p = TItemHeapObject::operator new(0x2C);
-                if (p != NULL) {
-                    p = __ct__17TItemEffectWeaponFll(p, (u32)effect_objects, flags);
-                }
-                trails[i] = (TItemEffectWeapon *)p;
+                trails[i] = new TItemEffectWeapon(effect_objects, flags);
             }
             if (trails[i] != NULL && test_actor_flags(0x2000) != 0) {
                 trails[i]->set_flags(1);

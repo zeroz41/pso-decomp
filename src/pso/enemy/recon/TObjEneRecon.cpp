@@ -291,7 +291,6 @@ void TObjEneRecon::handle_message(s32 message) {
 
 
 extern "C" {
-f32 normalize_vector_xz__FP3Vec(void *, s32);
 
 void TObjEneRecon::state_death(s32 reason) {
     switch (reason) {
@@ -395,11 +394,10 @@ void TObjEneRecon::state_damage(s32 reason) {
         break;
     case 0:
         advance_animation();
-        n = state_step;
-        state_step = n + 1;
+        state_step++;
         velocity.x = TObjChara::velocity.x;
         velocity.z = TObjChara::velocity.z;
-        v = normalize_vector_xz__FP3Vec(&velocity, n);
+        v = normalize_vector_xz(&velocity);
         set_flag2(velocity.x, velocity.z, v);
         clamp_min_height();
         TObjChara::velocity.x *= 0.5f;

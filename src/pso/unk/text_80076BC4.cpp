@@ -37,7 +37,6 @@ void submit_chat_text(u8 *lobby) {
 
 void chat_dispatch_accepted_result(s32 *submission);
 extern "C" {
-s32 is_submit_cooldown_clear__11TWindowCtrlFv();
 saddr get_chat_shortcut(s32 index);
 void send_chat_shortcut(void);
 void TAdSinglePlyChrSelectGC__sub_80076DF4(void* p, void* q);
@@ -59,7 +58,7 @@ void chat_dispatch_accepted_result(s32 *submission) {
     }
 }
 s32 chat_accept_submission(saddr submission) {
-    if (is_submit_cooldown_clear__11TWindowCtrlFv() == 0) {
+    if (TWindowCtrl::is_submit_cooldown_clear() == 0) {
         return 0;
     }
     TWindowCtrl::set_field22();

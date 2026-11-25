@@ -10,11 +10,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_8024AADC.h"
-#include "pso/unk/text_8024AB98.h"
-#include "pso/unk/text_8024ACA8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/unk/text_8024AC64.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
@@ -60,14 +56,14 @@ TWindowTradeRequest::~TWindowTradeRequest() {
         reinterpret_cast<TWindowMessageYesNo *>(dialog)->close();
         dialog = NULL;
     }
-    TWindowReturnCity__sub_8024ACA8((local_client_id));
+    TWindowCtrl::show_client_lock_on_window((local_client_id));
     TWindowCtrl::enable_client_main_menu(local_client_id);
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         player->init_parts();
     }
     if (state == 2U) {
-        fn_8024AADC((local_client_id), 0x1D);
+        TWindowCtrl::try_open_battle_menu(local_client_id, 0x1D);
     }
 }
 #pragma fp_contract on
@@ -80,15 +76,14 @@ TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
     }
     text_builder_append((u8 *)TWindowSubStatusDisp::get_message_10(0xD9));
     dialog = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
-    u8 *position = (u8 *)get_window_layout_position(0xB2);
-    dialog->open_yes_no_prompt_with_text(reinterpret_cast<saddr>(get_shared_text_buffer()),
-        reinterpret_cast<saddr>(position), 260.0f);
+    const NJS_POINT2 *position = get_window_layout_position(0xB2);
+    dialog->open_yes_no_prompt_with_text(reinterpret_cast<saddr>(get_shared_text_buffer()),position, 260.0f);
     dialog->set_choice_menu_flag70_bit10();
     TObjPlayer *local = get_player_by_client_id(local_client_id);
     if (local != NULL) {
         local->reset_equip_slots();
     }
     TWindowCtrl::disable_client_main_menu(local_client_id);
-    fn_8024AC64(local_client_id);
+    TWindowCtrl::hide_client_lock_on_window(local_client_id);
     state = 0;
 }

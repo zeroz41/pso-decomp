@@ -69,7 +69,6 @@ extern "C" void handle_6x32_medical_center_revive_all_players();
 extern "C" void handle_6x34();
 extern "C" void handle_6x36();
 extern "C" void handle_6x41_move_to_position();
-extern "C" void handle_6x48_cast_technique_complete(void *arg);
 extern "C" void handle_6x54();
 extern "C" void handle_6x57(G_Unknown_6x57 *command);
 extern "C" void handle_6x5F_drop_item();

@@ -1057,14 +1057,14 @@ void TBoss3VoloptP02::update_death_sequence() {
         rotation_y = 0;
         set_scripted_camera_origin(&boss3_volopt_spawn_pos, &boss3_volopt_spawn_pos, (CameraAngles *)&rotation_x);
         TObjPlayer::freeze_all_players();
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         state = 2;
         break;
     case 2:
         timer--;
         if ((get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) || timer < 0) {
             restore_player_cameras();
-            TWindowCtrl::init_all_slots2();
+            TWindowCtrl::unsuppress_all_slots();
             release_players_from_cutscene();
             model_node_3f->evalflags |= 8;
             model_node_44->evalflags |= 8;

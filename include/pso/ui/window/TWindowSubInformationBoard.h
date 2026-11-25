@@ -8,12 +8,12 @@ struct TWindowMainMenu;
 struct TKeyBoardControl;
 
 struct TWindowSubInformationBoard : public TObject {
-    TWindowSubInformationBoard(TObject *object, void *arg2);
+    TWindowSubInformationBoard(TObject *parent, s32 client);
     virtual ~TWindowSubInformationBoard();
     u32 open_card_info_window();
     u8 m_1c;
     u8 _pad1D[0x3];
-    u32 m_20;
+    s32 client;
     u32 shown_index;    // index set_page/set_message_index last showed; -1 after a new message window
     TWindowMainMenu *parent_menu;
     uaddr menu_window;    // create_info_board_menu (TWindowMenu)

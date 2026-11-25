@@ -457,7 +457,7 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
         }
     }
     if (n > 0) {
-        menu_window = (saddr)create_window_menu((saddr)get_window_layout_position(0x32), n, client_id);
+        menu_window = (saddr)create_window_menu(get_window_layout_position(0x32), n, client_id);
         if (menu_window != 0) {
             if (TLobby::get_instance() == 0) {
                 for (j = 0, k = 0; j < 17; j++) {
@@ -575,7 +575,7 @@ void *TObjCityAreaWarp::create(void *set_data) {
 
 void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
     if (menu_window == 0) {
-        menu_window = (saddr)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
+        menu_window = (saddr)create_window_menu(get_window_layout_position(0x33), 1, client_id);
         ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, 0x24), 0xA, 0, -1);
         ((TWindowMenu *)menu_window)->set_flag70_bit10();
         ((TWindowMenu *)menu_window)->set_flag_40();
@@ -634,7 +634,7 @@ void *TObjCityMapWarp::create(void *set_data) {
 
 void TObjCityMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
-        playerPopups[client_id] = (TWindowMenu *)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
+        playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_destination_index();
         ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();
@@ -731,7 +731,7 @@ void TObjLaboMapWarp::release_static_resource() {
 
 void TObjLaboMapWarp::open_confirm_window(s32 client_id) {
     if (playerPopups[client_id] == NULL) {
-        playerPopups[client_id] = (TWindowMenu *)create_window_menu((saddr)get_window_layout_position(0x33), 1, client_id);
+        playerPopups[client_id] = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         clamp_index();
         ((TWindowMenu *)playerPopups[client_id])->add_text_entry(get_localized_text_entry(9, map_warp_dest_text_ids[set_params[2]]), 0xA, 0, -1);
         ((TWindowMenu *)playerPopups[client_id])->set_flag70_bit10();

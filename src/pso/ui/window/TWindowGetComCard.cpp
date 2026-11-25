@@ -3,8 +3,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/unk/text_8024AC64.h"
-#include "pso/unk/text_8024ACA8.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -22,7 +20,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 
@@ -123,7 +120,7 @@ TWindowGetComCard::~TWindowGetComCard() {
         message->close();
         message = NULL;
     }
-    TWindowReturnCity__sub_8024ACA8(local_client_id);
+    TWindowCtrl::show_client_lock_on_window(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
     if ((TWindowCtrl__sub_8024A314() == 0) && ((player = get_player_by_client_id(local_client_id)) != NULL)) {
         player->init_parts();
@@ -152,6 +149,6 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
         player->reset_equip_slots();
     }
     TWindowCtrl::disable_client_main_menu(local_client_id);
-    fn_8024AC64((local_client_id));
+    TWindowCtrl::hide_client_lock_on_window((local_client_id));
     state = 0;
 }

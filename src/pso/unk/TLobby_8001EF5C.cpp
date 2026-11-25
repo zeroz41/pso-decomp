@@ -17,6 +17,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_800FA2A0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_800F7DAC.h"
+#include "pso/ui/keyboard/SystemBootInitInternal.h"
 
 
 struct BmlModelLoadRequest {
@@ -83,9 +85,7 @@ s32 bml_load_entry_index;
 u8 * lobby_bml_read_buffer;
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes);
 s32 TLobby__sub_800F9FF4(saddr);
-extern u8 *resource_decompress_buffer;
 s32 release_texture_list(void *);
-u32 prs_decompress_buffer(s32 src, s32 dst);
 
 extern const char *lbl_805D2B10;
 s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
@@ -193,6 +193,7 @@ void BmlResource::set_flag_and_notify() {
         on_loaded(callback_context);
     }
 }
+}
 
 s32 LoadBmlExec(BmlResource *bml, const char *name) {
     s32 n;
@@ -271,7 +272,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             case 1: {
                 u8 *p = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize));
                 if (p != NULL) {
-                    prs_decompress_buffer((saddr)lobby_bml_read_buffer, reinterpret_cast<saddr>(p));
+                    prs_decompress_buffer(lobby_bml_read_buffer, p);
                     LoadBinModelSub(bml, bml_header_record_ptr->rawSize, bml->loaded_models++, p);
                     safe_free(p);
                 } else {
@@ -323,7 +324,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             case 1: {
                 u8 *p = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize));
                 if (p != NULL) {
-                    prs_decompress_buffer((saddr)lobby_bml_read_buffer, reinterpret_cast<saddr>(p));
+                    prs_decompress_buffer(lobby_bml_read_buffer, p);
                     LoadBinMotionSub(bml, bml->loaded_models++, p);
                     safe_free(p);
                 } else {
@@ -421,7 +422,8 @@ void TLobby::init_download_buffers() {
     tmp_buf_name[0] = 0;
 }
 
-void check_bin_model_loaded__6TLobbyFPvPv(BmlResource *resource, void *) {
+// Marks the archive loaded once every model, motion and texture has arrived.
+void check_bin_model_loaded(BmlResource *resource) {
     if (resource->model_count <= resource->loaded_models &&
         resource->motion_count <= resource->loaded_motions &&
         resource->expected_textures <= resource->loaded_textures) {
@@ -431,13 +433,13 @@ void check_bin_model_loaded__6TLobbyFPvPv(BmlResource *resource, void *) {
     }
 }
 
-void increment_ref_and_set_flag__6TLobbyFPv(void *context) {
+// Texture-load callback: counts the texture in and flags its archive entry.
+void increment_ref_and_set_flag(void *context) {
     BmlTextureLoadRequest *request = (BmlTextureLoadRequest *)context;
     BmlResource *resource = request->resource;
     resource->loaded_textures++;
-    TLobby::check_bin_model_loaded(request->resource, resource);
+    check_bin_model_loaded(request->resource);
     request->entry->flags |= 1;
-}
 }
 void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     u32 position;
@@ -451,7 +453,7 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     *request->motion = (AnimationMotion *)data;
     BmlResource *resource = request->resource;
     resource->loaded_motions++;
-    TLobby::check_bin_model_loaded(request->resource, resource);
+    check_bin_model_loaded(request->resource);
 }
 
 
@@ -474,7 +476,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             params.resource = self->resource;
             params.entry = self->entry;
             TLobby::change_file_extension(name, (char *)self->name, (char *)"gvm");
-            r = TLobby::create_file_load_entry(name, *slot, increment_ref_and_set_flag__6TLobbyFPv, &params, &handle);
+            r = TLobby::create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
                 add_resource_handle(self->resource, handle);
                 self->resource->expected_textures++;
@@ -491,7 +493,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             break;
         }
     }
-    ((void (*)(void *))check_bin_model_loaded__6TLobbyFPvPv)(self->resource);
+    check_bin_model_loaded(self->resource);
 }
 
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes) {
@@ -629,7 +631,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
     BmlArchiveEntry *first;
     s32 sectors;
     s32 size;
-    saddr buf;
+    void *buf;
     u32 flags;
     reset();
     this->flags = kind | 0x100;
@@ -669,7 +671,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
             }
             hdr = (BmlArchiveHeader *)bml_load_buffer;
             first = hdr->recs;
-            st.read_data((saddr)hdr, (s32)(sectors << 11));
+            st.read_data(hdr, (s32)(sectors << 11));
             switch (hdr->compressed) {
             case 0x50:
                 bml_load_state = 1;
@@ -691,21 +693,21 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                 }
                 switch (bml_load_state) {
                 case 1:
-                    buf = (saddr)TQuestVmDownLoadServer::alloc(size + 0x800);
-                    if (buf != 0) {
+                    buf = TQuestVmDownLoadServer::alloc(size + 0x800);
+                    if (buf != NULL) {
                         disc_read_filename = (const char *)descriptor->archive_filename;
-                        st.read_data((saddr)((void *)buf), size);
+                        st.read_data(buf, size);
                         st.align_read_offset(blk);
                         disc_read_filename = lbl_805D2B10;
-                        prs_decompress_buffer(buf, (saddr)resource_decompress_buffer);
-                        safe_free(reinterpret_cast<void *>(buf));
+                        prs_decompress_buffer(buf, resource_decompress_buffer);
+                        safe_free(buf);
                         LoadBinModelSub(this, size, i, resource_decompress_buffer);
                     } else {
                         TLobby::debug_print("TBinModel:%s Malloc failed.", descriptor->archive_filename);
                     }
                     break;
                 default:
-                    st.read_data((saddr)resource_decompress_buffer, size);
+                    st.read_data(resource_decompress_buffer, size);
                     st.align_read_offset(blk);
                     disc_read_filename = lbl_805D2B10;
                     LoadBinModelSub(this, size, i, resource_decompress_buffer);
@@ -716,11 +718,11 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                     if (e->texlist != NULL) {
                         s32 tsize = rec->texSize;
                         if (tsize != 0) {
-                            saddr tbuf = (saddr)TQuestVmDownLoadServer::alloc(tsize + 0x800);
-                            st.read_data((saddr)((void *)tbuf), tsize);
+                            void *tbuf = TQuestVmDownLoadServer::alloc(tsize + 0x800);
+                            st.read_data(tbuf, tsize);
                             st.align_read_offset(blk);
-                            prs_decompress_buffer(tbuf, (saddr)resource_decompress_buffer);
-                            safe_free(reinterpret_cast<void *>(tbuf));
+                            prs_decompress_buffer(tbuf, resource_decompress_buffer);
+                            safe_free(tbuf);
                             if (load_gvm_texture_archive(resource_decompress_buffer, models[i].texlist) > 0) {
                                 models[i].flags |= 1;
                             } else {
@@ -743,16 +745,16 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                 }
                 switch (bml_load_state) {
                 case 1: {
-                    saddr mb = (saddr)TQuestVmDownLoadServer::alloc(sz + 0x800);
-                    st.read_data((saddr)((void *)mb), sz);
+                    void *mb = TQuestVmDownLoadServer::alloc(sz + 0x800);
+                    st.read_data(mb, sz);
                     st.align_read_offset(blk);
-                    prs_decompress_buffer(mb, (saddr)resource_decompress_buffer);
-                    safe_free(reinterpret_cast<void *>(mb));
+                    prs_decompress_buffer(mb, resource_decompress_buffer);
+                    safe_free(mb);
                     LoadBinMotionSub(this, j, resource_decompress_buffer);
                     break;
                 }
                 default:
-                    st.read_data((saddr)resource_decompress_buffer, sz);
+                    st.read_data(resource_decompress_buffer, sz);
                     st.align_read_offset(blk);
                     LoadBinMotionSub(this, j, resource_decompress_buffer);
                     break;

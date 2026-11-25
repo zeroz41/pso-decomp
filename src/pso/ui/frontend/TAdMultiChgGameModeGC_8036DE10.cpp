@@ -3,6 +3,7 @@
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -30,6 +31,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C88C0_size, sizeof(RecoveredGlobal
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 struct Stack_8036EA24 {
     s32 sp8;
     s32 spC;
@@ -54,7 +56,6 @@ struct Self_8036E2AC {
 };
 
 extern "C" {
-void *create_window_menu_default(void *, s32);
 void set_fallback_main_phase(s32 arg0);
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
@@ -170,7 +171,7 @@ TAdMultiChgGameModeGCState multi_chg_game_mode_entry_table[11] = {
     {&TAdMultiChgGameModeGC::sub_8036DEDC, &TAdMultiChgGameModeGC::close_windows_on_selection},
 };
 __declspec(section ".data") f32 multi_chg_game_mode_window_extent[2] = {0.5f * (640.0f - multi_chg_game_mode_window_size[0]), 70.0f};
-__declspec(section ".data") f32 lbl_804F3A18[2] = {
+__declspec(section ".data") NJS_POINT2 lbl_804F3A18 = {
     20.0f + multi_chg_game_mode_window_extent[0],
     10.0f + (multi_chg_game_mode_window_extent[1] + multi_chg_game_mode_window_size[1]),
 };
@@ -321,7 +322,7 @@ void TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
     s32 b;
     s32 c;
     s32 d;
-    self->win = create_window_menu_default(lbl_804F3A18, 2);
+    self->win = create_window_menu_default(&lbl_804F3A18, 2);
     a = TAdMultiChgGameModeGC__sub_8036DE10((saddr)self, 6, self->f24);
     b = TAdMultiChgGameModeGC__sub_8036DE10((saddr)self, 7, self->f24);
     c = TAdMultiChgGameModeGC__sub_8036DE10((saddr)self, 2, self->f24);

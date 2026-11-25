@@ -15,7 +15,7 @@ void TLogo::free_held_object() {
 }
 void register_texture_logo_e(void) {
     logo_texture_e_handle = &texture_logo_e_descriptor;
-    load_streamed_prs_texture((saddr)"logo_e", (saddr)&texture_logo_e_descriptor);
+    load_streamed_prs_texture("logo_e", &texture_logo_e_descriptor);
 }
 
 void TLogo::request_exit(TObject *fade) {

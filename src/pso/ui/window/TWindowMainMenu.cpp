@@ -67,14 +67,12 @@ s32 select_main_menu_item_10(s32);
 
 #include "pso/ui/window/TWindowMainMenu1P.h"
 #include "pso/player/PlayerSlots.h"
-extern "C" {
-s32 __ct__17TWindowSubAreaMapFP7TObjectPv(int, void *, int);
-s32 __ct__17TWindowSubComCardFP7TObjectPv(int, void *, int);
-s32 __ct__13TWindowSubLogFP7TObjectPv(int, void *, int);
-s32 __ct__18TWindowSubShortCutFP7TObjectPv(int, void *, int);
-s32 __ct__26TWindowSubInformationBoardFP7TObjectPv(int, void *, int);
-void *__ct__32TAdMultiPlyChrSelectTransitionGCFP7TObjectl(void *, void *, void *);
-}
+#include "pso/ui/window/TWindowSubAreaMap.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowSubLog.h"
+#include "pso/ui/window/TWindowSubShortCut.h"
+#include "pso/ui/window/TWindowSubInformationBoard.h"
+#include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"
 
 
 int test_keyboard_card_flag4(void* p) { return TWindowKeyBoardHard::test_card_flag((saddr)p, 4); }
@@ -242,16 +240,6 @@ void TWindowMainMenu::show_child_window() {
 }
 
 void TWindowMainMenu::create_submenu(u32 id) {
-    s32 temp_r3_13;
-    s32 temp_r3_14;
-    s32 temp_r3_17;
-    s32 temp_r3_18;
-    s32 temp_r3_9;
-    s32 var_r0_13;
-    s32 var_r0_14;
-    s32 var_r0_17;
-    s32 var_r0_18;
-    s32 var_r0_9;
     menu_flags = (s32) (menu_flags | 4);
     destroy_submenu();
     reset_depth_base();
@@ -287,12 +275,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 12:
     case 13:
-        temp_r3_9 = ((saddr)TObject::operator new(0x28));
-        var_r0_9 = temp_r3_9;
-        if (var_r0_9 != 0) {
-            var_r0_9 = __ct__17TWindowSubAreaMapFP7TObjectPv(temp_r3_9, this, (int) this->client_index);
-        }
-        this->submenu = var_r0_9;
+        this->submenu = (saddr)new TWindowSubAreaMap(this, this->client_index);
         return;
     case 15:
     case 16:
@@ -306,20 +289,10 @@ void TWindowMainMenu::create_submenu(u32 id) {
         this->submenu = (saddr)new TWindowSubSymbolChat(this, this->client_index);
         return;
     case 14:
-        temp_r3_13 = ((saddr)TObject::operator new(0x88));
-        var_r0_13 = temp_r3_13;
-        if (var_r0_13 != 0) {
-            var_r0_13 = __ct__17TWindowSubComCardFP7TObjectPv(temp_r3_13, this, (int) this->client_index);
-        }
-        this->submenu = var_r0_13;
+        this->submenu = (saddr)new TWindowSubComCard(this, this->client_index);
         return;
     case 21:
-        temp_r3_14 = ((saddr)TObject::operator new(0x80));
-        var_r0_14 = temp_r3_14;
-        if (var_r0_14 != 0) {
-            var_r0_14 = __ct__13TWindowSubLogFP7TObjectPv(temp_r3_14, this, (int) this->client_index);
-        }
-        this->submenu = var_r0_14;
+        this->submenu = (saddr)new TWindowSubLog(this, this->client_index);
         return;
     case 6:
         this->submenu = (saddr)new TWindowSubOption(this, this->client_index);
@@ -329,20 +302,10 @@ void TWindowMainMenu::create_submenu(u32 id) {
         this->submenu = reinterpret_cast<saddr>(new TWindowSubShortMail(this, client_index));
         return;
     case 22:
-        temp_r3_17 = ((saddr)TObject::operator new(0x914));
-        var_r0_17 = temp_r3_17;
-        if (var_r0_17 != 0) {
-            var_r0_17 = __ct__26TWindowSubInformationBoardFP7TObjectPv(temp_r3_17, this, (int) this->client_index);
-        }
-        this->submenu = var_r0_17;
+        this->submenu = (saddr)new TWindowSubInformationBoard(this, this->client_index);
         return;
     case 17:
-        temp_r3_18 = ((saddr)TObject::operator new(0x94));
-        var_r0_18 = temp_r3_18;
-        if (var_r0_18 != 0) {
-            var_r0_18 = __ct__18TWindowSubShortCutFP7TObjectPv(temp_r3_18, this, (int) this->client_index);
-        }
-        this->submenu = var_r0_18;
+        this->submenu = (saddr)new TWindowSubShortCut(this, this->client_index);
         return;
     case 7:
     case 8:
@@ -353,14 +316,9 @@ void TWindowMainMenu::create_submenu(u32 id) {
 }
 
 void TWindowMainMenu1P::create_char_select_slot() {
-    void *o;
     destroy_submenu();
     reset_depth_base();
-    o = TObject::operator new(0x50);
-    if (o != NULL) {
-        o = __ct__32TAdMultiPlyChrSelectTransitionGCFP7TObjectl(o, this, reinterpret_cast<void *>(client_index));
-    }
-    *(void * *)&this->submenu = o;
+    *(void * *)&this->submenu = new TAdMultiPlyChrSelectTransitionGC(this, client_index);
 }
 
 void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->submenu != 0) { ((TObject *)(*(void* *)&this->submenu))->queue_destruction(); *(int *)&this->submenu = 0; } }
@@ -369,7 +327,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
     if ((s32)description_item_id != id) {
         description_item_id = id;
         if (help_window == NULL) {
-            saddr tmp = reinterpret_cast<saddr>(get_window_layout_position(0x1B));
+            const NJS_POINT2 *tmp = get_window_layout_position(0x1B);
             help_window = (TWindowMessage *)TWindowMessage::create(tmp, lbl_8044F2E0, 1, this->client_index);
             ((TWindowBase *)help_window)->set_depth(49999.0f);
             call_if_split_screen((uaddr)help_window, this->client_index);
@@ -536,10 +494,9 @@ void TWindowMainMenu::try_open_battle_menu(s16 key) {
     }
 }
 
-void TWindowSubEquip::open_submenu(saddr window_main_menu, s32 arg1) {
-    s32 create_submenu__15TWindowMainMenuFUl(s32, s16);
-    ((TWindowMainMenu *)window_main_menu)->destroy_submenu();
-    create_submenu__15TWindowMainMenuFUl(window_main_menu, (s16)arg1);
+void TWindowMainMenu::replace_submenu(s16 id) {
+    destroy_submenu();
+    create_submenu(id);
 }
 
 void TWindowMainMenu::reset_depth_base() { depth_base = 50300.0f; }

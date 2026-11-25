@@ -406,7 +406,7 @@ void initialize_lobby_title_scene(void) {
     TLobby::update_menu_cursor();
     TitleTextureFilenameTable names = title_texture_filename_table;
     lobby_title_texture_list = &title_texture_list;
-    load_streamed_prs_texture((saddr)names.archive[current_language], (saddr)&title_texture_list);
+    load_streamed_prs_texture(names.archive[current_language], &title_texture_list);
     run_load_callback_table(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     TLobby::reset_counter();
     set_current_floor_area(0);

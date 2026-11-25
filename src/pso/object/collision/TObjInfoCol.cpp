@@ -41,7 +41,7 @@ void TObjInfoCol::run_task() {
          player->is_controls_locked() == 0) &&
         (player == NULL || player->is_inactive() != 0) &&
         TLobby::is_idle() != 0) {
-        open_lobby_warp_menu__6TLobbyFv();
+        TLobby::open_lobby_warp_menu();
     }
 }
 

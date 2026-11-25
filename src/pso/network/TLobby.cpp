@@ -204,8 +204,6 @@ void handle_chat_message__11TWindowCtrlFPc(char *);
 void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused);
 void show_card_list_message(void *msg);
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
-void receive_file_chunk__22TQuestVmDownLoadServerFv();
-void begin_file_download__22TQuestVmDownLoadServerFv();
 void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
@@ -350,7 +348,7 @@ void TLobby::apply_lobby_markers() {
         for (j = 0; j < 12; j++) {
             u8 *p = (u8*)get_player_by_client_id(j);
             if (p != NULL && *(u32*)(p + 0xDB0) == e->key) {
-                ((TObjPlayer *)p)->set_lobby_marker((u8)e->val);
+                ((TObjPlayer *)p)->set_lobby_marker(e->val);
             }
         }
     }
@@ -490,7 +488,7 @@ void TLobby::update_idle_timeout(void *object) {
     }
 }
 
-u8 *init_idle_timeout_timer(u8 *timer, saddr parent) {
+u8 *init_idle_timeout_timer(u8 *timer, TObject *parent) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)timer;
     DateStamp date;
     __ct__7TObjectFP7TObject((void *)timer, (void *)parent);
@@ -1499,15 +1497,15 @@ void TLobby::set_menu_mode_2() {
     lobby_state = 0x15;
 }
 void TLobby::open_lobby_warp_menu() {
-    s32 window_layout_position;
+    const NJS_POINT2 *window_layout_position;
     TLobby::show_seq_phase_message(3);
-    window_layout_position = (saddr)get_window_layout_position(0xB4);
+    window_layout_position = get_window_layout_position(0xB4);
     if ((s32) lobby_number < 0xD) {
-        TLobby_warp_menu_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
+        TLobby_warp_menu_window = create_window_menu_default(window_layout_position, 2);
         TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x35), 6, 0);
         TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x36), 6, 1);
     } else {
-        TLobby_warp_menu_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 3);
+        TLobby_warp_menu_window = create_window_menu_default(window_layout_position, 3);
         TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x35), 6, 0);
         TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x36), 6, 1);
         TLobby_warp_menu_window->add_text_entry(TLobby::get_seq_phase(0x47), 6, 3);
@@ -1573,10 +1571,10 @@ void TLobby::close_and_set_state_13(int msg) {
     lobby_state = 0xD;
 }
 void TLobby::create_warp_menu() {
-    s32 window_layout_position;
+    const NJS_POINT2 *window_layout_position;
     ((TWindowMenu *)TLobby_warp_menu_window)->open();
-    window_layout_position = (saddr)get_window_layout_position(0xB5);
-    lobby_com_card_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
+    window_layout_position = get_window_layout_position(0xB5);
+    lobby_com_card_window = create_window_menu_default(window_layout_position, 2);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x39), 6, 0);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3A), 6, 1);
     lobby_com_card_window->calc_window_size();
@@ -1603,7 +1601,7 @@ void TLobby::open_menu_window() {
         ((TWindowMenu *)menu)->open();
     }
     TLobby::show_seq_phase_message(0x11);
-    lobby_make_team_menu_window = (TWindowMenu *)create_window_menu_default((saddr)get_window_layout_position(0xB6), 2);
+    lobby_make_team_menu_window = create_window_menu_default(get_window_layout_position(0xB6), 2);
     lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x45), 6, 0);
     lobby_make_team_menu_window->add_text_entry(TLobby::get_seq_phase(0x46), 6, 1);
     lobby_make_team_menu_window->calc_window_size();
@@ -1618,10 +1616,10 @@ void TLobby::open_make_team_window(int mode) {
 }
 void TLobby::close_all_windows(void *) { TLobby::close_all_windows(); }
 void TLobby::open_warp_menu() {
-    s32 window_layout_position;
+    const NJS_POINT2 *window_layout_position;
     ((TWindowMenu *)TLobby_warp_menu_window)->open();
-    window_layout_position = (saddr)get_window_layout_position(0xB5);
-    lobby_com_card_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
+    window_layout_position = get_window_layout_position(0xB5);
+    lobby_com_card_window = create_window_menu_default(window_layout_position, 2);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3E), 6, 0);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x3F), 6, 1);
     lobby_com_card_window->calc_window_size();
@@ -1678,7 +1676,7 @@ void TLobby::close_and_send_text_list() {
     protocol_instance->send_text_list();
 }
 void TLobby::open_keyboard_window() {
-    s32 window_layout_position;
+    const NJS_POINT2 *window_layout_position;
 
     if (current_dialog_window != 0U) {
         current_dialog_window->close();
@@ -1686,8 +1684,8 @@ void TLobby::open_keyboard_window() {
     }
     if (lobby_keyboard_prompt_window == NULL) {
         static const char *blank_entry = " ";
-        window_layout_position = (saddr)get_window_layout_position(0xC3);
-        lobby_keyboard_prompt_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
+        window_layout_position = get_window_layout_position(0xC3);
+        lobby_keyboard_prompt_window = create_window_menu_default(window_layout_position, 2);
         lobby_keyboard_prompt_window->add_text_entry(TLobby::get_seq_phase(0x44), 2, 0);
         lobby_keyboard_prompt_window->add_text_entry((saddr)blank_entry, 2, 1);
         lobby_keyboard_prompt_window->calc_window_size();
@@ -1711,10 +1709,10 @@ void TLobby::send_room_change(int idx) {
     lobby_state = 0x13;
 }
 void TLobby::open_city_warp_menu() {
-    s32 window_layout_position;
+    const NJS_POINT2 *window_layout_position;
     ((TWindowMenu *)TLobby_warp_menu_window)->open();
-    window_layout_position = (saddr)get_window_layout_position(0xB5);
-    lobby_com_card_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 5);
+    window_layout_position = get_window_layout_position(0xB5);
+    lobby_com_card_window = create_window_menu_default(window_layout_position, 5);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x4C), 6, 0);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x48), 6, 1);
     lobby_com_card_window->add_text_entry(TLobby::get_seq_phase(0x49), 6, 2);
@@ -2102,7 +2100,7 @@ void handle_lobby_text(s32 text) {
     TLobby::join_entry_window_obj->append_line((int)text, (int)3);
     TLobby::lobby_state = 0x16;
 }
-void TLobby::disable_window_flags(void*flags) { TWindowCtrl::set_window_flags_off(local_client_id, (saddr)flags); }
+void TLobby::disable_window_flags(void*flags) { TWindowCtrl::append_client_message(local_client_id, (const char *)flags); }
 void TLobby::open_ship_block_select_menu(int count, void *entries, void *selected) {
     static void *tblA = (void *)lobby_window_title_ship_select;
     static void *tblB = (void *)lobby_window_title_block_select;
@@ -2575,7 +2573,7 @@ void TLobby::send_logout() {
                                      TLobby::init_serial_access(), (const char *)get_access_key_input_buffer(), \
                                      s[1].host, s[1].port);                                     \
     }
-void TLobby::run_join_lobby_connect(int parent) {
+void TLobby::run_join_lobby_connect(TObject *parent) {
     DateStamp date;
     void *p;
     void *win;
@@ -2590,7 +2588,7 @@ void TLobby::run_join_lobby_connect(int parent) {
             init_idle_timeout_timer((u8 *)p, parent);
         }
         join_state_flag = 1;
-        win = TLobby::create_dialing_message_window((void *)(get_connection_message_text(7)), (void *)1);
+        win = TLobby::create_dialing_message_window((const char *)get_connection_message_text(7), 1);
         switch (TAdSinglePlyChrSelectGC__sub_8033605C()) {
         case 0:
         case 1:
@@ -2706,8 +2704,8 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_13_recv_download = (recv_packet_handler_handle_13_recv_download)handle_quest_download_chunk__6TLobbyFv;
     protocol_instance->m_recv_handlers.handle_A4_recv_quest_list = (recv_packet_handler_handle_A4_recv_quest_list)TLobby::open_download_list_window;
     protocol_instance->m_recv_handlers.handle_A5_recv_quest_info = (recv_packet_handler_handle_A5_recv_quest_info)show_card_list_message;
-    protocol_instance->m_recv_handlers.handle_A6_recv_vm_download_head = (recv_packet_handler_handle_A6_recv_vm_download_head)begin_file_download__22TQuestVmDownLoadServerFv;
-    protocol_instance->m_recv_handlers.handle_A7_recv_vm_download = (recv_packet_handler_handle_A7_recv_vm_download)receive_file_chunk__22TQuestVmDownLoadServerFv;
+    protocol_instance->m_recv_handlers.handle_A6_recv_vm_download_head = TQuestVmDownLoadServer::begin_file_download;
+    protocol_instance->m_recv_handlers.handle_A7_recv_vm_download = TQuestVmDownLoadServer::receive_file_chunk;
     protocol_instance->m_recv_handlers.handle_B0_recv_emergency_call = (recv_packet_handler_handle_B0_recv_emergency_call)TLobby::disable_window_flags;
     protocol_instance->m_recv_handlers.handle_1F_recv_text_list = (recv_packet_handler_handle_1F_recv_text_list)TLobby::open_information_list;
     protocol_instance->m_recv_handlers.handle_88_player_arrow_color_list_packet = apply_lobby_markers__6TLobbyFv;

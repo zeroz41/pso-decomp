@@ -6,6 +6,7 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct BmlResource;
+struct DelDepthParameters;
 struct NJS_TEXLIST;
 struct NJS_OBJECT;
 
@@ -37,7 +38,7 @@ LAYOUT_ASSERT(DelDepthMotionSecondTextureOffset, offsetof(DelDepthMotion, second
 
 struct TObjEneDelDepth : public TObjEnemy {
     TObjEneDelDepth(TObject *, void *);
-    static TObjEneDelDepth *create(void *setData);
+    static void *create(void *setData);
     virtual ~TObjEneDelDepth();
     typedef void (TObjEneDelDepth::*Action)();
     struct ActionPair { Action enter; Action update; };
@@ -113,6 +114,8 @@ struct TObjEneDelDepth : public TObjEnemy {
     static void setup_draw_material_default(f32 opacity);
     static void setup_draw_material(f32 opacity, f32 farg1, f32 farg2, f32 farg3);
     static BmlResource *get_data();
+    static DelDepthParameters *tune_params;
+    static BmlResource *shared_resource;
     int get_flag_bit4();
     int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     void start_attack_motion();

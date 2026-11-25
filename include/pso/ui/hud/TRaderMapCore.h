@@ -32,6 +32,7 @@ struct RadarPlayerMarker {
 };
 
 struct TObjPlayer;
+struct ControllerInputContext;
 struct RadarMapViewState;
 struct RadarScissorRect;
 
@@ -104,7 +105,7 @@ struct TRaderMapCore : public TObjBase {
     s32 is_render_admitted(s32 mode);
     void update_pan_zoom_input();
     void update_target();
-    static s32 pack_color_bits(s32 input, s32 mask);
+    static s32 pack_color_bits(ControllerInputContext *pad, s32 mask);
     static void set_mode(int mode);
     void advance_scroll();
     static void create();

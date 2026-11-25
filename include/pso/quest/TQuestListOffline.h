@@ -30,6 +30,8 @@ public:
     void handle_confirm_dialog();
     void update_list_navigation();
     void init_quest_list_window();
+    static void reset_global_if_not_split_screen();
+    static void free_global();
 
     void (*on_cancel)(TShopWindowBase *);   // 0x28: state 5
     void (*on_accept)(TShopWindowBase *);   // 0x2C: state 3

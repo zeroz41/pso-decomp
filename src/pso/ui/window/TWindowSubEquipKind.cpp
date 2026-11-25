@@ -9,9 +9,9 @@
 #include "pso/system/task/TObject.h"
 
 
-TWindowSubEquipKind *create_equip_kind_window(saddr position, const NJS_POINT2 *size, s32 client) {
+TWindowSubEquipKind *create_equip_kind_window(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client) {
     set_menu_icon_line_params(size, 0x1F);
-    return new TWindowSubEquipKind(reinterpret_cast<u8 *>(position), client);
+    return new TWindowSubEquipKind((u8 *)position, client);
 }
 
 

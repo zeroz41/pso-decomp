@@ -140,7 +140,7 @@ void TShopItemTecSequence::open_greeting() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
-    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
+    create_message_window(get_window_layout_position(0x2C), (saddr)pos);
     display_shop_message(0x2E, 1);
     meseta_window = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
     set_state(2);
@@ -151,7 +151,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
     s32 r;
     if (choice_menu == NULL) {
         s32 id = player->get_entity_id();
-        choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
+        choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, id);
         choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         choice_menu->add_text_entry(get_shop_text(6), 6, 1);
         choice_menu->calc_window_size();

@@ -63,7 +63,7 @@ TWindowSubComCardList::~TWindowSubComCardList() {
     delete_if_allocated(storage, 1);
 }
 
-TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (saddr)parent) {
+TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
     n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_active_cards() / 7.0f);
@@ -82,7 +82,7 @@ TWindowSubComCardList::TWindowSubComCardList(void *parent) : TWindowMenu(7, 4, (
     set_scroll_target(223.0f, 184.0f);
 }
 
-TWindowSubComCardList::TWindowSubComCardList(void *parent, s32 card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, (saddr)parent) {
+TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, s32 card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
     n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(card_slot, arg3) / 7.0f);

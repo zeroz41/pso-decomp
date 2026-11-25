@@ -8,6 +8,9 @@
 void init_adx_audio_system(void);
 void init_disc_error_messages(void);
 
+// The 512 KB scratch buffer resources are decompressed into before they are parsed.
+extern u8 *resource_decompress_buffer;
+
 
 extern "C" {
 extern s32 sound_requests_enabled;

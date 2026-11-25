@@ -94,7 +94,7 @@ extern FloorObjectSetRow *object_set_row_buffer;
 extern EnemySetRecord *enemy_set_row_buffer;
 
 // Spawns the hidden enemies of one room wave on the current floor, or flags them on another floor.
-s32 unhide_enemies_at(s32 floor, s32 room, s32 wave);
+s32 unhide_enemies_at(s32 floor, s16 room, s16 wave);
 
 extern "C" {
 // The original callers pass the floor; these return the currently loaded rows.

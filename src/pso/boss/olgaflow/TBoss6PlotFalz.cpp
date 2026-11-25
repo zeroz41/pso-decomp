@@ -818,7 +818,7 @@ void release_all_players_control_lock(void);
 void TBoss6PlotFalz::end_cutscene_camera() {
     s32 i;
     void *p;
-    TWindowCtrl::init_all_slots2();
+    TWindowCtrl::unsuppress_all_slots();
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
@@ -831,7 +831,7 @@ void TBoss6PlotFalz::end_cutscene_camera() {
 void TBoss6PlotFalz::freeze_all_players() {
     s32 i;
     void *p;
-    TWindowCtrl::init_all_slots();
+    TWindowCtrl::suppress_all_slots();
     for (i = 0; i < registered_player_count; i++) {
         TObjPlayer *player = TObjPlayer::get_player_data(i);
         if (player != 0) {
@@ -997,8 +997,8 @@ void TBoss6PlotFalz::load_resources() {
     }
 }
 
-s32 TBoss6PlotFalz::create(saddr set_data) {
-    return (saddr) new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), (void *)set_data);
+void *TBoss6PlotFalz::create(void *set_data) {
+    return new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), set_data);
 }
 
 s32 TBoss6PlotFalz::get_scene_state() { return state_index; }

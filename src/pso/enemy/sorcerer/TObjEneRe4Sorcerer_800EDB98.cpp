@@ -269,8 +269,8 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjNpcEnemy::register_animated_chunk((s16)0x2A, sorcerer_bml_resource->models->model, sorcerer_bml_resource->models->texlist, &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
 }
 
-TObjEneRe4Sorcerer *TObjEneRe4Sorcerer::create() {
-    return new TObjEneRe4Sorcerer((TObject *)tl_04, this);
+void *TObjEneRe4Sorcerer::create(void *set_data) {
+    return new TObjEneRe4Sorcerer((TObject *)tl_04, set_data);
 }
 
 void TObjEneRe4Sorcerer::free_bits() {

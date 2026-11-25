@@ -9,7 +9,7 @@ struct TWindowMainMenu;
 struct TWindowSubShortCutList;
 
 struct TWindowSubShortCut : public TObject {
-    TWindowSubShortCut(TObject *object, void *arg2);
+    TWindowSubShortCut(TObject *parent, s32 client);
     virtual ~TWindowSubShortCut();
     TWindowSubShortCutList *open_com_card_list();
     u8 state;

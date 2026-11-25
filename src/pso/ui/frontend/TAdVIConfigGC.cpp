@@ -45,7 +45,7 @@ void TAdVIConfigGC::open_player_names_window() {
         ((TWindowBase *)(((Cfg_80307D00 *)this)->win))->close();
         ((Cfg_80307D00 *)this)->win = 0;
     }
-    ((Cfg_80307D00 *)this)->win = TAdVIConfigGC::draw_with_layer((s32)(get_window_layout_position(0x5A)), (saddr)player_names_window_pos, (s32)local_client_id);
+    ((Cfg_80307D00 *)this)->win = TAdVIConfigGC::draw_with_layer(get_window_layout_position(0x5A), (saddr)player_names_window_pos, (s32)local_client_id);
     if (((Cfg_80307D00 *)this)->win != 0) {
         ((TWindowSubTradeMain *)(((Cfg_80307D00 *)this)->win))->set_visible();
         ((TWindowSubTradeMain *)(((Cfg_80307D00 *)this)->win))->set_close_flag();

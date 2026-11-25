@@ -1013,7 +1013,7 @@ Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_802
 
 void*TLobby::get_com_card_entry(int a0) { return &com_card_entries[a0]; }
 
-char *parse_csv_token__6TLobbyFPvPv(char *src, char *dst) {
+char *TLobby::parse_csv_token(char *src, char *dst) {
     s32 i;
     for (i = 0x10; i != 0; i--) {
         char c = *src;
@@ -1077,28 +1077,28 @@ void TLobby__sub_8024259C(saddr arg0) {
 #pragma pop
 
 
-void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1) {
+void TLobby::init_player_entry(GuildCardRecord *entry, u8 *response) {
     s32 temp_r5;
-    void *p;
+    char *p;
 
-    *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0xC);
+    entry->id = *(s32 *)((s8 *)response + 0xC);
     temp_r5 = lbl_805D63D8;
     lbl_805D63D8 = temp_r5 + 1;
-    *(s32 *)((s8 *)arg0 + 4) = temp_r5;
-    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(arg0 + 0x4C, arg1 + 0x10, temp_r5);
-    __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(arg0 + 0x58, arg1 + 0x60);
-    GuildCardSlot *card = TWindowSubComCard::find_card_by_id(reinterpret_cast<GuildCardRecord *>(arg0)->get_id());
+    entry->serial = temp_r5;
+    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(entry->f4C, response + 0x10, temp_r5);
+    __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, response + 0x60);
+    GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
     if (card == NULL) {
-        strncpy((char *)(arg0 + 8), (char *) (reinterpret_cast<GuildCardRecord *>(arg0)->get_sub_disp_ptr()), 0x10);
+        strncpy(entry->name, entry->get_sub_disp_ptr(), 0x10);
     } else {
-        strncpy(reinterpret_cast<GuildCardRecord *>(arg0)->name, card->entry.get_name(), 0x10);
+        strncpy(entry->name, card->entry.get_name(), 0x10);
     }
-    *(s8 *)((s8 *)arg0 + 0x18) = 0;
-    p = ((TLobby *)(arg1 + 0x1C))->build_text_from_comma_list();
-    p = TLobby::parse_csv_token(p, arg0 + 0x19);
-    p = TLobby::parse_csv_token(p, arg0 + 0x2A);
-    p = TLobby::parse_csv_token(p, arg0 + 0x2A);
-    TLobby::parse_csv_token(p, arg0 + 0x3B);
+    entry->name[0x10] = 0;
+    p = ((TLobby *)(response + 0x1C))->build_text_from_comma_list();
+    p = TLobby::parse_csv_token(p, entry->s19);
+    p = TLobby::parse_csv_token(p, entry->s2A);
+    p = TLobby::parse_csv_token(p, entry->s2A);
+    TLobby::parse_csv_token(p, entry->s3B);
 }
 
 void TLobby::remove_com_card_entry(s32 index) {
@@ -1111,10 +1111,10 @@ void TLobby::remove_com_card_entry(s32 index) {
 }
 
 void TLobby__sub_8024273C(TUserAns &response) {
-    u8 *entry;
+    GuildCardRecord *entry;
     s32 slot = TLobby::remove_com_card_by_id(response.found_guildcard);
-    entry = reinterpret_cast<u8 *>(com_card_entries);
-    entry += slot * sizeof(GuildCardRecord);
+    entry = com_card_entries;
+    entry += slot;
     TLobby::init_player_entry(entry, reinterpret_cast<u8 *>(&response));
     com_card_entry_count++;
     TLobby__sub_80242918();

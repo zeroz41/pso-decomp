@@ -11,6 +11,11 @@ struct TargetCursorRecord {
 
     TargetCursorRecord();
     void init_cursor_record();
+    void set_id(u16 id);
+    void set_flag(s16 flag);
+    void set_value(f32 value);
+    f32 get_value();
+    void copy_from(TargetCursorRecord *src);
 };
 
 struct TargetCursorList {
@@ -18,6 +23,10 @@ struct TargetCursorList {
     TargetCursorRecord records[11];
 
     TargetCursorList();
+    void increment_count();
+    TargetCursorRecord *get_record(int index);
+    s32 get_count();
+    void set_count(s32 count);
 };
 
 extern "C" {

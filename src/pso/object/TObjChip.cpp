@@ -15,9 +15,6 @@
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixStack.h"
 
-extern "C" {
-void set_color_blend_mode(int, int, int, int, s32, s32);
-}
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -336,7 +333,7 @@ void TObjChip::vfunc_12() {
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x8011;
-        set_color_blend_mode(1, 4, 5, 0, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask);
+        set_color_blend_mode(1, 4, 5, 0);
         for (i = 0; i < params.count; i++, p++) {
             NJS_ARGB color = { p->alpha, 1.0f, 1.0f, 1.0f };
             set_constant_material(&color);

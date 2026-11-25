@@ -75,7 +75,7 @@ void TJudgmentSequence::setup_counter_camera() {
     pos[0] = 332.0f;
     pos[1] = 80.0f;
     x = 332.0f;
-    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
+    create_message_window(get_window_layout_position(0x2C), (saddr)pos);
     send_message(1, 1);
     meseta_window = (TWindowBase *)create_meseta_window(((s32)get_player_entity_id()) & 0xFFFF);
     set_state(2);

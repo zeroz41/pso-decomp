@@ -12,7 +12,6 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/quest/TQuestThread.h"
@@ -45,9 +44,9 @@ extern "C" {
 s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
 void set_selected_index__21TWindowSubComCardListFs(s32, s32);
 
-s32 get_technique_name(s16);
-s32 add_text_entry__11TWindowMenuFllll(s32, s32, s32, s16, s32);
-s32 add_text_entry__11TWindowMenuFlll(s32, s32, s32, s16);
+const char *get_technique_name(s16);
+s32 add_text_entry__11TWindowMenuFllll(saddr, const char *, s32, s16, s32);
+s32 add_text_entry__11TWindowMenuFlll(saddr, const char *, s32, s16);
 
 void TWindowSubTechnique::get_current_selection(s16 *arg0, s32 *arg1, s32 client) { TWindowSubTechnique::get_selection(arg0, arg1, client); }
 
@@ -73,9 +72,9 @@ s32 TWindowSubTechnique::lookup_technique(s32 arg0, s32 client) {
     }
     return player->can_use_palette_action(3, arg0);
 }
-void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, s32 list) {
-    s32 technique_name;
-    void add_gray_text_entry(s32, s32, s32, s16);
+void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
+    const char *technique_name;
+    void add_gray_text_entry(saddr, const char *, s32, s16);
 
     technique_name = get_technique_name(id);
     if (TWindowSubTechnique::lookup_technique(id, client) == 0) {
@@ -105,12 +104,12 @@ void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
     set_selected_index__21TWindowSubComCardListFs(list, selected);
 }
 
-s32 TWindowSubTechnique::create_title_window(s32 category) {
-  saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((saddr)get_window_layout_position(0x13), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x30), playerIndex);
-  ((TWindowBase *)titled_window_menu)->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 1));
+TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
+  TWindowMenu *titled_window_menu;
+  titled_window_menu = create_titled_window_menu(get_window_layout_position(0x13), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x30), playerIndex);
+  titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 1));
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
-  ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
+  titled_window_menu->set_flag70_bit10();
   return titled_window_menu;
 }
 }
@@ -123,20 +122,20 @@ s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 }
 
 
-s32 TWindowSubTechnique::open_menu() {
-    saddr titled_window_menu;
+TWindowMenu *TWindowSubTechnique::open_menu() {
+    TWindowMenu *titled_window_menu;
 
-    titled_window_menu = create_titled_window_menu((saddr)get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
-    ((TWindowBase *)titled_window_menu)->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 0));
+    titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
+    titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 0));
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
-    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
-    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
-    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
-    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
-    ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
-    ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
-    ((TWindowMenu *)titled_window_menu)->update_layout_height(179.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
+    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
+    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
+    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9E)), 6, 2);
+    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9F)), 6, 3);
+    titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xA0)), 6, 4);
+    titled_window_menu->set_flag70_bit10();
+    titled_window_menu->update_layout_height(179.0f);
+    align_menu_entry_positions(titled_window_menu);
     return titled_window_menu;
 }
 
@@ -194,7 +193,7 @@ void TWindowSubTechnique::run_task() {
             help_technique = 0x13;
         }
         if (technique_menu == 0) {
-            technique_menu = (TWindowMenu *)create_title_window(category_menu->get_selected_value());
+            technique_menu = create_title_window(category_menu->get_selected_value());
         }
         ((TWindowMenu *)technique_menu)->set_flag_40();
         TQuestThread::set_status_flag_80(technique_menu);
@@ -218,7 +217,7 @@ void TWindowSubTechnique::run_task() {
         break;
     }
     case 3:
-        help_window = (TWindowMessage *)TWindowMessage::create((s32)((saddr)get_window_layout_position(0x14)), (const f32 *)technique_help_window_size, 1, (s32)playerIndex);
+        help_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x14), (const f32 *)technique_help_window_size, 1, (s32)playerIndex);
         ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
         ((TWindowSubTradeMain *)technique_menu)->clear_trade_flag();
@@ -277,7 +276,7 @@ TWindowSubTechnique::TWindowSubTechnique(TWindowMainMenu *parent, s32 client) : 
     m_name = class_name;
     parent_menu = parent;
     playerIndex = client;
-    category_menu = (TWindowMenu *)open_menu();
+    category_menu = open_menu();
     technique_menu = NULL;
     help_window = NULL;
     current_category = -1;

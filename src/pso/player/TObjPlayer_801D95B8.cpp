@@ -3,14 +3,8 @@
 #include "pso/player/PlayerTechniqueState.h"
 
 extern "C" {
-s32 is_invalid_slot__10TObjPlayerFUc(s32 level);
-
-
-s32 set_technique_level_entry(s32, s16, s32);
-s32 get_cast_technique_level(s32, s16);
-u8 get_effective_technique_level__10TObjPlayerFPvs(void *, int);
-s32 TObjPlayer__sub_801C010C(void *, s16);
-s32 clamp_to_max__20PlayerTechniqueStateFUcUc(void *, s32, s32);
+u8 get_cast_technique_level(PlayerTechniqueState *techs, s16 technique);
+}
 
 s16 PlayerTechniqueState::get_section_clamped() {
     s16 section;
@@ -58,7 +52,7 @@ u8 PlayerTechniqueState::get_castable_technique_level() {
     if (TObjPlayer::is_invalid_slot(level) != 0) {
         return level;
     }
-    cap = get_effective_technique_level__10TObjPlayerFPvs(this, technique);
+    cap = get_effective_technique_level(technique);
     if (TObjPlayer::is_invalid_slot(cap) != 0) {
         return TObjPlayer::get_item_count_max();
     }
@@ -68,29 +62,27 @@ u8 PlayerTechniqueState::get_castable_technique_level() {
     return level;
 }
 
-void TObjPlayer::update_all_units(s32 levels, s32 level) {
+void PlayerTechniqueState::set_learned_technique_levels(u8 level) {
     s32 i;
 
     i = 0;
     do {
-        if (is_invalid_slot__10TObjPlayerFUc(get_cast_technique_level(levels, (s16) i)) == 0) {
-            set_technique_level_entry(levels, (s16) i, level);
+        if (TObjPlayer::is_invalid_slot(get_cast_technique_level(this, i)) == 0) {
+            set_learned_level(i, level);
         }
         i += 1;
     } while (i < 0x13);
 }
 
-void TObjPlayer::level_up_all_techniques(s32 add) {
+void PlayerTechniqueState::level_up_all_techniques(u8 add) {
     s32 i = 0;
     do {
-        s32 level = ((s32 (*)(void *, s16))get_cast_technique_level)(this, i);
-        if (is_invalid_slot__10TObjPlayerFUc(level) == 0) {
+        u8 level = get_cast_technique_level(this, i);
+        if (TObjPlayer::is_invalid_slot(level) == 0) {
             level += add;
-            level = clamp_to_max__20PlayerTechniqueStateFUcUc(this, level, ((s32 (*)(void *, s16))get_effective_technique_level__10TObjPlayerFPvs)(this, i));
-            ((void (*)(void *, s16, s32))set_technique_level_entry)(this, i, clamp_to_max__20PlayerTechniqueStateFUcUc(this, level, TObjPlayer__sub_801C010C(this, i)));
+            level = clamp_to_max(level, get_effective_technique_level(i));
+            set_learned_level(i, clamp_to_max(level, get_technique_level(i)));
         }
         i++;
     } while (i < 0x13);
-}
-
 }
