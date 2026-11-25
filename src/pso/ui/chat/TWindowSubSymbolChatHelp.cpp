@@ -50,7 +50,7 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *context) {
     q.u1 = (0.9921875f);
     q.v1 = (0.20703125f);
     for (i = 0; i < 8; i++) {
-        if (m_60 & 2) {
+        if (feature_flags & 2) {
             t = TWindowSubSymbolChatPartsSet::get_parts_entry(i);
         } else {
             t = TWindowSubSymbolChatHelp__sub_80247EE8(i);
@@ -63,12 +63,12 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *context) {
         ((WindowDrawContext *)context)->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
-    if (m_60 & 2) {
+    if (feature_flags & 2) {
         set_constant_material_color(-1);
     } else {
         set_constant_material_color(0xFF808080);
     }
-    q.x0 = 12.0f * (f32)*m_64 + (112.0f + ((WindowDrawContext *)context)->inner_x);
+    q.x0 = 12.0f * (f32)*color_selection + (112.0f + ((WindowDrawContext *)context)->inner_x);
     q.y0 = 50.0f + ((WindowDrawContext *)context)->inner_y;
     q.x1 = 14.0f + q.x0;
     q.y1 = 14.0f + q.y0;
@@ -89,7 +89,7 @@ void TWindowSubSymbolChatHelp::draw_help_entry(void *context, s32 row, s32 color
     f32 scale;
     s32 idx;
     idx = row;
-    if (row == 2 && *m_68 == 1) {
+    if (row == 2 && *mirror_mode == 1) {
         idx = 6;
     }
     uv = &symbol_chat_help_entry_uv_table[idx];
@@ -137,17 +137,17 @@ void TWindowSubSymbolChatHelp::draw_help_entries(void *context) {
         set_draw_texture_and_color(2, -1);
         draw_help_icon((WindowDrawContext *)(context), 0, -1);
         draw_help_icon((WindowDrawContext *)(context), 1, -1);
-        if (this->m_60 & 1) {
+        if (this->feature_flags & 1) {
             draw_help_icon((WindowDrawContext *)(context), 2, -1);
         } else {
             draw_help_icon((WindowDrawContext *)(context), 2, (s32)(0xFF808080));
         }
-        if (this->m_60 & 2) {
+        if (this->feature_flags & 2) {
             draw_help_icon((WindowDrawContext *)(context), 3, -1);
         } else {
             draw_help_icon((WindowDrawContext *)(context), 3, (s32)(0xFF808080));
         }
-        if (this->m_60 & 4) {
+        if (this->feature_flags & 4) {
             draw_help_icon((WindowDrawContext *)(context), 4, -1);
             draw_help_icon((WindowDrawContext *)(context), 5, -1);
         } else {
@@ -161,17 +161,17 @@ void TWindowSubSymbolChatHelp::draw_help_entries(void *context) {
         set_draw_texture_and_color(1, -1);
         draw_help_entry((WindowDrawContext *)(context), 0, -1);
         draw_help_entry((WindowDrawContext *)(context), 1, -1);
-        if (this->m_60 & 1) {
+        if (this->feature_flags & 1) {
             draw_help_entry((WindowDrawContext *)(context), 2, -1);
         } else {
             draw_help_entry((WindowDrawContext *)(context), 2, (s32)(0xFF808080));
         }
-        if (this->m_60 & 2) {
+        if (this->feature_flags & 2) {
             draw_help_entry((WindowDrawContext *)(context), 3, -1);
         } else {
             draw_help_entry((WindowDrawContext *)(context), 3, (s32)(0xFF808080));
         }
-        if (this->m_60 & 4) {
+        if (this->feature_flags & 4) {
             draw_help_entry((WindowDrawContext *)(context), 4, -1);
             draw_help_entry((WindowDrawContext *)(context), 5, -1);
         } else {
@@ -187,10 +187,10 @@ void TWindowSubSymbolChatHelp::handle_toggle_input() {
     s32 *second_flag;
     void *context;
 
-    if (this->m_60 & 4) {
+    if (this->feature_flags & 4) {
         context = &controller_input_state.controllers[0];
         if (test_pressed_buttons_packed(context, 0x10000) != 0) {
-            first_flag = m_6c;
+            first_flag = flip_u;
             if ((s32) *first_flag != 0) {
                 *first_flag = 0;
             } else {
@@ -198,7 +198,7 @@ void TWindowSubSymbolChatHelp::handle_toggle_input() {
             }
         }
         if (test_pressed_buttons_packed(context, 0x20000) != 0) {
-            second_flag = m_70;
+            second_flag = flip_v;
             if ((s32) *second_flag != 0) {
                 *second_flag = 0;
                 return;
@@ -209,9 +209,9 @@ void TWindowSubSymbolChatHelp::handle_toggle_input() {
 }
 
 void TWindowSubSymbolChatHelp::handle_page_input() {
-    if ((m_60 & 2) && test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x200) != 0) {
-        ++*m_64;
-        s8 *selection = m_64;
+    if ((feature_flags & 2) && test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x200) != 0) {
+        ++*color_selection;
+        s8 *selection = color_selection;
         if (*selection >= 8) {
             *selection -= 8;
         }
@@ -232,11 +232,11 @@ TWindowSubSymbolChatHelp::~TWindowSubSymbolChatHelp() {}
 TWindowSubSymbolChatHelp::TWindowSubSymbolChatHelp(s8 *selection, s32 *mode)
     : TWindowBase((u8 *)&symbol_chat_help_window_layout, 4, reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(get_window_layout_position(0x7E)))) {
     m_name = window_sub_symbol_chat_help_name;
-    m_60 = 0;
-    m_64 = selection;
-    m_68 = mode;
-    m_6c = NULL;
-    m_70 = NULL;
+    feature_flags = 0;
+    color_selection = selection;
+    mirror_mode = mode;
+    flip_u = NULL;
+    flip_v = NULL;
 }
 
 }

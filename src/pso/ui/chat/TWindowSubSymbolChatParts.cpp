@@ -64,18 +64,6 @@ struct SymbolChatSprite {
     s32 f34;
 };
 
-struct SymbolChatSlot {
-    s8 id;
-    u8 pad1[2];
-    u8 flags;
-};
-
-struct SymbolChatPayloadView {
-    u8 pad0[0x4];
-    u16 slots[4];
-    SymbolChatSlot entries[1];
-};
-
 extern "C" {
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
@@ -140,7 +128,7 @@ void TWindowSubSymbolChatParts::select_index_and_scroll(s32 symbol_index) {
 void TWindowSubSymbolChatParts::handle_cancel() {
     if (this->sub_80283974() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_70 = (u8) (this->m_70 | 2);
+        this->result_flags = (u8) (this->result_flags | 2);
     }
 }
 
@@ -148,13 +136,13 @@ void TWindowSubSymbolChatParts::add_part() {
     s32 symbol_index;
 
     symbol_index = this->calc_symbol_index();
-    if (((s8) this->m_71 != 0) || (symbol_index >= (s16) *(s16 *)&this->item_count) || (TWindowSubSymbolChat::count_instance_empty_slots() < 2)) {
+    if (((s8) this->view_mode != 0) || (symbol_index >= (s16) *(s16 *)&this->item_count) || (TWindowSubSymbolChat::count_instance_empty_slots() < 2)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
     play_sound_effect(0x52D01, 0, 0, 0);
     *help = 1;
-    this->m_70 = (u8) (this->m_70 | 1);
+    this->result_flags = (u8) (this->result_flags | 1);
     this->heading->set_entry_state(2);
 }
 
@@ -164,7 +152,7 @@ void TWindowSubSymbolChatParts::handle_add() {
         return;
     }
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->m_70 = (u8) (this->m_70 | 1);
+    this->result_flags = (u8) (this->result_flags | 1);
     this->heading->set_entry_state(2);
 }
 
@@ -243,14 +231,14 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     SymbolChatSprite *e1;
     SymbolChatSprite *e2;
     SymbolChatSprite *e0;
-    SymbolChatPayloadView *chat;
-    SymbolChatSlot *slot;
+    SymbolChatPayload *chat;
+    SymbolChatPart *slot;
     u16 v;
     u8 flip;
 
     col = 0;
     row = 0;
-    chat = (SymbolChatPayloadView *)((u8 *)TWindowSubSymbolChat::get_instance() + 0x1C);
+    chat = &reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance())->payload;
     e1 = (SymbolChatSprite *)get_array_entry(1);
     e2 = (SymbolChatSprite *)get_array_entry(2);
     e0 = (SymbolChatSprite *)get_array_entry(0);
@@ -263,7 +251,7 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     e0->f34 = 0;
     e0->f18 = 0.5f;
     ((TWindowSubStatusDisp *)e0)->clear_visible_flag();
-    slot = chat->entries;
+    slot = chat->parts;
     n = TWindowSubSymbolChat::calc_remaining_slots();
     ((TWindowHelpItem *)e2)->set_flag0_bit2();
     for (i = 0; i < n; i++, slot++) {
@@ -282,7 +270,7 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     i -= n;
     e0->f34 = 10;
     for (; i < 4; i++) {
-        v = chat->slots[i];
+        v = chat->facial_parts[i];
         if ((u8)v != 0xFF) {
             e1->x = 40.0f * (f32)col + 10.0f;
             e1->y = 40.0f * (f32)row + 9.0f;
@@ -387,14 +375,14 @@ void TWindowSubSymbolChatParts::draw_part_icons(WindowDrawContext *ctx) {
 void TWindowSubSymbolChatParts::update_height() {
     item_count = TWindowSubSymbolChat::compute_total_height();
     update_row_count();
-    m_71 = 2;
+    view_mode = 2;
 }
 
 void TWindowSubSymbolChatParts::open(s8 *selected_value) {
     selection = selected_value;
     item_count = 0xC0;
     update_row_count();
-    m_71 = 1;
+    view_mode = 1;
 }
 
 
@@ -411,7 +399,7 @@ void TWindowSubSymbolChatParts::init_help(s32 *help_value) {
     e0->f34 = 0;
     item_count = 0x44;
     update_row_count();
-    m_71 = 0;
+    view_mode = 0;
 }
 
 void TWindowSubSymbolChatParts::render() {
@@ -419,7 +407,7 @@ void TWindowSubSymbolChatParts::render() {
 
     ctx = get_draw_context();
     draw_window_frame(ctx);
-    switch ((s8)m_71) {
+    switch ((s8)view_mode) {
     case 0:
         draw_part_icons(ctx);
         break;
@@ -473,7 +461,7 @@ TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(const NJS_POINT2 *position,
     void *p;
 
     m_name = class_name;
-    m_70 = 0;
+    result_flags = 0;
     cursor_col = 0;
     cursor_row = 0;
     item_count = 0;

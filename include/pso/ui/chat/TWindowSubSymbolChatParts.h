@@ -20,10 +20,11 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     void sub_80285054();
     s32 calc_symbol_index();
     s32 sub_80283974();
+    s32 is_cancelled();
     virtual void render();
     virtual void run_task();
-    u8 m_70;
-    u8 m_71;
+    u8 result_flags;
+    u8 view_mode;
     u8 cursor_col;
     u8 cursor_row;
     s8 row_count;

@@ -12,6 +12,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     virtual ~TWindowSubSymbolChatPartsSet();
     void sub_8028625C();
     s32 is_active();
+    s32 is_cancelled();
     s32 get_cursor_pos();
     s32 get_cursor_x();
     void set_selection_and_refresh(s8 *selection);
@@ -19,11 +20,11 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     void init_symbol_layout(s32 *result);
     static void apply_part_to_window(void *window_set, void *part, int index);
     virtual void render();
-    u8 m_68;
+    u8 result_flags;
     s8 selection_mode;
     s16 cursor_x;
     s16 cursor_y;
-    u16 set_index;
+    s16 part_id;
     s8 *selection_out;
     s32 first_part_index;
     s32 second_part_index;
@@ -37,9 +38,9 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     void toggle_selected_part();
     void handle_cursor_input();
     virtual void run_task();
-    f32 m_8c;
-    f32 m_90;
-    f32 m_94;
+    f32 offset_x;
+    f32 offset_y;
+    f32 scale;
     static int get_parts_entry(int a0);
     void set_pos(s16 prev, s16 next);
     static void set_part_sprite(void *sprite, s16 id, s32 a, s32 b);

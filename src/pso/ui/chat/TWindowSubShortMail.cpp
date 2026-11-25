@@ -80,7 +80,7 @@ TWindowSubShortMail::TWindowSubShortMail(TWindowMainMenu *parent, s32 client_id)
 
 TWindowSubShortMail::~TWindowSubShortMail() {
     if (confirm_window != NULL) {
-        ((TWindowMessageYesNo *)confirm_window)->close();
+        confirm_window->close();
         confirm_window = NULL;
     }
     if (keyboard != NULL) {
@@ -88,15 +88,15 @@ TWindowSubShortMail::~TWindowSubShortMail() {
         keyboard = NULL;
     }
     if (auto_reply_menu != NULL) {
-        ((TWindowBase *)auto_reply_menu)->close();
+        auto_reply_menu->close();
         auto_reply_menu = NULL;
     }
     if (auto_reply_window != NULL) {
-        ((TWindowBase *)auto_reply_window)->close();
+        auto_reply_window->close();
         auto_reply_window = NULL;
     }
     if (action_menu != NULL) {
-        ((TWindowBase *)action_menu)->close();
+        action_menu->close();
         action_menu = NULL;
     }
     if (message_window != NULL) {
@@ -108,15 +108,15 @@ TWindowSubShortMail::~TWindowSubShortMail() {
         mail_list = NULL;
     }
     if (card_window != NULL) {
-        ((TWindowBase *)card_window)->close();
+        card_window->close();
         card_window = NULL;
     }
     if (card_list != NULL) {
-        ((TWindowBase *)card_list)->close();
+        card_list->close();
         card_list = NULL;
     }
     if (main_menu != NULL) {
-        ((TWindowBase *)main_menu)->close();
+        main_menu->close();
         main_menu = NULL;
     }
     TLobby__sub_802258C8();
@@ -127,45 +127,45 @@ void TWindowSubShortMail::run_task() {
     switch (state) {
     case 0:
     case 1:
-        if (auto_reply_window != NULL) { ((TWindowBase *)auto_reply_window)->close(); auto_reply_window = NULL; }
-        if (action_menu != NULL) { ((TWindowBase *)action_menu)->close(); action_menu = NULL; }
-        if (confirm_window != NULL) { ((TWindowMessageYesNo *)confirm_window)->close(); confirm_window = NULL; }
+        if (auto_reply_window != NULL) { auto_reply_window->close(); auto_reply_window = NULL; }
+        if (action_menu != NULL) { action_menu->close(); action_menu = NULL; }
+        if (confirm_window != NULL) { confirm_window->close(); confirm_window = NULL; }
         if (keyboard != NULL) { keyboard->queue_destruction(); keyboard = NULL; }
         if (mail_list != NULL) { mail_list->close(); mail_list = NULL; }
-        if (card_window != NULL) { ((TWindowBase *)card_window)->close(); card_window = NULL; }
-        if (card_list != NULL) { ((TWindowBase *)card_list)->close(); card_list = NULL; }
+        if (card_window != NULL) { card_window->close(); card_window = NULL; }
+        if (card_list != NULL) { card_list->close(); card_list = NULL; }
         if (main_menu == NULL) {
-            main_menu = (void *)create_menu();
+            main_menu = create_menu();
         }
-        ((TWindowMenu *)main_menu)->clear_flag_and_release();
+        main_menu->clear_flag_and_release();
         state = 2;
     case 2:
-        if (((TWindowMenu *)main_menu)->is_cancelled() != 0) {
+        if (main_menu->is_cancelled() != 0) {
             parent->on_submenu_closed();
             state = 0x1C;
-        } else if (((TWindowMenu *)main_menu)->is_decided() != 0) {
-            state = ((TWindowMenu *)main_menu)->get_selected_value();
+        } else if (main_menu->is_decided() != 0) {
+            state = main_menu->get_selected_value();
         }
         break;
     case 3:
-        if (action_menu != NULL) { ((TWindowBase *)action_menu)->close(); action_menu = NULL; }
+        if (action_menu != NULL) { action_menu->close(); action_menu = NULL; }
         if (card_list == NULL) {
-            card_list = TWindowSubComCard::send_cmd_133();
+            card_list = (TWindowMenu *)TWindowSubComCard::send_cmd_133();
         }
         if (card_window == NULL) {
-            card_index = ((TWindowMenu *)card_list)->get_selected_value();
-            card_window = TWindowSubComCard::send_command(card_index);
+            card_index = card_list->get_selected_value();
+            card_window = (TWindowBase *)TWindowSubComCard::send_command(card_index);
         }
-        ((TWindowMenu *)card_list)->clear_flag_and_release();
+        card_list->clear_flag_and_release();
         state = 4;
     case 4:
         TWindowSubComCard::update_display_value((uaddr)card_list, (uaddr)card_window, (s32 *)&card_index);
-        if (((TWindowMenu *)card_list)->is_cancelled() != 0) {
+        if (card_list->is_cancelled() != 0) {
             state = 1;
-        } else if (((TWindowMenu *)card_list)->is_decided() != 0) {
+        } else if (card_list->is_decided() != 0) {
             void *p;
             reply_mail_id = -1;
-            p = TWindowSubComCard::get_card_entry(((TWindowMenu *)card_list)->get_selected_value());
+            p = TWindowSubComCard::get_card_entry(card_list->get_selected_value());
             if (p != NULL) {
                 target_card_id = reinterpret_cast<GuildCardEntry *>(p)->get_card_id();
             }
@@ -173,9 +173,9 @@ void TWindowSubShortMail::run_task() {
         }
         break;
     case 7:
-        if (confirm_window != NULL) { ((TWindowMessageYesNo *)confirm_window)->close(); confirm_window = NULL; }
+        if (confirm_window != NULL) { confirm_window->close(); confirm_window = NULL; }
         if (keyboard != NULL) { keyboard->queue_destruction(); keyboard = NULL; }
-        if (action_menu != NULL) { ((TWindowBase *)action_menu)->close(); action_menu = NULL; }
+        if (action_menu != NULL) { action_menu->close(); action_menu = NULL; }
         if (mail_list == NULL) {
             mail_list = create_list_item();
             mail_list->advance_line(-1);
@@ -196,37 +196,37 @@ void TWindowSubShortMail::run_task() {
         }
         break;
     case 9:
-        if (confirm_window != NULL) { ((TWindowMessageYesNo *)confirm_window)->close(); confirm_window = NULL; }
+        if (confirm_window != NULL) { confirm_window->close(); confirm_window = NULL; }
         if (message_window != NULL) { message_window->close(); message_window = NULL; }
         if (action_menu == NULL) {
-            action_menu = (void *)build_menu();
+            action_menu = build_menu();
         }
-        ((TWindowMenu *)action_menu)->clear_flag_and_release();
-        ((TWindowMenu *)action_menu)->clear_transition_flag();
+        action_menu->clear_flag_and_release();
+        action_menu->clear_transition_flag();
         state = 0xA;
     case 10:
         if (TWindowSubShortMail::is_active() != 0 && refresh_mail_list(mail_list) == 0) {
             state = 7;
-        } else if (((TWindowMenu *)action_menu)->is_cancelled() != 0) {
+        } else if (action_menu->is_cancelled() != 0) {
             state = 7;
-        } else if (((TWindowMenu *)action_menu)->is_decided() != 0) {
+        } else if (action_menu->is_decided() != 0) {
             ShortMailEntry *mail;
             reply_mail_id = mail_list->get_cursor_value();
             mail = TLobby::find_short_mail_by_id(reply_mail_id);
             if (mail != NULL) {
                 target_card_id = mail->get_sender_card_id();
             }
-            state = ((TWindowMenu *)action_menu)->get_selected_value();
+            state = action_menu->get_selected_value();
         }
         break;
     case 11:
-        if (confirm_window != NULL) { ((TWindowMessageYesNo *)confirm_window)->close(); confirm_window = NULL; }
-        if (action_menu != NULL) { ((TWindowBase *)action_menu)->close(); action_menu = NULL; }
+        if (confirm_window != NULL) { confirm_window->close(); confirm_window = NULL; }
+        if (action_menu != NULL) { action_menu->close(); action_menu = NULL; }
         if (message_window != NULL) { message_window->close(); message_window = NULL; }
         if (mail_list != NULL) { mail_list->close(); mail_list = NULL; }
-        if (card_window != NULL) { ((TWindowBase *)card_window)->close(); card_window = NULL; }
-        if (card_list != NULL) { ((TWindowBase *)card_list)->close(); card_list = NULL; }
-        if (main_menu != NULL) { ((TWindowBase *)main_menu)->close(); main_menu = NULL; }
+        if (card_window != NULL) { card_window->close(); card_window = NULL; }
+        if (card_list != NULL) { card_list->close(); card_list = NULL; }
+        if (main_menu != NULL) { main_menu->close(); main_menu = NULL; }
         if (keyboard == NULL) {
             keyboard = create_keyboard();
         }
@@ -244,13 +244,13 @@ void TWindowSubShortMail::run_task() {
     case 13:
         keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBC)));
         keyboard->hide();
-        confirm_window = (void *)open_confirm_prompt(this, client_id);
+        confirm_window = (TWindowMessageYesNo *)open_confirm_prompt(this, client_id);
         state = 0xE;
     case 14:
-        if (((TWindowMessageYesNo *)confirm_window)->is_cancelled() != 0) {
+        if (confirm_window->is_cancelled() != 0) {
             state = 0xB;
-        } else if (((TWindowMessageYesNo *)confirm_window)->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)confirm_window)->get_selected_value() == 0) {
+        } else if (confirm_window->is_child_visible() != 0) {
+            if (confirm_window->get_selected_value() == 0) {
                 close();
                 state = 1;
             } else {
@@ -265,16 +265,16 @@ void TWindowSubShortMail::run_task() {
         state = 1;
         break;
     case 17:
-        ((TWindowMenu *)action_menu)->open();
-        confirm_window = (void *)open_confirm_dialog();
+        action_menu->open();
+        confirm_window = open_confirm_dialog();
         state = 0x12;
     case 18:
         if (TWindowSubShortMail::is_active() != 0 && refresh_mail_list(mail_list) == 0) {
             state = 7;
-        } else if (((TWindowMessageYesNo *)confirm_window)->is_cancelled() != 0) {
+        } else if (confirm_window->is_cancelled() != 0) {
             state = 9;
-        } else if (((TWindowMessageYesNo *)confirm_window)->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)confirm_window)->get_selected_value() == 0) {
+        } else if (confirm_window->is_child_visible() != 0) {
+            if (confirm_window->get_selected_value() == 0) {
                 remove_short_mail_by_id(mail_list->get_cursor_value());
                 state = 7;
             } else {
@@ -290,42 +290,42 @@ void TWindowSubShortMail::run_task() {
         }
         break;
     case 20:
-        if (auto_reply_menu != NULL) { ((TWindowBase *)auto_reply_menu)->close(); auto_reply_menu = NULL; }
+        if (auto_reply_menu != NULL) { auto_reply_menu->close(); auto_reply_menu = NULL; }
         if (action_menu == NULL) {
-            action_menu = (void *)create_confirm_menu_window();
+            action_menu = create_confirm_menu_window();
         }
         if (auto_reply_window == NULL) {
-            auto_reply_window = (void *)create_window();
+            auto_reply_window = create_window();
         }
-        ((TWindowMenu *)action_menu)->clear_flag_and_release();
+        action_menu->clear_flag_and_release();
         state = 0x15;
     case 21:
-        if (((TWindowMenu *)action_menu)->is_cancelled() != 0) {
+        if (action_menu->is_cancelled() != 0) {
             state = 1;
-        } else if (((TWindowMenu *)action_menu)->is_decided() != 0) {
-            state = ((TWindowMenu *)action_menu)->get_selected_value();
+        } else if (action_menu->is_decided() != 0) {
+            state = action_menu->get_selected_value();
         }
         break;
     case 22:
         if (auto_reply_menu == NULL) {
-            auto_reply_menu = (void *)open_menu();
+            auto_reply_menu = open_menu();
         }
         state = 0x17;
     case 23:
-        if (((TWindowMenu *)auto_reply_menu)->is_cancelled() != 0) {
+        if (auto_reply_menu->is_cancelled() != 0) {
             state = 0x14;
-        } else if (((TWindowMenu *)auto_reply_menu)->is_decided() != 0) {
-            if (TLobby::set_flag_bit0(((TWindowMenu *)auto_reply_menu)->get_selected_value()) != 0) {
-                if (auto_reply_window != NULL) { ((TWindowBase *)auto_reply_window)->close(); auto_reply_window = NULL; }
+        } else if (auto_reply_menu->is_decided() != 0) {
+            if (TLobby::set_flag_bit0(auto_reply_menu->get_selected_value()) != 0) {
+                if (auto_reply_window != NULL) { auto_reply_window->close(); auto_reply_window = NULL; }
             }
             state = 0x14;
         }
         break;
     case 24:
-        if (confirm_window != NULL) { ((TWindowMessageYesNo *)confirm_window)->close(); confirm_window = NULL; }
-        if (auto_reply_window != NULL) { ((TWindowBase *)auto_reply_window)->close(); auto_reply_window = NULL; }
-        if (action_menu != NULL) { ((TWindowBase *)action_menu)->close(); action_menu = NULL; }
-        if (main_menu != NULL) { ((TWindowBase *)main_menu)->close(); main_menu = NULL; }
+        if (confirm_window != NULL) { confirm_window->close(); confirm_window = NULL; }
+        if (auto_reply_window != NULL) { auto_reply_window->close(); auto_reply_window = NULL; }
+        if (action_menu != NULL) { action_menu->close(); action_menu = NULL; }
+        if (main_menu != NULL) { main_menu->close(); main_menu = NULL; }
         if (keyboard == NULL) {
             keyboard = create_keyboard();
             keyboard->set_text(reinterpret_cast<char *>(TLobby::get_card_window_area()));
@@ -345,14 +345,14 @@ void TWindowSubShortMail::run_task() {
         keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBC)));
         keyboard->hide();
         if (confirm_window == NULL) {
-            confirm_window = (void *)open_delete_confirm_dialog();
+            confirm_window = open_delete_confirm_dialog();
         }
         state = 0x1B;
     case 27:
-        if (((TWindowMessageYesNo *)confirm_window)->is_cancelled() != 0) {
+        if (confirm_window->is_cancelled() != 0) {
             state = 0x18;
-        } else if (((TWindowMessageYesNo *)confirm_window)->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)confirm_window)->get_selected_value() == 0) {
+        } else if (confirm_window->is_child_visible() != 0) {
+            if (confirm_window->get_selected_value() == 0) {
                 void *b = keyboard->realloc_buffer();
                 ((TLobby *)b)->set_short_mail_text();
                 mem_free(b);
@@ -420,7 +420,7 @@ s32 TWindowSubShortMail::refresh_mail_list(TWindowMenuIconLine *mail_list) {
     return 1;
 }
 
-saddr TWindowSubShortMail::create_menu(void) {
+TWindowMenu *TWindowSubShortMail::create_menu(void) {
     TWindowMenu *list;
 
     list = create_titled_window_menu_default(get_window_layout_position(0x9A), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
@@ -442,12 +442,12 @@ saddr TWindowSubShortMail::create_menu(void) {
     list->set_flag70_bit10();
     list->update_layout_height(179.0f);
     align_menu_entry_positions(list);
-    return (saddr)list;
+    return list;
 }
 
 #pragma push
 #pragma fp_contract on
-saddr TWindowSubShortMail::build_menu(void) {
+TWindowMenu *TWindowSubShortMail::build_menu(void) {
     TWindowMenu *list;
     s32 msg;
     list = create_titled_window_menu_default(get_window_layout_position(0x9D), 3, (s32)((saddr)TWindowSubStatusDisp::get_message_10(0x1E)));
@@ -462,7 +462,7 @@ saddr TWindowSubShortMail::build_menu(void) {
     list->set_flag70_bit10();
     list->update_layout_height(206.0f);
     align_menu_entry_positions(list);
-    return (saddr)list;
+    return list;
 }
 
 #pragma pop
@@ -476,25 +476,25 @@ TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
 }
 
 saddr TWindowSubShortMail::open_confirm_prompt(void *parent, int client_id) {
-    saddr dialog;
-    dialog = (saddr)TWindowMessageYesNo::create(parent, client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), get_window_layout_position(0x9e), 205.0f);
-    ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
-    ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
-    return dialog;
+    TWindowMessageYesNo *dialog;
+    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create(parent, client_id, 0, 0);
+    open_yes_no_prompt(dialog, (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), get_window_layout_position(0x9e), 205.0f);
+    dialog->set_menu_selected_index(0);
+    dialog->set_choice_menu_flag70_bit10();
+    return (saddr)dialog;
 }
 
-saddr TWindowSubShortMail::create_confirm_menu_window(void) {
+TWindowMenu *TWindowSubShortMail::create_confirm_menu_window(void) {
     TWindowMenu *menu;
     menu = create_window_menu_default(get_window_layout_position(0xA0), 2);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x107)), 6, 0x16);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x108)), 6, 0x18);
     menu->set_flag70_bit10();
     menu->update_layout_height(206.0f);
-    return (saddr)menu;
+    return menu;
 }
 
-saddr TWindowSubShortMail::create_window(void) {
+TWindowMenu *TWindowSubShortMail::create_window(void) {
     const NJS_POINT2 *window_layout_position;
     TWindowMenu *list;
 
@@ -510,10 +510,10 @@ saddr TWindowSubShortMail::create_window(void) {
     list->set_flag_40();
     TQuestThread::set_status_flag_80((void *)list);
     ((TWindowSubComCardList *)list)->set_scroll_target(206.0f, 140.0f);
-    return (saddr)list;
+    return list;
 }
 
-saddr TWindowSubShortMail::open_menu(void) {
+TWindowMenu *TWindowSubShortMail::open_menu(void) {
     const NJS_POINT2 *window_layout_position;
     TWindowMenu *menu;
 
@@ -526,26 +526,26 @@ saddr TWindowSubShortMail::open_menu(void) {
     }
     menu->set_flag70_bit10();
     menu->update_layout_height(206.0f);
-    return (saddr)menu;
+    return menu;
 }
 
-saddr TWindowSubShortMail::open_confirm_dialog() {
-    saddr dialog;
+TWindowMessageYesNo *TWindowSubShortMail::open_confirm_dialog() {
+    TWindowMessageYesNo *dialog;
 
-    dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x9f), 206.0f);
-    ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
-    ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
+    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    open_yes_no_prompt(dialog, (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x9f), 206.0f);
+    dialog->set_menu_selected_index(0);
+    dialog->set_choice_menu_flag70_bit10();
     return dialog;
 }
 
-saddr TWindowSubShortMail::open_delete_confirm_dialog() {
-    saddr dialog;
+TWindowMessageYesNo *TWindowSubShortMail::open_delete_confirm_dialog() {
+    TWindowMessageYesNo *dialog;
 
-    dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), get_window_layout_position(0xa3), 206.0f);
-    ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
-    ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
+    dialog = (TWindowMessageYesNo *)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    open_yes_no_prompt(dialog, (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), get_window_layout_position(0xa3), 206.0f);
+    dialog->set_menu_selected_index(0);
+    dialog->set_choice_menu_flag70_bit10();
     return dialog;
 }
 

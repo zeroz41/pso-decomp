@@ -8,6 +8,9 @@
 struct TWindowMainMenu;
 class TWindowMenuIconLine;
 struct TWindowMessage;
+struct TWindowMenu;
+class TWindowBase;
+struct TWindowMessageYesNo;
 
 class TKeyBoardControl;
 
@@ -19,18 +22,18 @@ struct TWindowSubShortMail : public TObject {
     TWindowMenuIconLine *create_list_item();
     static TKeyBoardControl *create_keyboard();
     static saddr open_confirm_prompt(void *parent, int client_id);
-    saddr open_confirm_dialog();
-    saddr open_delete_confirm_dialog();
+    TWindowMessageYesNo *open_confirm_dialog();
+    TWindowMessageYesNo *open_delete_confirm_dialog();
     void find_target_user();
     static s32 is_active();
     void close();
     void update_mail_count();
     s32 refresh_mail_list(TWindowMenuIconLine *list);
-    saddr create_menu();
-    saddr build_menu();
-    saddr create_confirm_menu_window();
-    saddr create_window();
-    static saddr open_menu();
+    TWindowMenu *create_menu();
+    TWindowMenu *build_menu();
+    TWindowMenu *create_confirm_menu_window();
+    TWindowMenu *create_window();
+    static TWindowMenu *open_menu();
 
     static const char *class_name;
 
@@ -44,13 +47,13 @@ struct TWindowSubShortMail : public TObject {
     TWindowMainMenu *parent;
     TWindowMenuIconLine *mail_list;
     TWindowMessage *message_window;
-    void *main_menu;
-    void *action_menu;
-    void *auto_reply_window;
-    void *auto_reply_menu;
-    void *confirm_window;
-    void *card_list;
-    void *card_window;
+    TWindowMenu *main_menu;
+    TWindowMenu *action_menu;
+    TWindowMenu *auto_reply_window;
+    TWindowMenu *auto_reply_menu;
+    TWindowMessageYesNo *confirm_window;
+    TWindowMenu *card_list;
+    TWindowBase *card_window;
     TKeyBoardControl *keyboard;
 };
 

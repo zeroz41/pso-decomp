@@ -40,7 +40,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *selection, s32 *
     free_slots = TWindowSubSymbolChat::calc_remaining_slots();
     part_index = *(s16 *)((s8 *)(this) + 0x6E);
     if (free_slots > part_index) {
-        m_94 = 2.0f;
+        scale = 2.0f;
         part = &data_ptr->parts[part_index];
         first_part_index = (s32) *(s16 *)((s8 *)(this) + 0x6E);
         second_part_index = instance->find_free_entry(0);
@@ -100,7 +100,7 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
   u16 *third_entry;
   SymbolChatPreset *instance;
   result_out = result;
-  m_94 = 2.0f;
+  scale = 2.0f;
   if (((s32) (*result)) == 1)
   {
     cursor_x = 0x14;
@@ -132,44 +132,10 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
 
 
 
-struct PartsSetCursorView {
-    u8 pad0[0x69];
-    s8 mode;
-    s16 x;
-    s16 y;
-    s16 color;
-    s8 *p70;
-    s32 cur;
-    u32 sel;
-    s32 *p7C;
-    s32 *p80;
-    s32 *p84;
-};
-
-struct PartsSetInputView {
-    u8 pad0[0x69];
-    u8 f69;
-    s16 x;
-    s16 y;
-    u8 pad6e[0x74 - 0x6E];
-    s32 f74;
-};
-
-typedef struct PartsSetToggleView {
-    u8 pad[0x69];
-    s8 f69;
-    u8 pad6a[0x78 - 0x6A];
-    u32 f78;
-    u8 pad7c[0x84 - 0x7C];
-    s32 *f84;
-} PartsSetToggleView;
-
 const char *window_sub_symbol_chat_parts_set_name = "TWindowSubSymbolChatPartsSet";
 static const NJS_POINT2 lbl_8044FC30 = {178.0f, 188.0f};
 
 struct PartSpriteView { u8 pad[8]; f32 f8; f32 fc; };
-
-struct PartsSetIndexView { u8 pad[0x69]; s8 f69; u8 pad6a[0xA]; s32 index; };
 
 extern "C" {
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
@@ -177,13 +143,12 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
 
 
 void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
-#define view ((PartsSetIndexView *)this)
     NJS_POINT2 corner;
     PartSpriteView *e;
-    switch (view->f69) {
+    switch (selection_mode) {
     case 1:
     case 3:
-        e = (PartSpriteView *)TWindowSubSymbolChatPartsSet::get_parts_entry(view, view->index);
+        e = (PartSpriteView *)TWindowSubSymbolChatPartsSet::get_parts_entry(this, first_part_index);
         corner.x = e->f8 - 3.0f;
         corner.y = e->fc - 3.0f;
         TWindowSubSymbolChatFaceType__sub_80283C84(ctx, &corner, 38.0f, 0.1f);
@@ -192,24 +157,22 @@ void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
     case 2:
         return;
     }
-#undef view
 }
 
 void TWindowSubSymbolChatPartsSet::handle_cancel() {
     if (is_active() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_68 = (u8) (this->m_68 | 2);
+        this->result_flags = (u8) (this->result_flags | 2);
     }
 }
 
 void TWindowSubSymbolChatPartsSet::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->m_68 = (u8) (this->m_68 | 1);
+    this->result_flags = (u8) (this->result_flags | 1);
     this->heading_display->set_entry_state(2);
 }
 
 void TWindowSubSymbolChatPartsSet::sub_8028625C() {
-    PartsSetCursorView *view = (PartsSetCursorView *)this;
     u16 *e2;
     void *b3;
     void *a1;
@@ -217,45 +180,44 @@ void TWindowSubSymbolChatPartsSet::sub_8028625C() {
     void *b1;
     u16 *e;
     void *c;
-    switch (view->mode) {
+    switch (selection_mode) {
     case 0:
     case 2:
-        e = get_entry_offset_d(view->cur);
-        ((TWindowSubSymbolChatPartsSet *)e)->set_pos(view->x, view->y);
-        TWindowSubSymbolChatPartsSet::set_part_sprite(e, view->color, *view->p7C, *view->p80);
-        if (*view->p84 != 0) {
-            e2 = get_entry_offset_d(view->sel);
+        e = get_entry_offset_d(first_part_index);
+        ((TWindowSubSymbolChatPartsSet *)e)->set_pos(cursor_x, cursor_y);
+        TWindowSubSymbolChatPartsSet::set_part_sprite(e, part_id, *first_flag_out, *second_flag_out);
+        if (*result_out != 0) {
+            e2 = get_entry_offset_d((u32)second_part_index);
             *e2 &= ~2;
-            ((TWindowSubSymbolChatPartsSet *)e2)->set_pos((s16)(0x40 - view->x), view->y);
-            TWindowSubSymbolChatPartsSet::set_part_sprite(e2, view->color, *view->p7C == 0, *view->p80);
-        } else if (view->sel < 0xC) {
-            *get_entry_offset_d(view->sel) |= 2;
+            ((TWindowSubSymbolChatPartsSet *)e2)->set_pos((s16)(0x40 - cursor_x), cursor_y);
+            TWindowSubSymbolChatPartsSet::set_part_sprite(e2, part_id, *first_flag_out == 0, *second_flag_out);
+        } else if ((u32)second_part_index < 0xC) {
+            *get_entry_offset_d((u32)second_part_index) |= 2;
         }
         break;
     case 3:
-        a3 = get_parts_entry(this, view->sel);
-        b3 = get_parts_entry((saddr)view->sel);
-        c = TWindowSubSymbolChatPartsSet__sub_802482B8(this, view->sel);
+        a3 = get_parts_entry(this, (u32)second_part_index);
+        b3 = get_parts_entry((saddr)(u32)second_part_index);
+        c = TWindowSubSymbolChatPartsSet__sub_802482B8(this, (u32)second_part_index);
         setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a3, b3, c, 0xFF, 0, 0, 0, 0);
     case 1:
-        a1 = get_parts_entry(this, view->cur);
-        b1 = get_parts_entry((saddr)view->cur);
-        c = TWindowSubSymbolChatPartsSet__sub_802482B8(this, view->cur);
-        setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a1, b1, c, view->color, *view->p70, *view->p7C, *view->p80, view->cur);
+        a1 = get_parts_entry(this, first_part_index);
+        b1 = get_parts_entry((saddr)first_part_index);
+        c = TWindowSubSymbolChatPartsSet__sub_802482B8(this, first_part_index);
+        setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a1, b1, c, part_id, *selection_out, *first_flag_out, *second_flag_out, first_part_index);
         break;
     }
 }
 
 void TWindowSubSymbolChatPartsSet::toggle_selected_part() {
-    PartsSetToggleView *view = (PartsSetToggleView *)this;
-    switch (view->f69) {
+    switch (selection_mode) {
     case 0:
     case 2:
-        if (view->f78 < 12 && test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) {
-            if (*view->f84 != 0) {
-                *view->f84 = 0;
+        if ((u32)second_part_index < 12 && test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) {
+            if (*result_out != 0) {
+                *result_out = 0;
             } else {
-                *view->f84 = 1;
+                *result_out = 1;
             }
         }
         break;
@@ -269,7 +231,6 @@ void TWindowSubSymbolChatPartsSet::toggle_selected_part() {
 void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
     s16 x;
     void *camera_ctrl;
-    PartsSetInputView *w = (PartsSetInputView *)this;
     camera_ctrl = &controller_input_state.controllers[0];
     if ((test_previous_buttons_packed(camera_ctrl, 0xF0) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0xF0) != 0)) {
         if ((test_previous_buttons_packed(camera_ctrl, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
@@ -284,38 +245,38 @@ void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
         if ((test_previous_buttons_packed(camera_ctrl, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
             this->cursor_y = (s16)(this->cursor_y + 1);
         }
-        switch ((s8)w->f69) {
+        switch (selection_mode) {
         case 0:
         case 2:
-            if (w->x < 0) {
-                w->x = 0;
+            if (cursor_x < 0) {
+                cursor_x = 0;
             }
-            if (w->x >= 0x40) {
-                w->x = 0x3F;
+            if (cursor_x >= 0x40) {
+                cursor_x = 0x3F;
             }
-            if (w->y < 0) {
-                w->y = 0;
+            if (cursor_y < 0) {
+                cursor_y = 0;
             }
-            if (w->y >= 0x40) {
-                w->y = 0x3F;
+            if (cursor_y >= 0x40) {
+                cursor_y = 0x3F;
             }
             break;
         case 1:
         case 3:
-            if (w->x < 0) {
-                w->x = 0;
+            if (cursor_x < 0) {
+                cursor_x = 0;
             }
-            if (w->x >= 2) {
-                w->x = 1;
+            if (cursor_x >= 2) {
+                cursor_x = 1;
             }
-            if (w->y < 0) {
-                w->y = 0;
+            if (cursor_y < 0) {
+                cursor_y = 0;
             }
-            if (w->y >= 2) {
-                w->y = 1;
+            if (cursor_y >= 2) {
+                cursor_y = 1;
             }
-            x = w->x;
-            w->f74 = x + w->y * 2;
+            x = cursor_x;
+            first_part_index = x + cursor_y * 2;
             update_visibility();
             break;
         }
@@ -337,7 +298,7 @@ void TWindowSubSymbolChatPartsSet::render() {
     }
     draw_quest_message_frame((void *)c_arg);
     *(f32 *)((s8 *)c_arg + 0x10) = (f32) (*(f32 *)((s8 *)c_arg + 0x10) + *(f32 *)((s8 *)this + 0x8C));
-    *(f32 *)((s8 *)c_arg + 0x14) = (f32) (*(f32 *)((s8 *)c_arg + 0x14) + this->m_90);
+    *(f32 *)((s8 *)c_arg + 0x14) = (f32) (*(f32 *)((s8 *)c_arg + 0x14) + this->offset_y);
     *(f32 *)((s8 *)c_arg + 0x28) = (f32) (*(f32 *)((s8 *)c_arg + 0x28) * *(f32 *)((s8 *)this + 0x94));
     ctx = *(f32 *)((s8 *)c_arg + 0x2C);
     *(f32 *)((s8 *)c_arg + 0x2C) = (f32) (ctx * *(f32 *)((s8 *)this + 0x94));
@@ -382,10 +343,10 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *pos
     : TWindowChatSymbol(position, (saddr)&lbl_8044FC30) {
     m_name = window_sub_symbol_chat_parts_set_name;
     set_depth(50030.0f);
-    m_68 = 0;
+    result_flags = 0;
     cursor_x = 0;
     cursor_y = 0;
-    set_index = index;
+    part_id = index;
     selection_out = NULL;
     first_flag_out = first;
     second_flag_out = second;
@@ -394,9 +355,9 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *pos
         heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x34), client_index);
     }
     heading_display = heading;
-    m_8c = 21.0f;
-    m_90 = 49.0f;
-    m_94 = 1.0f;
+    offset_x = 21.0f;
+    offset_y = 49.0f;
+    scale = 1.0f;
     window_flags |= 0x40;
     set_selection(reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance()));
 }

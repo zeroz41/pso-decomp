@@ -5,6 +5,16 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+struct SymbolChatPreset;
+struct TWindowChatSymbol;
+struct TWindowMenu;
+struct TWindowMessageYesNo;
+struct TWindowOptionCtrl;
+class TKeyBoardControl;
+struct TWindowSubSymbolChatFaceType;
+struct TWindowSubSymbolChatParts;
+struct TWindowSubSymbolChatPartsSet;
+struct TWindowSubSymbolChatHelp;
 
 struct TWindowSubSymbolChat : public TObject {
     static void * instance;
@@ -18,19 +28,19 @@ struct TWindowSubSymbolChat : public TObject {
     s16 symbol_index;
     uaddr m_20;
     u32 client_id;
-    uaddr selected_preset;
+    SymbolChatPreset *selected_preset;
     TWindowMainMenu *parent_menu;
-    uaddr symbol_window;
-    uaddr second_symbol_window;
-    uaddr symbol_list;
-    uaddr main_menu;
-    uaddr confirm_window;
-    uaddr option_window;
-    uaddr face_type_window;
-    uaddr parts;
-    uaddr parts_set;
-    uaddr help_window;
-    uaddr keyboard;
+    TWindowChatSymbol *symbol_window;
+    TWindowChatSymbol *second_symbol_window;
+    TWindowMenu *symbol_list;
+    TWindowMenu *main_menu;
+    TWindowMessageYesNo *confirm_window;
+    TWindowOptionCtrl *option_window;
+    TWindowSubSymbolChatFaceType *face_type_window;
+    TWindowSubSymbolChatParts *parts;
+    TWindowSubSymbolChatPartsSet *parts_set;
+    TWindowSubSymbolChatHelp *help_window;
+    TKeyBoardControl *keyboard;
     uaddr close_callback;
     static s32 compute_total_height();
     static s32 calc_remaining_slots();
@@ -51,17 +61,17 @@ struct TWindowSubSymbolChat : public TObject {
     void update_sub_window();
     void update_state();
     void draw_selected_entry();
-    s32 create_keyboard_control();
-    s32 create_confirm_window();
-    s32 open_confirm_prompt();
-    s32 create_menu();
-    s32 create_parts_set();
-    s32 create_parts();
+    TKeyBoardControl *create_keyboard_control();
+    TWindowOptionCtrl *create_confirm_window();
+    TWindowMessageYesNo *open_confirm_prompt();
+    TWindowMenu *create_menu();
+    TWindowSubSymbolChatPartsSet *create_parts_set();
+    TWindowSubSymbolChatParts *create_parts();
     static void open_menu(s32 chat, saddr list);
-    s32 open_edit_menu();
-    static s32 open_main_menu(void * _w0);
+    TWindowMenu *open_edit_menu();
+    static TWindowMenu *open_main_menu(void * _w0);
     void apply_symbol();
-    s32 create_symbol_list_card();
+    TWindowMenu *create_symbol_list_card();
     static saddr create_chat_symbol_window(s32 unused, s32 index);
     virtual void render();
     virtual void run_task();
