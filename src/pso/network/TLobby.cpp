@@ -14,6 +14,7 @@
 #include "pso/system/date.h"
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"
+#include "pso/system/Lzss.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/system/task/TMainTask.h"
@@ -189,7 +190,6 @@ extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
 void apply_lobby_markers__6TLobbyFv();
 void lobby_debug_printf_stub(const char *fmt, ...);
-s32 lzss_decompress(void *, void *, s32, void *);
 void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt);
 void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
@@ -608,7 +608,7 @@ void handle_6x6F_set_quest_flags_v2(saddr pkt) {
 #pragma pop
 
 void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
-  void *tmp;
+  Lzss *lz;
   GameStateSyncScratch *buf;
   s32 n;
   if ((lobby_floor_reload_pending == 0) && ((TLobby::lobby_state == 0xE) || (TLobby::lobby_state == 0xF)))
@@ -617,11 +617,11 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
     buf = static_cast<GameStateSyncScratch *>(::operator new(sizeof(GameStateSyncScratch)));
     if (buf != 0)
     {
-      tmp = ::operator new(0x7230);
-      if (tmp != 0)
+      lz = new Lzss;
+      if (lz != 0)
       {
-        lzss_decompress(tmp, pkt->data, pkt->total_size, buf);
-        ::operator delete(tmp);
+        lz->decode(pkt->data, pkt->total_size, buf);
+        delete lz;
         TLobby::bswap_6x6E_sync_game_state(buf);
         apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(buf->payload), buf->floor_flags_size);
         n = buf->floor_flags_size;
@@ -642,16 +642,16 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
 void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt) {
     s32 len;
     u8 *buf;
-    void *tmp;
+    Lzss *lz;
     if (lobby_floor_reload_pending == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         len = pkt->total_size - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_item_condition_format, pkt->total_size);
         buf = (u8 *)mem_alloc(0x8000);
         if (buf != NULL) {
-            tmp = ::operator new(0x7230);
-            if (tmp != NULL) {
-                lzss_decompress(tmp, pkt->data + 0, len, buf);
-                ::operator delete(tmp);
+            lz = new Lzss;
+            if (lz != NULL) {
+                lz->decode(pkt->data + 0, len, buf);
+                delete lz;
             }
             ((TLobby *)buf)->apply_sync_item_state();
             mem_free(buf);
@@ -662,15 +662,16 @@ void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt) {
 void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt) {
     u32 r;
     QuestObjectEntry *p;
+    Lzss *lz;
     s32 n;
     s32 i;
     if (lobby_floor_reload_pending == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         n = pkt->total_size - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_object_condition_format, pkt->total_size);
-        p = (QuestObjectEntry *)::operator new(0x7230);
-        if (p != NULL) {
-            r = ((u32)lzss_decompress(p, pkt->data, n, quest_object_entries));
-            ::operator delete(p);
+        lz = new Lzss;
+        if (lz != NULL) {
+            r = lz->decode(pkt->data, n, quest_object_entries);
+            delete lz;
             n = r >> 2;
             p = quest_object_entries;
             object_condition_count = n;
@@ -684,15 +685,16 @@ void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt) {
 void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt) {
     u32 r;
     EnemyStateRecord *p;
+    Lzss *lz;
     s32 n;
     s32 i;
     if (lobby_floor_reload_pending == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         n = pkt->total_size - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_enemy_condition_format, pkt->total_size);
-        p = (EnemyStateRecord *)::operator new(0x7230);
-        if (p != NULL) {
-            r = ((u32)lzss_decompress(p, pkt->data, n, enemy_state_records));
-            ::operator delete(p);
+        lz = new Lzss;
+        if (lz != NULL) {
+            r = lz->decode(pkt->data, n, enemy_state_records);
+            delete lz;
             n = r / sizeof(EnemyStateRecord);
             p = enemy_state_records;
             enemy_condition_count = n;
@@ -714,7 +716,7 @@ void TLobby::send_6x6E_sync_game_state(int size) {
     s32 len;
     CompressedSyncPacket *buf;
     GameStateSyncScratch *hdr;
-    void *tmp;
+    Lzss *lz;
     buf = (CompressedSyncPacket *)mem_alloc(0x4000);
     if (buf != NULL) {
         memset(buf, 0, 0x4000);
@@ -729,10 +731,10 @@ void TLobby::send_6x6E_sync_game_state(int size) {
             n += hdr->switch_table_size;
             hdr->total_size = n;
             TLobby::bswap_6x6E_sync_game_state(hdr);
-            tmp = ::operator new(0x7230);
-            if (tmp != NULL) {
-                len = ((TLobby *)tmp)->lz_compress_packet((void *)hdr, (s32)n, (s32 *)buf->data);
-                ::operator delete(tmp);
+            lz = new Lzss;
+            if (lz != NULL) {
+                len = lz->encode(hdr, n, buf->data);
+                delete lz;
             }
             ::operator delete(hdr);
         }
@@ -751,7 +753,7 @@ void TLobby::send_6x6D_item_state() {
     s32 len;
     CompressedSyncPacket *buf;
     u8 *src;
-    void *tmp;
+    Lzss *lz;
     buf = (CompressedSyncPacket *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
@@ -759,10 +761,10 @@ void TLobby::send_6x6D_item_state() {
         if (src != NULL) {
             memset(src, 0, 0x8000);
             n = ((TLobby *)src)->write_sync_item_state();
-            tmp = ::operator new(0x7230);
-            if (tmp != NULL) {
-                len = ((TLobby *)tmp)->lz_compress_packet((void *)src, (s32)n, (s32 *)buf->data);
-                ::operator delete(tmp);
+            lz = new Lzss;
+            if (lz != NULL) {
+                len = lz->encode(src, n, buf->data);
+                delete lz;
             }
             mem_free(src);
         }
@@ -780,7 +782,7 @@ void TLobby::send_compressed_packet_6c() {
     s32 len;
     u32 size;
     CompressedSyncPacket *buf;
-    void *tmp;
+    Lzss *lz;
     u32 n;
     u32 *p;
     u32 i;
@@ -788,8 +790,8 @@ void TLobby::send_compressed_packet_6c() {
     buf = (CompressedSyncPacket *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
-        tmp = ::operator new(0x7230);
-        if (tmp != NULL) {
+        lz = new Lzss;
+        if (lz != NULL) {
             src = quest_object_entries;
             size = object_condition_count * 4;
             n = size / 4;
@@ -798,9 +800,9 @@ void TLobby::send_compressed_packet_6c() {
             for (i = 0; i < n; i++) {
                 bswap_object_source_record(&p[i]);
             }
-            len = ((TLobby *)tmp)->lz_compress_packet((void *)p, (s32)size, (s32 *)buf->data);
+            len = lz->encode(p, size, buf->data);
             mem_free(p);
-            ::operator delete(tmp);
+            delete lz;
             buf->header.subcommand = 0x6C;
             buf->header.size = 0;
             buf->header.unused = 0;
@@ -816,7 +818,7 @@ void TLobby::send_cmd_6B() {
     s32 len;
     u32 size;
     CompressedSyncPacket *buf;
-    void *tmp;
+    Lzss *lz;
     u32 n;
     EnemyStateRecord *p;
     u32 i;
@@ -824,8 +826,8 @@ void TLobby::send_cmd_6B() {
     buf = (CompressedSyncPacket *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
-        tmp = ::operator new(0x7230);
-        if (tmp != NULL) {
+        lz = new Lzss;
+        if (lz != NULL) {
             src = enemy_state_records;
             size = enemy_condition_count * sizeof(EnemyStateRecord);
             n = size / sizeof(EnemyStateRecord);
@@ -834,9 +836,9 @@ void TLobby::send_cmd_6B() {
             for (i = 0; i < n; i++) {
                 p[i].bswap();
             }
-            len = ((TLobby *)tmp)->lz_compress_packet((void *)p, (s32)size, (s32 *)buf->data);
+            len = lz->encode(p, size, buf->data);
             mem_free(p);
-            ::operator delete(tmp);
+            delete lz;
             buf->header.subcommand = 0x6B;
             buf->header.size = 0;
             buf->header.unused = 0;

@@ -190,7 +190,6 @@ struct TLobby : public TObject {
     void bswap_fields();
     void bswap_header_3words();
     static char *init_serial_access();
-    void set_range(u8 *src, int size, s8 *dst);
     static void update_floor();
     static void update_floor_a();
     static void update_floor_state();
@@ -459,7 +458,6 @@ struct TLobby : public TObject {
     static void respawn_missing_floor_items(s32 n);
     static void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
     static void reset_item_id_counters();
-    void init_lookup_tables();
     static void clear_global_array(void* _w0);
     static void free_buffers();
     static void free_global_buffer();
@@ -626,7 +624,6 @@ struct TLobby : public TObject {
     static void send_trade_proposal_result(s8 what, s8 result);
     static s32 write_zero_padded_block(void *arg0p);
     void apply_sync_item_state();
-    s32 lz_compress_packet(void *src, s32 size, s32 *hdr);
     void assign_object_ids(s32 count, void *area);
     static s32 init_floor_enemy_count(s32 floor, u8 *source, u32 size);
     static s32 load_object_set_entries(s32 floor, u8 *rows, u32 byte_size);

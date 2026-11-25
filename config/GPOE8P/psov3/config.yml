@@ -665,7 +665,7 @@ force_active:
   - lobby_init_hook__Fv
   - render_idle_timeout__Fv
   - init_6x6F_quest_flags_packet__FP26G_SetQuestFlags_V2_V3_6x6F
-  - TLobby__sub_8013FF64
+  - put_byte__4LzssFUc
   - TLobby__sub_80182E60
   - alloc_enemy_ids__Fl
   - TLobby__sub_801A3CF8
@@ -7089,7 +7089,7 @@ force_active:
   - init_light_params__15TORainbowCave01Fv
   - init_light_tables__9TObjLightFv
   - init_link_points__9TBoss2FinFv
-  - init_lookup_tables__6TLobbyFv
+  - init_tree__4LzssFv
   - __ct__13TUnk_804A6F78FP7TObject
   - init_material_nodes__6TSceneFv
   - init_model__23TObjSeabedSuisoBrakableFv
@@ -8938,10 +8938,10 @@ force_active:
   - lsc_get_stream_status
   - lsc_set_repeat
   - lsc_slot_table
-  - lzss_input_exhausted__FPUc
-  - lzss_insert_ring_node
-  - lzss_read_byte__FPUc
-  - lzss_remove_ring_node
+  - at_end__4LzssFv
+  - insert_node__4LzssFl
+  - get_byte__4LzssFv
+  - delete_node__4LzssFl
   - macHandleActive
   - macMakeActive
   - maccmp

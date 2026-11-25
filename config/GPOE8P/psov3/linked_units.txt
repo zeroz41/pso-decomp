@@ -1847,7 +1847,7 @@ pso/unk/text_8010F168.cpp
 pso/unk/text_8010F210.cpp
 pso/unk/text_8011085C.cpp
 pso/unk/text_8011A780.cpp
-pso/unk/text_8013F810.cpp
+pso/system/Lzss.cpp
 pso/unk/text_80145A44.cpp
 pso/unk/text_80145A94.cpp
 pso/unk/text_8014618C.cpp

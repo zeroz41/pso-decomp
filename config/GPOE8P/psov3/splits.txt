@@ -3017,7 +3017,7 @@ pso/ui/TLogo.cpp:
 	.data       start:0x804A72D8 end:0x804A7358
 	.sdata      start:0x805D2CC8 end:0x805D2CD0
 
-pso/unk/text_8013F810.cpp:
+pso/system/Lzss.cpp:
 	.text       start:0x8013F810 end:0x8013FFBC
 	.rodata     start:0x8043F168 end:0x8043F188
 
