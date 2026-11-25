@@ -3,21 +3,20 @@
 
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/base/TObjCollidable.h"
 
+struct ObjectSetData;
+
+// An invisible collision volume placed by the map's set data: one body, a
+// sphere or (scale.z < 0) a box sized by the set scale.
 struct TObjCollision : public TObjCollidable {
-    TObjCollision(TObject *parent, void *arg2);
+    static const char *class_name;
+    TObjCollision(TObject *parent, ObjectSetData *set_data);
     virtual ~TObjCollision();
-    void* m_ac;
-    u8 unk_B0[0x4];
-    f32 m_b4;
-    u8 unk_B8[0x4];
-    f32 m_bc;
-    u32 m_c0;
-    u32 m_c4;
+    CollisionBody body;
     virtual void render();
     virtual void run_task();
-    static void *create(void *arg0);
-    u8 unk_C8[0x10];
+    static void *create(void *set_data);
 };
 
 LAYOUT_ASSERT(TObjCollision_size, sizeof(TObjCollision) == 0xD8);
