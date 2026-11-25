@@ -10,7 +10,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_8024AADC.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/unk/text_8024ACA8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -69,7 +68,7 @@ TWindowTradeRequest::~TWindowTradeRequest() {
         player->init_parts();
     }
     if (state == 2U) {
-        fn_8024AADC((local_client_id), 0x1D);
+        TWindowCtrl::try_open_battle_menu(local_client_id, 0x1D);
     }
 }
 #pragma fp_contract on

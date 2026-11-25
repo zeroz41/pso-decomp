@@ -17,6 +17,7 @@
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
@@ -495,7 +496,7 @@ void reset_trade_session(const char *message) {
         trade_partner_meseta = 0;
         trade_proposal_delay = 0;
         trade_protocol_flags &= 0xFFFFF80F;
-        TLobby__sub_8024AAA0(local_client_id, 0x1E);
+        TWindowCtrl::replace_submenu(local_client_id, 0x1E);
         TWindowSubTradeMessage *controller = trade_message_controller;
         if (controller != NULL) {
             controller->show_message(message);
@@ -586,7 +587,7 @@ void send_6xA6_modify_trade_proposal(saddr client_id) {
             TWindowTradeRequest::close_request_window();
             if (trade_partner_client_id == client_id) {
                 TLobby::send_trade_proposal_modify();
-                TLobby__sub_8024AAA0(local_client_id, 0x1D);
+                TWindowCtrl::replace_submenu(local_client_id, 0x1D);
                 return;
             }
             send_trade_busy_reply(trade_partner_client_id);
@@ -746,7 +747,7 @@ void handle_trade_request_reply(G_ModifyTradeProposal_6xA6 *proposal) {
     switch ((s32) proposal->result) {
     case 2:
         trade_partner_meseta = proposal->amount;
-        TLobby__sub_8024AAA0(local_client_id, 0x1D);
+        TWindowCtrl::replace_submenu(local_client_id, 0x1D);
         trade_proposal_state = 3;
         return;
     case 3:

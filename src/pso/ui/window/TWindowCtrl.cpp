@@ -24,7 +24,6 @@
 #include "pso/ui/window/TWindowTimer.h"
 #include "pso/ui/window/TWindowArea.h"
 #include "pso/object/switch/TOChatSensorCapture.h"
-#include "pso/unk/text_8024AADC.h"
 #include "pso/unk/text_8024AB18.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/unk/text_8024AB54.h"
@@ -35,6 +34,7 @@
 #include "pso/ui/window/TWindowCtrl_8024ADAC.h"
 #include "pso/ui/window/TWindowCtrl_8024B048.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/ui/window/TWindowCtrlPlayer.h"
 #include "pso/ui/window/TWindowCtrl_8024B1A0.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
@@ -102,11 +102,6 @@ extern "C" {
 
 s32 TWindowCtrl__sub_8024A314(void);
 
-void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
-
-u32 get_window__11TWindowCtrlFl(void);
-s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
-
 void TWindowCtrl__sub_8024A228(saddr client_id);
 
 bool TWindowCtrl__sub_8024A1A8(void);
@@ -117,12 +112,6 @@ s32 check_card_match_enabled__15TWindowFukidasiFl(void *, void *);
 
 
 void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
-
-}
-
-extern "C" {
-
-s32 free_member__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
 
 }
 
@@ -139,12 +128,6 @@ struct Ctrl_8024B440 { u8 pad[0x84]; void *win[4]; };
 extern "C" {
 
 s32 post_chat_log_message();
-
-}
-
-extern "C" {
-
-s32 update_child_2c__15TWindowCtrlMainFv(u32, s32, s32);
 
 }
 
@@ -256,11 +239,6 @@ struct TWindowCtrl_8024C308 {
 };
 
 
-extern "C" {
-
-void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
-
-}
 
 LAYOUT_ASSERT(WindowCtrlFlagsOffset, offsetof(TWindowCtrl, flags) == 0x1C);
 LAYOUT_ASSERT(WindowCtrlChildOffset, offsetof(TWindowCtrl, m_3c) == 0x3C);
@@ -367,17 +345,17 @@ s32 TWindowCtrl::get_flag_bit4() {
     return ((u16) instance->flags >> 4U) & 1;
 }
 
-saddr TWindowCtrl::get_window(s32 client_id) {
+TWindowCtrlPlayer *TWindowCtrl::get_window(s32 client_id) {
     if (instance == NULL) {
-        return 0;
+        return NULL;
     }
     if (client_id < 0) {
-        return 0;
+        return NULL;
     }
     if (client_id >= 0xC) {
-        return 0;
+        return NULL;
     }
-    return ((saddr *)((s8 *)instance + 0x48))[client_id];
+    return instance->players[client_id];
 }
 
 extern "C" {
@@ -453,7 +431,7 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     self->f40 = NULL;
     self->f44 = NULL;
     for (i = 0; i < 12; i++) {
-        self->objs[i] = NULL;
+        players[i] = NULL;
     }
     for (i = 0; i < 3; i++) {
         self->wins78[i] = NULL;
@@ -469,19 +447,11 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     }
     if (is_split_screen() != 0) {
         for (i = 0; i < 4; i++) {
-            p = TObject::operator new(0x40);
-            if (p != NULL) {
-                p = __ct__17TWindowCtrlPlayerFP7TObjectl(p, self, i);
-            }
-            self->objs[i] = p;
-            ((TObject *)(self->objs[i]))->suspend_update();
+            players[i] = new TWindowCtrlPlayer(this, i);
+            players[i]->suspend_update();
         }
     } else {
-        p = TObject::operator new(0x40);
-        if (p != NULL) {
-            p = __ct__17TWindowCtrlPlayerFP7TObjectl(p, self, local_client_id);
-        }
-        self->objs[local_client_id] = p;
+        players[local_client_id] = new TWindowCtrlPlayer(this, local_client_id);
         for (i = 0; i < 3; i++) {
             if (get_current_floor_area() != AREA_LOBBY && is_split_screen() == 0) {
                 self->wins78[i] = create_party_status_window(i);
@@ -532,9 +502,9 @@ TWindowCtrl::~TWindowCtrl() {
         }
     }
     for (i = 11; i >= 0; i--) {
-        if (self->objs[i] != NULL) {
-            ((TObject *)self->objs[i])->queue_destruction();
-            self->objs[i] = NULL;
+        if (players[i] != NULL) {
+            players[i]->queue_destruction();
+            players[i] = NULL;
         }
     }
     if (self->f38 != NULL) {
@@ -800,9 +770,8 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
 }
 
 void TWindowCtrl::dispatch_to_child(s32 client, s32 kind) {
-    uaddr *p = (uaddr *)instance;
-    if (p != 0 && p[client + 18] != 0U) {
-        ((TWindowCtrlMain *)p[client + 18])->spawn_palette_slot_light(kind);
+    if (instance != NULL && instance->players[client] != NULL) {
+        instance->players[client]->spawn_palette_slot_light(kind);
     }
 }
 
@@ -831,11 +800,9 @@ void TWindowCtrl::set_window_flags_off(s32 client, s32 flags) {
 extern "C" {
 
 void TWindowCtrl::set_window_flags(void *client_id, s32 flags, s32 arg2) {
-    u32 window;
-
-    window = (u32)TWindowCtrl::get_window((saddr)client_id);
-    if (window != 0U) {
-        update_child_2c__15TWindowCtrlMainFv(window, flags, arg2 | 0xE);
+    TWindowCtrlPlayer *window = TWindowCtrl::get_window((saddr)client_id);
+    if (window != NULL) {
+        window->append_message_line(flags, arg2 | 0xE);
     }
 }
 
@@ -1018,11 +985,11 @@ void TWindowCtrl::release_slot(s8 *arg0) {
 extern "C" {
 
 saddr TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
-    saddr window;
+    TWindowCtrlPlayer *window;
     s32 var_r3;
 
     window = TWindowCtrl::get_window(client_id);
-    if (window == 0) {
+    if (window == NULL) {
         return 0;
     }
     if (((TWindowCtrlMain *)window)->get_main_menu_message() != 0) {
@@ -1170,10 +1137,10 @@ void close_window_if_active(s32 client) { if (TWindowCtrl::get_flag_bit4() == 0)
 
 extern "C" {
 
-void fn_8024AADC(s32 client_id, s32 arg1) {
-    u32 window = (u32)TWindowCtrl::get_window(client_id);
-    if (window != 0U) {
-        free_member__15TWindowCtrlMainFv(window, arg1);
+void TWindowCtrl::try_open_battle_menu(s32 client_id, s16 key) {
+    TWindowCtrlPlayer *window = TWindowCtrl::get_window(client_id);
+    if (window != NULL) {
+        window->try_open_battle_menu(key);
     }
 }
 
@@ -1181,10 +1148,10 @@ void fn_8024AADC(s32 client_id, s32 arg1) {
 
 extern "C" {
 
-void TLobby__sub_8024AAA0(s32 local_client_id, s32 arg1) {
-    u32 temp_r3 = get_window__11TWindowCtrlFl();
-    if (temp_r3 != 0U) {
-        update_field28__15TWindowCtrlMainFv(temp_r3, arg1);
+void TWindowCtrl::replace_submenu(s32 client_id, s16 id) {
+    TWindowCtrlPlayer *window = TWindowCtrl::get_window(client_id);
+    if (window != NULL) {
+        window->replace_submenu(id);
     }
 }
 

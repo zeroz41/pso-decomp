@@ -498,10 +498,9 @@ void TWindowMainMenu::try_open_battle_menu(s16 key) {
     }
 }
 
-void TWindowSubEquip::open_submenu(saddr window_main_menu, s32 arg1) {
-    s32 create_submenu__15TWindowMainMenuFUl(s32, s16);
-    ((TWindowMainMenu *)window_main_menu)->destroy_submenu();
-    create_submenu__15TWindowMainMenuFUl(window_main_menu, (s16)arg1);
+void TWindowMainMenu::replace_submenu(s16 id) {
+    destroy_submenu();
+    create_submenu(id);
 }
 
 void TWindowMainMenu::set_scale_f() { *(float*)((char*)this + 0x58) = 50300.0f; }

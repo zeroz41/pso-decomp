@@ -37,6 +37,7 @@ struct TWindowMainMenu : public TObject {
     void handle_menu_selection();
     void create_submenu(u32);
     void destroy_submenu();
+    void replace_submenu(s16 id);
     void close_child_window();
     void sub_80263FE0();
     void update_keyboard_card_state();

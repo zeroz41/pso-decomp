@@ -13,6 +13,7 @@ struct TWindowMessageLog;
 struct TWindowSimpleStatus;
 
 struct TWindowGetComCard;
+struct TWindowCtrlPlayer;
 
 class TWindowFukidasi;
 
@@ -34,12 +35,7 @@ struct TWindowCtrl : public TObject {
     TWindowGetComCard *m_3c;
     TWindowTradeRequest *trade_request;
     TWindowMessageLog *message_log;
-    u8 unk_48[0x8];
-    s32 m_50;
-    u8 unk_54[0x1D];
-    u8 m_71;
-    u8 unk_72[0x4];
-    u16 m_76;
+    TWindowCtrlPlayer *players[12];
     TWindowSimpleStatus *simple_status[3];
     TWindowFukidasi *balloons[4];
     void* m_94;
@@ -106,7 +102,9 @@ struct TWindowCtrl : public TObject {
     static void shutdown();
     static void close();
     void set_flag1e_bit40();
-    static saddr get_window(s32 client_id);
+    static TWindowCtrlPlayer *get_window(s32 client_id);
+    static void replace_submenu(s32 client_id, s16 id);
+    static void try_open_battle_menu(s32 client_id, s16 key);
     static s32 query_window(s32 client_id, PlayerWindowQuery query);
     static void call_window_method(s32 client_id, PlayerWindowCommand command);
     static s32 get_flag_bit4();
@@ -159,6 +157,7 @@ struct TWindowCtrl : public TObject {
 };
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
+LAYOUT_ASSERT(TWindowCtrlPlayersOffset, offsetof(TWindowCtrl, players) == 0x48);
 LAYOUT_ASSERT(TWindowCtrlBalloonSlotsOffset, offsetof(TWindowCtrl, balloons) == 0x84);
 LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 

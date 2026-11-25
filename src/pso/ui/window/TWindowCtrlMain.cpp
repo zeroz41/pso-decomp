@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowCtrlSub.h"
 #include "pso/ui/window/TWindowCtrlScreen.h"
 #include "pso/ui/window/TWindowCtrlPlayer.h"
+#include "pso/ui/window/TWindowMessageInfomation.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowActionPalette.h"
@@ -85,9 +86,6 @@ struct Quad_8024CE68 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 void TWindowCtrlMain__sub_8024CB7C();
 void TWindowCtrlMain__sub_8024CB8C();
 s32 TWindowMainMenu__sub_8024E3D4(void *);
-int open_submenu__15TWindowSubEquipFll(void*);
-int append_line__14TWindowMessageFii(void*);
-int try_open_battle_menu__15TWindowMainMenuFs(void*);
 void TWindowCtrlMain__sub_8024D838(void);
 }
 void load_hud_palette_textures(void);
@@ -145,12 +143,12 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
 }
 
 TWindowCtrlPlayer::~TWindowCtrlPlayer() {
-    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction(); this->m_3c = 0; }
+    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction(); this->short_list = 0; }
     if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->lock_on_window = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->action_palette = 0; }
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->simple_status = 0; }
     if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->message_information = 0; }
-    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->m_28 = 0; }
+    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->main_menu = 0; }
 }
 
 void TWindowCtrlPlayer::run_task() { sub_8024E0F0(); ((TWindowCtrl *)this)->run_all_updates(); }
@@ -172,7 +170,7 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
         break;
     case 38:
         if (is_current_area_item_enabled() != 0) {
-            temp_r3_2 = reinterpret_cast<uaddr>(this->m_34);
+            temp_r3_2 = reinterpret_cast<uaddr>(this->action_palette);
             if (temp_r3_2 != 0U) {
                 ((TObject *)temp_r3_2)->clear_update_suspension();
             }
@@ -392,13 +390,29 @@ s32 TWindowCtrlMain::get_main_menu_message() {
     return TWindowMainMenu__sub_8024E3D4(p);
 }
 
-void TWindowCtrlMain::free_member() { void* m = *(void**)((char*)this + 0x28); if (m) try_open_battle_menu__15TWindowMainMenuFs(m); }
+void TWindowCtrlPlayer::try_open_battle_menu(s16 key) {
+    if (main_menu != NULL) {
+        main_menu->try_open_battle_menu(key);
+    }
+}
 
-void TWindowCtrlMain::update_field28() { void* m = *(void**)((char*)this + 0x28); if (m) open_submenu__15TWindowSubEquipFll(m); }
+void TWindowCtrlPlayer::replace_submenu(s16 id) {
+    if (main_menu != NULL) {
+        main_menu->replace_submenu(id);
+    }
+}
 
-void TWindowCtrlMain::spawn_palette_slot_light(s32 kind) { void* m = *(void**)((char*)this + 0x34); if (m) spawn_action_palette_slot_light(static_cast<TWindowActionPalette *>(m), kind); }
+void TWindowCtrlPlayer::spawn_palette_slot_light(s32 kind) {
+    if (action_palette != NULL) {
+        spawn_action_palette_slot_light(action_palette, kind);
+    }
+}
 
-void TWindowCtrlMain::update_child_2c() { void* m = *(void**)((char*)this + 0x2c); if (m) append_line__14TWindowMessageFii(m); }
+void TWindowCtrlPlayer::append_message_line(int text, int mode) {
+    if (message_information != NULL) {
+        message_information->append_line(text, mode);
+    }
+}
 
 s32 TWindowCtrl::is_countdown_done() {
     return this->countdown <= 0 ? 1 : 0;
