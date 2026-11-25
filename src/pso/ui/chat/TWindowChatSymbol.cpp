@@ -4,7 +4,6 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
-#include "pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -16,7 +15,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard.h"

@@ -53,4 +53,9 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 field);
 s32 has_serial_input__22TAdEnterSerialAccessGCFv(s32 parent, s32 field);
 int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const char *arg2);
 }
+
+extern "C" {
+s32 TAdPsoPassSaveGC__sub_8032B584(void);
+}
+
 #endif

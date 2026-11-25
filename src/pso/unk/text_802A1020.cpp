@@ -5,7 +5,6 @@
 #include "pso/unk/text_802A1020.h"
 #include "pso/unk/text_802A1144.h"
 #include "pso/unk/text_802A1154.h"
-#include "pso/ui/keyboard/TKeyBoardControl_802A1180.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TUnk_804DCB64.h"
 #include "pso/network/TLobby.h"

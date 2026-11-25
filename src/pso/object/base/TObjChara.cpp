@@ -73,13 +73,12 @@
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
-#include "pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.h"
 
 #include "pso/unk/text_8023F3F8.h"
 
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 
-#include "pso/ui/keyboard/TKeyBoardControl_802A1180.h"
+#include "pso/unk/text_802A1020.h"
 
 #include "pso/unk/text_802A1154.h"
 

@@ -17,7 +17,6 @@
 
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
-#include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"

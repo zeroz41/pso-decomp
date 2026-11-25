@@ -8,4 +8,9 @@ void clear_received_symbol_chat(void);
 extern "C" {
 void TLobby__sub_80077608(void);
 }
+
+extern "C" {
+void TWindowSubSymbolChat__sub_80077704(void *p);
+}
+
 #endif

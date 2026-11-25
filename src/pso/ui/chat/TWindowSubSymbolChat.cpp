@@ -104,7 +104,6 @@ void SymbolChatPreset::set_flag_bit2() {
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/chat/TWindowSubSymbolChatParts.h"
-#include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"

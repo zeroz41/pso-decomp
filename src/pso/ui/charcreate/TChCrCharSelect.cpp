@@ -1,6 +1,5 @@
 #include "pso/system/SoundEffect.h"
 #include "types.h"
-#include "pso/ui/charcreate/TChCrCharSelect_802937D4.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyCharData.h"
@@ -32,7 +31,7 @@ const s32 lbl_80464E90[2] = {0, 4};
 const int char_select_class_id_table[12] = {0, 1, 2, 9, 3, 11, 4, 5, 10, 6, 7, 8};
 const s32 lbl_805DD9D8[1] = {4};
 
-int get_char_select_class_id(int a0) {  return char_select_class_id_table[a0]; }
+int get_char_select_class_id(int index) { return char_select_class_id_table[index]; }
 
 void TChCrCharSelect::wrap_slot_index_to_range() {
     s32 min = char_select_class_group_range_table[TChCrCharSelect::selected_char_index].min;

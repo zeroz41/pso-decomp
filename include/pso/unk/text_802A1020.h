@@ -12,4 +12,8 @@ s32 verify_game_file_integrity(void);
 s32 verify_game_file_integrity(void);
 // --- end of C functions
 
+// Also the TMovie end callback of the opening movie: takes the callback's argument.
+void set_movie_finished_flag(s32);
+void update_movie_phase(void);
+
 #endif

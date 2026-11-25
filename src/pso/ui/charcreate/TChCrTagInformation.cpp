@@ -7,7 +7,6 @@
 #include "pso/unk/text_803098DC.h"
 #include "pso/ui/charcreate/TChCrTagInformation.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
-#include "pso/ui/charcreate/TChCrCharSelect_802937D4.h"
 #include "pso/ui/charcreate/TObjCMAssignMenu.h"
 
 #pragma readonly_strings on

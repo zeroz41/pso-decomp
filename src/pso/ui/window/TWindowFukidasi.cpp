@@ -34,7 +34,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include <string.h>
-#include "pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.h"
+#include "pso/ui/chat/TWindowChatSymbol.h"
 #include <stdlib.h>
 #include "pso/object/base/CollisionActorLookup.h"
 #define PSO_SDK_COMPACT_MATH

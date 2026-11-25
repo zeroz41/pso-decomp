@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
+#include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
 
 #include "pso/network/TLobby.h"

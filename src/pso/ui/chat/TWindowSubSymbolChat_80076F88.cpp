@@ -5,7 +5,6 @@
 #include "types.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_8007763C.h"
 #include <string.h>
 
 #include "pso/network/protocol/subcmd_6x.h"

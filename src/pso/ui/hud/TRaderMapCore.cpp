@@ -35,7 +35,6 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/hud/TRaderMapCore_801FB2B8.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"
