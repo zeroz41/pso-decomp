@@ -1779,7 +1779,6 @@ pso/unk/text_802A1020.cpp
 pso/unk/text_802C39F8.cpp
 pso/unk/text_802C3AC0.cpp
 pso/unk/text_802D1C84.cpp
-pso/unk/text_802E10D8.cpp
 pso/boss/barbaray/Boss7CommonResource.cpp
 pso/unk/text_802F0F04.cpp
 pso/boss/barbaray/TObjBoss7Tunnel_802F190C.cpp

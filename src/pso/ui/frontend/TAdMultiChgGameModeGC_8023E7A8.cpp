@@ -27,7 +27,6 @@
 #include "pso/render/gjSystem.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/unk/text_8023F3F8.h"
-#include "pso/unk/text_802E10D8.h"
 #include "pso/unk/text_8026ACDC.h"
 #include "pso/unk/text_8026AC50.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -110,7 +109,7 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global},
     {register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0},
     {register_texture_f128_ray, TAdRayGC::destroy_instance},
-    {fn_802E10D8, TAdChrSelPlayerGC__sub_802E10A0},
+    {load_multi_ply_chr_select_resources, free_multi_ply_chr_select_resources},
     {TAdTimeSetGC::sub_802E34A8, TAdTimeSetGC::sub_802E34A4},
     {register_texture_f512_multiplay, TAdGameStartSubGC::destroy_instance},
     {TAdSinglePlyChrSelectGC::alloc_char_buffers, TAdSinglePlyChrSelectGC::free_callbacks},

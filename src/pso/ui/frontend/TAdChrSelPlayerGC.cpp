@@ -19,13 +19,17 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern const char lbl_804728D0[] = "TAdChrSelPlayerGC";
-u8 *multi_ply_chr_select_resource_bundle;
+BmlResource *multi_ply_chr_select_resource_bundle;
 
 const char *lbl_805D3F78 = lbl_804728D0;
 
-void TAdChrSelPlayerGC__sub_802E10A0(void) {
+void load_multi_ply_chr_select_resources(void) {
+    multi_ply_chr_select_resource_bundle = new BmlResource(1, &creation_menu_resource_descriptor, 0, 0, NULL);
+}
+
+void free_multi_ply_chr_select_resources(void) {
     if (multi_ply_chr_select_resource_bundle != NULL) {
-        delete (BmlResource *)multi_ply_chr_select_resource_bundle;
+        delete multi_ply_chr_select_resource_bundle;
         multi_ply_chr_select_resource_bundle = NULL;
     }
 }
@@ -272,7 +276,7 @@ void TAdChrSelPlayerGC::run_task() {
 
 void TAdChrSelPlayerGC::init_model_animation() {
     this->set_action_table(lbl_804E2F78);
-    this->set_motion_list(reinterpret_cast<BmlResource *>(multi_ply_chr_select_resource_bundle)->motions);
+    this->set_motion_list(multi_ply_chr_select_resource_bundle->motions);
     set_cursor_index(0);
     set_animation((this->requested_action));
 }

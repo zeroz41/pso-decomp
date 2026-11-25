@@ -7652,15 +7652,12 @@ pso/unk/TLobby_802E03C8.cpp:
 	.text       start:0x802E03C8 end:0x802E03D0
 
 pso/ui/frontend/TAdChrSelPlayerGC.cpp:
-	.text       start:0x802E03D0 end:0x802E10D8
+	.text       start:0x802E03D0 end:0x802E1128
 	.rodata     start:0x804728D0 end:0x80472920
 	.data       start:0x804E2F68 end:0x804E3040
 	.sdata      start:0x805D3F78 end:0x805D3F80
 	.sbss       start:0x805D68D8 end:0x805D68DC
 	.sdata2     start:0x805DE8A8 end:0x805DE8E8
-
-pso/unk/text_802E10D8.cpp:
-	.text       start:0x802E10D8 end:0x802E1128
 
 pso/ui/frontend/TAdTimeSetGC.cpp:
 	.text       start:0x802E1128 end:0x802E3AE4
