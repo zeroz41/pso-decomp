@@ -28,25 +28,22 @@ Vec map_csn_box_face_normals[8] = {
 // Collision flags by the set data's collision kind (1..5).
 s32 map_csn_collision_flag_table[5] = {0, 0x8000, 0x8900, 0x800, 0x2000};
 
-extern "C" {
-void TObjMapCsn::render() {  }
+void TObjMapCsn::render() {}
 
 
 void TObjMapCsn::update_state() {
-    s32 temp_r0;
-
-    temp_r0 = this->set_params[0];
-    if (temp_r0 == 0) {
-        if ((s32) this->set_params[1] == 0) {
-            this->set_params[1] = 1;
+    s32 kind = set_params[0];
+    if (kind == 0) {
+        if (set_params[1] == 0) {
+            set_params[1] = 1;
         }
     } else {
-        if ((u32) temp_r0 > 5U) {
-            this->set_params[0] = 1;
+        if ((u32)kind > 5) {
+            set_params[0] = 1;
         }
-        this->set_params[1] = (s32) map_csn_collision_flag_table[this->set_params[0]];
+        set_params[1] = map_csn_collision_flag_table[set_params[0]];
     }
-    this->set_params[1] = (s32) (this->set_params[1] | 0x40000000);
+    set_params[1] |= 0x40000000;
 }
 
 s32 TObjMapCsn::build_box_triangles() {
@@ -103,9 +100,9 @@ s32 TObjMapCsn::build_box_triangles() {
         idx += 3;
         rotate_vector_by_matrix(0, nrm, &t->normal);
         nrm++;
-        VecCopy((Vec *)&v0, (const Vec *)&collision_vertices[t->vertex[0]]);
-        VecCopy((Vec *)p1, (const Vec *)&collision_vertices[t->vertex[1]]);
-        VecCopy((Vec *)p2, (const Vec *)&collision_vertices[t->vertex[2]]);
+        VecCopy(&v0, &collision_vertices[t->vertex[0]]);
+        VecCopy(p1, &collision_vertices[t->vertex[1]]);
+        VecCopy(p2, &collision_vertices[t->vertex[2]]);
         t->center.x = (v2.x + (v0.x + v1.x)) / 3.0f;
         t->center.y = (v2.y + (v0.y + v1.y)) / 3.0f;
         t->center.z = (v2.z + (v0.z + v1.z)) / 3.0f;
@@ -125,29 +122,29 @@ s32 TObjMapCsn::build_box_triangles() {
 TObjMapCsn *TObjMapCsn::create(void *set_data) {
     return new TObjMapCsn(get_collision_controller(), set_data);
 }
-}
+
 TObjMapCsn::~TObjMapCsn() {
     if (TObjMapCsn::get_collision_controller() != NULL) {
         fn_80140DFC(TObjMapCsn::get_collision_controller(), this);
     }
 }
 TObjMapCsn::TObjMapCsn(TObject *parent, void *set_data) : TObjCollidable(parent) {
-    f32 temp_f0;
-    f32 temp_f1;
+    f32 half_width;
+    f32 half_depth;
     m_name = TObjMapCsn__class_name;
     apply_object_set_data(set_data);
-    this->actorFlags = (s32) (this->actorFlags | 0x40000000);
-    this->update_state();
-    this->build_box_triangles();
+    actorFlags |= 0x40000000;
+    update_state();
+    build_box_triangles();
     collision_model.vertex_count = 8;
     collision_model.vertices = collision_vertices;
     collision_model.face_count = 8;
     collision_model.faces = collision_faces;
     collision_group.model = &collision_model;
     VecCopy(&collision_group.center, &position);
-    temp_f1 = 0.5f * scale.x;
-    temp_f0 = 0.5f * scale.z;
-    collision_group.radius = temp_f1 * temp_f1 + temp_f0 * temp_f0;
+    half_width = 0.5f * scale.x;
+    half_depth = 0.5f * scale.z;
+    collision_group.radius = half_width * half_width + half_depth * half_depth;
     collision_group.flags = set_params[1];
     if (TObjMapCsn::get_collision_controller() != NULL) {
         fn_80140EA8(TObjMapCsn::get_collision_controller(), this);
