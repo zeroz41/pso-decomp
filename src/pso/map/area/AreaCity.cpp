@@ -24,7 +24,7 @@
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
 
 extern "C" {
-// text_80184C2C.cpp; its header does not declare it yet.
+// CitySeasonResources.cpp; its header does not declare it yet.
 void TLobby__sub_80184DF4(void);
 }
 // THunterGuildSeqOnlineTask_802156A0.cpp; no header declares it yet.
