@@ -9,7 +9,7 @@ struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
 // Window layout constants shared by the TWindowDD files (one definition here, extern elsewhere).
 extern const f32 TWindowDD__data_805DFB18 = 0.00390625f;
 extern const f32 lbl_805DFB1C = 16.0f;
-extern const f32 TWindowDD__data_805DFB20 = 20.0f;
+extern const f32 window_dd_row_height = 20.0f; // inferred: word select rows scroll in steps of it
 extern const f32 lbl_805DFB24 = 18.0f;
 extern const f32 lbl_805DFB28 = 16.0f;
 extern const f32 lbl_805DFB2C = 202.0f;
@@ -21,9 +21,9 @@ extern const f32 lbl_805DFB40 = 199.0f;
 extern const f32 lbl_805DFB44 = 219.0f;
 extern const f32 lbl_805DFB48 = 0.015625f;
 extern const f32 lbl_805DFB4C = 18.0f;
-extern const s32 TWindowDD__data_805DFB50 = 6;
-extern const f32 lbl_805DFB54 = 6.0f;
-extern const f32 TWindowDD__data_805DFB58 = 4.0f;
+extern const s32 window_dd_tween_ticks = 6; // inferred: tween_ticks given to every word select window
+extern const f32 window_dd_visible_rows = 6.0f; // inferred: rows of a word page (TWindowDD_WS_Word::create)
+extern const f32 window_dd_frame_margin = 4.0f; // inferred: inset of the text inside a word select frame
 extern const f32 lbl_805DFB5C = 0.0f;
 extern const f32 lbl_805DFB60 = -20.0f;
 extern const f32 lbl_805DFB64 = 680.0f;
@@ -110,7 +110,7 @@ void TWindowDD::set_quad_corners_scaled(f32 x, f32 y, f32 scale) {
   temp_f8 = TWindowDD__data_805DFB18 * x;
   temp_f7 = TWindowDD__data_805DFB18 * y;
   *((f32 *) (((s8 *) this) + 0)) = temp_f8;
-  temp_f5 = TWindowDD__data_805DFB18 * (TWindowDD__data_805DFB20 + y);
+  temp_f5 = TWindowDD__data_805DFB18 * (window_dd_row_height + y);
   new_var4 = TWindowDD__data_805DFB18 * temp_f4;
   *((f32 *) (((s8 *) this) + 4)) = temp_f7;
   temp_f1 = 48.0f + x;

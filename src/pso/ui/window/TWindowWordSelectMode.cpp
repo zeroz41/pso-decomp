@@ -17,7 +17,7 @@ extern const f32 lbl_805DFC00;
 extern const f32 lbl_805DFC04;
 extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
-extern const f32 TWindowDD__data_805DFB20;
+extern const f32 window_dd_row_height;
 extern const f32 lbl_805DFB48;
 extern const f32 lbl_805DFB4C;
 
@@ -137,7 +137,7 @@ void TWindowWordSelectMode::render() {
     depth = word_select_inverse_depth(this->draw_depth, 0.2f);
     TWindowDD__sub_803489B8(ctx, points, 0);
     h = ctx->scale[1];
-    step = TWindowDD__data_805DFB20 * h;
+    step = window_dd_row_height * h;
     dv = lbl_805DFB4C * lbl_805DFB48;
     q.x0 = points[0].x;
     q.x1 = points[7].x;

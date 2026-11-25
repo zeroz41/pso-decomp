@@ -44,7 +44,7 @@ void TWindowDD_WS_String::run_task() {
 }
 
 
-extern const f32 TWindowDD__data_805DFB58;
+extern const f32 window_dd_frame_margin;
 extern const u32 lbl_805DFC18;
 
 void TWindowDD_WS_String::init_and_set_field50(void *ticks) {
@@ -64,11 +64,11 @@ void TWindowDD_WS_String::update_position(s32 ticks) {
 }
 
 void TWindowDD_WS_String::fit_width_to_text() {
-    u8 *entry;
-    entry = (u8 *)get_array_entry(0);
+    WindowTextEntry *entry;
+    entry = (WindowTextEntry *)get_array_entry(0);
     if (entry != NULL) {
         measure_message_text_width_default(entry);
-        target_size[0] = (2.0f * TWindowDD__data_805DFB58) + *(f32 *)((s8 *)entry + 0x10);
+        target_size[0] = (2.0f * window_dd_frame_margin) + entry->width;
     }
 }
 
@@ -92,7 +92,7 @@ struct TWindowDD_WS_StringLayout {
 
 extern const u32 TWindowDD__data_805DFC14;
 extern const f32 lbl_805DFC20;
-extern const f32 TWindowDD__data_805DFB20;
+extern const f32 window_dd_row_height;
 
 TWindowDD_WS_StringLayout lbl_804EFC00 = {
     1, 1,
@@ -129,7 +129,7 @@ TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style
 
 TWindowDD_WS_String *TWindowDD_WS_String::create(f32 width, f32 *pos, f32 *size, u32 str, s32 style) {
     TWindowDD__data_804EFC24.size[0] = width;
-    TWindowDD__data_804EFC24.size[1] = TWindowDD__data_805DFB20;
+    TWindowDD__data_804EFC24.size[1] = window_dd_row_height;
     return new TWindowDD_WS_String(pos, size, str, style);
 }
 

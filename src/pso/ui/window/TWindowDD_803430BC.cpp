@@ -65,7 +65,7 @@ void run_state__9TWindowDDFPv(TWindowDD *window_dd);
 TWindowDD_WS_Word *TWindowDD__sub_80347980(TWindowDD *window_dd);
 void pop_menu_level__9TWindowDDFPv(TWindowDD *window);
 void TWindowDD__sub_80347CC8(void *, void *);
-extern const s32 TWindowDD__data_805DFB50;
+extern const s32 window_dd_tween_ticks;
 
 extern const f32 TWindowDD__data_805DFB74;
 
@@ -100,7 +100,7 @@ extern char *lbl_805D6E6C;
 
 extern s8 lbl_805D6E70;
 
-extern const f32 lbl_805DFB54;
+extern const f32 window_dd_visible_rows;
 
 extern const f32 lbl_805DFB60;
 
@@ -356,7 +356,7 @@ TWindowDD::TWindowDD(TObject *parent, void *out_message) : TObject(parent) {
   list_ids[1] = -1;
   list_ids[2] = -1;
   {
-    TWindowDD_WS_Word *first = TWindowDD_WS_Word::create(list_ids[0], (s32) lbl_805DFB54);
+    TWindowDD_WS_Word *first = TWindowDD_WS_Word::create(list_ids[0], (s32) window_dd_visible_rows);
     if (first != 0)
     {
       set_default_positions(first);
@@ -364,7 +364,7 @@ TWindowDD::TWindowDD(TObject *parent, void *out_message) : TObject(parent) {
     }
   }
   state_stack[0] = 0;
-  page = TWindowDD_WS_Word::create(list_ids[1], (s32) lbl_805DFB54);
+  page = TWindowDD_WS_Word::create(list_ids[1], (s32) window_dd_visible_rows);
   if (page != 0)
   {
     init_layout(this, page);
@@ -645,7 +645,7 @@ void TWindowDD__sub_803435A0(TWindowDD *window_dd) {
     if (page != NULL) {
         page->target_position[0] = lbl_805DFB90;
         page->target_size[0] = TWindowDD__data_805DFB74;
-        page->tween_ticks = TWindowDD__data_805DFB50;
+        page->tween_ticks = window_dd_tween_ticks;
         if (entry->flags & 4) {
             TWindowDD__sub_80347E04(window_dd, window_dd->extra_string_count++);
         }
@@ -657,13 +657,13 @@ void TWindowDD__sub_803435A0(TWindowDD *window_dd) {
             next_page->target_size[0] = lbl_805DFB7C;
             if (window_dd->mode_window != NULL) {
                 window_dd->mode_window->target_position[0] = lbl_805DFC0C;
-                window_dd->mode_window->tween_ticks = TWindowDD__data_805DFB50;
+                window_dd->mode_window->tween_ticks = window_dd_tween_ticks;
             }
         } else {
             next_page->target_size[0] = TWindowDD__data_805DFB74;
             if (window_dd->mode_window != NULL) {
                 window_dd->mode_window->target_position[0] = TWindowDD__data_805DFBFC;
-                window_dd->mode_window->tween_ticks = TWindowDD__data_805DFB50;
+                window_dd->mode_window->tween_ticks = window_dd_tween_ticks;
             }
         }
         if (next->flags & 2) {
@@ -723,13 +723,13 @@ void TWindowDD::apply_entry_layout() {
             w->target_size[0] = lbl_805DFB7C;
             if (mode_window != NULL) {
                 mode_window->target_position[0] = lbl_805DFC0C;
-                mode_window->tween_ticks = TWindowDD__data_805DFB50;
+                mode_window->tween_ticks = window_dd_tween_ticks;
             }
         } else {
             w->target_size[0] = TWindowDD__data_805DFB74;
             if (mode_window != NULL) {
                 mode_window->target_position[0] = TWindowDD__data_805DFBFC;
-                mode_window->tween_ticks = TWindowDD__data_805DFB50;
+                mode_window->tween_ticks = window_dd_tween_ticks;
             }
         }
     }
