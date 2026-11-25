@@ -45,6 +45,13 @@ static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGe
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D8F74.h"
 
+s32 is_central_control_area() {
+    if ((get_current_floor_area() == AREA_SEABED_UPPER) || (get_current_floor_area() == AREA_SEABED_LOWER) || (get_current_floor_area() == AREA_BARBA_RAY) || (get_current_floor_area() == AREA_OLGA_FLOW)) {
+        return 1;
+    }
+    return 0;
+}
+
 // The texture list of the reflected scene, once render_shadows has copied a frame into it.
 NJS_TEXLIST *reflection_texture_list;
 TFloorReflection *scene_sora_instance;

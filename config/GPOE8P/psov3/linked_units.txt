@@ -598,7 +598,6 @@ pso/weapon/TItemWeaponSRankLauncher.cpp
 pso/weapon/WeaponAttackActionData.cpp
 pso/weapon/WeaponAttackActions.cpp
 pso/weapon/WeaponSpecialSelection.cpp
-pso/map/FloorArea_8029E764.cpp
 pso/map/FloorLifecycleTables.cpp
 pso/map/AreaEventSet.cpp
 pso/math/MatrixTransforms.cpp
