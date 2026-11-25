@@ -119,7 +119,7 @@ void TAdChrSelBSlotGC::populate_slot_entries() {
     if (plate->is_slot_value_ready(2)) {
         slot_gc->init_slot_entry(2, (void *)&lbl_80475908);
         for (i = 0; i < 4; i++) {
-            set_entry_text__15TAdSubPlyItemGCFPvPv(player_items, build_slot_entry(i, i, (void *)&chr_sel_b_slot_positions[i]));
+            player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_b_slot_positions[i]));
             if (is_character_transferred(i)) {
                 move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_b_slot_positions[i]));
             }

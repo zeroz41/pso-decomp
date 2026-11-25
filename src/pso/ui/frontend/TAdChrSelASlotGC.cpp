@@ -284,7 +284,7 @@ void TAdChrSelASlotGC::populate_slot_entries() {
         case 0:
             slot_gc->init_slot_entry(0, (void *)&chr_sel_a_slot_label_pos);
             for (i = 0; i < 4; i++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items, build_slot_entry(i, i, (void *)&chr_sel_a_slot_plate_positions[i]));
+                this->player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_a_slot_plate_positions[i]));
                 if (is_character_transferred(i)) {
                     this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_a_slot_plate_positions[i]));
                 }
@@ -294,19 +294,19 @@ void TAdChrSelASlotGC::populate_slot_entries() {
             slot_gc->init_slot_entry(0, (void *)&chr_sel_a_slot_left_label_pos);
             slot_gc->init_slot_entry(1, (void *)&chr_sel_a_slot_right_label_pos);
             for (i = 0; i < 4; i++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items, build_slot_entry(i, i, (void *)&chr_sel_a_slot_left_plate_positions[i]));
+                this->player_items->set_entry_text(build_slot_entry(i, i, (void *)&chr_sel_a_slot_left_plate_positions[i]));
                 if (is_character_transferred(i)) {
                     this->move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_a_slot_left_plate_positions[i]));
                 }
             }
             for (j = 0; j < 3; j++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items_b, build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_right_plate_positions[j]));
+                this->player_items_b->set_entry_text(build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_right_plate_positions[j]));
             }
             break;
         case 2:
             slot_gc->init_slot_entry(1, (void *)&chr_sel_a_slot_left_label_pos);
             for (j = 0; j < 3; j++) {
-                set_entry_text__15TAdSubPlyItemGCFPvPv(this->player_items_b, build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_left_plate_positions[j]));
+                this->player_items_b->set_entry_text(build_slot_entry(j, j + 4, (void *)&chr_sel_a_slot_left_plate_positions[j]));
             }
             break;
         }

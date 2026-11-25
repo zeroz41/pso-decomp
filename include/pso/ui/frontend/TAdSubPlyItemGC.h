@@ -29,6 +29,8 @@ public:
     u8 *format_level_text(int level);
     // Hides all four lines (clears visible[]).
     void hide_all_entries();
+    // Fills line entry->slot from entry and fades it in.
+    void set_entry_text(PlayerSlotLabel *entry);
 
     u8 pad_1C[4];
     char names[4][0xFF];
@@ -39,7 +41,5 @@ public:
     NJS_POINT2 level_pos[4];
 };
 LAYOUT_ASSERT(TAdSubPlyItemGCExtent, sizeof(TAdSubPlyItemGC) == 0x48C);
-
-extern "C" void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, PlayerSlotLabel *entry);
 
 #endif
