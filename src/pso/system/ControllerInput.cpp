@@ -258,7 +258,8 @@ void update_pad_recalibration(void) {
     }
 }
 
-s32 func_801A5E54(void) {
+// Resets on the reset button while the disc is out; reports a pending reset unless a memory card is busy.
+s32 poll_reset_request(void) {
     if ((DVDCheckDisk() == 0) && (TKeyBoardControl::check_reset_button() != 0)) {
         reset_system();
     }

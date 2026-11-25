@@ -406,7 +406,7 @@ void TAdDialingGC::update_idle_dial_state() {
         }
         return;
     case 2:
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             this->dial_step = 3;
             return;
         }

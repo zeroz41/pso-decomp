@@ -127,7 +127,7 @@ void update_movie_phase(void) {
     if ((s32) (*(u8 *)&movie_finished_flag) == 1) {
         request_queued_main_phase();
     }
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

@@ -317,8 +317,8 @@ s32 TMovie::check_skip_input() {
     s32 var_r30;
 
     if (is_ending_sequence_active() != 0) {
-        if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (static_cast<s8>(func_801A5E54()) != 0)) {
-            if ((TLobby::run_disk_error_check() == 0) || (static_cast<s8>(func_801A5E54()) != 0)) {
+        if ((TLobby::run_disk_error_check() == 0) || (this->player->is_playback_finished() != 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
+            if ((TLobby::run_disk_error_check() == 0) || (static_cast<s8>(poll_reset_request()) != 0)) {
                 fn_801449F0();
             }
             return 1;
@@ -363,7 +363,7 @@ block_fn_8000F91C:
         if (var_r30 != 0) goto block_call_func;
         if (this->player->is_playback_finished() == 0) goto block_return0;
 block_call_func:
-        if ((static_cast<s8>(func_801A5E54()) != 0) || (var_r30 != 0)) {
+        if ((static_cast<s8>(poll_reset_request()) != 0) || (var_r30 != 0)) {
             activate_main_menu_scene();
         }
         return 1;

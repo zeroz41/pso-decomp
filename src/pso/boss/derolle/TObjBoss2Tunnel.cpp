@@ -1251,7 +1251,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
             break;
         }
         TLobby::wait_ready_loop();
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             break;
         }
         render_tick();
@@ -1303,7 +1303,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         main_task.render();
         draw_snapshot_capture_overlay();
         TLobby::wait_ready_loop();
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             break;
         }
         TParticleCtrl::begin_effect_render();

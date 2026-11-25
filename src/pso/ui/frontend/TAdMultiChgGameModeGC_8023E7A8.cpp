@@ -520,7 +520,7 @@ void run_game_mode_select_frame(void) {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     if (TAdPlayerLoadGC::get_instance() == 0) {
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             switch_to_fallback_main_phase();
         }
         if (TQuestVmDownLoadServer::is_ready() != 0) {

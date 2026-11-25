@@ -44,6 +44,6 @@ s32 test_buttons_press_or_repeat(ControllerInputContext *pad, s32 buttons, s32 d
 s32 check_packed_flag_match(ControllerInputContext *pad, u32 mask, s32 delay, s32 period);
 s32 input_press_or_repeat(ControllerInputContext *pad, u32 mask, s32 delay, s32 period);
 
-s32 func_801A5E54(void);
+s32 poll_reset_request(void);
 
 #endif

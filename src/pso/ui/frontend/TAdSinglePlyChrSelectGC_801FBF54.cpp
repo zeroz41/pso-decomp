@@ -1626,7 +1626,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FEBBC(void) {
 
 extern "C" {
 saddr get_localized_text_entry(s32, s32);
-s8 func_801A5E54__Fv(void);
+s8 poll_reset_request__Fv(void);
 void TLobby__sub_80269C90(void);
 void TLobby__sub_80269CA4(s32);
 
@@ -1704,7 +1704,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
-            if (func_801A5E54__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
+            if (poll_reset_request__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 8) != 0) {
                 if (check != NULL) {
             delete check;
         }
@@ -1735,7 +1735,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
-            if (func_801A5E54__Fv() != 0) {
+            if (poll_reset_request__Fv() != 0) {
                 break;
             }
             render_tick();
@@ -1789,7 +1789,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
-            if (func_801A5E54__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
+            if (poll_reset_request__Fv() != 0 || test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x60E) != 0) {
                 break;
             }
             render_tick();

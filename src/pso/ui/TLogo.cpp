@@ -107,7 +107,7 @@ void TLogo::run_frame() {
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

@@ -46,7 +46,7 @@ void run_main_frame(void) {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

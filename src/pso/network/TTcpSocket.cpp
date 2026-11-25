@@ -273,7 +273,7 @@ int TTcpSocket::open() {
 					if (m_stat_val < 4) {
 						if (!get_link_status()) {
 							return -3;
-						} else if (static_cast<s8>(func_801A5E54())) {
+						} else if (static_cast<s8>(poll_reset_request())) {
 							return -2;
 						} else {
 							main_task.begin_frame();
@@ -359,7 +359,7 @@ int TSocket::resolve_domain(const char *domain) {
                 }
                 begin_gx_frame();
                 controller_stuff();
-                if (static_cast<s8>(func_801A5E54()) != 0) {
+                if (static_cast<s8>(poll_reset_request()) != 0) {
                     break;
                 }
                 main_task.begin_frame();

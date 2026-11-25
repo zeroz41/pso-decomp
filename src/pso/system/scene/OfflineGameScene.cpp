@@ -454,7 +454,7 @@ void run_offline_game_frame(void) {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     take_snapshot();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         TLobby::shutdown_keyboard_control();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -488,7 +488,7 @@ void run_offline_transfer_frame(void) {
     TAdSinglePlyChrSelectGC::noop();
     take_snapshot();
     run_challenge_frame();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         TLobby::reset_keyboard_input();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

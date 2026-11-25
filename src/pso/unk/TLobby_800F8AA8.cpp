@@ -1039,7 +1039,7 @@ s32 TLobby::run_disk_error_check() {
     draw_polygon_2d(&d, 4, 0x12, (-0.9f));
     status = DVDGetDriveStatus();
     TCameraCtrl::restore_full_screen_view();
-    if (DVDCheckDisk() == 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0)) {
+    if (DVDCheckDisk() == 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
         reset_system();
     }
     switch (status) {
@@ -1054,7 +1054,7 @@ s32 TLobby::run_disk_error_check() {
         break;
     case 1:
         controller_stuff();
-        if ((*(int *)&pending_file_read_flush_requested) != 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0)) {
+        if ((*(int *)&pending_file_read_flush_requested) != 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0)) {
             system_reset();
         }
         break;
@@ -1067,7 +1067,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 1);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         }
         break;
@@ -1082,7 +1082,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 2);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         }
         break;
@@ -1095,7 +1095,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 3);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         } else {
             request_pending_file_read_flush();
@@ -1109,7 +1109,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_disk_error_msg(disk_error_msg_table, 4);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(poll_reset_request()) != 0) {
             system_reset();
         } else {
             request_pending_file_read_flush();
@@ -1446,7 +1446,7 @@ void TLobby::run_frame() {
         fn_801E2C50();
     }
     restore_saved_depth_alpha_state();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         TLobby__sub_800F8AD0();
     }
     TLobby__sub_803382E4();

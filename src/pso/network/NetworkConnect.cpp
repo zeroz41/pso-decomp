@@ -188,7 +188,7 @@ loop_1:
     }
     var_r31 += 1;
     send_and_handle();
-    if (static_cast<s8>(func_801A5E54()) != 0) {
+    if (static_cast<s8>(poll_reset_request()) != 0) {
         return 1;
     }
     if (query_link_status() == 1) {
@@ -270,7 +270,7 @@ s32 connect_pppoe(s32 *out_value) {
             cancel = 1;
             result = 0x10;
         }
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             cancel = 1;
             result = 0x11;
         }
@@ -884,7 +884,7 @@ s32 connect_modem(s32 idx, s16 id) {
                 cancel = 1;
                 result = 0x10;
             }
-            if (static_cast<s8>(func_801A5E54()) != 0) {
+            if (static_cast<s8>(poll_reset_request()) != 0) {
                 cancel = 1;
                 result = 0x11;
             }

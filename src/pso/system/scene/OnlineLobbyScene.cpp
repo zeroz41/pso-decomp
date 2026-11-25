@@ -621,7 +621,7 @@ void run_lobby_frame() {
         }
     }
     update_periodic_tick();
-    if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) TLobby::idle_timeout_active == 1)) {
+    if ((static_cast<s8>(poll_reset_request()) != 0) || ((s32) TLobby::idle_timeout_active == 1)) {
         reset_to_chr_select();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -686,7 +686,7 @@ void run_main_frame() {
     if (lobby_floor_reload_pending == 1) {
         reload_lobby_floor_scene();
     }
-    if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) TLobby::idle_timeout_active == 1)) {
+    if ((static_cast<s8>(poll_reset_request()) != 0) || ((s32) TLobby::idle_timeout_active == 1)) {
         init_chr_select();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -748,7 +748,7 @@ void run_online_lobby_scene(void) {
         process_async_file_reads();
         update_sound_request_slots();
         TAdSinglePlyChrSelectGC::run_save_load_sequence();
-        if (static_cast<s8>(func_801A5E54()) != 0) {
+        if (static_cast<s8>(poll_reset_request()) != 0) {
             break;
         }
         render_tick();
