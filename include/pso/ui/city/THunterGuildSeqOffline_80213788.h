@@ -8,8 +8,8 @@ class TQuestThread;
 class TWindowBase;
 struct TWindowMenu;
 
-// The hunter's guild counter in an online lobby: the client side (vtable 0x804C9740) and the
-// server side (vtable 0x804C97F0). Both derive straight from TShopSequence (their ctors call it).
+// The hunter's guild counter in an online lobby: the client side and the
+// server side. Both derive straight from TShopSequence (their ctors call it).
 struct THunterGuildSeqOnline_Client : public TShopSequence {
     THunterGuildSeqOnline_Client(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOnline_Client();
