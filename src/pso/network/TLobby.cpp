@@ -488,7 +488,7 @@ void TLobby::update_idle_timeout(void *object) {
     }
 }
 
-u8 *init_idle_timeout_timer(u8 *timer, saddr parent) {
+u8 *init_idle_timeout_timer(u8 *timer, TObject *parent) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)timer;
     DateStamp date;
     __ct__7TObjectFP7TObject((void *)timer, (void *)parent);
@@ -2573,7 +2573,7 @@ void TLobby::send_logout() {
                                      TLobby::init_serial_access(), (const char *)get_access_key_input_buffer(), \
                                      s[1].host, s[1].port);                                     \
     }
-void TLobby::run_join_lobby_connect(int parent) {
+void TLobby::run_join_lobby_connect(TObject *parent) {
     DateStamp date;
     void *p;
     void *win;

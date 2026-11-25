@@ -416,7 +416,7 @@ struct TLobby : public TObject {
     static void close_trade_request();
     static void reset_trade_state();
     static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
-    s32 get_battle_ctrl_default();
+    static s32 get_battle_ctrl_default();
     static s32 find_free_chat_log_slot();
     static void apply_menu_cursor_selection();
     static void send_challenge_retry_cmd(s32 choice);
@@ -767,7 +767,7 @@ struct TLobby : public TObject {
     static void retire_lobby_player(int, int);
     static void return_to_main_menu();
     static void run_floor_cleanup_callbacks(int);
-    static void run_join_lobby_connect(int);
+    static void run_join_lobby_connect(TObject *parent);
     static void send_6x6E_sync_game_state(int);
     static void send_6x70_player_data(int);
     static void send_giveup_to_all_players();

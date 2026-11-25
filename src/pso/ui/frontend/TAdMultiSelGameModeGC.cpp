@@ -35,7 +35,7 @@ void fn_803000C8(void) {
     if (is_split_screen() != 0) {
         switch (TAdMultiSelGameModeGC__data_805D69F0) {
         case 1:
-            set_player_count__6TLobbyFi(1);
+            TLobby::set_player_count(1);
             break;
         case 2:
             enable_split_screen_challenge_mode();

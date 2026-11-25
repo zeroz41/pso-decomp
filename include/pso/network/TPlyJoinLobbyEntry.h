@@ -40,7 +40,7 @@ TPlyDispConfigSmth *copy_disp_config_palette(TPlyDispConfigSmth *dst, TPlyDispCo
 void copy_gc_tag(gc_tag *dst, gc_tag *src);
 
 extern "C" {
-u8 *init_idle_timeout_timer(u8 *timer, saddr parent);
+u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(void *self);
 void show_join_entry_message(s32 id);
 void show_dialog_value_line(saddr text);
@@ -54,15 +54,7 @@ void bswap_extended_subcommand_header(void *p);
 void handle_6x6F_set_quest_flags_v2(saddr pkt);
 void handle_6x71_unblock_game_join(void);
 void handle_6x72_done_loading_into_game(void);
-extern "C" {
-void open_lobby_warp_menu__6TLobbyFv(void);
-void process_deferred_player_setup__6TLobbyFv(void);
-void reset_state_flags__6TLobbyFv(void);
-}
 void send_6x6F_quest_flags(saddr size);
-extern "C" {
-void set_player_count__6TLobbyFi(int a0);
-}
 
 extern char lobby_ship_name[0x28];
 

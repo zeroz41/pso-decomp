@@ -509,8 +509,6 @@ struct Pkt_8020851C {
 };
 
 
-void set_destroy_event__6TLobbyFi(int a0);
-
 void TLobby::load_item_data() {
     MapSetModule *temp_r3_2;
     MapSetArea *areas;
@@ -547,9 +545,8 @@ void send_6x05_wave_set_switch(s16 arg0);
 void send_6x05_wave_clear_switch(s32 arg0);
 void send_6x67_wave_trigger_event(s32 arg0) {
     G_FloorEvent_6x67 pkt;
-    s32 t = wave_event_trigger_count;
-    wave_event_trigger_count = t + 1;
-    ((void (*)(int, int))set_destroy_event__6TLobbyFi)(1, t);
+    wave_event_trigger_count++;
+    TLobby::set_destroy_event(1);
     pkt.init();
     pkt.header.client_id = 0xFFFF;
     pkt.floor = get_current_floor();

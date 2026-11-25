@@ -530,7 +530,6 @@ u8 fn_801D719C(s32 *);
 u8 fn_801D71D0(s32 *);
 u8 fn_801D7204(s32 *);
 s32 TObjPlayer__sub_801D91B8(void *, void *);
-s32 get_battle_ctrl_default__6TLobbyFv();
 s32 validate_6xAE_set_animation_state(void *);
 s32 fn_8000F740(void *);
 void run_palettex_callback(u16);
@@ -5957,7 +5956,7 @@ s32 TObjPlayer::get_battle_place() {
 
 s32 TObjPlayer::update_movement_by_screen() {
     if (is_single_screen() != 0) {
-        return get_battle_ctrl_default__6TLobbyFv();
+        return TLobby::get_battle_ctrl_default();
     }
     return TLobby__sub_801C2678();
 }

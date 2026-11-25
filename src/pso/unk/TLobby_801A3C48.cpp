@@ -132,7 +132,6 @@ s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
 s32 TKeyBoardControl__sub_8000F90C(int);
 int set_queued_main_phase(int);
-s32 run_join_lobby_connect__6TLobbyFi(void *);
 s32 TLobby__sub_80146908();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
@@ -775,7 +774,7 @@ void run_online_lobby_scene(void) {
         if (TLobby__sub_801A3E8C() != 0) {
             TLobby::start_udp_test_game();
         } else {
-            run_join_lobby_connect__6TLobbyFi(lobby);
+            TLobby::run_join_lobby_connect(lobby);
         }
     }
     actor_frame_tick = 0;
