@@ -729,7 +729,7 @@ void TObjEnePanBARA::attack_target_player(s32 id) {
             if (level < 0 || level > 0xE) {
                 level = 0;
             }
-            TTecJelin::create((saddr)this, (saddr)&body_center, (saddr)&player->body_center, level);
+            TTecJelin::create(this, &body_center, &player->body_center, level);
             return;
         }
         if (roll <= jelin_chance + zalure_chance) {

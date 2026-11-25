@@ -42,8 +42,8 @@ void TTecJelin::apply_to_target(TObjChara *target) {
     target->receive_direct_attack((void *)this->source, hit, this->contact, 0xb, -1);
 }
 
-void TTecJelin::create(saddr source, saddr pos, saddr target, s32 level) {
-    new TTecJelin(source, (Vec *)pos, (Vec *)target, level);
+void TTecJelin::create(void *source, Vec *pos, Vec *target, s32 level) {
+    new TTecJelin((saddr)source, pos, target, level);
 }
 void TTecJelin::render() {  }
 

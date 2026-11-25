@@ -68,6 +68,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/technique/TTecJelin.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
@@ -99,10 +100,6 @@ s32 TObjEneMe3SinowZoa__render_node_index;
 TBreakUpMdlData * TObjEneMe3SinowZoa__breakup_model;
 
 
-extern "C" {
-
-void create__9TTecJelinFllll(void *, void *, void *, int);
-}
 
 
 
@@ -611,7 +608,7 @@ void TObjEneMe3SinowZoa::cast_technique() {
             TTecDeband::create(this, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->support_tech_level));
         } else {
             TTecZarua::create_instance((saddr)this, &position, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->support_tech_level));
-            create__9TTecJelinFllll(this, &position, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->support_tech_level));
+            TTecJelin::create(this, &position, &position, TObjEneDD::clamp_frame_index(TObjEneMe3SinowZoa__kind_param_tbls[kind_index]->support_tech_level));
         }
     } else {
         TTecResta::create(this, &position, lv);

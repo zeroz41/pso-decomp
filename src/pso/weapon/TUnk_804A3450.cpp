@@ -18,7 +18,7 @@ void TUnk_804A3450::emit_marker_effects() {
     }
     if (is_mode_two_and_ready() != 0) {
         if (get_tp() == 0) {
-            TTecJelin::create((saddr)owner, (saddr)&owner->position, (saddr)&owner->position, 4);
+            TTecJelin::create(owner, &owner->position, &owner->position, 4);
         } else {
             TTecZarua::create_instance((saddr)owner, &owner->position, &owner->position, 4);
         }
