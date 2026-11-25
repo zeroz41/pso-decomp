@@ -63,13 +63,13 @@ const char *TQuestListOffline__class_name = "TQuestListOffline";
 
 void *story_quest_list_resource;
 
-void TLobby::clear_flag_if_not_split_screen() {
+void TQuestListOffline::reset_global_if_not_split_screen() {
     if (TRaderMapCore::is_not_split_screen() != 1) {
         story_quest_list_resource = NULL;
     }
 }
 
-void TLobby::free_global() {
+void TQuestListOffline::free_global() {
     if (story_quest_list_resource != NULL) {
         TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(story_quest_list_resource));
         story_quest_list_resource = NULL;

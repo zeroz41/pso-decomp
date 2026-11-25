@@ -302,8 +302,6 @@ struct TLobby : public TObject {
     static int get_selected_quest_id();
     static s32 handle_main_phase(saddr player);
     static void *create_tl05_object(void *player);
-    static void free_global();
-    static void clear_flag_if_not_split_screen();
     static int get_shop_value();
     static void free_singleton();
     static void create_named_lobby_object();

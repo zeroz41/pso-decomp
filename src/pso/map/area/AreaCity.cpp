@@ -11,6 +11,7 @@
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/quest/TQuestBgmCtrl.h"
 #include "pso/quest/TQuestListChallenge.h"
+#include "pso/quest/TQuestListOffline.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/GbaDownloadRuntime.h"
@@ -36,7 +37,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     load_armor_random_table, TLobby::free_rocks,
     load_tool_random_rel, TLobby::free_all_rocks,
     load_judge_item, TLobby::free_window,
-    TLobby::clear_flag_if_not_split_screen, TLobby::free_global,
+    TQuestListOffline::reset_global_if_not_split_screen, TQuestListOffline::free_global,
     reset_globals2__19TQuestListChallengeFv, reset_globals__19TQuestListChallengeFv,
     TLobby__sub_80184DF4, TLobby::free_buffers,
     TCheckRoomSequence::alloc_item_buffers, TCheckRoomSequence::free_bank_item_records,
