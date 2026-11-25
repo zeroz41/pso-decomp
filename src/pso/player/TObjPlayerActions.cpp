@@ -5602,16 +5602,12 @@ void TObjPlayer__sub_801D2448(void* p) { ((G_ClientIDHeader *)p)->bswap(); ((TOb
 
 #pragma push
 #pragma dont_inline off
-#pragma dont_inline off
-#pragma dont_inline off
 u8 get_6x46_strike_packet_size(saddr arg0) {
     return (u8) (0x30 - ((0xA - ((CapturedTargetList *)(arg0 + 4))->get_captured_target_count()) * 4));
 }
 #pragma pop
 
 #pragma push
-#pragma dont_inline off
-#pragma dont_inline off
 #pragma dont_inline off
 
 G_Attack_6x43 &G_Attack_6x43::operator=(G_Attack_6x43 &src) {
@@ -5624,9 +5620,7 @@ G_Attack_6x43 &G_Attack_6x43::operator=(G_Attack_6x43 &src) {
 
 #pragma push
 #pragma dont_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
-#pragma dont_inline off
 void *TObjPlayer::copy_6x40_walk_to_position_packet(void *pkt) {
     copy_subcommand_header(this, pkt);
     ((Pkt_801D24F4 *)this)->pos = ((Pkt_801D24F4 *)pkt)->pos;
@@ -5635,10 +5629,6 @@ void *TObjPlayer::copy_6x40_walk_to_position_packet(void *pkt) {
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma dont_inline off
 u8 *TObjPlayer__sub_801D2540(u8 *arg0, u8 *arg1) {
@@ -5655,9 +5645,6 @@ u8 *TObjPlayer__sub_801D2540(u8 *arg0, u8 *arg1) {
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma dont_inline off
-#pragma inline_depth(1)
 u8 *TObjPlayer__sub_801D25AC(u8 *arg0, u8 *arg1) {
     copy_subcommand_header(arg0, arg1);
     *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)arg1 + 4);
@@ -5792,12 +5779,6 @@ int PlayerActionProvider::get_idle_action() { return -1; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 s32 PlayerAnimationState::get_angle() { return angle; }
 #pragma pop
 
@@ -5805,22 +5786,10 @@ s32 PlayerAnimationState::get_angle() { return angle; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 s16 PlayerAnimationState::get_animation() { return animation; }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -5844,21 +5813,9 @@ f32 PlayerMoveSpeed::get_unscaled_speed() { return unscaled_speed; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void PlayerMoveSpeed::increment_run_counter() { run_counter++; }
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -5869,12 +5826,6 @@ s32 PlayerMoveSpeed::get_run_counter() { return run_counter; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 ControllerInputContext *PlayerPadBinding::get_controller() { return controller; }
 #pragma pop
 
@@ -5882,22 +5833,10 @@ ControllerInputContext *PlayerPadBinding::get_controller() { return controller; 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void FlagWord::bswap() { bswap_32((u32 *)&bits); }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -5910,15 +5849,10 @@ G_PlayerDied_6x4D &G_PlayerDied_6x4D::operator=(G_PlayerDied_6x4D &src) {
 
 #pragma push
 #pragma dont_inline off
-#pragma dont_inline off
 void PacketVelocityXZ::bswap() { bswap_32((u32 *)&xz[0]); bswap_32((u32 *)&xz[1]); }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma dont_inline off
 G_HitByEnemy_6x4C &G_HitByEnemy_6x4C::operator=(G_HitByEnemy_6x4C &src) {
@@ -5933,10 +5867,6 @@ G_HitByEnemy_6x4C &G_HitByEnemy_6x4C::operator=(G_HitByEnemy_6x4C &src) {
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma dont_inline off
 void *TObjPlayer::copy_packet_pos_6x42(void *pkt) {
     copy_subcommand_header(this, pkt);
     ((Pkt_801D2964 *)this)->pos = ((Pkt_801D2964 *)pkt)->pos;
@@ -5947,20 +5877,11 @@ void *TObjPlayer::copy_packet_pos_6x42(void *pkt) {
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma inline_depth(1)
 #pragma auto_inline off
-#pragma dont_inline off
 void PhotonBlastGauge::clear_photon_blast_state() { ((FlagWord *)&flags)->clear(62); }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -5971,22 +5892,10 @@ void PhotonBlastGauge::trigger_photon_blast() { ((FlagWord *)&flags)->clear(4); 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void PhotonBlastGauge::check_photon_blast_flag() { ((FlagWord *)&flags)->set(8); }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -5997,22 +5906,10 @@ int PhotonBlastGauge::check_flag_clear() { return test_flags_any(&flags.bits, 1)
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 int PhotonBlastGauge::is_blast_launched() { return test_flags_any(&flags.bits, 8); }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -6023,22 +5920,10 @@ void PhotonBlastGauge::set_complete_threshold(f32 threshold) { complete_threshol
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 s32 PhotonBlastGauge::get_countdown() { return countdown; }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -6050,22 +5935,10 @@ void PhotonBlastGauge::decrement_countdown() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 f32 PhotonBlastGauge::get_frame_step() { return frame_step; }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -6076,22 +5949,10 @@ void PhotonBlastGauge::set_field_0c(f32 v) { frame_step = v; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void PhotonBlastGauge::set_field8(s32 v) { countdown = v; }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -6103,12 +5964,6 @@ PhotonBlastTarget *PhotonBlastGauge::get_target(s32 i) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void PhotonBlastGauge::set_field_3c(f32 v) { charge = v; }
 #pragma pop
 
@@ -6116,22 +5971,10 @@ void PhotonBlastGauge::set_field_3c(f32 v) { charge = v; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void PhotonBlastGauge::start_photon_blast_action() { ((FlagWord *)&flags)->set(4); }
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -6155,19 +5998,12 @@ void TObjPlayer::bswap_u16_pair_list() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TObjPlayer::bswap_u16_pair() { bswap_16((u16 *)this); bswap_16((u16 *)((char*)this + 0x2)); }
 #pragma pop
 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-#pragma dont_inline off
 #pragma fp_contract on
 u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1) {
     copy_subcommand_header(arg0, arg1);
@@ -6177,10 +6013,6 @@ u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1) {
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma dont_inline off
 void TObjPlayer::bswap_entry_list() {
@@ -6195,22 +6027,13 @@ void TObjPlayer::bswap_entry_list() {
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma dont_inline off
 void PlayerTechniqueState::set_technique_state(s32 v) { state = v; }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-#pragma inline_depth(1)
 #pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void PlayerTechniqueState::set_level(u8 v) { level = v; }
 #pragma pop
 
@@ -6228,12 +6051,6 @@ PhotonBlastTarget *PlayerTechniqueState::get_technique_data() { return targets; 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void PlayerTechniqueState::set_tech_override(u8 v) { level_override = v; }
 #pragma pop
 
@@ -6245,12 +6062,6 @@ void PlayerAttackController::set_queued_kind(s16 kind) { queued_kind = kind; }
 FlagWord *PlayerAttackController::get_flags() { return (FlagWord *)&flags; }
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -6274,12 +6085,6 @@ void TObjPlayer::request_heavy_attack_particles() {
 }
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
