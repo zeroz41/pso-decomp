@@ -126,7 +126,7 @@ struct TObjPlayer : public TObjChara {
     // (TObjPlayer_801AF2F0.cpp), which defines this; the destructor is in a later fragment.
     virtual void reset_motion_fields();
     virtual ~TObjPlayer();
-    s32 calc_joint_matrices(NJS_MOTION *, f32, saddr);
+    s32 calc_joint_matrices(NJS_MOTION *with, f32 at_frame, saddr matrices);
     virtual const char *get_name();
     void update_swim_flag(void *);
     void draw_weapon_if_not_hidden(void *);
@@ -249,9 +249,7 @@ struct TObjPlayer : public TObjChara {
     s32 target_heading;
     s32 m_3f4;
     Vec move_target;  // (name inferred) run/walk-to target: calc_movement_target and handle_6x40/6x42 set x/z, update_*_movement steer to it
-    f32 m_404;
-    u8 unk_408[0x4];
-    f32 m_40c;
+    Vec facing_dir;  // (name inferred) update_facing_vector: sin, 0, cos of rotation_y
     Vec ground_normal;
     FlagWord pending_actions;  // action bits apply_pending_action copies into the save record
     u8 unk_420[0x4];
@@ -494,6 +492,7 @@ struct TObjPlayer : public TObjChara {
     short get_state();
     short get_attack1_action();
     short get_run_action();
+    s16 get_walk_action();  // (name inferred) get_mode_animation's walk modes; get_run_action is the run mode
     void clear_flag_200000();
     int check_flag_4();
     static void clear_flag_4000_callback(TObjPlayer *player);

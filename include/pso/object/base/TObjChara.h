@@ -266,7 +266,7 @@ public:
     s16 control_state;  // who drives it: 6 a script, 7 a fixed pose
     s16 mode;
     s16 phase;
-    u8 pad_32A[0x2];
+    s16 prev_mode;  // (name inferred) TObjPlayer::set_action_state keeps the mode it leaves
     s16 hp;
     s16 tp;
     u32 low_game_flags;  // the enemy's status effect bits (actorFlags & 0x3F) the 6x9C packet last sent

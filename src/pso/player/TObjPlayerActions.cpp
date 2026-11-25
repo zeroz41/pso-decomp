@@ -147,7 +147,6 @@ u16 get_action_palette_mode(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
-s32 TObjPlayer__sub_801CFBFC(u8 *arg0);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 s32 copy_photon_blast_data__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
 u8 TObjPlayer__sub_801D2004(u8 *arg0);
@@ -4086,27 +4085,12 @@ void TObjPlayer::run_action3_phase(s16 phase) {
 
 #pragma push
 #pragma opt_lifetimes off
-extern "C" {
-s32 TObjPlayer__sub_801CFBFC(u8 *arg0) {
-  s16 (*var_r12)(void *);
-  s32 var_r4;
-  u8 *var_r31;
-  u8 *var_r3;
-  var_r4 = 8;
-  var_r31 = (u8 *) arg0;
-  var_r3 = (u8 *) (var_r31 + 0x5EC);
-  if (test_flags_any((s32 *)var_r3, 8) != 0)
-  {
-    var_r3 = (u8 *) (*((u8 **) (((s8 *) var_r31) + 0x380)));
-    var_r12 = *((s16 (**)(void *)) (((s8 *) var_r3) + 8));
-    var_r12 = *((s16 (**)(void *)) (((s8 *) var_r12) + 0x3C));
-    return var_r12(var_r3);
-  }
-  var_r3 = (u8 *) (*((u8 **) (((s8 *) var_r31) + 0x380)));
-  var_r12 = *((s16 (**)(void *)) (((s8 *) var_r3) + 8));
-  var_r12 = *((s16 (**)(void *)) (((s8 *) var_r12) + 0x58));
-  return var_r12(var_r3);
-}
+// The slow walk while move_speed flag 8 is set.
+s16 TObjPlayer::get_walk_action() {
+    if (test_flags_any(&move_speed.flags.bits, 8) != 0) {
+        return action_provider->get_slow_walk_action();
+    }
+    return action_provider->get_walk_action();
 }
 #pragma pop
 
@@ -4172,11 +4156,11 @@ void TObjPlayer::update_walk_movement() {
 void TObjPlayer::set_attack_state() {
     f32 unscaled_speed;
     f32 rate;
-    s16 action;
+    s32 action;
 
     this->action_state = 2;
     run_action_state_phase(this->mode, 6);
-    action = TObjPlayer__sub_801CFBFC((u8 *)this);
+    action = get_walk_action();
     if (is_matching_id(action) != 0) {
         set_action_flag();
     }

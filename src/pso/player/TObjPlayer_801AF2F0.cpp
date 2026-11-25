@@ -419,7 +419,6 @@ void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
 void TObjPlayer__sub_801BEEE0(void *, void *);
 void *__ct__12StatusEffectFv(void *);
-s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
 
 
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
@@ -1227,17 +1226,17 @@ s32 TObjPlayer::register_player_slot() {
 }
 
 void TObjPlayer::set_action_state(s16 state, s16 animation_number) {
-    *(s16 *)((s8 *)this + 0x32A) = this->mode;
+    prev_mode = this->mode;
     this->mode = state;
     if (is_action_id_none(animation_number) == 0) {
         this->requested_action = animation_number;
     }
-    *(s32 *)((s8 *)this + 0x320) = (s32) (1 << state);
+    action_mask = 1 << state;
     this->set_state_flags(0x10);
 }
 
 s32 TObjPlayer::start_freeze() {
-    if (*(s32 *)((s8 *)this + 0x320) & 0x1E000) {
+    if (action_mask & 0x1E000) {
         return 0;
     }
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
@@ -1249,7 +1248,7 @@ s32 TObjPlayer::start_freeze() {
 }
 
 s32 TObjPlayer::init_photon_blast(s16 anim) {
-    if (*(s32 *)((s8 *)this + 0x320) & 0x1E000) {
+    if (action_mask & 0x1E000) {
         return 0;
     }
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
@@ -1261,7 +1260,7 @@ s32 TObjPlayer::init_photon_blast(s16 anim) {
 }
 
 s32 TObjPlayer::start_camera_pan(s16 action, s32 angle) {
-    if (*(s32 *)((s8 *)this + 0x320) & 0x1E000) {
+    if (action_mask & 0x1E000) {
         return 0;
     }
     if ((s16) this->mode == action) {
@@ -1283,7 +1282,7 @@ s32 TObjPlayer::end_camera_pan() {
     if ((s32) lbl_805D55C0 != 0) {
         return 0;
     }
-    if (!(*(s32 *)((s8 *)this + 0x320) & 0x10000)) {
+    if (!(action_mask & 0x10000)) {
         return 0;
     }
     this->actorFlags = (s32) (this->actorFlags & 0xFFFEFFFF);
@@ -2141,7 +2140,7 @@ void TObjPlayer::create_inventory() {
     }
     this->inventory_objects->item_list = new TItemList((TObject *)this->inventory_objects);
     this->inventory_objects->item_root = new TObject(this);
-    clear_equip_slots((s32 *)(((u8 *)this) + 0xD04));
+    clear_equip_slots((s32 *)equipped_items);
 }
 
 void TObjPlayer::bind_saved_inventory_equipment(TObjPlayer *player, TPlyInventoryItem *records, int count) {
@@ -3580,9 +3579,9 @@ void TObjPlayer::clear_action_flag() {
 }
 
 void TObjPlayer::update_facing_vector() {
-    this->m_404 = sin_table_lookup(this->rotation_y);
-    *(f32 *)((s8 *)((u8 *)this) + 0x408) = (f32) player_zero;
-    this->m_40c = cos_table_lookup(this->rotation_y);
+    facing_dir.x = sin_table_lookup(rotation_y);
+    facing_dir.y = player_zero;
+    facing_dir.z = cos_table_lookup(rotation_y);
     update_ground_contact();
     if (this->lock_on_cursor != NULL) {
         this->lock_on_cursor->reset_slots();
@@ -4197,7 +4196,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
     if (p == NULL) {
         return;
     }
-    ((FlagWord *)((u8 *)p + 0x858))->clear(2);
+    ((FlagWord *)&p->death_flags)->clear(2);
     if (p->try_pickup_item() != 0) {
         return;
     }
@@ -4206,7 +4205,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
             p->send_6x4E_player_revivable();
             return;
         }
-        if (((u8 (*)(void *))TLobby__sub_801D7100)(lobby_rule_settings) == 2 && TObjPlayer::decrement_timer((s32 *)((u8 *)p + 0x754)) == 0) {
+        if (((u8 (*)(void *))TLobby__sub_801D7100)(lobby_rule_settings) == 2 && TObjPlayer::decrement_timer(&p->battle_score.timer) == 0) {
             p->send_6x4E_player_revivable();
             return;
         }
@@ -4256,7 +4255,7 @@ void TObjPlayer::prepare_hospital_return() {
 
 void handle_6x34(void) {  }
 
-int TObjPlayer::check_player_state_flag_2() { return test_flags_any((s32 *)((char*)this + 0x858), 2); }
+int TObjPlayer::check_player_state_flag_2() { return test_flags_any((s32 *)&death_flags, 2); }
 
 void TObjPlayer::set_return_hunter() { set_battle_flag(1); }
 
@@ -4759,7 +4758,7 @@ s32 TObjPlayer::is_in_tl03_state() {
     int result;
 
     result = 0;
-    if ((check_flag_4() == 0) && ((u32) *(u32 *)((s8 *)this + 0x10) == (uaddr) tl_03)) {
+    if ((check_flag_4() == 0) && (m_up == tl_03)) {
         result = 1;
     }
     return (u8)((u8)result);
@@ -4877,7 +4876,7 @@ s16 TObjPlayer::get_mode_animation(u32 mode) {
         return this->get_idle_animation();
     case 2:
     case 3:
-        return TObjPlayer__sub_801CFBFC((u8 *)this);
+        return get_walk_action();
     case 4:
         return this->get_run_action();
     case 5:
@@ -5021,7 +5020,7 @@ void TObjPlayer::draw() {
     push_matrix();
     translate_matrix_vec3((u8 *)(0), (u8 *)(this->get_position_ptr()));
     rotate_matrix_y(0, this->rotation_y);
-    calc_joint_matrices(this->current_motion, *(f32 *)&player_zero, *(s32 *)((s8 *)this + 0xE0));
+    calc_joint_matrices(current_motion, player_zero, (saddr)joint_matrices);
     pop_matrix();
 }
 

@@ -227,7 +227,6 @@ struct Obj_80018660;
 
 struct Obj_80018F64 {
     u8 pad0[0x104]; Vec v104;
-    u8 pad110[0x32A - 0x110]; s16 f32a;
 };
 
 struct ObjArrFC  { u8 _pad[0xfc];  u16 arr[1];     };
@@ -655,7 +654,7 @@ void TObjChara::reset_motion_fields() {
     this->frame_timer = (0.0f);
     this->attacker_id = 0xFFFF;
     this->hit_flags = 0;
-    this->phase = self->f32a = 0;
+    this->phase = prev_mode = 0;
     this->action_mask = 0;
     body_center.x = body_center.y = body_center.z = velocity.x = velocity.y = velocity.z = (0.0f);
 }
