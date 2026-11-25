@@ -64,11 +64,7 @@ struct TWindowSubComCard : public TObject {
     void clear_and_init(void* local_client_id);
     s32 get_card_id();
     int is_active();
-    void bswap_guild_card();
-    int bswap_guild_card_tag();
-    void init_card(void* client_id);
     static int get_keyboard_mode();
-    void *init_guild_card();
     static s32 init_card();
     static void remove_entry(s32 index);
     static s32 scroll_list(s32 ply_guild_card_tag);

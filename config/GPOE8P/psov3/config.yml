@@ -4688,7 +4688,7 @@ force_active:
   - bswap_fields__9TItemDataFv
   - bswap_floor_event_set__Fl
   - bswap__13GameListEntryFv
-  - bswap_guild_card_tag__17TWindowSubComCardFv
+  - bswap__14GuildCardEntryFv
   - bswap_head16__10TObjPlayerFv
   - bswap_header_fields__6TLobbyFi
   - bswap_inventory__6TLobbyFPv

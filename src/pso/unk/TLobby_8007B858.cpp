@@ -63,14 +63,10 @@
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/memory.h"
+#include "pso/network/protocol/SendGuildCardPacket.h"
 
 // The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
-
-extern "C" {
-int bswap__16TPlyGuildCardTagFv(void*);
-// The generated GuildCardEntry constructor; the 6x06 command constructs its card through it.
-void *__ct__14GuildCardEntryFv(void *card);
 
 s32 GuildCardEntry::get_card_id() const { return tag.m_guildcard_number; }
 int GuildCardEntry::is_active() const { return flags & 1; }
@@ -83,20 +79,24 @@ s32 GuildCardEntry::sub_8007B6F4() const {
     return 1;
 }
 
-void TWindowSubComCard::bswap_guild_card() { ((G_ClientIDHeader *)this)->bswap(); ((TWindowSubComCard *)((char*)this + 0x4))->bswap_guild_card_tag(); }
-int TWindowSubComCard::bswap_guild_card_tag() { return bswap__16TPlyGuildCardTagFv(this); }
-void TWindowSubComCard::init_card(void* client_id) { bswap_guild_card(); ((game_command *)this)->send_to_client((uaddr)client_id); }
+void G_SendGuildCard_6x06::bswap() {
+    header.bswap();
+    card.bswap();
+}
 
+void GuildCardEntry::bswap() { tag.bswap(); }
+
+void G_SendGuildCard_6x06::send_to(u32 client) {
+    bswap();
+    // The packet starts with its header: send it as a whole game command.
+    ((game_command *)&header)->send_to_client(client);
+}
 
 int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
 
-void *TWindowSubComCard::init_guild_card() {
-    __ct__14GuildCardEntryFv((char *)this + 4);
-    *(u8 *)&this->m_name = 6;
-    *(u8 *)((s8 *)this + 0x1) = 37;
-    return this;
-}
-
+G_SendGuildCard_6x06::G_SendGuildCard_6x06() {
+    header.subcommand = 6;
+    header.size = sizeof(G_SendGuildCard_6x06) / 4;
 }
 
 int TAdSinglePlyChrSelectGC::get_state() {  return guild_card_save_payload; }

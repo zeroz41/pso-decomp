@@ -5,6 +5,7 @@
 #include "pso/system/memory.h"
 #include "types.h"
 #include "pso/player/GuildCardEntry.h"
+#include "pso/network/protocol/SendGuildCardPacket.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
@@ -153,7 +154,6 @@ void forward_to_matching_card__17TWindowSubComCardFPvPvi(GuildCardSlotBase *card
 
 extern "C" {
 s32 TWindowSubComCard__sub_8007B0D0(GuildCardSlotBase *card, GuildCardSlotBase *cards, s32 count);
-s32 bswap_guild_card__17TWindowSubComCardFv();
 
 void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
     u32 temp;
@@ -164,10 +164,10 @@ void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
     }
 }
 }
-void handle_6x06_send_guild_card(s32 packet) {
+void handle_6x06_send_guild_card(G_SendGuildCard_6x06 *cmd) {
     saddr card;
-    bswap_guild_card__17TWindowSubComCardFv();
-    card = packet + 4;
+    cmd->bswap();
+    card = reinterpret_cast<saddr>(&cmd->card);
     if ((((s32 (*)(int))TWindowSubComCard__sub_8007B070)(card) == 0) && (((TWindowSubComCard *)card)->send_guild_card() == 0)) {
         set_guild_card_receive_active();
         if (((s32 (*)(int, void *, int))TWindowSubComCard__sub_8007B0D0)(card, TWindowGetComCard__received_guild_card_tags, 4) == 0) {
@@ -175,8 +175,6 @@ void handle_6x06_send_guild_card(s32 packet) {
         }
     }
 }
-
-typedef struct Big { u8 b[144]; } Big;
 
 struct Card_8007B010 { u8 body[0x90]; };
 
@@ -188,13 +186,10 @@ extern "C" {
 #pragma push
 #pragma fp_contract on
 void TWindowSubComCard__sub_8007AF10(saddr client_id) {
-    Big spC;
-    s32 sp8;
-    s32 temp;
-    ((TWindowSubComCard *)(&sp8))->init_guild_card();
-    temp = TWindowSubComCard::get_keyboard_mode();
-    reinterpret_cast<GuildCardEntry *>(&spC)->operator=(*reinterpret_cast<const GuildCardEntry *>(temp));
-    ((TWindowSubComCard *)(&sp8))->init_card((void*)client_id);
+    G_SendGuildCard_6x06 cmd;
+    const GuildCardEntry *card = reinterpret_cast<const GuildCardEntry *>(TWindowSubComCard::get_keyboard_mode());
+    cmd.card = *card;
+    cmd.send_to(client_id);
 }
 #pragma pop
 

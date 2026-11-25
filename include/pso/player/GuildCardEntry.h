@@ -12,6 +12,7 @@ struct GuildCardEntry {
     int is_active() const;
     s8 get_char_class();
     s32 sub_8007B6F4() const;
+    void bswap();
 
     TPlyGuildCardTag tag;
     char name[0x18];

@@ -13,7 +13,6 @@ s32 fn_8007B2E0(u8 *ply_guild_card_tag, s32 id);
 void forward_to_matching_card__17TWindowSubComCardFPvPvi(GuildCardSlotBase *card, GuildCardSlot *slots, s32 count);
 }
 
-void handle_6x06_send_guild_card(s32 packet);
 
 extern "C" {
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *src);
