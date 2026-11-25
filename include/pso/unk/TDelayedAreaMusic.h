@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 
 // A task that counts down delay_frames, then plays an area music track and destroys itself.
-// TLobby::start_duel_battle and TPlayerBattleCtrl4P::start_duel create it with the duel music and 0x2D.
+// TPlayerBattleCtrl::start_duel_battle and TPlayerBattleCtrl4P::start_duel create it with the duel music and 0x2D.
 class TDelayedAreaMusic : public TObject {
 public:
     TDelayedAreaMusic(TObject *parent, const char *name, s32 delay);

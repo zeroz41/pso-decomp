@@ -780,7 +780,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
   {
     if (get_player_by_client_id(j) != NULL)
     {
-      TLobby::apply_battle_rules_to_players();
+      apply_battle_rules_to_players();
     }
   }
 }

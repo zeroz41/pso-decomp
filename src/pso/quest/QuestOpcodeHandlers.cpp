@@ -3411,7 +3411,7 @@ void qst_op_ba_start(void) {
         TPlayerBattleCtrl4P::init_instance_with_text((saddr)&battle_rules, src);
         return;
     }
-    TLobby::init_battle_ctrl((saddr)&battle_rules, src);
+    init_battle_ctrl((saddr)&battle_rules, src);
 }
 
 void qst_op_ba_teams() {

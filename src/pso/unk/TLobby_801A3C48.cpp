@@ -199,7 +199,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {reset_choice_search_data, free_choice_search_data},
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},
     {reset_globals, NULL},
-    {TLobby::init_char_slots, free_char_slots},
+    {init_char_slots, free_char_slots},
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
     {load_draw_line_task_resource, free_draw_line_task_resource},

@@ -10,6 +10,20 @@ public:
     TPlayerBattleCtrl(TObject *parent);
     virtual ~TPlayerBattleCtrl();
     void init_battle_round();
+    // States run by update_player_battle_ctrl_state.
+    void update_battle_intro();
+    void update_timed_wait();
+    void end_battle_mode_cleanup();
+    void start_duel_battle();
+    void update_battle_sync(s32 t);
+    s32 check_timeout(s32 timer);
+    void send_battle_mode_state();
+    void set_flag_270();
+    void show_score_results();
+    void init();
+    s32 check_all_battle_flags();
+    s32 check_battle_end();
+    s32 check_all_players_ready();
     virtual void run_task();
     s32 state_1c;
     s32 state_20;
@@ -48,36 +62,26 @@ void TLobby__sub_801C38A4(void);
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 void free_char_slots(void);
 s32 get_battle_time_limit_frames(void);
-void apply_game_settings__6TLobbyFll(s32 arg0, s32 arg1);
-s32 assign_player_id__6TLobbyFPv(void);
-s32 check_all_battle_flags__6TLobbyFPv(void);
-s32 check_all_players_ready__6TLobbyFPv(void);
-u8 check_battle_end__6TLobbyFPv(void);
-u8 check_timeout__6TLobbyFl(void *arg0);
 }
 void clear_battle_player_ready_flags(void);
 extern "C" {
-void close_and_play_effect__6TLobbyFil(int arg0, s32 arg1);
-void destroy_matching_children__6TLobbyFv(void *arg0);
-void end_battle_mode_cleanup__6TLobbyFv(void *arg0);
-void finish_chr_select_scene_init__6TLobbyFv(void);
 void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
 void handle_6x7E(void);
 void handle_6x7F_battle_scores(saddr command);
-void handle_battle_result__6TLobbyFil(int arg0, s32 arg1);
-void init_and_set_flag__6TLobbyFv(void);
-void init_battle_ctrl__6TLobbyFll(s32 arg0, s32 arg1);
-void init_battle_round__17TPlayerBattleCtrlFv(void *arg0);
-void init_char_slots__6TLobbyFv(void);
 }
 void record_local_battle_placement(void *arg0);
 extern "C" {
 void send_6x7D_set_battle_mode_data(void *arg0);
-void send_battle_mode_params__6TLobbyFScll(s8 arg0, s32 arg1, s32 arg2);
-void send_battle_mode_state__6TLobbyFv(void *self);
-void set_flag_270__6TLobbyFv(void *arg0);
-void show_score_results__6TLobbyFv(void *self);
 }
+// Battle-mode setup run outside any battle controller.
+void init_char_slots(void);
+void init_battle_ctrl(s32 config, saddr src);
+void init_and_set_flag(void);
+void apply_game_settings(s32 owner, s32 use_config);
+void finish_chr_select_scene_init(void);
+void send_battle_mode_params(s8 command, s32 value, s32 extra);
+void apply_battle_rules_to_players(void);
+s32 get_battle_ctrl_default(void);
 void update_player_battle_ctrl_state(void *player_battle_ctrl);
 
 

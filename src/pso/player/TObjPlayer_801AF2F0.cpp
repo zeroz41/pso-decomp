@@ -5266,7 +5266,7 @@ s32 TTecCtrl::is_technique_ready() {
     return (u8)result;
 }
 
-void TLobby::apply_battle_rules_to_players() {
+void apply_battle_rules_to_players() {
     s32 i;
     s32 *q;
     TObjPlayer *p;
@@ -5933,7 +5933,7 @@ s32 TObjPlayer::get_battle_place() {
 
 s32 TObjPlayer::update_movement_by_screen() {
     if (is_single_screen() != 0) {
-        return TLobby::get_battle_ctrl_default();
+        return get_battle_ctrl_default();
     }
     return TLobby__sub_801C2678();
 }

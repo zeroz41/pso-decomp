@@ -846,6 +846,6 @@ TAdChrSelBSlotGC *TAdChrSelBSlotGC::create(void *parent) {
 int TAdChrSelBSlotGC::get_global_state() {  return TAdChrSelBSlotGC__global_state; }
 
 TAdChrSelASlotGC *TAdChrSelBSlotGC::get_global_slot_data() { return TAdChrSel__global_slot_data; }
-s32 TLobby::get_battle_ctrl_default() {
+s32 get_battle_ctrl_default() {
     return are_split_screen_battle_players_tied() != 0 ? 0 : battle_ctrl_default_value;
 }
