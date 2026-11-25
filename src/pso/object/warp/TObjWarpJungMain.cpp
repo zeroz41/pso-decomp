@@ -99,7 +99,7 @@ void TObjWarpJungMain::render() {
         rotate_matrix_y(0, rotation_y);
         draw_ginja_object(get_bml_model(warp_jung_beam_bml_resource, 0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(get_bml_model(warp_jung_beam_bml_resource, 1), warp_jung_beam_motion, m_c4);
+        draw_ginja_model_with_motion(get_bml_model(warp_jung_beam_bml_resource, 1), warp_jung_beam_motion, beam_frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -136,9 +136,9 @@ void TObjWarpJungMain::open_confirm_window(s32 client_id) {
 }
 
 void TObjWarpJungMain::run_task() {
-    m_c4 += 4.0f;
-    if (m_c4 > (warp_jung_beam_motion->frameCount - 1)) {
-        m_c4 = 0.0f;
+    beam_frame += 4.0f;
+    if (beam_frame > (warp_jung_beam_motion->frameCount - 1)) {
+        beam_frame = 0.0f;
     }
     handle_area_selection();
 }
@@ -147,7 +147,7 @@ TObjWarpJungMain::~TObjWarpJungMain() {}
 
 TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = warp_jung_main_name;
-    m_c4 = 0.0f;
+    beam_frame = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
     if (get_game_play_mode() == 1 && set_params[2] == 0) {
         this->queue_destruction();

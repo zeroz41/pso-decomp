@@ -9,13 +9,13 @@ struct TOLightMachine01 : public TObjBase {
     TOLightMachine01(void *set_data);
     virtual ~TOLightMachine01();
     f32 view_range;
-    f32 m_94;
+    f32 bounds_radius;
     f32 bob_amplitude;
-    f32 m_9c;
+    f32 bob_offset;
     f32 bob_speed;
-    u32 m_a4;
-    u32 m_a8;
-    u32 m_ac;
+    u32 bob_phase_step;
+    u32 bob_phase;
+    u32 spin_angle;
     virtual void run_task();
     virtual void render();
     static void *create(void *set_data);

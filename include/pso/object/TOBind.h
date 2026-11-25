@@ -15,10 +15,10 @@ struct TOBind : public TObjCollidable {
     void sub_80158608();
     void sub_8015860C();
     u8 unk_AC[0x4];
-    u32 m_b0;
+    u32 triggered;
     u32 index;
     f32 motion_frame;
-    f32 m_bc;
+    f32 motion_end_frame;
     f32 motion_step;
     NJS_OBJECT *animated_model;
     NJS_TEXLIST *animated_textures;
@@ -29,7 +29,7 @@ struct TOBind : public TObjCollidable {
     static void free_static_model();
     static void load_static_resource();
     f32 draw_distance;
-    f32 m_d4;
+    f32 visibility_radius;
     static const char *class_name;
     static BmlResource *static_model_resource;
 };

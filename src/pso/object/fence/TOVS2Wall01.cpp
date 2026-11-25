@@ -293,13 +293,13 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     texlist = get_bml_texlist(vs2_wall01_bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
-    m_c8 = TObjMapCsn::create(set_data);
-    m_cc = 1;
+    map_collision = TObjMapCsn::create(set_data);
+    visible = 1;
 }
 TOVS2::~TOVS2() {
-    if (m_c8 != NULL) {
-        m_c8->queue_destruction();
-        m_c8 = NULL;
+    if (map_collision != NULL) {
+        map_collision->queue_destruction();
+        map_collision = NULL;
     }
     unregister_object_by_id();
     free_collision_body_parts(this);
@@ -320,8 +320,8 @@ void TOVS2Wall01::release_model() {
     }
 }
 void TOVS2::render() {
-    this->m_cc = this->update_object_view_visibility(this->view_range, this->model_radius);
-    if ((s32) this->m_cc == 1) {
+    this->visible = this->update_object_view_visibility(this->view_range, this->model_radius);
+    if ((s32) this->visible == 1) {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);

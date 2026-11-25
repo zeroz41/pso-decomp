@@ -63,8 +63,8 @@ void TODummyKeyCave01::run_task() {
     }
     if (this->id < 0x100) {
         st = is_current_floor_switch_set(this->id);
-        if (st != this->m_9a) {
-            this->m_9a = st;
+        if (st != this->switch_state) {
+            this->switch_state = st;
             skip = 0;
             if (mute_off_sound == 1 && st == 0) {
                 skip = 1;
@@ -74,7 +74,7 @@ void TODummyKeyCave01::run_task() {
             }
         }
     }
-    if (this->m_9a == 1) {
+    if (this->switch_state == 1) {
         this->texlist = this->on_textures;
         f32 lo = (-0.7f);
         if (lo < key_offset.y) {
@@ -126,7 +126,7 @@ void TODummyKeyCave01::render() {
         scale_current_matrix(&this->scale.x);
         node = (NJS_OBJECT *)model;
         draw_ginja_model(node->model);
-        if (m_9a == 0) {
+        if (switch_state == 0) {
             id = model_render_flags;
             saved_model_render_flags = id;
             model_render_flags = id | 0x10;
@@ -144,7 +144,7 @@ void TODummyKeyCave01::render() {
         node = node->child;
         post_translate_matrix(node->pos);
         draw_ginja_model(node->model);
-        if (m_9a == 0) {
+        if (switch_state == 0) {
             set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
@@ -157,10 +157,10 @@ void TODummyKeyCave01::init_from_set_data() {
     spins = 0;
     id = set_params[0];
     if (id < 0x100) {
-        m_9a = is_current_floor_switch_set(id);
+        switch_state = is_current_floor_switch_set(id);
     } else {
         id = 0xFFFF;
-        m_9a = 1;
+        switch_state = 1;
     }
     model_variant = set_params[1] & 0xFFFF;
     sound_delay = (u32)set_params[1] >> 16;

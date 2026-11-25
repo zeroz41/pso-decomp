@@ -527,14 +527,14 @@ TObjQuestColALock2::TObjQuestColALock2(TObject *parent, void *set_data) : TObjQu
     refresh_collision_body_centers();
     actorFlags |= 0x40000000;
     register_object_by_id();
-    m_c0 = set_params[1];
-    if (m_c0 < 0) {
-        m_c0 = 0;
+    manager_kind = set_params[1];
+    if (manager_kind < 0) {
+        manager_kind = 0;
     }
-    if (m_c0 > 1) {
-        m_c0 = 1;
+    if (manager_kind > 1) {
+        manager_kind = 1;
     }
-    switch (m_c0) {
+    switch (manager_kind) {
     case 0:
         thread_root = quest_mission_manager;
         break;
@@ -616,14 +616,14 @@ const char *quest_col2_name = "TObjQuestCol2";
 
 TObjQuestCol2::TObjQuestCol2(TObject *parent, void *set_data) : TObjQuestColBase(parent, set_data) {
     m_name = quest_col2_name;
-    m_c0 = set_params[1];
-    if (m_c0 < 0) {
-        m_c0 = 0;
+    manager_kind = set_params[1];
+    if (manager_kind < 0) {
+        manager_kind = 0;
     }
-    if (m_c0 > 1) {
-        m_c0 = 1;
+    if (manager_kind > 1) {
+        manager_kind = 1;
     }
-    switch (m_c0) {
+    switch (manager_kind) {
     case 0:
         thread_root = quest_mission_manager;
         break;
