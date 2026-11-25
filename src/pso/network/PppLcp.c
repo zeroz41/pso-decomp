@@ -333,7 +333,7 @@ s16 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
 }
 #pragma pop
 void append_lcp_option(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame **src);
-inline void add_lcp_options(PppFrame **pbuf, LcpVals *vals, s16 mask) {
+static inline void add_lcp_options(PppFrame **pbuf, LcpVals *vals, s16 mask) {
     s16 i;
     i = 1;
     while (i <= 8) {
@@ -343,7 +343,7 @@ inline void add_lcp_options(PppFrame **pbuf, LcpVals *vals, s16 mask) {
         i++;
     }
 }
-inline s32 read_option_byte(void *p) {
+static inline s32 read_option_byte(void *p) {
     if (ppp_buffer_read(p, lobby_read_byte_buffer, 1) != 1) {
         return -1;
     }
@@ -352,7 +352,7 @@ inline s32 read_option_byte(void *p) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline PppFrame *build_requested_options(PppFsm *fsm) {
+static inline PppFrame *build_requested_options(PppFsm *fsm) {
     LcpOpts *o = (LcpOpts *)fsm->opts;
     PppFrame *t = 0;
     t = init_net_buffer_entry(0);

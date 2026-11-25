@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 struct GinjaRenderTarget {
-    u8 unknown_00[0x10];
+    u8 pad_00[0x10];
     NJS_TEXNAME texture_entry;
     NJS_TEXLIST texture_list;
     s32 load_result;

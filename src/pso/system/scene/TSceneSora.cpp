@@ -28,6 +28,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 struct Ent_80207478 { s32 f0; char *name; };
@@ -36,24 +37,23 @@ struct Ent_80207478 { s32 f0; char *name; };
 #pragma readonly_strings on
 
 s32 TSceneSora::sky_active_flag = 1;
-const char *TSceneSora__name = "TSceneSora";
+const char *TSceneSora::name = "TSceneSora";
 TSceneSora *TSceneSora::instance;
-BmlResource *TSceneSora__sky_bml_resource;
-s32 TSceneSora__has_sky_motion;
+BmlResource *TSceneSora::sky_bml_resource;
+s32 TSceneSora::has_sky_motion;
 
 extern "C" {
 void TSceneSora__sub_80207430(void);
-s32 rotate_matrix_y(int, int);
 extern char sky_model_ext_s_njm[];
 extern char sky_model_ext_sm_gj[];
 extern char sky_model_ext_s_gj[];
-void TLobby__sub_802075F4(void);
+}
 
 
 void TSceneSora::render() {
     if ((s32) TSceneSora::sky_active_flag != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
+        TObjFish::set_global_param(get_bml_texlist(sky_bml_resource, 0));
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
         if (sky_motion != NULL) {
@@ -82,37 +82,36 @@ void TSceneSora::run_task() {
     }
 }
 
-}
 TSceneSora::~TSceneSora() {
     TSceneSora::instance = 0;
 }
 TSceneSora::TSceneSora(TObject *parent) : TObjBase(parent) {
-    m_name = TSceneSora__name;
-    sky_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TSceneSora__sky_bml_resource, 0));
-    if (TSceneSora__has_sky_motion != 0) {
-        sky_motion = get_bml_motion(TSceneSora__sky_bml_resource, 0);
+    m_name = name;
+    sky_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(sky_bml_resource, 0));
+    if (has_sky_motion != 0) {
+        sky_motion = get_bml_motion(sky_bml_resource, 0);
     } else {
         sky_motion = NULL;
     }
-    sky_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TSceneSora__sky_bml_resource, 0));
+    sky_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(sky_bml_resource, 0));
     motion_step = 0.1f;
     m_a0 = 0.0f;
 }
-extern "C" {
+
 
 void TSceneSora::create_instance() {
-    if (TSceneSora__sky_bml_resource != NULL) {
+    if (sky_bml_resource != NULL) {
         TSceneSora::instance = new TSceneSora(tl_05);
         return;
     }
     TSceneSora::instance = 0;
 }
 
-void TSceneSora__sub_80207430(void) {
+extern "C" void TSceneSora__sub_80207430(void) {
     TSceneSora::sky_active_flag = 1;
-    if (TSceneSora__sky_bml_resource != NULL) {
-        delete (BmlResource *)TSceneSora__sky_bml_resource;
-        TSceneSora__sky_bml_resource = NULL;
+    if (TSceneSora::sky_bml_resource != NULL) {
+        delete TSceneSora::sky_bml_resource;
+        TSceneSora::sky_bml_resource = NULL;
     }
     TSceneSora::instance = 0;
 }
@@ -128,8 +127,8 @@ void TSceneSora::load_sky_resources() {
     AdxfHandle *p;
     BmlResource *o;
     TSceneSora::instance = 0;
-    TSceneSora__sky_bml_resource = NULL;
-    TSceneSora__has_sky_motion = 0;
+    sky_bml_resource = NULL;
+    has_sky_motion = 0;
     if (lookup_floor_map_selection(get_current_floor(), &ref) != 0) {
         ok = 0;
         tbl = (Ent_80207478 *)get_floor_scene_table(ref.area);
@@ -151,7 +150,7 @@ void TSceneSora::load_sky_resources() {
         p = ADXF_Open(name1, 0);
         if (p != NULL) {
             motions[0] = name1;
-            TSceneSora__has_sky_motion = 1;
+            has_sky_motion = 1;
             ADXF_Close(p);
         } else {
             motions[0] = NULL;
@@ -162,13 +161,13 @@ void TSceneSora::load_sky_resources() {
         if (o != 0) {
             o = init_bin_model_request(o, 1, models, motions, NULL, NULL, NULL);
         }
-        TSceneSora__sky_bml_resource = o;
+        sky_bml_resource = o;
         TSceneSora::sky_active_flag = 1;
     }
 }
 
-void TLobby__sub_802075F4(void) {  }
-}
+void release_adventure_maps(void) {  }
+
 extern s32 pending_adventure_map_floor;
 void prepare_adventure_maps(void);
 void prepare_adventure_maps(void) {

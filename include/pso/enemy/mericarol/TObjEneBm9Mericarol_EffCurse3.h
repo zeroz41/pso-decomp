@@ -7,6 +7,7 @@
 
 class TObjEneBm9Mericarol_EffCurse3 : public TObject {
 public:
+    static const char *class_name;
     TObjEneBm9Mericarol_EffCurse3(TObject *parent, TObjBase *victim);
     virtual ~TObjEneBm9Mericarol_EffCurse3();
     virtual void run_task();

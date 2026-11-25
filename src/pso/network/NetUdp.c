@@ -60,7 +60,7 @@ s32 udp_ctlinput(u16 src_port, u8 code) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void append_fragment(NetPacket *pkt, void *data, s32 len) {
+static inline void append_fragment(NetPacket *pkt, void *data, s32 len) {
     s32 n = pkt->fragment_count;
     s32 off = pkt->total_bytes;
     pkt->fragments[n].length = len;
@@ -258,7 +258,7 @@ s16 NetUdpCreate(void) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s16 IsUdpPortInUse(u16 port) {
+static inline s16 IsUdpPortInUse(u16 port) {
     s16 index = 0;
     UdpControlBlock* entry = udp_runtime_state.entries;
     for (; index < udp_runtime_state.count; index++, entry++) {

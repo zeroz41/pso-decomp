@@ -19,9 +19,14 @@ struct TLanguage
     static void read_into_buffer(void *destination, s32 length);
     static s32 read_u32_le();
     static s32 read_u16_le();
-    void set_index(s32 x);
-    static void set_entry_index(s32 i, s32 x);
+    static void set_entry_index(s32 index, s32 bank);
     static void load_container_fragment_textures();
+
+    // The loaded language's text file: two words, the language text resources and the group table.
+    static s32 *text_resource;
+
+    // Tag of the temporary buffer load_fonts borrows.
+    static const char class_name[];
 };
 
 #endif

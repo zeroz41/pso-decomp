@@ -26,7 +26,7 @@ struct TObjDFHorming : public TObjChara {
     Vec spawn_position;        // copied with prev_position and body_center from the spawn point
     Vec velocity;              // normalised and scaled by speed each frame, added to body_center
     f32 speed;
-    TParticleCtrl *effects[2]; // create_particle_emitter per TObjDFJisin__particle_emitter_id_table entry
+    TParticleCtrl *effects[2]; // create_particle_emitter per particle_emitter_id_table entry
     s32 damage;                // the shared table's attack power, sent with the hit
     f32 homing_rate;           // 0..1 from the shared table, sets how hard it turns (steer_homing_direction)
     s32 state;                 // 0 levels out, 1 steers, 2 waits for check_attack_trigger
@@ -34,6 +34,7 @@ struct TObjDFHorming : public TObjChara {
     f32 lock_distance;         // steering locks on once target_distance is inside it
     f32 target_distance;
     static const char *name;
+    static s32 particle_emitter_id_table[2];
 };
 
 LAYOUT_ASSERT(TObjDFHorming_velocity_offset, offsetof(TObjDFHorming, velocity) == 0x348);

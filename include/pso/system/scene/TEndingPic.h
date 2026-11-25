@@ -23,6 +23,8 @@ public:
     void draw_current_pic();
     void init_positions();
 
+    static const char *name;
+
     s32 elapsed_ticks;
     s32 field_20;
     s32 next_picture;

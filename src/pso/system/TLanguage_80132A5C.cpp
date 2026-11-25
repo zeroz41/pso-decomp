@@ -7,12 +7,9 @@
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/system/TLanguage_801E4874.h"
 
-struct GvmTextureInner { char pad8[0x8]; u32 f8; };
-struct GvmTexture { struct GvmTextureInner *f0; };
-
-extern const char TLanguage__class_name[];
 extern const char f256_alphabet_gvp[];
 extern const char f256_symbolsetumei_jpn_gvp[];
 extern const char f128_keyjpn_gvp[];
@@ -38,17 +35,16 @@ extern const char TextGerman[];
 extern const char TextFrench[];
 extern const char TextSpanish[];
 extern const char TextEnglish[];
-int TWindowKeyBoardSoft__text_resource;
-int text_language_group_table;
-struct GvmTexture *localized_alphabet_list;
+s32 *TLanguage::text_resource;
+s32 text_language_group_table;
+NJS_TEXLIST *localized_alphabet_list;
 language current_language;
-int TWindowKeyBoardSoft__language_text_resources;
+s32 TWindowKeyBoardSoft__language_text_resources;
 
 void TLanguage::free_alphabet_textures() {
     if (localized_alphabet_list != NULL) {
-        struct GvmTextureInner *inner = localized_alphabet_list->f0;
-        if (inner->f8 != 0U) {
-            release_texture_list((NJS_TEXLIST *)localized_alphabet_list);
+        if (localized_alphabet_list->textures->texaddr != 0) {
+            release_texture_list(localized_alphabet_list);
         }
         safe_free(localized_alphabet_list);
         localized_alphabet_list = NULL;
@@ -56,18 +52,17 @@ void TLanguage::free_alphabet_textures() {
 }
 
 void TLanguage::free_text_resources() {
-    TLobby::free_nodes_with_id(TWindowKeyBoardSoft__text_resource);
+    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(text_resource));
     TWindowKeyBoardSoft__language_text_resources = 0;
     text_language_group_table = 0;
-    TWindowKeyBoardSoft__text_resource = 0;
+    text_resource = NULL;
 }
 
 void TLanguage::load_fonts(s32 language) {
     s32 palette;
-    GvmTexture *alphabet;
-    palette = (saddr)TLobby::tmp_buf_use_req(TLanguage__class_name);
+    palette = (saddr)TLobby::tmp_buf_use_req(class_name);
     TLanguage::draw_string((void *)f256_alphabet_gvp, &palette, 0x48);
-    TLobby::tmp_buf_release((const char *)TLanguage__class_name);
+    TLobby::tmp_buf_release(class_name);
 
     switch (language) {
         case LANGUAGE_JAPANESE:
@@ -75,8 +70,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyjpn_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_jpn_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_j_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)LoadPvmFileTls(TextureJapanese_gvm);
-            localized_alphabet_list = alphabet;
+            localized_alphabet_list = LoadPvmFileTls(TextureJapanese_gvm);
             break;
 
         case LANGUAGE_GERMAN:
@@ -84,8 +78,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_ger_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)LoadPvmFileTls(TextureGerman_gvm);
-            localized_alphabet_list = alphabet;
+            localized_alphabet_list = LoadPvmFileTls(TextureGerman_gvm);
             break;
 
         case LANGUAGE_FRENCH:
@@ -93,8 +86,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_fre_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)LoadPvmFileTls(TextureFrench_gvm);
-            localized_alphabet_list = alphabet;
+            localized_alphabet_list = LoadPvmFileTls(TextureFrench_gvm);
             break;
 
         case LANGUAGE_SPANISH:
@@ -102,8 +94,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_spa_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)LoadPvmFileTls(TextureSpanish_gvm);
-            localized_alphabet_list = alphabet;
+            localized_alphabet_list = LoadPvmFileTls(TextureSpanish_gvm);
             break;
 
         default:
@@ -111,8 +102,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_eng_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)LoadPvmFileTls(TextureEnglish_gvm);
-            localized_alphabet_list = alphabet;
+            localized_alphabet_list = LoadPvmFileTls(TextureEnglish_gvm);
             break;
     }
 
@@ -128,26 +118,26 @@ void TLanguage::load_fonts(s32 language) {
 void TLanguage::load_text_resources(s32 language) {
     switch (language) {
     case LANGUAGE_JAPANESE:
-        (*(u8 * *)&TWindowKeyBoardSoft__text_resource) = (u8 *)load_text_resource_pair((saddr)TextJapanese);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextJapanese);
         break;
     case LANGUAGE_GERMAN:
-        (*(u8 * *)&TWindowKeyBoardSoft__text_resource) = (u8 *)load_text_resource_pair((saddr)TextGerman);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextGerman);
         break;
     case LANGUAGE_FRENCH:
-        (*(u8 * *)&TWindowKeyBoardSoft__text_resource) = (u8 *)load_text_resource_pair((saddr)TextFrench);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextFrench);
         break;
     case LANGUAGE_SPANISH:
-        (*(u8 * *)&TWindowKeyBoardSoft__text_resource) = (u8 *)load_text_resource_pair((saddr)TextSpanish);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextSpanish);
         break;
     default:
-        (*(u8 * *)&TWindowKeyBoardSoft__text_resource) = (u8 *)load_text_resource_pair((saddr)TextEnglish);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextEnglish);
         break;
     }
-    (*(s32 *)&TWindowKeyBoardSoft__language_text_resources) = *(s32 *)((s8 *)(*(u8 * *)&TWindowKeyBoardSoft__text_resource) + 0);
-    (*(s32 *)&text_language_group_table) = *(s32 *)((s8 *)(*(u8 * *)&TWindowKeyBoardSoft__text_resource) + 4);
+    TWindowKeyBoardSoft__language_text_resources = text_resource[0];
+    text_language_group_table = text_resource[1];
 }
 
-__declspec(section ".rodata") extern const char TLanguage__class_name[] = "TLanguage";
+__declspec(section ".rodata") const char TLanguage::class_name[] = "TLanguage";
 __declspec(section ".rodata") extern const char f256_alphabet_gvp[] = "f256_alphabet.gvp";
 __declspec(section ".rodata") extern const char f256_symbolsetumei_jpn_gvp[] = "f256_symbolsetumei_jpn.gvp";
 __declspec(section ".rodata") extern const char f128_keyjpn_gvp[] = "f128_keyjpn.gvp";

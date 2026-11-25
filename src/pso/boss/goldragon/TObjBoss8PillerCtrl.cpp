@@ -55,7 +55,7 @@ void TObjBoss8PillerCtrl::run_task() {
             if (step->y & 1) {
                 v.z += -21.65f;
             }
-            if (fn_8035BFF8(&v) == 0) {
+            if (is_outside_arena(&v) == 0) {
                 new TObjBoss8Piller(tl_05, &v, 100.0f, piller_arg);
             }
             step++;
@@ -72,7 +72,7 @@ void TObjBoss8PillerCtrl::render() {  }
 
 void TObjBoss8PillerCtrl::sub_8035C034(Vec *pos) {  }
 
-s32 TObjBoss8PillerCtrl::fn_8035BFF8(const Vec *pos) {
+s32 TObjBoss8PillerCtrl::is_outside_arena(const Vec *pos) {
     Vec position;
     VecCopy(&position, pos);
     return normalize_vector_xz(&position) > 373.0f;

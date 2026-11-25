@@ -8,9 +8,6 @@
 
 class TMapCsnCtrl;
 
-// Defined by TMapCsnCtrl.cpp, whose .sdata and .rodata it opens.
-extern const char *TObjMapCsn__class_name;
-
 // object set data passed (as an address) to TObjMapCsn::create
 struct MapCsnSetData {
     u8 pad_0[0xC];
@@ -34,6 +31,8 @@ struct TObjMapCsn : public TObjCollidable {
     s32 build_box_triangles();
     static TObjMapCsn *create(void *set_data);
     static TMapCsnCtrl *get_collision_controller();
+    // Defined by TMapCsnCtrl.cpp, whose .sdata and .rodata it opens.
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TObjMapCsnGroupOffset, offsetof(TObjMapCsn, collision_group) == 0xAC);

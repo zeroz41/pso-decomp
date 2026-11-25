@@ -48,20 +48,20 @@ s16 vj_remember_uncompressed(PppVjCompressionState *state, PppFrame **spp) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 vj_buffer_valid(PppFrame **src) {
+static inline s32 vj_buffer_valid(PppFrame **src) {
     s32 valid = 0;
     if (src != NULL && *src != NULL) {
         valid = 1;
     }
     return valid;
 }
-inline s32 vj_read_byte(PppFrame **src) {
+static inline s32 vj_read_byte(PppFrame **src) {
     if (ppp_buffer_read(src, vj_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)vj_byte_buffer[0];
 }
-inline s32 vj_next_byte(PppFrame **src) {
+static inline s32 vj_next_byte(PppFrame **src) {
     s32 fast = 0;
     if (vj_buffer_valid(src) && (*src)->len > 1) {
         fast = 1;
@@ -72,7 +72,7 @@ inline s32 vj_next_byte(PppFrame **src) {
     }
     return vj_read_byte(src);
 }
-inline s32 vj_read_u16(PppFrame **src) {
+static inline s32 vj_read_u16(PppFrame **src) {
     if (ppp_buffer_read(src, vj_u16_buffer, 2) != 2) {
         return -1;
     }

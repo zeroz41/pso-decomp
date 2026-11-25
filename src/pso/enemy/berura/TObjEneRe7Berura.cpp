@@ -53,6 +53,7 @@
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -103,9 +104,7 @@ extern const s32 re7_berura_resist_stat_rows[];
 extern TObject *tl_04;
 
 
-TObjEneRe7BeruraMovementParameters berura_init_params = {
-    225.0f, 0.0f, 0x600, {0, 0, 0, 0},
-};
+BossMovementParameters berura_init_params = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
 
 // the collision body init_enemy hands init_model (name inferred)
 CollisionBody berura_collision_body = {

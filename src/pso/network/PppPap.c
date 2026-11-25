@@ -276,21 +276,21 @@ void handle_request_timeout(PppFsm *self) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 frame_valid(PppFrame **s) {
+static inline s32 frame_valid(PppFrame **s) {
     s32 r = 0;
     if (s != NULL && *s != NULL) {
         r = 1;
     }
     return r;
 }
-inline s32 frame_has_byte(PppFrame **s) {
+static inline s32 frame_has_byte(PppFrame **s) {
     s32 r = 0;
     if (frame_valid(s) && (*s)->len > 1) {
         r = 1;
     }
     return r;
 }
-inline s32 frame_get_byte(PppFrame **s) {
+static inline s32 frame_get_byte(PppFrame **s) {
     if (frame_has_byte(s)) {
         (*s)->len--;
         return *(*s)->data++;

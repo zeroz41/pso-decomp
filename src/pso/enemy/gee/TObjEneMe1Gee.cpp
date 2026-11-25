@@ -60,6 +60,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -73,7 +74,7 @@ TBreakUpMdlData * gee_leader_breakup_model;
 TBreakUpMdlData * gee_breakup_model;
 // The colour word of model node 4's first material chunk (polygon_list + 2); apply_model_color writes core_color_packed.
 s32 *gee_node4_diffuse;
-GeeMovementParameters me1_gee_init_params = {225.0f, 0.0f, 0x600};
+BossMovementParameters me1_gee_init_params = {{225.0f, 0.0f, 0x600}};
 
 CollisionBody gee_collision_body = {
     {0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,

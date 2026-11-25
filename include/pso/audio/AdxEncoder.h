@@ -40,7 +40,7 @@ struct AdxEncoder {
     s8 used;
     s8 state;
     s8 num_inputs;
-    u8 end_of_input;
+    s8 end_of_input;
     SjRingBuffer *input[2];
     SjRingBuffer *output;
     u8 pad_10[0x18];
@@ -50,7 +50,7 @@ struct AdxEncoder {
     s32 pad_34;
     s32 pad_38;
     s32 total_samples;
-    s32 pad_40;
+    s32 padded_samples; // header_samples rounded up to whole blocks
     s32 block_samples;
     s32 data_offset;
     s32 encoding_type;
@@ -92,15 +92,15 @@ void calc_adx_predictor_coeffs(s32 cutoff, s32 rate, s16 *k0, s16 *k1);
 
 // --- C functions defined in AdxEncoder.cpp ---
 extern "C" {
-void TLobby__sub_803C5E78(void);
+void adx_encoder_exec_server(void);
 void adx_encoder_step_context(AdxEncoder *enc);
-void adx_process_encoder_output(u8 *encoder_buf);
+void adx_process_encoder_output(AdxEncoder *enc);
 s32 adx_write_zero_padded_block(AdxEncoder *enc);
-void TLobby__sub_803C60F0(AdxEncoder *enc, s32 channels, s32 sample_rate, s32 total_samples);
-void TLobby__sub_803C610C(AdxEncoder *enc);
-void TLobby__sub_803C6118(AdxEncoder *enc);
-void TLobby__sub_803C6138(AdxEncoder *enc);
-AdxEncoder *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst);
+void adx_encoder_set_input_info(AdxEncoder *enc, s32 channels, s32 sample_rate, s32 total_samples);
+void adx_encoder_end_input(AdxEncoder *enc);
+void adx_encoder_start(AdxEncoder *enc);
+void adx_encoder_destroy(AdxEncoder *enc);
+AdxEncoder *adx_encoder_create(s32 nch, SjRingBuffer **src, SjRingBuffer *dst);
 s32 adx_encode_available_blocks(AdxEncoder *enc);
 s32 adx_write_encoded_blocks(AdxEncoder *enc);
 s32 write_adx_header(AdxEncoder *encoder, SjRingBuffer *stream);

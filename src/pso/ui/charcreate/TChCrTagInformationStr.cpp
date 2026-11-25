@@ -3,16 +3,12 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
+#include "pso/math/TMath.h"
 #include "pso/ui/MenuText.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/system/task/TObject.h"
 
-// Where the first line of the tag text is drawn; each line goes 20 below the last.
-struct TagTextOrigin {
-    f32 x, y;
-};
-
-const char *TChCrTagInformationStr__class_name = "TChCrTagInformationStr";
+const char *TChCrTagInformationStr::class_name = "TChCrTagInformationStr";
 s32 char_creation_tag_info_selected_index = -1;
 
 TChCrTagInformationStr *TChCrTagInformationStr::create(TObject *parent, s32 index) {
@@ -24,7 +20,7 @@ void TChCrTagInformationStr::render() {
     if (0.0f != alpha) {
         TCameraCtrl::restore_full_screen_view();
         set_depth_buffer_settings_1();
-        TagTextOrigin pos = {315.0f, 280.0f};
+        vec2f pos = {315.0f, 280.0f};  // the first line; each line goes 20 below the last
         f32 radius_step;
         f32 spread;
         f32 sq;
@@ -105,7 +101,7 @@ TChCrTagInformationStr::~TChCrTagInformationStr() {}
 
 
 TChCrTagInformationStr::TChCrTagInformationStr(TObject *parent, s32 tag_index) : TObject(parent) {
-    m_name = TChCrTagInformationStr__class_name;
+    m_name = class_name;
     this->tag_index = tag_index;
     if (this->tag_index <= 2) {
         text_group = 0x11;

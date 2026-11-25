@@ -9,26 +9,13 @@ struct BmlResource;
 
 extern BmlResource *moja_bml_resource;
 
-struct MojaBattleStat {
-    u8 unknown_00[0x18];
-    s32 techniqueLevel;
-};
 // One per variant (TObjEnemy::variant); TObjEnemy::movementParameters points
 // at the Moja's.
 struct MojaMovementParameters {
     f32 target_range;  // find_nearest_visible_player's radius; a farther target is dropped
     f32 move_speed;    // wander and chase speed
     s32 turn_speed;    // turn_toward_direction's max step
-    u32 unknown_0C[4];
-};
-// The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
-// DelDepthAnimationBinding).
-struct MojaAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
+    u32 extra[4];      // BossMovementParameters::extra
 };
 struct MojaParticleAngles {
     s32 x, y, z;

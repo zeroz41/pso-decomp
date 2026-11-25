@@ -21,14 +21,12 @@ typedef struct FindSetFactoryIndexSpawnRecord {
     s16 integers[4];
 } FindSetFactoryIndexSpawnRecord;
 
-typedef ObjectFactoryEntry SpawnFactory_8020CC48;
-
 extern "C" {
-s32 find_set_factory_index(FindSetFactoryIndexSpawnRecord *row, SpawnFactory_8020CC48 *out);
-s32 find_set_factory_index(FindSetFactoryIndexSpawnRecord *row, SpawnFactory_8020CC48 *out) {
+s32 find_set_factory_index(FindSetFactoryIndexSpawnRecord *row, ObjectFactoryEntry *out);
+s32 find_set_factory_index(FindSetFactoryIndexSpawnRecord *row, ObjectFactoryEntry *out) {
     s32 index = 0;
-    SpawnFactory_8020CC48 *table = floor_object_factory_tables[get_current_floor_area()];
-    SpawnFactory_8020CC48 *entry = table;
+    ObjectFactoryEntry *table = floor_object_factory_tables[get_current_floor_area()];
+    ObjectFactoryEntry *entry = table;
     while (table != NULL && entry->type != -1) {
         if (entry->type == row->type) {
             TLobby__sub_8020CFC8(out, entry);

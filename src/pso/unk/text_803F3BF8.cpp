@@ -10,10 +10,10 @@ u32 lobby_net_config_mode __attribute__((aligned(32)));
 
 extern "C" {
 extern const char *ntinf_version_ref;
-char lbl_804FCE38[] = "\nntInf Ver 1.17.00 Build:Jul  9 2002 09:41:44\n";
-extern const char *const lbl_805E10F8 = lbl_804FCE38;
-// inferred: a second copy of the mode argument; only this function writes it, nothing reads it
-s32 lbl_805D7984;
+char ntinf_version_string[] = "\nntInf Ver 1.17.00 Build:Jul  9 2002 09:41:44\n";
+extern const char *const ntinf_version_string_ref = ntinf_version_string;
+// A second copy of the requested mode; nothing reads it.
+s32 lobby_net_config_requested_mode;
 extern s32 lobby_net_config_load_state;
 extern u8 *lobby_net_config_buffer;
 extern u8 *lobby_net_config_card_base;
@@ -24,12 +24,12 @@ extern u8 *lobby_net_config_card_base;
 // The caller's work buffer is declared 32-byte aligned like lobby_net_config_buffer it lands in; GC/1.3 gives
 // the parameter an aligned home, hence the 32-aligned frame.
 s32 TLobby__sub_803F3BF8(s32 backup_mode, void *buffer ATTRIBUTE_ALIGN_PARAM(32), s32 mode) {
-    ntinf_version_ref = lbl_805E10F8;
+    ntinf_version_ref = ntinf_version_string_ref;
     if (get_network_config_mode() != 0) {
         return -1;
     }
     lobby_net_config_mode = mode;
-    lbl_805D7984 = mode;
+    lobby_net_config_requested_mode = mode;
     if (backup_mode != 0) {
         return -2;
     }

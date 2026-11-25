@@ -7,10 +7,4 @@ extern "C" {
 void fn_802A1154(void);
 }
 
-// --- C functions defined in text_802A1154.cpp ---
-extern "C" {
-void fn_802A1154(void);
-}
-// --- end of C functions
-
 #endif

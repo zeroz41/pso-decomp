@@ -34,7 +34,7 @@
 
 
 // The bullet level table, the two hit-check arguments and the class names, in their original .rodata order.
-extern const Boss2PhotonLevel TBoss2PhotonPad__bullet_level_param_table[3] = {
+const Boss2PhotonLevel TBoss2PhotonPad::bullet_level_param_table[3] = {
     { 3, 1, 0x3000, 3.5f },
     { 5, 1, 0x2000, 5.0f },
     { 5, 1, 0x4000, 5.0f },
@@ -53,8 +53,8 @@ TBoss2PhotonPad::TBoss2PhotonPad(TObject *parent, Vec *start, Vec *dir, s32 leve
     origin = start;
     this->level = level;
     VecCopy(&pos, dir);
-    rotate_xz_pair_by_angle(&pos.x, &pos.z, (s32)(-(TBoss2PhotonPad__bullet_level_param_table[this->level].spread / 2)));
-    shots = TBoss2PhotonPad__bullet_level_param_table[this->level].shots;
+    rotate_xz_pair_by_angle(&pos.x, &pos.z, (s32)(-(bullet_level_param_table[this->level].spread / 2)));
+    shots = bullet_level_param_table[this->level].shots;
     timer = 0;
 }
 
@@ -67,10 +67,10 @@ void TBoss2PhotonPad::run_task() {
     if (timer <= 0) {
         TBoss2DeRolLe *boss = TBoss2DeRolLe::get_instance();
         if (boss != NULL) {
-            new TBoss2PhotonBullet(m_up, boss, origin, &pos, (1.5f) * TBoss2PhotonPad__bullet_level_param_table[level].speed);
+            new TBoss2PhotonBullet(m_up, boss, origin, &pos, (1.5f) * bullet_level_param_table[level].speed);
         }
-        timer = TBoss2PhotonPad__bullet_level_param_table[level].interval;
-        rotate_xz_pair_by_angle(&pos.x, &pos.z, (s32)(TBoss2PhotonPad__bullet_level_param_table[level].spread / TBoss2PhotonPad__bullet_level_param_table[level].shots));
+        timer = bullet_level_param_table[level].interval;
+        rotate_xz_pair_by_angle(&pos.x, &pos.z, (s32)(bullet_level_param_table[level].spread / bullet_level_param_table[level].shots));
         shots--;
         if (shots == 0) {
             queue_destruction();

@@ -1,7 +1,6 @@
 #include "types.h"
+#include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_801F469C.h"
-
-extern u8 quest_story_flags_by_difficulty[4][128];
 void set_story_flag_in_bank(s32 n, s32 flag) {
     s32 v;
     s32 bit;

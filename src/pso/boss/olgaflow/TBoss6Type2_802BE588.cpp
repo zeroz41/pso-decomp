@@ -22,10 +22,10 @@
 // to members, so CodeWarrior builds the table in __sinit from a per-handler template
 // (97 small objects).
 TBoss6Type2BattleAction boss6_type2_battle_actions[36] = {
-    { "WAIT", 0, 1, &TBoss6Type2::act_wait, &TBoss6Type2::select_attack_state, &TBoss6Type2::tick_timer_460 },
+    { "WAIT", 0, 1, &TBoss6Type2::act_wait, &TBoss6Type2::select_attack_state, &TBoss6Type2::tick_wait_timer },
     { "INFO_STAT", 4, 1, &TBoss6Type2::reset_state_timers, 0, &TBoss6Type2::update_info_stat },
     { "SEARCH", 1, 1, &TBoss6Type2::init_timer_and_play_sound, &TBoss6Type2::pick_next_zako, &TBoss6Type2::tick_action_timer },
-    { "NIRAMU", 0, 1, &TBoss6Type2::act_niramu, &TBoss6Type2::check_state_0x460_eq0, &TBoss6Type2::update_niramu },
+    { "NIRAMU", 0, 1, &TBoss6Type2::act_niramu, &TBoss6Type2::send_action_on_timer_end, &TBoss6Type2::update_niramu },
     { "WALK_CMN", 2, 1, &TBoss6Type2::init_attack_params, 0, &TBoss6Type2::update_zako_phase },
     { "WALK_DEF", 3, 1, &TBoss6Type2::init_attack_params, 0, &TBoss6Type2::update_zako_phase },
     { "WALK_CMNx1", 2, 1, &TBoss6Type2::reset_timers_and_spawn_particle, &TBoss6Type2::send_state_action, &TBoss6Type2::update_zako_spawn_timer },
@@ -37,20 +37,20 @@ TBoss6Type2BattleAction boss6_type2_battle_actions[36] = {
     { "KAMAE", 4, 1, &TBoss6Type2::start_death_sequence, &TBoss6Type2::update_when_timer_zero, &TBoss6Type2::update_timer },
     { "BKJUMP", 6, 1, &TBoss6Type2::init_timers_and_copy_pos, &TBoss6Type2::idle_bkjump, &TBoss6Type2::update_death_sequence },
     { "DPB", 7, 0, &TBoss6Type2::init_attack_timers, &TBoss6Type2::update_state_34, &TBoss6Type2::update_attack_sequence },
-    { "IAI_L", 9, 1, &TBoss6Type2::init_timer, &TBoss6Type2::check_state_0x460_eq4, &TBoss6Type2::update_iai },
-    { "IAI_R", 8, 1, &TBoss6Type2::init_timer, &TBoss6Type2::check_state_0x460_eq4, &TBoss6Type2::update_iai },
-    { "IAI_F", 10, 1, &TBoss6Type2::init_timer, &TBoss6Type2::check_state_0x460_eq4, &TBoss6Type2::update_iai },
-    { "IAI_L2", 9, 1, &TBoss6Type2::init_timer, &TBoss6Type2::check_state_0x460_eq4, &TBoss6Type2::update_iai },
-    { "IAI_R2", 8, 1, &TBoss6Type2::init_timer, &TBoss6Type2::check_state_0x460_eq4, &TBoss6Type2::update_iai },
-    { "IAI_F2", 10, 1, &TBoss6Type2::init_timer, &TBoss6Type2::check_state_0x460_eq4, &TBoss6Type2::update_iai },
-    { "IAI_L3", 9, 1, &TBoss6Type2::init_timer, &TBoss6Type2::check_state_0x460_eq4, &TBoss6Type2::update_iai },
-    { "IAI_R3", 8, 1, &TBoss6Type2::init_timer, &TBoss6Type2::check_state_0x460_eq4, &TBoss6Type2::update_iai },
-    { "IAI_F3", 10, 1, &TBoss6Type2::init_timer, &TBoss6Type2::check_state_0x460_eq4, &TBoss6Type2::update_iai },
+    { "IAI_L", 9, 1, &TBoss6Type2::init_timer, &TBoss6Type2::drop_rocks_before_timer_end, &TBoss6Type2::update_iai },
+    { "IAI_R", 8, 1, &TBoss6Type2::init_timer, &TBoss6Type2::drop_rocks_before_timer_end, &TBoss6Type2::update_iai },
+    { "IAI_F", 10, 1, &TBoss6Type2::init_timer, &TBoss6Type2::drop_rocks_before_timer_end, &TBoss6Type2::update_iai },
+    { "IAI_L2", 9, 1, &TBoss6Type2::init_timer, &TBoss6Type2::drop_rocks_before_timer_end, &TBoss6Type2::update_iai },
+    { "IAI_R2", 8, 1, &TBoss6Type2::init_timer, &TBoss6Type2::drop_rocks_before_timer_end, &TBoss6Type2::update_iai },
+    { "IAI_F2", 10, 1, &TBoss6Type2::init_timer, &TBoss6Type2::drop_rocks_before_timer_end, &TBoss6Type2::update_iai },
+    { "IAI_L3", 9, 1, &TBoss6Type2::init_timer, &TBoss6Type2::drop_rocks_before_timer_end, &TBoss6Type2::update_iai },
+    { "IAI_R3", 8, 1, &TBoss6Type2::init_timer, &TBoss6Type2::drop_rocks_before_timer_end, &TBoss6Type2::update_iai },
+    { "IAI_F3", 10, 1, &TBoss6Type2::init_timer, &TBoss6Type2::drop_rocks_before_timer_end, &TBoss6Type2::update_iai },
     { "CHG_TO_BSK", 11, 0, &TBoss6Type2::spawn_death_soul, 0, &TBoss6Type2::update_chg_to_bsk },
     { "BSK_AGAIN", 11, 0, &TBoss6Type2::act_bsk_again, 0, &TBoss6Type2::update_attack_timer },
     { "CHG_TO_CMN", 12, 0, &TBoss6Type2::start_flow_soul_effect, 0, &TBoss6Type2::update_charge_timer },
-    { "B_WAIT", 13, 1, &TBoss6Type2::init_speed_from_ratio, &TBoss6Type2::select_next_state, &TBoss6Type2::tick_timer_0x460 },
-    { "B_BJ_WAIT", 13, 1, &TBoss6Type2::act_b_bj_wait, &TBoss6Type2::update_rock_spawn_state, &TBoss6Type2::tick_timer_0x460 },
+    { "B_WAIT", 13, 1, &TBoss6Type2::init_speed_from_ratio, &TBoss6Type2::select_next_state, &TBoss6Type2::tick_b_wait_timer },
+    { "B_BJ_WAIT", 13, 1, &TBoss6Type2::act_b_bj_wait, &TBoss6Type2::update_rock_spawn_state, &TBoss6Type2::tick_b_wait_timer },
     { "B_WALKx1", 14, 1, &TBoss6Type2::act_b_walk, &TBoss6Type2::idle_b_walk, &TBoss6Type2::update_zako_timer },
     { "B_WALKx2", 14, 1, &TBoss6Type2::act_b_walk, &TBoss6Type2::idle_b_walk, &TBoss6Type2::update_zako_timer },
     { "B_WALKx3", 14, 1, &TBoss6Type2::act_b_walk, &TBoss6Type2::idle_b_walk, &TBoss6Type2::update_zako_timer },
@@ -90,7 +90,7 @@ void TBoss6Type2::select_attack_state() {
     }
 }
 
-void TBoss6Type2::tick_timer_460() {
+void TBoss6Type2::tick_wait_timer() {
     if (--state_timer < 0) {
         set_action_state(0x22);
     }
@@ -136,7 +136,7 @@ void TBoss6Type2::tick_action_timer() {
 
 void TBoss6Type2::act_niramu() { state_duration = 45; state_timer = 45; }
 
-void TBoss6Type2::check_state_0x460_eq0() { if (state_timer == 0) { send_state_action_packet(); } }
+void TBoss6Type2::send_action_on_timer_end() { if (state_timer == 0) { send_state_action_packet(); } }
 
 void TBoss6Type2::update_niramu() {
     if ((state_timer == state_duration - 0x1E) && (target_client != 0xFFFF)) {
@@ -361,7 +361,7 @@ void TBoss6Type2::init_timer() {
     iai_count++;
 }
 
-void TBoss6Type2::check_state_0x460_eq4() { if (state_timer == 4) { drop_random_rocks(0); } }
+void TBoss6Type2::drop_rocks_before_timer_end() { if (state_timer == 4) { drop_random_rocks(0); } }
 
 void TBoss6Type2::update_iai() {
     s32 sound;
@@ -579,7 +579,7 @@ block_7:
     }
 }
 
-void TBoss6Type2::tick_timer_0x460() {
+void TBoss6Type2::tick_b_wait_timer() {
     if (--state_timer < 0) {
         set_action_state(0x22);
     }

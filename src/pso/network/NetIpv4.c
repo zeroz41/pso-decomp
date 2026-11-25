@@ -62,7 +62,7 @@ s16 init_ipv4_interfaces(void) {
     return 0;
 }
 
-inline u16 ip_header_checksum(void *p, s16 n)
+static inline u16 ip_header_checksum(void *p, s16 n)
 {
   u32 s = ones_complement_sum(p, n);
   s = (s >> 16) + (s & 0xFFFF);

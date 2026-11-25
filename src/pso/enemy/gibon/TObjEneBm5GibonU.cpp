@@ -76,8 +76,6 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
 
-// The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
-
 extern "C" {
 BmlResource * bm5_gibon_u_model_archive;
 #pragma push

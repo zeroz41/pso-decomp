@@ -1,169 +1,31 @@
-#include "pso/render/GinjaTextureInput.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/text_802D1C84.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/render/GinjaTextureInput.h"
+#include "pso/system/memory.h"
+#include "pso/unk/text_802D1C84.h"
 
-struct VBase_18_477421
-{
-  char pad[0x18];
-};
+// Mericarol's 32x32 render target, registered as texture 0x18696.
+void *mericarol_render_texture_buffer;
+GinjaTextureInput mericarol_render_target;
+NJS_TEXNAME mericarol_render_texture_name;
+__declspec(section ".data") NJS_TEXLIST mericarol_render_texlist[1];
 
-struct VObj_18_477421 : VBase_18_477421 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual s32 m81();
-    virtual s32 m82();
-    virtual s32 m83();
-    virtual s32 m84();
-    virtual s32 m85();
-    virtual s32 m86();
-    virtual s32 m87();
-    virtual s32 m88();
-    virtual s32 m89();
-    virtual s32 m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual s32 m99();
-};
-
-extern "C" {
-extern u32 lbl_80540BC8[];
-void *lbl_805D6880;
 void fn_802D1C84(void) {
-    NJS_TEXLIST *p = reinterpret_cast<NJS_TEXLIST *>(lbl_80540BC8);
-    if (p != 0) {
-        release_texture_list(p);
+    NJS_TEXLIST *texlist = mericarol_render_texlist;
+    if (texlist != NULL) {
+        release_texture_list(texlist);
     }
-    if (lbl_805D6880 != 0) {
-        mem_free(lbl_805D6880);
-        lbl_805D6880 = 0;
+    if (mericarol_render_texture_buffer != NULL) {
+        mem_free(mericarol_render_texture_buffer);
+        mericarol_render_texture_buffer = NULL;
     }
 }
-
-
-GinjaTextureInput lbl_80540B98;
-NJS_TEXNAME lbl_80540BBC;
-__declspec(section ".data") u32 lbl_80540BC8[2];
 
 void fn_802D1CC8(void) {
-    lbl_80540B98.set_render_rect(lbl_805D6880 = mem_alloc(0x800), 0x902, 0x20, 0x20);
-    set_texture_name(&lbl_80540BBC, &lbl_80540B98, 0x18696, 0x40800000);
-    lbl_80540BC8[0] = reinterpret_cast<uaddr>(&lbl_80540BBC);
-    lbl_80540BC8[1] = 1;
-    psoLoadTexture((NJS_TEXLIST *)lbl_80540BC8);
-}
-#define PSO_VCALL_VObj_18_477421_m99(_self) (((VObj_18_477421 *)(_self))->m99())
-#define PSO_VCALL_VObj_18_477421_m81(_self) (((VObj_18_477421 *)(_self))->m81())
-#define PSO_VCALL_VObj_18_477421_m82(_self) (((VObj_18_477421 *)(_self))->m82())
-#define PSO_VCALL_VObj_18_477421_m83(_self) (((VObj_18_477421 *)(_self))->m83())
-#define PSO_VCALL_VObj_18_477421_m84(_self) (((VObj_18_477421 *)(_self))->m84())
-#define PSO_VCALL_VObj_18_477421_m85(_self) (((VObj_18_477421 *)(_self))->m85())
-#define PSO_VCALL_VObj_18_477421_m86(_self) (((VObj_18_477421 *)(_self))->m86())
-#define PSO_VCALL_VObj_18_477421_m87(_self) (((VObj_18_477421 *)(_self))->m87())
-#define PSO_VCALL_VObj_18_477421_m88(_self) (((VObj_18_477421 *)(_self))->m88())
-#define PSO_VCALL_VObj_18_477421_m89(_self) (((VObj_18_477421 *)(_self))->m89())
-#define PSO_VCALL_VObj_18_477421_m90(_self) (((VObj_18_477421 *)(_self))->m90())
-typedef struct VBase_18_477421 VBase_18_477421;
-typedef struct VObj_18_477421 VObj_18_477421;
-#define PSO_VCALL_VObj_18_477421_m99(_self) (((VObj_18_477421 *)(_self))->m99())
-#define PSO_VCALL_VObj_18_477421_m81(_self) (((VObj_18_477421 *)(_self))->m81())
-#define PSO_VCALL_VObj_18_477421_m82(_self) (((VObj_18_477421 *)(_self))->m82())
-#define PSO_VCALL_VObj_18_477421_m83(_self) (((VObj_18_477421 *)(_self))->m83())
-#define PSO_VCALL_VObj_18_477421_m84(_self) (((VObj_18_477421 *)(_self))->m84())
-#define PSO_VCALL_VObj_18_477421_m85(_self) (((VObj_18_477421 *)(_self))->m85())
-#define PSO_VCALL_VObj_18_477421_m86(_self) (((VObj_18_477421 *)(_self))->m86())
-#define PSO_VCALL_VObj_18_477421_m87(_self) (((VObj_18_477421 *)(_self))->m87())
-#define PSO_VCALL_VObj_18_477421_m88(_self) (((VObj_18_477421 *)(_self))->m88())
-#define PSO_VCALL_VObj_18_477421_m89(_self) (((VObj_18_477421 *)(_self))->m89())
-#define PSO_VCALL_VObj_18_477421_m90(_self) (((VObj_18_477421 *)(_self))->m90())
-
+    mericarol_render_target.set_render_rect(mericarol_render_texture_buffer = mem_alloc(0x800), 0x902, 0x20, 0x20);
+    set_texture_name(&mericarol_render_texture_name, &mericarol_render_target, 0x18696, 0x40800000);
+    mericarol_render_texlist[0].textures = &mericarol_render_texture_name;
+    mericarol_render_texlist[0].nbTexture = 1;
+    psoLoadTexture(mericarol_render_texlist);
 }

@@ -592,7 +592,6 @@ pso/weapon/TItemWeaponSRankLauncher.cpp
 pso/weapon/WeaponAttackActionData.cpp
 pso/weapon/WeaponAttackActions.cpp
 pso/weapon/WeaponSpecialSelection.cpp
-pso/map/FloorArea_8029E764.cpp
 pso/map/FloorLifecycleTables.cpp
 pso/map/AreaEventSet.cpp
 pso/math/MatrixTransforms.cpp
@@ -644,7 +643,6 @@ pso/animation/MotionContext.cpp
 pso/ui/charcreate/TObjCMProportion.cpp
 pso/ui/charcreate/TChCrCharSelect_802A207C.cpp
 pso/ui/charcreate/TChCrEffCtrlPl.cpp
-pso/ui/charcreate/TChCrEffCtrlPl_80339658.cpp
 pso/ui/charcreate/TChCrEffFade.cpp
 pso/ui/charcreate/TChCrEffTag.cpp
 pso/ui/charcreate/TChCrEffTagStr.cpp
@@ -702,7 +700,6 @@ pso/ui/keyboard/KBDXfer.c
 pso/effect/TKomorebi.cpp
 pso/system/TLanguage.cpp
 pso/system/TLanguage_801A5694.cpp
-pso/system/TLanguage_803DAF68.cpp
 pso/object/container/TContainerAncient01_8018A55C.cpp
 pso/ui/TLevelSelect.cpp
 pso/system/TLoadCtrl.cpp
@@ -859,7 +856,6 @@ pso/network/NetPppoe.c
 pso/network/ModemSession.c
 pso/network/eth.c
 pso/ui/TLogo.cpp
-pso/ui/TLogo_8001C134.cpp
 pso/network/TPlyJoinLobbySdata2.cpp
 pso/ui/hud/TMainCursor.cpp
 pso/ui/hud/TMainCursor_80154090.cpp
@@ -1037,7 +1033,6 @@ pso/ui/city/TShopEquipmentListWindow.cpp
 pso/ui/city/TShopEquipmentListWindow_8010ED54.cpp
 pso/ui/city/TShopEquipmentSellWindow.cpp
 pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp
-pso/ui/city/TShopEquipmentSellWindow_803094E8.cpp
 pso/ui/city/TShopEquipmentSequence.cpp
 pso/ui/city/TShopEquipmentSequence_8021E2E4.cpp
 pso/item/shop/TShopGenerator.cpp
@@ -1190,7 +1185,6 @@ pso/ui/window/TWindowSubComCard_8007341C.cpp
 pso/ui/window/TWindowSubComCard_80073DB8.cpp
 pso/ui/window/TWindowSubComCard_8007A810.cpp
 pso/ui/window/TWindowSubComCard_8007BD24.cpp
-pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp
 pso/ui/window/TWindowSubComCard_80225E0C.cpp
 pso/ui/window/TWindowBase.cpp
 pso/ui/window/TWindowSubComCard_802495FC.cpp
@@ -1463,7 +1457,6 @@ pso/render/CameraCapture.cpp
 pso/enemy/dubchik/TDubchikShot.cpp
 pso/enemy/dubchik/TDubchikPart.cpp
 pso/enemy/flower/TObjEneRe2Flower_Bomb.cpp
-pso/render/RenderFadeState_800D7BFC.cpp
 pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.cpp
 pso/render/GinjaTextureEntryCopy.cpp
 pso/render/AltModel.cpp
@@ -1579,7 +1572,6 @@ pso/ui/frontend/TAdEnterPPPPassGC.cpp
 pso/ui/frontend/TAdEnterPasswordGC.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC_802ACF04.cpp
-pso/ui/frontend/TAdEnterSerialAccessGC_802E0110.cpp
 pso/ui/frontend/TAdEp3Exist.cpp
 pso/ui/frontend/TAdExNetConfirmGC.cpp
 pso/ui/frontend/TAdFadeGC.cpp
@@ -1613,7 +1605,7 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGCTables.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802E011C.cpp
+pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0110.cpp
 pso/ui/frontend/TAdMultiSaveGC.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC.cpp
@@ -1628,7 +1620,7 @@ pso/ui/frontend/TAdPsoPassSaveGC.cpp
 pso/ui/frontend/TAdRayGC.cpp
 pso/ui/frontend/TAdRicoRingCtrl.cpp
 pso/ui/frontend/TAdSEGAlogo.cpp
-pso/ui/frontend/TAdSelectCurGC_802AEA38.cpp
+pso/ui/frontend/TAdSelectCurGC_802AE978.cpp
 pso/ui/frontend/TAdSelectCurGC_802AED98.cpp
 pso/ui/frontend/TAdSelectGameModeGC.cpp
 pso/ui/frontend/TAdSelectTxtGC.cpp
@@ -1791,12 +1783,8 @@ pso/unk/text_80290BEC.cpp
 pso/ui/UISprite.cpp
 pso/unk/text_802948A8.cpp
 pso/unk/text_80299420.cpp
-pso/unk/text_8029A97C.cpp
 pso/unk/text_802A0A30.cpp
 pso/unk/text_802A1020.cpp
-pso/unk/text_802AE978.cpp
-pso/unk/text_802AEAA4.cpp
-pso/ui/TLevelSelect_802AEBA8.cpp
 pso/unk/text_802C39F8.cpp
 pso/unk/text_802C3AC0.cpp
 pso/unk/text_802D1C84.cpp
@@ -1807,7 +1795,6 @@ pso/boss/barbaray/TObjBoss7Tunnel_802F190C.cpp
 pso/boss/goldragon/Boss8DemoObjects.cpp
 pso/unk/text_802FF760.cpp
 pso/unk/text_80307BE8.cpp
-pso/unk/text_80308294.cpp
 pso/unk/text_80309890.cpp
 pso/unk/text_803098DC.cpp
 pso/unk/text_80320358.cpp
@@ -1817,7 +1804,6 @@ pso/unk/text_803279CC.cpp
 pso/ui/window/WindowLayoutCamera2Data.cpp
 pso/unk/text_8033F314.cpp
 pso/unk/text_8034960C.cpp
-pso/unk/text_80349B8C.cpp
 pso/math/CurvePathPoint.cpp
 pso/item/TUnk_804F112C.cpp
 pso/effect/item/TItemEffOrgaFlowShot.cpp
@@ -1847,8 +1833,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.cpp
 pso/unk/text_803DA12C.cpp
 pso/unk/text_803DA16C.cpp
 pso/unk/text_803DA798.cpp
-pso/unk/text_803DAF30.cpp
-pso/unk/text_803DAFA8.cpp
+pso/render/GinjaTextureHeader.cpp
 pso/render/gjSystem.c
 pso/render/RenderSbssGlobals.cpp
 pso/render/RenderUtilSdata.cpp

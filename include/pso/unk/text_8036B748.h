@@ -10,13 +10,4 @@ s32 fn_8036B798(void);
 s32 fn_8036B7C0(void);
 }
 
-// --- C functions defined in text_8036B748.cpp ---
-extern "C" {
-s32 fn_8036B748(void);
-s32 fn_8036B770(void);
-s32 fn_8036B798(void);
-s32 fn_8036B7C0(void);
-}
-// --- end of C functions
-
 #endif

@@ -266,7 +266,7 @@ s16 NetIPv6SendRouterSolicitation(s16 iface) {
     return result;
 }
 
-inline u8 *find_neighbor_slot(Ipv6NdState *g, u8 *addr) {
+static inline u8 *find_neighbor_slot(Ipv6NdState *g, u8 *addr) {
     s16 n = g->nneighbors;
     Ipv6NdNeighbor *nb = g->neighbors;
     for (; n > 0; n--, nb++) {
@@ -567,7 +567,7 @@ s16 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **
     return 0;
 }
 
-inline Ipv6NdNeighbor *find_neighbor(Ipv6NdState *g, void *name) {
+static inline Ipv6NdNeighbor *find_neighbor(Ipv6NdState *g, void *name) {
     s16 n = g->nneighbors;
     Ipv6NdNeighbor *e = g->neighbors;
     for (; n > 0; n--, e++) {
@@ -578,12 +578,12 @@ inline Ipv6NdNeighbor *find_neighbor(Ipv6NdState *g, void *name) {
     return 0;
 }
 
-inline void clear_router(Ipv6NdRouter *p) {
+static inline void clear_router(Ipv6NdRouter *p) {
     p->used = 0;
     p->uses = 0;
 }
 
-inline Ipv6NdRouter *forget_router(Ipv6NdState *g, void *name) {
+static inline Ipv6NdRouter *forget_router(Ipv6NdState *g, void *name) {
     s16 m;
     Ipv6NdRouter *p;
     Ipv6NdRouter *hit;
@@ -716,7 +716,7 @@ s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *n
     return 0;
 }
 
-inline Ipv6NdRouter *find_router_in(s16 *cnt, Ipv6NdRouter **list, void *name) {
+static inline Ipv6NdRouter *find_router_in(s16 *cnt, Ipv6NdRouter **list, void *name) {
     s16 n = *cnt;
     Ipv6NdRouter *p = *list;
     for (; n > 0; n--, p++) {
@@ -727,7 +727,7 @@ inline Ipv6NdRouter *find_router_in(s16 *cnt, Ipv6NdRouter **list, void *name) {
     return 0;
 }
 
-inline Ipv6NdRouter *forget_router_in(s16 *cnt, Ipv6NdRouter **list, void *name) {
+static inline Ipv6NdRouter *forget_router_in(s16 *cnt, Ipv6NdRouter **list, void *name) {
     s16 m;
     Ipv6NdRouter *p;
     Ipv6NdRouter *hit;
@@ -1441,7 +1441,7 @@ s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
 }
 #pragma pop
 
-inline saddr send_pending_packet(Ipv6NdNeighbor *e) {
+static inline saddr send_pending_packet(Ipv6NdNeighbor *e) {
     NetPacket *nw;
     nw = alloc_free_entry();
     if (nw == 0) {
@@ -1693,7 +1693,7 @@ extern s32 NetIPv6UpdateRouterEntry(void *addr, NetIcmpv6RouterAdvertisement *ra
   return 0;
 }
 
-inline Ipv6NdNeighbor *find_pending_owner(Ipv6NdState *g, Ipv6NdPending *e) {
+static inline Ipv6NdNeighbor *find_pending_owner(Ipv6NdState *g, Ipv6NdPending *e) {
     s16 n = g->nneighbors;
     Ipv6NdNeighbor *r = g->neighbors;
     while (n > 0) {

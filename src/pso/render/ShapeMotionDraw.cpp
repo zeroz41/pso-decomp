@@ -11,25 +11,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 
-// The state a shape motion is sampled with: the first part of a
-// MotionContext, without the samplers. Each node's row of NJS_MOTION::mdata
-// holds vertex and normal shape keys (NJS_MKEY_P) and their counts.
-struct ShapeMotionContext {
-    u8 *row;
-    s32 key_list_size;  // bytes of the row's key pointers
-    s32 row_size;       // bytes of a whole row
-    void **keys;
-    u32 *key_counts;
-    f32 frame;
-    u32 frame_count;  // NJS_MOTION::nbFrame
-    s32 channel;      // the row's next channel
-    u32 type;         // NJS_MOTION::type (NJD_MTYPE_*)
-};
-
-LAYOUT_ASSERT(ShapeMotionContext_size, sizeof(ShapeMotionContext) == 0x24);
-
 ShapeMotionContext *current_shape_motion_context;
-extern ShapeMotionContext shape_motion_contexts[2];
 
 #pragma push
 #pragma scheduling off
@@ -209,31 +191,35 @@ void interpolate_shape_vertices(void *vertex_keys, u32 vertex_key_count, void *n
         d += 2;
         for (i = 0; i < count; i++) {
             if (has_position != 0) {
+                f32 *dst = (f32 *)d;
                 if (vertex_keys != NULL) {
-                    ((f32 *)d)[0] = vertex0[0] * vertex_weight + vertex1[0] * vertex_rate;
-                    ((f32 *)d)[1] = vertex0[1] * vertex_weight + vertex1[1] * vertex_rate;
-                    ((f32 *)d)[2] = vertex0[2] * vertex_weight + vertex1[2] * vertex_rate;
+                    dst[0] = vertex0[0] * vertex_weight + vertex1[0] * vertex_rate;
+                    dst[1] = vertex0[1] * vertex_weight + vertex1[1] * vertex_rate;
+                    dst[2] = vertex0[2] * vertex_weight + vertex1[2] * vertex_rate;
                     vertex0 += 3;
                     vertex1 += 3;
                 } else {
-                    ((f32 *)d)[0] = ((f32 *)s)[0];
-                    ((f32 *)d)[1] = ((f32 *)s)[1];
-                    ((f32 *)d)[2] = ((f32 *)s)[2];
+                    f32 *from = (f32 *)s;
+                    dst[0] = from[0];
+                    dst[1] = from[1];
+                    dst[2] = from[2];
                 }
                 d += 3;
                 s += 3;
             }
             if (has_normal != 0) {
+                f32 *dst = (f32 *)d;
                 if (normal_keys != NULL) {
-                    ((f32 *)d)[0] = normal0[0] * normal_weight + normal1[0] * normal_rate;
-                    ((f32 *)d)[1] = normal0[1] * normal_weight + normal1[1] * normal_rate;
-                    ((f32 *)d)[2] = normal0[2] * normal_weight + normal1[2] * normal_rate;
+                    dst[0] = normal0[0] * normal_weight + normal1[0] * normal_rate;
+                    dst[1] = normal0[1] * normal_weight + normal1[1] * normal_rate;
+                    dst[2] = normal0[2] * normal_weight + normal1[2] * normal_rate;
                     normal0 += 3;
                     normal1 += 3;
                 } else {
-                    ((f32 *)d)[0] = ((f32 *)s)[0];
-                    ((f32 *)d)[1] = ((f32 *)s)[1];
-                    ((f32 *)d)[2] = ((f32 *)s)[2];
+                    f32 *from = (f32 *)s;
+                    dst[0] = from[0];
+                    dst[1] = from[1];
+                    dst[2] = from[2];
                 }
                 d += 3;
                 s += 3;

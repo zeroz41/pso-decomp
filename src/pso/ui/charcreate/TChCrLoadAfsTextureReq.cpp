@@ -5,6 +5,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
 #include "types.h"
+#include <math.h>
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
@@ -16,11 +17,8 @@
 
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
-extern "C" {
-
 extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
-const char *lbl_805D3B50 = TChCrLoadAfsTextureReq__class_name_string;
-f64 log(f64);
+const char *TChCrLoadAfsTextureReq::name = TChCrLoadAfsTextureReq__class_name_string;
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
     if (try_acquire_load_slot() != 0) {
@@ -34,7 +32,7 @@ void TChCrLoadAfsTextureReq::run_task() {
     if (m_28 == 1) {
         return;
     }
-    if (--m_64 <= 0) {
+    if (--lifetime_remaining <= 0) {
         return;
     }
     static TChCrLoadAfsTextureReqHandler tbl[] = {
@@ -52,11 +50,11 @@ void TChCrLoadAfsTextureReq::run_task() {
 void TChCrLoadAfsTextureReq::finish_request() {
     s32 count;
 
-    if (m_68 != 0 && TChCrLoadAfsTextureReq::active_load_count <= 3) {
+    if (slot_claimed != 0 && TChCrLoadAfsTextureReq::active_load_count <= 3) {
         count = TChCrLoadAfsTextureReq::active_load_count - 1;
         TChCrLoadAfsTextureReq::active_load_count = count;
         if (count >= 0) {
-            m_68 = 0;
+            slot_claimed = 0;
         }
     }
 }
@@ -65,14 +63,14 @@ s32 TChCrLoadAfsTextureReq::try_acquire_load_slot() {
     if (TChCrLoadAfsTextureReq::active_load_count < 0 || TChCrLoadAfsTextureReq::active_load_count > 3) {
         return 0;
     }
-    if (m_68 == 1) {
+    if (slot_claimed == 1) {
         return 0;
     }
     if (TChCrLoadAfsTextureReq::active_load_count >= 3) {
         return 0;
     }
     TChCrLoadAfsTextureReq::active_load_count += 1;
-    m_68 = 1;
+    slot_claimed = 1;
     return 1;
 }
 TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
@@ -92,14 +90,12 @@ TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
         }
     }
     if (this->m_1c == 1) {
-        if (this->m_6c != 0) {
-            *this->m_34 &= ~this->m_6c;
-        } else if (this->m_34 != NULL) {
-            *this->m_34 = 1;
+        if (this->completion_mask != 0) {
+            *this->completion_flags &= ~this->completion_mask;
+        } else if (this->completion_flags != NULL) {
+            *this->completion_flags = 1;
         }
     }
-}
-
 }
 
 void TChCrLoadAfsTextureReq::init_texture_table() {
@@ -111,26 +107,26 @@ void TChCrLoadAfsTextureReq::init_texture_table() {
     state = 0;
     index = 0;
     m_28 = 0;
-    m_64 = 0x14FA;
-    m_68 = 0;
+    lifetime_remaining = 0x14FA;
+    slot_claimed = 0;
 }
 
-TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *textures, s32 *arg3, s32 arg4)
+TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *textures, s32 *completion_flags, s32 display_index)
     : TObject(parent) {
-    m_name = lbl_805D3B50;
+    m_name = name;
     this->textures = textures;
-    m_34 = arg3;
-    *m_34 = 0;
-    m_6c = 0;
-    m_70 = arg4;
+    this->completion_flags = completion_flags;
+    *this->completion_flags = 0;
+    completion_mask = 0;
+    m_70 = display_index;
     init_texture_table();
 }
 
 TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsTextureReqArgs *args) : TObject(parent) {
-    m_name = lbl_805D3B50;
+    m_name = name;
     textures = args->textures;
-    m_6c = args->completion_mask;
-    m_34 = args->completion_flags;
+    completion_mask = args->completion_mask;
+    completion_flags = args->completion_flags;
     m_70 = args->display_index;
     init_texture_table();
 }
@@ -162,7 +158,7 @@ void TChCrLoadGmNjReq::update_model_load() {
         if (request != NULL) {
             request = init_bin_model_request(request, 6, model_ids, &model_ids[1], NULL, NULL, get_character_load_buffer(load_slot));
         }
-        loaded_bml = (BmlResource *)request;
+        loaded_bml = request;
         if (request != NULL) {
             load_timer = 0x12C;
         }

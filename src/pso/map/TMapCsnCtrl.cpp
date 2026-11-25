@@ -55,7 +55,7 @@ void collect_collision_groups(TMapCsnCtrl *controller, CsnGroup *groups) {
 
 // TObjMapCsn's name lives in this TU (.sdata 0x805D2CD0, string 0x8043F268), as TMapCsnCtrl's lives in
 // TObjMapCsn.cpp.
-const char *TObjMapCsn__class_name = "TObjMapCsn";
+const char *TObjMapCsn::class_name = "TObjMapCsn";
 
 void TMapCsnCtrl::sub_80140F44() {
     groups[0] = NULL;

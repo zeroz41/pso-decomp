@@ -7,7 +7,7 @@
 struct GcrnaStream {
     u8 in_use;
     s8 callback_phase;
-    u8 unknown02[2];
+    u8 pad_02[2];
     u32 samples_ready;
     u32 flags;
     s32 allocated_channels;
@@ -21,7 +21,7 @@ struct GcrnaStream {
     u32 callback_ids[2];
     u32 stream_ids[2];
     s32 stream_started[2];
-    u8 unknown50[4];
+    u8 pad_50[4];
     u32 silence_samples;
     s32 pan[2];
     s32 volume;
@@ -30,7 +30,7 @@ struct GcrnaStream {
     s32 aux_b_send;
     s32 surround_pan;
     s32 frequency_mode;
-    u8 unknown78[8];
+    u8 pad_78[8];
 };
 
 #include <stddef.h>

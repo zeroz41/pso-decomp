@@ -9,17 +9,17 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TChCrTagPlBack__name = "TChCrTagPlBack";
+const char *TChCrTagPlBack::name = "TChCrTagPlBack";
 #pragma pop
 
-extern const vec2f lbl_80466720[];
-extern const vec2f lbl_80466728[];
-extern const vec2f lbl_80466730[];
-extern const vec2f lbl_80466738[];
-extern const vec2f lbl_80466740[];
-extern const vec2f lbl_80466748[];
-extern const vec2f lbl_80466750[];
-extern const vec2f lbl_80466758[];
+extern const vec2f plback_top_left_pos;
+extern const vec2f plback_top_right_pos;
+extern const vec2f plback_bottom_left_pos;
+extern const vec2f plback_bottom_right_pos;
+extern const vec2f plback_edge_scale;
+extern const vec2f plback_top_edge_pos;
+extern const vec2f plback_bottom_edge_pos;
+extern const vec2f plback_side_start_pos;
 
 void TChCrTagPlBack::draw_frame() {
     f32 a;
@@ -27,20 +27,20 @@ void TChCrTagPlBack::draw_frame() {
     if (m_fade < 0.5f) {
         a = m_fade / 0.5f;
     }
-    vec2f p1 = lbl_80466720[0];
+    vec2f p1 = plback_top_left_pos;
     draw_ui_sprite(0x7E, &p1, -3.375f, a);
-    vec2f p2 = lbl_80466728[0];
+    vec2f p2 = plback_top_right_pos;
     draw_ui_sprite(0x80, &p2, -3.375f, a);
-    vec2f p3 = lbl_80466730[0];
+    vec2f p3 = plback_bottom_left_pos;
     draw_ui_sprite(0x84, &p3, -3.375f, a);
-    vec2f p4 = lbl_80466738[0];
+    vec2f p4 = plback_bottom_right_pos;
     draw_ui_sprite(0x86, &p4, -3.375f, a);
-    vec2f scale = lbl_80466740[0];
-    vec2f p5 = lbl_80466748[0];
+    vec2f scale = plback_edge_scale;
+    vec2f p5 = plback_top_edge_pos;
     draw_ui_sprite_scaled(0x7F, &p5, &scale, -3.375f, a);
-    vec2f p6 = lbl_80466750[0];
+    vec2f p6 = plback_bottom_edge_pos;
     draw_ui_sprite_scaled(0x85, &p6, &scale, -3.375f, a);
-    vec2f base = lbl_80466758[0];
+    vec2f base = plback_side_start_pos;
     vec2f cur;
     for (; base.y <= 396.0f; base.y += 8.0f) {
         copy_vec2((&cur), &base);
@@ -57,7 +57,7 @@ s32 TChCrTagPlBack::is_selected() { return 0; }
 TChCrTagPlBack::~TChCrTagPlBack() {}
 
 TChCrTagPlBack::TChCrTagPlBack(TObject *parent, s32 index) : TChCrTag(parent, index) {
-    m_name = TChCrTagPlBack__name;
+    m_name = name;
     m_fade_in_step = 0.06666667f;
     m_fade_out_step = -0.06666667f;
     m_highlight_in_step = 0.06666667f;
@@ -74,11 +74,11 @@ TChCrTagPlBack *TChCrTagPlBack::create_default() { return TChCrTagPlBack::create
 
 // The frame sprites' positions (and the edge scale), defined after their use so
 // draw_frame addresses each one on its own.
-__declspec(section ".rodata") const vec2f lbl_80466720[1] = { { 307.0f, 100.0f } };
-__declspec(section ".rodata") const vec2f lbl_80466728[1] = { { 575.0f, 100.0f } };
-__declspec(section ".rodata") const vec2f lbl_80466730[1] = { { 307.0f, 396.0f } };
-__declspec(section ".rodata") const vec2f lbl_80466738[1] = { { 575.0f, 396.0f } };
-__declspec(section ".rodata") const vec2f lbl_80466740[1] = { { 7.375f, 1.0f } };
-__declspec(section ".rodata") const vec2f lbl_80466748[1] = { { 339.0f, 100.0f } };
-__declspec(section ".rodata") const vec2f lbl_80466750[1] = { { 339.0f, 396.0f } };
-__declspec(section ".rodata") const vec2f lbl_80466758[1] = { { 307.0f, 132.0f } };
+__declspec(section ".rodata") const vec2f plback_top_left_pos = {307.0f, 100.0f};
+__declspec(section ".rodata") const vec2f plback_top_right_pos = {575.0f, 100.0f};
+__declspec(section ".rodata") const vec2f plback_bottom_left_pos = {307.0f, 396.0f};
+__declspec(section ".rodata") const vec2f plback_bottom_right_pos = {575.0f, 396.0f};
+__declspec(section ".rodata") const vec2f plback_edge_scale = {7.375f, 1.0f};
+__declspec(section ".rodata") const vec2f plback_top_edge_pos = {339.0f, 100.0f};
+__declspec(section ".rodata") const vec2f plback_bottom_edge_pos = {339.0f, 396.0f};
+__declspec(section ".rodata") const vec2f plback_side_start_pos = {307.0f, 132.0f};

@@ -22,11 +22,4 @@ void TLogo__sub_8001C360(void);
 void TLogo__sub_8001C364(void);
 }
 
-// --- C functions defined in TAdSoniclogo.cpp ---
-extern "C" {
-void TLogo__sub_8001C360(void);
-void TLogo__sub_8001C364(void);
-}
-// --- end of C functions
-
 #endif

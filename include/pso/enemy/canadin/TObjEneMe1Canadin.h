@@ -15,7 +15,7 @@ struct TObjEneMe1CanadinMovement {
     f32 target_range;
     f32 move_speed;
     s32 turn_speed;
-    u32 unknown_0C[4];
+    u32 extra[4];
 };
 
 // The kind's parameter block (kind_params, from TLobby::dispatch_shared_handler_a); the field layout is

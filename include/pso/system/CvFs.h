@@ -6,7 +6,6 @@
 
 struct CvFsHandle;
 
-// --- C functions defined in text_803CE568.cpp ---
 void cvFsFinish(void);
 extern "C" {
 void TLobby__sub_803CEF60(void);
@@ -35,7 +34,6 @@ char *cvfs_get_default_device(char *dev);
 void cvfs_split_path(char *dev, char *file, char *path);
 s32 find_803CF958(char *s, s32 len);
 }
-// --- end of C functions
 
 void cvFsSetDefDev(char *src);
 

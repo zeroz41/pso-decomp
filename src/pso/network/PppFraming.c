@@ -468,21 +468,21 @@ s32 ppp_poll_input(void)
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 frame_valid(PppFrame **s) {
+static inline s32 frame_valid(PppFrame **s) {
     s32 r = 0;
     if (s != NULL && *s != NULL) {
         r = 1;
     }
     return r;
 }
-inline s32 frame_has_byte(PppFrame **s) {
+static inline s32 frame_has_byte(PppFrame **s) {
     s32 r = 0;
     if (frame_valid(s) && (*s)->len > 1) {
         r = 1;
     }
     return r;
 }
-inline s32 frame_get_byte(PppFrame **s) {
+static inline s32 frame_get_byte(PppFrame **s) {
     if (frame_has_byte(s)) {
         (*s)->len--;
         return *(*s)->data++;
@@ -841,7 +841,7 @@ s16 ppp_output_protocol(s32 a, s32 b, u16 code, PppFrame *self) {
 
 /* 1 while the address and control fields (LCP_OPT_ACFC) or the high protocol byte (LCP_OPT_PFC) must be sent:
    always for LCP frames, otherwise until the peer has agreed to the compression option. */
-inline s32 ppp_keep_field(s32 is_lcp, LcpOpts *opts, s32 opt) {
+static inline s32 ppp_keep_field(s32 is_lcp, LcpOpts *opts, s32 opt) {
     s32 r = 1;
     if (!is_lcp && (opts->remote.got.mask & opt)) {
         r = 0;
@@ -849,7 +849,7 @@ inline s32 ppp_keep_field(s32 is_lcp, LcpOpts *opts, s32 opt) {
     return r;
 }
 
-inline s32 ppp_protocol_field_is_two_bytes(s32 is_lcp, LcpOpts *opts, u16 proto) {
+static inline s32 ppp_protocol_field_is_two_bytes(s32 is_lcp, LcpOpts *opts, u16 proto) {
     s32 r = 1;
     if (ppp_keep_field(is_lcp, opts, LCP_OPT_PFC) == 0 && proto < 0xff) {
         r = 0;

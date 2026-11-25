@@ -2,6 +2,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -156,7 +157,7 @@ void TObjEneDimedian::beast_retire_corpse() {
         queue_destruction();
     }
 }
-void TObjEneDimedian::sub_800A7B54() {
+void TObjEneDimedian::apply_subtype() {
     s32 kind = subtype;
     if (kind < 0) {
         subtype = 0;
@@ -311,48 +312,48 @@ void TObjEneDimedian::render() {
 
 }
 
-extern "C" const u8 dimedian_sl_body_model_filename[20] = "df3_sl_wala_body.nj";
-extern "C" const u8 dimedian_ssl_body_model_filename[24] = "df3_ssl_wala_body.nj";
-extern "C" const u8 dimedian_s_body_model_filename[20] = "df3_s_wala_body.nj";
-extern "C" const u8 dimedian_appear_motion_filename[28] = "appear_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_attack_left_motion_filename[28] = "atackl_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_attack_right_motion_filename[28] = "atackr_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_damage_motion_filename[28] = "damage_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_deadb_motion_filename[28] = "deadb_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_dead_motion_filename[28] = "dead_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_leader_motion_filename[28] = "leader_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_mihari_motion_filename[28] = "mihari_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_run_motion_filename[24] = "run_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_stund_motion_filename[28] = "stund_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_wakeup_motion_filename[28] = "wakeup_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_walk_motion_filename[28] = "walk_bm1_s_wala_body.njm";
-extern "C" const u8 dimedian_bml_filename[24] = "bm_ene_df3_dimedian.bml";
+extern "C" const char dimedian_sl_body_model_filename[20] = "df3_sl_wala_body.nj";
+extern "C" const char dimedian_ssl_body_model_filename[24] = "df3_ssl_wala_body.nj";
+extern "C" const char dimedian_s_body_model_filename[20] = "df3_s_wala_body.nj";
+extern "C" const char dimedian_appear_motion_filename[28] = "appear_bm1_s_wala_body.njm";
+extern "C" const char dimedian_attack_left_motion_filename[28] = "atackl_bm1_s_wala_body.njm";
+extern "C" const char dimedian_attack_right_motion_filename[28] = "atackr_bm1_s_wala_body.njm";
+extern "C" const char dimedian_damage_motion_filename[28] = "damage_bm1_s_wala_body.njm";
+extern "C" const char dimedian_deadb_motion_filename[28] = "deadb_bm1_s_wala_body.njm";
+extern "C" const char dimedian_dead_motion_filename[28] = "dead_bm1_s_wala_body.njm";
+extern "C" const char dimedian_leader_motion_filename[28] = "leader_bm1_s_wala_body.njm";
+extern "C" const char dimedian_mihari_motion_filename[28] = "mihari_bm1_s_wala_body.njm";
+extern "C" const char dimedian_run_motion_filename[24] = "run_bm1_s_wala_body.njm";
+extern "C" const char dimedian_stund_motion_filename[28] = "stund_bm1_s_wala_body.njm";
+extern "C" const char dimedian_wakeup_motion_filename[28] = "wakeup_bm1_s_wala_body.njm";
+extern "C" const char dimedian_walk_motion_filename[28] = "walk_bm1_s_wala_body.njm";
+extern "C" const char dimedian_bml_filename[24] = "bm_ene_df3_dimedian.bml";
 extern "C" const char dimedian_class_name[16] = "TObjEneDimedian";
 
 
 
 
 extern "C" {
-extern const u8 dimedian_a_bml_filename[26];
+extern const char dimedian_a_bml_filename[26];
 }
 extern "C" {
 extern const char *TObjEneDimedian_name_ref;
 
 
 
-extern void *dimedian_model_name_table[4];
-extern void *dimedian_motion_name_table[13];
-void *dimedian_model_name_table[4] = {
-    (void *)&dimedian_sl_body_model_filename, (void *)&dimedian_ssl_body_model_filename, (void *)&dimedian_s_body_model_filename, (void *)0x0,
+extern const char *dimedian_model_name_table[4];
+extern const char *dimedian_motion_name_table[13];
+const char *dimedian_model_name_table[4] = {
+    dimedian_sl_body_model_filename, dimedian_ssl_body_model_filename, dimedian_s_body_model_filename, NULL,
 };
-void *dimedian_motion_name_table[13] = {
-    (void *)&dimedian_appear_motion_filename, (void *)&dimedian_attack_left_motion_filename, (void *)&dimedian_attack_right_motion_filename, (void *)&dimedian_damage_motion_filename,
-    (void *)&dimedian_deadb_motion_filename, (void *)&dimedian_dead_motion_filename, (void *)&dimedian_leader_motion_filename, (void *)&dimedian_mihari_motion_filename,
-    (void *)&dimedian_run_motion_filename, (void *)&dimedian_stund_motion_filename, (void *)&dimedian_wakeup_motion_filename, (void *)&dimedian_walk_motion_filename,
-    (void *)0x0,
+const char *dimedian_motion_name_table[13] = {
+    dimedian_appear_motion_filename, dimedian_attack_left_motion_filename, dimedian_attack_right_motion_filename, dimedian_damage_motion_filename,
+    dimedian_deadb_motion_filename, dimedian_dead_motion_filename, dimedian_leader_motion_filename, dimedian_mihari_motion_filename,
+    dimedian_run_motion_filename, dimedian_stund_motion_filename, dimedian_wakeup_motion_filename, dimedian_walk_motion_filename,
+    NULL,
 };
-void *dimedian_resource_descriptor[4] = {
-    (void *)&dimedian_bml_filename, (void *)&dimedian_model_name_table, (void *)&dimedian_motion_name_table, (void *)0x3000c,
+BmlResourceDescriptor dimedian_resource_descriptor = {
+    dimedian_bml_filename, dimedian_model_name_table, dimedian_motion_name_table, 3, 12,
 };
 TObjMotionAction dimedian_action_table[11] = {
     {1, 0, 9, 0.6f, 1},
@@ -426,9 +427,9 @@ void TLobby::load_dimedian_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        dimedian_resource_ptr = load_enemy_bml_resource_named((BmlResourceDescriptor *)dimedian_resource_descriptor, (const char *)dimedian_a_bml_filename);
+        dimedian_resource_ptr = load_enemy_bml_resource_named(&dimedian_resource_descriptor, dimedian_a_bml_filename);
     } else {
-        p = new BmlResource(1, (BmlResourceDescriptor *)dimedian_resource_descriptor, 0, 0, NULL);
+        p = new BmlResource(1, &dimedian_resource_descriptor, 0, 0, NULL);
         dimedian_resource_ptr = (BmlResource *)p;
     }
     models = dimedian_resource_ptr->models;
@@ -467,7 +468,7 @@ void TLobby::load_dimedian_resources() {
         }
     }
 }
-extern "C" __declspec(section ".rodata") const u8 dimedian_a_bml_filename[26] = "bm_ene_df3_dimedian_a.bml";
+extern "C" __declspec(section ".rodata") const char dimedian_a_bml_filename[26] = "bm_ene_df3_dimedian_a.bml";
 }
 
 extern "C" {
@@ -494,7 +495,7 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TObjEneBeast
     apply_set_data(set_data);
     init_position_vectors();
     subtype = variant;
-    sub_800A7B54();
+    apply_subtype();
     load_dimedian_param_entry(variant);
     action_table = dimedian_action_table;
     set_action_table(action_table);

@@ -119,13 +119,13 @@ void load_particle_entry_resources(void);
 // for an id past both tables. A oneshot emitter is destroyed after its first run; `use_self` creates the particles
 // under the emitter instead of tl_07. spawn_particle_effect and spawn_particle_effect_with_flags (oneshot) are
 // declared in ParticleFactory.h.
-TParticleCtrl *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 delay, s32 duration, u16 flags);
+TParticleCtrl *create_timed_particle_emitter_with_flags(const Vec *pos, s32 id, s32 delay, s32 duration, u16 flags);
 TParticleCtrl *create_timed_particle_emitter(const void *pos, s32 id, s32 delay, s32 duration);
 TParticleCtrl *create_timed_particle_emitter_with_angles(void *pos, void *dir, s32 id, s32 delay, s32 duration, u16 flags);
 TParticleCtrl *create_particle_controller_with_rotation(Vec *pos, ParticleAngles *dir, s32 id, s32 delay, s32 duration);
 TParticleCtrl *create_oneshot_particle_emitter(void *pos, void *dir, s32 id, u16 flags);
 TParticleCtrl *spawn_directional_particle(void *pos, void *dir, s32 id);
-TParticleCtrl *create_particle_controller(void *pos, s32 id, s32 use_self);
+TParticleCtrl *create_particle_controller(const Vec *pos, s32 id, s32 use_self);
 TParticleCtrl *create_particle_controller_with_angles(void *pos, void *dir, s32 id, s32 use_self, u16 flags);
 TParticleCtrl *create_particle_controller_with_angles(void *pos, void *dir, s32 id, s32 use_self);
 TParticleCtrl *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 flags);

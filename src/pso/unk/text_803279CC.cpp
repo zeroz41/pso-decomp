@@ -5,11 +5,11 @@
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
-void fn_80327A38(Acc_80327A38 *acc, GinjaModel *model, s32 id);
-void visit_model_tree_recursive(Acc_80327A38 *acc, NJS_OBJECT *node, s32 id) {
+void count_scrolled_texture_strips(ScrolledStripTotals *acc, GinjaModel *model, s32 id);
+void visit_model_tree_recursive(ScrolledStripTotals *acc, NJS_OBJECT *node, s32 id) {
     do {
         if (node->model != NULL) {
-            fn_80327A38(acc, static_cast<GinjaModel *>(node->model), id);
+            count_scrolled_texture_strips(acc, static_cast<GinjaModel *>(node->model), id);
         }
         if (node->child != NULL) {
             visit_model_tree_recursive(acc, node->child, id);
@@ -17,7 +17,7 @@ void visit_model_tree_recursive(Acc_80327A38 *acc, NJS_OBJECT *node, s32 id) {
         node = node->sibling;
     } while (node != NULL);
 }
-void fn_80327A38(Acc_80327A38 *acc, GinjaModel *model, s32 id) {
+void count_scrolled_texture_strips(ScrolledStripTotals *acc, GinjaModel *model, s32 id) {
     s32 hit = 0;
     GinjaVertexArray *p;
     if (model->primary != 0 && has_texture_scroll_entry(model->primary, id) == 1) {

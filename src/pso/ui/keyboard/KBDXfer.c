@@ -240,7 +240,7 @@ void update_pressed_keys(KeyboardChannelState *state) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 push_key_to_queue(KeyboardChannelState *state, u8 key) {
+static inline s32 push_key_to_queue(KeyboardChannelState *state, u8 key) {
     if (state->count < 32) {
         state->key_queue[(state->head + state->count) & 31] = key;
         state->count++;
@@ -309,8 +309,8 @@ void update_key_events(s32 chan) {
 #pragma pop
 
 u8 get_keyboard_port_layout(s32 chan) {
-    u8 *entry = &keyboard_pad_state_table[0].type + (chan * sizeof(KeyboardChannelState));
-    return entry[offsetof(KeyboardChannelState, layout)];
+    KeyboardChannelState *state = &keyboard_pad_state_table[chan];
+    return state->layout;
 }
 
 void enable_keyboard_polling(s32 chan) {
@@ -335,7 +335,7 @@ void disable_channel_polling(s32 chan) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline u32 verify_keyboard_checksum(u32 *resp) {
+static inline u32 verify_keyboard_checksum(u32 *resp) {
     u32 sum;
     sum = resp[0] >> 24;
     sum ^= (u8)(resp[0] >> 16);

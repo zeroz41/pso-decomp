@@ -6,20 +6,43 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/unk/text_803DA798.h"
-#include "pso/unk/text_803DAF30.h"
+#include "pso/render/GinjaTextureHeader.h"
+#include "pso/system/TLanguage.h"
 #include "pso/unk/text_803DAFA8.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
+
+#pragma push
+#pragma scheduling off
+#pragma peephole off
+void swap_u32_bytes(u32 *word) {
+    u32 v = *word;
+    *word = ((v & 0xFF000000) >> 24) | ((v & 0xFF0000) >> 8) | ((v & 0xFF00) << 8) | ((v & 0xFF) << 24);
+}
+#pragma pop
+
+void set_texture_palette_bank(GinjaTextureState *texture, s32 bank) {
+    texture->tlut_name = bank;
+}
+
+// Callers outside render reach this as a TLanguage member (font and HUD palettes).
+#pragma push
+#pragma scheduling off
+#pragma peephole off
+void TLanguage::set_entry_index(s32 index, s32 bank) {
+    set_texture_palette_bank(current_render_context->textures->textures[index].texture, bank);
+}
+#pragma pop
 
 s32 load_gvpl_palette(GvplChunk *chunk, GvplPalette *palette) {
     s32 word;
     reset_texture_error();
     word = chunk->magic;
-    fn_803DAF30((u32 *)&word);
+    swap_u32_bytes((u32 *)&word);
     switch (word) {
     case 0x4C505647:
         word = chunk->size;
-        fn_803DAF30((u32 *)&word);
+        swap_u32_bytes((u32 *)&word);
         move_data(palette->data, chunk->data, word - 8);
         palette->pad_06 = chunk->pad_0A;
         palette->pad_08 = chunk->pad_0C;

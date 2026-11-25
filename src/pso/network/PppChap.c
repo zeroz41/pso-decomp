@@ -243,13 +243,13 @@ void chap_request_timeout(PppFsm *c) {
 #pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 chap_read_byte_slow(PppFrame **src) {
+static inline s32 chap_read_byte_slow(PppFrame **src) {
     if (ppp_buffer_read(src, &chap_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)chap_read_byte_buffer;
 }
-inline s32 chap_read_byte(PppFrame **src) {
+static inline s32 chap_read_byte(PppFrame **src) {
     s32 fast = 0;
     s32 valid = 0;
     if (src != NULL && *src != NULL) {
@@ -361,11 +361,11 @@ s16 chap_recv_response(PppFsm *fsm, PppHeader *header, PppFrame *source) {
 #pragma opt_common_subs on
 #pragma opt_propagation off
 #pragma opt_lifetimes off
-inline void chap_session_down(PppProtoBlocks *blocks) {
+static inline void chap_session_down(PppProtoBlocks *blocks) {
     update_connection_state(&blocks->chap);
     update_connection_state(&blocks->lcp);
 }
-inline PppChap *chap_options(PppFsm *connection) {
+static inline PppChap *chap_options(PppFsm *connection) {
     return (PppChap *)connection->opts;
 }
 

@@ -67,9 +67,6 @@ void TAdPlyChrSelPlateGC::render() {
     }
 }
 
-extern "C" {
-void copy_vec2__FPvPv(NJS_POINT2 *destination, const f32 *source);
-
 s32 TAdPlyChrSelPlateGC::is_slot_value_ready(s32 i) {
     return plate_progress[i] >= 127.5f ? 1 : 0;
 }
@@ -90,8 +87,8 @@ void TAdPlyChrSelPlateGC::reset_selection_slots() {
 
 void TAdPlyChrSelPlateGC::push_plate_position(const CharacterSlotPosition *position) {
     if ((s32)plate_count < 32) {
-        copy_vec2__FPvPv(&target_pos[plate_count], &position->x);
-        copy_vec2__FPvPv(&plate_pos[plate_count], &target_pos[0].x);
+        copy_vec2(&target_pos[plate_count], const_cast<CharacterSlotPosition *>(position));
+        copy_vec2(&plate_pos[plate_count], target_pos);
         plate_count = plate_count + 1;
     }
 }
@@ -141,8 +138,6 @@ void TAdPlyChrSelPlateGC::run_task() {
 }
 #pragma pop
 
-}
-
 TAdPlyChrSelPlateGC::~TAdPlyChrSelPlateGC() {}
 
 // The original loop advances one word through three separate arrays in the plate.
@@ -175,6 +170,6 @@ TAdPlyChrSelPlateGC::TAdPlyChrSelPlateGC(TObject *parent, const ChrSelPlateLayou
         state->color[i][2] = 0;
         state->color[i][3] = 0;
     }
-    copy_vec2__FPvPv(&plate_size, &layout->width);
+    copy_vec2(&plate_size, const_cast<ChrSelPlateLayout *>(layout));
     copy4(&active_color, layout->color);
 }

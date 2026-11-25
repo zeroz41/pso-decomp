@@ -40,7 +40,7 @@ struct SlimeAnimationState {
     NJS_OBJECT *second_model;
     NJS_TEXLIST *second_texture_list;
     AnimationMotion *second_motion;
-    u32 unknown24;
+    u32 pad_24;
     f32 speed;
     f32 frame_count;
     f32 frame;

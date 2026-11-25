@@ -210,7 +210,7 @@ static inline void bba_challenge(void) {
 
 /* The same writes as bba_outs/bba_out8 (0xC0000000 | reg << 8) and bba_cmd_out8 (0x4000 | reg << 8), with the
    command word passed in: bba_receive_next_frame's frame has these locals, not the bba_* ones. */
-inline void exi8_w32_16(u32 cmd, u16 val) {
+static inline void exi8_w32_16(u32 cmd, u16 val) {
     u16 v = val;
     u32 c = cmd;
     EXISelect(0, 2, 5);
@@ -220,7 +220,7 @@ inline void exi8_w32_16(u32 cmd, u16 val) {
     EXIDeselect(0);
 }
 
-inline void exi8_w16_8(u16 cmd, u8 val) {
+static inline void exi8_w16_8(u16 cmd, u8 val) {
     u8 v = val;
     u16 c = cmd;
     EXISelect(0, 2, 5);
@@ -231,7 +231,7 @@ inline void exi8_w16_8(u16 cmd, u8 val) {
     EXIDeselect(0);
 }
 
-inline void exi8_w32_8(u32 cmd, u8 val) {
+static inline void exi8_w32_8(u32 cmd, u8 val) {
     u8 v = val;
     u32 c = cmd;
     EXISelect(0, 2, 5);

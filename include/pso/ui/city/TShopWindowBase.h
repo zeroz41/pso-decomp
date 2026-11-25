@@ -7,6 +7,7 @@ class TObjPlayer;
 
 class TShopWindowBase : public TObject {
 public:
+    static const char *class_name;
     TShopWindowBase(TObject *parent);
     virtual ~TShopWindowBase();
     virtual void display_shop_message(s32 id, s32 flags);

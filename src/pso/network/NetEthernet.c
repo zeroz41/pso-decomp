@@ -114,7 +114,7 @@ s16 init_net_sockets(void) {
     return first;
 }
 
-inline EthSocket *find_socket(EthSocket *ent, s16 n, s16 dev, u16 type) {
+static inline EthSocket *find_socket(EthSocket *ent, s16 n, s16 dev, u16 type) {
     for (; n > 0; n--, ent++) {
         if (ent->used != 0 && ent->dev == dev && ent->type == type) {
             return ent;
@@ -196,7 +196,7 @@ u8 *dix_input(s16 dev, s16 mode, s16 length, EthernetFrameHeader *frame) {
     return NULL;
 }
 
-inline EthLink *find_link(EthernetState *g, s16 id) {
+static inline EthLink *find_link(EthernetState *g, s16 id) {
     EthLink *c = g->links;
     s16 n = g->nlinks;
     for (; n > 0; n--, c++) {

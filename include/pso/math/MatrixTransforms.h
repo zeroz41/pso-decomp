@@ -5,8 +5,9 @@
 #include <dolphin/mtx.h>
 struct Vec;
 
-void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1);
-void euler_zyx_to_quaternion(u8 *arg0, u8 *arg1);
+// Converts Ninja x/y/z angles (0x10000 = full turn) to a quaternion.
+void euler_yxz_to_quaternion(const s32 *ang, f32 *quat);
+void euler_zyx_to_quaternion(const s32 *ang, f32 *quat);
 extern "C" {
 // Translates matrix (the current matrix when NULL) by (x, y, z).
 void translate_matrix(MtxP matrix, f32 x, f32 y, f32 z);

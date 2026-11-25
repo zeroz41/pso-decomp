@@ -31,6 +31,7 @@ s32 adx_decode_stereo_blocks(s8 *src, s32 nblk, s16 *outl, s16 *dlyl, s16 *outr,
     }
 
 s32 decode_adx_stereo_downmix(s8 *src, s32 nblk, s16 *outl, s16 *dlyl, s16 *outr, s16 *dlyr, s16 k0, s16 k1) {
+    AdxFrame *frame;
     s32 l1;
     s32 i;
     s32 bl;
@@ -50,14 +51,15 @@ s32 decode_adx_stereo_downmix(s8 *src, s32 nblk, s16 *outl, s16 *dlyl, s16 *outr
     r2 = dlyr[1];
     n = nblk / 2;
     for (i = 0; i < n; i++) {
-        if (((AdxFrame *)src)->scale & 0x8000) {
+        frame = (AdxFrame *)src;
+        if (frame->scale & 0x8000) {
             return i * 2;
         }
-        scalel = (((AdxFrame *)src)->scale & 0x1FFF) + 1;
-        if (((AdxFrame *)src)[1].scale & 0x8000) {
+        scalel = (frame->scale & 0x1FFF) + 1;
+        if (frame[1].scale & 0x8000) {
             return i * 2;
         }
-        scaler = (((AdxFrame *)src)[1].scale & 0x1FFF) + 1;
+        scaler = (frame[1].scale & 0x1FFF) + 1;
         src += 2;
         for (j = 0; j < 16; j++) {
             bl = src[0];
@@ -100,6 +102,7 @@ s32 decode_adx_stereo_downmix(s8 *src, s32 nblk, s16 *outl, s16 *dlyl, s16 *outr
 }
 
 s32 decode_adx_stereo(s8 *src, s32 nblk, s16 *outl, s16 *dlyl, s16 *outr, s16 *dlyr, s16 k0, s16 k1) {
+    AdxFrame *frame;
     s32 l1;
     s32 r1;
     s32 i;
@@ -119,14 +122,15 @@ s32 decode_adx_stereo(s8 *src, s32 nblk, s16 *outl, s16 *dlyl, s16 *outr, s16 *d
     r2 = dlyr[1];
     n = nblk / 2;
     for (i = 0; i < n; i++) {
-        if (((AdxFrame *)src)->scale & 0x8000) {
+        frame = (AdxFrame *)src;
+        if (frame->scale & 0x8000) {
             return i * 2;
         }
-        scalel = (((AdxFrame *)src)->scale & 0x1FFF) + 1;
-        if (((AdxFrame *)src)[1].scale & 0x8000) {
+        scalel = (frame->scale & 0x1FFF) + 1;
+        if (frame[1].scale & 0x8000) {
             return i * 2;
         }
-        scaler = (((AdxFrame *)src)[1].scale & 0x1FFF) + 1;
+        scaler = (frame[1].scale & 0x1FFF) + 1;
         src += 2;
         for (j = 0; j < 16; j++) {
             bl = src[0];
@@ -167,6 +171,7 @@ s32 decode_adx_stereo(s8 *src, s32 nblk, s16 *outl, s16 *dlyl, s16 *outr, s16 *d
 }
 
 s32 decode_adx_mono_blocks(s8 *src, s32 nblk, s16 *out, s16 *dly, s16 k0, s16 k1) {
+    AdxFrame *frame;
     s32 i;
     s32 j;
     s32 d1;
@@ -178,10 +183,11 @@ s32 decode_adx_mono_blocks(s8 *src, s32 nblk, s16 *out, s16 *dly, s16 k0, s16 k1
     d1 = dly[0];
     d2 = dly[1];
     for (i = 0; i < nblk; i++) {
-        if (((AdxFrame *)src)->scale & 0x8000) {
+        frame = (AdxFrame *)src;
+        if (frame->scale & 0x8000) {
             return i;
         }
-        scale = (((AdxFrame *)src)->scale & 0x1FFF) + 1;
+        scale = (frame->scale & 0x1FFF) + 1;
         src += 2;
         for (j = 0; j < 16; j++) {
             b = *src;

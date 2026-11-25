@@ -6,6 +6,7 @@
 
 class TObjEneMe1Canadin_EffLine : public TObject {
 public:
+    static const char *name;
     TObjEneMe1Canadin_EffLine(TObject *parent, Vec *from, Vec *to);
     virtual ~TObjEneMe1Canadin_EffLine();
     virtual void run_task();

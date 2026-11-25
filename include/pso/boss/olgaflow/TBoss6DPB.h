@@ -13,7 +13,7 @@ public:
     TBoss6DPB(TObject *parent, const Vec *position, f32 radius);
     virtual ~TBoss6DPB();
     void apply_shower_damage_to_players();
-    void sub_8035D8B0();
+    void spawn_shower();
     virtual void run_task();
     virtual void render();
 public:

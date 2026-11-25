@@ -19,3 +19,6 @@ TAdFloorLoadGC::TAdFloorLoadGC(TObject *parent, s32 mode) : TObject(parent) {
     new TAdFloorLoadCamGC(this, mode);
     new TAdFloorLoadPrtGC(this);
 }
+
+void TAdFloorLoadGC::cleanup() {  }
+void TAdFloorLoadGC::setup() {  }

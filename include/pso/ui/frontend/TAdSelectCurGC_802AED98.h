@@ -7,10 +7,4 @@ extern "C" {
 void TLobby__sub_802AF198(void);
 }
 
-// --- C functions defined in TAdSelectCurGC_802AED98.cpp ---
-extern "C" {
-void TLobby__sub_802AF198(void);
-}
-// --- end of C functions
-
 #endif

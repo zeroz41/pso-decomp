@@ -19,13 +19,10 @@
 #include "pso/system/memory.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/render/GinjaDrawUtil.h"
+#include "pso/unk/text_803DD5E0.h"
 #include <dolphin/gx/GXBump.h>
 
 typedef void (TEffIndirectCtrl::*IndirectTask)();
-
-extern "C" {
-void load_texture_list(void *);
-}
 
 const char *indirect_dat_filename = "indirect.dat";
 const char *indinfo_dat_filename = "indinfo.dat";

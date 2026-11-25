@@ -18,7 +18,7 @@ extern "C" {
 }
 
 const char *TObjEneDellBiter_Eff_Rush__name = "TObjEneDellBiter_Eff_Rush";
-const char *TObjEneDellBiter_Eff_TpAbsorb1__class_name = "TObjEneDellBiter_Eff_TpAbsorb1";
+const char *TObjEneDellBiter_Eff_TpAbsorb1::class_name = "TObjEneDellBiter_Eff_TpAbsorb1";
 extern const AreaAttackContact dell_biter_tp_absorb_hit_params = {3.0f, 3};
 extern const DirectAttackPayload dell_biter_tp_absorb_attack = {0, 20.0f};
 
@@ -75,7 +75,7 @@ void TObjEneDellBiter_Eff_Rush::render() {}
 TObjEneDellBiter_Eff_TpAbsorb1::TObjEneDellBiter_Eff_TpAbsorb1(
     TObject *parent, TObjBase *owner, const Vec *origin, s32 angle, AreaAttackHistory *history, f32 attack_power)
     : TAttackCollider(parent, owner) {
-    m_name = TObjEneDellBiter_Eff_TpAbsorb1__class_name;
+    m_name = TObjEneDellBiter_Eff_TpAbsorb1::class_name;
     power = attack_power;
     distance = 0.0f;
     sample_distance = 0.0f;

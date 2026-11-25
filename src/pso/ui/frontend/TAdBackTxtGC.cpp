@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/ModelDrawContext.h"
@@ -10,29 +11,27 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
 
+extern const char *TAdBackTxtGC__name;
 
-extern "C" {
-void begin_screen_draw(s32 mode);
-s32 draw_textured_quad_at_depth(void *, f32, f32, f32);
-void set_draw_texture_and_color(s32 idx, s32 color);
 NJS_TEXLIST *TAdBackTxtGC::backtext_texture_list;
-void TAdBackTxtGC::draw_character_background_frame(s32 arg1, s32 color) {
-  f32 buffer_8[8];
-  begin_screen_draw(1);
-  TObjFish::set_global_param(TAdBackTxtGC::backtext_texture_list);
-  set_draw_texture_and_color(arg1, color);
-  buffer_8[0] = 0.0f;
-  buffer_8[1] = 0.0f;
-  buffer_8[2] = 639.0f;
-  buffer_8[3] = 479.0f;
-  buffer_8[4] = 0.0f;
-  buffer_8[5] = 0.0f;
-  buffer_8[7] = (buffer_8[6] = 1.0f);
-  draw_textured_quad_at_depth(&buffer_8[0], m_depth, 639.0f, 0.0f);
-  TWindowSubStatusDisp::get_player();
+
+void TAdBackTxtGC::draw_character_background_frame(s32 texture_index, s32 color) {
+    f32 quad[8];
+    begin_screen_draw(1);
+    TObjFish::set_global_param(backtext_texture_list);
+    set_draw_texture_and_color(texture_index, color);
+    quad[0] = 0.0f;
+    quad[1] = 0.0f;
+    quad[2] = 639.0f;
+    quad[3] = 479.0f;
+    quad[4] = 0.0f;
+    quad[5] = 0.0f;
+    quad[6] = 1.0f;
+    quad[7] = 1.0f;
+    draw_textured_quad_at_depth(quad, m_depth);
+    TWindowSubStatusDisp::get_player();
 }
 
-#pragma readonly_strings on
 void TAdBackTxtGC::render() {
     if (render_direct == 0) {
         if (defer_render() != 0) {
@@ -60,9 +59,6 @@ void TAdBackTxtGC::run_task() {
     frame = frame + 1;
 }
 
-extern const char *TAdBackTxtGC__name;
-
-}
 TAdBackTxtGC::~TAdBackTxtGC() {
 
 }
@@ -74,11 +70,12 @@ TAdBackTxtGC::TAdBackTxtGC(TObject *parent) : TObject(parent) {
     render_direct = 1;
 }
 
-    NJS_TEXNAME lbl_804DC098[5] = {
-        { "f256_backtext01", 0, 0 }, { "f256_backtext02", 0, 0 }, { "f256_backtext03", 0, 0 },
-        { "f256_backtext04", 0, 0 }, { "f256_backtext05", 0, 0 },
-    };
-    __declspec(section ".data") NJS_TEXLIST TAdBackTxtGC_backtext_tex_list = { lbl_804DC098, 5 };
+#pragma readonly_strings on
+NJS_TEXNAME TAdBackTxtGC_backtext_tex_names[5] = {
+    { "f256_backtext01", 0, 0 }, { "f256_backtext02", 0, 0 }, { "f256_backtext03", 0, 0 },
+    { "f256_backtext04", 0, 0 }, { "f256_backtext05", 0, 0 },
+};
+__declspec(section ".data") NJS_TEXLIST TAdBackTxtGC_backtext_tex_list = { TAdBackTxtGC_backtext_tex_names, 5 };
 const char *TAdBackTxtGC__name = "TAdBackTxtGC";
 
 void TAdSinglePlyChrSelectGC::free_singleton_805D65C0() {

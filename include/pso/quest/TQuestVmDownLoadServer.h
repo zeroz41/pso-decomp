@@ -84,7 +84,6 @@ public:
     static s32 is_ready();
     static s32 get_serial_access();
     static s32 poll_serial_access();
-    static void destroy_instance();
     static void reset_download();
     static s32 reset_download_buffers(saddr *);
     static s32 poll_download_status(saddr *);

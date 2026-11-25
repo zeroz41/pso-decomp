@@ -15,18 +15,16 @@
 // The colour a flash fades back to (update_flash_color reads r, g and b).
 static const NJS_ARGB joint_base_color = {1.0f, 1.0f, 1.0f, 1.0f};
 // The colours start_flash fades from: [0] a hit on the shell, [1] a photon pad spawning at the joint.
-static const NJS_ARGB TBoss2Joint__joint_offset_vec4_table[2] = {
+static const NJS_ARGB joint_flash_colors[2] = {
     {1.0f, 0.0f, 1.0f, 1.0f},
     {1.0f, 0.0f, 1.0f, 0.0f},
 };
 const char *TBoss2Joint::name = "TBoss2Joint";
 static const u32 joint_white_rgb = 0x00FFFFFF;
 
-// Lobby stat ids, [0] for the intact shell and [1] for the broken one: register_boss,
-// dispatch_shared_handler_b and register_object read one table each.
-__declspec(section ".data") s32 TBoss2Joint__param_table[2] = {0x10, 0x10};
-__declspec(section ".data") s32 TBoss2Joint__attack_stats[2] = {0xF, 0xF};
-__declspec(section ".data") s32 TBoss2Joint__resistance_stats[2] = {0x10, 0x10};
+__declspec(section ".data") s32 TBoss2Joint::param_table[2] = {0x10, 0x10};
+__declspec(section ".data") s32 TBoss2Joint::attack_stats[2] = {0xF, 0xF};
+__declspec(section ".data") s32 TBoss2Joint::resistance_stats[2] = {0x10, 0x10};
 BossMovementParameters TBoss2Joint::movement = {{225.0f, 0.0f, 0x600}};
 CollisionBody TBoss2Joint::body = {{0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, 0, 0x8003};
 
@@ -95,15 +93,15 @@ void TBoss2Joint::update_flash_color() {
 
 void TBoss2Joint::start_flash(s32 kind) {
     flash = 1.0f;
-    copy_argb(&flash_color, (NJS_ARGB *)&TBoss2Joint__joint_offset_vec4_table[kind]);
+    copy_argb(&flash_color, (NJS_ARGB *)&joint_flash_colors[kind]);
 }
 
 // Breaks the shell: marks it broken, reloads the broken stats and throws the breakup pieces.
 void TBoss2Joint::break_shell() {
     joint_flags |= SHELL_BROKEN;
-    reload_stats_keep_hp_tp(TLobby::register_boss(TBoss2Joint__param_table[1]),
-                            TLobby::dispatch_shared_handler_b(TBoss2Joint__attack_stats[1]),
-                            TLobby::register_object(TBoss2Joint__resistance_stats[1]));
+    reload_stats_keep_hp_tp(TLobby::register_boss(param_table[1]),
+                            TLobby::dispatch_shared_handler_b(attack_stats[1]),
+                            TLobby::register_object(resistance_stats[1]));
     hp = 0x4E20;
     hpmax = 0x4E20;
     new TBoss2JointBreakUp(this, &position);
@@ -187,8 +185,8 @@ void TBoss2Joint::init_params() {
     model = NULL;
     texlist = 0;
     init_model(&TBoss2Joint::body, 1);
-    reset_hp(TLobby::register_boss(TBoss2Joint__param_table[0]), TLobby::dispatch_shared_handler_b(TBoss2Joint__attack_stats[0]),
-             TLobby::register_object(TBoss2Joint__resistance_stats[0]));
+    reset_hp(TLobby::register_boss(param_table[0]), TLobby::dispatch_shared_handler_b(attack_stats[0]),
+             TLobby::register_object(resistance_stats[0]));
     hp = 0x4E20;
     hpmax = 0x4E20;
     set_state_flag_2();
@@ -203,7 +201,7 @@ void TBoss2Joint::init_params() {
     color = 0xFFFFFFFF;
     unk_3a4 = 1.0f;
     flash = 0.0f;
-    copy_argb(&flash_color, (NJS_ARGB *)TBoss2Joint__joint_offset_vec4_table);
+    copy_argb(&flash_color, (NJS_ARGB *)joint_flash_colors);
 }
 #pragma pop
 

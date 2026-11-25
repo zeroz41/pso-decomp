@@ -68,7 +68,7 @@ void TObjBoss1Rock::run_task() {
 
 TObjBoss1Rock::~TObjBoss1Rock() {}
 
-void TObjBoss1Rock::sub_8002E1CC(const Vec *pos, const Vec *vel, s32 kind) {
+void TObjBoss1Rock::init(const Vec *pos, const Vec *vel, s32 kind) {
     m_name = TObjBoss1Rock::name;
     VecCopy(&m_position, pos);
     VecCopy(&m_velocity, vel);
@@ -87,7 +87,7 @@ void TObjBoss1Rock::sub_8002E1CC(const Vec *pos, const Vec *vel, s32 kind) {
 }
 
 TObjBoss1Rock::TObjBoss1Rock(TObject *parent, const Vec *pos, const Vec *vel, s32 kind) : TObject(parent) {
-    sub_8002E1CC(pos, vel, kind);
+    init(pos, vel, kind);
 }
 
 TObjBoss1Rock::TObjBoss1Rock(TObject *parent, const Vec *pos, const Vec *vel) : TObject(parent) {
@@ -97,7 +97,7 @@ TObjBoss1Rock::TObjBoss1Rock(TObject *parent, const Vec *pos, const Vec *vel) : 
     } else {
         kind = 1;
     }
-    sub_8002E1CC(pos, vel, kind);
+    init(pos, vel, kind);
 }
 
 void TObjBoss1Rock__sub_8002E3CC(void) {}

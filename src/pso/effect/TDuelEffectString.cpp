@@ -14,9 +14,6 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/sprite/TQuadSprite.h"
 
-extern "C" {
-}
-
 const char *TDuelEffectString::class_name = "TDuelEffectString";
 
 extern const DuelEffectQuad duel_start_banner_layout = { -96.0f, -24.0f, 192.0f, 48.0f, 64.0f, 133.0f };
