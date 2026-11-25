@@ -6,7 +6,7 @@ SubtractiveRng::SubtractiveRng(u32 seed) {
 }
 
 extern "C" {
-u32 subtractive_rng_next(void *self);
+u32 subtractive_rng_next(void *rng);
 
 s32 __ct__14SubtractiveRngFv(void* rng) {
     subtractive_rng_seed(rng, 0);

@@ -11,7 +11,7 @@ struct SubtractiveRngSeedR { s32 f0; s32 tbl[55]; s32 fe0; s32 fe4; };
 extern "C" {
 void subtractive_rng_refill(SubtractiveRngNextCrypt *c);
 void subtractive_rng_seed(SubtractiveRngSeedR *rng, s32 arg1);
-u16 subtractive_rng_range(void *self, u16 x);
+u16 subtractive_rng_range(void *rng, u16 x);
 u8 save_block_shuffle_permutation[256];
 u8 save_block_unshuffle_permutation[256];
 
@@ -71,15 +71,15 @@ void subtractive_rng_xor_buffer(s32 *self, u32 *data, s32 len) {
     }
 }
 
-s32 subtractive_rng_next(s32 *arg0) {
-    s32 temp_r4;
-    temp_r4 = *arg0;
-    *arg0 = temp_r4 + 1;
-    if (temp_r4 + 1 > 0x37) {
-        subtractive_rng_refill((SubtractiveRngNextCrypt *)(arg0));
-        *arg0 = 1;
+s32 subtractive_rng_next(s32 *rng) {
+    s32 pos;
+    pos = *rng;
+    *rng = pos + 1;
+    if (pos + 1 > 0x37) {
+        subtractive_rng_refill((SubtractiveRngNextCrypt *)(rng));
+        *rng = 1;
     }
-    return arg0[*arg0 + 1];
+    return rng[*rng + 1];
 }
 void subtractive_rng_refill(SubtractiveRngNextCrypt *c) {
     s32 i;

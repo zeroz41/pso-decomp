@@ -81,12 +81,12 @@ void add_angle_clamped(s32 *value, s32 step, s32 limit) {
     }
 }
 
-void advance_angle_wrap(s32 *arg0, s32 blade_speed) {
-    s32 temp_r4;
-    *arg0 += blade_speed;
-    temp_r4 = *arg0;
-    if (temp_r4 >= 0x10000) {
-        *arg0 = temp_r4 + 0xFFFF0000;
+void advance_angle_wrap(s32 *angle, s32 blade_speed) {
+    s32 wrapped;
+    *angle += blade_speed;
+    wrapped = *angle;
+    if (wrapped >= 0x10000) {
+        *angle = wrapped + 0xFFFF0000;
     }
 }
 
