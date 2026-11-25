@@ -253,8 +253,8 @@ void init_gx_lighting_defaults(void) {
 
 void init_game_systems(void) {
     VideoSystemConfig cfg;
-    u32 lo;
-    u32 hi;
+    uaddr lo;
+    uaddr hi;
     u32 size;
     uaddr start;
 
@@ -264,8 +264,8 @@ void init_game_systems(void) {
     VIInit();
     PADInit();
     reset_projection_state();
-    lo = (u32)OSGetArenaLo();
-    hi = (u32)OSGetArenaHi();
+    lo = (uaddr)OSGetArenaLo();
+    hi = (uaddr)OSGetArenaHi();
     cfg.render_mode = NULL;
     cfg.render_mode = &GXNtsc480IntDf;
     cfg.present_interval = 2;
