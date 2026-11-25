@@ -2871,11 +2871,8 @@ pso/unk/TLobby_80131794.cpp:
 	.sdata2     start:0x805DB070 end:0x805DB078
 
 pso/ui/keyboard/TKeyBoardControlLayout.cpp:
-	.text       start:0x80131998 end:0x80131BC4
+	.text       start:0x80131998 end:0x80131C58
 	.sdata2     start:0x805DB078 end:0x805DB080
-
-pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp:
-	.text       start:0x80131BC4 end:0x80131C58
 
 pso/ui/keyboard/KeyboardControlTask.cpp:
 	.text       start:0x80131C58 end:0x80131F5C
