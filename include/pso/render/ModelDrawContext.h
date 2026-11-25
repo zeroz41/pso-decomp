@@ -7,7 +7,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-void apply_cached_blend_mode(s32 arg0);
+void apply_cached_blend_mode(s32 enable_blend);
 // Draws a model posed by motion at the given frame.
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 #ifdef __cplusplus

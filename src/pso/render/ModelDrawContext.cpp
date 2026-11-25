@@ -170,11 +170,11 @@ void set_color_blending_mode(s32 target, s32 mode) {
     }
 }
 
-void apply_cached_blend_mode(s32 arg0) {
+void apply_cached_blend_mode(s32 enable_blend) {
     u32 v = current_render_context->blend_mode;
     int src = cached_blend_factor_table[(v & 0xE0000000) >> 29];
     int dst = cached_blend_factor_table[(v & 0x1C000000) >> 26];
-    if (arg0 != 0) {
+    if (enable_blend != 0) {
         GXSetBlendMode(GX_BM_BLEND, (GXBlendFactor)src, (GXBlendFactor)dst, GX_LO_CLEAR);
     } else {
         GXSetBlendMode(GX_BM_NONE, (GXBlendFactor)src, (GXBlendFactor)dst, GX_LO_CLEAR);
