@@ -395,14 +395,14 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
     a.y = lbl_805DFBA8;
     b.x = lbl_805DFB60;
     b.y = lbl_805DFBA8;
-    strings[0] = create_word_select_string(lbl_805DFBAC, &a.x, &b.x, (u32) lbl_805D6E64, 4);
+    strings[0] = create_word_select_string(lbl_805DFBAC, &a.x, &b.x, (uaddr) lbl_805D6E64, 4);
   }
   {
     a.x = lbl_805DFBB0;
     a.y = lbl_805DFBB4;
     b.x = lbl_805DFB64;
     b.y = lbl_805DFBB4;
-    strings[1] = create_word_select_string(lbl_805DFBB8, &a.x, &b.x, (u32) lbl_805D6E6C, 4);
+    strings[1] = create_word_select_string(lbl_805DFBB8, &a.x, &b.x, (uaddr) lbl_805D6E6C, 4);
   }
   {
     a.x = lbl_805DFBD0;
