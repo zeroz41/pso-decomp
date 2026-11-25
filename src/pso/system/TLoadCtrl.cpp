@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80228154.h"
+#include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/frontend/TAdFloorLoadGC.h"
@@ -18,41 +19,40 @@
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TNowLoading.h"
 
-uaddr TLoadCtrl__instance;
+TLoadCtrl *TLoadCtrl::instance;
 
-void TLoadCtrl::set_field1C(s32 arg0) {
-    if ((void *) TLoadCtrl__instance != NULL) {
-        *(s32 *)((s8 *)TLoadCtrl__instance + 0x1C) = arg0;
+void TLoadCtrl::set_field1C(s32 poll_input) {
+    if (instance != NULL) {
+        instance->m_poll_input = poll_input;
     }
 }
 
-struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
+s32 TLoadCtrl::loading_mode;
 
 extern "C" {
-s32 TLoadCtrl__loading_mode;
-saddr load_ctrl_fade_task;
+// Starts the loading music stream of the given index (0-3).
 void TLoadCtrl__sub_80226DA0(s32 index);
 }
-void update_sound_request_slots(void);
-extern "C" {
+
+TAdFadeGC *load_ctrl_fade_task;
 
 BOOL TLoadCtrl::is_loading() {
-    return TLoadCtrl__instance ? TRUE : FALSE;
+    return instance ? TRUE : FALSE;
 }
 
 void TLoadCtrl::render() {  }
 
-const char *TLoadCtrl__class_name = "TLoadCtrl";
-const Vec now_loading_pos = {0.0f, 0.0f, -100.0f}; // inferred: the TNowLoading constructor copies it to TNowLoading::m_position
+const char *TLoadCtrl::class_name = "TLoadCtrl";
+// The TNowLoading constructor copies it to TNowLoading::m_position.
+const Vec now_loading_pos = {0.0f, 0.0f, -100.0f};
 
 void TLoadCtrl::run_task() {
-    Obj_8001C620 *self = (Obj_8001C620 *)this;
-    if (TLoadCtrl__instance != 0U) {
-        if ((u32)load_ctrl_fade_task != 0U && ((TObject *)load_ctrl_fade_task)->all_parents_unqueued_for_destruction() == 0) {
-            load_ctrl_fade_task = 0;
+    if (instance != NULL) {
+        if (load_ctrl_fade_task != NULL && load_ctrl_fade_task->all_parents_unqueued_for_destruction() == 0) {
+            load_ctrl_fade_task = NULL;
         }
-        if (++self->f20 == 2) {
-            switch (TLoadCtrl__loading_mode) {
+        if (++m_frame_count == 2) {
+            switch (loading_mode) {
             case 0:
                 new TNowLoading(this, (Vec *)&now_loading_pos);
                 break;
@@ -69,49 +69,45 @@ void TLoadCtrl::run_task() {
                 break;
             }
         }
-        if (self->f1c != 0) {
+        if (m_poll_input != 0) {
             controller_stuff();
             TKeyBoardControl::update_input_frame();
         }
         update_sound_request_slots();
-        Vec a = {0.0f, 0.0f, 0.0f};
-        Vec b = {0.0f, 0.0f, -1.0f};
+        Vec position = {0.0f, 0.0f, 0.0f};
+        Vec target = {0.0f, 0.0f, -1.0f};
         activate_camera_mode(9);
-        set_active_camera_pose(&a, &b);
+        set_active_camera_pose(&position, &target);
     }
 }
 
 TLoadCtrl::~TLoadCtrl() {
-    if ((void *) (*(u8 * *)&load_ctrl_fade_task) != NULL) {
-        ((TObject *)(*(u8 * *)&load_ctrl_fade_task))->queue_destruction();
-        (*(u8 * *)&load_ctrl_fade_task) = NULL;
+    if (load_ctrl_fade_task != NULL) {
+        load_ctrl_fade_task->queue_destruction();
+        load_ctrl_fade_task = NULL;
     }
-    if ((u32) TLoadCtrl__instance != 0U) {
-        TLoadCtrl__instance = 0U;
+    if (instance != NULL) {
+        instance = NULL;
     }
 }
 
-}
 TLoadCtrl::TLoadCtrl(TObject *parent) : TObject(parent) {
-    this->m_1c = 1;
-    load_ctrl_fade_task = 0;
-    this->m_20 = 0;
-    this->m_name = TLoadCtrl__class_name;
-    if (((u32)TLoadCtrl__loading_mode == 0U) || ((u32)TLoadCtrl__loading_mode == 1U)) {
-        load_ctrl_fade_task = (saddr)new TAdFadeGC(tl_fade, 2);
+    m_poll_input = 1;
+    load_ctrl_fade_task = NULL;
+    m_frame_count = 0;
+    m_name = class_name;
+    if ((u32)loading_mode == 0 || (u32)loading_mode == 1) {
+        load_ctrl_fade_task = new TAdFadeGC(tl_fade, 2);
     }
 }
-extern "C" {
 
 void TLoadCtrl::cleanup_scene() {
-    uaddr t;
-
-    t = TLoadCtrl__instance;
-    if (t != 0U) {
-        ((TObject *)t)->queue_destruction();
-        TLoadCtrl__instance = 0U;
+    TLoadCtrl *load_ctrl = instance;
+    if (load_ctrl != NULL) {
+        load_ctrl->queue_destruction();
+        instance = NULL;
     }
-    switch (TLoadCtrl__loading_mode) {
+    switch (loading_mode) {
     case 0:
         TLobby::release_bgm_resource();
         TNowLoading::cleanup();
@@ -137,24 +133,20 @@ void TLoadCtrl::cleanup_scene() {
     TCameraCtrl::create();
 }
 
-void TLoadCtrl::start_loading(u32 arg0) {
-    s32 temp_r3;
-    u8 *load_ctrl;
-    u32 var_r31;
-    var_r31 = arg0;
+void TLoadCtrl::start_loading(u32 mode) {
     TCameraCtrl::reset_view_state();
     TCameraCtrl::init_default_view();
-    if (var_r31 == 2U) {
-        temp_r3 = select_area_entrance(&floor_transition_state);
-        if (temp_r3 == 0) {
-            var_r31 = 3U;
-        } else if (temp_r3 == 1) {
-            var_r31 = 4U;
+    if (mode == 2) {
+        s32 entrance = select_area_entrance(&floor_transition_state);
+        if (entrance == 0) {
+            mode = 3;
+        } else if (entrance == 1) {
+            mode = 4;
         } else {
-            var_r31 = 0U;
+            mode = 0;
         }
     }
-    switch ((s32) var_r31) {
+    switch ((s32)mode) {
     case 0:
         TNowLoading::setup();
         break;
@@ -166,8 +158,8 @@ void TLoadCtrl::start_loading(u32 arg0) {
         TAdFloorLoadGC::setup();
         break;
     }
-    TLoadCtrl__loading_mode = (s32) var_r31;
-    switch ((s32) var_r31) {
+    loading_mode = mode;
+    switch ((s32)mode) {
     case 2:
         break;
     case 0:
@@ -184,9 +176,7 @@ void TLoadCtrl::start_loading(u32 arg0) {
         break;
     }
     new TCameraCtrl(tl_camera);
-    load_ctrl = (u8 *)new TLoadCtrl(tl_su);
-    TLoadCtrl__instance = (uaddr) load_ctrl;
+    instance = new TLoadCtrl(tl_su);
 }
 
-void TLoadCtrl::poll_default() { TLoadCtrl::start_loading((uaddr)((void*)(0))); }
-}
+void TLoadCtrl::poll_default() { start_loading(0); }
