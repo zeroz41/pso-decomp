@@ -1081,7 +1081,6 @@ pso/ui/window/TWindowChallengeResult.cpp
 pso/ui/chat/TWindowChat.cpp
 pso/ui/chat/TWindowChatSymbol.cpp
 pso/ui/chat/TSymbolChatMenu.cpp
-pso/ui/chat/TWindowChat_8025CB10.cpp
 pso/ui/window/TWindowCheckBox.cpp
 pso/ui/window/TWindowChoiceSetting.cpp
 pso/ui/window/TWindowChoiceSetting_80249610.cpp

@@ -6151,11 +6151,8 @@ pso/ui/window/TWindowKeyBoardBase_8025B85C.cpp:
 	.text       start:0x8025B85C end:0x8025CB10
 	.sdata2     start:0x805DD030 end:0x805DD036
 
-pso/ui/chat/TWindowChat_8025CB10.cpp:
-	.text       start:0x8025CB10 end:0x8025CB70
-
 pso/ui/keyboard/WindowKeyBoardMode.cpp:
-	.text       start:0x8025CB70 end:0x8025CD10
+	.text       start:0x8025CB10 end:0x8025CD10
 
 pso/unk/text_8025CD10.cpp:
 	.text       start:0x8025CD10 end:0x8025CD44
