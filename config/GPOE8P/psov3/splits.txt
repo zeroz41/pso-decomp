@@ -5417,15 +5417,12 @@ pso/ui/city/TMedicalCenterSequence.cpp:
 	.sdata2     start:0x805DC688 end:0x805DC690
 
 pso/quest/TQuestListOffline.cpp:
-	.text       start:0x80216B44 end:0x802173F0
+	.text       start:0x80216B44 end:0x80217454
 	.rodata     start:0x8044BDA0 end:0x8044BEB0
 	.data       start:0x804C9900 end:0x804C9CE8
 	.sdata      start:0x805D3680 end:0x805D3684
 	.sbss       start:0x805D61D8 end:0x805D61DC
 	.sdata2     start:0x805DC690 end:0x805DC6A0
-
-pso/unk/TLobby_802173F0.cpp:
-	.text       start:0x802173F0 end:0x80217454
 
 pso/ui/city/TShopWindowBase_80217454.cpp:
 	.text       start:0x80217454 end:0x80217464

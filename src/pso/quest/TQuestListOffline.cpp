@@ -13,6 +13,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/network/TLobby.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_80222C28.h"
@@ -61,6 +62,19 @@ OfflineQuestEntry lbl_804C9C10[5] = {
 const char *TQuestListOffline__class_name = "TQuestListOffline";
 
 void *story_quest_list_resource;
+
+void TLobby::clear_flag_if_not_split_screen() {
+    if (TRaderMapCore::is_not_split_screen() != 1) {
+        story_quest_list_resource = NULL;
+    }
+}
+
+void TLobby::free_global() {
+    if (story_quest_list_resource != NULL) {
+        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(story_quest_list_resource));
+        story_quest_list_resource = NULL;
+    }
+}
 
 TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player)
     : TShopWindowBase(parent) {
