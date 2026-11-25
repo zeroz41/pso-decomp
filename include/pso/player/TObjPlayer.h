@@ -250,7 +250,7 @@ struct TObjPlayer : public TObjChara {
     u8 unk_408[0x4];
     f32 m_40c;
     Vec ground_normal;
-    FlagWord pending_actions;  // (name inferred) action bits apply_pending_action copies into the save record
+    FlagWord pending_actions;  // action bits apply_pending_action copies into the save record
     u8 unk_420[0x4];
     TLockOnCursor *lock_on_cursor;  // created by create_lockon_cursor for local players
     PlayerTechniqueState technique_state;
