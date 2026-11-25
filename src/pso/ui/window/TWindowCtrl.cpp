@@ -255,9 +255,8 @@ struct TWindowCtrl_8024C308 {
     u8 f94[4];
 };
 
-extern "C" {
 
-void *__ct__11TWindowChatFP7TObjectPv(void *, TObject *, void *);
+extern "C" {
 
 void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
 
@@ -465,11 +464,7 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     p = new TWindowBreakIn();
     self->f2C = p;
     if (is_split_screen() == 0) {
-        p = TObject::operator new(0x3C);
-        if (p != NULL) {
-            p = __ct__11TWindowChatFP7TObjectPv(p, tl_00, self->f94);
-        }
-        self->f38 = p;
+        self->f38 = new TWindowChat(tl_00, self->f94);
         ((TWindowCtrl *)(self->f38))->set_flag1e_bit40();
     }
     if (is_split_screen() != 0) {
