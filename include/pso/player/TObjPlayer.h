@@ -366,9 +366,6 @@ struct TObjPlayer : public TObjChara {
     static f32 calc_distance_to_client(const TObjBase *actor, u16 client, Vec *delta);
     s16 get_class_id();
     s16 get_item_index();
-    void bswap_head16();
-    void send_head();
-    void init_packet_9a();
     s32 get_floor();
     s32 is_on_current_floor();
     s32 get_area();

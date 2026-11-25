@@ -156,8 +156,6 @@ struct Stack_80010B44 {
     s32 sp10;
 };
 
-struct Pkt_80010DE8 { u8 f0; u8 f1; u16 f2; u16 f4; u8 f6; u8 f7; };
-struct Obj_80010DE8 { u8 pad[0x1c]; u16 f1c; };
 
 struct O_80011704 { u8 pad[0x1c]; u16 f1c; };
 
@@ -207,7 +205,6 @@ struct ObjFlags {
     u32 flags_30;
 };
 
-struct O_80019664 { u8 f0; u8 f1; u8 pad[2]; u16 f4; u8 f6; u8 f7; };
 
 extern "C" {
 s32 select_destination_away_from(TObjChara *chara, Vec point);
@@ -222,7 +219,6 @@ s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
 void * find_entity_by_id(s32 id);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
-int bswap_16__FPUs(void*);
 u32 __nw__7TObjectFUl(s32);
 void matrix_mult_vec(s32, void *, void *);
 extern const f64 TObjPlayer__data_804340B8;
@@ -329,20 +325,25 @@ bool is_split_screen(void) {
     return camera_split_screen_selector != 1;
 }
 
-void TObjPlayer::init_packet_9a() {
-    O_80019664 *self = (O_80019664 *)this;
-    self->f4 = 0xFFFF;
-    self->f6 = 0;
-    self->f7 = 0;
-    self->f0 = 0x9a;
-    self->f1 = 2;
+void G_UpdateEntityStat_6x9A::init() {
+    entity_index = 0xFFFF;
+    what = 0;
+    amount = 0;
+    header.subcommand = 0x9A;
+    header.size = sizeof(G_UpdateEntityStat_6x9A) / 4;
 }
 
-void TObjPlayer::send_head() { bswap_head16(); send_subcommand(this); }
+void G_UpdateEntityStat_6x9A::send() {
+    bswap();
+    send_subcommand(this);
+}
 
 void G_ClientIDHeader::bswap() { bswap_16(&client_id); }
 
-void TObjPlayer::bswap_head16() { ((G_ClientIDHeader *)this)->bswap(); bswap_16__FPUs((char*)this + 0x4); }
+void G_UpdateEntityStat_6x9A::bswap() {
+    header.bswap();
+    bswap_16(&entity_index);
+}
 
 void TObjBase::set_actor_flags(s32 flags) {
     actorFlags |= flags;
@@ -3310,13 +3311,13 @@ void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage) {
 void empty_post_damage_hook(void *defender, void *attacker) {  }
 
 void TObjChara::send_update_entity_stat(u16 target, s32 which, s32 amount) {
-    Pkt_80010DE8 pkt;
-    ((TObjPlayer *)(&pkt))->init_packet_9a();
-    pkt.f2 = ((Obj_80010DE8 *)this)->f1c;
-    pkt.f4 = target;
-    pkt.f6 = which;
-    pkt.f7 = amount;
-    ((TObjPlayer *)(&pkt))->send_head();
+    G_UpdateEntityStat_6x9A pkt;
+    pkt.init();
+    pkt.header.client_id = entity_id;
+    pkt.entity_index = target;
+    pkt.what = which;
+    pkt.amount = amount;
+    pkt.send();
 }
 
 void handle_6x9A_update_entity_stat(G_UpdateEntityStat_6x9A *command) {
@@ -3326,11 +3327,11 @@ void handle_6x9A_update_entity_stat(G_UpdateEntityStat_6x9A *command) {
     if (command == NULL) {
         return;
     }
-    ((TObjPlayer *)command)->bswap_head16();
-    if (command->header.entity_id >= 0x1000U) {
+    command->bswap();
+    if (command->header.client_id >= 0x1000U) {
         return;
     }
-    player = reinterpret_cast<saddr>(get_player_by_client_id(command->header.entity_id));
+    player = reinterpret_cast<saddr>(get_player_by_client_id(command->header.client_id));
     if (player == 0) {
         return;
     }

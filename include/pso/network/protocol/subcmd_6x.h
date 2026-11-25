@@ -1375,11 +1375,16 @@ struct G_UpdateAttackableColState_6x91 : G_UpdateObjectState_6x0B {
  void send();
 };
 
+// 6x9A: a player's HP, TP or meseta changes; the header carries the player's client id.
 struct G_UpdateEntityStat_6x9A {
- struct G_EntityIDHeader header;
+ struct G_ClientIDHeader header;
  u16 entity_index;
  u8 what;
  u8 amount;
+ // Clears the packet and sets its header (subcommand 0x9A, size 2).
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_UpdateQuestFlag_DC_PC_6x75 {
