@@ -78,7 +78,9 @@ TObjMotionAction bm3_flynest_hit_action_table[10] = {
 };
 static const s32 bm3_fly_nest_attachment_sample_table[8] = { 2, 4, 9, 11, 16, 18, 24, 26 };
 const char *bm3_fly_nest_class_name = "TObjEneBm3FlyNest";
+}
 const char *TObjEneBm3FlyNest_CarryFly::name = "TObjEneBm3FlyNest_CarryFly";
+extern "C" {
 struct Bm3FlyNestVertexList {
     f32 *vertices;
     s32 *indices;
