@@ -19,6 +19,8 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 #pragma readonly_strings on
 
@@ -33,8 +35,6 @@ void *TAdEp3Exist::vfunc_6() {
 }
 
 extern "C" {
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
-u32 calc_text_width(char *s);
 
 
 void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {

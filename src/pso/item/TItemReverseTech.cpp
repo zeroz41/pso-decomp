@@ -60,9 +60,6 @@ static const f32 lbl_805DAC0C[1] = {480.0f};
 const char *TItemReverseTech__name = "TItemReverseTech";
 
 
-void activate_fast_rotation_code(void);
-void activate_reverse_rotation_code(void);
-void activate_uraending_code(void);
 TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},

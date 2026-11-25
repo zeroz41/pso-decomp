@@ -23,15 +23,12 @@
 #include <string.h>
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowComCard.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
 
 struct Save_8033F6A8 { u8 pad[0xC]; u32 fC; };
 
-extern "C" {
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
-s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
-s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-}
 
 TAdPlyStatusGC *ply_status_gc_instance;
 CharacterPreview *ply_status_preview;

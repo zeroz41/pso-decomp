@@ -50,6 +50,7 @@ void fn_803000C8(void) {
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 
 typedef void (TAdMultiSelGameModeGC::*StateAction)();
@@ -59,7 +60,6 @@ struct Float8 { f32 v[8]; };
 
 struct Float2 { f32 v[2]; };
 
-s32 is_multiplayer_character_slot_selected(s32 slot);
 saddr multi_sel_episode;
 
 typedef struct Point3 { NJS_POINT2 p[3]; } Point3;

@@ -153,7 +153,6 @@ void TItemWeapon::request_equipped_model() {
 TItemWeapon::~TItemWeapon() {}
 
 
-void *lookup_item_pmt_record(u8 *item);
 extern const f32 lbl_805DAC98;
 extern const u8 lbl_805DACA4;
 

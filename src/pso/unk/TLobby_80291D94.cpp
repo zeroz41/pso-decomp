@@ -41,8 +41,6 @@ ChallengeModeState challenge4p_mode_state = {0};
 __declspec(section ".data") char lbl_804DB880[] = "theBest";
 
 
-s32 is_challenge_mode_active(void);
-void challenge_set_min_clear_time(s32 v);
 
 void TLobby::update_screen() { if (is_challenge_mode_active() != 0) { TLobby::is_multi_ready(); } }
 void TLobby::set_challenge_split_flag() {
@@ -87,16 +85,9 @@ void challenge_set_boss_warp_disabled(s32 disabled) {
 
 
 extern "C" {
-s32 TLobby__sub_80291F9C(void);
 char split_screen_player_name[0x20];
 }
-void challenge_set_time_record(s32 seed);
-extern "C" {
-s32 TLobby__sub_80292DA0(s32 seed, u16 card);
-}
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
-s32 challenge_check_rank_time(s32 seed, s32 card);
-s32 challenge_get_time_record(void);
 extern "C" {
 
 
@@ -406,13 +397,6 @@ void TLobby::rebuild_players_for_stage(s32 stage) {
 extern "C" {
 void TLobby__sub_80293218(s32);
 }
-s32 challenge_check_any_player_dead(void);
-s32 challenge_check_all_players_dead(void);
-extern "C" {
-s32 TLobby__sub_80292F34(s32 limit);
-s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
-s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
-}
 
 void TLobby::clamp_and_store_layout_index(s32 stage) {
     s32 layout_id;
@@ -696,8 +680,6 @@ s32 is_challenge_mode_active(void) {
     return 0;
 }
 
-void clear_challenge_and_split_screen_flags(void);
-void enable_split_screen_challenge_mode(void);
 
 void clear_challenge_and_split_screen_flags(void) { challenge_mode_active_flag = 0; split_screen_flag = 0; }
 
@@ -721,11 +703,6 @@ struct ByteBlock_690 { u8 bytes[0x690]; };
 
 
 
-extern "C" {
-void TLobby__sub_80293218(s32 client);
-
-}
-void setup_split_screen(void);
 
 
 void setup_split_screen(void) {

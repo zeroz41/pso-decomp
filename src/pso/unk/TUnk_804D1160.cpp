@@ -29,6 +29,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowActionPalette.h"
+#include "pso/unk/TLobby_8001D6A0.h"
 
 
 struct UpdateCustomizeHelpTextWindow {
@@ -63,7 +64,6 @@ struct RunTaskSelf {
 };
 
 extern "C" {
-s32 *get_shared_text_buffer(void);
 u8 get_cast_technique_level(void *, s16);
 void text_builder_append_int(s32);
 void text_builder_append();

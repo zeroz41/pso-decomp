@@ -33,6 +33,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/system/TLoadCtrl_80227390.h"
 
 
     extern int lobby_game_mode_state;
@@ -229,8 +230,6 @@ extern "C" {
 void request_main_phase(s32 arg0);
     extern int lbl_805D68C8;
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
-int TKeyBoardControl__sub_8000F828(void);
-void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 }
 
 // Read as const here: Language.h's non-const declaration changes the load scheduling.

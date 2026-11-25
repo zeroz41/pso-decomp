@@ -58,7 +58,6 @@ struct Item_8011CB18 : Base_8011CB18 {
 
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-s32 get_item_star_count(s32 id);
 WeaponRangeRecord *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
 }
 

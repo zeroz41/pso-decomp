@@ -14,6 +14,10 @@
 #include "pso/unk/TLobby_80226C3C.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8036A3CC.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/audio/AdxManager.h"
+#include "pso/ui/keyboard/SystemBootInitInternal.h"
 
 struct UpdateMusicSequencerPassage { s16 first, repeat, count, transition, next; };
 
@@ -57,17 +61,7 @@ f32 music_fade_step;
 s32 music_fade_frames_remaining;
 s32 bgm_stream_active;
 s16 music_current_slot;
-void turn_on_bgm_p2(void);
 }
-void set_cue_stream_gain(s32 arg0);
-extern "C" {
-void turn_off_bgm_p2(void);
-}
-void set_dark_falz_music_request(s32 arg0);
-void stop_cue_stream(void);
-void set_music_streams_volume(s32 total);
-void update_music_fade(void);
-void update_music_sequencer(void);
 
 extern "C" char music_slot_entries[2][0x20];
 u8 *TLobby::get_current_slot_entry() {
@@ -142,7 +136,6 @@ u8 lbl_80514D40[0x218];
 }
 
 extern "C" {
-int TKeyBoardControl__sub_8000F828(void);
 s32 TKeyBoardControl__sub_801E3E24(s32 id, const char *name, void *buf, s32 size);
 }
 extern TLoadCtrlProgram *music_programs[];
@@ -295,14 +288,11 @@ extern "C" {
 s32 VISetPreRetraceCallback(void (*callback)(void));
 void update_all_zones__14TObjBgmColCtrlFl(void);
 extern char music_slot_entries[][0x20];
-void play_area_music(char *name);
-void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 struct SndHooks {
     void *(*malloc)(u32 size);
     void (*free)(void *ptr);
 };
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
-void setup_adx_file_systems(s32 *read_mode);
 void init_runtime_threads(s32 *cfg);
 u32 ARInit(u32 *stack_index_addr, u32 num_entries);
 void ARQInit(void);
@@ -312,7 +302,6 @@ u32 ARAlloc(u32 length);
 void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
-void init_adx_audio_system(void);
 
 // The four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).

@@ -33,9 +33,6 @@ const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/network/TLobby.h"
-extern "C" {
-f32 atan2_float(f32 y, f32 x);
-}
 extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
 extern const f32 view_detail_near_depth = 155.0f;
@@ -114,6 +111,7 @@ int submit_cursor_candidate(void*, int);
 #include "pso/network/TProtocol.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/TObjControl.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 int fn_800FD8A0(void*);

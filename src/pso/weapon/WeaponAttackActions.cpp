@@ -166,7 +166,6 @@ void TItemWeapon::emit_marker_effects() {  }
 
 void TItemWeapon::carry_over_stats(TItemData *data, TItem *item) { memcpy(data->data1.data_u8 + 6, ((TItemWeapon *)item)->attributes, 6); }
 }
-u32 pack_weapon_trail_color(void *weapon);
 
 void TItemWeapon::activate_effect(s32 effect) {
     technique_roll = effect;

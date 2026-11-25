@@ -54,9 +54,7 @@ void adxb_exec_wav_pcm16(AdxbDecoder *adxb);
 void adxb_exec_wav_split16(AdxbDecoder *adxb);
 void adxb_exec_wav_pcm8(AdxbDecoder *adxb);
 
-void sub_803C0018(void);
 void decode_audio_stream_step(AudioStreamInputState *st);
-void process_audio_stream_input(AudioStreamInputState *st);
 u8 *AudioStreamInputState::get_offset_58() {
     return header;
 }

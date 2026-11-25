@@ -12,7 +12,6 @@
 #define SLICER_LAUNCH_STATE_OUT_OF_LINE
 #include "pso/weapon/SlicerLaunchState.h"
 
-void enlarge_flight_cutter_slicer(void *arg0);
 
 void TItemWeaponFlightCutter::emit_marker_effects() {
     SlicerLaunchState tec;

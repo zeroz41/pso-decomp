@@ -16,6 +16,7 @@ struct SendChallengeWithValueStack {
 
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
+#include "pso/unk/text_80072230.h"
 
 struct SendChallengeTimeStack {
     s32 sp8;
@@ -39,8 +40,6 @@ void build_6x97_packet(u8 *arg0);
 void build_6x9D_packet(u8 *arg0);
 extern "C" {
 void TLobby__sub_80072724(TLobby *lobby);
-void TLobby__sub_800722AC(s32 arg0);
-void TLobby__sub_80072618(void);
 void TLobby__sub_800727A0(void *player);
 }
 void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {

@@ -25,6 +25,7 @@ void TLobby__sub_80227AA8(s32 tracks) {
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/unk/TLobby_803382E4.h"
 
 extern "C" {
 void TLobby__sub_80227AF8(s32 slot, const Vec *position) { TLobby__sub_8023F754(slot, position); }
@@ -190,7 +191,6 @@ void is_sound_enabled(void) {
 
 
 extern "C" {
-void TLobby__sub_803382E4(void);
 s32 TLobby__sub_80226B64(int);
 extern const s32 floor_sound_bank_table[36] = {
     1, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 3,

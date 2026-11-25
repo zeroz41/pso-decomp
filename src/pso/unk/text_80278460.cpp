@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerSlots.h"
 
-void mark_unequippable_items(TWindowSubEquipKind *window);
 void mark_unequippable_items(TWindowSubEquipKind *window) {
     u8 sp8[8];
     s16 i;

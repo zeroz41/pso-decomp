@@ -206,7 +206,6 @@ void render_shadows__7TObjectFv();
 void handle_chat_message__11TWindowCtrlFPc(char *);
 void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused);
 }
-void show_card_list_message(void *msg);
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
 extern "C" {
 void handle_trade_received_items(TTradeList *trade_list);

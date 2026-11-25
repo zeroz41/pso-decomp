@@ -85,7 +85,6 @@ struct Foie_8022FC94
   void **emitters;
 };
 
-s32 clamp_nonnegative_int(s32 x);
 extern "C" {
 // foie_emitter_parts_N (inferred, after TTecGiFoie's emitter_parts_N): the particle parts entry N of
 // TTecFoie__emitter_profile_table spawns; the scale of part 0x14 grows with the band.

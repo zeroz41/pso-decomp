@@ -36,6 +36,7 @@
 #include <dolphin/base/PPCArch.h>
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -65,7 +66,6 @@ saddr get_localized_text_entry(s32, s32);
 void request_active_window_close(void);
 }
 
-s32 get_game_play_mode(void);
 
 void TObjWarpJungMain::render() {
     s32 i;

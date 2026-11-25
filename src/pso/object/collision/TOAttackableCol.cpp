@@ -23,6 +23,7 @@
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/object/base/TObjCollidable.h"
 #include "pso/unk/TLobby_801F3A24.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 #pragma readonly_strings on
@@ -35,7 +36,6 @@ const char *attackable_col_name = "TOAttackableCol";
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-s32 get_current_floor(void);
 }
 
 // Inferred: run_demo_task (run_task calls it in demo mode).

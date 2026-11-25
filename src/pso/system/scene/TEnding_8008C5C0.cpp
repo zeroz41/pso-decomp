@@ -30,6 +30,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/player/PlayerActionProvider.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 extern const char TEnding__class_name_string[] = "TEnding";
 extern "C" {
@@ -63,7 +64,6 @@ void fn_8008C4F4(void) {
     render_tick();
 }
 void process_async_file_reads(void);
-void update_sound_request_slots(void);
 void run_game_frame(void) {
     s32 *var_r3;
     begin_gx_frame();

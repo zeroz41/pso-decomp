@@ -112,7 +112,6 @@ extern s32 lbl_805D55C0;
 
 
 }
-void handle_6x6A_set_boss_warp_flags(void *packet);
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 
 NJS_OBJECT *get_boss_warp_base_model(void) { return boss_warp_base_model; }

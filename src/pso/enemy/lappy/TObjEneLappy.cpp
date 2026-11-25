@@ -183,10 +183,8 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
 // return, and these callers zero-extend an int result.
 void apply_actor_gravity(TObjEnemy *enemy, s32 *, f32 hover_height);
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 is_item_light_interaction_blocked();
-f32 atan2_float(f32 y, f32 x);
 s32 lappy_variant_id;
 }
 BmlResource *rappy_bml_resource;

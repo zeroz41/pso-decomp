@@ -12,12 +12,12 @@
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_80132ED0.h"
 
 extern "C" {
 void TAdMultiConfirmGC__sub_802E03D0(void *);
 void TAdMultiConfirmGC__sub_802E0448(void *);
 s32 fn_802E0454(void *);
-saddr get_localized_text_entry(s32 arg0, s32 arg1);
 void fn_802FF7EC(void *);
 extern const char *multi_confirm_name;
 extern const u8 lbl_805DEF30 = 0;

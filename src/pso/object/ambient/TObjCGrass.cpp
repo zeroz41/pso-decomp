@@ -28,9 +28,9 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/TLobby_800FD78C.h"
+#include "pso/render/ChunkModelDraw.h"
 
 extern "C" {
-void draw_model_motion(void *model, void *motion, f32 frame);
 BmlResource *TObjCGrass_bml_resource;
 
 

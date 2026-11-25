@@ -19,6 +19,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 
 struct Txt_802FFE58 { TAdSelectTxtLayout v[3]; };
 
@@ -27,7 +28,6 @@ struct Pos_802FFE58 { f32 v[6]; };
 struct Cur_802FFE58 { f32 v[2]; };
 
 s32 lbl_805D69E8;
-s32 is_multiplayer_character_slot_selected(s32 slot);
 const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
 
 static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };

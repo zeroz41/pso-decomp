@@ -80,8 +80,8 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/unk/text_800F9B84.h"
 
-void clear_resource_load_tasks(void);
 void set_screen_size(f32, f32);
 
 // The mode the scene machine shows (create_mode_scene picks the scene object by it) and the one

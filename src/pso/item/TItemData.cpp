@@ -66,7 +66,6 @@ struct Parm_8010C320
 
 extern "C" {
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out);
-void *lookup_item_pmt_record(u8 *item);
 u8 get_cast_technique_level(void *, int);
 void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
 f32 calc_clock_bonus__9TItemDataFPv(u8 *item);

@@ -47,6 +47,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/object/TCMCharacter.h"
+#include "pso/unk/text_80290BE0.h"
 
 
 struct Menu_80296D68
@@ -123,7 +124,6 @@ CreationMenuModeList creation_menu_mode_lists[6] = {
     {3, creation_menu_modes_4}, {1, creation_menu_modes_5},
 };
 
-void reset_character_creation_figure_rotation(void);
 NJS_COLOR proportion_frame_colors[4];
 NJS_POINT2 proportion_marker_points[4];
 NJS_COLOR proportion_marker_colors[4];

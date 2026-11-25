@@ -57,9 +57,6 @@
 #include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
-extern "C" {
-NJS_TEXLIST *fn_802C9924(s32 index);
-}
 
 
 typedef struct P_802C86D4 {
@@ -112,7 +109,6 @@ f32 fabs_float(f32);
 
 
 
-void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0);
 
 
 s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound_index);
@@ -120,7 +116,6 @@ s32 get_area_table_value__17TOTrapChainSawKeyFii(TOTrapChainSaw *trap, s32 sound
 void vfunc_14__14TOTrapChainSawFv(void);
 
 
-void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
 
 void rotate_matrix_y(int, void *);
 

@@ -35,7 +35,6 @@ s32 lbl_805D5B04;
 TObject *bgm_col_ctrl_instance;
 u32 bgm_col_ctrl_current_theme_id;
 
-void create_bgm_col_zones(void);
 extern s32 tl_05;
 
 

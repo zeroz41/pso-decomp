@@ -41,6 +41,8 @@
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/text_803DA798.h"
+#include "pso/unk/TLobby_803382E4.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #undef PSO_SDK_COMPACT_MATH
 
 void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
@@ -105,7 +107,6 @@ int current_line_width = 12;
 s32 lbl_805D3584 = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
-s32 select_texture_by_surface_id(u32 id);
 }
 
 void set_viewport_scissor(int mode, const TileRect *r) {
@@ -162,9 +163,7 @@ struct DrawTransformedPrimitiveLines {
 extern "C" {
 void draw_line_list(DrawTransformedPrimitiveLines *l, s32 count, u32 flags);
 }
-void reset_line_width(void);
 
-void set_line_width(int a0);
 
 void draw_color_lines(ColorLineList *l, s32 count, s32 flags, f32 scale) {
     u32 c;
@@ -476,10 +475,6 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 }
 
 extern "C" {
-void TLobby__sub_803382E4(void);
-s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr arg2);
-s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2);
-void run_end_of_render_tasks(void);
 
 
 void TObjPlayer::render_tree(void *model) {

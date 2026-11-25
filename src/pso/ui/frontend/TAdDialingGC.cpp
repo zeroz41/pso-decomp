@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include "pso/network/NetworkConnect.h"
 #include "pso/unk/text_80145A94.h"
+#include "pso/unk/text_80145A44.h"
 
 void TAdDialingGC::open() {
     TAdDialingGC::instance = NULL;
@@ -44,9 +45,6 @@ void TAdDialingGC::create() {
 }
 
 TAdDialingGC *TAdDialingGC::instance;
-extern "C" {
-BOOL fn_80145A44(char *dst);
-}
 
 #pragma readonly_strings on
 const char *TAdDialingGC__name = "TAdDialingGC";

@@ -23,6 +23,8 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
 #include "pso/unk/TLobby_800FD78C.h"
+#include "pso/unk/text_8014618C.h"
+#include "pso/unk/TLobby_80145E40.h"
 #undef PSO_SDK_COMPACT_MATH
 
 struct TLobbyRecoveredGlobal {
@@ -35,8 +37,6 @@ s32 arp_term();
 s32 loopback_shutdown();
 void dhcp_stop(void);
 s32 DHCP_release(s32 session, s32 ip, s32 retries);
-void TLobby__sub_801469B8(void);
-void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);
 s32 dns_term();
 }
@@ -60,24 +60,13 @@ s32 lbl_805D5714;
 s32 lbl_805D5718;
 
 extern "C" {
-s32 TLobby__sub_8014618C(void);
-void TLobby__sub_8014672C(s32 *arg0);
-s32 TLobby__sub_80146588(s32 *arg0);
-char *TLobby__sub_80146D44(void);
-char *get_account_user_name(s32 idx);
-s32 TLobby__sub_801466F4(u32 arg0);
-s32 TLobby__sub_80145EE4(void);
 s32 TLobby__sub_801465C0(s32 *);
-void reset_keyboard_buffer_cursor(void);
 void arp_start(void);
 s16 init_loopback(void);
 s16 if_config(s16, void *);
 s32 lobby_net_session_id = -1;
-s32 TLobby__sub_801478C4(s32 id);
 }
-char *get_modem_phone_number(s32 idx);
 s32 connect_pppoe(s32 *);
-s32 connect_modem(s32 idx, s16 id);
 
 struct TLobbySub {
     u8 pad0[0x1C];
@@ -137,17 +126,9 @@ struct LoadNetworkConfigsInfo {
 };
 
 extern "C" {
-void set_keyboard_buffer_cursor(int a0);
 s16 DHCP_init(s16);
 }
-int is_network_info_loaded(void);
 extern "C" {
-int TLobby__sub_80146724(void);
-int TLobby__sub_8014677C(void);
-}
-s32 load_network_info(void);
-extern "C" {
-s32 TLobby__sub_80145DB4(s32 arg0);
 s32 TLobby__sub_80147284();
 s32 route4_del(saddr, saddr, saddr);
 s32 route4_add(saddr, saddr, saddr);
@@ -211,7 +192,6 @@ void set_default_gateway(s32 gateway) {
     route4_add(0, 0, gateway);
 }
 
-void get_link_state(s16 *state, s16 *reason);
 
 s32 connect_pppoe(s32 *out_value) {
     NetConnectCfg cfg;
@@ -671,8 +651,6 @@ extern PppPasswordBuffer ppp_password_buffer;
 char *get_ppp_password_buffer(void);
 extern "C" {
 s16 dns_set_server(TeardownBoss2Req *);
-s32 TLobby__sub_80147284(void);
-void TLobby__sub_80147978(void);
 }
 
 s32 set_dns_servers() {

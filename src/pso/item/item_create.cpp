@@ -222,7 +222,6 @@
 
 extern "C" {
 s32 get_item_icon_index();
-void TLobby__sub_80104464(void);
 }
 
 // This unit's .sbss, in address order.
@@ -433,7 +432,6 @@ ItemCreateFunction item_tool_factory_table[24] = {
     TItemToolKillCounter::create,
 };
 
-void normalize_drop_area(s32 *p);
 
 void set_boss_buf_entry(int value, u16 index) { item_sync_counter_table[index] = value; }
 int TLobby::get_sync_counter(u16 a0) {  return item_sync_counter_table[a0]; }
@@ -936,7 +934,6 @@ ItemCreateFunction item_create_fn_table[5] = {
 extern Entry_8010567C *quest_object_entries;
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
-void *build_6x06_send_guild_card(void *arg0);
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   void *new_var;

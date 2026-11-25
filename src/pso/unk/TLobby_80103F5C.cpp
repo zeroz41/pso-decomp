@@ -40,6 +40,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_create.h"
+#include "pso/unk/TLobby_80103F5C.h"
 
 
 struct ResetFloorItemsEntry { u8 pad[0x24]; };
@@ -89,9 +90,7 @@ void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
 extern "C" {
 extern void *tl_05;
 }
-void reset_map(void);
 extern "C" {
-s32 test_flags_any(s32 *flags, s32 mask);
 extern s32 lbl_805D5440;
 void spawn_dropped_item_from_msg(void *, s32);
 }

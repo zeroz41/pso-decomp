@@ -21,13 +21,9 @@
 #include "pso/network/client_id.h"
 #include "pso/system/prs.h"
 #include "pso/unk/text_800F7DAC.h"
+#include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 
-extern "C" {
-
-s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
-
-}
 
 TScreenFadeController *screen_fade_controller;
 

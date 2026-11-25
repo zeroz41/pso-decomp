@@ -51,6 +51,10 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_802C3AC0.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
+#include "pso/unk/text_80076BC4.h"
+#include "pso/unk/TLobby_80269C6C.h"
+#include "pso/unk/TLobby_801F487C.h"
 CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;
 TPlyCharData *selected_character_data;
@@ -128,8 +132,6 @@ static const char card_disk_game_code[] = "GPSE";
 
 void __construct_array(void*, void*, void*, int, int);
 s32 start_memcard_read(s32, char *, void *, s32);
-void clear_equipped_flag(void *item);
-int is_unit_item_data(void *entry);
 s32 TLobby__sub_8030A770();
 }
 
@@ -1072,7 +1074,6 @@ struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x278C - 0x41C]; B8_801FDFB8 f2
 
 extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_801FE380(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot);
-saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *dest, S_801FE010 *source);
 
 }
@@ -1600,7 +1601,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801FEBBC(void) {
 extern "C" {
 saddr get_localized_text_entry(s32, s32);
 s8 poll_reset_request__Fv(void);
-void TLobby__sub_80269C90(void);
 void TLobby__sub_80269CA4(s32);
 
 
@@ -2153,9 +2153,6 @@ struct Save_80200690 {
 };
 
 
-extern "C" {
-void TLobby__sub_801F494C(u16 client);
-}
 
 
 

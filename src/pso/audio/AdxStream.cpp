@@ -20,7 +20,6 @@ s32 lbl_805D7550;
 s32 tlobby_stream_read_retry_limit;
 s32 lbl_805D7558;
 }
-void update_active_stream_reads(void);
 
 extern "C" {
 s32 adx_stream_request_count_ex = 0x10;
@@ -29,8 +28,6 @@ s32 adx_stream_fname_slot_count = 0x18;
 static const char lbl_8047C600[] = "E00041205 ADXSTM_OpenFnameRangeExRt: can't open ";
 static const char lbl_8047C634[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
 static const char lbl_8047C660[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
-AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
-AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg);
 
 void set_field_10_and_notify__6TLobbyFl(AdxStreamFile *file, s32 offset) {
     file->f10 = offset;

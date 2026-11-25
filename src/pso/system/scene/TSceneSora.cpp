@@ -168,7 +168,6 @@ void TSceneSora::load_sky_resources() {
 
 void release_adventure_maps(void) {  }
 
-void prepare_adventure_maps(void);
 void prepare_adventure_maps(void) {
     randomize_adventure_maps();
     if ((s32) pending_adventure_map_floor != -1) {
