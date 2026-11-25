@@ -4144,7 +4144,7 @@ pso/object/city/CitySeason.cpp:
 	.sdata      start:0x805D3268 end:0x805D3290
 	.sdata2     start:0x805DBC18 end:0x805DBC80
 
-pso/unk/text_80184C2C.cpp:
+pso/object/city/CitySeasonResources.cpp:
 	.text       start:0x80184C2C end:0x80185160
 	.rodata     start:0x80444268 end:0x80444720
 	.data       start:0x804B5E80 end:0x804B5FF8

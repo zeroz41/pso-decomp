@@ -25,7 +25,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/render/GinjaView.h"
-#include "pso/unk/text_80184C2C.h"
+#include "pso/object/city/CitySeasonResources.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8F74.h"

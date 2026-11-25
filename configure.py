@@ -732,7 +732,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/warp/TObjLaboMapWarp.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline off,deferred", "-pool off", "-sdata 4")},
     # -str reuse,readonly: the model/archive names 0x80444280-0x80444720 sit in .rodata.
     # -sdata 4: the 8-byte name lists 0x804B5E8C/0x804B5EC0 sit in .data, the 4-byte {NULL} lists in .sdata.
-    "pso/unk/text_80184C2C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/object/city/CitySeasonResources.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # The .rodata initialisers (0x8044A698-0x8044A7A0) all precede the code literals and the vtables come out
     # TRaderMapCore then TUnk_804C88A8: written last to first, deferred.
     "pso/ui/hud/TRaderMapCore.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

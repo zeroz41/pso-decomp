@@ -1,7 +1,7 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/render/StripBufferPair.h"
-#include "pso/unk/text_80184C2C.h"
+#include "pso/object/city/CitySeasonResources.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
