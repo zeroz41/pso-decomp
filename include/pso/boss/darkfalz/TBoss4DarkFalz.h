@@ -36,7 +36,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     virtual void run_task();
     static void cleanup_global();
     static void load_resources();
-    static TBoss4DarkFalz *create(saddr set_data);
+    static void *create(void *set_data);
     static TBoss4Type1 *get_instance();
     static TBoss4Type3 *get_type3_instance();
     static TBoss4Type2 *get_type2_instance();

@@ -38,7 +38,7 @@ struct TObjEneSlime : public TObjEnemy {
     virtual void run_task();
     static void free_instance();
     static void spawn_pair();
-    static s32 create(saddr set_data);
+    static void *create(void *set_data);
     void init_slots();
 };
 

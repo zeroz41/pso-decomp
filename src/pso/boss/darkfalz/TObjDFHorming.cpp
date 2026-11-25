@@ -878,7 +878,7 @@ void TBoss4DarkFalz::load_resources() {
     }
 }
 
-TBoss4DarkFalz *TBoss4DarkFalz::create(saddr set_data) {
+void *TBoss4DarkFalz::create(void *set_data) {
     return new TBoss4DarkFalz(new TObjControl(tl_04), (TBoss4DarkFalzSetEntry *)set_data);
 }
 

@@ -37,7 +37,7 @@ LAYOUT_ASSERT(DelDepthMotionSecondTextureOffset, offsetof(DelDepthMotion, second
 
 struct TObjEneDelDepth : public TObjEnemy {
     TObjEneDelDepth(TObject *, void *);
-    static TObjEneDelDepth *create(void *setData);
+    static void *create(void *setData);
     virtual ~TObjEneDelDepth();
     typedef void (TObjEneDelDepth::*Action)();
     struct ActionPair { Action enter; Action update; };

@@ -1005,8 +1005,8 @@ void TBoss6PlotFalz::load_resources() {
     }
 }
 
-s32 TBoss6PlotFalz::create(saddr set_data) {
-    return (saddr) new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), (void *)set_data);
+void *TBoss6PlotFalz::create(void *set_data) {
+    return new TBoss6PlotFalz(new TObjControl((TObject *)tl_04), set_data);
 }
 
 s32 TBoss6PlotFalz::get_scene_state() { return state_index; }

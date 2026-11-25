@@ -264,8 +264,8 @@ void push_material_fade(f32 alpha) {
 
 void TObjPlayer::init_render_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 
-s32 TObjEneSlime::create(saddr set_data) {
-    return (saddr)new TObjEneSlime(new TObjControl(tl_04), (u8 *)set_data);
+void *TObjEneSlime::create(void *set_data) {
+    return new TObjEneSlime(new TObjControl(tl_04), (u8 *)set_data);
 }
 
 void TObjEneSlime::spawn_pair() {

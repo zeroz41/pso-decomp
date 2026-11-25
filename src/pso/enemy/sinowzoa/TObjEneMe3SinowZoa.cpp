@@ -232,7 +232,7 @@ void TObjEneMe3SinowZoa::load_resources() {
 
 extern "C" {
 
-int TObjEneMe3SinowZoaReal__create(void* p) { return (saddr)TObjEneMe3SinowZoaReal::create_instance(p); }
+void *TObjEneMe3SinowZoa::create_real(void *set_data) { return TObjEneMe3SinowZoaReal::create_instance(set_data); }
 
 void TObjEneMe3SinowZoa::free_resources() {
     if (TObjEneMe3SinowZoa__breakup_model != NULL) {

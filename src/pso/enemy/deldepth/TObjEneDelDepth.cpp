@@ -155,7 +155,7 @@ void TObjEneDelDepth::reset_globals() {
     model_render_flags = saved_model_render_flags;
 }
 
-TObjEneDelDepth *TObjEneDelDepth::create(void *setData) {
+void *TObjEneDelDepth::create(void *setData) {
     return new TObjEneDelDepth(new TObjControl((TObject *)tl_04), setData);
 }
 

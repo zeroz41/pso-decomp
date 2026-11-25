@@ -46,7 +46,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     void create_enabled(Vec *anchor, u16 id, s32 set_index);
     void create_disabled(Vec *anchor, u16 id, s32 set_index);
     static void free_bits();
-    TObjEneRe4Sorcerer *create();
+    static void *create(void *set_data);
     static void load_resources();
     s32 update_farthest_target(TObjChara *player, f32 *farthest);
 

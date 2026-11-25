@@ -279,7 +279,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
                                                   reinterpret_cast<NJS_TEXLIST *>(TObjEneMe3Stelth__bml_resource->models->texlist), &b, 8.0f, 0.0f);
     }
 }
-void *TObjEneMe3Stelth::create_real() { return TObjEneMe3StelthReal::create(this); }
+void *TObjEneMe3Stelth::create_real(void *set_data) { return TObjEneMe3StelthReal::create(set_data); }
 void TObjEneMe3Stelth::free_shared_resources() {
     if (TObjEneMe3Stelth__trail_buffer != NULL) {
         delete TObjEneMe3Stelth__trail_buffer;
