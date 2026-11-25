@@ -7966,11 +7966,8 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp:
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.cpp:
 	.text       start:0x802E0064 end:0x802E0110
 
-pso/ui/frontend/TAdEnterSerialAccessGC_802E0110.cpp:
-	.text       start:0x802E0110 end:0x802E011C
-
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802E011C.cpp:
-	.text       start:0x802E011C end:0x802E0170
+pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0110.cpp:
+	.text       start:0x802E0110 end:0x802E0170
 
 pso/ui/window/TWindowTradeRequest_802E0170.cpp:
 	.text       start:0x802E0170 end:0x802E03C8

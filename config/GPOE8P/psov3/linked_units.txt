@@ -1650,7 +1650,6 @@ pso/ui/frontend/TAdEnterPPPPassGC.cpp
 pso/ui/frontend/TAdEnterPasswordGC.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC_802ACF04.cpp
-pso/ui/frontend/TAdEnterSerialAccessGC_802E0110.cpp
 pso/ui/frontend/TAdEp3Exist.cpp
 pso/ui/frontend/TAdExNetConfirmGC.cpp
 pso/ui/frontend/TAdExNetConfirmGC_8032C504.cpp
@@ -1688,7 +1687,7 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC_802B1850.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802E011C.cpp
+pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0110.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_803495B4.cpp
 pso/ui/frontend/TAdMultiSaveGC.cpp
