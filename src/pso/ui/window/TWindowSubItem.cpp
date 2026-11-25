@@ -652,10 +652,10 @@ void TWindowSubItem::close_windows(s32 arg1) {
 #pragma push
 #pragma scheduling off
 void TWindowSubItem::use_selected_item() {
-    s32 player;
-    player = (saddr)get_player_by_client_id(this->client_id);
-    if (player != 0) {
-        ((TObjPlayer *)player)->swap_inventory_items((int) (this->item_list->get_cursor_value()), this->item_list->get_selected_entry());
+    TObjPlayer *player;
+    player = get_player_by_client_id(this->client_id);
+    if (player != NULL) {
+        player->swap_inventory_items((int) (this->item_list->get_cursor_value()), this->item_list->get_selected_entry());
     }
 }
 

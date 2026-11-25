@@ -1133,7 +1133,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
     return found;
 }
 
-void init_target_vector__11TMainCursorFiii(s32 arg0, s32 to, s32 from) {
+void init_target_vector__11TMainCursorFiii(s32 arg0, saddr to, saddr from) {
     csnVector((const Vec *)from, (const Vec *)to, 0x28A0);
 }
 

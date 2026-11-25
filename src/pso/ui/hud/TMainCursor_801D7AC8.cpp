@@ -7,7 +7,7 @@
 extern "C" {
 
 
-s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s32 arg4) {
+s32 TMainCursor::find_action_slot(saddr arg0, void *arg1, s16 type, s32 enabled, s32 arg4) {
     saddr first_tag;
     s32 slot;
     saddr tag;
