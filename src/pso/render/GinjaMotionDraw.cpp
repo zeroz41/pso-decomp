@@ -13,9 +13,6 @@
 #undef PSO_SDK_COMPACT_MATH
 #include <dolphin/mtx.h>
 
-
-void end_ginja_model_draw();
-
 void render_model_tree(NJS_OBJECT *model) {
     Mtx34 normal_matrix;
     Mtx34 inverse;
@@ -42,10 +39,10 @@ void render_model_tree(NJS_OBJECT *model) {
         node = node->sibling;
     } while (node != NULL);
 }
-void compose_motion_node_matrix(void *node);
+
 void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     ModelDrawContext *g;
-    bind_motion_context((NJS_MOTION *)motion, frame);
+    bind_motion_context(motion, frame);
     g = model_draw_context;
     g->draw = draw_ginja_model_lists;
     prepare_ginja_model();
