@@ -510,48 +510,47 @@ TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set
 #pragma pop
 
 void TObjEneSlimeOne::initialize_slime_instance_state() {
-    TObjEneSlimeOne *actor = this;
-    actor->model_archive = TObjEneSlimeOne::get_instance();
-    if (actor->random_ratio() < 0.002f || (actor->state36C & 1)) {
-        actor->variant = 1;
+    this->model_archive = TObjEneSlimeOne::get_instance();
+    if (this->random_ratio() < 0.002f || (this->state36C & 1)) {
+        this->variant = 1;
     } else {
-        actor->variant = 0;
+        this->variant = 0;
     }
 
-    s32 *variant = &actor->variant;
+    s32 *variant = &this->variant;
     s32 id = ((s32 *)slime_one_model_by_variant)[*variant];
-    actor->texlist = get_bml_texlist(actor->model_archive, id);
-    actor->model = get_bml_model(actor->model_archive, id);
-    VecCopy(&actor->prev_position, VecCopy(&actor->home_position, VecCopy(&actor->center, &actor->position)));
-    actor->collision_body_parts = init_collision_body_parts(actor, slime_one_collision_body, 1);
-    actor->set_action_table(slime_motion_action_table);
-    actor->set_motion_list(actor->model_archive->motions);
-    actor->set_animation(0);
-    actor->set_requested_action(0);
-    VecCopy(&actor->body_center, &actor->position);
-    actor->velocity.z = 0.0f;
-    actor->velocity.y = 0.0f;
-    actor->velocity.x = 0.0f;
-    actor->target = NULL;
+    this->texlist = get_bml_texlist(this->model_archive, id);
+    this->model = get_bml_model(this->model_archive, id);
+    VecCopy(&this->prev_position, VecCopy(&this->home_position, VecCopy(&this->center, &this->position)));
+    this->collision_body_parts = init_collision_body_parts(this, slime_one_collision_body, 1);
+    this->set_action_table(slime_motion_action_table);
+    this->set_motion_list(this->model_archive->motions);
+    this->set_animation(0);
+    this->set_requested_action(0);
+    VecCopy(&this->body_center, &this->position);
+    this->velocity.z = 0.0f;
+    this->velocity.y = 0.0f;
+    this->velocity.x = 0.0f;
+    this->target = NULL;
     if (*variant == 0) {
-        actor->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30),
+        this->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30),
                                       TLobby::register_object(0x30));
     } else {
-        actor->bind_enemy_combat_stats(TLobby::register_boss(0x34), TLobby::dispatch_shared_handler_b(0x34),
+        this->bind_enemy_combat_stats(TLobby::register_boss(0x34), TLobby::dispatch_shared_handler_b(0x34),
                                       TLobby::register_object(0x34));
     }
-    actor->referenceHp = actor->hp;
-    actor->register_by_id();
-    actor->movementParameters = NULL;
+    this->referenceHp = this->hp;
+    this->register_by_id();
+    this->movementParameters = NULL;
     if (*variant == 0) {
-        actor->set_param(0x13);
+        this->set_param(0x13);
     } else {
-        actor->set_param(0x14);
+        this->set_param(0x14);
     }
-    actor->animation = new SlimeAnimationState(actor);
-    actor->particle = NULL;
-    actor->target_client_id = 0xFFFF;
-    actor->copy_position();
+    this->animation = new SlimeAnimationState(this);
+    this->particle = NULL;
+    this->target_client_id = 0xFFFF;
+    this->copy_position();
 }
 
 TObjEneSlimeOne::~TObjEneSlimeOne() {
@@ -592,29 +591,28 @@ void TObjEneSlimeOne::run_task() {
     }
 }
 void TObjEneSlimeOne::render() {
-    TObjEneSlimeOne *ene_slime_one = this;
     s32 deferred;
-    if ((TObjPlayer::check_demo_mode() == 0) && !(ene_slime_one->alpha <= 0.0f) && (((TObjEneSlimeOne *)(ene_slime_one))->update_object_view_visibility(500.0f, 20.0f) != 0)) {
-        deferred = ene_slime_one->defer_render();
-        if (ene_slime_one->alpha < 1.0f) {
-            push_material_fade(ene_slime_one->alpha);
+    if ((TObjPlayer::check_demo_mode() == 0) && !(this->alpha <= 0.0f) && (this->update_object_view_visibility(500.0f, 20.0f) != 0)) {
+        deferred = this->defer_render();
+        if (this->alpha < 1.0f) {
+            push_material_fade(this->alpha);
         }
         toggle_particle_effect();
         push_matrix();
         {
-            Vec v = ene_slime_one->position;
-            v.y += ene_slime_one->draw_offset_y;
+            Vec v = this->position;
+            v.y += this->draw_offset_y;
             post_translate_matrix(&v.x);
         }
-        rotate_matrix_y(0, ene_slime_one->rotation_y);
-        scale_matrix_vec3(0, (u8 *)&ene_slime_one->draw_scale);
-        ene_slime_one->animation->draw(deferred);
+        rotate_matrix_y(0, this->rotation_y);
+        scale_matrix_vec3(0, (u8 *)&this->draw_scale);
+        this->animation->draw(deferred);
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        if (ene_slime_one->alpha < 1.0f) {
+        if (this->alpha < 1.0f) {
             TObjPlayer::init_render_globals();
         }
-        ene_slime_one->render_trail();
+        this->render_trail();
     }
 }
 
@@ -1027,26 +1025,25 @@ void TObjEneSlimeOne::update_water_bomb_timer() {
     }
 }
 void TObjEneSlimeOne::start_tail_attack() {
-    TObjEneSlimeOne *self = this;
     f32 r;
     s32 ang;
     s32 n;
     f32 len;
     TObjPlayer *target = get_player_by_client_id(target_client_id);
     if (target == NULL || (target->actorFlags & 0x02000800)) {
-        self->set_state(5);
+        this->set_state(5);
         return;
     }
-    VecCopy(&self->attack_position, &target->position);
-    r = 5.0f * self->random_ratio() + 2.5f;
-    ang = 65536.0f * self->random_ratio();
-    self->attack_position.x = r * sin_table_lookup(ang) + self->attack_position.x;
-    self->attack_position.z = r * cos_table_lookup(ang) + self->attack_position.z;
-    Vec dir = self->attack_position;
-    subtract_vector(&dir, &self->position);
+    VecCopy(&this->attack_position, &target->position);
+    r = 5.0f * this->random_ratio() + 2.5f;
+    ang = 65536.0f * this->random_ratio();
+    this->attack_position.x = r * sin_table_lookup(ang) + this->attack_position.x;
+    this->attack_position.z = r * cos_table_lookup(ang) + this->attack_position.z;
+    Vec dir = this->attack_position;
+    subtract_vector(&dir, &this->position);
     len = vector_length(&dir);
     if (0.0f == len) {
-        self->set_state(5);
+        this->set_state(5);
         return;
     }
     n = len / 10.0f;
@@ -1059,12 +1056,12 @@ void TObjEneSlimeOne::start_tail_attack() {
     dir.x *= 10.0f;
     dir.y *= 10.0f;
     dir.z *= 10.0f;
-    Vec pos = self->position;
+    Vec pos = this->position;
     pos.y += 5.0f;
     while (n > 0) {
         Vec tmp = pos;
-        if (project_actor_to_ground(self, &tmp, 0) == 0 || csnLookAt(&self->position, &pos) != 0) {
-            self->set_state(9);
+        if (project_actor_to_ground(this, &tmp, 0) == 0 || csnLookAt(&this->position, &pos) != 0) {
+            this->set_state(9);
             return;
         }
         n--;
@@ -1072,8 +1069,8 @@ void TObjEneSlimeOne::start_tail_attack() {
     }
     this->state_timer = 0x5A;
     animation->set_state(0);
-    play_sound_effect(0x4003A318, &self->attack_position, 0, 0);
-    TObjEneSlimeTailAttack::create((saddr)self, &self->attack_position, this->rotation_y, this);
+    play_sound_effect(0x4003A318, &this->attack_position, 0, 0);
+    TObjEneSlimeTailAttack::create((saddr)this, &this->attack_position, this->rotation_y, this);
     set_display_mode(2);
 }
 
@@ -1228,7 +1225,6 @@ void TObjEneSlimeOne::update_trail_position() {
 }
 
 void TObjEneSlimeOne::render_trail() {
-    TObjEneSlimeOne *self = this;
     Vec c;
     Vec b;
     f32 s;
@@ -1236,13 +1232,13 @@ void TObjEneSlimeOne::render_trail() {
     s32 t;
     s32 w1;
     s32 w0;
-    s = 0.5f * self->alpha;
-    Vec a = self->position;
-    subtract_vector(&a, &self->trail_position);
+    s = 0.5f * this->alpha;
+    Vec a = this->position;
+    subtract_vector(&a, &this->trail_position);
     a.x *= 0.5f;
     a.y *= 0.5f;
     a.z *= 0.5f;
-    VecCopy((Vec *)&c, (const Vec *)&self->trail_position);
+    VecCopy((Vec *)&c, (const Vec *)&this->trail_position);
     vec3_add_to(&c, &a);
     c.y += -1.125f;
     ang = 10430.38043493439 * atan2_float(a.x, a.z);
@@ -1260,9 +1256,9 @@ void TObjEneSlimeOne::render_trail() {
     post_translate_matrix(&c.x);
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
-    t = slime_tail_attack_id_pair[self->variant];
-    TObjFish::set_global_param(get_bml_texlist(self->model_archive, t));
-    draw_chunk_object(get_bml_model(self->model_archive, t));
+    t = slime_tail_attack_id_pair[this->variant];
+    TObjFish::set_global_param(get_bml_texlist(this->model_archive, t));
+    draw_chunk_object(get_bml_model(this->model_archive, t));
     pop_matrix();
     TObjPlayer::init_render_globals();
 }
@@ -1484,47 +1480,46 @@ void TObjEneSlimeTailAttack::run_task() {
 #pragma push
 
 s32 TObjEneSlimeTailAttack::apply_tail_hits() {
-    TObjEneSlimeTailAttack *self = this;
     DirectAttackPayload hit;
     s32 result;
     TObjChara *e;
     TObjChara *e2;
     u16 id;
     s32 id2;
-    f32 t = self->frame;
+    f32 t = this->frame;
     if (t < 17.0f || t > 30.0f) {
         return 0;
     }
     hit.kind = 0;
     result = 0;
-    hit.power = *(s16 *)TLobby::register_boss(slime_tail_attack_param_ids[self->owner->get_attack_target()]);
-    id = find_nearest_visible_player(self, 0, 25.0f);
-    if (id != 0xFFFF && id != self->last_hit_player) {
+    hit.power = *(s16 *)TLobby::register_boss(slime_tail_attack_param_ids[this->owner->get_attack_target()]);
+    id = find_nearest_visible_player(this, 0, 25.0f);
+    if (id != 0xFFFF && id != this->last_hit_player) {
         e = get_player_by_client_id(id);
         if (e != NULL) {
             TObjPlayer *pl = (TObjPlayer *)e;
             f32 lo = pl->position.y - 5.0f;
             f32 hi = 5.0f + (pl->position.y + pl->base_stats.proportions);
-            if (!(self->body_center.y < lo) && !(self->body_center.y > hi) &&
-                !(horizontal_distance_squared(&self->body_center, &pl->position) > 56.25f)) {
-                f32 damage = e->receive_direct_attack(self->owner, hit, 0, -1, -1);
+            if (!(this->body_center.y < lo) && !(this->body_center.y > hi) &&
+                !(horizontal_distance_squared(&this->body_center, &pl->position) > 56.25f)) {
+                f32 damage = e->receive_direct_attack(this->owner, hit, 0, -1, -1);
                 if (0.0f != damage) {
-                    e->apply_knockback_from_attacker((u8 *)self, damage);
+                    e->apply_knockback_from_attacker((u8 *)this, damage);
                 }
-                self->last_hit_player = id;
+                this->last_hit_player = id;
                 result = 1;
             }
         }
     }
-    id2 = self->find_nearest_enemy_with_flag(25.0f);
+    id2 = this->find_nearest_enemy_with_flag(25.0f);
     if (id2 != 0xFFFF) {
-        TObjEneSlimeOne *owner = self->owner;
+        TObjEneSlimeOne *owner = this->owner;
         if (owner == NULL || id2 != (u16)owner->get_entity_id()) {
             e2 = (TObjChara *)get_enemy_entity(id2);
-            if (e2 != NULL && !(horizontal_distance_squared(&self->body_center, &e2->body_center) > 56.25f)) {
-                f32 damage = e2->receive_direct_attack(self->owner, hit, 0, -1, -1);
+            if (e2 != NULL && !(horizontal_distance_squared(&this->body_center, &e2->body_center) > 56.25f)) {
+                f32 damage = e2->receive_direct_attack(this->owner, hit, 0, -1, -1);
                 if (0.0f != damage) {
-                    e2->apply_knockback_from_attacker((u8 *)self, damage);
+                    e2->apply_knockback_from_attacker((u8 *)this, damage);
                 }
                 result = 1;
             }
@@ -1565,7 +1560,6 @@ void TObjEneSlimeTailAttack::render() {
 #pragma push
 #pragma dont_inline off
 void TObjEneSlimeTailAttack::draw_body() {
-    u8 *self = (u8 *)this;
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, (int) (this->rotation_y));
@@ -1573,7 +1567,7 @@ void TObjEneSlimeTailAttack::draw_body() {
     if (active != 0) {
         reset_slime_tail_node_index();
         set_chunk_model_node_callback(capture_slime_tail_node);
-        ((TObjMotion *)self)->draw();
+        this->draw();
         set_chunk_model_node_callback(NULL);
         get_slime_tail_pose(&pose);
         VecCopy(&body_center, &pose.attachment);
@@ -1582,7 +1576,7 @@ void TObjEneSlimeTailAttack::draw_body() {
         scale_matrix_vec3(0, (u8 *)&stretch_scale);
         reset_slime_tail_node_index();
         set_chunk_model_node_callback(capture_slime_tail_node);
-        ((TObjMotion *)self)->draw();
+        this->draw();
         set_chunk_model_node_callback(NULL);
         get_slime_tail_pose(&pose);
         VecCopy(&body_center, &pose.attachment);

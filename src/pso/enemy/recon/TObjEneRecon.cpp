@@ -94,9 +94,8 @@ void TObjEneRecon::render_shadows() {
 
 
 void TObjEneRecon::render_demo() {
-    u8 *self = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
-        ((TObjEneDD *)(self))->draw_ground_shadow(0, 0);
+        this->draw_ground_shadow(0, 0);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);

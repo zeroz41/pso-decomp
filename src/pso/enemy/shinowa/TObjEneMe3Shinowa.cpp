@@ -400,15 +400,14 @@ void TObjEneMe3Shinowa::update_body_colliders() {
 void TObjEneMe3Shinowa::fn_800E762C() {  }
 
 f32 TObjEneMe3Shinowa::get_node_world_y() {
-    TObjEneMe3Shinowa *self = this;
     Vec v;
     NJS_OBJECT *node;
     v.x = 0.0f;
     v.y = 0.0f;
     v.z = 0.0f;
     push_matrix_from(identity_matrix);
-    bind_motion_context((NJS_MOTION *)self->current_motion, self->frame);
-    node = (NJS_OBJECT *)self->model;
+    bind_motion_context((NJS_MOTION *)this->current_motion, this->frame);
+    node = (NJS_OBJECT *)this->model;
     compose_motion_node_matrix(node);
     compose_motion_node_matrix(node->child);
     matrix_mult_vec(0, &v, &v);

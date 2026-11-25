@@ -980,8 +980,7 @@ extern "C" {
 int TObjEneDarkGunner::is_on_ground() { return (actorFlags >> 23) & 0x1; }
 
 void TObjEneDarkGunner::run_miss_reaction() {
-    u8 *self = (u8 *)this;
-    ((TObjBase *)self)->clear_actor_flags((s32)(0x100U));
+    this->clear_actor_flags((s32)(0x100U));
     spawn_particle_effect(&body_center, 0xD7);
     play_sound_effect(0x4003B22D, &position, 0, 0);
 }

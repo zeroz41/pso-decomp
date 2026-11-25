@@ -201,25 +201,24 @@ TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(par
 }
 
 void TObjEneDelDepth::init() {
-    u8 *self = (u8 *)this;
     this->texlist = get_bml_texlist(shared_resource = TObjEneDelDepth::get_data(), 0);
     this->model = get_bml_model(shared_resource, 0);
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
     this->collisionBody = init_collision_body_parts(this, TObjEneDelDepth_collision_body_parts, 1);
-    ((TObjMotion *)self)->set_action_table(deldepth_motion_actions);
-    ((TObjMotion *)self)->set_motion_list(shared_resource->motions);
-    ((TObjMotion *)self)->set_animation(0);
-    ((TObjMotion *)self)->set_requested_action(0);
+    this->set_action_table(deldepth_motion_actions);
+    this->set_motion_list(shared_resource->motions);
+    this->set_animation(0);
+    this->set_requested_action(0);
     VecCopy((Vec *)((u8 *)&this->body_center), &this->position);
     this->velocity.z = 0.0f;
     this->velocity.y = 0.0f;
     velocity.x = 0.0f;
     this->target = 0;
-    ((TObjEnemy *)self)->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30), TLobby::register_object(0x30));
+    this->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30), TLobby::register_object(0x30));
     this->referenceHp = (s16) this->hp;
     register_by_id();
     this->movementParameters = 0;
-    ((TObjEnemy *)self)->set_param(0x47);
+    this->set_param(0x47);
     this->motionController = (new DelDepthMotion(this));
     this->targetPlayer = 0xFFFF;
     this->groundFlags = 0;
@@ -245,7 +244,6 @@ TObjEneDelDepth::~TObjEneDelDepth() {
 }
 
 void TObjEneDelDepth::run_task() {
-    TObjEneDelDepth *o = this;
     TObjEneDelDepth::Action fn;
     if (TObjPlayer::check_demo_mode() != 0) {
         update_target_depth();
@@ -255,67 +253,65 @@ void TObjEneDelDepth::run_task() {
     fn = deldepth_actions[action].update;
     (void)(fn != NULL);
     (this->*fn)();
-    ((TObjEnemy *)o)->update_prev_position();
-    o->update_collisions();
+    this->update_prev_position();
+    this->update_collisions();
     if (this->targetable != 0) {
-        submit_cursor_candidate(o, -1);
+        submit_cursor_candidate(this, -1);
     }
     motionController->update_animation_frame();
     this->clear_body_flag_if_untargetable();
     if (this->action != 0xD) {
-        minimap_render_dot(&o->body_center, -0x5DB4, 1, 0);
+        minimap_render_dot(&this->body_center, -0x5DB4, 1, 0);
     }
     update_ground_check();
 }
 
 void TObjEneDelDepth::render() {
-    TObjEneDelDepth *o = this;
     if (TObjPlayer::check_demo_mode() != 0) {
         this->render_in_demo();
         return;
     }
-    if (o->opacity <= 0.0f) {
+    if (this->opacity <= 0.0f) {
         return;
     }
-    if (o->update_object_view_visibility(500.0f, 20.0f) == 0) {
+    if (this->update_object_view_visibility(500.0f, 20.0f) == 0) {
         return;
     }
     if (draw_if_visible() != 0) {
         return;
     }
-    if (o->opacity < 1.0f) {
-        setup_draw_material_default(o->opacity);
+    if (this->opacity < 1.0f) {
+        setup_draw_material_default(this->opacity);
     }
     toggle_particle_effect();
     push_matrix();
-    Vec v = o->position;
-    v.y += o->drawOffsetY;
+    Vec v = this->position;
+    v.y += this->drawOffsetY;
     post_translate_matrix(&v.x);
-    rotate_matrix_y(0, o->rotation_y);
-    scale_matrix_vec3(0, (u8 *)&o->drawScale);
-    o->motionController->draw_model_part();
+    rotate_matrix_y(0, this->rotation_y);
+    scale_matrix_vec3(0, (u8 *)&this->drawScale);
+    this->motionController->draw_model_part();
     pop_matrix();
     TParticleCtrl::end_effect_render();
-    if (o->opacity < 1.0f) {
+    if (this->opacity < 1.0f) {
         TObjEneDelDepth::reset_globals();
     }
-    if (!(o->groundFlags & 0x4000)) {
+    if (!(this->groundFlags & 0x4000)) {
         Vec s = {2.0f, 2.0f, 2.0f};
-        ((TObjEnemy *)o)->draw_ground_shadow(&s, 0);
+        this->draw_ground_shadow(&s, 0);
     }
 }
 
 s32 TObjEneDelDepth::draw_if_visible() {
-    TObjEneDelDepth *o = this;
     if ((s32)main_task.get_task_flags() & 0x20) {
-        if (push_reflection_matrix((Vec *)(&o->groundPoint)) != 0) {
+        if (push_reflection_matrix((Vec *)(&this->groundPoint)) != 0) {
             push_matrix();
-            Vec v = o->position;
-            v.y += o->drawOffsetY;
+            Vec v = this->position;
+            v.y += this->drawOffsetY;
             post_translate_matrix(&v.x);
-            rotate_matrix_y(0, o->rotation_y);
-            scale_matrix_vec3(0, (u8 *)&o->drawScale);
-            o->motionController->draw_model_part();
+            rotate_matrix_y(0, this->rotation_y);
+            scale_matrix_vec3(0, (u8 *)&this->drawScale);
+            this->motionController->draw_model_part();
             pop_matrix();
             restore_render_scissor(1);
         }
@@ -341,13 +337,12 @@ void TObjEneDelDepth::set_depth_offset(s32 minimum, s32 range) {
 #pragma push
 #pragma fp_contract on
 s32 TObjEneDelDepth::adjust_height_to_ground() {
-    TObjEneDelDepth *self = this;
-    Vec v = self->position;
-    v.x = 15.0f * cos_table_lookup(self->rotation_y) + v.x;
+    Vec v = this->position;
+    v.x = 15.0f * cos_table_lookup(this->rotation_y) + v.x;
     v.y += 5.0f;
-    v.x = 15.0f * sin_table_lookup(self->rotation_y) + v.x;
-    if (project_actor_to_ground(self, &v, 0) != 0) {
-        self->position.y += 0.5f * (v.y - self->position.y);
+    v.x = 15.0f * sin_table_lookup(this->rotation_y) + v.x;
+    if (project_actor_to_ground(this, &v, 0) != 0) {
+        this->position.y += 0.5f * (v.y - this->position.y);
         return 1;
     }
     return 0;
@@ -535,7 +530,6 @@ void TObjEneDelDepth::start_move_toward_player() {
 #pragma push
 #pragma fp_contract on
 void TObjEneDelDepth::update_movement() {
-    TObjEneDelDepth *self = this;
     Vec p;
     Vec n;
     s32 i;
@@ -545,16 +539,16 @@ void TObjEneDelDepth::update_movement() {
     s32 rot;
     if ((actor_frame_tick % 5) == 0) {
         clear_battle_param_slots();
-        self->check_object_collisions();
+        this->check_object_collisions();
         for (i = 0; i < 16; i++) {
             pl = (TObjChara *)TObjPlayer::get_battle_param(i);
             if (pl == 0) {
                 break;
             }
             if (obj_is_hit_receivable(pl) != 0 && is_player_entity_id(pl->get_entity_id()) != 0) {
-                pl->select_melee_contact_body(self, 1.0f);
-                pl->receive_physical_attack(self, 1.0f);
-                pl->apply_knockback_from_attacker((u8 *)self, 5.0f);
+                pl->select_melee_contact_body(this, 1.0f);
+                pl->receive_physical_attack(this, 1.0f);
+                pl->apply_knockback_from_attacker((u8 *)this, 5.0f);
             }
         }
     }
@@ -563,24 +557,24 @@ void TObjEneDelDepth::update_movement() {
         f32 t = sin_table_lookup(this->angle);
         f32 u = 0.5f * (0.5f + t);
         u = tune_params->accel * u;
-        if ((self->movementSpeed += u) > tune_params->maxSpeed) {
-            self->movementSpeed = tune_params->maxSpeed;
+        if ((this->movementSpeed += u) > tune_params->maxSpeed) {
+            this->movementSpeed = tune_params->maxSpeed;
         }
     } else {
-        if ((self->movementSpeed -= tune_params->accel) < 0.0f) {
-            self->movementSpeed = 0.0f;
+        if ((this->movementSpeed -= tune_params->accel) < 0.0f) {
+            this->movementSpeed = 0.0f;
         }
     }
-    this->progress -= fabs_float(self->movementSpeed);
-    VecCopy((Vec *)&self->prev_position, (const Vec *)&self->position);
+    this->progress -= fabs_float(this->movementSpeed);
+    VecCopy((Vec *)&this->prev_position, (const Vec *)&this->position);
     for (k = 1; k < 15; k++) {
         f32 s;
         f32 c;
         f32 d;
-        self->position.x += self->movementSpeed * self->direction.x;
-        self->position.z += self->movementSpeed * self->direction.z;
-        VecCopy((Vec *)&p, (const Vec *)&self->position);
-        VecCopy((Vec *)&n, (const Vec *)&self->direction);
+        this->position.x += this->movementSpeed * this->direction.x;
+        this->position.z += this->movementSpeed * this->direction.z;
+        VecCopy((Vec *)&p, (const Vec *)&this->position);
+        VecCopy((Vec *)&n, (const Vec *)&this->direction);
         normalize_vector(&n);
         d = 1.3f * TObjEneDelDepth_collision_body_parts[0].radius;
         p.x += d * n.x;
@@ -588,10 +582,10 @@ void TObjEneDelDepth::update_movement() {
         if (this->adjust_height_to_ground() != 0) {
             CsnHit *hit;
             ang = 0;
-            hit = csnVector(&self->prev_position, &p, 0x88E0);
+            hit = csnVector(&this->prev_position, &p, 0x88E0);
             if (hit != 0) {
                 Vec w;
-                VecCopy((Vec *)&p, (const Vec *)&self->position);
+                VecCopy((Vec *)&p, (const Vec *)&this->position);
                 w.x = hit->contact->normal.z;
                 w.z = -hit->contact->normal.x;
                 normalize_vector_xz((Vec *)(&w));
@@ -606,7 +600,7 @@ void TObjEneDelDepth::update_movement() {
                 p.x += d * n.x;
                 p.z += d * n.z;
                 this->angle = (s32)(10430.38043493439 * atan2_float(n.x, n.z));
-                if (csnVector(&self->prev_position, &p, 0x88E0) == 0) {
+                if (csnVector(&this->prev_position, &p, 0x88E0) == 0) {
                     ang = 1;
                 }
             } else {
@@ -615,7 +609,7 @@ void TObjEneDelDepth::update_movement() {
             if (ang == 1) {
                 CsnHit *u;
                 p.y += 10.0f;
-                u = csnVectorUnder(&p, self->ground_candidates.groups, 0x16EF);
+                u = csnVectorUnder(&p, this->ground_candidates.groups, 0x16EF);
                 if (u != 0 && (u->contact->flags & 0xE0) == 0) {
                     break;
                 }
@@ -627,20 +621,20 @@ void TObjEneDelDepth::update_movement() {
         }
         s = sin_table_lookup(rot);
         c = cos_table_lookup(rot);
-        self->direction.x = c * self->direction.x - s * self->direction.z;
-        self->direction.y = 0.0f;
-        self->direction.z = s * self->direction.x + c * self->direction.z;
-        normalize_vector(&self->direction);
-        this->rotation_y = (s32)(10430.38043493439 * atan2_float(self->direction.x, self->direction.z));
-        VecCopy((Vec *)&self->position, (const Vec *)&self->prev_position);
+        this->direction.x = c * this->direction.x - s * this->direction.z;
+        this->direction.y = 0.0f;
+        this->direction.z = s * this->direction.x + c * this->direction.z;
+        normalize_vector(&this->direction);
+        this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->direction.x, this->direction.z));
+        VecCopy((Vec *)&this->position, (const Vec *)&this->prev_position);
     }
-    if (this->progress <= 0.0f && 0.0f == self->movementSpeed) {
+    if (this->progress <= 0.0f && 0.0f == this->movementSpeed) {
         Vec q;
-        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(self), &q, 50.0f) != 0xFFFF && vector_length(&q) > 15.0f) {
+        if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(this), &q, 50.0f) != 0xFFFF && vector_length(&q) > 15.0f) {
             this->set_action_state(4);
         } else {
             this->set_action_state(3);
-            play_sound_effect(0x4003A822, &self->position, 0, 0);
+            play_sound_effect(0x4003A822, &this->position, 0, 0);
         }
     }
 }
@@ -750,20 +744,19 @@ void TObjEneDelDepth::init_depth() {
 }
 
 void TObjEneDelDepth::update_spin_search() {
-    TObjEneDelDepth *self = this;
     Vec sp;
     s32 r = 0;
     s32 t;
-    self->rotation_y = self->rotation_y + self->turnSpeed;
+    this->rotation_y = this->rotation_y + this->turnSpeed;
     if (this->find_nearest_enemy_with_flag(&sp, 500.0f) != 0xFFFF) {
         t = (s32) (10430.38043493439 * atan2_float(sp.x, sp.z));
-        if (angle_difference_abs(self->rotation_y, t) < 0x444) {
-            self->rotation_y = t;
+        if (angle_difference_abs(this->rotation_y, t) < 0x444) {
+            this->rotation_y = t;
             r = 1;
         }
     }
-    self->timer = self->timer - 1;
-    if (r != 0 || self->timer < 0) {
+    this->timer = this->timer - 1;
+    if (r != 0 || this->timer < 0) {
         this->set_action_state(9);
     }
 }
@@ -774,7 +767,6 @@ void TObjEneDelDepth::move_toward_target() {
     Vec v;
     s32 ang;
     s32 id;
-    u8 *self = (u8 *)this;
     v.x = 1.0f;
     v.z = v.y = 0.0f;
     id = this->targetPlayer;
@@ -812,7 +804,6 @@ void TObjEneDelDepth::move_toward_target() {
 void TObjEneDelDepth::init_draw_state() { this->timer = 30; this->attackTimer = 8; this->motionController->set_motion(2); this->set_draw_mode(2); }
 
 void TObjEneDelDepth::update_bomb_drop() {
-    u8 *self = (u8 *)this;
     Vec out;
     this->attackTimer--;
     if (this->attackTimer <= 0 && this->attackTimer == 0) {
@@ -820,7 +811,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         push_matrix_from(identity_matrix);
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        ((TObjEnemy *)self)->calc_joint_matrices(8.0f);
+        this->calc_joint_matrices(8.0f);
         pop_matrix();
         push_matrix_from(anim_model_matrix_array[23]);
         {
@@ -945,7 +936,6 @@ void TObjEneDelDepth::init_move() {
 #pragma push
 #pragma opt_common_subs off
 void TObjEneDelDepth::update_death_fade() {
-    u8 *enemy = (u8 *)this;
     s32 record;
     switch (this->actionPhase) {
     case 0:
@@ -966,10 +956,10 @@ void TObjEneDelDepth::update_death_fade() {
     case 2:
     default:
         record = 0x800;
-        ((TObjEnemy *)enemy)->send_6x0A_enemy_state(&record);
-        ((TObjEnemy *)enemy)->exchange_object_state(&record, 0);
+        this->send_6x0A_enemy_state(&record);
+        this->exchange_object_state(&record, 0);
         apply_enemy_state(&record);
-        ((TObjEnemy *)enemy)->send_entity_set_flags();
+        this->send_entity_set_flags();
         TDeadSpot::spawn_kind0_scale7_5(&position, 0);
         this->queue_destruction();
         break;
@@ -990,7 +980,6 @@ void TObjEneDelDepth::enter_fall_to_ground() {
 #pragma push
 #pragma fp_contract on
 void TObjEneDelDepth::update_fall_to_ground() {
-    TObjEneDelDepth *o = this;
     s32 done;
     s32 tries;
     Vec a;
@@ -1003,16 +992,16 @@ void TObjEneDelDepth::update_fall_to_ground() {
     done = 0;
     k = 5.0f;
     tries = 4;
-    o->fallVelocity.y += -0.075f;
+    this->fallVelocity.y += -0.075f;
     do {
-        VecCopy((Vec *)&a, (const Vec *)&o->position);
-        vec3_add_to(&a, &o->fallVelocity);
+        VecCopy((Vec *)&a, (const Vec *)&this->position);
+        vec3_add_to(&a, &this->fallVelocity);
         VecCopy((Vec *)&b, (const Vec *)&a);
-        b.y += k + fabs_float(o->fallVelocity.y);
-        if (project_actor_to_ground(o, &b, 0) != 0) {
-            VecCopy((Vec *)&o->position, (const Vec *)&a);
-            if (!(o->position.y > b.y)) {
-                o->position.y = b.y;
+        b.y += k + fabs_float(this->fallVelocity.y);
+        if (project_actor_to_ground(this, &b, 0) != 0) {
+            VecCopy((Vec *)&this->position, (const Vec *)&a);
+            if (!(this->position.y > b.y)) {
+                this->position.y = b.y;
                 done = 1;
             }
             break;
@@ -1020,16 +1009,16 @@ void TObjEneDelDepth::update_fall_to_ground() {
         s = sin_table_lookup(0x4000);
         co = cos_table_lookup(0x4000);
         tries--;
-        o->fallVelocity.x = co * o->fallVelocity.x + s * o->fallVelocity.z;
-        o->fallVelocity.z = -s * o->fallVelocity.x + co * o->fallVelocity.z;
+        this->fallVelocity.x = co * this->fallVelocity.x + s * this->fallVelocity.z;
+        this->fallVelocity.z = -s * this->fallVelocity.x + co * this->fallVelocity.z;
     } while (tries > 0);
     if (tries == 0) {
-        o->fallVelocity.x = o->fallVelocity.z = 0.0f;
-        VecCopy((Vec *)&c, (const Vec *)&o->position);
-        c.y += 5.0f + fabs_float(o->fallVelocity.y);
-        if (project_actor_to_ground(o, &c, 0) != 0) {
-            if (!(o->position.y > c.y)) {
-                o->position.y = c.y;
+        this->fallVelocity.x = this->fallVelocity.z = 0.0f;
+        VecCopy((Vec *)&c, (const Vec *)&this->position);
+        c.y += 5.0f + fabs_float(this->fallVelocity.y);
+        if (project_actor_to_ground(this, &c, 0) != 0) {
+            if (!(this->position.y > c.y)) {
+                this->position.y = c.y;
                 done = 1;
             }
         } else {
