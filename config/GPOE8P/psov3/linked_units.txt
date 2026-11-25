@@ -1139,9 +1139,6 @@ pso/ui/window/TWindowEffectParty.cpp
 pso/ui/window/TWindowFukidasi.cpp
 pso/ui/window/TWindowGetComCard.cpp
 pso/ui/window/TWindowHelpItem.cpp
-pso/ui/window/TWindowHelpItem_802531A0.cpp
-pso/ui/window/TWindowHelpItem_802540AC.cpp
-pso/ui/window/TWindowHelpItem_80255AB4.cpp
 pso/ui/window/TWindowHelpItem_8025A12C.cpp
 pso/ui/window/TWindowHelpItem_8025A60C.cpp
 pso/ui/window/WindowHelpItemTextB.cpp
@@ -1225,7 +1222,6 @@ pso/ui/window/TWindowSubItem_801F8FD4.cpp
 pso/ui/window/TWindowSubLog.cpp
 pso/ui/window/TWindowSubMag.cpp
 pso/ui/window/TWindowSubMagPhoton.cpp
-pso/ui/window/TWindowSubMag_802559F8.cpp
 pso/ui/window/TWindowSubMag_802627D8.cpp
 pso/ui/window/TWindowSubQuestBoard.cpp
 pso/ui/window/TWindowSubQuestBoardSelect.cpp
@@ -1244,7 +1240,6 @@ pso/ui/window/TWindowSubStatusDisp_80228C30.cpp
 pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp
 pso/ui/window/PageIndicator.cpp
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp
-pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp
 pso/ui/window/TWindowSubStatusDisp_80256B94.cpp
 pso/ui/window/TWindowSubStatusDisp_8025737C.cpp
 pso/ui/window/TWindowSubStatusDisp_80257BC0.cpp
@@ -1787,13 +1782,6 @@ pso/unk/text_802432F0.cpp
 pso/ui/window/TWindowAddition_80244238.cpp
 pso/ui/window/TWindowChoiceSetting_80249078.cpp
 pso/ui/window/TWindowHelpItem_802530D0.cpp
-pso/ui/window/TWindowHelpItem_80253154.cpp
-pso/ui/window/TWindowHelpItem_80253630.cpp
-pso/ui/window/TWindowSubMag_80253698.cpp
-pso/unk/text_8025373C.cpp
-pso/ui/window/WindowHelpItemTextA.cpp
-pso/unk/text_80253974.cpp
-pso/unk/text_80255A38.cpp
 pso/unk/text_8025CD10.cpp
 pso/ui/window/TWindowLockOn_80262C3C.cpp
 pso/unk/text_80263A20.cpp
@@ -2023,10 +2011,8 @@ pso/map/area/AreaMachine02.cpp
 pso/map/area/AreaVersus01.cpp
 pso/map/area/AreaVersus02.cpp
 
-pso/ui/window/WindowHelpItemCallbackEntries.cpp
 pso/quest/QuestOpcodeHandlersData.cpp
 pso/quest/challenge/ChallengeModeData.cpp
-pso/ui/window/TWindowHelpItem_802540ACData.cpp
 pso/ui/window/TWindowMainMenuData.cpp
 pso/system/prs.cpp
 pso/system/AramPool.cpp

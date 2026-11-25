@@ -4,8 +4,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 
-extern void (TWindowHelpItem::*TWindowHelpItem__photon_blast_update_callback)();
-
 struct HelpItemStarRowEntry {
     u8 pad0[0x10];
     s32 stars;

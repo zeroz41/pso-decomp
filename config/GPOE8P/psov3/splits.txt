@@ -6078,66 +6078,22 @@ pso/ui/window/TWindowFukidasi.cpp:
 	.sdata      start:0x805D3900 end:0x805D3908
 	.sdata2     start:0x805DCCE8 end:0x805DCDC4
 
-pso/ui/window/TWindowHelpItem_802540ACData.cpp:
-	.sdata2     start:0x805DCDC8 end:0x805DCDE8
-
 pso/ui/window/TWindowGetComCard.cpp:
 	.text       start:0x80252C38 end:0x802530D0
 	.rodata     start:0x8044ED80 end:0x8044EDA8
 	.data       start:0x804CF120 end:0x804CF140
 	.sdata      start:0x805D3908 end:0x805D3910
 
-pso/ui/window/WindowHelpItemTextA.cpp:
-	.rodata     start:0x8044EDA8 end:0x8044EDCA
-
 pso/ui/window/TWindowHelpItem_802530D0.cpp:
-	.text       start:0x802530D0 end:0x80253154
-
-pso/ui/window/TWindowHelpItem_80253154.cpp:
-	.text       start:0x80253154 end:0x802531A0
-
-pso/ui/window/TWindowHelpItem_802531A0.cpp:
-	.text       start:0x802531A0 end:0x80253630
-	.sdata2     start:0x805DCDE8 end:0x805DCE10
-
-pso/ui/window/TWindowHelpItem_80253630.cpp:
-	.text       start:0x80253630 end:0x80253698
-
-pso/ui/window/TWindowSubMag_80253698.cpp:
-	.text       start:0x80253698 end:0x8025373C
-
-pso/unk/text_8025373C.cpp:
-	.text       start:0x8025373C end:0x80253974
-
-pso/unk/text_80253974.cpp:
-	.text       start:0x80253974 end:0x802540AC
-	.rodata     start:0x8044EDD0 end:0x8044EDD8
+	.text       start:0x802530D0 end:0x80255E3C
+	.rodata     start:0x8044EDA8 end:0x8044EDD8
+	.data       start:0x804CF140 end:0x804CF8C8
+	.sdata      start:0x805D3910 end:0x805D3918
+	.sbss       start:0x805D6448 end:0x805D644C
+	.sdata2     start:0x805DCDC8 end:0x805DCE14
 
 pso/ui/window/WindowHelpItemTextB.cpp:
 	.rodata     start:0x8044EDD8 end:0x8044EDF5
-
-pso/ui/window/TWindowHelpItem_802540AC.cpp:
-	.text       start:0x802540AC end:0x802559F8
-	.data       start:0x804CF140 end:0x804CF868
-	.sbss       start:0x805D6448 end:0x805D644C
-
-pso/ui/window/WindowHelpItemCallbackEntries.cpp:
-	.data       start:0x804CF868 end:0x804CF8B0
-
-pso/ui/window/TWindowSubMag_802559F8.cpp:
-	.text       start:0x802559F8 end:0x80255A38
-
-pso/unk/text_80255A38.cpp:
-	.text       start:0x80255A38 end:0x80255AB4
-
-pso/ui/window/TWindowHelpItem_80255AB4.cpp:
-	.text       start:0x80255AB4 end:0x80255DF4
-	.data       start:0x804CF8B0 end:0x804CF8C8
-	.sdata      start:0x805D3910 end:0x805D3918
-	.sdata2     start:0x805DCE10 end:0x805DCE14
-
-pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp:
-	.text       start:0x80255DF4 end:0x80255E3C
 
 pso/ui/window/TWindowInputNumber.cpp:
 	.text       start:0x80255E3C end:0x80256B94

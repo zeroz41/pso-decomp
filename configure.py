@@ -453,7 +453,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/technique/TTecCircle.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .data holds dispatch_item_help's page tables ahead of the member pointers the
     # earlier page functions store: deferred generation of the last-to-first source.
-    "pso/ui/window/TWindowHelpItem_802540AC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # The class name and layout-table labels are .rodata/.sdata2 strings: readonly strings.
+    "pso/ui/window/TWindowHelpItem_802530D0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/effect/TDuelEffectCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectString.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
