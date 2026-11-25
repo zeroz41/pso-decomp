@@ -22,6 +22,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 const char *TWindowShortCut__name = "TWindowShortCut";
 
@@ -93,14 +94,14 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     s32 kind;
     NJS_POINT2 size;
 
-    u8 *shortcut_label = (u8 *)get_array_entry(0);
+    WindowTextEntry *shortcut_label = (WindowTextEntry *)get_array_entry(0);
     ShortcutPreviewEntry *shortcut_icon = (ShortcutPreviewEntry *)get_array_entry(2);
     u8 *detail_icon = (u8 *)get_array_entry(3);
-    u8 *kind_label = (u8 *)get_array_entry(4);
+    WindowTextEntry *kind_label = (WindowTextEntry *)get_array_entry(4);
     u8 *kind_icon = (u8 *)get_array_entry(6);
-    u8 *kind_name = (u8 *)get_array_entry(7);
-    u8 *preview_label = (u8 *)get_array_entry(8);
-    ShortcutPreviewEntry *preview = (ShortcutPreviewEntry *)get_array_entry(10);
+    WindowTextEntry *kind_name = (WindowTextEntry *)get_array_entry(7);
+    WindowTextEntry *preview_label = (WindowTextEntry *)get_array_entry(8);
+    WindowTextEntry *preview = (WindowTextEntry *)get_array_entry(10);
 
     kind = shortcut[0];
     set_text_entry_string(shortcut_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC4), 0);
@@ -130,7 +131,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         break;
     case 1: {
         char *text = fn_80076BC4(shortcut + 1);
-        set_text_entry_string((u8 *)preview, (uaddr)text, 0);
+        set_text_entry_string(preview, (uaddr)text, 0);
         measure_message_text_width(preview, 200.0f);
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
@@ -146,7 +147,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
         s32 *buffer = get_shared_text_buffer();
         u16 player = (u16)local_client_id;
         TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(shortcut + 1), reinterpret_cast<char *>(buffer), player);
-        set_text_entry_string((u8 *)preview, (uaddr)get_shared_text_buffer(), 0);
+        set_text_entry_string(preview, (uaddr)get_shared_text_buffer(), 0);
         measure_message_text_width_default(preview);
         preview->flags |= 2;
         size.x = 0.1f + (8.0f + preview->width);
@@ -160,7 +161,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     }
     case 3: {
         SymbolChatPreset *preset = TWindowChat::open_symbol_chat(shortcut + 1);
-        set_text_entry_string((u8 *)preview, (uaddr)preset->get_symbol_chat_data(), 0);
+        set_text_entry_string(preview, (uaddr)preset->get_symbol_chat_data(), 0);
         f32 height;
         f32 width;
         width = 203.0f;

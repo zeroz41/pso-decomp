@@ -37,6 +37,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 
 #pragma push
@@ -316,7 +317,7 @@ void TWindowLockOn::update_for_player_index(s32 id) {
     }
     ((TWindowSubStatusDisp *)(this))->clear_visible_flag();
     if ((((TWindowSubComCard *)(this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)(this))->get_field_20(), (const char *)str) != 0)) {
-        set_text_entry_string(((u8 *)this), str, 0x20);
+        set_text_entry_string(((WindowTextEntry *)this), str, 0x20);
     }
     if (player->is_actor_dead() != 0) {
         *(s32 *)&this->entry_list = 0xFFFF0000;

@@ -13,6 +13,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #pragma readonly_strings on
 
 
@@ -88,7 +89,7 @@ TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     meseta = this->get_meseta_value();
     a = (Sub_80269244 *)get_array_entry(0);
     b = (Sub_80269244 *)get_array_entry(1);
-    set_text_entry_string((u8 *)a, str, 0);
+    set_text_entry_string((WindowTextEntry *)a, str, 0);
     ((TWindowSubStatusDisp *)b)->set_all_values(meseta);
     target_size[0] = 10.0f + b->x8;
     save_position();

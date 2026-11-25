@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 
 extern "C" {
@@ -59,9 +60,7 @@ const ComCardHelpRect com_card_help_panel_rect_table[14] = {
 };
 
 // The text set of the com card display: its six text entries (name, card id, class, status, stat, keyboard).
-struct ComCardText { u16 flags; u8 pad2[6]; f32 x; u8 padC[4]; f32 w; };
-
-struct ComCardTextSet { void *t0; ComCardText *t4; void *t8; void *tC; void *t10; void *t14; };
+struct ComCardTextSet { WindowTextEntry *t0; WindowTextEntry *t4; void *t8; void *tC; void *t10; WindowTextEntry *t14; };
 
 struct ComCardDisplay { u8 pad[4]; ComCardTextSet *set; };
 extern "C" void update_com_card_display(ComCardDisplay *display, void *data);
@@ -161,9 +160,9 @@ extern "C" void TWindowComCard__sub_80249920(saddr window, s32 index, s32 record
 }
 
 extern "C" void update_com_card_display(ComCardDisplay *display, void *card) {
-    ComCardText *t4;
-    void *t14;
-    void *t0;
+    WindowTextEntry *t4;
+    WindowTextEntry *t14;
+    WindowTextEntry *t0;
     void *tC;
     void *t8;
     void *t10;
@@ -177,7 +176,7 @@ extern "C" void update_com_card_display(ComCardDisplay *display, void *card) {
     t10 = s->t10;
     t4 = s->t4;
     t14 = s->t14;
-    set_text_entry_string((u8 *)t0, (uaddr)reinterpret_cast<GuildCardEntry *>(card)->get_name(), 0x220);
+    set_text_entry_string(t0, (uaddr)reinterpret_cast<GuildCardEntry *>(card)->get_name(), 0x220);
     n = TWindowComCard__sub_80249C20(card);
     if (n > 5) {
         n = 5;
@@ -200,13 +199,13 @@ extern "C" void update_com_card_display(ComCardDisplay *display, void *card) {
         } else {
             text_builder_reset();
             text_builder_append_int(id);
-            set_text_entry_string((u8 *)t4, (uaddr)((void *)get_shared_text_buffer()), 0x20);
+            set_text_entry_string(t4, (uaddr)((void *)get_shared_text_buffer()), 0x20);
             measure_message_text_width_default(t4);
-            t4->x = 198.0f - t4->w;
+            t4->x = 198.0f - t4->width;
             t4->flags &= ~2;
         }
     } else {
         t4->flags |= 2;
     }
-    set_text_entry_string((u8 *)t14, (uaddr)((void *)((TWindowComCard *)card)->get_kbd_ptr()), 0x220);
+    set_text_entry_string(t14, (uaddr)((void *)((TWindowComCard *)card)->get_kbd_ptr()), 0x220);
 }

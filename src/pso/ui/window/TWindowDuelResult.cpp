@@ -15,6 +15,8 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 
 #pragma readonly_strings on
@@ -28,7 +30,6 @@ saddr get_shared_text_buffer(s32);
 void text_builder_append_int(s32);
 s32 text_builder_append(s32);
 }
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 void text_builder_reset(void);
 
 extern "C" const char lbl_805DCCA8[] = ":";
@@ -121,7 +122,7 @@ void TWindowDuelResult::sub_8024EF40() {
     set_default_status(c, get_localized_text_entry(0x10, 5));
     pl = get_player_by_client_id(client_index);
     if (pl != 0) {
-        set_text_entry_string((u8 *)(get_array_entry(1)), (uaddr)pl->name, 0x20);
+        set_text_entry_string((WindowTextEntry *)(get_array_entry(1)), (uaddr)pl->name, 0x20);
         vals[0] = pl->battle_score.damage_stats[0].get_total();
         vals[1] = pl->battle_score.damage_stats[1].get_total();
         vals[2] = pl->battle_score.damage_stats[3].get_total();
@@ -145,7 +146,7 @@ void TWindowDuelResult::sub_8024F094() {
     u8 *a;
     u8 *b;
     u8 *c;
-    u8 *d;
+    WindowTextEntry *d;
     init_window_layout_entries(&entry_list, TWindowDuelResult::layout_entries, client_index);
     a = (u8 *)get_array_entry(0);
     set_default_status(a, get_localized_text_entry(0x10, 0));
@@ -164,13 +165,13 @@ void TWindowDuelResult::sub_8024F094() {
         a = (u8 *)get_array_entry(i * 4 + 1);
         b = (u8 *)get_array_entry(i * 4 + 2);
         c = (u8 *)get_array_entry(i * 4 + 3);
-        d = (u8 *)get_array_entry(i * 4 + 4);
+        d = (WindowTextEntry *)get_array_entry(i * 4 + 4);
         p = (e->client_id == 0xFFFF) ? NULL : (u8 *)get_player_by_client_id(e->client_id);
         if (p == NULL) {
             *(u16 *)a |= 2;
             *(u16 *)b |= 2;
             *(u16 *)c |= 2;
-            *(u16 *)d |= 2;
+            d->flags |= 2;
         } else {
             if (none) {
                 set_default_status(a, get_localized_text_entry(0x10, 0xA));
@@ -183,12 +184,12 @@ void TWindowDuelResult::sub_8024F094() {
             } else {
                 set_default_status(a, get_localized_text_entry(0x10, e->place + 6));
             }
-            set_text_entry_string((u8 *)c, (uaddr)(p + 0x85C), 0x20);
+            set_text_entry_string((WindowTextEntry *)c, (uaddr)(p + 0x85C), 0x20);
             text_builder_reset();
             text_builder_append_int(e->score);
             set_text_entry_string(d, (uaddr)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
             measure_message_text_width_default(d);
-            *(f32 *)(d + 8) = (372.0f) - *(f32 *)(d + 0x10);
+            d->x = (372.0f) - d->width;
         }
     }
 }

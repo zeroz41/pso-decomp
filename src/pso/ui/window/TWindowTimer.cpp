@@ -19,6 +19,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 #pragma readonly_strings on
 
@@ -100,7 +101,7 @@ void TWindowTimer::draw(s32 arg1, s32 arg2) {
     append_padded_number(arg1, 3);
     text_builder_append((u8 *)"\tC7:\tC3");
     append_padded_number(arg2, 3);
-    set_text_entry_string((u8 *)array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string((WindowTextEntry *)array_entry, (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)array_entry)->reset_float_field();
 }
 
@@ -123,7 +124,7 @@ void TWindowTimer::set_time(u32 secs) {
         text_builder_append((u8 *)"\"");
         append_padded_number((secs), 2);
     }
-    set_text_entry_string((u8 *)entry, (uaddr)(get_shared_text_buffer()), 0x20);
+    set_text_entry_string((WindowTextEntry *)entry, (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)entry)->reset_float_field();
 }
 

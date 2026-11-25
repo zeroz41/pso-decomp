@@ -176,7 +176,7 @@ void TWindowDD_WS_Word::load_element_list() {
     visible_entry_count = n;
     for (i = 0; i < visible_entry_count; i++) {
         ent = (Entry_80341FFC *)get_array_entry(i);
-        set_text_entry_string((u8 *)ent, get_word_select_token_text(token_ids[i]), 0xC0);
+        set_text_entry_string((WindowTextEntry *)ent, get_word_select_token_text(token_ids[i]), 0xC0);
         ent->y = i * 20;
         measure_message_text_width_default(ent);
     }
@@ -488,7 +488,7 @@ void TWindowDD_WS_Word::render() {
         idx = self->selected_token_index - self->selected_row;
         for (i = 0; i < self->visible_entry_count; i++, idx++) {
             item = (WindowTextEntry *)self->get_array_entry(i);
-            set_text_entry_string((u8 *)item, get_word_select_token_text(self->token_ids[idx]), 0xC0);
+            set_text_entry_string(item, get_word_select_token_text(self->token_ids[idx]), 0xC0);
             item->y = (f32)(i * 20);
             measure_message_text_width_default(item);
             ((TWindowHelpItem *)item)->reset_float_field();

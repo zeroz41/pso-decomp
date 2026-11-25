@@ -11,6 +11,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 struct RoomTitleEntry {
     u8 unknown00[8];
@@ -43,7 +44,7 @@ void *TWindowRoom::get_title_entry() {
 }
 
 void TWindowSubStatusDisp::set_entry_display_value(s32 str) {
-    set_text_entry_string((u8 *)(get_array_entry(0)), str, 0x60);
+    set_text_entry_string((WindowTextEntry *)(get_array_entry(0)), str, 0x60);
 }
 
 void TWindowRoom::draw_tab(WindowDrawContext *context) {
@@ -64,7 +65,7 @@ TWindowRoom::TWindowRoom(char *title)
     RoomTitleEntry *entry;
     m_name = TWindowRoom__class_name;
     entry = (RoomTitleEntry *)this->get_array_entry(0);
-    set_text_entry_string((u8 *)entry, (uaddr)title, 0x60);
+    set_text_entry_string((WindowTextEntry *)entry, (uaddr)title, 0x60);
     measure_message_text_width_default(entry);
     target_size[0] = 10.0f + (entry->positionX + entry->width);
     target_position[0] -= target_size[0];

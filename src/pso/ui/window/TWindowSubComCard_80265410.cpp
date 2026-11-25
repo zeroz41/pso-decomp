@@ -30,6 +30,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 
 #pragma readonly_strings on
 
@@ -73,7 +74,6 @@ void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
 void fn_80266378(s32 rows);
 }
 
-void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 const f64 lbl_8044F330 = 0.0;
 // The TWindowMenu layout table (one type-3 text record; fn_80266378 sets the row count) and
 // the window descriptor the TWindowMenu constructor passes to TWindowAddition.
@@ -522,9 +522,9 @@ s32 TWindowMenu::add_text_entry(saddr text, s32 flags, s32 id, s32 color) {
     entry->y = (f32)(row_index * 0x14);
     entry->color = color;
     if (flags & 1) {
-        set_text_entry_string((u8 *)entry, text, 0x20);
+        set_text_entry_string(entry, text, 0x20);
     } else {
-        set_text_entry_string((u8 *)entry, text, 0);
+        set_text_entry_string(entry, text, 0);
     }
     if (flags & 4) {
         entry->flags |= 1;

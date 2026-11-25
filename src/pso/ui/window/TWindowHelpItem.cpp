@@ -42,6 +42,8 @@
 #include "pso/unk/text_8025373C.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -69,7 +71,6 @@ void fn_80255A38(TWindowHelpItem *item);
 }
 extern u8 *text_language_group_table;
 saddr format_item_description(u8 *item);
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 
 const char *window_help_item_class_name = "TWindowHelpItem";
 
@@ -1154,14 +1155,14 @@ void TWindowHelpItem::show_mag_photon_blasts() {
 }
 
 void TWindowHelpItem::show_item_description() {
-    u8 *e;
+    WindowTextEntry *e;
     TUnk_804CFA10 *e2;
     init_window_layout_entries(
         &this->entry_list,
         &window_help_item_layout_entries,
         this->client_index);
     m_callback = &TWindowHelpItem::idle_update;
-    e = (u8 *)this->get_array_entry(0);
+    e = (WindowTextEntry *)this->get_array_entry(0);
     this->format_description_with_price();
     set_text_entry_string((e), (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
@@ -1172,7 +1173,7 @@ void TWindowHelpItem::show_item_description() {
 void TWindowHelpItem::update_tech_disk_details() {
     s32 requirement;
     saddr player;
-    u8 *e0;
+    WindowTextEntry *e0;
     WindowSpritePart *e1;
     TWindowHelpItem *e2;
     u8 *e3;
@@ -1186,7 +1187,7 @@ void TWindowHelpItem::update_tech_disk_details() {
             &help_item_tech_disk_window_layout_table,
             this->client_index);
         m_callback = &TWindowHelpItem::update_tech_disk_stats;
-        e0 = (u8 *)this->get_array_entry(0);
+        e0 = (WindowTextEntry *)this->get_array_entry(0);
         text_builder_reset();
         text_builder_append((u8 *)format_item_description((u8 *)active_item));
         if (current_language == LANGUAGE_JAPANESE) {
@@ -1244,13 +1245,13 @@ void TWindowHelpItem::update_displayed_item() {
 }
 
 void TWindowHelpItem::init_text(void *str) {
-    u8 *e;
+    WindowTextEntry *e;
     init_window_layout_entries(
         &this->entry_list,
         &TWindowHelpItem::description_text_layout,
         this->client_index);
     m_callback = &TWindowHelpItem::idle_update;
-    e = (u8 *)this->get_array_entry(0);
+    e = (WindowTextEntry *)this->get_array_entry(0);
     set_text_entry_string(e, (uaddr)str, 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
 }

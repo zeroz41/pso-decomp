@@ -147,30 +147,30 @@ void measure_message_text_width(WindowTextEntry *msg, f32 maxw) {
 
 #pragma push
 #pragma opt_common_subs off
-void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2) {
+void set_text_entry_string(WindowTextEntry *entry, uaddr str, s32 flags) {
     saddr num;
-    u16 temp_r3;
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x20) != 0U) {
-        temp_r3 = *(u16 *)((s8 *)arg0 + 0);
-        if (temp_r3 & 0x20) {
-            *(u16 *)((s8 *)arg0 + 0) = (u16) (temp_r3 & 0xFFFFFFDF);
-            mem_free((void *)((saddr) (*(uaddr *)((s8 *)arg0 + 0x20))));
+    u16 old_flags;
+    if (entry->text != NULL) {
+        old_flags = entry->flags;
+        if (old_flags & 0x20) {
+            entry->flags = old_flags & 0xFFFFFFDF;
+            mem_free(entry->text);
         }
     }
-    if ((str != 0U) && (arg2 & 0x20)) {
-        num = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x400));
-        *(u32 *)((s8 *)arg0 + 0x20) = ((uaddr)mem_alloc(num + 1));
-        strncpy((char *)(*(uaddr *)((s8 *)arg0 + 0x20)), (const char *)str, num);
-        *(s8 *)((s8 *)(num + *(u32 *)((s8 *)arg0 + 0x20)) + 0) = 0;
-        *(u16 *)((s8 *)arg0 + 0) = (u16) (*(u16 *)((s8 *)arg0 + 0) | 0x20);
+    if ((str != 0U) && (flags & 0x20)) {
+        num = TWindowKeyBoardSoft::strnlen((s8 *)str, 0x400);
+        entry->text = (char *)mem_alloc(num + 1);
+        strncpy(entry->text, (const char *)str, num);
+        *(char *)(num + (uaddr)entry->text) = 0;
+        entry->flags = entry->flags | 0x20;
     } else {
-        *(u32 *)((s8 *)arg0 + 0x20) = str;
+        entry->text = (char *)str;
     }
-    if (*(f32 *)((s8 *)arg0 + 0x28) > K_CFAC) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) K_CFAC;
+    if (entry->reveal_speed > K_CFAC) {
+        entry->reveal_width = K_CFAC;
     }
-    *(u16 *)((s8 *)arg0 + 0) = (u16) (*(u16 *)((s8 *)arg0 + 0) & ~0x2D1);
-    *(u16 *)((s8 *)arg0 + 0) = (u16) (*(u16 *)((s8 *)arg0 + 0) | (arg2 & 0x2C1));
+    entry->flags = entry->flags & ~0x2D1;
+    entry->flags = entry->flags | (flags & 0x2C1);
 }
 #pragma pop
 

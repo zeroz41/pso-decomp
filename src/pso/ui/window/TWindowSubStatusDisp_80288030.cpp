@@ -10,12 +10,13 @@
 #include <string.h>
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 extern "C" {
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, saddr arg2, s8 arg3, s32 arg4);
 extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
 }
-void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 // The HUD palette texture names; load_hud_palette_textures loads the archive into this list.
 NJS_TEXNAME f256_hyouji_texname[13] = { // the texture names of f256_hyouji_texlist
     { "f256_hyouji_a", 0, 0 },
@@ -75,20 +76,20 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
     text_builder_reset();
     text_builder_append((u8 *)":");
     text_builder_append((u8 *)(record->get_sub_disp_ptr()));
-    set_text_entry_string((u8 *)temp_r31, (uaddr)(get_shared_text_buffer()), 0x60);
+    set_text_entry_string((WindowTextEntry *)temp_r31, (uaddr)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append((u8 *)":");
     text_builder_append((u8 *)(record->get_name()));
-    set_text_entry_string((u8 *)temp_r30, (uaddr)(get_shared_text_buffer()), 0x60);
+    set_text_entry_string((WindowTextEntry *)temp_r30, (uaddr)(get_shared_text_buffer()), 0x60);
     text_builder_reset();
     text_builder_append((u8 *)":");
     text_builder_append((u8 *)(TWindowSubComCard__sub_8027523C(record)));
-    set_text_entry_string((u8 *)temp_r29, (uaddr)(get_shared_text_buffer()), 0x60);
+    set_text_entry_string((WindowTextEntry *)temp_r29, (uaddr)(get_shared_text_buffer()), 0x60);
     if ((s8) *(u8 *)record->get_card_data_ptr() != 0) {
         text_builder_reset();
         text_builder_append((u8 *)":");
         text_builder_append(((u8 *)record->get_card_data_ptr()));
-        set_text_entry_string((u8 *)temp_r28, (uaddr)(get_shared_text_buffer()), 0x60);
+        set_text_entry_string((WindowTextEntry *)temp_r28, (uaddr)(get_shared_text_buffer()), 0x60);
         ((TWindowSubStatusDisp *)temp_r27)->clear_visible_flag();
         ((TWindowSubStatusDisp *)temp_r28)->clear_visible_flag();
     } else {
@@ -99,7 +100,7 @@ void TWindowSubStatusDisp::fill_card_text_entries(GuildCardRecord *record) {
         text_builder_reset();
         text_builder_append((u8 *)(record->get_sub_obj()));
         text_builder_append((u8 *)(TWindowSubStatusDisp::get_message_10(0x45)));
-        set_text_entry_string((u8 *)temp_r26, (uaddr)(get_shared_text_buffer()), 0x60);
+        set_text_entry_string((WindowTextEntry *)temp_r26, (uaddr)(get_shared_text_buffer()), 0x60);
         ((TWindowSubStatusDisp *)temp_r26)->clear_visible_flag();
         return;
     }

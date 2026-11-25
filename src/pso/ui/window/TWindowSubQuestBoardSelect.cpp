@@ -20,6 +20,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 void TWindowSubQuestBoardSelect::sub_8027D1E8() {
     m_60 &= ~1;
@@ -105,7 +106,7 @@ void TWindowSubQuestBoardSelect::sub_8027D230() {
     u8 *array_entry;
     str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
     array_entry = (u8 *)(this->get_array_entry(1));
-    set_text_entry_string((u8 *)array_entry, (uaddr)str, 0);
+    set_text_entry_string((WindowTextEntry *)array_entry, (uaddr)str, 0);
     measure_message_text_width(array_entry, 100000.0f);
     *(f32 *)((s8 *)array_entry + 8) = (f32) (385.0f - *(f32 *)((s8 *)array_entry + 0x10));
 }
@@ -312,7 +313,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     this->status_disp = (TWindowSubStatusDisp *)var_r30;
     m_60 = 0;
     temp_r30 = reinterpret_cast<saddr>(this->get_array_entry(0));
-    set_text_entry_string((u8 *)temp_r30, (uaddr)(TQuestThread::get_quest_name()), 0);
+    set_text_entry_string((WindowTextEntry *)temp_r30, (uaddr)(TQuestThread::get_quest_name()), 0);
     ((TWindowSubComCard *)temp_r30)->get_field_20();
     temp_f2 = (f32) calc_text_width();
     *(f32 *)((s8 *)temp_r30 + 8) = 210.0f - 0.5f * temp_f2;

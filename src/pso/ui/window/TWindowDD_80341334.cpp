@@ -12,6 +12,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/vector.h"
+#include "pso/ui/window/WindowTextEntry.h"
 
 #pragma readonly_strings on
 
@@ -74,8 +75,8 @@ void TWindowDD__sub_803412A0(TWindowDD_WS_String *self) {
 }
 
 void TWindowDD_WS_String::set_first_entry_text(u32 str) {
-    u8 *entry;
-    entry = (u8 *)get_array_entry(0);
+    WindowTextEntry *entry;
+    entry = (WindowTextEntry *)get_array_entry(0);
     if (entry != NULL) {
         set_text_entry_string(entry, str, 0x80);
     }
@@ -109,21 +110,21 @@ TWindowDD_WS_String::~TWindowDD_WS_String() {}
 
 TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style)
     : TWindowBase((u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos) {
-    u8 *entry;
+    WindowTextEntry *entry;
     m_name = lbl_805D42D8;
     copy_vec2(pad_64, pos);
     copy_vec2(pad_6C, size);
     pad_60 = style;
-    entry = (u8 *)get_array_entry(0);
+    entry = (WindowTextEntry *)get_array_entry(0);
     if (entry != NULL) {
         set_text_entry_string(entry, str, 0x80);
-        *(f32 *)((s8 *)entry + 0x8) = 0.0f;
-        *(f32 *)((s8 *)entry + 0xC) = 0.0f;
+        entry->x = 0.0f;
+        entry->y = 0.0f;
         measure_message_text_width_default(entry);
         ((TWindowHelpItem *)entry)->reset_float_field();
     }
     if ((pad_60 == 1) || (pad_60 == 3)) {
-        *(s32 *)((s8 *)entry + 0x24) = lbl_805DFC18;
+        entry->color = lbl_805DFC18;
     }
     open_tick = 0x01000000;
 }

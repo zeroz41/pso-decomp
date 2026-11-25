@@ -41,6 +41,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #undef PSO_SDK_COMPACT_MATH
 
 
@@ -70,7 +72,6 @@ s32 fn_80252CBC(void);
 s32 measure_message_text_width(int, f32);
 }
 
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 extern "C" {
 f32 vec3_dot(void *, void *);
 void rotate_matrix_y(s32, s32);
@@ -500,7 +501,7 @@ void TWindowFukidasi::measure_text_unbounded(int entry) {
 #pragma fp_contract on
 void TWindowFukidasi::set_text(saddr str, saddr flags) {
   u32 new_var;
-  u8 *entry;
+  WindowTextEntry *entry;
   init_flags(flags);
   clear_flag();
   if (content_kind != 0)
@@ -512,7 +513,7 @@ void TWindowFukidasi::set_text(saddr str, saddr flags) {
         reinterpret_cast<const void *>(&window_fukidasi_layout_entries.value),
         client_index);
   }
-  entry = (u8 *) get_array_entry(0);
+  entry = (WindowTextEntry *)get_array_entry(0);
   if (flags & 1)
   {
     set_text_entry_string(entry, str, 0x20);
@@ -523,7 +524,7 @@ void TWindowFukidasi::set_text(saddr str, saddr flags) {
   }
   if (flags & 4)
   {
-    *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) | 0x40);
+    entry->flags |= 0x40;
     measure_message_text_width_default(entry);
   }
   else
@@ -532,13 +533,13 @@ void TWindowFukidasi::set_text(saddr str, saddr flags) {
   }
   if (flags & 0x80)
   {
-    *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) | 0x200);
+    entry->flags |= 0x200;
   }
   else
   {
-    *((u16 *) (((s8 *) entry) + 0)) = (u16) ((*((u16 *) (((s8 *) entry) + 0))) & 0xFFFFFDFF);
+    entry->flags &= 0xFFFFFDFF;
   }
-  *((s32 *) (((s8 *) entry) + 0x24)) = 0xFF000000;
+  entry->color = 0xFF000000;
   new_var = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x100));
   display_ticks = (s16) ((3.3f * ((f32) new_var)) + 55.5f);
   if (TWindowSubStatusDisp::get_card_window_scale((int) ((s32) client_index)) > 0.0f)
