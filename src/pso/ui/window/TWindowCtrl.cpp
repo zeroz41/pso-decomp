@@ -460,17 +460,17 @@ void TWindowCtrl::update_window_visibility() {
 
 
 void TWindowCtrl::update_com_card_window() {
-    TWindowGetComCard *temp_r3;
+    TWindowGetComCard *card_window;
     TWindowChat *window_chat;
-    TWindowGetComCard *temp_r3_3;
-    temp_r3 = this->com_card_window;
-    if ((temp_r3 != NULL) && (temp_r3->all_parents_unqueued_for_destruction() == 0)) {
+    TWindowGetComCard *card;
+    card_window = this->com_card_window;
+    if ((card_window != NULL) && (card_window->all_parents_unqueued_for_destruction() == 0)) {
         this->com_card_window = NULL;
     }
     if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((window_chat = chat_window, ((window_chat == NULL) == 0)) && (TWindowCtrl__sub_8024701C(window_chat) != 0))) {
-        temp_r3_3 = this->com_card_window;
-        if (temp_r3_3 != NULL) {
-            temp_r3_3->queue_destruction();
+        card = this->com_card_window;
+        if (card != NULL) {
+            card->queue_destruction();
             this->com_card_window = NULL;
         }
     } else if (this->com_card_window == NULL) {
@@ -777,12 +777,12 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
 
 
 void TWindowCtrl::release_slot(s8 *slot) {
-    s8 temp_r4;
+    s8 index;
 
     if (instance != NULL) {
-        temp_r4 = *slot;
-        if ((temp_r4 >= 0) && (temp_r4 < 4)) {
-            instance->flags &= ~(0x40 << temp_r4);
+        index = *slot;
+        if ((index >= 0) && (index < 4)) {
+            instance->flags &= ~(0x40 << index);
             *slot = -1;
         }
     }
@@ -792,20 +792,20 @@ void TWindowCtrl::release_slot(s8 *slot) {
 
 const NJS_POINT2 *TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
     TWindowCtrlPlayer *window;
-    s32 var_r3;
+    s32 layout_base;
 
     window = TWindowCtrl::get_window(client_id);
     if (window == NULL) {
         return 0;
     }
     if (window->is_log_active() != 0) {
-        var_r3 = 0x4D;
+        layout_base = 0x4D;
     } else if (window->is_main_menu_open() != 0) {
-        var_r3 = 0x48;
+        layout_base = 0x48;
     } else {
-        var_r3 = 0x43;
+        layout_base = 0x43;
     }
-    return get_window_layout_position(var_r3 + type);
+    return get_window_layout_position(layout_base + type);
 }
 
 
