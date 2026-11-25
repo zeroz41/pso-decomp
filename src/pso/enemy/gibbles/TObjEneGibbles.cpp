@@ -416,7 +416,7 @@ void TObjEneGibbles::render() {
 }
 
 void gibbles_render_node_callback(NJS_OBJECT *) {
-    if ((s32) gibbles_render_node_index == 0x18) {
+    if (gibbles_render_node_index == 0x18) {
         rotate_matrix_x(NULL, gibbles_render_rotation_x);
     }
     gibbles_render_node_index += 1;

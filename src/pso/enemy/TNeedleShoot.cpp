@@ -301,7 +301,7 @@ TNeedleShoot::TNeedleShoot(TObjBase *owner, Vec *from, Vec *to) : TObject(tl_06)
     pad_88.y = 1.0f;
     pad_88.z = 1.0f;
     distance = 0.0f;
-    this->owner = (TObjBase *)owner;
+    this->owner = owner;
     speed = 5.0f;
     range = 1000.0f;
     contact_mode = 0;

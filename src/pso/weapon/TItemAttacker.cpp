@@ -99,7 +99,7 @@ saddr get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }
 
 void TItemBuff__ct(void) {
     if (item_buff_buffer != NULL) {
-        if ((s32) item_buffer_temp_mode != 0) {
+        if (item_buffer_temp_mode != 0) {
             TLobby::tmp_buf_release("TItemBuff");
         } else {
             mem_free(item_buff_buffer);

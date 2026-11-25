@@ -280,7 +280,7 @@ void TObjEneRe4Sorcerer::free_bits() {
     }
     TObjEneRe4Bit::free_resources();
     if ((uaddr) sorcerer_bml_resource != 0U) {
-        delete (BmlResource *)sorcerer_bml_resource;
+        delete sorcerer_bml_resource;
         sorcerer_bml_resource = 0U;
     }
 }
@@ -492,11 +492,11 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
         if (((TObjBase *)q)->is_alive() != 0) {
             e = horizontal_distance_squared(&this->body_center, &q->body_center);
             if (is_target_ranger(q) != 0) {
-                if (e < ranger_range_sq && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
+                if (e < ranger_range_sq && is_target_unobstructed_from((TObjEneDD *)this, q) != 0) {
                     ranger_range_sq = e;
                     tA = q->get_entity_id();
                 }
-            } else if (e < range_sq && is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)q) != 0) {
+            } else if (e < range_sq && is_target_unobstructed_from((TObjEneDD *)this, q) != 0) {
                 range_sq = e;
                 tB = q->get_entity_id();
             }

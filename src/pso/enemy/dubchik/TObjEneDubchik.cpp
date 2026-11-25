@@ -346,7 +346,7 @@ void TObjEneDubchik::load_resources() {
 
 void TObjEneDubchik::free_resources() {
     if (breakup_model_ptr != NULL) {
-        delete (TBreakUpMdlData *)breakup_model_ptr;
+        delete breakup_model_ptr;
         breakup_model_ptr = NULL;
     }
     if (dubchik_resource != NULL) {

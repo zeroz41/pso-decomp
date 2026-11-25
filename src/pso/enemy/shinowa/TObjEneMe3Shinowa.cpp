@@ -598,7 +598,7 @@ void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
         state_fade_appear(reason);
         return;
     case 2:
-        state_t_wait((s32)reason);
+        state_t_wait(reason);
         return;
     case 3:
         state_drop_appear(reason);
@@ -607,13 +607,13 @@ void TObjEneMe3Shinowa::dispatch_action(u32 state, s32 reason) {
         state_chase_target(reason);
         return;
     case 5:
-        state_f_attack((s32)reason);
+        state_f_attack(reason);
         return;
     case 6:
-        state_sword_attack((s32)reason);
+        state_sword_attack(reason);
         return;
     case 7:
-        state_backstep((s32)reason);
+        state_backstep(reason);
         return;
     case 8:
         state_scatter(reason);
@@ -1530,7 +1530,7 @@ void TObjEneMe3Shinowa::render() {
     }
     if (detail != 0) {
         update_player_state_default();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        TObjFish::set_global_param(texlist);
         update_secondary_light();
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
@@ -1593,10 +1593,10 @@ void TObjEneMe3Shinowa::render_demo() {
     }
     gold = is_gold_enabled();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        TObjFish::set_global_param(texlist);
         toggle_particle_effect();
         if (gold != 0) {
-            textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            textures = texlist->textures;
             for (i = 0; i < 3; i++) {
                 saved_texaddr[i] = textures[i + 3].texture;
             }
@@ -1642,7 +1642,7 @@ void TObjEneMe3Shinowa::render_demo() {
         }
         pop_matrix();
         if (gold != 0) {
-            textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            textures = texlist->textures;
             for (i = 0; i < 3; i++) {
                 textures[i + 3].texture = saved_texaddr[i];
             }

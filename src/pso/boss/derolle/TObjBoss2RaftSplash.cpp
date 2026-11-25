@@ -57,7 +57,7 @@ void TObjBoss2RaftSplash::spawn_splash(const Vec *position, s32 particle_index, 
 void TObjBoss2Tunnel::create_particle_effect(const Vec *position, s32 particle_index, f32 speed) {
     TParticleCtrl *particle;
 
-    particle = new TParticleCtrl(static_cast<const Vec *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, 0x40);
+    particle = new TParticleCtrl(position, TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, 0x40);
     if (particle != NULL) {
         particle->run_task();
         release_children(particle, speed);

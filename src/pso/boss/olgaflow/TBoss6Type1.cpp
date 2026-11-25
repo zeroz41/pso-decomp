@@ -1214,8 +1214,8 @@ void TBoss6Type1::check_laser_hits() {
             continue;
         }
         inside = 1;
-        VecCopy((Vec *)&pts[0], (const Vec *)((void *)VecCopy((Vec *)(p3), (const Vec *)((void *)VecCopy((Vec *)(p4), (const Vec *)(pA))))));
-        VecCopy(p1, (const Vec *)((void *)VecCopy((Vec *)(p2), (const Vec *)(pB))));
+        VecCopy((Vec *)&pts[0], (const Vec *)((void *)VecCopy(p3, (const Vec *)((void *)VecCopy(p4, pA)))));
+        VecCopy(p1, (const Vec *)((void *)VecCopy(p2, pB)));
         off.x = -500.0f * sin_table_lookup(rotation_y);
         off.y = 0.0f;
         off.z = -500.0f * cos_table_lookup(rotation_y);

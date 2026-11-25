@@ -941,7 +941,7 @@ void TObjEneDellBiter::update_walk_state(s32 reason) {
             this->update_velocity();
         }
         rotation_y = approach_angle_limited(rotation_y, angle = (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x300);
-        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, (s32)angle, 0x200, 0x2000);
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, angle, 0x200, 0x2000);
         delbiter_movement_parameters = dell_biter_movement_params;
         if (destination_distance <= (f32) delbiter_movement_parameters->attack_distance) {
             facing = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
@@ -1102,7 +1102,7 @@ void TObjEneDellBiter::update_attack_state(s32 reason) {
     case 0:
         advance_animation();
         angle = rotation_y;
-        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)angle, (s32)part_rotation_x, (s32)angle, 0x200, 0x2000);
+        part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited(angle, (s32)part_rotation_x, angle, 0x200, 0x2000);
         switch (step) {
         case 0:
             if (is_passing_frame(11.0f) != 0) {

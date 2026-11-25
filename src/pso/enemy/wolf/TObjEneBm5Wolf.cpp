@@ -976,7 +976,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
         if (this->substate == 0x3C) {
             for (p = ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->head; p != NULL; p = p->next) {
                 r = p->get_owner();
-                if (this->group_id == ((TObjEneBm5Wolf *)r)->get_group_id()) {
+                if (this->group_id == r->get_group_id()) {
                     r->set_attack_flag();
                 }
             }
@@ -1064,7 +1064,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
             }
             this->play_speed = (f32) (1.1f * this->current_speed);
             walk_speed = this->current_speed;
-            enemy_turn_and_move_on_ground(this, (s32)(512.0f * walk_speed), (f32)walk_speed);
+            enemy_turn_and_move_on_ground(this, (s32)(512.0f * walk_speed), walk_speed);
             break;
         case 1:
             play_footsteps();
@@ -1077,7 +1077,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
             }
             this->play_speed = (f32) (1.1f * this->current_speed);
             stop_speed = this->current_speed;
-            enemy_turn_and_move_on_ground(this, (s32)(512.0f * stop_speed), (f32)stop_speed);
+            enemy_turn_and_move_on_ground(this, (s32)(512.0f * stop_speed), stop_speed);
             break;
         case 2:
             this->requested_action = 0;
@@ -1761,7 +1761,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
             for (n = ((TObjEneBm5WolfList *)bm5_wolf_pack_member_list)->head; n != NULL; n = n->next) {
                 e = n->get_owner();
                 if (e != NULL && e->group_id == this->group_id) {
-                    ((TObjEneBm5Wolf *)e)->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
+                    e->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
                 }
             }
         }

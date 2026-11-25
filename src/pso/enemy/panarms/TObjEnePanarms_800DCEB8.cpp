@@ -252,8 +252,8 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, EnemyPlacement *setData) : TObjE
     add_flags_2e4(2);
     apply_set_data(setData);
     clear_lobby_object_state();
-    texlist = get_bml_texlist((BmlResource *)panarms_entry_params_resource, 0);
-    model = (void *)get_bml_model((BmlResource *)panarms_entry_params_resource, 0);
+    texlist = get_bml_texlist(panarms_entry_params_resource, 0);
+    model = (void *)get_bml_model(panarms_entry_params_resource, 0);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panarms_collision_body, 1);
     set_action_table(panarms_motion_param_table);

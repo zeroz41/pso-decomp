@@ -710,8 +710,8 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
                 set_matrix_identity(0);
                 post_translate_matrix(&position.x);
                 rotate_matrix_y(0, rotation_y);
-                matrix_mult_vec_array(NULL, (const Vec *)points0, (Vec *)trail0, 2);
-                matrix_mult_vec_array(NULL, (const Vec *)points1, (Vec *)trail1, 2);
+                matrix_mult_vec_array(NULL, points0, trail0, 2);
+                matrix_mult_vec_array(NULL, points1, trail1, 2);
                 pop_matrix();
                 if (trails[0] != NULL) {
                     trails[0]->add_segment(&trail0[0], &trail0[1]);
@@ -1197,20 +1197,20 @@ void TObjEneBm9Mericarol::render() {
     update_secondary_light();
     switch (get_phase()) {
     case 1:
-        s0 = static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture;
-        s1 = static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture;
-        s2 = static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture;
-        static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[3].texture;
-        static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[4].texture;
-        static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[5].texture;
+        s0 = texlist->textures[0].texture;
+        s1 = texlist->textures[1].texture;
+        s2 = texlist->textures[2].texture;
+        texlist->textures[0].texture = texlist->textures[3].texture;
+        texlist->textures[1].texture = texlist->textures[4].texture;
+        texlist->textures[2].texture = texlist->textures[5].texture;
         break;
     case 2:
-        s0 = static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture;
-        s1 = static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture;
-        s2 = static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture;
-        static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[6].texture;
-        static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[7].texture;
-        static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[8].texture;
+        s0 = texlist->textures[0].texture;
+        s1 = texlist->textures[1].texture;
+        s2 = texlist->textures[2].texture;
+        texlist->textures[0].texture = texlist->textures[6].texture;
+        texlist->textures[1].texture = texlist->textures[7].texture;
+        texlist->textures[2].texture = texlist->textures[8].texture;
         break;
     }
     saved_model_render_flags = model_render_flags;
@@ -1262,9 +1262,9 @@ void TObjEneBm9Mericarol::render() {
     model_render_flags = saved_model_render_flags;
     update_primary_light();
     if (get_phase() != 0) {
-        static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = s0;
-        static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = s1;
-        static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = s2;
+        texlist->textures[0].texture = s0;
+        texlist->textures[1].texture = s1;
+        texlist->textures[2].texture = s2;
     }
 }
 
@@ -1277,20 +1277,20 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         draw_ground_shadow(&v, 0);
         switch (variant) {
         case 1:
-            s0 = static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture;
-            s1 = static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture;
-            s2 = static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture;
-            static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[3].texture;
-            static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[4].texture;
-            static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[5].texture;
+            s0 = texlist->textures[0].texture;
+            s1 = texlist->textures[1].texture;
+            s2 = texlist->textures[2].texture;
+            texlist->textures[0].texture = texlist->textures[3].texture;
+            texlist->textures[1].texture = texlist->textures[4].texture;
+            texlist->textures[2].texture = texlist->textures[5].texture;
             break;
         case 2:
-            s0 = static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture;
-            s1 = static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture;
-            s2 = static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture;
-            static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[6].texture;
-            static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[7].texture;
-            static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[8].texture;
+            s0 = texlist->textures[0].texture;
+            s1 = texlist->textures[1].texture;
+            s2 = texlist->textures[2].texture;
+            texlist->textures[0].texture = texlist->textures[6].texture;
+            texlist->textures[1].texture = texlist->textures[7].texture;
+            texlist->textures[2].texture = texlist->textures[8].texture;
             break;
         }
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
@@ -1305,9 +1305,9 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         if (variant == 1 || variant == 2) {
-            static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = s0;
-            static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = s1;
-            static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = s2;
+            texlist->textures[0].texture = s0;
+            texlist->textures[1].texture = s1;
+            texlist->textures[2].texture = s2;
         }
     }
 }

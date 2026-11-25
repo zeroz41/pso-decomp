@@ -251,7 +251,7 @@ void TObjEneEpsilonGuard::render() {
 }
 
 void TObjEneEpsilonGuard::advance_camera_ctrl_step(NJS_OBJECT *) {
-    if ((s32) epsilon_guard_camera_step == 0) {
+    if (epsilon_guard_camera_step == 0) {
         forward_transform_to_view(&epsilon_guard_node_origin, epsilon_guard_camera_ctrl_ptr);
     }
     epsilon_guard_camera_step += 1;

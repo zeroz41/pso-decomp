@@ -56,10 +56,10 @@ void TObjEneRe2Flower::render_demo() {
     Vec v = re2_flower_demo_shadow_scale[0];
     draw_ground_shadow(&v, 0);
     if (is_tower_variant() == 0 && is_rare_variant() != 0) {
-        save8 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
-        save14 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[3].texaddr;
+        save8 = texlist->textures[0].texaddr;
+        save14 = texlist->textures[1].texaddr;
+        texlist->textures[0].texaddr = texlist->textures[2].texaddr;
+        texlist->textures[1].texaddr = texlist->textures[3].texaddr;
     }
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     push_matrix();
@@ -73,8 +73,8 @@ void TObjEneRe2Flower::render_demo() {
     TParticleCtrl::end_effect_render();
     pop_matrix();
     if (is_tower_variant() == 0 && is_rare_variant() != 0) {
-        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = save8;
-        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = save14;
+        texlist->textures[0].texaddr = save8;
+        texlist->textures[1].texaddr = save14;
     }
 }
 
@@ -107,10 +107,10 @@ void TObjEneRe2Flower::render() {
         }
         update_secondary_light();
         if (is_tower_variant() == 0 && is_rare_variant() != 0) {
-            save8 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
-            save14 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
-            ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
-            ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[3].texaddr;
+            save8 = texlist->textures[0].texaddr;
+            save14 = texlist->textures[1].texaddr;
+            texlist->textures[0].texaddr = texlist->textures[2].texaddr;
+            texlist->textures[1].texaddr = texlist->textures[3].texaddr;
         }
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
@@ -160,8 +160,8 @@ void TObjEneRe2Flower::render() {
         pop_matrix();
         update_primary_light();
         if (is_tower_variant() == 0 && is_rare_variant() != 0) {
-            ((NJS_TEXLIST *)texlist)->textures[0].texaddr = save8;
-            ((NJS_TEXLIST *)texlist)->textures[1].texaddr = save14;
+            texlist->textures[0].texaddr = save8;
+            texlist->textures[1].texaddr = save14;
         }
         return;
     }

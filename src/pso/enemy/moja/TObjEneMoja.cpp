@@ -357,7 +357,7 @@ void TObjEneMoja::run_task() {
     copy_position();
     submit_cursor_candidate(this, -1);
     t = this->target;
-    if ((t != NULL) && (((TObjChara *)t)->actorFlags & 0x02000800)) {
+    if ((t != NULL) && (t->actorFlags & 0x02000800)) {
         this->attackSequence = -1;
         (this->timer) = 0;
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);

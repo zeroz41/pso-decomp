@@ -1092,7 +1092,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
                 set_matrix_identity(0);
                 post_translate_matrix((f32 *)&this->position);
                 rotate_matrix_y(0, this->rotation_y);
-                matrix_mult_vec_array(NULL, entry, (Vec *)points, 2);
+                matrix_mult_vec_array(NULL, entry, points, 2);
                 pop_matrix();
             }
         }
@@ -1636,7 +1636,7 @@ void TObjEneMe3Stelth::render() {
                 set_chunk_material_override_pair(0xFF00, 0x800);
             }
             if (draw != 0) {
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                TObjFish::set_global_param(texlist);
                 push_matrix();
                 post_translate_matrix(&position.x);
                 translate_matrix(0, 0.0f, body_offset_y, 0.0f);
@@ -1675,7 +1675,7 @@ void TObjEneMe3Stelth::render() {
                 set_constant_material(&c);
                 set_color_blend_mode(1, 4, 5, 0);
             }
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+            TObjFish::set_global_param(texlist);
             for (i = 0; i < 3; i++) {
                 if (me3_stelth_material_color_pointers[i] != 0) {
                     *me3_stelth_material_color_pointers[i] = material_color;
@@ -1751,10 +1751,10 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
     }
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+        TObjFish::set_global_param(texlist);
         toggle_particle_effect();
         if (flag != 0) {
-            NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            NJS_TEXNAME *textures = texlist->textures;
             s32 i;
             for (i = 0; i < 3; i++) {
                 save[i] = textures[i].texaddr;
@@ -1804,7 +1804,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
         pop_matrix();
         if (flag != 0) {
             s32 i;
-            NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            NJS_TEXNAME *textures = texlist->textures;
             for (i = 0; i < 3; i++) {
                 textures[i].texaddr = save[i];
             }

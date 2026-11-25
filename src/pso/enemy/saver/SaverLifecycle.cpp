@@ -481,7 +481,7 @@ void TObjEneSaver::state_jump_attack() {
             if (t == NULL) {
                 goto fail;
             }
-            if (select_enemy_destination(this, ((TObjChara *)t)->body_center, 1) == 0) {
+            if (select_enemy_destination(this, t->body_center, 1) == 0) {
                 goto fail;
             }
             phase = 1;
