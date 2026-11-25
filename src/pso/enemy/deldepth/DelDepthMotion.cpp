@@ -18,7 +18,7 @@ struct DelDepthPairBinding { DelDepthModelMotion first, second; f32 speed; };
 
 #pragma defer_codegen on
 
-// set_motion ids 6-9: a motion of model 1 at a speed; ids 10-11: two model/motion pairs (names inferred)
+// set_motion ids 6-9: a motion of model 1 at a speed; ids 10-11: two model/motion pairs
 DelDepthMotionBinding deldepth_part_motion_bindings[] = {{4, 0.3f}, {4, 0.3f}, {2, 0.6f}, {3, 0.4f}};
 DelDepthPairBinding deldepth_pair_motion_bindings[] = {{{1, 1}, {0, 8}, 0.6f}, {{1, 0}, {0, 7}, 0.6f}};
 
@@ -143,3 +143,7 @@ int TObjEneDelDepth::find_nearest_enemy_with_flag(Vec *direction, f32 range) {
 }
 
 int TObjEneDelDepth::get_flag_bit4() { return (this->actorFlags >> 4) & 0x1; }
+
+f32 TObjEneDelDepth::get_bomb_speed() { return bombSpeed; }
+
+BmlResource *TObjEneDelDepth::get_data() { return shared_resource; }

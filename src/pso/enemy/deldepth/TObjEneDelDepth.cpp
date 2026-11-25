@@ -56,8 +56,8 @@
 #include "pso/object/base/TObjBase.h"
 
 
-DelDepthParameters *TObjEneDelDepth__tune_params;
-BmlResource *TObjEneDelDepth__shared_resource;
+DelDepthParameters *TObjEneDelDepth::tune_params;
+BmlResource *TObjEneDelDepth::shared_resource;
 
 static const char *deldepth_model_names[] = {
     "swim_body.nj", "swim_disc.nj", "swim_kirai.nj", NULL,
@@ -163,29 +163,29 @@ void TObjEneDelDepth::load_assets() {
 
     if (is_split_screen() != 0) {
         BmlResource *p = new BmlResource(1, &deldepth_low_bml_descriptor, 0, 0, NULL);
-        TObjEneDelDepth__shared_resource = p;
+        shared_resource = p;
     } else {
         BmlResource *p = new BmlResource(1, &deldepth_bml_descriptor, 0, 0, NULL);
-        TObjEneDelDepth__shared_resource = p;
+        shared_resource = p;
     }
 
     {
         NpcAnimationBinding info = { NULL, deldepth_motion_actions, 0, 0, 6 };
-        info.motions = TObjEneDelDepth__shared_resource->motions;
-        TObjNpcEnemy::register_animated_chunk((s16)0x47, TObjEneDelDepth__shared_resource->models[0].model, TObjEneDelDepth__shared_resource->models[0].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
+        info.motions = shared_resource->motions;
+        TObjNpcEnemy::register_animated_chunk((s16)0x47, shared_resource->models[0].model, shared_resource->models[0].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
     {
         NpcAnimationBinding info = { NULL, deldepth_motion_actions_b, 0, 0, 1 };
-        info.motions = TObjEneDelDepth__shared_resource->motions;
-        TObjNpcEnemy::register_animated_chunk((s16)0x48, TObjEneDelDepth__shared_resource->models[1].model, TObjEneDelDepth__shared_resource->models[1].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
+        info.motions = shared_resource->motions;
+        TObjNpcEnemy::register_animated_chunk((s16)0x48, shared_resource->models[1].model, shared_resource->models[1].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
-    TObjEneDelDepth__tune_params = (DelDepthParameters *)TLobby::dispatch_shared_handler_a(0x30);
+    tune_params = (DelDepthParameters *)TLobby::dispatch_shared_handler_a(0x30);
 }
 
 void TObjEneDelDepth::free_shared_data() {
-    if (TObjEneDelDepth__shared_resource != NULL) {
-        delete TObjEneDelDepth__shared_resource;
-        TObjEneDelDepth__shared_resource = NULL;
+    if (shared_resource != NULL) {
+        delete shared_resource;
+        shared_resource = NULL;
     }
 }
 
@@ -201,12 +201,12 @@ TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(par
 
 void TObjEneDelDepth::init() {
     u8 *self = (u8 *)this;
-    this->texlist = get_bml_texlist(TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data(), 0);
-    this->model = get_bml_model(TObjEneDelDepth__shared_resource, 0);
+    this->texlist = get_bml_texlist(shared_resource = TObjEneDelDepth::get_data(), 0);
+    this->model = get_bml_model(shared_resource, 0);
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
     this->collisionBody = init_collision_body_parts(this, TObjEneDelDepth_collision_body_parts, 1);
     ((TObjMotion *)self)->set_action_table(deldepth_motion_actions);
-    ((TObjMotion *)self)->set_motion_list(TObjEneDelDepth__shared_resource->motions);
+    ((TObjMotion *)self)->set_motion_list(shared_resource->motions);
     ((TObjMotion *)self)->set_animation(0);
     ((TObjMotion *)self)->set_requested_action(0);
     VecCopy((Vec *)((u8 *)&this->body_center), &this->position);
@@ -561,12 +561,12 @@ void TObjEneDelDepth::update_movement() {
         this->angle += 0xC00;
         f32 t = sin_table_lookup(this->angle);
         f32 u = 0.5f * (0.5f + t);
-        u = TObjEneDelDepth__tune_params->accel * u;
-        if ((self->movementSpeed += u) > TObjEneDelDepth__tune_params->maxSpeed) {
-            self->movementSpeed = TObjEneDelDepth__tune_params->maxSpeed;
+        u = tune_params->accel * u;
+        if ((self->movementSpeed += u) > tune_params->maxSpeed) {
+            self->movementSpeed = tune_params->maxSpeed;
         }
     } else {
-        if ((self->movementSpeed -= TObjEneDelDepth__tune_params->accel) < 0.0f) {
+        if ((self->movementSpeed -= tune_params->accel) < 0.0f) {
             self->movementSpeed = 0.0f;
         }
     }
@@ -684,7 +684,7 @@ void TObjEneDelDepth::enter_look_around() {
     targetPlayer = 0xFFFF;
     angle = ((s32)(4.0f * random_ratio()) + 4) << 16;
     timer = 0x7FFFFFFF;
-    turnSpeed = TObjEneDelDepth__tune_params->turnSpeed;
+    turnSpeed = tune_params->turnSpeed;
     if (random_ratio() > 0.5f) {
         turnSpeed *= -1;
     }
@@ -715,7 +715,7 @@ void TObjEneDelDepth::update_look_around() {
     }
     this->angle -= 0x600;
     if (this->angle <= 0) {
-        u32 n = ((AnimationMotion *)get_bml_motion(TObjEneDelDepth__shared_resource, 0xB))->frameCount;
+        u32 n = ((AnimationMotion *)get_bml_motion(shared_resource, 0xB))->frameCount;
         lim = (s32)((f32)n / 0.5f);
         this->angle = 0;
         if (this->targetPlayer != 0xFFFF) {
@@ -829,7 +829,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         pop_matrix();
         clear_motion_packed_rotation();
         play_sound_effect(0x4003A81D, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
-        TObjEneDelDepthBomb::create(this, this, (Vec *)&out, TObjEneDelDepth__tune_params->techniqueLevel);
+        TObjEneDelDepthBomb::create(this, this, (Vec *)&out, tune_params->techniqueLevel);
     }
     if (--this->timer <= 0) {
         if (get_flag_bit4() != 0) {
@@ -853,9 +853,9 @@ void TObjEneDelDepth::update_attack_cast() {
     this->attackTimer--;
     if (this->attackTimer <= 0 && this->attackTimer == 0) {
         if ((s32) game_difficulty_selection == 3) {
-            TTecMegid::create_ex((saddr)self, (saddr)((u8 *)&this->position), (s32)((int)this->rotation_y), (s32)(TObjEneDelDepth__tune_params->techniqueLevel));
+            TTecMegid::create_ex((saddr)self, (saddr)((u8 *)&this->position), (s32)((int)this->rotation_y), (s32)(tune_params->techniqueLevel));
         } else {
-            TTecBarta::create_ex(self, &this->position, this->rotation_y, TObjEneDelDepth__tune_params->techniqueLevel);
+            TTecBarta::create_ex(self, &this->position, this->rotation_y, tune_params->techniqueLevel);
         }
     }
     if (--this->timer <= 0) {

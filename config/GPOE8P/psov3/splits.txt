@@ -8502,11 +8502,8 @@ pso/enemy/deldepth/TObjEneDelDepth.cpp:
 	.sbss       start:0x805D6AC0 end:0x805D6AC8
 	.sdata2     start:0x805DF250 end:0x805DF2E4
 
-pso/enemy/deldepth/TObjEneDelDepthAccessors.cpp:
-	.text       start:0x8031623C end:0x8031624C
-
 pso/enemy/deldepth/DelDepthMotion.cpp:
-	.text       start:0x8031624C end:0x80316690
+	.text       start:0x8031623C end:0x80316690
 	.rodata     start:0x80475DE8 end:0x80475DF0
 	.data       start:0x804E8760 end:0x804E87A8
 	.sbss       start:0x805D6AC8 end:0x805D6AD8

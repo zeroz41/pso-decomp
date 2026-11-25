@@ -383,7 +383,6 @@ pso/enemy/dd/TObjEneDD.cpp
 pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp
 pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp
 pso/enemy/deldepth/TObjEneDelDepth.cpp
-pso/enemy/deldepth/TObjEneDelDepthAccessors.cpp
 pso/enemy/dellbiter/TObjEneDellBiter.cpp
 pso/enemy/dellbiter/TObjEneDellBiterEffects.cpp
 pso/enemy/bringer/TObjEneDf2Bringer.cpp
