@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/boss/TUnk_804F1C88.h"
+#include "pso/boss/TBoss7LaserImpact.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/macros.h"
@@ -10,7 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 
-TUnk_804F1C88::TUnk_804F1C88(TObject *parent, const Vec *origin) : TObject(parent) {
+TBoss7LaserImpact::TBoss7LaserImpact(TObject *parent, const Vec *origin) : TObject(parent) {
     hit_body.offset.x = 0.0f;
     hit_body.offset.y = 0.0f;
     hit_body.offset.z = 0.0f;
@@ -21,7 +21,7 @@ TUnk_804F1C88::TUnk_804F1C88(TObject *parent, const Vec *origin) : TObject(paren
     hit_body.center.x = 0.0f;
     hit_body.center.y = 0.0f;
     hit_body.center.z = 0.0f;
-    hit_body.unk_28 = 0.0f;
+    hit_body.defense = 0.0f;
     hit_set.colliders = &hit_body;
     hit_set.count = 1;
     VecCopy(&hit_set.position, origin);
@@ -29,8 +29,8 @@ TUnk_804F1C88::TUnk_804F1C88(TObject *parent, const Vec *origin) : TObject(paren
     create_timed_particle_emitter(&hit_set.position, 0x213, 0, 0x1E);
 }
 
-void TUnk_804F1C88::destroy_instance() {  }
-void TUnk_804F1C88::load_static_resource() {  }
+void TBoss7LaserImpact::destroy_instance() {  }
+void TBoss7LaserImpact::load_static_resource() {  }
 void PhotonChairSeat::update() {}
 
 extern "C" {

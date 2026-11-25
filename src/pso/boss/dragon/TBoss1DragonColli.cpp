@@ -24,9 +24,9 @@
 #pragma readonly_strings on
 
 // Stored in the object name field by the constructors.
-const char *TBoss1DragonColli_C__name = "TBoss1DragonColli_C";
+const char *TBoss1DragonColli_C::name = "TBoss1DragonColli_C";
 
-const char *TBoss1DragonColli__name = "TBoss1DragonColli";
+const char *TBoss1DragonColli::name = "TBoss1DragonColli";
 
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 
@@ -61,7 +61,7 @@ TBoss1DragonColli_C::TBoss1DragonColli_C(TObject *parent, s32 count, Vec *pos, f
     f32 zero;
     f32 step;
     f32 z;
-    this->m_name = TBoss1DragonColli_C__name;
+    this->m_name = TBoss1DragonColli_C::name;
     VecCopy(&this->local_position, pos);
     this->entity_id = alloc_object_ids(0);
     this->body_count = count;
@@ -123,7 +123,7 @@ void TBoss1DragonColli_C::render() {  }
 
 TBoss1DragonColli::TBoss1DragonColli(TObject *parent) : TObject(parent) {
     Vec stack;
-    m_name = TBoss1DragonColli__name;
+    m_name = TBoss1DragonColli::name;
     stack.x = 0.0f;
     stack.y = 0.0f;
     stack.z = 0.0f;

@@ -26,8 +26,8 @@ CollisionBody TBoss5GryphonColli_sphere_chain_desc = {
     {0.0f, 0.0f, 0.0f}, 1.0f, 0.0f, 0, 0x8003,
 };
 
-const char *TBoss5GryphonColli_C__name = "TBoss5GryphonColli_C";
-const char *TBoss5GryphonColli__name = "TBoss5GryphonColli";
+const char *TBoss5GryphonColli_C::name = "TBoss5GryphonColli_C";
+const char *TBoss5GryphonColli::name = "TBoss5GryphonColli";
 
 // Written last to first: the unit is generated deferred (see configure.py).
 
@@ -37,7 +37,7 @@ TBoss5GryphonColli_C::TBoss5GryphonColli_C(TObject *parent, s32 count, const Vec
     f32 z;
     CollisionBody *body;
     s32 i;
-    m_name = TBoss5GryphonColli_C__name;
+    m_name = TBoss5GryphonColli_C::name;
     entity_id = alloc_object_ids(0);
     VecCopy(&local_position, pos);
     body_count = count;
@@ -100,7 +100,7 @@ void TBoss5GryphonColli_C::render() {  }
 
 TBoss5GryphonColli::TBoss5GryphonColli(TObject *parent) : TObject(parent) {
     Vec offset;
-    m_name = TBoss5GryphonColli__name;
+    m_name = TBoss5GryphonColli::name;
     offset.x = 0.0f;
     offset.y = 0.0f;
     offset.z = 3e+01f;

@@ -30,10 +30,9 @@ s32 text_builder_append(s32);
 }
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 void text_builder_reset(void);
-extern "C" {
 
 extern "C" const char lbl_805DCCA8[] = ":";
-void *TWindowDuelResult__layout_entries[140] = {
+void *TWindowDuelResult::layout_entries[140] = {
     (void *)0x13, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x41a00000,
@@ -105,7 +104,6 @@ void *duel_result_window_layout_table[119] = {
 WindowDescriptor window_duel_result_descriptor = {
     {388.0f, 164.0f}, 50043.0f, NULL, 3,
 };
-}
 
 void TWindowDuelResult::sub_8024EF3C() {  }
 
@@ -148,7 +146,7 @@ void TWindowDuelResult::sub_8024F094() {
     u8 *b;
     u8 *c;
     u8 *d;
-    init_window_layout_entries(&entry_list, TWindowDuelResult__layout_entries, client_index);
+    init_window_layout_entries(&entry_list, TWindowDuelResult::layout_entries, client_index);
     a = (u8 *)get_array_entry(0);
     set_default_status(a, get_localized_text_entry(0x10, 0));
     b = (u8 *)get_array_entry(0x12);
@@ -228,7 +226,7 @@ void TWindowDuelResult::run_task() {
         sub_8024F3CC();
     }
     sub_8024F330();
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_window_entry_list(&entry_list);
 }
 

@@ -7,7 +7,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "dolphin/mtx.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/player/TargetCursorList.h"
 
 struct TObjPlayer;
@@ -62,7 +62,7 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void update_center_position();
     TObjEneBm5GibonUNode pack_node;
     TObjEneBm5GibonUNode instance_node;
-    TUnk_80494938 appear_fade;
+    TObjEnemyColorFade appear_fade;
     RenderFadeState camera_fades[4];
     s32 is_leader;   // render_debug "L/M:LEADER" / "MEMBER"
     s32 technique_type; // state_cast_technique switch, case 1 casts GiBarta

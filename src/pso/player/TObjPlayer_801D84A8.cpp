@@ -2,7 +2,7 @@
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyDispData.h"
-#include "pso/player/TUnk_804C4540.h"
+#include "pso/player/TObjEndingPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemData.h"
 #include "pso/object/base/TObjMotion.h"
@@ -303,7 +303,7 @@ void TObjPlayer::set_animation_from_data(saddr player, s32 picture) {
 
     anim_table_entry = (void *)((TObjPlayer *)player)->get_anim_table_entry(picture);
     TObjPlayer__sub_801D8664(player, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
-    ((TUnk_804C4540 *)player)->set_animation_default(picture);
+    ((TObjEndingPlayer *)player)->set_animation_default(picture);
 }
 
 void TObjPlayer::assign_lobby_slot_if_flagged(saddr player, void *records) {

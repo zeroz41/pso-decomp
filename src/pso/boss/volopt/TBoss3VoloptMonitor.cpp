@@ -35,16 +35,6 @@
 
 
 
-struct EnemyMovementParams {
-    f32 pad_0;
-    f32 pad_4;
-    s32 pad_8;
-    s32 pad_c;
-    s32 pad_10;
-    s32 pad_14;
-    s32 pad_18;
-};
-
 struct BossStats {
     u8 pad_0[0x6];
     s16 hp;
@@ -66,8 +56,8 @@ enum MonitorScreen {
 
 static const char *TBoss3VoloptMonitor_name = "TBoss3VoloptMonitor";
 
-static EnemyMovementParams volopt_monitor_movement = {
-    150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0,
+static BossMovementParameters volopt_monitor_movement = {
+    { 150.0f, 0.5555555f, 0x400 }, { 0x1E0000, 0, 1, 0 },
 };
 
 static CollisionBody volopt_monitor_collision[4] = {

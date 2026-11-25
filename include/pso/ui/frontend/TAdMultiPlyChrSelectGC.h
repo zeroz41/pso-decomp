@@ -22,6 +22,10 @@ struct TWindowMenu;
 struct TWindowMessageYesNo;
 
 struct TAdMultiPlyChrSelectGC : public TObject {
+    static TAdMultiPlyChrSelectGC * instance;
+    static s32 selected_slot;
+    static s32 select_mode;
+    static s32 selected_slot_order[4];
     struct SlotGridPosition {
         s32 card_slot;
         s32 cursor_column;
@@ -149,7 +153,6 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void update_card_confirm();
 };
 
-extern "C" TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC__instance;
 
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_size, sizeof(TAdMultiPlyChrSelectGC) == 0xA0);
 LAYOUT_ASSERT(TAdMultiPlyChrSelectGC_player_preview_offset, offsetof(TAdMultiPlyChrSelectGC, player_preview) == 0x60);

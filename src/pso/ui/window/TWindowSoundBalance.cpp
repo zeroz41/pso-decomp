@@ -57,7 +57,6 @@ WindowDescriptor window_sound_balance_settings = {
     {470.0f, 60.0f}, 50100.0f, &window_sound_balance_layout_entries, 3,
 };
 
-extern "C" {
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 
 void TWindowSoundBalance::set_sound_effect_gain(s16 gain) {
@@ -182,7 +181,7 @@ void TWindowSoundBalance::run_task() {
             handle_cancel();
         }
     }
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(&entry_list));
 }
@@ -195,7 +194,7 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     u8 *e;
     SoundBalanceSettings *st;
 
-    ((TWindowSoundBalance *)this)->m_name = TWindowSoundBalance__name;
+    this->m_name = TWindowSoundBalance__name;
     this->m_60 = 0;
     this->selection = 0;
     this->music_gain = 1;
@@ -220,4 +219,3 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
 
 #pragma pop
 
-}

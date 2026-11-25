@@ -105,8 +105,6 @@ struct TMainCursor : public TObject {
     void set_target_id_at_60(u8 target_id);
     void set_entity_id(u16 id);
     void init_slot(s32 i);
-    void update_pair();
-    void update_cursor_pair();
     s32 test_button(s32 arg1, u16 arg2);
     void set_flag_bit(s32 arg1, u16 arg2);
     s32 check_can_pickup();

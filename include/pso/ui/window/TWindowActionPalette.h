@@ -8,6 +8,7 @@
 class WindowSpritePart;
 
 struct TWindowActionPalette : public TWindowBase {
+    static const f32 bank_panel_uv_origins[4][2];
     TWindowActionPalette(s32 slot);
     struct ChildList {
         u32 count;
@@ -33,11 +34,11 @@ struct TWindowActionPalette : public TWindowBase {
     void draw_frame(saddr arg1);
 };
 
-class TUnk_804CF9C8;
+class TWindowLayoutNumber;
 
 extern "C" {
 void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index);
-void update_palette_item_count_label(TUnk_804CF9C8 *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id);
+void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id);
 void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot);
 }
 s32 get_palette_consumable_count(u16 slot, s32 client_id);

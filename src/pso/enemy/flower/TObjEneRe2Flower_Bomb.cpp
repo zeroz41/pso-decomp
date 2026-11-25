@@ -5,7 +5,7 @@
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"

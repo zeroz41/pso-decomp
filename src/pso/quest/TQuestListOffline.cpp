@@ -59,7 +59,7 @@ OfflineQuestEntry lbl_804C9C10[5] = {
     {-1, -1, -1, -1, -1, -1, -1, ""},
 };
 
-const char *TQuestListOffline__class_name = "TQuestListOffline";
+const char *quest_list_offline_class_name = "TQuestListOffline";
 
 void *story_quest_list_resource;
 
@@ -78,7 +78,7 @@ void TQuestListOffline::free_global() {
 
 TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player)
     : TShopWindowBase(parent) {
-    m_name = TQuestListOffline__class_name;
+    m_name = quest_list_offline_class_name;
     this->sequence = sequence;
     list_window = NULL;
     confirm_menu = NULL;
@@ -192,7 +192,7 @@ void TQuestListOffline::init_quest_list_window() {
         list_window->calc_content_extent();
         if (description_window == NULL) {
             f32 size[2] = {228.0f, 184.0f};
-            description_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)size, 1);
+            description_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2D), size, 1);
             description_window->append_line(get_quest_list_text(0xE, quests->description_text), 0x80);
             shown_index = 0;
         } else {

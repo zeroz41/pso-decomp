@@ -4,8 +4,11 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct NJS_TEXLIST;
+
 class TAdRayGC : public TObject {
 public:
+    static NJS_TEXLIST *ray_texture_list;
     TAdRayGC(TObject *parent);
     virtual ~TAdRayGC();
     virtual void run_task();

@@ -151,8 +151,8 @@ TBoss7JointBreakUp::TBoss7JointBreakUp(TObject *parent, Vec *position, s32 index
             vec3_add_to(&piece->position, &model->m_records[i].pos);
             vel = &piece->velocity;
             VecCopy(vel, &model->m_records[i].vel);
-            vel->y = lerp__9TDeadSpotFff(boss7_breakup_rise_min, boss7_breakup_rise_max);
-            vel->z -= lerp__9TDeadSpotFff(boss7_breakup_one, boss7_breakup_drift_max);
+            vel->y = random_range(boss7_breakup_rise_min, boss7_breakup_rise_max);
+            vel->z -= random_range(boss7_breakup_one, boss7_breakup_drift_max);
             piece->angles[0] = random_angle();
             piece->angles[1] = boss7_breakup_spin_scale * rand_signed_unit();
             piece->angles[2] = random_angle();
@@ -239,8 +239,8 @@ TBoss7BodyBreakUp::TBoss7BodyBreakUp(TObject *parent, GC_Mtx *matrices) : TBoss7
     for (i = 0; i < count; i++) {
         matrix_mult_vec(NULL, &model->m_records[i].pos, &piece->position);
         rotate_vector_by_matrix(0, &model->m_records[i].vel, &piece->velocity);
-        piece->velocity.y = lerp__9TDeadSpotFff(boss7_breakup_rise_min, boss7_breakup_rise_max);
-        piece->velocity.z -= lerp__9TDeadSpotFff(boss7_breakup_one, boss7_breakup_drift_max);
+        piece->velocity.y = random_range(boss7_breakup_rise_min, boss7_breakup_rise_max);
+        piece->velocity.z -= random_range(boss7_breakup_one, boss7_breakup_drift_max);
         piece->angles[0] = 0;
         piece->angles[1] = boss7_breakup_spin_scale * rand_signed_unit();
         piece->angles[2] = 0;

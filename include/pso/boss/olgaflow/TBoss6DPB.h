@@ -23,6 +23,7 @@ public:
     s32 frame;
     s32 power;           // boss parameter 0x2C
     f32 power_scale;     // boss parameter 0x2F, applied while the owner's rotation timer runs
+    static const char *class_name;
 };
 
 #endif

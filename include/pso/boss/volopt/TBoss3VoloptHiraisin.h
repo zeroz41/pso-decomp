@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 
 struct TBoss3VoloptHiraisin : public TObjEnemyCustom {
     TBoss3VoloptHiraisin(TObjBase *parent, u16 id, s32 index);

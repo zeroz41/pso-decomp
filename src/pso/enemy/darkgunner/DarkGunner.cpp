@@ -16,7 +16,7 @@
 
 #include "types.h"
 
-#include "pso/enemy/TUnk_804909C4.h"
+#include "pso/enemy/TObjEneDarkGunnerShot.h"
 
 #include "pso/render/NinjaUtil.h"
 
@@ -99,6 +99,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/TDeadSpot.h"
 
 #pragma readonly_strings on
 
@@ -134,11 +135,11 @@ struct Raw_800A10A0 { u8 b[12]; };
 
 
 extern "C" {
-player_stats *TObjEneDarkGunner__base_params_by_variant[1];
+player_stats *dark_gunner_base_params_by_variant[1];
 
-AttackParams *TObjEneDarkGunner__attack_params_by_variant[1];
+AttackParams *dark_gunner_attack_params_by_variant[1];
 
-ActorParamBlock *TObjEneDarkGunner__resistance_params_by_variant[1];
+ActorParamBlock *dark_gunner_resistance_params_by_variant[1];
 
 
 
@@ -179,7 +180,7 @@ TObjMotionAction dark_gunner_action_table[14] = {
     {2, 0, 12, 0.7f, 4},
 };
 
-const char *TObjEneDarkGunner__class_name = "TObjEneDarkGunner";
+const char *dark_gunner_class_name = "TObjEneDarkGunner";
 
 const NpcAnimationBinding dark_gunner_attack_binding_desc = { NULL, dark_gunner_action_table, 0, 1, 14 };
 
@@ -208,15 +209,15 @@ Vec dark_gunner_child_local_offsets[4] = {
     {0.0f, 10.0f, 2.0f}, {0.0f, 10.0f, -2.0f}, {2.0f, 10.0f, 0.0f}, {-2.0f, 10.0f, 0.0f},
 };
 
-TObjEneDarkGunnerBehaviorParams *TObjEneDarkGunner__behavior_params;
+TObjEneDarkGunnerBehaviorParams *dark_gunner_behavior_params;
 
-extern NJS_TEXLIST *TObjEneDarkGunner__effect_resource;
+extern NJS_TEXLIST *dark_gunner_effect_resource;
 
-extern NJS_TEXLIST *TObjEneDarkGunner__cly_line_texlist;
+extern NJS_TEXLIST *dark_gunner_cly_line_texlist;
 
-extern NJS_TEXLIST *TObjEneDarkGunner__rcly_line_texlist;
+extern NJS_TEXLIST *dark_gunner_rcly_line_texlist;
 
-extern NJS_OBJECT *TObjEneDarkGunner__shadow_chunk_object;
+extern NJS_OBJECT *dark_gunner_shadow_chunk_object;
 
 }
 
@@ -224,11 +225,11 @@ extern "C" {
 
 
 
-extern s32 TObjEneDarkGunner__polygon_update_tick;
+extern s32 dark_gunner_polygon_update_tick;
 
-extern s16 *TObjEneDarkGunner__body_child_polygons;
+extern s16 *dark_gunner_body_child_polygons;
 
-extern s16 *TObjEneDarkGunner__cly_line_polygons;
+extern s16 *dark_gunner_cly_line_polygons;
 
 }
 
@@ -267,19 +268,19 @@ BmlResource *TObjEneDarkGunner::bml_resource; // bm_ene_darkgunner.bml
 
 extern "C" {
 
-NJS_TEXLIST *TObjEneDarkGunner__effect_resource;
+NJS_TEXLIST *dark_gunner_effect_resource;
 
-NJS_TEXLIST *TObjEneDarkGunner__cly_line_texlist;
+NJS_TEXLIST *dark_gunner_cly_line_texlist;
 
-NJS_TEXLIST *TObjEneDarkGunner__rcly_line_texlist;
+NJS_TEXLIST *dark_gunner_rcly_line_texlist;
 
-NJS_OBJECT *TObjEneDarkGunner__shadow_chunk_object;
+NJS_OBJECT *dark_gunner_shadow_chunk_object;
 
-s32 TObjEneDarkGunner__polygon_update_tick;
+s32 dark_gunner_polygon_update_tick;
 
-s16 *TObjEneDarkGunner__body_child_polygons;
+s16 *dark_gunner_body_child_polygons;
 
-s16 *TObjEneDarkGunner__cly_line_polygons;
+s16 *dark_gunner_cly_line_polygons;
 
 void TeneFakeTecThunderEff::set_cancel_flag() { active = 1; }
 
@@ -293,11 +294,11 @@ void TObjEneDarkGunner::set_fields_24_34_from_global(void *index) {
 int TObjEneDarkGunner::is_death_gunner() { return (behavior_flags >> 26) & 0x1; }
 
 s32 TObjEneDarkGunner::get_int_parameter(s32 index) {
-    return TObjEneDarkGunner__behavior_params->int_params[index];
+    return dark_gunner_behavior_params->int_params[index];
 }
 
 f32 TObjEneDarkGunner::get_float_parameter(s32 index) {
-    return TObjEneDarkGunner__behavior_params->float_params[index];
+    return dark_gunner_behavior_params->float_params[index];
 }
 
 void TObjEneDarkGunner::run_move_action() {  }
@@ -311,7 +312,7 @@ extern "C" {
 TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
     s32 i;
 
-    m_name = TObjEneDarkGunner__class_name;
+    m_name = dark_gunner_class_name;
     apply_set_data(set_data);
     initialize_enemy_photon_effect(this);
     variant = 0;
@@ -333,7 +334,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     set_requested_action(requested_action);
     init_collision_body_parts(this, dark_gunner_collision_bodies, 1);
     movementParameters = dark_gunner_movement_params;
-    bind_enemy_combat_stats(TObjEneDarkGunner__base_params_by_variant[variant], TObjEneDarkGunner__attack_params_by_variant[variant], TObjEneDarkGunner__resistance_params_by_variant[variant]);
+    bind_enemy_combat_stats(dark_gunner_base_params_by_variant[variant], dark_gunner_attack_params_by_variant[variant], dark_gunner_resistance_params_by_variant[variant]);
     load_params();
     hp = hpmax;
     tp = tpmax;
@@ -382,20 +383,20 @@ void load_darkgunner_effect_resources() {
     s32 i;
     BmlResource *res = new BmlResource(1, &bm_ene_darkgunner_resource_descriptor, 0, 0, NULL);
     TObjEneDarkGunner::bml_resource = res;
-    TObjEneDarkGunner__shadow_chunk_object = get_bml_model(TObjEneDarkGunner::bml_resource, 0);
-    TObjEneDarkGunner__cly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 0);
-    TObjEneDarkGunner__rcly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 2);
-    TObjEneDarkGunner__body_child_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 1)->child->model)->polygon_list;
-    TObjEneDarkGunner__cly_line_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 0)->model)->polygon_list;
+    dark_gunner_shadow_chunk_object = get_bml_model(TObjEneDarkGunner::bml_resource, 0);
+    dark_gunner_cly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 0);
+    dark_gunner_rcly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 2);
+    dark_gunner_body_child_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 1)->child->model)->polygon_list;
+    dark_gunner_cly_line_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 0)->model)->polygon_list;
     init_fake_tec_texlist();
     TEneEffHamon::init_fish_effects();
-    TObjEneDarkGunner__effect_resource = LoadPvmFileTls("re5_b_gunner_body_pika.gvm");
+    dark_gunner_effect_resource = LoadPvmFileTls("re5_b_gunner_body_pika.gvm");
     for (i = 0; i < 1; i++) {
-        TObjEneDarkGunner__base_params_by_variant[i] = TLobby::register_boss(30 + i);
-        TObjEneDarkGunner__attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(30 + i);
-        TObjEneDarkGunner__resistance_params_by_variant[i] = TLobby::register_object(30 + i);
+        dark_gunner_base_params_by_variant[i] = TLobby::register_boss(30 + i);
+        dark_gunner_attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(30 + i);
+        dark_gunner_resistance_params_by_variant[i] = TLobby::register_object(30 + i);
     }
-    TObjEneDarkGunner__behavior_params = (TObjEneDarkGunnerBehaviorParams *)TLobby::dispatch_shared_handler_a(30);
+    dark_gunner_behavior_params = (TObjEneDarkGunnerBehaviorParams *)TLobby::dispatch_shared_handler_a(30);
 }
 
 void TObjEneDarkGunner::cleanup_effects() {
@@ -403,9 +404,9 @@ void TObjEneDarkGunner::cleanup_effects() {
         delete TObjEneDarkGunner::bml_resource;
         TObjEneDarkGunner::bml_resource = NULL;
     }
-    if (TObjEneDarkGunner__effect_resource != NULL) {
-        TObjPlayer::free_if_valid((saddr)TObjEneDarkGunner__effect_resource);
-        TObjEneDarkGunner__effect_resource = NULL;
+    if (dark_gunner_effect_resource != NULL) {
+        TObjPlayer::free_if_valid((saddr)dark_gunner_effect_resource);
+        dark_gunner_effect_resource = NULL;
     }
     TObjPlayer::reset_effect_count();
     TEneEffHamon::free_fish_effects();
@@ -421,10 +422,10 @@ void *TObjEneDarkGunner::create(void *set_data) {
 #pragma inline_depth(4)
 extern "C" {
 void TObjEneDarkGunner::run_task() {
-    if (TObjEneDarkGunner__polygon_update_tick != actor_frame_tick) {
-        TObjEneDarkGunner__polygon_update_tick = actor_frame_tick;
-        TObjPlayer__sub_8023DEE0(TObjEneDarkGunner__body_child_polygons, 8, 0, 1);
-        TObjPlayer__sub_8023DEE0(TObjEneDarkGunner__cly_line_polygons, 8, 0, 0);
+    if (dark_gunner_polygon_update_tick != actor_frame_tick) {
+        dark_gunner_polygon_update_tick = actor_frame_tick;
+        TObjPlayer__sub_8023DEE0(dark_gunner_body_child_polygons, 8, 0, 1);
+        TObjPlayer__sub_8023DEE0(dark_gunner_cly_line_polygons, 8, 0, 0);
     }
     if (TObjPlayer::check_demo_mode() == 1) {
         load_params();
@@ -444,9 +445,9 @@ void TObjEneDarkGunner::run_task() {
     if ((behavior_flags & 0x400000) && test_actor_flags(0x22) == 0) {
         s32 phase = material_phase;
         material_phase = phase + 0x800;
-        bodies->unk_28 = get_int_parameter(2);
+        bodies->defense = get_int_parameter(2);
     } else {
-        bodies->unk_28 = 0.0f;
+        bodies->defense = 0.0f;
     }
     if ((behavior_flags & 0x800000) && test_actor_flags(0x22) == 0) {
         if (glow_emitter == NULL) {
@@ -721,7 +722,7 @@ void TObjEneDarkGunner::update_attack() {
         state = 4;
         find_target_in_range(200.0f);
         if (targetId == 0xFFFF) break;
-        new TUnk_804909C4((u8 *)this, (saddr)&shadow_pos, (saddr)&((TObjChara *)target)->body_center);
+        new TObjEneDarkGunnerShot((u8 *)this, (saddr)&shadow_pos, (saddr)&((TObjChara *)target)->body_center);
         play_sound_effect(0x40039E2B, &position, 0, 0);
         break;
     case 4:
@@ -851,7 +852,7 @@ void TObjEneDarkGunner::update_dying() {
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         if (render_control.decay_value_toward_floor() == 1) {
-            TObjPlayer::apply_effect_variant_a(&position, 0);
+            TDeadSpot::spawn_kind0_scale7_5(&position, 0);
             queue_destruction();
         }
         break;
@@ -889,7 +890,7 @@ void TObjEneDarkGunner::render() {
                 color.g = s;
                 color.b = s;
                 set_constant_material(&color);
-                TObjFish::set_global_param(TObjEneDarkGunner__effect_resource);
+                TObjFish::set_global_param(dark_gunner_effect_resource);
             } else {
                 TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             }
@@ -948,13 +949,13 @@ void TObjEneDarkGunner::run_demo_task() {  }
 void TObjEneDarkGunner::render_shadow() {
     if (test_actor_flags(0x800) == 0) {
         if (is_death_gunner() == 0) {
-            TObjFish::set_global_param(TObjEneDarkGunner__cly_line_texlist);
+            TObjFish::set_global_param(dark_gunner_cly_line_texlist);
         } else {
-            TObjFish::set_global_param(TObjEneDarkGunner__rcly_line_texlist);
+            TObjFish::set_global_param(dark_gunner_rcly_line_texlist);
         }
         push_matrix();
         post_translate_matrix(&shadow_pos.x);
-        draw_chunk_object(TObjEneDarkGunner__shadow_chunk_object);
+        draw_chunk_object(dark_gunner_shadow_chunk_object);
         pop_matrix();
     }
 }

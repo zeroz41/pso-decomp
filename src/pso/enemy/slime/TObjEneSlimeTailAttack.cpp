@@ -90,17 +90,17 @@ extern const char slime_tail_motion_name_wait_bm4_ps_mb_body_njm[] = "wait_bm4_p
 extern const char slime_tail_motion_name_wait_bm4_ps_mb_body_njs[] = "wait_bm4_ps_mb_body.njs";
 extern const char slime_tail_motion_name_wait2_bm4_ps_ma_body_njm[] = "wait2_bm4_ps_ma_body.njm";
 extern const char bm4_ps_ma_body_bml_filename[] = "bm4_ps_ma_body.bml";
-extern const char TObjEneSlime__class_name_string[] = "TObjEneSlime";
+extern const char slime_class_name_string[] = "TObjEneSlime";
 extern const char slime_type_label_blue[] = "BLUE";
 // Debug label strings; slime_debug_label_table points at them.
 extern const char slime_type_label_red[] = "RED";
 extern const SlimeChildSlot slime_empty_child_slot = {0, NULL};
-extern const char TObjEneSlimeOne__class_name_string[] = "TObjEneSlimeOne";
+extern const char slime_one_class_name_string[] = "TObjEneSlimeOne";
 // draw_scale while a slime rises out of (state_value = 0, a flat puddle) or sinks back into the
 // ground (state_value = 1, full size); the grow and shrink states blend between them.
 extern const Vec slime_puddle_scale = {2.5f, 0.0f, 2.5f};
 extern const Vec slime_full_scale = {1.0f, 1.0f, 1.0f};
-extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWaterBomb";
+extern const char slime_water_bomb_class_name_string[] = "TObjEneSlimeWaterBomb";
 }
 SlimeTailNodeCapture slime_tail_node_capture;
 extern "C" {
@@ -180,7 +180,7 @@ __declspec(section ".data") void *slime_one_model_by_variant[2] = {
 __declspec(section ".data") void *slime_tail_attack_id_pair[2] = {
     (void *)0x4, (void *)0x5,
 };
-__declspec(section ".data") void *TObjEneSlime__attack_target_param_table[2] = {
+__declspec(section ".data") void *slime_attack_target_param_table[2] = {
     (void *)0x30, (void *)0x34,
 };
 __declspec(section ".data") s32 slime_tail_model_by_target[2] = {
@@ -192,15 +192,15 @@ __declspec(section ".data") s32 slime_tail_attack_param_ids[2] = {
 Vec slime_tail_attack_zero_vec = {0.0f, 0.0f, 0.0f};
 Vec slime_tail_attack_transform = {0.0f, 0.0f, 0.0f};
 #define slime_tail_attack_id_pair ((s32 *)slime_tail_attack_id_pair)
-#define TObjEneSlime__attack_target_param_table ((s32 *)TObjEneSlime__attack_target_param_table)
+#define slime_attack_target_param_table ((s32 *)slime_attack_target_param_table)
 
 
-extern const char TObjEneSlimeTailAttack__class_name_string[];
+extern const char slime_tail_attack_class_name_string[];
 // .sdata: the class-name pointers the constructors store in TObject's name field.
-const char *TObjEneSlime__name = TObjEneSlime__class_name_string;
-const char *TObjEneSlimeOne_class_name = TObjEneSlimeOne__class_name_string;
-const char *TObjEneSlimeWaterBomb__name = TObjEneSlimeWaterBomb__class_name_string;
-const char *TObjEneSlimeTailAttack__name = TObjEneSlimeTailAttack__class_name_string;
+const char *slime_name = slime_class_name_string;
+const char *TObjEneSlimeOne_class_name = slime_one_class_name_string;
+const char *slime_water_bomb_name = slime_water_bomb_class_name_string;
+const char *slime_tail_attack_name = slime_tail_attack_class_name_string;
 
 }
 // ---- folded from src/pso/unk/text_800EB778.cpp ----
@@ -285,7 +285,7 @@ void TObjEneSlime::free_instance() {
 }
 
 TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
-    m_name = TObjEneSlime__name;
+    m_name = slime_name;
     apply_set_data(set_data);
     clear_lobby_object_state();
     register_by_id();
@@ -1278,7 +1278,7 @@ TObjEneSlimeWaterBomb::TObjEneSlimeWaterBomb(TObjEneSlimeOne *parent, TObjEneSli
     : TObjEnemy(parent) {
     f32 s;
     f32 c;
-    m_name = TObjEneSlimeWaterBomb__name;
+    m_name = slime_water_bomb_name;
     this->owner = owner;
     this->rotation_y = ((TObjEneSlimeOne *)m_up)->rotation_y;
     VecCopy(&position, &((TObjEneSlimeOne *)m_up)->position);
@@ -1292,7 +1292,7 @@ TObjEneSlimeWaterBomb::TObjEneSlimeWaterBomb(TObjEneSlimeOne *parent, TObjEneSli
     movement.z = 0.6f * c;
     lifetime = 0.0f;
     particle = (TParticleCtrl *)create_particle_emitter(&position, 0xCF);
-    attack_power = *(f32 *)TLobby::dispatch_shared_handler_a(TObjEneSlime__attack_target_param_table[this->owner->get_attack_target()]);
+    attack_power = *(f32 *)TLobby::dispatch_shared_handler_a(slime_attack_target_param_table[this->owner->get_attack_target()]);
     if (attack_power < 0.0f) {
         attack_power = 0.0f;
     }
@@ -1422,11 +1422,11 @@ s32 TObjEneSlimeWaterBomb::check_hits() {
 }
 #pragma pop
 
-extern "C" const char TObjEneSlimeTailAttack__class_name_string[] = "TObjEneSlimeTailAttack";
+extern "C" const char slime_tail_attack_class_name_string[] = "TObjEneSlimeTailAttack";
 #pragma push
 TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *position, s32 angle, TObjEneSlimeOne *owner)
     : TObjEnemy(parent) {
-    m_name = TObjEneSlimeTailAttack__name;
+    m_name = slime_tail_attack_name;
     this->owner = owner;
     BmlResource *resource = TObjEneSlimeOne::get_instance();
     u32 id = slime_tail_model_by_target[this->owner->get_attack_target()];
@@ -1672,4 +1672,4 @@ void get_slime_tail_pose(SlimeTailPose *dst) {
 }
 
 #undef slime_tail_attack_id_pair
-#undef TObjEneSlime__attack_target_param_table
+#undef slime_attack_target_param_table

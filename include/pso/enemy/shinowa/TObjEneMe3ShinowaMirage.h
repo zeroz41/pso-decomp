@@ -4,6 +4,12 @@
 #include "types.h"
 
 struct NJS_OBJECT;
+struct BmlResource;
+struct TBreakUpMdlData;
+struct SampledMotionPoints;
+struct player_stats;
+struct AttackParams;
+struct ActorParamBlock;
 #include "pso/enemy/shinowa/TObjEneMe3Shinowa.h"
 
 struct TObjEneMe3ShinowaReal;
@@ -35,6 +41,26 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     static void *create_real(void *set_data);
     u16 owner_id;
     NJS_ARGB fade_color;
+
+    // Shared by every mirage.
+    static const char *class_name;
+    static BmlResource *bml_resource;
+    static s32 render_node_index;
+    static TBreakUpMdlData *breakup_model;
+    static SampledMotionPoints *sword_trail_a;
+    static SampledMotionPoints *sword_trail_b;
+    static SampledMotionPoints *attack_trail;
+    static Vec node_origin;
+    // Per-variant parameter tables fetched from TLobby.
+    static player_stats *base_params_by_variant[2];
+    static AttackParams *attack_params_by_variant[2];
+    static ActorParamBlock *resistance_params_by_variant[2];
+    static TObjEneMe3ShinowaParams *mirage_info_table[2];
+    // Copy of the model's texture list (the mirage swaps the first three texture addresses).
+    static NJS_TEXLIST alternate_texture_list;
+    static Vec body_node_position;
+    static s32 *material_color_pointers[4];
+    static TObjEneMe3ShinowaMoveParams init_params;
 };
 
 LAYOUT_ASSERT(TObjEneMe3ShinowaMirage_size, sizeof(TObjEneMe3ShinowaMirage) == 0x440);

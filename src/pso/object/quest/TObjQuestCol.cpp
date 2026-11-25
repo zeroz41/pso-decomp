@@ -2,7 +2,7 @@
 // One TU: the class names in .rodata/.sdata run ColBase..Col2 in this source order, while the text runs Col2..ColBase
 // and the vtables Col2..ColBase (reverse key-function order): built -inline off,deferred (configure.py).
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TMainTask.h"
@@ -50,14 +50,14 @@ void enable_action_input__10TObjPlayerFPv(void *p);
 u16 quest_collision_next_id;
 s32 quest_collision_warp_pending;
 TObject *quest_collision_task_root;
-s32 TObjQuestColBase__instance_count;
+s32 quest_col_base_instance_count;
 
 // Written first, so emitted last (after TObjQuestColBase's ctor), ahead of the implicit dtors.
-int TObjQuestColBase::vfunc_15() {
+int TObjQuestColBase::is_triggered() {
     return 0;
 }
 
-TQuestThread *TObjQuestColBase::vfunc_16() {
+TQuestThread *TObjQuestColBase::start_quest_thread() {
     return NULL;
 }
 
@@ -80,27 +80,27 @@ TObjQuestColBase::TObjQuestColBase(TObject *parent, void *set_data) : TObjCollid
     m_id = quest_collision_next_id++;
     radius = scale.x;
     label = set_params[0];
-    m_b4 = 1;
-    m_b8 = NULL;
-    TObjQuestColBase__instance_count++;
+    outside = 1;
+    quest_thread = NULL;
+    quest_col_base_instance_count++;
 }
 
 TObjQuestColBase::~TObjQuestColBase() {
-    TObjQuestColBase__instance_count--;
+    quest_col_base_instance_count--;
 }
 
 void TObjQuestColBase::run_task() {
-    if (m_b8 != NULL && m_b8->all_parents_unqueued_for_destruction() == 0) {
-        m_b8 = NULL;
+    if (quest_thread != NULL && quest_thread->all_parents_unqueued_for_destruction() == 0) {
+        quest_thread = NULL;
     }
-    if (m_b8 == NULL && vfunc_15() != 0) {
-        m_b8 = vfunc_16();
+    if (quest_thread == NULL && is_triggered() != 0) {
+        quest_thread = start_quest_thread();
     }
 }
 
 void TObjQuestColBase::render() { }
 
-void TObjQuestColBase::update_room_id_check() {
+void TObjQuestColBase::draw_debug_bounds() {
     if (update_object_view_visibility(200.0f, 10.0f) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * radius);
     }
@@ -116,35 +116,35 @@ s32 TObjQuestColBase::is_within_range(f32 range_sq) {
 
 s32 TObjQuestColBase::update_trigger_state(f32 range) {
     if (is_within_range(range * range) != 0) {
-        if ((s32)m_b4 != 0) {
-            m_b4 = 0;
+        if ((s32)outside != 0) {
+            outside = 0;
             return 1;
         }
         return 0;
     }
-    if ((s32)m_b4 != 0) {
+    if ((s32)outside != 0) {
         return 2;
     }
-    m_b4 = 1;
+    outside = 1;
     return 3;
 }
 
 // --- TObjQuestCol ---
 
-const char *TObjQuestCol__class_name = "TObjQuestCol";
+const char *quest_col_class_name = "TObjQuestCol";
 
 TObjQuestCol::TObjQuestCol(TObject *parent, void *set_data) : TObjQuestColBase(parent, set_data) {
-    m_name = TObjQuestCol__class_name;
+    m_name = quest_col_class_name;
 }
 
-int TObjQuestCol::vfunc_15() {
+int TObjQuestCol::is_triggered() {
     if (update_trigger_state(radius) == 1) {
         return 1;
     }
     return 0;
 }
 
-TQuestThread *TObjQuestCol::vfunc_16() {
+TQuestThread *TObjQuestCol::start_quest_thread() {
     TQuestThreadBoard::destroy_board();
     return TQuestThread::create(label);
 }
@@ -165,13 +165,13 @@ TObjQuestCol *create_quest_col(ObjectSetData *arg, s32 *out_id) {
 
 // --- TObjQuestColA ---
 
-const char *TObjQuestColA__class_name = "TObjQuestColA";
+const char *quest_col_a_class_name = "TObjQuestColA";
 
 TObjQuestColA::TObjQuestColA(TObject *parent, void *set_data) : TObjQuestColBase(parent, set_data) {
-    m_name = TObjQuestColA__class_name;
+    m_name = quest_col_a_class_name;
 }
 
-int TObjQuestColA::vfunc_15() {
+int TObjQuestColA::is_triggered() {
     TObjPlayer *player;
     s32 temp_r3_2;
 
@@ -204,7 +204,7 @@ block_12:
     return 0;
 }
 
-TQuestThread *TObjQuestColA::vfunc_16() {
+TQuestThread *TObjQuestColA::start_quest_thread() {
     TQuestThreadBoard::destroy_board();
     return TQuestThread::create(label);
 }
@@ -213,7 +213,7 @@ void *TObjQuestColA::create(void *set_data) {
     return new TObjQuestColA(quest_collision_task_root, set_data);
 }
 
-TObjQuestColA *fn_80196814(ObjectSetData *arg, s32 *out_id) {
+TObjQuestColA *create_quest_col_a(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColA *o = new TObjQuestColA(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -226,7 +226,7 @@ TObjQuestColA *fn_80196814(ObjectSetData *arg, s32 *out_id) {
 // --- TObjQuestColALock ---
 
 // The lock's one collision body; init_collision_body_parts copies it, the ctors raise it by scale.y.
-static const CollisionBody TObjQuestColALock__collision_desc = {
+static const CollisionBody quest_col_a_lock_collision_desc = {
     { 0.0f, 0.0f, 0.0f }, 5.0f, 0.0f, 0, 0x30003, { 0.0f, 0.0f, 0.0f }, 0.0f,
 };
 
@@ -234,7 +234,7 @@ const char *obj_quest_col_alock_class_name = "TObjQuestColALock";
 
 TObjQuestColALock::TObjQuestColALock(TObject *parent, void *set_data) : TObjQuestColBase(parent, set_data) {
     m_name = obj_quest_col_alock_class_name;
-    init_collision_body_parts(this, &TObjQuestColALock__collision_desc, 1);
+    init_collision_body_parts(this, &quest_col_a_lock_collision_desc, 1);
     set_indexed_flags(0, 0xF0);
     bodies->offset.y += scale.y;
     refresh_collision_body_centers();
@@ -247,7 +247,7 @@ TObjQuestColALock::~TObjQuestColALock() {
     free_collision_body_parts(this);
 }
 
-int TObjQuestColALock::vfunc_15() {
+int TObjQuestColALock::is_triggered() {
     TObjPlayer *player;
     s32 temp_r3_2;
 
@@ -281,12 +281,12 @@ block_12:
     return 0;
 }
 
-TQuestThread *TObjQuestColALock::vfunc_16() {
+TQuestThread *TObjQuestColALock::start_quest_thread() {
     TQuestThreadBoard::destroy_board();
     return TQuestThread::create(label);
 }
 
-void TObjQuestColALock::update_room_id_check() {
+void TObjQuestColALock::draw_debug_bounds() {
     if (update_object_view_visibility(200.0f, 10.0f) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * radius);
         debug_draw_uniform_scaled(&position, &debug_color_purple_half_alpha, bodies, 2.0f * bodies->radius);
@@ -311,7 +311,7 @@ TObjQuestColApc::TObjQuestColApc(TObject *parent, void *set_data) : TObjQuestCol
     m_name = obj_quest_col_apc_class_name;
 }
 
-int TObjQuestColApc::vfunc_15() {
+int TObjQuestColApc::is_triggered() {
     s32 i;
     TObjPlayer *p;
     for (i = 0; i < 12; i++) {
@@ -325,12 +325,12 @@ int TObjQuestColApc::vfunc_15() {
     return 0;
 }
 
-TQuestThread *TObjQuestColApc::vfunc_16() {
+TQuestThread *TObjQuestColApc::start_quest_thread() {
     TQuestThreadBoard::destroy_board();
     return TQuestThread::create(label);
 }
 
-TObjQuestColApc *fn_801963A8(ObjectSetData *arg, s32 *out_id) {
+TObjQuestColApc *create_quest_col_apc(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColApc *o = new TObjQuestColApc(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -342,14 +342,14 @@ TObjQuestColApc *fn_801963A8(ObjectSetData *arg, s32 *out_id) {
 
 // --- TObjQuestColApcIN ---
 
-const char *TObjQuestColApcIN__name = "TObjQuestColApcIN";
+const char *quest_col_apc_in_name = "TObjQuestColApcIN";
 
 TObjQuestColApcIN::TObjQuestColApcIN(TObject *parent, void *set_data) : TObjQuestColBase(parent, set_data) {
-    m_name = TObjQuestColApcIN__name;
+    m_name = quest_col_apc_in_name;
     party_radius = scale.y;
 }
 
-int TObjQuestColApcIN::vfunc_15() {
+int TObjQuestColApcIN::is_triggered() {
     TObjPlayer *p = get_player_by_client_id(local_client_id);
     if (p != NULL) {
         if (xyz_distance_squared(&p->position, &position) < radius * radius) {
@@ -369,12 +369,12 @@ int TObjQuestColApcIN::vfunc_15() {
     return 0;
 }
 
-TQuestThread *TObjQuestColApcIN::vfunc_16() {
+TQuestThread *TObjQuestColApcIN::start_quest_thread() {
     TQuestThreadBoard::destroy_board();
     return TQuestThread::create(label);
 }
 
-TObjQuestColApcIN *fn_80196214(ObjectSetData *arg, s32 *out_id) {
+TObjQuestColApcIN *create_quest_col_apc_in(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColApcIN *o = new TObjQuestColApcIN(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -386,20 +386,20 @@ TObjQuestColApcIN *fn_80196214(ObjectSetData *arg, s32 *out_id) {
 
 // --- TObjQuestColApcINW ---
 
-const char *TObjQuestColApcINW__name = "TObjQuestColApcINW";
+const char *quest_col_apc_inw_name = "TObjQuestColApcINW";
 
-// Where the warp sends the other players once one strays too far (vfunc_15 sets it).
+// Where the warp sends the other players once one strays too far (is_triggered sets it).
 Vec quest_col_apc_warp_target_pos;
 
 TObjQuestColApcINW::TObjQuestColApcINW(TObject *parent, void *set_data) : TObjQuestColBase(parent, set_data) {
-    m_name = TObjQuestColApcINW__name;
+    m_name = quest_col_apc_inw_name;
     party_radius = scale.y;
     warp_pos.z = 0.0f;
     warp_pos.y = 0.0f;
     warp_pos.x = 0.0f;
 }
 
-int TObjQuestColApcINW::vfunc_15() {
+int TObjQuestColApcINW::is_triggered() {
     if (update_trigger_state(radius) == 1) {
         TObjPlayer *p = get_player_by_client_id(local_client_id);
         if (p == NULL) {
@@ -422,12 +422,12 @@ int TObjQuestColApcINW::vfunc_15() {
     return 0;
 }
 
-TQuestThread *TObjQuestColApcINW::vfunc_16() {
+TQuestThread *TObjQuestColApcINW::start_quest_thread() {
     TQuestThreadBoard::destroy_board();
     return TQuestThread::create(label);
 }
 
-void fn_8019608C(void) {
+void send_quest_collision_warp(void) {
     if (quest_collision_warp_pending != 0) {
         send_warp_toward_player(1, &quest_col_apc_warp_target_pos);
     }
@@ -446,10 +446,10 @@ TObjQuestColApcINW *create_quest_col_apc_inw__6TLobbyFPvPv(ObjectSetData *arg, s
 
 // --- TQuestColCtrl ---
 
-const char *TQuestColCtrl__name = "TQuestColCtrl";
+const char *quest_col_ctrl_name = "TQuestColCtrl";
 
 TQuestColCtrl::TQuestColCtrl(TObject *parent) : TObject(parent) {
-    m_name = TQuestColCtrl__name;
+    m_name = quest_col_ctrl_name;
 }
 
 TQuestColCtrl::~TQuestColCtrl() {
@@ -483,12 +483,12 @@ void TQuestColCtrl::delete_by_param(s32 id) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcINW__name) != 0)
+        if ((((TObjContainerCommon *)cur)->check_value_equals(quest_col_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_a_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_apc_in_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_apc_inw_name) != 0)
             && cur->m_id == id) {
             cur->queue_destruction();
             return;
@@ -503,12 +503,12 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 id) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcINW__name) != 0)
+        if ((((TObjContainerCommon *)cur)->check_value_equals(quest_col_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_a_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_apc_in_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(quest_col_apc_inw_name) != 0)
             && id == ((TObjBase *)(static_cast<TObjQuestColBase *>(cur)))->get_entity_id()) {
             return static_cast<TObjQuestColBase *>(cur);
         }
@@ -518,11 +518,11 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 id) {
 
 // --- TObjQuestColALock2 ---
 
-const char *TObjQuestColALock2__name = "TObjQuestColALock2";
+const char *quest_col_a_lock2_name = "TObjQuestColALock2";
 
 TObjQuestColALock2::TObjQuestColALock2(TObject *parent, void *set_data) : TObjQuestColBase(parent, set_data) {
-    m_name = TObjQuestColALock2__name;
-    init_collision_body_parts(this, &TObjQuestColALock__collision_desc, 1);
+    m_name = quest_col_a_lock2_name;
+    init_collision_body_parts(this, &quest_col_a_lock_collision_desc, 1);
     set_indexed_flags(0, 0xF0);
     bodies->offset.y += scale.y;
     refresh_collision_body_centers();
@@ -553,7 +553,7 @@ TObjQuestColALock2::~TObjQuestColALock2() {
     free_collision_body_parts(this);
 }
 
-int TObjQuestColALock2::vfunc_15() {
+int TObjQuestColALock2::is_triggered() {
     TObjPlayer *player;
     s32 temp_r3_2;
 
@@ -587,7 +587,7 @@ block_12:
     return 0;
 }
 
-TQuestThread *TObjQuestColALock2::vfunc_16() {
+TQuestThread *TObjQuestColALock2::start_quest_thread() {
     TQuestThread *thread;
     TQuestThreadBoard::destroy_board();
     thread = NULL;
@@ -600,7 +600,7 @@ TQuestThread *TObjQuestColALock2::vfunc_16() {
     return thread;
 }
 
-void TObjQuestColALock2::update_room_id_check() {
+void TObjQuestColALock2::draw_debug_bounds() {
     if (update_object_view_visibility(200.0f, 10.0f) != 0) {
         debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * radius);
         debug_draw_uniform_scaled(&position, &debug_color_purple_half_alpha, bodies, 2.0f * bodies->radius);
@@ -613,10 +613,10 @@ void *TObjQuestColALock2::create(void *set_data) {
 
 // --- TObjQuestCol2 ---
 
-const char *TObjQuestCol2__name = "TObjQuestCol2";
+const char *quest_col2_name = "TObjQuestCol2";
 
 TObjQuestCol2::TObjQuestCol2(TObject *parent, void *set_data) : TObjQuestColBase(parent, set_data) {
-    m_name = TObjQuestCol2__name;
+    m_name = quest_col2_name;
     m_c0 = set_params[1];
     if (m_c0 < 0) {
         m_c0 = 0;
@@ -637,14 +637,14 @@ TObjQuestCol2::TObjQuestCol2(TObject *parent, void *set_data) : TObjQuestColBase
     }
 }
 
-int TObjQuestCol2::vfunc_15() {
+int TObjQuestCol2::is_triggered() {
     if (update_trigger_state(radius) == 1) {
         return 1;
     }
     return 0;
 }
 
-TQuestThread *TObjQuestCol2::vfunc_16() {
+TQuestThread *TObjQuestCol2::start_quest_thread() {
     TQuestThread *thread;
     TQuestThreadBoard::destroy_board();
     thread = NULL;

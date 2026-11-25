@@ -26,10 +26,10 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-s32 TShopItemTecSequence__slot_table[4];
+s32 TShopItemTecSequence::slot_table[4];
 extern const char *TShopItemTecSequence__class_name;
-s32 lbl_805D6248;
-s32 lbl_805D624C;
+s32 shop_tec_pending_message;
+s32 shop_tec_pending_state;
 TShopItemTecSequence *item_tec_sequence_instance;
 s32 get_shop_text(s32 index);
 
@@ -66,14 +66,14 @@ void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item) 
 void TShopItemTecSequence__sub_80220560(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopItemTecSequence__slot_table[i] = 0;
+        TShopItemTecSequence::slot_table[i] = 0;
     }
 }
 
 void TShopItemTecSequence__sub_80220538(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopItemTecSequence__slot_table[i] = 0;
+        TShopItemTecSequence::slot_table[i] = 0;
     }
 }
 
@@ -85,9 +85,9 @@ TShopItemTecSequence::TShopItemTecSequence(TObject *parent, TObjPlayer *player) 
     meseta_window = NULL;
     counter_camera = NULL;
     item_tec_sequence_instance = this;
-    lbl_805D6248 = 0;
-    lbl_805D624C = 0;
-    TShopItemTecSequence__slot_table[get_split_screen_slot()] = 1;
+    shop_tec_pending_message = 0;
+    shop_tec_pending_state = 0;
+    TShopItemTecSequence::slot_table[get_split_screen_slot()] = 1;
 }
 
 TShopItemTecSequence::~TShopItemTecSequence() {
@@ -105,7 +105,7 @@ TShopItemTecSequence::~TShopItemTecSequence() {
         choice_menu = NULL;
     }
     item_tec_sequence_instance = NULL;
-    TShopItemTecSequence__slot_table[get_split_screen_slot()] = 0;
+    TShopItemTecSequence::slot_table[get_split_screen_slot()] = 0;
 }
 
 void TShopItemTecSequence::update_state() {
@@ -208,8 +208,8 @@ void TShopItemTecSequence::close_if_done() {
 
 void TShopItemTecSequence::handle_select() {
     if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
-        display_shop_message(lbl_805D6248, 1);
-        set_state(lbl_805D624C);
+        display_shop_message(shop_tec_pending_message, 1);
+        set_state(shop_tec_pending_state);
     }
 }
 
@@ -224,8 +224,8 @@ void select_and_advance__20TShopItemTecSequenceFPv(TShopWindowBase *window) {
     if (window != NULL) {
         window->display_shop_message(0x1B, 1);
         window->set_state(6);
-        lbl_805D6248 = 0x1A;
-        lbl_805D624C = 2;
+        shop_tec_pending_message = 0x1A;
+        shop_tec_pending_state = 2;
     }
 }
 

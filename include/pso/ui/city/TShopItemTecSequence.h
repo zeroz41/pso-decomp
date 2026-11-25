@@ -12,6 +12,7 @@ struct TShopJudgmentItemWindow;
 struct TItemData;
 
 struct TShopItemTecSequence : public TShopSequence {
+    static s32 slot_table[4];
     TShopItemTecSequence(TObject *parent, TObjPlayer *player);
     virtual ~TShopItemTecSequence();
     virtual void update_state();

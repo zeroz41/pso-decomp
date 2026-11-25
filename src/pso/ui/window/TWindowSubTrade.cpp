@@ -76,7 +76,6 @@ TWindowSubTrade::~TWindowSubTrade() {
 }
 
 void TWindowSubTrade::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r30;
     temp_r30 = is_player_input_active((this->m_20));
     switch (this->m_1c) {
@@ -108,7 +107,7 @@ void TWindowSubTrade::run_task() {
             this->m_24 = m_player_list->get_selected_value();
         }
         if (this->m_confirm_prompt == NULL) {
-            this->m_confirm_prompt = ((TWindowSubTrade *)arg0)->open_trade_confirm_prompt(this->m_24);
+            this->m_confirm_prompt = this->open_trade_confirm_prompt(this->m_24);
         }
         this->m_1c = 4U;
     case 4:
@@ -128,7 +127,7 @@ void TWindowSubTrade::run_task() {
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window == NULL) {
-            this->m_message_window = ((TWindowSubTrade *)arg0)->open_player_message_window(this->m_24, (saddr) (TWindowSubStatusDisp::get_message_10(0xD7)));
+            this->m_message_window = this->open_player_message_window(this->m_24, (saddr) (TWindowSubStatusDisp::get_message_10(0xD7)));
         }
         send_6xA6_modify_trade_proposal((this->m_24));
         this->m_1c = 6U;
@@ -146,7 +145,6 @@ void TWindowSubTrade::run_task() {
 
 void TWindowSubTrade::render() {  }
 
-extern "C" {
 // The caller passes its TWindowSubTrade in r3; the body never reads it.
 TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     s32 i;
@@ -180,7 +178,6 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     list->set_flag70_bit10();
     list->set_scroll_target(224.0f, 88.0f);
     return list;
-}
 }
 
 TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 arg2) {

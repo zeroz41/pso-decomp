@@ -17,7 +17,7 @@
 #include "pso/system/BmlResource.h"
 
 
-const char *TObjBoss1Rock__name = "TObjBoss1Rock";
+const char *TObjBoss1Rock::name = "TObjBoss1Rock";
 
 void TObjBoss1Rock::render() {
     if (m_color.a < 1.0f) {
@@ -69,7 +69,7 @@ void TObjBoss1Rock::run_task() {
 TObjBoss1Rock::~TObjBoss1Rock() {}
 
 void TObjBoss1Rock::sub_8002E1CC(const Vec *pos, const Vec *vel, s32 kind) {
-    m_name = TObjBoss1Rock__name;
+    m_name = TObjBoss1Rock::name;
     VecCopy(&m_position, pos);
     VecCopy(&m_velocity, vel);
     m_rotation_y = (s32)(65536.0f * (3.0517578125e-05f * (f32)rand()));

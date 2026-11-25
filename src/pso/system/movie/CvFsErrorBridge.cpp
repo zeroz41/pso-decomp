@@ -6,7 +6,7 @@
 
 void cvfs_forward_error(s32, const char *message, void *handle) {
     if (cvfs_completion_callback != NULL) {
-        cvfs_completion_callback(lbl_805D75FC, message, handle);
+        cvfs_completion_callback(cvfs_completion_context, message, handle);
     }
 }
 

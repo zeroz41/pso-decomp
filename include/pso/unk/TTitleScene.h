@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
-class TUnk_804EE458;
+class TTitleMenu;
 class TUnk_804EE470;
 class TTitleBackground;
 
@@ -25,7 +25,7 @@ public:
 
     TTitleBackground *title_layer;
     TUnk_804EE470 *overlay_layer;
-    TUnk_804EE458 *transition_controller;
+    TTitleMenu *transition_controller;
     s32 m_28;
     TObject *auxiliary_window;
     s32 m_30;

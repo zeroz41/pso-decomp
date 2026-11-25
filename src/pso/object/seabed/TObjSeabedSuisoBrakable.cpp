@@ -110,4 +110,4 @@ NJS_OBJECT *TObjSeabedSuisoBrakable::get_model13_node(int index) {
     return model13_nodes[index];
 }
 
-void TObjSeabedSuisoBrakable::vfunc_19() {}
+void TObjSeabedSuisoBrakable::run_demo_task() {}

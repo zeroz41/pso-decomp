@@ -1,0 +1,30 @@
+#ifndef PSO_WEAPON_TITEMWEAPONSRANKPUNCH_H
+#define PSO_WEAPON_TITEMWEAPONSRANKPUNCH_H
+#include "types.h"
+#include "pso/weapon/TItemWeaponSRank.h"
+#include "pso/system/data/FlagWord.h"
+
+class TItemWeaponSRankPunch : public TItemWeaponSRank {
+public:
+    TItemWeaponSRankPunch(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
+    virtual ~TItemWeaponSRankPunch();
+    virtual void transform_model_node();
+    virtual void draw_held_model();
+    virtual void emit_marker_effects();
+    // Item timer callback: the ring is no longer out.
+    static void clear_rico_ring_flag(TObject *object);
+    FlagWord flags;                 // 1: drawing the second barrel, 2: ring out, 4: firing
+    WeaponVector shot_origins[2];   // get_joint_position(1) per barrel, launch_shot origins
+};
+
+extern "C" {
+// The weapon's hit callback (hit_callback).
+void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body);
+}
+
+extern "C" {
+void TObjPlayer__sub_80128A70(void);
+}
+
+#endif

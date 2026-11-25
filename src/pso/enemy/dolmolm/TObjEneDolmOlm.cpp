@@ -17,7 +17,7 @@
 
 #include "types.h"
 #include "pso/system/AreaSound.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -32,7 +32,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #include <stddef.h>
@@ -68,6 +68,7 @@
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 extern const f64 dolmolm_radians_to_angle[];
 extern int lbl_805D69E8;
@@ -102,8 +103,8 @@ extern const char dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18];
 __declspec(section ".rodata") const char dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18] ATTRIBUTE_ALIGN(4) = "lo_abgc01l_wola_body.nj";
 extern const char bm_ene_abgc01_wola_body_low_bml_filename[0x20];
 __declspec(section ".rodata") const char bm_ene_abgc01_wola_body_low_bml_filename[0x20] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body_low.bml";
-extern const char TObjEneDolmOlm__class_name_string[0xF];
-__declspec(section ".rodata") const char TObjEneDolmOlm__class_name_string[0xF] ATTRIBUTE_ALIGN(4) = "TObjEneDolmOlm";
+extern const char dolm_olm_class_name_string[0xF];
+__declspec(section ".rodata") const char dolm_olm_class_name_string[0xF] ATTRIBUTE_ALIGN(4) = "TObjEneDolmOlm";
 
 const char *dolmolm_model_names[3] = {
     dolmolm_model_name_abgc01_wola_body_nj, dolmolm_model_name_abgc01l_wola_body_nj, NULL,
@@ -123,7 +124,7 @@ const char *dolmolm_low_motion_names[10] = {
     dolmolm_motion_name_walk_abgc01_wola_body_njm, NULL,
 };
 BmlResourceDescriptor dolmolm_low_resource_descriptor = { bm_ene_abgc01_wola_body_low_bml_filename, dolmolm_low_model_names, dolmolm_low_motion_names, 2, 9 };
-TObjMotionAction TObjEneDolmOlm__param_table[13] = {
+TObjMotionAction dolm_olm_param_table[13] = {
     {1, 0, 5, 0.8f, 1},
     {1, 0, 6, 0.6f, 0x20},
     {1, 2, 8, 0.8f, 1},
@@ -149,23 +150,23 @@ CollisionBody dolmolm_collision_bodies[2] = {
 
 
 void TObjEneDolmOlm::load_params_from_table(s32 i) {
-    model = TObjEneDolmOlm__resource_bundle->models[i].model;
-    texlist = TObjEneDolmOlm__resource_bundle->models[i].texlist;
+    model = dolm_olm_resource_bundle->models[i].model;
+    texlist = dolm_olm_resource_bundle->models[i].texlist;
 }
-TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(parent) {
+TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
     u32 col;
     m_name = obj_ene_dolm_olm_class_name;
     apply_set_data(set_data);
     init_position_vectors();
     apply_variant();
-    action_table = TObjEneDolmOlm__param_table;
+    action_table = dolm_olm_param_table;
     set_action_table(action_table);
-    motion_list = TObjEneDolmOlm__resource_bundle->motions;
+    motion_list = dolm_olm_resource_bundle->motions;
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
     init_collision_body_parts(this, &dolmolm_collision_bodies[variant], 1);
-    bind_enemy_combat_stats(dolm_olm_combat_stat_id_pair[variant], TObjEneDolmOlm__shared_handler_ids[variant], TObjEneDolmOlm__registered_object_ids[variant]);
+    bind_enemy_combat_stats(dolm_olm_combat_stat_id_pair[variant], dolm_olm_shared_handler_ids[variant], dolm_olm_registered_object_ids[variant]);
     movementParameters = &dolmolm_movement_params[variant];
     referenceHp = hp;
     advance_position();
@@ -195,10 +196,10 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     appearing = 1;
     attack_traces[0] = TAttackTraceStrip::create(0xA0303030, col);
     attack_traces[1] = TAttackTraceStrip::create(0xA0303030, col);
-    far_move_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[0];
-    far_anim_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[1];
-    near_move_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[2];
-    near_anim_speed = TObjEneDolmOlm__behavior_params_by_variant[variant]->params[3];
+    far_move_speed = dolm_olm_behavior_params_by_variant[variant]->params[0];
+    far_anim_speed = dolm_olm_behavior_params_by_variant[variant]->params[1];
+    near_move_speed = dolm_olm_behavior_params_by_variant[variant]->params[2];
+    near_anim_speed = dolm_olm_behavior_params_by_variant[variant]->params[3];
     requested_action = 1;
     retreat_distance = 0.0f;
     enable_motion_blend();
@@ -221,35 +222,35 @@ void TObjEneDolmOlm::load_shared_resources() {
     s32 i;
     if (is_split_screen() != 0) {
         p = new BmlResource(1, &dolmolm_low_resource_descriptor, 0, 0, NULL);
-        TObjEneDolmOlm__resource_bundle = p;
+        dolm_olm_resource_bundle = p;
     } else {
         p = new BmlResource(1, &dolmolm_resource_descriptor, 0, 0, NULL);
-        TObjEneDolmOlm__resource_bundle = p;
+        dolm_olm_resource_bundle = p;
     }
-    TObjEneDolmOlm__left_attack_samples = new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
-    TObjEneDolmOlm__right_attack_samples = new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
+    dolm_olm_left_attack_samples = new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
+    dolm_olm_right_attack_samples = new SampledMotionPoints(2, 0.0f, 20.0f, 0.8f);
     set_motion_packed_rotation();
-    TObjEneDolmOlm__left_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models->model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[3].motion].motion, 0x1C, 0x1D);
-    TObjEneDolmOlm__right_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models->model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[4].motion].motion, 0x14, 0x15);
+    dolm_olm_left_attack_samples->sample_two_nodes(dolm_olm_resource_bundle->models->model, (NJS_MOTION *)dolm_olm_resource_bundle->motions[dolm_olm_param_table[3].motion].motion, 0x1C, 0x1D);
+    dolm_olm_right_attack_samples->sample_two_nodes(dolm_olm_resource_bundle->models->model, (NJS_MOTION *)dolm_olm_resource_bundle->motions[dolm_olm_param_table[4].motion].motion, 0x14, 0x15);
     clear_motion_packed_rotation();
     dolm_olm_combat_stat_id_pair = static_cast<player_stats **>(mem_alloc(8));
-    TObjEneDolmOlm__shared_handler_ids = static_cast<AttackParams **>(mem_alloc(8));
-    TObjEneDolmOlm__registered_object_ids = static_cast<ActorParamBlock **>(mem_alloc(8));
-    TObjEneDolmOlm__behavior_params_by_variant = (DolmOlmBehaviorParams **)mem_alloc(8);
+    dolm_olm_shared_handler_ids = static_cast<AttackParams **>(mem_alloc(8));
+    dolm_olm_registered_object_ids = static_cast<ActorParamBlock **>(mem_alloc(8));
+    dolm_olm_behavior_params_by_variant = (DolmOlmBehaviorParams **)mem_alloc(8);
     dolm_olm_combat_stat_id_pair[0] = TLobby::register_boss(0x4F);
     dolm_olm_combat_stat_id_pair[1] = TLobby::register_boss(0x50);
-    TObjEneDolmOlm__shared_handler_ids[0] = TLobby::dispatch_shared_handler_b(0x54);
-    TObjEneDolmOlm__shared_handler_ids[1] = TLobby::dispatch_shared_handler_b(0x55);
-    TObjEneDolmOlm__registered_object_ids[0] = TLobby::register_object(0x4E);
-    TObjEneDolmOlm__registered_object_ids[1] = TLobby::register_object(0x4F);
-    TObjEneDolmOlm__behavior_params_by_variant[0] = (DolmOlmBehaviorParams *)TLobby::dispatch_shared_handler_a(0x4E);
-    TObjEneDolmOlm__behavior_params_by_variant[1] = (DolmOlmBehaviorParams *)TLobby::dispatch_shared_handler_a(0x4F);
-    TObjEneDolmOlm__effect_render_state = 0;
+    dolm_olm_shared_handler_ids[0] = TLobby::dispatch_shared_handler_b(0x54);
+    dolm_olm_shared_handler_ids[1] = TLobby::dispatch_shared_handler_b(0x55);
+    dolm_olm_registered_object_ids[0] = TLobby::register_object(0x4E);
+    dolm_olm_registered_object_ids[1] = TLobby::register_object(0x4F);
+    dolm_olm_behavior_params_by_variant[0] = (DolmOlmBehaviorParams *)TLobby::dispatch_shared_handler_a(0x4E);
+    dolm_olm_behavior_params_by_variant[1] = (DolmOlmBehaviorParams *)TLobby::dispatch_shared_handler_a(0x4F);
+    dolm_olm_effect_render_state = 0;
     {
         s16 ids[2] = { 69, 79 };
-        NpcAnimationBinding d = { TObjEneDolmOlm__resource_bundle->motions, TObjEneDolmOlm__param_table, 0, 2, 12 };
+        NpcAnimationBinding d = { dolm_olm_resource_bundle->motions, dolm_olm_param_table, 0, 2, 12 };
         for (i = 0; i < 2; i++) {
-            BmlModelEntry *e = &TObjEneDolmOlm__resource_bundle->models[i];
+            BmlModelEntry *e = &dolm_olm_resource_bundle->models[i];
             TObjNpcEnemy::register_animated_chunk(ids[i], e->model, e->texlist, &d, dolmolm_collision_bodies[i].radius, 0.0f);
         }
     }
@@ -259,29 +260,29 @@ void TObjEneDolmOlm::free_shared_resources() {
         mem_free(dolm_olm_combat_stat_id_pair);
         dolm_olm_combat_stat_id_pair = NULL;
     }
-    if (TObjEneDolmOlm__shared_handler_ids != NULL) {
-        mem_free(TObjEneDolmOlm__shared_handler_ids);
-        TObjEneDolmOlm__shared_handler_ids = NULL;
+    if (dolm_olm_shared_handler_ids != NULL) {
+        mem_free(dolm_olm_shared_handler_ids);
+        dolm_olm_shared_handler_ids = NULL;
     }
-    if (TObjEneDolmOlm__registered_object_ids != NULL) {
-        mem_free(TObjEneDolmOlm__registered_object_ids);
-        TObjEneDolmOlm__registered_object_ids = NULL;
+    if (dolm_olm_registered_object_ids != NULL) {
+        mem_free(dolm_olm_registered_object_ids);
+        dolm_olm_registered_object_ids = NULL;
     }
-    if (TObjEneDolmOlm__behavior_params_by_variant != NULL) {
-        mem_free(TObjEneDolmOlm__behavior_params_by_variant);
-        TObjEneDolmOlm__behavior_params_by_variant = NULL;
+    if (dolm_olm_behavior_params_by_variant != NULL) {
+        mem_free(dolm_olm_behavior_params_by_variant);
+        dolm_olm_behavior_params_by_variant = NULL;
     }
-    if (TObjEneDolmOlm__right_attack_samples != NULL) {
-        delete TObjEneDolmOlm__right_attack_samples;
-        TObjEneDolmOlm__right_attack_samples = NULL;
+    if (dolm_olm_right_attack_samples != NULL) {
+        delete dolm_olm_right_attack_samples;
+        dolm_olm_right_attack_samples = NULL;
     }
-    if (TObjEneDolmOlm__left_attack_samples != NULL) {
-        delete TObjEneDolmOlm__left_attack_samples;
-        TObjEneDolmOlm__left_attack_samples = NULL;
+    if (dolm_olm_left_attack_samples != NULL) {
+        delete dolm_olm_left_attack_samples;
+        dolm_olm_left_attack_samples = NULL;
     }
-    if (TObjEneDolmOlm__resource_bundle != NULL) {
-        delete TObjEneDolmOlm__resource_bundle;
-        TObjEneDolmOlm__resource_bundle = NULL;
+    if (dolm_olm_resource_bundle != NULL) {
+        delete dolm_olm_resource_bundle;
+        dolm_olm_resource_bundle = NULL;
     }
 }
 void *TObjEneDolmOlm::create(void *set_data) {
@@ -378,7 +379,7 @@ void TObjEneDolmOlm::render() {
         }
         }
         toggle_particle_effect();
-        TObjEneDolmOlm__effect_render_state = 0;
+        dolm_olm_effect_render_state = 0;
         set_chunk_model_node_callback(TObjEneDolmOlm::toggle_effect_render);
         if (appearing == 1) {
             if (fade.has_visible_opacity() != 0) {
@@ -449,7 +450,7 @@ s32 TObjEneDolmOlm::render_model_if_visible() {
     return 0;
 }
 void TObjEneDolmOlm::toggle_effect_render(NJS_OBJECT *) {
-    switch (TObjEneDolmOlm__effect_render_state) {
+    switch (dolm_olm_effect_render_state) {
     case 0x15:
     case 0x1d:
     case 0x49:
@@ -459,7 +460,7 @@ void TObjEneDolmOlm::toggle_effect_render(NJS_OBJECT *) {
         TParticleCtrl::end_effect_render();
         break;
     }
-    TObjEneDolmOlm__effect_render_state += 1;
+    dolm_olm_effect_render_state += 1;
 }
 void TObjEneDolmOlm::beast_update_appear() {
     advance_animation();
@@ -575,7 +576,7 @@ void TObjEneDolmOlm::update_special_attack() {
         TObjPlayer *tgt = get_player_by_client_id(targetId);
         f32 d = horizontal_distance_squared(&tgt->position, &position);
         if (tgt != 0 && tgt->get_floor() == get_current_floor() &&
-            d < TObjEneDolmOlm__behavior_params_by_variant[variant]->special_range * TObjEneDolmOlm__behavior_params_by_variant[variant]->special_range) {
+            d < dolm_olm_behavior_params_by_variant[variant]->special_range * dolm_olm_behavior_params_by_variant[variant]->special_range) {
             target = tgt;
         } else {
             target = 0;
@@ -622,7 +623,7 @@ void TObjEneDolmOlm::update_special_attack() {
             Vec v;
             VecCopy(&v, &((TObjChara *)target)->body_center);
             subtract_vector(&v, &body_center);
-            if (turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &v) < TObjEneDolmOlm__behavior_params_by_variant[variant]->special_angle) {
+            if (turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &v) < dolm_olm_behavior_params_by_variant[variant]->special_angle) {
                 phase = 3;
                 requested_action = 0xC;
                 play_sound_effect(remap_sound_for_area(0x4003A804), &position, 0, 0);
@@ -644,7 +645,7 @@ void TObjEneDolmOlm::update_special_attack() {
             subtract_vector(&v, &body_center);
             a = angle_difference_abs(rotation_y, (s32)(dolmolm_radians_to_angle[0] * atan2_float(v.x, v.z)));
             d = horizontal_distance_squared(&((TObjChara *)target)->position, &position);
-            t = TObjEneDolmOlm__behavior_params_by_variant[variant];
+            t = dolm_olm_behavior_params_by_variant[variant];
             if (a < t->special_angle && d < t->special_range * t->special_range) {
                 u16 id = ((TObjBase *)target)->get_entity_id();
                 if (((TObjCollidable *)target)->test_actor_flags(0x4000000) == 0) {
@@ -652,7 +653,7 @@ void TObjEneDolmOlm::update_special_attack() {
                     if (pl != 0 && pl->is_locally_controlled() != 0 &&
                         pl->all_parents_unqueued_for_destruction() != 0 &&
                         pl->test_actor_flags(0x800) == 0 && pl->check_player_flag1() == 0) {
-                        TObjPlayer::play_effect(pl, (s32)(30.0f * (f32)TObjEneDolmOlm__behavior_params_by_variant[variant]->special_power), 2);
+                        TObjPlayer::play_effect(pl, (s32)(30.0f * (f32)dolm_olm_behavior_params_by_variant[variant]->special_power), 2);
                     }
                 }
             }
@@ -776,7 +777,7 @@ void TObjEneDolmOlm::run_attack_action() {
                 dist_sq = horizontal_distance_squared(&player->position, &position);
                 height_diff = fabs_float(player->position.y - position.y);
                 if (player->get_floor() == get_current_floor()) {
-                    if (dist_sq < TObjEneDolmOlm__behavior_params_by_variant[variant]->special_range * TObjEneDolmOlm__behavior_params_by_variant[variant]->special_range &&
+                    if (dist_sq < dolm_olm_behavior_params_by_variant[variant]->special_range * dolm_olm_behavior_params_by_variant[variant]->special_range &&
                         random_ratio() < special_attack_chance) {
                         start_special = 1;
                     }
@@ -843,8 +844,8 @@ void TObjEneDolmOlm::apply_variant() {
     }
     load_params_from_table(variant);
     set_motion_packed_rotation();
-    TObjEneDolmOlm__left_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models[variant].model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[3].motion].motion, 0x1C, 0x1D);
-    TObjEneDolmOlm__right_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models[variant].model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[4].motion].motion, 0x14, 0x15);
+    dolm_olm_left_attack_samples->sample_two_nodes(dolm_olm_resource_bundle->models[variant].model, (NJS_MOTION *)dolm_olm_resource_bundle->motions[dolm_olm_param_table[3].motion].motion, 0x1C, 0x1D);
+    dolm_olm_right_attack_samples->sample_two_nodes(dolm_olm_resource_bundle->models[variant].model, (NJS_MOTION *)dolm_olm_resource_bundle->motions[dolm_olm_param_table[4].motion].motion, 0x14, 0x15);
     clear_motion_packed_rotation();
     retreat_chance = 0.3f + parameters[2];
     special_attack_chance = 0.3f + parameters[3];
@@ -860,11 +861,11 @@ void TObjEneDolmOlm::update_attack_trail() {
     }
     switch (this->requested_action) {
     case 3:
-        e = TObjEneDolmOlm__left_attack_samples->lookup(frame);
+        e = dolm_olm_left_attack_samples->lookup(frame);
         idx = 0;
         break;
     case 4:
-        e = TObjEneDolmOlm__right_attack_samples->lookup(frame);
+        e = dolm_olm_right_attack_samples->lookup(frame);
         idx = 1;
         break;
     default:
@@ -896,7 +897,7 @@ void TObjEneDolmOlm::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &position);
     spawn_ground_effect(&stack, 0x23);
-    TObjPlayer__sub_800D92BC(&stack, 0xF);
+    TDeadSpot::spawn_kind1_scale7_5(&stack, 0xF);
 }
 void TObjEneDolmOlm::play_alert_sound() {
     play_sound_effect(remap_sound_for_area(0x4003AD00), &position, 0, 0);
@@ -955,14 +956,14 @@ s32 TObjEneDolmOlm__sub_80300CF0(void) {
 void TObjEneDolmOlm::reset_count() { lbl_805D69E8 = 0; }
 
 __declspec(section ".rodata") const f64 dolmolm_radians_to_angle[] = {10430.38043493439};
-const char *obj_ene_dolm_olm_class_name = TObjEneDolmOlm__class_name_string;
+const char *obj_ene_dolm_olm_class_name = dolm_olm_class_name_string;
 
 
 player_stats **dolm_olm_combat_stat_id_pair;
-AttackParams **TObjEneDolmOlm__shared_handler_ids;
-ActorParamBlock **TObjEneDolmOlm__registered_object_ids;
-DolmOlmBehaviorParams **TObjEneDolmOlm__behavior_params_by_variant;
-BmlResource *TObjEneDolmOlm__resource_bundle;
-SampledMotionPoints *TObjEneDolmOlm__left_attack_samples;
-SampledMotionPoints *TObjEneDolmOlm__right_attack_samples;
-s32 TObjEneDolmOlm__effect_render_state;
+AttackParams **dolm_olm_shared_handler_ids;
+ActorParamBlock **dolm_olm_registered_object_ids;
+DolmOlmBehaviorParams **dolm_olm_behavior_params_by_variant;
+BmlResource *dolm_olm_resource_bundle;
+SampledMotionPoints *dolm_olm_left_attack_samples;
+SampledMotionPoints *dolm_olm_right_attack_samples;
+s32 dolm_olm_effect_render_state;

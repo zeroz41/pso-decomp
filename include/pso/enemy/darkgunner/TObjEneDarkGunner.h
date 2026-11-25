@@ -10,10 +10,10 @@ class TObject;
 class TParticleCtrl;
 class TeneFakeTecThunderEff;
 
-// The record TLobby::dispatch_shared_handler_a(30) returns (TObjEneDarkGunner__behavior_params).
+// The record TLobby::dispatch_shared_handler_a(30) returns (dark_gunner_behavior_params).
 struct TObjEneDarkGunnerBehaviorParams {
     f32 float_params[6]; // get_float_parameter: 0 move speed, 1 move distance, 2 damage limit, 3 dark_gunner_shot_speed
-    s32 int_params[4];   // get_int_parameter: 0 attack timer, 1 hide timer, 2 bodies->unk_28 while behavior_flags bit 22, 3 TUnk_804909C4 t.b
+    s32 int_params[4];   // get_int_parameter: 0 attack timer, 1 hide timer, 2 bodies->defense while behavior_flags bit 22, 3 TObjEneDarkGunnerShot t.b
 };
 
 struct TObjEneDarkGunner : public TObjEnemyCustom {
@@ -80,10 +80,10 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     u16 center_id;  // entity id of the TObjEneDarkGunCenter that links it
     u8 pad_42a[2];
 };
-extern "C" const char *TObjEneDarkGunner__class_name;
+extern "C" const char *dark_gunner_class_name;
 
 LAYOUT_ASSERT(DarkGunnerSize, sizeof(TObjEneDarkGunner)==0x42C);
-// The shot speed per frame (float param 3, set by load_params); the shot (TUnk_804909C4) moves by it.
+// The shot speed per frame (float param 3, set by load_params); the shot (TObjEneDarkGunnerShot) moves by it.
 extern f32 dark_gunner_shot_speed;
 
 #endif

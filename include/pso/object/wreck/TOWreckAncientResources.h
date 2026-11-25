@@ -15,12 +15,12 @@ LAYOUT_ASSERT(AncientWreckDebrisOffsets_size, sizeof(AncientWreckDebrisOffsets) 
 
 extern "C" {
 extern BmlResourceDescriptor bm_o_wreck_ancient_resource_descriptor;
-extern BmlResourceDescriptor TOWreckAncient__resource_descriptor;
+extern BmlResourceDescriptor wreck_ancient_resource_descriptor;
 extern BmlResource *wreck_ancient_bml_resource;
 extern BmlResource *wreck_ancient_brakable_bml_resource;
 extern const CollisionBody TOWreckAncient__collision_body_templates[7];
-extern const AncientWreckDebrisOffsets TOWreckAncientBrakable__debris_table;
-extern const TObjChipParams TOWreckAncientBrakable__debris_param_table;
+extern const AncientWreckDebrisOffsets wreck_ancient_brakable_debris_table;
+extern const TObjChipParams wreck_ancient_brakable_debris_param_table;
 }
 
 #endif

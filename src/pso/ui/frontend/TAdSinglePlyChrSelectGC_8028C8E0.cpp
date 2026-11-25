@@ -17,7 +17,7 @@
 
 s32 chr_select_slot_state;
 
-void TChCrLoadGmNjReq::sub_8028C8A8() {
+void TChCrLoadGmNjReq::release_slot() {
     if (chr_select_slot_state < 0 || chr_select_slot_state > 1) return;
     if (slot_claimed == 0) return;
     chr_select_slot_state--;

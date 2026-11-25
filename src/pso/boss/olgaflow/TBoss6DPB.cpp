@@ -25,8 +25,8 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TBoss6DPB__class_name = "TBoss6DPB";
-const char *TDPBShower__class_name = "TDPBShower";
+const char *TBoss6DPB::class_name = "TBoss6DPB";
+const char *TDPBShower::class_name = "TDPBShower";
 #pragma pop
 
 #pragma push
@@ -41,7 +41,7 @@ TBoss6DPB *TBoss6Type2::create_dpb(TObject *parent, const Vec *position, f32 rad
 #pragma pop
 
 TBoss6DPB::TBoss6DPB(TObject *parent, const Vec *position, f32 radius) : TObject(parent) {
-    m_name = TBoss6DPB__class_name;
+    m_name = TBoss6DPB::class_name;
     owner = (TBoss6Type2 *)parent;
     VecCopy(&this->position, position);
     this->position.y = 0.0f;
@@ -101,7 +101,7 @@ void TBoss6DPB::apply_shower_damage_to_players() {
                 attack.kind = 0;
                 attack.power = r;
                 player->receive_direct_attack(owner, attack, 0, -1, -1);
-                create_TDPBShower((void *)tl_02, &player->position);
+                create_TDPBShower(tl_02, &player->position);
             }
         }
     }
@@ -113,7 +113,7 @@ void TBoss6DPB::sub_8035D8B0() {
     v.y = 5.0f;
     spawn_particle_effect_with_flags(&v, 0x21C, 0x40);
     spawn_particle_effect_with_flags(&v, 0x21D, 0x40);
-    create_TDPBShower((void *)tl_02, &position);
+    create_TDPBShower(tl_02, &position);
 }
 #pragma pop
 
@@ -122,7 +122,7 @@ void* create_TDPBShower(void* parent, void* position) {
 }
 
 TDPBShower::TDPBShower(TObject *parent, void *pos) : TObject(parent) {
-    m_name = TDPBShower__class_name;
+    m_name = TDPBShower::class_name;
     m_countdown = 5;
     VecCopy(&position, (const Vec *)pos);
     position.y += 300.0f;

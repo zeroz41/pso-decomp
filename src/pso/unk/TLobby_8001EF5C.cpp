@@ -71,7 +71,6 @@ LAYOUT_ASSERT(BmlArchiveEntry_texture_size_offset, offsetof(BmlArchiveEntry, tex
 LAYOUT_ASSERT(BmlArchiveHeader_compression_offset, offsetof(BmlArchiveHeader, compressed) == 8);
 LAYOUT_ASSERT(BmlArchiveHeader_entries_offset, offsetof(BmlArchiveHeader, recs) == 0x40);
 
-void reset_gstream_globals(void);
 extern "C" {
 char tmp_buf_name[0x20];
 u8 bml_load_state;
@@ -90,7 +89,6 @@ s32 release_texture_list(void *);
 
 extern const char *lbl_805D2B10;
 s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
-void TItemDrop__sub_800FE2D8(void);
 void *load_nj_chunk_model_resource(u8 *, u32 *, u32 *);
 
 
@@ -110,7 +108,7 @@ NJS_OBJECT *get_bml_model(BmlResource *resource, s32 index) {
     return resource->models[index].model;
 }
 
-void TLobby__sub_8001EDD8(BmlResource *self, void *item) {
+void add_resource_handle(BmlResource *self, void *item) {
     self->handles[self->handle_count++] = item;
 }
 }
@@ -220,7 +218,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
         }
         bml_archive_header = reinterpret_cast<BmlArchiveHeader *>(bml_load_buffer);
         bml_header_record_ptr = bml_archive_header->recs;
-        ADXF_ReadNw(lobby_bml_file_handle, (s32)n, bml_load_buffer);
+        ADXF_ReadNw(lobby_bml_file_handle, n, bml_load_buffer);
         TLobby::set_read_params(&lobby_bml_file_handle, (int)n, reinterpret_cast<saddr>(bml_archive_header));
         bml->load_state = 1;
     case 1:
@@ -251,7 +249,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             switch ((s8) bml_load_state) {
             case 0:
             case 1:
-                ADXF_ReadNw(lobby_bml_file_handle, (s32)n, lobby_bml_read_buffer);
+                ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
                 TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
                 break;
             default:
@@ -300,7 +298,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
             switch ((s8) bml_load_state) {
             case 0:
             case 1:
-                ADXF_ReadNw(lobby_bml_file_handle, (s32)n, lobby_bml_read_buffer);
+                ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
                 TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
                 break;
             default:
@@ -360,7 +358,7 @@ s32 LoadBmlExec(BmlResource *bml, const char *name) {
                     bml_load_entry_index++;
                     bml_header_record_ptr++;
                 } else {
-                    ADXF_ReadNw(lobby_bml_file_handle, (s32)n, lobby_bml_read_buffer);
+                    ADXF_ReadNw(lobby_bml_file_handle, n, lobby_bml_read_buffer);
                     TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (saddr)lobby_bml_read_buffer);
                 }
             } else {
@@ -477,10 +475,10 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             *slot = (NJS_TEXLIST *)data;
             params.resource = self->resource;
             params.entry = self->entry;
-            TLobby::change_file_extension((char *)name, (char *)self->name, (char *)"gvm");
+            TLobby::change_file_extension(name, (char *)self->name, (char *)"gvm");
             r = TLobby::create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
-                TLobby__sub_8001EDD8(self->resource, handle);
+                add_resource_handle(self->resource, handle);
                 self->resource->expected_textures++;
             } else if (!(self->resource->flags & 4)) {
                 TLobby::debug_print("LoadBinModelCallBack: %s ERROR(%+2d)", name, r);
@@ -698,7 +696,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                     buf = TQuestVmDownLoadServer::alloc(size + 0x800);
                     if (buf != NULL) {
                         disc_read_filename = (const char *)descriptor->archive_filename;
-                        st.read_data(buf, (s32)size);
+                        st.read_data(buf, size);
                         st.align_read_offset(blk);
                         disc_read_filename = lbl_805D2B10;
                         prs_decompress_buffer(buf, resource_decompress_buffer);
@@ -709,7 +707,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                     }
                     break;
                 default:
-                    st.read_data(resource_decompress_buffer, (s32)size);
+                    st.read_data(resource_decompress_buffer, size);
                     st.align_read_offset(blk);
                     disc_read_filename = lbl_805D2B10;
                     LoadBinModelSub(this, size, i, resource_decompress_buffer);
@@ -721,7 +719,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                         s32 tsize = rec->texSize;
                         if (tsize != 0) {
                             void *tbuf = TQuestVmDownLoadServer::alloc(tsize + 0x800);
-                            st.read_data(tbuf, (s32)tsize);
+                            st.read_data(tbuf, tsize);
                             st.align_read_offset(blk);
                             prs_decompress_buffer(tbuf, resource_decompress_buffer);
                             safe_free(tbuf);
@@ -748,7 +746,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                 switch (bml_load_state) {
                 case 1: {
                     void *mb = TQuestVmDownLoadServer::alloc(sz + 0x800);
-                    st.read_data(mb, (s32)sz);
+                    st.read_data(mb, sz);
                     st.align_read_offset(blk);
                     prs_decompress_buffer(mb, resource_decompress_buffer);
                     safe_free(mb);
@@ -756,7 +754,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                     break;
                 }
                 default:
-                    st.read_data(resource_decompress_buffer, (s32)sz);
+                    st.read_data(resource_decompress_buffer, sz);
                     st.align_read_offset(blk);
                     LoadBinMotionSub(this, j, resource_decompress_buffer);
                     break;
@@ -811,7 +809,7 @@ static inline void request_motions(BmlResource *resource, const char **list) {
         req.resource = resource;
         TLobby::create_named_entry(*list, lobby_download_buffer,
                 reinterpret_cast<BmlLoadCallback>(LoadBinMotionCallBack), &req, &handle);
-        TLobby__sub_8001EDD8(resource, handle);
+        add_resource_handle(resource, handle);
     }
 }
 
@@ -872,7 +870,7 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
             req.size = TGStream::get_resource_file_size(*p);
             TLobby::create_named_entry(*p, lobby_download_buffer,
                 reinterpret_cast<BmlLoadCallback>(LoadBinModelCallBack), &req, &handle);
-            TLobby__sub_8001EDD8(resource, handle);
+            add_resource_handle(resource, handle);
         }
         request_motions(resource, motions);
     }

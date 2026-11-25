@@ -69,9 +69,13 @@ struct TBoss6Mine : public TObjEnemy {
     void state_5();
     void state_6();
     void state_7();
+    static CollisionBody collision_body_template[1];
 };
 
 LAYOUT_ASSERT(TBoss6MineSetData_size, sizeof(TBoss6MineSetData) == 0x64);
 LAYOUT_ASSERT(TBoss6Mine_size, sizeof(TBoss6Mine) == 0x3D0);
+
+// The record exchange_object_state reads and writes.
+struct TBoss6MineStateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
 #endif

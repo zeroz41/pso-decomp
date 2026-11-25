@@ -27,23 +27,17 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/Draw2D.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/render/model_render_state.h"
 
 extern "C" {
 f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
 }
 
-void draw_chunk_model(void *);
-extern u32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
 NJS_TEXLIST *falz_zako_texture_list;
 void *falz_zako_chunk_model;
-s32 TBoss4ZakoDraw__draw_buffer_index;
-s32 TBoss4ZakoDraw__rotation_phase;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern u32 model_render_flags;
+s32 TBoss4ZakoDraw::draw_buffer_index;
+s32 TBoss4ZakoDraw::rotation_phase;
 
 
 
@@ -54,22 +48,22 @@ void TBoss4ZakoDraw::run_task() {
         queue_destruction();
         return;
     }
-    old = TBoss4ZakoDraw__draw_buffer_index;
+    old = TBoss4ZakoDraw::draw_buffer_index;
     boss4_zako_draw_buffers[old].count = 0;
-    TBoss4ZakoDraw__draw_buffer_index = old ^ 1;
-    if (++TBoss4ZakoDraw__rotation_phase >= 4) {
-        TBoss4ZakoDraw__rotation_phase = 0;
+    TBoss4ZakoDraw::draw_buffer_index = old ^ 1;
+    if (++TBoss4ZakoDraw::rotation_phase >= 4) {
+        TBoss4ZakoDraw::rotation_phase = 0;
     }
 }
 TBoss4ZakoDraw::~TBoss4ZakoDraw() {}
 
 #pragma push
 #pragma readonly_strings on
-extern "C" const char *TBoss4ZakoDraw__class_name = "TBoss4ZakoDraw";
+extern "C" const char *TBoss4ZakoDraw::class_name = "TBoss4ZakoDraw";
 #pragma pop
 
 TBoss4ZakoDraw::TBoss4ZakoDraw(TObject *parent) : TObject(parent) {
-    m_name = TBoss4ZakoDraw__class_name;
+    m_name = TBoss4ZakoDraw::class_name;
 }
 
 extern "C" {
@@ -90,9 +84,9 @@ void TObjPlayer__sub_8030A9B0() {
     model_render_flags &= ~0x10U;
     model_render_flags |= zako_model_render_flags;
     set_chunk_material_override_pair(0xFF00, 0x900);
-    tbl = &boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index];
+    tbl = &boss4_zako_draw_buffers[TBoss4ZakoDraw::draw_buffer_index];
     e = tbl->entries;
-    rot = (TBoss4ZakoDraw__rotation_phase << 16) / 16;
+    rot = (TBoss4ZakoDraw::rotation_phase << 16) / 16;
     // The shared camera slot retains its legacy byte-pointer declaration.
     VecCopy(&pos, &camera_ctrl_instance->pos);
     i = 0;
@@ -131,7 +125,7 @@ void TObjPlayer__sub_8030A9B0() {
 
 void TObjPlayer::draw_area_chunk_objects() {
     NJS_OBJECT *model;
-    Boss4ZakoDrawBuffer *t = &boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index];
+    Boss4ZakoDrawBuffer *t = &boss4_zako_draw_buffers[TBoss4ZakoDraw::draw_buffer_index];
     Boss4ZakoDrawEntry *p = t->entries;
     s32 i;
     model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
@@ -160,20 +154,20 @@ __declspec(section ".sdata2") const f32 zako_fade_full = 1.0f;
 __declspec(section ".sdata2") const f32 zako_fade_color = -1.0f;
 
 void TBoss4ZakoDraw::draw_queued() {
-    if (boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index].count != 0) {
+    if (boss4_zako_draw_buffers[TBoss4ZakoDraw::draw_buffer_index].count != 0) {
         const TileRect *rect = &TCameraCtrl::view_params.scissor;
         if (is_split_screen() == 0) {
             set_viewport_scissor(2, rect);
         }
         NJS_OBJECT *model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
-        model->child->ang[1] = TBoss4ZakoDraw__rotation_phase << 12;
+        model->child->ang[1] = TBoss4ZakoDraw::rotation_phase << 12;
         TObjPlayer::draw_area_chunk_objects();
         TObjPlayer__sub_8030A9B0();
     }
 }
 
 s32 TBoss4Zako::queue_entry(void *v, s32 a, s32 b) {
-    Boss4ZakoDrawBuffer *t = &boss4_zako_draw_buffers[TBoss4ZakoDraw__draw_buffer_index ^ 1];
+    Boss4ZakoDrawBuffer *t = &boss4_zako_draw_buffers[TBoss4ZakoDraw::draw_buffer_index ^ 1];
     s32 n = t->count;
     Boss4ZakoDrawEntry *e = &t->entries[n];
     if (n >= 0x60) {
@@ -191,7 +185,7 @@ void TBoss4DarkFalz::clear_uro_link_state() {
     for (i = 0; i < 2; i++) {
         boss4_zako_draw_buffers[i].count = 0;
     }
-    TBoss4ZakoDraw__draw_buffer_index = 0;
+    TBoss4ZakoDraw::draw_buffer_index = 0;
 }
 
 
@@ -205,7 +199,7 @@ void TBoss4DarkFalz::init_uro_link() {
     child->evalflags &= ~NJD_EVAL_UNIT_ANG;
     if (child->model != NULL) {
         falz_zako_chunk_model = child->model;
-        TBoss4ZakoDraw__rotation_phase = 0;
+        TBoss4ZakoDraw::rotation_phase = 0;
         TBoss4DarkFalz::clear_uro_link_state();
     }
 }

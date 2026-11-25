@@ -2,11 +2,11 @@
 #define PSO_OBJECT_CITY_TOBJCITY_SEASON_VALENTINEHEART_H
 
 #include "types.h"
-#include "pso/object/TUnk_804B5E48.h"
+#include "pso/object/TObjCitySeasonBase.h"
 
 class TParticleCtrl;
 
-struct TObjCity_Season_ValentineHeart : public TUnk_804B5E48 {
+struct TObjCity_Season_ValentineHeart : public TObjCitySeasonBase {
     TObjCity_Season_ValentineHeart(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_ValentineHeart();
     virtual void render();

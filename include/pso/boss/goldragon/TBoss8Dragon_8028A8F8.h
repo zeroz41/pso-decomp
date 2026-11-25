@@ -8,7 +8,7 @@ struct DragonAttackParams;
 class TObject;
 
 extern "C" {
-void TBoss8Dragon__sub_8028A900(TObject *floor_grass, const Vec *pos, const DragonAttackParams *params);
+void break_floor_grass_in_range(TObject *floor_grass, const Vec *pos, const DragonAttackParams *params);
 }
 
 #endif

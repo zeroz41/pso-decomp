@@ -21,7 +21,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/player/PlayerSlots.h"
@@ -165,11 +165,11 @@ void TWindowSubCustomEquip::draw_cursor(WindowDrawContext *context) {
 void TWindowSubCustomEquip::update_palette_slot(s32 arg1, u16 kind, u16 index) {
     TObjPlayer *pl;
     WindowSpritePart *icon;
-    TUnk_804CF9C8 *label;
+    TWindowLayoutNumber *label;
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
         icon = static_cast<WindowSpritePart *>(get_array_entry(lbl_8044F738[arg1]));
-        label = static_cast<TUnk_804CF9C8 *>(get_array_entry(lbl_8044F740[arg1]));
+        label = static_cast<TWindowLayoutNumber *>(get_array_entry(lbl_8044F740[arg1]));
         if (pl->can_use_palette_action(kind, index) != 0) {
             icon->color = -1;
         } else {
@@ -263,8 +263,8 @@ void TWindowSubCustomEquip::toggle_action_binding(void *arg1) {
     player->set_action_palette_entry(0, valid, idx, *(u16 *)((s8 *)arg1 + 0), *(u16 *)((s8 *)arg1 + 2));
 }
 
-f32 TWindowSubCustomEquip__ring_scale;
-u8 TWindowSubCustomEquip__bank_ring_init_done;
+f32 TWindowSubCustomEquip::ring_scale;
+u8 TWindowSubCustomEquip::bank_ring_init_done;
 f32 lbl_805D6478;
 u8 lbl_805D647C;
 
@@ -356,9 +356,9 @@ void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 angle, s32 index) {
     f32 temp_f31;
     s32 temp_r4;
     u8 *array_entry;
-    if ((s8) TWindowSubCustomEquip__bank_ring_init_done == 0) {
-        TWindowSubCustomEquip__bank_ring_init_done = 1;
-        TWindowSubCustomEquip__ring_scale = 75.0f;
+    if ((s8) TWindowSubCustomEquip::bank_ring_init_done == 0) {
+        TWindowSubCustomEquip::bank_ring_init_done = 1;
+        TWindowSubCustomEquip::ring_scale = 75.0f;
     }
     if ((s8) lbl_805D647C == 0) {
         lbl_805D647C = 1;
@@ -367,7 +367,7 @@ void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 angle, s32 index) {
     temp_f30 = sin_table_lookup(angle);
     temp_f31 = cos_table_lookup(angle);
     array_entry = (u8 *)(this->get_array_entry(index));
-    *(f32 *)((s8 *)array_entry + 8) = (f32) ((TWindowSubCustomEquip__ring_scale * temp_f31) + 27.0f);
+    *(f32 *)((s8 *)array_entry + 8) = (f32) ((TWindowSubCustomEquip::ring_scale * temp_f31) + 27.0f);
     *(f32 *)((s8 *)array_entry + 0xC) = (f32) ((lbl_805D6478 * temp_f30) + 34.0f);
     if ((angle - 0x7200) & 0x8000) {
         temp_f1 = (0.5f * cos_table_lookup(angle + 0xFFFF4E00)) + 1.0f;
@@ -420,7 +420,7 @@ void TWindowSubCustomEquip::handle_cancel() {
 void TWindowSubCustomEquip::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
-    m_6c->set_entry_state(2);
+    status_disp->set_entry_state(2);
 }
 
 void TWindowSubCustomEquip::handle_cursor_input() {
@@ -478,16 +478,15 @@ void TWindowSubCustomEquip::render() {
     draw_window_frame(context);
     draw_visible_window_entries(this, &entry_list, context);
     draw_cursor(context);
-    m_6c->forward_render(context);
+    status_disp->forward_render(context);
 }
 
 void TWindowSubCustomEquip::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r30;
     ControllerInputContext *context;
     temp_r30 = is_player_input_active(((s32) this->client_index));
-    if (((TWindowSubCustomEquip *)arg0)->is_selected() == 0) {
-        ((TWindowSubCustomEquip *)arg0)->handle_cursor_input();
+    if (this->is_selected() == 0) {
+        this->handle_cursor_input();
         context = &controller_input_state.controllers[temp_r30];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             handle_decide();
@@ -500,15 +499,15 @@ void TWindowSubCustomEquip::run_task() {
     reset_selection();
     refresh_palette_slots();
     if ((f32)open_tick >= 7.5f) {
-        m_6c->update_subwindow();
+        status_disp->update_subwindow();
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    update_window();
+    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     this->m_66 = (this->m_66 + 1);
 }
 
 TWindowSubCustomEquip::~TWindowSubCustomEquip() {
-    TWindowSubStatusDisp::destroy_status_display(reinterpret_cast<saddr>(m_6c), 1);
+    TWindowSubStatusDisp::destroy_status_display(reinterpret_cast<saddr>(status_disp), 1);
 }
 
 TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_804D1488, slot, (u8 *)get_window_layout_position(0xF)) {
@@ -527,7 +526,7 @@ TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_
     if (heading != NULL) {
         heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x23), this->client_index);
     }
-    m_6c = static_cast<TWindowSubStatusDisp *>(heading);
+    status_disp = static_cast<TWindowSubStatusDisp *>(heading);
     this->refresh_palette_slots();
 }
 

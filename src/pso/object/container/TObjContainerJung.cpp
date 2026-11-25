@@ -24,7 +24,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
@@ -60,7 +60,7 @@ const char *bm_obj_hako01_model_names[5] = {
     fe_obj_hako01_gj, fe_obj_hako01_hahen1_gj, fe_obj_hako01_hahen2_gj, fe_obj_hako01_light_gj, NULL,
 };
 const char *bm_obj_hako01_motion_names[1] = { NULL };
-BmlResourceDescriptor TObjContainerJung__resource_descriptor = {
+BmlResourceDescriptor container_jung_resource_descriptor = {
     bm_obj_hako01_bml, bm_obj_hako01_model_names, bm_obj_hako01_motion_names, 4, 0,
 };
 
@@ -77,7 +77,7 @@ CollisionBody container_jung_collision_desc = {
     { 0.0f, 6.0f, 0.0f }, 9.0f, 9.0f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f,
 };
 
-const char *TObjContainerJung__name = "TObjContainerJung";
+const char *container_jung_name = "TObjContainerJung";
 BmlResource *jungle_container_archive;
 NJS_TEXLIST *jungle_container_textures;
 BmlResource *jungle_container_ex_archive;
@@ -89,7 +89,7 @@ extern const TObjChipParams container_jung_spawn_params = {
     0.5f, 0.03f, 0.2f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 6.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 4, 0x32, 0.0f, 0.7f, 0, 0, 0x16,
 };
 
-const char *TObjContainerJungEx__name = "TObjContainerJungEx";
+const char *container_jung_ex_name = "TObjContainerJungEx";
 
 extern const TObjChipParams container_jung_ex_spawn_params_a = {
     0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x16,
@@ -98,7 +98,7 @@ extern const TObjChipParams container_jung_ex_spawn_params_b = {
     0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x16,
 };
 
-const char *TObjContainerJungEnemy__name = "TObjContainerJungEnemy";
+const char *container_jung_enemy_name = "TObjContainerJungEnemy";
 
 extern const TObjChipParams container_jung_enemy_spawn_params_a = {
     0.5f, 0.03f, 0.2f, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, 7, 0x32, 0.0f, 1.0f, 0, 0, 0x16,
@@ -144,8 +144,8 @@ NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     return 0;
 }
 
-TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
-    m_name = TObjContainerJung__name;
+TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+    m_name = container_jung_name;
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
@@ -160,7 +160,7 @@ TObjContainerJung::~TObjContainerJung() {
     free_collision_body_parts(this);
 }
 
-void TObjContainerJung::vfunc_80() {
+void TObjContainerJung::update_state() {
 
     switch (this->mode) {
     case 0:
@@ -172,7 +172,7 @@ void TObjContainerJung::vfunc_80() {
     }
 }
 
-void TObjContainerJung::vfunc_81() {
+void TObjContainerJung::draw_model() {
     if (jungle_container_archive != NULL) {
         switch (this->mode) {
         case 0:
@@ -197,7 +197,7 @@ void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
-            this->vfunc_79();
+            this->spawn_break_effects();
             request_box_item_drop(&position, 1);
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
@@ -214,7 +214,7 @@ void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
 
 #pragma push
 #pragma opt_propagation off
-void TObjContainerJung::vfunc_79() const {
+void TObjContainerJung::spawn_break_effects() const {
     if (mode != 1) {
         TObjChipParams a = container_jung_debris_desc;
         f32 pz;
@@ -252,7 +252,7 @@ void TObjContainerJung::vfunc_79() const {
 #pragma pop
 
 void TObjContainerJung::load_resources() {
-    BmlResource *archive = new BmlResource(5, &TObjContainerJung__resource_descriptor, 0, 0, NULL);
+    BmlResource *archive = new BmlResource(5, &container_jung_resource_descriptor, 0, 0, NULL);
     jungle_container_archive = archive;
     jungle_container_textures = get_bml_texlist((BmlResource *)archive, 0);
 }
@@ -278,8 +278,8 @@ NJS_TEXLIST *TObjContainerJung::get_textures(s32) {
     return jungle_container_textures;
 }
 
-TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
-    m_name = TObjContainerJungEx__name;
+TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+    m_name = container_jung_ex_name;
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, (saddr)&container_jung_collision_desc, 1);
@@ -294,7 +294,7 @@ TObjContainerJungEx::~TObjContainerJungEx() {
     free_collision_body_parts(this);
 }
 
-void TObjContainerJungEx::vfunc_80() {
+void TObjContainerJungEx::update_state() {
 
     switch (this->mode) {
     case 0:
@@ -306,7 +306,7 @@ void TObjContainerJungEx::vfunc_80() {
     }
 }
 
-void TObjContainerJungEx::vfunc_81() {
+void TObjContainerJungEx::draw_model() {
 
     switch (this->mode) {
     case 0:
@@ -329,7 +329,7 @@ void TObjContainerJungEx::vfunc_6(s16 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
-            this->vfunc_79();
+            this->spawn_break_effects();
             request_configured_item_drop(this);
             ((TObjCollidable *)arg0)->set_flag8();
             ((TObject *)arg0)->queue_destruction();
@@ -344,7 +344,7 @@ void TObjContainerJungEx::vfunc_6(s16 *arg1, s32 arg2) {
 
 #pragma push
 #pragma opt_propagation off
-void TObjContainerJungEx::vfunc_79() const {
+void TObjContainerJungEx::spawn_break_effects() const {
     TObjChipParams a = container_jung_ex_spawn_params_a;
     f32 pz;
     f32 py;
@@ -383,8 +383,8 @@ void *TObjContainerJungEx::create(void *set_data) {
     return new TObjContainerJungEx(tl_05, set_data);
 }
 
-TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
-    m_name = TObjContainerJungEnemy__name;
+TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
+    m_name = container_jung_enemy_name;
     load_models();
     mode = 0;
     actorFlags |= 0x60000000;
@@ -434,7 +434,7 @@ void TObjContainerJungEnemy::load_models() {
     }
 }
 
-void TObjContainerJungEnemy::vfunc_80() {
+void TObjContainerJungEnemy::update_state() {
 
     switch (this->mode) {
     case 0:
@@ -446,7 +446,7 @@ void TObjContainerJungEnemy::vfunc_80() {
     }
 }
 
-void TObjContainerJungEnemy::vfunc_81() {
+void TObjContainerJungEnemy::draw_model() {
 
     switch (this->mode) {
     case 0:
@@ -493,7 +493,7 @@ f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
 
 #pragma push
 #pragma opt_propagation off
-void TObjContainerJungEnemy::vfunc_79() const {
+void TObjContainerJungEnemy::spawn_break_effects() const {
     if (mode != 1) {
         TObjChipParams a = container_jung_enemy_spawn_params_a;
         f32 za;
@@ -534,7 +534,7 @@ void TObjContainerJungEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
-            ((TObjContainerJungEnemy *)arg0)->vfunc_79();
+            ((TObjContainerJungEnemy *)arg0)->spawn_break_effects();
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
             ((TObject *)arg0)->queue_destruction();

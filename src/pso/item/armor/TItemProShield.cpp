@@ -5,8 +5,8 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/item/TUnk_804A0628.h"
-#include "pso/item/TUnk_804A0648.h"
+#include "pso/item/TItemTimerEventTpRegen.h"
+#include "pso/item/TItemTimerEventHpRegen.h"
 #include "pso/effect/item/TItemEffShield.h"
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
@@ -141,8 +141,8 @@ void TItemProShield::on_equip() {
         switch ((s32)index) {
         case 39:
             if (effect_objects != NULL) {
-                new TUnk_804A0648(effect_objects, get_owner_client(), 450);
-                new TUnk_804A0628(effect_objects, get_owner_client(), 450);
+                new TItemTimerEventHpRegen(effect_objects, get_owner_client(), 450);
+                new TItemTimerEventTpRegen(effect_objects, get_owner_client(), 450);
             }
             break;
         case 26:

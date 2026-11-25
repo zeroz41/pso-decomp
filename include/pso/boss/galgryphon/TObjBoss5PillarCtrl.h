@@ -18,6 +18,7 @@ struct TObjBoss5PillarCtrl : public TObject {
 
     s32 count;
     TObjBoss5Pillar **pillars;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjBoss5PillarCtrl_size, sizeof(TObjBoss5PillarCtrl) == 0x24);

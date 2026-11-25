@@ -9,7 +9,7 @@
 #include "pso/object/cave/TOHangceilingCave01KeyQuick.h"
 #include "pso/object/cave/TOHangceilingCave01Key.h"
 #include "pso/object/cave/TOHangceilingCave01Normal.h"
-#include "pso/unk/TUnk_804B2578.h"
+#include "pso/unk/TOHangceilingCaveBase.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -39,10 +39,10 @@ struct Q_801681D0 { f32 w[4]; };
 
 extern s32 game_difficulty_selection;
 
-BmlResource *TOHangceilingCave01__model_archive;
+BmlResource *hangceiling_cave01_model_archive;
 NJS_TEXLIST **turiten_singo_texture_lists;
 s32 lbl_805D59D8;
-NJS_OBJECT *TOHangceilingCave01__model_root;
+NJS_OBJECT *hangceiling_cave01_model_root;
 s32 turiten_singo_key_model_index;
 s32 hanging_ceiling_motion_index;
 
@@ -56,9 +56,9 @@ extern const char lbl_80441798[] = "fe_obj_gc_turiten_moto.gj";
 extern const char lbl_804417B4[] = "fe_obj_gc_turiten_moto.njm";
 extern const char lbl_804417D0[] = "bm_obj_ruins_turiten.bml";
 __declspec(section ".rodata") extern Q_801681D0 hang_ceiling_cave_scale_params = { 1.0f, 2.0f, 3.0f, 6.0f };
-extern const char TOHangceilingCave01Normal__class_name_string[] = "TOHangceilingCave01Normal";
-extern const char TOHangceilingCave01Key__class_name_string[] = "TOHangceilingCave01Key";
-extern const char TOHangceilingCave01KeyQuick__class_name_string[] = "TOHangceilingCave01KeyQuick";
+extern const char hangceiling_cave01_normal_class_name_string[] = "TOHangceilingCave01Normal";
+extern const char hangceiling_cave01_key_class_name_string[] = "TOHangceilingCave01Key";
+extern const char hangceiling_cave01_key_quick_class_name_string[] = "TOHangceilingCave01KeyQuick";
 
 const char *fe_obj_turiten_moto_model_names[] = {lbl_804416F8, lbl_80441710, lbl_80441730, NULL};
 const char *fe_obj_turiten_moto_motion_names[] = {lbl_80441748, lbl_80441760, NULL};
@@ -70,39 +70,39 @@ BmlResourceDescriptor turiten_singo_resource_descriptor = {
     lbl_804417D0, bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
 CollisionBody lbl_804B2174 = {{0.0f, 80.0f, 0.0f}, 17.0f, 17.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-const char *TOHangceilingCave01Normal__class_name = TOHangceilingCave01Normal__class_name_string;
-const char *TOHangceilingCave01Key__class_name = TOHangceilingCave01Key__class_name_string;
-const char *TOHangceilingCave01KeyQuick__class_name = TOHangceilingCave01KeyQuick__class_name_string;
+const char *hangceiling_cave01_normal_class_name = hangceiling_cave01_normal_class_name_string;
+const char *hangceiling_cave01_key_class_name = hangceiling_cave01_key_class_name_string;
+const char *hangceiling_cave01_key_quick_class_name = hangceiling_cave01_key_quick_class_name_string;
 
 static const s32 hang_flag_8 = 8;
 
-void TUnk_804B2578::set_scale(f32 v) {
-    m_338 = v;
+void TOHangceilingCaveBase::set_damage(f32 v) {
+    damage = v;
 }
 
-void TUnk_804B2578::apply_knockback_from_attacker(u8 *, f32) {
+void TOHangceilingCaveBase::apply_knockback_from_attacker(u8 *, f32) {
 }
 
-f32 TUnk_804B2578::receive_physical_attack(void *, f32) {
+f32 TOHangceilingCaveBase::receive_physical_attack(void *, f32) {
     return 0.0f;
 }
 
-s32 TUnk_804B2578::select_melee_contact_body(void *, f32) {
+s32 TOHangceilingCaveBase::select_melee_contact_body(void *, f32) {
     return 1;
 }
 
-TUnk_804B2578::TUnk_804B2578(TObject *parent, void *set_data) : TObjChara(parent) {
+TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, void *set_data) : TObjChara(parent) {
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)TOHangceilingCave01__model_archive, turiten_singo_key_model_index);
-    current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
+    model = (void *)get_bml_model((BmlResource *)hangceiling_cave01_model_archive, turiten_singo_key_model_index);
+    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
     init_collision_body_parts(this, &lbl_804B2174, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    reset_state();
+    clear_hit_players();
     bodies->flags |= 0x1080;
 }
 
-TUnk_804B2578::~TUnk_804B2578() {
+TOHangceilingCaveBase::~TOHangceilingCaveBase() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
@@ -110,30 +110,30 @@ TUnk_804B2578::~TUnk_804B2578() {
 void load_turiten_singo_resources(void) {
     void *p;
 
-    TOHangceilingCave01__model_archive = NULL;
+    hangceiling_cave01_model_archive = NULL;
     turiten_singo_texture_lists = NULL;
     switch (get_current_floor_area()) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
         p = new BmlResource(5, &turiten_singo_resource_descriptor, 0, 0, NULL);
-        TOHangceilingCave01__model_archive = (BmlResource *)p;
+        hangceiling_cave01_model_archive = (BmlResource *)p;
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[1] = NULL;
         turiten_singo_texture_lists[0] = NULL;
-        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TOHangceilingCave01__model_archive, 0);
+        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)hangceiling_cave01_model_archive, 0);
         lbl_805D59D8 = 0;
-        TOHangceilingCave01__model_root = NULL;
+        hangceiling_cave01_model_root = NULL;
         turiten_singo_key_model_index = 0;
         hanging_ceiling_motion_index = 0;
         break;
     default:
         p = new BmlResource(5, &fe_obj_turiten_moto_resource_descriptor, 0, 0, NULL);
-        TOHangceilingCave01__model_archive = (BmlResource *)p;
+        hangceiling_cave01_model_archive = (BmlResource *)p;
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[0] = LoadPvmFileTls("fs_obj_turiten_singo.gvm");
         turiten_singo_texture_lists[1] = LoadPvmFileTls("fs_obj_turiten_singo_r.gvm");
-        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TOHangceilingCave01__model_archive, 1);
-        TOHangceilingCave01__model_root = (NJS_OBJECT *)get_bml_model((BmlResource *)TOHangceilingCave01__model_archive, 2);
+        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)hangceiling_cave01_model_archive, 1);
+        hangceiling_cave01_model_root = (NJS_OBJECT *)get_bml_model((BmlResource *)hangceiling_cave01_model_archive, 2);
         turiten_singo_key_model_index = 1;
         hanging_ceiling_motion_index = 0;
         break;
@@ -149,9 +149,9 @@ void TOHangceilingCave01::destroy_instance() {
             turiten_singo_texture_lists = NULL;
         }
     }
-    if (TOHangceilingCave01__model_archive != NULL) {
-        delete TOHangceilingCave01__model_archive;
-        TOHangceilingCave01__model_archive = NULL;
+    if (hangceiling_cave01_model_archive != NULL) {
+        delete hangceiling_cave01_model_archive;
+        hangceiling_cave01_model_archive = NULL;
     }
 }
 
@@ -169,7 +169,7 @@ void *TOHangceilingCave01::create(void *set_data) {
     return NULL;
 }
 
-s32 TUnk_804B2578::sub_801688C0() {
+s32 TOHangceilingCaveBase::is_in_view() {
     Vec view;
 
     if (xz_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 2500.0f) {
@@ -186,24 +186,24 @@ s32 TUnk_804B2578::sub_801688C0() {
     return 1;
 }
 
-void TUnk_804B2578::run_task() {
+void TOHangceilingCaveBase::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {
-        vfunc_80();
-        sub_80168398();
-        if (sub_801688C0() != 0 && mode != 3 && is_passing_frame(8.0f) != 0) {
+        update_state();
+        play_mode_sound();
+        if (is_in_view() != 0 && mode != 3 && is_passing_frame(8.0f) != 0) {
             spawn_particle_effect(&position, 0x64);
         }
     }
 }
 
-void TUnk_804B2578::render() {
+void TOHangceilingCaveBase::render() {
     f32 step;
     f32 level;
     s32 lit0;
     s32 lit1;
     s32 lit2;
 
-    if (sub_801688C0() != 0 || TObjPlayer::check_demo_mode() == 1) {
+    if (is_in_view() != 0 || TObjPlayer::check_demo_mode() == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -211,33 +211,33 @@ void TUnk_804B2578::render() {
         if (model != NULL && current_motion != NULL) {
             draw_ginja_model_with_motion(model, current_motion, frame);
         }
-        if (TOHangceilingCave01__model_root != NULL) {
+        if (hangceiling_cave01_model_root != NULL) {
             TParticleCtrl::begin_effect_render();
-            if (m_358 == 0) {
-                level = m_354;
-                step = m_350;
+            if (display_mode == 0) {
+                level = wait_timer;
+                step = wait_interval;
                 lit0 = level <= step;
                 lit1 = level <= 2.0f * step;
                 lit2 = level <= 3.0f * step;
                 TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
                 if (lit0 == 1) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->model);
                 }
                 if (lit1 == 1) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->child->model);
                 }
                 if (lit2 == 1) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->child->child->model);
                 }
                 TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
                 if (lit0 == 0) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->model);
                 }
                 if (lit1 == 0) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->child->model);
                 }
                 if (lit2 == 0) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->child->child->model);
                 }
             } else {
                 if (is_current_floor_switch_set((u16)switch_id) == 1) {
@@ -245,7 +245,7 @@ void TUnk_804B2578::render() {
                 } else {
                     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
                 }
-                draw_ginja_object(TOHangceilingCave01__model_root);
+                draw_ginja_object(hangceiling_cave01_model_root);
             }
             TParticleCtrl::end_effect_render();
         }
@@ -253,60 +253,60 @@ void TUnk_804B2578::render() {
     }
 }
 
-void TUnk_804B2578::vfunc_79() {
+void TOHangceilingCaveBase::begin_wait() {
 }
 
-void TUnk_804B2578::vfunc_80() {
+void TOHangceilingCaveBase::update_state() {
 }
 
-f32 TUnk_804B2578::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
+f32 TOHangceilingCaveBase::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
     return 0.0f;
 }
 
-f32 TUnk_804B2578::receive_weapon_special_attack(void *, void *) {
+f32 TOHangceilingCaveBase::receive_weapon_special_attack(void *, void *) {
     return 0.0f;
 }
 
-int TUnk_804B2578::calc_distance_accuracy_penalty(void *, void *, void *, float) {
+int TOHangceilingCaveBase::calc_distance_accuracy_penalty(void *, void *, void *, float) {
     return 1;
 }
 
-void TUnk_804B2578::init_geometry() {
+void TOHangceilingCaveBase::init_geometry() {
     f32 size;
 
     switch_id = set_params[0];
-    m_358 = set_params[2];
-    if (m_358 >= 3) {
-        m_358 = 2;
+    display_mode = set_params[2];
+    if (display_mode >= 3) {
+        display_mode = 2;
     }
     size = 30.0f + scale.x;
-    m_350 = size - 1.0f;
-    set_scale(100.0f + scale.z);
-    vfunc_79();
-    m_354 = 1.0f - scale.y;
+    wait_interval = size - 1.0f;
+    set_damage(100.0f + scale.z);
+    begin_wait();
+    wait_timer = 1.0f - scale.y;
 }
 
-void TUnk_804B2578::sub_80168488() {
+void TOHangceilingCaveBase::hit_touching_players() {
     s32 i = 0;
     TObjPlayer *player;
 
     do {
         player = get_player_by_client_id(i);
-        if (player != NULL && sub_80168244((uaddr)player) == 0) {
+        if (player != NULL && has_hit_player((uaddr)player) == 0) {
             if (player->get_floor() == get_current_floor() && check_actor_body_contact(player, 100.0f) != 0) {
                 DirectAttackPayload attack;
                 attack.kind = 0;
-                attack.power = vfunc_81(m_338);
+                attack.power = calc_damage(damage);
                 player->receive_direct_attack(this, attack, NULL, -1, -1);
                 player->set_actor_flags(0x400);
-                sub_80168280((uaddr)player);
+                add_hit_player((uaddr)player);
             }
         }
         i++;
     } while (i != 12);
 }
 
-void TUnk_804B2578::sub_80168398() {
+void TOHangceilingCaveBase::play_mode_sound() {
     s32 area = get_current_floor_area();
     s32 id = 0;
 
@@ -347,7 +347,7 @@ void TUnk_804B2578::sub_80168398() {
     }
 }
 
-void TUnk_804B2578::sub_801682E4(s32 new_mode) {
+void TOHangceilingCaveBase::set_mode(s32 new_mode) {
     s16 saved;
 
     if (new_mode != mode) {
@@ -360,7 +360,7 @@ void TUnk_804B2578::sub_801682E4(s32 new_mode) {
         case 1:
             break;
         case 2:
-            current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
+            current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
             frame = 22.0f;
             play_speed = 1.0f;
             frame_count = (f32)current_motion->nbFrame - 1.0f;
@@ -369,18 +369,18 @@ void TUnk_804B2578::sub_801682E4(s32 new_mode) {
     }
 }
 
-void TUnk_804B2578::reset_state() {
+void TOHangceilingCaveBase::clear_hit_players() {
     memset(hit_players, 0, sizeof(hit_players));
     hit_player_count = 0;
 }
 
-void TUnk_804B2578::sub_80168280(uaddr player) {
+void TOHangceilingCaveBase::add_hit_player(uaddr player) {
     if (hit_player_count < 4) {
         hit_players[hit_player_count++] = player;
     }
 }
 
-s32 TUnk_804B2578::sub_80168244(uaddr player) {
+s32 TOHangceilingCaveBase::has_hit_player(uaddr player) {
     s32 i;
 
     for (i = 0; i != hit_player_count; i++) {
@@ -391,66 +391,66 @@ s32 TUnk_804B2578::sub_80168244(uaddr player) {
     return 0;
 }
 
-void TUnk_804B2578::advance_wrap_offset() {
+void TOHangceilingCaveBase::advance_frame() {
     frame = frame + play_speed;
     if (frame_count < frame) {
         frame = 0.0f;
     }
 }
 
-f32 TUnk_804B2578::vfunc_81(f32 power) {
+f32 TOHangceilingCaveBase::calc_damage(f32 power) {
     Q_801681D0 q = hang_ceiling_cave_scale_params;
     return power * q.w[game_difficulty_selection];
 }
 
 TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, void *set_data)
-    : TUnk_804B2578(parent, set_data) {
-    m_name = TOHangceilingCave01Normal__class_name;
+    : TOHangceilingCaveBase(parent, set_data) {
+    m_name = hangceiling_cave01_normal_class_name;
     init_geometry();
 }
 
 TOHangceilingCave01Normal::~TOHangceilingCave01Normal() {
 }
 
-void TOHangceilingCave01Normal::vfunc_80() {
+void TOHangceilingCave01Normal::update_state() {
     switch (mode) {
     case 0:
-        if (0.0f < m_354) {
-            m_354 = m_354 - 1.0f;
+        if (0.0f < wait_timer) {
+            wait_timer = wait_timer - 1.0f;
             return;
         }
-        sub_801682E4(1);
-        reset_state();
+        set_mode(1);
+        clear_hit_players();
         return;
     case 1:
-        advance_wrap_offset();
-        sub_80168488();
+        advance_frame();
+        hit_touching_players();
         if (4.0f == frame) {
             bodies->flags &= ~8;
             return;
         }
         if (23.0f == frame) {
-            sub_801682E4(2);
+            set_mode(2);
         }
         return;
     case 2:
-        advance_wrap_offset();
+        advance_frame();
         if (50.0f == frame) {
             bodies->flags |= hang_flag_8;
             return;
         }
         if (frame == frame_count) {
-            vfunc_79();
+            begin_wait();
         }
         break;
     }
 }
 
-void TOHangceilingCave01Normal::vfunc_79() {
-    current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
+void TOHangceilingCave01Normal::begin_wait() {
+    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
     texlist = turiten_singo_texture_lists[0];
-    m_354 = 4.0f * m_350;
-    sub_801682E4(0);
+    wait_timer = 4.0f * wait_interval;
+    set_mode(0);
     bodies->flags |= hang_flag_8;
     frame = 0.0f;
     play_speed = 1.0f;
@@ -458,87 +458,87 @@ void TOHangceilingCave01Normal::vfunc_79() {
 }
 
 TOHangceilingCave01Key::TOHangceilingCave01Key(TObject *parent, void *set_data)
-    : TUnk_804B2578(parent, set_data) {
-    m_name = TOHangceilingCave01Key__class_name;
+    : TOHangceilingCaveBase(parent, set_data) {
+    m_name = hangceiling_cave01_key_class_name;
     init_geometry();
 }
 
 TOHangceilingCave01Key::~TOHangceilingCave01Key() {
 }
 
-void TOHangceilingCave01Key::vfunc_80() {
+void TOHangceilingCave01Key::update_state() {
     switch (mode) {
     case 3:
         if (is_current_floor_switch_set((u16)switch_id) == 1 && frame <= frame_count) {
-            sub_801682E4(2);
+            set_mode(2);
         }
-        advance_wrap_offset();
+        advance_frame();
         break;
     case 1:
-        advance_wrap_offset();
-        sub_80168488();
+        advance_frame();
+        hit_touching_players();
         if (4.0f == frame) {
             bodies->flags &= ~8;
         } else if (23.0f == frame) {
-            vfunc_79();
+            begin_wait();
             clear_current_floor_switch((u16)switch_id);
         }
         break;
     case 2:
-        advance_wrap_offset();
+        advance_frame();
         if (50.0f == frame) {
             bodies->flags |= hang_flag_8;
         } else if (frame == frame_count) {
-            sub_801682E4(1);
+            set_mode(1);
         }
         break;
     }
 }
 
-void TOHangceilingCave01Key::vfunc_79() {
+void TOHangceilingCave01Key::begin_wait() {
     texlist = turiten_singo_texture_lists[1];
-    current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, 1);
-    m_354 = 0.0f;
-    sub_801682E4(3);
+    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, 1);
+    wait_timer = 0.0f;
+    set_mode(3);
     bodies->flags &= ~8;
     frame = 0.0f;
     play_speed = 1.0f;
     frame_count = (f32)current_motion->nbFrame - 1.0f;
-    reset_state();
+    clear_hit_players();
 }
 
 TOHangceilingCave01KeyQuick::TOHangceilingCave01KeyQuick(TObject *parent, void *set_data)
-    : TUnk_804B2578(parent, set_data) {
-    m_name = TOHangceilingCave01KeyQuick__class_name;
+    : TOHangceilingCaveBase(parent, set_data) {
+    m_name = hangceiling_cave01_key_quick_class_name;
     init_geometry();
-    set_scale(100.0f + scale.z);
+    set_damage(100.0f + scale.z);
 }
 
 TOHangceilingCave01KeyQuick::~TOHangceilingCave01KeyQuick() {
 }
 
-void TOHangceilingCave01KeyQuick::vfunc_80() {
+void TOHangceilingCave01KeyQuick::update_state() {
     switch (mode) {
     case 3:
         if (is_current_floor_switch_set((u16)switch_id) == 1 && frame <= frame_count) {
-            sub_801682E4(2);
+            set_mode(2);
         }
-        advance_wrap_offset();
+        advance_frame();
         return;
     case 1:
-        advance_wrap_offset();
-        sub_80168488();
+        advance_frame();
+        hit_touching_players();
         if (4.0f < frame) {
             bodies->flags &= ~8;
         }
         if (23.0f == frame) {
-            vfunc_79();
+            begin_wait();
         }
         break;
     case 2:
         if (is_current_floor_switch_set((u16)switch_id) == 1) {
             if (0.0f != frame) {
-                advance_wrap_offset();
+                advance_frame();
             }
             if (50.0f == frame) {
                 bodies->flags |= hang_flag_8;
@@ -558,20 +558,20 @@ void TOHangceilingCave01KeyQuick::vfunc_80() {
             } else {
                 frame = 5.0f;
             }
-            sub_801682E4(1);
+            set_mode(1);
         }
         break;
     }
 }
 
-void TOHangceilingCave01KeyQuick::vfunc_79() {
+void TOHangceilingCave01KeyQuick::begin_wait() {
     texlist = turiten_singo_texture_lists[1];
-    current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, 1);
-    m_354 = 0.0f;
-    sub_801682E4(3);
+    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, 1);
+    wait_timer = 0.0f;
+    set_mode(3);
     bodies->flags &= ~8;
     frame = 0.0f;
     play_speed = 1.0f;
     frame_count = (f32)current_motion->nbFrame - 1.0f;
-    reset_state();
+    clear_hit_players();
 }

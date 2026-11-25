@@ -1,4 +1,4 @@
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
 #include "pso/object/TMotorcycle.h"
@@ -15,7 +15,7 @@
 #include "pso/system/task/TMainTask.h"
 
 
-const char *TObjMesBase__class_name = "TObjMesBase";
+const char *mes_base_class_name = "TObjMesBase";
 
 void TObjMesBase::debug_draw_label() {
     messageLabel = set_params[0];
@@ -36,7 +36,7 @@ void TObjMesBase::debug_draw_label() {
 void TObjMesBase::interact(u16) {
     s32 label = messageLabel;
     if (label != 0) {
-        TUnk_804C8678 *root = NULL;
+        TQuestManager *root = NULL;
         switch (messageBank) {
         case 0: root = quest_mission_manager; break;
         case 1: root = quest_area_manager; break;
@@ -81,7 +81,7 @@ TObjMesBase::~TObjMesBase() {
 
 
 TObjMesBase::TObjMesBase(TObject *parent, ObjectSetData *placement) : TObjCollidable(parent) {
-    m_name = TObjMesBase__class_name;
+    m_name = mes_base_class_name;
     apply_object_set_data(placement);
     messageLabel = set_params[0];
     messageBank = set_params[2];

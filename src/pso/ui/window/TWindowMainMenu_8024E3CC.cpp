@@ -9,8 +9,8 @@
 
 void TWindowMainMenu__sub_8024E3CC(void) {  }
 void TWindowMainMenu__sub_8024E3D0(void) {  }
-s32 TWindowMainMenu::is_log_active() { return (state_flags >> 3) & 0x1; }
-s32 TWindowMainMenu::is_open() { return state_flags & 0x1; }
+s32 TWindowMainMenu::is_log_active() { return (menu_flags >> 3) & 0x1; }
+s32 TWindowMainMenu::is_open() { return menu_flags & 0x1; }
 
 void TWindowMainMenu::open_main_menu() {  }
 void TWindowMainMenu::close_main_menu() {  }

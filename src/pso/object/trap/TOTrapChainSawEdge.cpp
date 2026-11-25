@@ -166,9 +166,9 @@ BmlResourceDescriptor bm_obj_jungle_nokogiri_resource_descriptor = {
     "bm_obj_jungle_nokogiri.bml", chainsaw_ginja_model_filenames, bm_obj_jungle_nokogiri_motion_names, 5, 5,
 };
 
-const char *TOTrapChainSaw__name = "TOTrapChainSaw";
+const char *trap_chain_saw_name = "TOTrapChainSaw";
 
-__declspec(section ".rodata") F4_802C8FF8 TOTrapChainSaw__level_scale_table = { 1.0f, 2.0f, 3.0f, 6.0f };
+__declspec(section ".rodata") F4_802C8FF8 trap_chain_saw_level_scale_table = { 1.0f, 2.0f, 3.0f, 6.0f };
 
 const T_802C8F68 chainsaw_area_table_values = { { { 0x4D01F, 0x4C122, 0x4BC21 }, { 0x4004D01F, 0x4004C122, 0x4004BC21 }, { 0x4004D01F, 0x4004C122, 0x4004BC21 } } };
 
@@ -178,7 +178,7 @@ const s32 lbl_80471F28[2] = { 0, 1 };
 
 const s32 lbl_80471F30[2] = { 0, 1 };
 
-const char *TOTrapChainSawKey__name = "TOTrapChainSawKey";
+const char *trap_chain_saw_key_name = "TOTrapChainSawKey";
 
 const s32 lbl_80471F4C[2] = { 3, 4 };
 
@@ -306,16 +306,16 @@ NJS_TEXLIST *fn_802C9924(s32 index) {
 }
 
 TOTrapChainSaw::TOTrapChainSaw(TObject *parent, void *set_data) : TObjMapObject(parent) {
-    m_name = TOTrapChainSaw__name;
+    m_name = trap_chain_saw_name;
     apply_object_set_data(set_data);
     clear_field_d8();
     yaw_offset = 0;
-    m_cc = 0;
-    m_d0 = 0;
+    max_offset = 0;
+    step = 0;
     m_c8 = 0;
-    m_f4 = 0;
-    m_e8 = 0;
-    m_ec = 0;
+    behavior = 0;
+    switch_id = 0;
+    pause_timer = 0;
 }
 
 TOTrapChainSaw::~TOTrapChainSaw() {}
@@ -326,8 +326,8 @@ void TOTrapChainSaw::decode_params() {
     u32 var_r0_2;
     u32 temp_r3_2;
 
-    *(s32 *)((s8 *)this + 0xE8) = (s32) (u16) this->set_params[0];
-    temp_r3 = *(s32 *)((s8 *)this + 0xE8);
+    switch_id = (s32) (u16) this->set_params[0];
+    temp_r3 = switch_id;
     if (temp_r3 < 0) {
         var_r0 = 0;
     } else {
@@ -336,16 +336,16 @@ void TOTrapChainSaw::decode_params() {
             var_r0 = temp_r3;
         }
     }
-    *(s32 *)((s8 *)this + 0xE8) = var_r0;
-    if (is_current_floor_switch_set((u16) *(s32 *)((s8 *)this + 0xE8)) == 1) {
-        *(s32 *)((s8 *)this + 0xF0) = 1;
+    switch_id = var_r0;
+    if (is_current_floor_switch_set((u16) switch_id) == 1) {
+        switch_on = 1;
     } else {
-        *(s32 *)((s8 *)this + 0xF0) = 0;
+        switch_on = 0;
     }
-    *(u32 *)((s8 *)this + 0xCC) = (u32) ((u32) *(u32 *)((s8 *)this + 0x88) >> 0x10U);
-    *(s32 *)((s8 *)this + 0xD0) = (s32) (u16) *(u32 *)((s8 *)this + 0x88);
-    *(u32 *)((s8 *)this + 0xF4) = (u32) ((u32) *(u32 *)((s8 *)this + 0x8C) >> 0x10U);
-    temp_r3_2 = *(u32 *)((s8 *)this + 0xF4);
+    max_offset = (u32) ((u32) set_params[1] >> 0x10U);
+    step = (s32) (u16) set_params[1];
+    behavior = (u32) ((u32) set_params[2] >> 0x10U);
+    temp_r3_2 = behavior;
     if ((s32) temp_r3_2 < 0) {
         var_r0_2 = 0;
     } else {
@@ -354,24 +354,26 @@ void TOTrapChainSaw::decode_params() {
             var_r0_2 = temp_r3_2;
         }
     }
-    *(u32 *)((s8 *)this + 0xF4) = var_r0_2;
+    behavior = var_r0_2;
 }
 
 void TOTrapChainSaw::run_task() {
     this->update_state();
     this->check_player_contact();
-    if (is_current_floor_switch_set((u16) *(s32 *)((s8 *)this + 0xE8)) == 1) {
-        *(s32 *)((s8 *)this + 0xF0) = 1;
+    if (is_current_floor_switch_set((u16) switch_id) == 1) {
+        switch_on = 1;
         return;
     }
-    *(s32 *)((s8 *)this + 0xF0) = 0;
+    switch_on = 0;
 }
 #pragma push
 #pragma opt_propagation off
 void TOTrapChainSaw::update_state() {
+    static void (TOTrapChainSaw::*tbl[2])() = { &TOTrapChainSaw::update_extension, &TOTrapChainSaw::update_sweep };
+    (this->*tbl[behavior])();
+    // This trap keeps its frame at 0xB4, the frame step at 0xB8 and its motion at 0xBC
+    // (TObjMapObject's fields are laid out differently).
     u8 *arg0 = (u8 *)this;
-    static Act_802C9600 tbl[2] = { &VObj_802C9600::m20, &VObj_802C9600::m21 };
-    (((VObj_802C9600 *)arg0)->*tbl[*(s32 *)((s8 *)arg0 + 0xF4)])();
     if (*(u8 **)((s8 *)arg0 + 0xBC) != NULL) {
         *(f32 *)((s8 *)arg0 + 0xB4) = *(f32 *)((s8 *)arg0 + 0xB4) + *(f32 *)((s8 *)arg0 + 0xB8);
         if (*(f32 *)((s8 *)arg0 + 0xB4) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1)) {
@@ -381,49 +383,47 @@ void TOTrapChainSaw::update_state() {
 }
 #pragma pop
 void TOTrapChainSaw::update_sweep() {
-    if ((s32) *(saddr *)((s8 *)this + 0xF0) == 0) {
+    if (switch_on == 0) {
         if ((s32) yaw_offset == 0) {
             this->vfunc_26();
         }
         this->vfunc_27();
-        yaw_offset = (saddr) (yaw_offset + *(s32 *)((s8 *)this + 0xD0));
+        yaw_offset = (saddr) (yaw_offset + step);
         return;
     }
-    yaw_offset = (s32) (yaw_offset - *(s32 *)((s8 *)this + 0xD0));
+    yaw_offset = (s32) (yaw_offset - step);
     if ((s32) yaw_offset < 0) {
         yaw_offset = 0;
     }
 }
 
 void TOTrapChainSaw::update_extension() {
-    VObj_802C936C *self = (VObj_802C936C *)this;
-
-    if (*(s32 *)((s8 *)((u8 *)this) + 0xF0) == 0) {
-        if (*(s32 *)((s8 *)((u8 *)this) + 0xEC) > 0) {
-            *(s32 *)((s8 *)((u8 *)this) + 0xEC) = *(s32 *)((s8 *)((u8 *)this) + 0xEC) - 1;
+    if (switch_on == 0) {
+        if (pause_timer > 0) {
+            pause_timer = pause_timer - 1;
             return;
         }
-        if (*(s32 *)((s8 *)((u8 *)this) + 0xD4) == 0) {
-            self->m24();
+        if (yaw_offset == 0) {
+            vfunc_26();
         }
-        self->m25();
-        *(s32 *)((s8 *)((u8 *)this) + 0xD4) = *(s32 *)((s8 *)((u8 *)this) + 0xD4) + *(s32 *)((s8 *)((u8 *)this) + 0xD0);
-        if (*(s32 *)((s8 *)((u8 *)this) + 0xD4) < 0) {
-            *(s32 *)((s8 *)((u8 *)this) + 0xD4) = 0;
-            *(s32 *)((s8 *)((u8 *)this) + 0xD0) = (s32)((f32)*(s32 *)((s8 *)((u8 *)this) + 0xD0) * *(const volatile f32 *)&lbl_805DE620);
-            *(s32 *)((s8 *)((u8 *)this) + 0xEC) = (s32)(30.0f * (f32)(u16)*(s32 *)((s8 *)((u8 *)this) + 0x8C));
-            self->m27();
+        vfunc_27();
+        yaw_offset = yaw_offset + step;
+        if (yaw_offset < 0) {
+            yaw_offset = 0;
+            step = (s32)((f32)step * *(const volatile f32 *)&lbl_805DE620);
+            pause_timer = (s32)(30.0f * (f32)(u16)set_params[2]);
+            vfunc_29();
         }
-        if (*(s32 *)((s8 *)((u8 *)this) + 0xD4) > *(s32 *)((s8 *)((u8 *)this) + 0xCC)) {
-            *(s32 *)((s8 *)((u8 *)this) + 0xD4) = *(s32 *)((s8 *)((u8 *)this) + 0xCC);
-            *(s32 *)((s8 *)((u8 *)this) + 0xD0) = (s32)((f32)*(s32 *)((s8 *)((u8 *)this) + 0xD0) * *(const volatile f32 *)&lbl_805DE620);
-            self->m26();
+        if (yaw_offset > max_offset) {
+            yaw_offset = max_offset;
+            step = (s32)((f32)step * *(const volatile f32 *)&lbl_805DE620);
+            vfunc_28();
         }
     } else {
-        *(s32 *)((s8 *)((u8 *)this) + 0xD0) = (s32)fabs_float((f32)*(s32 *)((s8 *)((u8 *)this) + 0xD0));
-        *(s32 *)((s8 *)((u8 *)this) + 0xD4) = *(s32 *)((s8 *)((u8 *)this) + 0xD4) - *(s32 *)((s8 *)((u8 *)this) + 0xD0);
-        if (*(s32 *)((s8 *)((u8 *)this) + 0xD4) < 0) {
-            *(s32 *)((s8 *)((u8 *)this) + 0xD4) = 0;
+        step = (s32)fabs_float((f32)step);
+        yaw_offset = yaw_offset - step;
+        if (yaw_offset < 0) {
+            yaw_offset = 0;
         }
     }
 }
@@ -507,7 +507,7 @@ void TOTrapChainSaw::update_demo() {
 }
 
 f32 TOTrapChainSaw::scale_by_level(f32 level) {
-    F4_802C8FF8 t = TOTrapChainSaw__level_scale_table;
+    F4_802C8FF8 t = trap_chain_saw_level_scale_table;
     return level * t.v[game_difficulty_selection];
 }
 #pragma push
@@ -640,7 +640,7 @@ void TOTrapChainSawDamage::vfunc_28() {
 }
 #define arg0 ((u8 *)this)
 TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
-    *(saddr *)((s8 *)arg0 + 0) = (saddr) TOTrapChainSawKey__name;
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) trap_chain_saw_key_name;
     ((TOTrapChainSawKey *)(arg0))->decode_params();
     ((TOTrapChainSawKey *)(arg0))->vfunc_16();
     init_collision_body_parts(this, chain_saw_collision_body_part_table[*(s32 *)((s8 *)arg0 + 0xF8)], 2);
@@ -682,7 +682,7 @@ void TOTrapChainSawKey::vfunc_18(TObjPlayer *) {
     ((G_SwitchStateChanged_6x05 *)(&p))->init();
     p.sC = 0;
     p.sA = 0xFFFF;
-    p.s10 = static_cast<s16>(m_e8);
+    p.s10 = static_cast<s16>(switch_id);
     p.b12 = get_current_floor(0xFFFF);
     p.b13 = 1;
     ((G_SwitchStateChanged_6x05 *)(&p))->send();

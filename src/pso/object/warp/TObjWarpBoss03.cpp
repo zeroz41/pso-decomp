@@ -27,10 +27,10 @@ TObjWarpBoss03::~TObjWarpBoss03() {
 }
 
 
-const char *TObjWarpBoss03__name = "TObjWarpBoss03";
+const char *warp_boss03_name = "TObjWarpBoss03";
 
 TObjWarpBoss03::TObjWarpBoss03(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    m_name = TObjWarpBoss03__name;
+    m_name = warp_boss03_name;
     warp_range = 2e+01f;
 }
 

@@ -105,49 +105,10 @@ void clear_story_flag_in_bank(s32 n, s32 flag);
 
 #pragma dont_inline off
 
-struct ByteBlock_3C { u8 bytes[0x3c]; };
-
-struct VBase_8029B428 { char pad[0x18]; };
-
-struct VObj_8029B428 : VBase_8029B428 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct Door_8029B428 : VObj_8029B428 {
-    u8 pad1c[0x38 - 0x1C];
-    f32 xf[3];
-    u8 pad44[0x28 - 0xC];
-    s32 angle;
-    u8 pad64[0xB4 - 0x64];
-    f32 fb4;
-    u8 padb8[4];
-    void *fbc;
-    f32 fc0;
-    f32 fc4;
-    u8 padc8[8];
-    u32 flags;
-    s32 count;
-};
 
 BmlResource *TODoorJungleMain::bml_resource;
 
 NJS_TEXLIST *door_jungle_main_gvm_texture;
-
-struct Door_8029B524 {
-    u8 pad0[0x38];
-    u8 xf[0x98];
-    u32 flags;
-    s32 count;
-};
-
 
 TODoorJungleMain::TODoorJungleMain(TObject *parent, void *set_data) : TODoorBase(parent) {
     m_name = class_name;
@@ -160,7 +121,7 @@ TODoorJungleMain::TODoorJungleMain(TObject *parent, void *set_data) : TODoorBase
     register_object_by_id();
     view_range = 800.0f;
     model_radius = 120.0f;
-    switches_on = 0;
+    switch_count = 0;
     smoke_timer = 0;
     ObjectSetData csn_data;
     __memcpy(&csn_data, set_data, sizeof(csn_data));
@@ -182,7 +143,6 @@ TODoorJungleMain::~TODoorJungleMain() {
 
 
 void TODoorJungleMain::run_task() {
-    u8 *arg0 = (u8 *)this;
     GC_Mtx mtx;
     s32 flag;
     f32 t;
@@ -190,11 +150,11 @@ void TODoorJungleMain::run_task() {
     this->update_door_switch_state();
     if (this->door_flags & 1) {
         flag = 0;
-        *(f32 *)&this->animation_end_frame += this->animation_step;
-        t = *(f32 *)&this->animation_end_frame;
-        if ((f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1) - 70.0f < t &&
-            t < (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1)) {
-            ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
+        animation_end_frame += this->animation_step;
+        t = animation_end_frame;
+        if ((f32)(u32)(motion->frameCount - 1) - 70.0f < t &&
+            t < (f32)(u32)(motion->frameCount - 1)) {
+            set_indexed_flags(0, 8);
             if (map_csn != NULL) {
                 map_csn->queue_destruction();
                 map_csn = NULL;
@@ -202,11 +162,11 @@ void TODoorJungleMain::run_task() {
         } else {
             flag = 1;
         }
-        if (*(f32 *)&this->animation_end_frame > (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1)) {
+        if (animation_end_frame > (f32)(u32)(motion->frameCount - 1)) {
             flag = 0;
-            *(f32 *)&this->animation_end_frame = (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1);
+            animation_end_frame = (f32)(u32)(motion->frameCount - 1);
         } else {
-            play_persistent_sound(0x43220, arg0, &this->position, 0, 0);
+            play_persistent_sound(0x43220, this, &this->position, 0, 0);
         }
         if (flag != 0) {
             if (++smoke_timer % 30 == 0) {
@@ -224,55 +184,53 @@ void TODoorJungleMain::run_task() {
         minimap_render_gate(&this->position, 0xFF00FF00, this->rotation_y, 0, 0);
     } else {
         minimap_render_gate(&this->position, 0xFFFF0000, this->rotation_y, 0, 0);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
+        clear_player_status_flag(0, 8);
     }
 }
 
 void TODoorJungleMain::update_door_switch_state() {
-    Door_8029B524 *self = (Door_8029B524 *)this;
     s16 sp8;
     s32 lvl;
     s32 prev;
     s32 i;
 
-    if (!(self->flags & 1)) {
+    if (!(door_flags & 1)) {
         lvl = game_difficulty_selection;
-        prev = self->count;
-        self->count = 0;
+        prev = switch_count;
+        switch_count = 0;
         for (i = 0; i < 3; i++) {
             if (TLevelSelect::get_difficulty_flag_bit(lvl, TOKeyJungleMain__data_804653C8[i]) != 0) {
-                self->count++;
+                switch_count++;
             }
         }
-        if (self->count > 0 && self->count != prev) {
-            play_sound_effect(0x4C123, reinterpret_cast<const Vec *>(self->xf), 0, 0);
+        if (switch_count > 0 && switch_count != prev) {
+            play_sound_effect(0x4C123, &position, 0, 0);
         }
-        if (self->count == 3 && is_any_player_near((saddr)self) != 0) {
-            self->flags |= 1;
+        if (switch_count == 3 && is_any_player_near((saddr)this) != 0) {
+            door_flags |= 1;
         } else {
-            self->flags &= ~1;
+            door_flags &= ~1;
         }
-        if ((self->flags & 1) && ((TObjCollidable *)self)->access_object_saved_state(&sp8, 1) == 1) {
+        if ((door_flags & 1) && access_object_saved_state(&sp8, 1) == 1) {
             sp8 = 1;
-            ((TObjCollidable *)self)->send_object_state_update(&sp8);
+            send_object_state_update(&sp8);
         }
     }
 }
 
 void TODoorJungleMain::render() {
-    Door_8029B428 *self = (Door_8029B428 *)this;
     Ids_8029B428 ids = {{2, 1, 0}};
     s32 i;
-    if (self->m8(self->fc0, self->fc4) == 1) {
+    if (update_object_view_visibility(view_range, model_radius) == 1) {
         TObjFish::set_global_param(door_jungle_main_gvm_texture);
         push_matrix();
-        post_translate_matrix(self->xf);
-        rotate_matrix_y(NULL, self->angle);
-        if (self->flags & 1) {
-            draw_ginja_model_with_motion(get_bml_model(TODoorJungleMain::bml_resource, 3), self->fbc, self->fb4);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
+        if (door_flags & 1) {
+            draw_ginja_model_with_motion(get_bml_model(TODoorJungleMain::bml_resource, 3), motion, animation_end_frame);
         } else {
             draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, 3));
-            for (i = 0; i < 3 - self->count; i++) {
+            for (i = 0; i < 3 - switch_count; i++) {
                 draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, ids.v[i]));
             }
         }

@@ -6,6 +6,9 @@
 
 class TChCrCharSelect : public TObject {
 public:
+    static s32 input_mode;
+    static s32 selected_slot_index;
+    static s32 selected_char_index;
     TChCrCharSelect(TObject *parent);
     virtual ~TChCrCharSelect();
     virtual void run_task();

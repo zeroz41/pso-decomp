@@ -21,7 +21,7 @@ static const NJS_POINT2 quest_load_panel_overlay_offsets[2] = {{455.0f, 332.0f},
 
 // TAdLoadQuestCellGC's code follows these functions in the same translation unit; its name
 // string sits after the tables above in .rodata.
-const char *TAdLoadQuestCellGC__name = "TAdLoadQuestCellGC";
+const char *load_quest_cell_name = "TAdLoadQuestCellGC";
 
 extern "C" {
 void draw_color_lines(Desc_80349844 *, s32, s32, f32);

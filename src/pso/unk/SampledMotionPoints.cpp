@@ -15,12 +15,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-Vec *lbl_805D5230;
-s32 lbl_805D5234;
+Vec *sample_output_cursor;
+s32 sample_point_count;
 s32 motion_trail_node_index;
-const s32 *lbl_805D523C;
-const Vec *TBoss4Type3__motion_trail_points;
-extern Vec lbl_80500F80;
+const s32 *sample_node_indices;
+const Vec *boss4_type3_motion_trail_points;
+extern Vec default_trail_point;
 s32 transform_motion_node_points(SampledMotionPoints *sampled_motion_points, NJS_OBJECT *node, s32 idx);
 
 Vec *SampledMotionPoints::lookup(f32 frame) {
@@ -42,13 +42,13 @@ s32 transform_motion_node_points(SampledMotionPoints *sampled_motion_points, NJS
         push_matrix();
         compose_motion_node_matrix(node);
         flags = node->evalflags;
-        while (idx == lbl_805D523C[motion_trail_node_index]) {
-            if (TBoss4Type3__motion_trail_points == NULL) {
-                matrix_mult_vec(0, &lbl_80500F80, lbl_805D5230);
+        while (idx == sample_node_indices[motion_trail_node_index]) {
+            if (boss4_type3_motion_trail_points == NULL) {
+                matrix_mult_vec(0, &default_trail_point, sample_output_cursor);
             } else {
-                matrix_mult_vec(0, &TBoss4Type3__motion_trail_points[motion_trail_node_index], lbl_805D5230);
+                matrix_mult_vec(0, &boss4_type3_motion_trail_points[motion_trail_node_index], sample_output_cursor);
             }
-            lbl_805D5230++;
+            sample_output_cursor++;
             motion_trail_node_index++;
         }
         idx++;
@@ -57,43 +57,43 @@ s32 transform_motion_node_points(SampledMotionPoints *sampled_motion_points, NJS
         }
         pop_matrix();
         node = node->sibling;
-    } while (node != NULL && motion_trail_node_index < lbl_805D5234);
+    } while (node != NULL && motion_trail_node_index < sample_point_count);
     return idx;
 }
 
 extern Vec TObjEneMe3ShinowaMirage_motion_trail_points[2];
-extern s32 lbl_80500FA4[3];
+extern s32 trail_node_indices[3];
 
 void SampledMotionPoints::sample_node_offsets(NJS_OBJECT *model, NJS_MOTION *motion, s32 node_index, const Vec *first_offset, const Vec *second_offset) {
-    lbl_80500FA4[0] = node_index;
-    lbl_80500FA4[1] = node_index;
+    trail_node_indices[0] = node_index;
+    trail_node_indices[1] = node_index;
     VecCopy(&TObjEneMe3ShinowaMirage_motion_trail_points[0], first_offset);
     VecCopy(&TObjEneMe3ShinowaMirage_motion_trail_points[1], second_offset);
-    sample(model, motion, lbl_80500FA4, TObjEneMe3ShinowaMirage_motion_trail_points);
+    sample(model, motion, trail_node_indices, TObjEneMe3ShinowaMirage_motion_trail_points);
 }
 
-Vec lbl_80500F80;
+Vec default_trail_point;
 Vec TObjEneMe3ShinowaMirage_motion_trail_points[2];
-s32 lbl_80500FA4[3];
+s32 trail_node_indices[3];
 
 
 void SampledMotionPoints::sample_two_nodes(NJS_OBJECT *model, NJS_MOTION *motion, s32 first_node, s32 second_node) {
-    lbl_80500FA4[0] = first_node;
-    lbl_80500FA4[1] = second_node;
-    sample(model, motion, lbl_80500FA4, NULL);
+    trail_node_indices[0] = first_node;
+    trail_node_indices[1] = second_node;
+    sample(model, motion, trail_node_indices, NULL);
 }
 
 void SampledMotionPoints::sample(NJS_OBJECT *model, NJS_MOTION *motion, const s32 *node_indices, const Vec *offsets) {
     f32 f;
     s32 i;
     set_motion_packed_rotation();
-    lbl_80500F80.x = 0.0f;
-    lbl_80500F80.y = 0.0f;
-    lbl_80500F80.z = 0.0f;
-    lbl_805D5230 = points;
-    lbl_805D5234 = points_per_sample;
-    lbl_805D523C = node_indices;
-    TBoss4Type3__motion_trail_points = offsets;
+    default_trail_point.x = 0.0f;
+    default_trail_point.y = 0.0f;
+    default_trail_point.z = 0.0f;
+    sample_output_cursor = points;
+    sample_point_count = points_per_sample;
+    sample_node_indices = node_indices;
+    boss4_type3_motion_trail_points = offsets;
     push_matrix();
     f = start;
     for (i = 0; i < sample_count; i++) {

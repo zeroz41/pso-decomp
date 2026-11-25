@@ -530,14 +530,14 @@ void TAdChrSelASlotGC::show_no_card_message() {
     switch (this->mode) {
     case 0:
         this->plate_a->reset_selection_slots();
-        this->player_items->sub_802D6D88();
+        this->player_items->hide_all_entries();
         this->move_plate->clear_entries();
         break;
     case 1:
         this->plate_a->reset_selection_slots();
         this->plate_b->reset_selection_slots();
-        this->player_items->sub_802D6D88();
-        this->player_items_b->sub_802D6D88();
+        this->player_items->hide_all_entries();
+        this->player_items_b->hide_all_entries();
         this->move_plate->clear_entries();
         if (this->draw_line[1] != NULL) {
             this->draw_line[1]->queue_destruction();
@@ -550,12 +550,12 @@ void TAdChrSelASlotGC::show_no_card_message() {
         break;
     case 2:
         this->plate_b->reset_selection_slots();
-        this->player_items_b->sub_802D6D88();
+        this->player_items_b->hide_all_entries();
         break;
     }
-    slot_gc->sub_802C7498(0);
-    slot_gc->sub_802C7498(1);
-    slot_gc->sub_802C7498(2);
+    slot_gc->hide_slot_entry(0);
+    slot_gc->hide_slot_entry(1);
+    slot_gc->hide_slot_entry(2);
     if (this->player_load->get_slot_index() > 0) {
         if (this->wait_message[0] != NULL) {
             this->wait_message[0]->close();
@@ -632,17 +632,17 @@ void TAdChrSelASlotGC::close_windows() {
     switch (this->mode) {
     case 0:
         this->plate_a->reset_selection_slots();
-        this->player_items->sub_802D6D88();
+        this->player_items->hide_all_entries();
         break;
     case 1:
         this->plate_a->reset_selection_slots();
         this->plate_b->reset_selection_slots();
-        this->player_items->sub_802D6D88();
-        this->player_items_b->sub_802D6D88();
+        this->player_items->hide_all_entries();
+        this->player_items_b->hide_all_entries();
         break;
     case 2:
         this->plate_b->reset_selection_slots();
-        this->player_items_b->sub_802D6D88();
+        this->player_items_b->hide_all_entries();
         break;
     }
     switch (this->mode) {

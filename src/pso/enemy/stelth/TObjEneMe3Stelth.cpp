@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
-#include "pso/unk/TUnk_804EDAC0.h"
+#include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/item/TItem.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
@@ -51,7 +51,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/system/scene/TScene.h"
@@ -82,33 +82,33 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/unk/TUnk_804EDAC0.h"
+#include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 
 #pragma readonly_strings on
 
 // Class names the two constructors store in m_name (.sdata).
-const char *TObjEneMe3Stelth__class_name = stelth_class_name;
-const char *TObjEneMe3StelthReal__class_name = stelth_real_class_name;
+const char *me3_stelth_class_name = stelth_class_name;
+const char *me3_stelth_real_class_name = stelth_real_class_name;
 
 
 extern "C" {
-extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
-extern CollisionBody TObjEneMe3Stelth__collision_body_template;
-BmlResource *TObjEneMe3Stelth__bml_resource;
-s32 TObjEneMe3Stelth__render_node_index;
-TBreakUpMdlData *TObjEneMe3Stelth__breakup_model;
-SampledMotionPoints *TObjEneMe3Stelth__trail_buffer;
+extern StelthBehaviorParams *me3_stelth_behavior_params_by_variant[];
+extern CollisionBody me3_stelth_collision_body_template;
+BmlResource *me3_stelth_bml_resource;
+s32 me3_stelth_render_node_index;
+TBreakUpMdlData *me3_stelth_breakup_model;
+SampledMotionPoints *me3_stelth_trail_buffer;
 s32 stelth_projection_texture_handle;
 f32 lbl_805010E0[3];
-__declspec(section ".data") player_stats *TObjEneMe3Stelth__base_params_by_variant[2];
-__declspec(section ".data") AttackParams *TObjEneMe3Stelth__attack_params_by_variant[2];
-__declspec(section ".data") ActorParamBlock *TObjEneMe3Stelth__resistance_params_by_variant[2];
-__declspec(section ".data") StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[2];
-__declspec(section ".data") NJS_TEXLIST TObjEneMe3Stelth__alternate_texture_list;
+__declspec(section ".data") player_stats *me3_stelth_base_params_by_variant[2];
+__declspec(section ".data") AttackParams *me3_stelth_attack_params_by_variant[2];
+__declspec(section ".data") ActorParamBlock *me3_stelth_resistance_params_by_variant[2];
+__declspec(section ".data") StelthBehaviorParams *me3_stelth_behavior_params_by_variant[2];
+__declspec(section ".data") NJS_TEXLIST me3_stelth_alternate_texture_list;
 f32 lbl_80501114[3];
-u32 *TObjEneMe3Stelth__material_color_pointers[4];
+u32 *me3_stelth_material_color_pointers[4];
 
 
 
@@ -120,8 +120,8 @@ extern "C" {
 
 
 
-StelthMovementParams TObjEneMe3Stelth__shared_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
-CollisionBody TObjEneMe3Stelth__collision_body_template = {
+StelthMovementParams me3_stelth_shared_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
+CollisionBody me3_stelth_collision_body_template = {
     {0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
 __declspec(section ".data") const char *stelth_model_names[2] = {
@@ -146,7 +146,7 @@ const char *stelth_low_motion_names[12] = {
 BmlResourceDescriptor me3_stelth_bml_resource_desc = {
     stelth_low_bml, stelth_low_model_names, stelth_low_motion_names, 1, 11,
 };
-TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13] = {
+TObjMotionAction me3_stelth_animation_descriptors[13] = {
     {MOTION_MODE_LOOP, 0, 0, 0.5f, ACTION_NO_BLEND_IN},
     {MOTION_MODE_ONCE, 0, 1, 0.7f, ACTION_NO_BLEND_IN},
     {MOTION_MODE_LOOP, 0, 9, 0.5f, ACTION_NO_BLEND_IN},
@@ -189,73 +189,73 @@ void TObjEneMe3Stelth::load_shared_resources() {
     lbl_805010E0[1] = 0.0f;
     lbl_805010E0[2] = 0.0f;
     if (is_split_screen() != 0) {
-        TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource(&me3_stelth_bml_resource_desc);
+        me3_stelth_bml_resource = load_enemy_bml_resource(&me3_stelth_bml_resource_desc);
     } else {
-        TObjEneMe3Stelth__bml_resource = load_enemy_bml_resource(&stelth_bml_resource_desc);
+        me3_stelth_bml_resource = load_enemy_bml_resource(&stelth_bml_resource_desc);
     }
-    src = TObjEneMe3Stelth__bml_resource->models->texlist;
+    src = me3_stelth_bml_resource->models->texlist;
     n = src->nbTexture;
-    TObjEneMe3Stelth__alternate_texture_list.nbTexture = n;
-    TObjEneMe3Stelth__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
+    me3_stelth_alternate_texture_list.nbTexture = n;
+    me3_stelth_alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
     for (i = 0; i < n; i++) {
-        copy_ginja_texture_entry(&TObjEneMe3Stelth__alternate_texture_list.textures[i], &src->textures[i]);
+        copy_ginja_texture_entry(&me3_stelth_alternate_texture_list.textures[i], &src->textures[i]);
     }
     for (i = 0; i < 3; i++) {
-        TObjEneMe3Stelth__alternate_texture_list.textures[i].texture = TObjEneMe3Stelth__alternate_texture_list.textures[i + 3].texture;
+        me3_stelth_alternate_texture_list.textures[i].texture = me3_stelth_alternate_texture_list.textures[i + 3].texture;
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__base_params_by_variant[i] = TLobby::register_boss(stelth_base_stat_ids[i]);
+        me3_stelth_base_params_by_variant[i] = TLobby::register_boss(stelth_base_stat_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(stelth_attack_stat_ids[i]);
+        me3_stelth_attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(stelth_attack_stat_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__resistance_params_by_variant[i] = TLobby::register_object(stelth_resist_stat_ids[i]);
+        me3_stelth_resistance_params_by_variant[i] = TLobby::register_object(stelth_resist_stat_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3Stelth__behavior_params_by_variant[i] = (StelthBehaviorParams *)TLobby::dispatch_shared_handler_a(stelth_param_ids[i]);
+        me3_stelth_behavior_params_by_variant[i] = (StelthBehaviorParams *)TLobby::dispatch_shared_handler_a(stelth_param_ids[i]);
     }
-    d = TObjEneMe3Stelth__behavior_params_by_variant[0];
+    d = me3_stelth_behavior_params_by_variant[0];
     TObjEneMe3Stelth::set_slot_min_clamped_value(7, d->sword_motion_speed);
     TObjEneMe3Stelth::set_slot_min_clamped_value(4, d->damage_motion_speed);
-    TObjEneMe3Stelth__render_node_index = 0;
+    me3_stelth_render_node_index = 0;
     lbl_80501114[0] = 0.0f;
     lbl_80501114[1] = 0.0f;
     lbl_80501114[2] = 0.0f;
-    m = TObjEneMe3Stelth__bml_resource->models->model;
+    m = me3_stelth_bml_resource->models->model;
     q = (NJS_CNK_MODEL *)find_model_node(m, 9)->model;
     if (q != NULL) {
-        TObjEneMe3Stelth__material_color_pointers[0] = (u32 *)(q->polygon_list + 2);
+        me3_stelth_material_color_pointers[0] = (u32 *)(q->polygon_list + 2);
     } else {
-        TObjEneMe3Stelth__material_color_pointers[0] = 0;
+        me3_stelth_material_color_pointers[0] = 0;
     }
     q = (NJS_CNK_MODEL *)find_model_node(m, 0xD)->model;
     if (q != NULL) {
-        TObjEneMe3Stelth__material_color_pointers[1] = (u32 *)(q->polygon_list + 2);
+        me3_stelth_material_color_pointers[1] = (u32 *)(q->polygon_list + 2);
     } else {
-        TObjEneMe3Stelth__material_color_pointers[1] = 0;
+        me3_stelth_material_color_pointers[1] = 0;
     }
     q = (NJS_CNK_MODEL *)find_model_node(m, 0x26)->model;
     if (q != NULL) {
-        TObjEneMe3Stelth__material_color_pointers[2] = (u32 *)(q->polygon_list + 2);
+        me3_stelth_material_color_pointers[2] = (u32 *)(q->polygon_list + 2);
     } else {
-        TObjEneMe3Stelth__material_color_pointers[2] = 0;
+        me3_stelth_material_color_pointers[2] = 0;
     }
-    motion = TObjEneMe3Stelth__bml_resource->motions[TObjEneMe3Stelth__animation_descriptors[5].motion].motion;
+    motion = me3_stelth_bml_resource->motions[me3_stelth_animation_descriptors[5].motion].motion;
     if (is_split_screen() != 0) {
-        p = new TBreakUpMdlData(TObjEneMe3Stelth__bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        TObjEneMe3Stelth__breakup_model = (TBreakUpMdlData *)p;
+        p = new TBreakUpMdlData(me3_stelth_bml_resource->models->model, (NJS_MOTION *)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        me3_stelth_breakup_model = (TBreakUpMdlData *)p;
     } else {
-        p = new TBreakUpMdlData((long)(saddr)TObjEneMe3Stelth__bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
-        TObjEneMe3Stelth__breakup_model = (TBreakUpMdlData *)p;
+        p = new TBreakUpMdlData((long)(saddr)me3_stelth_bml_resource->models->model, (long)motion, (f32)(((NJS_MOTION *)motion)->nbFrame - 1));
+        me3_stelth_breakup_model = (TBreakUpMdlData *)p;
     }
     {
         Vec va;
         Vec vb;
         NJS_OBJECT *mdl;
         AnimationMotion *trail_motion;
-        BmlResource *r = TObjEneMe3Stelth__bml_resource;
-        s32 idx = TObjEneMe3Stelth__animation_descriptors[6].motion;
+        BmlResource *r = me3_stelth_bml_resource;
+        s32 idx = me3_stelth_animation_descriptors[6].motion;
         mdl = r->models->model;
         va.x = 0.0f;
         va.y = 0.0f;
@@ -264,47 +264,47 @@ void TObjEneMe3Stelth::load_shared_resources() {
         vb.y = 0.0f;
         vb.z = 0.0f;
         trail_motion = r->motions[idx].motion;
-        TObjEneMe3Stelth__trail_buffer = new SampledMotionPoints(2, 16.0f, 26.0f, 0.7f);
-        TObjEneMe3Stelth__trail_buffer->sample_node_offsets(mdl, (NJS_MOTION *)trail_motion, 0x22, &va, &vb);
+        me3_stelth_trail_buffer = new SampledMotionPoints(2, 16.0f, 26.0f, 0.7f);
+        me3_stelth_trail_buffer->sample_node_offsets(mdl, (NJS_MOTION *)trail_motion, 0x22, &va, &vb);
     }
     {
         NpcAnimationBinding a = stelth_attack_binding_desc_a;
-        a.motions = TObjEneMe3Stelth__bml_resource->motions;
+        a.motions = me3_stelth_bml_resource->motions;
         NpcAnimationBinding b = stelth_attack_binding_desc_b;
-        b.motions = TObjEneMe3Stelth__bml_resource->motions;
-        TObjNpcEnemy::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
-                                                  reinterpret_cast<NJS_TEXLIST *>(TObjEneMe3Stelth__bml_resource->models->texlist), &a, 8.0f, 0.0f);
-        TObjNpcEnemy::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
-                                                  reinterpret_cast<NJS_TEXLIST *>(TObjEneMe3Stelth__bml_resource->models->texlist), &b, 8.0f, 0.0f);
+        b.motions = me3_stelth_bml_resource->motions;
+        TObjNpcEnemy::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(me3_stelth_bml_resource->models->model),
+                                                  reinterpret_cast<NJS_TEXLIST *>(me3_stelth_bml_resource->models->texlist), &a, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(me3_stelth_bml_resource->models->model),
+                                                  reinterpret_cast<NJS_TEXLIST *>(me3_stelth_bml_resource->models->texlist), &b, 8.0f, 0.0f);
     }
 }
 void *TObjEneMe3Stelth::create_real(void *set_data) { return TObjEneMe3StelthReal::create(set_data); }
 void TObjEneMe3Stelth::free_shared_resources() {
-    if (TObjEneMe3Stelth__trail_buffer != NULL) {
-        delete TObjEneMe3Stelth__trail_buffer;
-        TObjEneMe3Stelth__trail_buffer = NULL;
+    if (me3_stelth_trail_buffer != NULL) {
+        delete me3_stelth_trail_buffer;
+        me3_stelth_trail_buffer = NULL;
     }
-    if (TObjEneMe3Stelth__breakup_model != NULL) {
-        delete TObjEneMe3Stelth__breakup_model;
-        TObjEneMe3Stelth__breakup_model = NULL;
+    if (me3_stelth_breakup_model != NULL) {
+        delete me3_stelth_breakup_model;
+        me3_stelth_breakup_model = NULL;
     }
-    if (TObjEneMe3Stelth__alternate_texture_list.textures != NULL) {
-        mem_free(TObjEneMe3Stelth__alternate_texture_list.textures);
-        TObjEneMe3Stelth__alternate_texture_list.textures = NULL;
+    if (me3_stelth_alternate_texture_list.textures != NULL) {
+        mem_free(me3_stelth_alternate_texture_list.textures);
+        me3_stelth_alternate_texture_list.textures = NULL;
     }
-    if (TObjEneMe3Stelth__bml_resource != NULL) {
-        delete TObjEneMe3Stelth__bml_resource;
-        TObjEneMe3Stelth__bml_resource = NULL;
+    if (me3_stelth_bml_resource != NULL) {
+        delete me3_stelth_bml_resource;
+        me3_stelth_bml_resource = NULL;
     }
 }
 void TObjEneMe3Stelth::set_slot_min_clamped_value(s32 index, f32 speed) {
     if (speed < 0.1f) {
         speed = 0.1f;
     }
-    TObjEneMe3Stelth__animation_descriptors[index].speed = speed;
+    me3_stelth_animation_descriptors[index].speed = speed;
 }
 TObjEneMe3Stelth::TObjEneMe3Stelth(TObject *parent) : TObjEneDD_ST(parent) {
-    m_name = TObjEneMe3Stelth__class_name;
+    m_name = me3_stelth_class_name;
 }
 #pragma push
 #pragma opt_propagation off
@@ -315,17 +315,17 @@ void TObjEneMe3StelthReal::init_common() {
 
     init_position_vectors();
     init_variant();
-    entry = TObjEneMe3Stelth__bml_resource->models;
+    entry = me3_stelth_bml_resource->models;
     model = (void *)entry->model;
-    init_model(&TObjEneMe3Stelth__collision_body_template, 1);
+    init_model(&me3_stelth_collision_body_template, 1);
     motion_flags = 0;
-    set_action_table(TObjEneMe3Stelth__animation_descriptors);
-    set_motion_list(TObjEneMe3Stelth__bml_resource->motions);
+    set_action_table(me3_stelth_animation_descriptors);
+    set_motion_list(me3_stelth_bml_resource->motions);
     set_animation(requested_action);
     v = variant_index;
-    reset_hp(TObjEneMe3Stelth__base_params_by_variant[v], TObjEneMe3Stelth__attack_params_by_variant[v], TObjEneMe3Stelth__resistance_params_by_variant[v]);
+    reset_hp(me3_stelth_base_params_by_variant[v], me3_stelth_attack_params_by_variant[v], me3_stelth_resistance_params_by_variant[v]);
     set_state_flag_4();
-    movementParameters = &TObjEneMe3Stelth__shared_params;
+    movementParameters = &me3_stelth_shared_params;
     wall_reach = 10.0f;
     enemy_init_acquire_period(0x1E);
     enemy_init_validate_period(0x1E);
@@ -459,7 +459,7 @@ s32 TObjEneMe3Stelth::test_body_collision(s32 angle, f32 distance) {
     rotation_y = angle;
     check_enemy_body_collisions(this);
     res = (s->flags & 0x380000) != 0;
-    copy_collision_body(s, &TObjEneMe3Stelth__collision_body_template);
+    copy_collision_body(s, &me3_stelth_collision_body_template);
     s->flags = b;
     rotation_y = a;
     return res;
@@ -564,17 +564,17 @@ s32 TObjEneMe3Stelth::is_alternate_variant() {
 }
 void TObjEneMe3Stelth::init_variant() {
     if (is_alternate_variant() != 0) {
-        texlist = &TObjEneMe3Stelth__alternate_texture_list;
+        texlist = &me3_stelth_alternate_texture_list;
         initialize_enemy_state(0x3F);
         variant_index = 1;
         return;
     }
-    texlist = TObjEneMe3Stelth__bml_resource->models->texlist;
+    texlist = me3_stelth_bml_resource->models->texlist;
     initialize_enemy_state(0x3E);
     variant_index = 0;
 }
 void TObjEneMe3Stelth::create_resta_effect() {
-    saddr f = TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->support_tech_level);
+    saddr f = TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[this->variant_index]->support_tech_level);
     TTecResta::create((void *)this, (u8 *)&this->position, f);
 }
 void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
@@ -646,10 +646,10 @@ void TObjEneMe3Stelth::state_reset(s32 reason) {
     case 4:
         if (fade_in_start == 1) {
             requested_action = 2;
-            set_field_378(1);
+            set_next_mode(1);
         } else {
             requested_action = 0;
-            set_field_378(3);
+            set_next_mode(3);
         }
         set_intangible();
         behavior_flags |= 2;
@@ -690,7 +690,7 @@ void TObjEneMe3Stelth::state_fade_in(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 2;
-        set_field_378(0);
+        set_next_mode(0);
         set_intangible();
         behavior_flags &= ~2;
         behavior_flags |= 5;
@@ -730,7 +730,7 @@ void TObjEneMe3Stelth::state_chase(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 9;
-        set_field_378(0xD);
+        set_next_mode(0xD);
         clear_intangible();
         behavior_flags &= ~7;
         state_step = 0;
@@ -783,7 +783,7 @@ void TObjEneMe3Stelth::state_ambush(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0);
+        this->set_next_mode(0);
         this->set_intangible();
         this->behavior_flags |= 7;
         this->fade.start_fade_in();
@@ -808,7 +808,7 @@ void TObjEneMe3Stelth::state_reveal(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 0;
-        set_field_378(5);
+        set_next_mode(5);
         set_intangible();
         behavior_flags &= ~7;
         state_step = 0;
@@ -860,7 +860,7 @@ void TObjEneMe3Stelth::state_appear(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        set_field_378(0xD);
+        set_next_mode(0xD);
         clear_intangible();
         behavior_flags &= ~6;
         behavior_flags |= 1;
@@ -932,11 +932,11 @@ void TObjEneMe3Stelth::state_chase_target(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 0xA;
-        set_field_378(6);
+        set_next_mode(6);
         clear_intangible();
         behavior_flags &= ~7;
         destination_distance = 300.0f;
-        move_speed = TObjEneMe3Stelth__behavior_params_by_variant[variant_index]->walk_speed;
+        move_speed = me3_stelth_behavior_params_by_variant[variant_index]->walk_speed;
         state_values[0] = 0.0f;
         return;
     case 3:
@@ -984,7 +984,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 6;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= ~7;
         this->behavior_flags |= 0x10000;
@@ -1086,7 +1086,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
             break;
         }
         if (this->state_step != 0) {
-            entry = TObjEneMe3Stelth__trail_buffer->lookup(this->frame);
+            entry = me3_stelth_trail_buffer->lookup(this->frame);
             if (entry != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
@@ -1114,7 +1114,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 7;
-        this->set_field_378(0xC);
+        this->set_next_mode(0xC);
         this->clear_intangible();
         this->behavior_flags &= ~7;
         this->behavior_flags |= 0x10000;
@@ -1148,7 +1148,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
             spawn_footstep_effects();
             cur_frame = this->frame;
             if ((cur_frame >= 0.0f) && (cur_frame <= 5.0f)) {
-                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->sword_lunge_speed);
+                ((TObjEneDD *)this)->move_to_shot_position(this->destination_direction.x, this->destination_direction.z, me3_stelth_behavior_params_by_variant[this->variant_index]->sword_lunge_speed);
             } else {
                 this->update_ground_contact();
             }
@@ -1159,7 +1159,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
             break;
         case 1:
             this->state_timer++;
-            if (this->state_timer <= TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->sword_hold_frames) {
+            if (this->state_timer <= me3_stelth_behavior_params_by_variant[this->variant_index]->sword_hold_frames) {
                 this->frame = 25.0f;
             }
             this->update_ground_contact();
@@ -1176,7 +1176,7 @@ void TObjEneMe3Stelth::state_backstep(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 3;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= ~7;
         this->attack_count = 0;
@@ -1202,7 +1202,7 @@ void TObjEneMe3Stelth::state_backstep(s32 reason) {
             }
             if (this->random_ratio() <= this->technique_chance) {
                 if (this->is_alternate_variant() != 0) {
-                    if (this->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->support_tech_chance) {
+                    if (this->random_ratio() > me3_stelth_behavior_params_by_variant[this->variant_index]->support_tech_chance) {
                         this->transition_enemy_state(0x10);
                         return;
                     }
@@ -1262,7 +1262,7 @@ void TObjEneMe3Stelth::state_cast_technique(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 8;
-        set_field_378(0xB);
+        set_next_mode(0xB);
         clear_intangible();
         behavior_flags &= ~6;
         behavior_flags |= 1;
@@ -1270,7 +1270,7 @@ void TObjEneMe3Stelth::state_cast_technique(s32 reason) {
         state_timer = 0;
         return;
     case 3:
-        if (state_timer > TObjEneMe3Stelth__behavior_params_by_variant[variant_index]->cast_duration) {
+        if (state_timer > me3_stelth_behavior_params_by_variant[variant_index]->cast_duration) {
             transition_enemy_state(6);
         }
     case 5:
@@ -1295,9 +1295,9 @@ void TObjEneMe3Stelth::state_cast_technique(s32 reason) {
         case 2:
             state_timer++;
             if (state_timer == 5) {
-                TTecSifta::create((void *)this, (u8 *)&position, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[variant_index]->support_tech_level));
+                TTecSifta::create((void *)this, (u8 *)&position, TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level));
             } else if (state_timer == 0xA) {
-                TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[variant_index]->support_tech_level)));
+                TTecDeband::create(this, (u8 *)&position, (s32)(TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[variant_index]->support_tech_level)));
                 state_step = 1;
                 state_timer = 0;
             }
@@ -1314,7 +1314,7 @@ void TObjEneMe3Stelth::state_wait(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 9;
-        this->set_field_378(0xD);
+        this->set_next_mode(0xD);
         this->behavior_flags &= ~7;
         this->set_intangible();
         this->attack_count = 0;
@@ -1345,7 +1345,7 @@ void TObjEneMe3Stelth::state_vanish(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 8;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->set_intangible();
         this->behavior_flags &= ~3;
         this->behavior_flags |= 4;
@@ -1454,7 +1454,7 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
             if (state_timer >= 0x14) {
                 state_step = 2;
                 behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl(TObjEneMe3Stelth__breakup_model, &me3_stelth_breakup_params,
+                TBoss3Volopt::create_breakup_mdl(me3_stelth_breakup_model, &me3_stelth_breakup_params,
                                    texlist, &position, rotation_y);
                 VecCopy((Vec *)&v, (const Vec *)&position);
                 v.x += 20.0f * sin_table_lookup(rotation_y);
@@ -1488,7 +1488,7 @@ void TObjEneMe3Stelth::state_warp(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0xC;
-        this->set_field_378(0xC);
+        this->set_next_mode(0xC);
         this->set_intangible();
         this->behavior_flags &= ~6;
         this->behavior_flags |= 1;
@@ -1501,7 +1501,7 @@ void TObjEneMe3Stelth::state_warp(s32 reason) {
             this->set_indexed_flags(0, 0x8000000);
             if (this->random_ratio() <= this->technique_chance) {
                 if (this->is_alternate_variant() != 0) {
-                    if (this->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->support_tech_chance) {
+                    if (this->random_ratio() > me3_stelth_behavior_params_by_variant[this->variant_index]->support_tech_chance) {
                         this->transition_enemy_state(0x10);
                     } else {
                         this->transition_enemy_state(0xB);
@@ -1574,7 +1574,7 @@ void TObjEneMe3Stelth::state_warp(s32 reason) {
 #pragma pop
 void TObjEneMe3Stelth::add_instance(NJS_OBJECT *node) {
     load_projection_tex_matrix(stelth_projection_texture_handle);
-    TObjEneMe3Stelth__render_node_index = TObjEneMe3Stelth__render_node_index + 1;
+    me3_stelth_render_node_index = me3_stelth_render_node_index + 1;
 }
 void TObjEneMe3Stelth::render() {
     s32 mode;
@@ -1593,7 +1593,7 @@ void TObjEneMe3Stelth::render() {
     } else {
         mode = 0;
     }
-    if (stealthed != 0 && is_split_screen() == 0 && TUnk_804EDAC0::dispatch_input_to_instance(this) != 0) {
+    if (stealthed != 0 && is_split_screen() == 0 && TDeferredRenderQueue::enqueue_in_instance(this) != 0) {
         return;
     }
     if (mode != 0) {
@@ -1608,8 +1608,8 @@ void TObjEneMe3Stelth::render() {
         if (is_split_screen() != 0) {
             s32 i;
             for (i = 0; i < 3; i++) {
-                if (TObjEneMe3Stelth__material_color_pointers[i] != 0) {
-                    *TObjEneMe3Stelth__material_color_pointers[i] = material_color;
+                if (me3_stelth_material_color_pointers[i] != 0) {
+                    *me3_stelth_material_color_pointers[i] = material_color;
                 }
             }
             draw = 1;
@@ -1641,7 +1641,7 @@ void TObjEneMe3Stelth::render() {
                 post_translate_matrix(&position.x);
                 translate_matrix(0, 0.0f, body_offset_y, 0.0f);
                 rotate_matrix_y(0, rotation_y);
-                TObjEneMe3Stelth__render_node_index = 0;
+                me3_stelth_render_node_index = 0;
                 if (mode == 1) {
                     TObjMotion::draw();
                 } else {
@@ -1677,8 +1677,8 @@ void TObjEneMe3Stelth::render() {
             }
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             for (i = 0; i < 3; i++) {
-                if (TObjEneMe3Stelth__material_color_pointers[i] != 0) {
-                    *TObjEneMe3Stelth__material_color_pointers[i] = material_color;
+                if (me3_stelth_material_color_pointers[i] != 0) {
+                    *me3_stelth_material_color_pointers[i] = material_color;
                 }
             }
             check_active_flag();
@@ -1686,7 +1686,7 @@ void TObjEneMe3Stelth::render() {
             post_translate_matrix(&position.x);
             translate_matrix(0, 0.0f, body_offset_y, 0.0f);
             rotate_matrix_y(0, rotation_y);
-            TObjEneMe3Stelth__render_node_index = 0;
+            me3_stelth_render_node_index = 0;
             projection_scroll += 0x222;
             stelth_projection_texture_handle = projection_scroll;
             set_model_node_callback(TObjEneMe3Stelth::add_instance);
@@ -1770,8 +1770,8 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
         {
             s32 i;
             for (i = 0; i < 3; i++) {
-                if (TObjEneMe3Stelth__material_color_pointers[i] != NULL) {
-                    *TObjEneMe3Stelth__material_color_pointers[i] = 0xB000FFB0;
+                if (me3_stelth_material_color_pointers[i] != NULL) {
+                    *me3_stelth_material_color_pointers[i] = 0xB000FFB0;
                 }
             }
         }
@@ -1816,7 +1816,7 @@ void TObjEneMe3Stelth::state_stealth_on(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0xC;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFFFFFF1;
         this->behavior_flags |= 1;
@@ -1870,7 +1870,7 @@ void TObjEneMe3Stelth::state_stealth_off(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0xB;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFFFFFF1;
         this->behavior_flags |= 1;
@@ -1929,7 +1929,7 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0xA;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFFFFFF8;
         this->behavior_flags |= 0x10000;
@@ -1999,9 +1999,9 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
                 if (r < this->attack_params->attack_angle / 2 && this->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
         TTecRaFoie::create(this, &out, &this->destination,
-                           TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->attack_tech_level));
+                           TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[this->variant_index]->attack_tech_level));
                     } else {
-                        TTecGiFoie::create(this, &out, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->attack_tech_level));
+                        TTecGiFoie::create(this, &out, TObjEneDD::clamp_frame_index(me3_stelth_behavior_params_by_variant[this->variant_index]->attack_tech_level));
                     }
                 } else {
                     this->state_step = 3;
@@ -2046,7 +2046,7 @@ s32 TObjEneMe3Stelth::check_move_collision(Vec *pos) {
     result = (body->flags & 0x200000) != 0;
     VecCopy(&this->position, &sp);
     clear_battle_param_slots();
-    copy_collision_body(body, &TObjEneMe3Stelth__collision_body_template);
+    copy_collision_body(body, &me3_stelth_collision_body_template);
     body->flags = saved;
     return result;
 }
@@ -2062,7 +2062,7 @@ void *TObjEneMe3StelthReal::create(void *set_data) {
     return new TObjEneMe3StelthReal(tl_04, set_data);
 }
 TObjEneMe3StelthReal::TObjEneMe3StelthReal(TObject *parent, void *set_data) : TObjEneMe3Stelth(parent) {
-    m_name = TObjEneMe3StelthReal__class_name;
+    m_name = me3_stelth_real_class_name;
     invoke_initialization_hook(set_data);
     setup_move_bounds();
     init_common();

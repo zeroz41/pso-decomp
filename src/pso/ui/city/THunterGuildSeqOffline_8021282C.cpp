@@ -29,15 +29,14 @@ void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter
 
 
 void THunterGuildSeqOffline::request_close(TShopWindowBase *) {
-    if (THunterGuildSeqOffline__active_instance != NULL) {
-        THunterGuildSeqOffline__active_instance->display_guild_message(6, 1);
-        THunterGuildSeqOffline__active_instance->unk_38 = 2;
-        THunterGuildSeqOffline__active_instance->set_state(5);
+    if (THunterGuildSeqOffline::active_instance != NULL) {
+        THunterGuildSeqOffline::active_instance->display_guild_message(6, 1);
+        THunterGuildSeqOffline::active_instance->unk_38 = 2;
+        THunterGuildSeqOffline::active_instance->set_state(5);
     }
 }
 
 void THunterGuildSeqOffline::handle_cancel_choice() {
-    u8 *arg0 = (u8 *)this;
     s32 selected_menu_value;
     TWindowMenu *temp_r3 = choice_menu;
     if (temp_r3 != NULL) {
@@ -49,9 +48,9 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 this->display_guild_message(9, 1);
                 *(s32 *)&this->unk_38 = 1;
                 if (quest_result_callbacks[2] != -1) {
-                    m_34 = TQuestThread::create_in_root(quest_result_callbacks[2]);
+                    quest_thread = TQuestThread::create_in_root(quest_result_callbacks[2]);
                 }
-                ((TShopWindowBase *)arg0)->set_state(5);
+                this->set_state(5);
                 return;
             }
             if (selected_menu_value == 1) {
@@ -59,7 +58,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 this->choice_menu = NULL;
                 this->display_guild_message(0xA, 1);
                 *(s32 *)&this->unk_38 = 0;
-                ((TShopWindowBase *)arg0)->set_state(5);
+                this->set_state(5);
                 return;
             }
             goto block_8;
@@ -70,17 +69,17 @@ block_8:
             this->choice_menu = NULL;
             this->display_guild_message(0xA, 1);
             *(s32 *)&this->unk_38 = 0;
-            ((TShopWindowBase *)arg0)->set_state(5);
+            this->set_state(5);
         }
     }
 }
 
 void THunterGuildSeqOffline::close_window() {
-    if (m_34 != 0) {
-        if (((TObject *)m_34)->all_parents_unqueued_for_destruction() == 1) {
+    if (quest_thread != 0) {
+        if (((TObject *)quest_thread)->all_parents_unqueued_for_destruction() == 1) {
             return;
         }
-        m_34 = 0;
+        quest_thread = 0;
     }
     if (is_message_ready() == 0) {
         return;
@@ -149,11 +148,11 @@ void THunterGuildSeqOffline::open_quest_list() {
 }
 
 void THunterGuildSeqOffline::handle_window_input() {
-    TQuestThread *object = m_34;
+    TQuestThread *object = quest_thread;
 
     if (object != NULL) {
         if (object->all_parents_unqueued_for_destruction() != 1) {
-            m_34 = NULL;
+            quest_thread = NULL;
             goto block_3;
         }
     } else {

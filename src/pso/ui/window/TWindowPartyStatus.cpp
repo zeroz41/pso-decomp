@@ -36,10 +36,9 @@ struct Stack_8030C0C4 {
 };
 
 extern "C" {
-s32 TWindowSubComCard__sub_802452DC(int);
-s32 TWindowSubComCard__sub_80245320(void *, void *);
-s32 TWindowSubComCard__sub_802454E4(int);
-s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
+s32 end_window_sweep_draw(int);
+s32 draw_window_sweep_strip(void *, void *);
+s32 begin_window_sweep_draw(int);
 extern s32 __vt__18TWindowPartyStatus[];
 s32 update_lockon_window();
 }
@@ -101,12 +100,11 @@ void TWindowPartyStatus::draw_background(u8 *ctx) {
     draw_textured_quad_at_depth((&stack.sp8), depth);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {
-        TWindowSubComCard__sub_802454E4(0xB);
-        TWindowSubComCard__sub_80245320(&stack.sp8, ctx);
-        TWindowSubComCard__sub_802452DC(0xB);
+        begin_window_sweep_draw(0xB);
+        draw_window_sweep_strip(&stack.sp8, ctx);
+        end_window_sweep_draw(0xB);
     }
 }
-extern "C" {
 
 void TWindowPartyStatus::render() {
     saddr ctx;
@@ -117,7 +115,6 @@ void TWindowPartyStatus::render() {
         &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(ctx));
 }
-}
 
 void TWindowPartyStatus::run_task() {
     saddr arg0 = (saddr)this;
@@ -125,7 +122,7 @@ void TWindowPartyStatus::run_task() {
     draw();
     update_status_help_item((arg0));
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0xAC)));
-    ((TWindowDD *)arg0)->initialize_subwindow();
+    ((TWindowBase *)arg0)->update_window();
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();

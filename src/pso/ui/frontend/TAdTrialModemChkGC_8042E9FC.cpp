@@ -9,17 +9,17 @@
 #include <string.h>
 #include "pso/network/ModemRuntime.h"
 
-// ntUtl library banner; init_shared_memory publishes it in lbl_805D7CB4.
+// ntUtl library banner; init_shared_memory publishes it in shared_memory_version.
 // inferred: name from the string.
 static const char *const ntutl_version = "\nntUtl Ver 1.16.00 Build:Jul  8 2002 11:37:47\n";
 
 // The shared-memory pointers set up by init_shared_memory (SharedMemory.h).
-LaunchDolContext *lbl_805D7CB0;
-const char *lbl_805D7CB4;
-SharedMemoryDiscMessages *lbl_805D7CB8;
+LaunchDolContext *launch_dol_context;
+const char *shared_memory_version;
+SharedMemoryDiscMessages *shared_memory_disc_messages;
 u8 *lbl_805D7CBC;
-SharedMemory *lbl_805D7CC0;
-SharedMemoryConnectParam *lbl_805D7CC4;
+SharedMemory *shared_memory_block;
+SharedMemoryConnectParam *shared_memory_connect_param;
 
 extern "C" {
 // pad_03_8042E9FC_text: the frame-restore epilogue of the reset relocator
@@ -86,18 +86,18 @@ extern "C" {
 s32 set_shared_memory_data(u8 *arg0, u32 arg1) {
     u8 *dst;
     u32 i;
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
     if (arg1 > 0x800U) {
         return -2;
     }
-    dst = lbl_805D7CC0->data;
+    dst = shared_memory_block->data;
     for (i = arg1; i != 0; i--) {
         *dst++ = *arg0++;
     }
-    lbl_805D7CC0->data_size = arg1;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_DATA_SET;
+    shared_memory_block->data_size = arg1;
+    shared_memory_block->flags |= SHARED_MEMORY_DATA_SET;
     return 0;
 }
 #pragma pop
@@ -105,11 +105,11 @@ s32 set_shared_memory_data(u8 *arg0, u32 arg1) {
 #pragma push
 #pragma optimize_for_size off
 void launch_iwanaga_dol(DolHeader *dol_image, s32 arg1) {
-    strcpy(lbl_805D7CB0->dol_name, "iwanaga.dol");
-    lbl_805D7CB0->unk_100 = arg1;
-    lbl_805D7CB0->dol_image = dol_image;
-    lbl_805D7CB0->keep_size = sizeof(SharedMemory);
-    LaunchDol(lbl_805D7CB0);
+    strcpy(launch_dol_context->dol_name, "iwanaga.dol");
+    launch_dol_context->unk_100 = arg1;
+    launch_dol_context->dol_image = dol_image;
+    launch_dol_context->keep_size = sizeof(SharedMemory);
+    LaunchDol(launch_dol_context);
 }
 #pragma pop
 
@@ -119,21 +119,21 @@ void launch_iwanaga_dol(DolHeader *dol_image, s32 arg1) {
 #pragma inline_depth(4)
 void init_shared_memory(void) {
     SharedMemory *p;
-    lbl_805D7CB4 = ntutl_version;
-    if ((s32) lbl_805D7CA8 == 0) {
-        lbl_805D7CB0 = get_launch_dol_context();
-        p = &(*(LaunchDolContext *volatile *) &lbl_805D7CB0)->shared_memory;
-        lbl_805D7CA8 = 1;
-        lbl_805D7CC0 = p;
-        lbl_805D7CC4 = &p->connect_param;
+    shared_memory_version = ntutl_version;
+    if ((s32) shared_memory_ready == 0) {
+        launch_dol_context = get_launch_dol_context();
+        p = &(*(LaunchDolContext *volatile *) &launch_dol_context)->shared_memory;
+        shared_memory_ready = 1;
+        shared_memory_block = p;
+        shared_memory_connect_param = &p->connect_param;
         lbl_805D7CBC = p->unk_6820;
-        lbl_805D7CB8 = &p->disc_messages;
+        shared_memory_disc_messages = &p->disc_messages;
         if (p->magic == SHARED_MEMORY_MAGIC) {
             return;
         }
         memset(p, 0, sizeof(SharedMemory));
-        lbl_805D7CC0->magic = SHARED_MEMORY_MAGIC;
-        lbl_805D7CC0->flags = 0x40;
+        shared_memory_block->magic = SHARED_MEMORY_MAGIC;
+        shared_memory_block->flags = 0x40;
         reset_connect_param("Shared Memory Connect Parameter");
         // "The disc cover is open. To continue the game, close the disc cover."
         set_disc_error_message(0, "\x83" "f\x83" "B\x83X\x83N\x83J\x83o\x81[\x82\xAA\x8AJ\x82\xA2\x82\xC4\x82\xA2\x82\xDC\x82\xB7\n"
@@ -162,14 +162,14 @@ void init_shared_memory(void) {
 #pragma optimize_for_size off
 s32 set_disc_error_message(s32 arg0, const char *arg1) {
     s32 ret = 0;
-    if (lbl_805D7CA8 == 0) {
+    if (shared_memory_ready == 0) {
         return -1;
     }
     if (arg0 < 0 || arg0 > 4) {
         return -2;
     }
-    memset(lbl_805D7CB8->message[arg0], 0, sizeof(lbl_805D7CB8->message[arg0]));
-    strncpy(lbl_805D7CB8->message[arg0], arg1, sizeof(lbl_805D7CB8->message[arg0]) - 1);
+    memset(shared_memory_disc_messages->message[arg0], 0, sizeof(shared_memory_disc_messages->message[arg0]));
+    strncpy(shared_memory_disc_messages->message[arg0], arg1, sizeof(shared_memory_disc_messages->message[arg0]) - 1);
     if (strlen(arg1) >= 0x100) {
         ret = -2;
     }
@@ -219,89 +219,89 @@ block_18:
 }
 
 s32 fn_8042EF48(s8 arg0) {
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    lbl_805D7CB8->unk_000 = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_DISC_MESSAGES_SET;
+    shared_memory_disc_messages->unk_000 = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_DISC_MESSAGES_SET;
     return 0;
 }
 }
 
 s32 set_modem_check_param_360(s8 arg0) {
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    lbl_805D7CC4->check_param_360 = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
+    shared_memory_connect_param->check_param_360 = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
 s32 set_modem_param(s16 arg0) {
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    lbl_805D7CC4->modem_param = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
+    shared_memory_connect_param->modem_param = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
 s32 set_modem_check_char(s8 arg0) {
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    lbl_805D7CC4->check_char = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
+    shared_memory_connect_param->check_char = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
 s32 set_modem_flag(s8 arg0) {
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    lbl_805D7CC4->modem_flag = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
+    shared_memory_connect_param->modem_flag = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
 s32 set_modem_check_param(s32 arg0) {
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    lbl_805D7CC4->check_param = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
+    shared_memory_connect_param->check_param = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
 s32 TAdTrialModemChkGC__sub_8042F080(s16 arg0) {
-    lbl_805D7CC4->unk_1C2 = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
+    shared_memory_connect_param->unk_1C2 = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
 s32 set_modem_trial_param(s16 arg0) {
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    lbl_805D7CC4->trial_param = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
+    shared_memory_connect_param->trial_param = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
 s32 TAdTrialModemChkGC__sub_8042F0D4(s8 arg0) {
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    lbl_805D7CC4->unk_13D = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
+    shared_memory_connect_param->unk_13D = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
 s32 ntUtlExSetDialType(s8 arg0) {
-    if ((s32) lbl_805D7CA8 == 0) {
+    if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    lbl_805D7CC4->unk_13C = arg0;
-    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
+    shared_memory_connect_param->unk_13C = arg0;
+    shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }

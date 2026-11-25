@@ -26,13 +26,13 @@ BmlResourceDescriptor bm_fs_obj_o_doorswitch01_resource_descriptor = {
 CollisionBody key_ancient02_collision_body[] = {
     {{0.0f, 10.0f, 0.0f}, 3.0f, 0.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-const char *TOKeyAncient02__class_name = "TOKeyAncient02";
-BmlResource *TOKeyAncient02__model_archive;
-NJS_OBJECT *TOKeyAncient02__glass_model;
+const char *key_ancient02_class_name = "TOKeyAncient02";
+BmlResource *key_ancient02_model_archive;
+NJS_OBJECT *key_ancient02_glass_model;
 // The glass's own texture list while off, o_key_ancient02.gvm while on.
 struct NJS_TEXLIST;
 
-NJS_TEXLIST **TOKeyAncient02__texture_lists;
+NJS_TEXLIST **key_ancient02_texture_lists;
 
 void TOKeyAncient02::vfunc_25() {}
 
@@ -62,9 +62,9 @@ void TOKeyAncient02::render() {
         draw_ginja_model((void *)object->model);
         pop_matrix();
         pop_matrix();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TOKeyAncient02__texture_lists[is_on]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(key_ancient02_texture_lists[is_on]));
         TParticleCtrl::begin_effect_render();
-        object = TOKeyAncient02__glass_model;
+        object = key_ancient02_glass_model;
         push_matrix();
         post_translate_matrix(object->pos);
         draw_ginja_model((void *)object->model);
@@ -125,27 +125,27 @@ void *TOKeyAncient02::create(void *set_data) {
 }
 
 void TOKeyAncient02::free_static() {
-    if (TOKeyAncient02__texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)TOKeyAncient02__texture_lists[1]);
-        if (TOKeyAncient02__texture_lists != NULL) {
-            mem_free(TOKeyAncient02__texture_lists);
-            TOKeyAncient02__texture_lists = NULL;
+    if (key_ancient02_texture_lists != NULL) {
+        TObjPlayer::free_if_valid((saddr)key_ancient02_texture_lists[1]);
+        if (key_ancient02_texture_lists != NULL) {
+            mem_free(key_ancient02_texture_lists);
+            key_ancient02_texture_lists = NULL;
         }
     }
-    if (TOKeyAncient02__model_archive != NULL) {
-        delete TOKeyAncient02__model_archive;
-        TOKeyAncient02__model_archive = NULL;
+    if (key_ancient02_model_archive != NULL) {
+        delete key_ancient02_model_archive;
+        key_ancient02_model_archive = NULL;
     }
-    TOKeyAncient02__glass_model = NULL;
+    key_ancient02_glass_model = NULL;
 }
 
 void TOKeyAncient02::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_o_doorswitch01_resource_descriptor, 0, 0, NULL);
-    TOKeyAncient02__model_archive = resource;
-    TOKeyAncient02__texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*TOKeyAncient02__texture_lists));
-    TOKeyAncient02__texture_lists[0] = get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 0);
-    TOKeyAncient02__texture_lists[1] = LoadPvmFileTls("o_key_ancient02.gvm");
-    TOKeyAncient02__glass_model = (NJS_OBJECT *)get_bml_model((BmlResource *)TOKeyAncient02__model_archive, 0);
+    key_ancient02_model_archive = resource;
+    key_ancient02_texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*key_ancient02_texture_lists));
+    key_ancient02_texture_lists[0] = get_bml_texlist((BmlResource *)key_ancient02_model_archive, 0);
+    key_ancient02_texture_lists[1] = LoadPvmFileTls("o_key_ancient02.gvm");
+    key_ancient02_glass_model = (NJS_OBJECT *)get_bml_model((BmlResource *)key_ancient02_model_archive, 0);
 }
 
 TOKeyAncient02::~TOKeyAncient02() {
@@ -154,11 +154,11 @@ TOKeyAncient02::~TOKeyAncient02() {
 }
 
 TOKeyAncient02::TOKeyAncient02(TObject *parent, void *set_data) : TOKey(parent) {
-    m_name = TOKeyAncient02__class_name;
+    m_name = key_ancient02_class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    model = (void *)get_bml_model((BmlResource *)TOKeyAncient02__model_archive, 1);
-    texlist = get_bml_texlist((BmlResource *)TOKeyAncient02__model_archive, 1);
+    model = (void *)get_bml_model((BmlResource *)key_ancient02_model_archive, 1);
+    texlist = get_bml_texlist((BmlResource *)key_ancient02_model_archive, 1);
     init_collision_body_parts(this, key_ancient02_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

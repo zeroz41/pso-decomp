@@ -14,7 +14,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *TBoss8DragonEffBreath__name = "TBoss8DragonEffBreath";
+const char *TBoss8DragonEffBreath::name = "TBoss8DragonEffBreath";
 
 void TBoss8DragonEffBreath::render() {  }
 
@@ -23,30 +23,30 @@ void TBoss8DragonEffBreath::run_task() {
     f32 y;
     uaddr ent;
 
-    vec3_add_to(&m_1c, &m_28);
-    y = m_1c.y;
+    vec3_add_to(&position, &velocity);
+    y = position.y;
     if (y < -10.0f) {
         queue_destruction();
         return;
     }
-    if ((y < 30.0f) && ((ent = (uaddr)get_enemy_entity(m_38)) != 0U)) {
-        ((TBoss8Dragon *)ent)->setup_breath_instance(&m_1c, m_34, m_3c);
+    if ((y < 30.0f) && ((ent = (uaddr)get_enemy_entity(owner_entity_id)) != 0U)) {
+        ((TBoss8Dragon *)ent)->setup_breath_instance(&position, attack_kind, attack_history);
     }
 }
 
 }
 TBoss8DragonEffBreath::~TBoss8DragonEffBreath() {
-    delete m_3c;
-    m_3c = 0;
+    delete attack_history;
+    attack_history = 0;
 }
-TBoss8DragonEffBreath::TBoss8DragonEffBreath(TObject *parent, Vec *pos, Vec *velocity, s32 kind, u16 owner) : TObject(parent) {
-    m_name = TBoss8DragonEffBreath__name;
-    VecCopy(&m_1c, pos);
-    VecCopy(&m_28, velocity);
-    m_28.x *= 5.0f;
-    m_28.y *= 5.0f;
-    m_28.z *= 5.0f;
-    m_34 = kind;
-    m_38 = owner;
-    m_3c = new AreaAttackHistory(4);
+TBoss8DragonEffBreath::TBoss8DragonEffBreath(TObject *parent, Vec *pos, Vec *direction, s32 kind, u16 owner) : TObject(parent) {
+    m_name = TBoss8DragonEffBreath::name;
+    VecCopy(&position, pos);
+    VecCopy(&velocity, direction);
+    velocity.x *= 5.0f;
+    velocity.y *= 5.0f;
+    velocity.z *= 5.0f;
+    attack_kind = kind;
+    owner_entity_id = owner;
+    attack_history = new AreaAttackHistory(4);
 }

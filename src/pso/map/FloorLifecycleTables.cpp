@@ -141,7 +141,6 @@ void free_ancient_container_resources();
 void TContainerAncient01R__sub_8018AF74();
 void load_door_jung_resources();
 void release_boss_warp_resources();
-void TLanguage__sub_802A0204();
 void load_lobby_butterfly_bml_resource();
 }
 void load_labo_design_object_table();
@@ -945,8 +944,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_28[26] = {
     { TOMine::load_static_resource, TOMine::free_instance },
     { load_computer_resources, TObjComputer::free_resources },
     { TObjFish::load_area_resource, TObjFish::free_resource },
-    { TLanguage__sub_802A0204, TLobby::free_chr_select_slots },
-    { TLanguage__sub_8029FF0C, TLobby::free_global_buffers },
+    { load_seabed_four_light_door_resources, free_seabed_four_light_door_resources },
+    { load_seabed_u_four_light_door_resources, free_seabed_u_four_light_door_resources },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { TObjSeabedSuisoBrakable::load_resources, TObjSeabedSuisoBrakable::free_static_resources },
     { TOMekaFish00::load_shared_resource, TOMekaFish00::release_static_instance },
@@ -974,8 +973,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_29[26] = {
     { TOMine::load_static_resource, TOMine::free_instance },
     { load_computer_resources, TObjComputer::free_resources },
     { TObjFish::load_area_resource, TObjFish::free_resource },
-    { TLanguage__sub_802A0204, TLobby::free_chr_select_slots },
-    { TLanguage__sub_8029FF0C, TLobby::free_global_buffers },
+    { load_seabed_four_light_door_resources, free_seabed_four_light_door_resources },
+    { load_seabed_u_four_light_door_resources, free_seabed_u_four_light_door_resources },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { TObjSeabedSuisoBrakable::load_resources, TObjSeabedSuisoBrakable::free_static_resources },
     { TOMekaFish00::load_shared_resource, TOMekaFish00::release_static_instance },

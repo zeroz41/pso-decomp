@@ -24,7 +24,6 @@ const char *TWindowSubLog__class_name = "TWindowSubLog";
 
 struct Lg_8027B194 { s32 f0; u8 pad4[0x14]; void *vt; void *client_id; void *f20; s32 f24; void *f28; u8 f2c[0x10]; };
 
-extern "C" {
 const NJS_POINT2 lbl_8044F9C8 = {17.0f, 36.0f};
 const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
 
@@ -60,7 +59,6 @@ void TWindowSubLog::run_task() {
     }
 }
 
-}
 TWindowSubLog::~TWindowSubLog() {
     if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->chat = 0; }
     if (*(void **)((s8 *)this + 0x24) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x24)))->close(); this->m_24 = 0; }
@@ -84,8 +82,8 @@ TWindowSubLog::TWindowSubLog(TObject *parent, s32 client) : TObject(parent) {
     fn_8027B2A8((void*)(((Lg_8027B194 *)this)->f28));
 }
 
-void TWindowMainMenu::clear_log_active() { state_flags &= ~8; }
+void TWindowMainMenu::clear_log_active() { menu_flags &= ~8; }
 void TWindowMainMenu::restore_after_subwindow() { show_child_window(); }
-void TWindowMainMenu::set_log_active() { state_flags |= 8; }
+void TWindowMainMenu::set_log_active() { menu_flags |= 8; }
 void TWindowMainMenu::hide_for_subwindow() { update_trade_submenu(); }
 void fn_8027B2A8(void* p) { *(u16*)((char*)p + 0x1e) |= 0x200; }

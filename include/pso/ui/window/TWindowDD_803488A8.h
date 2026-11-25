@@ -15,7 +15,7 @@ extern "C" {
 extern WindowTexturePoint TWindowDD__data_805434E8[7][8];
 void TWindowDD__sub_803489B8(WindowDrawContext *context, WindowVertex *vertices, s32 row);
 void TWindowDD__sub_80348A2C(WindowDrawContext *context, WindowVertex *vertices);
-f32 TWindowDD__sub_80348AD4(f32 depth, f32 offset);
+f32 word_select_inverse_depth(f32 depth, f32 offset);
 saddr get_word_select_token_text(s16 id);
 }
 

@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/weapon/TUnk_804A1F20.h"
+#include "pso/weapon/TItemWeaponDelsabersBuster.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A1F20::update_weapon() {
+void TItemWeaponDelsabersBuster::update_weapon() {
     NJS_OBJECT *model;
 
     refresh_owner_stats();
@@ -15,12 +15,12 @@ void TUnk_804A1F20::update_weapon() {
     }
 }
 
-TUnk_804A1F20::~TUnk_804A1F20() {}
-TUnk_804A1F20::TUnk_804A1F20(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
+TItemWeaponDelsabersBuster::~TItemWeaponDelsabersBuster() {}
+TItemWeaponDelsabersBuster::TItemWeaponDelsabersBuster(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-TItem *create_delsabers_buster_weapon(u8 *item) {
+TItem *TItemWeaponDelsabersBuster::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A1F20(tl_05, item);
+        return new TItemWeaponDelsabersBuster(tl_05, item);
     }
     return NULL;
 }

@@ -6,10 +6,10 @@
 #include "pso/system/vector.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/weapon/TUnk_804F0A00.h"
-#include "pso/weapon/TUnk_804F0AF8.h"
-#include "pso/weapon/TUnk_804F0908.h"
-#include "pso/weapon/TUnk_804F0810.h"
+#include "pso/weapon/TItemWeaponGiGueBazooka.h"
+#include "pso/weapon/TItemWeaponNeisClaw.h"
+#include "pso/weapon/TItemWeaponRappysFan.h"
+#include "pso/weapon/TItemWeaponRikasClaw.h"
 #include "pso/weapon/TExplosionCollider.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/render/MaterialColorFade.h"
@@ -26,7 +26,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
@@ -50,7 +50,7 @@ void TItemEffPG::create(TObject *parent, ItemEffPGParams *params) {
     new TItemEffPG(parent, params);
 }
 
-TItemEffPG::TItemEffPG(TObject *parent, ItemEffPGParams *params) : TUnk_804E355C(parent, params) {
+TItemEffPG::TItemEffPG(TObject *parent, ItemEffPGParams *params) : TItemAttackColBase(parent, params) {
     m_name = class_name;
     max_radius = params->max_radius;
     if (50.0f < max_radius) {
@@ -58,7 +58,7 @@ TItemEffPG::TItemEffPG(TObject *parent, ItemEffPGParams *params) : TUnk_804E355C
     }
     radius_step = params->radius_step;
     required_charge = params->required_charge;
-    pad_B0 *= 3.0f;
+    accuracy *= 3.0f;
     visual = new TItemEffPGModel(this, params);
 }
 

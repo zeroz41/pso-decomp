@@ -8,7 +8,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 
-struct CurvePathPoint;
+#include "pso/math/CurvePathPoint.h"
 class AreaAttackHistory;
 struct DragonAttackParams;
 struct TBoss8DragonEffTail;
@@ -154,7 +154,7 @@ public:
     s32 lobby_state_changed;  // as TBoss1Dragon::lobby_state_changed: lobby_state became 0
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
-    static s32 copy_pos_to_field688(void *p);
+    static s32 set_destination_to_position(void *p);
     static void capture_node_points(NJS_OBJECT *);
     void calc_velocity_from_angle();
     f32 clamp_step_in_radius(f32 a, f32 b, f32 s);
@@ -191,7 +191,7 @@ public:
     void send_action_packet(int action);
     void apply_ground_movement(Vec *step);
     void sweep_body_attack_spheres(f32 a, f32 b, f32 c);
-    void copy_pos_to_field688();
+    void set_destination_to_position();
     void restore_target_pos();
     void sync_target_pos();
     void release_grabbed_player();
@@ -308,6 +308,9 @@ public:
     void update_stand_state(s32 event);
     // Mode 0: no motion of its own; the next choice picks the next action (mode 24 when controlled).
     void update_idle_state(s32 event);
+    static CurvePathPoint dive_height_curve[3];
+    static s32 camera_offset_index_table[5];
+    static const DragonAttackParams breath_params;
 };
 
 #include <stddef.h>
@@ -335,6 +338,6 @@ struct Boss8DragonParams {
 // Nonzero while a debug controller steers the dragon (TBoss8Dragon::select_freeze_target).
 extern s32 boss8_dragon_player_control;
 
-void handle_6xA8_gol_dragon_boss_actions(void *data);
+void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *packet);
 
 #endif

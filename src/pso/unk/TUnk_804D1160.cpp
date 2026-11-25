@@ -31,7 +31,7 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
-struct Win_802758C8 {
+struct UpdateCustomizeHelpTextWindow {
     u8 pad0[0x20];
     s32 player;
     u8 pad24[0x30 - 0x24];
@@ -40,7 +40,7 @@ struct Win_802758C8 {
     u16 id;
 };
 
-struct Ev_802758C8 {
+struct RunTaskEv {
     u16 kind;
     u16 id;
 };
@@ -52,7 +52,7 @@ public:
     virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
 };
 
-struct Self_80275A8C {
+struct RunTaskSelf {
     u8 pad0[0x1C];
     u8 state;
     u8 pad1d[3];
@@ -80,9 +80,9 @@ TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TO
     main_menu = parent;
     client_id = client;
     custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
-    ((TWindowBase *)custom_equip)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 0));
+    ((TWindowBase *)custom_equip)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 0));
     help_window = (uaddr)TWindowMessage::create(get_window_layout_position(0x11), lbl_8044F718, 1, client_id);
-    ((TWindowBase *)help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 2));
+    ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 2));
     call_if_split_screen(help_window, client_id);
     custom_select = 0;
     help_kind = 0;
@@ -106,8 +106,8 @@ TCustomizeMenuCtrl::~TCustomizeMenuCtrl() {
 }
 
 void TCustomizeMenuCtrl::run_task() {
-    Self_80275A8C *self = (Self_80275A8C *)this;
-    Ev_802758C8 ev;
+    RunTaskSelf *self = (RunTaskSelf *)this;
+    RunTaskEv ev;
     switch (self->state) {
     case 0:
     case 1:
@@ -129,7 +129,7 @@ void TCustomizeMenuCtrl::run_task() {
         break;
     case 3:
         self->f2c = new TWindowSubCustomSelect(client_id);
-        ((TWindowBase *)self->f2c)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1));
+        ((TWindowBase *)self->f2c)->set_depth(get_main_menu_layer_depth((u8 *)self->f24, 1));
         self->state = 4;
     case 4:
         ((TCustomizeMenuCtrl *)self)->update_customize_help_text(static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action());
@@ -150,8 +150,8 @@ void TCustomizeMenuCtrl::run_task() {
 void TCustomizeMenuCtrl::render() {  }
 
 void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
-    Win_802758C8 *self = (Win_802758C8 *)this;
-    Ev_802758C8 *ev = (Ev_802758C8 *)ev_arg;
+    UpdateCustomizeHelpTextWindow *self = (UpdateCustomizeHelpTextWindow *)this;
+    RunTaskEv *ev = (RunTaskEv *)ev_arg;
     u8 *pl;
     s32 lvl;
     toggle_help_window_on_button(self->lobby, self->player);

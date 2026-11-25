@@ -24,15 +24,15 @@ void TObjCMIcon::reset_icon_flags() {
     }
 }
 
-void TObjCMIcon::show_icon(s32 index) {
+void TObjCMIcon::show_creation_icon(s32 index) {
     creation_icon_states[index].hidden = 0;
 }
 
-void TObjCMIcon::show_icons(s32 count, const s32 *ids) {
+void TObjCMIcon::show_only_creation_icons(s32 count, const s32 *ids) {
     s32 i;
     reset_icon_flags();
     for (i = 0; i < count; i++) {
-        show_icon(ids[i]);
+        show_creation_icon(ids[i]);
     }
 }
 

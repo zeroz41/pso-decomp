@@ -19,16 +19,16 @@
 
 #pragma readonly_strings on
 
-const char *TObjEneMe1GiGueBarrier__name = "TObjEneMe1GiGueBarrier";
-BmlResource *TObjEneMe1GiGueBarrier__barrier_resource_object;
-TObjMotionAction TObjEneMe1GiGueBarrier__animation_definitions[3] = {
+const char *me1_gi_gue_barrier_name = "TObjEneMe1GiGueBarrier";
+BmlResource *me1_gi_gue_barrier_barrier_resource_object;
+TObjMotionAction me1_gi_gue_barrier_animation_definitions[3] = {
     { MOTION_MODE_ONCE, 0, 6, 1.0f, 0x1 },
     { MOTION_MODE_LOOP, 0, 7, 1.0f, 0x0 },
     { MOTION_MODE_ONCE, 0, 8, 1.0f, 0x1 },
 };
 
 void TObjEneMe1GiGueBarrier::render() {
-    if (TObjEneMe1GiGueBarrier__barrier_resource_object == NULL) {
+    if (me1_gi_gue_barrier_barrier_resource_object == NULL) {
         queue_destruction();
         return;
     }
@@ -95,7 +95,7 @@ TObjEneMe1GiGueBarrier::~TObjEneMe1GiGueBarrier() {
 
 TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj) : TObjMotion(parent) {
     BmlModelEntry *models;
-    m_name = TObjEneMe1GiGueBarrier__name;
+    m_name = me1_gi_gue_barrier_name;
     owner = (TObjEneMe1GiGue *)owner_obj;
     owner_id = owner->get_entity_id();
     VecCopy(&position, owner->update_and_get_pos());
@@ -103,11 +103,11 @@ TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner_obj)
     timer = owner->get_barrier_duration();
     owner->set_barrier_active();
     phase = 0;
-    model = (void *)TObjEneMe1GiGueBarrier__barrier_resource_object->models[2].model;
-    models = TObjEneMe1GiGueBarrier__barrier_resource_object->models;
+    model = (void *)me1_gi_gue_barrier_barrier_resource_object->models[2].model;
+    models = me1_gi_gue_barrier_barrier_resource_object->models;
     texlist = models[2].texlist;
-    set_action_table(TObjEneMe1GiGueBarrier__animation_definitions);
-    set_motion_list(TObjEneMe1GiGueBarrier__barrier_resource_object->motions);
+    set_action_table(me1_gi_gue_barrier_animation_definitions);
+    set_motion_list(me1_gi_gue_barrier_barrier_resource_object->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
@@ -120,5 +120,5 @@ void *TObjEneMe1GiGueBarrier::create(void *parent, void *owner) {
 }
 
 void TObjEneMe1GiGueBarrier::init_global() {
-    TObjEneMe1GiGueBarrier__barrier_resource_object = TObjEneMe1GiGue::get_resource();
+    me1_gi_gue_barrier_barrier_resource_object = TObjEneMe1GiGue::get_resource();
 }

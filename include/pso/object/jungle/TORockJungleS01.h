@@ -14,8 +14,8 @@ struct GinjaTextureList;
 struct TORockJungleS01 : public TORockCaveBrakable {
     TORockJungleS01(void *set_data);
     virtual ~TORockJungleS01();
-    virtual void vfunc_16();
-    virtual void vfunc_18();
+    virtual void throw_debris();
+    virtual void play_break_sound();
     TObjMapCsn *map_csn;     // the rock's map collision
     static void *create(void *set_data);
     static NJS_OBJECT *get_model(s32 index);

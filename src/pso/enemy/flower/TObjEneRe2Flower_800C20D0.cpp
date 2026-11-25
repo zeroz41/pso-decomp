@@ -203,7 +203,7 @@ void TObjEneRe2Flower::state_self_destruct(s32 reason) {
         clear_intangible();
         clear_child_flags();
         flags &= ~8;
-        set_field_378(8);
+        set_next_mode(8);
         if (!(flags & 4)) {
             flags |= 4;
             state_step = 0;
@@ -227,9 +227,9 @@ void TObjEneRe2Flower::state_self_destruct(s32 reason) {
                 DragonAttackParams prm = re2_flower_tower_attack_params;
                 prm.contact.recoil = prm.attack.power = *re2_flower_movement_params;
                 if (is_tower_variant() != 0) {
-                    TObjEneDD__sub_800BA5A4(this, &prm);
+                    setup_attack_at_owner(this, &prm);
                 } else {
-                    TObjEneDD__sub_800BA5A4(this, &enemy_dd_attack_param_block);
+                    setup_attack_at_owner(this, &enemy_dd_attack_param_block);
                 }
             }
             play_sound_effect(remap_sound_for_variant(0x4003A311), &position, 0, 0);
@@ -292,7 +292,7 @@ void TObjEneRe2Flower::state_laugh(s32 reason) {
         clear_intangible();
         clear_child_flags();
         flags &= ~8;
-        set_field_378(3);
+        set_next_mode(3);
         state_step = 0;
         play_sound_effect(remap_sound_for_variant(0x4003A315), &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);

@@ -1,0 +1,35 @@
+#ifndef PSO_ENEMY_TOBJENEME1GIGUEHOMINGSHOT_H
+#define PSO_ENEMY_TOBJENEME1GIGUEHOMINGSHOT_H
+#include "types.h"
+#include "pso/object/base/TObjMotion.h"
+
+class TParticleCtrl;
+
+// x turns the start velocity about x, y about y (rotate_matrix_x / rotate_matrix_y)
+struct GiGueShotAngles { s32 x, y, z; };
+
+// GiGue's homing shot: waits `timer` frames, then flies from *start toward target_id and hits it
+// (made by TObjEneMe1GiGue::sub_802CB824; the vtable at 0x804E14E8 overrides only the dtor and run_task).
+class TObjEneMe1GiGueHomingShot : public TObjCollidable {
+public:
+    TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id);
+    virtual ~TObjEneMe1GiGueHomingShot();
+    virtual void run_task();
+    Vec pos;
+    Vec prev;
+    Vec vel;
+    u8 pad_D0[0x18];
+    f32 m_e8;
+    s32 timer;
+    Vec *start;
+    f32 speed;
+    TParticleCtrl *ptcl0;
+    TParticleCtrl *ptcl1;
+    s32 state;
+    s32 double_hit;            // 1: a second hit of kind 0x12 follows
+    u16 target_id;
+    u16 src_id;
+};
+LAYOUT_ASSERT(TObjEneMe1GiGueHomingShot_size, sizeof(TObjEneMe1GiGueHomingShot) == 0x10C);
+
+#endif

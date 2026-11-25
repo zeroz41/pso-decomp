@@ -28,9 +28,9 @@
 #include "pso/object/base/TObjBase.h"
 #pragma defer_codegen on
 
-NJS_OBJECT *TObjEneRe4Bit__model;
+NJS_OBJECT *re4_bit_model;
 NJS_TEXLIST *re4_bit_texture_list;
-const char *TObjEneRe4Bit__name = TObjEneRe4Bit__class_name_string;
+const char *re4_bit_name = TObjEneRe4Bit__class_name_string;
 
 TObjEneRe4InitParams re4_bit_init_params = {225.0f, 0.0f, 0x600};
 CollisionBody re4_bit_model_node_desc = {{0.0f, 0.0f, 0.0f}, 2.0f, 0.0f, 0, 0x8003};
@@ -60,7 +60,7 @@ void TObjEneRe4Bit::apply_poison_status() {  }
 
 void TObjEneRe4Bit::load_resources() {
     s32 i;
-    TObjEneRe4Bit__model = sorcerer_bml_resource->models[1].model;
+    re4_bit_model = sorcerer_bml_resource->models[1].model;
     re4_bit_texture_list = sorcerer_bml_resource->models[0].texlist;
     for (i = 0; i < 2; i++) {
         TObjEneRe4Bit_boss_handles[i] = TLobby::register_boss(re4_bit_base_param_ids[i]);
@@ -86,7 +86,7 @@ void TObjEneRe4Sorcerer::create_enabled(Vec *anchor, u16 id, s32 set_index) {
 
 TObjEneRe4Bit::TObjEneRe4Bit(TObject *parent, TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index)
     : TObjEneDD_ST(parent) {
-    m_name = TObjEneRe4Bit__name;
+    m_name = re4_bit_name;
     init_common_from(owner);
     owner_id = ((TObjBase *)owner)->get_entity_id();
     entity_id = id;
@@ -101,7 +101,7 @@ void TObjEneRe4Bit::init() {
     s32 i;
 
     init_position_vectors();
-    model = TObjEneRe4Bit__model;
+    model = re4_bit_model;
     texlist = re4_bit_texture_list;
     init_model(&re4_bit_model_node_desc, 1);
     i = enabled == 1 ? 0 : 1;
@@ -348,7 +348,7 @@ void TObjEneRe4Bit::handle_event(s32 mode) {
 
     switch (mode) {
     case 4:
-        set_field_378(1);
+        set_next_mode(1);
         behavior_flags &= ~0x1000;
         break;
     case 3:
@@ -379,7 +379,7 @@ void TObjEneRe4Bit::update_raise_state(s32 reason) {
     u32 flags;
     switch (reason) {
     case 4:
-        this->set_field_378(3);
+        this->set_next_mode(3);
         this->behavior_flags |= 0x1000;
         this->state_step = 0;
         this->cast_state = 1;
@@ -421,7 +421,7 @@ void TObjEneRe4Bit::update_raise_state(s32 reason) {
 void TObjEneRe4Bit::update_lower_state(s32 reason) {
     switch (reason) {
     case 4:
-        this->set_field_378(3);
+        this->set_next_mode(3);
         this->behavior_flags &= ~0x1000;
         this->texture_index = 3;
         break;

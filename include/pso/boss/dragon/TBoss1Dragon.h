@@ -2,6 +2,8 @@
 #define PSO_BOSS_DRAGON_TBOSS1DRAGON_H
 
 #include "types.h"
+struct G_DragonBossActions_6x10_6x11;
+struct G_DragonBossActions_6x12;
 
 struct NJS_TEXLIST;
 #include "pso/render/RenderFadeState.h"
@@ -13,7 +15,7 @@ class TParticleCtrl;
 class AreaAttackHistory;
 class TObject;
 class TBoss1DragonColli;
-class TUnk_80481B34;
+class TBoss1DragonAttackCollider;
 class TObjBoss1MokoHill_SoloM;
 class TObjChara;
 struct TObjPlayer;
@@ -128,7 +130,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 controlTimer;
     s32 facingAngle;
     s32 attack_kind;  // the fire attacks' DragonAttackParams kind: 1, 0x13 in V2
-    TUnk_80481B34 *attack_collider;  // the V2 attacks place this sphere instead of TObjEneDD's effects
+    TBoss1DragonAttackCollider *attack_collider;  // the V2 attacks place this sphere instead of TObjEneDD's effects
     DragonEffectResource* effectResource;
     u32 randomState[58];
     s32 stateStep;
@@ -174,8 +176,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void spawn_impact_crater(Vec *pos);
     s32 check_phase_advance();
     s32 update_max_hp_phase();
-    void set_params(void *packet);
-    void copy_params(void *packet);
+    void set_params(G_DragonBossActions_6x10_6x11 *packet);
+    void copy_params(G_DragonBossActions_6x10_6x11 *packet);
     void reload_impact_stats();
     void reload_stats_for_phase(int);
     void reset_tail_hp();
@@ -205,7 +207,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void sweep_death_body_attack();
     void apply_foot_step_attack(int side);
     void next_sequence_action();
-    void receive_state_request(u8 *packet);
+    void receive_state_request(G_DragonBossActions_6x12 *packet);
     void update_air_fire_state(u32 reason);
     void remap_sequence_after_recovery();
     void update_emergence_state(u32 reason);
@@ -247,15 +249,18 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void emit_v2_enemy_effect(const Vec *position, const DragonAttackParams *params, AreaAttackHistory *history);
     void set_burrow_height();
     void set_flight_height();
+    static const char *name;
+    static const DragonAttackParams foot_step_attack_params;
+    static const f32 gravity_accel;
 };
 
 void get_dragon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset);
 // The movement ailment (kind 0) the Dragon's hit boxes, tail and craters give a target not in state 2.
 void apply_dragon_hit_ailment(TObjChara *target);
 
-void handle_6x10_dragon_boss_actions(void *packet);
-void handle_6x11_dragon_boss_actions(void *packet);
-void handle_6x12_dragon_boss_actions(TObjPlayer *packet);
+void handle_6x10_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
+void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
+void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet);
 
 #include <stddef.h>
 #define DRAGON_OFFSET(member, offset) \
@@ -304,5 +309,21 @@ DRAGON_OFFSET(savedX, 0x698);
 DRAGON_OFFSET(facingAngle, 0x76C);
 LAYOUT_ASSERT(DragonSize, sizeof(TBoss1Dragon) == 0x8BC);
 #undef DRAGON_OFFSET
+
+struct ByteBlock_C { u8 bytes[0xC]; };
+struct DragonCaptureVectors { Vec vectors[3]; };
+// The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
+// landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.
+struct Boss1DragonParams {
+    f32 breath_attack_power;   // deliver_breath_attack
+    f32 fireball_impact_power; // apply_fireball_impact_damage; 0.666 of it for the craters
+    f32 trail_attack_power;    // the burrow trail hit while the mound trail is damaging (apply_trail_attack)
+    f32 landing_attack_radius; // apply_landing_attack: the hit body radius
+    f32 walk_speed_scale;      // V2 walking speed scale (V1 uses 0.8)
+    f32 flight_speed;          // V2 flight speed (V1 2.0); 256 times it is the turn speed
+    s32 defense[3];            // update_body_colliders: [0] body 5, [1] bodies 1 and 2, [2] bodies 0, 3, 4, 6
+};
+struct DragonModelState { s32 state[2]; f32 params[4]; };
+struct DragonEffectRotation { s32 x, y, z; };
 
 #endif

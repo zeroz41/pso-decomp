@@ -65,7 +65,6 @@ TWindowSubQuestBoard::~TWindowSubQuestBoard() {
     if (select_window != NULL) { select_window->close(); select_window = NULL; }
 }
 
-extern "C" {
 void TWindowSubQuestBoard::run_task() {
     switch (this->state) {
     case 0:
@@ -192,7 +191,7 @@ saddr TWindowSubOption::create_option_menu_window() {
     titled_window_menu->set_flag70_bit10();
     titled_window_menu->update_layout_height(195.0f);
     align_menu_entry_positions(titled_window_menu);
-    titled_window_menu->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 0));
+    titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent, 0));
     return (saddr)titled_window_menu;
 }
 
@@ -247,7 +246,7 @@ saddr TWindowSubOption::create_option_value_window(s32 option) {
     }
     ((TWindowSubStatusDisp *)window)->set_selected_index(value);
     ((TWindowSubShortCutList *)window)->set_flag70_bit10();
-    ((TWindowBase *)window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 1));
+    ((TWindowBase *)window)->set_depth(get_main_menu_layer_depth((u8 *)parent, 1));
     return window;
 }
 
@@ -291,5 +290,4 @@ void TWindowSubOption::update_photon_selection() {
             start_pad_rumble_client(0xC0, 0xF, (s16)client_id);
         }
     }
-}
 }

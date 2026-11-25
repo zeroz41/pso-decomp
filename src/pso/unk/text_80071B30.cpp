@@ -12,9 +12,9 @@
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 
-struct Hdr_80071BC0 { u32 a, b; };
+struct RebuildPlayersForStageHdr { u32 a, b; };
 
-struct Chr_80071BC0 {
+struct RebuildPlayersForStageChr {
     u8 pad0[0x31];
     u8 f31;
     u8 pad32[0x34 - 0x32];
@@ -50,9 +50,9 @@ extern "C" {
 void copy_player_visual_record(void *, void *);
 extern s32 local_client_id;
 void TObjPlayer::rebuild_players_for_stage(s32 stage) {
-    Hdr_80071BC0 hdr;
+    RebuildPlayersForStageHdr hdr;
     Vec pos;
-    Chr_80071BC0 chr;
+    RebuildPlayersForStageChr chr;
     s32 i;
     TObjPlayer *p;
     Tbl_80071BC0 *t;

@@ -33,6 +33,7 @@ struct TObjDFHorming : public TObjChara {
     Vec target_position;       // the target's body_center, refreshed each frame
     f32 lock_distance;         // steering locks on once target_distance is inside it
     f32 target_distance;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjDFHorming_velocity_offset, offsetof(TObjDFHorming, velocity) == 0x348);
@@ -43,5 +44,10 @@ struct TBoss4DarkFalz;
 // Copies one 0x40-byte enemy set entry (see TBoss4DarkFalzSetEntry) field by field. Name inferred
 // from that body; every boss spawner that clones a set entry template calls it.
 extern "C" void copy_set_entry(void *dst, void *src);
+
+// One arena zone of the fight (push_players_out_of_zone): players farther than radius from the center of
+// the zone being entered who stand inside another zone land at landing, spread from it along their offset
+// from that zone's center.
+struct DarkFalzPushZone { Vec center; f32 radius; Vec landing; f32 spread; };
 
 #endif

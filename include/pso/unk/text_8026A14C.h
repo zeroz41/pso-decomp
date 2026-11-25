@@ -5,7 +5,7 @@
 
 class THeap;
 
-extern THeap *TAdScrollWinGC__chat_log_heap;
+extern THeap *scroll_win_chat_log_heap;
 extern char *chat_last_line_buffer;
 
 // Frees every chat log line and the last-line buffer.

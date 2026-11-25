@@ -126,7 +126,7 @@ s32 reset_keyboard_port(s32 chan, KeyboardCallback callback) {
 
 s32 disable_all_channels(void) {
     u32 mask;
-    while ((mask = (u32)TKeyBoardControl__polling_channel_mask) != 0) {
+    while ((mask = (u32)key_board_control_polling_channel_mask) != 0) {
         disable_channel_polling(__cntlzw(mask));
     }
     keyboard_polling_disabled = 1;
@@ -317,19 +317,19 @@ void enable_keyboard_polling(s32 chan) {
     u32 cmd;
     u32 buf[2];
     u32 bit = 0x80000000U >> chan;
-    if (!(TKeyBoardControl__polling_channel_mask & bit)) {
-        TKeyBoardControl__polling_channel_mask |= bit;
+    if (!(key_board_control_polling_channel_mask & bit)) {
+        key_board_control_polling_channel_mask |= bit;
         SIGetResponse(chan, buf);
         cmd = 0x540000;
         SISetCommand(chan, cmd);
-        SIEnablePolling(TKeyBoardControl__polling_channel_mask);
+        SIEnablePolling(key_board_control_polling_channel_mask);
     }
 }
 
 void disable_channel_polling(s32 chan) {
     u32 bit = 0x80000000U >> chan;
     SIDisablePolling(bit);
-    TKeyBoardControl__polling_channel_mask &= ~bit;
+    key_board_control_polling_channel_mask &= ~bit;
 }
 
 #pragma push
@@ -362,12 +362,12 @@ s32 poll_keyboard_port(s32 chan, u8 *out) {
         state->err = -1;
     } else if (SIIsChanBusy(chan)) {
         state->err = -2;
-    } else if (!(TKeyBoardControl__polling_channel_mask & bit)) {
+    } else if (!(key_board_control_polling_channel_mask & bit)) {
         state->err = -1;
     } else if (SIGetStatus(chan) & 8) {
         SIGetResponse(chan, resp);
         SIDisablePolling(bit);
-        TKeyBoardControl__polling_channel_mask &= ~bit;
+        key_board_control_polling_channel_mask &= ~bit;
         state->type = 0;
         state->err = -1;
     } else if (!SIGetResponse(chan, resp) || (resp[0] & 0x80000000)) {
@@ -388,7 +388,7 @@ s32 poll_keyboard_port(s32 chan, u8 *out) {
         switch (state->err) {
         case -128:
             SIDisablePolling(bit);
-            TKeyBoardControl__polling_channel_mask &= ~bit;
+            key_board_control_polling_channel_mask &= ~bit;
             state->type = 0;
             break;
         case 0:

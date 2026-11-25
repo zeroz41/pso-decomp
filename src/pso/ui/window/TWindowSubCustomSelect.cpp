@@ -51,9 +51,6 @@ WindowDescriptor TWindowSubCustomSelect__window_settings = {
     {204.0f, 188.0f}, 50050.0f, &window_sub_custom_select_layout_entries, 0x43,
 };
 
-extern "C" {
-void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32);
-void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 
 void TWindowSubCustomSelect::handle_cancel() {
@@ -71,7 +68,6 @@ void TWindowSubCustomSelect::handle_decide() {
 
 #pragma fp_contract on
 void TWindowSubCustomSelect::update_list_scroll() {
-  u8 *arg0 = (u8 *) this;
   NJS_POINT2 range;
   f32 *new_var3;
   f32 tgt;
@@ -148,7 +144,7 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     s16 sub;
     WindowSpritePart *icon;
     WindowSpritePart *background;
-    TUnk_804CF9C8 *label;
+    TWindowLayoutNumber *label;
     f32 y;
     f32 fx;
     f32 fy;
@@ -169,7 +165,7 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
         }
         icon = static_cast<WindowSpritePart *>(get_array_entry(1));
         background = static_cast<WindowSpritePart *>(get_array_entry(0));
-        label = static_cast<TUnk_804CF9C8 *>(get_array_entry(2));
+        label = static_cast<TWindowLayoutNumber *>(get_array_entry(2));
         icon->x = 12.0f + fx;
         icon->y = 10.0f + fy;
         background->x = 9.0f + fx;
@@ -200,14 +196,13 @@ void TWindowSubCustomSelect::render() {
 }
 
 void TWindowSubCustomSelect::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r30;
     ControllerInputContext *context;
     temp_r30 = is_player_input_active(((s32) this->client_index));
     if (!(*(s32 *)&this->window_flags & 2)) {
         *(s32 *)&this->open_tick = 0x01000000;
     }
-    if (((TWindowSubCustomSelect *)arg0)->is_active() == 0) {
+    if (this->is_active() == 0) {
         handle_grid_navigation();
         context = &controller_input_state.controllers[temp_r30];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
@@ -222,8 +217,8 @@ void TWindowSubCustomSelect::run_task() {
         ((TWindowSubStatusDisp *)(*(saddr *)&this->m_7c))->update_subwindow();
         scroll_bar->increment_counter();
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    update_window();
+    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     *(s32 *)&this->m_74 = (s32) (*(s32 *)&this->m_74 + 1);
 }
 
@@ -291,4 +286,3 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
 }
 #pragma pop
 
-}

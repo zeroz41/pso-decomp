@@ -19,8 +19,8 @@ public:
 
     Vec velocity;  // 5 units along rotation_y
     s32 rotation_y;
+    static const char *name;
 };
 
-extern const char *TBoss5GryphonLightningHorn__name;
 
 #endif

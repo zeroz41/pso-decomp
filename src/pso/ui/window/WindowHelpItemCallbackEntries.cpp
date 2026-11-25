@@ -10,7 +10,7 @@ __declspec(section ".data") extern u32 item_help_resistance_stat_callback[3] = {
     0x00000000, 0xFFFFFFFF, (uaddr)update_stat_disp__15TWindowHelpItemFv,
 };
 
-__declspec(section ".data") extern u32 TWindowHelpItem__mag_growth_update_callback[3] = {
+__declspec(section ".data") extern u32 window_help_item_mag_growth_update_callback[3] = {
     0x00000000, 0xFFFFFFFF, (uaddr)TWindowHelpItem__sub_802531A0,
 };
 

@@ -22,13 +22,13 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     s8 selection_mode;
     s16 cursor_x;
     s16 cursor_y;
-    u16 m_6e;
-    s8 *m_70;
+    u16 set_index;
+    s8 *selection_out;
     s32 first_part_index;
     s32 second_part_index;
-    s32 *m_7c;
-    s32 *m_80;
-    s32 *m_84;
+    s32 *first_flag_out;
+    s32 *second_flag_out;
+    s32 *result_out;
     TWindowSubStatusDisp *heading_display;
     void draw_selected_part_cursor(void *ctx);
     void handle_cancel();

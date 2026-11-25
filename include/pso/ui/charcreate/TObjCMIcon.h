@@ -37,8 +37,8 @@ public:
     static void *create(void *object);
     static void set_screen_position(const vec2f *pos);
     static void reset_icon_flags();
-    static void show_icon(s32 index);
-    static void show_icons(s32 count, const s32 *ids);
+    static void show_creation_icon(s32 index);
+    static void show_only_creation_icons(s32 count, const s32 *ids);
     static void init_icon_table();
     static void copy_icon_state(CreationIconState *dst, CreationIconState *src);
 

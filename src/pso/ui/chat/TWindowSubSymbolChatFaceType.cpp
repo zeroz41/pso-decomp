@@ -17,11 +17,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-extern "C" {
 extern const char TWindowSubSymbolChatFaceType__class_name_string[29] = "TWindowSubSymbolChatFaceType";
-}
 
-extern "C" {
 
 
 
@@ -35,10 +32,9 @@ void TWindowSubSymbolChatFaceType::close_when_chat_closed() {
 void TWindowSubSymbolChatFaceType::confirm_selection() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
-    m_68->set_entry_state(2);
+    status_disp->set_entry_state(2);
 }
 
-}
 
 struct Stack_80283F38
 {
@@ -63,7 +59,6 @@ struct Ent_80283FA8 { u8 pad[0x2c]; s32 parts_entry; };
 
 extern "C" {
 
-void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *, f32 *, f32, f32);
 extern s32 actor_frame_tick;
 
 typedef struct Stack_80283F38 Stack_80283F38;
@@ -191,7 +186,7 @@ void TWindowSubSymbolChatFaceType::render() {
     update_parts_entries();
     draw_window_frame((void *)context);
     TWindowSubSymbolChatFaceType__sub_80283F38((u8 *)this, (u8 *)context);
-    m_68->forward_render(reinterpret_cast<void *>(context));
+    status_disp->forward_render(reinterpret_cast<void *>(context));
     draw_visible_window_entries(this, &entry_list, reinterpret_cast<WindowDrawContext *>(context));
 }
 void TWindowSubSymbolChatFaceType::run_task() {
@@ -211,23 +206,21 @@ void TWindowSubSymbolChatFaceType::run_task() {
         }
     }
     if ((f32) (s32)window_sub_symbol_chat_face_type->open_tick >= 7.5f) {
-        m_68->update_subwindow();
+        status_disp->update_subwindow();
     }
-    ((TWindowDD *)window_sub_symbol_chat_face_type)->initialize_subwindow();
+    ((TWindowBase *)window_sub_symbol_chat_face_type)->update_window();
     window_sub_symbol_chat_face_type->update_window_entry_list(&window_sub_symbol_chat_face_type->entry_list);
 }
 
 }
 
-extern "C" {
 
 
 
 TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
-    TWindowSubStatusDisp::destroy_status_display((saddr)m_68, 1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)status_disp, 1);
 }
 
-}
 
 
 // inferred: symbol_chat_face_type_layout_entries, the layout table
@@ -250,7 +243,6 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
     {178.0f, 188.0f}, 50050.0f, &symbol_chat_face_type_layout_entries, 0x43,
 };
 
-extern "C" {
 const char *TWindowSubSymbolChatFaceType__name = TWindowSubSymbolChatFaceType__class_name_string;
 TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selection)
     : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, 4, (u8 *)position) {
@@ -264,7 +256,6 @@ TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *pos
     if (heading != NULL) {
         heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
     }
-    m_68 = heading;
+    status_disp = heading;
 }
 
-}

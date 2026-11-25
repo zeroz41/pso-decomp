@@ -186,7 +186,7 @@ struct Sp8Buf20_80206494 {
 #pragma readonly_strings on
 
 const char *current_floor_name = "SCENE";
-s32 lbl_805D3614 = 10;
+s32 area_total = 10;
 SceneNameIndex scene_format_dispatch_tables[] = {
     {"fmt1", 0},
     {"fmt2", 1},

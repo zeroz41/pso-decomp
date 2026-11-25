@@ -200,10 +200,9 @@ void TWindowMenu::set_active_flag() {
 }
 
 void TWindowMenu::confirm_selection() {
-    u8 *arg0 = (u8 *)this;
     s32 row_flags;
     u8 *window_sub_status_disp;
-    if (((int)((TWindowMenu *)arg0)->is_decided()) == 0) {
+    if (((int)this->is_decided()) == 0) {
         row_flags = rows[selected_row].flags;
         if (row_flags & 0x10) {
             if (!(row_flags & 0x20)) {
@@ -664,17 +663,16 @@ void TWindowMenu::render() {
 }
 
 void TWindowMenu::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 player_idx;
     ControllerInputContext *input;
     ControllerInputContext *temp_r29_2;
     ControllerInputContext *context;
 
-    ((TWindowMenu *)this)->layout_entries();
+    this->layout_entries();
     if (!(*(s32 *)&this->window_flags & 2)) {
         *(s32 *)&this->open_tick = 0x01000000;
     }
-    if ((((TWindowMenu *)arg0)->sub_80266BB8() == 0) && (((TWindowMenu *)arg0)->is_decided() == 0) && ((s32) *(s32 *)&this->open_tick > 2) && (is_window_display_enabled() != 0) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
+    if ((this->sub_80266BB8() == 0) && (this->is_decided() == 0) && ((s32) *(s32 *)&this->open_tick > 2) && (is_window_display_enabled() != 0) && (this->is_open_and_unblocked() != 0)) {
         player_idx = is_player_input_active((this->client_index));
         if (this->m_70 & 0x10) {
             input = &controller_input_state.controllers[player_idx];
@@ -694,10 +692,10 @@ void TWindowMenu::run_task() {
             }
         }
         context = &controller_input_state.controllers[player_idx];
-        if ((test_pressed_buttons_packed(context, 4) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(4) != 0)) {
+        if ((test_pressed_buttons_packed(context, 4) != 0) || (this->test_menu_flag(4) != 0)) {
             confirm_selection();
         }
-        if ((test_pressed_buttons_packed(context, 2) != 0) || (((TWindowMenu *)arg0)->test_menu_flag(2) != 0)) {
+        if ((test_pressed_buttons_packed(context, 2) != 0) || (this->test_menu_flag(2) != 0)) {
             set_active_flag();
         }
     }
@@ -709,13 +707,13 @@ void TWindowMenu::run_task() {
             scroll_bar->increment_counter();
         }
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowMenu *)arg0)->update_scroll_value();
-    ((TWindowAddition *)arg0)->step_window_tween();
-    ((TWindowMenu *)arg0)->update_target_y();
-    ((TWindowMenu *)arg0)->clamp_menu_choice_scroll();
-    ((TWindowMenu *)arg0)->advance_past_disabled_menu_rows();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    update_window();
+    this->update_scroll_value();
+    this->step_window_tween();
+    this->update_target_y();
+    this->clamp_menu_choice_scroll();
+    this->advance_past_disabled_menu_rows();
+    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
 }
 
 TWindowMenu::~TWindowMenu() {
@@ -757,7 +755,7 @@ void WindowScrollBar::set_extent(const NJS_POINT2 *size) {
 #pragma pop
 
 s32 TWindowAddition::sub_80266B18(s32 index) {
-    return *(u16 *)((s8 *)(*(u16 **)((s8 *)(*(saddr *)((s8 *)((u8 *)this) + 0x28) + (index * 4)) + 0)) + 0) & 1;
+    return *(u16 *)((s8 *)(*(u16 **)((s8 *)(*(saddr *)((s8 *)(this) + 0x28) + (index * 4)) + 0)) + 0) & 1;
 }
 
 s32 TWindowMenu::test_menu_flag(s32 buttons) {

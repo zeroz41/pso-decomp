@@ -10,7 +10,6 @@ WindowDescriptor window_menu_main_menu_params = {
     {116.0f, 0.0f}, 50050.0f, NULL, 0x803,
 };
 
-extern "C" {
 extern const char *TWindowMenuMainMenu__class_name;
 
 void TWindowMenuMainMenu::render() {
@@ -37,7 +36,7 @@ void TWindowMenuMainMenu::run_task() {
         entry += 1;
     } while (i < 8);
     handle_navigation_input();
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_slide_position();
     update_fade();
     temp_r3_2 = state_flags;
@@ -70,4 +69,3 @@ TWindowMenuMainMenu::TWindowMenuMainMenu(const NJS_POINT2 *position, s32 client)
     save_position();
 }
 
-}

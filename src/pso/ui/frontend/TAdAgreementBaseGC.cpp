@@ -27,7 +27,6 @@ static const NJS_POINT2 lbl_804770BC = {85.0f, 384.0f};
 static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
 
 extern "C" {
-void *__ct__14TAdSelectCurGCFv(void *, TObject *, void *, void *);
 void *get_localized_text_entry(int, u32);
 
 void TAdAgreementBaseGC::check_main_task_state() {

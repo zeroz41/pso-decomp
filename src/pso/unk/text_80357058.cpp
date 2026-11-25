@@ -9,7 +9,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_80357058.h"
 
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
@@ -27,13 +27,13 @@
 #pragma readonly_strings on
 
 
-struct B_80357058 { u8 hdr[4]; u8 d[0x40]; u8 tail[8+1]; };
+struct Send6xADOlgaFlowSubordinateBossActionsB { u8 hdr[4]; u8 d[0x40]; u8 tail[8+1]; };
 
-struct Vec4_80357284 { f32 x, y, z; s32 w; };
+struct UpdateSegmentsVec4 { f32 x, y, z; s32 w; };
 
-struct Seg_80357284 { Vec4_80357284 a; Vec4_80357284 b; };
+struct Seg_80357284 { UpdateSegmentsVec4 a; UpdateSegmentsVec4 b; };
 
-struct Shot_80357284 {
+struct UpdateSegmentsShot {
     u8 pad0[0xC4];
     Seg_80357284 seg[5];
     f32 v164[3];
@@ -46,7 +46,7 @@ struct Shot_80357284 {
 
 struct V4_8035740C { f32 x, y, z; s32 w; };
 
-struct O_8035740C { u8 pad0[0xC4]; V4_8035740C v[10]; };
+struct RunTaskO { u8 pad0[0xC4]; V4_8035740C v[10]; };
 
 const char *TItemEffOrgaFlowShot::class_name = "TItemEffOrgaFlowShot";
 
@@ -56,7 +56,7 @@ int olga_flow_subordinate_actions_enabled;
 }
 
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0) {
-    B_80357058 b;
+    Send6xADOlgaFlowSubordinateBossActionsB b;
     s32 i;
     if (is_local_client_floor_leader() != 0) {
         build_6xAD_olga_flow_subordinate_boss_actions(&b);
@@ -67,7 +67,7 @@ void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0) {
     }
 }
 
-void TBoss6Type2__sub_803570C8(s8 *buf) {
+void clear_6xAD_action_buffer(s8 *buf) {
     s32 var_ctr;
 
     for (var_ctr = 0x40; var_ctr != 0; var_ctr -= 1) {
@@ -76,7 +76,7 @@ void TBoss6Type2__sub_803570C8(s8 *buf) {
     }
 }
 
-struct B_80357058;
+struct Send6xADOlgaFlowSubordinateBossActionsB;
 void handle_6xAD_olga_flow_subordinate_boss_actions(G_OlgaFlowSubordinateBossActions_6xAD *command) {
     Vec v[3];
     s8 boss;
@@ -127,9 +127,9 @@ void handle_6xAD_olga_flow_subordinate_boss_actions(G_OlgaFlowSubordinateBossAct
     }
 }
 
-void TItemEffOrgaFlowShot__sub_80357204(void) { olga_flow_subordinate_actions_enabled = 0; }
+void disable_olga_flow_subordinate_actions(void) { olga_flow_subordinate_actions_enabled = 0; }
 
-void TItemEffOrgaFlowShot__sub_80357210(void) { olga_flow_subordinate_actions_enabled = 1; }
+void enable_olga_flow_subordinate_actions(void) { olga_flow_subordinate_actions_enabled = 1; }
 
 void TItemEffOrgaFlowShot::bswap_6xAD_subordinate_action() { read_be16_field2_forward(this); send_subcommand((u8 *)this); }
 
@@ -144,9 +144,9 @@ extern s32 model_render_flags;
 #pragma fp_contract on
 
 void TItemEffOrgaFlowShot::update_segments() {
-    Shot_80357284 *o = (Shot_80357284 *)this;
-    Vec4_80357284 *dst;
-    Vec4_80357284 *src;
+    UpdateSegmentsShot *o = (UpdateSegmentsShot *)this;
+    UpdateSegmentsVec4 *dst;
+    UpdateSegmentsVec4 *src;
     f32 dx;
     f32 dz;
     s32 i;
@@ -211,7 +211,7 @@ void TItemEffOrgaFlowShot::run_task() {
         ::approach_value(&spread, 0.6f, max_spread);
     }
     for (i = 0; i != 10; i++) {
-        TObjBoss2Tunnel::decrement_packed_timer((u32 *)(&((O_8035740C *)this)->v[i].w), 2);
+        TObjBoss2Tunnel::decrement_packed_timer((u32 *)(&((RunTaskO *)this)->v[i].w), 2);
     }
     if (spread == max_spread) {
         if (linger_frames-- == 0) {
@@ -224,9 +224,9 @@ void TItemEffOrgaFlowShot::run_task() {
 
 TItemEffOrgaFlowShot::~TItemEffOrgaFlowShot() {}
 
-TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, OrgaFlowShotParams *params) : TUnk_804E355C(parent, params) {
+TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, OrgaFlowShotParams *params) : TItemAttackColBase(parent, params) {
     m_name = class_name;
-    pad_C0 = 0;
+    hits_objects = 0;
     body.shape = 1;
     body.half_width = 10.0f;
     rotation_y = params->rotation_y;

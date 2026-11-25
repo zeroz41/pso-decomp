@@ -1,7 +1,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -42,7 +42,6 @@ WindowDescriptor window_input_number_layout = {
     {104.0f, 74.0f}, 50050.0f, &window_input_number_layout_entries, 3,
 };
 
-extern "C" {
 
 void TWindowInputNumber::mark_confirmed() {
     if (!(this->inputFlags & 8) && (TWindowInputNumber::is_confirmed() == 0)) {
@@ -119,13 +118,11 @@ void TWindowInputNumber::set_value(f32 farg0) {
     align_digits();
 }
 
-}
 
 struct UV_802563A0 { f32 u, v; };
 struct ArrowUVs { UV_802563A0 uv[2]; };
 static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
-extern "C" {
 
 void TWindowInputNumber::create(s32 title) {
     uaddr var_r0;
@@ -155,12 +152,12 @@ void TWindowInputNumber::align_digits() {
     pos = scale * (target_size[0] - 8.0f) + scale * (f32)(digitCount * 12);
     pos -= 6.0f;
     for (; i < digitCount; i++) {
-        TUnk_804CF9C8 *d = static_cast<TUnk_804CF9C8 *>(get_array_entry(i));
+        TWindowLayoutNumber *d = static_cast<TWindowLayoutNumber *>(get_array_entry(i));
         d->x = scale * d->width + pos;
         pos -= step;
     }
     for (; i < 6; i++) {
-        TUnk_804CF9C8 *d = static_cast<TUnk_804CF9C8 *>(get_array_entry(i));
+        TWindowLayoutNumber *d = static_cast<TWindowLayoutNumber *>(get_array_entry(i));
         d->flags |= 2;
     }
 }
@@ -198,7 +195,7 @@ void TWindowInputNumber::calc_digit_count() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TUnk_804CF9C8 *digit, int confirmed) {
+void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber *digit, int confirmed) {
     ArrowUVs uvs = arrow_uvs;
     UV_802563A0 *uv;
     TexturedQuad q;
@@ -257,7 +254,7 @@ void TWindowInputNumber::render() {
     WindowDrawContext *context = setup_window_draw_context(&scaleX);
     draw_window_frame(context);
     draw_visible_window_entries(this, &entry_list, context);
-    draw_arrows(context, static_cast<TUnk_804CF9C8 *>(get_array_entry(selectedDigit)), is_confirmed());
+    draw_arrows(context, static_cast<TWindowLayoutNumber *>(get_array_entry(selectedDigit)), is_confirmed());
     void *heading = reinterpret_cast<void *>(unknown70);
     if (heading != NULL) {
         static_cast<TWindowSubStatusDisp *>(heading)->forward_render(context);
@@ -276,7 +273,7 @@ void TWindowInputNumber::run_task() {
     if (!(self->window_flags & 2)) {
         self->open_tick = 0x01000000;
     }
-    if ((self->is_confirmed() == 0) && !(self->inputFlags & 0x40) && (self->sub_80244994() != 0)) {
+    if ((self->is_confirmed() == 0) && !(self->inputFlags & 0x40) && (self->is_open_and_unblocked() != 0)) {
         if (self->inputFlags & 0x10) {
             input = &controller_input_state.controllers[temp_r30];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
@@ -318,7 +315,7 @@ void TWindowInputNumber::run_task() {
     if ((temp_r3 != 0U) && ((f32) self->open_tick >= 7.5f)) {
         ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
     }
-    reinterpret_cast<TWindowDD *>(self)->initialize_subwindow();
+    ((TWindowBase *)self)->update_window();
     self->update_fade();
     self->update_window_entry_list(&self->entry_list);
 }
@@ -327,7 +324,6 @@ TWindowInputNumber::~TWindowInputNumber() {
     if ((void *)unknown70 != NULL) { TWindowSubStatusDisp::destroy_status_display(unknown70, (s16)1); }
 }
 
-}
 
 TWindowInputNumber::TWindowInputNumber(const NJS_POINT2 *position, s32 low, s32 high, s32 initial, s16 client)
     : TWindowBase((u8 *)&window_input_number_layout, client, (u8 *)position) {

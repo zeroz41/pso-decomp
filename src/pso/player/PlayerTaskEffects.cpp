@@ -24,7 +24,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/network/client_id.h"
 #include "pso/network/protocol/protocol_types.h"

@@ -46,7 +46,6 @@ GuildCardRecord com_card_entries[8];
 
 extern "C" {
 s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
-void load_selected_guild_card_record(Src_8024220C *arg0);
 }
 void SoundRequestVoice::set_field0(SoundControlState *owner) { this->owner = owner; }
 
@@ -111,7 +110,7 @@ void SoundRequestVoice::update() {
     }
 }
 
-#undef lbl_805162EC
+#undef sound_request_voices
 #pragma push
 
 
@@ -942,7 +941,6 @@ s32 lbl_805D63D8;
 int com_card_entry_count;
 extern "C" {
 void __copy(void *, void *, int);
-Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_80242380 *src);
 void TLobby__sub_8024273C(TUserAns &response);
 
 SoundRequestVoice::~SoundRequestVoice() {

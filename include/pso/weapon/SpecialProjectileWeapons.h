@@ -7,9 +7,8 @@ struct TItem;
 
 struct TObjPlayer;
 extern "C" {
-void *__dt__13TUnk_804A2164Fv(void *object, s16 delete_mode);
+void *__dt__24TItemWeaponDrillLauncherFv(void *object, s16 delete_mode);
 }
-TItem *create_drill_launcher(u8 *item);
 extern "C" {
 void *ct_shoot_model__10TObjPlayerFPv(void *owner);
 }

@@ -31,7 +31,6 @@ typedef struct Glyph_80145804 {
     u8 pad[3];
 } Glyph_80145804;
 
-extern "C" {
 extern NJS_TEXLIST menu_font_texture_list[];
 u8 *menu_font_glyph_data;
 s16 *menu_font_palette;
@@ -39,7 +38,6 @@ s32 menu_font_upload_flags;
 Glyph_80145804 *menu_font_glyph_table;
 u8 menu_font_upload_epoch;
 TObject *menu_font_object;
-void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale);
 
 void draw_menu_font_string_white(const char *text, f32 x, f32 y) {
     draw_menu_font_string(text, -1, (u32)(0), x, y, 0.5f);
@@ -55,7 +53,6 @@ void TAdSinglePlyChrSelectGC::free_resources() {
 }
 #pragma pop
 
-}
 
 typedef struct Rect_80145804 { u8 pad[0x24]; } Rect_80145804;
 

@@ -6,8 +6,8 @@
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_Rush.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_TpAbsorb1.h"
-#include "pso/enemy/TUnk_8048FE64.h"
-#include "pso/enemy/TUnk_8048FE7C.h"
+#include "pso/enemy/TObjEneDf2BringerTpDrainPoint.h"
+#include "pso/enemy/TObjEneDf2BringerRing.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/AngleLookup.h"
@@ -134,7 +134,7 @@ void init_bringer_effect_tables(void) {
 
 void bringer_effect_cleanup_noop(void) {}
 
-TUnk_8048FE7C::TUnk_8048FE7C(TObject *parent, const Vec *pos, f32 max_radius) : TObject(parent) {
+TObjEneDf2BringerRing::TObjEneDf2BringerRing(TObject *parent, const Vec *pos, f32 max_radius) : TObject(parent) {
     m_name = bringer_tp_absorb_effect_name;
     VecCopy(&position, pos);
     state = 0;
@@ -147,9 +147,9 @@ TUnk_8048FE7C::TUnk_8048FE7C(TObject *parent, const Vec *pos, f32 max_radius) : 
     update_vertex_colors();
 }
 
-TUnk_8048FE7C::~TUnk_8048FE7C() {}
+TObjEneDf2BringerRing::~TObjEneDf2BringerRing() {}
 
-void TUnk_8048FE7C::update_vertex_positions() {
+void TObjEneDf2BringerRing::update_vertex_positions() {
     s32 i;
     f32 outer = 3.0f + radius;
     f32 inner = radius - 3.0f;
@@ -169,7 +169,7 @@ void TUnk_8048FE7C::update_vertex_positions() {
     }
 }
 
-void TUnk_8048FE7C::update_vertex_colors() {
+void TObjEneDf2BringerRing::update_vertex_colors() {
     s32 i;
     s32 n;
     Vertex *p;
@@ -188,7 +188,7 @@ void TUnk_8048FE7C::update_vertex_colors() {
     }
 }
 
-void TUnk_8048FE7C::run_task() {
+void TObjEneDf2BringerRing::run_task() {
     switch (state) {
     case 0:
         radius += 7.0f;
@@ -215,7 +215,7 @@ void TUnk_8048FE7C::run_task() {
     update_vertex_colors();
 }
 
-void TUnk_8048FE7C::render() {
+void TObjEneDf2BringerRing::render() {
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, angle);
@@ -224,7 +224,7 @@ void TUnk_8048FE7C::render() {
     pop_matrix();
 }
 
-TUnk_8048FE64::TUnk_8048FE64(TObject *parent, const Vec *from, const Vec *to) : TObject(parent) {
+TObjEneDf2BringerTpDrainPoint::TObjEneDf2BringerTpDrainPoint(TObject *parent, const Vec *from, const Vec *to) : TObject(parent) {
     m_name = bringer_tp_absorb_effect_name;
     VecCopy(&start, from);
     VecCopy(&end, to);
@@ -235,9 +235,9 @@ TUnk_8048FE64::TUnk_8048FE64(TObject *parent, const Vec *from, const Vec *to) : 
     frames = 0.0f;
 }
 
-TUnk_8048FE64::~TUnk_8048FE64() {}
+TObjEneDf2BringerTpDrainPoint::~TObjEneDf2BringerTpDrainPoint() {}
 
-void TUnk_8048FE64::run_task() {
+void TObjEneDf2BringerTpDrainPoint::run_task() {
     f32 travelled;
     frames += 1.0f;
     travelled = 6.0f * frames;
@@ -251,7 +251,7 @@ void TUnk_8048FE64::run_task() {
     position.z = delta.z * travelled + start.z;
 }
 
-void TUnk_8048FE64::render() {}
+void TObjEneDf2BringerTpDrainPoint::render() {}
 
 TObjEneDf2Bringer_Eff_TpAbsorb1::TObjEneDf2Bringer_Eff_TpAbsorb1(TObject *parent, TObjBase *owner, AreaAttackHistory *history)
     : TAttackCollider(parent, owner) {

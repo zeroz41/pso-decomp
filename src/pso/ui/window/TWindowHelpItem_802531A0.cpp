@@ -48,7 +48,6 @@ void draw_action_palette_icon(void *, int, u16);
 void text_builder_append();
 }
 extern u8 lbl_804CF4E4[];
-extern u8 TWindowHelpItem__description_text_layout[];
 extern V3_802531A4 TWindowHelpItem__description_update_callback;
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern u8 window_help_item_layout_entries[];
@@ -66,10 +65,10 @@ void TWindowHelpItem::init_text(void *str) {
     u8 *e;
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowHelpItem__description_text_layout),
+        reinterpret_cast<const void *>(TWindowHelpItem::description_text_layout),
         this->client_index);
     *(V3_802531A4 *)(((u8 *)this) + 0xB0) = TWindowHelpItem__description_update_callback;
-    e = (u8 *)((TWindowBase *)this)->get_array_entry(0);
+    e = (u8 *)this->get_array_entry(0);
     set_text_entry_string(e, (uaddr)str, 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
 }
@@ -116,7 +115,7 @@ void TWindowHelpItem::update_tech_disk_details() {
             reinterpret_cast<const void *>(help_item_tech_disk_window_layout_table),
             this->client_index);
         *(V3_802532E8 *)(((u8 *)this) + 0xB0) = item_help_tech_disk_stats_callback;
-        e0 = (u8 *)((TWindowBase *)this)->get_array_entry(0);
+        e0 = (u8 *)this->get_array_entry(0);
         text_builder_reset();
         format_item_description((u8 *)(*(void **)(((u8 *)this) + 0x68)));
         text_builder_append();
@@ -126,12 +125,12 @@ void TWindowHelpItem::update_tech_disk_details() {
         }
         set_text_entry_string(e0, (uaddr)((void *)get_shared_text_buffer()), 0x20);
         ((TWindowHelpItem *)e0)->reset_float_field();
-        e1 = (u8 *)((TWindowBase *)this)->get_array_entry(1);
-        e2 = (u8 *)((TWindowBase *)this)->get_array_entry(2);
-        e3 = (u8 *)((TWindowBase *)this)->get_array_entry(3);
-        e4 = (u8 *)((TWindowBase *)this)->get_array_entry(4);
-        e5 = (u8 *)((TWindowBase *)this)->get_array_entry(5);
-        e6 = (u8 *)((TWindowBase *)this)->get_array_entry(6);
+        e1 = (u8 *)this->get_array_entry(1);
+        e2 = (u8 *)this->get_array_entry(2);
+        e3 = (u8 *)this->get_array_entry(3);
+        e4 = (u8 *)this->get_array_entry(4);
+        e5 = (u8 *)this->get_array_entry(5);
+        e6 = (u8 *)this->get_array_entry(6);
         check_equip_requirements((void *)player, (TItemData *)(*(void **)(((u8 *)this) + 0x68)), &requirement);
         if (requirement & 1) {
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e1), TWindowHelpItem__data_805DCDE4, 152.0f);
@@ -158,11 +157,11 @@ void TWindowHelpItem::sub_802534B0() {
         reinterpret_cast<const void *>(window_help_item_layout_entries),
         this->client_index);
     *(V3_802534B0 *)(((u8 *)this) + 0xB0) = item_help_description_idle_callback;
-    e = (u8 *)((TWindowBase *)this)->get_array_entry(0);
+    e = (u8 *)this->get_array_entry(0);
     this->format_description_with_price();
     set_text_entry_string((e), (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
-    e2 = (u8 *)((TWindowBase *)this)->get_array_entry(1);
+    e2 = (u8 *)this->get_array_entry(1);
     ((HelpItemStarRowEntry *)e2)->stars = (u8)((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->calc_display_grade();
 }
 

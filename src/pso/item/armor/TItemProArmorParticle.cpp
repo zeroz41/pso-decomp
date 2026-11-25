@@ -8,7 +8,7 @@
 #include "pso/item/TItem.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TItemTimerEvent.h"
-#include "pso/item/TUnk_804A05C8.h"
+#include "pso/item/TItemTimerEventArmorParticle.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
@@ -33,7 +33,7 @@ static const s32 armor_particle_ids[12] = {
 TItemProArmorParticle::~TItemProArmorParticle() {}
 
 // This object's copy of the timer event constructor (on_equip calls it).
-TUnk_804A05C8::TUnk_804A05C8(TItemHeapObject *parent, u16 client, s32 duration, s32 particle)
+TItemTimerEventArmorParticle::TItemTimerEventArmorParticle(TItemHeapObject *parent, u16 client, s32 duration, s32 particle)
     : TItemTimerEvent(parent, client, duration) {
     unk_2C = particle;
 }
@@ -59,7 +59,7 @@ TItemProArmorParticle::TItemProArmorParticle(TObject *parent, u8 *item) : TItemP
 void TItemProArmorParticle::on_equip() {
     TItemProArmor::on_equip();
     if ((particle_mode == ARMOR_PARTICLE_TIMER) && (effect_objects != NULL)) {
-        new TUnk_804A05C8(effect_objects, get_owner_client(), 120, particle_id);
+        new TItemTimerEventArmorParticle(effect_objects, get_owner_client(), 120, particle_id);
     }
 }
 

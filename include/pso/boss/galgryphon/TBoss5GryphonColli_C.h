@@ -13,6 +13,7 @@ public:
     void disable();
     virtual void render();
     Vec local_position;  // the chain's center relative to the gryphon (enable_at places it)
+    static const char *name;
 };
 LAYOUT_ASSERT(TBoss5GryphonColli_C_size, sizeof(TBoss5GryphonColli_C) == 0xB8);
 

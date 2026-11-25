@@ -17,10 +17,10 @@
 
 const char *bm_fs_obj_o_sensor01_model_names[] = {"fs_obj_o_sensor01.gj", NULL};
 const char *bm_fs_obj_o_sensor01_motion_names[] = {"fe_obj_o_sensor01.njm", NULL};
-BmlResourceDescriptor TOSensorAncient01__resource_descriptor = {
+BmlResourceDescriptor sensor_ancient01_resource_descriptor = {
     "bm_fs_obj_o_sensor01.bml", bm_fs_obj_o_sensor01_model_names, bm_fs_obj_o_sensor01_motion_names, 1, 1,
 };
-const char *TOSensorAncient01__class_name = "TOSensorAncient01";
+const char *sensor_ancient01_class_name = "TOSensorAncient01";
 BmlResource *sensor_ancient01_model_resource;
 TOSensorAncient01Textures *ancient_sensor_resource_pair_table;
 // Cleared by load_resources, read nowhere.
@@ -153,7 +153,7 @@ void TOSensorAncient01::destroy() {
 }
 
 void TOSensorAncient01::load_resources() {
-    BmlResource *resource = new BmlResource(1, &TOSensorAncient01__resource_descriptor, 0, 0, NULL);
+    BmlResource *resource = new BmlResource(1, &sensor_ancient01_resource_descriptor, 0, 0, NULL);
     sensor_ancient01_model_resource = resource;
     ancient_sensor_resource_pair_table = (TOSensorAncient01Textures *)mem_alloc(2 * sizeof(*ancient_sensor_resource_pair_table));
     ancient_sensor_resource_pair_table[0].plain = sensor_ancient01_model_resource->models[0].texlist;
@@ -169,7 +169,7 @@ void TOSensorAncient01::load_resources() {
 TOSensorAncient01::~TOSensorAncient01() {}
 
 TOSensorAncient01::TOSensorAncient01(TObject *parent, void *set_data) : TOSensor(parent) {
-    m_name = TOSensorAncient01__class_name;
+    m_name = sensor_ancient01_class_name;
     apply_object_set_data(set_data);
     init_switch_id();
     if (set_params[2] < 0) {

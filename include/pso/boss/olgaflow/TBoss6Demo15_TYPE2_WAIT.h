@@ -49,6 +49,7 @@ public:
     s32 orbit_angle;             // 0x58
     s32 radius_phase;            // 0x5C: swings the orbit radius 190..270
     TObject *csn_objects[10];    // 0x60: TObjMapCsn objects (create_csn_objects creates them)
+    static const char *class_name;
 };
 LAYOUT_ASSERT(TBoss6Demo15_TYPE2_WAIT_size, sizeof(TBoss6Demo15_TYPE2_WAIT) == 0x88);
 

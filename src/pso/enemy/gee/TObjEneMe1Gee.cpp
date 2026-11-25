@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -65,9 +65,9 @@
 extern "C" {
 
 
-BmlResource * TObjEneMe1Gee__resource_bundle;
+BmlResource * me1_gee_resource_bundle;
 NJS_OBJECT *gee_model_node7;
-s32 TObjEneMe1Gee__render_node_index;
+s32 me1_gee_render_node_index;
 Vec *gee_camera_ctrl_step_ptr;
 TBreakUpMdlData * gee_leader_breakup_model;
 TBreakUpMdlData * gee_breakup_model;
@@ -99,7 +99,7 @@ BmlResourceDescriptor bm_ene_me1_gee_low_resource_descriptor = {
     "bm_ene_me1_gee_low.bml", bm_ene_me1_gee_low_model_names, bm_ene_me1_gee_low_motion_names, 2, 4,
 };
 
-TObjMotionAction TObjEneMe1Gee__motion_parameters[4] = {
+TObjMotionAction me1_gee_motion_parameters[4] = {
     {1, 0, 3, 0.9f, 0},
     {2, 0, 2, 1.0f, 0},
     {2, 0, 0, 1.0f, 0},
@@ -108,16 +108,16 @@ TObjMotionAction TObjEneMe1Gee__motion_parameters[4] = {
 
 const NJS_ARGB gee_formation_reset_vec4 = {1.0f, 0.0f, 0.2f, 1.0f};
 
-const NJS_ARGB TObjEneMe1Gee__map_core_default_vec4 = {1.0f, 1.0f, 0.0f, 0.2f};
+const NJS_ARGB me1_gee_map_core_default_vec4 = {1.0f, 1.0f, 0.0f, 0.2f};
 
 const NJS_ARGB gee_formation_fade_start_color = {1.0f, 0.2f, 1.0f, 0.0f};
 
-const char *TObjEneMe1Gee__fade_command_streams[5] = {
+const char *me1_gee_fade_command_streams[5] = {
     "ababaababaabbababbabbbbc", "abbabbababc", "ababaaabbaaabbbabbabababbbbc", "abaaabababbac",
     "ababababaabbaabbababaabaabaaabbbbc",
 };
 
-const char *TObjEneMe1Gee__class_name = "TObjEneMe1Gee";
+const char *me1_gee_class_name = "TObjEneMe1Gee";
 
 static player_stats *gee_boss_stat_handle_table[3];
 static AttackParams *gee_shared_handler_b_table[3];
@@ -138,29 +138,29 @@ void TObjEneMe1Gee::load_resources() {
     v->y = 0.0f;
     v->z = 0.0f;
     if (is_split_screen() != 0) {
-        TObjEneMe1Gee__resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_low_resource_descriptor);
+        me1_gee_resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_low_resource_descriptor);
     } else {
-        TObjEneMe1Gee__resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_resource_descriptor);
+        me1_gee_resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_resource_descriptor);
     }
     TObjEneMe1Gee_NEEDLE::init_global();
-    gee_model_node7 = find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 7);
+    gee_model_node7 = find_model_node(me1_gee_resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
         gee_boss_stat_handle_table[i] = TLobby::register_boss(gee_base_stat_ids[i]);
         gee_shared_handler_b_table[i] = TLobby::dispatch_shared_handler_b(gee_attack_stat_ids[i]);
         gee_object_handle_table[i] = TLobby::register_object(gee_resist_stat_ids[i]);
         gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(gee_param_ids[i]);
     }
-    TObjEneMe1Gee__render_node_index = 0;
-    p = new TBreakUpMdlData(TObjEneMe1Gee__resource_bundle->models->model);
+    me1_gee_render_node_index = 0;
+    p = new TBreakUpMdlData(me1_gee_resource_bundle->models->model);
     gee_leader_breakup_model = p;
-    p = new TBreakUpMdlData(TObjEneMe1Gee__resource_bundle->models->model);
+    p = new TBreakUpMdlData(me1_gee_resource_bundle->models->model);
     gee_breakup_model = p;
-    gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 4)->model)->polygon_list + 2);
+    gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(me1_gee_resource_bundle->models->model, 4)->model)->polygon_list + 2);
     init_alt_model();
     {
-        NpcAnimationBinding params = { NULL, TObjEneMe1Gee__motion_parameters, 0, 0, 4 };
-        params.motions = TObjEneMe1Gee__resource_bundle->motions;
-        TObjNpcEnemy::register_animated_chunk((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, TObjEneMe1Gee__resource_bundle->models->texlist, &params, 8.0f, 15.0f);
+        NpcAnimationBinding params = { NULL, me1_gee_motion_parameters, 0, 0, 4 };
+        params.motions = me1_gee_resource_bundle->motions;
+        TObjNpcEnemy::register_animated_chunk((s16)0x10, me1_gee_resource_bundle->models->model, me1_gee_resource_bundle->models->texlist, &params, 8.0f, 15.0f);
     }
 }
 
@@ -181,15 +181,15 @@ void TObjEneMe1Gee::free_globals() {
         delete gee_leader_breakup_model;
         gee_leader_breakup_model = NULL;
     }
-    if (TObjEneMe1Gee__resource_bundle != NULL) {
-        delete TObjEneMe1Gee__resource_bundle;
-        TObjEneMe1Gee__resource_bundle = NULL;
+    if (me1_gee_resource_bundle != NULL) {
+        delete me1_gee_resource_bundle;
+        me1_gee_resource_bundle = NULL;
     }
     TObjEneMe1Gee_NEEDLE::free_global();
 }
 
 TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {
-    m_name = TObjEneMe1Gee__class_name;
+    m_name = me1_gee_class_name;
     invoke_initialization_hook(set_data);
     status_flags = 0;
     apply_parameters();
@@ -200,7 +200,7 @@ TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, void *set_data, s32 kind) : TObjEn
 
 TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, TObjEneMe1Gee *leader, Vec *pos, u16 id, s32 index)
     : TObjEneDD_ST(parent) {
-    m_name = TObjEneMe1Gee__class_name;
+    m_name = me1_gee_class_name;
     this->leader = leader;
     init_common_from(this->leader);
     entity_id = id;
@@ -220,8 +220,8 @@ void TObjEneMe1Gee::init_state() {
     this->init_position_vectors();
     this->select_model();
     this->init_model(&gee_collision_body, 1);
-    this->set_action_table(TObjEneMe1Gee__motion_parameters);
-    this->set_motion_list(TObjEneMe1Gee__resource_bundle->motions);
+    this->set_action_table(me1_gee_motion_parameters);
+    this->set_motion_list(me1_gee_resource_bundle->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     this->set_requested_action(this->requested_action);
@@ -262,7 +262,7 @@ void TObjEneMe1Gee::init_state() {
     this->work_point.z = 0.0f;
     this->eff_line = 0;
     this->particle_emitter = 0;
-    copy_argb(&this->core_color, (NJS_ARGB *)&TObjEneMe1Gee__map_core_default_vec4);
+    copy_argb(&this->core_color, (NJS_ARGB *)&me1_gee_map_core_default_vec4);
     this->core_color.a = 0.0f;
     this->fade_mode = 0;
     this->core_color_packed = 0;
@@ -309,7 +309,7 @@ void TObjEneMe1Gee::run_task() {
     this->render_minimap_dot();
 }
 
-BmlResource *TObjEneMe1Gee::get_resource_bundle() { return TObjEneMe1Gee__resource_bundle; }
+BmlResource *TObjEneMe1Gee::get_resource_bundle() { return me1_gee_resource_bundle; }
 
 void TObjEneMe1Gee::refresh_target() {  }
 
@@ -363,8 +363,8 @@ void TObjEneMe1Gee::apply_parameters() {
 }
 #pragma pop
 void TObjEneMe1Gee::select_model() {
-    this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
-    this->texlist = TObjEneMe1Gee__resource_bundle->models->texlist;
+    this->model = (void *)me1_gee_resource_bundle->models->model;
+    this->texlist = me1_gee_resource_bundle->models->texlist;
 }
 #pragma push
 #pragma fp_contract on
@@ -591,7 +591,7 @@ void TObjEneMe1Gee::update_fade_sequence() {
         (this->fade_step_timer)++;
         if ((f32)this->fade_step_timer >= 2.0f) {
             this->fade_step_timer = 0;
-            switch (TObjEneMe1Gee__fade_command_streams[this->fade_sequence][(this->fade_cursor)++]) {
+            switch (me1_gee_fade_command_streams[this->fade_sequence][(this->fade_cursor)++]) {
             case 'b':
                 this->core_color.a = 0.0f;
                 break;
@@ -769,7 +769,7 @@ void TObjEneMe1Gee::state_spawn(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        set_field_378(3);
+        set_next_mode(3);
         this->set_intangible();
         this->status_flags |= 0x400000;
         this->fade_mode = 1;
@@ -803,7 +803,7 @@ void TObjEneMe1Gee::state_appear(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        set_field_378(3);
+        set_next_mode(3);
         this->status_flags &= 0xFFBFFFFF;
         this->set_intangible();
         this->actorFlags = (this->actorFlags & 0xFEFFFFFF);
@@ -834,7 +834,7 @@ void TObjEneMe1Gee::state_high_appear(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(3);
+        this->set_next_mode(3);
         this->status_flags &= 0xFFBFFFFF;
         this->status_flags &= 0xFFF7FFFF;
         this->actorFlags |= 0x01000000;
@@ -880,7 +880,7 @@ void TObjEneMe1Gee::state_hover(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        set_field_378(3);
+        set_next_mode(3);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->actorFlags &= 0xFEFFFFFF;
@@ -920,7 +920,7 @@ void TObjEneMe1Gee::state_activate(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(4);
+        this->set_next_mode(4);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->actorFlags &= 0xFEFFFFFF;
@@ -987,7 +987,7 @@ void TObjEneMe1Gee::state_rise(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        set_field_378(5);
+        set_next_mode(5);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->actorFlags |= 0x01000000;
@@ -1014,7 +1014,7 @@ void TObjEneMe1Gee::state_formation(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        set_field_378(6);
+        set_next_mode(6);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->actorFlags |= 0x01000000;
@@ -1077,7 +1077,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
     Vec *dir = &this->work_point;
     switch (mode) {
     case 4:
-        this->set_field_378(7);
+        this->set_next_mode(7);
         this->status_flags |= 0x10000;
         this->status_flags &= ~0x400000;
         this->clear_intangible();
@@ -1114,13 +1114,13 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                 this->stage = 2;
                 this->status_flags |= 0x40000;
             }
-            TObjEneEpsilon__sub_800B92F8(this, 0x200, 0.5f);
+            enemy_turn_and_move_xz_slide(this, 0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
             this->update_angle();
             this->stage = 3;
-            this->set_core_color(&TObjEneMe1Gee__map_core_default_vec4);
+            this->set_core_color(&me1_gee_map_core_default_vec4);
             VecCopy(dir, &this->destination);
             break;
         case 3: {
@@ -1219,7 +1219,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->actorFlags &= ~0x1000000;
@@ -1256,7 +1256,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 if (this->status_flags & 0x40000) {
                     if (this->destination_distance < 40.0f) {
                         this->stage = 2;
-                        this->set_core_color(&TObjEneMe1Gee__map_core_default_vec4);
+                        this->set_core_color(&me1_gee_map_core_default_vec4);
                     }
                 } else if (this->destination_distance < 100.0f) {
                     this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
@@ -1326,7 +1326,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 if (this->destination_distance > 40.0f) {
                     this->stage = 1;
                 }
-                TObjEneEpsilon__sub_800B92AC(this, 0x200, this->kind_params->melee_speed);
+                enemy_turn_and_move_xz_clamped(this, 0x200, this->kind_params->melee_speed);
             }
             break;
         case 3:
@@ -1391,7 +1391,7 @@ void TObjEneMe1Gee::state_orbit(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(9);
+        this->set_next_mode(9);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->attack_count = 0;
@@ -1482,7 +1482,7 @@ void TObjEneMe1Gee::state_regroup(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0xA);
+        this->set_next_mode(0xA);
         this->status_flags &= 0xFFBFFFFF;
         this->set_intangible();
         if ((s32) this->kind == 1) {
@@ -1589,7 +1589,7 @@ void TObjEneMe1Gee::state_vanish(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0xC);
+        this->set_next_mode(0xC);
         this->set_intangible();
         this->status_flags &= 0xFFBFFFFF;
         this->actorFlags |= 0x800;
@@ -1616,7 +1616,7 @@ void TObjEneMe1Gee::state_return_home(s32 mode) {
 
     switch (mode) {
     case 4:
-        set_field_378(0xF);
+        set_next_mode(0xF);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->stage = 0;
@@ -1725,7 +1725,7 @@ void TObjEneMe1Gee::state_move_forward(s32 msg) {
 
 void TObjEneMe1Gee::advance_camera_ctrl_step(NJS_OBJECT *) {
     Vec *pos;
-    switch ((s32) TObjEneMe1Gee__render_node_index) {
+    switch ((s32) me1_gee_render_node_index) {
     case 4:
         pos = gee_camera_ctrl_step_ptr;
         gee_camera_ctrl_step_ptr = pos + 1;
@@ -1737,7 +1737,7 @@ void TObjEneMe1Gee::advance_camera_ctrl_step(NJS_OBJECT *) {
         forward_transform_to_view((const Vec *)gee_camera_ctrl_vec, pos);
         break;
     }
-    TObjEneMe1Gee__render_node_index += 1;
+    me1_gee_render_node_index += 1;
 }
 
 void TObjEneMe1Gee::render() {
@@ -1780,7 +1780,7 @@ void TObjEneMe1Gee::render() {
         }
         if (draw_now != 0) {
             if ((s16) this->mode != 0xB) {
-                TObjEneMe1Gee__render_node_index = 0;
+                me1_gee_render_node_index = 0;
                 gee_camera_ctrl_step_ptr = this->node_points;
                 set_chunk_model_node_callback(TObjEneMe1Gee::advance_camera_ctrl_step);
                 if (detail == 1) {
@@ -1795,7 +1795,7 @@ void TObjEneMe1Gee::render() {
                 set_chunk_model_node_callback(NULL);
             } else {
                 rotate_matrix_z(NULL, this->rotation_z);
-                TObjEneMe1Gee__render_node_index = -1;
+                me1_gee_render_node_index = -1;
                 gee_camera_ctrl_step_ptr = this->node_points;
                 set_chunk_model_node_callback(TObjEneMe1Gee::advance_camera_ctrl_step);
                 this->draw_with_alt_model(this->alt_model_color);
@@ -1874,8 +1874,8 @@ void TObjEneMe1GeeLeader::run_task() {
 }
 
 void TObjEneMe1GeeLeader::select_model() {
-    this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
-    this->texlist = TObjEneMe1Gee__resource_bundle->models->texlist;
+    this->model = (void *)me1_gee_resource_bundle->models->model;
+    this->texlist = me1_gee_resource_bundle->models->texlist;
 }
 
 void TObjEneMe1GeeLeader::select_next_attack_state() {
@@ -2070,7 +2070,7 @@ void TObjEneMe1GeeLeader::state_activate(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(4);
+        this->set_next_mode(4);
         this->clear_intangible();
         this->core_color.r = gee_formation_reset_vec4.r;
         this->core_color.g = gee_formation_reset_vec4.g;
@@ -2129,7 +2129,7 @@ void TObjEneMe1GeeLeader::state_rise(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         this->clear_intangible();
         break;
     case 3:

@@ -6,7 +6,7 @@
 #include "pso/math/CurvePathPoint.h"
 
 extern "C" {
-s32 fn_8034D3D0(CurvePathPoint *e, f32 scale, s32 n, s32 step, s32 closed, Vec *out, s32) {
+s32 compute_bezier_curve_point(CurvePathPoint *e, f32 scale, s32 n, s32 step, s32 closed, Vec *out, s32) {
     f32 sum;
     f32 total;
     f32 ratio;
@@ -90,7 +90,7 @@ extern "C" {
 
 #pragma push
 #pragma fp_contract on
-s32 fn_8034D790(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 closed, Vec *out) {
+s32 get_vector_from_path(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 closed, Vec *out) {
     Vec a;
     Vec b;
     Vec d;
@@ -122,7 +122,7 @@ s32 fn_8034D790(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 closed, Vec 
     seg = (s32)pos / total;
     pos -= seg * sum;
     if (closed == 0 && seg != 0) {
-        VecCopy((Vec *)out, &e[n - 1].pos);
+        VecCopy(out, &e[n - 1].pos);
         return 1;
     }
     acc = 0.0f;

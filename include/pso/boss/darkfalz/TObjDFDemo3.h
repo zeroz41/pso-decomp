@@ -25,6 +25,7 @@ struct TObjDFDemo3 : public TObjBase {
     f32 frame;
     ModelNodePositionCapture *node_list;
     Vec emitter_position;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjDFDemo3_size, sizeof(TObjDFDemo3) == 0xC8);

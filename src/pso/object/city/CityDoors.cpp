@@ -20,9 +20,9 @@
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/object/TUnk_804B5C08.h"
+#include "pso/object/TObjCityVerticalModel.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/TUnk_804B5BA8.h"
+#include "pso/object/TObjCityDoorBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/city/TObjCityDoor_Shop.h"
 #include "pso/object/city/TObjCityDoor_Guild.h"
@@ -162,7 +162,7 @@ extern "C" s32 TLobby__sub_80182E60(void) {
     return challenge_task->state;
 }
 
-TUnk_804B5BA8::TUnk_804B5BA8(TObject *parent, void *set, const CityDoorParams *params)
+TObjCityDoorBase::TObjCityDoorBase(TObject *parent, void *set, const CityDoorParams *params)
     : TObjCollidable(parent) {
     apply_object_set_data(set);
     phase = 0;
@@ -176,16 +176,16 @@ TUnk_804B5BA8::TUnk_804B5BA8(TObject *parent, void *set, const CityDoorParams *p
     register_object_by_id();
 }
 
-TUnk_804B5BA8::~TUnk_804B5BA8() {
+TObjCityDoorBase::~TObjCityDoorBase() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
-s32 TUnk_804B5BA8::check_player_in_range(f32 range_sq) {
+s32 TObjCityDoorBase::check_player_in_range(f32 range_sq) {
     return is_any_city_player_in_range(&position, range_sq);
 }
 
-s32 TUnk_804B5BA8::is_any_city_player_in_range(const Vec *center, f32 range_squared) {
+s32 TObjCityDoorBase::is_any_city_player_in_range(const Vec *center, f32 range_squared) {
     TObjPlayer *player;
     s32 area;
     s32 client;
@@ -203,7 +203,7 @@ loop_1:
     goto loop_1;
 }
 
-void TUnk_804B5BA8::begin_state_1() {
+void TObjCityDoorBase::begin_state_1() {
     if (check_player_in_range(params->open_range_sq) != 0) {
         phase = 1;
         city_door_play_open_sound();
@@ -211,7 +211,7 @@ void TUnk_804B5BA8::begin_state_1() {
     }
 }
 
-void TUnk_804B5BA8::city_door_tick_opening() {
+void TObjCityDoorBase::city_door_tick_opening() {
     if (check_player_in_range(params->close_range_sq) == 0) {
         phase = 3;
         city_door_play_close_sound();
@@ -226,7 +226,7 @@ void TUnk_804B5BA8::city_door_tick_opening() {
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804B5BA8::city_door_tick_closing() {
+void TObjCityDoorBase::city_door_tick_closing() {
     if (check_player_in_range(params->open_range_sq) != 0) {
         phase = 1;
         city_door_play_open_sound();
@@ -241,22 +241,22 @@ void TUnk_804B5BA8::city_door_tick_closing() {
 }
 #pragma pop
 
-void TUnk_804B5BA8::check_ground_or_fall() {
+void TObjCityDoorBase::check_ground_or_fall() {
     if (check_player_in_range(params->close_range_sq) == 0) {
         phase = 3;
         city_door_play_close_sound();
     }
 }
 
-void TUnk_804B5BA8::city_door_play_close_sound() {
+void TObjCityDoorBase::city_door_play_close_sound() {
     play_sound_effect(0x42A05, &position, 0, 0);
 }
 
-void TUnk_804B5BA8::city_door_play_open_sound() {
+void TObjCityDoorBase::city_door_play_open_sound() {
     play_sound_effect(0x42A04, &position, 0, 0);
 }
 
-void TUnk_804B5BA8::dispatch_state() {
+void TObjCityDoorBase::dispatch_state() {
     switch (phase) {
     case 0:
         begin_state_1();
@@ -273,12 +273,12 @@ void TUnk_804B5BA8::dispatch_state() {
     }
 }
 
-s32 TUnk_804B5BA8::vfunc_22() {
+s32 TObjCityDoorBase::vfunc_22() {
     return update_object_view_visibility(params->view_far_depth, params->view_radius);
 }
 
 TObjCityDoor_Shop::TObjCityDoor_Shop(TObject *parent, void *set)
-    : TUnk_804B5BA8(parent, set, &TObjCityDoor_Shop__params) {
+    : TObjCityDoorBase(parent, set, &TObjCityDoor_Shop__params) {
     m_name = TObjCityDoor_Shop__name;
     end_frame = city_common_model_archive->motions[10].motion->frameCount - 1;
 }
@@ -306,7 +306,7 @@ void TObjCityDoor_Shop::render() {
 }
 
 TObjCityDoor_Guild::TObjCityDoor_Guild(TObject *parent, void *set)
-    : TUnk_804B5BA8(parent, set, &TObjCityDoor_Guild__params) {
+    : TObjCityDoorBase(parent, set, &TObjCityDoor_Guild__params) {
     m_name = TObjCityDoor_Guild__name;
     end_frame = get_city_common_motion(12)->frameCount - 1;
 }
@@ -334,7 +334,7 @@ void TObjCityDoor_Guild::render() {
 }
 
 TObjCityDoor_Warp::TObjCityDoor_Warp(TObject *parent, void *set)
-    : TUnk_804B5BA8(parent, set, &city_door_warp_params) {
+    : TObjCityDoorBase(parent, set, &city_door_warp_params) {
     m_name = TObjCityDoor_Warp__name;
     end_frame = get_city_common_motion(8)->frameCount - 1;
 }
@@ -350,7 +350,7 @@ void TObjCityDoor_Warp::city_door_tick_opening() {
     if (frame >= 24.0f && frame <= 25.0f) {
         set_sound_pitch_request(play_sound_effect(0x42A04, &position, 0, 0), -0x500, 0);
     }
-    TUnk_804B5BA8::city_door_tick_opening();
+    TObjCityDoorBase::city_door_tick_opening();
 }
 
 void TObjCityDoor_Warp::city_door_play_open_sound() {
@@ -403,7 +403,7 @@ block_6:
 }
 
 TObjCityDoor_Med::TObjCityDoor_Med(TObject *parent, void *set)
-    : TUnk_804B5BA8(parent, set, &city_door_med_params) {
+    : TObjCityDoorBase(parent, set, &city_door_med_params) {
     m_name = TObjCityDoor_Med__name;
     end_frame = get_city_common_motion(11)->frameCount - 1;
 }

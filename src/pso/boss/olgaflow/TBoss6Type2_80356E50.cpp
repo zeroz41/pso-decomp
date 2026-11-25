@@ -4,11 +4,10 @@
 #include <stdlib.h>
 #include "pso/unk/text_80357058.h"
 
-void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0);
 extern "C" {
 
-void TBoss6Type2__sub_80356E50(s32 arg0, s32 cnt, s32 force) {
-    TBoss6Type2::send_subordinate_actions(0, arg0, cnt, force, arg0);
+void TBoss6Type2__sub_80356E50(s32 ids, s32 cnt, s32 force) {
+    TBoss6Type2::send_subordinate_actions(0, ids, cnt, force, ids);
 }
 
 struct Pkt_80356F28 { u8 b[0x40]; };
@@ -31,7 +30,7 @@ void TBoss6Type2::send_6xAD_grid_positions(s32 index, saddr points, s32 count) {
     if (count < 0 || count > 3) {
         return;
     }
-    TBoss6Type2__sub_803570C8((s8 *)buf);
+    clear_6xAD_action_buffer((s8 *)buf);
     buf[0] = index;
     p = points;
     j = 1;
@@ -47,7 +46,7 @@ void TBoss6Type2::send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force
     Pkt_80356F28 pkt;
     s32 i;
 
-    TBoss6Type2__sub_803570C8((s8 *)&pkt);
+    clear_6xAD_action_buffer((s8 *)&pkt);
     for (i = 0; i < n; i++) {
         s32 off = ((s32 *)ids)[i] + 7;
         u8 flags = 0;

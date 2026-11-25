@@ -49,7 +49,6 @@ void TAdBackGC::sub_8029A6EC() {
     draw_polygon_2d((NJS_POINT2COL *)&fan, 4, 3, this->m_depth - 0.01f);
 }
 
-extern "C" {
 
 void TAdBackGC::render() {
     if (render_direct == 0) {
@@ -90,4 +89,3 @@ void TAdSinglePlyChrSelectGC::free_global() {
 }
 void register_texture_f256_ad_pic_2(void) { chr_select_ad_pic_texture = &chr_select_ad_pic_2_texture_descriptor; load_streamed_prs_texture("f256_ad_pic_2", &chr_select_ad_pic_2_texture_descriptor); }
 
-}

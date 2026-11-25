@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/effect/TDuelEffectCtrl.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/map/TSetEvtDestroy.h"
@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TUnk_804C3E88.h"
+#include "pso/unk/TDelayedAreaMusic.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -40,7 +40,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
@@ -68,7 +68,7 @@ struct BattleTeamTotals { s32 team[2]; };
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
 extern "C" {
 u8 TLobby__sub_801D7100(void *);
-extern const char *TDeadSpot__class_name;
+extern const char *dead_spot_class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 s32 fn_801D6D8C(void *, u8, int);
@@ -80,7 +80,7 @@ extern s16 battle_event_second_table[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
 extern "C" {
-void TLobby__sub_801036CC();
+void reset_map();
 }
 char team_matchup_message_buffer[256];
     extern int evt2_random_enemies_mode;
@@ -489,7 +489,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload() {
 void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
     if (--this->frame_timer <= 0) {
         TLobby__sub_8020BC50();
-        TLobby__sub_801036CC();
+        reset_map();
         if (quest_mission_manager != NULL) {
             TQuestThread::clear_buffer(quest_mission_manager);
         }
@@ -568,7 +568,7 @@ void TPlayerBattleCtrl4P::start_duel() {
     }
     this->reset_score_counters();
     name = get_current_floor_area() == AREA_BATTLE1 ? "duel1.adx" : "duel2.adx";
-    new TUnk_804C3E88(this, name, 0x2D);
+    new TDelayedAreaMusic(this, name, 0x2D);
     for (j = 0; j < 8; j++) {
         timed_event_flags[j] = 1;
         if (battle_event_second_table[j] == 0) {
@@ -660,7 +660,7 @@ void TPlayerBattleCtrl4P::destroy_dead_spots(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         cur = child;
         child = cur->m_next;
-        if (reinterpret_cast<TObject *>(cur)->check_value_equals(TDeadSpot__class_name) != 0) {
+        if (reinterpret_cast<TObject *>(cur)->check_value_equals(dead_spot_class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_dead_spots(cur);
@@ -1113,7 +1113,7 @@ s32 TPlayerBattleCtrl4P::calc_battle_score(TObjPlayer *player) {
     score -= (f32)player->battle_score.damage_stats[2].get_total();
     score += (f32)player->battle_score.damage_stats[0].get_total();
     score -= (f32)player->battle_score.damage_stats[1].get_total();
-    score += (f32)obj_getPtr2B0_20((u8 *)player) * player->battle_score.damage_stats[4].get_bonus_weight();
+    score += (f32)get_actor_meseta((u8 *)player) * player->battle_score.damage_stats[4].get_bonus_weight();
     total = (s32)score;
     player->battle_score.slots.set_score(total);
     return total;

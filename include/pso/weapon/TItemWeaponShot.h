@@ -1,0 +1,30 @@
+#ifndef PSO_WEAPON_TITEMWEAPONSHOT_H
+#define PSO_WEAPON_TITEMWEAPONSHOT_H
+#include "types.h"
+#include "pso/weapon/TItemWeapon.h"
+
+// A five-muzzle gun weapon class (old names
+// TObjPlayer::apply_frame_camera_shake, TObjPlayer::update_approach_value,
+// construct_shot_weapon): emit_marker_effects fires a shot from each muzzle
+// joint; update_idle/update_attack open and close barrel_angle and
+// slide_offset, which the model hook (slot 60) applies to the barrel and
+// slide nodes. The joint and node numbers depend on item code byte 2 (5, 6,
+// 7, other). Made by TItemWeaponShot::create.
+class TItemWeaponShot : public TItemWeapon {
+public:
+    virtual void transform_model_node();
+    virtual void emit_marker_effects();
+    virtual void update_idle();
+    virtual void update_attack();
+    TItemWeaponShot(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
+    virtual ~TItemWeaponShot();
+    s32 muzzle_joints[5];  // 0x1F8: get_joint_position joints of the shots (inferred name)
+    s32 barrel_nodes[4];   // 0x20C: rotated by +/-barrel_angle in transform_model_node (inferred name)
+    s32 slide_node;        // 0x21C: translated by slide_offset in transform_model_node (inferred name)
+    s32 barrel_angle;      // 0x220 (inferred name)
+    f32 slide_offset;      // 0x224 (inferred name)
+    u8 pad_228[4];
+};
+
+#endif

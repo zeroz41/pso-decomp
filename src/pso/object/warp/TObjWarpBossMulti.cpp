@@ -85,8 +85,8 @@ BmlResourceDescriptor lbl_804B94FC = {
     "bm_obj_warpboss_jungle.bml", jungle_boss_warp_model_names, jungle_boss_warp_motion_names, 2, 1,
 };
 
-const char *TObjWarpBoss__name = "TObjWarpBoss";
-const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
+const char *warp_boss_name = "TObjWarpBoss";
+const char *warp_boss_multi_name = "TObjWarpBossMulti";
 
 
 extern "C" {
@@ -190,7 +190,7 @@ void *TObjWarpBoss::create(void *set_data) {
 
 TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     int i;
-    m_name = TObjWarpBoss__name;
+    m_name = warp_boss_name;
     frame = 0.0f;
     warp_range = 19.0f;
     dest_floor = get_boss_warp_destination();
@@ -795,7 +795,7 @@ void TObjWarpBoss::update_warp_boss_visibility() {
 
 TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     int i;
-    m_name = TObjWarpBossMulti__name;
+    m_name = warp_boss_multi_name;
     dest_floor = get_boss_warp_destination();
     bodies = NULL;
     register_entity_by_id(this);

@@ -2991,9 +2991,9 @@ void TNpcPlayer::send_partner_attack_stage_request() {
             if (target != NULL) {
                 cmd43.angle_y = calc_angle_to(&self_view->player->position, &target->position);
                 player = self_view->player;
-                ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->set_count(1);
-                ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_uid(self_view->get_target_id());
-                ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_collider_index(self_view->get_target_collider());
+                player->attack_state.get_lockon_targets()->set_count(1);
+                player->attack_state.get_lockon_targets()->entries[0].set_uid(self_view->get_target_id());
+                player->attack_state.get_lockon_targets()->entries[0].set_collider_index(self_view->get_target_collider());
                 cmd43.send();
                 partner_counters.increment(1);
             }
@@ -3008,9 +3008,9 @@ void TNpcPlayer::send_partner_attack_stage_request() {
             if (target != NULL) {
                 cmd44.angle_y = calc_angle_to(&self_view->player->position, &target->position);
                 player = self_view->player;
-                ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->set_count(1);
-                ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_uid(self_view->get_target_id());
-                ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_collider_index(self_view->get_target_collider());
+                player->attack_state.get_lockon_targets()->set_count(1);
+                player->attack_state.get_lockon_targets()->entries[0].set_uid(self_view->get_target_id());
+                player->attack_state.get_lockon_targets()->entries[0].set_collider_index(self_view->get_target_collider());
                 cmd44.send();
                 partner_counters.increment(1);
             }
@@ -3025,9 +3025,9 @@ void TNpcPlayer::send_partner_attack_stage_request() {
             if (target != NULL) {
                 cmd45.angle_y = calc_angle_to(&self_view->player->position, &target->position);
                 player = self_view->player;
-                ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->set_count(1);
-                ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_uid(self_view->get_target_id());
-                ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_collider_index(self_view->get_target_collider());
+                player->attack_state.get_lockon_targets()->set_count(1);
+                player->attack_state.get_lockon_targets()->entries[0].set_uid(self_view->get_target_id());
+                player->attack_state.get_lockon_targets()->entries[0].set_collider_index(self_view->get_target_collider());
                 cmd45.send();
                 partner_counters.reset(1);
                 request_chatter(0xD);

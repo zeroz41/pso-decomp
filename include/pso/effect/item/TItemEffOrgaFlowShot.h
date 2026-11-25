@@ -2,7 +2,7 @@
 #define PSO_EFFECT_ITEM_TITEMEFFORGAFLOWSHOT_H
 
 #include "types.h"
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include "pso/system/TrailStrip.h"
 
 // The spawn parameters TItemWeaponDarkMeteor::emit_marker_effects fills after
@@ -14,7 +14,7 @@ struct OrgaFlowShotParams : S_802E451C {
 };
 
 // A wave of light swept forward from five weapon joints, hitting what it crosses.
-class TItemEffOrgaFlowShot : public TUnk_804E355C {
+class TItemEffOrgaFlowShot : public TItemAttackColBase {
 public:
     TItemEffOrgaFlowShot(TObject *parent, OrgaFlowShotParams *params);
     virtual ~TItemEffOrgaFlowShot();

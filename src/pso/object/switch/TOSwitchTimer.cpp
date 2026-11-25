@@ -42,7 +42,6 @@ extern "C" {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TOSwitchTimer::send_switch_states() {
-    u8 *arg0 = (u8 *)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801781D8, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_801781D8, spC) == 0x4);
     LAYOUT_ASSERT(spE_offset, offsetof(Stack_801781D8, spE) == 0x6);
@@ -54,22 +53,22 @@ void TOSwitchTimer::send_switch_states() {
     Stack_801781D8 stack;
     u16 *var_r30;
     s32 i;
-    if ((u32) this->m_98 == 0U) {
-        if ((u16) this->m_a8 < 0x100U) {
+    if ((u32) this->mode == 0U) {
+        if ((u16) this->trigger_switch < 0x100U) {
             ((TOChatSensor *)(&stack.sp14))->init_packet_type();
-            stack.sp18 = this->m_b4;
-            stack.sp1A = this->m_a8;
+            stack.sp18 = this->floor;
+            stack.sp1A = this->trigger_switch;
             stack.sp1C = 0;
             ((TOChatSensor *)(&stack.sp14))->send_state();
-            clear_floor_switch_flag((this->m_a8), (this->m_b4));
+            clear_floor_switch_flag((this->trigger_switch), (this->floor));
         }
     } else {
-        var_r30 = (u16 *)(arg0 + 0xAA);
+        var_r30 = target_switches;
         i = 0;
         do {
             if ((u16) *var_r30 < 0x100U) {
                 ((TOChatSensor *)(&stack.sp8))->init_packet_type();
-                stack.spC = this->m_b4;
+                stack.spC = this->floor;
                 stack.spE = *var_r30;
                 stack.sp10 = 1;
                 ((TOChatSensor *)(&stack.sp8))->send_state();
@@ -84,44 +83,44 @@ void TOSwitchTimer::send_switch_states() {
 
 
 
-void TOSwitchTimer::sub_801782A0() {
+void TOSwitchTimer::init_from_set_data() {
     s32 i;
     u16 *ids;
 
-    this->m_90 = 0;
-    this->m_94 = 0;
-    this->m_98 = (u32)this->rotation_x;
-    if (this->m_98 >= 2) {
-        this->m_98 = 1;
+    this->state = 0;
+    this->timer = 0;
+    this->mode = (u32)this->rotation_x;
+    if (this->mode >= 2) {
+        this->mode = 1;
     }
-    this->m_9c = this->rotation_y;
-    if ((s32)this->m_9c > 1) {
-        this->m_9c = 0;
+    this->tick_sound = this->rotation_y;
+    if ((s32)this->tick_sound > 1) {
+        this->tick_sound = 0;
     }
-    this->m_a0 = this->rotation_z;
-    if ((s32)this->m_a0 < 0) {
-        this->m_a0 = 0;
+    this->duration = this->rotation_z;
+    if ((s32)this->duration < 0) {
+        this->duration = 0;
     }
-    this->m_a4 = (s32)this->m_a0 * 3 / 4;
-    this->m_a8 = this->set_params[0];
-    if (this->m_a8 < 0x100) {
-        this->m_b0 = is_current_floor_switch_set(this->m_a8);
+    this->steady_after = (s32)this->duration * 3 / 4;
+    this->trigger_switch = this->set_params[0];
+    if (this->trigger_switch < 0x100) {
+        this->trigger_state = is_current_floor_switch_set(this->trigger_switch);
     } else {
-        this->m_a8 = 0xFFFF;
-        this->m_b0 = 0;
+        this->trigger_switch = 0xFFFF;
+        this->trigger_state = 0;
     }
-    ids = (u16 *)((u8 *)this + 0xAA);
+    ids = target_switches;
     for (i = 0; i < 3; i++) {
-        *ids = *(u32 *)((u8 *)this + 0x84 + i * 4) >> 16;
+        *ids = (u32)set_params[i] >> 16;
         if (*ids >= 0x100) {
             *ids = 0xFFFF;
         }
         ids++;
     }
-    this->m_b4 = get_current_floor();
+    this->floor = get_current_floor();
 }
 
-const char *TOSwitchTimer__name = "TOSwitchTimer";
+const char *switch_timer_name = "TOSwitchTimer";
 
 
 void clear_floor_switch_flag(u32 id, s16 floor);
@@ -142,35 +141,35 @@ void TOSwitchTimer::run_task() {
     s32 temp_r3_2;
     u32 temp_r3;
 
-    switch (*(s32 *)&this->m_90) {
+    switch (this->state) {
     case 0:
-        temp_r3 = is_current_floor_switch_set(this->m_a8);
-        if ((s32) this->m_b0 != (s32) temp_r3) {
-            this->m_b0 = temp_r3;
+        temp_r3 = is_current_floor_switch_set(this->trigger_switch);
+        if ((s32) this->trigger_state != (s32) temp_r3) {
+            this->trigger_state = temp_r3;
             if (temp_r3 == 1) {
-                *(s32 *)&this->m_90 = 1;
-                *(s32 *)&this->m_94 = 0;
-                if ((u32) this->m_98 == 0U) {
-                    this->m_b0 = 0U;
+                this->state = 1;
+                this->timer = 0;
+                if ((u32) this->mode == 0U) {
+                    this->trigger_state = 0U;
                 }
             }
         }
         return;
     case 1:
-        if ((s32) *(s32 *)&this->m_9c == 1) {
-            if ((s32) *(s32 *)&this->m_94 < (s32) *(s32 *)&this->m_a4) {
-                if ((*(s32 *)&this->m_94 % 30) == 0) {
+        if (this->tick_sound == 1) {
+            if (this->timer < this->steady_after) {
+                if ((this->timer % 30) == 0) {
                     play_sound_effect(0x53218, 0, 0, 0);
                 }
             } else {
                 play_persistent_sound(0x53218, this, NULL, 0, 0);
             }
         }
-        temp_r3_2 = *(s32 *)&this->m_94;
-        *(s32 *)&this->m_94 = (temp_r3_2 + 1);
-        if (temp_r3_2 == (s32) *(s32 *)&this->m_a0) {
+        temp_r3_2 = this->timer;
+        this->timer = (temp_r3_2 + 1);
+        if (temp_r3_2 == (s32) this->duration) {
             send_switch_states();
-            *(s32 *)&this->m_90 = 0;
+            this->state = 0;
         }
         break;
     }
@@ -185,12 +184,12 @@ void *TOSwitchTimer::create(void *arg0) {
 void TOSwitchTimer__sub_80178584(void) {  }
 void TOSwitchTimer__sub_80178588(void) {  }
 TOSwitchTimer::~TOSwitchTimer() {
-    if ((u32) this->m_98 == 0U) {
-        clear_floor_switch_flag(this->m_a8, (s16) this->m_b4);
+    if ((u32) this->mode == 0U) {
+        clear_floor_switch_flag(this->trigger_switch, (s16) this->floor);
     }
 }
 TOSwitchTimer::TOSwitchTimer(saddr parent, saddr set_data) : TObjBase((TObject *)parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TOSwitchTimer__name);
-    ((TOSwitchTimer *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
-    this->sub_801782A0();
+    m_name = switch_timer_name;
+    apply_object_set_data((void *)set_data);
+    init_from_set_data();
 }

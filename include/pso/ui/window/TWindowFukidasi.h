@@ -58,22 +58,22 @@ public:
     TWindowFukidasi *find_balloon_overlap_for(TWindowFukidasi *first);
     void rearm_balloon(saddr flags);
 
-    s8 m_70;
-    u8 m_71;
+    s8 state;            // run_task's state machine
+    u8 balloon_flags;    // bit 0 shown, 1 reveal, 2 active, 5 balloon visible
     u8 unk_72[0x1];
-    s8 m_73;
+    s8 slot;             // the balloon slot taken from TWindowCtrl (alloc_nearest_free_slot)
     u8 unk_74[0x2];
     u16 speaker_id;  // Speaker entity ID, or 0xFFFF for no entity.
     char *name;  // speaker name, drawn by draw_name_plate (inferred)
-    f32 m_7c;
+    f32 scale;
     f32 tail_scale;
     s32 balloon_color;
     f32 balloon_center[2];
     f32 head_position[2];
 };
-LAYOUT_ASSERT(TWindowFukidasi_fields_offset, offsetof(TWindowFukidasi, m_70) == 0x70);
+LAYOUT_ASSERT(TWindowFukidasi_fields_offset, offsetof(TWindowFukidasi, state) == 0x70);
 LAYOUT_ASSERT(TWindowFukidasi_name_offset, offsetof(TWindowFukidasi, name) == 0x78);
-LAYOUT_ASSERT(TWindowFukidasi_scale_offset, offsetof(TWindowFukidasi, m_7c) == 0x7C);
+LAYOUT_ASSERT(TWindowFukidasi_scale_offset, offsetof(TWindowFukidasi, scale) == 0x7C);
 LAYOUT_ASSERT(TWindowFukidasi_speaker_offset, offsetof(TWindowFukidasi, speaker_id) == 0x76);
 LAYOUT_ASSERT(TWindowFukidasi_tail_scale_offset, offsetof(TWindowFukidasi, tail_scale) == 0x80);
 LAYOUT_ASSERT(TWindowFukidasi_balloon_center_offset, offsetof(TWindowFukidasi, balloon_center) == 0x88);

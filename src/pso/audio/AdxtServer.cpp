@@ -144,7 +144,7 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
             return;
         }
         n1 = input_state->notify_field_4();
-        k = TLobby__sub_803BFEE8(input_state);
+        k = get_stream_loop_type(input_state);
         if (k > 0) {
             self->reserved_48 = (n1 / self->server_freq) * 3;
         } else {
@@ -159,7 +159,7 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
             if ((s32) self->source_type == 2) {
                 self->reserved_50 = 0;
             } else {
-                s32 x = TLobby__sub_803BFE58(input_state);
+                s32 x = get_stream_loop_end_byte(input_state);
                 s32 pages;
                 self->reserved_50 = 0x800 - x % 0x800;
                 pages = (x + 0x7FF) / 0x800;

@@ -6,7 +6,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/player/TUnk_804C4540.h"
+#include "pso/player/TObjEndingPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"

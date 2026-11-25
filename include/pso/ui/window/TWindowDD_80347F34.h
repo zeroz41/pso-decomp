@@ -5,13 +5,13 @@
 
 extern "C" {
 void TWindowDD__sub_80347F48(u8 *window_dd);
-void TWindowDD__sub_80347FA0(saddr window_dd, s32 arg1);
+void update_word_select_child_position(saddr window_dd, s32 arg1);
 }
 
 // --- C functions defined in TWindowDD_80347F34.cpp ---
 extern "C" {
 void TWindowDD__sub_80347F48(u8 *window_dd);
-void TWindowDD__sub_80347FA0(saddr window_dd, s32 arg1);
+void update_word_select_child_position(saddr window_dd, s32 arg1);
 }
 // --- end of C functions
 

@@ -16,7 +16,6 @@
 struct O_8007B6F4 { u8 pad[0x8c]; u8 flags; };
 
 extern "C" {
-s32 TWindowSubComCard__sub_8007B6F4(O_8007B6F4 *self);
 int bswap__16TPlyGuildCardTagFv(void*);
 
 s32 GuildCardEntry::get_card_id() const { return id; }

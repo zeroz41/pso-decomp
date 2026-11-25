@@ -17,7 +17,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
@@ -40,7 +40,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/vector.h"
-#include "pso/object/TUnk_8049442C.h"
+#include "pso/object/TObjEneGyaranzoMine.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -92,7 +92,7 @@ BmlResourceDescriptor bm_ene_gyaranzo_resource_descriptor = {
     "bm_ene_gyaranzo.bml", bm_ene_gyaranzo_model_names, bm_ene_gyaranzo_motion_names, 7, 8,
 };
 
-const char *TObjEneGyaranzo__class_name = "TObjEneGyaranzo";
+const char *gyaranzo_class_name = "TObjEneGyaranzo";
 
 TObjMotionAction gyaranzo_action_table[8] = {
     {2, 0, 4, 0.7f, 0},
@@ -146,11 +146,11 @@ ActorParamBlock *gyaranzo_object_handle;
 GyaranzoParameters *gyaranzo_missile_param_table;
 
 // Missile float parameter 2 (init_params_from_table); nothing reads it.
-f32 TObjGyaranzoMissile__float_param2;
+f32 gyaranzo_missile_float_param2;
 
-f32 TObjGyaranzoMissile__speed_scale;
+f32 gyaranzo_missile_speed_scale;
 
-f32 TObjGyaranzoMissile__max_range;
+f32 gyaranzo_missile_max_range;
 
 BmlResource *gyaranzo_bml_resource;
 
@@ -166,7 +166,7 @@ s32 gyaranzo_missile_volley_end_time;
 TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     s32 i;
 
-    m_name = TObjEneGyaranzo__class_name;
+    m_name = gyaranzo_class_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, &position));
     motion_list = gyaranzo_bml_resource->motions;
@@ -674,7 +674,7 @@ void TObjEneGyaranzo::spawn_missile() {
     render_anim_model_at_pos();
     this->get_anim_node_position(0x18, &launch_position);
     spin = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
-    new TUnk_8049442C(this, &launch_position, rotation_y, spin);
+    new TObjEneGyaranzoMine(this, &launch_position, rotation_y, spin);
     spawn_particle_effect(&launch_position, 0xF3);
     play_sound_effect(this->remap_sound_for_area(0x4003B20D), &position, 0, 0);
 }
@@ -911,9 +911,9 @@ void TObjEneGyaranzo::update_fade_in() {
 
 void TObjEneGyaranzo::init_params_from_table() {
     ((EnemyMoveParams *)movementParameters)->min_distance = get_gyaranzo_missile_float_parameter(1);
-    TObjGyaranzoMissile__float_param2 = get_gyaranzo_missile_float_parameter(2);
-    TObjGyaranzoMissile__speed_scale = get_gyaranzo_missile_float_parameter(3);
-    TObjGyaranzoMissile__max_range = get_gyaranzo_missile_float_parameter(4);
+    gyaranzo_missile_float_param2 = get_gyaranzo_missile_float_parameter(2);
+    gyaranzo_missile_speed_scale = get_gyaranzo_missile_float_parameter(3);
+    gyaranzo_missile_max_range = get_gyaranzo_missile_float_parameter(4);
 }
 
 // Mode 8: walk back to home_position, then resume through update_if_active.

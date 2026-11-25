@@ -8,6 +8,8 @@ class TQuestThread;
 struct TWindowMenu;
 
 struct THunterGuildSeqOffline : public TShopSequence {
+    static THunterGuildSeqOffline * active_instance;
+    static s32 instance_table[4];
     THunterGuildSeqOffline(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOffline();
     virtual void close_window();
@@ -39,7 +41,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     void handle_window_input();
     TWindowMenu *choice_menu; // 0x2C: create_yes_no_window
     TObject *counter_camera; // 0x30: set_service_counter_camera
-    TQuestThread *m_34;       // 0x34: TQuestThread::create_in_root
+    TQuestThread *quest_thread;       // 0x34: TQuestThread::create_in_root
     s32 unk_38;
     void advance_matching_entries(s32 arg1, s32 arg2);
     static void clear_slots();
@@ -49,7 +51,6 @@ struct THunterGuildSeqOffline : public TShopSequence {
 };
 
 LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3C);
-extern "C" THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
 
 extern "C" void THunterGuildSeqOffline__sub_80213410(void);
 // Quest thread ids started per quest result ([1] success, [2] cancel, [3] exit); -1 when unset.

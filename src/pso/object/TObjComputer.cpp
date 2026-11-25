@@ -56,12 +56,12 @@ const char *fs_obj_tanmatu02_motion_names[1] = {NULL};
 BmlResourceDescriptor fs_obj_tanmatu02_resource_descriptor = {
     "fs_obj_tanmatu02.bml", fs_obj_tanmatu02_model_names, fs_obj_tanmatu02_motion_names, 2, 0,
 };
-const char *TObjComputer__class_name = "TObjComputer";
-const char *TObjGbAdvance__class_name = "TObjGbAdvance";
+const char *computer_class_name = "TObjComputer";
+const char *gb_advance_class_name = "TObjGbAdvance";
 const s16 TObjComputer__data_805DBCD8[2] = {1, 0};
 
-BmlResource *TObjComputer__model_archive;
-NJS_TEXLIST *TObjComputer__texture_gvm_handle;
+BmlResource *computer_model_archive;
+NJS_TEXLIST *computer_texture_gvm_handle;
 u16 computer_uv_scroll_phase;
 BmlResource *TObjGbAdvance__data_805D5B74;
 
@@ -70,15 +70,15 @@ CollisionBody gb_advance_collision_body_parts = {{0.0f, 20.0f, -10.0f}, 5.0f, 5.
 
 
 TObjComputer::TObjComputer(TObject *parent, ObjectSetData *placement) : TObjMesBase(parent, placement) {
-    m_name = TObjComputer__class_name;
+    m_name = computer_class_name;
     if (set_params[1] < 0) {
         set_params[1] = 0;
     }
     if (set_params[1] > 1) {
         set_params[1] = 1;
     }
-    if (TObjComputer__model_archive != NULL) {
-        screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TObjComputer__model_archive, TObjComputer__data_805DBCD8[set_params[1]]));
+    if (computer_model_archive != NULL) {
+        screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)computer_model_archive, TObjComputer__data_805DBCD8[set_params[1]]));
     } else {
         queue_destruction();
         return;
@@ -102,28 +102,28 @@ void load_computer_resources(void) {
     case AREA_CENTRAL_CONTROL_AREA: case AREA_JUNGLE_NORTH: case AREA_JUNGLE_EAST: case AREA_MOUNTAIN: case AREA_SEASIDE: case AREA_SEABED_UPPER: case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT: case AREA_TOWER:
         p = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tanmatu02_resource_descriptor, 0, 0, NULL);
-        TObjComputer__model_archive = p;
-        TObjComputer__texture_gvm_handle = LoadPvmFileTls("fs_obj_tanmatu02.gvm");
+        computer_model_archive = p;
+        computer_texture_gvm_handle = LoadPvmFileTls("fs_obj_tanmatu02.gvm");
         computer_uv_scroll_phase = 0;
         break;
     default:
         p = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_tanmatu02_resource_descriptor, 0, 0, NULL);
-        TObjComputer__model_archive = p;
-        TObjComputer__texture_gvm_handle = LoadPvmFileTls("fe_obj_computer.gvm");
+        computer_model_archive = p;
+        computer_texture_gvm_handle = LoadPvmFileTls("fe_obj_computer.gvm");
         computer_uv_scroll_phase = 1;
         break;
     }
 }
 
 void TObjComputer::free_resources() {
-    if (TObjComputer__texture_gvm_handle != NULL) {
-        release_texture_list(TObjComputer__texture_gvm_handle);
-        safe_free(TObjComputer__texture_gvm_handle);
-        TObjComputer__texture_gvm_handle = NULL;
+    if (computer_texture_gvm_handle != NULL) {
+        release_texture_list(computer_texture_gvm_handle);
+        safe_free(computer_texture_gvm_handle);
+        computer_texture_gvm_handle = NULL;
     }
-    if (TObjComputer__model_archive != NULL) {
-        delete (BmlResource *)TObjComputer__model_archive;
-        TObjComputer__model_archive = NULL;
+    if (computer_model_archive != NULL) {
+        delete (BmlResource *)computer_model_archive;
+        computer_model_archive = NULL;
     }
 }
 
@@ -154,7 +154,7 @@ void TObjComputer::draw_model() {
     if (screen_model == NULL) {
         return;
     }
-    TObjFish::set_global_param(TObjComputer__texture_gvm_handle);
+    TObjFish::set_global_param(computer_texture_gvm_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
@@ -184,14 +184,14 @@ void TObjComputer::draw_model() {
 void TObjComputer::debug_draw_label() {
     this->TObjMesBase::debug_draw_label();
     this->set_params[1] = this->set_params[1] % 2;
-    screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TObjComputer__model_archive, TObjComputer__data_805DBCD8[this->set_params[1]]));
+    screen_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)computer_model_archive, TObjComputer__data_805DBCD8[this->set_params[1]]));
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130021, "<- MODEL SELECT");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
 TObjGbAdvance::TObjGbAdvance(TObject *parent, ObjectSetData *placement) : TObjMesBase(parent, placement) {
-    m_name = TObjGbAdvance__class_name;
+    m_name = gb_advance_class_name;
     init_collision_body_parts(this, &gb_advance_collision_body_parts, 1);
     actorFlags |= 0x40000000;
     register_object_by_id();

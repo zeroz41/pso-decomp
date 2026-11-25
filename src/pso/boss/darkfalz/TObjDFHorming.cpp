@@ -48,13 +48,9 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 #pragma readonly_strings on
-
-// One arena zone of the fight (push_players_out_of_zone): players farther than radius from the center of
-// the zone being entered who stand inside another zone land at landing, spread from it along their offset
-// from that zone's center.
-struct DarkFalzPushZone { Vec center; f32 radius; Vec landing; f32 spread; };
 
 const char *darkfalz_dat_model_names[] = {
     "df_event_tower.nj",
@@ -177,9 +173,9 @@ BmlResourceDescriptor darkfalz_dat_resource_descriptor = {
     "darkfalz_dat.bml", darkfalz_dat_model_names, darkfalz_dat_motion_names, 19, 90,
 };
 
-const char *TBoss4DarkFalz__name = "TBoss4DarkFalz";
+const char *TBoss4DarkFalz::name = "TBoss4DarkFalz";
 
-// Read-only start positions (.rodata) of sub_8004B8F8 and sub_8004B7DC. Declared const, the visible
+// Read-only start positions (.rodata) of the two functions that copy them. Declared const, the visible
 // definition lets CodeWarrior hoist the copy above the stmw in both users, so they are placed explicitly.
 __declspec(section ".rodata") Vec dark_falz_player_ring_center_origin = { 0.0f, 10.0f, 0.0f };
 __declspec(section ".rodata") Vec dark_falz_player_ring_center = { 10000.0f, 10.0f, 0.0f };
@@ -504,23 +500,23 @@ struct SetEntryCopy {
 void copy_set_entry(void *arg0p, void *arg1p) {
 #define o ((struct SetEntryCopy *)arg0p)
 #define s ((struct SetEntryCopy *)arg1p)
-  struct SetEntryCopy *new_var;
-  struct SetEntryCopy *new_var2;
+  struct SetEntryCopy *dest_first;
+  struct SetEntryCopy *dest_second;
   struct SetEntryWords5 *dc = &o->params;
   struct SetEntryWords5 *sc = &s->params;
   o->set_index = s->set_index;
-  new_var2 = (new_var = o);
-  new_var2->kind = s->kind;
+  dest_second = (dest_first = o);
+  dest_second->kind = s->kind;
   o->unknown_04 = s->unknown_04;
-  new_var->entity_id = s->entity_id;
+  dest_first->entity_id = s->entity_id;
   o->room = s->room;
   o->wave = s->wave;
-  new_var->unknown_0C = s->unknown_0C;
+  dest_first->unknown_0C = s->unknown_0C;
   o->unknown_0E = s->unknown_0E;
-  new_var->position = s->position;
+  dest_first->position = s->position;
   o->rotation = s->rotation;
   *dc = *sc;
-  new_var->param_3C = s->param_3C;
+  dest_first->param_3C = s->param_3C;
   o->param_3E = s->param_3E;
 }
 #undef o
@@ -730,11 +726,10 @@ void TBoss4DarkFalz::run_task() {
 }
 
 void TBoss4DarkFalz::run_death_reaction() {  }
-void init_music_sequencer(s32 program);
 BmlResource *darkfalz_dat_resource;
-TBoss4Type1 *TBoss4DarkFalz__type1_instance;
-TBoss4Type2 *TBoss4DarkFalz__type2_instance;
-TBoss4Type3 *TBoss4DarkFalz__type3_instance;
+TBoss4Type1 *TBoss4DarkFalz::type1_instance;
+TBoss4Type2 *TBoss4DarkFalz::type2_instance;
+TBoss4Type3 *TBoss4DarkFalz::type3_instance;
 s32 dark_falz_form_index;
 s32 boss4_type2_rafoie_level;
 s32 boss4_type2_rabarta_level;
@@ -758,24 +753,24 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
         object->queue_destruction();
         fade = NULL;
     }
-    if (TBoss4DarkFalz__type1_instance != NULL) {
-        TBoss4DarkFalz__type1_instance->queue_destruction();
-        TBoss4DarkFalz__type1_instance = NULL;
+    if (TBoss4DarkFalz::type1_instance != NULL) {
+        TBoss4DarkFalz::type1_instance->queue_destruction();
+        TBoss4DarkFalz::type1_instance = NULL;
     }
-    if (TBoss4DarkFalz__type2_instance != NULL) {
-        TBoss4DarkFalz__type2_instance->queue_destruction();
-        TBoss4DarkFalz__type2_instance = NULL;
+    if (TBoss4DarkFalz::type2_instance != NULL) {
+        TBoss4DarkFalz::type2_instance->queue_destruction();
+        TBoss4DarkFalz::type2_instance = NULL;
     }
-    if (TBoss4DarkFalz__type3_instance != NULL) {
-        TBoss4DarkFalz__type3_instance->queue_destruction();
-        TBoss4DarkFalz__type3_instance = NULL;
+    if (TBoss4DarkFalz::type3_instance != NULL) {
+        TBoss4DarkFalz::type3_instance->queue_destruction();
+        TBoss4DarkFalz::type3_instance = NULL;
     }
     dark_falz_controller_instance = 0;
 }
 
 
 TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data) : TObjEnemy(parent) {
-    m_name = TBoss4DarkFalz__name;
+    m_name = TBoss4DarkFalz::name;
     reset_child_ids();
     if (set_data->kind != 0x200) {
         return;
@@ -798,14 +793,14 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     actorFlags |= 0x02000000;
     update_visible_flag();
     active_player_count = count_active_players();
-    TBoss4DarkFalz__type1_instance = 0;
-    TBoss4DarkFalz__type2_instance = 0;
-    TBoss4DarkFalz__type3_instance = 0;
+    TBoss4DarkFalz::type1_instance = 0;
+    TBoss4DarkFalz::type2_instance = 0;
+    TBoss4DarkFalz::type3_instance = 0;
     intro_tower = NULL;
     fade = create_boss4_fade();
     minions_spawned = 0;
     minions_lost = 0;
-    fn_8030A83C(this);
+    create_boss4_zako_draw(this);
     init_music_sequencer(4);
     dark_falz_form_index = 0;
     roar_timer = 0;
@@ -841,22 +836,22 @@ void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd) {
     switch (boss->get_phase()) {
     case 5:
     case 6:
-        if (TBoss4DarkFalz__type1_instance != NULL) {
-            TBoss4DarkFalz__type1_instance->apply_packed_state(arg);
+        if (TBoss4DarkFalz::type1_instance != NULL) {
+            TBoss4DarkFalz::type1_instance->apply_packed_state(arg);
         }
         break;
     case 7:
     case 8:
     case 9:
-        if (TBoss4DarkFalz__type2_instance != NULL) {
-            TBoss4DarkFalz__type2_instance->apply_packed_state(arg);
+        if (TBoss4DarkFalz::type2_instance != NULL) {
+            TBoss4DarkFalz::type2_instance->apply_packed_state(arg);
         }
         break;
     case 12:
     case 13:
     case 14:
-        if (TBoss4DarkFalz__type3_instance != NULL) {
-            TBoss4DarkFalz__type3_instance->apply_packed_state(arg);
+        if (TBoss4DarkFalz::type3_instance != NULL) {
+            TBoss4DarkFalz::type3_instance->apply_packed_state(arg);
         }
         break;
     }

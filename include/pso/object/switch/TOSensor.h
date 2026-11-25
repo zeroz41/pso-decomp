@@ -24,6 +24,6 @@ public:
     void play_on_loop_sound();
 };
 
-extern const char *TOSensor__class_name;
+extern const char *sensor_class_name;
 
 #endif

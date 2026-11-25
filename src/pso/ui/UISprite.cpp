@@ -379,7 +379,6 @@ s32 TObjCMMainMenu::get_creation_sprite_id(s32 sprite_id) {
 
 f32 ui_sprite_scale = 1.0f;
 
-extern "C" {
 
 void draw_creation_sprite_offset(s32 sprite_id, const vec2f *position, const vec2f *scale, f32 depth,
                                  f32 alpha) {
@@ -442,7 +441,6 @@ void draw_ui_sprite(s32 sprite_id, const vec2f *position, f32 depth, f32 alpha) 
     }
 }
 
-}
 
 void draw_ui_sprite_opaque(s32 sprite_id, const vec2f *position, const vec2f *scale, f32 depth) {
     draw_ui_sprite_scaled(sprite_id, position, scale, depth, 1.0f);
@@ -452,7 +450,6 @@ void TChCrEffWall::draw_default_sprite(s32 sprite_id, const vec2f *position, f32
     draw_ui_sprite(sprite_id, position, depth, 1.0f);
 }
 
-extern "C" {
 
 void *cmicon_instance;
 s32 creation_sprite_table_index;
@@ -490,4 +487,3 @@ void fn_80291178(void) {
                                   &creation_sprite_table);
 }
 
-}

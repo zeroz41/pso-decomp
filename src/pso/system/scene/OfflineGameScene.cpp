@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/scene/OfflineGameScene.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -103,8 +103,8 @@
 #include "pso/player/PlayerActionProvider.h"
 
 
-void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
-void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
+void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
+void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
 void TLobby__sub_801A2DF4(void) {  }
 void TLobby__sub_801A2DF8(void) {  }
 void TLobby__sub_801A2DFC(void) {  }
@@ -196,11 +196,11 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {prepare_adventure_maps, TLobby__sub_802075F4},
     {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
     {start_challenge_mode, NULL},
-    {TLobby__sub_80293124, TLobby::destroy_tombstone},
+    {load_tombstone_resources, TLobby::destroy_tombstone},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
-    {TLobby__sub_8001ED74, TLobby__sub_8001ED70},
+    {reset_clock_bar_pulse, TLobby__sub_8001ED70},
     {TLobby::set_ending_callback, TLobby::free_ending_callback},
     {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
@@ -231,7 +231,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby__sub_8024285C, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {reset_choice_search_data, free_choice_search_data},
-    {TLobby::init_char_slots, TLobby__sub_801C3A40},
+    {TLobby::init_char_slots, free_char_slots},
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, (FloorResourceCallback)TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel__sub_8007DD24},
@@ -633,7 +633,7 @@ void init_offline_game_scene(void) {
             TLobby::reset_keyboard_input();
         }
     }
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     set_queued_main_phase(0xE);
     render_tick();
 }

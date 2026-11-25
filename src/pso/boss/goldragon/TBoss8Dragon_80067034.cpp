@@ -21,13 +21,13 @@ f32 TBoss8Dragon::calc_sq_offset(const DragonAttackParams *params, f32 padding) 
     return range * range;
 }
 
-void TBoss8Dragon__sub_80067074(const Vec *pos, const DragonAttackParams *params) {
+void boss5_attack_floor_in_range(const Vec *pos, const DragonAttackParams *params) {
     TObject *floor_grass;
     TObjBoss5FloorStone *floor_stone;
     if (boss5_ctrl_instance != NULL) {
         floor_grass = boss5_ctrl_instance->floor_grass;
         if (floor_grass != NULL) {
-            TBoss8Dragon__sub_8028A900(floor_grass, pos, params);
+            break_floor_grass_in_range(floor_grass, pos, params);
         }
         floor_stone = boss5_ctrl_instance->floor_stone;
         if (floor_stone != NULL) {
@@ -36,12 +36,12 @@ void TBoss8Dragon__sub_80067074(const Vec *pos, const DragonAttackParams *params
     }
 }
 
-void TBoss8Dragon__sub_800670E0(const Vec *pos, const DragonAttackParams *params) {
+void boss5_attack_pillars_in_range(const Vec *pos, const DragonAttackParams *params) {
     TObjBoss5PillarCtrl *pillar_controller;
     if (boss5_ctrl_instance != NULL) {
         pillar_controller = boss5_ctrl_instance->pillar_controller;
         if (pillar_controller != NULL) {
-            TBoss8Dragon__sub_8028B0DC(pillar_controller, pos, params);
+            trigger_pillars_in_range(pillar_controller, pos, params);
         }
     }
 }

@@ -18,7 +18,6 @@ WindowDescriptor window_callback_base_params = {
     {0.0f, 0.0f}, 50045.0f, NULL, 0x23,
 };
 
-extern "C" {
 const char *TWindowCallBack__name = "TWindowCallBack";
 
 s32 TBoss6Type2::get_state() { return this->action_state; }
@@ -31,7 +30,6 @@ void OlgaFlowType2ActionMsg::initialize() {
 }
 void OlgaFlowPlotActionMsg::swap_entity_id() { header.bswap(); }
 void OlgaFlowPlotActionMsg::send() { swap_entity_id(); send_subcommand(this); }
-}
 void OlgaFlowPlotActionMsg::initialize() {
     header.subcommand = 0xA3;
     header.size = 5;
@@ -45,7 +43,7 @@ void TWindowCallBack::render() {
     }
 }
 
-void TWindowCallBack::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); }
+void TWindowCallBack::run_task() { update_window(); update_fade(); }
 
 TWindowCallBack::~TWindowCallBack() {}
 TWindowCallBack::TWindowCallBack(u8 *position, u8 *scale, WindowCallback callback_function)

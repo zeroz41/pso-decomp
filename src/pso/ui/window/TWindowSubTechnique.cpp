@@ -107,7 +107,7 @@ void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
 TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
   TWindowMenu *titled_window_menu;
   titled_window_menu = create_titled_window_menu(get_window_layout_position(0x13), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x30), playerIndex);
-  titled_window_menu->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 1));
+  titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 1));
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
   titled_window_menu->set_flag70_bit10();
   return titled_window_menu;
@@ -116,19 +116,17 @@ TWindowMenu *TWindowSubTechnique::create_title_window(s32 category) {
 
 extern u8 *text_language_group_table;
 extern "C" {
-saddr get_technique_description_text(s32 arg0);
 u8 *calc_technique_parameters(s16, u8, s32);
 s32 get_cast_technique_level(void *, int);
 s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 }
-void text_builder_reset(void);
 
 
 TWindowMenu *TWindowSubTechnique::open_menu() {
     TWindowMenu *titled_window_menu;
 
     titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
-    titled_window_menu->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 0));
+    titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 0));
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9D)), 6, 1);
@@ -220,7 +218,7 @@ void TWindowSubTechnique::run_task() {
     }
     case 3:
         help_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x14), (const f32 *)technique_help_window_size, 1, (s32)playerIndex);
-        ((TWindowBase *)help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 2));
+        ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
         ((TWindowSubTradeMain *)technique_menu)->clear_trade_flag();
         ((TWindowSubTechnique *)technique_menu)->clear_flag70_bit80();

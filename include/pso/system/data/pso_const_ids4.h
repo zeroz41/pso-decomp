@@ -6,22 +6,22 @@
 class TPlyDispConfig;
 
 extern "C" {
-u8 ret_801D78E4(void *rules);
-u8 ret_801D78EC(void *rules);
-u8 ret_801D78F4(void *rules);
-u8 ret_801D78FC(void *rules);
-u8 ret_801D7904(void *rules);
-u8 ret_801D790C(void *rules);
-u8 ret_801D7914(void *rules);
-u8 ret_801D791C(void *rules);
-u8 ret_801D7924(void *rules);
-u8 ret_801D792C(void *rules);
-u8 ret_801D7934(void *rules);
-u8 ret_801D793C(void *rules);
-u8 ret_801D7944(void *rules);
-u8 ret_801D794C(void *rules);
-u8 ret_801D7954(void *rules);
-u8 ret_801D795C(void *rules);
+u8 default_setting_18(void *rules);
+u8 default_setting_16(void *rules);
+u8 default_setting_0E(void *rules);
+u8 default_setting_0D(void *rules);
+u8 default_setting_0C(void *rules);
+u8 default_setting_0B(void *rules);
+u8 default_setting_0A(void *rules);
+u8 default_setting_09(void *rules);
+u8 default_setting_08(void *rules);
+u8 default_setting_07(void *rules);
+u8 default_setting_06(void *rules);
+u8 default_setting_05(void *rules);
+u8 default_setting_04(void *rules);
+u8 default_setting_03(void *rules);
+u8 default_setting_02(void *rules);
+u8 default_setting_01(void *rules);
 }
 
 // Resets a player's action palettes to the default photon blast slots.

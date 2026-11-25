@@ -19,6 +19,7 @@ public:
     const f32 *step;
     Vec position;
     Vec splash_offset;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjBoss7RaftSplash_size, sizeof(TObjBoss7RaftSplash) == 0x40);

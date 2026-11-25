@@ -2,7 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
-#include "pso/boss/TUnk_804F1C88.h"
+#include "pso/boss/TBoss7LaserImpact.h"
 #include "types.h"
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -33,22 +33,19 @@ LAYOUT_ASSERT(Laser_displacement_offset, offsetof(TBoss7LaserPtcl, displacement)
 LAYOUT_ASSERT(Laser_particles_offset, offsetof(TBoss7LaserPtcl, particles) == 0x44);
 LAYOUT_ASSERT(Laser_distance_offset, offsetof(TBoss7LaserPtcl, travel_distance) == 0x4C);
 LAYOUT_ASSERT(Laser_yaw_offset, offsetof(TBoss7LaserPtcl, yaw) == 0x54);
-LAYOUT_ASSERT(LaserHit_body_offset, offsetof(TUnk_804F1C88, hit_body) == 0x34);
-
-// An x/y/z angle triple.
-struct Boss7LaserAngles { s32 x, y, z; };
+LAYOUT_ASSERT(LaserHit_body_offset, offsetof(TBoss7LaserImpact, hit_body) == 0x34);
 
 // Defined without a shared declaration in their owners' headers.
 
-const char *TBoss7LaserPtcl__class_name = "TBoss7LaserPtcl";
+const char *TBoss7LaserPtcl::class_name = "TBoss7LaserPtcl";
 
 #pragma defer_codegen on
 
-TUnk_804F1C88::~TUnk_804F1C88() {
+TBoss7LaserImpact::~TBoss7LaserImpact() {
 
 }
 
-void TUnk_804F1C88::run_task() {
+void TBoss7LaserImpact::run_task() {
     s32 i;
     hit_body.radius += 2e+01f;
     reset_global_table();
@@ -63,10 +60,10 @@ void TUnk_804F1C88::run_task() {
     }
 }
 
-void TUnk_804F1C88::render() {  }
+void TBoss7LaserImpact::render() {  }
 
 TBoss7LaserPtcl::TBoss7LaserPtcl(TObject *parent, TBoss7LaserPtclVector *origin, TBoss7LaserPtclVector *target) : TObject(parent) {
-    m_name = TBoss7LaserPtcl__class_name;
+    m_name = TBoss7LaserPtcl::class_name;
     travel_distance = (f32) 8e+01f;
     yaw = 0;
     state = 0;

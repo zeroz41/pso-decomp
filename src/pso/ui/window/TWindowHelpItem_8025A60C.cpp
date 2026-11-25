@@ -21,7 +21,6 @@ struct Item_8025A650 { u8 p0[8]; f32 x; f32 y; s32 count; };
 
 struct Ctx_8025A650 { u8 p0[0x10]; f32 x; f32 y; u8 p18[0x18]; s32 f30; u8 p34[4]; f32 z; };
 
-f32 get_item_star_row_width(u8 *arg0);
 extern "C" {
 void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx);
 }

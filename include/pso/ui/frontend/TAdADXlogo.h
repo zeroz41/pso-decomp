@@ -3,10 +3,12 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
-extern u32 TAdADXlogo__done;
 
 class TAdADXlogo : public TObject {
 public:
+    static u32 done;
+    static u32 state;
+    static void * texture;
     s32 m_frames;
 
     TAdADXlogo(TObject *parent);

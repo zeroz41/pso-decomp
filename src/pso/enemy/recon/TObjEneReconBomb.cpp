@@ -166,13 +166,13 @@ TObjEneReconBomb::~TObjEneReconBomb() {
 }
 
 
-extern const char *TObjEneReconBomb__name;
+extern const char *recon_bomb_name;
 
 TObjEneReconBomb::TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const Vec *pos) : TObjChara(parent) {
     f32 s;
     f32 c;
 
-    m_name = TObjEneReconBomb__name;
+    m_name = recon_bomb_name;
     owner = recon;
     owner_id = owner->get_entity_id();
     blast_radius = owner->get_bomb_radius();
@@ -190,7 +190,7 @@ TObjEneReconBomb::TObjEneReconBomb(TObject *parent, TObjEneRecon *recon, const V
     state = 0;
 }
 
-const char *TObjEneReconBomb__name = "TObjEneReconBomb";
+const char *recon_bomb_name = "TObjEneReconBomb";
 
 
 void TObjEneReconBomb::release_resources() {  }

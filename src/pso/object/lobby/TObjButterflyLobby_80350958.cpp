@@ -32,7 +32,7 @@ BmlResourceDescriptor bm_butterfly_lobby_resource_descriptor = {
     "bm_butterfly_lobby.bml", bm_butterfly_lobby_model_names, bm_butterfly_lobby_motion_names, 2, 1,
 };
 /* inferred: TObject name the constructor stores */
-const char *TObjButterflyLobby__name = "TObjButterflyLobby";
+const char *butterfly_lobby_name = "TObjButterflyLobby";
 
 struct Obj_80350AE4 { u8 pad[0x90]; s32 state; f32 val; };
 
@@ -290,7 +290,7 @@ TObjButterflyLobby::~TObjButterflyLobby() {
 
 }
 TObjButterflyLobby::TObjButterflyLobby(TObject *parent, ObjectSetData *set_data) : TObjBase(parent) {
-    m_name = TObjButterflyLobby__name;
+    m_name = butterfly_lobby_name;
     VecCopy(&position, &set_data->position);
     copy_xyz(&rotation_x, set_data->rotation);
     VecCopy(&scale, &set_data->scale);

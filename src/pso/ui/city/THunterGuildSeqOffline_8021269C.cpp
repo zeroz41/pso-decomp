@@ -5,5 +5,5 @@
 
 
 void THunterGuildSeqOffline::init_quest_list() {
-    THunterGuildSeqOffline__active_instance->set_state(9);
+    THunterGuildSeqOffline::active_instance->set_state(9);
 }

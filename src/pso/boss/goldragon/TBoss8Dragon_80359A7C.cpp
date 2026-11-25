@@ -11,7 +11,7 @@
 #include "pso/network/client_id.h"
 
 
-void TUnk_804F1A78::run_task() {
+void TBoss8DragonPart::run_task() {
     s16 mode;
     s32 state;
     s32 old_state;
@@ -79,7 +79,7 @@ void TUnk_804F1A78::run_task() {
             }
         }
     }
-    this->sub_800BBA0C();
+    this->save_mode();
     this->update_body_colliders();
     this->update_position_history();
     this->submit_default_cursor_candidate();
@@ -90,9 +90,9 @@ void TUnk_804F1A78::run_task() {
     project_sound_origin_from_camera(&this->position, &this->sound_origin, 0.4f);
 }
 
-TUnk_804F1A78::~TUnk_804F1A78() {}
+TBoss8DragonPart::~TBoss8DragonPart() {}
 
-TUnk_804F1A78::TUnk_804F1A78(TObject *parent, void *set_data, s32 hp) : TBoss8Dragon(parent, set_data) {
+TBoss8DragonPart::TBoss8DragonPart(TObject *parent, void *set_data, s32 hp) : TBoss8Dragon(parent, set_data) {
     this->flags |= 0x40;
     this->finalHpThreshold = -1;
     this->hp = hp;

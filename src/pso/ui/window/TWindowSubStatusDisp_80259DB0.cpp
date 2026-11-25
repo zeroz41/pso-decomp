@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80259DB0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -14,11 +14,10 @@ f32 fabs_float(f32, f32);
 #pragma fp_contract on
 
 void TWindowSubStatusDisp::set_all_values(s32 meseta) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) meseta;
-    *(f32 *)((s8 *)arg0 + 0x24) = (f32) meseta;
-    *(s32 *)((s8 *)arg0 + 0x20) = meseta;
-    *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;
+    *(f32 *)((s8 *)this + 0x28) = (f32) meseta;
+    *(f32 *)((s8 *)this + 0x24) = (f32) meseta;
+    *(s32 *)((s8 *)this + 0x20) = meseta;
+    *(f32 *)((s8 *)this + 0x2C) = 0.0f;
 }
 
 void TWindowSubStatusDisp::set_animated_target(s32 meseta, f32 farg0) {
@@ -68,7 +67,7 @@ void set_status_entry_target(void *arg0, s32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TUnk_804CF9E0::update() {
+void TWindowLayoutCountingNumber::update() {
     f32 target;
     f32 temp_f30;
     if (this->target != this->current) {
@@ -87,9 +86,9 @@ void TUnk_804CF9E0::update() {
 }
 #pragma pop
 
-TUnk_804CF9E0::~TUnk_804CF9E0() {}
+TWindowLayoutCountingNumber::~TWindowLayoutCountingNumber() {}
 
-TUnk_804CF9E0::TUnk_804CF9E0(u8 *rec, s32 m_2) : TUnk_804CF9C8(rec, m_2) {
+TWindowLayoutCountingNumber::TWindowLayoutCountingNumber(u8 *rec, s32 m_2) : TWindowLayoutNumber(rec, m_2) {
     this->target = this->value;
     this->current = this->value;
     this->step = 0.0f;

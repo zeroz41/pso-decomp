@@ -13,6 +13,23 @@ public:
     virtual ~TDeadSpot();
     virtual void run_task();
     virtual void render();
+    // Spawns a dead spot with the given texture selector and maximum scale; the wrappers fix both.
+    static void spawn(const Vec *point, s32 selector, s32 delay, f32 maxScale);
+    static void spawn_kind0_scale2_5(const Vec *point, s32 delay);
+    static void spawn_kind0_scale7_5(const Vec *point, s32 delay);
+    static void spawn_kind0_scale15(const Vec *point, s32 delay);
+    static void spawn_kind0_scale25(const Vec *point, s32 delay);
+    static void spawn_kind1_scale2_5(const Vec *point, s32 delay);
+    static void spawn_kind1_scale7_5(const Vec *point, s32 delay);
+    static void spawn_kind1_scale15(const Vec *point, s32 delay);
+    static void spawn_kind1_scale25(const Vec *point, s32 delay);
+    static void spawn_kind2_scale2_5(const Vec *point, s32 delay);
+    static void spawn_kind2_scale7_5(const Vec *point, s32 delay);
+    static void spawn_kind2_scale15(const Vec *point, s32 delay);
+    static void spawn_kind2_scale25(const Vec *point, s32 delay);
+    // The shared corpse mark model the spots draw with, loaded and freed with the floor.
+    static void load_resource();
+    static void free_resource();
     ParticleStripVertex verts[4]; // 0x1C
     Vec center;                    // 0x7C
     Vec corners[4];                // 0x88
@@ -27,7 +44,7 @@ public:
     TUnk_80494A10(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale);
     virtual ~TUnk_80494A10();
     virtual void run_task();
-    u8 m_C8[0x4];
+    f32 alpha;  // 0-1, fades the spot in once it is drawn
 };
 LAYOUT_ASSERT(TDeadSpot_size, sizeof(TDeadSpot) == 0xC8);
 LAYOUT_ASSERT(TUnk_80494A10_size, sizeof(TUnk_80494A10) == 0xCC);

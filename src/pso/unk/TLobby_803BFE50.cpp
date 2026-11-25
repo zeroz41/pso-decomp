@@ -18,29 +18,29 @@ const char *wav_data_chunk_id = "data";
 
 typedef struct Vt_803C0628 {
     u8 pad0[0x18];
-    void (*fn18)(struct Obj_803C0628 *, s32, s32, void *);
+    void (*fn18)(struct AudioStreamGetOutputSamplesObject *, s32, s32, void *);
 } Vt_803C0628;
 
-typedef struct Obj_803C0628 {
+typedef struct AudioStreamGetOutputSamplesObject {
     Vt_803C0628 *vt;
-} Obj_803C0628;
+} AudioStreamGetOutputSamplesObject;
 
 typedef struct Rec_803C0628 {
     s32 a;
     s32 b;
 } Rec_803C0628;
 
-typedef struct S_803C0628 {
+typedef struct AudioStreamGetWriteWindowState {
     s32 f0;
     AdxbDecoder *decoder;
     s32 f8;
-    Obj_803C0628 *objs[4];
+    AudioStreamGetOutputSamplesObject *objs[4];
     Rec_803C0628 recs[3];
     s32 f34;
     s32 f38;
     s32 f3C;
     s32 f40;
-} S_803C0628;
+} AudioStreamGetWriteWindowState;
 
 
 
@@ -60,7 +60,7 @@ void process_audio_stream_input(AudioStreamInputState *st);
 u8 *AudioStreamInputState::get_offset_58() {
     return header;
 }
-s32 TLobby__sub_803BFE58(AudioStreamInputState *st) {
+s32 get_stream_loop_end_byte(AudioStreamInputState *st) {
     return st->decoder->get_loop_end_byte();
 }
 s32 AudioStreamInputState::get_loop_end_sample() {
@@ -72,7 +72,7 @@ s32 AudioStreamInputState::get_loop_start_byte() {
 s32 AudioStreamInputState::get_loop_start_sample() {
     return decoder->get_loop_start_sample();
 }
-s32 TLobby__sub_803BFEE8(AudioStreamInputState *st) {
+s32 get_stream_loop_type(AudioStreamInputState *st) {
     return st->decoder->get_loop_type();
 }
 s32 AudioStreamInputState::send_packet_by_id() {
@@ -113,7 +113,7 @@ s32 audio_stream_get_output_samples(AudioStreamInputState *st) {
     return st->output_samples;
 }
 
-struct Obj_803C0628;
+struct AudioStreamGetOutputSamplesObject;
 
 void sub_803C0018(void) {
     s32 i;
@@ -264,7 +264,7 @@ void decode_audio_stream_step(AudioStreamInputState *st) {
 }
 
 s16 *audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
-    S_803C0628 *arg0 = (S_803C0628 *)arg0_;
+    AudioStreamGetWriteWindowState *arg0 = (AudioStreamGetWriteWindowState *)arg0_;
     saddr h;
     s32 i;
     s32 t;

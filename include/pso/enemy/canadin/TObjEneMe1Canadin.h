@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLight.h"
 #include "pso/system/NinjaTypes.h"
 
@@ -63,7 +63,7 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     TObjEneMe1Canadin *leader;
     s32 kind;
     u32 status_flags;
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     f32 upper_hover_height;
     f32 hover_height;
     f32 random_hover_height;

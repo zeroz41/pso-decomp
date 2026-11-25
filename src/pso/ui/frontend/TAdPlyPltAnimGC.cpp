@@ -13,7 +13,7 @@
 
 NJS_TEXNAME lbl_804F1418 = { "f256_player_prate", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST player_prate_texture_list = { &lbl_804F1418, 1 };
-TAdPlyPltAnimGC *TAdPlyPltAnimGC__instances[5] = { NULL, NULL, NULL, NULL, NULL };
+TAdPlyPltAnimGC *TAdPlyPltAnimGC::instances[5] = { NULL, NULL, NULL, NULL, NULL };
 const PlyPltAnimVec2 ply_plt_anim_target_position_table[5] = {
     { 4.0f, 10.0f }, { 8.0f, 3.0f }, { 10.0f, 2.0f }, { 6.0f, 5.0f }, { 2.0f, 1.0f },
 };
@@ -88,8 +88,8 @@ void TAdPlyPltAnimGC::run_task() {
 TAdPlyPltAnimGC::~TAdPlyPltAnimGC() {
     s32 i;
     for (i = 0; i < 5; i++) {
-        if (TAdPlyPltAnimGC__instances[i] != NULL) {
-            TAdPlyPltAnimGC__instances[i] = NULL;
+        if (TAdPlyPltAnimGC::instances[i] != NULL) {
+            TAdPlyPltAnimGC::instances[i] = NULL;
         }
     }
 }
@@ -110,10 +110,10 @@ TAdPlyPltAnimGC::TAdPlyPltAnimGC(TObject *parent, s32 plate) : TObject(parent) {
 #pragma pop
 
 TAdPlyPltAnimGC *TAdPlyPltAnimGC::get_or_create(TObject *parent, s32 index) {
-    if (TAdPlyPltAnimGC__instances[index] == NULL) {
-        TAdPlyPltAnimGC__instances[index] = new TAdPlyPltAnimGC(parent, index);
+    if (TAdPlyPltAnimGC::instances[index] == NULL) {
+        TAdPlyPltAnimGC::instances[index] = new TAdPlyPltAnimGC(parent, index);
     }
-    return TAdPlyPltAnimGC__instances[index];
+    return TAdPlyPltAnimGC::instances[index];
 }
 
 void TAdPlyPltAnimGC__sub_8035615C(void) {

@@ -6,6 +6,7 @@
 
 class TObjCHTimeWin : public TObject {
 public:
+    static int timer_value;
     TObjCHTimeWin(TObject *parent);
     virtual ~TObjCHTimeWin();
     virtual void run_task();

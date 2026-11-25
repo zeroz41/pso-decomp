@@ -47,17 +47,17 @@ struct TWindowMainMenu : public TObject {
     void open(s32);
     void close_and_clear_flags();
     s32 close_active_submenu();
-    void set_scale_f();
+    void reset_depth_base();
     TWindowMenuMainMenu *menu_window;
-    s32 m_20;
+    s32 submenu;
     TWindowMessage *help_window;
     MainMenuSlotState slots[4];
     u32 description_item_id;
-    u32 state_flags; // bit 0 open, bit 3 log window active
+    u32 menu_flags; // bit 0 open, bit 3 log window active
     s16 submenu_depth;
     s16 selected_slot;
     s32 client_index;
-    u8 _pad58[0x4];
+    f32 depth_base;  // submenu windows sit below it (reset_depth_base, get_main_menu_layer_depth)
     TWindowMainMenuEntry *active_entries;
     void update_trade_submenu();
     void show_child_window();

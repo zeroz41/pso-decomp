@@ -54,7 +54,7 @@
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
@@ -3443,7 +3443,7 @@ void TObjPlayer::update_attack_stage3() { this->update_attack_stage(); }
 void TObjPlayer::enter_attack_stage3() {
     this->action_state = 7;
     this->run_action_state_phase(this->mode, 6);
-    ((TObjPlayer *)&this->attack_state)->set_action_type(this->attack_state.get_validated_queued_kind());
+    this->attack_state.set_attack_kind(this->attack_state.get_validated_queued_kind());
     update_player_action_palette(this, static_cast<u8>(this->attack_state.get_validated_attack_kind()));
     this->attack_state.begin(this, 2, 2);
     this->setup_attack_stage();
@@ -3464,7 +3464,7 @@ void handle_6x45_attack(G_Attack_6x45 *command) {
     if (player->is_in_tl03_state() == 0) return;
     if (player->reset_volopt_state() == 0) return;
     if (player->test_action_mask(0x8200) != 0) return;
-    ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.action_type);
+    player->attack_state.set_attack_kind(pkt.action_type);
         player->attack_state.set_queued_kind(pkt.action_type);
     player->target_heading = pkt.angle_y;
     player->run_action_state_phase(7, 0);
@@ -3567,7 +3567,7 @@ void TObjPlayer::update_attack_stage2() { this->update_attack_stage(); }
 void TObjPlayer::enter_attack_stage2() {
     this->action_state = 6;
     this->run_action_state_phase(this->mode, 6);
-    ((TObjPlayer *)&this->attack_state)->set_action_type(this->attack_state.get_validated_queued_kind());
+    this->attack_state.set_attack_kind(this->attack_state.get_validated_queued_kind());
     update_player_action_palette(this, static_cast<u8>(this->attack_state.get_validated_attack_kind()));
     this->attack_state.begin(this, 1, 1);
     this->setup_attack_stage();
@@ -3588,7 +3588,7 @@ void handle_6x44_attack(G_Attack_6x44 *command) {
     if (player->is_in_tl03_state() == 0) return;
     if (player->reset_volopt_state() == 0) return;
     if (player->test_action_mask(0x8200) != 0) return;
-    ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.action_type);
+    player->attack_state.set_attack_kind(pkt.action_type);
         player->attack_state.set_queued_kind(pkt.action_type);
     player->target_heading = pkt.angle_y;
     player->run_action_state_phase(6, 0);
@@ -3758,8 +3758,8 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
     s32 i;
     int hit = 0;
     CapturedTarget *entry;
-    count = ((CapturedTargetList *)((TObjPlayer *)&attack_state)->get_state_ptr())->get_captured_target_count();
-    entry = ((CapturedTargetList *)((TObjPlayer *)&attack_state)->get_state_ptr())->get_captured_target_entry(0);
+    count = attack_state.get_lockon_targets()->get_captured_target_count();
+    entry = attack_state.get_lockon_targets()->get_captured_target_entry(0);
     for (i = 0; i < count; i++) {
         u16 uid = entry->get_uid();
         s16 collider = entry->get_captured_target_collider_index();
@@ -3768,7 +3768,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             continue;
         }
         if (pk_state.is_enabled() != 0 && obj_isState2_324() != 0 &&
-            ((TUnk_80493450 *)target)->test_elt_flag(collider, 0x2000) == 0) {
+            ((TObjEneBeastBase *)target)->test_elt_flag(collider, 0x2000) == 0) {
             continue;
         }
         if ((((TargetCollider *)bodies)->flags ^ ((TargetCollider *)target->bodies)[collider].flags) & 6) {
@@ -3891,7 +3891,7 @@ void TObjPlayer::send_attack_target_packet() {
     if (((this->obj_isState2_324() == 0) || (this->reset_volopt_state() != 0)) && ((this->obj_isState3_324() != 0) || (this->attack_state.capture_lockon_targets(this) != 0)) && (this->is_body_collision_inactive() == 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
         ((TObjPlayer *)packet)->build_packet_header();
         packet[1] = this->get_entity_id();
-        copy_attack_targets((void *) (&packet[2]), (void *) (((TObjPlayer *)&this->attack_state)->get_state_ptr()));
+        copy_attack_targets((void *) (&packet[2]), (void *) (this->attack_state.get_lockon_targets()));
         ((s32 (*)(void *))send_6x46_attack_finished)((void *) (packet));
     }
 }
@@ -4062,7 +4062,7 @@ void handle_6x43_attack(G_Attack_6x43 *command) {
     if (player->is_in_tl03_state() == 0) return;
     if (player->reset_volopt_state() == 0) return;
     if (player->test_action_mask(0x8200) != 0) return;
-    ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.action_type);
+    player->attack_state.set_attack_kind(pkt.action_type);
     player->target_heading = pkt.angle_y;
     player->run_action_state_phase(5, 0);
 }

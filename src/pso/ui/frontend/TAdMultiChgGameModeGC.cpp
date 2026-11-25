@@ -27,11 +27,8 @@ struct Pos_802FFE58 { f32 v[6]; };
 
 struct Cur_802FFE58 { f32 v[2]; };
 
-extern "C" {
 s32 lbl_805D69E8;
-}
 s32 is_multiplayer_character_slot_selected(s32 arg0);
-extern "C" {
 const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
 
 static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
@@ -115,5 +112,4 @@ TAdMultiChgGameModeGC::TAdMultiChgGameModeGC(TObject *parent) : TObject(parent) 
     select_cursor->set_selection_index(selection);
     guide_text = new TAdGuideTxtGC(this);
     create_draw_line_ctrl(this, 0xF, 0.0f);
-}
 }

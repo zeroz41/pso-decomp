@@ -13,10 +13,8 @@
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
-s32 TJudgmentSequence__slot_flags[4];
+s32 TJudgmentSequence::slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;
-}
 
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -79,7 +77,7 @@ void TJudgmentSequence::setup_counter_camera() {
     x = 332.0f;
     create_message_window(get_window_layout_position(0x2C), (saddr)pos);
     send_message(1, 1);
-    m_2c = (TWindowBase *)create_meseta_window(((s32)get_player_entity_id()) & 0xFFFF);
+    meseta_window = (TWindowBase *)create_meseta_window(((s32)get_player_entity_id()) & 0xFFFF);
     set_state(2);
     counter_camera = set_service_counter_camera(this, 2);
 }
@@ -114,12 +112,12 @@ TJudgmentSequence::~TJudgmentSequence() {
         counter_camera = NULL;
     }
     close_message_window();
-    if (m_2c != NULL) {
-        m_2c->close();
-        m_2c = NULL;
+    if (meseta_window != NULL) {
+        meseta_window->close();
+        meseta_window = NULL;
     }
     judgment_sequence_instance = NULL;
-    TJudgmentSequence__slot_flags[get_split_screen_slot()] = 0;
+    TJudgmentSequence::slot_flags[get_split_screen_slot()] = 0;
 }
 
 const char *TJudgmentSequence__class_name = "TJudgmentSequence";
@@ -127,28 +125,26 @@ const char *TJudgmentSequence__class_name = "TJudgmentSequence";
 TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
     m_name = TJudgmentSequence__class_name;
     this->player = player;
-    m_2c = 0;
+    meseta_window = 0;
     counter_camera = NULL;
     judgment_sequence_instance = this;
     set_state(0);
-    TJudgmentSequence__slot_flags[get_split_screen_slot()] = 1;
+    TJudgmentSequence::slot_flags[get_split_screen_slot()] = 1;
 }
 
-extern "C" {
 
 void TJudgmentSequence__sub_80216030(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TJudgmentSequence__slot_flags[i] = 0;
+        TJudgmentSequence::slot_flags[i] = 0;
     }
 }
 
 void TJudgmentSequence__sub_80216058(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TJudgmentSequence__slot_flags[i] = 0;
+        TJudgmentSequence::slot_flags[i] = 0;
     }
 }
 
 void TShopWindowBase::send_message(s32 id, s32 flags) {  }
-}

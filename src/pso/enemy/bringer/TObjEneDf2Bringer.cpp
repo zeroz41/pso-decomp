@@ -50,7 +50,7 @@
 #include "pso/system/vector.h"
 
 
-#include "pso/enemy/TUnk_8048FE7C.h"
+#include "pso/enemy/TObjEneDf2BringerRing.h"
 
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 
@@ -127,7 +127,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/item/TItem.h"
 
 #include "pso/enemy/bringer/BringerEffects.h"
-#include "pso/enemy/TUnk_8048FE64.h"
+#include "pso/enemy/TObjEneDf2BringerTpDrainPoint.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/map/CsnQuery.h"
@@ -141,6 +141,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/TDeadSpot.h"
 
 #pragma defer_codegen on
 s32 TItem::get_item_id() { return (s32)this->item_id; }
@@ -150,13 +151,13 @@ s32 TItem::get_item_id() { return (s32)this->item_id; }
 player_stats *bringer_boss_stats_handle;
 AttackParams *bringer_boss_stats_ptr_b;
 ActorParamBlock *bringer_object_handle;
-BringerParameters *TObjEneDf2Bringer__params;
+BringerParameters *df2_bringer_params;
 BmlResource *TObjEneDf2Bringer::resource_bundle;
-s32 TObjEneDf2Bringer__render_node_index;
-s32 TObjEneDf2Bringer__render_rotation_x;
-Vec *TObjEneDf2Bringer__render_point_cursor;
-SampledMotionPoints *TObjEneDf2Bringer__trail_buffer;
-StripBufferPair *TObjEneDf2Bringer__uv_scroll_buffer;
+s32 df2_bringer_render_node_index;
+s32 df2_bringer_render_rotation_x;
+Vec *df2_bringer_render_point_cursor;
+SampledMotionPoints *df2_bringer_trail_buffer;
+StripBufferPair *df2_bringer_uv_scroll_buffer;
 
 Vec bringer_camera_ctrl_target_vec;
 
@@ -167,7 +168,7 @@ Vec bringer_camera_ctrl_target_vec;
 
 
 
-const char *TObjEneDf2Bringer__name = "TObjEneDf2Bringer";
+const char *df2_bringer_name = "TObjEneDf2Bringer";
 
 
 
@@ -207,14 +208,14 @@ void TObjEneDf2Bringer::load_resources() {
   bringer_boss_stats_handle = TLobby::register_boss(0xD);
   bringer_boss_stats_ptr_b = TLobby::dispatch_shared_handler_b(0xD);
   bringer_object_handle = TLobby::register_object(0xD);
-  TObjEneDf2Bringer__params = (BringerParameters *)TLobby::dispatch_shared_handler_a(0xD);
-  TObjEneDf2Bringer__render_node_index = 0;
-  TObjEneDf2Bringer__render_rotation_x = 0;
-  TObjEneDf2Bringer__render_point_cursor = 0;
-  TObjEneDf2Bringer::set_entry_value_clamped(4, TObjEneDf2Bringer__params->action4_speed);
-  TObjEneDf2Bringer::set_entry_value_clamped(5, TObjEneDf2Bringer__params->action5_speed);
+  df2_bringer_params = (BringerParameters *)TLobby::dispatch_shared_handler_a(0xD);
+  df2_bringer_render_node_index = 0;
+  df2_bringer_render_rotation_x = 0;
+  df2_bringer_render_point_cursor = 0;
+  TObjEneDf2Bringer::set_entry_value_clamped(4, df2_bringer_params->action4_speed);
+  TObjEneDf2Bringer::set_entry_value_clamped(5, df2_bringer_params->action5_speed);
   SampledMotionPoints *sampled = new SampledMotionPoints(4, 7.0f, 14.0f, bringer_motion_actions[4].speed);
-  TObjEneDf2Bringer__trail_buffer = sampled;
+  df2_bringer_trail_buffer = sampled;
   {
     ids[0] = 0x1A;
     ids[1] = 0x1A;
@@ -229,8 +230,8 @@ void TObjEneDf2Bringer::load_resources() {
 
     sampled->sample(TObjEneDf2Bringer::resource_bundle->models[0].model, (NJS_MOTION *)TObjEneDf2Bringer::resource_bundle->motions[bringer_motion_actions[4].motion].motion, ids, offs);
   }
-  n = TObjEneDf2Bringer__trail_buffer->sample_count;
-  seg = TObjEneDf2Bringer__trail_buffer->points;
+  n = df2_bringer_trail_buffer->sample_count;
+  seg = df2_bringer_trail_buffer->points;
   for (j = 0; j < n; seg += 4, j++)
   {
     VecCopy(&a, &seg[0]);
@@ -250,7 +251,7 @@ void TObjEneDf2Bringer::load_resources() {
     p3->y = (d.y * s2) + p3->y;
     p3->z = (d.z * s2) + p3->z;
   }
-  TObjEneDf2Bringer__uv_scroll_buffer = new StripBufferPair(TObjEneDf2Bringer::resource_bundle->models[0].model, 1);
+  df2_bringer_uv_scroll_buffer = new StripBufferPair(TObjEneDf2Bringer::resource_bundle->models[0].model, 1);
   init_bringer_effect_tables();
   {
     NpcAnimationBinding sp = { TObjEneDf2Bringer::resource_bundle->motions, bringer_motion_actions, 0, 1, 11 };
@@ -266,13 +267,13 @@ void *TObjEneDf2Bringer::create(void *set_data) {
 
 void TObjEneDf2Bringer::free_resources() {
     bringer_effect_cleanup_noop();
-    if (TObjEneDf2Bringer__uv_scroll_buffer != NULL) {
-        delete TObjEneDf2Bringer__uv_scroll_buffer;
-        TObjEneDf2Bringer__uv_scroll_buffer = NULL;
+    if (df2_bringer_uv_scroll_buffer != NULL) {
+        delete df2_bringer_uv_scroll_buffer;
+        df2_bringer_uv_scroll_buffer = NULL;
     }
-    if (TObjEneDf2Bringer__trail_buffer != NULL) {
-        delete TObjEneDf2Bringer__trail_buffer;
-        TObjEneDf2Bringer__trail_buffer = NULL;
+    if (df2_bringer_trail_buffer != NULL) {
+        delete df2_bringer_trail_buffer;
+        df2_bringer_trail_buffer = NULL;
     }
     if (TObjEneDf2Bringer::resource_bundle != NULL) {
         delete TObjEneDf2Bringer::resource_bundle;
@@ -288,7 +289,7 @@ void TObjEneDf2Bringer::set_entry_value_clamped(s32 index, f32 speed) {
   bringer_motion_actions[index].speed = speed;
 }
 TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
-    m_name = TObjEneDf2Bringer__name;
+    m_name = df2_bringer_name;
     invoke_initialization_hook(set_data);
     sub_800994F8();
     this->init_enemy();
@@ -426,7 +427,7 @@ void TObjEneDf2Bringer::update_attack_child() {
         start = 10.8f;
     }
     if (frame >= start && frame <= 13.0f) {
-        points = TObjEneDf2Bringer__trail_buffer->lookup(frame);
+        points = df2_bringer_trail_buffer->lookup(frame);
         VecCopy(&collider->position, &position);
         collider->rotation_y = rotation_y;
         VecCopy(&collider->bodies[0].offset, &points[1]);
@@ -460,7 +461,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
             if (obj_is_hit_receivable(player) != 0 && attack_target_history_add(attack_history, player) != 0) {
                 DirectAttackPayload h;
                 h.kind = 0;
-                h.power = TObjEneDf2Bringer__params->rush_power;
+                h.power = df2_bringer_params->rush_power;
                 player->receive_direct_attack(this, h, 0, -1, -1);
                 if (is_player_entity_id(player->get_entity_id()) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
@@ -567,7 +568,7 @@ s32 TObjEneDf2Bringer::attack_visible_players() {
                 dmg = floor_to_float(0.25f * (f32)get_actor_tp(player));
                 player->check_can_act((s16)dmg);
                 total += dmg;
-                new TUnk_8048FE64(this, &player->body_center, &node_points[3]);
+                new TObjEneDf2BringerTpDrainPoint(this, &player->body_center, &node_points[3]);
             }
         }
     }
@@ -649,7 +650,7 @@ void TObjEneDf2Bringer::dispatch_action(u32 state, s32 reason) {
 void TObjEneDf2Bringer::handle_state(s32 reason) {
     switch (reason) {
     case 4:
-        this->set_field_378(0);
+        this->set_next_mode(0);
         this->step = 0;
         return;
     case 3:
@@ -665,7 +666,7 @@ void TObjEneDf2Bringer::handle_state(s32 reason) {
 void TObjEneDf2Bringer::update_hidden_state(s32 reason) {
     switch (reason) {
     case 4:
-        this->set_field_378(1);
+        this->set_next_mode(1);
         this->status_flags |= 1;
         this->set_intangible();
         return;
@@ -686,7 +687,7 @@ void TObjEneDf2Bringer::update_emerge_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(4);
+        this->set_next_mode(4);
         this->status_flags &= ~1;
         this->status_flags |= 2;
         this->set_intangible();
@@ -745,7 +746,7 @@ void TObjEneDf2Bringer::update_fade_out_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(3);
+        this->set_next_mode(3);
         this->status_flags &= ~7;
         this->set_intangible();
         this->step = 0;
@@ -798,7 +799,7 @@ void TObjEneDf2Bringer::update_walk_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        set_field_378(4);
+        set_next_mode(4);
         clear_intangible();
         status_flags &= ~7;
         step = 0;
@@ -806,7 +807,7 @@ void TObjEneDf2Bringer::update_walk_state(s32 reason) {
     case 3:
         if (current_target == NULL) {
             transition_enemy_state(3);
-        } else if (destination_distance >= (f32)TObjEneDf2Bringer__params->rush_distance && rush_count < 2) {
+        } else if (destination_distance >= (f32)df2_bringer_params->rush_distance && rush_count < 2) {
             transition_enemy_state(5);
         } else if (step == 1) {
             transition_enemy_state(6);
@@ -823,7 +824,7 @@ void TObjEneDf2Bringer::update_walk_state(s32 reason) {
         ang = (s32)(10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z));
         rotation_y = approach_angle_limited(rotation_y, ang, 0x300);
         twist_angle = TObjBoss2Tunnel::turn_toward_angle_limited(rotation_y, twist_angle, ang, 0x200, 0x2000);
-        prm = TObjEneDf2Bringer__params;
+        prm = df2_bringer_params;
         if (destination_distance <= (f32)prm->attack_distance) {
             t = destination_direction.z * cos_table_lookup(rotation_y);
             t = (destination_direction.x * sin_table_lookup(rotation_y)) + t;
@@ -848,11 +849,11 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 7;
-        set_field_378(4);
+        set_next_mode(4);
         status_flags &= ~7;
         step = 0;
         counter = 0;
-        speed = TObjEneDf2Bringer__params->rush_speed;
+        speed = df2_bringer_params->rush_speed;
         fill_value_array(attack_history);
         set_active();
         break;
@@ -890,10 +891,10 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
         case 1:
             spawn_particle_if_in_band();
             hit = 0;
-            if (enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDf2Bringer__params->rush_speed) != 0) {
+            if (enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * df2_bringer_params->rush_speed) != 0) {
                 hit = 1;
             }
-            move_clamped_on_ground(destination_direction.x, destination_direction.z, TObjEneDf2Bringer__params->rush_speed);
+            move_clamped_on_ground(destination_direction.x, destination_direction.z, df2_bringer_params->rush_speed);
             if (has_move_failures(1) != 0) {
                 hit = 1;
             }
@@ -916,9 +917,9 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
             if (hit != 0) {
                 step = 2;
                 counter = 0;
-                stagger_timer = TObjEneDf2Bringer__params->stagger_frames;
+                stagger_timer = df2_bringer_params->stagger_frames;
                 status_flags &= ~4;
-                set_field_378(7);
+                set_next_mode(7);
                 play_sound_effect(remap_sound_for_area(0x4003B40E), &position, 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x200);
             }
@@ -961,7 +962,7 @@ void TObjEneDf2Bringer::update_slash_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 4;
-        set_field_378(4);
+        set_next_mode(4);
         status_flags &= ~3;
         status_flags |= 4;
         fill_value_array(attack_history);
@@ -991,7 +992,7 @@ void TObjEneDf2Bringer::update_slash_state(s32 reason) {
             if (is_passing_frame(11.0f) != 0) {
                 spawn_offset_particle();
             }
-            points = TObjEneDf2Bringer__trail_buffer->lookup(frame);
+            points = df2_bringer_trail_buffer->lookup(frame);
             if (points != NULL) {
                 push_matrix();
                 set_matrix_identity(0);
@@ -1015,7 +1016,7 @@ void TObjEneDf2Bringer::update_slash_state(s32 reason) {
             break;
         case 1:
             step++;
-            if ((f32)step >= TObjEneDf2Bringer__params->slash_recover_frames) {
+            if ((f32)step >= df2_bringer_params->slash_recover_frames) {
                 counter = 2;
             }
             break;
@@ -1034,7 +1035,7 @@ void TObjEneDf2Bringer::update_stagger_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 8;
-        set_field_378(7);
+        set_next_mode(7);
         emitter = NULL;
         return;
     case 3:
@@ -1076,7 +1077,7 @@ void TObjEneDf2Bringer::update_shot_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 9;
-        set_field_378(4);
+        set_next_mode(4);
         status_flags &= ~3;
         status_flags |= 4;
         step = 0;
@@ -1108,7 +1109,7 @@ void TObjEneDf2Bringer::update_shot_state(s32 reason) {
                 if (is_passing_frame(8.0f) != 0) {
                     Vec v = position;
                     v.y += 8.0f;
-                    new TUnk_8048FE7C(this, &v, 100.0f);
+                    new TObjEneDf2BringerRing(this, &v, 100.0f);
                 }
                 if (is_passing_frame(12.0f) != 0) {
                     drained_tp = attack_visible_players();
@@ -1168,7 +1169,7 @@ void TObjEneDf2Bringer::update_shot_state(s32 reason) {
                 }
             }
             if (is_passing_frame(14.0f) != 0) {
-                f32 spd = (f32)TObjEneDf2Bringer__params->shot_speed;
+                f32 spd = (f32)df2_bringer_params->shot_speed;
                 if (drained_tp > 150) {
                     spd *= 2.0f;
                 } else if (drained_tp > 70) {
@@ -1261,7 +1262,7 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
     case 0:
         this->advance_animation();
         if (this->body_fade.decay_value_toward_floor() != 0) {
-            TObjPlayer::apply_effect_variant_b(&this->position, 0);
+            TDeadSpot::spawn_kind0_scale15(&this->position, 0);
             this->queue_destruction();
         }
     case 3:
@@ -1272,20 +1273,20 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
 
 void bringer_render_node_callback(NJS_OBJECT *) {
     Vec *pos;
-    switch (TObjEneDf2Bringer__render_node_index) {
+    switch (df2_bringer_render_node_index) {
     case 8:
-        rotate_matrix_x(0, TObjEneDf2Bringer__render_rotation_x);
+        rotate_matrix_x(0, df2_bringer_render_rotation_x);
         break;
     case 11:
     case 16:
     case 26:
     case 41:
-        pos = TObjEneDf2Bringer__render_point_cursor;
-        TObjEneDf2Bringer__render_point_cursor = pos + 1;
+        pos = df2_bringer_render_point_cursor;
+        df2_bringer_render_point_cursor = pos + 1;
         forward_transform_to_view((const Vec *)&bringer_camera_ctrl_target_vec, pos);
         break;
     }
-    TObjEneDf2Bringer__render_node_index += 1;
+    df2_bringer_render_node_index += 1;
 }
 
 #pragma push
@@ -1322,9 +1323,9 @@ void TObjEneDf2Bringer::render() {
             draw_ground_shadow(&v, 0);
         }
         update_secondary_light();
-        TObjEneDf2Bringer__render_node_index = 0;
-        TObjEneDf2Bringer__render_rotation_x = twist_angle;
-        TObjEneDf2Bringer__render_point_cursor = node_points;
+        df2_bringer_render_node_index = 0;
+        df2_bringer_render_rotation_x = twist_angle;
+        df2_bringer_render_point_cursor = node_points;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();
@@ -1343,7 +1344,7 @@ void TObjEneDf2Bringer::render() {
                 show = 0;
             }
         }
-        TObjEneDf2Bringer__uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
+        df2_bringer_uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         {
             NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;

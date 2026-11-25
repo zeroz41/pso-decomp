@@ -255,7 +255,7 @@ public:
     u8 pad_32A[0x2];
     s16 hp;
     s16 tp;
-    u8 unk_330[0x4];
+    u32 low_game_flags;  // the enemy's status effect bits (actorFlags & 0x3F) the 6x9C packet last sent
 };
 
 extern "C" void *__dt__9TObjCharaFv(void *, s16);

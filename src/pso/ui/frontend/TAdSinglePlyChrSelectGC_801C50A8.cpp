@@ -3,7 +3,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TUnk_804C3F48.h"
+#include "pso/unk/TBattleProximitySound.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -13,7 +13,6 @@
 #include "pso/render/NinjaUtil.h"
 #undef PSO_SDK_COMPACT_MATH
 
-extern "C" {
     extern int duel_result_window;
 TObject *ad_single_ply_chr_select_instance;
 void TAdSinglePlyChrSelectGC::set_slot(int a0) { *(short*)((char*)active_character_save_record + 0x21b0) = a0; }
@@ -52,11 +51,10 @@ s32 TAdSinglePlyChrSelectGC::create_if_key_pressed() {
     if (ad_single_ply_chr_select_instance != NULL) {
         return 0;
     }
-    ad_single_ply_chr_select_instance = new TUnk_804C3F48(tl_00);
+    ad_single_ply_chr_select_instance = new TBattleProximitySound(tl_00);
     return 1;
 }
 
-}
 
 struct Ply_801C51D4 { u8 pad[0x30]; u32 flags; u8 pad34[4]; f32 pos[3]; };
 
@@ -67,7 +65,7 @@ void *play_sound_effect(s32, s32, s32, s32, f32);
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804C3F48::run_task() {
+void TBattleProximitySound::run_task() {
     Self_801C51D4 *self = (Self_801C51D4 *)this;
     s32 i;
     Ply_801C51D4 *p;
@@ -100,11 +98,11 @@ void TUnk_804C3F48::run_task() {
 
 }
 
-TUnk_804C3F48::~TUnk_804C3F48() {
+TBattleProximitySound::~TBattleProximitySound() {
     ad_single_ply_chr_select_instance = NULL;
 }
 
-TUnk_804C3F48::TUnk_804C3F48(TObject *parent) : TObject(parent) {
+TBattleProximitySound::TBattleProximitySound(TObject *parent) : TObject(parent) {
     life = 0x3DE;
     timer = 0x1E;
     owner = (saddr)get_local_player();

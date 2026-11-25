@@ -7,7 +7,7 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemLoad_8010FDF0.h"
-#include "pso/item/TUnk_8049C658.h"
+#include "pso/item/TRelDataFile.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -301,7 +301,7 @@ RelocatedFile::RelocatedFile(const char *path, s32 size) {
         item_buff = create_item_buff(size);
         if ((item_buff != NULL) && (buffer != NULL) && (read_disc_file(path, item_buff) > 0)) {
             decompressed_size = prs_decompress_alloc(item_buff, buffer, size);
-            TUnk_8049C658 file;
+            TRelDataFile file;
             file.data = (u8 *)buffer;
             file.size = decompressed_size;
             root = apply_rel_relocations(&file);

@@ -17,7 +17,7 @@
 
 
 extern "C" {
-const char *TObjEvtCollision__class_name = "TObjEvtCollision";
+const char *evt_collision_class_name = "TObjEvtCollision";
 
 s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
     s32 i;
@@ -70,7 +70,7 @@ TObjEvtCollision::~TObjEvtCollision() {
 }
 
 TObjEvtCollision::TObjEvtCollision(TObject *parent, void *set_data) : TObjCollidable(parent) {
-    m_name = TObjEvtCollision__class_name;
+    m_name = evt_collision_class_name;
     apply_object_set_data(set_data);
     trigger_radius = scale.x;
     m_b0 = (s32)set_params[0];

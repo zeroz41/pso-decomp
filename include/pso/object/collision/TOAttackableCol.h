@@ -18,7 +18,7 @@ struct TOAttackableCol : public TObjChara {
     virtual s32 select_melee_contact_body(void *, f32);
     u8 unk_334[0x4];
     f32 m_338;
-    u32 m_33c;
+    u32 hits_left;  // hits it can still take; 0 once destroyed
     void init_params();
     void send_state_change(u16 state);
     void handle_6x91_update_state();
@@ -28,10 +28,10 @@ struct TOAttackableCol : public TObjChara {
     virtual void run_task();
     virtual void render();
     static void *create(void *arg0);
-    u8 unk_340[0x4];
+    s32 script_kind;  // set_params[1]: 100-999 picks the mission script manager, else the area's
     s32 label;
-    u8 unk_348[0x4];
-    s32 m_34c;
+    s32 done_switch;  // floor switch set when it is destroyed, -1 for none (only used while label is 0)
+    s32 required_switch;  // floor switch that must be set before it can be hit, -1 for none
 };
 
 LAYOUT_ASSERT(TOAttackableCol_size, sizeof(TOAttackableCol) == 0x350);

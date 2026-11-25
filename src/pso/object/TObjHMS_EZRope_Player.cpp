@@ -26,7 +26,7 @@
 #pragma push
 #pragma readonly_strings on
 
-const char *TObjEZRopeBase__name = "TObjEZRopeBase";
+const char *ez_rope_base_name = "TObjEZRopeBase";
 const char *TObjHMS_EZRope_Player__name = "TObjHMS_EZRope_Player";
 #pragma pop
 #pragma inline_depth(1)
@@ -38,7 +38,7 @@ NJS_ARGB ezrope_chunk_material_color_table = {0.5f, 1.0f, 1.0f, 0.5f};
 // inferred: the zeroed end and collider each new rope starts from.
 TObjEZRopeEnd ezrope_default_end = {0, {0.0f, 0.0f, 0.0f}};
 TObjEZRopeCollider ezrope_default_collider = {0.0f, {0.0f, 0.0f, 0.0f}};
-Vec TObjEZBoneRotPlayer__chain_gravity = {0.0f, -0.75f, 0.0f};
+Vec ez_bone_rot_player_chain_gravity = {0.0f, -0.75f, 0.0f};
 
 extern "C" {
 extern u8 debug_chunk_b_object[];
@@ -52,7 +52,7 @@ saddr TObjMotion::get_joint_matrix(s32 joint) {
 }
 
 TObjEZRopeBase::TObjEZRopeBase(TObject *parent) : TObject(parent) {
-    m_name = TObjEZRopeBase__name;
+    m_name = ez_rope_base_name;
     segment_count = 0;
     segments = 0;
     ends = 0;

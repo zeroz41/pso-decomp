@@ -23,7 +23,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
-const char *TObjEneDD__name = "TObjEneDD";
+const char *dd_name = "TObjEneDD";
 const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 #include "pso/map/CsnQuery.h"
 
@@ -36,7 +36,7 @@ const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 }
-extern const f32 lbl_805D9E80 = -0.1f;
+extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
 extern const f32 view_detail_near_depth = 155.0f;
 #include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
@@ -49,7 +49,7 @@ extern const f32 view_detail_near_depth = 155.0f;
 #include "pso/ui/TLevelSelect.h"
 extern "C" {
 int is_local_client_floor_leader(void*);
-int TObjPlayer__sub_801BA42C(void*);
+int release_players_from_cutscene(void*);
 }
 
 
@@ -148,7 +148,7 @@ void TObjEneDD::release_resource() {
 }
 
 TObjEneDD::TObjEneDD(TObject *parent) : TObjEnemy(parent) {
-    m_name = TObjEneDD__name;
+    m_name = dd_name;
     previous_mode = 0;
     next_mode = 0;
     wall_reach = 5.0f;
@@ -206,7 +206,7 @@ void TObjEneDD::update_action_state() {
         dispatch_action(mode, 3);
     }
     dispatch_action(mode, 0);
-    sub_800BBA0C();
+    save_mode();
 }
 
 s32 TObjEneDD::has_action_state_changed() {
@@ -219,11 +219,11 @@ void TObjEneDD::transition_enemy_state(s32 state) {
     mode = state;
 }
 
-void TObjEneDD::sub_800BBA0C() {
+void TObjEneDD::save_mode() {
     previous_mode = this->mode;
 }
 
-void TObjEneDD::set_field_378(s32 v) { next_mode = v; }
+void TObjEneDD::set_next_mode(s32 v) { next_mode = v; }
 
 BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *descriptor) {
     return new BmlResource(1, descriptor, 0, 0, NULL);
@@ -799,7 +799,7 @@ void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *pa
 
 void TObjEneDD::setup(TObjBase *owner, Vec *pos, DragonAttackParams *params) { TObjEneDD::setup_instance(owner, pos, params, NULL); }
 
-void TObjEneDD__sub_800BA5A4(TObjBase *owner, DragonAttackParams *params) {
+void setup_attack_at_owner(TObjBase *owner, DragonAttackParams *params) {
     TObjEneDD::setup_instance(owner, &owner->position, params, NULL);
 }
 
@@ -1010,7 +1010,7 @@ void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance)
 
 void TObjEneDD::get_target_state_b() { TObjPlayer::freeze_all_players(); }
 
-int TObjEneDD::get_target_state_a() { return TObjPlayer__sub_801BA42C(this); }
+int TObjEneDD::get_target_state_a() { return release_players_from_cutscene(this); }
 
 s32 TObjEneDD::check_v2_mode() {
     if (((s32) enable_v2_features != 0) && ((s32) game_difficulty_selection == 3)) {
@@ -1197,7 +1197,7 @@ void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {
     this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), max_step);
 }
 
-void TObjEneDD_ST::fire_attack_c(Vec *shot_pos, s32 iscale, f32 scale) {
+void TObjEneDD_ST::turn_and_calc_shot_destination(Vec *shot_pos, s32 iscale, f32 scale) {
     f32 dist;
 
     dist = scale;
@@ -1205,7 +1205,7 @@ void TObjEneDD_ST::fire_attack_c(Vec *shot_pos, s32 iscale, f32 scale) {
     this->calc_shot_position(shot_pos, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)dist);
 }
 
-void TObjEneDD_ST::fire_attack_b(Vec *out, s32 max_step, f32 distance) {
+void TObjEneDD_ST::turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 distance) {
     f32 dz;
     f32 dist;
 
@@ -1215,7 +1215,7 @@ void TObjEneDD_ST::fire_attack_b(Vec *out, s32 max_step, f32 distance) {
     calc_wall_slide_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)dz), (f32)((f32)dist));
 }
 
-void TObjEneDD_ST::fire_attack_a(Vec *out, s32 max_step, f32 distance) {
+void TObjEneDD_ST::turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32 distance) {
     f32 dist;
 
     dist = distance;
@@ -1223,28 +1223,28 @@ void TObjEneDD_ST::fire_attack_a(Vec *out, s32 max_step, f32 distance) {
     calc_wall_clamped_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)((f32)dist));
 }
 
-CsnHit *TObjEneEpsilon__sub_800B9384(TObjEneDD_ST *self, s32 iscale, f32 scale) {
+CsnHit *enemy_turn_and_move_shot_step(TObjEneDD_ST *self, s32 iscale, f32 scale) {
     Vec dest;
-    self->fire_attack_c(&dest, iscale, scale);
+    self->turn_and_calc_shot_destination(&dest, iscale, scale);
     return self->try_move_actor_xz_on_ground(&dest);
 }
 
 CsnHit *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 max_step, f32 currentSpeed) {
     Vec dest;
-    self->fire_attack_b(&dest, max_step, currentSpeed);
+    self->turn_and_calc_slide_destination(&dest, max_step, currentSpeed);
     return self->try_move_actor_xz_on_ground(&dest);
 }
 
 
-CsnHit *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 max_step, f32 distance) {
+CsnHit *enemy_turn_and_move_xz_slide(TObjEneDD_ST *self, s32 max_step, f32 distance) {
     Vec dest;
-    self->fire_attack_b(&dest, max_step, distance);
+    self->turn_and_calc_slide_destination(&dest, max_step, distance);
     return self->move_xz_on_ground(&dest);
 }
 
-CsnHit *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 max_step, f32 distance) {
+CsnHit *enemy_turn_and_move_xz_clamped(TObjEneDD_ST *self, s32 max_step, f32 distance) {
     Vec dest;
-    self->fire_attack_a(&dest, max_step, distance);
+    self->turn_and_calc_clamped_destination(&dest, max_step, distance);
     return self->move_xz_on_ground(&dest);
 }
 

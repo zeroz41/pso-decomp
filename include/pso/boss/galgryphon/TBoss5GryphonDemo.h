@@ -17,6 +17,7 @@ public:
     f32 frame_step;  // the scripted camera's frame step
     f32 frame;       // its first frame
     s32 *done_flag;  // TBoss5Gryphon's work.demo_flag: the demo ends when it drops to 0
+    static const char *name;
 };
 
 #endif

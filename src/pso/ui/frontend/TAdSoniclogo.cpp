@@ -15,30 +15,28 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 void * sonic_logo_object;
-int TAdSoniclogo__state;
-int TLogo__exit_requested_flag;
+int TAdSoniclogo::state;
+int TLogo::exit_requested_flag;
 const char *TAdSoniclogo__class_name = "TAdSoniclogo";
 
 void TAdSoniclogo::request_destroy(TObject *fade) {
     fade->queue_destruction();
-    TAdSoniclogo__state = 1;
+    TAdSoniclogo::state = 1;
 }
 
-}
 
 
 void TAdSoniclogo::render() {
     render_logo_with_default(sonic_logo_object, 16, -1, -150.0f);
 }
 void TAdSoniclogo::run_task() {
-    switch (TAdSoniclogo__state) {
+    switch (TAdSoniclogo::state) {
     case 0:
         break;
     case 1:
         if (++m_wait_frames > 0x3c) {
-            TAdSoniclogo__state = 2;
+            TAdSoniclogo::state = 2;
             new TScreenFadeOut(tl_00, TLogo::request_exit);
         }
         break;
@@ -51,8 +49,8 @@ TAdSoniclogo::~TAdSoniclogo() {}
 TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
     m_name = TAdSoniclogo__class_name;
     m_wait_frames = 0;
-    TAdSoniclogo__state = 0;
-    TLogo__exit_requested_flag = 0;
+    TAdSoniclogo::state = 0;
+    TLogo::exit_requested_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(1);
     new TScreenFadeIn(tl_00, request_destroy);
 }

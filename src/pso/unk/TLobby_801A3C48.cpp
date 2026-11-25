@@ -4,7 +4,7 @@
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/protocol/packet_classes.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -130,7 +130,7 @@ s32 unlock_main_warp_destination();
 s32 load_area_scene_and_init(void *);
 s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
-s32 TKeyBoardControl__sub_8000F90C(int);
+s32 set_fallback_main_phase(int);
 int set_queued_main_phase(int);
 s32 TLobby__sub_80146908();
 void TLobby__sub_801A3CF8(void);
@@ -164,7 +164,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
     {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
-    {TLobby__sub_8001ED74, TLobby__sub_8001ED70},
+    {reset_clock_bar_pulse, TLobby__sub_8001ED70},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
     {reset_id_counters, free_id_counters},
     {init_entity_tables, clear_entity_tables},
@@ -192,7 +192,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {reset_choice_search_data, free_choice_search_data},
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},
     {reset_globals, NULL},
-    {TLobby::init_char_slots, TLobby__sub_801C3A40},
+    {TLobby::init_char_slots, free_char_slots},
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
     {load_draw_line_task_resource, free_draw_line_task_resource},
@@ -569,7 +569,7 @@ void cleanup_online_lobby_scene(void) {
         i += 1;
     } while (i < 0x1E);
     TLobby::cleanup();
-    if ((s32) online_lobby_scene_handle == 0) {
+    if (online_lobby_scene_handle == 0) {
         var_r3 = (s32 *)&floor_transition_state;
         var_r3 = (s32 *)&floor_transition_state;
         run_area_scene_cleanup(&floor_transition_state);
@@ -674,7 +674,7 @@ void TLobby::run_main_frame() {
         TLobby::reload_floor_scene();
         deactivate_keyboard();
     }
-    if ((s16) lobby_floor_reload_pending == 1) {
+    if (lobby_floor_reload_pending == 1) {
         reload_lobby_floor_scene();
     }
     if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) idle_timeout_active == 1)) {
@@ -704,7 +704,7 @@ void run_online_lobby_scene(void) {
     TLobby__sub_801F3774();
     reset_controller_input_state();
     clear_keyboard_key_state();
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     set_queued_main_phase(0xF);
     clear_resource_load_tasks();
     TLobby::create_map_csn_ctrl();
@@ -788,6 +788,6 @@ void TLobby::update_periodic_tick() {
         protocol_instance->send_keepalive();
     }
 }
-void set_floor_transition_ready(Obj_80515BA0 *transition) { transition->state_flags |= 1; }
-void Obj_80515BA0::set_next_floor_index(s32 floor) { next_floor = floor; }
+void set_floor_transition_ready(FloorTransition *transition) { transition->state_flags |= 1; }
+void FloorTransition::set_next_floor_index(s32 floor) { next_floor = floor; }
 void TLobby::reset_counter() { challenge_task_created = 0; }

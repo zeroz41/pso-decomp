@@ -9,6 +9,8 @@ struct AnimationMotion;
 struct NJS_OBJECT;
 
 // A Gol Dragon pillar: plays its motion once, then removes itself.
+struct BmlResource;
+
 class TObjBoss8Piller : public TObject {
 public:
     TObjBoss8Piller(TObject *parent, Vec *pos, f32, u16 dragon_id);
@@ -23,6 +25,8 @@ public:
     f32 frame;
     AnimationMotion *motion;
     u16 dragon_id;  // entity id; run_task passes that entity's pillar attack to TBoss8Dragon::apply_pillar_attack
+    static const char *class_name;
+    static BmlResource * shared_resource;
 };
 
 #endif

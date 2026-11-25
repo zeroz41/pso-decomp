@@ -115,7 +115,6 @@ P_8028DCCC character_proportion_height_table[12] = {
 extern "C" {
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
 }
-CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -503,11 +502,9 @@ void request_chara_making_archives(void) {
         }
     }
 }
-extern "C" {
 
 
 void TCharaMaking__sub_8028E790(void) {  }
-}
 
 extern saddr tl_03;
 

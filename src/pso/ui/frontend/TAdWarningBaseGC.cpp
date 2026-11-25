@@ -16,7 +16,6 @@ const char *lbl_805D4208 = "TAdWarningBaseGC";
 static const f32 lbl_80477334[2] = {46.0f, 131.0f};
 static const f32 lbl_8047733C[2] = {548.0f, 220.0f};
 
-extern "C" {
 
 void clear_aram_request_busy(uaddr request) { aram_request_busy_flag = 0; }
 
@@ -26,7 +25,7 @@ void TAdWarningBaseGC::vfunc_9() {
     }
 }
 
-saddr TAdWarningBaseGC::sub_8032D214() {
+saddr TAdWarningBaseGC::create_message_window() {
     saddr r = (saddr)create_message_window_for_size((NJS_POINT2 *)lbl_80477334, (NJS_POINT2 *)lbl_8047733C);
     ((TWindowMessage *)r)->append_line(vfunc_7(), 3);
     return r;
@@ -38,7 +37,7 @@ void TAdWarningBaseGC::vfunc_8() {
     prev_state = state;
     switch (state) {
     case 0:
-        message_window = (TWindowBase *)sub_8032D214();
+        message_window = (TWindowBase *)create_message_window();
         state = 1;
         break;
     case 1:
@@ -90,4 +89,3 @@ TAdWarningBaseGC::TAdWarningBaseGC(TObject *parent) : TObject(parent) {
     new TAdBackTxtGC(this);
 }
 
-}

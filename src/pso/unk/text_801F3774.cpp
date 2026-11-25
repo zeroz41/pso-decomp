@@ -13,7 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 
-struct Stack_801F37CC {
+struct Send6x75QuestFlagCurDifficultyStack {
     s32 sp8;
     s16 spC;
     s16 spE;
@@ -21,7 +21,7 @@ struct Stack_801F37CC {
     s16 sp12;
 };
 
-struct Stack_801F3778 {
+struct Send6x75QuestFlagStack {
     s32 sp8;
     s16 spC;
     s16 spE;
@@ -35,7 +35,7 @@ extern s32 game_difficulty_selection;
 void TLobby__sub_801F3774(void) {  }
 
 void TLobby::send_6x75_quest_flag(s16 flag, s16 action, s16 difficulty) {
-    Stack_801F3778 stack;
+    Send6x75QuestFlagStack stack;
     build_6x75_update_quest_flag_dc(&stack.sp8);
     stack.spC = flag;
     stack.spE = action;
@@ -45,7 +45,7 @@ void TLobby::send_6x75_quest_flag(s16 flag, s16 action, s16 difficulty) {
 }
 
 void TLobby::send_6x75_quest_flag_cur_difficulty(s16 flag, s16 action) {
-    Stack_801F37CC stack;
+    Send6x75QuestFlagCurDifficultyStack stack;
     build_6x75_update_quest_flag_dc(&stack.sp8);
     stack.spC = flag;
     stack.spE = action;

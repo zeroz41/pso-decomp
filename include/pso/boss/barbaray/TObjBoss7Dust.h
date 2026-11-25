@@ -14,6 +14,7 @@ public:
     s32 ticks;
     s32 strip_slot;
     Vec position;
+    static const char *name;
 };
 LAYOUT_ASSERT(TObjBoss7Dust_size, sizeof(TObjBoss7Dust) == 0x30);
 

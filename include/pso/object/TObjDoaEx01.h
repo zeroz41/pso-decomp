@@ -16,7 +16,7 @@ struct TObjDoaEx01 : public TODoorBase {
     static void free_resource();
     static void load_resources();
     u8 unk_D4[0x4];
-    f32 m_d8;
+    f32 glow_phase;  // pulses 0-1 while the door is closed and unlocked (door_flags 0x100000 = rising)
     u8 unk_DC[0x4];
     f32 m_e0;
     void try_open();

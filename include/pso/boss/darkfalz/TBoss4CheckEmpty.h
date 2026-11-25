@@ -13,6 +13,7 @@ public:
     static void *create();
 
     s32 m_wait_frames; // 0x1C, frames counted before the boss-4 check (inferred name)
+    static const char *name;
 };
 
 #endif

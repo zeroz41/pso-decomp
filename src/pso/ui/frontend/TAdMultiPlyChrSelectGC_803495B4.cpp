@@ -4,8 +4,8 @@
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 
 TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_move_effect(saddr ad_chr_move_effect_gc) {
-    if (lbl_805D6E78 == NULL) {
-        lbl_805D6E78 = new TAdChrMoveEffectGC((TObject *)ad_chr_move_effect_gc);
+    if (chr_move_effect_instance == NULL) {
+        chr_move_effect_instance = new TAdChrMoveEffectGC((TObject *)ad_chr_move_effect_gc);
     }
-    return lbl_805D6E78;
+    return chr_move_effect_instance;
 }

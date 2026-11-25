@@ -32,7 +32,7 @@ struct TBoss4Thanks : public TObject {
     void update_particle_emitters();
     void destroy_effects();
     void clear_particle_emitters();
-    static int is_player_nearby(void *);
+    int is_player_nearby();
     void update_fade_out();
     void advance_thanks_state();
     void mark_done();
@@ -40,6 +40,7 @@ struct TBoss4Thanks : public TObject {
     static void *create();
     static s32 is_door_open_and_ready();
     static s32 check_ready();
+    static const char *class_name;
 };
 
 #include <stddef.h>
@@ -55,4 +56,7 @@ LAYOUT_ASSERT(TBoss4Thanks_motions_offset, offsetof(TBoss4Thanks, motions) == 0x
 LAYOUT_ASSERT(TBoss4Thanks_particle_emitters_offset, offsetof(TBoss4Thanks, particle_emitters) == 0x44);
 LAYOUT_ASSERT(TBoss4Thanks_size, sizeof(TBoss4Thanks) == 0x54);
 
+// A particle emitter of the Thanks scene, alive while fade_frame is in [first_frame, last_frame]
+// (the TBoss6Thanks twin's Boss6ThanksEmitter).
+struct Boss4ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
 #endif

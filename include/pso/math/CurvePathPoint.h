@@ -16,8 +16,8 @@ LAYOUT_ASSERT(CurvePathPointSize, sizeof(CurvePathPoint) == 0x10);
 LAYOUT_ASSERT(CurvePathPointLengthOffset, offsetof(CurvePathPoint, length) == 0xC);
 
 extern "C" {
-s32 fn_8034D3D0(CurvePathPoint *points, f32 scale, s32 count, s32 step, s32 closed, Vec *out, s32);
-s32 fn_8034D790(CurvePathPoint *points, f32 scale, s32 count, s32 step, s32 closed, Vec *out);
+s32 compute_bezier_curve_point(CurvePathPoint *points, f32 scale, s32 count, s32 step, s32 closed, Vec *out, s32);
+s32 get_vector_from_path(CurvePathPoint *points, f32 scale, s32 count, s32 step, s32 closed, Vec *out);
 }
 
 #endif

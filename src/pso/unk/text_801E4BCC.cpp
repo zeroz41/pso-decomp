@@ -4,7 +4,7 @@
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/nuReLoadTexture.h"
 #include "pso/system/NinjaTypes.h"
-struct Wave_801E4BCC {
+struct DistortTextureWaveImageWave {
     s32 height;
     s32 width;
     u32 texture_id;
@@ -17,8 +17,8 @@ struct Wave_801E4BCC {
 };
 
 extern "C" {
-void distort_texture_wave_image(Wave_801E4BCC *wave);
-void distort_texture_wave_image(Wave_801E4BCC *wave) {
+void distort_texture_wave_image(DistortTextureWaveImageWave *wave);
+void distort_texture_wave_image(DistortTextureWaveImageWave *wave) {
     s32 y;
     u8 *dx;
     u8 *dy;

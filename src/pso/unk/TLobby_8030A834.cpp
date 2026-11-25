@@ -10,6 +10,6 @@
     extern int lobby_online_ready_flag;
 int TLobby::get_online_ready_flag() {  return lobby_online_ready_flag; }
 
-void *fn_8030A83C(void *parent) {
+void *create_boss4_zako_draw(void *parent) {
     return new TBoss4ZakoDraw((TObject *)parent);
 }

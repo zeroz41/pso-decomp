@@ -11,13 +11,13 @@
 ARQRequest ad_warning_arq_request;
 
 u32 ad_warning_aram_base;
-u32 TAdWarningBaseGC__aram_capacity;
+u32 TAdWarningBaseGC::aram_capacity;
 s32 warning_aram_load_done_flag;
-int TAdWarningBaseGC__aram_alloc_size;
+int TAdWarningBaseGC::aram_alloc_size;
 int lobby_count_value;
 s32 aram_request_busy_flag;
 
-void TLobby__sub_8032CDEC(void) { TAdWarningBaseGC__aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
+void reset_warning_aram_cache(void) { TAdWarningBaseGC::aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
 
 void TGbaAramUploadTask::destroy() { queue_destruction(); }
 
@@ -60,7 +60,7 @@ s32 TAdWarningBaseGC::load_from_aram_sync(void *buf) {
     if (warning_aram_load_done_flag == 0) {
         return 0;
     }
-    size = (TAdWarningBaseGC__aram_alloc_size + 0x1F) & ~0x1F;
+    size = (TAdWarningBaseGC::aram_alloc_size + 0x1F) & ~0x1F;
     DCInvalidateRange(buf, size);
     aram_request_busy_flag = 1;
     ARQPostRequest(&ad_warning_arq_request, 4, 1, 1, ad_warning_aram_base, reinterpret_cast<uaddr>(buf), size, clear_aram_request_busy);
@@ -74,14 +74,14 @@ s32 TAdWarningBaseGC::load_from_aram_sync(void *buf) {
     return 1;
 }
 
-int TAdWarningBaseGC::get_alloc_size() { return TAdWarningBaseGC__aram_alloc_size; }
+int TAdWarningBaseGC::get_alloc_size() { return TAdWarningBaseGC::aram_alloc_size; }
 
-int TAdWarningBaseGC__sub_8032D020(void) { return (TAdWarningBaseGC__aram_alloc_size + 0x1F) & ~0x1F; }
+int TAdWarningBaseGC__sub_8032D020(void) { return (TAdWarningBaseGC::aram_alloc_size + 0x1F) & ~0x1F; }
 
 s32 TAdWarningBaseGC::post_aram_request(void *buf, int size) {
     u32 aligned = (size + 0x1F) & ~0x1F;
-    TAdWarningBaseGC__aram_alloc_size = size;
-    if (aligned > TAdWarningBaseGC__aram_capacity) {
+    TAdWarningBaseGC::aram_alloc_size = size;
+    if (aligned > TAdWarningBaseGC::aram_capacity) {
         return 0;
     }
     DCFlushRange(buf, aligned);
@@ -97,17 +97,17 @@ TGbaAramUploadTask::TGbaAramUploadTask(TObject *parent) : TObject(parent) { stat
 void TAdWarningBaseGC::create() { new TGbaAramUploadTask(tl_00); }
 
 void TAdWarningBaseGC__sub_8032D188(void) {
-    TAdWarningBaseGC__aram_capacity = 0;
+    TAdWarningBaseGC::aram_capacity = 0;
     ad_warning_aram_base = 0;
-    TAdWarningBaseGC__aram_alloc_size = 0;
+    TAdWarningBaseGC::aram_alloc_size = 0;
     warning_aram_load_done_flag = 0;
     lobby_count_value = 0;
 }
 
 void TAdWarningBaseGC::init_heap() {
-    TAdWarningBaseGC__aram_capacity = 0x80000;
+    TAdWarningBaseGC::aram_capacity = 0x80000;
     ad_warning_aram_base = ARAlloc(0x80000);
-    TAdWarningBaseGC__aram_alloc_size = 0;
+    TAdWarningBaseGC::aram_alloc_size = 0;
     warning_aram_load_done_flag = 0;
     lobby_count_value = 0;
 }

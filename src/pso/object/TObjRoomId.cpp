@@ -21,7 +21,7 @@
 
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane
 // normal its vec3_dot side test uses (room_id_base_normal is an inferred name).
-const char *TObjRoomId__name = "TObjRoomId";
+const char *room_id_name = "TObjRoomId";
 static const Vec room_id_base_normal = {0.0f, 0.0f, -1.0f};
 
 
@@ -121,7 +121,7 @@ TObjRoomId::~TObjRoomId() {}
 
 
 TObjRoomId::TObjRoomId(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjRoomId__name;
+    m_name = room_id_name;
     apply_object_set_data(set_data);
     normal.x = 0.0f;
     normal.y = 0.0f;

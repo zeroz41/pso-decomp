@@ -23,7 +23,6 @@ extern "C" { extern const char TObjNewFloorWin__class_name_string[16] = "TObjNew
 
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
 
-extern "C" {
 
 void TShopWindowBase::set_state(s32 v) { state = v; }
 
@@ -81,7 +80,6 @@ void TObjNewFloorWin::open_window() {
     }
 }
 
-}
 
 TObjNewFloorWin::~TObjNewFloorWin() {}
 

@@ -37,6 +37,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/save/CharacterFile.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 struct RecoveredGlobal_8033B264_lbl_804EF728 {
@@ -70,7 +71,6 @@ extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
 extern void *character_select_scene_resource_callbacks[];
-u32 __nw__7TObjectFUl(int);
 
 s32 start_memcard_read(s32, void *, u32, s32);
 
@@ -85,8 +85,7 @@ s32 reset_controller_input_state();
 s32 __ct__15TWindowCtrlMainFv(u32);
 
 extern u8 lobby_rule_settings[];
-CharacterSaveRecord *TAdSinglePlyChrSelectGC__sub_801FCD3C(CharacterFile *);
-s32 get_field_118__22TAdEnterSerialAccessGCFv();
+CharacterSaveRecord *get_selected_save_record(CharacterFile *);
 
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
@@ -250,7 +249,7 @@ void TCharSaveSequence::handle_load_result() {
     saddr src;
     switch (poll_memcard_result(chr_select_state)) {
     case 0:
-        seed_character_select_serial_rng(get_field_118__22TAdEnterSerialAccessGCFv());
+        seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
         src = (saddr)download_buffer;
         obj = new CharacterFile;
         memcpy(obj, (void *)(src + 0x2048), 0x1156C);
@@ -264,7 +263,7 @@ void TCharSaveSequence::handle_load_result() {
                 delete obj;
             }
         } else {
-            r = TAdSinglePlyChrSelectGC::compare_save_headers(TAdSinglePlyChrSelectGC__sub_801FCD3C(obj), (void *)get_character_save_record(0xFFFF), obj, (void *)TAdSinglePlyChrSelectGC::get_instance());
+            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (void *)get_character_save_record(0xFFFF), obj, (void *)TAdSinglePlyChrSelectGC::get_instance());
             if (r != 7) {
                 state = 0xC;
                 lbl_805D6D90 &= ~1;
@@ -275,7 +274,7 @@ void TCharSaveSequence::handle_load_result() {
                     init_warps();
                 }
             } else {
-                seed_character_select_serial_rng(get_field_118__22TAdEnterSerialAccessGCFv());
+                seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
                 TAdSinglePlyChrSelectGC::encrypt_save_data((void *)TAdSinglePlyChrSelectGC::get_instance());
                 TAdSinglePlyChrSelectGC::save_character_file(1);
                 state = 4;
@@ -384,7 +383,7 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     TAdSinglePlyChrSelectGC::noop();
     if (!(lbl_805D6D90 & 1)) {
         if (func_801A5E54__Fv() != 0) {
-            TKeyBoardControl__sub_8000F92C();
+            switch_to_fallback_main_phase();
         }
         if (TQuestVmDownLoadServer::is_ready() != 0) {
             request_main_phase(0);
@@ -412,7 +411,7 @@ void init_single_player_char_select_scene(void) {
         __ct__15TWindowCtrlMainFv(p);
     }
     new TCharSaveSequence();
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     lbl_805D6D90 = 0;
     play_area_music("title.adx");
     TLobby::set_and_notify(-900);
@@ -459,12 +458,9 @@ struct RecoveredGlobal_8033B9C4_lbl_80513910 {
     u8 remaining[0xC];
 };
 
-extern "C" {
 
 extern RecoveredGlobal_8033B9C4_lbl_80513910 chr_select_serial_seeds;
 
-extern "C" void TWindowCtrlMain__sub_8024D838();
-extern "C" void register_texture_f256_backtext();
 void *character_select_scene_resource_callbacks[12] = {
     (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
     (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_singleton_805D65C0,
@@ -523,7 +519,6 @@ TCharSaveSequence::TCharSaveSequence() : TObject(tl_01) {
     alloc_download_buffer();
     clear_buffer();
     stop_pad_rumble();
-}
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_8033B9C4_lbl_80513910_size, sizeof(RecoveredGlobal_8033B9C4_lbl_80513910) == 0x10);

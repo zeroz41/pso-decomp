@@ -14,7 +14,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *lbl_805D4200 = "TAdExNetConfirmGC";
 
 void TAdExNetConfirmGC::render() {
@@ -34,7 +33,6 @@ void TAdExNetConfirmGC::run_task() {
     vfunc_8();
 }
 
-}
 TAdExNetConfirmGC::~TAdExNetConfirmGC() {
 
 }

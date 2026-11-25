@@ -28,7 +28,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 
 void TWindowSubAreaMapDisp::update_visibility() {
@@ -52,7 +51,6 @@ void TWindowSubAreaMapDisp::update_visibility() {
     }
 }
 
-}
 
 struct RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp { s32 value; u8 remaining[0x18]; };
 LAYOUT_ASSERT(RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp) == 0x1C);
@@ -66,15 +64,12 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
     {610.0f, 188.0f}, 50150.0f, NULL, 3,
 };
 
-void text_builder_reset(void);
-extern "C" {
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 
 
-struct Rect_80271848 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 void fn_80271848(s32 arg0, u8 *arg1) {
-    Rect_80271848 r;
+    TexturedQuad r;
     s32 color;
     f32 scale;
 
@@ -156,10 +151,9 @@ void TWindowSubAreaMapDisp::render() {
 }
 
 void TWindowSubAreaMapDisp::run_task() {
-    u8 *arg0 = (u8 *)this;
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowSubAreaMapDisp *)arg0)->update_visibility();
-    ((TWindowSubAreaMapDisp *)arg0)->update_manual_scroll();
+    update_window();
+    this->update_visibility();
+    this->update_manual_scroll();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         heading->update_subwindow();
     }
@@ -175,15 +169,13 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
     }
     TWindowSubStatusDisp::destroy_status_display(reinterpret_cast<saddr>(heading), 1);
 }
-}
 LAYOUT_ASSERT(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C);
-extern "C" {
 TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
     s32 temp_r3;
     TWindowSubStatusDisp *display;
     u8 *str;
 
-    ((TWindowSubAreaMapDisp *)this)->m_name = TWindowSubAreaMapDisp__name;
+    this->m_name = TWindowSubAreaMapDisp__name;
     if (get_game_play_mode() == 1) {
         text_builder_reset();
         text_builder_append((u8 *)(get_message_text(0x67)));
@@ -205,4 +197,3 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     this->m_6c = 0;
 }
 
-}

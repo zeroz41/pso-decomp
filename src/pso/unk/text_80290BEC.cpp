@@ -10,7 +10,7 @@
 #include "pso/network/TLobby.h"
 
 extern "C" {
-s32 TKeyBoardControl__sub_8000F92C();
+s32 switch_to_fallback_main_phase();
 void request_main_phase(s32 arg0);
 }
 void process_async_file_reads(void);
@@ -47,7 +47,7 @@ void run_main_frame(void) {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     if (static_cast<s8>(func_801A5E54()) != 0) {
-        TKeyBoardControl__sub_8000F92C();
+        switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         var_r3 = NULL;

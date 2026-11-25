@@ -14,10 +14,10 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
-#include "pso/boss/TUnk_80484A94.h"
-#include "pso/boss/TUnk_80484AFC.h"
-#include "pso/boss/TUnk_80484840.h"
-#include "pso/boss/TUnk_80484870.h"
+#include "pso/boss/TBoss3VoloptCageShot.h"
+#include "pso/boss/TBoss3VoloptMissile.h"
+#include "pso/boss/TBoss3VoloptSweepLine.h"
+#include "pso/boss/TBoss3VoloptLine.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/math/AngleLookup.h"
@@ -61,20 +61,10 @@
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-void TObjPlayer__sub_801BA42C(void);
+void release_players_from_cutscene(void);
 s32 submit_cursor_candidate(void *, int);
 }
 
-
-struct VoloptMovementParams {
-    f32 radius;
-    f32 scale;
-    u32 turn_speed;
-    u32 flags;
-    u32 pad_10;
-    u32 count;
-    u32 pad_18;
-};
 
 
 
@@ -95,7 +85,7 @@ static TObjMotionAction action_entries[9] = {
     {2, 0, 1, 0.7f, 4},
     {2, 0, 13, 0.6f, 1},
 };
-static VoloptMovementParams movement_params = {150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0};
+static BossMovementParameters movement_params = {{150.0f, 0.5555555f, 0x400}, {0x1E0000, 0, 1, 0}};
 static CollisionBody collision_bodies[5] = {
     {{0.0f, 23.0f, 29.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{36.0f, 26.0f, 0.0f}, 15.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -142,8 +132,8 @@ static u8 *node_27_color;
 static u8 *node_3f_color;
 
 void VoloptPartsMessage::init() {
-    command = 0x18;
-    size = 3;
+    header.subcommand = 0x18;
+    header.size = 3;
 }
 
 void VoloptPartsMessage::send() {
@@ -153,15 +143,15 @@ void VoloptPartsMessage::send() {
 
 void VoloptPartsMessage::swap() {
     s32 i;
-    ((G_ClientIDHeader *)this)->bswap();
+    ((G_ClientIDHeader *)&header)->bswap();
     for (i = 0; i < 4; i++) {
         bswap_16((u16 *)&part_hp[i]);
     }
 }
 
 void VoloptPhase2Message::init() {
-    command = 0x85;
-    size = 5;
+    header.subcommand = 0x85;
+    header.size = 5;
 }
 
 void VoloptPhase2Message::send() {
@@ -712,7 +702,7 @@ void TBoss3VoloptP02::update_front_attack() {
                 emitter->queue_destruction();
                 emitter = NULL;
             }
-            new TUnk_80484A94(this, &v, targetId);
+            new TBoss3VoloptCageShot(this, &v, targetId);
             behavior_flags |= 0x100000;
             this->requested_action = 6;
             state = 3;
@@ -788,7 +778,7 @@ void TBoss3VoloptP02::update_front_attack() {
                 for (i = 0; i < 10; i++) {
                     s32 dir = i < 5 ? 1 : -1;
                     get_anim_node_position(chain_node_ids[i], &chain_positions[i]);
-                    new TUnk_80484840(&chain_positions[i], &cage->body_center, dir, timer);
+                    new TBoss3VoloptSweepLine(&chain_positions[i], &cage->body_center, dir, timer);
                 }
                 play_sound_effect(0x4003B20D, &position, -10, 0);
             } else {
@@ -879,7 +869,7 @@ void TBoss3VoloptP02::update_back_attack() {
         collect_targets_in_front();
         for (i = 0; i < (count = front_target_count); i++) {
             get_anim_node_position(volley_node_ids[i], &pos);
-            new TUnk_80484AFC(this, &pos, rotation_y + 0x8000, front_target_ids[i]);
+            new TBoss3VoloptMissile(this, &pos, rotation_y + 0x8000, front_target_ids[i]);
         }
         if (count > 0) {
             play_sound_effect(0x4003AD13, &position, 0, 0);
@@ -1075,7 +1065,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         if ((get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) || timer < 0) {
             restore_player_cameras();
             TWindowCtrl::unsuppress_all_slots();
-            TObjPlayer__sub_801BA42C();
+            release_players_from_cutscene();
             model_node_3f->evalflags |= 8;
             model_node_44->evalflags |= 8;
             this->requested_action = 4;
@@ -1107,7 +1097,7 @@ void TBoss3VoloptP02::update_death_sequence() {
             play_sound_effect(0x4003A80F, &position, 0, 1);
         }
         if (--timer <= 0) {
-            TObjPlayer__sub_801BA42C();
+            release_players_from_cutscene();
             queue_destruction();
         }
         break;
@@ -1267,7 +1257,7 @@ s16 TBoss3VoloptP02::collect_targets_in_front() {
         if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
-        if (((TObjPlayer *)player)->get_area() != 0xD) {
+        if (player->get_area() != 0xD) {
             continue;
         }
         if (player->actorFlags & 0x02000800) {
@@ -1299,7 +1289,7 @@ u16 TBoss3VoloptP02::find_facing_player() {
         if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
-        if (((TObjPlayer *)player)->get_area() != 0xD) {
+        if (player->get_area() != 0xD) {
             continue;
         }
         if (player->actorFlags & 0x02000800) {
@@ -1322,7 +1312,7 @@ void TBoss3VoloptP02::broadcast_values() {
     VoloptPartsMessage message;
     s32 i;
     message.init();
-    message.entity_id = entity_id;
+    message.header.entity_id = entity_id;
     for (i = 0; i < 4; i++) {
         message.part_hp[i] = part_hp[i];
     }
@@ -1335,7 +1325,7 @@ extern "C" void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message) {
     u32 bit;
     s32 j;
     message->swap();
-    boss = (TBoss3VoloptP02 *)find_entity_by_id(message->entity_id);
+    boss = (TBoss3VoloptP02 *)find_entity_by_id(message->header.entity_id);
     if (boss != NULL) {
         for (i = 0; i < 4; i++) {
             boss->part_hp[i] = message->part_hp[i];
@@ -1406,7 +1396,7 @@ void TBoss3VoloptP02::rebuild_parts() {
         if (arc_lines[i] != 0) {
             arc_lines[i]->queue_destruction();
         }
-        arc_lines[i] = new TUnk_80484870(&line_origin, &arc_target_positions[i]);
+        arc_lines[i] = new TBoss3VoloptLine(&line_origin, &arc_target_positions[i]);
     }
     for (; i < 4; i++) {
         if (arc_lines[i] != 0) {
@@ -1679,7 +1669,7 @@ void TBoss3VoloptP02::spawn_sub_objects() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (ring_lines[i] == 0) {
-            ring_lines[i] = new TUnk_80484870(&line_origin, &ring_positions[i]);
+            ring_lines[i] = new TBoss3VoloptLine(&line_origin, &ring_positions[i]);
         }
     }
 }

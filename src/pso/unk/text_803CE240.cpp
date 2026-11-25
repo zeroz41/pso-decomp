@@ -31,7 +31,7 @@ void TLobby__sub_803CE2A0(AixPlayer *player) {
     tracks = player->tracks;
     demuxer = player->demuxer;
     if (player->state == 1) {
-        if (TLobby__sub_803CE1F4(demuxer) == 2) {
+        if (get_demuxer_state(demuxer) == 2) {
             get_entry_pair(demuxer, player->segment = player->start_segment, &offset, &size);
             seek_adx_stream_sector(player->stream, (long long)(offset / 2048));
             set_adx_stream_end_sector(player->stream, (offset + size) / 2048);
@@ -40,7 +40,7 @@ void TLobby__sub_803CE2A0(AixPlayer *player) {
             if ((s32)player->loop == 1 || (s32)player->continue_segments == 1) {
                 set_flag_4(demuxer, 1);
             }
-            count = TLobby__sub_803CE1D8(demuxer);
+            count = get_demuxer_layer_count(demuxer);
             for (i = 0; i < count; i++) {
                 set_sync_mode_flag(player->tracks[i], 1);
                 TLobby__sub_803C9E38(tracks[i], player->track_inputs[i]);
@@ -48,7 +48,7 @@ void TLobby__sub_803CE2A0(AixPlayer *player) {
             player->state = 2;
         }
     } else if (player->state == 2) {
-        if (TLobby__sub_803CE1F4(demuxer) == 3) {
+        if (get_demuxer_state(demuxer) == 3) {
             for (i = 0; i < player->track_count; i++) {
                 s32 r = TLobby__sub_803C9CB0(player->tracks[i]);
                 if (r != 5 && r != 0) {

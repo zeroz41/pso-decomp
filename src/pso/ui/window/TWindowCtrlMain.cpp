@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -58,9 +59,9 @@ const char *TWindowCtrlPlayer__name = "TWindowCtrlPlayer";
 
 // width, height of the player message window (TLobby__sub_80269DA4 stores it as the window size)
 const f32 lbl_8044EC4C[2] = {255.0f, 120.0f};
-s32 TWindowCtrlMain__display_flags;
+s32 TWindowCtrlMain::display_flags;
 TObject *TWindowCtrlMain__instance;
-TObject *TWindowCtrlMain__window_task_root;
+TObject *TWindowCtrlMain::window_task_root;
 TWindowCtrlScreen *TWindowCtrlMain__screen_controller;
 TWindowCtrlSub *TWindowCtrlMain__sub_controller;
 TWindowCtrlClipOut *window_clip_out_instance;
@@ -83,12 +84,7 @@ struct Poly_8024CE68 {
     s32 flags;
     s32 count;
 };
-struct Quad_8024CE68 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
-void TWindowCtrlMain__sub_8024CB7C();
-void TWindowCtrlMain__sub_8024CB8C();
-void TWindowCtrlMain__sub_8024D838(void);
 }
-void load_hud_palette_textures(void);
 extern "C" s32 fn_8002AE08(s32 client_id);
 
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(parent) {
@@ -179,7 +175,7 @@ void TWindowCtrlPlayer::update_child_window_visibility() {
 #pragma push
 #pragma fp_contract on
 void TWindowCtrlPlayer::update_target_info_window() {
-    if ((lock_on_window != NULL) && ((lock_on_window->all_parents_unqueued_for_destruction() == 0) || (lock_on_window->sub_80244994() == 0))) {
+    if ((lock_on_window != NULL) && ((lock_on_window->all_parents_unqueued_for_destruction() == 0) || (lock_on_window->is_open_and_unblocked() == 0))) {
         lock_on_window = NULL;
     }
     if ((is_lock_on_window_hidden() != 0) || (is_main_menu_open() != 0) || (is_suppressed() != 0) || (has_short_list() != 0) || (TWindowCtrl__sub_8024A314() != 0)) {
@@ -394,8 +390,8 @@ void TWindowCtrlMain::reset_all(void* _w0) {
     load_hud_palette_textures();
     TWindowCtrlMain__sub_8024EF30();
     WindowDrawContext::get_or_create_instance();
-    TWindowCtrlMain__display_flags = 0;
-    TWindowCtrlMain__window_task_root = NULL;
+    TWindowCtrlMain::display_flags = 0;
+    TWindowCtrlMain::window_task_root = NULL;
     TWindowCtrlMain__screen_controller = NULL;
     TWindowCtrlMain__sub_controller = NULL;
     window_clip_out_instance = NULL;
@@ -409,8 +405,8 @@ void TWindowCtrlMain::reset_all(void* _w0) {
 void TWindowCtrlMain::free_all_windows() {
     TObject *root;
     s32 i;
-    root = TWindowCtrlMain__window_task_root;
-    TWindowCtrlMain__window_task_root = NULL;
+    root = TWindowCtrlMain::window_task_root;
+    TWindowCtrlMain::window_task_root = NULL;
     if (window_clip_out_instance != NULL) {
         delete window_clip_out_instance;
         window_clip_out_instance = NULL;
@@ -441,16 +437,16 @@ TWindowCtrlMain::TWindowCtrlMain() : TObject(tl_fadeafter) {
     WindowControlState *e;
     s32 i;
     m_name = TWindowCtrlMain__name;
-    if (TWindowCtrlMain__window_task_root == NULL) {
-        TWindowCtrlMain__window_task_root = new TObject(NULL);
+    if (TWindowCtrlMain::window_task_root == NULL) {
+        TWindowCtrlMain::window_task_root = new TObject(NULL);
     }
     if (TWindowCtrlMain__instance == NULL) {
-        TWindowCtrlMain__instance = new TObject(TWindowCtrlMain__window_task_root);
+        TWindowCtrlMain__instance = new TObject(TWindowCtrlMain::window_task_root);
     }
     for (i = 0; i < 6; i++) {
         e = &TWindowCtrlMain__viewport_states[i];
         ((TWindowCtrlMain *)e)->init_fields();
-        e->window_root = new TObject(TWindowCtrlMain__window_task_root);
+        e->window_root = new TObject(TWindowCtrlMain::window_task_root);
     }
     if (TWindowCtrlMain__screen_controller == NULL) {
         TWindowCtrlMain__screen_controller = new TWindowCtrlScreen(tl_window);
@@ -466,8 +462,8 @@ TWindowCtrlMain::TWindowCtrlMain() : TObject(tl_fadeafter) {
 TWindowCtrlMain::~TWindowCtrlMain() {
     TObject *root;
     s32 i;
-    root = TWindowCtrlMain__window_task_root;
-    TWindowCtrlMain__window_task_root = NULL;
+    root = TWindowCtrlMain::window_task_root;
+    TWindowCtrlMain::window_task_root = NULL;
     if (window_clip_out_instance != NULL) {
         delete window_clip_out_instance;
         window_clip_out_instance = NULL;
@@ -536,7 +532,7 @@ void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
 #pragma fp_contract on
 void draw_menu_backdrop_gradients(s32 viewport_index) {
     NJS_POINT2 verts[4];
-    Quad_8024CE68 q;
+    TexturedQuad q;
     Poly_8024CE68 poly;
     u32 colors[4];
     ColorLineList line;
@@ -660,11 +656,11 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
 #pragma pop
 
 s32 has_window_task_root(void) {
-    return TWindowCtrlMain__window_task_root != NULL ? 1 : 0;
+    return TWindowCtrlMain::window_task_root != NULL ? 1 : 0;
 }
 
 s32 is_window_display_enabled(void) {
-    if (TWindowCtrlMain__display_flags & 1) return 0;
+    if (TWindowCtrlMain::display_flags & 1) return 0;
     return 1;
 }
 
@@ -745,11 +741,11 @@ f32 TWindowCtrlMain::get_field_18(s32 viewport_index) {
 }
 
 void TWindowCtrlMain__sub_8024CB8C() {
-    TWindowCtrlMain__display_flags &= ~1;
+    TWindowCtrlMain::display_flags &= ~1;
 }
 
 void TWindowCtrlMain__sub_8024CB7C() {
-    TWindowCtrlMain__display_flags |= 1;
+    TWindowCtrlMain::display_flags |= 1;
 }
 
 f32 TWindowCtrlMain::get_scale() {
@@ -791,7 +787,7 @@ TWindowCtrlSub::~TWindowCtrlSub() {
 void TWindowCtrlSub::run_task() {
     resolve_chat_balloon_overlaps();
     TWindowCtrlMain::update_fade_alphas();
-    TWindowCtrlMain__window_task_root->run_tasks();
+    TWindowCtrlMain::window_task_root->run_tasks();
 }
 
 TWindowCtrlClipOut::TWindowCtrlClipOut(TObject *parent) : TObject(parent) {

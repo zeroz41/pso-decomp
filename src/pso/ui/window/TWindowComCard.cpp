@@ -28,9 +28,6 @@
 
 extern "C" {
 s32 TWindowSubComCard__sub_8007B070(s32);
-void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2);
-s8 TWindowComCard__sub_80249C18(void* p);
-s8 TWindowComCard__sub_80249C20(void* p);
 }
 
 ComCardLayout com_card_layout_entries = {
@@ -115,7 +112,7 @@ TWindowComCard::TWindowComCard(const NJS_POINT2 *position, void *data)
 TWindowComCard::~TWindowComCard() {}
 
 void TWindowComCard::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(&entry_list);
 }

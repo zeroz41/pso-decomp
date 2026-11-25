@@ -30,13 +30,13 @@ extern const Boss7PhotonLevel boss7_photon_bullet_level_table[3] = {
 };
 extern const DirectAttackPayload boss7_photon_bullet_attack[1] = {{0, 3.0f}};
 extern const AreaAttackContact boss7_photon_bullet_hit_args = {3.0f, 1};
-const char *TBoss7PhotonPad__name = "TBoss7PhotonPad";
-const char *TBoss7PhotonBullet__name = "TBoss7PhotonBullet";
+const char *TBoss7PhotonPad::name = "TBoss7PhotonPad";
+const char *TBoss7PhotonBullet::name = "TBoss7PhotonBullet";
 
 
 TBoss7PhotonPad::TBoss7PhotonPad(TObject *parent, const Vec *shot_origin, const Vec *direction, s32 shot_level)
     : TObject(parent) {
-    m_name = TBoss7PhotonPad__name;
+    m_name = TBoss7PhotonPad::name;
     origin = shot_origin;
     level = shot_level;
     VecCopy(&pos, direction);
@@ -67,7 +67,7 @@ void TBoss7PhotonPad::render() {  }
 
 TBoss7PhotonBullet::TBoss7PhotonBullet(TObject *parent, TObjBase *owner, const Vec *origin, const Vec *aim, f32 scale)
     : TAttackCollider(parent, owner) {
-    m_name = TBoss7PhotonBullet__name;
+    m_name = TBoss7PhotonBullet::name;
     VecCopy(&position, VecCopy(&travel, origin));
     VecCopy(&this->aim, aim);
     bodies->radius = 3.0f;

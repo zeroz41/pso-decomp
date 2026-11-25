@@ -55,6 +55,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 
 extern const char bm7_s_paa_body_model_filename[] = "bm7_s_paa_body.nj";
@@ -92,9 +93,9 @@ extern const char walk_bm7_s_par_body_motion_filename[] = "walk_bm7_s_par_body.n
 extern const char walkl_bm7_s_paa_body_motion_filename[] = "walkl_bm7_s_paa_body.njm";
 extern const char walkr_bm7_s_paa_body_motion_filename[] = "walkr_bm7_s_paa_body.njm";
 extern const char bm7_s_paa_body_bml_filename[] = "bm7_s_paa_body.bml";
-extern const char TObjEnePanarms__class_name[] = "TObjEnePanarms";
-const char *TObjEnePanarms__name = TObjEnePanarms__class_name;
-BmlResource *TObjEnePanarms__entry_params_resource;
+extern const char panarms_class_name[] = "TObjEnePanarms";
+const char *panarms_name = panarms_class_name;
+BmlResource *panarms_entry_params_resource;
 
 const char *bm7_s_paa_body_model_names[4] = {
     bm7_s_paa_body_model_filename, bm7_s_pal_body_model_filename, bm7_s_par_body_model_filename, NULL,
@@ -227,7 +228,7 @@ void *TObjEnePanarms::create(void *setData) {
 
 void TObjEnePanarms::load_and_spawn_npc() {
     BmlResource *resource = new BmlResource(1, &bm7_s_paa_body_resource_descriptor, 0, 0, NULL);
-    TObjEnePanarms__entry_params_resource = resource;
+    panarms_entry_params_resource = resource;
     if (resource != NULL) {
         NpcAnimationBinding binding = panarms_npc_spawn_descriptor;
         binding.motions = resource->motions;
@@ -238,25 +239,25 @@ void TObjEnePanarms::load_and_spawn_npc() {
 }
 
 void TObjEnePanarms::free_data() {
-    if (TObjEnePanarms__entry_params_resource != NULL) {
-        delete TObjEnePanarms__entry_params_resource;
-        TObjEnePanarms__entry_params_resource = NULL;
+    if (panarms_entry_params_resource != NULL) {
+        delete panarms_entry_params_resource;
+        panarms_entry_params_resource = NULL;
     }
 }
 
 TObjEnePanarms::TObjEnePanarms(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     s32 i;
 
-    m_name = TObjEnePanarms__name;
+    m_name = panarms_name;
     add_flags_2e4(2);
     apply_set_data(setData);
     clear_lobby_object_state();
-    texlist = get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, 0);
-    model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, 0);
+    texlist = get_bml_texlist((BmlResource *)panarms_entry_params_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)panarms_entry_params_resource, 0);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panarms_collision_body, 1);
     set_action_table(panarms_motion_param_table);
-    set_motion_list(TObjEnePanarms__entry_params_resource->motions);
+    set_motion_list(panarms_entry_params_resource->motions);
     set_animation(0);
     set_requested_action(0);
     VecCopy(&body_center, &position);
@@ -907,7 +908,7 @@ void TObjEnePanarms::update_dead() {
             spot.y = this->position.y;
             spot.z = (0.5f * this->position.z) + (0.5f * draw_positions[0].z);
             spawn_ground_effect(&spot, 0x78);
-            TObjPlayer::spawn_dead_spot_default(&spot, 6);
+            TDeadSpot::spawn_kind1_scale15(&spot, 6);
         }
         if (this->state_timer == 0x5A) {
             this->shadow_visible = 0;

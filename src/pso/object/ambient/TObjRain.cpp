@@ -18,14 +18,14 @@
 #include "pso/render/NinjaUtil.h"
 
  extern const char TObjRain__class_name_string[9] = "TObjRain";
-NJS_POINT3 TObjRain__streak_points[2] = {
+NJS_POINT3 rain_streak_points[2] = {
     {0.0f, 0.0f, 0.0f},
     {0.0f, 9.0f, 0.0f},
 };
 
-__declspec(section ".data") u32 TObjRain__streak_colors[2] = {0x80808030, 0x70707020};
+__declspec(section ".data") u32 rain_streak_colors[2] = {0x80808030, 0x70707020};
 
-NJS_POINT3COL TObjRain__streak_line_list = {TObjRain__streak_points, TObjRain__streak_colors, NULL, 2};
+NJS_POINT3COL rain_streak_line_list = {rain_streak_points, rain_streak_colors, NULL, 2};
 
 extern "C" {
 void draw_line_list(NJS_POINT3COL *, s32, s32);
@@ -39,7 +39,7 @@ void TObjRain::draw_streaks() {
     for (i = 0; i < count; drop++, i++) {
         if (drop->active != 0) {
             set_line_width(5);
-            VecCopy((Vec *)TObjRain__streak_line_list.p, &drop->position);
+            VecCopy((Vec *)rain_streak_line_list.p, &drop->position);
             Vec pos = drop->position;
             if (xz_distance_squared(&camera_ctrl_instance->pos, &pos) < 90000.0f) {
                 Vec dir = drop->velocity;
@@ -48,8 +48,8 @@ void TObjRain::draw_streaks() {
                 dir.y *= 12.0f;
                 dir.z *= 12.0f;
                 subtract_vector(&pos, &drop->velocity);
-                VecCopy((Vec *)(TObjRain__streak_line_list.p + 1), &pos);
-                draw_line_list(&TObjRain__streak_line_list, 1, 5);
+                VecCopy((Vec *)(rain_streak_line_list.p + 1), &pos);
+                draw_line_list(&rain_streak_line_list, 1, 5);
             }
         }
     }
@@ -104,12 +104,12 @@ void TObjRain::init_drops() {
 }
 #pragma pop
 
-const char *TObjRain__class_name = TObjRain__class_name_string;
+const char *rain_class_name = TObjRain__class_name_string;
 void TObjRain::render() { draw_streaks(); }
 void TObjRain::run_task() { update_drops(); }
 TObjRain::~TObjRain() {}
 TObjRain::TObjRain(TObject *parent, u32 drop_count) : TObject(parent) {
-    m_name = TObjRain__class_name;
+    m_name = rain_class_name;
     count = drop_count > 16 ? 16 : drop_count;
     init_drops();
 }

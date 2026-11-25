@@ -5,7 +5,7 @@
 
 // --- C functions defined in TLobby_80299C4C.cpp ---
 extern "C" {
-u8 TLobby__sub_8029A16C(void);
+u8 is_designated_client(void);
 s32 init_jungle_area(void);
 void send_giveup_to_all_players__6TLobbyFv(void);
 }

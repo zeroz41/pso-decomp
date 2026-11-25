@@ -82,9 +82,7 @@ struct RecoveredFields_8024A688_temp_r3
 
 struct Ctrl_8024A928 { u8 pad[0x84]; void *slots[4]; };
 
-struct Ctrl_8024A714 { u8 pad[0x84]; void *arr[4]; };
 
-struct Obj_8024A7CC { u8 pad[0x84]; void *arr[4]; };
 
 struct Obj_8024AA08 { u8 pad[4]; u32 f4; };
 
@@ -92,28 +90,20 @@ struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
 extern "C" {
 
-s32 TWindowCtrl__sub_8024A314(void);
 
-bool TWindowCtrl__sub_8024A1A8(void);
 
 f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 arg2);
 
-s32 check_card_match_enabled__15TWindowFukidasiFl(void *, void *);
 
 
-void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
 
 }
 
 struct Ctrl_8024B1A0 { u8 pad[0x1C]; u16 flags; };
 
-struct Win_8024B1A0 { u8 pad[0x40]; f32 x; f32 y; f32 w; f32 h; };
 
-struct Ctrl_8024B328 { u8 pad[0x84]; void *win[4]; };
 
-struct Ctrl_8024B3B4 { u8 pad[0x84]; void *win[4]; };
 
-struct Ctrl_8024B440 { u8 pad[0x84]; void *win[4]; };
 
 extern "C" {
 
@@ -139,7 +129,6 @@ typedef struct Ctrl_8024B8A0 {
     u32 color;
 } Ctrl_8024B8A0;
 
-extern "C" void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl);
 
 
 typedef struct Win_8024BE80 {
@@ -154,7 +143,6 @@ typedef struct Ctrl_8024BE80 {
     Win_8024BE80 *slots[3];
 } Ctrl_8024BE80;
 
-void window_request_show(void *);
 
 extern "C" {
 
@@ -218,7 +206,7 @@ struct TWindowCtrl_8024C308 {
 
 
 LAYOUT_ASSERT(WindowCtrlFlagsOffset, offsetof(TWindowCtrl, flags) == 0x1C);
-LAYOUT_ASSERT(WindowCtrlChildOffset, offsetof(TWindowCtrl, get_com_card) == 0x3C);
+LAYOUT_ASSERT(WindowCtrlChildOffset, offsetof(TWindowCtrl, com_card_window) == 0x3C);
 
 s32 TWindowSimpleStatus::get_width() { return this->client_index; }
 
@@ -294,7 +282,6 @@ void TWindowCtrlPlayer::lock_main_menu() {
     this->flags |= 0x40;
 }
 
-extern "C" {
 
 s32 TWindowCtrl::get_display_flag() {
     if (is_split_screen() != 0) {
@@ -306,7 +293,6 @@ s32 TWindowCtrl::get_display_flag() {
     return ((u16) instance->flags >> 1U) & 1;
 }
 
-}
 
 s32 TWindowCtrl::get_flag_bit5() {
     if (instance == NULL) {
@@ -335,32 +321,24 @@ TWindowCtrlPlayer *TWindowCtrl::get_window(s32 client_id) {
     return instance->players[client_id];
 }
 
-extern "C" {
 
-int TWindowFukidasi::get_flag_bit1() { return ((this->m_71) >> 1) & 0x1; }
+int TWindowFukidasi::get_flag_bit1() { return ((this->balloon_flags) >> 1) & 0x1; }
 
-}
 
-extern "C" {
 
 u16 TWindowFukidasi::get_speaker_id() { return this->speaker_id; }
 
-}
 
-extern "C" {
 
 void TWindowChat::set_flag1e_bit40() { flags |= 0x40; }
 
-}
 
-extern "C" {
 
 s32 TWindowCtrl__sub_8024C5C4(const TWindowChat *chat) {
     if (chat->flags & 2) return 0;
     return 1;
 }
 
-}
 
 void TWindowChat::clear_flag1e_bit8() { flags &= 0xfffffff7; }
 
@@ -383,7 +361,6 @@ void TWindowCtrl::shutdown() {
     TWindowMainMenu__sub_8024E3CC();
 }
 
-extern "C" {
 
 TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     TWindowCtrl_8024C308 *self = (TWindowCtrl_8024C308 *)this;
@@ -441,7 +418,6 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
     }
 }
 
-}
 
 TWindowCtrl::~TWindowCtrl() {
     TWindowCtrl_8024C160 *self = (TWindowCtrl_8024C160 *)this;
@@ -501,7 +477,6 @@ void TWindowCtrl::run_task() { update_open_sequence(); update(); TLobby::update_
 
 void TWindowCtrl::render() {  }
 
-extern "C" {
 
 void TWindowCtrl::update_open_sequence() {
     Ctrl_8024C024 *o = (Ctrl_8024C024 *)this;
@@ -528,15 +503,11 @@ void TWindowCtrl::update_open_sequence() {
     o->timer++;
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::update() { update_party_status_rows(); update_window_visibility(); update_com_card_window(); update_trade_request_window(); TWindowCtrl__sub_8024BB30(this); handle_controller(); update_trade_window(); TWindowCtrl__sub_8024B9C0(this); update_pulse_color(); }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::update_party_status_rows() {
     f32 y;
@@ -566,67 +537,61 @@ void TWindowCtrl::update_party_status_rows() {
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::update_window_visibility() {
     s32 submit_cooldown;
     u16 current_target_id;
 
-    if (chat != NULL) {
+    if (chat_window != NULL) {
         submit_cooldown = this->submit_cooldown;
         if (submit_cooldown > 0) {
             this->submit_cooldown = (submit_cooldown - 1);
         }
         if (get_player_by_client_id(local_client_id) == 0U) {
-            chat->update();
+            chat_window->update();
             return;
         }
         current_target_id = TObjPlayer::get_current_target_id();
         if ((TWindowCtrl::get_display_flag() != 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (has_client_short_list(local_client_id) != 0) || ((current_target_id != 0xffffU) && (current_target_id != local_client_id))) {
-            chat->update();
+            chat_window->update();
             return;
         }
-        chat->open_input();
-        if ((chat->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->m_94) != 0)) {
-            TWindowChat__sub_80247E50(chat);
+        chat_window->open_input();
+        if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->m_94) != 0)) {
+            TWindowChat__sub_80247E50(chat_window);
         }
-        if (chat->is_visible() != 0) {
-            TWindowChat__sub_80247DFC(chat);
+        if (chat_window->is_visible() != 0) {
+            TWindowChat__sub_80247DFC(chat_window);
         }
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::update_com_card_window() {
     TWindowGetComCard *temp_r3;
     TWindowChat *temp_r3_2;
     TWindowGetComCard *temp_r3_3;
-    temp_r3 = this->get_com_card;
+    temp_r3 = this->com_card_window;
     if ((temp_r3 != NULL) && (temp_r3->all_parents_unqueued_for_destruction() == 0)) {
-        this->get_com_card = NULL;
+        this->com_card_window = NULL;
     }
-    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((temp_r3_2 = chat, ((temp_r3_2 == NULL) == 0)) && (TWindowCtrl__sub_8024701C(temp_r3_2) != 0))) {
-        temp_r3_3 = this->get_com_card;
+    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((temp_r3_2 = chat_window, ((temp_r3_2 == NULL) == 0)) && (TWindowCtrl__sub_8024701C(temp_r3_2) != 0))) {
+        temp_r3_3 = this->com_card_window;
         if (temp_r3_3 != NULL) {
             temp_r3_3->queue_destruction();
-            this->get_com_card = NULL;
+            this->com_card_window = NULL;
         }
-    } else if (this->get_com_card == NULL) {
-        this->get_com_card = new TWindowGetComCard(this);
+    } else if (this->com_card_window == NULL) {
+        this->com_card_window = new TWindowGetComCard(this);
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::update_trade_request_window() {
-    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (this->get_com_card != 0U) || ((chat != NULL) && (TWindowCtrl__sub_8024701C(chat) != 0))) {
+    if ((is_trade_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (this->com_card_window != 0U) || ((chat_window != NULL) && (TWindowCtrl__sub_8024701C(chat_window) != 0))) {
         if (trade_request != NULL) {
             trade_request->queue_destruction();
             trade_request = NULL;
@@ -636,7 +601,6 @@ void TWindowCtrl::update_trade_request_window() {
     }
 }
 
-}
 
 void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl) {
     u32 i;
@@ -651,7 +615,6 @@ void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl) {
     }
 }
 
-extern "C" {
 
 void TWindowCtrl::handle_controller() {
     if ((get_current_floor_area() == AREA_LOBBY) && (TWindowCtrl::is_slot_visible(local_client_id) == 0) && (is_client_main_menu_disabled(local_client_id) == 0) && (TWindowCtrl::has_player_active_menu(local_client_id) == 0) && (test_pressed_buttons_packed(&controller_input_state.controllers[0], fn_8002AE08(local_client_id)) != 0)) {
@@ -659,23 +622,19 @@ void TWindowCtrl::handle_controller() {
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::update_trade_window() {
-    if (this->area != NULL) {
+    if (this->area_window != NULL) {
         if ((TWindowCtrl::is_slot_visible(local_client_id) != 0) || (is_client_main_menu_disabled(local_client_id) != 0) || ((is_split_screen() != 0) && (TRaderMapCore::is_active() == 0))) {
-            ((TWindowLockOn *)(this->area))->request_close();
+            ((TWindowLockOn *)(this->area_window))->request_close();
             return;
         }
-        window_request_show((void *)this->area);
+        window_request_show((void *)this->area_window);
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl__sub_8024B9C0(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
@@ -687,9 +646,7 @@ void TWindowCtrl__sub_8024B9C0(void *arg0) {
     }
 }
 
-}
 
-extern "C" {
 
 #pragma push
 
@@ -714,9 +671,7 @@ void TWindowCtrl::update_pulse_color() {
 
 #pragma pop
 
-}
 
-extern "C" {
 
 saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     s32 i;
@@ -731,7 +686,7 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     }
     for (i = 0; i < 3; i++) {
         status = TWindowCtrl::instance->simple_status[i];
-        if (status != NULL && status->sub_80244994() != 0 && n-- == 0) {
+        if (status != NULL && status->is_open_and_unblocked() != 0 && n-- == 0) {
             player = get_player_by_client_id(((TWindowSimpleStatus *)status)->get_width());
             if (player == NULL) {
                 return 0;
@@ -742,7 +697,6 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     return 0;
 }
 
-}
 
 void TWindowCtrl::dispatch_to_child(s32 client, s32 kind) {
     if (instance != NULL && instance->players[client] != NULL) {
@@ -752,17 +706,14 @@ void TWindowCtrl::dispatch_to_child(s32 client, s32 kind) {
 
 void TWindowCtrl::create_party_effect(u16 from, u16 to) { TWindowEffectParty::create((void *)tl_07, from, to, 0); }
 
-extern "C" {
 
 void TWindowCtrl::show_party_effect(u16 from, u16 to, u32 kind) { TWindowEffectParty::create((void *)tl_07, from, to, kind); }
 
-}
 
 void TWindowCtrl::append_message_all(const char *text) {
     TWindowCtrl::append_message_all(text, 0);
 }
 
-extern "C" {
 
 void TWindowCtrl::append_message_all(const char *text, s32 mode) {
     s32 i;
@@ -771,13 +722,11 @@ void TWindowCtrl::append_message_all(const char *text, s32 mode) {
     }
 }
 
-}
 
 void TWindowCtrl::append_client_message(s32 client, const char *text) {
     TWindowCtrl::append_client_message(client, text, 0);
 }
 
-extern "C" {
 
 void TWindowCtrl::append_client_message(s32 client, const char *text, s32 mode) {
     TWindowCtrlPlayer *window = TWindowCtrl::get_window(client);
@@ -786,7 +735,6 @@ void TWindowCtrl::append_client_message(s32 client, const char *text, s32 mode) 
     }
 }
 
-}
 
 void TWindowCtrl::create_level_up_window(saddr stats, saddr client) {
     new TWindowSetLevelUp(tl_07, stats, client);
@@ -794,7 +742,6 @@ void TWindowCtrl::create_level_up_window(saddr stats, saddr client) {
 
 int TWindowCtrl::open_default(u16 id, const char *text) { return TWindowCtrl::open(id, text, 15); }
 
-extern "C" {
 
 saddr TWindowCtrl::open(u16 id, const char *text, s32 flags) {
     saddr temp_r3;
@@ -813,7 +760,6 @@ saddr TWindowCtrl::open(u16 id, const char *text, s32 flags) {
     return temp_r3;
 }
 
-}
 
 s32 TWindowCtrl::open_balloon(u16 player, u8 *arg1, s32 flags, s32 client) {
     saddr temp_r3;
@@ -835,7 +781,7 @@ s32 is_actor_speech_balloon_done(u16 id) {
         return 1;
     }
     for (i = 0; i < 4; i++) {
-        w = ((Ctrl_8024B440 *)TWindowCtrl::instance)->win[i];
+        w = TWindowCtrl::instance->balloons[i];
         if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id() && is_speech_balloon_ready((u8 *)w) == 0) {
             return 0;
         }
@@ -848,7 +794,7 @@ void complete_actor_speech_balloons(u16 id) {
     void *w;
     if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
-            w = ((Ctrl_8024B3B4 *)TWindowCtrl::instance)->win[i];
+            w = TWindowCtrl::instance->balloons[i];
             if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
                 complete_speech_balloon((u8 *)w);
             }
@@ -861,7 +807,7 @@ void TWindowCtrl::close_windows_by_flags(u16 flags) {
     void *w;
     if (instance != NULL) {
         for (i = 0; i < 4; i++) {
-            w = ((Ctrl_8024B328 *)instance)->win[i];
+            w = instance->balloons[i];
             if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && flags == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
                 ((TWindowBase *)w)->close();
             }
@@ -869,7 +815,6 @@ void TWindowCtrl::close_windows_by_flags(u16 flags) {
     }
 }
 
-extern "C" {
 
 u16 TWindowCtrl::get_window_id() {
     if (instance == NULL) {
@@ -878,9 +823,7 @@ u16 TWindowCtrl::get_window_id() {
     return instance->window_id;
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::set_field28(u16 arg0) {
     if (instance != NULL) {
@@ -888,9 +831,7 @@ void TWindowCtrl::set_field28(u16 arg0) {
     }
 }
 
-}
 
-extern "C" {
 
 #pragma push
 
@@ -916,9 +857,9 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
     mask = 0x40;
     best = -1;
     i = 0;
-    cx = (0.5f * ((Win_8024B1A0 *)this)->w) + ((Win_8024B1A0 *)this)->x;
+    cx = (0.5f * frame_size[0]) + frame_position[0];
     bestd = 1000000.0f;
-    cy = (0.5f * ((Win_8024B1A0 *)this)->h) + ((Win_8024B1A0 *)this)->y;
+    cy = (0.5f * frame_size[1]) + frame_position[1];
     do {
         if (!(TWindowCtrl::instance->flags & mask)) {
             m = TWindowCtrl::get_message_by_type((s8)i, get_field_20());
@@ -944,9 +885,7 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
 
 #pragma pop
 
-}
 
-extern "C" {
 
 void TWindowCtrl::release_slot(s8 *arg0) {
     s8 temp_r4;
@@ -960,9 +899,7 @@ void TWindowCtrl::release_slot(s8 *arg0) {
     }
 }
 
-}
 
-extern "C" {
 
 const NJS_POINT2 *TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
     TWindowCtrlPlayer *window;
@@ -982,7 +919,6 @@ const NJS_POINT2 *TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
     return get_window_layout_position(var_r3 + type);
 }
 
-}
 
 s32 TWindowCtrl::query_window(s32 client_id, PlayerWindowQuery pmf) {
     TWindowCtrlPlayer *w = TWindowCtrl::get_window(client_id);
@@ -1107,7 +1043,6 @@ void TWindowCtrl::lock_client_main_menu(s32 client_id) {
 
 void close_window_if_active(s32 client) { if (TWindowCtrl::get_flag_bit4() == 0) { TWindowCtrl::disable_client_main_menu(client); } }
 
-extern "C" {
 
 void TWindowCtrl::try_open_battle_menu(s32 client_id, s16 key) {
     TWindowCtrlPlayer *window = TWindowCtrl::get_window(client_id);
@@ -1116,9 +1051,7 @@ void TWindowCtrl::try_open_battle_menu(s32 client_id, s16 key) {
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::replace_submenu(s32 client_id, s16 id) {
     TWindowCtrlPlayer *window = TWindowCtrl::get_window(client_id);
@@ -1127,9 +1060,7 @@ void TWindowCtrl::replace_submenu(s32 client_id, s16 id) {
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::handle_chat_message(char *arg1) {
     Obj_8024AA08 *arg0 = (Obj_8024AA08 *)this;
@@ -1154,9 +1085,7 @@ void TWindowCtrl::handle_chat_message(char *arg1) {
     }
 }
 
-}
 
-extern "C" {
 
 TWindowFukidasi *TWindowCtrl::show_chat_balloon(u16 player, s32 flags, const char *text, s32 client) {
     u32 i;
@@ -1177,9 +1106,7 @@ TWindowFukidasi *TWindowCtrl::show_chat_balloon(u16 player, s32 flags, const cha
     return instance->acquire_balloon_slot(player, flags, client);
 }
 
-}
 
-extern "C" {
 
 TWindowFukidasi *TWindowCtrl::acquire_balloon_slot(u16 player, s32 flags, s32 client) {
     f32 f;
@@ -1214,9 +1141,7 @@ TWindowFukidasi *TWindowCtrl::acquire_balloon_slot(u16 player, s32 flags, s32 cl
     return balloons[i];
 }
 
-}
 
-extern "C" {
 
 s32 TWindowCtrl::count_balloon_slots() {
     s32 n = 0;
@@ -1228,9 +1153,7 @@ s32 TWindowCtrl::count_balloon_slots() {
     return n;
 }
 
-}
 
-extern "C" {
 
 s32 TWindowCtrl::find_farthest_balloon_slot(u16 speaker) {
     s32 i;
@@ -1261,9 +1184,7 @@ s32 TWindowCtrl::find_farthest_balloon_slot(u16 speaker) {
     return result;
 }
 
-}
 
-extern "C" {
 
 f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 id) {
   f32 temp_f2;
@@ -1285,9 +1206,7 @@ f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredField
   return (temp_f2 * temp_f2) + ((temp_f4 * temp_f4) + (temp_f3 * temp_f3));
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, char **name) {
     TObjPlayer *entity;
@@ -1323,9 +1242,7 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, char **name) {
 }
 
 
-}
 
-extern "C" {
 
 char *TWindowCtrl::skip_name_prefix(void *self, char *s) {
     char *p;
@@ -1336,133 +1253,109 @@ char *TWindowCtrl::skip_name_prefix(void *self, char *s) {
     return p + 1;
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::create_alt_timer() {
-    if ((instance != NULL) && (instance->timer == NULL)) {
-        instance->timer = TWindowTimer::create_alt();
+    if ((instance != NULL) && (instance->timer_window == NULL)) {
+        instance->timer_window = TWindowTimer::create_alt();
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::close_timer_window() {
-    if ((instance != NULL) && (instance->timer != NULL)) {
-        instance->timer->close();
-        instance->timer = NULL;
+    if ((instance != NULL) && (instance->timer_window != NULL)) {
+        instance->timer_window->close();
+        instance->timer_window = NULL;
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::set_timer_window_time(u32 secs) {
     TWindowTimer *timer;
     if (instance != NULL) {
-        timer = instance->timer;
+        timer = instance->timer_window;
         if (timer != NULL) {
             timer->set_time(secs);
         }
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::create_timer() {
-    if ((instance != NULL) && (instance->timer == NULL)) {
-        instance->timer = TWindowTimer::create();
+    if ((instance != NULL) && (instance->timer_window == NULL)) {
+        instance->timer_window = TWindowTimer::create();
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::ensure_initialized() {
-    if ((instance != NULL) && (instance->area == NULL)) {
-        instance->area = create_window_area();
+    if ((instance != NULL) && (instance->area_window == NULL)) {
+        instance->area_window = create_window_area();
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::close_active_window() {
-    if ((instance != NULL) && (instance->area != NULL)) {
-        instance->area->close();
-        instance->area = NULL;
+    if ((instance != NULL) && (instance->area_window != NULL)) {
+        instance->area_window->close();
+        instance->area_window = NULL;
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::open_status_112() {
-    if ((instance != NULL) && (instance->area == NULL)) {
-        instance->area = create_area_window(TWindowSubStatusDisp::get_message_10(0x112));
+    if ((instance != NULL) && (instance->area_window == NULL)) {
+        instance->area_window = create_area_window(TWindowSubStatusDisp::get_message_10(0x112));
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::open_status_111() {
-    if ((instance != NULL) && (instance->area == NULL)) {
-        instance->area = create_area_window(TWindowSubStatusDisp::get_message_10(0x111));
+    if ((instance != NULL) && (instance->area_window == NULL)) {
+        instance->area_window = create_area_window(TWindowSubStatusDisp::get_message_10(0x111));
     }
 }
 
-}
 
-extern "C" {
 
 s32 TWindowCtrl__sub_8024A314(void) {
     if (TWindowCtrl::instance == NULL) {
         return 0;
     }
-    if (TWindowCtrl::instance->chat == NULL) {
+    if (TWindowCtrl::instance->chat_window == NULL) {
         return 0;
     }
-    return TWindowCtrl__sub_8024701C(TWindowCtrl::instance->chat);
+    return TWindowCtrl__sub_8024701C(TWindowCtrl::instance->chat_window);
 }
 
-}
 
-extern "C" {
 
 s32 TWindowCtrl::get_active_sub() {
     if (instance == NULL) {
         return 0;
     }
-    if (instance->chat == NULL) {
+    if (instance->chat_window == NULL) {
         return 0;
     }
-    return TWindowCtrl__sub_8024C5C4(instance->chat);
+    return TWindowCtrl__sub_8024C5C4(instance->chat_window);
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::update_focused() {
-    if ((instance != NULL) && (instance->chat != NULL)) {
-        instance->chat->update();
+    if ((instance != NULL) && (instance->chat_window != NULL)) {
+        instance->chat_window->update();
     }
 }
 
-}
 
-extern "C" {
 
 s32 TWindowCtrl::is_submit_cooldown_clear() {
     if (instance == NULL) {
@@ -1471,14 +1364,12 @@ s32 TWindowCtrl::is_submit_cooldown_clear() {
     return instance->submit_cooldown <= 0 ? 1 : 0;
 }
 
-}
 
 s32 TWindowCtrl::is_client_countdown_done(s32 client_id) {
     PlayerWindowQuery callback = &TWindowCtrlPlayer::is_countdown_done;
     return TWindowCtrl::query_window(client_id, callback);
 }
 
-extern "C" {
 
 void TWindowCtrl::set_field22() {
     if (instance != NULL) {
@@ -1486,29 +1377,23 @@ void TWindowCtrl::set_field22() {
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::start_client_countdown(s32 client_id) {
     PlayerWindowCommand callback = &TWindowCtrlPlayer::start_countdown;
     TWindowCtrl::call_window_method(client_id, callback);
 }
 
-}
 
-extern "C" {
 
 bool TWindowCtrl__sub_8024A1A8(void) {
     if (TWindowCtrl::instance == NULL) {
         return 0;
     }
-    return TWindowCtrl::instance->get_com_card != 0;
+    return TWindowCtrl::instance->com_card_window != 0;
 }
 
-}
 
-extern "C" {
 
 void TLobby::send_card_window_state() {
     TPlyChoiceSearchConfig parameters;
@@ -1520,9 +1405,7 @@ void TLobby::send_card_window_state() {
     protocol_instance->send_choice_search_parameters(parameters);
 }
 
-}
 
-extern "C" {
 
 s32 is_player_input_active(s32 client) {
     if (client >= 4) {
@@ -1538,30 +1421,25 @@ s32 is_player_input_active(s32 client) {
     return player->get_controller_port();
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl__sub_8024A08C(void) {
     TObject *object;
     lbl_805D63FC &= 0xFFFFFFFD;
     if (TWindowCtrl::instance != NULL) {
-        object = (TObject *)TWindowCtrl::instance->get_com_card;
+        object = (TObject *)TWindowCtrl::instance->com_card_window;
         if (object != NULL) {
             object->queue_destruction();
-            TWindowCtrl::instance->get_com_card = 0;
+            TWindowCtrl::instance->com_card_window = 0;
         }
     }
 }
 
-}
 
-extern "C" {
 
 void TWindowCtrl::clear_flag() {
-    if ((instance != NULL) && (instance->chat != NULL)) {
-        instance->chat->clear_flag1e_bit8();
+    if ((instance != NULL) && (instance->chat_window != NULL)) {
+        instance->chat_window->clear_flag1e_bit8();
     }
 }
 
-}

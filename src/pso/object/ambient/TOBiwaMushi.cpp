@@ -41,11 +41,11 @@ BmlResource *TOBiwaMushi::model_resource;
 
 
 s32 TBoss6PlotFalz::is_phase_reached() {
-    u32 p = TBoss6PlotFalz__instance;
+    u32 p = TBoss6PlotFalz::instance;
     if (!p) {
         return 0;
     }
-    return ((TBoss6PlotFalz *)TBoss6PlotFalz__instance)->get_scene_state() >= 7 ? 1 : 0;
+    return ((TBoss6PlotFalz *)TBoss6PlotFalz::instance)->get_scene_state() >= 7 ? 1 : 0;
 }
 
 TOMekaFish00::TOMekaFish00(void *set_data) {

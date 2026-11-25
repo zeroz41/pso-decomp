@@ -175,7 +175,7 @@ void TWindowLockOn::run_task() {
         (this->*m_70)();
     }
     validate_target();
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(&entry_list));
     old = m_64;

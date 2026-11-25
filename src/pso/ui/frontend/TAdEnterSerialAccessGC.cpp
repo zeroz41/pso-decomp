@@ -92,8 +92,8 @@ TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC
     if (((TAdSinglePlyChrSelectGC *)serial)->load_and_verify_character_save(access_key) != 0 && serial[0] != 0) {
         initialize_serial_input(serial);
         set_access_key(access_key);
-        set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
-        set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
+        set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 1);
+        set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 0);
     }
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
@@ -286,7 +286,7 @@ void TAdEnterSerialAccessGC::update_text_input(s32 field) {
                 keyboard_control = NULL;
             }
             strncpy(raw_serial_buffer, text, 0xB);
-            set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 0);
+            set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 0);
             next_state = 3;
             input_state = 5;
             break;
@@ -296,7 +296,7 @@ void TAdEnterSerialAccessGC::update_text_input(s32 field) {
                 keyboard_control = NULL;
             }
             strncpy(access_key_input_buffer, text, 0xD);
-            set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 1);
+            set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 1);
             next_state = 7;
             input_state = 5;
             break;

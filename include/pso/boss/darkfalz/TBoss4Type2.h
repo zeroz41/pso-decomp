@@ -32,6 +32,10 @@ struct TBoss4Type2Params
 // names it "TBoss4Type2" and create builds it with new(0x474). It circles the arena centre and
 // relays every action it picks through its owner (send_code_25_4), so all clients run the same
 // one. Field names inferred from their uses in TBoss4Zanzo.cpp.
+// A row of attack_pattern_table: how the animation ends (0 loops, 1 holds its
+// last frame, 2 goes on to next) and the motion of each of the two models.
+struct TBoss4Type2Motion { s32 kind, next, motions[2]; };
+
 class TBoss4Type2 : public TObjEnemy {
 public:
     TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data);
@@ -143,6 +147,8 @@ public:
     TParticleCtrl *parts[8];         // particle emitters, released by the dt
     ModelNodePositionCapture *node_capture;
     Vec node_positions[3];           // node_capture's captured node positions
+    static Vec tenchu_furu_array[64];
+    static TBoss4Type2Motion attack_pattern_table[10];
 };
 
 LAYOUT_ASSERT(Type2NodeTablesOffset, offsetof(TBoss4Type2, node_tables) == 0x378);

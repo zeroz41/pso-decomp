@@ -17,15 +17,16 @@ struct TObjBoss5PillarSmoke : public TObject {
     s32 count;  // child nodes of the model
     TParticleCtrl **particles_a;  // effect 0x213 per node
     TParticleCtrl **particles_b;  // effect 0x214 per node
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjBoss5PillarSmoke_size, sizeof(TObjBoss5PillarSmoke) == 0x28);
 
-// The model-node callback TObjBoss5Pillar::render installs (fn_8028ADDC) and clears (sub_8028ADB0) for a smoke.
+// The model-node callback TObjBoss5Pillar::render installs (begin_pillar_smoke_node_capture) and clears (sub_8028ADB0) for a smoke.
 extern "C" {
-void TObjBoss5PillarDemo__sub_8028AD88(NJS_OBJECT *node);
-void TObjBoss5PillarDemo__sub_8028ADB0(TObjBoss5PillarSmoke *smoke);
-void fn_8028ADDC(TObjBoss5PillarSmoke *smoke);
-void fn_8028AE1C(TObjBoss5PillarSmoke *smoke);
+void pillar_smoke_node_callback(NJS_OBJECT *node);
+void end_pillar_smoke_node_capture(TObjBoss5PillarSmoke *smoke);
+void begin_pillar_smoke_node_capture(TObjBoss5PillarSmoke *smoke);
+void park_pillar_smoke_particles(TObjBoss5PillarSmoke *smoke);
 }
 #endif

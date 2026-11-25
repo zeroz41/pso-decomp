@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowCtrl.h"
 
-extern "C" {
 extern char *window_dd_buffer_a;
 
 void TWindowDD::open(void *message, u16 speaker) {
@@ -28,4 +27,3 @@ s32 TWindowDD__sub_80347238(s16 arg0) {
     return var_r3;
 }
 
-}

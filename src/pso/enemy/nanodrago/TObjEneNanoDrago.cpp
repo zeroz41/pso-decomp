@@ -22,7 +22,7 @@
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
 
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -110,6 +110,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/TDeadSpot.h"
 
 
 
@@ -941,7 +942,7 @@ void TObjEneNanoDrago::update_dying_state() {
         timer = (timer - 1);
         if (timer <= 0) {
             spawn_ground_effect(&position, 0x1E);
-            TObjPlayer__sub_800D92BC(&position, 0xF);
+            TDeadSpot::spawn_kind1_scale7_5(&position, 0xF);
             state = 4;
             return;
         }
@@ -1062,7 +1063,7 @@ void TObjEneNanoDrago::update_fade_in_state() {
         actorFlags = flags;
         requested_action = 0;
         play_area_sound_effect(&body_center);
-        ((TUnk_80494938 *)(&appearFade))->start_fade_in();
+        ((TObjEnemyColorFade *)(&appearFade))->start_fade_in();
         state = 1;
     case 1:
         advance_animation();

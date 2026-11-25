@@ -6,7 +6,7 @@
 
 
 s32 TBoss6PlotFalz::is_flag_set() {
-    return (u8)((u8) (TBoss6PlotFalz__instance != 0));
+    return (u8)((u8) (TBoss6PlotFalz::instance != 0));
 }
 
 s32 TBoss6PlotFalz::get_next_point(s16 *set_index_out, s16 *entity_id_out) {

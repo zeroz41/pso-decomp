@@ -14,6 +14,7 @@ struct PlyPltAnimQuad {
 // Flash of one player plate (0-4) on the player select screen
 class TAdPlyPltAnimGC : public TObject {
 public:
+    static TAdPlyPltAnimGC * instances[5];
     PlyPltAnimQuad quad;   // drawn by render(), position set by run_task()
     PlyPltAnimQuad target; // position set by start_anim_rect
     f32 center_x;          // centre of the target rect
@@ -38,7 +39,6 @@ public:
 
 LAYOUT_ASSERT(TAdPlyPltAnimGC_size, sizeof(TAdPlyPltAnimGC) == 0x7C);
 
-extern TAdPlyPltAnimGC *TAdPlyPltAnimGC__instances[5];
 
 extern "C" {
 void TAdPlyPltAnimGC__sub_8035615C(void);

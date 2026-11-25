@@ -18,20 +18,20 @@
 
 extern s32 game_difficulty_selection;
 
-const char *TOMineIcon04__name = "TOMineIcon04";
+const char *mine_icon04_name = "TOMineIcon04";
 
 // -inline deferred: functions are written last-to-first.
 #pragma push
 #pragma fp_contract on
 TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
-    m_name = TOMineIcon04__name;
+    m_name = mine_icon04_name;
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();
-    model = get_bml_model(lbl_805D5A50, 7);
-    texlist = get_bml_texlist(lbl_805D5A50, 7);
-    light_model = get_bml_model(lbl_805D5A50, 3);
-    light_textures = get_bml_texlist(lbl_805D5A50, 3);
+    model = get_bml_model(mine_model_archive, 7);
+    texlist = get_bml_texlist(mine_model_archive, 7);
+    light_model = get_bml_model(mine_model_archive, 3);
+    light_textures = get_bml_texlist(mine_model_archive, 3);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;
@@ -49,10 +49,10 @@ TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
         attack.power *= 2.0f;
     }
     attack.kind = set_params[1];
-    pad_34C = 0.5f * scale.x + 60.0f;
-    m_350 = 0.5f * scale.y + 120.0f;
+    detect_radius = 0.5f * scale.x + 60.0f;
+    trigger_radius = 0.5f * scale.y + 120.0f;
     update_state();
-    m_35c = 0xFFFF;
+    target_id = 0xFFFF;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, mine_collision_body_parts, 1);
     refresh_collision_body_centers();
@@ -69,7 +69,7 @@ void *TOMineIcon04::create(void *set_data) {
     return new TOMineIcon04(tl_05, set_data);
 }
 
-void TOMineIcon04::vfunc_80() {
+void TOMineIcon04::play_trigger_sound() {
     saddr arg0 = (saddr)this;
     u32 area;
     area = get_current_floor_area();
@@ -114,5 +114,5 @@ void TOMineIcon04::vfunc_80() {
     }
 }
 
-void TOMineIcon04::vfunc_82() { spawn_particle_effect((const Vec *)((char*)this + 0x2fc), 140); }
+void TOMineIcon04::spawn_blast_particle() { spawn_particle_effect((const Vec *)((char*)this + 0x2fc), 140); }
 void TOMineIcon04::vfunc_84() {  }

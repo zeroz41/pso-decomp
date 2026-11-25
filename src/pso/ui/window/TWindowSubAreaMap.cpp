@@ -12,7 +12,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 void TWindowSubAreaMap::render() {  }
 
@@ -24,7 +23,6 @@ void TWindowSubAreaMap::run_task() {
     }
 }
 
-}
 TWindowSubAreaMap::~TWindowSubAreaMap() {
     if (map_disp != NULL) { map_disp->close(); map_disp = NULL; }
 }

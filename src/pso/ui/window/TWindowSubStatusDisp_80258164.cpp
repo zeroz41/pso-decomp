@@ -4,7 +4,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TWindowStatusGauge.h"
-#include "pso/unk/TUnk_804CF998.h"
+#include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/system/memory.h"
@@ -153,10 +153,8 @@ struct VObj18B_802582c4_80257784 : VBase18B_802582c4_80257784 {
     virtual s32 vm8C();
 };
 
-extern "C" {
 extern const f32 lbl_805DCF04;
 extern const f32 lbl_805DCF08;
-void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 arg1, s32 arg2);
 
 void ItemListRow::update_item_icon_colors(void *item) {
     s16 sp8;
@@ -477,9 +475,7 @@ void ItemListRow::init_status_entry(u8 category_icon, u32 src, s32 item) {
     this->flags |= 0x45;
 }
 
-}
 
-extern "C" {
 void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
     s32 item_data;
 
@@ -552,7 +548,6 @@ void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
     this->flags = (this->flags | 0x45);
 }
 
-}
 
 
 struct Quad_8025941C { f32 v[8]; };
@@ -560,7 +555,6 @@ struct Quad_8025941C { f32 v[8]; };
 extern "C" {
 u32 calc_text_width(char *s);
 }
-s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 extern const f32 lbl_805DCF14;
 extern const f32 lbl_805DCF20;
 extern const f32 lbl_805DCF24;
@@ -568,7 +562,6 @@ extern const f32 lbl_805DCF28;
 extern const f32 lbl_805DCF2C;
 extern const f32 lbl_805DCF10;
 extern const f32 lbl_805DCF18;
-extern "C" {
 
 void ItemListRow::set_ground_item(void *it, s32 index) {
     s32 item_data;
@@ -672,7 +665,6 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
         TWindowSubStatusDisp::get_player();
     }
 }
-}
 
 typedef struct ItemListPosition ItemListPosition;
 #pragma fp_contract on
@@ -775,7 +767,7 @@ ItemListRow::~ItemListRow() {
     }
 }
 
-ItemListRow::ItemListRow(u8 *rec, s32 client) : TUnk_804CF998(client) {
+ItemListRow::ItemListRow(u8 *rec, s32 client) : TWindowLayoutRect(client) {
     this->height = lbl_805DCF14;
     this->status_icon = 51;
     this->category_icon = 51;

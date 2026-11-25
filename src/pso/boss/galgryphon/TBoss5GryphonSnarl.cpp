@@ -25,11 +25,10 @@
 
 extern "C" {
 __declspec(section ".rodata") s32 boss5_gryphon_snarl_effect_id_table[4] = { 521, 539, 540, 538 };
-const char *TBoss5GryphonSnarl__name = "TBoss5GryphonSnarl";
-s32 * TBoss5GryphonSnarl__effect_table;
+const char *TBoss5GryphonSnarl::name = "TBoss5GryphonSnarl";
+s32 * TBoss5GryphonSnarl::effect_table;
 extern s32 boss5_gryphon_snarl_effect_id_table[4];
-extern s32 *TBoss5GryphonSnarl__effect_table;
-extern const char *TBoss5GryphonSnarl__name;
+extern s32 *TBoss5GryphonSnarl::effect_table;
 
 void TBoss5GryphonSnarl::render() {  }
 
@@ -58,7 +57,7 @@ void TBoss5GryphonSnarl::run_task() {
         for (i = 0; i < 32; i++) {
             angle = (i << 16) / 32;
             if (children_20[i] == NULL) {
-                children_20[i] = (TObject *)spawn_continuous_particle_effect_with_flags(&position, TBoss5GryphonSnarl__effect_table[0], 0x2040);
+                children_20[i] = (TObject *)spawn_continuous_particle_effect_with_flags(&position, TBoss5GryphonSnarl::effect_table[0], 0x2040);
             }
             if (children_20[i] != NULL) {
                 v.x = inner * sin_table_lookup(angle) + position.x;
@@ -67,7 +66,7 @@ void TBoss5GryphonSnarl::run_task() {
                 ((TParticleCtrl *)children_20[i])->set_position(&v);
             }
             if (children_a0[i] == NULL) {
-                children_a0[i] = (TObject *)spawn_continuous_particle_effect_with_flags(&position, TBoss5GryphonSnarl__effect_table[1], 0x40);
+                children_a0[i] = (TObject *)spawn_continuous_particle_effect_with_flags(&position, TBoss5GryphonSnarl::effect_table[1], 0x40);
                 if (children_a0[i] != NULL) {
                     attach_particle_model(static_cast<TParticleCtrl *>(children_a0[i]), get_bml_model(boss5_gryphon_bml_resource, 1), boss5_gryphon_texture_list, 0, 0, 1.0f);
                 }
@@ -118,15 +117,15 @@ TBoss5GryphonSnarl::~TBoss5GryphonSnarl() {
 
 #pragma push
 #pragma opt_common_subs off
-TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *arg2) : TObject(parent) {
+TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *origin) : TObject(parent) {
     s32 i;
-    m_name = TBoss5GryphonSnarl__name;
-    VecCopy(&position, (const Vec *)arg2);
+    m_name = TBoss5GryphonSnarl::name;
+    VecCopy(&position, (const Vec *)origin);
     position.y = 2.0f;
     frame = 0;
     state = 0;
-    spawn_particle_effect_with_flags(&position, TBoss5GryphonSnarl__effect_table[3], 0x40);
-    spawn_particle_effect_with_flags(&position, TBoss5GryphonSnarl__effect_table[2], 0x40);
+    spawn_particle_effect_with_flags(&position, TBoss5GryphonSnarl::effect_table[3], 0x40);
+    spawn_particle_effect_with_flags(&position, TBoss5GryphonSnarl::effect_table[2], 0x40);
     for (i = 0; i < 32; i++) {
         children_20[i] = NULL;
         children_a0[i] = NULL;
@@ -138,9 +137,9 @@ void TBoss5GryphonSnarl::release_effect_table() {  }
 
 
 void TBoss5GryphonSnarl::select_effect_table() {
-    switch (TBoss8Dragon__sub_8005D700()) {
+    switch (get_boss_asset_variant()) {
     case 0:
-        TBoss5GryphonSnarl__effect_table = boss5_gryphon_snarl_effect_id_table;
+        TBoss5GryphonSnarl::effect_table = boss5_gryphon_snarl_effect_id_table;
         break;
     }
 }

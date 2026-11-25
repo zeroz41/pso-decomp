@@ -4,7 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 // One variant's row of the parameter table TLobby hands load_shared_resources.
 struct StelthBehaviorParams {
@@ -20,7 +20,7 @@ struct StelthBehaviorParams {
     s32 attack_tech_level;   // Rafoie and Gifoie
 };
 
-// The record movementParameters points at (TObjEneMe3Stelth__shared_params); the
+// The record movementParameters points at (me3_stelth_shared_params); the
 // TObjEneMe3SinowZoaMoveParams layout.
 struct StelthMovementParams {
     f32 radius;      // target search radius the shared enemy targeting reads
@@ -86,7 +86,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     s16 saved_evp;         // evp at construction
     u8 pad_3f6[0x2];
     Vec hand_position;     // the target player's hand joint when its weapon is knocked off; the particle spot
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     s32 projection_scroll; // render adds 0x222 a frame; stelth_projection_texture_handle
     s32 state_step;
     s32 state_timer;

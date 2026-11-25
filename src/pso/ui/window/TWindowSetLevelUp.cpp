@@ -13,7 +13,6 @@
 
 struct ByteBlock_16 { u8 bytes[0x16]; };
 
-void text_builder_reset(void);
 
 const char *TWindowSetLevelUp::class_name = "TWindowSetLevelUp";
 

@@ -175,7 +175,7 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
         if ((yes_no_menu != NULL) && (yes_no_menu->is_decided() != 0)) {
             selected_menu_value = yes_no_menu->get_selected_value();
             if ((selected_menu_value == 0) && (item_list != NULL)) {
-                if (obj_getPtr2B0_20((u8 *)this->player) < 0x64) {
+                if (get_actor_meseta((u8 *)this->player) < 0x64) {
                     yes_no_menu->close();
                     this->yes_no_menu = NULL;
                     send_message(5, 1);

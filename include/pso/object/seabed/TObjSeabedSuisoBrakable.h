@@ -17,10 +17,10 @@ struct TObjSeabedSuisoBrakable : public TORockCaveBrakable {
     TObjSeabedSuisoBrakable(void *set_data);
     virtual ~TObjSeabedSuisoBrakable();
     virtual void render();
-    virtual void vfunc_14();
-    virtual void vfunc_16();
+    virtual void pre_draw();
+    virtual void throw_debris();
     virtual void spawn_break_effect();
-    virtual void vfunc_19();
+    virtual void run_demo_task();
     void init_model();
     s32 kind;  // abs(set_params[1]) clamped to 2: the model and chip set
 

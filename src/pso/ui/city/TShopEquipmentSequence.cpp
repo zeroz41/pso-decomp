@@ -23,13 +23,11 @@
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
-s32 TShopEquipmentSequence__slot_active_flags[4];
+s32 TShopEquipmentSequence::slot_active_flags[4];
 extern const char *TShopEquipmentSequence__class_name;
 TShopEquipmentSequence *lbl_805D6228;
 s32 lbl_805D622C;
 s32 lbl_805D6230;
-}
 
 #pragma readonly_strings on
 struct Base_8021D584_8021D524 { char pad[0x18]; };
@@ -50,14 +48,14 @@ const char *TShopEquipmentSequence__class_name = "TShopEquipmentSequence";
 void TShopEquipmentSequence__sub_8021DC08(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopEquipmentSequence__slot_active_flags[i] = 0;
+        TShopEquipmentSequence::slot_active_flags[i] = 0;
     }
 }
 
 void TShopEquipmentSequence__sub_8021DBE0(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopEquipmentSequence__slot_active_flags[i] = 0;
+        TShopEquipmentSequence::slot_active_flags[i] = 0;
     }
 }
 
@@ -71,7 +69,7 @@ TShopEquipmentSequence::TShopEquipmentSequence(TObject *parent, TObjPlayer *play
     lbl_805D6228 = this;
     lbl_805D622C = 0;
     lbl_805D6230 = 0;
-    TShopEquipmentSequence__slot_active_flags[get_split_screen_slot()] = 1;
+    TShopEquipmentSequence::slot_active_flags[get_split_screen_slot()] = 1;
 }
 
 TShopEquipmentSequence::~TShopEquipmentSequence() {
@@ -88,7 +86,7 @@ TShopEquipmentSequence::~TShopEquipmentSequence() {
         meseta_window->close();
         meseta_window = NULL;
     }
-    TShopEquipmentSequence__slot_active_flags[get_split_screen_slot()] = 0;
+    TShopEquipmentSequence::slot_active_flags[get_split_screen_slot()] = 0;
 }
 
 void TShopEquipmentSequence::update_state() {
@@ -128,7 +126,6 @@ void TShopEquipmentSequence::update_state() {
     }
 }
 
-extern "C" {
 
 void TShopEquipmentSequence::open_greeting() {
     f32 pos[2];
@@ -224,4 +221,3 @@ void init_window__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
     }
 }
 
-}

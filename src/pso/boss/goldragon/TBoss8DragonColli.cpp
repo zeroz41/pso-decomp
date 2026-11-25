@@ -18,8 +18,8 @@
 
 #pragma defer_codegen on
 
-const char *TBoss8DragonColli_C__name = "TBoss8DragonColli_C";
-const char *TBoss8DragonColli__name = "TBoss8DragonColli";
+const char *TBoss8DragonColli_C::name = "TBoss8DragonColli_C";
+const char *TBoss8DragonColli::name = "TBoss8DragonColli";
 
 CollisionBody boss8_collision_segment_desc = {
     {0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003,
@@ -31,7 +31,7 @@ TBoss8DragonColli_C::TBoss8DragonColli_C(TObject *parent, s32 count, Vec *offset
     f32 zero;
     f32 step;
     f32 z;
-    m_name = TBoss8DragonColli_C__name;
+    m_name = TBoss8DragonColli_C::name;
     VecCopy(&local_position, offset);
     entity_id = alloc_object_ids(0);
     body_count = count;
@@ -89,7 +89,7 @@ void TBoss8DragonColli_C::render() {  }
 
 TBoss8DragonColli::TBoss8DragonColli(TObject *parent) : TObject(parent) {
     Vec offset;
-    m_name = TBoss8DragonColli__name;
+    m_name = TBoss8DragonColli::name;
     offset.x = 0.0f;
     offset.y = 0.0f;
     offset.z = 0.0f;

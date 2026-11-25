@@ -5,9 +5,9 @@
 
 struct TItemEffOrgaFlowShot;
 extern "C" {
-void TBoss6Type2__sub_803570C8(s8 *buf);
-void TItemEffOrgaFlowShot__sub_80357204(void);
-void TItemEffOrgaFlowShot__sub_80357210(void);
+void clear_6xAD_action_buffer(s8 *buf);
+void disable_olga_flow_subordinate_actions(void);
+void enable_olga_flow_subordinate_actions(void);
 }
 void build_6xAD_olga_flow_subordinate_boss_actions(void *p);
 void read_be16_field2_forward(void *p);

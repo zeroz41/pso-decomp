@@ -58,9 +58,19 @@ public:
     f32 hit_flash;                    // 1.0 on a hit, passed to the draw tint
     s32 angle_y;                      // render's rotate_matrix_y angle
     TParticleCtrl *particle_emitter;  // create_particle_emitter(&position, 0x146)
+    static const char *class_name;
+    static CollisionBody collision_body_parts[1];
 };
 
 LAYOUT_ASSERT(Boss6MagMineSetData_size, sizeof(Boss6MagMineSetData) == 0x58);
 LAYOUT_ASSERT(TBoss6MagMine_size, sizeof(TBoss6MagMine) == 0x3B4);
+
+// The record exchange_object_state reads and writes.
+struct TBoss6MagMineStateRecord {
+    s32 flags;
+    s16 pad_04;
+    s16 value;
+    s32 pad_08;
+};
 
 #endif

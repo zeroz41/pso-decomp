@@ -8,7 +8,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 
-extern "C" {
 const char *lbl_805D4190 = "TAdChrSelMovePlateGC";
 NJS_TEXLIST *chr_sel_move_plate_texture;
 
@@ -77,4 +76,3 @@ TAdChrSelMovePlateGC::TAdChrSelMovePlateGC(TObject *parent) : TObject(parent) {
     }
 }
 
-}

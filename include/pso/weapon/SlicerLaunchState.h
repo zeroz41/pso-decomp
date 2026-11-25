@@ -5,7 +5,7 @@
 #include "pso/system/NinjaTypes.h"
 
 // What a slicer-type weapon's emit_marker_effects fills in and hands to
-// TTecSlicer::create (0x48 bytes on the stack of TUnk_804A4238/4338/5A28/
+// TTecSlicer::create (0x48 bytes on the stack of TItemWeaponSRankJCutter/4338/5A28/
 // 5B20/64E8/ECDC0 and TItemEffPG_8034EFDC). The fields are the ones
 // TTecSlicer copies into its own playerId..spinVelocity block; the struct
 // name is inferred from init_slicer_launch_state.
@@ -25,8 +25,8 @@ struct SlicerLaunchState {
     Vec second_joint;
 };
 
-// The defaults of a SlicerLaunchState. TUnk_804A4238.cpp keeps the copy the
-// game links; TUnk_804A5B20's TU compiled this inline body too:
+// The defaults of a SlicerLaunchState. TItemWeaponSRankJCutter.cpp keeps the copy the
+// game links; TItemWeaponSlicer's TU compiled this inline body too:
 // its literal pool opens with these 1.0/0.0, emitted with the weak copy right
 // after emit_marker_effects, ahead of update_idle's literals.
 #ifndef SLICER_LAUNCH_STATE_OUT_OF_LINE

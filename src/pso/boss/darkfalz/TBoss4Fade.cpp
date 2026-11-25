@@ -11,25 +11,15 @@ void TBoss4Fade::set_fade(s32 color, f32 alpha) {
     frames[write_index].alpha = alpha;
 }
 
-typedef struct Quad_803594EC
-{
-  void *tex;
-  u32 *colors;
-  s32 a;
-  s32 b;
-  u32 col[4];
-} Quad_803594EC;
-
 // The 640x480 screen corners the fade quad is drawn over.
-f32 TBoss4Fade__fullscreen_vertices[4][2] = {
+f32 TBoss4Fade::fullscreen_vertices[4][2] = {
     {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
 };
 
-typedef struct Quad_803594EC Quad_803594EC;
 void TBoss4Fade::render() {
   u32 c;
-  int new_var;
-  Quad_803594EC q;
+  int first_slot;
+  FadeStrip q;
   s32 i = write_index ^ 1;
   if (frames[i].active != 0)
   {
@@ -37,14 +27,14 @@ void TBoss4Fade::render() {
     q.colors = q.col;
     q.col[3] = c;
     q.col[2] = c;
-    new_var = 0;
+    first_slot = 0;
     q.col[1] = c;
-    q.col[new_var] = c;
-    q.a = new_var;
-    q.b = 4;
-    q.tex = TBoss4Fade__fullscreen_vertices;
+    q.col[first_slot] = c;
+    q.tex = (NJS_TEX *)first_slot;
+    q.count = 4;
+    q.verts = (ColorLineVertex *)TBoss4Fade::fullscreen_vertices;
     set_depth_buffer_settings_1();
-    reinterpret_cast<ColorLineList *>(&q)->draw_strip_swap_color(4, 6, -1.0f);
+    q.draw_strip_swap_color(4, 6, -1.0f);
     restore_saved_depth_alpha_state();
   }
 }
@@ -59,10 +49,10 @@ TBoss4Fade::~TBoss4Fade() {}
 
 #pragma readonly_strings on
 
-const char *TBoss4Fade__name = "TBoss4Fade";
+const char *TBoss4Fade::name = "TBoss4Fade";
 
 TBoss4Fade::TBoss4Fade(TObject *parent) : TObject(parent) {
-    m_name = TBoss4Fade__name;
+    m_name = TBoss4Fade::name;
     frames[0].active = 0;
     frames[1].active = 0;
     write_index = 0;

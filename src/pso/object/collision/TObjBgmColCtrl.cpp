@@ -33,8 +33,8 @@ struct Names_8017E1E4 { const char *name[2]; };
 s32 bgm_zone_category;
 s32 lbl_805D5B04;
 // The root the BGM collision zones hang under (created next to the controller).
-TObject *TObjBgmColCtrl__instance;
-u32 TObjBgmColCtrl__current_theme_id;
+TObject *bgm_col_ctrl_instance;
+u32 bgm_col_ctrl_current_theme_id;
 
 void create_bgm_col_zones(void);
 extern s32 tl_05;
@@ -76,21 +76,21 @@ const Row_8017E550 lbl_80443780[12] = {
 struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 
 
-const char *TObjBgmCol__name = "TObjBgmCol";
-const char *TObjBgmColCtrl__name = "TObjBgmColCtrl";
+const char *bgm_col_name = "TObjBgmCol";
+const char *bgm_col_ctrl_name = "TObjBgmColCtrl";
 
-extern s32 lbl_805D62E4;
-extern int TQuestBgmCtrl__bgm_issued_flag;
+extern s32 music_state;
+extern int quest_bgm_ctrl_bgm_issued_flag;
 
-int get_quest_bgm_issued_flag(void) {  return TQuestBgmCtrl__bgm_issued_flag; }
+int get_quest_bgm_issued_flag(void) {  return quest_bgm_ctrl_bgm_issued_flag; }
 
 s32 TObjBgmColCtrl::is_active() {
-    return (u8)((u8) (lbl_805D62E4 != 0));
+    return (u8)((u8) (music_state != 0));
 }
 
 TObjBgmCol::TObjBgmCol(TObject *parent, void *arg2) : TObjBase(parent) {
 #define bgm_col this
-    *(saddr *)((s8 *)bgm_col + 0) = (saddr) TObjBgmCol__name;
+    *(saddr *)((s8 *)bgm_col + 0) = (saddr) bgm_col_name;
     bgm_col->apply_object_set_data(arg2);
     bgm_col->m_90 = 1;
     bgm_col->m_98 = (f32) bgm_col->scale.x;
@@ -159,14 +159,14 @@ void create_bgm_col_zones(void) {
     ObjectSetData set;
     s32 i;
     bgm_zone_category = 4;
-    TLobby__sub_80207F30(&set);
+    init_object_set_data(&set);
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
         for (i = 0; i < 12; i++) {
             VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443690[i].pos);
             set.scale.x = lbl_80443690[i].radius;
             set.set_params[0] = lbl_80443690[i].category;
-            new TObjBgmCol(TObjBgmColCtrl__instance, &set);
+            new TObjBgmCol(bgm_col_ctrl_instance, &set);
         }
         break;
     case AREA_PIONEER2_EP2:
@@ -174,7 +174,7 @@ void create_bgm_col_zones(void) {
             VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443780[i].pos);
             set.scale.x = lbl_80443780[i].radius;
             set.set_params[0] = lbl_80443780[i].category;
-            new TObjBgmCol(TObjBgmColCtrl__instance, &set);
+            new TObjBgmCol(bgm_col_ctrl_instance, &set);
         }
         break;
     }
@@ -188,20 +188,20 @@ void TObjPlayer::set_camera_mode(s32 camera_mode) {
 }
 
 TObjBgmColCtrl::TObjBgmColCtrl(saddr parent) : TObject((TObject *)parent) {
-    this->m_name = TObjBgmColCtrl__name;
+    this->m_name = bgm_col_ctrl_name;
     this->m_1c = 3;
-    TObjBgmColCtrl__current_theme_id = 0;
+    bgm_col_ctrl_current_theme_id = 0;
 }
 
 TObjBgmColCtrl::~TObjBgmColCtrl() {
-    if (TObjBgmColCtrl__instance != NULL) {
-        delete TObjBgmColCtrl__instance;
-        TObjBgmColCtrl__instance = NULL;
+    if (bgm_col_ctrl_instance != NULL) {
+        delete bgm_col_ctrl_instance;
+        bgm_col_ctrl_instance = NULL;
     }
 }
 
 void TObjBgmColCtrl::create_controller() {
-    TObjBgmColCtrl__instance = new TObject(NULL);
+    bgm_col_ctrl_instance = new TObject(NULL);
     new TObjBgmColCtrl(tl_05);
     create_bgm_col_zones();
 }
@@ -218,7 +218,7 @@ void TObjBgmColCtrl::run_task() {
             }
         } else {
             lbl_805D5B04 = 0;
-            TObject *root = TObjBgmColCtrl__instance;
+            TObject *root = bgm_col_ctrl_instance;
             if (root != NULL) {
                 root->run_tasks();
             }
@@ -226,7 +226,7 @@ void TObjBgmColCtrl::run_task() {
                 if (TObjBgmColCtrl::is_active() == 0) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
-                if ((get_current_floor_area() == AREA_LOBBY) && ((s32) TLobby::event_theme_id != (s32) TObjBgmColCtrl__current_theme_id)) {
+                if ((get_current_floor_area() == AREA_LOBBY) && ((s32) TLobby::event_theme_id != (s32) bgm_col_ctrl_current_theme_id)) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
             }
@@ -242,12 +242,12 @@ void TObjBgmColCtrl::play_lobby_theme_music() {
     const char *name;
     if (get_current_floor_area() == AREA_LOBBY) {
         name = names.name[1];
-        TObjBgmColCtrl__current_theme_id = TLobby::event_theme_id;
+        bgm_col_ctrl_current_theme_id = TLobby::event_theme_id;
     } else {
         name = names.name[0];
-        TObjBgmColCtrl__current_theme_id = 0;
+        bgm_col_ctrl_current_theme_id = 0;
     }
-    switch (TObjBgmColCtrl__current_theme_id) {
+    switch (bgm_col_ctrl_current_theme_id) {
     case 1:
         play_area_music("Jinglebell.adx");
         break;

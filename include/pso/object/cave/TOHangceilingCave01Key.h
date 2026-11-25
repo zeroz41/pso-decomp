@@ -2,14 +2,14 @@
 #define PSO_OBJECT_CAVE_TOHANGCEILINGCAVE01KEY_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B2578.h"
+#include "pso/unk/TOHangceilingCaveBase.h"
 
-class TOHangceilingCave01Key : public TUnk_804B2578 {
+class TOHangceilingCave01Key : public TOHangceilingCaveBase {
 public:
     TOHangceilingCave01Key(TObject *parent, void *set_data);
     virtual ~TOHangceilingCave01Key();
-    virtual void vfunc_79();
-    virtual void vfunc_80();
+    virtual void begin_wait();
+    virtual void update_state();
 };
 
 LAYOUT_ASSERT(TOHangceilingCave01Key_size, sizeof(TOHangceilingCave01Key) == 0x360);

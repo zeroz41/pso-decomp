@@ -3,15 +3,14 @@
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_801C23A8.h"
-#include "pso/unk/TUnk_804C3E60.h"
+#include "pso/unk/TBattleMusicGainTask.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
-TUnk_804C3E60 *duel_result_window;
+TBattleMusicGainTask *duel_result_window;
 extern TObject *tl_00;
 
 void show_duel_result_window(saddr gain, saddr duration) {
@@ -21,14 +20,14 @@ void show_duel_result_window(saddr gain, saddr duration) {
         TLobby::set_and_notify(gain);
         return;
     }
-    duel_result_window = new TUnk_804C3E60(tl_00, gain, duration);
+    duel_result_window = new TBattleMusicGainTask(tl_00, gain, duration);
 }
 
-TUnk_804C3E60::~TUnk_804C3E60() {
+TBattleMusicGainTask::~TBattleMusicGainTask() {
     duel_result_window = NULL;
 }
 
-void TUnk_804C3E60::run_task() {
+void TBattleMusicGainTask::run_task() {
     if (--countdown <= 0) {
         TLobby::set_and_notify(0);
         queue_destruction();
@@ -39,13 +38,12 @@ void TUnk_804C3E60::run_task() {
     }
 }
 
-TUnk_804C3E60::TUnk_804C3E60(TObject *parent, s32 gain, s32 duration) : TObject(parent) {
+TBattleMusicGainTask::TBattleMusicGainTask(TObject *parent, s32 gain, s32 duration) : TObject(parent) {
     countdown = duration;
     gain_offset = gain;
     TLobby::set_and_notify(gain);
 }
 
-}
 
 BattleRanking *get_battle_rankings(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {

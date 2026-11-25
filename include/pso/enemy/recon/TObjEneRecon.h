@@ -7,9 +7,9 @@ struct NJS_OBJECT;
 struct TObjEneRecobox;
 class TParticleCtrl;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
-// What TObjEnemy::movementParameters points at for a Recon (TObjEneRecon__ai_parameters).
+// What TObjEnemy::movementParameters points at for a Recon (recon_ai_parameters).
 struct ReconMoveParams {
     f32 pad_00;
     f32 move_speed;  // distance moved per frame (move_with_wall_slide_commit)
@@ -17,7 +17,7 @@ struct ReconMoveParams {
     s32 pad_0C[4];
 };
 
-// The Recon parameter block TLobby::dispatch_shared_handler_a(0x42) hands out (TObjEneRecon__behavior_params).
+// The Recon parameter block TLobby::dispatch_shared_handler_a(0x42) hands out (recon_behavior_params).
 struct ReconParams {
     f32 collide_distance;  // distance update_collide_flag probes ahead with
     f32 bomb_radius;       // TObjEneReconBomb blast radius
@@ -116,7 +116,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     s32 attacking;                // set while a strike or bomb state runs; get_attack_target_id reports the target then
     TParticleCtrl *emitter;       // particle emitter 0x217 trailing the body
     s32 emitter_side;             // flips each frame: the emitter swings 3 units to either side
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     u8 pad_49C[0x48];
 };
 

@@ -3,8 +3,8 @@
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/boss/derolle/TUnk_80482EC0.h"
-#include "pso/boss/derolle/TUnk_80482D04.h"
+#include "pso/boss/derolle/TBoss2FloorMine.h"
+#include "pso/boss/derolle/TBoss2TargetMine.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -23,22 +23,9 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/object/base/ActorCollision.h"
 
-struct TBoss2MineMovement {
-    f32 target_range;
-    f32 base_speed;
-    s32 turn_speed;
-    s32 params[4];
-};
-
-// The mine's attack template: state_explode copies it, sets the power from the boss and
-// hands it to TObjEneDD__sub_800BA5A4, whose setup_instance installs the collision radius.
-struct TBoss2MineCollisionWords {
-    s32 w[5];
-};
-
 static const DragonAttackParams boss2_mine_collision_desc = { 1, 2.0f, 50.0f, {5.0f, 1} };
 
-const char *TBoss2Mine__name = "TBoss2Mine";
+const char *TBoss2Mine::name = "TBoss2Mine";
 
 const Vec boss2_mine_shadow_scale = { 2.0f, 1.0f, 2.0f };
 
@@ -57,9 +44,9 @@ __declspec(section ".data") s32 boss2_mine_attack_params[2] = { 0xF, 0xF };
 
 __declspec(section ".data") s32 boss2_mine_resist_params[2] = { 0x11, 0x11 };
 
-TBoss2MineMovement boss2_mine_movement[2] = {
-    { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } },
-    { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } },
+BossMovementParameters boss2_mine_movement[2] = {
+    { { 225.0f, 0.0f, 0x600 }, { 0, 0, 0, 0 } },
+    { { 225.0f, 0.0f, 0x600 }, { 0, 0, 0, 0 } },
 };
 
 CollisionBody boss2_mine_collision_body = {
@@ -94,7 +81,7 @@ void TBoss2Mine::free_resources() {  }
 
 TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 variant) : TObjEneDD(parent) {
     TBoss2DeRolLe *boss;
-    m_name = TBoss2Mine__name;
+    m_name = TBoss2Mine::name;
     boss = TBoss2DeRolLe::get_instance();
     if (boss != 0) {
         init_common_from(boss);
@@ -158,7 +145,7 @@ void TBoss2Mine::run_task() {
         dispatch_action(mode, 3);
     }
     dispatch_action(mode, 0);
-    sub_800BBA0C();
+    save_mode();
     if (!(mine_flags & 1)) {
         save_position();
         update_body_colliders();
@@ -337,7 +324,7 @@ void TBoss2Mine::state_explode(s32 reason) {
             *reinterpret_cast<TBoss2MineCollisionWords *>(&hit) =
                 *reinterpret_cast<const TBoss2MineCollisionWords *>(&boss2_mine_collision_desc);
             hit.attack.power = TBoss2DeRolLe::get_mine_power();
-            TObjEneDD__sub_800BA5A4(this, &hit);
+            setup_attack_at_owner(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);
             timer = 2;
             play_sound_effect(0x4003AD05, &body_center, 0, 0);
@@ -419,12 +406,12 @@ void TBoss2Mine::run_demo_task() {  }
 
 void TBoss2Mine::render_demo() {  }
 
-TUnk_80482EC0::TUnk_80482EC0(TObject *parent, u16 entity_id, s32 set_index)
+TBoss2FloorMine::TBoss2FloorMine(TObject *parent, u16 entity_id, s32 set_index)
     : TBoss2Mine(parent, entity_id, set_index, 0) {}
 
-TUnk_80482EC0::~TUnk_80482EC0() {}
+TBoss2FloorMine::~TBoss2FloorMine() {}
 
-void TUnk_80482EC0::update_body_colliders() {
+void TBoss2FloorMine::update_body_colliders() {
     bodies->offset.y = 5.0f + (body_center.y - position.y);
 }
 
@@ -441,7 +428,7 @@ void TBoss2Mine::set_launch_position_velocity(const Vec *start, const Vec *targe
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482EC0::state_launch(s32 reason) {
+void TBoss2FloorMine::state_launch(s32 reason) {
     f32 fall_time;
     f32 y;
     s32 angle;
@@ -495,7 +482,7 @@ void TUnk_80482EC0::state_launch(s32 reason) {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482EC0::state_armed(s32 reason) {
+void TBoss2FloorMine::state_armed(s32 reason) {
     u32 flags;
     s32 extra;
     switch (reason) {
@@ -547,7 +534,7 @@ void TUnk_80482EC0::state_armed(s32 reason) {
 }
 #pragma pop
 
-TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
+TBoss2TargetMine::TBoss2TargetMine(TObject *parent, u16 entity_id, s32 set_index)
     : TBoss2Mine(parent, entity_id, set_index, 1) {
     owner = NULL;
     slot = 0;
@@ -559,13 +546,13 @@ TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
     direction.z = 0.0f;
 }
 
-TUnk_80482D04::~TUnk_80482D04() {}
+TBoss2TargetMine::~TBoss2TargetMine() {}
 
-void TUnk_80482D04::update_body_colliders() {
+void TBoss2TargetMine::update_body_colliders() {
     bodies->offset.y = 1.0f + (body_center.y - position.y);
 }
 
-void TUnk_80482D04::move_mine() {
+void TBoss2TargetMine::move_mine() {
     if (owner->is_alive() != 0) {
         VecCopy(&target_pos, &owner->position);
         vec3_add_to(&target_pos, &owner_offset);
@@ -573,7 +560,7 @@ void TUnk_80482D04::move_mine() {
     }
 }
 
-void TUnk_80482D04::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
+void TBoss2TargetMine::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
     s32 angle;
     s32 heading;
     this->mine_flags |= 0x100;
@@ -608,7 +595,7 @@ void TUnk_80482D04::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482D04::state_launch(s32 reason) {
+void TBoss2TargetMine::state_launch(s32 reason) {
     Vec to_target;
     f32 t;
     switch (reason) {
@@ -688,7 +675,7 @@ void TUnk_80482D04::state_launch(s32 reason) {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482D04::state_armed(s32 reason) {
+void TBoss2TargetMine::state_armed(s32 reason) {
     Vec to_target;
     f32 s;
     switch (reason) {

@@ -37,7 +37,6 @@ extern int lobby_cursor_active_flag;
 
 int game_files_modified() { return game_files_modified_flag; }
 
-extern "C" {
 void TLobby__sub_802A0F70(void) {
     TLobby::update_menu_cursor();
     const char *names[5] = { "f512_midashi", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng" };
@@ -53,7 +52,6 @@ void TLobby::free_dialog_global() {
     }
 }
 
-}
 
 #pragma push
 #pragma opt_common_subs off
@@ -73,7 +71,7 @@ TAdTitleGC::TAdTitleGC(TObject *parent, s32 idx) : TObject(parent) {
         rects[i].u1 = 1.0f;
         rects[i].v1 = (4e+01f) * (f32)(title + off + 1) / 512.0f;
     }
-    draw_line_ctrl = create_draw_line_ctrl((TObject *)this, 8, 0.0f);
+    draw_line_ctrl = create_draw_line_ctrl(this, 8, 0.0f);
 }
 
 TAdTitleGC::~TAdTitleGC() {}

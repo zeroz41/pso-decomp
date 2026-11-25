@@ -131,7 +131,6 @@ void TWindowMenuInfomation::update_scroll_offset() {
 #pragma pop
 
 void TWindowMenuInfomation::clamp_scroll() {
-    u8 *arg0 = (u8 *)this;
     NJS_POINT2 range;
     f32 temp_f1;
     if (scroll_bar != NULL) {
@@ -198,20 +197,19 @@ TWindowMenuInfomation *create_information_counter_window(s32 rows) {
 }
 
 void fn_80268C5C(const NJS_POINT2 *extent, s32 rows) {
-    choice_setting_popup_window_descriptor.pad_00[0] = extent->x;
-    choice_setting_popup_window_descriptor.pad_00[1] = extent->y;
+    choice_setting_popup_window_descriptor.size[0] = extent->x;
+    choice_setting_popup_window_descriptor.size[1] = extent->y;
     choice_setting_popup_layout_entries.rows = rows;
 }
 
-extern "C" {
 
 void TWindowMenuInfomation::render() {
     WindowDrawContext *draw_context;
 
     draw_context = get_draw_context();
-    ((TWindowBase *)((u8 *)this))->draw_window_frame(draw_context);
+    ((TWindowBase *)(this))->draw_window_frame(draw_context);
     draw_visible_window_entries(
-        reinterpret_cast<const void *>(((u8 *)this)),
+        reinterpret_cast<const void *>((this)),
         reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
         draw_context);
     draw_setting(draw_context);
@@ -224,14 +222,13 @@ void TWindowMenuInfomation::render() {
 }
 
 void TWindowMenuInfomation::run_task() {
-    u8 *arg0 = (u8 *)this;
     uaddr temp_r3;
     WindowScrollBar *temp_r3_2;
     ControllerInputContext *input;
     ControllerInputContext *temp_r30_2;
     ControllerInputContext *context;
     if ((this->is_selected() == 0) && (this->is_open() == 0)) {
-        if (*(u16 *)((s8 *)arg0 + 0x70) & 0x10) {
+        if (*(u16 *)((s8 *)this + 0x70) & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor_prev();
@@ -257,7 +254,7 @@ void TWindowMenuInfomation::run_task() {
         }
     }
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        temp_r3 = *(u32 *)((s8 *)arg0 + 0x78);
+        temp_r3 = *(u32 *)((s8 *)this + 0x78);
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
         }
@@ -266,11 +263,11 @@ void TWindowMenuInfomation::run_task() {
             temp_r3_2->increment_counter();
         }
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowAddition *)arg0)->step_window_tween();
+    update_window();
+    this->step_window_tween();
     this->update_scroll_offset();
     this->clamp_scroll();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&(*(void * *)((u8 *)this + 0x24))));
+    ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&(*(void * *)((u8 *)this + 0x24))));
 }
 
 TWindowMenuInfomation::~TWindowMenuInfomation() {
@@ -282,4 +279,3 @@ TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)
     TWindowMenuInfomation__ct(this, (u32)rows);
 }
 
-}

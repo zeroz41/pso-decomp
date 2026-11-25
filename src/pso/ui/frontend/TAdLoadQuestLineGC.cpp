@@ -40,8 +40,8 @@ TAdLoadQuestLineGC::~TAdLoadQuestLineGC() {
     }
 }
 
-extern "C" { extern char TAdLoadQuestLineGC__class_name_string[]; }
-const char *lbl_805D4300 = TAdLoadQuestLineGC__class_name_string;
+extern "C" { extern char load_quest_line_class_name_string[]; }
+const char *lbl_805D4300 = load_quest_line_class_name_string;
 TAdLoadQuestLineGC::TAdLoadQuestLineGC(TObject *parent, s32 state) : TObject(parent) {
     this->m_name = lbl_805D4300;
     m_state = state;

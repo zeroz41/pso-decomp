@@ -30,13 +30,13 @@
 #include "pso/player/PlayerSlots.h"
 
 
-const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";
-const s32 TBoss6GravBall__emitter_id_table[9] = {535, 536, 537, 538, 539, 534, 534, 534, 534};
+const char TBoss6GravBall::class_name_string[] = "TBoss6GravBall";
+const s32 TBoss6GravBall::emitter_id_table[9] = {535, 536, 537, 538, 539, 534, 534, 534, 534};
 // The emitters the constructor creates.
 const s32 boss6_grav_ball_start_emitters[2] = {0, 1};
 // drift_to_center snaps the ball here once it is within 2/3 of a unit.
 const Vec boss6_grav_ball_origin = {0.0f, 0.0f, 0.0f};
-const char *TBoss6GravBall__name = TBoss6GravBall__class_name_string;
+const char *TBoss6GravBall::name = TBoss6GravBall::class_name_string;
 
 void TBoss6GravBall::update_emitter_positions() {
     s32 i;
@@ -69,7 +69,7 @@ void TBoss6GravBall::destroy_part(s32 index) {
 
 void TBoss6GravBall::create_charge_emitter(s32 index) {
     if (emitters[index] == NULL) {
-        emitters[index] = create_particle_emitter(&ball_position, TBoss6GravBall__emitter_id_table[index]);
+        emitters[index] = create_particle_emitter(&ball_position, TBoss6GravBall::emitter_id_table[index]);
         if (emitters[index] != NULL) {
             emitters[index]->set_flags(0x2040);
         }
@@ -78,7 +78,7 @@ void TBoss6GravBall::create_charge_emitter(s32 index) {
 
 void TBoss6GravBall::create_emitter(s32 index) {
     if (emitters[index] == NULL) {
-        emitters[index] = create_particle_emitter(&ball_position, TBoss6GravBall__emitter_id_table[index]);
+        emitters[index] = create_particle_emitter(&ball_position, TBoss6GravBall::emitter_id_table[index]);
         if (emitters[index] != NULL) {
             emitters[index]->set_flags(0x40);
         }
@@ -378,7 +378,7 @@ TBoss6GravBall::~TBoss6GravBall() {
 TBoss6GravBall::TBoss6GravBall(TBoss6Type1 *owner, const Vec *position)
     : TObjCollidable(owner) {
     s32 i;
-    m_name = TBoss6GravBall__name;
+    m_name = TBoss6GravBall::name;
     this->owner = owner;
     VecCopy(&ball_position, position);
     age = 0;

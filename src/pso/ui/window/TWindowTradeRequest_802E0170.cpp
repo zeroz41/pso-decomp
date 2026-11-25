@@ -16,8 +16,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
 
-void text_builder_reset(void);
-extern "C" {
 const char *TWindowTradeRequest__name = "TWindowTradeRequest";
 void TWindowTradeRequest::render() {  }
 
@@ -88,5 +86,4 @@ TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
     TWindowCtrl::disable_client_main_menu(local_client_id);
     TWindowCtrl::hide_client_lock_on_window(local_client_id);
     state = 0;
-}
 }

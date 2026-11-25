@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 class TParticleCtrl;
 class TObjPlayer;
@@ -26,7 +26,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     void sub_800C3BA8();
     s32 remap_sound_for_variant(s32 sound_id);
     // dispatch_action's states 0-11, named by the motions they request through
-    // TObjEneRe2Flower__animation_descriptors (attack0 damege1 die2 laugh3 waitc4 waito5 wake6)
+    // re2_flower_animation_descriptors (attack0 damege1 die2 laugh3 waitc4 waito5 wake6)
     // and by what they do.
     void state_hidden(s32 reason);
     void state_fade_in(s32 reason);
@@ -60,7 +60,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     s32 hit_cooldown;        // frames before a self-destructing flower takes hits again
     s32 blink_level;         // 0..255 self-destruct blink, render's alt model colour
     Vec node_points[2];      // node 14 in world space: [0] the shot origin, [1] the charge effect
-    TUnk_80494938 appear_fade;
+    TObjEnemyColorFade appear_fade;
     s32 state_step;          // frame counter of the current state
     s32 state_timer;         // the chase's frame count, the attack's phase, the curse's hit flag
     s32 swing_count;         // attack motion loops before the swipe ends

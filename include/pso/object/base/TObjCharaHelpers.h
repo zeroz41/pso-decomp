@@ -32,7 +32,7 @@ s32 get_current_floor(void);
 BOOL is_split_screen(void);
 void main(void);
 f32 newton_sqrtf(f32 x);
-int obj_getPtr2B0_20(u8 *p);
+int get_actor_meseta(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
 s16 get_actor_hp__9TObjCharaFv(void *object);
 s16 get_actor_tp(void *object);

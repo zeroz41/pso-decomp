@@ -7,17 +7,17 @@
 #include "pso/object/city/CityVerticalModel.h"
 #include "pso/object/city/CityTraffic.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/TUnk_804B5C08.h"
+#include "pso/object/TObjCityVerticalModel.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804B5C08::vfunc_13(s32) {
+void TObjCityVerticalModel::vfunc_13(s32) {
     y_offset = 0.0f;
     state = 1;
 }
 
-void TUnk_804B5C08::render() {
+void TObjCityVerticalModel::render() {
     if (state != 0) {
         if (!update_object_view_visibility(600.0f, 50.0f)) {
             y_offset = y_offset;
@@ -33,7 +33,7 @@ void TUnk_804B5C08::render() {
     }
 }
 
-void TUnk_804B5C08::run_task() {
+void TObjCityVerticalModel::run_task() {
     switch (state) {
     case 0:
         wait_timer--;
@@ -66,12 +66,12 @@ void TUnk_804B5C08::run_task() {
 }
 
 extern "C" void *create_city_vertical_model(void *set_data) {
-    return new TUnk_804B5C08(tl_05, set_data);
+    return new TObjCityVerticalModel(tl_05, set_data);
 }
 
-TUnk_804B5C08::~TUnk_804B5C08() {}
+TObjCityVerticalModel::~TObjCityVerticalModel() {}
 
-TUnk_804B5C08::TUnk_804B5C08(TObject *parent, void *set_data) : TObjBase(parent) {
+TObjCityVerticalModel::TObjCityVerticalModel(TObject *parent, void *set_data) : TObjBase(parent) {
     apply_object_set_data(set_data);
     state = 1;
     last_state = 2;

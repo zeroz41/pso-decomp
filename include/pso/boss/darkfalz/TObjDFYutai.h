@@ -16,6 +16,7 @@ public:
     u16 player_id; // client id of the player it draws
     f32 t;         // 1 -> 0 or 0 -> 1 by rate a frame; it ends at either end
     f32 rate;
+    static const char *name;
 };
 
 #endif

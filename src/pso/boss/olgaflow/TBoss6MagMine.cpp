@@ -39,19 +39,12 @@
 #include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
-// The record exchange_object_state reads and writes.
-struct TBoss6MagMineStateRecord {
-    s32 flags;
-    s16 pad_04;
-    s16 value;
-    s32 pad_08;
-};
 
-CollisionBody TBoss6MagMine__collision_body_parts[1] = {
+CollisionBody TBoss6MagMine::collision_body_parts[1] = {
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x803B, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-const char *TBoss6MagMine__class_name = "TBoss6MagMine";
+const char *TBoss6MagMine::class_name = "TBoss6MagMine";
 
 void TBoss6MagMine::run_death_reaction() {
     if (state != 4) {
@@ -78,7 +71,7 @@ void TBoss6MagMine::update_linked_state() {
     model = (saddr)get_bml_model(archive, 2);
     motion = get_bml_motion(archive, 0);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
-    TBoss6PlotFalz__sub_802AC008(hit_flash, 0.0f);
+    apply_boss6_hit_flash_color(hit_flash, 0.0f);
     draw_model_motion((void *)model, (void *)motion, motion_frame);
     TBoss6PlotFalz::update_camera_target();
     clear_motion_packed_rotation();
@@ -278,7 +271,7 @@ TBoss6MagMine::~TBoss6MagMine() {
 TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : TObjEnemy(parent) {
     TBoss6MagMineStateRecord record;
     f32 *params;
-    m_name = TBoss6MagMine__class_name;
+    m_name = TBoss6MagMine::class_name;
     VecCopy(&position, &set_data->origin);
     VecCopy(&destination, &set_data->destination);
     add_flags_2e4(8);
@@ -292,7 +285,7 @@ TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : T
     texlist = 0;
     model = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    init_collision_body_parts(this, TBoss6MagMine__collision_body_parts, 1);
+    init_collision_body_parts(this, TBoss6MagMine::collision_body_parts, 1);
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;
@@ -353,4 +346,4 @@ void TBoss6MagMine::spawn_mag_mine_at(const Vec *origin, const Vec *destination)
 
 s32 TBoss6Type2::get_variant() { return variant; }
 
-TBoss6Type2 *TBoss6PlotFalz::get_type2() { return TBoss6PlotFalz__type2_instance; }
+TBoss6Type2 *TBoss6PlotFalz::get_type2() { return TBoss6PlotFalz::type2_instance; }

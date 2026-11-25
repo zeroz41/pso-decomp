@@ -43,12 +43,11 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
-// The record exchange_object_state reads and writes.
-struct TBoss6MineStateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
-static CollisionBody TBoss6Mine__collision_body_template[1] = {
+CollisionBody TBoss6Mine::collision_body_template[1] = {
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
@@ -83,7 +82,7 @@ void TBoss6Mine::draw() {
     bml_model = (saddr)get_bml_model(scene_archive, 2);
     bml_motion = get_bml_motion(scene_archive, 0);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
-    TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
+    apply_boss6_hit_flash_color(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, this->anim_frame);
     TBoss6PlotFalz::update_camera_target();
     clear_motion_packed_rotation();
@@ -211,7 +210,7 @@ void TBoss6Mine::state_3() {
     f32 remaining;
     f32 radius;
     remaining = (f32)((s32)this->spread_frames - this->state_frames + 1);
-    VecCopy((Vec *)&v, &this->position);
+    VecCopy(&v, &this->position);
     v.y = 0.0f;
     len = vector_length(&v);
     if (len > 0.00001f) {
@@ -335,7 +334,6 @@ TBoss6Mine::~TBoss6Mine() {
 }
 
 
-extern saddr tl_04;
 
 #pragma push
 #pragma fp_contract on
@@ -359,7 +357,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     texlist = 0;
     model = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    init_collision_body_parts(this, TBoss6Mine__collision_body_template, 1);
+    init_collision_body_parts(this, TBoss6Mine::collision_body_template, 1);
     VecCopy(&body_center, &position);
     velocity.z = 0.0f;
     velocity.y = 0.0f;

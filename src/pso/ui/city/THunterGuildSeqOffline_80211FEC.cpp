@@ -37,8 +37,7 @@ void *THunterGuildSeqOffline::create(void *player) {
     return new THunterGuildSeqOffline(tl_05, (TObjPlayer *)player);
 }
 
-    extern int THunterGuildSeqOffline__instance_table[];
-int THunterGuildSeqOffline__sub_80212060(int a0) {  return THunterGuildSeqOffline__instance_table[a0]; }
+int THunterGuildSeqOffline__sub_80212060(int a0) {  return THunterGuildSeqOffline::instance_table[a0]; }
 
 s32 THunterGuildSeqOffline__sub_80212074(void) {
     saddr player;

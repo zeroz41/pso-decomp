@@ -14,10 +14,10 @@
 extern "C" {
 extern s32 quest_text_end;
 void rebuild_current_slot_text_chain(s32 mode);
-void TQuestVmDownLoadServer__sub_803EC284(s32 pos, s32 mode);
+void seek_quest_text_page(s32 pos, s32 mode);
 extern s32 quest_text_entry_len;
 extern s32 quest_text_cursor_pos;
-s32 TQuestVmDownLoadServer__sub_803EB208(s32 mode, s32 force);
+s32 quest_text_next_page(s32 mode, s32 force);
 extern s32 quest_page_node_count;
 extern s32 quest_page_node_index;
 void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
@@ -157,7 +157,7 @@ s32 quest_download_request_0x25(saddr *arg0) {
     if (quest_download_slot_chain_table[quest_text_cursor_pos].chain == NULL) {
         return -1;
     }
-    TQuestVmDownLoadServer__sub_803EC284(0, 1);
+    seek_quest_text_page(0, 1);
     strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
     strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     return 0;
@@ -178,7 +178,7 @@ s32 quest_download_request_0x24(saddr *arg0) {
     free_slot_node_chain(quest_text_cursor_pos, 0);
     quest_text_cursor_pos += quest_text_entry_len;
     quest_text_entry_len = TQuestVmDownLoadServer__sub_803E9F54(quest_text_cursor_pos);
-    TQuestVmDownLoadServer__sub_803EC284(0, 1);
+    seek_quest_text_page(0, 1);
     strcpy((char *)temp_r31, (const char *)(get_entry_text(quest_text_cursor_pos, quest_text_entry_len)));
     strcpy((char *)temp_r30, (const char *)(get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len))));
     return count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
@@ -206,7 +206,7 @@ s32 quest_download_request_0x23(saddr *arg0) {
     }
     quest_text_cursor_pos = i;
     quest_text_entry_len = n;
-    TQuestVmDownLoadServer__sub_803EC284(0, 1);
+    seek_quest_text_page(0, 1);
     strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
     strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     return count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
@@ -227,7 +227,7 @@ s32 quest_download_request_0x22(saddr *arg0) {
     TQuestVmDownLoadServer__sub_803EAE84(quest_text_cursor_pos, quest_text_end, 1);
     quest_text_entry_len -= 1;
     TQuestVmDownLoadServer__sub_803EA9E8(quest_text_cursor_pos, quest_text_end, 1, quest_text_entry_len);
-    TQuestVmDownLoadServer__sub_803EC284(0, 1);
+    seek_quest_text_page(0, 1);
     strcpy((char *)temp_r31, (const char *)(get_entry_text(quest_text_cursor_pos, quest_text_entry_len)));
     strcpy((char *)temp_r30, (const char *)(get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len))));
     return count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
@@ -248,7 +248,7 @@ s32 quest_download_request_0x21(saddr *arg0) {
     TQuestVmDownLoadServer__sub_803EAE84(quest_text_cursor_pos, quest_text_end, 1);
     quest_text_entry_len += 1;
     TQuestVmDownLoadServer__sub_803EA9E8(quest_text_cursor_pos, quest_text_end, 1, quest_text_entry_len);
-    TQuestVmDownLoadServer__sub_803EC284(0, 1);
+    seek_quest_text_page(0, 1);
     strcpy((char *)temp_r31, (const char *)(get_entry_text(quest_text_cursor_pos, quest_text_entry_len)));
     strcpy((char *)temp_r30, (const char *)(get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len))));
     return count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
@@ -337,12 +337,12 @@ s32 quest_download_request_0x1E(saddr *arg0) {
   while ((*src) != 0)
   {
     ch = (src[0] << 8) | src[1];
-    if (TQuestVmDownLoadServer__is_sjis_double_byte(ch) == 0)
+    if (is_sjis_double_byte(ch) == 0)
     {
       return 3;
     }
-    ch = TQuestVmDownLoadServer__sub_803EC69C(ch);
-    r = TQuestVmDownLoadServer__sub_803EC8D8(ch);
+    ch = sjis_to_jis(ch);
+    r = jis_to_single_byte(ch);
     if (r == 0)
     {
       return 3;
@@ -432,7 +432,7 @@ s32 quest_download_request_0x19(saddr *arg0) {
         return ret;
     }
     quest_text_entry_len = TQuestVmDownLoadServer__sub_803E9F54(quest_text_cursor_pos);
-    TQuestVmDownLoadServer__sub_803EC284(0, 1);
+    seek_quest_text_page(0, 1);
     strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
     strcpy((char *)c, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     *d = (s16)count_quest_text_entries(quest_download_slot_chain_table[quest_text_cursor_pos].chain);
@@ -462,12 +462,12 @@ s32 quest_download_request_0x16(saddr *arg0) {
     b = arg0[1];
     switch (arg0[-1]) {
     case 22:
-        if (TQuestVmDownLoadServer__sub_803EB0D8(0, 0) == 0) {
+        if (quest_text_prev_page(0, 0) == 0) {
             err = 1;
         }
         break;
     case 23:
-        if (TQuestVmDownLoadServer__sub_803EB208(0, 0) == 0) {
+        if (quest_text_next_page(0, 0) == 0) {
             err = 1;
         }
         break;
@@ -493,13 +493,13 @@ s32 TQuestVmDownLoadServer::handle_list_scroll(saddr *args) {
     case 20:
         if (quest_page_node_index > 0) {
             quest_page_node_index--;
-        } else if (TQuestVmDownLoadServer__sub_803EB0D8(0, 0) == 0) {
-            TQuestVmDownLoadServer__sub_803EC284(0, 1);
+        } else if (quest_text_prev_page(0, 0) == 0) {
+            seek_quest_text_page(0, 1);
             n = quest_page_node_count;
-            while (TQuestVmDownLoadServer__sub_803EB208(0, 0) != 0) {
+            while (quest_text_next_page(0, 0) != 0) {
                 n += quest_page_node_count;
             }
-            TQuestVmDownLoadServer__sub_803EC284(n - 1, 1);
+            seek_quest_text_page(n - 1, 1);
         } else {
             quest_page_node_index = quest_page_node_count - 1;
         }
@@ -507,8 +507,8 @@ s32 TQuestVmDownLoadServer::handle_list_scroll(saddr *args) {
     case 21:
         if (quest_page_node_index < quest_page_node_count - 1) {
             quest_page_node_index++;
-        } else if (TQuestVmDownLoadServer__sub_803EB208(0, 0) == 0) {
-            TQuestVmDownLoadServer__sub_803EC284(0, 1);
+        } else if (quest_text_next_page(0, 0) == 0) {
+            seek_quest_text_page(0, 1);
         }
         break;
     }
@@ -542,7 +542,7 @@ s32 OSFillFPUContext(saddr *arg0) {
     TQuestVmDownLoadServer__sub_803EA9E8(0, quest_text_end, 0, -1);
     quest_text_cursor_pos = 0;
     quest_text_entry_len = TQuestVmDownLoadServer__sub_803E9F54(0);
-    TQuestVmDownLoadServer__sub_803EC284(0, 1);
+    seek_quest_text_page(0, 1);
     strcpy((char *)a, (const char *)get_entry_text(quest_text_cursor_pos, quest_text_entry_len));
     strcpy((char *)b, (const char *)get_entry_text((quest_text_cursor_pos + quest_text_entry_len), ((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
     quest_download_state = 3;
@@ -610,42 +610,42 @@ u8 quest_request_text_buffer[80];
 }
 QuestConvertString quest_convert_string;
 
-struct Stack_803E68D0 {
+struct DispatchRequest0x13Stack {
     s32 sp14;
     s32 sp18;
     s32 sp1C;
     s32 sp20;
 };
 
-struct Req_803E669C { s32 id; s32 a; s32 b; };
+struct DispatchRequest0x27Req { s32 id; s32 a; s32 b; };
 
-struct Req_803E6704 { s32 id; s32 a; s32 b; };
+struct DispatchRequest0x25Req { s32 id; s32 a; s32 b; };
 
-struct Req_803E6738 { s32 id; s32 a; s32 b; };
+struct DispatchRequest0x24Req { s32 id; s32 a; s32 b; };
 
-struct Req_803E676C { s32 id; void *a; void *b; };
+struct DispatchRequest0x23Req { s32 id; void *a; void *b; };
 
-struct Req_803E6668 { s32 id; void *a; void *b; };
+struct DispatchRequest0x28Req { s32 id; void *a; void *b; };
 
-struct Req_803E66D0 { s32 id; s32 a; s32 b; };
+struct DispatchRequest0x26Req { s32 id; s32 a; s32 b; };
 
-struct Req_803E67D4 { s32 id; s32 a; s32 b; };
+struct TWindowKeyBoardSoftReq { s32 id; s32 a; s32 b; };
 
-struct Req_803E67A0 { s32 id; s32 a; s32 b; };
+struct DispatchRequest0x22Req { s32 id; s32 a; s32 b; };
 
-struct Req_803E6808 { s32 id; const char *a; const char *b; };
+struct DispatchRequest0x20Req { s32 id; const char *a; const char *b; };
 
-struct Req_803E6908 { s32 id; s32 a; s32 b; };
+struct DispatchRequest0x10Req { s32 id; s32 a; s32 b; };
 
-struct Req_803E693C { s32 id; s32 a; s32 b; };
+struct DispatchRequest0fReq { s32 id; s32 a; s32 b; };
 
-struct Req_803E689C { s32 id; s32 a; s32 b; };
+struct DispatchRequest0x14Req { s32 id; s32 a; s32 b; };
 
-struct Req_803E6868 { s32 id; s32 a; s32 b; };
-struct S_803E6610 { s32 idx; saddr rest; };
+struct TWindowKeyBoardSoftReq2 { s32 id; s32 a; s32 b; };
+struct DispatchByIndexState { s32 idx; saddr rest; };
 
 s32 TWindowKeyBoardSoft::dispatch_by_index() {
-    S_803E6610 *arg0 = (S_803E6610 *)this;
+    DispatchByIndexState *arg0 = (DispatchByIndexState *)this;
     s32 i = arg0->idx;
     saddr *rest = &arg0->rest;
     if (i <= 0 || (u32)i > 0x3F) {
@@ -655,7 +655,7 @@ s32 TWindowKeyBoardSoft::dispatch_by_index() {
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x28(void *a, void *b) {
-    Req_803E6668 req;
+    DispatchRequest0x28Req req;
     req.id = 0x28;
     req.a = a;
     req.b = b;
@@ -663,7 +663,7 @@ void TWindowKeyBoardSoft::dispatch_request_0x28(void *a, void *b) {
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x27(s32 a, s32 b) {
-    Req_803E669C req;
+    DispatchRequest0x27Req req;
     req.id = 0x27;
     req.a = a;
     req.b = b;
@@ -671,7 +671,7 @@ void TWindowKeyBoardSoft::dispatch_request_0x27(s32 a, s32 b) {
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x26(s32 a, s32 b) {
-    Req_803E66D0 req;
+    DispatchRequest0x26Req req;
     req.id = 0x26;
     req.a = a;
     req.b = b;
@@ -679,7 +679,7 @@ void TWindowKeyBoardSoft::dispatch_request_0x26(s32 a, s32 b) {
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x25(s32 a, s32 b) {
-    Req_803E6704 req;
+    DispatchRequest0x25Req req;
     req.id = 0x25;
     req.a = a;
     req.b = b;
@@ -687,7 +687,7 @@ void TWindowKeyBoardSoft::dispatch_request_0x25(s32 a, s32 b) {
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x24(s32 a, s32 b) {
-    Req_803E6738 req;
+    DispatchRequest0x24Req req;
     req.id = 0x24;
     req.a = a;
     req.b = b;
@@ -695,7 +695,7 @@ void TWindowKeyBoardSoft::dispatch_request_0x24(s32 a, s32 b) {
 }
 
 s32 TWindowKeyBoardSoft::dispatch_request_0x23(void *a, void *b) {
-    Req_803E676C req;
+    DispatchRequest0x23Req req;
     req.id = 0x23;
     req.a = a;
     req.b = b;
@@ -703,7 +703,7 @@ s32 TWindowKeyBoardSoft::dispatch_request_0x23(void *a, void *b) {
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x22(s32 a, s32 b) {
-    Req_803E67A0 req;
+    DispatchRequest0x22Req req;
     req.id = 0x22;
     req.a = a;
     req.b = b;
@@ -711,7 +711,7 @@ void TWindowKeyBoardSoft::dispatch_request_0x22(s32 a, s32 b) {
 }
 
 void TWindowKeyBoardSoft__sub_803E67D4(s32 a, s32 b) {
-    Req_803E67D4 req;
+    TWindowKeyBoardSoftReq req;
     req.id = 0x21;
     req.a = a;
     req.b = b;
@@ -719,7 +719,7 @@ void TWindowKeyBoardSoft__sub_803E67D4(s32 a, s32 b) {
 }
 
 s32 TWindowKeyBoardSoft::dispatch_request_0x20(const char *a, const char *b) {
-    Req_803E6808 req;
+    DispatchRequest0x20Req req;
     req.id = 0x20;
     req.a = a;
     req.b = b;
@@ -733,7 +733,7 @@ s32 TWindowKeyBoardSoft::dispatch_request_0x1c() {
 }
 
 void TWindowKeyBoardSoft__sub_803E6868(s32 a, s32 b) {
-    Req_803E6868 req;
+    TWindowKeyBoardSoftReq2 req;
     req.id = 0x15;
     req.a = a;
     req.b = b;
@@ -741,7 +741,7 @@ void TWindowKeyBoardSoft__sub_803E6868(s32 a, s32 b) {
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x14(s32 a, s32 b) {
-    Req_803E689C req;
+    DispatchRequest0x14Req req;
     req.id = 0x14;
     req.a = a;
     req.b = b;
@@ -749,11 +749,11 @@ void TWindowKeyBoardSoft::dispatch_request_0x14(s32 a, s32 b) {
 }
 
 void TWindowKeyBoardSoft::dispatch_request_0x13(s32 arg0, s32 arg1, s32 arg2) {
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_803E68D0, sp14) == 0x0);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_803E68D0, sp18) == 0x4);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_803E68D0, sp1C) == 0x8);
-    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_803E68D0, sp20) == 0xC);
-    Stack_803E68D0 stack;
+    LAYOUT_ASSERT(sp14_offset, offsetof(DispatchRequest0x13Stack, sp14) == 0x0);
+    LAYOUT_ASSERT(sp18_offset, offsetof(DispatchRequest0x13Stack, sp18) == 0x4);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(DispatchRequest0x13Stack, sp1C) == 0x8);
+    LAYOUT_ASSERT(sp20_offset, offsetof(DispatchRequest0x13Stack, sp20) == 0xC);
+    DispatchRequest0x13Stack stack;
     stack.sp14 = 0x13;
     stack.sp18 = arg0;
     stack.sp1C = arg1;
@@ -761,14 +761,14 @@ void TWindowKeyBoardSoft::dispatch_request_0x13(s32 arg0, s32 arg1, s32 arg2) {
     ((TWindowKeyBoardSoft *)(&stack.sp14))->dispatch_by_index();
 }
 void TWindowKeyBoardSoft::dispatch_request_0x10(s32 a, s32 b) {
-    Req_803E6908 req;
+    DispatchRequest0x10Req req;
     req.id = 0x10;
     req.a = a;
     req.b = b;
     ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
 }
 void TWindowKeyBoardSoft::dispatch_request_0f(s32 a, s32 b) {
-    Req_803E693C req;
+    DispatchRequest0fReq req;
     req.id = 0xf;
     req.a = a;
     req.b = b;

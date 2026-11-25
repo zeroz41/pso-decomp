@@ -23,8 +23,8 @@ struct TMedicalCenterSequence : public TShopSequence {
     void show_declined();
     void show_already_healthy();
     void handle_window_input();
-    TWindowBase *m_2c;       // meseta window
-    TWindowMenu *m_30;       // yes or no
+    TWindowBase *meseta_window;       // meseta window
+    TWindowMenu *yes_no_menu;       // yes or no
     TObject *counter_camera; // 0x34: set_service_counter_camera
     void show_fee_prompt();
 };

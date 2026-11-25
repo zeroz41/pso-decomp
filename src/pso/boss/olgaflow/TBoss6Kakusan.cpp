@@ -26,11 +26,11 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *TBoss6Kakusan__name = "TBoss6Kakusan";
-s32 TBoss6Kakusan__homing_start_frame;
+const char *TBoss6Kakusan::name = "TBoss6Kakusan";
+s32 TBoss6Kakusan::homing_start_frame;
 u8 boss6_kakusan_homing_start_initialized;
 s32 boss6_kakusan_homing_end_frame;
-u8 TBoss6Kakusan__homing_end_frame_initialized;
+u8 TBoss6Kakusan::homing_end_frame_initialized;
 }
 
 void TBoss6Kakusan::check_beam_player_hits() {
@@ -106,14 +106,14 @@ void TBoss6Kakusan::run_task() {
     if (TObjEneDD::query_teammate_state() != 0) return;
     VecCopy(&prev_position, &position);
     if ((s8)boss6_kakusan_homing_start_initialized == 0) {
-        TBoss6Kakusan__homing_start_frame = 7;
+        TBoss6Kakusan::homing_start_frame = 7;
         boss6_kakusan_homing_start_initialized = 1;
     }
-    if ((s8)TBoss6Kakusan__homing_end_frame_initialized == 0) {
+    if ((s8)TBoss6Kakusan::homing_end_frame_initialized == 0) {
         boss6_kakusan_homing_end_frame = 0x25;
-        TBoss6Kakusan__homing_end_frame_initialized = 1;
+        TBoss6Kakusan::homing_end_frame_initialized = 1;
     }
-    if (frame >= TBoss6Kakusan__homing_start_frame && frame <= boss6_kakusan_homing_end_frame) {
+    if (frame >= TBoss6Kakusan::homing_start_frame && frame <= boss6_kakusan_homing_end_frame) {
         speed = vector_length(&velocity);
         if (!(speed <= 1e-05f)) {
             player = get_player_by_client_id(target_client);
@@ -167,7 +167,7 @@ TBoss6Kakusan::~TBoss6Kakusan() {
 #pragma push
 #pragma opt_common_subs off
 TBoss6Kakusan::TBoss6Kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 radius) : TObject(parent) {
-    m_name = TBoss6Kakusan__name;
+    m_name = TBoss6Kakusan::name;
     this->target_client = target_client;
     this->radius = radius;
     if (this->radius <= 0.0f) {

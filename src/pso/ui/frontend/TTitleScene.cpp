@@ -10,7 +10,7 @@
 #include "pso/camera/CameraViewParams.h"
 #include "pso/unk/TLobby_803360CC.h"
 #include "pso/unk/TUnk_804EE470.h"
-#include "pso/ui/TUnk_804EE458.h"
+#include "pso/ui/TTitleMenu.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -36,7 +36,6 @@
 #include "pso/render/GinjaTexture.h"
 
 
-extern "C" {
 
 
     extern int lobby_game_mode_state;
@@ -53,7 +52,6 @@ s32 TTitleScene::start_offline_seq() {
     return transition_flags & 4;
 }
 
-}
 
 struct TCameraCtrl;
 
@@ -235,7 +233,7 @@ NJS_TEXLIST *lobby_title_texture_list;
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void hide_title_layers_and_release(TTitleScene *scene);
 int TKeyBoardControl__sub_8000F828(void);
-void TKeyBoardControl__sub_8000F90C(int);
+void set_fallback_main_phase(int);
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 extern const s32 current_language;
@@ -288,10 +286,10 @@ void TTitleScene::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMulti
 void TTitleScene::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::set_mode_0x15(); }
 void TLobby__sub_803362A4(TTitleScene *scene) {
     if (TAdTrialAgreementGC__sub_80335958(scene->transition_controller) != 0) {
-        TKeyBoardControl__sub_8000F90C(2);
+        set_fallback_main_phase(2);
         if (scene->start_offline_seq() != 0) {
             ((void (*)(void *))TLobby__sub_803361FC)(scene);
-            TitleStateHandler handler = state_handler_pmf_table[TLobby__sub_80336030(scene)];
+            TitleStateHandler handler = state_handler_pmf_table[get_transition_cursor(scene)];
             (scene->*handler)();
         }
     }
@@ -321,7 +319,7 @@ void TTitleScene::run_task() {
         TWindowOptionCtrl__sub_802273B4(0x1E);
     }
     if (m_38 < attract_tick && start_offline_seq() != 0) {
-        TKeyBoardControl__sub_8000F90C(2);
+        set_fallback_main_phase(2);
         set_opening_movie_purpose(0);
         request_main_phase(3);
     }
@@ -352,7 +350,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     attract_tick = 0;
     auxiliary_window = NULL;
     transition_flags = 0;
-    TKeyBoardControl__sub_8000F90C(1);
+    set_fallback_main_phase(1);
     TAdMultiPlyChrSelectGC::reset_slot_selections();
     TObjEneDolmOlm::reset_count();
     TAdMultiPlyChrSelectGC__sub_803367E8();
@@ -363,7 +361,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
         m_38 = 0x320;
     }
     title_layer = new TTitleBackground(this);
-    transition_controller = new TUnk_804EE458(this);
+    transition_controller = new TTitleMenu(this);
     overlay_layer = new TUnk_804EE470(tl_clipout);
     m_28 = 0;
     if (transition_controller != NULL) {

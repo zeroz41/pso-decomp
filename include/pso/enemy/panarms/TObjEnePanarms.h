@@ -105,6 +105,6 @@ struct TObjEnePanarms : public TObjEnemy {
 };
 
 // The Pan Arms bml (models and motions of the body and both halves).
-extern BmlResource *TObjEnePanarms__entry_params_resource;
+extern BmlResource *panarms_entry_params_resource;
 
 #endif

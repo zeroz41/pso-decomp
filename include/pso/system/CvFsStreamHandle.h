@@ -37,7 +37,7 @@ LAYOUT_ASSERT(CvFsDeviceStatusOffset, offsetof(CvFsDeviceInterface, get_status) 
 typedef CvFsDeviceInterface *(*CvFsDeviceFactory)();
 struct CvFsHandle;
 extern CvFsErrorCallback cvfs_completion_callback;
-extern s32 lbl_805D75FC;
+extern s32 cvfs_completion_context;
 CvFsDeviceInterface *initialize_dvd_file_driver();
 
 extern "C" {

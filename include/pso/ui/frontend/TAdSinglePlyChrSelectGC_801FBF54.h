@@ -31,8 +31,6 @@ s32 alloc_global_buffer(void);
 s32 buffer_init(void);
 void game_state_load(void);
 extern "C" {
-s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
-s32 get_serial_result__22TAdEnterSerialAccessGCFv(void);
 }
 int get_split_screen_character_save_record(int a0);
 s32 init_buffer(void);

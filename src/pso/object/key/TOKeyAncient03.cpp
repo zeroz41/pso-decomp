@@ -29,10 +29,10 @@ const char *bm_fs_obj_o_doorpanel_motion_names[] = {NULL};
 BmlResourceDescriptor bm_fs_obj_o_doorpanel_resource_descriptor = {
     "bm_fs_obj_o_doorpanel.bml", bm_fs_obj_o_doorpanel_model_names, bm_fs_obj_o_doorpanel_motion_names, 1, 0,
 };
-const char *TOKeyAncient03__class_name = "TOKeyAncient03";
-BmlResource *TOKeyAncient03__model_archive;
+const char *key_ancient03_class_name = "TOKeyAncient03";
+BmlResource *key_ancient03_model_archive;
 // The panel's own texture list while up, fs_obj_o_doorpanelg.gvm while down.
-NJS_TEXLIST **TOKeyAncient03__texture_variants;
+NJS_TEXLIST **key_ancient03_texture_variants;
 
 void TOKeyAncient03::vfunc_25() {}
 
@@ -125,7 +125,7 @@ void TOKeyAncient03::render() {
     u32 flags;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TOKeyAncient03__texture_variants[is_on]));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(key_ancient03_texture_variants[is_on]));
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -164,37 +164,37 @@ void *TOKeyAncient03::create(void *set_data) {
 }
 
 void TOKeyAncient03::cleanup_refs() {
-    if (TOKeyAncient03__texture_variants != NULL) {
-        TObjPlayer::free_if_valid((saddr)TOKeyAncient03__texture_variants[1]);
-        if (TOKeyAncient03__texture_variants != NULL) {
-            mem_free(TOKeyAncient03__texture_variants);
-            TOKeyAncient03__texture_variants = NULL;
+    if (key_ancient03_texture_variants != NULL) {
+        TObjPlayer::free_if_valid((saddr)key_ancient03_texture_variants[1]);
+        if (key_ancient03_texture_variants != NULL) {
+            mem_free(key_ancient03_texture_variants);
+            key_ancient03_texture_variants = NULL;
         }
     }
-    if (TOKeyAncient03__model_archive != NULL) {
-        delete TOKeyAncient03__model_archive;
-        TOKeyAncient03__model_archive = NULL;
+    if (key_ancient03_model_archive != NULL) {
+        delete key_ancient03_model_archive;
+        key_ancient03_model_archive = NULL;
     }
 }
 
 void TOKeyAncient03::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_o_doorpanel_resource_descriptor, 0, 0, NULL);
     NJS_TEXLIST **textures;
-    TOKeyAncient03__model_archive = resource;
+    key_ancient03_model_archive = resource;
     textures = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*textures));
-    TOKeyAncient03__texture_variants = textures;
-    textures[0] = TOKeyAncient03__model_archive->models[0].texlist;
-    TOKeyAncient03__texture_variants[1] = LoadPvmFileTls("fs_obj_o_doorpanelg.gvm");
+    key_ancient03_texture_variants = textures;
+    textures[0] = key_ancient03_model_archive->models[0].texlist;
+    key_ancient03_texture_variants[1] = LoadPvmFileTls("fs_obj_o_doorpanelg.gvm");
 }
 
 TOKeyAncient03::~TOKeyAncient03() {}
 
 TOKeyAncient03::TOKeyAncient03(TObject *parent, void *set_data) : TOKey(parent) {
-    m_name = TOKeyAncient03__class_name;
+    m_name = key_ancient03_class_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    texlist = TOKeyAncient03__texture_variants[0];
-    model = (void *)TOKeyAncient03__model_archive->models[0].model;
+    texlist = key_ancient03_texture_variants[0];
+    model = (void *)key_ancient03_model_archive->models[0].model;
     view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
     activate_range = 10.0f;

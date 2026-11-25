@@ -40,14 +40,14 @@ struct NJS_OBJECT;
 player_stats *epsilon_guard_boss_stat_handle;
 AttackParams *epsilon_guard_shared_handler_b;
 ActorParamBlock *epsilon_guard_registered_object_handle;
-TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
+TObjEneEpsilonGuardParams *epsilon_guard_movement_params;
 Vec epsilon_guard_node_origin;
 s32 epsilon_guard_camera_step;
 Vec *epsilon_guard_camera_ctrl_ptr;
 extern const BreakUpParamRow epsilon_guard_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
-const char *TObjEneEpsilonGuard__class_name = "TObjEneEpsilonGuard";
+const char *epsilon_guard_class_name = "TObjEneEpsilonGuard";
 
-extern CollisionBody TObjEneEpsilonGuard__model_desc[];
+extern CollisionBody epsilon_guard_model_desc[];
 
 
 f32 TObjEneEpsilonGuard::receive_weapon_special_attack(void *, void *) {
@@ -277,7 +277,7 @@ void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(4);
+        set_next_mode(4);
         flags |= 0x40;
         flags &= ~0x14;
         clear_intangible();
@@ -312,7 +312,7 @@ void TObjEneEpsilonGuard::state_fade_out(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(3);
+        set_next_mode(3);
         fade.set_rate_from_divisor(0x14);
         fade.reset_color();
         flags &= ~0x14;
@@ -340,7 +340,7 @@ void TObjEneEpsilonGuard::state_orbit(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(2);
+        set_next_mode(2);
         flags |= 4;
         flags &= ~0x18;
         clear_intangible();
@@ -359,9 +359,9 @@ void TObjEneEpsilonGuard::state_orbit(s32 msg) {
         switch (state_step) {
         case 0:
             if (flags & 0x100) {
-                orbit_angle_step = (s32) ((-65536.0f * TObjEneEpsilonGuard__movement_params->orbit_speed) / (6.283184f * TObjEneEpsilonGuard__movement_params->orbit_radius));
+                orbit_angle_step = (s32) ((-65536.0f * epsilon_guard_movement_params->orbit_speed) / (6.283184f * epsilon_guard_movement_params->orbit_radius));
             } else {
-                orbit_angle_step = (s32) ((65536.0f * TObjEneEpsilonGuard__movement_params->orbit_speed) / (6.283184f * TObjEneEpsilonGuard__movement_params->orbit_radius));
+                orbit_angle_step = (s32) ((65536.0f * epsilon_guard_movement_params->orbit_speed) / (6.283184f * epsilon_guard_movement_params->orbit_radius));
             }
             state_step = 1;
             break;
@@ -379,7 +379,7 @@ orbit:
                 orbit_angle += orbit_angle_step;
                 set_orbit_destination(orbit_angle);
                 update_velocity();
-                this->move_with_wall_slide_commit(destination_direction.x, destination_direction.z, TObjEneEpsilonGuard__movement_params->orbit_speed);
+                this->move_with_wall_slide_commit(destination_direction.x, destination_direction.z, epsilon_guard_movement_params->orbit_speed);
             }
             break;
         case 2:
@@ -399,7 +399,7 @@ void TObjEneEpsilonGuard::state_move_out(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(1);
+        set_next_mode(1);
         flags &= ~0x216;
         clear_intangible();
         return;
@@ -414,7 +414,7 @@ void TObjEneEpsilonGuard::state_move_out(s32 msg) {
         enemy_copy_target_destination();
         update_velocity();
         if (!(flags & 0x200)) {
-            TObjEneEpsilonGuardParams *d = TObjEneEpsilonGuard__movement_params;
+            TObjEneEpsilonGuardParams *d = epsilon_guard_movement_params;
             if (destination_distance > d->orbit_radius + d->move_out_speed) {
                 flags |= 0x200;
             } else {
@@ -431,7 +431,7 @@ void TObjEneEpsilonGuard::handle_event(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(0);
+        set_next_mode(0);
         set_intangible();
         flags |= 0x10;
         flags &= ~5;
@@ -476,7 +476,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
             if (emitter != NULL) {
                 emitter->set_position(&body_center);
             }
-            if (effect_timer >= TObjEneEpsilonGuard__movement_params->attack_hold_frames) {
+            if (effect_timer >= epsilon_guard_movement_params->attack_hold_frames) {
                 effect_scale = 1.0f;
                 effect_step = 3;
             }
@@ -508,7 +508,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
         if (lim < effect_frame) {
             effect_frame -= lim;
         }
-        TObjEneEpsilonGuard__model_desc[1].radius = 36.0f * effect_scale;
+        epsilon_guard_model_desc[1].radius = 36.0f * effect_scale;
         VecCopy(&collider->position, &position);
         clear_battle_param_slots();
         collider->check_object_collisions();
@@ -524,7 +524,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
                         DirectAttackPayload attack;
                         f32 damage;
                         attack.kind = ((TObjEneEpsilonBody *)body)->get_table_value_by_index();
-                        attack.power = TObjEneEpsilonGuard__movement_params->attack_power;
+                        attack.power = epsilon_guard_movement_params->attack_power;
                         damage = p->receive_direct_attack(this, attack, 0, -1, -1);
                         p->apply_knockback_from_attacker((u8 *)this, damage);
                     }
@@ -590,7 +590,7 @@ TObjEneEpsilonMovement epsilon_guard_params = {
 TObjMotionAction epsilon_guard_action_table[1] = {
     { 1, 0, 2, 1.0f, 0 },
 };
-CollisionBody TObjEneEpsilonGuard__model_desc[2] = {
+CollisionBody epsilon_guard_model_desc[2] = {
     {{0.0f, 12.0f, 0.0f}, 2.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 12.0f, 0.0f}, 36.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
@@ -607,8 +607,8 @@ s32 TObjEneEpsilonGuard::calc_angle_to_target() {
 #pragma fp_contract on
 void TObjEneEpsilonGuard::set_orbit_destination(s32 angle) {
     enemy_copy_target_destination();
-    destination.x = (TObjEneEpsilonGuard__movement_params->orbit_radius * sin_table_lookup(angle)) + destination.x;
-    destination.z = (TObjEneEpsilonGuard__movement_params->orbit_radius * cos_table_lookup(angle)) + destination.z;
+    destination.x = (epsilon_guard_movement_params->orbit_radius * sin_table_lookup(angle)) + destination.x;
+    destination.z = (epsilon_guard_movement_params->orbit_radius * cos_table_lookup(angle)) + destination.z;
 }
 #pragma pop
 
@@ -686,7 +686,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     init_position_vectors();
     model = (void *)get_bml_model(epsilon_bml_resource, 2);
     texlist = get_bml_texlist(epsilon_bml_resource, 0);
-    init_model(TObjEneEpsilonGuard__model_desc, 1);
+    init_model(epsilon_guard_model_desc, 1);
     set_action_table(epsilon_guard_action_table);
     set_motion_list(epsilon_bml_resource->motions);
     requested_action = 0;
@@ -712,7 +712,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     mode = 0;
     dispatch_action(mode, 4);
     collider = new TObjCollidable(NULL);
-    init_collision_body_parts(collider, &TObjEneEpsilonGuard__model_desc[1], 1);
+    init_collision_body_parts(collider, &epsilon_guard_model_desc[1], 1);
     emitter = NULL;
     sub_800F5874(0x3F);
 }
@@ -720,7 +720,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
 TObjEneEpsilonGuard::TObjEneEpsilonGuard(TObject *parent, TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle)
     : TObjEneEpsilon(parent) {
     s32 i;
-    m_name = TObjEneEpsilonGuard__class_name;
+    m_name = epsilon_guard_class_name;
     body_id = body->get_entity_id();
     init_common_from(body);
     this->entity_id = entity_id;

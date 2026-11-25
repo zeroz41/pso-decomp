@@ -35,7 +35,6 @@ __declspec(section ".rodata") extern const char TAdStorySelectGC__class_name_str
 const char *TAdStorySelectGC__class_name = TAdStorySelectGC__class_name_string;
 
 s32 story_select_cursor;
-extern "C" {
 void TAdStorySelectGC::render() {  }
 void TAdStorySelectGC::run_task() {
     TAdMultiChgGameModeGC::set_default_camera();
@@ -110,4 +109,3 @@ TAdStorySelectGC::TAdStorySelectGC(TObject *parent) : TObject(parent) {
     create_draw_line_ctrl(this, 0xA, 0.0f);
 }
 
-}

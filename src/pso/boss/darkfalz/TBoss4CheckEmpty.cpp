@@ -8,16 +8,15 @@
 #include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 #pragma readonly_strings on
 
-void init_music_sequencer(s32 program);
-const char *TBoss4CheckEmpty__name = "TBoss4CheckEmpty";
+const char *TBoss4CheckEmpty::name = "TBoss4CheckEmpty";
 void TBoss4CheckEmpty::render() {  }
 void TBoss4CheckEmpty::run_task() {
-    u8 *self = (u8 *)this;
     if (TBoss4Type2::is_active() != 0) {
-        ((TObject *)self)->queue_destruction();
+        queue_destruction();
         return;
     }
     this->m_wait_frames = (s32) (this->m_wait_frames + 1);
@@ -28,13 +27,13 @@ void TBoss4CheckEmpty::run_task() {
         } else {
             init_music_sequencer(4);
         }
-        ((TObject *)self)->queue_destruction();
+        queue_destruction();
     }
 }
 TBoss4CheckEmpty::~TBoss4CheckEmpty() {}
 
 TBoss4CheckEmpty::TBoss4CheckEmpty(TObject *parent) : TObject(parent) {
-    m_name = TBoss4CheckEmpty__name;
+    m_name = TBoss4CheckEmpty::name;
     m_wait_frames = 0;
 }
 

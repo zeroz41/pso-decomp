@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/BmlResource.h"
 
@@ -53,7 +53,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     u8 pad_3f0[0x4];
     s32 cameraShakeCooldown;
     s32 approachCount;
-    TUnk_80494938 appearFade;
+    TObjEnemyColorFade appearFade;
     RenderFadeState cameraFade;
     s32 attackAngle;
     f32 attackRange;
@@ -100,7 +100,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
 
 LAYOUT_ASSERT(TObjEneMe1GiGue_size, sizeof(TObjEneMe1GiGue) == 0x458);
 
-// Shot parameters load_params copies from the GiGue parameter table for TUnk_804E14E8.
+// Shot parameters load_params copies from the GiGue parameter table for TObjEneMe1GiGueHomingShot.
 extern f32 gigue_shot_speed;
 extern f32 gigue_shot_homing;
 extern f32 gigue_shot_homing_step;

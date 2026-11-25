@@ -9,9 +9,7 @@
 
 // The striking tentacle's draw scale (TBoss7Tentacle::render, state 3).
 extern const f32 boss7_tentacle_draw_scale[3];
-extern const s32 TBoss7Tentacle__target_angle_table[4];
 extern const s32 boss7_tentacle_angle_table[4];
-extern const char *TBoss7Tentacle__name;
 extern const char *boss7_tentacle_needle_name_ptr;
 
 #endif

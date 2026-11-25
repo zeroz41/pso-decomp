@@ -35,13 +35,11 @@ WindowDescriptor room_window_base_parameters = {
     {160.0f, 27.0f}, 37000.0f, &room_window_layout_entries, 0x82B,
 };
 
-extern "C" {
 const char *TWindowRoom__class_name = "TWindowRoom";
 
-}
 
 void *TWindowRoom::get_title_entry() {
-    return (void *)((TWindowBase *)this)->get_array_entry(0);
+    return (void *)this->get_array_entry(0);
 }
 
 void TWindowSubStatusDisp::set_entry_display_value(s32 str) {
@@ -57,7 +55,7 @@ void TWindowRoom::render() {
     draw_tab(context);
     draw_visible_window_entries(this, &entry_list, context);
 }
-void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowRoom::run_task() { update_window(); ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowRoom::~TWindowRoom() {}
 
@@ -65,11 +63,11 @@ TWindowRoom::TWindowRoom(char *title)
     : TWindowBase((u8 *)&room_window_base_parameters, 4, (u8 *)get_window_layout_position(0xAF)) {
     RoomTitleEntry *entry;
     m_name = TWindowRoom__class_name;
-    entry = (RoomTitleEntry *)((TWindowBase *)this)->get_array_entry(0);
+    entry = (RoomTitleEntry *)this->get_array_entry(0);
     set_text_entry_string((u8 *)entry, (uaddr)title, 0x60);
     measure_message_text_width_default(entry);
     target_size[0] = 10.0f + (entry->positionX + entry->width);
     target_position[0] -= target_size[0];
-    ((TWindowBase *)this)->save_position();
+    this->save_position();
     tabParameter = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);
 }

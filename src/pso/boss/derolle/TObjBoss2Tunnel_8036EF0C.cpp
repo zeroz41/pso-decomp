@@ -4,10 +4,10 @@
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/render/gjSystem.h"
 
 
 s32 display_copy_filter_enabled = 1;
-extern GXRenderModeObj *active_gx_render_mode;
 
 void set_display_copy_filter(int enabled) {
     display_copy_filter_enabled = enabled;

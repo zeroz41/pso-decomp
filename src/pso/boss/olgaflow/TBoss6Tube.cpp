@@ -26,15 +26,15 @@
 const char *boss06_tube_dat_model_names[4] = { "boss06_light01.gj", "boss06_light02.gj", "boss06_tube01.gj", NULL };
 const char *boss06_tube_dat_motion_names[1] = { NULL };
 BmlResourceDescriptor boss06_tube_dat_resource_descriptor = { "boss06_tube_dat.bml", boss06_tube_dat_model_names, boss06_tube_dat_motion_names, 3, 0 };
-const char *TBoss6Tube__name = "TBoss6Tube";
+const char *TBoss6Tube::name = "TBoss6Tube";
 // The model drawn on each of render's three passes (name inferred).
 const s32 boss6_tube_model_order[3] = { 2, 0, 1 };
 BmlResource *boss6_tube_bml_resource;
 NJS_TEXLIST *boss6_tube_texture_list;
 
 extern "C" {
-s32 TBoss6Tube__previous_scroll_phase;
-f32 TBoss6Tube__scroll_delta;
+s32 TBoss6Tube::previous_scroll_phase;
+f32 TBoss6Tube::scroll_delta;
 }
 
 // run_task's state 1: spawn the trap and run update_scroll_delta.
@@ -115,17 +115,17 @@ f32 TBoss6Tube::calc_tube_progress(s32 phase) {
 }
 
 void TBoss6Tube::update_scroll_delta() {
-    if (((0.0f) == TBoss6Tube__scroll_delta) && ((s32) TBoss6Tube__previous_scroll_phase == 0)) {
-        TBoss6Tube__previous_scroll_phase = this->scroll_phase;
+    if (((0.0f) == TBoss6Tube::scroll_delta) && ((s32) TBoss6Tube::previous_scroll_phase == 0)) {
+        TBoss6Tube::previous_scroll_phase = this->scroll_phase;
         return;
     }
-    TBoss6Tube__scroll_delta = TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(TBoss6Tube__previous_scroll_phase - this->scroll_phase));
-    TBoss6Tube__previous_scroll_phase = this->scroll_phase;
+    TBoss6Tube::scroll_delta = TBoss6Tube::scale_by_const(TBoss6Tube::calc_tube_progress(TBoss6Tube::previous_scroll_phase - this->scroll_phase));
+    TBoss6Tube::previous_scroll_phase = this->scroll_phase;
 }
 
 void TBoss6Tube::reset_state() {
-    TBoss6Tube__previous_scroll_phase = 0;
-    TBoss6Tube__scroll_delta = (0.0f);
+    TBoss6Tube::previous_scroll_phase = 0;
+    TBoss6Tube::scroll_delta = (0.0f);
 }
 
 #pragma fp_contract on
@@ -148,8 +148,8 @@ void TBoss6Tube::update_wobble() {
         scroll_phase = (s32)((f32)scroll_phase + (((13107.0f) * ((3.0517578e-05f) * (f32)rand())) - (6553.0f)));
     }
     scroll_phase = scroll_phase + scroll_speed;
-    TBoss6Tube__scroll_delta = (0.0f);
-    TBoss6Tube__previous_scroll_phase = scroll_phase;
+    TBoss6Tube::scroll_delta = (0.0f);
+    TBoss6Tube::previous_scroll_phase = scroll_phase;
 }
 #pragma pop
 
@@ -192,7 +192,7 @@ TBoss6Tube::~TBoss6Tube() {
 }
 
 TBoss6Tube::TBoss6Tube(TObject *parent) : TObject(parent) {
-    m_name = TBoss6Tube__name;
+    m_name = TBoss6Tube::name;
     plot_falz = static_cast<TBoss6PlotFalz *>(parent);
     scroll_speed = 0;
     scroll_phase = 0;

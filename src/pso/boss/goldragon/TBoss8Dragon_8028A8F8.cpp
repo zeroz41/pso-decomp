@@ -11,7 +11,7 @@ extern "C" {
 NJS_TEXLIST *get_green_door_textures() {
     return green_door_texture_handle;
 }
-void TBoss8Dragon__sub_8028A900(TObject *floor_grass, const Vec *pos, const DragonAttackParams *params) {
+void break_floor_grass_in_range(TObject *floor_grass, const Vec *pos, const DragonAttackParams *params) {
     NJS_OBJECT *root = boss5_common_bml_resource->models[7].model;
     f32 range_squared = TBoss8Dragon::calc_sq_offset(params, 15.0f);
     for (NJS_OBJECT *node = root->child; node != NULL; node = node->sibling) {

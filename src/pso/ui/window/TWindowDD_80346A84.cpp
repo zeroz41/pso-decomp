@@ -5,7 +5,6 @@
 extern "C" {
 void *load_encrypted_archive_data(const char *);
 
-extern s32 TWindowDD__window_mode;
 extern s32 TWindowDD__word_select_lists;
 s32 window_dd_element_count;
 
@@ -14,21 +13,21 @@ saddr TWindowDD::get_element_ptr(s32 arg0) {
         return 0;
     }
     if (arg0 == -0x32) {
-        switch ((s32) TWindowDD__window_mode) {
+        switch ((s32) TWindowDD::window_mode) {
         case 0:
-            return reinterpret_cast<saddr>(TWindowDD__ws_data_base) + 0x8C0;
+            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x8C0;
         default:
-            return reinterpret_cast<saddr>(TWindowDD__ws_data_base) + 0x920;
+            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x920;
         case 4:
-            return reinterpret_cast<saddr>(TWindowDD__ws_data_base) + 0x920;
+            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x920;
         case 2:
-            return reinterpret_cast<saddr>(TWindowDD__ws_data_base) + 0x920;
+            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x920;
         case 3:
-            return reinterpret_cast<saddr>(TWindowDD__ws_data_base) + 0x928;
+            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x928;
         }
     } else {
         if ((arg0 >= 0) && (arg0 < (s32) window_dd_element_count)) {
-            return reinterpret_cast<saddr>(TWindowDD__ws_data_base) + (arg0 * 8);
+            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + (arg0 * 8);
         }
         switch (arg0) {
         default:
@@ -62,7 +61,7 @@ void *ws_data_jp;
 void *ws_data_us;
 void *ws_data_es;
 void *ws_data_de;
-void *TWindowDD__ws_data_buffer;
+void *TWindowDD::ws_data_buffer;
 char *lbl_805D6E64;
 s8 lbl_805D6E68;
 char *lbl_805D6E6C;
@@ -75,13 +74,13 @@ void ws_data_load(void) {
     void *temp_r3_4;
     void *temp_r3_5;
 
-    switch ((s32) TWindowDD__window_mode) {
+    switch ((s32) TWindowDD::window_mode) {
     case 0:
         temp_r3 = load_encrypted_archive_data("ws_data_jp.bin");
         ws_data_jp = temp_r3;
         TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3 + 0);
-        TWindowDD__ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3)[1];
-        TWindowDD__ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3)[2];
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3)[2];
         lbl_805D6E34 = *(s32 *)((s8 *)temp_r3 + 0xC);
         window_dd_element_count = 0x11A;
         twindowdd_entry_count = 0x12;
@@ -90,8 +89,8 @@ void ws_data_load(void) {
         temp_r3_2 = load_encrypted_archive_data("ws_data_us.bin");
         ws_data_us = temp_r3_2;
         TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3_2 + 0);
-        TWindowDD__ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_2)[1];
-        TWindowDD__ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_2)[2];
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_2)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_2)[2];
         lbl_805D6E34 = *(s32 *)((s8 *)temp_r3_2 + 0xC);
         TWindowDD__data_805D6E40 = *(s32 *)((s8 *)temp_r3_2 + 0x10);
         TWindowDD__data_805D6E48 = *(s32 *)((s8 *)temp_r3_2 + 0x14);
@@ -103,8 +102,8 @@ void ws_data_load(void) {
         temp_r3_3 = load_encrypted_archive_data("ws_data_es.bin");
         ws_data_es = temp_r3_3;
         TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3_3 + 0);
-        TWindowDD__ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_3)[1];
-        TWindowDD__ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_3)[2];
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_3)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_3)[2];
         lbl_805D6E34 = *(s32 *)((s8 *)temp_r3_3 + 0xC);
         TWindowDD__data_805D6E40 = *(s32 *)((s8 *)temp_r3_3 + 0x10);
         TWindowDD__data_805D6E48 = *(s32 *)((s8 *)temp_r3_3 + 0x18);
@@ -117,8 +116,8 @@ void ws_data_load(void) {
         temp_r3_4 = load_encrypted_archive_data("ws_data_de.bin");
         ws_data_de = temp_r3_4;
         TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3_4 + 0);
-        TWindowDD__ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_4)[1];
-        TWindowDD__ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_4)[2];
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_4)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_4)[2];
         lbl_805D6E34 = *(s32 *)((s8 *)temp_r3_4 + 0xC);
         TWindowDD__data_805D6E40 = *(s32 *)((s8 *)temp_r3_4 + 0x10);
         TWindowDD__data_805D6E44 = *(s32 *)((s8 *)temp_r3_4 + 0x14);
@@ -128,10 +127,10 @@ void ws_data_load(void) {
         return;
     case 3:
         temp_r3_5 = load_encrypted_archive_data("ws_data_fr.bin");
-        TWindowDD__ws_data_buffer = temp_r3_5;
+        TWindowDD::ws_data_buffer = temp_r3_5;
         TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3_5 + 0);
-        TWindowDD__ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_5)[1];
-        TWindowDD__ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_5)[2];
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_5)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_5)[2];
         lbl_805D6E34 = *(s32 *)((s8 *)temp_r3_5 + 0xC);
         TWindowDD__data_805D6E40 = *(s32 *)((s8 *)temp_r3_5 + 0x10);
         TWindowDD__data_805D6E48 = *(s32 *)((s8 *)temp_r3_5 + 0x18);

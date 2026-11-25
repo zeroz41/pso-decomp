@@ -21,7 +21,6 @@ const char *TWindowMessagePage__name = "TWindowMessagePage";
 
 struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
 
-extern "C" {
 
 s32 TWindowMessagePage::is_ready() {
     if ((u32) this->m_94 != 0U) {
@@ -60,18 +59,16 @@ u8 *TWindowMessagePage::set_text(const NJS_POINT2 *position, saddr extent, saddr
 void TWindowMessagePage::render() { { (void)(this->TWindowMessage::render()); return; } }
 
 void TWindowMessagePage::run_task() {
-    u8 *arg0 = (u8 *)this;
     TWindowMessage::run_task();
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[is_player_input_active((this->client_index))], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
-        if (((TWindowMessagePage *)arg0)->is_message_window_ready() != 0) {
+        if (this->is_message_window_ready() != 0) {
             update_message();
             return;
         }
-        ((TWindowMessage *)arg0)->complete_reveal();
+        this->complete_reveal();
     }
 }
 
-}
 TWindowMessagePage::~TWindowMessagePage() {
 
 }

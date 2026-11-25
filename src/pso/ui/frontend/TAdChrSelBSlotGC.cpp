@@ -29,7 +29,7 @@
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
-static const CharacterSlotPosition lbl_804758E8[4] = {
+static const CharacterSlotPosition chr_sel_b_slot_positions[4] = {
     { 434.0f, 182.0f }, { 434.0f, 225.0f }, { 434.0f, 268.0f }, { 434.0f, 311.0f },
 };
 static const CharacterSlotPosition lbl_80475908 = { 429.0f, 156.0f };
@@ -119,9 +119,9 @@ void TAdChrSelBSlotGC::populate_slot_entries() {
     if (plate->is_slot_value_ready(2)) {
         slot_gc->init_slot_entry(2, (void *)&lbl_80475908);
         for (i = 0; i < 4; i++) {
-            set_entry_text__15TAdSubPlyItemGCFPvPv(player_items, build_slot_entry(i, i, (void *)&lbl_804758E8[i]));
+            set_entry_text__15TAdSubPlyItemGCFPvPv(player_items, build_slot_entry(i, i, (void *)&chr_sel_b_slot_positions[i]));
             if (is_character_transferred(i)) {
-                move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&lbl_804758E8[i]));
+                move_plate->add_plate_rect(const_cast<CharacterSlotPosition *>(&chr_sel_b_slot_positions[i]));
             }
         }
         state = 0x14;
@@ -130,10 +130,10 @@ void TAdChrSelBSlotGC::populate_slot_entries() {
 
 void TAdChrSelBSlotGC::reset_plate_positions() {
     if (get_global_state() == 0x19) {
-        plate->push_plate_position(&lbl_804758E8[0]);
-        plate->push_plate_position(&lbl_804758E8[1]);
-        plate->push_plate_position(&lbl_804758E8[2]);
-        plate->push_plate_position(&lbl_804758E8[3]);
+        plate->push_plate_position(&chr_sel_b_slot_positions[0]);
+        plate->push_plate_position(&chr_sel_b_slot_positions[1]);
+        plate->push_plate_position(&chr_sel_b_slot_positions[2]);
+        plate->push_plate_position(&chr_sel_b_slot_positions[3]);
         state = 0x13;
     }
 }
@@ -592,9 +592,9 @@ void TAdChrSelBSlotGC::close_windows() {
         wait_message[10] = NULL;
     }
     plate->reset_selection_slots();
-    player_items->sub_802D6D88();
+    player_items->hide_all_entries();
     move_plate->clear_entries();
-    slot_gc->sub_802C7498(2);
+    slot_gc->hide_slot_entry(2);
     if (get_global_state() > 0xD) {
         if (wait_message[0] != NULL) {
             wait_message[0]->close();
@@ -674,7 +674,7 @@ void TAdChrSelBSlotGC::reset_windows() {
         wait_message[10] = NULL;
     }
     plate->reset_selection_slots();
-    player_items->sub_802D6D88();
+    player_items->hide_all_entries();
     slot_gc->init_slot(1, (void *)&lbl_80475910);
     draw_line[0] = create_draw_line_ctrl(this, 0xE, 0.0f);
     draw_line[1] = create_draw_line_ctrl(this, 0x15, 0.0f);

@@ -10,7 +10,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 
 void TAdTrialModemChkGC__sub_803354A4(void) {  }
@@ -36,7 +35,6 @@ void TAdTrialModemChkGC::run_task() {
 }
 
 
-}
 TAdTrialModemChkGC::~TAdTrialModemChkGC() {
 
 }

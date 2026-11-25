@@ -27,6 +27,9 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     TWindowBase *draw_window;
     s32 input_valid;
     s32 prev_input_valid;
+    // The word at +0x118 of the system save payload (of the second card's for get_serial_result); get_serial_seed seeds the character select serial RNG.
+    static s32 get_serial_seed();
+    static s32 get_serial_result();
     static void draw_screen(void *window, void *context);
     static void draw_serial_chars(void *context);
     static void draw_serial_separators();

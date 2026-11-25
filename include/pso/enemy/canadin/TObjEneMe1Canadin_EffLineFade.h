@@ -2,7 +2,7 @@
 #define PSO_ENEMY_CANADIN_TOBJENEME1CANADIN_EFFLINEFADE_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/TUnk_80484840.h"
+#include "pso/boss/TBoss3VoloptSweepLine.h"
 #include <dolphin/mtx.h>
 
 // A line end color: set as one word, faded through its alpha byte.

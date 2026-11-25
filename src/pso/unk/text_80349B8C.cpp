@@ -7,49 +7,49 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma pool_data off
-struct Item_80349C54 {
+struct DrawFilledRects2dItem {
     u32 count;
     u32 color;
     const NJS_POINT2 *pos;
     const NJS_POINT2 *size;
 };
 
-static const NJS_POINT2 lbl_80478778[3] = { {31.0f, 73.0f}, {31.0f, 73.0f}, {31.0f, 405.0f} };
-static const NJS_POINT2 lbl_80478790[3] = { {28.0f, 1.0f}, {1.0f, 333.0f}, {28.0f, 1.0f} };
-static const NJS_POINT2 lbl_804787A8[3] = { {459.0f, 73.0f}, {486.0f, 73.0f}, {459.0f, 405.0f} };
-static const NJS_POINT2 lbl_804787C0[3] = { {28.0f, 1.0f}, {1.0f, 333.0f}, {28.0f, 1.0f} };
-static const NJS_POINT2 lbl_804787D8[3] = { {543.0f, 73.0f}, {543.0f, 73.0f}, {543.0f, 405.0f} };
-static const NJS_POINT2 lbl_804787F0[3] = { {19.0f, 1.0f}, {1.0f, 333.0f}, {19.0f, 1.0f} };
-static const NJS_POINT2 lbl_80478808[3] = { {595.0f, 73.0f}, {615.0f, 73.0f}, {595.0f, 405.0f} };
-static const NJS_POINT2 lbl_80478820[3] = { {19.0f, 1.0f}, {1.0f, 333.0f}, {19.0f, 1.0f} };
-static const NJS_POINT2 lbl_80478838[2] = { {543.0f, 241.0f}, {543.0f, 318.0f} };
-static const NJS_POINT2 lbl_80478848[2] = { {19.0f, 1.0f}, {19.0f, 1.0f} };
-static const NJS_POINT2 lbl_80478858[2] = { {595.0f, 241.0f}, {595.0f, 318.0f} };
-static const NJS_POINT2 lbl_80478868[2] = { {19.0f, 1.0f}, {19.0f, 1.0f} };
-static const NJS_POINT2 lbl_80478878[2] = { {0.0f, 55.0f}, {229.0f, 24.0f} };
-static const NJS_POINT2 lbl_80478888[2] = { {213.0f, 1.0f}, {411.0f, 1.0f} };
-static const NJS_POINT2 lbl_80478898[2] = { {0.0f, 456.0f}, {426.0f, 425.0f} };
-static const NJS_POINT2 lbl_804788A8[2] = { {410.0f, 1.0f}, {214.0f, 1.0f} };
+static const NJS_POINT2 quest_line_rect1_origins[3] = { {31.0f, 73.0f}, {31.0f, 73.0f}, {31.0f, 405.0f} };
+static const NJS_POINT2 quest_line_rect1_sizes[3] = { {28.0f, 1.0f}, {1.0f, 333.0f}, {28.0f, 1.0f} };
+static const NJS_POINT2 quest_line_rect2_origins[3] = { {459.0f, 73.0f}, {486.0f, 73.0f}, {459.0f, 405.0f} };
+static const NJS_POINT2 quest_line_rect2_sizes[3] = { {28.0f, 1.0f}, {1.0f, 333.0f}, {28.0f, 1.0f} };
+static const NJS_POINT2 quest_line_rect3_origins[3] = { {543.0f, 73.0f}, {543.0f, 73.0f}, {543.0f, 405.0f} };
+static const NJS_POINT2 quest_line_rect3_sizes[3] = { {19.0f, 1.0f}, {1.0f, 333.0f}, {19.0f, 1.0f} };
+static const NJS_POINT2 quest_line_rect4_origins[3] = { {595.0f, 73.0f}, {615.0f, 73.0f}, {595.0f, 405.0f} };
+static const NJS_POINT2 quest_line_rect4_sizes[3] = { {19.0f, 1.0f}, {1.0f, 333.0f}, {19.0f, 1.0f} };
+static const NJS_POINT2 quest_line_rect5_origins[2] = { {543.0f, 241.0f}, {543.0f, 318.0f} };
+static const NJS_POINT2 quest_line_rect5_sizes[2] = { {19.0f, 1.0f}, {19.0f, 1.0f} };
+static const NJS_POINT2 quest_line_rect6_origins[2] = { {595.0f, 241.0f}, {595.0f, 318.0f} };
+static const NJS_POINT2 quest_line_rect6_sizes[2] = { {19.0f, 1.0f}, {19.0f, 1.0f} };
+static const NJS_POINT2 quest_line_rect7_origins[2] = { {0.0f, 55.0f}, {229.0f, 24.0f} };
+static const NJS_POINT2 quest_line_rect7_sizes[2] = { {213.0f, 1.0f}, {411.0f, 1.0f} };
+static const NJS_POINT2 quest_line_rect8_origins[2] = { {0.0f, 456.0f}, {426.0f, 425.0f} };
+static const NJS_POINT2 quest_line_rect8_sizes[2] = { {410.0f, 1.0f}, {214.0f, 1.0f} };
 static const f32 quest_line_color_quad_coordinates[8] = { 212.0f, 55.0f, 212.0f, 56.0f, 229.0f, 25.0f, 229.0f, 24.0f };
 static const f32 quest_line_quad_vertices[8] = { 409.0f, 456.0f, 409.0f, 457.0f, 426.0f, 426.0f, 426.0f, 425.0f };
 // TAdLoadQuestLineGC::m_name (lbl_805D4300 in TAdLoadQuestLineGC.cpp) points here.
-extern const char TAdLoadQuestLineGC__class_name_string[] = "TAdLoadQuestLineGC";
+extern const char load_quest_line_class_name_string[] = "TAdLoadQuestLineGC";
 
 // Each function copies its rectangle list to the stack before drawing it.
-struct QuestLineRects6 { Item_80349C54 items[6]; };
-struct QuestLineRects2 { Item_80349C54 items[2]; };
+struct QuestLineRects6 { DrawFilledRects2dItem items[6]; };
+struct QuestLineRects2 { DrawFilledRects2dItem items[2]; };
 
-static const QuestLineRects6 TAdLoadQuestLineGC__rectangle_groups = { {
-    { 3, 0x777777FF, lbl_80478778, lbl_80478790 },
-    { 3, 0x777777FF, lbl_804787A8, lbl_804787C0 },
-    { 3, 0x777777FF, lbl_804787D8, lbl_804787F0 },
-    { 3, 0x777777FF, lbl_80478808, lbl_80478820 },
-    { 2, 0x777777FF, lbl_80478838, lbl_80478848 },
-    { 2, 0x777777FF, lbl_80478858, lbl_80478868 },
+static const QuestLineRects6 load_quest_line_rectangle_groups = { {
+    { 3, 0x777777FF, quest_line_rect1_origins, quest_line_rect1_sizes },
+    { 3, 0x777777FF, quest_line_rect2_origins, quest_line_rect2_sizes },
+    { 3, 0x777777FF, quest_line_rect3_origins, quest_line_rect3_sizes },
+    { 3, 0x777777FF, quest_line_rect4_origins, quest_line_rect4_sizes },
+    { 2, 0x777777FF, quest_line_rect5_origins, quest_line_rect5_sizes },
+    { 2, 0x777777FF, quest_line_rect6_origins, quest_line_rect6_sizes },
 } };
 static const QuestLineRects2 quest_line_color_entry_table = { {
-    { 2, 0x777777FF, lbl_80478878, lbl_80478888 },
-    { 2, 0x777777FF, lbl_80478898, lbl_804788A8 },
+    { 2, 0x777777FF, quest_line_rect7_origins, quest_line_rect7_sizes },
+    { 2, 0x777777FF, quest_line_rect8_origins, quest_line_rect8_sizes },
 } };
 
 void draw_color_quad_2d(void *arg0, void *arg1p, int arg2) {
@@ -85,7 +85,7 @@ void draw_filled_rects_2d(void *arg0, void *arg1, int arg2) {
     NJS_POINT2 pos[4];
     NJS_POINT2COL d;
     NJS_COLOR col[4];
-    Item_80349C54 *item;
+    DrawFilledRects2dItem *item;
     u32 i;
     u32 c;
     u32 j;
@@ -94,7 +94,7 @@ void draw_filled_rects_2d(void *arg0, void *arg1, int arg2) {
     d.tex = NULL;
     d.num = 4;
     for (i = 0; i < (u32) arg2; i++) {
-        item = &((Item_80349C54 *) arg1)[i];
+        item = &((DrawFilledRects2dItem *) arg1)[i];
         c = item->color;
         for (j = 0; j < item->count; j++) {
             d.p[0].x = item->pos[j].x;
@@ -122,6 +122,6 @@ void init_quest_line_draw_colors(void *arg0) {
 }
 
 void fn_80349E5C(void *arg0) {
-    QuestLineRects6 rects = TAdLoadQuestLineGC__rectangle_groups;
+    QuestLineRects6 rects = load_quest_line_rectangle_groups;
     draw_filled_rects_2d(arg0, &rects, 6);
 }

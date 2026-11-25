@@ -5,6 +5,4 @@
 
 struct TItem;
 
-TItem *create_s_rank_bazooka(u8 *item);
-
 #endif

@@ -26,14 +26,14 @@ struct TObjTombstone : public TObjCollidable {
     TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRecord *src);
     virtual ~TObjTombstone();
     s32 client_id;  // the player it stands for (get_player_by_client_id)
-    f32 m_b0;
-    f32 m_b4;
-    f32 m_b8;
-    f32 m_bc;
+    f32 local_distance;  // xz distance to the local player
+    f32 label_fade;      // 0-1: how much of the name label shows (near the camera player)
+    f32 outline_fade;    // the label outline's own fade (off-screen it fades fast)
+    f32 text_fade;       // the label text's own fade (off-screen it fades slowly)
     TObjTombstoneRecord record;
     char labels[6][0x30];  // the lines draw_name_labels draws
-    u32 m_230;
-    s32 m_234;
+    u32 age;             // frames since it was made
+    s32 items_dropped;   // 1 once its recovery items are dropped or the drop is another client's
     virtual void render();
     f32 get_distance_to_local_player_xz();
     void format_date_text();
@@ -49,6 +49,7 @@ struct TObjTombstone : public TObjCollidable {
     s32 is_other_tombstone_closer();
     static s32 project_to_screen(const TObjTombstone *tombstone, NJS_POINT2 *screen, const Vec *point);
     void update_fade_by_distance();
+    void drop_recovery_items();  // once: a chance-rolled set of Monomate/Monofluid family items
     void draw_name_labels();
     void update_render_flags();
     s32 check_all_players_active();

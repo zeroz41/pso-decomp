@@ -39,8 +39,6 @@ s32 TChCrLoadAfs::try_begin_load() {
     return 1;
 }
 
-extern "C" {
-}
 
 void TChCrLoadAfs::sub_8028B940() {  }
 void TChCrLoadAfs::sub_8028B944() {  }
@@ -99,9 +97,7 @@ void TChCrLoadAfs::start_download() {
 
 typedef void (TChCrLoadAfs::*TChCrLoadAfsHandler)();
 
-extern "C" {
 s32 chcr_load_afs_busy_flag;
-}
 
 void TChCrLoadAfs::run_task() {
     if (--timer < 0) {

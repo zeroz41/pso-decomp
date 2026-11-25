@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TScreenFadeOut.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -56,12 +56,9 @@ struct Guild_8021317C : Base_8021317C {
 
 extern "C" {
 s32 quest_result_callbacks[4];
-s32 THunterGuildSeqOffline__instance_table[4];
-THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
+s32 THunterGuildSeqOffline::instance_table[4];
+THunterGuildSeqOffline *THunterGuildSeqOffline::active_instance;
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
-void THunterGuildSeqOffline__sub_8021339C(void);
-void THunterGuildSeqOffline__sub_80213410(void);
-s32 THunterGuildSeqOffline__sub_80213458(void);
 
 int fn_80223480(void*);
 
@@ -84,7 +81,7 @@ void THunterGuildSeqOnline_Client::handle_confirm_window() {
             choice_menu->close();
             choice_menu = NULL;
             display_guild_message(9, 1);
-            pad_34 = 1;
+            exit_action = 1;
             if (quest_result_callbacks[2] != -1) {
                 quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(quest_result_callbacks[2]));
             }
@@ -94,7 +91,7 @@ void THunterGuildSeqOnline_Client::handle_confirm_window() {
             choice_menu->close();
             choice_menu = NULL;
             display_guild_message(0xA, 1);
-            pad_34 = 0;
+            exit_action = 0;
             set_state(0xC);
             break;
         }
@@ -103,7 +100,7 @@ void THunterGuildSeqOnline_Client::handle_confirm_window() {
         choice_menu->close();
         choice_menu = NULL;
         display_guild_message(0xA, 1);
-        pad_34 = 0;
+        exit_action = 0;
         set_state(0xC);
     }
 }
@@ -116,7 +113,7 @@ void THunterGuildSeqOnline_Client::close_window() {
         quest_thread = NULL;
     }
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        switch (pad_34) {
+        switch (exit_action) {
         case 1: {
             new TScreenFadeOut(tl_00, reset_random_enemies_mode);
             THunterGuildSeqOffline__sub_8021E180(((TObjBase *)((saddr)player))->get_entity_id());
@@ -158,12 +155,12 @@ void THunterGuildSeqOffline::notify_quest_thread() {
 
 void THunterGuildSeqOffline__sub_8021339C(void) {
     s32 i;
-    for (i = 0; i < 4; i++) THunterGuildSeqOffline__instance_table[i] = 0;
+    for (i = 0; i < 4; i++) THunterGuildSeqOffline::instance_table[i] = 0;
 }
 
 void THunterGuildSeqOffline::clear_instance_table() {
     s32 i;
-    for (i = 0; i < 4; i++) THunterGuildSeqOffline__instance_table[i] = 0;
+    for (i = 0; i < 4; i++) THunterGuildSeqOffline::instance_table[i] = 0;
 }
 
 THunterGuildSeqOffline::THunterGuildSeqOffline(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
@@ -172,10 +169,10 @@ THunterGuildSeqOffline::THunterGuildSeqOffline(TObject *parent, TObjPlayer *play
     choice_menu = NULL;
     this->player = player;
     counter_camera = NULL;
-    m_34 = 0;
+    quest_thread = 0;
     unk_38 = 0;
-    THunterGuildSeqOffline__active_instance = this;
-    THunterGuildSeqOffline__instance_table[get_split_screen_slot()] = 1;
+    THunterGuildSeqOffline::active_instance = this;
+    THunterGuildSeqOffline::instance_table[get_split_screen_slot()] = 1;
 }
 
 THunterGuildSeqOffline::~THunterGuildSeqOffline() {
@@ -188,12 +185,12 @@ THunterGuildSeqOffline::~THunterGuildSeqOffline() {
         ((TWindowBase *)choice_menu)->close();
         choice_menu = NULL;
     }
-    if (m_34 != 0) {
-        ((TObject *)m_34)->queue_destruction();
-        m_34 = 0;
+    if (quest_thread != 0) {
+        ((TObject *)quest_thread)->queue_destruction();
+        quest_thread = 0;
     }
-    THunterGuildSeqOffline__instance_table[get_split_screen_slot()] = 0;
-    THunterGuildSeqOffline__active_instance = NULL;
+    THunterGuildSeqOffline::instance_table[get_split_screen_slot()] = 0;
+    THunterGuildSeqOffline::active_instance = NULL;
 }
 
 void THunterGuildSeqOffline::update_state() {
@@ -216,44 +213,42 @@ void THunterGuildSeqOffline::update_state() {
 void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); fn_80223480(this); THunterGuildWarning::create_instance((saddr)((void*)2)); set_state((saddr)((void*)((void*)1))); }
 
 void THunterGuildSeqOffline::open_greeting() {
-    u8 *arg0 = (u8 *)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802130AC, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802130AC, spC) == 0x4);
     Stack_802130AC stack;
     stack.sp8 = 332.0f;
     stack.spC = 80.0f;
-    ((TShopSequence *)arg0)->create_message_window(get_window_layout_position(0x2C), (saddr)&stack.sp8);
+    this->create_message_window(get_window_layout_position(0x2C), (saddr)&stack.sp8);
     this->display_guild_message(1, 1);
-    counter_camera = set_service_counter_camera(arg0, 1);
-    ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(2)));
+    counter_camera = set_service_counter_camera(this, 1);
+    this->set_state((saddr)((void*)(2)));
 }
 
 void THunterGuildSeqOffline::resolve_active_quest_result() {
-    u8 *arg0 = (u8 *)this;
-    if ((this->is_message_ready() != 0) && ((((TShopWindowBase *)arg0)->is_decide_pressed() != 0) || (((TShopWindowBase *)arg0)->is_cancel_pressed() != 0))) {
+    if ((this->is_message_ready() != 0) && ((this->is_decide_pressed() != 0) || (this->is_cancel_pressed() != 0))) {
         if (is_quest_active() == 1) {
             if (TQuestThread::get_register(quest_mission_manager, 0xFF) == 1) {
                 this->display_guild_message(0xB, 1);
                 if ((s32) *(s32 *)((s8 *)&quest_result_callbacks + 4) != -1) {
-                    this->m_34 = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&quest_result_callbacks + 4)));
+                    this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&quest_result_callbacks + 4)));
                 }
-                ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(7)));
+                this->set_state((saddr)((void*)(7)));
                 return;
             }
             if (TQuestThread::get_register(quest_mission_manager, 0xFD) == 1) {
                 this->display_guild_message(0x12, 1);
                 if ((s32) *(s32 *)((s8 *)&quest_result_callbacks + 0) != -1) {
-                    this->m_34 = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&quest_result_callbacks + 0)));
+                    this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&quest_result_callbacks + 0)));
                 }
-                ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(8)));
+                this->set_state((saddr)((void*)(8)));
                 return;
             }
             this->display_guild_message(2, 1);
-            ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(3)));
+            this->set_state((saddr)((void*)(3)));
             return;
         }
         this->display_guild_message(4, 1);
-        ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(4)));
+        this->set_state((saddr)((void*)(4)));
     }
 }
 
@@ -270,10 +265,10 @@ void THunterGuildSeqOffline::open_judgment_window() {
 }
 
 void THunterGuildSeqOffline::handle_select() {
-    void *p = *(void * *)&this->m_34;
+    void *p = *(void * *)&this->quest_thread;
     if (p != NULL) {
         if (((TObject *)p)->all_parents_unqueued_for_destruction() != 1) {
-            this->m_34 = 0U;
+            this->quest_thread = 0U;
             goto block_3;
         }
     } else {

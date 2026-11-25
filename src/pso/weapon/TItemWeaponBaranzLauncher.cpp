@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/system/task/TObject.h"
-#include "pso/weapon/TUnk_804A2A58.h"
+#include "pso/weapon/TItemWeaponBaranzLauncher.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80126740.h"
@@ -30,10 +30,10 @@ u32 baranz_launcher_create_shot(void *player, s32 pos, s32 dir, f32 life) {
 }
 
 // Baranz Launcher (inferred)
-void TUnk_804A2A58::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_y(NULL, rotation_y); } }
+void TItemWeaponBaranzLauncher::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_y(NULL, rotation_y); } }
 
 
-void TUnk_804A2A58::emit_marker_effects() {
+void TItemWeaponBaranzLauncher::emit_marker_effects() {
     Vec pos;
     spin_speed += 0x2AAA;
     if (is_model_shown() != 0) {
@@ -49,19 +49,19 @@ void TUnk_804A2A58::emit_marker_effects() {
 }
 
 
-void TUnk_804A2A58::update_weapon() {
+void TItemWeaponBaranzLauncher::update_weapon() {
     if (spin_speed > 0) {
         spin_speed -= 0x888;
         rotation_y -= 0x888;
     }
 }
 
-TUnk_804A2A58::~TUnk_804A2A58() {
+TItemWeaponBaranzLauncher::~TItemWeaponBaranzLauncher() {
 
 }
 
 
-TUnk_804A2A58::TUnk_804A2A58(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponBaranzLauncher::TItemWeaponBaranzLauncher(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
     shot_callback = (WeaponShotCallback)baranz_launcher_create_shot;
     spin_speed = 0;
@@ -72,9 +72,9 @@ TUnk_804A2A58::TUnk_804A2A58(TObject *parent, u8 *item) : TItemWeapon(parent, it
 // ---- pso/unk/text_80126740
 
 
-TItem *create_baranz_launcher(u8 *item) {
+TItem *TItemWeaponBaranzLauncher::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A2A58(tl_05, item);
+        return new TItemWeaponBaranzLauncher(tl_05, item);
     }
     return NULL;
 }

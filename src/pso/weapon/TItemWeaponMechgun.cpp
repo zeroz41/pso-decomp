@@ -1,12 +1,12 @@
 #include "types.h"
+#include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
-#include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/unk/text_80120D50.h"
 #include "pso/item/TItem.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/system/task/TMainTask.h"
 
 void TItemWeaponMechgun::transform_model_node() {
     if ((s32) this->effectJoint == TObjPlayer::get_player_list()) {
@@ -63,7 +63,7 @@ TItemWeaponMechgun::TItemWeaponMechgun(TObject *parent, u8 *item) : TItemWeapon(
     }
 }
 
-TItem *create_mechgun_weapon(u8 *item) {
+TItem *TItemWeaponMechgun::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponMechgun(tl_05, item);
     }

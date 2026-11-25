@@ -16,6 +16,7 @@ public:
     TDPBShower(TObject *parent, void *position);
     virtual ~TDPBShower();
     virtual void run_task();
+    static const char *class_name;
 };
 
 #include <stddef.h>

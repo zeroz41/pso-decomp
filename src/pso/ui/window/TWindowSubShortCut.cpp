@@ -230,8 +230,7 @@ s32 TWindowSubShortCut::open_menu() {
 }
 
 s32 TWindowSubShortCut::open_confirm_prompt() {
-    Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
-    saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg0->client_id, 0, 0);
+    saddr r = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
     open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), get_window_layout_position(0x75), 205.0f);
     ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
     return r;

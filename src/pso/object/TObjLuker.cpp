@@ -41,62 +41,12 @@
 #pragma readonly_strings on
 
 
-const char *TObjLuker__name = "TObjLuker";
+const char *luker_name = "TObjLuker";
 
-
-struct Win_801A0DB4 { u8 pad[4]; u16 flags; };
-
-struct Obj_801A0DB4 { u8 pad[0x90]; Win_801A0DB4 *wins[4]; };
-
-struct Ctrl_801A0E38 { u8 pad[0x832]; s16 target; };
-
-struct Obj_801A0E38 { u8 pad[0x90]; void *wins[4]; s32 cur; u8 pad2[4]; u16 id; };
-
-struct Ctrl_801A0CE8 { u8 pad[0x832]; s16 target; };
-
-struct Obj_801A0CE8 { u8 pad[0x90]; void *wins[4]; s32 cur; u8 pad2[4]; u16 id; };
-
-struct Luker_801A16D8 { u8 pad0[0x18]; void *f18; u8 pad1C[0x74]; void *wins[4]; };
-
-struct Luker_801A1768 {
-    saddr f0;
-    u8 pad4[0x18 - 4];
-    void *f18;
-    u8 pad1C[0x84 - 0x1C];
-    s32 f84;
-    u8 pad88[0x90 - 0x88];
-    s32 wins[4];
-    s32 fA0;
-    s32 fA4;
-    u16 fA8;
-    u16 fAA;
-    s16 fAC;
-    s16 fAE;
-    s16 fB0;
-    u8 padB2[2];
-    s32 fB4;
-    s32 fB8;
-};
-
-struct Plr_801A0F34 { u8 pad[0x30]; s32 flags; u8 pad34[4]; Vec pos; };
-
-struct Ctrl_801A0E38;
-struct Obj_801A0DB4;
-struct Obj_801A0E38;
-struct Obj_801A0CE8;
-
-struct Luker_801A1260
-{
-  u8 pad[0xA8];
-  u16 owner;
-  u16 partner;
-};
 
 extern "C" {
-void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
 s32 TTecLuker__sub_8023401C(void *);
-s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 extern s32 lbl_805D55C0;
 
 void TObjLuker::hide_part(u16 part) {
@@ -125,57 +75,55 @@ void TObjLuker::show_part(u16 arg1) {
 #pragma pop
 
 void TObjLuker::update_floor_name_windows() {
-    Obj_801A0CE8 *self = (Obj_801A0CE8 *)this;
-    s32 target = ((Ctrl_801A0CE8 *)get_player_by_client_id(this->m_a8))->target;
+    s32 target = get_player_by_client_id(this->owner_id)->telepipe.state.floor;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (self->wins[i] != 0 && target > 0) {
-            if (*(s32 *)&this->m_a0 != target) {
+        if (windows[i] != 0 && target > 0) {
+            if (this->current_floor != target) {
                 s32 j;
                 for (j = 0; j < 4; j++) {
-                    ((TWindowSubComCardList *)(self->wins[j]))->reset_entries();
+                    ((TWindowSubComCardList *)(windows[j]))->reset_entries();
                 }
-                *(s32 *)&this->m_a0 = target;
+                this->current_floor = target;
             }
-            ((TWindowMenu *)(self->wins[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
-            ((TWindowMenu *)(self->wins[i]))->calc_window_size();
-            align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(self->wins[i]));
+            ((TWindowMenu *)(windows[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
+            ((TWindowMenu *)(windows[i]))->calc_window_size();
+            align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(windows[i]));
         }
     }
 }
 
-void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self) {
+void TObjLuker::close_windows() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (self->wins[i] != 0) {
-            if (!(self->wins[i]->flags & 4)) {
+        if (windows[i] != 0) {
+            if (!(windows[i]->m_flags & 4)) {
                 play_sound_effect(0x53704, NULL, 0, 0);
             }
-            ((TObject *)(self->wins[i]))->suspend_update();
-            ((TObject *)self->wins[i])->disallow_rendering();
+            windows[i]->suspend_update();
+            windows[i]->disallow_rendering();
         }
     }
 }
 
 void TObjLuker::open_destination_windows() {
-    Obj_801A0E38 *self = (Obj_801A0E38 *)this;
-    s32 target = ((Ctrl_801A0E38 *)get_player_by_client_id(this->m_a8))->target;
+    s32 target = get_player_by_client_id(this->owner_id)->telepipe.state.floor;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (self->wins[i] == 0 && target > 0) {
+        if (windows[i] == 0 && target > 0) {
             if (is_split_screen() != 0) {
-                self->wins[i] = create_window_menu(get_window_layout_position(0x33), 1, i);
+                windows[i] = (TObject *)create_window_menu(get_window_layout_position(0x33), 1, i);
             } else {
-                self->wins[i] = create_window_menu_default(get_window_layout_position(0x33), 1);
+                windows[i] = (TObject *)create_window_menu_default(get_window_layout_position(0x33), 1);
             }
-            if (self->wins[i] != 0) {
-                this->m_a0 = target;
-                ((TWindowMenu *)(self->wins[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
-                ((TWindowMenu *)(self->wins[i]))->set_flag_40();
-                ((TWindowMenu *)(self->wins[i]))->calc_window_size();
-                align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(self->wins[i]));
-                ((TObject *)(self->wins[i]))->suspend_update();
-                ((TObject *)self->wins[i])->disallow_rendering();
+            if (windows[i] != 0) {
+                this->current_floor = target;
+                ((TWindowMenu *)(windows[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
+                ((TWindowMenu *)(windows[i]))->set_flag_40();
+                ((TWindowMenu *)(windows[i]))->calc_window_size();
+                align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(windows[i]));
+                windows[i]->suspend_update();
+                windows[i]->disallow_rendering();
             }
         }
     }
@@ -187,7 +135,7 @@ s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range
     s32 ret;
     s32 flag;
     s32 i;
-    Plr_801A0F34 *p;
+    TObjPlayer *p;
     Vec *pos;
     ret = 1;
     flag = 0;
@@ -197,11 +145,11 @@ s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range
     i = 0;
     range = range * range;
     do {
-        p = (Plr_801A0F34 *)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         if (p != NULL) {
-            pos = &p->pos;
-            if (!(p->flags & 0x800)) {
-                if (((TObjPlayer *)p)->is_controls_locked() == 1) {
+            pos = &p->position;
+            if (!(p->actorFlags & 0x800)) {
+                if (p->is_controls_locked() == 1) {
                     ret = 0;
                 }
                 if (horizontal_distance_squared(center, pos) > range) {
@@ -221,9 +169,9 @@ s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range
         s32 found = 0;
         s32 j;
         for (j = 0; j < TCameraCtrl::get_view_count(); j++) {
-            p = (Plr_801A0F34 *)get_player_by_client_id(TCameraCtrl::get_nth_view_player_id(j));
+            p = get_player_by_client_id(TCameraCtrl::get_nth_view_player_id(j));
             if (p != NULL &&
-                test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 4) != 0) {
+                test_pressed_buttons_packed(&controller_input_state.controllers[p->get_controller_port()], 4) != 0) {
                 found = 1;
                 if (confirming_view != NULL) {
                     *confirming_view = j;
@@ -240,43 +188,41 @@ s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range
     return ret;
 }
 
-#define DB4_801A10A0 ((void (*)(void *))close_windows__9TObjLukerFPv)
-
-s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
-    uaddr p;
+s32 TObjLuker::is_player_in_range(f32 farg0) {
+    TObjPlayer *p;
     s32 found;
     found = 0;
     if (is_split_screen() != 0) {
-        for (saddr i = 0; i < 4; i++) {
-            p = (uaddr)get_player_by_client_id(i);
-            if (p != 0U) {
-                if (horizontal_distance_squared((const Vec *)(arg0 + 0x38), (const Vec *)(p + 0x38)) < (farg0 * farg0)) {
+        for (s32 i = 0; i < 4; i++) {
+            p = get_player_by_client_id(i);
+            if (p != NULL) {
+                if (horizontal_distance_squared(&position, &p->position) < (farg0 * farg0)) {
                     found = 1;
-                    if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 0)) {
-                        ((TObjLuker *)arg0)->show_part((((TObjBase *)(p))->get_entity_id()));
+                    if ((p != NULL) && (p->is_controls_locked() == 0)) {
+                        show_part(p->get_entity_id());
                     }
                 } else {
-                    ((TObjLuker *)arg0)->hide_part((((TObjBase *)((saddr)p))->get_entity_id()));
+                    hide_part(p->get_entity_id());
                 }
             }
         }
-        for (saddr i = 0; i < 4; i++) {
-            p = (uaddr)get_player_by_client_id(i);
-            if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 1)) {
-                ((TObjLuker *)arg0)->hide_part((((TObjBase *)((saddr)p))->get_entity_id()));
+        for (s32 i = 0; i < 4; i++) {
+            p = get_player_by_client_id(i);
+            if ((p != NULL) && (p->is_controls_locked() == 1)) {
+                hide_part(p->get_entity_id());
             }
         }
     } else {
-        p = (uaddr)get_player_by_client_id(local_client_id);
-        if ((p != 0U) && (horizontal_distance_squared((const Vec *)(p + 0x38), (const Vec *)(arg0 + 0x38)) < (farg0 * farg0))) {
+        p = get_player_by_client_id(local_client_id);
+        if ((p != NULL) && (horizontal_distance_squared(&p->position, &position) < (farg0 * farg0))) {
             found = 1;
         }
         if (found != 0) {
-            if (p != 0U) {
-                if (((TObjPlayer *)p)->is_controls_locked() == 0) {
-                    ((TObjLuker *)arg0)->show_part((((TObjBase *)(p))->get_entity_id()));
+            if (p != NULL) {
+                if (p->is_controls_locked() == 0) {
+                    show_part(p->get_entity_id());
                 } else {
-                    ((TObjLuker *)arg0)->hide_part((((TObjBase *)((saddr)p))->get_entity_id()));
+                    hide_part(p->get_entity_id());
                 }
             }
             return 1;
@@ -284,25 +230,21 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
     }
     if (is_split_screen() != 0) {
         if (found != 1) {
-            DB4_801A10A0((void *)arg0);
+            close_windows();
         }
         return found;
     }
-    DB4_801A10A0((void *)arg0);
+    close_windows();
     return 0;
 }
 
-typedef struct Ctrl_801A0E38 Ctrl_801A0E38;
-typedef struct Luker_801A1260 Luker_801A1260;
 void TObjLuker::transfer_to_town() {
-    u8 *arg0_ = (u8 *)this;
-  Luker_801A1260 *arg0 = (Luker_801A1260 *) arg0_;
   TObjPlayer *self;
   TObjPlayer *local;
   s32 i;
   TObjPlayer *p;
   s32 flag;
-  self = get_player_by_client_id(arg0->owner);
+  self = get_player_by_client_id(owner_id);
   local = get_player_by_client_id(local_client_id);
   if ((((get_main_phase() == 0xF) && (lbl_805D55C0 != 0)) || (self == 0)) || (local == 0))
   {
@@ -327,7 +269,7 @@ void TObjLuker::transfer_to_town() {
       }
       if (flag != 0)
       {
-        ((TTecLuker *)&p->telepipe.flags)->set_state(arg0->owner);
+        ((TTecLuker *)&p->telepipe.flags)->set_state(owner_id);
         send_6x21_inter_level_warp(p, floor_transition_state.get_next_floor());
         p->set_room((s16) self->telepipe.state.room_id);
       }
@@ -335,8 +277,8 @@ void TObjLuker::transfer_to_town() {
   }
   if (local != 0)
   {
-    ((TTecLuker *)&local->telepipe.flags)->set_state(arg0->owner);
-    if (((Ctrl_801A0E38 *)get_player_by_client_id(arg0->owner)) != 0)
+    ((TTecLuker *)&local->telepipe.flags)->set_state(owner_id);
+    if (get_player_by_client_id(owner_id) != 0)
     {
       local->set_room((s16) self->telepipe.state.room_id);
     }
@@ -344,17 +286,17 @@ void TObjLuker::transfer_to_town() {
   }
   if (is_split_screen() != 0)
   {
-    self = get_player_by_client_id(arg0->partner);
+    self = get_player_by_client_id(partner_id);
     if (self != 0)
     {
-      self->telepipe.state.init_fields(arg0->partner);
+      self->telepipe.state.init_fields(partner_id);
       self->telepipe.state.send_telepipe_packet();
     }
   }
   else
-    if (local_client_id == arg0->owner)
+    if (local_client_id == owner_id)
   {
-    local->telepipe.state.init_fields(arg0->owner);
+    local->telepipe.state.init_fields(owner_id);
     local->telepipe.state.send_telepipe_packet();
   }
 }
@@ -363,42 +305,41 @@ void TObjLuker::render() {  }
 
 
 void TObjLuker::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 sp8;
     Vec effect_position;
     TObjPlayer *p;
     s32 flag;
-    p = get_player_by_client_id(this->m_a8);
+    p = get_player_by_client_id(this->owner_id);
     if (p != NULL) {
         update_floor_name_windows();
         open_destination_windows();
     }
     if (p == NULL) {
-        if (*(void * *)&this->m_a4 != NULL) {
-            ((TObject *)(*(void * *)&this->m_a4))->queue_destruction();
-            *(void * *)&this->m_a4 = NULL;
+        if (this->effect != NULL) {
+            ((TObject *)(this->effect))->queue_destruction();
+            this->effect = NULL;
         }
-        *(s32 *)&this->m_b4 = 1;
-        close_windows__9TObjLukerFPv((Obj_801A0DB4 *) arg0);
+        this->effect_pending = 1;
+        close_windows();
         return;
     }
-    if (this->m_a8 != 0xFFFF && p != NULL) {
+    if (this->owner_id != 0xFFFF && p != NULL) {
         if (TTecLuker__sub_8023401C(&p->telepipe) != 0) {
-            *(s16 *)&this->m_ae = 1;
-            if (*(s32 *)&this->m_b4 != 0 && *(void * *)&this->m_a4 == NULL) {
-                *(void * *)&this->m_a4 = new TTelepipeEffect(&this->position, this->m_a8, tl_07);
-                *(s32 *)&this->m_b4 = 0;
+            this->warp_active = 1;
+            if (this->effect_pending != 0 && this->effect == NULL) {
+                this->effect = new TTelepipeEffect(&this->position, this->owner_id, tl_07);
+                this->effect_pending = 0;
             }
-            play_persistent_sound(0x4002B219, arg0, &this->position, 0, 0);
-            switch (this->m_b0) {
+            play_persistent_sound(0x4002B219, this, &this->position, 0, 0);
+            switch (this->state) {
             case 0:
                 sp8 = 0;
-                if (is_player_in_range__9TObjLukerFv((s32)((saddr) arg0), 10.0f) != 0) {
+                if (is_player_in_range(10.0f) != 0) {
                     flag = 0;
                     if (is_split_screen() != 0) {
                         if (are_players_gathered_near(&this->position, &sp8, 10.0f) != 0) {
                             flag = 1;
-                            this->m_aa = this->m_a8;
+                            this->partner_id = this->owner_id;
                         }
                     } else {
                         p = get_player_by_client_id(local_client_id);
@@ -408,7 +349,7 @@ void TObjLuker::run_task() {
                         }
                     }
                     if (flag != 0) {
-                        this->m_b0 = 1;
+                        this->state = 1;
                         offset_point_toward_camera(&this->position, &effect_position, 10.0f);
                         spawn_particle_effect(&effect_position, 0xB3);
                         p = get_player_by_client_id(local_client_id);
@@ -417,33 +358,33 @@ void TObjLuker::run_task() {
                             play_sound_effect(0x40022D1A, &this->position, 0, 0);
                         }
                         TWindowCtrl::suppress_all_slots();
-                        *(s32 *)&this->m_b8 = 1;
+                        this->slots_locked = 1;
                     }
                 }
                 break;
             case 1:
-                if ((this->m_ac)++ > 10) {
-                    this->m_b0 = 2;
+                if ((this->hold_frames)++ > 10) {
+                    this->state = 2;
                 }
                 break;
             case 2:
                 transfer_to_town();
-                ((TObject *)arg0)->queue_destruction();
+                queue_destruction();
                 break;
             }
         } else {
-            close_windows__9TObjLukerFPv((Obj_801A0DB4 *) arg0);
-            this->m_b0 = *(s16 *)&this->m_ae = 0;
-            if (*(s32 *)&this->m_b8 != 0) {
-                *(s32 *)&this->m_b8 = 0;
+            close_windows();
+            this->state = this->warp_active = 0;
+            if (this->slots_locked != 0) {
+                this->slots_locked = 0;
                 TWindowCtrl::unsuppress_all_slots();
             }
-            this->m_ac = 0;
-            if (*(void * *)&this->m_a4 != NULL) {
-                ((TObject *)(*(void * *)&this->m_a4))->queue_destruction();
-                *(void * *)&this->m_a4 = NULL;
+            this->hold_frames = 0;
+            if (this->effect != NULL) {
+                ((TObject *)(this->effect))->queue_destruction();
+                this->effect = NULL;
             }
-            *(s32 *)&this->m_b4 = 1;
+            this->effect_pending = 1;
         }
     }
 }
@@ -451,34 +392,32 @@ void TObjLuker::run_task() {
 TObjLuker::~TObjLuker() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (((Luker_801A16D8 *)this)->wins[i] != 0) {
-            ((TWindowBase *)(((Luker_801A16D8 *)this)->wins[i]))->close();
-            ((Luker_801A16D8 *)this)->wins[i] = 0;
+        if (windows[i] != 0) {
+            ((TWindowBase *)windows[i])->close();
+            windows[i] = 0;
         }
     }
 }
 
-#define self ((Luker_801A1768 *)this)
 TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
     s32 i;
-    self->f0 = ((saddr)TObjLuker__name);
-    ((TObjBase *)self)->apply_object_set_data(set_data);
-    self->fB0 = 0;
-    self->fAA = 0xFFFF;
-    self->fA8 = self->f84;
-    if (self->fA8 > 4) {
-        self->fA8 = 0xFFFF;
+    m_name = luker_name;
+    apply_object_set_data(set_data);
+    state = 0;
+    partner_id = 0xFFFF;
+    owner_id = set_params[0];
+    if (owner_id > 4) {
+        owner_id = 0xFFFF;
     }
     for (i = 0; i < 4; i++) {
-        self->wins[i] = 0;
+        windows[i] = 0;
     }
-    self->fB4 = 1;
-    self->fA4 = 0;
-    self->fAC = 0;
-    self->fA0 = -1;
-    self->fB8 = 0;
+    effect_pending = 1;
+    effect = 0;
+    hold_frames = 0;
+    current_floor = -1;
+    slots_locked = 0;
 }
-#undef self
 
 void *TObjLuker::create(void *set_data) {
     return new TObjLuker((TObject *)tl_05, set_data);

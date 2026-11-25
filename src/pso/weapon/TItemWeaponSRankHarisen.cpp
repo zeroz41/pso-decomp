@@ -1,18 +1,18 @@
 #include "types.h"
-#include "pso/weapon/TUnk_804A3E20.h"
+#include "pso/weapon/TItemWeaponSRankHarisen.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A3E20::transform_model_node() {
+void TItemWeaponSRankHarisen::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         scale_current_matrix(&scale.x);
     }
 }
 
-void TUnk_804A3E20::vfunc_62() { scale.y = 0.1f; }
+void TItemWeaponSRankHarisen::start_attack_effect() { scale.y = 0.1f; }
 
-void TUnk_804A3E20::update_weapon() {
+void TItemWeaponSRankHarisen::update_weapon() {
     if (scale.y < 1.0f) {
         scale.y += 0.1f;
         if (1.0f <= scale.y) {
@@ -21,15 +21,15 @@ void TUnk_804A3E20::update_weapon() {
     }
 }
 
-TUnk_804A3E20::~TUnk_804A3E20() {}
+TItemWeaponSRankHarisen::~TItemWeaponSRankHarisen() {}
 
-TUnk_804A3E20::TUnk_804A3E20(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankHarisen::TItemWeaponSRankHarisen(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer::create_shot_state(u8 *item) {
+TItem *TItemWeaponSRankHarisen::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A3E20(tl_05, item);
+        return new TItemWeaponSRankHarisen(tl_05, item);
     }
     return NULL;
 }

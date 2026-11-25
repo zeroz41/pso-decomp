@@ -7,7 +7,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/text_803D853C.h"
 
-Obj_80515BA0::Obj_80515BA0() {
+FloorTransition::FloorTransition() {
     init_range(0);
 }
 

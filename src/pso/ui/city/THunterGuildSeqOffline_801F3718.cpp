@@ -12,6 +12,6 @@ void set_quest_cancel_callback(s32 quest_cancel_callback) {
 void set_quest_success_callback(s32 quest_success_callback) {
     quest_result_callbacks[1] = quest_success_callback;
 }
-void THunterGuildSeqOffline__sub_801F3748(s32 arg0) {
-    quest_result_callbacks[0] = arg0;
+void set_quest_failure_callback(s32 quest_failure_callback) {
+    quest_result_callbacks[0] = quest_failure_callback;
 }

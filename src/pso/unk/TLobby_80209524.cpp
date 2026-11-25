@@ -45,8 +45,6 @@
 
 extern "C" {
 
-void *mem_alloc(u32 size);
-void mem_free(void *memory);
 
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
     if (table != NULL) {
@@ -63,8 +61,8 @@ EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 del
 
 }
 
-struct Ent_802098AC;
-struct SpawnRecord_8020A9C4;
+struct DestroyEventShuffleTableEntry;
+struct DestroyEventShuffleTableSpawnRecord;
 
 SubtractiveRng *item_drop_rng;
 EventShuffleTable *challenge_event_shuffle;
@@ -72,7 +70,7 @@ u8 *challenge_event_source;
 u8 *lbl_805D60AC;
 u8 *item_data_table_buffer;
 u8 *challenge_enemy_buffer;
-Ent_802098AC *lbl_805D60B8;
+DestroyEventShuffleTableEntry *lbl_805D60B8;
 ChallengeFixedEvent *challenge_event_buffer;
 s32 challenge_event_count;
 u8 *challenge_action_buffer;
@@ -159,15 +157,15 @@ void ChallengeEventCommand::append() const {
 }
 
 // ---- pso/unk/text_802097B0
-struct Ent_802098AC { f32 a, b, c; u32 d, e, f, g; };
+struct DestroyEventShuffleTableEntry { f32 a, b, c; u32 d, e, f, g; };
 
-struct Out_802098AC { u8 pad[0x14]; f32 a, b, c; u32 d, e, f; };
+struct PickRandomEntryOut { u8 pad[0x14]; f32 a, b, c; u32 d, e, f; };
 
-struct Hdr_802099FC { s32 table; s32 b; s32 count; s32 d; };
+struct TLobbyHdr { s32 table; s32 b; s32 count; s32 d; };
 
-struct Rec_802099FC { f32 f[5]; s16 h[6]; };
+struct AppendRecord { f32 f[5]; s16 h[6]; };
 
-struct Out_802099FC {
+struct AppendOut {
     u8 pad0[6];
     s16 f6;
     u8 pad8[0x2C - 8];
@@ -176,26 +174,25 @@ struct Out_802099FC {
     s16 f42;
 };
 
-struct Hdr_80209AEC { s32 a; s32 table; s32 c; s32 count; };
+struct PickWeightedEntryHdr { s32 a; s32 table; s32 c; s32 count; };
 
-struct Ent_80209AEC { u8 b0; u8 b1; u8 weight; u8 pad; };
+struct PickWeightedEntryEntry { u8 b0; u8 b1; u8 weight; u8 pad; };
 
-struct Rec_802099FC;
-struct Tmp_8020994C { u8 pad[0x18]; s16 v; u8 pad2[2]; };
+struct AppendRecord;
+struct BsearchRecordTmp { u8 pad[0x18]; s16 v; u8 pad2[2]; };
 
-struct Hdr_802097B0 { s32 table; s32 data; s32 count; };
+struct TLobbyHdr2 { s32 table; s32 data; s32 count; };
 
-struct Ent_802097B0 { s16 id; s16 count; s32 offset; };
+struct TLobbyEntry { s16 id; s16 count; s32 offset; };
 
 void init_event_shuffle_table(EventShuffleTable *table, s32 count);
 
 s32 next_event_shuffle_entry(EventShuffleTable *s);
 extern "C" {
-void TLobby__sub_802099FC(Out_802099FC *arg0, s32 arg1);
 
-void TLobby__sub_802097B0(s16 id) {
-    Ent_802097B0 e;
-    Hdr_802097B0 hdr = *(Hdr_802097B0 *)lbl_805D60AC;
+void select_event_shuffle_table(s16 id) {
+    TLobbyEntry e;
+    TLobbyHdr2 hdr = *(TLobbyHdr2 *)lbl_805D60AC;
     u8 *table;
     s32 lo;
     s32 hi;
@@ -207,26 +204,26 @@ void TLobby__sub_802097B0(s16 id) {
     hi = hdr.count - 1;
     while (lo < hi) {
         mid = (lo + hi) / 2;
-        TLobby__sub_8020A3D0(&e, table + mid * 8);
-        TLobby__sub_8020A394(&e);
+        copy_event_table_entry(&e, table + mid * 8);
+        bswap_event_table_entry(&e);
         if (e.id < id) {
             lo = mid + 1;
         } else {
             hi = mid;
         }
     }
-    TLobby__sub_8020A3D0(&e, table + lo * 8);
-    TLobby__sub_8020A394(&e);
+    copy_event_table_entry(&e, table + lo * 8);
+    bswap_event_table_entry(&e);
     if (e.id == id) {
-        lbl_805D60B8 = (Ent_802098AC *)((uaddr)lbl_805D60AC + hdr.data + e.offset);
+        lbl_805D60B8 = (DestroyEventShuffleTableEntry *)((uaddr)lbl_805D60AC + hdr.data + e.offset);
         init_event_shuffle_table(challenge_event_shuffle, e.count);
     }
 }
 
 void TLobby::pick_random_entry() {
-    Out_802098AC *out = (Out_802098AC *)this;
+    PickRandomEntryOut *out = (PickRandomEntryOut *)this;
     s32 i = next_event_shuffle_entry(challenge_event_shuffle);
-    Ent_802098AC e = lbl_805D60B8[i];
+    DestroyEventShuffleTableEntry e = lbl_805D60B8[i];
     ((TLobby *)(&e))->swap_header_endian();
     out->a = e.a;
     out->b = e.b;
@@ -239,7 +236,7 @@ void TLobby::pick_random_entry() {
 void *TLobby::bsearch_record(void *arg0, int n, int key) {
     u8 *arr = (u8 *)arg0;
     u8 *e;
-    Tmp_8020994C t;
+    BsearchRecordTmp t;
     s32 lo;
     s32 hi;
     s32 mid;
@@ -248,7 +245,7 @@ void *TLobby::bsearch_record(void *arg0, int n, int key) {
     while (lo < hi) {
         mid = (lo + hi) / 2;
         ((TLobby *)(&t))->copy_record_entry((saddr)(arr + mid * 32));
-        TLobby__sub_8020A48C(&t);
+        bswap_item_data_record(&t);
         if (t.v < key) {
             lo = mid + 1;
         } else {
@@ -257,21 +254,21 @@ void *TLobby::bsearch_record(void *arg0, int n, int key) {
     }
     e = arr + lo * 32;
     ((TLobby *)(&t))->copy_record_entry((saddr)e);
-    TLobby__sub_8020A48C(&t);
+    bswap_item_data_record(&t);
     if (t.v == key) {
-        return (Rec_802099FC *)e;
+        return (AppendRecord *)e;
     }
     return NULL;
 }
 
-void TLobby__sub_802099FC(Out_802099FC *arg0, s32 key) {
-    Hdr_802099FC hdr = *(Hdr_802099FC *)item_data_table_buffer;
-    Rec_802099FC *p;
-    TLobby__sub_8020A568(&hdr);
-    p = (Rec_802099FC *)TLobby::bsearch_record((void *)(item_data_table_buffer + hdr.table), hdr.count, key);
+void lookup_item_data_record(AppendOut *arg0, s32 key) {
+    TLobbyHdr hdr = *(TLobbyHdr *)item_data_table_buffer;
+    AppendRecord *p;
+    bswap_table_header(&hdr);
+    p = (AppendRecord *)TLobby::bsearch_record((void *)(item_data_table_buffer + hdr.table), hdr.count, key);
     if (p != NULL) {
-        Rec_802099FC r = *p;
-        TLobby__sub_8020A48C(&r);
+        AppendRecord r = *p;
+        bswap_item_data_record(&r);
         arg0->f[0] = r.f[0];
         arg0->f[1] = r.f[1];
         arg0->f[2] = r.f[2];
@@ -284,14 +281,14 @@ void TLobby__sub_802099FC(Out_802099FC *arg0, s32 key) {
 }
 }
 void TLobby::pick_weighted_entry(s32 *key, s32 *slot) {
-    Hdr_80209AEC hdr = *(Hdr_80209AEC *)item_data_table_buffer;
-    Ent_80209AEC *tbl;
+    PickWeightedEntryHdr hdr = *(PickWeightedEntryHdr *)item_data_table_buffer;
+    PickWeightedEntryEntry *tbl;
     u32 total;
     u32 r;
     s32 i;
     s32 n;
-    TLobby__sub_8020A568(&hdr);
-    tbl = (Ent_80209AEC *)(item_data_table_buffer + hdr.table);
+    bswap_table_header(&hdr);
+    tbl = (PickWeightedEntryEntry *)(item_data_table_buffer + hdr.table);
     n = hdr.count;
     total = 0;
     for (i = 0; i < n; i++) {
@@ -328,7 +325,7 @@ s32 TLobby::pick_random_slot(s16 *slot) {
     TLobby::pick_weighted_entry(&key, &sp8);
     if ((key != -1) && (sp8 != -1)) {
         *slot = (s16) lobby_random_slot_id_table[sp8];
-        TLobby__sub_802099FC((Out_802099FC *)slot, key);
+        lookup_item_data_record((AppendOut *)slot, key);
         ((TLobby *)slot)->pick_random_entry();
         return 0;
     }
@@ -373,7 +370,7 @@ u32 TLobby::clamp_min_drop(u32 min, u32 max) {
     return value;
 }
 
-struct SpawnRecord_8020A9C4 {
+struct DestroyEventShuffleTableSpawnRecord {
     s16 type;
     u16 flags;
     s16 index;
@@ -386,7 +383,7 @@ struct SpawnRecord_8020A9C4 {
 };
 
 extern "C" {
-void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *slots, s32 count, s32 floor);
+void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *slots, s32 count, s32 floor);
 }
 
 #pragma push
@@ -394,9 +391,9 @@ void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *slots, s32 count, s32 flo
 LAYOUT_ASSERT(ChallengeEventHeaderSize, sizeof(ChallengeEventHeader) == 0x10);
 LAYOUT_ASSERT(ChallengeRandomEventSize, sizeof(ChallengeRandomEvent) == 0x18);
 LAYOUT_ASSERT(ChallengeFixedEventSize, sizeof(ChallengeFixedEvent) == 0x14);
-LAYOUT_ASSERT(ChallengeEnemyPlacementSize, sizeof(SpawnRecord_8020A9C4) == 0x48);
-LAYOUT_ASSERT(ChallengeEnemyRoomOffset, offsetof(SpawnRecord_8020A9C4, room) == 0x0C);
-LAYOUT_ASSERT(ChallengeEnemyWaveOffset, offsetof(SpawnRecord_8020A9C4, wave) == 0x0E);
+LAYOUT_ASSERT(ChallengeEnemyPlacementSize, sizeof(DestroyEventShuffleTableSpawnRecord) == 0x48);
+LAYOUT_ASSERT(ChallengeEnemyRoomOffset, offsetof(DestroyEventShuffleTableSpawnRecord, room) == 0x0C);
+LAYOUT_ASSERT(ChallengeEnemyWaveOffset, offsetof(DestroyEventShuffleTableSpawnRecord, wave) == 0x0E);
 
 void build_challenge_enemy_set(s32 floor) {
     s32 enemyOffset;
@@ -434,14 +431,14 @@ void build_challenge_enemy_set(s32 floor) {
         id = event.id;
         while (waves-- > 0) {
             enemies = TLobby::clamp_min_drop(event.minEnemies, event.maxEnemies + 1);
-            TLobby__sub_802097B0(event.room);
+            select_event_shuffle_table(event.room);
             while (enemies-- > 0) {
                 u8 *placement = challenge_enemy_buffer + enemyOffset;
                 if (TLobby::pick_random_slot(reinterpret_cast<s16 *>(placement)) == 0) {
-                    reinterpret_cast<SpawnRecord_8020A9C4 *>(challenge_enemy_buffer + enemyOffset)->wave = wave;
-                    reinterpret_cast<SpawnRecord_8020A9C4 *>(challenge_enemy_buffer + enemyOffset)->room = event.room;
+                    reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer + enemyOffset)->wave = wave;
+                    reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer + enemyOffset)->room = event.room;
                     ++enemyCount;
-                    enemyOffset += sizeof(SpawnRecord_8020A9C4);
+                    enemyOffset += sizeof(DestroyEventShuffleTableSpawnRecord);
                 }
             }
 
@@ -486,8 +483,8 @@ void build_challenge_enemy_set(s32 floor) {
     if (enemyCount > 0) {
         area = get_floor_area(floor);
         reserve_enemy_set_actor_ids(
-            reinterpret_cast<SpawnRecord_8020A9C4 *>(challenge_enemy_buffer), enemyCount, area);
-        TLobby::init_floor_enemy_count(floor, challenge_enemy_buffer, enemyCount * sizeof(SpawnRecord_8020A9C4));
+            reinterpret_cast<DestroyEventShuffleTableSpawnRecord *>(challenge_enemy_buffer), enemyCount, area);
+        TLobby::init_floor_enemy_count(floor, challenge_enemy_buffer, enemyCount * sizeof(DestroyEventShuffleTableSpawnRecord));
     }
 
     if (challenge_event_count > 0) {
@@ -593,9 +590,9 @@ void QuestChunkHeader::bswap() {
     bswap_32((u32 *)&data_size);
 }
 
-void TLobby__sub_8020A394(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_32((u32 *)((char*)p + 0x4)); }
+void bswap_event_table_entry(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_32((u32 *)((char*)p + 0x4)); }
 
-void TLobby__sub_8020A3D0(void *arg0, void *arg1) {
+void copy_event_table_entry(void *arg0, void *arg1) {
     *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
     *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
@@ -605,7 +602,7 @@ void TLobby::bswap_vec3() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this 
 
 void TLobby::swap_header_endian() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_32((u32 *)((char*)this + 0x14)); bswap_16((u16 *)((char*)this + 0x18)); bswap_16((u16 *)((char*)this + 0x1a)); }
 
-void TLobby__sub_8020A48C(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); bswap_32((u32 *)((char*)p + 0x10)); bswap_16((u16 *)((char*)p + 0x14)); bswap_16((u16 *)((char*)p + 0x16)); bswap_16((u16 *)((char*)p + 0x18)); bswap_16((u16 *)((char*)p + 0x1a)); bswap_16((u16 *)((char*)p + 0x1c)); bswap_16((u16 *)((char*)p + 0x1e)); }
+void bswap_item_data_record(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); bswap_32((u32 *)((char*)p + 0x10)); bswap_16((u16 *)((char*)p + 0x14)); bswap_16((u16 *)((char*)p + 0x16)); bswap_16((u16 *)((char*)p + 0x18)); bswap_16((u16 *)((char*)p + 0x1a)); bswap_16((u16 *)((char*)p + 0x1c)); bswap_16((u16 *)((char*)p + 0x1e)); }
 
 // ---- pso/unk/text_8020A508
 
@@ -627,7 +624,7 @@ void TLobby::copy_record_entry(saddr src) {
 
 // ---- pso/unk/TLobby_8020A568
 
-void TLobby__sub_8020A568(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
+void bswap_table_header(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
 
 void ChallengeRandomEvent::swap_endian() {
     bswap_32(reinterpret_cast<u32 *>(&id));
@@ -687,18 +684,18 @@ void TLobby::init_sub_objects() { TLobby::init_sub_state(); TLobby::rebuild_entr
 
 
 // ---- pso/unk/text_8020A768
-struct Ent_8020A768 { s16 a; s16 b; u8 pad[0x48 - 4]; };
+struct LoadEnemySetFileEntry { s16 a; s16 b; u8 pad[0x48 - 4]; };
 
-struct Name_8020A768 { char s[0x20]; };
+struct LoadEnemySetFileName { char s[0x20]; };
 
-struct Ent_8020A834 { s16 a; s16 b; u8 pad[0x44 - 4]; };
+struct LoadObjectSetFileEntry { s16 a; s16 b; u8 pad[0x44 - 4]; };
 
-struct Name_8020A834 { char s[0x20]; };
+struct LoadObjectSetFileName { char s[0x20]; };
 
 s32 load_enemy_set_file(s32 idx, const char *filename) {
-    Name_8020A768 name;
+    LoadEnemySetFileName name;
     s32 size;
-    Ent_8020A768 *p;
+    LoadEnemySetFileEntry *p;
     s32 n;
     s32 i;
     s32 floor;
@@ -710,21 +707,21 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = (Ent_8020A768 *)map_set_file_buffer;
-    n = size / sizeof(Ent_8020A768);
+    p = (LoadEnemySetFileEntry *)map_set_file_buffer;
+    n = size / sizeof(LoadEnemySetFileEntry);
     for (i = 0; i < n; i++, p++) {
         bswap_enemy_set_row(p);
         p->b = 0;
     }
     floor = get_floor_area(idx);
-    reserve_enemy_set_actor_ids((struct SpawnRecord_8020A9C4 *)map_set_file_buffer, n, floor);
+    reserve_enemy_set_actor_ids((struct DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, n, floor);
     TLobby::init_floor_enemy_count(idx, map_set_file_buffer, size);
     return 1;
 }
 s32 load_object_set_file(s32 idx, const char *filename) {
-    Name_8020A834 name;
+    LoadObjectSetFileName name;
     s32 size;
-    Ent_8020A834 *p;
+    LoadObjectSetFileEntry *p;
     s32 n;
     s32 i;
     saddr floor;
@@ -736,8 +733,8 @@ s32 load_object_set_file(s32 idx, const char *filename) {
     if (size > map_set_file_buffer_size) {
         return 0;
     }
-    p = (Ent_8020A834 *)map_set_file_buffer;
-    n = size / sizeof(Ent_8020A834);
+    p = (LoadObjectSetFileEntry *)map_set_file_buffer;
+    n = size / sizeof(LoadObjectSetFileEntry);
     for (i = 0; i < n; i++, p++) {
         swap_object_row_endian(p);
         p->b = 0;
@@ -772,9 +769,9 @@ void load_map_set_data(s32 idx, const char *filename) {
 }
 
 extern "C" {
-s32 get_enemy_factory_child_count(s32, SpawnRecord_8020A9C4 *);
-void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *lobby, s32 count, s32 floor) {
-    SpawnRecord_8020A9C4 *r;
+s32 get_enemy_factory_child_count(s32, DestroyEventShuffleTableSpawnRecord *);
+void reserve_enemy_set_actor_ids(DestroyEventShuffleTableSpawnRecord *lobby, s32 count, s32 floor) {
+    DestroyEventShuffleTableSpawnRecord *r;
     s32 i;
     s32 n;
     for (i = 0; i < count; i++) {
@@ -839,17 +836,17 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (area == 0 || area == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            TLobby::replace_file_extension((char *)buf, (char *)filename, "e.dat");
+            TLobby::replace_file_extension(buf, (char *)filename, "e.dat");
             break;
         case 1:
-            TLobby::replace_file_extension((char *)buf, (char *)filename, "e_c1.dat");
+            TLobby::replace_file_extension(buf, (char *)filename, "e_c1.dat");
             break;
         case 2:
-            TLobby::replace_file_extension((char *)buf, (char *)filename, "e_d.dat");
+            TLobby::replace_file_extension(buf, (char *)filename, "e_d.dat");
             break;
         }
     } else {
-        TLobby::replace_file_extension((char *)buf, (char *)filename, "e.dat");
+        TLobby::replace_file_extension(buf, (char *)filename, "e.dat");
     }
     size = read_disc_file(buf, map_set_file_buffer);
     if (size < 0) {
@@ -864,7 +861,7 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
         bswap_enemy_set_row(p);
         *(s16 *)(p + 2) = 0;
     }
-    reserve_enemy_set_actor_ids((SpawnRecord_8020A9C4 *)map_set_file_buffer, count, area);
+    reserve_enemy_set_actor_ids((DestroyEventShuffleTableSpawnRecord *)map_set_file_buffer, count, area);
     TLobby::init_floor_enemy_count(floor, map_set_file_buffer, size);
     return 1;
 }
@@ -877,7 +874,7 @@ int TLobby::init_sub_state() { return clear_record_flags_b(); }
 
 // ---- pso/unk/text_8020AD40
 
-struct Rec_8020AD40 { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
+struct LoadAreaObjectSetRecord { u8 pad0[2]; s16 f2; u8 pad4[0x40]; };
 
 extern "C" {
 }
@@ -888,7 +885,7 @@ s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
     MapSetEntry *items;
     const char *filename;
     s32 len;
-    Rec_8020AD40 *r;
+    LoadAreaObjectSetRecord *r;
     s32 n;
     s32 i;
     subs = map_set_areas[lobby].variants;
@@ -905,17 +902,17 @@ s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
     if (lobby == 0 || lobby == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            TLobby::replace_file_extension((char *)name, (char *)filename, "o.dat");
+            TLobby::replace_file_extension(name, (char *)filename, "o.dat");
             break;
         case 1:
-            TLobby::replace_file_extension((char *)name, (char *)filename, "o_c1.dat");
+            TLobby::replace_file_extension(name, (char *)filename, "o_c1.dat");
             break;
         case 2:
-            TLobby::replace_file_extension((char *)name, (char *)filename, "o_d.dat");
+            TLobby::replace_file_extension(name, (char *)filename, "o_d.dat");
             break;
         }
     } else {
-        TLobby::replace_file_extension((char *)name, (char *)filename, "o.dat");
+        TLobby::replace_file_extension(name, (char *)filename, "o.dat");
     }
     len = read_disc_file(name, map_set_file_buffer);
     if (len < 0) {
@@ -924,8 +921,8 @@ s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
     if (len > map_set_file_buffer_size) {
         return 0;
     }
-    r = (Rec_8020AD40 *)map_set_file_buffer;
-    n = len / sizeof(Rec_8020AD40);
+    r = (LoadAreaObjectSetRecord *)map_set_file_buffer;
+    n = len / sizeof(LoadAreaObjectSetRecord);
     for (i = 0; i < n; i++, r++) {
         swap_object_row_endian(r);
         r->f2 = 0;
@@ -974,7 +971,7 @@ block_6:
     if (var_r31 >= 0x12) {
         advance_object_id_counter(((u16) map_object_id_counter));
         object_condition_count = map_set_object_id_counter;
-        TLobby__sub_8020B308();
+        get_total_object_set_count();
         return 1;
     }
     goto loop_1;
@@ -1091,7 +1088,7 @@ s32 TLobby::sum_floor_enemy_counts() {
     for (i = 0; i < 18; i++) sum += floor_enemy_set_counts[i];
     return sum;
 }
-s32 TLobby__sub_8020B308(void) {
+s32 get_total_object_set_count(void) {
     s32 sum = 0;
     s32 i;
     for (i = 0; i < 18; i++) sum += floor_object_set_counts[i];

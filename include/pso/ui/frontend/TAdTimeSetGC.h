@@ -44,34 +44,34 @@ public:
 
     // State handlers, last state first.
     void update_state();
-    void sub_802E1F8C();
-    void sub_802E1FAC();
+    void enter_state_24();
+    void run_state_23();
     void show_confirm_dialog();
     void sub_802E2158();
     void create_result_bg();
     void build_selection_summary();
-    void sub_802E22A4();
+    void run_states_19_21();
     void init_menu_window();
-    void sub_802E23E8();
-    void sub_802E2450();
-    void sub_802E24B8();
-    void sub_802E2520();
-    void sub_802E2588();
-    void sub_802E2610();
+    void enter_state_19();
+    void enter_state_18();
+    void run_states_17_18();
+    void enter_state_17();
+    void run_state_16();
+    void enter_state_16();
     void update_close_on_load();
     void try_setup();
-    void sub_802E2728();
+    void enter_state_14();
     void update_close_timer();
-    void sub_802E2848();
-    void sub_802E289C();
+    void enter_state_13();
+    void run_state_12();
     void init_screen();
     void update_char_timer();
     void arm_guildcard_delete_timer();
     void advance_when_load_done();
-    void sub_802E2AD4();
+    void enter_state_10();
     void update_timer();
     void arm_char_delete_timer();
-    void sub_802E2BD4();
+    void run_state_8();
     void close_scene();
     void update_load_countdown();
     void arm_load_countdown();
@@ -80,13 +80,13 @@ public:
     void handle_confirm_menu();
     void open_char_select();
     void reset_on_load_complete();
-    void sub_802E2F20();
+    void enter_state_4();
     void ensure_player_loaded();
-    void sub_802E2F68();
-    void sub_802E2F88();
-    void sub_802E2FEC();
+    void enter_state_3();
+    void run_state_2();
+    void enter_state_2();
     void ensure_system_file_loaded();
-    void sub_802E3038();
+    void enter_state_1();
     void report_card_status();
     void rebuild_and_maybe_close();
 
@@ -94,14 +94,14 @@ public:
     static void sub_802E34A8();
 
     s32 state_index;                 // 0x1C: index into the state table
-    s32 unk_20;                      // 0x20: set once the system file was loaded (state 2)
-    s32 unk_24;                      // 0x24: system file check: -1 not done, 0 passed, 1 failed
-    s32 unk_28;                      // 0x28: character file check, same values
-    s32 unk_2C;                      // 0x2C: Guild Card file check, same values
-    s32 unk_30;                      // 0x30: set when the message of state 7 was closed
-    s32 unk_34;                      // 0x34: set when the message of state 12 was closed
-    s32 unk_38;                      // 0x38: set when the message of state 13 was closed
-    s32 unk_3C;                      // 0x3C: set when state 15 saw the load end
+    s32 system_file_loaded;                      // 0x20: set once the system file was loaded (state 2)
+    s32 system_file_check;                      // 0x24: system file check: -1 not done, 0 passed, 1 failed
+    s32 character_file_check;                      // 0x28: character file check, same values
+    s32 guild_card_file_check;                      // 0x2C: Guild Card file check, same values
+    s32 state7_message_closed;                      // 0x30: set when the message of state 7 was closed
+    s32 state12_message_closed;                      // 0x34: set when the message of state 12 was closed
+    s32 state13_message_closed;                      // 0x38: set when the message of state 13 was closed
+    s32 state15_load_ended;                      // 0x3C: set when state 15 saw the load end
     s32 busy_count;                  // 0x40: consecutive poll_load_status() calls that found the card busy
     s32 load_status;                 // 0x44: poll_load_status() result bits; 0 when every check passed
     TAdBackGC *back;                 // 0x48
@@ -109,9 +109,9 @@ public:
     TWindowMessage *message_window;  // 0x50
     TWindowMenu *menu_window;        // 0x54
     T_ATS_DrawCalendar *calendar;    // 0x58
-    s32 unknown_5c;                  // 0x5C: 1 when a menu asked to leave without applying the saved options
+    s32 skip_apply_options;                  // 0x5C: 1 when a menu asked to leave without applying the saved options
     s32 timer;                       // 0x60: set to 7 when a window closes, counted down by run_task
-    s32 unk_64;                      // 0x64: frames a message stays up; the state handlers set it to 30
+    s32 message_frames;                      // 0x64: frames a message stays up; the state handlers set it to 30
     char text[0x400];                // 0x68: message text built by the state handlers
 };
 

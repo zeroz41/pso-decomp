@@ -21,7 +21,7 @@ void TWindowDD::send_chat_packet(void *data) {
     ((TWindowDD *)(&pkt))->update_and_send_lobby();
 }
 
-void TWindowDD::update_and_send_lobby() { handle_word_select(); send_subcommand((u8 *)this); }
+void TWindowDD::update_and_send_lobby() { handle_word_select(); send_subcommand(this); }
 void TWindowDD::init_header() { *(u8*)((char*)this + 0x0) = 116; *(u8*)((char*)this + 0x1) = 8; }
 
 }
@@ -37,8 +37,6 @@ struct S_80348DD8 { s16 count; s16 unk2; s16 items[8]; };
 struct S_80348D0C { u16 a; u16 b; u16 c[8]; u32 d; u32 e; };
 
 extern "C" {
-void TWindowDD__sub_80348D90(S_80348D90 *self, s16 v);
-void TWindowDD__sub_80348DD8(S_80348DD8 *self, s16 v);
 
 void TWindowDD::bswap_word_select() {
     S_80348D0C *msg = (S_80348D0C *)this;

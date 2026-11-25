@@ -31,8 +31,8 @@ public:
     s32 prev_selection;               // 0x28: last frame's; the guide text follows a change
     TWindowMenu *menu;                // 0x2C: the open option menu (build_mode_menu)
     TAdSelectTxtGC *difficulty_text;  // 0x30: shows game_difficulty_selection
-    TAdSelectTxtGC *rule_text;        // 0x34: shows TAdMultiSelGameModeGC__data_805D69F0
-    TAdSelectTxtGC *episode_text;     // 0x38: shows lbl_805D69F4, the episode handed to TAdStorySelectGC::set_state
+    TAdSelectTxtGC *rule_text;        // 0x34: shows multi_sel_rule
+    TAdSelectTxtGC *episode_text;     // 0x38: shows multi_sel_episode, the episode handed to TAdStorySelectGC::set_state
     TAdSelectCurGC *cursor;           // 0x3C
     TAdGuideTxtGC *guide;             // 0x40
 };

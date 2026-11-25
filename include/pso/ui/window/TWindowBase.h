@@ -18,6 +18,9 @@ public:
     void resort_window_order();
     void close();
     void request_close();
+    // The per-frame open/close animation every window runs from its run_task.
+    void update_open_close();
+    void update_window();
     void set_depth(f32 depth);
     void set_position(f32 *pos);
     void calc_inner_rect(WindowDrawContext *context);
@@ -29,7 +32,7 @@ public:
     WindowDrawContext *setup_window_draw_context(f32 *scale);
     WindowDrawContext *draw_default_entry();
     s32 is_window_reveal_complete();
-    s32 sub_80244994();
+    s32 is_open_and_unblocked();
     void save_position();
     f32 get_transition_progress();
     f32 get_close_progress();
@@ -77,7 +80,7 @@ LAYOUT_ASSERT(WindowOpenTickOffset, offsetof(TWindowBase, open_tick) == 0x5C);
 struct TWindowSubComCard;
 class TWindowFukidasi;
 extern "C" {
-int TWindowSubComCard__sub_80244774(void);
+int get_area_total(void);
 BOOL TWindowSubComCard__sub_80245558(void *ctx, void *position, void *size);
 void fn_802449E0(u8 *object);
 }

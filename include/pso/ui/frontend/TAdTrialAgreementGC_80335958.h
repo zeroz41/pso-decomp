@@ -3,10 +3,10 @@
 
 #include "types.h"
 
-class TUnk_804EE458;
+class TTitleMenu;
 
 extern "C" {
-s32 TAdTrialAgreementGC__sub_80335958(TUnk_804EE458 *controller);
+s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller);
 }
 
 #endif

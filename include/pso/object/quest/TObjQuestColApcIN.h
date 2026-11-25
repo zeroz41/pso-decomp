@@ -6,8 +6,8 @@
 
 struct TObjQuestColApcIN : public TObjQuestColBase {
     TObjQuestColApcIN(TObject *parent, void *set_data);
-    virtual int vfunc_15();
-    virtual TQuestThread *vfunc_16();
+    virtual int is_triggered();
+    virtual TQuestThread *start_quest_thread();
     f32 party_radius;  // scale.y; every other player must stand this close (inferred name)
 };
 

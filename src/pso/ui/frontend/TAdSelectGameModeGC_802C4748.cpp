@@ -44,7 +44,7 @@ const S24_802C4944 select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 1
 const S8_802C4944 lbl_80471A44 = {302.0f, 28.0f};
 const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
 
-s32 TAdSelectGameModeGC__cached_mode_value;
+s32 TAdSelectGameModeGC::cached_mode_value;
 extern "C" {
 
 int fn_802C4748(void* p) { return TObjPlayer::sync_char_select_state(); }
@@ -71,10 +71,10 @@ void TAdSelectGameModeGC__sub_802C478C(void) {
 void TAdSelectGameModeGC::run_task() {
     s32 mode_data;
     TAdMultiChgGameModeGC::set_default_camera();
-    if ((s32) TAdSelectGameModeGC__cached_mode_value != cursor->selection_index()) {
+    if ((s32) TAdSelectGameModeGC::cached_mode_value != cursor->selection_index()) {
         guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x15, cursor->selection_index() + 1)));
     }
-    TAdSelectGameModeGC__cached_mode_value = cursor->selection_index();
+    TAdSelectGameModeGC::cached_mode_value = cursor->selection_index();
     if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
         TAdMultiChgGameModeGC::request_scene_change();
@@ -96,7 +96,7 @@ TAdSelectGameModeGC::~TAdSelectGameModeGC() {}
 
 TAdSelectGameModeGC::TAdSelectGameModeGC(TObject *parent) : TObject(parent) {
     m_name = TAdSelectGameModeGC__name;
-    TAdSelectGameModeGC__cached_mode_value = 0;
+    TAdSelectGameModeGC::cached_mode_value = 0;
     cursor = 0;
     guide = 0;
     new TAdBackGC(this);

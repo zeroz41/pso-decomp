@@ -34,29 +34,6 @@ void free_collision_body_parts(TObject *obj);
 extern TObject *tl_04;
 }
 
-struct EnemyMovementParams {
-    f32 pad_0;
-    f32 pad_4;
-    s32 pad_8;
-    s32 pad_c;
-    s32 pad_10;
-    s32 pad_14;
-    s32 pad_18;
-};
-
-struct CollisionBodyPart {
-    Vec offset;
-    f32 radius;
-    u8 pad_10[0x8];
-    s32 flags;
-    u8 pad_1c[0x10];
-};
-
-struct CollisionState {
-    u8 pad_0[0x18];
-    u32 flags;
-};
-
 // A model node: evaluation flags, then the node's rotation at 0x14.
 #pragma readonly_strings on
 
@@ -70,9 +47,9 @@ static TObjMotionAction volopt_hiraisin_motions[5] = {
     {2, 0, 8, 0.7f, 8},
     {3, 4, 7, 0.5f, 0x10},
 };
-static EnemyMovementParams volopt_hiraisin_movement = { 150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0 };
-static CollisionBodyPart volopt_hiraisin_body_parts[1] = {
-    { { 0.0f, -5.0f, 0.0f }, 6.0f, { 0 }, 0x8005 },
+static BossMovementParameters volopt_hiraisin_movement = { { 150.0f, 0.5555555f, 0x400 }, { 0x1E0000, 0, 1, 0 } };
+static CollisionBody volopt_hiraisin_body_parts[1] = {
+    {{0.0f, -5.0f, 0.0f}, 6.0f, 0.0f, 0, 0x8005, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
 
@@ -106,8 +83,8 @@ void TBoss3VoloptHiraisin::update_descend() {
         advance_animation();
         position.y = 80.0f;
         actorFlags |= 0x40000;
-        ((CollisionState *)bodies)->flags |= 4;
-        ((CollisionState *)bodies)->flags &= ~2;
+        bodies->flags |= 4;
+        bodies->flags &= ~2;
         play_sound_effect(0x4003A306, &position, 0, 0);
         state = 1;
     case 1:
@@ -127,7 +104,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
     TBoss3Volopt::create_breakup_mdl(volopt_hiraisin_breakup_model, &volopt_hiraisin_breakup_params,
-                       get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), &body_center, rotation_y);
+                       get_bml_texlist(volopt_hiraisin_resources, 0x10), &body_center, rotation_y);
     trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);
     behavior_flags &= ~1;
@@ -168,8 +145,8 @@ void TBoss3VoloptHiraisin::update_drop() {
         if (position.y <= 4.6f) {
             position.y = 4.6f;
             state = 2;
-            ((CollisionState *)bodies)->flags &= ~4;
-            ((CollisionState *)bodies)->flags |= 2;
+            bodies->flags &= ~4;
+            bodies->flags |= 2;
             play_sound_effect(0x4003A808, &position, 0, 0);
         }
         break;
@@ -240,8 +217,8 @@ void TBoss3VoloptHiraisin::render() {
             scale = 1.0f - 0.02202643f * (position.y - 4.6f);
             translate_matrix(0, position.x, 4.5f, position.z);
             scale_matrix(NULL, scale, scale, scale);
-            TObjFish::set_global_param(get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0));
-            draw_chunk_object((void *)get_bml_model((BmlResource *)volopt_hiraisin_resources, 0));
+            TObjFish::set_global_param(get_bml_texlist(volopt_hiraisin_resources, 0));
+            draw_chunk_object(get_bml_model(volopt_hiraisin_resources, 0));
             pop_matrix();
         }
     }
@@ -306,7 +283,7 @@ void TBoss3VoloptHiraisin::init_models() {
     volopt_hiraisin_resources = boss3_volopt_resources;
     volopt_hiraisin_spin_node = find_model_node(get_bml_model((BmlResource *)boss3_volopt_resources, 0x10), 0xB);
     volopt_hiraisin_spin_node->evalflags &= ~NJD_EVAL_UNIT_ANG;
-    breakup = new TBreakUpMdlData(get_bml_model((BmlResource *)volopt_hiraisin_resources, 0x10));
+    breakup = new TBreakUpMdlData(get_bml_model(volopt_hiraisin_resources, 0x10));
     volopt_hiraisin_breakup_model = breakup;
     volopt_hiraisin_stats = TLobby::register_boss(0x24);
     volopt_hiraisin_stats_b = TLobby::dispatch_shared_handler_b(0x24);

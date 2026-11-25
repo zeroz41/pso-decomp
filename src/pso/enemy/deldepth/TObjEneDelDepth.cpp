@@ -54,6 +54,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 
 DelDepthParameters *TObjEneDelDepth::tune_params;
@@ -96,7 +97,7 @@ static TObjMotionAction deldepth_motion_actions[] = {
 };
 static TObjMotionAction deldepth_motion_actions_b[] = {{1, 0, 0xB, 0.5f, 0}};
 
-const char *TObjEneDelDepth__name = "TObjEneDelDepth";
+const char *del_depth_name = "TObjEneDelDepth";
 // drawScale end points of the surfacing progress (0 = flat on the floor, 1 = full size).
 static const Vec flat_scale = {2.5f, 0.0f, 2.5f};
 static const Vec full_scale = {1.0f, 1.0f, 1.0f};
@@ -190,7 +191,7 @@ void TObjEneDelDepth::free_shared_data() {
 }
 
 TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(parent) {
-    m_name = TObjEneDelDepth__name;
+    m_name = del_depth_name;
     add_flags_2e4(8);
     apply_set_data(setData);
     update_target_depth();
@@ -969,7 +970,7 @@ void TObjEneDelDepth::update_death_fade() {
         ((TObjEnemy *)enemy)->exchange_object_state(&record, 0);
         apply_enemy_state(&record);
         ((TObjEnemy *)enemy)->send_entity_set_flags();
-        TObjPlayer::apply_effect_variant_a(&position, 0);
+        TDeadSpot::spawn_kind0_scale7_5(&position, 0);
         this->queue_destruction();
         break;
     }
@@ -1061,10 +1062,10 @@ void TObjEneDelDepth::update_ground_check() {
     }
 }
 
-const char *TObjEneDelDepthBomb__name = "TObjEneDelDepthBomb";
+const char *del_depth_bomb_name = "TObjEneDelDepthBomb";
 
 TObjEneDelDepthBomb::TObjEneDelDepthBomb(TObjEneDelDepth *parent, TObjChara *attacker, const Vec *origin, s32 level) : TObjChara(parent) {
-    m_name = TObjEneDelDepthBomb__name;
+    m_name = del_depth_bomb_name;
     source = attacker;
     rotation_y = ((TObjEneDelDepth *)m_up)->rotation_y;
     VecCopy(&position, origin);

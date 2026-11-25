@@ -7,9 +7,9 @@
 struct TObjQuestColALock : public TObjQuestColBase {
     TObjQuestColALock(TObject *parent, void *set_data);
     virtual ~TObjQuestColALock();
-    virtual int vfunc_15();
-    virtual TQuestThread *vfunc_16();
-    virtual void update_room_id_check();
+    virtual int is_triggered();
+    virtual TQuestThread *start_quest_thread();
+    virtual void draw_debug_bounds();
 };
 
 LAYOUT_ASSERT(TObjQuestColALock_size, sizeof(TObjQuestColALock) == 0xBC);

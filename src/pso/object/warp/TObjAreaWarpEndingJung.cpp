@@ -188,7 +188,7 @@ void bswap_6x94_inter_level_warp(G_InterLevelWarp_6x94 *packet) {
 
 void TObjAreaWarpQuest__sub_8019DCD8(TObjPlayer *p, s32 v) { *(s32 *)((char *)p + 0x3c8) = v; }
 
-s32 Obj_80515BA0::get_next_floor() { return next_floor; }
+s32 FloorTransition::get_next_floor() { return next_floor; }
 
 TObjMapWarpForest::~TObjMapWarpForest() {}
 

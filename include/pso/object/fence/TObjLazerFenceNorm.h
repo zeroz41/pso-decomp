@@ -5,6 +5,8 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct BmlResource;
+struct AnimationMotion;
+struct NJS_OBJECT;
 struct NJS_TEXLIST;
 
 struct TObjLazerFenceNorm : public TObjCollidable {
@@ -13,19 +15,19 @@ struct TObjLazerFenceNorm : public TObjCollidable {
     void update_closed();
     void draw_animated_beam();
     u32 scale_level;  // scale.x clamped to 0..3
-    u16 switch_id;  // the floor switch that opens the fence (set_params[0])
+    s16 switch_id;  // the floor switch that opens the fence (set_params[0])
     u8 _padB2[0x2];
-    u32 m_b4;
+    u32 state;        // 0 closed (beam drawn), 1 open (switch set)
     virtual void run_task();
     static void free_resources();
     void draw_model();
     virtual void render();
     void reset_by_door();
     f32 frame;  // the beam motion's frame
-    void * m_bc;
-    u8 unk_C0[0x4];
-    s32 bml_motion;
-    u8 unk_C8[0x10];
+    NJS_OBJECT *base_model;      // the fence size's "_moto" model, drawn without motion
+    NJS_OBJECT *beam_model;      // the model beam_motion animates
+    AnimationMotion *beam_motion;
+    void *beam_part_models[4];   // models of the beam's child nodes, retextured for scale_level
     void select_models();
     static void *create(void *set_data);
 };

@@ -2957,8 +2957,8 @@ void set_item_drop_server_seed(int a0) { item_drop_server_seed = a0; }
 void set_area_random_seed(int a0) { area_random_seed = a0; }
 
 void set_quest_list_online_state(s32 state) {
-    if (TQuestListOnline__instance != NULL) {
-        TQuestListOnline__instance->set_state(state);
+    if (quest_list_online_instance != NULL) {
+        quest_list_online_instance->set_state(state);
     }
 }
 

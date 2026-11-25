@@ -18,7 +18,7 @@
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/boss/TUnk_80484888.h"
+#include "pso/boss/TBoss3VoloptParticleSpray.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D8F74.h"
@@ -142,7 +142,7 @@ void TObjVoloptPillar::run_task() {
             {
                 Vec pos = *&position;
                 pos.y = 5.0f;
-                new TUnk_80484888(&pos, 0x11E, 0xF, NULL, 0.25f, 40.0f);
+                new TBoss3VoloptParticleSpray(&pos, 0x11E, 0xF, NULL, 0.25f, 40.0f);
             }
             TCameraCtrl::set_shake_preset(1);
             play_sound_effect(0x4003AD09, &position, 0, 0);

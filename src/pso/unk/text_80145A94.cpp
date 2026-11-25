@@ -14,19 +14,19 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80145E40.h"
 
-struct Ids_80145A94 { s32 v[2]; };
+struct LoadNetworkInfoIds { s32 v[2]; };
 
-struct Buf_80145A94 { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
+struct LoadNetworkInfoBuf { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
 
 
 extern s16 disc_error_code;
-void *lbl_805D56C8;
-u16 lbl_805D56CC;
+void *network_info_work;
+u16 network_info_flags;
 u16 lbl_805D56CE;
 int keyboard_buffer_cursor; // stored only by TLobby_801461EC; placed here by the 8-byte .sbss boundary at 0x805D56D8
 s32 load_network_info(void) {
-    Buf_80145A94 buf;
-    Ids_80145A94 ids = {0, 1};
+    LoadNetworkInfoBuf buf;
+    LoadNetworkInfoIds ids = {0, 1};
     s32 res;
     s32 extra;
     u32 status;
@@ -40,7 +40,7 @@ s32 load_network_info(void) {
     s32 i;
     s32 start;
     found = 0;
-    lbl_805D56CC = 0;
+    network_info_flags = 0;
     get_network_adapter_type((s32 *)&status);
     if (status == 5) {
         status = 4;
@@ -49,7 +49,7 @@ s32 load_network_info(void) {
         TLobby__sub_803F3D60();
         lbl_805D56CE = 0;
     }
-    TLobby__sub_803F3BF8(0, lbl_805D56C8, status);
+    TLobby__sub_803F3BF8(0, network_info_work, status);
     lbl_805D56CE = 1;
     init_card_lib((void *)TLobby::get_global_63e0());
     start = 0;
@@ -135,7 +135,7 @@ s32 load_network_info(void) {
                         state = 0;
                         sub = 0;
                         found = 1;
-                        lbl_805D56CC |= 1;
+                        network_info_flags |= 1;
                         break;
                     default:
                         xfree(mem);
@@ -192,7 +192,7 @@ s32 TLobby__sub_80145DB4(s32 arg0) {
     return 0;
 }
 
-int TLobby__sub_80145E40(void) {  return (lbl_805D56CC & 0x1); }
+int is_network_info_loaded(void) {  return (network_info_flags & 0x1); }
 
 s32 TLobby::is_status_zero() {
     u8 sp8;
@@ -229,7 +229,7 @@ s32 TLobby__sub_80145EE4(void) {
 s32 init_struct(u8 *arg0) {
     u8 sp8;
 
-    if (!(lbl_805D56CC & 1)) {
+    if (!(network_info_flags & 1)) {
         return 0;
     }
     memset((void *)((saddr)arg0), 0, 0x26C);
@@ -260,7 +260,7 @@ s32 init_work(s32 arg0, u8 *arg1) {
     u8 dst[0x20];
 
     memset(arg1, 0, 0x270);
-    if (!(lbl_805D56CC & 1)) {
+    if (!(network_info_flags & 1)) {
         return 0;
     }
     ((TLobby *)(arg1 + 0x4))->copy_current_entry_name(0x80);

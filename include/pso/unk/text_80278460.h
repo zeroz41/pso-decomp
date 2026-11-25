@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void fn_80278518(void *qst_pack_select_window, s32 arg1);
+void disable_pack_item_rows(void *qst_pack_select_window, s32 arg1);
 }
 
 #endif

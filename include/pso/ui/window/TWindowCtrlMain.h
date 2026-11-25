@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowCtrlMain : public TObject {
+    static TObject * window_task_root;
+    static s32 display_flags;
     TWindowCtrlMain();
     virtual ~TWindowCtrlMain();
     void render();

@@ -72,7 +72,7 @@ void TWindowMessage::update_line_timers() {
     s32 idx;
     f32 h;
     for (i = 0; i < (u32)line_count; i++) {
-        if (((TWindowSubComCard *)((u8 *)((TWindowBase *)this)->get_array_entry(i)))->get_field_20() != 0) {
+        if (((TWindowSubComCard *)((u8 *)this->get_array_entry(i)))->get_field_20() != 0) {
             if ((lines[i].flags & 4) && lines[i].timer > 0) {
                 lines[i].timer--;
             }
@@ -285,9 +285,8 @@ WindowDescriptor message_window_settings = {
     {0.0f, 0.0f}, 50100.0f, &message_window_layout_entries, 3,
 };
 
-extern "C" {
 
-int TWindowMessage::append_line(int text, int flags) { return append_message_window_line((TWindowMessage *)this, text, flags, -1); }
+int TWindowMessage::append_line(int text, int flags) { return append_message_window_line(this, text, flags, -1); }
 
 void TLobby__sub_80269C90(void) {
     message_window_settings.flags = 3;
@@ -331,17 +330,16 @@ void TWindowMessage::render() {
 }
 
 void TWindowMessage::run_task() {
-    u8 *arg0 = (u8 *)this;
     if (!(this->window_flags & 2)) {
         this->open_tick = 0x01000000;
     }
-    ((TWindowMessage *)arg0)->update_scroll();
-    ((TWindowMessage *)arg0)->retire_scrolled_lines();
-    ((TWindowMessage *)arg0)->update_line_timers();
-    ((TWindowMessage *)arg0)->advance_reveal_cursor();
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    this->update_scroll();
+    this->retire_scrolled_lines();
+    this->update_line_timers();
+    this->advance_reveal_cursor();
+    update_window();
+    this->update_fade();
+    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
 }
 
 TWindowMessage::~TWindowMessage() {
@@ -367,4 +365,3 @@ TWindowMessage::TWindowMessage(const NJS_POINT2 *position, u32 rows, s32 client)
     }
 }
 
-}

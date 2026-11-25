@@ -37,13 +37,19 @@ struct RadarMapViewState;
 struct RadarScissorRect;
 
 struct TRaderMapCore : public TObjBase {
+    static saddr map_heap;
+    static s32 render_mode;
+    static void * instance;
+    static u8 * floor_map_resource;
+    static s16 * floor_discovery_table[18];
+    static s32 view_mode;
     TRaderMapCore(TObject *parent);
     virtual ~TRaderMapCore();
     void update_follow_projection(s32);
     virtual void run_task();
-    s32 m_90;
+    s32 countdown;
     RadarPlayerMarker player_marker_records[4];
-    s32 m_134;
+    s32 follow_marker;
     u8 unknown138[0x8];
     f32 m_140;
     f32 m_144;
@@ -52,10 +58,10 @@ struct TRaderMapCore : public TObjBase {
     u8 unknown154[0xC];
     f32 viewport_width;
     f32 viewport_height;
-    s32 m_168;
+    s32 view_flags;
     s32 m_16c;
     f32 m_170;
-    s32 m_174;
+    s32 map_angle;
     NJS_OBJECT *m_178;
     NJS_OBJECT *m_17c;
     NJS_OBJECT *m_180;
@@ -63,10 +69,10 @@ struct TRaderMapCore : public TObjBase {
     f32 pan_x_speed;
     f32 pan_z_speed;
     f32 zoom_speed;
-    u32 m_194;
+    u32 radar_render_flags;
     s32 angle;
-    f32 m_19c;
-    f32 m_1a0;
+    f32 pulse_alpha;
+    f32 alpha_limit;
 
     void configure_viewport(const RadarViewportParameters* view);
     void set_map_position(void *arg1);
@@ -136,12 +142,12 @@ LAYOUT_ASSERT(RadarViewportValue18, offsetof(RadarViewportParameters, value18) =
 LAYOUT_ASSERT(RadarViewportWidth, offsetof(RadarViewportParameters, screen_width) == 0x28);
 LAYOUT_ASSERT(RadarViewportHeight, offsetof(RadarViewportParameters, screen_height) == 0x2C);
 LAYOUT_ASSERT(RaderMapCoreSize, sizeof(TRaderMapCore) == 0x1A4);
-LAYOUT_ASSERT(RaderMapCoreDelay, offsetof(TRaderMapCore, m_90) == 0x90);
+LAYOUT_ASSERT(RaderMapCoreDelay, offsetof(TRaderMapCore, countdown) == 0x90);
 LAYOUT_ASSERT(RaderMapCoreMarkers, offsetof(TRaderMapCore, player_marker_records) == 0x94);
-LAYOUT_ASSERT(RaderMapCoreSelectedPlayer, offsetof(TRaderMapCore, m_134) == 0x134);
+LAYOUT_ASSERT(RaderMapCoreSelectedPlayer, offsetof(TRaderMapCore, follow_marker) == 0x134);
 LAYOUT_ASSERT(RaderMapCoreViewportWidth, offsetof(TRaderMapCore, viewport_width) == 0x160);
 LAYOUT_ASSERT(RaderMapCoreTarget, offsetof(TRaderMapCore, target_player) == 0x184);
-LAYOUT_ASSERT(RaderMapCoreTail, offsetof(TRaderMapCore, m_1a0) == 0x1A0);
+LAYOUT_ASSERT(RaderMapCoreTail, offsetof(TRaderMapCore, alpha_limit) == 0x1A0);
 
 // Draws a door or gate marker on the radar: green when it is open to the
 // player, red when it is locked.

@@ -30,14 +30,14 @@ struct TOTrapChainSaw : public TObjMapObject {
     virtual void render();
     virtual void run_task();
     u32 m_c8;
-    u32 m_cc;
-    u32 m_d0;
+    s32 max_offset;     // set_params[1] high half: how far it extends or sweeps
+    s32 step;           // set_params[1] low half: the extension or yaw step per frame
     s32 yaw_offset;
     s32 hit_cooldown[4];
-    u32 m_e8;
-    u32 m_ec;
-    u8 _padF0[0x4];
-    u32 m_f4;
+    s32 switch_id;      // set_params[0] clamped to 0-255: the floor switch it follows
+    s32 pause_timer;    // frames it waits after turning around
+    s32 switch_on;      // the switch's state this frame
+    u32 behavior;       // set_params[2] high half (0 or 1): which update runs, 0 update_extension, 1 update_sweep
     void update_demo();
     static void load_shared_resource();
     static void unload_static_data();

@@ -13,7 +13,7 @@ public:
     s32 hit_count;  // hits since the last run_task
     s32 fog_level;  // highest level recorded this frame
     s32 fog_link;   // nonzero selects fog bank 0, else bank 1
-    s32 player;     // index into TObjFogCollisionPoison__instances and the fog viewports
+    s32 player;     // index into fog_collision_poison_instances and the fog viewports
     s32 cleared;    // 1 once the player's fog is restored
 };
 LAYOUT_ASSERT(TObjFogCollision_Manager_size, sizeof(TObjFogCollision_Manager) == 0x30);

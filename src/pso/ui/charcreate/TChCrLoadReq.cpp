@@ -21,8 +21,6 @@
 const char *TChCrLoadReq__name = "TChCrLoadReq";
 #pragma pop
 
-extern "C" {
-}
 
 // A node tree is valid when no node, child, sibling or model pointer lies in the low 2 MB.
 extern "C" s32 is_node_tree_valid(NJS_OBJECT *object) {

@@ -62,21 +62,14 @@ TObjMotionAction crawfish_action_table[6] = {
     { 3, 0, 4, 0.6f, 0x0 },
     { 1, 0, 5, 1.9f, 0x0 },
 };
-const char *TBoss7Crawfish__class_name = "TBoss7Crawfish";
+const char *TBoss7Crawfish::class_name = "TBoss7Crawfish";
 const CollisionBody crawfish_collision_body_desc = {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
 // is_visible measures the crawfish's distance from here (the arena centre is inferred).
 const Vec boss7_arena_center = {0.0f, 0.0f, 0.0f};
 
-// The record exchange_object_state reads and writes.
-struct Boss7CrawfishStateRecord {
-    s32 flags;
-    u8 unk_4[0x2];
-    s16 value;
-};
-
 // Defined without a shared declaration in their owners' headers.
 
-BmlResource *TBoss7Crawfish__shared_resource;
+BmlResource *TBoss7Crawfish::shared_resource;
 
 s32 TBoss7Crawfish::is_within_x_limit() {
     return (u32) __cntlzw((u32) (75.0f < position.x)) >> 5;
@@ -368,12 +361,12 @@ TBoss7Crawfish::~TBoss7Crawfish() {
 
 TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
     Vec still;
-    m_name = TBoss7Crawfish__class_name;
-    texlist = get_bml_texlist(TBoss7Crawfish__shared_resource, 0);
+    m_name = TBoss7Crawfish::class_name;
+    texlist = get_bml_texlist(TBoss7Crawfish::shared_resource, 0);
     copy_collision_body(&collision_body, &crawfish_collision_body_desc);
     set_collision_body(&collision_body);
     set_action_table(crawfish_action_table);
-    set_motion_list(TBoss7Crawfish__shared_resource->motions);
+    set_motion_list(TBoss7Crawfish::shared_resource->motions);
     set_anim_timer(2);
     set_animation(requested_action);
     set_requested_action(requested_action);
@@ -383,12 +376,12 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
         set_param(0x4A);
         bind_enemy_combat_stats(TLobby::register_boss(8), TLobby::dispatch_shared_handler_b(8), TLobby::register_object(8));
         params = (Boss7CrawfishParams *)TLobby::dispatch_shared_handler_a(8);
-        model = get_bml_model(TBoss7Crawfish__shared_resource, 0);
+        model = get_bml_model(TBoss7Crawfish::shared_resource, 0);
     } else {
         set_param(0x4B);
         bind_enemy_combat_stats(TLobby::register_boss(9), TLobby::dispatch_shared_handler_b(9), TLobby::register_object(9));
         params = (Boss7CrawfishParams *)TLobby::dispatch_shared_handler_a(9);
-        model = get_bml_model(TBoss7Crawfish__shared_resource, 1);
+        model = get_bml_model(TBoss7Crawfish::shared_resource, 1);
     }
     get_or_assign_entity_id(0);
     register_object_by_id();
@@ -411,14 +404,14 @@ TBoss7Crawfish::TBoss7Crawfish(TObject *parent, void *set) : TObjEnemy(parent) {
 }
 
 void TBoss7Crawfish::destroy_instance() {
-    if (TBoss7Crawfish__shared_resource != NULL) {
-        delete TBoss7Crawfish__shared_resource;
-        TBoss7Crawfish__shared_resource = NULL;
+    if (TBoss7Crawfish::shared_resource != NULL) {
+        delete TBoss7Crawfish::shared_resource;
+        TBoss7Crawfish::shared_resource = NULL;
     }
 }
 
 void TBoss7Crawfish::load_static_resource() {
-    TBoss7Crawfish__shared_resource = new BmlResource(5, &bm_boss7_crawfish_resource_descriptor, 0, 0, NULL);
+    TBoss7Crawfish::shared_resource = new BmlResource(5, &bm_boss7_crawfish_resource_descriptor, 0, 0, NULL);
 }
 
 void TBoss7Crawfish::apply_poison_status() {  }

@@ -113,10 +113,7 @@ static CollisionBody boss4_type2_collision_body_parts[1] = {
 __declspec(section ".data") s32 boss4_zanzo_bml_index_table[2] = {
     0xb, 0xa,
 };
-// A row of TBoss4Type2__attack_pattern_table: how the animation ends (0 loops, 1 holds its
-// last frame, 2 goes on to next) and the motion of each of the two models.
-struct TBoss4Type2Motion { s32 kind, next, motions[2]; };
-TBoss4Type2Motion TBoss4Type2__attack_pattern_table[10] = {
+TBoss4Type2Motion TBoss4Type2::attack_pattern_table[10] = {
     {0, 0, 0x52, 0x51}, {2, 0, 0xd, 0xc}, {1, 0, 0x12, 0x11}, {2, 5, 0x31, 0x30}, {2, 0, 0x33, 0x32},
     {2, 0, 0x3f, 0x3e}, {2, 0, 0x3, 0x2}, {2, 0, 0x7, 0x6}, {2, 9, 0x52, 0x44}, {2, 0, 0x52, 0x3e},
 };
@@ -142,7 +139,7 @@ static const ModelNodeSpec boss4_type2_model_node_table[6] = {
 };
 static const Vec boss4_type2_follow_camera_offset_a = {0.0f, 19.8f, -5.0f};
 static const Vec boss4_type2_follow_camera_offset_b = {0.0f, 15.43f, 55.42f};
-const char *TBoss4Zanzo__name = "TBoss4Zanzo";
+const char *TBoss4Zanzo::name = "TBoss4Zanzo";
 
 
 TBoss4Type2 *TBoss4Type2::create(TBoss4FormSetData *set_data) {
@@ -334,8 +331,8 @@ void TBoss4Type2::update_phase_timer() {
         break;
     case 2:
         if (anim_frame >= 29.0f) {
-            anim = TBoss4Type2__attack_pattern_table[anim].next;
-            anim_mode = TBoss4Type2__attack_pattern_table[anim].kind;
+            anim = TBoss4Type2::attack_pattern_table[anim].next;
+            anim_mode = TBoss4Type2::attack_pattern_table[anim].kind;
             anim_frame = 0.0f;
             anim_looped = 1;
         }
@@ -352,7 +349,7 @@ void TBoss4Type2::set_attack_pattern_by_index(s32 index) {
     if (index != -1) {
         anim = index;
         anim_frame = 0.0f;
-        anim_mode = TBoss4Type2__attack_pattern_table[index].kind;
+        anim_mode = TBoss4Type2::attack_pattern_table[index].kind;
     }
 }
 
@@ -366,16 +363,16 @@ void TBoss4Type2::draw_hanger() {
             model_render_flags |= 0x20000;
             TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
             node_capture->install();
-            draw_model_motion((void *)get_bml_model(archive, boss4_zanzo_bml_index_table[i]),
-                (void *)get_bml_motion(archive, TBoss4Type2__attack_pattern_table[anim].motions[i]),
+            draw_model_motion(get_bml_model(archive, boss4_zanzo_bml_index_table[i]),
+                get_bml_motion(archive, TBoss4Type2::attack_pattern_table[anim].motions[i]),
                 anim_frame);
             node_capture->clear();
             model_render_flags &= ~0x20000;
             break;
         default:
-            TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
-            draw_model_motion((void *)get_bml_model(archive, boss4_zanzo_bml_index_table[i]),
-                (void *)get_bml_motion(archive, TBoss4Type2__attack_pattern_table[anim].motions[i]),
+            apply_boss6_hit_flash_color(hit_flash, hp_ratio);
+            draw_model_motion(get_bml_model(archive, boss4_zanzo_bml_index_table[i]),
+                get_bml_motion(archive, TBoss4Type2::attack_pattern_table[anim].motions[i]),
                 anim_frame);
             TBoss6PlotFalz::update_camera_target();
             break;
@@ -660,7 +657,7 @@ void TBoss4Type2::spawn_afterimages() {
     for (i = 0; i < 2; i++) {
         z.texlist = get_bml_texlist(archive, boss4_zanzo_bml_index_table[i]);
         z.model = get_bml_model(archive, boss4_zanzo_bml_index_table[i]);
-        z.motion = get_bml_motion(archive, TBoss4Type2__attack_pattern_table[anim].motions[i]);
+        z.motion = get_bml_motion(archive, TBoss4Type2::attack_pattern_table[anim].motions[i]);
         create_zanzo(this, &z);
     }
 }
@@ -1082,7 +1079,7 @@ void copy_zanzo_params(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src) {
 }
 
 TBoss4Zanzo::TBoss4Zanzo(TObject *parent, TBoss4ZanzoParams *params) : TObject(parent) {
-    m_name = TBoss4Zanzo__name;
+    m_name = TBoss4Zanzo::name;
     copy_zanzo_params(&this->params, params);
     age = 0;
 }

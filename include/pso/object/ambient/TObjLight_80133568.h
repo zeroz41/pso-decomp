@@ -6,8 +6,8 @@
 
 class TObjBase;
 class TQuestThread;
-class TUnk_804A6F78;
-class TUnk_804A6F90;
+class TSceneAmbientLight;
+class TSceneDirectionalLight;
 struct TObjLight;
 struct PointLight;
 struct LightEntry;
@@ -89,9 +89,9 @@ extern LightEntry *light_entry_data;
 extern s32 light_entry_file_size;
 extern const char light_entry_file_name[];
 
-extern TUnk_804A6F90 *lbl_805D5558;
+extern TSceneDirectionalLight *lbl_805D5558;
 extern void *lbl_805D555C;
 extern TObjLight *current_scene_light;
-extern TUnk_804A6F78 *lbl_805D5564;
+extern TSceneAmbientLight *lbl_805D5564;
 
 #endif

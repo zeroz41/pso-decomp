@@ -9,6 +9,7 @@ struct TAdMcCheckGC;
 #include "pso/system/task/TObject.h"
 
 struct TAdMcSelectCursorGC : public TObject {
+    static TAdMcSelectCursorGC * instance;
     TAdMcSelectCursorGC(TObject *parent);
     virtual ~TAdMcSelectCursorGC();
     s32 selection_locked;
@@ -41,7 +42,6 @@ LAYOUT_ASSERT(TAdMcSelectCursorGC_mode_offset, offsetof(TAdMcSelectCursorGC, ren
 LAYOUT_ASSERT(TAdMcSelectCursorGC_size, sizeof(TAdMcSelectCursorGC) == 0x140);
 
 extern "C" {
-extern TAdMcSelectCursorGC *TAdMcSelectCursorGC__instance;
 void *__dt__19TAdMcSelectCursorGCFv(void *arg0, s16 arg1);
 }
 

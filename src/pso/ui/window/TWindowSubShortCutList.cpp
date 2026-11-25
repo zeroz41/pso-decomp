@@ -21,11 +21,7 @@ const char *TWindowSubShortCutList__class_name = "TWindowSubShortCutList";
 // Size argument of the shortcut list window.
 static const NJS_POINT2 lbl_8044FAA8 = {405.0f, 188.0f};
 
-extern "C" {
-char *fn_80076BC4(s32 *);
-s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 
-}
 
 void TWindowSubShortCutList::refresh_entries() {
     s32 *chat_shortcut;
@@ -65,7 +61,7 @@ void TWindowSubShortCutList::refresh_entries() {
 }
 
 TWindowSubShortCutList *TWindowSubShortCutList::create(const NJS_POINT2 *position, s32 index) {
-    TShopJudgmentItemWindow__sub_80267F9C(&lbl_8044FAA8, 4);
+    set_menu_icon_line_params(&lbl_8044FAA8, 4);
     return new TWindowSubShortCutList(reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(position)), index);
 }
 

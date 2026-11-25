@@ -23,7 +23,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/TUnk_804EDAC0.h"
+#include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D853C.h"
@@ -79,24 +79,24 @@ SeabedTrapFragmentSpawn seabed_trap_fragment_spawns[6] = {
     {1, {-4.0f, 0.0f, -4.0f}, 0},
     {1, {4.0f, 0.0f, 4.0f}, 32768},
 };
-static const TObjChipParams TOTrapSeabed01__transform_params = {
+static const TObjChipParams trap_seabed01_transform_params = {
     0.35f, 0.07f, 0.54f, {0.0f, 0.0f, 0.0f}, {2.5f, 6.5f, 2.5f},
     {0x300, 0x250, 0x300}, 1, 60, 0.0f, 1.0f, 0, 0, 17,
 };
 static const s32 trap_seabed01_param_index_table[6] = {0, 1, 2, 3, 4, 5};
 const char *TOTrapSeabed01_class_name = "TOTrapSeabed01";
 
-BmlResource *TOTrapSeabed01__bml_resource;
-NJS_TEXLIST *TOTrapSeabed01__texture_file;
-NJS_OBJECT *TOTrapSeabed01__ginja_model;
+BmlResource *trap_seabed01_bml_resource;
+NJS_TEXLIST *trap_seabed01_texture_file;
+NJS_OBJECT *trap_seabed01_ginja_model;
 s32 lbl_805D681C;
 s32 seabed01_ginja_mesh_index;
 
 TOTrapSeabed01::TOTrapSeabed01(TObject *parent, void *set_data) : TOTrap(parent) {
     m_name = TOTrapSeabed01_class_name;
     apply_object_set_data(set_data);
-    model = get_bml_model(TOTrapSeabed01__bml_resource, 0);
-    current_motion = (NJS_MOTION *)get_bml_motion(TOTrapSeabed01__bml_resource, 0);
+    model = get_bml_model(trap_seabed01_bml_resource, 0);
+    current_motion = (NJS_MOTION *)get_bml_motion(trap_seabed01_bml_resource, 0);
     play_speed = 1.0f;
     frame = 0.0f;
     clamp_params_and_init();
@@ -130,25 +130,25 @@ void TOTrapSeabed01::vfunc_6(s16 *arg1, s32 arg2) {
 
 void TOTrapSeabed01::load_resources() {
     BmlResource *resource = new BmlResource(5, &seabed_trap_resource_descriptor, 0, 0, NULL);
-    TOTrapSeabed01__bml_resource = resource;
-    TOTrapSeabed01__texture_file = LoadPvmFileTls("obj_seabed_turigane.gvm");
-    TOTrapSeabed01__ginja_model = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)TOTrapSeabed01__bml_resource, 0), 5);
+    trap_seabed01_bml_resource = resource;
+    trap_seabed01_texture_file = LoadPvmFileTls("obj_seabed_turigane.gvm");
+    trap_seabed01_ginja_model = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)trap_seabed01_bml_resource, 0), 5);
     lbl_805D681C = 0;
     seabed01_ginja_mesh_index = -1;
-    if (TOTrapSeabed01__texture_file != NULL) {
-        seabed01_ginja_mesh_index = find_texture_entry_by_name(TOTrapSeabed01__texture_file, "apk_o064_seaturigane03");
+    if (trap_seabed01_texture_file != NULL) {
+        seabed01_ginja_mesh_index = find_texture_entry_by_name(trap_seabed01_texture_file, "apk_o064_seaturigane03");
     }
 }
 
 void TOTrapSeabed01::free_static_resources() {
-    if (TOTrapSeabed01__texture_file != NULL) {
-        release_texture_list(TOTrapSeabed01__texture_file);
-        safe_free(TOTrapSeabed01__texture_file);
-        TOTrapSeabed01__texture_file = NULL;
+    if (trap_seabed01_texture_file != NULL) {
+        release_texture_list(trap_seabed01_texture_file);
+        safe_free(trap_seabed01_texture_file);
+        trap_seabed01_texture_file = NULL;
     }
-    if (TOTrapSeabed01__bml_resource != NULL) {
-        delete TOTrapSeabed01__bml_resource;
-        TOTrapSeabed01__bml_resource = NULL;
+    if (trap_seabed01_bml_resource != NULL) {
+        delete trap_seabed01_bml_resource;
+        trap_seabed01_bml_resource = NULL;
     }
 }
 
@@ -207,7 +207,7 @@ void TOTrapSeabed01::vfunc_84() {}
 
 void TOTrapSeabed01::render() {
     if (TMainTask::get_render_pass() != 1 &&
-        (projected == 0 || is_split_screen() != 0 || TUnk_804EDAC0::dispatch_input_to_instance(this) == 0) &&
+        (projected == 0 || is_split_screen() != 0 || TDeferredRenderQueue::enqueue_in_instance(this) == 0) &&
         m_340 == 1) {
         switch (mode) {
         case 0:
@@ -227,7 +227,7 @@ void TOTrapSeabed01::draw() {
         set_depth_buffer_settings_3();
         set_draw_list_mask(1);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(TOTrapSeabed01__texture_file);
+        TObjFish::set_global_param(trap_seabed01_texture_file);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -256,7 +256,7 @@ void TOTrapSeabed01::draw_object_tree(NJS_OBJECT *object) {
         if (!(flags & 8)) {
             if (projected != 0) {
                 setup_particle_tev(0);
-                TObjFish::set_global_param(TOTrapSeabed01__texture_file);
+                TObjFish::set_global_param(trap_seabed01_texture_file);
                 load_projection_tex_matrix(0x38E);
                 draw_ginja_model((void *)object->model);
                 reset_particle_tev();
@@ -273,10 +273,10 @@ void TOTrapSeabed01::draw_object_tree(NJS_OBJECT *object) {
 }
 
 void TOTrapSeabed01::render_effect_layers() {
-    TObjFish::set_global_param(TOTrapSeabed01__texture_file);
+    TObjFish::set_global_param(trap_seabed01_texture_file);
     if (actor_frame_tick != lbl_805D681C) {
-        if (TOTrapSeabed01__ginja_model != NULL && seabed01_ginja_mesh_index != -1) {
-            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(TOTrapSeabed01__ginja_model->model), 0, -20, seabed01_ginja_mesh_index, 1);
+        if (trap_seabed01_ginja_model != NULL && seabed01_ginja_mesh_index != -1) {
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(trap_seabed01_ginja_model->model), 0, -20, seabed01_ginja_mesh_index, 1);
             PPCSync();
         }
         lbl_805D681C = actor_frame_tick;
@@ -304,7 +304,7 @@ void TOTrapSeabed01::render_effect_layers() {
 // The model node callback of render_effect_layers: the glowing node draws
 // with the effect render state.
 void TOTrapSeabed01::trigger_by_id(NJS_OBJECT *node) {
-    if (node == TOTrapSeabed01__ginja_model) {
+    if (node == trap_seabed01_ginja_model) {
         TParticleCtrl::begin_effect_render();
     } else {
         TParticleCtrl::end_effect_render();
@@ -383,12 +383,12 @@ void TOTrapSeabed01::play_sounds() {
     TObjChipSpawnParams params;
     SeabedTrapFragmentSpawn *fragment;
     s32 i;
-    TObjChip::copy_transform(&params, const_cast<TObjChipParams *>(&TOTrapSeabed01__transform_params));
-    params.chip.textures = TOTrapSeabed01__texture_file;
+    TObjChip::copy_transform(&params, const_cast<TObjChipParams *>(&trap_seabed01_transform_params));
+    params.chip.textures = trap_seabed01_texture_file;
     for (i = 0; i < 6; i++) {
         fragment = &seabed_trap_fragment_spawns[i];
         VecCopy(&params.chip.pos, &fragment->pos);
-        params.chip.model = get_bml_model(TOTrapSeabed01__bml_resource, fragment->model);
+        params.chip.model = get_bml_model(trap_seabed01_bml_resource, fragment->model);
         params.angle_y = fragment->angle_y;
         new TObjSuisoChip(this, &params);
         Vec v = params.chip.pos;

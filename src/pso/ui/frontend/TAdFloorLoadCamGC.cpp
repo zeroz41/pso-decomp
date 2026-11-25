@@ -19,7 +19,6 @@ struct Cam_8034BE5C {
     Vec up;
 };
 
-extern "C" {
 const char *lbl_805D4340 = "TAdFloorLoadCamGC";
 extern const f32 lbl_805DFDB8;
 
@@ -28,7 +27,6 @@ void fn_8034BE38(void* p) { *(u32*)((char*)p + 0x334) &= 0xbfffffff; }
 void fn_8034BE48(void* p) { *(u32*)((char*)p + 0x334) |= 0x40000000; }
 void TAdFloorLoadCamGC::render() {  }
 
-extern "C" {
 extern const f32 lbl_805DFDA8 = 182.04445f;
 extern const f32 lbl_805DFDAC = -0.1f;
 extern const f32 lbl_805DFDB0 = 1.2f;
@@ -36,7 +34,6 @@ extern const f32 lbl_805DFDB4 = 100.0f;
 extern const f32 lbl_805DFDB8 = 0.0f;
 extern const f32 lbl_805DFDBC = 99.3f;
 extern const f32 lbl_805DFDC0 = 0.4f;
-}
 #pragma push
 #pragma fp_contract on
 void TAdFloorLoadCamGC::run_task() {
@@ -91,7 +88,6 @@ void TAdFloorLoadCamGC::run_task() {
 }
 #pragma pop
 
-}
 TAdFloorLoadCamGC::~TAdFloorLoadCamGC() {
     TCameraCtrl::reset_up_vector();
 }

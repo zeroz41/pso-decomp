@@ -5,14 +5,14 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx/GeoTypes.h>
 
 class TParticleCtrl;
 class TObjEneEpsilonBody;
 
-// The guard's tuning values (TObjEneEpsilonGuard__movement_params, from the
+// The guard's tuning values (epsilon_guard_movement_params, from the
 // shared handler table, entry 0x24).
 struct TObjEneEpsilonGuardParams {
     f32 orbit_radius;        // around the body (set_orbit_destination)
@@ -64,7 +64,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     s32 flags;                 // state bits; bit 4 while it follows the body
     u16 body_id;               // entity id of the TObjEneEpsilonBody that spawned it
     u8 pad_472[0x4A];
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     static TObjEneEpsilonGuard *create(TObjEneEpsilonBody *body, s32 entity_id, s32 set_index, const Vec *pos, s32 angle);
     void init_model_and_state();
     static s32 create_damage_font(s32 pos, s32 color, s32 life, s32 damage);
@@ -92,6 +92,6 @@ LAYOUT_ASSERT(TObjEneEpsilonGuard_size, sizeof(TObjEneEpsilonGuard) == 0x4D8);
 extern player_stats *epsilon_guard_boss_stat_handle;
 extern AttackParams *epsilon_guard_shared_handler_b;
 extern ActorParamBlock *epsilon_guard_registered_object_handle;
-extern TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
+extern TObjEneEpsilonGuardParams *epsilon_guard_movement_params;
 
 #endif

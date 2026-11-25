@@ -8,7 +8,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 
 void TAdLicAgreementGC::render() {
@@ -25,7 +24,6 @@ void TAdLicAgreementGC::run_task() {
 }
 
 
-}
 TAdLicAgreementGC::~TAdLicAgreementGC() {
 
 }

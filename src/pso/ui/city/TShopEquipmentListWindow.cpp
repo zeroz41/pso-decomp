@@ -189,7 +189,7 @@ s32 TShopEquipmentListWindow::check_purchase_eligibility() {
         return 0;
     }
     i = this->item_list->get_cursor_value();
-    if (this->stock[i].data2.price > obj_getPtr2B0_20((u8 *)this->player)) {
+    if (this->stock[i].data2.price > get_actor_meseta((u8 *)this->player)) {
         return 0;
     }
     r = &this->stock[i];

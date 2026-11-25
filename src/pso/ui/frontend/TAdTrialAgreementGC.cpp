@@ -18,7 +18,7 @@
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
-#include "pso/ui/TUnk_804EE458.h"
+#include "pso/ui/TTitleMenu.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
@@ -34,7 +34,6 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #pragma readonly_strings on
 
-extern "C" {
 
 
 void TAdTrialAgreementGC::render() {
@@ -52,9 +51,7 @@ loop_1:
     }
 }
 
-}
 
-extern "C" {
 
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
 
@@ -84,7 +81,6 @@ void TAdTrialAgreementGC::run_task() {
     update_state();
 }
 
-}
 TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 
 }

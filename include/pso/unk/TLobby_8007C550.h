@@ -4,13 +4,13 @@
 #include "types.h"
 
 extern "C" {
-u16 TAdSinglePlyChrSelectGC__sub_8007C584(void *self, u16 x);
+u16 subtractive_rng_range(void *self, u16 x);
 s32 __ct__14SubtractiveRngFv(void *rng);
 }
 
 // --- C functions defined in TLobby_8007C550.cpp ---
 extern "C" {
-u16 TAdSinglePlyChrSelectGC__sub_8007C584(void *self, u16 x);
+u16 subtractive_rng_range(void *self, u16 x);
 s32 __ct__14SubtractiveRngFv(void *rng);
 }
 // --- end of C functions

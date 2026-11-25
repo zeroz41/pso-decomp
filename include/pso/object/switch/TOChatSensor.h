@@ -7,20 +7,16 @@
 struct TOChatSensor : public TObjBase {
     TOChatSensor(TObject *parent, void *arg2);
     virtual ~TOChatSensor();
-    u32 m_90;
+    u32 kind;         // rotation_x: 0 runs a quest script when the phrase is said, 1 sets a floor switch
     u16 id;
     u8 unk_96[0x2];
-    u32 m_98;
-    u8 unk_9C[0x4];
-    u32 m_a0;
-    u8 unk_A4[0x4];
-    u16 m_a8;
-    u8 unk_AA[0xA];
-    s32 m_b4;
-    u8 unk_B8[0xC];
-    uaddr m_c4;
-    u32 m_c8;
-    u32 m_cc;
+    u32 match_mode;   // rotation_y: 0 needs the trigger text, 1 any chat message
+    f32 range_squared;  // scale.x squared: how near the local player must stand
+    s32 player_inside;  // 1 while the local player is in range
+    char trigger_text[0x20];  // the phrase (ChatSensor.prs text, first line)
+    uaddr script_thread;  // the quest script thread it started
+    u32 state;            // 0 listening, 1 its script is running
+    u32 text_index;       // set_params[1]: which ChatSensor.prs text (1-based), 0 none
     static void dispatch_chat_message_to_children(saddr arg0);
     static void destroy_global();
     void check_player_proximity();

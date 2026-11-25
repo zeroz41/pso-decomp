@@ -27,6 +27,7 @@ public:
     f32 height;          // 0x34: drawn height, held lower near craters
     s32 v2_mode;         // 0x38: TObjEneDD::check_v2_mode() at creation; picks the material override in render
     s32 no_hold;         // 0x3C: the mounds it leaves sink at once instead of holding 30 frames
+    static const char *name;
 };
 LAYOUT_ASSERT(TObjBoss1MokoHill_SoloM_size, sizeof(TObjBoss1MokoHill_SoloM) == 0x40);
 

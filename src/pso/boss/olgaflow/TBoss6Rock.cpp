@@ -3,8 +3,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 // Compiled -inline off,deferred: the functions are written from the last
-// (0x80354B18 load_resources) back to the first (0x803537D4), so CodeWarrior
-// emits them in address order and the TUnk_804F1280 vtable before TBoss6Rock's.
+// (load_resources) back to the first, so CodeWarrior
+// emits them in address order and the TBoss6RockMarker vtable before TBoss6Rock's.
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include <stdlib.h>
@@ -13,7 +13,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
-#include "pso/boss/TUnk_804F1280.h"
+#include "pso/boss/TBoss6RockMarker.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -55,14 +55,10 @@ BmlResource *boss6_rock_resource;        // model resource
 NJS_TEXLIST *boss6_rock_texture_list;   // texture list
 TBoss6Type2 *boss6_rock_owner;        // the owner; NULL makes every rock go away
 s32 boss6_rock_damage;                              // damage of a landing rock
-TBoss6Rock *TBoss6Rock__instance_table[32];
-Vec TBoss6Rock__rock_point_table[32];
+TBoss6Rock *TBoss6Rock::instance_table[32];
+Vec TBoss6Rock::rock_point_table[32];
 
 /* One ring of rock points around the arena centre. */
-struct RockRing {
-    f32 radius;
-    s32 count;
-};
 
 void TBoss6Rock::load_resources() {
     BmlResource *resource;
@@ -75,7 +71,7 @@ void TBoss6Rock::load_resources() {
     }
     init_rock_points();
     for (i = 0; i < 32; i++) {
-        TBoss6Rock__instance_table[i] = NULL;
+        TBoss6Rock::instance_table[i] = NULL;
     }
     boss6_rock_damage = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[3];
     if (boss6_rock_damage < 1) {
@@ -102,7 +98,7 @@ void TBoss6Rock::create_rock_pool(TBoss6Type2 *owner) {
     }
     boss6_rock_owner = owner;
     for (i = 0; i < 32; i++) {
-        TBoss6Rock__instance_table[i] = create(i);
+        TBoss6Rock::instance_table[i] = create(i);
     }
 }
 
@@ -121,7 +117,7 @@ TBoss6Rock *TBoss6Rock::create(s32 index) {
 TBoss6Rock::TBoss6Rock(TObject *parent, s32 index) : TObjCollidable(parent) {
     m_name = class_name;
     rock_index = index;
-    VecCopy(&rock_point, &TBoss6Rock__rock_point_table[rock_index]);
+    VecCopy(&rock_point, &TBoss6Rock::rock_point_table[rock_index]);
     next_kind_index = 0;
     kind_index = 0;
     next_fast_fall = 0;
@@ -138,7 +134,7 @@ TBoss6Rock::~TBoss6Rock() {
         spawn_crush_rocks(&rock_point, kind_index);
     }
     release_object();
-    TBoss6Rock__instance_table[rock_index] = NULL;
+    TBoss6Rock::instance_table[rock_index] = NULL;
 }
 
 void TBoss6Rock::run_task() {
@@ -179,7 +175,7 @@ void TBoss6Rock::draw_model() {
         return;
     }
     if (marker != NULL) {
-        if (TBoss6PlotFalz__sub_802AB6CC(&position, boss6_rock_kind_params[kind_index].radius - 3.0f) != 0) {
+        if (boss6_sphere_blocks_player_view(&position, boss6_rock_kind_params[kind_index].radius - 3.0f) != 0) {
             return;
         }
     }
@@ -263,7 +259,7 @@ void TBoss6Rock::push_out_players(s32 landed) {
     }
     for (i = 0; i < count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_active((TObjPlayer *)player) == 0) {
+        if (TBoss6PlotFalz::is_active(player) == 0) {
             continue;
         }
         VecCopy(&d, &player->position);
@@ -311,7 +307,7 @@ void TBoss6Rock::init_rock_points() {
             Vec p = boss6_arena_center;
             p.x += r * sin_table_lookup(angle);
             p.z += r * cos_table_lookup(angle);
-            VecCopy(&TBoss6Rock__rock_point_table[n], &p);
+            VecCopy(&TBoss6Rock::rock_point_table[n], &p);
             angle += step;
             n++;
         }
@@ -322,7 +318,7 @@ const RockKindParams *TBoss6Rock::get_rock_entry(s32 i) {
     if (i < 0 || i >= 32) {
         return NULL;
     }
-    return &boss6_rock_kind_params[TBoss6Rock__instance_table[i]->kind_index];
+    return &boss6_rock_kind_params[TBoss6Rock::instance_table[i]->kind_index];
 }
 
 void TBoss6Rock::randomize_motion() {
@@ -364,7 +360,7 @@ void TBoss6Rock::set_rock_target(s32 i, s32 a, s32 b) {
     if (i < 0 || i >= 32) {
         return;
     }
-    rock = TBoss6Rock__instance_table[i];
+    rock = TBoss6Rock::instance_table[i];
     if (rock != NULL) {
         rock->command = 2;
         rock->next_kind_index = a;
@@ -377,7 +373,7 @@ void TBoss6Rock::clear_rock_state(s32 i) {
     if (i < 0 || i >= 32) {
         return;
     }
-    rock = TBoss6Rock__instance_table[i];
+    rock = TBoss6Rock::instance_table[i];
     if (rock != NULL) {
         rock->command = 0;
     }
@@ -388,7 +384,7 @@ void TBoss6Rock::reset_rock_state(s32 i) {
     if (i < 0 || i >= 32) {
         return;
     }
-    rock = TBoss6Rock__instance_table[i];
+    rock = TBoss6Rock::instance_table[i];
     if (rock == NULL || rock->fall_state != 2) {
         return;
     }
@@ -400,7 +396,7 @@ s32 TBoss6Rock::is_rock_valid(s32 i) {
     if (i < 0 || i >= 32) {
         return 0;
     }
-    rock = TBoss6Rock__instance_table[i];
+    rock = TBoss6Rock::instance_table[i];
     if (rock == NULL) {
         return 0;
     }
@@ -412,7 +408,7 @@ s32 TBoss6Rock::is_rock_state_2(int i) {
     if (i < 0 || i >= 32) {
         return 0;
     }
-    rock = TBoss6Rock__instance_table[i];
+    rock = TBoss6Rock::instance_table[i];
     if (rock == NULL) {
         return 0;
     }
@@ -423,7 +419,7 @@ s32 TBoss6Rock::get_point(s32 i, Vec *out, f32 *radius) {
     if (is_rock_valid(i) == 0) {
         return 0;
     }
-    VecCopy(out, &TBoss6Rock__rock_point_table[i]);
+    VecCopy(out, &TBoss6Rock::rock_point_table[i]);
     *radius = get_rock_entry(i)->radius;
     return 1;
 }
@@ -438,7 +434,7 @@ s32 TBoss6Rock::push_out_of_rocks(Vec *point, f32 r) {
     for (i = 0; i < 32; i++) {
         f32 d;
         VecCopy(&v, point);
-        subtract_vector(&v, &TBoss6Rock__rock_point_table[i]);
+        subtract_vector(&v, &TBoss6Rock::rock_point_table[i]);
         v.y = y;
         d = vector_length(&v);
         if (!(d >= lim)) {
@@ -463,7 +459,7 @@ void TBoss6Rock::break_rocks_in_radius(Vec *point, f32 r) {
         kind = get_rock_entry(i);
         if (kind != NULL && is_rock_state_2(i) != 0 && !(point->y > r + kind->height)) {
             f32 lim = r + kind->radius;
-            VecCopy(&v, &TBoss6Rock__rock_point_table[i]);
+            VecCopy(&v, &TBoss6Rock::rock_point_table[i]);
             subtract_vector(&v, point);
             v.y = 0.0f;
             if (vector_length(&v) <= lim) {
@@ -494,7 +490,7 @@ s32 TBoss6Rock::get_push_target(s32 i, Vec *out, f32 *radius) {
     r = kind->radius;
     VecCopy(&a, (Vec *)&boss6_rock_owner->position);
     a.y = 0.0f;
-    VecCopy(&b, &TBoss6Rock__rock_point_table[i]);
+    VecCopy(&b, &TBoss6Rock::rock_point_table[i]);
     VecCopy(&c, &b);
     subtract_vector(&c, &a);
     d = vector_length(&c);
@@ -522,26 +518,26 @@ NJS_TEXLIST *TBoss6Rock::get_texture_list() {
     return boss6_rock_texture_list;
 }
 
-TUnk_804F1280 *TBoss6Rock::create() {
-    return new TUnk_804F1280(tl_06);
+TBoss6RockMarker *TBoss6Rock::create() {
+    return new TBoss6RockMarker(tl_06);
 }
 
-TUnk_804F1280::TUnk_804F1280(TObject *parent) : TObject(parent) {
+TBoss6RockMarker::TBoss6RockMarker(TObject *parent) : TObject(parent) {
     enabled = 0;
 }
 
-TUnk_804F1280::~TUnk_804F1280() {
+TBoss6RockMarker::~TBoss6RockMarker() {
 }
 
-void TUnk_804F1280::run_task() {
+void TBoss6RockMarker::run_task() {
     if (TBoss6Rock::is_active() == 0) {
         enabled = 0;
         queue_destruction();
     }
 }
 
-void TUnk_804F1280::render() {
-    if (enabled != 0 && TBoss6PlotFalz__sub_802AB6CC(&position, radius - 3.0f) != 0) {
+void TBoss6RockMarker::render() {
+    if (enabled != 0 && boss6_sphere_blocks_player_view(&position, radius - 3.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -555,7 +551,7 @@ void TUnk_804F1280::render() {
     }
 }
 
-void TUnk_804F1280::set_target(s32 enabled, Vec *position, s32 *rotation, s32 texlist, s32 model, f32 radius) {
+void TBoss6RockMarker::set_target(s32 enabled, Vec *position, s32 *rotation, s32 texlist, s32 model, f32 radius) {
     this->enabled = enabled;
     if (this->enabled != 0) {
         VecCopy(&this->position, position);

@@ -108,10 +108,10 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(0, -1);
-    fn_8026C708((u8 *)r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), (f32)scale, (f32)self->arrow_offset);
-    fn_8026C664((u8 *)r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), (f32)scale, (f32)self->arrow_offset);
+    fn_8026C708((u8 *)r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
+    fn_8026C664((u8 *)r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), scale, (f32)self->arrow_offset);
     TWindowSubStatusDisp::get_player();
-    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(r), 0, 1, (f32)scale, (f32)1e+05f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(r), 0, 1, scale, (f32)1e+05f);
     text_builder_reset();
     text_builder_append_int(self->page + 1);
     pos.x -= (f32)calc_text_width(reinterpret_cast<char *>(get_shared_text_buffer()));

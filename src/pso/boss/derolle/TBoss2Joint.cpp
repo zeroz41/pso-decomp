@@ -2,7 +2,7 @@
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/boss/derolle/TBoss2Joint.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/boss/TUnk_80482C58.h"
+#include "pso/boss/TBoss2DeRolLeLaserTrail.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
@@ -12,17 +12,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
-extern "C" {
-}
-
-// The movement parameters init_params installs.
-struct TBoss2JointMovement {
-    f32 pad_0;
-    s32 pad_4;
-    s32 pad_8;
-    s32 pad_c[4];
-};
-
 // The colour a flash fades back to (update_flash_color reads r, g and b).
 static const NJS_ARGB joint_base_color = {1.0f, 1.0f, 1.0f, 1.0f};
 // The colours start_flash fades from: [0] a hit on the shell, [1] a photon pad spawning at the joint.
@@ -30,7 +19,7 @@ static const NJS_ARGB TBoss2Joint__joint_offset_vec4_table[2] = {
     {1.0f, 0.0f, 1.0f, 1.0f},
     {1.0f, 0.0f, 1.0f, 0.0f},
 };
-const char *TBoss2Joint__name = "TBoss2Joint";
+const char *TBoss2Joint::name = "TBoss2Joint";
 static const u32 joint_white_rgb = 0x00FFFFFF;
 
 // Lobby stat ids, [0] for the intact shell and [1] for the broken one: register_boss,
@@ -38,8 +27,8 @@ static const u32 joint_white_rgb = 0x00FFFFFF;
 __declspec(section ".data") s32 TBoss2Joint__param_table[2] = {0x10, 0x10};
 __declspec(section ".data") s32 TBoss2Joint__attack_stats[2] = {0xF, 0xF};
 __declspec(section ".data") s32 TBoss2Joint__resistance_stats[2] = {0x10, 0x10};
-TBoss2JointMovement TBoss2Joint__movement = {225.0f, 0, 0x600};
-CollisionBody TBoss2Joint__body = {{0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, 0, 0x8003};
+BossMovementParameters TBoss2Joint::movement = {{225.0f, 0.0f, 0x600}};
+CollisionBody TBoss2Joint::body = {{0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, 0, 0x8003};
 
 void TBoss2Joint::render() {}
 void TBoss2Joint::handle_state_0(s32 reason) {}
@@ -178,7 +167,7 @@ void TBoss2Joint::run_task() {
             dispatch_action(mode, 3);
         }
         dispatch_action(mode, 0);
-        sub_800BBA0C();
+        save_mode();
         update_flash_color();
         update_position_history();
         update_body_colliders();
@@ -197,13 +186,13 @@ void TBoss2Joint::init_params() {
     init_position_vectors();
     model = NULL;
     texlist = 0;
-    init_model(&TBoss2Joint__body, 1);
+    init_model(&TBoss2Joint::body, 1);
     reset_hp(TLobby::register_boss(TBoss2Joint__param_table[0]), TLobby::dispatch_shared_handler_b(TBoss2Joint__attack_stats[0]),
              TLobby::register_object(TBoss2Joint__resistance_stats[0]));
     hp = 0x4E20;
     hpmax = 0x4E20;
     set_state_flag_2();
-    movementParameters = &TBoss2Joint__movement;
+    movementParameters = &TBoss2Joint::movement;
     referenceHp = hpmax;
     wall_reach = 3.0f;
     clear_intangible();
@@ -221,7 +210,7 @@ void TBoss2Joint::init_params() {
 TBoss2Joint::TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, saddr body_material,
                          saddr rim_material)
     : TObjEneDD(parent) {
-    m_name = TBoss2Joint__name;
+    m_name = TBoss2Joint::name;
     init_common_from(static_cast<TObjBase *>(parent));
     this->entity_id = entity_id;
     this->set_index = set_index;
@@ -240,7 +229,7 @@ void TBoss2Joint::apply_movement_ailment(s32) {}
 void TBoss2Joint::apply_shock_status() {}
 void TBoss2Joint::clear_harmful_statuses() {}
 
-void TUnk_80482C58::run_task() {
+void TBoss2DeRolLeLaserTrail::run_task() {
     if (m_particle == NULL) {
         m_particle = spawn_continuous_particle_effect_with_flags(m_points, m_effect_id, 0x40);
         if (m_particle != NULL) {

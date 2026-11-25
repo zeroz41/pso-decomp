@@ -17,7 +17,7 @@ s32 player_control_role_base;
 s32 designated_client_id;
 s32 lbl_805D53B0;
 
-void Obj_80515BA0::init_range(s32 floor) {
+void FloorTransition::init_range(s32 floor) {
     current_floor = floor;
     f8 = floor + 1;
     next_floor = floor + 1;

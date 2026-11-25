@@ -2,13 +2,13 @@
 #define PSO_ENEMY_SHARK_TOBJENESHARK_H
 
 #include "types.h"
-#include "pso/enemy/TUnk_80493450.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/render/RenderFadeState.h"
 
 class TAttackTraceStrip;
 
-class TObjEneShark : public TUnk_80493450 {
+class TObjEneShark : public TObjEneBeastBase {
 public:
     TObjEneShark(TObject *parent, void *setData);
     virtual ~TObjEneShark();
@@ -26,7 +26,7 @@ public:
     void sub_800AC9DC(s32);
     void apply_clamped_mode_param();
 
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     TAttackTraceStrip *attack_trails[2];  // fed the sampled attack-motion points by update_attack_trail
     RenderFadeState camera_fades[4];
 };

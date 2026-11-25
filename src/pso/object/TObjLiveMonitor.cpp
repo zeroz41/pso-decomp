@@ -38,7 +38,7 @@ s32 TObjLiveCameraCtrl::next_slot;
 TObjLiveCameraCtrl *TObjLiveCameraCtrl::instances[1];
 extern "C" {
 s32 live_monitor_small_spawned_flag;
-u8 TObjLiveMonitorSmall__fish_spawned_flag;
+u8 live_monitor_small_fish_spawned_flag;
 const char *bm_obj_boss8_monitor_model_names[4] = {
     "fe_obj_monitor_sho.gj",
     "fe_obj_monitor_dai.gj",
@@ -49,10 +49,10 @@ const char *bm_obj_boss8_monitor_motion_names[1] = {NULL};
 BmlResourceDescriptor bm_obj_boss8_monitor_resource_descriptor = {
     "bm_obj_boss8_monitor.bml", bm_obj_boss8_monitor_model_names, bm_obj_boss8_monitor_motion_names, 3, 0,
 };
-const char *TObjLiveCameraCtrl__class_name = "TObjLiveCameraCtrl";
-const char *TObjLiveCamera__class_name = "TObjLiveCamera";
-const char *TObjLiveMonitor__name = "TObjLiveMonitor";
-const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
+const char *live_camera_ctrl_class_name = "TObjLiveCameraCtrl";
+const char *live_camera_class_name = "TObjLiveCamera";
+const char *live_monitor_name = "TObjLiveMonitor";
+const char *live_monitor_small_name = "TObjLiveMonitorSmall";
 }
 // The id each camera slot passes to its TLiveCameraView.
 const s32 live_camera_view_ids[2] = { 0xF44E8, 0xF44E9 };
@@ -85,7 +85,7 @@ TObjLiveCameraCtrl *TObjLiveCameraCtrl::get_instance(s32 slot) {
 
 TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
     s32 n;
-    m_name = TObjLiveCameraCtrl__class_name;
+    m_name = live_camera_ctrl_class_name;
     n = next_slot;
     instances[n] = this;
     next_slot = n + 1;
@@ -214,7 +214,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
     if (--shot_frames > 0) {
         return;
     }
-    r = calc_random_ratio__10TObjPlayerFv(&rng);
+    r = rng.next_ratio();
     if (r < 0.3f) {
         shot = SHOT_PLAYER_ORBIT;
     } else if (r < 0.4f) {
@@ -228,14 +228,14 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
     case SHOT_NONE:
         break;
     case SHOT_PLAYER_ORBIT:
-        shot_frames = 180.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 180.0f;
+        shot_frames = 180.0f * rng.next_ratio() + 180.0f;
         target_id = get_player_target();
-        orbit_angle = 65535.0f * calc_random_ratio__10TObjPlayerFv(&rng);
-        orbit_speed = 2.0f * (80.0f * (calc_random_ratio__10TObjPlayerFv(&rng) - 0.5f));
-        height_offset = 15.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 5.0f;
+        orbit_angle = 65535.0f * rng.next_ratio();
+        orbit_speed = 2.0f * (80.0f * (rng.next_ratio() - 0.5f));
+        height_offset = 15.0f * rng.next_ratio() + 5.0f;
         break;
     case SHOT_BEHIND_PLAYER:
-        shot_frames = 180.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 180.0f;
+        shot_frames = 180.0f * rng.next_ratio() + 180.0f;
         target_id = get_player_target();
         subject = get_player_by_client_id(target_id);
         if (subject != NULL) {
@@ -243,7 +243,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         }
         break;
     case SHOT_BEHIND_BOSS:
-        shot_frames = 150.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 150.0f;
+        shot_frames = 150.0f * rng.next_ratio() + 150.0f;
         target_id = get_boss_target();
         subject = (TObjBase *)get_enemy_entity(target_id);
         if (subject != NULL) {
@@ -251,8 +251,8 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         }
         break;
     case SHOT_ARENA:
-        shot_frames = 120.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 120.0f;
-        orbit_angle = 65535.0f * calc_random_ratio__10TObjPlayerFv(&rng);
+        shot_frames = 120.0f * rng.next_ratio() + 120.0f;
+        orbit_angle = 65535.0f * rng.next_ratio();
         eye.x = 360.0f * sin_table_lookup(orbit_angle);
         eye.y = 250.0f;
         eye.z = 360.0f * cos_table_lookup(orbit_angle);
@@ -299,7 +299,7 @@ void *TObjLiveCamera::create(void *set_data) {
 }
 
 TObjLiveCamera::TObjLiveCamera(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjLiveCamera__class_name;
+    m_name = live_camera_class_name;
     apply_object_set_data(set_data);
 }
 
@@ -320,7 +320,7 @@ void *TObjLiveMonitor::create(TObject *parent) {
 }
 
 TObjLiveMonitor::TObjLiveMonitor(TObject *parent) : TObject(parent) {
-    m_name = TObjLiveMonitor__name;
+    m_name = live_monitor_name;
     model = get_bml_model(live_monitor_shared_resource, 1);
     texlist = get_bml_texlist(live_monitor_shared_resource, 0);
     screen = 5;
@@ -412,9 +412,9 @@ int TObjLiveMonitor::render_live_monitor_screen() {
 s32 TObjLiveMonitorSmall::spawn_all(TObject *parent) {
     NJS_OBJECT *node;
 
-    if ((s8) TObjLiveMonitorSmall__fish_spawned_flag == 0) {
+    if ((s8) live_monitor_small_fish_spawned_flag == 0) {
         live_monitor_small_spawned_flag = 1;
-        TObjLiveMonitorSmall__fish_spawned_flag = 1;
+        live_monitor_small_fish_spawned_flag = 1;
     }
     node = get_bml_model(live_monitor_shared_resource, 0)->child;
     while (node != NULL) {
@@ -427,7 +427,7 @@ s32 TObjLiveMonitorSmall::spawn_all(TObject *parent) {
 }
 
 TObjLiveMonitorSmall::TObjLiveMonitorSmall(TObject *parent, NJS_OBJECT *model) : TObjLiveMonitor(parent) {
-    m_name = TObjLiveMonitorSmall__name;
+    m_name = live_monitor_small_name;
     this->model = model;
 }
 

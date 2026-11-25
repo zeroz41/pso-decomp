@@ -7,14 +7,14 @@ struct NJS_POINT2;
 #include <stddef.h>
 #include "pso/ui/window/TWindowBase.h"
 
-class TUnk_804CF9C8;
+class TWindowLayoutNumber;
 
 struct TWindowInputNumber : public TWindowBase {
     s32 is_locked(s32);
     s32 test_input_flag(s32 buttons);
     void refresh_digit_entries();
     void align_digits();
-    void draw_arrows(WindowDrawContext *context, TUnk_804CF9C8 *digit, int confirmed);
+    void draw_arrows(WindowDrawContext *context, TWindowLayoutNumber *digit, int confirmed);
     virtual void render();
     u16 inputFlags;
     s8 digitCount;

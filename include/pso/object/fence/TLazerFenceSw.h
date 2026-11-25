@@ -13,6 +13,12 @@ struct TLazerFenceSw : public TOKey {
     virtual void debug_draw_key_id();
     virtual void update_switch_off();
     virtual void update_switch_on();
+    u16 color_slot;             // the beams' texture slot, picked by set param 2 ("SELECT COLOR")
+    u16 pad_EA;
+    f32 switch_frame;           // motion frame of the switch's own model
+    CameraDistanceFade distance_fade;  // fades the fence out in split screen
+    f32 uv_scroll;              // beam texture scroll, 0.2 a frame
+    u32 last_scroll_tick;       // actor_frame_tick of the last scroll
     void draw_laser_beam();
     void render();
     void run_task();
@@ -20,13 +26,6 @@ struct TLazerFenceSw : public TOKey {
     static void load_resources();
 
     static const char *class_name;
-
-    u16 color_slot;  // the beams' texture slot, picked by set param 6 ("SELECT COLOR")
-    u8 pad_ea[2];
-    f32 switch_frame;  // the frame of the switch body's motion
-    CameraDistanceFade distance_fade;
-    f32 uv_scroll;       // grows 0.2 a frame; whole steps scroll the beam texture
-    u32 uv_scroll_tick;  // actor_frame_tick of the last scroll
 };
 
 LAYOUT_ASSERT(TLazerFenceSw_size, sizeof(TLazerFenceSw) == 0x118);

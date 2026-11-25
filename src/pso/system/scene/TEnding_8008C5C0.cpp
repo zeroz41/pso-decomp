@@ -33,7 +33,7 @@
 
 extern "C" {
 extern const char TEnding__class_name_string[] = "TEnding";
-s32 TKeyBoardControl__sub_8000F92C();
+s32 switch_to_fallback_main_phase();
 void request_main_phase(s32 arg0);
 }
 void create_player_ending_motion(void);
@@ -86,7 +86,7 @@ void run_game_frame(void) {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::noop();
     if (static_cast<s8>(func_801A5E54()) != 0) {
-        TKeyBoardControl__sub_8000F92C();
+        switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         var_r3 = NULL;
@@ -112,7 +112,7 @@ void TEnding::start_ending_scene() {
     set_active_camera_pose(&a, &b);
     clear_resource_load_tasks();
     run_load_callback_table(ending_scene_callbacks, sizeof(ending_scene_callbacks));
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     set_queued_main_phase(2);
     play_area_music("ending.adx");
     TParticleCtrl::create_quad_sprites();

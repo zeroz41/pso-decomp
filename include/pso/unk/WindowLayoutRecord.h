@@ -43,7 +43,7 @@ struct TextLayoutRecord {
     const char *text;
 };
 
-// Types 4 and 5 (0x1C bytes), read by the TUnk_804CF9C8 and TUnk_804CF9E0
+// Types 4 and 5 (0x1C bytes), read by the TWindowLayoutNumber and TWindowLayoutCountingNumber
 // constructors.
 struct ValueLayoutRecord {
     s32 type;
@@ -104,8 +104,8 @@ struct PointLayoutRecord {
 // TWindowBase::sub_80244F2C: layout goes to init_window_layout_entries, flags bits 1/2/0x20
 // select rendering and the open sound.
 struct WindowDescriptor {
-    f32 pad_00[2];
-    f32 pad_08;
+    f32 size[2];
+    f32 sort_depth;
     const void *layout;
     u32 flags;
 };

@@ -35,17 +35,17 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/derolle/RandomAngle.h"
 
-// Unit-owned .bss banks (0x80541528-0x80541928), defined in address order: the tentacle's working
-// copy of its model nodes 0x310, segment_offsets +0x310 (0xA8), needle_offsets +0x3B8 (0x38).
+// Unit-owned .bss banks, defined in memory order: the tentacle's working copy of its model nodes,
+// then segment_offsets and needle_offsets.
 // Defined in this unit (as in the twin TBoss2Tentacle) so the code hoists their base into r31.
 NJS_OBJECT boss7_tentacle_model_nodes[14];
-Vec TBoss7Tentacle__segment_offsets[14];
-u32 TBoss7Tentacle__needle_offsets[14];
+Vec TBoss7Tentacle::segment_offsets[14];
+u32 TBoss7Tentacle::needle_offsets[14];
 AnimationMotion *boss7_tentacle_needle_motions[4];
 NJS_OBJECT *boss7_tentacle_needle_model;
 
 // Written last-to-first: built with -inline off,deferred, which emits functions in reverse source order
-// (the Needle vtable 0x804E4830 precedes the Tentacle one although every Needle virtual comes first).
+// (the Needle vtable precedes the Tentacle one although every Needle virtual comes first).
 
 void TBoss7Tentacle::load_static_resource() {
     NJS_OBJECT *src;
@@ -66,17 +66,17 @@ void TBoss7Tentacle::load_static_resource() {
     copy_model_node(&dst[1], src->sibling);
     for (i = 0; i < 14; i++) {
         boss7_tentacle_model_nodes[i].evalflags &= ~3;
-        TBoss7Tentacle__segment_offsets[i].x = (f64)boss7_tentacle_model_nodes[i].pos[0];
-        TBoss7Tentacle__segment_offsets[i].y = boss7_tentacle_model_nodes[i].pos[1];
-        TBoss7Tentacle__segment_offsets[i].z = boss7_tentacle_model_nodes[i].pos[2];
-        TBoss7Tentacle__needle_offsets[i] = (u32)boss7_tentacle_model_nodes[i].ang[2];
+        TBoss7Tentacle::segment_offsets[i].x = (f64)boss7_tentacle_model_nodes[i].pos[0];
+        TBoss7Tentacle::segment_offsets[i].y = boss7_tentacle_model_nodes[i].pos[1];
+        TBoss7Tentacle::segment_offsets[i].z = boss7_tentacle_model_nodes[i].pos[2];
+        TBoss7Tentacle::needle_offsets[i] = (u32)boss7_tentacle_model_nodes[i].ang[2];
     }
 }
 
 void TBoss7Tentacle::destroy_instance() {}
 
 TBoss7Tentacle::TBoss7Tentacle(TObject *parent, const f32 (*joint)[4], s32 index) : TObject(parent) {
-    m_name = TBoss7Tentacle__name;
+    m_name = TBoss7Tentacle::name;
     model = TBoss7DeRolLeC::get_archive_model(1);
     motion = get_boss7_motion(0x11);
     this->joint = joint;
@@ -139,8 +139,8 @@ void TBoss7Tentacle::speed_up_sway() {
 void TBoss7Tentacle::init_segments() {
     s32 i;
     for (i = 0; i < 14; i++) {
-        VecCopy(&segment_pos[i], &TBoss7Tentacle__segment_offsets[i]);
-        segment_ang[i] = TBoss7Tentacle__needle_offsets[i];
+        VecCopy(&segment_pos[i], &TBoss7Tentacle::segment_offsets[i]);
+        segment_ang[i] = TBoss7Tentacle::needle_offsets[i];
     }
 }
 
@@ -170,7 +170,7 @@ void TBoss7Tentacle::enter_sway() {
 }
 
 void TBoss7Tentacle::enter_raise() {
-    yaw = TBoss7Tentacle__target_angle_table[index];
+    yaw = TBoss7Tentacle::target_angle_table[index];
     pitch = 0;
 }
 
@@ -180,7 +180,7 @@ void TBoss7Tentacle::enter_turn_to_rest() {
 }
 
 void TBoss7Tentacle::setup_state() {
-    yaw = TBoss7Tentacle__target_angle_table[index];
+    yaw = TBoss7Tentacle::target_angle_table[index];
     pitch = 0x4000;
     attack_phase = 0;
 }
@@ -260,7 +260,7 @@ void TBoss7Tentacle::shape_strike_arc(f32 length) {
         k = 1.0f - w;
         k *= segment_scale;
         for (i = 2; i < 12; i++) {
-            segment_pos[i].x = segment_pos[i].x * w + k * TBoss7Tentacle__segment_offsets[i].x;
+            segment_pos[i].x = segment_pos[i].x * w + k * TBoss7Tentacle::segment_offsets[i].x;
         }
         segment_ang[2] = (s32)(16384.0f * (1.0f - bend) + (f32)segment_ang[2] * w);
         for (i = 3; i < 12; i++) {
@@ -318,7 +318,7 @@ void TBoss7Tentacle::run_task() {
                 attack_phase = 1;
             }
             for (i = 2; i < 12; i++) {
-                segment_pos[i].x = segment_scale * TBoss7Tentacle__segment_offsets[i].x;
+                segment_pos[i].x = segment_scale * TBoss7Tentacle::segment_offsets[i].x;
             }
             segment_ang[2] = 0x4000;
             break;
@@ -372,7 +372,7 @@ void TBoss7Tentacle::run_task() {
     }
     case 4:
         advance_path_position();
-        yaw = approach_angle_limited(yaw, TBoss7Tentacle__target_angle_table[index], 0x80);
+        yaw = approach_angle_limited(yaw, TBoss7Tentacle::target_angle_table[index], 0x80);
         break;
     case 5:
         advance_path_position();

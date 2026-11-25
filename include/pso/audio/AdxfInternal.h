@@ -33,7 +33,7 @@ LAYOUT_ASSERT(AdxfHandleReadDestinationOffset, offsetof(AdxfHandle, read_destina
 
 // The command journal stores raw sector/partition numbers or the native pointer
 // for the recorded command, with one entry for each phase.
-struct LogEnt_803CD16C {
+struct AdxfLogEntry {
     s8 type;
     s8 phase;
     u16 seq;
@@ -52,7 +52,7 @@ struct LogEnt_803CD16C {
     void set_last_argument(void *value) { destination = value; }
 };
 
-struct LogHdr_803CD16C {
+struct AdxfLogHeader {
     u16 reserved;
     u16 open_sequence;
     u16 afs_open_sequence;
@@ -63,15 +63,15 @@ struct LogHdr_803CD16C {
     u8 remaining[0x12];
 };
 
-LAYOUT_ASSERT(AdxfLogEntrySize, sizeof(LogEnt_803CD16C) == 0x10);
-LAYOUT_ASSERT(AdxfLogHandleOffset, offsetof(LogEnt_803CD16C, handle) == 0x4);
-LAYOUT_ASSERT(AdxfLogDestinationOffset, offsetof(LogEnt_803CD16C, destination) == 0xC);
-LAYOUT_ASSERT(AdxfLogHeaderSize, sizeof(LogHdr_803CD16C) == 0x20);
-LAYOUT_ASSERT(AdxfLogSeekSequenceOffset, offsetof(LogHdr_803CD16C, seek_sequence) == 0xC);
+LAYOUT_ASSERT(AdxfLogEntrySize, sizeof(AdxfLogEntry) == 0x10);
+LAYOUT_ASSERT(AdxfLogHandleOffset, offsetof(AdxfLogEntry, handle) == 0x4);
+LAYOUT_ASSERT(AdxfLogDestinationOffset, offsetof(AdxfLogEntry, destination) == 0xC);
+LAYOUT_ASSERT(AdxfLogHeaderSize, sizeof(AdxfLogHeader) == 0x20);
+LAYOUT_ASSERT(AdxfLogSeekSequenceOffset, offsetof(AdxfLogHeader, seek_sequence) == 0xC);
 
 extern "C" {
-extern LogHdr_803CD16C lbl_8057B7B0;
-extern LogEnt_803CD16C lbl_8057B7D0[256];
+extern AdxfLogHeader adxf_log_header;
+extern AdxfLogEntry adxf_log_entries[256];
 extern AdxfHandle adxf_file_handle_pool[16];
 extern AdxfHandle *lobby_adxf_open_file_handle;
 }

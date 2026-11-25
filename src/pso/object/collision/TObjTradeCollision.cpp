@@ -12,7 +12,7 @@
 #pragma readonly_strings on
 
 
-const char *TObjTradeCollision__name = "TObjTradeCollision";
+const char *trade_collision_name = "TObjTradeCollision";
 
 
 extern "C" s32 is_player_outside_trade_radius__18TObjTradeCollisionFUl(TObjTradeCollision *object, u32 client);
@@ -38,7 +38,7 @@ TObjTradeCollision::~TObjTradeCollision() {
 
 
 TObjTradeCollision::TObjTradeCollision(saddr parent, saddr set_data) : TObjCollidable((TObject *)parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TObjTradeCollision__name);
+    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)trade_collision_name);
     ((TObjTradeCollision *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     *(f32 *)((s8 *)this + 0xAC) = (f32) this->scale.x;
     ((TObject *)(((u8 *)this)))->disallow_rendering();

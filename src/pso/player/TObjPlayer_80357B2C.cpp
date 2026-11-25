@@ -10,7 +10,7 @@
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/player/TUnk_804F166C.h"
+#include "pso/player/TMirrorPairParticle.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -115,16 +115,16 @@ void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TUnk_804F166C::update_inward_orbit_point() {
+void TMirrorPairParticle::update_inward_orbit_point() {
     point.x = radius * sin_table_lookup(angle) + center.x;
     point.y = center.y;
     point.z = radius * cos_table_lookup(angle) + center.z;
 }
 #pragma pop
 
-void TUnk_804F166C::render() {  }
+void TMirrorPairParticle::render() {  }
 
-void TUnk_804F166C::run_task() {
+void TMirrorPairParticle::run_task() {
     angle -= 0x1999;
     radius -= 4.0f;
     update_inward_orbit_point();
@@ -138,7 +138,7 @@ void TUnk_804F166C::run_task() {
     queue_destruction();
 }
 
-TUnk_804F166C::~TUnk_804F166C() {
+TMirrorPairParticle::~TMirrorPairParticle() {
     if (particle != NULL) {
         particle->queue_destruction();
     }
@@ -146,7 +146,7 @@ TUnk_804F166C::~TUnk_804F166C() {
 
 #pragma push
 #pragma fp_contract on
-TUnk_804F166C::TUnk_804F166C(TObject *parent, Vec *pos, s32 start_angle) : TObject(parent) {
+TMirrorPairParticle::TMirrorPairParticle(TObject *parent, Vec *pos, s32 start_angle) : TObject(parent) {
     VecCopy(&origin, pos);
     center.x = 5.0f * sin_table_lookup(start_angle) + pos->x;
     center.y = pos->y;
@@ -398,8 +398,8 @@ void spawn_mirror_pair(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase
         spawn_particle_effect(&player->body_center, 0x69);
     }
     if (phase == 1) {
-        new TUnk_804F166C(tl_05, pos, target->rotation_y);
-        new TUnk_804F166C(tl_05, pos, target->rotation_y - 0x8000);
+        new TMirrorPairParticle(tl_05, pos, target->rotation_y);
+        new TMirrorPairParticle(tl_05, pos, target->rotation_y - 0x8000);
     }
 }
 

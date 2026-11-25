@@ -2,14 +2,16 @@
 #define PSO_BOSS_GALGRYPHON_BOSS5GRYPHONBEHAVIOR_H
 
 #include "types.h"
+struct G_GalGryphonBossActions_6xA0;
+struct G_GalGryphonBossActions_6x9F;
 
 struct NJS_OBJECT;
 struct Vec;
 struct NJS_TEXLIST;
 
 struct TBoss5Gryphon;
-void handle_6x9F_gal_gryphon_boss_actions(void *data);
-void handle_6xA0_gal_gryphon_boss_actions(void *data);
+void handle_6x9F_gal_gryphon_boss_actions(G_GalGryphonBossActions_6x9F *packet);
+void handle_6xA0_gal_gryphon_boss_actions(G_GalGryphonBossActions_6xA0 *packet);
 // The follow camera offsets for the Gal Gryphon arena: the running gryphon's flight mode ones,
 // or the default pair before it exists.
 void get_gryphon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset);
@@ -24,10 +26,10 @@ struct Boss5GryphonAttackParams {
     f32 lightning_power;      // apply_lightning_hit
     f32 landing_radius;       // emit_landing_impact
     f32 pad_14;
-    s32 collider_5_value;     // update_body_colliders gives it to bodies[5].unk_28
-    s32 collider_1_4_value;   // bodies[1..4].unk_28
-    s32 collider_0_value;     // bodies[0].unk_28
-    s32 collider_6_9_value;   // bodies[6..9].unk_28
+    s32 body5_defense;     // update_body_colliders gives it to bodies[5].defense
+    s32 body1_4_defense;   // bodies[1..4].defense
+    s32 body0_defense;     // bodies[0].defense
+    s32 body6_9_defense;   // bodies[6..9].defense
     s32 action_level;         // indexes the action probability tables; unlocks scripts and lightning
     s32 pad_2C;
 };

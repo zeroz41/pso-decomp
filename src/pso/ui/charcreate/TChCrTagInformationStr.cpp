@@ -12,13 +12,11 @@ struct TagTextOrigin {
     f32 x, y;
 };
 
-extern "C" {
 const char *TChCrTagInformationStr__class_name = "TChCrTagInformationStr";
 s32 char_creation_tag_info_selected_index = -1;
 
 TChCrTagInformationStr *TChCrTagInformationStr::create(TObject *parent, s32 index) {
     return new TChCrTagInformationStr(parent, index);
-}
 }
 
 // Seven lines of text; while fading in, each line also gets rings of faint copies that close in on it.

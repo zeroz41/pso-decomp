@@ -31,10 +31,10 @@ struct TWindowCtrl : public TObject {
     u16 window_id;
     u8 _pad2A[0x2];
     uaddr m_2c;
-    TWindowTimer *timer;
-    TWindowArea *area;
-    TWindowChat *chat;
-    TWindowGetComCard *get_com_card;
+    TWindowTimer *timer_window;
+    TWindowArea *area_window;
+    TWindowChat *chat_window;
+    TWindowGetComCard *com_card_window;
     TWindowTradeRequest *trade_request;
     TWindowMessageLog *message_log;
     TWindowCtrlPlayer *players[12];

@@ -2,7 +2,7 @@
 #define PSO_ENEMY_EPSILON_TOBJENEEPSILONBODY_H
 #include "types.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 
@@ -100,7 +100,7 @@ public:
     Vec guard_position[4];    // per guard: anchor point, taken from the body's joint each frame (update_guard_anchor) and handed to set_target
     NJS_ARGB color;  // copied from epsilon_body_colors[color_index], written into the guard parts
     NJS_ARGB color_step;  // per-frame step from color toward epsilon_body_colors[color_index] (handle_warp_state)
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     u16 guard_ids[4];  // entity ids of the four TObjEneEpsilonGuard it spawns
     s32 action_step;   // sub-step of the current action
     s32 action_timer;  // frame counter in most actions; the 0..3 phase of action 2 (fire_timer counts there)

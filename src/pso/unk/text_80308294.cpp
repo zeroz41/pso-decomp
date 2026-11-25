@@ -19,7 +19,7 @@ typedef struct SlicerLaunchData_8012D9C8 {
 
 void spawn_fire_explosion_at(uaddr item_weapon, saddr a1) {
     WeaponEffectDescriptor info;
-    TObjPlayer__sub_802E449C(&info);
+    reset_weapon_effect_descriptor(&info);
     ((TItemWeapon *)item_weapon)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;

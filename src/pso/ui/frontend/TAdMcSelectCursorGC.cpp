@@ -17,12 +17,9 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
 NJS_TEXNAME lbl_804ED990 = { "f256_memorycard_select", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &lbl_804ED990, 1 };
-}
 
-extern "C" {
 const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
 
 NJS_TEXLIST *TAdMcSelectCursorGC__texture_entry;
@@ -54,7 +51,7 @@ block_5:
     }
 }
 
-TAdMcSelectCursorGC *TAdMcSelectCursorGC__instance;
+TAdMcSelectCursorGC *TAdMcSelectCursorGC::instance;
 
 #pragma fp_contract on
 void TAdMcSelectCursorGC::run_task() {
@@ -106,10 +103,9 @@ void TAdMcSelectCursorGC::run_task() {
     previous_slot = selected_slot;
 }
 
-}
 TAdMcSelectCursorGC::~TAdMcSelectCursorGC() {
-    if (TAdMcSelectCursorGC__instance != NULL) {
-        TAdMcSelectCursorGC__instance = NULL;
+    if (TAdMcSelectCursorGC::instance != NULL) {
+        TAdMcSelectCursorGC::instance = NULL;
     }
 }
 
@@ -131,13 +127,12 @@ TAdMcSelectCursorGC::TAdMcSelectCursorGC(TObject *parent) : TObject(parent) {
     }
 }
 
-extern "C" {
 
 TAdMcSelectCursorGC *TAdMcSelectCursorGC::get_instance(TObject *parent) {
-    if (TAdMcSelectCursorGC__instance == NULL) {
-        TAdMcSelectCursorGC__instance = new TAdMcSelectCursorGC(parent);
+    if (TAdMcSelectCursorGC::instance == NULL) {
+        TAdMcSelectCursorGC::instance = new TAdMcSelectCursorGC(parent);
     }
-    return TAdMcSelectCursorGC__instance;
+    return TAdMcSelectCursorGC::instance;
 }
 
 void TAdMcSelectCursorGC::release_cursor_entry() {
@@ -155,4 +150,3 @@ s32 TAdMcCheckGC::get_check_step() { return check_step; }
 
 TAdMcCheckGC *TAdMcSelectCursorGC::get_cursor_type(int slot) { return memcard_cursor_instance_table[slot]; }
 
-}

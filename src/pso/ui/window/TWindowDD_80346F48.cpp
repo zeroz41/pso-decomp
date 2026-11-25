@@ -17,7 +17,6 @@ struct DD_80346FE4 {
     s32 n3;
 };
 
-extern "C" {
 extern char **TWindowDD__player_name_buffers;
 extern DD_80346FE4 *TWindowDD__word_select_lists;
 
@@ -99,4 +98,3 @@ void TWindowDD::build_player_word_lists() {
     TWindowDD__word_select_lists->n3 = j2 - 1;
 }
 
-}

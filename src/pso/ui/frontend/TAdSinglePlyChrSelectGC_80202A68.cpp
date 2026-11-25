@@ -79,16 +79,11 @@ struct B8_801FDFB8 { u32 w[2]; };
 
 struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
 
-extern "C" {
-s32 *TAdSinglePlyChrSelectGC__sub_80202B38(Obj_80202B38 *self, s32 i);
-Ent_80202B1C *TAdSinglePlyChrSelectGC__sub_80202B1C(Obj_80202B1C *self, s32 i);
-Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *arg0, Pso3CharacterFile *arg1);
 
 s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0) {
     return *(s32 *)((s8 *)arg0 + 0x194AC);
 }
 
-}
 
 Pso3CharacterFile::~Pso3CharacterFile() {}
 
@@ -111,7 +106,7 @@ void TAdSinglePlyChrSelectGC::clear_inventory_slot_by_index(s32 i) {
     ((TAdSinglePlyChrSelectGC *)(&self->e[i]))->clear_inventory_slot();
 }
 
-int TAdSinglePlyChrSelectGC::get_selection() {  return TAdSinglePlyChrSelectGC__selection_index; }
+int TAdSinglePlyChrSelectGC::get_selection() {  return TAdSinglePlyChrSelectGC::selection_index; }
 
 void TAdSinglePlyChrSelectGC::set_global_flags(s32 arg0) {
     if ((s32 *) active_character_save_record != NULL) {
@@ -250,9 +245,8 @@ void*TAdSinglePlyChrSelectGC::init_guild_card_tag() { init_guild_card_tag__17TWi
 void TAdSinglePlyChrSelectGC__sub_80203210(void* p) { *(u32*)((char*)p + 0x4) &= 0xfffffff7; }
 
 void TAdSinglePlyChrSelectGC::clear_inventory_slot() {
-    u8 *arg0 = (u8 *)this;
     *(s8 *)&this->m_name = 0;
-    *(s8 *)((s8 *)arg0 + 1) = -1;
+    *(s8 *)((s8 *)this + 1) = -1;
     *(s32 *)&this->m_flags = 0;
     ((TItemData *)((u8 *)&this->m_prev))->init();
 }

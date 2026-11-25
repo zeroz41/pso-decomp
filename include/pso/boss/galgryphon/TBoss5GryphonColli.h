@@ -15,6 +15,7 @@ public:
     virtual ~TBoss5GryphonColli();
     void enable_blocking_bodies(Vec *pos, s32 angle);
     void disable_blocking_bodies();
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss5GryphonColliObjectsOffset, offsetof(TBoss5GryphonColli, objects) == 0x1C);

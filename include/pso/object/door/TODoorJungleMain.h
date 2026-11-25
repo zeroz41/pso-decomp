@@ -13,8 +13,8 @@ struct TODoorJungleMain : public TODoorBase {
     virtual s32 update_object_view_visibility(f32, f32);
     virtual void vfunc_6(s16 *, s32);
     virtual void update_door_switch_state();
-    s32 switches_on;  // how many of the three jungle switches are on
-    s32 smoke_timer;  // frames the opening door has smoked; a puff every 30
+    s32 switch_count;     // how many of the three jungle switches are set
+    s32 smoke_timer;      // frames the opening door has smoked; a puff every 30
     TObjMapCsn *map_csn;  // the closed door's collision, dropped as it opens
     static void free_static_resources();
     static void load_resources();

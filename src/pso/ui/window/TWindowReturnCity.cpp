@@ -32,17 +32,17 @@ const char *TWindowReturnCity::class_name = "TWindowReturnCity";
 #pragma pop
 
 extern s32 lbl_805D55C0;
-int TWindowReturnCity__client_scan_index;
+int TWindowReturnCity::client_scan_index;
 void return_to_city_after_defeat(TObject *) {
-    if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity__client_scan_index) < 4)) {
-        TObjPlayer *player = get_player_by_client_id(TWindowReturnCity__client_scan_index);
+    if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity::client_scan_index) < 4)) {
+        TObjPlayer *player = get_player_by_client_id(TWindowReturnCity::client_scan_index);
         if (player != NULL) {
             player->prepare_hospital_return();
         }
         floor_transition_state.set_next_floor(0, (int) (get_floor_map_terrain(0)));
         mark_area_change_pending();
         send_inter_level_warp_all(floor_transition_state.get_next_floor());
-        (*(s32 *)&TWindowReturnCity__client_scan_index) = 4;
+        (*(s32 *)&TWindowReturnCity::client_scan_index) = 4;
     }
 }
 
@@ -65,7 +65,7 @@ void TWindowReturnCity::run_task() {
         case 0:
             state = 1;
         case 1:
-            if ((query_battle_state() == 0) || ((s32) TWindowReturnCity__client_scan_index != 4)) {
+            if ((query_battle_state() == 0) || ((s32) TWindowReturnCity::client_scan_index != 4)) {
                 TWindowReturnCity::clear_flag_bit5();
                 TWindowCtrl::show_client_lock_on_window(client);
                 TWindowCtrl::clear_flag_2();
@@ -84,7 +84,7 @@ void TWindowReturnCity::run_task() {
             if (yes_no_window->is_child_visible() != 0) {
                 selected_value = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
                 if (selected_value == 0) {
-                    TWindowReturnCity__client_scan_index = client;
+                    TWindowReturnCity::client_scan_index = client;
                     new TScreenFadeOut(tl_00, return_to_city_after_defeat);
                     state = 2;
                 }
@@ -122,7 +122,7 @@ TWindowReturnCity::TWindowReturnCity(TObject *parent, s32 client) : TObject(pare
 
 void TWindowReturnCity__sub_8026D4BC(void) {  }
 
-void TWindowReturnCity__sub_8026D4C0(void) { TWindowReturnCity__client_scan_index = 4; }
+void TWindowReturnCity__sub_8026D4C0(void) { TWindowReturnCity::client_scan_index = 4; }
 
 
 void TWindowReturnCity::clear_flag_bit5() {

@@ -47,7 +47,6 @@ struct Obj_800770D0 { u8 pad0[0x20]; u16 s[4]; };
 struct Ent_800771E4 { s8 a, b, c; u8 d; };
 struct Obj_800771E4 { u8 pad0[0x28]; Ent_800771E4 e[12]; };
 
-extern "C" {
     extern int selected_symbol_chat_preset;
 
 void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *arg0) {
@@ -63,9 +62,8 @@ void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *arg0) {
 int TWindowSubSymbolChat__sub_80076FE0(const SymbolChatPreset *preset) { return (preset->payload.appearance >> 9) & 1; }
 
 void TWindowSubSymbolChat::set_entry_name(void *entry_name) {
-    u8 *arg0 = (u8 *)this;
     strncpy((char *)&this->m_flags, (const char *)entry_name, 0x16);
-    *(s8 *)((s8 *)arg0 + 0x1A) = 0;
+    *(s8 *)((s8 *)this + 0x1A) = 0;
     *(s32 *)&this->m_name = (s32) (*(s32 *)&this->m_name | 1);
 }
 
@@ -219,7 +217,6 @@ SymbolChatPreset *get_symbol_chat_preset(s32 i) {
     return reinterpret_cast<SymbolChatPreset *>(save + offsetof(SavedSymbolChatPresets, entries)) + i;
 }
 
-}
 
 struct Ent_800774E4 { s8 id; u8 a, b, c; };
 
@@ -230,7 +227,6 @@ struct Ent_80077544 { u8 b[0x58]; };
 
 struct Win_80077544 { u8 pad[0x15A0]; struct Ent_80077544 e[12]; };
 
-extern "C" {
 
 SymbolChatPreset *TWindowChat::open_symbol_chat(s32 *arg0) {
     return get_symbol_chat_preset(*arg0);
@@ -275,14 +271,12 @@ void TWindowSubSymbolChat::load_symbol_chat_data() {
 }
 
 void TLobby__sub_80077608(void) {  }
-}
 
 int selected_symbol_chat_preset;
 unsigned char pending_symbol_chat_count;
 void clear_received_symbol_chat(void) { pending_symbol_chat_count = 0; reinterpret_cast<TWindowSubSymbolChat *>(&symbol_chat_receive_buffer)->clear_entries(); }
 
 
-extern "C" {
 
 
 SymbolChatPayload *SymbolChatPreset::get_data_ptr() { return &payload; }
@@ -297,4 +291,3 @@ saddr TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset
 int SymbolChatPreset::is_initialized() { return flags & 1; }
 void TWindowSubSymbolChat::bswap_entry() { bswap_32((u32 *)this); ((TWindowSubSymbolChat *)((char*)this + 0x1c))->byteswap_entry(); }
 
-}

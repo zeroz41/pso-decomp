@@ -90,7 +90,6 @@ TObjCMHexTile::TObjCMHexTile(TObject *parent, void *pos) : TObject(parent) {
     this->frame = 0;
     this->state = 0;
 }
-extern "C" {
 #pragma pop
 
 #pragma pop
@@ -126,4 +125,3 @@ void fn_802947A8(void) {
     }
 }
 
-}

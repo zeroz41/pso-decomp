@@ -48,7 +48,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 
-#include "pso/boss/derolle/TUnk_80036250.h"
+#include "pso/boss/derolle/TBoss2MotionProfile.h"
 
 #include "pso/unk/text_803D8F74.h"
 
@@ -73,7 +73,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TBoss2PhotonPad.h"
 #include "pso/boss/derolle/TBoss2LaserLight.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/boss/TUnk_80482C58.h"
+#include "pso/boss/TBoss2DeRolLeLaserTrail.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
@@ -87,9 +87,9 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TBoss2Mine.h"
 #include "pso/system/ControllerInput.h"
 
-#include "pso/boss/derolle/TUnk_80482D04.h"
+#include "pso/boss/derolle/TBoss2TargetMine.h"
 
-#include "pso/boss/derolle/TUnk_80482EC0.h"
+#include "pso/boss/derolle/TBoss2FloorMine.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
@@ -137,7 +137,7 @@ const s32 derolle_position_node_ids[21] = {
     0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, -1,
 };
 
-const Vec TBoss2DeRolLe__position_point_table[4] = {
+const Vec TBoss2DeRolLe::position_point_table[4] = {
     {-175.0f, 7.0f, 25.0f},
     {0.0f, 7.0f, 500.0f},
     {175.0f, 7.0f, 25.0f},
@@ -146,7 +146,7 @@ const Vec TBoss2DeRolLe__position_point_table[4] = {
 
 const DragonAttackParams derolle_effect_params = {0, 0.0f, 8.0f, {5.0f, 1}};
 
-// inferred: the five mine positions load_resources grounds into TBoss2DeRolLe__mine_ground_targets
+// inferred: the five mine positions load_resources grounds into TBoss2DeRolLe::mine_ground_targets
 const Vec derolle_mine_offsets[5] = {
     {0.0f, 0.0f, 0.0f},
     {45.0f, 0.0f, 30.0f},
@@ -163,14 +163,8 @@ s32 de_rol_le_base_param_ids[1] = {0xF};
 s32 de_rol_le_resistance_param_ids[1] = {0xF};
 
 // inferred: the ids load_resources passes to TLobby::dispatch_shared_handler_a, the
-// counterpart of TBoss2DeRolLe__shared_handler_id_table (dispatch_shared_handler_b)
+// counterpart of TBoss2DeRolLe::shared_handler_id_table (dispatch_shared_handler_b)
 s32 de_rol_le_shared_handler_a_ids[1] = {0xF};
-
-// What TObjEnemy::movementParameters points at.
-struct TBoss2DeRolLeMovement {
-    EnemyMoveParams move;
-    s32 pad_0C[4];
-};
 
 // The four points matrix_mult_vec_array places along a breakup piece (derolle_capture_node_points).
 Vec derolle_part_transform_template[4] = {
@@ -195,9 +189,9 @@ s32 derolle_action_sequence_table[50] = {
     0x1A, 0x1B, 0x1B, 0x1B, 0x1B, 0x1B, 0x1B, 0x1B, 0x1D, 0x2C,
 };
 
-s32 TBoss2DeRolLe__shared_handler_id_table[3] = {0xF, 0x10, 0x11};
+s32 TBoss2DeRolLe::shared_handler_id_table[3] = {0xF, 0x10, 0x11};
 
-TBoss2DeRolLeMovement boss2_derolle_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+BossMovementParameters boss2_derolle_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
 
 CollisionBody boss2_derolle_collision_bodies[3] = {
     {{0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -271,10 +265,10 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 #include <stddef.h>
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/TUnk_804A6F78.h"
+#include "pso/object/TSceneAmbientLight.h"
 
-player_stats *TBoss2DeRolLe__base_params[1];
-ActorParamBlock *TBoss2DeRolLe__resistance_params[1];
+player_stats *TBoss2DeRolLe::base_params[1];
+ActorParamBlock *TBoss2DeRolLe::resistance_params[1];
 TBoss2DeRolLeParams *derolle_params[1];
 BmlResource *boss2_derolle_resource;
 // derolle_capture_node_points's state while the body draws (derolle_begin_node_capture sets it up).
@@ -285,13 +279,13 @@ Vec *derolle_capture_positions;
 Vec *derolle_capture_part_points;
 GC_Mtx *derolle_capture_tentacle_matrices;
 GC_Mtx *derolle_capture_node_matrices;
-TBoss2DeRolLe *TBoss2DeRolLe__instance;
+TBoss2DeRolLe *TBoss2DeRolLe::instance;
 NJS_OBJECT *derolle_breakup_node;        // body node 0x4D; its children are swapped while broken up
 NJS_OBJECT *derolle_breakup_node_child;  // the node's own first child
 
 
 
-Vec TBoss2DeRolLe__mine_ground_targets[5];
+Vec TBoss2DeRolLe::mine_ground_targets[5];
 
 u32 *boss2_derolle_primary_color_targets[3];
 
@@ -299,7 +293,7 @@ uaddr derolle_segment_joint_node_offsets[10];
 
 u32 *boss2_derolle_segment_color_targets[10];
 
-AttackParams *TBoss2DeRolLe__attack_params_table[3];
+AttackParams *TBoss2DeRolLe::attack_params_table[3];
 NJS_ARGB derolle_capture_color;  // the body colour while it draws (derolle_begin_node_capture)
 Vec derolle_capture_origin;      // the node-local point derolle_capture_node_points places
 
@@ -354,16 +348,16 @@ void TBoss2DeRolLe::apply_paralysis() {  }
 void TBoss2DeRolLe::apply_poison_status() {  }
 
 TBoss2DeRolLe *TBoss2DeRolLe::get_instance() {
-    return (TBoss2DeRolLe *)TBoss2DeRolLe__instance;
+    return (TBoss2DeRolLe *)TBoss2DeRolLe::instance;
 }
 
-TUnk_80036250::TUnk_80036250() {
+TBoss2MotionProfile::TBoss2MotionProfile() {
     init_float_block();
 }
 
-TUnk_80036250::~TUnk_80036250() {}
+TBoss2MotionProfile::~TBoss2MotionProfile() {}
 
-void TUnk_80036250::init_float_block() {
+void TBoss2MotionProfile::init_float_block() {
     state = 0;
     accel = 0.0f;
     decel = 0.0f;
@@ -374,7 +368,7 @@ void TUnk_80036250::init_float_block() {
     brake_point = 0.0f;
 }
 
-void TUnk_80036250::init_params(f32 max_speed, f32 distance, f32 accel) {
+void TBoss2MotionProfile::init_params(f32 max_speed, f32 distance, f32 accel) {
     state = 0;
     this->accel = accel;
     decel = accel;
@@ -385,7 +379,7 @@ void TUnk_80036250::init_params(f32 max_speed, f32 distance, f32 accel) {
     plan_profile();
 }
 
-void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 decel) {
+void TBoss2MotionProfile::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 decel) {
     state = 0;
     this->accel = accel;
     this->decel = decel;
@@ -398,7 +392,7 @@ void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 
 
 extern "C" {
 
-void TUnk_80036250::plan_profile() {
+void TBoss2MotionProfile::plan_profile() {
     f32 cur_speed = speed;
     f32 neg_decel = -decel;
     f32 speed_sq = cur_speed * cur_speed;
@@ -412,7 +406,7 @@ void TUnk_80036250::plan_profile() {
     brake_point = distance + (0.5f * (top * top)) / neg_decel;
 }
 
-s32 TUnk_80036250::advance() {
+s32 TBoss2MotionProfile::advance() {
     switch (state) {
     case 0:
         speed = speed + accel;
@@ -472,22 +466,22 @@ void TBoss2DeRolLe::load_resources() {
     derolle_capture_tentacle_matrices = NULL;
     derolle_capture_node_matrices = NULL;
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__base_params[i] = TLobby::register_boss(de_rol_le_base_param_ids[i]);
+        TBoss2DeRolLe::base_params[i] = TLobby::register_boss(de_rol_le_base_param_ids[i]);
     }
     for (i = 0; i < 3; i++) {
-        TBoss2DeRolLe__attack_params_table[i] = TLobby::dispatch_shared_handler_b(TBoss2DeRolLe__shared_handler_id_table[i]);
+        TBoss2DeRolLe::attack_params_table[i] = TLobby::dispatch_shared_handler_b(TBoss2DeRolLe::shared_handler_id_table[i]);
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__resistance_params[i] = TLobby::register_object(de_rol_le_resistance_param_ids[i]);
+        TBoss2DeRolLe::resistance_params[i] = TLobby::register_object(de_rol_le_resistance_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
         derolle_params[i] = (TBoss2DeRolLeParams *)TLobby::dispatch_shared_handler_a(de_rol_le_shared_handler_a_ids[i]);
     }
-    TBoss2DeRolLe__instance = 0;
+    TBoss2DeRolLe::instance = 0;
     TBoss2Tentacle::load_shared_model();
     TBoss2Mine::load_resources();
     for (k = 0; k < 5; k++) {
-        TObjBoss2Tunnel::adjust_to_ground(&derolle_mine_offsets[k], &TBoss2DeRolLe__mine_ground_targets[k]);
+        TObjBoss2Tunnel::adjust_to_ground(&derolle_mine_offsets[k], &TBoss2DeRolLe::mine_ground_targets[k]);
     }
     TBoss2Fin::init_effect_table();
     res = boss2_derolle_resource;
@@ -565,8 +559,8 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     s32 m;
 
     m_name = boss2_de_rol_le_class_name;
-    if (TBoss2DeRolLe__instance == NULL) {
-        TBoss2DeRolLe__instance = this;
+    if (TBoss2DeRolLe::instance == NULL) {
+        TBoss2DeRolLe::instance = this;
     }
     invoke_initialization_hook(set_data);
     state_flags = 0;
@@ -587,7 +581,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp(TBoss2DeRolLe__base_params[0], TBoss2DeRolLe__attack_params_table[0], TBoss2DeRolLe__resistance_params[0]);
+    reset_hp(TBoss2DeRolLe::base_params[0], TBoss2DeRolLe::attack_params_table[0], TBoss2DeRolLe::resistance_params[0]);
     set_state_flag_2();
     movementParameters = &boss2_derolle_movement;
     initialize_enemy_state(0x2D);
@@ -621,10 +615,10 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
         joints[j] = new TBoss2Joint(this, id++, set++, &joint_positions[j], derolle_segment_joint_node_offsets[j], (saddr)boss2_derolle_segment_color_targets[j]);
     }
     for (i = 0; i < 5; i++) {
-        mines[i] = new TUnk_80482EC0(&part_group, id++, set++);
+        mines[i] = new TBoss2FloorMine(&part_group, id++, set++);
     }
     for (i = 0; i < 3; i++) {
-        target_mines[i] = new TUnk_80482D04(&part_group, id++, set++);
+        target_mines[i] = new TBoss2TargetMine(&part_group, id++, set++);
     }
     fin = new TBoss2Fin(&part_group, &node_positions[1], &node_positions[10]);
     position_index = 0;
@@ -761,8 +755,8 @@ TBoss2DeRolLe::~TBoss2DeRolLe() {
     }
     mem_free(tentacle_matrices);
     free_collision_body_parts(this);
-    if (TBoss2DeRolLe__instance == this) {
-        TBoss2DeRolLe__instance = NULL;
+    if (TBoss2DeRolLe::instance == this) {
+        TBoss2DeRolLe::instance = NULL;
     }
 }
 
@@ -864,7 +858,7 @@ void TBoss2DeRolLe::run_task() {
     advance_phase_wrap();
     update_projectile_spawns();
   }
-  sub_800BBA0C();
+  save_mode();
   update_body_colliders();
   backup_pos();
   submit_default_cursor_candidate();
@@ -978,15 +972,15 @@ void TBoss2DeRolLe::reload_stats_for_phase(s32 kind) {
         b = 0;
         break;
     }
-    reload_stats_keep_hp_tp(TBoss2DeRolLe__base_params[a], TBoss2DeRolLe__attack_params_table[i], TBoss2DeRolLe__resistance_params[b]);
+    reload_stats_keep_hp_tp(TBoss2DeRolLe::base_params[a], TBoss2DeRolLe::attack_params_table[i], TBoss2DeRolLe::resistance_params[b]);
 }
 
 extern "C" {
 
 // A ceiling junk piece that lands on a player (TObjBoss2CeilJunk) hits it through the boss.
 void TBoss2DeRolLe::forward_switch_phase_stats(TObjChara *victim) {
-    if (TBoss2DeRolLe__instance != NULL) {
-        TBoss2DeRolLe__instance->switch_phase_stats(victim);
+    if (TBoss2DeRolLe::instance != NULL) {
+        TBoss2DeRolLe::instance->switch_phase_stats(victim);
     }
 }
 
@@ -1022,7 +1016,7 @@ s32 TBoss2DeRolLe::get_shell_max_hp() {
 }
 
 void TBoss2DeRolLe::set_position_index(s32 index) {
-    VecCopy(&position, &TBoss2DeRolLe__position_point_table[index]);
+    VecCopy(&position, &TBoss2DeRolLe::position_point_table[index]);
     height_offset = 0.0f;
     rotation_z = 0;
 }
@@ -1031,7 +1025,7 @@ void TBoss2DeRolLe::set_position_index(s32 index) {
 #pragma opt_common_subs off
 
 void TBoss2DeRolLe::set_move_target_point(s32 index) {
-    VecCopy(&destination, &TBoss2DeRolLe__position_point_table[index]);
+    VecCopy(&destination, &TBoss2DeRolLe::position_point_table[index]);
     VecCopy(&destination_direction, &destination);
     subtract_vector(&destination_direction, &position);
     destination_distance = normalize_vector_xz(&destination_direction);
@@ -1363,8 +1357,7 @@ void TBoss2DeRolLe::start_death_sequence() {
 
 extern "C" {
 
-void handle_6x13_de_rol_le_boss_actions(void *data) {
-    DeRolLeActionPacket *packet = (DeRolLeActionPacket *)data;
+void handle_6x13_de_rol_le_boss_actions(DeRolLeActionPacket *packet) {
     TBoss2DeRolLe *boss;
     TBoss2DeRolLe::swap_6x13_fields(packet);
     boss = (TBoss2DeRolLe *)get_enemy_entity(packet->header.client_id);
@@ -1373,8 +1366,7 @@ void handle_6x13_de_rol_le_boss_actions(void *data) {
     }
 }
 
-void handle_6x14_de_rol_le_boss_actions_with_target(void *data) {
-    DeRolLeActionTargetPacket *packet = (DeRolLeActionTargetPacket *)data;
+void handle_6x14_de_rol_le_boss_actions_with_target(DeRolLeActionTargetPacket *packet) {
     TBoss2DeRolLe *boss;
     TBoss2DeRolLe::swap_endian(packet);
     boss = (TBoss2DeRolLe *)get_enemy_entity(packet->header.client_id);
@@ -1959,7 +1951,6 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
 
 #pragma pop
 
-#undef arg0
 
 void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
     u32 b;
@@ -2074,7 +2065,6 @@ extern "C" {
 #pragma push
 #pragma fp_contract on
 
-#undef arg0
 
 }
 
@@ -2390,8 +2380,6 @@ void TBoss2DeRolLe::handle_side_jump_state(u32 reason, s32 from, s32 to) {
     }
 }
 
-#undef o
-#undef self
 
 void TBoss2DeRolLe::handle_forward_jump_state(u32 reason) {
     Vec va;
@@ -2554,7 +2542,6 @@ void TBoss2DeRolLe::handle_forward_jump_state(u32 reason) {
     }
 }
 
-#undef o
 
 void TBoss2DeRolLe::handle_bite_state(u32 reason, s32 side) {
     switch (reason) {
@@ -3159,7 +3146,7 @@ void TBoss2DeRolLe::state_launch_mines(u32 reason, s32 state) {
             pos = &node_positions[18];
             if (state == 0x18) {
                 for (i = 0; i < 5; i++) {
-                    mines[i]->set_launch_position_velocity(pos, &TBoss2DeRolLe__mine_ground_targets[i]);
+                    mines[i]->set_launch_position_velocity(pos, &TBoss2DeRolLe::mine_ground_targets[i]);
                 }
             } else if (enemy_has_live_target() != 0) {
                 for (j = 0; j < 3; j++) {
@@ -3387,12 +3374,12 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
                 if (col != NULL) {
                     VecCopy(hit, &col->contact->point);
                     if (hit_trail == NULL) {
-                        hit_trail = new TUnk_80482C58(this, 6, 0x124);
+                        hit_trail = new TBoss2DeRolLeLaserTrail(this, 6, 0x124);
                     } else {
                         hit_trail->push_ring_point(hit);
                     }
                     if (hit_trail_long == NULL) {
-                        hit_trail_long = new TUnk_80482C58(this, 0xF, 0x125);
+                        hit_trail_long = new TBoss2DeRolLeLaserTrail(this, 0xF, 0x125);
                     } else {
                         hit_trail_long->push_ring_point(hit);
                     }
@@ -3448,7 +3435,7 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
 
 #pragma pop
 
-void TBoss2DeRolLe::handle_surface_state(u32 reason, s32 arg2) {
+void TBoss2DeRolLe::handle_surface_state(u32 reason, s32 set_tunnel_flag) {
     switch (reason) {
     case 4:
         state_flags &= ~4;
@@ -3457,7 +3444,7 @@ void TBoss2DeRolLe::handle_surface_state(u32 reason, s32 arg2) {
         clear_all_intangible();
         position_index = 3;
         set_position_index(position_index);
-        if (arg2 != 0) {
+        if (set_tunnel_flag != 0) {
             TObjBoss2Tunnel::set_global_flag_800();
         }
         break;

@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/enemy/EnemyMovement.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
@@ -431,7 +431,7 @@ void TObjNpcBase::render() {
 void TObjNpcBase::run_task() {
     s32 on_flag;
     s32 off_flag;
-    TUnk_804C8678 *root;
+    TQuestManager *root;
     if (disp_on_flag <= 0 && disp_off_flag <= 0) {
         visible = 1;
         set_indexed_flags(0, 1);

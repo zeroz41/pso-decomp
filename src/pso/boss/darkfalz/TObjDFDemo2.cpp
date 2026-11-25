@@ -34,7 +34,7 @@
 extern "C" {
 extern s32 boss4_zanzo_bml_index_table[];
 
-const char *TObjDFDemo2__name = "TObjDFDemo2";
+const char *TObjDFDemo2::name = "TObjDFDemo2";
 __declspec(section ".rodata") CameraAngles df_demo2_zero_camera_angles = {0, 0, 0};
 __declspec(section ".data") s32 TObjDFDemo2__motion_index_table[2] = {0x12, 0x11};
 CameraPlayback df_demo2_camera_playback = {0, 0, 0, 0.0f, 0.5f};
@@ -51,7 +51,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
     BmlResource *archive;
     saddr i;
 
-    this->m_name = TObjDFDemo2__name;
+    this->m_name = TObjDFDemo2::name;
     VecCopy(&this->camera_position, position);
     this->angle = angle;
     this->variant = variant;
