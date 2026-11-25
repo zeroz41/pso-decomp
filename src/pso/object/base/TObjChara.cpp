@@ -131,7 +131,6 @@ struct Layout_80019038 {
 };
 extern "C" {
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
-s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 void create_hit_effect__10TObjPlayerFPv(void *);
 extern s32 registered_player_count;
 extern s32 registered_enemy_count;
@@ -563,19 +562,19 @@ s32 TObjChara::obj_isState2_324() {
 #pragma push
 #pragma scheduling off
 #pragma scheduling on
-void obj_clearArrS16_FC(TObjChara *actor, s32 index) {
-    actor->attack_credit_slots[index] = 0xFFFF;
+void TObjChara::clear_attack_credit_slot(s32 index) {
+    attack_credit_slots[index] = 0xFFFF;
 }
 
 #pragma pop
 #pragma push
 #pragma scheduling off
-u16 obj_getArrU16_FC(TObjChara *actor, s32 index) {
-    return actor->attack_credit_slots[index];
+u16 TObjChara::get_attack_credit_slot(s32 index) {
+    return attack_credit_slots[index];
 }
 
-void obj_setArrS16_FC(TObjChara *actor, s32 index, u16 value) {
-    actor->attack_credit_slots[index] = static_cast<u16>(value);
+void TObjChara::set_attack_credit_slot(s32 index, u16 id) {
+    attack_credit_slots[index] = id;
 }
 
 s32 TObjChara::get_status_effect_type(s32 i) {
@@ -1274,7 +1273,7 @@ s32 TObjChara::update_poison_status() {
             if ((s16) dmg < 1) {
                 dmg = 1;
             }
-            ((s32 (*)(u8 *, s32, const s16 *))TObjectV8047c128_subtract_hp)(((u8 *)this), dmg + poison_damage_bonus_by_difficulty[game_difficulty_selection], poison_damage_bonus_by_difficulty);
+            ((s32 (*)(TObjChara *, s32, const s16 *))subtract_actor_hp)(this, dmg + poison_damage_bonus_by_difficulty[game_difficulty_selection], poison_damage_bonus_by_difficulty);
             if (this->clamp_hp() <= 0) {
                 if (this->test_actor_flags(0x800) == 0) {
                     ((TObjPlayer *)((u8 *)this))->set_hp_clamped(1);
@@ -2016,7 +2015,6 @@ int TObjChara::deliver_attack_hits(f32) { return 0; }
 #pragma push
 #pragma fp_contract on
 #pragma opt_loop_invariants off
-#define TObjectV8047c128_subtract_hp(a, b) ((void (*)(void *, s32))TObjectV8047c128_subtract_hp)(a, b)
 #define get_actor_attack_params_atp_min__9TObjCharaFv(a) (((TObjChara *)(a))->get_actor_attack_params_atp_min())
 #define play_sound_effect(a, b, c, d) ((void (*)(s32, void *, s32, s32))play_sound_effect)(a, b, c, d)
 #define RESIST_80014108(k) \
@@ -2131,7 +2129,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
     set_actor_flags(0x200);
     this->check_heavy_damage_flag(total);
     if (immune == 0) {
-        TObjectV8047c128_subtract_hp(((Obj_80014108 *)this), (s32)total);
+        ((s32 (*)(TObjChara *, s32))subtract_actor_hp)(this, (s32)total);
         if (((Obj_80014108 *)this)->hp <= 0) {
             ((Obj_80014108 *)this)->flags30 |= 0x800;
         }
@@ -2148,7 +2146,6 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
 }
 
 #pragma pop
-#undef TObjectV8047c128_subtract_hp
 #undef get_actor_attack_params_atp_min__9TObjCharaFv
 #undef play_sound_effect
 #undef RESIST_80014108
@@ -2183,7 +2180,7 @@ void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
 #define HIT(o, p) (((TObjChara *)(o))->try_apply_damage(p, 0))
 #define DAMAGE(o, p, d) (((TObjChara *)(o))->try_apply_damage(p, d))
 #define SWITCH_ATTACK(o, p) ((TObjChara *)(o))->trigger_switch_attack(p)
-#define SUB_HP(o, d) ((s32 (*)(TObjChara *, s32))TObjectV8047c128_subtract_hp)(o, d)
+#define SUB_HP(o, d) ((s32 (*)(TObjChara *, s32))subtract_actor_hp)(o, d)
 f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, void *coll, s32 tech, s32 arg5) {
     Info_8001311C info;
     Vec pos;
@@ -2522,7 +2519,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-#define SUBHP_W24(p, v) ((s32 (*)(void *, s32))TObjectV8047c128_subtract_hp)((p), (v))
+#define SUBHP_W24(p, v) ((s32 (*)(void *, s32))subtract_actor_hp)((p), (v))
 #define ADDHP_W24(p, v) ((s32 (*)(void *, s32))add_actor_hp)((p), (v))
 #define HPLABEL_W24(p, v, k, n) ((void (*)(void *, void *, s32, s32))draw_hp_label)((p), (v), (k), (n))
 #define TPFONT_W24(p, v, k, n) ((void (*)(void *, void *, s32, s32))show_tp_font)((p), (v), (k), (n))
@@ -3147,21 +3144,19 @@ s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1) {
     if (((TObjChara *)arg0)->obj_isState2_324() != 0) {
         return 0;
     }
-    return ((int (*)(void*, void*))TObjectV8047c128_subtract_hp)((void*)arg0, (void*)arg1);
+    return ((int (*)(void*, void*))subtract_actor_hp)((void*)arg0, (void*)arg1);
 }
 
-s32 TObjectV8047c128_subtract_hp(u8 *owner, s16 arg1) {
-  if (arg1 < 0)
-  {
-    return 0;
-  }
-  *((s16 *) (((s8 *) owner) + 0x32C)) = (s16) ((*((s16 *) (((s8 *) owner) + 0x32C))) - arg1);
-  if ((*((s16 *) (((s8 *) owner) + 0x32C))) < 0)
-  {
-    *((s16 *) (((s8 *) owner) + 0x32C)) = 0;
-    return 0;
-  }
-  return 1;
+s32 subtract_actor_hp(TObjChara *actor, s16 amount) {
+    if (amount < 0) {
+        return 0;
+    }
+    actor->hp = static_cast<s16>(actor->hp - amount);
+    if (actor->hp < 0) {
+        actor->hp = 0;
+        return 0;
+    }
+    return 1;
 }
 #pragma push
 #pragma scheduling off
@@ -3391,7 +3386,7 @@ void assign_slots_from_list(void *arg0, saddr arg1) {
         if (((s32 (*)(void))is_split_screen)() != 0) {
             i = 0;
             do {
-                add_id_to_slots__10TObjPlayerFiUs(static_cast<TObjChara *>(arg0), obj_getArrU16_FC(reinterpret_cast<TObjChara *>(arg1), i));
+                add_id_to_slots__10TObjPlayerFiUs(static_cast<TObjChara *>(arg0), reinterpret_cast<TObjChara *>(arg1)->get_attack_credit_slot(i));
                 i += 1;
             } while (i != 4);
             return;
@@ -3452,7 +3447,7 @@ void handle_6x9A_update_entity_stat(G_UpdateEntityStat_6x9A *command) {
     switch (command->what) {
     case 0: {
         v = amount;
-        ((s32 (*)(s32, s16))TObjectV8047c128_subtract_hp)(player, v);
+        ((s32 (*)(s32, s16))subtract_actor_hp)(player, v);
         if (((s32 (*)(u16))is_entity_locally_controlled)(command->entity_index) != 0) {
             ((s32 (*)(s32, s32, s32, s16))draw_hp_label)(player, player + 0x2FC, 0xA, v);
         } else {
@@ -3551,7 +3546,7 @@ s32 TObjChara::sync_enemy_state(s32) { return 0; }
 
 void TObjPlayer::clear_s16_arrays(void *p) {
     for (s32 i = 0; i < 4; i++) {
-        obj_clearArrS16_FC(static_cast<TObjChara *>(p), i);
+        static_cast<TObjChara *>(p)->clear_attack_credit_slot(i);
     }
 }
 
@@ -3560,9 +3555,9 @@ void add_id_to_slots__10TObjPlayerFiUs(TObjChara *actor, u16 id) {
 
     var_r30 = 0;
 loop_1:
-    if (static_cast<u16>(id) != static_cast<u16>(obj_getArrU16_FC(actor, var_r30))) {
-        if (static_cast<u16>(obj_getArrU16_FC(actor, var_r30)) == 0xFFFF) {
-            obj_setArrS16_FC(actor, var_r30, id);
+    if (static_cast<u16>(id) != actor->get_attack_credit_slot(var_r30)) {
+        if (actor->get_attack_credit_slot(var_r30) == 0xFFFF) {
+            actor->set_attack_credit_slot(var_r30, id);
             return;
         }
         var_r30 += 1;

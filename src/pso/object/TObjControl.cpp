@@ -574,7 +574,7 @@ void TObjEnemy::distribute_experience() {
     } else {
         count = get_attack_credit_slot_count(this);
         for (i = 0; i < count; i++) {
-            id = obj_getArrU16_FC(this, i);
+            id = get_attack_credit_slot(i);
             if (id == 0xFFFF) {
                 break;
             }

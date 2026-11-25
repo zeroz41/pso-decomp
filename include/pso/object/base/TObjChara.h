@@ -180,6 +180,9 @@ public:
     void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
     virtual void reset_motion_fields();
+    u16 get_attack_credit_slot(s32 index);
+    void set_attack_credit_slot(s32 index, u16 id);
+    void clear_attack_credit_slot(s32 index);
     union {
         u16 attack_credit_slots[4];
         struct {
@@ -278,15 +281,13 @@ LAYOUT_ASSERT(TObjCharaAttackCreditSlotsOffset, offsetof(TObjChara, attack_credi
 // Advances position through the wall and ground probes.
 void move_with_wall_slide(TObjChara *actor);
 
-void obj_clearArrS16_FC(TObjChara *actor, s32 index);
-extern "C" {
 s32 add_actor_hp(TObjChara *actor, s16 amount);
+s32 subtract_actor_hp(TObjChara *actor, s16 amount);
 s32 add_actor_tp(TObjChara *actor, s32 amount);
 s32 add_actor_hp_bonus(TObjChara *actor, s32 amount);
 s32 add_actor_tp_bonus(TObjChara *actor, s32 amount);
 
-u16 obj_getArrU16_FC(TObjChara *actor, s32 index);
-void obj_setArrS16_FC(TObjChara *actor, s32 index, u16 value);
+extern "C" {
 void add_id_to_slots__10TObjPlayerFiUs(TObjChara *actor, u16 id);
 }
 
