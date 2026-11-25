@@ -249,7 +249,7 @@ void TLobby::init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(
 void TLobby::reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void TLobby__sub_801A3CF8(void) {  }
 
-void TLobby::start_udp_test_game() {
+void start_udp_test_game() {
     ((TLobby *)((u8 *)&lobby_udp_test_game_entries[0]))->bswap_udp_test_header();
     ((TLobby *)((u8 *)&lobby_udp_test_game_entries[1]))->bswap_udp_test_header();
     TPlyJoinGame msg;
@@ -694,7 +694,7 @@ void TLobby::run_main_frame() {
     render_tick();
 }
 
-void TLobby::update_camera_state() {
+void update_camera_state() {
     if (is_quest_active() != 0) {
         TLobby::run_lobby_frame();
         return;
@@ -779,7 +779,7 @@ void run_online_lobby_scene(void) {
         main_task.run_task();
         main_task.render_screen_overlay();
         if (TLobby__sub_801A3E8C() != 0) {
-            TLobby::start_udp_test_game();
+            start_udp_test_game();
         } else {
             TLobby::run_join_lobby_connect(lobby);
         }

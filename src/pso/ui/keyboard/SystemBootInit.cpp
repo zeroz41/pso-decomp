@@ -355,7 +355,7 @@ MainPhaseEntry main_phase_table[] = {
     { TEnding::set_flag_and_advance, run_game_frame, fn_8008C4F4 },
     { TAdMultiChgGameModeGC__sub_8023F50C, run_game_mode_select_frame, TLobby::release_scene_resources },
     { init_offline_game_scene, dispatch_offline_main_frame, TLobby::teardown_scene },
-    { run_online_lobby_scene, TLobby::update_camera_state, cleanup_online_lobby_scene },
+    { run_online_lobby_scene, update_camera_state, cleanup_online_lobby_scene },
     { TEnding::start_ending_scene, run_game_frame, fn_8008C4F4 },
     { NULL, NULL, NULL },
     { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, TAdSinglePlyChrSelectGC__sub_8033B264 },
