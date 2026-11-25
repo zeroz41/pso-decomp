@@ -8494,10 +8494,10 @@ force_active:
   - lbl_805D75F0
   - gcci_init_guard
   - lbl_805D76A8
-  - lbl_805D76C8
-  - lbl_805D76CC
-  - lbl_805D76D0
-  - lbl_805D76D4
+  - debug_text_pool_size
+  - debug_text_record_count
+  - debug_text_pool
+  - debug_text_records
   - gvm_stream_cursor
   - gvm_stream_base
   - lbl_805D77F4

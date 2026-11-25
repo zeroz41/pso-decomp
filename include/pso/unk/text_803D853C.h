@@ -16,8 +16,9 @@ struct DebugTextRecord {
 };
 
 extern "C" {
-// Sets up the debug text buffer: n records at p, the text pool after them; 16-pixel glyphs, white text.
-void init_debug_text_buffer(DebugTextRecord *p, s32 n, s32 x);
+// Sets up the debug text buffer: record_count records at records, the text pool of pool_size bytes after them;
+// 16-pixel glyphs, white text.
+void init_debug_text_buffer(DebugTextRecord *records, s32 record_count, s32 pool_size);
 }
 
 // Queues text for render_debug_text at position (x << 16 | y in glyph cells, see pack_debug_text_position),

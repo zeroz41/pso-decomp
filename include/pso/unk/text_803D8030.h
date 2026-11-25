@@ -3,10 +3,7 @@
 
 #include "types.h"
 
-void set_debug_text_scale(u16 arg0);
-
-// --- C functions defined in text_803D8030.cpp ---
-void set_debug_text_scale(u16 arg0);
-// --- end of C functions
+// Sets the size of queued debug text glyphs in pixels.
+void set_debug_text_scale(u16 scale);
 
 #endif

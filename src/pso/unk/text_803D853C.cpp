@@ -19,33 +19,35 @@
 #include "pso/unk/text_803D8030.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 char *debug_text_pool_cursor;
 DebugTextRecord *debug_text_record_cursor;
-s32 lbl_805D76C8;
-s32 lbl_805D76CC; // record capacity (inferred)
-char *lbl_805D76D0; // pool base (inferred)
-DebugTextRecord *lbl_805D76D4; // record base (inferred)
+s32 debug_text_pool_size;
+s32 debug_text_record_count;
+char *debug_text_pool;
+DebugTextRecord *debug_text_records;
 f32 debug_text_scale;
 s32 debug_text_global_count;
 
 #pragma push
 #pragma scheduling off
-void init_debug_text_buffer(DebugTextRecord *p, s32 n, s32 x) {
-    lbl_805D76D4 = p;
-    lbl_805D76D0 = (char *)(p + n);
-    lbl_805D76CC = n;
-    lbl_805D76C8 = x;
-    debug_text_record_cursor = p;
-    debug_text_pool_cursor = (char *)(p + n);
+void init_debug_text_buffer(DebugTextRecord *records, s32 record_count, s32 pool_size) {
+    debug_text_records = records;
+    debug_text_pool = (char *)(records + record_count);
+    debug_text_record_count = record_count;
+    debug_text_pool_size = pool_size;
+    debug_text_record_cursor = records;
+    debug_text_pool_cursor = (char *)(records + record_count);
     debug_text_global_count = -1;
     debug_text_scale = 16.0f;
 }
 #pragma pop
 
-void set_debug_text_scale(u16 arg0) {
-    debug_text_scale = (f32)arg0;
+void set_debug_text_scale(u16 scale) {
+    debug_text_scale = (f32)scale;
 }
 
 void TObjNpcEnemy::set_global_count(s32 global_count) {
@@ -118,10 +120,6 @@ void print_float_padded(s32 position, s32 prec, f32 val) {
 }
 
 extern "C" {
-void rotate_matrix_z(MtxP, s32);
-void rotate_matrix_x(MtxP, s32);
-void rotate_matrix_y(MtxP, s32);
-void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz);
 
 void debug_printf_at(s32 position, const char *fmt, ...) {
     va_list ap;
@@ -174,7 +172,7 @@ void render_debug_text(u32 enabled) {
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_S16, 1);
-        for (r = lbl_805D76D4; r != debug_text_record_cursor; r++) {
+        for (r = debug_text_records; r != debug_text_record_cursor; r++) {
             u32 color;
             s32 len;
             s16 x;
@@ -198,8 +196,8 @@ void render_debug_text(u32 enabled) {
             }
         }
     }
-    debug_text_record_cursor = lbl_805D76D4;
-    debug_text_pool_cursor = lbl_805D76D0;
+    debug_text_record_cursor = debug_text_records;
+    debug_text_pool_cursor = debug_text_pool;
 }
 #pragma pop
 extern "C" {
@@ -287,10 +285,8 @@ void rotate_matrix_yxz(MtxP matrix, s32 x, s32 y, s32 z) {
         rotate_matrix_z(matrix, z);
     }
 }
-typedef f32 Mtx_803D8B5C[3][4];
-
 void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz) {
-    Mtx_803D8B5C tmp;
+    Mtx34 tmp;
     f32 (*t)[4];
     if (m == NULL) t = (f32 (*)[4])current_matrix;
     else t = m;
