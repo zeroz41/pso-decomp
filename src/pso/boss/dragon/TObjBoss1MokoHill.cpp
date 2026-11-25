@@ -3,6 +3,7 @@
 #pragma readonly_strings on
 
 #include "pso/system/vector.h"
+#include "pso/boss/dragon/TObjBoss1MokoHill.h"
 
 #include "pso/system/NinjaTypes.h"
 

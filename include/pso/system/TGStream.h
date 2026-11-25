@@ -34,10 +34,12 @@ LAYOUT_ASSERT(TGStreamHandleOffset, offsetof(TGStream, adxf_handle) == 0x20);
 LAYOUT_ASSERT(TGStreamReadModeOffset, offsetof(TGStream, direct_read_mode) == 0x24);
 LAYOUT_ASSERT(TGStreamEntryOffset, offsetof(TGStream, archive_entry) == 0x28);
 
-extern "C" {
 void reset_gstream_buffer(void);
+extern "C" {
 void TGStream__sub_800FDD64(void);
+}
 void load_area_gsl(void);
+extern "C" {
 void TItemDrop__sub_800FE2D8(void);
 }
 s32 get_gstream_buffered_bytes(void);

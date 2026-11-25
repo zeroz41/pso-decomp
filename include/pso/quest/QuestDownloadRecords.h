@@ -104,11 +104,13 @@ LAYOUT_ASSERT(QuestDownloadSlotItemsOffset, offsetof(QuestDownloadSlot, items) =
 LAYOUT_ASSERT(QuestDownloadSlotHeadOffset, offsetof(QuestDownloadSlot, head) == 8);
 LAYOUT_ASSERT(QuestDownloadSlotTextOffset, offsetof(QuestDownloadSlot, chain) == 0xC);
 
-extern "C" {
 extern QuestDownloadSlot quest_download_slot_chain_table[80];
+extern "C" {
 s32 count_quest_text_entries(const QuestDownloadTextNode *chain);
 QuestDownloadTextNode *advance_quest_text_entries(QuestDownloadTextNode *chain, s32 count);
+}
 QuestDownloadTextNode *next_quest_text_entry(QuestDownloadTextNode *chain);
+extern "C" {
 QuestDownloadTextNode *detach_quest_text_tail(QuestDownloadTextNode *chain);
 void free_quest_text_chain(QuestDownloadTextNode *chain);
 }

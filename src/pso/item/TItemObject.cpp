@@ -26,8 +26,6 @@
 
 extern "C" {
 const char *TItemObject_name = "TItemObject";
-void send_nearby_player_ids(TObjPlayer *self, f32 range);
-void send_star_atomizer_targets(TObjPlayer *player);
 }
 void handle_6x66_use_star_atomizer(u8 *arg0);
 extern const char *TItemObject_name;

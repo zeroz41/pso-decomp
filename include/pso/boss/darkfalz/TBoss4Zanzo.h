@@ -37,8 +37,6 @@ public:
 
 LAYOUT_ASSERT(TBoss4Zanzo_size, sizeof(TBoss4Zanzo) == 0x4C);
 
-extern "C" {
 void copy_zanzo_params(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src);
-}
 
 #endif

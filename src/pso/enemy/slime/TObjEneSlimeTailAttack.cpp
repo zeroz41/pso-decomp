@@ -206,11 +206,8 @@ const char *slime_tail_attack_name = slime_tail_attack_class_name_string;
 // ---- folded from src/pso/unk/text_800EB778.cpp ----
 
 
-extern "C" {
 s32 has_no_active_slot(TObjEneSlime *self);
 s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *velocity);
-
-}
 
 // ---- folded from src/pso/enemy/TObjEneSlime.cpp ----
 
@@ -1144,9 +1141,6 @@ void TObjEneSlimeOne::update_effect_fade_lifetime() {
         this->queue_destruction();
     }
 }
-extern "C" {
-
-
 void TObjEneSlimeOne::enter_launched() {
     this->particle = (TParticleCtrl *)create_particle_emitter(&position, 0xE1);
     this->draw_offset_y = -2.5f;
@@ -1668,7 +1662,6 @@ SlimeTailPose *copy_slime_tail_pose(SlimeTailPose *dst, SlimeTailPose *src) {
 
 void get_slime_tail_pose(SlimeTailPose *dst) {
     copy_slime_tail_pose(dst, &slime_tail_node_capture.pose);
-}
 }
 
 #undef slime_tail_attack_id_pair

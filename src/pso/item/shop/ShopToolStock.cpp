@@ -111,6 +111,7 @@ void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
 void push_shop_pool_entry(void *, u8);
 s32 shop_stock_lacks_technique(Item_802242F8 *, s32);
 s32 shop_stock_lacks_tool(Item_802242F8 *, s32);
+}
 s32 get_shop_technique_pool_count(s32 shop_tool_stock_level) {
     if ((shop_tool_stock_level >= 1) && (shop_tool_stock_level <= 0xA)) {
         return 4;
@@ -153,7 +154,6 @@ s32 get_shop_rare_tool_pool_count(s32 shop_tool_stock_level) {
         return 2;
     }
     return -1;
-}
 }
 
 s32 classify_tool_shop_level_bracket(s32 shop_tool_stock_level) {

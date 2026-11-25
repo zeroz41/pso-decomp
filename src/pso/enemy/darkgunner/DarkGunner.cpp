@@ -1,4 +1,5 @@
 #include "pso/enemy/EnemyMovement.h"
+#include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
@@ -262,7 +263,6 @@ inline f32 fmax_800A28A4(f32 a, f32 b) {
 #pragma pop
 f32 dark_gunner_shot_speed;
 
-extern "C" void load_darkgunner_effect_resources();
 
 BmlResource *TObjEneDarkGunner::bml_resource; // bm_ene_darkgunner.bml
 
@@ -362,7 +362,6 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
 }
 }
 
-extern "C" {
 TObjEneDarkGunner::~TObjEneDarkGunner() {
     s32 i;
     free_collision_body_parts(this);
@@ -414,7 +413,6 @@ void TObjEneDarkGunner::cleanup_effects() {
 
 void *TObjEneDarkGunner::create(void *set_data) {
     return new TObjEneDarkGunner(tl_04, set_data);
-}
 }
 
 #pragma push

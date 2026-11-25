@@ -14,8 +14,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_803DE778.h"
 
-extern "C" {
-
 #pragma readonly_strings on
 const char TGStream__class_name_string[] = "TGStream";
 const char city_gsl_path[] = "gsl_city.gsl";
@@ -199,11 +197,12 @@ void reset_gstream_buffer(void) {
     gstream_buffer_valid_size = 0;
     gstream_buffer_read_offset = 0x40000;
 }
+extern "C" {
 
 void TGStream__sub_800FDD64(void) {  }
+}
 
 s32 TGStream::get_file_size() { return gstream_file_size; }
-}
 s32 get_gstream_buffered_bytes();
 GslArchiveEntry *find_gsl_entry(const char *name, s32 unused) {
     GslArchiveEntry *e;

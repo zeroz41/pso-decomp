@@ -61,7 +61,6 @@ extern struct Tbl_8020335C group_selection_area_id_table;
 
 
 
-extern "C" s32 is_item_area_enabled(s32 area);
 
 
 extern s32 boss_area_id_table[];
@@ -93,9 +92,7 @@ s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 depth, f32 
 
 
 
-SceneMaterialNode* resolve_indirect_node_record(void*,SceneMaterialStatic*);
 
-SceneMaterialNode* resolve_indirect_object_record(void*,SceneMaterialAnimated*);
 
 
 
@@ -242,9 +239,6 @@ s32 floor_bin_file_size;
 void *material_info_buffer;
 s32 scene_file_buffer_size;
 
-extern "C" {
-s32 load_texture_sequence_frame(void *task, SceneMaterialCycle *c);
-}
 void load_scene_map_file(saddr name);
 void load_scene_collision_file(saddr name);
 void load_floor_scene(void);

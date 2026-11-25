@@ -101,15 +101,15 @@ TObjEneMe3ShinowaMoveParams TObjEneMe3ShinowaMirage::init_params = {
     225.0f, 0.0f, 0x600,
 };
 
-extern "C" {
-
 CollisionBody shinowa_mirage_model_init_data[1] = {
     {{0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
+extern "C" {
 
 __declspec(section ".data") const char *bm_ene_me3_shinowa_model_names[2] = {
     shinowa_model, NULL,
 };
+}
 
 const char *bm_ene_me3_shinowa_motion_names[11] = {
     shinowa_apper_motion, shinowa_backstep_motion, shinowa_damage_motion, shinowa_death_motion,
@@ -2018,5 +2018,4 @@ void TObjEneMe3ShinowaMirage::state_fade_out(s32 mode) {
         update_ground_contact();
         break;
     }
-}
 }

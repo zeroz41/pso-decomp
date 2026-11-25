@@ -6,7 +6,6 @@
 #pragma dont_inline off
 #pragma inline_depth(2)
 
-extern "C" {
 QuestDownloadNameCacheImage name_cache_image;
 QuestDownloadCachedNameIndex name_cache_index;
 u8 name_cache_dirty;
@@ -14,6 +13,7 @@ u8 *name_cache_pool_end;
 u8 *name_cache_pool_cursor;
 s32 lbl_805D7874;
 QuestDownloadCachedNameNode *name_cache_node_list;
+extern "C" {
 void mark_name_cache_dirty(void) {
     name_cache_dirty = 1;
 }

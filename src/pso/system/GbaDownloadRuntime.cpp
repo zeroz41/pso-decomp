@@ -15,7 +15,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/memory.h"
 
-extern "C" {
 u8 *gba_download_data_buffer;
 uaddr gba_download_graph;
 u32 gba_download_data_size;
@@ -27,6 +26,7 @@ unsigned char gba_identifier_value;
 short gba_identifier_slot_plus_1;
 // The game code the GBA program header carries at 0xAC (gba_calc_joyboot_checksum copies it in).
 const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
+extern "C" {
 
 u32 SIProbe(s32);
 
@@ -146,9 +146,6 @@ struct DateStamp_8032C9A8 { s32 days; s32 mins; s32 ticks; };
 
 struct Rec_8032C9A8 { u32 a; u32 b; u32 c; };
 
-extern "C" {
-
-
 #pragma push
 #pragma fp_contract on
 void stamp_joyboot_image(s32 arg0, s32 arg1) {
@@ -173,7 +170,6 @@ void stamp_joyboot_image(s32 arg0, s32 arg1) {
     }
 }
 #pragma pop
-}
 
 void gba_calc_joyboot_checksum() {
     u8 *q;

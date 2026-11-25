@@ -3,7 +3,6 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/QuestDownloadServer.h"
 
-extern "C" {
 char quest_vm_download_server_file_info[0x44] ATTRIBUTE_ALIGN(4);
 QuestDownloadFileCache quest_download_slot_table;
 u8 quest_name_index_table[1024][4] ATTRIBUTE_ALIGN(4);
@@ -13,6 +12,7 @@ s32 quest_download_header_name_index_hi_count;
 QuestDownloadCachePage *file_page_cache_head;
 s32 quest_download_name_search_lo;
 s32 quest_download_name_search_hi;
+extern "C" {
 
 s32 render_input_entries_text(s32 start, s32 count, u16 *buf, s32 flag) {
     QuestDownloadInputEntry *e;

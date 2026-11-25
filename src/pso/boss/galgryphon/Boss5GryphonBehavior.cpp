@@ -426,11 +426,8 @@ void TBoss5Gryphon::apply_poison_status() {  }
 
 TBoss5Gryphon *TBoss5Gryphon::get_instance() { return boss5_gryphon_instance; }
 
-extern "C" {
 const Vec *get_arena_center(void) {
     return &boss5_gryphon_arena_center;
-}
-
 }
 void get_gryphon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset) {
     if (boss5_gryphon_instance == NULL) {

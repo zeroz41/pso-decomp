@@ -8,8 +8,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 
-extern "C" {
-
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target) {
     if (fn_800BC758(history) != 0 && attack_target_history_contains(history, target) == 0) {
         push_attack_target_entry(history, target);
@@ -39,7 +37,6 @@ PointerBuffer::~PointerBuffer() {
         mem_free(entries);
         entries = NULL;
     }
-}
 }
 
 s32 push_attack_target_entry(PointerBuffer *buffer, void *entry) {

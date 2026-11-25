@@ -189,7 +189,9 @@ struct ByteBlock_14 { u8 bytes[0x14]; };
 extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
 void apply_lobby_markers__6TLobbyFv();
+}
 void lobby_debug_printf_stub(const char *fmt, ...);
+extern "C" {
 void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt);
 void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
@@ -203,8 +205,10 @@ extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 void handle_chat_message__11TWindowCtrlFPc(char *);
 void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused);
+}
 void show_card_list_message(void *msg);
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
+extern "C" {
 void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);

@@ -1,4 +1,5 @@
 #include <string.h>
+#include "pso/system/SwitcherLaunch.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXManage.h>
 #include <dolphin/vi.h>

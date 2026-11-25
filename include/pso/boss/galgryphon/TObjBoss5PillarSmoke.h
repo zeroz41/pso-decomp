@@ -23,10 +23,10 @@ struct TObjBoss5PillarSmoke : public TObject {
 LAYOUT_ASSERT(TObjBoss5PillarSmoke_size, sizeof(TObjBoss5PillarSmoke) == 0x28);
 
 // The model-node callback TObjBoss5Pillar::render installs (begin_pillar_smoke_node_capture) and clears (sub_8028ADB0) for a smoke.
-extern "C" {
 void pillar_smoke_node_callback(NJS_OBJECT *node);
 void end_pillar_smoke_node_capture(TObjBoss5PillarSmoke *smoke);
 void begin_pillar_smoke_node_capture(TObjBoss5PillarSmoke *smoke);
 void park_pillar_smoke_particles(TObjBoss5PillarSmoke *smoke);
-}
+void place_pillar_smoke_at_node(TObjBoss5PillarSmoke *smoke, NJS_OBJECT *node);
+
 #endif

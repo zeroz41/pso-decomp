@@ -596,9 +596,6 @@ s32 TObjPlayer__sub_80104840(s32 arg0) {
 
 // ---- TObjPlayer_80104860.cpp
 
-extern "C" {
-s32 item_identity_matches(u8 *arg0, u8 *arg1);
-}
 s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2);
 
 s32 is_local_player_off_current_floor() {
@@ -951,7 +948,6 @@ ItemCreateFunction item_create_fn_table[5] = {
     TItemMoney::create,
 };
 extern Entry_8010567C *quest_object_entries;
-int check_class_equip_permission(TObjPlayer *player, s32 perm);
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
 void *build_6x06_send_guild_card(void *arg0);

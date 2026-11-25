@@ -281,7 +281,6 @@ void handle_6x04_legacy_activate_switch_by_token(G_LegacyActivateSwitchByToken_6
 void handle_6x03(void) {  }
 void handle_6x02(void) {  }
 
-extern "C" {
 void dispatch_6x_subcommand(G_ParameterHeader *command) {
     s32 i;
     char buf[0x80];
@@ -294,7 +293,6 @@ void dispatch_6x_subcommand(G_ParameterHeader *command) {
             return;
         }
     }
-}
 }
 
 void TPsoDataBuf::recv_pso_data_buf(size_t size) {

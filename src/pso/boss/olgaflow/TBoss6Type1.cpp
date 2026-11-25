@@ -227,13 +227,9 @@ void TBoss6Type1::apply_poison_status() {  }
 TBoss6Type1 *TBoss6Type1::create(Boss6BodySpawnParams *params) {
     return new TBoss6Type1(new TObjControl(tl_04), params);
 }
-extern "C" {
-
-
 u8 *copy_boss6_type1_vec(saddr dest, saddr source) {
     *(ByteBlock_C_boss6_1 *)(dest) = *(const ByteBlock_C_boss6_1 *)(source);
     return (u8 *)dest;
-}
 }
 
 #pragma push

@@ -33,9 +33,9 @@ extern "C" {
 f32 calc_nearest_crater_distance(Vec *position);
 // TLobby::update_boss1_objects calls it with the other arena objects' teardown hooks; empty.
 void TObjBoss1Crater__sub_8002C7B4(void);
+}
 // TLobby::init_bosses calls it: empties TObjBoss1Crater__instance_list.
 void clear_boss1_crater_instances(void);
-}
 
 // An attack-target list's entry count.
 s32 attack_target_list_count(PointerBuffer *buffer);

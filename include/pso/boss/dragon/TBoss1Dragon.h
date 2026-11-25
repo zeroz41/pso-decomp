@@ -327,4 +327,8 @@ struct Boss1DragonParams {
 struct DragonModelState { s32 state[2]; f32 params[4]; };
 struct DragonEffectRotation { s32 x, y, z; };
 
+struct DragonAttackParams;
+
+void copy_dragon_attack_params(DragonAttackParams *destination, const DragonAttackParams *source);
+
 #endif

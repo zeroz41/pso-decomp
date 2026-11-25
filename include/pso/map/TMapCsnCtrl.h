@@ -27,10 +27,12 @@ struct TObjMapCsn;
 
 extern "C" {
 void fn_80140DFC(TMapCsnCtrl *controller, TObjMapCsn *object);
+}
 void remove_collision_group(TMapCsnCtrl *controller, CsnGroup *group);
+extern "C" {
 void fn_80140EA8(TMapCsnCtrl *controller, TObjMapCsn *object);
+}
 void register_slot(TMapCsnCtrl *controller, CsnGroup *group);
 void collect_collision_groups(TMapCsnCtrl *controller, CsnGroup *groups);
-}
 
 #endif

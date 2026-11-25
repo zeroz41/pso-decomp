@@ -32,8 +32,6 @@ LAYOUT_ASSERT(TBoss6Zanzo_size, sizeof(TBoss6Zanzo) == 0x2C);
 LAYOUT_ASSERT(TBoss6Zanzo_current_offset, offsetof(TBoss6Zanzo, current) == 0x20);
 LAYOUT_ASSERT(TBoss6Zanzo_point_count_offset, offsetof(TBoss6Zanzo, point_count) == 0x24);
 
-extern "C" {
 void copy_boss6_trail_point(Boss6TrailPoint *dest, const Boss6TrailPoint *source);
-}
 
 #endif

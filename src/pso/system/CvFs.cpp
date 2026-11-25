@@ -13,7 +13,6 @@ struct CvFsHandle {
     void *fd;
 };
 
-extern "C" {
 extern s8 fs_default_device_name[];
 extern TLobbyEntry cvfs_entry_table[];
 s32 lbl_805D7600;
@@ -24,6 +23,7 @@ s8 fs_default_device_name[12];
 TLobbyEntry cvfs_entry_table[32];
 CvFsHandle si_type_info_table[40];
 extern const char lbl_805E0DA4[6] = "%s:%s";
+extern "C" {
 
 inline void cvfs_split_path(char *dev, char *file, char *path) {
     s32 i;
@@ -363,6 +363,7 @@ s32 cvFsGetFreeSize(char *dev) {
     }
     return 0;
 }
+}
 
 s32 cvFsGetFileSizeEx(const char *name, s32 arg) {
     char *path = const_cast<char *>(name);
@@ -439,6 +440,7 @@ s32 cvFsGetStat(CvFsHandle *handle) {
     }
     return var_r31;
 }
+extern "C" {
 
 void TLobby__sub_803CEF60(void) {
     s32 i;
@@ -449,6 +451,7 @@ void TLobby__sub_803CEF60(void) {
             p->device->exec_server();
         }
     }
+}
 }
 
 void cvFsStopTr(CvFsHandle *handle) {
@@ -468,6 +471,7 @@ void cvFsStopTr(CvFsHandle *handle) {
         }
     }
 }
+extern "C" {
 
 // Dead-stripped (see above); keeps "cvFsReqWr" strings between cvFsStopTr's and cvFsReqRd's.
 s32 cvFsReqWr(CvFsHandle *fd, s32 nsct, void *buf) {
@@ -477,6 +481,7 @@ s32 cvFsReqWr(CvFsHandle *fd, s32 nsct, void *buf) {
         cvfs_error("cvFsReqWr #2:vtbl error");
     }
     return 0;
+}
 }
 
 s32 cvFsReqRd(CvFsHandle *handle, s32 sector_count, void *buffer) {
@@ -607,6 +612,7 @@ CvFsHandle *cvFsOpen(const char *name, s32 mode, s32 arg) {
     }
     return h;
 }
+extern "C" {
 inline s32 find_803CF958(char *s, s32 len) {
     TLobbyEntry *p;
     s32 i;
@@ -616,6 +622,7 @@ inline s32 find_803CF958(char *s, s32 len) {
         }
     }
     return 0;
+}
 }
 void cvFsSetDefDev(char *src) {
     s32 len;
@@ -646,6 +653,7 @@ void cvFsSetDefDev(char *src) {
         cvfs_completion_callback(cvfs_completion_context, "cvFsSetDefDev #2:unknown device name", 0);
     }
 }
+extern "C" {
 
 // Dead-stripped (see above); keeps its string between cvFsSetDefDev's and cvFsAddDev's.
 void cvFsDelDev(char *dev) {
@@ -681,6 +689,7 @@ inline CvFsDeviceInterface *cvfs_add_device(char *name, CvFsDeviceInterface *dev
     cvfs_entry_table[k].device = dev;
     memcpy(cvfs_entry_table[k].name, name, strlen(name) + 1);
     return dev;
+}
 }
 void cvFsAddDev(char *name, CvFsDeviceFactory getif, s32 arg) {
     CvFsDeviceInterface *dev;
@@ -736,6 +745,4 @@ void cvFsFinish(void) {
         memset(fs_default_device_name, 0, 9);
         ((s8 *)fs_default_device_name)[0] = 0;
     }
-}
-
 }

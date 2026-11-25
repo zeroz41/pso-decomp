@@ -1,4 +1,5 @@
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/map/AreaEventSet.h"
 #include "pso/map/MapSetArchive.h"
 // Area event sets: the per-floor event records (".evt" files from gsl_set_event.gsl), their
 // byte swapping, sync records and the destroy-event spawn. One TU: its .rodata opens 8-aligned at
@@ -29,8 +30,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-}
 
 int set_event_destroy_id;
 THeap *area_event_set_heap;

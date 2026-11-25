@@ -3,8 +3,6 @@
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/SjRingBuffer.h"
 
-extern "C" {
-
 u8 ref_counted_load_buffer[0xC00];
 s32 lobby_buffer_refcount;
 
@@ -21,11 +19,8 @@ void ref_counted_work_buffer_init(void) {
     lobby_buffer_refcount += 1;
 }
 
-}
-
 struct ByteBlock_8 { u8 bytes[0x8]; };
 
-extern "C" {
 u32 lbl_804F9E60[112] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -37,6 +32,7 @@ u32 lbl_804F9E60[112] = {
 };
 
 #define HEX_DIGIT_VALUE(p, i) lbl_804F9E60[(s8)(p)[i]]
+extern "C" {
 inline s32 parse_hex_size(u8 *p) {
     s32 v = HEX_DIGIT_VALUE(p, 8);
     v = (v << 4) + HEX_DIGIT_VALUE(p, 9);
@@ -46,6 +42,7 @@ inline s32 parse_hex_size(u8 *p) {
     v = (v << 4) + HEX_DIGIT_VALUE(p, 13);
     v = (v << 4) + HEX_DIGIT_VALUE(p, 14);
     return v;
+}
 }
 u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk *out) {
     u8 *p;
@@ -73,6 +70,7 @@ u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk
 
 #pragma push
 #pragma scheduling off
+extern "C" {
 void TLobby__sub_803D3130(const SjChunk *chunk, s32 size, SjChunk *prefix, SjChunk *remainder) {
     *(ByteBlock_8 *)(prefix) = *(const ByteBlock_8 *)(chunk);
     remainder->size = prefix->size;
@@ -86,6 +84,5 @@ void TLobby__sub_803D3130(const SjChunk *chunk, s32 size, SjChunk *prefix, SjChu
     }
     remainder->data = prefix->data + prefix->size;
 }
-#pragma pop
-
 }
+#pragma pop

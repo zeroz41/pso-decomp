@@ -10,8 +10,8 @@ struct CameraParams;
 // eye of the current one.
 extern CameraParams *demo_camera_params_table[16];
 
-extern "C" {
 TQuestVmDownLoadServer *get_quest_vm_download_server(void);
+extern "C" {
 void TLobby__sub_8007EB20(const char *format, ...);
 void TLobby__sub_8007EB70(void);
 void __dl__FPv(void);

@@ -39,9 +39,7 @@ LAYOUT_ASSERT(ChunkStripGrid_size, sizeof(ChunkStripGrid) == 0x68);
 f32 apply_default_velocity_scale(Vec *vector);
 f32 apply_velocity_scale(Vec *vector, f32 radius, f32 height);
 
-extern "C" {
 f32 random_range(f32 lo, f32 hi);
 f32 rand_signed_unit(void);
-}
 
 #endif

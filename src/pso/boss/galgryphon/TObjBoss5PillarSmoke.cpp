@@ -22,7 +22,6 @@ static const Vec pillar_smoke_node_origin = {0.0f, 0.0f, 0.0f};
 // The pillar's model callback and the smoke placement: their .sbss, the two
 // templates above and the smoke layout are this unit's, so the TU starts at
 // the model callback, not at the destructor.
-extern "C" {
 s32 boss5_pillar_demo_index;
 TObjBoss5PillarSmoke *boss5_pillar_demo_ptr;
 
@@ -67,7 +66,6 @@ void park_pillar_smoke_particles(TObjBoss5PillarSmoke *smoke) {
             smoke->particles_b[i]->set_position((void *)&pillar_smoke_parked_position);
         }
     }
-}
 }
 
 void TObjBoss5PillarSmoke::render() {  }

@@ -41,4 +41,6 @@ extern int quest_active_flag;
 // Random-enemy mode the quest script selected (0 = off).
 extern int evt2_random_enemies_mode;
 
+s32 expand_message_substitutions(s32 source, s32 result);
+
 #endif

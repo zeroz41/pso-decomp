@@ -540,7 +540,6 @@ u16 TItemData::get_packed_value() {
 }
 #undef lookup_item_pmt_record
 
-u8 get_weapon_class_motion_type(u8);
 s32 get_item_icon_index(const u8 *q);
 
 s32 TItemData::is_usable(void *data) {
@@ -1457,7 +1456,6 @@ struct Pmt_8010DF9C
   u8 pad_e[2];
   u8 level;
 };
-f32 get_item_price_coefficient(u8 type, u8 sub);
 s32 TItemData::calc_price() {
   Item_8010DF9C *item = (Item_8010DF9C *) this;
   Pmt_8010DF9C *pmt;

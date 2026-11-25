@@ -54,9 +54,9 @@ void reset_trade_session(const char *message);
 void send_trade_busy_reply(saddr client_id);
 void update_status_message(G_ModifyTradeProposal_6xA6 *proposal);
 
-extern "C" {
 saddr build_trade_partner_status_text(void);
 void send_6xA6_modify_trade_proposal(saddr client_id);
-}
+
+void snapshot_trade_inventories(void);
 
 #endif

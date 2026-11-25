@@ -7,8 +7,10 @@
 struct DragonAttackParams;
 class TObject;
 
-extern "C" {
 void break_floor_grass_in_range(TObject *floor_grass, const Vec *pos, const DragonAttackParams *params);
-}
+
+struct NJS_TEXLIST;
+
+NJS_TEXLIST *get_green_door_textures(void);
 
 #endif

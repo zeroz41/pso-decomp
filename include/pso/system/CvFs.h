@@ -7,18 +7,19 @@
 struct CvFsHandle;
 
 // --- C functions defined in text_803CE568.cpp ---
-extern "C" {
-
 void cvFsFinish(void);
+extern "C" {
 void TLobby__sub_803CEF60(void);
 s32 cvFsAddVolume(char *dev, char *vol, void *img);
 s32 cvFsChangeDir(char *path);
 void cvFsDelDev(char *dev);
 s32 cvFsDelVolume(char *dev, char *vol);
 s32 cvFsDeleteFile(char *path);
+}
 s32 cvFsGetFileSize(const char *path);
 CvFsHandle *cvFsOpen(const char *path, s32 mode, s32 extra);
 s32 cvFsGetFileSizeEx(const char *path, s32 arg);
+extern "C" {
 s32 cvFsGetFreeSize(char *dev);
 s32 cvFsGetVolumeInfo(char *dev, char *vol, void *info);
 void cvFsInit(void);
@@ -35,5 +36,7 @@ void cvfs_split_path(char *dev, char *file, char *path);
 s32 find_803CF958(char *s, s32 len);
 }
 // --- end of C functions
+
+void cvFsSetDefDev(char *src);
 
 #endif

@@ -203,4 +203,8 @@ struct SnapshotFrameBuffer {
     u8 save_image[0x1E000];
 };
 
+struct G_PlaySound_6xB2;
+
+void bswap_6xB2_play_sound(G_PlaySound_6xB2 *cmd);
+
 #endif

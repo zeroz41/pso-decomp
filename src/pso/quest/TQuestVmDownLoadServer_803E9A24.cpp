@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/quest/TQuestVmDownLoadServer_803E9A24.h"
 #include <stddef.h>
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -526,7 +527,6 @@ __declspec(section ".rodata") extern const u8 romaji_kana_char_class_table[0x100
     0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08,
 };
 
-extern "C" {
 s32 TQuestVmDownLoadServer::is_download_cmd_allowed(u8 cmd) {
     if ((lbl_805D7888 - 1) <= 1U) {
         return 0;
@@ -555,6 +555,7 @@ s32 TQuestVmDownLoadServer::is_download_cmd_allowed(u8 cmd) {
 #pragma dont_inline off
 #pragma inline_depth(1)
 #pragma opt_common_subs off
+extern "C" {
 inline s32 IsX_803E9FFC(u8 cmd) {
     if ((lbl_805D7888 - 1) <= 1U) {
         return 0;
@@ -754,6 +755,7 @@ s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0) {
     }
     return r->x15;
 }
+}
 
 QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head, QuestDownloadEntryNode *entry) {
     QuestDownloadEntryNode *cur;
@@ -780,6 +782,7 @@ QuestDownloadEntryNode *insert_quest_download_entry(QuestDownloadEntryNode *head
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
+extern "C" {
 QuestDownloadEntryNode *TQuestVmDownLoadServer__sub_803E9FFC(s32 start, s32 end, const QuestDownloadItemNode *t) {
     s32 off;
     QuestDownloadEntryNode *head;
@@ -1415,6 +1418,7 @@ void TQuestVmDownLoadServer__sub_803EAE84(s32 begin, s32 end, s32 mode) {
         TQuestVmDownLoadServer__sub_803EADD4(slot, mode);
     }
 }
+}
 
 void TQuestVmDownLoadServer::init_entries() {
     QuestDownloadSlot *slot;
@@ -1431,5 +1435,4 @@ void TQuestVmDownLoadServer::init_entries() {
         slot->x18 = -1;
         slot->x19 = -1;
     }
-}
 }

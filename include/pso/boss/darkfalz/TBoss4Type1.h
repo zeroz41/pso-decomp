@@ -123,10 +123,8 @@ LAYOUT_ASSERT(TBoss4Type1_grid_target_offset, offsetof(TBoss4Type1, grid_target)
 LAYOUT_ASSERT(TBoss4Type1_anim_offset, offsetof(TBoss4Type1, anim) == 0x3E4);
 LAYOUT_ASSERT(TBoss4Type1_size, sizeof(TBoss4Type1) == 0x49C);
 
-extern "C" {
 void pick_tenchu_furu_spots();
 void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist);
-}
 
 // Scene archive ids of the six Dark Falz body models.
 extern s32 boss4_type1_model_ids[];
@@ -151,5 +149,10 @@ struct TBoss4Type1AttackTables {
     f32 weights[2];
     s32 attacks[2];
 };
+
+class TObject;
+
+void apply_tenchu_hits(TObject *source);
+void spawn_tenchu_furu(TObject *parent);
 
 #endif

@@ -32,7 +32,9 @@ u8 default_setting_02(void *) { return 0; }
 u8 default_setting_03(void *) { return 0; }
 u8 default_setting_04(void *) { return 0; }
 u8 default_setting_05(void *) { return 0; }
+}
 u8 default_setting_06(void *) { return 0; }
+extern "C" {
 u8 default_setting_07(void *) { return 0; }
 u8 default_setting_08(void *) { return 0; }
 u8 default_setting_09(void *) { return 0; }

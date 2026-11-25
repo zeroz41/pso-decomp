@@ -1,11 +1,9 @@
 #include "types.h"
+#include "pso/item/TItemObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItemToolStarAtomizer.h"
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
-void send_star_atomizer_targets(TObjPlayer *player);
-}
 
 void TItemToolStarAtomizer::apply_use_effect() { send_star_atomizer_targets(this->owner); }
 

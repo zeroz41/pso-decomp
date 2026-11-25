@@ -222,8 +222,6 @@ struct TObjEneDD;
 s32 TBoss7Joint_get_shell_max_hp(void);
 void handle_6xA9_barba_ray_boss_actions(G_BarbaRayBossActions_6xA9 *packet);
 void handle_6xAA_barba_ray_boss_actions(G_BarbaRayBossActions_6xAA *packet);
-extern "C" {
 AnimationMotion *get_boss7_motion(s32 kind);
-}
 
 #endif

@@ -139,7 +139,6 @@ extern const ModelNodeSpec boss4_type1_model_node_table[7] = {
 
 Vec TBoss4Type2::tenchu_furu_array[64];
 
-extern "C" {
 void pick_tenchu_furu_spots() { pick_tenchu_furu_spots_around(NULL, 0.0f); }
 
 void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist) {
@@ -317,8 +316,6 @@ void apply_tenchu_hits(TObject *source) {
 
 TBoss4Type1 *TBoss4Type1::create(TBoss4FormSetData *set_data) {
     return new TBoss4Type1(new TObjControl(tl_04), set_data);
-}
-
 }
 
 TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEnemy(parent) {

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -3676,8 +3677,6 @@ void TBoss2DeRolLe::handle_despawn_state(u32 reason) {
     }
 }
 
-extern "C" {
-
 // The model-node callback the body draws with: records the listed nodes' positions, the breakup
 // piece points and the matrices the tentacles and joints follow.
 void derolle_capture_node_points(NJS_OBJECT *) {
@@ -3708,8 +3707,6 @@ void derolle_capture_node_points(NJS_OBJECT *) {
         derolle_capture_tentacle_matrices++;
     }
     derolle_capture_node_index += 1;
-}
-
 }
 
 void derolle_begin_node_capture(TBoss2DeRolLe *boss) {

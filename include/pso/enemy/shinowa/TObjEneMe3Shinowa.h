@@ -106,4 +106,6 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
 LAYOUT_ASSERT(TObjEneMe3Shinowa_m_3e8, offsetof(TObjEneMe3Shinowa, fade) == 0x3E8);
 LAYOUT_ASSERT(TObjEneMe3Shinowa_size, sizeof(TObjEneMe3Shinowa) == 0x42C);
 
+void load_shinowa_mirage_resources(void);
+
 #endif

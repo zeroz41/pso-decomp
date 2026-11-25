@@ -120,8 +120,8 @@ struct TargetCandidate {
 void calc_wall_clamped_destination(TObjEneDD *self, Vec *dest, f32 dx, f32 dz, f32 dist);
 void calc_wall_slide_destination(TObjEneDD *self, Vec *out, f32 dx, f32 dz, f32 dist);
 
-extern "C" {
 extern TargetCandidate enemy_target_candidate_table[4];
+extern "C" {
 // Copies world points into the actor's collision body centers and stores
 // them, moved into the actor's frame, in the bodies' offsets.
 void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points);
@@ -130,24 +130,34 @@ void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points);
 s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 range);
 void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
+}
 s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
 u16 enemy_nearest_visible_enemy(void *self, f32 range);
 u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range);
+extern "C" {
 s32 is_player_entity_id(u16 id);
+}
 // 1 for an enemy's entity id (0x1000-0x3FFF).
 int is_enemy_entity_id(u16 id);
 s32 pack_debug_text_position(s32 x, s32 y);
 void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance);
+extern "C" {
 void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target);
 void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target);
+}
 void setup_attack_at_owner(TObjBase *owner, DragonAttackParams *params);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
+extern "C" {
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src);
 void TBoss8Dragon__sub_800BB7D4(void *self, int id);
+}
 CsnHit *enemy_turn_and_move_xz_clamped(TObjEneDD_ST *self, s32 max_step, f32 distance);
+extern "C" {
 CsnHit *enemy_turn_and_move_xz_slide(TObjEneDD_ST *self, s32 max_step, f32 distance);
+}
 CsnHit *enemy_turn_and_move_shot_step(TObjEneDD_ST *self, s32 iscale, f32 scale);
+extern "C" {
 void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);
 }
@@ -162,5 +172,13 @@ s32 tick_period_counter(s32 self, s32 *counter, s32 limit);
 // The far (310) and near (155) depths the enemies' render() hands classify_actor_view_detail.
 extern const f32 view_detail_far_depth;
 extern const f32 view_detail_near_depth;
+
+class TObjChara;
+struct BmlResource;
+struct BmlResourceDescriptor;
+
+s32 enemy_bind_or_clear_target(TObjEneDD_ST *self, u16 id);
+u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range);
+BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, const char *archive_filename);
 
 #endif

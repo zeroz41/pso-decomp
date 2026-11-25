@@ -95,10 +95,7 @@ f32 fabs_float(f32);
 
 
 
-extern "C" {
 TargetCandidate enemy_target_candidate_table[4];
-u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range);
-}
 
 
 #include "pso/enemy/fly/TObjEneBm3Fly.h"

@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/CurvePathPoint.h"
 #include "pso/enemy/BattleParameters.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/GbaDownloadRuntime.h"
@@ -198,8 +199,6 @@ namespace pf2_p0 { extern "C" { extern AppendCardWindowTextRecoveredGlobal quest
 namespace pf2_p0 { extern "C" { extern AppendCardWindowTextRecoveredGlobal quest_player_name_buffer; } }
 #define quest_player_name_buffer pf2_p0::quest_player_name_buffer
 void append_player_name(void);
-extern "C" {
-}
 namespace pf2_p0 { extern "C" { s32 is_message_source_exhausted(); } }
 #define is_message_source_exhausted pf2_p0::is_message_source_exhausted
 namespace pf2_p0 { extern "C" { s8 read_byte_advance__6TLobbyFv(); } }
@@ -208,7 +207,6 @@ void append_message_char(s8);
 extern "C" {
 namespace pf2_p0 { extern "C" { void begin_message_substitution(); } }
 #define begin_message_substitution pf2_p0::begin_message_substitution
-s32 expand_message_substitutions(s32 source, s32 result);
 }
 namespace pf2_p0 { extern "C" { s32 parse_r_index(const char *); } }
 #define parse_r_index pf2_p0::parse_r_index
@@ -532,8 +530,6 @@ void append_message_char(s8 c) {
 }
 #undef quest_string_append_cursor
 extern "C" {
-}
-extern "C" {
 
 void begin_message_substitution(u8 *a0, char *a1) { quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
 }
@@ -830,7 +826,9 @@ int set_quest_exit_callback(void*);
 int set_quest_cancel_callback(void*);
 int set_quest_success_callback(void*);
 int set_quest_failure_callback(void*);
-s32 clear_floor_event_flags();
+}
+void clear_floor_event_flags(void);
+extern "C" {
 s32 is_room_enemy_set_cleared(int, int, void *);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot);
@@ -2613,8 +2611,6 @@ void qst_op_get_guild_card_file_creation_time(s32 reg) {
     qst_registers[(u8)reg] = 0;
 }
 
-extern "C" {
-}
 void qst_op_take_slot_meseta(s32 regs, s32 dst) {
     TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)regs++]);
     if (player != NULL) {

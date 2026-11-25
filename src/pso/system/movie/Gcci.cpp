@@ -14,11 +14,9 @@
 extern const char gcci_version_string[] = "\nGCCI Ver.1.07 Build:Jun 13 2002 19:00:24\n";
 
 
-extern "C" {
 s32 fileio_error_context;
 CvFsErrorCallback fileio_error_callback;
 volatile s32 gcci_init_guard;
-s32 fileio_seek(void *context, s32 sectors, s32 origin);
 extern char dvd_default_path_buffer[0x100];
 extern GcciStatus dvd_active_request;
 extern GcciRequest dvd_request_table[40];
@@ -78,6 +76,7 @@ s32 get_handle_value_checked(void *context) {
     }
     return handle->state;
 }
+extern "C" {
 
 inline s32 dvd_request_idle(GcciRequest *r) {
     s32 idle = 0;
@@ -85,6 +84,7 @@ inline s32 dvd_request_idle(GcciRequest *r) {
         idle = 1;
     }
     return idle;
+}
 }
 
 void cancel_dvd_request(void *arg) {
@@ -142,6 +142,7 @@ void cancel_dvd_request(void *arg) {
 #pragma explicit_zero_data on
 s32 dvd_synchronous_read_enabled = 0;
 #pragma explicit_zero_data off
+extern "C" {
 
 inline s32 dvd_request_ready(GcciRequest *r) {
     s32 ready = 0;
@@ -193,6 +194,7 @@ inline void dvd_poll_requests(void) {
             }
         }
     }
+}
 }
 
 s32 gcCiReqRd(void *arg, s32 count, void *buf) {
@@ -353,6 +355,7 @@ close_req:
     r->active = 0;
     memset(r, 0, sizeof(GcciRequest));
 }
+extern "C" {
 
 inline GcciRequest *dvd_find_free_request(void) {
     GcciRequest *found = NULL;
@@ -364,6 +367,7 @@ inline GcciRequest *dvd_find_free_request(void) {
         }
     }
     return found;
+}
 }
 
 void *gcCiOpen(const char *name, s32 entry, s32 mode) {
@@ -502,7 +506,6 @@ void poll_dvd_requests(void) {
         }
     }
 }
-}
 
 // The "GCD" device's entry points, in the slots the cvFs layer calls (cvFsAddDev registers
 // initialize_dvd_file_driver, which returns this table).
@@ -527,8 +530,6 @@ void set_dvd_synchronous_read_mode(s32 unused0, s32 unused1, s32 unused2, s32 en
     dvd_synchronous_read_enabled = enabled;
 }
 #pragma pop
-extern "C" {
 GcciStatus dvd_active_request;
 GcciRequest dvd_request_table[40];
 char dvd_default_path_buffer[0x100] ATTRIBUTE_ALIGN(8);
-}
