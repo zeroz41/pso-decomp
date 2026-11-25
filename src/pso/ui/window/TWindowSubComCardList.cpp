@@ -83,7 +83,7 @@ void TWindowSubComCardList::sub_80275360() {
     }
 }
 
-s32 TWindowSubComCard::create_card_list(saddr parent, s32 card_slot, s32 count, s32 empty_message) {
+s32 TWindowSubComCard::create_card_list(saddr parent, saddr card_slot, s32 count, s32 empty_message) {
     fn_80266378(7);
     return (saddr)new TWindowSubComCardList((const NJS_POINT2 *)parent, card_slot, count, empty_message);
 }
@@ -148,7 +148,7 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWind
     set_scroll_target(223.0f, 184.0f);
 }
 
-TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, s32 card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
+TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, saddr card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
     n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, arg3) / 7.0f);

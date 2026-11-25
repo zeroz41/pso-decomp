@@ -77,7 +77,7 @@ struct TWindowSubComCard : public TObject {
     uaddr get_field_20();
     void set_entry_value_clear_flag(s32 idx, s32 val);
     s32 get_entry_id();
-    static s32 create_card_list(saddr parent, s32 card_slot, s32 count, s32 empty_message);
+    static s32 create_card_list(saddr parent, saddr card_slot, s32 count, s32 empty_message);
     // Opens the list over every stored guild card (create_card_list's all-cards form).
     static u8 *sub_802754EC(saddr parent);
     void free_windows();
