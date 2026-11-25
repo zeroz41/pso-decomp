@@ -161,7 +161,7 @@ void TObjChallenge4PRetry::open_giveup_window() {
         temp->close();
         this->menu = NULL;
     }
-    this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(reinterpret_cast<saddr>(get_window_layout_position(0x3A)), 3));
+    this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(get_window_layout_position(0x3A), 3));
     if (this->menu != NULL) {
         this->menu->add_text_entry(get_message_text(0x5B), 5, 0);
         this->menu->add_text_entry(get_message_text(0x5C), 5, 1);

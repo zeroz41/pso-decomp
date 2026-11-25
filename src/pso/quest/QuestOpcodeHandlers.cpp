@@ -72,6 +72,7 @@ s32 qst_call_stack_pop(void);
 int qst_label_address(int label);
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/trap/TOMineTrap.h"
@@ -918,7 +919,6 @@ void clear_current_floor_switch(s32 id);
 void set_current_floor_switch(s32 id);
 void init_switch_table(void);
 extern "C" {
-saddr get_window_layout_position(s32);
 saddr create_equip_kind_window(saddr, const f32 *, s32);
 s32 update_screen__6TLobbyFv();
 s32 set_challenge_split_flag__6TLobbyFv();
@@ -1108,7 +1108,7 @@ void qst_op_prevent_item_select(s32 reg) {
 }
 
 void qst_op_open_pack_select() {
-    qst_pack_select_window = (void *)create_equip_kind_window(get_window_layout_position(3), pack_select_window_pos, local_client_id);
+    qst_pack_select_window = (void *)create_equip_kind_window((saddr)get_window_layout_position(3), pack_select_window_pos, local_client_id);
     ((TWindowMenuIconLine *)qst_pack_select_window)->refresh_judgment_item_list();
     qst_pack_select_help_window = new TWindowHelpItem((void *)get_window_layout_position(2), local_client_id);
 }
@@ -4956,7 +4956,7 @@ void qst_op_list(void) {
     ((char * (*)(char *, const char *, u32))strncpy)(buf, text, 0x1FF);
     trim_whitespace(buf);
     list->tokenize_args(buf);
-    qst_list_window = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x37), list->count);
+    qst_list_window = create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
         ((TWindowMenu *)qst_list_window)->add_text_entry((saddr)list->tokens[i], 7, i);
     }

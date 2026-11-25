@@ -1,5 +1,6 @@
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/TCheckMemoryCard.h"
@@ -41,7 +42,7 @@ static const f32 check_memory_card_message_size[2] = {548.0f, 220.0f};
 static const CheckMemoryCardText check_memory_card_text[1] = {
     {0xB, 0x62, 0xA},
 };
-static const f32 check_memory_card_menu_pos[2] = {
+static const NJS_POINT2 check_memory_card_menu_pos = {
     20.0f + check_memory_card_message_pos[0],
     10.0f + (check_memory_card_message_pos[1] + check_memory_card_message_size[1]),
 };
@@ -189,9 +190,9 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
         return;
     }
     if (use_main_ctrl != 0) {
-        menu_window = (TWindowMenu *)create_window_menu((saddr)check_memory_card_menu_pos, 2, 4);
+        menu_window = create_window_menu(&check_memory_card_menu_pos, 2, 4);
     } else {
-        menu_window = (TWindowMenu *)create_window_menu_default((saddr)check_memory_card_menu_pos, 2);
+        menu_window = create_window_menu_default(&check_memory_card_menu_pos, 2);
     }
     if (message_window == NULL) {
         return;

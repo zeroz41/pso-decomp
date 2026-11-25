@@ -51,9 +51,9 @@ void TUnk_804D1AD0::render() {
 TWindowMenu *TUnk_804D1AD0::create_status_category_menu() {
     TWindowMenu *menu;
     if (TCameraCtrl::get_camera_id() > 2) {
-        menu = (TWindowMenu *)create_window_menu((saddr)get_window_layout_position(0x18), 3, client_id);
+        menu = create_window_menu(get_window_layout_position(0x18), 3, client_id);
     } else {
-        menu = (TWindowMenu *)create_titled_window_menu((saddr)get_window_layout_position(0x18), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
+        menu = create_titled_window_menu(get_window_layout_position(0x18), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
     }
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10A)), 0x36, 0);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10B)), 0x36, 1);

@@ -7,5 +7,5 @@
 
 u8 *fn_802754EC(saddr parent) {
     fn_80266378(7);
-    return (u8 *)new TWindowSubComCardList((void *)parent);
+    return (u8 *)new TWindowSubComCardList((const NJS_POINT2 *)parent);
 }

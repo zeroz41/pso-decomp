@@ -121,7 +121,7 @@ void TObjWarpJungMain::close_menu() { TObjWarpBase::close_menu(); TWindowCtrl::c
 void TObjWarpJungMain::open_confirm_window(s32 client_id) {
     s32 i;
     if (menu_window == 0) {
-        menu_window = (saddr)create_window_menu((saddr)get_window_layout_position(0x32), 3, client_id);
+        menu_window = (saddr)create_window_menu(get_window_layout_position(0x32), 3, client_id);
         for (i = 0; i < 3; i++) {
             ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }

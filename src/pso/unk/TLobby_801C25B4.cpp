@@ -32,6 +32,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800C7FEC.h"
@@ -52,6 +53,7 @@
 #include "pso/player/PlayerTrapCounts.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/unk/TLobby_801A3C48.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -302,7 +304,6 @@ void *__construct_new_array(void *, void *, void *, s32, s32);
 void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 void construct__19PlayerCharDataEntryFv(void);
 
-void *get_window_layout_position(s32);
 void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self);
 
 
@@ -322,7 +323,6 @@ void obj_clear_flag30_20000(void *actor);
 void record_local_battle_placement(void *);
 extern "C" {
 
-void *create_window_menu_default(void *, int);
 
 void update_duel_result__6TLobbyFPv(u8 *arg0);
 
@@ -459,7 +459,7 @@ void TLobby::update_battle_intro() {
     case 0:
         if (((Lobby_801C49B8 *)this)->window == NULL) {
             Pair_801C49B8 p = lbl_80446F94[0];
-            ((Lobby_801C49B8 *)this)->window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x52)), (const f32 *)(&p), 1);
+            ((Lobby_801C49B8 *)this)->window = TWindowMessage::create(get_window_layout_position(0x52), (const f32 *)(&p), 1);
         }
         lbl_805D5DA4 = 0;
         ((Lobby_801C49B8 *)this)->state = 1;
@@ -672,7 +672,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             q = (void *)(saddr)get_local_player();
             if (local_client_id == designated_client_id && TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
                 if (*(void **)((s8 *)arg0 + 0x4C) == NULL) {
-                    *(void **)((s8 *)arg0 + 0x4C) = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x53)), (const f32 *)lbl_80446FA4, 1);
+                    *(void **)((s8 *)arg0 + 0x4C) = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)lbl_80446FA4, 1);
                     if (*(void **)((s8 *)arg0 + 0x4C) != NULL) {
                         ((TWindowMessage *)(*(void **)((s8 *)arg0 + 0x4C)))->append_line(*(s32 *)((s8 *)(*(s32 **)((s8 *)arg0 + 0x40)) + 0), 0x80);
                     }
@@ -946,7 +946,7 @@ void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self) {
             TAdSinglePlyChrSelectGC::set_slot((u16)(s > 0 ? s : 0));
         }
         Pair_801C3AF4 p = lbl_80446FB4[0];
-        self->window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xB3)), (const f32 *)(&p), 1);
+        self->window = TWindowMessage::create(get_window_layout_position(0xB3), (const f32 *)(&p), 1);
         if (self->window != NULL) {
             ((TWindowMessage *)(self->window))->append_line(self->msgs[idx], 0x80);
         }

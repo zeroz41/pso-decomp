@@ -384,7 +384,7 @@ void TChallenge4PItemSelect::open_menu() {
     waitFrames = temp_r0;
     if (temp_r0 <= 0) {
         client_id = fn_8034BE30(result);
-        (uaddr &)menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x42), 8, client_id);
+        (uaddr &)menu_window = (uaddr)create_window_menu(get_window_layout_position(0x42), 8, client_id);
         if ((uaddr)menu_window != 0U) {
             i = 0;
             do {

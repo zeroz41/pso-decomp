@@ -59,6 +59,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
 // Window size {width, height} passed to TWindowMessage::create.
@@ -81,7 +82,6 @@ extern s16 battle_event_second_table[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
 extern "C" {
-void *create_window_menu_default(const NJS_POINT2 *pos, int entries);
 void TLobby__sub_801036CC();
 }
 char team_matchup_message_buffer[256];

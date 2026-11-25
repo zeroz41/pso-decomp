@@ -30,7 +30,7 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
     case 1:
         if (find_local_city_warp_player(warp, warp->warp_range) != NULL) {
             if ((u32) warp->menu_window == 0U) {
-                warp->menu_window = create_window_menu_default((saddr)get_window_layout_position(0x35), 7);
+                warp->menu_window = (uaddr)create_window_menu_default(get_window_layout_position(0x35), 7);
                 if ((u32) warp->menu_window != 0U) {
                     ((TWindowMenu *)(warp->menu_window))->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TWindowMenu *)(warp->menu_window))->set_flag_40();

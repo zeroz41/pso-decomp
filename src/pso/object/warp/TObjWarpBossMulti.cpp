@@ -329,7 +329,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        ((TWindowMessageYesNo *)yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), (saddr)get_window_layout_position(0x36), 368.0f);
+        ((TWindowMessageYesNo *)yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
         ((TWindowMessageYesNo *)yes_no_window)->set_menu_selected_index(1);
         ((TWindowMessageYesNo *)yes_no_window)->set_choice_menu_flag70_bit10();
         begin_player_keyboard_hold(local_client_id);
@@ -345,7 +345,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
       if (yes_no_window != 0)
       {
-        initialize_option_dialog(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), (saddr)get_window_layout_position(i), 368.0f);
+        initialize_option_dialog(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(i), 368.0f);
       }
     }
       break;
@@ -596,7 +596,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
     case 1:
         if (find_local_boss_warp_player(this, warp_range) != NULL) {
             if (menu_window == 0) {
-                menu_window = create_window_menu_default((saddr)get_window_layout_position(0x35), 7);
+                menu_window = (uaddr)create_window_menu_default(get_window_layout_position(0x35), 7);
                 if (menu_window != 0) {
                     ((TWindowMenu *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
                     ((TWindowMenu *)menu_window)->set_flag_40();

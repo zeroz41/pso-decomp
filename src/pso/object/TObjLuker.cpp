@@ -35,6 +35,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
 #pragma readonly_strings on
@@ -94,7 +95,6 @@ struct Luker_801A1260
 extern "C" {
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
-void *create_window_menu_default(const void *p, s32 a);
 s32 TTecLuker__sub_8023401C(void *);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 extern s32 lbl_805D55C0;
@@ -164,7 +164,7 @@ void TObjLuker::open_destination_windows() {
     for (i = 0; i < 4; i++) {
         if (self->wins[i] == 0 && target > 0) {
             if (is_split_screen() != 0) {
-                self->wins[i] = create_window_menu((saddr)get_window_layout_position(0x33), 1, i);
+                self->wins[i] = create_window_menu(get_window_layout_position(0x33), 1, i);
             } else {
                 self->wins[i] = create_window_menu_default(get_window_layout_position(0x33), 1);
             }

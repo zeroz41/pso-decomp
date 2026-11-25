@@ -29,6 +29,7 @@
 #include "pso/network/client_id.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #pragma readonly_strings on
 
@@ -75,16 +76,15 @@ void TObjWarpLobby::debug_print_area_num() {
 
 extern "C" {
 void request_active_window_close(void);
-s32 create_window_menu_default(f32 *, s32, f32);
 
 NJS_TEXLIST *lobby_warp_textures;
 
 void TObjWarpLobby::open_lobby_menu() {
-    f32 sp[2];
+    NJS_POINT2 position;
     s32 i;
-    sp[0] = 4.5e+02f;
-    sp[1] = 1e+02f;
-    this->menu_window = create_window_menu_default(sp, 0xF, 4.5e+02f);
+    position.x = 4.5e+02f;
+    position.y = 1e+02f;
+    this->menu_window = (uaddr)create_window_menu_default(&position, 0xF);
     for (i = 0; i < 0xF; i++) {
         ((TWindowMenu *)this->menu_window)->add_text_entry((saddr)warp_lobby_directory_label_table[i], 6, i);
     }
