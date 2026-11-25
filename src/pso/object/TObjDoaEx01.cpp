@@ -16,7 +16,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/object/TObjDoaEx01_8018DFFC.h"
 #include "pso/object/door/TODoorBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/door/TODoorAncient01.h"

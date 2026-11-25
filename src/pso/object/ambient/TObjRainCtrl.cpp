@@ -11,7 +11,15 @@
 
 
 extern const char rain_ctrl_class_name_string[] = "TObjRainCtrl";
+#include "pso/ui/hud/TRaderMapCore.h"
 const char *lbl_805D3428 = rain_ctrl_class_name_string;
+
+
+void TObjRainCtrl::create() {
+    if (TRaderMapCore::is_not_split_screen() == 0) {
+        new TObjRainCtrl(tl_particle);
+    }
+}
 
 void TObjRainCtrl::run_task() {
     if (--ticks_until_spawn < 0) {

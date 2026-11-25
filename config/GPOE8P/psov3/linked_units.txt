@@ -877,8 +877,6 @@ pso/object/cave/TOAirconCave02.cpp
 pso/object/collision/TOAttackableCol.cpp
 pso/object/fence/TOBarrierEnergy01.cpp
 pso/object/TOBind.cpp
-pso/object/TOBind_80158608.cpp
-pso/object/TOBind_801586B8.cpp
 pso/object/ambient/TOBiwaMushi.cpp
 pso/boss/darkfalz/TOBoss4.cpp
 pso/boss/darkfalz/TOBoss4Rock.cpp
@@ -956,7 +954,7 @@ pso/object/cave/TOSignCave01.cpp
 pso/object/cave/TOSignCave02.cpp
 pso/object/cave/TOSignCave03.cpp
 pso/object/mine/TOSparkMachine01.cpp
-pso/object/switch/TOSwitchAttack_801778A4.cpp
+pso/object/switch/TOSwitchAttack.cpp
 pso/object/switch/TOSwitchItem.cpp
 pso/object/switch/TOSwitchTimer.cpp
 pso/object/collision/TOSymbolchatColli.cpp
@@ -1339,7 +1337,7 @@ pso/object/warp/TObjAreaWarp_80307B70.cpp
 pso/object/base/TObjBase.cpp
 pso/object/collision/TObjBgmColCtrl.cpp
 pso/object/TObjBigTuitate.cpp
-pso/object/lobby/TObjButterflyLobby_80350958.cpp
+pso/object/lobby/TObjButterflyLobby.cpp
 pso/object/ambient/TObjCGrass.cpp
 pso/ui/window/TObjCHTimeWin.cpp
 pso/ui/window/TObjCHTimeWin_80074C94.cpp
@@ -1348,9 +1346,7 @@ pso/ui/charcreate/TObjCMMainMenu_8028EA88.cpp
 pso/camera/TObjCamera.cpp
 pso/object/TObjChip.cpp
 pso/object/warp/TObjCityMainWarpChallenge.cpp
-pso/object/warp/TObjCityMainWarp_80186C44.cpp
-pso/object/warp/TObjCityMainWarp_80186E24.cpp
-pso/object/warp/TObjCityMainWarp_80186F84.cpp
+pso/object/warp/TObjCityMainWarp.cpp
 pso/object/collision/TObjCollision.cpp
 pso/object/TObjComputer.cpp
 pso/object/TObjControl.cpp
@@ -1367,7 +1363,7 @@ pso/object/TObjDoaEx01.cpp
 pso/object/door/TObjDoorJung.cpp
 pso/object/door/TObjDoorJung_8023DBEC.cpp
 pso/object/door/TObjDoorKey.cpp
-pso/object/door/TObjDoor_8018E358.cpp
+pso/object/door/TObjDoor.cpp
 pso/object/door/TObjDoor_801F3754.cpp
 pso/object/TObjEZBoneRotBase.cpp
 pso/object/ambient/TObjEnvSoundGlobal.cpp
@@ -1409,7 +1405,6 @@ pso/object/quest/TObjQuestCol.cpp
 pso/object/collision/TObjRaderCol.cpp
 pso/object/ambient/TObjRain.cpp
 pso/object/ambient/TObjRainCtrl.cpp
-pso/object/ambient/TObjRainCtrl_80197CE8.cpp
 pso/object/lobby/TObjRainbowLobby.cpp
 pso/ui/window/TObjResultWin.cpp
 pso/object/TObjRoomId.cpp

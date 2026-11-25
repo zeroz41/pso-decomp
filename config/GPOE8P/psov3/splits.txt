@@ -3430,14 +3430,8 @@ pso/object/base/TObjMapObject.cpp:
 	.data       start:0x804AFBF8 end:0x804AFC30
 	.sdata2     start:0x805DB2E8 end:0x805DB300
 
-pso/object/TOBind_80158608.cpp:
-	.text       start:0x80158608 end:0x8015860C
-
 pso/object/TOBind.cpp:
-	.text       start:0x8015860C end:0x801586B8
-
-pso/object/TOBind_801586B8.cpp:
-	.text       start:0x801586B8 end:0x801589E8
+	.text       start:0x80158608 end:0x801589E8
 	.rodata     start:0x80440220 end:0x80440288
 	.data       start:0x804AFC30 end:0x804AFCE4
 	.sdata      start:0x805D2EA8 end:0x805D2EB0
@@ -3961,7 +3955,7 @@ pso/object/switch/TOSwitchAttackSub.cpp:
 	.sdata      start:0x805D3178 end:0x805D3180
 	.sdata2     start:0x805DBA00 end:0x805DBA08
 
-pso/object/switch/TOSwitchAttack_801778A4.cpp:
+pso/object/switch/TOSwitchAttack.cpp:
 	.text       start:0x801778A4 end:0x80177CF4
 	.data       start:0x804B4450 end:0x804B4484
 	.sdata2     start:0x805DBA08 end:0x805DBA0C
@@ -4132,14 +4126,8 @@ pso/object/warp/TObjLaboMapWarp.cpp:
 	.sbss       start:0x805D5B50 end:0x805D5B60
 	.sdata2     start:0x805DBC80 end:0x805DBCA8
 
-pso/object/warp/TObjCityMainWarp_80186C44.cpp:
-	.text       start:0x80186C44 end:0x80186E24
-
-pso/object/warp/TObjCityMainWarp_80186E24.cpp:
-	.text       start:0x80186E24 end:0x80186F84
-
-pso/object/warp/TObjCityMainWarp_80186F84.cpp:
-	.text       start:0x80186F84 end:0x801871D0
+pso/object/warp/TObjCityMainWarp.cpp:
+	.text       start:0x80186C44 end:0x801871D0
 	.sbss       start:0x805D5B60 end:0x805D5B64
 
 pso/object/warp/TObjCityMainWarpChallenge.cpp:
@@ -4208,7 +4196,7 @@ pso/object/TObjDoaEx01.cpp:
 pso/unk/text_8018E258.cpp:
 	.text       start:0x8018E258 end:0x8018E358
 
-pso/object/door/TObjDoor_8018E358.cpp:
+pso/object/door/TObjDoor.cpp:
 	.text       start:0x8018E358 end:0x8018F458
 	.rodata     start:0x804454A0 end:0x80445598
 	.data       start:0x804B7618 end:0x804B7870
@@ -4380,11 +4368,8 @@ pso/object/ambient/TObjRain.cpp:
 	.sdata      start:0x805D3420 end:0x805D3428
 	.sdata2     start:0x805DBF10 end:0x805DBF40
 
-pso/object/ambient/TObjRainCtrl_80197CE8.cpp:
-	.text       start:0x80197CE8 end:0x80197D28
-
 pso/object/ambient/TObjRainCtrl.cpp:
-	.text       start:0x80197D28 end:0x80197E54
+	.text       start:0x80197CE8 end:0x80197E54
 	.rodata     start:0x80445F80 end:0x80445F90
 	.data       start:0x804B89C0 end:0x804B89D8
 	.sdata      start:0x805D3428 end:0x805D3430
@@ -8993,7 +8978,7 @@ pso/object/lobby/TObjRainbowLobby.cpp:
 	.sbss       start:0x805D6EB0 end:0x805D6EB8
 	.sdata2     start:0x805DFE30 end:0x805DFE40
 
-pso/object/lobby/TObjButterflyLobby_80350958.cpp:
+pso/object/lobby/TObjButterflyLobby.cpp:
 	.text       start:0x80350958 end:0x80351748
 	.rodata     start:0x80478D80 end:0x80478DF8
 	.data       start:0x804F0E38 end:0x804F0E90

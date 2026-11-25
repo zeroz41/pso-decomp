@@ -45,7 +45,6 @@ const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 
 #include "pso/unk/TLobby_801E43E4.h"
 
-#include "pso/object/switch/TOChatSensor_8015B214.h"
 
 #include "pso/system/byteswap.h"
 #include "pso/system/task/TMainTask.h"

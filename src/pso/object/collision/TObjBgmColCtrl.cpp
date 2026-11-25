@@ -8,8 +8,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/collision/TObjBgmColCtrl_8017E498.h"
-#include "pso/object/collision/TObjBgmColCtrl_8017E8E4.h"
 #include "pso/player/TObjPlayer_8017E4EC.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
@@ -39,7 +37,6 @@ u32 bgm_col_ctrl_current_theme_id;
 
 void create_bgm_col_zones(void);
 extern s32 tl_05;
-int get_quest_bgm_issued_flag(void);
 
 
 struct Row_8017E550 { Vec pos; f32 radius; s32 category; };

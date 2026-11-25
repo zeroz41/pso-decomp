@@ -6,7 +6,6 @@
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
-#include "pso/object/warp/TObjCityMainWarp_80186E24.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
