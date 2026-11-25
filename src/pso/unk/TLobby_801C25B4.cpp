@@ -1429,13 +1429,13 @@ void TLobby::show_score_results() {
     TObjPlayer *p;
     TLobby::clear_counter(this);
     TLobby::calc_player_rankings((Lobby_801C484C *)this);
-    ((TWindowCtrl *)"SCORE")->init_all_default();
+    TWindowCtrl::append_message_all("SCORE");
     for (i = 0; i < 4; i++) {
         e = &duel_result_table[i];
         p = get_player_by_client_id(e->client_id);
         if (p != NULL) {
             sprintf(buf, "%s %s", lobby_rank_ordinal_text_table[e->place], p->get_name());
-            ((TWindowCtrl *)buf)->init_all_default();
+            TWindowCtrl::append_message_all(buf);
         }
     }
     play_duel_result_stream("start.adx", 0x3C);

@@ -825,7 +825,7 @@ void release_all_players_control_lock(void);
 void TBoss6PlotFalz::end_cutscene_camera() {
     s32 i;
     void *p;
-    TWindowCtrl::init_all_slots2();
+    TWindowCtrl::unsuppress_all_slots();
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
@@ -838,7 +838,7 @@ void TBoss6PlotFalz::end_cutscene_camera() {
 void TBoss6PlotFalz::freeze_all_players() {
     s32 i;
     void *p;
-    TWindowCtrl::init_all_slots();
+    TWindowCtrl::suppress_all_slots();
     for (i = 0; i < registered_player_count; i++) {
         TObjPlayer *player = TObjPlayer::get_player_data(i);
         if (player != 0) {

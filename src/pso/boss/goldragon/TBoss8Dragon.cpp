@@ -452,7 +452,7 @@ void TBoss8Dragon::load_resources() {
     boss8_dragon_hold_mode = 0;
     boss8_dragon_player_control = 0;
     boss8_dragon_control_client_id = 0xFFFF;
-    TWindowCtrl::init_all_slots();
+    TWindowCtrl::suppress_all_slots();
     TBoss8DragonEffTail::load_resources();
 }
 
@@ -3416,7 +3416,7 @@ void TBoss8Dragon::update_death_state(s32 event) {
         this->fallVelocity = 0.0f;
         this->breath_particles[0] = 0;
         play_cue_stream_file("goldeath.adx");
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         cam.bank = 2;
         cam.index = 0;
         cam.flags = 0;
@@ -3501,7 +3501,7 @@ void TBoss8Dragon::update_death_state(s32 event) {
         case 1:
             (this->impactAge)++;
             if (this->impactAge >= 50) {
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
                 restore_player_cameras();
             }
             break;
@@ -3512,7 +3512,7 @@ void TBoss8Dragon::update_death_state(s32 event) {
         set_story_flag_or_send_quest_flag(0x4F);
         this->actorFlags = 0x12008;
         this->sync_enemy_state(0);
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         restore_player_cameras();
         if (this->breath_particles[0] != 0) {
             this->breath_particles[0]->queue_destruction();
@@ -4313,7 +4313,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
         *flag = 1;
         new TBoss8DragonDemo(tl_01, flag, 0.5f);
         this->requested_action = 0x1A;
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         this->get_target_state_b();
         ((TMainCursor *)this)->update_pair();
         break;
@@ -4331,7 +4331,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
             this->advance_animation();
             if (this->get_flag_b4() != 0) {
                 this->stateStep = 1;
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
                 this->requested_action = 0;
             }
             switch (step = this->action_frames) {
@@ -4401,7 +4401,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
         }
         ((TMainCursor *)this)->update_cursor_pair();
         *flag = 0;
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         this->get_target_state_a();
         break;
     }

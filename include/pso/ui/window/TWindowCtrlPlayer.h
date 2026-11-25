@@ -27,7 +27,7 @@ struct TWindowCtrlPlayer : public TObject {
     void update_countdown();
     s32 is_main_menu_open();
     s32 is_log_active();
-    void append_message_line(int text, int mode);
+    void append_message_line(const char *text, s32 mode);
     void spawn_palette_slot_light(s32 kind);
     void replace_submenu(s16 id);
     void try_open_battle_menu(s16 key);

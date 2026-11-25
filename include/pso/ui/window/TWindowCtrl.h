@@ -71,8 +71,8 @@ struct TWindowCtrl : public TObject {
     s32 count_balloon_slots();
     TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);
     void handle_chat_message(char *arg1);
-    static void init_all_slots();
-    static void init_all_slots2();
+    static void suppress_all_slots();
+    static void unsuppress_all_slots();
     static void suppress_slot(s32 client);
     static void unsuppress_slot(s32 client);
     static void disable_client_main_menu(s32 client);
@@ -96,10 +96,10 @@ struct TWindowCtrl : public TObject {
     static saddr open(u16 id, const char *text, s32 flags);
     static int open_default(u16 id, const char *text);
     static void create_level_up_window(saddr stats, saddr client);
-    static void set_window_flags(void *client_id, s32 flags, s32 arg2);
-    static void set_window_flags_off(s32 client, s32 flags);
-    static void init_all(void* p, void* a1);
-    void init_all_default();
+    static void append_client_message(s32 client, const char *text, s32 mode);
+    static void append_client_message(s32 client, const char *text);
+    static void append_message_all(const char *text, s32 mode);
+    static void append_message_all(const char *text);
     static void show_party_effect(u16 from, u16 to, u32 kind);
     static void create_party_effect(u16 from, u16 to);
     static void dispatch_to_child(s32 client, s32 kind);

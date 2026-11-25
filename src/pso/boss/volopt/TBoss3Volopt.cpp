@@ -948,7 +948,7 @@ void TBoss3Volopt::update_intro_cutscene() {
     case 0:
         start_phase1();
         TObjPlayer::freeze_all_players();
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         {
             TBoss3VoloptHiraisin *hiraisin = (TBoss3VoloptHiraisin *)find_entity_by_id(volopt_hiraisin_id);
             if (hiraisin != NULL) {
@@ -1002,7 +1002,7 @@ void TBoss3Volopt::update_intro_cutscene() {
                 hiraisin->clear_flag_08000000();
             }
         }
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         restore_player_cameras();
         TObjPlayer__sub_801BA42C();
         break;
@@ -1085,7 +1085,7 @@ void TBoss3Volopt::update_phase2_intro() {
         activate_camera_mode(9);
         set_active_camera_pose(&boss3_volopt_intro_camera_poses[0], &boss3_volopt_intro_camera_poses[1]);
         TObjPlayer::freeze_all_players();
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         {
             TBoss3VoloptP02 *p02 = (TBoss3VoloptP02 *)find_entity_by_id(volopt_p02_id);
             if (p02 != NULL) {
@@ -1132,7 +1132,7 @@ void TBoss3Volopt::update_phase2_intro() {
                 p02->clear_flag_08000000();
             }
         }
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         TObjPlayer__sub_801BA42C();
         break;
     }

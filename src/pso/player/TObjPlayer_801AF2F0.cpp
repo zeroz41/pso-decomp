@@ -5593,7 +5593,7 @@ void draw_status_line(void *window, s32 *str, s32 *name, s32 value) {
     text_builder_append((u8 *)status_line_break);
     text_builder_append_int(value);
     text_builder_append((u8 *)status_line_break);
-    TWindowCtrl::init_all((void*)(get_shared_text_buffer()), (void*)0x200);
+    TWindowCtrl::append_message_all((const char *)get_shared_text_buffer(), 0x200);
 }
 
 void show_sub_status_window(void *window, s32 *str, s32 *name) {
@@ -5601,7 +5601,7 @@ void show_sub_status_window(void *window, s32 *str, s32 *name) {
     text_builder_append((u8 *)str);
     text_builder_append((u8 *)name);
     text_builder_append((u8 *)status_line_break);
-    TWindowCtrl::init_all((void*)(get_shared_text_buffer()), (void*)0x200);
+    TWindowCtrl::append_message_all((const char *)get_shared_text_buffer(), 0x200);
 }
 
 void draw_player_status(saddr window, void *player, saddr str) {

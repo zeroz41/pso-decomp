@@ -660,7 +660,7 @@ void TBoss1Dragon::load_resources() {
     boss1_dragon_hold_mode = 0;
     boss1_dragon_player_control = 0;
     boss1_dragon_control_client_id = 0xFFFF;
-    TWindowCtrl::init_all_slots();
+    TWindowCtrl::suppress_all_slots();
     TBoss1Dragon::select_fireball_particle_table();
 }
 
@@ -3965,7 +3965,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
         this->fallVelocity = (0.0f);
         this->breath_particles[0] = 0;
         play_cue_stream_file("dradeath.adx");
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
             cam.index = 0;
@@ -4068,7 +4068,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
         case 1:
             this->impactAge += 1;
             if (this->impactAge >= 0x32) {
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
                 restore_player_cameras();
             }
             break;
@@ -4079,7 +4079,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
         set_story_flag_or_send_quest_flag(0x17);
         this->actorFlags = 0x12008;
         ((TBoss1Dragon *)(((u8 *)this)))->sync_enemy_state(0);
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         restore_player_cameras();
         if (this->breath_particles[0] != 0) {
             ((TObject *)(this->breath_particles[0]))->queue_destruction();
@@ -4753,7 +4753,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
         *demo = 1;
         new TBoss1DragonDemo(tl_01, demo, 0.5f);
         this->requested_action = 25;
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         this->get_target_state_b();
         ((TMainCursor *)this)->update_pair();
         break;
@@ -4771,7 +4771,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             advance_animation();
             if (this->get_flag_b4() != 0) {
                 this->stateStep = 4;
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
                 this->requested_action = 0;
             }
             switch (this->action_frames) {
@@ -4838,7 +4838,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             advance_animation();
             if (this->get_flag_b4() != 0) {
                 this->stateStep = 4;
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
                 this->requested_action = 0;
             }
             switch (this->action_frames) {
@@ -4904,7 +4904,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             advance_animation();
             if (this->get_flag_b4() != 0) {
                 this->stateStep = 4;
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
                 this->requested_action = 0;
             }
             switch (this->action_frames) {
@@ -4975,7 +4975,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
         }
         ((TMainCursor *)this)->update_cursor_pair();
         *demo = 0;
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         this->get_target_state_a();
         break;
     }

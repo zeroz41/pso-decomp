@@ -123,7 +123,6 @@ s32 post_chat_log_message();
 
 extern "C" {
 
-int set_window_flags__11TWindowCtrlFPvll(void*, void*, void*);
 
 }
 
@@ -759,26 +758,31 @@ void TWindowCtrl::show_party_effect(u16 from, u16 to, u32 kind) { TWindowEffectP
 
 }
 
-void TWindowCtrl::init_all_default() {
-    TWindowCtrl::init_all(this, 0);
+void TWindowCtrl::append_message_all(const char *text) {
+    TWindowCtrl::append_message_all(text, 0);
 }
 
 extern "C" {
 
-void TWindowCtrl::init_all(void* p, void* a1) { { saddr i; for (i = 0; i < 12; i++) { set_window_flags__11TWindowCtrlFPvll((void*)i, p, a1); } } }
+void TWindowCtrl::append_message_all(const char *text, s32 mode) {
+    s32 i;
+    for (i = 0; i < 12; i++) {
+        TWindowCtrl::append_client_message(i, text, mode);
+    }
+}
 
 }
 
-void TWindowCtrl::set_window_flags_off(s32 client, s32 flags) {
-    TWindowCtrl::set_window_flags((void *)(saddr)client, flags, 0);
+void TWindowCtrl::append_client_message(s32 client, const char *text) {
+    TWindowCtrl::append_client_message(client, text, 0);
 }
 
 extern "C" {
 
-void TWindowCtrl::set_window_flags(void *client_id, s32 flags, s32 arg2) {
-    TWindowCtrlPlayer *window = TWindowCtrl::get_window((saddr)client_id);
+void TWindowCtrl::append_client_message(s32 client, const char *text, s32 mode) {
+    TWindowCtrlPlayer *window = TWindowCtrl::get_window(client);
     if (window != NULL) {
-        window->append_message_line(flags, arg2 | 0xE);
+        window->append_message_line(text, mode | 0xE);
     }
 }
 
@@ -1027,7 +1031,7 @@ void TWindowCtrl::suppress_slot(s32 local_client_id) {
     TWindowCtrl::call_window_method(local_client_id, callback);
 }
 
-void TWindowCtrl::init_all_slots2() {
+void TWindowCtrl::unsuppress_all_slots() {
     saddr i;
 
     i = 0;
@@ -1037,7 +1041,7 @@ void TWindowCtrl::init_all_slots2() {
     } while (i < 0xC);
 }
 
-void TWindowCtrl::init_all_slots() {
+void TWindowCtrl::suppress_all_slots() {
     saddr i;
 
     i = 0;

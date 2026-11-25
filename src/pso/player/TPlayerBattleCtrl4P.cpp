@@ -965,13 +965,13 @@ void TPlayerBattleCtrl4P::start_match() {
     TObjPlayer *p;
     reset_score_counters();
     calculate_rankings();
-    TWindowCtrl::init_all((void*)"SCORE", (void*)0x200);
+    TWindowCtrl::append_message_all("SCORE", 0x200);
     for (i = 0; i < 4; i++) {
         e = &split_screen_battle_rankings[i];
         p = get_player_by_client_id(e->client_id);
         if (p != 0) {
             sprintf(buf, "%s %s", TPlayerBattleCtrl4P_player_name_formats[e->place], p->get_name());
-            TWindowCtrl::init_all((void*)buf, (void*)0x200);
+            TWindowCtrl::append_message_all(buf, 0x200);
         }
     }
     notify_lobby("start.adx", 0x3C);

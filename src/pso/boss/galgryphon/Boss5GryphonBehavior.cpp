@@ -526,7 +526,7 @@ void load_boss5_gryphon_resources(void) {
     for (s32 i = 0; i < 3; i++) {
         boss5_gryphon_behavior_params[i] = (Boss5GryphonParams *)TLobby::dispatch_shared_handler_a(boss5_gryphon_behavior_param_ids[i]);
     }
-    TWindowCtrl::init_all_slots();
+    TWindowCtrl::suppress_all_slots();
     TBoss5GryphonShockWave::select_particle_table();
     TBoss5GryphonTornado::select_particle_table();
     TBoss5GryphonSnarl::select_effect_table();
@@ -1544,7 +1544,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
         self->position.y = gryphon_three_hundred_sixty;
         self->position.z = p->z - gryphon_six_hundred * cos_table_lookup(self->rotation_y);
         play_cue_stream_file("dradeath.adx");
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         switch (TBoss8Dragon__sub_8005D700()) {
         case 0:
             cam.index = 0;
@@ -1599,7 +1599,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
         self->update_prev_position();
         self->actorFlags = 0x12008;
         self->sync_enemy_state(0);
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         restore_player_cameras();
         break;
     case 1: return;
@@ -1643,7 +1643,7 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
         *demo_flag = 1;
         new TBoss5GryphonDemo(tl_01, demo_flag, gryphon_one);
         this->requested_action = 0x19;
-        TWindowCtrl::init_all_slots();
+        TWindowCtrl::suppress_all_slots();
         this->get_target_state_b();
         return;
     case 2:
@@ -1658,7 +1658,7 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
             advance_animation();
             if (this->get_flag_b4() != 0) {
                 this->work.step = 1;
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
                 this->requested_action = 4;
             }
             switch (this->work.substep) {
@@ -1710,7 +1710,7 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
         this->position_correction.z = 0.0f;
         *demo_flag = 0;
         this->flags = (s32) (this->flags & 0xFFFFFF7F);
-        TWindowCtrl::init_all_slots2();
+        TWindowCtrl::unsuppress_all_slots();
         this->get_target_state_a();
         break;
     }

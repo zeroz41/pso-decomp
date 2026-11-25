@@ -416,7 +416,7 @@ void TObjLuker::run_task() {
                             send_impose_hold(p, 0xA);
                             play_sound_effect(0x40022D1A, &this->position, 0, 0);
                         }
-                        TWindowCtrl::init_all_slots();
+                        TWindowCtrl::suppress_all_slots();
                         *(s32 *)&this->m_b8 = 1;
                     }
                 }
@@ -436,7 +436,7 @@ void TObjLuker::run_task() {
             this->m_b0 = *(s16 *)&this->m_ae = 0;
             if (*(s32 *)&this->m_b8 != 0) {
                 *(s32 *)&this->m_b8 = 0;
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
             }
             this->m_ac = 0;
             if (*(void * *)&this->m_a4 != NULL) {

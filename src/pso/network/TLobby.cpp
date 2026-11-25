@@ -2100,7 +2100,7 @@ void handle_lobby_text(s32 text) {
     TLobby::join_entry_window_obj->append_line((int)text, (int)3);
     TLobby::lobby_state = 0x16;
 }
-void TLobby::disable_window_flags(void*flags) { TWindowCtrl::set_window_flags_off(local_client_id, (saddr)flags); }
+void TLobby::disable_window_flags(void*flags) { TWindowCtrl::append_client_message(local_client_id, (const char *)flags); }
 void TLobby::open_ship_block_select_menu(int count, void *entries, void *selected) {
     static void *tblA = (void *)lobby_window_title_ship_select;
     static void *tblB = (void *)lobby_window_title_block_select;

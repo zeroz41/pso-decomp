@@ -292,7 +292,7 @@ void TTecLuker::run_task() {
                 send_impose_hold(player, 0xA);
                 play_sound_effect(0x40022D1A, &player->position, 0, 0);
             }
-            TWindowCtrl::init_all_slots();
+            TWindowCtrl::suppress_all_slots();
             phase = 2;
             return;
         }
@@ -310,7 +310,7 @@ void TTecLuker::run_task() {
         if ((is_split_screen() == 0) && (temp_r29 != NULL)) {
             if (*(s32 *)((s8 *)temp_r29 + 0x30) & 0x800) {
                 phase = 1;
-                TWindowCtrl::init_all_slots2();
+                TWindowCtrl::unsuppress_all_slots();
                 if (field == NULL) {
                     queue_destruction();
                     return;
@@ -355,7 +355,7 @@ block_43:
         } while (i < 4);
         }
         if (is_split_screen() != 0) {
-            TWindowCtrl::init_all_slots2();
+            TWindowCtrl::unsuppress_all_slots();
         }
         floor_transition_state.set_next_floor(0, get_floor_map_terrain(0));
         mark_area_change_pending();
