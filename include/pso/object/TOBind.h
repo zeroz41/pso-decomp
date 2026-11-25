@@ -7,7 +7,10 @@
 struct AnimationMotion;
 struct NJS_TEXLIST;
 
+struct BmlResource;
+
 struct TOBind : public TObjCollidable {
+    TOBind(void *set_data);
     virtual ~TOBind();
     void sub_8015860C();
     u8 unk_AC[0x4];
@@ -26,6 +29,8 @@ struct TOBind : public TObjCollidable {
     static void load_static_resource();
     f32 draw_distance;
     f32 m_d4;
+    static const char *class_name;
+    static BmlResource *static_model_resource;
 };
 
 LAYOUT_ASSERT(TOBind_motion_frame_offset, offsetof(TOBind, motion_frame) == 0xB8);

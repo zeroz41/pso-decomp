@@ -771,7 +771,7 @@ force_active:
   - TOAttackableCol__sub_80157C20
   - TOAttackableCol__sub_80157C28
   - TOBarrierEnergy01_name
-  - TOBind__ct
+  - __ct__6TOBindFPv
   - TOCakeshopCave01__model_resource
   - TOCakeshopCave01_class_name
   - TOCapsuleMachine01__last_update_frame_tick
