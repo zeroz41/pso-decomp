@@ -23,6 +23,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 // Written from its last function back: the unit is built -inline off,deferred
 // (configure.py), which emits the functions in reverse and puts the vtable
@@ -30,9 +31,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-extern s32 actor_frame_tick;
-}
 
 // One model per lobby theme; the themes with a motion have it in the motion
 // list at the index lobby_main_model_motions gives.

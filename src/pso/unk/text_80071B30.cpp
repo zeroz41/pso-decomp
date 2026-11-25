@@ -11,6 +11,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
+#include "pso/network/client_id.h"
 
 struct RebuildPlayersForStageHdr { u32 a, b; };
 
@@ -45,7 +46,6 @@ s32 client_cleared_stages(s32 client, s32 slot) {
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-extern s32 local_client_id;
 void TObjPlayer::rebuild_players_for_stage(s32 stage) {
     RebuildPlayersForStageHdr hdr;
     Vec pos;

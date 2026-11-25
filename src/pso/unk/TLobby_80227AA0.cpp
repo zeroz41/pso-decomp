@@ -24,12 +24,12 @@ void TLobby__sub_80227AA8(s32 tracks) {
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 extern "C" {
 void TLobby__sub_80227AF8(s32 slot, const Vec *position) { TLobby__sub_8023F754(slot, position); }
 }
 
-extern s32 local_client_id;
 
 s32 is_special_sound_id(u32 x) {
     s32 lo = x & 0xffff;

@@ -22,6 +22,7 @@
 #include "pso/system/ControllerInput.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
+#include "pso/unk/TLobby_800FD78C.h"
 #undef PSO_SDK_COMPACT_MATH
 
 struct TLobbyRecoveredGlobal {
@@ -77,7 +78,6 @@ s32 TLobby__sub_801478C4(s32 id);
 char *get_modem_phone_number(s32 idx);
 s32 connect_pppoe(s32 *);
 s32 connect_modem(s32 idx, s16 id);
-extern s32 actor_frame_tick;
 
 struct TLobbySub {
     u8 pad0[0x1C];

@@ -7,6 +7,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 
 struct BalClawPartEntry {
@@ -72,7 +73,6 @@ NJS_OBJECT *balclaw_arm_part_models[4][11];
 
 BmlResource *balclaw_bml_resource;
 s32 balclaw_last_shared_update_frame;
-extern s32 actor_frame_tick;
 
 
 

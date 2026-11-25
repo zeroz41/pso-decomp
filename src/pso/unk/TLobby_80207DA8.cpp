@@ -24,6 +24,7 @@
 #include <string.h>
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/network/client_id.h"
 
 
 extern "C" {
@@ -345,7 +346,6 @@ s32 wave_event_stop_requested;
 s32 wave_event_trigger_count;
 s32 wave_event_first_switch_set;
 void TLobby::relink_objects(s16 a, s16 b) { link_matching_objects(a, b); wave_event_stop_requested = 1; }
-extern s32 local_client_id;
 void send_6x67_wave_trigger_event(s32 arg0) {
     G_FloorEvent_6x67 pkt;
     wave_event_trigger_count++;

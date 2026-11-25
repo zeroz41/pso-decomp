@@ -55,14 +55,13 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/technique/TechniqueRingwaveList.h"
+#include "pso/network/client_id.h"
 
 TechniqueParams calculated_technique_params;
 // Per player: the technique boosts of the equipped weapon and shield.
 TechniqueBoostTable technique_boost_tables[4];
 TechniqueBoostTable lbl_8051607C[4];
 
-extern "C" {
-}
 
 struct Target_8022D27C { u16 id; s16 part; };
 
@@ -73,7 +72,6 @@ s32 is_split_screen();
 u8 get_cast_technique_level(void *, int);
 }
 extern u8 identity_matrix[];
-extern s32 local_client_id;
 
 // The technique effects' models and motions, and the archive that holds them.
 const char *bm_technic_model_names[13] = {

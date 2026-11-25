@@ -8,6 +8,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 
@@ -19,7 +20,6 @@ char *fn_80076BC4(s32 *text);
 
 char *fn_80076BC4(s32 *text) { return (char *)text; }
 }
-extern s32 local_client_id;
 void submit_chat_text(u8 *lobby);
 void submit_chat_text(u8 *lobby) {
     void *player;

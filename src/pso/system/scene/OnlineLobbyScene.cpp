@@ -227,7 +227,6 @@ Pair_801A3CFC lobby_udp_test_game_entries[2] = {
 };
 
 void deactivate_keyboard(void);
-extern s32 actor_frame_tick;
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern s32 lbl_805D55C0;
@@ -236,7 +235,6 @@ int new_game_setup_flags;
 s32 online_lobby_scene_handle;
 s32 online_lobby_frame_counter;
 void clear_resource_load_tasks(void);
-extern s32 local_client_id;
 void process_pending_resources(void);
 void clear_quest_floor_designations(void);
 void start_quest_mission(void);

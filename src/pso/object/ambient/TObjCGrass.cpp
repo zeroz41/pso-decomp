@@ -27,10 +27,10 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 extern "C" {
 void draw_model_motion(void *model, void *motion, f32 frame);
-extern s32 actor_frame_tick;
 BmlResource *TObjCGrass_bml_resource;
 
 

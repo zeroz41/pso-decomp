@@ -83,7 +83,6 @@ extern "C" {
 void TLobby__sub_801041D8(void);
 }
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
-extern s32 local_client_id;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
