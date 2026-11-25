@@ -801,7 +801,6 @@ pso/unk/TLobby_80228C84.cpp
 pso/unk/TLobby_8023F734.cpp
 pso/unk/TLobby_802409AC.cpp
 pso/unk/TLobby_8026B06C.cpp
-pso/ui/window/TWindowMenuIconLine_8026DE30.cpp
 pso/ui/window/TWindowMenuIconLineLists.cpp
 pso/unk/TLobby_8028A7C8.cpp
 pso/unk/TLobby_8028EA28.cpp
@@ -1184,7 +1183,6 @@ pso/ui/window/TWindowMainMenu1P.cpp
 pso/ui/window/TWindowMainMenu4P.cpp
 pso/ui/window/TWindowMainMenu_8024E3CC.cpp
 pso/ui/window/TWindowMainMenu_802AD538.cpp
-pso/ui/window/TWindowMainMenu_802AE928.cpp
 pso/ui/window/TWindowMakeTeam.cpp
 pso/ui/keyboard/TKeyBoardControlLayout.cpp
 pso/ui/window/TWindowMenuMainMenu.cpp
@@ -1854,7 +1852,6 @@ pso/ui/window/TWindowSubComCardList_802752D8.cpp
 pso/unk/text_80275360.cpp
 pso/unk/text_802754EC.cpp
 pso/unk/text_80278460.cpp
-pso/ui/window/TWindowSubTechnique_80286AA8.cpp
 pso/unk/text_8028A714.cpp
 pso/unk/text_8028A820.cpp
 pso/unk/text_8028A998.cpp
