@@ -91,7 +91,6 @@ s32 submit_cursor_candidate(void *, int);
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
 
 
-extern u8 lobby_rule_settings[];
 
 s32 area_random_seed;
 

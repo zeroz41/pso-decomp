@@ -27,7 +27,6 @@ static const f32 fomar_technique_boosts[19] = {
 extern "C" {
 s8 TObjPlayer__sub_801AFDBC(s8 cls);
 }
-extern u8 *class_technique_cap_table[12];
 
 // Technique boost row per character class (12 classes).
 const f32 *class_technique_boost_table[12] = {

@@ -36,7 +36,7 @@ public:
     s64 start_time;
     s32 time_left;
     s32 time_limit;
-    u8 *text;
+    const char **text;  // player_battle_ctrl_text_japanese or _english
     s32 timeout;
     s32 end_wait;
     void *window_4c;

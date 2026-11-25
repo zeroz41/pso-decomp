@@ -55,6 +55,7 @@
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
+#include "pso/effect/TIndirectEffectDrawTask.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -87,10 +88,6 @@ u8 is_battle_mode_running(void);
 s32 TLobby__sub_801C2678(void);
 u8 TLobby__sub_801D7100(void *);
 }
-extern u8 lobby_rule_settings[];
-s32 is_duel_ranking_empty(void);
-extern u8 player_battle_ctrl_text_japanese[];
-extern u8 player_battle_ctrl_text_english[];
 struct SendBattleModeDataS801C295C { s32 f0; s8 f4; s8 pad[0x13]; };
 extern "C" {
 
@@ -631,14 +628,14 @@ void TPlayerBattleCtrl::update_duel_result() {
                 if (window_4c == NULL) {
                     window_4c = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)lbl_80446FA4, 1);
                     if (window_4c != NULL) {
-                        ((TWindowMessage *)(window_4c))->append_line(((s32 *)text)[0], 0x80);
+                        ((TWindowMessage *)(window_4c))->append_line((s32)text[0], 0x80);
                     }
                 }
                 if (window_50 == NULL) {
                     window_50 = create_window_menu_default(get_window_layout_position(0x54), 3);
-                    ((TWindowMenu *)(window_50))->add_text_entry(((s32 *)text)[1], 6, 1);
-                    ((TWindowMenu *)(window_50))->add_text_entry(((s32 *)text)[2], 6, 2);
-                    ((TWindowMenu *)(window_50))->add_text_entry(((s32 *)text)[3], 6, 3);
+                    ((TWindowMenu *)(window_50))->add_text_entry((saddr)text[1], 6, 1);
+                    ((TWindowMenu *)(window_50))->add_text_entry((saddr)text[2], 6, 2);
+                    ((TWindowMenu *)(window_50))->add_text_entry((saddr)text[3], 6, 3);
                     ((TWindowMenu *)(window_50))->calc_window_size();
                     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(window_50));
                     ((TWindowMenu *)(window_50))->set_ready_flag();
@@ -796,7 +793,7 @@ void apply_game_settings(s32 owner, s32 use_config) {
         TLobby::set_clamped_field_c(lobby_rule_settings, CFG->b[0xB]);
         fn_801D72B0(lobby_rule_settings, CFG->c);
         for (s32 i = 0; i < 4; i++) {
-            fn_801D6D8C(lobby_rule_settings, CFG->b[i + 0xD], i);
+            fn_801D6D8C((s8 *)lobby_rule_settings, CFG->b[i + 0xD], i);
         }
         TLobby::set_field_d(lobby_rule_settings, CFG->d11);
         ((TObjPlayer *)lobby_rule_settings)->set_level(CFG->lvl);
