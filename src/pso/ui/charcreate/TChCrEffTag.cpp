@@ -26,7 +26,7 @@ void TChCrEffTag::draw_chcr_tag_frame() {
     TChCrEffWall::draw_default_sprite(0x35, &position, -3.0625f);
 }
 
-const char *TChCrEffTag__name = "TChCrEffTag";
+const char *TChCrEffTag::name = "TChCrEffTag";
 s32 TChCrEffTag::selected_heading = -1;
 static const saddr heading_sprite_ids[] = {0xA4, 0xA5, 0xA6, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, 0xA2, 0xA3};
 
@@ -92,7 +92,7 @@ void TChCrEffTag::run_task()
 TChCrEffTag::~TChCrEffTag() {}
 
 TChCrEffTag::TChCrEffTag(TObject *parent) : TObject(parent) {
-    m_name = TChCrEffTag__name;
+    m_name = name;
     heading = -1;
     TChCrEffTag::selected_heading = -1;
     label = NULL;

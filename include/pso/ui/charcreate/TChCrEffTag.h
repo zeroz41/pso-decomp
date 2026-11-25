@@ -8,6 +8,7 @@ class TChCrEffTagStr;
 
 class TChCrEffTag : public TObject {
 public:
+    static const char *name;
     static s32 selected_heading;
     TChCrEffTag(TObject *parent);
     virtual void run_task();
