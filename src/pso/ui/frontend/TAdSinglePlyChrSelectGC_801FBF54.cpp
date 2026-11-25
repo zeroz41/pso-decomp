@@ -27,6 +27,7 @@
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/GuildCardSaveData.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/system/task/TMainTask.h"
@@ -1895,16 +1896,6 @@ struct ByteBlock_FC0 { u8 bytes[0xfc0]; };
 #pragma auto_inline on
 #pragma dont_inline off
 
-struct ByteBlock_C0
-{
-  u8 bytes[0xc0];
-};
-
-extern "C" {
-s32 __as__13GuildCardSlotFRC13GuildCardSlot(saddr arg0, u8 *arg1);
-}
-
-
 s32 TAdSinglePlyChrSelectGC::init(void) {
     stop_pad_rumble();
     if ((selected_character_data != NULL) && (active_character_save_record != NULL) && (card_character_save_buffer != 0)) {
@@ -2144,11 +2135,8 @@ s32 load_and_verify_data(s32 verify_only) {
     chr_select_serial_seeds[0] = serial;
     memcpy(guild_card_save_payload, guild_card_save_file_buffer + sizeof(CardSaveHeader), 0xE28C);
     decrypt_guild_card_payload(guild_card_save_payload);
-    copy = (GuildCardSaveData *)::operator new(0xE28C);
-    if (copy != NULL) {
-        copy = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(copy);
-    }
-    copy_guild_card_payload(copy, guild_card_save_payload);
+    copy = new GuildCardSaveData;
+    *copy = *guild_card_save_payload;
     sum = copy->checksum;
     copy->checksum = 0U;
     if (sum != calc_crc32_bitwise((u8 *)copy, (u32)(0xE28C))) {
@@ -2168,37 +2156,12 @@ block_9:
     ::operator delete(copy);
     return 1;
 }
-GuildCardSaveData *copy_guild_card_payload(GuildCardSaveData *dest, GuildCardSaveData *source) {
-    dest->checksum = source->checksum;
-    copy_guild_card_entries((saddr)&dest->list, (saddr)&source->list);
-    dest->tags = source->tags;
-    dest->timestamp_seconds = source->timestamp_seconds;
-    dest->cipher_seed = source->cipher_seed;
-    return dest;
-}
-typedef struct ByteBlock_C0 ByteBlock_C0;
-#pragma inline_depth(1)
-#pragma auto_inline on
-#pragma dont_inline off
-s32 copy_guild_card_entries(saddr dest, saddr source) {
-  u32 end;
-  u32 card_dest;
-  saddr card_source;
-  *((ByteBlock_C0 *) dest) = *((const ByteBlock_C0 *) source);
-  card_dest = dest + 0xC0;
-  end = dest;
-  end = end + 0xD2C0;
-  card_source = source + 0xC0;
-  do
-  {
-    __as__13GuildCardSlotFRC13GuildCardSlot(card_dest, (u8 *)card_source);
-    card_dest += 0x100;
-    card_source += 0x100;
-  }
-  while (card_dest < end);
-  return dest;
-}
 
+GuildCardSaveData::GuildCardSaveData() {}
+
+GuildCardTags::GuildCardTags() {}
+
+GuildCardList::GuildCardList() {}
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -2219,30 +2182,12 @@ struct Save_80200690 {
 
 
 extern "C" {
-s32 __ct__13GuildCardSlotFv(s32 object);
-}
-extern "C" {
 void TLobby__sub_801F494C(u16 client);
-s32 __ct__14GuildCardEntryFv(s32 ply_guild_card_tag);
-}
-
-void *TAdSinglePlyChrSelectGC::init_windows(void *file) {
-    TAdSinglePlyChrSelectGC::construct_card_window_array(&((GuildCardSaveData *)file)->list);
-    TAdSinglePlyChrSelectGC::construct_guild_card_tag_array(&((GuildCardSaveData *)file)->tags);
-    return file;
 }
 
 
-void *TAdSinglePlyChrSelectGC::construct_guild_card_tag_array(void *array) {
-    __construct_array(array, (void *)__ct__14GuildCardEntryFv, 0, 0x90, 0x1C);
-    return array;
-}
 
-u8 *TAdSinglePlyChrSelectGC::construct_card_window_array(void *list) {
-    __construct_array(((GuildCardList *)list)->entries, (void *)__ct__13GuildCardSlotFv, 0, 0x100, 0xD2);
-    return (u8 *)list;
 
-}
 
 #pragma push
 #pragma fp_contract on
@@ -2296,20 +2241,14 @@ void TAdSinglePlyChrSelectGC::create_instance(void) {
 void decrypt_guild_card_payload(GuildCardSaveData *data) {
     GuildCardSaveData *a;
     GuildCardSaveData *b;
-    a = (GuildCardSaveData *)::operator new(0xE28C);
-    if (a != 0) {
-        a = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(a);
-    }
-    b = (GuildCardSaveData *)::operator new(0xE28C);
-    if (b != 0) {
-        b = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(b);
-    }
-    copy_guild_card_payload(a, data);
-    copy_guild_card_payload(b, data);
+    a = new GuildCardSaveData;
+    b = new GuildCardSaveData;
+    *a = *data;
+    *b = *data;
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
     subtractive_rng_make_shuffle(&chr_select_rng_state);
     subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, 0xE28C);
-    copy_guild_card_payload(data, b);
+    *data = *b;
     ::operator delete(b);
     ::operator delete(a);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
@@ -2330,20 +2269,14 @@ void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1) {
     subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)data, 0xE288);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)data, 0xE28C);
-    a = (GuildCardSaveData *)::operator new(0xE28C);
-    if (a != 0) {
-        a = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(a);
-    }
-    b = (GuildCardSaveData *)::operator new(0xE28C);
-    if (b != 0) {
-        b = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(b);
-    }
-    copy_guild_card_payload(a, data);
-    copy_guild_card_payload(b, data);
+    a = new GuildCardSaveData;
+    b = new GuildCardSaveData;
+    *a = *data;
+    *b = *data;
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
     subtractive_rng_make_shuffle(&chr_select_rng_state);
     chr_select_rng_state.permute_save_blocks((const u8*)a, (u8*)b, (u32)0xE28C);
-    copy_guild_card_payload(data, b);
+    *data = *b;
     ::operator delete(b);
     ::operator delete(a);
 }
@@ -3144,10 +3077,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         record = new CharacterSaveRecord;
         active_character_save_record = record;
         system_save_payload = new SystemSaveData;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         break;
     case 1:
@@ -3157,19 +3087,13 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         selected_character_data = new TPlyCharData;
         record = new CharacterSaveRecord;
         active_character_save_record = record;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         break;
     case 2:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
@@ -3179,10 +3103,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 3:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
@@ -3193,10 +3114,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         card = new CharacterFile;
         card_character_save_buffer = card;
         system_save_payload = new SystemSaveData;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
         record = new CharacterSaveRecord;
@@ -3205,10 +3123,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 5:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
@@ -3217,10 +3132,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         break;
     case 6:
         system_save_payload = new SystemSaveData;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
@@ -3229,10 +3141,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 7:
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         system_save_payload = new SystemSaveData;
         card = new CharacterFile;
@@ -3244,10 +3153,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 8:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
@@ -3258,10 +3164,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         card = new CharacterFile;
         card_character_save_buffer = card;
         system_save_payload = new SystemSaveData;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
         record = new CharacterSaveRecord;
@@ -3270,10 +3173,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 10:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
@@ -3283,10 +3183,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 11:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
@@ -3295,10 +3192,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         break;
     case 12:
         system_save_payload = new SystemSaveData;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
@@ -3310,10 +3204,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         system_save_payload = new SystemSaveData;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
         record = new CharacterSaveRecord;
@@ -3323,10 +3214,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         system_save_payload = new SystemSaveData;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
         record = new CharacterSaveRecord;
@@ -3334,10 +3222,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         break;
     case 15:
         system_save_payload = new SystemSaveData;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
@@ -3349,10 +3234,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         system_save_payload = new SystemSaveData;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
         record = new CharacterSaveRecord;
@@ -3360,10 +3242,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         break;
     case 17:
         system_save_payload = new SystemSaveData;
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
@@ -3372,10 +3251,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 18:
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
@@ -3385,10 +3261,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 19:
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
@@ -3398,10 +3271,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 20:
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         system_save_payload = new SystemSaveData;
         card = new CharacterFile;
@@ -3411,10 +3281,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 21:
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
@@ -3424,10 +3291,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 22:
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         system_save_payload = new SystemSaveData;
         card = new CharacterFile;
@@ -3437,10 +3301,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 23:
-        guild = (GuildCardSaveData *)::operator new(0xE28C);
-        if (guild != 0) {
-            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
-        }
+        guild = new GuildCardSaveData;
         guild_card_save_payload = guild;
         record = new CharacterSaveRecord;
         active_character_save_record = record;

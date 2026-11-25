@@ -22,26 +22,7 @@ struct TWindowMenu;
 struct TWindowMessageYesNo;
 class TAdFadeGC;
 
-// The guild card file (the part after the card header): the card list and tag blocks that
-// TAdSinglePlyChrSelectGC::init_windows constructs, the checksum and the cipher seed.
-struct GuildCardList {
-    u8 pad_0[0xC0];
-    u8 entries[0xD2][0x100];
-};
-
-struct GuildCardTags {
-    u8 bytes[0x1C][0x90];
-};
-
-struct GuildCardSaveData {
-    u32 checksum;
-    GuildCardList list;
-    GuildCardTags tags;
-    s32 timestamp_seconds;
-    s32 cipher_seed;
-};
-
-LAYOUT_ASSERT(GuildCardSaveData_size, sizeof(GuildCardSaveData) == 0xE28C);
+struct GuildCardSaveData;
 
 // The 0x11C bytes of the system card file (the part after the card header).
 struct SystemSaveData {
@@ -194,8 +175,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void clear_load_buffers();
     static void clear_slot_body(int i);
     static void clear_slot_entry(int i);
-    static u8 *construct_card_window_array(void *list);
-    static void *construct_guild_card_tag_array(void *array);
     static void * copy_char_slot_data(void * a0, void * a1);
     static s32 copy_character_to_slot(CharacterFile *src_file, int src_slot, CharacterFile *dst_file, int dst_slot);
     static void copy_chr_slots_from_request();
@@ -245,7 +224,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void free_char_data_slots(void *table);
     static TPlyCharData *get_entry(int i);
     static int get_serial_seed();
-    static void *init_windows(void *file);
     static s32 is_entry_valid(CharacterFile *self, int i);
     static s32 is_same_slot_entry(void *src_file, int src_slot, void *dst_file, int dst_slot);
     static s32 is_slot_active(unsigned int slot);

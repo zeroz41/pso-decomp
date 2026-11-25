@@ -32,8 +32,6 @@ void TAdSinglePlyChrSelectGC__sub_80200418(void);
 void set_character_file_seed(u8 *file, s32 value);
 s32 get_character_file_seed(u8 *file);
 s32 start_character_file_write(void);
-GuildCardSaveData *copy_guild_card_payload(GuildCardSaveData *dest, GuildCardSaveData *source);
-s32 copy_guild_card_entries(saddr dest, saddr source);
 void decrypt_guild_card_payload(GuildCardSaveData *data);
 void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1);
 u32 calc_crc32_bitwise(u8 *data, u32 size);
