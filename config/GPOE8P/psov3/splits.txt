@@ -6689,18 +6689,12 @@ pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp:
 	.sdata2     start:0x805DD6E0 end:0x805DD710
 
 pso/ui/chat/TWindowSubSymbolChat.cpp:
-	.text       start:0x80281814 end:0x802838C4
+	.text       start:0x80281814 end:0x802839C0
 	.rodata     start:0x8044FB08 end:0x8044FB30
 	.data       start:0x804D2B48 end:0x804D2C14
 	.sdata      start:0x805D3AA8 end:0x805D3AB0
 	.sbss       start:0x805D6490 end:0x805D64A8
 	.sdata2     start:0x805DD710 end:0x805DD750
-
-pso/ui/chat/TWindowSubSymbolChat_802838C4.cpp:
-	.text       start:0x802838C4 end:0x80283954
-
-pso/ui/chat/TWindowSubSymbolChat_80283954.cpp:
-	.text       start:0x80283954 end:0x802839C0
 
 pso/ui/chat/TWindowSubSymbolChatFaceType.cpp:
 	.text       start:0x802839C0 end:0x8028429C

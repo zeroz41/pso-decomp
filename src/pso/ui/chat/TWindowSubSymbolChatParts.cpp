@@ -141,9 +141,9 @@ void TWindowSubSymbolChatParts::select_index_and_scroll(s32 symbol_index) {
 #pragma pop
 
 void TWindowSubSymbolChatParts::handle_cancel() {
-    if (this->sub_80283974() == 0) {
+    if (this->is_active() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_70 = (u8) (this->m_70 | 2);
+        this->flags = (u8) (this->flags | 2);
     }
 }
 
@@ -157,7 +157,7 @@ void TWindowSubSymbolChatParts::add_part() {
     }
     play_sound_effect(0x52D01, 0, 0, 0);
     *help = 1;
-    this->m_70 = (u8) (this->m_70 | 1);
+    this->flags = (u8) (this->flags | 1);
     this->heading->set_entry_state(2);
 }
 
@@ -167,7 +167,7 @@ void TWindowSubSymbolChatParts::handle_add() {
         return;
     }
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->m_70 = (u8) (this->m_70 | 1);
+    this->flags = (u8) (this->flags | 1);
     this->heading->set_entry_state(2);
 }
 
@@ -446,7 +446,7 @@ void TWindowSubSymbolChatParts::run_task() {
     if (!(window_flags & 2)) {
         open_tick = 0x01000000;
     }
-    if (sub_80283974() == 0) {
+    if (is_active() == 0) {
         sub_80285054();
         pad = ((u8 *)&controller_input_state) + 0x20;
         if (test_pressed_buttons_packed(pad, 4) != 0 || (s32)test_controller_flag_4c_color(&(&controller_input_state)->keyboard, 4) != 0) {
@@ -478,7 +478,7 @@ TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(const NJS_POINT2 *position,
     void *p;
 
     m_name = class_name;
-    m_70 = 0;
+    flags = 0;
     cursor_col = 0;
     cursor_row = 0;
     item_count = 0;

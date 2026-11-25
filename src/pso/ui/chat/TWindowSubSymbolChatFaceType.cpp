@@ -6,7 +6,6 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80283954.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -22,13 +21,13 @@ extern const char TWindowSubSymbolChatFaceType__class_name_string[29] = "TWindow
 void TWindowSubSymbolChatFaceType::close_when_chat_closed() {
     if (is_open() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_60 = (u8) (this->m_60 | 2);
+        this->flags = (u8) (this->flags | 2);
     }
 }
 
 void TWindowSubSymbolChatFaceType::confirm_selection() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->m_60 = (u8) (this->m_60 | 1);
+    this->flags = (u8) (this->flags | 1);
     status_disp->set_entry_state(2);
 }
 
@@ -66,28 +65,28 @@ void TWindowSubSymbolChatFaceType::handle_input() {
     if ((test_buttons_press_or_repeat(input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0U, 0, 0);
         if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-            this->m_62 = (this->m_62 - 1);
+            this->cursor_row = (this->cursor_row - 1);
         }
         if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-            this->m_62 = (this->m_62 + 1);
+            this->cursor_row = (this->cursor_row + 1);
         }
         if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
-            this->m_61 = (this->m_61 + 1);
+            this->cursor_col = (this->cursor_col + 1);
         }
         if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
-            this->m_61 = (this->m_61 - 1);
+            this->cursor_col = (this->cursor_col - 1);
         }
-        if ((s8) this->m_61 < 0) {
-            this->m_61 = 0U;
+        if ((s8) this->cursor_col < 0) {
+            this->cursor_col = 0U;
         }
-        if ((s8) this->m_61 >= 2) {
-            this->m_61 = 1U;
+        if ((s8) this->cursor_col >= 2) {
+            this->cursor_col = 1U;
         }
-        if ((s8) this->m_62 < 0) {
-            this->m_62 = 0U;
+        if ((s8) this->cursor_row < 0) {
+            this->cursor_row = 0U;
         }
-        if ((s8) this->m_62 >= 2) {
-            this->m_62 = 1U;
+        if ((s8) this->cursor_row >= 2) {
+            this->cursor_row = 1U;
         }
     }
 }
@@ -163,7 +162,7 @@ void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {
   int new_var;
   u8 *temp_r3;
   Stack_80283F38 stack;
-  new_var = fn_802839A4(window_base);
+  new_var = ((TWindowSubSymbolChatFaceType *)window_base)->get_cursor_index();
   temp_r3 = (u8 *) ((TWindowBase *)window_base)->get_array_entry(new_var);
   stack.sp8 = (*((f32 *) (((s8 *) temp_r3) + 8))) - 3.0f;
   stack.spC = (*((f32 *) (((s8 *) temp_r3) + 0xC))) - 3.0f;
@@ -242,9 +241,9 @@ TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *pos
     : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, 4, (u8 *)position) {
     TWindowSubStatusDisp *heading;
     m_name = TWindowSubSymbolChatFaceType__name;
-    m_60 = 0;
-    m_61 = 0;
-    m_62 = 0;
+    flags = 0;
+    cursor_col = 0;
+    cursor_row = 0;
     m_64 = selection;
     heading = static_cast<TWindowSubStatusDisp *>(::operator new(0x24));
     if (heading != NULL) {

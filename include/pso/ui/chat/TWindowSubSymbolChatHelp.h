@@ -10,7 +10,7 @@ struct TWindowSubSymbolChatHelp : public TWindowBase {
     virtual ~TWindowSubSymbolChatHelp();
     void draw_help_entry(void *, s32, s32);
     void draw_color_palette(void *);
-    s8 m_60;
+    s8 flags; // bits 1, 2, 4 (set_flag60_bit*/clear_flag60_bit*); 4 also by set_pos_and_flag
     u8 _pad61[0x3];
     // Borrowed selection, mode and optional toggle targets.
     s8 *m_64;
@@ -21,6 +21,7 @@ struct TWindowSubSymbolChatHelp : public TWindowBase {
     void clear_flag60_bit4();
     void set_pos_and_flag(s32 *first, s32 *second);
     void set_flag60_bit1();
+    void clear_flag60_bit1();
     void set_flag60_bit2();
     void draw_help_entries(void *arg1);
     void handle_toggle_input();
@@ -34,8 +35,5 @@ LAYOUT_ASSERT(TWindowSubSymbolChatHelp_size, sizeof(TWindowSubSymbolChatHelp) ==
 LAYOUT_ASSERT(TWindowSubSymbolChatHelp_m64, offsetof(TWindowSubSymbolChatHelp, m_64) == 0x64);
 LAYOUT_ASSERT(TWindowSubSymbolChatHelp_m70, offsetof(TWindowSubSymbolChatHelp, m_70) == 0x70);
 
-extern "C" {
-void TWindowSubSymbolChat__sub_80283944(TWindowSubSymbolChatHelp *window);
-}
 
 #endif

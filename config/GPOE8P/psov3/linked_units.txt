@@ -1270,8 +1270,6 @@ pso/ui/chat/TWindowSubSymbolChatFaceType.cpp
 pso/ui/chat/TWindowSubSymbolChatHelp.cpp
 pso/ui/chat/TWindowSubSymbolChatPartsSet.cpp
 pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp
-pso/ui/chat/TWindowSubSymbolChat_802838C4.cpp
-pso/ui/chat/TWindowSubSymbolChat_80283954.cpp
 pso/ui/chat/TWindowSubSymbolChat_802ACF5C.cpp
 pso/ui/window/TWindowSubTechnique.cpp
 pso/ui/window/TWindowSubTrade.cpp

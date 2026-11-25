@@ -1,6 +1,85 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/chat/SymbolChatPreset.h"
+#include "types.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
+#include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
+#include "pso/ui/chat/TWindowSubSymbolChatParts.h"
+
+
+s32 TWindowSubSymbolChatFaceType::get_cursor_index() {
+    return (s8)cursor_col + (s8)cursor_row * 2;
+}
+
+s32 TWindowSubSymbolChatFaceType::is_cancelled() {
+    return flags & 2;
+}
+
+s32 TWindowSubSymbolChatFaceType::is_open() {
+    return this->flags & 1;
+}
+
+s32 TWindowSubSymbolChatParts::is_cancelled() {
+    return flags & 2;
+}
+
+s32 TWindowSubSymbolChatParts::is_active() {
+    return this->flags & 1;
+}
+
+void TWindowSubSymbolChatHelp::set_flag60_bit2() {
+    flags = (u8)(flags | 2);
+}
+
+void TWindowSubSymbolChatHelp::set_flag60_bit1() {
+    flags = (u8)(flags | 1);
+}
+
+void TWindowSubSymbolChatHelp::clear_flag60_bit1() {
+    flags &= ~1;
+}
+
+void TWindowSubSymbolChatHelp::set_pos_and_flag(s32 *first, s32 *second) {
+    m_6c = first;
+    m_70 = second;
+    flags = (u8)(flags | 4);
+}
+
+void TWindowSubSymbolChatHelp::clear_flag60_bit4() {
+    flags = (u8)(flags & ~4);
+}
+
+void TWindowSubSymbolChatHelp::clear_flag60_bit2() {
+    flags = (u8)(flags & ~2);
+}
+
+s32 TWindowSubSymbolChatPartsSet::is_cancelled() {
+    return flags & 2;
+}
+
+s32 TWindowSubSymbolChatPartsSet::is_active() {
+    return this->flags & 1;
+}
+
+s32 TWindowSubSymbolChatPartsSet::get_cursor_x() {
+    return cursor_x;
+}
+
+s32 TWindowSubSymbolChatPartsSet::get_cursor_pos() {
+    return cursor_y;
+}
+
+void SymbolChatPreset::clear_flag_bit2() {
+    flags &= 0xFFFFFFFD;
+}
+
+void SymbolChatPreset::set_flag_bit2() {
+    flags |= 2;
+}
+
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
@@ -27,8 +106,6 @@
 #include "pso/ui/chat/TWindowSubSymbolChatParts.h"
 #include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_802838C4.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80283954.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
@@ -373,12 +450,12 @@ void TWindowSubSymbolChat::run_task() {
         reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_flag60_bit2();
         this->selected_value = 9U;
     case 9:
-        if (TWindowSubSymbolChat__sub_80283998((void *)this->face_type_window) != 0) {
+        if (((TWindowSubSymbolChatFaceType *)(this->face_type_window))->is_cancelled() != 0) {
             this->selected_value = 6U;
             return;
         }
         if (((TWindowSubSymbolChatFaceType *)(this->face_type_window))->is_open() != 0) {
-            ((TWindowSubSymbolChat *)(this->selected_preset))->set_symbol_flags((int) (fn_802839A4((void *)this->face_type_window)), (int)TWindowSubSymbolChat__data_805D6494);
+            ((TWindowSubSymbolChat *)(this->selected_preset))->set_symbol_flags((int) (((TWindowSubSymbolChatFaceType *)(this->face_type_window))->get_cursor_index()), (int)TWindowSubSymbolChat__data_805D6494);
             ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->update_visibility();
             this->selected_value = 4U;
             return;
@@ -431,16 +508,16 @@ void TWindowSubSymbolChat::run_task() {
         if (TWindowSubSymbolChat::count_instance_empty_slots() > 1) {
             reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_flag60_bit1();
         } else {
-            TWindowSubSymbolChat__sub_80283944(reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window));
+            reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->clear_flag60_bit1();
         }
         reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_pos_and_flag(&TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
         this->selected_value = 0xDU;
     case 13:
-        if (TWindowSubSymbolChat__sub_80283980((void *)this->parts) != 0) {
+        if (((TWindowSubSymbolChatParts *)(this->parts))->is_cancelled() != 0) {
             this->selected_value = 0xAU;
             return;
         }
-        if (((TWindowSubSymbolChatParts *)(this->parts))->sub_80283974() != 0) {
+        if (((TWindowSubSymbolChatParts *)(this->parts))->is_active() != 0) {
             this->selected_value = 0xEU;
             return;
         }
@@ -457,7 +534,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         this->selected_value = 0xFU;
     case 15:
-        if (TWindowSubSymbolChat__sub_80283900((void *)this->parts_set) != 0) {
+        if (((TWindowSubSymbolChatPartsSet *)(this->parts_set))->is_cancelled() != 0) {
             this->selected_value = 0xCU;
             return;
         }
@@ -491,11 +568,11 @@ void TWindowSubSymbolChat::run_task() {
         reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_pos_and_flag(&TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
         this->selected_value = 0x11U;
     case 17:
-        if (TWindowSubSymbolChat__sub_80283980((void *)this->parts) != 0) {
+        if (((TWindowSubSymbolChatParts *)(this->parts))->is_cancelled() != 0) {
             this->selected_value = 0xAU;
             return;
         }
-        if (((TWindowSubSymbolChatParts *)(this->parts))->sub_80283974() != 0) {
+        if (((TWindowSubSymbolChatParts *)(this->parts))->is_active() != 0) {
             this->selected_value = 0x12U;
             return;
         }
@@ -512,7 +589,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         this->selected_value = 0x13U;
     case 19:
-        if (TWindowSubSymbolChat__sub_80283900((void *)this->parts_set) != 0) {
+        if (((TWindowSubSymbolChatPartsSet *)(this->parts_set))->is_cancelled() != 0) {
             this->selected_value = 0x10U;
             return;
         }
@@ -566,15 +643,15 @@ void TWindowSubSymbolChat::run_task() {
         }
         reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->clear_flag60_bit4();
         reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->clear_flag60_bit2();
-        TWindowSubSymbolChat__sub_80283944(reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window));
+        reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->clear_flag60_bit1();
         this->selected_value = 0x17U;
     case 23:
     case 27:
-        if (TWindowSubSymbolChat__sub_80283980((void *)this->parts) != 0) {
+        if (((TWindowSubSymbolChatParts *)(this->parts))->is_cancelled() != 0) {
             this->selected_value = 0x14U;
             return;
         }
-        if (((TWindowSubSymbolChatParts *)(this->parts))->sub_80283974() != 0) {
+        if (((TWindowSubSymbolChatParts *)(this->parts))->is_active() != 0) {
             this->update_state();
             return;
         }
@@ -596,7 +673,7 @@ void TWindowSubSymbolChat::run_task() {
         reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_pos_and_flag(&TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
         this->selected_value = 0x19U;
     case 25:
-        if (TWindowSubSymbolChat__sub_80283900((void *)this->parts_set) != 0) {
+        if (((TWindowSubSymbolChatPartsSet *)(this->parts_set))->is_cancelled() != 0) {
             this->selected_value = 0x16U;
             return;
         }

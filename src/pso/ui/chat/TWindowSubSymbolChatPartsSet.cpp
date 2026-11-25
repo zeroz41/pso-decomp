@@ -195,13 +195,13 @@ void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
 void TWindowSubSymbolChatPartsSet::handle_cancel() {
     if (is_active() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_68 = (u8) (this->m_68 | 2);
+        this->flags = (u8) (this->flags | 2);
     }
 }
 
 void TWindowSubSymbolChatPartsSet::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->m_68 = (u8) (this->m_68 | 1);
+    this->flags = (u8) (this->flags | 1);
     this->heading_display->set_entry_state(2);
 }
 
@@ -380,7 +380,7 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *pos
     : TWindowChatSymbol(position, (saddr)&lbl_8044FC30) {
     m_name = TWindowSubSymbolChatPartsSet__name;
     set_depth(50030.0f);
-    m_68 = 0;
+    flags = 0;
     cursor_x = 0;
     cursor_y = 0;
     set_index = index;

@@ -14,11 +14,12 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     s32 is_active();
     s32 get_cursor_pos();
     s32 get_cursor_x();
+    s32 is_cancelled();
     void set_selection_and_refresh(s8 *arg1);
     s32 select_symbol_chat_record(s8 *arg1, s32 *arg2);
     void init_symbol_layout(s32 *arg1);
     virtual void render();
-    u8 m_68;
+    u8 flags; // 1: decided, 2: cancelled (set by handle_cancel)
     s8 selection_mode;
     s16 cursor_x;
     s16 cursor_y;

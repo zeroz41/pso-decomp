@@ -15,11 +15,13 @@ struct TWindowSubSymbolChatFaceType : public TWindowBase {
     void update_parts_entries();
     void handle_input();
     s32 is_open();
+    s32 is_cancelled();
+    s32 get_cursor_index();
     virtual void render();
     virtual void run_task();
-    u8 m_60;
-    u8 m_61;
-    u8 m_62;
+    u8 flags; // 1: decided, 2: cancelled (set by close_when_chat_closed)
+    u8 cursor_col;
+    u8 cursor_row;
     u8 _pad63[0x1];
     s8 *m_64; // Borrowed selection byte.
     TWindowSubStatusDisp *status_disp;
