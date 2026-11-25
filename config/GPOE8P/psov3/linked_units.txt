@@ -864,7 +864,6 @@ pso/network/ModemSession.c
 pso/network/eth.c
 pso/ui/TLogo.cpp
 pso/ui/TLogo_8001C134.cpp
-pso/ui/TLogo_8030818C.cpp
 pso/network/TPlyJoinLobbySdata2.cpp
 pso/ui/hud/TMainCursor.cpp
 pso/ui/hud/TMainCursor_80154090.cpp

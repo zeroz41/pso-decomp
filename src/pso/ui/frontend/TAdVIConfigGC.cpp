@@ -17,6 +17,8 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
+#include "pso/system/ControllerInput.h"
+#include "pso/ui/TLogo.h"
 #include "pso/render/gjSystem.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXFrameBuffer.h>
@@ -171,4 +173,17 @@ TAdVIConfigGC::TAdVIConfigGC(TObject *parent) : TAdYesNoBaseGC(parent) {
     m_48 = 0;
 }
 
+}
+
+// Sits between the TAdVIConfigGC constructor and the TAdYesNoBaseGC::vfunc_8/9 copies that end this unit.
+s32 TLogo::check_progressive_ready() {
+    if (VIGetDTVStatus() == 0U) {
+        TAdVIConfigGC::disable_progressive_mode();
+        return 0;
+    }
+    if ((OSGetProgressiveMode() != 1U) && (test_previous_buttons_packed(&controller_physical_port_bank.controllers[0], 2) == 0)) {
+        TAdVIConfigGC::disable_progressive_mode();
+        return 0;
+    }
+    return 1;
 }
