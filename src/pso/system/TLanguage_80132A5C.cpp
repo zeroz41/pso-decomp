@@ -35,9 +35,7 @@ extern const char TextGerman[];
 extern const char TextFrench[];
 extern const char TextSpanish[];
 extern const char TextEnglish[];
-// The loaded language's text file: two words, the language text resources and
-// the group table.
-s32 *TWindowKeyBoardSoft__text_resource;
+s32 *TLanguage::text_resource;
 s32 text_language_group_table;
 NJS_TEXLIST *localized_alphabet_list;
 language current_language;
@@ -54,10 +52,10 @@ void TLanguage::free_alphabet_textures() {
 }
 
 void TLanguage::free_text_resources() {
-    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(TWindowKeyBoardSoft__text_resource));
+    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(text_resource));
     TWindowKeyBoardSoft__language_text_resources = 0;
     text_language_group_table = 0;
-    TWindowKeyBoardSoft__text_resource = NULL;
+    text_resource = NULL;
 }
 
 void TLanguage::load_fonts(s32 language) {
@@ -120,23 +118,23 @@ void TLanguage::load_fonts(s32 language) {
 void TLanguage::load_text_resources(s32 language) {
     switch (language) {
     case LANGUAGE_JAPANESE:
-        TWindowKeyBoardSoft__text_resource = (s32 *)load_text_resource_pair((saddr)TextJapanese);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextJapanese);
         break;
     case LANGUAGE_GERMAN:
-        TWindowKeyBoardSoft__text_resource = (s32 *)load_text_resource_pair((saddr)TextGerman);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextGerman);
         break;
     case LANGUAGE_FRENCH:
-        TWindowKeyBoardSoft__text_resource = (s32 *)load_text_resource_pair((saddr)TextFrench);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextFrench);
         break;
     case LANGUAGE_SPANISH:
-        TWindowKeyBoardSoft__text_resource = (s32 *)load_text_resource_pair((saddr)TextSpanish);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextSpanish);
         break;
     default:
-        TWindowKeyBoardSoft__text_resource = (s32 *)load_text_resource_pair((saddr)TextEnglish);
+        text_resource = (s32 *)load_text_resource_pair((saddr)TextEnglish);
         break;
     }
-    TWindowKeyBoardSoft__language_text_resources = TWindowKeyBoardSoft__text_resource[0];
-    text_language_group_table = TWindowKeyBoardSoft__text_resource[1];
+    TWindowKeyBoardSoft__language_text_resources = text_resource[0];
+    text_language_group_table = text_resource[1];
 }
 
 __declspec(section ".rodata") const char TLanguage::class_name[] = "TLanguage";

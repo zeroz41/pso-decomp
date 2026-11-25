@@ -23,6 +23,9 @@ struct TLanguage
     static void set_entry_index(s32 i, s32 x);
     static void load_container_fragment_textures();
 
+    // The loaded language's text file: two words, the language text resources and the group table.
+    static s32 *text_resource;
+
     // Tag of the temporary buffer load_fonts borrows.
     static const char class_name[];
 };
