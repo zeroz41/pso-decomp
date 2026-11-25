@@ -981,22 +981,7 @@ pso/unk/TLobby_8007B858.cpp:
 	.data       start:0x8048D4C0 end:0x8048D5C8
 
 pso/ui/window/TWindowSubComCard_8007BD24.cpp:
-	.text       start:0x8007BD24 end:0x8007BD94
-
-pso/ui/window/TWindowSubComCard_8007BD94.cpp:
-	.text       start:0x8007BD94 end:0x8007BDD8
-
-pso/ui/window/TWindowSubComCard_8007BDD8.cpp:
-	.text       start:0x8007BDD8 end:0x8007BE70
-
-pso/ui/window/TWindowSubComCard_8007BE70.cpp:
-	.text       start:0x8007BE70 end:0x8007BF08
-
-pso/ui/window/TWindowSubComCard_8007BF08.cpp:
-	.text       start:0x8007BF08 end:0x8007BF48
-
-pso/ui/window/TWindowSubComCard_8007BF48.cpp:
-	.text       start:0x8007BF48 end:0x8007BF8C
+	.text       start:0x8007BD24 end:0x8007BF8C
 
 pso/network/PSOV3EncryptionTCP.cpp:
 	.text       start:0x8007BF8C end:0x8007C0CC

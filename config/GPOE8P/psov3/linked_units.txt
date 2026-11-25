@@ -1222,11 +1222,6 @@ pso/ui/window/TWindowSubComCard_8007341C.cpp
 pso/ui/window/TWindowSubComCard_80073DB8.cpp
 pso/ui/window/TWindowSubComCard_8007A810.cpp
 pso/ui/window/TWindowSubComCard_8007BD24.cpp
-pso/ui/window/TWindowSubComCard_8007BD94.cpp
-pso/ui/window/TWindowSubComCard_8007BDD8.cpp
-pso/ui/window/TWindowSubComCard_8007BE70.cpp
-pso/ui/window/TWindowSubComCard_8007BF08.cpp
-pso/ui/window/TWindowSubComCard_8007BF48.cpp
 pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp
 pso/ui/window/TWindowSubComCard_80225E0C.cpp
 pso/ui/window/TWindowBase.cpp
