@@ -4,13 +4,13 @@
 #include "types.h"
 
 struct NJS_OBJECT;
-struct Acc_80327A38 {
+struct ScrolledStripTotals {
     s32 sum;
     s32 count;
 };
 
 extern "C" {
-void visit_model_tree_recursive(Acc_80327A38 *acc, NJS_OBJECT *node, s32 id);
+void visit_model_tree_recursive(ScrolledStripTotals *acc, NJS_OBJECT *node, s32 id);
 }
 
 #endif

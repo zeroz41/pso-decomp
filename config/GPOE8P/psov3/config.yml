@@ -246,7 +246,7 @@ force_active:
   - TAdSinglePlyChrSelectGC__sub_80223350
   - TAdSinglePlyChrSelectGC__sub_8022338C
   - TAdSinglePlyChrSelectGC__sub_8028C998
-  - TAdSinglePlyChrSelectGC__sub_8028EE20
+  - select_unused_appearance_part
   - __ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectP3VecP3VecP3VecPll
   - build_item_list__22TQuestVmDownLoadServerFiPv
   - clear_position
@@ -6428,7 +6428,7 @@ force_active:
   - render_in_demo__15TObjEneDelDepthFv
   - has_player_nearby__16TObjEneReconBombFv
   - __dt__14TObjEneRecoboxFv
-  - fn_80327A38
+  - count_scrolled_texture_strips
   - receive_direct_attack__9TBoss6MagFPv19DirectAttackPayloadPvll
   - __dt__9TBoss6MagFv
   - enter_check_state__9TSaveChCrFv
@@ -8038,7 +8038,7 @@ force_active:
   - floor_map_set_aboss03
   - lbl_804C9C9C
   - lbl_804CB838
-  - lbl_804CDC88
+  - card_file_search_channels
   - com_card_layout_entries
   - com_card_follower_layout_entries
   - __vt__22TWindowComCardFollower

@@ -7,16 +7,12 @@
 #include "pso/network/TLobby.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-typedef EnemyFactoryEntry Ent_8020BFE4;
 
-typedef ObjectFactoryEntry Ent_8020C030;
-
-
-s32 get_enemy_factory_child_count(s32 arg0, s16 *arg1) {
-    Ent_8020BFE4 *base = enemy_factory_area_table[arg0];
-    Ent_8020BFE4 *p = base;
+s32 get_enemy_factory_child_count(s32 area, s16 *enemy_type) {
+    EnemyFactoryEntry *base = enemy_factory_area_table[area];
+    EnemyFactoryEntry *p = base;
     for (; base != 0 && p->type != -1; p++) {
-        if (p->type == *arg1) {
+        if (p->type == *enemy_type) {
             return p->child_count;
         }
     }
@@ -24,8 +20,8 @@ s32 get_enemy_factory_child_count(s32 arg0, s16 *arg1) {
 }
 
 s32 TLobby::find_floor_object_factory(s32 area, s16 *object_type) {
-    Ent_8020C030 *base = floor_object_factory_tables[area];
-    Ent_8020C030 *p = base;
+    ObjectFactoryEntry *base = floor_object_factory_tables[area];
+    ObjectFactoryEntry *p = base;
     for (; base != 0 && p->type != -1; p++) {
         if (p->type == *object_type) {
             return p->extra_object_ids;

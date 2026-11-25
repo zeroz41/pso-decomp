@@ -4,8 +4,8 @@
 #include "types.h"
 
 extern "C" {
-void fn_8011085C(u8 *ctrl, s32 arg1);
-void fn_801108C8(u8 *ctrl, s32 arg1);
+void fn_8011085C(u8 *ctrl, s32 index);
+void fn_801108C8(u8 *ctrl, s32 index);
 }
 
 #endif

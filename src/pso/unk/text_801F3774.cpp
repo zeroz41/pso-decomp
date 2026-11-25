@@ -1,6 +1,7 @@
 #pragma readonly_strings on
 
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/text_801F3774.h"
@@ -13,45 +14,28 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 
-struct Send6x75QuestFlagCurDifficultyStack {
-    s32 sp8;
-    s16 spC;
-    s16 spE;
-    s16 sp10;
-    s16 sp12;
-};
-
-struct Send6x75QuestFlagStack {
-    s32 sp8;
-    s16 spC;
-    s16 spE;
-    s16 sp10;
-    s16 sp12;
-};
-
-
 extern s32 game_difficulty_selection;
 
 void TLobby__sub_801F3774(void) {  }
 
 void TLobby::send_6x75_quest_flag(s16 flag, s16 action, s16 difficulty) {
-    Send6x75QuestFlagStack stack;
-    build_6x75_update_quest_flag_dc(&stack.sp8);
-    stack.spC = flag;
-    stack.spE = action;
-    stack.sp10 = difficulty;
-    stack.sp12 = 0;
-    send_and_handle_6x75((TLobby *)&stack.sp8);
+    G_UpdateQuestFlag_V3_BB_6x75 packet;
+    build_6x75_update_quest_flag_dc(&packet);
+    packet.__base_G_UpdateQuestFlag_DC_PC_6x75.flag = flag;
+    packet.__base_G_UpdateQuestFlag_DC_PC_6x75.action = action;
+    packet.difficulty16 = difficulty;
+    packet.unused = 0;
+    send_and_handle_6x75((TLobby *)&packet);
 }
 
 void TLobby::send_6x75_quest_flag_cur_difficulty(s16 flag, s16 action) {
-    Send6x75QuestFlagCurDifficultyStack stack;
-    build_6x75_update_quest_flag_dc(&stack.sp8);
-    stack.spC = flag;
-    stack.spE = action;
-    stack.sp10 = (s16) game_difficulty_selection;
-    stack.sp12 = 0;
-    send_and_handle_6x75((TLobby *)&stack.sp8);
+    G_UpdateQuestFlag_V3_BB_6x75 packet;
+    build_6x75_update_quest_flag_dc(&packet);
+    packet.__base_G_UpdateQuestFlag_DC_PC_6x75.flag = flag;
+    packet.__base_G_UpdateQuestFlag_DC_PC_6x75.action = action;
+    packet.difficulty16 = (s16) game_difficulty_selection;
+    packet.unused = 0;
+    send_and_handle_6x75((TLobby *)&packet);
 }
 
 void handle_6x75_update_quest_flag_dc(TLobby *lobby) {

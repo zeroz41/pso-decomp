@@ -70,18 +70,18 @@ void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(CopySlotDataDst *d, CopySlot
 
 #pragma push
 #pragma fp_contract on
-void TAdSinglePlyChrSelectGC__sub_8028ED54(saddr arg1_) {
+void TAdSinglePlyChrSelectGC__sub_8028ED54(saddr part) {
     ByteBlock_50 buf;
     uaddr h;
     if (TAdSinglePlyChrSelectGC::count_remaining_slots() > 0) {
         buf = *(const ByteBlock_50 *)creation_player_character;
-        if ((arg1_ < 0) || (arg1_ >= 5)) {
+        if ((part < 0) || (part >= 5)) {
             if (TAdSinglePlyChrSelectGC::has_matching_entry(&buf) != 0) {
                 return;
             }
             goto block_7;
         }
-        if ((TAdSinglePlyChrSelectGC::has_matching_entry((void *)&buf) == 0) || (TAdSinglePlyChrSelectGC__sub_8028EE20((void *)((void *)&buf), (void *)arg1_) != 0)) {
+        if ((TAdSinglePlyChrSelectGC::has_matching_entry((void *)&buf) == 0) || (select_unused_appearance_part(&buf, part) != 0)) {
 block_7:
             h = (uaddr)TAdSinglePlyChrSelectGC::find_free_slot();
             if (h == 0U) {
@@ -96,14 +96,13 @@ block_7:
 }
 #pragma pop
 
-s32 TAdSinglePlyChrSelectGC__sub_8028EE20(void *arg0, void *arg1_) {
-    s32 arg1 = (saddr)arg1_;
-    TAdSinglePlyChrSelectGCChr c = *(TAdSinglePlyChrSelectGCChr *)arg0;
+s32 select_unused_appearance_part(void *appearance, s32 part) {
+    TAdSinglePlyChrSelectGCChr c = *(TAdSinglePlyChrSelectGCChr *)appearance;
     s32 max;
     s32 cur;
     s32 v;
-    max = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(&c))].counts[arg1];
-    cur = c.sel[arg1];
+    max = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(&c))].counts[part];
+    cur = c.sel[part];
     v = cur;
     do {
         if (++v >= max) {
@@ -111,7 +110,7 @@ s32 TAdSinglePlyChrSelectGC__sub_8028EE20(void *arg0, void *arg1_) {
         }
     } while (v != cur);
     if (v != cur) {
-        c.sel[arg1] = v;
+        c.sel[part] = v;
         if (TAdSinglePlyChrSelectGC::has_matching_entry(&c) == 0) {
             goto ok;
         }
@@ -123,14 +122,14 @@ s32 TAdSinglePlyChrSelectGC__sub_8028EE20(void *arg0, void *arg1_) {
         }
     } while (v != cur);
     if (v != cur) {
-        c.sel[arg1] = v;
+        c.sel[part] = v;
         if (TAdSinglePlyChrSelectGC::has_matching_entry(&c) == 0) {
             goto ok;
         }
     }
     return 0;
 ok:
-    copy_player_visual_record(arg0, &c);
+    copy_player_visual_record(appearance, &c);
     return 1;
 }
 
