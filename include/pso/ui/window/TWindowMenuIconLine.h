@@ -15,7 +15,7 @@ public:
     virtual ~TWindowMenuIconLine();
     virtual void run_task();
     virtual void render();
-    virtual void init(u32, s32);
+    virtual void init(u32 count, s32 client);
     void draw_selected_list_entry(WindowDrawContext *context);
     void update_scroll_offset();
     void clamp_item_list_scroll();

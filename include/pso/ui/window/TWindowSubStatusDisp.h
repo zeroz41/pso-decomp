@@ -89,7 +89,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_string(uaddr string);
     void set_text(uaddr arg1, s32 string, s32 arg3);
     void set_text(uaddr arg1, s32 arg2);
-    void refresh_selected_entry(s32 arg1);
+    void refresh_selected_entry(s32 play_sound);
     void init_scroll_pos();
     int is_flag80_set();
     void add_text_entry(s32 arg1, s32 arg2);
@@ -118,7 +118,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static f32 round_away_from_zero(f32 farg0);
     static s32 build_status_text(s32 client_id);
     static void *get_entry_ptr(int a0);
-    void append_entry(s32 flag, s32 arg2, s32 item, s32 arg4, s32 arg5);
+    void append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows);
     s32 update_hp_entry();
     static s32 destroy_status_display(saddr window, s16 delete_flag);
     u8 *construct_type1_heading(s32 title, s32 client_index);
