@@ -144,7 +144,6 @@
 
 #pragma readonly_strings on
 
-#define M0(x) virtual void m##x();
 
 struct Base_801B9954 {
     s16 field[18];
