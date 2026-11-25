@@ -230,7 +230,7 @@ void init_player_entry(GuildCardRecord *entry, u8 *response) {
     if (card == NULL) {
         strncpy(entry->name, entry->get_sub_disp_ptr(), 0x10);
     } else {
-        strncpy(entry->name, card->entry.get_name(), 0x10);
+        strncpy(entry->name, card->get_name(), 0x10);
     }
     entry->name[0x10] = 0;
     p = build_text_from_comma_list((char *)(response + 0x1C));

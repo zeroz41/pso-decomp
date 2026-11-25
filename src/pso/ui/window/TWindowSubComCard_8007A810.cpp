@@ -46,7 +46,7 @@ GuildCardSlot *TWindowSubComCard::find_card_by_id(u32 id) {
     s32 i;
     GuildCardSlot *slot = TWindowSubComCard::get_card_entry(0);
     for (i = 0; i < 0xD2; i++, slot++) {
-        if (id == slot->entry.get_card_id()) {
+        if (id == slot->get_card_id()) {
             return slot;
         }
     }
@@ -64,97 +64,23 @@ GuildCardSlot *TWindowSubComCard::get_card_entry(s32 index) {
 }
 
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-extern "C" {
-struct S_8007AA70;
-s32 forward_return_arg__17TWindowSubComCardFi(saddr, S_8007AA70 *);
-
+// Uses the generated GuildCardSlot assignment and constructor, emitted after it with the bases'.
 void TWindowSubComCard::swap_cards(s32 first_index, s32 second_index) {
-    s32 src[64];
-    GuildCardSlot *first_ptr;
-    GuildCardSlot *second_ptr;
-
-    ((s32 (*)(s32 *))reinit__17TWindowSubComCardFi)(src);
-    first_ptr = TWindowSubComCard::get_card_entry(first_index);
-    second_ptr = TWindowSubComCard::get_card_entry(second_index);
-    copy_card__17TWindowSubComCardFiPv((saddr)src, (u8 *)first_ptr);
-    copy_card__17TWindowSubComCardFiPv((saddr)first_ptr, (u8 *)second_ptr);
-    copy_card__17TWindowSubComCardFiPv((saddr)second_ptr, (u8 *)src);
+    GuildCardSlot tmp;
+    GuildCardSlot *first = TWindowSubComCard::get_card_entry(first_index);
+    GuildCardSlot *second = TWindowSubComCard::get_card_entry(second_index);
+    tmp = *first;
+    *first = *second;
+    *second = tmp;
 }
-s32 copy_card__17TWindowSubComCardFiPv(saddr guild_card_slot, u8 *source) {
-    GuildCardSlot *dest = reinterpret_cast<GuildCardSlot *>(guild_card_slot);
-    GuildCardSlot *src = reinterpret_cast<GuildCardSlot *>(source);
-    ((s32 (*)(s32))forward_return_arg__17TWindowSubComCardFi)(guild_card_slot);
-    dest->pad_90[0] = src->pad_90[0];
-    dest->pad_90[1] = src->pad_90[1];
-    dest->pad_90[2] = src->pad_90[2];
-    dest->pad_90[3] = src->pad_90[3];
-    dest->note = src->note;
-    return guild_card_slot;
-}
-
-}
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-struct C18_8007AA70 { u8 bytes[0x18]; };
-
-struct C6C_8007AA70 { u8 bytes[0x6c]; };
-
-struct P_8007AA70 { u32 w[2]; };
-
-struct S_8007AA70 {
-    P_8007AA70 ab;
-    C18_8007AA70 c;
-    C6C_8007AA70 d;
-    u8 e0, e1, e2, e3;
-};
-
-extern "C" {
-int copy_struct__17TWindowSubComCardFPvPv(S_8007AA70 *, S_8007AA70 *);
-
-s32 forward_return_arg__17TWindowSubComCardFi(saddr dest, S_8007AA70 * src) {
-    copy_struct__17TWindowSubComCardFPvPv((S_8007AA70 *)(dest), (S_8007AA70 *)(src));
-    return dest;
-}
-int copy_struct__17TWindowSubComCardFPvPv(S_8007AA70 *dst, S_8007AA70 *src) {
-    *dst = *src;
-    return (saddr)dst;
-}
-
-s32 reinit__17TWindowSubComCardFi(s32 object) {
-    ((s32 (*)())init__17TWindowSubComCardFi)();
-    return object;
-}
-
-s32 init__17TWindowSubComCardFi(s32 object) {
-    ((s32 (*)())init_guild_card_tag__17TWindowSubComCardFi)();
-    return object;
-}
-
-}
-
-struct Card_8007AC7C {
-    u8 pad[0x100];
-};
 
 extern "C" {
 void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry);
-int __ct__16TPlyGuildCardTagFv();
-
-s32 init_guild_card_tag__17TWindowSubComCardFi(void *ply_guild_card_tag) {
-    __ct__16TPlyGuildCardTagFv();
-    return (saddr)ply_guild_card_tag;
-}
 
 s32 has_inactive_card__17TWindowSubComCardFPvi(GuildCardSlot *cards, s32 n) {
     s32 i;
     for (i = 0; i < n; i++, cards++) {
-        if (cards->entry.is_active() == 0) {
+        if (cards->is_active() == 0) {
             return 1;
         }
     }
@@ -171,26 +97,26 @@ void TWindowSubComCard::remove_card_at(s32 i) {
         GuildCardSlot *slot = &slots[i];
         move_words(slot, slot + 1, (0xD1 - i) * sizeof(*slot) / 4);
     }
-    TWindowSubComCard__sub_8007B26C(&slots[0xD1].entry);
+    TWindowSubComCard__sub_8007B26C(&slots[0xD1]);
     slots[0xD1].note.text[0] = 0;
 }
 
-s32 TWindowSubComCard__sub_8007AC7C(Card_8007AC7C *self, GuildCardSlot *cards, s32 count) {
+s32 TWindowSubComCard__sub_8007AC7C(GuildCardSlotBase *card, GuildCardSlot *cards, s32 count) {
     u32 id;
     s32 i;
-    id = reinterpret_cast<const GuildCardEntry *>(self)->get_card_id();
+    id = card->get_card_id();
     for (i = 0; i < count; i++, cards++) {
-        if (cards->entry.is_active() == 0) {
+        if (cards->is_active() == 0) {
             return 0;
         }
-        if (id == cards->entry.get_card_id()) {
-            if (reinterpret_cast<const GuildCardEntry *>(self)->sub_8007B6F4() != 0) {
-                ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(cards, self);
-            } else if (cards->entry.sub_8007B6F4() == 0) {
-                if (reinterpret_cast<GuildCardEntry *>(self)->get_char_class() < 12) {
-                    ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(cards, self);
+        if (id == cards->get_card_id()) {
+            if (card->sub_8007B6F4() != 0) {
+                cards->GuildCardSlotBase::operator=(*card);
+            } else if (cards->sub_8007B6F4() == 0) {
+                if (card->get_char_class() < 12) {
+                    cards->GuildCardSlotBase::operator=(*card);
                 } else {
-                    cards->entry.get_char_class();
+                    cards->get_char_class();
                 }
             }
             return 1;
@@ -205,28 +131,28 @@ s32 TWindowSubComCard::send_guild_card() {
         return 0;
     }
     temp = TWindowSubComCard::get_card_entry(0);
-    return TWindowSubComCard__sub_8007AC7C((Card_8007AC7C *)this, temp, 0xD2);
+    return TWindowSubComCard__sub_8007AC7C(reinterpret_cast<GuildCardSlotBase *>(this), temp, 0xD2);
 }
-void forward_to_matching_card__17TWindowSubComCardFPvPvi(void *card, u8 *slots, s32 count) {
+void forward_to_matching_card__17TWindowSubComCardFPvPvi(GuildCardSlotBase *card, GuildCardSlot *slots, s32 count) {
     s32 i;
-    u32 id = reinterpret_cast<const GuildCardEntry *>(card)->get_card_id();
-    for (i = 0; i < count; i++, slots += 0x100) {
-        if (reinterpret_cast<const GuildCardEntry *>(slots)->is_active() == 0) {
+    u32 id = card->get_card_id();
+    for (i = 0; i < count; i++, slots++) {
+        if (slots->is_active() == 0) {
             break;
         }
-        if (id == reinterpret_cast<const GuildCardEntry *>(slots)->get_card_id()) {
+        if (id == slots->get_card_id()) {
             break;
         }
     }
     if (i < count) {
-        ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(slots, card);
+        slots->GuildCardSlotBase::operator=(*card);
     }
 }
 
 }
 
 extern "C" {
-s32 TWindowSubComCard__sub_8007B0D0(GuildCardEntry *, GuildCardEntry *, s32);
+s32 TWindowSubComCard__sub_8007B0D0(GuildCardSlotBase *card, GuildCardSlotBase *cards, s32 count);
 s32 bswap_guild_card__17TWindowSubComCardFv();
 
 void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
@@ -267,7 +193,7 @@ void TWindowSubComCard__sub_8007AF10(saddr client_id) {
     s32 temp;
     ((TWindowSubComCard *)(&sp8))->init_guild_card();
     temp = TWindowSubComCard::get_keyboard_mode();
-    ((s32 (*)(Big *, s32))copy_struct__17TWindowSubComCardFPvPv)(&spC, temp);
+    reinterpret_cast<GuildCardEntry *>(&spC)->operator=(*reinterpret_cast<const GuildCardEntry *>(temp));
     ((TWindowSubComCard *)(&sp8))->init_card((void*)client_id);
 }
 #pragma pop
@@ -286,7 +212,7 @@ s32 TWindowSubComCard::count_active_cards() {
     GuildCardSlot *p = TWindowSubComCard::get_card_entry(0);
     s32 i;
     for (i = 0; i < 0xD2; i++, p++) {
-        if (p->entry.is_active() == 0) {
+        if (p->is_active() == 0) {
             break;
         }
     }
@@ -319,20 +245,20 @@ u32 TWindowSubComCard__sub_8007B070(u8 *keyboard_mode) {
     return (u32) (s8) *(u8 *)((s8 *)keyboard_mode + 0x8F) >> 0x1FU;
 }
 
-s32 TWindowSubComCard__sub_8007B0D0(GuildCardEntry *self, GuildCardEntry *cards, s32 count) {
+s32 TWindowSubComCard__sub_8007B0D0(GuildCardSlotBase *card, GuildCardSlotBase *cards, s32 count) {
     u32 id;
     s32 i;
-    id = self->get_card_id();
+    id = card->get_card_id();
     for (i = 0; i < count; i++, cards++) {
         if (cards->is_active() == 0) {
             return 0;
         }
         if (id == cards->get_card_id()) {
-            if (self->sub_8007B6F4() != 0) {
-                ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(cards, self);
+            if (card->sub_8007B6F4() != 0) {
+                *cards = *card;
             } else if (cards->sub_8007B6F4() == 0) {
-                if (self->char_class < 12) {
-                    ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(cards, self);
+                if (card->char_class < 12) {
+                    *cards = *card;
                 } else {
                     cards->get_char_class();
                 }
@@ -343,19 +269,19 @@ s32 TWindowSubComCard__sub_8007B0D0(GuildCardEntry *self, GuildCardEntry *cards,
     return 0;
 }
 
-void TWindowSubComCard__sub_8007B1AC(void *ply_guild_card_tag, u8 *entries, s32 count) {
+void TWindowSubComCard__sub_8007B1AC(GuildCardSlotBase *card, GuildCardSlotBase *entries, s32 count) {
     s32 i;
-    u32 id = reinterpret_cast<GuildCardEntry *>(ply_guild_card_tag)->get_card_id();
-    for (i = 0; i < count; i++, entries += 0x90) {
-        if (reinterpret_cast<const GuildCardEntry *>(entries)->is_active() == 0) {
+    u32 id = card->get_card_id();
+    for (i = 0; i < count; i++, entries++) {
+        if (entries->is_active() == 0) {
             break;
         }
-        if (id == reinterpret_cast<const GuildCardEntry *>(entries)->get_card_id()) {
+        if (id == entries->get_card_id()) {
             break;
         }
     }
     if (i < count) {
-        ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(entries, ply_guild_card_tag);
+        *entries = *card;
     }
 }
 
@@ -467,8 +393,6 @@ void TObjPlayer::set_com_card_window(s32 client) {
 GuildCardEntry TWindowGetComCard__received_guild_card_tags[4];
 
 extern "C" {
-void __construct_array(void *ptr, void *ctor, void *dtor, u32 size, u32 n);
-
 void TWindowGetComCard__sub_8007B54C(void) {
     TWindowGetComCard::remove_entry(0, TWindowGetComCard__received_guild_card_tags, 4);
     if (TWindowGetComCard__received_guild_card_tags[0].is_active() == 0) {
@@ -498,63 +422,5 @@ void TWindowGetComCard__sub_8007B60C(s32 _w0) {
 
 void TWindowGetComCard__sub_8007B65C(void* p) { TWindowGetComCard__sub_8007B60C((saddr)p); }
 void TWindowGetComCard__sub_8007B67C(void* p) { TWindowGetComCard__sub_8007B60C((saddr)p); }
-void TWindowGetComCard::construct_card_tags() {
-    __construct_array(TWindowGetComCard__received_guild_card_tags, (void *)init_guild_card_tag__17TWindowSubComCardFi, 0, sizeof(GuildCardEntry), 4);
-}
 
 }
-
-__declspec(section ".ctors") static void *const __sinit_TWindowGetComCard_8007B54C_cpp_ref = (void *)TWindowGetComCard::construct_card_tags;
-
-
-extern "C" {
-int bswap__16TPlyGuildCardTagFv(void*);
-
-s32 GuildCardEntry::get_card_id() const { return id; }
-int GuildCardEntry::is_active() const { return flags & 1; }
-s8 GuildCardEntry::get_char_class() { return char_class; }
-
-s32 GuildCardEntry::sub_8007B6F4() const {
-    if (flags & 2) {
-        return 0;
-    }
-    return 1;
-}
-
-void TWindowSubComCard::bswap_guild_card() { ((G_ClientIDHeader *)this)->bswap(); ((TWindowSubComCard *)((char*)this + 0x4))->bswap_guild_card_tag(); }
-int TWindowSubComCard::bswap_guild_card_tag() { return bswap__16TPlyGuildCardTagFv(this); }
-void TWindowSubComCard::init_card(void* client_id) { bswap_guild_card(); ((game_command *)this)->send_to_client((uaddr)client_id); }
-
-
-int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
-
-void *TWindowSubComCard::init_guild_card() {
-    init_guild_card_tag__17TWindowSubComCardFi((char *)this + 4);
-    *(u8 *)&this->m_name = 6;
-    *(u8 *)((s8 *)this + 0x1) = 37;
-    return this;
-}
-
-}
-
-int TAdSinglePlyChrSelectGC::get_state() {  return guild_card_save_payload; }
-
-void TPlyGuildCardTag::bswap() {
-    bswap_32(&m_guildcard_number);
-    bswap_16(&m_tag2);
-}
-
-void set_guild_card_receive_active() {
-    lbl_805D63FC |= 2;
-}
-
-s32 ShortMailEntry::get_sender_card_id() { return sender_card_id; }
-
-char *ShortMailEntry::get_sender_name() { return sender_name; }
-
-s32 TObjPlayer::get_section_id() {
-    s8 id = *((s8 *)this + 0x88C);
-    return id;
-}
-
-const char *TObjPlayer::get_name() { return name; }

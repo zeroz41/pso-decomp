@@ -3,7 +3,9 @@
 
 #include <stddef.h>
 #include "types.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
+// One guild card: the owner's tag and card number, name, description and flags.
 struct GuildCardEntry {
     s32 get_card_id() const;
     char *get_name();
@@ -11,8 +13,7 @@ struct GuildCardEntry {
     s8 get_char_class();
     s32 sub_8007B6F4() const;
 
-    u8 tag[4];
-    s32 id;
+    TPlyGuildCardTag tag;
     char name[0x18];
     char text[0x6C];
     s8 flags;
@@ -22,7 +23,6 @@ struct GuildCardEntry {
 };
 
 LAYOUT_ASSERT(GuildCardEntry_size, sizeof(GuildCardEntry) == 0x90);
-LAYOUT_ASSERT(GuildCardEntry_id_offset, offsetof(GuildCardEntry, id) == 4);
 LAYOUT_ASSERT(GuildCardEntry_name_offset, offsetof(GuildCardEntry, name) == 8);
 LAYOUT_ASSERT(GuildCardEntry_flags_offset, offsetof(GuildCardEntry, flags) == 0x8C);
 
@@ -30,9 +30,17 @@ struct GuildCardNote {
     char text[0x6C];
 };
 
-struct GuildCardSlot {
-    GuildCardEntry entry;
-    u8 pad_90[4];
+// Inferred name: the base GuildCardSlot derives from. It adds nothing to GuildCardEntry, but it
+// has its own generated assignment and constructor between the slot's and the entry's.
+struct GuildCardSlotBase : public GuildCardEntry {
+};
+
+// One card of the guild card file list (0xD2 of them): the card and the note written on it.
+struct GuildCardSlot : public GuildCardSlotBase {
+    u8 pad_90;
+    u8 pad_91;
+    u8 pad_92;
+    u8 pad_93;
     GuildCardNote note;
 };
 

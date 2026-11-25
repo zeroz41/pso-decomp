@@ -1941,7 +1941,7 @@ struct ByteBlock_C0
 };
 
 extern "C" {
-s32 copy_card__17TWindowSubComCardFiPv(saddr arg0, u8 *arg1);
+s32 __as__13GuildCardSlotFRC13GuildCardSlot(saddr arg0, u8 *arg1);
 s32 copy_card_window_data();
 }
 
@@ -2232,7 +2232,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FFCFC(saddr arg0, saddr arg1) {
   var_r29 = arg1 + 0xC0;
   do
   {
-    copy_card__17TWindowSubComCardFiPv(var_r30, (u8 *)var_r29);
+    __as__13GuildCardSlotFRC13GuildCardSlot(var_r30, (u8 *)var_r29);
     var_r30 += 0x100;
     var_r29 += 0x100;
   }
@@ -2260,10 +2260,10 @@ struct Save_80200690 {
 
 
 extern "C" {
-s32 reinit__17TWindowSubComCardFi(s32 object);
+s32 __ct__13GuildCardSlotFv(s32 object);
 void init_class_starting_inventory(void *arg0);
 void TLobby__sub_801F494C(u16 client);
-s32 init_guild_card_tag__17TWindowSubComCardFi(s32 ply_guild_card_tag);
+s32 __ct__14GuildCardEntryFv(s32 ply_guild_card_tag);
 
 void *TAdSinglePlyChrSelectGC::init_windows(void *card_file) {
     TAdSinglePlyChrSelectGC::construct_card_window_array(&((CardFile_801FFD78 *)card_file)->list);
@@ -2273,12 +2273,12 @@ void *TAdSinglePlyChrSelectGC::init_windows(void *card_file) {
 
 
 void *TAdSinglePlyChrSelectGC::construct_guild_card_tag_array(void *array) {
-    __construct_array(array, (void *)init_guild_card_tag__17TWindowSubComCardFi, 0, 0x90, 0x1C);
+    __construct_array(array, (void *)__ct__14GuildCardEntryFv, 0, 0x90, 0x1C);
     return array;
 }
 
 u8 *TAdSinglePlyChrSelectGC::construct_card_window_array(void *card_list) {
-    __construct_array(((CardList_801FFDFC *)card_list)->entries, (void *)reinit__17TWindowSubComCardFi, 0, 0x100, 0xD2);
+    __construct_array(((CardList_801FFDFC *)card_list)->entries, (void *)__ct__13GuildCardSlotFv, 0, 0x100, 0xD2);
     return (u8 *)card_list;
 }
 

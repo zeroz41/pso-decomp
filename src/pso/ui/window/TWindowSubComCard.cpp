@@ -1666,7 +1666,7 @@ void TWindowSubComCard::sub_802721D8() {
 void TWindowSubComCard::cleanup(void *p) {
     TWindowMenu *menu = *reinterpret_cast<TWindowMenu **>(static_cast<u8 *>(p) + 0x84);
     const GuildCardSlot *slot = TWindowSubComCard::get_card_entry(menu->get_selected_value());
-    TLobby::send_find_user_self_tag(slot->entry.get_card_id());
+    TLobby::send_find_user_self_tag(slot->get_card_id());
 }
 u8 *TWindowSubComCard::send_cmd_133() { return sub_802754EC((saddr)get_window_layout_position(133)); }
 void TWindowSubComCard::init_layout(void) {

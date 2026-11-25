@@ -31,10 +31,9 @@ void TWindowSubComCard::handle_press_a(saddr ply_guild_card_tag, s32 id) {
 }
 
 void TWindowSubComCard::init_and_press_a(s32 id) {
-    u8 ply_guild_card_tag[0x84];
+    GuildCardEntry card;
 
-    init_guild_card_tag__17TWindowSubComCardFi(ply_guild_card_tag);
-    TWindowSubComCard::handle_press_a((saddr)((s32 *)ply_guild_card_tag), id);
+    TWindowSubComCard::handle_press_a(reinterpret_cast<saddr>(&card), id);
 }
 
 void TWindowSubComCard::handle_press_b(saddr ply_guild_card_tag, s32 client_id) {
@@ -45,10 +44,9 @@ void TWindowSubComCard::handle_press_b(saddr ply_guild_card_tag, s32 client_id) 
 }
 
 void TWindowSubComCard::init_and_press_b(s32 client_id) {
-    u8 ply_guild_card_tag[0x84];
+    GuildCardEntry card;
 
-    init_guild_card_tag__17TWindowSubComCardFi(ply_guild_card_tag);
-    TWindowSubComCard::handle_press_b((saddr)((s32 *)ply_guild_card_tag), client_id);
+    TWindowSubComCard::handle_press_b(reinterpret_cast<saddr>(&card), client_id);
 }
 
 void TWindowSubComCard::update_press() {
@@ -60,5 +58,5 @@ void TWindowSubComCard::update_press() {
 
 void TWindowSubComCard::select_card_entry(saddr ply_guild_card_tag) {
     saddr slots = TWindowSubComCard::get_card_slot(0);
-    TWindowSubComCard__sub_8007B1AC((void *)ply_guild_card_tag, (u8 *)slots, 0x1C);
+    TWindowSubComCard__sub_8007B1AC(reinterpret_cast<GuildCardSlotBase *>(ply_guild_card_tag), reinterpret_cast<GuildCardSlotBase *>(slots), 0x1C);
 }

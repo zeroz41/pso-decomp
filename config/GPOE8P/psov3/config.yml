@@ -5281,7 +5281,7 @@ force_active:
   - __ct__16TItemWeaponAgitoFP7TObjectPUc
   - __ct__11TTecRaBartaFlP3Vecl
   - __ct__15TItemWeaponCaneFP7TObjectPUc
-  - construct_card_tags__17TWindowGetComCardFv
+  - __sinit_TWindowSubComCard_8007A810_cpp
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFPv
   - construct_guild_card_tag_array__23TAdSinglePlyChrSelectGCFPv
   - __ct__18TObjCityAirCar_CarFP7TObjectllf
@@ -5393,7 +5393,7 @@ force_active:
   - copy_state__14GoGoBallConfigFP14GoGoBallConfig
   - copy_state__16TKeyBoardControlFPvPv
   - copy_struct28__17TWindowSubComCardFii
-  - copy_struct__17TWindowSubComCardFPvPv
+  - __as__14GuildCardEntryFRC14GuildCardEntry
   - copy_tombstone_spot__FP17TObjTombstoneSpotPC17TObjTombstoneSpot
   - __as__13TradeItemListFRC13TradeItemList
   - copy_from__18TargetCursorRecordFP18TargetCursorRecord
@@ -6457,7 +6457,7 @@ force_active:
   - remove__20TObjEneBm5GibonUListFP20TObjEneBm5GibonUNode
   - remove_from_instance_list__16TObjEneBm5GibonUFv
   - remove_from_pack_member_list__16TObjEneBm5GibonUFv
-  - forward_return_arg__17TWindowSubComCardFi
+  - __as__17GuildCardSlotBaseFRC17GuildCardSlotBase
   - forward_to_channel__6TLobbyFPv
   - forward_to_matching_card__17TWindowSubComCardFPvPvi
   - fragmentinfo
@@ -6979,7 +6979,7 @@ force_active:
   - init__15TObjEneMe1GiGueFv
   - __ct__15TObjEneSlimeOneFP7TObjectP12TObjEneSlimePv
   - init__16TAdChrSelASlotGCFl
-  - init__17TWindowSubComCardFi
+  - __ct__17GuildCardSlotBaseFv
   - init__18TChallenge4PResultFv
   - init__18TObjAreaWarpForestFPvPv
   - init__18VoloptPartsMessageFv
