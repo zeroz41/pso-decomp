@@ -11,7 +11,8 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_80227A2C.h"
+#include "pso/unk/TLobby_80226C3C.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8036A3CC.h"
 
 struct UpdateMusicSequencerPassage { s16 first, repeat, count, transition, next; };
