@@ -5,7 +5,6 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "types.h"
 #include "pso/unk/TLobby_80207DA8.h"
-#include "pso/unk/TLobby_80131794.h"
 #include "pso/unk/TLobby_80140FF4.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/render/GinjaMaterial.h"
@@ -134,13 +133,13 @@ void TSceneSora::load_sky_resources() {
     if (lookup_floor_map_selection(get_current_floor(), &ref) != 0) {
         ok = 0;
         tbl = (Ent_80207478 *)get_floor_scene_table(ref.area);
-        replace_file_extension__6TLobbyFPvPvPv(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
+        TLobby::replace_file_extension(name1, tbl[ref.terrain].name, sky_model_ext_s_njm);
         if (TRaderMapCore::is_not_split_screen() == 1) {
-            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
+            TLobby::replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_sm_gj);
             ok = get_resource_file_size((const char *)name2);
         }
         if (ok <= 0) {
-            replace_file_extension__6TLobbyFPvPvPv(name2, tbl[ref.terrain].name, sky_model_ext_s_gj);
+            TLobby::replace_file_extension(name2, tbl[ref.terrain].name, sky_model_ext_s_gj);
         }
         p = ADXF_Open(name2, 0);
         if (p != NULL) {

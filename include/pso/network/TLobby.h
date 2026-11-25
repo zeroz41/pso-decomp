@@ -686,7 +686,7 @@ struct TLobby : public TObject {
     static void bswap_inventory(void*);
     static void bswap_player_data(void *data);
     static s32 calc_player_rankings(void *);
-    static s32 change_file_extension(void *, void *, void *);
+    static s32 change_file_extension(char *dest, char *filename, char *ext);
     static void check_bin_model_loaded(void *, void *);
     static s32 check_team_balance(void *, int);
     static void close_all_windows(void *);
@@ -768,7 +768,7 @@ struct TLobby : public TObject {
     static void rebuild_all(u8 *quest);
     static void refresh_quest_list(const char *path);
     static void remove_player(unsigned int, int, int);
-    static s32 replace_file_extension(void *, void *, void *);
+    static s32 replace_file_extension(char *dest, char *filename, char *suffix);
     static void request_game_list();
     static void reset(int);
     static void reset_camera_if_fullscreen(void*);

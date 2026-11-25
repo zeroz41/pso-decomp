@@ -27,7 +27,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_8020A6B0.h"
 #include "pso/unk/text_8020A768.h"
-#include "pso/unk/TLobby_80131794.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/text_800F8A18.h"
 #include "pso/object/base/TObjMotion.h"
@@ -712,7 +711,7 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
     s32 n;
     s32 i;
     s32 floor;
-    replace_file_extension__6TLobbyFPvPvPv((char *)&name, (char *)filename, "e.dat");
+    TLobby::replace_file_extension((char *)&name, (char *)filename, "e.dat");
     size = read_disc_file(name.s, map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -738,7 +737,7 @@ s32 load_object_set_file(s32 idx, const char *filename) {
     s32 n;
     s32 i;
     saddr floor;
-    replace_file_extension__6TLobbyFPvPvPv(name.s, (char *)filename, "o.dat");
+    TLobby::replace_file_extension(name.s, (char *)filename, "o.dat");
     size = read_disc_file(name.s, map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -858,17 +857,17 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
     if (area == 0 || area == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)filename, "e.dat");
+            TLobby::replace_file_extension((char *)buf, (char *)filename, "e.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)filename, "e_c1.dat");
+            TLobby::replace_file_extension((char *)buf, (char *)filename, "e_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)filename, "e_d.dat");
+            TLobby::replace_file_extension((char *)buf, (char *)filename, "e_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)filename, "e.dat");
+        TLobby::replace_file_extension((char *)buf, (char *)filename, "e.dat");
     }
     size = read_disc_file(buf, map_set_file_buffer);
     if (size < 0) {
@@ -924,17 +923,17 @@ s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
     if (lobby == 0 || lobby == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)filename, "o.dat");
+            TLobby::replace_file_extension((char *)name, (char *)filename, "o.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)filename, "o_c1.dat");
+            TLobby::replace_file_extension((char *)name, (char *)filename, "o_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)filename, "o_d.dat");
+            TLobby::replace_file_extension((char *)name, (char *)filename, "o_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)filename, "o.dat");
+        TLobby::replace_file_extension((char *)name, (char *)filename, "o.dat");
     }
     len = read_disc_file(name, map_set_file_buffer);
     if (len < 0) {

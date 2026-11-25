@@ -54,7 +54,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_801E2F94.h"
-#include "pso/unk/TLobby_80131794.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_800F8A18.h"
 #include "pso/player/PlayerSlots.h"
@@ -343,10 +342,10 @@ void TRaderMapCore::load_map_resources() {
     area = get_current_floor_area();
     status = TScene::get_status();
     e = (Ent_801FB798 *)get_floor_scene_table(area);
-    replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, (char *)"r.rel");
+    TLobby::replace_file_extension((char *)buf, (char *)e[status].name, (char *)"r.rel");
     TRaderMapCore__floor_map_resource = static_cast<u8 *>(create_named_object(buf));
     if (TRaderMapCore__floor_map_resource != NULL && *(u32 *)(TRaderMapCore__floor_map_resource + 4) != 0) {
-        replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, "r");
+        TLobby::replace_file_extension((char *)buf, (char *)e[status].name, "r");
         bind_gvm_texture_list(buf, *(u8 **)(TRaderMapCore__floor_map_resource + 4));
     }
     copy_name("..");
