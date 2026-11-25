@@ -25,7 +25,6 @@
 #include "pso/npc/NpcPartnerControl.h"
 
 extern "C" {
-s32 prepare_hospital_return__10TObjPlayerFv();
 void TWindowCtrl__sub_8026D4E8(void);
 }
 
@@ -38,8 +37,9 @@ extern s32 lbl_805D55C0;
 int TWindowReturnCity__client_scan_index;
 void return_to_city_after_defeat(TObject *) {
     if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity__client_scan_index) < 4)) {
-        if (((saddr)get_player_by_client_id((s32)((u32) (*(s32 *)&TWindowReturnCity__client_scan_index)))) != 0U) {
-            prepare_hospital_return__10TObjPlayerFv();
+        TObjPlayer *player = get_player_by_client_id(TWindowReturnCity__client_scan_index);
+        if (player != NULL) {
+            player->prepare_hospital_return();
         }
         floor_transition_state.set_next_floor(0, (int) (get_floor_map_terrain(0)));
         mark_area_change_pending();

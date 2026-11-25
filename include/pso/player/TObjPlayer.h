@@ -995,7 +995,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_effect_channel_active(saddr player, s32 index);
     static void refresh_party_cursors(saddr player);
     void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 mode, u16 slot);
-    void select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3);
+    u16 select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3);
     saddr refresh_effect();
     void update_ground_contact();
     s32 check_actor_blocking_move();

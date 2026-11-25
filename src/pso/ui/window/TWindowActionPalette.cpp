@@ -55,7 +55,6 @@ struct Ctx_80243B6C { f32 x; f32 y; u8 pad8[0x34 - 0x8]; s32 tex; };
 
 extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
-u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 s32 is_palettex_activated(u16 client_index);
 s32 TObjPlayer__sub_80354C7C(u16);
 s32 TWindowSubComCard__sub_802452DC(int);
@@ -186,7 +185,7 @@ void TWindowActionPalette::run_task() {
     } else {
         ((TWindowHelpItem *)help)->window_flags = 0xFF666666;
     }
-    v = select_action_palette_and_apply__10TObjPlayerFlll(player, 0, 0, 0);
+    v = player->select_action_palette_and_apply(0, 0, 0);
     if (v == 0) {
         v = palette->get_current_tag_slot(1);
         update_slot_sprites(0, palette->get_current_tag_mode(1), v);

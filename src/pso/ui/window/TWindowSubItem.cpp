@@ -58,7 +58,6 @@ void add_item_purpose_actions(TWindowSubItem *arg0, saddr arg1, saddr arg2);
 
 extern "C" {
 s32 TWindowCtrl__sub_8024A228(saddr);
-s32 close_sub_window__10TObjPlayerFv();
 s32 try_send_6x27_use_item(s32, s32);
 }
 
@@ -628,10 +627,11 @@ void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
 }
 
 void TWindowSubItem::close_windows(s32 arg1) {
-    if (get_player_by_client_id(this->client_id) != NULL) {
+    TObjPlayer *player = get_player_by_client_id(this->client_id);
+    if (player != NULL) {
         switch (arg1) {
         case 0:
-            close_sub_window__10TObjPlayerFv();
+            player->close_sub_window();
             this->state = 0x16;
             return;
         case 1:

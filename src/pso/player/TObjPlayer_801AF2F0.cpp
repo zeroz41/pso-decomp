@@ -3300,8 +3300,8 @@ u16 TObjPlayer::get_action_palette_entry(s32 index) {
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer::select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3) {
-    this->select_action_palette(secondary)->get_tag_slot(arg2, arg3);
+u16 TObjPlayer::select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3) {
+    return this->select_action_palette(secondary)->get_tag_slot(arg2, arg3);
 }
 #pragma pop
 
