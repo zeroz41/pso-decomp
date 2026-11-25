@@ -62,17 +62,17 @@ void TUnk_804EE458::update_title_prompt() {
 }
 
 void TUnk_804EE458::handle_cursor_input() {
-    u8 *input;
-    input = (u8 *)&controller_physical_port_bank.controllers[0];
+    ControllerInputContext *input;
+    input = &controller_physical_port_bank.controllers[0];
     color.a = 1.0f;
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
         cursor = cursor - 1;
         if (cursor < 0) {
             cursor = 3;
         }
         play_sound_effect(0x54100, 0, 0, 0);
     }
-    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+    if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
         cursor = cursor + 1;
         if (cursor >= 4) {
             cursor = 0;

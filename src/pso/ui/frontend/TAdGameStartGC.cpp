@@ -118,16 +118,16 @@ void TAdGameStartGC::run_task() {
         if (test_pressed_buttons_packed(pad, 8) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x10, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x20, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x40, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x40, 6, 1) != 0) {
             destroy_windows();
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)pad, 0x80, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x80, 6, 1) != 0) {
             destroy_windows();
         }
     }

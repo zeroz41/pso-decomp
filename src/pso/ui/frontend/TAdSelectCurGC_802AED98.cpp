@@ -49,12 +49,12 @@ void TAdSelectCurGC::run_task() {
             ok = 1;
         }
         if (ok != 0) {
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(&controller_input_state.controllers[0]), 0x10, 6, 1) != 0 ||
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command(&controller_input_state.controllers[0], 0x10, 6, 1) != 0 ||
                 test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 selected_index--;
             }
-            if (TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)(&controller_input_state.controllers[0]), 0x20, 6, 1) != 0 ||
+            if (TAdMultiPlyChrSelectGC::dispatch_draw_command(&controller_input_state.controllers[0], 0x20, 6, 1) != 0 ||
                 test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0) {
                 play_sound_effect(0x54100, 0, 0, 0);
                 selected_index++;

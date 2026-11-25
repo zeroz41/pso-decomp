@@ -64,7 +64,7 @@ void TAdMcSelectCursorGC::run_task() {
     s32 i;
     if (selection_locked == 0) {
         t = TAdMcSelectCursorGC::get_cursor_type(1 - selected_slot);
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(reinterpret_cast<s32>(&controller_physical_port_bank.controllers[0]), 0x80, 6, 1) != 0 ||
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(&controller_physical_port_bank.controllers[0], 0x80, 6, 1) != 0 ||
             test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0) {
             if (t->get_check_step() >= 4) {
                 selected_slot++;
@@ -72,7 +72,7 @@ void TAdMcSelectCursorGC::run_task() {
                     selected_slot = 1;
                 }
             }
-        } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(reinterpret_cast<s32>(&controller_physical_port_bank.controllers[0]), 0x40, 6, 1) != 0 ||
+        } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(&controller_physical_port_bank.controllers[0], 0x40, 6, 1) != 0 ||
                     test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0) &&
                    t->get_check_step() >= 4) {
             selected_slot--;

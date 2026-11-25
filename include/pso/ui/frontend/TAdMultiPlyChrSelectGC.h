@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include "types.h"
 struct NJS_POINT2;
+struct ControllerInputContext;
 #include "pso/system/task/TObject.h"
 
 struct TAdChrSelASlotGC;
@@ -138,7 +139,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TWindowMessageYesNo *yes_no_dialog;            // 0x94  sub_802DBD64, swap search prompt
     TWindowMessageYesNo *delete_prompt;            // 0x98  sub_802DBCE8, choice menu entry 2
     s32 resumed;                                   // 0x9C  set by handle_event when returning to the scene
-    static s32 dispatch_draw_command(saddr input, s32 buttons, s32 delay, s32 period);
+    static s32 dispatch_draw_command(ControllerInputContext *input, s32 buttons, s32 delay, s32 period);
     void open_windows();
     void init_windows();
     void open_char_select();
