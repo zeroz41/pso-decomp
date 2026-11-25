@@ -21,6 +21,7 @@ struct TObjBoss8PillerCtrl : public TObject {
     u8 pad_2E[0x2];
     void *buffer;       // freed by the dtor; nothing in this unit sets it
     const Ent_8035C03C *step; // next entry of boss8_piller_ctrl_params
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TObjBoss8PillerCtrl_size, sizeof(TObjBoss8PillerCtrl) == 0x38);

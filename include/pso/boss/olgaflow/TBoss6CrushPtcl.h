@@ -18,6 +18,8 @@ public:
     TParticleCtrl *debris_emitter;
 
     static TBoss6CrushPtcl *create(Vec *point);
+    static const char *name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(CrushParticleSize, sizeof(TBoss6CrushPtcl) == 0x28);

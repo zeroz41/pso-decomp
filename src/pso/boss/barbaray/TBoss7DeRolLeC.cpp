@@ -363,9 +363,9 @@ extern const char boss7_de_rol_le_c_motion_name_hige_wait_hige_wait_tentacle_njm
 
 extern const char bm_boss7_de_rol_le_c_bml_filename[] = "bm_boss7_de_rol_le_c.bml";
 
-extern const char TBoss7DeRolLeC__class_name_string[] = "TBoss7DeRolLeC";
+extern const char TBoss7DeRolLeC::class_name_string[] = "TBoss7DeRolLeC";
 
-const char *TBoss7DeRolLeC::class_name = TBoss7DeRolLeC__class_name_string;
+const char *TBoss7DeRolLeC::class_name = TBoss7DeRolLeC::class_name_string;
 
 extern const Vec boss7_derolle_c_joint_start_position = {10000.0f, 10000.0f, 10000.0f};
 

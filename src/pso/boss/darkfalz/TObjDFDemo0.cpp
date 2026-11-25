@@ -32,12 +32,12 @@
 #pragma defer_codegen on
 
 const char *TObjDFDemo0::name = "TObjDFDemo0";
-const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
+const ModelNodeSpec TObjDFDemo0::model_node_entries[7] = {
     {9, 1, 0}, {7, 1, 0}, {5, 2, 0}, {4, 2, 0}, {6, 2, 0}, {3, 5, 0}, {3, 0x5E, 0},
 };
 
 extern "C" {
-DFDemo0Emitter TObjDFDemo0__entry_table[5] = {
+DFDemo0Emitter TObjDFDemo0::entry_table[5] = {
     {0x14B, 0, 0x82, {0.0f, 0.0f, -120.0f}},
     {0x14C, 0x50, 0x8C, {0.0f, 0.0f, 10.0f}},
     {0x14C, 0x64, 0x8C, {130.0f, 0.0f, -120.0f}},
@@ -90,7 +90,7 @@ TObjDFDemo0::TObjDFDemo0(TObject *parent) : TObjBase(parent) {
     for (j = 0; j < 5; j++) {
         particle_emitters[j] = NULL;
     }
-    strips.init(TObjDFDemo0__model_node_entries, 7);
+    strips.init(TObjDFDemo0::model_node_entries, 7);
     activate_camera_mode(5);
     set_scripted_camera_origin(&df_demo0_center, &df_demo0_center, &df_demo0_camera_angles);
     df_demo0_camera_playback.play(0x416C);
@@ -116,7 +116,7 @@ void TObjDFDemo0::run_task() {
     s32 i;
     f32 v;
     for (i = 0; i < 5; i++) {
-        DFDemo0Emitter *e = &TObjDFDemo0__entry_table[i];
+        DFDemo0Emitter *e = &TObjDFDemo0::entry_table[i];
         s32 t = timer;
         if (t >= e->end) {
             if (particle_emitters[i] != NULL) {

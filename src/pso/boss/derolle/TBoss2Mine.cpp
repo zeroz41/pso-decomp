@@ -25,7 +25,7 @@
 
 static const DragonAttackParams boss2_mine_collision_desc = { 1, 2.0f, 50.0f, {5.0f, 1} };
 
-const char *TBoss2Mine__name = "TBoss2Mine";
+const char *TBoss2Mine::name = "TBoss2Mine";
 
 const Vec boss2_mine_shadow_scale = { 2.0f, 1.0f, 2.0f };
 
@@ -81,7 +81,7 @@ void TBoss2Mine::free_resources() {  }
 
 TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 variant) : TObjEneDD(parent) {
     TBoss2DeRolLe *boss;
-    m_name = TBoss2Mine__name;
+    m_name = TBoss2Mine::name;
     boss = TBoss2DeRolLe::get_instance();
     if (boss != 0) {
         init_common_from(boss);

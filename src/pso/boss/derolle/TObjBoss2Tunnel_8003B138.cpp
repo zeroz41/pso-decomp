@@ -28,14 +28,14 @@
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
 #pragma defer_codegen on
 
-u32 TObjBoss2Tunnel__global_flags;
+u32 TObjBoss2Tunnel::global_flags;
 // Two sibling nodes of common model 10 (clear_target_flags); TObjBoss2TunnelSlide slides them apart
 // along x after 30 frames, a to +70 and b to -70.
 NJS_OBJECT *boss2_tunnel_slide_node_b;
 NJS_OBJECT *boss2_tunnel_slide_node_a;
 
 static const Vec boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
-const char *TObjBoss2Tunnel__name = "TObjBoss2Tunnel";
+const char *TObjBoss2Tunnel::name = "TObjBoss2Tunnel";
 
 // An RGB fog colour; `a` is not read.
 struct Boss2TunnelColor {
@@ -121,7 +121,7 @@ void TObjBoss2Tunnel::clear_target_flags() {
     NJS_OBJECT *first;
     NJS_OBJECT *second;
 
-    TObjBoss2Tunnel__global_flags = 0;
+    TObjBoss2Tunnel::global_flags = 0;
     first = boss2_common_resource->models[10].model->child->sibling;
     boss2_tunnel_slide_node_a = first;
     second = first->sibling;
@@ -137,45 +137,45 @@ void *TObjBoss2Tunnel::create() {
 void TObjBoss2Tunnel::free_state() {}
 
 void TObjBoss2Tunnel::set_global_flag_400() {
-    TObjBoss2Tunnel__global_flags |= 0x400;
+    TObjBoss2Tunnel::global_flags |= 0x400;
 }
 
 void TObjBoss2Tunnel::set_global_flag_800() {
-    TObjBoss2Tunnel__global_flags |= 0x800;
+    TObjBoss2Tunnel::global_flags |= 0x800;
 }
 
 void TObjBoss2Tunnel::start_sway_negative_x() {
-    TObjBoss2Tunnel__global_flags |= 0x1000;
-    TObjBoss2Tunnel__global_flags &= ~0x2000;
+    TObjBoss2Tunnel::global_flags |= 0x1000;
+    TObjBoss2Tunnel::global_flags &= ~0x2000;
 }
 
 void TObjBoss2Tunnel::start_sway_positive_x() {
-    TObjBoss2Tunnel__global_flags |= 0x2000;
-    TObjBoss2Tunnel__global_flags &= ~0x1000;
+    TObjBoss2Tunnel::global_flags |= 0x2000;
+    TObjBoss2Tunnel::global_flags &= ~0x1000;
 }
 
 void TObjBoss2Tunnel::clear_global_flag_3000() {
-    TObjBoss2Tunnel__global_flags &= 0xFFFFCFFF;
+    TObjBoss2Tunnel::global_flags &= 0xFFFFCFFF;
 }
 
 s32 TObjBoss2Tunnel::is_active() {
-    return TObjBoss2Tunnel__global_flags & 1;
+    return TObjBoss2Tunnel::global_flags & 1;
 }
 
 void TObjBoss2Tunnel::set_global_flag_100() {
-    TObjBoss2Tunnel__global_flags |= 0x100;
+    TObjBoss2Tunnel::global_flags |= 0x100;
 }
 
 void TObjBoss2Tunnel::set_global_flag_200() {
-    TObjBoss2Tunnel__global_flags |= 0x200;
+    TObjBoss2Tunnel::global_flags |= 0x200;
 }
 
 TObjBoss2Tunnel::TObjBoss2Tunnel(TObject *parent) : TObject(parent) {
     s32 i;
     s32 j;
-    m_name = TObjBoss2Tunnel__name;
+    m_name = TObjBoss2Tunnel::name;
     state = 0;
-    TObjBoss2Tunnel__global_flags = 0;
+    TObjBoss2Tunnel::global_flags = 0;
     segment_pos = 0.0f;
     scroll_speed = 0.0f;
     queue_pos = 0;
@@ -251,12 +251,12 @@ void TObjBoss2Tunnel::shift_queue_push_next() {
 
 void TObjBoss2Tunnel::enable_fog() {
     TFogCtrl::update_all(0xB, 1);
-    TObjBoss2Tunnel__global_flags |= 2;
+    TObjBoss2Tunnel::global_flags |= 2;
 }
 
 void TObjBoss2Tunnel::restore_fog() {
     TFogCtrl::update_all(saved_fog, 1);
-    TObjBoss2Tunnel__global_flags |= 4;
+    TObjBoss2Tunnel::global_flags |= 4;
 }
 
 
@@ -276,11 +276,11 @@ s32 TObjBoss2Tunnel::is_swaying() {
 }
 
 s32 TObjBoss2Tunnel::is_flag_set() {
-    return (TObjBoss2Tunnel__global_flags >> 0xCU) & 1;
+    return (TObjBoss2Tunnel::global_flags >> 0xCU) & 1;
 }
 
 s32 TObjBoss2Tunnel::is_swaying_positive_x() {
-    return (TObjBoss2Tunnel__global_flags >> 0xDU) & 1;
+    return (TObjBoss2Tunnel::global_flags >> 0xDU) & 1;
 }
 
 void TObjBoss2Tunnel::update_particles() {
@@ -369,8 +369,8 @@ void TObjBoss2Tunnel::run_task() {
     switch (state) {
     case 0:
         TObjBoss2Tunnel::set_global_flag_100();
-        if (TObjBoss2Tunnel__global_flags & 0x100) {
-            TObjBoss2Tunnel__global_flags &= ~0x100;
+        if (TObjBoss2Tunnel::global_flags & 0x100) {
+            TObjBoss2Tunnel::global_flags &= ~0x100;
             state = 1;
         }
         break;
@@ -408,8 +408,8 @@ void TObjBoss2Tunnel::run_task() {
             }
             copy_ring_buffer_window();
         }
-        if (TObjBoss2Tunnel__global_flags & 0x200) {
-            TObjBoss2Tunnel__global_flags &= ~0x200;
+        if (TObjBoss2Tunnel::global_flags & 0x200) {
+            TObjBoss2Tunnel::global_flags &= ~0x200;
             state = 3;
             shift_index = 0;
             brake_end = 4400.0f - (0.5f * (scroll_speed * scroll_speed)) / 0.02f;
@@ -474,17 +474,17 @@ void TObjBoss2Tunnel::run_task() {
         play_persistent_sound(0x4003B20C, this, NULL, 0, 0);
     }
     update_particles();
-    if (TObjBoss2Tunnel__global_flags & 2) {
-        TObjBoss2Tunnel__global_flags &= ~2;
-        TObjBoss2Tunnel__global_flags |= 1;
-    } else if (TObjBoss2Tunnel__global_flags & 4) {
-        TObjBoss2Tunnel__global_flags &= ~4;
-        TObjBoss2Tunnel__global_flags &= ~1;
+    if (TObjBoss2Tunnel::global_flags & 2) {
+        TObjBoss2Tunnel::global_flags &= ~2;
+        TObjBoss2Tunnel::global_flags |= 1;
+    } else if (TObjBoss2Tunnel::global_flags & 4) {
+        TObjBoss2Tunnel::global_flags &= ~4;
+        TObjBoss2Tunnel::global_flags &= ~1;
     }
     switch (fog_state) {
     case 0:
-        if (TObjBoss2Tunnel__global_flags & 0x400) {
-            TObjBoss2Tunnel__global_flags &= ~0x400;
+        if (TObjBoss2Tunnel::global_flags & 0x400) {
+            TObjBoss2Tunnel::global_flags &= ~0x400;
             fog_state = 1;
             fog_timer = 0;
             fog_step = 0;
@@ -508,8 +508,8 @@ void TObjBoss2Tunnel::run_task() {
         }
         break;
     case 2:
-        if (TObjBoss2Tunnel__global_flags & 0x800) {
-            TObjBoss2Tunnel__global_flags &= ~0x800;
+        if (TObjBoss2Tunnel::global_flags & 0x800) {
+            TObjBoss2Tunnel::global_flags &= ~0x800;
             fog_state = 3;
             fog_timer = 0;
             fog_step = 0;

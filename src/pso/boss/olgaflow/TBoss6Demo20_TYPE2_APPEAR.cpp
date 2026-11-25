@@ -30,7 +30,7 @@ extern const Vec boss6_type2_appear_origin;
 extern Vec boss6_type2_appear_offset_particle_origin;
 
 extern "C" {
-const char TBoss6Demo20_TYPE2_APPEAR__class_name[] = "TBoss6Demo20_TYPE2_APPEAR";
+const char TBoss6Demo20_TYPE2_APPEAR::class_name[] = "TBoss6Demo20_TYPE2_APPEAR";
 }
 const Vec boss6_type2_appear_origin = {-10000.0f, 0.0f, 0.0f};
 extern "C" {
@@ -324,5 +324,5 @@ __declspec(section ".ctors") static void *const __sinit_text_8033DA94_cpp_ref = 
 __declspec(section ".data") Vec boss6_type2_appear_offset_particle_origin = {0.0f, 0.0f, 0.0f};
 extern "C" {
 __declspec(section ".data") s32 boss6_type2_appear_motion_indices[2] = {31, 33};
-__declspec(section ".sdata") AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name = {TBoss6Demo20_TYPE2_APPEAR__class_name, 0};
+__declspec(section ".sdata") AppearanceClassTag TBoss6Demo20_TYPE2_APPEAR__name = {TBoss6Demo20_TYPE2_APPEAR::class_name, 0};
 }

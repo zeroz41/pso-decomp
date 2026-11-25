@@ -148,7 +148,7 @@ extern const s32 dragon_next_action_table[11] = {3, 0x27, 0x28, 0x29, 0x2a, 3, 5
 extern const s32 boss8_dragon_state_transition_table[8] = {0, 0, 2, 3, 3, 3, 0, 0};
 extern const s32 boss8_dragon_action_pick_table[29] = {5, 6, 0xf, 0x2b, 0x13, 8, 0x27, 0x28, 3, 5, 6, 0x23, 8, 3, 2, 0x29, 0x2a, 0x27, 0x28, 3, 5, 6, 0x23, 8, 0x27, 0x28, 3, 2, 0x22};
 extern const s32 boss8_dragon_action_pick_table_b[28] = {0x13, 8, 0x27, 0x28, 3, 0x27, 0x28, 3, 2, 3, 0x27, 0x28, 5, 6, 0x23, 8, 3, 5, 6, 0x23, 8, 2, 3, 5, 6, 0xf, 0x16, 0x21};
-s32 TBoss8Dragon__camera_offset_index_table[5] = {
+s32 TBoss8Dragon::camera_offset_index_table[5] = {
     0x12, 0x14, 0x15, 0x16, 0x17,
 };
 s32 boss8_dragon_behavior_param_ids[3] = {
@@ -207,7 +207,7 @@ BmlResourceDescriptor boss8_dragon_bml_descriptor = {"bm_boss8_dragon.bml", boss
 const char *boss8_dragon_class_name = "TBoss8Dragon";
 // Same records as TBoss1Dragon's foot-step / fireball attack parameters.
 extern const DragonAttackParams boss8_dragon_foot_step_attack_params = {0, 10.0f, 15.0f, {8.0f, 1}};
-extern const DragonAttackParams TBoss8Dragon__breath_params = {1, 2.0f, 10.0f, {10.0f, 1}};
+extern const DragonAttackParams TBoss8Dragon::breath_params = {1, 2.0f, 10.0f, {10.0f, 1}};
 extern const DragonAttackParams boss8_dragon_fireball_impact_params = {1, 10.0f, 30.0f, {10.0f, 1}};
 extern const DragonAttackParams boss8_dragon_pillar_attack_params = {0, 10.0f, 0.0f, {10.0f, 1}};
 extern const s32 boss8_dragon_point_index_table[4] = {3, 4, 5, 6};
@@ -264,7 +264,7 @@ Vec boss8_dragon_follow_camera_phase_eye_offsets[11] = {
 };
 extern CurvePathPoint boss8_dragon_bezier_points[4];
 extern CurvePathPoint boss8_dragon_bezier_points_3[3];
-extern CurvePathPoint TBoss8Dragon__dive_height_curve[3];
+extern CurvePathPoint TBoss8Dragon::dive_height_curve[3];
 
 
 extern "C" {
@@ -442,7 +442,7 @@ void TBoss8Dragon::load_resources() {
     boss8_dragon_capture_flags = 0;
     boss8_dragon_main_instance = 0;
     for (i = 0; i < 5; i++) {
-        boss8_dragon_part_hp_stats[i] = TLobby::dispatch_shared_handler_b(TBoss8Dragon__camera_offset_index_table[i]);
+        boss8_dragon_part_hp_stats[i] = TLobby::dispatch_shared_handler_b(TBoss8Dragon::camera_offset_index_table[i]);
     }
     for (j = 0; j < 3; j++) {
         boss8_dragon_behavior_params[j] = (Boss8DragonParams *)TLobby::dispatch_shared_handler_a(boss8_dragon_behavior_param_ids[j]);
@@ -1462,7 +1462,7 @@ void TBoss8Dragon::sweep_death_body_attack() {
 void TBoss8Dragon::apply_trail_attack() {  }
 
 void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history) {
-    DragonAttackParams s = TBoss8Dragon__breath_params;
+    DragonAttackParams s = TBoss8Dragon::breath_params;
     s.attack.power = boss8_dragon_behavior_params[0]->values[0];
     s.attack.kind = kind;
     setup_instance(pos, &s, history);
@@ -1786,7 +1786,7 @@ CurvePathPoint boss8_dragon_bezier_points_3[3] = {
     {{0.0f, 500.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 0.0f},
 };
-CurvePathPoint TBoss8Dragon__dive_height_curve[3] = {
+CurvePathPoint TBoss8Dragon::dive_height_curve[3] = {
     {{0.0f, 180.0f, 0.0f}, 0.0f},
     {{0.0f, 900.0f, 0.0f}, 0.0f},
     {{0.0f, -400.0f, 0.0f}, 0.0f},
@@ -2961,7 +2961,7 @@ void TBoss8Dragon::update_dive_state(s32 event) {
             Vec v;
             this->fallVelocity += this->action_speed;
             this->move_with_wall_stop(this->destination_direction.x, this->destination_direction.z, this->fallVelocity);
-            eval_bezier_curve(TBoss8Dragon__dive_height_curve, 3, 0, &v, (f32)this->impactAge / 60.0f);
+            eval_bezier_curve(TBoss8Dragon::dive_height_curve, 3, 0, &v, (f32)this->impactAge / 60.0f);
             this->position.y = v.y;
             this->impactAge++;
             if (this->is_passing_frame(39.0f) != 0) {
@@ -2979,7 +2979,7 @@ void TBoss8Dragon::update_dive_state(s32 event) {
                 this->action_spin += 0x117;
             }
             this->rotation_z += this->action_spin;
-            eval_bezier_curve(TBoss8Dragon__dive_height_curve, 3, 0, &v, (f32)this->impactAge / 60.0f);
+            eval_bezier_curve(TBoss8Dragon::dive_height_curve, 3, 0, &v, (f32)this->impactAge / 60.0f);
             this->position.y = v.y;
             this->impactAge++;
             if (this->breath_origin.y <= boss8_dragon_arena_center.y - 50.0f && this->stateStep == 4) {

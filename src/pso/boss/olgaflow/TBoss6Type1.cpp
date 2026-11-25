@@ -89,7 +89,7 @@
 
 
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
-CollisionBody TBoss6Type1__collision_body_parts[7] = {
+CollisionBody TBoss6Type1::collision_body_parts[7] = {
     {{0.0f, 0.0f, 0.0f}, 35.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -101,7 +101,7 @@ CollisionBody TBoss6Type1__collision_body_parts[7] = {
 __declspec(section ".data") s32 boss6_type1_part_model_ids[2] = {3, 6};
 
 extern "C" {
-Boss6Type1MotionSet TBoss6Type1__motion_set_table[21] = {
+Boss6Type1MotionSet TBoss6Type1::motion_set_table[21] = {
     {0, 0, 44, 45}, {0, 1, 42, 45}, {0, 2, 44, 56}, {2, 0, 40, 41}, {2, 2, 44, 53},
     {2, 0, 37, 38}, {2, 2, 37, 38}, {2, 8, 29, 30}, {0, 8, 13, 14}, {2, 1, 47, 48},
     {2, 2, 44, 22}, {2, 2, 44, 23}, {2, 2, 44, 43}, {2, 2, 44, 46}, {2, 2, 51, 52},
@@ -142,13 +142,13 @@ inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
 
 
 // The class name and the tables TBoss6Type1's code reads, in .rodata order.
-const char TBoss6Type1__class_name_string[] = "TBoss6Type1";
-const char *TBoss6Type1__name = TBoss6Type1__class_name_string;
+const char TBoss6Type1::class_name_string[] = "TBoss6Type1";
+const char *TBoss6Type1::name = TBoss6Type1::class_name_string;
 const Vec boss6_type1_spawn_position = {0.0f, 300.0f, 280.0f};
 const Vec boss6_type1_base_position = {0.0f, 100.0f, 280.0f};
-const s32 TBoss6Type1__param_table[12] = {20, 20, 20, 20, 200, 200, 200, 200, 90, 180, 7, 7};
+const s32 TBoss6Type1::param_table[12] = {20, 20, 20, 20, 200, 200, 200, 200, 90, 180, 7, 7};
 const s32 boss6_type1_spawn_rotation[3] = {0x8000, 0, 0};
-const Boss6EffectSlotDesc TBoss6Type1__effect_slot_table[4] = {{0x210, -1}, {0x211, -1}, {0x215, 7}, {0x21E, -1}};
+const Boss6EffectSlotDesc TBoss6Type1::effect_slot_table[4] = {{0x210, -1}, {0x211, -1}, {0x215, 7}, {0x21E, -1}};
 // Node -1 ends a node list.
 const ModelNodePositionEntry boss6_type1_model_node_desc[12] = {
     {0x06, {0.0f, 0.0f, 0.0f}},
@@ -180,8 +180,8 @@ const Vec boss6_type1_origin = {0.0f, 0.0f, 0.0f};
 const s32 boss6_type1_random_action_table[5] = {4, 0x16, 5, 8, 2};
 const Boss6Type1MotionState boss6_type1_initial_motion_set = {2, 0};
 const Boss6PartMotion boss6_type1_initial_part_motion = {NULL, 0.0f, 0.5f, 0.0f, 1.0f / 15.0f, NULL, 0.0f};
-const Boss6PartPositionSource TBoss6Type1__part_position_sources[7] = {{1, 2}, {1, 1}, {0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}};
-const f32 TBoss6Type1__sword_shot_hit_radii[4] = {15.0f, 20.0f, 25.0f, 50.0f};
+const Boss6PartPositionSource TBoss6Type1::part_position_sources[7] = {{1, 2}, {1, 1}, {0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}};
+const f32 TBoss6Type1::sword_shot_hit_radii[4] = {15.0f, 20.0f, 25.0f, 50.0f};
 // Model nodes the five kakusan shots of TBoss6Type1::fire_kakusan_shots leave from.
 const s32 boss6_type1_kakusan_shot_nodes[5] = {4, 3, 7, 5, 6};
 // The zero vector TBoss6Type1::spawn_mines starts the mine offsets from.
@@ -242,7 +242,7 @@ TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     TBoss6Type1StateRecord record;
     s32 i;
 
-    m_name = TBoss6Type1__name;
+    m_name = TBoss6Type1::name;
     add_flags_2e4(8);
     plot_falz = params->owner;
     apply_set_data(&params->set_entry);
@@ -257,7 +257,7 @@ TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     VecCopy(&position, &boss6_type1_spawn_position);
     copy_xyz(&rotation_x, (void *)boss6_type1_spawn_rotation);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    init_collision_body_parts(this, TBoss6Type1__collision_body_parts, 7);
+    init_collision_body_parts(this, TBoss6Type1::collision_body_parts, 7);
     update_position();
     velocity.z = 0.0f;
     velocity.y = 0.0f;
@@ -646,7 +646,7 @@ void TBoss6Type1::init_motions() {
     for (i = 0; i < anim_count(); i++) {
         a = &motion_state.part_motions[i];
         a->copy_from((Boss6PartMotion *)&boss6_type1_initial_part_motion);
-        a->motion = a->prev_motion = get_bml_motion(bml_resource, TBoss6Type1__motion_set_table[2].ids[i]);
+        a->motion = a->prev_motion = get_bml_motion(bml_resource, TBoss6Type1::motion_set_table[2].ids[i]);
     }
 }
 
@@ -683,7 +683,7 @@ void TBoss6Type1::advance_animations() {
         lim = len - 1.0f;
         if (a->frame >= lim) {
             a->frame = lim;
-            set_motion_set(TBoss6Type1__motion_set_table[motion_state.motion_set].next_set);
+            set_motion_set(TBoss6Type1::motion_set_table[motion_state.motion_set].next_set);
         }
         break;
     }
@@ -705,7 +705,7 @@ void TBoss6Type1::set_motion_set(s32 set) {
     motion_state.motion_set = set;
     z = 0.0f;
     n = anim_count();
-    t = &TBoss6Type1__motion_set_table[set];
+    t = &TBoss6Type1::motion_set_table[set];
     this->motion_state.motion_mode = t->mode;
     for (i = 0; i < n; i++) {
         a = &motion_state.part_motions[i];
@@ -762,51 +762,51 @@ void TBoss6Type1::load_params_from_table() {
     const BattleMovementParams *rec = TLobby::dispatch_shared_handler_a(0x2B);
     this->beam_damage = (s32)rec->values.floats[0];
     if ((f32) this->beam_damage <= 0.0f) {
-        this->beam_damage = (s32) TBoss6Type1__param_table[0];
+        this->beam_damage = (s32) TBoss6Type1::param_table[0];
     }
     this->sweep_damage = (s32)rec->values.floats[2];
     if ((f32) this->sweep_damage <= 0.0f) {
-        this->sweep_damage = (s32) TBoss6Type1__param_table[1];
+        this->sweep_damage = (s32) TBoss6Type1::param_table[1];
     }
     this->laser_damage = (s32)rec->values.floats[3];
     if ((f32) this->laser_damage <= 0.0f) {
-        this->laser_damage = (s32) TBoss6Type1__param_table[2];
+        this->laser_damage = (s32) TBoss6Type1::param_table[2];
     }
     this->center_damage = (s32)rec->values.floats[4];
     if ((f32) this->center_damage <= 0.0f) {
-        this->center_damage = (s32) TBoss6Type1__param_table[3];
+        this->center_damage = (s32) TBoss6Type1::param_table[3];
     }
     this->float_time = (s32)rec->values.floats[5];
     if ((f32) this->float_time <= 0.0f) {
-        this->float_time = (s32) TBoss6Type1__param_table[10];
+        this->float_time = (s32) TBoss6Type1::param_table[10];
     }
     this->scream_threshold = rec->values.integers[0];
     if ((s32) this->scream_threshold <= 0) {
-        this->scream_threshold = (s32) TBoss6Type1__param_table[4];
+        this->scream_threshold = (s32) TBoss6Type1::param_table[4];
     }
     this->chal_ud_threshold = rec->values.integers[1];
     if ((s32) this->chal_ud_threshold <= 0) {
-        this->chal_ud_threshold = (s32) TBoss6Type1__param_table[5];
+        this->chal_ud_threshold = (s32) TBoss6Type1::param_table[5];
     }
     this->damage_step = rec->values.integers[2];
     if ((s32) this->damage_step <= 0) {
-        this->damage_step = (s32) TBoss6Type1__param_table[6];
+        this->damage_step = (s32) TBoss6Type1::param_table[6];
     }
     this->delta_threshold = rec->values.integers[3];
     if ((s32) this->delta_threshold <= 0) {
-        this->delta_threshold = (s32) TBoss6Type1__param_table[7];
+        this->delta_threshold = (s32) TBoss6Type1::param_table[7];
     }
     this->laser_charge_time = rec->values.integers[4];
     if ((s32) this->laser_charge_time <= 0) {
-        this->laser_charge_time = (s32) TBoss6Type1__param_table[8];
+        this->laser_charge_time = (s32) TBoss6Type1::param_table[8];
     }
     this->laser_fire_time = rec->values.integers[5];
     if (this->laser_fire_time <= 0) {
-        this->laser_fire_time = (s32) TBoss6Type1__param_table[9];
+        this->laser_fire_time = (s32) TBoss6Type1::param_table[9];
     }
     this->low_hp_float_time = (s32)TLobby::dispatch_shared_handler_a(0x2F)->values.floats[5];
     if ((f32) this->low_hp_float_time <= 0.0f) {
-        this->low_hp_float_time = (s32) TBoss6Type1__param_table[11];
+        this->low_hp_float_time = (s32) TBoss6Type1::param_table[11];
     }
 }
 
@@ -904,7 +904,7 @@ void TBoss6Type1::update_part_positions() {
         for (i = 0; i < 7; i++) {
             const Boss6PartPositionSource *t;
             e = &bodies[i];
-            t = &TBoss6Type1__part_position_sources[i];
+            t = &TBoss6Type1::part_position_sources[i];
             base = NULL;
             switch (t->kind) {
             case 1:
@@ -978,7 +978,7 @@ void TBoss6Type1::update_beam_attack() {
     s32 n;
     s32 i;
 
-    if (motion != get_bml_motion(bml_resource, TBoss6Type1__motion_set_table[13].ids[1])) return;
+    if (motion != get_bml_motion(bml_resource, TBoss6Type1::motion_set_table[13].ids[1])) return;
     if (t < 12.5f || t > 22.0f) return;
     {
     f32 end = 12.5f + motion_state.part_motions[1].speed;
@@ -1088,7 +1088,7 @@ void TBoss6Type1::spawn_sword_shots() {
         if (idx < 0 || idx >= 4) {
             idx = 0;
         }
-        sc = TBoss6Type1__sword_shot_hit_radii[idx];
+        sc = TBoss6Type1::sword_shot_hit_radii[idx];
         flag = 0;
         if ((frame_counter & 3) == 0) {
             flag = 1;
@@ -1115,7 +1115,7 @@ void TBoss6Type1::check_sweep_hits() {
     s32 inside;
     s32 j;
 
-    if (motion == get_bml_motion(bml_resource, TBoss6Type1__motion_set_table[14].ids[0]) &&
+    if (motion == get_bml_motion(bml_resource, TBoss6Type1::motion_set_table[14].ids[0]) &&
         !(frame < 10.5f || frame > 15.0f)) {
         f32 end = 10.5f + motion_state.part_motions[0].speed;
         if (frame >= 10.5f && frame < end) {
@@ -2034,7 +2034,7 @@ void TBoss6Type1::release_effect_slots() {
 }
 void TBoss6Type1::update_effect_slots() {
     s32 i;
-    const Boss6EffectSlotDesc *t = TBoss6Type1__effect_slot_table;
+    const Boss6EffectSlotDesc *t = TBoss6Type1::effect_slot_table;
     for (i = 0; i < 4; i++) {
         Vec v = position;
         const Boss6EffectSlotDesc *e = &t[i];
@@ -2057,7 +2057,7 @@ void TBoss6Type1::update_effect_slots() {
 void TBoss6Type1::spawn_effect_slot(s32 slot) {
     if (effect_slots[slot] == 0) {
         Vec v = position;
-        effect_slots[slot] = create_particle_emitter(&v, TBoss6Type1__effect_slot_table[slot].effect_id);
+        effect_slots[slot] = create_particle_emitter(&v, TBoss6Type1::effect_slot_table[slot].effect_id);
         if (effect_slots[slot] != 0) {
             effect_slots[slot]->set_flags(0x40);
         }

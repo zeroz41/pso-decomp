@@ -14,7 +14,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *TBoss8DragonEffBreath__name = "TBoss8DragonEffBreath";
+const char *TBoss8DragonEffBreath::name = "TBoss8DragonEffBreath";
 
 void TBoss8DragonEffBreath::render() {  }
 
@@ -40,7 +40,7 @@ TBoss8DragonEffBreath::~TBoss8DragonEffBreath() {
     attack_history = 0;
 }
 TBoss8DragonEffBreath::TBoss8DragonEffBreath(TObject *parent, Vec *pos, Vec *direction, s32 kind, u16 owner) : TObject(parent) {
-    m_name = TBoss8DragonEffBreath__name;
+    m_name = TBoss8DragonEffBreath::name;
     VecCopy(&position, pos);
     VecCopy(&velocity, direction);
     velocity.x *= 5.0f;

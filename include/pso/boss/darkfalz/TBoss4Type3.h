@@ -21,6 +21,10 @@ struct CollisionBody;
 struct TBoss4DarkFalz;
 
 // Dark Falz's third form. Field names are inferred from their uses in TBoss4Type3.cpp.
+// A row of TBoss4Type3__anim_state_table: how the animation ends (0 loops, 1 holds
+// its last frame, 2 goes on to next) and the motion of each of the three models.
+struct Type3MotionView { s32 kind, next, motions[3]; };
+
 struct TBoss4Type3 : public TObjEnemy {
     TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data);
     virtual ~TBoss4Type3();
@@ -149,6 +153,7 @@ struct TBoss4Type3 : public TObjEnemy {
     void copy_positions_to_parts();
     void update_phase_timer();
     void advance_afterimage();
+    static Type3MotionView anim_state_table[10];
 };
 
 typedef void (TBoss4Type3::*TBoss4Type3Handler)();
@@ -175,9 +180,6 @@ LAYOUT_ASSERT(Type3Offset_444, (offsetof(TBoss4Type3,node_positions) == 0x444));
 LAYOUT_ASSERT(Type3Offset_51c, (offsetof(TBoss4Type3,trail_samples) == 0x51c));
 LAYOUT_ASSERT(Type3Size, (sizeof(TBoss4Type3)==0x530));
 
-// A row of TBoss4Type3__anim_state_table: how the animation ends (0 loops, 1 holds
-// its last frame, 2 goes on to next) and the motion of each of the three models.
-struct Type3MotionView { s32 kind, next, motions[3]; };
 struct Pair_8005A438 { void *p; f32 f; };
 struct Words_8005A438 { void *p; u32 w; };
 

@@ -32,6 +32,7 @@ public:
     f32 secondary_frame;
     saddr timer;
     TBoss6PlotFalz *plot;
+    static const char class_name[];
 };
 LAYOUT_ASSERT(TBoss6Demo20_TYPE2_APPEAR_size, sizeof(TBoss6Demo20_TYPE2_APPEAR) == 0xF0);
 

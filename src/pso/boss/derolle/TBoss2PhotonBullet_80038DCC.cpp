@@ -44,12 +44,12 @@ extern const DirectAttackPayload boss2_photon_bullet_attack[1] = { { 0, 3.0f } }
 
 extern const AreaAttackContact boss2_photon_bullet_hit_args = {3.0f, 1};
 
-const char *TBoss2PhotonPad__name = "TBoss2PhotonPad";
+const char *TBoss2PhotonPad::name = "TBoss2PhotonPad";
 
-const char *TBoss2PhotonBullet__name = "TBoss2PhotonBullet";
+const char *TBoss2PhotonBullet::name = "TBoss2PhotonBullet";
 
 TBoss2PhotonPad::TBoss2PhotonPad(TObject *parent, Vec *start, Vec *dir, s32 level) : TObject(parent) {
-    m_name = TBoss2PhotonPad__name;
+    m_name = TBoss2PhotonPad::name;
     origin = start;
     this->level = level;
     VecCopy(&pos, dir);
@@ -81,7 +81,7 @@ void TBoss2PhotonPad::run_task() {
 void TBoss2PhotonPad::render() {  }
 
 TBoss2PhotonBullet::TBoss2PhotonBullet(TObject *parent, TObjBase *owner, Vec *pos, Vec *dir, f32 speed) : TAttackCollider(parent, owner) {
-    m_name = TBoss2PhotonBullet__name;
+    m_name = TBoss2PhotonBullet::name;
     VecCopy(&travel, pos);
     VecCopy(&position, &travel);
     VecCopy(&aim, dir);

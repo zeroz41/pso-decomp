@@ -14,7 +14,7 @@
 #include "pso/system/task/TMainTask.h"
 
 
-const char *TBoss6EmptyWarp__name = "TBoss6EmptyWarp";
+const char *TBoss6EmptyWarp::name = "TBoss6EmptyWarp";
 
 // Full-screen quad drawn over the view by TBoss6EmptyWarp::render.
 f32 empty_warp_overlay_vertices[8] = {
@@ -65,7 +65,7 @@ TBoss6EmptyWarp::~TBoss6EmptyWarp() {
 }
 
 TBoss6EmptyWarp::TBoss6EmptyWarp(TObject *parent) : TObject(parent) {
-    m_name = TBoss6EmptyWarp__name;
+    m_name = TBoss6EmptyWarp::name;
     TBoss6PlotFalz::freeze_all_players();
     warp_delay = 0;
 }

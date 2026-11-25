@@ -49,6 +49,19 @@ struct Boss6Point {
 
 struct Boss6BodySpawnParams;
 
+// A row of TBoss6Type1__motion_set_table: how the main part motion ends and the two motions.
+struct Boss6Type1MotionSet {
+    s32 mode;      // TBoss6Type1::motion_mode
+    s32 next_set;  // the set mode 2 goes on to
+    s32 ids[2];    // BML motion indices of the two part motions
+};
+
+// A row of TBoss6Type1__effect_slot_table: the emitter's effect and the node it follows (-1: position).
+struct Boss6EffectSlotDesc { s32 effect_id; s32 node; };
+
+// A row of TBoss6Type1__part_position_sources: kind 1 reads node_points, 0 arm_node_positions, at idx.
+struct Boss6PartPositionSource { s32 kind; s32 idx; };
+
 struct TBoss6Type1 : public TObjEnemy {
     TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params);
     virtual ~TBoss6Type1();
@@ -295,12 +308,14 @@ struct TBoss6Type1 : public TObjEnemy {
     void clear_map_csn();
     // Called by the destructor: release_map_csn (destroy_map_csn is an inferred name).
     void destroy_map_csn();
-};
-// A row of TBoss6Type1__motion_set_table: how the main part motion ends and the two motions.
-struct Boss6Type1MotionSet {
-    s32 mode;      // TBoss6Type1::motion_mode
-    s32 next_set;  // the set mode 2 goes on to
-    s32 ids[2];    // BML motion indices of the two part motions
+    static const char *name;
+    static const s32 param_table[12];
+    static Boss6Type1MotionSet motion_set_table[21];
+    static const Boss6EffectSlotDesc effect_slot_table[4];
+    static const f32 sword_shot_hit_radii[4];
+    static const Boss6PartPositionSource part_position_sources[7];
+    static CollisionBody collision_body_parts[7];
+    static const char class_name_string[];
 };
 
 // A row of boss6_type1_action_table: set_action_state runs act, run_task update every
@@ -330,10 +345,6 @@ LAYOUT_ASSERT(TBoss6Type1_map_csn_offset, (offsetof(TBoss6Type1,map_csn)==0x680)
 LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, target_position) == 0x420);
 LAYOUT_ASSERT(TBoss6Type1_node_points_offset, offsetof(TBoss6Type1, node_points) == 0x578);
 LAYOUT_ASSERT(TBoss6Type1_arm_node_positions_offset, offsetof(TBoss6Type1, arm_node_positions) == 0x5FC);
-// A row of TBoss6Type1__effect_slot_table: the emitter's effect and the node it follows (-1: position).
-struct Boss6EffectSlotDesc { s32 effect_id; s32 node; };
-// A row of TBoss6Type1__part_position_sources: kind 1 reads node_points, 0 arm_node_positions, at idx.
-struct Boss6PartPositionSource { s32 kind; s32 idx; };
 // The two motions and frames draw_model_blend_motion blends.
 struct Boss6BlendMotion { AnimationMotion *motions[2]; f32 frames[2]; };
 struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };

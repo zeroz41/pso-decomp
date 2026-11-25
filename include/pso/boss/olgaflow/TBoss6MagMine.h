@@ -58,6 +58,8 @@ public:
     f32 hit_flash;                    // 1.0 on a hit, passed to the draw tint
     s32 angle_y;                      // render's rotate_matrix_y angle
     TParticleCtrl *particle_emitter;  // create_particle_emitter(&position, 0x146)
+    static const char *class_name;
+    static CollisionBody collision_body_parts[1];
 };
 
 LAYOUT_ASSERT(Boss6MagMineSetData_size, sizeof(Boss6MagMineSetData) == 0x58);

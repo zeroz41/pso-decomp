@@ -19,7 +19,7 @@
 #pragma readonly_strings on
 
 
-const char *TBoss5GryphonLightningWing__name = "TBoss5GryphonLightningWing";
+const char *TBoss5GryphonLightningWing::name = "TBoss5GryphonLightningWing";
 
 
 #pragma opt_lifetimes off
@@ -78,7 +78,7 @@ saddr __ct__26TBoss5GryphonLightningWingFP7TObjectP3VecP3VecP3Vecll(saddr alloca
     s32 i;
     __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(20.0f);
     ((Wing_80351C18 *)allocation)->vt = __vt__26TBoss5GryphonLightningWing;
-    ((Wing_80351C18 *)allocation)->x0 = ((saddr)TBoss5GryphonLightningWing__name);
+    ((Wing_80351C18 *)allocation)->x0 = ((saddr)TBoss5GryphonLightningWing::name);
     ((Wing_80351C18 *)allocation)->n = 3;
     ((Wing_80351C18 *)allocation)->x98 = grow_frames;
     ((Wing_80351C18 *)allocation)->x9C = grow_frames + hold_frames;

@@ -21,8 +21,8 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *TBoss1DragonEffTail__name = "TBoss1DragonEffTail";
-CollisionBody TBoss1DragonEffTail__collision_body_templates[17] = {
+const char *TBoss1DragonEffTail::name = "TBoss1DragonEffTail";
+CollisionBody TBoss1DragonEffTail::collision_body_templates[17] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 },
 };
 
@@ -89,11 +89,11 @@ TBoss1DragonEffTail::~TBoss1DragonEffTail() {
     attack_history = NULL;
 }
 TBoss1DragonEffTail::TBoss1DragonEffTail(TBoss1Dragon *dragon, Vec *nodes)
-    : TAttackCollider(NULL, dragon, TBoss1DragonEffTail__collision_body_templates, 0x11) {
+    : TAttackCollider(NULL, dragon, TBoss1DragonEffTail::collision_body_templates, 0x11) {
     void *data;
     s32 i;
-    data = TBoss1DragonEffTail__collision_body_templates;
-    m_name = TBoss1DragonEffTail__name;
+    data = TBoss1DragonEffTail::collision_body_templates;
+    m_name = TBoss1DragonEffTail::name;
     for (i = 1; i < 0x11; i++) {
         copy_collision_body(&bodies[i], (const CollisionBody *)data);
     }

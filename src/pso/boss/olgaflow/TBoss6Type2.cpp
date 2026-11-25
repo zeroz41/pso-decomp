@@ -74,7 +74,7 @@ CollisionBody boss6_type2_collision_parts[3] = {
     { { 0.0f, 0.0f, 0.0f }, 15.0f, 0.0f, 0, 0x801B },
 };
 
-TBoss6Type2Motion TBoss6Type2__motion_table[15] = {
+TBoss6Type2Motion TBoss6Type2::motion_table[15] = {
     { 0, 0, { 0x37 }, 0.6f },
     { 2, 0, { 0x27 }, 0.2f },
     { 0, 2, { 0x3A }, 0.28f },
@@ -172,7 +172,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     TBoss6Type2StateRecord record;
     s32 i;
     s32 id;
-    m_name = TBoss6Type2__name;
+    m_name = TBoss6Type2::name;
     plot_falz = params->owner;
     apply_set_data(&params->set_entry);
     if (exchange_object_state(&record, 1) != 0) {
@@ -183,8 +183,8 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     archive = TBoss6PlotFalz::get_scene_archive();
     texlist = 0;
     model = 0;
-    VecCopy(&position, &TBoss6Type2__initial_position);
-    copy_xyz(&rotation_x, (void *)TBoss6Type2__initial_rotation);
+    VecCopy(&position, &TBoss6Type2::initial_position);
+    copy_xyz(&rotation_x, (void *)TBoss6Type2::initial_rotation);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     init_collision_body_parts(this, boss6_type2_collision_parts, 3);
     advance_position();
@@ -197,7 +197,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     register_by_id();
     set_param(0x4E);
     id = static_cast<s8>(params->variant) % 4;
-    add_flags_2e4(TBoss6Type2__initial_actor_flag_masks[id]);
+    add_flags_2e4(TBoss6Type2::initial_actor_flag_masks[id]);
     target_mode = id;
     variant = target_state = boss6_type2_variant_id_table[(static_cast<s8>(params->variant) >> 2) % 4];
     init_segment_range();
@@ -487,12 +487,12 @@ extern "C" void handle_6xA5_olga_flow_boss_actions(game_command_header *command)
     boss->set_action_state(state);
 }
 
-int TBoss6Type2::get_table_entry(int a0) {  return TBoss6Type2__initial_actor_flag_masks[a0]; }
+int TBoss6Type2::get_table_entry(int a0) {  return TBoss6Type2::initial_actor_flag_masks[a0]; }
 
 s32 TBoss6Type2::find_index_in_table(u32 v) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (v == ((const u32 *)TBoss6Type2__initial_actor_flag_masks)[i]) return i;
+        if (v == ((const u32 *)TBoss6Type2::initial_actor_flag_masks)[i]) return i;
     }
     return 0;
 }
@@ -735,10 +735,10 @@ void TBoss6Type2::init_motion_entries() {
         TBoss6Type2MotionTrack *e = &motion_tracks[i];
         AnimationMotion *motion;
         e->copy_from((TBoss6Type2MotionTrack *)&boss6_type2_motion_entry_transform);
-        motion = get_bml_motion(archive, TBoss6Type2__motion_table[0].motion[i]);
+        motion = get_bml_motion(archive, TBoss6Type2::motion_table[0].motion[i]);
         e->prev_motion = motion;
         e->motion = motion;
-        e->speed = TBoss6Type2__motion_table[0].speed;
+        e->speed = TBoss6Type2::motion_table[0].speed;
     }
 }
 
@@ -778,7 +778,7 @@ void TBoss6Type2::update_motion_tracks() {
         lim = n - 1.0f;
         if (e->frame >= lim) {
             e->frame = lim;
-            change_motion(TBoss6Type2__motion_table[motion_index].next);
+            change_motion(TBoss6Type2::motion_table[motion_index].next);
         }
         break;
     }
@@ -794,7 +794,7 @@ void TBoss6Type2::change_motion(s32 motion) {
         TBoss6Type2Motion *ent;
         s32 i;
         motion_index = motion;
-        ent = &TBoss6Type2__motion_table[motion];
+        ent = &TBoss6Type2::motion_table[motion];
         motion_mode = ent->mode;
         for (i = 0; i < get_motion_track_count(); i++) {
             TBoss6Type2MotionTrack *e = &motion_tracks[i];
@@ -802,7 +802,7 @@ void TBoss6Type2::change_motion(s32 motion) {
             e->blend = e->blend_step;
             e->prev_motion = e->motion;
             e->prev_frame = e->frame;
-            e->speed = TBoss6Type2__motion_table[motion].speed;
+            e->speed = TBoss6Type2::motion_table[motion].speed;
             e->motion = next;
             e->frame = 0.0f;
         }
@@ -881,64 +881,64 @@ void TBoss6Type2::load_battle_params() {
     rec = TLobby::dispatch_shared_handler_a(0x2C);
     rock_damage = (s32)rec->values.floats[1];
     if ((f32)rock_damage <= 0.0f) {
-        rock_damage = TBoss6Type2__default_battle_parameters.int_params[0];
+        rock_damage = TBoss6Type2::default_battle_parameters.int_params[0];
     }
     possessed_damage = (s32)rec->values.floats[4];
     if ((f32)possessed_damage <= 0.0f) {
-        possessed_damage = TBoss6Type2__default_battle_parameters.int_params[1];
+        possessed_damage = TBoss6Type2::default_battle_parameters.int_params[1];
     }
     bj_wait_duration = (s32)rec->values.floats[5];
     if ((f32)bj_wait_duration <= 0.0f) {
-        bj_wait_duration = TBoss6Type2__default_battle_parameters.int_params[8];
+        bj_wait_duration = TBoss6Type2::default_battle_parameters.int_params[8];
     }
     dpb_damage_threshold = rec->values.integers[0];
     if (dpb_damage_threshold <= 0) {
-        dpb_damage_threshold = TBoss6Type2__default_battle_parameters.int_params[2];
+        dpb_damage_threshold = TBoss6Type2::default_battle_parameters.int_params[2];
     }
     berserk_damage = rec->values.integers[1];
     if (berserk_damage <= 0) {
-        berserk_damage = TBoss6Type2__default_battle_parameters.int_params[3];
+        berserk_damage = TBoss6Type2::default_battle_parameters.int_params[3];
     }
     release_damage = rec->values.integers[2];
     if (release_damage <= 0) {
-        release_damage = TBoss6Type2__default_battle_parameters.int_params[4];
+        release_damage = TBoss6Type2::default_battle_parameters.int_params[4];
     }
     kamae_duration = rec->values.integers[3];
     if (kamae_duration <= 0) {
-        kamae_duration = TBoss6Type2__default_battle_parameters.int_params[5];
+        kamae_duration = TBoss6Type2::default_battle_parameters.int_params[5];
     }
     iai_x2_percent = rec->values.integers[4];
     iai_x3_percent = rec->values.integers[5];
     first = iai_x2_percent;
     if ((first < 0) || (first > 100) || ((second = iai_x3_percent) < 0) || (second > 100) || (first + second > 100)) {
-        iai_x2_percent = TBoss6Type2__default_battle_parameters.int_params[6];
-        iai_x3_percent = TBoss6Type2__default_battle_parameters.int_params[7];
+        iai_x2_percent = TBoss6Type2::default_battle_parameters.int_params[6];
+        iai_x3_percent = TBoss6Type2::default_battle_parameters.int_params[7];
     }
     rec = TLobby::dispatch_shared_handler_a(0x2F);
     base_walk_speed = rec->values.floats[0];
     if (base_walk_speed <= 0.0f) {
-        base_walk_speed = TBoss6Type2__default_battle_parameters.float_params[0];
+        base_walk_speed = TBoss6Type2::default_battle_parameters.float_params[0];
     }
     base_turn_speed = rec->values.floats[1];
     if (base_turn_speed <= 0.0f) {
-        base_turn_speed = TBoss6Type2__default_battle_parameters.float_params[1];
+        base_turn_speed = TBoss6Type2::default_battle_parameters.float_params[1];
     }
     berserk_damage_scale = rec->values.floats[2];
     if (berserk_damage_scale <= 0.0f) {
-        berserk_damage_scale = TBoss6Type2__default_battle_parameters.float_params[4];
+        berserk_damage_scale = TBoss6Type2::default_battle_parameters.float_params[4];
     }
     info_stat_duration = (s32)rec->values.floats[3];
     if ((f32)info_stat_duration <= 0.0f) {
-        info_stat_duration = TBoss6Type2__default_battle_parameters.last_param;
+        info_stat_duration = TBoss6Type2::default_battle_parameters.last_param;
     }
     rec = TLobby::dispatch_shared_handler_a(0x2E);
     low_hp_walk_speed = rec->values.floats[2];
     if (low_hp_walk_speed <= 0.0f) {
-        low_hp_walk_speed = TBoss6Type2__default_battle_parameters.float_params[2];
+        low_hp_walk_speed = TBoss6Type2::default_battle_parameters.float_params[2];
     }
     low_hp_turn_speed = rec->values.floats[3];
     if (low_hp_turn_speed <= 0.0f) {
-        low_hp_turn_speed = TBoss6Type2__default_battle_parameters.float_params[3];
+        low_hp_turn_speed = TBoss6Type2::default_battle_parameters.float_params[3];
     }
 }
 
@@ -953,9 +953,9 @@ void TBoss6Type2::set_screen_pos() {
         walk_speed = 0.28f * this->base_walk_speed;
         turn_speed = 0.28f * this->base_turn_speed;
     }
-    TBoss6Type2__motion_table[2].speed = walk_speed;
-    TBoss6Type2__motion_table[3].speed = walk_speed;
-    TBoss6Type2__motion_table[14].speed = turn_speed;
+    TBoss6Type2::motion_table[2].speed = walk_speed;
+    TBoss6Type2::motion_table[3].speed = walk_speed;
+    TBoss6Type2::motion_table[14].speed = turn_speed;
 }
 
 void TBoss6Type2::copy_anim_state() {
@@ -1041,7 +1041,7 @@ void TBoss6Type2::update_countdown() {
 
 void TBoss6Type2::play_sound_if_no_target() {
     if (is_target_valid() == 0) {
-        play_sound_effect(TBoss6Type2__no_target_sound_ids[TBoss6Type2::find_index_in_table(this->target_attribute_mask)], &position, 0, 1);
+        play_sound_effect(TBoss6Type2::no_target_sound_ids[TBoss6Type2::find_index_in_table(this->target_attribute_mask)], &position, 0, 1);
     }
 }
 
@@ -1324,11 +1324,11 @@ void TBoss6Type2::apply_rock_hits_to_players() {
     s32 v;
     range = 10.0f;
     for (i = 0; i < 6; i++) {
-        rock = &this->node_positions[TBoss6Type2__player_hit_rock_indices[i]];
+        rock = &this->node_positions[TBoss6Type2::player_hit_rock_indices[i]];
         TBoss6Rock::break_rocks_in_radius(rock, 10.0f);
         if (!(rock->y - this->position.y > range)) {
             hit = 0;
-            if (xyz_distance(rock, &this->prev_node_positions[TBoss6Type2__player_hit_rock_indices[i]]) >= 1.0f) {
+            if (xyz_distance(rock, &this->prev_node_positions[TBoss6Type2::player_hit_rock_indices[i]]) >= 1.0f) {
                 hit = 1;
             }
             r = this->push_players_away(rock, 10.0f);
@@ -2168,7 +2168,7 @@ void TBoss6Type2::update_part_positions() {
     s32 i = 0;
     do {
         Vec v = position;
-        const Tbl_802B9C00 *e = &TBoss6Type2__particle_attachment_table[i];
+        const Tbl_802B9C00 *e = &TBoss6Type2::particle_attachment_table[i];
         if (particle_emitters[i] != 0) {
             s32 idx = e->b;
             if (idx >= 0) {
@@ -2183,7 +2183,7 @@ void TBoss6Type2::update_part_positions() {
 void TBoss6Type2::spawn_particle_slot(s32 slot) {
     if (particle_emitters[slot] == 0) {
         Vec v = position;
-        particle_emitters[slot] = create_particle_emitter(&v, TBoss6Type2__particle_attachment_table[slot].a);
+        particle_emitters[slot] = create_particle_emitter(&v, TBoss6Type2::particle_attachment_table[slot].a);
         if (particle_emitters[slot] != 0) {
             particle_emitters[slot]->set_flags(0x40);
         }

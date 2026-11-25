@@ -14,6 +14,7 @@ public:
     void disable();
     virtual void render();
     Vec local_position;  // the chain's center relative to the dragon (enable_at places it)
+    static const char *name;
 };
 LAYOUT_ASSERT(TBoss8DragonColli_C_size, sizeof(TBoss8DragonColli_C) == 0xB8);
 

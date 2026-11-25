@@ -22,6 +22,7 @@ struct TBoss6Zanzo : public TObject {
     s32 point_count;  // points in each trail frame (at least 2)
     s32 frame_count;  // trail frames kept (at least 2)
     virtual void render();
+    static const char *name;
 };
 
 LAYOUT_ASSERT(Boss6TrailPoint_size, sizeof(Boss6TrailPoint) == 0x10);

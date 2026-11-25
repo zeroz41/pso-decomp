@@ -35,9 +35,9 @@
 
 
 const s32 boss2_ceil_junk_model_index_table[6] = { 0, 1, 2, 4, 3, 5 };
-const f32 TObjBoss2CeilJunk__height_offset_table[6] = { 10.0f, 10.0f, 7.0f, 3.0f, 10.0f, 6.0f };
-const f32 TObjBoss2CeilJunk__radius_table[6] = { 15.0f, 15.0f, 10.5f, 15.0f, 0.45000002f, 1.2f };
-const char *TObjBoss2CeilJunk__name = "TObjBoss2CeilJunk";
+const f32 TObjBoss2CeilJunk::height_offset_table[6] = { 10.0f, 10.0f, 7.0f, 3.0f, 10.0f, 6.0f };
+const f32 TObjBoss2CeilJunk::radius_table[6] = { 15.0f, 15.0f, 10.5f, 15.0f, 0.45000002f, 1.2f };
+const char *TObjBoss2CeilJunk::name = "TObjBoss2CeilJunk";
 const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 
 // The surface the junk splashes into: the De Rol Le arena's water level.
@@ -48,7 +48,7 @@ void TObjBoss2CeilJunk::render() {
   if (state == 2)
   {
     Vec s;
-    f32 t = TObjBoss2CeilJunk__radius_table[kind];
+    f32 t = TObjBoss2CeilJunk::radius_table[kind];
     shadow_scale = (0.2f) * t;
     s.y = (1.0f);
     s.x = (s.z = shadow_scale);
@@ -131,8 +131,8 @@ void TObjBoss2CeilJunk::run_task() {
             hit = 0;
             n = TLobby::get_game_mode();
             top = position.y - velocity.y;
-            bottom = position.y - TObjBoss2CeilJunk__height_offset_table[kind];
-            rad = (1e+01f) + TObjBoss2CeilJunk__radius_table[kind];
+            bottom = position.y - TObjBoss2CeilJunk::height_offset_table[kind];
+            rad = (1e+01f) + TObjBoss2CeilJunk::radius_table[kind];
             for (i = 0; i < n; i++) {
                 pl = TObjPlayer::get_player_data(i);
                 if (((TObjEneDD *)pl)->is_valid_target() != 0) {
@@ -192,7 +192,7 @@ TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TOb
     const volatile f32 *scale;
     f32 fraction;
     f32 random;
-    m_name = TObjBoss2CeilJunk__name;
+    m_name = TObjBoss2CeilJunk::name;
     VecCopy(&this->position, position);
     random = (f32) rand();
     fraction = 3.0517578e-05f * random;
@@ -202,7 +202,7 @@ TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TOb
         state = 0;
     } else {
         state = 2;
-        home_position.y = prev_position.y + TObjBoss2CeilJunk__height_offset_table[kind];
+        home_position.y = prev_position.y + TObjBoss2CeilJunk::height_offset_table[kind];
     }
     rotation_y = random_angle();
     rotation_x = (s32) (4096.0f * rand_signed_unit());

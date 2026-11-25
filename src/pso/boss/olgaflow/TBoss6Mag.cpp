@@ -57,7 +57,7 @@ extern const TBoss6MagMotion boss6_type2_zero_vec3_block = { 0 };
 extern const TBoss6MagMotionTrack boss6_type2_initial_state = { NULL, 0.0f, 0.0f, 0.0f, 0.06666667f, NULL, 0.0f };
 extern const s32 boss6_mag_rock_spread_angles[3] = { -0x2000, 0, 0x2000 };
 extern const TBoss6MagRamp boss6_mag_zero_ramp = { 0.0f, 0.0f };
-CollisionBody TBoss6Mag__collision_body_parts[1] = {
+CollisionBody TBoss6Mag::collision_body_parts[1] = {
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 0.0f, 0, 0x807B, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 TBoss6MagMotionEntry boss6_type2_motion_table[5] = {
@@ -97,7 +97,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     texlist = 0;
     model = NULL;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    init_collision_body_parts(this, TBoss6Mag__collision_body_parts, 1);
+    init_collision_body_parts(this, TBoss6Mag::collision_body_parts, 1);
     VecCopy(&body_center, &position);
     velocity.z = 0.0f;
     velocity.y = 0.0f;

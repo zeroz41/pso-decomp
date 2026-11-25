@@ -8,7 +8,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 
-struct CurvePathPoint;
+#include "pso/math/CurvePathPoint.h"
 class AreaAttackHistory;
 struct DragonAttackParams;
 struct TBoss8DragonEffTail;
@@ -308,6 +308,9 @@ public:
     void update_stand_state(s32 event);
     // Mode 0: no motion of its own; the next choice picks the next action (mode 24 when controlled).
     void update_idle_state(s32 event);
+    static CurvePathPoint dive_height_curve[3];
+    static s32 camera_offset_index_table[5];
+    static const DragonAttackParams breath_params;
 };
 
 #include <stddef.h>

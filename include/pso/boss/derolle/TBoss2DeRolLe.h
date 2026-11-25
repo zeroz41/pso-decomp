@@ -206,6 +206,13 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     TParticleCtrl *state_emitter;      // the running state's emitter: 0x161 on nodes 7/8 (bite), 0x122/0x177 (laser)
     TParticleCtrl *splash_ctrls[6];    // splash emitters kept on the joints (update_particle_ctrls)
     s32 splash_joint;                  // when set, the joint the first splash pair moves to for one update
+    static TBoss2DeRolLe * instance;
+    static ActorParamBlock * resistance_params[1];
+    static player_stats * base_params[1];
+    static AttackParams * attack_params_table[3];
+    static const Vec position_point_table[4];
+    static Vec mine_ground_targets[5];
+    static s32 shared_handler_id_table[3];
 };
 
 LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);

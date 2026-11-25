@@ -156,11 +156,13 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static void update_active_flag();
     static TBoss6Type1 *type1_instance;
     static TBoss6Type2 *type2_instance;
+    static const char *name;
+    static f32 fade_amount;
+    static saddr instance;
 };
 
 // The two Olga Flow bodies of the running fight, NULL when there is none.
 // The running TBoss6PlotFalz (set by its constructor, cleared by its destructor).
-extern saddr TBoss6PlotFalz__instance;
 // Client ids in descending hp order (sort_active_players, get_sorted_player).
 extern u16 boss6_plot_falz_player_order_table[];
 // 1 on the main floor phase 0xF or in split screen (update_active_flag, get_phase).

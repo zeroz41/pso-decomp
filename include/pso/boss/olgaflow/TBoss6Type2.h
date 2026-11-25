@@ -7,6 +7,7 @@ struct TBoss6Zanzo;
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/boss/olgaflow/Boss6Type2Data.h"
 #include "pso/render/GinjaMaterialState.h"
 
 class ModelNodePositionCapture;
@@ -74,6 +75,15 @@ struct Boss6PlayerLook {
 void copy_texlist(NJS_TEXLIST *dst, NJS_TEXLIST *src);
 
 struct Boss6BodySpawnParams;
+
+// One row per body motion. update_motion_tracks loops a mode 0 row, holds a
+// mode 2 row on its last frame and goes on to row `next`.
+struct TBoss6Type2Motion {
+    s32 mode;
+    s32 next;
+    s32 motion[1];  // BML motion of each track (motion_track_count tracks)
+    f32 speed;      // frames per update
+};
 
 struct TBoss6Type2 : public TObjEnemy
 {
@@ -336,6 +346,15 @@ struct TBoss6Type2 : public TObjEnemy
     static void world_to_grid_pos(Vec *pos, s8 *grid_x, s8 *grid_z);
     static void grid_to_world_pos(s8 grid_x, s8 grid_z, Vec *pos);
     static TBoss6EffFlowSoul *spawn_flow_soul(TObject *parent, Vec *pos, s32 duration);
+    static const TBoss6Type2DefaultParams default_battle_parameters;
+    static TBoss6Type2Motion motion_table[15];
+    static const s32 initial_actor_flag_masks[4];
+    static const s32 player_hit_rock_indices[6];
+    static const Tbl_802B9C00 particle_attachment_table[14];
+    static const s32 no_target_sound_ids[4];
+    static const char * name;
+    static const s32 initial_rotation[3];
+    static const Vec initial_position;
 };
 
 LAYOUT_ASSERT(TBoss6Type2ActionHistoryOffset, offsetof(TBoss6Type2, action_history) == 0x378);
@@ -350,14 +369,6 @@ LAYOUT_ASSERT(TBoss6Type2_offset_scroll_strips, (offsetof(TBoss6Type2, scroll_st
 
 LAYOUT_ASSERT(TBoss6Type2_size, sizeof(TBoss6Type2) == 0x7B4);
 
-// One row per body motion. update_motion_tracks loops a mode 0 row, holds a
-// mode 2 row on its last frame and goes on to row `next`.
-struct TBoss6Type2Motion {
-    s32 mode;
-    s32 next;
-    s32 motion[1];  // BML motion of each track (motion_track_count tracks)
-    f32 speed;      // frames per update
-};
 // The record exchange_object_state reads and writes.
 struct TBoss6Type2StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 

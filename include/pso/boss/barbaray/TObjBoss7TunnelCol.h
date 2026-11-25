@@ -11,6 +11,7 @@ struct TObjBoss7TunnelCol : public TObjCollidable {
     virtual void render();
     virtual void run_task();
     static const char *name;
+    static const CollisionBody col_desc;
 };
 
 LAYOUT_ASSERT(TObjBoss7TunnelCol_size, sizeof(TObjBoss7TunnelCol) == 0xD8);

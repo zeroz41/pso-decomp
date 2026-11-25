@@ -21,6 +21,9 @@ struct TObjBoss1Crater : public TAttackCollider {
     AreaAttackHistory *attack_history; // actors it hit, four at most
     s32 hit_timers[4];                 // frames until each attack_history entry is dropped (60 on a hit)
     s32 attack_kind;                   // 1, or 0x13 in V2 mode
+    static const char *name;
+    static s32 instance_count;
+    static TObjBoss1Crater * instance_list[20];
 };
 
 LAYOUT_ASSERT(TObjBoss1Crater_size, sizeof(TObjBoss1Crater) == 0xCC);

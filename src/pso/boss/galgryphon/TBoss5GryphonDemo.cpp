@@ -17,7 +17,7 @@
 #pragma readonly_strings on
 
 
-const char *TBoss5GryphonDemo__name = "TBoss5GryphonDemo";
+const char *TBoss5GryphonDemo::name = "TBoss5GryphonDemo";
 
 
 void TBoss5GryphonDemo::render() {  }
@@ -34,7 +34,7 @@ void TBoss5GryphonDemo::run_task() {
 TBoss5GryphonDemo::~TBoss5GryphonDemo() {}
 TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 *done_flag, f32 frame_step) : TObject(parent) {
     CameraPlayback c;
-    this->m_name = TBoss5GryphonDemo__name;
+    this->m_name = TBoss5GryphonDemo::name;
     this->frame_step = frame_step;
     this->frame = 0.0f;
     this->done_flag = done_flag;

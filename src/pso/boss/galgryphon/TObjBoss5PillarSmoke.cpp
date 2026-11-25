@@ -12,7 +12,7 @@
 #pragma readonly_strings on
 
 
-const char *TObjBoss5PillarSmoke__name = "TObjBoss5PillarSmoke";
+const char *TObjBoss5PillarSmoke::name = "TObjBoss5PillarSmoke";
 
 // Where the smoke particles are parked (park_pillar_smoke_particles, the constructor) and the
 // node origin the model callback projects (place_pillar_smoke_at_node).
@@ -91,7 +91,7 @@ TObjBoss5PillarSmoke::~TObjBoss5PillarSmoke() {
 
 TObjBoss5PillarSmoke::TObjBoss5PillarSmoke(TObject *parent, NJS_OBJECT *node) : TObject(parent) {
     s32 i;
-    m_name = TObjBoss5PillarSmoke__name;
+    m_name = TObjBoss5PillarSmoke::name;
     this->count = 0;
     this->particles_a = NULL;
     this->particles_b = NULL;

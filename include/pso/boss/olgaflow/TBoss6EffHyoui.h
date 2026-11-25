@@ -17,6 +17,7 @@ public:
     u16 client;
     s32 duration;
     s32 age;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss6EffHyouiSize, sizeof(TBoss6EffHyoui) == 0x2C);

@@ -20,10 +20,10 @@
 // One node of the list ModelNodePositionCapture::create reads (node -1 ends it).
 
 
-const char TBoss6Demo11_TYPE1_DEAD__class_name_string[] = "TBoss6Demo11_TYPE1_DEAD";
+const char TBoss6Demo11_TYPE1_DEAD::class_name_string[] = "TBoss6Demo11_TYPE1_DEAD";
 static s32 death_motion_indices[2] = {4, 5};          // motion ids
 static Vec death_origin = {0.0f, 0.0f, 70.0f}; // start position
-const char *TBoss6Demo11_TYPE1_DEAD__name = TBoss6Demo11_TYPE1_DEAD__class_name_string;
+const char *TBoss6Demo11_TYPE1_DEAD::name = TBoss6Demo11_TYPE1_DEAD::class_name_string;
 
 TBoss6Demo11_TYPE1_DEAD *TBoss6Demo11_TYPE1_DEAD::create(TBoss6PlotFalz *plot, const Vec *target) {
     return new TBoss6Demo11_TYPE1_DEAD(plot, target);
@@ -53,7 +53,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TBoss6PlotFalz *plot, const Vec
     u32 model_id;
     BmlResource *resource;
     s32 i;
-    m_name = TBoss6Demo11_TYPE1_DEAD__name;
+    m_name = TBoss6Demo11_TYPE1_DEAD::name;
     this->plot = plot;
     VecCopy(&position, &death_origin);
     resource = TBoss6PlotFalz::get_scene_archive();

@@ -7,7 +7,7 @@
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-const char *TBoss6EffHyoui__name = "TBoss6EffHyoui";
+const char *TBoss6EffHyoui::name = "TBoss6EffHyoui";
 f32 boss6_eff_hyoui_scale;
 s8 boss6_eff_hyoui_scale_set;
 extern void *tl_02;
@@ -36,7 +36,7 @@ const s32 boss6_eff_hyoui_effect_ids[2] = {550, 551};
 
 TBoss6EffHyoui::TBoss6EffHyoui(TObject *parent, u16 client, s32 effect, s32 duration)
     : TObject(parent) {
-    m_name = TBoss6EffHyoui__name;
+    m_name = TBoss6EffHyoui::name;
     this->client = client;
     this->duration = duration;
     emitter = NULL;

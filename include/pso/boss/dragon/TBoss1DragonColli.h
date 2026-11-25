@@ -16,6 +16,7 @@ public:
     TBoss1DragonColli_C *get_object(s32 index);
     void disable_blocking_bodies();
     void enable_blocking_bodies(Vec *pos, s32 angle);
+    static const char *name;
 };
 
 #endif

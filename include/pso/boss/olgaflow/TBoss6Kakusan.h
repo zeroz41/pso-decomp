@@ -26,6 +26,9 @@ struct TBoss6Kakusan : public TObject {
     s32 is_out_of_range();
     virtual void render();
     virtual void run_task();
+    static const char *name;
+    static s32 homing_start_frame;
+    static u8 homing_end_frame_initialized;
 };
 
 LAYOUT_ASSERT(TBoss6Kakusan_size, sizeof(TBoss6Kakusan) == 0x58);

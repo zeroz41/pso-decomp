@@ -9,12 +9,12 @@
 
 #pragma readonly_strings on
 
-const char *TBoss2LaserLight__name = "TBoss2LaserLight";
+const char *TBoss2LaserLight::name = "TBoss2LaserLight";
 
 #pragma defer_codegen on
 
 TBoss2LaserLight::TBoss2LaserLight(TObject *parent, Vec *position) : TObject(parent) {
-    m_name = TBoss2LaserLight__name;
+    m_name = TBoss2LaserLight::name;
     m_position = position;
     m_state = OFF;
     m_request = REQUEST_NONE;

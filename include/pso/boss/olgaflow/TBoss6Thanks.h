@@ -44,6 +44,7 @@ struct TBoss6Thanks : public TObject {
     static void *create();
     static s32 is_ship_door_ready();
     static s32 try_dispatch_darkfalz_phase();
+    static const char *class_name;
 };
 LAYOUT_ASSERT(TBoss6Thanks_size, sizeof(TBoss6Thanks) == 0x64);
 // Particle effect id and the fade_frame range in which update_particle_emitters keeps it.

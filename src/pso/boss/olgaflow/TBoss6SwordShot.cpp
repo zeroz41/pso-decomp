@@ -24,12 +24,12 @@
 #include "pso/system/MatrixOps.h"
 
 
-const char TBoss6SwordWave__class_name_string[] = "TBoss6SwordWave";
+const char TBoss6SwordWave::class_name_string[] = "TBoss6SwordWave";
 // The arena centre (boss6_arena_center); the wave ring only sparks within the 400-unit arena radius of it.
 const Vec sword_wave_arena_center = {-10000.0f, 0.0f, 0.0f};
-const char TBoss6SwordShot__class_name_string[] = "TBoss6SwordShot";
-const char *TBoss6SwordWave__name = TBoss6SwordWave__class_name_string;
-const char *TBoss6SwordShot__name = TBoss6SwordShot__class_name_string;
+const char TBoss6SwordShot::class_name_string[] = "TBoss6SwordShot";
+const char *TBoss6SwordWave::name = TBoss6SwordWave::class_name_string;
+const char *TBoss6SwordShot::name = TBoss6SwordShot::class_name_string;
 
 // Compiled deferred: functions are emitted last-first (the vtables land in .data SwordShot first), so they are
 // written last address first.
@@ -92,7 +92,7 @@ TBoss6SwordWave *TBoss6SwordWave::create(TBoss6Type2 *owner, const Vec *position
 
 TBoss6SwordWave::TBoss6SwordWave(TBoss6Type2 *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius)
     : TObject(owner) {
-    m_name = TBoss6SwordWave__name;
+    m_name = TBoss6SwordWave::name;
     this->owner = owner;
     VecCopy(&this->position, position);
     this->position.y = 0.0f;
@@ -282,7 +282,7 @@ TBoss6SwordShot::TBoss6SwordShot(TObject *owner, const Vec *position, s32 with_p
     f32 scale;
     f32 v;
     TParticleCtrl *particle;
-    m_name = TBoss6SwordShot__name;
+    m_name = TBoss6SwordShot::name;
     this->owner = owner;
     VecCopy(&this->position, position);
     this->radius = radius;

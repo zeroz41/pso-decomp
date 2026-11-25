@@ -40,11 +40,11 @@
 
 #pragma readonly_strings on
 
-CollisionBody TBoss6MagMine__collision_body_parts[1] = {
+CollisionBody TBoss6MagMine::collision_body_parts[1] = {
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x803B, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-const char *TBoss6MagMine__class_name = "TBoss6MagMine";
+const char *TBoss6MagMine::class_name = "TBoss6MagMine";
 
 void TBoss6MagMine::run_death_reaction() {
     if (state != 4) {
@@ -271,7 +271,7 @@ TBoss6MagMine::~TBoss6MagMine() {
 TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : TObjEnemy(parent) {
     TBoss6MagMineStateRecord record;
     f32 *params;
-    m_name = TBoss6MagMine__class_name;
+    m_name = TBoss6MagMine::class_name;
     VecCopy(&position, &set_data->origin);
     VecCopy(&destination, &set_data->destination);
     add_flags_2e4(8);
@@ -285,7 +285,7 @@ TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : T
     texlist = 0;
     model = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    init_collision_body_parts(this, TBoss6MagMine__collision_body_parts, 1);
+    init_collision_body_parts(this, TBoss6MagMine::collision_body_parts, 1);
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     target = 0;

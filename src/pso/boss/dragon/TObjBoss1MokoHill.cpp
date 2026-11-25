@@ -82,8 +82,8 @@ TrailRaisedVertex *dragon_trail_raised_vertices;
 Vec *dragon_trail_position_source;
 s32 *dragon_trail_heading_source;
 
-const char *TObjBoss1MokoHill_SoloM__name = "TObjBoss1MokoHill_SoloM";
-const char *TObjBoss1MokoHill_Solo__name = "TObjBoss1MokoHill_Solo";
+const char *TObjBoss1MokoHill_SoloM::name = "TObjBoss1MokoHill_SoloM";
+const char *TObjBoss1MokoHill_Solo::name = "TObjBoss1MokoHill_Solo";
 
 #pragma fp_contract on
 
@@ -437,7 +437,7 @@ f32 get_velocity_scale_limit(void) {
 }
 
 TObjBoss1MokoHill_SoloM::TObjBoss1MokoHill_SoloM(TObject *parent, Vec *position, s32 *heading) : TObject(parent) {
-    m_name = TObjBoss1MokoHill_SoloM__name;
+    m_name = TObjBoss1MokoHill_SoloM::name;
     active = 0;
     dragon_trail_position_source = position;
     dragon_trail_heading_source = heading;
@@ -596,7 +596,7 @@ void TObjBoss1MokoHill_SoloM::render() {
 }
 
 TObjBoss1MokoHill_Solo::TObjBoss1MokoHill_Solo(TObject *parent, s32 hold_time) : TObject(parent) {
-    m_name = TObjBoss1MokoHill_Solo__name;
+    m_name = TObjBoss1MokoHill_Solo::name;
     VecCopy(&position, get_source_position());
     height = -32.0f;
     peak_height = -(2.0f + 8.0f * (3.0517578e-05f * (f32)rand()));

@@ -14,6 +14,14 @@ struct TBoss2JointMaterial {
 };
 
 // One of the ten shell segments TBoss2DeRolLe spawns along its body (the Barba Ray twin is TBoss7Joint).
+// The movement parameters init_params installs.
+struct TBoss2JointMovement {
+    f32 pad_0;
+    s32 pad_4;
+    s32 pad_8;
+    s32 pad_c[4];
+};
+
 struct TBoss2Joint : public TObjEneDD {
     enum { SHELL_BROKEN = 1 };  // joint_flags
 
@@ -54,16 +62,12 @@ struct TBoss2Joint : public TObjEneDD {
     f32 unk_3a4;
     f32 flash;           // flash_color's weight, fading by 0.05 per frame
     NJS_ARGB flash_color;
+    static const char *name;
+    static TBoss2JointMovement movement;
+    static CollisionBody body;
 };
 
 LAYOUT_ASSERT(TBoss2Joint_size, sizeof(TBoss2Joint) == 0x3BC);
 
-// The movement parameters init_params installs.
-struct TBoss2JointMovement {
-    f32 pad_0;
-    s32 pad_4;
-    s32 pad_8;
-    s32 pad_c[4];
-};
 
 #endif

@@ -193,10 +193,10 @@ void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32
 
 
 u8 boss2_tunnel_state_flag;
-u16 TObjBoss2Tunnel__snapshot_state;
+u16 TObjBoss2Tunnel::snapshot_state;
 ScreenSnapshot *boss2_tunnel_snapshot_buffer;
-void *TObjBoss2Tunnel__snapshot_buffer;
-s32 TObjBoss2Tunnel__snapshot_saved_flag;
+void *TObjBoss2Tunnel::snapshot_buffer;
+s32 TObjBoss2Tunnel::snapshot_saved_flag;
 
 // The snapshot's memory card file: name, comment and icon; screen.bin is the same capture on disc.
 const char snapshot_card_filename[32] = "PSO_SCREEN";
@@ -637,9 +637,9 @@ void TObjBoss2Tunnel::reset_state() {
     snapshot_frame_center.x = 320.0f;
     boss2_tunnel_state_flag = 0;
     snapshot_frame_center.y = 240.0f;
-    TObjBoss2Tunnel__snapshot_buffer = 0;
-    TObjBoss2Tunnel__snapshot_state = 0;
-    TObjBoss2Tunnel__snapshot_saved_flag = 0;
+    TObjBoss2Tunnel::snapshot_buffer = 0;
+    TObjBoss2Tunnel::snapshot_state = 0;
+    TObjBoss2Tunnel::snapshot_saved_flag = 0;
     TQuestListVM::reset();
 }
 
@@ -1060,9 +1060,9 @@ void load_data_buffers(void) {
     u8 *file;
     ScreenSnapshot *buf;
 
-    TObjBoss2Tunnel__snapshot_saved_flag = 0;
-    TObjBoss2Tunnel__snapshot_buffer = xmalloc(0x1E000);
-    TObjBoss2Tunnel__snapshot_state = 0;
+    TObjBoss2Tunnel::snapshot_saved_flag = 0;
+    TObjBoss2Tunnel::snapshot_buffer = xmalloc(0x1E000);
+    TObjBoss2Tunnel::snapshot_state = 0;
     init_capture_texture(0);
     buf = static_cast<ScreenSnapshot *>(xmalloc(sizeof(ScreenSnapshot)));
     boss2_tunnel_snapshot_buffer = buf;
@@ -1082,15 +1082,15 @@ void load_data_buffers(void) {
 }
 
 void TObjBoss2Tunnel::free_buffers() {
-    TObjBoss2Tunnel__snapshot_saved_flag = 0;
+    TObjBoss2Tunnel::snapshot_saved_flag = 0;
     if (boss2_tunnel_snapshot_buffer != NULL) {
         xfree(boss2_tunnel_snapshot_buffer);
         boss2_tunnel_snapshot_buffer = NULL;
     }
     release_capture_texture();
-    if (TObjBoss2Tunnel__snapshot_buffer != NULL) {
-        xfree(TObjBoss2Tunnel__snapshot_buffer);
-        TObjBoss2Tunnel__snapshot_buffer = NULL;
+    if (TObjBoss2Tunnel::snapshot_buffer != NULL) {
+        xfree(TObjBoss2Tunnel::snapshot_buffer);
+        TObjBoss2Tunnel::snapshot_buffer = NULL;
     }
 }
 
@@ -1099,18 +1099,18 @@ s32 TObjBoss2Tunnel::save_snapshot() {
 
     memcard_check_snapshot(1, &status);
     if (status == 1) {
-        if ((s32) TObjBoss2Tunnel__snapshot_saved_flag != 0) {
+        if ((s32) TObjBoss2Tunnel::snapshot_saved_flag != 0) {
             return -9;
         }
         save_screen_snapshot();
 loop_4:
         if (TAdPlayerLoadGC::probe_card_slot(1) == 0) {
-            TObjBoss2Tunnel__snapshot_saved_flag = 0;
+            TObjBoss2Tunnel::snapshot_saved_flag = 0;
             return -5;
         }
         if (TObjBoss2Tunnel::load_snapshot() != 0) {
             if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
-                TObjBoss2Tunnel__snapshot_saved_flag = 1;
+                TObjBoss2Tunnel::snapshot_saved_flag = 1;
                 return -9;
             }
             goto block_9;
@@ -1118,7 +1118,7 @@ loop_4:
         goto loop_4;
     }
 block_9:
-    TObjBoss2Tunnel__snapshot_saved_flag = 0;
+    TObjBoss2Tunnel::snapshot_saved_flag = 0;
     return status;
 }
 
@@ -1128,10 +1128,10 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     if (memcard_check_snapshot(1, 0) == 0) {
         return 0;
     }
-    if (TObjBoss2Tunnel__snapshot_buffer == NULL) {
+    if (TObjBoss2Tunnel::snapshot_buffer == NULL) {
         return 0;
     }
-    memset(TObjBoss2Tunnel__snapshot_buffer, 0, 4);
+    memset(TObjBoss2Tunnel::snapshot_buffer, 0, 4);
     memset(&c, 0, 0x60);
     strcpy(c.filename, episode_i_and_ii_card_filename.game_name);
     strcpy(c.title, snapshot_card_title);
@@ -1146,13 +1146,13 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     *checksum = calc_crc32_bitwise(reinterpret_cast<u8 *>(boss2_tunnel_snapshot_buffer), sizeof(ScreenSnapshot));
     c.data = (u8 *)boss2_tunnel_snapshot_buffer;
     c.size = sizeof(ScreenSnapshot);
-    TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel__snapshot_buffer, &c);
+    TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel::snapshot_buffer, &c);
     release_card_banner_and_icon(&c);
-    if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
+    if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)TObjBoss2Tunnel::snapshot_buffer, 0xF) != 0) {
         return 0;
     }
     memcard_access_active = 1;
-    TObjBoss2Tunnel__snapshot_state = 1;
+    TObjBoss2Tunnel::snapshot_state = 1;
     return 1;
 }
 
@@ -1160,10 +1160,10 @@ s32 save_screen_snapshot(void) {
     if (memcard_check_snapshot(1, 0) == 0) {
         return 0;
     }
-    if (TAdSinglePlyChrSelectGC::load_player_slot(1, snapshot_card_filename, TObjBoss2Tunnel__snapshot_buffer) != 0) {
+    if (TAdSinglePlyChrSelectGC::load_player_slot(1, snapshot_card_filename, TObjBoss2Tunnel::snapshot_buffer) != 0) {
         return 0;
     }
-    TObjBoss2Tunnel__snapshot_state = 2;
+    TObjBoss2Tunnel::snapshot_state = 2;
     return 1;
 }
 
@@ -1171,9 +1171,9 @@ s32 TObjBoss2Tunnel::load_snapshot() {
     CardSaveDescriptor file;
     void *buf;
     if (poll_memcard_result(1) == 0) {
-        if (((s32) TObjBoss2Tunnel__snapshot_state != 0) && ((s32) TObjBoss2Tunnel__snapshot_state >= 0) && ((s32) TObjBoss2Tunnel__snapshot_state < 3)) {
+        if (((s32) TObjBoss2Tunnel::snapshot_state != 0) && ((s32) TObjBoss2Tunnel::snapshot_state >= 0) && ((s32) TObjBoss2Tunnel::snapshot_state < 3)) {
             buf = get_capture_texture_pixels();
-            if (verify_card_save_header(&file, TObjBoss2Tunnel__snapshot_buffer) == 0) {
+            if (verify_card_save_header(&file, TObjBoss2Tunnel::snapshot_buffer) == 0) {
                 memcpy(buf, file.data + 8, 0x1818C);
                 DCFlushRange(buf, 0x1818C);
             }
@@ -1189,7 +1189,7 @@ BOOL TObjBoss2Tunnel::verify_snapshot_checksum() {
     ScreenSnapshot *snapshot;
     u32 saved;
     u32 sum;
-    if ((u32)verify_card_save_header(&ld, TObjBoss2Tunnel__snapshot_buffer) == 0xFFFFFF20) {
+    if ((u32)verify_card_save_header(&ld, TObjBoss2Tunnel::snapshot_buffer) == 0xFFFFFF20) {
         return FALSE;
     }
     snapshot = reinterpret_cast<ScreenSnapshot *>(ld.data);

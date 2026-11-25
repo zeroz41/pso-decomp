@@ -77,6 +77,8 @@ struct TBoss6Rock : public TObjCollidable {
     // The model resource and texture list load_resources loads (TBoss6CrushRock's ctor).
     static BmlResource *get_resource();
     static NJS_TEXLIST *get_texture_list();
+    static TBoss6Rock * instance_table[32];
+    static Vec rock_point_table[32];
 };
 
 LAYOUT_ASSERT(TBoss6Rock_size, sizeof(TBoss6Rock) == 0xE8);

@@ -17,6 +17,7 @@ struct TObjBoss5PillarSmoke : public TObject {
     s32 count;  // child nodes of the model
     TParticleCtrl **particles_a;  // effect 0x213 per node
     TParticleCtrl **particles_b;  // effect 0x214 per node
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjBoss5PillarSmoke_size, sizeof(TObjBoss5PillarSmoke) == 0x28);

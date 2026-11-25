@@ -21,6 +21,7 @@ public:
     u32 grounded;
     f32 fall;
     TParticleCtrl *effect;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss2PhotonBullet_size, sizeof(TBoss2PhotonBullet) == 0xE8);

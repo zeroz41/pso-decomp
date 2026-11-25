@@ -26,6 +26,7 @@ struct TBoss8DragonEffTail : public TAttackCollider {
     static void load_resources();
     static void load_statics(); // inferred: loads what free_statics frees (its pair in static_resource_callback_table)
     static void free_statics();
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss8DragonEffTail_size, sizeof(TBoss8DragonEffTail) == 0xCC);

@@ -17,6 +17,8 @@ public:
     Vec position;
     s32 frame;
 public:
+    static const char *name;
+    static s32 * effect_table;
 };
 LAYOUT_ASSERT(TBoss5GryphonSnarlChildren20, offsetof(TBoss5GryphonSnarl, children_20) == 0x20);
 LAYOUT_ASSERT(TBoss5GryphonSnarlChildrenA0, offsetof(TBoss5GryphonSnarl, children_a0) == 0xA0);

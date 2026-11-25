@@ -197,6 +197,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     static void run_exit_callbacks();
     static void *create(void *set_data);
     static const char *class_name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(TBoss7DeRolLeCCollisionBody, offsetof(TBoss7DeRolLeC, collision_body) == 0x3C0);

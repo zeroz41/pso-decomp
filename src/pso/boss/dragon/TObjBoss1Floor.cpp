@@ -35,7 +35,7 @@
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-const char *TObjBoss1Floor__name = "TObjBoss1Floor";
+const char *TObjBoss1Floor::name = "TObjBoss1Floor";
 void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
 }
@@ -102,7 +102,7 @@ TObjBoss1Floor::~TObjBoss1Floor() {
 }
 TObjBoss1Floor::TObjBoss1Floor(TObject *parent) : TObject(parent) {
     s32 i;
-    m_name = TObjBoss1Floor__name;
+    m_name = TObjBoss1Floor::name;
     this->position.x = 0.0f;
     this->position.y = 0.0f;
     this->position.z = 0.0f;

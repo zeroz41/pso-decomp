@@ -249,6 +249,9 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void emit_v2_enemy_effect(const Vec *position, const DragonAttackParams *params, AreaAttackHistory *history);
     void set_burrow_height();
     void set_flight_height();
+    static const char *name;
+    static const DragonAttackParams foot_step_attack_params;
+    static const f32 gravity_accel;
 };
 
 void get_dragon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset);

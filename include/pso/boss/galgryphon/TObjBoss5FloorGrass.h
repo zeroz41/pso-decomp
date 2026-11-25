@@ -11,6 +11,7 @@ public:
     virtual void render();
 public:
     static void *create();
+    static const char *name;
 };
 
 #endif

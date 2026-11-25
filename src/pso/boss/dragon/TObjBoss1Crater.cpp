@@ -31,7 +31,7 @@
 
 BmlResource *dragon_ground_resource;
 NJS_TEXLIST *dragon_common_texture_list;
-s32 TObjBoss1Crater__instance_count;
+s32 TObjBoss1Crater::instance_count;
 void load_dragon_ground_assets(void) {
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
@@ -49,9 +49,9 @@ void load_dragon_ground_assets(void) {
 // recoil pair run_task passes to call_vt13_with_default.
 
 extern const DragonAttackParams boss1_crater_attack_params = { 1, 50.0f, 20.0f, { 0.0f, 1 } };
-const char *TObjBoss1Crater__name = "TObjBoss1Crater";
+const char *TObjBoss1Crater::name = "TObjBoss1Crater";
 
-TObjBoss1Crater *TObjBoss1Crater__instance_list[20];
+TObjBoss1Crater *TObjBoss1Crater::instance_list[20];
 
 void TObjBoss1Crater::render() {
     push_matrix();
@@ -130,7 +130,7 @@ TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, Vec *pos) : T
     f32 r;
     s32 i;
     r = boss1_crater_attack_params.radius;
-    m_name = TObjBoss1Crater__name;
+    m_name = TObjBoss1Crater::name;
     bodies->radius = r;
     VecCopy(&position, pos);
     rotation_y = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
@@ -139,8 +139,8 @@ TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, Vec *pos) : T
     for (i = 0; i < 4; i++) {
         hit_timers[i] = 0;
     }
-    if (TObjBoss1Crater__instance_count < 0x14) {
-        TObjBoss1Crater__instance_list[TObjBoss1Crater__instance_count++] = this;
+    if (TObjBoss1Crater::instance_count < 0x14) {
+        TObjBoss1Crater::instance_list[TObjBoss1Crater::instance_count++] = this;
     }
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
@@ -153,7 +153,7 @@ TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, Vec *pos) : T
 }
 
 s32 TObjBoss1Crater::is_count_below_limit() {
-    return TObjBoss1Crater__instance_count < 0x14;
+    return TObjBoss1Crater::instance_count < 0x14;
 }
 
 TObjBoss1Crater *TObjBoss1Crater::create(TObject *parent, Vec *pos) {
@@ -179,13 +179,13 @@ f32 calc_nearest_crater_distance(Vec *position) {
     f32 dx;
     f32 dz;
     best = 100000000.0f;
-    if (TObjBoss1Crater__instance_count == 0) {
+    if (TObjBoss1Crater::instance_count == 0) {
         return 0.0f;
     }
     x = position->x;
     z = position->z;
-    for (i = 0; i < TObjBoss1Crater__instance_count; i++) {
-        TObjBoss1Crater *crater = TObjBoss1Crater__instance_list[i];
+    for (i = 0; i < TObjBoss1Crater::instance_count; i++) {
+        TObjBoss1Crater *crater = TObjBoss1Crater::instance_list[i];
         dx = crater->position.x - x;
         dz = crater->position.z - z;
         d = dx * dx + dz * dz;
@@ -201,9 +201,9 @@ void TObjBoss1Crater__sub_8002C7B4(void) {  }
 
 void clear_boss1_crater_instances(void) {
     s32 i;
-    TObjBoss1Crater__instance_count = 0;
+    TObjBoss1Crater::instance_count = 0;
     for (i = 0; i < 20; i++) {
-        TObjBoss1Crater__instance_list[i] = 0;
+        TObjBoss1Crater::instance_list[i] = 0;
     }
 }
 

@@ -16,6 +16,7 @@ struct TBoss8DragonEffBreath : public TObject {
     AreaAttackHistory *attack_history;
     virtual void render();
     virtual void run_task();
+    static const char *name;
 };
 
 #include <stddef.h>

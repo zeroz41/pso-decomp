@@ -44,7 +44,7 @@ const s32 boss7_tunnel_kind4_model_indices[4] = {13, 14, 15, 16};
 // where TObjBoss2Tunnel__sub_802F2A2C places its two TObjBoss7RaftSplash
 const Vec TObjBoss2Tunnel::raft_splash_offset_table[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *TObjBoss7TunnelCol::name = "TObjBoss7TunnelCol";
-const CollisionBody TObjBoss7TunnelCol__col_desc = {{0.0f, 0.0f, 0.0f}, 100.0f, 9.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+const CollisionBody TObjBoss7TunnelCol::col_desc = {{0.0f, 0.0f, 0.0f}, 100.0f, 9.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 Boss2TunnelEffectEntry boss2_tunnel_effect_name_table[5] = {
     {3, boss7_tunnel_kind0_model_indices},
     {4, boss7_tunnel_kind1_model_indices},
@@ -490,7 +490,7 @@ void TObjBoss7TunnelSegment::update_collision() {
 
 TObjBoss7TunnelCol::TObjBoss7TunnelCol(TObject *parent) : TObjCollidable(parent) {
     m_name = TObjBoss7TunnelCol::name;
-    copy_collision_body(&collision_body, &TObjBoss7TunnelCol__col_desc);
+    copy_collision_body(&collision_body, &TObjBoss7TunnelCol::col_desc);
     position.x = 85.0f;
     position.y = 0.0f;
     position.z = 0.0f;

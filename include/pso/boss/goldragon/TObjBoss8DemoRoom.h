@@ -4,6 +4,9 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+#include "pso/system/BmlResourceDescriptor.h"
+struct BmlResource;
+
 class TObjBoss8DemoRoom : public TObject {
 public:
     TObjBoss8DemoRoom(TObject *parent);
@@ -13,6 +16,9 @@ public:
 public:
     static void free_static_instance();
     static void load_resource();
+    static const char *name;
+    static void * shared_resource_object;
+    static BmlResourceDescriptor resource_desc;
 };
 
 #endif

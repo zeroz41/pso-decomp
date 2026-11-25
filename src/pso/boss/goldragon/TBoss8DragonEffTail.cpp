@@ -24,7 +24,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/TLanguage_801E4874.h"
 
-const char *TBoss8DragonEffTail__name = "TBoss8DragonEffTail";
+const char *TBoss8DragonEffTail::name = "TBoss8DragonEffTail";
 // As TBoss1DragonEffTail's: what run_task hands its attack history.
 extern const AreaAttackContact boss8_dragon_tail_attack_params = { 3.0f, 1 };
 // The 17 collision bodies the constructor sets up: the first a radius-10 sphere, the rest copies of it.
@@ -96,7 +96,7 @@ TBoss8DragonEffTail::TBoss8DragonEffTail(TBoss8Dragon *dragon, Vec *nodes)
     void *data;
     s32 i;
     data = boss8_dragon_eff_tail_init_data;
-    m_name = TBoss8DragonEffTail__name;
+    m_name = TBoss8DragonEffTail::name;
     for (i = 1; i < 0x11; i++) {
         copy_collision_body(&bodies[i], (const CollisionBody *)data);
     }

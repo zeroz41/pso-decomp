@@ -14,7 +14,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-extern const char *TBoss8DragonDemo__name;
 
 void TBoss8DragonDemo::render() {  }
 
@@ -27,7 +26,7 @@ void TBoss8DragonDemo::run_task() {
 TBoss8DragonDemo::~TBoss8DragonDemo() {}
 TBoss8DragonDemo::TBoss8DragonDemo(TObject *parent, s32 *flag, f32 frame_step) : TObject(parent) {
     CameraPlayback playback;
-    m_name = TBoss8DragonDemo__name;
+    m_name = TBoss8DragonDemo::name;
     this->frame_step = frame_step;
     this->frame = 0.0f;
     this->flag = flag;
@@ -53,6 +52,6 @@ void TBoss8DragonColli::enable_blocking_bodies(Vec *pos, s32 angle) {
     }
 }
 
-const char *TBoss8DragonDemo__name = "TBoss8DragonDemo";
+const char *TBoss8DragonDemo::name = "TBoss8DragonDemo";
 }
 

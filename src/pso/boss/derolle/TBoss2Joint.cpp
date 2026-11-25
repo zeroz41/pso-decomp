@@ -19,7 +19,7 @@ static const NJS_ARGB TBoss2Joint__joint_offset_vec4_table[2] = {
     {1.0f, 0.0f, 1.0f, 1.0f},
     {1.0f, 0.0f, 1.0f, 0.0f},
 };
-const char *TBoss2Joint__name = "TBoss2Joint";
+const char *TBoss2Joint::name = "TBoss2Joint";
 static const u32 joint_white_rgb = 0x00FFFFFF;
 
 // Lobby stat ids, [0] for the intact shell and [1] for the broken one: register_boss,
@@ -27,8 +27,8 @@ static const u32 joint_white_rgb = 0x00FFFFFF;
 __declspec(section ".data") s32 TBoss2Joint__param_table[2] = {0x10, 0x10};
 __declspec(section ".data") s32 TBoss2Joint__attack_stats[2] = {0xF, 0xF};
 __declspec(section ".data") s32 TBoss2Joint__resistance_stats[2] = {0x10, 0x10};
-TBoss2JointMovement TBoss2Joint__movement = {225.0f, 0, 0x600};
-CollisionBody TBoss2Joint__body = {{0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, 0, 0x8003};
+TBoss2JointMovement TBoss2Joint::movement = {225.0f, 0, 0x600};
+CollisionBody TBoss2Joint::body = {{0.0f, 0.0f, 0.0f}, 50.0f, 0.0f, 0, 0x8003};
 
 void TBoss2Joint::render() {}
 void TBoss2Joint::handle_state_0(s32 reason) {}
@@ -186,13 +186,13 @@ void TBoss2Joint::init_params() {
     init_position_vectors();
     model = NULL;
     texlist = 0;
-    init_model(&TBoss2Joint__body, 1);
+    init_model(&TBoss2Joint::body, 1);
     reset_hp(TLobby::register_boss(TBoss2Joint__param_table[0]), TLobby::dispatch_shared_handler_b(TBoss2Joint__attack_stats[0]),
              TLobby::register_object(TBoss2Joint__resistance_stats[0]));
     hp = 0x4E20;
     hpmax = 0x4E20;
     set_state_flag_2();
-    movementParameters = &TBoss2Joint__movement;
+    movementParameters = &TBoss2Joint::movement;
     referenceHp = hpmax;
     wall_reach = 3.0f;
     clear_intangible();
@@ -210,7 +210,7 @@ void TBoss2Joint::init_params() {
 TBoss2Joint::TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, saddr body_material,
                          saddr rim_material)
     : TObjEneDD(parent) {
-    m_name = TBoss2Joint__name;
+    m_name = TBoss2Joint::name;
     init_common_from(static_cast<TObjBase *>(parent));
     this->entity_id = entity_id;
     this->set_index = set_index;

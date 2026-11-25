@@ -18,6 +18,8 @@ private:
     f32 radius;
     s32 age;
     s32 damage;
+    static const char *name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(TBoss6SwordShotSize, sizeof(TBoss6SwordShot) == 0x38);

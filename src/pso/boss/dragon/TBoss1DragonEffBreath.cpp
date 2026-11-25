@@ -5,8 +5,8 @@
 #include "pso/system/MatrixOps.h"
 
 
-extern const char TBoss1DragonEffBreath__class_name_string[] = "TBoss1DragonEffBreath";
-const char *TBoss1DragonEffBreath__name = TBoss1DragonEffBreath__class_name_string;
+extern const char TBoss1DragonEffBreath::class_name_string[] = "TBoss1DragonEffBreath";
+const char *TBoss1DragonEffBreath::name = TBoss1DragonEffBreath::class_name_string;
 
 void TBoss1DragonEffBreath::render() {}
 
@@ -29,7 +29,7 @@ TBoss1DragonEffBreath::~TBoss1DragonEffBreath() {
 
 TBoss1DragonEffBreath::TBoss1DragonEffBreath(TObject *parent, Vec *initial_position,
                                              Vec *direction) : TObject(parent) {
-    m_name = TBoss1DragonEffBreath__name;
+    m_name = TBoss1DragonEffBreath::name;
     VecCopy(&position, initial_position);
     VecCopy(&velocity, direction);
     velocity.x *= 5.0f;

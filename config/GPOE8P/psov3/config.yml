@@ -290,8 +290,8 @@ force_active:
   - class_name__12TBGLightning
   - __ct__19TBoss1DragonColli_CFP7TObjectlP3Vecf
   - TBoss1DragonColli_sphere_chain_desc
-  - TBoss1DragonEffTail__collision_body_templates
-  - TBoss1DragonEffTail__name
+  - collision_body_templates__19TBoss1DragonEffTail
+  - name__19TBoss1DragonEffTail
   - __ct__12TBoss1DragonFP7TObjectPv
   - boss1_dragon_arena_center
   - boss1_dragon_primary_sequence_table
@@ -308,8 +308,8 @@ force_active:
   - boss1_dragon_main_instance
   - boss1_dragon_player_control
   - boss1_dragon_control_client_id
-  - TBoss1Dragon__foot_step_attack_params
-  - TBoss1Dragon__gravity_accel
+  - foot_step_attack_params__12TBoss1Dragon
+  - gravity_accel__12TBoss1Dragon
   - boss1_dragon_head_fall_attack_params
   - boss1_dragon_part_hp_stats
   - handle_walk_state__12TBoss1DragonFUl
@@ -332,10 +332,10 @@ force_active:
   - TBoss2Joint__param_table
   - TBoss2Joint__sub_80036940
   - __ct__18TBoss2PhotonBulletFP7TObjectP8TObjBaseP3VecP3Vecf
-  - TBoss2PhotonBullet__name
-  - TBoss2PhotonPad__name
-  - TBoss2Tentacle__segment_point_defaults
-  - TBoss2Tentacle__segment_points
+  - name__18TBoss2PhotonBullet
+  - name__15TBoss2PhotonPad
+  - segment_point_defaults__14TBoss2Tentacle
+  - segment_points__14TBoss2Tentacle
   - sub_8003998C__14TBoss2TentacleFv
   - sub_80039990__14TBoss2TentacleFv
   - shape_strike_arc__14TBoss2TentacleFf
@@ -356,11 +356,11 @@ force_active:
   - spawn_defeat_effects__14TBoss4DarkFalzFv
   - TBoss4DarkFalz__sub_801D94C0
   - clear_particle_emitters__12TBoss4ThanksFv
-  - TBoss4Type2__attack_pattern_table
+  - attack_pattern_table__11TBoss4Type2
   - __ct__11TBoss4Type2FP7TObjectP17TBoss4FormSetData
   - send_random_action__11TBoss4Type2Fll
   - update_orbit_position__11TBoss4Type2Fv
-  - TBoss4Type3__anim_state_table
+  - anim_state_table__11TBoss4Type3
   - __ct__11TBoss4Type3FP7TObjectP17TBoss4FormSetData
   - send_random_action__11TBoss4Type3Fll
   - send_attack_code__11TBoss4Type3FlUs
@@ -379,15 +379,15 @@ force_active:
   - name__11TBoss4Zanzo
   - disable__20TBoss5GryphonColli_CFv
   - TBoss5GryphonDemo__sub_800663DC
-  - TBoss5GryphonSnarl__effect_table
+  - effect_table__18TBoss5GryphonSnarl
   - __ct__15TBoss6CrushPtclFP7TObjectP3Vec
-  - TBoss6CrushRock__name
+  - name__15TBoss6CrushRock
   - TBoss6Demo10_TYPE1_APPEAR__class_name
   - TBoss6Demo10_TYPE1_APPEAR__name
   - __ct__25TBoss6Demo20_TYPE2_APPEARFP14TBoss6PlotFalz
   - TBoss6Demo20_TYPE2_APPEAR__name
   - __ct__23TBoss6Demo21_TYPE2_DEADFP14TBoss6PlotFalzPC3Vec
-  - TBoss6Demo21_TYPE2_DEAD__name
+  - name__23TBoss6Demo21_TYPE2_DEAD
   - __ct__14TBoss6EffHyouiFP7TObjectUsll
   - __ct__15TBoss6EmptyWarpFP7TObject
   - push_players__14TBoss6GravBallFv
@@ -397,26 +397,26 @@ force_active:
   - sub_8032263C__13TBoss6KakusanFv
   - __ct__13TBoss6MagMineFP7TObjectP19Boss6MagMineSetData
   - damage_player__13TBoss6MagMineFP10TObjPlayer
-  - TBoss6Mag__collision_body_parts
+  - collision_body_parts__9TBoss6Mag
   - __ct__10TBoss6MineFP7TObjectP17TBoss6MineSetData
   - TBoss6PlotFalz__ct
-  - TBoss6PlotFalz__fade_amount
+  - fade_amount__14TBoss6PlotFalz
   - get_type2__14TBoss6PlotFalzFv
   - __ct__15TBoss6RockChaseFP7TObjectPC3Vecl
   - TBoss6RockChase__data_805E03B8
   - boss6_rock_resource
   - boss6_rock_texture_list
   - boss6_rock_owner
-  - TBoss6Rock__instance_table
-  - TBoss6Rock__rock_point_table
+  - instance_table__10TBoss6Rock
+  - rock_point_table__10TBoss6Rock
   - init_rock_points__10TBoss6RockFv
   - push_out_players__10TBoss6RockFl
   - __ct__15TBoss6SwordShotFP7TObjectPC3Veclf
   - angle_to_bit__16Boss6WaveArcMaskFl
   - set_story_flag_0x9A__12TBoss6ThanksFv
   - clear_particle_emitters__12TBoss6ThanksFv
-  - TBoss6Tube__previous_scroll_phase
-  - TBoss6Tube__scroll_delta
+  - previous_scroll_phase__10TBoss6Tube
+  - scroll_delta__10TBoss6Tube
   - accelerate_scroll__10TBoss6TubeFv
   - __ct__11TBoss6Type2FP7TObjectP20Boss6BodySpawnParams
   - motion_track_count
@@ -915,13 +915,13 @@ force_active:
   - bgm_col_ctrl_name
   - bgm_col_name
   - __ct__14TObjBigTuitateFP7TObjectPv
-  - TObjBoss2CeilJunk__name
+  - name__17TObjBoss2CeilJunk
   - __ct__17TObjBoss2DustCtrlFP7TObject
   - TObjBoss2DustCtrl_dust_counter
   - __ct__15TObjBoss2TunnelFP7TObject
-  - TObjBoss2Tunnel__snapshot_buffer
-  - TObjBoss2Tunnel__snapshot_saved_flag
-  - TObjBoss2Tunnel__snapshot_state
+  - snapshot_buffer__15TObjBoss2Tunnel
+  - snapshot_saved_flag__15TObjBoss2Tunnel
+  - snapshot_state__15TObjBoss2Tunnel
   - move_snapshot_frame__Fv
   - init_6xB2_play_sound__FP16G_PlaySound_6xB2
   - __ct__19TObjBoss7TunnelNodeFP7TObjectl
@@ -935,7 +935,7 @@ force_active:
   - transformed_vertices__17TObjBoss7DustCtrl
   - vertical_phase_angles__17TObjBoss7DustCtrl
   - __ct__18TObjBoss7TunnelColFP7TObject
-  - TObjBoss8PillerCtrl__class_name
+  - class_name__19TObjBoss8PillerCtrl
   - TObjBoss8PillerCtrl__sub_8035C034
   - TObjBs4CutAtk_name
   - TObjBs4CutAtk_type_name
@@ -1008,13 +1008,13 @@ force_active:
   - TObjDFBeamCursor__ct
   - name__16TObjDFBeamCursor
   - __ct__11TObjDFDemo0FP7TObject
-  - TObjDFDemo0__entry_table
+  - entry_table__11TObjDFDemo0
   - __ct__11TObjDFDemo2FP7TObjectPC3Vecll
   - TObjDFDemo2__motion_index_table
   - name__11TObjDFDemo2
   - __ct__11TObjDFDemo3FP7TObjectPC3Vecl
   - name__11TObjDFDemo3
-  - TObjDFDemoF__bml_model_id_table
+  - bml_model_id_table__11TObjDFDemoF
   - TObjDFHorming__ct
   - name__13TObjDFHorming
   - TObjDFJisin__ct
@@ -3119,7 +3119,7 @@ force_active:
   - __vt__13TAdVIConfigGC
   - __vt__13TBoss5Gryphon
   - __vt__13TBoss6Kakusan
-  - TBoss6MagMine__collision_body_parts
+  - collision_body_parts__13TBoss6MagMine
   - __vt__13TItemAttacker
   - __vt__13TItemEffArmor
   - __vt__13TItemEffEquip
@@ -8258,10 +8258,10 @@ force_active:
   - name__10TBoss4Zako
   - name__9TBoss4Uro
   - name__11TBoss4Bishi
-  - TBoss5GryphonColli_C__name
-  - TBoss5GryphonColli__name
-  - TBoss5GryphonDemo__name
-  - TBoss5GryphonSnarl__name
+  - name__20TBoss5GryphonColli_C
+  - name__18TBoss5GryphonColli
+  - name__17TBoss5GryphonDemo
+  - name__18TBoss5GryphonSnarl
   - camera_ctrl_class_name
   - re7_berura_punch_name
   - class_name__21TObjEneRe2Flower_Bomb
@@ -8303,22 +8303,22 @@ force_active:
   - TWindowMessageInfomation__name
   - TWindowMessageLog__name
   - TWindowMessagePage__name
-  - TObjBoss5PillarSmoke__name
-  - TObjBoss5PillarCtrl__name
+  - name__20TObjBoss5PillarSmoke
+  - name__19TObjBoss5PillarCtrl
   - TChCrLoadGmNjReq__name
   - TChCrLoadReq__name
   - cm_hex_tile_name
-  - TBoss6PlotFalz__name
-  - TBoss6EmptyWarp__name
+  - name__14TBoss6PlotFalz
+  - name__15TBoss6EmptyWarp
   - trap_chain_saw_key_name
   - lbl_805D3FB0
-  - TBoss8DragonDemo__name
+  - name__16TBoss8DragonDemo
   - me1_gi_gue_barrier_name
   - TAdDialingGC__name
   - boss6_mag_name
   - lbl_805D42D8
   - class_name__10TItemEffPG
-  - TBoss5GryphonLightningWing__name
+  - name__26TBoss5GryphonLightningWing
   - video_black_pending
   - last_rnd
   - dspSRCType

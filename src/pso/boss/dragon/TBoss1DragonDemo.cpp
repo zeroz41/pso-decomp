@@ -13,7 +13,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *TBoss1DragonDemo__name = "TBoss1DragonDemo";
+const char *TBoss1DragonDemo::name = "TBoss1DragonDemo";
 
 void TBoss1DragonDemo__sub_8002B68C(void) {  }
 void TBoss1DragonDemo__sub_8002B690(void) {  }
@@ -29,7 +29,7 @@ void TBoss1DragonDemo::run_task() {
 TBoss1DragonDemo::~TBoss1DragonDemo() {}
 TBoss1DragonDemo::TBoss1DragonDemo(TObject *parent, s32 *flag, f32 frame_step) : TObject(parent) {
     CameraPlayback playback;
-    m_name = TBoss1DragonDemo__name;
+    m_name = TBoss1DragonDemo::name;
     this->frame_step = frame_step;
     this->frame = 0.0f;
     this->flag = flag;

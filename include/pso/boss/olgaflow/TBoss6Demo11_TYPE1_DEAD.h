@@ -29,6 +29,8 @@ public:
     Vec effect_points[5];
     ModelNodePositionCapture *node_effect;
     TParticleCtrl *emitter;  // 0x8C, create_particle_emitter result
+    static const char *name;
+    static const char class_name_string[];
 };
 LAYOUT_ASSERT(TBoss6Demo11_TYPE1_DEAD_size, sizeof(TBoss6Demo11_TYPE1_DEAD) == 0x90);
 

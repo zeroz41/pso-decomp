@@ -75,6 +75,7 @@ struct TBoss2Mine : public TObjEneDD {
     f32 drop_distance;         // distance left when the thrown mine starts to fall
     f32 fall_speed;
     f32 throw_speed;
+    static const char *name;
 };
 LAYOUT_ASSERT(TBoss2Mine_size, sizeof(TBoss2Mine) == 0x3F0);
 

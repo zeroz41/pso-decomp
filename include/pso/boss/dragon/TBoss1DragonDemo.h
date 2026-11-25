@@ -16,6 +16,7 @@ public:
     f32 frame_step;  // copied into CameraPlayback::frame_step
     f32 frame;       // copied into CameraPlayback::frame
     s32 *flag;       // TBoss1Dragon's demo flag; the demo ends when it reads 0
+    static const char *name;
 };
 
 extern "C" {

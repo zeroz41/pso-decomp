@@ -21,10 +21,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
 
-const char TBoss6CrushRock__class_name_string[] = "TBoss6CrushRock";
-const char TBoss6CrushPtcl__class_name_string[] = "TBoss6CrushPtcl";
-const char *TBoss6CrushRock__name = TBoss6CrushRock__class_name_string;
-const char *TBoss6CrushPtcl__name = TBoss6CrushPtcl__class_name_string;
+const char TBoss6CrushRock::class_name_string[] = "TBoss6CrushRock";
+const char TBoss6CrushPtcl::class_name_string[] = "TBoss6CrushPtcl";
+const char *TBoss6CrushRock::name = TBoss6CrushRock::class_name_string;
+const char *TBoss6CrushPtcl::name = TBoss6CrushPtcl::class_name_string;
 
 extern "C" {
 // Keep the retail allocation and constructor calls separate.
@@ -33,7 +33,7 @@ TBoss6CrushRock *__ct__15TBoss6CrushRockFP7TObjectPC3Vecl(
 }
 
 s32 TBoss6PlotFalz::get_hp() {
-    return TBoss6PlotFalz__instance;
+    return TBoss6PlotFalz::instance;
 }
 
 void TBoss6Rock::spawn_crush_rocks(Vec *point, s32 kind) {
@@ -78,7 +78,7 @@ void TBoss6Rock::spawn_crush_rocks(Vec *point, s32 kind) {
 }
 
 TBoss6CrushRock::TBoss6CrushRock(TObject *parent, const Vec *point, saddr model_index) : TObject(parent) {
-    m_name = TBoss6CrushRock__name;
+    m_name = TBoss6CrushRock::name;
     model = (void *)get_bml_model((BmlResource *)TBoss6Rock::get_resource(), model_index);
     texture_list = TBoss6Rock::get_texture_list();
     VecCopy(&position, point);
@@ -141,7 +141,7 @@ TBoss6CrushPtcl *TBoss6CrushPtcl::create(Vec *point) {
 }
 
 TBoss6CrushPtcl::TBoss6CrushPtcl(TObject *parent, Vec *point) : TObject(parent) {
-    m_name = TBoss6CrushPtcl__name;
+    m_name = TBoss6CrushPtcl::name;
     Vec position = *point;
     dust_emitter = create_particle_emitter(&position, 0x203);
     debris_emitter = create_particle_emitter(&position, 0x204);

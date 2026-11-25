@@ -189,8 +189,8 @@ BmlResourceDescriptor boss1_dragon_bml_descriptor = {"bm_boss1_dragon.bml", boss
 // (de_rol_le_base_param_ids / boss5_gryphon_base_param_ids twins)
 s32 boss1_dragon_base_param_ids[1] = {0x12};
 s32 boss1_dragon_register_object_ids[1] = {0x12};
-const char *TBoss1Dragon__name = "TBoss1Dragon";
-extern const DragonAttackParams TBoss1Dragon__foot_step_attack_params = {0, 10.0f, 15.0f, {8.0f, 1}};
+const char *TBoss1Dragon::name = "TBoss1Dragon";
+extern const DragonAttackParams TBoss1Dragon::foot_step_attack_params = {0, 10.0f, 15.0f, {8.0f, 1}};
 extern const DragonAttackParams dragon_breath_attack_params = {0, 500.0f, 45.0f, {100.0f, 1}};
 extern const DragonAttackParams dragon_fireball_attack_params = {1, 2.0f, 10.0f, {10.0f, 1}};
 extern const DragonAttackParams dragon_fireball_impact_damage_params = {1, 10.0f, 30.0f, {10.0f, 1}};
@@ -277,7 +277,7 @@ Vec boss1_dragon_reference_pos_vec;
 Vec boss1_dragon_forward_reference_vec;
 extern f32 lbl_805D9E80;
 extern const f32 boss1_dragon_lift_accel = 3.0f * lbl_805D9E80;
-extern const f32 TBoss1Dragon__gravity_accel = 2.0f * lbl_805D9E80;
+extern const f32 TBoss1Dragon::gravity_accel = 2.0f * lbl_805D9E80;
 f32 boss1_dragon_dive_accel = 5.0f * lbl_805D9E80;
 f32 boss1_dragon_gravity = 7.0f * lbl_805D9E80;
 player_stats *boss1_dragon_base_params[1];
@@ -688,7 +688,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     s32 j;
 
     __ct__14SubtractiveRngFv(this->randomState);
-    this->m_name = TBoss1Dragon__name;
+    this->m_name = TBoss1Dragon::name;
     if ((u32)boss1_dragon_main_instance == 0U) {
         boss1_dragon_main_instance = (saddr)this;
     }
@@ -1639,7 +1639,7 @@ void TBoss1Dragon::start_rumble() {
 }
 
 void TBoss1Dragon::apply_foot_step_attack(int side) {
-    DragonAttackParams params = TBoss1Dragon__foot_step_attack_params;
+    DragonAttackParams params = TBoss1Dragon::foot_step_attack_params;
     Vec *a;
     Vec *b;
 
@@ -3140,13 +3140,13 @@ void TBoss1Dragon::handleFallState(u32 reason) {
         switch (this->stateStep) {
         case 0:
             if (this->frame > 18.0f) {
-                this->fallVelocity = (f32) (this->fallVelocity + TBoss1Dragon__gravity_accel);
+                this->fallVelocity = (f32) (this->fallVelocity + TBoss1Dragon::gravity_accel);
                 this->height = (f32) (this->height + this->fallVelocity);
             }
             this->heightOffset = (f32) (this->defaultHeightOffset + ((this->height - this->rootHeight) - this->position.y));
             return;
         case 1:
-            this->fallVelocity = (f32) (this->fallVelocity + TBoss1Dragon__gravity_accel);
+            this->fallVelocity = (f32) (this->fallVelocity + TBoss1Dragon::gravity_accel);
             this->height = (f32) (this->height + this->fallVelocity);
             ground_y = this->position.y;
             root_height = this->rootHeight;

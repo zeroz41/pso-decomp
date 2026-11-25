@@ -27,6 +27,7 @@ struct TBoss5GryphonTornado : public TObject {
     u8 pad_40[0xC];
     TBoss5Gryphon *gryphon;  // the tornado ends when this gryphon's flag bit 6 is set
     TParticleCtrl *particles[3];  // gryphon_tornado_particle_id_table[0..2]
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TBoss5GryphonTornado_size, sizeof(TBoss5GryphonTornado) == 0x5C);

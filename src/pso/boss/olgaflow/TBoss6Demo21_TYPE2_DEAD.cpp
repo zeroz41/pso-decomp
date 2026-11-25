@@ -41,7 +41,7 @@ extern "C" const CameraAngles boss6_type2_dead_camera_angles = {0, 0, 0};
 extern "C" const CameraPlayback boss6_type2_dead_camera_script = {1, 1, 0, 0.0f, 0.7f};
 extern "C" const EmitterSchedule boss6_type2_death_emitter_ranges[4] = {{0, 0x8E, 0x228}, {0xFA, 0x13A, 0x22A}, {0x11D, 0x1AC, 0x22E}, {0xF2, 0x13A, 0x179}};
 extern "C" const u32 boss6_type2_dead_trail_colors[3] = {0xffff4000, 0xffffff60, 0xffff4000};
-extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = TBoss6Demo21_TYPE2_DEAD__class_name_string;
+extern "C" const char *TBoss6Demo21_TYPE2_DEAD::name = TBoss6Demo21_TYPE2_DEAD__class_name_string;
 #pragma pool_data off
 void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
     if (timer >= 0x1AC) {
@@ -304,7 +304,7 @@ TBoss6Demo21_TYPE2_DEAD::~TBoss6Demo21_TYPE2_DEAD() {
 TBoss6Demo21_TYPE2_DEAD::TBoss6Demo21_TYPE2_DEAD(TBoss6PlotFalz *plot, const Vec *target) : TObject(plot) {
     Vec delta;
     s32 i;
-    m_name = TBoss6Demo21_TYPE2_DEAD__name;
+    m_name = TBoss6Demo21_TYPE2_DEAD::name;
     this->plot = plot;
     VecCopy(&camera_position, &boss6_type2_dead_origin);
     VecCopy(&delta, target);

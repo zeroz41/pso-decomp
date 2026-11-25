@@ -144,6 +144,11 @@ struct TObjBoss2Tunnel : public TObject {
     // blended when mode != 0.
     static void setup_projected_color_draw(s32 mode);
     static const Vec raft_splash_offset_table[2];
+    static const char *name;
+    static u32 global_flags;
+    static void * snapshot_buffer;
+    static u16 snapshot_state;
+    static s32 snapshot_saved_flag;
 };
 
 LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);

@@ -22,6 +22,7 @@ public:
 
     s32 grow_frames;
     s32 life_frames;  // run_task removes the wing once age reaches it
+    static const char *name;
 };
 
 extern "C" {

@@ -23,6 +23,7 @@ struct TObjBoss1Rock : public TObject {
     s32 m_frames;
     NJS_ARGB m_color;    // a falls to 0 as the rock fades
     s32 m_model_index;   // entry of the dragon ground model table: 1, or 2 when kind is 0
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjBoss1Rock_size, sizeof(TObjBoss1Rock) == 0x54);

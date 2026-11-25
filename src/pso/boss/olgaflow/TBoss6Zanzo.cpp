@@ -13,7 +13,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-const char *TBoss6Zanzo__name = "TBoss6Zanzo";
+const char *TBoss6Zanzo::name = "TBoss6Zanzo";
 
 extern "C" {
 
@@ -152,7 +152,7 @@ TBoss6Zanzo::~TBoss6Zanzo() {
 TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 points, s32 trail_length) : TObject(object) {
     Boss6TrailFrame *p;
     Boss6TrailFrame *end;
-    m_name = TBoss6Zanzo__name;
+    m_name = TBoss6Zanzo::name;
     point_count = points;
     if (point_count < 2) point_count = 2;
     frame_count = trail_length;

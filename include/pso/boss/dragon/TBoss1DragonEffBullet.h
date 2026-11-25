@@ -22,6 +22,8 @@ struct TBoss1DragonEffBullet : public TObject {
     f32 target_distance;
     TParticleCtrl *trail;
     TParticleCtrl *secondary_emitter;
+    static const char *name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(TBoss1DragonEffBullet_position, offsetof(TBoss1DragonEffBullet, position) == 0x1C);

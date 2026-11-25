@@ -23,6 +23,8 @@ public:
     Vec velocity;
     Angles angles;
     Angles angular_velocity;
+    static const char *name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(CrushRockSize, sizeof(TBoss6CrushRock) == 0x54);

@@ -52,7 +52,7 @@ LAYOUT_ASSERT(Thanks_motions, offsetof(TBoss6Thanks,motions)==0x48);
 LAYOUT_ASSERT(Thanks_motion1, offsetof(TBoss6Thanks,motion1)==0x50);
 LAYOUT_ASSERT(Thanks_particle_emitters, offsetof(TBoss6Thanks,particle_emitters)==0x54);
 
-const char *TBoss6Thanks__class_name = "TBoss6Thanks";
+const char *TBoss6Thanks::class_name = "TBoss6Thanks";
 
 // Where the object sits: render translates both models there, is_player_near measures the
 // players' distance to it and the emitters spawn at it (boss6_thanks_position is an inferred name).
@@ -221,7 +221,7 @@ TBoss6Thanks::~TBoss6Thanks() {
 
 TBoss6Thanks::TBoss6Thanks(TObject *parent) : TObject(parent) {
     BmlResource *archive;
-    m_name = TBoss6Thanks__class_name;
+    m_name = TBoss6Thanks::class_name;
     archive = TBoss6PlotFalz::get_scene_archive();
     model0 = get_bml_model(archive, 7);
     texture0 = get_bml_texlist(archive, 7);

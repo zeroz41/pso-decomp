@@ -41,7 +41,7 @@ void TBoss5GryphonTornado::get_target_direction(Vec *dir) {
 // The particle ids run_task spawns (installed by select_particle_table at the end of
 // the file). Defined first: the table opens the unit's .rodata, before the class name.
 static const s32 gryphon_tornado_particle_ids[3] = {0x203, 0x204, 0x205};
-const char *TBoss5GryphonTornado__class_name = "TBoss5GryphonTornado";
+const char *TBoss5GryphonTornado::class_name = "TBoss5GryphonTornado";
 extern "C" {
 
 const s32 *gryphon_tornado_particle_id_table;
@@ -140,7 +140,7 @@ TBoss5GryphonTornado::~TBoss5GryphonTornado() {
 }
 
 TBoss5GryphonTornado::TBoss5GryphonTornado(TObject *parent, TBoss5Gryphon *gryphon, const Vec *pos, u16 target_client_id) : TObject(parent) {
-    m_name = TBoss5GryphonTornado__class_name;
+    m_name = TBoss5GryphonTornado::class_name;
     VecCopy(&this->position, pos);
     this->target_client_id = target_client_id;
     this->gryphon = gryphon;

@@ -157,6 +157,7 @@ struct TBoss6Mag : public TObjEnemy {
     TParticleCtrl *emitters[4];
     Vec node_positions[1];
     ModelNodePositionCapture *capture;
+    static CollisionBody collision_body_parts[1];
 };
 
 LAYOUT_ASSERT(TBoss6Mag_offset_param_copy, offsetof(TBoss6Mag, param_copy) == 0x394);

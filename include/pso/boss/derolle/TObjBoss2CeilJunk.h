@@ -25,6 +25,9 @@ struct TObjBoss2CeilJunk : public TObjBase {
     s32 kind;          // index into the model, height and radius tables
     s32 fade_timer;    // frames since the bounce; it fades out after 10
     f32 alpha;
+    static const char *name;
+    static const f32 radius_table[6];
+    static const f32 height_offset_table[6];
 };
 
 LAYOUT_ASSERT(TObjBoss2CeilJunk_size, sizeof(TObjBoss2CeilJunk) == 0xB8);

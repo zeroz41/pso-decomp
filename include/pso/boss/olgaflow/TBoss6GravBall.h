@@ -42,6 +42,9 @@ struct TBoss6GravBall : public TObjCollidable {
     void create_emitter(s32 index);
     void init_parts();
     virtual void render();
+    static const char *name;
+    static const s32 emitter_id_table[9];
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(TBoss6GravBallOwnerOffset, offsetof(TBoss6GravBall, owner) == 0xAC);
