@@ -42,7 +42,6 @@ void calc_item_count(TObjPlayer *player, s32 *count) {
 #pragma push
 #pragma opt_dead_code off
 void init_shop_world_context(void) {
-    s32 temp_r3_2;
     s32 section_id;
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);

@@ -39,7 +39,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
-const char *TShopArmorListWindow__class_name = "TShopArmorListWindow";
+const char *shop_armor_list_window_class_name = "TShopArmorListWindow";
 s32 try_buy_item(TObjPlayer *player, TItemData *item);
 // This unit sees the local client id as const: its load is scheduled across the item copies.
 extern const s32 local_client_id;
@@ -49,7 +49,7 @@ extern const s32 local_client_id;
 
 TShopArmorListWindow::TShopArmorListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
-    this->m_name = TShopArmorListWindow__class_name;
+    this->m_name = shop_armor_list_window_class_name;
     this->player = player;
     this->sequence = sequence;
     this->item_list = NULL;

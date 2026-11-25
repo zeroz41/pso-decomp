@@ -52,6 +52,6 @@ void TAdSinglePlyChrSelectGC__sub_8033B244(TObject *fade);
 void TAdSinglePlyChrSelectGC__sub_8033B264(void);
 }
 void init_single_player_char_select_scene(void);
-void seed_character_select_serial_rng(s32 arg0);
+void seed_character_select_serial_rng(s32 seed);
 
 #endif

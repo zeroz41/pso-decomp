@@ -33,11 +33,11 @@
 
 extern "C" {
 s32 set_fallback_main_phase(int);
-void request_main_phase(s32 arg0);
+void request_main_phase(s32 phase);
 s32 switch_to_fallback_main_phase();
 s8 func_801A5E54__Fv();
 
-const char *TLogo__class_name = "TLogo";
+const char *logo_class_name = "TLogo";
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*logo_load_callback_table[18])(void) = {
@@ -128,7 +128,7 @@ void TLogo__sub_8013F5AC() {
 }
 
 TLogo::TLogo(TObject *parent) : TObject(parent) {
-    m_name = TLogo__class_name;
+    m_name = logo_class_name;
     state = 0;
     vi_config = NULL;
     modem_check = NULL;

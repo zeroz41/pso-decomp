@@ -1863,8 +1863,8 @@ force_active:
   - TWindowSubStatusDisp__sub_8036D994
   - window_layout__20TWindowSubStatusDisp
   - TWindowSubSymbolChatFaceType__sub_80283F38
-  - TWindowSubSymbolChatHelp__name
-  - TWindowSubSymbolChatPartsSet__part_uv_table
+  - window_sub_symbol_chat_help_name
+  - symbol_chat_parts_set_part_uv_table
   - TWindowSubSymbolChat__sub_80281840
   - TWindowSubSymbolChat__sub_8028233C
   - TWindowSubSymbolChat__sub_8028379C
@@ -4726,7 +4726,7 @@ force_active:
   - build_trade_menu__19TWindowSubTradeMainFv
   - build_weapon_type_weights__9TItemDropFiPvi
   - byteswap_6x75_packet__6TLobbyFv
-  - byteswap_entry__20TWindowSubSymbolChatFv
+  - byteswap_entry__17SymbolChatPayloadFv
   - bswap__17G_NPCControl_6x69Fv
   - bswap__23G_SetTelepipeState_6x68Fv
   - c2r$433
@@ -5412,7 +5412,7 @@ force_active:
   - count_active_players__14TBoss4DarkFalzFv
   - count_balloon_slots__11TWindowCtrlFv
   - count_card_layout_entries
-  - count_empty_slots__20TWindowSubSymbolChatFv
+  - count_empty_slots__16SymbolChatPresetFv
   - count_flags__12TAdTimeSetGCFv
   - count_if_within_range__10TTecCircleFv
   - count_matching_values__11TBoss6Type2Fll
@@ -5423,7 +5423,7 @@ force_active:
   - count_sync_record_bytes__6TLobbyFv
   - count_unit_star_buckets__9TItemDropFv
   - count_unlocked_difficulties__12TLevelSelectFv
-  - count_used_slots__20TWindowSubSymbolChatFv
+  - count_used_slots__16SymbolChatPresetFv
   - countdown_and_destroy__20TObjChallenge4PRetryFv
   - create_TObjWarpString__FPvPv
   - create__10TBoss6RockFl
@@ -5835,7 +5835,7 @@ force_active:
   - draw_hanger__11TBoss4Type2Fv
   - draw_help_entries__24TWindowSubSymbolChatHelpFPv
   - draw_help_entry__24TWindowSubSymbolChatHelpFPvll
-  - draw_help_icon__24TWindowSubSymbolChatHelpFiPvii
+  - draw_help_icon__24TWindowSubSymbolChatHelpFP17WindowDrawContextll
   - draw_hp_label__FPvUlls
   - draw_if_visible__15TObjEneDelDepthFv
   - draw_inactive_badge__11TObjDoorKeyFv
@@ -8290,7 +8290,7 @@ force_active:
   - class_name__12TPhotonLaser
   - photon_rainbow_class_name
   - class_name__13TPhotonYoulla
-  - TCheckRoomSequence__name
+  - check_room_sequence_name
   - class_name__9TTecResta
   - class_name__9TTecSifta
   - TTecZarua__name
@@ -8371,10 +8371,10 @@ force_active:
   - lbl_805D60D4
   - lbl_805D6160
   - shop_gear_sequence_instance
-  - lbl_805D6228
-  - lbl_805D622C
-  - lbl_805D6230
-  - lbl_805D6270
+  - shop_equipment_sequence_instance
+  - shop_equipment_pending_message
+  - shop_equipment_pending_state
+  - short_mail_next_id
   - lbl_805D62D8
   - lbl_805D62DC
   - temporary_texture_entries

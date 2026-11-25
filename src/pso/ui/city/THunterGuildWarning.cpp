@@ -22,7 +22,7 @@
 
 #pragma readonly_strings on
 
-const char *THunterGuildWarning__name = "THunterGuildWarning";
+const char *hunter_guild_warning_name = "THunterGuildWarning";
 THunterGuildWarning *THunterGuildWarning::instance;
 
 void THunterGuildWarning::queue_destruction() {
@@ -31,9 +31,9 @@ void THunterGuildWarning::queue_destruction() {
     }
 }
 
-void THunterGuildWarning::create_instance(saddr arg0) {
+void THunterGuildWarning::create_instance(saddr mode) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance == NULL)) {
-        new THunterGuildWarning(tl_05, (void *)arg0);
+        new THunterGuildWarning(tl_05, (void *)mode);
     }
 }
 
@@ -110,9 +110,9 @@ void THunterGuildWarning::sub_80211774(void *) {
     }
 }
 
-void THunterGuildWarning__sub_802119CC(THunterGuildWarning *self) {
+void THunterGuildWarning__sub_802119CC(THunterGuildWarning *warning) {
     s32 i;
-    for (i = 0; i < 4; i++) self->windows[i] = NULL;
+    for (i = 0; i < 4; i++) warning->windows[i] = NULL;
 }
 
 void THunterGuildWarning::run_task() {
@@ -133,9 +133,9 @@ THunterGuildWarning::~THunterGuildWarning() {
     THunterGuildWarning::instance = NULL;
 }
 
-THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(object) {
-    m_name = THunterGuildWarning__name;
-    mode = (saddr)arg2;
+THunterGuildWarning::THunterGuildWarning(TObject *object, void *initial_mode) : TObject(object) {
+    m_name = hunter_guild_warning_name;
+    mode = (saddr)initial_mode;
     timer = 90;
     THunterGuildWarning__sub_802119CC(this);
     sub_80211774((void *)mode);
@@ -265,7 +265,7 @@ s32 THunterGuildSeqOffline__sub_80211FEC(s32);
 s32 THunterGuildSeqOffline__sub_80212000(s32);
 s32 THunterGuildSeqOffline__sub_80212060(s32);
 extern s32 lbl_805D55C0;
-s32 TLobby__sub_80211D58(s32 arg0) {
+s32 TLobby__sub_80211D58(s32 client_id) {
     s32 kind;
     s32 player;
     if (get_main_phase() == 14) {
@@ -274,7 +274,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
                 return 1;
             }
             player = get_nth_view_player_id__11TCameraCtrlFl(0);
-            if ((u16)player != arg0) {
+            if ((u16)player != client_id) {
                 return 1;
             }
             if (THunterGuildWarning::is_active() != 0) {
@@ -300,16 +300,16 @@ s32 TLobby__sub_80211D58(s32 arg0) {
                 return 1;
             }
         }
-        return THunterGuildSeqOffline__sub_80212060(arg0);
+        return THunterGuildSeqOffline__sub_80212060(client_id);
     }
     if (get_main_phase() == 15) {
         if (lbl_805D55C0 != 0) {
             return 1;
         }
-        if (THunterGuildSeqOffline__sub_80212000(arg0) != 0) {
+        if (THunterGuildSeqOffline__sub_80212000(client_id) != 0) {
             return 1;
         }
-        return THunterGuildSeqOffline__sub_80211FEC(arg0) != 0 ? 1 : 0;
+        return THunterGuildSeqOffline__sub_80211FEC(client_id) != 0 ? 1 : 0;
     }
     return 0;
 }

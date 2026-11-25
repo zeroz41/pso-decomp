@@ -11,56 +11,14 @@
 #include <string.h>
 #include "pso/ui/window/TWindowCtrl.h"
 
-struct SRock_80224544_8022448C;
-
-struct O_80225B90 { u8 pad[0x20]; char name[1]; };
+struct NamedEntryView { u8 pad[0x20]; char name[1]; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef struct Item_8022525C
-{
-  u8 b0;
-  u8 b1;
-  u8 b2;
-  u8 pad3[7];
-  u8 b12;
-  u8 b13;
-  u8 padC[8];
-} Item_8022525C;
-
-typedef struct Pool_8022525C
-{
-  u8 b[0x68];
-} Pool_8022525C;
-
-typedef struct Pair_8022525C
-{
-  s32 a;
-  s32 b;
-} Pair_8022525C;
-
-typedef struct Ent_8022525C
-{
-  u8 id;
-  u8 count;
-} Ent_8022525C;
-
-typedef struct Tier_8022525C
-{
-  Ent_8022525C *ents;
-  u8 n;
-} Tier_8022525C;
-
-typedef struct Hdr_8022525C
-{
-  Tier_8022525C *tiers;
-} Hdr_8022525C;
-
-
 ShortMailEntry short_mail_entries[8];
-s32 lbl_805D6270;
+s32 short_mail_next_id;
 int lobby_short_mail_entry_count;
 
 void try_close__6TLobbyFPv(void* p) { if (((TLobby *)p)->is_name_too_long() == 0) { TLobby__sub_80225A08(p); } }
@@ -123,23 +81,21 @@ ShortMailEntry *get_short_mail_entry(int index) {
 }
 
 s32 TLobby::find_free_slot() {
-  s32 var_r31;
+  s32 slot;
   ShortMailEntry *entry;
-  var_r31 = 0;
+  slot = 0;
   entry = short_mail_entries;
-  loop_1:
-  if (entry->is_active() == 0)
+  do
   {
-    return var_r31;
-  }
-  var_r31 += 1;
-  entry++;
-  if (var_r31 >= 8)
-  {
-    TLobby::remove_entry_at(0);
-    return 7;
-  }
-  goto loop_1;
+    if (entry->is_active() == 0)
+    {
+      return slot;
+    }
+    slot += 1;
+    entry++;
+  } while (slot < 8);
+  TLobby::remove_entry_at(0);
+  return 7;
 }
 
 
@@ -176,7 +132,7 @@ void TLobby::remove_entry_at(s32 idx) {
 void TLobby::clear_all_entries(void* _w0) {
     s32 i;
     ShortMailEntry *entry;
-    lbl_805D6270 = 0;
+    short_mail_next_id = 0;
     lobby_short_mail_entry_count = 0;
     TLobby::clear_lobby_flag();
     entry = short_mail_entries;
@@ -188,7 +144,7 @@ void TLobby::clear_all_entries(void* _w0) {
 
 s32 TLobby::is_name_too_long() {
     s32 i = 0;
-    char *p = ((O_80225B90 *)this)->name;
+    char *p = ((NamedEntryView *)this)->name;
     while (*p++ != 0) {
         if (i > 0xaa) {
             return 1;
@@ -200,8 +156,8 @@ s32 TLobby::is_name_too_long() {
 
 void ShortMailEntry::fill_from_packet(u8 *packet) {
     sender_card_id = *reinterpret_cast<s32 *>(packet + 8);
-    u32 id = lbl_805D6270;
-    lbl_805D6270 = id + 1;
+    u32 id = short_mail_next_id;
+    short_mail_next_id = id + 1;
     sequence_id = id;
     flags = 0xB;
     strncpy(sender_name, (const char *)packet + 0xC, 0x17);

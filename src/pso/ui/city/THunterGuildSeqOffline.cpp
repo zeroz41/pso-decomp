@@ -17,8 +17,8 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/task/TMainTask.h"
 
-struct Base_802133C4_80212D9C { char pad[0x18]; };
-struct VObj_802133C4_80212D9C : Base_802133C4_80212D9C {
+struct GuildMenuCallbackBase { char pad[0x18]; };
+struct GuildMenuCallbackView : GuildMenuCallbackBase {
     virtual void m0(); virtual void m1();
 };
 #include <stddef.h>
@@ -30,14 +30,9 @@ struct VObj_802133C4_80212D9C : Base_802133C4_80212D9C {
 #include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
-struct Stack_802130AC {
-    f32 sp8;
-    f32 spC;
-};
+struct GuildSeqViewBase { u8 pad[0x18]; };
 
-struct Base_8021317C { u8 pad[0x18]; };
-
-struct Guild_8021317C : Base_8021317C {
+struct GuildSeqView : GuildSeqViewBase {
     virtual void f0();
     virtual void f1();
     virtual void f2();
@@ -148,7 +143,7 @@ void THunterGuildSeqOffline::notify_quest_thread() {
     if (v != -1) {
         void *obj = TQuestThread::create(v);
         if (obj != NULL) {
-            ((VObj_802133C4_80212D9C *)obj)->m1();
+            ((GuildMenuCallbackView *)obj)->m1();
         }
     }
 }
@@ -194,7 +189,7 @@ THunterGuildSeqOffline::~THunterGuildSeqOffline() {
 }
 
 void THunterGuildSeqOffline::update_state() {
-    Guild_8021317C *self = (Guild_8021317C *)this;
+    GuildSeqView *self = (GuildSeqView *)this;
     switch (self->phase) {
     case 0: self->begin(); break;
     case 1: ((THunterGuildSeqOffline *)self)->open_greeting(); break;
@@ -213,12 +208,10 @@ void THunterGuildSeqOffline::update_state() {
 void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); fn_80223480(this); THunterGuildWarning::create_instance((saddr)((void*)2)); set_state((saddr)((void*)((void*)1))); }
 
 void THunterGuildSeqOffline::open_greeting() {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802130AC, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_802130AC, spC) == 0x4);
-    Stack_802130AC stack;
-    stack.sp8 = 332.0f;
-    stack.spC = 80.0f;
-    this->create_message_window(get_window_layout_position(0x2C), (saddr)&stack.sp8);
+    NJS_POINT2 window_size;
+    window_size.x = 332.0f;
+    window_size.y = 80.0f;
+    this->create_message_window(get_window_layout_position(0x2C), (saddr)&window_size);
     this->display_guild_message(1, 1);
     counter_camera = set_service_counter_camera(this, 1);
     this->set_state((saddr)((void*)(2)));
@@ -267,17 +260,15 @@ void THunterGuildSeqOffline::open_judgment_window() {
 void THunterGuildSeqOffline::handle_select() {
     void *p = *(void * *)&this->quest_thread;
     if (p != NULL) {
-        if (((TObject *)p)->all_parents_unqueued_for_destruction() != 1) {
-            this->quest_thread = 0U;
-            goto block_3;
+        if (((TObject *)p)->all_parents_unqueued_for_destruction() == 1) {
+            return;
         }
-    } else {
-block_3:
-        if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-            this->display_guild_message(0xC, 1);
-            *(s32 *)&this->unk_38 = 1;
-            set_state((saddr)((void*)(5)));
-        }
+        this->quest_thread = 0U;
+    }
+    if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
+        this->display_guild_message(0xC, 1);
+        *(s32 *)&this->unk_38 = 1;
+        set_state((saddr)((void*)(5)));
     }
 }
 

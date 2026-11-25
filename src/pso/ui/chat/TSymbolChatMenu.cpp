@@ -15,9 +15,8 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/TSymbolChatMenu.h"
 
-// The symbol chat preset selection (inferred): its vtable 0x804CE7D0 follows a 4-byte pad after
-// TWindowChatSymbol's vtable (pad + 8-aligned start = new TU); .text 0x80248774-0x80248940,
-// .rodata 0x8044EAC0-0x8044EAD8 and .sdata2 0x805DCBA0-0x805DCBA8 are its ctor's.
+// The symbol chat preset selection (inferred): its vtable follows a 4-byte pad after
+// TWindowChatSymbol's vtable (pad + 8-aligned start = new TU).
 
 void TSymbolChatMenu::render() {  }
 

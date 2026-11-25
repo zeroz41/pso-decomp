@@ -9,7 +9,7 @@ struct NJS_POINT2;
 struct SymbolChatPreset;
 
 struct TWindowChatSymbol : public TWindowBase {
-    TWindowChatSymbol(const NJS_POINT2 *position, saddr arg2);
+    TWindowChatSymbol(const NJS_POINT2 *position, saddr size);
     virtual ~TWindowChatSymbol();
     void set_selection(SymbolChatPreset *preset);
     void set_from_key(s32 index);

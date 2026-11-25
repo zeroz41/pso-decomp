@@ -10,13 +10,13 @@ s32 test_flags_any(s32 flags, s32 mask, s32 table);
 void TMainCursor__sub_80154090(void) {  }
 void TMainCursor__sub_80154094(void) {  }
 
-void TMainCursor__sub_80154098(void *self, TargetCandidateEntry *arr, s32 i) {
+void TMainCursor__sub_80154098(void *unused, TargetCandidateEntry *arr, s32 i) {
     if (arr != 0) {
         arr[i].flags |= 0x80000000;
     }
 }
 
-void TMainCursor__sub_801540B8(void *self, TargetCandidateEntry *arr, s32 i) {
+void TMainCursor__sub_801540B8(void *unused, TargetCandidateEntry *arr, s32 i) {
     if (arr != 0) {
         arr[i].flags |= 0x40000000;
     }

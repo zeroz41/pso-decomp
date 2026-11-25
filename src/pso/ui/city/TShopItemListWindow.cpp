@@ -55,13 +55,13 @@ static const size_t shop_price_offset = shop_items_offset + offsetof(TItemData, 
 s32 section_id_favored_grind_table[10] = {9, 7, 2, 4, 8, 10, -1, 3, -1, 5};
 
 extern "C" {
-const char *TShopItemListWindow__class_name = "TShopItemListWindow";
+const char *shop_item_list_window_class_name = "TShopItemListWindow";
 s32 try_buy_item(TObjPlayer *player, void *item);
 }
 
 TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
-    this->m_name = TShopItemListWindow__class_name;
+    this->m_name = shop_item_list_window_class_name;
     this->player = player;
     this->sequence = sequence;
     this->item_list = 0;

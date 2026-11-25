@@ -17,7 +17,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-extern const char TWindowSubSymbolChatFaceType__class_name_string[29] = "TWindowSubSymbolChatFaceType";
+extern const char symbol_chat_face_type_class_name_string[29] = "TWindowSubSymbolChatFaceType";
 
 
 
@@ -36,13 +36,8 @@ void TWindowSubSymbolChatFaceType::confirm_selection() {
 }
 
 
-struct Stack_80283F38
-{
-  f32 sp8;
-  f32 spC;
-};
 
-struct Ctx_80283C84 {
+struct FaceCursorContext {
     u8 pad0[0x10];
     f32 x;
     f32 y;
@@ -52,16 +47,15 @@ struct Ctx_80283C84 {
     f32 depth;
 };
 
-struct Quad_80283C84 { f32 x, y, x2, y2, u, v, u2, v2; };
+struct FaceCursorQuad { f32 x, y, x2, y2, u, v, u2, v2; };
 
 
-struct Ent_80283FA8 { u8 pad[0x2c]; s32 parts_entry; };
+struct FacePartEntry { u8 pad[0x2c]; s32 parts_entry; };
 
 extern "C" {
 
 extern s32 actor_frame_tick;
 
-typedef struct Stack_80283F38 Stack_80283F38;
 
 void TWindowSubSymbolChatFaceType::handle_input() {
     ControllerInputContext *input;
@@ -95,8 +89,8 @@ void TWindowSubSymbolChatFaceType::handle_input() {
     }
 }
 
-void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32 size, f32 amp) {
-    Quad_80283C84 q;
+void TWindowSubSymbolChatFaceType__sub_80283C84(FaceCursorContext *ctx, f32 *pos, f32 size, f32 amp) {
+    FaceCursorQuad q;
     u32 alpha;
     f32 x;
     f32 y;
@@ -163,20 +157,20 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
 }
 
 void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {
-  int new_var;
-  u8 *temp_r3;
-  Stack_80283F38 stack;
-  new_var = fn_802839A4(window_base);
-  temp_r3 = (u8 *) ((TWindowBase *)window_base)->get_array_entry(new_var);
-  stack.sp8 = (*((f32 *) (((s8 *) temp_r3) + 8))) - 3.0f;
-  stack.spC = (*((f32 *) (((s8 *) temp_r3) + 0xC))) - 3.0f;
-  TWindowSubSymbolChatFaceType__sub_80283C84((Ctx_80283C84 *)ctx, &stack.sp8, 66.0f, 0.3f);
+  int entry_index;
+  u8 *entry;
+  NJS_POINT2 corner;
+  entry_index = fn_802839A4(window_base);
+  entry = (u8 *) ((TWindowBase *)window_base)->get_array_entry(entry_index);
+  corner.x = (*((f32 *) (((s8 *) entry) + 8))) - 3.0f;
+  corner.y = (*((f32 *) (((s8 *) entry) + 0xC))) - 3.0f;
+  TWindowSubSymbolChatFaceType__sub_80283C84((FaceCursorContext *)ctx, (f32 *)&corner, 66.0f, 0.3f);
 }
 
 void TWindowSubSymbolChatFaceType::update_parts_entries() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        Ent_80283FA8 *e = (Ent_80283FA8 *)get_array_entry(i);
+        FacePartEntry *e = (FacePartEntry *)get_array_entry(i);
         e->parts_entry = TWindowSubSymbolChatPartsSet::get_parts_entry(*m_64);
     }
 }
@@ -243,11 +237,11 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
     {178.0f, 188.0f}, 50050.0f, &symbol_chat_face_type_layout_entries, 0x43,
 };
 
-const char *TWindowSubSymbolChatFaceType__name = TWindowSubSymbolChatFaceType__class_name_string;
+const char *window_sub_symbol_chat_face_type_name = symbol_chat_face_type_class_name_string;
 TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selection)
     : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, 4, (u8 *)position) {
     TWindowSubStatusDisp *heading;
-    m_name = TWindowSubSymbolChatFaceType__name;
+    m_name = window_sub_symbol_chat_face_type_name;
     m_60 = 0;
     m_61 = 0;
     m_62 = 0;

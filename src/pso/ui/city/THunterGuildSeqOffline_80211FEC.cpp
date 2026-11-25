@@ -17,7 +17,7 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
-struct Seq_80212304 {
+struct MemberCheckView {
     u8 pad0[0x1C];
     void *win;
     char names[4][0x18];
@@ -27,11 +27,11 @@ extern "C" {
 f32 xz_distance_squared(void *, void *);
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
 
-    extern int THunterGuildSeqOnline_Client__instance_table[];
-int THunterGuildSeqOffline__sub_80211FEC(int a0) {  return THunterGuildSeqOnline_Client__instance_table[a0]; }
+    extern int hunter_guild_online_client_instance_table[];
+int THunterGuildSeqOffline__sub_80211FEC(int a0) {  return hunter_guild_online_client_instance_table[a0]; }
 
-    extern int THunterGuildSeqOnline_Server__instance_table[];
-int THunterGuildSeqOffline__sub_80212000(int a0) {  return THunterGuildSeqOnline_Server__instance_table[a0]; }
+    extern int hunter_guild_online_server_instance_table[];
+int THunterGuildSeqOffline__sub_80212000(int a0) {  return hunter_guild_online_server_instance_table[a0]; }
 
 void *THunterGuildSeqOffline::create(void *player) {
     return new THunterGuildSeqOffline(tl_05, (TObjPlayer *)player);
@@ -41,7 +41,7 @@ int THunterGuildSeqOffline__sub_80212060(int a0) {  return THunterGuildSeqOfflin
 
 s32 THunterGuildSeqOffline__sub_80212074(void) {
     saddr player;
-    saddr temp_r3_2;
+    saddr designated_player;
     s32 area;
     if ((s32) designated_client_id == (s32) local_client_id) {
         return 0;
@@ -54,11 +54,11 @@ s32 THunterGuildSeqOffline__sub_80212074(void) {
     if ((area != 0x12) && ((area >= 0x12) || (area != 0))) {
         return 0;
     }
-    temp_r3_2 = (saddr)get_player_by_client_id(designated_client_id);
-    if (temp_r3_2 == 0) {
+    designated_player = (saddr)get_player_by_client_id(designated_client_id);
+    if (designated_player == 0) {
         return 0;
     }
-    return (u32)__cntlzw((u32)((xz_distance_squared((void *)(player + 0x38), (void *)(temp_r3_2 + 0x38)) > 625.0f))) >> 5;
+    return (u32)__cntlzw((u32)((xz_distance_squared((void *)(player + 0x38), (void *)(designated_player + 0x38)) > 625.0f))) >> 5;
 }
 
 s32 THunterGuildSeqOffline::check_party_gathered() {
@@ -101,17 +101,17 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
 }
 
 void TMemberCheck::update_member_proximity() {
-    saddr temp_r31;
+    saddr designated_player;
     saddr player;
     s32 i;
     if (this->m_1C != 0U) {
-        temp_r31 = (saddr)get_player_by_client_id(designated_client_id);
+        designated_player = (saddr)get_player_by_client_id(designated_client_id);
         i = 0;
         do {
             if (i != (s32) designated_client_id) {
                 player = (saddr)get_player_by_client_id(i);
                 if (player != 0) {
-                    if (xz_distance_squared((void *)(temp_r31 + 0x38), (void *)(player + 0x38)) <= 625.0f) {
+                    if (xz_distance_squared((void *)(designated_player + 0x38), (void *)(player + 0x38)) <= 625.0f) {
                         ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(1, i);
                     } else {
                         ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(0, i);
@@ -127,7 +127,7 @@ void TMemberCheck::update_member_proximity() {
     }
 }
 void TMemberCheck::open_member_name_window() {
-    Seq_80212304 *self = (Seq_80212304 *)this;
+    MemberCheckView *self = (MemberCheckView *)this;
     s32 i;
     if (self->win != 0) {
         ((TWindowBase *)self->win)->close();

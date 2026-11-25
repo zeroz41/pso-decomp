@@ -45,7 +45,7 @@
 
 #pragma dont_inline off
 
-const char *TShopEquipmentListWindow__class_name = "TShopEquipmentListWindow";
+const char *shop_equipment_list_window_class_name = "TShopEquipmentListWindow";
 
 extern "C" {
 void get_shop_weapon_stock_item(TItemData *dst, s32 index, s32 table);
@@ -58,7 +58,7 @@ int TShopEquipmentListWindow__sub_8021C85C(int a0) {  return shop_weapon_stock_c
 
 TShopEquipmentListWindow::TShopEquipmentListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
-    this->m_name = TShopEquipmentListWindow__class_name;
+    this->m_name = shop_equipment_list_window_class_name;
     this->player = player;
     this->sequence = sequence;
     this->confirm_menu = NULL;

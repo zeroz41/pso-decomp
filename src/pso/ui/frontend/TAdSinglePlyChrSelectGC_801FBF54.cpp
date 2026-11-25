@@ -36,6 +36,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/TLanguage.h"
@@ -2906,7 +2907,7 @@ void init_fresh_character_card(void) {
     for (i = 0; i < 200; i++) {
         card->bank_items[i].init();
     }
-    ((TWindowSubSymbolChat *)card)->load_symbol_chat_data();
+    ((SavedSymbolChatPresets *)card)->load_symbol_chat_data();
     set_fresh_card_flag(card);
     TWindowShortListCtrl__sub_8026E884((s16 *)((u8 *)card + 0x22C4));
 }

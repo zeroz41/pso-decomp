@@ -32,7 +32,7 @@
 const char *window_chat_type_name_pointer = "TWindowChat";
 #pragma pop
 extern "C" {
-saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
+saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr, saddr);
 int get_chat_shortcut(s32 index);
 saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
@@ -51,7 +51,7 @@ s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
 }
 
 s32 TWindowChat::sub_80247080() {
-    s32 *temp_r31;
+    s32 *preset_index;
     u8 *symbolChatWindow;
     symbolChatWindow = (u8 *)this->symbolChatWindow;
     if (symbolChatWindow == NULL) {
@@ -65,22 +65,22 @@ s32 TWindowChat::sub_80247080() {
         return 0;
     }
     this->set_active_flag();
-    temp_r31 = (s32 *)((saddr)this->result + 4);
-    *temp_r31 = ((TWindowChat *)(this->symbolChatWindow))->forward_card_at_1c();
+    preset_index = (s32 *)((saddr)this->result + 4);
+    *preset_index = ((TWindowChat *)(this->symbolChatWindow))->forward_card_at_1c();
     if (this->flags & 0x80) {
-        TWindowChat::open_symbol_chat((s32 *)temp_r31)->update_selected_symbol();
+        TWindowChat::open_symbol_chat((s32 *)preset_index)->update_selected_symbol();
     }
     return 1;
 }
 
 s32 TWindowChat::sub_80247128() {
     s32 mode_code;
-    uaddr temp_r3;
-    temp_r3 = (uaddr)this->wordSelectWindow;
-    if (temp_r3 == 0U) {
+    uaddr word_window;
+    word_window = (uaddr)this->wordSelectWindow;
+    if (word_window == 0U) {
         return 0;
     }
-    mode_code = ((TWindowDD *)temp_r3)->get_mode_code();
+    mode_code = ((TWindowDD *)word_window)->get_mode_code();
     if (mode_code == 0) {
         return 0;
     }
@@ -143,14 +143,13 @@ void TWindowChat::update() {
 }
 
 void TWindowChat::open_input() {
-    void *arg0 = this;
-    if (((TWindowChat *)arg0)->is_open() != 0) {
+    if (is_open() != 0) {
         TWindowChat__sub_80247E50(this);
         TWindowChat__sub_80247DFC(this);
-        ((TWindowChat *)arg0)->flags = (u16) (((TWindowChat *)arg0)->flags & 0xFFFE);
-        ((TWindowChat *)arg0)->flags = (u16) (((TWindowChat *)arg0)->flags | 2);
+        flags = (u16) (flags & 0xFFFE);
+        flags = (u16) (flags | 2);
         hardKeyboard->clear_flag60_bit200();
-        ((TWindowChat*)(arg0))->open_next_input_window();
+        open_next_input_window();
     }
 }
 
@@ -268,7 +267,7 @@ void TWindowChat::handle_input() {
 }
 
 void TWindowChat::handle_chat_input() {
-  u8 temp_r3_2;
+  u8 mode;
   ControllerInputContext *context;
   saddr player;
   player = (saddr)get_player_by_client_id((saddr)local_client_id);
@@ -310,10 +309,10 @@ void TWindowChat::handle_chat_input() {
     {
       close_all_children();
       inputMode = (u8) (inputMode + 1);
-      temp_r3_2 = inputMode;
-      if (((s8) temp_r3_2) >= 3)
+      mode = inputMode;
+      if (((s8) mode) >= 3)
       {
-        inputMode = (temp_r3_2 - 3);
+        inputMode = (mode - 3);
       }
       open_next_input_window();
     }
@@ -402,7 +401,7 @@ TWindowChat::~TWindowChat() {
         composer = NULL;
     }
 }
-TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
+TWindowChat::TWindowChat(TObject *object, void *result) : TObject(object) {
     m_name = window_chat_type_name_pointer;
     this->inputMode = 0;
     this->flags = 2;
@@ -413,7 +412,7 @@ TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
     auxiliaryWindow = NULL;
     wordSelectWindow = NULL;
     symbolChatWindow = NULL;
-    this->result = arg2;
+    this->result = result;
     this->open_next_input_window();
 }
 

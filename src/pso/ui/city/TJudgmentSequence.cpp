@@ -18,15 +18,6 @@ TJudgmentSequence *judgment_sequence_instance;
 
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
-struct VBase_18_4a2792
-{
-  char pad[0x18];
-};
-struct Stack_80215DA0
-{
-  f32 sp8;
-  f32 spC;
-};
 void TJudgmentSequence__sub_80215BA0(TShopWindowBase *window) {
     if (window != NULL) {
         window->set_state(4);
@@ -67,8 +58,6 @@ void TJudgmentSequence::handle_confirm() {
     }
 }
 
-typedef struct Stack_80215DA0 Stack_80215DA0;
-typedef struct VBase_18_4a2792 VBase_18_4a2792;
 void TJudgmentSequence::setup_counter_camera() {
     f32 pos[2];
     f32 x;
@@ -84,7 +73,6 @@ void TJudgmentSequence::setup_counter_camera() {
 
 void TJudgmentSequence::restore_player_state() { TShopSequence::restore_player_state(); set_state(1); }
 
-struct Seq_80215CB8;
 void TJudgmentSequence::update_state() {
     switch (state) {
     case 0:
@@ -120,10 +108,10 @@ TJudgmentSequence::~TJudgmentSequence() {
     TJudgmentSequence::slot_flags[get_split_screen_slot()] = 0;
 }
 
-const char *TJudgmentSequence__class_name = "TJudgmentSequence";
+const char *judgment_sequence_class_name = "TJudgmentSequence";
 
 TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = TJudgmentSequence__class_name;
+    m_name = judgment_sequence_class_name;
     this->player = player;
     meseta_window = 0;
     counter_camera = NULL;

@@ -10,6 +10,7 @@ struct TWindowSubSymbolChatHelp : public TWindowBase {
     virtual ~TWindowSubSymbolChatHelp();
     void draw_help_entry(void *, s32, s32);
     void draw_color_palette(void *);
+    void draw_help_icon(struct WindowDrawContext *context, s32 row, s32 color);
     s8 m_60;
     u8 _pad61[0x3];
     // Borrowed selection, mode and optional toggle targets.
@@ -22,7 +23,7 @@ struct TWindowSubSymbolChatHelp : public TWindowBase {
     void set_pos_and_flag(s32 *first, s32 *second);
     void set_flag60_bit1();
     void set_flag60_bit2();
-    void draw_help_entries(void *arg1);
+    void draw_help_entries(void *context);
     void handle_toggle_input();
     void handle_page_input();
     virtual void render();

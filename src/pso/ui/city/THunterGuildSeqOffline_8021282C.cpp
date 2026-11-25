@@ -38,9 +38,9 @@ void THunterGuildSeqOffline::request_close(TShopWindowBase *) {
 
 void THunterGuildSeqOffline::handle_cancel_choice() {
     s32 selected_menu_value;
-    TWindowMenu *temp_r3 = choice_menu;
-    if (temp_r3 != NULL) {
-        if (temp_r3->is_decided() != 0) {
+    TWindowMenu *menu = choice_menu;
+    if (menu != NULL) {
+        if (menu->is_decided() != 0) {
             selected_menu_value = choice_menu->get_selected_value();
             if (selected_menu_value == 0) {
                 choice_menu->close();
@@ -61,9 +61,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 this->set_state(5);
                 return;
             }
-            goto block_8;
         }
-block_8:
         if (choice_menu->is_cancelled() != 0) {
             choice_menu->close();
             this->choice_menu = NULL;
@@ -151,17 +149,15 @@ void THunterGuildSeqOffline::handle_window_input() {
     TQuestThread *object = quest_thread;
 
     if (object != NULL) {
-        if (object->all_parents_unqueued_for_destruction() != 1) {
-            quest_thread = NULL;
-            goto block_3;
+        if (object->all_parents_unqueued_for_destruction() == 1) {
+            return;
         }
-    } else {
-block_3:
-        if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-            this->display_guild_message(0xC, 1);
-            *(s32 *)&this->unk_38 = 1;
-            set_state(5);
-        }
+        quest_thread = NULL;
+    }
+    if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
+        this->display_guild_message(0xC, 1);
+        *(s32 *)&this->unk_38 = 1;
+        set_state(5);
     }
 }
 

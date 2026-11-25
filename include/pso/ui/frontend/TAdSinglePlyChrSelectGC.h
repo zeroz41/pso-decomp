@@ -167,7 +167,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     u8 *copy_character_data(u8 *source);
     static void reset_quest_id();
     static void set_quest_download_server(int quest_download_server);
-    static void init_logo_state(s32 arg0);
+    static void init_logo_state(s32 state);
     static void noop();
     static void run_frame();
     void apply_rng_cipher(u32 *data, s32 len);

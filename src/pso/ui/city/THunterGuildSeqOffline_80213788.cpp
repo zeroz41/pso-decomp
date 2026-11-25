@@ -37,26 +37,21 @@
 #define CAT2(a,b) a##b
 #define CAT(a,b) CAT2(a,b)
 #define PADV virtual void CAT(f,__LINE__)();
-struct Stack_80213B18 {
-    f32 sp8;
-    f32 spC;
-};
-
 
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState quest_list_online_dat_download_state;
 OnlineQuestDownloadState quest_list_online_bin_download_state;
 // Per-player slot flags, set by each class's ctor and cleared by its dtor
 // (same pattern as THunterGuildSeqOffline::instance_table).
-s32 THunterGuildSeqOnline_Server__instance_table[4];
-s32 THunterGuildSeqOnline_Client__instance_table[4];
+s32 hunter_guild_online_server_instance_table[4];
+s32 hunter_guild_online_client_instance_table[4];
 OnlineQuestMenu *quest_list_online_quest_list_buffer;
 OnlineQuestInfo *quest_list_online_selected_quest_info;
-int TQuestListOnline__bin_download_complete;
-int TQuestListOnline__dat_download_complete;
-TWindowMessage *TQuestListOnline__download_window;
-TWindowMessage *TQuestListOnline__quest_info_window;
-TWindowMessage *TQuestListOnline__download_barrier_window;
+int online_quest_bin_download_complete;
+int online_quest_dat_download_complete;
+TWindowMessage *online_quest_download_window;
+TWindowMessage *online_quest_info_window;
+TWindowMessage *online_quest_download_barrier_window;
 s32 quest_download_active;
 s32 quest_download_received_bytes;
 s32 quest_download_graph_current_bytes;
@@ -65,16 +60,11 @@ s32 quest_download_graph_current_bytes;
 THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;
 THunterGuildSeqOnline_Client *hunter_guild_seq_online_client_instance;
 
-struct Stack_8021488C {
-    f32 sp8;
-    f32 spC;
-};
-
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
 
 THunterGuildSeqOnline_Server::THunterGuildSeqOnline_Server(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = THunterGuildSeqOnline_Server__name;
+    m_name = hunter_guild_seq_online_server_name;
     state = 0;
     this->player = player;
     counter_camera = NULL;
@@ -82,7 +72,7 @@ THunterGuildSeqOnline_Server::THunterGuildSeqOnline_Server(TObject *parent, TObj
     choice_menu = NULL;
     quest_thread = NULL;
     pad_40 = 1;
-    THunterGuildSeqOnline_Server__instance_table[get_split_screen_slot()] = 1;
+    hunter_guild_online_server_instance_table[get_split_screen_slot()] = 1;
     hunter_guild_seq_online_server_instance = this;
 }
 
@@ -96,21 +86,21 @@ THunterGuildSeqOnline_Server::~THunterGuildSeqOnline_Server() {
         choice_menu->close();
         choice_menu = NULL;
     }
-    THunterGuildSeqOnline_Server__instance_table[get_split_screen_slot()] = 0;
+    hunter_guild_online_server_instance_table[get_split_screen_slot()] = 0;
     hunter_guild_seq_online_server_instance = NULL;
 }
 
 void THunterGuildSeqOffline::zero_four_slots() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        THunterGuildSeqOnline_Server__instance_table[i] = 0;
+        hunter_guild_online_server_instance_table[i] = 0;
     }
 }
 
 void THunterGuildSeqOffline::clear_slot_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        THunterGuildSeqOnline_Server__instance_table[i] = 0;
+        hunter_guild_online_server_instance_table[i] = 0;
     }
 }
 
@@ -139,10 +129,10 @@ void THunterGuildSeqOnline_Server::restore_player_state() {
 }
 
 void THunterGuildSeqOnline_Server::init_window() {
-    Stack_8021488C stack;
-    stack.sp8 = 332.0f;
-    stack.spC = 80.0f;
-    create_message_window(get_window_layout_position(0x2C), (saddr)&stack.sp8);
+    NJS_POINT2 window_size;
+    window_size.x = 332.0f;
+    window_size.y = 80.0f;
+    create_message_window(get_window_layout_position(0x2C), (saddr)&window_size);
     if (is_quest_active() == 0) {
         new TMemberCheck(this);
     }
@@ -381,7 +371,7 @@ void reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random
 
 
 THunterGuildSeqOnline_Client::THunterGuildSeqOnline_Client(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = THunterGuildSeqOnline_Client__name;
+    m_name = hunter_guild_seq_online_client_name;
     state = 0;
     this->player = player;
     counter_camera = NULL;
@@ -389,7 +379,7 @@ THunterGuildSeqOnline_Client::THunterGuildSeqOnline_Client(TObject *parent, TObj
     exit_action = 0;
     choice_menu = NULL;
     quest_thread = NULL;
-    THunterGuildSeqOnline_Client__instance_table[get_split_screen_slot()] = 1;
+    hunter_guild_online_client_instance_table[get_split_screen_slot()] = 1;
     hunter_guild_seq_online_client_instance = this;
 }
 
@@ -403,20 +393,20 @@ THunterGuildSeqOnline_Client::~THunterGuildSeqOnline_Client() {
         choice_menu->close();
         choice_menu = NULL;
     }
-    THunterGuildSeqOnline_Client__instance_table[get_split_screen_slot()] = 0;
+    hunter_guild_online_client_instance_table[get_split_screen_slot()] = 0;
     hunter_guild_seq_online_client_instance = NULL;
 }
 
 void THunterGuildSeqOffline__sub_80213CA4(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        THunterGuildSeqOnline_Client__instance_table[i] = 0;
+        hunter_guild_online_client_instance_table[i] = 0;
     }
 }
 
 void THunterGuildSeqOffline::clear_slots() {
     s32 i;
-    for (i = 0; i < 4; i++) THunterGuildSeqOnline_Client__instance_table[i] = 0;
+    for (i = 0; i < 4; i++) hunter_guild_online_client_instance_table[i] = 0;
 }
 
 void THunterGuildSeqOnline_Client::update_state() {
@@ -441,10 +431,10 @@ void THunterGuildSeqOnline_Client::restore_player_state() {
 }
 
 void THunterGuildSeqOnline_Client::sub_80213B18() {
-    Stack_80213B18 stack;
-    stack.sp8 = 332.0f;
-    stack.spC = 80.0f;
-    create_message_window(get_window_layout_position(0x2C), (saddr)&stack.sp8);
+    NJS_POINT2 window_size;
+    window_size.x = 332.0f;
+    window_size.y = 80.0f;
+    create_message_window(get_window_layout_position(0x2C), (saddr)&window_size);
     display_guild_message(1, 1);
     pad_30 = 0;
     set_state(2);

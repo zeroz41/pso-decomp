@@ -41,7 +41,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
-struct RecoveredGlobal_8033B264_lbl_804EF728 {
+struct CharacterSelectCallbackTable {
     s32 value;
     u8 remaining[0x194];
 };
@@ -90,10 +90,10 @@ void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
 void TAdSinglePlyChrSelectGC::set_quest_download_server(int quest_download_server) { (*(int *)&single_ply_quest_download_server) = quest_download_server; }
-void TAdSinglePlyChrSelectGC::init_logo_state(s32 arg0) {
+void TAdSinglePlyChrSelectGC::init_logo_state(s32 state) {
     lbl_805D6D88 = 0;
     lbl_805D6D84 = 0;
-    lbl_805D6D80 = arg0;
+    lbl_805D6D80 = state;
     single_ply_quest_download_server = 0xFFFF;
 }
 void TAdSinglePlyChrSelectGC::noop() {  }
@@ -392,13 +392,13 @@ void TAdSinglePlyChrSelectGC::run_frame() {
 }
 }
 
-struct RecoveredGlobal_8033B264_lbl_804EF728;
+struct CharacterSelectCallbackTable;
 #pragma pool_data off
 void init_single_player_char_select_scene(void) {
     u32 p;
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
-    run_load_callback_table(&(*(RecoveredGlobal_8033B264_lbl_804EF728 *)&character_select_scene_resource_callbacks), 0x30);
+    run_load_callback_table(&(*(CharacterSelectCallbackTable *)&character_select_scene_resource_callbacks), 0x30);
     init_menu_scene_lights(&default_scene_light_config, 4);
     new TCameraCtrl(tl_camera);
     Vec a = lbl_80477D60;
@@ -442,7 +442,7 @@ void TCharSaveSequence::init_warps() {
     menu->update_layout_height(289.0f);
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_8033B264_lbl_804EF728_size, sizeof(RecoveredGlobal_8033B264_lbl_804EF728) == 0x198);
+LAYOUT_ASSERT(RecoveredGlobal_8033B264_lbl_804EF728_size, sizeof(CharacterSelectCallbackTable) == 0x198);
 
 #pragma pop
 
@@ -452,13 +452,13 @@ LAYOUT_ASSERT(RecoveredGlobal_8033B264_lbl_804EF728_size, sizeof(RecoveredGlobal
 
 typedef void (TCharSaveSequence::*Handler)();
 
-struct RecoveredGlobal_8033B9C4_lbl_80513910 {
+struct ChrSelectSerialSeeds {
     s32 value;
     u8 remaining[0xC];
 };
 
 
-extern RecoveredGlobal_8033B9C4_lbl_80513910 chr_select_serial_seeds;
+extern ChrSelectSerialSeeds chr_select_serial_seeds;
 
 void *character_select_scene_resource_callbacks[12] = {
     (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
@@ -520,10 +520,10 @@ TCharSaveSequence::TCharSaveSequence() : TObject(tl_01) {
     stop_pad_rumble();
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_8033B9C4_lbl_80513910_size, sizeof(RecoveredGlobal_8033B9C4_lbl_80513910) == 0x10);
-void seed_character_select_serial_rng(s32 arg0) {
-    *(s32 *)((s8 *)&chr_select_serial_seeds.value + 4) = arg0;
-    *(s32 *)((s8 *)&chr_select_serial_seeds.value + 0) = arg0;
+LAYOUT_ASSERT(RecoveredGlobal_8033B9C4_lbl_80513910_size, sizeof(ChrSelectSerialSeeds) == 0x10);
+void seed_character_select_serial_rng(s32 seed) {
+    *(s32 *)((s8 *)&chr_select_serial_seeds.value + 4) = seed;
+    *(s32 *)((s8 *)&chr_select_serial_seeds.value + 0) = seed;
 }
 
 #pragma pop

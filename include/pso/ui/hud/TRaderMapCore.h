@@ -86,10 +86,10 @@ struct TRaderMapCore : public TObjBase {
     static void free_map_data();
     static void free_heap();
     static void set_piece_flags(s32 piece_flags);
-    static void add_zoom_distance(f32 farg0);
+    static void add_zoom_distance(f32 delta);
     static void open_free_map_view();
-    static void pan_vertical(f32 farg0);
-    static void pan_horizontal(f32 farg0);
+    static void pan_vertical(f32 delta);
+    static void pan_horizontal(f32 delta);
     void reset_marker_scale();
     static s32 block_region_by_id(s16 id);
     static s32 reveal_region_by_id(s16 id);
@@ -122,7 +122,7 @@ struct TRaderMapCore : public TObjBase {
     static s32 apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 period);
     void gather_player_markers();
     void draw_enemy_gate_markers();
-    static void draw_backdrop(TRaderMapCore *self, s32 mode);
+    static void draw_backdrop(TRaderMapCore *unused, s32 mode);
     static void pick_target_position(void *, void *);
     static s32 should_show_map();
 };

@@ -69,11 +69,11 @@ struct TMainCursor : public TObject {
     virtual void run_task();
     void reset_slots();
     void init_slots();
-    void set_cursor_pos(u16 arg1, s32 arg2);
-    static s32 get_action_cursor_priority(void *arg0, saddr player, s32 index);
-    static void set_cursor_color(s32 arg0, saddr player, saddr main_cursor);
-    static void set_display_flags(s32 arg0, saddr player, saddr main_cursor);
-    static void setup_flags(s32 arg0, s32 player, saddr main_cursor);
+    void set_cursor_pos(u16 part, s32 index);
+    static s32 get_action_cursor_priority(void *unused, saddr player, s32 index);
+    static void set_cursor_color(s32 unused, saddr player, saddr main_cursor);
+    static void set_display_flags(s32 unused, saddr player, saddr main_cursor);
+    static void setup_flags(s32 unused, s32 player, saddr main_cursor);
     s32 is_channel_active();
     static s32 check_visible(TPlyDispConfigSmth *palette, TObjPlayer *player, s16 type, s32 enabled);
     saddr get_index();

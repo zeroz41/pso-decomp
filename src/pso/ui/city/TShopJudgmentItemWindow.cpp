@@ -42,10 +42,10 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/object/base/TObjBase.h"
 
-const char *TShopJudgmentItemWindow__class_name = "TShopJudgmentItemWindow";
+const char *shop_judgment_item_window_class_name = "TShopJudgmentItemWindow";
 
 TShopJudgmentItemWindow::TShopJudgmentItemWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
-    m_name = TShopJudgmentItemWindow__class_name;
+    m_name = shop_judgment_item_window_class_name;
     this->pad_144 = 0;
     this->item_count = 0;
     this->pad_150 = 0;
@@ -208,9 +208,7 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
                 item_list->clear_decided();
                 return;
             }
-            goto block_14;
         }
-block_14:
         if ((yes_no_menu != NULL) && (yes_no_menu->is_cancelled() != 0)) {
             yes_no_menu->close();
             this->yes_no_menu = NULL;
@@ -316,9 +314,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                 set_state(6);
                 return;
             }
-            goto block_19;
         }
-block_19:
         if ((yes_no_menu != NULL) && (yes_no_menu->is_cancelled() != 0)) {
             yes_no_menu->close();
             yes_no_menu = NULL;
@@ -457,9 +453,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
                 this->set_state(4);
                 return;
             }
-            goto block_17;
         }
-block_17:
         if ((this->yes_no_menu != NULL) && (this->yes_no_menu->is_cancelled() != 0)) {
             this->yes_no_menu->close();
             this->yes_no_menu = NULL;

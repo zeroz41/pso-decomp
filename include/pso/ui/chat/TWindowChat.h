@@ -10,7 +10,7 @@ struct TWindowKeyBoardSoft;
 class TWindowChat : public TObject {
 public:
     virtual void render();
-    TWindowChat(TObject *object, void *arg2);
+    TWindowChat(TObject *object, void *result);
     virtual ~TWindowChat();
     s32 sub_80247EC0();
     s32 sub_80247128();
@@ -51,7 +51,7 @@ public:
     int is_visible();
     int is_mode_bit4();
     int is_open();
-    static struct SymbolChatPreset *open_symbol_chat(s32 *arg0);
+    static struct SymbolChatPreset *open_symbol_chat(s32 *index);
 };
 extern "C" {
 s32 TWindowCtrl__sub_8024701C(TWindowChat *chat);

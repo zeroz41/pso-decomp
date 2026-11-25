@@ -27,7 +27,7 @@
 
 extern "C" {
 s32 TShopItemTecSequence::slot_table[4];
-extern const char *TShopItemTecSequence__class_name;
+extern const char *shop_item_tec_sequence_class_name;
 s32 shop_tec_pending_message;
 s32 shop_tec_pending_state;
 TShopItemTecSequence *item_tec_sequence_instance;
@@ -38,24 +38,8 @@ extern int shop_tool_stock_counts[];
 }
 
 #pragma readonly_strings on
-struct Base_8021FEE0_8021FE6C { char pad[0x18]; };
-struct Base_8021FF30_8021FE6C { char pad[0x18]; };
-struct VBase_18_a93f07
-{
-  char pad[0x18];
-};
-struct Stack_802202BC
-{
-  f32 sp8;
-  f32 spC;
-};
-struct W_802200A8 { u8 pad[0x1c0]; void *cb0; };
-struct S_802200A8 { u8 pad[0x24]; s32 player; };
-struct VBase_18_80220110 { char pad[0x18]; };
-struct Base_8021FE80_8021FE6C { char pad[0x18]; };
-typedef struct Stack_802202BC Stack_802202BC;
-typedef struct VBase_18_a93f07 VBase_18_a93f07;
-const char *TShopItemTecSequence__class_name = "TShopItemTecSequence";
+struct ShopItemListWindowView { u8 pad[0x1c0]; void *cb0; };
+const char *shop_item_tec_sequence_class_name = "TShopItemTecSequence";
 void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item) {
     TItem *found;
     if (TRaderMapCore::is_not_split_screen() == 1 && (found = find_item_by_id(item->id)) != NULL && window->at_tekker != 0) {
@@ -78,7 +62,7 @@ void TShopItemTecSequence__sub_80220538(void) {
 }
 
 TShopItemTecSequence::TShopItemTecSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = TShopItemTecSequence__class_name;
+    m_name = shop_item_tec_sequence_class_name;
     state = 0;
     this->player = player;
     choice_menu = NULL;
@@ -184,7 +168,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
 }
 
 void TShopItemTecSequence::open_item_list_window() {
-    W_802200A8 *o = (W_802200A8 *)new TShopItemListWindow(tl_05, this, player);
+    ShopItemListWindowView *o = (ShopItemListWindowView *)new TShopItemListWindow(tl_05, this, player);
     o->cb0 = (void *)close__20TShopItemTecSequenceFPv;
     reset_controller_input_state();
     this->set_state(5);

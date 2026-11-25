@@ -3,18 +3,18 @@
 #include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
 
-typedef struct Item_80222FF0 { u8 d[0x14]; } Item_80222FF0;
+typedef struct ItemRecordView { u8 d[0x14]; } ItemRecordView;
 
 extern "C" {
-s32 TLobby__sub_8022318C(Item_80222FF0 *, Item_80222FF0 *);
+s32 TLobby__sub_8022318C(ItemRecordView *, ItemRecordView *);
 
-s32 TCheckRoomSequence::get_item_def(uaddr arg0) {
-    if (arg0 != 0U) {
-        return TItemData::lookup_item_def((void *)arg0);
+s32 TCheckRoomSequence::get_item_def(uaddr item) {
+    if (item != 0U) {
+        return TItemData::lookup_item_def((void *)item);
     }
     return 0;
 }
-void sort_shop_items(Item_80222FF0 *items, s32 n, s32 mode) {
+void sort_shop_items(ItemRecordView *items, s32 n, s32 mode) {
     s32 i;
     s32 j;
     for (i = 0; i < n - 1; i++) {

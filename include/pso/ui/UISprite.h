@@ -42,7 +42,7 @@ extern f32 ui_sprite_scale;
 extern "C" {
 void draw_ui_sprite(s32 sprite_id, const vec2f* position, f32 depth, f32 alpha);
 // Points *table at the cell table of sprite *id; ids from 143 on index the language's own table.
-void TCharaMaking__resolve_creation_sprite_table(NJS_TEXANIM** table, s32* id);
+void resolve_creation_sprite_table(NJS_TEXANIM** table, s32* id);
 void fn_80291138(void);
 void fn_80291178(void);
 }
