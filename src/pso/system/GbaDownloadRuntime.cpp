@@ -6,7 +6,7 @@
 #include "pso/network/GbaJoybootState.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/system/GbaAramCache.h"
-#include "pso/unk/TLobby_801F2D2C.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/date.h"
 #include "pso/network/TLobby.h"

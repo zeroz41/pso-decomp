@@ -1223,10 +1223,13 @@ struct G_SyncPlayerDispAndInventory_GC_6x70 {
 };
 
 struct G_SyncQuestRegister_6x77 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  u16 register_number;
  u16 unused;
- u8 _anon_u_8[0x4];
+ u32 value;
+ void send();
+ void bswap();
+ void init();
 };
 
 struct G_SyncSetFlagState_6x6E_Decompressed {

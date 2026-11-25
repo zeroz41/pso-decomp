@@ -14,6 +14,8 @@ union BattleMovementParams {
         u32 floats[6];
         u32 integers[6];
     } words;
+
+    void bswap();
 };
 
 struct BattleParameterBank {

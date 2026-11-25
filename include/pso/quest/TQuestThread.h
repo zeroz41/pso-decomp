@@ -6,6 +6,7 @@
 #include "pso/quest/QuestVm.h"
 
 class TQuestManager;
+struct G_SyncQuestRegister_6x77;
 
 class TQuestThread : public TObject {
 public:
@@ -62,7 +63,7 @@ public:
     s32 process_keyboard_input();
 };
 
-void handle_6x77_sync_quest_register(u8 *packet);
+void handle_6x77_sync_quest_register(G_SyncQuestRegister_6x77 *cmd);
 char *get_offline_quest_filename();
 void load_area_dialogue_script();
 

@@ -203,7 +203,6 @@ struct TLobby : public TObject {
     static void run_floor_update_2();
     static void create_map_csn_ctrl();
     static s32 is_status_zero();
-    static void bswap_header(void *p);
 
     static void *create_npc(void *set_data);
     static s32 is_idle();
@@ -479,15 +478,11 @@ struct TLobby : public TObject {
     static void handle_choice_search_options(TRecvChoiceSearchOptions *options);
     static void send_battle_mode_data(void * _w0);
     static unsigned char read_packet_byte();
-    static void close_windows();
     static void clear_quest_vm_flag();
     static void free_luker_object();
     void set_floor(s16 v);
-    void bswap_4x32();
-    void sync_quest_register_and_send();
     static int get_field_6CE8();
     static int get_lobby_count();
-    static void bswap_entry_words(s32 entry);
     static void set_lobby_id(int a0);
     static void set_area_total(int a0);
     void bswap_enemy_set_rows(u32 size);

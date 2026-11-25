@@ -762,7 +762,6 @@ pso/unk/TLobby_801D6DC4.cpp
 pso/unk/TLobby_801D726C.cpp
 pso/unk/TLobby_801E2F94.cpp
 pso/unk/TLobby_801E43E4.cpp
-pso/unk/TLobby_801F2D2C.cpp
 pso/unk/TLobby_801F3A24.cpp
 pso/unk/TLobby_801F487C.cpp
 pso/unk/TLobby_80207644.cpp

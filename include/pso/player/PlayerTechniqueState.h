@@ -37,6 +37,7 @@ public:
     u8 get_learned_level(s16 technique) const;
     void set_learned_level(s16 technique, u8 level);
     void enable_techniques();
+    void disable_techniques();
 
     u8 level;
     u8 level_override;

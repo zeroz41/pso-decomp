@@ -4989,15 +4989,12 @@ pso/quest/QuestOpcodeHandlersData.cpp:
 	.rodata     start:0x80449A38 end:0x80449A40
 
 pso/quest/QuestOpcodeHandlers.cpp:
-	.text       start:0x801E6544 end:0x801F2D2C
+	.text       start:0x801E6544 end:0x801F3710
 	.rodata     start:0x80449A40 end:0x80449CD8
 	.data       start:0x804C81D8 end:0x804C8230
 	.bss        start:0x80512220 end:0x80512790
 	.sbss       start:0x805D5E70 end:0x805D5EE0
 	.sdata2     start:0x805DC4A0 end:0x805DC4E0
-
-pso/unk/TLobby_801F2D2C.cpp:
-	.text       start:0x801F2D2C end:0x801F3710
 
 pso/ui/hud/TRaderMapCore_801F3710.cpp:
 	.text       start:0x801F3710 end:0x801F3718

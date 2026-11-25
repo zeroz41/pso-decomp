@@ -20,7 +20,8 @@
 #include "pso/item/TObjItemNameSelect.h"
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_801F2D2C.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -76,7 +77,6 @@ void run_task__7TObjectFv();
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
 
-extern s32 evt2_random_enemies_mode;
 extern int quest_bin_decompressed_size;
 extern u8 *online_quest_bin_data;
 extern char offline_quest_filename_buffer_a[];
@@ -330,7 +330,7 @@ void TQuestThreadBoard::run_task() {
             TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
-            TLobby::close_windows();
+            close_windows();
             queue_destruction();
         }
         break;
@@ -358,7 +358,7 @@ void TQuestThreadBoard::run_task() {
             }
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
-            TLobby::close_windows();
+            close_windows();
             queue_destruction();
         }
         break;
@@ -421,7 +421,7 @@ TQuestThreadBoard::~TQuestThreadBoard() {
         ((TWindowBase *)ctx.list_window)->close();
         ctx.list_window = nullptr;
     }
-    TLobby::close_windows();
+    close_windows();
     quest_thread_board = NULL;
 }
 
@@ -518,7 +518,7 @@ void TQuestThread::run_task() {
                 state = QST_RUNNING;
             }
             if (test_pressed_buttons_packed(pad, 8) != 0) {
-                TLobby::close_windows();
+                close_windows();
                 ((TObject *)this)->queue_destruction();
             }
         }
@@ -660,17 +660,17 @@ void TQuestThread::clear_buffer(TQuestManager *root) {
     }
 }
 
-void handle_6x77_sync_quest_register(u8 *packet) {
+void handle_6x77_sync_quest_register(G_SyncQuestRegister_6x77 *cmd) {
     TQuestManager *root;
     s32 *registers;
     u16 index;
-    TLobby::bswap_header(packet);
+    cmd->bswap();
     root = quest_mission_manager;
     if (root != NULL) {
-        index = *(u16 *)(packet + 4);
+        index = cmd->register_number;
         registers = root->ctx.registers;
         if (index <= 0xFFU) {
-            registers[index] = *(s32 *)(packet + 8);
+            registers[index] = cmd->value;
         }
     }
 }
