@@ -42,7 +42,7 @@ struct CharacterSaveRecord {
     u8 pad_8[0x4];
     // Seconds played; update_elapsed_time adds the time since the character was selected.
     s32 play_time;
-    u8 pad_10[0x4];
+    s32 card_window_flags;  // test/set_card_window_flags (TWindowKeyBoardHard)
     u32 pad_14;
     u8 pad_18[0x248 - 0x18];
     s32 bank_item_count;    // rows of bank_items in use

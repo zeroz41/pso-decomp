@@ -16,27 +16,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 
-struct VBase_18_7b3651 { char pad[0x18]; };
-
-struct VObj_18_7b3651 : VBase_18_7b3651 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual char *m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual s32 m14();
-};
-
-
 extern "C" {
 s32 get_shared_text_buffer(void);
 void text_builder_append_int(s32);
@@ -68,9 +47,9 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     u8 *info;
     s32 idx;
     s32 lvl;
-    VObj_18_7b3651 *p;
+    TObjPlayer *p;
     mode = TWindowShortListCtrl::get_card_status_bits(client_id);
-    p = (VObj_18_7b3651 *)get_player_by_client_id(client_id);
+    p = get_player_by_client_id(client_id);
     if (p == NULL) {
         return 0;
     }
@@ -78,9 +57,9 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     if (info == NULL) {
         return 0;
     }
-    name = p->m10();
-    idx = ((TObjPlayer *)p)->get_language();
-    lvl = p->m14();
+    name = (char *)p->get_name();
+    idx = p->get_language();
+    lvl = p->get_actor_level_index();
     text_builder_reset();
     switch (mode) {
     case 0:
@@ -123,7 +102,7 @@ void *TFontSmallLobby::create(s32 id) {
 
 void TFontPlayerStatusHelp::run_task() {
     s32 status_bits;
-    s32 temp_r4;
+    s32 client;
     uaddr text_source;
     saddr player;
 
@@ -139,8 +118,8 @@ void TFontPlayerStatusHelp::run_task() {
         set_help_text((const char *)text_source);
         if (text_source != 0U) {
             if (this->card_status_bits == 3) {
-                temp_r4 = (s32)this->player_id;
-                set_color(challenge_title_color(&lobby_player_status_records[temp_r4].challenge));
+                client = (s32)this->player_id;
+                set_color(challenge_title_color(&lobby_player_status_records[client].challenge));
             } else {
                 set_color(get_player_status_color((void *)player));
             }
@@ -164,11 +143,11 @@ LAYOUT_ASSERT(RecoveredGlobal_800FCC78_lbl_8049CA54_size, sizeof(RecoveredGlobal
 extern "C" {
 u8 * __ct__14TFontSmallHelpFUlUllUl(void *, s32, s32, s32, s32);
 extern RecoveredGlobal_800FCC78_lbl_8049CA54 __vt__21TFontPlayerStatusHelp;
-u8 *fn_800FCC78(u8 *arg0, s32 id) {
-    __ct__14TFontSmallHelpFUlUllUl(arg0, id, -1, -1, 0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__21TFontPlayerStatusHelp.value;
-    *(s32 *)((s8 *)arg0 + 0x60) = 5;
-    return arg0;
+u8 *fn_800FCC78(u8 *font, s32 id) {
+    __ct__14TFontSmallHelpFUlUllUl(font, id, -1, -1, 0);
+    *(s32 **)((s8 *)font + 0x18) = &__vt__21TFontPlayerStatusHelp.value;
+    *(s32 *)((s8 *)font + 0x60) = 5;
+    return font;
 }
 
 }

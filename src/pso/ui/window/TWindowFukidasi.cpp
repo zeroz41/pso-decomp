@@ -541,25 +541,25 @@ void TWindowFukidasi::set_text(const char *str, s32 flags) {
 
 #pragma pop
 void TWindowFukidasi::open(u32 *symbol, s32 flags) {
-    s32 var_r31;
-    u8 temp_r0;
+    s32 restart;
+    u8 current;
 
-    var_r31 = 0;
+    restart = 0;
     init_flags(flags);
     if ((u8) unk_72 != 1) {
         unk_72 = 1U;
         entry_list.destroy_all_items();
         ((TWindowSubSymbolChat *)&entry_list)->init_layout_entries(client_index);
         if ((u8) state != 0) {
-            var_r31 = 1;
+            restart = 1;
         }
     } else {
-        temp_r0 = state;
-        if ((temp_r0 != 0) && (temp_r0 != 4)) {
-            var_r31 = 1;
+        current = state;
+        if ((current != 0) && (current != 4)) {
+            restart = 1;
         }
     }
-    if (var_r31 != 0) {
+    if (restart != 0) {
         state = 5U;
         clear_flag();
         if (TWindowSubStatusDisp::get_card_window_scale(client_index) > 0.0f) {
@@ -877,8 +877,8 @@ s32 TWindowFukidasi::shift_rect_with_head(f32 *rect, f32 *out) {
 
 #pragma push
 #pragma fp_contract on
-s32 TWindowFukidasi::rest_balloon(f32 *rect, f32 *arg2) {
-    NJS_POINT2 *o = (NJS_POINT2 *)arg2;
+s32 TWindowFukidasi::rest_balloon(f32 *rect, f32 *out) {
+    NJS_POINT2 *o = (NJS_POINT2 *)out;
     f32 world[3];
     f32 edge[2];
     f32 dist;
@@ -1058,12 +1058,12 @@ void TWindowFukidasi::request_balloon_hide() {
     }
 }
 
-s32 TWindowFukidasi::approach(f32 farg0) {
+s32 TWindowFukidasi::approach(f32 target) {
     f32 x;
 
-    x = 0.47f * (farg0 - this->tail_scale);
+    x = 0.47f * (target - this->tail_scale);
     if (fabs_float(x) < 0.011f) {
-        this->tail_scale = farg0;
+        this->tail_scale = target;
         return 1;
     }
     this->tail_scale = (f32) (this->tail_scale + x);
@@ -1146,22 +1146,22 @@ s32 is_speech_balloon_ready(u8 *window_base) {
     return 0;
 }
 
-void complete_speech_balloon(u8 *arg0) {
+void TWindowFukidasi::show_immediately() {
     s32 t;
-    *(s8 *)(arg0 + 0x70) = 4;
-    *(u8 *)(arg0 + 0x71) |= 0x40;
-    ((TWindowFukidasi *)arg0)->calc_text_size((f32 *)(arg0 + 0x38));
-    ((TWindowFukidasi *)arg0)->refresh_rect_placement();
-    TWindowFukidasi__sub_80252C38(arg0);
-    ((TWindowFukidasi *)arg0)->set_flag2c_bit100();
-    ((TWindowBase *)arg0)->save_position();
-    *(f32 *)(arg0 + 0x80) = 1.0f;
-    ((TWindowFukidasi *)arg0)->sync_display_pos();
-    *(s32 *)(arg0 + 0x5C) = 0x186A0;
-    t = *(u8 *)(arg0 + 0x72);
+    state = 4;
+    balloon_flags |= 0x40;
+    calc_text_size(&target_size[0]);
+    refresh_rect_placement();
+    TWindowFukidasi__sub_80252C38(this);
+    set_flag2c_bit100();
+    save_position();
+    tail_scale = 1.0f;
+    sync_display_pos();
+    open_tick = 0x186A0;
+    t = unk_72;
     switch (t) {
     case 0:
-        ((TWindowHelpItem *)((TWindowBase *)arg0)->get_array_entry(0))->reset_float_field();
+        ((TWindowHelpItem *)get_array_entry(0))->reset_float_field();
         break;
     case 1:
     case 2:

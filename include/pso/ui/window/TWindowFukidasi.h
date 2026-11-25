@@ -53,10 +53,11 @@ public:
     int is_bit10_set();
     s32 check_card_match_enabled(const char *text);
     void sync_display_pos();
-    s32 approach(f32 farg0);
+    s32 approach(f32 target);
     void get_boundary_offset(s32 angle, f32 *out);
     TWindowFukidasi *find_balloon_overlap_for(TWindowFukidasi *first);
     void rearm_balloon(saddr flags);
+    void show_immediately();
     s32 shift_rect_with_head(f32 *rect, f32 *out);
     s32 rest_balloon(f32 *rect, f32 *out);
     s32 try_place_bubble(f32 *rect, f32 *out);
@@ -90,7 +91,6 @@ LAYOUT_ASSERT(TWindowFukidasi_size, sizeof(TWindowFukidasi) == 0x98);
 
 extern "C" {
 }
-void complete_speech_balloon(u8 *arg0);
 s32 is_speech_balloon_ready(u8 *window_base);
 extern "C" {
 void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);

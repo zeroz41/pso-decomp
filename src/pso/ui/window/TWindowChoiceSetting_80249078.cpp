@@ -1,5 +1,6 @@
 #include "pso/ui/window/WindowScrollBar.h"
 #include "types.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -54,17 +55,18 @@ void TWindowChoiceSetting::begin_scroll(f32 height) {
 }
 
 void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
-    u16 temp_r4;
-    void *e;
-    temp_r4 = ((TWindowChoiceSetting *)window_choice_setting)->m_80;
-    if (!(temp_r4 & 1)) {
-        ((TWindowChoiceSetting *)window_choice_setting)->m_80 = (u16) (temp_r4 | 1);
-        e = (void *)(((TWindowBase *)window_choice_setting)->get_array_entry((s32)((TWindowChoiceSetting *)window_choice_setting)->get_field_74()));
-        ((TWindowChoiceSetting *)window_choice_setting)->target_size[1] = 20.0f + *(f32 *)((s8 *)e + 0x14);
-        if (((TWindowChoiceSetting *)window_choice_setting)->window_flags & 0x40) {
-            ((TWindowChoiceSetting *)window_choice_setting)->target_size[1] += 6.0f;
+    u16 flags;
+    WindowTextEntry *entry;
+    TWindowChoiceSetting *window = (TWindowChoiceSetting *)window_choice_setting;
+    flags = window->m_80;
+    if (!(flags & 1)) {
+        window->m_80 = (u16) (flags | 1);
+        entry = (WindowTextEntry *)window->get_array_entry((s32)window->get_field_74());
+        window->target_size[1] = 20.0f + entry->height;
+        if (window->window_flags & 0x40) {
+            window->target_size[1] += 6.0f;
         }
-        *(s32 *)((s8 *)window_choice_setting + 0x50) = 3;
+        window->tween_ticks = 3;
     }
 }
 
@@ -87,7 +89,7 @@ void TWindowChoiceSetting::render() {
     draw_window_frame(context);
     draw_visible_window_entries(
         this,
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
+        &entry_list,
         context);
     draw_setting(context);
     if (heading != 0) {
@@ -99,52 +101,51 @@ void TWindowChoiceSetting::render() {
 }
 
 void TWindowChoiceSetting::run_task() {
-    u8 *arg0 = (u8 *)this;
-    WindowScrollBar *temp_r3_2;
+    WindowScrollBar *scroll;
     ControllerInputContext *input;
-    ControllerInputContext *temp_r30_2;
+    ControllerInputContext *pad;
     ControllerInputContext *context;
-    if ((((TWindowMenuInfomation *)arg0)->is_selected() == 0) && (((TWindowMenuInfomation *)arg0)->is_open() == 0)) {
+    if ((is_selected() == 0) && (is_open() == 0)) {
         if (this->m_70 & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-                ((TWindowMenuInfomation *)arg0)->move_cursor_prev();
+                move_cursor_prev();
             }
             if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-                ((TWindowMenuInfomation *)arg0)->move_next_choice();
+                move_next_choice();
             }
         } else {
-            temp_r30_2 = &controller_input_state.controllers[0];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-                ((TWindowMenuInfomation *)arg0)->move_cursor_prev();
+            pad = &controller_input_state.controllers[0];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+                move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-                ((TWindowMenuInfomation *)arg0)->move_next_choice();
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+                move_next_choice();
             }
         }
         context = &controller_input_state.controllers[0];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
-            ((TWindowMenuInfomation *)arg0)->draw();
+            draw();
         }
         if ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
-            ((TWindowMenuInfomation *)arg0)->request_close();
+            request_close();
         }
     }
     if ((f32) this->open_tick >= 7.5f) {
         if (this->heading != 0) {
             this->heading->update_subwindow();
         }
-        temp_r3_2 = scroll_bar;
-        if (temp_r3_2 != NULL) {
-            temp_r3_2->increment_counter();
+        scroll = scroll_bar;
+        if (scroll != NULL) {
+            scroll->increment_counter();
         }
     }
-    ((TWindowBase *)arg0)->update_window();
-    ((TWindowChoiceSetting *)arg0)->sub_80249078();
-    ((TWindowAddition *)arg0)->step_window_tween();
-    ((TWindowMenuInfomation *)arg0)->update_scroll_offset();
-    ((TWindowMenuInfomation *)arg0)->clamp_scroll();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
+    update_window();
+    sub_80249078();
+    step_window_tween();
+    update_scroll_offset();
+    clamp_scroll();
+    update_window_entry_list(&entry_list);
 }
 
 TWindowChoiceSetting::~TWindowChoiceSetting() {

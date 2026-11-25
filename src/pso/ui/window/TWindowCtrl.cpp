@@ -410,7 +410,7 @@ void TWindowCtrl::update_party_status_rows() {
     u32 i;
     void *pl;
     TWindowSimpleStatus *w;
-    y = ((TWindowLockOn *)(0xAB))->get_target_distance();
+    y = get_window_layout_y(0xAB);
     for (i = 0; i < 3; i++) {
         w = simple_status[i];
         if (w != NULL && ((TWindowCtrl *)w)->is_flag_2_set() == 0) {
@@ -532,8 +532,8 @@ void TWindowCtrl::update_trade_window() {
 
 
 
-void TWindowCtrl__sub_8024B9C0(void *arg0) {
-    TWindowCtrl *ctrl = (TWindowCtrl *)arg0;
+void TWindowCtrl__sub_8024B9C0(void *ctrl_arg) {
+    TWindowCtrl *ctrl = (TWindowCtrl *)ctrl_arg;
     if ((u32)ctrl->timer_window != 0U) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
             ((TWindowLockOn *)(ctrl->timer_window))->request_close();
@@ -692,7 +692,7 @@ void complete_actor_speech_balloons(u16 id) {
         for (i = 0; i < 4; i++) {
             w = TWindowCtrl::instance->balloons[i];
             if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
-                complete_speech_balloon((u8 *)w);
+                ((TWindowFukidasi *)w)->show_immediately();
             }
         }
     }
@@ -721,9 +721,9 @@ u16 TWindowCtrl::get_window_id() {
 
 
 
-void TWindowCtrl::set_window_id(u16 arg0) {
+void TWindowCtrl::set_window_id(u16 id) {
     if (instance != NULL) {
-        instance->window_id = arg0;
+        instance->window_id = id;
     }
 }
 
@@ -783,14 +783,14 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
 
 
 
-void TWindowCtrl::release_slot(s8 *arg0) {
-    s8 temp_r4;
+void TWindowCtrl::release_slot(s8 *slot) {
+    s8 value;
 
     if (instance != NULL) {
-        temp_r4 = *arg0;
-        if ((temp_r4 >= 0) && (temp_r4 < 4)) {
-            instance->flags &= ~(0x40 << temp_r4);
-            *arg0 = -1;
+        value = *slot;
+        if ((value >= 0) && (value < 4)) {
+            instance->flags &= ~(0x40 << value);
+            *slot = -1;
         }
     }
 }
@@ -799,20 +799,20 @@ void TWindowCtrl::release_slot(s8 *arg0) {
 
 const NJS_POINT2 *TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
     TWindowCtrlPlayer *window;
-    s32 var_r3;
+    s32 base;
 
     window = TWindowCtrl::get_window(client_id);
     if (window == NULL) {
         return 0;
     }
     if (window->is_log_active() != 0) {
-        var_r3 = 0x4D;
+        base = 0x4D;
     } else if (window->is_main_menu_open() != 0) {
-        var_r3 = 0x48;
+        base = 0x48;
     } else {
-        var_r3 = 0x43;
+        base = 0x43;
     }
-    return get_window_layout_position(var_r3 + type);
+    return get_window_layout_position(base + type);
 }
 
 
