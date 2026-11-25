@@ -7466,7 +7466,7 @@ init_weapon_effect_descriptor__21TItemWeaponFlameVisitFP22WeaponEffectDescriptor
 __ct__21TItemWeaponFlameVisitFP7TObjectPUc = .text:0x80125FD8; // type:function size:0x7C
 create__21TItemWeaponFlameVisitFPUc = .text:0x80126054; // type:function size:0x58
 __dt__21TItemWeaponFlameVisitFv = .text:0x801260AC; // type:function size:0x58
-frozen_shooter_freeze_hit__FiPUc = .text:0x80126104; // type:function size:0x7C
+frozen_shooter_freeze_hit__FiP12ActorBodyHit = .text:0x80126104; // type:function size:0x7C
 init_weapon_effect_descriptor__24TItemWeaponFrozenShooterFP22WeaponEffectDescriptor = .text:0x80126180; // type:function size:0x3C
 emit_marker_effects__24TItemWeaponFrozenShooterFv = .text:0x801261BC; // type:function size:0xBC
 on_equipped__24TItemWeaponFrozenShooterFv = .text:0x80126278; // type:function size:0x64

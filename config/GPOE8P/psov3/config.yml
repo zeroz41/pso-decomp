@@ -6483,7 +6483,7 @@ force_active:
   - freeze_shell_grow__15TObjFreezeShellFv
   - freeze_shell_hold__15TObjFreezeShellFv
   - frozen_shooter_ct__FPUcPUcl
-  - frozen_shooter_freeze_hit__FiPUc
+  - frozen_shooter_freeze_hit__FiP12ActorBodyHit
   - fs_obj_do_doa01_a_model_names
   - fs_obj_do_doa01_a_motion_names
   - fs_obj_do_doa01_model_names
