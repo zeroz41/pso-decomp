@@ -2008,7 +2008,7 @@ force_active:
   - __ct__13TUnk_8049FED0FP7TObjectPUc
   - __ct__13TUnk_8049FF88FP7TObjectPUc
   - __ct__20TItemFollowStarLightFP7TObjectll
-  - __ct__13TUnk_804A3260FlPUc
+  - __ct__18TItemWeaponMechgunFP7TObjectPUc
   - __ct__25TItemWeaponYasminkov7000VFP7TObjectPUc
   - __ct__13TUnk_804C8678FP7TObjectPCc
   - __ct__13TUnk_804C8678FP7TObjectPCcl
@@ -2444,7 +2444,7 @@ force_active:
   - __dt__26TItemWeaponChameleonScytheFv
   - __dt__16TItemWeaponAgitoFv
   - __dt__21TItemWeaponLavisBladeFv
-  - __dt__13TUnk_804A3260Fv
+  - __dt__18TItemWeaponMechgunFv
   - __dt__23TItemWeaponMagicalPieceFv
   - __dt__20TItemWeaponMaserBeamFv
   - __dt__23TItemWeaponHeartOfPoumnFv

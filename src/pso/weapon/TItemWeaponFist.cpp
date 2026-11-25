@@ -48,15 +48,14 @@ void TItemWeaponFist::on_equipped() {
 }
 
 
-// ---- pso/unk/text_8012685C
-
-struct Stack_8012685C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    f32 sp1C;
+// Mirror plane for the second hand: a point and a normal.
+struct MirrorPlane {
+    f32 point_x;
+    f32 point_y;
+    f32 point_z;
+    f32 normal_x;
+    f32 normal_y;
+    f32 normal_z;
 };
 
 
@@ -67,15 +66,15 @@ s32 knuckle_second_hand_pass;
 
 extern s32 knuckle_marker_joint_table[];
 void TItemWeaponFist::transform_model_node() {
-    Stack_8012685C stack;
+    MirrorPlane plane;
     if ((TObjPlayer::get_player_list() == 0) && (get_item_index() == 3) && ((s32) knuckle_second_hand_pass != 0)) {
-        stack.sp10 = 0.0f;
-        stack.spC = 0.0f;
-        stack.sp8 = 0.0f;
-        stack.sp1C = 0.0f;
-        stack.sp18 = 0.0f;
-        stack.sp14 = 1.0f;
-        reflect_matrix_in_plane(0, &stack.sp8, 0.0f);
+        plane.point_z = 0.0f;
+        plane.point_y = 0.0f;
+        plane.point_x = 0.0f;
+        plane.normal_z = 0.0f;
+        plane.normal_y = 0.0f;
+        plane.normal_x = 1.0f;
+        reflect_matrix_in_plane(0, &plane.point_x, 0.0f);
     }
 }
 
@@ -110,12 +109,12 @@ s32 knuckle_marker_joint_table[18] = {
 
 
 void TItemWeaponFist::draw_held_model() {
-    saddr arg0 = (saddr)this;
+    saddr weapon = (saddr)this;
     if (get_item_index() == 3) {
         knuckle_second_hand_pass = 0;
-        ((TItemWeapon *)arg0)->draw_weapon_model();
+        ((TItemWeapon *)weapon)->draw_weapon_model();
         knuckle_second_hand_pass = 1;
-        draw_weapon_at_joint(arg0, 0x23);
+        draw_weapon_at_joint(weapon, 0x23);
     }
 }
 

@@ -10,12 +10,12 @@
 
 void TItemWeaponHildebluesCane::emit_marker_effects() {
     Vec sp8;
-    void *tec_gi_barta;
+    TObjPlayer *owner;
 
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &sp8) != 0) {
-            tec_gi_barta = this->owner;
-            TTecGiBarta::create_ex(tec_gi_barta, &sp8, (*(saddr *)((s8 *)tec_gi_barta + 0x60)), (((TItemWeapon *)this)->get_tp()));
+            owner = this->owner;
+            TTecGiBarta::create_ex(owner, &sp8, owner->rotation_y, (((TItemWeapon *)this)->get_tp()));
             roll_technique();
         }
     } else {
@@ -46,7 +46,7 @@ void TItemWeaponHildebluesCane::update_attack() {
 void TItemWeaponHildebluesCane::update_weapon() {
     s32 open_state;
     s32 open_angle;
-    s32 temp_r4_2;
+    s32 angle;
     open_state = this->open_state;
     if (open_state == 2) {
         open_angle = this->open_angle;
@@ -58,9 +58,9 @@ void TItemWeaponHildebluesCane::update_weapon() {
             }
         }
     } else if (open_state == 1) {
-        temp_r4_2 = this->open_angle;
-        if (temp_r4_2 > 0) {
-            this->open_angle = (temp_r4_2 - 0x444);
+        angle = this->open_angle;
+        if (angle > 0) {
+            this->open_angle = (angle - 0x444);
             if (this->open_angle <= 0) {
                 this->open_angle = 0;
                 this->open_state = 0;

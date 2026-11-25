@@ -8,9 +8,9 @@
 
 void TItemWeaponFlowerBouquet::emit_marker_effects() {
     s32 sp8[6];
-    saddr arg0 = (saddr)this;
+    saddr weapon = (saddr)this;
 
-    ((TItemWeapon *)arg0)->get_joint_position(1, sp8);
+    ((TItemWeapon *)weapon)->get_joint_position(1, sp8);
     spawn_particle_effect((const Vec *)sp8, 0xC1);
 }
 

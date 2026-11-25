@@ -27,7 +27,7 @@
 
 // Built with -inline off,deferred: functions are written last to first.
 
-void TItemWeaponInfernoBazooka::emit_marker_effects() { m_1fc = 1; }
+void TItemWeaponInfernoBazooka::emit_marker_effects() { recoil_state = 1; }
 
 TItemWeaponInfernoBazooka::~TItemWeaponInfernoBazooka() {}
 
@@ -45,7 +45,7 @@ TItem *TItemWeaponInfernoBazooka::create(u8 *item) {
 TItemWeaponInfernoBazooka::TItemWeaponInfernoBazooka(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     barrel_offset = 0.0f;
     impact_callback = (WeaponHitCallback)spawn_flame_wall_impact;
-    m_1fc = 0;
+    recoil_state = 0;
     hit_callback = (WeaponHitCallback)play_target_impact_effect;
     shot_callback = (WeaponShotCallback)create_shoot_model_with_particles;
     shot_speed = 15.0f;
@@ -57,10 +57,10 @@ void TItemWeaponInfernoBazooka::update_weapon() {
     s32 ang;
     Vec v;
     Ang_8012E5A0 a;
-    if (this->m_1fc == 1) {
+    if (this->recoil_state == 1) {
         ::approach_value(&barrel_offset, (-0.5f), (-2.0f));
         if ((-2.0f) == barrel_offset) {
-            this->m_1fc = 2;
+            this->recoil_state = 2;
             ang = owner->rotation_y + 0x4000;
             v.x = sin_table_lookup(ang);
             v.y = 0.0f;
@@ -70,10 +70,10 @@ void TItemWeaponInfernoBazooka::update_weapon() {
             a.z = 0;
             TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&v, (uaddr)&a);
         }
-    } else if (this->m_1fc == 2) {
+    } else if (this->recoil_state == 2) {
         ::approach_value(&barrel_offset, 0.2f, 0.0f);
         if (0.0f == barrel_offset) {
-            this->m_1fc = 0;
+            this->recoil_state = 0;
         }
     }
 }
@@ -110,20 +110,20 @@ void TWeaponCasing::run_task() {
 
 
 void TWeaponCasing::render() {
-    uaddr child;
-    u8 *equipped_item;
+    NJS_OBJECT *child;
+    TItemEquipBase *equipped_item;
 
-    equipped_item = (u8 *)find_equipped_item(item_id);
+    equipped_item = (TItemEquipBase *)find_equipped_item(item_id);
     if (equipped_item != NULL) {
-        child = *(u32 *)((s8 *)equipped_item + 0x188);
-        if (child != 0U) {
-            set_texlist(((TItem *)equipped_item)->get_texlist());
+        child = equipped_item->second_model;
+        if (child != NULL) {
+            set_texlist(equipped_item->get_texlist());
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             rotate_matrix_x(0, rotation_x);
             rotate_matrix_z(0, rotation_z);
-            draw_ginja_object((void *)child);
+            draw_ginja_object(child);
             pop_matrix();
         }
     }

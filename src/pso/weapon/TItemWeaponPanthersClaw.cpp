@@ -33,14 +33,14 @@ void TItemWeaponPanthersClaw::update_attack() {
 
 void TItemWeaponPanthersClaw::draw_held_model() {
   NJS_OBJECT *saved_model;
-  saddr new_var;
+  saddr weapon;
   saved_model = item_model;
-  new_var = (saddr) this;
-  draw_weapon_at_joint(new_var, 0x2F);
+  weapon = (saddr) this;
+  draw_weapon_at_joint(weapon, 0x2F);
   update_trail_slot(0);
   update_trail_slot(1);
   item_model = second_model;
-  draw_weapon_at_joint(new_var, 0x22);
+  draw_weapon_at_joint(weapon, 0x22);
   item_model = saved_model;
 }
 

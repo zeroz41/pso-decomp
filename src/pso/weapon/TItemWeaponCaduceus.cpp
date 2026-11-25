@@ -16,7 +16,7 @@ void TItemWeaponCaduceus::emit_marker_effects() {
     spawn_particle_effect((const Vec *)&origin, 0x1BF);
     if (is_mode_two_and_ready() != 0) {
         owner = this->owner;
-        TTecFoie::create(owner, &origin, *(saddr *)((s8 *)owner + 0x60), 3);
+        TTecFoie::create(owner, &origin, owner->rotation_y, 3);
         return;
     }
     ((TItemWeapon *)this)->update_active_game_effect();

@@ -1,14 +1,15 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponHugeBattleFan.h"
+#include "pso/weapon/TItemWeaponBelraCannon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 
 
-void belra_cannon_return_timer(void *arg0) {
-    if (arg0 != NULL) {
-        *(s32 *)((s8 *)arg0 + 0x1F8) = 1;
+void belra_cannon_return_timer(void *weapon) {
+    if (weapon != NULL) {
+        ((TItemWeaponBelraCannon *)weapon)->shot_ready = 1;
     }
 }
 

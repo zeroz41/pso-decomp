@@ -15,6 +15,8 @@ public:
     s32 shot_ready;
 };
 
+// Timer callback: lets the cannon shoot again.
+void belra_cannon_return_timer(void *weapon);
 u32 belra_cannon_create_extra_shot(void *player, s32 pos, s32 dir, f32 life);
 saddr belra_cannon_create_shot(void *owner, s32 pos, s32 dir, f32 life);
 

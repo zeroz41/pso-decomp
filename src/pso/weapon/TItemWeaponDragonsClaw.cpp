@@ -12,12 +12,12 @@ extern "C" {
 
 void TItemWeaponDragonsClaw::emit_marker_effects() {
     s32 origin;
-    void *owner;
+    TObjPlayer *owner;
 
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &origin) != 0) {
             owner = this->owner;
-            TTecFoie::create(owner, &origin, *(saddr *)((s8 *)owner + 0x60), ((TItemWeapon *)this)->get_tp() + 2);
+            TTecFoie::create(owner, &origin, owner->rotation_y, ((TItemWeapon *)this)->get_tp() + 2);
             roll_technique();
         }
     } else {
