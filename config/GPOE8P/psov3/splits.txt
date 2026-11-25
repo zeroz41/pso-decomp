@@ -1014,7 +1014,7 @@ pso/unk/text_8007C0CC.cpp:
 	.text       start:0x8007C0CC end:0x8007C520
 	.bss        start:0x80500398 end:0x80500598
 
-pso/item/drop/TItemDrop.cpp:
+pso/system/SubtractiveRng.cpp:
 	.text       start:0x8007C520 end:0x8007C5C0
 
 pso/boss/derolle/TObjBoss2Tunnel.cpp:
@@ -2130,13 +2130,10 @@ pso/item/TItemEquipBase.cpp:
 	.sdata2     start:0x805DAB60 end:0x805DAB68
 
 pso/item/TItemData.cpp:
-	.text       start:0x8010B848 end:0x8010ED0C
+	.text       start:0x8010B848 end:0x8010ED54
 	.rodata     start:0x8043E2D8 end:0x8043E3A0
 	.data       start:0x8049F248 end:0x8049F3A0
 	.sdata2     start:0x805DAB68 end:0x805DAB90
-
-pso/item/TItemList_8010ED0C.cpp:
-	.text       start:0x8010ED0C end:0x8010ED54
 
 pso/ui/city/TShopEquipmentListWindow_8010ED54.cpp:
 	.text       start:0x8010ED54 end:0x8010EDA8

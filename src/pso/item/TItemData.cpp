@@ -21,6 +21,18 @@
 #include "pso/unk/text_80076E84.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueParams.h"
+#include "pso/ui/frontend/TAdRicoRing.h"
+#include "pso/item/TItemMenuCtrl.h"
+#include "pso/item/TItemEquipBase.h"
+#include "pso/item/mag/TItemMag.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/text_80104FCC.h"
+#include "pso/item/item_pmt.h"
+#include "pso/network/client_id.h"
+#include "pso/item/item_param.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TPlyDispData.h"
 
 struct Parm_8010C1E0;
 struct Item_8010C498;
@@ -751,18 +763,6 @@ s32 TItemData::get_max_stack_size() {
 
 #undef lookup_item_pmt_record
 
-#include "pso/ui/frontend/TAdRicoRing.h"
-#include "pso/item/TItemMenuCtrl.h"
-#include "pso/item/TItemEquipBase.h"
-#include "pso/item/mag/TItemMag.h"
-#include "pso/item/armor/TItemProShield.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/text_80104FCC.h"
-#include "pso/item/item_pmt.h"
-#include "pso/network/client_id.h"
-#include "pso/item/item_param.h"
-#include "pso/player/PlayerSlots.h"
-#include "pso/player/TPlyDispData.h"
 
 
 #define calc_clock_bonus__9TItemDataFPv ((s32 (*)(void *, s32))calc_clock_bonus__9TItemDataFPv)
@@ -1882,4 +1882,16 @@ void TItemData::init_meseta(s32 amount) {
     init();
     data1.data_u8[0] = 4;
     data2.data_u32 = amount;
+}
+
+s32 TItemData::get_stack_count() {
+    u8 count;
+
+    if (TItemData::lookup_item_def(this) != 0) {
+        count = data1.data_u8[5];
+        if (count != 0) {
+            return count;
+        }
+    }
+    return 1;
 }
