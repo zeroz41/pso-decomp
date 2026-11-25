@@ -23,7 +23,7 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 s32 TLobby__sub_80292F34(s32 limit);
 int TLobby__sub_80292F5C(void *p);
 void TLobby__sub_802930A8(void);
-int TLobby__sub_80293124(void *p);
+void TLobby__sub_80293124();
 void TLobby__sub_80293218(s32 client);
 s32 count_card_layout_entries(s32 client);
 void enable_split_screen_challenge_mode(void);

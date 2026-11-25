@@ -705,8 +705,6 @@ void TLobby__sub_802930A8(void) { challenge_mode_active_flag = 0; split_screen_f
 
 void enable_split_screen_challenge_mode(void) { challenge_mode_active_flag = 1; split_screen_flag = 1; }
 
-int TLobby__sub_80293124(void* p);
-int load_resources__13TObjTombstoneFv(void*);
 }
 
 const char *TChallenge4P__class_name = "TChallenge4P";
@@ -716,7 +714,7 @@ TChallenge4P *TChallenge4P::create() {
 }
 
 void TLobby::destroy_tombstone() { TObjTombstone::destroy(); }
-int TLobby__sub_80293124(void* p) { return load_resources__13TObjTombstoneFv(p); }
+void TLobby__sub_80293124() { TObjTombstone::load_resources(); }
 
 
 struct ByteBlock_690 { u8 bytes[0x690]; };
