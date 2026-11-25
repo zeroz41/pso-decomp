@@ -365,7 +365,7 @@ struct TObjPlayer : public TObjChara {
     void spawn_recovery_effect();
     void set_attribute_entry(s32 i, void *q);
     void copy_entry_bytes(void* q);
-    s16 *get_attribute_entry(s32 i);
+    WeaponAttribute *get_attribute_entry(s32 i);
     static f32 calc_distance_to_client(const TObjBase *actor, u16 client, Vec *delta);
     s16 get_class_id();
     s16 get_item_index();

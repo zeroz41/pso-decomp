@@ -234,11 +234,11 @@ block_14:
     this->base_dfp = dfp;
     this->ata = (s16) (stat_block->stats.ata + attack_params->get_ata());
     this->lck = (s16) stat_block->stats.lck;
-    this->m_2f2 = (s16) param_block->values[1];
-    this->m_2f4 = (s16) param_block->values[3];
-    m_2f6 = (s16) param_block->values[2];
-    this->m_2f8 = (s16) param_block->values[5];
-    m_2fa = (s16) param_block->values[4];
+    this->element_resist[0] = (s16) param_block->values[1];
+    this->element_resist[1] = (s16) param_block->values[3];
+    element_resist[2] = (s16) param_block->values[2];
+    this->element_resist[3] = (s16) param_block->values[5];
+    element_resist[4] = (s16) param_block->values[4];
     this->adjust_atp((s32)((f32)this->get_base_atp() * this->get_status_effect_amount(2)));
     this->adjust_atp_range((s32)((f32)this->get_base_atp_range() * this->get_status_effect_amount(2)));
     this->adjust_dfp((s32)((f32)this->get_base_dfp() * this->get_status_effect_amount(3)));

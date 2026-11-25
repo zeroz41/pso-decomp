@@ -474,11 +474,11 @@ void TBoss6Mag::update_segment_angles() {
         param_copy.values[5] = value_min;
         break;
     }
-    m_2f2 = param_copy.values[1];
-    m_2f4 = param_copy.values[3];
-    m_2f6 = param_copy.values[2];
-    m_2f8 = param_copy.values[5];
-    m_2fa = param_copy.values[4];
+    element_resist[0] = param_copy.values[1];
+    element_resist[1] = param_copy.values[3];
+    element_resist[2] = param_copy.values[2];
+    element_resist[3] = param_copy.values[5];
+    element_resist[4] = param_copy.values[4];
 }
 
 s32 TBoss6Mag::snap_to_shoulder() {

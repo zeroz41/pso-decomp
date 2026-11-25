@@ -4,6 +4,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/CsnGroundCandidates.h"
 #include "pso/system/SubtractiveRng.h"
+#include "pso/item/WeaponAttribute.h"
 
 struct Vec;
 struct player_stats;
@@ -208,7 +209,8 @@ public:
             u8 m_103;
         } credit_slot_bytes;
     };
-    u8 pad_104[0x12];
+    u8 pad_104[0xC];
+    WeaponAttribute attack_attributes[3];  // the equipped weapon's special attributes
     s16 m_116;
     u8 unk_118[0x2];
     s16 m_11a;
@@ -251,16 +253,8 @@ public:
     u32 hit_flags;
     u8 pad_2E0[0x4];
     u32 target_attribute_mask;  // 1 native, 2 A.Beast, 4 machine (androids), 8 dark: what a weapon's attribute bonus targets
-    s16 pad_2E8;
-    s16 m_2ea;
-    s16 pad_2EC;
-    s16 m_2ee;
-    s16 pad_2F0;
-    s16 m_2f2;
-    s16 m_2f4;
-    s16 m_2f6;
-    s16 m_2f8;
-    s16 m_2fa;
+    s16 element_attack[5];  // added to a physical hit, each scaled by the target's element_resist
+    s16 element_resist[5];  // percent of the attacker's element_attack taken away
     Vec body_center;  // position raised to mid-body; effects spawn and distances are measured here
     Vec velocity;
     // The pad driving it in place of its AI; TObjControl::run_task reads the

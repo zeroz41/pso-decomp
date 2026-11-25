@@ -709,7 +709,7 @@ void TWindowHelpItem::show_weapon_attributes() {
         c->set_flag0_bit20();
         d->set_flag0_bit20();
         e->set_flag0_bit20();
-        set_percentage_rows((WeaponAttribute *)((TObjPlayer *)player)->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
+        set_percentage_rows(((TObjPlayer *)player)->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
         if (primary_item != 0) {
             if (is_item_already_equipped() != 0) {
                 set_percentage_rows(NULL, &HelpItemStatCompareRow::set_compare_value);

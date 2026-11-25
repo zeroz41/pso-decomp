@@ -577,7 +577,7 @@ f32 TBoss6Type2::receive_physical_attack(void *att, f32 scale) {
         attributes = 0;
         i = 0;
         do {
-            switch (*(u8 *)((TObjPlayer *)att)->get_attribute_entry(i)) {
+            switch (((TObjPlayer *)att)->get_attribute_entry(i)->area) {
             case 1:
                 attributes |= 1;
                 break;
@@ -1189,11 +1189,11 @@ void TBoss6Type2::update_segments() {
         params_copy.values[5] = segment_min;
         break;
     }
-    m_2f2 = params_copy.values[1];
-    m_2f4 = params_copy.values[3];
-    m_2f6 = params_copy.values[2];
-    m_2f8 = params_copy.values[5];
-    m_2fa = params_copy.values[4];
+    element_resist[0] = params_copy.values[1];
+    element_resist[1] = params_copy.values[3];
+    element_resist[2] = params_copy.values[2];
+    element_resist[3] = params_copy.values[5];
+    element_resist[4] = params_copy.values[4];
 }
 
 void TBoss6Type2::copy_vec_array() {
