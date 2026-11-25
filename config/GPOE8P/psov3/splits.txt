@@ -6474,20 +6474,8 @@ pso/ui/window/TWindowSubComCard.cpp:
 	.sdata      start:0x805D3A10 end:0x805D3A14
 	.sdata2     start:0x805DD4F8 end:0x805DD540
 
-pso/ui/window/TWindowSubComCardList_802752D8.cpp:
-	.text       start:0x802752D8 end:0x80275360
-
-pso/unk/text_80275360.cpp:
-	.text       start:0x80275360 end:0x80275484
-
-pso/ui/window/TWindowSubComCard_80275484.cpp:
-	.text       start:0x80275484 end:0x802754EC
-
-pso/unk/text_802754EC.cpp:
-	.text       start:0x802754EC end:0x8027553C
-
 pso/ui/window/TWindowSubComCardList.cpp:
-	.text       start:0x8027553C end:0x802758C8
+	.text       start:0x802752D8 end:0x802758C8
 	.rodata     start:0x8044F6F8 end:0x8044F718
 	.data       start:0x804D1148 end:0x804D1160
 	.sdata      start:0x805D3A18 end:0x805D3A20

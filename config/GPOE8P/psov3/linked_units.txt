@@ -1202,7 +1202,6 @@ pso/ui/window/TWindowSubComCard_802495FC.cpp
 pso/ui/window/TWindowSubComCard_80265410.cpp
 pso/ui/window/TWindowSubComCard_80269064.cpp
 pso/ui/window/TWindowSubComCard.cpp
-pso/ui/window/TWindowSubComCard_80275484.cpp
 pso/ui/window/TWindowSubComCard_802A559C.cpp
 pso/ui/window/TWindowSubComCard_802A5748.cpp
 pso/ui/window/TWindowSubCustomEquip.cpp
@@ -1794,9 +1793,6 @@ pso/unk/text_8026AC50.cpp
 pso/unk/text_8026ACDC.cpp
 pso/unk/text_8026C664.cpp
 pso/unk/text_8026CB5C.cpp
-pso/ui/window/TWindowSubComCardList_802752D8.cpp
-pso/unk/text_80275360.cpp
-pso/unk/text_802754EC.cpp
 pso/unk/text_80278460.cpp
 pso/unk/text_8028A714.cpp
 pso/unk/text_8028A820.cpp
