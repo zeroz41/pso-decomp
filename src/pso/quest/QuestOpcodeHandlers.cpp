@@ -39,6 +39,8 @@
 
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/network/protocol/subcmd_6x.h"
@@ -847,7 +849,6 @@ struct Obj_801F09EC {
     u32 f30;
 };
 
-void VecCopy__FP3VecPC3Vec(Vec *, const void *);
 s16 get_actor_tp(u8 *);
 s32 obj_getPtr2B0_20();
 s16 obj_getS16_2BA(u8 *);
@@ -862,7 +863,6 @@ s32 __ct__16TPlyGuildCardTagFv(s32);
 s32 TLobby__sub_801036CC();
 void init__9TItemDataFv(Item_801EE77C *);
 s32 advance_item_id_counter(u16);
-void *find_entity_by_id(u16 id);
 void TOMineTrap__sub_80171368(f32);
 int clear_enabled_main_warps(void*);
 int set_hashi_versus2_flag(void*);
@@ -4441,7 +4441,7 @@ void qst_op_player_effect_nc(u8 regs) {
     s16 kind;
     s32 extra;
     f32 dy;
-    u8 *p;
+    TObjCollidable *actor;
     uaddr r;
     s32 i;
 
@@ -4450,9 +4450,9 @@ void qst_op_player_effect_nc(u8 regs) {
     extra = qst_registers[i++];
     id = qst_registers[i++];
     dy = qst_registers[i];
-    p = (u8 *)find_entity_by_id(id);
-    if (p != NULL) {
-        VecCopy__FP3VecPC3Vec(&v, p + 0x38);
+    actor = find_entity_by_id(id);
+    if (actor != NULL) {
+        VecCopy(&v, &actor->position);
         v.y += dy;
         r = (uaddr)create_timed_particle_emitter(&v, kind, 0, extra);
         if (r != 0) {
@@ -4480,9 +4480,9 @@ void qst_op_particle_id(u8 first) {
     s32 lifetime = qst_registers[i++];
     u16 id = (u16) qst_registers[i++];
     f32 height = (f32) qst_registers[i];
-    saddr actor = (saddr)find_entity_by_id(id);
-    if (actor != 0) {
-        ((void (*)(Vec *, const Vec *))VecCopy__FP3VecPC3Vec)(&point, (const Vec *) (actor + 0x38));
+    TObjCollidable *actor = find_entity_by_id(id);
+    if (actor != NULL) {
+        VecCopy(&point, &actor->position);
         point.y += height;
         create_timed_particle_emitter(&point, effect, 0, lifetime);
     }
