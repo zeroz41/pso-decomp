@@ -145,8 +145,6 @@ s32 add__16SymbolChatPresetFlllll(int, int, int, int, int, int);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 
 void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window);
-s32 TWindowSubComCard__sub_80265660(s32, s32);
-s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
 
 }
 #pragma pop
@@ -463,7 +461,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         ((TWindowMenu *)(this->main_menu))->open();
         if (this->symbol_list == NULL) {
-            this->symbol_list = TWindowSubSymbolChat__sub_8028233C((saddr)this);
+            this->symbol_list = TWindowSubSymbolChat__sub_8028233C(this);
         }
         ((TWindowMenu *)(this->symbol_list))->clear_flag_and_release();
         this->selected_value = 0xBU;
@@ -532,7 +530,7 @@ void TWindowSubSymbolChat::run_task() {
                 this->selected_value = 0xCU;
                 return;
             }
-            TWindowSubSymbolChat::open_menu((saddr)this, (s32)this->symbol_list);
+            this->open_menu(this->symbol_list);
             this->selected_value = 0xAU;
             return;
         }
@@ -873,14 +871,14 @@ TWindowMenu *TWindowSubSymbolChat::open_edit_menu() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-TWindowMenu *TWindowSubSymbolChat__sub_8028233C(s32 chat) {
+TWindowMenu *TWindowSubSymbolChat__sub_8028233C(TWindowSubSymbolChat *chat) {
     TWindowMenu *r = create_titled_window_menu_default(get_window_layout_position(0x79), 6, (saddr)TWindowSubStatusDisp::get_message_10(0xA9));
-    TWindowSubSymbolChat::open_menu(chat, (saddr)r);
+    chat->open_menu(r);
     return r;
 }
 
-void TWindowSubSymbolChat::open_menu(s32 chat, saddr list_addr) {
-    TWindowSubComCardList *list = (TWindowSubComCardList *)list_addr;
+void TWindowSubSymbolChat::open_menu(TWindowMenu *menu) {
+    TWindowSubComCardList *list = (TWindowSubComCardList *)menu;
     list->reset_entries();
     if (TWindowSubSymbolChat::count_instance_empty_slots() > 0) {
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xAE)), 6, 0xC);
@@ -1083,12 +1081,8 @@ s32 TWindowSubSymbolChat::is_card_confirmed() {
     if (this->symbol_list->get_selected_value() != 0x20) {
         return 0;
     }
-    s32 temp;
-    s32 ret;
-
-    temp = get_cursor_pos__20TWindowShortListCtrlFv((s32)this->symbol_list);
-    ret = TWindowSubComCard__sub_80265660((s32)this->symbol_list, temp);
-    return ret ? 1 : 0;
+    s16 row = ((TWindowShortListCtrl *)this->symbol_list)->get_cursor_pos();
+    return TWindowSubComCard__sub_80265660(this->symbol_list, row) ? 1 : 0;
 }
 
 void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window) {
