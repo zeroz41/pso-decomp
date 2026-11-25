@@ -1,4 +1,5 @@
 #include "pso/system/save/CardFileInfo.h"
+#include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/object/TObjRoomId.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -43,8 +44,6 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/city/TMedicalCenterMes.h"
-#include "pso/player/TPlayerLobbyMarker.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TEffGuard.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -941,9 +940,7 @@ void TObjPlayer::reset_motion_fields() {
             TObjPlayer::set_camera_mode(2);
             this->send_field_state();
             this->set_meseta(0);
-            {
-                new TMedicalCenterMes(tl_05, this);
-            }
+            new TMedicalCenterMes(tl_05, this);
             break;
         case 1:
             TObjPlayer::set_camera_mode(1);

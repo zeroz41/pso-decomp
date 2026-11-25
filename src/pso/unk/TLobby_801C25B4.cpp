@@ -1,4 +1,5 @@
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/effect/TDuelEffectCtrl.h"
 #include "pso/network/client_id.h"
 #include "pso/system/memory.h"
 #include "pso/system/task/TMainTask.h"
@@ -317,7 +318,6 @@ extern u32 player_slot_table[];
 
 extern s32 battle_intro_value_table[];
 void obj_clear_flag30_20000(void *actor);
-s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, int);
 }
 
 void record_local_battle_placement(void *);
@@ -522,10 +522,7 @@ void TLobby::update_battle_intro() {
     case 7:
         ((Lobby_801C49B8 *)this)->timer2--;
         if (TLobby::check_all_players_ready(((Lobby_801C49B8 *)this)) != 0 || ((Lobby_801C49B8 *)this)->timer2 <= 0) {
-            void *o = (void *)TObject::operator new(0x28);
-            if (o != NULL) {
-                __ct__15TDuelEffectCtrlFP7TObjectUc(o, ((Lobby_801C49B8 *)this), 0);
-            }
+            new TDuelEffectCtrl(this, 0);
             ((Lobby_801C49B8 *)this)->timer = 0x96;
             ((Lobby_801C49B8 *)this)->state = 8;
         }
@@ -594,10 +591,7 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         TLobby::init(arg0);
         lbl_805D5DA8 = 0;
         lbl_805D5DAC = 0;
-        p = (void *)TObject::operator new(0x28);
-        if (p != NULL) {
-            __ct__15TDuelEffectCtrlFP7TObjectUc(p, arg0, 1);
-        }
+        new TDuelEffectCtrl((TObject *)arg0, 1);
         *(s32 *)((s8 *)arg0 + 0x2C) = 0x78;
         TWindowCtrl::close_timer_window();
         TWindowCtrl::suppress_slot(local_client_id);
