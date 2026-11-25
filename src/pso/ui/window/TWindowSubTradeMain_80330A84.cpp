@@ -300,7 +300,7 @@ void TWindowSubTradeMain::run_task() {
             this->menu->request_close();
         }
         if (this->request != NULL) {
-            ((TWindowSubTradeMain *)(this->request))->update_trade_state();
+            this->request->activate();
         }
         if (this->help_item == NULL) {
             this->help_item = this->create_help_item();
@@ -323,7 +323,7 @@ void TWindowSubTradeMain::run_task() {
         if (this->request != NULL) {
             this->request->clear_decided();
             TWindowSubTradeMain__sub_803323C8(this->request);
-            ((TWindowSubTradeMain *)(this->request))->close();
+            this->request->deactivate();
         }
         this->state = 1;
         break;
@@ -372,7 +372,7 @@ void TWindowSubTradeMain::run_task() {
             this->menu->request_close();
         }
         if (this->offer != NULL) {
-            ((TWindowSubTradeMain *)(this->offer))->update_trade_state();
+            this->offer->activate();
         }
         if (this->help_item == NULL) {
             this->help_item = this->create_help_item();
@@ -394,7 +394,7 @@ void TWindowSubTradeMain::run_task() {
         if (this->offer != NULL) {
             this->offer->clear_decided();
             TWindowSubTradeMain__sub_803323C8(this->offer);
-            ((TWindowSubTradeMain *)(this->offer))->close();
+            this->offer->deactivate();
         }
         if (is_local_trade_offer_confirmation_requested() != 0) {
             this->state = 0x14;
@@ -633,7 +633,7 @@ TWindowSubEquipKind *TWindowSubTradeMain::create_trade_window() {
     w->ensure_status_display(p->m10());
     w->set_trade_state(0);
     w->refresh_trade_item_list(get_trade_offer_items()->entries);
-    ((TWindowSubTradeMain *)w)->close();
+    w->deactivate();
     w->set_depth(get_main_menu_layer_depth(reinterpret_cast<u8 *>(parent_menu), 0));
     return w;
 }
@@ -649,7 +649,7 @@ TWindowSubEquipKind *TWindowSubTradeMain::open_trade_equip_window() {
     w->ensure_status_display(p->m10());
     w->set_trade_state(0);
     w->refresh_trade_item_list(get_trade_window_state()->entries);
-    ((TWindowSubTradeMain *)w)->close();
+    w->deactivate();
     w->set_depth(get_main_menu_layer_depth(reinterpret_cast<u8 *>(parent_menu), 1));
     return w;
 }
@@ -740,9 +740,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
         }
         if (this->list != NULL) {
             if (on != 0) {
-                ((TWindowSubTradeMain *)(this->list))->clear_flag();
+                this->list->clear_flag_40();
             } else {
-                ((TWindowSubTradeMain *)(this->list))->set_visible();
+                this->list->set_flag_40();
             }
         }
         break;
@@ -766,9 +766,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
         }
         if (this->request != NULL) {
             if (on != 0) {
-                ((TWindowSubTradeMain *)(this->request))->clear_flag();
+                this->request->clear_flag_40();
             } else {
-                ((TWindowSubTradeMain *)(this->request))->set_visible();
+                this->request->set_flag_40();
             }
         }
         break;
@@ -782,9 +782,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
         }
         if (this->offer != NULL) {
             if (on != 0) {
-                ((TWindowSubTradeMain *)(this->offer))->clear_flag();
+                this->offer->clear_flag_40();
             } else {
-                ((TWindowSubTradeMain *)(this->offer))->set_visible();
+                this->offer->set_flag_40();
             }
         }
         break;

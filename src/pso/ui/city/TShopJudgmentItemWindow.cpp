@@ -246,8 +246,8 @@ void TShopJudgmentItemWindow::create_result_windows() {
             this->result_item = construct_item(&judged_item);
             this->item_list->add_list_entry(this->result_item, 0);
             ((TWindowSubShortCutList *)this->item_list)->set_flag70_bit10();
-            ((TWindowSubTradeMain *)this->item_list)->set_visible();
-            ((TWindowSubTradeMain *)this->item_list)->set_close_flag();
+            this->item_list->set_flag_40();
+            this->item_list->set_close_flag();
             this->item_list->calc_content_extent();
         }
         if (this->texture_window == NULL) {

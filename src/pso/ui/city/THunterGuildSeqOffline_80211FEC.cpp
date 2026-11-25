@@ -135,8 +135,8 @@ void TMemberCheck::open_member_name_window() {
     }
     self->win = create_check_box_window_for_local_client((const NJS_POINT2 *)get_window_layout_position(0xBD), (const void *)member_name_window_pos);
     if (self->win != 0) {
-        ((TWindowSubTradeMain *)(self->win))->set_visible();
-        ((TWindowSubTradeMain *)(self->win))->set_close_flag();
+        self->win->set_flag_40();
+        self->win->set_close_flag();
         for (i = 0; i < 4; i++) {
             uaddr p = (uaddr)get_player_by_client_id(i);
             if (p != 0) {

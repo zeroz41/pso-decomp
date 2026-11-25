@@ -46,13 +46,7 @@ struct TWindowSubTradeMain : public TObject {
     void bswap_6x6A_packet();
     void init_pkt_cmd_6A();
     static int get_warp_state();
-    void set_close_flag();
-    void set_visible();
-    void update_trade_state();
-    void close();
     void finish();
-    void clear_flag();
-    void clear_flag70_bit80();
     static void draw_offer(u32 item_id, s32 amount);
     static void draw_request(u32 item_id, s32 amount);
     // Opens the status window once the trade list was sent.
@@ -66,15 +60,7 @@ struct TWindowSubTradeMain : public TObject {
     TWindowMenu *build_trade_menu();
     virtual void render();
     virtual void run_task();
-    u8 pad_58[0x18];
-    u16 m_70;
-    u8 unk_72[0x2];
-    s16 m_74;
-    u8 unk_76[0xA];
-    uaddr m_80;
-    u8 unk_84[0x4];
-    u8 pad_88[0x2];
-    u8 unk_8A[0x1E];
+    u8 pad_58[0x50];
     void forward_to_child(s32 trade_state);
     void notify_child_if_present(s32 trade_state);
     void draw_item_slot();

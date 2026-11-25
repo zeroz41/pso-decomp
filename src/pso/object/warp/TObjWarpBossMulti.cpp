@@ -353,8 +353,8 @@ void TObjWarpBoss::update_warp_dialogs() {
     player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), (const void *)pos);
     if (player_list_window != 0)
     {
-      ((TWindowSubTradeMain *)player_list_window)->set_visible();
-      ((TWindowSubTradeMain *)player_list_window)->set_close_flag();
+      player_list_window->set_flag_40();
+      player_list_window->set_close_flag();
       for (i = 0; i < player_count; i++)
       {
         player_list_window->dispatch_without_flags((saddr)player_names[i], (s32)i);

@@ -67,23 +67,25 @@ void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
 
 
 
-void TWindowSubTradeMain::update_trade_state() {
-    if ((u32) this->m_80 != 0U) {
-        if (((TWindowMenuIconLine *)this)->is_decided() != 0) {
-            ((TWindowSubStatusDisp *)(this->m_80))->set_entry_state(2);
+// inferred: the trade lists' enable step, the reverse of deactivate.
+void TWindowMenuIconLine::activate() {
+    if (status_display != NULL) {
+        if (is_decided() != 0) {
+            ((TWindowSubStatusDisp *)status_display)->set_entry_state(2);
         } else {
-            ((TWindowSubStatusDisp *)(this->m_80))->set_entry_state(1);
+            ((TWindowSubStatusDisp *)status_display)->set_entry_state(1);
         }
     }
-    clear_flag70_bit80();
-    clear_flag();
+    clear_close_flag();
+    clear_flag_40();
 }
 
-void TWindowSubTradeMain::close() {
-    set_visible();
+// inferred: what the trade window creators call on a new list.
+void TWindowMenuIconLine::deactivate() {
+    set_flag_40();
     set_close_flag();
-    if ((u32) this->m_80 != 0U) {
-        ((TWindowSubStatusDisp *)(this->m_80))->set_entry_state(0);
+    if (status_display != NULL) {
+        ((TWindowSubStatusDisp *)status_display)->set_entry_state(0);
     }
 }
 
@@ -710,9 +712,9 @@ TWindowMenuIconLine::TWindowMenuIconLine(u8 *parent, u32 count, s16 client)
     init(count, client);
 }
 
-void TWindowSubTradeMain::clear_flag() { this->m_70 &= 0xffffffbf; }
+void TWindowMenuIconLine::clear_flag_40() { state_flags &= ~0x40; }
 
-void TWindowSubTradeMain::clear_flag70_bit80() { this->m_70 &= 0xffffff7f; }
+void TWindowMenuIconLine::clear_close_flag() { state_flags &= ~0x80; }
 
 int TWindowLayoutEntry::is_flag80_set() const { return flags & 0x80; }
 

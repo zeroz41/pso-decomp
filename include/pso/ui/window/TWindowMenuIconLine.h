@@ -26,6 +26,12 @@ public:
     void move_cursor_next();
     void handle_open();
     void set_flag4();
+    void set_flag_40();
+    void clear_flag_40();
+    void set_close_flag();
+    void clear_close_flag();
+    void activate();
+    void deactivate();
     // Opening the selected entry then plays no decide sound.
     void disable_decide_sound();
     int get_flag();

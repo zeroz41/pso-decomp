@@ -51,8 +51,8 @@ void TAdVIConfigGC::open_player_names_window() {
     }
     ((Cfg_80307D00 *)this)->win = create_check_box_window_on_layer(get_window_layout_position(0x5A), (saddr)player_names_window_pos, (s32)local_client_id);
     if (((Cfg_80307D00 *)this)->win != 0) {
-        ((TWindowSubTradeMain *)(((Cfg_80307D00 *)this)->win))->set_visible();
-        ((TWindowSubTradeMain *)(((Cfg_80307D00 *)this)->win))->set_close_flag();
+        ((Cfg_80307D00 *)this)->win->set_flag_40();
+        ((Cfg_80307D00 *)this)->win->set_close_flag();
         for (i = 0; i < 4; i++) {
             p = (u8 *)get_player_by_client_id(i);
             if (p != 0) {
