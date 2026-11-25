@@ -123,8 +123,11 @@ void TBoss6Zanzo::sub_803205C4() {
     }
 }
 
-int set_depth_buffer_settings_1__Fv(void *);
-void TBoss6Zanzo::render() { set_depth_buffer_settings_1__Fv(this); sub_803205C4(); restore_saved_depth_alpha_state(); }
+void TBoss6Zanzo::render() {
+    set_depth_buffer_settings_1();
+    sub_803205C4();
+    restore_saved_depth_alpha_state();
+}
 
 void TBoss6Zanzo::run_task() {
     Boss6TrailFrame *base;

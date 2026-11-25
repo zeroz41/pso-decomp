@@ -577,7 +577,6 @@ void create__10TObjPlayerFUiii(uaddr, s32, s32);
 s32 create_font_small_task(u32, s32, s32, s32, s32 *, s16, u16);
 s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
-s32 lerp_angle_half__Fll(s32, s32);
 void * find_entity_by_id(s32 id);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 int bswap_16__FPUs(void*);
@@ -1340,7 +1339,7 @@ void enemy_turn_half_toward_dest(TObjChara *chara) {
     VecCopy__FP3VecPC3Vec((saddr)&d, (saddr)&chara->move_destination);
     subtract_vector(&d, &chara->position);
     a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
-    chara->rotation_y = lerp_angle_half__Fll(chara->rotation_y, a);
+    chara->rotation_y = lerp_angle_half(chara->rotation_y, a);
     angle_difference_abs(chara->rotation_y, a);
 }
 
