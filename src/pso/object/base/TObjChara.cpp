@@ -130,15 +130,10 @@ struct Layout_80019038 {
     u8 pad11a[0x254 - 0x11A];
 };
 extern "C" {
-void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
 void create_hit_effect__10TObjPlayerFPv(void *);
 extern s32 registered_player_count;
 extern s32 registered_enemy_count;
-s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
 void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
-s16 get_actor_tp(u8* object);
-int get_actor_meseta(u8* p);
-s16 obj_getS16_2BA(u8* p);
 void send_6x2F_change_player_hp(u16, u16, s16);
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
 }
@@ -262,13 +257,8 @@ struct Obj_80014B5C { u8 pad0[0x30]; u32 f30; u8 pad34[0x254 - 0x34]; u8 f254[0x
 void shutdown_and_reset_system(void);
 void init_game_systems(void);
 extern "C" {
-void clear_velocity(u8 *arg0);
 s32 select_destination_away_from(TObjChara *chara, Vec point);
-s32 check_path_obstructed(TObjChara *chara, Vec *target);
-void enemy_turn_half_toward_dest(TObjChara *chara);
 s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
-s16 get_attack_params_atp_min(void* p);
-s16 get_attack_params_atp_max(void* p);
 bool is_split_screen(void);
 s32 get_current_floor(void);
 f32 fabs_float(f32 x);
@@ -462,9 +452,9 @@ void TObjChara::add_flags_2e4(u32 v) { (this->target_attribute_mask) |= v; }
 
 void TObjChara::clear_immunity_flags() { this->immunity_flags = 0; }
 
-s16 get_attack_params_atp_max(void* p) { return *(s16*)((char*)p + 0x2); }
+s16 AttackParams::get_atp_max() { return this->atp_max; }
 
-s16 TObjChara::get_stats_atp_max() { return get_attack_params_atp_max(this->attack_params); }
+s16 TObjChara::get_stats_atp_max() { return this->attack_params->get_atp_max(); }
 
 s16 AttackParams::get_ata() { return this->ata; }
 
@@ -505,9 +495,9 @@ void TObjChara::set_status_effect_timer(s32 i, s32 timer) {
     this->status_effects[i].timer = timer;
 }
 
-s16 get_attack_params_atp_min(void* p) { return *(s16*)((char*)p + 0x0); }
+s16 AttackParams::get_atp_min() { return this->atp_min; }
 
-s16 TObjChara::get_actor_attack_params_atp_min() { return get_attack_params_atp_min(this->attack_params); }
+s16 TObjChara::get_actor_attack_params_atp_min() { return this->attack_params->get_atp_min(); }
 
 #pragma push
 #pragma scheduling off
@@ -538,20 +528,20 @@ s16 TObjChara::get_actor_hp() {
     return this->hp;
 }
 
-s16 obj_getS16_2BA(u8* p) {
-    return *(s16*)(p + 0x2ba);
+s16 TObjChara::get_tpmax() {
+    return this->tpmax;
 }
 
 int TObjChara::obj_getPtr2B0_1C() {
     return this->stat_block->exp;
 }
 
-int get_actor_meseta(u8* p) {
-    return *(int*)(*(u8**)(p + 0x2b0) + 0x20);
+s32 TObjChara::get_actor_meseta() {
+    return this->stat_block->meseta;
 }
 
-s16 get_actor_tp(u8* object) {
-    return *(s16*)(object + 0x32e);
+s16 TObjChara::get_actor_tp() {
+    return this->tp;
 }
 
 s32 TObjChara::obj_isState2_324() {
@@ -2332,7 +2322,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
                 ((s32 (*)(TObjChara *, TObjChara *, TObjChara *, f32))calc_shock_chance)(this, ((TObjChara *)att), this, info.power) != 0) {
                 this->apply_shock_status();
             }
-            ((void (*)(TObjChara *, Vec *))activate_switch_attacks__10TObjPlayerFii)(this, &pos);
+            activate_switch_attacks(&pos);
             if (test_actor_flags(0x02000000) == 0) {
                 try_apply_damage(&pos, (s32)dmg);
             }
@@ -2684,7 +2674,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
                 coll->flags &= ~0x04000000;
             }
         } else {
-            dmg = (0.01f) * (f32)(power * ((s16 (*)(void *))obj_getS16_2BA)(att));
+            dmg = (0.01f) * (f32)(power * att->get_tpmax());
             cap = (25.0f) * (game_difficulty_selection + 1);
             if (cap < dmg) {
                 dmg = cap;
@@ -2704,7 +2694,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
                         TPFONT_W24(this, &pos, 10, (s32)dmg);
                         subtract_actor_tp((s32)dmg);
                     } else if (att->obj_isState2_324() == 0) {
-                        add_actor_tp(att, (s32)dmg);
+                        add_actor_tp(att, dmg);
                         dispatch_weapon_special_effect(att, this, &pos, 1);
                         subtract_actor_tp((s32)dmg);
                     }
@@ -2716,7 +2706,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
                     TPFONT_W24(this, &pos, 10, (s32)dmg);
                     subtract_actor_tp((s32)dmg);
                 } else if (att->obj_isState2_324() == 0) {
-                    add_actor_tp(att, (s32)dmg);
+                    add_actor_tp(att, dmg);
                     dispatch_weapon_special_effect(att, this, &pos, 1);
                     subtract_actor_tp((s32)dmg);
                 }
@@ -2769,19 +2759,19 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         if (test_actor_flags(0x02000000) == 0) {
             dispatch_weapon_special_effect(att, this, &pos, 1);
         }
-        if (cost <= (f32)((s32 (*)(void *))get_actor_meseta)(att)) {
+        if (cost <= (f32)att->get_actor_meseta()) {
             if (TObjPlayer::get_player_count() != 0) {
                 if (this->is_locally_controlled() != 0 && att->obj_isState2_324() != 0) {
                     att->send_update_entity_stat(attacker_id, 2, (s32)cost);
                     receive_physical_attack(att, (3.0f));
                 } else if (obj_isState2_324() == 0 || att->get_entity_id() >= 0x1000) {
-                    try_spend_actor_meseta(reinterpret_cast<TObjChara *>(att), (s32)cost);
+                    att->try_spend_actor_meseta((s32)cost);
                     ((void (*)(void *, void *, s32, s32))show_meseta_label)(att, &att->body_center, 0, (s32)-cost);
                     receive_physical_attack(att, (3.0f));
                 }
             } else {
                 if (immune == 0) {
-                    try_spend_actor_meseta(reinterpret_cast<TObjChara *>(att), (s32)cost);
+                    att->try_spend_actor_meseta((s32)cost);
                     ((void (*)(void *, void *, s32, s32))show_meseta_label)(att, &att->body_center, 0, (s32)-cost);
                 }
                 receive_physical_attack(att, (3.0f));
@@ -2800,8 +2790,8 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         if (test_actor_flags(0x02000000) == 0) {
             dispatch_weapon_special_effect(att, this, &pos, 1);
         }
-        amt = (0.2f) * (f32)((s16 (*)(void *))get_actor_tp)(att);
-        if ((1e+01f) <= (f32)((s16 (*)(void *))get_actor_tp)(att)) {
+        amt = (0.2f) * (f32)att->get_actor_tp();
+        if ((1e+01f) <= (f32)att->get_actor_tp()) {
             if (TObjPlayer::get_player_count() != 0) {
                 if (this->is_locally_controlled() != 0 && att->obj_isState2_324() != 0) {
                     att->send_update_entity_stat(attacker_id, 1, (s32)amt);
@@ -2838,7 +2828,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
                     receive_physical_attack(att, (3.0f));
                 }
             } else {
-                ((s32 (*)(void *, s32))damage_hp__10TObjPlayerFii)(att, (s32)amt);
+                att->damage_hp((s32)amt);
                 if (att->is_locally_controlled() != 0) {
                     u16 id = att->get_entity_id();
                     send_6x2F_change_player_hp(id, id, att->get_actor_hp());
@@ -2941,7 +2931,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         }
         if (test_actor_flags(0x02000000) == 0) {
             dispatch_weapon_special_effect(att, this, &pos, 1);
-            ((void (*)(void *, void *))activate_switch_attacks__10TObjPlayerFii)(this, &pos);
+            activate_switch_attacks(&pos);
             try_apply_damage(&pos, (s32)dmg);
         }
         break;
@@ -3094,7 +3084,7 @@ u16 find_nearest_visible_player(TObjChara *searcher, Vec *direction, f32 range) 
                 VecCopy(&diff, &player->pos);
                 ((s32 (*)(void *, void *))subtract_vector)(&diff, &searcher->body_center);
                 dist = (diff.x * diff.x) + (diff.z * diff.z);
-                if (dist < best && ((s32 (*)(void *, void *))check_path_obstructed)(searcher, &player->pos) == 0) {
+                if (dist < best && check_path_obstructed((TObjChara *)searcher, &player->pos) == 0) {
                     best = dist;
                     result = player->id;
                     if (direction != NULL) {
@@ -3140,11 +3130,11 @@ u16 find_nearest_hittable_enemy(TObjBase *searcher, Vec *direction, f32 range) {
 }
 extern "C" {
 
-s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1) {
-    if (((TObjChara *)arg0)->obj_isState2_324() != 0) {
+s32 TObjChara::damage_hp(s32 amount) {
+    if (obj_isState2_324() != 0) {
         return 0;
     }
-    return ((int (*)(void*, void*))subtract_actor_hp)((void*)arg0, (void*)arg1);
+    return ((s32 (*)(TObjChara *, s32))subtract_actor_hp)(this, amount);
 }
 
 s32 subtract_actor_hp(TObjChara *actor, s16 amount) {
@@ -3235,8 +3225,8 @@ s32 TObjChara::subtract_actor_tp(s32 amount) {
     return 1;
 }
 
-s32 add_actor_tp(TObjChara *actor, s32 amount) {
-    actor->tp = static_cast<s16>(static_cast<u32>(actor->tp) + static_cast<u32>(amount));
+s32 add_actor_tp(TObjChara *actor, s16 amount) {
+    actor->tp += amount;
     if (actor->tp > actor->tpmax) {
         actor->tp = actor->tpmax;
         return 0;
@@ -3320,8 +3310,8 @@ s32 TObjPlayer::add_meseta(s32 amount) {
   return 1;
 }
 
-s32 try_spend_actor_meseta(TObjChara *actor, s32 amount) {
-    player_stats *stats = actor->stat_block;
+s32 TObjChara::try_spend_actor_meseta(s32 amount) {
+    player_stats *stats = this->stat_block;
     s32 held = stats->meseta;
     if (held < amount) {
         return 0;
@@ -3371,7 +3361,7 @@ void TObjChara::record_attack_source(u16 id) {
             if (((s32 (*)(void))is_split_screen)() == 0) {
                 local_attacker_id = attacker_id;
             } else {
-                add_id_to_slots__10TObjPlayerFiUs(this, id);
+                add_id_to_slots(id);
             }
         }
     }
@@ -3379,20 +3369,20 @@ void TObjChara::record_attack_source(u16 id) {
 
 u16 TObjChara::get_local_attacker_id() { return this->local_attacker_id; }
 
-void assign_slots_from_list(void *arg0, saddr arg1) {
+void TObjChara::assign_slots_from_list(TObjChara *source) {
     s32 i;
 
-    if (arg1 != 0) {
+    if (source != NULL) {
         if (((s32 (*)(void))is_split_screen)() != 0) {
             i = 0;
             do {
-                add_id_to_slots__10TObjPlayerFiUs(static_cast<TObjChara *>(arg0), reinterpret_cast<TObjChara *>(arg1)->get_attack_credit_slot(i));
+                add_id_to_slots(source->get_attack_credit_slot(i));
                 i += 1;
             } while (i != 4);
             return;
         }
-        if (*(u16 *)((s8 *)arg0 + 0x2D6) == 0xFFFF) {
-            *(u16 *)((s8 *)arg0 + 0x2D6) = ((TObjChara *)arg1)->get_local_attacker_id();
+        if (local_attacker_id == 0xFFFF) {
+            local_attacker_id = source->get_local_attacker_id();
         }
     }
 }
@@ -3466,7 +3456,7 @@ void handle_6x9A_update_entity_stat(G_UpdateEntityStat_6x9A *command) {
         break;
     }
     case 2:
-        try_spend_actor_meseta(reinterpret_cast<TObjChara *>(player), amount);
+        reinterpret_cast<TObjChara *>(player)->try_spend_actor_meseta(amount);
         ((s32 (*)(s32, s32, s32, s16))show_meseta_label)(player, player + 0x2FC, 0xA, -amount);
         break;
     case 3: {
@@ -3478,7 +3468,7 @@ void handle_6x9A_update_entity_stat(G_UpdateEntityStat_6x9A *command) {
     }
     case 4: {
         v = amount;
-        ((s32 (*)(s32, s16))add_actor_tp)(player, v);
+        add_actor_tp(reinterpret_cast<TObjChara *>(player), v);
         ((s32 (*)(s32, s32, s32, s16))show_tp_font)(player, player + 0x2FC, 0xA, v);
         ((TObjPlayer *)player)->spawn_recovery_effect();
         break;
@@ -3550,23 +3540,20 @@ void TObjPlayer::clear_s16_arrays(void *p) {
     }
 }
 
-void add_id_to_slots__10TObjPlayerFiUs(TObjChara *actor, u16 id) {
-    s32 var_r30;
+void TObjChara::add_id_to_slots(u16 id) {
+    s32 i;
 
-    var_r30 = 0;
-loop_1:
-    if (static_cast<u16>(id) != actor->get_attack_credit_slot(var_r30)) {
-        if (actor->get_attack_credit_slot(var_r30) == 0xFFFF) {
-            actor->set_attack_credit_slot(var_r30, id);
+    i = 0;
+    do {
+        if (id == get_attack_credit_slot(i)) {
             return;
         }
-        var_r30 += 1;
-        if (var_r30 >= 4) {
-
-        } else {
-            goto loop_1;
+        if (get_attack_credit_slot(i) == 0xFFFF) {
+            set_attack_credit_slot(i, id);
+            return;
         }
-    }
+        i++;
+    } while (i < 4);
 }
 
 void TObjChara::apply_anti_technique(s32 arg1) {
@@ -3671,10 +3658,10 @@ void TObjPlayer::apply_velocity() {
     this->position.z = (f32) (this->position.z + this->velocity.z);
 }
 
-void clear_velocity(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x310) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x30C) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x308) = 0.0f;
+void TObjChara::clear_velocity() {
+    velocity.z = 0.0f;
+    velocity.y = 0.0f;
+    velocity.x = 0.0f;
 }
 
 s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2) {
@@ -3792,11 +3779,11 @@ void TObjChara::spawn_freeze_shell_effect(u32 arg1, s32 arg2) {
     }
 }
 
-void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos) {
-    if (((TObjCollidable *)arg0)->test_actor_flags(0x02000000) == 0) {
-        spawn_particle_effect_with_flags((const Vec *)pos, 0xB9, 0x40);
-        spawn_particle_effect_with_flags((const Vec *)pos, 0xBA, 0x40);
-        ((TObjChara *)arg0)->trigger_switch_attack((const Vec *)pos);
+void TObjChara::activate_switch_attacks(const Vec *pos) {
+    if (test_actor_flags(0x02000000) == 0) {
+        spawn_particle_effect_with_flags(pos, 0xB9, 0x40);
+        spawn_particle_effect_with_flags(pos, 0xBA, 0x40);
+        trigger_switch_attack(pos);
     }
 }
 

@@ -56,11 +56,9 @@ extern uaddr TObjPlayer__data_8050D460[];
 
 
 
-s16 get_attack_params_atp_min(void *);
 
 
 
-s16 get_attack_params_atp_max(void *);
 
 
 s32 is_split_screen();
@@ -226,8 +224,8 @@ block_14:
     atp = stat_block->stats.atp;
     this->atp = atp;
     this->base_atp = atp;
-    attack_params_atp_max = get_attack_params_atp_max(attack_params);
-    atp_range = attack_params_atp_max - get_attack_params_atp_min(attack_params);
+    attack_params_atp_max = attack_params->get_atp_max();
+    atp_range = attack_params_atp_max - attack_params->get_atp_min();
     this->atp_range = atp_range;
     this->base_atp_range = atp_range;
     evp = stat_block->stats.evp + param_block->values[0];

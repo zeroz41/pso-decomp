@@ -23,6 +23,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/text_803D853C.h"
 
@@ -98,21 +99,15 @@ extern "C" {
 void TObjGrass__sub_800BFB68(O_800BFB68 *self);
 s32 free_collision_body_parts(void *);
 f32 step_toward_destination(void *, Vec, f32);
-s32 check_path_obstructed(void *, void *);
-s32 get_current_floor();
 void TObjGrass__sub_800BCA2C(void *);
 f32 enemy_move_toward(void *, s32, void *, s32, f32);
 void enemy_pursue_point(void *, s32, void *, f32, f32);
-f64 atan2_float(f32, f32);
-f32 newton_sqrtf(f32);
 }
 extern s32 game_difficulty_selection;
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-f32 fabs_float(f32);
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid(void *, Vec);
-s32 is_split_screen();
 s32 init_collision_body_parts(void *, void *, int);
 
 extern const char *bm_ene_grass_model_names[2];
@@ -474,7 +469,7 @@ void TObjGrass::refresh_target() {
                     xx = v.x * v.x;
                     zz = v.z * v.z;
                     d = xx + zz;
-                    if (d < best && check_path_obstructed(arg0, p + 0x2FC) != 1) {
+                    if (d < best && check_path_obstructed(this, (Vec *)(p + 0x2FC)) != 1) {
                         best_id = id;
                         best = d;
                     }

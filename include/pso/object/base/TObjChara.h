@@ -43,6 +43,12 @@ public:
     f32 get_frame();
     s16 get_actor_hp();
     s16 get_hpmax();
+    s16 get_actor_tp();
+    s16 get_tpmax();
+    // The meseta in its stat block.
+    s32 get_actor_meseta();
+    // Takes `amount` meseta from its stat block; 0 when it holds less.
+    s32 try_spend_actor_meseta(s32 amount);
     s32 obj_isState3_324();
     s32 obj_isState2_324();
     // control_state 1: this machine drives it.
@@ -94,6 +100,15 @@ public:
     // Sets attacker_id; a local player's id also becomes local_attacker_id
     // (single screen) or goes to TObjPlayer::add_id_to_slots (split screen).
     void record_attack_source(u16 id);
+    // Puts `id` in the first free attack-credit slot unless a slot holds it.
+    void add_id_to_slots(u16 id);
+    // Takes over `source`'s credit: its slots (split screen) or its local attacker.
+    void assign_slots_from_list(TObjChara *source);
+    // Subtracts `amount` HP unless it is in state 2.
+    s32 damage_hp(s32 amount);
+    // Hit sparks at `pos` and its switch attack, unless actor flag 0x02000000 is set.
+    void activate_switch_attacks(const Vec *pos);
+    void clear_velocity();
     // Records a non-null attacker's entity id as the attack source.
     void attach_mine_trap(TObjBase *attacker);
     u16 get_local_attacker_id();
@@ -262,7 +277,6 @@ public:
 };
 
 extern "C" void *__dt__9TObjCharaFv(void *, s16);
-extern "C" s32 try_spend_actor_meseta(TObjChara *actor, s32 amount);
 
 LAYOUT_ASSERT(TObjCharaHpMaxOffset, offsetof(TObjChara, hpmax) == 0x2B8);
 LAYOUT_ASSERT(TObjCharaTpMaxOffset, offsetof(TObjChara, tpmax) == 0x2BA);
@@ -283,12 +297,8 @@ void move_with_wall_slide(TObjChara *actor);
 
 s32 add_actor_hp(TObjChara *actor, s16 amount);
 s32 subtract_actor_hp(TObjChara *actor, s16 amount);
-s32 add_actor_tp(TObjChara *actor, s32 amount);
+s32 add_actor_tp(TObjChara *actor, s16 amount);
 s32 add_actor_hp_bonus(TObjChara *actor, s32 amount);
 s32 add_actor_tp_bonus(TObjChara *actor, s32 amount);
-
-extern "C" {
-void add_id_to_slots__10TObjPlayerFiUs(TObjChara *actor, u16 id);
-}
 
 #endif

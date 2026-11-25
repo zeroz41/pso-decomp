@@ -147,13 +147,6 @@ struct Base_801B9954 {
     s16 field[18];
 };
 
-struct Attack_801B9954 {
-    s16 minimum;
-    s16 maximum;
-    s16 accuracy;
-    u8 rest[42];
-};
-
 struct Defense_801B9954 {
     s16 evasion;
     s16 resistance[5];
@@ -1586,7 +1579,7 @@ void TObjPlayer::unequip_all_units() {
 #pragma fp_contract on
 s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, PlayerRequirementStats *out, u8 *incoming) {
     Base_801B9954 b;
-    Attack_801B9954 a;
+    AttackParams a;
     Defense_801B9954 d;
     TItem *prev;
     saddr slot;
@@ -1630,16 +1623,16 @@ s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, PlayerRequirementSta
     b.field[4] = clamp_s32(b.field[4], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[4]);
     b.field[5] = clamp_s32(b.field[5], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[5]);
     b.field[6] = clamp_s32(b.field[6], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[6]);
-    out->set(player, reinterpret_cast<player_stats *>(&b), reinterpret_cast<AttackParams *>(&a), reinterpret_cast<ActorParamBlock *>(&d));
+    out->set(player, reinterpret_cast<player_stats *>(&b), &a, reinterpret_cast<ActorParamBlock *>(&d));
     rate = player->get_status_effect_amount(2);
     {
         s16 range;
         slot = b.field[0];
         {
         s16 sl = slot;
-        atp = (s32)((f32)sl * rate + (f32)(sl + get_attack_params_atp_min(&a)));
+        atp = (s32)((f32)sl * rate + (f32)(sl + a.get_atp_min()));
         }
-        range = get_attack_params_atp_max(&a) - get_attack_params_atp_min(&a);
+        range = a.get_atp_max() - a.get_atp_min();
         out->atp = atp + (s32)((f32)range * rate + (f32)range);
     }
     rate = player->get_status_effect_amount(3);
@@ -1689,9 +1682,9 @@ s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, PlayerRequirementSta
     i = c.atp;
     {
         s16 sl = i;
-        base = (s32)((f32)sl * k + (f32)(sl + (s16)get_attack_params_atp_min(a)));
+        base = (s32)((f32)sl * k + (f32)(sl + ((AttackParams *)a)->get_atp_min()));
     }
-    d = get_attack_params_atp_max(a) - get_attack_params_atp_min(a);
+    d = ((AttackParams *)a)->get_atp_max() - ((AttackParams *)a)->get_atp_min();
     out->atp = base + (s32)((f32)d * k + (f32)d);
     {
         f32 k2 = self->get_status_effect_amount(3);
@@ -1851,7 +1844,7 @@ s32 TObjPlayer::can_pickup_item(TItemData *item_data) {
 
     if (TItemData::lookup_item_def((u8 *)item_data) != 0) {
         if ((u8) *(u8 *)item_data == 4) {
-            return get_actor_meseta((u8 *)this) < 0xF423F;
+            return get_actor_meseta() < 0xF423F;
         }
         void *node_3615 = this->inventory_objects->set_mode_and_refresh_object((void *)item_data);
         if (node_3615 != 0U) {
@@ -2124,11 +2117,11 @@ void TObjPlayer::drop_items_on_death() {
         if (TObjPlayer::check_flag_01000000(this) == 0) {
             count=this->inventory_objects->set_globals_and_notify(this, records);
         }
-        if (get_actor_meseta((u8 *)this)!=0) {
+        if (get_actor_meseta()!=0) {
             record=&records[count];
             record->set_source_id(-1);
             item=reinterpret_cast<TPlyInventoryItem *>(record)->get_data();
-            item->init_meseta(get_actor_meseta((u8 *)this));
+            item->init_meseta(get_actor_meseta());
             count+=1;
             item->id=-1;
         }
@@ -2153,7 +2146,7 @@ s32 try_buy_item(saddr player, void *item) {
     if (((TObjPlayer *)player)->can_pickup_item((TItemData *)item) == 0) {
         return 1;
     }
-    if (try_spend_actor_meseta(reinterpret_cast<TObjChara *>(player), *(s32 *)((s8 *)item + 0x10) * ((TItemData *)item)->get_stack_count()) != 0) {
+    if (reinterpret_cast<TObjChara *>(player)->try_spend_actor_meseta(*(s32 *)((s8 *)item + 0x10) * ((TItemData *)item)->get_stack_count()) != 0) {
         buy_item_for_client((TItemData *)item, ((TObjBase *)(player))->get_entity_id());
         return 0;
     }
@@ -3136,19 +3129,19 @@ saddr TObjPlayer::resolve_move_collision() {
     p.y = position.y + velocity.y;
     p.z = position.z + velocity.z;
     if (this->update_actor_ground_y_at(&p) == 0U) {
-        clear_velocity((u8 *)this);
+        clear_velocity();
         return 1;
     }
     if (apply_wall_response() != 0U) {
-        clear_velocity((u8 *)this);
+        clear_velocity();
         return 2;
     }
     if ((TObjPlayer__sub_801BE8F4(this, 0, 0x380000) != 0) && (TObjPlayer__sub_801BE8F4(this, 0, 0x01C00000) != 0)) {
-        clear_velocity((u8 *)this);
+        clear_velocity();
         return 4;
     }
     if (is_outside_movement_hold(&p.x) != 0) {
-        clear_velocity((u8 *)this);
+        clear_velocity();
         return 3;
     }
     return 0;
@@ -3613,8 +3606,8 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     dst->f64 = ((TObjPlayer *)src)->get_language();
     copy_player_visual_record(dst->fC8, src->f85C);
     dst->f13C = src->fD00->run_state_query(reinterpret_cast<TPlyInventoryItem *>(dst->f140));
-    a = get_actor_hp__9TObjCharaFv(src);
-    b = get_actor_tp(src);
+    a = ((TObjPlayer *)src)->get_actor_hp();
+    b = ((TObjPlayer *)src)->get_actor_tp();
     for (i = 0; i != 0xD; i++) {
         TItem *e = ((TObjPlayer *)src)->get_equipped_item(i);
         if (e != NULL) {
@@ -5695,7 +5688,7 @@ s32 TObjPlayer::calc_battle_score() {
     v += (f32)battle_score.damage_stats[0].get_total();
     v -= (f32)battle_score.damage_stats[1].get_total();
     if (test_actor_flags(0x800) == 0) {
-        v += (f32)get_actor_meseta((u8 *)this) * battle_score.damage_stats[4].get_bonus_weight();
+        v += (f32)get_actor_meseta() * battle_score.damage_stats[4].get_bonus_weight();
     }
     return (s32)v;
 }

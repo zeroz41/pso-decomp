@@ -546,7 +546,7 @@ void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z) {
 void PlayerRequirementStats::set(TObjPlayer *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     s16 defense;
 
-    atp = base_stats->stats.atp + get_attack_params_atp_max(attack_stats);
+    atp = base_stats->stats.atp + attack_stats->get_atp_max();
     defense = base_stats->stats.dfp;
     dfp = defense + resistance_stats->value_1c;
     mst = base_stats->stats.mst;
@@ -563,7 +563,7 @@ void PlayerRequirementStats::set(TObjPlayer *player, player_stats *base_stats, A
 void PlayerLevelStats::set(TObjPlayer *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     PlayerRequirementStats::set(player, base_stats, attack_stats, resistance_stats);
     hp_max = player->get_hpmax();
-    tp_max = obj_getS16_2BA((u8 *)player);
+    tp_max = player->get_tpmax();
 }
 
 void PlayerLevelStats::calc_delta(PlayerLevelStats *after, PlayerLevelStats *delta) {

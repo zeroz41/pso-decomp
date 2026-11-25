@@ -449,7 +449,7 @@ void handle_6xAF_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *comm
 
 void TObjPlayer::update_state_group() {
 
-    clear_velocity(this);
+    clear_velocity();
     clear_state_flag();
     clear_anim_flag();
     clear_chair_seated();
@@ -463,7 +463,7 @@ void TObjPlayer::turn_toward_chair_seat() {
     this->rotation_y = this->interpolate_angle(this->rotation_y, this->get_chair_target_angle(), &step);
     length = normalize_vector_safe(&this->velocity) - 0.04f;
     if (length < 0.04f) {
-        clear_velocity(this);
+        clear_velocity();
     } else {
         calc_direction_vector(this->rotation_y, &this->velocity, length);
     }
@@ -779,7 +779,7 @@ void handle_6xB1(void) {  }
 
 void TObjPlayer::update_dispatch_v76() {
 
-    clear_velocity(this);
+    clear_velocity();
     clear_anim_flag();
     clear_lobby_pose_hold();
     set_motion_list(action_provider->get_current_motion_list());
@@ -1193,7 +1193,7 @@ void TObjPlayer::update_warp_relocation() {
 void TObjPlayer::set_dead_state() {
     this->action_state = 0x14;
     run_action_state_phase(this->mode, 6);
-    clear_velocity(this);
+    clear_velocity();
     clear_player_status_flag(0, 1);
     this->phase = 0;
     this->play_sound_if_on_floor(0x40003205);
@@ -1270,7 +1270,7 @@ void TObjPlayer::run_warp_action_phase(s16 phase) {
 
 void TObjPlayer::reset_lobby_state() {
     this->resume_motion();
-    clear_velocity(this);
+    clear_velocity();
     this->clear_actor_flags((u32)0x20);
     if (((s16) this->phase == 1) && (this->is_locally_controlled() != 0)) {
         this->protection.reset_lobby_model();
@@ -1286,7 +1286,7 @@ void TObjPlayer::try_use_mag() {
 void TObjPlayer::enter_freeze_action() {
     this->action_state = 0x13;
     run_action_state_phase(this->mode, 6);
-    clear_velocity(this);
+    clear_velocity();
     clear_actor_flags((u32)0x200);
     pause_motion();
     if (this->is_frozen() != 0) {
@@ -1441,7 +1441,7 @@ s32 TObjPlayer::try_change_action() {
     return 0;
 }
 
-void TObjPlayer::clear_flag() { clear_actor_flags((uaddr)((void*)((void*)65536))); clear_velocity(this); }
+void TObjPlayer::clear_flag() { clear_actor_flags((uaddr)((void*)((void*)65536))); clear_velocity(); }
 
 void TObjPlayer::apply_velocity_if_free(void *player) {
     TObjPlayer *p = (TObjPlayer *)player;
@@ -1571,7 +1571,7 @@ void TObjPlayer::ensure_default() {
 void TObjPlayer::init_action() {
     this->action_state = 0x12;
     run_action_state_phase(this->mode, 6);
-    clear_velocity(this);
+    clear_velocity();
     this->protection.set_frames(0x12C);
     this->phase = 0;
     this->frame_timer = 44.0f;
@@ -1860,7 +1860,7 @@ void TObjPlayer::enter_death_state() {
     this->action_state = 0xF;
     run_action_state_phase(this->mode, 6);
     reset_on_death();
-    clear_velocity(this);
+    clear_velocity();
     this->phase = 0;
     if (test_flags_any((s32 *)&this->death_flags, 1) != 0) {
         this->set_action_state(0xF, (s16)get_no_action());
@@ -2016,7 +2016,7 @@ void TObjPlayer::run_death_state_phase(s16 phase) {
   }
 }
 
-void TObjPlayer::exit_fall_reaction() { clear_velocity(this); }
+void TObjPlayer::exit_fall_reaction() { clear_velocity(); }
 
 void TObjPlayer::update_fall_reaction() {
     f32 frame_timer;
@@ -2047,7 +2047,7 @@ void TObjPlayer::update_fall_reaction() {
     }
     this->damp_planar_velocity();
     if (check_actor_blocking_move() != 0) {
-        clear_velocity(this);
+        clear_velocity();
     }
     if (resolve_move_collision() == 0U) {
         apply_velocity();
@@ -2176,12 +2176,12 @@ void TObjPlayer::run_fall_reaction_phase(s16 phase) {
     }
 }
 
-void TObjPlayer::set_flag_100000() { clear_velocity(this); set_actor_flags(0x100000); }
+void TObjPlayer::set_flag_100000() { clear_velocity(); set_actor_flags(0x100000); }
 
 void TObjPlayer::update_move_state() {
     damp_planar_velocity();
     if (this->check_actor_blocking_move() != 0) {
-        clear_velocity(this);
+        clear_velocity();
     }
     if (this->resolve_move_collision() == 0U) {
         this->apply_velocity();
@@ -2466,7 +2466,7 @@ s32 TObjPlayer::can_guard() {
     return 0;
 }
 
-void TObjPlayer::set_flag_0x100000(void* p) { clear_velocity(p); ((TObjBase *)p)->set_actor_flags(0x100000); }
+void TObjPlayer::set_flag_0x100000(void* p) { ((TObjChara *)p)->clear_velocity(); ((TObjBase *)p)->set_actor_flags(0x100000); }
 
 void TObjPlayer::apply_velocity_if_free(saddr arg0) {
     TObjPlayer *p = (TObjPlayer *)arg0;
@@ -2850,7 +2850,7 @@ void TObjPlayer::enter_photon_blast_action() {
         this->target_heading = calc_angle_to(this->get_position_ptr(), photon_blast_aim.get_position());
     }
     this->set_actor_flags(0x400000);
-    clear_velocity(this);
+    clear_velocity();
     if (this->obj_isState2_324() != 0) {
         this->play_sound_if_on_floor(0x22824);
     } else {
@@ -3264,7 +3264,7 @@ void TObjPlayer::enter_technique_cast() {
         }
     }
     set_actor_flags(0x400000);
-    clear_velocity(this);
+    clear_velocity();
     phase = 0;
     if (obj_isState2_324() != 0) {
         current_action = (s16)get_no_action();
@@ -3427,7 +3427,7 @@ void TObjPlayer::dispatch_technique_cast_state(s16 phase) {
 void TObjPlayer::reset_linked_obj() {
     TLockOnCursor *lock_on_cursor;
 
-    clear_velocity(this);
+    clear_velocity();
     this->resume_motion();
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
@@ -3551,7 +3551,7 @@ void TObjPlayer::run_attack_stage3_phase(s16 phase) {
 void TObjPlayer::reset_target_link() {
     TLockOnCursor *lock_on_cursor;
 
-    clear_velocity(this);
+    clear_velocity();
     this->resume_motion();
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
@@ -3955,10 +3955,10 @@ void TObjPlayer::apply_movement_if_ready() {
     handle_value = ((TObjPlayer *)this)->get_handle_value();
     if ((handle_value != 0x11) && ((handle_value >= 0x11) || (handle_value >= 0xA) || (handle_value < 6)) && (this->is_flag_b0_4() == 0) && ((s16) this->requested_action == (s16) this->current_action) && (this->action_flags & 0x20000000) && (this->is_motion_paused() == 0)) {
         if (0.0f > get_root_motion_step(&this->velocity.x, &this->velocity.z)) {
-            clear_velocity(this);
+            clear_velocity();
         }
         if (this->check_actor_blocking_move() != 0) {
-            clear_velocity(this);
+            clear_velocity();
         }
         if (this->resolve_move_collision() == 0U) {
             this->apply_velocity();
@@ -4024,7 +4024,7 @@ void TObjPlayer::update_attack_stage() {
 void TObjPlayer::reset_lockon() {
     TLockOnCursor *lock_on_cursor;
 
-    clear_velocity(this);
+    clear_velocity();
     this->resume_motion();
     lock_on_cursor = this->lock_on_cursor;
     if (lock_on_cursor != NULL) {
@@ -4039,7 +4039,7 @@ void TObjPlayer::update_action_state() {
 void TObjPlayer::enter_attack_stage1() {
     this->action_state = 5;
     this->run_action_state_phase(this->mode, 6);
-    clear_velocity(this);
+    clear_velocity();
     this->attack_state.begin(this, 0, 0);
     this->setup_attack_stage();
     this->set_action_state(5, this->get_attack1_action());
@@ -4165,7 +4165,7 @@ s32 TObjPlayer::update_aim_target() {
     this->velocity.y = 0.0f;
     this->velocity.z = 1.5f * cos_table_lookup(this->target_heading);
     if (this->check_actor_blocking_move() != 0) {
-        clear_velocity(this);
+        clear_velocity();
         return 0;
     }
     collision = this->resolve_move_collision();
@@ -4178,7 +4178,7 @@ s32 TObjPlayer::update_aim_target() {
     return 0;
 }
 
-void TObjPlayer::apply_damage_and_reset() { clear_motion_flags((saddr)((void*)256)); clear_velocity(this); }
+void TObjPlayer::apply_damage_and_reset() { clear_motion_flags((saddr)((void*)256)); clear_velocity(); }
 
 void TObjPlayer::update_run_movement() {
     s32 ang;
@@ -4428,7 +4428,7 @@ s32 TObjPlayer::update_combat_stats() {
     this->velocity.y = 0.0f;
     this->velocity.z = speed * cos_table_lookup(this->target_heading);
     if (this->check_actor_blocking_move() != 0) {
-        clear_velocity((void *) (((u8 *)this)));
+        clear_velocity();
         return 0;
     }
     collision = this->resolve_move_collision();
@@ -4449,7 +4449,7 @@ void TObjPlayer::calc_movement_target(s32 angle, f32 *out_x, f32 *out_z) {
 }
 #pragma pop
 
-void TObjPlayer::reset_and_flag() { clear_velocity(this); clear_motion_flags((saddr)((void*)256)); }
+void TObjPlayer::reset_and_flag() { clear_velocity(); clear_motion_flags((saddr)((void*)256)); }
 
 void TObjPlayer::update_walk_movement() {
     s32 ang;
@@ -4625,7 +4625,7 @@ s16 TObjPlayer::get_idle_animation() {
     return action_provider->get_idle_action();
 }
 
-void TObjPlayer::cleanup_idle_entry() { clear_actor_flags((uaddr)((void*)3840)); clear_state_flags((s32)(128)); move_speed.set_run_counter(0); this->resume_motion(); clear_velocity(this); death_sink.reset(); }
+void TObjPlayer::cleanup_idle_entry() { clear_actor_flags((uaddr)((void*)3840)); clear_state_flags((s32)(128)); move_speed.set_run_counter(0); this->resume_motion(); clear_velocity(); death_sink.reset(); }
 
 void TObjPlayer::exit_idle_state() {  }
 

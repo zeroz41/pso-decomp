@@ -444,7 +444,7 @@ s32 TPlyItem::use_item(TObjPlayer *player, s32 key, s32 amount) {
     TItemList *node;
 
     if (key == -1) {
-        try_spend_actor_meseta(player, amount);
+        player->try_spend_actor_meseta(amount);
         return 1;
     }
     node = start_inventory_update(key);
