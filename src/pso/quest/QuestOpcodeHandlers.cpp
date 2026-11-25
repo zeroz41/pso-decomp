@@ -527,7 +527,7 @@ void append_message_char(s8 c) {
 }
 extern "C" {
 
-void begin_message_substitution(u8 *a0, char *a1) { quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
+void begin_message_substitution(u8 *source, char *result) { quest_script_read_ptr = source; quest_string_append_cursor = result; }
 }
 
 void qst_op_olga_flow_is_dead(s32 reg) {

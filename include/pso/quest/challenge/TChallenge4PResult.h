@@ -24,7 +24,7 @@ public:
     u8 pad_26[2];
     s32 result_code;
     TWindowMessagePage *message_window;
-    s32 pad_30;
+    s32 unknown_30;
     TItemData reward_items[3];
     s32 reward_available[3];
 
