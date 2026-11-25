@@ -66,7 +66,7 @@ struct TWindowCtrl : public TObject {
     static void close_timer_window();
     static void create_alt_timer();
     static char *skip_name_prefix(void *self, char *s);
-    void get_speaker_balloon_anchor(u16 speaker, f32 *height, s32 *name);
+    void get_speaker_balloon_anchor(u16 speaker, f32 *height, char **name);
     s32 find_farthest_balloon_slot(u16 speaker);
     TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();

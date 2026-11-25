@@ -1244,7 +1244,7 @@ extern "C" {
 
 TWindowFukidasi *TWindowCtrl::acquire_balloon_slot(u16 player, s32 flags, s32 client) {
     f32 f;
-    s32 n;
+    char *n;
     u32 i;
     TWindowFukidasi *b;
     get_speaker_balloon_anchor(player, &f, &n);
@@ -1350,7 +1350,7 @@ f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredField
 
 extern "C" {
 
-void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, s32 *name) {
+void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, char **name) {
     TObjPlayer *entity;
     TObjPlayer *obj;
     player_stats *q;
@@ -1377,7 +1377,7 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, s32 *name) {
             *name = 0;
             return;
         }
-        *name = (saddr)p;
+        *name = p;
         return;
     }
     *name = 0;

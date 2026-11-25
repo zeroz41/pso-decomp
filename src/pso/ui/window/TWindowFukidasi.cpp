@@ -187,7 +187,7 @@ void TWindowFukidasi::clear_flag2c_bit200() { this->window_flags &= 0xfffffdff; 
 
 void TWindowFukidasi::set_flag2c_bit100() { this->window_flags |= 0x100; }
 extern "C" {
-TWindowFukidasi::TWindowFukidasi(u16 speaker, s32 text, s32 client, f32 scale)
+TWindowFukidasi::TWindowFukidasi(u16 speaker, const char *text, s32 client, f32 scale)
     : TWindowAddition((u8 *)window_fukidasi_addition_params, (s16)client, (u8 *)get_zero_vec2()) {
     init_balloon(speaker, text, client, scale);
 }
@@ -532,7 +532,7 @@ void TWindowFukidasi::draw_name_plate(WindowDrawContext *context, u32 argb) {
 
 #pragma pop
 extern "C" {
-void TWindowFukidasi::init_balloon(u16 speaker, s32 str, s32 client, f32 scale) {
+void TWindowFukidasi::init_balloon(u16 speaker, const char *str, s32 client, f32 scale) {
     u32 len;
 
     *(s32 *)((s8 *)this + 0) = (saddr) window_fukidasi_class_name;
@@ -542,10 +542,10 @@ void TWindowFukidasi::init_balloon(u16 speaker, s32 str, s32 client, f32 scale) 
     this->m_73 = -1;
     this->speaker_id = speaker;
     this->client_index = client;
-    if (str != 0) {
+    if (str != NULL) {
         len = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)0x18);
         this->name = (char *)mem_alloc(len + 1);
-        strncpy(this->name, (const char *)str, len + 1);
+        strncpy(this->name, str, len + 1);
     } else {
         this->name = 0;
     }
@@ -1150,7 +1150,7 @@ s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out) {
     h = (TWindowCtrlMain::get_field_18(b->viewport) - TWindowCtrlMain::get_field10(b->viewport)) - b->anchor[1];
     t = 0.000030517578f * (f32) rand();
     out[1] = t * h + y;
-    return (u32) __cntlzw((u32) ((TWindowFukidasi *)b)->draw_resolved_window(out, b->anchor, 4)) >> 5;
+    return (u32) __cntlzw((uaddr) ((TWindowFukidasi *)b)->draw_resolved_window(out, b->anchor, 4)) >> 5;
 }
 
 void TWindowFukidasi::place_rect_at_head_or_slot() {
