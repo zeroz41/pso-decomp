@@ -91,7 +91,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active);
 void begin_window_sweep_draw(s32 texture);
 void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context);
 void end_window_sweep_draw(s32 texture);
-void draw_window_scanlines(u8 *card, u8 *arg1);
+void draw_window_scanlines(u8 *card, u8 *context);
 bool is_balloon_overlapping(u8 *balloon, u8 *position, u8 *size);
 void window_request_refresh(u8 *help);
 void window_request_show(void *object);

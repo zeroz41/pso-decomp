@@ -526,13 +526,13 @@ void TWindowCtrl::update_trade_window() {
 
 
 
-void TWindowCtrl__sub_8024B9C0(void *arg0) {
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
+void TWindowCtrl__sub_8024B9C0(void *ctrl) {
+    if ((u32) *(u32 *)((s8 *)ctrl + 0x30) != 0U) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
-            ((TWindowLockOn *)(*(uaddr *)((s8 *)arg0 + 0x30)))->request_close();
+            ((TWindowLockOn *)(*(uaddr *)((s8 *)ctrl + 0x30)))->request_close();
             return;
         }
-        window_request_show((void *)(*(uaddr *)((s8 *)arg0 + 0x30)));
+        window_request_show((void *)(*(uaddr *)((s8 *)ctrl + 0x30)));
     }
 }
 
@@ -650,7 +650,7 @@ saddr TWindowCtrl::open(u16 id, const char *text, s32 flags) {
 }
 
 
-s32 TWindowCtrl::open_balloon(u16 player, u8 *arg1, s32 flags, s32 client) {
+s32 TWindowCtrl::open_balloon(u16 player, u8 *symbol_chat, s32 flags, s32 client) {
     saddr temp_r3;
     if (instance == 0U) {
         return 0;
@@ -659,7 +659,7 @@ s32 TWindowCtrl::open_balloon(u16 player, u8 *arg1, s32 flags, s32 client) {
     if (temp_r3 == 0) {
         return 0;
     }
-    ((TWindowFukidasi *)temp_r3)->open((u32 *)arg1, flags);
+    ((TWindowFukidasi *)temp_r3)->open((u32 *)symbol_chat, flags);
     return temp_r3;
 }
 
@@ -714,9 +714,9 @@ u16 TWindowCtrl::get_window_id() {
 
 
 
-void TWindowCtrl::set_field28(u16 arg0) {
+void TWindowCtrl::set_field28(u16 window_id) {
     if (instance != NULL) {
-        instance->window_id = arg0;
+        instance->window_id = window_id;
     }
 }
 
@@ -776,14 +776,14 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
 
 
 
-void TWindowCtrl::release_slot(s8 *arg0) {
+void TWindowCtrl::release_slot(s8 *slot) {
     s8 temp_r4;
 
     if (instance != NULL) {
-        temp_r4 = *arg0;
+        temp_r4 = *slot;
         if ((temp_r4 >= 0) && (temp_r4 < 4)) {
             instance->flags &= ~(0x40 << temp_r4);
-            *arg0 = -1;
+            *slot = -1;
         }
     }
 }
@@ -951,14 +951,14 @@ void TWindowCtrl::replace_submenu(s32 client_id, s16 id) {
 
 
 
-void TWindowCtrl::handle_chat_message(char *arg1) {
+void TWindowCtrl::handle_chat_message(char *message) {
     Obj_8024AA08 *arg0 = (Obj_8024AA08 *)this;
     s32 i;
     u32 key;
     char *v;
     Ply_8024AA08 *p;
     if (instance != NULL) {
-        v = TWindowCtrl::skip_name_prefix(instance, arg1);
+        v = TWindowCtrl::skip_name_prefix(instance, message);
         key = arg0->f4;
         for (i = 0; i < 12; i++) {
             p = (Ply_8024AA08 *)get_player_by_client_id(i);

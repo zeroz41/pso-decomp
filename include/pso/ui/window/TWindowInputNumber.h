@@ -36,7 +36,7 @@ struct TWindowInputNumber : public TWindowBase {
     void update_value();
     void handle_decrement();
     void move_cursor_next();
-    void set_value(f32 farg0);
+    void set_value(f32 value);
     int is_confirmed();
     int is_cancelled();
     s32 get_value();

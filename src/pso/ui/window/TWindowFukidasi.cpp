@@ -586,7 +586,7 @@ void TWindowFukidasi::open(u32 *symbol_chat, s32 flags) {
 
 #pragma push
 #pragma fp_contract on
-s32 TWindowFukidasi::clamp_position(void *arg1, f32 farg0) {
+s32 TWindowFukidasi::clamp_position(void *pos, f32 scale) {
     f32 temp_f1;
     f32 temp_f1_2;
     f32 temp_f1_3;
@@ -595,23 +595,23 @@ s32 TWindowFukidasi::clamp_position(void *arg1, f32 farg0) {
 
     var_r31 = 0;
     temp_f1 = 20.0f + TWindowCtrlMain::get_position_z(this->client_index);
-    if (*(f32 *)((s8 *)arg1 + 0) < temp_f1) {
-        *(f32 *)((s8 *)arg1 + 0) = temp_f1;
+    if (*(f32 *)((s8 *)pos + 0) < temp_f1) {
+        *(f32 *)((s8 *)pos + 0) = temp_f1;
         var_r31 = 1;
     }
-    temp_f1_2 = (TWindowCtrlMain::get_ctrl_field14(this->client_index) - 20.0f) - (this->frame_size[0] * farg0);
-    if (*(f32 *)((s8 *)arg1 + 0) > temp_f1_2) {
-        *(f32 *)((s8 *)arg1 + 0) = temp_f1_2;
+    temp_f1_2 = (TWindowCtrlMain::get_ctrl_field14(this->client_index) - 20.0f) - (this->frame_size[0] * scale);
+    if (*(f32 *)((s8 *)pos + 0) > temp_f1_2) {
+        *(f32 *)((s8 *)pos + 0) = temp_f1_2;
         var_r31 = 1;
     }
     temp_f1_3 = 40.0f + TWindowCtrlMain::get_field10(this->client_index);
-    if (*(f32 *)((s8 *)arg1 + 4) < temp_f1_3) {
-        *(f32 *)((s8 *)arg1 + 4) = temp_f1_3;
+    if (*(f32 *)((s8 *)pos + 4) < temp_f1_3) {
+        *(f32 *)((s8 *)pos + 4) = temp_f1_3;
         var_r31 = 1;
     }
-    temp_f1_4 = (TWindowCtrlMain::get_field_18(this->client_index) - 40.0f) - (this->frame_size[1] * farg0);
-    if (*(f32 *)((s8 *)arg1 + 4) > temp_f1_4) {
-        *(f32 *)((s8 *)arg1 + 4) = temp_f1_4;
+    temp_f1_4 = (TWindowCtrlMain::get_field_18(this->client_index) - 40.0f) - (this->frame_size[1] * scale);
+    if (*(f32 *)((s8 *)pos + 4) > temp_f1_4) {
+        *(f32 *)((s8 *)pos + 4) = temp_f1_4;
         var_r31 = 1;
     }
     return var_r31;
@@ -1071,12 +1071,12 @@ void TWindowFukidasi::request_balloon_hide() {
     }
 }
 
-s32 TWindowFukidasi::approach(f32 farg0) {
+s32 TWindowFukidasi::approach(f32 target) {
     f32 x;
 
-    x = 0.47f * (farg0 - this->tail_scale);
+    x = 0.47f * (target - this->tail_scale);
     if (fabs_float(x) < 0.011f) {
-        this->tail_scale = farg0;
+        this->tail_scale = target;
         return 1;
     }
     this->tail_scale = (f32) (this->tail_scale + x);

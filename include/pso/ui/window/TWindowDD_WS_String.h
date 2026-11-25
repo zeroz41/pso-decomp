@@ -10,8 +10,8 @@ public:
     virtual void run_task();
     virtual void render();
     void draw(saddr, s32, f32);
-    void init_and_set_field50(void *arg1);
-    void update_position(s32 arg1);
+    void init_and_set_field50(void *ticks);
+    void update_position(s32 ticks);
     void set_first_entry_text(u32 str);
     void draw_entry_if_visible(void *);
     s32 pad_60;      // point table index passed to draw (ctor argument; 1 and 3 recolor the text)

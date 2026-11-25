@@ -37,9 +37,9 @@ void *lbl_804CFA10[6] = {
     0,
 };
 
-f32 get_item_star_row_width(u8 *arg0) {
+f32 get_item_star_row_width(u8 *entry) {
     s32 var_r0;
-    var_r0 = *(s32 *)((s8 *)arg0 + 0x10);
+    var_r0 = *(s32 *)((s8 *)entry + 0x10);
     if (var_r0 < 0xA) {
         var_r0 = 0xA;
     }
@@ -112,21 +112,21 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
 
 void TWindowHelpItem__sub_8025A900(void) {  }
 
-void *TWindowHelpItem__sub_8025A904(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 4) = lbl_804CFA10;
-        __dt__18TWindowLayoutEntryFv(arg0, 0);
-        if (arg1 > 0) {
-            ::operator delete(arg0);
+void *TWindowHelpItem__sub_8025A904(void *entry, s16 flags) {
+    if (entry != NULL) {
+        *(void ***)((s8 *)entry + 4) = lbl_804CFA10;
+        __dt__18TWindowLayoutEntryFv(entry, 0);
+        if (flags > 0) {
+            ::operator delete(entry);
         }
     }
-    return arg0;
+    return entry;
 }
 
-u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, saddr rec, s32 client) {
-    __ct__18TWindowLayoutEntryFl(arg0, client);
-    *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CFA10);
-    copy_vec2((arg0 + 8), (void *)(rec + 4));
-    *(s32 *)((s8 *)arg0 + 0x10) = 0;
-    return arg0;
+u8 *TWindowHelpItem__sub_8025A95C(u8 *entry, saddr rec, s32 client) {
+    __ct__18TWindowLayoutEntryFl(entry, client);
+    *(s32 **)((s8 *)entry + 4) = ((s32 *)&lbl_804CFA10);
+    copy_vec2((entry + 8), (void *)(rec + 4));
+    *(s32 *)((s8 *)entry + 0x10) = 0;
+    return entry;
 }

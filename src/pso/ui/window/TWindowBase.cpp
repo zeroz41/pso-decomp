@@ -616,7 +616,7 @@ void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f3
 
 #pragma push
 #pragma fp_contract on
-void draw_window_scanlines(u8 *card, u8 *arg1) {
+void draw_window_scanlines(u8 *card, u8 *context) {
     s32 n1;
     s32 i;
     s32 n2;
@@ -636,11 +636,11 @@ void draw_window_scanlines(u8 *card, u8 *arg1) {
     if (y - (f32)n2 >= *(f32 *)((s8 *)card + 0x48) - 24.0f) {
         return;
     }
-    set_line_width(12.0f * *(f32 *)((s8 *)arg1 + 0x2C));
+    set_line_width(12.0f * *(f32 *)((s8 *)context + 0x2C));
     set_additive_blend();
     step = 1.0f;
     for (i = 0; i < n2; i++) {
-        TWindowSubComCard__sub_80245A10(card, i, (WindowDrawContext *)arg1, y);
+        TWindowSubComCard__sub_80245A10(card, i, (WindowDrawContext *)context, y);
         y -= step;
     }
     set_default_alpha_blend();

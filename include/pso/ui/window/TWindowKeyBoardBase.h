@@ -49,7 +49,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     static int is_alnum(u16 code);
     void insert_string(char *src);
     void update_input(void* a1);
-    void append_text_entry(u8 *arg1);
+    void append_text_entry(u8 *text);
     void write_name_and_text(char *name, char *text);
     void set_kanji_mode();
     void set_kana_mode();

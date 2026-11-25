@@ -68,15 +68,15 @@ void fn_8024450C(TWindowArea *area) {
     ((TWindowSubStatusDisp *)area)->set_count_ratio_text(count, total);
 }
 
-void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
+void TWindowSubStatusDisp::set_count_ratio_text(s32 count, s32 total) {
     text_builder_reset();
     text_builder_append((u8 *)(get_message_text(0x67)));
     append_text_space();
-    append_padded_number((arg1), (2U));
+    append_padded_number((count), (2U));
     text_builder_append((u8 *)"/");
-    append_padded_number((arg2), (2U));
+    append_padded_number((total), (2U));
     this->set_entry_display_value((saddr) (get_shared_text_buffer()));
-    TWindowSubStatusDisp__count_ratio_value = arg1;
+    TWindowSubStatusDisp__count_ratio_value = count;
 }
 
 TWindowAddition::TWindowAddition(u8 *descriptor, s16 client, u8 *parent)

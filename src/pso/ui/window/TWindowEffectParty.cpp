@@ -32,12 +32,12 @@ void *TWindowCtrl__sub_8024FB80(s8 i) {
     return TWindowCtrl::instance->simple_status[i];
 }
 
-TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *idx) : TObject(object) {
+TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source_slot, s8 target_slot, void *idx) : TObject(object) {
     Pos_8024FAD8 p;
     *(s32 *)this = ((saddr)TWindowEffectParty__name);
-    this->source_slot = arg2;
+    this->source_slot = source_slot;
     TWindowEffectParty::set_slot_position((saddr)this, (s32)this->source_slot, &this->pos_x);
-    this->target_slot = arg3;
+    this->target_slot = target_slot;
     TWindowEffectParty::set_slot_position((saddr)this, (s32)this->target_slot, &this->target_x);
     this->calc_effect_position(&p);
     this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)idx, (s32)(0xC0));
@@ -143,17 +143,17 @@ void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     return w;
 }
 
-void TWindowEffectParty::set_slot_position(s32 arg0, s32 arg1, void *window_sub_symbol_chat_parts_set) {
+void TWindowEffectParty::set_slot_position(s32 arg0, s32 slot, void *window_sub_symbol_chat_parts_set) {
     void *temp_r3;
     (void)arg0;
 
-    if (arg1 <= 0) {
+    if (slot <= 0) {
         copy_vec2(window_sub_symbol_chat_parts_set, (void*)(get_window_layout_position(0x1C)));
         *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0) += 228.0f;
         *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 4) += 32.0f;
         return;
     }
-    temp_r3 = TWindowCtrl__sub_8024FB80(arg1 - 1);
+    temp_r3 = TWindowCtrl__sub_8024FB80(slot - 1);
     if (temp_r3 != NULL) {
         *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0) = (f32) (111.0f + *(f32 *)((s8 *)temp_r3 + 0x30));
         *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 4) = (f32) (19.0f + *(f32 *)((s8 *)temp_r3 + 0x34));
@@ -167,17 +167,17 @@ void TWindowEffectParty::calc_effect_position(void *arg1) {
     out[2] = (f32)(-1.0f / get_scale__15TWindowCtrlMainFv(local_client_id));
 }
 
-s32 TWindowEffectParty::step_toward_target(f32 farg0, f32 farg1) {
+s32 TWindowEffectParty::step_toward_target(f32 target_x, f32 target_y) {
   f32 scr;
   f32 y;
   s32 angle;
-  y = farg1 - (*((f32 *) (((s8 *) this) + 0x24)));
+  y = target_y - (*((f32 *) (((s8 *) this) + 0x24)));
   scr = *((f32 *) (((s8 *) this) + 0x20));
-  scr = farg0 - scr;
+  scr = target_x - scr;
   if (((scr * scr) + (y * y)) < 25.0f)
   {
-    *((f32 *) (((s8 *) this) + 0x20)) = farg0;
- do { *((f32 *) (((s8 *) this) + 0x24)) = farg1; return 1; } while (0);
+    *((f32 *) (((s8 *) this) + 0x20)) = target_x;
+ do { *((f32 *) (((s8 *) this) + 0x24)) = target_y; return 1; } while (0);
   }
   angle = (s32) (lbl_8044ECF0 * atan2_float((f64) y, (f64) scr));
   *((f32 *) (((s8 *) this) + 0x20)) = (f32) ((5.0f * cos_table_lookup(angle)) + (*((f32 *) (((s8 *) this) + 0x20))));

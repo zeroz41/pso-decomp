@@ -36,7 +36,7 @@ struct TWindowDD : public TObject
     static TWindowDDValueList * ws_data_base;
     static uaddr work_buffer;
     static s32 window_mode;
-    TWindowDD(TObject *parent, void *arg2);
+    TWindowDD(TObject *parent, void *out_message);
     virtual ~TWindowDD();
     virtual void run_task();
     s16 menu_index;                     // Its address is the input context of the button tests.
@@ -80,7 +80,7 @@ struct TWindowDD : public TObject
     void update_layout();
     void update_transition();
     void update();
-    static saddr get_element_ptr(s32 arg0);
+    static saddr get_element_ptr(s32 index);
     virtual void render();
     void reset_selection();
     void update_selected_id();
@@ -91,14 +91,14 @@ struct TWindowDD : public TObject
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
     void format_type6_message(saddr window_dd, void *pos);
-    static s32 is_state_zero_unless_0x2C8(s32 arg0);
-    void destroy_menu_entry(s32 arg1);
+    static s32 is_state_zero_unless_0x2C8(s32 id);
+    void destroy_menu_entry(s32 offset);
     void set_item_pos(s32 i);
     TWindowDD_WS_Word *init_last_child();
     s32 setup_entry(s16 id);
     s32 get_current_child_index();
     TWindowDDStateEntry *get_state_entry(s32 state);
-    void init_entry_field_64(s32 arg1);
+    void init_entry_field_64(s32 index);
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
     static void update(void* p, void* child);
@@ -121,7 +121,7 @@ struct TWindowDD : public TObject
     s32 get_mode_code();
     void set_state();
     void close_all_windows();
-    static s32 can_append_chars(s32 arg0, s32 *pos);
+    static s32 can_append_chars(s32 len, s32 *pos);
     static void format_message(WordSelectMessage *message, char *text, u16 player);
     void append_prompt_newline(s32 *pos);
     static s32 clamp_range_5FA_682(s16 id);
@@ -133,14 +133,14 @@ struct TWindowDD : public TObject
     static void append_string(const char *str, char *buf, s32 *pos);
     void copy_point_table(s32 idx);
     static s32 get_draw_count(const NJS_TEXLIST *textures);
-    static saddr get_entry(s32 arg0);
+    static saddr get_entry(s32 index);
     int handle_word_select();
     static void send_chat_packet(void *data);
     void update_and_send_lobby();
     void init_header();
     void bswap_word_select();
     static void init_ws_data_tables();
-    static s32 lookup_item_category(s32 arg0);
+    static s32 lookup_item_category(s32 item);
     void handle_confirm_input();
     void update_selection_state();
     static void update_draw(void *p);

@@ -179,7 +179,7 @@ struct TWindowHelpItem : public TWindowBase
     void set_flag0_bit20();
     void update_visible_flags();
     static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
-    static void set_flag_0x10(u16 *arg0, s32 arg1);
+    static void set_flag_0x10(u16 *flags, s32 enable);
     void set_compare_value(s32 value);
     void set_compare_color(s32 count);
     void set_value(s32 value);
@@ -189,8 +189,8 @@ struct TWindowHelpItem : public TWindowBase
     void format_description_with_price();
     void refresh_copied_items();
     void update_stat_disp2();
-    static void tick_display_timer(void *arg0);
-    static void *destroy(void *arg0, s16 arg1);
+    static void tick_display_timer(void *entry);
+    static void *destroy(void *entry, s16 flags);
 };
 
 LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);

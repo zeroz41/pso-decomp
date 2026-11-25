@@ -165,11 +165,11 @@ LAYOUT_ASSERT(RecoveredGlobal_800FCC78_lbl_8049CA54_size, sizeof(RecoveredGlobal
 extern "C" {
 u8 * __ct__14TFontSmallHelpFUlUllUl(void *, s32, s32, s32, s32);
 extern RecoveredGlobal_800FCC78_lbl_8049CA54 __vt__21TFontPlayerStatusHelp;
-u8 *fn_800FCC78(u8 *arg0, s32 id) {
-    __ct__14TFontSmallHelpFUlUllUl(arg0, id, -1, -1, 0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__21TFontPlayerStatusHelp.value;
-    *(s32 *)((s8 *)arg0 + 0x60) = 5;
-    return arg0;
+u8 *fn_800FCC78(u8 *font, s32 id) {
+    __ct__14TFontSmallHelpFUlUllUl(font, id, -1, -1, 0);
+    *(s32 **)((s8 *)font + 0x18) = &__vt__21TFontPlayerStatusHelp.value;
+    *(s32 *)((s8 *)font + 0x60) = 5;
+    return font;
 }
 
 }

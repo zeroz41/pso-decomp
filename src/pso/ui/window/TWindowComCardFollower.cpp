@@ -92,8 +92,8 @@ void TWindowComCardFollower::set_selected_index(s32 value) {
     }
 }
 
-s32 get_status_effect_icon_index(u32 arg0) {
-    switch (arg0) {
+s32 get_status_effect_icon_index(u32 status) {
+    switch (status) {
     case 3:
         return 1;
     case 9:

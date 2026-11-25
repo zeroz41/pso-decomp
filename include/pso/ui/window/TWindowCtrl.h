@@ -73,7 +73,7 @@ struct TWindowCtrl : public TObject {
     TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();
     TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);
-    void handle_chat_message(char *arg1);
+    void handle_chat_message(char *message);
     static void suppress_all_slots();
     static void unsuppress_all_slots();
     static void suppress_slot(s32 client);
@@ -93,9 +93,9 @@ struct TWindowCtrl : public TObject {
     static void end_client_keyboard_hold(s32 client);
     static s32 is_slot_visible(s32 client);
     static const NJS_POINT2 *get_message_by_type(s8 type, s32 client_id);
-    static void release_slot(s8 *arg0);
+    static void release_slot(s8 *slot);
     static void close_windows_by_flags(u16 flags);
-    static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 client);
+    static s32 open_balloon(u16 player, u8 *symbol_chat, s32 flags, s32 client);
     static saddr open(u16 id, const char *text, s32 flags);
     static int open_default(u16 id, const char *text);
     static void create_level_up_window(saddr stats, saddr client);
@@ -133,7 +133,7 @@ struct TWindowCtrl : public TObject {
     static void set_flag_bit2();
     static void clear_flag_bit2();
     s32 is_flag_bit2_set();
-    static void set_field28(u16 arg0);
+    static void set_field28(u16 window_id);
     static u16 get_window_id();
     void update_party_status_rows();
     int is_flag_2_set();

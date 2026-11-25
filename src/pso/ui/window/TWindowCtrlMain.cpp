@@ -681,8 +681,8 @@ TObject *get_viewport_window_root(s32 viewport_index) {
 
 TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return get_viewport_window_root((saddr)p); }
 
-void TWindowCtrlMain::set_value(s32 viewport_index, s32 arg1) {
-    get_window_control_state(viewport_index)->field04 = arg1;
+void TWindowCtrlMain::set_value(s32 viewport_index, s32 value) {
+    get_window_control_state(viewport_index)->field04 = value;
 }
 
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index) {
@@ -811,12 +811,12 @@ void TWindowCtrlClipOut::render() {
 
 void TWindowCtrlMain::init_fields() { *(int *)&this->m_name = 0; *(int *)&this->m_flags = 0; *(float *)&this->m_prev = 0.0f; *(float *)&this->m_next = 0.0f; *(float *)&this->m_up = 0.0f; *(float *)&this->m_down = 640.0f; *(float*)((char*)this + 0x18) = 480.0f; }
 
-void TWindowCtrlMain::release_ptr(void **arg0) {
-    VObj_8024C820 *obj = (VObj_8024C820 *)*arg0;
+void TWindowCtrlMain::release_ptr(void **ptr) {
+    VObj_8024C820 *obj = (VObj_8024C820 *)*ptr;
     if (obj) {
         if (obj) {
             obj->m0(1);
         }
-        *arg0 = NULL;
+        *ptr = NULL;
     }
 }

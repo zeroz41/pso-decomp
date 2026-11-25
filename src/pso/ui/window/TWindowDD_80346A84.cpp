@@ -8,11 +8,11 @@ void *load_encrypted_archive_data(const char *);
 extern s32 TWindowDD__word_select_lists;
 s32 window_dd_element_count;
 
-saddr TWindowDD::get_element_ptr(s32 arg0) {
-    if (arg0 == -1) {
+saddr TWindowDD::get_element_ptr(s32 index) {
+    if (index == -1) {
         return 0;
     }
-    if (arg0 == -0x32) {
+    if (index == -0x32) {
         switch ((s32) TWindowDD::window_mode) {
         case 0:
             return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x8C0;
@@ -26,10 +26,10 @@ saddr TWindowDD::get_element_ptr(s32 arg0) {
             return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x928;
         }
     } else {
-        if ((arg0 >= 0) && (arg0 < (s32) window_dd_element_count)) {
-            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + (arg0 * 8);
+        if ((index >= 0) && (index < (s32) window_dd_element_count)) {
+            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + (index * 8);
         }
-        switch (arg0) {
+        switch (index) {
         default:
             return 0;
         case -60:

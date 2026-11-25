@@ -9,7 +9,7 @@ void *__dt__21TFontPlayerStatusHelpFv(void *arg0, s16 arg1);
 
 // --- C functions defined in TWindowCtrlMain_800FC91C.cpp ---
 extern "C" {
-u8 *fn_800FCC78(u8 *arg0, s32 id);
+u8 *fn_800FCC78(u8 *font, s32 id);
 }
 // --- end of C functions
 

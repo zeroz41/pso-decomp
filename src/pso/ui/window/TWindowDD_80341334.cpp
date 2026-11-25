@@ -48,14 +48,14 @@ void TWindowDD_WS_String::run_task() {
 extern const f32 TWindowDD__data_805DFB58;
 extern const u32 lbl_805DFC18;
 
-void TWindowDD_WS_String::init_and_set_field50(void *arg1) {
+void TWindowDD_WS_String::init_and_set_field50(void *ticks) {
     copy_vec2(target_position, pad_64);
-    tween_ticks = (saddr)arg1;
+    tween_ticks = (saddr)ticks;
 }
 
-void TWindowDD_WS_String::update_position(s32 arg1) {
+void TWindowDD_WS_String::update_position(s32 ticks) {
     copy_vec2(target_position, pad_6C);
-    tween_ticks = arg1;
+    tween_ticks = ticks;
     if (pad_6C[0] < 0.0f) {
         target_position[0] -= target_size[0];
     }

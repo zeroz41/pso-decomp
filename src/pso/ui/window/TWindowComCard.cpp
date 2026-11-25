@@ -153,14 +153,14 @@ void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
     }
 }
 
-extern "C" void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2) {
-    saddr temp = arg2 + (arg1 * 0x90);
+extern "C" void TWindowComCard__sub_80249920(saddr window, s32 index, s32 records) {
+    saddr temp = records + (index * 0x90);
     if (temp != 0) {
-        update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
+        update_com_card_display((ComCardDisplay *)(window + 0x24), (void *)temp);
     }
 }
 
-extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
+extern "C" void update_com_card_display(ComCardDisplay *display, void *card) {
     ComCardText *t4;
     void *t14;
     void *t0;
@@ -170,31 +170,31 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
     ComCardTextSet *s;
     s32 n;
     s32 id;
-    s = arg0->set;
+    s = display->set;
     t0 = s->t0;
     tC = s->tC;
     t8 = s->t8;
     t10 = s->t10;
     t4 = s->t4;
     t14 = s->t14;
-    set_text_entry_string((u8 *)t0, (uaddr)reinterpret_cast<GuildCardEntry *>(arg1)->get_name(), 0x220);
-    n = TWindowComCard__sub_80249C20(arg1);
+    set_text_entry_string((u8 *)t0, (uaddr)reinterpret_cast<GuildCardEntry *>(card)->get_name(), 0x220);
+    n = TWindowComCard__sub_80249C20(card);
     if (n > 5) {
         n = 5;
     }
     TWindowDuelResult::set_default_status(tC, (saddr)com_card_status_text_table[n]);
-    n = reinterpret_cast<GuildCardEntry *>(arg1)->get_char_class();
+    n = reinterpret_cast<GuildCardEntry *>(card)->get_char_class();
     if (n > 0xC) {
         n = 0xC;
     }
     TWindowDuelResult::set_default_status(t8, get_class_name_text(n));
-    n = TWindowComCard__sub_80249C18(arg1);
+    n = TWindowComCard__sub_80249C18(card);
     if (n > 0xA) {
         n = 0xA;
     }
     TWindowDuelResult::set_default_status(t10, reinterpret_cast<saddr>(TObjLuker::get_stat_table_entry(n)));
-    if (reinterpret_cast<GuildCardEntry *>(arg1)->sub_8007B6F4() != 0) {
-        id = reinterpret_cast<const GuildCardEntry *>(arg1)->get_card_id();
+    if (reinterpret_cast<GuildCardEntry *>(card)->sub_8007B6F4() != 0) {
+        id = reinterpret_cast<const GuildCardEntry *>(card)->get_card_id();
         if (id == 0) {
             t4->flags |= 2;
         } else {
@@ -208,5 +208,5 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
     } else {
         t4->flags |= 2;
     }
-    set_text_entry_string((u8 *)t14, (uaddr)((void *)((TWindowComCard *)arg1)->get_kbd_ptr()), 0x220);
+    set_text_entry_string((u8 *)t14, (uaddr)((void *)((TWindowComCard *)card)->get_kbd_ptr()), 0x220);
 }

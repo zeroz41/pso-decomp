@@ -302,7 +302,7 @@ s32 TWindowKeyBoardBase::sub_8025D378(void *window_sub_status_disp) {
 }
 #pragma pop
 
-void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
+void TWindowKeyBoardBase::append_text_entry(u8 *text) {
     u8 *arg0 = (u8 *)this;
     Rec_8025D3CC *rec;
     s32 idx;
@@ -311,12 +311,12 @@ void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
     rec = reinterpret_cast<Rec_8025D3CC *>(current_candidate);
     idx = rec->len;
     p = (u8 *)(idx + (saddr)rec);
-    n = TWindowKeyBoardSoft::strnlen((s8 *)arg1, 0x100);
+    n = TWindowKeyBoardSoft::strnlen((s8 *)text, 0x100);
     p[3] = idx;
     p[4] = n;
     p[5] = 1;
     p += 6;
-    strncpy((char *)p, (const char *)arg1, n);
+    strncpy((char *)p, (const char *)text, n);
     p += n;
     *p++ = 0;
     candidate_bytes_remaining = 0x94 - (p - candidate_buffer);

@@ -19,7 +19,7 @@ struct Buf_803467CC {
 
 
 extern "C" {
-u8 TWindowDD__sub_80347858(s16 arg0);
+u8 TWindowDD__sub_80347858(s16 id);
 s32 append_word_select_entry_words(WordSelectMessage *, char *, s32 *);
 s32 append_word_select_word(WordSelectMessage *, s32, char *, s32 *);
 s32 append_word_select_token(s32, char *, s32 *);

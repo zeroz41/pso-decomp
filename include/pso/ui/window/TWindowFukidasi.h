@@ -53,7 +53,7 @@ public:
     int is_bit10_set();
     s32 check_card_match_enabled(const char *text);
     void sync_display_pos();
-    s32 approach(f32 farg0);
+    s32 approach(f32 target);
     void get_boundary_offset(s32 angle, f32 *out);
     TWindowFukidasi *find_balloon_overlap_for(TWindowFukidasi *first);
     void rearm_balloon(saddr flags);

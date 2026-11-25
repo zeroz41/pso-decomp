@@ -65,10 +65,10 @@ void TWindowDD::init_ws_data_tables() {
     ws_recent_state.n = x;
 }
 
-s32 TWindowDD__sub_8034B008(s32 arg0, s32 arg1) {
-    return word_select_type_state_table[TWindowDD::lookup_item_category(arg1)][arg0];
+s32 TWindowDD__sub_8034B008(s32 state, s32 item) {
+    return word_select_type_state_table[TWindowDD::lookup_item_category(item)][state];
 }
-s32 TWindowDD::lookup_item_category(s32 arg0) {
+s32 TWindowDD::lookup_item_category(s32 item) {
     static ItemCategoryIds categories[4] = {
         { category0_ids, category0_id_count, 0 },
         { category2_ids, category2_id_count, 2 },
@@ -85,7 +85,7 @@ s32 TWindowDD::lookup_item_category(s32 arg0) {
         e = &categories[i];
         list = e->ids;
         for (j = 0; j < e->count; j++) {
-            if (arg0 == list[j]) {
+            if (item == list[j]) {
                 r = e->category;
                 break;
             }

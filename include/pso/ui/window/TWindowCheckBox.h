@@ -16,7 +16,7 @@ public:
     s32 update_selected_item();
     void set_selected_index(s16 selected_index);
     void sub_80248994(u32 color, s32 item);
-    void advance_matching_entries(s32 arg1, s32 arg2);
+    void advance_matching_entries(s32 finalize, s32 item);
     void add_menu_item(s32 text, s32 item);
     void draw_status(s32 text, s32 item);
     void dispatch_without_flags(s32 text, s32 item);

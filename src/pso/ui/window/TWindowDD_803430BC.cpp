@@ -85,7 +85,7 @@ extern const f32 lbl_805DFC0C;
 extern const f32 TWindowDD__data_805DFC10;
 void TWindowDD__sub_80347A4C(TWindowDD *window_dd, TWindowDD_WS_Word *page);
 TWindowDD_WS_Word *TWindowDD__sub_80347AD4(TWindowDD *window_dd, s32 offset, s32 id);
-void TWindowDD__sub_80347E04(TWindowDD *window_dd, s32 arg1);
+void TWindowDD__sub_80347E04(TWindowDD *window_dd, s32 index);
 extern const f32 TWindowDD__data_805DFB6C;
 
 extern const f32 lbl_805DFB90;
@@ -307,7 +307,7 @@ void TWindowDD::free_buffers() {
     }
 }
 
-TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
+TWindowDD::TWindowDD(TObject *parent, void *out_message) : TObject(parent) {
   NJS_POINT2 a;
   NJS_POINT2 b;
   TObjPlayer *player;
@@ -342,7 +342,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
     }
   }
   TWindowDD::build_player_word_lists();
-  result = static_cast<WordSelectMessage *>(arg2);
+  result = static_cast<WordSelectMessage *>(out_message);
   message.init_item_slots();
   saved_message.init_item_slots();
   scroll_bar = TWindowDD__sub_80340F70();
@@ -463,14 +463,14 @@ TWindowDD::~TWindowDD() {
 #pragma push
 #pragma optimization_level 1
 extern "C" {
-void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *body, R_80343BC0 *arg1) {
+void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *body, R_80343BC0 *src) {
     u32 a, b;
-    body->a = arg1->a;
-    body->b = arg1->b;
-    b = arg1->w[0]; a = arg1->w[1]; body->w[0] = b; body->w[1] = a;
-    b = arg1->w[2]; a = arg1->w[3]; body->w[2] = b; body->w[3] = a;
-    body->w[4] = arg1->w[4];
-    body->w[5] = arg1->w[5];
+    body->a = src->a;
+    body->b = src->b;
+    b = src->w[0]; a = src->w[1]; body->w[0] = b; body->w[1] = a;
+    b = src->w[2]; a = src->w[3]; body->w[2] = b; body->w[3] = a;
+    body->w[4] = src->w[4];
+    body->w[5] = src->w[5];
 }
 }
 

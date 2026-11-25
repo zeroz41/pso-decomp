@@ -16,7 +16,7 @@ struct TWindowCtrlMain : public TObject {
     static saddr get_instance();
     static void advance_card_status(s32 local_client_id);
     static void free_window();
-    static void release_ptr(void **arg0);
+    static void release_ptr(void **ptr);
     void init_fields();
     static f32 get_scale();
     static f32 get_field_18(s32 viewport_index);
@@ -26,7 +26,7 @@ struct TWindowCtrlMain : public TObject {
     static void set_field18(f32 value, s32 viewport_index);
     static void set_depth(f32 value, s32 viewport_index);
     static void update_fade_alphas();
-    static void set_value(s32 viewport_index, s32 arg1);
+    static void set_value(s32 viewport_index, s32 value);
     static void free_shared_draw_context();
 
 };

@@ -42,13 +42,13 @@ void TWindowCheckBox::sub_80248994(u32 color, s32 item) {
     }
 }
 
-void TWindowCheckBox::advance_matching_entries(s32 arg1, s32 arg2) {
+void TWindowCheckBox::advance_matching_entries(s32 finalize, s32 item) {
     s32 i;
     ItemListRow *e;
     for (i = 0; i < entry_capacity; i++) {
         e = static_cast<ItemListRow *>(get_array_entry(i));
-        if (e != NULL && e->is_flag_4_set() != 0 && arg2 == e->get_item()) {
-            if (arg1 != 0) {
+        if (e != NULL && e->is_flag_4_set() != 0 && item == e->get_item()) {
+            if (finalize != 0) {
                 e->finalize_state();
             } else {
                 e->advance_state();
@@ -83,9 +83,9 @@ void TWindowCheckBox::sync_level_field() {
 
 const char *TWindowCheckBox__class_name = "TWindowCheckBox";
 
-void TWindowCheckBox::sub_80248B7C(s32 arg1) {
+void TWindowCheckBox::sub_80248B7C(s32 client) {
     this->m_name = TWindowCheckBox__class_name;
-    this->client_index = arg1;
+    this->client_index = client;
 }
 
 TWindowCheckBox *create_check_box_window_on_layer(const NJS_POINT2 *position, s32 size, s32 client) {
