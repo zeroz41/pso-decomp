@@ -21,6 +21,8 @@ public:
     SoundControlState();
     ~SoundControlState();
     void set_output_mode(s32 mode);
+    // Clamps the mix to 0..0x7F and sets the stream mix; surround only in output mode 2.
+    void fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol);
     s32 is_ready();
     s32 get_field_308();
 

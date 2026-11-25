@@ -515,6 +515,45 @@ u8 lbl_80517BEC[0x258];   // contents of SOUND.BIN (read by init_sound_aux_effec
 void *musyx_sdir_buffers[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
+s32 sndStreamMixParameter(u32, u8, u8, u8, u8);
+s32 TLobby__sub_803C9CB0(s32);
+s32 TLobby__sub_803CBE64(s32, s32);
+}
+
+void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 fxvol) {
+    if (span < 0) {
+        span = 0;
+    }
+    if (span > 0x7F) {
+        span = 0x7F;
+    }
+    if (vol < 0) {
+        vol = 0;
+    }
+    if (vol > 0x7F) {
+        vol = 0x7F;
+    }
+    if (pan < 0) {
+        pan = 0;
+    }
+    if (pan > 0x7F) {
+        pan = 0x7F;
+    }
+    if (fxvol < 0) {
+        fxvol = 0;
+    }
+    if (fxvol > 0x7F) {
+        fxvol = 0x7F;
+    }
+    if (output_mode != 2) {
+        span = 0;
+    }
+    if (TLobby__sub_803C9CB0(tracks) == 3) {
+        sndStreamMixParameter(TLobby__sub_803CBE64(tracks, 0), (u8) vol, (u8) pan, (u8) span, (u8) fxvol);
+    }
+}
+
+extern "C" {
 s32 sndOutputMode(s32);
 
 s32 TLobby::advance_rng() {

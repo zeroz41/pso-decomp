@@ -6,7 +6,6 @@
 #include "types.h"
 #include "pso/audio/AdxManager.h"
 #include "pso/unk/TLobby_80227AA0.h"
-#include "pso/unk/text_8023F660.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
@@ -16,7 +15,7 @@
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
 void TLobby__sub_80227AA8(s32 tracks) {
-    fn_8023F660((&sound_control_state), (tracks), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
+    sound_control_state.fn_8023F660((tracks), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
 }
 
 
