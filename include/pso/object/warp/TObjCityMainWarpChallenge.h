@@ -5,6 +5,7 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct AnimationMotion;
+class TWindowCheckBox;
 
 struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     TObjCityMainWarpChallenge(TObject *parent, void *set_data);
@@ -33,7 +34,7 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     s32 players_in_range;
     s32 player_on_dest_floor;
     s32 warp_countdown;  // 300 when the warp sequence starts; at 0 it warps without waiting for every player
-    void *player_list_window;
+    TWindowCheckBox *player_list_window;
     void *yes_no_window;
     s32 key_id;  // set_params[1] if 0..0xFF, else -1 ("<- KEY ID : %d")
     void update_state();

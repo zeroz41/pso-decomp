@@ -129,7 +129,6 @@ WindowDescriptor lbl_804D0604 = {
     {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
 };
 
-s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
 }
 
 
@@ -232,29 +231,28 @@ void TWindowMenuIconLine::add_battle_stat_entry(s32 stat, s32 item, s32 gray_out
     }
 }
 
-void TWindowCheckBox::advance_all_entries(s32 arg1) {
+void TWindowMenuIconLine::advance_all_entries(s32 play_sound) {
     s32 i;
-    get_array_entry(this->cursor);
-    if (((s32 (*)(void))is_flag80_set__20TWindowSubStatusDispFv)() == 0) {
-        if (arg1 != 0) {
+    if (static_cast<ItemListRow *>(get_array_entry(cursor))->is_flag80_set() == 0) {
+        if (play_sound != 0) {
             play_sound_effect(0x52D01, 0, 0, 0);
         }
-        for (i = 0; i < this->entry_capacity; i++) {
-            ((ItemListRow *)get_array_entry(i))->advance_state();
+        for (i = 0; i < entry_capacity; i++) {
+            static_cast<ItemListRow *>(get_array_entry(i))->advance_state();
         }
-        ((ItemListRow *)get_array_entry(this->cursor))->finalize_state();
+        static_cast<ItemListRow *>(get_array_entry(cursor))->finalize_state();
     }
 }
 
-void TWindowSubStatusDisp::refresh_selected_entry(s32 arg1) {
-    TWindowSubStatusDisp *entry;
+void TWindowMenuIconLine::refresh_selected_entry(s32 play_sound) {
+    ItemListRow *entry;
 
-    entry = static_cast<TWindowSubStatusDisp *>(get_array_entry(*(s16 *)((s8 *)this + 0x74)));
+    entry = static_cast<ItemListRow *>(get_array_entry(cursor));
     if (entry->is_flag80_set() == 0) {
-        if (arg1 != 0) {
+        if (play_sound != 0) {
             play_sound_effect(0x52D01, 0, 0, 0);
         }
-        ((ItemListRow *)entry)->finalize_state();
+        entry->finalize_state();
     }
 }
 
@@ -281,14 +279,14 @@ void TWindowMenuIconLine::add_status_entry(s8 flags, s32 src, s32 item) {
     }
 }
 
-void TWindowSubStatusDisp::append_entry(s32 flag, s32 src, s32 item, s32 arg4, s32 arg5) {
+void TWindowMenuIconLine::append_entry(s32 flag, s32 src, s32 item, s32 arg4, s32 arg5) {
     ItemListRow *row;
     s32 i;
     f32 k;
     ItemListRow *other;
 
-    if (*(s16 *)(((u8 *)this) + 0x72) < *(s16 *)(((u8 *)this) + 0x76)) {
-        row = (ItemListRow *)get_array_entry(*(s16 *)(((u8 *)this) + 0x72));
+    if (entry_count < entry_capacity) {
+        row = static_cast<ItemListRow *>(get_array_entry(entry_count));
         row->init_status_entry_by_flag(flag, src, item);
         if (arg4 != 0) {
             row->flags |= 0x400;
@@ -297,12 +295,12 @@ void TWindowSubStatusDisp::append_entry(s32 flag, s32 src, s32 item, s32 arg4, s
             k = 40.0f;
             i = 0;
             row->flags |= 0x1000;
-            while (i < *(s16 *)(((u8 *)this) + 0x76)) {
-                other = (ItemListRow *)get_array_entry(i);
+            while (i < entry_capacity) {
+                other = static_cast<ItemListRow *>(get_array_entry(i));
                 other->y = k * (f32)i++;
             }
         }
-        (*(s16 *)(((u8 *)this) + 0x72))++;
+        entry_count++;
     }
 }
 
@@ -403,9 +401,9 @@ void TWindowMenuIconLine::set_flag4() {
 }
 
 void TWindowMenuIconLine::handle_open() {
-    saddr entry;
-    entry = reinterpret_cast<saddr>(get_array_entry(this->cursor));
-    if ((((TWindowLayoutEntry *)entry)->is_flag_4_set() == 0) || (((TWindowSubStatusDisp *)entry)->is_flag80_set() != 0)) {
+    TWindowLayoutEntry *entry;
+    entry = static_cast<TWindowLayoutEntry *>(get_array_entry(this->cursor));
+    if ((entry->is_flag_4_set() == 0) || (entry->is_flag80_set() != 0)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -716,7 +714,7 @@ void TWindowSubTradeMain::clear_flag() { this->m_70 &= 0xffffffbf; }
 
 void TWindowSubTradeMain::clear_flag70_bit80() { this->m_70 &= 0xffffff7f; }
 
-int TWindowSubStatusDisp::is_flag80_set() { return *(u16 *)&this->m_name & 0x80; }
+int TWindowLayoutEntry::is_flag80_set() const { return flags & 0x80; }
 
 extern "C" {
 

@@ -78,6 +78,9 @@ public:
     void disable_cancel();
     void advance_line(s32 message);
     void advance_status_disp_entry(s32 message);
+    void advance_all_entries(s32 play_sound);
+    void refresh_selected_entry(s32 play_sound);
+    void append_entry(s32 flag, s32 src, s32 item, s32 arg4, s32 arg5);
     void push_status_disp_entry(s32 count, s32 id);
     // Append a row for one of the player's five battle items (stat 0-4) when
     // they hold any; gray_out greys it where items cannot be used.

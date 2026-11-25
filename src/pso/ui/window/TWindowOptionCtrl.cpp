@@ -37,6 +37,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
@@ -173,14 +174,14 @@ void TWindowOptionCtrl::run_task() {
     case 3:
         ((TWindowMenu *)(main_menu))->open();
         if (option_menu == NULL) {
-            option_menu = (void *)create_select_menu_window();
+            option_menu = create_select_menu_window();
         }
         state = 4;
     case 4:
         if (((TWindowMenuIconLine *)(option_menu))->is_cancelled() != 0) {
             state = 1;
         }
-        if (handle_input(((TWindowOptionCtrl *)option_menu)->update_selected_item()) != 0) {
+        if (handle_input(option_menu->update_selected_item()) != 0) {
             state = 1;
         }
         break;
@@ -213,11 +214,11 @@ void TWindowOptionCtrl::run_task() {
     case 7:
         ((TWindowMenu *)(main_menu))->open();
         if (option_menu == NULL) {
-            option_menu = (void *)create_sound_mode_menu();
+            option_menu = create_sound_mode_menu();
         }
         state = 8;
     case 8:
-        sound_mode = ((TWindowOptionCtrl *)option_menu)->update_selected_item();
+        sound_mode = option_menu->update_selected_item();
         if (((TWindowMenuIconLine *)(option_menu))->is_cancelled() != 0) {
             state = 1;
         }
@@ -312,11 +313,11 @@ void TWindowOptionCtrl::run_task() {
     case 18:
         ((TWindowMenu *)(sub_menu))->open();
         if (option_menu == NULL) {
-            option_menu = (void *)create_option_menu();
+            option_menu = create_option_menu();
         }
         state = 0x13;
     case 19:
-        ((void (*)(void *, s32)) set_field_value__17TWindowOptionCtrlFls)(this, ((TWindowOptionCtrl *)option_menu)->update_selected_item());
+        ((void (*)(void *, s32)) set_field_value__17TWindowOptionCtrlFls)(this, option_menu->update_selected_item());
         if (((TWindowMenuIconLine *)(option_menu))->is_cancelled() != 0) {
             state = 0x10;
         }
@@ -400,15 +401,15 @@ saddr TWindowOptionCtrl::create_menu() {
     return (saddr)menu;
 }
 
-saddr TWindowOptionCtrl::create_select_menu_window() {
-    saddr check_box_window;
-    check_box_window = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xCF), &lbl_8044F48C);
-    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 8)), 0);
-    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 9)), 1);
-    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 0xA)), 2);
-    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 0xB)), 3);
-    TWindowOptionCtrl::add_menu_item(check_box_window, (get_localized_text_entry(0xF, 0xC)), 4);
-    ((TWindowSubStatusDisp *)check_box_window)->set_selected_index((s16)((s16) current_language));
+TWindowCheckBox *TWindowOptionCtrl::create_select_menu_window() {
+    TWindowCheckBox *check_box_window;
+    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xCF), &lbl_8044F48C);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 8), 0);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 9), 1);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xA), 2);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xB), 3);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xC), 4);
+    check_box_window->set_selected_index((s16)((s16) current_language));
     return check_box_window;
 }
 
@@ -436,23 +437,23 @@ saddr TWindowOptionCtrl::create_list_window() {
     return (saddr)list;
 }
 
-saddr TWindowOptionCtrl::create_sound_mode_menu() {
-    saddr check_box_window;
+TWindowCheckBox *TWindowOptionCtrl::create_sound_mode_menu() {
+    TWindowCheckBox *check_box_window;
 
     saddr temp_r3_after_cba4 = (saddr)TWindowOptionCtrl::get_option_entry(0xCF);
-    check_box_window = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &lbl_8044F494);
-    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0xE), 0);
-    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0xD), 1);
-    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0xF), 2);
+    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)temp_r3_after_cba4, &lbl_8044F494);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xE), 0);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xD), 1);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 0xF), 2);
     switch (sound_mode) {
     case 0:
-        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(0);
+        check_box_window->set_selected_index(0);
         break;
     case 1:
-        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(1);
+        check_box_window->set_selected_index(1);
         break;
     case 2:
-        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(2);
+        check_box_window->set_selected_index(2);
         break;
     }
     return check_box_window;
@@ -483,14 +484,14 @@ saddr TWindowOptionCtrl::create_sub_menu_window() {
     return (saddr)menu;
 }
 
-saddr TWindowOptionCtrl::create_option_menu() {
-    saddr check_box_window;
+TWindowCheckBox *TWindowOptionCtrl::create_option_menu() {
+    TWindowCheckBox *check_box_window;
 
-    check_box_window = (saddr)create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xD0), &lbl_8044F49C);
-    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0x10), 0);
-    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0x11), 1);
-    TWindowOptionCtrl::add_menu_item(check_box_window, get_localized_text_entry(0xF, 0x12), 2);
-    ((TWindowSubStatusDisp *)check_box_window)->set_selected_index((s16) TWindowOptionCtrl::get_option_field_C());
+    check_box_window = create_check_box_window_for_local_client((const NJS_POINT2 *)TWindowOptionCtrl::get_option_entry(0xD0), &lbl_8044F49C);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x10), 0);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x11), 1);
+    check_box_window->add_menu_item(get_localized_text_entry(0xF, 0x12), 2);
+    check_box_window->set_selected_index((s16) TWindowOptionCtrl::get_option_field_C());
     return check_box_window;
 }
 

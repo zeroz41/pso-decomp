@@ -12,6 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include <string.h>
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -19,7 +20,7 @@
 
 struct Seq_80212304 {
     u8 pad0[0x1C];
-    void *win;
+    TWindowCheckBox *win;
     char names[4][0x18];
 };
 
@@ -112,15 +113,15 @@ void TMemberCheck::update_member_proximity() {
                 player = (saddr)get_player_by_client_id(i);
                 if (player != 0) {
                     if (xz_distance_squared((void *)(temp_r31 + 0x38), (void *)(player + 0x38)) <= 625.0f) {
-                        ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(1, i);
+                        this->m_1C->advance_matching_entries(1, i);
                     } else {
-                        ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(0, i);
+                        this->m_1C->advance_matching_entries(0, i);
                     }
                 } else {
-                    ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(0, i);
+                    this->m_1C->advance_matching_entries(0, i);
                 }
             } else {
-                ((THunterGuildSeqOffline *)(this->m_1C))->advance_matching_entries(1, i);
+                this->m_1C->advance_matching_entries(1, i);
             }
             i += 1;
         } while (i < 4);
@@ -141,10 +142,10 @@ void TMemberCheck::open_member_name_window() {
             uaddr p = (uaddr)get_player_by_client_id(i);
             if (p != 0) {
                 strcpy(self->names[i], (char *)(p + 0x85C));
-                TWindowSubStatusDisp::dispatch_without_flags((saddr)self->win, (saddr)self->names[i], (s32)i);
+                self->win->dispatch_without_flags((saddr)self->names[i], (s32)i);
             } else {
                 self->names[i][0] = 0;
-                TWindowSubStatusDisp::dispatch_without_flags((saddr)self->win, (saddr)self->names[i], (s32)i);
+                self->win->dispatch_without_flags((saddr)self->names[i], (s32)i);
             }
         }
     }

@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 
-void TWindowSubStatusDisp::set_selected_index(s16 selected_index) {
-    *(s16 *)((s8 *)this + 0x88) = selected_index;
-    *(s16 *)((s8 *)this + 0x74) = selected_index;
+void TWindowCheckBox::set_selected_index(s16 selected_index) {
+    this->selected_index = selected_index;
+    cursor = selected_index;
     refresh_selected_entry(0);
 }

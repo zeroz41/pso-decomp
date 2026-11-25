@@ -35,6 +35,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
@@ -50,7 +51,6 @@ static const char lbl_80444A58[] = "<- KEY ID : %d";
 
 extern "C" {
 s32 is_local_client_floor_leader(s32);
-void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
 extern s32 city_main_warp_destination_id;
 
@@ -211,20 +211,20 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
             ((TWindowSubTradeMain *)this->player_list_window)->set_visible();
             ((TWindowSubTradeMain *)this->player_list_window)->set_close_flag();
             for (i = 0; i < this->player_count; i++) {
-                TWindowSubStatusDisp::dispatch_without_flags((saddr)this->player_list_window, (saddr)this->player_names[i], i);
+                this->player_list_window->dispatch_without_flags((saddr)this->player_names[i], i);
             }
         }
         request_active_window_close();
     }
     if (this->player_list_window != 0) {
         for (j = 0; j < this->player_count; j++) {
-            ((THunterGuildSeqOffline *)this->player_list_window)->advance_matching_entries(this->player_in_range[j] != 0, j);
+            this->player_list_window->advance_matching_entries(this->player_in_range[j] != 0, j);
             color = 0xF0F0F0FF;
             if (this->state == 1 && (player = get_player_by_client_id(j)) != NULL &&
                 ((TObjPlayer *)player)->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
-            fn_80248994((TWindowBase *)this->player_list_window, color, j);
+            this->player_list_window->sub_80248994(color, j);
         }
     }
 }

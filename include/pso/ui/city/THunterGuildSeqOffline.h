@@ -43,7 +43,6 @@ struct THunterGuildSeqOffline : public TShopSequence {
     TObject *counter_camera; // 0x30: set_service_counter_camera
     TQuestThread *quest_thread;       // 0x34: TQuestThread::create_in_root
     s32 unk_38;
-    void advance_matching_entries(s32 arg1, s32 arg2);
     static void clear_slots();
     static void reset_quest_list_vm();
     static void clear_slot_flags();

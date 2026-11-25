@@ -37,6 +37,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -180,12 +181,12 @@ TWindowSubSymbolChat::~TWindowSubSymbolChat() {
         ((TObject *)keyboard)->queue_destruction();
         keyboard = 0U;
     }
-    if (option_window != 0U) {
+    if (option_window != NULL) {
         if ((has_window_task_root() != 0) && (selected_value == 0x27)) {
-            ((TWindowSubSymbolChat *)selected_preset)->set_flag_bit9(((TWindowOptionCtrl *)option_window)->update_selected_item());
+            ((TWindowSubSymbolChat *)selected_preset)->set_flag_bit9(option_window->update_selected_item());
         }
         ((TWindowBase *)option_window)->close();
-        option_window = 0U;
+        option_window = NULL;
     }
     if (confirm_window != 0U) {
         ((TWindowMessageYesNo *)confirm_window)->close();
@@ -286,9 +287,9 @@ void TWindowSubSymbolChat::run_task() {
             ((TObject *)this->keyboard)->queue_destruction();
             this->keyboard = 0U;
         }
-        if ((u32) this->option_window != 0U) {
+        if (this->option_window != NULL) {
             ((TWindowBase *)this->option_window)->close();
-            this->option_window = 0U;
+            this->option_window = NULL;
         }
         if ((u32) this->confirm_window != 0U) {
             ((TWindowMessageYesNo *)(this->confirm_window))->close();
@@ -695,13 +696,13 @@ void TWindowSubSymbolChat::run_task() {
         break;
     case 38:
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->option_window == 0U) {
+        if (this->option_window == NULL) {
             this->option_window = this->create_confirm_window();
         }
         this->selected_value = 0x27U;
     case 39:
         if (((TWindowMenuIconLine *)(this->option_window))->is_cancelled() != 0) {
-            ((TWindowSubSymbolChat *)this->selected_preset)->set_flag_bit9((int) (((TWindowOptionCtrl *)this->option_window)->update_selected_item()));
+            ((TWindowSubSymbolChat *)this->selected_preset)->set_flag_bit9((int) (this->option_window->update_selected_item()));
             this->selected_value = 4U;
             return;
         }
@@ -889,17 +890,17 @@ s32 TWindowSubSymbolChat::open_confirm_prompt() {
     return r;
 }
 
-s32 TWindowSubSymbolChat::create_confirm_window() {
-    saddr check_box_window;
+TWindowCheckBox *TWindowSubSymbolChat::create_confirm_window() {
+    TWindowCheckBox *check_box_window;
 
-    check_box_window = (saddr)create_check_box_window_for_local_client(get_window_layout_position(0x79), lbl_804D2B48);
+    check_box_window = create_check_box_window_for_local_client(get_window_layout_position(0x79), lbl_804D2B48);
     ((TWindowMenuIconLine *)check_box_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0xAC));
-    TWindowOptionCtrl::add_menu_item(check_box_window, (saddr)TWindowSubStatusDisp::get_message_10(0xBF), 1);
-    TWindowOptionCtrl::add_menu_item(check_box_window, (saddr)TWindowSubStatusDisp::get_message_10(0xC0), 0);
+    check_box_window->add_menu_item((saddr)TWindowSubStatusDisp::get_message_10(0xBF), 1);
+    check_box_window->add_menu_item((saddr)TWindowSubStatusDisp::get_message_10(0xC0), 0);
     if (TWindowSubSymbolChat__sub_80076FE0(reinterpret_cast<const SymbolChatPreset *>(selected_preset)) != 0) {
-        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(0);
+        check_box_window->set_selected_index(0);
     } else {
-        ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(1);
+        check_box_window->set_selected_index(1);
     }
     ((TWindowSubShortCutList *)check_box_window)->set_flag70_bit10();
     return check_box_window;

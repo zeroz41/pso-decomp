@@ -70,9 +70,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void append_play_time(u32 time);
     static void append_comma();
     s8 *copy_message_page_text();
-    void set_selected_index(s16 selected_index);
-    static void draw_status(saddr window, s32 arg2, s32 item);
-    static void dispatch_without_flags(saddr window, s32 arg2, s32 item);
     s16 get_item_type();
     s16 get_field_2F8();
     s16 get_stat();
@@ -83,9 +80,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_string(uaddr string);
     void set_text(uaddr arg1, s32 string, s32 arg3);
     void set_text(uaddr arg1, s32 arg2);
-    void refresh_selected_entry(s32 arg1);
     void init_scroll_pos();
-    int is_flag80_set();
     void add_text_entry(s32 arg1, s32 arg2);
     void start_hp_text_color_transition();
     void init_gauge_entry();
@@ -112,7 +107,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static f32 round_away_from_zero(f32 farg0);
     static s32 build_status_text(s32 client_id);
     static void *get_entry_ptr(int a0);
-    void append_entry(s32 flag, s32 src, s32 item, s32 arg4, s32 arg5);
     s32 update_hp_entry();
     static s32 destroy_status_display(saddr arg0, s16 arg1);
     u8 *construct_type1_heading(s32 title, s32 client_index);

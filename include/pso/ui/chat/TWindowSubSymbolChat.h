@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+class TWindowCheckBox;
 
 struct TWindowSubSymbolChat : public TObject {
     static void * instance;
@@ -25,7 +26,7 @@ struct TWindowSubSymbolChat : public TObject {
     uaddr symbol_list;
     uaddr main_menu;
     uaddr confirm_window;
-    uaddr option_window;
+    TWindowCheckBox *option_window;
     uaddr face_type_window;
     uaddr parts;
     uaddr parts_set;
@@ -66,7 +67,7 @@ struct TWindowSubSymbolChat : public TObject {
     void update_state();
     void draw_selected_entry();
     s32 create_keyboard_control();
-    s32 create_confirm_window();
+    TWindowCheckBox *create_confirm_window();
     s32 open_confirm_prompt();
     s32 create_menu();
     s32 create_parts_set();

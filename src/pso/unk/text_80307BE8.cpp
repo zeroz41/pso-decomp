@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
@@ -23,16 +24,16 @@ void update_players_in_range(u8 *arg0) {
             player = (saddr)get_player_by_client_id((i));
             if (player != 0) {
                 if ((get_current_floor() == ((TObjPlayer *)player)->get_floor()) && (xz_distance_squared((void *)(player + 0x38), (void *)(arg0 + 8)) <= *(f32 *)((s8 *)arg0 + 0))) {
-                    ((THunterGuildSeqOffline *)(*(uaddr *)((s8 *)arg0 + 0x24)))->advance_matching_entries(1, i);
+                    (*(TWindowCheckBox **)((s8 *)arg0 + 0x24))->advance_matching_entries(1, i);
                     *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) | (1 << i));
                     *(s32 *)((s8 *)arg0 + 0x18) = 1;
                 } else {
-                    ((THunterGuildSeqOffline *)(*(uaddr *)((s8 *)arg0 + 0x24)))->advance_matching_entries(0, i);
+                    (*(TWindowCheckBox **)((s8 *)arg0 + 0x24))->advance_matching_entries(0, i);
                     *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & ~(1 << i));
                     *(s32 *)((s8 *)arg0 + 0x14) = 0;
                 }
             } else {
-                ((THunterGuildSeqOffline *)(*(uaddr *)((s8 *)arg0 + 0x24)))->advance_matching_entries(0, i);
+                (*(TWindowCheckBox **)((s8 *)arg0 + 0x24))->advance_matching_entries(0, i);
             }
             i += 1;
         } while (i < 4);

@@ -59,6 +59,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
@@ -90,7 +91,6 @@ const char *warp_boss_multi_name = "TObjWarpBossMulti";
 
 
 extern "C" {
-s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
 s32 is_local_client_floor_leader();
 TObjPlayer *find_local_boss_warp_player(TObjAreaWarp *warp, f32 range);
@@ -315,7 +315,7 @@ void TObjWarpBoss::update() {
 void TObjWarpBoss::update_warp_dialogs() {
     void *player;
   s32 i;
-  int j;
+  s32 j;
   u32 color;
   f32 pos[2];
   void *p;
@@ -359,7 +359,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       ((TWindowSubTradeMain *)player_list_window)->set_close_flag();
       for (i = 0; i < player_count; i++)
       {
-        TWindowSubStatusDisp::dispatch_without_flags((saddr)player_list_window, (saddr)player_names[i], (s32)i);
+        player_list_window->dispatch_without_flags((saddr)player_names[i], (s32)i);
       }
     }
     request_active_window_close();
@@ -368,14 +368,14 @@ void TObjWarpBoss::update_warp_dialogs() {
   {
     for (j = 0; j < player_count; j++)
     {
-            ((THunterGuildSeqOffline *)player_list_window)->advance_matching_entries(player_in_range[j] != 0, j);
+            player_list_window->advance_matching_entries(player_in_range[j] != 0, j);
       color = 0xF0F0F0FF;
       TObjPlayer *player;
       if (state == 1 && (player = get_player_by_client_id(j)) != NULL && player->check_player_flag1() != 0)
       {
         color = 0xFFFF00FF;
       }
-      fn_80248994(player_list_window, color, j);
+      player_list_window->sub_80248994(color, j);
     }
   }
 }

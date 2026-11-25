@@ -1,9 +1,7 @@
 #include "types.h"
 #include "pso/ui/ItemListRow.h"
-#include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubItem.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 
-s32 TWindowOptionCtrl::update_selected_item() {
-    return ((ItemListRow *)((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x88)))->get_item();
+s32 TWindowCheckBox::update_selected_item() {
+    return static_cast<ItemListRow *>(get_array_entry(selected_index))->get_item();
 }

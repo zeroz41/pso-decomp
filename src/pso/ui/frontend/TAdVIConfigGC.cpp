@@ -9,6 +9,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowCheckBox.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include <string.h>
@@ -24,7 +26,7 @@ struct Name_80307D00 { char s[0x18]; };
 
 struct Cfg_80307D00 {
     u8 pad0[0x24];
-    uaddr win;
+    TWindowCheckBox *win;
     Name_80307D00 names[4];
 };
 
@@ -45,7 +47,7 @@ void TAdVIConfigGC::open_player_names_window() {
         ((TWindowBase *)(((Cfg_80307D00 *)this)->win))->close();
         ((Cfg_80307D00 *)this)->win = 0;
     }
-    ((Cfg_80307D00 *)this)->win = TAdVIConfigGC::draw_with_layer(get_window_layout_position(0x5A), (saddr)player_names_window_pos, (s32)local_client_id);
+    ((Cfg_80307D00 *)this)->win = create_check_box_window_on_layer(get_window_layout_position(0x5A), (saddr)player_names_window_pos, (s32)local_client_id);
     if (((Cfg_80307D00 *)this)->win != 0) {
         ((TWindowSubTradeMain *)(((Cfg_80307D00 *)this)->win))->set_visible();
         ((TWindowSubTradeMain *)(((Cfg_80307D00 *)this)->win))->set_close_flag();
@@ -54,10 +56,10 @@ void TAdVIConfigGC::open_player_names_window() {
             if (p != 0) {
                 strncpy(((Cfg_80307D00 *)this)->names[i].s, (char *)(p + 0x85C), 0x17);
                 ((Cfg_80307D00 *)this)->names[i].s[0x17] = 0;
-                TWindowSubStatusDisp::dispatch_without_flags((s32)(((Cfg_80307D00 *)this)->win), (saddr)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
+                ((Cfg_80307D00 *)this)->win->dispatch_without_flags((saddr)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
             } else {
                 ((Cfg_80307D00 *)this)->names[i].s[0] = 0;
-                TWindowSubStatusDisp::dispatch_without_flags((s32)(((Cfg_80307D00 *)this)->win), (saddr)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
+                ((Cfg_80307D00 *)this)->win->dispatch_without_flags((saddr)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
             }
         }
     }
