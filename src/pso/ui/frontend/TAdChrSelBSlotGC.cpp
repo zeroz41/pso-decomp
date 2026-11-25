@@ -36,7 +36,6 @@ static const CharacterSlotPosition lbl_80475908 = { 429.0f, 156.0f };
 static const CharacterSlotPosition lbl_80475910 = { 441.0f, 117.0f };
 const char *TAdChrSelBSlotGC__name = "TAdChrSelBSlotGC";
 
-struct CardSlotSummary { s32 x; s32 y; s32 state; };
 
 PlayerSlotLabel chr_select_b_slot_entry;
 

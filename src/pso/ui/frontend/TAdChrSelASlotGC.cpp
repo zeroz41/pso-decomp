@@ -52,7 +52,6 @@ static const CharacterSlotPosition chr_sel_a_slot_left_message_pos = { 24.0f, 18
 static const CharacterSlotPosition chr_sel_b_slot_message_pos = { 431.0f, 182.0f };
 const char *TAdChrSelASlotGC__name = "TAdChrSelASlotGC";
 
-struct CardSlotSummary { s32 x; s32 y; s32 state; };
 
 TAdChrSelASlotGC *TAdChrSel__global_slot_data;
 extern PlayerSlotLabel chr_select_a_slot_entry;

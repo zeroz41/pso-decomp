@@ -3,22 +3,19 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/vector.h"
 
 struct TAdFloorLoadCamGC : public TObject {
     TAdFloorLoadCamGC(TObject *parent, s32 mode);
     virtual ~TAdFloorLoadCamGC();
-    s32 mode;
-    u32 m_20;
-    u32 m_24;
-    void* m_28;
-    u8 _pad2C[0x8];
-    void* m_34;
-    u8 _pad38[0x8];
-    f32 up_x;
+    s32 mode;           // 0: the up vector follows the camera, otherwise it is mirrored
+    s32 ticks;
+    s32 angle;          // 0x10000 per turn
+    Vec pos;
+    Vec target;
+    Vec up;
     virtual void render();
     virtual void run_task();
-    f32 up_y;
-    f32 m_48;
 };
 
 LAYOUT_ASSERT(TAdFloorLoadCamGC_size, sizeof(TAdFloorLoadCamGC) == 0x4C);

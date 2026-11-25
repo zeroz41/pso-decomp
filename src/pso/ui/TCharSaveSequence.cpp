@@ -262,7 +262,7 @@ void TCharSaveSequence::handle_load_result() {
                 delete obj;
             }
         } else {
-            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (void *)get_character_save_record(0xFFFF), obj, (void *)TAdSinglePlyChrSelectGC::get_instance());
+            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (CharacterSaveRecord *)get_character_save_record(0xFFFF), obj, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
             if (r != 7) {
                 state = 0xC;
                 lbl_805D6D90 &= ~1;

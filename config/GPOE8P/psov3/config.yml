@@ -234,11 +234,11 @@ force_active:
   - TAdSinglePlyChrSelectGC__sub_801FDC14
   - TAdSinglePlyChrSelectGC__sub_801FE380
   - TAdSinglePlyChrSelectGC__sub_801FEBBC
-  - copy_guild_card_payload__FPUcPUc
+  - copy_guild_card_payload__FP17GuildCardSaveDataP17GuildCardSaveData
   - copy_guild_card_entries__Fll
   - TAdSinglePlyChrSelectGC__sub_801FFF14
-  - decrypt_guild_card_payload__FPv
-  - encrypt_guild_card_payload__FPvPv
+  - decrypt_guild_card_payload__FP17GuildCardSaveData
+  - encrypt_guild_card_payload__FP17GuildCardSaveDataPv
   - TAdSinglePlyChrSelectGC__sub_80200418
   - TAdSinglePlyChrSelectGC__sub_80202D7C
   - __ct__21Pso3CharacterFileSlotFv

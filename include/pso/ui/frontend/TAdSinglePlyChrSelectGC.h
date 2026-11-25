@@ -22,17 +22,42 @@ struct TWindowMenu;
 struct TWindowMessageYesNo;
 class TAdFadeGC;
 
-// The blocks TAdSinglePlyChrSelectGC::init_windows constructs in a 0xE28C-byte buffer.
-struct CardList_801FFDFC {
+// The guild card file (the part after the card header): the card list and tag blocks that
+// TAdSinglePlyChrSelectGC::init_windows constructs, the checksum and the cipher seed.
+struct GuildCardList {
     u8 pad_0[0xC0];
     u8 entries[0xD2][0x100];
 };
 
-struct CardFile_801FFD78 {
-    u32 pad_0;
-    CardList_801FFDFC list;
-    u8 tags[0x1C][0x90];
+struct GuildCardTags {
+    u8 bytes[0x1C][0x90];
 };
+
+struct GuildCardSaveData {
+    u32 checksum;
+    GuildCardList list;
+    GuildCardTags tags;
+    s32 timestamp_seconds;
+    s32 cipher_seed;
+};
+
+LAYOUT_ASSERT(GuildCardSaveData_size, sizeof(GuildCardSaveData) == 0xE28C);
+
+// The 0x11C bytes of the system card file (the part after the card header).
+struct SystemSaveData {
+    u32 checksum;
+    s16 version_4;
+    s8 flags_6;
+    s8 language;
+    s32 clock_offset_frames;
+    s16 field_c;
+    s16 field_e;
+    u8 data_10[0x110 - 0x10];
+    u8 serial_number[8];
+    s32 serial_seed;
+};
+
+LAYOUT_ASSERT(SystemSaveData_size, sizeof(SystemSaveData) == 0x11C);
 
 struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 selection_index;
@@ -221,7 +246,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 check_slot_swap_allowed(void *src_file, int src_slot, void *dst_file, int dst_slot);
     static s32 check_system_load_result();
     static void clear_entry(int i);
-    static s32 compare_save_headers(void *record_a, void *record_b, void *file_a, void *file_b);
+    static s32 compare_save_headers(CharacterSaveRecord *record_a, CharacterSaveRecord *record_b, CharacterFile *file_a, CharacterFile *file_b);
     static void decrypt_char_data(void *file);
     static void free_char_data_slots(void *table);
     static TPlyCharData *get_entry(int i);
@@ -255,9 +280,9 @@ extern CharacterFile *card_character_save_buffer;
 extern CharacterFile *secondary_card_character_save_buffer;
 extern TPlyCharData *selected_character_data;
 extern uaddr active_character_save_record;
-extern uaddr guild_card_save_payload;
-extern uaddr system_save_payload;
-extern uaddr secondary_card_system_save_payload;
+extern GuildCardSaveData *guild_card_save_payload;
+extern SystemSaveData *system_save_payload;
+extern SystemSaveData *secondary_card_system_save_payload;
 extern s32 card_load_sequence_state;
 extern saddr character_save_card_slot;
 extern saddr card_load_channel;

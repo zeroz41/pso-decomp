@@ -52,9 +52,9 @@ CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;
 TPlyCharData *selected_character_data;
 uaddr active_character_save_record;
-uaddr guild_card_save_payload;
-uaddr system_save_payload;
-uaddr secondary_card_system_save_payload;
+GuildCardSaveData *guild_card_save_payload;
+SystemSaveData *system_save_payload;
+SystemSaveData *secondary_card_system_save_payload;
 s32 TAdSinglePlyChrSelectGC::selection_index;
 s32 card_load_sequence_state;
 saddr character_save_card_slot;
@@ -104,10 +104,6 @@ struct Obj_801FCBA0 {
     void* a[4];
     void* b[4];
 };
-
-struct A_801FD8B8 { u8 p0[4]; u32 f4; u32 f8; u8 pC[8]; u32 f14; };
-
-struct C_801FD8B8 { u8 p[0x11564]; s32 f11564; };
 
 struct Hdr_801FBFD0 {
     u32 sum;
@@ -182,7 +178,7 @@ s32 TAdSinglePlyChrSelectGC::load_system_file(s32 chan, s32 *out_value) {
     if (poll_memcard_result(chan) != 0) {
         return 0;
     }
-    if (TAdPlayerLoadGC::find_card_file(chan, (const char *)memory_card_system_dir_name) != 0) {
+    if (TAdPlayerLoadGC::find_card_file(chan, memory_card_system_dir_name) != 0) {
         return 0;
     }
     memcard_access_active = 1;
@@ -415,9 +411,9 @@ s32 TAdSinglePlyChrSelectGC::verify_system_file() {
     if (buffer == 0) {
         return 0;
     }
-    if (TAdPlayerLoadGC::find_card_file((s32)system_save_card_channel, (const char *)pso_system_card_filename) == 0) {
+    if (TAdPlayerLoadGC::find_card_file((s32)system_save_card_channel, pso_system_card_filename) == 0) {
         memcard_access_active = 1;
-        TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, (const char *)pso_system_card_filename, (void *)system_save_file_buffer);
+        TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, pso_system_card_filename, (void *)system_save_file_buffer);
         stop_pad_rumble();
 loop_4:
         if (poll_memcard_result(system_save_card_channel) != 0) {
@@ -427,7 +423,7 @@ loop_4:
         }
         memcard_access_active = 0;
         memcpy((void*)buffer, system_save_file_buffer + sizeof(CardSaveHeader), 0x11C);
-        equal = ((TAdSinglePlyChrSelectGC *)buffer)->fields_equal((void *)system_save_payload);
+        equal = ((TAdSinglePlyChrSelectGC *)buffer)->fields_equal(system_save_payload);
     }
     ::operator delete((void *)buffer);
     return equal;
@@ -505,9 +501,9 @@ s32 TAdSinglePlyChrSelectGC::verify_card_player_data() {
     if (buf == NULL) {
         return -3;
     }
-    if (TAdPlayerLoadGC::find_card_file(system_save_card_channel, (const char *)pso_system_card_filename) == 0) {
+    if (TAdPlayerLoadGC::find_card_file(system_save_card_channel, pso_system_card_filename) == 0) {
         memcard_access_active = 1;
-        TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, (const char *)pso_system_card_filename, (void *)system_save_file_buffer);
+        TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, pso_system_card_filename, (void *)system_save_file_buffer);
         stop_pad_rumble();
         for (;;) {
             if (poll_memcard_result(system_save_card_channel) == 0) break;
@@ -517,7 +513,7 @@ s32 TAdSinglePlyChrSelectGC::verify_card_player_data() {
         memcard_access_active = 0;
         memcpy(buf, system_save_file_buffer + sizeof(CardSaveHeader), 0x11C);
         sum = *buf;
-        if (((TAdSinglePlyChrSelectGC *)buf)->fields_equal((void *)system_save_payload) == 0) {
+        if (((TAdSinglePlyChrSelectGC *)buf)->fields_equal(system_save_payload) == 0) {
             ret = -1;
         }
         *buf = 0;
@@ -727,10 +723,10 @@ s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void) {
         memcpy(file, buf + 0x2048, 0x1156C);
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         ret = TAdSinglePlyChrSelectGC::compare_save_headers(
-            (A_801FD8B8 *)get_selected_save_record(file),
-            (A_801FD8B8 *)get_character_save_record(0xFFFF),
-            (C_801FD8B8 *)file,
-            (C_801FD8B8 *)TAdSinglePlyChrSelectGC::get_instance());
+            get_selected_save_record(file),
+            (CharacterSaveRecord *)get_character_save_record(0xFFFF),
+            file,
+            (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
             if (buf != 0) {
                 safe_free(buf);
@@ -853,10 +849,10 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
         memcpy(file, buf + 0x2048, 0x1156C);
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         ret = TAdSinglePlyChrSelectGC::compare_save_headers(
-            (A_801FD8B8 *)get_selected_save_record(file),
-            (A_801FD8B8 *)get_character_save_record(0xFFFF),
-            (C_801FD8B8 *)file,
-            (C_801FD8B8 *)TAdSinglePlyChrSelectGC::get_instance());
+            get_selected_save_record(file),
+            (CharacterSaveRecord *)get_character_save_record(0xFFFF),
+            file,
+            (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
             if (buf != 0) {
                 safe_free(buf);
@@ -984,16 +980,12 @@ s32 check_slot_b_card_save(void) {
     return 7;
 }
 
-s32 TAdSinglePlyChrSelectGC::compare_save_headers(void *record_a, void *record_b, void *file_a, void *file_b) {
-    A_801FD8B8 *a = (A_801FD8B8 *)record_a;
-    A_801FD8B8 *b = (A_801FD8B8 *)record_b;
-    C_801FD8B8 *c = (C_801FD8B8 *)file_a;
-    C_801FD8B8 *d = (C_801FD8B8 *)file_b;
-    if (a == NULL || b == NULL) return 0;
-    if (a->f14 > b->f14) return 2;
-    if (a->f4 != b->f4) return 4;
-    if (a->f8 != 0xA205B064 || b->f8 != 0xA205B064) return 5;
-    return c->f11564 != d->f11564 ? 6 : 7;
+s32 TAdSinglePlyChrSelectGC::compare_save_headers(CharacterSaveRecord *record_a, CharacterSaveRecord *record_b, CharacterFile *file_a, CharacterFile *file_b) {
+    if (record_a == NULL || record_b == NULL) return 0;
+    if (record_a->pad_14 > record_b->pad_14) return 2;
+    if ((u32)record_a->pad_4 != (u32)record_b->pad_4) return 4;
+    if (record_a->magic != 0xA205B064 || record_b->magic != 0xA205B064) return 5;
+    return file_a->pad_11564 != file_b->pad_11564 ? 6 : 7;
 }
 
 s32 TAdSinglePlyChrSelectGC::setup(int quest_download_server) { card_load_channel = quest_download_server; TAdSinglePlyChrSelectGC::set_quest_download_server((int)quest_download_server); memcard_access_active = 1; return TAdSinglePlyChrSelectGC::draw_window_bg((saddr)card_load_channel, (saddr)pso_guildcard_card_filename.filename, (saddr)guild_card_save_file_buffer, (saddr)guild_card_save_file_block_count); }
@@ -1009,8 +1001,8 @@ s32 pso_system_load_gc(void) {
     s32 card_file;
 
     card_file = 0xFFFF0000;
-    if (((u32) system_save_payload != 0U) && (TAdPlayerLoadGC::get_instance() == 0)) {
-        card_file = TAdPlayerLoadGC::find_card_file(system_save_card_channel, (const char *)pso_system_card_filename);
+    if ((system_save_payload != NULL) && (TAdPlayerLoadGC::get_instance() == 0)) {
+        card_file = TAdPlayerLoadGC::find_card_file(system_save_card_channel, pso_system_card_filename);
         if (card_file == 0) {
             if (TAdSinglePlyChrSelectGC::try_confirm_selection() != 0) {
                 card_file = TAdSinglePlyChrSelectGC__sub_801FD990(system_save_card_channel);
@@ -1030,7 +1022,7 @@ s32 start_character_file_write(void) {
     character_save_card_slot = (s32) chr_select_state;
     if (chr_select_state < 2) {
         TAdSinglePlyChrSelectGC::set_quest_download_server((int)((int) ((s32) chr_select_state)));
-        (*(s32 *)&memcard_access_active) = 1;
+        memcard_access_active = 1;
         result = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, (s32)((saddr)pso_character_card_filename.filename), (saddr)character_save_file_buffer, (s32)character_save_file_block_count));
     }
     return result;
@@ -1043,7 +1035,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void) {
     character_save_card_slot = (s32) chr_select_state;
     if (chr_select_state < 2) {
         TAdSinglePlyChrSelectGC::set_quest_download_server((int) ((s32) chr_select_state));
-        (*(s32 *)&memcard_access_active) = 1;
+        memcard_access_active = 1;
         result = ((s32)TAdSinglePlyChrSelectGC::draw_window_bg((s32)character_save_card_slot, (s32)((saddr)pso_character_card_filename.filename), (saddr)character_save_file_buffer, (s32)character_save_file_block_count));
     }
     card_load_sequence_state = 0x13;
@@ -1124,11 +1116,6 @@ struct B8_801FDFB8 { u32 w[2]; };
 
 struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x278C - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
 
-typedef struct Ent_801FE338 {
-    u32 f0;
-    u8 body[0x2794];
-} Ent_801FE338;
-
 extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_801FE380(CharacterFile *src_file, s32 src_slot, CharacterFile *dst_file, s32 dst_slot);
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
@@ -1145,7 +1132,7 @@ s32 TAdSinglePlyChrSelectGC::load_pso_system(int chan) {
     if (chan >= 0 && chan <= 7) {
         r = TAdPlayerLoadGC::find_card_file(chan, (const char *)&pso_system_card_filename);
         if (r == 0) {
-            (*(s32 *)&memcard_access_active) = 1;
+            memcard_access_active = 1;
             r = ((s32)TAdSinglePlyChrSelectGC::load_player_slot(system_save_card_channel, (const char *)&pso_system_card_filename, (void *)(*(saddr *)&system_save_file_buffer)));
         }
     }
@@ -1375,9 +1362,9 @@ void TAdSinglePlyChrSelectGC::clear_slot_entry(int i) {
 
 
 void TAdSinglePlyChrSelectGC::clear_slot_body(int i) {
-    if ((*(Ent_801FE338 **)&card_character_save_buffer) == 0) return;
+    if (card_character_save_buffer == NULL) return;
     if (i < 4) return;
-    memset((*(Ent_801FE338 **)&card_character_save_buffer)[i].body, 0, 0x2798);
+    memset(&card_character_save_buffer->slots[i], 0, 0x2798);
 }
 
 
@@ -1519,7 +1506,7 @@ s32 TAdSinglePlyChrSelectGC::load_player_data() {
     s32 card_file;
 
     card_file = 0xFFFF0000;
-    if (((u32) guild_card_save_payload != 0U) && (TAdPlayerLoadGC::get_instance() == 0) && (TAdPlayerLoadGC::probe_and_check_card(card_load_channel) != 0)) {
+    if ((guild_card_save_payload != NULL) && (TAdPlayerLoadGC::get_instance() == 0) && (TAdPlayerLoadGC::probe_and_check_card(card_load_channel) != 0)) {
         card_file = TAdPlayerLoadGC::find_card_file(card_load_channel, pso_guildcard_card_filename.filename);
         if ((card_file == 0) && (TAdSinglePlyChrSelectGC::check_ready() != 0)) {
             card_file = TAdSinglePlyChrSelectGC::setup(card_load_channel);
@@ -1538,7 +1525,7 @@ s32 load_guild_card_save(void) {
 
     TAdSinglePlyChrSelectGC::set_save_slot(0);
     card_file = 0xFFFF0000;
-    if (((u32) guild_card_save_payload != 0U) && (TAdPlayerLoadGC::get_instance() == 0)) {
+    if ((guild_card_save_payload != NULL) && (TAdPlayerLoadGC::get_instance() == 0)) {
         chr_select_state = TAdSinglePlyChrSelectGC::get_chr_select_state();
         card_load_channel = chr_select_state;
         card_file = poll_memcard_result(card_load_channel);
@@ -1566,12 +1553,12 @@ s32 load_system_file(s32 mode) {
     s32 chr_select_state;
 
     card_file = 0xFFFF0000;
-    if (((u32) system_save_payload != 0U) && (TAdPlayerLoadGC::get_instance() == 0)) {
+    if ((system_save_payload != NULL) && (TAdPlayerLoadGC::get_instance() == 0)) {
         chr_select_state = (s8)TAdSinglePlyChrSelectGC::get_chr_select_state();
         system_save_card_channel = chr_select_state;
         card_file = poll_memcard_result(chr_select_state);
         if (card_file == 0) {
-            card_file = TAdPlayerLoadGC::find_card_file(system_save_card_channel, (const char *)pso_system_card_filename);
+            card_file = TAdPlayerLoadGC::find_card_file(system_save_card_channel, pso_system_card_filename);
             if (card_file == 0) {
                 result = TAdSinglePlyChrSelectGC::load_pso_system(system_save_card_channel);
                 if (result == 0) {
@@ -1595,10 +1582,10 @@ s32 load_pso_system(void) {
     s32 result;
 
     card_file = 0xFFFF0000;
-    if (((u32) secondary_card_system_save_payload != 0U) && (TAdPlayerLoadGC::get_instance() == 0)) {
+    if ((secondary_card_system_save_payload != NULL) && (TAdPlayerLoadGC::get_instance() == 0)) {
         card_file = poll_memcard_result(1);
         if (card_file == 0) {
-            card_file = TAdPlayerLoadGC::find_card_file(1, (const char *)pso_system_card_filename);
+            card_file = TAdPlayerLoadGC::find_card_file(1, pso_system_card_filename);
             if (card_file == 0) {
                 result = TAdSinglePlyChrSelectGC::load_pso_system_slot();
                 if (result == 0) {
@@ -1626,7 +1613,7 @@ s32 TAdSinglePlyChrSelectGC::check_ready() {
 
     stop_pad_rumble();
     result = 0;
-    if (((u32) guild_card_save_payload != 0U) && (guild_card_save_file_buffer != NULL)) {
+    if ((guild_card_save_payload != NULL) && (guild_card_save_file_buffer != NULL)) {
         TAdSinglePlyChrSelectGC__sub_801FFF14();
         result = 1;
     }
@@ -1639,7 +1626,7 @@ s32 TAdSinglePlyChrSelectGC::try_confirm_selection() {
 
     stop_pad_rumble();
     result = 0;
-    if (((u32) system_save_payload != 0U) && (system_save_file_buffer != NULL)) {
+    if ((system_save_payload != NULL) && (system_save_file_buffer != NULL)) {
         TAdSinglePlyChrSelectGC::create_instance();
         result = 1;
     }
@@ -2090,7 +2077,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             memset(file, 0, 0x1156C);
             memcpy(file, buf + 0x2048, 0x1156C);
             TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-            ret = TAdSinglePlyChrSelectGC::compare_save_headers((A_801FD8B8 *)get_selected_save_record(file), (A_801FD8B8 *)get_character_save_record(0xFFFF), (C_801FD8B8 *)file, (C_801FD8B8 *)TAdSinglePlyChrSelectGC::get_instance());
+            ret = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
             if (ret != 7) {
                 if (buf != 0) {
                     safe_free(buf);
@@ -2191,22 +2178,22 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
 
 s32 load_and_verify_data(s32 verify_only) {
     s32 serial;
-    u32 *copy;
+    GuildCardSaveData *copy;
     u32 sum;
 
     TAdSinglePlyChrSelectGC::set_save_slot(0);
     serial = TAdSinglePlyChrSelectGC::get_serial_seed();
     chr_select_serial_seeds[1] = serial;
     chr_select_serial_seeds[0] = serial;
-    memcpy((void *)guild_card_save_payload, guild_card_save_file_buffer + sizeof(CardSaveHeader), 0xE28C);
-    decrypt_guild_card_payload((void *)guild_card_save_payload);
-    copy = (u32 *)::operator new(0xE28C);
+    memcpy(guild_card_save_payload, guild_card_save_file_buffer + sizeof(CardSaveHeader), 0xE28C);
+    decrypt_guild_card_payload(guild_card_save_payload);
+    copy = (GuildCardSaveData *)::operator new(0xE28C);
     if (copy != NULL) {
-        copy = (u32 *)TAdSinglePlyChrSelectGC::init_windows(copy);
+        copy = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(copy);
     }
-    copy_guild_card_payload((u8 *)copy, (u8 *)guild_card_save_payload);
-    sum = *copy;
-    *copy = 0U;
+    copy_guild_card_payload(copy, guild_card_save_payload);
+    sum = copy->checksum;
+    copy->checksum = 0U;
     if (sum != calc_crc32_bitwise((u8 *)copy, (u32)(0xE28C))) {
         if (verify_only != 0) {
             ::operator delete(copy);
@@ -2224,12 +2211,12 @@ block_9:
     ::operator delete(copy);
     return 1;
 }
-u8 *copy_guild_card_payload(u8 *dest, u8 *source) {
-    *(s32 *)((s8 *)dest + 0) = (s32) *(s32 *)((s8 *)source + 0);
-    copy_guild_card_entries((saddr)(dest + 4), (saddr)(source + 4));
-    *(ByteBlock_FC0 *)((dest + 0xD2C0) + 4) = *(const ByteBlock_FC0 *)((source + 0xD2C0) + 4);
-    *(s32 *)((s8 *)dest + 0xE284) = (s32) *(s32 *)((s8 *)source + 0xE284);
-    *(s32 *)((s8 *)dest + 0xE288) = (s32) *(s32 *)((s8 *)source + 0xE288);
+GuildCardSaveData *copy_guild_card_payload(GuildCardSaveData *dest, GuildCardSaveData *source) {
+    dest->checksum = source->checksum;
+    copy_guild_card_entries((saddr)&dest->list, (saddr)&source->list);
+    dest->tags = source->tags;
+    dest->timestamp_seconds = source->timestamp_seconds;
+    dest->cipher_seed = source->cipher_seed;
     return dest;
 }
 typedef struct ByteBlock_C0 ByteBlock_C0;
@@ -2282,8 +2269,8 @@ void TLobby__sub_801F494C(u16 client);
 s32 init_guild_card_tag__17TWindowSubComCardFi(s32 ply_guild_card_tag);
 
 void *TAdSinglePlyChrSelectGC::init_windows(void *file) {
-    TAdSinglePlyChrSelectGC::construct_card_window_array(&((CardFile_801FFD78 *)file)->list);
-    TAdSinglePlyChrSelectGC::construct_guild_card_tag_array(((CardFile_801FFD78 *)file)->tags);
+    TAdSinglePlyChrSelectGC::construct_card_window_array(&((GuildCardSaveData *)file)->list);
+    TAdSinglePlyChrSelectGC::construct_guild_card_tag_array(&((GuildCardSaveData *)file)->tags);
     return file;
 }
 
@@ -2294,7 +2281,7 @@ void *TAdSinglePlyChrSelectGC::construct_guild_card_tag_array(void *array) {
 }
 
 u8 *TAdSinglePlyChrSelectGC::construct_card_window_array(void *list) {
-    __construct_array(((CardList_801FFDFC *)list)->entries, (void *)reinit__17TWindowSubComCardFi, 0, 0x100, 0xD2);
+    __construct_array(((GuildCardList *)list)->entries, (void *)reinit__17TWindowSubComCardFi, 0, 0x100, 0xD2);
     return (u8 *)list;
 }
 
@@ -2303,10 +2290,10 @@ u8 *TAdSinglePlyChrSelectGC::construct_card_window_array(void *list) {
 s32 TAdSinglePlyChrSelectGC::verify_save_checksum(int keep_on_mismatch) {
     u32 stored_sum;
     u32 actual_sum;
-    memcpy((void *)((*(u32 * *)&system_save_payload)), system_save_file_buffer + sizeof(CardSaveHeader), 0x11C);
-    stored_sum = *(*(u32 * *)&system_save_payload);
-    *(*(u32 * *)&system_save_payload) = 0U;
-    actual_sum = ((u32)calc_crc32_bitwise((u8 *)((s32 *)((*(u32 * *)&system_save_payload))), 0x11C));
+    memcpy(system_save_payload, system_save_file_buffer + sizeof(CardSaveHeader), 0x11C);
+    stored_sum = system_save_payload->checksum;
+    system_save_payload->checksum = 0U;
+    actual_sum = ((u32)calc_crc32_bitwise((u8 *)system_save_payload, 0x11C));
     if (actual_sum != stored_sum) {
         if (keep_on_mismatch == 0) {
             TAdSinglePlyChrSelectGC::reset_save_header();
@@ -2321,9 +2308,9 @@ s32 TAdSinglePlyChrSelectGC::verify_save_checksum(int keep_on_mismatch) {
 void TAdSinglePlyChrSelectGC::verify_save_checksum(void) {
     u32 sum;
     u32 r;
-    memcpy((void *)((void *)secondary_card_system_save_payload), system_save_file_buffer + sizeof(CardSaveHeader), 0x11C);
-    sum = *(u32 *)secondary_card_system_save_payload;
-    *(u32 *)secondary_card_system_save_payload = 0;
+    memcpy(secondary_card_system_save_payload, system_save_file_buffer + sizeof(CardSaveHeader), 0x11C);
+    sum = secondary_card_system_save_payload->checksum;
+    secondary_card_system_save_payload->checksum = 0;
     r = (u32)calc_crc32_bitwise((u8 *)secondary_card_system_save_payload, 0x11C);
     if (r != sum) {
         return;
@@ -2335,75 +2322,73 @@ void TAdSinglePlyChrSelectGC__sub_801FFF14(void) {
     serial_seed = TAdSinglePlyChrSelectGC::get_serial_seed();
     chr_select_serial_seeds[1] = serial_seed;
     chr_select_serial_seeds[0] = serial_seed;
-    encrypt_guild_card_payload((void *)guild_card_save_payload, chr_select_serial_seeds);
+    encrypt_guild_card_payload(guild_card_save_payload, chr_select_serial_seeds);
     TAdSinglePlyChrSelectGC::build_save_file();
-    decrypt_guild_card_payload(((void *)guild_card_save_payload));
+    decrypt_guild_card_payload(guild_card_save_payload);
 }
 
 void TAdSinglePlyChrSelectGC::create_instance(void) {
-    *(u32 *)system_save_payload = 0;
-    *(u32 *)system_save_payload = calc_crc32_bitwise((u8 *)system_save_payload, 0x11C);
+    system_save_payload->checksum = 0;
+    system_save_payload->checksum = calc_crc32_bitwise((u8 *)system_save_payload, 0x11C);
     TAdSinglePlyChrSelectGC::build_default_save_file();
 }
 
 
-void decrypt_guild_card_payload(void *data) {
-    saddr a;
-    saddr b;
-    a = (saddr)::operator new(0xE28C);
+void decrypt_guild_card_payload(GuildCardSaveData *data) {
+    GuildCardSaveData *a;
+    GuildCardSaveData *b;
+    a = (GuildCardSaveData *)::operator new(0xE28C);
     if (a != 0) {
-        a = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)a);
+        a = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(a);
     }
-    b = (saddr)::operator new(0xE28C);
+    b = (GuildCardSaveData *)::operator new(0xE28C);
     if (b != 0) {
-        b = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)b);
+        b = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(b);
     }
-    copy_guild_card_payload((u8 *)a, (u8 *)data);
-    copy_guild_card_payload((u8 *)b, (u8 *)data);
+    copy_guild_card_payload(a, data);
+    copy_guild_card_payload(b, data);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
     subtractive_rng_make_shuffle((s32 *)&chr_select_rng_state);
     subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, 0xE28C);
-    copy_guild_card_payload((u8 *)data, (u8 *)b);
-    ::operator delete((void *)b);
-    ::operator delete((void *)a);
+    copy_guild_card_payload(data, b);
+    ::operator delete(b);
+    ::operator delete(a);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
     ((TAdSinglePlyChrSelectGC *)&chr_select_rng_state)->apply_rng_cipher((u32 *)data, 0xE28C);
-    subtractive_rng_seed(&chr_select_rng_state, *(s32 *)((u8 *)data + 0xE288));
+    subtractive_rng_seed(&chr_select_rng_state, data->cipher_seed);
     subtractive_rng_xor_buffer((s32 *)&chr_select_rng_state, (u32 *)data, 0xE288);
 }
 
 #pragma push
 #pragma opt_common_subs off
-#define self ((s32 *)arg0_)
-void encrypt_guild_card_payload(void *arg0_, void *arg1) {
-    saddr a;
-    saddr b;
-    *(s32 *)((u8 *)self + 0xE288) = subtractive_rng_next((s32 *)&chr_select_rng_state);
-    self[0] = 0;
-    self[0] = calc_crc32_bitwise((u8 *)self, 0xE28C);
-    subtractive_rng_seed(&chr_select_rng_state, *(s32 *)((u8 *)self + 0xE288));
-    subtractive_rng_xor_buffer((s32 *)&chr_select_rng_state, (u32 *)self, 0xE288);
+void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1) {
+    GuildCardSaveData *a;
+    GuildCardSaveData *b;
+    data->cipher_seed = subtractive_rng_next((s32 *)&chr_select_rng_state);
+    data->checksum = 0;
+    data->checksum = calc_crc32_bitwise((u8 *)data, 0xE28C);
+    subtractive_rng_seed(&chr_select_rng_state, data->cipher_seed);
+    subtractive_rng_xor_buffer((s32 *)&chr_select_rng_state, (u32 *)data, 0xE288);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
-    ((TAdSinglePlyChrSelectGC *)&chr_select_rng_state)->apply_rng_cipher((u32 *)self, 0xE28C);
-    a = (saddr)::operator new(0xE28C);
+    ((TAdSinglePlyChrSelectGC *)&chr_select_rng_state)->apply_rng_cipher((u32 *)data, 0xE28C);
+    a = (GuildCardSaveData *)::operator new(0xE28C);
     if (a != 0) {
-        a = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)a);
+        a = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(a);
     }
-    b = (saddr)::operator new(0xE28C);
+    b = (GuildCardSaveData *)::operator new(0xE28C);
     if (b != 0) {
-        b = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)b);
+        b = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(b);
     }
-    copy_guild_card_payload((u8 *)a, (u8 *)self);
-    copy_guild_card_payload((u8 *)b, (u8 *)self);
+    copy_guild_card_payload(a, data);
+    copy_guild_card_payload(b, data);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
     subtractive_rng_make_shuffle((s32 *)&chr_select_rng_state);
     TAdSinglePlyChrSelectGC::permute_save_blocks(&chr_select_rng_state, (const u8*)a, (u8*)b, (u32)0xE28C);
-    copy_guild_card_payload((u8 *)self, (u8 *)b);
-    ::operator delete((void *)b);
-    ::operator delete((void *)a);
+    copy_guild_card_payload(data, b);
+    ::operator delete(b);
+    ::operator delete(a);
 }
 }
-#undef self
 #pragma pop
 
 void game_state_load(void) {
@@ -2641,7 +2626,7 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
         } while (i < 0x1E);
         *(s8 *)((s8 *)selected_character_data + 0) = 0;
         init_class_starting_inventory((void *)selected_character_data);
-        TPlyCharData *character = (TPlyCharData *)selected_character_data;
+        TPlyCharData *character = selected_character_data;
         init_character_stats_for_level(character->m_disp_part2.char_class, character, character->m_stats.level);
         selected_character_data->reset_technique_levels();
         ((TObjPlayer *)selected_character_data)->return_city_window = 0;
@@ -2725,7 +2710,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
         memset(file, 0, 0x1156C);
         memcpy(file, buf + 0x2048, 0x1156C);
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
-        if (TAdSinglePlyChrSelectGC::compare_save_headers((A_801FD8B8 *)get_selected_save_record(file), (A_801FD8B8 *)get_character_save_record(0xFFFF), (C_801FD8B8 *)file, (C_801FD8B8 *)TAdSinglePlyChrSelectGC::get_instance()) != 7) {
+        if (TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(file), (CharacterSaveRecord *)get_character_save_record(0xFFFF), file, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance()) != 7) {
             if (buf != 0) {
                 safe_free(buf);
             }
@@ -2897,26 +2882,26 @@ void init_timestamped_data(void) {
     char date[0x18];
 
     stop_pad_rumble();
-    memset((void *)guild_card_save_payload, 0, 0xE28C);
+    memset(guild_card_save_payload, 0, 0xE28C);
     getDateStamp((DateStamp *)((s32 *) date));
-    DateToSeconds((DateStamp *)((s32 *)((s32 *) date)), (int *)(guild_card_save_payload + 0xE284));
+    DateToSeconds((DateStamp *)((s32 *)((s32 *) date)), (int *)&guild_card_save_payload->timestamp_seconds);
     TAdSinglePlyChrSelectGC::set_save_slot(0);
 }
 
 void TAdSinglePlyChrSelectGC::reset_save_header() {
   volatile unsigned long long now;
   u64 serial_number;
-  memset((void *)system_save_payload, 0, 0x11C);
-  *((s16 *) (((s8 *) system_save_payload) + 4)) = -0x32;
-  *((s8 *) (((s8 *) system_save_payload) + 6)) = 0;
-  *((s8 *) (((s8 *) system_save_payload) + 7)) = TLanguage::get_default_language();
-  *((s32 *) (((s8 *) system_save_payload) + 8)) = default_clock_offset_frames();
-  *((s16 *) (((s8 *) system_save_payload) + 0xC)) = 0;
-  *((s16 *) (((s8 *) system_save_payload) + 0xE)) = 0;
+  memset(system_save_payload, 0, 0x11C);
+  system_save_payload->version_4 = -0x32;
+  system_save_payload->flags_6 = 0;
+  system_save_payload->language = TLanguage::get_default_language();
+  system_save_payload->clock_offset_frames = default_clock_offset_frames();
+  system_save_payload->field_c = 0;
+  system_save_payload->field_e = 0;
   TAdPlayerLoadGC::reset_load_state(0, &serial_number);
-  memmove((void *)(system_save_payload + 0x110), &serial_number, sizeof(serial_number));
+  memmove((void *)&system_save_payload->serial_number, &serial_number, sizeof(serial_number));
   getDateStamp((DateStamp *)(&now));
-  DateToSeconds((DateStamp *)(&now), (int *)(system_save_payload + 0x118));
+  DateToSeconds((DateStamp *)(&now), (int *)&system_save_payload->serial_seed);
 }
 
 void init_fresh_character_card(void) {
@@ -3113,7 +3098,7 @@ void TAdSinglePlyChrSelectGC::run_save_load_sequence(void) {
     case 17:
         if (poll_memcard_result(system_save_card_channel) == 0) {
             TAdSinglePlyChrSelectGC::verify_save_checksum(1);
-            if ((s32) card_load_followup_pending != 0) {
+            if (card_load_followup_pending != 0) {
                 card_load_followup_pending = 0;
                 TAdSinglePlyChrSelectGC::load_selected_char();
                 break;
@@ -3126,7 +3111,7 @@ void TAdSinglePlyChrSelectGC::run_save_load_sequence(void) {
     case 16:
         if (poll_memcard_result(system_save_card_channel) == 0) {
             TAdSinglePlyChrSelectGC::verify_save_checksum(0);
-            if ((s32) card_load_followup_pending != 0) {
+            if (card_load_followup_pending != 0) {
                 card_load_followup_pending = 0;
                 TAdSinglePlyChrSelectGC::load_selected_char();
                 break;
@@ -3167,7 +3152,7 @@ void TAdSinglePlyChrSelectGC::run_save_load_sequence(void) {
     case 22:
         if (poll_memcard_result(1) == 0) {
             TAdSinglePlyChrSelectGC::verify_save_checksum();
-            if ((s32) card_load_followup_pending != 0) {
+            if (card_load_followup_pending != 0) {
                 card_load_followup_pending = 0;
                 TAdSinglePlyChrSelectGC__sub_801FEBBC();
                 break;
@@ -3207,7 +3192,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     u32 seconds;
     CharacterFile *card;
     saddr record;
-    saddr guild;
+    GuildCardSaveData *guild;
 
     TAdSinglePlyChrSelectGC::selection_index = 0;
     card_load_followup_pending = 0;
@@ -3226,35 +3211,35 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
-        system_save_payload = (saddr)::operator new(0x11C);
-        guild = (saddr)::operator new(0xE28C);
+        system_save_payload = new SystemSaveData;
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         break;
     case 1:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         break;
     case 2:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
@@ -3262,12 +3247,12 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 3:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
@@ -3275,10 +3260,10 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 4:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        system_save_payload = (saddr)::operator new(0x11C);
-        guild = (saddr)::operator new(0xE28C);
+        system_save_payload = new SystemSaveData;
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
@@ -3288,21 +3273,21 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 5:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
         break;
     case 6:
-        system_save_payload = (saddr)::operator new(0x11C);
-        guild = (saddr)::operator new(0xE28C);
+        system_save_payload = new SystemSaveData;
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         card = new CharacterFile;
@@ -3312,12 +3297,12 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 7:
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         card = new CharacterFile;
         card_character_save_buffer = card;
         selected_character_data = new TPlyCharData;
@@ -3327,12 +3312,12 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 8:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
@@ -3340,10 +3325,10 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 9:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        system_save_payload = (saddr)::operator new(0x11C);
-        guild = (saddr)::operator new(0xE28C);
+        system_save_payload = new SystemSaveData;
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
@@ -3353,12 +3338,12 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 10:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
@@ -3366,21 +3351,21 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     case 11:
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
         break;
     case 12:
-        system_save_payload = (saddr)::operator new(0x11C);
-        guild = (saddr)::operator new(0xE28C);
+        system_save_payload = new SystemSaveData;
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         card = new CharacterFile;
@@ -3390,12 +3375,12 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 13:
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
@@ -3403,12 +3388,12 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 14:
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
@@ -3416,10 +3401,10 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 15:
-        system_save_payload = (saddr)::operator new(0x11C);
-        guild = (saddr)::operator new(0xE28C);
+        system_save_payload = new SystemSaveData;
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         card = new CharacterFile;
@@ -3429,12 +3414,12 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 16:
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         selected_character_data = new TPlyCharData;
@@ -3442,10 +3427,10 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 17:
-        system_save_payload = (saddr)::operator new(0x11C);
-        guild = (saddr)::operator new(0xE28C);
+        system_save_payload = new SystemSaveData;
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         card = new CharacterFile;
@@ -3455,38 +3440,38 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 18:
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
         break;
     case 19:
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
         break;
     case 20:
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         card = new CharacterFile;
         card_character_save_buffer = card;
         selected_character_data = new TPlyCharData;
@@ -3494,25 +3479,25 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 21:
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         selected_character_data = new TPlyCharData;
         record = (saddr)new CharacterSaveRecord;
         active_character_save_record = record;
         break;
     case 22:
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         card = new CharacterFile;
         card_character_save_buffer = card;
         selected_character_data = new TPlyCharData;
@@ -3520,9 +3505,9 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         active_character_save_record = record;
         break;
     case 23:
-        guild = (saddr)::operator new(0xE28C);
+        guild = (GuildCardSaveData *)::operator new(0xE28C);
         if (guild != 0) {
-            guild = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)guild);
+            guild = (GuildCardSaveData *)TAdSinglePlyChrSelectGC::init_windows(guild);
         }
         guild_card_save_payload = guild;
         record = (saddr)new CharacterSaveRecord;
@@ -3530,13 +3515,13 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
         selected_character_data = new TPlyCharData;
         card = new CharacterFile;
         card_character_save_buffer = card;
-        system_save_payload = (saddr)::operator new(0x11C);
+        system_save_payload = new SystemSaveData;
         break;
     }
     memset((void *)selected_character_data, 0, 0x41C);
     memset((void *)active_character_save_record, 0, 0x2370);
     memset(card_character_save_buffer, 0, 0x1156C);
-    memset((void *)system_save_payload, 0, 0x11C);
+    memset(system_save_payload, 0, 0x11C);
     TAdSinglePlyChrSelectGC::reset_save_header();
     init_timestamped_data();
     character_save_file_block_count = 0xB;
@@ -3573,9 +3558,9 @@ void TAdSinglePlyChrSelectGC::free_callbacks() {
         delete secondary_card_character_save_buffer;
         secondary_card_character_save_buffer = NULL;
     }
-    if ((u32) secondary_card_system_save_payload != 0U) {
-        ::operator delete((void *)secondary_card_system_save_payload);
-        secondary_card_system_save_payload = 0U;
+    if (secondary_card_system_save_payload != NULL) {
+        ::operator delete(secondary_card_system_save_payload);
+        secondary_card_system_save_payload = NULL;
     }
 }
 
@@ -3588,7 +3573,7 @@ void TAdSinglePlyChrSelectGC::alloc_char_buffers() {
     dst = 0x10000;
     dst = 0x1156C;
     buffer = (saddr)new CharacterFile;
-    (*(s32 *)&secondary_card_character_save_buffer) = buffer;
+    secondary_card_character_save_buffer = (CharacterFile *)buffer;
     dst = 0x11C;
     (*(s32 *)&secondary_card_system_save_payload) = (saddr)::operator new(0x11C);
     fill = 0x10000;
@@ -3609,11 +3594,11 @@ int TAdSinglePlyChrSelectGC::get_serial_seed() { return TAdEnterSerialAccessGC::
 
 
 s32 TAdEnterSerialAccessGC::get_serial_result() {
-    return *(s32 *)((s8 *)secondary_card_system_save_payload + 0x118);
+    return secondary_card_system_save_payload->serial_seed;
 }
 
 s32 TAdEnterSerialAccessGC::get_serial_seed() {
-    return *(s32 *)((s8 *)system_save_payload + 0x118);
+    return system_save_payload->serial_seed;
 }
 
 saddr get_character_save_record(u32 client) {

@@ -45,7 +45,7 @@ void *TWindowSubComCard::init_guild_card() {
 
 }
 
-int TAdSinglePlyChrSelectGC::get_state() {  return guild_card_save_payload; }
+int TAdSinglePlyChrSelectGC::get_state() {  return (int)guild_card_save_payload; }
 
 void TPlyGuildCardTag::bswap() {
     bswap_32(&m_guildcard_number);

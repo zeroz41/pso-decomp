@@ -5,6 +5,10 @@
 #include "types.h"
 
 class TPlyCharData;
+struct GuildCardSaveData;
+
+// What the card slot summary lookups report about a card slot.
+struct CardSlotSummary { s32 x; s32 y; s32 state; };
 
 extern "C" {
 u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);
@@ -22,10 +26,10 @@ void TAdSinglePlyChrSelectGC__sub_80200418(void);
 void set_character_file_seed(u8 *file, s32 value);
 s32 get_character_file_seed(u8 *file);
 s32 start_character_file_write(void);
-u8 *copy_guild_card_payload(u8 *dest, u8 *source);
+GuildCardSaveData *copy_guild_card_payload(GuildCardSaveData *dest, GuildCardSaveData *source);
 s32 copy_guild_card_entries(saddr dest, saddr source);
-void decrypt_guild_card_payload(void *data);
-void encrypt_guild_card_payload(void *arg0_, void *arg1);
+void decrypt_guild_card_payload(GuildCardSaveData *data);
+void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1);
 u32 calc_crc32_bitwise(u8 *data, u32 size);
 s32 alloc_global_buffer(void);
 s32 buffer_init(void);
