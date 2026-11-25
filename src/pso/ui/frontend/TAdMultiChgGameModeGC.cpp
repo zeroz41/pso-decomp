@@ -28,7 +28,7 @@ struct Pos_802FFE58 { f32 v[6]; };
 struct Cur_802FFE58 { f32 v[2]; };
 
 s32 lbl_805D69E8;
-const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
+const char *TAdMultiChgGameModeGC::class_name = "TAdMultiChgGameModeGC";
 
 static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
 static const Cur_802FFE58 lbl_80474E1C[1] = { { { 302.0f, 28.0f } } };
@@ -83,7 +83,7 @@ void TAdMultiChgGameModeGC::run_task() {
 }
 TAdMultiChgGameModeGC::~TAdMultiChgGameModeGC() {}
 TAdMultiChgGameModeGC::TAdMultiChgGameModeGC(TObject *parent) : TObject(parent) {
-    m_name = TAdMultiChgGameModeGC__name;
+    m_name = TAdMultiChgGameModeGC::class_name;
     pad_1C = 0;
     selection = 2;
     prev_selection = -1;

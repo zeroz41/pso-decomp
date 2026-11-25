@@ -3001,7 +3001,7 @@ s32 get_online_message_text(s32 id) {
 }
 
 u8 *get_password_input_buffer(void) {
-    return ((u8 *)&TAdEnterPasswordGC__input_buffer);
+    return ((u8 *)&TAdEnterPasswordGC::input_buffer);
 }
 
 void *TProtocol::operator new(size_t size) { return obj_heap->heap_alloc(size); }

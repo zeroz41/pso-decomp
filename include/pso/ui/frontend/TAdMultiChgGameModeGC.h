@@ -9,6 +9,7 @@ class TAdSelectCurGC;
 
 class TAdMultiChgGameModeGC : public TObject {
 public:
+    static const char *class_name;
     TAdMultiChgGameModeGC(TObject *parent);
     virtual ~TAdMultiChgGameModeGC();
     virtual void run_task();

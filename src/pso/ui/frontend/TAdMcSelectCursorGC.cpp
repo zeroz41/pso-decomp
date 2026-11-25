@@ -22,11 +22,11 @@ __declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &lbl_8
 
 const char *TAdMcSelectCursorGC::class_name = "TAdMcSelectCursorGC";
 
-NJS_TEXLIST *TAdMcSelectCursorGC__texture_entry;
+NJS_TEXLIST *TAdMcSelectCursorGC::texture_entry;
 
 void TAdMcSelectCursorGC::render_cursor() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdMcSelectCursorGC__texture_entry));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdMcSelectCursorGC::texture_entry));
     set_draw_texture_and_color(0, ((this->cursor_alpha << 0x18) | 0xFF0000 | 0xFFFF));
     draw_textured_quad_at_depth(&quads[0].x0, 0.9f);
     TWindowSubStatusDisp::get_player();
@@ -136,15 +136,15 @@ TAdMcSelectCursorGC *TAdMcSelectCursorGC::get_instance(TObject *parent) {
 }
 
 void TAdMcSelectCursorGC::release_cursor_entry() {
-    if (TAdMcSelectCursorGC__texture_entry != NULL) {
-        NJS_TEXNAME *entry = TAdMcSelectCursorGC__texture_entry->textures;
+    if (TAdMcSelectCursorGC::texture_entry != NULL) {
+        NJS_TEXNAME *entry = TAdMcSelectCursorGC::texture_entry->textures;
         if (entry->texture != NULL) {
-            release_texture_list(TAdMcSelectCursorGC__texture_entry);
+            release_texture_list(TAdMcSelectCursorGC::texture_entry);
         }
     }
 }
 
-void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = &mc_select_cursor_texture_list; load_streamed_prs_texture("f256_memorycard_select", &mc_select_cursor_texture_list); }
+void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC::texture_entry = &mc_select_cursor_texture_list; load_streamed_prs_texture("f256_memorycard_select", &mc_select_cursor_texture_list); }
 
 s32 TAdMcCheckGC::get_check_step() { return check_step; }
 

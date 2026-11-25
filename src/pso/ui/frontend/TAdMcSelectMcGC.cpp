@@ -14,11 +14,11 @@
 NJS_TEXNAME lbl_804ED9C0 = { "f256_memorycard", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST mc_select_memorycard_texture_list = { &lbl_804ED9C0, 1 };
 const char *TAdMcSelectMcGC::class_name = "TAdMcSelectMcGC";
-NJS_TEXLIST *TAdMcSelectMcGC__texture_list_ptr;
+NJS_TEXLIST *TAdMcSelectMcGC::texture_list_ptr;
 
 void TAdMcSelectMcGC::draw_status_window() {
     begin_screen_draw(1);
-    TObjFish::set_global_param(TAdMcSelectMcGC__texture_list_ptr);
+    TObjFish::set_global_param(TAdMcSelectMcGC::texture_list_ptr);
     set_draw_texture_and_color(0, (pad_120 << 0x18) | 0xFF0000 | 0xFFFF);
     draw_textured_quad_at_depth(&quads[0].x0, 0.8f);
     TWindowSubStatusDisp::get_player();
@@ -109,13 +109,13 @@ TAdMcSelectMcGC::TAdMcSelectMcGC(TObject *parent, s32 slot) : TObject(parent) {
 }
 
 void TAdMcSelectMcGC::release_selected_entry() {
-    if (TAdMcSelectMcGC__texture_list_ptr != NULL && TAdMcSelectMcGC__texture_list_ptr->textures->texture != NULL) {
-        release_texture_list(TAdMcSelectMcGC__texture_list_ptr);
+    if (TAdMcSelectMcGC::texture_list_ptr != NULL && TAdMcSelectMcGC::texture_list_ptr->textures->texture != NULL) {
+        release_texture_list(TAdMcSelectMcGC::texture_list_ptr);
     }
 }
 
 void TAdMcSelectMcGC::init_memorycard() {
-    TAdMcSelectMcGC__texture_list_ptr = &mc_select_memorycard_texture_list;
+    TAdMcSelectMcGC::texture_list_ptr = &mc_select_memorycard_texture_list;
     load_streamed_prs_texture("f256_memorycard", &mc_select_memorycard_texture_list);
 }
 

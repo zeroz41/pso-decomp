@@ -10,6 +10,7 @@ struct TWindowMessage;
 struct TWindowSubComCardList;
 
 struct TAdMultiSaveGC : public TObject {
+    static const char *class_name;
     TAdMultiSaveGC(TObject *parent);
     virtual ~TAdMultiSaveGC();
     virtual void render();

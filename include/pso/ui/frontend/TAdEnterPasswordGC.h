@@ -4,7 +4,10 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
+struct TAdEnterPasswordGCInputBuffer { char value; u8 remaining[8]; };
+
 struct TAdEnterPasswordGC : public TAdEnterBaseGC {
+    static TAdEnterPasswordGCInputBuffer input_buffer;
     static const char *class_name;
     TAdEnterPasswordGC(TObject *parent);
     virtual ~TAdEnterPasswordGC();
@@ -24,8 +27,6 @@ struct TAdEnterPasswordGC : public TAdEnterBaseGC {
 LAYOUT_ASSERT(TAdEnterPasswordGC_size, sizeof(TAdEnterPasswordGC) == 0x44);
 
 
-// TAdEnterPasswordGC__input_buffer: layout known from its uses only.
-struct TAdEnterPasswordGCInputBuffer { char value; u8 remaining[8]; };
-extern TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer;
+// TAdEnterPasswordGC::input_buffer: layout known from its uses only.
 
 #endif

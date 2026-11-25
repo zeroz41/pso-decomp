@@ -5,7 +5,9 @@
 #include <stddef.h>
 
 class TAdRicoRing;
+struct BmlResourceDescriptor;
 struct TAdRicoRingCtrl : public TObject {
+    static BmlResourceDescriptor resource_descriptor;
     static const char *class_name;
     TAdRicoRingCtrl(TObject *parent);
     virtual ~TAdRicoRingCtrl();

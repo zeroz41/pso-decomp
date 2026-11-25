@@ -29,7 +29,7 @@ const char *TAdEnterPasswordGC::class_name = "TAdEnterPasswordGC";
 typedef void (TAdEnterPasswordGC::*StateHandler)();
 
 #pragma explicit_zero_data on
-TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer = { 0 };
+TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC::input_buffer = { 0 };
 #pragma explicit_zero_data off
 extern "C" {
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
@@ -73,7 +73,7 @@ void TAdEnterPasswordGC::update_password_input(void *arg) {
   if (((len == 0) && (test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 2) != 0)) || ((len == 0) && (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)))
   {
     mem_free((void *)buf);
-    memset(&TAdEnterPasswordGC__input_buffer.value, 0, 9);
+    memset(&TAdEnterPasswordGC::input_buffer.value, 0, 9);
     pending_dispatch_state = 2;
     password_entry_dispatch_state = 4;
     return;
@@ -137,7 +137,7 @@ void TAdEnterPasswordGC::update_password_input(void *arg) {
   }
   if ((select_cursor->confirmation_result() == 1) && (password_entry_keyboard_control->is_confirmed() != 0))
   {
-    strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, (const char *)buf, 9);
+    strncpy((char *)&TAdEnterPasswordGC::input_buffer.value, (const char *)buf, 9);
     TAdEnterSerialAccessGC::set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 2);
     pending_dispatch_state = 3;
     password_entry_dispatch_state = 4;
@@ -175,8 +175,8 @@ void TAdEnterPasswordGC::run_task() {
 }
 
 void TAdEnterPasswordGC::set_password(const char *password) {
-    memset(&TAdEnterPasswordGC__input_buffer.value, 0, 9);
-    strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, password, 9);
+    memset(&TAdEnterPasswordGC::input_buffer.value, 0, 9);
+    strncpy((char *)&TAdEnterPasswordGC::input_buffer.value, password, 9);
 }
 
 TAdEnterPasswordGC::~TAdEnterPasswordGC() {}

@@ -6,8 +6,10 @@
 #include <stddef.h>
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
+struct BmlResource;
 class TAdRicoRing : public TObject {
 public:
+    static BmlResource *resource_bundle;
     static const char *class_name;
     TAdRicoRing(TObject *parent);
     virtual ~TAdRicoRing();

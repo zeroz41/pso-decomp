@@ -681,7 +681,7 @@ void TAdChrSelBSlotGC::reset_windows() {
     state = 1;
 }
 
-int TAdChrSelBSlotGC__global_state;
+int TAdChrSelBSlotGC::global_state;
 
 void TAdChrSelBSlotGC::run_task() {
     if (state < 0 || state >= 30) {
@@ -842,7 +842,7 @@ TAdChrSelBSlotGC *TAdChrSelBSlotGC::create(void *parent) {
     return new TAdChrSelBSlotGC((TObject *)parent);
 }
 
-int TAdChrSelBSlotGC::get_global_state() {  return TAdChrSelBSlotGC__global_state; }
+int TAdChrSelBSlotGC::get_global_state() {  return global_state; }
 
 TAdChrSelASlotGC *TAdChrSelBSlotGC::get_global_slot_data() { return TAdChrSel__global_slot_data; }
 s32 get_battle_ctrl_default() {

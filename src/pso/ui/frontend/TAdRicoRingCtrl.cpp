@@ -19,7 +19,7 @@
 
 extern "C" {
 extern TObject *tl_04;
-BmlResource *TAdRicoRing__resource_bundle;
+BmlResource *TAdRicoRing::resource_bundle;
 f32 rico_ring_quad_x_min;
 s8 rico_ring_quad_x_min_ready;
 f32 rico_ring_quad_x_max;
@@ -38,7 +38,7 @@ u32 __cvt_fp2unsigned(f32);
 
 const char *rico_ring_model_names[2] = { "rico_ring.nj", NULL };
 const char *rico_ring_motion_names[2] = { "rico_ring.njm", NULL };
-BmlResourceDescriptor TAdRicoRingCtrl__resource_descriptor = {
+BmlResourceDescriptor TAdRicoRingCtrl::resource_descriptor = {
     "rico_ring.bml", rico_ring_model_names, rico_ring_motion_names, 1, 1,
 };
 // inferred: vertex colours, corners and quad of the ring sprite TAdRicoRingCtrl::render draws in 3D
@@ -59,13 +59,13 @@ void TAdRicoRing::sub_8001BED0(f32 value) {
 }
 
 void TAdRicoRingCtrl::load_static_resource() {
-    TAdRicoRing__resource_bundle = new BmlResource(1, &TAdRicoRingCtrl__resource_descriptor, 0, 0, NULL);
+    TAdRicoRing::resource_bundle = new BmlResource(1, &TAdRicoRingCtrl::resource_descriptor, 0, 0, NULL);
 }
 
 void TAdRicoRingCtrl::release_global_805D4A00() {
-    if (TAdRicoRing__resource_bundle != NULL) {
-        delete TAdRicoRing__resource_bundle;
-        TAdRicoRing__resource_bundle = NULL;
+    if (TAdRicoRing::resource_bundle != NULL) {
+        delete TAdRicoRing::resource_bundle;
+        TAdRicoRing::resource_bundle = NULL;
     }
 }
 
@@ -75,8 +75,8 @@ TAdRicoRing *TAdRicoRingCtrl::create(TObject *parent) {
 
 TAdRicoRing::TAdRicoRing(TObject *parent) : TObject(parent) {
     m_name = TAdRicoRing::class_name;
-    model = get_bml_model(TAdRicoRing__resource_bundle, 0);
-    textures = get_bml_texlist(TAdRicoRing__resource_bundle, 0);
+    model = get_bml_model(TAdRicoRing::resource_bundle, 0);
+    textures = get_bml_texlist(TAdRicoRing::resource_bundle, 0);
     scale[3] = 0.0f;
     scale[2] = 0.0f;
     scale[1] = 0.0f;
