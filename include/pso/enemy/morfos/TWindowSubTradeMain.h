@@ -40,7 +40,6 @@ struct TWindowSubTradeMain : public TObject {
     TWindowHelpItem *help_item;
     TWindowChat *chat;
     void *submission;
-    void clear_trade_flag();
     void send_60_update();
     void bswap_6x6A_packet();
     void init_pkt_cmd_6A();

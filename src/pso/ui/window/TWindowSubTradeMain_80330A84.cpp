@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
 #include "pso/network/TradeSession.h"
 #include "pso/unk/text_80076BC4.h"
@@ -773,7 +772,7 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 2:
         if (((TradeMain_80330BCC *)this)->w30 != 0) {
             if (on != 0) {
-                ((TWindowSubTradeMain *)(((TradeMain_80330BCC *)this)->w30))->clear_trade_flag();
+                ((TWindowMenu *)(((TradeMain_80330BCC *)this)->w30))->clear_flag_40();
             } else {
                 ((TWindowMenu *)(((TradeMain_80330BCC *)this)->w30))->set_flag_40();
             }
@@ -840,7 +839,7 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 21:
         if (((TradeMain_80330BCC *)this)->w34 != 0) {
             if (on != 0) {
-                ((TWindowSubTradeMain *)(((TradeMain_80330BCC *)this)->w34))->clear_trade_flag();
+                ((TWindowMenu *)(((TradeMain_80330BCC *)this)->w34))->clear_flag_40();
             } else {
                 ((TWindowMenu *)(((TradeMain_80330BCC *)this)->w34))->set_flag_40();
             }
@@ -850,9 +849,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 27:
         if (((TradeMain_80330BCC *)this)->w38 != 0) {
             if (on != 0) {
-                ((TWindowSubComCard *)(((TradeMain_80330BCC *)this)->w38))->notify_trade_main();
+                ((TWindowMessageYesNo *)(((TradeMain_80330BCC *)this)->w38))->clear_choice_menu_flag_40();
             } else {
-                ((TWindowSubComCard *)(((TradeMain_80330BCC *)this)->w38))->update_card_slot();
+                ((TWindowMessageYesNo *)(((TradeMain_80330BCC *)this)->w38))->set_choice_menu_flag_40();
             }
         }
         break;

@@ -3,7 +3,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
 #include "pso/ui/window/TSnapshotFileSetup.h"
@@ -26,11 +25,11 @@ TSnapshotFileSetup::TSnapshotFileSetup(TObject *parent) : TObject(parent) {
     this->flags = 0;
     this->result = 0;
     this->shown_message = 14;
-    this->message_window = 0;
+    this->message_window = NULL;
 }
 
 TSnapshotFileSetup::~TSnapshotFileSetup() {
-    if ((void *)this->message_window != NULL) { ((TWindowMessageYesNo *)this->message_window)->close(); this->message_window = 0; }
+    if (this->message_window != NULL) { this->message_window->close(); this->message_window = NULL; }
 }
 
 void TSnapshotFileSetup::run_task() {
@@ -109,13 +108,13 @@ void TSnapshotFileSetup::run_task() {
             set_option_and_confirm(0, 1);
             this->state = 2;
         case 2:
-            if (((TWindowMessageYesNo *)(this->message_window))->is_cancelled() != 0) {
+            if (this->message_window->is_cancelled() != 0) {
                 this->result = 2;
                 this->state = 0x10;
                 return;
             }
-            if (((TWindowMessageYesNo *)(this->message_window))->is_child_visible() != 0) {
-                if (((TWindowMessageYesNo *)(this->message_window))->get_selected_value() == 0) {
+            if (this->message_window->is_child_visible() != 0) {
+                if (this->message_window->get_selected_value() == 0) {
                     this->state = 3;
                     return;
                 }
@@ -151,15 +150,15 @@ void TSnapshotFileSetup::run_task() {
             this->flags = (s32) (this->flags | 2);
             this->state = 8;
         case 8:
-            if (((TWindowMessageYesNo *)(this->message_window))->is_cancelled() != 0) {
+            if (this->message_window->is_cancelled() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
                 this->result = 2;
                 this->state = 0x10;
                 return;
             }
-            if (((TWindowMessageYesNo *)(this->message_window))->is_child_visible() != 0) {
+            if (this->message_window->is_child_visible() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
-                if (((TWindowMessageYesNo *)(this->message_window))->get_selected_value() == 0) {
+                if (this->message_window->get_selected_value() == 0) {
                     this->result = 3;
                     this->state = 0x10;
                     return;
@@ -173,15 +172,15 @@ void TSnapshotFileSetup::run_task() {
             this->flags = (s32) (this->flags | 2);
             this->state = 0xA;
         case 10:
-            if (((TWindowMessageYesNo *)(this->message_window))->is_cancelled() != 0) {
+            if (this->message_window->is_cancelled() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
                 this->result = 2;
                 this->state = 0x10;
                 return;
             }
-            if (((TWindowMessageYesNo *)(this->message_window))->is_child_visible() != 0) {
+            if (this->message_window->is_child_visible() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
-                if (((TWindowMessageYesNo *)(this->message_window))->get_selected_value() == 0) {
+                if (this->message_window->get_selected_value() == 0) {
                     TObjBoss2Tunnel::poll_pso_screen_load();
                     this->result = 2;
                     this->state = 0x10;
@@ -196,15 +195,15 @@ void TSnapshotFileSetup::run_task() {
             this->flags = (s32) (this->flags | 2);
             this->state = 0xC;
         case 12:
-            if (((TWindowMessageYesNo *)(this->message_window))->is_cancelled() != 0) {
+            if (this->message_window->is_cancelled() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
                 this->result = 2;
                 this->state = 0x10;
                 return;
             }
-            if (((TWindowMessageYesNo *)(this->message_window))->is_child_visible() != 0) {
+            if (this->message_window->is_child_visible() != 0) {
                 this->flags = (s32) (this->flags & 0xFFFFFFFD);
-                if (((TWindowMessageYesNo *)(this->message_window))->get_selected_value() == 0) {
+                if (this->message_window->get_selected_value() == 0) {
                     this->state = 0xD;
                     return;
                 }
@@ -257,16 +256,16 @@ void TSnapshotFileSetup::set_option_and_confirm(s32 arg1, s32 arg2) {
 }
 
 void TSnapshotFileSetup::open_confirm_dialog(s32 message, s32 arg2) {
-    if ((uaddr) this->message_window != 0U) {
-        ((TWindowMessageYesNo *)(this->message_window))->close();
-        this->message_window = 0U;
+    if (this->message_window != NULL) {
+        this->message_window->close();
+        this->message_window = NULL;
     }
-    this->message_window = (uaddr)TWindowMessageYesNo::create((void *)tl_01, local_client_id, 0, 0);
+    this->message_window = TWindowMessageYesNo::create((void *)tl_01, local_client_id, 0, 0);
     if (arg2 != 0) {
-        ((TWindowMessageYesNo *)this->message_window)->open_yes_no_prompt_with_text((s32)message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
+        this->message_window->open_yes_no_prompt_with_text((s32)message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
         return;
     }
-    initialize_option_dialog((void *)this->message_window, message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
+    initialize_option_dialog(this->message_window, message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
 }
 
 s32 TSnapshotFileSetup::get_result() { return this->result; }

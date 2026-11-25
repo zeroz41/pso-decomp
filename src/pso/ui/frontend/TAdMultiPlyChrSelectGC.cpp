@@ -43,7 +43,6 @@
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 

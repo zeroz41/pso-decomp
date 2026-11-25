@@ -26,7 +26,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include <string.h>
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
@@ -323,12 +322,12 @@ void TObjWarpBoss::update_warp_dialogs() {
     case 0:
       if ((TObjWarpBossMulti::is_lobby_active() == 0) && (yes_no_window == 0))
     {
-      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
+      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
       if (yes_no_window != 0)
       {
-        ((TWindowMessageYesNo *)yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
-        ((TWindowMessageYesNo *)yes_no_window)->set_menu_selected_index(1);
-        ((TWindowMessageYesNo *)yes_no_window)->set_choice_menu_flag70_bit10();
+        yes_no_window->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
+        yes_no_window->set_menu_selected_index(1);
+        yes_no_window->set_choice_menu_flag70_bit10();
         TWindowCtrl::begin_client_keyboard_hold(local_client_id);
         request_active_window_close();
         TWindowCtrl::suppress_slot(local_client_id);
@@ -339,7 +338,7 @@ void TObjWarpBoss::update_warp_dialogs() {
       if (yes_no_window == 0)
     {
       i = 0x36;
-      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
+      yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
       if (yes_no_window != 0)
       {
         initialize_option_dialog(yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(i), 368.0f);
@@ -463,10 +462,10 @@ void TObjWarpBoss::update_warp_confirmation() {
     case 2:
         update_warp_dialogs();
         if (yes_no_window != NULL) {
-            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
+            if (yes_no_window->is_cancelled() != 0) {
                 state_step = 3;
-            } else if (((TWindowMessageYesNo *)yes_no_window)->is_child_visible() != 0) {
-                r = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
+            } else if (yes_no_window->is_child_visible() != 0) {
+                r = yes_no_window->get_selected_value();
                 if (r == 0) {
                     warp_player(local_client_id);
                     warp_triggered = 1;
@@ -686,7 +685,7 @@ void handle_6x6A_set_boss_warp_flags(void *packet) {
 
 void TObjWarpBoss::close_windows() {
     if (yes_no_window != NULL) {
-        ((TWindowMessageYesNo *)yes_no_window)->close();
+        yes_no_window->close();
         yes_no_window = NULL;
     }
     if (menu_window != 0) {
@@ -765,8 +764,8 @@ void TObjWarpBoss::update_warp_boss_visibility() {
     }
     if (var_r30 == 0) {
         if (yes_no_window != NULL) {
-            ((TObject *)yes_no_window)->suspend_update();
-            ((TObject *)yes_no_window)->disallow_rendering();
+            yes_no_window->suspend_update();
+            yes_no_window->disallow_rendering();
         }
         if (menu_window != 0) {
             ((TObject *)menu_window)->suspend_update();
@@ -778,8 +777,8 @@ void TObjWarpBoss::update_warp_boss_visibility() {
         }
     } else {
         if (yes_no_window != NULL) {
-            ((TObject *)yes_no_window)->clear_update_suspension();
-            ((TObject *)yes_no_window)->allow_rendering();
+            yes_no_window->clear_update_suspension();
+            yes_no_window->allow_rendering();
         }
         if (menu_window != 0) {
             ((TObject *)menu_window)->clear_update_suspension();

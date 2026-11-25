@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 class TChCrTagPlBack;
 struct TWindowShortCut;
 #include "pso/ui/chat/TWindowChat.h"

@@ -12,7 +12,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 

@@ -35,7 +35,6 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/math/TMath.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -496,7 +495,7 @@ TWindowCheckBox *TWindowOptionCtrl::create_option_menu() {
 
 saddr TWindowOptionCtrl::open_yes_no_window(saddr arg0, s32 arg1, s32 index) {
   saddr window;
-  window = (saddr)TWindowMessageYesNo::create((void *)arg0, 6, (void *)(arg0 * 0), 0);
+  window = (saddr)TWindowMessageYesNo::create((void *)arg0, 6, NULL, NULL);
   ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, arg1)), get_window_layout_position(index), 470.0f);
   ((TWindowMessageYesNo *)window)->set_menu_selected_index(1);
   return window;

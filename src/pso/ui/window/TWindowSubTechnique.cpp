@@ -266,7 +266,7 @@ void TWindowSubTechnique::run_task() {
         help_window = TWindowMessage::create(get_window_layout_position(0x14), (const f32 *)technique_help_window_size, 1, (s32)playerIndex);
         ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
-        ((TWindowSubTradeMain *)technique_menu)->clear_trade_flag();
+        technique_menu->clear_flag_40();
         ((TWindowSubTechnique *)technique_menu)->clear_flag70_bit80();
         technique_menu->clear_flag_and_release();
         ((TWindowOptionCtrl *)technique_menu)->clear_flag70_bit4();
@@ -335,4 +335,4 @@ saddr get_technique_description_text(s32 arg0) {
 }
 
 void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }
-void TWindowSubTradeMain::clear_trade_flag() { this->m_70 &= 0xffffffbf; }
+void TWindowMenu::clear_flag_40() { m_70 &= ~0x40; }

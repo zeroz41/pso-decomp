@@ -15,7 +15,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"

@@ -48,7 +48,6 @@ class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"

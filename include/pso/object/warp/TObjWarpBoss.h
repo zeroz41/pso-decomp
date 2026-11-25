@@ -7,6 +7,7 @@
 
 struct AnimationMotion;
 class TWindowCheckBox;
+struct TWindowMessageYesNo;
 struct NJS_OBJECT;
 
 // Same field layout as TObjCityMainWarpChallenge up to 0x178.
@@ -47,7 +48,7 @@ struct TObjWarpBoss : public TObjAreaWarp {
     s32 player_on_dest_floor;
     s32 warp_countdown;  // 300 when the warp state starts; at 0 it warps without waiting for every player
     TWindowCheckBox *player_list_window;
-    void *yes_no_window;
+    TWindowMessageYesNo *yes_no_window;
     s32 key_id;             // set_params[1] if 0..0xFF, else -1 ("<- KEY ID : %d")
     s32 warp_triggered;     // 1 once warp_player ran for the local player in this state
     s32 warp_effect_timer;  // 300 when warp_player starts the player's warp effect

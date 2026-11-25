@@ -8,7 +8,6 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/TQuestThread.h"
@@ -24,12 +23,12 @@ void TWindowMessageYesNo::get_choice_menu_position(NJS_POINT2 *position) {
     }
 }
 
-void TWindowSubComCard::free_windows() {
-    if ((u32) this->m_28 != 0U) {
-        reinterpret_cast<TWindowBase *>(this->m_28)->reparent_to_main_ctrl();
+void TWindowMessageYesNo::reparent_to_main_ctrl() {
+    if (message_menu != NULL) {
+        message_menu->reparent_to_main_ctrl();
     }
-    if ((u32) this->m_2c != 0U) {
-        reinterpret_cast<TWindowBase *>(this->m_2c)->reparent_to_main_ctrl();
+    if (choice_menu != NULL) {
+        choice_menu->reparent_to_main_ctrl();
     }
 }
 
@@ -48,8 +47,19 @@ void TWindowMessageYesNo::move_to(const NJS_POINT2 *position) {
     }
 }
 
-void TWindowSubComCard::update_card_slot() { void* m = *(void* *)&this->m_2c; if (m) ((TWindowMenu *)m)->set_flag_40(); }
-void TWindowSubComCard::notify_trade_main() { void* m = *(void* *)&this->m_2c; if (m) ((TWindowSubTradeMain *)m)->clear_trade_flag(); }
+void TWindowMessageYesNo::set_choice_menu_flag_40() {
+    TWindowMenu *menu = choice_menu;
+    if (menu != NULL) {
+        menu->set_flag_40();
+    }
+}
+
+void TWindowMessageYesNo::clear_choice_menu_flag_40() {
+    TWindowMenu *menu = choice_menu;
+    if (menu != NULL) {
+        menu->clear_flag_40();
+    }
+}
 
 
 
@@ -82,12 +92,12 @@ s32 TWindowMessageYesNo::is_child_visible() {
     }
     return choice_menu->is_decided();
 }
-void initialize_option_dialog(void *dialog, s32 message, const NJS_POINT2 *position, f32 width) {
-    *(s32 *)((s8 *)dialog + 0x28) = (saddr)create_window_menu(position, 1, *(s32 *)((s8 *)dialog + 0x24));
-    ((TWindowMenu *)(*(saddr *)((s8 *)dialog + 0x28)))->add_text_entry(message, 0x21, 0);
-    ((TWindowMenu *)(*(saddr *)((s8 *)dialog + 0x28)))->set_flag_40();
-    TQuestThread::set_status_flag_80((void *)(*(saddr *)((s8 *)dialog + 0x28)));
-    ((TWindowMenu *)(*(saddr *)((s8 *)dialog + 0x28)))->calc_layout_height(width);
+void initialize_option_dialog(TWindowMessageYesNo *dialog, s32 message, const NJS_POINT2 *position, f32 width) {
+    dialog->message_menu = create_window_menu(position, 1, dialog->client_id);
+    dialog->message_menu->add_text_entry(message, 0x21, 0);
+    dialog->message_menu->set_flag_40();
+    TQuestThread::set_status_flag_80(dialog->message_menu);
+    dialog->message_menu->calc_layout_height(width);
 }
 
 void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, const NJS_POINT2 *message_position, f32 width) {
@@ -102,9 +112,7 @@ void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, const 
     TQuestThread::set_status_flag_80(dialog->message_menu);
     dialog->message_menu->calc_layout_height(width);
     dialog->get_choice_menu_position(&position);
-    dialog->choice_menu = create_yes_no_window(&position, dialog->client_id,
-                                              reinterpret_cast<const char *>(dialog->yes_text),
-                                              reinterpret_cast<const char *>(dialog->no_text));
+    dialog->choice_menu = create_yes_no_window(&position, dialog->client_id, dialog->yes_text, dialog->no_text);
 }
 
 
@@ -122,21 +130,21 @@ void TWindowMessageYesNo::render() {  }
 
 void TWindowMessageYesNo::run_task() { if (is_child_visible() != 0) { ((TWindowMenu *)(this->message_menu))->confirm_selection(); } }
 
-TWindowMessageYesNo *TWindowMessageYesNo::create(void *parent, s32 client_id, void *arg2, void *arg3) {
+TWindowMessageYesNo *TWindowMessageYesNo::create(void *parent, s32 client_id, const char *yes_text, const char *no_text) {
     TWindowMessageYesNo *o;
-    o = new TWindowMessageYesNo((TObject *)parent, client_id, arg2, arg3);
+    o = new TWindowMessageYesNo((TObject *)parent, client_id, yes_text, no_text);
     return o;
 }
 
 TWindowMessageYesNo::~TWindowMessageYesNo() {
     if (choice_menu != NULL) { choice_menu->close(); choice_menu = NULL; }
-    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x28)))->close(); this->message_menu = 0; }
+    if (message_menu != NULL) { message_menu->close(); message_menu = NULL; }
 }
-TWindowMessageYesNo::TWindowMessageYesNo(TObject *parent, s32 client_id, void *arg3, void *arg4) : TObject(parent) {
+TWindowMessageYesNo::TWindowMessageYesNo(TObject *parent, s32 client_id, const char *yes_text, const char *no_text) : TObject(parent) {
     m_name = TWindowMessageYesNo__name;
     this->client_id = client_id;
     this->message_menu = 0;
     choice_menu = NULL;
-    *(void **)((s8 *)this + 0x20) = arg3;
-    *(void **)((s8 *)this + 0x1C) = arg4;
+    this->yes_text = yes_text;
+    this->no_text = no_text;
 }

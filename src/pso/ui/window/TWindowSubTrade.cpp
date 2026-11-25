@@ -9,7 +9,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/network/TLobby.h"

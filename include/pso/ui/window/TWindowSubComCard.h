@@ -84,9 +84,6 @@ struct TWindowSubComCard : public TObject {
     static s32 create_card_list(saddr parent, saddr card_slot, s32 count, s32 empty_message);
     // Opens the list over every stored guild card (create_card_list's all-cards form).
     static u8 *sub_802754EC(saddr parent);
-    void free_windows();
-    void update_card_slot();
-    void notify_trade_main();
     void*init_fields(int rec, int client);
     int is_flag_4_set();
     static f32 trunc_float(f32 value);

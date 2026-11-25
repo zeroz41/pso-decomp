@@ -32,7 +32,7 @@ extern "C" {
 
 void TObjCityMainWarpChallenge::close_windows() {
     if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {
-        ((TWindowMessageYesNo *)(this->yes_no_window))->close();
+        this->yes_no_window->close();
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
     if (this->menu_window != 0U) {

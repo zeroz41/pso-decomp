@@ -21,7 +21,6 @@
 #include "pso/system/task/TObject.h"
 #include <stdio.h>
 #include <string.h>
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
@@ -213,7 +212,7 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_yes_no_window(NJS_POINT2 *pos, s32 c
     window = TWindowMessageYesNo::create(this, client_id, 0, 0);
     window->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0x16, 0x1B)), pos, 458.0f);
     window->set_menu_selected_index(1);
-    ((TWindowSubComCard *)window)->free_windows();
+    window->reparent_to_main_ctrl();
     return window;
 }
 
@@ -222,7 +221,7 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_create_character_prompt(NJS_POINT2 *
     w = TWindowMessageYesNo::create(this, TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
     w->open_yes_no_prompt_with_text(get_localized_text_entry(0x16, 0x1A), pos, 196.0f);
     w->set_menu_selected_index(1);
-    ((TWindowSubComCard *)w)->free_windows();
+    w->reparent_to_main_ctrl();
     return w;
 }
 

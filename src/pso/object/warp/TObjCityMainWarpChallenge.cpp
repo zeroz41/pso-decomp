@@ -33,7 +33,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/MatrixStack.h"
@@ -182,11 +181,11 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
     switch (this->state) {
     case 0:
         if (this->yes_no_window == 0) {
-            this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
+            this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
             if (this->yes_no_window != 0) {
-                ((TWindowMessageYesNo *)this->yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
-                ((TWindowMessageYesNo *)this->yes_no_window)->set_menu_selected_index(1);
-                ((TWindowMessageYesNo *)this->yes_no_window)->set_choice_menu_flag70_bit10();
+                this->yes_no_window->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
+                this->yes_no_window->set_menu_selected_index(1);
+                this->yes_no_window->set_choice_menu_flag70_bit10();
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
@@ -195,7 +194,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
         break;
     case 1:
         if (this->yes_no_window == 0) {
-            this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, (void *)0, (void *)0);
+            this->yes_no_window = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
             if (this->yes_no_window != 0) {
                 initialize_option_dialog(this->yes_no_window, (saddr)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
             }
@@ -310,10 +309,10 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
     case 2:
         sub_801875F8();
         if (yes_no_window != 0) {
-            if (((TWindowMessageYesNo *)yes_no_window)->is_cancelled() != 0) {
+            if (yes_no_window->is_cancelled() != 0) {
                 state_step = 3;
-            } else if (((TWindowMessageYesNo *)yes_no_window)->is_child_visible() != 0) {
-                r = ((TWindowMessageYesNo *)yes_no_window)->get_selected_value();
+            } else if (yes_no_window->is_child_visible() != 0) {
+                r = yes_no_window->get_selected_value();
                 if (r == 0) {
                     trigger_warp_effect(local_client_id);
                     warp_triggered = 1;
