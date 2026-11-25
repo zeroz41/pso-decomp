@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/window/TWindowSubQuestBoard_8027D1E8.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
@@ -22,14 +21,11 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
 
-struct Obj_8027D1E8 { u8 pad[0x60]; s8 f60; };
+void TWindowSubQuestBoardSelect::sub_8027D1E8() {
+    m_60 &= ~1;
+}
 
 extern "C" {
-
-
-void fn_8027D1E8(Obj_8027D1E8 *o) {
-    o->f60 &= ~1;
-}
 
 void TWindowCtrl__sub_8027D1F8(void) {
     if (TWindowCtrl::instance != NULL) {
@@ -145,13 +141,13 @@ void TWindowSubQuestBoardSelect::update_slot_display_flags() {
     } while (i < 6);
     array_entry = (u16 *)get_array_entry(1);
     if (var_r29 != 0) {
-        *(s8 *)&this->slot = -1;
+        slot = -1;
         *array_entry |= 2;
-        this->m_60 = (u8) (this->m_60 | 4);
+        m_60 |= 4;
         return;
     }
     *array_entry &= 0xFFFFFFFD;
-    this->m_60 = (u8) (this->m_60 & 0xFFFFFFFB);
+    m_60 &= ~4;
 }
 
 
@@ -222,14 +218,14 @@ void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, 
 void TWindowSubQuestBoardSelect::handle_cancel() {
     if (is_open() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_60 = (u8) (this->m_60 | 2);
+        m_60 |= 2;
     }
 }
 
 void TWindowSubQuestBoardSelect::handle_decide() {
     if (this->is_shortcut_active() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
-        this->m_60 = (u8) (this->m_60 | 1);
+        m_60 |= 1;
     }
 }
 
@@ -314,13 +310,13 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
         var_r30 = (saddr)((TWindowSubStatusDisp *)var_r30)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));
     }
     this->status_disp = (TWindowSubStatusDisp *)var_r30;
-    *(s8 *)&this->m_60 = 0;
+    m_60 = 0;
     temp_r30 = reinterpret_cast<saddr>(this->get_array_entry(0));
     set_text_entry_string((u8 *)temp_r30, (uaddr)(TQuestThread::get_quest_name()), 0);
     ((TWindowSubComCard *)temp_r30)->get_field_20();
     temp_f2 = (f32) calc_text_width();
     *(f32 *)((s8 *)temp_r30 + 8) = 210.0f - 0.5f * temp_f2;
-    *(s8 *)&this->slot = -1;
+    slot = -1;
     update_slot_display_flags__26TWindowSubQuestBoardSelectFv(this, 0.5f, temp_f2);
     this->select_next();
 }

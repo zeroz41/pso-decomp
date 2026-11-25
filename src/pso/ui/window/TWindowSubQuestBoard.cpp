@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/ui/window/TWindowSubQuestBoard_8027D1E8.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/ui/window/TWindowSubOption.h"
@@ -36,7 +35,6 @@ struct Ent_8027CFC8 { u8 pad[0x20]; s32 label; };
 __declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
 
 extern "C" {
-s32 fn_8027D1E8(s32);
 extern Ent_8027CFC8 quest_board_handlers[];
 int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
 }
@@ -68,7 +66,7 @@ void TWindowSubQuestBoard::run_task() {
     switch (this->state) {
     case 0:
     case 1:
-        fn_8027D1E8((saddr)select_window);
+        select_window->sub_8027D1E8();
         this->state = 2;
     case 2:
         if (select_window->is_cancelled() != 0) {
