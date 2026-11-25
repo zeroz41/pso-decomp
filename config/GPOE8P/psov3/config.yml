@@ -878,14 +878,13 @@ force_active:
   - vfunc_81__16TOTrapAncient02RFv
   - __ct__15TOTrapAncient02FP7TObjectPv
   - __ct__20TOTrapChainSawDamageFP7TObjectPv
-  - TOTrapChainSawDamage__sub_802C9C00
-  - vfunc_16__20TOTrapChainSawDamageFv
-  - vfunc_18__20TOTrapChainSawDamageFP10TObjPlayer
+  - queue_runs__18TOTrapChainSawEdgeFl
+  - select_model__20TOTrapChainSawDamageFv
+  - hit_player__20TOTrapChainSawDamageFP10TObjPlayer
   - TOTrapChainSawDamage_class_name
   - __ct__18TOTrapChainSawEdgeFP7TObjectPv
   - TOTrapChainSawEdge_class_name
   - __ct__17TOTrapChainSawKeyFP7TObjectPv
-  - trap_chain_saw_level_scale_table
   - trap_chain_saw_name
   - trap_seabed01_bml_resource
   - TOTrapSeabed01__ct
@@ -1652,7 +1651,7 @@ force_active:
   - TObject_name
   - particle_entry_path
   - set_rotation__9TParticleFP14ParticleAngles
-  - TParticleCtrl__sub_802C8464
+  - draw_node_callback__17TOTrapChainSawKeyFP10NJS_OBJECT
   - color_palette__18TPhotonMagicSquare
   - photon_magic_square_class_name
   - japanese_messages__19TPlayerBattleCtrl4P
@@ -5146,7 +5145,7 @@ force_active:
   - adxerr_finish
   - adxerr_init
   - clear_field2A0__22TQuestVmDownLoadServerFP17TMCFormatSequence
-  - clear_field_d8__14TOTrapChainSawFv
+  - clear_hit_cooldowns__14TOTrapChainSawFv
   - clear_log_active__15TWindowMainMenuFv
   - enable_help_toggle__15TWindowHelpItemFv
   - clear_flag70_bit80__19TWindowSubTechniqueFv
@@ -6394,7 +6393,7 @@ force_active:
   - fn_80293D84
   - draw_bolt__12TBGLightningFP3Vec
   - draw_flash__12TBGLightningFP3Vec
-  - fn_802C9924
+  - get_texlist__14TOTrapChainSawFl
   - __sinit_TObjOnlineEndingHexLine_cpp
   - fn_802F1DAC
   - fn_802F1E54
@@ -6572,7 +6571,7 @@ force_active:
   - get_angle__23MagNodeOscillationStateFv
   - get_anim_frame__18TObjCitySeasonBaseFv
   - get_area_event_data__Fl
-  - get_area_table_value__17TOTrapChainSawKeyFii
+  - get_area_sound__14TOTrapChainSawFl
   - get_armor_set_multiplier__9TItemDataFPUc
   - get_attack_angle__9TObjCharaFv
   - get_attack_state__16TObjEneBm5GibonUFPv
@@ -6661,12 +6660,12 @@ force_active:
   - get_message_10__17TWindowSubComCardFl
   - get_model__14TDrawableModelFv
   - get_model__15TORockJungleS01Fl
-  - get_model__17TOTrapChainSawKeyFl
+  - get_model__14TOTrapChainSawFl
   - get_model__23TObjSeabedSuisoBrakableFi
   - get_model_by_index__17TObjContainerJungFl
   - get_model_variant__8TItemMagFv
   - get_motion__12TMotionModelFv
-  - get_motion__17TOTrapChainSawKeyFl
+  - get_motion__14TOTrapChainSawFl
   - get_move_done_result__24TObjWaitEntryHairMoveSimFPv
   - get_network_config_card_channel__Fv
   - get_network_info_card_key__FiPUc
@@ -8381,7 +8380,7 @@ force_active:
   - lbl_805D64AC
   - lbl_805D6800
   - lbl_805D6804
-  - lbl_805D6808
+  - chain_saw_resource
   - lbl_805D681C
   - mericarol_bml
   - mericarol_render_texture_buffer
@@ -8772,7 +8771,6 @@ force_active:
   - lbl_805DD668
   - lbl_805DE040
   - lbl_805DE4BC
-  - lbl_805DE620
   - lbl_805DE640
   - lbl_805DE648
   - lbl_805DE64C
@@ -15253,8 +15251,8 @@ force_active:
   - seabed_suiso_break_sets
   - seabed_suiso_chip_collision_bodies
   - seabed_suiso_kind_params
-  - seabed_suiso_linked_switch_counts
-  - seabed_suiso_switch_counts
+  - chain_saw_sekigai2m_light_nodes
+  - chain_saw_sekigai4m_light_nodes
   - seabed_trap_collision_body
   - seabed_trap_fragment_spawns
   - seabed_trap_model_filenames
@@ -15406,7 +15404,7 @@ force_active:
   - set_cursor_index_2__17TAdMultiConfirmGCFPv
   - set_cursor_index__17TAdChrSelPlayerGCFl
   - set_cursor_row_for_mode__14TWindowSubItemFl
-  - set_damage__20TOTrapChainSawDamageFl
+  - set_target_offset__18TOTrapChainSawEdgeFl
   - set_data_and_draw_node_tree__16TObjEneRe7BeruraFii
   - set_default_depth_offset__15TObjEneDelDepthFv
   - set_depth__15TAdDrawLineTaskFf
@@ -17390,23 +17388,23 @@ force_active:
   - init_params__22TObjFogCollisionSwitchFv
   - vfunc_14__12TObjComputerFv
   - vfunc_14__13TObjGbAdvanceFv
-  - vfunc_14__14TOTrapChainSawFv
+  - draw_debug_labels__14TOTrapChainSawFv
   - pre_draw__15TORockJungleL01Fv
   - pre_draw__15TORockJungleM01Fv
-  - vfunc_14__17TOTrapChainSawKeyFv
-  - vfunc_14__20TOTrapChainSawDamageFv
+  - draw_debug_labels__17TOTrapChainSawKeyFv
+  - draw_debug_labels__20TOTrapChainSawDamageFv
   - pre_draw__23TObjSeabedSuisoBrakableFv
   - post_draw__15TORockJungleL01Fv
   - post_draw__15TORockJungleM01Fv
-  - vfunc_16__14TOTrapChainSawFv
+  - select_model__14TOTrapChainSawFv
   - throw_debris__15TORockJungleM01Fv
-  - vfunc_16__17TOTrapChainSawKeyFv
+  - select_model__17TOTrapChainSawKeyFv
   - throw_debris__18TORockCaveBrakableFv
-  - vfunc_16__18TOTrapChainSawEdgeFv
+  - select_model__18TOTrapChainSawEdgeFv
   - throw_debris__23TObjSeabedSuisoBrakableFv
-  - vfunc_18__14TOTrapChainSawFP10TObjPlayer
+  - hit_player__14TOTrapChainSawFP10TObjPlayer
   - play_break_sound__15TORockJungleM01Fv
-  - vfunc_18__17TOTrapChainSawKeyFP10TObjPlayer
+  - hit_player__17TOTrapChainSawKeyFP10TObjPlayer
   - vfunc_22__16TObjCityDoorBaseFv
   - vfunc_25__11TOKeyCave01Fv
   - vfunc_25__14TOKeyAncient01Fv
@@ -17414,24 +17412,24 @@ force_active:
   - vfunc_25__14TOKeyAncient03Fv
   - vfunc_25__14TOKeyGenericSwFv
   - vfunc_25__14TOKeyMachine01Fv
-  - vfunc_25__14TOTrapChainSawFv
+  - draw_model__14TOTrapChainSawFv
   - vfunc_25__17TOSensorAncient01Fv
-  - vfunc_25__17TOTrapChainSawKeyFv
-  - vfunc_25__18TOTrapChainSawEdgeFv
-  - vfunc_25__20TOTrapChainSawDamageFv
+  - draw_model__17TOTrapChainSawKeyFv
+  - draw_model__18TOTrapChainSawEdgeFv
+  - draw_model__20TOTrapChainSawDamageFv
   - vfunc_25__8TOKeyColFv
-  - vfunc_26__14TOTrapChainSawFv
-  - vfunc_26__20TOTrapChainSawDamageFv
-  - vfunc_27__14TOTrapChainSawFv
-  - vfunc_27__17TOTrapChainSawKeyFv
-  - vfunc_27__20TOTrapChainSawDamageFv
+  - start_run__14TOTrapChainSawFv
+  - start_run__20TOTrapChainSawDamageFv
+  - update_run__14TOTrapChainSawFv
+  - update_run__17TOTrapChainSawKeyFv
+  - update_run__20TOTrapChainSawDamageFv
   - refresh_target__12TBoss1DragonFv
   - refresh_target__12TObjEneLappyFv
   - refresh_target__13TBoss5GryphonFv
   - refresh_target__13TObjEneBm3FlyFv
   - refresh_target__13TObjEneMorfosFv
   - refresh_target__13TObjEneRe4BitFv
-  - vfunc_28__14TOTrapChainSawFv
+  - reach_far_end__14TOTrapChainSawFv
   - refresh_target__14TObjEneBm5WolfFv
   - refresh_target__14TObjEneIllGillFv
   - refresh_target__16TObjEneBm5GibonUFv
@@ -17444,8 +17442,8 @@ force_active:
   - refresh_target__18TObjEneRe4SorcererFv
   - refresh_target__19TObjEneBm9MericarolFv
   - refresh_target__19TObjEneEpsilonGuardFv
-  - vfunc_28__20TOTrapChainSawDamageFv
-  - vfunc_29__14TOTrapChainSawFv
+  - reach_far_end__20TOTrapChainSawDamageFv
+  - reach_home__14TOTrapChainSawFv
   - vfunc_57__20TItemWeaponEvilCurstFv
   - vfunc_57__26TItemWeaponChameleonScytheFv
   - vfunc_57__24TItemWeaponTheSighOfAGodFv
