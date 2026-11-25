@@ -88,7 +88,6 @@ s32 get_photon_blast_chain(Slots_80270060 *);
 s32 end_window_sweep_draw(s32);
 s32 draw_window_sweep_strip(TexturedQuad *, u8 *);
 s32 begin_window_sweep_draw(s32);
-s32 start_text_color_transition(void *, s32, f32);
 }
 s32 get_status_effect_icon_index(u32 arg0);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
@@ -101,7 +100,7 @@ void TWindowSimpleStatus::start_hp_text_color_transition() {
     TWindowStatusGaugeFeedback *gauge = (TWindowStatusGaugeFeedback *)get_array_entry(4);
     gauge->maximum = 0.0f;
     gauge->target = 0.0f;
-    start_text_color_transition(gauge, 0xFF008CFC, 1.0f);
+    gauge->start_text_color_transition(0xFF008CFC, 1.0f);
 }
 
 void TWindowSimpleStatus::init_gauge_entry() {
@@ -109,7 +108,7 @@ void TWindowSimpleStatus::init_gauge_entry() {
     gauge->maximum = 0.0f;
     gauge->target = 0.0f;
     gauge->calc_bar_width();
-    start_text_color_transition(gauge, 0xFF00FF15, 1.0f);
+    gauge->start_text_color_transition(0xFF00FF15, 1.0f);
 }
 
 void TWindowSimpleStatus::update_status_entry() {
@@ -141,7 +140,7 @@ s32 TWindowSimpleStatus::update_hp_gauge() {
         rgb = -0x3EEC;
         color = -0x3EEC;
     }
-    start_text_color_transition(gauge, rgb, 11.1f);
+    gauge->start_text_color_transition(rgb, 11.1f);
     return color;
 }
 
@@ -168,7 +167,7 @@ s32 TWindowSimpleStatus::update_hp_entry() {
         rgb = 0xFFF2FF19;
         color = 0xFFF2FF19;
     }
-    start_text_color_transition(gauge, rgb, 11.1f);
+    gauge->start_text_color_transition(rgb, 11.1f);
     return color;
 }
 

@@ -17279,7 +17279,7 @@ force_active:
   - update_technique_by_phase__11TTecGiBartaFv
   - update_technique_by_state__9TTecBartaFv
   - update_technique_state__11TObjEneMojaFv
-  - update_text_color_transition
+  - update_text_color_transition__26TWindowStatusGaugeFeedbackFv
   - update_tick__15TObjEneSlimeOneFv
   - update_tilt__8TOKurageFv
   - update_timed_wait__6TLobbyFPv
