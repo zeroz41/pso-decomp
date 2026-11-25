@@ -71,7 +71,6 @@ struct Menu_80296D68
 };
 
 
-
 typedef void (TObjCMMainMenu::*MainMenuStateHandler)();
 
 extern "C" {
@@ -86,7 +85,6 @@ struct CreationMenuModeList {
     s32 count;
     s32 *entries;
 };
-
 
 
 extern "C" void copy_player_visual_record(void *, void *);

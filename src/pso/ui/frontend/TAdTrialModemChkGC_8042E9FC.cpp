@@ -217,7 +217,7 @@ s32 get_network_adapter_type(s32 *arg0) {
 block_18:
     return 0;
 }
-extern "C" {
+
 
 s32 fn_8042EF48(s8 arg0) {
     if ((s32) shared_memory_ready == 0) {
@@ -226,7 +226,6 @@ s32 fn_8042EF48(s8 arg0) {
     shared_memory_disc_messages->unk_000 = arg0;
     shared_memory_block->flags |= SHARED_MEMORY_DISC_MESSAGES_SET;
     return 0;
-}
 }
 
 s32 set_modem_check_param_360(s8 arg0) {

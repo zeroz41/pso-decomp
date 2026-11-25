@@ -51,7 +51,6 @@ const char *TWindowSubSymbolChat::class_name = "TWindowSubSymbolChat";
 static const f32 lbl_8044FB20[2] = {203.0f, 78.0f};
 __declspec(section ".data") f32 lbl_804D2B48[2] = {193.0f, 128.0f};
 
-struct Win_80281EA8 { u8 pad[0x24]; saddr client_id; };
 
 struct Ent_80281B18 { s8 c; u8 pad[3]; };
 
@@ -98,7 +97,6 @@ struct Win_80282600 { u8 pad[0x20]; s32 sel; };
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
 // 0x58-byte record held in symbol_chat_receive_buffer; its compiler-generated operator= (0x80283850)
 // copies the char array at +4 with __copy and the word array at +0x1C as a block.
 struct Obj_80283850 { s32 value; u8 pad_4[0x17]; u32 pad_1C[0xF]; };
@@ -107,9 +105,6 @@ extern s8 TWindowSubSymbolChat__data_805D6494;
 extern s32 TWindowSubSymbolChat__data_805D6498;
 extern s32 TWindowSubSymbolChat__data_805D649C;
 extern s32 TWindowSubSymbolChat__help_window;
-
-extern s32 close_child__20TWindowSubSymbolChatFv[];
-}
 #pragma pop
 #pragma push
 #pragma inline_depth(1)
@@ -890,7 +885,7 @@ s32 TWindowSubSymbolChat::create_menu() {
 }
 
 s32 TWindowSubSymbolChat::open_confirm_prompt() {
-    saddr r = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    saddr r = (saddr)TWindowMessageYesNo::create(this, this->client_id, 0, 0);
     open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x44)), get_window_layout_position(0x7A), 178.0f);
     ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
     return r;

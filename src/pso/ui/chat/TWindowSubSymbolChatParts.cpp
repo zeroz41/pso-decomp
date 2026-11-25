@@ -54,7 +54,6 @@ struct Stack_80285274 {
 };
 
 
-
 struct Part_80285314 {
     u8 pad0[0x8];
     f32 x;
@@ -196,33 +195,33 @@ void TWindowSubSymbolChatParts::sub_80285054() {
     if ((test_buttons_press_or_repeat(input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x54100, 0U, 0, 0);
         if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
-            *(u8 *)((s8 *)(this) + 0x72) = (u8) (*(u8 *)((s8 *)(this) + 0x72) + 1);
+            *(u8 *)((s8 *)this + 0x72) = (u8) (*(u8 *)((s8 *)this + 0x72) + 1);
         }
         if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
-            *(u8 *)((s8 *)(this) + 0x72) = (u8) (*(u8 *)((s8 *)(this) + 0x72) - 1);
+            *(u8 *)((s8 *)this + 0x72) = (u8) (*(u8 *)((s8 *)this + 0x72) - 1);
         }
-        temp_r3 = *(u8 *)((s8 *)(this) + 0x72);
+        temp_r3 = *(u8 *)((s8 *)this + 0x72);
         if ((s8) temp_r3 < 0) {
-            *(u8 *)((s8 *)(this) + 0x72) = (temp_r3 + 4);
+            *(u8 *)((s8 *)this + 0x72) = (temp_r3 + 4);
         }
-        temp_r3_2 = *(u8 *)((s8 *)(this) + 0x72);
+        temp_r3_2 = *(u8 *)((s8 *)this + 0x72);
         if ((s8) temp_r3_2 >= 4) {
-            *(u8 *)((s8 *)(this) + 0x72) = (temp_r3_2 - 4);
+            *(u8 *)((s8 *)this + 0x72) = (temp_r3_2 - 4);
         }
         if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-            *(u8 *)((s8 *)(this) + 0x73) = (u8) (*(u8 *)((s8 *)(this) + 0x73) - 1);
+            *(u8 *)((s8 *)this + 0x73) = (u8) (*(u8 *)((s8 *)this + 0x73) - 1);
         }
         if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-            *(u8 *)((s8 *)(this) + 0x73) = (u8) (*(u8 *)((s8 *)(this) + 0x73) + 1);
+            *(u8 *)((s8 *)this + 0x73) = (u8) (*(u8 *)((s8 *)this + 0x73) + 1);
         }
-        temp_r3_3 = *(u8 *)((s8 *)(this) + 0x73);
+        temp_r3_3 = *(u8 *)((s8 *)this + 0x73);
         if ((s8) temp_r3_3 < 0) {
-            *(u8 *)((s8 *)(this) + 0x73) = (u8) (temp_r3_3 + *(u8 *)((s8 *)(this) + 0x74));
+            *(u8 *)((s8 *)this + 0x73) = (u8) (temp_r3_3 + *(u8 *)((s8 *)this + 0x74));
         }
-        temp_r4 = *(u8 *)((s8 *)(this) + 0x73);
-        temp_r5 = *(u8 *)((s8 *)(this) + 0x74);
+        temp_r4 = *(u8 *)((s8 *)this + 0x73);
+        temp_r5 = *(u8 *)((s8 *)this + 0x74);
         if ((s8) temp_r4 >= (s8) temp_r5) {
-            *(u8 *)((s8 *)(this) + 0x73) = (u8) (temp_r4 - temp_r5);
+            *(u8 *)((s8 *)this + 0x73) = (u8) (temp_r4 - temp_r5);
         }
     }
 }

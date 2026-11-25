@@ -18,14 +18,12 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/network/client_id.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 
 
 extern const char *TMedicalCenterMes__class_name;
 
 
-#include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -38,12 +36,9 @@ s32 TMedicalCenterMes::slot_flags[4];
 extern "C" {
 extern const char *TMedicalCenterSequence__class_name;
 
-int get_actor_meseta(TObjPlayer *player);
+int get_actor_meseta(u8 *p);
 }
 
-struct Base_8021641C_802163AC { char pad[0x18]; };
-struct Base_802165D8_802163AC { char pad[0x18]; };
-struct Base_80216784_802163AC { char pad[0x18]; };
 struct VBase_18_a93f07
 {
   char pad[0x18];
@@ -53,9 +48,6 @@ struct Stack_80216830
   f32 sp8;
   f32 spC;
 };
-struct Base_802164A4 { char pad[0x18]; };
-struct Base_80216540 { char pad[0x18]; };
-struct Base_8021658C { char pad[0x18]; };
 const char *TMedicalCenterSequence__class_name = "TMedicalCenterSequence";
 const char *TMedicalCenterMes__class_name = "TMedicalCenterMes";
 void TMedicalCenterSequence::clear_window_slots() {
@@ -189,7 +181,7 @@ void TMedicalCenterSequence::handle_window_result() {
 }
 
 void TMedicalCenterSequence::exec_heal() {
-    if (get_actor_meseta(player) < 0xA) {
+    if (get_actor_meseta((u8 *)player) < 0xA) {
         display_shop_message(0xF, 1);
         set_state(0xA);
         return;

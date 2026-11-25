@@ -48,13 +48,13 @@ void TAdGameStartShineGC::run_task() {
     m_frame = (frame + 1);
     if (frame >= 0xA) {
         m_visible = 1;
-        m_alpha = (s32) (m_alpha - 0xE);
+        m_alpha = (m_alpha - 0xE);
         alpha = m_alpha;
         if (alpha < 0) {
             alpha = 0;
         }
         m_alpha = alpha;
-        m_scale_x = 1.0f - -0.011111114f * (f32) (m_frame - 0xB);
+        m_scale_x = 1.0f - -0.011111114f * (m_frame - 0xB);
         m_scale_y = 1.0f;
         center = m_center_x;
         m_quad.x0 = (f32) ((m_scale_x * (m_rest_x0 - center)) + center);

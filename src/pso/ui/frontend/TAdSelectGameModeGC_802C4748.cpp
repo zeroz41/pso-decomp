@@ -30,7 +30,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/scene/OfflineGameScene.h"
-#include "pso/system/SoundEffect.h"
 
 
 struct S8_802C4944 { f32 a, b; };
@@ -45,7 +44,7 @@ const S8_802C4944 lbl_80471A44 = {302.0f, 28.0f};
 const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
 
 s32 TAdSelectGameModeGC::cached_mode_value;
-extern "C" {
+
 
 int fn_802C4748(void* p) { return TObjPlayer::sync_char_select_state(); }
 
@@ -122,4 +121,3 @@ TAdSelectGameModeGC::TAdSelectGameModeGC(TObject *parent) : TObject(parent) {
     create_draw_line_ctrl(this, 0xA, 0.0f);
 }
 
-}

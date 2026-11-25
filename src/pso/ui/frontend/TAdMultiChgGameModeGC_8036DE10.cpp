@@ -26,7 +26,6 @@ struct RecoveredGlobal_8036E8DC_lbl_804C88C0 { s32 value; u8 remaining[0x50]; };
 LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C88C0_size, sizeof(RecoveredGlobal_8036E8DC_lbl_804C88C0) == 0x54);
 
 
-
 #include <stddef.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/TLobby.h"
@@ -347,10 +346,10 @@ void TAdMultiChgGameModeGC::handle_menu_input() {
     s32 selected_menu_value;
     u8 *window_menu;
     if (handle_mode_selection() == 0) {
-        window_menu = (u8 *)(*(u8 **)((s8 *)(this) + 0x34));
+        window_menu = (u8 *)(*(u8 **)((s8 *)this + 0x34));
         if (window_menu != NULL) {
             if (((int)((TWindowMenu *)window_menu)->is_decided()) != 0) {
-                selected_menu_value = ((TWindowMenu *)(*(u8 **)((s8 *)(this) + 0x34)))->get_selected_value();
+                selected_menu_value = ((TWindowMenu *)(*(u8 **)((s8 *)this + 0x34)))->get_selected_value();
                 switch (selected_menu_value) {
                 case 0:
                     close_window_30();
@@ -485,9 +484,9 @@ void TAdMultiChgGameModeGC::set_state(s32 arg1) {
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8036E858, sp10) == 0x8);
     Stack_8036E858 stack;
     u8 *temp_r6;
-    if ((s32) *(s32 *)((s8 *)(this) + 0x1C) != arg1) {
-        *(s32 *)((s8 *)(this) + 0x1C) = arg1;
-        temp_r6 = (u8 *)multi_chg_game_mode_entry_table + (*(s32 *)((s8 *)(this) + 0x1C) * 0x18);
+    if ((s32) *(s32 *)((s8 *)this + 0x1C) != arg1) {
+        *(s32 *)((s8 *)this + 0x1C) = arg1;
+        temp_r6 = (u8 *)multi_chg_game_mode_entry_table + (*(s32 *)((s8 *)this + 0x1C) * 0x18);
         member_action.words[0] = *(s32 *)((s8 *)temp_r6 + 0);
         member_action.words[1] = *(s32 *)((s8 *)temp_r6 + 4);
         member_action.words[2] = *(s32 *)((s8 *)temp_r6 + 8);

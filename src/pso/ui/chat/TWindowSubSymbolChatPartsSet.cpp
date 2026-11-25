@@ -15,8 +15,6 @@
 #include "pso/system/vector.h"
 
 
-
-
 #pragma push
 #pragma opt_lifetimes off
 #pragma opt_loop_invariants off
@@ -27,7 +25,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
     s32 temp_r3_2;
     s32 var_r29;
     u16 *part_flags;
-    u16 *temp_r29_2;
+    u16 *parts_entry;
     u16 *temp_r3_3;
     u16 temp_r8;
     u32 temp_r4;
@@ -38,25 +36,25 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
     instance = reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance());
     data_ptr = instance->get_data_ptr();
     temp_r3_2 = TWindowSubSymbolChat::calc_remaining_slots();
-    temp_r0 = *(s16 *)((s8 *)(this) + 0x6E);
+    temp_r0 = *(s16 *)((s8 *)this + 0x6E);
     if (temp_r3_2 > temp_r0) {
         m_94 = 2.0f;
         part = &data_ptr->parts[temp_r0];
-        first_part_index = (s32) *(s16 *)((s8 *)(this) + 0x6E);
+        first_part_index = (s32) *(s16 *)((s8 *)this + 0x6E);
         second_part_index = instance->find_free_entry(0);
         i = 0;
-        *(s16 *)((s8 *)(this) + 0x6E) = (s16) part->id;
-        *(s16 *)((s8 *)(this) + 0x6A) = (s16) part->x;
-        *(s16 *)((s8 *)(this) + 0x6C) = (s16) part->y;
+        *(s16 *)((s8 *)this + 0x6E) = (s16) part->id;
+        *(s16 *)((s8 *)this + 0x6A) = (s16) part->x;
+        *(s16 *)((s8 *)this + 0x6C) = (s16) part->y;
         *first_flag_out = part->flags & 1;
         *second_flag_out = ((u8) part->flags >> 1U) & 1;
         do {
             part_flags = get_parts_entry(this, i);
-            temp_r29_2 = get_parts_entry((saddr)i);
+            parts_entry = get_parts_entry((saddr)i);
             temp_r3_3 = TWindowSubSymbolChatPartsSet__sub_802482B8(this, i);
             i += 1;
             *part_flags |= 2;
-            *temp_r29_2 |= 2;
+            *parts_entry |= 2;
             *temp_r3_3 |= 2;
         } while (i < 4);
         selection_mode = 2;
@@ -65,7 +63,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
     selection_out = arg1;
     i = 0;
     selection_mode = 3;
-    var_r29 = *(s16 *)((s8 *)(this) + 0x6E) - temp_r3_2;
+    var_r29 = *(s16 *)((s8 *)this + 0x6E) - temp_r3_2;
     for (; i < 4; i++) {
         if (TWindowSubSymbolChat__sub_800771C4(instance, i) != 0) {
             if (var_r29-- <= 0) {
@@ -73,9 +71,9 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
                 temp_r8 = data_ptr->facial_parts[i];
                 first_part_index = i;
                 second_part_index = i;
-                *(s16 *)((s8 *)(this) + 0x6A) = (s16) (((i & 1) ^ temp_r4) - temp_r4);
-                *(s16 *)((s8 *)(this) + 0x6C) = (s16) (i / 2);
-                *(s16 *)((s8 *)(this) + 0x6E) = (s16) (u8) temp_r8;
+                *(s16 *)((s8 *)this + 0x6A) = (s16) (((i & 1) ^ temp_r4) - temp_r4);
+                *(s16 *)((s8 *)this + 0x6C) = (s16) (i / 2);
+                *(s16 *)((s8 *)this + 0x6E) = (s16) (u8) temp_r8;
                 *selection_out = (temp_r8 >> 8U) & 7;
                 *first_flag_out = (temp_r8 >> 0xBU) & 1;
                 *second_flag_out = (temp_r8 >> 0xCU) & 1;
@@ -129,7 +127,6 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *arg1) {
   selection_mode = 0;
   sub_8028625C();
 }
-
 
 
 struct Set_8028625C {
@@ -274,16 +271,16 @@ void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
     camera_ctrl = &controller_input_state.controllers[0];
     if ((test_previous_buttons_packed(camera_ctrl, 0xF0) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0xF0) != 0)) {
         if ((test_previous_buttons_packed(camera_ctrl, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
-            this->cursor_x = (s16)(this->cursor_x + 1);
+            this->cursor_x = (this->cursor_x + 1);
         }
         if ((test_previous_buttons_packed(camera_ctrl, 0x40) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0)) {
-            this->cursor_x = (s16)(this->cursor_x - 1);
+            this->cursor_x = (this->cursor_x - 1);
         }
         if ((test_previous_buttons_packed(camera_ctrl, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
-            this->cursor_y = (s16)(this->cursor_y - 1);
+            this->cursor_y = (this->cursor_y - 1);
         }
         if ((test_previous_buttons_packed(camera_ctrl, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
-            this->cursor_y = (s16)(this->cursor_y + 1);
+            this->cursor_y = (this->cursor_y + 1);
         }
         switch ((s8)w->f69) {
         case 0:

@@ -6,8 +6,6 @@
 #include "pso/system/task/TMainTask.h"
 
 
-
-
 void *TShopEquipmentGearSequence::create_instance(void *player) {
     return new TShopEquipmentGearSequence(tl_05, (TObjPlayer *)player);
 }

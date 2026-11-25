@@ -52,14 +52,11 @@
 #include <dolphin/gx/GXCull.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_800F8A18.h"
-#include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_80207DA8.h"
-#include "pso/render/NinjaUtil.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
@@ -201,13 +198,7 @@ extern RadarViewportRect radar_map_view_rect_table[3];
 s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
-}
-void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *arg2);
-extern "C" {
 void rotate_matrix_y(void *, s32);
-}
-extern "C" {
-
 extern Color_801FAAEC radar_map_backdrop_color;
 void TRaderMapCore__sub_801F967C(TRaderMapCore *self, u32 color);
 s32 get_current_floor(void);
@@ -223,7 +214,7 @@ NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
 int __dt__5THeapFv(void*, void*);
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
 }
-
+void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *arg2);
 #define MAP_801F9C54 ((struct Map_801F9C54 *) TRaderMapCore::floor_map_resource)
 
 #define MAP_801F9CB8 ((struct Map_801F9CB8 *) TRaderMapCore::floor_map_resource)
@@ -281,8 +272,6 @@ f32 radar_overhead_projection_scale = 75.0f;
 Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 RadarMapViewState TRaderMapCore__map_view_state[3];
 s16 *TRaderMapCore::floor_discovery_table[18];
-
-struct MRec_801FB490 { f32 v[3]; s32 a0; f32 a4; s16 h[2]; u8 padac[0x28 - 0x18]; };
 
 
 struct Ent_801FB798 { s32 a; char *name; };

@@ -98,7 +98,7 @@ void TChCrLoadReq::load_preview_models() {
         models.body_samples[i] = reinterpret_cast<NJS_OBJECT *>(bufs[i + 3]);
     }
     bind_character_preview_models(&models);
-    blend_creation_proportion_shapes((f32 *)(&inputs.appearance->width));
+    blend_creation_proportion_shapes(&inputs.appearance->width);
     for (j = 0; j < 6; j++) safe_free(reinterpret_cast<void *>(bufs[j]));
 }
 

@@ -30,13 +30,10 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/map/area/AreaScene.h"
 
 
 extern "C" {
 void request_main_phase(s32 arg0);
-}
-extern "C" {
 s8 func_801A5E54__Fv();
 }
 

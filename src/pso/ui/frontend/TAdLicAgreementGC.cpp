@@ -9,7 +9,6 @@
 #pragma readonly_strings on
 
 
-
 void TAdLicAgreementGC::render() {
     check_main_task_state();
 }

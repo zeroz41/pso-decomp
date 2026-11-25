@@ -32,7 +32,6 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
-#include "pso/ui/window/WindowLayout.h"
 
 class TChCrTagPlBack;
 const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
@@ -532,7 +531,7 @@ saddr TWindowSubShortMail::open_menu(void) {
 saddr TWindowSubShortMail::open_confirm_dialog() {
     saddr dialog;
 
-    dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    dialog = (saddr)TWindowMessageYesNo::create(this, this->client_id, 0, 0);
     open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x9f), 206.0f);
     ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
     ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
@@ -542,7 +541,7 @@ saddr TWindowSubShortMail::open_confirm_dialog() {
 saddr TWindowSubShortMail::open_delete_confirm_dialog() {
     saddr dialog;
 
-    dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
+    dialog = (saddr)TWindowMessageYesNo::create(this, this->client_id, 0, 0);
     open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), get_window_layout_position(0xa3), 206.0f);
     ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
     ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();

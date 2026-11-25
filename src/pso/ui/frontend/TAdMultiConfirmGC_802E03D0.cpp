@@ -19,8 +19,6 @@
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TPlyCharData.h"
 
 
 extern const char lbl_804728D0[];

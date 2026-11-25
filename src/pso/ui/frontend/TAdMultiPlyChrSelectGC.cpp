@@ -22,7 +22,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
-#include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
@@ -49,7 +48,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/system/SoundEffect.h"
 
 
 extern const NJS_POINT2 lbl_804728A8;

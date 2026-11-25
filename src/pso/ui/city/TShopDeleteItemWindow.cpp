@@ -35,10 +35,6 @@ s16 get_player_entity_id__15TShopWindowBaseFv(void *);
 TWindowInputNumber *__ct__18TWindowInputNumberFPC10NJS_POINT2llls(void *, const NJS_POINT2 *, int, s32, int, int);
 }
 
-struct Base_80337910 { char pad[0x18]; };
-struct Base_80337948_80337910 { char pad[0x18]; };
-struct VBase_80337B00 { char pad[0x18]; };
-struct Base_80337980_80337910 { char pad[0x18]; };
 const char *TShopDeleteItemWindow__name = "TShopDeleteItemWindow";
 TShopDeleteItemWindow::TShopDeleteItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player) : TShopWindowBase(parent) {
     m_name = TShopDeleteItemWindow__name;

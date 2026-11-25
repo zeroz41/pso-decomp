@@ -11,7 +11,6 @@
 #pragma readonly_strings on
 
 
-
 void TAdTrialModemChkGC__sub_803354A4(void) {  }
 void TAdTrialModemChkGC::check_modem_result() {
     if (load_network_info() != 0) {

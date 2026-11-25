@@ -39,12 +39,12 @@ int TWindowSubSymbolChatHelp__sub_80247EE8(int);
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChatHelp::draw_color_palette(void *arg1) {
+void TWindowSubSymbolChatHelp::draw_color_palette(void *window_draw_context) {
     TexturedQuad q;
     f32 scale;
     s32 i;
     s32 t;
-    scale = (-1.0f) / ((0.1794f) + ((WindowDrawContext *)arg1)->depth);
+    scale = (-1.0f) / ((0.1794f) + ((WindowDrawContext *)window_draw_context)->depth);
     q.u0 = (0.9375f);
     q.v0 = (0.15234375f);
     q.u1 = (0.9921875f);
@@ -56,11 +56,11 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *arg1) {
             t = TWindowSubSymbolChatHelp__sub_80247EE8(i);
         }
         set_constant_material_color(t);
-        q.x0 = (112.0f + ((WindowDrawContext *)arg1)->inner_x) + 12.0f * (f32)i;
-        q.y0 = 50.0f + ((WindowDrawContext *)arg1)->inner_y;
+        q.x0 = (112.0f + ((WindowDrawContext *)window_draw_context)->inner_x) + 12.0f * (f32)i;
+        q.y0 = 50.0f + ((WindowDrawContext *)window_draw_context)->inner_y;
         q.x1 = 14.0f + q.x0;
         q.y1 = 14.0f + q.y0;
-        ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
+        ((WindowDrawContext *)window_draw_context)->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
     if (m_60 & 2) {
@@ -68,22 +68,22 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *arg1) {
     } else {
         set_constant_material_color(0xFF808080);
     }
-    q.x0 = 12.0f * (f32)*m_64 + (112.0f + ((WindowDrawContext *)arg1)->inner_x);
-    q.y0 = 50.0f + ((WindowDrawContext *)arg1)->inner_y;
+    q.x0 = 12.0f * (f32)*m_64 + (112.0f + ((WindowDrawContext *)window_draw_context)->inner_x);
+    q.y0 = 50.0f + ((WindowDrawContext *)window_draw_context)->inner_y;
     q.x1 = 14.0f + q.x0;
     q.y1 = 14.0f + q.y0;
     q.u0 = (0.87109375f);
     q.v0 = (0.15234375f);
     q.u1 = (0.92578125f);
     q.v1 = (0.20703125f);
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
+    ((WindowDrawContext *)window_draw_context)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChatHelp::draw_help_entry(void *arg1, s32 arg2, s32 arg3) {
+void TWindowSubSymbolChatHelp::draw_help_entry(void *window_draw_context, s32 arg2, s32 arg3) {
     TexturedQuad q;
     const UV_802844C8 *uv;
     f32 scale;
@@ -93,39 +93,39 @@ void TWindowSubSymbolChatHelp::draw_help_entry(void *arg1, s32 arg2, s32 arg3) {
         idx = 6;
     }
     uv = &symbol_chat_help_entry_uv_table[idx];
-    scale = (-1.0f) / ((0.1794f) + ((WindowDrawContext *)arg1)->depth);
+    scale = (-1.0f) / ((0.1794f) + ((WindowDrawContext *)window_draw_context)->depth);
     set_constant_material_color(arg3);
-    q.x0 = (16.0f) + ((WindowDrawContext *)arg1)->inner_x;
-    q.y0 = (16.0f) * (f32)arg2 + ((WindowDrawContext *)arg1)->inner_y;
+    q.x0 = (16.0f) + ((WindowDrawContext *)window_draw_context)->inner_x;
+    q.y0 = (16.0f) * (f32)arg2 + ((WindowDrawContext *)window_draw_context)->inner_y;
     q.x1 = 231.0f + q.x0;
     q.y1 = (16.0f) + q.y0;
     q.u0 = uv->u / 256.0f;
     q.v0 = uv->v / 256.0f;
     q.u1 = (231.0f + uv->u) / 256.0f;
     q.v1 = ((16.0f) + uv->v) / 256.0f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
+    ((WindowDrawContext *)window_draw_context)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-void draw_help_icon__24TWindowSubSymbolChatHelpFiPvii(s32 arg0, WindowDrawContext *arg1, s32 arg2, s32 arg3) {
+void draw_help_icon__24TWindowSubSymbolChatHelpFiPvii(s32 arg0, WindowDrawContext *window_draw_context, s32 arg2, s32 arg3) {
     TexturedQuad q;
     const UV_802845EC *uv;
     f32 scale;
     uv = &symbol_chat_help_icon_uv_table[arg2];
-    scale = (-1.0f) / ((0.1794f) + arg1->depth);
+    scale = (-1.0f) / ((0.1794f) + window_draw_context->depth);
     set_constant_material_color(arg3);
-    q.x0 = arg1->inner_x;
-    q.y0 = (16.0f) * (f32)arg2 + arg1->inner_y;
+    q.x0 = window_draw_context->inner_x;
+    q.y0 = (16.0f) * (f32)arg2 + window_draw_context->inner_y;
     q.x1 = (16.0f) + q.x0;
     q.y1 = (16.0f) + q.y0;
     q.u0 = uv->u / 256.0f;
     q.v0 = uv->v / 256.0f;
     q.u1 = ((16.0f) + uv->u) / 256.0f;
     q.v1 = ((16.0f) + uv->v) / 256.0f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&q);
+    ((WindowDrawContext *)window_draw_context)->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop

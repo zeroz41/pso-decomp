@@ -29,7 +29,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_8022350C.h"

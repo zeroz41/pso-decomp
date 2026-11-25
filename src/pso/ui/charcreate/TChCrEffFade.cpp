@@ -92,7 +92,6 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
 }
 
 
-
 void TChCrEffFade::render() {
     f32 temp_f0;
 

@@ -14,7 +14,6 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
-#include "pso/system/SoundEffect.h"
 
 typedef struct G_802C6A10 { s32 value; u8 remaining[0xC]; } G_802C6A10;
 
@@ -195,14 +194,14 @@ void TAdChrSelPlyPlateGC::run_task() {
 }
 
 s32 TAdChrSelPlyPlateGC::find_active_slot() {
-    s32 var_r31;
-    var_r31 = 0;
+    s32 port;
+    port = 0;
 loop_1:
-    if ((TAdMultiPlyChrSelectGC::is_controller_connected(var_r31) != 0) && (is_multiplayer_character_slot_selected(var_r31) == 0)) {
-        return var_r31;
+    if ((TAdMultiPlyChrSelectGC::is_controller_connected(port) != 0) && (is_multiplayer_character_slot_selected(port) == 0)) {
+        return port;
     }
-    var_r31 += 1;
-    if (var_r31 >= 4) {
+    port += 1;
+    if (port >= 4) {
         return 3;
     }
     goto loop_1;
@@ -606,13 +605,13 @@ void TAdChrSelPlyPlateGC::find_first_open_cell(u32 *cell) {
 }
 
 void TAdMultiPlyChrSelectGC::split_slot_index(s32 slot_index, s32 *out_cursor_column, s32 *out_card_slot) {
-    s32 var_r3;
-    var_r3 = TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(slot_index);
-    *out_cursor_column = var_r3 > 3;
-    if (var_r3 > 3) {
-        var_r3 -= 4;
+    s32 multiplayer_character_slot;
+    multiplayer_character_slot = TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(slot_index);
+    *out_cursor_column = multiplayer_character_slot > 3;
+    if (multiplayer_character_slot > 3) {
+        multiplayer_character_slot -= 4;
     }
-    *out_card_slot = var_r3;
+    *out_card_slot = multiplayer_character_slot;
 }
 
 void TAdMultiPlyChrSelectGC::reset_slot_selection_table() {

@@ -66,7 +66,6 @@ typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
 
 typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
 
-extern "C" {
 
 static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {
     { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
@@ -241,7 +240,6 @@ void TAdMultiSelGameModeGC::run_task() {
         &TAdMultiSelGameModeGC::exit_keyboard_mode,
     };
     (this->*tbl[state])();
-}
 }
 s32 TAdMultiSelGameModeGC::get_max_difficulty_for_party_level() {
     s32 m;

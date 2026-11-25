@@ -16,8 +16,6 @@ struct VObj_802125BC_80212564 : Base_802125BC_80212564 {
 };
 
 
-
-
 void THunterGuildSeqOffline::set_state_4(TShopWindowBase *) {
     if (THunterGuildSeqOffline::active_instance != NULL) {
         THunterGuildSeqOffline::active_instance->display_guild_message(6, 1);

@@ -63,7 +63,6 @@ struct SymbolChatSpriteLayout {
 };
 
 
-
 SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {
     25, 1,
     {
@@ -275,17 +274,17 @@ void fn_802483C8(WindowLayoutEntries *entries, u8 appearance) {
 void TWindowSubSymbolChat__sub_802483F0(int a0, void* a1) { *(float*)((char*)a1 + 0x0) = 136.0f; *(float*)((char*)a1 + 0x4) = 90.0f; }
 
 void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data) {
-    SymbolChatPayload *arg1 = static_cast<SymbolChatPayload *>(data);
+    SymbolChatPayload *symbol_chat_payload = static_cast<SymbolChatPayload *>(data);
     s32 i;
     s32 j;
 
-    fn_802483C8(entries, (u8)arg1->appearance);
+    fn_802483C8(entries, (u8)symbol_chat_payload->appearance);
     for (i = 0; i < 4; i += 1) {
-        fn_80248324(entries, arg1->facial_parts[i], i);
+        fn_80248324(entries, symbol_chat_payload->facial_parts[i], i);
     }
     j = 0;
     do {
-        apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi((Obj_80248088 *)entries, (Part_80248088 *)&arg1->parts[j], j);
+        apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi((Obj_80248088 *)entries, (Part_80248088 *)&symbol_chat_payload->parts[j], j);
         j += 1;
     } while (j < 0xC);
 }

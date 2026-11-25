@@ -49,17 +49,6 @@
 #include "pso/network/client_id.h"
 #include "pso/unk/text_8013ADE4.h"
 
-struct Plate_8032AACC { u8 data[0x3B4]; };
-
-struct Word_8032AACC { s32 v; };
-
-struct Arg_8032AACC { f32 x, y; u8 pad[8]; };
-
-struct Plate_8032AC24 { u8 data[0x3B4]; };
-
-struct Word_8032AC24 { s32 v; };
-
-struct Arg_8032AC24 { f32 x, y; u8 pad[8]; };
 
 struct Lim_8032B1A4 { u32 n[4]; };
 
@@ -122,8 +111,7 @@ s32 TAdEnterBaseGC::entry_mode;
 
 extern "C" {
 
-void fn_8025DE10(void *context, void *cursor);
-
+void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor);
 
 
 extern char serial_access_hex_string_buf[];
@@ -133,12 +121,9 @@ u8 *get_access_key_input_buffer();
 u8 *get_raw_serial_input_buffer();
 
 
-
 }
 extern s32 tl_clipout;
 char serial_access_hex_string_buf[0x40];
-
-
 
 
 s32 TAdPsoPassSaveGC__sub_8032B584(void) {
@@ -326,8 +311,8 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s3
     return kb;
 }
 
-void fn_8032AC9C(void *arg0, void *context) {
-    ((TWindowBase *)arg0)->draw_window_frame(context);
+void fn_8032AC9C(void *window_base, void *context) {
+    ((TWindowBase *)window_base)->draw_window_frame(context);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC::entry_mode) {
     case 0:
@@ -384,7 +369,7 @@ void draw_masked_password_field(saddr context) {
         NJS_POINT2 p2;
         p2.x = password_field_text_pos[0] + (f32) (len * password_entry_keyboard_control->get_cursor_position());
         p2.y = password_field_text_pos[1];
-        fn_8025DE10((void *)context, &p2);
+        fn_8025DE10((WindowDrawContext *)context, &p2);
     }
 }
 

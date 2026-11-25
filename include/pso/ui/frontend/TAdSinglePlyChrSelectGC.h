@@ -172,7 +172,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void clear_load_buffers();
     static void clear_slot_body(int i);
     static void clear_slot_entry(int i);
-    static u8 *construct_card_window_array(void *arg0);
+    static u8 *construct_card_window_array(void *card_list);
     static void *construct_guild_card_tag_array(void *array);
     static void * copy_char_slot_data(void * a0, void * a1);
     static s32 copy_character_to_slot(CharacterFile *arg0, int src_slot, CharacterFile *arg2, int dst_slot);
@@ -189,7 +189,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 get_type(void* p);
     static void increment_counter();
     static void increment_counters();
-    static s32 init_and_register(CharacterFile *arg0);
+    static s32 init_and_register(CharacterFile *character_file);
     static void init_char_select_globals();
     static s32 load_character_from_card();
     static s32 load_chr_select_slot();
@@ -223,7 +223,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void free_char_data_slots(void *table);
     static TPlyCharData *get_entry(int i);
     static int get_serial_seed();
-    static void *init_windows(void *arg0);
+    static void *init_windows(void *card_file);
     static s32 is_entry_valid(CharacterFile *self, int i);
     static s32 is_same_slot_entry(void *src_file, int src_slot, void *dst_file, int dst_slot);
     static s32 is_slot_active(unsigned int arg0);

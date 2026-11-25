@@ -26,7 +26,6 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/system/SoundEffect.h"
 
 extern "C" {
 void fn_8025DE10(void *context, NJS_POINT2 *cursor);

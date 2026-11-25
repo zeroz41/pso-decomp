@@ -5,7 +5,6 @@
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 
 
-
 void TAdDialingGC::close() {
     TLobby::free_dialing_gc();
     TLobby::free_dialog_global();

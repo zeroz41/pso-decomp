@@ -8,8 +8,6 @@
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/ui/frontend/TAdBackTxtGC.h"
-#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
@@ -459,8 +457,6 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
 
 
 typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
-
-
 
 
 void TAdSinglePlyChrSelectGC::cleanup() {

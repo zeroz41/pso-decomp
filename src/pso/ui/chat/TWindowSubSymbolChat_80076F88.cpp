@@ -21,15 +21,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/network/client_id.h"
-#include "pso/system/SoundEffect.h"
 
-struct E_80077480 { u8 pad[0x58]; };
-
-struct X_80077480 { u8 pad[0x15a0]; u8 sub[0x58]; };
-
-struct Ent_80077108 { s8 id; u8 a, b, c; };
-
-struct Obj_80077108 { u8 pad[0x28]; Ent_80077108 e[12]; };
 
 struct Obj_8007728C { u32 flags; u8 pad[0x1C]; u16 h[4]; };
 
@@ -148,12 +140,12 @@ void TWindowSubSymbolChat::set_entry(s32 arg1, s32 arg2, s32 x, s32 y, s32 arg5,
     p->d = p->d | (arg6 * 2);
 }
 
-void TWindowSubSymbolChat::add(s32 part_id, s32 x, s32 y, s32 flags, s32 arg5) {
+void TWindowSubSymbolChat::add(s32 part_id, s32 x, s32 y, s32 flags, s32 flag_bit_1) {
     s32 *arg0 = (s32 *)this;
     s32 temp;
     temp = reinterpret_cast<SymbolChatPreset *>(this)->find_free_entry(0);
     if (temp < 0xC) {
-        set_entry(temp, part_id, x, y, flags, arg5);
+        set_entry(temp, part_id, x, y, flags, flag_bit_1);
         *arg0 |= 1;
     }
 }
@@ -257,7 +249,7 @@ void TWindowSubSymbolChat::load_symbol_chat_data() {
     struct Ent_80077544 *e;
     e = w->e;
     data = (saddr)load_disc_file("symbolchat.dat");
-    move_data((void *)(e), (const void *)((const void *)data), (u32)0x420);
+    move_data(e, (const void *)((const void *)data), (u32)0x420);
     safe_free(reinterpret_cast<void *>(data));
     for (i = 0; i < 6; i++) {
         ((TWindowSubSymbolChat *)(&e[i]))->bswap_entry();
@@ -277,15 +269,12 @@ unsigned char pending_symbol_chat_count;
 void clear_received_symbol_chat(void) { pending_symbol_chat_count = 0; reinterpret_cast<TWindowSubSymbolChat *>(&symbol_chat_receive_buffer)->clear_entries(); }
 
 
-
-
 SymbolChatPayload *SymbolChatPreset::get_data_ptr() { return &payload; }
 void TWindowSubSymbolChat::bswap_symbol_chat_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); ((TWindowSubSymbolChat *)((char*)this + 0x8))->byteswap_entry(); }
 void TWindowSubSymbolChat::byteswap_entry() { bswap_32((u32 *)this); { int i; for (i = 0; i < 4; i++) { bswap_16((u16 *)((char*)this + 0x4 + i * 2)); } } }
 void TWindowSubSymbolChat::send_symbol_chat() { bswap_symbol_chat_packet(); broadcast_subcommand(this); }
 void TWindowSubSymbolChat__sub_80077704(void* p) { *(u8*)((char*)p + 0x0) = 7; *(u8*)((char*)p + 0x1) = 17; }
 
-    extern int selected_symbol_chat_preset;
 saddr TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset; }
 
 int SymbolChatPreset::is_initialized() { return flags & 1; }

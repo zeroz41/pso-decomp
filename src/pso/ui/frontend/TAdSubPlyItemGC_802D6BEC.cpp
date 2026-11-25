@@ -12,7 +12,6 @@
 
 const char *TAdSubPlyItemGC__name = "TAdSubPlyItemGC";
 
-struct Entry_802D6DAC { s32 idx; const char *str; s32 id; NJS_POINT2 pos; };
 
 u8 level_text_buffer[0x40];
 

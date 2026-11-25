@@ -22,17 +22,10 @@
 #include <stdio.h>
 #include "pso/unk/TLobby_801461EC.h"
 
-struct Obj_803285C0 { u8 pad[0x20]; s32 mode; u8 pad2[0xC]; s16 state; };
 
 TAdDialingGC *TAdDialingGC::instance;
 extern "C" {
 s8 func_801A5E54__Fv();
-}
-
-struct Obj_80328874 { u8 pad[0x9C]; s32 state; };
-
-
-extern "C" {
 BOOL fn_80145A44(char *dst);
 }
 
@@ -246,8 +239,8 @@ void TAdDialingGC::update_status_message() {
     }
 }
 
-void TAdDialingGC::update_dialing_display(int _w0) {
-    draw_menu_font_string_white((const char *)get_connection_message_text(_w0), 23.0f, 331.0f);
+void TAdDialingGC::update_dialing_display(int id) {
+    draw_menu_font_string_white((const char *)get_connection_message_text(id), 23.0f, 331.0f);
 }
 
 void TAdDialingGC::update() {

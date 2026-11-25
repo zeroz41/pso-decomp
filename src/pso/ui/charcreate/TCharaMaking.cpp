@@ -28,7 +28,6 @@
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 #include <string.h>
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/camera/TCameraCtrl.h"
 
@@ -363,7 +362,7 @@ void TCharaMaking__bind_appearance_texture_lists(CharacterTextureLoadSet *hair, 
   CharacterTextureList **headTextures;
   CharacterTextureList *source;
   CharacterClassAppearance *new_var;
-  CharacterTextureList *temp_r6_2;
+  CharacterTextureList *character_texture_list;
   new_var = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
   hair->present = 0;
   definition = new_var;
@@ -381,10 +380,10 @@ void TCharaMaking__bind_appearance_texture_lists(CharacterTextureLoadSet *hair, 
   headTextures = definition->headTextures;
   if (headTextures != 0)
   {
-    temp_r6_2 = headTextures[appearance->head];
-    if (temp_r6_2 != 0)
+    character_texture_list = headTextures[appearance->head];
+    if (character_texture_list != 0)
     {
-      head->build_appearance_texture_names(appearance, definition, temp_r6_2);
+      head->build_appearance_texture_names(appearance, definition, character_texture_list);
       head->present = 1;
     }
   }

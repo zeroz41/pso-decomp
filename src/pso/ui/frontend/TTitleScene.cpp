@@ -37,8 +37,6 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 
 
-
-
     extern int lobby_game_mode_state;
 int TAdSinglePlyChrSelectGC::get_data() {  return lobby_game_mode_state; }
 
@@ -232,12 +230,7 @@ int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
     extern int lbl_805D68C8;
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
-}
-extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
-}
-extern "C" {
-
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 }
 
@@ -284,7 +277,7 @@ void TTitleScene::set_flag_and_clear_download() {
         transition_controller->clear_update_suspension();
     }
 }
-extern "C" {
+
 
 void TLobby__sub_803361FC(void) {  }
 void TTitleScene::open_keyboard() { lobby_game_mode_state = 3; request_main_phase(19); }
@@ -300,7 +293,6 @@ void TLobby__sub_803362A4(TTitleScene *scene) {
             (scene->*handler)();
         }
     }
-}
 }
 void TTitleScene::render() {  }
 

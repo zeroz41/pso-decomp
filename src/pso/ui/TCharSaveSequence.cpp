@@ -41,15 +41,12 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/system/ControllerInput.h"
 
 struct RecoveredGlobal_8033B264_lbl_804EF728 {
     s32 value;
     u8 remaining[0x194];
 };
-
-
-
-
 
 
 // Window position and size setup passes to create_message_window_for_size
@@ -78,15 +75,10 @@ s32 start_memcard_read(s32, void *, u32, s32);
 
 
 s8 func_801A5E54__Fv();
+s32 __ct__15TWindowCtrlMainFv(u32);
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
-extern "C" {
-s32 reset_controller_input_state();
-s32 __ct__15TWindowCtrlMainFv(u32);
-}
-
-
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
@@ -356,7 +348,7 @@ void TCharSaveSequence::set_char_slots(s32 message, s32 sub_message) {
         message_window->append_line(get_message_text(sub_message), 8);
     }
 }
-extern "C" {
+
 void TAdSinglePlyChrSelectGC__sub_8033B244(TObject *) { request_queued_main_phase(); }
 void TAdSinglePlyChrSelectGC__sub_8033B264(void) {
     main_task.delete_layer_children();
@@ -364,7 +356,6 @@ void TAdSinglePlyChrSelectGC__sub_8033B264(void) {
     TLobby::set_and_notify(0);
     TLobby::call_funcs_reverse((void *)&character_select_scene_resource_callbacks, 0x30);
     render_tick();
-}
 }
 
 void TAdSinglePlyChrSelectGC::run_frame() {

@@ -38,9 +38,9 @@ void THunterGuildSeqOffline::request_close(TShopWindowBase *) {
 
 void THunterGuildSeqOffline::handle_cancel_choice() {
     s32 selected_menu_value;
-    TWindowMenu *temp_r3 = choice_menu;
-    if (temp_r3 != NULL) {
-        if (temp_r3->is_decided() != 0) {
+    TWindowMenu *window_menu = choice_menu;
+    if (window_menu != NULL) {
+        if (window_menu->is_decided() != 0) {
             selected_menu_value = choice_menu->get_selected_value();
             if (selected_menu_value == 0) {
                 choice_menu->close();

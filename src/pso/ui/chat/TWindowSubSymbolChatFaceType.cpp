@@ -20,8 +20,6 @@
 extern const char TWindowSubSymbolChatFaceType__class_name_string[29] = "TWindowSubSymbolChatFaceType";
 
 
-
-
 void TWindowSubSymbolChatFaceType::close_when_chat_closed() {
     if (is_open() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
@@ -215,12 +213,9 @@ void TWindowSubSymbolChatFaceType::run_task() {
 }
 
 
-
-
 TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
     TWindowSubStatusDisp::destroy_status_display((saddr)status_disp, 1);
 }
-
 
 
 // inferred: symbol_chat_face_type_layout_entries, the layout table

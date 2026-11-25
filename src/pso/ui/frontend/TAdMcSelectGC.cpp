@@ -6,7 +6,6 @@
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
-#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC.h"
 #include "pso/ui/frontend/TAdMcSelectMcGC.h"
 

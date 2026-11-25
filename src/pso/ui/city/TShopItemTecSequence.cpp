@@ -38,8 +38,6 @@ extern int shop_tool_stock_counts[];
 }
 
 #pragma readonly_strings on
-struct Base_8021FEE0_8021FE6C { char pad[0x18]; };
-struct Base_8021FF30_8021FE6C { char pad[0x18]; };
 struct VBase_18_a93f07
 {
   char pad[0x18];
@@ -50,9 +48,6 @@ struct Stack_802202BC
   f32 spC;
 };
 struct W_802200A8 { u8 pad[0x1c0]; void *cb0; };
-struct S_802200A8 { u8 pad[0x24]; s32 player; };
-struct VBase_18_80220110 { char pad[0x18]; };
-struct Base_8021FE80_8021FE6C { char pad[0x18]; };
 typedef struct Stack_802202BC Stack_802202BC;
 typedef struct VBase_18_a93f07 VBase_18_a93f07;
 const char *TShopItemTecSequence__class_name = "TShopItemTecSequence";

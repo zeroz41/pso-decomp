@@ -23,7 +23,6 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
-
 s32 shop_gear_pending_message;
 s32 shop_gear_pending_state;
 

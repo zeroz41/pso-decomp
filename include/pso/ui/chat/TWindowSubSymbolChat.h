@@ -46,7 +46,7 @@ struct TWindowSubSymbolChat : public TObject {
     s32 count_used_slots();
     void remove_slot_shift_down(s32 i);
     void set_entry(s32 arg1, s32 arg2, s32 x, s32 y, s32 arg5, s32 arg6);
-    void add(s32 part_id, s32 x, s32 y, s32 flags, s32 arg5);
+    void add(s32 part_id, s32 x, s32 y, s32 flags, s32 flag_bit_1);
     void set_entry_bits(s32 v, s32 a, s32 idx, s32 b, s32 c);
     void set_symbol_flags(s32 arg1, s32 arg2);
     static s32 count_instance_empty_slots();

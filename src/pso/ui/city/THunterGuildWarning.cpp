@@ -202,7 +202,6 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 
 #include "pso/unk/text_80211C3C.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/quest/TQuestListOnline.h"
 
 extern "C" {
 s32 THunterGuildSeqOffline__sub_80213458(void);
@@ -236,7 +235,6 @@ s32 TLobby__sub_80211C3C(void) {
 
 
 #include "pso/unk/TLobby_80211F0C.h"
-
 
 
 s32 TLobby::handle_main_phase(saddr player) {
@@ -318,10 +316,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
 
 // ---- pso/unk/TLobby_80211F0C
 
-#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 
-
-#include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/player/PlayerSlots.h"
 
 

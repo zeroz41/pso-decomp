@@ -6,7 +6,6 @@
 #include "pso/ui/chat/TWindowSubSymbolChatHelp.h"
 
 
-
 void SymbolChatPreset::set_flag_bit2() {
     flags |= 2;
 }

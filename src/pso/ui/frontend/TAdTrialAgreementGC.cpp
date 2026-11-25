@@ -35,7 +35,6 @@
 #pragma readonly_strings on
 
 
-
 void TAdTrialAgreementGC::render() {
     check_main_task_state();
 }
@@ -50,7 +49,6 @@ loop_1:
         goto loop_1;
     }
 }
-
 
 
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";

@@ -13,7 +13,6 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/vector.h"
-#include "pso/system/SoundEffect.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

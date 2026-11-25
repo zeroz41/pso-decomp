@@ -18,7 +18,6 @@
 #include "pso/ui/charcreate/TChCrTagInformation.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/SoundEffect.h"
 
 struct Range_802937E8 { s32 min; s32 max; };
 

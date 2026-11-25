@@ -34,7 +34,7 @@ const char *window_chat_type_name_pointer = "TWindowChat";
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 int get_chat_shortcut(s32 index);
-saddr fn_8002AE08(s32);
+s32 fn_8002AE08(s32 client_id);
 void send_chat_shortcut(s32);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
 int TWindowChat__sub_80247DAC(void* p);
@@ -309,7 +309,7 @@ void TWindowChat::handle_chat_input() {
       if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) && (composer->sub_8025CB10() == 0))
     {
       close_all_children();
-      inputMode = (u8) (inputMode + 1);
+      inputMode = (inputMode + 1);
       temp_r3_2 = inputMode;
       if (((s8) temp_r3_2) >= 3)
       {

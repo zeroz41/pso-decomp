@@ -30,20 +30,6 @@ s32 lbl_805D622C;
 s32 lbl_805D6230;
 
 #pragma readonly_strings on
-struct Base_8021D584_8021D524 { char pad[0x18]; };
-struct Base_8021D5D4_8021D524 { char pad[0x18]; };
-struct VBase_18_a93f07
-{
-  char pad[0x18];
-};
-struct Stack_8021D948
-{
-  f32 sp8;
-  f32 spC;
-};
-struct S_8021D750 { u8 pad[0x24]; s32 player; };
-struct Base_8021D7B8 { char pad[0x18]; };
-struct Base_8021D524 { char pad[0x18]; };
 const char *TShopEquipmentSequence__class_name = "TShopEquipmentSequence";
 void TShopEquipmentSequence__sub_8021DC08(void) {
     s32 i;

@@ -222,7 +222,7 @@ char *strtok(char *, const char *);
 s32 THunterGuildSeqOffline__sub_80212074();
 
 void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
-    TRecvDownloadHead *arg0 = &file;
+    TRecvDownloadHead *recv_download_head = &file;
     char buf[0x10];
     char *tok;
     OnlineQuestDownloadState *s;
@@ -254,11 +254,11 @@ void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
         quest_download_received_bytes = 0;
         quest_download_graph_current_bytes = 0;
     }
-    if (arg0 == NULL) {
+    if (recv_download_head == NULL) {
         return;
     }
     memset(buf, 0, sizeof(buf));
-    strncpy(buf, arg0->filename, 0x10);
+    strncpy(buf, recv_download_head->filename, 0x10);
     if (strtok(buf, ".") == NULL) {
         return;
     }
@@ -269,22 +269,22 @@ void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
     if (strncmp(tok, "dat", 4) == 0) {
         s = &quest_list_online_dat_download_state;
         if (s->buffer == NULL) {
-            strncpy(s->name, arg0->filename, 0x10);
-            quest_list_online_dat_download_state.size = arg0->file_size;
-            s->buffer = (u8 *)mem_alloc(arg0->file_size);
-            memset(s->buffer, 0, arg0->file_size);
+            strncpy(s->name, recv_download_head->filename, 0x10);
+            quest_list_online_dat_download_state.size = recv_download_head->file_size;
+            s->buffer = (u8 *)mem_alloc(recv_download_head->file_size);
+            memset(s->buffer, 0, recv_download_head->file_size);
             TQuestListOnline__dat_download_complete = 0;
-            quest_download_received_bytes += arg0->file_size;
+            quest_download_received_bytes += recv_download_head->file_size;
         }
     } else if (strncmp(tok, "bin", 4) == 0) {
         s = &quest_list_online_bin_download_state;
         if (s->buffer == NULL) {
-            strncpy(s->name, arg0->filename, 0x10);
-            quest_list_online_bin_download_state.size = arg0->file_size;
-            s->buffer = (u8 *)mem_alloc(arg0->file_size);
-            memset(s->buffer, 0, arg0->file_size);
+            strncpy(s->name, recv_download_head->filename, 0x10);
+            quest_list_online_bin_download_state.size = recv_download_head->file_size;
+            s->buffer = (u8 *)mem_alloc(recv_download_head->file_size);
+            memset(s->buffer, 0, recv_download_head->file_size);
             TQuestListOnline__bin_download_complete = 0;
-            TDLGraph::update_graph(quest_download_graph_current_bytes, quest_download_received_bytes += arg0->file_size);
+            TDLGraph::update_graph(quest_download_graph_current_bytes, quest_download_received_bytes += recv_download_head->file_size);
         }
     }
 }

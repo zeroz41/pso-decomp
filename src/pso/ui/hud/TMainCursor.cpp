@@ -76,15 +76,10 @@
 #undef PSO_SDK_COMPACT_MATH
 
 
-
 extern void *lbl_804A71C4[6];
 
 
-extern "C" {
-
 extern const char *lockon_list_clear_task_name;
-
-}
 
 struct Pl_8013B0F0 {
     u8 pad[0x424];
@@ -113,7 +108,6 @@ s32 rotate_matrix_y(s32, s32);
 u8 get_cast_technique_level(void *, s32);
 s16 TObjPlayer__sub_801B5AF8(TObjPlayer *player, s32 index);
 }
-
 
 
 extern "C" void render__7TObjectFv();
@@ -146,7 +140,6 @@ void *lbl_804A71C4[6] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__14TLOC_ListClearFv, (void *)&run_task__14TLOC_ListClearFv,
     (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv,
 };
-
 
 
 extern "C" {
@@ -198,20 +191,14 @@ extern f32 scratch_vec5[3];
 struct Obj_8013EC1C { u16 a; u16 b; u16 c; };
 
 
-
-
 u8 * lock_on_cursor_bml_resource;
 s32 lock_on_cursor_model;
 s32 TLockOnCursor::target_cursor_model;
 
 NJS_OBJECT *main_cursor_model;
 extern "C" {
-void __destroy_arr(void *, void *, int, int);
-}
-extern "C" {
 void TLockOnCursor__sub_8013EC1C(void *);
 
-void __construct_array(void *, void *, void *, int, int);
 }
 
 extern const f32 lbl_805DB0C4;
@@ -220,8 +207,6 @@ extern const f32 lbl_805DB0C4;
 struct Rec_8013E870 { u8 pad[0x124]; };
 
 struct Obj_8013E870 { u8 pad[0x5c]; Rec_8013E870 recs[1]; };
-
-
 
 
 struct Obj_8013F24C { u8 pad[0x44]; u8 arr[1]; };
@@ -242,7 +227,7 @@ void TLOC_ListClear::run_task() {
     }
 }
 
-extern "C" TLOC_ListClear *__dt__14TLOC_ListClearFv(TLOC_ListClear *task, s16 flags) {
+TLOC_ListClear *__dt__14TLOC_ListClearFv(TLOC_ListClear *task, s16 flags) {
     if (task != NULL) {
         *(void ***)((u8 *)task + 0x18) = lbl_804A71C4;
         if (task->m_target.resolve() != 0 && task->m_target.get_player()->lock_on_cursor != NULL) {
@@ -1008,13 +993,11 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
     return found;
 }
 
-extern "C" {
 
 void init_target_vector__11TMainCursorFiii(s32 arg0, saddr to, saddr from) {
     csnVector((const Vec *)from, (const Vec *)to, 0x28A0);
 }
 
-}
 
 #pragma push
 #pragma fp_contract on

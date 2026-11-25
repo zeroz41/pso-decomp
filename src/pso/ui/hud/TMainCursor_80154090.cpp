@@ -58,7 +58,7 @@ void TMainCursor::set_flag_bit(s32 index, u16 target_id) {
         ((FlagWord *)(flag_table + (index * 4)))->clear(1 << target_id);
     }
 }
-extern "C" {
+
 void TMainCursor__sub_80154230(void *cursor, s32 index, u16 target_id) {
     saddr flag_table;
 
@@ -76,5 +76,4 @@ s32 TMainCursor__sub_80154288(u8 *cursor, s32 index, u16 target_id) {
         return 0;
     }
     return index < *(s32 *)((s8 *)cursor + 0xA8);
-}
 }

@@ -25,7 +25,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/system/SoundEffect.h"
 
 struct B_802C3400 { NJS_POINT2 e[2]; };
 
