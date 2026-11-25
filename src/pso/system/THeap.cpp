@@ -1,14 +1,11 @@
 // Adapted from pso-gc-reference (mrb0nk500) for GPOE8P (MWCC 2.6)
 
 #include "pso/system/THeap.h"
+#include "pso/system/memory.h"
 #include <string.h>
 
 THeap *obj_heap;
 THeap *alt_heap;
-
-void xfree(void *ptr);
-
-void *xmalloc(size_t size);
 
 void THeap::heap_free(void *ptr) {
     #define heap_ptr &ptr_u8[-sizeof(heap_node)]
