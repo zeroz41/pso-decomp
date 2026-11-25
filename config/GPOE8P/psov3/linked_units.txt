@@ -1252,7 +1252,6 @@ pso/ui/window/TWindowSubLog.cpp
 pso/ui/window/TWindowSubMag.cpp
 pso/ui/window/TWindowSubMagPhoton.cpp
 pso/ui/window/TWindowSubMag_802559F8.cpp
-pso/ui/window/TWindowSubMag_80255E14.cpp
 pso/ui/window/TWindowSubMag_802627D8.cpp
 pso/ui/window/TWindowSubQuestBoard.cpp
 pso/ui/window/TWindowSubQuestBoardSelect.cpp
@@ -1288,7 +1287,6 @@ pso/ui/window/TWindowSubStatusDisp_8025B4A0.cpp
 pso/ui/window/TWindowSubStatusDisp_802671F0.cpp
 pso/ui/window/TWindowSubStatusDisp_80268488.cpp
 pso/ui/window/TWindowSubStatusDisp_80268738.cpp
-pso/ui/window/TWindowSubStatusDisp_8026CE3C.cpp
 pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp
 pso/ui/window/TWindowSubStatusDisp_80287570.cpp
 pso/ui/window/TWindowSubStatusDisp_80288030.cpp
@@ -1306,8 +1304,6 @@ pso/ui/chat/TWindowSubSymbolChat_802838C4.cpp
 pso/ui/chat/TWindowSubSymbolChat_80283954.cpp
 pso/ui/chat/TWindowSubSymbolChat_802ACF5C.cpp
 pso/ui/window/TWindowSubTechnique.cpp
-pso/ui/window/TWindowSubTechnique_80286B0C.cpp
-pso/ui/window/TWindowSubTechnique_80286B64.cpp
 pso/ui/window/TWindowSubTrade.cpp
 pso/ui/window/TWindowSubTradeMain_80187C98.cpp
 pso/ui/window/TWindowSubTradeMain_80268468.cpp

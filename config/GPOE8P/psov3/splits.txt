@@ -6193,10 +6193,7 @@ pso/ui/window/TWindowHelpItem_80255AB4.cpp:
 	.sdata2     start:0x805DCE10 end:0x805DCE14
 
 pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp:
-	.text       start:0x80255DF4 end:0x80255E14
-
-pso/ui/window/TWindowSubMag_80255E14.cpp:
-	.text       start:0x80255E14 end:0x80255E3C
+	.text       start:0x80255DF4 end:0x80255E3C
 
 pso/ui/window/TWindowInputNumber.cpp:
 	.text       start:0x80255E3C end:0x80256B94
@@ -6487,11 +6484,8 @@ pso/ui/window/TWindowLockOn_8026CB80.cpp:
 	.text       start:0x8026CB80 end:0x8026CBA4
 
 pso/ui/window/TWindowOptionCtrl_8026CBA4.cpp:
-	.text       start:0x8026CBA4 end:0x8026CE3C
+	.text       start:0x8026CBA4 end:0x8026CE78
 	.sdata2     start:0x805DD2C8 end:0x805DD2D0
-
-pso/ui/window/TWindowSubStatusDisp_8026CE3C.cpp:
-	.text       start:0x8026CE3C end:0x8026CE78
 
 pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp:
 	.text       start:0x8026CE78 end:0x8026CEEC
@@ -6817,13 +6811,7 @@ pso/ui/chat/TWindowSubSymbolChatPartsSet.cpp:
 	.sdata2     start:0x805DD810 end:0x805DD838
 
 pso/ui/window/TWindowSubTechnique_80286AA8.cpp:
-	.text       start:0x80286AA8 end:0x80286B0C
-
-pso/ui/window/TWindowSubTechnique_80286B0C.cpp:
-	.text       start:0x80286B0C end:0x80286B64
-
-pso/ui/window/TWindowSubTechnique_80286B64.cpp:
-	.text       start:0x80286B64 end:0x80286BD4
+	.text       start:0x80286AA8 end:0x80286BD4
 
 pso/ui/window/TWindowSubTechnique.cpp:
 	.text       start:0x80286BD4 end:0x80287570

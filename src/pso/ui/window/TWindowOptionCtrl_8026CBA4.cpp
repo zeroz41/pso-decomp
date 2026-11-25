@@ -9,6 +9,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/ui/window/TWindowQuantity.h"
 
 struct Node_8026CC28 { u8 p0[0xC]; Node_8026CC28 *fC; u8 p10[0x44]; f32 f54; };
 
@@ -107,4 +108,9 @@ void TWindowBase::resort_window_order() {
     }
 }
 
+}
+
+f32 TWindowBase::get_scale() { return sort_depth; }
+void TWindowQuantity::set_quantity(s32 quantity) {
+    *(s32 *)((s8 *)(get_array_entry(1)) + 0x20) = quantity;
 }
