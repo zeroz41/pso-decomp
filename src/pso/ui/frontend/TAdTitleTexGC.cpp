@@ -33,14 +33,14 @@ static NJS_TEXLIST player_tex_texture_list = { player_tex_texture_names, 1 };  /
 
 const char *TAdTitleTexGC__name = "TAdTitleTexGC";
 
-saddr lbl_805D6668;
+NJS_TEXLIST *lbl_805D6668;
 
 extern "C" {
 
 extern const s32 current_language;
 
 void TLobby__sub_802A5154(void) {
-    if (lbl_805D6668 != 0U) {
+    if (lbl_805D6668 != NULL) {
         return;
     }
     TLobby::update_menu_cursor();
@@ -52,14 +52,14 @@ void TLobby__sub_802A5154(void) {
         "f256_player_tex", "f256_player_tex_eng", "f256_player_tex_eng", "f256_player_tex_eng", "f256_player_tex_eng",
     };
     NJS_TEXLIST *list = lists[current_language];
-    lbl_805D6668 = (saddr)list;
+    lbl_805D6668 = list;
     load_streamed_prs_texture(files[current_language], list);
 }
 
 void TLobby::free_dialing_gc() {
-    if ((u32) lbl_805D6668 != 0U) {
-        release_texture_list((NJS_TEXLIST *)lbl_805D6668);
-        lbl_805D6668 = 0U;
+    if (lbl_805D6668 != NULL) {
+        release_texture_list(lbl_805D6668);
+        lbl_805D6668 = NULL;
     }
 }
 
@@ -126,12 +126,12 @@ void TAdTitleTexGC::render() {
 
 void TAdTitleTexGC::render_status_pair(s32 color) {
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6668));
+    TObjFish::set_global_param(lbl_805D6668);
     set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[0].x0, 0.1f);
     TWindowSubStatusDisp::get_player();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6668));
+    TObjFish::set_global_param(lbl_805D6668);
     set_draw_texture_and_color(0, color);
     draw_textured_quad_at_depth(&rects[1].x0, 0.1f);
     TWindowSubStatusDisp::get_player();

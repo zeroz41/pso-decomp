@@ -25,7 +25,7 @@ typedef struct Jump_802C5C84 {
 extern s32 multi_ply_chr_select_slot_table[][5];
 extern "C" {
 s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
-s32 lbl_805D67D0;
+NJS_TEXLIST *lbl_805D67D0;
 s32 lbl_805D67D4;
 }
 
@@ -806,7 +806,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags() {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             s32 alpha = (s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f);
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D67D0));
+            TObjFish::set_global_param(lbl_805D67D0);
             set_draw_texture_and_color(0, (alpha << 24) | 0xFFFFFF);
             draw_textured_quad_at_depth(&quad[i + 4][0].x, 0.54f);
             TWindowSubStatusDisp::get_player();
@@ -825,7 +825,7 @@ void TAdChrSelPlyPlateGC::draw_slot_tags_shifted() {
     for (i = 0; i < 4; i++) {
         if (multi_ply_chr_select_tag_shown[i] == 1) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D67D0));
+            TObjFish::set_global_param(lbl_805D67D0);
             set_draw_texture_and_color(0, ((s32)(255.0f * multi_ply_chr_select_tag_alpha[i] + 0.5f) << 24) | 0xFFFFFF);
             q.u0 = quad[i + 4][0].u0;
             q.u1 = quad[i + 4][0].u1;

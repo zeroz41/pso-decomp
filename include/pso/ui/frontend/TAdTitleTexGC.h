@@ -30,6 +30,9 @@ public:
 
 LAYOUT_ASSERT(TAdTitleTexGC_size, sizeof(TAdTitleTexGC) == 0x9C);
 
+// The player texture list TLobby__sub_802A5154 loaded; NULL until then.
+extern NJS_TEXLIST *lbl_805D6668;
+
 extern "C" {
 void TLobby__sub_802A5154(void);
 }

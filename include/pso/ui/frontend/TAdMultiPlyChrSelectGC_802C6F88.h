@@ -3,8 +3,10 @@
 
 #include "types.h"
 
+struct NJS_TEXLIST;
+
 extern "C" {
-int TAdMultiPlyChrSelectGC__sub_802C6FA8(void);
+NJS_TEXLIST *TAdMultiPlyChrSelectGC__sub_802C6FA8(void);
 }
 
 #endif

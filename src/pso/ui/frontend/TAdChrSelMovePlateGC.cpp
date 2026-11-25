@@ -10,13 +10,13 @@
 
 extern "C" {
 const char *lbl_805D4190 = "TAdChrSelMovePlateGC";
-s32 chr_sel_move_plate_texture;
+NJS_TEXLIST *chr_sel_move_plate_texture;
 
 void TAdChrSelMovePlateGC::draw_move_plate_quads() {
     u32 i;
     for (i = 0; i < count; i++) {
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(chr_sel_move_plate_texture));
+        TObjFish::set_global_param(chr_sel_move_plate_texture);
         set_draw_texture_and_color(0, ((u32)opacity[i] << 24) | 0xFFFFFF);
         draw_textured_quad_at_depth(quads[i].values, 0.52f);
         TWindowSubStatusDisp::get_player();

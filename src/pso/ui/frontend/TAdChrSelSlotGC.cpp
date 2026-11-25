@@ -176,14 +176,13 @@ void TLobby__sub_802C78EC(void) {
         lbl_805D67F0 = NULL;
     }
 }
-struct TextureNames { const char *v[5]; };
-struct TextureLists { NJS_TEXLIST *v[5]; };
+struct ByteBlock_14 { saddr v[5]; };
 
 void TLobby__sub_802C7920(void) {
     TLobby::update_menu_cursor();
-    TextureNames names = *(const TextureNames *)chr_sel_slot_resource_name_table;
-    TextureLists lists = *(const TextureLists *)lbl_80471D50;
-    NJS_TEXLIST *list = lists.v[current_language];
+    ByteBlock_14 a = *(const ByteBlock_14 *)chr_sel_slot_resource_name_table;
+    ByteBlock_14 b = *(const ByteBlock_14 *)lbl_80471D50;
+    NJS_TEXLIST *list = (NJS_TEXLIST *)b.v[current_language];
     lbl_805D67F0 = list;
-    load_streamed_prs_texture(names.v[current_language], list);
+    load_streamed_prs_texture((const char *)a.v[current_language], list);
 }
