@@ -63,7 +63,6 @@ struct TLobby : public TObject {
     virtual ~TLobby();
     virtual void run_task();
     void try_close(void *);
-    static void handle_user_search_answer(TUserAns &response);
     static void on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp);
     void close_window();
     static s32 get_filtered_event_theme();
@@ -623,15 +622,8 @@ struct TLobby : public TObject {
     static s32 pop_sound_groups(void *p, s32 pop_all);
     s32 validate_and_set_selection(s32 bank);
     static u16 update_crc16_ccitt(u16 crc, u8 c);
-    void update_random_flip_flag();
-    s32 init_sound_voice(s32 kind, s32 bank, s32 index, s32 flags);
     static void send_find_user_self_tag(s32 gc_num);
-    static void find_and_load_com_card(u32 serial);
     static void*get_com_card_entry(int a0);
-    static char *skip_to_comma_field(char *s, s32 a, s32 b);
-    char *build_text_from_comma_list();
-    static void remove_com_card_entry(s32 index);
-    static s32 remove_com_card_by_id(u32 id);
     // Empties the com card list and clears its flag.
     static void reset_com_card_list();
     void set_split_screen_name();
@@ -696,7 +688,6 @@ struct TLobby : public TObject {
     static void handle_verify_result(unsigned int);
     static void handle_warp_menu_input();
     static void init_buffers(int floor, u8 *quest);
-    static void init_player_entry(GuildCardRecord *entry, u8 *response);
     static void init_player_window_effect();
     static u8 is_challenge_lobby();
     static u8 is_valid_player_index(int);
@@ -714,7 +705,6 @@ struct TLobby : public TObject {
     static void open_session(const char *path);
     static void open_ship_block_select_menu(int, void *, void *);
     static void open_warp_menu();
-    static char *parse_csv_token(char *src, char *dst);
     static s32 pick_random_slot(s16 *slot);
     static void play_all_players_effect(void*);
     static void play_effect_all_players(void*);

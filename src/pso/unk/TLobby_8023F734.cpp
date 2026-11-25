@@ -619,7 +619,7 @@ s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32
     }
     return -6;
 found:
-    ((TLobby *)(&sound_request_voices[i]))->init_sound_voice(0, id >> 16, id & 0xFFFF, flags | 1);
+    sound_request_voices[i].init_sound_voice(0, id >> 16, id & 0xFFFF, flags | 1);
     sound_request_voices[i].base = base;
     sound_request_voices[i].extra = 0;
     sound_request_voices[i].spatial = 0;
@@ -648,7 +648,7 @@ s32 alloc_one_shot_sound_slot(u32 id, const Vec *position, s32 base, s32 flags) 
     }
     return -6;
 found:
-    ((TLobby *)(&sound_request_voices[i]))->init_sound_voice(0, id >> 16, id & 0xFFFF, flags);
+    sound_request_voices[i].init_sound_voice(0, id >> 16, id & 0xFFFF, flags);
     sound_request_voices[i].base = base;
     sound_request_voices[i].extra = 0;
     sound_request_voices[i].spatial = 0;

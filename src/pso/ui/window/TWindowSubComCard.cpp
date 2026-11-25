@@ -632,7 +632,7 @@ void TWindowSubComCard::run_task() {
             return;
         }
         if (((TWindowMenu *)(this->m_68))->is_decided() != 0) {
-            TLobby::find_and_load_com_card(((TWindowMenu *)this->m_68)->get_selected_value());
+            find_and_load_com_card(((TWindowMenu *)this->m_68)->get_selected_value());
             this->state = 0x1FU;
             return;
         }

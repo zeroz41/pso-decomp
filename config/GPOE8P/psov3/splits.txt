@@ -5881,14 +5881,17 @@ pso/unk/TLobby_8023F734.cpp:
 	.sdata      start:0x805D3850 end:0x805D3870
 	.sdata2     start:0x805DC9C0 end:0x805DC9E0
 
-pso/unk/TLobby_802409AC.cpp:
-	.text       start:0x802409AC end:0x80242938
-	.ctors      start:0x80433FB8 end:0x80433FBC
+pso/audio/SoundRequestVoice.cpp:
+	.text       start:0x802409AC end:0x802421A4
 	.rodata     start:0x8044E5C0 end:0x8044E5C8
 	.data       start:0x804CDA50 end:0x804CDC88
+	.sdata2     start:0x805DC9E0 end:0x805DCA00
+
+pso/network/GuildCardRecord.cpp:
+	.text       start:0x802421A4 end:0x80242938
+	.ctors      start:0x80433FB8 end:0x80433FBC
 	.bss        start:0x80517EE0 end:0x8051857C
 	.sbss       start:0x805D63D8 end:0x805D63E0
-	.sdata2     start:0x805DC9E0 end:0x805DCA00
 
 pso/system/PadRumble.cpp:
 	.text       start:0x80242938 end:0x80243218

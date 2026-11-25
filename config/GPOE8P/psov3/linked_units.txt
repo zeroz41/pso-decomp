@@ -789,7 +789,8 @@ pso/unk/TLobby_80226070.cpp
 pso/unk/TLobby_80226C3C.cpp
 pso/unk/TLobby_80228C84.cpp
 pso/unk/TLobby_8023F734.cpp
-pso/unk/TLobby_802409AC.cpp
+pso/audio/SoundRequestVoice.cpp
+pso/network/GuildCardRecord.cpp
 pso/unk/TLobby_8026B06C.cpp
 pso/ui/window/TWindowMenuIconLineLists.cpp
 pso/unk/TLobby_8028A7C8.cpp

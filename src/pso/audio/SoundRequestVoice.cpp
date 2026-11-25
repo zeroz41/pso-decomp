@@ -26,27 +26,6 @@
 #include <dolphin/os/OSInterrupt.h>
 
 
-typedef struct Src_8024220C
-{
-  s32 id;
-  char name[0x30];
-  char list[0x30];
-  u8 f64[0xC];
-  u8 ext[0x64];
-} Src_8024220C;
-
-// Their constructors run from __sinit_TLobby_802409AC_cpp, spelled out below because the
-// original's static initializer precedes this file's inline copies.
-#pragma push
-#pragma suppress_init_code on
-GuildCardRecord selected_guild_card_record;
-// inferred: the com-card list; init_player_entry fills it, com_card_entry_count records are live
-GuildCardRecord com_card_entries[8];
-#pragma pop
-
-extern "C" {
-s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
-}
 void SoundRequestVoice::set_field0(SoundControlState *owner) { this->owner = owner; }
 
 
@@ -257,21 +236,21 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
     return 0;
 }
 
-void TLobby::update_random_flip_flag() {
-    switch (*(s32 *)((s8 *)((u8 *)this) + 0x10)) {
+void SoundRequestVoice::update_random_flip_flag() {
+    switch (bank) {
     case 0:
-        switch (*(s32 *)((s8 *)((u8 *)this) + 0x14)) {
+        switch (index) {
         case 0: case 1: case 2: case 3: case 4:
         case 7: case 8: case 9:
         case 21:
         case 23: case 24: case 25: case 26: case 27: case 28: case 29: case 30: case 31:
-            *(s32 *)((s8 *)((u8 *)this) + 8) |= 0x100;
+            flags |= 0x100;
             break;
         }
         break;
     }
-    if (*(s32 *)((s8 *)((u8 *)this) + 8) & 0x100) {
-        *(s16 *)((s8 *)((u8 *)this) + 0x90) = (s16)(((TLobby *)(*(void **)((s8 *)((u8 *)this) + 0)))->advance_rng() & 1);
+    if (flags & 0x100) {
+        delay = (s16)(((TLobby *)owner)->advance_rng() & 1);
     }
 }
 
@@ -855,7 +834,7 @@ s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step) {
 }
 
 #pragma push
-s32 TLobby::init_sound_voice(s32 kind, s32 bank, s32 index, s32 flags) {
+s32 SoundRequestVoice::init_sound_voice(s32 kind, s32 bank, s32 index, s32 flags) {
     *(s32 *)((s8 *)this + 4) = 0;
     *(s32 *)((s8 *)this + 8) = flags;
     *(s32 *)((s8 *)this + 0xC) = kind;
@@ -906,43 +885,6 @@ s32 TLobby::init_sound_voice(s32 kind, s32 bank, s32 index, s32 flags) {
 
 #pragma pop
 
-#pragma push
-
-typedef struct Tag_802421C4 { s32 a; s32 b; } Tag_802421C4;
-
-#pragma inline_depth(1)
-#pragma dont_inline off
-struct Pair_80242380 {
-    u8 c[8];
-};
-
-struct Ext_80242380 {
-    u8 bytes[0x64];
-};
-
-typedef struct Entry_80242380 {
-    s32 id;
-    s32 f4;
-    char name[0x11];
-    char s19[0x11];
-    char s2A[0x11];
-    char s3B[0x11];
-    Pair_80242380 f4C;
-    s32 f54;
-    Ext_80242380 ext;
-} Entry_80242380;
-
-extern "C" {
-char *get_shared_text_buffer();
-void text_builder_append(char *);
-}
-void text_builder_reset();
-s32 lbl_805D63D8;
-int com_card_entry_count;
-extern "C" {
-void __copy(void *, void *, int);
-void TLobby__sub_8024273C(TUserAns &response);
-
 SoundRequestVoice::~SoundRequestVoice() {
     state = 0;
 }
@@ -951,225 +893,3 @@ SoundRequestVoice::SoundRequestVoice() {
     state = 0;
 }
 s32 SoundControlState::get_field_308() { return ms; }
-void TLobby::handle_user_search_answer(TUserAns &response) { TLobby__sub_8024273C(response); }
-
-void TLobby::send_find_user_self_tag(s32 gc_num) {
-    if (protocol_instance != NULL) {
-        Tag_802421C4 tag = *(Tag_802421C4 *)((u8 *)protocol_instance + 0x1900);
-        protocol_instance->send_find_user(*(TPlyGuildCardTag *)&tag, gc_num);
-    }
-}
-
-typedef struct Src_8024220C Src_8024220C;
-void load_selected_guild_card_record(Src_8024220C *arg0) {
-  char *new_var;
-  void *p;
-  selected_guild_card_record.id = arg0->id;
-  selected_guild_card_record.serial = 0;
-  memset(selected_guild_card_record.name, 0, 0x11);
-  strncpy(selected_guild_card_record.name, arg0->name, 0x10);
-  selected_guild_card_record.name[0x10] = 0;
-  new_var = arg0->list;
-  new_var = ((TLobby *)new_var)->build_text_from_comma_list();
-  p = new_var;
-  p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s19)));
-  p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
-  p = ((void *)TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s2A)));
-  TLobby::parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s3B));
-  TLobby__sub_802422EC(selected_guild_card_record.f4C, arg0->f64);
-  __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &arg0->ext);
-}
-
-void TLobby__sub_802422EC(void *arg0, void *arg1) {
-    *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)arg0 + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
-}
-
-void TLobby::find_and_load_com_card(u32 serial) {
-    s32 n;
-    s32 i;
-    n = TLobby::get_com_card_data();
-    for (i = 0; i < n; i++) {
-        if (serial == ((GuildCardRecord *)TLobby::get_com_card_entry(i))->get_serial()) break;
-    }
-    if (i < n) {
-        TLobby::copy_com_card_entry((Entry_80242380 *)&selected_guild_card_record, (Entry_80242380 *)(TLobby::get_com_card_entry(i)));
-    }
-}
-
-Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_80242380 *src) {
-    dst->id = src->id;
-    dst->f4 = src->f4;
-    __copy(dst->name, src->name, 0x11);
-    __copy(dst->s19, src->s19, 0x11);
-    __copy(dst->s2A, src->s2A, 0x11);
-    __copy(dst->s3B, src->s3B, 0x11);
-    dst->f4C = src->f4C;
-    dst->f54 = src->f54;
-    dst->ext = src->ext;
-    return dst;
-}
-
-void*TLobby::get_com_card_entry(int a0) { return &com_card_entries[a0]; }
-
-char *TLobby::parse_csv_token(char *src, char *dst) {
-    s32 i;
-    for (i = 0x10; i != 0; i--) {
-        char c = *src;
-        if (c == 0) break;
-        src++;
-        if (c == ',') break;
-        *dst = c;
-        dst++;
-    }
-    if (*src == ',') {
-        src++;
-    }
-    *dst = 0;
-    return src;
-}
-
-char *TLobby::skip_to_comma_field(char *s, s32 a, s32 b) {
-    s32 i;
-    for (i = a + 1; i < b;) {
-        if (*s == '\0') return s;
-        if (*s++ == ',') i++;
-    }
-    return s;
-}
-
-char *TLobby::build_text_from_comma_list() {
-    char buf[0x11];
-    char *s;
-    char *d;
-    s32 i;
-    s32 count;
-    text_builder_reset();
-    s = ((char *)this);
-    count = 1;
-    while (*s != '\0') {
-        if (*s++ == ',') {
-            count++;
-        }
-    }
-    for (i = 0; i < count; i++) {
-        TWindowSubStatusDisp::append_comma();
-        s = TLobby::skip_to_comma_field(((char *)this), i, count);
-        d = buf;
-        while (*s != '\0' && *s != ',') {
-            *d++ = *s++;
-        }
-        *d = '\0';
-        text_builder_append(buf);
-    }
-    return get_shared_text_buffer();
-}
-
-void TLobby__sub_8024259C(saddr arg0) {
-    if (TLobby::protocol_instance != NULL) {
-        memset(lobby_ship_name, 0, 0x11);
-        strncpy(lobby_ship_name, (char *)(arg0 + 0x19), 0x10);
-        lobby_ship_name[0x10] = 0;
-        TLobby::protocol_instance->seq_jump((u8 *)(arg0 + 0x4C), *(TPlyMeetUserExtension *)(arg0 + 0x58));
-    }
-}
-#pragma pop
-
-
-void TLobby::init_player_entry(GuildCardRecord *entry, u8 *response) {
-    s32 temp_r5;
-    char *p;
-
-    entry->id = *(s32 *)((s8 *)response + 0xC);
-    temp_r5 = lbl_805D63D8;
-    lbl_805D63D8 = temp_r5 + 1;
-    entry->serial = temp_r5;
-    ((s32 (*)(void*, void*, int))TLobby__sub_802422EC)(entry->f4C, response + 0x10, temp_r5);
-    __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&entry->ext, response + 0x60);
-    GuildCardSlot *card = TWindowSubComCard::find_card_by_id(entry->get_id());
-    if (card == NULL) {
-        strncpy(entry->name, entry->get_sub_disp_ptr(), 0x10);
-    } else {
-        strncpy(entry->name, card->entry.get_name(), 0x10);
-    }
-    entry->name[0x10] = 0;
-    p = ((TLobby *)(response + 0x1C))->build_text_from_comma_list();
-    p = TLobby::parse_csv_token(p, entry->s19);
-    p = TLobby::parse_csv_token(p, entry->s2A);
-    p = TLobby::parse_csv_token(p, entry->s2A);
-    TLobby::parse_csv_token(p, entry->s3B);
-}
-
-void TLobby::remove_com_card_entry(s32 index) {
-    u8 *lobby;
-    if (index < 7) {
-        lobby = (u8 *)&com_card_entries[index];
-        move_words(reinterpret_cast<void *>(lobby), reinterpret_cast<const void *>(lobby + 0xBC), static_cast<u32>((7 - index) * 0xBC) >> 2);
-    }
-    (*(s32 *)&com_card_entry_count) -= 1;
-}
-
-void TLobby__sub_8024273C(TUserAns &response) {
-    GuildCardRecord *entry;
-    s32 slot = TLobby::remove_com_card_by_id(response.found_guildcard);
-    entry = com_card_entries;
-    entry += slot;
-    TLobby::init_player_entry(entry, reinterpret_cast<u8 *>(&response));
-    com_card_entry_count++;
-    TLobby__sub_80242918();
-}
-
-s32 TLobby::remove_com_card_by_id(u32 id) {
-    s32 i;
-    s32 n;
-    n = TLobby::get_com_card_data();
-    for (i = 0; i < n; i++) {
-        if (id == ((u32)reinterpret_cast<GuildCardRecord *>(TLobby::get_com_card_entry(i))->get_id())) {
-            TLobby::remove_com_card_entry(i);
-            n -= 1;
-        }
-    }
-    if (n < 8) {
-        return n;
-    }
-    TLobby::remove_com_card_entry(0);
-    return 7;
-}
-
-void TLobby::reset_com_card_list() { com_card_entry_count = 0; TLobby::clear_flag_bit2(); }
-
-void TLobby::reset_state() { TLobby::reset_com_card_list(); }
-void TLobby__sub_8024285C(void) { TLobby::reset_com_card_list(); }
-
-
-GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
-void *__construct_array(void *ptr, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 n);
-static void __sinit_TLobby_802409AC_cpp();
-}
-__declspec(section ".ctors") static void *const com_card_global_initializer = (void *)__sinit_TLobby_802409AC_cpp;
-
-static void __sinit_TLobby_802409AC_cpp() {
-    __ct__15GuildCardRecordFv(&selected_guild_card_record);
-    __construct_array(com_card_entries, __ct__15GuildCardRecordFv, NULL, sizeof(GuildCardRecord), 8);
-}
-
-GuildCardRecord::GuildCardRecord() {}
-
-s32 GuildCardRecord::get_serial() const { return serial; }
-
-int TLobby::get_com_card_data() { return com_card_entry_count; }
-
-char *GuildCardRecord::get_sub_disp_ptr() { return ext.player_name; }
-
-s32 GuildCardRecord::get_id() { return id; }
-
-
-
-void TLobby__sub_80242918(void) {
-    lbl_805D63FC |= 4;
-}
-
-void TLobby::clear_flag_bit2() {
-    lbl_805D63FC &= 0xFFFFFFFB;
-}
