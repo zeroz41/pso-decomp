@@ -59,6 +59,7 @@
 #include <dolphin/os/OSTime.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
+#include "pso/unk/TLobby_80103F5C.h"
 
 
 // Window size {width, height} passed to TWindowMessage::create.
@@ -79,7 +80,6 @@ void request_active_window_close(void);
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
-void reset_map();
 char team_matchup_message_buffer[256];
 typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 s32 lbl_805D6AB0;
@@ -485,7 +485,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload() {
 
 void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
     if (--this->frame_timer <= 0) {
-        TLobby__sub_8020BC50();
+        destroy_current_floor_objects();
         reset_map();
         if (quest_mission_manager != NULL) {
             TQuestThread::clear_buffer(quest_mission_manager);
@@ -592,7 +592,7 @@ void TPlayerBattleCtrl4P::update() {
     queue_destroy_event_descendants(tl_01);
     TQuestThread::destroy_all_in(tl_00);
     TLobby__sub_8020BCE4();
-    TLobby__sub_8020BB18();
+    destroy_floor_decoration_objects();
     j = 0;
     do {
         player = get_player_by_client_id(j);

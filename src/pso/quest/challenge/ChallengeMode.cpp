@@ -872,7 +872,7 @@ void TChallenge::update_battle_cleanup_flag() {
         if (records_save_pending != 0 && challenge_mode_state.retry_menu_disabled == 0) {
             update_card_save_info();
             TLobby__sub_800722AC(local_client_id);
-            TLobby__sub_80072618();
+            send_own_challenge_records();
         }
         records_save_pending = 0;
     }

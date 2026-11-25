@@ -109,7 +109,7 @@ TDeadSpot::TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s3
     rotate_matrix_y(0, yaw);
     rotate_matrix_z(0, pitch);
     rotate_matrix_x(0, random_angle());
-    fn_803D8DE0(0, basis, basis, 2);
+    mult_vec_array_sr(0, basis, basis, 2);
     pop_matrix();
     b0x = basis[0].x;
     b0y = basis[0].y;

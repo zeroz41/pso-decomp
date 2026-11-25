@@ -24,6 +24,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -43,7 +44,6 @@ struct Tbl_80289EE0 { s32 v[8]; };
 
 
 extern "C" {
-s32 init_collision_body_parts(void *, void *, int);
 u8 is_current_floor_switch_set(u16);
 void fn_802898E8(void);
 void fn_802898EC(void);
@@ -70,9 +70,9 @@ TODoorFourLightRuins::TODoorFourLightRuins(saddr parent, saddr set_data) : TODoo
     init_collision_body_parts(this, &door_four_light_collision_body_params, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    this->model_tree = (saddr)fn_8028A78C(0);
-    this->texlist = fn_8028A750(0);
-    motion = (AnimationMotion *)fn_8028A714(0);
+    this->model_tree = (saddr)get_green_door_model(0);
+    this->texlist = get_green_door_texlist(0);
+    motion = (AnimationMotion *)get_green_door_motion(0);
     this->animation_end_frame = (f32)motion->frameCount - 1.0f;
     this->animation_step = 0.5f;
     {
@@ -272,9 +272,9 @@ TODoorFourLightSpace::TODoorFourLightSpace(saddr parent, saddr set_data) : TODoo
     init_collision_body_parts(this, &door_four_light_collision_body_params, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    this->model_tree = (saddr)fn_8028A78C(0);
-    this->texlist = fn_8028A750(0);
-    motion = (AnimationMotion *)fn_8028A714(0);
+    this->model_tree = (saddr)get_green_door_model(0);
+    this->texlist = get_green_door_texlist(0);
+    motion = (AnimationMotion *)get_green_door_motion(0);
     this->animation_end_frame = (f32)motion->frameCount - 1.0f;
     this->animation_step = 0.5f;
     {

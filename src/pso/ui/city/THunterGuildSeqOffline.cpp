@@ -31,6 +31,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/text_802233F8.h"
 
 // The quest-list callbacks before the guild sequence proper are built in source order;
 // the rest of the file uses deferred code generation (reverse order in .text).
@@ -100,7 +101,6 @@ void THunterGuildSeqOffline::set_enemy_mode_5(TObject *) { TLobby::set_enemy_mod
 
 void THunterGuildSeqOffline::set_enemy_mode_1(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 1; set_keyboard_input_flag(); }
 
-extern "C" void fn_802233F8(void *);
 
 void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); }
 
@@ -182,7 +182,7 @@ void THunterGuildSeqOffline::close_window() {
         break;
     }
     TShopSequence::close_window();
-    fn_802233F8(this);
+    release_other_players_hold(this);
     THunterGuildWarning::queue_destruction();
     queue_destruction();
 }
@@ -252,8 +252,6 @@ THunterGuildSeqOffline *THunterGuildSeqOffline::active_instance;
 
 extern "C" {
 const char *hunter_guild_seq_offline_class_name = "THunterGuildSeqOffline";
-
-int fn_80223480(void*);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
@@ -402,7 +400,7 @@ void THunterGuildSeqOffline::update_state() {
     }
 }
 
-void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); fn_80223480(this); THunterGuildWarning::create_instance((saddr)((void*)2)); set_state((saddr)((void*)((void*)1))); }
+void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); impose_other_players_hold(this); THunterGuildWarning::create_instance((saddr)((void*)2)); set_state((saddr)((void*)((void*)1))); }
 
 void THunterGuildSeqOffline::open_greeting() {
     NJS_POINT2 window_size;

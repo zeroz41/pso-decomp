@@ -89,7 +89,7 @@ void TBoss3VoloptCtrl::dispatch_state(s32 state) {
         unhide_room_set_objects(get_current_floor(), 0, 3);
     case 3:
         unhide_room_set_objects(get_current_floor(), 0, 2);
-        TLobby__sub_8020C07C(get_current_floor(), 0, 2, -0x11, 0);
+        set_wave_object_flags(get_current_floor(), 0, 2, -0x11, 0);
         return;
     case 2:
         unhide_room_set_objects(get_current_floor(), 0, 3);

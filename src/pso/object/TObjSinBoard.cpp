@@ -66,7 +66,7 @@ void load_memcard_file(void) {
         return;
     }
     while (1) {
-        slot = fn_802432F0((void *)memcard_file_099_name);
+        slot = find_card_file_channel((void *)memcard_file_099_name);
         if (slot != -2) {
             break;
         }

@@ -57,18 +57,18 @@ void TChCrTagInformation::render() { draw_char_info_sprites(); }
 void TChCrTagInformation::update_selected_char() {
     s32 c;
     if (m_fade < 1.0f) {
-        fn_80309890(this, -1);
+        select_char_creation_tag_info(this, -1);
         return;
     }
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
         c = TChCrCharSelect::get_selected_char();
         if (c >= 0) {
-            fn_80309890(this, c);
+            select_char_creation_tag_info(this, c);
         }
         break;
     default:
-        fn_80309890(this, get_char_select_class_id(TChCrCharSelect::get_instance()) + 3);
+        select_char_creation_tag_info(this, get_char_select_class_id(TChCrCharSelect::get_instance()) + 3);
         break;
     }
 }

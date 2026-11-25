@@ -164,7 +164,7 @@ void TObjEneBm9Mericarol::load_resources() {
     lbl_80540B88[2] = 0.0f;
     lbl_805D6874 = 0;
     lbl_805D6878 = 0;
-    fn_802D1CC8();
+    create_mericarol_render_texture();
     init_alt_model();
     for (i = 0; i < 3; i++) {
         bm9_mericarol_phase_hp_table[i] = TLobby::register_boss(mericarol_phase_hp_ids[i]);
@@ -199,7 +199,7 @@ void TObjEneBm9Mericarol::free_shared_instances() {
         delete mericarol_trail0_points;
         mericarol_trail0_points = NULL;
     }
-    fn_802D1C84();
+    release_mericarol_render_texture();
     if (mericarol_bml != NULL) {
         delete mericarol_bml;
         mericarol_bml = NULL;

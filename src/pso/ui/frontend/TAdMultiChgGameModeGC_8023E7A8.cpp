@@ -118,7 +118,7 @@ FloorResourceCallbacks game_mode_select_scene_callbacks[23] = {
     {load_multi_confirm_textures, free_multi_confirm_textures},
     {register_texture_logo_e, TLogo::free_held_object},
     {TLogo__sub_8001C364, TLogo__sub_8001C360},
-    {TLobby__sub_8026ACDC, fn_8026AC50},
+    {init_chat_log_heap, free_chat_log_lines},
     {register_player_prate, TAdPlyPltAnimGC__sub_8035615C},
     {load_data_buffers, TObjBoss2Tunnel::free_buffers},
     {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},

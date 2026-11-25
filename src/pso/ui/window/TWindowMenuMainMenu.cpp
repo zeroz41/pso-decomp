@@ -424,7 +424,7 @@ void TWindowMenuMainMenu::draw_frame(WindowDrawContext *frame) {
 WindowDrawContext *TWindowMenuMainMenu::setup_content_frame() {
     f32 v;
     WindowDrawContext *r;
-    r = WindowDrawContext::open_singleton(frame_position, frame_size, (f32 *)fn_8026CB68(), draw_depth, window_flags);
+    r = WindowDrawContext::open_singleton(frame_position, frame_size, (f32 *)get_one_vec2(), draw_depth, window_flags);
     if (is_not_split_screen() != 0) {
         v = 51.0f;
     } else {

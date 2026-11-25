@@ -55,6 +55,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/text_801F3774.h"
 
 
 #pragma readonly_strings on
@@ -79,7 +80,6 @@ void render_shadows__7TObjectFv();
 
 extern int quest_bin_decompressed_size;
 extern u8 *online_quest_bin_data;
-extern char offline_quest_filename_buffer_a[];
 }
 
 extern const char *quest_thread_class_name;
@@ -270,7 +270,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
     if (keyboard != NULL) {
         ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)get_window_layout_position(0xBF));
         ((TKeyBoardControl *)keyboard)->set_soft_position((u8 *)get_window_layout_position(0xC0));
-        ((TKeyBoardControl *)keyboard)->set_hard_position((u8 *)fn_8026CB5C());
+        ((TKeyBoardControl *)keyboard)->set_hard_position((u8 *)get_large_vec2());
     }
     prompt_menu = create_window_menu_default(get_window_layout_position(0x56), 1);
     if (prompt_menu != NULL) {

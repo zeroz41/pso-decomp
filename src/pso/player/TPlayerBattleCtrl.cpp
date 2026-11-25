@@ -56,6 +56,14 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/TIndirectEffectDrawTask.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/unk/text_8020BC50.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
+#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/unk/TLobby_801C4F80.h"
+#include "pso/unk/text_8020B5CC.h"
+#include "pso/unk/TLobby_80103F5C.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -89,7 +97,6 @@ s32 TLobby__sub_801C2678(void);
 u8 TLobby__sub_801D7100(void *);
 }
 struct SendBattleModeDataS801C295C { s32 f0; s8 f4; s8 pad[0x13]; };
-void build_6x7D_set_battle_mode_data(void *p);
 
 // "TPlayerBattleCtrl" opens the unit's .rodata, ahead of the pairs below.
 f32 battle_player_give_damage_score = 0.05f;
@@ -133,7 +140,6 @@ typedef struct SendBattleModeStatePlayer {
 } SendBattleModeStatePlayer;
 
 
-void build_6x7D_set_battle_mode_data(void *);
 
 struct TLobbyStack {
     s32 sp8;
@@ -164,9 +170,6 @@ void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern const char *dead_spot_class_name;
 
 extern u16 battle_mode_data_table[];
-s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
-void TLobby__sub_8020BB18(void);
-void TLobby__sub_8020BCE4(void);
 }
 
 struct SendBattleModeParamsStack {
@@ -258,7 +261,6 @@ void TLobby__sub_801B09A4(void);
 
 void request_active_window_close(void);
 void __destroy_new_array(void *, void *);
-int TKeyBoardControl__sub_8000F828(void);
 void TAdSinglePlyChrSelectGC__sub_801C5120(void);
 void TAdSinglePlyChrSelectGC__sub_801C5158(void);
 void *__construct_new_array(void *, void *, void *, s32, s32);
@@ -280,16 +282,10 @@ s32 fn_801D72B0(void *, int);
 extern s32 battle_intro_value_table[];
 
 extern char battle_intro_message_buffer[];
-void reset_map(void);
-extern "C" {
-void TLobby__sub_8020BC50(void);
-}
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 extern "C" {
 
 
-void set_keyboard_input_flag(void);
-extern s32 evt2_random_enemies_mode;
 void TAdSinglePlyChrSelectGC__sub_801C50C0(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C50CC();
 void TAdSinglePlyChrSelectGC__sub_801C50D8(u16);
@@ -298,7 +294,6 @@ void TAdSinglePlyChrSelectGC__sub_801C50F0(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C50FC();
 void TAdSinglePlyChrSelectGC__sub_801C5108(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C5114();
-void play_area_music(char *name);
 }
 
 
@@ -948,7 +943,7 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl) {
         ctrl->state_20 = 1;
     case 1:
         if (--ctrl->timer <= 0) {
-            TLobby__sub_8020BC50();
+            destroy_current_floor_objects();
             reset_map();
             if (quest_mission_manager != NULL) {
                 TQuestThread::clear_buffer(quest_mission_manager);
@@ -1272,7 +1267,7 @@ void TPlayerBattleCtrl::init() {
     TQuestThread::destroy_all_in(tl_00);
     TLobby__sub_8020BCE4();
     TAdSinglePlyChrSelectGC::destroy();
-    TLobby__sub_8020BB18();
+    destroy_floor_decoration_objects();
     i = 0;
     pad_64 = 0;
     do {

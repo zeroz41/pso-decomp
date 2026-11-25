@@ -246,7 +246,7 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
         set_matrix_identity(NULL);
         rotate_matrix_y(NULL, rotation->yaw);
         rotate_matrix_z(NULL, pitch);
-        fn_803D8DE0(0, dir, dir, 2);
+        mult_vec_array_sr(0, dir, dir, 2);
         pop_matrix();
 
         width *= 2.0f;

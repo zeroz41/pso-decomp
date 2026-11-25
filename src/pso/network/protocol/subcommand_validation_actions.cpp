@@ -3,7 +3,7 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/network/protocol/subcmd_6x.h"
 
-extern "C" s32 fn_800FD7C0(f32 *xz);
+extern "C" s32 is_xz_nonfinite(f32 *xz);
 
 s32 validate_6xAB(G_CreateLobbyChair_6xAB *packet) {
     if (validate_subcommand_client(&packet->header) == 0) {
@@ -89,7 +89,7 @@ s32 validate_6x4C_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *packet) {
     if (hp < 0) {
         return 0;
     }
-    return (u32) __cntlzw(fn_800FD7C0(packet->velocity.xz)) >> 5;
+    return (u32) __cntlzw(is_xz_nonfinite(packet->velocity.xz)) >> 5;
 }
 
 s32 validate_6x4B_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *packet) {
@@ -101,7 +101,7 @@ s32 validate_6x4B_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *packet) {
     if (hp < 0) {
         return 0;
     }
-    return (u32) __cntlzw(fn_800FD7C0(packet->velocity.xz)) >> 5;
+    return (u32) __cntlzw(is_xz_nonfinite(packet->velocity.xz)) >> 5;
 }
 
 s32 validate_6x4A_shield_attack(G_ClientIDHeader *packet) {

@@ -243,7 +243,7 @@ int TWindowCtrl::is_flag_2_set() { return this->m_flags & 0x4; }
 
 void TWindowCtrl::close() {
     TWindowMainMenu__sub_8024E3D0();
-    TLobby__sub_8026ACDC();
+    init_chat_log_heap();
     instance = NULL;
 }
 
@@ -252,7 +252,7 @@ void TWindowCtrl::shutdown() {
         instance->queue_destruction();
         instance = NULL;
     }
-    fn_8026AC50();
+    free_chat_log_lines();
     TWindowMainMenu__sub_8024E3CC();
 }
 

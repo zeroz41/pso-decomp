@@ -218,7 +218,7 @@ WindowDrawContext *TWindowBase::setup_window_draw_context(f32 *scale) {
 }
 
 WindowDrawContext *TWindowBase::draw_default_entry() {
-    return setup_window_draw_context((f32 *)fn_8026CB68());
+    return setup_window_draw_context((f32 *)get_one_vec2());
 }
 
 void TWindowBase::set_depth(f32 depth) {
