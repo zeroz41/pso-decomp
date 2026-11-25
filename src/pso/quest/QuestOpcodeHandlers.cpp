@@ -286,8 +286,8 @@ void TLobby::capture_chat_sensor() {
     TOChatSensorCapture::capture_message((u16)((u16) local_client_id), (const char *)message);
 }
 
-s32 expand_message_substitutions(s32 source, s32 result) {
-    begin_message_substitution((u8 *)source, (char *)result);
+char *expand_message_substitutions(u8 *source, char *result) {
+    begin_message_substitution(source, result);
     while (is_message_source_exhausted() == 0) {
         s8 c = read_byte_advance__6TLobbyFv();
         switch (c) {
@@ -5214,7 +5214,7 @@ u16 read_be_u16(void);
 extern "C" {
 s32 stream_read_be32(void);
 }
-void append_string_to_buffer(s32 dest);
+void append_string_to_buffer(char *dest);
 extern char qst_cstring_buffer[];
 
 void qst_getargs_u16_u8(s32 op) {
@@ -5230,7 +5230,7 @@ void qst_getargs_u16(s32 op) {
 
 void qst_getargs_cstring(s32 op) {
     void (*fn)(char *) = (void (*)(char *))qst_opcode_table[op].handler;
-    append_string_to_buffer((saddr)qst_cstring_buffer);
+    append_string_to_buffer(qst_cstring_buffer);
     fn(qst_cstring_buffer);
 }
 
@@ -5331,11 +5331,11 @@ void qst_call_stack_push(s32 value)
   qst_call_stack[qst_call_stack_depth++] = value;
 }
 int qst_label_address(int label) {  return (saddr)(qst_code + qst_function_table[(u16)label]); }
-void append_string_to_buffer(s32 dest) {
+void append_string_to_buffer(char *dest) {
     s32 string_length;
 
     string_length = strlen((const char *)(qst_code + qst_pc));
-    expand_message_substitutions((saddr)(qst_code + qst_pc), dest);
+    expand_message_substitutions(qst_code + qst_pc, dest);
     qst_pc += string_length + 1;
 }
 

@@ -3884,7 +3884,7 @@ force_active:
   - append_quest_name__24TMessageWindowControllerFv
   - append_quest_title__24TMessageWindowControllerFv
   - append_string
-  - append_string_to_buffer__Fl
+  - append_string_to_buffer__FPc
   - append_text__24TMessageWindowControllerFPCc
   - append_text_entry__19TWindowKeyBoardBaseFPUc
   - append_title_string__24TMessageWindowControllerFv
@@ -6090,7 +6090,7 @@ force_active:
   - execute_action__13TObjEneBm3FlyFl
   - exit__22TShopEquipmentSequenceFP15TShopWindowBase
   - exit_keyboard_mode__21TAdMultiSelGameModeGCFv
-  - expand_message_substitutions__Fll
+  - expand_message_substitutions__FPUcPc
   - expire_weapon_casing__FPv
   - explode__13TBoss6MagMineFv
   - explode__22TObjEneMe1GiGueMissileFPC3Vec
