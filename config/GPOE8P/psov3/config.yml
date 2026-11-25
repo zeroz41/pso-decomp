@@ -15486,7 +15486,7 @@ force_active:
   - set_hold_flags__18TObjEneRe4SorcererFPv
   - set_hover_target_position__13TObjEneMorfosFv
   - set_id__23TAdSinglePlyChrSelectGCFPvi
-  - set_index__9TLanguageFl
+  - set_texture_palette_bank__FP17GinjaTextureStatel
   - set_input_active__11TWindowChatFv
   - set_item_effect__22PlayerAttackControllerFv
   - set_items_and_refresh__15TWindowHelpItemFPvPv

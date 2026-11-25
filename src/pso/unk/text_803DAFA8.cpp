@@ -6,7 +6,7 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/unk/text_803DA798.h"
-#include "pso/unk/text_803DAF30.h"
+#include "pso/render/GinjaTextureHeader.h"
 #include "pso/unk/text_803DAFA8.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
@@ -15,11 +15,11 @@ s32 load_gvpl_palette(GvplChunk *chunk, GvplPalette *palette) {
     s32 word;
     reset_texture_error();
     word = chunk->magic;
-    fn_803DAF30((u32 *)&word);
+    swap_u32_bytes((u32 *)&word);
     switch (word) {
     case 0x4C505647:
         word = chunk->size;
-        fn_803DAF30((u32 *)&word);
+        swap_u32_bytes((u32 *)&word);
         move_data(palette->data, chunk->data, word - 8);
         palette->pad_06 = chunk->pad_0A;
         palette->pad_08 = chunk->pad_0C;
