@@ -962,7 +962,6 @@ void TObjPlayer::update_off_floor_state() {
       return;
   }
 }
-extern int fold_flush_0;
 #pragma pop
 
 #pragma push
@@ -1004,7 +1003,6 @@ void TObjPlayer::fade_out_off_floor() {
       return;
   }
 }
-extern int fold_flush_1;
 #pragma pop
 
 void TObjPlayer::off_floor_phase2_nop() {  }
@@ -2132,7 +2130,6 @@ void TObjPlayer::begin_fall_reaction() {
         pkt.send();
     }
 }
-extern int fold_flush_2;
 #pragma pop
 
 void TObjPlayer::fall_reaction_phase8_nop() {  }
@@ -3087,7 +3084,6 @@ inline void tail_801CCD38(Player_801CCD38 *p, s32 t, s8 lvl) {
         launch_technique(t, lvl, (TObjPlayer *)p);
     }
 }
-extern int fold_flush_3;
 #pragma pop
 
 }
@@ -4400,7 +4396,6 @@ void TObjPlayer::run_action3_phase(s16 phase) {
     }
   }
 }
-extern int fold_flush_5;
 #pragma pop
 
 #pragma push
@@ -4425,7 +4420,6 @@ s32 TObjPlayer__sub_801CFBFC(u8 *arg0) {
   var_r12 = *((s16 (**)(void *)) (((s8 *) var_r12) + 0x58));
   return var_r12(var_r3);
 }
-extern int fold_flush_6;
 #pragma pop
 
 s32 TObjPlayer::update_combat_stats() {
@@ -4461,7 +4455,6 @@ void TObjPlayer::calc_movement_target(s32 angle, f32 *out_x, f32 *out_z) {
     *out_x = (8.0f * sin_table_lookup(angle)) + this->position.x;
     *out_z = (8.0f * cos_table_lookup(angle)) + this->position.z;
 }
-extern int fold_flush_7;
 #pragma pop
 
 void TObjPlayer::reset_and_flag() { clear_velocity(this); clear_motion_flags((saddr)((void*)256)); }
@@ -4952,7 +4945,6 @@ G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, 
     __memcpy(&destination->pos, &source->pos, sizeof(Vec));
     return destination;
 }
-extern int fold_flush_8;
 #pragma pop
 
 short TObjPlayer::query_child_state2() {
