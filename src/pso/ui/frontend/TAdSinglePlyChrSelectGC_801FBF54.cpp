@@ -428,7 +428,7 @@ s32 TAdSinglePlyChrSelectGC::load_player_by_slot(s32 chan) {
     return card_file;
 }
 
-s32 TAdSinglePlyChrSelectGC::verify_system_file(void* _w0) {
+s32 TAdSinglePlyChrSelectGC::verify_system_file() {
     saddr temp_r3;
     s32 var_r30;
     var_r30 = 0;
@@ -551,7 +551,7 @@ s32 TAdSinglePlyChrSelectGC::verify_card_player_data() {
     return ret;
 }
 
-s32 TAdSinglePlyChrSelectGC::poll_memcard_status() { return TAdSinglePlyChrSelectGC::verify_system_file(this); }
+s32 TAdSinglePlyChrSelectGC::poll_memcard_status() { return verify_system_file(); }
 
 
 s32 TAdSinglePlyChrSelectGC::has_valid_slot() {

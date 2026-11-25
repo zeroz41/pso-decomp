@@ -18,6 +18,8 @@ struct TAdMcCheckGC : public TObject {
     virtual void render();
     TObject *create(s32 message);
     s32 get_check_step();
+    // Returns the check task of card slot `slot`, creating it under `parent` if there is none.
+    static TAdMcCheckGC *get_instance(TObject *parent, s32 slot);
     virtual void run_task();
 };
 

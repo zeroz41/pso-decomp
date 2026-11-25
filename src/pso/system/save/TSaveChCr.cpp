@@ -47,7 +47,6 @@ struct SaveChCrMessageText {
 };
 
 extern "C" {
-s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 extern void *tl_03;
 }
 
@@ -140,7 +139,7 @@ s32 TSaveChCr::poll_memcard_status() {
     }
     status = 0;
     this->status_checked = 1;
-    if (poll_memcard_status__23TAdSinglePlyChrSelectGCFv() == 0) {
+    if (TAdSinglePlyChrSelectGC::poll_memcard_status() == 0) {
         status |= 4;
     }
     if (has_no_save_files() == 0) {

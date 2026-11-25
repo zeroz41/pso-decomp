@@ -77,11 +77,11 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u16 get_card_field_21a8(int client);
     s32 append_inventory_item(TItemData *item);
     static s32 load_player_by_slot(s32 chan);
-    static s32 verify_system_file(void* _w0);
+    static s32 verify_system_file();
     static s32 load_save_from_card();
     s32 fields_equal(void *arg1);
     static s32 verify_card_player_data();
-    s32 poll_memcard_status();
+    static s32 poll_memcard_status();
     s32 has_valid_slot();
     void clear_inventory_slot_by_index(s32 i);
     static int get_selection();

@@ -20,7 +20,6 @@
 extern "C" {
 saddr get_message_text(s32 arg0);
 saddr create_window_menu_default(const void *, int);
-s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv();
 }
 
 static const f32 TAdMultiSaveGC__data_80474D70[2] = { 80.0f, 176.0f };
@@ -97,7 +96,7 @@ void TAdMultiSaveGC::run_task() {
         break;
     case 2:
         save_ok = 1;
-        if (verify_system_file__23TAdSinglePlyChrSelectGCFPv() == 0) {
+        if (TAdSinglePlyChrSelectGC::verify_system_file() == 0) {
             save_ok = 0;
         }
         if (TAdSinglePlyChrSelectGC::load_save_from_card() == 0) {
