@@ -5,6 +5,10 @@
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/window/ActionPaletteTag.h"
 
+s32 TPlyDispConfigSmth::find_action_slot_for_target(TObjPlayer *player, s16 type, s32 enabled) {
+    return find_action_slot(player, type, enabled, TObjPlayer__sub_801D84A8(this));
+}
+
 s32 TPlyDispConfigSmth::find_action_slot(TObjPlayer *player, s16 type, s32 enabled, s32 row) {
     ActionPaletteTag *forced;
     s32 slot;
@@ -36,4 +40,20 @@ s32 TPlyDispConfigSmth::find_action_slot(TObjPlayer *player, s16 type, s32 enabl
         tag++;
     } while (slot < 4);
     return -1;
+}
+
+int TPlyDispConfigSmth::is_bank_empty(s32 bank) {
+    s32 i;
+    ActionPaletteTag *tag;
+    if (bank == 0) {
+        tag = m_tags;
+    } else {
+        tag = m_tags1;
+    }
+    for (i = 0; i < 4; i++, tag++) {
+        if (get_action_palette_tag_mode(tag) != 0) {
+            return 0;
+        }
+    }
+    return 1;
 }

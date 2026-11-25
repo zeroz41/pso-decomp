@@ -4872,14 +4872,8 @@ pso/system/data/pso_const_ids4.cpp:
 	.text       start:0x801D78E4 end:0x801D7A78
 	.rodata     start:0x80447178 end:0x80447190
 
-pso/ui/hud/TMainCursor_801D7A78.cpp:
-	.text       start:0x801D7A78 end:0x801D7AC8
-
-pso/ui/hud/TMainCursor_801D7AC8.cpp:
-	.text       start:0x801D7AC8 end:0x801D7BF4
-
-pso/unk/text_801D7BF4.cpp:
-	.text       start:0x801D7BF4 end:0x801D7C5C
+pso/player/ActionPaletteSlots.cpp:
+	.text       start:0x801D7A78 end:0x801D7C5C
 
 pso/player/TObjPlayer_801D7C5C.cpp:
 	.text       start:0x801D7C5C end:0x801D7CF4

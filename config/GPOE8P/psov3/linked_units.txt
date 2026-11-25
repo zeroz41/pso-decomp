@@ -890,8 +890,7 @@ pso/ui/TLogo_8030818C.cpp
 pso/network/TPlyJoinLobbySdata2.cpp
 pso/ui/hud/TMainCursor.cpp
 pso/ui/hud/TMainCursor_80154090.cpp
-pso/ui/hud/TMainCursor_801D7A78.cpp
-pso/ui/hud/TMainCursor_801D7AC8.cpp
+pso/player/ActionPaletteSlots.cpp
 pso/map/TMapCsnCtrl.cpp
 pso/ui/city/TMedicalCenterSequence.cpp
 pso/object/TMotorcycle.cpp
@@ -1821,7 +1820,6 @@ pso/unk/text_801D6D8C.cpp
 pso/unk/text_801D6DB0.cpp
 pso/unk/text_801D7134.cpp
 pso/unk/text_801D7238.cpp
-pso/unk/text_801D7BF4.cpp
 pso/unk/text_801D9870.cpp
 pso/unk/text_801D98F8.cpp
 pso/unk/text_801E4BCC.cpp
