@@ -794,6 +794,8 @@ void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *lobby, s32 count, s32 flo
         }
     }
 }
+}
+
 void assign_object_ids(FloorObjectSetRow *rows, s32 count, s32 area) {
     s32 i;
     s32 r;
@@ -811,8 +813,6 @@ void assign_object_ids(FloorObjectSetRow *rows, s32 count, s32 area) {
 // ---- pso/unk/TLobby_8020AB30
 
 int TLobby::rebuild_entry() { return clear_record_flags_a(); }
-
-}
 
 // ---- pso/unk/text_8020AB50
 
