@@ -37,15 +37,15 @@ const char *butterfly_lobby_name = "TObjButterflyLobby";
 BmlResource *lobby_butterfly_bml_resource;
 
 void TObjButterflyLobby::draw_butterfly() {
-    f32 temp_f1;
+    f32 size;
 
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     rotate_matrix_x(0, -0x2000);
     if ((s32) appear_state != 3) {
-        temp_f1 = appear_scale;
-        scale_matrix(0, temp_f1, temp_f1, temp_f1);
+        size = appear_scale;
+        scale_matrix(0, size, size, size);
     }
     draw_ginja_model_with_motion(lobby_model, get_bml_motion(lobby_butterfly_bml_resource, 0), animation_frame);
     pop_matrix();
