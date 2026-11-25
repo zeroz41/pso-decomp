@@ -17,7 +17,7 @@ public:
     s8 max_players;
     char *text;
 
-    TGameListRow(u8 *rec, s32 m_2);
+    TGameListRow(u8 *rec, s32 client);
     virtual ~TGameListRow();
     virtual void update();
     virtual void render(WindowDrawContext *context);
@@ -27,7 +27,7 @@ LAYOUT_ASSERT(TGameListRow_size, sizeof(TGameListRow) == 0x28);
 
 extern "C" {
 // TGameListRow::TGameListRow(u8 *, s32), called by init_window_layout_entries.
-void *__ct__12TGameListRowFPUcl(void *p, u8 *rec, s32 m_2);
+void *__ct__12TGameListRowFPUcl(void *p, u8 *rec, s32 client);
 }
 
 #endif
