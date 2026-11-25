@@ -1594,8 +1594,6 @@ pso/ui/frontend/TAdChrSelPlayerGC.cpp
 pso/ui/frontend/TAdChrSelPlyPlateGC.cpp
 pso/ui/frontend/TAdChrSelSlotGC.cpp
 pso/ui/frontend/TAdDialingGC.cpp
-pso/ui/frontend/TAdDialingGC_80328E50.cpp
-pso/ui/frontend/TAdDialingGC_80328E90.cpp
 pso/ui/frontend/TAdDialingMessageWindow.cpp
 pso/ui/frontend/TAdEnterBaseGC.cpp
 pso/ui/frontend/TAdEnterPPPPassGC.cpp

@@ -1104,16 +1104,14 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # (`xoris/xori 0xFFFF`; 2.x always emits `li -1; xor`), and five others.
     # TObjCamera: 1.3.2 copies CameraSoundEvent member by member unscheduled.
     "pso/camera/TObjCamera.cpp": {"mw_version": "GC/1.3.2"},
-    # TAdDialingGC (0x80328210-0x80328F7C, one TU split in three): the quad drawer 0x80328B24 takes
+    # TAdDialingGC (0x80328210-0x80328F7C, create/close/open last): the quad drawer 0x80328B24 takes
     # `const f32 *` (its callers pass .rodata arrays); 2.x CSEs every const read across the polygon
     # stores, 1.3.2 hoists only the first point's loads and reloads the rest, as the original does.
-    # Every other function of the three units compiles the same under both.
+    # Every other function of the unit compiles the same under both.
     # Deferred, written last to first: the .rodata runs class name (0x80476798), the quad tables
     # (0x804767A8-C0) then the status format (0x804767C8), the reverse of their functions' order,
     # and __vt__12TAdDialingGC (0x804ED5C8) sits ahead of update_state_display's jump table.
     "pso/ui/frontend/TAdDialingGC.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred")},
-    "pso/ui/frontend/TAdDialingGC_80328E50.cpp": {"mw_version": "GC/1.3.2"},
-    "pso/ui/frontend/TAdDialingGC_80328E90.cpp": {"mw_version": "GC/1.3.2"},
     # TDLGraph (0x8007ECF0-0x8007F85C): the progress bar 0x8007F27C reads its `const NJS_POINT2 &`
     # arguments after the prologue's register saves and between the colour stores, as 1.3.2 schedules
     # them; 2.x hoists those loads above the saves. Every other function compiles the same under both.

@@ -1,6 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/frontend/TAdTitleGC.h"
 #include "types.h"
+#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/ui/frontend/TAdDialingGC.h"
+#include "pso/network/TLobby.h"
+#include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/ControllerInputState.h"
@@ -8,7 +13,6 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/network/PppApi.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/ui/frontend/TAdDialingGC_80328210.h"
 #include "pso/unk/TLobby_8013AD38.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
@@ -16,11 +20,27 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_8014618C.h"
-#include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include "pso/unk/TLobby_801461EC.h"
 
+void TAdDialingGC::open() {
+    TAdDialingGC::instance = NULL;
+    TLobby__sub_802A0F70();
+    TLobby__sub_802A5154();
+}
+
+void TAdDialingGC::close() {
+    TLobby::free_dialing_gc();
+    TLobby::free_dialog_global();
+    TAdDialingGC::instance = NULL;
+}
+
+void TAdDialingGC::create() {
+    if (TAdDialingGC::instance == NULL) {
+        new TAdDialingGC(tl_window);
+    }
+}
 
 TAdDialingGC *TAdDialingGC::instance;
 extern "C" {
@@ -78,7 +98,6 @@ void TAdDialingGC::render() {
     draw_if_flag_set();
     update();
 }
-
 
 __declspec(section ".rodata") extern const NJS_POINT2 lbl_804767A8[] = { 0, 28.0f };
 __declspec(section ".rodata") extern const NJS_POINT2 lbl_804767B0[] = { 640.0f, 84.0f };
@@ -479,4 +498,3 @@ block_12:
         break;
     }
 }
-
