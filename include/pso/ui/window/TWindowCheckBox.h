@@ -1,9 +1,8 @@
-#ifndef PSO_UI_WINDOW_TUNK_804CE7E8_H
-#define PSO_UI_WINDOW_TUNK_804CE7E8_H
+#ifndef PSO_UI_WINDOW_TWINDOWCHECKBOX_H
+#define PSO_UI_WINDOW_TWINDOWCHECKBOX_H
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
-// Named from the "TWindowCheckBox" class-name string the constructor (via sub_80248B7C) stores to m_name.
 class TWindowCheckBox : public TWindowMenuIconLine {
 public:
     TWindowCheckBox(u8 *parent, s32 client);

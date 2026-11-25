@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/TUnk_804CE7E8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 void TWindowSubStatusDisp::draw_status(saddr window, s32 arg2, s32 item) {

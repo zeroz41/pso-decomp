@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/window/TUnk_804CE7E8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 
 #pragma readonly_strings on
 

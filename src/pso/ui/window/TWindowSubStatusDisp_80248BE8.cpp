@@ -9,7 +9,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/ui/window/TUnk_804CE7E8.h"
+#include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
