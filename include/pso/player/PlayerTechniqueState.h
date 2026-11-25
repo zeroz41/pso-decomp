@@ -22,7 +22,7 @@ public:
     s16 get_section_clamped();
     u8 get_valid_technique();
     u8 get_castable_technique_level();
-    s32 check_technique_level(s32 technique, u8 level);
+    s32 check_technique_level(s16 technique, u8 level);
     PhotonBlastTarget *get_technique_data();
     void set_technique_state(s32 v);
     s32 get_state();
@@ -33,6 +33,9 @@ public:
     void set_field18(f32 v);
     void set_field_1c(f32 v);
     void set_technique_level(s16 technique, u8 level);
+    u8 get_technique_level(s16 technique) const;
+    u8 get_learned_level(s16 technique) const;
+    void set_learned_level(s16 technique, u8 level);
     void enable_techniques();
 
     u8 level;
@@ -57,6 +60,12 @@ public:
     PhotonBlastTarget *get_target(s32 slot);
     void set_target(s32 slot, s32 entity_id, s16 index);
     u8 clamp_to_max(u8 level, u8 max);
+    u8 get_effective_technique_level(s16 technique);
+    void set_technique_cap(s16 technique, u8 level);
+    void set_all_technique_levels(u8 level);
+    void copy_all_technique_entries(u8 level);
+    void set_learned_technique_levels(u8 level);
+    void level_up_all_techniques(u8 add);
     static s32 is_valid_technique_id(s16 technique);
     void clear_technique_level(s16 technique);
 };

@@ -13,7 +13,6 @@
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-u8 TObjPlayer__sub_801C0124(void *, s16);
 }
 
 s32 TNpcPlayer::send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character) {
@@ -55,7 +54,7 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     copy_disp_config(&character->m_config, &action_palettes);
     for (j = 0; j < 0x13; j++) {
         overflow = character->technique_level_overflow(j);
-        split_capped_value(TObjPlayer__sub_801C0124(&technique_state, j),
+        split_capped_value(technique_state.get_learned_level(j),
             character->technique_level(j), overflow);
     }
     for (k = 0; k != 0xD; k++) {
@@ -129,7 +128,7 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     copy_disp_config(&record->m_config, &action_palettes);
     for (k = 0; k < 19; k++) {
         overflow = record->technique_level_overflow(k);
-        split_capped_value(TObjPlayer__sub_801C0124(&technique_state, k), record->technique_level(k), overflow);
+        split_capped_value(technique_state.get_learned_level(k), record->technique_level(k), overflow);
     }
     for (m = 0; m != 13; m++) {
         item = get_equipped_item(m);

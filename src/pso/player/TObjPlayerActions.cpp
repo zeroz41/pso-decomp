@@ -434,7 +434,6 @@ u16 TObjPlayer__sub_801B5AF8(void *, s32);
 s32 is_action_id_none(int);
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
-u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *state, s32 technique);
 void TObjPlayer__sub_801C7874(TObjPlayer *player);
 void handle_6xB1(void);
 void TObjPlayer__deactivate_off_floor_body(void* p);
@@ -465,7 +464,6 @@ u8 * copy_6x4c_hit_by_enemy_packet__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 int is_alt_photon_blast_bank_empty__10TObjPlayerFPv(TPlyDispConfig *palettes, s32 bank);
 u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1);
 u8 get_cast_technique_level(void *techs, s16 tech);
-s32 set_technique_level_entry(void *, s32, u8);
 }
 // Turns the player toward its chair seat and moves it along its velocity.
 void turn_toward_chair_seat(TObjPlayer *player);
@@ -3103,12 +3101,12 @@ void send_6x33_revive_player(u16 client_id, u16 target_id) {
 
 extern "C" {
 
-void TObjPlayer::set_technique_level_clamped(TObjPlayer *player, u8 level, int tech) {
+void TObjPlayer::set_technique_level_clamped(TObjPlayer *player, u8 level, s16 tech) {
     if (player->obj_isState3_324() != 0 && TObjPlayer::is_invalid_slot(level) == 0 &&
-        level > (u8)TObjPlayer__sub_801C010C(&player->technique_state, tech)) {
-        level = TObjPlayer__sub_801C010C(&player->technique_state, tech);
+        level > player->technique_state.get_technique_level(tech)) {
+        level = player->technique_state.get_technique_level(tech);
     }
-    set_technique_level_entry(&player->technique_state, tech, level);
+    player->technique_state.set_learned_level(tech, level);
 }
 
 void TObjPlayer::update_cursor(s32 parameter) {
@@ -3359,7 +3357,7 @@ void handle_6x47_cast_technique(G_CastTechnique_6x47 *command) {
     s8 n;
     PhotonBlastTarget *d;
     PhotonBlastTarget *s;
-    s32 c;
+    s16 c;
     s8 e;
 
     TObjPlayer__sub_801D21CC((u8 *)&cmd, (u8 *)command);
@@ -3377,7 +3375,7 @@ void handle_6x47_cast_technique(G_CastTechnique_6x47 *command) {
     if (p->test_action_mask(0x8200) != 0) {
         return;
     }
-    const s16 technique = cmd.params.technique_number;
+    s32 technique = cmd.params.technique_number;
     c = technique;
     p->technique_state.set_technique_id(technique);
     e = cmd.params.level;

@@ -782,7 +782,6 @@ struct TObjPlayer : public TObjChara {
     s16 get_section_clamped();
     s32 get_section_id();
     static void split_capped_value(u8 level, u8 *capped, u8 *overflow);
-    void level_up_all_techniques(s32 add);
     static s32 validate_and_clear_slot(void *techs, s16 tech);
     static s32 is_invalid_slot(u8 level);
     static s32 is_valid_technique_slot(u8 slot);
@@ -884,8 +883,6 @@ struct TObjPlayer : public TObjChara {
     static void alloc_shared_buffers();
     static void destroy_char_data_array();
     static s8 get_rule_field_0();
-    void set_all_technique_levels(void *level);
-    void copy_all_technique_entries(void *level);
     static void draw_effect();
     void draw_trail_pair();
     static void update_particle_by_phase(NJS_OBJECT *);
@@ -1079,7 +1076,6 @@ struct TObjPlayer : public TObjChara {
     static void assign_lobby_slot_if_flagged(saddr player, void *records);
     static void free_shared_lobby_data();
     f32 select_normal_attack_marker();
-    static void update_all_units(s32 levels, s32 level);
     static TItem *create_vtable_variant(u8 *item);
     static TItem *create_state_1536(u8 *item);
     static TItem *create_mode_floats_state(u8 *item);
@@ -1163,7 +1159,7 @@ struct TObjPlayer : public TObjChara {
     static void heap_alloc(void* a0);
     s32 can_guard();
     // Sets the player's cast level of technique `tech`, capped at the level it has learned.
-    static void set_technique_level_clamped(TObjPlayer *player, u8 level, int tech);
+    static void set_technique_level_clamped(TObjPlayer *player, u8 level, s16 tech);
     static void send_6x29_delete_item(TObjPlayer *player, s32 item_id, s32 count);
     static s32 fill_player_record(void *, void *);
     s32 foreach_player();

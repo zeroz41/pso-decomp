@@ -179,12 +179,6 @@ s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, PlayerRequirementSta
 s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, PlayerRequirementStats *out, s32 key);
 }
 
-typedef struct Msg_801CD6BC {
-    u8 pad0[2];
-    u16 id;
-    u8 level;
-    u8 pad5[3];
-} Msg_801CD6BC;
 
 
 struct Pkt_801B01AC {
@@ -518,7 +512,6 @@ void TObjPlayer__sub_801BF488(s32 *bits, s32 bit);
 void TObjPlayer__sub_801BF4A0(s32 *bits, s32 bit);
 void set_equip_slot_entry(saddr, s32, s32);
 s32 is_action_id_none(s32);
-u8 TObjPlayer__sub_801C0124(const PlayerTechniqueState *state, s16 i);
 void *__ct__12StatusEffectFv(void *);
 void release_all_players_control_lock(void);
 s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
@@ -537,7 +530,6 @@ u8 fn_801D719C(s32 *);
 u8 fn_801D71D0(s32 *);
 u8 fn_801D7204(s32 *);
 s32 TObjPlayer__sub_801D91B8(void *, void *);
-void update_all_units__10TObjPlayerFll(void *, u8);
 s32 get_battle_ctrl_default__6TLobbyFv();
 s32 validate_6xAE_set_animation_state(void *);
 s32 fn_8000F740(void *);
@@ -3642,7 +3634,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     ((PlayerSyncRecord *)dst)->set_def_materials_used(((TObjPlayer *)src)->get_def_materials_used());
     ((PlayerSyncRecord *)dst)->set_luck_materials_used(((TObjPlayer *)src)->get_luck_materials_used());
     for (i = 0; i < 0x13; i++) {
-        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(&src->f428, i), &dst->fB4[i], dst->f142[i].b);
+        TObjPlayer::split_capped_value(src->f428.get_learned_level(i), &dst->fB4[i], dst->f142[i].b);
     }
     for (j = 0; j != 0xD; j++) {
         TItem *e = ((TObjPlayer *)src)->get_equipped_item(j);
@@ -5362,12 +5354,12 @@ void TLobby::apply_battle_rules_to_players() {
         lv = TLobby__sub_801D6DDC(q);
         switch (fn_801D7204(q)) {
         case 1:
-            ((TObjPlayer *)&p->technique_state)->copy_all_technique_entries((void *)0xFF);
-            ((TObjPlayer *)&p->technique_state)->set_all_technique_levels((void *)0xFF);
+            p->technique_state.copy_all_technique_entries(0xFF);
+            p->technique_state.set_all_technique_levels(0xFF);
             break;
         case 2:
-            ((TObjPlayer *)&p->technique_state)->copy_all_technique_entries((void *)0x1D);
-            update_all_units__10TObjPlayerFll(&p->technique_state, lv);
+            p->technique_state.copy_all_technique_entries(0x1D);
+            p->technique_state.set_learned_technique_levels(lv);
             break;
         }
         p->set_flag_drop_weapon_on_death();
@@ -6027,16 +6019,15 @@ void TObjPlayer::send_level_up_all_techniques(u8 num_levels) {
 }
 }
 void handle_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *command) {
-    u8 *raw = (u8 *)command;
-    Msg_801CD6BC m;
-    u8 *p;
-    ((G_LevelUpAllTechniques_6x9B *)&m)->init();
-    *(G_LevelUpAllTechniques_6x9B *)&m = *reinterpret_cast<G_LevelUpAllTechniques_6x9B *>(raw);
-    bswap_g_client_id_header(&m);
-    if (validate_6x9B_level_up_all_techniques((G_LevelUpAllTechniques_6x9B *)&m) != 0) {
-        p = (u8 *)get_player_by_client_id((u16)m.id);
+    G_LevelUpAllTechniques_6x9B pkt;
+    TObjPlayer *p;
+    pkt.init();
+    pkt = *command;
+    bswap_g_client_id_header(&pkt);
+    if (validate_6x9B_level_up_all_techniques(&pkt) != 0) {
+        p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)(p + 0x428))->level_up_all_techniques(m.level);
+            p->technique_state.level_up_all_techniques(pkt.num_levels);
         }
     }
 }

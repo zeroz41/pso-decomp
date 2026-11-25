@@ -2,14 +2,6 @@
 #include "pso/player/PlayerTechniqueState.h"
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
-u8 TObjPlayer__sub_801C010C(void *techs, s16 technique);
-void set_technique_level_entry(void *techs, s16 technique, void *level);
-u8 clamp_to_max__20PlayerTechniqueStateFUcUc(PlayerTechniqueState *techs, void *level, u8 max);
-void TObjPlayer__sub_801D9C34(PlayerTechniqueState *techs, s16 technique, void *level);
-u8 get_effective_technique_level__10TObjPlayerFPvs(PlayerTechniqueState *techs, s16 technique);
-}
-
 void PlayerTechniqueState::set_tech_level(s16 count) {
     s16 clamped;
 
@@ -20,32 +12,31 @@ void PlayerTechniqueState::set_tech_level(s16 count) {
     target_count = clamped;
 }
 
-void TObjPlayer::set_all_technique_levels(void *level) {
+void PlayerTechniqueState::set_all_technique_levels(u8 level) {
     s32 i;
-    s32 n = PlayerTechniqueState::technique_count();
+    s32 n = technique_count();
     for (i = 0; i < n; i++) {
-        set_technique_level_entry(this, i, level);
+        set_learned_level(i, level);
     }
 }
 
-void TObjPlayer::copy_all_technique_entries(void *level) {
+void PlayerTechniqueState::copy_all_technique_entries(u8 level) {
     s32 i;
-    s32 n = PlayerTechniqueState::technique_count();
+    s32 n = technique_count();
     for (i = 0; i < n; i++) {
-        TObjPlayer__sub_801D9C34((PlayerTechniqueState *)this, (s16)i, level);
+        set_technique_cap(i, level);
     }
 }
 
-u8 get_effective_technique_level__10TObjPlayerFPvs(PlayerTechniqueState *techs, s16 technique) {
-    u8 level = techs->caps[technique];
-    u8 cap = TObjPlayer__sub_801C010C(techs, technique);
-    return techs->clamp_to_max(level, cap);
+u8 PlayerTechniqueState::get_effective_technique_level(s16 technique) {
+    u8 level = caps[technique];
+    u8 cap = get_technique_level(technique);
+    return clamp_to_max(level, cap);
 }
 
-void TObjPlayer__sub_801D9C34(PlayerTechniqueState *techs, s16 technique, void *level) {
-    u8 cap = TObjPlayer__sub_801C010C(techs, technique);
-    techs->caps[technique] =
-        clamp_to_max__20PlayerTechniqueStateFUcUc(techs, level, cap);
+void PlayerTechniqueState::set_technique_cap(s16 technique, u8 level) {
+    u8 cap = get_technique_level(technique);
+    caps[technique] = clamp_to_max(level, cap);
 }
 
 void PlayerTechniqueState::reset_slots() {

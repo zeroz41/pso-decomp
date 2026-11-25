@@ -154,8 +154,6 @@ extern "C" {
 // Defined with the player's main code (TObjPlayer.cpp, TObjPlayer_801AF2F0.cpp).
 void update_photon_chair__10TObjPlayerFv(void *player);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-// TObjPlayer.h declares the tech index as int; the callers pass it as a short.
-void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(TObjPlayer *player, u8 level, s16 tech);
 }
 
 void TObjPlayer::reset_state() {
@@ -258,9 +256,9 @@ void TObjPlayer::init_session_technique_caps(PlayerSyncRecord *record) {
 
     photon_blast_gauge.set_client_id(get_entity_id());
     init_class_technique_caps(&technique_state, get_class_index());
-    ((TObjPlayer *)&technique_state)->copy_all_technique_entries((void *)0x1D);
+    technique_state.copy_all_technique_entries(0x1D);
     for (i = 0; i < 0x13; i++) {
-        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(this, record->technique_levels[i] + record->items[i].m_present[2], i);
+        set_technique_level_clamped(this, record->technique_levels[i] + record->items[i].m_present[2], i);
     }
     for (i = 0; i < 5; i++) {
         TObjPlayer__sub_801BEF44(&status_effects[i], &record->status_effects[i]);
@@ -279,10 +277,10 @@ void TObjPlayer::init_saved_technique_caps(TPlyCharData *record) {
 
     photon_blast_gauge.set_client_id(get_entity_id());
     init_class_technique_caps(&technique_state, get_class_index());
-    ((TObjPlayer *)&technique_state)->copy_all_technique_entries((void *)0x1D);
+    technique_state.copy_all_technique_entries(0x1D);
     i = 0;
     do {
-        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(this, ((TObjPlayer *)record)->get_slot_value_checked(i) + get_record_byte_at(record, i), i);
+        set_technique_level_clamped(this, ((TObjPlayer *)record)->get_slot_value_checked(i) + get_record_byte_at(record, i), i);
         i += 1;
     } while (i < 0x13);
 }

@@ -17,7 +17,6 @@
 
 extern "C" {
 s32 copy_player_visual_record(void *, void *);
-u8 TObjPlayer__sub_801C0124(void *, s16);
 }
 
 // Saves the local player into `record`. With no local player yet it asks for one and returns 0.
@@ -71,7 +70,7 @@ void TPlyCharData::copy_from_player(TObjPlayer *player) {
     copy_disp_config(&m_config, &player->action_palettes);
     for (i = 0; i < 0x13; i++) {
         overflow = technique_level_overflow(i);
-        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(&player->technique_state, i),
+        TObjPlayer::split_capped_value(player->technique_state.get_learned_level(i),
             technique_level(i), overflow);
     }
     m_inventory.m_language = current_language;
