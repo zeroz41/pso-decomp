@@ -390,7 +390,7 @@ struct TObjPlayer : public TObjChara {
     static TItem *get_equipped_weapon(void *player);  // equipped_items[6]
     static TObjPlayer *get_player_data(int index);
     void queue_destruction();
-    s32 test_action_mask(s32 arg1);
+    s32 test_action_mask(s32 bits);
     s32 test_action_4();
     s32 test_action_8000();
     int check_flag_24576();
@@ -405,7 +405,7 @@ struct TObjPlayer : public TObjChara {
     static void push_material_color_override(f32 alpha, f32 r, f32 g, f32 b);
     // attack_state.get_validated_attack_stage(): the pending stage, 0 when it is not valid.
     s16 get_attack_stage();
-    void *create_hairmove(void *arg1, void *arg2);
+    void *create_hairmove(void *rope_spec, void *collider_spec);
     void set_tp(s16 tp);
     s32 get_tp_bonus();
     s32 get_hp_bonus();
@@ -426,9 +426,9 @@ struct TObjPlayer : public TObjChara {
     static s32 count_nearby_players_with_shield(u16 idx, u8 *item);
     static void *spawn_shoot_particle(uaddr owner, saddr pos, saddr dir, f32 life);
     static saddr create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life);
-    static saddr get_item_pmt_entry(u8 arg0);
-    static saddr get_shield_pmt_entry(u8 arg0);
-    static f32 get_drop_random_float(u32 arg0);
+    static saddr get_item_pmt_entry(u8 index);
+    static saddr get_shield_pmt_entry(u8 index);
+    static f32 get_drop_random_float(u32 channel);
     static void drop_item_from_slot(s32 area, s32 slot, saddr item);
     static void drop_item(s32 slot, saddr item);
     static void drop_meseta_from_slot(s32 slot, saddr item);
@@ -441,7 +441,7 @@ struct TObjPlayer : public TObjChara {
     int test_flag30_bit0x100000();
     static int get_player_list();
     s16 get_stage_strike_count();
-    static void notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr pos);
+    static void notify_hit_target(u32 layer, uaddr player, u32 target, uaddr pos);
     s32 is_rand_below_threshold();
     s16 get_kill_count();
     static void set_camera_mode(s32 camera_mode);
@@ -756,7 +756,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_valid_technique_slot(u8 slot);
     static void free_if_valid(saddr texlist);
     static void play_effect_if_v2(s32 pitch);
-    static s32 get_level_tier(s32 arg0);
+    static s32 get_level_tier(s32 level);
     static s32 is_valid_and_active(uaddr actor);
     void init_select_txt();
     void copy_lobby_header(saddr player);
@@ -1018,9 +1018,9 @@ struct TObjPlayer : public TObjChara {
     static void assign_lobby_slot_if_flagged(saddr player, void *records);
     static void free_shared_lobby_data();
     f32 select_normal_attack_marker();
-    static void spawn_particle_at_entity_slot(s32 arg0, s32 arg1, s32 id, s32 arg3);
+    static void spawn_particle_at_entity_slot(s32 layer, s32 weapon, s32 id, s32 body);
     static void spawn_fire_explosion_for_item(s32 id, s32 item);
-    static void spawn_fire_explosion_at_item(s32 id, saddr arg1);
+    static void spawn_fire_explosion_at_item(s32 id, saddr context);
     static void spawn_fire_explosion(uaddr a0, saddr a1);
     void push_model_fade_color();
     static TItem *create_trade_action_state(u8 *item);

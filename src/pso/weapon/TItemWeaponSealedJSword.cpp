@@ -51,7 +51,7 @@ TItem *TItemWeaponSealedJSword::create(u8 *item) {
     return NULL;
 }
 
-s16 TObjPlayer::get_kill_count() { return this->m_11a; }
+s16 TObjPlayer::get_kill_count() { return this->kill_count; }
 
 
 // This object's copy of the slow curse timer's constructor (on_equipped calls

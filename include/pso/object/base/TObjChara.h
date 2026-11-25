@@ -211,9 +211,9 @@ public:
     };
     u8 pad_104[0xC];
     WeaponAttribute attack_attributes[3];  // the equipped weapon's special attributes
-    s16 m_116;
-    u8 unk_118[0x2];
-    s16 m_11a;
+    s16 special_kind;  // the special attack it hits with (set_model_id); Epsilon is immune to one kind
+    s16 special_power;  // that attack's strength (set_model_param)
+    s16 kill_count;  // TObjPlayer::get_kill_count, capped at 999
     s16 immunity_flags;  // test_immunity_flags
     u8 pad_11E[0x1];
     u8 m_11f;
@@ -262,8 +262,7 @@ public:
     ControllerInputContext *controller_input;
     AttackParams *attack_params;
     ActorParamBlock *param_block;  // get_actor_param_block
-    u8 unk_320[0x2];
-    u8 pad_322[0x2];
+    s32 action_mask;  // TObjPlayer::test_action_mask
     s16 control_state;  // who drives it: 6 a script, 7 a fixed pose
     s16 mode;
     s16 phase;

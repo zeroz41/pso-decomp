@@ -124,13 +124,6 @@ struct Info_8001311C { s32 type; f32 power; };
 
 
 
-struct Layout_80019038 {
-    u8 pad0[0x110];
-    u8 pairs[3][2];
-    s16 f116;
-    s16 f118;
-    u8 pad11a[0x254 - 0x11A];
-};
 extern "C" {
 void create_hit_effect__10TObjPlayerFPv(void *);
 }
@@ -231,14 +224,10 @@ struct Player_8001745C {
 
 struct Obj_80018660;
 
+
 struct Obj_80018F64 {
     u8 pad0[0x104]; Vec v104;
-    u8 pad110[0x248 - 0x110]; f32 f248; f32 f24c; f32 f250;
-    u8 pad254[0x290 - 0x254]; Vec v290; Vec v29c;
-    u8 pad2a8[4]; s32 f2ac; u8 pad2b0[4]; f32 f2b4;
-    u8 pad2b8[0x2d4 - 0x2b8]; u16 f2d4; u8 pad2d6[6]; s32 f2dc;
-    u8 pad2e0[0x2fc - 0x2e0]; Vec v2fc; Vec v308;
-    u8 pad314[0x320 - 0x314]; s32 f320; u8 pad324[4]; s16 f328; s16 f32a;
+    u8 pad110[0x32A - 0x110]; s16 f32a;
 };
 
 struct ObjArrFC  { u8 _pad[0xfc];  u16 arr[1];     };
@@ -483,7 +472,7 @@ s32 TObjChara::obj_isState3_324() {
 }
 
 s16 TObjPlayer::obj_getS16_116() {
-    return this->m_116;
+    return this->special_kind;
 }
 
 s16 obj_getS16_118(u8* p) {
@@ -593,24 +582,23 @@ void TObjChara::get_pos(saddr out) {
 #pragma push
 #pragma opt_common_subs off
 TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
-    Layout_80019038 *l;
     s32 i;
     s32 j;
     this->ground_cache = &this->ground_candidates;
     this->mode = 0;
     reset_motion_fields();
-    *(s32 *)((s8 *)this + 0x2B0) = 0;
-    *(s32 *)((s8 *)this + 0x2A8) = 0;
+    this->stat_block = NULL;
+    this->target = NULL;
     this->controller_input = NULL;
     this->attack_params = NULL;
-    *(s32 *)((s8 *)this + 0x31C) = 0;
+    this->param_block = NULL;
     this->tp_bonus = 0;
     this->hp_bonus = 0;
     this->tp = 0;
     this->hp = 0;
     this->tpmax = 0;
     this->hpmax = 0;
-    this->m_11a = 0;
+    this->kill_count = 0;
     this->atp = 0;
     this->base_atp = 0;
     this->atp_range = 0;
@@ -622,14 +610,14 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     this->lck = 0;
     this->ata = 0;
     *(s32 *)((s8 *)this + 0x2E0) = 0;
-    *(s16 *)((s8 *)this + 0x2F0) = 0;
+    this->element_attack[4] = 0;
     this->element_attack[3] = 0;
-    *(s16 *)((s8 *)this + 0x2EC) = 0;
+    this->element_attack[2] = 0;
     this->element_attack[1] = 0;
-    *(s16 *)((s8 *)this + 0x2E8) = 0;
-    *(s16 *)((s8 *)this + 0x2FA) = 0;
+    this->element_attack[0] = 0;
+    this->element_resist[4] = 0;
     this->element_resist[3] = 0;
-    *(s16 *)((s8 *)this + 0x2F6) = 0;
+    this->element_resist[2] = 0;
     this->element_resist[1] = 0;
     this->element_resist[0] = 0;
     subtractive_rng_seed(&this->rng, this->entity_id);
@@ -637,19 +625,18 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     this->add_flags_2e4(0);
     this->control_state = 0;
     this->m_2d8 = 0xFFFF;
-    l = (Layout_80019038 *)this;
     for (i = 0; i < 3; i++) {
-        l->pairs[i][0] = 0;
-        l->pairs[i][1] = 0;
+        attack_attributes[i].area = 0;
+        attack_attributes[i].percent = 0;
     }
     for (j = 0; j < 5; j++) {
         this->status_effects[j].clear();
     }
-    l->f116 = 0;
-    l->f118 = 0;
+    special_kind = 0;
+    special_power = 0;
     local_attacker_id = 0xFFFF;
     TObjPlayer::clear_s16_arrays(this);
-    *(s32 *)((s8 *)this + 0x330) = 0;
+    this->low_game_flags = 0;
     obj_setField96_1(this);
     clear_immunity_flags();
 }
@@ -660,8 +647,8 @@ TObjChara::~TObjChara() {}
 void TObjChara::reset_motion_fields() {
     Obj_80018F64 *self = (Obj_80018F64 *)this;
     self->v104.x = self->v104.y = self->v104.z = (0.0f);
-    self->v290.x = self->v290.y = self->v290.z = (0.0f);
-    self->v29c.x = self->v29c.y = self->v29c.z = (0.0f);
+    move_origin.x = move_origin.y = move_origin.z = (0.0f);
+    move_destination.x = move_destination.y = move_destination.z = (0.0f);
     this->ground_normal.x = this->ground_normal.z = (0.0f);
     ground_normal.y = (1.0f);
     this->m_2ac = 0;
@@ -669,11 +656,11 @@ void TObjChara::reset_motion_fields() {
     this->attacker_id = 0xFFFF;
     this->hit_flags = 0;
     this->phase = self->f32a = 0;
-    self->f320 = 0;
-    self->v2fc.x = self->v2fc.y = self->v2fc.z = self->v308.x = self->v308.y = self->v308.z = (0.0f);
+    this->action_mask = 0;
+    body_center.x = body_center.y = body_center.z = velocity.x = velocity.y = velocity.z = (0.0f);
 }
 
-void *TObjChara::get_center() { return (char*)this + 0x2fc; }
+void *TObjChara::get_center() { return &body_center; }
 
 CsnHit *TObjChara::update_actor_ground_y() {
     Vec stack;
@@ -3234,9 +3221,9 @@ s32 TObjChara::consume_timer_field(s32 amount) {
 }
 
 s32 TObjPlayer::add_capped_counter_999(s32 amount) {
-    this->m_11a = (s16) (this->m_11a + amount);
-    if ((s16) this->m_11a > 0x3E7) {
-        this->m_11a = 0x3E7;
+    this->kill_count = (s16) (this->kill_count + amount);
+    if (this->kill_count > 999) {
+        this->kill_count = 999;
         return 0;
     }
     return 1;

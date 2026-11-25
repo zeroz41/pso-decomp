@@ -275,8 +275,8 @@ void TParticleCtrl::set_scale(f32 a, f32 b) { scale_x = a; scale_y = b; }
 
 f32 TObjChara::get_frame() { return this->frame; }
 
-s32 TObjPlayer::test_action_mask(s32 arg1) {
-    return (u8) (((*(s32 *)this->unk_320) & arg1) != 0);
+s32 TObjPlayer::test_action_mask(s32 bits) {
+    return (u8) ((action_mask & bits) != 0);
 }
 
 s32 PlayerTechniqueState::get_state() { return state; }
