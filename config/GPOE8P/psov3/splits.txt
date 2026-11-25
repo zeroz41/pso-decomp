@@ -8539,7 +8539,7 @@ pso/ui/frontend/TAdYesNoBaseGC.cpp:
 	.sdata      start:0x805D41F8 end:0x805D4200
 	.sdata2     start:0x805DF788 end:0x805DF7A0
 
-pso/ui/frontend/TAdExNetConfirmGC_8032C504.cpp:
+pso/ui/frontend/TAdExNetConfirmGC.cpp:
 	.text       start:0x8032C504 end:0x8032C6AC
 	.rodata     start:0x804772F8 end:0x80477310
 	.data       start:0x804EDB48 end:0x804EDB70
