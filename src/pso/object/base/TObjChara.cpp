@@ -10,7 +10,6 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MainPhaseState.h"
 #include "pso/system/MainPhaseTable.h"
-#include "pso/unk/text_8007C0CC.h"
 #include "pso/render/BlobShadow.h"
 
 #include "pso/unk/text_803D8F74.h"
@@ -406,7 +405,7 @@ s32 get_current_floor(void) {
 }
 
 f32 SubtractiveRng::next_ratio() {
-    const u32 sample = static_cast<u32>(subtractive_rng_next(reinterpret_cast<s32 *>(this)));
+    const u32 sample = static_cast<u32>(subtractive_rng_next(this));
     return (f32) (sample >> 16) / *(const volatile f32 *)&lbl_805D7D3C;
 }
 

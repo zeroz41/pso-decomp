@@ -128,7 +128,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static int get_flag_count();
     static int get_selected_count();
     static int get_data();
-    static void permute_save_blocks(void* stream, const u8* source, u8* destination, u32 size);
     TWindowMenu *chr_menu;                 // 0x38  play / meseta / delete / back menu of an occupied slot
     TWindowBase *card_check_message;       // 0x3C  shown while the card is polled for the guild card file
     TWindowBase *card_load_message;        // 0x40  shown while the guild card file is read
@@ -148,8 +147,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void init_logo_state(s32 arg0);
     static void noop();
     static void run_frame();
-    void apply_rng_cipher(u32 *data, s32 len);
-    void crypt_data_be(u32 *data, s32 len);
     void append_extension_if_missing(char *name, char *ext);
     static TPlyCharData *get_char_index(unsigned int index);
     static TPlyCharData *get_char_table_entry(int index);

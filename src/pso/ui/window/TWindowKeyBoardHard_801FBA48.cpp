@@ -3,7 +3,7 @@
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
-#include "pso/unk/text_8007C0CC.h"
+#include "pso/system/SubtractiveRng.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
@@ -21,9 +21,8 @@ extern "C" {
 f32 rotate_matrix_by_node_angles(void *, void *);
 s32 scale_current_matrix(void *);
 f32 post_translate_matrix(void *);
-void subtractive_rng_seed(void *, s32);
 void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
-extern u8 chr_select_rng_state[];
+extern SubtractiveRng chr_select_rng_state;
 extern s32 chr_select_serial_seeds[];
 extern char memory_card_character_dir_name[];
 extern s32 memcard_access_active;
@@ -101,16 +100,16 @@ void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *arg0) {
     a = new Pso3CharacterFile;
     b = new Pso3CharacterFile;
     copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(a, arg0);
-    subtractive_rng_seed(chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle((s32 *)chr_select_rng_state);
-    subtractive_rng_unshuffle((void *)chr_select_rng_state, (const u8 *)a, (u8 *)b, (u32)(0x194B0));
+    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
+    subtractive_rng_make_shuffle(&chr_select_rng_state);
+    subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, (u32)(0x194B0));
     copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(arg0, b);
     delete b;
     delete a;
-    subtractive_rng_seed(chr_select_rng_state, chr_select_serial_seeds[0]);
-    ((TAdSinglePlyChrSelectGC *)chr_select_rng_state)->apply_rng_cipher((u32 *)arg0, 0x194B0);
-    subtractive_rng_seed(chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)arg0));
-    subtractive_rng_xor_buffer((s32 *)chr_select_rng_state, (u32 *)arg0, 0x194AC);
+    subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
+    chr_select_rng_state.apply_rng_cipher((u32 *)arg0, 0x194B0);
+    subtractive_rng_seed(&chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)arg0));
+    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)arg0, 0x194AC);
 }
 
 s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {

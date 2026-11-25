@@ -11,7 +11,6 @@
 #include "pso/ui/frontend/CharacterSelectionRequest.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CharacterFile.h"
-#include "pso/unk/text_8007C0CC.h"
 #include "pso/player/TObjPlayer_802C367C.h"
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
@@ -2388,15 +2387,15 @@ void TAdSinglePlyChrSelectGC__sub_801FFF98(void *arg0) {
     TAdSinglePlyChrSelectGC__sub_801FFC74((u8 *)a, (u8 *)arg0);
     TAdSinglePlyChrSelectGC__sub_801FFC74((u8 *)b, (u8 *)arg0);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle((s32 *)&chr_select_rng_state);
+    subtractive_rng_make_shuffle(&chr_select_rng_state);
     subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, 0xE28C);
     TAdSinglePlyChrSelectGC__sub_801FFC74((u8 *)arg0, (u8 *)b);
     ::operator delete((void *)b);
     ::operator delete((void *)a);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
-    ((TAdSinglePlyChrSelectGC *)&chr_select_rng_state)->apply_rng_cipher((u32 *)arg0, 0xE28C);
+    chr_select_rng_state.apply_rng_cipher((u32 *)arg0, 0xE28C);
     subtractive_rng_seed(&chr_select_rng_state, *(s32 *)((u8 *)arg0 + 0xE288));
-    subtractive_rng_xor_buffer((s32 *)&chr_select_rng_state, (u32 *)arg0, 0xE288);
+    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)arg0, 0xE288);
 }
 
 #pragma push
@@ -2405,13 +2404,13 @@ void TAdSinglePlyChrSelectGC__sub_801FFF98(void *arg0) {
 void TAdSinglePlyChrSelectGC__sub_802000C8(void *arg0_, void *arg1) {
     saddr a;
     saddr b;
-    *(s32 *)((u8 *)self + 0xE288) = subtractive_rng_next((s32 *)&chr_select_rng_state);
+    *(s32 *)((u8 *)self + 0xE288) = subtractive_rng_next(&chr_select_rng_state);
     self[0] = 0;
     self[0] = calc_crc32_bitwise((u8 *)self, 0xE28C);
     subtractive_rng_seed(&chr_select_rng_state, *(s32 *)((u8 *)self + 0xE288));
-    subtractive_rng_xor_buffer((s32 *)&chr_select_rng_state, (u32 *)self, 0xE288);
+    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)self, 0xE288);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
-    ((TAdSinglePlyChrSelectGC *)&chr_select_rng_state)->apply_rng_cipher((u32 *)self, 0xE28C);
+    chr_select_rng_state.apply_rng_cipher((u32 *)self, 0xE28C);
     a = (saddr)::operator new(0xE28C);
     if (a != 0) {
         a = (saddr)TAdSinglePlyChrSelectGC::init_windows((void *)a);
@@ -2423,8 +2422,8 @@ void TAdSinglePlyChrSelectGC__sub_802000C8(void *arg0_, void *arg1) {
     TAdSinglePlyChrSelectGC__sub_801FFC74((u8 *)a, (u8 *)self);
     TAdSinglePlyChrSelectGC__sub_801FFC74((u8 *)b, (u8 *)self);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle((s32 *)&chr_select_rng_state);
-    TAdSinglePlyChrSelectGC::permute_save_blocks(&chr_select_rng_state, (const u8*)a, (u8*)b, (u32)0xE28C);
+    subtractive_rng_make_shuffle(&chr_select_rng_state);
+    chr_select_rng_state.permute_save_blocks((const u8*)a, (u8*)b, (u32)0xE28C);
     TAdSinglePlyChrSelectGC__sub_801FFC74((u8 *)self, (u8 *)b);
     ::operator delete((void *)b);
     ::operator delete((void *)a);
@@ -2528,15 +2527,15 @@ void TAdSinglePlyChrSelectGC::decrypt_char_data(void *arg0) {
     CharacterFile *b = new CharacterFile;
     TAdSinglePlyChrSelectGC::copy_save_data(a, (CharacterFile *)arg0);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle((s32 *)&chr_select_rng_state);
+    subtractive_rng_make_shuffle(&chr_select_rng_state);
     subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, 0x1156C);
     TAdSinglePlyChrSelectGC::copy_save_data((CharacterFile *)arg0, b);
     delete b;
     delete a;
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
-    ((TAdSinglePlyChrSelectGC *)&chr_select_rng_state)->apply_rng_cipher((u32 *)arg0, 0x1156C);
+    chr_select_rng_state.apply_rng_cipher((u32 *)arg0, 0x1156C);
     subtractive_rng_seed(&chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_801FCCC0((u8 *)arg0));
-    subtractive_rng_xor_buffer((s32 *)&chr_select_rng_state, (u32 *)arg0, 0x11568);
+    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)arg0, 0x11568);
 }
 
 CharacterFile *TAdSinglePlyChrSelectGC::copy_save_data(CharacterFile *arg0, CharacterFile *arg1) {
@@ -2562,19 +2561,19 @@ CharacterFile *TAdSinglePlyChrSelectGC::copy_save_data(CharacterFile *arg0, Char
 void TAdSinglePlyChrSelectGC::encrypt_save_data(void *arg0) {
     CharacterFile *a;
     CharacterFile *b;
-    TAdSinglePlyChrSelectGC__sub_801FCCB4((u8 *)self, (s32)(subtractive_rng_next((s32 *)&chr_select_rng_state)));
+    TAdSinglePlyChrSelectGC__sub_801FCCB4((u8 *)self, (s32)(subtractive_rng_next(&chr_select_rng_state)));
     TAdSinglePlyChrSelectGC::set_id(self, 0);
     TAdSinglePlyChrSelectGC::set_id((void *)self, (s32)(calc_crc32_bitwise((u8 *)self, 0x1156C)));
     subtractive_rng_seed(&chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_801FCCC0((u8 *)self));
-    subtractive_rng_xor_buffer((s32 *)&chr_select_rng_state, (u32 *)self, 0x11568);
+    subtractive_rng_xor_buffer(&chr_select_rng_state, (u32 *)self, 0x11568);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
-    ((TAdSinglePlyChrSelectGC *)&chr_select_rng_state)->apply_rng_cipher((u32 *)self, 0x1156C);
+    chr_select_rng_state.apply_rng_cipher((u32 *)self, 0x1156C);
     a = new CharacterFile;
     b = new CharacterFile;
     TAdSinglePlyChrSelectGC::copy_save_data(a, (CharacterFile *)self);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
-    subtractive_rng_make_shuffle((s32 *)&chr_select_rng_state);
-    TAdSinglePlyChrSelectGC::permute_save_blocks(&chr_select_rng_state, (const u8*)a, (u8*)b, (u32)0x1156C);
+    subtractive_rng_make_shuffle(&chr_select_rng_state);
+    chr_select_rng_state.permute_save_blocks((const u8*)a, (u8*)b, (u32)0x1156C);
     TAdSinglePlyChrSelectGC::copy_save_data((CharacterFile *)self, b);
     delete b;
     delete a;
