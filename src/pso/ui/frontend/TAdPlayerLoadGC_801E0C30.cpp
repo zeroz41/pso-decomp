@@ -502,7 +502,7 @@ s32 start_memcard_read(s32 chan, const char *name, void *buf, u32 blocks) {
     return -0xF9;
 }
 
-s32 poll_memcard_result(saddr chan) {
+s32 poll_memcard_result(s32 chan) {
     s32 result;
     if (chan >= 2) {
         return 0;

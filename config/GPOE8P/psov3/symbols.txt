@@ -18087,8 +18087,8 @@ draw_cursor_sprite__21TWindowSubCustomEquipFfP17WindowDrawContextP10NJS_POINT2l 
 get_cursor_origin__21TWindowSubCustomEquipFP10NJS_POINT2 = .text:0x80275F08; // type:function size:0x88
 draw_cursor__21TWindowSubCustomEquipFP17WindowDrawContext = .text:0x80275F90; // type:function size:0x48
 update_palette_slot__21TWindowSubCustomEquipFlUsUs = .text:0x80275FD8; // type:function size:0xD4
-is_type_valid__21TWindowSubCustomEquipFv = .text:0x802760AC; // type:function size:0x30
-get_saved_slot_for_index__21TWindowSubCustomEquipFlSc = .text:0x802760DC; // type:function size:0x38
+is_type_valid__21TWindowSubCustomEquipFUc = .text:0x802760AC; // type:function size:0x30
+get_saved_slot_for_index__21TWindowSubCustomEquipFUc = .text:0x802760DC; // type:function size:0x38
 get_cursor_pos__21TWindowSubCustomEquipFPv = .text:0x80276114; // type:function size:0xA8
 remove_duplicate_bindings__21TWindowSubCustomEquipFPv = .text:0x802761BC; // type:function size:0x270
 toggle_action_binding__21TWindowSubCustomEquipFPv = .text:0x8027642C; // type:function size:0xFC

@@ -31,6 +31,11 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/network/client_id.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 
 
 struct Pkt_80214F80 {
@@ -51,20 +56,6 @@ const char *THunterGuildSeqOnlineTask__name = "THunterGuildSeqOnlineTask";
 const char *THunterGuildSeqOnline_Server__name = "THunterGuildSeqOnline_Server";
 const char *THunterGuildSeqOnline_Client__name = "THunterGuildSeqOnline_Client";
 
-
-extern "C" {
-void TKeyBoardControl__sub_8000F95C();
-extern s32 evt2_random_enemies_mode;
-extern int TQuestListOnline__bin_download_complete;
-extern int TQuestListOnline__dat_download_complete;
-void TKeyBoardControl__sub_8000F950();
-extern s32 local_client_id;
-extern s32 quest_download_active;
-saddr get_message_text(s32 arg0);
-void *get_window_layout_position(s32);
-extern s32 quest_download_received_bytes;
-extern s32 quest_download_graph_current_bytes;
-}
 
 void THunterGuildSeqOnlineTask::run_task() {
     ControllerInputContext *p;

@@ -90,8 +90,7 @@ struct CreationMenuModeList {
 
 
 
-extern "C" {
-void copy_player_visual_record(void *, void *);
+extern "C" void copy_player_visual_record(void *, void *);
 
 const char *TObjCMMainMenu::class_name = "TObjCMMainMenu";
 
@@ -127,7 +126,6 @@ CreationMenuModeList creation_menu_mode_lists[6] = {
     {2, creation_menu_modes_2}, {3, creation_menu_modes_3},
     {3, creation_menu_modes_4}, {1, creation_menu_modes_5},
 };
-}
 
 void reset_character_creation_figure_rotation(void);
 void draw_creation_ruler_lines(f32 farg0);

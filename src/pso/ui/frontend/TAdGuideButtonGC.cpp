@@ -6,8 +6,10 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/vector.h"
-extern "C" {
-s32 draw_menu_font_string_white(const char *, f32, f32, f32);
+
+// The label call passes the label size as a fourth float, which the white-text helper ignores.
+extern "C" s32 draw_menu_font_string_white(const char *, f32, f32, f32);
+
 extern const GuideButtonPoint guide_button_atlas_origins[4] = {
     {212.0f,78.0f},{190.0f,78.0f},{234.0f,78.0f},{190.0f,100.0f},
 };
@@ -17,7 +19,7 @@ const char *guide_button_type_name = "TAdGuideButtonGC";
 #pragma pop
 u32 guide_button_texture_handle;
 TAdGuideButtonGC *guide_button_instance;
-}
+
 #pragma push
 #pragma fp_contract on
 void TAdGuideButtonGC::draw_label(int style, const char *text) {

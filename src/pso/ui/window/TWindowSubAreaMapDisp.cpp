@@ -69,7 +69,6 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
 void text_builder_reset(void);
 extern "C" {
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
-extern s32 local_client_id;
 
 
 struct Rect_80271848 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };

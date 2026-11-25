@@ -45,7 +45,6 @@ extern "C" {
 
 
 extern u8 *TWindowKeyBoardSoft__language_text_resources;
-extern s32 local_client_id;
 
 const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
 

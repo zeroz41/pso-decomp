@@ -39,8 +39,8 @@ struct TWindowSubCustomEquip : public TWindowBase {
     void clear_flag_and_set_entry_state();
     void draw_cursor(WindowDrawContext *context);
     static void draw_cursor_sprite(f32 depth_scale, WindowDrawContext *context, NJS_POINT2 *position, s32 frame);
-    s32 is_type_valid();
-    static s32 get_saved_slot_for_index(s32 arg0, s8 arg1);
+    s32 is_type_valid(u8 type);
+    s32 get_saved_slot_for_index(u8 slot);
     void get_cursor_pos(void *arg1);
     void remove_duplicate_bindings(void *arg1);
     void toggle_action_binding(void *arg1);

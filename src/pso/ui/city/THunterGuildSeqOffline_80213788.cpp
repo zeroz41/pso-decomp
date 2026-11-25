@@ -40,9 +40,8 @@ struct Stack_80213B18 {
     f32 spC;
 };
 
-extern "C" {
+extern "C" saddr get_window_layout_position(s32);
 
-saddr get_window_layout_position(s32);
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState TQuestListOnline__dat_download_state;
 OnlineQuestDownloadState TQuestListOnline__bin_download_state;
@@ -61,37 +60,16 @@ s32 quest_download_active;
 s32 quest_download_received_bytes;
 s32 quest_download_graph_current_bytes;
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-
-    extern int evt2_random_enemies_mode;
-
-}
-
-    extern int evt2_random_enemies_mode;
+extern int evt2_random_enemies_mode;
 
 // Set by each class's ctor, cleared by its dtor.
 THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;
 THunterGuildSeqOnline_Client *hunter_guild_seq_online_client_instance;
 
-extern "C" {
-
-
-}
-
 struct Stack_8021488C {
     f32 sp8;
     f32 spC;
 };
-
-extern "C" {
-
-
-saddr get_window_layout_position(s32);
-extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-
-saddr get_window_layout_position(s32);
-
-
-}
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 

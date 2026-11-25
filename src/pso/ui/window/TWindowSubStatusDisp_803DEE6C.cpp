@@ -17,7 +17,6 @@ union Pipe_803DEECC { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
 union Pipe_803DF00C { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
 
 s32 constant_material_color;
-extern "C" {
 
 void begin_screen_draw(s32 mode) {
     load_screen_space_matrix();
@@ -123,7 +122,6 @@ void draw_rotated_quad(f32 *q) {
 void set_draw_texture_and_color(s32 idx, s32 color) {
     load_list_texture((idx), 0, 0, 0);
     constant_material_color = ((color & 0xFFFFFF) << 8) | ((u32) (color & 0xFF000000) >> 0x18U);
-}
 }
 #pragma pop
 
