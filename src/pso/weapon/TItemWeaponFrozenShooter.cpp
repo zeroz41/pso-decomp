@@ -18,7 +18,7 @@ void frozen_shooter_freeze_hit(int, ActorBodyHit *hit) {
     TObjChara *target;
     if (hit != NULL && obj_is_hit_receivable(hit->target) != 0) {
         target = (TObjChara *)hit->target;
-        target->apply_movement_ailment((s32)&target->bodies[hit->body]);
+        target->apply_movement_ailment((saddr)&target->bodies[hit->body]);
         target->sync_enemy_state(0);
     }
 }

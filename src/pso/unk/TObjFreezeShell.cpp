@@ -188,13 +188,13 @@ void TObjFreezeShell::render() {
 }
 
 extern "C" {
-void create__10TObjPlayerFUiii(uaddr chara, s32 body, s32 duration) {
+void create__10TObjPlayerFUiii(TObjChara *chara, CollisionBody *body, s32 duration) {
     u16 entity_id;
 
-    if ((is_current_area_item_enabled() != 0) && (chara != 0U)) {
-        entity_id = ((TObjBase *)chara)->get_entity_id();
+    if ((is_current_area_item_enabled() != 0) && (chara != NULL)) {
+        entity_id = chara->get_entity_id();
         if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U)) {
-            new TObjFreezeShell((TObjChara *)chara, (CollisionBody *)body, duration);
+            new TObjFreezeShell(chara, body, duration);
         }
     }
 }
