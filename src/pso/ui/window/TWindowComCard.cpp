@@ -125,7 +125,7 @@ TWindowComCard *TWindowSubComCard::create_com_card_window(const NJS_POINT2 *posi
     return new TWindowComCard(position, (void *)keyboard_mode);
 }
 
-void *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
+TWindowComCard *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
     void *entry = TWindowSubComCard::get_card_entry(index);
     if (entry == NULL) {
         return NULL;
@@ -133,12 +133,12 @@ void *TWindowComCard::create(const NJS_POINT2 *position, s32 index) {
     return new TWindowComCard(position, entry);
 }
 
-u8 *TWindowComCard::create_for_card(const NJS_POINT2 *position, s32 index, saddr records) {
+TWindowComCard *TWindowComCard::create_for_card(const NJS_POINT2 *position, s32 index, saddr records) {
     if (index < 0) {
         return NULL;
     }
     saddr data = records + index * 0x90;
-    return (u8 *)new TWindowComCard(position, (void *)data);
+    return new TWindowComCard(position, (void *)data);
 }
 
 void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
@@ -148,10 +148,10 @@ void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
     }
 }
 
-extern "C" void TWindowComCard__sub_80249920(saddr window, s32 index, s32 records) {
-    saddr temp = records + (index * 0x90);
+void TWindowComCard::sub_80249920(s32 card_index, s32 records) {
+    saddr temp = records + (card_index * 0x90);
     if (temp != 0) {
-        update_com_card_display(&((TWindowComCard *)window)->entry_list, (void *)temp);
+        update_com_card_display(&entry_list, (void *)temp);
     }
 }
 

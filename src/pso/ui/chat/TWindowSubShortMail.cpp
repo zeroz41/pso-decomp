@@ -7,6 +7,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowComCard.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -148,16 +149,16 @@ void TWindowSubShortMail::run_task() {
     case 3:
         if (action_menu != NULL) { action_menu->close(); action_menu = NULL; }
         if (card_list == NULL) {
-            card_list = (TWindowMenu *)TWindowSubComCard::send_cmd_133();
+            card_list = TWindowSubComCard::send_cmd_133();
         }
         if (card_window == NULL) {
             card_index = card_list->get_selected_value();
-            card_window = (TWindowBase *)TWindowSubComCard::send_command(card_index);
+            card_window = TWindowSubComCard::send_command(card_index);
         }
         card_list->clear_flag_and_release();
         state = 4;
     case 4:
-        TWindowSubComCard::update_display_value((uaddr)card_list, (uaddr)card_window, (s32 *)&card_index);
+        TWindowSubComCard::update_display_value(card_list, card_window, &card_index);
         if (card_list->is_cancelled() != 0) {
             state = 1;
         } else if (card_list->is_decided() != 0) {

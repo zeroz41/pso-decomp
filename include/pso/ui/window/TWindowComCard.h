@@ -18,8 +18,9 @@ struct TWindowComCard : public TWindowBase {
     virtual void render();
     virtual void run_task();
     void set_display_value(s32 card_index, s32 cards);
-    static u8 *create_for_card(const NJS_POINT2 *position, s32 index, saddr card_slot);
-    static void *create(const NJS_POINT2 *position, s32 index);
+    void sub_80249920(s32 card_index, s32 records);
+    static TWindowComCard *create_for_card(const NJS_POINT2 *position, s32 index, saddr card_slot);
+    static TWindowComCard *create(const NJS_POINT2 *position, s32 index);
     void*get_kbd_ptr();
     void set_help_mode(s32 mode);
     void*get_card_name_ptr();

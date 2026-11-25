@@ -17149,8 +17149,8 @@ force_active:
   - update_select_state__17TCharSaveSequenceFv
   - update_selected_char__19TChCrTagInformationFv
   - update_selected_help__19TWindowSubTechniqueFl
-  - update_selection__17TWindowSubComCardFUiUiPvi
-  - update_selection__17TWindowSubComCardFiii
+  - update_selection__17TWindowSubComCardFP11TWindowMenuP14TWindowComCardPll
+  - update_selection__17TWindowSubComCardFP11TWindowMenuP14TWindowComCardPl
   - update_selection__19TQuestListChallengeFv
   - update_selection__20TShopArmorListWindowFP9TItemData
   - update_selection_input__19TWindowSubMagPhotonFv

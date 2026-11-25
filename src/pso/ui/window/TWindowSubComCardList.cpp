@@ -83,14 +83,14 @@ void TWindowSubComCardList::sub_80275360() {
     }
 }
 
-s32 TWindowSubComCard::create_card_list(saddr parent, saddr card_slot, s32 count, s32 empty_message) {
+TWindowSubComCardList *TWindowSubComCard::create_card_list(const NJS_POINT2 *position, s32 card_slot, s32 count, s32 empty_message) {
     fn_80266378(7);
-    return (saddr)new TWindowSubComCardList((const NJS_POINT2 *)parent, card_slot, count, empty_message);
+    return new TWindowSubComCardList(position, card_slot, count, empty_message);
 }
 
-u8 *TWindowSubComCard::sub_802754EC(saddr parent) {
+TWindowSubComCardList *TWindowSubComCard::sub_802754EC(const NJS_POINT2 *position) {
     fn_80266378(7);
-    return (u8 *)new TWindowSubComCardList((const NJS_POINT2 *)parent);
+    return new TWindowSubComCardList(position);
 }
 
 
