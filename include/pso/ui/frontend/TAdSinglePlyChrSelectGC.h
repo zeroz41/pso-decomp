@@ -26,6 +26,7 @@ struct GuildCardSaveData;
 
 // The 0x11C bytes of the system card file (the part after the card header).
 struct SystemSaveData {
+    s32 fields_equal(SystemSaveData *other);
     u32 checksum;
     s16 version_4;
     s8 flags_6;
@@ -86,7 +87,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 load_player_by_slot(s32 chan);
     static s32 verify_system_file();
     static s32 load_save_from_card();
-    s32 fields_equal(void *other);
     static s32 verify_card_player_data();
     static s32 poll_memcard_status();
     s32 has_valid_slot();

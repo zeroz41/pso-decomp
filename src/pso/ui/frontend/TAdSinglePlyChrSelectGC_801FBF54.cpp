@@ -392,11 +392,11 @@ s32 TAdSinglePlyChrSelectGC::load_player_by_slot(s32 chan) {
 }
 
 s32 TAdSinglePlyChrSelectGC::verify_system_file() {
-    saddr buffer;
+    SystemSaveData *buffer;
     s32 equal;
     equal = 0;
-    buffer = (saddr)::operator new(0x11C);
-    if (buffer == 0) {
+    buffer = new SystemSaveData;
+    if (buffer == NULL) {
         return 0;
     }
     if (TAdPlayerLoadGC::find_card_file((s32)system_save_card_channel, pso_system_card_filename) == 0) {
@@ -410,10 +410,10 @@ loop_4:
             goto loop_4;
         }
         memcard_access_active = 0;
-        memcpy((void*)buffer, system_save_file_buffer + sizeof(CardSaveHeader), 0x11C);
-        equal = ((TAdSinglePlyChrSelectGC *)buffer)->fields_equal(system_save_payload);
+        memcpy(buffer, system_save_file_buffer + sizeof(CardSaveHeader), sizeof(SystemSaveData));
+        equal = buffer->fields_equal(system_save_payload);
     }
-    ::operator delete((void *)buffer);
+    delete buffer;
     return equal;
 }
 
@@ -475,17 +475,17 @@ CharacterSaveRecord::CharacterSaveRecord() {
     ((TAdSinglePlyChrSelectGC *)guild_card)->init_guild_card_tag();
 }
 
-s32 TAdSinglePlyChrSelectGC::fields_equal(void *other) {
-    return (u32) __cntlzw((u32) (*(s32 *)((s8 *)other + 0x118) - *(s32 *)((s8 *)this + 0x118))) >> 5;
+s32 SystemSaveData::fields_equal(SystemSaveData *other) {
+    return (u32)__cntlzw(other->serial_seed - serial_seed) >> 5;
 }
 
 s32 TAdSinglePlyChrSelectGC::verify_card_player_data() {
-    u32 *buf;
+    SystemSaveData *buf;
     s32 ret;
     u32 sum;
     u32 r;
     ret = 0;
-    buf = (u32 *)(saddr)::operator new(0x11C);
+    buf = new SystemSaveData;
     if (buf == NULL) {
         return -3;
     }
@@ -499,18 +499,18 @@ s32 TAdSinglePlyChrSelectGC::verify_card_player_data() {
             render_tick();
         }
         memcard_access_active = 0;
-        memcpy(buf, system_save_file_buffer + sizeof(CardSaveHeader), 0x11C);
-        sum = *buf;
-        if (((TAdSinglePlyChrSelectGC *)buf)->fields_equal(system_save_payload) == 0) {
+        memcpy(buf, system_save_file_buffer + sizeof(CardSaveHeader), sizeof(SystemSaveData));
+        sum = buf->checksum;
+        if (buf->fields_equal(system_save_payload) == 0) {
             ret = -1;
         }
-        *buf = 0;
-        r = calc_crc32_bitwise((u8 *)buf, (u32)(0x11C));
+        buf->checksum = 0;
+        r = calc_crc32_bitwise((u8 *)buf, sizeof(SystemSaveData));
         if (r != sum) {
             ret = -2;
         }
     }
-    ::operator delete(buf);
+    delete buf;
     return ret;
 }
 
