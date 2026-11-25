@@ -69,7 +69,7 @@ const char *TObjDFYutai::name = "TObjDFYutai";
 // The TU's .data opens with these, ahead of the vtables.
 Vec uso_tower_start_position = {0.0f, 0.0f, -81.0f}; // name inferred: TObjDFUsoTower's ctor copies it to its position
 Vec dark_falz_jisin_zero_vec = {0.0f, 0.0f, 0.0f};
-__declspec(section ".data") s32 TObjDFJisin__particle_emitter_id_table[2] = {0xE0, 0xF4};
+__declspec(section ".data") s32 TObjDFHorming::particle_emitter_id_table[2] = {0xE0, 0xF4};
 __declspec(section ".data") YutaiRange yutai_height_range = {10.0f, 0.0f};
 __declspec(section ".data") YutaiRange yutai_scale_range = {2.0f, 1.0f};
 __declspec(section ".data") YutaiRange yutai_weight_range = {0.0f, 0.75f};
@@ -679,7 +679,7 @@ TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id
     }
     lock_distance = -50.0f * homing_rate + 60.0f;
     for (i = 0; i < 2; i++) {
-        if ((effects[i] = create_particle_emitter(&body_center, TObjDFJisin__particle_emitter_id_table[i])) != NULL) {
+        if ((effects[i] = create_particle_emitter(&body_center, particle_emitter_id_table[i])) != NULL) {
             effects[i]->set_flags(0x40);
         }
     }

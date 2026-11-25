@@ -18,6 +18,7 @@
 #include "pso/system/vector.h"
 
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 
 #include "pso/enemy/recon/TObjEneRecobox.h"
 
@@ -96,10 +97,7 @@ player_stats *recobox_boss_register_id;
 AttackParams *recobox_attack_params;
 ActorParamBlock *recobox_shared_object_handle;
 
-void *TObjEneRecobox__attack_params[7] = {
-    (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
+BossMovementParameters TObjEneRecobox::movement = {{225.0f, 0.0f, 0x600}};
 
 CollisionBody recobox_collision_body = {
     {0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
@@ -236,7 +234,7 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     set_requested_action(requested_action);
     reset_hp(recobox_boss_register_id, recobox_attack_params, recobox_shared_object_handle);
     set_state_flag_4();
-    movementParameters = TObjEneRecobox__attack_params;
+    movementParameters = &movement;
     initialize_enemy_state(0x43);
     wall_reach = 10.0f;
     apply_set_parameters();

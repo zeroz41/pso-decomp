@@ -55,6 +55,10 @@ struct TBoss2Joint : public TObjEneDD {
     f32 flash;           // flash_color's weight, fading by 0.05 per frame
     NJS_ARGB flash_color;
     static const char *name;
+    // Lobby stat ids, [0] for the intact shell and [1] for the broken one.
+    static s32 param_table[2];
+    static s32 attack_stats[2];
+    static s32 resistance_stats[2];
     static BossMovementParameters movement;
     static CollisionBody body;
 };

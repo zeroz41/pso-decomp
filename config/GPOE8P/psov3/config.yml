@@ -329,7 +329,7 @@ force_active:
   - set_burrow_height__12TBoss1DragonFv
   - set_flight_height__12TBoss1DragonFv
   - play_sound_if_in_band__12TBoss1DragonFv
-  - TBoss2Joint__param_table
+  - param_table__11TBoss2Joint
   - TBoss2Joint__sub_80036940
   - __ct__18TBoss2PhotonBulletFP7TObjectP8TObjBaseP3VecP3Vecf
   - name__18TBoss2PhotonBullet
@@ -1340,7 +1340,7 @@ force_active:
   - __ct__16TObjEneRe7BeruraFP7TObjectPv
   - re7_berura_attack_stat_handles
   - TObjEneRe7Berura__vt85
-  - TObjEneRecobox__attack_params
+  - movement__14TObjEneRecobox
   - __ct__14TObjEneRecoboxFP7TObjectPv
   - recobox_resource_bundle
   - recobox_shared_object_handle

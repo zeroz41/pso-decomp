@@ -4,6 +4,14 @@
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 
+// One row per bullet level: how many shots, frames between them, the angle the fan spans, and the speed.
+struct Boss2PhotonLevel {
+    s32 shots;
+    s32 interval;
+    s32 spread;
+    f32 speed;
+};
+
 // Fires a fan of photon bullets from origin (twin of Barba Ray's TBoss7PhotonPad): one every interval
 // frames, turning pos (the shot direction) across the level's spread.
 class TBoss2PhotonPad : public TObject {
@@ -19,6 +27,7 @@ public:
     s32 shots;
     s32 timer;
     static const char *name;
+    static const Boss2PhotonLevel bullet_level_param_table[3];
 };
 
 LAYOUT_ASSERT(TBoss2PhotonPad_size, sizeof(TBoss2PhotonPad) == 0x38);

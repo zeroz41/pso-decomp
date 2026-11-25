@@ -26,12 +26,4 @@ public:
 
 LAYOUT_ASSERT(TBoss2PhotonBullet_size, sizeof(TBoss2PhotonBullet) == 0xE8);
 
-// One row per bullet level: how many shots, frames between them, the angle the fan spans, and the speed.
-struct Boss2PhotonLevel {
-    s32 shots;
-    s32 interval;
-    s32 spread;
-    f32 speed;
-};
-
 #endif
