@@ -1,4 +1,4 @@
-#include "pso/unk/text_80066F10.h"
+#include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
 

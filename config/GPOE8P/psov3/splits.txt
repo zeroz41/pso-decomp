@@ -656,7 +656,7 @@ pso/boss/galgryphon/TBoss5GryphonSnarl.cpp:
 	.sbss       start:0x805D4DD0 end:0x805D4DD8
 	.sdata2     start:0x805D8EF8 end:0x805D8F10
 
-pso/unk/text_80066F10.cpp:
+pso/boss/galgryphon/Boss5CommonResource.cpp:
 	.text       start:0x80066F10 end:0x80066F5C
 	.rodata     start:0x80437FA0 end:0x80438128
 	.data       start:0x80488730 end:0x80488778
@@ -7968,7 +7968,7 @@ pso/boss/barbaray/TBoss7TentacleNeedle.cpp:
 	.sbss       start:0x805D6948 end:0x805D694C
 	.sdata2     start:0x805DEC00 end:0x805DEC64
 
-pso/unk/text_802F0E24.cpp:
+pso/boss/barbaray/Boss7CommonResource.cpp:
 	.text       start:0x802F0E24 end:0x802F0F04
 	.rodata     start:0x804740E0 end:0x80474360
 	.data       start:0x804E4860 end:0x804E48D8
@@ -8066,11 +8066,8 @@ pso/boss/dragon/ObjBoss1CommonJResource.cpp:
 	.data       start:0x804E61F0 end:0x804E6218
 	.sdata      start:0x805D4028 end:0x805D402C
 
-pso/unk/text_802FE908.cpp:
-	.text       start:0x802FE908 end:0x802FE9E0
-
-pso/unk/text_802FE9E0.cpp:
-	.text       start:0x802FE9E0 end:0x802FEA38
+pso/boss/goldragon/Boss8DemoObjects.cpp:
+	.text       start:0x802FE908 end:0x802FEA38
 	.data       start:0x804E6218 end:0x804E6240
 
 pso/npc/TObjNpcKenkyu2.cpp:

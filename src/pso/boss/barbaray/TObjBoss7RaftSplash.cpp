@@ -1,5 +1,5 @@
 #include "pso/boss/barbaray/TObjBoss7RaftSplash.h"
-#include "pso/unk/text_802F0E24.h"
+#include "pso/boss/barbaray/Boss7CommonResource.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/vector.h"
 

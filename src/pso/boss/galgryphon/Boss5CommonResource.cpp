@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/unk/text_80066F10.h"
+#include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
 const char *bm_obj_boss5_common_model_names[9] = {

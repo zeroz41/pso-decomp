@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_80066F10.h"
+#include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/unk/text_8028A820.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8028A8F8.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"

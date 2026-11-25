@@ -1,4 +1,4 @@
-#include "pso/unk/text_80066F10.h"
+#include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"

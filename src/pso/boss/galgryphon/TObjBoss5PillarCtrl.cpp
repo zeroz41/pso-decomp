@@ -1,4 +1,4 @@
-#include "pso/unk/text_80066F10.h"
+#include "pso/boss/galgryphon/Boss5CommonResource.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"

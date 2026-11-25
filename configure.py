@@ -719,7 +719,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TLobby_80226C3C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_80228818.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_800F8AA8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/unk/text_80066F10.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/galgryphon/Boss5CommonResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcNgcBase.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/object/fence/TOVS2Wall01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/derolle/Boss2CommonResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

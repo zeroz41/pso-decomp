@@ -1718,7 +1718,7 @@ pso/ui/frontend/DrawLine.cpp
 pso/ui/frontend/TitleBackground.cpp
 pso/boss/darkfalz/TObjDFDemo0.cpp
 pso/boss/darkfalz/DrainPlayerHp.cpp
-pso/unk/text_80066F10.cpp
+pso/boss/galgryphon/Boss5CommonResource.cpp
 pso/unk/text_80066F5C.cpp
 pso/unk/text_80071A9C.cpp
 pso/unk/text_80071B30.cpp
@@ -1848,11 +1848,10 @@ pso/unk/text_802C39F8.cpp
 pso/unk/text_802C3AC0.cpp
 pso/unk/text_802D1C84.cpp
 pso/unk/text_802E10D8.cpp
-pso/unk/text_802F0E24.cpp
+pso/boss/barbaray/Boss7CommonResource.cpp
 pso/unk/text_802F0F04.cpp
 pso/boss/barbaray/TObjBoss7Tunnel_802F190C.cpp
-pso/unk/text_802FE908.cpp
-pso/unk/text_802FE9E0.cpp
+pso/boss/goldragon/Boss8DemoObjects.cpp
 pso/unk/text_802FF760.cpp
 pso/unk/text_80307BE8.cpp
 pso/unk/text_80308294.cpp
