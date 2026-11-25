@@ -685,9 +685,9 @@ s32 item_identity_matches(u8 *arg0, u8 *arg1) {
   }
   return 0;
 }
-s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2) {
-    u8 *a = (u8 *)arg0;
-    u8 *b = (u8 *)arg1;
+s32 compare_item_data_masked(void *item, void *other, s32 mode) {
+    u8 *a = (u8 *)item;
+    u8 *b = (u8 *)other;
     s32 r;
     s32 m;
     s32 t;
@@ -696,45 +696,45 @@ s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2) {
     r = 0;
     if (a[0] == b[0] && a[1] == b[1]) {
         r = 1;
-        if (arg2 & 7) {
+        if (mode & 7) {
             t = 0;
-            if (arg2 & 1) {
+            if (mode & 1) {
                 t = (u8)(a[2] == b[2]);
             }
-            m = arg2 & 2;
-            if (m != 0 && !(arg2 & 4)) {
+            m = mode & 2;
+            if (m != 0 && !(mode & 4)) {
                 t |= a[2] < b[2];
             }
-            if (m == 0 && (arg2 & 4)) {
+            if (m == 0 && (mode & 4)) {
                 t |= a[2] > b[2];
             }
-            if (m != 0 && (arg2 & 4)) {
+            if (m != 0 && (mode & 4)) {
                 t |= (u8)(a[2] != b[2]);
             }
         } else {
             t = 1;
         }
         r &= t;
-        if (arg2 & 0x38) {
+        if (mode & 0x38) {
             t2 = 0;
-            if (arg2 & 8) {
+            if (mode & 8) {
                 t2 = a[3] == b[3];
             }
-            m2 = arg2 & 0x10;
-            if (m2 != 0 && !(arg2 & 0x20)) {
+            m2 = mode & 0x10;
+            if (m2 != 0 && !(mode & 0x20)) {
                 t2 |= a[3] < b[3];
             }
-            if (m2 == 0 && (arg2 & 0x20)) {
+            if (m2 == 0 && (mode & 0x20)) {
                 t2 |= a[3] > b[3];
             }
-            if (m2 != 0 && (arg2 & 0x20)) {
+            if (m2 != 0 && (mode & 0x20)) {
                 t2 |= (u8)(a[3] != b[3]);
             }
         } else {
             t2 = 1;
         }
         r &= t2;
-        if (arg2 & 0x40) {
+        if (mode & 0x40) {
             t = a[4] == b[4];
         } else {
             t = 1;
@@ -947,7 +947,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
 void *build_6x06_send_guild_card(void *arg0);
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
-s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
+s32 check_equip_requirements(void *self, TItemData *item, s32 *out) {
   void *new_var;
   s32 flags;
   PlayerRequirementStats st;
@@ -955,7 +955,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   int new_var3;
   s32 r;
   void *new_var2;
-  if (((saddr) self == 0) || (p == 0))
+  if (((saddr) self == 0) || (item == 0))
   {
     if (out != 0)
     {
@@ -975,14 +975,14 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   if (is_quest_active() != 0)
   {
     k = 0;
-    switch (((u8 *) p)[0])
+    switch (((u8 *) item)[0])
     {
       case 0:
         k = 1;
         break;
 
       case 1:
-        switch (((u8 *) p)[1])
+        switch (((u8 *) item)[1])
       {
         case 1:
           k = 2;
@@ -1012,26 +1012,26 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
     }
   }
   flags = 0;
-  switch (((u8 *) p)[0])
+  switch (((u8 *) item)[0])
   {
     case 0:
-      if ((saddr) (p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+      if ((saddr) (item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
-      if (check_class_equip_permission((TObjPlayer *) new_var2, (s16) (*((u16 *) ((u8 *) p + 8)))) == 0)
+      if (check_class_equip_permission((TObjPlayer *) new_var2, (s16) (*((u16 *) ((u8 *) item + 8)))) == 0)
       {
         flags |= 1;
       }
       st.clear_fields();
       build_player_equipment_requirement_stats((TObjPlayer *) new_var, &st);
-      if (st.atp < (*((u16 *) ((u8 *) p + 0xe))))
+      if (st.atp < (*((u16 *) ((u8 *) item + 0xe))))
       {
         flags |= 2;
       }
-      if (st.ata < (*((u16 *) ((u8 *) p + 0x12))))
+      if (st.ata < (*((u16 *) ((u8 *) item + 0x12))))
       {
         flags |= 4;
       }
-      if (st.mst < (*((u16 *) ((u8 *) p + 0x10))))
+      if (st.mst < (*((u16 *) ((u8 *) item + 0x10))))
       {
         flags |= 8;
       }
@@ -1043,16 +1043,16 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
       break;
 
     case 1:
-      if (((u8 *) p)[1] != 3)
+      if (((u8 *) item)[1] != 3)
     {
-      if ((saddr) (p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+      if ((saddr) (item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
-        if (check_class_equip_permission((TObjPlayer *) new_var, (s16) (*((u16 *) ((u8 *) p + 0xe)))) == ((0, 0)))
+        if (check_class_equip_permission((TObjPlayer *) new_var, (s16) (*((u16 *) ((u8 *) item + 0xe)))) == ((0, 0)))
         {
           flags |= 1;
         }
         r = ((TObjChara *) new_var)->get_actor_level_index();
-        if (r < ((u8 *) p)[0x10])
+        if (r < ((u8 *) item)[0x10])
         {
           flags |= 0x10;
         }
@@ -1065,9 +1065,9 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
     else
       if (check_class_equip_permission((TObjPlayer *) new_var2, 0xd7) != 0)
     {
-      if ((p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+      if ((item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
       {
-        switch (*((s16 *) ((u8 *) p + 8)))
+        switch (*((s16 *) ((u8 *) item + 8)))
         {
           case 1:
 
@@ -1095,9 +1095,9 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
       break;
 
     case 2:
-      if ((p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+      if ((item = (TItemData *) lookup_item_pmt_record((u8 *) item)) != 0)
     {
-      if (check_class_equip_permission((TObjPlayer *) new_var, (s16) (*((u16 *) ((u8 *) p + 0x14)))) == 0)
+      if (check_class_equip_permission((TObjPlayer *) new_var, (s16) (*((u16 *) ((u8 *) item + 0x14)))) == 0)
       {
         flags |= 1;
       }
@@ -1109,13 +1109,13 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
       break;
 
     case 3:
-      switch (((u8 *) p)[1])
+      switch (((u8 *) item)[1])
     {
       case 2:
-        r = ((u8 *) p)[4];
+        r = ((u8 *) item)[4];
       {
         u8 lim = get_technique_learn_limit(*((u8 *) (((u8 *) new_var2) + 0x88d)), r);
-        if ((lim == 0xff) || (lim < ((u8 *) p)[2]))
+        if ((lim == 0xff) || (lim < ((u8 *) item)[2]))
         {
           flags |= 1;
         }
@@ -1135,7 +1135,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
 
     case 4:
       new_var3 = 0xf423f;
-      if (new_var3 < (*((s32 *) ((u8 *) p + 0x10))))
+      if (new_var3 < (*((s32 *) ((u8 *) item + 0x10))))
     {
       flags |= 0x20;
     }
@@ -1316,30 +1316,30 @@ struct Item_801057A8 {
 
 extern "C" {
 Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 quiet);
-Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 quiet) {
+Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *drop, s32 quiet) {
     Item_801057A8 *item;
     s8 me;
     s32 act;
     u8 ok;
     item = NULL;
-    if (arg0 != NULL) {
+    if (drop != NULL) {
         me = get_current_floor();
         act = is_local_player_off_current_floor();
         ok = 0;
-        if (arg0->client == me && act != 1) {
+        if (drop->client == me && act != 1) {
             ok = 1;
         }
         if (ok != 0) {
-            item = (Item_801057A8 *)construct_item((TItemData *)arg0->item);
+            item = (Item_801057A8 *)construct_item((TItemData *)drop->item);
             if (item != NULL) {
-                item->x = arg0->x;
-                item->z = arg0->z;
-                item->area = arg0->area;
-                ((TItem *)item)->place_on_ground(arg0->client, &item->x, 1);
+                item->x = drop->x;
+                item->z = drop->z;
+                item->area = drop->area;
+                ((TItem *)item)->place_on_ground(drop->client, &item->x, 1);
             }
         }
         if (quiet == 0) {
-            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(arg0->client, arg0->area, arg0->item, arg0->x, arg0->z);
+            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(drop->client, drop->area, drop->item, drop->x, drop->z);
         }
     }
     return item;

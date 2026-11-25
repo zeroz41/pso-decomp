@@ -312,19 +312,19 @@ inline void CopyText_803E9190(u8 *s, u8 *p) {
         *p++ = *s++;
     }
 }
-void TQuestVmDownLoadServer::build_message_packet(u8 *p, s32 size, QuestDownloadRequest *msg, u8 attr) {
+void TQuestVmDownLoadServer::build_message_packet(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr) {
     u8 unused[8];
-    *p++ = size % 256;
-    *p++ = size / 256;
-    *p++ = msg->len;
-    strncpy((char *)p, msg->name, msg->len);
-    p += msg->len;
-    *p++ = msg->x7;
-    *p++ = attr;
+    *record++ = size % 256;
+    *record++ = size / 256;
+    *record++ = msg->len;
+    strncpy((char *)record, msg->name, msg->len);
+    record += msg->len;
+    *record++ = msg->x7;
+    *record++ = attr;
     if (msg->x8 != 0 || msg->x7 >= 0x2D) {
-        *p++ = msg->x8;
+        *record++ = msg->x8;
     }
-    CopyText_803E9190(msg->text, p);
+    CopyText_803E9190(msg->text, record);
 }
 
 s32 QuestDownloadRequest::calc_text_length() const {

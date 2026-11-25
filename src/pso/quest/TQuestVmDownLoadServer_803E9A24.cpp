@@ -686,7 +686,7 @@ QuestDownloadSegment *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 
 }
 #pragma pop
 
-const QuestDownloadMatchToken *TQuestVmDownLoadServer::find_longest_match_entry(u8 *text, s32 remaining, s32 *arg2) {
+const QuestDownloadMatchToken *TQuestVmDownLoadServer::find_longest_match_entry(u8 *text, s32 remaining, s32 *length) {
     const u8 *s;
     u8 *a;
     s32 k;
@@ -696,7 +696,7 @@ const QuestDownloadMatchToken *TQuestVmDownLoadServer::find_longest_match_entry(
     s32 best = 1;
     u8 c = text[0];
     if (c < 0xA0) {
-        *arg2 = 1;
+        *length = 1;
         return NULL;
     }
     c -= 0xA0;
@@ -711,7 +711,7 @@ const QuestDownloadMatchToken *TQuestVmDownLoadServer::find_longest_match_entry(
                 if (m > best) {
                     best = m;
                 }
-                *arg2 = best;
+                *length = best;
                 return p;
             }
             if (rem == 0) {
@@ -733,7 +733,7 @@ const QuestDownloadMatchToken *TQuestVmDownLoadServer::find_longest_match_entry(
             k--;
         }
     }
-    *arg2 = best;
+    *length = best;
     return NULL;
 }
 

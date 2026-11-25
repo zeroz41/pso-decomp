@@ -253,14 +253,14 @@ s32 TQuestVmDownLoadServer__sub_803E7018(u16 ch) {
 
 #pragma pop
 
-s32 TQuestVmDownLoadServer__sub_803E7098(u8 *p, u16 code) {
+s32 TQuestVmDownLoadServer__sub_803E7098(u8 *output, u16 code) {
     u8 c;
     s32 w = code;
 
     switch (code & 0xFF00) {
     case 0x2300:
     case 0x0:
-        *p = w;
+        *output = w;
         return 1;
     case 0x2500:
         code &= 0x24FF;
@@ -268,22 +268,22 @@ s32 TQuestVmDownLoadServer__sub_803E7098(u8 *p, u16 code) {
     case 0x2100:
         c = jis_to_single_byte(code);
         if (c < 0x98 || c >= 0xF7) {
-            *p = c;
+            *output = c;
             return 1;
         }
         code = quest_download_char_code_table[c - 0x98];
-        *p++ = code;
+        *output++ = code;
         if (code & 0x8000) {
-            *p = 0xDE;
+            *output = 0xDE;
             return 2;
         }
         if (code & 0x4000) {
-            *p = 0xDF;
+            *output = 0xDF;
             return 2;
         }
         return 1;
     default:
-        *p = 0x20;
+        *output = 0x20;
         return 1;
     }
 }

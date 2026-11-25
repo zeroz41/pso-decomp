@@ -82,7 +82,7 @@ void clear_chat_shortcut(s32 i) {
     *p = 0;
 }
 }
-s32 store_chat_shortcut(s32 arg0, s32 arg1);
+s32 store_chat_shortcut(s32 index, s32 arg1);
 s32 store_chat_shortcut(s32 index, s32 arg1) { return TAdSinglePlyChrSelectGC__sub_80076D9C(((s32)get_chat_shortcut(index)), arg1); }
 
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1) {

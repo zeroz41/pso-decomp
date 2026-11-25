@@ -275,7 +275,7 @@ void generate_armor_shop_stock(s32 arg0) {
 extern "C" {
 
 // ---- pso/unk/TLobby_8020EDBC
-void mem_free(void *p);
+void mem_free(void *allocation);
 }
 
 void TLobby::free_rocks() {

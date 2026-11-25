@@ -90,13 +90,13 @@ extern "C" {
 s32 TLobby__sub_80291F9C(void);
 char split_screen_player_name[0x20];
 }
-void challenge_set_time_record(s32 arg0);
+void challenge_set_time_record(s32 seed);
 void set_challenge_time_window_timer(int);
 extern "C" {
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 }
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
-s32 challenge_check_rank_time(s32 arg0, s32 card);
+s32 challenge_check_rank_time(s32 seed, s32 card);
 s32 challenge_get_time_record(void);
 extern "C" {
 int challenge_set_rank_override(void);

@@ -15,12 +15,12 @@ TItemLockCountCtrl::~TItemLockCountCtrl() {
 const char *lbl_805D2BF8 = "TItemLockCountCtrl";
 
 #define arg0 ((u8 *)this)
-TItemLockCountCtrl::TItemLockCountCtrl(TObject *parent, s32 arg2, TItemLockCountCallback arg3, TItemLockCountCallback arg4) : TObject(parent) {
+TItemLockCountCtrl::TItemLockCountCtrl(TObject *parent, s32 count, TItemLockCountCallback arg3, TItemLockCountCallback arg4) : TObject(parent) {
     s32 size;
 
-    size = arg2 * 4;
+    size = count * 4;
     ((TItemLockCountCtrl *)arg0)->m_name = lbl_805D2BF8;
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg2;
+    *(s32 *)((s8 *)arg0 + 0x1C) = count;
     *(s32 *)((s8 *)arg0 + 0x20) = (saddr)mem_alloc(size);
     *(TItemLockCountCallback *)((s8 *)arg0 + 0x24) = arg3;
     *(TItemLockCountCallback *)((s8 *)arg0 + 0x28) = arg4;

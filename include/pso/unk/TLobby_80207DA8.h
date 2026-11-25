@@ -16,10 +16,10 @@ s32 activate_first_floor_event(s32 idx, s32 id);
 extern "C" {
 void activate_triggered_floor_events(void);
 }
-void bswap_enemy_set_row(void *arg0);
-void bswap_enemy_set_row_fields(void *arg0);
+void bswap_enemy_set_row(void *row_ptr);
+void bswap_enemy_set_row_fields(void *placement_ptr);
 void bswap_floor_event_set(s32 idx);
-void bswap_object_row_fields(void *arg0);
+void bswap_object_row_fields(void *placement_ptr);
 void clear_floor_event_flags(void);
 struct SetDestroyEventRecord;
 void create_empty_floor_event(SetDestroyEventRecord *event);
@@ -46,6 +46,6 @@ s32 set_floor_event_flags(s32 floor, s32 id, s32 flags);
 extern "C" {
 int spawn_objects_at_pos__6TLobbyFPv(void *p);
 }
-void swap_object_row_endian(void *arg0);
+void swap_object_row_endian(void *row_ptr);
 
 #endif

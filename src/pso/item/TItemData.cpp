@@ -624,7 +624,7 @@ s32 get_item_icon_index(const u8 *q) {
 
 
 #define lookup_item_pmt_record ((void * (*)())lookup_item_pmt_record)
-void init_srank_weapon_item(TItemData *arg0, uaddr arg1, u8 arg2);
+void init_srank_weapon_item(TItemData *item_data, uaddr src, u8 arg2);
 s32 TItemData__sub_8010CAB0(s32 arg0, s8 arg1);
 
 }

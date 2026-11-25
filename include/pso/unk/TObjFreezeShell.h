@@ -5,7 +5,7 @@
 
 class TObjFreezeShell : public TObjChara {
 public:
-    TObjFreezeShell(u8 *arg1, u8 *arg2);
+    TObjFreezeShell(u8 *chara, u8 *arg2);
     virtual ~TObjFreezeShell();
     void freeze_shell_grow();
     void freeze_shell_hold();

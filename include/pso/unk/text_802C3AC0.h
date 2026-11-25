@@ -3,10 +3,10 @@
 
 #include "types.h"
 
-void init_class_starting_inventory(void *arg0);
+void init_class_starting_inventory(void *data);
 
 // --- C functions defined in text_802C3AC0.cpp ---
-void init_class_starting_inventory(void *arg0);
+void init_class_starting_inventory(void *data);
 // --- end of C functions
 
 #endif

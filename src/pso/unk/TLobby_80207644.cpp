@@ -340,9 +340,9 @@ saddr get_floor_area(s32 floor) {
 }
 void init_floor_map_registry(void);
 
-void set_floor_map_variant(s32 floor, s32 arg1) {
+void set_floor_map_variant(s32 floor, s32 terrain) {
     if (floor <= 0x11) {
-        floor_map_registry[floor].terrain = arg1;
+        floor_map_registry[floor].terrain = terrain;
     }
 }
 

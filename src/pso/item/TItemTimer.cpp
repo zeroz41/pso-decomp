@@ -26,14 +26,14 @@ void TItemTimer__sub_8011D598(u8 *arg0, s32 arg1, s32 arg2);
 
 
 #define item_timer ((u8 *)this)
-TItemTimer::TItemTimer(TObject *arg1, s32 expire, s32 frames) : TObject(arg1) {
+TItemTimer::TItemTimer(TObject *parent, s32 expire, s32 frames) : TObject(parent) {
     ((TItemTimer *)(item_timer + 0x20))->reset_fields();
     ((TObject *)item_timer)->m_name = TItemTimer__class_name;
     ((TItemTimer *)item_timer)->m_1C = (frames - 1);
     if ((s32) ((TItemTimer *)item_timer)->m_1C < 1) {
         ((TItemTimer *)item_timer)->m_1C = 1;
     }
-    TItemTimer__sub_8011D598(item_timer + 0x20, (saddr)arg1, expire);
+    TItemTimer__sub_8011D598(item_timer + 0x20, (saddr)parent, expire);
     ((TObject *)(item_timer))->disallow_rendering();
 }
 #undef item_timer

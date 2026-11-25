@@ -5384,9 +5384,9 @@ s32 qst_call_stack_pop(void) {
     return 0;
 }
 
-void qst_call_stack_push(s32 a0)
+void qst_call_stack_push(s32 value)
 {
-  qst_call_stack[qst_call_stack_depth++] = a0;
+  qst_call_stack[qst_call_stack_depth++] = value;
 }
 int qst_label_address(int label) {  return (saddr)(qst_code + qst_function_table[(u16)label]); }
 void append_string_to_buffer(s32 dest) {

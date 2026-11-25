@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void frozen_shooter_freeze_hit(int arg0, u8 *arg1);
+void frozen_shooter_freeze_hit(int arg0, u8 *hit);
 
 #endif

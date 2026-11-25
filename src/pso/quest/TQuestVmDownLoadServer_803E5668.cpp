@@ -516,16 +516,16 @@ s32 TQuestVmDownLoadServer::handle_list_scroll(saddr *args) {
     return quest_page_node_index + 1;
 }
 extern "C" {
-s32 OSFillFPUContext(saddr *arg0) {
+s32 OSFillFPUContext(saddr *context) {
     u32 id;
     s8 *a;
     s8 *b;
     if (quest_download_state == 0) {
         return -1;
     }
-    id = arg0[0];
-    a = (s8 *)arg0[1];
-    b = (s8 *)arg0[2];
+    id = context[0];
+    a = (s8 *)context[1];
+    b = (s8 *)context[2];
     if (id != 0) {
         if (quest_download_state >= 2) {
             TQuestVmDownLoadServer::init_buffer_pointers();

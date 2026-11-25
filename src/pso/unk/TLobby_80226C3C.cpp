@@ -302,7 +302,7 @@ struct SndHooks {
     void (*free)(void *ptr);
 };
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
-void setup_adx_file_systems(s32 *arg0);
+void setup_adx_file_systems(s32 *read_mode);
 void init_runtime_threads(s32 *cfg);
 u32 ARInit(u32 *stack_index_addr, u32 num_entries);
 void ARQInit(void);

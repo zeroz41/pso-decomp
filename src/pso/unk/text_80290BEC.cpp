@@ -11,7 +11,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 
 extern "C" {
-void request_main_phase(s32 arg0);
+void request_main_phase(s32 phase);
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
