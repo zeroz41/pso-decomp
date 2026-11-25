@@ -171,8 +171,6 @@ typedef struct Player_801F9E9C {
     PlayerPkState pk_state;
 } Player_801F9E9C;
 
-extern "C" {
-
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
 f32 radar_camera_height_default = 2000.0f;
 f32 radar_camera_height_min = 1200.0f;
@@ -191,6 +189,7 @@ BmlResource *TRaderMapCore__frame_model_resource;
 NJS_TEXLIST *TRaderMapCore__data_805D5F4C;
 saddr TRaderMapCore::map_heap;
 
+extern "C" {
 extern NJS_TEXANIM radar_sprite_texanims[];
 extern f32 lbl_804C87B4[][4];
 extern RadarScissorRect radar_map_view_scissor_table[3];
@@ -345,7 +344,7 @@ void TRaderMapCore::load_map_resources() {
 void TRaderMapCore::unload_floor_map() {
     NJS_TEXLIST *texlist;
     u8 *map_data;
-    map_data = (u8 *)TRaderMapCore::floor_map_resource;
+    map_data = TRaderMapCore::floor_map_resource;
     if (map_data != NULL) {
         save_floor_discovery(get_current_floor(), map_data);
     }
@@ -450,7 +449,7 @@ void TRaderMapCore::run_task() {
             countdown = (temp_r4 - 1);
             return;
         }
-        switch ((s32) TRaderMapCore::view_mode) {
+        switch (TRaderMapCore::view_mode) {
         case 0:
             update_target();
             break;
@@ -618,7 +617,7 @@ void TRaderMapCore::render() {
             TRaderMapCore__data_805D5F30 = 0;
             return;
         }
-        switch ((s32) TRaderMapCore::view_mode) {
+        switch (TRaderMapCore::view_mode) {
         case 0:
             draw_backdrop(this, TRaderMapCore::view_mode);
             begin_map_view(TRaderMapCore::view_mode);
@@ -1273,14 +1272,14 @@ void TRaderMapCore::open_free_map_view() {
 
 void TRaderMapCore::add_zoom_distance(f32 farg0) {
     f32 py;
-    if (((s32) TRaderMapCore::view_mode == 1) || ((s32) TRaderMapCore::view_mode == 2)) {
+    if ((TRaderMapCore::view_mode == 1) || (TRaderMapCore::view_mode == 2)) {
         py = TRaderMapCore__map_view_state[1].camera.py + farg0;
         TRaderMapCore__map_view_state[1].camera.py = py;
         if (py < radar_camera_height_min) {
-            TRaderMapCore__map_view_state[1].camera.py = (f32) radar_camera_height_min;
+            TRaderMapCore__map_view_state[1].camera.py = radar_camera_height_min;
         }
         if (TRaderMapCore__map_view_state[1].camera.py > radar_camera_height_max) {
-            TRaderMapCore__map_view_state[1].camera.py = (f32) radar_camera_height_max;
+            TRaderMapCore__map_view_state[1].camera.py = radar_camera_height_max;
         }
     }
 }

@@ -288,10 +288,11 @@ struct Guild_8021317C : Base_8021317C {
     u32 phase;
 };
 
-extern "C" {
 s32 quest_result_callbacks[4];
 s32 THunterGuildSeqOffline::instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline::active_instance;
+
+extern "C" {
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
 
 int fn_80223480(void*);

@@ -221,11 +221,12 @@ typedef struct {
     f32 f28, f2C, f30, f34, f38, f3C, f40, f44;
 } Cam_80336520;
 
-extern "C" {
-void request_main_phase(s32 arg0);
 TTitleScene *title_scene_instance;
 int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
+
+extern "C" {
+void request_main_phase(s32 arg0);
     extern int lbl_805D68C8;
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 int TKeyBoardControl__sub_8000F828(void);

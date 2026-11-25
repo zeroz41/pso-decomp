@@ -31,11 +31,15 @@ extern "C" {
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
+}
+
 TAdPlyStatusGC *ply_status_gc_instance;
 CharacterPreview *ply_status_preview;
 s32 TAdPlyStatusGC::window_offset_index;
 u32 ply_status_index;
 s32 TAdPlyStatusGC::is_shown;
+
+extern "C" {
 
 // Status window position handed to TAdEnterSerialAccessGC::create_callback.
 static const NJS_POINT2 ply_status_window_position = {199.0f, 112.0f};

@@ -25,8 +25,8 @@
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
 s32 TShopItemTecSequence::slot_table[4];
+extern "C" {
 extern const char *TShopItemTecSequence__class_name;
 s32 shop_tec_pending_message;
 s32 shop_tec_pending_state;
