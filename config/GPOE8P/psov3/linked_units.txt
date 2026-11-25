@@ -653,7 +653,6 @@ pso/ui/charcreate/TChCrCharSelect_80293D58.cpp
 pso/ui/charcreate/TObjCMProportion.cpp
 pso/ui/charcreate/TChCrCharSelect_802A207C.cpp
 pso/ui/charcreate/TChCrEffCtrlPl.cpp
-pso/ui/charcreate/TChCrEffCtrlPl_80339658.cpp
 pso/ui/charcreate/TChCrEffFade.cpp
 pso/ui/charcreate/TChCrEffTag.cpp
 pso/ui/charcreate/TChCrEffTagStr.cpp

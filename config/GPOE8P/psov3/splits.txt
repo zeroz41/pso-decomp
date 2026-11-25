@@ -7183,11 +7183,8 @@ pso/ui/charcreate/TObjCMName.cpp:
 	.sbss       start:0x805D6598 end:0x805D65A8
 	.sdata2     start:0x805DDA58 end:0x805DDC20
 
-pso/ui/charcreate/TChCrEffCtrlPl.cpp:
-	.text       start:0x80298F08 end:0x80298F8C
-
 pso/ui/charcreate/TObjCMProportion.cpp:
-	.text       start:0x80298F8C end:0x80299420
+	.text       start:0x80298F08 end:0x80299420
 	.rodata     start:0x80465150 end:0x80465180
 	.data       start:0x804DBDC0 end:0x804DBDE0
 	.bss        start:0x805409C8 end:0x805409E0
@@ -8983,7 +8980,7 @@ pso/ui/frontend/TAdEnterPPPPassGC.cpp:
 	.sbss       start:0x805D6D70 end:0x805D6D78
 	.sdata2     start:0x805DF9E8 end:0x805DF9F0
 
-pso/ui/charcreate/TChCrEffCtrlPl_80339658.cpp:
+pso/ui/charcreate/TChCrEffCtrlPl.cpp:
 	.text       start:0x80339658 end:0x803398CC
 	.rodata     start:0x80477C60 end:0x80477C80
 	.data       start:0x804EF5B0 end:0x804EF5C8
