@@ -8,6 +8,7 @@
 
 struct TItem;
 struct TItemData;
+struct CsnHit;
 class TItemEffectWeapon;
 class TObjChara;
 struct TObjPlayer;
@@ -17,7 +18,8 @@ struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
 
 // A weapon's item parameter record (lookup_item_pmt_record).
 struct WeaponParams {
-    u8 pad_0[0x17];
+    u8 pad_0[0x16];
+    u8 max_grind;
     u8 photon_color;               // signed; -1: no photon colour
     u8 special;                    // the weapon's fixed special, 0 for none
     u8 pad_19[0x1B - 0x19];
@@ -92,7 +94,7 @@ struct TItemWeapon : public TItemEquipBase {
     void fire_shot_at_target(void *origin, void *model, s32 angle);
     // csnVector from the owner's centre at point's height to point: the
     // wall in between, or NULL.
-    u8 *trace_from_owner(u8 *point);
+    CsnHit *trace_from_owner(u8 *point);
     void remap_extra_attack_type();
     void draw_weapon_model();
     void create_weapon_trail_effects();
@@ -107,6 +109,10 @@ struct TItemWeapon : public TItemEquipBase {
     void set_weapon_flags(u32 mask);
     void clear_weapon_flags(u32 mask);
     void set_flag_8();
+    // Timer callback of on_equip: sets flag 8 unless the item is on the ground.
+    void set_flag_8_unless_on_ground();
+    // Calls impact_callback (if set) with the task layer, this, and both arguments.
+    void call_impact_callback(saddr arg1, saddr arg2);
     void set_model_node_callback(s32);
     void advance_weapon_photon_phase();
     s32 is_active_in_game();

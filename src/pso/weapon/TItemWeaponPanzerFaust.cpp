@@ -88,7 +88,7 @@ void TItemWeaponPanzerFaust::init_weapon_effect_descriptor(WeaponEffectDescripto
 void spawn_faust_explosion(TItemWeapon *weapon, const Vec &pos) {
     if (weapon->get_item_index() == 1) {
         WeaponEffectDescriptor info;
-        TObjPlayer__sub_802E449C(&info);
+        reset_weapon_effect_descriptor(&info);
         weapon->fill_status_info(&info);
         VecCopy(&info.position, &pos);
         info.hits = 10;

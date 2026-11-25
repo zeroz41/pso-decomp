@@ -66,6 +66,8 @@ struct PlayerAttackController {
 
     s16 get_validated_queued_kind();
     s16 get_validated_attack_kind();
+    void set_attack_kind(s16 kind);
+    CapturedTargetList *get_lockon_targets();
     // Queues the next combo stage from an action channel, up to maximum_stage.
     void queue_physical_attack_input(TObjPlayer *player, s32 channel, s16 maximum_stage);
     s32 tick_burst_recovery();

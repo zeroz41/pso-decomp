@@ -126,7 +126,7 @@ struct G_AttackFinished_Header_6x46 {
 struct G_Attack_6x43_6x44_6x45 {
  struct G_ClientIDHeader header;
  u16 angle_y;
- s16 action_type; // the receiver passes it to the attack state's set_action_type
+ s16 action_type; // the receiver passes it to the attack state's set_attack_kind
 };
 
 // The three stages of a physical attack combo (6x43, then 6x44, then 6x45),

@@ -325,7 +325,6 @@ struct TObjPlayer : public TObjChara {
     void unequip_item(TItem *item);
     static void send_6x26_unequip_item(TObjPlayer *player, u32 item_id);
     player_class_type get_class_type();
-    void call_callback_1ec(saddr arg1, saddr arg2);
     static void render_tree(void *model);
     s32 get_entrance_id();
     void *reset_lobby_settings();
@@ -451,8 +450,6 @@ struct TObjPlayer : public TObjChara {
     CapturedTargetList *get_extended_state();
     f32 query_extended_state();
     int test_flag30_bit0x100000();
-    void set_action_type(s16 v);
-    void*get_state_ptr();
     static int get_player_list();
     s16 get_stage_strike_count();
     static void notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr pos);

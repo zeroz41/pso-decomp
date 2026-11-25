@@ -4070,7 +4070,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
         }
         break;
     case 2:
-        ((TObjPlayer *)(self + 0x7CC))->set_action_type(act);
+        this->attack_state.set_attack_kind(act);
         if (this->check_mode_action(act) != 0) {
             if (pad_binding.get_stick_magnitude() >= player_stick_deadzone) {
                 this->rotation_y = ((s32 (*)(void *, s32))calc_scaled_value__10TObjPlayerFii)(this, pad_binding.get_stick_angle());
