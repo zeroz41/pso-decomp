@@ -1,6 +1,0 @@
-#ifndef PSO_UI_WINDOW_TWINDOWSUBTRADEMAIN_802D3924_H
-#define PSO_UI_WINDOW_TWINDOWSUBTRADEMAIN_802D3924_H
-
-#include "pso/network/TradeSession.h"
-
-#endif

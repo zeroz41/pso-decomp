@@ -2,7 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowSubTrade.h"
-#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
+#include "pso/network/TradeSession.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "types.h"
