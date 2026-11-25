@@ -10,6 +10,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
+#include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -114,11 +115,6 @@ struct Entry_8025373C {
 extern "C" {
 void preview_unequip_stats__10TObjPlayerFv(s32, Stats_802541E0 *, s32);
 s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming);
-extern u8 localized_alphabet_list[];
-extern u8 lbl_8044EDD8[];
-extern u8 lbl_8044EDE0[];
-extern u8 lbl_8044EDE8[];
-extern u8 lbl_8044EDF0[];
 int fn_8026C7C0(void*);
 void fn_80255A38(TWindowHelpItem *item);
 }
@@ -128,114 +124,75 @@ void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 
 const char *window_help_item_class_name = "TWindowHelpItem";
 
-void *TWindowHelpItem::item_layout_entries[67] = {
-    (void *)0xc, (void *)0x1, (void *)0xb, (void *)0x0,
-    (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
-    (void *)0xb, (void *)0x0, (void *)0x42200000, (void *)0xb,
-    (void *)0x0, (void *)0x42700000, (void *)0xb, (void *)0x0,
-    (void *)0x42a00000, (void *)0xb, (void *)0x0, (void *)0x42c80000,
-    (void *)0x6, (void *)0x0, (void *)0x42f60000, (void *)0x42fe0000,
-    (void *)0x41a00000, (void *)0x0, (void *)0x43040000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)&localized_alphabet_list, (void *)0x1, (void *)0x4,
-    (void *)0x3, (void *)0x42ce0000, (void *)0x42f80000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)":", (void *)0x4,
-    (void *)0x43170000, (void *)0x42f80000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x43170000,
-    (void *)0x42f80000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)"(", (void *)0x4, (void *)0x43500000, (void *)0x42f80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x3, (void *)0x43500000, (void *)0x42f80000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)")",
+HelpItemLayout TWindowHelpItem::item_layout_entries = {
+    12, 1,
+    {{11, {0.0f, 0.0f}}, {11, {0.0f, 20.0f}}, {11, {0.0f, 40.0f}},
+     {11, {0.0f, 60.0f}}, {11, {0.0f, 80.0f}}, {11, {0.0f, 100.0f}}},
+    {6, {0.0f, 123.0f}, {127.0f, 20.0f}, 0.0f, 132.0f, 0.5f, -1, &localized_alphabet_list, 1, 4},
+    {3, {103.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {151.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {151.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {208.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {208.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
 };
-void *lbl_804CF24C[17] = {
-    (void *)0x5, (void *)0x1, (void *)0xb, (void *)0x0,
-    (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
-    (void *)0xb, (void *)0x0, (void *)0x42200000, (void *)0xb,
-    (void *)0x0, (void *)0x42700000, (void *)0xb, (void *)0x0,
-    (void *)0x42a00000,
+HelpItemLinesLayout lbl_804CF24C = {
+    5, 1,
+    {{11, {0.0f, 0.0f}}, {11, {0.0f, 20.0f}}, {11, {0.0f, 40.0f}},
+     {11, {0.0f, 60.0f}}, {11, {0.0f, 80.0f}}},
 };
-void *TWindowHelpItem::resistance_layout_entries[31] = {
-    (void *)0x7, (void *)0x1, (void *)0xb, (void *)0x0,
-    (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
-    (void *)0xb, (void *)0x0, (void *)0x42200000, (void *)0xb,
-    (void *)0x0, (void *)0x42700000, (void *)0xb, (void *)0x0,
-    (void *)0x42a00000, (void *)0x3, (void *)0x425c0000, (void *)0x42f60000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x4, (void *)0x43530000, (void *)0x42f60000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0,
+HelpItemResistanceLayout TWindowHelpItem::resistance_layout_entries = {
+    7, 1,
+    {{11, {0.0f, 0.0f}}, {11, {0.0f, 20.0f}}, {11, {0.0f, 40.0f}},
+     {11, {0.0f, 60.0f}}, {11, {0.0f, 80.0f}}},
+    {3, {55.0f, 123.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {4, {211.0f, 123.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
 };
-void *lbl_804CF30C[118] = {
-    (void *)0x10, (void *)0x1, (void *)0xb, (void *)0x0,
-    (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
-    (void *)0xb, (void *)0x0, (void *)0x42200000, (void *)0x3,
-    (void *)0x0, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)"DEF", (void *)0x4, (void *)0x42ac0000,
-    (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x2, (void *)0x42c40000, (void *)0x42820000,
-    (void *)0x3f000000, (void *)0xff0034ff, (void *)0x18, (void *)0x42c80000,
-    (void *)0x42c80000, (void *)0x0, (void *)0xff00ca9e, (void *)0xffff2924,
-    (void *)0x3, (void *)0x0, (void *)0x42a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)"POW", (void *)0x4,
-    (void *)0x42ac0000, (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x2, (void *)0x42c40000,
-    (void *)0x42aa0000, (void *)0x3f000000, (void *)0xffe1000d, (void *)0x18,
-    (void *)0x42c80000, (void *)0x42c80000, (void *)0x0, (void *)0xff00ca9e,
-    (void *)0xffff2924, (void *)0x3, (void *)0x0, (void *)0x42c80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)"DEX",
-    (void *)0x4, (void *)0x42ac0000, (void *)0x42c80000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x2,
-    (void *)0x42c40000, (void *)0x42d20000, (void *)0x3f000000, (void *)0xffffe000,
-    (void *)0x18, (void *)0x42c80000, (void *)0x42c80000, (void *)0x0,
-    (void *)0xff00ca9e, (void *)0xffff2924, (void *)0x3, (void *)0x0,
-    (void *)0x42f00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)"MIND", (void *)0x4, (void *)0x42ac0000, (void *)0x42f00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x2, (void *)0x42c40000, (void *)0x42fa0000, (void *)0x3f000000,
-    (void *)0xff00ff14, (void *)0x18, (void *)0x42c80000, (void *)0x42c80000,
-    (void *)0x0, (void *)0xff00ca9e, (void *)0xffff2924, (void *)0x3,
-    (void *)0x0, (void *)0x0, (void *)0x3f000000, (void *)0xffffff00,
-    (void *)0x0, (void *)"Level Up!",
+HelpItemStatsLayout lbl_804CF30C = {
+    16, 1,
+    {{11, {0.0f, 0.0f}}, {11, {0.0f, 20.0f}}, {11, {0.0f, 40.0f}}},
+    {
+        {{3, {0.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, "DEF"},
+         {4, {86.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+         {{2, {98.0f, 65.0f}, 0.5f, 0xFF0034FF, 0x18, 100.0f, 100.0f, 0.0f}, 0xFF00CA9E, 0xFFFF2924}},
+        {{3, {0.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, "POW"},
+         {4, {86.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+         {{2, {98.0f, 85.0f}, 0.5f, 0xFFE1000D, 0x18, 100.0f, 100.0f, 0.0f}, 0xFF00CA9E, 0xFFFF2924}},
+        {{3, {0.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, "DEX"},
+         {4, {86.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+         {{2, {98.0f, 105.0f}, 0.5f, 0xFFFFE000, 0x18, 100.0f, 100.0f, 0.0f}, 0xFF00CA9E, 0xFFFF2924}},
+        {{3, {0.0f, 120.0f}, 0.5f, 0xFFFFFFFF, 0, "MIND"},
+         {4, {86.0f, 120.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+         {{2, {98.0f, 125.0f}, 0.5f, 0xFF00FF14, 0x18, 100.0f, 100.0f, 0.0f}, 0xFF00CA9E, 0xFFFF2924}},
+    },
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFF00, 0, "Level Up!"},
 };
-void *lbl_804CF4E4[50] = {
-    (void *)0x4, (void *)0x1, (void *)0x6, (void *)0x420c0000,
-    (void *)0x41900000, (void *)0x43160000, (void *)0x42d60000, (void *)0x0,
-    (void *)0x0, (void *)0x3f19999a, (void *)0xffffffff, (void *)&hud_texlist,
-    (void *)0x2, (void *)0x4, (void *)0x6, (void *)0x42aa0000,
-    (void *)0x42480000, (void *)0x42480000, (void *)0x422c0000, (void *)0x43160000,
-    (void *)0x42ac0000, (void *)0x3f333333, (void *)0xffffffff, (void *)&hud_texlist,
-    (void *)0x4, (void *)0x4, (void *)0x6, (void *)0x43010000,
-    (void *)0x41c00000, (void *)0x42480000, (void *)0x422c0000, (void *)0x43160000,
-    (void *)0x42ac0000, (void *)0x3f333333, (void *)0xffffffff, (void *)&hud_texlist,
-    (void *)0x4, (void *)0x4, (void *)0x6, (void *)0x42240000,
-    (void *)0x42980000, (void *)0x42480000, (void *)0x422c0000, (void *)0x43160000,
-    (void *)0x42ac0000, (void *)0x3f333333, (void *)0xffffffff, (void *)&hud_texlist,
-    (void *)0x4, (void *)0x4,
+HelpItemSpritesLayout lbl_804CF4E4 = {
+    4, 1,
+    {
+        {6, {35.0f, 18.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.6f, -1, &hud_texlist, 2, 4},
+        {6, {85.0f, 50.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.7f, -1, &hud_texlist, 4, 4},
+        {6, {129.0f, 24.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.7f, -1, &hud_texlist, 4, 4},
+        {6, {41.0f, 76.0f}, {50.0f, 43.0f}, 150.0f, 86.0f, 0.7f, -1, &hud_texlist, 4, 4},
+    },
 };
-void *window_help_item_layout_entries[12] = {
-    (void *)0x2, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0xa, (void *)0x0, (void *)0x43000000,
+HelpItemTextLayout window_help_item_layout_entries = {
+    2, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {10, {0.0f, 128.0f}},
 };
-void *help_item_tech_disk_window_layout_table[56] = {
-    (void *)0x7, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x6, (void *)0x0, (void *)0x42f60000,
-    (void *)0x42fe0000, (void *)0x41a00000, (void *)0x0, (void *)0x43040000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)&localized_alphabet_list, (void *)0x1,
-    (void *)0x4, (void *)0x3, (void *)0x42ce0000, (void *)0x42f80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)":",
-    (void *)0x4, (void *)0x43170000, (void *)0x42f80000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x43170000, (void *)0x42f80000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)"(", (void *)0x4, (void *)0x43500000,
-    (void *)0x42f80000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x43500000, (void *)0x42f80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)")",
+HelpItemTechDiskLayout help_item_tech_disk_window_layout_table = {
+    7, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {6, {0.0f, 123.0f}, {127.0f, 20.0f}, 0.0f, 132.0f, 0.5f, -1, &localized_alphabet_list, 1, 4},
+    {3, {103.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {151.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {151.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {208.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {208.0f, 124.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
 };
-void *TWindowHelpItem::description_text_layout[9] = {
-    (void *)0x1, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0,
+HelpItemDescriptionLayout TWindowHelpItem::description_text_layout = {
+    1, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
 };
 WindowDescriptor window_help_item_layout = {
     {228.0f, 184.0f}, 38900.0f, NULL, 3,
@@ -638,7 +595,7 @@ void TWindowHelpItem::init_help_texts() {
 
     init_window_layout_entries(
         reinterpret_cast<WindowLayoutEntries *>((void *) ((u8 *) this + 0x24)),
-        reinterpret_cast<const void *>(TWindowHelpItem::item_layout_entries),
+        &TWindowHelpItem::item_layout_entries,
         this->client_index);
     temp_r31 = (TWindowHelpItem *)(this->get_array_entry(0));
     temp_r30 = (TWindowHelpItem *)(this->get_array_entry(1));
@@ -787,7 +744,7 @@ void TWindowHelpItem::show_weapon_attributes() {
     if (player != 0) {
         init_window_layout_entries(
             &entry_list,
-            reinterpret_cast<const void *>(lbl_804CF24C),
+            &lbl_804CF24C,
             client_index);
         m_callback = &TWindowHelpItem::update_stat_disp2;
         a = (TWindowHelpItem *)(get_array_entry(0));
@@ -795,10 +752,10 @@ void TWindowHelpItem::show_weapon_attributes() {
         c = (TWindowHelpItem *)(get_array_entry(2));
         d = (TWindowHelpItem *)(get_array_entry(3));
         e = (TWindowHelpItem *)(get_array_entry(4));
-        a->set_help_text((saddr)lbl_8044EDD8);
-        b->set_help_text((saddr)lbl_8044EDE0);
-        c->set_help_text((saddr)lbl_8044EDE8);
-        d->set_help_text((saddr)lbl_8044EDF0);
+        a->set_help_text((saddr)native_attribute_label);
+        b->set_help_text((saddr)abeast_attribute_label);
+        c->set_help_text((saddr)machine_attribute_label);
+        d->set_help_text((saddr)dark_attribute_label);
         e->set_help_text((saddr)"Hit");
         a->set_flag0_bit20();
         b->set_flag0_bit20();
@@ -918,7 +875,7 @@ void TWindowHelpItem::update_resistance_rows() {
     if (pl != 0) {
         init_window_layout_entries(
             &entry_list,
-            reinterpret_cast<const void *>(TWindowHelpItem::resistance_layout_entries),
+            &TWindowHelpItem::resistance_layout_entries,
             client_index);
         m_callback = &TWindowHelpItem::update_stat_disp;
         a = (TWindowHelpItem *)(get_array_entry(0));
@@ -999,7 +956,7 @@ void TWindowHelpItem::show_mag_growth() {
     ((MagStats *)mag)->init();
     init_window_layout_entries(
         &entry_list,
-        reinterpret_cast<const void *>(lbl_804CF30C),
+        &lbl_804CF30C,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
     TItemData::deserialize_mag(active_item, (void *)mag);
@@ -1235,7 +1192,7 @@ void TWindowHelpItem::show_mag_photon_blasts() {
     ((MagStats *)(&mag))->init();
     init_window_layout_entries(
         &entry_list,
-        reinterpret_cast<const void *>(lbl_804CF4E4),
+        &lbl_804CF4E4,
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
     TItemData::deserialize_mag(active_item, &mag);
@@ -1254,7 +1211,7 @@ void TWindowHelpItem::show_item_description() {
     HelpItemStarRowEntry *e2;
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(window_help_item_layout_entries),
+        &window_help_item_layout_entries,
         this->client_index);
     m_callback = &TWindowHelpItem::idle_update;
     e = (u8 *)this->get_array_entry(0);
@@ -1279,7 +1236,7 @@ void TWindowHelpItem::update_tech_disk_details() {
     if (player != 0) {
         init_window_layout_entries(
             &this->entry_list,
-            reinterpret_cast<const void *>(help_item_tech_disk_window_layout_table),
+            &help_item_tech_disk_window_layout_table,
             this->client_index);
         m_callback = &TWindowHelpItem::update_tech_disk_stats;
         e0 = (u8 *)this->get_array_entry(0);
@@ -1343,7 +1300,7 @@ void TWindowHelpItem::init_text(void *str) {
     u8 *e;
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowHelpItem::description_text_layout),
+        &TWindowHelpItem::description_text_layout,
         this->client_index);
     m_callback = &TWindowHelpItem::idle_update;
     e = (u8 *)this->get_array_entry(0);

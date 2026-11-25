@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItemData.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include <stddef.h>
 
 struct PageIndicator;
@@ -15,11 +16,94 @@ struct WeaponAttribute {
     s8 percent;
 };
 
+// Layout tables of the help item window (cols, rows, then the records read by
+// init_window_layout_entries).
+
+// item_layout_entries: six type-11 points, the item icon sprite and a row of text and value entries.
+struct HelpItemLayout {
+    u32 cols;
+    u32 rows;
+    PointLayoutRecord lines[6];
+    SpritePartLayoutRecord icon;
+    TextLayoutRecord rec_7;
+    ValueLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    ValueLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+};
+
+struct HelpItemLinesLayout {
+    u32 cols;
+    u32 rows;
+    PointLayoutRecord lines[5];
+};
+
+struct HelpItemResistanceLayout {
+    u32 cols;
+    u32 rows;
+    PointLayoutRecord lines[5];
+    TextLayoutRecord rec_5;
+    ValueLayoutRecord rec_6;
+};
+
+// One stat row: its name, its value and its gauge.
+struct HelpItemStatRowLayout {
+    TextLayoutRecord name;
+    ValueLayoutRecord value;
+    LayoutEntryCopyRecord gauge;
+};
+
+struct HelpItemStatsLayout {
+    u32 cols;
+    u32 rows;
+    PointLayoutRecord lines[3];
+    HelpItemStatRowLayout stats[4];
+    TextLayoutRecord level_up;
+};
+
+struct HelpItemSpritesLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord sprites[4];
+};
+
+struct HelpItemTextLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text;
+    PointLayoutRecord rec_1;
+};
+
+struct HelpItemTechDiskLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text;
+    SpritePartLayoutRecord icon;
+    TextLayoutRecord rec_2;
+    ValueLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    ValueLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+};
+
+struct HelpItemDescriptionLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text;
+};
+
+// inferred: the attribute area names show_weapon_attributes labels the first four rows with
+// ("Hit" is the fifth).
+extern const char native_attribute_label[];
+extern const char abeast_attribute_label[];
+extern const char machine_attribute_label[];
+extern const char dark_attribute_label[];
+
 struct TWindowHelpItem : public TWindowBase
 {
-    static void * description_text_layout[9];
-    static void * resistance_layout_entries[31];
-    static void * item_layout_entries[67];
+    static HelpItemDescriptionLayout description_text_layout;
+    static HelpItemResistanceLayout resistance_layout_entries;
+    static HelpItemLayout item_layout_entries;
     virtual ~TWindowHelpItem();
     virtual void render();
     virtual void run_task();
