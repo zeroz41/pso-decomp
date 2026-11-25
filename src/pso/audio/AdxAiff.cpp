@@ -372,10 +372,10 @@ AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channe
     return st;
 }
 
-void TLobby::clear_session_buffer() {
+void adxb_finish(void) {
     memset((void *) (&lbl_80570AC0.value), 0, 0x9C0);
 }
-void TLobby::reset_sound_buffers() {
+void adxb_init(void) {
     AdxbDecoder::clear_pool();
     memset(&lbl_80570AC0.value, 0, 0x9C0);
 }
