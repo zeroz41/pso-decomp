@@ -5790,7 +5790,7 @@ force_active:
   - draw_area_chunk_objects__10TObjPlayerFv
   - draw_arrows__18TWindowInputNumberFP17WindowDrawContextP19TWindowLayoutNumberi
   - draw_at_joint__14TItemProShieldFl
-  - draw_background__13TWindowStatusFPUc
+  - draw_background__13TWindowStatusFP17WindowDrawContext
   - draw_background__17TAdGameStartSubGCFv
   - draw_background__18TWindowPartyStatusFP17WindowDrawContext
   - draw_blend_motion_tree__FP10NJS_OBJECTP15NJS_MOTION_LINKfPFPv_l

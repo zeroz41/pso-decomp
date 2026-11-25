@@ -21,14 +21,14 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
+#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 
 
 const char *TWindowStatus__name = "TWindowStatus";
 
 
-extern "C" {
-s32 draw_right_aligned_number(void *);
-}
 void set_status_entry_target(void *arg0, s32 arg1);
 #pragma readonly_strings on
 
@@ -77,48 +77,48 @@ WindowDescriptor status_window_settings = {
 
 
 void TWindowStatus::update_hp_tp_values() {
-    u8 *pl;
-    u8 *e;
-    u8 *a;
-    u8 *b;
-    u8 *c;
-    u8 *d;
-    s32 v;
-    pl = (u8 *)get_player_by_client_id(get_width());
-    if (pl != NULL) {
-        a = (u8 *)get_array_entry(7);
-        b = (u8 *)get_array_entry(9);
-        c = (u8 *)get_array_entry(6);
-        d = (u8 *)get_array_entry(8);
-        *(s32 *)((s8 *)b + 0x20) = ((TObjChara *)pl)->get_hpmax();
-        *(s32 *)((s8 *)a + 0x20) = *(s16 *)((s8 *)pl + 0x32C);
-        v = update_hp_entry();
-        *(s32 *)((s8 *)a + 0x1C) = v;
-        *(s32 *)((s8 *)c + 0x24) = v;
-        *(s32 *)((s8 *)b + 0x1C) = v;
-        *(s32 *)((s8 *)d + 0x24) = v;
-        draw_right_aligned_number(b);
-        draw_right_aligned_number(a);
-        *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - 12.0f;
-        *(f32 *)((s8 *)d + 8) = *(f32 *)((s8 *)a + 8);
-        a = (u8 *)get_array_entry(0xB);
-        b = (u8 *)get_array_entry(0xD);
-        c = (u8 *)get_array_entry(0xA);
-        d = (u8 *)get_array_entry(0xC);
-        *(s32 *)((s8 *)b + 0x20) = ((TObjChara *)pl)->get_tpmax();
-        *(s32 *)((s8 *)a + 0x20) = *(s16 *)((s8 *)pl + 0x32E);
-        v = update_hp_gauge();
-        *(s32 *)((s8 *)a + 0x1C) = v;
-        *(s32 *)((s8 *)c + 0x24) = v;
-        *(s32 *)((s8 *)b + 0x1C) = v;
-        *(s32 *)((s8 *)d + 0x24) = v;
-        draw_right_aligned_number(b);
-        draw_right_aligned_number(a);
-        *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - 12.0f;
-        *(f32 *)((s8 *)d + 8) = *(f32 *)((s8 *)a + 8);
+    TObjPlayer *player;
+    void *charge;
+    TWindowLayoutNumber *current;
+    TWindowLayoutNumber *maximum;
+    WindowTextEntry *label;
+    WindowTextEntry *slash;
+    s32 color;
+    player = get_player_by_client_id(get_width());
+    if (player != NULL) {
+        current = (TWindowLayoutNumber *)get_array_entry(7);
+        maximum = (TWindowLayoutNumber *)get_array_entry(9);
+        label = (WindowTextEntry *)get_array_entry(6);
+        slash = (WindowTextEntry *)get_array_entry(8);
+        maximum->value = player->get_hpmax();
+        current->value = player->hp;
+        color = update_hp_entry();
+        current->style = color;
+        label->color = color;
+        maximum->style = color;
+        slash->color = color;
+        draw_right_aligned_number(maximum);
+        draw_right_aligned_number(current);
+        current->x = maximum->x - maximum->width - 12.0f;
+        slash->x = current->x;
+        current = (TWindowLayoutNumber *)get_array_entry(0xB);
+        maximum = (TWindowLayoutNumber *)get_array_entry(0xD);
+        label = (WindowTextEntry *)get_array_entry(0xA);
+        slash = (WindowTextEntry *)get_array_entry(0xC);
+        maximum->value = player->get_tpmax();
+        current->value = player->tp;
+        color = update_hp_gauge();
+        current->style = color;
+        label->color = color;
+        maximum->style = color;
+        slash->color = color;
+        draw_right_aligned_number(maximum);
+        draw_right_aligned_number(current);
+        current->x = maximum->x - maximum->width - 12.0f;
+        slash->x = current->x;
         update_status_entry();
-        e = (u8 *)get_array_entry(0xE);
-        set_status_entry_target(e, ((TObjPlayer *)pl)->get_photon_blast_charge());
+        charge = get_array_entry(0xE);
+        set_status_entry_target(charge, player->get_photon_blast_charge());
     }
 }
 
