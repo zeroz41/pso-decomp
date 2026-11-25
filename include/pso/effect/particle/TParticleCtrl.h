@@ -132,6 +132,7 @@ TParticleCtrl *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id,
 TParticleCtrl *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *pos, s32 id, u16 flags);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
+void toggle_particle_effect();
 
 // Sets the colour the frame is cleared to from a packed ARGB value, with depth cleared to the far plane. Only the
 // colour is read.

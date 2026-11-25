@@ -17,7 +17,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
@@ -102,7 +102,7 @@ void TUnk_804A2164::emit_marker_effects() {
     }
     launch_shot((u8 *)&gun_point, 0, 0, 1);
 }
-void TUnk_804A2164::vfunc_60() {
+void TUnk_804A2164::transform_model_node() {
     s32 player_list;
     player_list = TObjPlayer::get_player_list();
     if ((player_list > 0) && (player_list < 4)) {

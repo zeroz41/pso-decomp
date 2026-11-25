@@ -22,6 +22,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkModelDraw.h"
+#include "pso/boss/derolle/RandomAngle.h"
 
 // The model node each joint index breaks off.
 static const s32 joint_breakup_nodes[6] = { 1, 6, 12, 18, 24, 29 };
@@ -152,9 +153,9 @@ TBoss7JointBreakUp::TBoss7JointBreakUp(TObject *parent, Vec *position, s32 index
             VecCopy(vel, &model->m_records[i].vel);
             vel->y = lerp__9TDeadSpotFff(boss7_breakup_rise_min, boss7_breakup_rise_max);
             vel->z -= lerp__9TDeadSpotFff(boss7_breakup_one, boss7_breakup_drift_max);
-            piece->angles[0] = TObjPlayer::calc_random_scaled();
+            piece->angles[0] = random_angle();
             piece->angles[1] = boss7_breakup_spin_scale * rand_signed_unit();
-            piece->angles[2] = TObjPlayer::calc_random_scaled();
+            piece->angles[2] = random_angle();
             piece->state = 0;
             piece->opacity = boss7_breakup_one;
         }

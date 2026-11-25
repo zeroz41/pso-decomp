@@ -20,7 +20,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/system/task/TObject.h"
@@ -33,6 +33,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/item/item_pmt.h"
 
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
@@ -195,7 +196,7 @@ TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(pare
     pad_C0 = 1;
     player = get_player_by_client_id(params->client_id);
     if (player != NULL) {
-        if (get_type__10TObjPlayerFPv(&player->m_828) != 0) {
+        if (player->pk_state.is_enabled() != 0) {
             pad_BC = 1;
         } else {
             pad_BC = 0;
@@ -323,7 +324,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
         TObjPlayer::calc_photon_blast_charge((void *)player, damage);
         ((VObj_18_f2ea1e *)(player))->m73();
         apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)target, (s32)damage);
-        ((TObjPlayer *)(&stack.sp8))->reset_status_block();
+        ((ItemSoundRequest *)(&stack.sp8))->clear();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();
         stack.spC = player;
@@ -349,7 +350,7 @@ void reset_attack_params(S_802E451C *s_802_e451_c) {
     s_802_e451_c->pad_24 = 0;
 }
 
-Desc_8011E5C4 *TObjPlayer__sub_802E449C(Desc_8011E5C4 *params) {
+WeaponEffectDescriptor *TObjPlayer__sub_802E449C(WeaponEffectDescriptor *params) {
     reset_attack_params(params);
     params->flags = 0;
     params->model = NULL;
@@ -370,11 +371,11 @@ Desc_8011E5C4 *TObjPlayer__sub_802E449C(Desc_8011E5C4 *params) {
     return params;
 }
 
-void TItemAttackCol::create(TObject *parent, Desc_8011E5C4 *params) {
+void TItemAttackCol::create(TObject *parent, WeaponEffectDescriptor *params) {
     new TItemAttackCol(parent, params);
 }
 
-TItemAttackCol::TItemAttackCol(TObject *parent, Desc_8011E5C4 *params) : TUnk_804E355C(parent, params) {
+TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) : TUnk_804E355C(parent, params) {
     m_name = TItemAttackCol__name;
     VecCopy(&start_position, &params->position);
     if (params->flags & 1) {

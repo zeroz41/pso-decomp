@@ -15,7 +15,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/door/TObjDoor.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
@@ -99,7 +99,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/object/door/TODoorBase.h"
 #include "pso/unk/TLobby_800F8AA8.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerActionProvider.h"
 

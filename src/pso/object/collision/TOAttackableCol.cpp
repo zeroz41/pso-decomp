@@ -206,7 +206,7 @@ f32 TOAttackableCol::apply_hit(saddr player) {
   uaddr var_r0;
   uaddr var_r0_2;
   var_r30 = 0;
-  if (((player != 0) && (((TObjBase *)player)->get_entity_id() < 4U)) && (TObjPlayer::is_locally_controlled((void *) player) != 0))
+  if (((player != 0) && (((TObjBase *)player)->get_entity_id() < 4U)) && (((TObjChara *)player)->is_locally_controlled() != 0))
   {
     var_r30 = 1;
   }

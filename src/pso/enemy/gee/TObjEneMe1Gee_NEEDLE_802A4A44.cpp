@@ -17,7 +17,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"

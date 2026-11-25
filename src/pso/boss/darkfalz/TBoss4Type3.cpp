@@ -88,7 +88,7 @@ struct Type3MotionView { s32 kind, next, motions[3]; };
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/model_render_state.h"
@@ -431,7 +431,7 @@ void TBoss4Type3::advance_afterimage() {
 }
 
 void TBoss4Type3::draw() {
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -508,7 +508,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
         return;
     }
     if (t < 1.0f) {
-        TObjPlayer::begin_alpha_blend(t);
+        begin_alpha_blend(t);
     } else if (tbl == boss4_type3_model_ids) {
         TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
     }
@@ -524,7 +524,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     clear_motion_packed_rotation();
     model_render_flags &= ~0x20000;
     if (t < 1.0f) {
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
         return;
     }
     if (tbl == boss4_type3_model_ids) {

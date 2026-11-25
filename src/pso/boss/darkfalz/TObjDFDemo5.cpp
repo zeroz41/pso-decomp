@@ -19,6 +19,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 
 #pragma readonly_strings on
 // Built with deferred code generation: functions come out in reverse order
@@ -124,7 +125,7 @@ void TObjDFDemo5::draw_fading_motion() {
         alpha = (f32)(0xF0 - t) / 80.0f;
     }
     if (alpha < 1.0f) {
-        TObjPlayer::begin_alpha_blend(alpha);
+        begin_alpha_blend(alpha);
     }
     push_matrix();
     set_motion_packed_rotation();
@@ -142,13 +143,13 @@ void TObjDFDemo5::draw_fading_motion() {
     clear_motion_packed_rotation();
     pop_matrix();
     if (alpha < 1.0f) {
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
     }
 }
 
 void TObjDFDemo5::release_subobjects() {
     if (timer >= 0xB4) {
-        TObjPlayer::begin_alpha_blend(0.99f);
+        begin_alpha_blend(0.99f);
         push_matrix();
         set_motion_packed_rotation();
         post_translate_matrix(&pos.x);
@@ -159,7 +160,7 @@ void TObjDFDemo5::release_subobjects() {
         node_list1->clear();
         clear_motion_packed_rotation();
         pop_matrix();
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
     }
 }
 

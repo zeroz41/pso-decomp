@@ -26,15 +26,15 @@
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_800C4B78.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/AltModel.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -150,7 +150,7 @@ void load_re2_flower_resources(void) {
     re2_flower_node_yaw = 0;
     re2_flower_node_points = 0;
     TObjPlayer::create_render_texture();
-    TObjPlayer::init_alt_model();
+    init_alt_model();
     __memcpy(&binding, &re2_flower_animation_binding, sizeof(binding));
     binding.motions = re2_flower_bml_resource->motions;
     models = re2_flower_bml_resource->models;

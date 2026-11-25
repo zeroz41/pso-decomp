@@ -13,8 +13,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
-#include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
 CollisionBody npc_player_collision_body_part = {{0.0f, 5.0f, 0.0f}, 7.0f, 50.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};

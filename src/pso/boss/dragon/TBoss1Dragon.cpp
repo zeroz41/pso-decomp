@@ -70,7 +70,7 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
@@ -454,7 +454,7 @@ NJS_OBJECT* TBoss1Dragon::cloneModelHierarchy(NJS_OBJECT* source, NJS_OBJECT* ou
     return output;
 }
 
-TUnk_80481B34::TUnk_80481B34(TObject *parent, TObjBase *owner) : TUnk_804928CC(parent, owner) {
+TUnk_80481B34::TUnk_80481B34(TObject *parent, TObjBase *owner) : TAttackCollider(parent, owner) {
 }
 
 TUnk_80481B34::~TUnk_80481B34() {
@@ -467,15 +467,14 @@ void apply_dragon_hit_ailment(TObjChara *target) {
     }
 }
 
-void TUnk_80481B34::area_attack_receive_direct(void *target, f32 *, void *payload) {
-    TObjChara *chara = (TObjChara *)target;
+void TUnk_80481B34::area_attack_receive_direct(TObjChara *chara, const f32 *, DirectAttackPayload *payload) {
     s32 i;
     CollisionBody *e;
 
     for (i = 0; i < chara->body_count; i++) {
         e = &chara->bodies[i];
         if (e->flags & 0x04000000) {
-            DirectAttackPayload attack = *(DirectAttackPayload *)payload;
+            DirectAttackPayload attack = *payload;
             chara->receive_direct_attack((void *)this->owner, attack, e, -1, -1);
             apply_dragon_hit_ailment(chara);
             return;
@@ -483,9 +482,9 @@ void TUnk_80481B34::area_attack_receive_direct(void *target, f32 *, void *payloa
     }
 }
 
-void TUnk_80481B34::apply_hit_if_active(void *target, f32 *) {
-    ((TObjChara *)target)->receive_physical_attack((void *)this->owner, 1.0f);
-    apply_dragon_hit_ailment((TObjChara *)target);
+void TUnk_80481B34::apply_hit_if_active(TObjChara *target, const f32 *) {
+    target->receive_physical_attack((void *)this->owner, 1.0f);
+    apply_dragon_hit_ailment(target);
 }
 
 saddr TBoss1Dragon::get_instance() {
@@ -1867,7 +1866,7 @@ void TBoss1Dragon::apply_trail_attack() {
     TObjBoss1MokoHill_SoloM *moko_hill = this->moko_hill;
     if ((moko_hill != NULL) && (moko_hill->is_dragon_trail_damaging() != 0)) {
         DragonAttackParams params = dragon_breath_attack_params;
-        params.power = boss1_dragon_behavior_params[0]->trail_attack_power;
+        params.attack.power = boss1_dragon_behavior_params[0]->trail_attack_power;
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
             TObjEneDD::setup_instance(this, &this->position, &params, this->attack_history);
@@ -1881,8 +1880,8 @@ void TBoss1Dragon::apply_trail_attack() {
 
 void TBoss1Dragon::deliver_breath_attack(Vec *position, AreaAttackHistory *attack_history) {
     DragonAttackParams params = dragon_fireball_attack_params;
-    params.power = boss1_dragon_behavior_params[0]->breath_attack_power;
-    params.kind = this->attack_kind;
+    params.attack.power = boss1_dragon_behavior_params[0]->breath_attack_power;
+    params.attack.kind = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         TObjEneDD::setup_instance(this, position, &params, attack_history);
@@ -1895,8 +1894,8 @@ void TBoss1Dragon::deliver_breath_attack(Vec *position, AreaAttackHistory *attac
 
 void TBoss1Dragon::apply_fireball_impact_damage(Vec *position) {
     DragonAttackParams params = dragon_fireball_impact_damage_params;
-    params.power = boss1_dragon_behavior_params[0]->fireball_impact_power;
-    params.kind = this->attack_kind;
+    params.attack.power = boss1_dragon_behavior_params[0]->fireball_impact_power;
+    params.attack.kind = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         TObjEneDD::setup(this, position, &params);
@@ -1912,7 +1911,7 @@ f32 TBoss1Dragon::get_crater_attack_power() {
 }
 
 void TBoss1Dragon::emit_v2_enemy_effect(const Vec *position, const DragonAttackParams *params, AreaAttackHistory *history) {
-    ((TUnk_804928CC *)this->attack_collider)->set_position_from(position);
+    ((TAttackCollider *)this->attack_collider)->set_position_from(position);
     this->attack_collider->bodies->radius = params->radius;
     this->attack_collider->bodies->flags = 0x9D03;
     this->attack_collider->call_vt16_with_default(const_cast<AreaAttackContact *>(&params->contact), history);
@@ -1923,10 +1922,10 @@ void TBoss1Dragon::emit_v2_effect_at_position(const DragonAttackParams *params) 
 }
 
 void TBoss1Dragon::setup_v2_instance(const Vec *position, DragonAttackParams *params, AreaAttackHistory *history) {
-    ((TUnk_804928CC *)this->attack_collider)->set_position_from(position);
+    ((TAttackCollider *)this->attack_collider)->set_position_from(position);
     this->attack_collider->bodies->radius = params->radius;
     this->attack_collider->bodies->flags = 0x9D03;
-    this->attack_collider->call_vt13_with_default(&params->contact, params, reinterpret_cast<saddr>(history));
+    this->attack_collider->call_vt13_with_default(&params->contact, &params->attack, history);
 }
 
 void TBoss1Dragon::update_switch_attack() {
@@ -5212,7 +5211,7 @@ void TBoss1Dragon::render() {
             rotate_matrix_z(0, this->rotation_z);
             scale_matrix(0, (2.0f), (2.0f), (2.0f));
             set_chunk_model_node_callback(dragon_capture_node_points);
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             TObjMotion::draw();
             TParticleCtrl::end_effect_render();
             set_chunk_model_node_callback(NULL);
@@ -5304,4 +5303,10 @@ void TBoss1Dragon::render_low_detail() {
 
 s32 TBoss1Dragon::isV2Mode() {
     return TObjEneDD::check_v2_mode() ? 1 : 0;
+}
+
+void copy_xyz(void *dst, void *src) {
+    ((u32 *)dst)[0] = ((u32 *)src)[0];
+    ((u32 *)dst)[1] = ((u32 *)src)[1];
+    ((u32 *)dst)[2] = ((u32 *)src)[2];
 }

@@ -19,7 +19,6 @@
 #include "pso/system/AreaSound.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/moja/TObjEneMoja.h"
@@ -33,7 +32,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -263,7 +262,7 @@ void TObjEneShark::render() {
       v27 = b;
       *((s16 *) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 0x30)))) + 4)))) + 4)))) + 6)) = -1;
     }
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     shark_render_node_index = 0;
     set_chunk_model_node_callback(TObjPlayer::update_particle_by_phase);
     if (appearing == 1)

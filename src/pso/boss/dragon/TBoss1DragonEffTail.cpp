@@ -2,7 +2,7 @@
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/boss/dragon/TBoss1DragonEffTail.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -60,7 +60,7 @@ void TBoss1DragonEffTail::run_task() {
         this->sweep_vector.z = 5.0f * sin_table_lookup(this->rotation_y);
     }
     {
-        TailAttackParams params = { 3.0f, 1 };
+        AreaAttackContact params = { 3.0f, 1 };
         this->dragon->reset_tail_hp();
         call_vt16_with_default(&params, this->attack_history);
     }
@@ -68,15 +68,15 @@ void TBoss1DragonEffTail::run_task() {
 }
 
 // Pushes the hit object along this tail's sweep vector (its velocity, which the base
-// TUnk_804928CC::area_attack_apply_recoil also moves).
-void TBoss1DragonEffTail::area_attack_apply_recoil(void *target, f32) {
-    vec3_add_to(&((TObjChara *)target)->velocity, &sweep_vector);
+// TAttackCollider::area_attack_apply_recoil also moves).
+void TBoss1DragonEffTail::area_attack_apply_recoil(TObjChara *target, f32) {
+    vec3_add_to(&target->velocity, &sweep_vector);
 }
 
-void TBoss1DragonEffTail::apply_hit_if_active(void *target, f32 *) {
-    ((TObjChara *)target)->receive_physical_attack((void *)this->owner, 1.0f);
+void TBoss1DragonEffTail::apply_hit_if_active(TObjChara *target, const f32 *) {
+    target->receive_physical_attack((void *)this->owner, 1.0f);
     if (TObjEneDD::check_v2_mode() != 0) {
-        apply_dragon_hit_ailment((TObjChara *)target);
+        apply_dragon_hit_ailment(target);
     }
 }
 
@@ -89,7 +89,7 @@ TBoss1DragonEffTail::~TBoss1DragonEffTail() {
     attack_history = NULL;
 }
 TBoss1DragonEffTail::TBoss1DragonEffTail(TBoss1Dragon *dragon, Vec *nodes)
-    : TUnk_804928CC(NULL, dragon, TBoss1DragonEffTail__collision_body_templates, 0x11) {
+    : TAttackCollider(NULL, dragon, TBoss1DragonEffTail__collision_body_templates, 0x11) {
     void *data;
     s32 i;
     data = TBoss1DragonEffTail__collision_body_templates;

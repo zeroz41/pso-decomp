@@ -17,13 +17,12 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 char texture_prs_disc_filename_buffer[128];
 char texture_prs_stream_filename_buffer[128];
-NJS_TEXNAME *lbl_805D63C0;
-s32 lbl_805D63C4;
-
-}
+// The texture entries and the 28-byte name slots bind_gvm_texture_list loads a PVM through (512 of each,
+// allocated by init_buffers).
+NJS_TEXNAME *temporary_texture_entries;
+s32 temporary_texture_names;
 
 s32 set_texlist(NJS_TEXLIST *texlist) {
     if (texlist == NULL) {
@@ -81,16 +80,16 @@ s32 bind_gvm_texture_list(const char *name, NJS_TEXLIST *texlist) {
     if (name == NULL || texlist == NULL) {
         return 0;
     }
-    memset(lbl_805D63C0, 0, 0x1800);
-    bind_texture_name_table(&temporary_texture_list, lbl_805D63C0, lbl_805D63C4, 0x200);
+    memset(temporary_texture_entries, 0, 0x1800);
+    bind_texture_name_table(&temporary_texture_list, temporary_texture_entries, temporary_texture_names, 0x200);
     if (psoLoadTexturePvmFile(name, &temporary_texture_list) == -1) {
         return 0;
     }
     n = texlist->nbTexture;
     d = texlist->textures;
     for (i = 0; i < n; i++) {
-        d[i].texture = lbl_805D63C0[i].texture;
-        d[i].attr = lbl_805D63C0[i].attr;
+        d[i].texture = temporary_texture_entries[i].texture;
+        d[i].attr = temporary_texture_entries[i].attr;
     }
     return 1;
 }
@@ -113,8 +112,8 @@ s32 load_texture_if_valid(NJS_TEXLIST *texlist) {
 
 void init_buffers(void) {
     NJS_TEXNAME *entries = static_cast<NJS_TEXNAME *>(xmalloc(0x1800));
-    lbl_805D63C0 = entries;
+    temporary_texture_entries = entries;
     memset(entries, 0, 0x1800);
-    lbl_805D63C4 = (saddr)xmalloc(0x3800);
+    temporary_texture_names = (saddr)xmalloc(0x3800);
 }
 

@@ -10,7 +10,7 @@ class TUnk_804F1EC8 : public TItemWeapon {
 public:
     TUnk_804F1EC8(TObject *parent, u8 *item);
     virtual ~TUnk_804F1EC8();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
 };
 
 TItem *alloc_and_init_obj_effect(u8 *arg0);

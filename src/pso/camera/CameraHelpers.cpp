@@ -8,7 +8,7 @@
 #include "pso/camera/TCameraScripted.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 

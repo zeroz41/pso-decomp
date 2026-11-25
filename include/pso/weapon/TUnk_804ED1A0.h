@@ -7,7 +7,7 @@ class TUnk_804ED1A0 : public TItemWeapon {
 public:
     // No destructor of its own: the compiler's comes last in the TU.
     TUnk_804ED1A0(TObject *parent, u8 *item);
-    virtual void reserved_53();
+    virtual void draw_held_model();
     virtual void update_weapon();
 };
 

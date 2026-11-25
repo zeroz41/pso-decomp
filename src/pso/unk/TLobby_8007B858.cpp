@@ -21,7 +21,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraScripted.h"
@@ -41,8 +41,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
-#include "pso/unk/TLobby_8033ECB0.h"
-#include "pso/unk/TUnk_804EFA88.h"
+#include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/object/TObjSinBoard.h"
 #include "pso/unk/TLobby_8015ABD0.h"
 #include "pso/unk/TLobby_8036B204.h"
@@ -97,7 +96,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TLobby__sub_8032BE3C, TLobby__sub_8032BE30},
     {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
     {TLobby__sub_80279708, TLobby__sub_802796FC},
-    {TLobby__sub_8033EE04, TLobby__sub_8033EDF8},
+    {TIndirectEffectDrawTask::clear_instance_on_floor_load, TIndirectEffectDrawTask::clear_instance_on_floor_free},
     {clear_signboard_texture_buffer_pointer, TLobby::free_global_buffer},
     {TLobby__sub_8015ABD4, TLobby__sub_8015ABD0},
     {TLobby__sub_8036B510, TLobby__sub_8036B50C},
@@ -120,7 +119,7 @@ void TLobby::create_tasks() {
         new TCameraCapturePass(tl_particlemodel, 1);
         new TCameraCapturePass(tl_particlemodel, 0);
         new TUnk_804EDAC0(tl_particlemodel);
-        new TUnk_804EFA88(tl_particlemodel);
+        new TIndirectEffectDrawTask(tl_particlemodel);
     }
     cleanup_game_objects__9TMainTaskFv();
     TScene::create();

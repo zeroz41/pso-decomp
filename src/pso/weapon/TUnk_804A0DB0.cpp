@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A0DB0.h"
-#include "pso/player/TObjPlayer_80122014.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/MatrixStack.h"
@@ -13,7 +12,7 @@ void belra_cannon_return_timer(void *arg0) {
     }
 }
 
-void TUnk_804A0DB0::vfunc_60() {
+void TUnk_804A0DB0::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         scale_current_matrix(&scale.x);
     }

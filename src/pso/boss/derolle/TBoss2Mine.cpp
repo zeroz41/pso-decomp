@@ -9,7 +9,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/AltModel.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/network/TLobby.h"
@@ -88,7 +88,7 @@ void TBoss2Mine::apply_paralysis() {  }
 
 void TBoss2Mine::apply_poison_status() {  }
 
-void TBoss2Mine::load_resources() { TObjPlayer::init_alt_model(); }
+void TBoss2Mine::load_resources() { init_alt_model(); }
 
 void TBoss2Mine::free_resources() {  }
 
@@ -336,7 +336,7 @@ void TBoss2Mine::state_explode(s32 reason) {
         if (step > 30) {
             *reinterpret_cast<TBoss2MineCollisionWords *>(&hit) =
                 *reinterpret_cast<const TBoss2MineCollisionWords *>(&boss2_mine_collision_desc);
-            hit.power = TBoss2DeRolLe::get_mine_power();
+            hit.attack.power = TBoss2DeRolLe::get_mine_power();
             TObjEneDD__sub_800BA5A4(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);
             timer = 2;
@@ -381,7 +381,7 @@ void TBoss2Mine::render() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     set_node_offsets();
     push_matrix();
     post_translate_matrix(&position.x);

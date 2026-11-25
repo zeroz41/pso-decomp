@@ -9,7 +9,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"

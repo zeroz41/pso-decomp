@@ -5,8 +5,7 @@
 #include <stdlib.h>
 #include "pso/weapon/TUnk_804A4F60.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_8012121C.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/map/FloorArea.h"
@@ -16,6 +15,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 extern "C" {
 }
@@ -76,7 +76,7 @@ void TUnk_804A4F60::update_weapon() {
 
 void TUnk_804A4F60::emit_marker_effects() {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effect(this, 4);
+        TItemEffCane::spawn(tl_05, this, 4);
     }
     if (is_mode_two_and_ready() != 0) {
         psycho_wand_roll_extra();
@@ -85,7 +85,7 @@ void TUnk_804A4F60::emit_marker_effects() {
     ((TItemWeapon *)this)->update_active_game_effect();
 }
 
-void TUnk_804A4F60::vfunc_60() {
+void TUnk_804A4F60::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 2:
         rotate_matrix_z(NULL, rotation_z);

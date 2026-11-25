@@ -4,7 +4,7 @@
 #include "pso/object/TObjControl.h"
 #include "types.h"
 #include "pso/quest/TQuestListChallenge.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"

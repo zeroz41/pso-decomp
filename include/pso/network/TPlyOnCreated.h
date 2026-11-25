@@ -12,6 +12,7 @@ public:
     int (*callback)(void *);
 public:
     static void *create(s32 client, int (*callback)(void *));
+    static const char *class_name;
 };
 LAYOUT_ASSERT(TPlyOnCreated_size, sizeof(TPlyOnCreated) == 0x24);
 

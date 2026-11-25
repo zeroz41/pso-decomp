@@ -20,7 +20,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/data/pso_date.h"
-#include "pso/player/TObjPlayer_801E2D1C.h"
+#include "pso/render/GinjaMotionDraw.h"
 
 Mtx34 *anim_model_matrix_array;
 Mtx34 *player_joint_matrix_write_ptr;

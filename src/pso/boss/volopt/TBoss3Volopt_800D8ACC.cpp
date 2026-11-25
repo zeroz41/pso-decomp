@@ -12,19 +12,35 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/unk/TUnk_804949D8.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/TBreakUpMdl.h"
+#include "pso/effect/TAttackTrace.h"
 
 const char *bm_ene_common_all_model_names[2] = { "ene_common_all.nj", NULL };
 const char *bm_ene_common_all_motion_names[1] = { NULL };
 BmlResourceDescriptor corpse_mark_resource_descriptor = { "bm_ene_common_all.bml", bm_ene_common_all_model_names, bm_ene_common_all_motion_names, 1, 0 };
 BmlResource *player_corpse_mark_resource;
 s32 player_particle_effect_enabled;
+
+void toggle_particle_effect() {
+    if (player_particle_effect_enabled != 0) {
+        TParticleCtrl::end_effect_render();
+        return;
+    }
+    TParticleCtrl::begin_effect_render();
+}
+
+void disable_player_particle_effect(void) { player_particle_effect_enabled = 0; }
+
+void enable_player_particle_effect(void) { player_particle_effect_enabled = 1; }
+
+TAttackTraceStrip *TAttackTraceStrip::create(u32 color_a, u32 color_b) {
+    return new TAttackTraceStrip(tl_05, color_a, color_b);
+}
 
 void TBoss3Volopt::create_breakup_mdl(TBreakUpMdlData *model, const BreakUpParamRow *params, NJS_TEXLIST *texlist,
                                     const Vec *position, s32 rotation_y) {

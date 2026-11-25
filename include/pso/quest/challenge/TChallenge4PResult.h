@@ -41,7 +41,7 @@ public:
     void handle_result_code();
     void update_input();
 public:
-    int get_player_rank();
+    void get_player_rank();
     static void update_entries(int, int);
 };
 

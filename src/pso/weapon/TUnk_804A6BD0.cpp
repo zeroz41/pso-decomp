@@ -3,12 +3,12 @@
 #include "pso/weapon/TUnk_804A6BD0.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A6BD0::vfunc_60() {
+void TUnk_804A6BD0::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         post_translate_matrix(&slide.x);
     }

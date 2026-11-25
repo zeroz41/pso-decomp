@@ -16,11 +16,11 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/TObjControl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -830,7 +830,7 @@ void TObjEneBalClawBody::render() {
             shadow = 1;
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;
             if (TObjPlayer::check_demo_mode() == 1) {

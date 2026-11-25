@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A2868::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804A2868::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->particle = 0x1BB;
     desc->hit_effect = (void *)spawn_flame_effect;
     desc->hits = unk_1f8;

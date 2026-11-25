@@ -3,7 +3,7 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/system/task/TMainTask.h"
 
 TUnk_804A07C0::~TUnk_804A07C0() {}

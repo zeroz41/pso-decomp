@@ -35,7 +35,6 @@
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/system/NinjaTypes.h"
@@ -82,7 +81,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/object/base/TObjBase.h"
@@ -495,7 +494,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
             if (is_alternate_variant() != 0) {
                 TObjChara *t = current_target;
                 TItem *held;
-                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(t)) != 0) {
+                if (t->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(t)) != 0) {
                     TObjPlayer::send_6x26_unequip_item((TObjPlayer *)t, held->get_item_id());
                     ((TObjPlayer *)t)->get_hand_joint_position((saddr)&hand_position);
                     spawn_particle_effect(&hand_position, 0x1D0);
@@ -1603,7 +1602,7 @@ void TObjEneMe3Stelth::render() {
         update_secondary_light();
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         copy_argb(&saved_model_draw_color, &model_material_color);
@@ -1754,7 +1753,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             s32 i;

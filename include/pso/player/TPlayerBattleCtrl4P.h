@@ -90,8 +90,6 @@ public:
     s32 phase;
     s32 phase_state;
 public:
-    s32 get_state();
-    void set_battle_mode(s32 v);
     s32 close_windows_on_button();
     void close_player_windows();
     void create_result_windows();
@@ -114,6 +112,13 @@ public:
 
     static void reset_random_enemies_mode(TObject *fade);
     static void init_instance_with_text(saddr rules, saddr text);
+
+    static const char *class_name;
+    static TPlayerBattleCtrl4P *instance;
+    // Set by init once the reload fade has reset the scene; finish_battle_reload waits for it.
+    static s32 reload_ready;
+    static const char *japanese_messages[7];
+    static const char *english_messages[7];
 public:
     void update_player_alive_flags();
     void update_timed_events(s32 frames);

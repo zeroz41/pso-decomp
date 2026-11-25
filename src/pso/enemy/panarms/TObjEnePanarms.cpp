@@ -8,7 +8,6 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -47,7 +46,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -420,7 +419,7 @@ void TObjEnePanBARA::render() {
     if (is_split_screen() != 0) {
         camera_mode = TCameraCtrl::get_camera_mode();
     }
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     render_flags = model_render_flags;
     saved_model_render_flags = render_flags;
     model_render_flags = render_flags | 0x01000000 | 1;

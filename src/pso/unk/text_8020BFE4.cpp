@@ -5,7 +5,7 @@
 
 #include "types.h"
 #include "pso/network/TLobby.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 typedef EnemyFactoryEntry Ent_8020BFE4;
 

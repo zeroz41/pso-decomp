@@ -18,6 +18,8 @@ struct EquipStats { s16 s0; s16 s2; s16 s4; s16 s6; s16 s8; s16 sA; s16 sC; };
 struct TItemData {
     int isValidGroundDrop();
     void init();
+    // Makes this item a meseta drop of `amount`.
+    void init_meseta(s32 amount);
     void bswap();
     static s32 is_usable(void *data);
     static s32 lookup_item_def(void *data);
@@ -81,7 +83,7 @@ struct TItemData {
     s32 get_base_rarity();
     s32 check_item_flags();
     void clear_unidentified_flag();
-    static s32 is_item_usable(saddr arg0, u8 *arg1);
+    static s32 is_item_usable(saddr arg0, u8 *item);
     saddr test_flag3();
     saddr get_item_field_2();
     void add_quantity(s32 amount);

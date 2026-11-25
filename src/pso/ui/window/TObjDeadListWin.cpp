@@ -9,7 +9,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include <string.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/WindowLayout.h"

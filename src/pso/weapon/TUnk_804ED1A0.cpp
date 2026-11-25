@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include "pso/weapon/TUnk_804ED1A0.h"
 #include "pso/item/TItemEquipBase.h"
-#include "pso/player/TObjPlayer_8012105C.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -10,7 +10,7 @@ void TUnk_804ED1A0::update_weapon() {
     refresh_owner_stats();
 }
 
-void TUnk_804ED1A0::reserved_53() {
+void TUnk_804ED1A0::draw_held_model() {
     draw_weapon_at_joint((saddr)this, 0x30);
     update_trail_slot(0);
     update_trail_slot(1);

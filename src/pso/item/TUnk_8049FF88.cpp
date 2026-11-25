@@ -2,7 +2,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049FF88.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 s32 add_weapon_grind(TItem *weapon, u8 amount);

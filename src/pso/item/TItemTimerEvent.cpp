@@ -12,7 +12,7 @@
 #include "pso/item/TUnk_804A0648.h"
 #include "pso/item/TUnk_804A0668.h"
 #include "pso/item/TUnk_804A0688.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -65,6 +65,12 @@ struct VObj_8011D5B4 : VBase_8011D5B4 {
 };
 struct Rec_8011D5B4 { s32 k1; s32 v1; s32 k2; f32 v2; };
 struct Timer_8011D5B4 { u8 pad[0x28]; VObj_8011D5B4 *obj; f32 f2c; };
+
+void TObjPlayer::set_state_flags(u32 v) { state_flags |= v; }
+
+void TObjPlayer::set_flag_10000() {
+    set_state_flags(0x10000);
+}
 
 extern "C" {
 TItemLockCountCtrl * item_timer_event_instance;

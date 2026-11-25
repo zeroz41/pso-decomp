@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A1D30.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8012105C.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItem.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
@@ -24,7 +24,7 @@ void TUnk_804A1D30::update_attack() {
     }
 }
 
-void TUnk_804A1D30::vfunc_60() {
+void TUnk_804A1D30::transform_model_node() {
     if (TObjPlayer::get_player_list() == 0) {
         scale_current_matrix(&scale.x);
     }

@@ -12,7 +12,7 @@
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TMainTask.h"

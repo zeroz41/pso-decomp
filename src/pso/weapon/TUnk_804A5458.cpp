@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A5458.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8012105C.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/system/task/TMainTask.h"
 
 TUnk_804A5458::~TUnk_804A5458() {}

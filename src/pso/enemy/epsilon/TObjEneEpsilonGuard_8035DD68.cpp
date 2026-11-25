@@ -12,7 +12,6 @@ struct NJS_OBJECT;
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D8F74.h"
@@ -33,7 +32,7 @@ struct NJS_OBJECT;
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
@@ -204,7 +203,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     this->effect_anchor.y = 0.0f;
     this->effect_anchor.z = 0.0f;
     set_chunk_model_node_callback(TObjEneEpsilonGuard::advance_camera_ctrl_step);
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     if (detail == 1) {
         this->TObjMotion::draw();
     } else {

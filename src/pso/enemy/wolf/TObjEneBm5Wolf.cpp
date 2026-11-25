@@ -37,7 +37,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjCGrass.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/render/render_util.h"
@@ -1883,7 +1883,7 @@ void TObjEneBm5Wolf::render() {
             TObjEneBm5Wolf__render_joint_y_rotation = -(this->turn_offset / 2);
             set_chunk_model_node_callback(TObjEneBm5Wolf::advance_spawn_timer);
             TObjEneDD::clear_global_flag_400();
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             if (detail == 1) {
                 this->draw();
             } else {
@@ -1954,7 +1954,7 @@ void TObjEneBm5Wolf::render_debug() {
             }
         }
         translate_matrix(0, 0.0f, 0.0f, -10.0f);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         set_motion_packed_rotation();
         draw_model_motion(this->model, motion, frame);
         clear_motion_packed_rotation();

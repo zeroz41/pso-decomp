@@ -1,4 +1,5 @@
 #include "pso/player/PlayerState.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_803D96A8.h"
@@ -8,7 +9,7 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/player/TObjPlayer_801D3554.h"
+#include "pso/player/TPlyItem.h"
 #include "pso/technique/TTelepipeSelectField.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -196,7 +197,7 @@ TTecLuker::TTecLuker(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
         if (level == 10) {
             VecCopy(&pipe_pos, target);
         } else {
-            placement = new TUnk_804C4450;
+            placement = new PositionPlacementQueue;
             if (placement != NULL) {
                 Vec v = lbl_8044D72C;
                 TObjBase *owner;
@@ -239,7 +240,7 @@ void TTecLuker::run_task() {
     u8 *temp_r29;
     TObjPlayer *player;
     u8 *owner;
-    TUnk_804C4450 *tgt;
+    PositionPlacementQueue *tgt;
     source = (uaddr)find_entity_by_id(sourceId);
     owner = (u8 *)source;
     if (owner == NULL) {
@@ -663,7 +664,7 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading) {
     }
     p = (Player_80233E78 *)get_player_by_client_id(slot);
     if (p != 0) {
-        owner = TObjPlayer__sub_801BFFA0(p->arrival);
+        owner = ((FlagWord *)p->arrival)->get_bits();
         if (owner == 0xffff) {
             return 0;
         }

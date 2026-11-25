@@ -17,7 +17,7 @@
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/render_util.h"
@@ -50,7 +50,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/text_802D1C84.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/AltModel.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecKafun.h"
@@ -164,7 +164,7 @@ void TObjEneBm9Mericarol::load_resources() {
     lbl_805D6874 = 0;
     lbl_805D6878 = 0;
     fn_802D1CC8();
-    TObjPlayer::init_alt_model();
+    init_alt_model();
     for (i = 0; i < 3; i++) {
         bm9_mericarol_phase_hp_table[i] = TLobby::register_boss(mericarol_phase_hp_ids[i]);
         bm9_mericarol_phase_attack_table[i] = TLobby::dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);
@@ -1221,7 +1221,7 @@ void TObjEneBm9Mericarol::render() {
     TObjEneDD::clear_global_flag_400();
     translate_matrix(0, 0.0f, draw_offset_y, 0.0f);
     mericarol_node_counter = 0;
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     if (!(flags & 0x10)) {
         plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->sibling->model)->polygon_list;
         saved = plist[5];
@@ -1297,7 +1297,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         set_alpha_ref_override(0);
         draw_chunk_object(model);
         restore_alpha_ref();

@@ -15,6 +15,7 @@ public:
     void (*callback)(TObjPlayer *);
 public:
     static void *create(u16 player_id, s16 count, void (*callback)(TObjPlayer *));
+    static const char *class_name;
 };
 LAYOUT_ASSERT(TPlyOnCountOver_size, sizeof(TPlyOnCountOver) == 0x24);
 

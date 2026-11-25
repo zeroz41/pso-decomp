@@ -45,6 +45,8 @@ public:
     s16 get_hpmax();
     s32 obj_isState3_324();
     s32 obj_isState2_324();
+    // control_state 1: this machine drives it.
+    s32 is_locally_controlled();
     // control_state 7: the owner holds a fixed pose its mag aligns to.
     s32 is_in_fixed_pose();
     void calc_attach_pos();
@@ -172,7 +174,7 @@ public:
     // Spends photon blast charge; TObjPlayer forwards it to subtract_photon_blast_charge (param name inferred).
     virtual void spend_photon_blast_charge(f32 charge);
     virtual void gain_photon_blast_chain_charge(f32 amount);
-    virtual void vfunc_78(saddr);
+    virtual void send_status_effect_add(StatStatusReceipt effect);
     void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
     virtual void reset_motion_fields();

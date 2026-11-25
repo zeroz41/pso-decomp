@@ -13,7 +13,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -336,7 +336,7 @@ void TOTrapAncient02::vfunc_81() {
             target = p;
             if (target != NULL) {
                 d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
-                dist = range - TObjPlayer__sub_8017A1A4(p, 0);
+                dist = range - p->get_body_radius(0);
                 if (d < dist * dist) {
                     if (player == local_client_id) {
                         send_6x2C_impose_hold(p, &position, timer, 0, dist);

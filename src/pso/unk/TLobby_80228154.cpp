@@ -16,7 +16,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 
 // Area set-up functions of TLobby_80299A60/B90/C4C.cpp, which have no header.

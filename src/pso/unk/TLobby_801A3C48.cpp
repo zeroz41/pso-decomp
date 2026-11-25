@@ -41,7 +41,7 @@
 #include "pso/ui/city/TShopGetItemWindow_8021F0A4.h"
 #include "pso/ui/city/TShopGetItemWindow_8021F074.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/player/TObjPlayer.h"

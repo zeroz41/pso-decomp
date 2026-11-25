@@ -18,7 +18,7 @@
 #include "pso/system/ControllerInput.h"
 
 #include "types.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -47,7 +47,7 @@ class TChCrTagPlBack;
 
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/player/TPlyGuildCardTag_8007B7EC.h"
+#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/text_802754EC.h"

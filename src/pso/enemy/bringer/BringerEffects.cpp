@@ -19,7 +19,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -254,7 +254,7 @@ void TUnk_8048FE64::run_task() {
 void TUnk_8048FE64::render() {}
 
 TObjEneDf2Bringer_Eff_TpAbsorb1::TObjEneDf2Bringer_Eff_TpAbsorb1(TObject *parent, TObjBase *owner, AreaAttackHistory *history)
-    : TUnk_804928CC(parent, owner) {
+    : TAttackCollider(parent, owner) {
     m_name = bringer_tp_absorb_effect_name;
     active = 0;
     power = 0.0f;
@@ -333,7 +333,7 @@ void TObjEneDf2Bringer_Eff_TpAbsorb1::run_task() {
     }
     attack.kind = bringer_tp_absorb_attack.kind;
     attack.power = power;
-    call_vt13_with_default((void *)&bringer_tp_absorb_hit_params, &attack, (saddr)attack_history);
+    call_vt13_with_default(&bringer_tp_absorb_hit_params, &attack, attack_history);
     timer--;
     if (hit != 0 || timer < 0) {
         deactivate();

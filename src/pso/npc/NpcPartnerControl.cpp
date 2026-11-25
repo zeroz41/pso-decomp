@@ -17,11 +17,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerTaskEffects.h"
 
 // One TU: apply_player_slot_status (jumptable after the TNpcPartnerSpawner vtable in .data),

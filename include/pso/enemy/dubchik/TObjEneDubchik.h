@@ -7,7 +7,7 @@
 class TParticleCtrl;
 class TAttackTraceStrip;
 
-class TUnk_80491478;
+class TDubchikPart;
 
 struct BmlResource;
 
@@ -67,7 +67,7 @@ public:
     s16 shot_count;  // 0x38E: shots left in the volley update_shoot fires (parameters[0], default 2)
     s16 attack_count;  // 0x390: attacks since the last retarget; past 3 it retargets the nearest player (inferred)
     s16 collapsed;  // 0x392: set while the parts lie apart; render then draws with the base texlist (inferred)
-    TUnk_80491478 *parts[3];  // the pieces it falls apart into
+    TDubchikPart *parts[3];  // the pieces it falls apart into
     s8 part_hit[3];
     u8 pad_3A3[0x1];
     f32 chase_distance;  // 0x3A4: distance walked while chasing; past a threshold it may switch target (inferred)

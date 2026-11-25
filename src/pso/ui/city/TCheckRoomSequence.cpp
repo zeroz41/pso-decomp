@@ -30,7 +30,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/item/TItemData.h"

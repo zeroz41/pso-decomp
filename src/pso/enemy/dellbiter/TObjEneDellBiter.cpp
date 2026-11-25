@@ -5,7 +5,7 @@
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -30,7 +30,7 @@
 
 #include "pso/system/BmlResourceDescriptor.h"
 
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/render/MaterialShadeFade.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_Rush.h"
 #include <stddef.h>
@@ -72,7 +72,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
@@ -234,8 +234,8 @@ void TObjEneDellBiter::init_params() {
     combo_count = 0;
     rush_count = 0;
     effect_timer = 0;
-    attack_bodies[0] = new TUnk_804928CC(this, this, &dell_biter_collision_bodies[1], 1);
-    attack_bodies[1] = new TUnk_804928CC(this, this, &dell_biter_collision_bodies[2], 1);
+    attack_bodies[0] = new TAttackCollider(this, this, &dell_biter_collision_bodies[1], 1);
+    attack_bodies[1] = new TAttackCollider(this, this, &dell_biter_collision_bodies[2], 1);
     rush_body = new TObjCollidable(NULL);
     init_collision_body_parts(rush_body, &dell_biter_collision_bodies[3], 1);
     attack_history = new AreaAttackHistory(8);
@@ -411,9 +411,9 @@ void TObjEneDellBiter::update_contact_attacks() {
         attack_bodies[1]->rotation_y = rotation_y;
         VecCopy(&attack_bodies[1]->position, &part_positions[1]);
         attack_bodies[1]->refresh_collision_body_centers();
-        DelbiterContactAttack attack = { get_attack_params_atp_min(TObjEneDellBiter__shared_handler_param), 1 };
+        AreaAttackContact attack = { get_attack_params_atp_min(TObjEneDellBiter__shared_handler_param), 1 };
         if (is_confused() != 0) {
-            attack.flags |= 2;
+            attack.contact_flags |= 2;
         }
         attack_bodies[0]->call_vt16_with_default(&attack, attack_history);
         attack_bodies[1]->call_vt16_with_default(&attack, attack_history);
@@ -1480,7 +1480,7 @@ void TObjEneDellBiter::render() {
         TObjEneDellBiter__demo_script_cursor = part_positions;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         draw = 1;
         camera_fade = &camera_fades[cam];
         camera_fade->update();
@@ -1545,7 +1545,7 @@ void TObjEneDellBiter::render_demo() {
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         Vec v = { 1.0f, 1.0f, 3.0f };
         TObjEneDD::draw_ground_shadow(&v, 0);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

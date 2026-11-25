@@ -129,7 +129,7 @@ void TBoss6MagMine::explode() {
     s32 i;
     for (i = 0; i < n; i++) {
         TObjPlayer *player = TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_active(player) != 0 && TObjPlayer::is_locally_controlled(player) != 0) {
+        if (TBoss6PlotFalz::is_active(player) != 0 && player->is_locally_controlled() != 0) {
             Vec v = position;
             subtract_vector(&v, &player->position);
             v.y = 0.0f;

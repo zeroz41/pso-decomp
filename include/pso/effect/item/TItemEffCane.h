@@ -12,6 +12,10 @@ public:
     virtual ~TItemEffCane();
     virtual void run_task();
 
+    static void create(TObject *parent, TItem *item, s32 attachment, s32 effect_id);
+    static void spawn(TObject *parent, TItem *item, s32 attachment);
+    static void spawn_pair(TObject *parent, TItem *item, s32 first_attachment, s32 second_attachment);
+
     s32 attachment_index;
     void* effect;
     s32 item_id;

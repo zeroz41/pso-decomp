@@ -8,7 +8,7 @@
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 void copy_draw_line_record(DrawLineRecord *, const DrawLineRecord *);

@@ -3,7 +3,7 @@
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/unk/text_8020C9C8.h"
 #include "pso/network/TLobby.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 struct Set_8020C9C8 {
     s16 f0;
     s16 flags;

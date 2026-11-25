@@ -2,7 +2,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/key/TOKeyCol.h"
 #include "pso/network/client_id.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/protocol/protocol_types.h"
 
 const char *TOKeyCol__name = "TOKeyCol";

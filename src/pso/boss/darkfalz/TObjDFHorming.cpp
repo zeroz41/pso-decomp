@@ -45,7 +45,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/network/client_id.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/object/base/TObjBase.h"
 
@@ -615,7 +615,7 @@ void TBoss4DarkFalz::place_players_on_ring() {
             p->save_previous_position();
             p->get_rotation()->yaw = ang + 0x8000;
             p->refresh_equipment_slot();
-            if (TObjPlayer::is_locally_controlled(p) != 0) {
+            if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);
             }
             ang += rate;
@@ -642,7 +642,7 @@ void TBoss4DarkFalz::place_players_for_demo() {
             p->save_previous_position();
             p->get_rotation()->yaw = 0x8000;
             p->refresh_equipment_slot();
-            if (TObjPlayer::is_locally_controlled(p) != 0) {
+            if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);
             }
             ang += rate;

@@ -23,7 +23,7 @@
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/TLevelSelect.h"
 

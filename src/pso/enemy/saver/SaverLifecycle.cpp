@@ -13,7 +13,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "types.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/technique/TTecCtrl.h"
@@ -32,7 +32,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #include "pso/system/vector.h"
-#include "pso/player/TObjPlayer_800A7764.h"
+#include "pso/enemy/dimedian/TObjEneDimedian.h"
 
 #include "pso/render/MaterialShadeFade.h"
 
@@ -53,7 +53,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/math/MatrixTransforms.h"
@@ -831,7 +831,7 @@ void TObjEneSaver::render() {
         saver_render_node_index = 0;
         saver_render_rotation_x = facing_angle;
         set_chunk_model_node_callback(TObjPlayer::step_cutscene_frame);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         switch (mode) {
         case 11:
             if (phase == 1) {

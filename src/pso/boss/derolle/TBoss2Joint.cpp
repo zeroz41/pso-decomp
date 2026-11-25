@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/boss/derolle/TBoss2Joint.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/TUnk_80482C58.h"
@@ -7,7 +7,6 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TUnk_804820A8.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
@@ -118,7 +117,7 @@ void TBoss2Joint::break_shell() {
                             TLobby::register_object(TBoss2Joint__resistance_stats[1]));
     hp = 0x4E20;
     hpmax = 0x4E20;
-    new TUnk_804820A8(this, &position);
+    new TBoss2JointBreakUp(this, &position);
 }
 
 void TBoss2Joint::enable_body_collision() {

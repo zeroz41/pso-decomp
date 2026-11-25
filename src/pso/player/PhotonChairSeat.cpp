@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/macros.h"
 #include "pso/player/PhotonChairSeat.h"
-#include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -57,7 +57,7 @@ int PhotonChairSeat::create_chair() {
 PhotonChairSeat::~PhotonChairSeat() {}
 
 void PhotonChairSeat::reset() {
-    animation = ret_801D26AC();
+    animation = get_no_action();
     owner_id = 0xFFFF;
     delay_6xB0 = delay_6xAF = pad_4 = 0;
 }

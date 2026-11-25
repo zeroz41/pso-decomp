@@ -7,7 +7,7 @@
 #include "pso/ui/window/WindowLayoutCamera2Data.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 struct Node_8026CC28 { u8 p0[0xC]; Node_8026CC28 *fC; u8 p10[0x44]; f32 f54; };

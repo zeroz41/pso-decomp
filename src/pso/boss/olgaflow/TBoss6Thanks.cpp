@@ -17,7 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -35,6 +35,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/animation/ActorAnimationState.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 
 
 LAYOUT_ASSERT(Thanks_state, offsetof(TBoss6Thanks,state)==0x1c);
@@ -290,11 +291,11 @@ s32 any_player_has_listed_equipment(void) {
     return 0;
 }
 
-void TUnk_804F1EC8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804F1EC8::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     f32 color[4];
     desc->flags |= 0x1C;
     get_weapon_color__11TItemWeaponFPv(color, this);
     copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
-    desc->wall_effect = (void *)TObjPlayer::forward_item_effect_callback;
+    desc->wall_effect = (void *)spawn_wall_hit_particles;
 }

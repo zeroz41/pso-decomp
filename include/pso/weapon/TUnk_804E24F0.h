@@ -9,10 +9,10 @@ public:
     TUnk_804E24F0(TObject *parent, u8 *item);
     static TItem *create(u8 *item); // weapon_factory_table entry
     virtual ~TUnk_804E24F0();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void emit_marker_effects();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     virtual void update_attack();
     f32 muzzle_offset;
 };

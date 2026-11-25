@@ -21,7 +21,7 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/render/reflection.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/object/base/TObjChara.h"
@@ -54,7 +54,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
@@ -1163,7 +1163,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     part->update();
     vis = part->updateFromCamera(&body_center);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -1346,7 +1346,7 @@ void TObjEneMorfos::render_demo() {
             Vec v = morfos_vfunc_106_shadow_scale;
             draw_ground_shadow(&v, 0);
         }
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

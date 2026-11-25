@@ -40,7 +40,7 @@
 #include "pso/render/Draw2D.h"
 #include "pso/render/GinjaView.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/scene/OfflineGameScene.h"
 #include "pso/quest/QuestOpcodeTables.h"
 #include "pso/object/base/TObjBase.h"

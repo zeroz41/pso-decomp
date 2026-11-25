@@ -5,6 +5,7 @@
 #include "pso/technique/TTecJelin.h"
 #include "pso/technique/TTecZarua.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 void TUnk_804A3450::on_equipped() {
     roll_technique();
@@ -13,7 +14,7 @@ void TUnk_804A3450::on_equipped() {
 
 void TUnk_804A3450::emit_marker_effects() {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effects(this, 2, 1);
+        TItemEffCane::spawn_pair(tl_05, this, 2, 1);
     }
     if (is_mode_two_and_ready() != 0) {
         if (get_tp() == 0) {

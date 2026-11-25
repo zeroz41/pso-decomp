@@ -1,3 +1,5 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
+#include "pso/player/TEquippedItemDrawTask.h"
 #include "pso/system/memory.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -62,7 +64,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/vector.h"
@@ -74,10 +76,10 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 
-#include "pso/player/TObjPlayer_80104860.h"
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/item/item_create.h"
 
 
 // The two colours of the present box, by wrapping colour (box_color).
@@ -273,7 +275,7 @@ void VectorXZF::bswap() {
     bswap_32((u32 *)&z);
 }
 
-f32 RenderMaterialState::get_alpha() { return alpha; }
+f32 RenderMaterialState::get_alpha() { return fade_color.a; }
 
 s32 TObjPlayer::is_flag_20000_set() { return check_flag(0x20000); }
 
@@ -319,16 +321,16 @@ void init_item_system() {
     item_registry_sorted_entries = (TItem **)mem_alloc(0x1000);
     memset(item_registry_sorted_entries, 0, 0x1000);
     item_id_counters = new TItemIdCounters;
-    TObjPlayer::alloc_and_init_object_b4();
-    TObjPlayer::alloc_and_run_object();
+    TEquippedWeaponDrawTask::create_queue();
+    TEquippedItemDrawTask::create_queue();
     TObjPlayer::init_game_resources();
     advance_item_system_generation();
 }
 
 void free_item_system() {
     TObjPlayer::free_item_globals();
-    TObjPlayer::free_static_buffer();
-    TObjPlayer::free_global_805D6FB8();
+    TEquippedItemDrawTask::destroy_queue();
+    TEquippedWeaponDrawTask::destroy_queue();
     if (item_id_counters != NULL) {
         delete item_id_counters;
         item_id_counters = NULL;
@@ -611,7 +613,7 @@ void handle_6x5D_drop_stacked_item(G_DropStackedItem_PC_V3_BB_6x5D *cmd) {
 }
 
 void buy_item_for_client(TItemData *data, u16 client) {
-    if (TObjPlayer::is_locally_controlled(get_player_by_client_id(client)) != 0) {
+    if (get_player_by_client_id(client)->is_locally_controlled() != 0) {
         if ((s32)data->id == -1) {
             data->id = advance_item_id_counter(client);
         }
@@ -1149,14 +1151,14 @@ f32 TItem::get_owner_alpha() {
 
 void TItem::refresh_if_current_player() {
     if ((s32)owner_client_id == local_client_id) {
-        TLobby::mark_selected();
+        mark_selected();
     }
 }
 
 s32 TItem::get_icon_index() {
     TItemData data;
     copy_to_item_data(&data);
-    return TLobby::get_item_data((uaddr)&data);
+    return get_item_data((uaddr)&data);
 }
 
 void TItem::set_item_group(u8 value) { item_group = value; }
@@ -1302,7 +1304,7 @@ s32 consume_item_by_id(s32 id) {
     s32 count = item->get_amount();
     s32 item_id = item->get_item_id();
     owner->dispatch_action(id, 1);
-    if (TObjPlayer::is_locally_controlled(owner) != 0) {
+    if (owner->is_locally_controlled() != 0) {
         owner->send_unequip_held_item();
     }
     if (find_item_by_id(item_id) != NULL && count < 2) {

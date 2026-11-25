@@ -11,8 +11,8 @@ class TUnk_804A69DC : public TItemWeapon {
 public:
     virtual void activate_effect(s32 effect);
     virtual void emit_marker_effects();
-    virtual void vfunc_60();
-    virtual void reserved_53();
+    virtual void transform_model_node();
+    virtual void draw_held_model();
     virtual void update_idle();
     virtual void update_attack();
     virtual void update_weapon();

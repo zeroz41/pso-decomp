@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_80126460.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/system/task/TObject.h"
 #include "pso/weapon/TUnk_804A2A58.h"
@@ -31,7 +30,7 @@ u32 baranz_launcher_create_shot(void *player, s32 pos, s32 dir, f32 life) {
 }
 
 // Baranz Launcher (inferred)
-void TUnk_804A2A58::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_y(NULL, rotation_y); } }
+void TUnk_804A2A58::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_y(NULL, rotation_y); } }
 
 
 void TUnk_804A2A58::emit_marker_effects() {

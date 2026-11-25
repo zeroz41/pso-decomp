@@ -12,7 +12,7 @@
 #include "pso/weapon/TUnk_804F0AF8.h"
 #include "pso/weapon/TUnk_804F0908.h"
 #include "pso/weapon/TUnk_804F0810.h"
-#include "pso/player/TUnk_804A2548.h"
+#include "pso/weapon/TExplosionCollider.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/render/MaterialColorFade.h"
@@ -45,7 +45,6 @@ typedef struct SlicerLaunchData_8012D9C8 {
 
 void init_slicer_launch_state(void *arg0);
 extern "C" {
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 void *find_entity_by_id(s32);
 }
@@ -77,7 +76,7 @@ void TUnk_804F0908::emit_marker_effects() {
     launch.weapon = get_item_id();
     launch.textures = *(void **)((s8 *)this + 0x24);
     launch.model = *(void **)((s8 *)this + 0x188);
-    launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 **)&owner + 0x7CC));
+    launch.kind = owner->attack_state.get_validated_attack_kind();
     launch.stage = owner->attack_state.get_validated_attack_stage();
     launch.multiplier = ((TObjPlayer *)(*(u8 **)&owner))->query_extended_state();
     get_weapon_color__11TItemWeaponFPv(tmp, this);
@@ -122,9 +121,9 @@ TUnk_804F0810::~TUnk_804F0810() {}
 
 void TUnk_804F0810::update_attack() { add_angle_clamped(&spin_angle, -4551, 0); }
 void TUnk_804F0810::update_idle() { add_angle_clamped(&spin_angle, 1820, 13653); }
-void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
+void TUnk_804F0810::draw_held_model() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
 
-void TUnk_804F0810::vfunc_60() {
+void TUnk_804F0810::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 1:
         rotate_matrix_z(0, spin_angle);

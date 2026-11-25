@@ -16,7 +16,7 @@
 #include "pso/npc/TObjNpcFomarl.h"
 #include "pso/npc/TObjNpcMale.h"
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/unk/text_8035B6B0.h"
 #include "pso/unk/text_8035B750.h"
@@ -118,7 +118,7 @@
 #include "pso/object/ambient/TObjGrass.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800C7FEC.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 extern "C" {

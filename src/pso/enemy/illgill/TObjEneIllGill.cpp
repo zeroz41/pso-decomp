@@ -4,7 +4,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/system/task/TObject.h"
@@ -41,7 +41,7 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -1421,7 +1421,7 @@ void TObjIllGillKage::attack_target() {
 
     this->state = 1;
     player = get_player_by_client_id(this->target_id);
-    if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) != 0) && (player->all_parents_unqueued_for_destruction() != 0) && (player->test_actor_flags(0x800) == 0)) {
+    if ((player != NULL) && (player->is_locally_controlled() != 0) && (player->all_parents_unqueued_for_destruction() != 0) && (player->test_actor_flags(0x800) == 0)) {
         TObjPlayer::play_effect(player, this->timer, 3);
     }
 }

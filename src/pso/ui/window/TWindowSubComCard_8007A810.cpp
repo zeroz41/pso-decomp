@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/player/GuildCardEntry.h"
 #include "pso/ui/chat/ShortMail.h"
-#include "pso/player/TPlyGuildCardTag_8007B7EC.h"
+#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/network/TLobby.h"
@@ -246,7 +246,7 @@ void handle_6x06_send_guild_card(s32 packet) {
     bswap_guild_card__17TWindowSubComCardFv();
     card = packet + 4;
     if ((((s32 (*)(int))TWindowSubComCard__sub_8007B070)(card) == 0) && (((TWindowSubComCard *)card)->send_guild_card() == 0)) {
-        TWindowSubShortMail__sub_8007B824();
+        set_guild_card_receive_active();
         if (((s32 (*)(int, void *, int))TWindowSubComCard__sub_8007B0D0)(card, TWindowGetComCard__received_guild_card_tags, 4) == 0) {
             ((s32 (*)(int, void *, int))TWindowSubComCard__sub_8007B1AC)(card, TWindowGetComCard__received_guild_card_tags, 4);
         }
@@ -413,7 +413,7 @@ s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client) {
   strncpy((char *)(ply_guild_card_tag + 8), (const char *)((TPlyPhotonChair *)(player))->get_name(), 0x17);
   *((s8 *) (((s8 *) ply_guild_card_tag) + 0x1F)) = 0;
   *((u8 *) (((s8 *) ply_guild_card_tag) + 0x8F)) = (u8) (*((u8 *) (((s8 *) player) + 0x88D)));
-  *((s8 *) (((s8 *) ply_guild_card_tag) + 0x8E)) = ((TPlyPhotonChair *)player)->get_actor_section_id();
+  *((s8 *) (((s8 *) ply_guild_card_tag) + 0x8E)) = ((TObjPlayer *)player)->get_section_id();
   new_var = ((TObjPlayer *)player)->get_language();
   temp_r4 = (u8 *)(player + 0xDAC);
   *((s8 *) (((s8 *) ply_guild_card_tag) + 0x8D)) = new_var;

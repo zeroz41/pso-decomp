@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_8020EEFC.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_800F9B84.h"

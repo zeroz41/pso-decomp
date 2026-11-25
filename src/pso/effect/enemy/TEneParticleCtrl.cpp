@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/effect/enemy/TEneParticleCtrl.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
 CollisionBody TEneParticleCtrl::collision_body = {{0.0f, 0.0f, 0.0f}, 20.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};

@@ -48,7 +48,6 @@ const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
 };
 const char *TTecBarta__class_name = "TTecBarta";
 extern "C" {
-s32 get_type__10TObjPlayerFPv(void *);
 
 #pragma push
 #pragma dont_inline off
@@ -260,7 +259,7 @@ void TTecCircle::apply_technique_to_area_targets() {
         return;
     }
     if (((TObjBase *)source)->get_entity_id() < 4) {
-        if (get_type__10TObjPlayerFPv((u8 *)source + 0x828) != 0) {
+        if (((TObjPlayer *)source)->pk_state.is_enabled() != 0) {
             list = collect_body_contacts_for_target(source);
         } else {
             list = find_area_contact(source);

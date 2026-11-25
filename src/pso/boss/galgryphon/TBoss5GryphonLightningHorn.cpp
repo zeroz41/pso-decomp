@@ -7,7 +7,7 @@
 #include <dolphin/mtx.h>
 #include "pso/system/vector.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"

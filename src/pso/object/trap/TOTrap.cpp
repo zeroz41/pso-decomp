@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOTrap.h"
 #include "pso/object/trap/TOMineTrap.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
@@ -53,7 +53,7 @@ void TOTrap::vfunc_82() {
             u32 v = p->get_entity_id();
             if (v < 0x1000U) {
                 pl = get_player_by_client_id(v);
-                if (TObjPlayer::is_locally_controlled(pl) != 0 && pl->check_player_flag1() != 0) {
+                if (pl->is_locally_controlled() != 0 && pl->check_player_flag1() != 0) {
                     send_release_hold(pl);
                 }
             }
@@ -72,7 +72,7 @@ void TOTrap::vfunc_81() {
         if (this->target != 0) {
             if (horizontal_distance_squared(&((TObjChara *)this->target)->position, &position) < this->dist * this->dist) {
                 this->mode = 3;
-                if (TObjPlayer::is_locally_controlled(pl) != 0) {
+                if (pl->is_locally_controlled() != 0) {
                     ((void (*)(f32, TObjPlayer *, Vec *, s32, s32))send_6x2C_impose_hold)(
                         this->dist, pl, &position, this->set_params[0], 0);
                 }
@@ -137,7 +137,7 @@ f32 TOTrap::receive_physical_attack(void *source, f32) {
             id = ((TObjBase *)source)->get_entity_id();
             if (id < 0x1000U) {
                 pl = get_player_by_client_id(id);
-                if (pl != NULL && TObjPlayer::is_locally_controlled(pl) != 0 && pl->check_player_flag1() != 0) {
+                if (pl != NULL && pl->is_locally_controlled() != 0 && pl->check_player_flag1() != 0) {
                     send_release_hold(pl);
                 }
             }

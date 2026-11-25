@@ -48,13 +48,12 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/math/ScratchVectors.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/render/NinjaUtil.h"
@@ -356,7 +355,7 @@ void TObjEneMerillLia::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             visible = 1;
             fading = 0;
             if (mode == 0xD) {

@@ -1,14 +1,12 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TItemWeaponRocketPunch.h"
-#include "pso/player/TObjPlayer_8012C3F4.h"
 #include "pso/weapon/shoot/TItemShootRocketPunch.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/shoot/TItemShootModel.h"
-#include "pso/player/TObjPlayer_8012C548.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/data/FlagWord.h"
@@ -119,7 +117,7 @@ void TItemWeaponRocketPunch::emit_marker_effects() {
     }
 }
 
-void TItemWeaponRocketPunch::vfunc_60() {
+void TItemWeaponRocketPunch::transform_model_node() {
     void *model;
     switch (TObjPlayer::get_player_list()) {
     case 1:
@@ -137,7 +135,7 @@ void TItemWeaponRocketPunch::vfunc_60() {
     }
 }
 
-void TItemWeaponRocketPunch::reserved_53() {
+void TItemWeaponRocketPunch::draw_held_model() {
     NJS_OBJECT *saved_model = item_model;
     punch_flags.set(1);
     draw_weapon_model();

@@ -58,7 +58,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -829,7 +829,7 @@ void TObjWarpBossMulti::run_task() {
 
     for (i = 0; i < 4; i++) {
         pl = player_slot_table[i];
-        if (pl != 0U && TObjPlayer::is_locally_controlled((void *)pl) != 0) {
+        if (pl != 0U && ((TObjChara *)pl)->is_locally_controlled() != 0) {
             if (((TObjPlayer *)pl)->get_floor() == get_current_floor()) {
                 if (xz_distance_squared(&((TObjPlayer *)pl)->position, &position) <= (r = 25.0f + warp_range) * r) {
                     if (TObjWarpBossMulti::is_flag_clear((void*)pl) != 0) {

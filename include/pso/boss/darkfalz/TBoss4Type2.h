@@ -149,4 +149,11 @@ LAYOUT_ASSERT(Type2NodeTablesOffset, offsetof(TBoss4Type2, node_tables) == 0x378
 LAYOUT_ASSERT(TBoss4Type2_parts, offsetof(TBoss4Type2, parts) == 0x42C);
 LAYOUT_ASSERT(TBoss4Type2_size, sizeof(TBoss4Type2) == 0x474);
 
+// Dark Falz's fade-in and fade-out draws bracket their models with these.
+extern const f32 alpha_blend_color;
+extern const u32 alpha_blend_render_flags;
+extern const f32 alpha_blend_alpha_bias;
+void begin_alpha_blend(f32 alpha);
+void end_alpha_blend();
+
 #endif

@@ -17,7 +17,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/map/TSetEvtDestroy.h"

@@ -8,7 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/BmlResource.h"
@@ -538,7 +538,7 @@ void TObjEneRe4Bit::render() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     draw = 1;
     if (behavior_flags & 0x200) {
         fade.set_flags_and_apply_damage_color();

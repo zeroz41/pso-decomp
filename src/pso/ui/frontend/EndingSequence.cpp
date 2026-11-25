@@ -127,7 +127,7 @@ TItemWeaponSBerillsHands::TItemWeaponSBerillsHands(TObject *parent, u8 *item) : 
     pad_200 = 0;
 }
 
-void TItemWeaponSBerillsHands::vfunc_60() {
+void TItemWeaponSBerillsHands::transform_model_node() {
     s32 player_list;
     if (pad_1f8 == 0) {
         player_list = TObjPlayer::get_player_list();
@@ -150,7 +150,7 @@ void TItemWeaponSBerillsHands::update_weapon() {
     }
 }
 
-void TItemWeaponSBerillsHands::reserved_53() {
+void TItemWeaponSBerillsHands::draw_held_model() {
     NJS_OBJECT *model = item_model;
     draw_weapon_model();
     item_model = second_model;

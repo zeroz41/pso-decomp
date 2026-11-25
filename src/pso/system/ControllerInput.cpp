@@ -13,7 +13,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/data/pso_date.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 const u32 input_button_mask_table[14] = {
     0x10, 0x20, 0x40, 0x80, 0x100000, 0x200000, 0x400000, 0x800000,
@@ -138,7 +138,7 @@ void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerI
     }
 }
 
-void StickEscapeDetector::reset_fields() {
+StickEscapeDetector::StickEscapeDetector() {
     last_stick_angle = 0;
     last_turn_frame = 0;
     input = NULL;

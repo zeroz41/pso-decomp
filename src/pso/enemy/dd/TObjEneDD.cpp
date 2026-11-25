@@ -57,7 +57,6 @@ int freeze_all_players__10TObjPlayerFv(void*);
 }
 
 
-#include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/unk/text_803D96A8.h"
 
@@ -68,12 +67,12 @@ int freeze_all_players__10TObjPlayerFv(void*);
 
 
 
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 
 #include <stddef.h>
 extern "C" {
-TUnk_804928CC *obj_ene_dd_instance;
+TAttackCollider *obj_ene_dd_instance;
 }
 
 
@@ -116,7 +115,6 @@ int submit_cursor_candidate(void*, int);
 }
 
 
-#include "pso/unk/text_800BC4C8.h"
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -144,7 +142,7 @@ s32 tick_period_counter(s32 self, s32 *counter, s32 limit) {
 int TObjEneDD::get_enemy_count() {  return registered_enemy_count; }
 
 void TObjEneDD::create_instance() {
-    obj_ene_dd_instance = new TUnk_804928CC(NULL, NULL);
+    obj_ene_dd_instance = new TAttackCollider(NULL, NULL);
 }
 
 void TObjEneDD::release_resource() {
@@ -800,10 +798,10 @@ void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *pa
     obj_ene_dd_instance->bodies->radius = params->radius;
     obj_ene_dd_instance->bodies->flags = 0x9D03;
     if (params->radius > 100.0f) {
-        obj_ene_dd_instance->area_attack_deliver_direct(&params->contact, (saddr)params, attack_history, params->radius);
+        obj_ene_dd_instance->area_attack_deliver_direct(&params->contact, &params->attack, attack_history, params->radius);
         return;
     }
-    obj_ene_dd_instance->call_vt13_with_default(&params->contact, params, (saddr)attack_history);
+    obj_ene_dd_instance->call_vt13_with_default(&params->contact, &params->attack, attack_history);
 }
 
 void TObjEneDD::setup(TObjBase *owner, Vec *pos, DragonAttackParams *params) { TObjEneDD::setup_instance(owner, pos, params, NULL); }

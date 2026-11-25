@@ -604,7 +604,7 @@ void TObjGrass::render() {
     if (TObjPlayer::check_demo_mode() == 1) {
         draw_chunk_object(*(void **)((s8 *)arg0 + 0x34));
     } else {
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         TObjGrass__render_node_index = 0;
         set_chunk_model_node_callback(TObjGrass::update_camera_vec_by_stage);
         if (*(s32 *)((s8 *)arg0 + 0x3AC) == 1) {
@@ -1694,7 +1694,7 @@ void TObjGrassWeb::apply_to_player() {
 
     this->m_90 = 1;
     player = get_player_by_client_id(this->m_a4);
-    if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) != 0) && (player->all_parents_unqueued_for_destruction() != 0) && (player->test_actor_flags(0x800) == 0)) {
+    if ((player != NULL) && (player->is_locally_controlled() != 0) && (player->all_parents_unqueued_for_destruction() != 0) && (player->test_actor_flags(0x800) == 0)) {
         TObjPlayer::play_effect(player, this->set_params[0], 1);
     }
 }

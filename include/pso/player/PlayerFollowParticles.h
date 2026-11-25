@@ -7,6 +7,7 @@
 class TObjBase;
 class TPlyPtclObjectLeftHand;
 class TPlyPtclObjectRightHand;
+class TParticleCtrl;
 
 // The empty base of PlayerHandParticles.
 struct PlayerHandParticlesBase {
@@ -25,7 +26,8 @@ struct PlayerHandParticles : PlayerHandParticlesBase {
     void create_right_hand(TObjBase *owner);
     int emit_movement_effect(u16 target_id);
     int emit_deband_support_effect(u16 target_id);
-    int emit_zalure_support_effect(u16 target_id);
+    TParticleCtrl *emit_zalure_support_effect(u16 target_id);
+    TParticleCtrl *emit_grass_footstep_particle(const Vec *position);
 
     TPlyPtclObjectLeftHand *left_hand;
     TPlyPtclObjectRightHand *right_hand;
@@ -36,7 +38,7 @@ struct PlayerFollowParticles {
     u16 owner_id; // get_entity_id of the player that owns the followers
     u16 pad_2;
     PlayerHandParticles hands;
-    Vec pad_C[3];
+    Vec contact_points[3]; // hit contact points the followers start from
 
     PlayerFollowParticles();
     ~PlayerFollowParticles();
@@ -48,7 +50,7 @@ struct PlayerFollowParticles {
     void set_owner(TObjBase *owner);
     int emit_movement_effect();
     int emit_deband_support();
-    int emit_zalure_support();
+    TParticleCtrl *emit_zalure_support();
 };
 
 LAYOUT_ASSERT(PlayerFollowParticles_size, sizeof(PlayerFollowParticles) == 0x30);

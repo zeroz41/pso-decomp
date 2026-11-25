@@ -3,7 +3,7 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_8012105C.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A3928.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -12,7 +12,7 @@ s32 draw_weapon_at_joint(void *, int);
 }
 
 
-void TUnk_804A3830::reserved_53() {
+void TUnk_804A3830::draw_held_model() {
     s32 temp_r31;
     draw_weapon_at_joint(this, 0x31);
     update_trail_slot(0);

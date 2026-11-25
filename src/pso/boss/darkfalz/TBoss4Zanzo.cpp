@@ -24,6 +24,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
+#include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -70,7 +71,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
@@ -302,7 +303,7 @@ void TBoss4Type2::advance_afterimage() {
 }
 
 void TBoss4Type2::init_hanger() {
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
@@ -1105,11 +1106,22 @@ void TBoss4Zanzo::render() {
         post_translate_matrix(&params.pos.x);
         rotate_matrix_y(0, params.rotation_y);
         TObjFish::set_global_param(params.texlist);
-        TObjPlayer::begin_alpha_blend(value);
+        begin_alpha_blend(value);
         draw_model_motion(params.model, params.motion, params.frame);
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
         clear_motion_packed_rotation();
         pop_matrix();
     }
 }
 #pragma pop
+
+Vec *TObjPlayer::get_position_ptr() { return &this->position; }
+
+// Dark Falz's first form ignores every status ailment.
+void TBoss4Type1::clear_harmful_statuses() {}
+void TBoss4Type1::apply_shock_status() {}
+void TBoss4Type1::apply_movement_ailment(s32) {}
+void TBoss4Type1::apply_confusion_status() {}
+void TBoss4Type1::apply_slow_status() {}
+void TBoss4Type1::apply_paralysis() {}
+void TBoss4Type1::apply_poison_status() {}

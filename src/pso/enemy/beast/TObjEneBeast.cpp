@@ -26,7 +26,7 @@
 
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -213,7 +213,7 @@ void TObjEneBeast::render() {
     if (TObjPlayer::check_demo_mode() == 1) {
         draw_chunk_object(model);
     } else {
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         doDraw = 1;
         if (fade != 0) {
             camera_fades[cam].set_flags_and_apply_damage_color();

@@ -9,7 +9,7 @@
 class TUnk_804A64E8 : public TItemWeapon {
 public:
     virtual ~TUnk_804A64E8();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void emit_marker_effects();
     virtual void update_attack();

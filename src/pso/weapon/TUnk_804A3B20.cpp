@@ -5,10 +5,11 @@
 #include "pso/unk/text_80128440.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 void TUnk_804A3B20::vfunc_62() {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effects(this, 1, 2);
+        TItemEffCane::spawn_pair(tl_05, this, 1, 2);
     }
 }
 

@@ -66,7 +66,7 @@ void TObjEneRe2Flower::render_demo() {
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
     TObjEneDD::clear_global_flag_400();
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     set_alpha_ref_override(0);
     draw_chunk_object(model);
     restore_alpha_ref();
@@ -133,12 +133,12 @@ void TObjEneRe2Flower::render() {
         if (mode == 8) {
             s32 c = (blink_level & 0xFF) << 16;
             re2_flower_node_index = -1;
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             draw_with_alt_model(c);
             TParticleCtrl::end_effect_render();
         } else {
             re2_flower_node_index = 0;
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             if (flags & 8) {
                 if (appear_fade.has_visible_opacity() != 0) {
                     appear_fade.set_flags_and_apply_damage_color();
@@ -225,7 +225,7 @@ void TObjEneRe2Flower::state_self_destruct(s32 reason) {
             spawn_particle_effect_with_flags(&v, 0xD3, 0x40);
             {
                 DragonAttackParams prm = re2_flower_tower_attack_params;
-                prm.contact.recoil = prm.power = *re2_flower_movement_params;
+                prm.contact.recoil = prm.attack.power = *re2_flower_movement_params;
                 if (is_tower_variant() != 0) {
                     TObjEneDD__sub_800BA5A4(this, &prm);
                 } else {

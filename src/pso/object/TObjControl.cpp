@@ -111,8 +111,6 @@ s32 create_font_small_task(void *, s32, s32, s32, const char *, s32, u16);
 
 int send_6x60_standard_drop_item_request(void*);
 
-s32 fn_801B0480(void *, void *, s32);
-
 s32 draw_player_status(void *, void *, const char *);
 
 s32 submit_cursor_candidate(void *, int);
@@ -578,7 +576,7 @@ void TObjEnemy::award_enemy_experience(s32 client) {
     val = this->stat_block->exp;
     if ((u16)client == this->attacker_id) {
         if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
-            fn_801B0480(p, this, 1);
+            p->record_kill(this, 1);
             draw_player_status(p, p, "\tC1");
             draw_player_status(p, this, "\tC4");
         }

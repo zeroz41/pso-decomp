@@ -13,8 +13,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/math/BoxCollision.h"
-#include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/math/AngleLookup.h"
@@ -902,7 +902,7 @@ void TObjCollidable::mark_enemy_body_contacts() {
     }
 }
 
-void TUnk_804928CC::update_body_contact_flag(f32 range) {
+void TAttackCollider::update_body_contact_flag(f32 range) {
     CollisionBody *body = bodies;
     if (body) {
         body->flags &= ~0x80000;

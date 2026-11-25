@@ -19,7 +19,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 const char *bm_fs_obj_mekatombo_model_names[2] = { "fs_obj_mekatombo.gj", NULL };
 const char *bm_fs_obj_mekatombo_motion_names[2] = { "fs_obj_mekatombo.njm", NULL };

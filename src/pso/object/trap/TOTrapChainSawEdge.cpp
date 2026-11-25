@@ -10,7 +10,7 @@
 #include "types.h"
 #include <string.h>
 
-#include "pso/player/TObjPlayer_801E2D1C.h"
+#include "pso/render/GinjaMotionDraw.h"
 
 #include "pso/system/task/TObject.h"
 

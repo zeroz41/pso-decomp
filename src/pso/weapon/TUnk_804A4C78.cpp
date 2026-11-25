@@ -14,7 +14,7 @@ s32 TObjPlayer::is_rand_below_threshold() {
 }
 
 
-void TUnk_804A4C78::reserved_53() {
+void TUnk_804A4C78::draw_held_model() {
     s32 saved;
     NJS_OBJECT *saved_model;
     saved = sub_8012B1F8();

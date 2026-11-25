@@ -11,7 +11,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/InverseTrig.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/ActorCollision.h"

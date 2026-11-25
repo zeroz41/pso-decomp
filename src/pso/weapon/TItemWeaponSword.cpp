@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A62F8::vfunc_60() {
+void TUnk_804A62F8::transform_model_node() {
     if (glows != 0 && TObjPlayer::get_player_list() == 1) {
         begin_particle_tev();
         load_projection_tex(0);

@@ -11,7 +11,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"

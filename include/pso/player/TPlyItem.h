@@ -4,60 +4,77 @@
 #include "pso/item/TItemData.h"
 #include "pso/system/task/TObject.h"
 #include <stddef.h>
+#include <dolphin/mtx/GeoTypes.h>
 #include "types.h"
 
 class TItemList;
 struct TObjPlayer;
 struct TItem;
 class TPlyInventoryItem;
+class TObjBase;
 
-// The item list a TPlyItem owns at +0x20. Placeholder names: TUnk_<vtable> for the three
-// list levels; Unk_801C2098 (4 bytes, ctor 0x801C2098) and Unk_801D5CB8 (0x10 bytes, ctor 0x801D5CB8)
-// for the smaller element types. PendingItemDrop holds the source ID and payload of a pending drop.
-struct Unk_801C2098 {
+// A queue slot: 0 free, 1 reserved by a placement search, 2 placed, 3 no place found.
+struct PlacementSlot {
     s32 state;
-    Unk_801C2098();
-    Unk_801C2098 &operator=(const Unk_801C2098 &other);
+    PlacementSlot();
+    PlacementSlot &operator=(const PlacementSlot &other);
+    void reserve();
+    s32 is_free();
+    void set_placed();
+    void set_failed();
+    void clear();
 };
-struct Unk_801D5CB8 {
-    Unk_801C2098 head;
-    f32 x, y, z;
-    Unk_801D5CB8();
+struct PlacementPosition {
+    PlacementSlot head;
+    Vec pos;
+    PlacementPosition();
+    void set_position(const Vec *v);
 };
+// A pending drop: the inventory item ID it came from (-1 for meseta) and the item.
 struct PendingItemDrop {
-    Unk_801C2098 head;
+    PlacementSlot head;
     s32 source_id;
     TItemData item;
     PendingItemDrop();
     void set_source_id(s32 id);
     void copy_item_data(TItemData *source);
 };
-class TUnk_804C4444 {
+// Slots handed to placement searches (TPlacementSearch) and the number still searching.
+class PlacementQueue {
 public:
     s32 count;
-    Unk_801C2098 entries[8];
-    TUnk_804C4444();
-    virtual ~TUnk_804C4444();
+    PlacementSlot slots[8];
+    PlacementQueue();
+    virtual ~PlacementQueue();
+    void increment_count();
+    void decrement_count();
+    PlacementSlot *get_slot(s32 index);
 };
-class TUnk_804C4450 : public TUnk_804C4444 {
+// The queue the telepipe uses: each slot gets the position its search found.
+class PositionPlacementQueue : public PlacementQueue {
 public:
-    Unk_801D5CB8 positions[8];
-    TUnk_804C4450();
-    virtual ~TUnk_804C4450();
+    PlacementPosition positions[8];
+    PositionPlacementQueue();
+    virtual ~PositionPlacementQueue();
+    PlacementPosition *get_position(s32 index);
 };
-class TUnk_804C445C : public TUnk_804C4450 {
+// The queue a player's item drops wait in until a free spot on the ground is found.
+class ItemDropQueue : public PositionPlacementQueue {
 public:
     PendingItemDrop records[9];
-    TUnk_804C445C();
-    virtual ~TUnk_804C445C();
+    ItemDropQueue();
+    virtual ~ItemDropQueue();
+    PendingItemDrop *get_record(s32 index);
+    void add_drop(Vec *position, TObjPlayer *owner, TItemData *item, s32 id);
+    void add_drops(Vec *position, TObjPlayer *owner, PendingItemDrop *drops, s32 count);
 };
 class TPlyItem : public TObject {
 public:
-    s16 pad_1C;
+    s16 item_count;
     u16 pad_1E;
-    TUnk_804C445C list;
-    TItemList *pad_1C4;
-    TObject *pad_1C8;
+    ItemDropQueue list;
+    TItemList *item_list;
+    TObject *item_root;
     TPlyItem(TObject *parent);
     virtual ~TPlyItem();
     int run_and_get_result(s32 *out);
@@ -76,22 +93,29 @@ public:
     TItemList *set_mode_and_refresh_object(void *data);
     void destroy_subobjects(TObjPlayer *player);
     TItemList *start_inventory_update(int key);
+    // Reduces every item of the type and group (battle rules take the player's traps).
+    void reduce_items_of_kind(TObjPlayer *player, int item_type, int item_group);
+    s32 remove_items(TObjPlayer *player, s32 *item_ids, s32 count);
+    s32 swap_items(s32 item_id, s32 other_id);
+    // Reorders the item list by item type, group and index, unequipped items last.
+    s32 sort_items();
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(PlacementRecordSize, sizeof(PendingItemDrop) == 0x1C);
 LAYOUT_ASSERT(PlacementItemOffset, offsetof(PendingItemDrop, item) == 8);
-LAYOUT_ASSERT(PlacementSlotsOffset, offsetof(TUnk_804C4444, entries) == 4);
-LAYOUT_ASSERT(PlacementPositionsOffset, offsetof(TUnk_804C4450, positions) == 0x28);
-LAYOUT_ASSERT(PlacementRecordsOffset, offsetof(TUnk_804C445C, records) == 0xA8);
-LAYOUT_ASSERT(PlayerInventoryListOffset, offsetof(TPlyItem, pad_1C4) == 0x1C4);
+LAYOUT_ASSERT(PlacementSlotsOffset, offsetof(PlacementQueue, slots) == 4);
+LAYOUT_ASSERT(PlacementPositionsOffset, offsetof(PositionPlacementQueue, positions) == 0x28);
+LAYOUT_ASSERT(PlacementRecordsOffset, offsetof(ItemDropQueue, records) == 0xA8);
+LAYOUT_ASSERT(PlayerInventoryListOffset, offsetof(TPlyItem, item_list) == 0x1C4);
 LAYOUT_ASSERT(PlayerPlacementPoolOffset, offsetof(TPlyItem, list) == 0x20);
 
-extern "C" {
-void TLobby__sub_801D4C28(TPlyItem *inventory, TObjPlayer *player, int item_type, int item_group);
-void TItemList__sub_801D5804(TUnk_804C4444 *pool);
-PendingItemDrop *TItemList__sub_801D5854(TUnk_804C445C *pool, s32 index);
-Unk_801C2098 *TItemList__sub_801D5868(TUnk_804C4444 *pool, s32 index);
-Unk_801D5CB8 *TItemList__sub_801D598C(TUnk_804C4450 *pool, s32 index);
-}
+// Inventory helpers on the selected character's save data and item records.
+s32 copy_equipped_weapon_and_mag(s32 count, const TPlyInventoryItem *source, TPlyInventoryItem *slots);
+s32 check_player_action_allowed();
+s32 selected_character_has_item(s32 item_id);
+void remove_list_entry_by_id(s32 id);
+saddr reset(void *p);
+void start_placement_search(PositionPlacementQueue *queue, Vec *pos, TObjBase *source);
 
 #endif

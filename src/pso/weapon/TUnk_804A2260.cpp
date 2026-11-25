@@ -8,7 +8,6 @@
 #include "pso/technique/TTecFoie.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
@@ -19,7 +18,7 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/player/PlayerAttackController.h"
 
 extern "C" f32 *get_weapon_range_record(void *, s32);
 
@@ -113,7 +112,7 @@ void TUnk_804A2260::emit_marker_effects() {
     }
 }
 
-void TUnk_804A2260::vfunc_60() {
+void TUnk_804A2260::transform_model_node() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();

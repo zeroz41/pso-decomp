@@ -10,7 +10,7 @@
 // create_slicer_weapon.
 class TUnk_804A5B20 : public TItemWeapon {
 public:
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void emit_marker_effects();
     virtual void update_idle();
     virtual void update_attack();
@@ -22,5 +22,7 @@ public:
 };
 
 TItem *create_slicer_weapon(u8 *item);
+
+void enlarge_flight_cutter_slicer(void *arg0);
 
 #endif

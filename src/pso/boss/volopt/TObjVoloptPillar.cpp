@@ -11,7 +11,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/BmlResource.h"
@@ -27,7 +26,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 const char *TObjVoloptPillar_name = "TObjVoloptPillar";
 const DirectAttackPayload volopt_pillar_attack = {0, 0.0f};
@@ -65,7 +64,7 @@ void TObjVoloptPillar::render() {
     f32 scale;
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
         select_actor_lighting(this);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&position.x);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_textures));

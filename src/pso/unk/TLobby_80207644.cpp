@@ -6,7 +6,7 @@
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 FloorMapSelection floor_map_registry[18];

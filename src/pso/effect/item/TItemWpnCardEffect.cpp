@@ -26,8 +26,9 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 const char *TItemWpnCardEffect::class_name = "TItemWpnCardEffect";
 
@@ -285,10 +286,10 @@ void TItemWeaponGuardianna::emit_marker_effects() {
         fire_shot_at_target(&origin, item_model, 0);
     }
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effect(this, 4);
+        TItemEffCane::spawn(tl_05, this, 4);
     }
 }
-void TItemWeaponGuardianna::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponGuardianna::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->particle = 0x176;
     desc->hit_effect = (void *)TObjPlayer::start_guardianna_hit_card;
     desc->wall_effect = (void *)start_guardianna_wall_card;

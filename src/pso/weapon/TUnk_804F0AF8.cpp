@@ -12,7 +12,7 @@
 #include "pso/weapon/TUnk_804F0AF8.h"
 #include "pso/weapon/TUnk_804F0908.h"
 #include "pso/weapon/TUnk_804F0810.h"
-#include "pso/player/TUnk_804A2548.h"
+#include "pso/weapon/TExplosionCollider.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/render/MaterialColorFade.h"
@@ -63,9 +63,9 @@ void TUnk_804F0AF8::update_attack() { add_angle_clamped(&spin_angle, 16384, 0); 
 
 void TUnk_804F0AF8::update_idle() { add_angle_clamped(&spin_angle, -8192, -30947); add_angle_clamped(&second_spin_angle, -1820, -7281); }
 
-void TUnk_804F0AF8::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
+void TUnk_804F0AF8::draw_held_model() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
 
-void TUnk_804F0AF8::vfunc_60() {
+void TUnk_804F0AF8::transform_model_node() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();
@@ -99,7 +99,7 @@ void TUnk_804F0A00::update_attack() { add_angle_clamped(&spin_angle, -3640, 0); 
 
 void TUnk_804F0A00::update_idle() { add_angle_clamped(&spin_angle, 1820, 7281); add_angle_clamped(&second_spin_angle, -1820, -5461); add_angle_clamped(&third_spin_angle, 1820, 9102); }
 
-void TUnk_804F0A00::vfunc_60() {
+void TUnk_804F0A00::transform_model_node() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();
@@ -119,19 +119,19 @@ void TUnk_804F0A00::vfunc_60() {
     }
 }
 
-void TUnk_804F0A00::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804F0A00::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->hit_effect = (void *)TObjPlayer::spawn_fire_explosion_at_item;
     desc->wall_effect = (void *)TObjPlayer::spawn_fire_explosion_for_item;
     desc->flags |= 0x80;
 }
 
 void TObjPlayer::spawn_fire_explosion(uaddr item_weapon, saddr a1) {
-    Desc_8011E5C4 info;
+    WeaponEffectDescriptor info;
     TObjPlayer__sub_802E449C(&info);
     ((TItemWeapon *)item_weapon)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
-    new TUnk_804A2548(tl_05, &info);
+    new TExplosionCollider(tl_05, &info);
     new TFireExplosion(10.0f, &info.position, 0, tl_particle);
 }
 

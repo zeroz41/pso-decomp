@@ -7,10 +7,10 @@ class TUnk_804A3F20 : public TUnk_804A4948 {
 public:
     TUnk_804A3F20(TObject *parent, u8 *item);
     virtual ~TUnk_804A3F20();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     virtual void emit_marker_effects();
     // The two points emit_marker_effects shoots from (launch_shot origins);
-    // reserved_53 fills them (draw_status_icons).
+    // draw_held_model fills them (draw_status_icons).
     Vec shot_origins[2];
 };
 

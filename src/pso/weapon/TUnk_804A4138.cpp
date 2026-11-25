@@ -9,7 +9,7 @@
 
 
 void TUnk_804A4138::update_idle() { rotation = 0; }
-void TUnk_804A4138::vfunc_60() { if (TObjPlayer::get_player_list() == 0) { rotate_matrix_z(NULL, rotation); } }
+void TUnk_804A4138::transform_model_node() { if (TObjPlayer::get_player_list() == 0) { rotate_matrix_z(NULL, rotation); } }
 
 
 #pragma push

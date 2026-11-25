@@ -2,7 +2,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/TLobby.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 struct AreaSoundRemapEntry {
     s32 base;

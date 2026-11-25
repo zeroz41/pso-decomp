@@ -48,7 +48,7 @@
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/render_util.h"
 
@@ -1790,7 +1790,7 @@ void TNpcPlayer::update_combat_action() {
             request_chatter(3);
         }
         ai_flags &= ~NPC_AI_SURROUNDED;
-        if (TObjPlayer::try_camera_action((saddr)self_view->player, id) != 0) {
+        if (self_view->player->try_camera_action(id) != 0) {
             partner_request_technique_cast(id);
             return;
         }
@@ -1810,7 +1810,7 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
     } else {
         request_chatter(2);
     }
-    if (TObjPlayer::try_camera_action((saddr)player, kind) != 0) {
+    if (player->try_camera_action(kind) != 0) {
         cmd.header.client_id = self_view->get_client_id();
         cmd.params.technique_number = kind;
         cmd.params.target_count = 1;
@@ -2146,7 +2146,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
             condition = condition | NPC_CONDITION_HAS_RECOVERY_ITEM;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)player, TECHNIQUE_RESTA) != 0) {
+        if (player->try_camera_action(TECHNIQUE_RESTA) != 0) {
             return 1;
         }
         break;
@@ -2157,7 +2157,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
         }
         break;
     case 2:
-        if (TObjPlayer::try_camera_action((saddr)player, TECHNIQUE_ANTI) != 0) {
+        if (player->try_camera_action(TECHNIQUE_ANTI) != 0) {
             return 1;
         }
         break;
@@ -2166,7 +2166,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
             condition = condition | NPC_CONDITION_HAS_RECOVERY_ITEM;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)player, TECHNIQUE_REVERSER) != 0) {
+        if (player->try_camera_action(TECHNIQUE_REVERSER) != 0) {
             return 1;
         }
         break;

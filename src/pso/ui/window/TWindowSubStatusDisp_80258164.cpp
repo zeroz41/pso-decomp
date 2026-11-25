@@ -26,6 +26,7 @@
 #include "pso/unk/text_80104FCC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/item/item_create.h"
 
 
 // Screen x, y of each item icon slot (indexed by get_entry_ptr).
@@ -478,59 +479,15 @@ void ItemListRow::init_status_entry(u8 category_icon, u32 src, s32 item) {
 
 }
 
-#define CAT2(a,b) a##b
-#define CAT(a,b) CAT2(a,b)
-#define PADV virtual void CAT(f,__LINE__)();
-struct Base_80258F34 { char pad[0x18]; };
-
-struct V_80258F34 : Base_80258F34 {
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    virtual s32 m10();
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    virtual s32 m34();
-};
-
 extern "C" {
-s32 TObjPlayer__sub_801C1AC8(void *);
-void ItemListRow::set_inventory_item(void *item, s32 count, s32 sid) {
+void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
     s32 item_data;
 
     this->x = (f32) lbl_805DCF08;
-    item_data = ((TItem *)item)->get_icon_index();
-    select_item_icon(item_data, ((TItem *)item)->get_item_type(), ((TItem *)item)->get_item_group(), ((TItem *)item)->is_wrapped());
-    this->label = (char *)replace_owned_string((saddr)((TItem *)item)->get_name(), (saddr)this->label, 8, 1);
-    if (TObjPlayer__sub_801C1AC8(item) != 0) {
+    item_data = item->get_icon_index();
+    select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
+    this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
+    if (item->is_stackable() != 0) {
         update_stat_line_if_positive(count);
     }
     update_item_icon_colors(item);
@@ -557,14 +514,14 @@ void ItemListRow::update_from_player(void *item, s32 price, s32 index) {
     this->item = index;
     this->flags |= 0x45;
 }
-void ItemListRow::init_item_row(void *item, s32 arg2) {
+void ItemListRow::init_item_row(TItem *item, s32 arg2) {
     s32 item_data;
     this->x = (f32) lbl_805DCF08;
-    item_data = ((TItem *)item)->get_icon_index();
-    select_item_icon(item_data, ((TItem *)item)->get_item_type(), ((TItem *)item)->get_item_group(), ((TItem *)item)->is_wrapped());
-    this->label = (char *)replace_owned_string((saddr)((TItem *)item)->get_name(), (saddr)this->label, 8, 1);
-    if (TObjPlayer__sub_801C1AC8(item) != 0) {
-        s32 v = ((V_80258F34 *) item)->m34();
+    item_data = item->get_icon_index();
+    select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
+    this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
+    if (item->is_stackable() != 0) {
+        s32 v = item->get_amount();
         update_stat_line_if_positive(v);
     }
     update_item_icon_colors(item);
@@ -583,10 +540,10 @@ void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
 
     this->x = lbl_805DCF08;
     this->status_icon = 51;
-    item_data = TLobby::get_item_data((uaddr)a1);
+    item_data = get_item_data((uaddr)a1);
     temp_r3 = TItemData::is_wrapped(a1);
     select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), temp_r3);
-    TLobby::forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
+    forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     update_stat_line_if_positive(count);
     update_item_colors((saddr)a1);
@@ -618,9 +575,9 @@ void ItemListRow::set_ground_item(void *it, s32 index) {
 
     this->x = (f32) lbl_805DCF08;
     this->status_icon = 0x33;
-    item_data = TLobby::get_item_data((uaddr)it);
+    item_data = get_item_data((uaddr)it);
     select_item_icon(item_data, *(u8 *)((s8 *)it + 0), *(u8 *)((s8 *)it + 1), TItemData::is_wrapped(it));
-    TLobby::forward_message(get_shared_text_buffer(), (uaddr)(void *)it);
+    forward_message(get_shared_text_buffer(), (uaddr)(void *)it);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();

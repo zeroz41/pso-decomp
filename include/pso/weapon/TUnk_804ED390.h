@@ -9,7 +9,7 @@ public:
     virtual ~TUnk_804ED390();
     virtual void update_attack();
     virtual void update_idle();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     f32 pad_1f8;  // scale_matrix y/z for passes 1 and 2
 };
 

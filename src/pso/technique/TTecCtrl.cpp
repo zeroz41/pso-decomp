@@ -68,7 +68,6 @@ struct Target_8022D27C { u16 id; s16 part; };
 
 
 extern "C" {
-void *TObjPlayer__sub_80116620(void *, int);
 void set_target__20PlayerTechniqueStateFlls(void *, int, u16, s16);
 s32 is_split_screen();
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
@@ -147,10 +146,10 @@ BmlResource *technique_effect_bml;
 NJS_TEXLIST *technique_texture_list;
 
 #define ONE_SLOT()                                                                       \
-    if (((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id() != 0xFFFF) { \
+    if (c->target_records.get_record(0)->get_entity_id() != 0xFFFF) { \
         set_target__20PlayerTechniqueStateFlls(slots, 0,                                                \
-            ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id(),           \
-            ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_obj_id());           \
+            c->target_records.get_record(0)->get_entity_id(),           \
+            c->target_records.get_record(0)->get_part());           \
         slots->set_tech_level(1);                                      \
     }
 
@@ -627,10 +626,10 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
         int n = 0;
         int i;
         for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
-            if (((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id() != 0xFFFF) {
+            if (c->target_records.get_record(n)->get_entity_id() != 0xFFFF) {
                 set_target__20PlayerTechniqueStateFlls(slots, n,
-                    ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id(),
-                    ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_obj_id());
+                    c->target_records.get_record(n)->get_entity_id(),
+                    c->target_records.get_record(n)->get_part());
                 n++;
             }
         }
@@ -650,8 +649,8 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
         int n = 0;
         for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
             set_target__20PlayerTechniqueStateFlls(slots, n,
-                ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id(),
-                ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_obj_id());
+                c->target_records.get_record(n)->get_entity_id(),
+                c->target_records.get_record(n)->get_part());
             n++;
         }
         slots->set_tech_level(n);
@@ -674,7 +673,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
         Vec v = {0.0f, -1.0f, 0.0f};                                                             \
         new TActorLight(0.1f, 0.35f, scene_light_state.intensity, &c, &v, base,          \
                           (TObjBase *)owner, tl_07);                                             \
-        if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
+        if (((TObjChara *)owner)->is_locally_controlled() != 0) {                                \
             new INIT((TObjPlayer *)owner, tl_07);                                                \
         }                                                                                        \
     }

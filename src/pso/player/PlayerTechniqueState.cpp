@@ -4,7 +4,6 @@
 
 extern "C" {
 u8 TObjPlayer__sub_801C010C(void *techs, s16 technique);
-void TObjPlayer__sub_801D2CC4(void *techs, f32 value);
 void set_technique_level_entry(void *techs, s16 technique, void *level);
 u8 clamp_to_max__20PlayerTechniqueStateFUcUc(PlayerTechniqueState *techs, void *level, u8 max);
 void TObjPlayer__sub_801D9C34(PlayerTechniqueState *techs, s16 technique, void *level);
@@ -82,7 +81,7 @@ void PlayerTechniqueState::reset_tech_state() {
     set_tech_level(0);
     TObjPlayer__sub_801D9E10(this, 0);
     set_technique_state(0);
-    TObjPlayer__sub_801D2CC4(this, 0.0f);
+    set_charge_step(0.0f);
     set_field18(0.0f);
     set_field_1c(1.5f);
     reset_all_tech_slots();

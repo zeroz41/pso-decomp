@@ -6,7 +6,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/map/CsnQuery.h"
@@ -74,7 +74,7 @@ void TObjEneDellBiter_Eff_Rush::render() {}
 
 TObjEneDellBiter_Eff_TpAbsorb1::TObjEneDellBiter_Eff_TpAbsorb1(
     TObject *parent, TObjBase *owner, const Vec *origin, s32 angle, AreaAttackHistory *history, f32 attack_power)
-    : TUnk_804928CC(parent, owner) {
+    : TAttackCollider(parent, owner) {
     m_name = TObjEneDellBiter_Eff_TpAbsorb1__class_name;
     power = attack_power;
     distance = 0.0f;
@@ -132,7 +132,7 @@ void TObjEneDellBiter_Eff_TpAbsorb1::run_task() {
         }
         attack.kind = dell_biter_tp_absorb_attack.kind;
         attack.power = power;
-        call_vt13_with_default((void *)&dell_biter_tp_absorb_hit_params, &attack, (saddr)attack_history);
+        call_vt13_with_default(&dell_biter_tp_absorb_hit_params, &attack, attack_history);
         return;
     }
     queue_destruction();

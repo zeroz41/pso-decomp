@@ -22,7 +22,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/door/TObjDoorKey.h"
 #include "pso/object/fence/WallHitPacket.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include <stdio.h>
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
@@ -71,7 +71,7 @@ extern "C" void handle_6x36();
 extern "C" void handle_6x41_move_to_position();
 extern "C" void handle_6x48_cast_technique_complete(void *arg);
 extern "C" void handle_6x54();
-extern "C" void handle_6x57(G_Unknown_6x57 *arg0);
+extern "C" void handle_6x57(G_Unknown_6x57 *command);
 extern "C" void handle_6x5F_drop_item();
 extern "C" void handle_6x64();
 extern "C" void handle_6x65();

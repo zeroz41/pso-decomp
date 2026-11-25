@@ -33,7 +33,7 @@ struct NJS_OBJECT;
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/model_render_state.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
@@ -1012,7 +1012,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
     if (flags & 2) {
         set_chunk_model_node_callback(TObjEneEpsilonBody::record_camera_angle_samples);
     }
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     epsilon_guard_camera_sample_read_ptr = guard_position;
     epsilon_guard_angle_sample_write_ptr = guard_rotation_y;
     epsilon_guard_camera_sample_end_ptr = &position;
@@ -1052,7 +1052,7 @@ void TObjEneEpsilonBody::render_body_effect() {
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, effect_scale, 1.0f, effect_scale);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         draw_chunk_object(get_bml_model(epsilon_bml_resource, 4));
         TParticleCtrl::end_effect_render();
         pop_matrix();

@@ -7,7 +7,7 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "types.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/system/AreaSound.h"
@@ -15,7 +15,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_800A7764.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -37,7 +36,7 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TAttackTrace.h"
@@ -245,7 +244,7 @@ void TObjEneDimedian::render() {
             break;
         }
         }
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         if (appearing == 1) {
             if (body_fade.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;

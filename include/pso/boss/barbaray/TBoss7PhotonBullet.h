@@ -2,11 +2,11 @@
 #define PSO_BOSS_BARBARAY_TBOSS7PHOTONBULLET_H
 
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 class TParticleCtrl;
 
-struct TBoss7PhotonBullet : public TUnk_804928CC {
+struct TBoss7PhotonBullet : public TAttackCollider {
     TBoss7PhotonBullet(TObject *parent, TObjBase *owner, const Vec *origin, const Vec *aim, f32 scale);
     virtual ~TBoss7PhotonBullet();
     virtual void render();

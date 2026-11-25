@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/task/TObject.h"

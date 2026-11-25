@@ -52,7 +52,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
@@ -387,7 +387,7 @@ void TObjEneMe1GiGue::render() {
     }
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     select_actor_lighting(this);
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     ok = 1;
     push_matrix();
     translate_matrix(0, position.x, flightHeight + (position.y + sinkingOffset), position.z);

@@ -55,6 +55,13 @@ struct G_ClientIDHeader {
  void bswap();
 };
 
+// Header helpers every 6x packet's send and operator= call with the packet itself.
+extern "C" {
+void bswap_g_client_id_header(void *header);
+void assign_subcommand_header(void *dst, void *src);
+}
+void *copy_subcommand_header(void *dst, const void *src);
+
 // 6x05: a floor switch was set or cleared (TOKey's TU sends and handles it).
 struct G_SwitchStateChanged_6x05 {
  G_ClientIDHeader header;  // client_id: the object that changed it

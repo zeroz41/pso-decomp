@@ -55,8 +55,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/render/AltModel.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
@@ -156,7 +156,7 @@ void TObjEneMe1Gee::load_resources() {
     p = new TBreakUpMdlData(TObjEneMe1Gee__resource_bundle->models->model);
     gee_breakup_model = p;
     gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 4)->model)->polygon_list + 2);
-    TObjPlayer::init_alt_model();
+    init_alt_model();
     {
         NpcAnimationBinding params = { NULL, TObjEneMe1Gee__motion_parameters, 0, 0, 4 };
         params.motions = TObjEneMe1Gee__resource_bundle->motions;
@@ -1765,7 +1765,7 @@ void TObjEneMe1Gee::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         this->apply_model_color();
         push_matrix();
         post_translate_matrix(&this->position.x);
@@ -1843,7 +1843,7 @@ void TObjEneMe1Gee::render_demo() {
     }
     if (this->update_object_view_visibility(400.0f, 15.0f) != 0) {
         this->draw_ground_shadow(0, 0);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);

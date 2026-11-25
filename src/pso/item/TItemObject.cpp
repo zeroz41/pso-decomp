@@ -7,6 +7,9 @@
 #include "pso/system/task/TMainTask.h"
 
 #include "types.h"
+#include "pso/system/byteswap.h"
+#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/network/protocol/protocol_types.h"
 #include "pso/item/TItem.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/hud/TLockOnCursor.h"
@@ -14,7 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
@@ -24,11 +27,36 @@
 extern "C" {
 const char *TItemObject_name = "TItemObject";
 void send_nearby_player_ids(TObjPlayer *self, f32 range);
-void *TObjPlayer__sub_80116620(void *, s32);
 void send_star_atomizer_targets(TObjPlayer *player);
 }
 void handle_6x66_use_star_atomizer(u8 *arg0);
 extern const char *TItemObject_name;
+
+LockOnTargetRecord *LockOnTargetRecordList::get_record(s32 index) { return &records[index]; }
+
+u16 LockOnTargetRecord::get_entity_id() { return entity_id; }
+
+void G_UseStarAtomizer_6x66::init_header() {
+    header.subcommand = 0x66;
+    header.size = 3;
+}
+
+void G_UseStarAtomizer_6x66::send() {
+    bswap();
+    send_subcommand(this);
+}
+
+void G_UseStarAtomizer_6x66::bswap() {
+    ((G_ClientIDHeader *)&header)->bswap();
+    {
+        int i;
+        for (i = 0; i < 4; i++) {
+            bswap_16((u16 *)&target_client_ids[i]);
+        }
+    }
+}
+
+s32 TItem::get_item_flags() { return this->item_flags; }
 
 s32 TItemObject::get_amount() {
     return encoded_amount ^ (saddr)&encoded_amount;
@@ -131,12 +159,12 @@ void send_star_atomizer_targets(TObjPlayer *player) {
     if (player != NULL && ((TObjPlayer *)player)->sub_801A1DDC() != 0 && player->lock_on_cursor != NULL) {
         slot = player->lock_on_cursor->find_by_pos(4, 0xA);
         if (slot != NULL) {
-            ((TObjPlayer *)&cmd)->set_type_bytes();
+            cmd.init_header();
             cmd.target_client_ids[0] = player->get_entity_id();
             for (i = 0; i != 3; i++) {
-                cmd.target_client_ids[i + 1] = ((TObjPlayer *)TObjPlayer__sub_80116620(&slot->target_records, i))->get_type_id();
+                cmd.target_client_ids[i + 1] = slot->target_records.get_record(i)->get_entity_id();
             }
-            ((TObjPlayer *)&cmd)->bswap_and_send_item();
+            cmd.send();
         }
     }
 }
@@ -147,7 +175,7 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
     u16 i;
     TObjPlayer *player;
     if (self != NULL && ((TObjPlayer *)self)->sub_801A1DDC() != 0) {
-        ((TObjPlayer *)&cmd)->set_type_bytes();
+        cmd.init_header();
         j = 0;
         for (i = 0; i != 4; i++) {
             player = get_player_by_client_id(i);
@@ -161,7 +189,7 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
                 cmd.target_client_ids[j++] = -1;
             }
         }
-        ((TObjPlayer *)&cmd)->bswap_and_send_item();
+        cmd.send();
     }
 }
 
@@ -170,7 +198,7 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
     TObjPlayer *user;
     s32 i;
     TObjPlayer *target;
-    ((TObjPlayer *)cmd)->bswap_fields_x4();
+    cmd->bswap();
     user = get_player_by_client_id(cmd->target_client_ids[0]);
     if (user != NULL) {
         i = 0;

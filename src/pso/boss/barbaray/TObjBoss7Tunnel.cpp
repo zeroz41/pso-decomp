@@ -28,7 +28,7 @@
 #include "pso/unk/text_802F0E24.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"

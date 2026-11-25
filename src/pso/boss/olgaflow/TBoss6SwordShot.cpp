@@ -12,7 +12,7 @@
 #include "types.h"
 
 #include <stddef.h>
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixTransforms.h"

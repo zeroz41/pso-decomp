@@ -11,7 +11,7 @@
 class TUnk_804A5838 : public TItemWeapon {
 public:
     virtual void update_idle();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_attack();
     virtual void on_equipped();
     virtual void emit_marker_effects();

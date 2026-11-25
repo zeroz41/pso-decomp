@@ -2,7 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 
 #include "pso/boss/derolle/TBoss2PhotonPad.h"
@@ -15,11 +15,10 @@
 
 #include "pso/boss/derolle/TBoss2PhotonBullet_80038DCC.h"
 
-#include "pso/unk/text_800BC4C8.h"
 
 #include "pso/system/vector.h"
 
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 #include <stddef.h>
 
@@ -51,7 +50,7 @@ extern const Boss2PhotonLevel TBoss2PhotonPad__bullet_level_param_table[3] = {
 
 extern const DirectAttackPayload boss2_photon_bullet_attack[1] = { { 0, 3.0f } };
 
-extern const s32 boss2_photon_bullet_hit_args[2] = { 0x40400000, 1 }; // 3.0f as raw bits, then 1
+extern const AreaAttackContact boss2_photon_bullet_hit_args = {3.0f, 1};
 
 const char *TBoss2PhotonPad__name = "TBoss2PhotonPad";
 
@@ -89,7 +88,7 @@ void TBoss2PhotonPad::run_task() {
 
 void TBoss2PhotonPad::render() {  }
 
-TBoss2PhotonBullet::TBoss2PhotonBullet(TObject *parent, TObjBase *owner, Vec *pos, Vec *dir, f32 speed) : TUnk_804928CC(parent, owner) {
+TBoss2PhotonBullet::TBoss2PhotonBullet(TObject *parent, TObjBase *owner, Vec *pos, Vec *dir, f32 speed) : TAttackCollider(parent, owner) {
     m_name = TBoss2PhotonBullet__name;
     VecCopy(&travel, pos);
     VecCopy(&position, &travel);
@@ -142,7 +141,7 @@ void TBoss2PhotonBullet::run_task() {
     if (position.x <= boss2_platform_max && position.x >= boss2_platform_min) {
         DirectAttackPayload attack = boss2_photon_bullet_attack[0];
         attack.power = TBoss2DeRolLe::get_bullet_power();
-        if (vfunc_16((void *)boss2_photon_bullet_hit_args, &attack) != 0) {
+        if (deliver_direct_no_history(&boss2_photon_bullet_hit_args, &attack) != 0) {
             queue_destruction();
             return;
         }

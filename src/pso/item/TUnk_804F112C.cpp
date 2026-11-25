@@ -2,7 +2,7 @@
 #include "pso/item/TUnk_804F112C.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 
 // Hits the owner with a direct attack of the given kind (15-18 by the use
@@ -26,7 +26,7 @@ void TUnk_804F112C::fn_803530A0() {
 }
 
 void TUnk_804F112C::update_player_object() {
-    if (TObjPlayer::is_locally_controlled(owner) != 0) {
+    if (owner->is_locally_controlled() != 0) {
         owner->apply_shock_status();
     }
 }

@@ -13,8 +13,12 @@ struct MovementHistoryEntry {
 struct MovementHistory {
     s32 index;
     MovementHistoryEntry entries[16];
+
+    MovementHistory();
 };
 
 extern "C" void clear_movement_history(MovementHistory *history);
+
+LAYOUT_ASSERT(MovementHistory_size, sizeof(MovementHistory) == 0x84);
 
 #endif

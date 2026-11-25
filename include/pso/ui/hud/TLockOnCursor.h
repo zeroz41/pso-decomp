@@ -59,25 +59,41 @@ public:
 // A TargetCursorRecord and a flag word. Built and destroyed by the
 // static TLockOnCursor::init_sub and the free function destroy_target_record, so both stay untyped here.
 // TargetCursorList.h is not included: its C declarations clash with the cursor units' own.
-struct TUnk_8013F054 {
-    u8 unk_0[0x8];
-    s32 unk_8;
+struct LockOnTargetRecord {
+    u16 entity_id;  // 0xFFFF when the slot has no target
+    s16 part;
+    f32 value;
+    s32 flags;
+
+    s16 get_part();
+    u16 get_entity_id();
 };
 
-// A count and eleven TUnk_8013F054, built by TLockOnCursor__sub_8013F000 and destroyed
-// by destroy_target_records (no real constructor until TUnk_8013F054 has one).
-struct TUnk_8013F000 {
-    s32 unk_0;
-    TUnk_8013F054 unk_4[11];
+// A count and eleven LockOnTargetRecord, built by TLockOnCursor__sub_8013F000 and destroyed
+// by destroy_target_records (no real constructor until LockOnTargetRecord has one).
+struct LockOnTargetRecordList {
+    s32 count;
+    LockOnTargetRecord records[11];
+
+    LockOnTargetRecord *get_record(s32 index);
 };
 
 // TLockOnCursor +0x5C, four of them.
 class LockOnActionSlot {
 public:
     gc_tag unk_0;
-    u8 pad_4[0x3C];
+    u8 pad_4[0x18];
+    Vec origin;
+    // Added to a candidate's radius.
+    f32 lock_range;
+    // Cosines of the half-angles of the cone a candidate must lie in.
+    f32 horizontal_cone_cos;
+    f32 vertical_cone_cos;
+    u8 pad_34[0x8];
+    // How far behind origin the cone's apex sits.
+    f32 cone_apex_offset;
     u8 target_list[0x5C]; // a TargetCursorList, built by its constructor
-    TUnk_8013F000 target_records;
+    LockOnTargetRecordList target_records;
 
     LockOnActionSlot();
     ~LockOnActionSlot();
@@ -128,6 +144,9 @@ public:
     void set_published_target_id(u16 id);
     u16 get_candidate_target_id();
     void reset();
+    s32 get_candidate_part_index();
+    f32 get_published_target_dist();
+    u16 get_published_target_id();
 };
 
 struct TLockOnCursor : public TObject {

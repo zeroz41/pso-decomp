@@ -31,17 +31,17 @@ extern "C" {
 s32 find_entity_by_id();
 
 s32 TWindowMessageLog::get_active_photon_object() {
-    saddr entity;
+    TObjPlayer *entity;
     s32 var_r3;
 
-    entity = find_entity_by_id();
-    if (entity == 0) {
+    entity = (TObjPlayer *)find_entity_by_id();
+    if (entity == NULL) {
         return 0;
     }
-    if ((((TObjChara *)entity)->obj_isState2_324() == 0) && (TObjPlayer::is_locally_controlled((void *)entity) == 0)) {
+    if ((entity->obj_isState2_324() == 0) && (entity->is_locally_controlled() == 0)) {
         return 0;
     }
-    var_r3 = entity + 0x85C;
+    var_r3 = (saddr)entity->name;
     if (var_r3 == 0) {
         var_r3 = 0;
     }

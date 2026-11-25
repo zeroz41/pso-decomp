@@ -48,7 +48,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
@@ -285,7 +285,7 @@ void TObjEneDelDepth::render() {
     if (o->opacity < 1.0f) {
         setup_draw_material_default(o->opacity);
     }
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     Vec v = o->position;
     v.y += o->drawOffsetY;

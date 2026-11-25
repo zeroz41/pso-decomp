@@ -22,8 +22,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjChara.h"
@@ -404,7 +403,7 @@ void TObjEneGyaranzo::render() {
             hide_broken_parts();
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

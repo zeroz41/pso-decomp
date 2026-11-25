@@ -13,7 +13,7 @@
 #include "pso/ui/city/TShopEquipmentListWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/item/item_pmt.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/render_util.h"
 #include <stdlib.h>
@@ -25,6 +25,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/GslArchive.h"
 #include "pso/unk/TLobby_801D6DC4.h"
+#include "pso/item/item_create.h"
 
 struct DifficultyLetters { char *n[4]; };
 
@@ -196,7 +197,7 @@ s32 TItemDrop::can_drop() {
     int enabled;
 
     enabled = 0;
-    if ((get_game_play_mode() != 1) && (TLobby::get_drop_flag() == 0)) {
+    if ((get_game_play_mode() != 1) && (get_drop_flag() == 0)) {
         enabled = 1;
     }
     return (u8)enabled;

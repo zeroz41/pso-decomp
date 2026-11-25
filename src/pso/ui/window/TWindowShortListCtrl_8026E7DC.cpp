@@ -45,7 +45,6 @@
 
 extern "C" {
 s32 try_send_6x27_use_item(void *player, s32 key);
-s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
 s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
@@ -133,10 +132,10 @@ TWindowShortListCtrl::~TWindowShortListCtrl() {
 
 void TWindowShortListCtrl::run_task() {
     s32 idx;
-    u8 *player;
+    TObjPlayer *player;
     s32 sel;
     idx = is_player_input_active(client_id);
-    player = (u8 *)get_player_by_client_id(client_id);
+    player = get_player_by_client_id(client_id);
     if ((timer > 2 && test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x200) != 0) || player == NULL) {
         queue_destruction();
         return;
@@ -179,7 +178,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((saddr)player) == 0) {
+        if (TWindowSubItem::is_usable(player) == 0) {
             break;
         }
         assign_shortcut(6, ((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
@@ -211,7 +210,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((saddr)player) == 0) {
+        if (TWindowSubItem::is_usable(player) == 0) {
             break;
         }
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
@@ -246,7 +245,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((saddr)player) == 0) {
+        if (TWindowSubItem::is_usable(player) == 0) {
             return;
         }
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
@@ -254,14 +253,14 @@ void TWindowShortListCtrl::run_task() {
             if (TAdSinglePlyChrSelectGC::create_if_key_pressed() == 0) {
                 break;
             }
-            decrement_clamped((s32 *)(player + 0x7C8), 1);
+            player->sonar_stock.consume(1);
             queue_destruction();
             return;
         }
         if (TWindowCtrl__sub_8024A228(client_id) == 0) {
             return;
         }
-        ((TObjPlayer *)player)->send_trap_packet(sel & 0xF);
+        player->send_trap_packet(sel & 0xF);
         queue_destruction();
         return;
     case 9:
@@ -272,7 +271,7 @@ void TWindowShortListCtrl::run_task() {
         ((TWindowMenu *)tech_window)->clear_flag_and_release();
         state = 10;
     case 10:
-        ((TObjPlayer *)player)->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());
+        player->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());
         if (TWindowSubTechnique::update_selection((s16 *)&m_20, (s32 *)&m_28, client_id) != 0) {
             refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
         }
@@ -294,14 +293,14 @@ void TWindowShortListCtrl::run_task() {
         }
         break;
     case 11:
-        ((TObjPlayer *)player)->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());
+        player->update_cursor((s16)((TWindowMenu *)tech_window)->get_selected_value());
         if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 2) != 0 ||
             test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             queue_destruction();
             return;
         }
-        if (try_equip_item__10TObjPlayerFii(player, (s16)((TWindowMenu *)tech_window)->get_selected_value()) != 0) {
+        if (player->try_equip_item((s16)((TWindowMenu *)tech_window)->get_selected_value()) != 0) {
             queue_destruction();
             return;
         }

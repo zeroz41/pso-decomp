@@ -19,7 +19,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803E2D70.h"
@@ -43,7 +43,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
@@ -1036,7 +1036,7 @@ void TObjEneBm3FlyNest::render() {
                 }
                 rotate_matrix_y(0, rotation_y);
                 TObjEneDD::clear_global_flag_400();
-                TObjPlayer::toggle_particle_effect();
+                toggle_particle_effect();
                 if (res == 1) {
                     draw();
                 } else {
@@ -1102,7 +1102,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         set_motion_packed_rotation();
         draw_model_motion(this->model, motion, motion_frame);
         clear_motion_packed_rotation();

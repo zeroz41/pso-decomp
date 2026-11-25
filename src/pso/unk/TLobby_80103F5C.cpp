@@ -4,7 +4,7 @@
 #include <string.h>
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_80120FC4.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/TItemObject.h"
@@ -39,6 +39,7 @@
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
+#include "pso/item/item_create.h"
 
 
 struct Ent_80103F68 { u8 pad[0x24]; };
@@ -118,7 +119,6 @@ extern s32 local_client_id;
 extern "C" {
 extern void *tl_05;
 void TLobby__sub_801036CC(void);
-void set_boss_buf_entry__6TLobbyFii(s32, u16);
 s32 test_flags_any(s32 *flags, s32 mask);
 extern s32 lbl_805D5440;
 void spawn_dropped_item_from_msg(void *, s32);
@@ -191,7 +191,7 @@ void TLobby::apply_sync_item_state() {
         floor_item_next_sort_keys[i] = ((Save_80103890 *)this)->slots[i];
     }
     for (b = 0; b != 0xC; b++) {
-        set_boss_buf_entry__6TLobbyFii(((Save_80103890 *)this)->boss[b], b);
+        set_boss_buf_entry(((Save_80103890 *)this)->boss[b], b);
     }
     for (i = 0; i < 0xF; i++) {
         (*(s32 **)&floor_item_counts_by_floor)[i] = ((Save_80103890 *)this)->counts[i];

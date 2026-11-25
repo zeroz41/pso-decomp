@@ -1,6 +1,8 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/object/TActorLight.h"
+#include "pso/item/item_pmt.h"
 
 struct NJS_OBJECT;
 #include <string.h>
@@ -31,22 +33,18 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/item/item_param.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/player/TObjPlayer_801211F0.h"
 #include "pso/unk/text_80120150.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/effect/item/TItemEffEquip.h"
-#include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include <stdlib.h>
 
 
-#include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/technique/TechniqueContact.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
@@ -122,7 +120,6 @@ struct Self_8011EDFC {
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 TObjChara *resolve_hittable_target(s32, s32);
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 void * __ct__17TItemEffectWeaponFll(void *, u32, u32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
@@ -167,7 +164,7 @@ void TItemWeapon::restore_action_type() {
 }
 
 void TItemWeapon::remap_extra_attack_type() {
-    if ((this->test_weapon_flags(0x20) != 0U) && (TObjPlayer__sub_801D2F4C((s16 *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC)) == 2)) {
+    if ((this->test_weapon_flags(0x20) != 0U) && (((PlayerAttackController *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC))->get_validated_attack_kind() == 2)) {
         if (this->test_weapon_flags(0x100000) != 0U) {
             ((TObjPlayer *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC))->set_action_type((s16)0);
         } else {
@@ -184,9 +181,9 @@ u8 *TItemWeapon::trace_from_owner(u8 *point) {
     return (u8 *)csnVector((const Vec *)&stack.sp8, (const Vec *)point, 0x8100);
 }
 
-void TItemWeapon::vfunc_60() {  }
+void TItemWeapon::transform_model_node() {  }
 
-void TItemWeapon::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {}
+void TItemWeapon::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {}
 
 void TItemWeapon::on_unequipped() {  }
 
@@ -194,7 +191,7 @@ void TItemWeapon::on_equipped() {  }
 
 void TItemWeapon::update_weapon() {  }
 
-void TItemWeapon::reserved_53() {  }
+void TItemWeapon::draw_held_model() {  }
 
 void TItemWeapon::update_idle() {  }
 
@@ -296,7 +293,7 @@ void TItemWeapon::create_weapon_trail_effects() {
                 ((Pl_8011E950 *)this)->eff[i] = p;
             }
             if (((Pl_8011E950 *)this)->eff[i] != NULL && ((TObjCollidable *)((Pl_8011E950 *)this))->test_actor_flags(0x2000) != 0) {
-                TObjPlayer__sub_80121228(((Pl_8011E950 *)this)->eff[i], 1);
+                ((TItemEffectWeapon *)((Pl_8011E950 *)this)->eff[i])->set_flags(1);
             }
         }
     }
@@ -322,7 +319,7 @@ void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 ra
     prm.max_radius = radius;
     prm.model = this->second_model;
     prm.texture_list = (NJS_TEXLIST *)this->texlist;
-    if (TObjPlayer::is_locally_controlled(owner) != 0) {
+    if (owner->is_locally_controlled() != 0) {
         TItemEffPG::create(tl_05, &prm);
     } else {
         TItemEffPG::create(tl_05, &prm, item);
@@ -332,7 +329,7 @@ void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 ra
 
 void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
     Vec v;
-    Desc_8011E5C4 atk;
+    WeaponEffectDescriptor atk;
     f32 *scale;
     CapturedTargetList *state;
     CapturedTarget *item;
@@ -721,7 +718,7 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
                 damage = (s32)damage_dealt;
                 owner->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(owner, damage));
                 apply_camera_shake__10TObjPlayerFiii((saddr)owner, (saddr)target, damage);
-                ((TObjPlayer *)(&stack.sp8))->reset_status_block();
+                ((ItemSoundRequest *)(&stack.sp8))->clear();
                 stack.sp8 = get_item_group();
                 stack.sp9 = get_item_index();
                 stack.spC = (u8 *)owner;
@@ -741,7 +738,7 @@ void TItemWeapon::perform_action() {
     if (((TItemWeapon *)self)->is_active_in_game() && !((TItem *)self)->is_hidden() && is_current_area_item_enabled()) {
         self->rotation_y=self->owner->rotation_y;
         self->stage=((TItemWeapon *)self)->get_attack_stage();
-        ((TObjPlayer *)(&packet))->reset_status_block();
+        ((ItemSoundRequest *)(&packet))->clear();
         packet.kind=((TItem *)self)->get_item_group();
         packet.variant=((TItem *)self)->get_item_index();
         packet.player=self->owner;
@@ -799,14 +796,14 @@ void TItemWeapon::update_trails() {
 void TItemWeapon::render_equipped_deferred() {
     u8 *arg0 = (u8 *)this;
     if (((uaddr) this->owner != 0U) && (((TItemWeapon *)arg0)->test_weapon_flags(0xCU) == 0xCU) && (((TItemWeapon *)arg0)->test_weapon_flags(0x80U) == 0U)) {
-        this->reserved_53();
+        this->draw_held_model();
         update_trails();
     }
 }
 void TItemWeapon::render_equipped_shadow() {
     u8 *arg0 = (u8 *)this;
     if (((uaddr) this->owner != 0U) && (((TItemWeapon *)arg0)->test_weapon_flags(0xCU) == 0xCU) && (((TItemWeapon *)arg0)->test_weapon_flags(0x80U) == 0U) && (((TItemWeapon *)arg0)->test_weapon_flags(0x1000U) == 0U)) {
-        this->reserved_53();
+        this->draw_held_model();
         if (((TItemWeapon *)arg0)->test_weapon_flags(0x400U) != 0U) {
             draw_weapon_at_joint((saddr)arg0, 0x30);
             draw_weapon_at_joint((saddr)arg0, 0x23);
@@ -821,10 +818,10 @@ void TItemWeapon::render_equipped() {
     s32 count;
     if (((uaddr) this->owner != 0U) && (test_weapon_flags(0xCU) == 0xCU) && (test_weapon_flags(0x80U) == 0U)) {
         if (test_weapon_flags(0x800U) != 0U) {
-            TObjPlayer::push_id_to_list(get_item_id());
+            TEquippedWeaponDrawTask::queue_weapon(get_item_id());
             return;
         }
-        this->reserved_53();
+        this->draw_held_model();
         this->update_trails();
         count = 0;
         do {
@@ -927,7 +924,7 @@ void apply_weapon_node_material(NJS_OBJECT *) {
     TItem::end_effect_render();
     ((TItem *)weapon_render_callback_object)->end_particle_tev();
     ((TItem *)weapon_render_callback_object)->end_shield_tev();
-    ((TItemWeapon *)weapon_render_callback_object)->vfunc_60();
+    ((TItemWeapon *)weapon_render_callback_object)->transform_model_node();
     if(node == weapon_node_material_index) {
         WeaponArgb color = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon_render_callback_object);
         TItem::begin_constant_material_color((const NJS_ARGB *)&color);

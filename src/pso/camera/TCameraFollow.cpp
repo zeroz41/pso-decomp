@@ -20,7 +20,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 
 // Eye offsets behind the actor that init_pose and reset_to_actor turn by its facing.

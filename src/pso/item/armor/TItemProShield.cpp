@@ -1,3 +1,4 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "types.h"
@@ -17,13 +18,12 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/player/TObjPlayer_80117DD8.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_80363BE0.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/item/item_pmt.h"
 
-// What play_shield_sound_cue reads (TObjPlayer::reset_status_block clears it).
+// What play_shield_sound_cue reads (ItemSoundRequest::clear clears it).
 struct ShieldSoundCue {
     s8 group;
     u8 index;
@@ -110,7 +110,7 @@ void TItemProShield::perform_action() {
     if (owner != NULL) {
         if (is_hidden() == 0) {
             create_shield_effect(tl_05, get_owner_client(), effect_entry);
-            ((TObjPlayer *)&cue)->reset_status_block();
+            ((ItemSoundRequest *)&cue)->clear();
             cue.group = get_item_group();
             cue.index = get_item_index();
             cue.owner = owner;
@@ -200,9 +200,9 @@ void TItemProShield::request_equipped_model() { request_item_model(); }
 void TItemProShield::draw_at_joint(s32 joint) {
     if ((item_model != NULL) && (owner != NULL) && (test_actor_flags(0x08000000) == 0) && (is_hidden() == 0)) {
         push_matrix_from((void *)owner->get_joint_matrix(joint));
-        TObjPlayer::save_model_render_state();
+        TEquippedWeaponDrawTask::save_model_render_state();
         model_render_flags &= ~0x10;
-        TObjPlayer::set_model_fade_alpha(get_owner_alpha());
+        TEquippedWeaponDrawTask::set_fade_alpha(get_owner_alpha());
         if (shield_flags & SHIELD_FLAG_EFFECT_RENDER) {
             TParticleCtrl::begin_effect_render();
         }
@@ -211,8 +211,8 @@ void TItemProShield::draw_at_joint(s32 joint) {
         if (shield_flags & SHIELD_FLAG_EFFECT_RENDER) {
             TParticleCtrl::end_effect_render();
         }
-        TObjPlayer::warn_if_gauge_low();
-        TObjPlayer::restore_model_render_state();
+        TEquippedWeaponDrawTask::end_fade();
+        TEquippedWeaponDrawTask::restore_model_render_state();
         pop_matrix();
     }
 }

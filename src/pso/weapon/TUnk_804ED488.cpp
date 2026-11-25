@@ -4,11 +4,11 @@
 #include <stddef.h>
 #include "pso/weapon/TUnk_804ED488.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804ED488::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804ED488::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->range = 160.0f;
     desc->particle = 474;
 }

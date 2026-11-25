@@ -1,7 +1,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/weapon/TUnk_804A3358.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"

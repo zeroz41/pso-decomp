@@ -2,11 +2,11 @@
 #define PSO_BOSS_DEROLLE_TBOSS2PHOTONBULLET_80038DCC_H
 
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 class TParticleCtrl;
 
-class TBoss2PhotonBullet : public TUnk_804928CC {
+class TBoss2PhotonBullet : public TAttackCollider {
 public:
     TBoss2PhotonBullet(TObject *parent, TObjBase *owner, Vec *pos, Vec *dir, f32 speed);
     virtual ~TBoss2PhotonBullet();

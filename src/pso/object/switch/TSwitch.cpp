@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include <string.h>
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 void TSwitch::render() {  }

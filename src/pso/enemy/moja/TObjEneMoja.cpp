@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/memory.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -51,7 +50,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -406,7 +405,7 @@ void TObjEneMoja::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             if (vis == 1) {
                 this->draw();
             } else {

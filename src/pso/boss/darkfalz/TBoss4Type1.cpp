@@ -49,7 +49,7 @@
 #include "pso/render/GinjaDrawUtil.h"
 
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D853C.h"
@@ -479,7 +479,7 @@ void TBoss4Type1::snapshot_position() {
 }
 
 void TBoss4Type1::render_effects() {
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

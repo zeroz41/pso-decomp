@@ -29,7 +29,6 @@
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/reflection.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
@@ -63,7 +62,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/math/AngleUnits.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/GinjaView.h"
 
 #include "pso/player/PlayerAttackParams.h"
@@ -504,7 +503,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                     if (is_alternate_variant() != 0) {
                         pl = current_target;
                         TItem *held;
-                        if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(pl)) != 0) {
+                        if (pl->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(pl)) != 0) {
                             TObjPlayer::send_6x26_unequip_item(static_cast<TObjPlayer *>(pl), held->get_item_id());
                             ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
@@ -1713,7 +1712,7 @@ void TObjEneMe3SinowZoa::render() {
             this->vfunc_108();
             TObjEneDD::clear_global_flag_400();
         }
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         for (i = 0; i < 3; i++) {
             if (TObjEneMe3SinowZoa__material_color_pointers[i] != NULL) {
@@ -1812,7 +1811,7 @@ void TObjEneMe3SinowZoa::render_demo() {
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *parts = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             s32 i;

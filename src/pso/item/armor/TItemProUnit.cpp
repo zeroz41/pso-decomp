@@ -10,7 +10,7 @@
 #include "pso/item/TUnk_804A0648.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/item/item_pmt.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/unk/text_801D98F8.h"
 #include "pso/system/task/TMainTask.h"

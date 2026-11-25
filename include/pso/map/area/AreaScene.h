@@ -29,7 +29,7 @@ extern "C" {
 void TLobby__sub_801403B4(s32 _w0);
 // Defined in TFontSmallTask.cpp on its {load, release} pair type: runs each pair's load hook.
 s32 run_load_callback_table(void *table, u32 size);
-// The CITY and LOBBY inits reset it through TLobby::reset_settings_to_default; no unit owns it yet.
+// The CITY and LOBBY inits reset it through TLobby::reset_settings_to_default; defined in TObjPlayer.cpp.
 extern s32 lobby_rule_settings[];
 }
 

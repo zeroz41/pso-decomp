@@ -1,3 +1,4 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -34,9 +35,8 @@
 #include "pso/player/PlayerScaleState.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_8011C000.h"
-#include "pso/player/TObjPlayer_80363BE0.h"
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/item/item_pmt.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
@@ -532,7 +532,7 @@ void TItemMag::on_unequip() {
     s32 blast;
 
     if (owner->obj_isState2_324() == 0) {
-        assign_default_photon_blast_palette_slots((u8 *)&owner->action_palettes);
+        assign_default_photon_blast_palette_slots(&owner->action_palettes);
         slot = 0;
         do {
             blast = stats.get_photon_blast(slot);
@@ -563,8 +563,8 @@ void TItemMag::render_equipped() {
         scaled = owner->scale_state.is_scaled();
         scale = owner->scale_state.get_scalar();
         push_matrix();
-        TObjPlayer::save_model_render_state();
-        TObjPlayer::set_model_fade_alpha(get_owner_alpha());
+        TEquippedWeaponDrawTask::save_model_render_state();
+        TEquippedWeaponDrawTask::set_fade_alpha(get_owner_alpha());
         for (i = 0; i != 2; i++) {
             if (children[i] != NULL && children[i]->is_growth_inactive() != 0) {
                 child = children[i];
@@ -577,8 +577,8 @@ void TItemMag::render_equipped() {
                 }
             }
         }
-        TObjPlayer::warn_if_gauge_low();
-        TObjPlayer::restore_model_render_state();
+        TEquippedWeaponDrawTask::end_fade();
+        TEquippedWeaponDrawTask::restore_model_render_state();
         pop_matrix();
     }
 }
@@ -1745,13 +1745,13 @@ void TItemMag::register_photon_blasts() {
     s32 blast;
     s32 slot;
 
-    assign_default_photon_blast_palette_slots((u8 *)&owner->action_palettes);
+    assign_default_photon_blast_palette_slots(&owner->action_palettes);
     slot = 0;
     do {
         blast = stats.get_photon_blast(slot);
         if (blast != -1) {
             owner->photon_blast_gauge.set_blast_level(blast, get_item_index());
-            assign_photon_blast_palette_slot((u8 *)&owner->action_palettes, (s16)blast);
+            assign_photon_blast_palette_slot(&owner->action_palettes, (s16)blast);
         }
         slot += 1;
     } while (slot != 3);

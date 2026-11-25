@@ -6,12 +6,12 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/player/PlayerAttackController.h"
 #include "pso/object/base/TObjBase.h"
 #define SLICER_LAUNCH_STATE_OUT_OF_LINE
 #include "pso/weapon/SlicerLaunchState.h"
 
-void TUnk_804A64E8::vfunc_60() {
+void TUnk_804A64E8::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 1:
         rotate_matrix_x(NULL, rotation_x);
@@ -43,7 +43,7 @@ void TUnk_804A64E8::emit_marker_effects() {
     tec.item_id = get_item_id();
     tec.texlist = texlist;
     tec.model = second_model;
-    tec.attack_kind = TObjPlayer__sub_801D2F4C((s16 *)&owner->attack_state);
+    tec.attack_kind = owner->attack_state.get_validated_attack_kind();
     tec.combo_stage = owner->attack_state.get_validated_attack_stage();
     tec.damage_multiplier = owner->query_extended_state();
     tec.color.a = 1.0f;

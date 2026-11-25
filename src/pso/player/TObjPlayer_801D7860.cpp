@@ -3,16 +3,16 @@
 #include "pso/network/TLobby.h"
 
 extern "C" {
-s32 TObjPlayer__sub_801C19C8(f32);
 s32 TObjPlayer::init_sub_object(saddr lobby) {
     TObjPlayer::init_sub_object_vectors(lobby);
     return lobby;
 }
 void TObjPlayer::init_sub_object_vectors(saddr lobby) {
-    TObjPlayer__sub_801C19C8(0.0f);
-    ((TLobby *)lobby)->set_float_4(0.0f);
-    ((TLobby *)lobby)->set_pos_z(1.0f);
-    ((TLobby *)lobby)->set_scale(1.0f);
+    DamageStatSlot *slot = (DamageStatSlot *)lobby;
+    slot->set_total(0.0f);
+    slot->set_accumulated(0.0f);
+    slot->set_normal_weight(1.0f);
+    slot->set_bonus_weight(1.0f);
 }
 
 }

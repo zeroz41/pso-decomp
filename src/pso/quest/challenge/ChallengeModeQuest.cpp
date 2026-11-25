@@ -14,7 +14,7 @@
 #include "pso/object/TObjTombstone.h"
 #include "pso/object/TObjChallengeRetry.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"
 #include <ctype.h>

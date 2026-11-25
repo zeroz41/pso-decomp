@@ -5,11 +5,12 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 void TUnk_804A1478::emit_marker_effects() {
     saddr item = (saddr)this;
     if ((get_item_index() < 4U) && (((TItemWeapon *)item)->get_attack_stage() == 0)) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effects((TItem*)item, 1, 2);
+        TItemEffCane::spawn_pair(tl_05, (TItem*)item, 1, 2);
     }
 }
 

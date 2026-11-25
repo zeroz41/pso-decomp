@@ -13,148 +13,128 @@
 #include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 
+#include "pso/network/client_id.h"
+
 extern "C" {
+s32 copy_player_visual_record(void *, void *);
+u8 TObjPlayer__sub_801C0124(void *, s16);
+int init_action_config__10TObjPlayerFv(void*);
+}
 
-TObjPlayer *get_local_player();
-
-extern s32 local_client_id;
-
-s32 sync_state__10TObjPlayerFi(saddr arg0) {
-    uaddr player;
-    player = (uaddr)get_local_player();
-    if (player == 0U) {
+// Saves the local player into `record`. With no local player yet it asks for one and returns 0.
+s32 capture_local_player_state(TPlyCharData *record) {
+    TObjPlayer *player = get_local_player();
+    if (player == NULL) {
         TPlyOnCreated::create((u16)local_client_id, fn_802C4748);
         return 0;
     }
-    ((TObjPlayer *)player)->export_state_to_record((TPlyCharData *)arg0);
+    player->export_state_to_record(record);
     return 1;
 }
 
+void TObjPlayer::sync_char_select_state() { capture_local_player_state(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)); }
 
-void TObjPlayer::sync_char_select_state() { TAdSinglePlyChrSelectGC::get_char_index((uaddr)(65535)); ((int (*)(void))sync_state__10TObjPlayerFi)(); }
-
-
-s32 TObjPlayer::try_assign_battle_ctrl(u16 client) {
-    s32 temp = (saddr)get_player_by_client_id((client));
-    if (temp == 0) {
+s32 TPlyCharData::capture_client_player(u16 client) {
+    TObjPlayer *player = get_player_by_client_id(client);
+    if (player == NULL) {
         return 0;
     }
-    ((s32 (*)(void *, s32))export_player_record__10TObjPlayerFPvPv)((void *)this, temp);
+    copy_from_player(player);
     return 1;
 }
 
-s32 update_battle__10TObjPlayerFi(saddr arg0) {
-    s32 r;
-    r = (saddr)get_local_player();
-    if (r == 0) {
+s32 capture_local_player(TPlyCharData *record) {
+    TObjPlayer *player = get_local_player();
+    if (player == NULL) {
         return 0;
     }
-    ((s32 (*)(void *, s32))export_player_record__10TObjPlayerFPvPv)((void *)arg0, (s32)r);
+    record->copy_from_player(player);
     return 1;
 }
 
-}
+void TObjPlayer::init_battle_selection() { capture_local_player(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)); }
 
-struct Rec_802C456C { u8 pad[6]; u8 f6; u8 pad2[0x1c - 7]; };
-
-struct Obj_802C456C { Rec_802C456C recs[1]; };
-
-struct Obj_802C4648 { u8 pad[0x77]; u8 f77; u8 pad2[0x93 - 0x78]; u8 f93; u8 pad3[0xaf - 0x94]; u8 faf; u8 pad4[0xcb - 0xb0]; u8 fcb; };
-
-struct E_802C4668 { u8 pad[7]; u8 v; u8 pad2[0x14]; };
-
-struct O_802C4668 { E_802C4668 e[4]; };
-
-struct S_802C457C { u8 pad0[0x3A1]; u8 f3A1; u8 pad3A2[0x408 - 0x3A2]; u8 buf[1]; };
-
-extern "C" {
-void TObjPlayer__sub_802C456C(Obj_802C456C *self, s32 i, u8 v);
-void TObjPlayer__sub_802C4648(Obj_802C4648 *self, u32 v);
-void TObjPlayer__sub_802C4668(O_802C4668 *self, u32 c);
-s32 copy_player_visual_record(void *, void *);
-void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
-s32 clamp_stats__10TObjPlayerFiPv(void *, void *, void *);
-u8 TObjPlayer__sub_801C0124(void *, s16);
-int init_action_config__10TObjPlayerFv(void*);
-int set_palette_entry__20TWindowActionPaletteFlllll(void*);
-
-void TObjPlayer::init_battle_selection() { TAdSinglePlyChrSelectGC::get_char_index((uaddr)(65535)); ((int (*)(void))update_battle__10TObjPlayerFi)(); }
-
-void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, TObjPlayer *player) {
+void TPlyCharData::copy_from_player(TObjPlayer *player) {
     u8 *overflow;
     s32 i;
     player->set_flag_80000();
-    copy_player_visual_record(&record->m_disp_part2, player->name);
-    record->m_inventory.m_num_items = player->query_state_if_present(record->m_inventory.get_items());
+    copy_player_visual_record(&m_disp_part2, player->name);
+    m_inventory.m_num_items = player->query_state_if_present(m_inventory.get_items());
     player->inventory_objects->set_flag_and_update(player);
-    clamp_stats__10TObjPlayerFiPv(player, &record->m_stats, (void *) (TObjPlayer::get_class_stat_entry((u8 *)player)));
-    record->m_inventory.m_hp_materials_used = player->get_hp_material_points();
-    record->m_inventory.m_tp_materials_used = player->get_tp_materials_clamped();
-    record->set_power_materials_used(player->get_power_materials_used());
-    record->set_mind_materials_used(player->get_mind_materials_used());
-    record->set_evade_materials_used(player->get_evade_materials_used());
-    record->set_def_materials_used(player->get_def_materials_used());
-    record->set_luck_materials_used(player->get_luck_materials_used());
-    copy_disp_config(&record->m_config, &player->action_palettes);
+    player->clamp_stats(&m_stats, TObjPlayer::get_class_stat_entry((u8 *)player));
+    m_inventory.m_hp_materials_used = player->get_hp_material_points();
+    m_inventory.m_tp_materials_used = player->get_tp_materials_clamped();
+    set_power_materials_used(player->get_power_materials_used());
+    set_mind_materials_used(player->get_mind_materials_used());
+    set_evade_materials_used(player->get_evade_materials_used());
+    set_def_materials_used(player->get_def_materials_used());
+    set_luck_materials_used(player->get_luck_materials_used());
+    copy_disp_config(&m_config, &player->action_palettes);
     for (i = 0; i < 0x13; i++) {
-        overflow = record->technique_level_overflow(i);
+        overflow = technique_level_overflow(i);
         TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(&player->technique_state, i),
-            record->technique_level(i), overflow);
+            technique_level(i), overflow);
     }
-    record->m_inventory.m_language = current_language;
+    m_inventory.m_language = current_language;
     if (game_files_modified() != 0) {
-        record->mark_game_files_modified();
+        mark_game_files_modified();
     }
-    player->apply_pending_action((saddr)record);
-    player->copy_mag_level_to_record((u8 *)record);
-    player->copy_byte_339_to_record((u8 *)record);
-    player->copy_battle_mode((u8 *)record);
+    player->apply_pending_action((saddr)this);
+    player->copy_mag_level_to_record((u8 *)this);
+    player->copy_byte_339_to_record((u8 *)this);
+    player->copy_battle_mode((u8 *)this);
     player->clear_flag_80000();
 }
 
-void TObjPlayer::set_action_state(u8 v) { *(u8*)((char*)this + 0x173) = v; }
-void TObjPlayer::clear_item_slots() { { int i; for (i = 0; i < 30; i++) { ((TAdSinglePlyChrSelectGC *)((char*)this + 0x4 + i * 28))->clear_inventory_slot(); } } }
+void TPlyCharData::set_mag_level(u8 level) { m_inventory.m_items[13].m_present[3] = level; }
 
-void TObjPlayer__sub_802C456C(Obj_802C456C *self, s32 i, u8 v) {
-    self->recs[i].f6 = v;
+void TPlyCharData::clear_inventory() {
+    int i;
+    for (i = 0; i < 30; i++) {
+        ((TAdSinglePlyChrSelectGC *)&m_inventory.m_items[i])->clear_inventory_slot();
+    }
 }
 
-void TObjPlayer::set_action_palette_slot(s32 i, u8 v) {
-    S_802C457C *self = (S_802C457C *)this;
-    is_slot_within_limit__10TObjPlayerFllUc(self->f3A1, i, v);
-    self->buf[i] = v;
+void TPlyCharData::set_technique_level_overflow(s32 tech, u8 level) {
+    m_inventory.m_items[tech].m_present[2] = level;
 }
 
-void*TObjPlayer::get_action_data() { return (char*)this + 0x408; }
+void TPlyCharData::set_technique_level(s32 tech, u8 level) {
+    TObjPlayer::is_slot_within_limit(m_disp_part2.char_class, (s16)tech, level);
+    m_tech_levels[tech] = level;
+}
+
+u8 *TPlyCharData::get_technique_levels() { return m_tech_levels; }
 void TPlyCharData::set_luck_materials_used(u8 count) { m_inventory.m_items[12].m_present[3] = count; }
 void TPlyCharData::set_def_materials_used(u8 count) { m_inventory.m_items[11].m_present[3] = count; }
 void TPlyCharData::set_evade_materials_used(u8 count) { m_inventory.m_items[10].m_present[3] = count; }
 void TPlyCharData::set_mind_materials_used(u8 count) { m_inventory.m_items[9].m_present[3] = count; }
 void TPlyCharData::set_power_materials_used(u8 count) { m_inventory.m_items[8].m_present[3] = count; }
-void TObjPlayer::set_field_1ab(u8 v) { *((u8 *)this + 0x1AB) = v; }
-void TObjPlayer::set_field_18f(u8 v) { *((u8 *)this + 0x18F) = v; }
+void TPlyCharData::set_battle_mode(u8 mode) { m_inventory.m_items[15].m_present[3] = mode; }
+void TPlyCharData::set_field_18f(u8 value) { m_inventory.m_items[14].m_present[3] = value; }
 
-void TObjPlayer::set_current_time() {
-    saddr arg0 = (saddr)this;
-    s32 spC;
-    s32 sp8;
-    getDateStamp((DateStamp *)(&spC));
-    DateToSeconds((DateStamp *)(&spC), (int *)(&sp8));
-    TObjPlayer__sub_802C4648((Obj_802C4648 *)(arg0), sp8);
+void TPlyCharData::stamp_save_time() {
+    DateStamp date;
+    int seconds;
+    getDateStamp(&date);
+    DateToSeconds(&date, &seconds);
+    set_save_time(seconds);
 }
 
-void TObjPlayer__sub_802C4648(Obj_802C4648 *self, u32 v) {
-    self->f77 = v;
-    self->f93 = v >> 8;
-    self->faf = v >> 16;
-    self->fcb = v >> 24;
+// The seconds are kept a byte at a time in the last m_present byte of inventory slots 4-7.
+void TPlyCharData::set_save_time(u32 seconds) {
+    m_inventory.m_items[4].m_present[3] = seconds;
+    m_inventory.m_items[5].m_present[3] = (u8)(seconds >> 8);
+    m_inventory.m_items[6].m_present[3] = (u8)(seconds >> 16);
+    m_inventory.m_items[7].m_present[3] = (u8)(seconds >> 24);
 }
 
-void TObjPlayer__sub_802C4668(O_802C4668 *self, u32 c) {
-    self->e[0].v = c;
-    self->e[1].v = c >> 8;
-    self->e[2].v = c >> 16;
-    self->e[3].v = c >> 24;
+// Kept a byte at a time in the last m_present byte of inventory slots 0-3.
+void TPlyCharData::set_pending_action(u32 action) {
+    m_inventory.m_items[0].m_present[3] = action;
+    m_inventory.m_items[1].m_present[3] = (u8)(action >> 8);
+    m_inventory.m_items[2].m_present[3] = (u8)(action >> 16);
+    m_inventory.m_items[3].m_present[3] = (u8)(action >> 24);
 }
 
 u8 *TPlyCharData::technique_level(s32 tech) {
@@ -166,10 +146,10 @@ u8 *TPlyCharData::technique_level_overflow(s32 tech) {
 }
 
 void TPlyCharData::mark_game_files_modified() { m_inventory.m_items[0].m_present[3] |= 0x40; }
-}
+
 int init_character_action_config(void* p) { return init_action_config__10TObjPlayerFv((char*)p + 0x24); }
 
-int TObjPlayer__sub_802C46E0(void* p) { return set_palette_entry__20TWindowActionPaletteFlllll(p); }
+void TObjPlayer__sub_802C46E0(TPlyDispConfigSmth *palette, s32 row, s32 index, s32 mode, u16 slot) { palette->set_tag(row, index, mode, slot); }
 
 void TObjPlayer::clear_flag_80000() { clear_state_flags((saddr)((void*)524288)); }
 void TObjPlayer::set_flag_80000() { set_state_flags((uaddr)((void*)524288)); }

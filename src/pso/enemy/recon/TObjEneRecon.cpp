@@ -14,7 +14,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -102,7 +102,7 @@ void TObjEneRecon::render_demo() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         draw_chunk_object(this->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -175,7 +175,7 @@ void TObjEneRecon::render() {
                     root_node_position.y = 0.0f;
                     root_node_position.z = 0.0f;
                     set_chunk_model_node_callback(TObjEneRecon::advance_intro_stage);
-                    TObjPlayer::toggle_particle_effect();
+                    toggle_particle_effect();
                     model_render_flags |= 0x01000000;
                     if (view_detail == 1) {
                         draw();

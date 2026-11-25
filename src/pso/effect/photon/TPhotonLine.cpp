@@ -9,7 +9,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/MatrixOps.h"

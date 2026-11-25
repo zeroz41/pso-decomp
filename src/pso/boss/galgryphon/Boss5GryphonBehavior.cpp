@@ -95,7 +95,7 @@
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
-// TObjPlayer_80011014.h declares these too, but its calc_random_ratio prototype takes no rng.
+// TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
 extern "C" {
 f64 atan2_float(f32, f32);
 f32 newton_sqrtf(f32);
@@ -1119,27 +1119,27 @@ void TBoss5Gryphon::emit_ground_contact_attack() {
 
 void TBoss5Gryphon::apply_shockwave_hit(TBoss5Gryphon *owner, Vec *pos) {
     DragonAttackParams desc = gryphon_shockwave_hit_params;
-    desc.power = boss5_gryphon_behavior_params[2]->attack.shockwave_power;
+    desc.attack.power = boss5_gryphon_behavior_params[2]->attack.shockwave_power;
     TBoss8Dragon__sub_80067074(pos, &desc);
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
 
 void TBoss5Gryphon::apply_tornado_hit(TBoss5Gryphon *owner, Vec *pos) {
     DragonAttackParams desc = gryphon_tornado_hit_params;
-    desc.power = boss5_gryphon_behavior_params[2]->attack.tornado_power;
+    desc.attack.power = boss5_gryphon_behavior_params[2]->attack.tornado_power;
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
 
 void TBoss5Gryphon::apply_snarl_hit(TBoss5Gryphon *owner, Vec *pos, f32 inner, f32 scale) {
     DragonAttackParams desc = gryphon_snarl_hit_params;
-    desc.power = boss5_gryphon_behavior_params[2]->attack.snarl_power * scale;
+    desc.attack.power = boss5_gryphon_behavior_params[2]->attack.snarl_power * scale;
     desc.radius = inner;
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
 
 void TBoss5Gryphon::apply_lightning_hit(TBoss5Gryphon *owner, Vec *pos, f32 inner) {
     DragonAttackParams desc = gryphon_lightning_hit_params;
-    desc.power = boss5_gryphon_behavior_params[2]->attack.lightning_power;
+    desc.attack.power = boss5_gryphon_behavior_params[2]->attack.lightning_power;
     desc.radius = inner;
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
@@ -3708,7 +3708,7 @@ void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
     scale_matrix(0, 2.0f, 2.0f, 2.0f);
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     draw();
     TParticleCtrl::end_effect_render();
     current_scene_light->sub_801337F8();

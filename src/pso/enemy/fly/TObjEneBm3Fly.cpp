@@ -1,4 +1,3 @@
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
@@ -32,7 +31,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -1108,7 +1107,7 @@ void TObjEneBm3Fly::render() {
         translate_matrix(0, this->position.x, this->flightY, this->position.z);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         set_alpha_ref_override(0x8F);
         if (kind == 1) {
             this->draw();
@@ -1130,7 +1129,7 @@ void TObjEneBm3Fly::render_demo() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         draw_chunk_object(model);
         TParticleCtrl::end_effect_render();
         pop_matrix();

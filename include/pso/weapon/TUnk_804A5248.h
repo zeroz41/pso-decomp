@@ -8,7 +8,7 @@ class TUnk_804A5248 : public TItemWeapon {
 public:
     TUnk_804A5248(TObject *parent, u8 *item);
     virtual ~TUnk_804A5248();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void update_attack();
     f32 barrel_scale;

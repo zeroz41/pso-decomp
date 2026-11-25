@@ -5,12 +5,12 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/unk/text_8011B620.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A5C18::vfunc_60() {
+void TUnk_804A5C18::transform_model_node() {
     s32 node;
     s32 angle;
 

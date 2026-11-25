@@ -6,7 +6,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 
@@ -91,7 +91,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixVector.h"
@@ -871,7 +871,7 @@ void TObjEneDarkGunner::render() {
         view = classify_actor_view_detail(150.0f, 400.0f, 15.0f);
         if (view != 0) {
             select_actor_lighting(this);
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             drawn = 1;
             push_matrix();
             saved_model_render_flags = model_render_flags;

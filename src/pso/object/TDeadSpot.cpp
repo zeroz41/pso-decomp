@@ -29,6 +29,7 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/text_803D8DE0.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/boss/derolle/RandomAngle.h"
 
 struct E_800D7FD4 { u8 pad[0x14]; u32 col; };
 
@@ -127,7 +128,7 @@ TDeadSpot::TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s3
     set_matrix_identity(0);
     rotate_matrix_y(0, yaw);
     rotate_matrix_z(0, pitch);
-    rotate_matrix_x(0, TObjPlayer::calc_random_scaled());
+    rotate_matrix_x(0, random_angle());
     fn_803D8DE0(0, basis, basis, 2);
     pop_matrix();
     b0x = basis[0].x;
@@ -287,7 +288,7 @@ void TUnk_804949F4::vfunc_6() {
   Vec stack;
   f32 x;
   s32 angle;
-  angle = TObjPlayer::calc_random_scaled();
+  angle = random_angle();
   x = radius * sin_table_lookup((int) (angle & 0xFFFFFFFFu));
   stack.y = lbl_805DA380;
   stack.x = x;
@@ -319,7 +320,7 @@ void TUnk_804949D8::vfunc_6() {
     Vec stack;
     f32 x;
     s32 angle;
-    angle = TObjPlayer::calc_random_scaled();
+    angle = random_angle();
     x = radius * sin_table_lookup(angle);
     stack.y = lbl_805DA380;
     stack.x = x;

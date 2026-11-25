@@ -5,19 +5,19 @@
 #include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/unk/text_80120D50.h"
 #include "pso/item/TItem.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 
 extern "C" {
 
 s32 rotate_matrix_y(s32, s32);
 
-void TUnk_804A3260::vfunc_60() {
+void TUnk_804A3260::transform_model_node() {
     if ((s32) this->effectJoint == TObjPlayer::get_player_list()) {
         rotate_matrix_y(0, this->effectAngle);
     }
 }
 
 extern s32 tl_05;
-void spawn_weapon_impact_effect();
 }
 void TUnk_804A3260::emit_marker_effects() {
     if (launch_shot((u8 *)&muzzle[0], 0, 0, 1) != 0) {
@@ -42,14 +42,14 @@ void TUnk_804A3260::update_weapon() {
     }
 }
 
-void TUnk_804A3260::reserved_53() {
+void TUnk_804A3260::draw_held_model() {
     u8 *arg0 = (u8 *)this;
     ((TItemWeapon *)arg0)->sample_dual_muzzles(&this->muzzle[0], &this->muzzle[1]);
 }
 
 TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
     this->set_weapon_flags(0x203);
-    *(void (**)())((s8 *)this + 0x1EC) = &spawn_weapon_impact_effect;
+    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     this->effectJoint = -1;
     this->effectAngle = 0;
     this->effectScaleJoint = -1;

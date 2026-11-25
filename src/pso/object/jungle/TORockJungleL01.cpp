@@ -27,7 +27,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 // The source is written from the last function back: the unit is built
 // -inline off,deferred, which emits it in reverse (the vtables L01, M01, S01

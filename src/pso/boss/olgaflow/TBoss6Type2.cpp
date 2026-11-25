@@ -58,7 +58,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
@@ -2283,7 +2283,7 @@ void TBoss6Type2::render_body_effects() {
     s32 settled;
 
     sum_offsets();
-    TObjPlayer::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     post_translate_matrix((const f32 *)&position);
     rotate_matrix_y(NULL, rotation_y);

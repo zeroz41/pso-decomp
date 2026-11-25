@@ -79,7 +79,7 @@ struct PhotonBlastRequest {
 struct PhotonBlastChainCounts { s32 count[4]; };
 
 // One entry per photon blast; +0x00 is the hit power (queue_photon_blast_hit), +0x12 is read by
-// TObjPlayer_801C7430, +0x20 is the effect id start_photon_blast plays.
+// TObjPlayerActions.cpp, +0x20 is the effect id start_photon_blast plays.
 struct PhotonBlastEntry {
     f32 power;
     f32 pad_04;

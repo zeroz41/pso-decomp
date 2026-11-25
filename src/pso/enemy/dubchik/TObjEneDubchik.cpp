@@ -22,7 +22,6 @@
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
@@ -33,8 +32,8 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TUnk_80491478.h"
-#include "pso/player/TUnk_80491460.h"
+#include "pso/enemy/dubchik/TDubchikPart.h"
+#include "pso/enemy/dubchik/TDubchikShot.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/ActorCollision.h"
@@ -54,7 +53,7 @@
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
@@ -436,7 +435,7 @@ void TObjEneDubchik::render() {
         detail = classify_actor_view_detail(120.0f, 400.0f, 20.0f);
         if (detail != 0) {
             select_actor_lighting(this);
-            TObjPlayer::toggle_particle_effect();
+            toggle_particle_effect();
             if (collapsed != 0) {
                 TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
             } else {
@@ -692,7 +691,7 @@ void TObjEneDubchik::update_fall_apart() {
         render_model_and_set_attach_points();
         for (i = 0; i < 3; i++) {
             if (parts[i] == NULL && random_ratio() >= 0.5f) {
-                parts[i] = new TUnk_80491478(i, this, (s32)variant != 0 ? dubchik_variant_texlist : dubchik_texlist, &part_offsets[i]);
+                parts[i] = new TDubchikPart(i, this, (s32)variant != 0 ? dubchik_variant_texlist : dubchik_texlist, &part_offsets[i]);
                 behavior_flags |= 0x20000 << i;
             }
         }
@@ -943,7 +942,7 @@ void TObjEneDubchik::update_shoot() {
         }
         if (--timer <= 0) {
             shot_count--;
-            new TUnk_80491460(&muzzle_position, rotation_y, (saddr)this, get_int_parameter(3));
+            new TDubchikShot(&muzzle_position, rotation_y, (saddr)this, get_int_parameter(3));
             state = 4;
             if (effect != NULL) {
                 effect->queue_destruction();

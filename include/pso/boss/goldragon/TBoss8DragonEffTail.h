@@ -2,17 +2,17 @@
 #define PSO_BOSS_GOLDRAGON_TBOSS8DRAGONEFFTAIL_H
 
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 class AreaAttackHistory;
 class TBoss8Dragon;
 
-struct TBoss8DragonEffTail : public TUnk_804928CC {
+struct TBoss8DragonEffTail : public TAttackCollider {
     TBoss8DragonEffTail(TBoss8Dragon *dragon, Vec *nodes);
     virtual ~TBoss8DragonEffTail();
-    virtual void apply_hit_if_active(void *, f32 *);
+    virtual void apply_hit_if_active(TObjChara *target, const f32 *recoil);
     virtual void run_task();
-    virtual void area_attack_apply_recoil(void *, f32);
+    virtual void area_attack_apply_recoil(TObjChara *target, f32 recoil);
     TBoss8Dragon *dragon;  // its owner: run_task follows it and refreshes its tail hit points
     Vec *nodes;            // the owner's node positions the 17 bodies are placed on
     AreaAttackHistory *attack_history; // laid out as in its twin TBoss1DragonEffTail

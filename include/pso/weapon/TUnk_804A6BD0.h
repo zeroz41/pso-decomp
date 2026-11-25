@@ -9,7 +9,7 @@
 // model node 1 by slide. Made by create_yasminkov_3000r.
 class TUnk_804A6BD0 : public TItemWeapon {
 public:
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void emit_marker_effects();
     virtual void update_weapon();
     virtual ~TUnk_804A6BD0();

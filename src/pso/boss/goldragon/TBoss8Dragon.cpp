@@ -298,7 +298,7 @@ u16 boss8_dragon_control_client_id;
 // (from _802F3EE4)
 // (from _802F4324)
 extern "C" {
-BOOL is_split_screen(void); // TObjPlayer_80011014.h, whose other prototypes clash here
+BOOL is_split_screen(void); // TObjCharaHelpers.h, whose other prototypes clash here
 }
 void set_tev_swap_channels(u8 r, u8 g, u8 b, u8 a);
 void init_tev_swap();
@@ -1468,22 +1468,22 @@ void TBoss8Dragon::apply_trail_attack() {  }
 
 void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history) {
     DragonAttackParams s = TBoss8Dragon__breath_params;
-    s.power = boss8_dragon_behavior_params[0]->values[0];
-    s.kind = kind;
+    s.attack.power = boss8_dragon_behavior_params[0]->values[0];
+    s.attack.kind = kind;
     setup_instance(pos, &s, history);
 }
 
 void TBoss8Dragon::apply_fireball_impact_damage(Vec *pos, u32 kind) {
     DragonAttackParams s = boss8_dragon_fireball_impact_params;
-    s.power = boss8_dragon_behavior_params[0]->values[1];
-    s.kind = kind;
+    s.attack.power = boss8_dragon_behavior_params[0]->values[1];
+    s.attack.kind = kind;
     this->setup_instance(pos, &s, 0);
 }
 
 void TBoss8Dragon::apply_pillar_attack(Vec *pos, f32 radius) {
     DragonAttackParams s = boss8_dragon_pillar_attack_params;
     s.radius = radius;
-    s.power = boss8_dragon_behavior_params[0]->values[2];
+    s.attack.power = boss8_dragon_behavior_params[0]->values[2];
     this->setup_instance(pos, &s, this->attack_history);
 }
 
@@ -4707,7 +4707,7 @@ void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
         rotate_matrix_x(0, this->rotation_x);
         rotate_matrix_z(0, this->rotation_z);
         scale_current_matrix(&this->scale.x);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         if (this->flags & 0x80) {
             set_tev_swap_channels(3, 3, 3, 3);
         }

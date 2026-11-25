@@ -39,6 +39,8 @@ public:
     void sub_80156A68();
     void*set_collision_body(void*);
     void clear_collision_bodies();
+    // The radius of collision body `body`.
+    f32 get_body_radius(s32 body);
     u32 check_actor_body_contact(void *, f32);
     void mark_enemy_body_contacts();
     void update_enemy_collision_flags();

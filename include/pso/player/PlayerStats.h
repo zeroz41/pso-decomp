@@ -26,18 +26,18 @@ struct player_stats {
         bswap_16((u16 *)&stats.dfp);
         bswap_16((u16 *)&stats.ata);
         bswap_16((u16 *)&stats.lck);
-        bswap_16((u16 *)&mbr_0xe);
+        bswap_16((u16 *)&esp);
         bswap_32((u32 *)&proportions);
-        bswap_32((u32 *)&mbr_0x14);
+        bswap_32((u32 *)&knockback_resist);
         bswap_32((u32 *)&level);
         bswap_32((u32 *)&exp);
         bswap_32((u32 *)&meseta);
     };
 
     struct stats stats;
-    short mbr_0xe;
+    short esp;
     float proportions;
-    float mbr_0x14;
+    float knockback_resist;
     int level;
     int exp;
     int meseta;

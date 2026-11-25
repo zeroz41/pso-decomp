@@ -81,7 +81,6 @@ struct TLobby : public TObject {
     static s32 level_to_reward(s32 shop_weapon_stock_level);
     static void mark_shop_weapon_sold_out(s32 index, s32 slot);
     static void free_lobby_resources();
-    void cleanup_small_font();
     static void stop_audio_streams();
     static void set_pre_retrace_callback();
     static void shutdown_buffers();
@@ -163,13 +162,7 @@ struct TLobby : public TObject {
     void bswap_player_packet();
     void update_and_send();
     static TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src);
-    static void set_boss_buf_entry(int a0, int a1);
     static int get_sync_counter(u16 a0);
-    static s32 get_item_data(u32 item);
-    static void forward_message(saddr buf, uaddr item);
-    static void mark_selected();
-    static int get_drop_flag();
-    static void handle_select_confirm();
     static void forward_to_player(int id, void *item);
     static void handle_player_event(s32 client, s32 slot);
     void dispatch_packet_wrapper();
@@ -248,10 +241,6 @@ struct TLobby : public TObject {
     static void update_camera_state();
     static void update_periodic_tick();
     static void reset_counter();
-    void update_child_player();
-    void set_float_4(f32 v);
-    void set_pos_z(f32 v);
-    void set_scale(f32 v);
     void send_set_battle_mode_data();
     void bswap_set_battle_mode_data();
     void send_6x7D_set_battle_mode_data();
@@ -373,9 +362,6 @@ struct TLobby : public TObject {
     static void free_chr_select_slots();
     static void free_dialog_global();
     static void free_dialing_gc();
-    s32 get_valid_child();
-    static s32 validate_handle(s32 *handle);
-    void set_field_4(s32 v);
     static void *create_mist_ctrl(void *parent, void *set_data);
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
@@ -383,11 +369,6 @@ struct TLobby : public TObject {
     static s32 is_camera_ctrl_active();
     static s32 is_ready();
     static int get_online_ready_flag();
-    static void apply_state_6c84();
-    static s32 test_flag_2_at_6c84();
-    static void init_object_flag();
-    static s32 test_flag_1_at_6c84();
-    static void clear_flag_at_6c84();
     static NJS_SPRITE *get_record(int index);
     static void queue_destruction_and_cleanup(TObject *fade);
     void set_flag_and_clear_download();
@@ -603,14 +584,10 @@ struct TLobby : public TObject {
     static void update_scene_alt();
     static s32 is_multi_ready();
     static void update_game_modes();
-    static void init_player_forward();
-    static void release_indexed_entry(s32 index);
     static void free_global_buffers();
     void fill_guild_card_from_char(s32 index);
     void roll_item_grind_bonus();
     static void free_map_resources();
-    static void send_field1c_packet(saddr player);
-    static void send_font_state(saddr player);
     static s32 count_members();
     static void apply_battle_rules_to_players();
     void player_flag_1();
@@ -714,7 +691,6 @@ struct TLobby : public TObject {
     static s32 change_file_extension(void *, void *, void *);
     static void check_bin_model_loaded(void *, void *);
     static s32 check_team_balance(void *, int);
-    static void check_valid_state(int);
     static void close_all_windows(void *);
     static void close_all_windows();
     static void close_and_send_text_list();
@@ -769,7 +745,6 @@ struct TLobby : public TObject {
     static void init_player_window_effect();
     static u8 is_challenge_lobby();
     static u8 is_valid_player_index(int);
-    static s32 is_valid_state(void *, int);
     static s32 load_floor_enemy_group_entries(int, void *, unsigned int);
     static u8 lookup_key_value(char);
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
@@ -895,6 +870,13 @@ LAYOUT_ASSERT(TLobby_size, sizeof(TLobby) == 0x1C);
 // whether placing one shows the drop effect.
 extern void *item_object_set_data;
 extern s32 item_ground_placement_enabled;
+
+// 1 when the local player stands on another floor than the current one (never in split screen).
+s32 is_local_player_off_current_floor();
+
+extern "C" {
+void fn_801058E8(void *p);
+}
 
 // The lobby name the server sends (packet 0x8A) after start_lobby_name_request.
 extern char lobby_name[0x18];

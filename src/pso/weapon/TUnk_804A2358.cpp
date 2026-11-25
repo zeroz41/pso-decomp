@@ -5,7 +5,6 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_80120908.h"
 
@@ -25,7 +24,7 @@ void TUnk_804A2358::emit_marker_effects() {
         ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
-void TUnk_804A2358::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
+void TUnk_804A2358::draw_held_model() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
 void TUnk_804A2358::on_equipped() { this->roll_technique(); this->roll_technique(); }
 
 }

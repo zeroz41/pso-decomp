@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/system/task/TObject_80019A50.h"

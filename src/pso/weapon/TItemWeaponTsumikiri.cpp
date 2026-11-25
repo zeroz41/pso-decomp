@@ -7,7 +7,7 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 #pragma push

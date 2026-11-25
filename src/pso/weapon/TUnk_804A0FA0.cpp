@@ -7,7 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixOps.h"
 
-void TUnk_804A0FA0::vfunc_60() {
+void TUnk_804A0FA0::transform_model_node() {
     if (get_item_index() == 5) {
         s32 n = TObjPlayer::get_player_list();
         switch (n) {

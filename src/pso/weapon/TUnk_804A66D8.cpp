@@ -2,7 +2,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A66D8.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/unk/text_8011B328.h"
 #include "pso/unk/text_8011B620.h"
 #include "pso/player/TObjPlayer.h"
@@ -31,7 +31,7 @@ void TUnk_804A66D8::emit_marker_effects() {
     }
 }
 
-void TUnk_804A66D8::reserved_53() {
+void TUnk_804A66D8::draw_held_model() {
     sample_dual_muzzles(&gun_point, &second_gun_point);
 }
 

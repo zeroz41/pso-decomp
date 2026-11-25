@@ -46,10 +46,9 @@ struct NJS_OBJECT;
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_800A7764.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -357,7 +356,7 @@ void TObjEneGibbles::render() {
         TObjEneGibbles__render_node_index = 0;
         TObjEneGibbles__render_rotation_x = this->head_angle;
         set_chunk_model_node_callback(gibbles_render_node_callback);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         switch (this->mode) {
         case 0:
             break;

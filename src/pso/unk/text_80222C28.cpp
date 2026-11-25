@@ -4,7 +4,7 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/Language.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 #pragma readonly_strings on
 

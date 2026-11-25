@@ -2,10 +2,10 @@
 #include "pso/ui/hud/TMainCursor_8013DF5C.h"
 #include "pso/player/TObjPlayer_801D84A8.h"
 #include "pso/ui/hud/TMainCursor.h"
+#include "pso/player/TPlyDispConfig.h"
 
 extern "C" {
 
-s32 TWindowActionPalette__sub_801C1C68(s32, s32);
 
 s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s32 arg4) {
     saddr first_tag;
@@ -32,7 +32,7 @@ s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s
         }
     }
 block_8:
-    tag = TWindowActionPalette__sub_801C1C68(arg0, arg4);
+    tag = (saddr)((TPlyDispConfigSmth *)arg0)->get_row(arg4);
     slot = 0;
 loop_9:
     if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(tag)) == 1) {

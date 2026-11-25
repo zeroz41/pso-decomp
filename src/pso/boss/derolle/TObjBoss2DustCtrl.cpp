@@ -18,6 +18,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/boss/derolle/RandomAngle.h"
 
 Vec boss2_dust_points[6];
 s32 boss2_dust_rotation_table[20];
@@ -45,7 +46,7 @@ void TObjBoss2DustCtrl::init_strips() {
     {
         s32 *p = boss2_dust_rotation_table;
         for (i = 0; i < 20; i++) {
-            *p++ = TObjPlayer::calc_random_scaled();
+            *p++ = random_angle();
         }
     }
     {
@@ -59,7 +60,7 @@ void TObjBoss2DustCtrl::init_strips() {
         }
     }
     for (j = 0; j < 10; j++) {
-        boss2_dust_random_angles[j] = TObjPlayer::calc_random_scaled();
+        boss2_dust_random_angles[j] = random_angle();
     }
     TObjBoss2DustCtrl_dust_counter = 0;
 }

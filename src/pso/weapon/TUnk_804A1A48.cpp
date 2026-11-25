@@ -1,6 +1,6 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_80363BE0.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/weapon/TUnk_804A1A48.h"
@@ -11,8 +11,9 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_80120908.h"
+#include "pso/effect/item/TItemEffCane.h"
 
-void TUnk_804A1A48::reserved_53() {
+void TUnk_804A1A48::draw_held_model() {
     Vec pos;
 
     if ((item_model != NULL) && (is_hidden() == 0)) {
@@ -27,9 +28,9 @@ void TUnk_804A1A48::reserved_53() {
         child->evalflags &= ~NJD_EVAL_HIDE;
         grandchild->evalflags &= ~NJD_EVAL_HIDE;
         sibling->evalflags &= ~NJD_EVAL_HIDE;
-        TObjPlayer::save_model_render_state();
+        TEquippedWeaponDrawTask::save_model_render_state();
         model_render_flags &= ~0x10;
-        TObjPlayer::set_model_fade_alpha(get_owner_alpha());
+        TEquippedWeaponDrawTask::set_fade_alpha(get_owner_alpha());
         child->evalflags |= NJD_EVAL_UNIT_POS;
         grandchild->evalflags &= ~NJD_EVAL_UNIT_ANG;
         grandchild->ang[1] += swing_angle;
@@ -47,14 +48,14 @@ void TUnk_804A1A48::reserved_53() {
         grandchild->ang[1] -= swing_angle;
         sibling->evalflags |= NJD_EVAL_UNIT_ANG;
         sibling->ang[1] += swing_angle;
-        TObjPlayer::warn_if_gauge_low();
-        TObjPlayer::restore_model_render_state();
+        TEquippedWeaponDrawTask::end_fade();
+        TEquippedWeaponDrawTask::restore_model_render_state();
     }
 }
 
 void TUnk_804A1A48::emit_marker_effects() {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effect(this, 4);
+        TItemEffCane::spawn(tl_05, this, 4);
     }
 }
 

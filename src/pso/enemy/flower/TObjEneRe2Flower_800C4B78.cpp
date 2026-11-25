@@ -11,7 +11,7 @@
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"

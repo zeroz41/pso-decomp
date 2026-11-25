@@ -5,7 +5,7 @@
 #include "pso/technique/TTecShot.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/AngleLookup.h"
@@ -163,14 +163,14 @@ TTecShot::TTecShot(saddr source, u8 *pos, u8 *target, s32 level) : TEffect() {
     this->collisionBody.offset.x = 0.0f;
     this->collisionBody.offset.y = 0.0f;
     this->collisionBody.offset.z = 0.0f;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U && get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
+    if (((TObjBase *)this->source)->get_entity_id() < 4U && ((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
         this->collisionBody.offset.z = (-1e+01f);
     }
     this->collisionBody.radius = 5.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 1;
     if (((TObjBase *)this->source)->get_entity_id() < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
+        if (((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
             this->collisionBody.flags = 0x40007;
         } else {
             this->collisionBody.flags = 0x40107;
@@ -224,14 +224,14 @@ TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
     this->collisionBody.offset.x = 0.0f;
     this->collisionBody.offset.y = 0.0f;
     this->collisionBody.offset.z = 0.0f;
-    if (((TObjBase *)this->source)->get_entity_id() < 4U && get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
+    if (((TObjBase *)this->source)->get_entity_id() < 4U && ((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
         this->collisionBody.offset.z = (-1e+01f);
     }
     this->collisionBody.radius = 5.0f;
     this->collisionBody.half_width = 1.0f;
     this->collisionBody.shape = 1;
     if (((TObjBase *)this->source)->get_entity_id() < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
+        if (((TObjPlayer *)this->source)->pk_state.is_enabled() != 0) {
             this->collisionBody.flags = 0x40007;
         } else {
             this->collisionBody.flags = 0x40107;

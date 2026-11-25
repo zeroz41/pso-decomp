@@ -18,7 +18,7 @@
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -111,21 +111,3 @@ NJS_OBJECT *TObjSeabedSuisoBrakable::get_model13_node(int index) {
 }
 
 void TObjSeabedSuisoBrakable::vfunc_19() {}
-
-extern "C" {
-int match_coordinate_pair(u8 *pair, s32 a, s32 b) {
-    u8 match = 0;
-    if (a == ((s32 *)pair)[0] && b == ((s32 *)pair)[1]) {
-        match = 1;
-    }
-    return match;
-}
-u8 is_valid_player_motion_variant(u32 variant) {
-    return variant < 19;
-}
-
-u8 TLobby__sub_802A7278(u32 arg0) {
-    return arg0 < 6;
-}
-
-}

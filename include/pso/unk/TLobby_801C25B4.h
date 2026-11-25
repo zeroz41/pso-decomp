@@ -101,4 +101,16 @@ void play_duel_result_stream(const char *file, saddr duration);
 
 extern s32 battle_ctrl_default_value;
 
+// Battle score weights the quest opcodes ba_*_score set; the rule setup hands them to each player's
+// score counters.
+extern f32 battle_player_give_damage_score;
+extern f32 battle_player_take_damage_score;
+extern f32 battle_player_kill_score;
+extern f32 battle_player_death_score;
+extern f32 battle_enemy_give_damage_score;
+extern f32 battle_enemy_kill_score;
+extern f32 battle_enemy_death_score;
+extern f32 battle_enemy_take_damage_score;
+extern f32 battle_meseta_score;
+
 #endif

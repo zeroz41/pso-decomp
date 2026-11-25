@@ -1,6 +1,0 @@
-#ifndef PSO_PLAYER_TOBJPLAYER_801BD314_H
-#define PSO_PLAYER_TOBJPLAYER_801BD314_H
-
-#include "types.h"
-
-#endif

@@ -11,7 +11,7 @@
 // create_yasminkov_2000h.
 class TUnk_804A6CC8 : public TItemWeapon {
 public:
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void update_attack();
     virtual void update_weapon();
@@ -19,9 +19,9 @@ public:
     virtual ~TUnk_804A6CC8();
     TUnk_804A6CC8(TObject *parent, u8 *item);
     s32 shown;           // 0x1F8: 1 while scale is full size (inferred name)
-    WeaponVector scale;  // scale_current_matrix in vfunc_60
+    WeaponVector scale;  // scale_current_matrix in transform_model_node
     s32 slide_state;     // 2 opening, 3 open, 1 closing, 0 closed
-    WeaponVector slide;  // post_translate_matrix in vfunc_60
+    WeaponVector slide;  // post_translate_matrix in transform_model_node
 };
 
 TItem *create_yasminkov_2000h(u8 *item);

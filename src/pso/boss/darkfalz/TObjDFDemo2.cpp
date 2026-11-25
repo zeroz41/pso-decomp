@@ -122,7 +122,7 @@ void TObjDFDemo2::render() {
         return;
     }
     if (alpha < 1.0f) {
-        TObjPlayer::begin_alpha_blend(alpha);
+        begin_alpha_blend(alpha);
     }
     push_matrix();
     set_motion_packed_rotation();
@@ -135,7 +135,7 @@ void TObjDFDemo2::render() {
     clear_motion_packed_rotation();
     pop_matrix();
     if (alpha < 1.0f) {
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
     }
 }
 }

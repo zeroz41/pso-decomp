@@ -4,7 +4,7 @@
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TMainTask.h"

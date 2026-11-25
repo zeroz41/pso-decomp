@@ -26,7 +26,7 @@
 #include "pso/unk/text_802432F0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803DA798.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_803DE778.h"
 
 // The lobby signboard: a textured quad showing the picture load_memcard_file reads from memory card file PSO______099.

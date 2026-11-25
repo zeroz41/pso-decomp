@@ -3,7 +3,7 @@
 #include "pso/object/TObjLiveMonitor.h"
 #include "pso/camera/TObjLiveCameraCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"
 #include "pso/boss/goldragon/TObjBoss8DemoRoom.h"
 

@@ -12,7 +12,7 @@
 #include "pso/system/task/TMainTask.h"
 
 // Slides the barrel back by barrel_offset (the name s_rank_bazooka_slide_barrel was inferred).
-void TUnk_804A4548::vfunc_60() {
+void TUnk_804A4548::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         translate_matrix(0, 0.0f, (-1.0f) * barrel_offset, 0.0f);
     }

@@ -9,7 +9,7 @@ public:
     virtual ~TUnk_804A6DC0();
     virtual void update_weapon();
     virtual void emit_marker_effects();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     s32 state;
     float m_1fc;
     f32 m_200;

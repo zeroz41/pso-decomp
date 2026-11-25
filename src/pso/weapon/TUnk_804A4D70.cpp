@@ -6,7 +6,7 @@
 #include "pso/item/TItem.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -33,7 +33,7 @@ void TUnk_804A4D70::emit_marker_effects() {
     }
 }
 
-void TUnk_804A4D70::vfunc_60() {
+void TUnk_804A4D70::transform_model_node() {
     switch ((s32)get_item_index()) {
     case 6:
         if (TObjPlayer::get_player_list() == 4) {

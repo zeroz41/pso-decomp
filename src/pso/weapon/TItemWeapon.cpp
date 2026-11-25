@@ -1,11 +1,10 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "types.h"
 #include <string.h>
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_801211F0.h"
-#include "pso/player/TObjPlayer_80363BE0.h"
 #include "pso/unk/text_80120150.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/object/base/TObjMotion.h"
@@ -17,17 +16,14 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/item/item_pmt.h"
 #include "pso/unk/text_8011B620.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_80120FC4.h"
-#include "pso/player/TObjPlayer_80121010.h"
-#include "pso/player/TObjPlayer_8012105C.h"
-#include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/effect/item/TItemEffectWeapon.h"
 
 
 // ---- pso/unk/text_80120908
@@ -69,9 +65,9 @@ void TItemWeapon::draw_weapon_model() {
             } else {
                 set_chunk_model_node_callback(apply_weapon_node_material);
             }
-            TObjPlayer::save_model_render_state();
+            TEquippedWeaponDrawTask::save_model_render_state();
             model_render_flags &= 0xFFFFFFEF;
-            TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
+            TEquippedWeaponDrawTask::set_fade_alpha((f32)this->get_owner_alpha());
             if (this->has_no_defer_render() != 0) {
                 model_render_flags |= 0x8011;
                 set_color_blend_mode(1, 4, 5, 0);
@@ -105,8 +101,8 @@ void TItemWeapon::draw_weapon_model() {
             TItem::end_effect_render();
             this->end_particle_tev();
             this->end_shield_tev();
-            TObjPlayer::warn_if_gauge_low();
-            TObjPlayer::restore_model_render_state();
+            TEquippedWeaponDrawTask::end_fade();
+            TEquippedWeaponDrawTask::restore_model_render_state();
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 this->sub_80121208(NULL);
             } else {
@@ -294,10 +290,9 @@ TItem *create_weapon_for_item(u8 *item) {
 }
 
 // ---- pso/player/TObjPlayer_8012105C
-s16 TObjPlayer__sub_801D2F4C(s16 *);
 
-void TObjPlayer__sub_8012105C(void) {  }
-void TObjPlayer__sub_80121060(void) {  }
+void TItemWeapon::free() {}
+void TItemWeapon::load_data() {}
 u8 TItemWeapon::get_motion_type() { return motion_type; }
 void TItemWeapon::set_weapon_flags(u32 mask) { weapon_flags |= mask; }
 void TItemWeapon::clear_weapon_flags(u32 mask) { weapon_flags &= ~mask; }
@@ -310,7 +305,7 @@ void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s3
 
 void TObjPlayer::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }
 void TObjPlayer::set_model_id(s16 v) { this->m_116 = v; }
-s16 TObjPlayer::is_status_subsystem_ready() { return TObjPlayer__sub_801D2F4C((s16 *)((char*)this + 0x7cc)); }
+s16 TObjPlayer::is_status_subsystem_ready() { return attack_state.get_validated_attack_kind(); }
 CapturedTargetList *TObjPlayer::get_extended_state() { return (CapturedTargetList *)((TObjPlayer *)((char*)this + 0x7cc))->get_state_ptr(); }
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }
 int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }
@@ -346,7 +341,7 @@ void reset_model_node_counter(void) { model_node_counter = 0; }
 // ---- pso/player/TObjPlayer_8012121C
 
 int TObjPlayer::is_flag_b0_4() { return this->motion_flags & 0x4; }
-void TObjPlayer__sub_80121228(void* p, u32 v) { *(u32*)((char*)p + 0x28) |= v; }
+void TItemEffectWeapon::set_flags(u32 mask) { flags |= mask; }
 s16 CapturedTarget::get_captured_target_collider_index() { return collider_index; }
 u16 CapturedTarget::get_uid() { return uid; }
 

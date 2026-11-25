@@ -4,7 +4,7 @@
 #include "pso/item/TUnk_8049F770.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/TLevelSelect.h"
 
 extern "C" {

@@ -7,13 +7,14 @@
 #include "pso/item/TItemEquipVariant_8012F5F8.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 
 void TUnk_804A63F0::emit_marker_effects() {
     Vec pos;
 
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effects(this, 3, 2);
+        TItemEffCane::spawn_pair(tl_05, this, 3, 2);
     }
     get_joint_position(0, &pos);
     if (is_mode_two_and_ready() != 0) {

@@ -10,13 +10,13 @@
 #include "pso/system/task/TMainTask.h"
 
 // Turns the blade by blade_angle (the name s_rank_windmill_turn_blade was inferred).
-void TUnk_804A4848::vfunc_60() {
+void TUnk_804A4848::transform_model_node() {
     if (TObjPlayer::get_player_list() == 3) {
         rotate_matrix_x(NULL, blade_angle);
     }
 }
 
-void TUnk_804A4848::reserved_53() {
+void TUnk_804A4848::draw_held_model() {
     s32 *temp_r31;
 
     if ((u32) *(u32 *)((s8 *)this + 0xF0) != 0U) {

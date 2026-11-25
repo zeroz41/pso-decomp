@@ -23,7 +23,7 @@
 #include "pso/ui/window/TWindowDD_80348304.h"
 #include "pso/ui/window/TWindowDD_8034AF68.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include "pso/player/PlayerSlots.h"

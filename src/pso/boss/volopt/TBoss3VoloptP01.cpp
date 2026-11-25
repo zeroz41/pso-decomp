@@ -24,7 +24,6 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TObjVoloptShutter.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
@@ -32,7 +31,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -246,7 +245,7 @@ void TBoss3VoloptP01::render() {
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         select_actor_lighting(this);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         push_matrix();
         if (TObjPlayer::check_demo_mode() == 1) {
             post_translate_matrix(&position.x);

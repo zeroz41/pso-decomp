@@ -8,12 +8,13 @@
 #include "pso/technique/TTecMegid.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 void TUnk_804A5838::update_idle() {
     rotation_z = 0;
 }
 
-void TUnk_804A5838::vfunc_60() {
+void TUnk_804A5838::transform_model_node() {
     if (TObjPlayer::get_player_list() == 0) {
         rotate_matrix_z(NULL, rotation_z);
     }
@@ -83,7 +84,7 @@ void TUnk_804A5838::emit_marker_effects() {
     WeaponVector pos;
 
     if (get_item_index() == 1) {
-        ((TObjPlayer *)tl_05)->create_item_eff_cane(this, 2, 0x101);
+        TItemEffCane::create(tl_05, this, 2, 0x101);
         if (is_mode_two_and_ready() != 0) {
             if (get_joint_position(2, &pos) != 0) {
                 TTecMegid::create_ex((saddr)owner, (saddr)&pos, owner->rotation_y, 0);

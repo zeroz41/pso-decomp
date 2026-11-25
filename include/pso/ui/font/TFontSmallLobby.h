@@ -16,13 +16,7 @@ struct TFontSmallLobby
     u32 m_54c;
     u8 _pad550[0x60];
     void* m_5b0;
-    void init_packet_6x9b_level_up();
-    void bswap_battle_damage_packet();
-    void init_packet_6x8f_battle_damage();
-    void bswap_6x90_set_player_battle_team();
-    void send_font_state_msg();
     static void *create(s32 id);
-    static s32 disable_stealth_suit_effect(s32 client_addr, void *command);
     static s32 is_lobby_floor_15();
     static void draw_small_label(int line);
 };

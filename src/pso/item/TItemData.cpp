@@ -150,7 +150,7 @@ extern "C" {
 void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst);
 extern const u8 lbl_805DAB68 = 0x40;
 }
-saddr get_item_stat_boost_record(s32 arg0, s32 type, s32 id);
+saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id);
 extern "C" {
 
 extern "C" {
@@ -770,8 +770,7 @@ s32 TItemData::get_max_stack_size() {
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/player/TObjPlayer_8011C000.h"
-#include "pso/player/TObjPlayer_80117DD8.h"
+#include "pso/item/item_pmt.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_param.h"
 #include "pso/player/PlayerSlots.h"
@@ -1473,7 +1472,7 @@ struct Pmt_8010DF9C
   u8 pad_e[2];
   u8 level;
 };
-f32 get_item_price_coefficient(u8 arg0, u8 arg1);
+f32 get_item_price_coefficient(u8 type, u8 sub);
 s32 TItemData::calc_price() {
   Item_8010DF9C *item = (Item_8010DF9C *) this;
   Pmt_8010DF9C *pmt;
@@ -1893,3 +1892,9 @@ s32 TItemData::check_item_flags() {
 #undef add_shield_stat_contribution__9TItemDataFPviiPv
 #undef apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
 #undef apply_bonuses
+
+void TItemData::init_meseta(s32 amount) {
+    init();
+    data1.data_u8[0] = 4;
+    data2.data_u32 = amount;
+}

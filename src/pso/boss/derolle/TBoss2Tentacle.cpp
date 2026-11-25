@@ -12,7 +12,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
@@ -24,6 +24,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/boss/derolle/RandomAngle.h"
 
 static const int TBoss2Tentacle__rest_angles[] = {-2048, 2048, -4864, 4864};
 static const s32 boss2_tentacle_angle_limit_table[] = {4096, -4096, 6144, -6144};
@@ -383,7 +384,7 @@ TBoss2Tentacle::TBoss2Tentacle(TObject *parent, const f32 (*joint)[4], s32 index
     yaw = 0;
     pitch = 0;
     sway_speed = 0x5EF;
-    sway_phase = TObjPlayer::calc_random_scaled();
+    sway_phase = random_angle();
     reach = 0.0f;
     bend = 0.0f;
     timer = 0;

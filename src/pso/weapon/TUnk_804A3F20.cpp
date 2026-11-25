@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_80128A70.h"
+#include "pso/weapon/TUnk_804A403C.h"
 #include "pso/weapon/TUnk_804A3F20.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -15,7 +15,7 @@ void TUnk_804A3F20::emit_marker_effects() {
     launch_shot((u8 *)&shot_origins[1], 0, 0, 1);
 }
 
-void TUnk_804A3F20::reserved_53() {
+void TUnk_804A3F20::draw_held_model() {
     sample_dual_muzzles(&shot_origins[0], &shot_origins[1]);
 }
 

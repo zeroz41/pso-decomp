@@ -4,7 +4,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
-#include "pso/unk/TUnk_804EFA88.h"
+#include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"

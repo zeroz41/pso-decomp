@@ -7,7 +7,7 @@
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_800D8A2C.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/vector.h"
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/player/TObjPlayer.h"
@@ -22,7 +22,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 
 #include <stddef.h>

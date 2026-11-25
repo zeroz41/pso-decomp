@@ -12,7 +12,7 @@
 #include "pso/item/TUnk_804A0628.h"
 #include "pso/item/TUnk_804A0648.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjBase.h"

@@ -2,7 +2,6 @@
 #include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/item/TItemEquipBase.h"
-#include "pso/player/TObjPlayer_8012E760.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/render/GinjaMaterial.h"
@@ -80,7 +79,7 @@ void TUnk_804A5D28::update_weapon() {
 }
 
 
-void TUnk_804A5D28::vfunc_60() {
+void TUnk_804A5D28::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         translate_matrix(0, 0.0f, (-1.0f) * barrel_offset, 0.0f);
     }

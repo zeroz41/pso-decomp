@@ -11,7 +11,8 @@
 #include "pso/unk/text_80120908.h"
 #include "pso/unk/text_80126A34.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/player/PlayerAttackController.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 // ---- pso/unk/text_80126740
 
@@ -65,7 +66,7 @@ s32 reflect_matrix_in_plane(s32, f32 *, f32);
 s32 knuckle_second_hand_pass;
 
 extern s32 knuckle_marker_joint_table[];
-void TUnk_804A2B98::vfunc_60() {
+void TUnk_804A2B98::transform_model_node() {
     Stack_8012685C stack;
     if ((TObjPlayer::get_player_list() == 0) && (get_item_index() == 3) && ((s32) knuckle_second_hand_pass != 0)) {
         stack.sp10 = 0.0f;
@@ -87,7 +88,7 @@ void TUnk_804A2B98::emit_marker_effects() {
   {
     if (get_attack_stage() == 0)
     {
-      ((TObjPlayer *)tl_05)->spawn_cane_effects(this, -1, -2);
+      TItemEffCane::spawn_pair(tl_05, this, -1, -2);
     }
   }
   else
@@ -108,7 +109,7 @@ s32 knuckle_marker_joint_table[18] = {
 };
 
 
-void TUnk_804A2B98::reserved_53() {
+void TUnk_804A2B98::draw_held_model() {
     saddr arg0 = (saddr)this;
     if (get_item_index() == 3) {
         knuckle_second_hand_pass = 0;

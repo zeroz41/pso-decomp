@@ -13,7 +13,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjBase.h"

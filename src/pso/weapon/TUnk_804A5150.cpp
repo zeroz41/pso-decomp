@@ -15,7 +15,7 @@ void TUnk_804A5150::update_idle() { ::add_angle_clamped(&rotation_x, -910, -7281
 
 void TUnk_804A5150::update_attack() { ::add_angle_clamped(&rotation_x, 1820, 0); ::add_angle_clamped(&rotation_z, 1820, 0); }
 
-void TUnk_804A5150::vfunc_60() {
+void TUnk_804A5150::transform_model_node() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();

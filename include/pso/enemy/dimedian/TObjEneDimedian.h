@@ -5,6 +5,7 @@
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/MaterialShadeFade.h"
+#include <dolphin/mtx.h>
 
 class TObject;
 class TAttackTraceStrip;
@@ -34,5 +35,11 @@ struct TObjEneDimedian : public TUnk_80493450 {
 
 LAYOUT_ASSERT(TObjEneDimedian_size, sizeof(TObjEneDimedian) == 0x43C);
 
+class TObjBase;
+
+extern "C" {
+// Copies position into object's TObjBase position.
+void TObjPlayer__sub_800A7774(TObjBase *object, const Vec *position);
+}
 
 #endif

@@ -2,16 +2,16 @@
 #define PSO_ENEMY_BERURA_TOBJENERE7BERURAPUNCH_H
 
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/render/MaterialShadeFade.h"
 
 class TParticleCtrl;
 class AreaAttackHistory;
 
-struct TObjEneRe7BeruraPunch : public TUnk_804928CC {
+struct TObjEneRe7BeruraPunch : public TAttackCollider {
     TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner);
     virtual ~TObjEneRe7BeruraPunch();
-    virtual void apply_hit_if_active(void *, f32 *);
+    virtual void apply_hit_if_active(TObjChara *target, const f32 *recoil);
     s32 update_attack_collision();
     void update_flight();
     void snap_to_ground();

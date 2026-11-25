@@ -3,7 +3,7 @@
 #include "pso/weapon/TUnk_804A0CB8.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
-#include "pso/player/TObjPlayer_80122014.h"
+#include "pso/weapon/TUnk_804A0DB0.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"

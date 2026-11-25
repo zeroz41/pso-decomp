@@ -370,4 +370,4 @@ s32 TObjPlayer::test_action_mask(s32 arg1) {
     return (u8) (((*(s32 *)this->unk_320) & arg1) != 0);
 }
 
-extern "C" s32 TObjPlayer__sub_80082300(void* p) { return *(s32*)((char*)p + 0xc); }
+s32 PlayerTechniqueState::get_state() { return state; }

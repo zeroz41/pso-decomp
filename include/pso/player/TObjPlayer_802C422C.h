@@ -3,16 +3,15 @@
 
 #include "types.h"
 
+class TPlyDispConfigSmth;
+
 class TPlyCharData;
-struct TObjPlayer;
 extern "C" {
-int TObjPlayer__sub_802C46E0(void *p);
-void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, TObjPlayer *player);
+void TObjPlayer__sub_802C46E0(TPlyDispConfigSmth *palette, s32 row, s32 index, s32 mode, u16 slot);
 }
 int init_character_action_config(void *p);
-extern "C" {
-s32 sync_state__10TObjPlayerFi(saddr arg0);
-s32 update_battle__10TObjPlayerFi(saddr arg0);
-}
+// Save the local player into `record`; 0 when there is no local player.
+s32 capture_local_player_state(TPlyCharData *record);
+s32 capture_local_player(TPlyCharData *record);
 
 #endif

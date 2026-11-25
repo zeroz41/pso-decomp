@@ -4,21 +4,33 @@
 #include <stddef.h>
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/CapturedTargetList.h"
+#include <dolphin/mtx.h>
 struct TObjPlayer;
 
 // The player's attack state block (TObjPlayer::attack_state).
 struct PlayerAttackController {
     s16 attack_kind;
     s16 queued_kind;
-    f32 pad_4;
+    // Scales the attack animation: evp_scale, a quarter faster for kinds 1 and 2.
+    f32 attack_speed;
     // Raised to an equipped unit's TItemProUnit::evp_scale, reset to 1.0
     // when it is removed.
     f32 evp_scale;
-    s32 flags;  // FlagWord bits, set and cleared in place; init builds the word
+    // FlagWord bits, set and cleared in place; init builds the word.
+    // 1: the swing is over, 2: it struck, 4: the next input came too early,
+    // 8: the burst is complete.
+    s32 flags;
     s16 pending_stage;
     s16 hit_count;
-    s32 pad_14[3];
-    f32 pad_20[4];
+    s32 begun_stage;
+    s32 burst_count;
+    // Frames left before the swing ends.
+    s32 recovery_timer;
+    // The lock-on slot's cone at capture time (LockOnActionSlot).
+    f32 lock_range;
+    f32 horizontal_cone_cos;
+    f32 vertical_cone_cos;
+    f32 cone_apex_offset;
     CapturedTargetList lockon_targets;
 
     // Builds the block in place (TObjPlayer's constructors call it in member order).
@@ -42,6 +54,27 @@ struct PlayerAttackController {
     void advance_and_clamp_state();
     void set_saved_attack_stage(s16 stage);
     int is_flag32_clear();
+
+    f32 get_attack_speed();
+    void set_queued_kind(s16 kind);
+    FlagWord *get_flags();
+    void set_lockon_targets(void *src);
+    void end_swing();
+    void increment_hit_count();
+    void set_recovery_timer(s32 frames);
+    s32 get_recovery_timer();
+
+    s16 get_validated_queued_kind();
+    s16 get_validated_attack_kind();
+    // Queues the next combo stage from an action channel, up to maximum_stage.
+    void queue_physical_attack_input(TObjPlayer *player, s32 channel, s16 maximum_stage);
+    s32 tick_burst_recovery();
+    s32 tick_recovery_timer();
+    void register_strike(TObjPlayer *player);
+    void begin(TObjPlayer *player, s32 stage, s32 begun);
+    s32 get_first_target_position(Vec *out);
+    CapturedTargetList *capture_lockon_targets(TObjPlayer *player);
+    CapturedTarget *get_first_target();
 };
 LAYOUT_ASSERT(AttackControllerEvpScale, offsetof(PlayerAttackController, evp_scale) == 0x08);
 LAYOUT_ASSERT(AttackControllerFlags, offsetof(PlayerAttackController, flags) == 0x0C);
@@ -54,6 +87,17 @@ extern f32 attack_type_accuracy_scales[3];
 // Indexed by the validated attack stage.
 extern f32 attack_combo_accuracy_multipliers[4];
 
-extern "C" void queue_physical_attack_input(PlayerAttackController *controller,
-                                            TObjPlayer *player, s32 channel, s16 maximum_stage);
+s32 is_valid_attack_stage(s16 stage);
+s32 is_valid_attack_kind(s16 kind);
+
+extern "C" {
+
+// --- functions defined in PlayerAttackController.cpp ---
+void handle_6x54(void);
+void handle_6x8C(void);
+void handle_6x65(void);
+void handle_6x8B(void);
+void handle_6x64(void);
+}
+
 #endif

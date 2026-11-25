@@ -21,7 +21,6 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/unk/TUnk_804CF9C8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
@@ -106,7 +105,6 @@ WindowDescriptor lbl_804D1488 = {
 };
 
 extern "C" {
-s32 can_use_palette_action__10TObjPlayerFPvUcUc(void *, u8, u8);
 int TWindowSubCustomEquip__sub_80275DA8(void* p);
 
 int TWindowSubCustomEquip::is_selected() { return this->m_60 & 0x1; }
@@ -166,14 +164,14 @@ void TWindowSubCustomEquip::draw_cursor(WindowDrawContext *context) {
 }
 
 void TWindowSubCustomEquip::update_palette_slot(s32 arg1, u16 kind, u16 index) {
-    void *pl;
+    TObjPlayer *pl;
     WindowSpritePart *icon;
     TUnk_804CF9C8 *label;
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
         icon = static_cast<WindowSpritePart *>(get_array_entry(lbl_8044F738[arg1]));
         label = static_cast<TUnk_804CF9C8 *>(get_array_entry(lbl_8044F740[arg1]));
-        if (can_use_palette_action__10TObjPlayerFPvUcUc(pl, kind, index) != 0) {
+        if (pl->can_use_palette_action(kind, index) != 0) {
             icon->color = -1;
         } else {
             icon->color = 0xFF404040;
@@ -209,66 +207,65 @@ s32 TWindowSubCustomEquip::get_saved_slot_for_index(s32 arg0, s8 arg1) {
 
 
 extern "C" {
-s32 get_slot_type__20TWindowActionPaletteFPvll(s32, s32, s32);
 s32 is_type_valid__21TWindowSubCustomEquipFv(void *, u8);
 s32 get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(void *, u8);
 void TWindowSubCustomEquip::get_cursor_pos(void *arg1) {
     s32 i;
-    u8 *player;
+    TObjPlayer *player;
     s32 saved_slot;
-    s32 temp_r29;
+    TPlyDispConfigSmth *palette;
 
-    if ((player = (u8 *)get_player_by_client_id(this->client_index), (player == 0U)) || (temp_r29 = (saddr)((TObjPlayer *)(player))->select_action_palette(0), ((temp_r29 == 0) != 0))) {
+    if ((player = get_player_by_client_id(this->client_index)) == NULL || (palette = player->select_action_palette(0)) == NULL) {
         *(s16 *)((s8 *)arg1 + 0) = 0;
         *(s16 *)((s8 *)arg1 + 2) = 0;
         return;
     }
     i = is_type_valid__21TWindowSubCustomEquipFv(this, this->m_62);
     saved_slot = get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(this, this->m_61);
-    *(s16 *)((s8 *)arg1 + 0) = get_slot_type__20TWindowActionPaletteFPvll(temp_r29, i, saved_slot);
-    *(s16 *)((s8 *)arg1 + 2) = (s16)TWindowActionPalette__sub_801C1D7C(temp_r29, i, saved_slot);
+    *(s16 *)((s8 *)arg1 + 0) = palette->get_tag_mode(i, saved_slot);
+    *(s16 *)((s8 *)arg1 + 2) = (s16)palette->get_tag_slot(i, saved_slot);
 }
 void TWindowSubCustomEquip::remove_duplicate_bindings(void *arg1) {
-    u8 *player;
-    s32 temp_r29;
-    if ((player = (u8 *)get_player_by_client_id(this->client_index), (player == 0U)) || (temp_r29 = (saddr)((TObjPlayer *)(player))->select_action_palette(0), ((temp_r29 == 0) != 0))) {
+    TObjPlayer *player;
+    TPlyDispConfigSmth *palette;
+    if ((player = get_player_by_client_id(this->client_index)) == NULL || (palette = player->select_action_palette(0)) == NULL) {
         return;
     }
-    if (*(u16 *)((s8 *)arg1 + 0) == (u16)get_slot_type__20TWindowActionPaletteFPvll(temp_r29, 0, 1) && *(u16 *)((s8 *)arg1 + 2) == (u16)TWindowActionPalette__sub_801C1D7C(temp_r29, 0, 1)) {
-        ((TObjPlayer *)player)->set_action_palette_entry(0, 0, 1, 0, 0);
+    if (*(u16 *)((s8 *)arg1 + 0) == (u16)palette->get_tag_mode(0, 1) && *(u16 *)((s8 *)arg1 + 2) == (u16)palette->get_tag_slot(0, 1)) {
+        player->set_action_palette_entry(0, 0, 1, 0, 0);
     }
-    if (*(u16 *)((s8 *)arg1 + 0) == (u16)get_slot_type__20TWindowActionPaletteFPvll(temp_r29, 0, 3) && *(u16 *)((s8 *)arg1 + 2) == (u16)TWindowActionPalette__sub_801C1D7C(temp_r29, 0, 3)) {
-        ((TObjPlayer *)player)->set_action_palette_entry(0, 0, 3, 0, 0);
+    if (*(u16 *)((s8 *)arg1 + 0) == (u16)palette->get_tag_mode(0, 3) && *(u16 *)((s8 *)arg1 + 2) == (u16)palette->get_tag_slot(0, 3)) {
+        player->set_action_palette_entry(0, 0, 3, 0, 0);
     }
-    if (*(u16 *)((s8 *)arg1 + 0) == (u16)get_slot_type__20TWindowActionPaletteFPvll(temp_r29, 0, 2) && *(u16 *)((s8 *)arg1 + 2) == (u16)TWindowActionPalette__sub_801C1D7C(temp_r29, 0, 2)) {
-        ((TObjPlayer *)player)->set_action_palette_entry(0, 0, 2, 0, 0);
+    if (*(u16 *)((s8 *)arg1 + 0) == (u16)palette->get_tag_mode(0, 2) && *(u16 *)((s8 *)arg1 + 2) == (u16)palette->get_tag_slot(0, 2)) {
+        player->set_action_palette_entry(0, 0, 2, 0, 0);
     }
-    if (*(u16 *)((s8 *)arg1 + 0) == (u16)get_slot_type__20TWindowActionPaletteFPvll(temp_r29, 1, 1) && *(u16 *)((s8 *)arg1 + 2) == (u16)TWindowActionPalette__sub_801C1D7C(temp_r29, 1, 1)) {
-        ((TObjPlayer *)player)->set_action_palette_entry(0, 1, 1, 0, 0);
+    if (*(u16 *)((s8 *)arg1 + 0) == (u16)palette->get_tag_mode(1, 1) && *(u16 *)((s8 *)arg1 + 2) == (u16)palette->get_tag_slot(1, 1)) {
+        player->set_action_palette_entry(0, 1, 1, 0, 0);
     }
-    if (*(u16 *)((s8 *)arg1 + 0) == (u16)get_slot_type__20TWindowActionPaletteFPvll(temp_r29, 1, 3) && *(u16 *)((s8 *)arg1 + 2) == (u16)TWindowActionPalette__sub_801C1D7C(temp_r29, 1, 3)) {
-        ((TObjPlayer *)player)->set_action_palette_entry(0, 1, 3, 0, 0);
+    if (*(u16 *)((s8 *)arg1 + 0) == (u16)palette->get_tag_mode(1, 3) && *(u16 *)((s8 *)arg1 + 2) == (u16)palette->get_tag_slot(1, 3)) {
+        player->set_action_palette_entry(0, 1, 3, 0, 0);
     }
-    if (*(u16 *)((s8 *)arg1 + 0) == (u16)get_slot_type__20TWindowActionPaletteFPvll(temp_r29, 1, 2) && *(u16 *)((s8 *)arg1 + 2) == (u16)TWindowActionPalette__sub_801C1D7C(temp_r29, 1, 2)) {
-        ((TObjPlayer *)player)->set_action_palette_entry(0, 1, 2, 0, 0);
+    if (*(u16 *)((s8 *)arg1 + 0) == (u16)palette->get_tag_mode(1, 2) && *(u16 *)((s8 *)arg1 + 2) == (u16)palette->get_tag_slot(1, 2)) {
+        player->set_action_palette_entry(0, 1, 2, 0, 0);
     }
 }
 void TWindowSubCustomEquip::toggle_action_binding(void *arg1) {
-    u8 *player;
-    s32 temp_r29;
+    TObjPlayer *player;
+    TPlyDispConfigSmth *palette;
     s32 valid;
     s32 idx;
-    if ((player = (u8 *)get_player_by_client_id(this->client_index), (player == 0U)) || (temp_r29 = (saddr)((TObjPlayer *)(player))->select_action_palette(0), ((temp_r29 == 0) != 0))) {
+    if ((player = get_player_by_client_id(this->client_index)) == NULL || (palette = player->select_action_palette(0)) == NULL) {
         return;
     }
     valid = is_type_valid__21TWindowSubCustomEquipFv(this, this->m_62);
     idx = get_saved_slot_for_index__21TWindowSubCustomEquipFlSc(this, this->m_61);
-    if (*(u16 *)((s8 *)arg1 + 0) == (u16)get_slot_type__20TWindowActionPaletteFPvll(temp_r29, valid, idx) && *(u16 *)((s8 *)arg1 + 2) == (u16)TWindowActionPalette__sub_801C1D7C(temp_r29, valid, idx)) {
-        ((TObjPlayer *)player)->set_action_palette_entry(0, valid, idx, 0, 0);
+    if (*(u16 *)((s8 *)arg1 + 0) == (u16)palette->get_tag_mode(valid, idx) && *(u16 *)((s8 *)arg1 + 2) == (u16)palette->get_tag_slot(valid, idx)) {
+        player->set_action_palette_entry(0, valid, idx, 0, 0);
         return;
     }
     remove_duplicate_bindings(arg1);
-    ((TObjPlayer *)player)->set_action_palette_entry(0, valid, idx, *(u16 *)((s8 *)arg1 + 0), *(u16 *)((s8 *)arg1 + 2));
+    player->set_action_palette_entry(0, valid, idx, *(u16 *)((s8 *)arg1 + 0), *(u16 *)((s8 *)arg1 + 2));
 }
 
 f32 TWindowSubCustomEquip__ring_scale;
@@ -348,13 +345,12 @@ void TWindowSubCustomEquip::refresh_palette_slots() {
     if (player == NULL || (palette = player->select_action_palette(0)) == NULL) {
         return;
     }
-    saddr palette_address = reinterpret_cast<saddr>(palette);
-    update_palette_slot(0, TWindowActionPalette::get_slot_type(palette, *(s8 *)&this->m_64, 2), TWindowActionPalette__sub_801C1D7C(palette_address, *(s8 *)&this->m_64, 2));
-    update_palette_slot(1, TWindowActionPalette::get_slot_type(palette, *(s8 *)&this->m_64, 1), TWindowActionPalette__sub_801C1D7C(palette_address, *(s8 *)&this->m_64, 1));
-    update_palette_slot(2, TWindowActionPalette::get_slot_type(palette, *(s8 *)&this->m_64, 3), TWindowActionPalette__sub_801C1D7C(palette_address, *(s8 *)&this->m_64, 3));
-    update_palette_slot(3, TWindowActionPalette::get_slot_type(palette, *(s8 *)&this->m_65, 2), TWindowActionPalette__sub_801C1D7C(palette_address, *(s8 *)&this->m_65, 2));
-    update_palette_slot(4, TWindowActionPalette::get_slot_type(palette, *(s8 *)&this->m_65, 1), TWindowActionPalette__sub_801C1D7C(palette_address, *(s8 *)&this->m_65, 1));
-    update_palette_slot(5, TWindowActionPalette::get_slot_type(palette, *(s8 *)&this->m_65, 3), TWindowActionPalette__sub_801C1D7C(palette_address, *(s8 *)&this->m_65, 3));
+    update_palette_slot(0, palette->get_tag_mode(*(s8 *)&this->m_64, 2), palette->get_tag_slot(*(s8 *)&this->m_64, 2));
+    update_palette_slot(1, palette->get_tag_mode(*(s8 *)&this->m_64, 1), palette->get_tag_slot(*(s8 *)&this->m_64, 1));
+    update_palette_slot(2, palette->get_tag_mode(*(s8 *)&this->m_64, 3), palette->get_tag_slot(*(s8 *)&this->m_64, 3));
+    update_palette_slot(3, palette->get_tag_mode(*(s8 *)&this->m_65, 2), palette->get_tag_slot(*(s8 *)&this->m_65, 2));
+    update_palette_slot(4, palette->get_tag_mode(*(s8 *)&this->m_65, 1), palette->get_tag_slot(*(s8 *)&this->m_65, 1));
+    update_palette_slot(5, palette->get_tag_mode(*(s8 *)&this->m_65, 3), palette->get_tag_slot(*(s8 *)&this->m_65, 3));
 }
 
 #pragma push

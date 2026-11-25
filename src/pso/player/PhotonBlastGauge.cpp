@@ -5,11 +5,11 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PhotonBlastGauge.h"
+#include "pso/player/PlayerBattleScore.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
@@ -49,14 +49,14 @@ void PhotonBlastGauge::set_section_index(s16 count) {
 void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr src) {
     G_ClearTemporaryPhotonBlastStateFlags_6x3B pkt;
     TObjPlayer *player;
-    pkt.init_pkt_cmd_3B();
-    pkt.load_subcommand_header((void *)src);
-    bswap_g_client_id_header(&pkt);
+    pkt.init();
+    pkt = *(const G_ClearTemporaryPhotonBlastStateFlags_6x3B *)src;
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x3B_clear_temporary_photon_blast_state_flags(&pkt.header) != 0) {
         player = get_player_by_client_id(pkt.header.client_id);
         if (player != NULL) {
             player->photon_blast_gauge.clear_photon_blast_state();
-            if (TObjPlayer::is_locally_controlled(player) != 0) {
+            if (player->is_locally_controlled() != 0) {
                 TObjPlayer::update_photon_blast_state();
             }
         }
@@ -67,17 +67,17 @@ void PhotonBlastGauge::reinit_photon_blast_gauge() {
     G_ClearTemporaryPhotonBlastStateFlags_6x3B pkt;
     clear_photon_blast_state();
     donation.reset_fields();
-    pkt.init_pkt_cmd_3B();
+    pkt.init();
     pkt.header.client_id = client_id;
-    pkt.update_and_send();
+    pkt.send();
 }
 
 void handle_6x3A_clear_photon_blast_ready_flag(saddr src) {
     G_ClearPhotonBlastReadyFlag_6x3A pkt;
     TObjPlayer *player;
-    pkt.init_6x3A_packet();
-    pkt.clear_photon_blast_ready_flag((void *)src);
-    bswap_g_client_id_header(&pkt);
+    pkt.init();
+    pkt = *(const G_ClearPhotonBlastReadyFlag_6x3A *)src;
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x3A_clear_photon_blast_ready_flag(&pkt.header) != 0) {
         player = get_player_by_client_id(pkt.header.client_id);
         if (player != NULL) {
@@ -90,9 +90,9 @@ void PhotonBlastGauge::send_6x3A_clear_photon_blast_ready_flag() {
     G_ClearPhotonBlastReadyFlag_6x3A pkt;
     TObjChara *chara = (TObjChara *)get_player_by_client_id(client_id);
     if (chara == NULL || chara->obj_isState2_324() == 0) {
-        pkt.init_6x3A_packet();
+        pkt.init();
         pkt.header.client_id = client_id;
-        pkt.draw_and_send();
+        pkt.send();
     }
 }
 
@@ -101,9 +101,9 @@ void handle_6x39_set_photon_blast_ready_flag(saddr src) {
     s32 player_floor;
     TObjPlayer *player;
     s32 v;
-    pkt.init_6x39_packet();
-    pkt.handle_photon_blast_ready((void *)src);
-    bswap_g_client_id_header(&pkt);
+    pkt.init();
+    pkt = *(const G_SetPhotonBlastReadyFlag_6x39 *)src;
+    bswap_g_client_id_header(&pkt.header);
     if (validate_6x39_set_photon_blast_ready_flag(&pkt.header) != 0) {
         player = get_player_by_client_id(pkt.header.client_id);
         if ((player != NULL) && (is_current_area_item_enabled() != 0)) {
@@ -119,9 +119,9 @@ void handle_6x39_set_photon_blast_ready_flag(saddr src) {
 
 void PhotonBlastGauge::send_6x39_photon_blast_ready() {
     G_SetPhotonBlastReadyFlag_6x39 pk;
-    pk.init_6x39_packet();
+    pk.init();
     pk.header.client_id = client_id;
-    pk.update_and_send_60();
+    pk.send();
 }
 
 s32 PhotonBlastGauge::is_ready() {
@@ -267,16 +267,6 @@ void PhotonBlastGauge::reset_state() {
 }
 
 
-struct PlayerSubObjectSlots { s32 a[4]; s32 x10; s32 x14; };
-
-// One damage accumulation slot (TObjPlayer + 0x75C and friends): the running
-// total, the raw amount, and the two weight factors damage_weight picks between.
-struct DamageStatSlot {
-    f32 total;
-    f32 accumulated;
-    f32 normal_weight;
-    f32 bonus_weight;
-};
 
 extern "C" {
 f32 damage_weight(DamageStatSlot *slot, saddr attacker, s32 amount);
@@ -300,7 +290,7 @@ int PhotonBlastGauge::is_valid_index(s16 index) {
 
 void PhotonBlastDonation::reset_fields() { state = 0; count = 0; }
 void PhotonBlastGauge::set_bit1_at_40() { flags.clear(2); }
-void *G_ClearPhotonBlastReadyFlag_6x3A::clear_photon_blast_ready_flag(void *src) { copy_subcommand_header(this, src); return this; }
+G_ClearPhotonBlastReadyFlag_6x3A &G_ClearPhotonBlastReadyFlag_6x3A::operator=(const G_ClearPhotonBlastReadyFlag_6x3A &src) { copy_subcommand_header(this, &src); return *this; }
 void PhotonBlastGauge::update_ready() { flags.set(2); }
 
 s32 PhotonBlastDonation::get_state() { return state; }
@@ -320,13 +310,13 @@ s32 PhotonBlastGauge::is_photon_blast_charge_full() {
 
 void PhotonBlastGauge::reset_blast() { blast = 6; }
 void *PhotonBlastDonation::init_reset_fields() { reset_fields(); return this; }
-void *G_ClearTemporaryPhotonBlastStateFlags_6x3B::load_subcommand_header(void *src) { copy_subcommand_header(this, src); return this; }
-void G_ClearTemporaryPhotonBlastStateFlags_6x3B::init_pkt_cmd_3B() { header.subcommand = 59; header.size = 1; }
-void G_ClearTemporaryPhotonBlastStateFlags_6x3B::update_and_send() { bswap_g_client_id_header(this); send_subcommand(this); }
-void G_ClearPhotonBlastReadyFlag_6x3A::init_6x3A_packet() { header.subcommand = 58; header.size = 1; }
-void G_ClearPhotonBlastReadyFlag_6x3A::draw_and_send() { bswap_g_client_id_header(this); send_subcommand(this); }
-void G_SetPhotonBlastReadyFlag_6x39::init_6x39_packet() { header.subcommand = 57; header.size = 1; }
-void G_SetPhotonBlastReadyFlag_6x39::update_and_send_60() { bswap_g_client_id_header(this); send_subcommand(this); }
+G_ClearTemporaryPhotonBlastStateFlags_6x3B &G_ClearTemporaryPhotonBlastStateFlags_6x3B::operator=(const G_ClearTemporaryPhotonBlastStateFlags_6x3B &src) { copy_subcommand_header(this, &src); return *this; }
+void G_ClearTemporaryPhotonBlastStateFlags_6x3B::init() { header.subcommand = 59; header.size = 1; }
+void G_ClearTemporaryPhotonBlastStateFlags_6x3B::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
+void G_ClearPhotonBlastReadyFlag_6x3A::init() { header.subcommand = 58; header.size = 1; }
+void G_ClearPhotonBlastReadyFlag_6x3A::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
+void G_SetPhotonBlastReadyFlag_6x39::init() { header.subcommand = 57; header.size = 1; }
+void G_SetPhotonBlastReadyFlag_6x39::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 void G_DonateToPhotonBlast_6x38::bswap_fields() { header.bswap(); bswap_16(&target_client_id); bswap_16((u16 *)&unused); }
 
 void *G_DonateToPhotonBlast_6x38::copy_packet_header_6x38(void *src) { G_DonateToPhotonBlast_6x38 *s = (G_DonateToPhotonBlast_6x38 *)src; copy_subcommand_header(this, src); target_client_id = s->target_client_id; unused = s->unused; return this; }
@@ -339,16 +329,16 @@ void G_DonateToPhotonBlast_6x38::init_subcommand_6x38() {
 }
 
 void G_DonateToPhotonBlast_6x38::send_state() { bswap_fields(); send_subcommand(this); }
-void *G_SetPhotonBlastReadyFlag_6x39::handle_photon_blast_ready(void *src) { copy_subcommand_header(this, src); return this; }
+G_SetPhotonBlastReadyFlag_6x39 &G_SetPhotonBlastReadyFlag_6x39::operator=(const G_SetPhotonBlastReadyFlag_6x39 &src) { copy_subcommand_header(this, &src); return *this; }
 
 extern "C" {
 void clear_player_sub_object_slots(PlayerSubObjectSlots *p) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        p->a[i] = 0;
+        p->pad_0[i] = 0;
     }
-    p->x10 = 0;
-    p->x14 = 0;
+    p->pad_10 = 0;
+    p->score = 0;
 }
 
 s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount) {

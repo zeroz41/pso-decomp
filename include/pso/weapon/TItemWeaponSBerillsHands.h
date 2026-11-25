@@ -6,12 +6,12 @@
 struct NJS_TEXLIST;
 
 // S-Berill's Hands (weapon group 0x8E): #1 sets weapon flag 0x800 once pad_1f8 has counted down, and from then on
-// vfunc_60 sways the projected texture by pad_1fc.
+// transform_model_node sways the projected texture by pad_1fc.
 class TItemWeaponSBerillsHands : public TItemWeapon {
 public:
     virtual ~TItemWeaponSBerillsHands();
-    virtual void vfunc_60();
-    virtual void reserved_53();
+    virtual void transform_model_node();
+    virtual void draw_held_model();
     virtual void update_weapon();
     virtual void emit_marker_effects();
     TItemWeaponSBerillsHands(TObject *parent, u8 *item);

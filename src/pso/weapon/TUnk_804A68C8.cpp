@@ -6,8 +6,9 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffCane.h"
 
-void TUnk_804A68C8::vfunc_60() {
+void TUnk_804A68C8::transform_model_node() {
     if (get_item_index() == 5) {
         switch (TObjPlayer::get_player_list()) {
         case 1:
@@ -33,12 +34,12 @@ void TUnk_804A68C8::update_attack() {
             break;
         case 4:
             if (get_attack_stage() == 0) {
-                ((TObjPlayer *)tl_05)->create_item_eff_cane(this, 1, 0x1AE);
+                TItemEffCane::create(tl_05, this, 1, 0x1AE);
             }
             break;
         case 6:
             if (get_attack_stage() == 0) {
-                ((TObjPlayer *)tl_05)->create_item_eff_cane(this, 2, 0x101);
+                TItemEffCane::create(tl_05, this, 2, 0x101);
             }
             break;
         }

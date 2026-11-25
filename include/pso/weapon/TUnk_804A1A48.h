@@ -6,7 +6,7 @@
 class TUnk_804A1A48 : public TItemWeapon {
 public:
     virtual ~TUnk_804A1A48();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     virtual void emit_marker_effects();
     virtual void update_weapon();
     TUnk_804A1A48(TObject *parent, u8 *item);

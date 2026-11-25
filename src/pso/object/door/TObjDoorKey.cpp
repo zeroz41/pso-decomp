@@ -34,7 +34,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/key/TOKey.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/TLanguage_801E4874.h"
 
 

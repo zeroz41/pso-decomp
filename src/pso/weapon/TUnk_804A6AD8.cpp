@@ -3,13 +3,13 @@
 #include "pso/weapon/TUnk_804A6AD8.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A6AD8::reserved_53() {
+void TUnk_804A6AD8::draw_held_model() {
     draw_weapon_model();
     get_joint_position(3, &muzzles[0]);
     get_joint_position(1, &ejectors[0]);
@@ -18,7 +18,7 @@ void TUnk_804A6AD8::reserved_53() {
     get_joint_position(1, &ejectors[1]);
 }
 
-void TUnk_804A6AD8::vfunc_60() {
+void TUnk_804A6AD8::transform_model_node() {
     if (TObjPlayer::get_player_list() == 2) {
         post_translate_matrix(&slide.x);
     }

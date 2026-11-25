@@ -3,13 +3,8 @@
 #include "pso/item/TUnk_8049F8E0.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/object/base/TObjBase.h"
-
-extern "C" {
-s16 get_type_id__10TObjPlayerFv();
-void *TObjPlayer__sub_80116620(void *, s32);
-}
 
 #pragma push
 #pragma scheduling off
@@ -21,10 +16,8 @@ void TUnk_8049F8E0::apply_use_effect() {
         if (cursor != NULL) {
             slot = cursor->find_by_pos(4, 9);
             if (slot != NULL) {
-                TObjPlayer__sub_80116620(&slot->target_records, 0);
-                if ((u16) get_type_id__10TObjPlayerFv() != 0xffffU) {
-                    TObjPlayer__sub_80116620(&slot->target_records, 0);
-                    send_6x33_revive_player(this->owner->get_entity_id(), get_type_id__10TObjPlayerFv());
+                if (slot->target_records.get_record(0)->get_entity_id() != 0xFFFF) {
+                    send_6x33_revive_player(this->owner->get_entity_id(), slot->target_records.get_record(0)->get_entity_id());
                 }
             }
         }

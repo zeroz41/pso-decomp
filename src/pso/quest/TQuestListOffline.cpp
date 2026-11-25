@@ -5,7 +5,7 @@
 #include "pso/quest/StoryQuestProgress.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowMenu.h"

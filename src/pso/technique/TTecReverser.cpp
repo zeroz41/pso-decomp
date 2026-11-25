@@ -34,7 +34,6 @@ Entry_80239E44 revival_particle_table[3] = {
     {0x23, 1, 0x36, 0},
     {0x2D, 1, 0x37, 0},
 };
-s32 get_type__10TObjPlayerFPv(void *p);
 
 }
 
@@ -55,7 +54,7 @@ void TTecShot::dispatch_all_technique_contacts() {
         return;
     }
     if ((u16) ((TObjBase *)((saddr)(*(s32 *)((s8 *)((u8 *)this) + 0x1C))))->get_entity_id() < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
+        if (((TObjPlayer *)*(saddr *)((s8 *)((u8 *)this) + 0x1C))->pk_state.is_enabled() != 0) {
             list = (List_8023A244 *) query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
             list = (List_8023A244 *) query_technique_enemy_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
@@ -86,7 +85,7 @@ void TTecShot::dispatch_technique_contact(s32) {
         return;
     }
     if ((u16) ((TObjBase *)((saddr)(*(s32 *)((s8 *)((u8 *)this) + 0x1C))))->get_entity_id() < 4U) {
-        if (get_type__10TObjPlayerFPv((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
+        if (((TObjPlayer *)*(saddr *)((s8 *)((u8 *)this) + 0x1C))->pk_state.is_enabled() != 0) {
             var_r31 = query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
             var_r31 = query_technique_enemy_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));

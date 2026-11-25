@@ -18,7 +18,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -217,7 +217,7 @@ void TBoss3VoloptHiraisin::render() {
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x01000000;
         select_actor_lighting(this);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);

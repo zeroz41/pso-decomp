@@ -1,3 +1,4 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
@@ -22,7 +23,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
@@ -34,7 +35,6 @@ struct TItemEquipBase;
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/camera/TObjCamera.h"
-#include "pso/player/TObjPlayer_80363BE0.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
@@ -99,7 +99,7 @@ void TUnk_804A204C::update_weapon() {
     }
 }
 
-void TUnk_804A204C::vfunc_60() {
+void TUnk_804A204C::transform_model_node() {
     switch (((u32)TObjPlayer::get_player_list())) {
     case 1:
         rotate_matrix_y(0, swing_angle);
@@ -122,7 +122,7 @@ void TUnk_804A204C::vfunc_60() {
     }
 }
 
-void TUnk_804A204C::reserved_53() {
+void TUnk_804A204C::draw_held_model() {
     s32 joint_position;
     NJS_OBJECT *model_link;
     NJS_OBJECT *effect_model;
@@ -134,9 +134,9 @@ void TUnk_804A204C::reserved_53() {
         effect_model->evalflags &= ~0x18;
         if (get_joint_position(5, &joint_position) != 0) {
             push_matrix();
-            TObjPlayer::save_model_render_state();
+            TEquippedWeaponDrawTask::save_model_render_state();
             model_render_flags &= 0xFFFFFFEF;
-            TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
+            TEquippedWeaponDrawTask::set_fade_alpha((f32)this->get_owner_alpha());
             post_translate_matrix((const f32 *)&joint_position);
             rotate_matrix_y(0, (int)(*(s32 *)((s8 *)this->owner + 0x60)));
             effect_model->evalflags |= 0x11;
@@ -145,7 +145,7 @@ void TUnk_804A204C::reserved_53() {
             draw_ginja_object(effect_model->child);
             TParticleCtrl::end_effect_render();
             effect_model->evalflags &= ~0x11;
-            TObjPlayer::warn_if_gauge_low();
+            TEquippedWeaponDrawTask::end_fade();
             pop_matrix();
             pop_matrix();
         }

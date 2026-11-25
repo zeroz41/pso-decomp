@@ -26,7 +26,7 @@ extern f32 slime_one_animation_end_frame;
 void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
-#include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/player/PlayerAttackController.h"
 
 int TObjEneSlimeTailAttack::find_nearest_enemy_with_flag(f32 range) {
     s32 target_id;

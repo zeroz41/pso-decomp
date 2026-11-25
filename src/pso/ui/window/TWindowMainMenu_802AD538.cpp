@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

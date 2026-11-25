@@ -6,10 +6,10 @@
 class TUnk_804F0810 : public TItemWeapon {
 public:
     virtual ~TUnk_804F0810();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void update_attack();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     virtual void emit_marker_effects();
     TUnk_804F0810(TObject *parent, u8 *item);
     static TItem *create(u8 *item); // weapon_factory_table entry

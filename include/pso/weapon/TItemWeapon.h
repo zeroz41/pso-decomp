@@ -4,11 +4,13 @@
 #include <stddef.h>
 #include "pso/item/TItemEquipBase.h"
 #include "pso/weapon/WeaponEffectDescriptor.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 struct TItem;
 struct TItemData;
 class TItemEffectWeapon;
 class TObjChara;
+struct TObjPlayer;
 struct WeaponVector { f32 x,y,z; };
 
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
@@ -69,13 +71,17 @@ struct TItemWeapon : public TItemEquipBase {
     virtual void emit_marker_effects();
     virtual void update_attack();
     virtual void update_idle();
-    virtual void reserved_53();
+    // Every equipped render pass (render_equipped, _shadow, _deferred) runs it
+    // before the trails: weapons with their own hand models draw them here.
+    virtual void draw_held_model();
     virtual void update_weapon();
     // Run last by on_equip and on_unequip; subclasses reset their own state.
     virtual void on_equipped();
     virtual void on_unequipped();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
-    virtual void vfunc_60();
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
+    // Run for each node of the weapon model as draw_weapon_model draws it
+    // (apply_weapon_node_material), to move or turn that node.
+    virtual void transform_model_node();
     // attack_kind 0 physical, 1 physical with knockback, 2 the weapon
     // special; body indexes the target's collision bodies.
     virtual void deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body);
@@ -90,6 +96,9 @@ struct TItemWeapon : public TItemEquipBase {
     void remap_extra_attack_type();
     void draw_weapon_model();
     void create_weapon_trail_effects();
+    // The weapon row of item_class_load_unload_table.
+    static void load_data();
+    static void free();
     void apply_model_params();
     void spawn_light_task();
     void set_weapon_category_flags();
@@ -176,5 +185,10 @@ void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s3
 // TItemWeapon's destructor under its own symbol, for the derived classes
 // still written as C functions.
 void *__dt__11TItemWeaponFv(void *item, s16 deleting);
+void increment_model_node_counter(void);
 }
+// weapon_factory_table's entry for weapons without a class of their own.
+TItem *create_common_weapon(u8 *item);
+MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
+void reset_model_node_counter(void);
 #endif

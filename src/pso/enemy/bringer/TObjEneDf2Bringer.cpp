@@ -45,7 +45,7 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/system/vector.h"
 
@@ -58,7 +58,7 @@
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/render/MaterialShadeFade.h"
 
 void bringer_render_node_callback(NJS_OBJECT *);
@@ -134,7 +134,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/model_render_state.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -164,12 +164,6 @@ Vec bringer_camera_ctrl_target_vec;
 
 
 
-// The slash's contact block, call_vt16_with_default's first argument: the recoil and the bodies
-// it tests (bit 0 players, bit 1 enemies; see DragonAttackParams).
-struct BringerSlashContact {
-    f32 recoil;
-    u32 contact_flags;
-};
 
 
 
@@ -335,7 +329,7 @@ void TObjEneDf2Bringer::init_enemy() {
     this->hit_count = 0;
     this->combo_count = 0;
     this->rush_count = 0;
-    this->collider = new TUnk_804928CC(this, this, &bringer_collision_bodies[1], 2);
+    this->collider = new TAttackCollider(this, this, &bringer_collision_bodies[1], 2);
     this->attack_history = new AreaAttackHistory(8);
     this->shot_launcher = new TObjEneDf2Bringer_Eff_TpAbsorb1(this, this, this->attack_history);
     this->attack_trail = TAttackTraceStrip::create(0xFF5050FF, 0x80000080);
@@ -438,7 +432,7 @@ void TObjEneDf2Bringer::update_attack_child() {
         VecCopy(&collider->bodies[0].offset, &points[1]);
         VecCopy(&collider->bodies[1].offset, &points[3]);
         collider->refresh_collision_body_centers();
-        BringerSlashContact contact = { 3.0f, 1 };
+        AreaAttackContact contact = { 3.0f, 1 };
         if (is_confused() != 0) {
             contact.contact_flags |= 2;
         }
@@ -470,7 +464,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                 player->receive_direct_attack(this, h, 0, -1, -1);
                 if (is_player_entity_id(player->get_entity_id()) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
-                        if (TObjPlayer::is_locally_controlled(player) != 0) {
+                        if (player->is_locally_controlled() != 0) {
                             TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
                             if (item != NULL) {
                                 TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item->get_item_id());
@@ -1333,7 +1327,7 @@ void TObjEneDf2Bringer::render() {
         TObjEneDf2Bringer__render_point_cursor = node_points;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         fade = &renderFadeStates[view];
         show = 1;
         fade->update();
@@ -1399,7 +1393,7 @@ void TObjEneDf2Bringer::render_demo() {
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         Vec v = { 1.0f, 1.0f, 3.0f };
         draw_ground_shadow(&v, 0);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

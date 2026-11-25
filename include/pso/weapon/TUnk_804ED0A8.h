@@ -9,7 +9,7 @@ public:
     virtual ~TUnk_804ED0A8();
     virtual void update_attack();
     virtual void update_idle();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     s32 pad_1f8;  // rotate_matrix_x angle for pass 1
     s32 pad_1fc;  // rotate_matrix_x angle for pass 2
 };

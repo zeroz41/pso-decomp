@@ -7,7 +7,7 @@
 #include "pso/unk/text_802993F0.h"
 #include "pso/unk/text_80299420.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 __declspec(section ".rodata") CreationInputState default_creation_input_state = { 0 };
 
 static s32 cm_proportion_pad_button_masks[4] = {0x10, 0x20, 0x40, 0x80};

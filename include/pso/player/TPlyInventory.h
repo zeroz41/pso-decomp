@@ -11,6 +11,7 @@ class TPlyInventoryItem {
 public:
     void init();
     void bswap();
+    TItemData *get_data();
 public:
     char m_present[4];
     u32 m_flags;

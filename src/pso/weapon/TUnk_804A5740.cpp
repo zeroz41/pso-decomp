@@ -10,7 +10,7 @@ void TUnk_804A5740::update_idle() { ::add_angle_clamped(&rotation_x, 1820, 10922
 
 void TUnk_804A5740::update_attack() { ::add_angle_clamped(&rotation_x, -1820, 0); }
 
-void TUnk_804A5740::vfunc_60() {
+void TUnk_804A5740::transform_model_node() {
     if (TObjPlayer::get_player_list() > 0) {
         rotate_matrix_x(NULL, rotation_x);
     }

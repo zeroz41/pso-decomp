@@ -24,7 +24,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/SampledMotionPoints.h"
@@ -37,7 +37,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/math/MatrixVector.h"
@@ -1402,7 +1402,7 @@ void TObjEneRe7Berura::render() {
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         model_render_flags &= ~0x810;
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         for (i = 0; i < 2; i++) {
             if (arm_flags[i] & 1) {
                 TObjEneRe7Berura__detached_part_states[i].hide();
@@ -1515,7 +1515,7 @@ void TObjEneRe7Berura::render_demo() {
             Vec v = { 2.0f, 1.0f, 2.0f };
             draw_ground_shadow(&v, 0);
         }
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

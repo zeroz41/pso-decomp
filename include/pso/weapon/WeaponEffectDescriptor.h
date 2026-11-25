@@ -6,7 +6,7 @@
 #include <stddef.h>
 
 // Weapon overrides and the collider constructor share this shot record.
-struct Desc_8011E5C4 : S_802E451C {
+struct WeaponEffectDescriptor : S_802E451C {
     s32 rotation_y;
     Vec direction;
     f32 speed;
@@ -24,12 +24,12 @@ struct Desc_8011E5C4 : S_802E451C {
     s32 trail_particle;
 };
 
-LAYOUT_ASSERT(WeaponEffectDescriptorSize, sizeof(Desc_8011E5C4) == 0x80);
-LAYOUT_ASSERT(WeaponEffectDescriptorModelOffset, offsetof(Desc_8011E5C4, model) == 0x44);
-LAYOUT_ASSERT(WeaponEffectDescriptorColorOffset, offsetof(Desc_8011E5C4, color) == 0x60);
-LAYOUT_ASSERT(WeaponEffectDescriptorWallOffset, offsetof(Desc_8011E5C4, wall_effect) == 0x70);
-LAYOUT_ASSERT(WeaponEffectDescriptorHitOffset, offsetof(Desc_8011E5C4, hit_effect) == 0x74);
+LAYOUT_ASSERT(WeaponEffectDescriptorSize, sizeof(WeaponEffectDescriptor) == 0x80);
+LAYOUT_ASSERT(WeaponEffectDescriptorModelOffset, offsetof(WeaponEffectDescriptor, model) == 0x44);
+LAYOUT_ASSERT(WeaponEffectDescriptorColorOffset, offsetof(WeaponEffectDescriptor, color) == 0x60);
+LAYOUT_ASSERT(WeaponEffectDescriptorWallOffset, offsetof(WeaponEffectDescriptor, wall_effect) == 0x70);
+LAYOUT_ASSERT(WeaponEffectDescriptorHitOffset, offsetof(WeaponEffectDescriptor, hit_effect) == 0x74);
 
-extern "C" Desc_8011E5C4 *TObjPlayer__sub_802E449C(Desc_8011E5C4 *params);
+extern "C" WeaponEffectDescriptor *TObjPlayer__sub_802E449C(WeaponEffectDescriptor *params);
 
 #endif

@@ -19,7 +19,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/GinjaView.h"

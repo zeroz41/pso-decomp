@@ -26,12 +26,12 @@
 #include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
 #include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
 #include <stddef.h>
-#include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_801D40D4.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TPlyItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 
@@ -312,7 +312,7 @@ void TLobby::apply_trade_items() {
                         if (id == 0xFFFFFF01) {
                             try_spend_actor_meseta(player, count);
                         } else {
-                            if ((allowed != 0) && (fn_801D4270(id) != 0)) {
+                            if ((allowed != 0) && (selected_character_has_item(id) != 0)) {
                                 remove_list_entry_by_id(id);
                                 flag = 1;
                             }
@@ -544,7 +544,7 @@ void TTradeList::build_from_trade_window() {
             id = e->id;
             if (n > 0) {
                 if (id == 0xFFFFFF01) {
-                    ((TObjPlayer *)(&item))->init_item_data(n);
+                    ((TItemData *)(&item))->init_meseta(n);
                     items[item_count++].copy_from(&item);
                 } else if ((found = find_item_by_id(id)) != NULL) {
                     found->copy_to_item_data(&item);

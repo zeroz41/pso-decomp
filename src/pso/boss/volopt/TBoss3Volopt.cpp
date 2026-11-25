@@ -6,7 +6,7 @@
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/client_id.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/task/TObject.h"

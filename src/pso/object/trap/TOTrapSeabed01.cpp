@@ -17,7 +17,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -56,7 +56,7 @@ struct SeabedTrapFragmentSpawn {
     s32 angle_y;
 };
 
-extern const char *lbl_805D3530;
+extern const char *TObjPlayer_name;
 
 const char *seabed_trap_model_filenames[] = {
     "obj_o_seaturigane2.gj",
@@ -346,7 +346,7 @@ void TOTrapSeabed01::check_hold_player() {
         target = held;
         if (target != NULL) {
             distance = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
-            dist -= TObjPlayer__sub_8017A1A4(held, 0);
+            dist -= held->get_body_radius(0);
             if (distance < dist * dist) {
                 if (TRaderMapCore::is_not_split_screen() == 1) {
                     send_6x2C_impose_hold(held, &position, -1, 0, dist);
@@ -368,7 +368,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
     for (i = 0; i < 16; i++) {
         chara = (TObjChara *)TObjPlayer::get_battle_param(i);
         if (TObjPlayer::is_valid_and_active((uaddr)chara) != 0 &&
-            chara->check_value_equals(lbl_805D3530) != 0) {
+            chara->check_value_equals(TObjPlayer_name) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
                 chara->apply_knockback_from_attacker((u8 *)this, 0.0f);

@@ -25,9 +25,15 @@ public:
     s32 check_technique_level(s32 technique, u8 level);
     PhotonBlastTarget *get_technique_data();
     void set_technique_state(s32 v);
+    s32 get_state();
+    void decrement_state();
+    s32 test_flag_2();
+    f32 get_charge_step();
+    void set_charge_step(f32 step);
     void set_field18(f32 v);
     void set_field_1c(f32 v);
     void set_technique_level(s16 technique, u8 level);
+    void enable_techniques();
 
     u8 level;
     u8 level_override;
@@ -39,7 +45,7 @@ public:
     s16 pad_a;
     s32 state;
     FlagWord flags;
-    u8 pad_14[0x4];
+    f32 charge_step;
     f32 pad_18;
     f32 pad_1c;
     PhotonBlastTarget targets[10];

@@ -9,7 +9,7 @@
 class TUnk_804A6108 : public TItemWeapon {
 public:
     virtual ~TUnk_804A6108();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     TUnk_804A6108(TObject *parent, u8 *item);
     virtual void update_weapon();
     s32 rotation_z;  // rotate_matrix_z angle of the model hook

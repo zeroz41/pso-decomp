@@ -30,7 +30,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -66,10 +66,10 @@ static CollisionBody trap_ancient01_collision_body[1] = {
 };
 const char *TOTrapAncient01__class_name = "TOTrapAncient01";
 
-extern const char *lbl_805D3530;
+extern const char *TObjPlayer_name;
 
-f32 TObjPlayer__sub_8017A1A4(TObjCollidable *actor, s32 body) {
-    return actor->bodies[body].radius;
+f32 TObjCollidable::get_body_radius(s32 body) {
+    return bodies[body].radius;
 }
 
 #pragma push
@@ -243,9 +243,9 @@ void TOTrapAncient01::vfunc_81() {
             target = player;
             if (target != NULL) {
                 dist = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
-                this->dist -= TObjPlayer__sub_8017A1A4(player, 0);
+                this->dist -= player->get_body_radius(0);
                 if (dist < this->dist * this->dist) {
-                    if (TObjPlayer::is_locally_controlled(target) != 0) {
+                    if (target->is_locally_controlled() != 0) {
                         send_6x2C_impose_hold(player, &position, -1, 0, this->dist);
                         obj_set_flag_20000(player);
                     }
@@ -278,7 +278,7 @@ void TOTrapAncient01::vfunc_82() {
             if (obj_is_hit_receivable(p) == 0) {
                 break;
             }
-            if (reinterpret_cast<TObject *>(p)->check_value_equals(lbl_805D3530) == 0) {
+            if (reinterpret_cast<TObject *>(p)->check_value_equals(TObjPlayer_name) == 0) {
                 break;
             }
             p->receive_direct_attack(this, payload, NULL, -1, -1);

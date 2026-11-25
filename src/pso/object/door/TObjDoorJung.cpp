@@ -20,7 +20,7 @@ struct NJS_TEXLIST;
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803D8F74.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/system/MatrixStack.h"

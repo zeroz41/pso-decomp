@@ -227,7 +227,7 @@ s32 validate_6x2C_impose_hold(G_ImposeHold_6x2C *packet) {
     if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    if (has_nonfinite_position(&packet->x) != 0) {
+    if (has_nonfinite_position(&packet->pos.x) != 0) {
         return 0;
     }
     cond = (packet->trigger_radius2 < 0.0f);

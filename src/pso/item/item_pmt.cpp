@@ -6,7 +6,6 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/drop/TItemDrop.h"
@@ -125,10 +124,6 @@ saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
 }
 Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
 void normalize_drop_area(s32 *p);
-saddr get_mag_feed_result(s32 arg0, s32 arg1);
-void roll_item_channel_below(u32 arg0, s32 arg1);
-s32 is_unsealable_item(u8 *id);
-saddr get_item_stat_boost_record(s32 arg0, s32 arg1, s32 arg2);
 s32 is_unsealable_item(u8 *id) {
     List_8011C030 *l = ((Tbl_8011C030 *)item_pmt_tbl)->list;
     s32 n = l->count;
@@ -174,8 +169,8 @@ Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item) {
     return NULL;
 }
 
-u8 get_technique_learn_limit(u8 arg0, u8 arg1) {
-    return (*(u8 (**)[12])((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x40))[arg1][(s8)arg0];
+u8 get_technique_learn_limit(u8 char_class, u8 technique) {
+    return (*(u8 (**)[12])((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x40))[technique][(s8)char_class];
 }
 
 void TObjPlayer::register_item_drop() {
@@ -215,12 +210,12 @@ f32 TObjPlayer::get_drop_random_float(u32 arg0) {
     return 3.0517578e-05f * (f32) rand();
 }
 
-void roll_item_channel_below(u32 count, s32 arg1) {
+void roll_item_channel_below(u32 count, s32 channel) {
     if (item_mgr != NULL) {
-        item_mgr->roll_channel_below(count, arg1);
+        item_mgr->roll_channel_below(count, channel);
         return;
     }
-    __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(arg1));
+    __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(channel));
 }
 
 void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, saddr item) {
@@ -257,11 +252,11 @@ void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
     }
 }
 
-saddr get_item_stat_boost_record(s32 arg0, s32 type, s32 id) {
+saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
     s32 idx;
     u8 *rec;
     idx = 0;
-    switch ((u8) arg0) {
+    switch ((u8) item_type) {
     case 0:
         rec = (u8 *)TObjPlayer::get_item_pmt_record((u8)type, (u8)id);
         if (rec != NULL) {
@@ -424,9 +419,9 @@ s32 get_item_star_count(s32 id) {
     return 0;
 }
 
-saddr get_mag_feed_result(s32 feed_table, s32 arg1) {
+saddr get_mag_feed_result(s32 feed_table, s32 food_id) {
     if ((feed_table >= 0) && (feed_table < 8)) {
-        return *(s32 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x28)) + (feed_table * 4)) + (arg1 * 8);
+        return *(s32 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x28)) + (feed_table * 4)) + (food_id * 8);
     }
     return 0;
 }
@@ -457,16 +452,16 @@ u8 roll_weapon_special_for_stars(u8 stars) {
     return result;
 }
 
-f32 get_item_price_coefficient(u8 arg0, u8 arg1) {
-    switch (arg0) {
+f32 get_item_price_coefficient(u8 type, u8 sub) {
+    switch (type) {
     case 0:
-        if (arg1 < 0xAA) {
-            return ((Pmt_8011CA10 *)item_pmt_tbl)->t20[arg1];
+        if (sub < 0xAA) {
+            return ((Pmt_8011CA10 *)item_pmt_tbl)->t20[sub];
         }
         break;
     case 1:
-        if (arg1 != 0 && arg1 < 4) {
-            return ((Pmt_8011CA10 *)item_pmt_tbl)->t24[arg1 - 1];
+        if (sub != 0 && sub < 4) {
+            return ((Pmt_8011CA10 *)item_pmt_tbl)->t24[sub - 1];
         }
         break;
     case 2:
@@ -607,4 +602,12 @@ void load_item_pmt() {
 void load_items() {
     load_item_pmt();
     item_mgr = TItemDrop::create_drop(NULL);
+}
+
+void ItemSoundRequest::clear() {
+    group = 0;
+    player = NULL;
+    unused = 0;
+    target = NULL;
+    collider = 0;
 }

@@ -2,13 +2,12 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_800BC4C8.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
@@ -18,14 +17,12 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
 const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
 
-extern "C" s32 is_area_attack_target_eligible(void *, u32);
-
-s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range) {
+s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(const AreaAttackContact *contact, DirectAttackPayload *attack, AreaAttackHistory *history, f32 range) {
     s32 hit;
     u32 mask;
     TObjChara *obj;
@@ -37,11 +34,11 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr des
         return 0;
     }
     clear_battle_param_slots();
-    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 1) {
+    if (contact->contact_flags & 1) {
         update_body_contact_flag(range);
         mask |= 0x80000;
     }
-    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 2) {
+    if (contact->contact_flags & 2) {
         mark_enemy_body_contacts();
         mask |= 0x100000;
     }
@@ -52,14 +49,14 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr des
                 break;
             }
             if (obj_is_hit_receivable(obj) != 0 && obj != this->owner &&
-                is_area_attack_target_eligible(this, obj->actorFlags) != 0 &&
+                is_target_eligible(obj->actorFlags) != 0 &&
                 !(fabs_float(pos.y - obj->body_center.y) > 3e+01f)) {
                 ok = 1;
-                if (object != 0 && attack_target_history_add((AreaAttackHistory *)object, obj) == 0) {
+                if (history != 0 && attack_target_history_add(history, obj) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
-                    area_attack_receive_direct(obj, (f32 *)recoil, (void *)desc);
+                    area_attack_receive_direct(obj, &contact->recoil, attack);
                     hit = 1;
                 }
             }
@@ -118,11 +115,11 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
             bodies->flags |= 2;
         }
         bodies->offset.y = d;
-        if (this->vfunc_16(&this->contact, &this->attack_type) != 0) {
+        if (this->deliver_direct_no_history(&this->contact, &this->attack) != 0) {
             ((TObjEneBm9Mericarol *)(find_entity_by_id(owner_id)))->notify_bomb_hit();
-            if (attack_type == 0 && this->final_blast != 0) {
-                attack_type = 0x12;
-                this->vfunc_16(&this->contact, &this->attack_type);
+            if (attack.kind == 0 && this->final_blast != 0) {
+                attack.kind = 0x12;
+                this->deliver_direct_no_history(&this->contact, &this->attack);
             }
             queue_destruction();
             return;
@@ -168,28 +165,28 @@ TObjEneBm9Mericarol_Bomb::~TObjEneBm9Mericarol_Bomb() {
 
 
 TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 power, f32 speed, s32 final_blast)
-    : TUnk_804928CC(owner, owner) {
+    : TAttackCollider(owner, owner) {
     Vec d;
     f32 k;
     m_name = TObjEneBm9Mericarol_Bomb__class_name;
     if (TObjEneDD::check_v2_mode() != 0) {
-        attack_type = 5;
+        attack.kind = 5;
     } else {
         switch (owner->get_phase()) {
         case 1:
-            attack_type = 2;
+            attack.kind = 2;
             break;
         case 2:
-            attack_type = 3;
+            attack.kind = 3;
             break;
         case 0:
         default:
             this->final_blast = final_blast;
-            attack_type = 0;
+            attack.kind = 0;
             break;
         }
     }
-    this->power = power;
+    this->attack.power = power;
     switch (owner->get_phase()) {
     case 1:
         phase_effect_id = 0x20A;

@@ -16,7 +16,6 @@
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -40,7 +39,7 @@
 #include "pso/technique/TTecSifta.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/render/render_util.h"
@@ -1538,7 +1537,7 @@ void TObjEneMe3Shinowa::render() {
         update_secondary_light();
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         for (i = 0; i < 3; i++) {
             if (TObjEneMe3ShinowaMirage__material_color_pointers[i] != NULL) {
                 *TObjEneMe3ShinowaMirage__material_color_pointers[i] = material_color;
@@ -1598,7 +1597,7 @@ void TObjEneMe3Shinowa::render_demo() {
     gold = is_gold_enabled();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         if (gold != 0) {
             textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             for (i = 0; i < 3; i++) {

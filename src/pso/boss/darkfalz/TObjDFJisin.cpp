@@ -49,7 +49,7 @@ struct NJS_OBJECT;
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D853C.h"
@@ -156,7 +156,7 @@ void TObjDFUsoTower::render() {
     alpha = fade_alpha;
     if (0.0f != alpha) {
         if (alpha < 1.0f) {
-            TObjPlayer::begin_alpha_blend(alpha);
+            begin_alpha_blend(alpha);
             set_color_blend_mode(1, 4, 5, 0);
         }
         push_matrix();
@@ -165,7 +165,7 @@ void TObjDFUsoTower::render() {
         draw_ginja_object(this->model);
         pop_matrix();
         if (fade_alpha < 1.0f) {
-            TObjPlayer::sync_player_globals();
+            end_alpha_blend();
         }
     }
 }
@@ -199,7 +199,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     body_textures = &player->body_textures;
     TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
     if (alpha < 1.0f) {
-        TObjPlayer::begin_alpha_blend(alpha);
+        begin_alpha_blend(alpha);
     }
     TObjFish::set_global_param(body_textures);
     draw_chunk_object(body);
@@ -220,7 +220,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         TCharaMaking::clear_flag_bit0();
     }
     if (alpha < 1.0f) {
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
     }
     if (hair != NULL) {
         TCharaMaking::enable_making();
@@ -237,7 +237,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
     if (0.0f != alpha) {
         TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
         if (alpha < 1.0f) {
-            TObjPlayer::begin_alpha_blend(alpha);
+            begin_alpha_blend(alpha);
         }
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(body_texlist));
         draw_chunk_object((void *)body);
@@ -258,7 +258,7 @@ void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist
             TCharaMaking::clear_flag_bit0();
         }
         if (alpha < 1.0f) {
-            TObjPlayer::sync_player_globals();
+            end_alpha_blend();
         }
         if (hair != 0U) {
             TCharaMaking::enable_making();
@@ -300,7 +300,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     body_textures = &player->body_textures;
     body = player->model;
     if (alpha < 1.0f) {
-        TObjPlayer::begin_alpha_blend(alpha);
+        begin_alpha_blend(alpha);
     }
     TObjFish::set_global_param(body_textures);
     TObjDFTenchuFuru::register_callback();
@@ -321,7 +321,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
         TCharaMaking::clear_flag_bit0();
     }
     if (alpha < 1.0f) {
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
     }
     if (hair != NULL) {
         TCharaMaking::enable_making();

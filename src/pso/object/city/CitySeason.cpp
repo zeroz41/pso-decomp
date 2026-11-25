@@ -42,6 +42,7 @@
 #include "pso/render/render_util.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/animation/ActorAnimationState.h"
+#include "pso/boss/derolle/RandomAngle.h"
 
 const CollisionBody city_season_collision_template = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char TObjCity_Season_EasterEgg__class_name[] = "TObjCity_Season_EasterEgg";
@@ -559,8 +560,8 @@ void TObjCity_Season_FireWork::run_task() {
         if (timer == 0 || timer == 4 || timer == 8) {
             s32 angle[3];
             angle[0] = 0;
-            angle[1] = TObjPlayer::calc_random_scaled();
-            angle[2] = TObjPlayer::calc_random_scaled();
+            angle[1] = random_angle();
+            angle[2] = random_angle();
             create_oneshot_particle_emitter(&pos, angle, 0x89, 0x40);
         }
         timer++;

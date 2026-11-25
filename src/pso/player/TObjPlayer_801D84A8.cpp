@@ -13,13 +13,6 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/network/client_id.h"
 
-struct TObjPlayer_801D8044 {
-    u8 pad0[0x428];
-    u8 slots[0x4ac - 0x428];
-    u8 cursor[0xd00 - 0x4ac];
-    void *fd00;
-};
-
 extern "C" {
 u8 get_cast_technique_level(void *, int);
 s32 get_game_play_mode();
@@ -28,8 +21,6 @@ s32 TObjPlayer__sub_801AF694(void *, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
 s32 TMainCursor__sub_8013F244(void *);
 s32 fn_8013F24C(void *, s32);
-s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *, u8, u8);
-bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 kind, u8 arg);
 // Works on a TPlyDispConfigSmth (its layout, and it sits right after
 // TPlyDispConfigSmth::bswap at 0x801D7CF4); owner inferred, not yet moved.
 void TObjPlayer::init_action_config() {
@@ -43,7 +34,7 @@ void TObjPlayer::init_action_config() {
         i++;
     } while (i < 4);
 }
-s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
+s32 TObjPlayer::is_palette_entry_displayable(u8 kind, u8 sub) {
     s32 tec;
 
     switch (kind) {
@@ -52,11 +43,11 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
     case 1:
         return 1;
     case 2:
-        if (((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || is_current_area_item_enabled() == 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
+        if (test_actor_flags(0x20006) != 0 || is_current_area_item_enabled() == 0 || get_camera_field() == 0) {
             return 0;
         }
         if ((u8)sub == 2) {
-            TItem *weapon = TObjPlayer::get_equipped_weapon(player);
+            TItem *weapon = get_equipped_weapon(this);
             if (weapon != NULL) {
                 if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
                     return 0;
@@ -67,10 +58,10 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         }
         return 1;
     case 3:
-        if (((TObjPlayer *)(player + 0x428))->test_bit1_at_10() != 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
+        if (technique_state.test_flag_2() != 0 || test_actor_flags(0x20006) != 0 || get_camera_field() == 0) {
             return 0;
         }
-        if (*(s16 *)(player + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(player + 0x428, sub), ((TObjBase *)(player))->get_entity_id())->tp_cost < 0) {
+        if (tp - calc_technique_parameters(tec = sub, get_cast_technique_level(&technique_state, sub), get_entity_id())->tp_cost < 0) {
             return 0;
         }
         switch (tec) {
@@ -80,7 +71,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
             }
             break;
         case 0xE:
-            if (TObjWarpBossMulti::is_flag_clear(player) == 0) {
+            if (TObjWarpBossMulti::is_flag_clear(this) == 0) {
                 return 0;
             }
             if (TTecCtrl::is_technique_ready() != 0 || get_game_play_mode() == 1) {
@@ -90,7 +81,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         }
         return 1;
     case 4:
-        if (((TObjPlayer *)player)->get_camera_field() == 0) {
+        if (get_camera_field() == 0) {
             return 0;
         }
         switch ((u8)sub) {
@@ -102,7 +93,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         case 10:
             break;
         case 11:
-            if (TObjWarpBossMulti::is_flag_clear(player) == 0) {
+            if (TObjWarpBossMulti::is_flag_clear(this) == 0) {
                 return 0;
             }
             if (TTecCtrl::is_technique_ready() != 0) {
@@ -112,7 +103,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         }
         return 1;
     case 5:
-        if (((TObjPlayer *)player)->photon_blast_gauge.has_ready_flag() == 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
+        if (photon_blast_gauge.has_ready_flag() == 0 || test_actor_flags(0x20006) != 0 || get_camera_field() == 0) {
             return 0;
         }
         return 1;
@@ -121,7 +112,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
     }
     return 0;
 }
-bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 kind, u8 arg) {
+s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
     TItemData item;
     TItem *w;
     switch (kind) {
@@ -131,7 +122,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
         return 1;
     case 2:
         if (arg == 2) {
-            w = TObjPlayer::get_equipped_weapon(self);
+            w = get_equipped_weapon(this);
             if (w != NULL) {
                 if (weapon_has_extra_attack((TItemWeapon *)w) == 0) {
                     return 0;
@@ -140,15 +131,15 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 return 0;
             }
         }
-        if (((TObjPlayer *)self)->is_controls_locked() != 0) {
+        if (is_controls_locked() != 0) {
             return 1;
         }
         break;
     case 3:
-        if (TObjPlayer::validate_and_clear_slot(self->slots, arg) != 0) {
+        if (validate_and_clear_slot(&technique_state, arg) != 0) {
             return 0;
         }
-        if (((TObjPlayer *)self)->is_controls_locked() != 0) {
+        if (is_controls_locked() != 0) {
             return 1;
         }
         break;
@@ -169,35 +160,35 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
             item.data1.data_u8[2] = 2;
             break;
         case 3:
-            if (((TObjPlayer *)self)->is_android() != 0) {
+            if (is_android() != 0) {
                 return 0;
             }
             item.data1.data_u8[1] = 1;
             item.data1.data_u8[2] = 0;
             break;
         case 4:
-            if (((TObjPlayer *)self)->is_android() != 0) {
+            if (is_android() != 0) {
                 return 0;
             }
             item.data1.data_u8[1] = 1;
             item.data1.data_u8[2] = 1;
             break;
         case 5:
-            if (((TObjPlayer *)self)->is_android() != 0) {
+            if (is_android() != 0) {
                 return 0;
             }
             item.data1.data_u8[1] = 1;
             item.data1.data_u8[2] = 2;
             break;
         case 6:
-            if (((TObjPlayer *)self)->is_android() != 0) {
+            if (is_android() != 0) {
                 return 0;
             }
             item.data1.data_u8[1] = 6;
             item.data1.data_u8[2] = 0;
             break;
         case 7:
-            if (((TObjPlayer *)self)->is_android() != 0) {
+            if (is_android() != 0) {
                 return 0;
             }
             item.data1.data_u8[1] = 6;
@@ -216,14 +207,14 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
             item.data1.data_u8[1] = 7;
             break;
         case 12:
-            if (((TObjPlayer *)self)->is_android() != 0) {
+            if (is_android() != 0) {
                 return 0;
             }
             item.data1.data_u8[1] = 8;
             break;
         }
         if (arg < 0xd || arg > 0x10) {
-            if (((TPlyItem *)((void *)self->fd00))->set_mode_and_refresh_object(&item) == 0) {
+            if (inventory_objects->set_mode_and_refresh_object(&item) == 0) {
                 return 0;
             }
         } else {
@@ -232,52 +223,52 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
             }
             switch (arg) {
             case 0xd:
-                if (TObjPlayer__sub_801AF694(self, 0) != 0) {
+                if (TObjPlayer__sub_801AF694(this, 0) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(((TObjBase *)(self))->get_entity_id()) == 0) {
+                if (TWindowCtrl__sub_8024A228(get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
             case 0xe:
-                if (TObjPlayer__sub_801AF694(self, 1) != 0) {
+                if (TObjPlayer__sub_801AF694(this, 1) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(((TObjBase *)(self))->get_entity_id()) == 0) {
+                if (TWindowCtrl__sub_8024A228(get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
             case 0xf:
-                if (TObjPlayer__sub_801AF694(self, 2) != 0) {
+                if (TObjPlayer__sub_801AF694(this, 2) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(((TObjBase *)(self))->get_entity_id()) == 0) {
+                if (TWindowCtrl__sub_8024A228(get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
             case 0x10:
-                if (TObjPlayer__sub_801AF694(self, 3) != 0) {
+                if (TObjPlayer__sub_801AF694(this, 3) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(((TObjBase *)(self))->get_entity_id()) == 0) {
+                if (TWindowCtrl__sub_8024A228(get_entity_id()) == 0) {
                     return 0;
                 }
                 break;
             }
         }
-        if (((TObjPlayer *)self)->is_controls_locked() != 0) {
+        if (is_controls_locked() != 0) {
             return 1;
         }
         break;
     case 5:
-        if ((s8)fn_8013F24C(self->cursor, arg) == (s8)TMainCursor__sub_8013F244(self)) {
+        if ((s8)fn_8013F24C(&photon_blast_gauge, arg) == (s8)TMainCursor__sub_8013F244(this)) {
             return 0;
         }
         break;
     case 7:
         return 1;
     }
-    return is_palette_entry_displayable__10TObjPlayerFv((u8 *)self, kind, arg) != 0;
+    return is_palette_entry_displayable(kind, arg) ? 1 : 0;
 }
 
 }
@@ -291,8 +282,8 @@ s32 TObjPlayer__sub_801D84A8(void* p);
 s32 TObjPlayer__sub_801D84F0(void* p);
 int bswap_16__FPUs(void*);
 
-s32 TObjPlayer::can_use_palette_action_for_entry(u32 obj) {
-    return ((s32 (*)(u32, u8, u8))can_use_palette_action__10TObjPlayerFPvUcUc)(obj, ((Obj_801D8474 *)this)->a, ((Obj_801D8474 *)this)->b);
+s32 TObjPlayer::can_use_palette_action_for_entry(TObjPlayer *player) {
+    return player->can_use_palette_action(((Obj_801D8474 *)this)->a, ((Obj_801D8474 *)this)->b);
 }
 
 s32 TObjPlayer__sub_801D84A8(void* p) { return *(s32*)((char*)p + 0x0); }

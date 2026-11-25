@@ -17,7 +17,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -141,7 +141,7 @@ void TBoss4Thanks::render() {
     return;
   }
   {
-    TObjPlayer::begin_alpha_blend(fade);
+    begin_alpha_blend(fade);
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(boss4_thanks_position);
@@ -149,7 +149,7 @@ void TBoss4Thanks::render() {
     draw_model_motion(model, motions[current_motion], motion_frame);
     clear_motion_packed_rotation();
     pop_matrix();
-    TObjPlayer::sync_player_globals();
+    end_alpha_blend();
   }
 }
 

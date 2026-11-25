@@ -26,11 +26,11 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-// TObjPlayer_80011014.h declares get_entity_id returning u16, but this
+// TObjCharaHelpers.h declares get_entity_id returning u16, but this
 // unit's callers saw a 32-bit return (no zero extension before the
 // (u16) test), so the helpers are still declared here.
 extern "C" {
-s16 get_actor_tp(u8 *p);
+s16 get_actor_tp(u8 *object);
 s16 obj_getS16_2BA(u8 *p);
 }
 

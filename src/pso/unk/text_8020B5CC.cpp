@@ -9,7 +9,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/network/protocol/protocol.h"
 #include "pso/unk/pso_carve_8020bf88.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 extern "C" {
 extern TObject *tl_02;
 extern TObject *tl_05;

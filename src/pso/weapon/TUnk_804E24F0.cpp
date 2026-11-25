@@ -9,18 +9,19 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 
 extern "C" {
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 }
 
-void TUnk_804E24F0::vfunc_60() {
+void TUnk_804E24F0::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         translate_matrix(0, 0.0f, muzzle_offset, 0.0f);
     }
 }
 
-void TUnk_804E24F0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804E24F0::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     u8 sp8[16];
     desc->flags |= 0x11C;
     get_weapon_color__11TItemWeaponFPv(sp8, this);
@@ -28,7 +29,7 @@ void TUnk_804E24F0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->model = second_model;
     desc->hits = 4;
     desc->scale = 2.0f;
-    desc->wall_effect = (void *)TObjPlayer::forward_item_effect_callback;
+    desc->wall_effect = (void *)spawn_wall_hit_particles;
 }
 
 void TUnk_804E24F0::emit_marker_effects() {

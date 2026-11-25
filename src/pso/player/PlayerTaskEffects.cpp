@@ -33,11 +33,11 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/TEffect.h"
 #include "pso/render/model_render_state.h"
+#include "pso/render/ChunkModelDraw.h"
 
 
 
 extern "C" {
-s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player);
 
 }
 
@@ -49,7 +49,6 @@ s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player);
 extern "C" {
 
 s32 test_flags_any(s32 *flags, s32 mask);
-s32 is_flag30_8_set__10TObjPlayerFi(saddr);
 
 
 }
@@ -61,11 +60,6 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 }
 
 
-extern "C" {
-BOOL fn_801C6F2C(u8 *arg0);
-s32 draw_chunk_object();
-s32 TObjPlayer__sub_801C6DAC(u8 *target);
-}
 
 
 #include "pso/system/THeap.h"
@@ -91,7 +85,6 @@ s32 TObjPlayer__sub_801C6DAC(u8 *target);
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/unk/text_8020C354.h"
 #include "pso/object/base/TObjMotion.h"
@@ -100,19 +93,15 @@ s32 TObjPlayer__sub_801C6DAC(u8 *target);
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/render/model_render_state.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/effect/TEffect.h"
 #include "pso/ui/hud/TMainCursor_8013DF5C.h"
 #include "pso/network/client_id.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
-extern "C" {
-}
-void update_player_appear_fade(u8 *arg0);
-void reset_player_appearance_opacity(void *a0);
-void save_render_material_state(u8 *arg0);
 
 // The marker colours, indexed by TPlayerLobbyMarker::get_material_index().
 extern const NJS_ARGB player_lobby_marker_color_table[13] = {
@@ -131,13 +120,10 @@ extern const NJS_ARGB player_lobby_marker_color_table[13] = {
     { 1.0f, 0.0f, 0.0f, 0.0f },
 };
 
-extern const char TPlyOnCreated__class_name_string[] = "TPlyOnCreated";
-extern const char TPlyOnCountOver__class_name_string[] = "TPlyOnCountOver";
-extern const char TForceOperate__class_name_string[] = "TForceOperate";
-
-const char *TPlyOnCreated__name = TPlyOnCreated__class_name_string;
-const char *TPlyOnCountOver__name = TPlyOnCountOver__class_name_string;
-const char *TForceOperate__name = TForceOperate__class_name_string;
+#pragma readonly_strings on
+const char *TPlyOnCreated::class_name = "TPlyOnCreated";
+const char *TPlyOnCountOver::class_name = "TPlyOnCountOver";
+const char *TForceOperate::class_name = "TForceOperate";
 
 #pragma defer_codegen on
 
@@ -192,8 +178,8 @@ void BattleMusicState::clear_target_lock_flag() { ((FlagWord *)&flags)->clear(1)
 void BattleMusicState::set_lock_timer(s32 v) { timer = v; }
 
 
-BOOL fn_801C6F2C(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 4) == 1;
+BOOL PlayerAppearFade::is_fading() {
+    return state == FADING_IN;
 }
 
 
@@ -220,16 +206,16 @@ void *PlayerActionProvider::operator new(size_t size) { return obj_heap->heap_al
 void PlayerActionProvider::operator delete(void *p) { obj_heap->heap_free(p); }
 
 
-s32 TObjPlayer__sub_801C6DAC(u8 *target) {
-    *(u8 **)((s8 *)target + 4) = (u8 *)get_player_by_client_id(get_client_id(target));
-    if (*(u8 **)((s8 *)target + 4) != NULL) {
+BOOL PlayerRef::resolve() {
+    player = get_player_by_client_id(get_client_id());
+    if (player != NULL) {
         return 1;
     }
     return 0;
 }
 
 
-TPlayerLobbyMarker *TObjPlayer::create_lobby_marker(s16 client, s8 material_index) {
+TPlayerLobbyMarker *TPlayerLobbyMarker::create(s16 client, s8 material_index) {
     TObjPlayer *player = get_player_by_client_id((u16)client);
     if (player == NULL) {
         return NULL;
@@ -241,21 +227,20 @@ TPlayerLobbyMarker *TObjPlayer::create_lobby_marker(s16 client, s8 material_inde
 void TPlayerLobbyMarker::run_task() { rotation += 0x800; }
 
 void TPlayerLobbyMarker::render() {
-    saddr player;
-    player = (saddr)get_player_by_client_id(player_id);
-    if ((player != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (get_material_index() != 0) && (((TObjPlayer *)player)->is_body_collision_inactive() == 0)) {
+    TObjPlayer *player;
+    player = get_player_by_client_id(player_id);
+    if ((player != NULL) && (player->all_parents_unqueued_for_destruction() != 0) && (get_material_index() != 0) && (player->is_body_collision_inactive() == 0)) {
         push_matrix();
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
         copy_argb(&saved_model_draw_color, &model_material_color);
         TObjFish::set_global_param(&shared_effect_texture_list);
         model_render_flags |= 0x11;
-        translate_matrix_vec3(0, reinterpret_cast<u8 *>(TObjPlayer__sub_801BF914(&reinterpret_cast<TObjPlayer *>(player)->marker_position)));
+        translate_matrix_vec3(0, reinterpret_cast<u8 *>(get_marker_position(&player->marker_position)));
         rotate_matrix_y(NULL, camera_ctrl_instance->yaw + rotation);
         scale_matrix(NULL, 1.3f, 1.3f, 1.3f);
         set_constant_material(&player_lobby_marker_color_table[get_material_index()]);
-        TMainCursor::get_cursor_state();
-        draw_chunk_object();
+        draw_chunk_object(TMainCursor::get_cursor_model());
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
@@ -348,7 +333,7 @@ f32 PlayerMoveSpeed::calc_speed(TObjPlayer *player) {
 
 
 f32 PlayerMoveSpeed::calc_speed(TObjPlayer *player, f32 speed) {
-    if (is_flag30_8_set__10TObjPlayerFi((saddr)player) != 0) {
+    if (player->is_flag30_8_set() != 0) {
         speed *= 0.5f;
     } else if (test_flags_any(&flags.bits, 8) != 0) {
         speed *= 0.75f;
@@ -399,8 +384,8 @@ TObjPlayer*TPlayerSoul::get_player() {
 }
 
 void TObjPlayer::revive_or_spawn_marker() {
-    if ((check_flag_0x8000() != 0) || (obj_isState3_324() != 0) || (is_script_controlled() != 0)) {
-        clear_flag_8000();
+    if ((check_quest_control_flag() != 0) || (obj_isState3_324() != 0) || (is_script_controlled() != 0)) {
+        clear_quest_control_flag();
         return;
     }
     new TPlayerSoul(tl_06, get_entity_id());
@@ -410,7 +395,7 @@ TPlayerSoul::TPlayerSoul(TObject* parent, u16 id) : TPlayerParticleOwner(parent)
     set_player_id(id);
     TObjPlayer* player = get_player();
     if (player != 0) {
-        TParticleCtrl* value = (TParticleCtrl *)create_particle_emitter((char*)player + 0x2FC, 0xAF);
+        TParticleCtrl* value = create_particle_emitter(&player->body_center, 0xAF);
         if (value != 0) {
             set_particle(value);
         } else {
@@ -428,7 +413,7 @@ void TPlayerSoul::run_task() {
     Vec pos;
     player = get_player();
     if (player != NULL && player->test_action_mask(0x8000) != 0 && is_current_area_item_enabled() != 0 &&
-        is_on_current_floor__10TObjPlayerFi(player) != 0) {
+        player->is_on_current_floor() != 0) {
         particle = get_particle();
         if (particle != 0) {
             player->get_anim_node_position(1, &pos);
@@ -445,13 +430,14 @@ void TObjPlayer::new_child_object(u16 player_id) {
 }
 
 TPlayerLevelFeedback::TPlayerLevelFeedback(TObject* parent, u16 id) : TObject(parent) {
-    uaddr player;
+    TObjPlayer *player;
+    TParticleCtrl *effect;
     player_id = id;
     timer = 10;
-    player = (uaddr)get_player_by_client_id(player_id);
-    if (player != 0) {
-        player = (uaddr)spawn_particle_effect_with_flags((const Vec *)(player + 0x2FC), 0x23, 0x10);
-        if (player != 0) ((TParticleCtrl *)player)->set_owner_id(player_id);
+    player = get_player_by_client_id(player_id);
+    if (player != NULL) {
+        effect = spawn_particle_effect_with_flags(&player->body_center, 0x23, 0x10);
+        if (effect != NULL) effect->set_owner_id(player_id);
     }
 }
 
@@ -459,15 +445,15 @@ TPlayerLevelFeedback::~TPlayerLevelFeedback() {}
 
 void TPlayerLevelFeedback::run_task() {
     s32 remaining;
-    uaddr player;
-    uaddr emitter;
+    TObjPlayer *player;
+    TParticleCtrl *emitter;
     remaining = timer - 1;
     timer = remaining;
     if (remaining < 0) {
-        player = (uaddr)get_player_by_client_id(player_id);
-        if (player != 0) {
-            emitter = (uaddr)spawn_particle_effect_with_flags((const Vec *)(player + 0x2FC), 0x20, 0x10);
-            if (emitter != 0) ((TParticleCtrl *)emitter)->set_owner_id(player_id);
+        player = get_player_by_client_id(player_id);
+        if (player != NULL) {
+            emitter = spawn_particle_effect_with_flags(&player->body_center, 0x20, 0x10);
+            if (emitter != NULL) emitter->set_owner_id(player_id);
         }
         queue_destruction();
     }
@@ -490,7 +476,7 @@ void *TPlyOnCreated::create(s32 client, int (*callback)(void *)) {
 }
 
 TPlyOnCreated::TPlyOnCreated(s32 client, int (*callback)(void *)) : TObject(tl_06) {
-    m_name = TPlyOnCreated__name;
+    m_name = class_name;
     player_id = client;
     this->callback = callback;
 }
@@ -511,7 +497,7 @@ void *TPlyOnCountOver::create(u16 player_id, s16 count, void (*callback)(TObjPla
 }
 
 TPlyOnCountOver::TPlyOnCountOver(u16 player_id, s16 count, void (*callback)(TObjPlayer *)) : TObject(tl_06) {
-    m_name = TPlyOnCountOver__name;
+    m_name = class_name;
     this->player_id = player_id;
     this->count = count;
     this->callback = callback;
@@ -546,9 +532,9 @@ void clear_movement_history(MovementHistory *history) {
 
 
 void set_arrival_override_pos(u16 slot, s32 heading, const Vec *pos) {
-    TObjPlayer__arrival_override_table[slot].active = 1;
-    TObjPlayer__arrival_override_table[slot].heading = heading;
-    VecCopy(&TObjPlayer__arrival_override_table[slot].pos, pos);
+    player_arrival_overrides[slot].active = 1;
+    player_arrival_overrides[slot].heading = heading;
+    VecCopy(&player_arrival_overrides[slot].pos, pos);
 }
 
 #pragma push
@@ -557,8 +543,8 @@ void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z) {
     s32 offset;
     ArrivalOverride *entry;
     offset = slot * sizeof(ArrivalOverride);
-    ((ArrivalOverride *)((u8 *)TObjPlayer__arrival_override_table + offset))->active = 1;
-    entry = (ArrivalOverride *)((u8 *)TObjPlayer__arrival_override_table + offset);
+    ((ArrivalOverride *)((u8 *)player_arrival_overrides + offset))->active = 1;
+    entry = (ArrivalOverride *)((u8 *)player_arrival_overrides + offset);
     entry->heading = heading;
     entry->pos.x = x;
     entry->pos.y = y;
@@ -566,48 +552,46 @@ void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z) {
 }
 #pragma pop
 
-void set_params__10TObjPlayerFPvPvPviPv(void *out, void *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
+void PlayerRequirementStats::set(TObjPlayer *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     s16 defense;
 
-    *(s16 *)((s8 *)out + 0) = (s16) (base_stats->stats.atp + get_attack_params_atp_max(attack_stats));
+    atp = base_stats->stats.atp + get_attack_params_atp_max(attack_stats);
     defense = base_stats->stats.dfp;
-    *(s16 *)((s8 *)out + 2) = (s16) (defense + resistance_stats->value_1c);
-    *(s16 *)((s8 *)out + 4) = (s16) base_stats->stats.mst;
-    *(s16 *)((s8 *)out + 6) = (s16) (0.1f * (f32) (base_stats->stats.ata + ((AttackParams *)(saddr)attack_stats)->get_ata()));
-    *(s16 *)((s8 *)out + 8) = (s16) (base_stats->stats.evp + resistance_stats->values[0]);
-    *(s16 *)((s8 *)out + 0xA) = (s16) base_stats->stats.lck;
-    *(s16 *)((s8 *)out + 0xC) = (s16) resistance_stats->values[1];
-    *(s16 *)((s8 *)out + 0xE) = (s16) resistance_stats->values[2];
-    *(s16 *)((s8 *)out + 0x10) = (s16) resistance_stats->values[3];
-    *(s16 *)((s8 *)out + 0x12) = (s16) resistance_stats->values[4];
-    *(s16 *)((s8 *)out + 0x14) = (s16) resistance_stats->values[5];
+    dfp = defense + resistance_stats->value_1c;
+    mst = base_stats->stats.mst;
+    ata = 0.1f * (f32)(base_stats->stats.ata + attack_stats->get_ata());
+    evp = base_stats->stats.evp + resistance_stats->values[0];
+    lck = base_stats->stats.lck;
+    resist[0] = resistance_stats->values[1];
+    resist[1] = resistance_stats->values[2];
+    resist[2] = resistance_stats->values[3];
+    resist[3] = resistance_stats->values[4];
+    resist[4] = resistance_stats->values[5];
 }
 
-void init_shield_params(void *out, void *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
-    set_params__10TObjPlayerFPvPvPviPv(out, player, base_stats, attack_stats, resistance_stats);
-    *(s16 *)((s8 *)out + 0x16) = ((TObjChara *)player)->get_hpmax();
-    *(s16 *)((s8 *)out + 0x18) = obj_getS16_2BA((u8 *)player);
+void PlayerLevelStats::set(TObjPlayer *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
+    PlayerRequirementStats::set(player, base_stats, attack_stats, resistance_stats);
+    hp_max = player->get_hpmax();
+    tp_max = obj_getS16_2BA((u8 *)player);
 }
 
-void TObjPlayer::calc_pos_delta(void *other, void *delta) {
-    *(s16 *)((s8 *)delta + 0) = (s16) (*(s16 *)((s8 *)other + 0) - *(s16 *)((s8 *)this + 0));
-    *(s16 *)((s8 *)delta + 2) = (s16) (*(s16 *)((s8 *)other + 2) - *(s16 *)((s8 *)this + 2));
-    *(s16 *)((s8 *)delta + 4) = (s16) (*(s16 *)((s8 *)other + 4) - *(s16 *)&this->m_flags);
-    *(s16 *)((s8 *)delta + 6) = (s16) (*(s16 *)((s8 *)other + 6) - *(s16 *)&this->m_id);
-    *(s16 *)((s8 *)delta + 8) = (s16) (*(s16 *)((s8 *)other + 8) - *(s16 *)((s8 *)this + 8));
-    *(s16 *)((s8 *)delta + 0xA) = (s16) (*(s16 *)((s8 *)other + 0xA) - *(s16 *)((s8 *)this + 0xA));
-    *(s16 *)((s8 *)delta + 0x16) = (s16) (*(s16 *)((s8 *)other + 0x16) - *(s16 *)((s8 *)this + 0x16));
-    *(s16 *)((s8 *)delta + 0x18) = (s16) (*(s16 *)((s8 *)other + 0x18) - *(s16 *)((s8 *)this + 0x18));
+void PlayerLevelStats::calc_delta(PlayerLevelStats *after, PlayerLevelStats *delta) {
+    delta->atp = after->atp - atp;
+    delta->dfp = after->dfp - dfp;
+    delta->mst = after->mst - mst;
+    delta->ata = after->ata - ata;
+    delta->evp = after->evp - evp;
+    delta->lck = after->lck - lck;
+    delta->hp_max = after->hp_max - hp_max;
+    delta->tp_max = after->tp_max - tp_max;
 }
 
 #pragma fp_contract on
-void TObjPlayer::copy_offset_position(void *chara) {
-    f32 temp_f2;
-
-    temp_f2 = ((TObjPlayer *)chara)->get_stats()->proportions;
-    *(f32 *)((s8 *)this + 0) = (f32) ((TObjPlayer *)chara)->position.x;
-    *(f32 *)((s8 *)this + 4) = (f32) ((1.2f * temp_f2) + ((TObjPlayer *)chara)->position.y);
-    *(f32 *)((s8 *)this + 8) = (f32) ((TObjPlayer *)chara)->position.z;
+void calc_marker_position(Vec *pos, TObjPlayer *player) {
+    f32 proportions = player->get_stats()->proportions;
+    pos->x = player->position.x;
+    pos->y = 1.2f * proportions + player->position.y;
+    pos->z = player->position.z;
 }
 
 s32 TObjPlayer::decrement_clamp(s32 *value, s32 amount) {
@@ -647,70 +631,79 @@ void BattleMusicState::clear_target_lock() { ((FlagWord *)&flags)->set(1); TLobb
 
 void BattleMusicState::reset_ring() { ((FlagWord *)&flags)->clear(1); set_lock_timer(-1); TLobby::set_target_id(0); }
 
-void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; }
-
-void save_render_material_state(u8 *state) {
-    *(s32 *)((s8 *)state + 0) = (s32) model_render_flags;
-    *(s32 *)((s8 *)state + 4) = (s32) chunk_polygon_flags_and_mask;
-    *(s32 *)((s8 *)state + 8) = (s32) chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)(state + 0xC), &model_material_color);
+void RenderMaterialState::reset_fade_color() {
+    fade_color.a = 1.0f;
+    fade_color.r = 1.0f;
+    fade_color.g = 1.0f;
+    fade_color.b = 1.0f;
 }
 
-void TObjPlayer::write_ids() { set_model_render_flags((saddr)this->m_name); set_chunk_material_override_pair((saddr)(*(void**)((char*)this + 0x4)), (saddr)this->m_prev); set_constant_material((const NJS_ARGB *)(((char*)this + 0xc))); }
+void RenderMaterialState::save() {
+    render_flags = model_render_flags;
+    polygon_and_mask = chunk_polygon_flags_and_mask;
+    polygon_or_mask = chunk_polygon_flags_or_mask;
+    copy_argb(&color, &model_material_color);
+}
 
-void reset_player_appearance_opacity(void* a0) { *(float*)((char*)a0 + 0x1c) = 1.0f; }
+void RenderMaterialState::restore() {
+    set_model_render_flags(render_flags);
+    set_chunk_material_override_pair(polygon_and_mask, polygon_or_mask);
+    set_constant_material(&color);
+}
 
-void TObjPlayer::enter_battle_state() {
-    saddr player;
+void RenderMaterialState::reset_opacity() { fade_color.a = 1.0f; }
 
-    player = (saddr)get_player_by_client_id(*(u16 *)((s8 *)this + 0));
-    if ((player != 0) && (fn_801C6F2C((u8 *)this) == 0)) {
-        *(s32 *)((s8 *)this + 4) = 0;
-        ((TObjPlayer *)player)->deactivate_body_collision();
-        *(s16 *)((s8 *)this + 2) = 4;
+void PlayerAppearFade::begin() {
+    TObjPlayer *player;
+
+    player = get_player_by_client_id(client_id);
+    if ((player != NULL) && (is_fading() == 0)) {
+        state = WAITING;
+        player->deactivate_body_collision();
+        delay = 4;
     }
 }
 
 #pragma push
 #pragma opt_common_subs off
-void update_player_appear_fade(u8 *arg0) {
-    f32 var_f31;
-    u8 *player;
-    player = (u8 *)(get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0)));
+void PlayerAppearFade::update() {
+    f32 alpha;
+    TObjPlayer *player;
+    player = get_player_by_client_id(client_id);
     if (player != NULL) {
-        switch (*(s32 *)((s8 *)arg0 + 4)) {
-        case 2:
+        switch (state) {
+        case SHOWN:
         default:
             break;
-        case 0:
-            if ((((TObjPlayer *)player)->is_inactive() != 0) && (((TObjPlayer *)player)->check_flag_40000() == 0) && (((TObjPlayer *)player)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((TObjPlayer *)player) != 0)) {
-                if (--*(s16 *)((s8 *)arg0 + 2) < 0) {
+        case WAITING:
+            if ((player->is_inactive() != 0) && (player->check_flag_40000() == 0) && (player->check_flag_04000000() != 0) && (player->is_on_current_floor() != 0)) {
+                if (--delay < 0) {
                     if (TCameraCtrl::get_mode() != 0) {
-                        ((TObjPlayer *)player)->render_material_state.alpha = 1.0f;
-                        *(s32 *)((s8 *)arg0 + 4) = 2;
+                        player->render_material_state.fade_color.a = 1.0f;
+                        state = SHOWN;
                         return;
                     }
-                    *(s32 *)((s8 *)arg0 + 4) = 1;
-                    ((TObjPlayer *)player)->activate_body_collision();
-                    if (((TObjCollidable *)player)->test_actor_flags(0x800) == 0) {
-                        TObjPlayer::spawn_appearance_effect((int) (*(u16 *)((s8 *)arg0 + 0)));
+                    state = FADING_IN;
+                    player->activate_body_collision();
+                    if (player->test_actor_flags(0x800) == 0) {
+                        TObjPlayer::spawn_appearance_effect((int) client_id);
                     }
-                    ((TObjPlayer *)player)->render_material_state.alpha = 0.0f;
-                    ((TObjPlayer *)player)->refresh_equipment_slot();
+                    player->render_material_state.fade_color.a = 0.0f;
+                    player->refresh_equipment_slot();
                     return;
                 }
             }
             break;
-        case 1:
-            var_f31 = ((TObjPlayer *)player)->render_material_state.alpha;
-            var_f31 += 0.1f;
-            if (var_f31 >= 1.0f) {
-                var_f31 = 1.0f;
-                *(s32 *)((s8 *)arg0 + 4) = 2;
-                ((TObjPlayer *)player)->set_visible_flag();
-                ((TObjPlayer *)player)->activate_body_collision();
+        case FADING_IN:
+            alpha = player->render_material_state.fade_color.a;
+            alpha += 0.1f;
+            if (alpha >= 1.0f) {
+                alpha = 1.0f;
+                state = SHOWN;
+                player->set_visible_flag();
+                player->activate_body_collision();
             }
-            ((TObjPlayer *)player)->render_material_state.alpha = var_f31;
+            player->render_material_state.fade_color.a = alpha;
             break;
         }
     }
@@ -735,20 +728,20 @@ void PlayerDeathSink::calc_height(TObjPlayer *player) {
 #pragma pop
 
 TForceOperate::TForceOperate(TObject *parent, u16 id) : TObject(parent) {
-    m_name = TForceOperate__name;
-    m_1c.set_field_0(id);
+    m_name = class_name;
+    player_ref.set_client_id(id);
 }
 
 void TForceOperate::run_task() {
-    void *state;
+    TObjPlayer *player;
     TObjCollidable *entity;
 
-    if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
-        state = (void *)((TMainCursor *)(&m_1c))->get_state();
-        if ((((TObjPlayer *)state)->is_target_valid() != 0) && (((TObjPlayer *)state)->has_action_palette_entry() != 0)) {
-            entity = find_entity_by_id(((TMainCursor *)&((TObjPlayer *)state)->lock_on_cursor->selection.target)->get_id());
+    if (player_ref.resolve() != 0) {
+        player = player_ref.get_player();
+        if ((player->is_target_valid() != 0) && (player->has_action_palette_entry() != 0)) {
+            entity = find_entity_by_id(((TMainCursor *)&player->lock_on_cursor->selection.target)->get_id());
             if (entity != NULL) {
-                entity->interact(((TObjBase *)((saddr)state))->get_entity_id());
+                entity->interact(player->get_entity_id());
                 queue_destruction();
             }
         }
@@ -779,10 +772,10 @@ TPlayerLobbyMarker::~TPlayerLobbyMarker() {}
 
 void TObjPlayer::set_visible_flag() { set_state_flags(0x200000); }
 s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)((void*)4194304)); }
-void TObjPlayer::clear_flag_8000() { clear_state_flags((saddr)((void*)32768)); }
-s32 TObjPlayer::check_flag_0x8000() { return check_flag(0x8000); }
+void TObjPlayer::clear_quest_control_flag() { clear_state_flags(0x8000); }
+s32 TObjPlayer::check_quest_control_flag() { return check_flag(0x8000); }
 PlayerRestoreSizePacket *PlayerRestoreSizePacket::copy_from(const PlayerRestoreSizePacket &source) {
-    copy_subcommand_header(this, const_cast<PlayerRestoreSizePacket *>(&source));
+    copy_subcommand_header(this, &source);
     return this;
 }
 
@@ -802,7 +795,7 @@ void PlayerShrinkPacket::byte_swap() {
 }
 
 PlayerShrinkPacket *PlayerShrinkPacket::copy_from(const PlayerShrinkPacket &source) {
-    copy_subcommand_header(this, const_cast<PlayerShrinkPacket *>(&source));
+    copy_subcommand_header(this, &source);
     scalar = source.scalar;
     return this;
 }
@@ -818,10 +811,12 @@ void PlayerShrinkPacket::send() {
     send_subcommand((u8 *)this);
 }
 
-u16 TObjPlayer::interpolate_angle(void *unused, u16 from, u16 to, s32 *step) {
+s32 TObjPlayer::interpolate_angle(s32 from_angle, s32 to_angle, s32 *step) {
+    u16 from = from_angle;
+    u16 to = to_angle;
     s16 diff;
     s32 turn;
-    diff = (s16)((u16)to - from);
+    diff = (s16)(to - from);
     if (diff > -0x3000 && diff < 0x3000) {
         turn = (diff >> 4) - (diff >> 5);
     } else {

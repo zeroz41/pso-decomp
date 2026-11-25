@@ -11,6 +11,10 @@ public:
     virtual ~TEquippedItemDrawTask();
     virtual void render();
     virtual void run_task();
+
+    static void create(TObject *parent);
+    static void create_queue();
+    static void destroy_queue();
 };
 LAYOUT_ASSERT(TEquippedItemDrawTask_size, sizeof(TEquippedItemDrawTask) == 0x1C);
 

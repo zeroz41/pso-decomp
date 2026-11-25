@@ -24,7 +24,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/AltModel.h"
 
 #include "pso/render/TUnk_80494938.h"
 #include <stddef.h>
@@ -55,7 +55,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
@@ -173,7 +173,7 @@ void TObjEneMe1Canadin::load_resources() {
     model2 = bm_ene_me1_mb_resource->models[0].model;
     canadin_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 3)->model)->polygon_list + 2);
     canadin_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 2)->model)->polygon_list + 2);
-    TObjPlayer::init_alt_model();
+    init_alt_model();
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { bm_ene_me1_mb_resource->motions, canadin_action_table, 0, 0, 7 };
     for (i = 0; i < 2; i++) {
@@ -698,7 +698,7 @@ void TObjEneMe1Canadin::set_flag3c8_bit40() { status_flags |= 0x40; }
 
 void TObjEneMe1Canadin::deliver_discharge_attack(Vec *pos) {
     DragonAttackParams params = canadin_discharge_attack_params;
-    params.power = kind_params->ranged_power;
+    params.attack.power = kind_params->ranged_power;
     TObjEneDD::setup(this, pos, &params);
 }
 
@@ -1582,7 +1582,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         if (this->stage >= 0x96) {
             DragonAttackParams c = canadin_self_destruct_attack_params;
             TObjEneMe1CanadinParams *t = this->kind_params;
-            c.power = t->self_destruct_power;
+            c.attack.power = t->self_destruct_power;
             TObjEneDD__sub_800BA5A4(this, &c);
             this->status_flags |= 0x800000;
         }
@@ -1794,7 +1794,7 @@ void TObjEneMe1Canadin::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         apply_model_color();
         push_matrix();
         post_translate_matrix(&position.x);
@@ -1864,7 +1864,7 @@ void TObjEneMe1Canadin::render_demo() {
     }
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         draw_ground_shadow(0, 0);
-        TObjPlayer::toggle_particle_effect();
+        toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

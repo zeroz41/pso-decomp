@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 

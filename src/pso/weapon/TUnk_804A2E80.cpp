@@ -4,7 +4,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A2E80::vfunc_60() {
+void TUnk_804A2E80::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         scale_current_matrix(&scale.x);
     }

@@ -2,7 +2,7 @@
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/TLobby.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 
 

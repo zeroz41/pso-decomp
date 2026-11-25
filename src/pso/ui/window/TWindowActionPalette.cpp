@@ -22,7 +22,7 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
@@ -54,10 +54,8 @@ struct Rect_80243B6C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 struct Ctx_80243B6C { f32 x; f32 y; u8 pad8[0x34 - 0x8]; s32 tex; };
 
 extern "C" {
-s8 clamp_char_at__10TObjPlayerFl(u32, s32);
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
-u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 s32 is_palettex_activated(u16 client_index);
 s32 TObjPlayer__sub_80354C7C(u16);
 s32 TWindowSubComCard__sub_802452DC(int);
@@ -162,14 +160,14 @@ TWindowActionPalette::~TWindowActionPalette() {}
 
 void TWindowActionPalette::run_task() {
     TObjPlayer *player;
-    saddr effect;
+    TPlyDispConfigSmth *palette;
     s32 slot;
     u16 v;
     u16 target;
     u8 cnt;
     u8 *help;
     player = get_player_by_client_id(client_index);
-    if (player == NULL || (effect = player->refresh_effect()) == 0) {
+    if (player == NULL || (palette = (TPlyDispConfigSmth *)player->refresh_effect()) == NULL) {
         return;
     }
     if (!(this->window_flags & 2)) {
@@ -190,22 +188,22 @@ void TWindowActionPalette::run_task() {
     }
     v = select_action_palette_and_apply__10TObjPlayerFlll(player, 0, 0, 0);
     if (v == 0) {
-        v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 1);
-        update_slot_sprites(0, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 1), v);
+        v = palette->get_current_tag_slot(1);
+        update_slot_sprites(0, palette->get_current_tag_mode(1), v);
     } else {
         update_slot_sprites(0, 7, v);
     }
-    if (is_palettex_activated((u16)client_index) != 0 && ((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
+    if (is_palettex_activated((u16)client_index) != 0 && ((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {
         update_slot_icon(1, 7, 7);
     } else {
-        v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 2);
-        update_slot_sprites(1, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 2), v);
+        v = palette->get_current_tag_slot(2);
+        update_slot_sprites(1, palette->get_current_tag_mode(2), v);
     }
-    v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 3);
-    update_slot_sprites(2, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 3), v);
+    v = palette->get_current_tag_slot(3);
+    update_slot_sprites(2, palette->get_current_tag_mode(3), v);
     target = TObjPlayer::get_current_target_id();
     if (target == 0xFFFF || target == client_index || player->get_photon_blast_charge() <= 0) {
-        if (((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
+        if (((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {
             if (is_split_screen() != 0) {
                 set_bank_panel_art(3);
             } else {
@@ -445,17 +443,17 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
 #pragma fp_contract on
 void update_palette_item_count_label(TUnk_804CF9C8 *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id) {
     s32 v;
-    u32 p;
+    TObjPlayer *p;
     if (group != 4) {
         reinterpret_cast<TWindowHelpItem *>(label)->set_flag0_bit2();
         return;
     }
     if (index >= 0xD) {
-        p = (uaddr)get_player_by_client_id(client_id);
-        if (p == 0) {
+        p = get_player_by_client_id(client_id);
+        if (p == NULL) {
             v = 0;
         } else {
-            v = clamp_char_at__10TObjPlayerFl(p + 0x7C4, index - 0xD);
+            v = p->trap_counts.get_count(index - 0xD);
         }
     } else {
         v = TWindowHelpItem::get_help_value(index, client_id);
@@ -479,7 +477,7 @@ s32 get_palette_consumable_count(u16 slot, s32 client_id) {
         return -1;
     }
     if (slot >= 13) {
-        if ((s8)((TObjPlayer *)((uaddr)player + 0x7C4))->clamp_char_at(slot - 13) > 0) {
+        if (player->trap_counts.get_count(slot - 13) > 0) {
             return slot;
         }
         return -1;

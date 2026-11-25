@@ -42,7 +42,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/unk/TLobby_801461EC.h"
@@ -2054,7 +2054,7 @@ s32 TAdSinglePlyChrSelectGC::setup_player_battle_ctrls(void) {
       char_data = TAdSinglePlyChrSelectGC::get_char_index(i);
       if (char_data != NULL)
       {
-        ((TObjPlayer *)char_data)->try_assign_battle_ctrl((u16) i);
+        char_data->capture_client_player((u16) i);
       }
       character_save_record = (CharacterSaveRecord *) get_character_save_record(i);
       if (character_save_record != 0)
@@ -2710,8 +2710,8 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
         init_class_starting_inventory((void *)selected_character_data);
         TPlyCharData *character = (TPlyCharData *)selected_character_data;
         init_character_stats_for_level(character->m_disp_part2.char_class, character, character->m_stats.level);
-        ((TObjPlayer *)selected_character_data)->reset_action_palette();
-        ((TObjPlayer *)selected_character_data)->m_36c = 0;
+        selected_character_data->reset_technique_levels();
+        ((TObjPlayer *)selected_character_data)->return_city_window = 0;
     }
     if ((void *) active_character_save_record != NULL) {
         memset((u8 *)active_character_save_record + 0x250, 0, 0x12C0);

@@ -8,7 +8,7 @@
 #include "pso/object/collision/TObjTradeCollision.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/PlayerSlots.h"
 

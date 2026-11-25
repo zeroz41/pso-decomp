@@ -6,7 +6,7 @@
 #include "pso/item/TItem.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/unk/text_8011B328.h"
 #include "pso/unk/text_8011B620.h"
 #include "pso/weapon/TUnk_804A66D8.h"
