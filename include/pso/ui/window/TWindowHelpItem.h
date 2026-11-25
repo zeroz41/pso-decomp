@@ -8,22 +8,13 @@
 #include <stddef.h>
 
 struct PageIndicator;
+class TUnk_804CF9F8;
 
 // One of a weapon's three attribute slots: the area it boosts (1-5) and the
 // percentage.
 struct WeaponAttribute {
     u8 area;
     s8 percent;
-};
-
-struct HelpItemStarRowEntry {
-    u8 pad0[0x10];
-    s32 stars;
-};
-
-struct HelpItemLevelEntry {
-    u8 pad0[0x20];
-    s32 value;
 };
 
 // Layout tables of the help item window (cols, rows, then the records read by
@@ -166,7 +157,7 @@ struct TWindowHelpItem : public TWindowBase
     void update_requirements();
     void update_level_requirement();
     void update_stat_comparison();
-    void set_percentage_rows(WeaponAttribute *attributes, void (TWindowHelpItem::*set)(s32));
+    void set_percentage_rows(WeaponAttribute *attributes, void (TUnk_804CF9F8::*set)(s32));
     void init_help_texts();
     void invoke_callback_pmf();
     void dispatch_item_help();
@@ -176,21 +167,11 @@ struct TWindowHelpItem : public TWindowBase
     void set_displayed_item_data(void* a1, void* a2);
     void set_items_and_refresh(void* a1, void* a2);
     void update_cursor_selection();
-    void set_flag0_bit20();
-    void update_visible_flags();
-    static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
-    static void set_flag_0x10(u16 *flags, s32 enable);
-    void set_compare_value(s32 value);
-    void set_compare_color(s32 count);
-    void set_value(s32 value);
-    void set_help_text(uaddr str);
     void reset_float_field();
     s32 is_item_already_equipped();
     void format_description_with_price();
     void refresh_copied_items();
     void update_stat_disp2();
-    static void tick_display_timer(void *entry);
-    static void *destroy(void *entry, s16 flags);
 };
 
 LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);

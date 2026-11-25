@@ -1790,9 +1790,9 @@ force_active:
   - TWindowGetComCard__sub_8007B60C
   - item_layout_entries__15TWindowHelpItem
   - resistance_layout_entries__15TWindowHelpItem
-  - TWindowHelpItem__sub_8025A600
-  - TWindowHelpItem__sub_8025A900
-  - TWindowHelpItem__sub_8025A904
+  - is_flag20_set__13TUnk_804CF9F8Fv
+  - update__13TUnk_804CFA10Fv
+  - __dt__13TUnk_804CFA10Fv
   - show_weapon_requirements__15TWindowHelpItemFv
   - show_weapon_attributes__15TWindowHelpItemFv
   - show_armor_requirements__15TWindowHelpItemFv
@@ -5627,7 +5627,7 @@ force_active:
   - __dt__13TPhotonFarllaFv
   - __dt__18TObjEneBm5WolfNodeFv
   - __dt__15TORockJungleL01Fv
-  - destroy__15TWindowHelpItemFPvs
+  - __dt__13TUnk_804CF9F8Fv
   - __dt__20TObjEneBm5GibonUNodeFv
   - __dt__16TObjOnlineEndingFv
   - __dt__19TBoss8DragonColli_CFv
@@ -5874,7 +5874,7 @@ force_active:
   - draw_node_tree__16TObjEneRe7BeruraFP10NJS_OBJECT
   - draw_node_tree__18TObjLaboDesignBaseFP10NJS_OBJECT
   - draw_node_tree__19TODoorFourLightBaseFPUc
-  - draw_number_value__15TWindowHelpItemFPvPflll
+  - draw_number_value__13TUnk_804CF9F8FPflll
   - draw_object_tree__11TObjDoaEx01Fl
   - draw_object_tree__14TOTrapSeabed01FPUc
   - draw_object_tree_recursive__FP10NJS_OBJECT
@@ -8039,8 +8039,8 @@ force_active:
   - com_card_layout_entries
   - com_card_follower_layout_entries
   - __vt__22TWindowComCardFollower
-  - lbl_804CF9F8
-  - lbl_804CFA10
+  - __vt__13TUnk_804CF9F8
+  - __vt__13TUnk_804CFA10
   - lbl_804CFA28
   - lbl_804D0D98
   - lbl_804D4090
@@ -14480,7 +14480,7 @@ force_active:
   - render_geometry__9TMainTaskFv
   - render_ground__5TItemFv
   - render_guard_effect__19TObjEneEpsilonGuardFv
-  - render_item_rarity_stars
+  - render__13TUnk_804CFA10FP17WindowDrawContext
   - render_lazer_fence_model__19TObjLazerFenceExtraFv
   - render_lights__19TODoorFourLightBaseFv
   - render_low_detail__12TBoss1DragonFv
@@ -14509,7 +14509,7 @@ force_active:
   - render_static_map_section__6TSceneFP20SceneMaterialSectionl
   - render_status__14TWindowDepositFP17WindowDrawContext
   - render_status__18TAdMultiPlayerNoGCFv
-  - render_summary_row__15TWindowHelpItemFv
+  - render__13TUnk_804CF9F8FP17WindowDrawContext
   - render_text_entry
   - render_tree__10TObjPlayerFPv
   - render_ui__9TMainTaskFv
@@ -15525,7 +15525,7 @@ force_active:
   - set_password__17TAdEnterPPPPassGCFPCc
   - set_password__18TAdEnterPasswordGCFPCc
   - set_path_points__9TBoss6MagFP3Vecl
-  - set_percentage_rows__15TWindowHelpItemFP15WeaponAttributeM15TWindowHelpItemFPCvPvl_v
+  - set_percentage_rows__15TWindowHelpItemFP15WeaponAttributeM13TUnk_804CF9F8FPCvPvl_v
   - set_phase_555__11TBoss6Type1Fv
   - set_phase_90__11TBoss6Type1Fv
   - set_phase_timer_3E__11TBoss6Type1Fv
@@ -16478,7 +16478,7 @@ force_active:
   - update_shoot__9TBoss6MagFv
   - tick_battle_music_timer__16BattleMusicStateFv
   - tick_countdown__11TBoss6Type1Fv
-  - tick_display_timer__15TWindowHelpItemFPv
+  - update__13TUnk_804CF9F8Fv
   - tick_fade_counter__21TScreenFadeControllerFv
   - tick_flee_countdown__11TBoss6Type1Fv
   - tick_fullness_timer__8TItemMagFv

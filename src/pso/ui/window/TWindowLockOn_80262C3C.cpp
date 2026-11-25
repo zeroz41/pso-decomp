@@ -119,12 +119,6 @@ struct LockOnEntry {
     u8 kind;
 };
 
-struct LockOnEntryGrade {
-    u16 flags;
-    u8 pad_2[0xE];
-    s32 grade;
-};
-
 struct LockOnEntryText {
     u8 pad_0[8];
     f32 y;
@@ -274,7 +268,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
 #pragma fp_contract on
 void TWindowLockOn::update_for_item(TItem *item) {
     LockOnEntry *e;
-    LockOnEntry *e2;
+    TUnk_804CFA10 *e2;
     f32 r;
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lockon_window_layout_entries, client_index);
     m_70 = &TWindowLockOn::refresh_ground_item;
@@ -287,12 +281,12 @@ void TWindowLockOn::update_for_item(TItem *item) {
     }
     target_size[0] = e->w;
     target_size[1] = 38.0f;
-    e2 = (LockOnEntry *)get_array_entry(1);
+    e2 = (TUnk_804CFA10 *)get_array_entry(1);
     if (item->get_item_type() == 0 || item->get_item_type() == 1) {
-        ((LockOnEntryGrade *)e2)->grade = (u8)item->calc_display_grade();
+        e2->stars = (u8)item->calc_display_grade();
         target_size[1] += 20.0f;
         e2->flags &= ~2;
-        r = get_item_star_row_width((u8 *)e2);
+        r = e2->get_item_star_row_width();
         if (target_size[0] < r) {
             target_size[0] = r;
         }

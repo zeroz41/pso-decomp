@@ -16,37 +16,21 @@
 
 struct UV_8025A650 { f32 u; f32 v; };
 
-
-struct Item_8025A650 { u8 p0[8]; f32 x; f32 y; s32 count; };
-
-struct Ctx_8025A650 { u8 p0[0x10]; f32 x; f32 y; u8 p18[0x18]; s32 f30; u8 p34[4]; f32 z; };
-
-extern "C" {
-void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx);
-}
-
 extern const UV_8025A650 item_rarity_star_uv_table[4] = {
     { 0.0f, 239.0f }, { 17.0f, 239.0f }, { 34.0f, 239.0f }, { 51.0f, 239.0f },
 };
 
-void *lbl_804CFA10[6] = {
-    0, 0,
-    (void *)TWindowHelpItem__sub_8025A904,
-    (void *)TWindowHelpItem__sub_8025A900,
-    (void *)render_item_rarity_stars,
-    0,
-};
+f32 TUnk_804CFA10::get_item_star_row_width() {
+    s32 slots;
 
-f32 get_item_star_row_width(u8 *entry) {
-    s32 var_r0;
-    var_r0 = *(s32 *)((s8 *)entry + 0x10);
-    if (var_r0 < 0xA) {
-        var_r0 = 0xA;
+    slots = stars;
+    if (slots < 10) {
+        slots = 10;
     }
-    return 17.0f * (f32) var_r0;
+    return 17.0f * (f32)slots;
 }
 
-void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
+void TUnk_804CFA10::render(WindowDrawContext *context) {
     TexturedQuad q;
     f32 depth2;
     f32 x;
@@ -55,17 +39,17 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
     s32 n;
     const UV_8025A650 *uv;
     f32 depth;
-    if (ctx->f30 < 0) {
+    if (context->open_tick < 0) {
         return;
     }
     set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(1, -1);
-    x = ctx->x + item->x;
-    y = ctx->y + item->y;
-    depth = -1.0f / (0.1196f + ctx->z);
-    for (i = 0; i < item->count; i++) {
+    x = context->inner_x + pos[0];
+    y = context->inner_y + pos[1];
+    depth = -1.0f / (0.1196f + context->depth);
+    for (i = 0; i < stars; i++) {
         if (i < 9) {
             uv = &item_rarity_star_uv_table[1];
         } else {
@@ -79,16 +63,16 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
         q.v0 = uv->v / 256.0f;
         q.u1 = (16.0f + uv->u) / 256.0f;
         q.v1 = (16.0f + uv->v) / 256.0f;
-        if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+        if (context->clip_and_transform_quad(&q) != 0) {
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
         x += 17.0f;
     }
     uv = item_rarity_star_uv_table;
-    x = ctx->x + item->x;
-    y = ctx->y + item->y;
-    depth2 = -1.0f / (0.0897f + ctx->z);
-    n = item->count;
+    x = context->inner_x + pos[0];
+    y = context->inner_y + pos[1];
+    depth2 = -1.0f / (0.0897f + context->depth);
+    n = stars;
     if (n < 10) {
         n = 10;
     }
@@ -101,7 +85,7 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
         q.v0 = uv->v / 256.0f;
         q.u1 = (16.0f + uv->u) / 256.0f;
         q.v1 = (16.0f + uv->v) / 256.0f;
-        if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+        if (context->clip_and_transform_quad(&q) != 0) {
             draw_textured_quad_at_depth((f32 *)&q, depth2);
         }
         x += 17.0f;
@@ -110,23 +94,11 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
     set_default_alpha_blend();
 }
 
-void TWindowHelpItem__sub_8025A900(void) {  }
+void TUnk_804CFA10::update() {}
 
-void *TWindowHelpItem__sub_8025A904(void *entry, s16 flags) {
-    if (entry != NULL) {
-        *(void ***)((s8 *)entry + 4) = lbl_804CFA10;
-        __dt__18TWindowLayoutEntryFv(entry, 0);
-        if (flags > 0) {
-            ::operator delete(entry);
-        }
-    }
-    return entry;
-}
+TUnk_804CFA10::~TUnk_804CFA10() {}
 
-u8 *TWindowHelpItem__sub_8025A95C(u8 *entry, saddr rec, s32 client) {
-    __ct__18TWindowLayoutEntryFl(entry, client);
-    *(s32 **)((s8 *)entry + 4) = ((s32 *)&lbl_804CFA10);
-    copy_vec2((entry + 8), (void *)(rec + 4));
-    *(s32 *)((s8 *)entry + 0x10) = 0;
-    return entry;
+TUnk_804CFA10::TUnk_804CFA10(PointLayoutRecord *rec, s32 client) : TWindowLayoutEntry(client) {
+    copy_vec2(pos, rec->pos);
+    stars = 0;
 }

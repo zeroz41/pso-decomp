@@ -93,8 +93,8 @@ struct TypeLayoutRecord {
     s32 type;
 };
 
-// Types 10 and 11 (0xC bytes), read by TWindowHelpItem__sub_8025A95C and
-// TWindowHelpItem__sub_8025A594.
+// Types 10 and 11 (0xC bytes), read by the TUnk_804CFA10 and TUnk_804CF9F8
+// constructors.
 struct PointLayoutRecord {
     s32 type;
     f32 pos[2];

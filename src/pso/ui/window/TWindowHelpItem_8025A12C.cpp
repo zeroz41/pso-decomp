@@ -3,6 +3,7 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowHelpItem_8025A12C.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/system/memory.h"
@@ -16,186 +17,132 @@
 #include <string.h>
 #pragma readonly_strings on
 
-typedef struct Item_8025A354 {
-    u16 flags;
-    u8 pad2[6];
-    f32 x;
-    f32 y;
-    s32 value10;
-    s32 animation;
-    char *label;
-    s32 cur;
-    s32 next;
-} Item_8025A354;
-
-typedef struct Win_8025A354 {
-    u8 pad0[0x10];
-    f32 x;
-    f32 y;
-    u8 pad18[0x18];
-    s32 f30;
-    u8 pad34[4];
-    f32 f38;
-} Win_8025A354;
-
-extern "C" {
-void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *w);
-
-void *lbl_804CF9F8[6] = {
-    0, 0,
-    (void *)TWindowHelpItem::destroy,
-    (void *)TWindowHelpItem::tick_display_timer,
-    (void *)render_summary_row__15TWindowHelpItemFv,
-    0,
-};
-
-void TWindowHelpItem::update_visible_flags() {
-    u16 *arg0 = (u16 *)this;
-    s32 temp_r3;
-    u16 temp_r0;
-
-    temp_r0 = *arg0;
-    temp_r3 = temp_r0 & 4;
-    if ((temp_r3 != 0) || (temp_r0 & 8)) {
-        if (temp_r3 == 0) {
+void TUnk_804CF9F8::update_visible_flags() {
+    if ((flags & 4) || (flags & 8)) {
+        if (!(flags & 4)) {
             set_value(0);
         }
-        if (!(*arg0 & 8)) {
+        if (!(flags & 8)) {
             set_compare_value(0);
         }
     }
 }
 
-void TWindowHelpItem::draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent) {
+void TUnk_804CF9F8::draw_number_value(f32 *pos, s32 value, s32 color, s32 percent) {
     f32 xy[2];
+
     text_builder_reset();
     text_builder_append_int(value);
     if (percent) {
-        text_builder_append((u8 *)((void *)"%"));
+        text_builder_append((u8 *)"%");
     }
-    xy[0] = pos[0] - (f32)calc_text_width((char *)((void *)get_shared_text_buffer()));
+    xy[0] = pos[0] - (f32)calc_text_width((char *)get_shared_text_buffer());
     xy[1] = pos[1];
-    draw_window_text((f32 *)xy, (const char *)((void *)get_shared_text_buffer()), color, 0, 1000000.0f);
+    draw_window_text(xy, (const char *)get_shared_text_buffer(), color, 0, 1000000.0f);
 }
 
-void TWindowHelpItem::set_flag_0x10(u16 *flags, s32 enable) {
+void TUnk_804CF9F8::set_flag_0x10(s32 enable) {
     if (enable != 0) {
-        *flags |= 0x10;
+        flags |= 0x10;
         return;
     }
-    *flags &= 0xFFFFFFEF;
+    flags &= ~0x10;
 }
 
-void TWindowHelpItem::set_compare_value(s32 value) {
-    *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 8);
-    reinterpret_cast<Item_8025A354 *>(this)->next = value;
+void TUnk_804CF9F8::set_compare_value(s32 value) {
+    flags |= 8;
+    compare_value = value;
 }
 
-void TWindowHelpItem::set_compare_color(s32 count) {
-    s32 cur;
-
-    cur = reinterpret_cast<Item_8025A354 *>(this)->cur;
-    if (cur == count) {
-        reinterpret_cast<Item_8025A354 *>(this)->value10 = -1;
+void TUnk_804CF9F8::set_compare_color(s32 new_value) {
+    if (value == new_value) {
+        value_color = -1;
         return;
     }
-    if (cur > count) {
-        reinterpret_cast<Item_8025A354 *>(this)->value10 = 0xFF77E8FF;
+    if (value > new_value) {
+        value_color = 0xFF77E8FF;
     } else {
-        reinterpret_cast<Item_8025A354 *>(this)->value10 = 0xFFDD8C41;
+        value_color = 0xFFDD8C41;
     }
-    reinterpret_cast<Item_8025A354 *>(this)->animation = 0x1E;
-    set_value(count);
+    flash_timer = 30;
+    set_value(new_value);
 }
 
-void TWindowHelpItem::set_value(s32 value) {
-    *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 4);
-    reinterpret_cast<Item_8025A354 *>(this)->cur = value;
+void TUnk_804CF9F8::set_value(s32 value) {
+    flags |= 4;
+    this->value = value;
 }
 
-void TWindowHelpItem::set_help_text(uaddr str) {
-    s32 temp_r3;
+void TUnk_804CF9F8::set_help_text(uaddr str) {
+    s32 len;
 
-    mem_free(reinterpret_cast<Item_8025A354 *>(this)->label);
-    reinterpret_cast<Item_8025A354 *>(this)->label = NULL;
+    mem_free(label);
+    label = NULL;
     if (str != 0U) {
-        temp_r3 = (s32)measure_string_len((const char *)(str));
-        reinterpret_cast<Item_8025A354 *>(this)->label = static_cast<char *>(mem_alloc(temp_r3 + 1));
-        strncpy(reinterpret_cast<Item_8025A354 *>(this)->label, reinterpret_cast<const char *>(str), (u32)temp_r3 + 1);
+        len = (s32)measure_string_len((const char *)str);
+        label = (char *)mem_alloc(len + 1);
+        strncpy(label, (const char *)str, (u32)len + 1);
     }
 }
 
-void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *w) {
-    NJS_POINT2 pos;
+void TUnk_804CF9F8::render(WindowDrawContext *context) {
+    NJS_POINT2 text_pos;
     s32 color;
-    if (w->f30 < 0) {
+
+    if (context->open_tick < 0) {
         return;
     }
-    if (!(self->flags & 4) && !(self->flags & 8)) {
+    if (!(flags & 4) && !(flags & 8)) {
         return;
     }
-    pos.x = w->x + self->x;
-    pos.y = w->y + self->y;
-    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(w), 1, 0, (f32)(-1.0f / (0.0897f + w->f38)), 100000.0f);
-    draw_window_text((f32 *)&pos, self->label, -1, 1, 100000.0f);
-    pos.x += 86.0f;
-    draw_window_text((f32 *)&pos, (const char *)((void *)":"), -1, 0, 100000.0f);
-    pos.x += 64.0f;
-    if (self->flags & 4) {
-        TWindowHelpItem::draw_number_value(self, (f32 *)&pos, self->cur, self->value10, (s32)(TWindowHelpItem__sub_8025A600(self)));
+    text_pos.x = context->inner_x + pos[0];
+    text_pos.y = context->inner_y + pos[1];
+    set_text_draw_params(context, 1, 0, -1.0f / (0.0897f + context->depth), 100000.0f);
+    draw_window_text((f32 *)&text_pos, label, -1, 1, 100000.0f);
+    text_pos.x += 86.0f;
+    draw_window_text((f32 *)&text_pos, ":", -1, 0, 100000.0f);
+    text_pos.x += 64.0f;
+    if (flags & 4) {
+        draw_number_value((f32 *)&text_pos, value, value_color, is_flag20_set());
     }
-    if (self->flags & 8) {
-        draw_window_text((f32 *)&pos, (const char *)((void *)"\tJ\x81\xA8"), -1, 0, 100000.0f);
-        pos.x += 70.0f;
-        if (!(self->flags & 0x10)) {
+    if (flags & 8) {
+        draw_window_text((f32 *)&text_pos, "\tJ\x81\xA8", -1, 0, 100000.0f);
+        text_pos.x += 70.0f;
+        if (!(flags & 0x10)) {
             color = 0xFF909090;
-        } else if (self->cur == self->next) {
+        } else if (value == compare_value) {
             color = -1;
-        } else if (self->cur > self->next) {
+        } else if (value > compare_value) {
             color = 0xFF77E8FF;
         } else {
             color = 0xFFDD8C41;
         }
-        TWindowHelpItem::draw_number_value(self, (f32 *)&pos, self->next, color, (s32)(TWindowHelpItem__sub_8025A600(self)));
+        draw_number_value((f32 *)&text_pos, compare_value, color, is_flag20_set());
     }
 }
 
-void TWindowHelpItem::tick_display_timer(void *entry) {
-    s32 temp_r4;
-
-    temp_r4 = *(s32 *)((s8 *)entry + 0x14);
-    if (temp_r4 > 0) {
-        *(s32 *)((s8 *)entry + 0x14) = (temp_r4 - 1);
-        if ((s32) *(s32 *)((s8 *)entry + 0x14) <= 0) {
-            *(s32 *)((s8 *)entry + 0x10) = -1;
+void TUnk_804CF9F8::update() {
+    if (flash_timer > 0) {
+        flash_timer--;
+        if (flash_timer <= 0) {
+            value_color = -1;
         }
     }
 }
 
-void *TWindowHelpItem::destroy(void *entry, s16 flags) {
-    if (entry != NULL) {
-        *(void ***)((s8 *)entry + 4) = lbl_804CF9F8;
-        mem_free((void *)(*(saddr *)((s8 *)entry + 0x18)));
-        __dt__18TWindowLayoutEntryFv(entry, 0);
-        if (flags > 0) {
-            ::operator delete(entry);
-        }
-    }
-    return entry;
+TUnk_804CF9F8::~TUnk_804CF9F8() {
+    mem_free(label);
 }
 
-u8 *TWindowHelpItem__sub_8025A594(u8 *entry, saddr rec, s32 client) {
-    __ct__18TWindowLayoutEntryFl(entry, client);
-    *(s32 **)((s8 *)entry + 4) = ((s32 *)&lbl_804CF9F8);
-    copy_vec2((entry + 8), (void *)(rec + 4));
-    *(s32 *)((s8 *)entry + 0x10) = -1;
-    *(s32 *)((s8 *)entry + 0x14) = 0;
-    *(s32 *)((s8 *)entry + 0x18) = 0;
-    *(s32 *)((s8 *)entry + 0x1C) = 0;
-    *(s32 *)((s8 *)entry + 0x20) = 0;
-    return entry;
+TUnk_804CF9F8::TUnk_804CF9F8(PointLayoutRecord *rec, s32 client) : TWindowLayoutEntry(client) {
+    copy_vec2(pos, rec->pos);
+    value_color = -1;
+    flash_timer = 0;
+    label = NULL;
+    value = 0;
+    compare_value = 0;
 }
 
-int TWindowHelpItem__sub_8025A600(void* p) { return *(u16*)((char*)p + 0x0) & 0x20; }
-
+int TUnk_804CF9F8::is_flag20_set() {
+    return flags & 0x20;
 }
