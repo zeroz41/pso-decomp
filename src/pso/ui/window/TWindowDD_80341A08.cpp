@@ -148,8 +148,8 @@ s16 TWindowDD__sub_8034214C(const TWindowDD_WS_Word *page) {
 
 s32 TWindowDD_WS_Word::get_field_0x74() { return token_count; }
 
-void TWindowDD_WS_Word::set_pos_and_data(f32 farg0) {
-    target_position[0] = farg0;
+void TWindowDD_WS_Word::set_pos_and_data(f32 x) {
+    target_position[0] = x;
     tween_ticks = TWindowDD__data_805DFB50;
 }
 
@@ -223,18 +223,18 @@ void TWindowDD_WS_Word::init_and_mark_field8C() {
 #pragma push
 #pragma opt_common_subs off
 void TWindowDD_WS_Word::run_task() {
-    s32 temp_r3_3;
-    s32 temp_r3_4;
-    s32 temp_r4;
-    s32 temp_r4_2;
-    s32 temp_r4_3;
-    s32 temp_r5;
-    s32 var_r30;
-    s32 var_r30_2;
+    s32 count;
+    s32 top_index;
+    s32 index;
+    s32 rows;
+    s32 last_row;
+    s32 bottom_index;
+    s32 step;
+    s32 back_step;
     if (sub_80342268() != 0) {
         if (TWindowDD::apply_both_choices(&state_flags, 0x20) != 0) {
-            temp_r4 = selected_token_index;
-            if (temp_r4 < (s32) (token_count - 1)) {
+            index = selected_token_index;
+            if (index < (s32) (token_count - 1)) {
                 switch (can_scroll(1)) {
                 case 0:
                     selected_row = (s32) (selected_row + 1);
@@ -245,7 +245,7 @@ void TWindowDD_WS_Word::run_task() {
                 }
                 add_scroll_offset(1);
             } else {
-                add_scroll_offset((int)(-temp_r4));
+                add_scroll_offset((int)(-index));
                 selected_row = 0;
                 scroll_offset = 0.0f;
             }
@@ -267,20 +267,20 @@ void TWindowDD_WS_Word::run_task() {
             }
         } else if ((TWindowDD::apply_both_choices(&state_flags, 0x10000) != 0) && ((s32) selected_token_index < (s32) (token_count - 1))) {
             if (sub_80341AC0() != 0) {
-                temp_r4_2 = visible_row_count;
-                temp_r4_3 = temp_r4_2 - 1;
-                temp_r5 = selected_token_index + (temp_r4_2 - (selected_row + 1));
-                temp_r3_3 = token_count;
-                var_r30 = temp_r4_3;
-                if ((s32) (temp_r5 + temp_r4_3) >= temp_r3_3) {
-                    var_r30 = (temp_r3_3 - temp_r5) - 1;
+                rows = visible_row_count;
+                last_row = rows - 1;
+                bottom_index = selected_token_index + (rows - (selected_row + 1));
+                count = token_count;
+                step = last_row;
+                if ((s32) (bottom_index + last_row) >= count) {
+                    step = (count - bottom_index) - 1;
                 }
-                if (var_r30 <= 0) {
-                    selected_row = temp_r4_3;
+                if (step <= 0) {
+                    selected_row = last_row;
                     add_scroll_offset((int)((token_count - 1) - selected_token_index));
                 } else {
-                    add_scroll_offset(var_r30);
-                    scroll_offset = (f32) (((f32) var_r30 * TWindowDD__data_805DFB20) + scroll_offset);
+                    add_scroll_offset(step);
+                    scroll_offset = (f32) (((f32) step * TWindowDD__data_805DFB20) + scroll_offset);
                 }
             } else {
                 selected_row = (s32) (token_count - 1);
@@ -288,17 +288,17 @@ void TWindowDD_WS_Word::run_task() {
             }
         } else if ((TWindowDD::apply_both_choices(&state_flags, 0x20000) != 0) && ((s32) selected_token_index > 0)) {
             if (sub_80341AC0() != 0) {
-                var_r30_2 = visible_row_count - 1;
-                temp_r3_4 = selected_token_index - selected_row;
-                if ((temp_r3_4 - var_r30_2) < 0) {
-                    var_r30_2 = temp_r3_4;
+                back_step = visible_row_count - 1;
+                top_index = selected_token_index - selected_row;
+                if ((top_index - back_step) < 0) {
+                    back_step = top_index;
                 }
-                if (var_r30_2 <= 0) {
+                if (back_step <= 0) {
                     selected_row = 0;
                     add_scroll_offset((int)(-selected_token_index));
                 } else {
-                    add_scroll_offset((int)(-var_r30_2));
-                    scroll_offset = (f32) -(((f32) var_r30_2 * TWindowDD__data_805DFB20) - scroll_offset);
+                    add_scroll_offset((int)(-back_step));
+                    scroll_offset = (f32) -(((f32) back_step * TWindowDD__data_805DFB20) - scroll_offset);
                 }
             } else {
                 selected_row = 0;
@@ -331,29 +331,29 @@ s32 TWindowDD_WS_Word::sub_80341AC0() {
     return this->token_count > this->visible_row_count;
 }
 
-s32 TWindowDD_WS_Word::can_scroll(s32 arg1) {
+s32 TWindowDD_WS_Word::can_scroll(s32 direction) {
     s32 selected_row;
-    s32 temp_r3;
-    s32 temp_r4;
-    s32 temp_r5;
+    s32 row;
+    s32 rows;
+    s32 half_rows;
 
     if (sub_80341AC0() == 0) {
         return 0;
     }
-    temp_r4 = this->visible_row_count;
-    temp_r5 = temp_r4 / 2;
-    if (arg1 > 0) {
+    rows = this->visible_row_count;
+    half_rows = rows / 2;
+    if (direction > 0) {
         selected_row = this->selected_row;
-        if (selected_row < temp_r5) {
+        if (selected_row < half_rows) {
             return 0;
         }
-        return (this->selected_token_index + (temp_r4 - selected_row)) < this->token_count;
+        return (this->selected_token_index + (rows - selected_row)) < this->token_count;
     }
-    temp_r3 = this->selected_row;
-    if (temp_r3 >= temp_r5) {
+    row = this->selected_row;
+    if (row >= half_rows) {
         return 0;
     }
-    return ((u32) (this->selected_token_index - (temp_r3 + 1)) >> 0x1FU) ^ 1;
+    return ((u32) (this->selected_token_index - (row + 1)) >> 0x1FU) ^ 1;
 }
 
 void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {

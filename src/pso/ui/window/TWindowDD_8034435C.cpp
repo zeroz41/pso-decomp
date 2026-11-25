@@ -31,7 +31,7 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)this), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -119,7 +119,7 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)this), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -207,7 +207,7 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)this), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -1189,7 +1189,7 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8((saddr)this), value_index);
+        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -1279,7 +1279,7 @@ s32 TWindowDD::get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index)
 
     switch (mode) {
     case 0:
-        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(TWindowDD__sub_80346DB8((saddr) this), value_index);
+        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(TWindowDD__sub_80346DB8(this), value_index);
         if (var_r31 == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:

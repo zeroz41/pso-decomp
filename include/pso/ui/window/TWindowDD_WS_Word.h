@@ -14,7 +14,7 @@ public:
     void add_scroll_offset(int offset);
     void get_cursor_pos(NJS_POINT2 *position);
     s32 sub_80341AC0();
-    s32 can_scroll(s32);
+    s32 can_scroll(s32 direction);
     s32 sub_80342268();
     s32 sub_80342254();
     void load_element_list();
@@ -27,7 +27,7 @@ public:
     s32 update_if_field28_set();
     s32 get_cursor_index();
     s32 get_field_0x74();
-    void set_pos_and_data(f32 farg0);
+    void set_pos_and_data(f32 x);
     void reset_cursor();
     void set_mode_2();
     s32 state_flags; // bit 0: input and highlight off

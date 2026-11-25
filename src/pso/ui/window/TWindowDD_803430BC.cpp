@@ -355,7 +355,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
     }
   }
   depth = 0;
-  list_ids[0] = TWindowDD__sub_80346DB8((saddr) this);
+  list_ids[0] = TWindowDD__sub_80346DB8(this);
   list_ids[1] = -1;
   list_ids[2] = -1;
   {
