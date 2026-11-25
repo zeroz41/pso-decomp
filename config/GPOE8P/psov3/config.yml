@@ -16350,10 +16350,10 @@ force_active:
   - wait_card_check__17TCharSaveSequenceFv
   - draw_parts__25TBoss6Demo10_TYPE1_APPEARFv
   - sub_80348E34__18TAdChrMoveEffectGCFv
-  - sub_8034B8B0__18TChallenge4PResultFv
-  - sub_8034B8BC__18TChallenge4PResultFv
-  - sub_8034B918__18TChallenge4PResultFv
-  - sub_8034BA2C__18TChallenge4PResultFv
+  - skip_reward__18TChallenge4PResultFv
+  - handle_first_reward__18TChallenge4PResultFv
+  - handle_second_reward__18TChallenge4PResultFv
+  - tick_message_wait__18TChallenge4PResultFv
   - update_theme__16TLobbyEventThemeFl
   - create_map_csn__10TBoss6RockFv
   - reset__12TMotionModelFv

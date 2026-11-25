@@ -5,6 +5,7 @@
 #include "types.h"
 
 class TChallenge4PResult;
+struct TWindowMenu;
 
 class TChallenge4PItemSelect : public TObject {
 public:
@@ -16,7 +17,7 @@ public:
     s32 waitFrames;
     TChallenge4PResult *result;
     TChallenge4PItemSelect(TObject *parent, TChallenge4PResult *resultOwner);
- void* menu_window;
+    TWindowMenu *menu_window;
 public:
     virtual ~TChallenge4PItemSelect();
     virtual void run_task();

@@ -11,25 +11,25 @@ class TChallenge4PResult : public TObject {
 public:
     TChallenge4PResult(TObject *parent, u16 slot, s32 resultCode);
     virtual ~TChallenge4PResult();
-    void sub_8034BA2C();
-    void sub_8034B918();
-    void sub_8034B8BC();
-    void sub_8034B8B0();
+    void tick_message_wait();
+    void handle_second_reward();
+    void handle_first_reward();
+    void skip_reward();
     virtual void run_task();
     void show_message(saddr text_handle);
     void handle_third_reward();
     s32 state_1c;
     s32 wait_frames;
     u16 slot_index;
-    u8 unknown_26[2];
+    u8 pad_26[2];
     s32 result_code;
     TWindowMessagePage *message_window;
-    s32 unknown_30;
+    s32 pad_30;
     TItemData reward_items[3];
     s32 reward_available[3];
 
 public:
-    static void create(int client, s32 arg1);
+    static void create(int client, s32 result_code);
     static void clear_slot_entries();
     void set_entry_item(TItemData *item, s32 slot);
     void close_window();
