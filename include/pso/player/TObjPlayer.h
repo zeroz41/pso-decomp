@@ -701,7 +701,9 @@ struct TObjPlayer : public TObjChara {
     void set_chair_seat_animation(s16 value);
     int is_action_flag_28();
     void set_anim_flag();
+    void set_action_flag_28();
     void clear_flag_200();
+    void set_flag_200();
     void set_float_param(s16 value);
     void byteswap_6x49_packet();
     void swap_endian_shorts();
@@ -709,6 +711,8 @@ struct TObjPlayer : public TObjChara {
     void bswap_field4_sub();
     void*build_packet_header();
     void *copy_6x40_walk_to_position_packet(void *pkt);
+    // The speed of the requested action in the action table.
+    f32 get_action_rate_entry();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
     void *copy_packet_pos_6x42(void *pkt);
@@ -1151,6 +1155,7 @@ struct TObjPlayer : public TObjChara {
     void enter_off_floor_state();
     void update_off_floor_state();
     void fade_out_off_floor();
+    void deactivate_off_floor_body();
     void off_floor_phase2_nop();
     void off_floor_phase7_nop();
     void warp_phase8_nop();
