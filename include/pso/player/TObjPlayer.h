@@ -394,6 +394,8 @@ struct TObjPlayer : public TObjChara {
     s32 test_action_mask(s32 arg1);
     s32 test_action_4();
     s32 test_action_8000();
+    int check_flag_24576();
+    int test_flag_16();
     s32 test_action_40000();
     s32 test_action_80000();
     int is_inactive();

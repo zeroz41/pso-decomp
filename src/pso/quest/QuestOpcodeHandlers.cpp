@@ -31,6 +31,7 @@
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/unk/TLobby_801F2D2C.h"
 #include "pso/item/TObjItemNameSelect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -411,7 +412,6 @@ s32 parse_f_index(const char *a0) {
 
 extern "C" {
 void append_string(const char *s);
-s32 get_entered_item_name();
 s32 is_split_screen();
 
 s32 parse_r_index(const char *text) {
@@ -830,26 +830,6 @@ int clear_hashi_versus2_flag(void*);
 }
 void play_cue_stream_file(const char *name);
 extern "C" {
-s32 test_player_action_10000(int);
-int test_player_action_400(void *p);
-int test_player_action_200(void *p);
-int test_player_action_100(void *p);
-int test_player_action_E0(void *p);
-s32 test_player_action_2();
-void set_player_flag_4096(void *p);
-s32 fn_get_field_3ac(void *);
-void gba_set_identifiers(int a0, int a1);
-int get_gba_download_state(void);
-int set_screen_bw(void*);
-s32 clear_lobby_count();
-void disable_player_techniques(void *p);
-int set_ult_map(void*);
-int override_warp_dest_floor(void*);
-int disable_quest_warp(void*);
-s32 TLobby__sub_801F36F0(int);
-void TLobby__sub_801F36F8(s32, s32, s32, TItemData *);
-s32 TLobby__sub_801F3700(int);
-void TLobby__sub_801F3708(s32, s32, s32, TItemData *);
 int set_quest_exit_callback(void*);
 int set_quest_cancel_callback(void*);
 int set_quest_success_callback(void*);
@@ -863,8 +843,6 @@ int turn_on_bgm_p2(void*);
 int turn_off_bgm_p2(void*);
 void request_active_window_close(void);
 }
-s32 get_field_d4(void *);
-void build_6x77_sync_quest_register(void* p);
 void set_quest_floor_designation_ex(s16, s32, s32, s32, s32);
 void set_quest_floor_designation(s16, s32, s32, s32);
 s32 get_story_flag(s32 flag);
@@ -890,7 +868,6 @@ void activate_palettex(u16 client_index);
 
 int quest_active_flag;
 int evt2_random_enemies_mode;
-extern AppendCardWindowTextRecoveredGlobal clear_player_flag_4096;
 extern VaCallPair lbl_80449A38[];
 struct QuestNpcVisualRecord { s32 value; u8 remaining[0x4C]; };
 extern QuestNpcVisualRecord quest_npc_visual_record;
@@ -1771,7 +1748,7 @@ void qst_op_close_chat_bubble(s32 reg) {
     TWindowCtrl::close_windows_by_flags(qst_registers[(u8)reg]);
 }
 
-int qst_op_set_screen_bw(void* p) { return set_screen_bw(p); }
+void qst_op_set_screen_bw() { set_screen_bw(); }
 
 int qst_op_set_motion_blur() { return set_camera_capture_overlay_alpha((void*)(143)); }
 
@@ -2461,42 +2438,42 @@ s32 TLobby::init_guild_card_tag() {
 }
 
 void qst_op_get_player_state(s32 slot_reg, saddr dst) {
-    saddr player;
-    player = (saddr)get_player_by_client_id(qst_registers[(u8)slot_reg]);
-    if (player != 0) {
-        if (test_player_action_2() != 0) {
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if (player != NULL) {
+        if (test_player_action_2(player) != 0) {
             qst_registers[(u8)dst] = 1;
             return;
         }
-        if (((TObjPlayer *)player)->test_action_4() != 0) {
+        if (player->test_action_4() != 0) {
             qst_registers[(u8)dst] = 2;
             return;
         }
-        if (((TLobby *)player)->test_flag_16() != 0) {
+        if (player->test_flag_16() != 0) {
             qst_registers[(u8)dst] = 3;
             return;
         }
-        if (test_player_action_E0((void *)player) != 0) {
+        if (test_player_action_E0(player) != 0) {
             qst_registers[(u8)dst] = 4;
             return;
         }
-        if (test_player_action_100((void *)player) != 0) {
+        if (test_player_action_100(player) != 0) {
             qst_registers[(u8)dst] = 5;
             return;
         }
-        if (test_player_action_200((void *)player) != 0) {
+        if (test_player_action_200(player) != 0) {
             qst_registers[(u8)dst] = 6;
             return;
         }
-        if (test_player_action_400((void *)player) != 0) {
+        if (test_player_action_400(player) != 0) {
             qst_registers[(u8)dst] = 7;
             return;
         }
-        if (((TLobby *)player)->check_flag_24576() != 0) {
+        if (player->check_flag_24576() != 0) {
             qst_registers[(u8)dst] = 8;
             return;
         }
-        if (((TObjPlayer *)player)->test_action_8000() != 0) {
+        if (player->test_action_8000() != 0) {
             qst_registers[(u8)dst] = 9;
             return;
         }
@@ -2504,11 +2481,11 @@ void qst_op_get_player_state(s32 slot_reg, saddr dst) {
             qst_registers[(u8)dst] = 0xA;
             return;
         }
-        if (((TObjPlayer *)player)->test_action_40000() != 0) {
+        if (player->test_action_40000() != 0) {
             qst_registers[(u8)dst] = 0xB;
             return;
         }
-        if (((TObjPlayer *)player)->test_action_80000() != 0) {
+        if (player->test_action_80000() != 0) {
             qst_registers[(u8)dst] = 0xC;
             return;
         }
@@ -2881,7 +2858,7 @@ void init_srank_weapon_item(TItemData *, saddr, s32);
 void qst_op_award_item_give(u8 reg) {
     TItemData item;
     u8 t = TObjItemNameSelect::get_selected_value();
-    init_srank_weapon_item(&item, get_entered_item_name(), t);
+    init_srank_weapon_item(&item, (saddr)get_entered_item_name(), t);
     if (is_split_screen() == 1) {
         if (challenge_create_reward_item(&item, 0) != 0) {
             qst_registers[reg] = 1;
@@ -3013,11 +2990,11 @@ void qst_op_set_area_title() {
 
 void qst_op_unset_ult_map(void) { TLobby::clear_quest_state(); }
 
-int qst_op_set_ult_map(void* p) { return set_ult_map(p); }
+void qst_op_set_ult_map() { set_ult_map(); }
 
 void qst_op_restore_warp_dest_floor(void) { TLobby::reset_quest_counter(); }
 
-int qst_op_override_warp_dest_floor(void *p) { return override_warp_dest_floor(p); }
+void qst_op_override_warp_dest_floor() { override_warp_dest_floor(); }
 
 void qst_op_set_current_area_number(void) {
     TLobby::set_lobby_id((int) (qst_args[0]));
@@ -3584,7 +3561,7 @@ void qst_op_get_client_id(u8 reg) {
     qst_registers[reg] = local_client_id;
 }
 
-int qst_op_warp_off(void *p) { return disable_quest_warp(p); }
+void qst_op_warp_off() { disable_quest_warp(); }
 
 void qst_op_warp_on(void) { TLobby::set_cleanup_flag(); }
 
@@ -4306,12 +4283,12 @@ void qst_op_p_setpos(void) {
 }
 
 void qst_op_p_enablewarp(void) {
-    TObjPlayer::foreach_player((void (*)(TObjPlayer *))&clear_player_flag_4096.value);
+    TObjPlayer::foreach_player(clear_player_flag_4096);
 }
 
 void qst_op_p_disablewarp(void) {
     TTecLuker::apply_all_players();
-    TObjPlayer::foreach_player((void (*)(TObjPlayer *))set_player_flag_4096);
+    TObjPlayer::foreach_player(set_player_flag_4096);
 }
 
 void qst_op_p_dead(void) {

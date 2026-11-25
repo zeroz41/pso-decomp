@@ -482,8 +482,6 @@ struct TLobby : public TObject {
     static void close_windows();
     static void clear_quest_vm_flag();
     static void free_luker_object();
-    int check_flag_24576();
-    int test_flag_16();
     void set_floor(s16 v);
     void bswap_4x32();
     void sync_quest_register_and_send();

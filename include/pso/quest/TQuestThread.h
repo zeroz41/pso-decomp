@@ -66,6 +66,9 @@ void handle_6x77_sync_quest_register(u8 *packet);
 char *get_offline_quest_filename();
 void load_area_dialogue_script();
 
+// The name typed into the item-name entry window, read back by the quest VM.
+extern char entered_item_name[0x10];
+
 extern "C" {
 void TQuestThread__sub_801F5D88(void);
 }

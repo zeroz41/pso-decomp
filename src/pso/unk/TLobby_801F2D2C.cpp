@@ -18,6 +18,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/QuestOpcodeTables.h"
@@ -30,8 +31,6 @@ extern u8 TLobby__data_805D5EA8;
 extern u8 TLobby__data_805D5EA9;
 extern u16 TLobby__data_805D5EAA;
 extern u16 TLobby__data_805D5EAC;
-struct EnteredItemName { s32 value; u8 remaining[0xC]; };
-extern EnteredItemName entered_item_name;
 int bswap_16__FPUs(void*);
 
 unsigned char TLobby::read_packet_byte() { return qst_code[qst_pc++]; }
@@ -207,8 +206,8 @@ void init_quest_script_context(QuestBinHeader *h, QuestVmContext *c) {
     c->statistic_arg2 = 0;
 }
 
-s32 *get_entered_item_name(void) {
-    return &entered_item_name.value;
+char *get_entered_item_name(void) {
+    return entered_item_name;
 }
 
 void TLobby::clear_quest_vm_flag() {
@@ -229,24 +228,24 @@ s32 TObjPlayer::test_action_80000() {
 s32 TObjPlayer::test_action_40000() {
     return test_action_mask(0x40000);
 }
-void test_player_action_10000(saddr player) {
-    ((TObjPlayer *)player)->test_action_mask(0x10000);
+int test_player_action_10000(TObjPlayer *p) {
+    return p->test_action_mask(0x10000);
 }
 s32 TObjPlayer::test_action_8000() {
     return test_action_mask(0x8000);
 }
-int TLobby::check_flag_24576() { return ((TObjPlayer *)this)->test_action_mask(24576); }
-int test_player_action_400(void* p) { return ((TObjPlayer *)p)->test_action_mask(1024); }
-int test_player_action_200(void* p) { return ((TObjPlayer *)p)->test_action_mask(512); }
-int test_player_action_100(void* p) { return ((TObjPlayer *)p)->test_action_mask(256); }
-int test_player_action_E0(void* p) { return ((TObjPlayer *)p)->test_action_mask(224); }
-int TLobby::test_flag_16() { return ((TObjPlayer *)this)->test_action_mask(16); }
+int TObjPlayer::check_flag_24576() { return test_action_mask(24576); }
+int test_player_action_400(TObjPlayer *p) { return p->test_action_mask(1024); }
+int test_player_action_200(TObjPlayer *p) { return p->test_action_mask(512); }
+int test_player_action_100(TObjPlayer *p) { return p->test_action_mask(256); }
+int test_player_action_E0(TObjPlayer *p) { return p->test_action_mask(224); }
+int TObjPlayer::test_flag_16() { return test_action_mask(16); }
 s32 TObjPlayer::test_action_4() { return test_action_mask(4); }
 
-int test_player_action_2(void* p) { return ((TObjPlayer *)p)->test_action_mask(2); }
+int test_player_action_2(TObjPlayer *p) { return p->test_action_mask(2); }
 
-void clear_player_flag_4096(void* p) { ((TObjPlayer *)p)->clear_flag_4096(); }
-void set_player_flag_4096(void* p) { ((TObjPlayer *)p)->set_flag_4096(); }
+void clear_player_flag_4096(TObjPlayer *p) { p->clear_flag_4096(); }
+void set_player_flag_4096(TObjPlayer *p) { p->set_flag_4096(); }
 s32 get_field_d4(void* p) { return *(s32*)((char*)p + 0xd4); }
 s32 fn_get_field_3ac(void* p) { return *(s32*)((char*)p + 0x3ac); }
 
@@ -314,7 +313,7 @@ void override_warp_dest_floor(void) { lobby_quest_progress_flag = 1; }
 
 void disable_quest_warp(void) { quest_warp_enabled = 0; }
 
-int TLobby__sub_801F36F0(void) { return -1; }
-int TLobby__sub_801F36F8(void) { return 0; }
-int TLobby__sub_801F3700(void) { return -1; }
-int TLobby__sub_801F3708(void) { return 0; }
+int TLobby__sub_801F36F0(s32) { return -1; }
+int TLobby__sub_801F36F8(s32, s32, s32, TItemData *) { return 0; }
+int TLobby__sub_801F3700(s32) { return -1; }
+int TLobby__sub_801F3708(s32, s32, s32, TItemData *) { return 0; }
