@@ -542,6 +542,9 @@ struct G_UpdateObjectState_6x0B {
  struct G_EntityIDHeader header;
  u32 flags;
  u32 object_index;
+ void bswap();
+ void init();
+ void send();
 };
 
 struct G_HitDestructibleObject_6x86 {
@@ -1301,6 +1304,8 @@ struct G_UpdateAttackableColState_6x91 : G_UpdateObjectState_6x0B {
  u16 switch_flag_num;
  u8 should_set;
  s8 floor;
+ void bswap();
+ void send();
 };
 
 struct G_UpdateEntityStat_6x9A {

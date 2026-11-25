@@ -211,11 +211,7 @@ struct TLobby : public TObject {
     static s32 is_status_zero();
     static s32 is_state_active();
     static void init_account_entries();
-    static void bswap_60_header(void* p);
-    void bswap_header();
     static void bswap_header(void *p);
-    void update_and_send_60();
-    static void update_and_send_60(void *p);
 
     static void *create_npc(void *set_data);
     static s32 is_idle();

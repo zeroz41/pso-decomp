@@ -48,7 +48,6 @@ struct Obj_801575AC {
 };
 
 extern "C" {
-void *init_6x91_subcommand(void *barrier_energy01);
 void TOAttackableCol__sub_80157310(void *_w0);
 s32 init_collision_body_parts(void *, void *, int);
 s32 get_current_floor(void);
@@ -107,7 +106,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
     s32 mode;
 
     if (command != NULL) {
-        ((TOAttackableCol *)command)->bswap_state();
+        command->bswap();
         if (command->header.entity_id != 0xFFFF && command->header.entity_id >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(command->header.entity_id);
             if (col != NULL) {
@@ -172,7 +171,7 @@ void TOAttackableCol::send_state_change(u16 state) {
             msg.switch_flag_num = 0;
         }
         msg.floor = get_current_floor();
-        ((TOAttackableCol *)(&msg))->broadcast_state();
+        msg.send();
     }
 }
 
@@ -337,15 +336,20 @@ void TOAttackableCol::apply_knockback_from_attacker(u8 *, f32) {  }
 
 void TOAttackableCol__sub_80157C20(void* p, s32 v) { *(s32*)((char*)p + 0x33c) = v; }
 s32 TOAttackableCol__sub_80157C28(void* p) { return *(s32*)((char*)p + 0x33c); }
-void TOAttackableCol::bswap_state() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap_16((u16 *)((char*)this + 0x10)); }
-void TOAttackableCol::broadcast_state() { bswap_state(); send_subcommand((u8 *)this); }
+void G_UpdateAttackableColState_6x91::bswap() {
+    G_UpdateObjectState_6x0B::bswap();
+    bswap_16(&is_destroyed);
+    bswap_16(&remaining_hits);
+    bswap_16(&switch_flag_num);
+}
+void G_UpdateAttackableColState_6x91::send() { bswap(); send_subcommand(this); }
 
-void *init_6x91_subcommand(void *barrier_energy01) {
-    init_collision_subcommand_header(barrier_energy01);
-    *(u16 *)((s8 *)barrier_energy01 + 0xC) = 0;
-    *(u16 *)((s8 *)barrier_energy01 + 0xE) = 0;
-    *(u8 *)((s8 *)barrier_energy01 + 0x0) = 145;
-    *(u8 *)((s8 *)barrier_energy01 + 0x1) = 5;
-    return barrier_energy01;
+G_UpdateAttackableColState_6x91 *init_6x91_subcommand(G_UpdateAttackableColState_6x91 *msg) {
+    init_collision_subcommand_header(msg);
+    msg->is_destroyed = 0;
+    msg->remaining_hits = 0;
+    msg->header.subcommand = 0x91;
+    msg->header.size = 5;
+    return msg;
 }
 

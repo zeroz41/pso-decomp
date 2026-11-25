@@ -236,7 +236,7 @@ TObjChara *resolve_hittable_target(u16 actor_id, s16 collider) {
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
     QuestObjectEntry state;
     TObjCollidable *object;
-    TLobby::bswap_60_header(packet);
+    bswap_object_state(packet);
     object = find_entity_by_id(packet->header.entity_id);
     if (object != NULL) {
         object->access_object_saved_state(&state, 1);
@@ -262,11 +262,11 @@ void TObjCollidable::send_object_state_update(void *saved_state) {
     entry = (FloorObjectSetRow *)set_entry;
     if (entry != NULL) {
         G_UpdateObjectState_6x0B packet;
-        TLobby__sub_80156BA8(&packet);
+        packet.init();
         packet.header.entity_id = entity_id;
         packet.flags = state.flags;
         packet.object_index = entry->placement.set_index;
-        ((TLobby *)&packet)->update_and_send_60();
+        packet.send();
     }
 }
 

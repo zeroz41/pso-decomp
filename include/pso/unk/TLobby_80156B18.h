@@ -3,14 +3,9 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_80156BA8(void *p);
-}
+struct G_UpdateObjectState_6x0B;
 
-// --- C functions defined in TLobby_80156B18.cpp ---
-extern "C" {
-void TLobby__sub_80156BA8(void *p);
-}
-// --- end of C functions
+// Byte-swaps a 6x0B object-state message in place.
+void bswap_object_state(G_UpdateObjectState_6x0B *packet);
 
 #endif

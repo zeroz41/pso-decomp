@@ -102,7 +102,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
         return;
     }
     wall_hit_packet->byteswap();
-    id = wall_hit_packet->entity_id;
+    id = wall_hit_packet->header.entity_id;
     if (id == 0xFFFF) {
         return;
     }
@@ -138,10 +138,10 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
         o->access_object_saved_state(&spC, 0);
         o->vfunc_6(&spC.a, 0);
     } else {
-        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->set_entry_index];
+        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->object_index];
         if (sp8.a != 1) {
-            sp8.a = wall_hit_packet->state;
-            TLobby::apply_table_entry(wall_hit_packet->set_entry_index, &sp8);
+            sp8.a = wall_hit_packet->flags;
+            TLobby::apply_table_entry(wall_hit_packet->object_index, &sp8);
         }
     }
 }
@@ -159,9 +159,9 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
         access_object_saved_state(&state, 0);
         entry = (WallSetEntry *)set_entry;
         pkt.init();
-        pkt.entity_id = entity_id;
-        pkt.state = state;
-        pkt.set_entry_index = entry->m_4;
+        pkt.header.entity_id = entity_id;
+        pkt.flags = state;
+        pkt.object_index = entry->m_4;
         pkt.update_reason = arg1;
         pkt.remaining_hits = m_33c;
         pkt.send();
@@ -270,8 +270,8 @@ WallHitPacket *WallHitPacket::init() {
     init_collision_subcommand_header(this);
     update_reason = 0;
     remaining_hits = 0;
-    subcommand = 0x86;
-    word_count = 4;
+    header.subcommand = 0x86;
+    header.size = 4;
     return this;
 }
 
@@ -281,7 +281,7 @@ void WallHitPacket::send() {
 }
 
 void WallHitPacket::byteswap() {
-    ((TLobby *)this)->bswap_header();
+    G_UpdateObjectState_6x0B::bswap();
     bswap_16(&update_reason);
     bswap_16(&remaining_hits);
 }
