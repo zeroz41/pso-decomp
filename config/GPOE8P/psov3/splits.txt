@@ -8851,15 +8851,12 @@ pso/ui/frontend/TAdChrMoveEffectGC.cpp:
 	.sbss       start:0x805D6E78 end:0x805D6E7C
 	.sdata2     start:0x805DFCE8 end:0x805DFCFC
 
-pso/unk/text_8034960C.cpp:
-	.text       start:0x8034960C end:0x8034999C
+pso/ui/frontend/TAdLoadQuestCellGC.cpp:
+	.text       start:0x8034960C end:0x80349B8C
 	.rodata     start:0x80478718 end:0x80478778
+	.data       start:0x804EFF38 end:0x804EFF60
 	.sdata      start:0x805D42F8 end:0x805D4300
 	.sdata2     start:0x805DFD00 end:0x805DFD18
-
-pso/ui/frontend/TAdLoadQuestCellGC.cpp:
-	.text       start:0x8034999C end:0x80349B8C
-	.data       start:0x804EFF38 end:0x804EFF60
 
 pso/ui/frontend/TAdLoadQuestLineGC.cpp:
 	.text       start:0x80349B8C end:0x8034A08C

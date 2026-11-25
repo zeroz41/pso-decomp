@@ -1802,7 +1802,6 @@ pso/object/mine/TOComputerMachine01_803278B0.cpp
 pso/unk/text_803279CC.cpp
 pso/ui/window/WindowLayoutCamera2Data.cpp
 pso/unk/text_8033F314.cpp
-pso/unk/text_8034960C.cpp
 pso/math/CurvePathPoint.cpp
 pso/item/TUnk_804F112C.cpp
 pso/effect/item/TItemEffOrgaFlowShot.cpp

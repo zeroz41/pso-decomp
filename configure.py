@@ -1416,9 +1416,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .rodata object with its own lis/addi: -pool off. It also holds any_player_has_listed_equipment:
     # the table it reads (listed_equipment_table) sits in this TU's .rodata.
     "pso/boss/olgaflow/TBoss6Thanks.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    # text_8034960C.cpp keeps TAdLoadQuestCellGC's name string in .rodata (-str readonly) and
-    # reaches each .rodata table with its own lis/addi: -pool off.
-    "pso/unk/text_8034960C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    # TAdLoadQuestCellGC.cpp keeps its name string in .rodata (-str readonly) and its draw
+    # helpers reach each .rodata table with their own lis/addi: -pool off.
+    "pso/ui/frontend/TAdLoadQuestCellGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # text_802FF760.cpp keeps TAdMultiConfirmGC's name string in .rodata (-str readonly) and
     # reaches each .rodata object with its own lis/addi: -pool off.
     "pso/unk/text_802FF760.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
