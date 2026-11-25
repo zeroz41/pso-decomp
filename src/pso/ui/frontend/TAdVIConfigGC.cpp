@@ -28,38 +28,54 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/NinjaUtil.h"
 
+struct Name_80307D00 { char s[0x18]; };
+
+// The block init() fills: who of the party stands within radius of a spot (warps; the
+// name WarpPartyCheck is inferred).
+struct WarpPartyCheck {
+    f32 radius_sq;
+    s32 member_count;      // TLobby::count_members() when the window was last built
+    Vec center;
+    s32 all_in_range;
+    s32 any_in_range;
+    s32 confirmed_mask;    // in_range_mask of the last pass that left someone out
+    s32 in_range_mask;     // bit per client
+    TWindowCheckBox *win;  // the player-name check boxes
+    Name_80307D00 names[4];
+};
+
 // Ticks the names of the players on this floor within the radius init() set (in the
 // window open_player_names_window made) and records which of them are in range.
 #pragma push
 #pragma fp_contract on
-void update_players_in_range(u8 *check) {
+void update_players_in_range(WarpPartyCheck *check) {
     TObjPlayer *player;
     s32 i;
-    *(s32 *)((s8 *)check + 0x14) = 1;
-    *(s32 *)((s8 *)check + 0x18) = 0;
-    *(s32 *)((s8 *)check + 0x20) = 0;
-    if ((u32) *(u32 *)((s8 *)check + 0x24) != 0U) {
+    check->all_in_range = 1;
+    check->any_in_range = 0;
+    check->in_range_mask = 0;
+    if (check->win != NULL) {
         i = 0;
         do {
             player = get_player_by_client_id(i);
             if (player != NULL) {
-                if ((get_current_floor() == player->get_floor()) && (xz_distance_squared(&player->position, (Vec *)(check + 8)) <= *(f32 *)((s8 *)check + 0))) {
-                    (*(TWindowCheckBox **)((s8 *)check + 0x24))->advance_matching_entries(1, i);
-                    *(s32 *)((s8 *)check + 0x20) = (s32) (*(s32 *)((s8 *)check + 0x20) | (1 << i));
-                    *(s32 *)((s8 *)check + 0x18) = 1;
+                if ((get_current_floor() == player->get_floor()) && (xz_distance_squared(&player->position, &check->center) <= check->radius_sq)) {
+                    check->win->advance_matching_entries(1, i);
+                    check->in_range_mask |= 1 << i;
+                    check->any_in_range = 1;
                 } else {
-                    (*(TWindowCheckBox **)((s8 *)check + 0x24))->advance_matching_entries(0, i);
-                    *(s32 *)((s8 *)check + 0x20) = (s32) (*(s32 *)((s8 *)check + 0x20) & ~(1 << i));
-                    *(s32 *)((s8 *)check + 0x14) = 0;
+                    check->win->advance_matching_entries(0, i);
+                    check->in_range_mask &= ~(1 << i);
+                    check->all_in_range = 0;
                 }
             } else {
-                (*(TWindowCheckBox **)((s8 *)check + 0x24))->advance_matching_entries(0, i);
+                check->win->advance_matching_entries(0, i);
             }
             i += 1;
         } while (i < 4);
     }
-    if ((s32) *(s32 *)((s8 *)check + 0x14) == 0) {
-        *(s32 *)((s8 *)check + 0x1C) = (s32) *(s32 *)((s8 *)check + 0x20);
+    if (check->all_in_range == 0) {
+        check->confirmed_mask = check->in_range_mask;
     }
 }
 #pragma pop
@@ -68,13 +84,6 @@ void update_players_in_range(u8 *check) {
 #pragma readonly_strings on
 
 
-struct Name_80307D00 { char s[0x18]; };
-
-struct Cfg_80307D00 {
-    u8 pad0[0x24];
-    TWindowCheckBox *win;
-    Name_80307D00 names[4];
-};
 
 s32 logo_clear_flag = 1;
 const char *TAdVIConfigGC__class_name = "TAdVIConfigGC";
@@ -84,23 +93,23 @@ __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 void TAdVIConfigGC::open_player_names_window() {
     s32 i;
     u8 *p;
-    if (((Cfg_80307D00 *)this)->win != 0) {
-        ((TWindowBase *)(((Cfg_80307D00 *)this)->win))->close();
-        ((Cfg_80307D00 *)this)->win = 0;
+    if (((WarpPartyCheck *)this)->win != 0) {
+        ((TWindowBase *)(((WarpPartyCheck *)this)->win))->close();
+        ((WarpPartyCheck *)this)->win = 0;
     }
-    ((Cfg_80307D00 *)this)->win = create_check_box_window_on_layer(get_window_layout_position(0x5A), (saddr)player_names_window_pos, (s32)local_client_id);
-    if (((Cfg_80307D00 *)this)->win != 0) {
-        ((Cfg_80307D00 *)this)->win->set_flag_40();
-        ((Cfg_80307D00 *)this)->win->set_close_flag();
+    ((WarpPartyCheck *)this)->win = create_check_box_window_on_layer(get_window_layout_position(0x5A), (saddr)player_names_window_pos, (s32)local_client_id);
+    if (((WarpPartyCheck *)this)->win != 0) {
+        ((WarpPartyCheck *)this)->win->set_flag_40();
+        ((WarpPartyCheck *)this)->win->set_close_flag();
         for (i = 0; i < 4; i++) {
             p = (u8 *)get_player_by_client_id(i);
             if (p != 0) {
-                strncpy(((Cfg_80307D00 *)this)->names[i].s, (char *)(p + 0x85C), 0x17);
-                ((Cfg_80307D00 *)this)->names[i].s[0x17] = 0;
-                ((Cfg_80307D00 *)this)->win->dispatch_without_flags((saddr)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
+                strncpy(((WarpPartyCheck *)this)->names[i].s, (char *)(p + 0x85C), 0x17);
+                ((WarpPartyCheck *)this)->names[i].s[0x17] = 0;
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), (s32)i);
             } else {
-                ((Cfg_80307D00 *)this)->names[i].s[0] = 0;
-                ((Cfg_80307D00 *)this)->win->dispatch_without_flags((saddr)(((Cfg_80307D00 *)this)->names[i].s), (s32)i);
+                ((WarpPartyCheck *)this)->names[i].s[0] = 0;
+                ((WarpPartyCheck *)this)->win->dispatch_without_flags((saddr)(((WarpPartyCheck *)this)->names[i].s), (s32)i);
             }
         }
     }
@@ -116,7 +125,7 @@ void TAdVIConfigGC::update_visibility() {
         *(s32 *)&this->m_flags = flags;
         open_player_names_window();
     }
-    update_players_in_range((((u8 *)this)));
+    update_players_in_range((WarpPartyCheck *)this);
     quest_vm_down_load_server = (u8 *)(*(u8 * *)&this->m_24);
     if (quest_vm_down_load_server != NULL) {
         if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x18) != 0) {
