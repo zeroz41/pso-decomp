@@ -93,35 +93,34 @@ void TWindowChoiceSetting::render() {
 }
 
 void TWindowChoiceSetting::run_task() {
-    u8 *arg0 = (u8 *)this;
     WindowScrollBar *window_scroll_bar;
     ControllerInputContext *input;
     ControllerInputContext *temp_r30_2;
     ControllerInputContext *context;
-    if ((((TWindowMenuInfomation *)arg0)->is_selected() == 0) && (((TWindowMenuInfomation *)arg0)->is_open() == 0)) {
+    if ((is_selected() == 0) && (is_open() == 0)) {
         if (this->m_70 & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-                ((TWindowMenuInfomation *)arg0)->move_cursor_prev();
+                move_cursor_prev();
             }
             if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-                ((TWindowMenuInfomation *)arg0)->move_next_choice();
+                move_next_choice();
             }
         } else {
             temp_r30_2 = &controller_input_state.controllers[0];
             if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-                ((TWindowMenuInfomation *)arg0)->move_cursor_prev();
+                move_cursor_prev();
             }
             if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-                ((TWindowMenuInfomation *)arg0)->move_next_choice();
+                move_next_choice();
             }
         }
         context = &controller_input_state.controllers[0];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
-            ((TWindowMenuInfomation *)arg0)->draw();
+            draw();
         }
         if ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
-            ((TWindowMenuInfomation *)arg0)->request_close();
+            request_close();
         }
     }
     if ((f32) this->open_tick >= 7.5f) {
@@ -133,12 +132,12 @@ void TWindowChoiceSetting::run_task() {
             window_scroll_bar->increment_counter();
         }
     }
-    ((TWindowBase *)arg0)->update_window();
-    ((TWindowChoiceSetting *)arg0)->sub_80249078();
-    ((TWindowAddition *)arg0)->step_window_tween();
-    ((TWindowMenuInfomation *)arg0)->update_scroll_offset();
-    ((TWindowMenuInfomation *)arg0)->clamp_scroll();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
+    update_window();
+    sub_80249078();
+    step_window_tween();
+    update_scroll_offset();
+    clamp_scroll();
+    update_window_entry_list(&entry_list);
 }
 
 TWindowChoiceSetting::~TWindowChoiceSetting() {

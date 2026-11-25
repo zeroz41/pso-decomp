@@ -105,25 +105,24 @@ block_5:
     return 0;
 }
 
-void TWindowDD::format_type6_message(saddr window_dd, void *pos) {
-    WordSelectMessage *arg0 = (WordSelectMessage *)this;
-    s32 count;
+void WordSelectMessage::format_type6_message(saddr window_dd, void *pos) {
+    s32 word_count;
     s32 n;
     s32 i;
 
-    count = arg0->count;
-    n = count;
+    word_count = count;
+    n = word_count;
     if (n > 3) {
         n = 3;
     }
     for (i = 0; i < n - 1; i++) {
-        append_word_select_token(arg0->ids[i], window_dd, pos);
+        append_word_select_token(ids[i], window_dd, pos);
         TWindowDD::show_message_by_count((char *)window_dd, (s32 *)pos);
     }
-    append_word_select_token(arg0->ids[n - 1], window_dd, pos);
-    if (count > 3) {
+    append_word_select_token(ids[n - 1], window_dd, pos);
+    if (word_count > 3) {
         ((TWindowDD *)window_dd)->append_prompt_newline((s32 *)pos);
-        append_word_select_token(arg0->ids[3], window_dd, pos);
+        append_word_select_token(ids[3], window_dd, pos);
     }
 }
 

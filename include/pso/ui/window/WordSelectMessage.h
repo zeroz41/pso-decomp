@@ -16,6 +16,7 @@ struct WordSelectMessage {
     void set_field14(s32 v);
     void pop_entry();
     void init_item_slots();
+    void format_type6_message(saddr window_dd, void *pos);
 };
 
 LAYOUT_ASSERT(WordSelectMessage_size, sizeof(WordSelectMessage) == 0x1C);

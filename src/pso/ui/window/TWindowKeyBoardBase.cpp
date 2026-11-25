@@ -303,7 +303,6 @@ s32 TWindowKeyBoardBase::sub_8025D378(void *window_sub_status_disp) {
 #pragma pop
 
 void TWindowKeyBoardBase::append_text_entry(u8 *text) {
-    u8 *arg0 = (u8 *)this;
     Rec_8025D3CC *rec;
     s32 idx;
     s32 n;
@@ -321,7 +320,7 @@ void TWindowKeyBoardBase::append_text_entry(u8 *text) {
     *p++ = 0;
     candidate_bytes_remaining = 0x94 - (p - candidate_buffer);
     if (candidate_bytes_remaining < 0) {
-        *(u16 *)(arg0 + 0x60) |= 0x10;
+        state_flags |= 0x10;
     }
     last_candidate = current_candidate;
 }

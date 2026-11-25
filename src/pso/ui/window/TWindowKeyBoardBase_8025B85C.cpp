@@ -546,16 +546,14 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
 }
 
 void TWindowKeyBoardBase::init() {
-    u8 *arg0 = (u8 *)this;
-    this->m_text2.reset_state();
-    *(s32 *)((s8 *)arg0 + 0x68) = (saddr)(arg0 + 0x6C);
-    *(u16 *)((s8 *)arg0 + 0x60) = (u16) (*(u16 *)((s8 *)arg0 + 0x60) & ~0x86);
+    m_text2.reset_state();
+    active_text = &m_text;
+    state_flags &= ~0x86;
 }
 
 #pragma push
 #pragma opt_propagation off
 void TWindowKeyBoardBase::commit_composition_text() {
-    TWindowKeyBoardBase *arg0 = this;
     s32 n;
     s32 nx;
     s8 *src;
@@ -565,15 +563,15 @@ void TWindowKeyBoardBase::commit_composition_text() {
     u32 i;
     u16 *s;
     u16 *d;
-    if (arg0->state_flags & 4) {
-        arg0->sub_8025DBDC(1);
-        src = reinterpret_cast<s8 *>(arg0->candidate_buffer);
+    if (state_flags & 4) {
+        sub_8025DBDC(1);
+        src = reinterpret_cast<s8 *>(candidate_buffer);
         i = 0;
-        dst = arg0->m_text2.buffer;
+        dst = m_text2.buffer;
         while (*src != 0) {
             cnt = src[1];
             src += 3;
-            while (cnt-- != 0 && i < arg0->m_text2.capacity) {
+            while (cnt-- != 0 && i < m_text2.capacity) {
                 c = *src++;
                 if ((c & 0xE0) == 0x80 || (c & 0xE0) == 0xE0) {
                     c = (u8)c << 8;
@@ -586,26 +584,26 @@ void TWindowKeyBoardBase::commit_composition_text() {
             }
         }
         *dst = 0;
-        arg0->m_text2.length = i;
-        arg0->state_flags &= ~4;
+        m_text2.length = i;
+        state_flags &= ~4;
     }
-    arg0->m_text.check_text_overflow(arg0->m_text2.buffer);
-    s = arg0->m_text2.buffer;
+    m_text.check_text_overflow(m_text2.buffer);
+    s = m_text2.buffer;
     n = 0;
     while ((s32)*s != 0) {
         s++;
         n++;
     }
     if (n > 0) {
-        arg0->m_text.make_room_in_buffer(arg0->m_text.cursor, n);
-        s = arg0->m_text2.buffer;
-        d = arg0->m_text.buffer + arg0->m_text.cursor;
+        m_text.make_room_in_buffer(m_text.cursor, n);
+        s = m_text2.buffer;
+        d = m_text.buffer + m_text.cursor;
         while ((s32)*s != 0) {
             *d++ = *s++;
         }
-        arg0->m_text.cursor += n;
+        m_text.cursor += n;
     }
-    arg0->init();
+    init();
 }
 #pragma pop
 
@@ -642,20 +640,19 @@ void TWindowKeyBoardBase::export_text(char *out) {
 }
 
 s32 TWindowKeyBoardBase::measure_text_overflow() {
-    TWindowKeyBoardBase *arg0 = this;
     u32 a = 0;
     u32 b = 0;
     u32 c = 0;
     u16 ch;
-    u16 *p = arg0->m_text.buffer;
+    u16 *p = m_text.buffer;
     while ((s32)*p != 0) {
         ch = *p++;
-        if (arg0->m_text.measure_char_overflow(ch, &a, &b, &c) != 0) {
+        if (m_text.measure_char_overflow(ch, &a, &b, &c) != 0) {
             break;
         }
     }
     c += 1;
-    if (!(arg0->composition_flags & 0x10)) {
+    if (!(composition_flags & 0x10)) {
         c += 2;
     }
     return c;

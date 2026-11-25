@@ -50,7 +50,7 @@ void TWindowDeposit::render() {
     draw_visible_window_entries(this, &entry_list, context);
 }
 
-void TWindowDeposit::run_task() { update_window(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowDeposit::run_task() { update_window(); update_window_entry_list(&entry_list); }
 
 TWindowDeposit::~TWindowDeposit() {}
 TWindowDeposit::TWindowDeposit(s16 client)

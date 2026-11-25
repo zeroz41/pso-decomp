@@ -472,7 +472,7 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
         break;
     }
     case 6:
-        ((TWindowDD *)src)->format_type6_message((saddr)window_dd, (void *)(&pos));
+        src->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;
@@ -704,7 +704,7 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
         break;
     }
     case 6:
-        ((TWindowDD *)src)->format_type6_message((saddr)window_dd, (void *)(&pos));
+        src->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;
@@ -931,7 +931,7 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
         break;
     }
     case 6:
-        ((TWindowDD *)src)->format_type6_message((saddr)window_dd, (void *)(&pos));
+        src->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;
@@ -1097,7 +1097,7 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
         break;
     }
     case 6:
-        ((TWindowDD *)src)->format_type6_message((saddr)window_dd, (void *)(&pos));
+        src->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;
@@ -1178,7 +1178,7 @@ s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *entry, char *window_dd
         }
         break;
     case 6:
-        ((TWindowDD *)entry)->format_type6_message((saddr)window_dd, (void *)(&pos));
+        entry->format_type6_message((saddr)window_dd, (void *)(&pos));
         break;
     }
     window_dd[pos++] = 0;

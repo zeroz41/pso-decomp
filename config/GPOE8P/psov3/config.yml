@@ -2067,7 +2067,7 @@ force_active:
   - __ct__15TORainbowCave01FP7TObjectPv
   - __ct__15TObjDeadListWinFP7TObject
   - __ct__15TObjEneDelDepthFP7TObjectPv
-  - __ct__15TObjNewFloorWinFP7TObjectPv
+  - __ct__15TObjNewFloorWinFP7TObjectl
   - __ct__15TObjSoloPlayWinFP7TObject
   - __ct__15TObjSuisouLobbyFP7TObjectPv
   - __ct__15TRecvGenerateIDFRC15TRecvGenerateID

@@ -90,7 +90,6 @@ struct TWindowDD : public TObject
     static u8 is_id_in_special_range(s16 id);
     static s32 classify_id(s16 id);
     static s32 get_player_battle_flag_state(u16 client);
-    void format_type6_message(saddr window_dd, void *pos);
     static s32 is_state_zero_unless_0x2C8(s32 id);
     void destroy_menu_entry(s32 offset);
     void set_item_pos(s32 i);
