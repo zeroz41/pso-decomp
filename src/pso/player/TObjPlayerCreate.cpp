@@ -103,7 +103,6 @@ void TObjPlayer::place_on_area_entry() {
         }
     }
 }
-void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 void TObjPlayer__sub_801BEF30(void *p, void *q);
 
@@ -133,7 +132,7 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
     TObjPlayer__sub_801BEF30(&pk_state, &record->unknown_a6);
     ((TObjPlayer *)&telepipe)->copy_player_record_header((u8 *)&record->telepipe);
     TObjPlayer__sub_801BEEE0(&death_flags, &record->death_flags);
-    TObjPlayer__sub_801BEEAC(&movement_hold, (MovementHold *)&record->hold_state);
+    movement_hold = record->hold_state;
     set_floor_index(record->area);
     set_floor(record->floor);
     state_flags = record->player_flags;
@@ -145,11 +144,6 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
 // The init_* / release_* steps the TObjPlayer constructors and destructor run
 // for each part of the player.
 
-
-extern "C" {
-// Defined with the player's main code (TObjPlayer.cpp, TObjPlayer_801AF2F0.cpp).
-void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-}
 
 void TObjPlayer::reset_state() {
     ((FlagWord *)((u8 *)this + 0x858))->clear(2);
@@ -256,7 +250,7 @@ void TObjPlayer::init_session_technique_caps(PlayerSyncRecord *record) {
         set_technique_level_clamped(this, record->technique_levels[i] + record->items[i].m_present[2], i);
     }
     for (i = 0; i < 5; i++) {
-        TObjPlayer__sub_801BEF44(&status_effects[i], &record->status_effects[i]);
+        status_effects[i] = record->status_effects[i];
     }
 }
 

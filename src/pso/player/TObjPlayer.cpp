@@ -402,9 +402,7 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 extern "C" {
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
-void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
-void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 }
 void emit_grass_footstep_effect(PlayerFollowParticles *particles);
 void emit_water_footstep_effect(PlayerFollowParticles *particles);
@@ -716,10 +714,11 @@ void PlayerFollowParticles::prepare_heavy_attack_particles_default() { hands.pre
 
 void PlayerPadBinding::set_controller(ControllerInputContext *context) { controller = context; }
 
-void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src) {
-    dst->type = src->type;
-    dst->amount = src->amount;
-    dst->timer = src->timer;
+StatusEffect &StatusEffect::operator=(StatusEffect &src) {
+    type = src.type;
+    amount = src.amount;
+    timer = src.timer;
+    return *this;
 }
 
 void TObjPlayer__sub_801BEF30(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
@@ -736,12 +735,13 @@ void TObjPlayer::copy_player_record_header(u8 *src) {
 
 void TObjPlayer__sub_801BEEE0(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
 
-void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src) {
-    dst->frames = src->frames;
-    dst->effect_type = src->effect_type;
-    dst->unused = src->unused;
-    dst->radius_sq = src->radius_sq;
-    __memcpy(&dst->center_x, &src->center_x, 8);
+MovementHold &MovementHold::operator=(MovementHold &src) {
+    frames = src.frames;
+    effect_type = src.effect_type;
+    unused = src.unused;
+    radius_sq = src.radius_sq;
+    __memcpy(&center_x, &src.center_x, 8);
+    return *this;
 }
 
 G_RemoveStatusEffect_6x0D &G_RemoveStatusEffect_6x0D::operator=(G_RemoveStatusEffect_6x0D &src) {

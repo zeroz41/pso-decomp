@@ -6,6 +6,7 @@
 #include "pso/macros.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/MovementHold.h"
 #include "pso/player/PlayerStats.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/TPlyInventory.h"
@@ -31,7 +32,7 @@ struct PlayerSyncRecord {
     TelepipeState telepipe;
     u32 telepipe_unknown_a4;
     u32 death_flags;
-    PlayerHoldState hold_state;
+    MovementHold hold_state;
     u32 area;
     u32 player_flags;
     u8 technique_levels[0x14];

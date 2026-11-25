@@ -481,10 +481,8 @@ s32 try_send_6x27_use_item(void *player, s32 key);
 void release_players_from_cutscene(void);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
-void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 void TObjPlayer__sub_801BEEE0(void *, void *);
 void TObjPlayer__sub_801BEF30(void *, void *);
-void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
 void *__ct__12StatusEffectFv(void *);
 s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
 
@@ -3567,13 +3565,13 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     dst->f20 = src->f326;
     dst->f22 = src->f32C;
     for (i = 0; i < 5; i++) {
-        TObjPlayer__sub_801BEF44(&dst->f28[i], &src->f254[i]);
+        dst->f28[i] = src->f254[i];
     }
     ((TLobby *)(dst->f68))->copy_header_struct(src->fDAC);
     TObjPlayer__sub_801BEF30(dst->f70, src->f828);
     ((TObjPlayer *)(dst->f78))->copy_player_record_header(src->f830);
     TObjPlayer__sub_801BEEE0(dst->f94, src->f858);
-    TObjPlayer__sub_801BEEAC(&dst->f98, &src->f730);
+    dst->f98 = src->f730;
     dst->fAC = ((TObjPlayer *)src)->get_area();
     dst->f488 = ((TObjPlayer *)src)->get_floor();
     dst->fB0 = src->f334;

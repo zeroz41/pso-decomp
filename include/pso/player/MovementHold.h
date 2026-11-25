@@ -15,6 +15,7 @@ struct MovementHold {
     f32 center_x;
     f32 center_z;
 
+    MovementHold &operator=(MovementHold &src);
     MovementHold *init();
     void reset();
     s32 count_down();

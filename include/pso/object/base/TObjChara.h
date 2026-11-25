@@ -18,6 +18,7 @@ struct CsnHit;
 // defense stat (Deband/Zalure), 4 an action hold.
 struct StatusEffect {
     StatusEffect();
+    StatusEffect &operator=(StatusEffect &src);
     void clear();
     s32 type;
     f32 amount;
