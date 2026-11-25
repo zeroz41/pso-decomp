@@ -29,8 +29,9 @@ LAYOUT_ASSERT(TAdPlyPltAnimCtrlGC_size, sizeof(TAdPlyPltAnimCtrlGC) == 0x2C);
 
 extern "C" {
 void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0);
+}
+
 // Whether every bit of `mask` is set in the flag word.
 s32 test_flags_all(s32 *flags, s32 mask);
-}
 
 #endif
