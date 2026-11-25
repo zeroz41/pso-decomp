@@ -14,6 +14,11 @@ struct TMainMenuEntryPosition {
     f32 current[2];
 };
 
+// Texture coordinates of one main menu label (main_menu_label_uv_table).
+struct MainMenuLabelUV {
+    f32 u, v;
+};
+
 struct TMainMenuEntry {
     TMainMenuEntryPosition position;
     s8 fade;

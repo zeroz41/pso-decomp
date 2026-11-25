@@ -20,10 +20,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/vector.h"
 
-struct MainMenuLabelUV { f32 u, v; };
-
-
-
 const char *TWindowMenuMainMenu__class_name = "TWindowMenuMainMenu";
 
 const MainMenuLabelUV main_menu_label_uv_table[31] = {
