@@ -95,13 +95,13 @@ void TAdFloorLoadCamGC::run_task() {
 TAdFloorLoadCamGC::~TAdFloorLoadCamGC() {
     TCameraCtrl::reset_up_vector();
 }
-TAdFloorLoadCamGC::TAdFloorLoadCamGC(TObject *object, void *arg2) : TObject(object) {
+TAdFloorLoadCamGC::TAdFloorLoadCamGC(TObject *parent, s32 mode) : TObject(parent) {
     m_name = lbl_805D4340;
     this->m_20 = 0;
     this->m_24 = 0;
     this->up_x = (*(const f32 *)&lbl_805DFDB8);
     this->up_y = (*(const f32 *)&lbl_805DFDB8);
     this->m_48 = (*(const f32 *)&lbl_805DFDB8);
-    *((void **) (((s8 *) this) + 0x1C)) = arg2;
+    this->mode = mode;
     TAdMultiChgGameModeGC::set_default_camera();
 }

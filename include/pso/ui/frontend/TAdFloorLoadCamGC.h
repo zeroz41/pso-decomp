@@ -5,9 +5,9 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdFloorLoadCamGC : public TObject {
-    TAdFloorLoadCamGC(TObject *arg1, void *arg2);
+    TAdFloorLoadCamGC(TObject *parent, s32 mode);
     virtual ~TAdFloorLoadCamGC();
-    u32 m_1c;
+    s32 mode;
     u32 m_20;
     u32 m_24;
     void* m_28;

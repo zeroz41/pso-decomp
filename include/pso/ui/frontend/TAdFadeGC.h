@@ -6,13 +6,13 @@
 
 class TAdFadeGC : public TObject {
 public:
-    TAdFadeGC(TObject *arg1, void *arg2);
+    TAdFadeGC(TObject *parent, s32 mode);
     virtual ~TAdFadeGC();
     virtual void run_task();
     virtual void render();
 public:
     void draw_fade();
-    void start_fade(void *arg1);
+    void start_fade(s32 mode);
 
     s32 elapsed_frames;
     f32 wipe_width;

@@ -122,8 +122,8 @@ void TAdFadeGC::run_task() {
     }
 }
 
-void TAdFadeGC::start_fade(void *arg1) {
-    switch ((saddr)arg1) {
+void TAdFadeGC::start_fade(s32 mode) {
+    switch (mode) {
     case 0:
         break;
     case 1:
@@ -141,12 +141,12 @@ void TAdFadeGC::start_fade(void *arg1) {
 
 TAdFadeGC::~TAdFadeGC() {}
 }
-TAdFadeGC::TAdFadeGC(TObject *object, void *arg2) : TObject(object) {
+TAdFadeGC::TAdFadeGC(TObject *parent, s32 mode) : TObject(parent) {
     m_name = TAdFadeGC__name;
     elapsed_frames = -1;
     wipe_width = (0.0f);
-    fade_mode = reinterpret_cast<saddr>(arg2);
-    start_fade(reinterpret_cast<void *>(fade_mode));
+    fade_mode = mode;
+    start_fade(fade_mode);
 }
 
 #pragma push

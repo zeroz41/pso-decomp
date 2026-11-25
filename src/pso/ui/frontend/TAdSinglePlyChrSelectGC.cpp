@@ -341,7 +341,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         load_tables(cursor->selection_index());
         if (TAdSinglePlyChrSelectGC::is_slot_active(cursor->selection_index()) != 0) {
             if (this->slot_window->is_character_transferred((u32)(this->cursor->selection_index())) != 0) {
-                this->fade_task = new TAdFadeGC(tl_fade, NULL);
+                this->fade_task = new TAdFadeGC(tl_fade, 0);
                 this->yes_no_prompt = this->slot_window->open_yes_no_window((saddr)&single_chr_select_yes_no_pos, 0);
                 this->state = 7;
                 return;

@@ -7304,7 +7304,7 @@ force_active:
   - is_lockable_target__13TWindowLockOnFi
   - is_locked__11TWindowMenuFl
   - is_locked__18TWindowInputNumberFl
-  - is_logo_exit_requested__Fi
+  - is_logo_exit_requested__FP12TAdSoniclogo
   - is_mag_full__FPUc
   - is_mode_0__15TBoss3VoloptP02Fv
   - is_mode_0__16TBoss3VoloptCoreFv
@@ -16020,7 +16020,7 @@ force_active:
   - start_duel_battle__6TLobbyFv
   - start_effect__14TItemEquipBaseFUlUl
   - capture_symbol_chat__18TSymbolChatCaptureFUsl
-  - start_fade__9TAdFadeGCFPv
+  - start_fade__9TAdFadeGCFl
   - gba_start_joyboot__Fv
   - start_get_type_async
   - start_handle_6x78_entry__FUs
