@@ -23,17 +23,17 @@ const char *bm_fs_obj_monitor_motion_names[] = {NULL};
 BmlResourceDescriptor bm_fs_obj_monitor_resource_descriptor = {
     "bm_fs_obj_monitor.bml", bm_fs_obj_monitor_model_names, bm_fs_obj_monitor_motion_names, 1, 0,
 };
-const char *TOMonitorMachine01__class_name = "TOMonitorMachine01";
-BmlResource *TOMonitorMachine01__bml_resource;
-s32 TOMonitorMachine01__last_update_tick;
+const char *monitor_machine01_class_name = "TOMonitorMachine01";
+BmlResource *monitor_machine01_bml_resource;
+s32 monitor_machine01_last_update_tick;
 // The two screen meshes whose UVs scroll once per frame.
-GinjaModel *TOMonitorMachine01__scroll_meshes[2];
+GinjaModel *monitor_machine01_scroll_meshes[2];
 
 void TOMonitorMachine01::run_task() {
-    if (TOMonitorMachine01__last_update_tick != actor_frame_tick) {
-        TOMonitorMachine01__last_update_tick = actor_frame_tick;
-        scroll_ginja_mesh_uvs(TOMonitorMachine01__scroll_meshes[0], 1, 0, 1, 1);
-        scroll_ginja_mesh_uvs(TOMonitorMachine01__scroll_meshes[1], 1, 0, 1, 1);
+    if (monitor_machine01_last_update_tick != actor_frame_tick) {
+        monitor_machine01_last_update_tick = actor_frame_tick;
+        scroll_ginja_mesh_uvs(monitor_machine01_scroll_meshes[0], 1, 0, 1, 1);
+        scroll_ginja_mesh_uvs(monitor_machine01_scroll_meshes[1], 1, 0, 1, 1);
     }
     switch (object_state) {
     default:
@@ -134,33 +134,33 @@ void *TOMonitorMachine01::create(void *set_data) {
 
 void TOMonitorMachine01::reset_static_state() {
     s32 i;
-    TOMonitorMachine01__last_update_tick = 0;
+    monitor_machine01_last_update_tick = 0;
     for (i = 0; i < 2; i++) {
-        TOMonitorMachine01__scroll_meshes[i] = NULL;
+        monitor_machine01_scroll_meshes[i] = NULL;
     }
-    if (TOMonitorMachine01__bml_resource != NULL) {
-        delete TOMonitorMachine01__bml_resource;
-        TOMonitorMachine01__bml_resource = NULL;
+    if (monitor_machine01_bml_resource != NULL) {
+        delete monitor_machine01_bml_resource;
+        monitor_machine01_bml_resource = NULL;
     }
 }
 
 void TOMonitorMachine01::load_resources() {
     NJS_OBJECT *screen;
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_monitor_resource_descriptor, 0, 0, NULL);
-    TOMonitorMachine01__bml_resource = resource;
+    monitor_machine01_bml_resource = resource;
     screen = ((NJS_OBJECT *)resource->models[0].model)->child->sibling->sibling;
-    TOMonitorMachine01__scroll_meshes[1] = static_cast<GinjaModel *>(screen->model);
-    TOMonitorMachine01__scroll_meshes[0] = static_cast<GinjaModel *>(screen->sibling->sibling->model);
-    TOMonitorMachine01__last_update_tick = 0;
+    monitor_machine01_scroll_meshes[1] = static_cast<GinjaModel *>(screen->model);
+    monitor_machine01_scroll_meshes[0] = static_cast<GinjaModel *>(screen->sibling->sibling->model);
+    monitor_machine01_last_update_tick = 0;
 }
 
 TOMonitorMachine01::~TOMonitorMachine01() {}
 
 TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject(tl_05) {
-    m_name = TOMonitorMachine01__class_name;
+    m_name = monitor_machine01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)TOMonitorMachine01__bml_resource, 0);
-    texlist = get_bml_texlist((BmlResource *)TOMonitorMachine01__bml_resource, 0);
+    model = (void *)get_bml_model((BmlResource *)monitor_machine01_bml_resource, 0);
+    texlist = get_bml_texlist((BmlResource *)monitor_machine01_bml_resource, 0);
     view_range = 500.0f;
     model_radius = 15.0f;
     actorFlags |= 0x40000000;

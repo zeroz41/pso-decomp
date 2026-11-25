@@ -7,12 +7,13 @@
 struct TObjRaderCol : public TObjBase {
     TObjRaderCol(TObject *parent, void *set_data);
     virtual ~TObjRaderCol();
-    u8 unk_90[0x4];
-    u32 id;
-    u32 m_98;
-    u32 m_9c;
+    f32 radius;        // scale.x: how near a player must come
+    u32 id;            // set_params[0]: the radar region it reveals
+    u32 state;         // 0 blocks its region, 1 waiting for a player
+    s32 delay;         // frames to wait after spawning
     virtual void render();
-    static void check_local_player_in_range(void *arg0_);
+    void check_local_player_in_range();
+    void check_any_player_in_range();
     virtual void run_task();
     static void *create(void *set_data);
 };

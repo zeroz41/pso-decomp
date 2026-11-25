@@ -35,9 +35,9 @@ public:
 
 LAYOUT_ASSERT(TOKeyCave01_size, sizeof(TOKeyCave01) == 0x100);
 
-extern BmlResource *TOKeyCave01__resource_bundle;
+extern BmlResource *key_cave01_resource_bundle;
 // The red texture list while up, the model's own while down.
-extern NJS_TEXLIST **TOKeyCave01__texture_lists;
+extern NJS_TEXLIST **key_cave01_texture_lists;
 // 1: the jungle key is loaded (its lid turns), 0: the door panel (it slides).
 extern s32 key_cave_render_state;
 

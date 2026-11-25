@@ -4,13 +4,13 @@
 #include "types.h"
 
 extern "C" {
-s32 TLobby__sub_8020B308(void);
+s32 get_total_object_set_count(void);
 }
 void clear_map_set_data(void);
 
 // --- C functions defined in TLobby_8020B03C.cpp ---
 extern "C" {
-s32 TLobby__sub_8020B308(void);
+s32 get_total_object_set_count(void);
 }
 // --- end of C functions
 

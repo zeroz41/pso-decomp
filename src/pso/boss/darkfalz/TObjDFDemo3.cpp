@@ -35,7 +35,7 @@
 #include "pso/math/MatrixVector.h"
 
 extern "C" {
-const char *TObjDFDemo3__name = "TObjDFDemo3";
+const char *TObjDFDemo3::name = "TObjDFDemo3";
 __declspec(section ".rodata") CameraAngles df_demo3_zero_camera_angles = {0, 0, 0};
 ModelNodePositionEntry df_demo3_node_capture_entries[2] = {{0}, {-1}};
 CameraPlayback df_demo3_camera_playback = {0, 6, 0, 0.0f, 1.0f};
@@ -46,7 +46,7 @@ TObjDFDemo3 *TObjDFDemo3::create(TObject *parent, const Vec *position, s32 angle
 
 TObjDFDemo3::TObjDFDemo3(TObject *parent, const Vec *position, s32 angle) : TObjBase(parent) {
     BmlResource *cnt;
-    this->m_name = TObjDFDemo3__name;
+    this->m_name = TObjDFDemo3::name;
     VecCopy(&this->camera_position, position);
     this->camera_position.y = 0.0f;
     {

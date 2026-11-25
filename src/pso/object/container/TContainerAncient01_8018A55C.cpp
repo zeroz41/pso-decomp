@@ -1,7 +1,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/object/fence/TLazerFenceSw.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/object/container/TContainerAncient01R.h"
 
 void TContainerAncient01R::trigger_spawn(const Vec *position, s32 effect_id) {

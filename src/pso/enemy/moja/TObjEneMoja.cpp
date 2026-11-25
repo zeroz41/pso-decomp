@@ -63,6 +63,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/TDeadSpot.h"
 extern "C" {
 void TObjPlayer__sub_800ACA0C(void *);
 }
@@ -137,7 +138,7 @@ MojaMovementParameters moja_movement_params[2] = {
 };
 CollisionBody moja_collision_body = { { 0.0f, 20.0f, 0.0f }, 12.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f };
 
-const char *TObjEneMoja__name = "TObjEneMoja";
+const char *moja_name = "TObjEneMoja";
 
 // What load_resources sets up and free_resources releases: the combat stat
 // blocks of the two variants, the archive and the punch's sampled trail.
@@ -154,7 +155,7 @@ static const s32 moja_hittable_body_flags = 0x8001;
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
 TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
-    m_name = TObjEneMoja__name;
+    m_name = moja_name;
     apply_set_data(setData);
     init_position_vectors();
     mode = 0;
@@ -1363,7 +1364,7 @@ void TObjEneMoja::update_death_state() {
         play_sound_effect(remap_sound_for_area(0x3AD03), &v, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
         spawn_particle_effect(&v, 0xF0);
-        spawn_dead_spot_scale15(&v, 0x14);
+        TDeadSpot::spawn_kind2_scale15(&v, 0x14);
         spawn_effect_at_ground(&v, 0x32);
     }
     if (this->frame < 0.5f * (30.0f * this->play_speed)) {

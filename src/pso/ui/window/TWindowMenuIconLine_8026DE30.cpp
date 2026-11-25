@@ -2,7 +2,6 @@
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
-extern "C" {
 
 
 void TWindowMenuIconLine::add_list_entry(u8 icon, s32 arg2, s32 arg3) {
@@ -12,4 +11,3 @@ void TWindowMenuIconLine::add_list_entry(u8 icon, s32 arg2, s32 arg3) {
     }
 }
 
-}

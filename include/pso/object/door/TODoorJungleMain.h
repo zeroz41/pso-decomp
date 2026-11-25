@@ -11,8 +11,8 @@ struct TODoorJungleMain : public TODoorBase {
     virtual s32 update_object_view_visibility(f32, f32);
     virtual void vfunc_6(s16 *, s32);
     virtual void update_door_switch_state();
-    u32 m_d4;
-    u32 m_d8;
+    s32 switch_count;      // how many of the three switches are set
+    s32 sparkle_counter;   // frames of the open animation, counted for the particle burst
     TObjMapCsn *m_dc;
     static void free_static_resources();
     static void load_resources();

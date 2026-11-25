@@ -6,8 +6,8 @@
 
 struct TObjQuestColApcINW : public TObjQuestColBase {
     TObjQuestColApcINW(TObject *parent, void *set_data);
-    virtual int vfunc_15();
-    virtual TQuestThread *vfunc_16();
+    virtual int is_triggered();
+    virtual TQuestThread *start_quest_thread();
     f32 party_radius;  // scale.y; a player farther than this is warped (inferred name)
     Vec warp_pos;      // copied to quest_col_apc_warp_target_pos (inferred name)
 };

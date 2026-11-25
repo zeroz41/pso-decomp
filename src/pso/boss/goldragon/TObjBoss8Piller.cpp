@@ -27,11 +27,11 @@ const char *bm_obj_boss8_piller_motion_names[3] = { "fe_obj_gol_hasira5m.njm", "
 BmlResourceDescriptor bm_obj_boss8_piller_resource_descriptor = {
     "bm_obj_boss8_piller.bml", bm_obj_boss8_piller_model_names, bm_obj_boss8_piller_motion_names, 4, 2,
 };
-const char *TObjBoss8Piller__class_name = "TObjBoss8Piller";
+const char *TObjBoss8Piller::class_name = "TObjBoss8Piller";
 
 extern "C" {
 
-BmlResource *TObjBoss8Piller__shared_resource;
+BmlResource *TObjBoss8Piller::shared_resource;
 
 
 void TObjBoss8Piller::render() {
@@ -39,11 +39,11 @@ void TObjBoss8Piller::render() {
 
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         if (is_split_screen() != 0) {
-            model = TObjBoss8Piller__shared_resource->models[2].model;
+            model = TObjBoss8Piller::shared_resource->models[2].model;
         } else {
-            model = TObjBoss8Piller__shared_resource->models[0].model;
+            model = TObjBoss8Piller::shared_resource->models[0].model;
         }
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjBoss8Piller__shared_resource->models[0].texlist));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjBoss8Piller::shared_resource->models[0].texlist));
         push_matrix();
         post_translate_matrix(&this->position.x);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);
@@ -72,25 +72,25 @@ void TObjBoss8Piller::run_task() {
 TObjBoss8Piller::~TObjBoss8Piller() {}
 
 TObjBoss8Piller::TObjBoss8Piller(TObject *parent, Vec *pos, f32, u16 dragon_id) : TObject(parent) {
-    m_name = TObjBoss8Piller__class_name;
+    m_name = TObjBoss8Piller::class_name;
     VecCopy(&this->position, pos);
     this->position.y = 0.0f;
     this->frame = 0.0f;
     this->dragon_id = dragon_id;
     this->frame = 3.0f * (3.0517578e-05f * (f32)rand());
-    this->motion = TObjBoss8Piller__shared_resource->motions[0].motion;
+    this->motion = TObjBoss8Piller::shared_resource->motions[0].motion;
 }
 
 extern "C" {
 
 void TObjBoss8Piller::free_held_object() {
-    if (TObjBoss8Piller__shared_resource != NULL) {
-        delete TObjBoss8Piller__shared_resource;
-        TObjBoss8Piller__shared_resource = NULL;
+    if (TObjBoss8Piller::shared_resource != NULL) {
+        delete TObjBoss8Piller::shared_resource;
+        TObjBoss8Piller::shared_resource = NULL;
     }
 }
 void TObjBoss8Piller::load_resource_descriptor() {
-    TObjBoss8Piller__shared_resource = new BmlResource(5, &bm_obj_boss8_piller_resource_descriptor, 0, 0, NULL);
+    TObjBoss8Piller::shared_resource = new BmlResource(5, &bm_obj_boss8_piller_resource_descriptor, 0, 0, NULL);
 }
 
 }

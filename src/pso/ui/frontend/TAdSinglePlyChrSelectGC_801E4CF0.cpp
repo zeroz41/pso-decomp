@@ -8,7 +8,6 @@
 #include "pso/unk/TTextureWave.h"
 #include "pso/render/GinjaTexture.h"
 
-extern "C" {
 
 
 void TTextureWave::advance_wrapped_cursor() {
@@ -48,7 +47,6 @@ void TTextureWave::init_image_buffer(u8 *arg1, s32 arg2) {
     psoLoadTexture(*(NJS_TEXLIST **)&this->m_3c);
 }
 
-}
 
 TTextureWave::TTextureWave(NJS_TEXLIST *texture_list) {
     m_4c = 0;

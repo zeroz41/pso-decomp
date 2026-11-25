@@ -4,12 +4,12 @@
 #include "types.h"
 
 struct NJS_OBJECT;
-#include "pso/enemy/TUnk_80493450.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 class TAttackTraceStrip;
 
-struct TObjEneDolmOlm : public TUnk_80493450 {
+struct TObjEneDolmOlm : public TObjEneBeastBase {
     TObjEneDolmOlm(TObject *parent, void *set_data);
     static void *create(void *set_data);
     virtual ~TObjEneDolmOlm();
@@ -34,7 +34,7 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     virtual void play_alert_sound();
     virtual void spawn_death_effect();
     virtual void update_attack_trail();
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     TAttackTraceStrip *attack_traces[2]; // driven by update_attack_trail
     f32 retreat_chance;        // 0.3 + parameters[2]: select_post_attack_mode's odds of mode 10 (update_retreat)
     f32 special_attack_chance; // 0.3 + parameters[3]: run_attack_action's odds of mode 11 (update_special_attack)
@@ -69,15 +69,15 @@ extern "C" {
 s32 TObjEneDolmOlm__sub_80300CF0(void);
 }
 
-extern BmlResource *TObjEneDolmOlm__resource_bundle;
-extern SampledMotionPoints *TObjEneDolmOlm__left_attack_samples; // the left attack's (action 3) trail samples
-extern SampledMotionPoints *TObjEneDolmOlm__right_attack_samples; // the right attack's (action 4) trail samples
+extern BmlResource *dolm_olm_resource_bundle;
+extern SampledMotionPoints *dolm_olm_left_attack_samples; // the left attack's (action 3) trail samples
+extern SampledMotionPoints *dolm_olm_right_attack_samples; // the right attack's (action 4) trail samples
 extern player_stats **dolm_olm_combat_stat_id_pair;
-extern AttackParams **TObjEneDolmOlm__shared_handler_ids;
-extern ActorParamBlock **TObjEneDolmOlm__registered_object_ids;
-extern DolmOlmBehaviorParams **TObjEneDolmOlm__behavior_params_by_variant;
-extern s32 TObjEneDolmOlm__effect_render_state;
-extern TObjMotionAction TObjEneDolmOlm__param_table[13];
+extern AttackParams **dolm_olm_shared_handler_ids;
+extern ActorParamBlock **dolm_olm_registered_object_ids;
+extern DolmOlmBehaviorParams **dolm_olm_behavior_params_by_variant;
+extern s32 dolm_olm_effect_render_state;
+extern TObjMotionAction dolm_olm_param_table[13];
 extern const char *obj_ene_dolm_olm_class_name;
 
 #endif

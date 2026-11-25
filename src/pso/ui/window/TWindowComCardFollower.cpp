@@ -25,8 +25,8 @@ WindowDescriptor com_card_follower_window_descriptor = {
 };
 
 extern "C" void request_active_window_close(void) {
-    if ((TWindowCtrl::instance != NULL) && (TWindowCtrl::instance->m_38 != 0U)) {
-        ((TWindowCtrl *)((void*)TWindowCtrl::instance->m_38))->set_flag1e_bit8();
+    if ((TWindowCtrl::instance != NULL) && (TWindowCtrl::instance->chat_window != 0U)) {
+        ((TWindowCtrl *)((void*)TWindowCtrl::instance->chat_window))->set_flag1e_bit8();
     }
 }
 
@@ -63,7 +63,7 @@ TWindowComCardFollower::~TWindowComCardFollower() {}
 void TWindowComCardFollower::run_task() {
     target_position[1] = parent_window->frame_position[1] + offset.y;
     frame_position[1] = target_position[1];
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(&entry_list);
 }

@@ -1,6 +1,6 @@
 #include <string.h>
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -208,7 +208,7 @@ void init_quest_script_context(QuestBinHeader *h, QuestVmContext *c) {
     c->statistic_arg2 = 0;
 }
 
-s32 *TObjItemOKWindow__sub_801F3268(void) {
+s32 *get_entered_item_name(void) {
     return &entered_item_name.value;
 }
 
@@ -230,24 +230,24 @@ s32 TObjPlayer::test_action_80000() {
 s32 TObjPlayer::test_action_40000() {
     return test_action_mask(0x40000);
 }
-void TLobby__sub_801F3314(saddr player) {
+void test_player_action_10000(saddr player) {
     ((TObjPlayer *)player)->test_action_mask(0x10000);
 }
 s32 TObjPlayer::test_action_8000() {
     return test_action_mask(0x8000);
 }
 int TLobby::check_flag_24576() { return ((TObjPlayer *)this)->test_action_mask(24576); }
-int TLobby__sub_801F3384(void* p) { return ((TObjPlayer *)p)->test_action_mask(1024); }
-int TLobby__sub_801F33A8(void* p) { return ((TObjPlayer *)p)->test_action_mask(512); }
-int TLobby__sub_801F33CC(void* p) { return ((TObjPlayer *)p)->test_action_mask(256); }
-int TLobby__sub_801F33F0(void* p) { return ((TObjPlayer *)p)->test_action_mask(224); }
+int test_player_action_400(void* p) { return ((TObjPlayer *)p)->test_action_mask(1024); }
+int test_player_action_200(void* p) { return ((TObjPlayer *)p)->test_action_mask(512); }
+int test_player_action_100(void* p) { return ((TObjPlayer *)p)->test_action_mask(256); }
+int test_player_action_E0(void* p) { return ((TObjPlayer *)p)->test_action_mask(224); }
 int TLobby::test_flag_16() { return ((TObjPlayer *)this)->test_action_mask(16); }
 s32 TObjPlayer::test_action_4() { return test_action_mask(4); }
 
-int TLobby__sub_801F345C(void* p) { return ((TObjPlayer *)p)->test_action_mask(2); }
+int test_player_action_2(void* p) { return ((TObjPlayer *)p)->test_action_mask(2); }
 
-void fn_801F3480(void* p) { ((TObjPlayer *)p)->clear_flag_4096(); }
-void fn_801F34A0(void* p) { ((TObjPlayer *)p)->set_flag_4096(); }
+void clear_player_flag_4096(void* p) { ((TObjPlayer *)p)->clear_flag_4096(); }
+void set_player_flag_4096(void* p) { ((TObjPlayer *)p)->set_flag_4096(); }
 s32 get_field_d4(void* p) { return *(s32*)((char*)p + 0xd4); }
 s32 fn_get_field_3ac(void* p) { return *(s32*)((char*)p + 0x3ac); }
 
@@ -255,20 +255,20 @@ void TObject::toggle_pause() { m_flags ^= PAUSE_UPDATE; }
 
 void TLobby::set_floor(s16 v) { *(s16*)((char*)this + 0x11a) = v; }
 
-    extern unsigned char lbl_805D6CD9;
-    extern short lbl_805D6CDA;
-void TLobby__sub_801F34E8(int a0, int a1) { lbl_805D6CD9 = a1; lbl_805D6CDA = (a0 + 0x1); }
+    extern unsigned char gba_identifier_value;
+    extern short gba_identifier_slot_plus_1;
+void gba_set_identifiers(int a0, int a1) { gba_identifier_value = a1; gba_identifier_slot_plus_1 = (a0 + 0x1); }
 
-    extern int TLobby__data_805D6CCC;
-int TLobby__sub_801F34F8(void) {  return TLobby__data_805D6CCC; }
+    extern int gba_download_state;
+int get_gba_download_state(void) {  return gba_download_state; }
 
-Vec *TLobby__sub_801F3500(TObjQuestColApcINW *trigger, const Vec *position) {
+Vec *set_quest_col_warp_position(TObjQuestColApcINW *trigger, const Vec *position) {
     return VecCopy(&trigger->warp_pos, position);
 }
 void TLobby::bswap_4x32() { bswap_32__FPUl(this); bswap_32__FPUl((char*)this + 0x4); bswap_32__FPUl((char*)this + 0x8); bswap_32__FPUl((char*)this + 0xc); }
 
     extern unsigned char camera_capture_flags;
-void TLobby__sub_801F3568(void) { camera_capture_flags = (camera_capture_flags | 0x10); }
+void set_screen_bw(void) { camera_capture_flags = (camera_capture_flags | 0x10); }
 
 void TLobby::sync_quest_register_and_send() { TLobby::bswap_header(this); send_subcommand((u8 *)this); }
 void TLobby::bswap_header(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
@@ -278,7 +278,7 @@ int TLobby::get_field_6CE8() {  return warning_aram_load_done_flag; }
 
 int TLobby::get_lobby_count() {  return lobby_count_value; }
 
-void TLobby__sub_801F3614(void) { lobby_count_value = 0; }
+void clear_lobby_count(void) { lobby_count_value = 0; }
 
 int TLobby::copy_position() { return VecCopy__FP3VecPC3Vec(this); }
 
@@ -300,20 +300,20 @@ void TLobby::bswap_entry_words(s32 entry) {
 }
 #pragma pop
 
-void TLobby__sub_801F3694(void* p) { ((FlagWord *)((char*)p + 0x10))->set(2); }
+void disable_player_techniques(void* p) { ((FlagWord *)((char*)p + 0x10))->set(2); }
 
     extern int lobby_online_ready_flag;
-void TLobby__sub_801F36BC(void) { lobby_online_ready_flag = 1; }
+void set_ult_map(void) { lobby_online_ready_flag = 1; }
 
     extern int current_lobby_id;
 void TLobby::set_lobby_id(int a0) { current_lobby_id = a0; }
 
-    extern int lbl_805D3614;
-void TLobby::set_global_805D3614(int a0) { lbl_805D3614 = a0; }
+    extern int area_total;
+void TLobby::set_area_total(int a0) { area_total = a0; }
 
-void TLobby__sub_801F36D8(void) { lobby_quest_progress_flag = 1; }
+void override_warp_dest_floor(void) { lobby_quest_progress_flag = 1; }
 
-void TLobby__sub_801F36E4(void) { quest_warp_enabled = 0; }
+void disable_quest_warp(void) { quest_warp_enabled = 0; }
 
 int TLobby__sub_801F36F0(void) { return -1; }
 int TLobby__sub_801F36F8(void) { return 0; }

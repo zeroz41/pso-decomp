@@ -15,11 +15,9 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 
-extern "C" {
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
 const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;
 __declspec(section ".data") float solo_play_result_window_extent[2] = {240.0f, 180.0f};
-}
 
 s32 TObjSoloPlayWin::has_at_most_one_player() {
     return (count_challenge_players() <= 1) ? 1 : 0;

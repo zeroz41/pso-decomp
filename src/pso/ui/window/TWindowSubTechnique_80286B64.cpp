@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
-extern "C" {
 
 s32 TWindowSubTechnique::update_selection(s16 *arg0, s32 *arg1, s32 client) {
     s32 spC;
@@ -18,4 +17,3 @@ s32 TWindowSubTechnique::update_selection(s16 *arg0, s32 *arg1, s32 client) {
     return 1;
 }
 
-}

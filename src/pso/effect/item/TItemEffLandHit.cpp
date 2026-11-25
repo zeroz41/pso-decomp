@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/weapon/TItemAttacker.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "types.h"
 
 #pragma readonly_strings on
@@ -43,7 +44,7 @@ void TItemEffLandHit::trigger_impact() {
     TItem *item;
     item = find_item_by_id(item_id);
     if (item != NULL) {
-        ((TObjPlayer *)item)->call_callback_1ec((saddr)&start, (saddr)&end);
+        ((TItemWeapon *)item)->call_impact_callback((saddr)&start, (saddr)&end);
     }
     finished = 1;
 }

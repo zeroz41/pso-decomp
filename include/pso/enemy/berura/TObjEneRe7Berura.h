@@ -19,7 +19,7 @@ struct TObjEneRe7BeruraMovementParameters {
     u32 unknown_0C[4];
 };
 
-// One of the Berura's two arms (TObjEneRe7Berura__detached_part_states): the node matrices sampled
+// One of the Berura's two arms (re7_berura_detached_part_states): the node matrices sampled
 // at the launch frame draw the arm while it flies as a TObjEneRe7BeruraPunch.
 struct TObjEneRe7BeruraPart {
     void show();

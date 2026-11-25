@@ -154,7 +154,7 @@ CollisionBody lappy_collision_bodies[1] = {
     {{0.0f, 7.5f, 0.0f}, 7.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-const char *TObjEneLappy__class_name = "TObjEneLappy";
+const char *lappy_class_name = "TObjEneLappy";
 
 
 const NpcAnimationBinding lappy_resource_binding_desc = { NULL, lappy_motion_actions, 1, 3, 10 };
@@ -1062,7 +1062,7 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     s32 i;
     f32 scale;
 
-    m_name = TObjEneLappy__class_name;
+    m_name = lappy_class_name;
     apply_set_data(set);
     motion_list = rappy_bml_resource->motions;
     VecCopy(&position, &set->position);

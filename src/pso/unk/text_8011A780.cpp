@@ -30,7 +30,7 @@
 
 // FloorItem::FloorItem() on a record built here.
 extern "C" void *__ct__9FloorItemFv(void *item);
-struct Stack_8011AED8 {
+struct AddItemConditionStack {
     s8 sp8;
     u8 pad_9[0x3];
     f32 spC;
@@ -285,12 +285,12 @@ void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt) {
 }
 
 void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8011AED8, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8011AED8, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8011AED8, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8011AED8, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8011AED8, sp18) == 0x10);
-    Stack_8011AED8 stack;
+    LAYOUT_ASSERT(sp8_offset, offsetof(AddItemConditionStack, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(AddItemConditionStack, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(AddItemConditionStack, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(AddItemConditionStack, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(AddItemConditionStack, sp18) == 0x10);
+    AddItemConditionStack stack;
     __ct__9FloorItemFv(&stack.sp8);
     stack.sp8 = floor;
     stack.spC = x;

@@ -36,18 +36,18 @@
 extern "C" {
 }
 
-const char *TObjSinBoard__class_name = "TObjSinBoard";
+const char *sin_board_class_name = "TObjSinBoard";
 
-void *TObjSinBoard__texture_buffer;
-NJS_TEXNAME TObjSinBoard__texture_name;
+void *sin_board_texture_buffer;
+NJS_TEXNAME sin_board_texture_name;
 __declspec(section ".data") NJS_TEXLIST signboard_texture_list;
-GinjaTextureInput TObjSinBoard__texture_surface;
+GinjaTextureInput sin_board_texture_surface;
 s32 gogo_ball_team_scores[2];
 GoGoBallConfig gogo_ball_configuration;
 GoGoBallSyncState gogo_ball_sync_state;
 
 s32 is_signboard_texture_buffer_missing(void) {
-    if (TObjSinBoard__texture_buffer == 0) {
+    if (sin_board_texture_buffer == 0) {
         return 1;
     }
     return 0;
@@ -94,39 +94,39 @@ void load_memcard_file(void) {
         safe_free(buf);
         return;
     }
-    fn_80197FD0(hdr.data, hdr.size);
+    load_sin_board_image(hdr.data, hdr.size);
     safe_free(buf);
 }
 
 void TLobby__sub_80197F74(void) {}
 
 void TLobby::free_global_buffer() {
-    if (TObjSinBoard__texture_buffer != 0) {
-        safe_free(TObjSinBoard__texture_buffer);
-        TObjSinBoard__texture_buffer = 0;
+    if (sin_board_texture_buffer != 0) {
+        safe_free(sin_board_texture_buffer);
+        sin_board_texture_buffer = 0;
         if (signboard_texture_list.textures->texture != NULL) {
             release_texture_list(&signboard_texture_list);
         }
     }
 }
 
-void clear_signboard_texture_buffer_pointer(void) { TObjSinBoard__texture_buffer = 0; }
+void clear_signboard_texture_buffer_pointer(void) { sin_board_texture_buffer = 0; }
 
-void fn_80197FD0(const void *image, u32 size) {
+void load_sin_board_image(const void *image, u32 size) {
     void *buffer = TQuestVmDownLoadServer::alloc(size);
-    TObjSinBoard__texture_buffer = buffer;
+    sin_board_texture_buffer = buffer;
     if (buffer != NULL) {
         move_data(buffer, image, size);
-        signboard_texture_list.textures = &TObjSinBoard__texture_name;
+        signboard_texture_list.textures = &sin_board_texture_name;
         signboard_texture_list.nbTexture = 1;
-        TObjSinBoard__texture_surface.set_render_rect(TObjSinBoard__texture_buffer, 0, 0, 0);
-        set_texture_name(&TObjSinBoard__texture_name, &TObjSinBoard__texture_surface, 0, 0x40000000);
+        sin_board_texture_surface.set_render_rect(sin_board_texture_buffer, 0, 0, 0);
+        set_texture_name(&sin_board_texture_name, &sin_board_texture_surface, 0, 0x40000000);
         load_texture_if_valid(&signboard_texture_list);
     }
 }
 
 void TObjSinBoard::render() {
-    if (TMainTask::get_render_pass() != 1 && TObjSinBoard__texture_buffer != 0) {
+    if (TMainTask::get_render_pass() != 1 && sin_board_texture_buffer != 0) {
         Vec positions[4] = {
             -10.0f, -10.0f, 0.0f, 10.0f, -10.0f, 0.0f, 10.0f, 10.0f, 0.0f, -10.0f, 10.0f, 0.0f,
         };
@@ -168,7 +168,7 @@ const char *memcard_file_099_name = "PSO______099";
 TObjSinBoard::~TObjSinBoard() {}
 
 TObjSinBoard::TObjSinBoard(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjSinBoard__class_name;
+    m_name = sin_board_class_name;
     apply_object_set_data(set_data);
 }
 

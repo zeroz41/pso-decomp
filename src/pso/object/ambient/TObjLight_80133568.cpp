@@ -2,10 +2,10 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/TUnk_804A6FC0.h"
-#include "pso/object/TUnk_804A6FA8.h"
-#include "pso/object/TUnk_804A6F90.h"
-#include "pso/object/TUnk_804A6F78.h"
+#include "pso/object/TSceneLight.h"
+#include "pso/object/TActorLightTable.h"
+#include "pso/object/TSceneDirectionalLight.h"
+#include "pso/object/TSceneAmbientLight.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/render/gjLight.h"
@@ -68,9 +68,9 @@ void LightEntry::bswap_data() {
     bswap_32((u32 *)&ambient_color.b);
 }
 
-TUnk_804A6F90::~TUnk_804A6F90() {}
+TSceneDirectionalLight::~TSceneDirectionalLight() {}
 
-TUnk_804A6F78::~TUnk_804A6F78() {}
+TSceneAmbientLight::~TSceneAmbientLight() {}
 
 void TObjLight::init_light_tables() {
     s32 i;
@@ -269,9 +269,9 @@ void TObjLight::apply_distant_light() {
     load_gx_light_slot(0);
 }
 
-TUnk_804A6FC0::TUnk_804A6FC0(TObject *parent) : TObject(parent) {}
+TSceneLight::TSceneLight(TObject *parent) : TObject(parent) {}
 
-TUnk_804A6FC0::~TUnk_804A6FC0() {}
+TSceneLight::~TSceneLight() {}
 
 void load_light_entry_file(void) {
     light_entry_data = NULL;
@@ -307,11 +307,11 @@ void init_area_lights(void) {
     init_map_lights(&default_scene_light_config);
 }
 
-TUnk_804A6FA8::TUnk_804A6FA8(TObject *parent) : TObject(parent) {}
+TActorLightTable::TActorLightTable(TObject *parent) : TObject(parent) {}
 
-TUnk_804A6FA8::~TUnk_804A6FA8() {}
+TActorLightTable::~TActorLightTable() {}
 
-void TUnk_804A6FA8::run_task() {
+void TActorLightTable::run_task() {
     s32 i;
     s32 j;
     for (i = 0; i < 32; i++) {
@@ -365,9 +365,9 @@ void init_map_lights(LightEntry *entry) {
     scene_light_state.ambient_color.g = entry->ambient_color.g;
     scene_light_state.ambient_color.b = entry->ambient_color.b;
     TObjLight::init_light_tables();
-    new TUnk_804A6F90(tl_02);
-    new TUnk_804A6FA8(tl_02);
-    new TUnk_804A6F78(tl_02);
+    new TSceneDirectionalLight(tl_02);
+    new TActorLightTable(tl_02);
+    new TSceneAmbientLight(tl_02);
 }
 
 void init_menu_scene_lights(LightEntry *entry, s32) {
@@ -393,8 +393,8 @@ void init_menu_scene_lights(LightEntry *entry, s32) {
     scene_light_state.view_direction.x = entry->view_direction.x;
     scene_light_state.view_direction.y = entry->view_direction.y;
     scene_light_state.view_direction.z = entry->view_direction.z;
-    new TUnk_804A6F90(tl_02);
-    new TUnk_804A6FA8(tl_02);
+    new TSceneDirectionalLight(tl_02);
+    new TActorLightTable(tl_02);
 }
 
 void set_scene_light_color(f32 r, f32 g, f32 b) {
@@ -403,7 +403,7 @@ void set_scene_light_color(f32 r, f32 g, f32 b) {
     scene_light_state.color.b = b;
 }
 
-TUnk_804A6F90::TUnk_804A6F90(TObject *parent) : TUnk_804A6FC0(parent) {
+TSceneDirectionalLight::TSceneDirectionalLight(TObject *parent) : TSceneLight(parent) {
     rotate_vector_by_matrix(0, &scene_light_state.direction, &scene_light_state.view_direction);
     sub_8013397C();
     submit_scene_light_direction();
@@ -411,19 +411,19 @@ TUnk_804A6F90::TUnk_804A6F90(TObject *parent) : TUnk_804A6FC0(parent) {
     lbl_805D5558 = this;
 }
 
-void TUnk_804A6F90::sub_8013397C() {}
+void TSceneDirectionalLight::sub_8013397C() {}
 
-void TUnk_804A6F90::submit_scene_light_direction() {
+void TSceneDirectionalLight::submit_scene_light_direction() {
     init_distant_light(0, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
     GXInitLightDir(gx_light_objects, scene_light_state.view_direction.x, scene_light_state.view_direction.y, scene_light_state.view_direction.z);
 }
 
-void TUnk_804A6F90::set_scene_light_diffuse() {
+void TSceneDirectionalLight::set_scene_light_diffuse() {
     set_gx_light_color(0, scene_light_state.color.r, scene_light_state.color.g, scene_light_state.color.b);
 }
 
 
-void TUnk_804A6F90::render() {
+void TSceneDirectionalLight::render() {
     Vec v;
     rotate_vector_by_matrix(0, &scene_light_state.direction, &scene_light_state.view_direction);
     v.x = scene_light_state.view_direction.x;
@@ -456,7 +456,7 @@ void TObjLight::init_directional_light() {
 
 void TObjLight::sub_8013379C(TObjLightSceneLightState *state) {}
 
-TUnk_804A6F78::TUnk_804A6F78(TObject *parent) : TUnk_804A6FC0(parent) {
+TSceneAmbientLight::TSceneAmbientLight(TObject *parent) : TSceneLight(parent) {
     s32 i;
     lbl_805D5564 = this;
     active_light_count = 1;
@@ -468,14 +468,14 @@ TUnk_804A6F78::TUnk_804A6F78(TObject *parent) : TUnk_804A6FC0(parent) {
     }
 }
 
-void TUnk_804A6F78::sub_80133714() {}
+void TSceneAmbientLight::sub_80133714() {}
 
-void TUnk_804A6F78::submit_scene_ambient_color() {
+void TSceneAmbientLight::submit_scene_ambient_color() {
     set_light_ambient_color(scene_light_state.ambient_color.r, scene_light_state.ambient_color.g, scene_light_state.ambient_color.b);
 }
 
 
-void TUnk_804A6F78::sub_801336DC() {}
+void TSceneAmbientLight::sub_801336DC() {}
 
 PointLight *TObjLight::alloc_light_slot() {
     s32 i;
@@ -505,7 +505,7 @@ void PointLight::unregister_and_free() {
     ::operator delete(this);
 }
 
-void TUnk_804A6F78::render() {  }
+void TSceneAmbientLight::render() {  }
 
 PointLight::PointLight(s32 index) {
     light_id = light_type_id_table[index];
@@ -528,10 +528,10 @@ LightEntry default_scene_light_config = {
     { 0.0f, 1.0f, 1.0f, 1.0f },
 };
 
-TUnk_804A6F90 *lbl_805D5558;
+TSceneDirectionalLight *lbl_805D5558;
 void *lbl_805D555C;
 TObjLight *current_scene_light;
-TUnk_804A6F78 *lbl_805D5564;
+TSceneAmbientLight *lbl_805D5564;
 s32 active_light_count;
 s32 actor_light_count;
 s32 light_count;

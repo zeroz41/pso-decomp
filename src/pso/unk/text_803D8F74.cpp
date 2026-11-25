@@ -24,7 +24,7 @@ static inline f32 sqrtf_803D8F74(f32 x) {
     return x;
 }
 
-static inline f32 acosf_803D8F74(f32 v) {
+static inline f32 acosf_inline(f32 v) {
     return (f32)acos(v);
 }
 
@@ -35,16 +35,16 @@ void reflect_matrix_in_plane(MtxP matrix, const ReflectionPlane *plane)
     s32 rx;
     s32 ry;
     if (plane->normal.y >= (0.0f)) {
-        rx = -(s32)((10430.38043493439) * acosf_803D8F74(xz / len));
+        rx = -(s32)((10430.38043493439) * acosf_inline(xz / len));
     }
     if (plane->normal.y < (0.0f)) {
-        rx = (s32)((10430.38043493439) * acosf_803D8F74(xz / len));
+        rx = (s32)((10430.38043493439) * acosf_inline(xz / len));
     }
     if (plane->normal.x >= (0.0f)) {
-        ry = (s32)((10430.38043493439) * acosf_803D8F74(plane->normal.z / xz));
+        ry = (s32)((10430.38043493439) * acosf_inline(plane->normal.z / xz));
     }
     if (plane->normal.x < (0.0f)) {
-        ry = -(s32)((10430.38043493439) * acosf_803D8F74(plane->normal.z / xz));
+        ry = -(s32)((10430.38043493439) * acosf_inline(plane->normal.z / xz));
     }
     translate_matrix(matrix, plane->point.x, plane->point.y, plane->point.z);
     rotate_matrix_y(matrix, ry);

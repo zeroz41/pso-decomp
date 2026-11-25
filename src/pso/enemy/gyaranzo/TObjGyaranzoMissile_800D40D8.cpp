@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
-#include "pso/object/TUnk_8049442C.h"
+#include "pso/object/TObjEneGyaranzoMine.h"
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
@@ -44,7 +44,7 @@ s32 get_gyaranzo_missile_int_parameter(s32 i) {
     return gyaranzo_missile_param_table->ints[i];
 }
 
-void TUnk_8049442C::update_ground_fall(Vec *ground, f32 height) {
+void TObjEneGyaranzoMine::update_ground_fall(Vec *ground, f32 height) {
     Vec ground_pos;
     s32 hit;
     VecCopy(&ground_pos, &position);
@@ -68,7 +68,7 @@ void TUnk_8049442C::update_ground_fall(Vec *ground, f32 height) {
     actorFlags &= ~0x800000;
 }
 
-void TUnk_8049442C::explode() {
+void TObjEneGyaranzoMine::explode() {
     TObjCollidable *owner;
     s32 i;
     TObjChara *target;
@@ -95,7 +95,7 @@ void TUnk_8049442C::explode() {
     queue_destruction();
 }
 
-void TUnk_8049442C::render() {
+void TObjEneGyaranzoMine::render() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(mine_textures));
     push_matrix();
     post_translate_matrix(&position.x);
@@ -105,7 +105,7 @@ void TUnk_8049442C::render() {
     draw_chunk_object(mine_model);
     pop_matrix();
 }
-void TUnk_8049442C::run_task() {
+void TObjEneGyaranzoMine::run_task() {
     timer++;
     switch (state) {
     case 0:
@@ -169,13 +169,13 @@ void TUnk_8049442C::run_task() {
 
 CollisionBody gyaranzo_missile_collision_body = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x10D03, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-TUnk_8049442C::~TUnk_8049442C() {
+TObjEneGyaranzoMine::~TObjEneGyaranzoMine() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
 
-TUnk_8049442C::TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : TObjCollidable(tl_04) {
+TObjEneGyaranzoMine::TObjEneGyaranzoMine(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : TObjCollidable(tl_04) {
     VecCopy(&position, pos);
     VecCopy(&probe_position, &position);
     probe_position.y += 5.0f;

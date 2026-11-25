@@ -103,7 +103,7 @@ void TWindowDD_WS_ScrollBar::render() {
 
     self->calc_inner_rect(rect);
     tex = TWindowDD::get_draw_count(hud_texlist);
-    ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->draw_depth, 0.0f), -1);
+    ((TWindowDD *)verts)->reset_entries(word_select_inverse_depth(self->draw_depth, 0.0f), -1);
     uv = TWindowDD__data_805434E8[6];
     s = rect->scale[1];
     v = verts;
@@ -145,7 +145,7 @@ void TWindowDD_WS_ScrollBar::render() {
     quad[2] = span_end(c, half);
     ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
 
-    z = TWindowDD__sub_80348AD4(self->draw_depth, 0.1f);
+    z = word_select_inverse_depth(self->draw_depth, 0.1f);
     TObjFish::set_global_param(hud_texlist);
     begin_screen_draw(1);
     set_draw_texture_and_color(0, -1);
@@ -253,7 +253,7 @@ void TWindowDD::set_value_f32(s32 arg1) {
 }
 
 void TWindowDD_WS_ScrollBar::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
 }
 

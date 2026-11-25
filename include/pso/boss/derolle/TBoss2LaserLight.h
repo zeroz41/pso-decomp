@@ -28,6 +28,7 @@ public:
 
     void turn_off();
     void turn_on();
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss2LaserLight_size, sizeof(TBoss2LaserLight) == 0x44);

@@ -1,16 +1,16 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/weapon/TUnk_804A0CB8.h"
+#include "pso/weapon/TItemWeaponBelraCannon.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
-#include "pso/weapon/TUnk_804A0DB0.h"
+#include "pso/weapon/TItemWeaponHugeBattleFan.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A0CB8::emit_marker_effects() {
+void TItemWeaponBelraCannon::emit_marker_effects() {
     WeaponVector v;
     if (is_mode_two_and_ready() != 0) {
         shot_callback = (WeaponShotCallback)belra_cannon_create_extra_shot;
@@ -26,7 +26,7 @@ void TUnk_804A0CB8::emit_marker_effects() {
     }
 }
 
-void TUnk_804A0CB8::update_weapon() {
+void TItemWeaponBelraCannon::update_weapon() {
     NJS_OBJECT *model = item_model;
     if (model != NULL) {
         NJS_OBJECT *child = model->child;
@@ -81,18 +81,18 @@ saddr belra_cannon_create_shot(void *owner, s32 pos, s32 dir, f32 life) {
     return shot;
 }
 
-TUnk_804A0CB8::~TUnk_804A0CB8() {}
+TItemWeaponBelraCannon::~TItemWeaponBelraCannon() {}
 
-TUnk_804A0CB8::TUnk_804A0CB8(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponBelraCannon::TItemWeaponBelraCannon(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     effect_flags.set(32);
     shot_speed = 7.0f;
     set_weapon_flags(2);
     shot_ready = 1;
 }
 
-TItem *create_belra_cannon(u8 *item) {
+TItem *TItemWeaponBelraCannon::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A0CB8(tl_05, item);
+        return new TItemWeaponBelraCannon(tl_05, item);
     }
     return NULL;
 }

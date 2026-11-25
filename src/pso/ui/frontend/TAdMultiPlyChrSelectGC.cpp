@@ -52,52 +52,37 @@
 #include "pso/system/SoundEffect.h"
 
 
-extern "C" {
 extern s32 lbl_804728A8[];
 extern s32 lbl_804728A0[];
 extern s32 lbl_80472890[];
 extern u8 lbl_80472898[];
 extern u8 player_number_text_buffer[];
-}
 
-s32 is_multiplayer_character_slot_selected(s32 arg0);
 
 u8 player_number_text_buffer[0x80];
-extern "C" {
 extern s8 lbl_80472880[];
 extern s8 lbl_80472888[];
-}
 
-extern "C" {
 extern NJS_POINT2 multi_chr_select_item_rect_table[];
-}
 
 extern "C" {
 s32 TAdPlyPltAnimCtrlGC__sub_80355148();
 }
 
-s32 is_multiplayer_character_slot_selected(s32);
-extern "C" {
 extern s32 lbl_80472870[];
 extern s32 lbl_80472878[];
 extern s32 lbl_80472868[];
-}
 
-extern "C" {
 extern s32 lbl_80472860[];
-}
 
-extern "C" {
 extern s32 lbl_80472850[];
 extern s32 lbl_80472858[];
 struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
 
 extern MultiPlayChrSelectSlotPositions multi_play_chr_select_slot_positions;
-}
 
 struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
 
-extern "C" {
 extern NJS_POINT2 multi_chr_select_widget_layout[];
 extern NJS_POINT2 multi_chr_select_cursor_size[];
 extern NJS_POINT2 multi_chr_select_cursor_position[];
@@ -105,16 +90,12 @@ extern Blk_802DF9B4 multi_chr_select_layout_table[];
 extern NJS_POINT2 lbl_80472848[];
 s32 lbl_805D68C8;
 u32 multi_chr_select_serial_access_state;
-TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC__instance;
-}
+TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::instance;
 
 extern "C" { extern char TAdMultiPlyChrSelectGC__class_name_string[]; }
 const char *TAdMultiPlyChrSelectGC__name = TAdMultiPlyChrSelectGC__class_name_string;
-extern "C" {
 extern s32 multi_ply_chr_select_active_player;
-    extern int TAdMultiPlyChrSelectGC__selected_slot;
-    extern int TAdMultiPlyChrSelectGC__select_mode;
-void TAdChrSelPlyPlateGC::set_select_mode(int mode) { TAdMultiPlyChrSelectGC__select_mode = mode; }
+void TAdChrSelPlyPlateGC::set_select_mode(int mode) { TAdMultiPlyChrSelectGC::select_mode = mode; }
 
 s32 TAdChrSelPlyPlateGC::get_selection() { return unk_4f8; }
 
@@ -136,18 +117,17 @@ s32 TAdChrSelPlyPlateGC::get_active_card_slot() {
     return sel[multi_ply_chr_select_active_player][cursor_col];
 }
 
-int TAdChrSelPlyPlateGC::get_instance() { return TAdMultiPlyChrSelectGC__selected_slot; }
+int TAdChrSelPlyPlateGC::get_instance() { return TAdMultiPlyChrSelectGC::selected_slot; }
 
 TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_or_create(TObject *parent, s32 mode) {
-    if (TAdMultiPlyChrSelectGC__instance != NULL) {
-        return TAdMultiPlyChrSelectGC__instance;
+    if (TAdMultiPlyChrSelectGC::instance != NULL) {
+        return TAdMultiPlyChrSelectGC::instance;
     }
     TAdMultiPlyChrSelectGC *scene = new TAdMultiPlyChrSelectGC(parent, mode);
-    TAdMultiPlyChrSelectGC__instance = scene;
+    TAdMultiPlyChrSelectGC::instance = scene;
     return scene;
 }
 
-}
 
 TAdMultiPlyChrSelectGC::TAdMultiPlyChrSelectGC(TObject *parent, s32 mode) : TObject(parent) {
     m_name = TAdMultiPlyChrSelectGC__name;
@@ -156,7 +136,6 @@ TAdMultiPlyChrSelectGC::TAdMultiPlyChrSelectGC(TObject *parent, s32 mode) : TObj
     this->handle_event(TAdMultiPlyChrSelectGC::get_select_flag());
 }
 
-extern "C" {
 TAdMultiPlyChrSelectGC::~TAdMultiPlyChrSelectGC() {
     TAdChrMoveEffectGC *move_effect = TAdMultiPlyChrSelectGC::get_global_state();
     if (move_effect != NULL) {
@@ -202,8 +181,8 @@ TAdMultiPlyChrSelectGC::~TAdMultiPlyChrSelectGC() {
         full_notice->queue_destruction();
         full_notice = NULL;
     }
-    if (TAdMultiPlyChrSelectGC__instance != NULL) {
-        TAdMultiPlyChrSelectGC__instance = NULL;
+    if (TAdMultiPlyChrSelectGC::instance != NULL) {
+        TAdMultiPlyChrSelectGC::instance = NULL;
     }
 }
 
@@ -469,7 +448,7 @@ block_19:
         this->state = 1;
         if (this->resumed != 0) {
             this->resumed = 0;
-            if ((u32) multi_chr_select_serial_access_state != get_field_118__22TAdEnterSerialAccessGCFv()) {
+            if ((u32) multi_chr_select_serial_access_state != TAdEnterSerialAccessGC::get_serial_seed()) {
                 TAdMultiPlyChrSelectGC::reset_slot_selections();
             }
         }
@@ -890,7 +869,6 @@ void TAdMultiPlyChrSelectGC::open_windows() {
     this->state = 0xC;
 }
 
-}
 
 void TAdMultiPlyChrSelectGC::reset_to_select() {
     SlotGridPosition split;
@@ -936,7 +914,6 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
     this->state = 0;
 }
 
-extern "C" {
 void TAdMultiPlyChrSelectGC::sub_802DDD08() {
     s32 frames;
     if (this->confirm_window != NULL) {
@@ -1476,7 +1453,7 @@ void TAdMultiPlyChrSelectGC::sub_802DCD14() {
 }
 
 void TAdMultiPlyChrSelectGC::sub_802DCCA4() {
-    multi_chr_select_serial_access_state = get_field_118__22TAdEnterSerialAccessGCFv();
+    multi_chr_select_serial_access_state = TAdEnterSerialAccessGC::get_serial_seed();
     switch (exit_action) {
     case 2:
         break;
@@ -1909,4 +1886,3 @@ void TAdMultiPlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
 }
 
-}

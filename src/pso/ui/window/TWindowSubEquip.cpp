@@ -7,7 +7,6 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
 
 
 void TWindowSubEquip::update_displayed_item() {
@@ -41,4 +40,3 @@ void TWindowSubEquip::update() {
     }
 }
 
-}

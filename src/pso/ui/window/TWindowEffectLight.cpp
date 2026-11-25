@@ -120,8 +120,8 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
     TexturedQuad q;
     f32 h;
     f32 dx;
-    s32 color = ((TWindowEffectLight *)this)->calc_alpha() | 0xFFFFFF;
-    f32 s = ((TWindowEffectLight *)this)->calc_scale();
+    s32 color = this->calc_alpha() | 0xFFFFFF;
+    f32 s = this->calc_scale();
     set_draw_texture_and_color(2, color);
     dx = 0.5f * (f - 20.0f);
     h = 10.0f * s;

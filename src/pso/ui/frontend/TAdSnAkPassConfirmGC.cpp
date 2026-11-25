@@ -12,7 +12,6 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
-extern "C" {
 const char *lbl_805D41F0 = "TAdSnAkPassConfirmGC";
 // Serial info window position, then the message window position and size given to init_parts.
 static const NJS_POINT2 sn_ak_pass_confirm_info_window_pos = {85.0f, 131.0f};
@@ -52,4 +51,3 @@ void TAdYesNoBaseGC::vfunc_12() {
     }
 }
 
-}

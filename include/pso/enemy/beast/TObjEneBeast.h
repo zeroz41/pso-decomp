@@ -2,13 +2,13 @@
 #define PSO_ENEMY_BEAST_TOBJENEBEAST_H
 
 #include "types.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/render/RenderFadeState.h"
 
 class TObject;
 class TAttackTraceStrip;
 
-struct TObjEneBeast : public TUnk_80493450 {
+struct TObjEneBeast : public TObjEneBeastBase {
     TObjEneBeast(TObject *parent, void *set_data);
     virtual ~TObjEneBeast();
     virtual void render();

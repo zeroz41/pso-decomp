@@ -21,12 +21,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
-void TMedicalCenterMes__sub_80216260(void);
 
 extern const char *TMedicalCenterMes__class_name;
-extern s32 TMedicalCenterMes__slot_flags[4];
-}
 
 
 #include "pso/item/shop/TShopGenerator.h"
@@ -36,15 +32,13 @@ extern s32 TMedicalCenterMes__slot_flags[4];
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/text_8022350C.h"
 
-extern "C" {
 s32 TMedicalCenterSequence__data_80513E90[4];
-s32 TMedicalCenterMes__slot_flags[4];
-}
+s32 TMedicalCenterMes::slot_flags[4];
 
 extern "C" {
 extern const char *TMedicalCenterSequence__class_name;
 
-int obj_getPtr2B0_20(TObjPlayer *player);
+int get_actor_meseta(TObjPlayer *player);
 }
 
 struct Base_8021641C_802163AC { char pad[0x18]; };
@@ -82,8 +76,8 @@ TMedicalCenterSequence::TMedicalCenterSequence(TObject *parent, TObjPlayer *play
     m_name = TMedicalCenterSequence__class_name;
     state = 0;
     this->player = player;
-    m_2c = NULL;
-    m_30 = NULL;
+    meseta_window = NULL;
+    yes_no_menu = NULL;
     counter_camera = NULL;
     TMedicalCenterSequence__data_80513E90[get_split_screen_slot()] = 1;
 }
@@ -94,13 +88,13 @@ TMedicalCenterSequence::~TMedicalCenterSequence() {
         counter_camera = NULL;
     }
     close_message_window();
-    if (m_2c != NULL) {
-        m_2c->close();
-        m_2c = NULL;
+    if (meseta_window != NULL) {
+        meseta_window->close();
+        meseta_window = NULL;
     }
-    if (m_30 != NULL) {
-        ((TWindowBase *)m_30)->close();
-        m_30 = NULL;
+    if (yes_no_menu != NULL) {
+        ((TWindowBase *)yes_no_menu)->close();
+        yes_no_menu = NULL;
     }
     TMedicalCenterSequence__data_80513E90[get_split_screen_slot()] = 0;
 }
@@ -154,7 +148,7 @@ void TMedicalCenterSequence::open_greeting_window() {
     pos[1] = 80.0f;
     create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
     display_shop_message(0x1F, 1);
-    m_2c = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
+    meseta_window = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
     set_state(2);
     counter_camera = set_service_counter_camera(this, 0);
 }
@@ -172,30 +166,30 @@ void TMedicalCenterSequence::handle_confirm() {
 void TMedicalCenterSequence::handle_window_result() {
     s32 selected;
 
-    if (m_30 != NULL && m_30->is_decided() != 0) {
-        selected = m_30->get_selected_value();
+    if (yes_no_menu != NULL && yes_no_menu->is_decided() != 0) {
+        selected = yes_no_menu->get_selected_value();
         if (selected == 0) {
-            ((TWindowBase *)m_30)->close();
-            m_30 = NULL;
+            ((TWindowBase *)yes_no_menu)->close();
+            yes_no_menu = NULL;
             set_state(4);
             return;
         }
         if (selected == 1) {
-            ((TWindowBase *)m_30)->close();
-            m_30 = NULL;
+            ((TWindowBase *)yes_no_menu)->close();
+            yes_no_menu = NULL;
             set_state(5);
             return;
         }
     }
-    if (m_30 != NULL && m_30->is_cancelled() != 0) {
-        ((TWindowBase *)m_30)->close();
-        m_30 = NULL;
+    if (yes_no_menu != NULL && yes_no_menu->is_cancelled() != 0) {
+        ((TWindowBase *)yes_no_menu)->close();
+        yes_no_menu = NULL;
         set_state(5);
     }
 }
 
 void TMedicalCenterSequence::exec_heal() {
-    if (obj_getPtr2B0_20(player) < 0xA) {
+    if (get_actor_meseta(player) < 0xA) {
         display_shop_message(0xF, 1);
         set_state(0xA);
         return;
@@ -226,8 +220,8 @@ void TMedicalCenterSequence::show_fee_prompt() {
     s32 id;
     display_shop_message(0x20, 1);
     id = player->get_entity_id();
-    m_30 = create_yes_no_window((const NJS_POINT2 *)(((s32 (*)(int))get_window_layout_position)(0x2B)), id, NULL, NULL);
-    ((TWindowAddition *)m_30)->set_position_xy(get_scale(), get_scale());
+    yes_no_menu = create_yes_no_window((const NJS_POINT2 *)(((s32 (*)(int))get_window_layout_position)(0x2B)), id, NULL, NULL);
+    ((TWindowAddition *)yes_no_menu)->set_position_xy(get_scale(), get_scale());
     set_state(3);
 }
 
@@ -251,28 +245,28 @@ TMedicalCenterMes::TMedicalCenterMes(TObject *parent, TObjPlayer *player) : TObj
     this->player = player;
     if (this->player != NULL) {
         s32 slot = get_client_split_screen_slot(this->player->get_entity_id());
-        TMedicalCenterMes__slot_flags[(u16)slot] = 1;
+        TMedicalCenterMes::slot_flags[(u16)slot] = 1;
     }
 }
 
 TMedicalCenterMes::~TMedicalCenterMes() {
     if (player != NULL) {
         s32 slot = get_client_split_screen_slot(player->get_entity_id());
-        TMedicalCenterMes__slot_flags[(u16)slot] = 0;
+        TMedicalCenterMes::slot_flags[(u16)slot] = 0;
     }
 }
 
 void TMedicalCenterMes__sub_80216260(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TMedicalCenterMes__slot_flags[i] = 0;
+        TMedicalCenterMes::slot_flags[i] = 0;
     }
 }
 
 void TMedicalCenterMes::clear_slot_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TMedicalCenterMes__slot_flags[i] = 0;
+        TMedicalCenterMes::slot_flags[i] = 0;
     }
 }
 
@@ -315,5 +309,5 @@ void TMedicalCenterMes::run_task() {
     }
 }
 s32 TMedicalCenterMes::get_slot_flag(u16 client) {
-    return TMedicalCenterMes__slot_flags[(u16)get_client_split_screen_slot(client)];
+    return TMedicalCenterMes::slot_flags[(u16)get_client_split_screen_slot(client)];
 }

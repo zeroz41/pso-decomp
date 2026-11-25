@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-int TBoss8Dragon__sub_8005D700(void);
+int get_boss_asset_variant(void);
 }
 
 // --- C functions defined in TBoss8Dragon_8005D700.cpp ---
 extern "C" {
-int TBoss8Dragon__sub_8005D700(void);
+int get_boss_asset_variant(void);
 }
 // --- end of C functions
 

@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/protocol/protocol_types.h"
 
-const char *TOKeyCol__name = "TOKeyCol";
+const char *key_col_name = "TOKeyCol";
 
 void TOKeyCol::vfunc_25() {}
 
@@ -79,7 +79,7 @@ void *TOKeyCol::create(void *set_data) {
 TOKeyCol::~TOKeyCol() {}
 
 TOKeyCol::TOKeyCol(TObject *parent, void *set_data) : TOKey(parent) {
-    m_name = TOKeyCol__name;
+    m_name = key_col_name;
     apply_object_set_data(set_data);
     init_switch_id();
     view_range = 400.0f;

@@ -39,7 +39,7 @@ void start_ending_sequence(void) {
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     set_queued_main_phase(2);
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     TAdEndText::load_ending_font();
     TLobby::update_keyboard_menu();
     TLobby::set_ending_callback();
@@ -57,7 +57,7 @@ void TKeyBoardControl::run_main_frame() {
     main_task.render_screen_overlay();
     process_async_file_reads();
     if (static_cast<s8>(func_801A5E54()) != 0) {
-        TKeyBoardControl__sub_8000F92C();
+        switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         request_main_phase(0);

@@ -32,6 +32,9 @@ struct TBoss6Tube : public TObject {
     static s32 sub_802B1018();
     static void free_resources();
     static void load_resources();
+    static const char *name;
+    static s32 previous_scroll_phase;
+    static f32 scroll_delta;
 };
 
 LAYOUT_ASSERT(TBoss6Tube_size, sizeof(TBoss6Tube) == 0x30);

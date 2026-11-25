@@ -7,12 +7,10 @@
 #include "pso/network/protocol/SubcommandHandlers.h"
 extern "C" {
 s32 get_current_floor();
-void TLobby__sub_8020BCE4(void);
 extern TObject *tl_02;
 extern TObject *tl_05;
 extern TObject *tl_06;
 extern TObject *tl_07;
-void TLobby__sub_8020BC50(void);
 
 void TLobby__sub_8020BC50(void) {
     s32 n;
@@ -97,13 +95,12 @@ void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command) {
     }
 }
 
-struct Pkt_8020BF14 { u8 hdr[2]; s16 a; s16 b; s16 c; };
+struct Send6x76SetEntitySetFlagsPacket { u8 hdr[2]; s16 a; s16 b; s16 c; };
 
 void build_6x76_set_entity_set_flags(void *);
-void send_6x76_set_entity_set_flags(void *arg0, s16 arg1);
 
 void send_6x76_set_entity_set_flags(void *arg0, s16 arg1) {
-    Pkt_8020BF14 pkt;
+    Send6x76SetEntitySetFlagsPacket pkt;
     build_6x76_set_entity_set_flags(&pkt);
     pkt.a = ((TObjBase *)(arg0))->get_entity_id();
     pkt.b = ((s16 (*)())get_current_floor)();

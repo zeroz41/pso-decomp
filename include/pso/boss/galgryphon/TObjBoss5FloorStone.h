@@ -17,6 +17,7 @@ public:
 public:
     static void *create();
     void trigger_switches_in_range(const Vec *pos, const DragonAttackParams *params);
+    static const char *name;
 };
 
 #endif

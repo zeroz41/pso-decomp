@@ -89,7 +89,6 @@ WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
     {186.0f, 160.0f}, 50050.0f, &window_sub_mag_photon_layout_entries, 3,
 };
 
-extern "C" {
 
 void TWindowSubMagPhoton::handle_cancel() {
     if (get_active_flag() == 0) {
@@ -151,11 +150,10 @@ void TWindowSubMagPhoton::render() {
 }
 
 void TWindowSubMagPhoton::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     ControllerInputContext *context;
     temp_r31 = is_player_input_active(((s32) this->client_index));
-    if (((TWindowSubMagPhoton *)arg0)->get_active_flag() == 0) {
+    if (this->get_active_flag() == 0) {
         update_selection_input();
         context = &controller_input_state.controllers[temp_r31];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
@@ -165,8 +163,8 @@ void TWindowSubMagPhoton::run_task() {
             handle_cancel();
         }
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    update_window();
+    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     this->cursor_frame = (this->cursor_frame + 1);
 }
 
@@ -183,5 +181,4 @@ TWindowSubMagPhoton::TWindowSubMagPhoton(const NJS_POINT2 *position, TItemData *
     selected_blast_index = 1;
     cursor_frame++;
     init_photon_blast_entries();
-}
 }

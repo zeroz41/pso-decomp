@@ -34,6 +34,7 @@ struct CardFile_801FFD78 {
 };
 
 struct TAdSinglePlyChrSelectGC : public TObject {
+    static s32 selection_index;
     explicit TAdSinglePlyChrSelectGC(TObject *parent);
     virtual ~TAdSinglePlyChrSelectGC();
     void sub_802D4E08();
@@ -256,7 +257,6 @@ extern uaddr active_character_save_record;
 extern uaddr guild_card_save_payload;
 extern uaddr system_save_payload;
 extern uaddr secondary_card_system_save_payload;
-extern s32 TAdSinglePlyChrSelectGC__selection_index;
 extern s32 card_load_sequence_state;
 extern saddr character_save_card_slot;
 extern saddr card_load_channel;

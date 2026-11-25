@@ -14,6 +14,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/TDeadSpot.h"
 
 extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FC4;
@@ -62,11 +63,11 @@ void TObjEneRe2Flower::state_die(s32 reason) {
                 effect_pos.z = lbl_805D9FC4 * cos_table_lookup(rotation_y);
                 vec3_add_to(&effect_pos, &position);
                 if (is_tower_variant() != 0) {
-                    TObjPlayer::apply_effect_variant_a(&effect_pos, 0x32);
+                    TDeadSpot::spawn_kind0_scale7_5(&effect_pos, 0x32);
                     fn_800D911C(&effect_pos);
                     appear_fade.init_death_params();
                 } else {
-                    TObjPlayer__sub_800D9290(&effect_pos, 0x32);
+                    TDeadSpot::spawn_kind1_scale2_5(&effect_pos, 0x32);
                     spawn_ground_effect(&effect_pos, 0x46);
                 }
             }

@@ -22,38 +22,34 @@
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
 
 
-s32 lbl_805D6218;
-s32 lbl_805D621C;
-}
+s32 shop_gear_pending_message;
+s32 shop_gear_pending_state;
 
 extern "C" {
-extern s32 TShopEquipmentGearSequence__window_slot_table[4];
 extern const char *TShopEquipmentGearSequence__class_name;
 s32 get_shop_text(s32);
 }
 
 #pragma readonly_strings on
-s32 TShopEquipmentGearSequence__window_slot_table[4];
-TShopEquipmentGearSequence *lbl_805D6220;
+s32 TShopEquipmentGearSequence::window_slot_table[4];
+TShopEquipmentGearSequence *shop_gear_sequence_instance;
 const char *TShopEquipmentGearSequence__class_name = "TShopEquipmentGearSequence";
-s32 get_shop_text(s32);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
 void TShopEquipmentGearSequence::clear_window_slot_table() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopEquipmentGearSequence__window_slot_table[i] = 0;
+        TShopEquipmentGearSequence::window_slot_table[i] = 0;
     }
 }
 
 void TShopEquipmentGearSequence::clear_window_slots() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopEquipmentGearSequence__window_slot_table[i] = 0;
+        TShopEquipmentGearSequence::window_slot_table[i] = 0;
     }
 }
 
@@ -64,10 +60,10 @@ TShopEquipmentGearSequence::TShopEquipmentGearSequence(TObject *parent, TObjPlay
     choice_menu = NULL;
     meseta_window = NULL;
     counter_camera = NULL;
-    lbl_805D6220 = this;
-    lbl_805D6218 = 0;
-    lbl_805D621C = 0;
-    TShopEquipmentGearSequence__window_slot_table[get_split_screen_slot()] = 1;
+    shop_gear_sequence_instance = this;
+    shop_gear_pending_message = 0;
+    shop_gear_pending_state = 0;
+    TShopEquipmentGearSequence::window_slot_table[get_split_screen_slot()] = 1;
 }
 
 TShopEquipmentGearSequence::~TShopEquipmentGearSequence() {
@@ -84,8 +80,8 @@ TShopEquipmentGearSequence::~TShopEquipmentGearSequence() {
         meseta_window = NULL;
     }
     close_message_window();
-    lbl_805D6220 = NULL;
-    TShopEquipmentGearSequence__window_slot_table[get_split_screen_slot()] = 0;
+    shop_gear_sequence_instance = NULL;
+    TShopEquipmentGearSequence::window_slot_table[get_split_screen_slot()] = 0;
 }
 
 void TShopEquipmentGearSequence::update_state() {
@@ -127,7 +123,6 @@ void TShopEquipmentGearSequence::open_greeting() {
     counter_camera = set_service_counter_camera(this, 0x4);
 }
 
-extern "C" {
 
 void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
     s32 id;
@@ -191,8 +186,8 @@ void TShopEquipmentGearSequence::try_close() {
 
 void TShopEquipmentGearSequence::handle_confirm() {
     if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
-        display_shop_message(lbl_805D6218, 1);
-        set_state(lbl_805D621C);
+        display_shop_message(shop_gear_pending_message, 1);
+        set_state(shop_gear_pending_state);
     }
 }
 
@@ -207,9 +202,8 @@ void TShopEquipmentGearSequence::open_gear_shop(TShopWindowBase *sequence) {
     if (sequence != NULL) {
         sequence->display_shop_message(0x1B, 1);
         sequence->set_state(7);
-        lbl_805D6218 = 0x1A;
-        lbl_805D621C = 2;
+        shop_gear_pending_message = 0x1A;
+        shop_gear_pending_state = 2;
     }
 }
 
-}

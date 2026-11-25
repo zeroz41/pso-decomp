@@ -15,31 +15,31 @@
 
 const char *TAdADXlogo_name = "TAdADXlogo";
 
-void *TAdADXlogo__texture;
-u32 TAdADXlogo__state;
-u32 TAdADXlogo__done;
+void *TAdADXlogo::texture;
+u32 TAdADXlogo::state;
+u32 TAdADXlogo::done;
 
 void TAdADXlogo::fade_out_done(TObject *fade) {
     fade->queue_destruction();
-    TAdADXlogo__done = 1;
+    TAdADXlogo::done = 1;
 }
 
 void TAdADXlogo::fade_in_done(TObject *fade) {
     fade->queue_destruction();
-    TAdADXlogo__state = 1;
+    TAdADXlogo::state = 1;
 }
 
 void TAdADXlogo::render() {
-    render_logo_with_default(TAdADXlogo__texture, 0, -1, -150.0f);
+    render_logo_with_default(TAdADXlogo::texture, 0, -1, -150.0f);
 }
 
 void TAdADXlogo::run_task() {
-    switch (TAdADXlogo__state) {
+    switch (TAdADXlogo::state) {
     case 0:
         break;
     case 1:
         if ((f32)++m_frames > 60.0f) {
-            TAdADXlogo__state = 2;
+            TAdADXlogo::state = 2;
             new TScreenFadeOut(tl_00, fade_out_done);
         }
         break;
@@ -53,8 +53,8 @@ TAdADXlogo::~TAdADXlogo() {}
 TAdADXlogo::TAdADXlogo(TObject *parent) : TObject(parent) {
     m_name = TAdADXlogo_name;
     m_frames = 0;
-    TAdADXlogo__state = 0;
-    TAdADXlogo__done = 0;
+    TAdADXlogo::state = 0;
+    TAdADXlogo::done = 0;
     new TScreenFadeIn(tl_00, fade_in_done);
 }
 
@@ -63,7 +63,7 @@ void free_adx_logo_texture() {
 }
 
 void load_adx_logo_texture() {
-    TAdADXlogo__texture = get_logo_texture_e_handle();
+    TAdADXlogo::texture = get_logo_texture_e_handle();
 }
 
 void TObject::queue_destruction() { m_flags |= QUEUE_DESTRUCTION; }

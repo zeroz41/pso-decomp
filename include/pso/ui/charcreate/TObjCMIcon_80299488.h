@@ -7,8 +7,8 @@
 struct CreationIconState;
 
 extern "C" {
-void TObjCMIcon__sub_802994B0(s32 arg0);
-void TObjCMIcon__sub_802994C8(s32 arg0, const s32 *arg1);
+void show_creation_icon(s32 arg0);
+void show_only_creation_icons(s32 arg0, const s32 *arg1);
 void TObjCMIcon__sub_8029957C(CreationIconState *p, CreationIconState *q);
 s32 TObjCMIcon__sub_80299598(s32 arg0, s32 arg1);
 void render__10TObjCMIconFv(s32 self);
@@ -21,8 +21,8 @@ void fn_8029945C(const vec2f *pos);
 
 // --- C functions defined in TObjCMIcon_80299488.cpp ---
 extern "C" {
-void TObjCMIcon__sub_802994B0(s32 arg0);
-void TObjCMIcon__sub_802994C8(s32 arg0, const s32 *arg1);
+void show_creation_icon(s32 arg0);
+void show_only_creation_icons(s32 arg0, const s32 *arg1);
 void TObjCMIcon__sub_8029957C(CreationIconState *p, CreationIconState *q);
 s32 TObjCMIcon__sub_80299598(s32 arg0, s32 arg1);
 void fn_8029945C(const vec2f *pos);

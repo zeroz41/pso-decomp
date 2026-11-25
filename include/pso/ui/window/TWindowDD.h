@@ -18,6 +18,11 @@ struct TWindowDDValueList {
 
 struct TWindowDD : public TObject
 {
+    static void * ws_data_buffer;
+    static TWindowDDValueList * ws_data_table;
+    static TWindowDDValueList * ws_data_base;
+    static uaddr work_buffer;
+    static s32 window_mode;
     TWindowDD(TObject *parent, void *arg2);
     virtual ~TWindowDD();
     virtual void run_task();
@@ -63,7 +68,6 @@ struct TWindowDD : public TObject
     void set_scale(s32 arg1, s32 arg2);
     static s32 check_all_ready(s32 floor);
     void update_com_card();
-    int initialize_subwindow();
     void set_mode_2();
     void reset_cursor();
     void set_pos_and_data(f32 farg0);
@@ -158,8 +162,6 @@ LAYOUT_ASSERT(WindowListCountOffset, offsetof(TWindowDDValueList, count) == 4);
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 void measure_message_text_width_default(void *entry);
-extern TWindowDDValueList *TWindowDD__ws_data_base;
-extern TWindowDDValueList *TWindowDD__ws_data_table;
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
 extern "C" {
 void TWindowDD__sub_80344114(void);

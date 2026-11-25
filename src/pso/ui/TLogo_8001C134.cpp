@@ -20,5 +20,5 @@ void register_texture_logo_e(void) {
 
 void TLogo::request_exit(TObject *fade) {
     fade->queue_destruction();
-    TLogo__exit_requested_flag = 1;
+    TLogo::exit_requested_flag = 1;
 }

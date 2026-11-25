@@ -3,7 +3,7 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804C4540.h"
+#include "pso/player/TObjEndingPlayer.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/scene/EndingSceneTables.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/TLevelSelect.h"
 
-TUnk_804C4540 *ending_player;
+TObjEndingPlayer *ending_player;
 s8 player_light_index;
 player_class_type ending_player_class_type;
 
@@ -108,7 +108,7 @@ TEndingPicStage::TEndingPicStage(TObject *parent) : TObject(parent) {
 
     player_light_index = 0;
     Vec position = ending_player_start_position;
-    ending_player = TUnk_804C4540::create((TPlyCharData *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+    ending_player = TObjEndingPlayer::create((TPlyCharData *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     ending_player->set_position_from(&position);
     ((TItemData *)(&item))->init();
     item.data1.data_u8[0] = 2;

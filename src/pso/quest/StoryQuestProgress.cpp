@@ -5,31 +5,31 @@
 
 #include <stddef.h>
 #include "pso/network/TLobby.h"
-struct Induction_80219EE8_var_r31 { u8 bytes[0x8]; };
+struct ShouldRecordEpisode1QuestCompletionInduction { u8 bytes[0x8]; };
 
-struct Pair_80219F64 { s32 a; s32 b; };
+struct AreAllStoryQuestsCompletePair { s32 a; s32 b; };
 
 extern const s32 episode1_story_quest_flag_pairs[];
-extern const Pair_80219F64 episode2_story_quest_flag_pairs[];
+extern const AreAllStoryQuestsCompletePair episode2_story_quest_flag_pairs[];
 extern "C" {
 s32 set_story_flag_or_send_quest_flag(s32);
 }
-LAYOUT_ASSERT(Induction_80219EE8_var_r31_size_check, sizeof(Induction_80219EE8_var_r31) == 0x8);
+LAYOUT_ASSERT(Induction_80219EE8_var_r31_size_check, sizeof(ShouldRecordEpisode1QuestCompletionInduction) == 0x8);
 s32 should_record_episode1_quest_completion(void) {
-    s32 var_r29;
+    s32 all_complete;
     s32 i;
     if (get_story_flag(0x3FE) == 1) {
         return 0;
     }
-    var_r29 = 1;
+    all_complete = 1;
     i = 0;
         do {
-        if (get_story_flag((*(s32 *)((s8 *)(((saddr)&((Induction_80219EE8_var_r31 *)episode1_story_quest_flag_pairs)[i])) + 4))) == 0) {
-            var_r29 = 0;
+        if (get_story_flag((*(s32 *)((s8 *)(((saddr)&((ShouldRecordEpisode1QuestCompletionInduction *)episode1_story_quest_flag_pairs)[i])) + 4))) == 0) {
+            all_complete = 0;
         }
         i += 1;
     } while (i < 0x1A);
-    return var_r29;
+    return all_complete;
 }
 s32 are_all_story_quests_complete(void) {
     s32 n;
@@ -41,7 +41,7 @@ s32 are_all_story_quests_complete(void) {
     }
     for (i = 0; i < n; i++) {
         if (TLobby::get_instance() == 0) {
-            if (get_story_flag((((Pair_80219F64 *)&episode1_story_quest_flag_pairs)[i].b)) == 0) {
+            if (get_story_flag((((AreAllStoryQuestsCompletePair *)&episode1_story_quest_flag_pairs)[i].b)) == 0) {
                 return 0;
             }
         } else {
@@ -54,15 +54,15 @@ s32 are_all_story_quests_complete(void) {
 }
 void clear_episode1_quest_availability(void* unusedDifficulty) {
     s32 i;
-    const s32 *var_r30;
-    s32 var_r31;
+    const s32 *flag_pairs;
+    s32 pair_offset;
     i = 0;
-    var_r30 = episode1_story_quest_flag_pairs;
-    var_r31 = 0;
+    flag_pairs = episode1_story_quest_flag_pairs;
+    pair_offset = 0;
     do {
-        clear_story_flag(var_r30[var_r31]);
+        clear_story_flag(flag_pairs[pair_offset]);
         i += 1;
-        var_r31 += 2;
+        pair_offset += 2;
     } while (i < 0x1A);
 }
 void apply_story_quest_unlock_rules(void* unusedDifficulty) {
@@ -124,4 +124,4 @@ void apply_story_quest_unlock_rules(void* unusedDifficulty) {
 }
 void refresh_story_quest_availability(void* p) { clear_episode1_quest_availability(p); apply_story_quest_unlock_rules(p); }
 __declspec(section ".rodata") extern const s32 episode1_story_quest_flag_pairs[52] = {100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,159,160};
-__declspec(section ".rodata") extern const Pair_80219F64 episode2_story_quest_flag_pairs[3] = {{-1,161},{162,163},{164,165}};
+__declspec(section ".rodata") extern const AreAllStoryQuestsCompletePair episode2_story_quest_flag_pairs[3] = {{-1,161},{162,163},{164,165}};

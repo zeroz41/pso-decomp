@@ -28,10 +28,6 @@
 struct Save_8033F6A8 { u8 pad[0xC]; u32 fC; };
 
 extern "C" {
-extern s32 TAdPlyStatusGC__window_offset_index;
-extern s32 TAdPlyStatusGC__is_shown;
-void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1);
-TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *arg1);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
@@ -40,13 +36,13 @@ extern "C" {
 extern u32 ply_status_index;
 TAdPlyStatusGC *ply_status_gc_instance;
 CharacterPreview *ply_status_preview;
-s32 TAdPlyStatusGC__window_offset_index;
+s32 TAdPlyStatusGC::window_offset_index;
 u32 ply_status_index;
-s32 TAdPlyStatusGC__is_shown;
+s32 TAdPlyStatusGC::is_shown;
 
 // Status window position handed to TAdEnterSerialAccessGC::create_callback.
 static const NJS_POINT2 ply_status_window_position = {199.0f, 112.0f};
-// Status window offset per TAdPlyStatusGC__window_offset_index.
+// Status window offset per TAdPlyStatusGC::window_offset_index.
 static const NJS_POINT2 ply_status_window_offset_table[3] = {
     {426.0f, 250.0f},
     {223.0f, 243.0f},
@@ -72,7 +68,7 @@ void TAdPlyStatusGC::render() { if (TMainTask::get_render_pass() != 1) { set_col
 #define TAdPlyStatusGC__status_window_box (*(Box_8033F3D8 *)TAdPlyStatusGC__status_window_box)
 #define ply_status_window_points_first ((NJS_POINT2 *)ply_status_window_points_first)
 #define ply_status_window_points_second ((NJS_POINT2 *)ply_status_window_points_second)
-#define OFF_8033F3D8 (ply_status_window_offset_table[TAdPlyStatusGC__window_offset_index])
+#define OFF_8033F3D8 (ply_status_window_offset_table[TAdPlyStatusGC::window_offset_index])
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -80,7 +76,6 @@ void TAdPlyStatusGC::render() { if (TMainTask::get_render_pass() != 1) { set_col
 struct Box_8033F3D8 { f32 v[8]; };
 struct Item_8033F3D8 { s8 valid; u8 pad[0xF]; };
 
-void draw_window_frame__11TWindowBaseFPv(void *);
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     Item_8033F3D8 items[3];
     Box_8033F3D8 box;
@@ -89,7 +84,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     s32 i;
 
     ((TWindowBase *)window_base)->draw_window_frame(arg1);
-    if (ply_status_preview != NULL && ply_status_preview->is_unloaded() != 0 && TAdPlyStatusGC__is_shown != 0 &&
+    if (ply_status_preview != NULL && ply_status_preview->is_unloaded() != 0 && TAdPlyStatusGC::is_shown != 0 &&
         ply_status_preview->get_status_sub()->textures->texaddr != 0) {
         box = TAdPlyStatusGC__status_window_box;
         box.v[0] = TAdPlyStatusGC__status_window_box.v[0] + OFF_8033F3D8.x;
@@ -141,7 +136,7 @@ void TAdPlyStatusGC::format_status_strings() {
     memset(buf + 0x10, 0, 0x10);
     memset(buf + 0x20, 0, 0x10);
     c = 0;
-    switch (TAdPlyStatusGC__window_offset_index) {
+    switch (TAdPlyStatusGC::window_offset_index) {
     case 0:
     case 2:
         p = (Save_8033F6A8 *)get_character_save_record(0xFFFF);
@@ -206,7 +201,7 @@ void TAdPlyStatusGC::set_load_state(s32 arg1) {
     if (arg1 > 0) {
         if (state == 0) {
             var_r4 = 2;
-            if ((s32) TAdPlyStatusGC__is_shown != 0) {
+            if ((s32) TAdPlyStatusGC::is_shown != 0) {
                 var_r4 = 1;
             }
             state = var_r4;
@@ -219,12 +214,12 @@ void TAdPlyStatusGC::set_load_state(s32 arg1) {
 void TAdPlyStatusGC::update_hidden() {
     TAdGuideButtonGC *guide_button;
     s32 port;
-    TAdPlyStatusGC__is_shown = 0;
+    TAdPlyStatusGC::is_shown = 0;
     if (window != NULL) {
         window->close();
         window = NULL;
     }
-    if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
+    if ((s32) TAdPlyStatusGC::window_offset_index < 3) {
         guide_button = TAdPlyStatusGC::get_player_index();
         if (guide_button != NULL) {
             guide_button->allow_rendering();
@@ -240,10 +235,10 @@ void TAdPlyStatusGC::update_hidden() {
 void TAdPlyStatusGC::update_shown() {
     TAdGuideButtonGC *guide_button;
     s32 port;
-    TAdPlyStatusGC__is_shown = 1;
-    if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
+    TAdPlyStatusGC::is_shown = 1;
+    if ((s32) TAdPlyStatusGC::window_offset_index < 3) {
         if (window == NULL) {
-            window = TAdPlyStatusGC__sub_8033F8B0(this, &ply_status_window_offset_table[TAdPlyStatusGC__window_offset_index]);
+            window = TAdPlyStatusGC__sub_8033F8B0(this, &ply_status_window_offset_table[TAdPlyStatusGC::window_offset_index]);
         }
         guide_button = TAdPlyStatusGC::get_player_index();
         if (guide_button != NULL) {
@@ -293,8 +288,8 @@ TAdPlyStatusGC::TAdPlyStatusGC(TObject *parent, s32 window_offset_index) : TObje
     prev_state = state;
     window = NULL;
     ply_status_preview = NULL;
-    TAdPlyStatusGC__window_offset_index = window_offset_index;
-    TAdPlyStatusGC__is_shown = 1;
+    TAdPlyStatusGC::window_offset_index = window_offset_index;
+    TAdPlyStatusGC::is_shown = 1;
     buttons[0].kind = 2;
     buttons[0].from.x = 432.0f;
     buttons[0].from.y = 421.0f;

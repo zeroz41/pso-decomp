@@ -6,25 +6,25 @@
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 typedef void (*Fn_801Fn)(void);
 struct Ent_8010F0C0 { Fn_801Fn a; Fn_801Fn b; };
-struct Set_8010F0C0 {
+struct LoadUnloadSetUnloadSet {
     s32 count;
     Ent_8010F0C0 *ents;
     u8 *order;
     u8 pad[4];
 };
-struct O_8010EFE8 { s32 count; s32 f4; u8 *buf; };
+struct LoadUnloadSetShuffleOrderO { s32 count; s32 f4; u8 *buf; };
 
-struct O_8010EF14 { s32 count; s32 f4; u8 *buf; };
+struct LoadUnloadSetShuffleOrderO2 { s32 count; s32 f4; u8 *buf; };
 
 extern "C" {
-void load_unload_set_init_order(O_8010EFE8 *self);
-void load_unload_set_shuffle_order(O_8010EF14 *self);
+void load_unload_set_init_order(LoadUnloadSetShuffleOrderO *self);
+void load_unload_set_shuffle_order(LoadUnloadSetShuffleOrderO2 *self);
 
-void load_unload_set_shuffle_order(O_8010EF14 *self) {
+void load_unload_set_shuffle_order(LoadUnloadSetShuffleOrderO2 *self) {
     s32 i;
     u32 j;
     u8 t;
-    load_unload_set_init_order((O_8010EFE8 *)(self));
+    load_unload_set_init_order((LoadUnloadSetShuffleOrderO *)(self));
     if (self->buf != NULL) {
         for (i = 0; i != self->count; i++) {
             j = (u32)((f32)self->count * (3.0517578e-05f * (f32)rand()));
@@ -35,7 +35,7 @@ void load_unload_set_shuffle_order(O_8010EF14 *self) {
     }
 }
 
-void load_unload_set_init_order(O_8010EFE8 *self) {
+void load_unload_set_init_order(LoadUnloadSetShuffleOrderO *self) {
     s32 i;
     if (self->buf == 0) {
         return;
@@ -47,7 +47,7 @@ void load_unload_set_init_order(O_8010EFE8 *self) {
 
 #pragma push
 #pragma opt_common_subs off
-void load_unload_set_unload(Set_8010F0C0 *s) {
+void load_unload_set_unload(LoadUnloadSetUnloadSet *s) {
     s32 i;
     Fn_801Fn f;
     if (test_flags_any((s32 *)((u8 *)s + 0xC), 1) != 0) {
@@ -65,11 +65,11 @@ void load_unload_set_unload(Set_8010F0C0 *s) {
     }
 }
 
-void load_unload_set_load(Set_8010F0C0 *s) {
+void load_unload_set_load(LoadUnloadSetUnloadSet *s) {
     s32 i;
     Fn_801Fn f;
     if (test_flags_any((s32 *)((u8 *)s + 0xC), 1) == 0) {
-        load_unload_set_shuffle_order((O_8010EF14 *)(s));
+        load_unload_set_shuffle_order((LoadUnloadSetShuffleOrderO2 *)(s));
         for (i = 0; i != s->count; i++) {
             if (s->order != 0) {
                 f = s->ents[s->order[i]].a;

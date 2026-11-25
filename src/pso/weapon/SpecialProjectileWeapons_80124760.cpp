@@ -1,8 +1,8 @@
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/SpecialProjectileWeapons_80124760.h"
-#include "pso/weapon/TUnk_804A204C.h"
-#include "pso/weapon/shoot/TUnk_804A2148.h"
-#include "pso/weapon/TUnk_804A2164.h"
+#include "pso/weapon/TItemWeaponEvilCurst.h"
+#include "pso/weapon/shoot/TItemShootDrillLauncher.h"
+#include "pso/weapon/TItemWeaponDrillLauncher.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemFollowStarLight.h"
@@ -33,11 +33,11 @@ struct TItemEquipBase;
 #include "pso/system/MatrixStack.h"
 
 saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life);
-TItem *create_drill_launcher(u8 *item);
+TItem *TItemWeaponDrillLauncher::create(u8 *item);
 void drill_launcher_return_timer(void *weapon);
 
 
-void TUnk_804A2148::render() {
+void TItemShootDrillLauncher::render() {
     u8 *render_node;
     u8 *object;
 
@@ -59,17 +59,17 @@ void TUnk_804A2148::render() {
     }
 }
 
-void TUnk_804A2148::hook() {  }
+void TItemShootDrillLauncher::hook() {  }
 
-TUnk_804A2148::TUnk_804A2148(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootDrillLauncher::TItemShootDrillLauncher(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {}
 
 saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
-    TUnk_804A2148 *shot = NULL;
+    TItemShootDrillLauncher *shot = NULL;
     TItemShootParticle *particle;
 
     if (owner != 0) {
-        shot = new TUnk_804A2148((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
+        shot = new TItemShootDrillLauncher((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
     }
     particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if (particle != NULL) {
@@ -78,7 +78,7 @@ saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
     return (saddr)shot;
 }
 
-void TUnk_804A2164::emit_marker_effects() {
+void TItemWeaponDrillLauncher::emit_marker_effects() {
     Vec gun_point;
     saddr burst_slot;
     s32 burst_added;
@@ -102,7 +102,7 @@ void TUnk_804A2164::emit_marker_effects() {
     }
     launch_shot((u8 *)&gun_point, 0, 0, 1);
 }
-void TUnk_804A2164::transform_model_node() {
+void TItemWeaponDrillLauncher::transform_model_node() {
     s32 player_list;
     player_list = TObjPlayer::get_player_list();
     if ((player_list > 0) && (player_list < 4)) {
@@ -118,7 +118,7 @@ void TUnk_804A2164::transform_model_node() {
     }
 }
 
-void TUnk_804A2164::update_weapon() {
+void TItemWeaponDrillLauncher::update_weapon() {
     void *second;
     void *angled;
     projectile_spin = (projectile_spin + 0x1999);
@@ -149,10 +149,10 @@ void TUnk_804A2164::update_weapon() {
         return;
     }
 }
-TUnk_804A2164::~TUnk_804A2164() {
+TItemWeaponDrillLauncher::~TItemWeaponDrillLauncher() {
 
 }
-TUnk_804A2164::TUnk_804A2164(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponDrillLauncher::TItemWeaponDrillLauncher(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     shot_callback = (WeaponShotCallback)drill_launcher_create_shot;
     shot_speed = 9.0f;
     set_weapon_flags(0x22);
@@ -161,19 +161,19 @@ TUnk_804A2164::TUnk_804A2164(TObject *parent, u8 *item) : TItemWeapon(parent, it
     recoil_angle = 0;
 }
 
-TItem *create_drill_launcher(u8 *item) {
+TItem *TItemWeaponDrillLauncher::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A2164(tl_05, item);
+        return new TItemWeaponDrillLauncher(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804A2148::~TUnk_804A2148() {
+TItemShootDrillLauncher::~TItemShootDrillLauncher() {
 
 }
 void drill_launcher_return_timer(void *weapon) {
     if (weapon != NULL) {
-        ((TUnk_804A2164 *)weapon)->projectile_visible = 1;
+        ((TItemWeaponDrillLauncher *)weapon)->projectile_visible = 1;
     }
 }
 

@@ -8,6 +8,7 @@ class TAdGuideTxtGC;
 
 class TAdSelectGameModeGC : public TObject {
 public:
+    static s32 cached_mode_value;
     TAdSelectGameModeGC(TObject *parent);
     virtual ~TAdSelectGameModeGC();
     virtual void run_task();
@@ -23,6 +24,5 @@ public:
 
 LAYOUT_ASSERT(TAdSelectGameModeGC_size, sizeof(TAdSelectGameModeGC) == 0x24);
 
-extern s32 TAdSelectGameModeGC__cached_mode_value;
 
 #endif

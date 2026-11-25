@@ -6,8 +6,8 @@
 
 struct TObjQuestColA : public TObjQuestColBase {
     TObjQuestColA(TObject *parent, void *set_data);
-    virtual int vfunc_15();
-    virtual TQuestThread *vfunc_16();
+    virtual int is_triggered();
+    virtual TQuestThread *start_quest_thread();
     static void *create(void *set_data);
 };
 

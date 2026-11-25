@@ -48,9 +48,6 @@ extern "C" {
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 extern s32 password_entry_dispatch_state;
 void request_main_phase(s32 arg0);
-s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
-void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self);
-void __dl__7TObjectFPv(void *);
 
 void TAdEnterPasswordGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -158,7 +155,7 @@ void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self) {
   if ((((TAdSelectCurGC *)(self->serial))->confirmation_result() == 1) && (password_entry_keyboard_control->is_confirmed() != 0))
   {
     strncpy((char *)&TAdEnterPasswordGC__input_buffer.value, (const char *)buf, 9);
-    TAdEnterSerialAccessGC::set_entered_value(get_field_118__22TAdEnterSerialAccessGCFv(), 2);
+    TAdEnterSerialAccessGC::set_entered_value(TAdEnterSerialAccessGC::get_serial_seed(), 2);
     self->f20 = 3;
     password_entry_dispatch_state = 4;
   }

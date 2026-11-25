@@ -5,7 +5,7 @@
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/TUnk_804CC74C.h"
+#include "pso/object/TTecMegidCharge.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/vector.h"
 #include "pso/system/SoundEffect.h"
@@ -16,7 +16,7 @@ TechniqueBoostTable::TechniqueBoostTable() {
     clear();
 }
 
-void TUnk_804CC74C::run_task() {
+void TTecMegidCharge::run_task() {
     ++m_age;
     if(m_age%10==0) {
         for(int i=0;i<3;++i)spawn_particle_effect(&m_position,dark_technique_charge_effect_ids[i]);
@@ -25,11 +25,11 @@ void TUnk_804CC74C::run_task() {
     else if(m_age>=180)queue_destruction();
 }
 
-TUnk_804CC74C::~TUnk_804CC74C() {
+TTecMegidCharge::~TTecMegidCharge() {
     stop_sound_request(m_sound_handle);
 }
 
-TUnk_804CC74C::TUnk_804CC74C(TObjPlayer *actor, TObject *parent) : TObject(parent) {
+TTecMegidCharge::TTecMegidCharge(TObjPlayer *actor, TObject *parent) : TObject(parent) {
     m_actor = actor;
     VecCopy(&m_position, &m_actor->body_center);
     m_age = 0;

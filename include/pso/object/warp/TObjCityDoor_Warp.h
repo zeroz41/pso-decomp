@@ -2,9 +2,9 @@
 #define PSO_OBJECT_WARP_TOBJCITYDOOR_WARP_H
 
 #include "types.h"
-#include "pso/object/TUnk_804B5BA8.h"
+#include "pso/object/TObjCityDoorBase.h"
 
-struct TObjCityDoor_Warp : public TUnk_804B5BA8 {
+struct TObjCityDoor_Warp : public TObjCityDoorBase {
     TObjCityDoor_Warp(TObject *parent, void *set);
     virtual ~TObjCityDoor_Warp();
     s32 is_rader_map_active();

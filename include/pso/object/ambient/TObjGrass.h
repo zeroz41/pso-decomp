@@ -6,7 +6,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/effect/TAttackTrace.h"
 
 struct NJS_OBJECT;
@@ -28,20 +28,18 @@ struct TObjGrass : public TObjEnemy {
     void sub_800BDD70();
     void sub_800BD4D8();
     void sub_800BCE44();
-    void* m_374;
-    u8 _pad378[0x8];
-    void* m_380;
-    u8 _pad384[0x8];
+    Vec m_374;
+    Vec m_380;
     void* m_38c;
     u8 unk_390[0x8];
     f32 m_398;
     s16 m_39c;
     s16 m_39e;
     u32 m_3a0;
-    u8 _pad3A4[0x4];
-    u32 m_3a8;
+    s32 m_3a4;
+    s32 m_3a8;
     u32 m_3ac;
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     TAttackTraceStrip *savers[2];  // attack traces; same type and role as TObjEneDubchik::saver (inferred name)
     void update_dying();
     static void update_camera_vec_by_stage(NJS_OBJECT *);
@@ -55,7 +53,7 @@ struct TObjGrass : public TObjEnemy {
     static void destroy_all();
     static void load_resources();
     void init_from_table_entry(s32 i);
-    u8 unk_3D4[0x30];
+    TObjChara *hit_targets[12];  // players this charge has already hit
 };
 
 LAYOUT_ASSERT(TObjGrassFadeOffset, offsetof(TObjGrass, fade) == 0x3B0);

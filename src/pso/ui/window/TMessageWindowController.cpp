@@ -17,10 +17,7 @@
 #include "pso/unk/text_80222C28.h"
 #include "pso/network/client_id.h"
 #pragma readonly_strings on
-extern "C" {
-saddr get_shop_text(s32 index);
 __declspec(section ".rodata") extern const char message_tag_error[];
-}
 struct MessageTagCommand {
     const char *name;
     void (TMessageWindowController::*callback)();

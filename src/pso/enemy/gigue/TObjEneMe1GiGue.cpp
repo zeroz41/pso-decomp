@@ -33,9 +33,9 @@
 #include "pso/enemy/gigue/TObjEneMe1GiGueBarrier.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
-#include "pso/enemy/TUnk_804E14E8.h"
+#include "pso/enemy/TObjEneMe1GiGueHomingShot.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
@@ -64,7 +64,7 @@ f32 get_gigue_float_parameter(TObjEneMe1GiGue *, s32);
 player_stats *ene_me1_gigue_boss_id;
 AttackParams *gigue_attack_params;
 ActorParamBlock *gigue_resistance_params;
-GiGueParameters *TObjEneMe1GiGue__param_table;
+GiGueParameters *me1_gi_gue_param_table;
 BmlResource *gigue_resource;
 TBreakUpMdlData *gigue_breakup_model;
 f32 gigue_missile_speed;
@@ -86,7 +86,7 @@ struct GiGueMoveParams {
     s32 unk_18;
 };
 
-const char *TObjEneMe1GiGue__model_filename_table[4] = {
+const char *me1_gi_gue_model_filename_table[4] = {
     "gi_gue_all.nj", "gi_gue_missile.nj", "gi_gue_barrier.nj", NULL,
 };
 
@@ -97,7 +97,7 @@ const char *me1_gi_gue_motion_filename_table[10] = {
 };
 
 BmlResourceDescriptor gigue_bml_descriptor = {
-    "bm_ene_gi_gue.bml", TObjEneMe1GiGue__model_filename_table, me1_gi_gue_motion_filename_table, 3, 9,
+    "bm_ene_gi_gue.bml", me1_gi_gue_model_filename_table, me1_gi_gue_motion_filename_table, 3, 9,
 };
 
 const char *gigue_low_model_names[4] = {
@@ -135,7 +135,7 @@ CollisionBody gigue_collision_bodies[2] = {
     {{0.0f, 15.0f, 0.0f}, 12.0f, 0.0f, 0, 0xA000002, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-const char *TObjEneMe1GiGue__name = "TObjEneMe1GiGue";
+const char *me1_gi_gue_name = "TObjEneMe1GiGue";
 
 void TObjEneMe1GiGue::load_params_from_table(s32 i) {
     model = (void *)gigue_resource->models[i].model;
@@ -145,11 +145,11 @@ void TObjEneMe1GiGue::load_params_from_table(s32 i) {
 void TObjEneMe1GiGue::update_attack() {  }
 
 f32 get_gigue_float_parameter(TObjEneMe1GiGue *self, s32 i) {
-    return TObjEneMe1GiGue__param_table->floats[i];
+    return me1_gi_gue_param_table->floats[i];
 }
 
 s32 get_gigue_int_parameter(TObjEneMe1GiGue *self, s32 i) {
-    return TObjEneMe1GiGue__param_table->ints[i];
+    return me1_gi_gue_param_table->ints[i];
 }
 
 
@@ -162,7 +162,7 @@ void TObjEneMe1GiGue::run_attack_action() {  }
 void TObjEneMe1GiGue::run_idle_action() {  }
 
 TObjEneMe1GiGue::TObjEneMe1GiGue(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
-    m_name = TObjEneMe1GiGue__name;
+    m_name = me1_gi_gue_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, &position));
     motion_list = gigue_resource->motions;
@@ -239,7 +239,7 @@ void TObjEneMe1GiGue::load_resources() {
     ene_me1_gigue_boss_id = TLobby::register_boss(0x1A);
     gigue_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
     gigue_resistance_params = TLobby::register_object(0x1A);
-    TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
+    me1_gi_gue_param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
     o = new TBreakUpMdlData(gigue_resource->models->model);
     gigue_breakup_model = (TBreakUpMdlData *)o;
     TObjEneMe1GiGueMissile::init_global();
@@ -1027,7 +1027,7 @@ void TObjEneMe1GiGue::spawn_targeted_shot(s32 index) {
         angles.x = 0;
         angles.y = rotation_y + ((index & 1) ? -0x2000 : 0x2000);
         angles.z = 0;
-        new TUnk_804E14E8(&shotOrigin, targetIds[index], &angles, index * 3,
+        new TObjEneMe1GiGueHomingShot(&shotOrigin, targetIds[index], &angles, index * 3,
                           random_ratio() <= get_gigue_float_parameter(this, 5),
                           entity_id);
     }

@@ -12,9 +12,9 @@ extern s32 actor_frame_tick;
 // Field names are inferred from the area code: promote_area_floor copies current -> previous and next -> current,
 // load_area_scene_and_init hands current_floor to set_current_floor_area and current_map to TScene::set_scene, and
 // set_area stores next_floor and get_floor_map_terrain(next_floor) into next_map.
-class Obj_80515BA0 {
+class FloorTransition {
 public:
-    Obj_80515BA0();
+    FloorTransition();
     void init_range(s32 floor);
     s32 get_next_floor();
     void set_next_floor_index(s32 floor);
@@ -33,18 +33,18 @@ public:
     u8 pad_24[4];
 };
 
-LAYOUT_ASSERT(FloorTransitionState_size, sizeof(Obj_80515BA0) == 0x28);
-LAYOUT_ASSERT(FloorTransitionState_next_floor_offset, offsetof(Obj_80515BA0, next_floor) == 0xC);
-LAYOUT_ASSERT(FloorTransitionState_flags_offset, offsetof(Obj_80515BA0, state_flags) == 0x20);
-extern Obj_80515BA0 floor_transition_state;
+LAYOUT_ASSERT(FloorTransitionState_size, sizeof(FloorTransition) == 0x28);
+LAYOUT_ASSERT(FloorTransitionState_next_floor_offset, offsetof(FloorTransition, next_floor) == 0xC);
+LAYOUT_ASSERT(FloorTransitionState_flags_offset, offsetof(FloorTransition, state_flags) == 0x20);
+extern FloorTransition floor_transition_state;
 
 extern "C" {
-void initialize_floor_transition(Obj_80515BA0 *transition, s32 floor, s32 map);
-void set_floor_transition_ready(Obj_80515BA0 *transition);
+void initialize_floor_transition(FloorTransition *transition, s32 floor, s32 map);
+void set_floor_transition_ready(FloorTransition *transition);
 }
-s32 select_area_entrance(Obj_80515BA0 *transition);
-void run_area_scene_cleanup(Obj_80515BA0 *transition);
-void promote_area_floor(Obj_80515BA0 *transition);
+s32 select_area_entrance(FloorTransition *transition);
+void run_area_scene_cleanup(FloorTransition *transition);
+void promote_area_floor(FloorTransition *transition);
 
 // The control role create_player_object hands the local player(s) (name inferred).
 extern s32 player_control_role_base;

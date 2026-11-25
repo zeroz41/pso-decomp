@@ -2,6 +2,7 @@
 #define PSO_BOSS_BARBARAY_TBOSS7JOINT_H
 
 #include "types.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -35,6 +36,7 @@ struct TBoss7Joint : public TObjEneDD {
     s32 init_params();
     static TBoss7DeRolLeC *get_state();
     int is_part_active();
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss7Joint_collision_body, offsetof(TBoss7Joint, collision_body) == 0x38C);

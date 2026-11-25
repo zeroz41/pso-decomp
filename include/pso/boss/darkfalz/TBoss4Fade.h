@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/render/ColorLineList.h"
 #include <stddef.h>
 
 class TBoss4Fade : public TObject {
@@ -22,6 +23,8 @@ public:
 
     s32 write_index;
     FadeFrame frames[2];
+    static f32 fullscreen_vertices[4][2];
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss4Fade_size, sizeof(TBoss4Fade) == 0x38);
@@ -31,5 +34,10 @@ LAYOUT_ASSERT(TBoss4Fade_frames_offset, offsetof(TBoss4Fade, frames) == 0x20);
 struct TBoss4DarkFalz;
 
 TBoss4Fade *create_boss4_fade();
+
+// The fullscreen fade's draw list: the strip's four vertices, then the four colours it points at.
+struct FadeStrip : public ColorLineList {
+    u32 col[4];
+};
 
 #endif

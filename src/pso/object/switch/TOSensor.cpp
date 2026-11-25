@@ -14,7 +14,7 @@
 #include "pso/system/vector.h"
 #include "pso/player/PlayerSlots.h"
 
-const char *TOSensor__class_name = "TOSensor";
+const char *sensor_class_name = "TOSensor";
 
 void TOSensor::render() {}
 
@@ -24,7 +24,7 @@ void TOSensor::update_switch_on() {}
 
 TOSensor::TOSensor(TObject *parent) : TOKey(parent) {
     VecCopy(&home_position, &position);
-    m_name = TOSensor__class_name;
+    m_name = sensor_class_name;
 }
 
 TOSensor::~TOSensor() {}

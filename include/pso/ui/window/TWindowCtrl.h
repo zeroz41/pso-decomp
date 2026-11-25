@@ -28,10 +28,10 @@ struct TWindowCtrl : public TObject {
     u16 window_id;
     u8 _pad2A[0x2];
     uaddr m_2c;
-    TWindowTimer *m_30;
-    TWindowArea *m_34;
-    uaddr m_38;
-    TWindowGetComCard *m_3c;
+    TWindowTimer *timer_window;
+    TWindowArea *area_window;
+    uaddr chat_window;
+    TWindowGetComCard *com_card_window;
     TWindowTradeRequest *trade_request;
     TWindowMessageLog *message_log;
     u8 unk_48[0x8];
@@ -150,7 +150,7 @@ struct TWindowCtrl : public TObject {
     void end_keyboard_hold();
     void hide_status_window();
     void show_status_window();
-    s32 has_get_com_card_window();
+    s32 has_com_card_window();
     s32 is_main_menu_disabled();
     s32 is_lock_on_window_hidden();
     s32 is_status_window_hidden();

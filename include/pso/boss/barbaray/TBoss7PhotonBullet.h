@@ -23,6 +23,7 @@ struct TBoss7PhotonBullet : public TAttackCollider {
     TParticleCtrl *effects[2];
 
     static f32 get_target_pos_y();
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss7PhotonBullet_size, sizeof(TBoss7PhotonBullet) == 0xF8);

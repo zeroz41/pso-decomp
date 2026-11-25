@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/key/TOKey.h"
 
+class TParticleCtrl;
+
 struct TObjDoorKey : public TOKey {
     TObjDoorKey(TObject *parent, void *set_entry);
     virtual ~TObjDoorKey();
@@ -19,11 +21,11 @@ struct TObjDoorKey : public TOKey {
     void run_task();
     static void free_key();
     static void load_resources();
-    s32 m_e8;
-    u8 unk_EC[0x4];
-    s32 m_f0;
-    u8 unk_F4[0x4];
-    uaddr m_f8;
+    s32 activated;   // set by the activate sound, read by the key's plate
+    s32 unk_EC;
+    s32 spin_angle;  // the badge's y rotation, advanced while the switch is on
+    s32 unk_F4;
+    TParticleCtrl *particle;  // the continuous glow effect
     static void *create(void *set_data);
 };
 

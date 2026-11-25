@@ -22,6 +22,7 @@ public:
     TBoss6EffFlowSoul(TObject *parent, Vec *pos, s32 player, s32 duration);
     virtual ~TBoss6EffFlowSoul();
     virtual void run_task();
+    static const char *name;
 };
 
 #endif

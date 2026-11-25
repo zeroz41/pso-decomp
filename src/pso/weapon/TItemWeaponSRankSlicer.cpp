@@ -1,18 +1,18 @@
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/weapon/TUnk_804A4338.h"
+#include "pso/weapon/TItemWeaponSRankSlicer.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerAttackController.h"
-#include "pso/weapon/TUnk_804A403C.h"
+#include "pso/weapon/TItemWeaponSRankPunch.h"
 #include "pso/object/base/TObjBase.h"
 #define SLICER_LAUNCH_STATE_OUT_OF_LINE
 #include "pso/weapon/SlicerLaunchState.h"
 
-void TUnk_804A4338::emit_marker_effects() {
+void TItemWeaponSRankSlicer::emit_marker_effects() {
     SlicerLaunchState tec;
     TObjPlayer__sub_80128A70();
     init_slicer_launch_state(&tec);
@@ -33,15 +33,15 @@ void TUnk_804A4338::emit_marker_effects() {
     TTecSlicer::create(&tec);
 }
 
-TUnk_804A4338::TUnk_804A4338(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankSlicer::TItemWeaponSRankSlicer(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(2);
 }
 
 TItem *create_s_rank_slicer_weapon(u8 *owner) {
     if (owner != NULL) {
-        return new TUnk_804A4338(tl_05, owner);
+        return new TItemWeaponSRankSlicer(tl_05, owner);
     }
     return NULL;
 }
 
-TUnk_804A4338::~TUnk_804A4338() {}
+TItemWeaponSRankSlicer::~TItemWeaponSRankSlicer() {}

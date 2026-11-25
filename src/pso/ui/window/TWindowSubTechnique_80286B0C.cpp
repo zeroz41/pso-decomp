@@ -14,7 +14,6 @@ VV(31)VV(32)VV(33)
     virtual s32 v36();
 };
 
-extern "C" {
 
 
 void TWindowSubTechnique::get_selection(s16 *arg0, s32 *arg1, s32 client) {
@@ -27,4 +26,3 @@ void TWindowSubTechnique::get_selection(s16 *arg0, s32 *arg1, s32 client) {
     }
 }
 
-}

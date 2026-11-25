@@ -24,13 +24,12 @@
 
 const char *TWindowStatus__name = "TWindowStatus";
 
-struct Quad_802710C4 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
 
-s32 TWindowSubComCard__sub_802452DC(int);
-s32 TWindowSubComCard__sub_80245320(void *, void *);
-s32 TWindowSubComCard__sub_802454E4(int);
+s32 end_window_sweep_draw(int);
+s32 draw_window_sweep_strip(void *, void *);
+s32 begin_window_sweep_draw(int);
 void draw_photon_blast_gauge_ring(s32, void *, const f32 *, f32, f32);
 void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(void *, f32);
@@ -40,7 +39,6 @@ s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp);
 
 }
-void update_status_help_item(saddr arg0);
 void set_status_entry_target(void *arg0, s32 arg1);
 #pragma readonly_strings on
 
@@ -136,7 +134,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
 
 void TWindowStatus::draw_background(u8 *ctx) {
     static const f32 pos[2] = {44.0f, 30.5f};
-    Quad_802710C4 q;
+    TexturedQuad q;
     f32 w;
     f32 s;
 
@@ -170,9 +168,9 @@ void TWindowStatus::draw_background(u8 *ctx) {
     draw_textured_quad_at_depth(&q, s);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {
-        TWindowSubComCard__sub_802454E4(0xB);
-        TWindowSubComCard__sub_80245320(&q, ctx);
-        TWindowSubComCard__sub_802452DC(0xB);
+        begin_window_sweep_draw(0xB);
+        draw_window_sweep_strip(&q, ctx);
+        end_window_sweep_draw(0xB);
     }
 }
 
@@ -196,7 +194,7 @@ void TWindowStatus::run_task() {
     update_lockon_window((u8 *)arg0);
     update_status_help_item(arg0);
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
-    ((TWindowDD *)arg0)->initialize_subwindow();
+    ((TWindowBase *)arg0)->update_window();
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
 }

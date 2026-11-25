@@ -60,7 +60,6 @@ struct Stack_8025E6DC {
 u8 calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, void *, s32);
 s32 dispatch_request_0f__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x10__19TWindowKeyBoardSoftFll(void *, void *);
-void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor);
 void draw_textured_quad_at_depth(void *, f32);
 s32 dispatch_request_0x27__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x26__19TWindowKeyBoardSoftFll(void *, s32 *);
@@ -87,11 +86,10 @@ void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {
     this->frame_size[1] = (f32) this->target_size[1];
     m_text.init(width, lines);
     active_text = &m_text;
-    this->m_60 = 0;
+    this->state_flags = 0;
 }
 
 s32 TWindowKeyBoardBase::sub_8025CE00(u8 *text) {
-    void * keyboard = (void *)this;
     char *p = (char *)text;
     u16 ch;
 
@@ -151,7 +149,6 @@ s32 TWindowKeyBoardBase::sub_8025CE00(u8 *text) {
 }
 
 void TWindowKeyBoardBase::sub_8025CF50(int count) {
-    void * keyboard = (void *)this;
     char tmp[0x100];
     char out[0x100];
     u32 i;
@@ -370,7 +367,7 @@ s32 TWindowKeyBoardBase::sub_8025D544(s32 *name, s8 *text) {
 void TWindowKeyBoardBase::set_kanji_mode() {
     s8 sp8[0x200];
 
-    if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
+    if (!(state_flags & 0x10)) {
         dispatch_request_0x26__19TWindowKeyBoardSoftFll(sp8, (s32 *)(sp8 + 0x100));
         candidate_index = 0xF0;
         update_input(sp8);
@@ -380,7 +377,7 @@ void TWindowKeyBoardBase::set_kanji_mode() {
 void TWindowKeyBoardBase::set_kana_mode() {
     s8 sp8[0x200];
 
-    if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
+    if (!(state_flags & 0x10)) {
         dispatch_request_0x25__19TWindowKeyBoardSoftFll(sp8, (s32 *)(sp8 + 0x100));
         candidate_index = 0xF1;
         update_input(sp8);
@@ -395,7 +392,7 @@ void TWindowKeyBoardBase::sub_8025D664() {
     s32 i;
     u8 kind;
 
-    if (m_60 & 0x10) {
+    if (state_flags & 0x10) {
         return;
     }
     count = dispatch_request_0x24__19TWindowKeyBoardSoftFll(name, text);
@@ -430,13 +427,12 @@ void TWindowKeyBoardBase::sub_8025D664() {
 }
 
 void TWindowKeyBoardBase::process_input() {
-    u8 *arg0 = (u8 *)this;
     u8 sp108[0x100];
     u8 sp8[0x100];
     s32 temp_r3;
     u8 *temp_r5;
 
-    if (!(*(u16 *)((s8 *)arg0 + 0x60) & 0x10)) {
+    if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
         temp_r3 = dispatch_request_0x23__19TWindowKeyBoardSoftFll(sp8, sp108);
         if (temp_r3 != 0) {
             candidate_count = temp_r3;
@@ -444,7 +440,7 @@ void TWindowKeyBoardBase::process_input() {
             temp_r5 = current_candidate;
             current_candidate = temp_r5 - (static_cast<s8>(temp_r5[0]) + 3);
             candidate_index = (s32) current_candidate[2];
-            ((TWindowKeyBoardBase *)arg0)->sub_8025CF50((int) (candidate_index));
+            this->sub_8025CF50((int) (candidate_index));
         }
     }
 }
@@ -454,7 +450,7 @@ void TWindowKeyBoardBase::sub_8025D7FC() {
     char name[0x100];
     s32 n;
     s32 i;
-    if (m_60 & 0x10) {
+    if (state_flags & 0x10) {
         return;
     }
     n = dispatch_request_0x22__19TWindowKeyBoardSoftFll(name, text);
@@ -483,7 +479,7 @@ void TWindowKeyBoardBase::sub_8025D8C8() {
     char name[0x100];
     s32 n;
     s32 i;
-    if (m_60 & 0x10) {
+    if (state_flags & 0x10) {
         return;
     }
     n = ((s32)TWindowKeyBoardSoft__sub_803E67D4(name, text));
@@ -511,7 +507,7 @@ void TWindowKeyBoardBase::select_next() {
     struct { u8 _pad[0x100]; } sp108;
     struct { u8 _pad[0x100]; } sp8;
 
-    if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
+    if (!(state_flags & 0x10)) {
         do {
             TWindowKeyBoardSoft__sub_803E6868(&sp8, &sp108);
             candidate_index = (s32) (candidate_index + 1);
@@ -527,7 +523,7 @@ void TWindowKeyBoardBase::update() {
     u8 sp108[0x100];
     u8 sp8[0x100];
 
-    if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
+    if (!(state_flags & 0x10)) {
         do {
             dispatch_request_0x14__19TWindowKeyBoardSoftFll(sp8, sp108);
             candidate_index = (s32) (candidate_index - 1);
@@ -546,7 +542,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     int temp_r0;
     u8 *var_r4;
 
-    if (!(*(u16 *)((s8 *)this + 0x60) & 0x80)) {
+    if (!(state_flags & 0x80)) {
         sub_8025DBDC(1);
     }
     var_r3 = this->m_text2.buffer;
@@ -564,13 +560,13 @@ void TWindowKeyBoardBase::convert_input_text() {
     *var_r4 = 0;
     current_candidate = candidate_buffer;
     if (sub_8025CE00(candidate_buffer) != 0) {
-        *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 0x10);
+        state_flags = (u16) (state_flags | 0x10);
         candidate_count = 1;
         candidate_index = 1;
         strncpy((char *)name, (const char *)candidate_buffer, 0x100);
         sp108[0] = 0;
     } else {
-        *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) & 0xFFFFFFEF);
+        state_flags = (u16) (state_flags & 0xFFFFFFEF);
         candidate_count = dispatch_request_0x13__19TWindowKeyBoardSoftFlll(candidate_buffer, (s32 *)name, sp108);
         candidate_index = 1;
         sub_8025CFA8((s32 *)name);
@@ -578,7 +574,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     candidate_bytes_remaining = 0x94;
     if (sub_8025D544((s32 *)name, sp108) != 0) {
         write_name_and_text((char *)((s32 *)name), (char *)(sp108));
-        *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 4);
+        state_flags = (u16) (state_flags | 4);
     }
 }
 
@@ -862,11 +858,11 @@ void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
     u16 temp_r3;
     u16 temp_r3_2;
     var_r31 = 1;
-    if (!(this->m_62 & 2) || (ctx->open_tick >= 0)) {
+    if (!(this->request_flags & 2) || (ctx->open_tick >= 0)) {
         stack.cursor.x = ctx->inner_x;
         stack.cursor.y = ctx->inner_y;
         layout_wrapped_glyphs(ctx, &stack.cursor, this->m_text.buffer, this->m_text.cursor, 0);
-        temp_r3 = this->m_60;
+        temp_r3 = this->state_flags;
         if (temp_r3 & 2) {
             if (temp_r3 & 4) {
                 this->draw_text_glyphs(ctx, &stack.cursor);
@@ -879,7 +875,7 @@ void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
         stack.cursor.x = ctx->inner_x;
         stack.cursor.y = ctx->inner_y;
         layout_wrapped_glyphs(ctx, &stack.cursor, this->m_text.buffer, this->m_text.cursor, 1);
-        temp_r3_2 = this->m_60;
+        temp_r3_2 = this->state_flags;
         if (temp_r3_2 & 2) {
             if (temp_r3_2 & 4) {
                 this->draw_wrapped_text(ctx, &stack.cursor);
@@ -916,9 +912,9 @@ s32 ARAlloc(s32);
 void aram_dma_setup(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 
 void TWindowKeyBoardBase::render() {
-    if ((sub_8025EB68() == 0) && ((sub_8025CB10() != 0) || (this->m_62 & 2))) {
+    if ((sub_8025EB68() == 0) && ((sub_8025CB10() != 0) || (this->request_flags & 2))) {
         WindowDrawContext *context = draw_default_entry();
-        if (this->m_62 & 2) {
+        if (this->request_flags & 2) {
             draw_window_frame(context);
         }
         draw_input_text(context);
@@ -926,7 +922,7 @@ void TWindowKeyBoardBase::render() {
 }
 
 void TWindowKeyBoardBase::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
 }
 
@@ -943,8 +939,8 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
     m_text2.init(0, 0);
     active_text = &m_text;
     *(s32 *)&((TWindowKeyBoardBase *)self)->composition_flags = 0;
-    *(s16 *)&((TWindowKeyBoardBase *)self)->m_62 = 0;
-    *(s8 *)&((TWindowKeyBoardBase *)self)->m_65 = -1;
+    *(s16 *)&((TWindowKeyBoardBase *)self)->request_flags = 0;
+    *(s8 *)&((TWindowKeyBoardBase *)self)->active_input_mode = -1;
     candidate_buffer = 0;
     current_candidate = 0;
     last_candidate = 0;

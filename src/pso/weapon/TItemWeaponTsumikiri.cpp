@@ -27,11 +27,11 @@ void TItemWeaponTsumikiri::activate_effect(s32 item) {
 #pragma pop
 
 void TItemWeaponTsumikiri::emit_marker_effects() {
-    s32 temp_r3;
+    s32 charge;
     if (is_mode_two_and_ready() != 0) {
-        temp_r3 = owner->get_photon_blast_charge();
-        if (temp_r3 >= 0x14) {
-            send_activate_effect(temp_r3);
+        charge = owner->get_photon_blast_charge();
+        if (charge >= 0x14) {
+            send_activate_effect(charge);
             return;
         }
         update_active_game_effect();

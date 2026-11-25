@@ -14,7 +14,7 @@
 extern "C" {
 #pragma push
 #pragma readonly_strings on
-const char *TObjBoss5PillarDemo__name = "TObjBoss5PillarDemo";
+const char *TObjBoss5PillarDemo::name = "TObjBoss5PillarDemo";
 #pragma pop
 
 void TObjBoss5PillarDemo__sub_8028AB38(void) {
@@ -37,7 +37,7 @@ TObjBoss5PillarDemo::~TObjBoss5PillarDemo() {
 }
 
 TObjBoss5PillarDemo::TObjBoss5PillarDemo(TObject *parent, Vec *pos) : TObjBoss5Pillar(parent, pos) {
-    m_name = TObjBoss5PillarDemo__name;
+    m_name = TObjBoss5PillarDemo::name;
     this->frame_step = 0.5f;
     this->models[0] = boss5_common_bml_resource->models[3].model;
     this->models[1] = boss5_common_bml_resource->models[4].model;

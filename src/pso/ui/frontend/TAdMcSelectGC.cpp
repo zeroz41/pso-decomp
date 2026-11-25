@@ -17,7 +17,7 @@
 static const CharacterSlotPosition mc_slot_a_position = { 95.0f, 118.0f };
 static const CharacterSlotPosition mc_slot_b_position = { 381.0f, 118.0f };
 const char *TAdMcSelectGC__class_name = "TAdMcSelectGC";
-TAdMcSelectGC *TAdMcSelectGC__instance;
+TAdMcSelectGC *TAdMcSelectGC::instance;
 
 void TAdMcSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -60,8 +60,8 @@ void TAdMcSelectGC::run_task() {
 }
 
 TAdMcSelectGC::~TAdMcSelectGC() {
-    if (TAdMcSelectGC__instance != NULL) {
-        TAdMcSelectGC__instance = NULL;
+    if (TAdMcSelectGC::instance != NULL) {
+        TAdMcSelectGC::instance = NULL;
     }
 }
 
@@ -104,8 +104,8 @@ TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
 
 
 TAdMcSelectGC *TAdMcSelectGC::create(TObject *parent) {
-    TAdMcSelectGC__instance = new TAdMcSelectGC(parent);
-    return TAdMcSelectGC__instance;
+    TAdMcSelectGC::instance = new TAdMcSelectGC(parent);
+    return TAdMcSelectGC::instance;
 }
 
 
@@ -113,7 +113,7 @@ void TAdMcSelectGC::open() { TLobby__sub_802C78EC(); TAdMcSelectMcGC::release_se
 void TAdMcSelectGC::close() { TAdMcSelectCursorGC::init_resource(); TAdMcSelectMcGC::init_memorycard(); TLobby__sub_802C7920(); }
 void TAdMcSelectCursorGC::unlock_selection() { selection_locked = 0; }
 
-TAdMcSelectCursorGC *TAdMcSelectGC::get_mc_count() { return TAdMcSelectCursorGC__instance; }
+TAdMcSelectCursorGC *TAdMcSelectGC::get_mc_count() { return TAdMcSelectCursorGC::instance; }
 
 s32 TAdMcSelectCursorGC::get_slot_index() { return selected_slot; }
 void TAdMcSelectCursorGC::lock_selection() { selection_locked = 1; }

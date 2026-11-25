@@ -25,34 +25,18 @@
 
 #pragma readonly_strings on
 // Built with deferred code generation: functions come out in reverse order
-// (sub_8004E068 first in .text).
+// (draw_zanzo_parts first in .text).
 #pragma defer_codegen on
 
-// A particle emitter of the scene: live from frame `start` to frame `end`,
-// placed at `offset` turned by the object's angle.
-struct DFDemo1Emitter {
-    s32 effect;
-    s32 start;
-    s32 end;
-    Vec offset;
-};
-
-// A colour of a zanzo model node whose alpha fades in.
-struct DFDemo1NodeColor {
-    s32 part;   // index into zanzo_parts
-    s32 node;   // find_model_node index
-    s32 slot;   // s16 index into the node's chunk polygon list
-};
-
 // TBoss4Type1's body models and TBoss4Zanzo's model table.
-extern s32 boss4_type1_model_ids[6];
 extern s32 boss4_zanzo_bml_index_table[];
 #include "pso/render/model_render_state.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4Type1.h"
 // Defined after the constructor: it follows the constructor's angle template in .rodata.
 extern const ModelNodeSpec df_demo1_strip_specs[6];
 
-const char *TObjDFDemo1__name = "TObjDFDemo1";
+const char *TObjDFDemo1::name = "TObjDFDemo1";
 DFDemo1Emitter df_demo1_emitters[4] = {
     {0x144, 0x2C, 0x7C, {130.0f, 10.0f, 0.0f}},
     {0x144, 0x2C, 0x7C, {0.0f, 10.0f, 130.0f}},
@@ -71,7 +55,7 @@ TObjDFDemo1 *TObjDFDemo1::create(TObject *parent, const Vec *pos, s32 angle) {
 TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(parent) {
     BmlResource *res;
     s32 i;
-    m_name = TObjDFDemo1__name;
+    m_name = TObjDFDemo1::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
     res = TBoss4Uro::get_instance_count();
@@ -175,7 +159,7 @@ void TObjDFDemo1::run_task() {
 
 void TObjDFDemo1::render() {
     draw_fading_model();
-    sub_8004E068();
+    draw_zanzo_parts();
 }
 
 void TObjDFDemo1::draw_fading_model() {
@@ -218,7 +202,7 @@ void TObjDFDemo1::draw_fading_model() {
     }
 }
 
-void TObjDFDemo1::sub_8004E068() {
+void TObjDFDemo1::draw_zanzo_parts() {
     f32 alpha;
     s32 i;
     s16 *col;

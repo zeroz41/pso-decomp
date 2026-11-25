@@ -1,4 +1,4 @@
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TOBind.h"

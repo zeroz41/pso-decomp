@@ -59,7 +59,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 
 
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 
@@ -94,7 +94,7 @@ extern NJS_OBJECT *debug_chunk_object;
 
 player_stats *recobox_boss_register_id;
 AttackParams *recobox_attack_params;
-ActorParamBlock *TObjEneRecobox__shared_object_handle;
+ActorParamBlock *recobox_shared_object_handle;
 
 void *TObjEneRecobox__attack_params[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
@@ -125,19 +125,19 @@ const char *recobox_low_model_names[7] = {
     "b_parts_b_parts02.gj", "b_parts_b_parts03.gj", NULL,
 };
 
-const char *TObjEneRecobox__resource_bundle[11] = {
+const char *recobox_resource_bundle[11] = {
     "close_me7_box_all.njm", "close_only_me7_box_all.njm", "open_me7_box_all.njm", "open_only_me7_box_all.njm",
     "attack_me7_all.njm", "b_attack_me7_all.njm", "damage_me7_all.njm", "dethpose_me7_all.njm",
     "start_me7_all.njm", "wait_me7_all.njm", NULL,
 };
 
 BmlResourceDescriptor recobox_low_bml_descriptor = {
-    "bm_ene_recobox_low.bml", recobox_low_model_names, TObjEneRecobox__resource_bundle, 6, 10,
+    "bm_ene_recobox_low.bml", recobox_low_model_names, recobox_resource_bundle, 6, 10,
 };
 
 const char *TObjEneRecobox_name_ref = "TObjEneRecobox";
 
-TObjMotionAction TObjEneRecobox__animation_entries[4] = {
+TObjMotionAction recobox_animation_entries[4] = {
     {1, 0, 1, 0.1f, 0},
     {3, 0, 2, 0.6f, 0},
     {1, 0, 3, 0.1f, 0},
@@ -149,9 +149,9 @@ Vec lbl_80543000;
 
 s32 recobox_behavior_params;
 
-BmlResource *TObjEneRecobox__static_instance;
+BmlResource *recobox_static_instance;
 
-const NpcAnimationBinding recobox_resource_binding_desc = { NULL, TObjEneRecobox__animation_entries, 0, 0, 4 };
+const NpcAnimationBinding recobox_resource_binding_desc = { NULL, recobox_animation_entries, 0, 0, 4 };
 
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -170,17 +170,17 @@ void TObjEneRecobox::load_resources() {
         } else {
             res = load_enemy_bml_resource(&recobox_bml_descriptor);
         }
-        TObjEneRecobox__static_instance = res;
+        recobox_static_instance = res;
     }
     recobox_boss_register_id = TLobby::register_boss(0x41);
     recobox_attack_params = TLobby::dispatch_shared_handler_b(0x41);
-    TObjEneRecobox__shared_object_handle = TLobby::register_object(0x41);
+    recobox_shared_object_handle = TLobby::register_object(0x41);
     recobox_behavior_params = (saddr)TLobby::dispatch_shared_handler_a(0x41);
     TObjEneRecon::load_resources();
     {
         NpcAnimationBinding binding = recobox_resource_binding_desc;
-        binding.motions = TObjEneRecobox__static_instance->motions;
-        TObjNpcEnemy::register_animated_chunk(0xD, TObjEneRecobox__static_instance->models[1].model, TObjEneRecobox__static_instance->models[1].texlist, &binding, recobox_collision_body.radius, 0.0f);
+        binding.motions = recobox_static_instance->motions;
+        TObjNpcEnemy::register_animated_chunk(0xD, recobox_static_instance->models[1].model, recobox_static_instance->models[1].texlist, &binding, recobox_collision_body.radius, 0.0f);
     }
 }
 
@@ -190,13 +190,13 @@ void *TObjEneRecobox::create(void *set_data) {
 
 void TObjEneRecobox::release_static_instance() {
     TObjEneRecon::release_static_instance();
-    if (TObjEneRecobox__static_instance != NULL) {
-        delete TObjEneRecobox__static_instance;
-        TObjEneRecobox__static_instance = NULL;
+    if (recobox_static_instance != NULL) {
+        delete recobox_static_instance;
+        recobox_static_instance = NULL;
     }
 }
 
-BmlResource *TObjEneRecobox::get_bml_resource() { return TObjEneRecobox__static_instance; }
+BmlResource *TObjEneRecobox::get_bml_resource() { return recobox_static_instance; }
 
 u32 TObjEneRecobox::remap_area_sound_id(u32 id) {
     u32 ret;
@@ -224,17 +224,17 @@ TObjEneRecobox::TObjEneRecobox(TObject *parent, void *set_data) : TObjEneDD_ST(p
     m_name = TObjEneRecobox_name_ref;
     invoke_initialization_hook(set_data);
     init_position_vectors();
-    model = TObjEneRecobox__static_instance->models[1].model;
-    texlist = TObjEneRecobox__static_instance->models[1].texlist;
+    model = recobox_static_instance->models[1].model;
+    texlist = recobox_static_instance->models[1].texlist;
     init_model(&recobox_collision_body, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();
-    set_action_table(TObjEneRecobox__animation_entries);
-    set_motion_list(TObjEneRecobox__static_instance->motions);
+    set_action_table(recobox_animation_entries);
+    set_motion_list(recobox_static_instance->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp(recobox_boss_register_id, recobox_attack_params, TObjEneRecobox__shared_object_handle);
+    reset_hp(recobox_boss_register_id, recobox_attack_params, recobox_shared_object_handle);
     set_state_flag_4();
     movementParameters = TObjEneRecobox__attack_params;
     initialize_enemy_state(0x43);
@@ -458,7 +458,7 @@ void TObjEneRecobox::handle_state(s32 reason) {
         status_flags &= ~1;
         requested_action = 0;
         set_intangible();
-        set_field_378(0);
+        set_next_mode(0);
         fade.start_fade_in();
         return;
     case 3:
@@ -479,7 +479,7 @@ void TObjEneRecobox::state_idle(s32 reason) {
         status_flags |= 1;
         requested_action = 0;
         set_intangible();
-        set_field_378(0);
+        set_next_mode(0);
         return;
     case 3:
         transition_enemy_state(1);
@@ -495,7 +495,7 @@ void TObjEneRecobox::state_closed(s32 reason) {
         status_flags &= ~1;
         requested_action = 0;
         clear_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         return;
     case 3:
         if (acquire_target(500.0f) != 0 && can_spawn_recons() != 0) {
@@ -516,7 +516,7 @@ void TObjEneRecobox::update_state(s32 reason) {
         status_flags &= ~1;
         requested_action = 1;
         clear_intangible();
-        set_field_378(3);
+        set_next_mode(3);
         return;
     case 3:
         if (get_flag_b4() != 0) {
@@ -538,7 +538,7 @@ void TObjEneRecobox::handle_action_state(s32 reason) {
         status_flags &= ~1;
         requested_action = 2;
         clear_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         return;
     case 3:
         if (is_out_of_range() != 0) {
@@ -559,7 +559,7 @@ void TObjEneRecobox::state_close(s32 reason) {
         status_flags &= ~1;
         requested_action = 3;
         clear_intangible();
-        set_field_378(5);
+        set_next_mode(5);
         break;
     case 3:
         if (get_flag_b4() != 0) {
@@ -601,17 +601,17 @@ void TObjEneRecobox::spawn_debris_chips() {
     const TObjChipParams chip0 = {
         0.5f, 0.07f, 0.26f, {this->position.x, this->position.y, this->position.z},
         {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, 5, 50, this->position.y, 0.6f,
-        TObjEneRecobox__static_instance->models[3].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
+        recobox_static_instance->models[3].model, recobox_static_instance->models[3].texlist, 20,
     };
     const TObjChipParams chip1 = {
         0.5f, 0.07f, 0.26f, {this->position.x, this->position.y, this->position.z},
         {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, 6, 50, this->position.y, 0.5f,
-        TObjEneRecobox__static_instance->models[4].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
+        recobox_static_instance->models[4].model, recobox_static_instance->models[3].texlist, 20,
     };
     const TObjChipParams chip2 = {
         0.5f, 0.07f, 0.26f, {this->position.x, this->position.y, this->position.z},
         {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, 6, 50, this->position.y, 0.5f,
-        TObjEneRecobox__static_instance->models[5].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
+        recobox_static_instance->models[5].model, recobox_static_instance->models[3].texlist, 20,
     };
     spawn_particle_effect_with_flags(&this->position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&this->position, 0x46, 0x40);

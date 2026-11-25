@@ -20,7 +20,7 @@ struct TWindowSubSymbolChatFaceType : public TWindowBase {
     u8 m_62;
     u8 _pad63[0x1];
     s8 *m_64; // Borrowed selection byte.
-    TWindowSubStatusDisp *m_68;
+    TWindowSubStatusDisp *status_disp;
     void close_when_chat_closed();
     void confirm_selection();
 };
@@ -28,6 +28,6 @@ struct TWindowSubSymbolChatFaceType : public TWindowBase {
 LAYOUT_ASSERT(TWindowSubSymbolChatFaceType_size, sizeof(TWindowSubSymbolChatFaceType) == 0x6C);
 
 LAYOUT_ASSERT(FaceType_selection, offsetof(TWindowSubSymbolChatFaceType, m_64) == 0x64);
-LAYOUT_ASSERT(FaceType_heading, offsetof(TWindowSubSymbolChatFaceType, m_68) == 0x68);
+LAYOUT_ASSERT(FaceType_heading, offsetof(TWindowSubSymbolChatFaceType, status_disp) == 0x68);
 
 #endif

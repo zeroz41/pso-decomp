@@ -21,9 +21,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 
-const char *TObjDFDemoF__name = "TObjDFDemoF";
+const char *TObjDFDemoF::name = "TObjDFDemoF";
 
-s32 TObjDFDemoF__bml_model_id_table[3] = {0x0, 0x10, 0x11};
+s32 TObjDFDemoF::bml_model_id_table[3] = {0x0, 0x10, 0x11};
 s32 df_demof_motion_ids[3] = {-1, 0x26, 0x27};
 Vec df_demof_camera_position = {-20000.0f, 0.0f, 0.0f};
 CameraAngles df_demof_camera_angles = {0, 0, 0};
@@ -46,10 +46,10 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
     saddr i;
 
     self = this;
-    self->m_name = TObjDFDemoF__name;
+    self->m_name = TObjDFDemoF::name;
     archive = TBoss4Uro::get_instance_count();
     for (i = 0; i < 3; i++) {
-        s32 model_index = TObjDFDemoF__bml_model_id_table[i];
+        s32 model_index = TObjDFDemoF::bml_model_id_table[i];
         motion_indices = df_demof_motion_ids;
         texture_index = model_index;
         this->models[i] = (NJS_OBJECT *)get_bml_model(archive, model_index);

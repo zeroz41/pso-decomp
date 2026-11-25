@@ -14,8 +14,8 @@ LAYOUT_ASSERT(OnlineQuestFile_name_offset, offsetof(TRecvDownloadHead, filename)
 LAYOUT_ASSERT(OnlineQuestFile_size_offset, offsetof(TRecvDownloadHead, file_size) == 0x38);
 
 extern "C" {
-extern OnlineQuestMenu *TQuestListOnline__quest_list_buffer;
-extern OnlineQuestInfo *TQuestListOnline__selected_quest_info;
+extern OnlineQuestMenu *quest_list_online_quest_list_buffer;
+extern OnlineQuestInfo *quest_list_online_selected_quest_info;
 extern TWindowMessage *TQuestListOnline__download_window;
 extern TWindowMessage *TQuestListOnline__quest_info_window;
 extern TWindowMessage *TQuestListOnline__download_barrier_window;

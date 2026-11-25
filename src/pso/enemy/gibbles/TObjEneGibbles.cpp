@@ -31,7 +31,7 @@ struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/vector.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
@@ -62,6 +62,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 static const char gibbles_model_name[] = "gibb_body.nj";
 static const char gibbles_attack_motion_name[] = "attack_gibb_body.njm";
@@ -79,16 +80,16 @@ static const char gibbles_low_detail_model_name[] = "lo_gibb_body.nj";
 static const char gibbles_low_detail_archive_name[] = "bm_ene_gibbles_low.bml";
 static const char gibbles_class_name_string[] = "TObjEneGibbles";
 
-__declspec(section ".data") const char *TObjEneGibbles__model_filenames[2] = {
+__declspec(section ".data") const char *gibbles_model_filenames[2] = {
     gibbles_model_name, NULL,
 };
-const char *TObjEneGibbles__motion_names_and_resource_descriptor[11] = {
+const char *gibbles_motion_names_and_resource_descriptor[11] = {
     gibbles_attack_motion_name, gibbles_damage_motion_name, gibbles_dead_motion_name, gibbles_guard_motion_name,
     gibbles_jump_motion_name, gibbles_ready_motion_name, gibbles_landing_motion_name, gibbles_punch_motion_name,
     gibbles_wait_motion_name, gibbles_walk_motion_name, NULL,
 };
 BmlResourceDescriptor bm_ene_gibbles_resource_descriptor = {
-    gibbles_archive_name, TObjEneGibbles__model_filenames, TObjEneGibbles__motion_names_and_resource_descriptor, 1, 10,
+    gibbles_archive_name, gibbles_model_filenames, gibbles_motion_names_and_resource_descriptor, 1, 10,
 };
 __declspec(section ".data") const char *bm_ene_gibbles_low_model_names[2] = {
     gibbles_low_detail_model_name, NULL,
@@ -114,7 +115,7 @@ TObjMotionAction gibbles_action_table[10] = {
     {2, 0, 1, 0.8f, 8},
     {3, 0, 2, 0.7f, 0x10},
 };
-const char *TObjEneGibbles__class_name = gibbles_class_name_string;
+const char *gibbles_class_name = gibbles_class_name_string;
 const NpcAnimationBinding gibbles_resource_binding_desc = { NULL, gibbles_action_table, 0, 1, 10 };
 const Vec lbl_80472768 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_80472774 = {0.0f, 0.0f, 0.0f};
@@ -130,23 +131,23 @@ CollisionBody gibbles_collision_bodies[3] = {
 player_stats *gibbles_boss_stat_handle;
 AttackParams **gibbles_combat_stat_entries;
 ActorParamBlock *gibbles_combat_stats_handle;
-GibblesAiParams *TObjEneGibbles__ai_parameters;
-BmlResource *TObjEneGibbles__resource_bundle;
-s32 TObjEneGibbles__render_node_index;
-s32 TObjEneGibbles__render_rotation_x;
+GibblesAiParams *gibbles_ai_parameters;
+BmlResource *gibbles_resource_bundle;
+s32 gibbles_render_node_index;
+s32 gibbles_render_rotation_x;
 
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
 void TObjEneGibbles::select_model_record(s32 i) {
-    model = TObjEneGibbles__resource_bundle->models[i].model;
-    texlist = TObjEneGibbles__resource_bundle->models[i].texlist;
+    model = gibbles_resource_bundle->models[i].model;
+    texlist = gibbles_resource_bundle->models[i].texlist;
 }
 
 void *TObjEneGibbles::get_center() { return &body_center; }
 
 TObjEneGibbles::TObjEneGibbles(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     s32 i;
-    m_name = TObjEneGibbles__class_name;
+    m_name = gibbles_class_name;
     apply_set_data(setData);
     init_position_vectors();
     scale.x = scale.y = scale.z = 1.0f;
@@ -159,7 +160,7 @@ TObjEneGibbles::TObjEneGibbles(TObject *parent, EnemyPlacement *setData) : TObjE
     select_model_record(variant);
     action_table = gibbles_action_table;
     set_action_table(action_table);
-    motion_list = TObjEneGibbles__resource_bundle->motions;
+    motion_list = gibbles_resource_bundle->motions;
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
@@ -209,23 +210,23 @@ void TObjEneGibbles::load_resources() {
     BmlResource *p;
     if (is_split_screen() != 0) {
         p = new BmlResource(1, &bm_ene_gibbles_low_resource_descriptor, 0, 0, NULL);
-        TObjEneGibbles__resource_bundle = p;
+        gibbles_resource_bundle = p;
     } else {
         p = new BmlResource(1, &bm_ene_gibbles_resource_descriptor, 0, 0, NULL);
-        TObjEneGibbles__resource_bundle = p;
+        gibbles_resource_bundle = p;
     }
-    TObjEneGibbles__render_node_index = 0;
-    TObjEneGibbles__render_rotation_x = 0;
+    gibbles_render_node_index = 0;
+    gibbles_render_rotation_x = 0;
     gibbles_combat_stat_entries = (AttackParams **)mem_alloc(0xC);
     gibbles_boss_stat_handle = TLobby::register_boss(0x3D);
     gibbles_combat_stat_entries[0] = TLobby::dispatch_shared_handler_b(0x3D);
     gibbles_combat_stat_entries[2] = TLobby::dispatch_shared_handler_b(0x3E);
     gibbles_combat_stat_entries[1] = TLobby::dispatch_shared_handler_b(0x3F);
     gibbles_combat_stats_handle = TLobby::register_object(0x3D);
-    TObjEneGibbles__ai_parameters = (GibblesAiParams *)TLobby::dispatch_shared_handler_a(0x3D);
+    gibbles_ai_parameters = (GibblesAiParams *)TLobby::dispatch_shared_handler_a(0x3D);
     NpcAnimationBinding s = gibbles_resource_binding_desc;
-    s.motions = TObjEneGibbles__resource_bundle->motions;
-    TObjNpcEnemy::register_animated_chunk(0x44, TObjEneGibbles__resource_bundle->models->model, TObjEneGibbles__resource_bundle->models->texlist, &s, gibbles_collision_bodies[0].radius, 0.0f);
+    s.motions = gibbles_resource_bundle->motions;
+    TObjNpcEnemy::register_animated_chunk(0x44, gibbles_resource_bundle->models->model, gibbles_resource_bundle->models->texlist, &s, gibbles_collision_bodies[0].radius, 0.0f);
 }
 
 void TObjEneGibbles::free_static() {
@@ -233,9 +234,9 @@ void TObjEneGibbles::free_static() {
         mem_free(gibbles_combat_stat_entries);
         gibbles_combat_stat_entries = NULL;
     }
-    if (TObjEneGibbles__resource_bundle != NULL) {
-        delete TObjEneGibbles__resource_bundle;
-        TObjEneGibbles__resource_bundle = NULL;
+    if (gibbles_resource_bundle != NULL) {
+        delete gibbles_resource_bundle;
+        gibbles_resource_bundle = NULL;
     }
 }
 
@@ -353,8 +354,8 @@ void TObjEneGibbles::render() {
         translate_matrix_vec3(NULL, (u8 *)&v);
         rotate_matrix_y(NULL, this->rotation_y);
         scale_matrix_vec3(NULL, (u8 *)&scale);
-        TObjEneGibbles__render_node_index = 0;
-        TObjEneGibbles__render_rotation_x = this->head_angle;
+        gibbles_render_node_index = 0;
+        gibbles_render_rotation_x = this->head_angle;
         set_chunk_model_node_callback(gibbles_render_node_callback);
         toggle_particle_effect();
         switch (this->mode) {
@@ -415,10 +416,10 @@ void TObjEneGibbles::render() {
 }
 
 void gibbles_render_node_callback(NJS_OBJECT *) {
-    if ((s32) TObjEneGibbles__render_node_index == 0x18) {
-        rotate_matrix_x(NULL, TObjEneGibbles__render_rotation_x);
+    if ((s32) gibbles_render_node_index == 0x18) {
+        rotate_matrix_x(NULL, gibbles_render_rotation_x);
     }
-    TObjEneGibbles__render_node_index += 1;
+    gibbles_render_node_index += 1;
 }
 
 void TObjEneGibbles::clamp_angle(s32 angle) {
@@ -842,7 +843,7 @@ void TObjEneGibbles::state_chase_target() {
         break;
     case 1:
         {
-            f32 speed = TObjEneGibbles__ai_parameters->walk_speed;
+            f32 speed = gibbles_ai_parameters->walk_speed;
             this->state_timer += speed;
             enemy_move_toward(this, ((GibblesMoveParams *)movementParameters)->turn_speed, target->body_center, 0, speed);
         }
@@ -1216,7 +1217,7 @@ void TObjEneGibbles::state_attack() {
         if (is_passing_frame((frame_count - 1.0f) - play_speed) != 0) {
             requested_action = 0;
             phase = 7;
-            resetTimer = (s16)TObjEneGibbles__ai_parameters->attack_recovery;
+            resetTimer = (s16)gibbles_ai_parameters->attack_recovery;
         }
         break;
     case 7:
@@ -1328,11 +1329,11 @@ void TObjEneGibbles::state_jump_attack() {
         }
         wait_timer = 0;
         if (status_flags & 0x80) {
-            wait_frames = TObjEneGibbles__ai_parameters->wait_frames;
-            set_min_clamped_entry_value(6, TObjEneGibbles__ai_parameters->landing_speed);
+            wait_frames = gibbles_ai_parameters->wait_frames;
+            set_min_clamped_entry_value(6, gibbles_ai_parameters->landing_speed);
         } else {
-            wait_frames = TObjEneGibbles__ai_parameters->wait_frames;
-            set_min_clamped_entry_value(6, TObjEneGibbles__ai_parameters->landing_speed);
+            wait_frames = gibbles_ai_parameters->wait_frames;
+            set_min_clamped_entry_value(6, gibbles_ai_parameters->landing_speed);
         }
         phase = 4;
         actorFlags &= 0xF9FFFFFF;
@@ -1610,7 +1611,7 @@ void TObjEneGibbles::state_dead() {
             point.z = -10.0f;
             rotate_xz_pair_by_angle(&point.x, &point.z, this->rotation_y);
             vec3_add_to(&point, &position);
-            TObjPlayer__sub_800D93C4(&point, 0xA);
+            TDeadSpot::spawn_kind2_scale25(&point, 0xA);
             spawn_effect_at_ground(&point, 0x46);
         }
     case 2:

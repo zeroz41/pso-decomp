@@ -14,7 +14,7 @@
 #pragma readonly_strings on
 
 
-const char *TObjBoss5PillarCtrl__name = "TObjBoss5PillarCtrl";
+const char *TObjBoss5PillarCtrl::name = "TObjBoss5PillarCtrl";
 
 
 extern "C" {
@@ -41,7 +41,7 @@ TObjBoss5PillarCtrl::TObjBoss5PillarCtrl(TObject *parent) : TObject(parent) {
     NJS_OBJECT *node;
     s32 i;
     NJS_OBJECT *root;
-    m_name = TObjBoss5PillarCtrl__name;
+    m_name = TObjBoss5PillarCtrl::name;
     this->count = 0;
     this->pillars = NULL;
     for (node = boss5_common_bml_resource->models[2].model->child; node != NULL; node = node->sibling) {

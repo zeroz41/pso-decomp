@@ -9,7 +9,7 @@
 
 #include "pso/object/base/TObjChara.h"
 
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 
 #include "pso/object/TObjControl.h"
 
@@ -42,37 +42,11 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 
-struct Ply_800F7118 {
-    u8 pad0[0x28];
-    s16 f28;
-    u8 pad2A[0x30 - 0x2A];
-    s32 f30;
-    u8 pad34[0x334 - 0x34];
-    s32 f334;
-    u8 pad338[0x340 - 0x338];
-    Ply_800F7118 *f340;
-    Ply_800F7118 *f344;
-    Ply_800F7118 *next;
-    Ply_800F7118 *prev;
-    u8 pad350[0x36C - 0x350];
-    s32 f36C;
-};
 
-struct Obj_800F641C { u8 pad[0x1c]; u16 id; };
-
-typedef struct TObjPlayer_800F6B68 {
-    u8 pad[0x2D6];
-    u16 attacker_id;
-} TObjPlayer_800F6B68;
-
-struct A_800F698C {
-    u8 pad0[0x1C]; u16 f1C; u8 pad1E[0x28 - 0x1E]; s16 f28; s16 f2A; s16 f2C;
-    u8 pad2E[0x38 - 0x2E]; Vec v38; u8 pad44[0x50 - 0x44]; Vec v50; Vec v5C;
-    u8 pad68[0x160 - 0x68]; SubtractiveRng rng; u8 pad248[0x354 - 0x248]; f32 f354[5]; s32 f368; s32 f36C;
-};
-
-struct B_800F698C {
-    s16 f0; u8 pad2[4]; u16 f6; s16 f8; s16 fA; u8 padC[4]; Vec v10; Vec v1C; f32 f28[5]; s16 f3C; s16 f3E;
+// The enemy's row of the floor's set data (what set_entry points at).
+struct EnemySetData {
+    s16 set_index; u8 pad2[4]; u16 entity_id; s16 room; s16 group; u8 padC[4];
+    Vec position; Vec rotation; f32 parameters[5]; s16 variant; s16 state;
 };
 extern "C" {
 
@@ -103,9 +77,9 @@ void award_enemy_experience__9TObjEnemyFl(u8 *arg0, s32 arg1);
 
 s32 get_attack_credit_slot_count(void *);
 
-f32 TLobby__sub_800F7A6C();
+f32 get_challenge4p_exp_multiplier();
 
-f32 TLobby__sub_800F7A7C();
+f32 get_challenge_exp_multiplier();
 
 s32 create_font_small_task(void *, s32, s32, s32, const char *, s32, u16);
 
@@ -125,14 +99,12 @@ s32 area_random_seed;
 
 extern s32 game_difficulty_selection;
 
-struct Ene_800F6510 { u8 pad[0x2C]; s16 f2C; u8 pad2E[0x302]; u32 low_game_flags; };
-
 void init_6x0A_enemy_state_packet(void *);
 
 void send_6x0A_enemy_state_packet(void *);
 
 #define FIND_TAIL_800F7118(q) \
-    if (self->next == NULL && tail == NULL) { \
+    if (this->next == NULL && tail == NULL) { \
         while (q->next != NULL) { \
             q = q->next; \
         } \
@@ -144,7 +116,7 @@ void send_6x0A_enemy_state_packet(void *);
 #pragma push
 #pragma readonly_strings on
 const char *TObjEnemy_class_name = "TObjEnemy";
-const char *TObjControl__name = "TObjControl";
+const char *control_name = "TObjControl";
 #pragma pop
 
 void TObject::resume_update() { m_flags &= ~PAUSE_UPDATE; }
@@ -290,7 +262,7 @@ s32 TObjEnemy::has_group() {
     return reinterpret_cast<saddr>(groupRoot()) ? 1 : 0;
 }
 
-s32 TUnk_80493450::countChildren() {
+s32 TObjEneBeastBase::countChildren() {
     TObjEnemy* child = children;
     s32 count = 0;
     if (child) {
@@ -304,46 +276,45 @@ s32 TUnk_80493450::countChildren() {
     return count;
 }
 
-void TUnk_80493450::link_into_group_chain() {
-    Ply_800F7118 *self = (Ply_800F7118 *)this;
-    Ply_800F7118 *p;
-    Ply_800F7118 *head;
-    Ply_800F7118 *tail;
+void TObjEneBeastBase::link_into_group_chain() {
+    TObjEnemy *p;
+    TObjEnemy *head;
+    TObjEnemy *tail;
     s32 i;
-    Ply_800F7118 *q;
-    Ply_800F7118 *r;
+    TObjEnemy *q;
+    TObjEnemy *r;
     u16 id;
-    if (*(s32 *)&this->state36C > 0 && *(Ply_800F7118 * *)&this->group == NULL && *(Ply_800F7118 * *)&this->previous == NULL) {
+    if ((s32)state36C > 0 && this->group == NULL && this->previous == NULL) {
         head = NULL;
         tail = NULL;
         for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
-            p = (Ply_800F7118 *)TObjPlayer::get_player_data(i);
-            if (p == NULL || p == self) {
+            p = (TObjEnemy *)TObjPlayer::get_player_data(i);
+            if (p == NULL || p == this) {
                 continue;
             }
             id = ((TObjBase *)(p))->get_entity_id();
             if (id < 0x1000 || id >= 0x4000) {
                 continue;
             }
-            if (p->f30 & 0x800) {
+            if (p->actorFlags & 0x800) {
                 continue;
             }
-            if (p->f36C != *(s32 *)&this->state36C || p->f28 != self->f28) {
+            if ((s32)p->state36C != (s32)state36C || p->room != room) {
                 continue;
             }
-            switch (*(s32 *)&this->subtype) {
+            switch (subtype) {
             case 2:
-                switch (p->f334) {
+                switch (p->subtype) {
                 case 2:
                     FIND_TAIL_800F7118(p);
                     break;
                 }
                 break;
             case 1:
-                switch (p->f334) {
+                switch (p->subtype) {
                 case 2:
                     if (head == NULL) {
-                        q = p->prev;
+                        q = p->children;
                         if (q == NULL) {
                             head = p;
                         } else FIND_TAIL_800F7118(q);
@@ -355,14 +326,14 @@ void TUnk_80493450::link_into_group_chain() {
                 }
                 break;
             case 0:
-                switch (p->f334) {
+                switch (p->subtype) {
                 case 2:
                     if (head == NULL) {
-                        q = p->prev;
+                        q = p->children;
                         if (q == NULL) {
                             head = p;
                         } else {
-                            r = q->prev;
+                            r = q->children;
                             if (r == NULL) {
                                 head = q;
                             } else FIND_TAIL_800F7118(r);
@@ -370,7 +341,7 @@ void TUnk_80493450::link_into_group_chain() {
                     }
                     break;
                 case 1:
-                    q = p->prev;
+                    q = p->children;
                     if (q == NULL) {
                         head = p;
                     } else FIND_TAIL_800F7118(q);
@@ -383,17 +354,17 @@ void TUnk_80493450::link_into_group_chain() {
             }
         }
         if (head != NULL) {
-            *(Ply_800F7118 * *)&this->group = head;
-            head->prev = self;
+            this->group = head;
+            head->children = this;
         } else if (tail != NULL) {
-            *(Ply_800F7118 * *)&this->previous = tail;
-            tail->next = self;
+            this->previous = tail;
+            tail->next = this;
         }
     }
 }
 
 #undef FIND_TAIL_800F7118
-void TUnk_80493450::unlink_enemy_group_relations() {
+void TObjEneBeastBase::unlink_enemy_group_relations() {
     TObjEnemy *temp_r0;
     TObjEnemy *temp_r0_2;
     TObjEnemy *children;
@@ -586,9 +557,9 @@ void TObjEnemy::award_enemy_experience(s32 client) {
     }
     if (is_quest_active() == 1) {
         if (is_challenge_mode() != 0) {
-            val = (s32)((f32)val * TLobby__sub_800F7A7C());
+            val = (s32)((f32)val * get_challenge_exp_multiplier());
         } else if (is_challenge_mode_active() != 0) {
-            val = (s32)((f32)val * TLobby__sub_800F7A6C());
+            val = (s32)((f32)val * get_challenge4p_exp_multiplier());
         }
     }
     p->add_actor_exp(val);
@@ -600,7 +571,7 @@ void TObjEnemy::distribute_experience() {
     s32 i;
     u16 id;
     if (is_split_screen() == 0) {
-        ((void (*)(void *, u16))award_enemy_experience__9TObjEnemyFl)(((TObjPlayer_800F6B68 *)this), ((TObjPlayer_800F6B68 *)this)->attacker_id);
+        ((void (*)(void *, u16))award_enemy_experience__9TObjEnemyFl)(this, local_attacker_id);
     } else {
         count = get_attack_credit_slot_count(this);
         for (i = 0; i < count; i++) {
@@ -640,23 +611,22 @@ TObjChara *get_enemy_entity(u16 arg0) {
     return 0;
 }
 
-void TObjEnemy::apply_set_data(void *arg1_arg) {
-    A_800F698C *arg0 = (A_800F698C *)this;
-    B_800F698C *arg1 = (B_800F698C *)arg1_arg;
+void TObjEnemy::apply_set_data(void *set_data) {
+    EnemySetData *data = (EnemySetData *)set_data;
     s32 i;
-    arg0->f1C = arg1->f6;
-    VecCopy((Vec *)&arg0->v50, (const Vec *)&arg1->v10);
-    VecCopy((Vec *)&arg0->v38, (const Vec *)&arg0->v50);
-    copy_xyz(&arg0->v5C, &arg1->v1C);
+    entity_id = data->entity_id;
+    VecCopy(&home_position, &data->position);
+    VecCopy(&position, &home_position);
+    copy_xyz(&rotation_x, &data->rotation);
     for (i = 0; i < 5; i++) {
-        arg0->f354[i] = arg1->f28[i];
+        parameters[i] = data->parameters[i];
     }
-    arg0->f368 = arg1->f3C;
-    arg0->f36C = arg1->f3E;
-    arg0->f28 = arg1->f8;
-    arg0->f2A = arg1->fA;
-    arg0->f2C = arg1->f0;
-    subtractive_rng_seed(&arg0->rng, arg0->f1C + area_random_seed);
+    variant = data->variant;
+    state36C = data->state;
+    room = data->room;
+    set_group = data->group;
+    set_index = data->set_index;
+    subtractive_rng_seed(&rng, entity_id + area_random_seed);
 }
 
 void TObjEnemy::apply_enemy_state(s32 *state) {
@@ -751,15 +721,15 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
     }
     init_6x0A_enemy_state_packet(&msg);
     msg.header.entity_id = this->entity_id;
-    msg.enemy_index = ((Ene_800F6510 *)this)->f2C;
+    msg.enemy_index = set_index;
     msg.total_damage = state.damage;
     if (game_difficulty_selection == 3) {
         msg.game_flags = state.flags & ~0x3F;
         new_flags = state.flags & 0x3F;
-        new_flags &= ~((Ene_800F6510 *)this)->low_game_flags;
+        new_flags &= ~low_game_flags;
         if (new_flags != 0) {
             this->send_6x9C_enemy_low_game_flags(new_flags);
-            ((Ene_800F6510 *)this)->low_game_flags = state.flags & 0x3F;
+            low_game_flags = state.flags & 0x3F;
         }
     } else {
         msg.game_flags = state.flags;
@@ -791,7 +761,7 @@ void handle_6x0A_update_enemy_state(G_UpdateEnemyState_6x0A *command) {
 void TObjEnemy::send_6x9C_enemy_low_game_flags(s32 arg) {
     G_SetEnemyLowGameFlagsUltimate_6x9C msg;
     init_6x9C_enemy_low_game_flags_packet((u8 *)&msg);
-    msg.header.entity_id = ((Obj_800F641C *)this)->id;
+    msg.header.entity_id = entity_id;
     msg.status_effect_flags = arg;
     ((TLobby *)(&msg))->broadcast_state();
 }
@@ -846,7 +816,7 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(G_SetEnemyLowGameFlagsUltimat
 }
 
 TObjControl::TObjControl(TObject *parent) : TObject(parent) {
-    m_name = TObjControl__name;
+    m_name = control_name;
     m_decision_mode = 2;
     m_reserved = 0;
 }

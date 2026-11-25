@@ -10,7 +10,7 @@ extern u32 gba_download_data_size;
 void gba_init(void);
 void stamp_joyboot_image(s32 arg0, s32 arg1);
 void probe_gba_device(void);
-void TLobby__sub_8032CDC0(void);
+void gba_clear_identifiers(void);
 void reset_joyboot_state(void *p);
 }
 

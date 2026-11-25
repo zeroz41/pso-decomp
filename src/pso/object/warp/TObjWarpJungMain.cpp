@@ -42,14 +42,14 @@ __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe
 BmlResourceDescriptor jungle_warp_beam_resource_descriptor = {
     "bm_obj_warp_jung.bml", bm_obj_warp_jung_model_names, bm_obj_warp_jung_motion_names, 2, 1,
 };
-const char *TObjWarpJung__name = "TObjWarpJung";
-const char *TObjWarpJungMain__name = "TObjWarpJungMain";
+const char *warp_jung_name = "TObjWarpJung";
+const char *warp_jung_main_name = "TObjWarpJungMain";
 // Text ids (group 9) of the three menu entries, and the area each one warps to.
 s32 jungle_warp_destination_text_ids[3] = { 0x16, 0x18, 0x19 };
 s32 jungle_warp_destination_ids[3] = { 6, 8, 9 };
 
 // The beam archive and what load_warp_beam_resources picks out of it.
-BmlResource *TObjWarpJung__beam_bml_resource;
+BmlResource *warp_jung_beam_bml_resource;
 AnimationMotion *warp_jung_beam_motion;
 NJS_TEXLIST *warp_jung_textures;
 s32 warp_jung_last_scroll_tick; // actor_frame_tick of the last UV scroll (inferred)
@@ -96,9 +96,9 @@ void TObjWarpJungMain::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_object((void *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, 0));
+        draw_ginja_object((void *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, 0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, 1), warp_jung_beam_motion, m_c4);
+        draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, 1), warp_jung_beam_motion, m_c4);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -145,7 +145,7 @@ void TObjWarpJungMain::run_task() {
 TObjWarpJungMain::~TObjWarpJungMain() {}
 
 TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    m_name = TObjWarpJungMain__name;
+    m_name = warp_jung_main_name;
     m_c4 = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
     if (get_game_play_mode() == 1 && set_params[2] == 0) {
@@ -206,7 +206,7 @@ void TObjWarpJung::run_task() {
 TObjWarpJung::~TObjWarpJung() {}
 
 TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    m_name = TObjWarpJung__name;
+    m_name = warp_jung_name;
     beam_frame = 0.0f;
     set_params[2] = fabs_float(set_params[2] % 2);
     if (get_game_play_mode() == 1 && set_params[2] == 1) {
@@ -234,11 +234,11 @@ f32 TObjWarpJung::get_static_field4_as_float() {
 void TObjWarpJung::set_global_render_param() { TObjFish::set_global_param(warp_jung_textures); }
 
 void TObjWarpJung::render_warp_effect(s32 model_index, s32 frame) {
-    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
+    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
 }
 
 void TObjWarpJung::render_warp(s32 model_index) {
-    draw_ginja_object((void *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, model_index));
+    draw_ginja_object((void *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, model_index));
 }
 
 s32 TObjWarpJung__sub_801A0404(s32 arg0) {
@@ -275,8 +275,8 @@ s32 TObjWarpJung::update_warp_display() {
 
 void free_warp_jung_beam_resources(void) {
     s32 i;
-    delete TObjWarpJung__beam_bml_resource;
-    TObjWarpJung__beam_bml_resource = NULL;
+    delete warp_jung_beam_bml_resource;
+    warp_jung_beam_bml_resource = NULL;
     warp_jung_beam_motion = NULL;
     warp_jung_textures = NULL;
     for (i = 0; i < 6; i++) {
@@ -287,10 +287,10 @@ void free_warp_jung_beam_resources(void) {
 void load_warp_beam_resources(void) {
     NJS_OBJECT *root;
     BmlResource *resource = new BmlResource(5, &jungle_warp_beam_resource_descriptor, 0, 0, NULL);
-    TObjWarpJung__beam_bml_resource = resource;
+    warp_jung_beam_bml_resource = resource;
     warp_jung_beam_motion = get_bml_motion(resource, 0);
-    warp_jung_textures = get_bml_texlist((BmlResource *)TObjWarpJung__beam_bml_resource, 0);
-    root = ((NJS_OBJECT *)get_bml_model((BmlResource *)TObjWarpJung__beam_bml_resource, 1))->child;
+    warp_jung_textures = get_bml_texlist((BmlResource *)warp_jung_beam_bml_resource, 0);
+    root = ((NJS_OBJECT *)get_bml_model((BmlResource *)warp_jung_beam_bml_resource, 1))->child;
     warp_jung_beam_models[0] = (GinjaModel *)root->child->model;
     warp_jung_beam_models[1] = (GinjaModel *)root->child->sibling->model;
     warp_jung_beam_models[2] = (GinjaModel *)root->child->sibling->sibling->model;

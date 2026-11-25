@@ -12,11 +12,7 @@
 
 #pragma readonly_strings on
 
-// Defined without a shared declaration (TCameraCtrl.cpp).
-extern "C" {
-}
-
-const char *TObjBoss7RaftSplash__name = "TObjBoss7RaftSplash";
+const char *TObjBoss7RaftSplash::name = "TObjBoss7RaftSplash";
 
 
 void TObjBoss7RaftSplash::run_task() {
@@ -37,7 +33,7 @@ void TObjBoss7RaftSplash::run_task() {
 TObjBoss7RaftSplash::~TObjBoss7RaftSplash() {}
 TObjBoss7RaftSplash::TObjBoss7RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed)
     : TObject(parent) {
-    m_name = TObjBoss7RaftSplash__name;
+    m_name = TObjBoss7RaftSplash::name;
     interval = boss7_tunnel_max_scroll_speed * (3.0f + rand_signed_unit());
     elapsed = interval * (3.0517578e-05f * (f32)rand());
     VecCopy(&this->position, position);
@@ -49,7 +45,7 @@ void TObjBoss7Tunnel::create_particle(const Vec *position, s32 particle_index) {
     create_particle_effect(position, particle_index, -5.0f);
 }
 
-// The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805DEC90) is used by
+// The particle helpers below share this TU's .sdata2 pool: -5.0f is used by
 // TObjBoss7Tunnel::create_particle and TObjBoss7Tunnel::release_splash_children, and the .text runs on without a pool of its own.
 
 void TObjBoss7RaftSplash::spawn_splash(const Vec *position, s32 particle_index, const Vec *offset) {

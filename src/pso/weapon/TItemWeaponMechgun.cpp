@@ -1,25 +1,24 @@
 #include "types.h"
-#include "pso/weapon/TUnk_804A3260.h"
+#include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
-#include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/unk/text_80120D50.h"
 #include "pso/item/TItem.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffLandHit.h"
 
 extern "C" {
 
 s32 rotate_matrix_y(s32, s32);
 
-void TUnk_804A3260::transform_model_node() {
+void TItemWeaponMechgun::transform_model_node() {
     if ((s32) this->effectJoint == TObjPlayer::get_player_list()) {
         rotate_matrix_y(0, this->effectAngle);
     }
 }
 
-extern s32 tl_05;
 }
-void TUnk_804A3260::emit_marker_effects() {
+void TItemWeaponMechgun::emit_marker_effects() {
     if (launch_shot((u8 *)&muzzle[0], 0, 0, 1) != 0) {
         launch_shot((u8 *)&muzzle[1], 0, 0, 0);
     } else {
@@ -29,7 +28,7 @@ void TUnk_804A3260::emit_marker_effects() {
     effectFrame = 1;
 }
 
-void TUnk_804A3260::update_weapon() {
+void TItemWeaponMechgun::update_weapon() {
     s32 effectFrame;
     if ((s32) this->effectScaleJoint != -1) {
         effectFrame = this->effectFrame;
@@ -42,12 +41,12 @@ void TUnk_804A3260::update_weapon() {
     }
 }
 
-void TUnk_804A3260::draw_held_model() {
+void TItemWeaponMechgun::draw_held_model() {
     u8 *arg0 = (u8 *)this;
     ((TItemWeapon *)arg0)->sample_dual_muzzles(&this->muzzle[0], &this->muzzle[1]);
 }
 
-TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
+TItemWeaponMechgun::TItemWeaponMechgun(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     this->set_weapon_flags(0x203);
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     this->effectJoint = -1;
@@ -69,20 +68,13 @@ TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((
     }
 }
 
-TItem *create_mechgun_weapon(u8 *item) {
-    u8 *temp_r3;
-    u8 *var_r0;
+TItem *TItemWeaponMechgun::create(u8 *item) {
     if (item != NULL) {
-        temp_r3 = (u8 *)((u8 *)TItem::operator new(0x220));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(__ct__13TUnk_804A3260FlPUc(temp_r3, tl_05, item));
-        }
-        return reinterpret_cast<TItem *>(var_r0);
+        return new TItemWeaponMechgun(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804A3260::~TUnk_804A3260() {
+TItemWeaponMechgun::~TItemWeaponMechgun() {
 
 }

@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_8035B788(void);
+void load_nights_npc_resource(void);
 }
 
 // --- C functions defined in text_8035B788.cpp ---
 extern "C" {
-void fn_8035B788(void);
+void load_nights_npc_resource(void);
 }
 // --- end of C functions
 

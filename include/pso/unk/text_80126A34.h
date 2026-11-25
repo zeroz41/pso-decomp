@@ -5,6 +5,4 @@
 
 struct TItem;
 
-TItem *create_knuckle_weapon(u8 *arg0);
-
 #endif

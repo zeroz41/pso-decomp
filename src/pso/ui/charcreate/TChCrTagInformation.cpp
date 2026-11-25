@@ -12,12 +12,10 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-extern int TChCrCharSelect__input_mode;
 
 const char *TChCrTagInformation__class_name = "TChCrTagInformation";
 
-int TChCrCharSelect::get_selected_index() { return TChCrCharSelect__input_mode; }
+int TChCrCharSelect::get_selected_index() { return TChCrCharSelect::input_mode; }
 void TChCrTagInformation::draw_char_info_sprites() {
     f32 alpha;
     s32 c;
@@ -80,10 +78,9 @@ void TChCrTagInformation::run_task() { TChCrTag::run_task(); update_selected_cha
 s32 TChCrTagInformation::is_selected() { return 0; }
 
 TChCrTagInformation::~TChCrTagInformation() {
-    fn_803098DC();
+    clear_char_creation_tag_selection();
 }
 
-}
 
 TChCrTagInformation::TChCrTagInformation(TObject *parent, s32 index) : TChCrTag(parent, index) {
     m_name = TChCrTagInformation__class_name;
@@ -91,7 +88,7 @@ TChCrTagInformation::TChCrTagInformation(TObject *parent, s32 index) : TChCrTag(
     m_fade_out_step = -0.06666667f;
     m_highlight_in_step = 0.06666667f;
     m_highlight_out_step = -0.06666667f;
-    fn_803098E8();
+    clear_char_creation_tag_selection_2();
 }
 
 

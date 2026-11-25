@@ -1,6 +1,7 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TObjDFHorming.h"
+#include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -56,23 +57,16 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjBase.h"
 
 
-const char *TObjDFUsoTower__name = "TObjDFUsoTower";
-const char *TObjDFTenchuFuru__name = "TObjDFTenchuFuru";
-const char *TObjDFRecover__name = "TObjDFRecover";
-const char *TObjDFRecBall__name = "TObjDFRecBall";
-const char *TObjDFBeamCursor__name = "TObjDFBeamCursor";
-const char *TObjDFJisin__name = "TObjDFJisin";
-const char *TObjDFHorming__name = "TObjDFHorming";
-const char *TObjDFYutai__name = "TObjDFYutai";
+const char *TObjDFUsoTower::name = "TObjDFUsoTower";
+const char *TObjDFTenchuFuru::name = "TObjDFTenchuFuru";
+const char *TObjDFRecover::name = "TObjDFRecover";
+const char *TObjDFRecBall::name = "TObjDFRecBall";
+const char *TObjDFBeamCursor::name = "TObjDFBeamCursor";
+const char *TObjDFJisin::name = "TObjDFJisin";
+const char *TObjDFHorming::name = "TObjDFHorming";
+const char *TObjDFYutai::name = "TObjDFYutai";
 
-// TObjDFYutai's lerp ranges over its fade (t, 0..1): render's height offset, scale and draw weight.
-struct YutaiRange {
-    f32 min;
-    f32 max;
-    f32 lerp(f32 t) const { return t * (max - min) + min; }
-};
-
-// The TU's .data opens with these (0x804858A8), ahead of the vtables.
+// The TU's .data opens with these, ahead of the vtables.
 Vec uso_tower_start_position = {0.0f, 0.0f, -81.0f}; // name inferred: TObjDFUsoTower's ctor copies it to its position
 Vec dark_falz_jisin_zero_vec = {0.0f, 0.0f, 0.0f};
 __declspec(section ".data") s32 TObjDFJisin__particle_emitter_id_table[2] = {0xE0, 0xF4};
@@ -106,7 +100,7 @@ TObjDFUsoTower *TObjDFUsoTower::create(TObject *parent) {
 }
 
 TObjDFUsoTower::TObjDFUsoTower(TObject *parent) : TObjBase(parent) {
-    m_name = TObjDFUsoTower__name;
+    m_name = TObjDFUsoTower::name;
     model = (void *)(get_bml_model(TOBoss4::model_resource, 5));
     this->texlist = get_bml_texlist(TOBoss4::model_resource, 5);
     VecCopy(&position, &uso_tower_start_position);
@@ -390,7 +384,7 @@ TObjDFTenchuFuru *TObjDFTenchuFuru::create(TObject *parent, const Vec *position)
 }
 
 TObjDFTenchuFuru::TObjDFTenchuFuru(TObject *parent, const Vec *position) : TObject(parent) {
-    m_name = TObjDFTenchuFuru__name;
+    m_name = TObjDFTenchuFuru::name;
     timer = 5;
     VecCopy(&pos, position);
     pos.y += 300.0f;
@@ -421,7 +415,7 @@ TObjDFRecover *TObjDFRecover::create(TObject *parent, u16 id, const Vec *positio
 }
 
 TObjDFRecover::TObjDFRecover(TObject *parent, u16 id, const Vec *position) : TObject(parent) {
-    m_name = TObjDFRecover__name;
+    m_name = TObjDFRecover::name;
     target_id = id;
     effect = NULL;
     VecCopy(&cached_position, position);
@@ -497,7 +491,7 @@ TObjDFRecBall *TObjDFRecBall::create(TObject *parent, const Vec *position, const
 
 TObjDFRecBall::TObjDFRecBall(TObject *parent, const Vec *position, const Vec *target_position) : TObject(parent) {
     s32 angle;
-    m_name = TObjDFRecBall__name;
+    m_name = TObjDFRecBall::name;
     VecCopy(&pos, position);
     VecCopy(&target, target_position);
     angle = (s32) (65536.0f * (0.000030517578f * (f32) rand()));
@@ -558,7 +552,7 @@ TObjDFBeamCursor *TObjDFBeamCursor::create(TObject *parent, const Vec *position)
 }
 
 TObjDFBeamCursor::TObjDFBeamCursor(TObject *parent, const Vec *pos) : TObject(parent) {
-    m_name = TObjDFBeamCursor__name;
+    m_name = TObjDFBeamCursor::name;
     timer = 32;
     VecCopy(&position, pos);
 }
@@ -577,7 +571,7 @@ TObjDFJisin *TBoss4Type2::create_jisin(TObject *parent, s32 angle) {
 }
 
 TObjDFJisin::TObjDFJisin(TObject *parent, s32 angle) : TObject(parent) {
-    m_name = TObjDFJisin__name;
+    m_name = TObjDFJisin::name;
     center.x = 300.0f * sin_table_lookup(angle);
     center.y = 0.0f;
     center.z = -300.0f * cos_table_lookup(angle);
@@ -660,7 +654,7 @@ TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id
     TObjPlayer *p;
     s32 i;
 
-    m_name = TObjDFHorming__name;
+    m_name = TObjDFHorming::name;
     this->target_id = target_id;
     lifetime = 150;
     if (game_difficulty_selection == 3) {
@@ -820,7 +814,7 @@ TObjDFYutai *TBoss4Type3::create_yutai(TObject *parent, s32 kind, u16 player_id)
 }
 
 TObjDFYutai::TObjDFYutai(TObject *parent, s32 kind, u16 player_id) : TObject(parent) {
-    m_name = TObjDFYutai__name;
+    m_name = TObjDFYutai::name;
     this->kind = kind;
     this->player_id = player_id;
     switch (this->kind) {

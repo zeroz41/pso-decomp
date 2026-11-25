@@ -2,8 +2,8 @@
 #define PSO_ENEMY_MERILLLIA_TOBJENEMERILLLIA_H
 
 #include "types.h"
-#include "pso/enemy/TUnk_80493450.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 // The row of merill_lia_behavior_params a Merill Lia's subtype picks (what
 // TLobby::dispatch_shared_handler_a(74 + subtype) returns).
@@ -17,7 +17,7 @@ struct MerillLiaBehaviorParams {
     s32 react_hp_percent;  // a hit at or below this share of its hp picks a reaction
 };
 
-struct TObjEneMerillLia : public TUnk_80493450 {
+struct TObjEneMerillLia : public TObjEneBeastBase {
     TObjEneMerillLia(TObject *parent, void *setData);
     virtual ~TObjEneMerillLia();
     static void *create(void *setData);
@@ -39,7 +39,7 @@ struct TObjEneMerillLia : public TUnk_80493450 {
     virtual void run_attack_action();
     virtual void run_move_action();
     virtual void run_idle_action();
-    TUnk_80494938 fade;  // the fade-in of its first appearance (mode 13)
+    TObjEnemyColorFade fade;  // the fade-in of its first appearance (mode 13)
     s32 get_clamped_level();
     void select_subtype();
     void start_burrow();

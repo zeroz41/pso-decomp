@@ -22,12 +22,12 @@
 
 #pragma readonly_strings on
 // Built with deferred code generation (-inline deferred): functions come out in reverse
-// order (sub_8004F1FC first in .text).
+// order (draw_body_parts first in .text).
 
 // Dark Falz's afterimage (zanzo) models.
 extern s32 boss4_zanzo_bml_index_table[2];
 
-const char *TObjDFDemo4__name = "TObjDFDemo4";
+const char *TObjDFDemo4::name = "TObjDFDemo4";
 // The motions of the afterimage and body models.
 s32 df_demo4_zanzo_motion_ids[2] = {0x12, 0x11};
 s32 df_demo4_body_motion_ids[3] = {0x20, 0x21, 0x22};
@@ -55,7 +55,7 @@ inline const CameraAngles *intro_camera_angles() {
 TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(parent) {
     BmlResource *res;
     s32 i;
-    m_name = TObjDFDemo4__name;
+    m_name = TObjDFDemo4::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
     res = TBoss4Uro::get_instance_count();
@@ -160,11 +160,11 @@ void TObjDFDemo4::run_task() {
 }
 
 void TObjDFDemo4::render() {
-    sub_8004F2A8();
-    sub_8004F1FC();
+    draw_zanzo_parts();
+    draw_body_parts();
 }
 
-void TObjDFDemo4::sub_8004F2A8() {
+void TObjDFDemo4::draw_zanzo_parts() {
     f32 alpha;
     s32 i;
     alpha = 1.0f;
@@ -183,7 +183,7 @@ void TObjDFDemo4::sub_8004F2A8() {
     rotate_matrix_y(NULL, angle);
     for (i = 0; i < 2; i++) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(zanzo_parts[i].texlist));
-        draw_model_motion((void *)zanzo_parts[i].model, zanzo_parts[i].motion, 120.0f);
+        draw_model_motion(zanzo_parts[i].model, zanzo_parts[i].motion, 120.0f);
     }
     clear_motion_packed_rotation();
     pop_matrix();
@@ -192,7 +192,7 @@ void TObjDFDemo4::sub_8004F2A8() {
     }
 }
 
-void TObjDFDemo4::sub_8004F1FC() {
+void TObjDFDemo4::draw_body_parts() {
     s32 i;
     if (timer >= 0x44) {
         push_matrix();
@@ -204,7 +204,7 @@ void TObjDFDemo4::sub_8004F1FC() {
             if (i == 0) {
                 node_list->install();
             }
-            draw_model_motion((void *)body_parts[i].model, body_parts[i].motion, frame);
+            draw_model_motion(body_parts[i].model, body_parts[i].motion, frame);
             if (i == 0) {
                 node_list->clear();
             }

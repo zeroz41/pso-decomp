@@ -5,7 +5,7 @@ extern "C" {
 s32 SIRegisterPollingHandler(void *);
 s32 SIUnregisterPollingHandler(void *);
 uaddr si_polling_callback;
-s32 TKeyBoardControl__polling_channel_mask;
+s32 key_board_control_polling_channel_mask;
 void OSClearContext(void *);
 void OSSetCurrentContext(void *);
 

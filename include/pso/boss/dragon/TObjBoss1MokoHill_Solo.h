@@ -23,6 +23,7 @@ public:
     s32 state;       // 0x44: 0 rising, 1 holding, 2 sinking
     s32 v2_mode;     // 0x48: TObjEneDD::check_v2_mode() at creation; picks the material override in render
     s32 hold_time;   // 0x4C
+    static const char *name;
 };
 LAYOUT_ASSERT(TObjBoss1MokoHill_Solo_size, sizeof(TObjBoss1MokoHill_Solo) == 0x50);
 

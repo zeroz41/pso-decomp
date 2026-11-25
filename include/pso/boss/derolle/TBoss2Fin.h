@@ -23,6 +23,8 @@ public:
     TObjEZRopeCollider rope_colliders[3];
     Vec *anchor_a;
     Vec *anchor_b;
+    static const char *name;
+    static TObjEZRopeSegment effect_table[3];
 };
 
 LAYOUT_ASSERT(TBoss2FinRopeEnds, offsetof(TBoss2Fin, rope_ends) == 0x30);

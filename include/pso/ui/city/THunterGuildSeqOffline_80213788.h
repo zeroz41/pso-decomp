@@ -25,7 +25,7 @@ struct THunterGuildSeqOnline_Client : public TShopSequence {
     void sub_80213980();
     TObject *counter_camera;  // 0x2C: set_service_counter_camera
     s32 pad_30;
-    s32 pad_34;
+    s32 exit_action;  // 1: close_window leaves through the fade-out; 0 and 2 just close
     TQuestThread *quest_thread;    // 0x38: TQuestThread::create_in_root
     TWindowMenu *choice_menu; // 0x3C: create_yes_no_window
 };
@@ -48,7 +48,7 @@ struct THunterGuildSeqOnline_Server : public TShopSequence {
     void confirm_and_close_if_valid();
     TObject *counter_camera;  // 0x2C: set_service_counter_camera
     s32 pad_30;
-    s32 pad_34;
+    s32 exit_action;  // 1: close_window leaves through the fade-out; 0 and 2 just close
     TWindowMenu *choice_menu; // 0x38: create_yes_no_window
     TObject *quest_thread;    // 0x3C: TQuestThread::create_in_root
     s32 pad_40;

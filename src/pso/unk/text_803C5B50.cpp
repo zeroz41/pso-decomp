@@ -56,7 +56,7 @@ void TLobby__sub_803C5B50(AdxtPlayer *player, s32 arg1, s32 arg2, s32 arg3) {
     adx_encoder_pool_finish();
 }
 
-s32 TLobby__sub_803C5D00(AdxtPlayer *player) {
+s32 get_stream_queued_count(AdxtPlayer *player) {
     return lsc_get_queued_stream_count(player->lsc_stream);
 }
 

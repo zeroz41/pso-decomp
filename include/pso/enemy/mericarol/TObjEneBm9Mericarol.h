@@ -7,7 +7,7 @@
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/enemy/TObjEnemyCustom.h"
@@ -103,7 +103,7 @@ struct TObjEneBm9Mericarol : public TObjEneDD_ST {
     s32 blink_level;                   // only zeroed here; the Re2 Flower twin's blink level
     s32 phase;                         // 0..2: param table and texture set
     Vec shot_origin;                   // node 0x43, where the bomb starts
-    TUnk_80494938 appear_fade;
+    TObjEnemyColorFade appear_fade;
     AreaAttackHistory *attack_history;
     TObjCollidable *attack_body;       // the swipe's 50-radius hit body
     s32 state_step;                    // step inside the current state

@@ -28,9 +28,7 @@
 
 void upload_player_motion_data() { aram_transfer_sync(1, player_motion_archive->get_buffer(), player_motion_aram_addr, player_motion_aram_size); }
 
-extern "C" {
 void TWindowSnapShot__sub_802A7DA0(void) {  }
-}
 
 void alloc_player_motion_aram() {
     s32 file_size = TGStream::get_resource_file_size(get_player_motion_filename());
@@ -118,16 +116,15 @@ void TWindowSnapShot::render() {
 }
 
 void TWindowSnapShot::run_task() {
-    u8 *arg0 = (u8 *)this;
     if (!(this->window_flags & 2)) {
         this->open_tick = 0x01000000;
     }
     if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         play_open_sound();
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    update_window();
+    this->update_fade();
+    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
 }
 
 TWindowSnapShot::~TWindowSnapShot() {}
@@ -138,7 +135,7 @@ TWindowSnapShot::TWindowSnapShot(saddr arg1) : TWindowBase((u8 *)&window_snapsho
     if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
         this->m_60 = (u8) (this->m_60 | 2);
     }
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(1));
+    temp_r31 = reinterpret_cast<saddr>(this->get_array_entry(1));
     TWindowDuelResult::set_default_status((void *) temp_r31, get_localized_text_entry(0xF, 0x13));
 }
 

@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CITY_TOBJCITYDOOR_SHOP_H
 
 #include "types.h"
-#include "pso/object/TUnk_804B5BA8.h"
+#include "pso/object/TObjCityDoorBase.h"
 
-struct TObjCityDoor_Shop : public TUnk_804B5BA8 {
+struct TObjCityDoor_Shop : public TObjCityDoorBase {
     TObjCityDoor_Shop(TObject *parent, void *set);
     virtual ~TObjCityDoor_Shop();
     virtual void render();

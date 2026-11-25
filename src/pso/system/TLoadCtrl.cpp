@@ -28,7 +28,7 @@ struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 extern "C" {
 s32 __ct__9TAdFadeGCFP7TObjectPv(int, int, int);
 s32 TLoadCtrl__loading_mode;
-saddr TLoadCtrl__fade_task;
+saddr load_ctrl_fade_task;
 extern s32 tl_fade;
 void TNowLoading__sub_8001D4D4(void);
 void TLoadCtrl__sub_80226DA0(s32 index);
@@ -53,8 +53,8 @@ void TLoadCtrl::run_task() {
     Obj_8001C620 *self = (Obj_8001C620 *)this;
     saddr o;
     if (TLoadCtrl__instance != 0U) {
-        if ((u32)TLoadCtrl__fade_task != 0U && ((TObject *)TLoadCtrl__fade_task)->all_parents_unqueued_for_destruction() == 0) {
-            TLoadCtrl__fade_task = 0;
+        if ((u32)load_ctrl_fade_task != 0U && ((TObject *)load_ctrl_fade_task)->all_parents_unqueued_for_destruction() == 0) {
+            load_ctrl_fade_task = 0;
         }
         if (++self->f20 == 2) {
             switch (TLoadCtrl__loading_mode) {
@@ -93,9 +93,9 @@ void TLoadCtrl::run_task() {
 }
 
 TLoadCtrl::~TLoadCtrl() {
-    if ((void *) (*(u8 * *)&TLoadCtrl__fade_task) != NULL) {
-        ((TObject *)(*(u8 * *)&TLoadCtrl__fade_task))->queue_destruction();
-        (*(u8 * *)&TLoadCtrl__fade_task) = NULL;
+    if ((void *) (*(u8 * *)&load_ctrl_fade_task) != NULL) {
+        ((TObject *)(*(u8 * *)&load_ctrl_fade_task))->queue_destruction();
+        (*(u8 * *)&load_ctrl_fade_task) = NULL;
     }
     if ((u32) TLoadCtrl__instance != 0U) {
         TLoadCtrl__instance = 0U;
@@ -107,7 +107,7 @@ TLoadCtrl::TLoadCtrl(saddr task) : TObject((TObject *)((void *)task)) {
     s32 temp_r3;
     s32 var_r0;
     this->m_1c = 1;
-    TLoadCtrl__fade_task = 0;
+    load_ctrl_fade_task = 0;
     this->m_20 = 0;
     this->m_name = TLoadCtrl__class_name;
     if (((u32)TLoadCtrl__loading_mode == 0U) || ((u32)TLoadCtrl__loading_mode == 1U)) {
@@ -116,7 +116,7 @@ TLoadCtrl::TLoadCtrl(saddr task) : TObject((TObject *)((void *)task)) {
         if (var_r0 != 0) {
             var_r0 = __ct__9TAdFadeGCFP7TObjectPv(temp_r3, tl_fade, 2);
         }
-        TLoadCtrl__fade_task = var_r0;
+        load_ctrl_fade_task = var_r0;
     }
 }
 extern "C" {

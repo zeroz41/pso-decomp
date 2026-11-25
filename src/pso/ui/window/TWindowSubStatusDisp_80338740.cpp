@@ -30,7 +30,6 @@ void fill_game_list_row(void *row, s32 locked, const char *name, s8 player_count
     *(u16 *)((s8 *)row + 0) = (u16) (*(u16 *)((s8 *)row + 0) | 5);
 }
 
-extern "C" {
 void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1) {
     (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
 }
@@ -100,7 +99,7 @@ TGameListRow::~TGameListRow() {
     }
 }
 
-TGameListRow::TGameListRow(u8 *rec, s32 client) : TUnk_804CF998(client) {
+TGameListRow::TGameListRow(u8 *rec, s32 client) : TWindowLayoutRect(client) {
     this->height = 18.0f;
     this->icon = 51;
     this->level = -1;
@@ -114,4 +113,3 @@ TGameListRow::TGameListRow(u8 *rec, s32 client) : TUnk_804CF998(client) {
 
 int TWindowSubStatusDisp__sub_80338B88(void* p) { return (*(u16*)((char*)p + 0x0) >> 2) & 0x1; }
 
-}

@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/enemy/TUnk_804EF130.h"
+#include "pso/enemy/TObjEneMorfosGroundShot.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/morfos/TObjEneMorfos.h"
@@ -27,7 +27,7 @@ extern const f32 morfos_projectile_speed;
 extern const f32 morfos_param_table_speed_copy;
 }
 
-void TUnk_804EF130::hit_target_in_range(TObjChara *target, TObjCollidable *owner) {
+void TObjEneMorfosGroundShot::hit_target_in_range(TObjChara *target, TObjCollidable *owner) {
     Vec v = pos;
     subtract_vector(&v, &vel);
     if (target != 0 && target != owner && !(target->actorFlags & 0x04000A00)) {
@@ -38,7 +38,7 @@ void TUnk_804EF130::hit_target_in_range(TObjChara *target, TObjCollidable *owner
     }
 }
 
-s32 TUnk_804EF130::snap_to_ground(Vec *position) {
+s32 TObjEneMorfosGroundShot::snap_to_ground(Vec *position) {
     CsnHit *hit = csnVecterUnder(position, 0x16EF);
     if (hit == NULL) {
         return 0;
@@ -49,7 +49,7 @@ s32 TUnk_804EF130::snap_to_ground(Vec *position) {
 
 struct O_80337500;
 struct V_80337500;
-void TUnk_804EF130::run_task() {
+void TObjEneMorfosGroundShot::run_task() {
     TObjCollidable *owner;
     s32 i;
     TObjPlayer *p;
@@ -86,13 +86,13 @@ void TUnk_804EF130::run_task() {
     }
 }
 
-TUnk_804EF130::~TUnk_804EF130() {
+TObjEneMorfosGroundShot::~TObjEneMorfosGroundShot() {
     if (effect != NULL) {
         effect->queue_destruction();
     }
 }
 
-TUnk_804EF130::TUnk_804EF130(const Vec *start, s32 angle, TObjChara *owner) : TObjCollidable(tl_06) {
+TObjEneMorfosGroundShot::TObjEneMorfosGroundShot(const Vec *start, s32 angle, TObjChara *owner) : TObjCollidable(tl_06) {
     ParticleAngles a;
     VecCopy(&pos, start);
     distance = 0.0f;

@@ -33,7 +33,7 @@ public:
 
 LAYOUT_ASSERT(TOKeyAncient03_size, sizeof(TOKeyAncient03) == 0xFC);
 
-extern BmlResource *TOKeyAncient03__model_archive;
+extern BmlResource *key_ancient03_model_archive;
 // The red texture list while up, the model's own while down.
-extern NJS_TEXLIST **TOKeyAncient03__texture_variants;
+extern NJS_TEXLIST **key_ancient03_texture_variants;
 #endif

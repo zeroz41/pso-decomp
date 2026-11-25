@@ -15,7 +15,7 @@
 #include "pso/math/BoxCollision.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TAttackCollider.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
@@ -202,7 +202,7 @@ void TObjCollidable::set_indexed_flags(s32 body, s32 flags) {
     }
 }
 
-s32 TUnk_80493450::test_elt_flag(s32 body, s32 flags) {
+s32 TObjEneBeastBase::test_elt_flag(s32 body, s32 flags) {
     CollisionBody *list = bodies;
     if (list != NULL) {
         return (u8)((flags & list[body].flags) != 0);
@@ -225,7 +225,7 @@ TObjChara *resolve_hittable_target(u16 actor_id, s16 collider) {
     if (target->all_parents_unqueued_for_destruction() == 0 || target->test_actor_flags(0x04040800) != 0) {
         return NULL;
     }
-    if (static_cast<TUnk_80493450 *>(target)->test_elt_flag(collider, 1) == 0) {
+    if (static_cast<TObjEneBeastBase *>(target)->test_elt_flag(collider, 1) == 0) {
         return NULL;
     }
     if (obj_is_hit_receivable(target) == 0) {
@@ -263,7 +263,7 @@ void TObjCollidable::send_object_state_update(void *saved_state) {
     entry = (FloorObjectSetRow *)set_entry;
     if (entry != NULL) {
         G_UpdateObjectState_6x0B packet;
-        TLobby__sub_80156BA8(&packet);
+        build_6x0B_packet(&packet);
         packet.header.entity_id = entity_id;
         packet.flags = state.flags;
         packet.object_index = entry->placement.set_index;

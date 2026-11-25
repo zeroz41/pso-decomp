@@ -28,9 +28,9 @@ public:
     s32 enemy_has_live_target();
     void update_velocity();
     void turn_toward_target_direction(s32 max_step);
-    void fire_attack_a(Vec *out, s32 max_step, f32 distance);
-    void fire_attack_b(Vec *out, s32 max_step, f32 distance);
-    void fire_attack_c(Vec *shot_pos, s32 iscale, f32 scale);
+    void turn_and_calc_clamped_destination(Vec *out, s32 max_step, f32 distance);
+    void turn_and_calc_slide_destination(Vec *out, s32 max_step, f32 distance);
+    void turn_and_calc_shot_destination(Vec *shot_pos, s32 iscale, f32 scale);
     void set_target_destination(const Vec *position);
 
     u16 target_id;                // 0xFFFF: no target

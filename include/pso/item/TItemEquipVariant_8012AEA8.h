@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void *__dt__13TUnk_804A4B80Fv(void *arg0, s16 arg1);
+void *__dt__25TItemWeaponHeavenPunisherFv(void *arg0, s16 arg1);
 }
 
 #endif

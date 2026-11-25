@@ -5,8 +5,8 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
-#include "pso/unk/TUnk_804CF998.h"
-#include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TWindowLayoutRect.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TGameListRow.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
@@ -41,7 +41,6 @@ void * TWindowHelpItem__sub_8025A594(void *, void *, s32);
 void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
 }
 u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2);
-extern "C" {
 
 __declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
 
@@ -117,7 +116,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 0:
                 o = ::operator new(0x18);
                 if (o != NULL) {
-                    o = __ct__13TUnk_804CF998FPUcl(o, (u8 *)rec, client);
+                    o = __ct__17TWindowLayoutRectFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 0x14 / 4;
@@ -143,7 +142,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 4:
                 o = ::operator new(0x24);
                 if (o != NULL) {
-                    o = __ct__13TUnk_804CF9C8FPUcl(o, (u8 *)rec, client);
+                    o = __ct__19TWindowLayoutNumberFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 0x1C / 4;
@@ -151,7 +150,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 5:
                 o = ::operator new(0x30);
                 if (o != NULL) {
-                    o = __ct__13TUnk_804CF9E0FPUcl(o, (u8 *)rec, client);
+                    o = __ct__27TWindowLayoutCountingNumberFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 0x1C / 4;
@@ -216,5 +215,4 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             out++;
         }
     }
-}
 }

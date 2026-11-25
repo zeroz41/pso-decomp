@@ -26,10 +26,6 @@
 
 #pragma readonly_strings on
 
-BattleMovementParams *get_player_entry__6TLobbyFii(int a0, int a1);
-AttackParams *TLobby__sub_8001E270(int a0, int a1);
-player_stats *TLobby__sub_8001E2A8(int a0, int a1);
-ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1);
 
 extern "C" {
 extern s32 auto_reply_flags;
@@ -92,12 +88,12 @@ s32 TLobby::is_active() {
     return *((s8* (*)(void))get_card_window_area__6TLobbyFv)() == 0 ? 0 : 1;
 }
 
-void TLobby__sub_8001DBD8(s32 _w0) {
+void reset_auto_reply_flags(s32 _w0) {
     auto_reply_flags = 0;
 }
 
-void TLobby::clear_auto_reply_flags(void* p) { TLobby__sub_8001DBD8((saddr)p); }
-void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((saddr)p); }
+void TLobby::clear_auto_reply_flags(void* p) { reset_auto_reply_flags((saddr)p); }
+void TLobby__sub_8001DC04(void* p) { reset_auto_reply_flags((saddr)p); }
 
 
 s32 *get_shared_text_buffer(void) {
@@ -203,14 +199,13 @@ void TLobby::copy_data(void* a0) { ((int (*)(void*, void*))copy_all_data__6TLobb
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Blk_8001DF0C { s32 w[6]; };
+struct CopyDataBlk { s32 w[6]; };
 
-struct Obj_8001DF0C { Blk_8001DF0C a; Blk_8001DF0C b; };
+struct CopyDataObject { CopyDataBlk a; CopyDataBlk b; };
 
 extern "C" {
-Obj_8001DF0C *copy_pair__6TLobbyFPvPv(Obj_8001DF0C *d, Obj_8001DF0C *s);
 
-void TLobby__sub_8001DEA8(s32 arg0) {
+void set_lobby_instance(s32 arg0) {
     lobby_instance = arg0;
 }
 
@@ -220,12 +215,12 @@ void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         i = 0;
         do {
-            TLobby::copy_pair((Obj_8001DF0C *)(((saddr (*)(s32, s32))get_player_entry__6TLobbyFii)(i, arg0)), (Obj_8001DF0C *)(arg1));
+            TLobby::copy_pair((CopyDataObject *)(((saddr (*)(s32, s32))get_player_entry__6TLobbyFii)(i, arg0)), (CopyDataObject *)(arg1));
             i += 1;
         } while (i < 4);
     }
 }
-Obj_8001DF0C *copy_pair__6TLobbyFPvPv(Obj_8001DF0C *d, Obj_8001DF0C *s) {
+CopyDataObject *copy_pair__6TLobbyFPvPv(CopyDataObject *d, CopyDataObject *s) {
     d->a = s->a;
     d->b = s->b;
     return d;
@@ -263,7 +258,7 @@ void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         i = 0;
         do {
-            ((TLobby *)(((saddr (*)(s32, s32))TLobby__sub_8001E270)(i, arg0)))->copy_from((void *)arg1);
+            ((TLobby *)(((saddr (*)(s32, s32))get_battle_param_attack)(i, arg0)))->copy_from((void *)arg1);
             i += 1;
         } while (i < 4);
     }
@@ -294,7 +289,7 @@ void copy_all_data__6TLobbyFii(s32 arg0, saddr src) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         i = 0;
         do {
-            TLobby::copy_data((void *)(((saddr (*)(s32, s32))TLobby__sub_8001E2A8)(i, arg0)), (void *)src);
+            TLobby::copy_data((void *)(((saddr (*)(s32, s32))get_battle_param_stats)(i, arg0)), (void *)src);
             i += 1;
         } while (i < 4);
     }
@@ -334,13 +329,13 @@ ActorParamBlock *TLobby::register_object(s32 index) { return TLobby::get_entry(b
 
 ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1) {  return &battle_param_resistances[a1]; }
 
-AttackParams *TLobby::dispatch_shared_handler_b(s32 index) { return TLobby__sub_8001E270(battle_parameter_difficulty, index); }
+AttackParams *TLobby::dispatch_shared_handler_b(s32 index) { return get_battle_param_attack(battle_parameter_difficulty, index); }
 
-AttackParams *TLobby__sub_8001E270(int a0, int a1) {  return &battle_param_attacks[a1]; }
+AttackParams *get_battle_param_attack(int a0, int a1) {  return &battle_param_attacks[a1]; }
 
-player_stats *TLobby::register_boss(s32 index) { return TLobby__sub_8001E2A8(battle_parameter_difficulty, index); }
+player_stats *TLobby::register_boss(s32 index) { return get_battle_param_stats(battle_parameter_difficulty, index); }
 
-player_stats *TLobby__sub_8001E2A8(int a0, int a1) {  return &battle_param_stats[a1]; }
+player_stats *get_battle_param_stats(int a0, int a1) {  return &battle_param_stats[a1]; }
 
 void set_difficulty__6TLobbyFi(s32 arg0) {
     battle_param_lab_variant = arg0;
@@ -492,13 +487,13 @@ s32 TLobby::calc_time_from_hms() {
   int new_var2;
   s32 temp_r31_2;
   s32 temp_r31;
-  temp_r31_2 = TLobby__sub_8001E75C((void *)(arg0 + 0xC));
+  temp_r31_2 = parse_two_digit_number((void *)(arg0 + 0xC));
   new_var = &arg0;
-  temp_r31 = (temp_r31_2 * 0x3C) + TLobby__sub_8001E75C((void *)(arg0 + 0xF));
-  new_var2 = (temp_r31 * 0x3C) + TLobby__sub_8001E75C((void *)((void *) ((*new_var) + 0x12)));
+  temp_r31 = (temp_r31_2 * 0x3C) + parse_two_digit_number((void *)(arg0 + 0xF));
+  new_var2 = (temp_r31 * 0x3C) + parse_two_digit_number((void *)((void *) ((*new_var) + 0x12)));
   return (s32) (30.0f * ((f32) new_var2));
 }
-s32 TLobby__sub_8001E75C(void *arg0) {
+s32 parse_two_digit_number(void *arg0) {
     s8 *s = (s8 *)arg0;
     s32 v = (s[0] - '0') * 10;
     v += s[1] - '0';
@@ -555,8 +550,8 @@ s32 TLobby::get_internet_beat() {
     return (TLobby::get_clock_frames() / 2592) % 1000;
 }
 
-typedef struct DateStamp_8001E8FC DateStamp_8001E8FC;
-struct DateStamp_8001E8FC
+typedef struct GetInternetBeatDateStamp GetInternetBeatDateStamp;
+struct GetInternetBeatDateStamp
 {
   u8 pad0[4];
   u8 h;
@@ -569,7 +564,7 @@ s32 TLobby::get_clock_frames() {
   u8 *new_var;
   u8 *g;
   s32 base;
-  DateStamp_8001E8FC d;
+  GetInternetBeatDateStamp d;
   new_var = &d.h;
   g = TAdSinglePlyChrSelectGC::get_global_state();
   if (g == 0)
@@ -588,7 +583,7 @@ s32 TLobby::get_clock_frames() {
   }
   secs = (mins + secs) * 60;
   secs = d.s + secs;
-  s32 t = (s32) (30.0f * ((f32) ((s32) secs)));
+  s32 t = (s32) (30.0f * ((f32) (secs)));
   t += base;
   return t;
 }
@@ -607,7 +602,7 @@ void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3) {
         temp_r31 = TLobby::calc_alpha_shifted(var_f4);
         if (get_main_phase() == 0xF) {
             TLobby::close_result_windows();
-            draw_small_font_text((void *)(temp_r31 | 0xFF0000 | 0xFFFF), (const char *)(((u8* (*)(void))get_shared_text_buffer)()), (f32)x, (f32)(-1.0f + position1Y), (f32)scale);
+            draw_small_font_text((void *)(temp_r31 | 0xFF0000 | 0xFFFF), (const char *)(((u8* (*)(void))get_shared_text_buffer)()), x, (f32)(-1.0f + position1Y), scale);
         }
     }
 }
@@ -691,7 +686,7 @@ void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha) {
 #pragma fp_contract reset
 
 void TLobby__sub_8001ED70(void) {  }
-void TLobby__sub_8001ED74(void) {
+void reset_clock_bar_pulse(void) {
     clock_bar_pulse = 0.0f;
 }
 }

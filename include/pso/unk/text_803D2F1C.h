@@ -6,7 +6,7 @@
 
 extern "C" {
 void TLobby__sub_803D3130(const SjChunk *chunk, s32 size, SjChunk *prefix, SjChunk *remainder);
-s32 size_803D2F1C(u8 *p);
+s32 parse_hex_size(u8 *p);
 u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk *out);
 }
 

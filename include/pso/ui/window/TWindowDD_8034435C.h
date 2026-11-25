@@ -6,7 +6,6 @@
 struct Pair_80344980 { s16 *list; s32 n; };
 
 extern "C" {
-extern s32 TWindowDD__window_mode;
 extern uaddr TWindowDD__word_select_lists;
 extern char **TWindowDD__data_805D6E28;
 extern Pair_80344980 *TWindowDD__data_805D6E40;

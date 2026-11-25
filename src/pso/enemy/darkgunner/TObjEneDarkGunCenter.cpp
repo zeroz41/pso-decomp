@@ -18,7 +18,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjBase.h"
 
-const char *TObjEneDarkGunCenter__name = "TObjEneDarkGunCenter";
+const char *dark_gun_center_name = "TObjEneDarkGunCenter";
 
 void TObjEneDarkGunCenter::send_gunners_home() {
     s32 i;
@@ -123,7 +123,7 @@ void TObjEneDarkGunCenter::gather_gunners() {
     gunner_count = 0;
     for (k = registered_player_count; k < registered_player_count + registered_enemy_count; k++) {
         gunner = (TObjEneDarkGunner *)TObjPlayer::get_player_data(k);
-        if (gunner != NULL && gunner->check_value_equals(TObjEneDarkGunner__class_name) != 0 &&
+        if (gunner != NULL && gunner->check_value_equals(dark_gunner_class_name) != 0 &&
             parameters[0] == gunner->parameters[0] && room == gunner->room) {
             gunner->center_id = entity_id;
             gunner_ids[gunner_count++] = gunner->get_entity_id();
@@ -155,7 +155,7 @@ void TObjEneDarkGunCenter::render() {  }
 
 TObjEneDarkGunCenter::TObjEneDarkGunCenter(TObject *parent, void *set_data) : TObjEnemy(parent) {
     s32 i;
-    m_name = TObjEneDarkGunCenter__name;
+    m_name = dark_gun_center_name;
     apply_set_data(set_data);
     register_by_id();
     VecCopy(&body_center, &position);

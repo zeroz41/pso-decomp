@@ -6,6 +6,7 @@
 
 class TAdSEGAlogo : public TObject {
 public:
+    static int state;
     TAdSEGAlogo(TObject *parent);
     virtual void render();
     virtual ~TAdSEGAlogo();

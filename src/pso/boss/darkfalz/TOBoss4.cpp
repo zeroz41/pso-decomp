@@ -41,10 +41,6 @@ const char *TOBoss4Tower::class_name = "TOBoss4Tower";
 const char *TOBoss4Rock::class_name = "TOBoss4Rock";
 BmlResource *TOBoss4::model_resource;
 
-// The flock's V formation.
-struct TOBoss4BirdFormation {
-    Vec offsets[6];
-};
 const TOBoss4BirdFormation boss4_bird_vec_table = {{
     {0.0f, 0.0f, 0.0f},     {-10.0f, 5.0f, -10.0f}, {10.0f, 0.0f, -10.0f},
     {-20.0f, 5.0f, -20.0f}, {0.0f, 0.0f, -20.0f},   {20.0f, 5.0f, -20.0f},
@@ -66,7 +62,7 @@ void TOBoss4::load_static_resource() {
 
 void TOBoss4::free_instance() {
     if (model_resource != NULL) {
-        delete (BmlResource *)model_resource;
+        delete model_resource;
         model_resource = NULL;
     }
 }
@@ -75,9 +71,9 @@ TOBoss4Bird::TOBoss4Bird(void *set_data) {
     s32 i;
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)model_resource, 0);
+    model = (void *)get_bml_model(model_resource, 0);
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
-    texlist = get_bml_texlist((BmlResource *)model_resource, 0);
+    texlist = get_bml_texlist(model_resource, 0);
     motion = get_bml_motion(model_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 1.0f;
@@ -185,9 +181,9 @@ void TOBoss4Bird::run_task() {
 TOBoss4Tower::TOBoss4Tower(void *set_data) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)model_resource, 5);
+    model = (void *)get_bml_model(model_resource, 5);
     model_radius = 60.0f;
-    texlist = get_bml_texlist((BmlResource *)model_resource, 5);
+    texlist = get_bml_texlist(model_resource, 5);
 }
 
 TOBoss4Tower::~TOBoss4Tower() {
@@ -215,9 +211,9 @@ TOBoss4Rock::TOBoss4Rock(void *set_data) {
 
     m_name = class_name;
     apply_object_set_data(set_data);
-    this->model = (void *)get_bml_model((BmlResource *)model_resource, 1);
+    this->model = (void *)get_bml_model(model_resource, 1);
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)this->model)->model)->radius;
-    texlist = get_bml_texlist((BmlResource *)model_resource, 1);
+    texlist = get_bml_texlist(model_resource, 1);
     spread = 50.0f + scale.x;
     if (scale.y < 0.0f) {
         scale.y *= -1.0f;

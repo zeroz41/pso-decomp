@@ -30,7 +30,7 @@
 #pragma readonly_strings on
 
 BmlResource *gigue_missile_resource;
-const char *TObjEneMe1GiGueMissile__name = "TObjEneMe1GiGueMissile";
+const char *me1_gi_gue_missile_name = "TObjEneMe1GiGueMissile";
 
 void TObjEneMe1GiGueMissile::explode(void *pos) {
     TObjPlayer *p;
@@ -106,7 +106,7 @@ void TObjEneMe1GiGueMissile::run_task() {
 
 TObjEneMe1GiGueMissile::TObjEneMe1GiGueMissile(TObjBase *owner, Vec *from, Vec *to, f32 speed, f32 power)
     : TNeedleShoot(owner, from, to) {
-    m_name = TObjEneMe1GiGueMissile__name;
+    m_name = me1_gi_gue_missile_name;
     this->power = power;
     this->speed = speed;
     play_sound_effect(0x4002A600, &pos, 0, 0);

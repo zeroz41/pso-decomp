@@ -25,7 +25,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 
 #pragma readonly_strings on
-const char *TBoss6Demo15_TYPE2_WAIT__class_name = "TBoss6Demo15_TYPE2_WAIT";
+const char *TBoss6Demo15_TYPE2_WAIT::class_name = "TBoss6Demo15_TYPE2_WAIT";
 
 static const Vec lbl_80478430 = {-10000.0f, 0.0f, 0.0f};
 static const WaitDemoCsnEntry lbl_8047843C[10] = {
@@ -166,7 +166,7 @@ TBoss6Demo15_TYPE2_WAIT::TBoss6Demo15_TYPE2_WAIT(TBoss6PlotFalz *plot) : TObject
     s32 id;
     BmlResource *bml;
     s32 i;
-    m_name = TBoss6Demo15_TYPE2_WAIT__class_name;
+    m_name = TBoss6Demo15_TYPE2_WAIT::class_name;
     this->plot = plot;
     bml = TBoss6PlotFalz::get_scene_archive();
     for (i = 0; i < 2; i++) {

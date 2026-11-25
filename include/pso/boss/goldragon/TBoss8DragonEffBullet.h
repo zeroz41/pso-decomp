@@ -31,6 +31,8 @@ struct TBoss8DragonEffBullet : public TObject {
     TParticleCtrl *trail;
     TParticleCtrl *secondary_emitter;
     const DragonBulletParticles *particles;
+    static const char *name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(TBoss8DragonEffBullet_position, offsetof(TBoss8DragonEffBullet, position) == 0x1C);

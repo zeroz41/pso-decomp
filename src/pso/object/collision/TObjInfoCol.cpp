@@ -17,7 +17,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *TObjInfoCol__class_name = "TObjInfoCol";
+const char *info_col_class_name = "TObjInfoCol";
 
 void TObjInfoCol::bswap_6x78() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 
@@ -46,7 +46,7 @@ void TObjInfoCol::run_task() {
 }
 
 TObjInfoCol::TObjInfoCol(saddr arg1, saddr set_data) : TObjCollidable((TObject *)((void *)arg1)) {
-    this->m_name = TObjInfoCol__class_name;
+    this->m_name = info_col_class_name;
     ((TObjInfoCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     this->interaction_radius = (f32) this->scale.x;
 }

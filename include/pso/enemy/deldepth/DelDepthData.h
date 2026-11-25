@@ -14,6 +14,6 @@ struct DelDepthParameters {
     s32 turnSpeed;
 };
 
-extern DelDepthParameters *TObjEneDelDepth__tune_params;
-extern BmlResource *TObjEneDelDepth__shared_resource;
+extern DelDepthParameters *del_depth_tune_params;
+extern BmlResource *del_depth_shared_resource;
 #endif

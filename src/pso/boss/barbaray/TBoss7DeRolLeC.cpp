@@ -44,14 +44,14 @@ struct NJS_OBJECT;
 
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/boss/TUnk_804F1C88.h"
+#include "pso/boss/TBoss7LaserImpact.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
 
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
 
-#include "pso/object/TUnk_804E4788.h"
+#include "pso/boss/barbaray/TBoss7DeRolLeCLaserTrail.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
@@ -87,16 +87,10 @@ struct Boss7LoadCallback {
     void (*release)(void);
 };
 
-// What TObjEnemy::movementParameters points at.
-struct TBoss7DeRolLeCMovement {
-    EnemyMoveParams move;
-    s32 pad_0C[4];
-};
-
 // The BML resource descriptor, followed by the action table that
 // TBoss7DeRolLeC's constructor hands to set_action_table.
 extern Boss7LoadCallback boss7_derolle_c_load_callbacks[6];
-extern TBoss7DeRolLeCMovement boss7_derolle_c_movement;
+extern BossMovementParameters boss7_derolle_c_movement;
 extern BmlResourceDescriptor bm_boss7_de_rol_le_c_resource_descriptor;
 extern TObjMotionAction de_rol_le_c_action_table[17];
 
@@ -363,9 +357,9 @@ extern const char boss7_de_rol_le_c_motion_name_hige_wait_hige_wait_tentacle_njm
 
 extern const char bm_boss7_de_rol_le_c_bml_filename[] = "bm_boss7_de_rol_le_c.bml";
 
-extern const char TBoss7DeRolLeC__class_name_string[] = "TBoss7DeRolLeC";
+extern const char TBoss7DeRolLeC::class_name_string[] = "TBoss7DeRolLeC";
 
-const char *TBoss7DeRolLeC__class_name = TBoss7DeRolLeC__class_name_string;
+const char *TBoss7DeRolLeC::class_name = TBoss7DeRolLeC::class_name_string;
 
 extern const Vec boss7_derolle_c_joint_start_position = {10000.0f, 10000.0f, 10000.0f};
 
@@ -399,10 +393,10 @@ Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7BodyBreakUp::load_static_resource, TBoss7BodyBreakUp::destroy_instance},
     {TBoss7Crawfish::load_static_resource, TBoss7Crawfish::destroy_instance},
     {TBoss7TentacleNeedle::load_static_resource, TBoss7TentacleNeedle::destroy_instance},
-    {TUnk_804F1C88::load_static_resource, TUnk_804F1C88::destroy_instance},
+    {TBoss7LaserImpact::load_static_resource, TBoss7LaserImpact::destroy_instance},
 };
 
-TBoss7DeRolLeCMovement boss7_derolle_c_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+BossMovementParameters boss7_derolle_c_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
 
 const char *bm_boss7_de_rol_le_c_model_names[7] = {
     boss7_de_rol_le_c_model_name_boss2_b_derorure_body_nj,
@@ -581,7 +575,7 @@ void *TBoss7DeRolLeC::create(void *set_data) {
 }
 
 void TBoss7DeRolLeC::run_exit_callbacks() {
-    TLobby::call_funcs_reverse((void*)boss7_derolle_c_load_callbacks, (unsigned int)0x30U);
+    TLobby::call_funcs_reverse(boss7_derolle_c_load_callbacks, (unsigned int)0x30U);
     if (boss7_derolle_c_bml_resource != NULL) {
         delete boss7_derolle_c_bml_resource;
         boss7_derolle_c_bml_resource = NULL;
@@ -591,7 +585,7 @@ void TBoss7DeRolLeC::run_exit_callbacks() {
 TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
     u32 state[3];
 
-    m_name = TBoss7DeRolLeC__class_name;
+    m_name = TBoss7DeRolLeC::class_name;
     if (boss7_joint_state == NULL) {
         boss7_joint_state = this;
     }
@@ -851,7 +845,7 @@ void TBoss7DeRolLeC::run_task() {
         }
         this->update_projectile_spawns();
     }
-    this->sub_800BBA0C();
+    this->save_mode();
     this->update_body_colliders();
     sync_position_vectors();
     this->flee_if_disturbed();
@@ -1310,8 +1304,7 @@ void TBoss7DeRolLeC::start_death_sequence() {
     }
 }
 
-void handle_6xA9_barba_ray_boss_actions(void *data) {
-    G_BarbaRayBossActions_6xA9 *cmd = (G_BarbaRayBossActions_6xA9 *)data;
+void handle_6xA9_barba_ray_boss_actions(G_BarbaRayBossActions_6xA9 *cmd) {
     TBoss7DeRolLeC *boss;
     cmd->bswap();
     boss = (TBoss7DeRolLeC *)get_enemy_entity(cmd->header.client_id);
@@ -1320,8 +1313,7 @@ void handle_6xA9_barba_ray_boss_actions(void *data) {
     }
 }
 
-void handle_6xAA_barba_ray_boss_actions(void *data) {
-    G_BarbaRayBossActions_6xAA *cmd = (G_BarbaRayBossActions_6xAA *)data;
+void handle_6xAA_barba_ray_boss_actions(G_BarbaRayBossActions_6xAA *cmd) {
     TBoss7DeRolLeC *boss;
     cmd->bswap();
     boss = (TBoss7DeRolLeC *)get_enemy_entity(cmd->header.client_id);
@@ -1935,7 +1927,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
 #pragma push
 #pragma fp_contract on
 // Moves the body from point position_slot of boss7_derolle_c_position_points to point next_position_slot (states 3, 5,
-// 6, 8, 9, 0xB, 0xC, 0xE, 0x28, 0x29 of dispatch_action): one TUnk_80036250 profile
+// 6, 8, 9, 0xB, 0xC, 0xE, 0x28, 0x29 of dispatch_action): one TBoss2MotionProfile profile
 // per axis, state_floats[2]/state_floats[5]/state_floats[3] the x/y/z direction signs, state_floats[0]/state_floats[4]/state_floats[1]
 // the start position.
 void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_mode) {
@@ -2343,7 +2335,6 @@ void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 n
 #pragma fp_contract on
 #pragma push
 #pragma opt_common_subs off
-#undef self
 void TBoss7DeRolLeC::handle_forward_jump_state(u32 event) {
     switch (event) {
     case 4:
@@ -2616,7 +2607,7 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
                     TObjBoss7Tunnel::start_sway_positive_x();
                 }
                 play_sound_at(0x3A107, &sound_origins[0]);
-                new TUnk_804F1C88(this, &part_points[0]);
+                new TBoss7LaserImpact(this, &part_points[0]);
                 state_flags |= 0x200;
                 for (i = 0; i < 4; i++) {
                     tentacles[i]->raise();
@@ -2718,7 +2709,6 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
 }
 #pragma pop
 #pragma pop
-#undef self
 void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index) {
     s32 ang;
     Vec v;
@@ -3102,12 +3092,12 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             if (hit != NULL) {
                 VecCopy(beam_end, &hit->contact->point);
                 if (hit_trail == NULL) {
-                    hit_trail = new TUnk_804E4788(this, 6, 0x208);
+                    hit_trail = new TBoss7DeRolLeCLaserTrail(this, 6, 0x208);
                 } else {
                     hit_trail->push_ring_point(beam_end);
                 }
                 if (hit_trail_long == NULL) {
-                    hit_trail_long = new TUnk_804E4788(this, 0xF, 0x209);
+                    hit_trail_long = new TBoss7DeRolLeCLaserTrail(this, 0xF, 0x209);
                 } else {
                     hit_trail_long->push_ring_point(beam_end);
                 }
@@ -3564,7 +3554,7 @@ void TBoss7DeRolLeC::handle_extend_tentacles_state(u32 event) {
 }
 
 void TBoss7DeRolLeC::handle_tentacle_needle_barrage_state(u32 event) {
-    u8 *player;
+    TObjPlayer *player;
     void *o;
     u16 id;
     u16 n;
@@ -3593,9 +3583,9 @@ void TBoss7DeRolLeC::handle_tentacle_needle_barrage_state(u32 event) {
             if (state_step == 0) {
                 state_step = 20;
                 state_ints[0]--;
-                player = (u8 *)get_player_by_client_id(needle_targets[state_ints[0] & 3]);
+                player = get_player_by_client_id(needle_targets[state_ints[0] & 3]);
                 if (player != NULL) {
-                    new TBoss7TentacleNeedle(this, (Vec *)(player + 0x38));
+                    new TBoss7TentacleNeedle(this, &player->position);
                 }
             } else {
                 state_step--;
@@ -3613,19 +3603,19 @@ void TBoss7DeRolLeC::record_node_transforms(NJS_OBJECT *) {
     Vec emitter_point;
     Vec aim_point;
     Vec body_point;
-    if ((s32) boss7_derolle_c_node_index == 0x5F) {
+    if (boss7_derolle_c_node_index == 0x5F) {
         emitter_point.x = 0.0f;
         emitter_point.y = 0.0f;
         emitter_point.z = 0.0f;
         transform_point_by_current_matrix(&emitter_point.x, boss7_derolle_c_emitter_points);
     }
-    if ((s32) boss7_derolle_c_node_index == 0x71) {
+    if (boss7_derolle_c_node_index == 0x71) {
         aim_point.x = 0.0f;
         aim_point.y = 0.0f;
         aim_point.z = 0.0f;
         transform_point_by_current_matrix(&aim_point.x, boss7_derolle_c_emitter_points + 1);
     }
-    if ((s32) boss7_derolle_c_node_index == boss7_derolle_c_body_point_node_ids[boss7_derolle_c_body_point_index]) {
+    if (boss7_derolle_c_node_index == boss7_derolle_c_body_point_node_ids[boss7_derolle_c_body_point_index]) {
         body_point.x = 0.0f;
         body_point.y = 0.0f;
         body_point.z = 0.0f;
@@ -3633,19 +3623,19 @@ void TBoss7DeRolLeC::record_node_transforms(NJS_OBJECT *) {
         boss7_derolle_c_body_point_index += 1;
         boss7_derolle_c_body_point_cursor++;
     }
-    if ((s32) boss7_derolle_c_node_index == 0x33) {
+    if (boss7_derolle_c_node_index == 0x33) {
         push_matrix();
-        matrix_mult_vec_array(NULL, (const Vec *)boss7_derolle_c_part_transform_template, boss7_derolle_c_part_points, 4);
+        matrix_mult_vec_array(NULL, boss7_derolle_c_part_transform_template, boss7_derolle_c_part_points, 4);
         pop_matrix();
         subtract_vector(boss7_derolle_c_part_points + 1, boss7_derolle_c_part_points);
     }
-    if ((boss7_derolle_c_draw_state_flags & 0x80) && ((s32) boss7_derolle_c_node_index >= 0x4D) && ((s32) boss7_derolle_c_node_index <= 0x58)) {
+    if ((boss7_derolle_c_draw_state_flags & 0x80) && (boss7_derolle_c_node_index >= 0x4D) && (boss7_derolle_c_node_index <= 0x58)) {
         push_matrix();
         get_current_matrix(boss7_derolle_c_node_matrix_cursor);
         pop_matrix();
         boss7_derolle_c_node_matrix_cursor++;
     }
-    if (((s32) boss7_derolle_c_node_index >= 0x1D) && ((s32) boss7_derolle_c_node_index <= 0x20)) {
+    if ((boss7_derolle_c_node_index >= 0x1D) && (boss7_derolle_c_node_index <= 0x20)) {
         push_matrix();
         get_current_matrix(boss7_derolle_c_tentacle_matrix_cursor);
         pop_matrix();

@@ -53,8 +53,8 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void refresh_target();
     void roaming_state(int event);
     void choose_roaming_destination();
-    TObjEneBm5WolfNode pack_node;      // linked into TObjEneBm5Wolf__pack_member_list
-    TObjEneBm5WolfNode instance_node;  // linked into TObjEneBm5Wolf__instance_list
+    TObjEneBm5WolfNode pack_node;      // linked into bm5_wolf_pack_member_list
+    TObjEneBm5WolfNode instance_node;  // linked into bm5_wolf_instance_list
     s32 is_leader;
     s32 group_id;
     u16 leader_id;

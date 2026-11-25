@@ -81,7 +81,7 @@ void TObjEneRe7BeruraPunch::update_velocity_and_snap() {
 }
 #pragma pop
 
-const char *TObjEneRe7BeruraPunch__name = "TObjEneRe7BeruraPunch";
+const char *re7_berura_punch_name = "TObjEneRe7BeruraPunch";
 
 #pragma push
 #pragma opt_common_subs off
@@ -172,7 +172,7 @@ void TObjEneRe7BeruraPunch::launch(s32 arm, const Vec *position, const Vec *dest
 }
 
 // The punch's two collision spheres (radius 3).
-CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
+CollisionBody re7_berura_punch_collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
@@ -305,8 +305,8 @@ void TObjEneRe7BeruraPunch::init() {
     reset();
 }
 TObjEneRe7BeruraPunch::TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner)
-    : TAttackCollider(parent, owner, TObjEneRe7BeruraPunch__collision_body_templates, 2) {
-    m_name = TObjEneRe7BeruraPunch__name;
+    : TAttackCollider(parent, owner, re7_berura_punch_collision_body_templates, 2) {
+    m_name = re7_berura_punch_name;
     owner_id = owner->get_entity_id();
     init();
 }

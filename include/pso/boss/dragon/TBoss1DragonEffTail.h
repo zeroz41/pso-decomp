@@ -25,6 +25,8 @@ struct TBoss1DragonEffTail : public TAttackCollider {
     void enable();
     void disable();
     void clear_attack_history();
+    static const char *name;
+    static CollisionBody collision_body_templates[17];
 };
 
 LAYOUT_ASSERT(TBoss1DragonEffTail_size, sizeof(TBoss1DragonEffTail) == 0xCC);

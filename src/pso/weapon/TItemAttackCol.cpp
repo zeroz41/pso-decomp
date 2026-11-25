@@ -11,9 +11,10 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include <stddef.h>
 #include "pso/weapon/TItemAttackCol.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -35,85 +36,6 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/item/item_pmt.h"
 
-struct VBase_18_f2ea1e { char pad[0x18]; };
-
-struct VObj_18_f2ea1e : VBase_18_f2ea1e {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual s32 m19(void *, s32, s32, f32);
-    virtual f32 m20(void *, f32);
-    virtual void m21();
-    virtual s32 m22(void *, s32);
-    virtual s32 m23(void *, f32);
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual s32 m73();
-};
-
 struct Stack_802E456C {
     u8 sp8;
     u8 sp9;
@@ -122,27 +44,6 @@ struct Stack_802E456C {
     u8 pad_10[0x4];
     u8 * sp14;
     s32 sp18;
-};
-
-struct VBase_802E3C4C { char pad[0x18]; };
-
-struct VObj_802E3C4C : VBase_802E3C4C {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58();
-    virtual void m59(u8 *, s32, s32, f32, s32);
 };
 
 extern "C" {
@@ -158,7 +59,7 @@ TItemAttackCol *attack_collider_render_owner;
 int attack_collider_active_count;
 
 
-void fn_802E3BA8(TItemAttackCol *col, void *node);
+void apply_extra_node_transform(TItemAttackCol *col, void *node);
 
 
 const char *TItemAttackCol__name = "TItemAttackCol";
@@ -168,7 +69,7 @@ static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
 
 }
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);
-TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(parent) {
+TItemAttackColBase::TItemAttackColBase(TObject *parent, S_802E451C *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;
     body.offset.y = 0.0f;
@@ -180,7 +81,7 @@ TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(pare
     body.center.x = 0.0f;
     body.center.y = 0.0f;
     body.center.z = 0.0f;
-    body.unk_28 = 0.0f;
+    body.defense = 0.0f;
     bodies = &body;
     body_count = 1;
     VecCopy(&position, &params->position);
@@ -190,39 +91,39 @@ TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(pare
     client_id = params->client_id;
     room = params->room;
     item_id = params->item_id;
-    pad_B0 = params->pad_1C;
-    pad_B4 = params->pad_20;
-    pad_B8 = params->pad_24;
-    pad_C0 = 1;
+    accuracy = params->accuracy;
+    damage_scale = params->damage_scale;
+    attack_kind = params->attack_kind;
+    hits_objects = 1;
     player = get_player_by_client_id(params->client_id);
     if (player != NULL) {
         if (player->pk_state.is_enabled() != 0) {
-            pad_BC = 1;
+            hits_players = 1;
         } else {
-            pad_BC = 0;
+            hits_players = 0;
         }
     } else {
-        pad_BC = 0;
+        hits_players = 0;
     }
 }
 
-TUnk_804E355C::~TUnk_804E355C() {}
+TItemAttackColBase::~TItemAttackColBase() {}
 
-void TUnk_804E355C::check_hits() {
+void TItemAttackColBase::check_hits() {
     s32 i;
     ActorBodyHit *hit;
     reset_global_table();
     collect_enemy_body_contacts((CollisionBodySet *)&bodies);
-    if (pad_C0 != 0) {
+    if (hits_objects != 0) {
         collect_object_body_contacts((CollisionBodySet *)&bodies);
     }
-    if (pad_BC != 0) {
+    if (hits_players != 0) {
         collect_player_body_contacts((CollisionBodySet *)&bodies);
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
         if (try_add_hit_target(hit) != 0) {
-            vfunc_6(hit);
+            on_hit(hit);
             hits_left -= 1;
             if (hits_left == 0) {
                 queue_destruction();
@@ -241,7 +142,7 @@ void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source) 
     output->body = input->body;
 }
 
-s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
+s32 TItemAttackColBase::try_add_hit_target(const ActorBodyHit *hit) {
     s32 ok;
     ActorBodyHit *previous;
     s32 i;
@@ -279,57 +180,54 @@ s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
     return 0;
 }
 
-void TUnk_804E355C::vfunc_6(ActorBodyHit *hit) { resolve_attack_col_hit(hit); }
+void TItemAttackColBase::on_hit(ActorBodyHit *hit) { resolve_attack_col_hit(hit); }
 
-s32 TUnk_804E355C::has_game_join_id() {
+s32 TItemAttackColBase::has_game_join_id() {
     return find_equipped_item(item_id) != 0;
 }
 
-s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
-    u8 *arg1 = (u8 *)hit;
-    u8 *arg0 = (u8 *)this;
+s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E456C, sp8) == 0x0);
     LAYOUT_ASSERT(sp9_offset, offsetof(Stack_802E456C, sp9) == 0x1);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E456C, spC) == 0x4);
     LAYOUT_ASSERT(sp14_offset, offsetof(Stack_802E456C, sp14) == 0xC);
     LAYOUT_ASSERT(sp18_offset, offsetof(Stack_802E456C, sp18) == 0x10);
     Stack_802E456C stack;
-    s32 temp_r31;
+    CollisionBody *target_body;
     s32 damage;
-    u8 *target;
-    u8 *player;
+    TObjChara *target;
+    TObjPlayer *player;
     uaddr item;
     s32 temp_r0;
     f32 var_f31;
-    target = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
-    player = (u8 *)(get_player_by_client_id(this->client_id));
+    target = (TObjChara *)hit->target;
+    player = get_player_by_client_id(this->client_id);
     item = (uaddr)find_item_by_id((this->item_id));
-    temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C);
-    if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(target))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {
-        temp_r0 = *(s32 *)((s8 *)arg0 + 0xB8);
+    target_body = &hit->target->bodies[hit->body];
+    if ((player != NULL) && (item != 0U) && (target->calc_distance_accuracy_penalty(player, target_body, NULL, this->accuracy) != 0)) {
+        temp_r0 = this->attack_kind;
         var_f31 = 0.0f;
         switch (temp_r0) {
         case 0:
-            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->pad_B4);
+            var_f31 = target->receive_physical_attack(player, this->damage_scale);
             break;
         case 1:
-            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->pad_B4);
-            ((VObj_18_f2ea1e *)(target))->m23(player, 0.1f * var_f31);
+            var_f31 = target->receive_physical_attack(player, this->damage_scale);
+            target->apply_knockback_from_attacker((u8 *)player, 0.1f * var_f31);
             break;
         case 2:
-            ((VObj_18_f2ea1e *)(target))->m22(player, temp_r31);
+            target->receive_weapon_special_attack(player, target_body);
             break;
         }
         damage = (s32) var_f31;
-        TObjPlayer::calc_photon_blast_charge((void *)player, damage);
-        ((VObj_18_f2ea1e *)(player))->m73();
+        player->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(player, damage));
         apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)target, (s32)damage);
         ((ItemSoundRequest *)(&stack.sp8))->clear();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();
-        stack.spC = player;
-        stack.sp14 = target;
-        stack.sp18 = *(s32 *)((s8 *)arg1 + 4);
+        stack.spC = (u8 *)player;
+        stack.sp14 = (u8 *)target;
+        stack.sp18 = hit->body;
         play_weapon_hit_sound(&stack.sp8);
         return 1;
     }
@@ -345,12 +243,12 @@ void reset_attack_params(S_802E451C *s_802_e451_c) {
     s_802_e451_c->client_id = 0xFFFF;
     s_802_e451_c->room = -1;
     s_802_e451_c->item_id = -1;
-    s_802_e451_c->pad_1C = 0.0f;
-    s_802_e451_c->pad_20 = 1.0f;
-    s_802_e451_c->pad_24 = 0;
+    s_802_e451_c->accuracy = 0.0f;
+    s_802_e451_c->damage_scale = 1.0f;
+    s_802_e451_c->attack_kind = 0;
 }
 
-WeaponEffectDescriptor *TObjPlayer__sub_802E449C(WeaponEffectDescriptor *params) {
+WeaponEffectDescriptor *reset_weapon_effect_descriptor(WeaponEffectDescriptor *params) {
     reset_attack_params(params);
     params->flags = 0;
     params->model = NULL;
@@ -375,7 +273,7 @@ void TItemAttackCol::create(TObject *parent, WeaponEffectDescriptor *params) {
     new TItemAttackCol(parent, params);
 }
 
-TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) : TUnk_804E355C(parent, params) {
+TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) : TItemAttackColBase(parent, params) {
     m_name = TItemAttackCol__name;
     VecCopy(&start_position, &params->position);
     if (params->flags & 1) {
@@ -403,12 +301,12 @@ TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) 
     scale.y = params->scale;
     scale.z = params->scale;
     copy_xyz(spin, params->spin);
-    pad_114[0] = 0;
-    pad_114[1] = 0;
-    pad_114[2] = 0;
-    pad_120[0] = 1.0f;
-    pad_120[1] = 1.0f;
-    pad_120[2] = 1.0f;
+    extra_rotation[0] = 0;
+    extra_rotation[1] = 0;
+    extra_rotation[2] = 0;
+    extra_scale[0] = 1.0f;
+    extra_scale[1] = 1.0f;
+    extra_scale[2] = 1.0f;
     hit_wall_flags.reset();
     if (params->flags & 2) {
         const StarLightParameters star = {
@@ -492,7 +390,7 @@ void TItemAttackCol::run_task() {
     if (flags & 0x20) {
         spin[1] += 0x888;
     }
-    this->vfunc_7();
+    this->move_by_velocity();
     if (star_light != NULL) {
         star_light->copy_position(&position);
     }
@@ -550,7 +448,7 @@ void TItemAttackCol::move_with_collision(void *to) {
     }
 }
 
-void TItemAttackCol::vfunc_7() {
+void TItemAttackCol::move_by_velocity() {
     Vec next;
 
     VecCopy(&next, &velocity);
@@ -558,14 +456,14 @@ void TItemAttackCol::vfunc_7() {
     move_with_collision(&next);
 }
 
-void TItemAttackCol::vfunc_6(ActorBodyHit *hit) {
+void TItemAttackCol::on_hit(ActorBodyHit *hit) {
     if (!(flags & 0x80)) {
         if (resolve_attack_col_hit(hit) != 0) {
             if (hit_object != NULL) {
                 hit_object(item_id, (s32 *)hit, &velocity);
             }
             if (flags & 0x100) {
-                pad_B4 *= 0.75f;
+                damage_scale *= 0.75f;
             }
         }
     } else {
@@ -573,10 +471,10 @@ void TItemAttackCol::vfunc_6(ActorBodyHit *hit) {
             hit_object(item_id, (s32 *)hit, &velocity);
         }
         if (flags & 0x200) {
-            VObj_802E3C4C *p = (VObj_802E3C4C *)find_item_by_id(item_id);
-            u8 *b = (u8 *)get_player_by_client_id(client_id);
-            if (p != NULL) {
-                p->m59(b, (saddr)hit->target, pad_B8, pad_B4, hit->body);
+            TItemWeapon *weapon = (TItemWeapon *)find_item_by_id(item_id);
+            TObjPlayer *attacker = get_player_by_client_id(client_id);
+            if (weapon != NULL) {
+                weapon->deliver_hit(attacker, (TObjChara *)hit->target, attack_kind, damage_scale, hit->body);
             }
         }
     }
@@ -584,17 +482,17 @@ void TItemAttackCol::vfunc_6(ActorBodyHit *hit) {
 
 void TItemAttackCol::shift_collision_bounds() {
     spin[2] += 0xCCC;
-    pad_114[2] -= 0xCCC;
+    extra_rotation[2] -= 0xCCC;
 }
 
-void TItemAttackCol::add_to_active_list(void* node) { fn_802E3BA8(attack_collider_render_owner, node); attack_collider_active_count = (attack_collider_active_count + 0x1); }
+void TItemAttackCol::add_to_active_list(void* node) { apply_extra_node_transform(attack_collider_render_owner, node); attack_collider_active_count = (attack_collider_active_count + 0x1); }
 
 // Called for each node of the model before add_to_active_list counts it:
 // with flag 8 the second node drawn gets the collider's extra rotation and scale.
-void fn_802E3BA8(TItemAttackCol *col, void *node) {
+void apply_extra_node_transform(TItemAttackCol *col, void *node) {
     if ((col->flags & 8) && attack_collider_active_count == 1) {
-        rotate_matrix_by_node_angles(col->pad_114, 1);
-        scale_current_matrix(col->pad_120);
+        rotate_matrix_by_node_angles(col->extra_rotation, 1);
+        scale_current_matrix(col->extra_scale);
     }
 }
 
@@ -606,7 +504,7 @@ void TItemAttackCol::check_object_hits() {
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
         if (try_add_hit_target(hit) != 0) {
-            this->vfunc_6(hit);
+            this->on_hit(hit);
             this->hits_left -= 1;
             if (this->hits_left == 0) {
                 queue_destruction();

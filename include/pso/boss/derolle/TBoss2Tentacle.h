@@ -8,6 +8,8 @@
 // One of De Rol Le's four tentacles (twin of Barba Ray's TBoss7Tentacle). state is the running behaviour
 // (0 sway, 1 raise, 2 aim, 3 strike at target, 4 turn to its rest angle, 5 drop back); next_state is the
 // one requested, entered at the top of run_task().
+struct AnimationMotion;
+
 class TBoss2Tentacle : public TObject {
 public:
     TBoss2Tentacle(TObject *parent, const f32 (*joint)[4], s32 index);
@@ -64,6 +66,11 @@ public:
     s32 timer;
     f32 segment_scale;
     s32 hold_time;
+    static const char *name;
+    static Vec segment_points[14];
+    static AnimationMotion * motion_data;
+    static s32 segment_point_defaults[14];
+    static const int rest_angles[];
 };
 
 LAYOUT_ASSERT(TBoss2TentacleSegmentPos, offsetof(TBoss2Tentacle, segment_pos) == 0x30);

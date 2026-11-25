@@ -14,7 +14,6 @@
 const char *TWindowMessageYesNo__name = "TWindowMessageYesNo";
 #pragma pop
 
-extern "C" {
 
 void TWindowMessageYesNo::render() {  }
 
@@ -27,7 +26,6 @@ TWindowMessageYesNo *TWindowMessageYesNo::create(void *parent, s32 client_id, vo
     return o;
 }
 
-}
 TWindowMessageYesNo::~TWindowMessageYesNo() {
     if (choice_menu != NULL) { choice_menu->close(); choice_menu = NULL; }
     if (*(void **)((s8 *)this + 0x28) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x28)))->close(); this->message_menu = 0; }

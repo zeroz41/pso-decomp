@@ -13,7 +13,7 @@
 #pragma readonly_strings on
 
 
-const char *TObjBoss5FloorGrass__name = "TObjBoss5FloorGrass";
+const char *TObjBoss5FloorGrass::name = "TObjBoss5FloorGrass";
 
 void TObjBoss5FloorGrass::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
@@ -30,7 +30,7 @@ void TObjBoss5FloorGrass::run_task() {  }
 TObjBoss5FloorGrass::~TObjBoss5FloorGrass() {}
 
 TObjBoss5FloorGrass::TObjBoss5FloorGrass(TObject *parent) : TObject(parent) {
-    m_name = TObjBoss5FloorGrass__name;
+    m_name = TObjBoss5FloorGrass::name;
 }
 
 void *TObjBoss5FloorGrass::create() {

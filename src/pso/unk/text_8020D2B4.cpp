@@ -21,7 +21,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8020D2B4_lbl_8058D490_size, sizeof(RecoveredGlobal
 
 typedef struct SpawnAngles_8020D36C { u32 x, y, z; } SpawnAngles_8020D36C;
 
-typedef struct SpawnRecord_8020D36C {
+typedef struct ApplyRoomTransformToEnemyRowsSpawnRecord {
     s16 type;
     u16 flags;
     u16 index;
@@ -35,9 +35,9 @@ typedef struct SpawnRecord_8020D36C {
     SpawnAngles_8020D36C angles;
     f32 parameters[5];
     s16 integers[4];
-} SpawnRecord_8020D36C;
+} ApplyRoomTransformToEnemyRowsSpawnRecord;
 
-struct Out_8020D474 { u8 data[0x18]; };
+struct ResolveSetRowFactoryIndicesOut { u8 data[0x18]; };
 
 typedef ObjectFactoryEntry Ent_8020D5AC;
 
@@ -47,10 +47,10 @@ s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
 void *find_scene_room_by_id(s32 room);
-void apply_room_transform_to_enemy_rows(SpawnRecord_8020D36C *rows, s32 count);
+void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count);
 void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n);
 s32 find_set_factory_index(void *, void *);
-s32 TLobby__sub_801C2614();
+s32 is_battle_mode_running();
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
 void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2);
@@ -70,8 +70,8 @@ void apply_room_transform(saddr arg0, u8 *arg1, u8 *arg2) {
     *(s32 *)((s8 *)arg1 + 8) = (s32) (*(s32 *)((s8 *)arg1 + 8) + *(s32 *)((s8 *)arg2 + 0x18));
 }
 
-void apply_room_transform_to_enemy_rows(SpawnRecord_8020D36C *rows, s32 count) {
-    SpawnRecord_8020D36C *row;
+void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count) {
+    ApplyRoomTransformToEnemyRowsSpawnRecord *row;
     void *cached_room;
     s16 cached_id = -1;
     s32 i;
@@ -107,7 +107,7 @@ void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
 }
 
 void resolve_set_row_factory_indices(void *arg0, FloorObjectSetRow *rows, int count) {
-    Out_8020D474 o;
+    ResolveSetRowFactoryIndicesOut o;
     FloorObjectSetRow *p;
     s32 i;
     s32 r;
@@ -151,7 +151,7 @@ void spawn_decorations_in_range(TSetManager *manager) {
     if (tbl == NULL) {
         return;
     }
-    if (TObjPlayer::get_player_count() != 0 && is_quest_active() != 0 && TLobby__sub_801C2614() == 0) {
+    if (TObjPlayer::get_player_count() != 0 && is_quest_active() != 0 && is_battle_mode_running() == 0) {
         return;
     }
     p = floor_decoration_rows;
@@ -190,7 +190,7 @@ void TSetManager::apply_floor_set_rows() {
         floor->object_placement |= 2U;
     }
     if (!(floor->enemy_placement & 4)) {
-        apply_room_transform_to_enemy_rows((SpawnRecord_8020D36C *)(current_floor_enemy_set_rows), floor->enemy_count);
+        apply_room_transform_to_enemy_rows((ApplyRoomTransformToEnemyRowsSpawnRecord *)(current_floor_enemy_set_rows), floor->enemy_count);
         floor->enemy_placement |= 4U;
     }
     if (floor->object_placement & 2) {

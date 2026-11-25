@@ -8,21 +8,23 @@ struct TObjLuker : public TObjBase {
     TObjLuker(TObject *parent, void *set_data);
     virtual ~TObjLuker();
     TObject *windows[4];  // one per player, indexed by entity id
-    u32 m_a0;
-    u32 m_a4;
-    u16 m_a8;
-    u16 m_aa;
-    s16 m_ac;
-    u16 m_ae;
-    s16 m_b0;
+    s32 current_floor;     // the floor named in the destination windows
+    TObject *effect;       // the telepipe effect, made when the warp is active
+    u16 owner_id;          // client id of the player who opened it
+    u16 partner_id;        // client id of the player who confirmed (split screen)
+    s16 hold_frames;       // frames spent in state 1
+    u16 warp_active;       // 1 while the owner's telepipe is open
+    s16 state;             // 0 waiting for confirmation, 1 confirmed, 2 warping
     u8 _padB2[0x2];
-    u32 m_b4;
-    u32 m_b8;
+    s32 effect_pending;    // 1 when the effect is to be made again
+    s32 slots_locked;      // 1 while TWindowCtrl's slots are locked for the confirmation
     void show_part(u16 arg1);
     void hide_part(u16 part);
     void update_floor_name_windows();
     void open_destination_windows();
     void transfer_to_town();
+    void close_windows();
+    s32 is_player_in_range(f32 range);
     virtual void render();
     virtual void run_task();
     static const char *get_stat_table_entry(int a0);

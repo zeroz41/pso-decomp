@@ -14,7 +14,7 @@
 #include "pso/system/task/TMainTask.h"
 
 
-const char *TBoss6EmptyWarp__name = "TBoss6EmptyWarp";
+const char *TBoss6EmptyWarp::name = "TBoss6EmptyWarp";
 
 // Full-screen quad drawn over the view by TBoss6EmptyWarp::render.
 f32 empty_warp_overlay_vertices[8] = {
@@ -22,21 +22,14 @@ f32 empty_warp_overlay_vertices[8] = {
 };
 extern const f32 empty_warp_overlay_zero_vec[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-struct Stack_802B0DCC {
-    f32 * sp8;
-    const f32 * spC;
-    s32 sp10;
-    s32 sp14;
-};
-
 void draw_empty_warp_overlay(void) {
-    Stack_802B0DCC stack;
-    stack.spC = empty_warp_overlay_zero_vec;
-    stack.sp10 = 0;
-    stack.sp14 = 4;
-    stack.sp8 = empty_warp_overlay_vertices;
+    ColorLineList list;
+    list.colors = (u32 *)empty_warp_overlay_zero_vec;
+    list.tex = NULL;
+    list.count = 4;
+    list.verts = (ColorLineVertex *)empty_warp_overlay_vertices;
     set_depth_buffer_settings_1();
-    reinterpret_cast<ColorLineList *>(&stack)->draw_strip_swap_color(4, 2, -1.0f);
+    list.draw_strip_swap_color(4, 2, -1.0f);
     restore_saved_depth_alpha_state();
 }
 
@@ -65,7 +58,7 @@ TBoss6EmptyWarp::~TBoss6EmptyWarp() {
 }
 
 TBoss6EmptyWarp::TBoss6EmptyWarp(TObject *parent) : TObject(parent) {
-    m_name = TBoss6EmptyWarp__name;
+    m_name = TBoss6EmptyWarp::name;
     TBoss6PlotFalz::freeze_all_players();
     warp_delay = 0;
 }

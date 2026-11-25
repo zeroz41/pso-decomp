@@ -11,7 +11,7 @@
 #include "pso/object/base/TObjBase.h"
 
 
-const char *TOSwitchItem__class_name = "TOSwitchItem";
+const char *switch_item_class_name = "TOSwitchItem";
 
 s32 TItem::is_unit() {
     u8 result = 0;
@@ -22,7 +22,7 @@ s32 TItem::is_unit() {
 }
 
 TOSwitchItem::TOSwitchItem(TObject *parent, void *set_data) : TOKey(parent) {
-    m_name = TOSwitchItem__class_name;
+    m_name = switch_item_class_name;
     apply_object_set_data(set_data);
     init_params();
     items_present = 0;

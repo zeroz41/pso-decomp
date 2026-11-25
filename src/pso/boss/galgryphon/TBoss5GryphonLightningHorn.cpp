@@ -25,7 +25,7 @@
 
 #pragma readonly_strings on
 
-const char *TBoss5GryphonLightningHorn__name = "TBoss5GryphonLightningHorn";
+const char *TBoss5GryphonLightningHorn::name = "TBoss5GryphonLightningHorn";
 
 void TBoss5GryphonLightningHorn::queue_destruction() { TObject::queue_destruction(); }
 
@@ -161,7 +161,7 @@ TBoss5GryphonLightningHorn::~TBoss5GryphonLightningHorn() {}
 
 
 TBoss5GryphonLightningHorn::TBoss5GryphonLightningHorn(TObject *parent, Vec *pos, s32 rotation_y) : TBoss5GryphonLightning(parent, pos, 10.0f) {
-    m_name = TBoss5GryphonLightningHorn__name;
+    m_name = TBoss5GryphonLightningHorn::name;
     this->rotation_y = rotation_y;
     velocity.x = 5.0f * sin_table_lookup(this->rotation_y);
     velocity.y = 0.0f;

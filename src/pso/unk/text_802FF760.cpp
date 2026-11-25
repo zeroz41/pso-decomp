@@ -5,7 +5,7 @@
 
 // TAdMultiConfirmGC's code follows these two functions in the same translation unit; its name
 // string comes first in the unit's .rodata.
-const char *TAdMultiConfirmGC__name = "TAdMultiConfirmGC";
+const char *multi_confirm_name = "TAdMultiConfirmGC";
 
 // defer_codegen emits these in reverse source order: fn_802FF760 comes first in .text, while
 // the camera pose initializers keep source order in .rodata (fn_802FF7EC's come first).

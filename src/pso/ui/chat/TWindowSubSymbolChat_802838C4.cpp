@@ -7,7 +7,6 @@
 
 
 
-extern "C" {
 void SymbolChatPreset::set_flag_bit2() {
     flags |= 2;
 }
@@ -49,4 +48,3 @@ void TWindowSubSymbolChat__sub_80283944(TWindowSubSymbolChatHelp *window) {
     window->m_60 &= ~1;
 }
 
-}

@@ -15,6 +15,7 @@ struct QuestDownloadTextRecord;
 struct QuestNameLookupResult;
 struct QuestDownloadRequest;
 
+class TWindowBase;
 class TQuestVmDownLoadServer : public TObject, public TMessageWindowController {
 public:
     // Field names are inferred from their uses in TQuestVmDownLoadServer.cpp.
@@ -26,12 +27,12 @@ public:
     s32 memcard_slot;          // the card picked to save to (poll_memcard_result, get_memcard_free_files)
     void *save_image;          // alloc(blocks << 13) image built by build_save_file_image
     s32 slot_file_blocks;      // blocks of quest_download_file_slot
-    s32 state_file_blocks;     // blocks of TQuestVmDownLoadServer__download_file_state
+    s32 state_file_blocks;     // blocks of quest_download_file_state
     s32 info_file_blocks;      // blocks of quest_download_file_info
     char slot_file_name[0xD];  // written with slot_file_blocks
     char state_file_name[0xD]; // written with state_file_blocks
-    void *icon_menu;           // TWindowMenuIconLine (clear_decided)
-    void *status_window;       // init_shop_judgment_window
+    TWindowBase *icon_menu;    // TWindowMenuIconLine (clear_decided)
+    TWindowBase *status_window; // init_shop_judgment_window
     TWindowMessagePage *message_window; // create_window's window, closed by close_message
     s32 file_count;            // files to save, checked against get_memcard_free_files
     TObject *mc_select;        // TAdMcSelectGC::create
@@ -156,7 +157,7 @@ public:
 };
 LAYOUT_ASSERT(TQuestVmDownLoadServer_size_check, sizeof(TQuestVmDownLoadServer) == 0x2A8);
 
-extern TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
+extern TQuestVmDownLoadServer *quest_vm_download_server_instance;
 
 // The two seeds of the download cipher; a quest saved to a memory card is
 // encrypted with the console's serial number in both.
@@ -174,7 +175,7 @@ struct QuestDownloadRecord {
     u8 *data;
 };
 
-extern QuestDownloadRecord TQuestVmDownLoadServer__download_file_state; // .dat
+extern QuestDownloadRecord quest_download_file_state; // .dat
 extern QuestDownloadRecord quest_download_file_slot;                    // .bin
 extern QuestDownloadRecord quest_download_file_info;                    // .pvr
 extern QuestDownloadRecord quest_download_file_header;                  // .gba
@@ -185,7 +186,7 @@ QuestDownloadRecord *get_quest_download_file_header(void);
 extern s32 quest_download_in_progress;
 
 // Defined with the memory-card file constants (TAdSinglePlyChrSelectGC_801FBF54.cpp, next to
-// TQuestVmDownLoadServer__memcard_key). Names inferred: the quest file requests store them in their
+// quest_memcard_key). Names inferred: the quest file requests store them in their
 // banner (+0x44) and icon (+0x48) fields, which set_card_banner_and_icon then replaces with the
 // loaded banner/icon buffers; build_save_file_image copies 0x1800 (banner) / 0x800 (icon) bytes from them.
 extern "C" const char memcard_default_banner[];

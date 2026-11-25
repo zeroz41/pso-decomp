@@ -5,7 +5,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/enemy/EnemyMovement.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/SampledMotionPoints.h"
@@ -121,7 +121,7 @@ BmlResourceDescriptor bm_ene_dubchik_resource_descriptor = {
 };
 
 }
-const char *TObjEneDubchik__class_name = "TObjEneDubchik";
+const char *dubchik_class_name = "TObjEneDubchik";
 extern "C" {
 
 __declspec(section ".data") f32 dubchik_walk_speed_by_variant[2] = { 0.37037036f, 0.5703704f };
@@ -157,7 +157,7 @@ CollisionBody dubchik_collision_body[1] = {
 
 BreakUpParamRow dubchik_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 
-TBoss3VoloptP01Movement dubchik_movement = { 150.0f, 0.37037036f, 0x400, 0x1E0000, 0, 1, 0 };
+BossMovementParameters dubchik_movement = { { 150.0f, 0.37037036f, 0x400 }, { 0x1E0000, 0, 1, 0 } };
 
 __declspec(section ".data") s16 dubchik_part0_node_ids[3] = { 0x14, 0x15, -1 };
 s16 dubchik_part1_node_ids[6] = { 0x2B, 0x31, 0x32, 0x33, 0x34, -1 };
@@ -212,7 +212,7 @@ void TObjEneDubchik::run_idle_action() {  }
 
 TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
     s32 i;
-    m_name = TObjEneDubchik__class_name;
+    m_name = dubchik_class_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, VecCopy(&prev_position, &position)));
     motion_list = dubchik_resource->motions;

@@ -15,10 +15,10 @@ TOWreckAncient03::~TOWreckAncient03() {
 
 }
 
-const char *TOWreckAncient03__name = "TOWreckAncient03";
+const char *wreck_ancient03_name = "TOWreckAncient03";
 
 TOWreckAncient03::TOWreckAncient03(void *set_data) : TOWreckAncient(2) {
-    m_name = TOWreckAncient03__name;
+    m_name = wreck_ancient03_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[2], 1);
     register_object_by_id();

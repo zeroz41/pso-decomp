@@ -10,7 +10,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TChCrEffCtrlPl__name = "TChCrEffCtrlPl";
 const vec2f lbl_80477C70 = {714.0f, 82.0f};
 const vec2f lbl_80477C78 = {542.0f, 82.0f};
@@ -58,7 +57,6 @@ void TChCrEffCtrlPl::run_task() {
 
 TChCrEffCtrlPl::~TChCrEffCtrlPl() {}
 
-}
 TChCrEffCtrlPl::TChCrEffCtrlPl(TObject *object) : TObject(object) {
     m_name = TChCrEffCtrlPl__name;
     sprite_id = get_clamped_player_index() + 0x8B;

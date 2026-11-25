@@ -1,6 +1,6 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
-#include "pso/unk/TUnk_804CF998.h"
+#include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
@@ -24,7 +24,6 @@ u8 get_small_font_glyph_width(u8);
 s32 TWindowSubStatusDisp__sub_800FC248(u8);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
-void measure_message_text_width(WindowTextEntry *msg, f32 maxw);
 void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1);
 
 void *lbl_804CFA28[6] = {
@@ -244,7 +243,7 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
                 mem_free((void *)(*(uaddr *)((s8 *)window_sub_status_disp + 0x20)));
             }
         }
-        __dt__13TUnk_804CF998Fv(window_sub_status_disp, 0);
+        __dt__17TWindowLayoutRectFv(window_sub_status_disp, 0);
         if (arg1 > 0) {
             ::operator delete(window_sub_status_disp);
         }
@@ -253,7 +252,7 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
 }
 
 u8 *construct_text_entry(u8 *arg0, u8 *rec, s32 client) {
-    __ct__13TUnk_804CF998Fl(arg0, client);
+    __ct__17TWindowLayoutRectFl(arg0, client);
     *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CFA28);
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)rec + 4);
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)rec + 8);

@@ -3,17 +3,17 @@
 #include "pso/unk/text_800F9FD0.h"
 
 
-struct Key_800F9FF4 { u8 pad0[4]; s32 id; };
+struct TLobbyKey { u8 pad0[4]; s32 id; };
 
 extern "C" {
-s32 TLobby__sub_800F9FF4(Key_800F9FF4 *key);
+s32 TLobby__sub_800F9FF4(TLobbyKey *key);
 bool TLobby__sub_800F9FD0(void) {
     if ((s32) async_file_read_state != 0) {
         return 1;
     }
     return async_file_read_current_request != 0;
 }
-s32 TLobby__sub_800F9FF4(Key_800F9FF4 *key) {
+s32 TLobby__sub_800F9FF4(TLobbyKey *key) {
     AsyncFileReadRequest *n;
     if (key == NULL) {
         return 0;

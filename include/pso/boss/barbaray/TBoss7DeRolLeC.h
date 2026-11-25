@@ -6,7 +6,7 @@
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/derolle/TUnk_80036250.h"
+#include "pso/boss/derolle/TBoss2MotionProfile.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/ControllerInputState.h"
 #include <dolphin/mtx.h>
@@ -19,7 +19,7 @@ class TBoss7LaserLight;
 class AreaAttackHistory;
 class TNodeMatrixRecorder;
 class TParticleCtrl;
-class TUnk_804E4788;
+class TBoss7DeRolLeCLaserTrail;
 struct G_BarbaRayBossActions_6xA9;
 struct G_BarbaRayBossActions_6xAA;
 struct TBoss7LaserPtcl;
@@ -152,9 +152,9 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     ControllerInputContext *debug_pad; // controller_input_state.controllers[1], read by handle_debug_pad_input
     s32 state_flags;              // 0x4, 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 stat_phase;               // the stat phase reload_stats_for_phase restores after a hit
-    TUnk_80036250 motion_x;       // drives position.x (handle_position_travel_state)
-    TUnk_80036250 motion_y;       // drives position.y
-    TUnk_80036250 motion_z;       // drives position.z
+    TBoss2MotionProfile motion_x;       // drives position.x (handle_position_travel_state)
+    TBoss2MotionProfile motion_y;       // drives position.y
+    TBoss2MotionProfile motion_z;       // drives position.z
     TObject part_group;           // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
     s32 debug_pad_active;         // run_task steps run_mode from debug_pad when set
     s32 pad_6B0;
@@ -177,8 +177,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TBoss7LaserLight *laser_light;
     Vec laser_light_pos;          // the position the laser light follows
     AreaAttackHistory *attack_history;
-    TUnk_804E4788 *hit_trail;     // ring trail of the laser's hit point (limit 6, effect 0x208)
-    TUnk_804E4788 *hit_trail_long; // the same with limit 15, effect 0x209
+    TBoss7DeRolLeCLaserTrail *hit_trail;     // ring trail of the laser's hit point (limit 6, effect 0x208)
+    TBoss7DeRolLeCLaserTrail *hit_trail_long; // the same with limit 15, effect 0x209
     s32 laser_shot_count;         // laser shots since the state that clears it
     s32 state_step;               // the running state's step (every state handler switches on it)
     s32 state_ints[6];            // per-state scratch: each state handler gives them its own meaning
@@ -196,6 +196,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     static void load_resources();
     static void run_exit_callbacks();
     static void *create(void *set_data);
+    static const char *class_name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(TBoss7DeRolLeCCollisionBody, offsetof(TBoss7DeRolLeC, collision_body) == 0x3C0);
@@ -218,8 +220,8 @@ void TObjPlayer__sub_802ED984(void);
 // Functions defined in TBoss7DeRolLeC.cpp.
 struct TObjEneDD;
 s32 TBoss7Joint_get_shell_max_hp(void);
-void handle_6xA9_barba_ray_boss_actions(void *arg0);
-void handle_6xAA_barba_ray_boss_actions(void *arg0);
+void handle_6xA9_barba_ray_boss_actions(G_BarbaRayBossActions_6xA9 *packet);
+void handle_6xAA_barba_ray_boss_actions(G_BarbaRayBossActions_6xAA *packet);
 extern "C" {
 AnimationMotion *get_boss7_motion(s32 kind);
 }

@@ -1,11 +1,11 @@
 #ifndef PSO_WEAPON_TITEMWEAPONSRANKCARD_H
 #define PSO_WEAPON_TITEMWEAPONSRANKCARD_H
 #include "types.h"
-#include "pso/weapon/TUnk_804A4948.h"
+#include "pso/weapon/TItemWeaponSRank.h"
 
 // Weapon group 0xA7: the S-rank cards. On the third step of a combo they throw
 // three cards in a fan and the held model is drawn three times.
-class TItemWeaponSRankCard : public TUnk_804A4948 {
+class TItemWeaponSRankCard : public TItemWeaponSRank {
 public:
     TItemWeaponSRankCard(TObject *parent, u8 *item);
     static TItem *create(u8 *item); // weapon_factory_table entry

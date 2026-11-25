@@ -18,5 +18,5 @@ void TLobby::update_and_send_60() {
     TLobby::bswap_60_header(this);
     send_subcommand((u8 *)arg0);
 }
-void TLobby__sub_80156BA8(void* p) { *(u8*)((char*)p + 0x0) = 11; *(u8*)((char*)p + 0x1) = 3; }
+void build_6x0B_packet(void* p) { *(u8*)((char*)p + 0x0) = 11; *(u8*)((char*)p + 0x1) = 3; }
 

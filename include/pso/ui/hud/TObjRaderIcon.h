@@ -7,11 +7,11 @@
 struct TObjRaderIcon : public TObjBase {
     TObjRaderIcon(TObject *parent, void *arg2);
     virtual ~TObjRaderIcon();
-    u32 m_90;
-    u32 m_94;
-    u32 m_98;
-    u8 _pad9C[0x4];
-    u32 m_a0;
+    s32 color_mode;     // set_params[0]: 0 green when all its switches are set, else red; 1 the fixed color
+    s32 switch_count;   // set_params[1] high half: how many switches (0-12)
+    s32 first_switch;   // set_params[1] low half: the first switch id
+    f32 size;           // scale.x: the gate's size on the radar
+    u32 color;          // set_params[2]: ARGB of the fixed color
     virtual void render();
     virtual void run_task();
     void initialize_from_placement();

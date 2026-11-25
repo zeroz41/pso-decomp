@@ -22,20 +22,20 @@
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby_80209524.h"
 
-struct QuestObjRow_801F3AD8 {
+struct ConvertQuestObjectRowsQuestObjRow {
     u8 pad0[2];
     s16 flags;
     u8 pad1[0x40];
 };
 
-struct Ent_801F3A80 {
+struct BswapEnemySetRowsEntry {
     u16 a;
     s16 b;
     u8 rest[0x44];
 };
 
 extern "C" {
-void convert_quest_object_rows(struct QuestObjRow_801F3AD8 *rows, u32 byte_size);
+void convert_quest_object_rows(struct ConvertQuestObjectRowsQuestObjRow *rows, u32 byte_size);
 extern s16 quest_floor_designations[];
 u8 *TLobby__data_805D5EE0;
 
@@ -55,8 +55,8 @@ void TLobby::refresh_quest_list(const char *path) {
 }
 
 void TLobby::bswap_enemy_set_rows(u32 size) {
-    Ent_801F3A80* p = (Ent_801F3A80*)this;
-    u32 n = size / sizeof(Ent_801F3A80);
+    BswapEnemySetRowsEntry* p = (BswapEnemySetRowsEntry*)this;
+    u32 n = size / sizeof(BswapEnemySetRowsEntry);
     u32 i;
     for (i = 0; i < n; i++, p++) {
         bswap_enemy_set_row(p);
@@ -64,8 +64,8 @@ void TLobby::bswap_enemy_set_rows(u32 size) {
     }
 }
 
-void convert_quest_object_rows(struct QuestObjRow_801F3AD8 *rows, u32 byte_size) {
-    struct QuestObjRow_801F3AD8 *p = rows;
+void convert_quest_object_rows(struct ConvertQuestObjectRowsQuestObjRow *rows, u32 byte_size) {
+    struct ConvertQuestObjectRowsQuestObjRow *p = rows;
     u32 count = byte_size / 68;
     u32 i;
     for (i = 0; i < count; ++i, p++) {
@@ -296,7 +296,7 @@ loop_1:
         bswap_32((u32 *)&byte_size);
         if ((sp14 == 1) && (spC == floor)) {
             rows = var_r31 + 0x10;
-            convert_quest_object_rows((struct QuestObjRow_801F3AD8 *)rows, byte_size);
+            convert_quest_object_rows((struct ConvertQuestObjectRowsQuestObjRow *)rows, byte_size);
             ((TLobby *)rows)->assign_object_ids((s32)((u32) byte_size / 68U), (void *)(get_floor_area(spC)));
             TLobby::load_object_set_entries(spC, rows, byte_size);
             return 1;
@@ -339,7 +339,7 @@ void TLobby::setup_quest_list() {
     advance_enemy_id_counter((u16) map_set_enemy_id_counter);
     object_condition_count = map_set_object_id_counter;
     enemy_condition_count = next_enemy_set_actor_id;
-    TLobby__sub_8020B308();
+    get_total_object_set_count();
     TLobby::sum_floor_enemy_counts();
 }
 

@@ -43,7 +43,7 @@ struct KeyboardKeyState {
     s32 is_key_57_pressed();
     s32 sub_80132310();
     u8 sub_8013239C(u8 index);
-    s32 sub_801323C8(u8 key);
+    s32 is_key_pressed(u8 key);
     u8 get_key_state();
     static void process_raw_key(KeyboardKeyState *kb, u8 key, u32 *pressed);
     void sub_80132650();

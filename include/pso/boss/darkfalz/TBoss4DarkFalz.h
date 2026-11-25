@@ -40,6 +40,9 @@ struct TBoss4DarkFalz : public TObjEnemy {
     static TBoss4Type1 *get_instance();
     static TBoss4Type3 *get_type3_instance();
     static TBoss4Type2 *get_type2_instance();
+    static TBoss4Type1 *type1_instance;  // the first form while it is alive
+    static TBoss4Type2 *type2_instance;
+    static TBoss4Type3 *type3_instance;
     int is_floor_leader();
 
     void set_state();
@@ -115,6 +118,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void update_demo_warp1();
     void update_demo_warp0();
     void update_leader_editor();
+    static const char *name;
 };
 
 typedef void (TBoss4DarkFalz::*TBoss4DarkFalzHandler)();

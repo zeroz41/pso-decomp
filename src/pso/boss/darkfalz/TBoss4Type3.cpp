@@ -62,9 +62,6 @@ extern const s32 boss4_type3_effect_ids[8] = {326,326,326,326,328,327,327,323};
 const char *TObjBs4CutAtk_name = TObjBs4CutAtk_type_name;
 const char *TBoss4Type3_name = TBoss4Type3_type_name;
 typedef TBoss4Type3Handler Type3Handler;
-// A row of TBoss4Type3__anim_state_table: how the animation ends (0 loops, 1 holds
-// its last frame, 2 goes on to next) and the motion of each of the three models.
-struct Type3MotionView { s32 kind, next, motions[3]; };
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -125,7 +122,7 @@ CollisionBody boss4_type3_collision_body_desc[1] = {
 };
 s32 boss4_type3_model_ids[3] = {0xc, 0xd, 0xd};
 s32 boss4_type3_index_table[3] = {0xe, 0xf, 0xf};
-Type3MotionView TBoss4Type3__anim_state_table[10] = {
+Type3MotionView TBoss4Type3::anim_state_table[10] = {
     { 0, 0, 83, 84, 85 },
     { 0, 0, 52, 53, 54 },
     { 0, 0, 55, 56, 57 },
@@ -160,10 +157,6 @@ Vec boss4_type3_zero_vec = {0.0f, 0.0f, 0.0f};
 Vec boss4_type3_default_position = {10000.0f, -10.0f, 0.0f};
 Vec boss4_type3_interp_origin_vec = {10000.0f, 300.0f, 0.0f};
 u32 boss4_type3_radar_marker_colors[4] = {0xffff0000, 0xff00ff00, 0xffffff00, 0xff0000ff};
-
-struct Pair_8005A438 { void *p; f32 f; };
-
-struct Words_8005A438 { void *p; u32 w; };
 
 TObjBs4CutAtk *TObjBs4CutAtk::create(TObject *parent, s32 heading, s32 side) {
     return new TObjBs4CutAtk(parent, heading, side);
@@ -257,10 +250,10 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     set_motion_packed_rotation();
     body = (NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]);
     trail_samples[0] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
-    trail_samples[0]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[3].motions[0]), 0x16, 0x17);
+    trail_samples[0]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[3].motions[0]), 0x16, 0x17);
     trails[0] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
     trail_samples[1] = new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
-    trail_samples[1]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[4].motions[0]), 9, 10);
+    trail_samples[1]->sample_two_nodes(body, (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[4].motions[0]), 9, 10);
     trails[1] = TAttackTraceStrip::create(0xA0303030, 0xFFFF0088);
     clear_motion_packed_rotation();
     create_particle_emitters();
@@ -366,7 +359,7 @@ void TBoss4Type3::run_task() {
     }
     update_radar_markers();
     update_scale_sound();
-    collision->unk_28 = fade * (f32)(radius_shown - radius_hidden) + (f32)radius_hidden;
+    collision->defense = fade * (f32)(radius_shown - radius_hidden) + (f32)radius_hidden;
     handle_damage_taken();
     if (state != 2) {
         copy_positions_to_parts();
@@ -396,7 +389,7 @@ void TBoss4Type3::run_task() {
     }
     p = new SampledMotionPoints(2, lim, lim, 0.6f);
     set_motion_packed_rotation();
-    p->sample((NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3__anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
+    p->sample((NJS_OBJECT *)get_bml_model(archive, boss4_type3_model_ids[0]), (NJS_MOTION *)get_bml_motion(archive, TBoss4Type3::anim_state_table[anim].motions[0]), boss4_type3_run_task_params, NULL);
     clear_motion_packed_rotation();
     e = p->lookup(lim);
     push_matrix();
@@ -467,8 +460,8 @@ void TBoss4Type3::update_phase_timer() {
         break;
     case 2:
         if (anim_frame >= 29.0f) {
-            anim = TBoss4Type3__anim_state_table[anim].next;
-            anim_mode = TBoss4Type3__anim_state_table[anim].kind;
+            anim = TBoss4Type3::anim_state_table[anim].next;
+            anim_mode = TBoss4Type3::anim_state_table[anim].kind;
             anim_frame = 0.0f;
             anim_looped = 1;
         }
@@ -485,7 +478,7 @@ void TBoss4Type3::set_anim_state(s32 index) {
     if (index != -1) {
         anim = index;
         anim_frame = 0.0f;
-        anim_mode = TBoss4Type3__anim_state_table[index].kind;
+        anim_mode = TBoss4Type3::anim_state_table[index].kind;
     }
 }
 
@@ -510,7 +503,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     if (t < 1.0f) {
         begin_alpha_blend(t);
     } else if (tbl == boss4_type3_model_ids) {
-        TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
+        apply_boss6_hit_flash_color(hit_flash, hp_ratio);
     }
     model_render_flags |= 0x20000;
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
@@ -518,7 +511,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     for (i = 0; i < 3; i++) {
         TObjFish::set_global_param(get_bml_texlist(archive, tbl[i]));
         render_lists[i]->install();
-        draw_model_motion((void *)get_bml_model(archive, tbl[i]), (void *)get_bml_motion(archive, TBoss4Type3__anim_state_table[anim].motions[i]), anim_frame);
+        draw_model_motion(get_bml_model(archive, tbl[i]), get_bml_motion(archive, TBoss4Type3::anim_state_table[anim].motions[i]), anim_frame);
         render_lists[i]->clear();
     }
     clear_motion_packed_rotation();

@@ -20,7 +20,7 @@
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-const char *TBoss6EffFlowSoul__name = "TBoss6EffFlowSoul";
+const char *TBoss6EffFlowSoul::name = "TBoss6EffFlowSoul";
 }
 
 void TBoss6EffFlowSoul::run_task() {
@@ -71,7 +71,7 @@ TBoss6EffFlowSoul::~TBoss6EffFlowSoul() {
 }
 
 TBoss6EffFlowSoul::TBoss6EffFlowSoul(TObject *parent, Vec *pos, s32 player, s32 duration) : TObject(parent) {
-    m_name = TBoss6EffFlowSoul__name;
+    m_name = TBoss6EffFlowSoul::name;
     owner = static_cast<TBoss6Type2 *>(parent);
     VecCopy(&position, pos);
     this->player = player;

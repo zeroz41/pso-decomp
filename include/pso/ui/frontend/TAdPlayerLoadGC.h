@@ -30,6 +30,7 @@ struct CardFileInfo;
 
 class TAdPlayerLoadGC : public TObject {
 public:
+    static int load_state;
     TAdPlayerLoadGC(TObject *parent, int mode);
     // render is declared first: it is the class's key function, so the vtable is emitted
     // with it (ahead of run_task's switch table), as in the original data.
@@ -67,7 +68,7 @@ void set_character_select_b_slot_state(int a0);
 
 // --- C functions defined in TAdPlayerLoadGC.cpp ---
 extern "C" {
-void *__dt__13TUnk_804E24F0Fv(void *arg0, s16 arg1);
+void *__dt__25TItemWeaponPhotonLauncherFv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 

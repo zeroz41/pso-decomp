@@ -38,7 +38,7 @@ struct TOSensorAncient01Textures {
     NJS_TEXLIST *plain;
 };
 
-extern const char *TOSensorAncient01__class_name;
+extern const char *sensor_ancient01_class_name;
 extern BmlResource *sensor_ancient01_model_resource;
 extern TOSensorAncient01Textures *ancient_sensor_resource_pair_table;
 extern s32 sensor_texture_table_index;

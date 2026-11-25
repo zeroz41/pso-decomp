@@ -21,6 +21,9 @@ struct TObjBoss1Crater : public TAttackCollider {
     AreaAttackHistory *attack_history; // actors it hit, four at most
     s32 hit_timers[4];                 // frames until each attack_history entry is dropped (60 on a hit)
     s32 attack_kind;                   // 1, or 0x13 in V2 mode
+    static const char *name;
+    static s32 instance_count;
+    static TObjBoss1Crater * instance_list[20];
 };
 
 LAYOUT_ASSERT(TObjBoss1Crater_size, sizeof(TObjBoss1Crater) == 0xCC);
@@ -31,7 +34,7 @@ f32 calc_nearest_crater_distance(Vec *position);
 // TLobby::update_boss1_objects calls it with the other arena objects' teardown hooks; empty.
 void TObjBoss1Crater__sub_8002C7B4(void);
 // TLobby::init_bosses calls it: empties TObjBoss1Crater__instance_list.
-void TObjBoss1Crater__sub_8002C7B8(void);
+void clear_boss1_crater_instances(void);
 }
 
 // An attack-target list's entry count.

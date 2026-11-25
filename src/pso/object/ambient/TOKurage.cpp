@@ -30,8 +30,8 @@ const char *bm_fs_obj_kurage_motion_names[] = {"fs_obj_kurage.njm", "fs_obj_kura
 BmlResourceDescriptor bm_fs_obj_kurage_resource_descriptor = {
     "bm_fs_obj_kurage.bml", bm_fs_obj_kurage_model_names, bm_fs_obj_kurage_motion_names, 1, 2,
 };
-const char *TOKurage__class_name = "TOKurage";
-BmlResource *TOKurage__bml_resource;
+const char *kurage_class_name = "TOKurage";
+BmlResource *kurage_bml_resource;
 
 // Tilts the body toward this frame's movement (x by the z step, z by the
 // x step), at most 0x40 a frame.
@@ -309,26 +309,26 @@ void *TOKurage::create(void *set_data) {
 }
 
 void TOKurage::destroy_static_instance() {
-    if (TOKurage__bml_resource != NULL) {
-        delete TOKurage__bml_resource;
-        TOKurage__bml_resource = NULL;
+    if (kurage_bml_resource != NULL) {
+        delete kurage_bml_resource;
+        kurage_bml_resource = NULL;
     }
 }
 
 void TOKurage::load_static_resource() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_kurage_resource_descriptor, 0, 0, NULL);
-    TOKurage__bml_resource = resource;
+    kurage_bml_resource = resource;
 }
 
 TOKurage::~TOKurage() {}
 
 TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
-    m_name = TOKurage__class_name;
+    m_name = kurage_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)TOKurage__bml_resource, 0);
-    texlist = get_bml_texlist((BmlResource *)TOKurage__bml_resource, 0);
-    motion = get_bml_motion(TOKurage__bml_resource, 0);
-    motion2 = get_bml_motion(TOKurage__bml_resource, 1);
+    model = (void *)get_bml_model((BmlResource *)kurage_bml_resource, 0);
+    texlist = get_bml_texlist((BmlResource *)kurage_bml_resource, 0);
+    motion = get_bml_motion(kurage_bml_resource, 0);
+    motion2 = get_bml_motion(kurage_bml_resource, 1);
     animation_step = 0.5f;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     view_range = 500.0f;

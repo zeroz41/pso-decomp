@@ -52,9 +52,9 @@ s32 TQuestVmDownLoadServer__sub_803E6F98(u16 code);
 s32 TQuestVmDownLoadServer__sub_803E7018(u16 code);
 // The output must have room for two bytes, even when the caller expects one.
 s32 TQuestVmDownLoadServer__sub_803E7098(u8 *output, u16 code);
-u16 TQuestVmDownLoadServer__sub_803EC69C(u16 code);
-u8 TQuestVmDownLoadServer__sub_803EC8D8(u16 code);
-s32 TQuestVmDownLoadServer__is_sjis_double_byte(u16 code);
+u16 sjis_to_jis(u16 code);
+u8 jis_to_single_byte(u16 code);
+s32 is_sjis_double_byte(u16 code);
 
 s32 convert_romaji_to_kana(u16 *src, s32 count, u16 *out, s32 *written);
 void reset_entry_text_accumulator(void);

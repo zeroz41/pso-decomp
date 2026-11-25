@@ -157,14 +157,14 @@ struct Ctrl_801E352C {
     u32 *data;
 };
 
-struct Lines_801E341C {
+struct DrawTransformedPrimitiveLines {
     Vec *positions;
     u32 *colors;
 };
 
 
 extern "C" {
-void draw_line_list(Lines_801E341C *l, s32 n, u32 flags);
+void draw_line_list(DrawTransformedPrimitiveLines *l, s32 n, u32 flags);
 }
 void reset_line_width(void);
 void setup_opaque_color_draw(void);
@@ -189,14 +189,14 @@ void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
     }
     while (n > 0) {
         n--;
-        TObjPlayer__sub_801E3F30(scale * l->verts[n].x, scale * l->verts[n].y, scale);
+        gx_write_f32x3(scale * l->verts[n].x, scale * l->verts[n].y, scale);
         c = l->colors[n];
-        TObjPlayer__sub_801E3F24((c << 8) | (c >> 24));
+        gx_write_u32((c << 8) | (c >> 24));
     }
     TObjEneRe4Sorcerer__sub_801E3F20();
 }
 
-void draw_line_list(Lines_801E341C *l, s32 n, u32 flags) {
+void draw_line_list(DrawTransformedPrimitiveLines *l, s32 n, u32 flags) {
     Vec *p;
     u32 *c;
     load_camera_view_matrix();
@@ -214,12 +214,12 @@ void draw_line_list(Lines_801E341C *l, s32 n, u32 flags) {
     p = l->positions;
     c = l->colors;
     while (n > 0) {
-        TObjPlayer__sub_801E3F30(p->x, p->y, p->z);
-        TObjPlayer__sub_801E3F24((*c << 8) | (*c >> 24));
+        gx_write_f32x3(p->x, p->y, p->z);
+        gx_write_u32((*c << 8) | (*c >> 24));
         c++;
         p++;
-        TObjPlayer__sub_801E3F30(p->x, p->y, p->z);
-        TObjPlayer__sub_801E3F24((*c << 8) | (*c >> 24));
+        gx_write_f32x3(p->x, p->y, p->z);
+        gx_write_u32((*c << 8) | (*c >> 24));
         if (!(flags & 0x10)) {
             p++;
             c++;
@@ -296,10 +296,10 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
     pts = poly->p;
     cols = reinterpret_cast<s16 *>(poly->col);
     for (i = 0; i < count; pts++, cols += 2, i++) {
-        TObjPlayer__sub_801E3F30(pts->x * depth, pts->y * depth, depth);
-        TObjPlayer__sub_801E3F24(*(u32 *)cols);
+        gx_write_f32x3(pts->x * depth, pts->y * depth, depth);
+        gx_write_u32(*(u32 *)cols);
         if (tex) {
-            fn_801E3F44((f32)cols[0] / 255.0f, (f32)cols[1] / 255.0f);
+            gx_write_f32x2((f32)cols[0] / 255.0f, (f32)cols[1] / 255.0f);
         }
     }
     TObjEneRe4Sorcerer__sub_801E3F20();
@@ -327,10 +327,10 @@ void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 n, u32 flags) {
     p = fan->p;
     uv = fan->tex;
     for (i = 0; i < n; i++) {
-        TObjPlayer__sub_801E3F30(p->x, p->y, p->z);
-        TObjPlayer__sub_801E3F24(*c);
+        gx_write_f32x3(p->x, p->y, p->z);
+        gx_write_u32(*c);
         if (flags & 8) {
-            fn_801E3F44(uv->u / 255.0f, uv->v / 255.0f);
+            gx_write_f32x2(uv->u / 255.0f, uv->v / 255.0f);
             uv++;
         }
         p++;
@@ -478,7 +478,7 @@ void TLobby__sub_801E3CF0(u32 *p) {
 
 
 void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
-    bind_motion_context((NJS_MOTION *)motion, frame);
+    bind_motion_context(motion, frame);
     TObjPlayer::render_tree(model);
 }
 
@@ -577,17 +577,17 @@ void TObjEneRe4Sorcerer__sub_801E3F20(void) {  }
 
 // GX FIFO write helpers and a word copy used by the draw helpers above; the 6x subcommand
 // handlers after them open TGameProtocol.cpp.
-void TObjPlayer__sub_801E3F24(s32 value) {
+void gx_write_u32(s32 value) {
     *(s32 *)0xCC008000 = value;
 }
 
-void TObjPlayer__sub_801E3F30(f32 x, f32 y, f32 z) {
+void gx_write_f32x3(f32 x, f32 y, f32 z) {
     *(f32 *)0xCC008000 = x;
     *(f32 *)0xCC008000 = y;
     *(f32 *)0xCC008000 = z;
 }
 
-void fn_801E3F44(f32 x, f32 y) {
+void gx_write_f32x2(f32 x, f32 y) {
     *(f32 *)0xCC008000 = x;
     *(f32 *)0xCC008000 = y;
 }

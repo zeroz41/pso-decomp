@@ -3,7 +3,7 @@
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/math/MatrixVector.h"
 #include "types.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include <stdlib.h>
 #include "pso/technique/TechniqueParams.h"
 #include "pso/player/TObjPlayer.h"
@@ -44,7 +44,7 @@ void TTecZonde::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 3;
     hit.power = this->params.power;
-    if (static_cast<TUnk_80493450 *>(target)->test_elt_flag(0, 0x80) == 0) {
+    if (static_cast<TObjEneBeastBase *>(target)->test_elt_flag(0, 0x80) == 0) {
         target->receive_direct_attack((void *)source, hit, 0, 6, -1);
     }
 }

@@ -23,10 +23,8 @@
 #include "pso/player/TPlyCharData.h"
 
 
-extern "C" {
 extern const char lbl_804728D0[];
 const char lbl_804728D0[] = "TAdChrSelPlayerGC";
-}
 
 struct Stack_802E0468
 {
@@ -37,7 +35,6 @@ struct Stack_802E0468
 };
 
 extern "C" {
-void set_chunk_material_override_pair(s32, s32);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -51,7 +48,7 @@ s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(int, int);
 
 extern TObjMotionAction lbl_804E2F78[9];
-u8 *TAdMultiPlyChrSelectGC__resource_bundle;
+u8 *multi_ply_chr_select_resource_bundle;
 
 void copy_player_visual_record(void *, const void *);
 
@@ -59,7 +56,6 @@ void copy_player_visual_record(void *, const void *);
 
 TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4] = { NULL };
 
-extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -258,7 +254,7 @@ void TAdChrSelPlayerGC::run_task() {
 
 void TAdChrSelPlayerGC::init_model_animation() {
     this->set_action_table(lbl_804E2F78);
-    this->set_motion_list(reinterpret_cast<BmlResource *>(TAdMultiPlyChrSelectGC__resource_bundle)->motions);
+    this->set_motion_list(reinterpret_cast<BmlResource *>(multi_ply_chr_select_resource_bundle)->motions);
     set_cursor_index(0);
     set_animation((this->requested_action));
 }
@@ -361,7 +357,6 @@ int TAdMultiConfirmGC::set_cursor_index_2(void* p) { return ((int (*)(void *, in
 
 void TAdMultiConfirmGC__sub_802E03D0(void* p) { *(s32*)((char*)p + 0x118) = 0; }
 
-}
 
 TObjMotionAction lbl_804E2F78[9] = {
     { 1, 0, 0x21, 1.0f, 0 },

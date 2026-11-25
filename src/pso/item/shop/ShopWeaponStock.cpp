@@ -99,7 +99,7 @@ extern int shop_weapon_stock_level;
 void roll_shop_weapon_special(Obj_80224F7C *obj);
 extern s32 shop_difficulty_tier;
 extern s32 section_id_favored_grind_table[];
-extern s32 lbl_805D6238;
+extern s32 shop_section_id;
 void roll_shop_weapon_grind(Item_80225064 *it);
 void roll_shop_weapon_second_bonus(Obj_80224C68 *obj);
 void roll_shop_weapon_first_bonus(Obj_80224DF0 *obj);
@@ -478,7 +478,7 @@ void roll_shop_weapon_grind(Item_80225064 *it) {
     hi = ((Tbl_80225064 *)lobby_weapon_random_tables_ptr)->hi;
     b = TLobby::classify_level_bracket_narrow(shop_weapon_stock_level);
     if (b != -1) {
-        if (section_id_favored_grind_table[lbl_805D6238] != -1 && it->f1 == section_id_favored_grind_table[lbl_805D6238]) {
+        if (section_id_favored_grind_table[shop_section_id] != -1 && it->f1 == section_id_favored_grind_table[shop_section_id]) {
             v = (hi[b].max + 1) * ((1.0f / 32768.0f) * (f32)rand());
             if (v < hi[b].min) {
                 v = hi[b].min;
@@ -538,7 +538,7 @@ void generate_shop_weapon_stock(s32 tbl) {
     i = 0;
     n = t->n;
     ents = t->ents;
-    new_var = n * lbl_805D6238;
+    new_var = n * shop_section_id;
     e = ents + new_var;
     while ((i++) < n)
     {
@@ -559,21 +559,21 @@ void generate_shop_weapon_stock(s32 tbl) {
       ((TItemData *)(&item))->init();
       if (id == 0x39)
       {
-        if (shop_section_id_weapon_table_a[lbl_805D6238].group != (-1))
+        if (shop_section_id_weapon_table_a[shop_section_id].group != (-1))
         {
           item.b0 = 0;
-          item.b1 = shop_section_id_weapon_table_a[lbl_805D6238].group;
-          item.b2 = shop_section_id_weapon_table_a[lbl_805D6238].subtype;
+          item.b1 = shop_section_id_weapon_table_a[shop_section_id].group;
+          item.b2 = shop_section_id_weapon_table_a[shop_section_id].subtype;
         }
       }
       else
         if (id == 0x3A)
       {
-        if (shop_section_id_weapon_table_b[lbl_805D6238].group != (-1))
+        if (shop_section_id_weapon_table_b[shop_section_id].group != (-1))
         {
           item.b0 = 0;
-          item.b1 = shop_section_id_weapon_table_b[lbl_805D6238].group;
-          item.b2 = shop_section_id_weapon_table_b[lbl_805D6238].subtype;
+          item.b1 = shop_section_id_weapon_table_b[shop_section_id].group;
+          item.b2 = shop_section_id_weapon_table_b[shop_section_id].subtype;
         }
       }
       else

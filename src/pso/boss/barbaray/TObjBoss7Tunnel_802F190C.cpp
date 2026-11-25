@@ -7,7 +7,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/boss/TUnk_804E4AD4.h"
+#include "pso/boss/TObjBoss7TunnelNode.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include "pso/effect/particle/TParticle.h"
 #include "pso/unk/text_802F0E24.h"
@@ -36,7 +36,7 @@ void TObjBoss7Tunnel::create_parent_object() {
     TObjBoss7Tunnel_parent_object = new TObject(tl_07);
 }
 
-void TUnk_804E4AD4::draw_particle_effect() {
+void TObjBoss7TunnelNode::draw_particle_effect() {
     set_draw_list_mask(3);
 
     TParticleCtrl::begin_effect_render();

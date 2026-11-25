@@ -19,7 +19,7 @@ struct TOMineDisp : public TObjBase {
     u8 unk_AA[0x2];
 };
 
-extern const char *TOMineDisp__name;
+extern const char *mine_disp_name;
 
 LAYOUT_ASSERT(TOMineDisp_size, sizeof(TOMineDisp) == 0xAC);
 #endif

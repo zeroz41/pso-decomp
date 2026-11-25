@@ -9,10 +9,11 @@ struct SubtractiveRng {
     SubtractiveRng();
     SubtractiveRng(u32 seed);
     u32 state[58];
+    // The next sample as a ratio in [0, 1).
+    f32 next_ratio();
 };
 LAYOUT_ASSERT(SubtractiveRng_size, sizeof(SubtractiveRng) == 0xE8);
 
 extern "C" void subtractive_rng_seed(void *rng, s32 seed);
-extern "C" f32 calc_random_ratio__10TObjPlayerFv(SubtractiveRng *rng);
 
 #endif

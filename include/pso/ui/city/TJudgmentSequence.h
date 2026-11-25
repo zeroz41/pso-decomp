@@ -8,6 +8,7 @@ struct TObjPlayer;
 class TWindowBase;
 
 struct TJudgmentSequence : public TShopSequence {
+    static s32 slot_flags[4];
     TJudgmentSequence(TObject *parent, TObjPlayer *player);
     virtual ~TJudgmentSequence();
     virtual void restore_player_state();
@@ -16,7 +17,7 @@ struct TJudgmentSequence : public TShopSequence {
     void handle_confirm();
     void setup_counter_camera();
     static void *create(void *player);
-    TWindowBase *m_2c;       // meseta window
+    TWindowBase *meseta_window;       // meseta window
     TObject *counter_camera; // 0x30: set_service_counter_camera
     void open_judgment_window();
 };

@@ -6,7 +6,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
-int lbl_8050DC20[6];
+int city_season_flags[6];
 const s32 lobby_event_theme_id_table[6] = {4, 3, 1, 5, 2, 6};
 
 static __declspec(section ".rodata") const char ds_obj_21_nj[] ATTRIBUTE_ALIGN(4) = "ds_obj_21.nj";
@@ -135,30 +135,30 @@ BmlResourceDescriptor *city_season_resource_descriptors[6] = {
 
 BmlResource *city_season_easter_egg_model_table[6];
 NJS_TEXLIST *city_season_xmas_model_table[6];
-s32 lbl_805D5B30;
-StripBufferPair *lbl_805D5B34;
-BmlResource *lbl_805D5B38;
-saddr lbl_805D5B3C;
-saddr lbl_805D5B40;
-NJS_TEXLIST *lbl_805D5B44;
-StripBufferPair *lbl_805D5B48;
+s32 city_season_index;
+StripBufferPair *city_season_strips;
+BmlResource *city_season_board_resource;
+saddr city_season_board_model;
+saddr city_season_board_aux;
+NJS_TEXLIST *city_season_board_texlist;
+StripBufferPair *city_season_board_strips;
 
-NJS_TEXLIST *TLobby__sub_80184C2C(int a0) {  return city_season_xmas_model_table[a0]; }
+NJS_TEXLIST *get_city_season_xmas_model(int a0) {  return city_season_xmas_model_table[a0]; }
 
 BmlResource *get_season_model_resource(int a0) {  return city_season_easter_egg_model_table[a0]; }
 
 s32 TLobby__sub_80184C54(void) {
-    return lbl_805D5B30 != -1;
+    return city_season_index != -1;
 }
 
-int TLobby__sub_80184C6C(int a0) {  return lbl_8050DC20[a0]; }
+int TLobby__sub_80184C6C(int a0) {  return city_season_flags[a0]; }
 
 void TLobby__sub_80184C80(void *p) {
     s32 i;
     TLobby::clear_global_array(p);
     for (i = 0; i < 6; i++) {
         if (TLobby::event_theme_id == lobby_event_theme_id_table[i]) {
-            lbl_8050DC20[i] = 1;
+            city_season_flags[i] = 1;
             return;
         }
     }
@@ -168,26 +168,26 @@ void TLobby__sub_80184CE0(void* p) { TLobby::clear_global_array(p); }
 void TLobby::clear_global_array(void* _w0) {
     s32 i;
     for (i = 0; i < 6; i++) {
-        ((s32 *)&lbl_8050DC20)[i] = 0;
+        ((s32 *)&city_season_flags)[i] = 0;
     }
 }
 
 void TLobby::free_buffers() {
     s32 i;
-    if (lbl_805D5B48 != NULL) {
-        delete lbl_805D5B48;
-        lbl_805D5B48 = NULL;
+    if (city_season_board_strips != NULL) {
+        delete city_season_board_strips;
+        city_season_board_strips = NULL;
     }
-    if (lbl_805D5B38 != NULL) {
-        delete (BmlResource *)lbl_805D5B38;
-        lbl_805D5B38 = NULL;
+    if (city_season_board_resource != NULL) {
+        delete city_season_board_resource;
+        city_season_board_resource = NULL;
     }
-    lbl_805D5B44 = NULL;
-    lbl_805D5B3C = 0;
-    lbl_805D5B40 = 0;
-    if (lbl_805D5B34 != NULL) {
-        delete lbl_805D5B34;
-        lbl_805D5B34 = NULL;
+    city_season_board_texlist = NULL;
+    city_season_board_model = 0;
+    city_season_board_aux = 0;
+    if (city_season_strips != NULL) {
+        delete city_season_strips;
+        city_season_strips = NULL;
     }
     for (i = 5; i >= 0; i--) {
         if (city_season_easter_egg_model_table[i] != NULL) {
@@ -218,14 +218,14 @@ extern "C" void TLobby__sub_80184DF4(void) {
     } else {
         TLobby__sub_80184CE0((void *)ph);
     }
-    lbl_805D5B30 = -1;
+    city_season_index = -1;
     for (i = 0; i < 6; i++) {
         if (TLobby__sub_80184C6C(i)) {
-            lbl_805D5B30 = i;
+            city_season_index = i;
             break;
         }
     }
-    if (lbl_805D5B30 != -1) {
+    if (city_season_index != -1) {
         {
             s32 j;
             for (j = 0; j < 6; j++) {
@@ -233,8 +233,8 @@ extern "C" void TLobby__sub_80184DF4(void) {
                 city_season_xmas_model_table[j] = NULL;
             }
         }
-        tmp = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)city_season_resource_descriptors[lbl_805D5B30], 0, 0, NULL);
-        slot_offset = lbl_805D5B30 * sizeof(city_season_easter_egg_model_table[0]);
+        tmp = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)city_season_resource_descriptors[city_season_index], 0, 0, NULL);
+        slot_offset = city_season_index * sizeof(city_season_easter_egg_model_table[0]);
         *(BmlResource **)((u8 *)&city_season_easter_egg_model_table + slot_offset) = (BmlResource *)tmp;
         for (i = 0; i < *(s32 *)(tmp + 0x434); i++) {
             if ((*(u32 (**)[4])(tmp + 0x42c))[i][3] != 0) {
@@ -242,51 +242,51 @@ extern "C" void TLobby__sub_80184DF4(void) {
                 break;
             }
         }
-        if (lbl_805D5B30 == 0) {
+        if (city_season_index == 0) {
             base = *(u8 **)(tmp + 0x42c);
             ent = *(u8 **)(base + 0x18);
-            lbl_805D5B34 = new StripBufferPair((NJS_OBJECT *)ent, 3);
+            city_season_strips = new StripBufferPair((NJS_OBJECT *)ent, 3);
             base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
             base = *(u8 **)(base + 4);
             *(s16 *)(base + 0xc) &= ~0x1000;
-        } else if (lbl_805D5B30 == 4) {
+        } else if (city_season_index == 4) {
             base = *(u8 **)(tmp + 0x42c);
             ent = *(u8 **)(base + 0x18);
-            lbl_805D5B34 = new StripBufferPair((NJS_OBJECT *)ent, 0);
+            city_season_strips = new StripBufferPair((NJS_OBJECT *)ent, 0);
             base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
             base = *(u8 **)(base + 4);
             *(s16 *)(base + 0xc) &= ~0x1000;
         } else {
-            lbl_805D5B34 = NULL;
+            city_season_strips = NULL;
         }
     }
 
-    if (lbl_805D5B30 == 2) {
+    if (city_season_index == 2) {
         u8 *r = (u8 *)new BmlResource(1, &bm_obj_city_board_xmas_resource_descriptor, 0, 0, NULL);
         board = r;
-        lbl_805D5B3C = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
-        lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
-    } else if (lbl_805D5B30 == 4) {
+        city_season_board_model = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
+        city_season_board_aux = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
+    } else if (city_season_index == 4) {
         u8 *r = (u8 *)new BmlResource(1, &bm_obj_city_board_2001_resource_descriptor, 0, 0, NULL);
         board = r;
-        lbl_805D5B3C = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
-        lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
+        city_season_board_model = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
+        city_season_board_aux = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
     } else {
         u8 *r = (u8 *)new BmlResource(1, &bm_obj_city_board_normal_resource_descriptor, 0, 0, NULL);
         board = r;
-        lbl_805D5B3C = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
-        lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
+        city_season_board_model = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
+        city_season_board_aux = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
     }
 
-    lbl_805D5B48 = new StripBufferPair((NJS_OBJECT *)lbl_805D5B3C, 2);
-    base = (u8 *)lbl_805D5B3C;
+    city_season_board_strips = new StripBufferPair((NJS_OBJECT *)city_season_board_model, 2);
+    base = (u8 *)city_season_board_model;
     base = *(u8 **)(base + 4);
     base = *(u8 **)(base + 4);
     *(s16 *)(base + 0xc) &= ~0x2000;
-    lbl_805D5B38 = (BmlResource *)board;
+    city_season_board_resource = (BmlResource *)board;
     for (i = 0; i < *(s32 *)(board + 0x434); i++) {
         if ((*(u32 (**)[4])(board + 0x42c))[i][3] != 0) {
-            lbl_805D5B44 = ((BmlResource *)board)->models[i].texlist;
+            city_season_board_texlist = ((BmlResource *)board)->models[i].texlist;
             break;
         }
     }

@@ -46,7 +46,7 @@ saddr get_localized_text_entry(s32 arg0, s32 arg1);
 s32 is_multiplayer_character_slot_selected(s32 arg0);
 extern "C" {
 void fn_802FF7EC(void *);
-extern const char *TAdMultiConfirmGC__name;
+extern const char *multi_confirm_name;
 extern const u8 lbl_805DEF30 = 0;
 void fn_802FF760(void *);
 }
@@ -107,7 +107,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     u32 j;
     u32 n;
     void *p;
-    m_name = TAdMultiConfirmGC__name;
+    m_name = multi_confirm_name;
     ((TAdMultiConfirmGC_802FFA3C *)this)->state = 0;
     ((TAdMultiConfirmGC_802FFA3C *)this)->guide = 0;
     for (i = 0; i < 4; i++) {

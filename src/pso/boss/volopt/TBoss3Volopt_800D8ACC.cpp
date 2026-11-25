@@ -11,7 +11,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TDeadSpot.h"
-#include "pso/unk/TUnk_804949D8.h"
+#include "pso/unk/TDeadSpotGroundEmitter.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -186,7 +186,7 @@ void spawn_particles_at__12TBoss3VoloptFi(saddr position) {
 }
 
 void create_dead_spot(Vec *pos, s32 duration, f32 radius) {
-    new TUnk_804949F4((TObject *)tl_05, pos, create_timed_particle_emitter(pos, 0xF8, 0, duration), radius);
+    new TDeadSpotEmitter((TObject *)tl_05, pos, create_timed_particle_emitter(pos, 0xF8, 0, duration), radius);
 }
 
 void spawn_effect_f8(Vec *pos, s32 duration) {
@@ -198,7 +198,7 @@ void create_dead_spot_e4(Vec *pos, s32 duration, f32 radius) {
 }
 
 void create_dead_spot(Vec *pos, s32 particle, s32 duration, f32 radius) {
-    new TUnk_804949D8((TObject *)tl_05, pos, create_timed_particle_emitter(pos, particle, 0, duration), radius);
+    new TDeadSpotGroundEmitter((TObject *)tl_05, pos, create_timed_particle_emitter(pos, particle, 0, duration), radius);
 }
 
 extern "C" {
@@ -229,61 +229,61 @@ void spawn_effect_at_ground(const Vec *pos, s32 duration) {
 // Dead-stripped from the DOL: the selector-0 corner dead spots come in the same
 // 2.5/7.5/15/25 scale set as the selector-1 and selector-2 families below, and
 // only the 7.5 and 15 wrappers survive. The two missing ones left their literals:
-// .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them (0x805DA3C4-D0),
+// .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them,
 // which first use by the surviving code cannot give. Bodies and names inferred
 // from the family.
-void spawn_corner_dead_spot_scale2_5(const Vec *point, s32 delay) {
+void TDeadSpot::spawn_kind0_scale2_5(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 2.5f);
 }
 extern "C" {
 
-void TObjPlayer::apply_effect_variant_a(const Vec *point, s32 delay) {
+void TDeadSpot::spawn_kind0_scale7_5(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 7.5f);
 }
 
-void TObjPlayer::apply_effect_variant_b(const Vec *point, s32 delay) {
+void TDeadSpot::spawn_kind0_scale15(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 15.0f);
 }
 
-// Dead-stripped, see spawn_corner_dead_spot_scale2_5.
+// Dead-stripped, see spawn_dead_spot_kind0_scale2_5.
 }
-void spawn_corner_dead_spot_scale25(const Vec *point, s32 delay) {
+void TDeadSpot::spawn_kind0_scale25(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 25.0f);
 }
 extern "C" {
 
-void TObjPlayer__sub_800D9290(const Vec *point, s32 delay) {
-    TObjPlayer::spawn_dead_spot(point, 1, delay, 2.5f);
+void TDeadSpot::spawn_kind1_scale2_5(const Vec *point, s32 delay) {
+    TDeadSpot::spawn(point, 1, delay, 2.5f);
 }
 
-void TObjPlayer__sub_800D92BC(const Vec *point, s32 delay) {
-    TObjPlayer::spawn_dead_spot(point, 1, delay, 7.5f);
+void TDeadSpot::spawn_kind1_scale7_5(const Vec *point, s32 delay) {
+    TDeadSpot::spawn(point, 1, delay, 7.5f);
 }
 
-void TObjPlayer::spawn_dead_spot_default(const Vec *point, s32 delay) {
-    TObjPlayer::spawn_dead_spot(point, 1, delay, 15.0f);
+void TDeadSpot::spawn_kind1_scale15(const Vec *point, s32 delay) {
+    TDeadSpot::spawn(point, 1, delay, 15.0f);
 }
 
-void TObjPlayer::spawn_dead_spot_here(const Vec *point, s32 delay) {
-    TObjPlayer::spawn_dead_spot(point, 1, delay, 25.0f);
+void TDeadSpot::spawn_kind1_scale25(const Vec *point, s32 delay) {
+    TDeadSpot::spawn(point, 1, delay, 25.0f);
 }
 }
 
-void spawn_landing_dead_spot(const Vec *point, s32 delay) {
-    TObjPlayer::spawn_dead_spot(point, 2, delay, 2.5f);
+void TDeadSpot::spawn_kind2_scale2_5(const Vec *point, s32 delay) {
+    TDeadSpot::spawn(point, 2, delay, 2.5f);
 }
 extern "C" {
 
-void TObjPlayer::spawn_dead_spot_type2(const Vec *point, s32 delay) {
-    TObjPlayer::spawn_dead_spot(point, 2, delay, 7.5f);
+void TDeadSpot::spawn_kind2_scale7_5(const Vec *point, s32 delay) {
+    TDeadSpot::spawn(point, 2, delay, 7.5f);
 }
 
-void spawn_dead_spot_scale15(const Vec *point, s32 delay) {
-    TObjPlayer::spawn_dead_spot(point, 2, delay, 15.0f);
+void TDeadSpot::spawn_kind2_scale15(const Vec *point, s32 delay) {
+    TDeadSpot::spawn(point, 2, delay, 15.0f);
 }
 
-void TObjPlayer__sub_800D93C4(const Vec *point, s32 delay) {
-    TObjPlayer::spawn_dead_spot(point, 2, delay, 25.0f);
+void TDeadSpot::spawn_kind2_scale25(const Vec *point, s32 delay) {
+    TDeadSpot::spawn(point, 2, delay, 25.0f);
 }
 
 
@@ -292,12 +292,12 @@ void TObjPlayer__sub_800D93F0(const Vec *point, s32 selector, s32 delay, f32 max
     new TUnk_80494A10(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
 }
 
-void TObjPlayer::spawn_dead_spot(const Vec *point, s32 selector, s32 delay, f32 maxScale) {
+void TDeadSpot::spawn(const Vec *point, s32 selector, s32 delay, f32 maxScale) {
     new TDeadSpot(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
 }
 
 
-void TObjPlayer::destroy_static_lobby() {
+void TDeadSpot::free_resource() {
     if (player_corpse_mark_resource != NULL) {
         delete player_corpse_mark_resource;
         player_corpse_mark_resource = NULL;
@@ -305,7 +305,7 @@ void TObjPlayer::destroy_static_lobby() {
 }
 }
 
-void load_corpse_mark_resource(void) {
+void TDeadSpot::load_resource() {
     player_corpse_mark_resource = new BmlResource(1, &corpse_mark_resource_descriptor, 0, 0, NULL);
     player_particle_effect_enabled = 1;
 }

@@ -17,6 +17,6 @@ struct DragonAttackParams {
 LAYOUT_ASSERT(DragonAttackParamsSize, sizeof(DragonAttackParams) == 20);
 LAYOUT_ASSERT(DragonAttackParamsRadius, offsetof(DragonAttackParams, radius) == 8);
 LAYOUT_ASSERT(DragonAttackParamsContact, offsetof(DragonAttackParams, contact) == 12);
-extern "C" void TBoss1Dragon__sub_80027A80(DragonAttackParams *destination, const DragonAttackParams *source);
+extern "C" void copy_dragon_attack_params(DragonAttackParams *destination, const DragonAttackParams *source);
 
 #endif

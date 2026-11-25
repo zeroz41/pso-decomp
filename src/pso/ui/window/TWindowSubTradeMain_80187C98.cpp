@@ -7,10 +7,9 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
 
 
-void TWindowSubTradeMain::send_60_update() { bswap_6x6A_packet(); send_subcommand((u8 *)this); }
+void TWindowSubTradeMain::send_60_update() { bswap_6x6A_packet(); send_subcommand(this); }
 
 void TWindowSubTradeMain::bswap_6x6A_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
@@ -27,4 +26,3 @@ void *TObjGbAdvance::create(void *placement) {
     return new TObjGbAdvance(static_cast<TObject *>(tl_05), static_cast<ObjectSetData *>(placement));
 }
 
-}

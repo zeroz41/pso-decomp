@@ -4,15 +4,14 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// The weapon made by alloc_and_init_obj_effect (vtable 0x804F1EC8, labelled
-// ruby_bullet_weapon_vtable before; that name is inferred, not from a symbol).
-class TUnk_804F1EC8 : public TItemWeapon {
+// The Ruby Bullet weapon, made by weapon factory table entry 0xA3.
+class TItemWeaponRubyBullet : public TItemWeapon {
 public:
-    TUnk_804F1EC8(TObject *parent, u8 *item);
-    virtual ~TUnk_804F1EC8();
+    TItemWeaponRubyBullet(TObject *parent, u8 *item);
+    virtual ~TItemWeaponRubyBullet();
+    static TItem *create(u8 *item);
     virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
 };
 
-TItem *alloc_and_init_obj_effect(u8 *arg0);
 
 #endif

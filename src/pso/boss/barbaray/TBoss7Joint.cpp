@@ -53,7 +53,7 @@ void TBoss7Joint::update_body_colliders() {
 
 // The joint's one collision body (init_params copies it), then its class name.
 extern const CollisionBody boss7_joint_collision_body_desc = { { 0.0f, 0.0f, 0.0f }, 50.0f, 0.0f, 0, 0x8003 };
-const char *TBoss7Joint__name = "TBoss7Joint";
+const char *TBoss7Joint::name = "TBoss7Joint";
 
 void TBoss7Joint::store_position() {
     VecCopy(&body_center, &position);
@@ -94,14 +94,7 @@ TBoss7Joint::~TBoss7Joint() {
     clear_collision_bodies();
 }
 
-// The table init_params hands to TObjEneDD at +0x350; only its first word (225.0) is a float.
-struct Boss7JointParams {
-    f32 pad_0;
-    s32 pad_4;
-    s32 pad_8;
-    s32 pad_C[4];
-};
-Boss7JointParams boss7_joint_params = { 225.0f, 0, 0x600 };
+BossMovementParameters boss7_joint_params = { { 225.0f, 0.0f, 0x600 } };
 
 #pragma opt_common_subs off
 s32 TBoss7Joint::init_params() {
@@ -122,7 +115,7 @@ s32 TBoss7Joint::init_params() {
 }
 
 TBoss7Joint::TBoss7Joint(TObject *parent, u16 id, s16 set_index, Vec *position, s32 index) : TObjEneDD(parent) {
-    m_name = TBoss7Joint__name;
+    m_name = TBoss7Joint::name;
     init_common_from(static_cast<TObjBase *>(parent));
     entity_id = id;
     this->set_index = set_index;

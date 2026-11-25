@@ -18,7 +18,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/player/TUnk_804B08BC.h"
 #include "pso/object/container/TOContainerAncientEnemy.h"
 #include "pso/object/container/TOContainerAncientEnemyCommon.h"
@@ -86,20 +86,20 @@ const char *fe_obj_ex_box1_motion_names[1] = { NULL };
 AncientContainerBml bm_o_container_ancient_resource_bundle = { { ancient_container_model, ancient_container_fragment1_model, ancient_container_fragment2_model, NULL }, { ancient_container_bml, bm_o_container_ancient_resource_bundle.model_filenames, bm_o_container_ancient_motion_names, 3, 0 } };
 AncientContainerBml fe_obj_o_vs2container_resource_bundle = { { vs2_container_fragment1_model, vs2_container_fragment2_model, vs2_container_model, NULL }, { vs2_container_bml, fe_obj_o_vs2container_resource_bundle.model_filenames, fe_obj_o_vs2container_motion_names, 3, 0 } };
 AncientContainerBml fe_obj_ex_box1_resource_bundle = { { ep2_box_model, ep2_box_fragment1_model, ep2_box_fragment2_model, NULL }, { "fe_obj_ex_box1.bml", fe_obj_ex_box1_resource_bundle.model_filenames, fe_obj_ex_box1_motion_names, 3, 0 } };
-CollisionBody TOContainerAncientEnemy__collision_body_params = { { 0.0f, 6.5f, 0.0f }, 7.5f, 7.5f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f };
+CollisionBody container_ancient_enemy_collision_body_params = { { 0.0f, 6.5f, 0.0f }, 7.5f, 7.5f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f };
 
-const char *TOContainerAncientItemCommon__name = "TOContainerAncientItemCommon";
-const char *TOContainerAncientItemRare__name = "TOContainerAncientItemRare";
-const char *TOContainerAncientItemNone__name = "TOContainerAncientItemNone";
-const char *TOContainerAncientEnemy__name = "TOContainerAncientEnemy";
-const char *TOContainerAncientEnemyCommon__name = "TOContainerAncientEnemyCommon";
+const char *container_ancient_item_common_name = "TOContainerAncientItemCommon";
+const char *container_ancient_item_rare_name = "TOContainerAncientItemRare";
+const char *container_ancient_item_none_name = "TOContainerAncientItemNone";
+const char *container_ancient_enemy_name = "TOContainerAncientEnemy";
+const char *container_ancient_enemy_common_name = "TOContainerAncientEnemyCommon";
 const char *lbl_805D2F10 = "TOContainerAncientEnemyRare";
 
 // The three fragment texture lists of the current floor, loaded with the
 // archive (ancient_container_resource_bundle) by
 // TLanguage::load_container_fragment_textures. Both share one 8-aligned
 // .sbss block (0x805D58E8) that stays unclaimed until the bundle can be
-// defined here (see vfunc_79).
+// defined here (see spawn_break_effects).
 extern NJS_TEXLIST **ancient_container_fragment_texture_lists;
 
 static const TObjChipParams fish_break_debris_desc = {
@@ -147,23 +147,23 @@ void G_FloorEvent_6x67::send() {
     send_subcommand(this);
 }
 
-void TUnk_804B6C24::vfunc_6(s16 *, s32) {  }
+void TObjContainerCommon::vfunc_6(s16 *, s32) {  }
 
-TUnk_804B6C24::~TUnk_804B6C24() {
+TObjContainerCommon::~TObjContainerCommon() {
 }
 
-s32 TUnk_804B6C24::roll_physical_accuracy(void *, s32, f32) { return 1; }
+s32 TObjContainerCommon::roll_physical_accuracy(void *, s32, f32) { return 1; }
 
-s32 TUnk_804B6C24::try_start_action(s32, s32) { return 1; }
+s32 TObjContainerCommon::try_start_action(s32, s32) { return 1; }
 
-void TUnk_804B6C24::apply_knockback_from_attacker(u8 *, f32) {  }
+void TObjContainerCommon::apply_knockback_from_attacker(u8 *, f32) {  }
 
-f32 TUnk_804B6C24::receive_weapon_special_attack(void *, void *) {
+f32 TObjContainerCommon::receive_weapon_special_attack(void *, void *) {
     receive_physical_attack(NULL, lbl_805DB398);
     return lbl_805DB39C;
 }
 
-int TUnk_804B6C24::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
+int TObjContainerCommon::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
 extern BmlResource *ancient_container_resource_bundle;
 
@@ -228,14 +228,14 @@ void free_ancient_container_resources(void) {
 
 #pragma pop
 
-TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TUnk_804B6C24(tl_05, set_data) {
+TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TObjContainerCommon(tl_05, set_data) {
     mode = 0;
     actorFlags |= 0x60000000U;
-    init_collision_body_parts(this, &TOContainerAncientEnemy__collision_body_params, 1);
+    init_collision_body_parts(this, &container_ancient_enemy_collision_body_params, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
+    center.y += container_ancient_enemy_collision_body_params.offset.y;
     model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
     texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
 }
@@ -245,7 +245,7 @@ TUnk_804B08BC::~TUnk_804B08BC() {
     free_collision_body_parts(this);
 }
 
-void TUnk_804B08BC::vfunc_80() {
+void TUnk_804B08BC::update_state() {
     switch (this->mode) {
     case 0:
         if (this->in_view != 0) {
@@ -255,7 +255,7 @@ void TUnk_804B08BC::vfunc_80() {
     }
 }
 
-void TUnk_804B08BC::vfunc_81() {
+void TUnk_804B08BC::draw_model() {
     NJS_OBJECT *obj;
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
@@ -289,7 +289,7 @@ void TUnk_804B08BC::vfunc_81() {
     }
 }
 
-void TUnk_804B08BC::vfunc_79() const {
+void TUnk_804B08BC::spawn_break_effects() const {
     if (this->mode == 1) {
         return;
     }
@@ -307,7 +307,7 @@ void TUnk_804B08BC::vfunc_79() const {
     b.floor_y = b.pos.y;
     b.model = get_bml_model(ancient_container_resource_bundle, 2);
     b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
-    if (check_value_equals(TOContainerAncientItemRare__name) != 0) {
+    if (check_value_equals(container_ancient_item_rare_name) != 0) {
         a.textures = ancient_container_fragment_texture_lists[1];
         b.textures = ancient_container_fragment_texture_lists[2];
     }
@@ -319,7 +319,7 @@ void TUnk_804B08BC::vfunc_79() const {
 }
 
 TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TUnk_804B08BC(set_data) {
-    m_name = TOContainerAncientItemCommon__name;
+    m_name = container_ancient_item_common_name;
 }
 
 TOContainerAncientItemCommon::~TOContainerAncientItemCommon() {
@@ -335,7 +335,7 @@ void *TOContainerAncientItemCommon::create(void *set_data) {
 void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
-            this->vfunc_79();
+            this->spawn_break_effects();
             request_configured_item_drop(this);
         }
         this->mode = 1;
@@ -345,7 +345,7 @@ void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TUnk_804B08BC(set_data) {
-    m_name = TOContainerAncientItemRare__name;
+    m_name = container_ancient_item_rare_name;
     texlist = ancient_container_fragment_texture_lists[0];
 }
 
@@ -355,7 +355,7 @@ TOContainerAncientItemRare::~TOContainerAncientItemRare() {
 void TOContainerAncientItemRare::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
-            this->vfunc_79();
+            this->spawn_break_effects();
             request_box_item_drop(&position, 1);
         }
         this->mode = 1;
@@ -365,7 +365,7 @@ void TOContainerAncientItemRare::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TOContainerAncientItemNone::TOContainerAncientItemNone(void *set_data) : TOContainerAncientItemRare(set_data) {
-    m_name = TOContainerAncientItemNone__name;
+    m_name = container_ancient_item_none_name;
 }
 
 TOContainerAncientItemNone::~TOContainerAncientItemNone() {
@@ -378,7 +378,7 @@ void *TOContainerAncientItemNone::create(void *set_data) {
 void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
-            this->vfunc_79();
+            this->spawn_break_effects();
         }
         this->mode = 1;
         set_flag8();
@@ -386,15 +386,15 @@ void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
     }
 }
 
-TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TUnk_804B6C24(tl_05, set_data) {
-    m_name = TOContainerAncientEnemy__name;
+TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainerCommon(tl_05, set_data) {
+    m_name = container_ancient_enemy_name;
     mode = 0;
     actorFlags |= 0x60000000U;
-    init_collision_body_parts(this, &TOContainerAncientEnemy__collision_body_params, 1);
+    init_collision_body_parts(this, &container_ancient_enemy_collision_body_params, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
+    center.y += container_ancient_enemy_collision_body_params.offset.y;
     model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
     texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
 }
@@ -404,7 +404,7 @@ TOContainerAncientEnemy::~TOContainerAncientEnemy() {
     free_collision_body_parts(this);
 }
 
-void TOContainerAncientEnemy::vfunc_80() {
+void TOContainerAncientEnemy::update_state() {
     switch (this->mode) {
     case 0:
         if (this->in_view != 0) {
@@ -414,7 +414,7 @@ void TOContainerAncientEnemy::vfunc_80() {
     }
 }
 
-void TOContainerAncientEnemy::vfunc_81() {
+void TOContainerAncientEnemy::draw_model() {
     NJS_OBJECT *obj;
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
@@ -472,7 +472,7 @@ f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
     return lbl_805DB39C;
 }
 
-void TOContainerAncientEnemy::vfunc_79() const {
+void TOContainerAncientEnemy::spawn_break_effects() const {
     if (this->mode != 1) {
         TObjChipParams a = ancient_enemy_break_debris_desc;
         a.pos.x = this->position.x;
@@ -503,7 +503,7 @@ void TOContainerAncientEnemy::vfunc_79() const {
 void TOContainerAncientEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
-            this->vfunc_79();
+            this->spawn_break_effects();
         }
         this->mode = 1;
         set_flag8();
@@ -512,7 +512,7 @@ void TOContainerAncientEnemy::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TOContainerAncientEnemyCommon::TOContainerAncientEnemyCommon(void *set_data) : TOContainerAncientEnemy(set_data) {
-    m_name = TOContainerAncientEnemyCommon__name;
+    m_name = container_ancient_enemy_common_name;
 }
 
 TOContainerAncientEnemyCommon::~TOContainerAncientEnemyCommon() {

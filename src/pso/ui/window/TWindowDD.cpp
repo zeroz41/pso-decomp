@@ -78,7 +78,6 @@ extern const f32 lbl_805DFC24 = 50040.0f;
 extern const f32 lbl_805DFC28 = 50037.0f;
 extern const f32 lbl_805DFC2C = 50040.0f;
 
-extern "C" {
 
 void TWindowDD::reset_entries(f32 v, s32) {
     E_803403F8 *p = (E_803403F8 *)this;
@@ -95,7 +94,6 @@ void TWindowDD::reset_entries(f32 v, s32) {
 }
 
 void TWindowDD::set_quad_corners_scaled(f32 x, f32 y, f32 farg2) {
-    u8 *arg0 = (u8 *)this;
   f32 temp_f0;
   f32 temp_f1;
   f32 temp_f1_2;
@@ -111,39 +109,38 @@ void TWindowDD::set_quad_corners_scaled(f32 x, f32 y, f32 farg2) {
   temp_f4 = x + farg2;
   temp_f8 = TWindowDD__data_805DFB18 * x;
   temp_f7 = TWindowDD__data_805DFB18 * y;
-  *((f32 *) (((s8 *) arg0) + 0)) = temp_f8;
+  *((f32 *) (((s8 *) this) + 0)) = temp_f8;
   temp_f5 = TWindowDD__data_805DFB18 * (TWindowDD__data_805DFB20 + y);
   new_var4 = TWindowDD__data_805DFB18 * temp_f4;
-  *((f32 *) (((s8 *) arg0) + 4)) = temp_f7;
+  *((f32 *) (((s8 *) this) + 4)) = temp_f7;
   temp_f1 = 48.0f + x;
   temp_f2 = new_var4;
-  *((f32 *) (((s8 *) arg0) + 8)) = temp_f8;
+  *((f32 *) (((s8 *) this) + 8)) = temp_f8;
   temp_f1_2 = TWindowDD__data_805DFB18 * temp_f1;
-  *((f32 *) (((s8 *) arg0) + 0xC)) = temp_f5;
+  *((f32 *) (((s8 *) this) + 0xC)) = temp_f5;
   temp_f0 = temp_f1;
   temp_f0 = TWindowDD__data_805DFB18 * (temp_f0 - farg2);
-  new_var2 = ((s8 *) arg0) + 0x28;
-  *((f32 *) (((s8 *) arg0) + 0x10)) = temp_f2;
-  *((f32 *) (((s8 *) arg0) + 0x14)) = temp_f7;
-  *((f32 *) (((s8 *) arg0) + 0x18)) = temp_f2;
-  *((f32 *) (((s8 *) arg0) + 0x1C)) = temp_f5;
-  *((f32 *) (((s8 *) arg0) + 0x20)) = temp_f0;
-  *((f32 *) (((s8 *) arg0) + 0x24)) = temp_f7;
+  new_var2 = ((s8 *) this) + 0x28;
+  *((f32 *) (((s8 *) this) + 0x10)) = temp_f2;
+  *((f32 *) (((s8 *) this) + 0x14)) = temp_f7;
+  *((f32 *) (((s8 *) this) + 0x18)) = temp_f2;
+  *((f32 *) (((s8 *) this) + 0x1C)) = temp_f5;
+  *((f32 *) (((s8 *) this) + 0x20)) = temp_f0;
+  *((f32 *) (((s8 *) this) + 0x24)) = temp_f7;
   new_var3 = 0x30;
   *((f32 *) new_var2) = temp_f0;
-  *((f32 *) (((s8 *) arg0) + 0x2C)) = temp_f5;
-  *((f32 *) (((s8 *) arg0) + new_var3)) = temp_f1_2;
-  *((f32 *) (((s8 *) arg0) + 0x34)) = temp_f7;
-  new_var = ((s8 *) arg0) + 0x38;
+  *((f32 *) (((s8 *) this) + 0x2C)) = temp_f5;
+  *((f32 *) (((s8 *) this) + new_var3)) = temp_f1_2;
+  *((f32 *) (((s8 *) this) + 0x34)) = temp_f7;
+  new_var = ((s8 *) this) + 0x38;
   *((f32 *) new_var) = temp_f1_2;
-  *((f32 *) (((s8 *) arg0) + 0x3C)) = temp_f5;
+  *((f32 *) (((s8 *) this) + 0x3C)) = temp_f5;
 }
 
 #pragma push
 #pragma opt_dead_assignments off
 s32 TWindowDD::apply_both_choices(s32 arg0, saddr buttons) {
   return test_buttons_press_or_repeat(&controller_input_state.controllers[0], buttons, 6, 1) | test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
-}
 }
 #pragma pop
 

@@ -31,8 +31,6 @@
 CharacterCreationEffects lbl_8051C070;
 char character_creation_name_buffer[0x18];
 CharacterAppearanceFields character_creation_visual_record;
-extern "C" {
-}
 BmlResource *creation_menu_main_obj;
 int creation_dressing_room_mode_flag;
 

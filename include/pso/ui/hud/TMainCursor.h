@@ -114,8 +114,6 @@ struct TMainCursor : public TObject {
     s32 get_actor_include_mask();
     static void store_sorted_record(void* p, void* a1, void* a2);
     void init_slot(s32 i);
-    void update_pair();
-    void update_cursor_pair();
     s32 test_button(s32 arg1, u16 arg2);
     void set_flag_bit(s32 arg1, u16 arg2);
     static s32 find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s32 arg4);

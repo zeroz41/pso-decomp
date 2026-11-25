@@ -38,11 +38,11 @@ static const char *bm_fs_obj_zombie_con_motion_names[1] = { NULL };
 static BmlResourceDescriptor bm_fs_obj_zombie_con_resource_descriptor = {
     "bm_fs_obj_zombie_con.bml", bm_fs_obj_zombie_con_model_names, bm_fs_obj_zombie_con_motion_names, 1, 0,
 };
-static CollisionBody TOCtrlDubchik__collision_body = { { 0.0f, 0.0f, 0.0f }, 5.0f, 0.0f, 0, 0x8005, { 0.0f, 0.0f, 0.0f }, 0.0f };
-static const char *TOCtrlDubchik__name = "TOCtrlDubchik";
+static CollisionBody ctrl_dubchik_collision_body = { { 0.0f, 0.0f, 0.0f }, 5.0f, 0.0f, 0, 0x8005, { 0.0f, 0.0f, 0.0f }, 0.0f };
+static const char *ctrl_dubchik_name = "TOCtrlDubchik";
 
 // The switch's loaded BML resource (load_shared_resource loads it).
-BmlResource *TOCtrlDubchik__shared_resource;
+BmlResource *ctrl_dubchik_shared_resource;
 
 void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
 
@@ -75,12 +75,12 @@ s32 TOCtrlDubchik::select_melee_contact_body(void *source, f32 factor) {
 }
 
 TOCtrlDubchik::TOCtrlDubchik(TObject *parent, void *set_data) : TObjEnemy(parent) {
-    m_name = TOCtrlDubchik__name;
+    m_name = ctrl_dubchik_name;
     apply_set_data(set_data);
     init_position_vectors();
-    model = TOCtrlDubchik__shared_resource->models[0].model;
-    texlist = TOCtrlDubchik__shared_resource->models[0].texlist;
-    init_collision_body_parts(this, &TOCtrlDubchik__collision_body, 1);
+    model = ctrl_dubchik_shared_resource->models[0].model;
+    texlist = ctrl_dubchik_shared_resource->models[0].texlist;
+    init_collision_body_parts(this, &ctrl_dubchik_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     set_indexed_flags(0, 0x08000000);
@@ -104,13 +104,13 @@ TOCtrlDubchik::~TOCtrlDubchik() {
 }
 
 void TOCtrlDubchik::load_shared_resource() {
-    TOCtrlDubchik__shared_resource = new BmlResource(1, &bm_fs_obj_zombie_con_resource_descriptor, 0, 0, NULL);
+    ctrl_dubchik_shared_resource = new BmlResource(1, &bm_fs_obj_zombie_con_resource_descriptor, 0, 0, NULL);
 }
 
 void TOCtrlDubchik::destroy_instance() {
-    if (TOCtrlDubchik__shared_resource != NULL) {
-        delete TOCtrlDubchik__shared_resource;
-        TOCtrlDubchik__shared_resource = NULL;
+    if (ctrl_dubchik_shared_resource != NULL) {
+        delete ctrl_dubchik_shared_resource;
+        ctrl_dubchik_shared_resource = NULL;
     }
 }
 
@@ -225,7 +225,7 @@ void TOCtrlDubchik::update_waiting() {
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEnemy *)TObjPlayer::get_player_data(i);
         if (p != NULL && p != this && p->test_actor_flags(0x800) != 0 &&
-            reinterpret_cast<TObject *>(p)->check_value_equals(TObjEneDubchik__class_name) != 0 &&
+            reinterpret_cast<TObject *>(p)->check_value_equals(dubchik_class_name) != 0 &&
             p->variant == 0 && room == p->room) {
             mode = 1;
         }
@@ -306,7 +306,7 @@ void TOCtrlDubchik::kill_room_dubchiks() {
     }
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEnemy *)TObjPlayer::get_player_data(i);
-        if (p != NULL && p != this && p->check_value_equals(TObjEneDubchik__class_name) != 0 &&
+        if (p != NULL && p != this && p->check_value_equals(dubchik_class_name) != 0 &&
             p->variant == 0 && room == p->room) {
             ((TObjEneDubchik *)p)->start_dying();
         }

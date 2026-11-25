@@ -4,5 +4,5 @@
 
 void TWindowHelpItem::set_scale(f32 x, f32 y) { scale_x = x; scale_y = y; }
 
-    extern int lbl_80513D68[];
-int TLobby__sub_8021B274(int base) {  return lbl_80513D68[base]; }
+    extern int shop_stock_counts[];
+int TLobby__sub_8021B274(int base) {  return shop_stock_counts[base]; }

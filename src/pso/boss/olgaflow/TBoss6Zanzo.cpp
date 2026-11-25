@@ -13,7 +13,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-const char *TBoss6Zanzo__name = "TBoss6Zanzo";
+const char *TBoss6Zanzo::name = "TBoss6Zanzo";
 
 extern "C" {
 
@@ -27,7 +27,7 @@ void TBoss6Zanzo::set_effect_points(const Vec *points, const u32 *colors) {
     end = p + point_count;
     for (; p < end; ++p, ++a2, ++b2) {
         VecCopy(&p->position, a2);
-        copy4(&p->color, (void *)b2);
+        copy4(&p->color, b2);
     }
 }
 
@@ -41,13 +41,13 @@ void TBoss6Zanzo::copy_trail_buffer(Boss6TrailFrame *dest, Boss6TrailFrame *sour
         dst = dest->points;
         end = dst + count;
         src = source->points;
-        for (; dst < end; ++dst, ++src) TBoss6Zanzo__sub_803205A0(dst, src);
+        for (; dst < end; ++dst, ++src) copy_boss6_trail_point(dst, src);
     }
 }
 
 #pragma push
 #pragma scheduling off
-void TBoss6Zanzo__sub_803205A0(Boss6TrailPoint *dest, const Boss6TrailPoint *source) {
+void copy_boss6_trail_point(Boss6TrailPoint *dest, const Boss6TrailPoint *source) {
     *dest = *source;
 }
 #pragma pop
@@ -91,25 +91,25 @@ void TBoss6Zanzo::sub_803205C4() {
             for (i = 0; i < point_count - 1; i++) {
                 {
                     Boss6TrailPoint *p = &prev->points[i];
-                    copy4(&colors[0], (void *)&p->color);
+                    copy4(&colors[0], &p->color);
                     ((u8 *)colors)[3] = prev_alpha * ((const u8 *)&p->color)[3];
                     VecCopy(&positions[0], &p->position);
                 }
                 {
                     Boss6TrailPoint *p = prev->points + i + 1;
-                    copy4(&colors[1], (void *)&p->color);
+                    copy4(&colors[1], &p->color);
                     ((u8 *)colors)[7] = prev_alpha * ((const u8 *)&p->color)[3];
                     VecCopy(&positions[1], &p->position);
                 }
                 {
                     Boss6TrailPoint *p = frame->points + i + 1;
-                    copy4(&colors[2], (void *)&p->color);
+                    copy4(&colors[2], &p->color);
                     ((u8 *)colors)[11] = next_alpha * ((const u8 *)&p->color)[3];
                     VecCopy(&positions[2], &p->position);
                 }
                 {
                     Boss6TrailPoint *p = &frame->points[i];
-                    copy4(&colors[3], (void *)&p->color);
+                    copy4(&colors[3], &p->color);
                     ((u8 *)colors)[15] = next_alpha * ((const u8 *)&p->color)[3];
                     VecCopy(&positions[3], &p->position);
                 }
@@ -152,7 +152,7 @@ TBoss6Zanzo::~TBoss6Zanzo() {
 TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 points, s32 trail_length) : TObject(object) {
     Boss6TrailFrame *p;
     Boss6TrailFrame *end;
-    m_name = TBoss6Zanzo__name;
+    m_name = TBoss6Zanzo::name;
     point_count = points;
     if (point_count < 2) point_count = 2;
     frame_count = trail_length;

@@ -6,9 +6,9 @@
 extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 s32 get_previous_main_phase(void);
-void TKeyBoardControl__sub_8000F90C(s32 phase);
+void set_fallback_main_phase(s32 phase);
 void set_queued_main_phase(s32 phase);
-s32 TKeyBoardControl__sub_8000F92C(void);
+s32 switch_to_fallback_main_phase(void);
 void TKeyBoardControl__sub_8000F950(void);
 void TKeyBoardControl__sub_8000F95C(void);
 void request_main_phase(s32 phase);

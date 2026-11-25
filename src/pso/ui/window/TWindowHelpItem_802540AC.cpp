@@ -230,7 +230,6 @@ void update_requirements__15TWindowHelpItemFv(Help_80254CE4 *self);
 void update_stat_comparison__15TWindowHelpItemFv(Help_802549B0 *self);
 extern "C" void TWindowHelpItem__vt0(HelpItem_802551C4 *self);
 extern "C" void TWindowHelpItem__vt3(HelpItem_8025500C *self);
-extern "C" void set_percentage_rows__15TWindowHelpItemFPvPvi(void *self, Op_802544D8 *ops, EntryFn_802544D8 fn);
 extern "C" u8 lbl_8044EDD8[];
 extern "C" u8 lbl_8044EDE0[];
 extern "C" u8 lbl_8044EDE8[];
@@ -246,7 +245,7 @@ extern "C" u8 lbl_805DCDD0[];
 extern "C" u8 lbl_805DCDD4[];
 extern "C" u8 lbl_805DCDD8[];
 extern "C" u8 lbl_805DCDDC[];
-void *TWindowHelpItem__item_layout_entries[67] = {
+void *TWindowHelpItem::item_layout_entries[67] = {
     (void *)0xc, (void *)0x1, (void *)0xb, (void *)0x0,
     (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
     (void *)0xb, (void *)0x0, (void *)0x42200000, (void *)0xb,
@@ -272,7 +271,7 @@ void *lbl_804CF24C[17] = {
     (void *)0x0, (void *)0x42700000, (void *)0xb, (void *)0x0,
     (void *)0x42a00000,
 };
-void *TWindowHelpItem__resistance_layout_entries[31] = {
+void *TWindowHelpItem::resistance_layout_entries[31] = {
     (void *)0x7, (void *)0x1, (void *)0xb, (void *)0x0,
     (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
     (void *)0xb, (void *)0x0, (void *)0x42200000, (void *)0xb,
@@ -350,7 +349,7 @@ void *help_item_tech_disk_window_layout_table[56] = {
     (void *)0x0, (void *)0x3, (void *)0x43500000, (void *)0x42f80000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)&lbl_805DCDD0,
 };
-void *TWindowHelpItem__description_text_layout[9] = {
+void *TWindowHelpItem::description_text_layout[9] = {
     (void *)0x1, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0,
@@ -450,11 +449,11 @@ void TWindowHelpItem::update_stat_disp() {
 
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
-        a = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(0));
-        b = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(1));
-        c = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(2));
-        d = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(3));
-        e = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(4));
+        a = reinterpret_cast<saddr>(this->get_array_entry(0));
+        b = reinterpret_cast<saddr>(this->get_array_entry(1));
+        c = reinterpret_cast<saddr>(this->get_array_entry(2));
+        d = reinterpret_cast<saddr>(this->get_array_entry(3));
+        e = reinterpret_cast<saddr>(this->get_array_entry(4));
         if (this->m_70 != 0) {
             if (check_equip_requirements((void *)player, (TItemData *)this->m_70, &requirement) != 0) {
                 TWindowHelpItem::set_flag_0x10((u16 *)a, 1);
@@ -487,7 +486,7 @@ void TWindowHelpItem::update_resistance_rows(void *window_base) {
     if (pl != 0) {
         init_window_layout_entries(
             reinterpret_cast<WindowLayoutEntries *>(self->disp),
-            reinterpret_cast<const void *>(TWindowHelpItem__resistance_layout_entries),
+            reinterpret_cast<const void *>(TWindowHelpItem::resistance_layout_entries),
             self->player);
         self->pos = item_help_resistance_stat_callback;
         a = reinterpret_cast<saddr>(((TWindowBase *)self)->get_array_entry(0));
@@ -800,14 +799,14 @@ void TWindowHelpItem::init_help_texts() {
 
     init_window_layout_entries(
         reinterpret_cast<WindowLayoutEntries *>((void *) ((u8 *) this + 0x24)),
-        reinterpret_cast<const void *>(TWindowHelpItem__item_layout_entries),
+        reinterpret_cast<const void *>(TWindowHelpItem::item_layout_entries),
         this->client_index);
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(0));
-    temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(1));
-    temp_r29 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(2));
-    temp_r28 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(3));
-    temp_r27 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(4));
-    temp_r26 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(5));
+    temp_r31 = reinterpret_cast<saddr>(this->get_array_entry(0));
+    temp_r30 = reinterpret_cast<saddr>(this->get_array_entry(1));
+    temp_r29 = reinterpret_cast<saddr>(this->get_array_entry(2));
+    temp_r28 = reinterpret_cast<saddr>(this->get_array_entry(3));
+    temp_r27 = reinterpret_cast<saddr>(this->get_array_entry(4));
+    temp_r26 = reinterpret_cast<saddr>(this->get_array_entry(5));
     ((TWindowHelpItem *)temp_r31)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x83)));
     ((TWindowHelpItem *)temp_r30)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x84)));
     ((TWindowHelpItem *)temp_r29)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x85)));

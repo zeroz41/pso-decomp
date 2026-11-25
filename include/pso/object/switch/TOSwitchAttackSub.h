@@ -4,11 +4,13 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+class TParticleCtrl;
+
 class TOSwitchAttackSub : public TObject {
 public:
     u16 stopSwitchId;
     u16 requiredSwitchId;
-    void* particle;
+    TParticleCtrl *particle;  // the effect it keeps alive
     Vec position;
 
     TOSwitchAttackSub(TObject *parent, s32 stop_switch, s32 required_switch, u32 type, f32 scale);

@@ -2,6 +2,7 @@
 #define PSO_BOSS_VOLOPT_TBOSS3VOLOPT_H
 
 #include "types.h"
+#include "pso/network/protocol/protocol_types.h"
 #include <dolphin/mtx.h>
 #include "pso/enemy/TObjEnemyCustom.h"
 
@@ -16,9 +17,7 @@ struct VoloptPhase2Message;
 // The 6x15 Vol Opt boss action message: action selects what the part with the
 // matching id does (see handle_6x15_vol_opt_boss_actions).
 struct TBoss3VoloptActionPacket {
-    u8 command;
-    u8 size;
-    u16 id;
+    G_EntityIDHeader header;
     s16 action;
     u16 target_id;
     s16 param;
@@ -31,9 +30,7 @@ struct TBoss3VoloptActionPacket {
 
 // The 6x16 message: the shuffled P01 order and how many of them to make primary.
 struct TBoss3VoloptTargetsPacket {
-    u8 command;
-    u8 size;
-    u16 id;
+    G_EntityIDHeader header;
     s8 order[6];
     s16 count;
 
@@ -44,9 +41,7 @@ struct TBoss3VoloptTargetsPacket {
 
 // The 6x84 message: the 6x16 targets plus the technique the primary P01s cast.
 struct TBoss3VoloptAttackPacket {
-    u8 command;
-    u8 size;
-    u16 id;
+    G_EntityIDHeader header;
     s8 order[6];
     s16 count;
     s16 tech;
@@ -59,9 +54,7 @@ struct TBoss3VoloptAttackPacket {
 
 // The 6x17 message: moves the entity id to pos facing rotation_y.
 struct TBoss3VoloptPositionPacket {
-    u8 command;
-    u8 size;
-    u16 id;
+    G_EntityIDHeader header;
     Vec pos;
     s32 rotation_y;
 
@@ -166,5 +159,15 @@ extern s32 volopt_resources_loaded;
 extern s32 boss3_volopt_cage_flag;
 extern s32 volopt_p01_tech;
 extern Vec boss3_volopt_spawn_pos;
+
+// Camera offsets for the follow camera, from TLobby's shared parameter tables.
+struct VoloptCameraParams {
+    f32 target_z;
+    f32 target_y;
+    f32 position_z;
+    f32 position_y;
+    u8 pad_10[0x8];
+    s32 enabled;
+};
 
 #endif

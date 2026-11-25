@@ -89,14 +89,13 @@ const NJS_POINT2 window_layout_position_table[92] = {
 
 const char *TWindowMainMenu1P__name = "TWindowMainMenu1P";
 
-extern "C" {
 
 #pragma fp_contract on
 void TWindowMainMenu1P::update_backdrop_transition() {
   f32 temp_f1;
   s32 temp_r3;
   s32 temp_r3_2;
-  temp_r3 = m_4c;
+  temp_r3 = menu_flags;
   if (!(temp_r3 & 1))
   {
     m_60 = (u8) ((m_60) - 1);
@@ -111,10 +110,10 @@ void TWindowMainMenu1P::update_backdrop_transition() {
     }
     if ((((s8) (m_60)) == 0) && (((s8) (m_61)) == 0))
     {
-      temp_r3_2 = m_4c;
+      temp_r3_2 = menu_flags;
       if (temp_r3_2 & 2)
       {
-        m_4c = (s32) (temp_r3_2 & 0xFFFFFFFD);
+        menu_flags = (s32) (temp_r3_2 & 0xFFFFFFFD);
         end_view_override();
       }
     }
@@ -158,7 +157,7 @@ void TWindowMainMenu1P::update_backdrop_transition() {
     backdrop.pad_40[0] = backdrop.pad_40[1];
   }
   backdrop.pad_40[1] = (f32) (0.85f * (backdrop.pad_40[0]));
-  if ((m_4c) & 2)
+  if ((menu_flags) & 2)
   {
     backdrop.apply_if_overridden();
   }
@@ -168,7 +167,7 @@ void TWindowMainMenu1P::render() {  }
 void TWindowMainMenu1P::run_task() { handle_menu_selection(); sub_80263FE0(); update_backdrop_transition(); }
 
 TWindowMainMenu1P::~TWindowMainMenu1P() {
-    if (m_4c & 2) {
+    if (menu_flags & 2) {
         end_view_override();
     }
 }
@@ -189,4 +188,3 @@ TWindowMainMenu1P::TWindowMainMenu1P(TObject *parent, s32 client) : TWindowMainM
     backdrop.pad_40[1] = 0.85f;
 }
 
-}

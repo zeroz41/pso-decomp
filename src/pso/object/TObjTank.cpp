@@ -25,19 +25,19 @@ const char *fs_obj_tank_motion_names[1] = { NULL };
 BmlResourceDescriptor fs_obj_tank_resource_descriptor = {
     "fs_obj_tank.bml", fs_obj_tank_model_names, fs_obj_tank_motion_names, 1, 0
 };
-const char *TObjTank__class_name = "TObjTank";
+const char *tank_class_name = "TObjTank";
 
 CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 extern "C" {
 BmlResource *tank_bml_resource;
-NJS_TEXLIST *TObjTank__texture_list;
+NJS_TEXLIST *tank_texture_list;
 s32 init_collision_body_parts(void *, void *, int);
 s32 free_collision_body_parts(void *);
 
 void TObjTank::render() {
     NJS_TEXLIST *textures;
-    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (textures = TObjTank__texture_list)) {
+    if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (textures = tank_texture_list)) {
         TObjFish::set_global_param(textures);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -58,7 +58,7 @@ TObjTank::~TObjTank() {
 
 #define arg0 ((u8 *)this)
 TObjTank::TObjTank(TObject *parent, saddr arg2) : TObjCollidable(parent) {
-    *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjTank__class_name;
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) tank_class_name;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));
@@ -73,10 +73,10 @@ void *TObjTank::create(void *set_data) {
 }
 
 void TObjTank::free_globals() {
-    if (TObjTank__texture_list != NULL) {
-        release_texture_list(TObjTank__texture_list);
-        safe_free(TObjTank__texture_list);
-        TObjTank__texture_list = NULL;
+    if (tank_texture_list != NULL) {
+        release_texture_list(tank_texture_list);
+        safe_free(tank_texture_list);
+        tank_texture_list = NULL;
     }
     if (tank_bml_resource != NULL) {
         delete (BmlResource *)tank_bml_resource;
@@ -86,6 +86,6 @@ void TObjTank::free_globals() {
 void TObjTank::load_globals() {
     BmlResource *storage = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tank_resource_descriptor, 0, 0, NULL);
     tank_bml_resource = storage;
-    TObjTank__texture_list = LoadPvmFileTls("fs_obj_tank.GVM");
+    tank_texture_list = LoadPvmFileTls("fs_obj_tank.GVM");
 }
 

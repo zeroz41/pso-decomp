@@ -126,7 +126,7 @@ struct G_AttackFinished_Header_6x46 {
 struct G_Attack_6x43_6x44_6x45 {
  struct G_ClientIDHeader header;
  u16 angle_y;
- s16 action_type; // the receiver passes it to the attack state's set_action_type
+ s16 action_type; // the receiver passes it to the attack state's set_attack_kind
 };
 
 // The three stages of a physical attack combo (6x43, then 6x44, then 6x45),
@@ -371,12 +371,17 @@ struct G_DragonBossActions_6x10_6x11 {
  s16 state;
  s16 action_index;
  u32 target_id;
+ void bswap_6x10();
+ void bswap_6x11();
 };
 
 struct G_DragonBossActions_6x12 {
  G_DragonBossActions_6x10_6x11 action;
  f32 x;
  f32 z;
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_DropItem_6x2A {

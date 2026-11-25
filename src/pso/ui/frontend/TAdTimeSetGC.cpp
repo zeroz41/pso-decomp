@@ -72,30 +72,30 @@ static const f32 time_set_calendar_pos[2] = {
 };
 static TAdTimeSetGCState time_set_state_table[25] = {
     {&TAdTimeSetGC::rebuild_and_maybe_close, &TAdTimeSetGC::report_card_status},
-    {&TAdTimeSetGC::sub_802E3038, &TAdTimeSetGC::ensure_system_file_loaded},
-    {&TAdTimeSetGC::sub_802E2FEC, &TAdTimeSetGC::sub_802E2F88},
-    {&TAdTimeSetGC::sub_802E2F68, &TAdTimeSetGC::ensure_player_loaded},
-    {&TAdTimeSetGC::sub_802E2F20, &TAdTimeSetGC::reset_on_load_complete},
+    {&TAdTimeSetGC::enter_state_1, &TAdTimeSetGC::ensure_system_file_loaded},
+    {&TAdTimeSetGC::enter_state_2, &TAdTimeSetGC::run_state_2},
+    {&TAdTimeSetGC::enter_state_3, &TAdTimeSetGC::ensure_player_loaded},
+    {&TAdTimeSetGC::enter_state_4, &TAdTimeSetGC::reset_on_load_complete},
     {&TAdTimeSetGC::open_char_select, &TAdTimeSetGC::handle_confirm_menu},
     {&TAdTimeSetGC::close_and_next_cancel, &TAdTimeSetGC::update_load_state},
     {&TAdTimeSetGC::arm_load_countdown, &TAdTimeSetGC::update_load_countdown},
-    {&TAdTimeSetGC::close_scene, &TAdTimeSetGC::sub_802E2BD4},
+    {&TAdTimeSetGC::close_scene, &TAdTimeSetGC::run_state_8},
     {&TAdTimeSetGC::arm_char_delete_timer, &TAdTimeSetGC::update_timer},
-    {&TAdTimeSetGC::sub_802E2AD4, &TAdTimeSetGC::advance_when_load_done},
+    {&TAdTimeSetGC::enter_state_10, &TAdTimeSetGC::advance_when_load_done},
     {&TAdTimeSetGC::arm_guildcard_delete_timer, &TAdTimeSetGC::update_char_timer},
-    {&TAdTimeSetGC::init_screen, &TAdTimeSetGC::sub_802E289C},
-    {&TAdTimeSetGC::sub_802E2848, &TAdTimeSetGC::update_close_timer},
-    {&TAdTimeSetGC::sub_802E2728, &TAdTimeSetGC::try_setup},
+    {&TAdTimeSetGC::init_screen, &TAdTimeSetGC::run_state_12},
+    {&TAdTimeSetGC::enter_state_13, &TAdTimeSetGC::update_close_timer},
+    {&TAdTimeSetGC::enter_state_14, &TAdTimeSetGC::try_setup},
     {NULL, &TAdTimeSetGC::update_close_on_load},
-    {&TAdTimeSetGC::sub_802E2610, &TAdTimeSetGC::sub_802E2588},
-    {&TAdTimeSetGC::sub_802E2520, &TAdTimeSetGC::sub_802E24B8},
-    {&TAdTimeSetGC::sub_802E2450, &TAdTimeSetGC::sub_802E24B8},
-    {&TAdTimeSetGC::sub_802E23E8, &TAdTimeSetGC::sub_802E22A4},
-    {&TAdTimeSetGC::init_menu_window, &TAdTimeSetGC::sub_802E22A4},
-    {&TAdTimeSetGC::build_selection_summary, &TAdTimeSetGC::sub_802E22A4},
+    {&TAdTimeSetGC::enter_state_16, &TAdTimeSetGC::run_state_16},
+    {&TAdTimeSetGC::enter_state_17, &TAdTimeSetGC::run_states_17_18},
+    {&TAdTimeSetGC::enter_state_18, &TAdTimeSetGC::run_states_17_18},
+    {&TAdTimeSetGC::enter_state_19, &TAdTimeSetGC::run_states_19_21},
+    {&TAdTimeSetGC::init_menu_window, &TAdTimeSetGC::run_states_19_21},
+    {&TAdTimeSetGC::build_selection_summary, &TAdTimeSetGC::run_states_19_21},
     {&TAdTimeSetGC::create_result_bg, &TAdTimeSetGC::sub_802E2158},
-    {&TAdTimeSetGC::show_confirm_dialog, &TAdTimeSetGC::sub_802E1FAC},
-    {&TAdTimeSetGC::sub_802E1F8C, &TAdTimeSetGC::update_state},
+    {&TAdTimeSetGC::show_confirm_dialog, &TAdTimeSetGC::run_state_23},
+    {&TAdTimeSetGC::enter_state_24, &TAdTimeSetGC::update_state},
 };
 
 void TAdTimeSetGC::sub_802E34A8() {
@@ -179,7 +179,7 @@ void TAdTimeSetGC::report_card_status() {
         return;
     }
     if (flags & 0x40) {
-        if (unk_30 != 0) {
+        if (state7_message_closed != 0) {
             change_state(0x14);
             return;
         }
@@ -190,7 +190,7 @@ void TAdTimeSetGC::report_card_status() {
         change_state(0x15);
         return;
     }
-    if (unk_20 == 0 && !(flags & 0x400)) {
+    if (system_file_loaded == 0 && !(flags & 0x400)) {
         change_state(1);
         return;
     }
@@ -217,7 +217,7 @@ void TAdTimeSetGC::report_card_status() {
     }
     flags = load_status;
     if (flags & 0x400) {
-        if (unk_34 != 0) {
+        if (state12_message_closed != 0) {
             change_state(0x14);
             return;
         }
@@ -225,7 +225,7 @@ void TAdTimeSetGC::report_card_status() {
         return;
     }
     if (flags & 0x800) {
-        if (unk_38 != 0) {
+        if (state13_message_closed != 0) {
             change_state(0x14);
             return;
         }
@@ -233,7 +233,7 @@ void TAdTimeSetGC::report_card_status() {
         return;
     }
     if (flags & 0x1000) {
-        if (unk_3C != 0) {
+        if (state15_load_ended != 0) {
             change_state(0x14);
             return;
         }
@@ -241,7 +241,7 @@ void TAdTimeSetGC::report_card_status() {
     }
 }
 
-void TAdTimeSetGC::sub_802E3038() {
+void TAdTimeSetGC::enter_state_1() {
     close_windows();
 }
 
@@ -252,12 +252,12 @@ void TAdTimeSetGC::ensure_system_file_loaded() {
     }
 }
 
-void TAdTimeSetGC::sub_802E2FEC() {
+void TAdTimeSetGC::enter_state_2() {
 }
 
-void TAdTimeSetGC::sub_802E2F88() {
+void TAdTimeSetGC::run_state_2() {
     if (TAdPlayerLoadGC::get_instance() == 0) {
-        unk_20 = 1;
+        system_file_loaded = 1;
         if (load_status == 0) {
             change_state(3);
             return;
@@ -266,7 +266,7 @@ void TAdTimeSetGC::sub_802E2F88() {
     }
 }
 
-void TAdTimeSetGC::sub_802E2F68() {
+void TAdTimeSetGC::enter_state_3() {
     close_windows();
 }
 
@@ -277,12 +277,12 @@ void TAdTimeSetGC::ensure_player_loaded() {
     }
 }
 
-void TAdTimeSetGC::sub_802E2F20() {
+void TAdTimeSetGC::enter_state_4() {
 }
 
 void TAdTimeSetGC::reset_on_load_complete() {
     if (TAdPlayerLoadGC::get_instance() == 0) {
-        unknown_5c = 0;
+        skip_apply_options = 0;
         change_state(0x18);
     }
 }
@@ -323,7 +323,7 @@ void TAdTimeSetGC::update_load_state() {
 }
 
 void TAdTimeSetGC::arm_load_countdown() {
-    unk_64 = 30;
+    message_frames = 30;
 }
 
 void TAdTimeSetGC::update_load_countdown() {
@@ -331,16 +331,16 @@ void TAdTimeSetGC::update_load_countdown() {
         change_state(0x16);
         return;
     }
-    unk_64--;
-    if (unk_64 < 0) {
-        unk_64 = 0;
+    message_frames--;
+    if (message_frames < 0) {
+        message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (unk_64 < 0xF && sub_802E1868() != 0) {
-            unk_64 = 0;
+        if (message_frames < 0xF && sub_802E1868() != 0) {
+            message_frames = 0;
         }
-        if (unk_64 == 0) {
-            unk_30 = 1;
+        if (message_frames == 0) {
+            state7_message_closed = 1;
             close_windows();
             if (timer == 0) {
                 change_state(0);
@@ -354,26 +354,26 @@ void TAdTimeSetGC::close_scene() {
     close_and_dispatch(get_localized_text_entry(0x1C, 9), -1, 0, 0);
 }
 
-void TAdTimeSetGC::sub_802E2BD4() {
+void TAdTimeSetGC::run_state_8() {
     if ((s32)TAdPlayerLoadGC::delete_memcard_file(0, pso_character_card_filename.filename) == 0) {
         change_state(9);
     }
 }
 
 void TAdTimeSetGC::arm_char_delete_timer() {
-    unk_64 = 30;
+    message_frames = 30;
 }
 
 void TAdTimeSetGC::update_timer() {
-    unk_64--;
-    if (unk_64 < 0) {
-        unk_64 = 0;
+    message_frames--;
+    if (message_frames < 0) {
+        message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (unk_64 < 0xF && sub_802E1868() != 0) {
-            unk_64 = 0;
+        if (message_frames < 0xF && sub_802E1868() != 0) {
+            message_frames = 0;
         }
-        if (unk_64 == 0) {
+        if (message_frames == 0) {
             close_windows();
             if (timer == 0) {
                 change_state(0);
@@ -382,7 +382,7 @@ void TAdTimeSetGC::update_timer() {
     }
 }
 
-void TAdTimeSetGC::sub_802E2AD4() {
+void TAdTimeSetGC::enter_state_10() {
     create_backgrounds();
     close_and_dispatch(get_localized_text_entry(0x1C, 0xA), -1, 0, 0);
 }
@@ -394,19 +394,19 @@ void TAdTimeSetGC::advance_when_load_done() {
 }
 
 void TAdTimeSetGC::arm_guildcard_delete_timer() {
-    unk_64 = 30;
+    message_frames = 30;
 }
 
 void TAdTimeSetGC::update_char_timer() {
-    unk_64--;
-    if (unk_64 < 0) {
-        unk_64 = 0;
+    message_frames--;
+    if (message_frames < 0) {
+        message_frames = 0;
     }
     if (!(load_status & 2)) {
-        if (unk_64 < 0xF && sub_802E1868() != 0) {
-            unk_64 = 0;
+        if (message_frames < 0xF && sub_802E1868() != 0) {
+            message_frames = 0;
         }
-        if (unk_64 == 0) {
+        if (message_frames == 0) {
             close_windows();
             if (timer == 0) {
                 change_state(0);
@@ -425,55 +425,55 @@ void TAdTimeSetGC::init_screen() {
     TAdSinglePlyChrSelectGC::set_player_index(0xF);
     create_backgrounds();
     close_and_next(3, -1, -1, -1);
-    unk_64 = 30;
+    message_frames = 30;
 }
 
-void TAdTimeSetGC::sub_802E289C() {
-    unk_64--;
-    if (unk_64 < 0) {
-        unk_64 = 0;
+void TAdTimeSetGC::run_state_12() {
+    message_frames--;
+    if (message_frames < 0) {
+        message_frames = 0;
     }
     if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
-        if (unk_64 < 0xF && sub_802E1868() != 0) {
-            unk_64 = 0;
+        if (message_frames < 0xF && sub_802E1868() != 0) {
+            message_frames = 0;
         }
-        if (unk_64 == 0) {
+        if (message_frames == 0) {
             close_windows();
             if (timer == 0) {
-                unk_34 = 1;
+                state12_message_closed = 1;
                 change_state(0);
             }
         }
     }
 }
 
-void TAdTimeSetGC::sub_802E2848() {
+void TAdTimeSetGC::enter_state_13() {
     TAdSinglePlyChrSelectGC::start_load();
     create_backgrounds();
     close_and_next(4, -1, -1, -1);
-    unk_64 = 30;
+    message_frames = 30;
 }
 
 void TAdTimeSetGC::update_close_timer() {
-    unk_64--;
-    if (unk_64 < 0) {
-        unk_64 = 0;
+    message_frames--;
+    if (message_frames < 0) {
+        message_frames = 0;
     }
     if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
-        if (unk_64 < 0xF && sub_802E1868() != 0) {
-            unk_64 = 0;
+        if (message_frames < 0xF && sub_802E1868() != 0) {
+            message_frames = 0;
         }
-        if (unk_64 == 0) {
+        if (message_frames == 0) {
             close_windows();
             if (timer == 0) {
-                unk_38 = 1;
+                state13_message_closed = 1;
                 change_state(0);
             }
         }
     }
 }
 
-void TAdTimeSetGC::sub_802E2728() {
+void TAdTimeSetGC::enter_state_14() {
     init_timestamped_data();
     if (TAdSinglePlyChrSelectGC::check_ready() == 0) {
         change_state(0);
@@ -494,13 +494,13 @@ void TAdTimeSetGC::update_close_on_load() {
     if (!(load_status & 2) && TAdPlayerLoadGC::get_instance() == 0) {
         close_windows();
         if (timer == 0) {
-            unk_3C = 1;
+            state15_load_ended = 1;
             change_state(0);
         }
     }
 }
 
-void TAdTimeSetGC::sub_802E2610() {
+void TAdTimeSetGC::enter_state_16() {
     create_backgrounds();
     close_and_dispatch(get_localized_text_entry(0x1C, 0xB), 1, 0, 0);
     if (calendar != NULL) {
@@ -508,13 +508,13 @@ void TAdTimeSetGC::sub_802E2610() {
     }
 }
 
-void TAdTimeSetGC::sub_802E2588() {
+void TAdTimeSetGC::run_state_16() {
     if (menu_window == NULL || menu_window->is_decided() == 0) {
         return;
     }
     switch (menu_window->get_selected_value()) {
     case 0:
-        unknown_5c = 1;
+        skip_apply_options = 1;
         change_state(0x18);
         return;
     case 1:
@@ -523,13 +523,13 @@ void TAdTimeSetGC::sub_802E2588() {
     }
 }
 
-void TAdTimeSetGC::sub_802E2520() {
+void TAdTimeSetGC::enter_state_17() {
     create_backgrounds();
     strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x25));
     close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
-void TAdTimeSetGC::sub_802E24B8() {
+void TAdTimeSetGC::run_states_17_18() {
     if (menu_window == NULL || menu_window->is_decided() == 0) {
         return;
     }
@@ -539,13 +539,13 @@ void TAdTimeSetGC::sub_802E24B8() {
     change_state(0);
 }
 
-void TAdTimeSetGC::sub_802E2450() {
+void TAdTimeSetGC::enter_state_18() {
     create_backgrounds();
     strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x27));
     close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
-void TAdTimeSetGC::sub_802E23E8() {
+void TAdTimeSetGC::enter_state_19() {
     create_backgrounds();
     strcpy(text, (const char *)get_localized_text_entry(0x1C, 0x26));
     close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
@@ -558,7 +558,7 @@ void TAdTimeSetGC::init_menu_window() {
     close_and_dispatch((uaddr)text, -2, get_localized_text_entry(0x1C, 0x16), 0);
 }
 
-void TAdTimeSetGC::sub_802E22A4() {
+void TAdTimeSetGC::run_states_19_21() {
     if (menu_window == NULL || menu_window->is_decided() == 0) {
         return;
     }
@@ -635,13 +635,13 @@ void TAdTimeSetGC::show_confirm_dialog() {
     close_and_dispatch((uaddr)text, 1, get_localized_text_entry(0x1C, 0x15), get_localized_text_entry(0x1C, 0x16));
 }
 
-void TAdTimeSetGC::sub_802E1FAC() {
+void TAdTimeSetGC::run_state_23() {
     if (menu_window == NULL || menu_window->is_decided() == 0) {
         return;
     }
     switch (menu_window->get_selected_value()) {
     case 0:
-        unknown_5c = 1;
+        skip_apply_options = 1;
         change_state(0x18);
         break;
     case 1:
@@ -651,13 +651,13 @@ void TAdTimeSetGC::sub_802E1FAC() {
     }
 }
 
-void TAdTimeSetGC::sub_802E1F8C() {
+void TAdTimeSetGC::enter_state_24() {
     close_windows();
 }
 
 void TAdTimeSetGC::update_state() {
     if (timer <= 0) {
-        switch (unknown_5c) {
+        switch (skip_apply_options) {
         case 0:
             apply_settings();
             return;
@@ -670,13 +670,13 @@ void TAdTimeSetGC::update_state() {
 }
 
 void TAdTimeSetGC::sub_802E1F14() {
-    unk_24 = -1;
-    unk_28 = -1;
-    unk_2C = -1;
-    unk_30 = 0;
-    unk_34 = 0;
-    unk_38 = 0;
-    unk_3C = 0;
+    system_file_check = -1;
+    character_file_check = -1;
+    guild_card_file_check = -1;
+    state7_message_closed = 0;
+    state12_message_closed = 0;
+    state13_message_closed = 0;
+    state15_load_ended = 0;
 }
 
 void TAdTimeSetGC::init() {
@@ -686,8 +686,8 @@ void TAdTimeSetGC::init() {
     message_window = NULL;
     menu_window = NULL;
     calendar = T_ATS_DrawCalendar::create();
-    unk_20 = 0;
-    unknown_5c = 0;
+    system_file_loaded = 0;
+    skip_apply_options = 0;
     timer = 0;
     busy_count = 0;
     load_status = poll_load_status();
@@ -924,33 +924,33 @@ s32 TAdTimeSetGC::poll_load_status() {
         if (damaged != 0) {
             return damaged;
         }
-        if (unk_24 == -1) {
-            unk_24 = 0;
+        if (system_file_check == -1) {
+            system_file_check = 0;
             if (TAdSinglePlyChrSelectGC::load_system_file_blocking() != 0) {
-                unk_24 = 1;
+                system_file_check = 1;
             }
         }
-        if (unk_24 == 1) {
+        if (system_file_check == 1) {
             return 0x80;
         }
         if (sub_802E15C8() != 0) {
-            if (unk_28 == -1) {
-                unk_28 = 0;
+            if (character_file_check == -1) {
+                character_file_check = 0;
                 if (TAdSinglePlyChrSelectGC::load_character_and_wait() != 0) {
-                    unk_28 = 1;
+                    character_file_check = 1;
                 }
             }
-            if (unk_2C == -1) {
-                unk_2C = 0;
+            if (guild_card_file_check == -1) {
+                guild_card_file_check = 0;
                 if (TAdSinglePlyChrSelectGC::load_player_and_wait() != 0) {
-                    unk_2C = 1;
+                    guild_card_file_check = 1;
                 }
             }
             failed = 0;
-            if (unk_28 == 1) {
+            if (character_file_check == 1) {
                 failed |= 0x100;
             }
-            if (unk_2C == 1) {
+            if (guild_card_file_check == 1) {
                 failed |= 0x200;
             }
             if (failed != 0) {

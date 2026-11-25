@@ -12,6 +12,8 @@ struct NJS_POINT2;
 void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry);
 
 struct TWindowSubCustomEquip : public TWindowBase {
+    static u8 bank_ring_init_done;
+    static f32 ring_scale;
     TWindowSubCustomEquip(s32 slot);
     virtual ~TWindowSubCustomEquip();
     void handle_cursor_input();
@@ -26,7 +28,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     u8 m_65;
     s16 m_66;
     u32 angle;
-    TWindowSubStatusDisp *m_6c;
+    TWindowSubStatusDisp *status_disp;
     void layout_selection_parts(void *arg1);
     void layout_entry_group(void *index);
     void reset_selection();
@@ -49,6 +51,6 @@ struct TWindowSubCustomEquip : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSubCustomEquip_size, sizeof(TWindowSubCustomEquip) == 0x70);
 
-LAYOUT_ASSERT(TWindowSubCustomEquipHeadingOffset, offsetof(TWindowSubCustomEquip, m_6c) == 0x6C);
+LAYOUT_ASSERT(TWindowSubCustomEquipHeadingOffset, offsetof(TWindowSubCustomEquip, status_disp) == 0x6C);
 
 #endif

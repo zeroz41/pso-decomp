@@ -37,8 +37,8 @@ BmlResourceDescriptor bm_obj_jungle_mkey_resource_descriptor = {
 CollisionBody TOKeyJungleMain_collision_body_parts[] = {
     {{0.0f, 10.0f, 0.0f}, 5.0f, 5.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-const char *TOKeyJungleMain__class_name = "TOKeyJungleMain";
-BmlResource *TOKeyJungleMain__static_model_resource;
+const char *key_jungle_main_class_name = "TOKeyJungleMain";
+BmlResource *key_jungle_main_static_model_resource;
 
 void TOKeyJungleMain::play_activate_sound() {
     s32 sound = 0x4AD12;
@@ -59,16 +59,16 @@ void *TOKeyJungleMain::create(void *set_data) {
 }
 
 void TOKeyJungleMain::release_static_resource() {
-    if (TOKeyJungleMain__static_model_resource != NULL) {
-        delete TOKeyJungleMain__static_model_resource;
-        TOKeyJungleMain__static_model_resource = NULL;
+    if (key_jungle_main_static_model_resource != NULL) {
+        delete key_jungle_main_static_model_resource;
+        key_jungle_main_static_model_resource = NULL;
     }
 }
 
 void TOKeyJungleMain::load_static_resource() {
     BmlResource *resource = new BmlResource(5, &bm_obj_jungle_mkey_resource_descriptor, 0, 0, NULL);
 
-    TOKeyJungleMain__static_model_resource = resource;
+    key_jungle_main_static_model_resource = resource;
 }
 
 void TOKeyJungleMain::debug_draw_key_id() {
@@ -88,23 +88,23 @@ void TOKeyJungleMain::render() {
     if (update_object_view_visibility(view_range, model_radius) == 1) {
         switch (is_on) {
         case 0:
-            TObjFish::set_global_param(get_bml_texlist((BmlResource *)TOKeyJungleMain__static_model_resource, 1));
+            TObjFish::set_global_param(get_bml_texlist((BmlResource *)key_jungle_main_static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
-            draw_ginja_object((void *)get_bml_model((BmlResource *)TOKeyJungleMain__static_model_resource, 1));
+            draw_ginja_object((void *)get_bml_model((BmlResource *)key_jungle_main_static_model_resource, 1));
             pop_matrix();
             return;
         case 1:
-            TObjFish::set_global_param(get_bml_texlist((BmlResource *)TOKeyJungleMain__static_model_resource, 1));
+            TObjFish::set_global_param(get_bml_texlist((BmlResource *)key_jungle_main_static_model_resource, 1));
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
-            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TOKeyJungleMain__static_model_resource, 1),
-                                         get_bml_motion(TOKeyJungleMain__static_model_resource, 1), switch_frame);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)key_jungle_main_static_model_resource, 1),
+                                         get_bml_motion(key_jungle_main_static_model_resource, 1), switch_frame);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TOKeyJungleMain__static_model_resource, 0),
-                                         get_bml_motion(TOKeyJungleMain__static_model_resource, 0), sw_naka_frame);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)key_jungle_main_static_model_resource, 0),
+                                         get_bml_motion(key_jungle_main_static_model_resource, 0), sw_naka_frame);
             TParticleCtrl::end_effect_render();
             pop_matrix();
             break;
@@ -133,13 +133,13 @@ void TOKeyJungleMain::update_lock_state() {
 
 // Plays the switch motion once and loops the sw_naka motion.
 void TOKeyJungleMain::update_switch_on() {
-    AnimationMotion *motion = get_bml_motion(TOKeyJungleMain__static_model_resource, 1);
+    AnimationMotion *motion = get_bml_motion(key_jungle_main_static_model_resource, 1);
 
     switch_frame += 1.0f;
     if (switch_frame > (motion->frameCount - 1)) {
         switch_frame = motion->frameCount - 1;
     }
-    motion = get_bml_motion(TOKeyJungleMain__static_model_resource, 0);
+    motion = get_bml_motion(key_jungle_main_static_model_resource, 0);
     sw_naka_frame += 1.0f;
     if (sw_naka_frame > (motion->frameCount - 1)) {
         sw_naka_frame = 0.0f;
@@ -156,7 +156,7 @@ TOKeyJungleMain::~TOKeyJungleMain() {
 }
 
 TOKeyJungleMain::TOKeyJungleMain(TObject *parent, void *set_data) : TOKey(parent) {
-    m_name = TOKeyJungleMain__class_name;
+    m_name = key_jungle_main_class_name;
     apply_object_set_data(set_data);
     init_switch_id();
     init_collision_body_parts(this, TOKeyJungleMain_collision_body_parts, 1);

@@ -11,7 +11,7 @@
 // shape): TObjEneMe3SinowZoa.cpp addresses each object on its own.
 extern "C" {
 // TObjEneMe3SinowZoa.cpp .data; both animation bindings point at it.
-extern TObjMotionAction TObjEneMe3SinowZoa__animation_descriptors[13];
+extern TObjMotionAction me3_sinow_zoa_animation_descriptors[13];
 extern const BreakUpParamRow sinow_zoa_breakup_params;
 // TLobby kind ids for the two Sinow Zoa kinds, one list per TLobby table
 // load_resources registers them with.

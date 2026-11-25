@@ -16,6 +16,8 @@ struct TBoss4Bishi : public TBoss4Zako {
     void update_rise_state();
     void vt1();
     void update_sink_state();
+    static const char *name;
+    static const char class_name_string[];
 };
 LAYOUT_ASSERT(TBoss4Bishi_size, sizeof(TBoss4Bishi) == 0x3C4);
 

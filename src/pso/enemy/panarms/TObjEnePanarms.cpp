@@ -51,6 +51,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/TDeadSpot.h"
 
 // The technique levels of TLobby::dispatch_shared_handler_a(0x33) (clamped to 0..14 by the callers).
 struct PanBARATechniqueLevels {
@@ -94,8 +95,8 @@ TObjMotionAction panbara_par_motion_params[10] = {
 
 // The TU's .rodata, in this order (the functions that read each table come in the same order in this last-to-first
 // source); every table is indexed by the half (half_index) unless noted.
-extern const char TObjEnePanBARA__class_name[] = "TObjEnePanBARA";
-const char *TObjEnePanBARA__name = TObjEnePanBARA__class_name;
+extern const char pan_bara_class_name[] = "TObjEnePanBARA";
+const char *pan_bara_name = pan_bara_class_name;
 
 // The half's bml model/texlist index (ctor).
 const s32 panbara_model_index_by_half[2] = {1, 2};
@@ -132,7 +133,7 @@ struct PanBARAState {
 extern "C" void __sinit_TObjEnePanarms_cpp();
 __declspec(section ".ctors") static void *const panarms_global_initializer = (void *)__sinit_TObjEnePanarms_cpp;
 // Indexed by the half's state: set_state runs enter, run_task runs update.
-extern PanBARAState TObjEnePanarms__state_fn_table[17];
+extern PanBARAState panarms_state_fn_table[17];
 
 void ModelNodePositionCapture::clear() { set_chunk_model_node_callback(0); }
 
@@ -188,43 +189,43 @@ void TObjMotion::clear_motion_flags(s32 flags) {
 }
 
 void __sinit_TObjEnePanarms_cpp() {
-    TObjEnePanarms__state_fn_table[0].enter = &TObjEnePanBARA::reset_state;
-    TObjEnePanarms__state_fn_table[0].update = &TObjEnePanBARA::snap_to_parent_position;
-    TObjEnePanarms__state_fn_table[1].enter = &TObjEnePanBARA::init_split;
-    TObjEnePanarms__state_fn_table[1].update = &TObjEnePanBARA::handle_split_flag;
-    TObjEnePanarms__state_fn_table[2].enter = &TObjEnePanBARA::start_action;
-    TObjEnePanarms__state_fn_table[2].update = &TObjEnePanBARA::update_wait;
-    TObjEnePanarms__state_fn_table[3].enter = &TObjEnePanBARA::init_state_1;
-    TObjEnePanarms__state_fn_table[3].update = &TObjEnePanBARA::update_move_to_target;
-    TObjEnePanarms__state_fn_table[4].enter = &TObjEnePanBARA::init_state_16;
-    TObjEnePanarms__state_fn_table[4].update = &TObjEnePanBARA::update_slide_in;
-    TObjEnePanarms__state_fn_table[5].enter = &TObjEnePanBARA::restore_from_linked_object;
-    TObjEnePanarms__state_fn_table[5].update = &TObjEnePanBARA::update_hit_state;
-    TObjEnePanarms__state_fn_table[6].enter = &TObjEnePanBARA::enter_damage;
-    TObjEnePanarms__state_fn_table[6].update = &TObjEnePanBARA::apply_effect_if_flagged;
-    TObjEnePanarms__state_fn_table[7].enter = &TObjEnePanBARA::enter_dead;
-    TObjEnePanarms__state_fn_table[7].update = &TObjEnePanBARA::update_dead;
-    TObjEnePanarms__state_fn_table[8].enter = &TObjEnePanBARA::enter_vanished;
-    TObjEnePanarms__state_fn_table[8].update = &TObjEnePanBARA::update_vanished;
-    TObjEnePanarms__state_fn_table[9].enter = &TObjEnePanBARA::init_state_2;
-    TObjEnePanarms__state_fn_table[9].update = &TObjEnePanBARA::update_chase_target;
-    TObjEnePanarms__state_fn_table[10].enter = &TObjEnePanBARA::init_action;
-    TObjEnePanarms__state_fn_table[10].update = &TObjEnePanBARA::update_retreat;
-    TObjEnePanarms__state_fn_table[11].enter = &TObjEnePanBARA::init_attack_state2;
-    TObjEnePanarms__state_fn_table[11].update = &TObjEnePanBARA::update_attack;
-    TObjEnePanarms__state_fn_table[12].enter = &TObjEnePanBARA::enter_call_partner;
-    TObjEnePanarms__state_fn_table[12].update = &TObjEnePanBARA::update_call_partner;
-    TObjEnePanarms__state_fn_table[13].enter = &TObjEnePanBARA::start_phase2_timer150;
-    TObjEnePanarms__state_fn_table[13].update = &TObjEnePanBARA::update_move_to_partner;
-    TObjEnePanarms__state_fn_table[14].enter = &TObjEnePanBARA::start_phase3_timer12;
-    TObjEnePanarms__state_fn_table[14].update = &TObjEnePanBARA::update_move_timer;
-    TObjEnePanarms__state_fn_table[15].enter = &TObjEnePanBARA::init_open_state;
-    TObjEnePanarms__state_fn_table[15].update = &TObjEnePanBARA::update_heal;
-    TObjEnePanarms__state_fn_table[16].enter = &TObjEnePanBARA::init_attack_state;
-    TObjEnePanarms__state_fn_table[16].update = &TObjEnePanBARA::update_action_timer;
+    panarms_state_fn_table[0].enter = &TObjEnePanBARA::reset_state;
+    panarms_state_fn_table[0].update = &TObjEnePanBARA::snap_to_parent_position;
+    panarms_state_fn_table[1].enter = &TObjEnePanBARA::init_split;
+    panarms_state_fn_table[1].update = &TObjEnePanBARA::handle_split_flag;
+    panarms_state_fn_table[2].enter = &TObjEnePanBARA::start_action;
+    panarms_state_fn_table[2].update = &TObjEnePanBARA::update_wait;
+    panarms_state_fn_table[3].enter = &TObjEnePanBARA::init_state_1;
+    panarms_state_fn_table[3].update = &TObjEnePanBARA::update_move_to_target;
+    panarms_state_fn_table[4].enter = &TObjEnePanBARA::init_state_16;
+    panarms_state_fn_table[4].update = &TObjEnePanBARA::update_slide_in;
+    panarms_state_fn_table[5].enter = &TObjEnePanBARA::restore_from_linked_object;
+    panarms_state_fn_table[5].update = &TObjEnePanBARA::update_hit_state;
+    panarms_state_fn_table[6].enter = &TObjEnePanBARA::enter_damage;
+    panarms_state_fn_table[6].update = &TObjEnePanBARA::apply_effect_if_flagged;
+    panarms_state_fn_table[7].enter = &TObjEnePanBARA::enter_dead;
+    panarms_state_fn_table[7].update = &TObjEnePanBARA::update_dead;
+    panarms_state_fn_table[8].enter = &TObjEnePanBARA::enter_vanished;
+    panarms_state_fn_table[8].update = &TObjEnePanBARA::update_vanished;
+    panarms_state_fn_table[9].enter = &TObjEnePanBARA::init_state_2;
+    panarms_state_fn_table[9].update = &TObjEnePanBARA::update_chase_target;
+    panarms_state_fn_table[10].enter = &TObjEnePanBARA::init_action;
+    panarms_state_fn_table[10].update = &TObjEnePanBARA::update_retreat;
+    panarms_state_fn_table[11].enter = &TObjEnePanBARA::init_attack_state2;
+    panarms_state_fn_table[11].update = &TObjEnePanBARA::update_attack;
+    panarms_state_fn_table[12].enter = &TObjEnePanBARA::enter_call_partner;
+    panarms_state_fn_table[12].update = &TObjEnePanBARA::update_call_partner;
+    panarms_state_fn_table[13].enter = &TObjEnePanBARA::start_phase2_timer150;
+    panarms_state_fn_table[13].update = &TObjEnePanBARA::update_move_to_partner;
+    panarms_state_fn_table[14].enter = &TObjEnePanBARA::start_phase3_timer12;
+    panarms_state_fn_table[14].update = &TObjEnePanBARA::update_move_timer;
+    panarms_state_fn_table[15].enter = &TObjEnePanBARA::init_open_state;
+    panarms_state_fn_table[15].update = &TObjEnePanBARA::update_heal;
+    panarms_state_fn_table[16].enter = &TObjEnePanBARA::init_attack_state;
+    panarms_state_fn_table[16].update = &TObjEnePanBARA::update_action_timer;
 }
 
-PanBARAState TObjEnePanarms__state_fn_table[17] = {};
+PanBARAState panarms_state_fn_table[17] = {};
 
 ModelNodePositionEntry panbara_capture_nodes[2] = {
     { 3 },
@@ -256,7 +257,7 @@ struct PanBARAObjectState {
 TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 index) : TObjEnemy(parent) {
     s32 i;
 
-    m_name = TObjEnePanBARA__name;
+    m_name = pan_bara_name;
     add_flags_2e4(2);
     apply_set_data(setData);
     // Same statements as TObjEnemy::clear_lobby_object_state (0x800F5D80); the original expands them here.
@@ -267,12 +268,12 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
         this->exchange_object_state(&objectState, 0);
     }
     half_index = index;
-    texlist = get_bml_texlist((BmlResource *)TObjEnePanarms__entry_params_resource, panbara_model_index_by_half[half_index]);
-    model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, panbara_model_index_by_half[half_index]);
+    texlist = get_bml_texlist((BmlResource *)panarms_entry_params_resource, panbara_model_index_by_half[half_index]);
+    model = (void *)get_bml_model((BmlResource *)panarms_entry_params_resource, panbara_model_index_by_half[half_index]);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panbara_collision_body, 1);
     set_action_table(panbara_motion_params_by_half[half_index]);
-    set_motion_list(TObjEnePanarms__entry_params_resource->motions);
+    set_motion_list(panarms_entry_params_resource->motions);
     set_animation(0);
     set_requested_action(0);
     VecCopy(&body_center, &position);
@@ -354,7 +355,7 @@ void TObjEnePanBARA::run_task() {
     partner_angle = 10430.38043493439 * atan2_float(partner_delta.x, partner_delta.z);
     partner_distance = vector_length(&partner_delta);
     frame_count++;
-    fn = TObjEnePanarms__state_fn_table[state].update;
+    fn = panarms_state_fn_table[state].update;
     if (fn == 0) {
         return;
     }
@@ -565,7 +566,7 @@ void TObjEnePanBARA::set_state(s32 next) {
     if (state < 0 || state >= 17) {
         return;
     }
-    enter = TObjEnePanarms__state_fn_table[state].enter;
+    enter = panarms_state_fn_table[state].enter;
     if (enter) {
         (this->*enter)();
     }
@@ -1057,7 +1058,7 @@ void TObjEnePanBARA::update_dead() {
     if (this->action_timer <= 0x78) {
         if (this->action_timer == 0x78) {
             spawn_ground_effect(&shadow_position, 0x78);
-            TObjPlayer::spawn_dead_spot_default(&shadow_position, 6);
+            TDeadSpot::spawn_kind1_scale15(&shadow_position, 6);
         }
         this->position.y += -0.15625f;
         if ((s32) this->action_timer < 0) {
@@ -1372,13 +1373,13 @@ void TObjEnePanBARA::update_action_timer() {
 
 void TObjEnePanarms::spawn_npc_pair() {
     NpcAnimationBinding binding_a = { NULL, panbara_pal_motion_params, 0, 1, 10 };
-    BmlMotionEntry *motions = TObjEnePanarms__entry_params_resource->motions;
+    BmlMotionEntry *motions = panarms_entry_params_resource->motions;
     binding_a.motions = motions;
     NpcAnimationBinding binding_b = { NULL, panbara_par_motion_params, 0, 1, 10 };
     binding_b.motions = motions;
-    BmlModelEntry *models = TObjEnePanarms__entry_params_resource->models;
+    BmlModelEntry *models = panarms_entry_params_resource->models;
     TObjNpcEnemy::register_animated_chunk(0x24, models[1].model, models[1].texlist, &binding_a, 7.5f, 0.0f);
-    models = TObjEnePanarms__entry_params_resource->models;
+    models = panarms_entry_params_resource->models;
     TObjNpcEnemy::register_animated_chunk(0x25, models[2].model, models[2].texlist, &binding_b, 7.5f, 0.0f);
 }
 

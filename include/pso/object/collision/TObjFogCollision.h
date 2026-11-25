@@ -7,12 +7,12 @@
 struct TObjFogCollision : public TObjBase {
     TObjFogCollision(TObject *parent, void *set);
     virtual ~TObjFogCollision();
-    virtual void vfunc_13(s32);
-    virtual void vfunc_14();
+    virtual void init_params(s32);
+    virtual void draw_debug_text();
     virtual void draw_volume();
     virtual void render();
-    u32 m_90;
-    u32 m_94;
+    u32 debug_state;
+    u32 far_timer;
     virtual void run_task();
     s32 check_collision(u16 client);
     // Debug switches, 0 in the retail game: render prints the debug text and draws the

@@ -48,7 +48,7 @@ LAYOUT_ASSERT(Boss6BodySpawnParamsVariantOffset, offsetof(Boss6BodySpawnParams, 
 struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6PlotFalz(TObject *parent, void *set_data);
     virtual ~TBoss6PlotFalz();
-    void ensure_field384();
+    void ensure_tube();
     void set_visible_flag();
     void call_state_action();
     void reset_child_ids();
@@ -60,7 +60,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     u8 spawn_variant;  // the 6xA3 mode; handed to the bodies as Boss6BodySpawnParams::variant
     u8 pad_37D[0x3];
     TBoss4Fade *fade;
-    TBoss6Tube *tube;  // the warp tube; ensure_field384 creates it
+    TBoss6Tube *tube;  // the warp tube; ensure_tube creates it
     TBoss6PlotFalzSetEntry set_entry;
     s32 next_child_index;  // added to set_index / entity_id by get_next_point
     s32 state_timer;  // frames in the current plot state
@@ -154,25 +154,35 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void init_proto1_adx();
     void enter_fall_elev();
     static void update_active_flag();
+    static TBoss6Type1 *type1_instance;
+    static TBoss6Type2 *type2_instance;
+    static const char *name;
+    static f32 fade_amount;
+    static saddr instance;
 };
 
 // The two Olga Flow bodies of the running fight, NULL when there is none.
-extern TBoss6Type1 *TBoss6PlotFalz__type1_instance;
-extern TBoss6Type2 *TBoss6PlotFalz__type2_instance;
 // The running TBoss6PlotFalz (set by its constructor, cleared by its destructor).
-extern saddr TBoss6PlotFalz__instance;
 // Client ids in descending hp order (sort_active_players, get_sorted_player).
 extern u16 boss6_plot_falz_player_order_table[];
 // 1 on the main floor phase 0xF or in split screen (update_active_flag, get_phase).
 extern s32 plot_falz_phase;
 
 extern "C" {
-void TBoss6PlotFalz__sub_802AC008(f32 fade, f32 hp_ratio);
+void apply_boss6_hit_flash_color(f32 fade, f32 hp_ratio);
 }
 
 extern "C" {
 // TRUE when the sphere (pos, r) is out of the arena (inferred from TBoss6Rock).
-s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r);
+s32 boss6_sphere_blocks_player_view(void *pos, f32 r);
 }
+
+// The record exchange_object_state reads and writes.
+struct TBoss6PlotFalzStateRecord {
+    s32 flags;
+    s16 pad_04;
+    s16 value;
+    s32 pad_08;
+};
 
 #endif

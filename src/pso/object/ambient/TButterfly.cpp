@@ -22,7 +22,7 @@ __declspec(section ".data") const char *bm_o_abe_butterfly_motion_names[2] = { "
 BmlResourceDescriptor bm_o_abe_butterfly_resource_descriptor = {
     "bm_o_abe_butterfly.bml", bm_o_abe_butterfly_model_names, bm_o_abe_butterfly_motion_names, 1, 1
 };
-const char *TButterfly__name = "TButterfly";
+const char *butterfly_name = "TButterfly";
 
 struct Butterfly_8017EA74 {
     u8 pad0[0x38];
@@ -220,7 +220,7 @@ TButterfly::~TButterfly() {
 
 }
 TButterfly::TButterfly(TObject *parent, void *arg2) : TObjBase(parent) {
-    this->m_name = TButterfly__name;
+    this->m_name = butterfly_name;
     VecCopy(&this->position, (const Vec *)((char *)arg2 + 12));
     copy_xyz((char *)this + 92, (void *)((char *)arg2 + 24));
     VecCopy(&this->scale, (const Vec *)((char *)arg2 + 36));

@@ -125,7 +125,7 @@ void measure_traffic_path_lengths(void) {
   city_air_car_model_resource = get_season_model_resource(2);
   if (city_air_car_model_resource != 0)
   {
-    city_air_car_model_handle = TLobby__sub_80184C2C(2);
+    city_air_car_model_handle = get_city_season_xmas_model(2);
     for (j = 0; j < 5; j++)
     {
       air_car_buffer_pair_table[j] = new StripBufferPair(city_air_car_model_resource->models[city_traffic_car_chunk_index_table[j]].model, 1);
@@ -214,7 +214,7 @@ void TObjCityAirCar_Ctrl::run_task() {
             }
         }
         if (count < 2 && --timer <= 0) {
-            timer = lerp__9TDeadSpotFff(180.0f, 900.0f);
+            timer = random_range(180.0f, 900.0f);
             if (i == 0 || i == 1) {
                 type = floor_to_float(5.0f * (3.0517578e-5f * rand()));
             } else {
@@ -230,7 +230,7 @@ void TObjCityAirCar_Ctrl::run_task() {
                     }
                 }
             }
-            speed = air_car_lane_speed_scale_table[i] * lerp__9TDeadSpotFff(2.0f, 5.0f);
+            speed = air_car_lane_speed_scale_table[i] * random_range(2.0f, 5.0f);
             if (count > 0) {
                 last = r->cars[count - 1];
                 if (fn_80181204(last) < 0.5f * air_car_lane_spacing_table[i]) {

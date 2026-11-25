@@ -6,6 +6,7 @@
 
 class TAdBackTxtGC : public TObject {
 public:
+    static saddr backtext_texture_list;
     TAdBackTxtGC(TObject *parent);
     virtual ~TAdBackTxtGC();
     void draw_character_background_frame(s32, s32);

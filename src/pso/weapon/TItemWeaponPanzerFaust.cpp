@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/weapon/TExplosionCollider.h"
 #include "pso/player/TObjPlayer.h"
@@ -88,7 +88,7 @@ void TItemWeaponPanzerFaust::init_weapon_effect_descriptor(WeaponEffectDescripto
 void spawn_faust_explosion(TItemWeapon *weapon, const Vec &pos) {
     if (weapon->get_item_index() == 1) {
         WeaponEffectDescriptor info;
-        TObjPlayer__sub_802E449C(&info);
+        reset_weapon_effect_descriptor(&info);
         weapon->fill_status_info(&info);
         VecCopy(&info.position, &pos);
         info.hits = 10;
@@ -114,7 +114,7 @@ void spawn_faust_wall_explosion(s32 id, Vec *pos) {
     }
 }
 
-TExplosionCollider::TExplosionCollider(TObject *parent, S_802E451C *params) : TUnk_804E355C(parent, params) {
+TExplosionCollider::TExplosionCollider(TObject *parent, S_802E451C *params) : TItemAttackColBase(parent, params) {
     pad_C4 = 50.0f;
 }
 

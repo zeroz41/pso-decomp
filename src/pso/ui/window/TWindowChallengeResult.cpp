@@ -19,7 +19,6 @@
 const char *TWindowChallengeResult__name = "TWindowChallengeResult";
 #pragma pop
 
-extern "C" {
 
 struct ResultEntry {
     u8 unknown_00[8];
@@ -60,7 +59,6 @@ const char *lbl_804CE2AC[3] = {
     "Team Name : ", "Clear Time : ", "Death : ",
 };
 #pragma pop
-}
 
 TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_seconds, s32 death_count)
     : TWindowBase((u8 *)&lbl_804CE298, 4, (u8 *)get_window_layout_position(0x3F)) {
@@ -108,7 +106,7 @@ TWindowChallengeResult::TWindowChallengeResult(const char *team_name, s32 clear_
 TWindowChallengeResult::~TWindowChallengeResult() {}
 
 void TWindowChallengeResult::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_window_entry_list(&entry_list);
 }
 

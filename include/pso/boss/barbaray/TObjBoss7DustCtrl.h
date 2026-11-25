@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/system/TrailStrip.h"
 #include <dolphin/mtx.h>
 
 class TObjBoss7DustCtrl : public TObject {
@@ -20,6 +21,11 @@ public:
     // Builds the strip shape, rotation and phase tables and resets the slot counter;
     // called by init_boss7_tunnel.
     static void init_strips();
+    static Vec helix_points[6];
+    static s32 rotation_pairs[20];
+    static s32 vertical_phase_angles[10];
+    static const char *name;
+    static TrailStripVertex transformed_vertices[60];
 };
 
 void boss7_dust_draw_at(const Vec *position, s32 slot);

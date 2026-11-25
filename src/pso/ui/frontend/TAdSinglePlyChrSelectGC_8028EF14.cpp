@@ -27,20 +27,13 @@
 
 struct Opaque_80290088;
 
-s32 find_shape_triangle_region(u8 *arg0);
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
-void calc_shape_region_coefficients(f32 *point);
-s32 blend_shape_chunk_vertices(void);
 extern "C" {
 f32 vector_length(f32 *v);
 }
 // Ninja chunk model (NJS_CNK_MODEL): vertex chunk list, polygon chunk list, bounds.
 struct CreationShapeModel { s32 *vertex_list; s16 *polygon_list; f32 center[3]; };
 struct CreationShapeNode { u32 eval_flags; CreationShapeModel *model; f32 pos[3]; s32 ang[3]; f32 scl[3]; };
-extern "C" {
-void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q);
-}
-void reset_creation_shape_set(saddr arg0);
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
@@ -51,8 +44,6 @@ uaddr chara_select_hair_node_b;
 uaddr chara_select_head_node;
 void ***char_creation_data_block;
 saddr chara_select_preview_resource;
-void reset_creation_body_shapes();
-void reset_creation_head_shapes();
 #pragma common off
 CreationHeadModelStates creation_head_shape_destination;
 CreationHeadModelStates creation_head_shape_samples[7];
@@ -70,14 +61,13 @@ s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 s32 creation_motion_group(CharacterAppearanceFields *);
 void load_creation_shape_rel(TCMCharacter *character);
 void TCharaMaking__sub_8028E3A0();
-void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q);
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
-extern s32 lbl_805D49B4;
+extern s32 memcard_access_active;
 
 s32 creation_resource_ready_state;
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
@@ -258,17 +248,12 @@ struct Sel_802902CC {
 };
 
 }
-void map_shape_region_samples(s32 region, s32 *samples);
 extern CreationShapeBlend creation_shape_blend;
-s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const f32 *c);
 s32 scan_creation_resources(void *arg0);
 uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);
 void reset_character_creation_figure_rotation(void);
-extern "C" {
 
-void TCharaMaking__bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model);
-void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model);
-extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9];
+extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint creation_shape_corners[9];
 #pragma defer_codegen on
 TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     CreationTextureCacheEntry *p;
@@ -276,7 +261,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     CharacterAppearanceFields *cm;
 
     m_name = TCMCharacter__name;
-    lbl_805D49B4 = 1;
+    memcard_access_active = 1;
     cm = creation_player_character;
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
@@ -329,9 +314,8 @@ TCMCharacter::~TCMCharacter() {
     mem_free(joint_matrices);
     creation_resource_ready_state = 0;
     creation_figure_object = 0;
-    lbl_805D49B4 = 0;
+    memcard_access_active = 0;
     char_creation_figure_draw_flag = 0;
-}
 }
 
 void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
@@ -521,7 +505,7 @@ void TCMCharacter::run_task() {
 }
 
 
-// The three shape samples (corners in lbl_804D400C) of each proportion region.
+// The three shape samples (corners in creation_shape_corners) of each proportion region.
 s32 creation_region_sample_index_table[24] = {
     1, 3, 0,
     0, 4, 3,
@@ -533,7 +517,7 @@ s32 creation_region_sample_index_table[24] = {
     8, 7, 2,
 };
 // The (width, height) corner of each shape sample in the proportion plane.
-CreationShapePoint lbl_804D400C[9] = {
+CreationShapePoint creation_shape_corners[9] = {
     {0.0f, 0.0f}, {1.0f / 3.0f, 0.0f}, {2.0f / 3.0f, 0.0f}, {1.0f / 3.0f, 0.5f}, {0.0f, 1.0f},
     {1.0f / 3.0f, 1.0f}, {2.0f / 3.0f, 1.0f}, {1.0f, 1.0f}, {1.0f, 0.0f},
 };
@@ -565,7 +549,7 @@ void TCMCharacter::apply_character_appearance() {
     TCharaMaking__bind_body_shape_nodes((CharacterAppearanceFields *)((CharacterAppearanceFields *)app), this->model);
     TCharaMaking__bind_head_shape_nodes((CharacterAppearanceFields *)((CharacterAppearanceFields *)app), (void *)((void *)chara_select_head_node));
     blend_creation_proportion_shapes(&((CharacterAppearanceFields *)creation_player_character)->width);
-    lbl_805D49B4 = 0;
+    memcard_access_active = 0;
     char_select_active_flag = 1;
 }
 
@@ -756,9 +740,9 @@ void calc_shape_region_coefficients(f32 *point) {
     i0 = creation_region_sample_index_table[region * 3];
     i1 = creation_region_sample_index_table[region * 3 + 1];
     i2 = creation_region_sample_index_table[region * 3 + 2];
-    u = lbl_804D400C[i2].width - lbl_804D400C[i0].width;
-    u = (point[0] - lbl_804D400C[i0].width) / u;
-    hp = &lbl_804D400C[0].height;
+    u = creation_shape_corners[i2].width - creation_shape_corners[i0].width;
+    u = (point[0] - creation_shape_corners[i0].width) / u;
+    hp = &creation_shape_corners[0].height;
     y0 = hp[i0 * 2];
     v = hp[i1 * 2];
     v = v;

@@ -50,6 +50,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
+#include "pso/object/TDeadSpot.h"
 
 #pragma readonly_strings on
 
@@ -85,7 +86,7 @@ struct Bm3FlyNestVertexList {
     s32 count;
     s32 pad_10;
 };
-Vec TObjEneBm3FlyNest__attachment_sample_origin;
+Vec bm3_fly_nest_attachment_sample_origin;
 f32 fly_nest_vertex_table[6];
 __declspec(section ".data") s32 fly_nest_vertex_indices[2];
 Bm3FlyNestVertexList fly_nest_vertex_list;
@@ -229,9 +230,9 @@ void TObjEneBm3FlyNest_CarryFly::render() {
 
 void TObjEneBm3FlyNest::load_resources() {
     BmlModelEntry *models;
-    TObjEneBm3FlyNest__attachment_sample_origin.x = 0.0f;
-    TObjEneBm3FlyNest__attachment_sample_origin.y = 0.0f;
-    TObjEneBm3FlyNest__attachment_sample_origin.z = 0.0f;
+    bm3_fly_nest_attachment_sample_origin.x = 0.0f;
+    bm3_fly_nest_attachment_sample_origin.y = 0.0f;
+    bm3_fly_nest_attachment_sample_origin.z = 0.0f;
     bm3_fly_nest_node_index = 0;
     TObjEneBm3FlyNest_attachment_point_ptr = NULL;
     bm3_fly_nest_sample_cursor = NULL;
@@ -517,7 +518,7 @@ void TObjEneBm3FlyNest::handle_appear(s32 reason) {
     case 4:
         requested_action = 8;
         set_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         height_offset = 100.0f;
         counter = 0;
         step = 0;
@@ -577,7 +578,7 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 reason) {
     case 4:
         requested_action = 0;
         set_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         height_offset = -5.0f;
         counter = 0;
         emitted = 0;
@@ -646,7 +647,7 @@ void TObjEneBm3FlyNest::state_wait(s32 reason) {
     case 4:
         requested_action = 0;
         clear_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         height_offset = -5.0f;
         replenish_count = 1;
         replenish_interval = 0x96;
@@ -671,7 +672,7 @@ void TObjEneBm3FlyNest::handle_event(s32 reason) {
     case 4:
         requested_action = 1;
         clear_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         height_offset = -5.0f;
         return;
     case 3:
@@ -703,7 +704,7 @@ void TObjEneBm3FlyNest::update_down_state(s32 reason) {
         set_invulnerable();
         requested_action = 3;
         clear_intangible();
-        set_field_378(5);
+        set_next_mode(5);
         height_offset = -5.0f;
         break;
     case 3:
@@ -744,7 +745,7 @@ void TObjEneBm3FlyNest::update_state(s32 reason) {
     case 4:
         requested_action = 4;
         clear_intangible();
-        set_field_378(5);
+        set_next_mode(5);
         height_offset = 0.0f;
         if (fallen == 0) {
             fallen = 1;
@@ -773,7 +774,7 @@ void TObjEneBm3FlyNest::state_spawn(s32 reason) {
     case 4:
         requested_action = 5;
         clear_intangible();
-        set_field_378(5);
+        set_next_mode(5);
         height_offset = 0.0f;
         return;
     case 3:
@@ -870,7 +871,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 v.z = -8.0f;
                 rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
                 vec3_add_to(&v, &position);
-                spawn_dead_spot_scale15(&v, 0x32);
+                TDeadSpot::spawn_kind2_scale15(&v, 0x32);
                 create_dead_spot_e4(&v, 0x46, 10.0f);
             }
             if (frame < 25.0f) {
@@ -955,7 +956,7 @@ void TObjEneBm3FlyNest::init() { init_params(); }
 void TObjEneBm3FlyNest::capture_attachment(NJS_OBJECT *object) {
     switch (bm3_fly_nest_node_index) {
     case 36: case 45:
-        forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
+        forward_transform_to_view(&bm3_fly_nest_attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
         break;
     }
     ++bm3_fly_nest_node_index;
@@ -967,7 +968,7 @@ void TObjEneBm3FlyNest::handle_attachment_sample(NJS_OBJECT *object) {
         pos = bm3_fly_nest_sample_cursor;
         bm3_fly_nest_attachment_index += 1;
         bm3_fly_nest_sample_cursor = pos + 1;
-        forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, pos);
+        forward_transform_to_view(&bm3_fly_nest_attachment_sample_origin, pos);
     }
     TObjEneBm3FlyNest::capture_attachment(object);
 }

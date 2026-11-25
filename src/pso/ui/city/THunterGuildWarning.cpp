@@ -23,27 +23,27 @@
 #pragma readonly_strings on
 
 const char *THunterGuildWarning__name = "THunterGuildWarning";
-THunterGuildWarning *THunterGuildWarning__instance;
+THunterGuildWarning *THunterGuildWarning::instance;
 
 void THunterGuildWarning::queue_destruction() {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning__instance != NULL) && (THunterGuildWarning__instance->all_parents_unqueued_for_destruction() != 0)) {
-        THunterGuildWarning__instance->TObject::queue_destruction();
+    if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance != NULL) && (THunterGuildWarning::instance->all_parents_unqueued_for_destruction() != 0)) {
+        THunterGuildWarning::instance->TObject::queue_destruction();
     }
 }
 
 void THunterGuildWarning::create_instance(saddr arg0) {
-    if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning__instance == NULL)) {
+    if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance == NULL)) {
         new THunterGuildWarning(tl_05, (void *)arg0);
     }
 }
 
 s32 THunterGuildWarning::is_active() {
-    return (u8)((u8) (THunterGuildWarning__instance != 0));
+    return (u8)((u8) (THunterGuildWarning::instance != 0));
 }
 
-void THunterGuildWarning__sub_80211700(void) { THunterGuildWarning__instance = 0; }
+void THunterGuildWarning__sub_80211700(void) { THunterGuildWarning::instance = 0; }
 
-void THunterGuildWarning__sub_8021170C(void) { THunterGuildWarning__instance = 0; }
+void THunterGuildWarning__sub_8021170C(void) { THunterGuildWarning::instance = 0; }
 
 void THunterGuildWarning::close_windows() {
     s32 i = 0;
@@ -130,7 +130,7 @@ void THunterGuildWarning::run_task() {
 
 THunterGuildWarning::~THunterGuildWarning() {
     close_windows();
-    THunterGuildWarning__instance = NULL;
+    THunterGuildWarning::instance = NULL;
 }
 
 THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(object) {
@@ -139,14 +139,13 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
     timer = 90;
     THunterGuildWarning__sub_802119CC(this);
     sub_80211774((void *)mode);
-    THunterGuildWarning__instance = this;
+    THunterGuildWarning::instance = this;
 }
 
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 
-extern "C" {
 
 #pragma push
 #pragma optimization_level 3
@@ -189,18 +188,15 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
     return result;
 }
 #pragma pop
-}
 
 // ---- pso/unk/TLobby_80211C1C
 
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListOnline.h"
 
-extern "C" {
 
 int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_quest_id(); }
 
-}
 
 // ---- pso/unk/text_80211C3C
 
@@ -241,7 +237,6 @@ s32 TLobby__sub_80211C3C(void) {
 
 #include "pso/unk/TLobby_80211F0C.h"
 
-extern "C" {
 
 
 s32 TLobby::handle_main_phase(saddr player) {
@@ -257,7 +252,6 @@ s32 TLobby::handle_main_phase(saddr player) {
     return 0;
 }
 
-}
 
 // ---- pso/unk/text_80211D58
 

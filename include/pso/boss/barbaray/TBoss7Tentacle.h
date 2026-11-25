@@ -71,6 +71,10 @@ public:
     f32 segment_scale;
     s32 timer;
     s32 hold_time;
+    static Vec segment_offsets[14];
+    static u32 needle_offsets[14];
+    static const char *name;
+    static const s32 target_angle_table[4];
 };
 
 LAYOUT_ASSERT(TBoss7TentacleSegmentPos, offsetof(TBoss7Tentacle, segment_pos) == 0x50);

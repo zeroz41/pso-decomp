@@ -13,6 +13,7 @@ public:
     void disable_blocking_bodies();
     void enable_blocking_bodies(Vec *pos, s32 angle);
     TBoss8DragonColli_C *objects[3];
+    static const char *name;
 };
 
 #endif

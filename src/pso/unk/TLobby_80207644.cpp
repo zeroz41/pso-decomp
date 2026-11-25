@@ -12,9 +12,9 @@
 FloorMapSelection floor_map_registry[18];
 
 
-struct Ids_80207C60 { s32 w[18]; };
+struct TLobbyIds { s32 w[18]; };
 
-struct Tbl_8020765C { s32 w[2][18]; };
+struct GetBossWarpDestinationTable { s32 w[2][18]; };
 
 // File names of the floor maps: the first three are the sky model extensions
 // TSceneSora::load_sky_resources passes to TLobby::replace_file_extension, the rest
@@ -291,13 +291,13 @@ extern const s32 online_floor_map_variation_dimension_table[36][2] = {
     { 1, 1 },
     { 1, 1 },
 };
-extern const Ids_80207C60 floor_map_registry_id_table = { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 } };
-extern const Ids_80207C60 boss_warp_area_id_table = { { 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35 } };
-extern const Tbl_8020765C boss_warp_destination_table = { {
+extern const TLobbyIds floor_map_registry_id_table = { { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 } };
+extern const TLobbyIds boss_warp_area_id_table = { { 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35 } };
+extern const GetBossWarpDestinationTable boss_warp_destination_table = { {
     { 0, 11, 11, 12, 12, 12, 13, 13, 14, 14, 14, 0, 0, 0, 0, 0, 0, 0 },
     { 0, 14, 14, 15, 15, 12, 12, 12, 12, 12, 13, 13, 0, 0, 0, 0, 0, 0 },
 } };
-extern const Tbl_8020765C boss_warp_destination_table_b = { {
+extern const GetBossWarpDestinationTable boss_warp_destination_table_b = { {
     { 0, 11, 11, 12, 12, 12, 13, 13, 14, 14, 14, 0, 0, 0, 0, 0, 0, 0 },
     { 0, 14, 14, 15, 15, 12, 12, 12, 12, 12, 13, 13, 0, 0, 0, 0, 0, 0 },
 } };
@@ -318,8 +318,8 @@ void TLobby::backup_story_select() { selected_episode = story_select_current; }
 void TLobby::sync_story_select() { story_select_current = selected_episode; }
 
 s32 get_boss_warp_destination(void) {
-    Tbl_8020765C a = boss_warp_destination_table;
-    Tbl_8020765C b = boss_warp_destination_table_b;
+    GetBossWarpDestinationTable a = boss_warp_destination_table;
+    GetBossWarpDestinationTable b = boss_warp_destination_table_b;
     if (get_game_play_mode() == 1) {
         return b.w[0][get_current_floor_area()];
     }
@@ -451,7 +451,7 @@ void randomize_adventure_maps(void) {
 #pragma push
 #pragma opt_common_subs off
 void TLobby__sub_80207BB0(void) {
-    struct Ids_80207C60 ids = boss_warp_area_id_table;
+    struct TLobbyIds ids = boss_warp_area_id_table;
     s32 i;
     memset(floor_map_registry, 0, sizeof(floor_map_registry));
     for (i = 0; i < 18; i++) {
@@ -464,7 +464,7 @@ void TLobby__sub_80207BB0(void) {
 #pragma pop
 
 void init_floor_map_registry(void) {
-    struct Ids_80207C60 ids = floor_map_registry_id_table;
+    struct TLobbyIds ids = floor_map_registry_id_table;
     s32 i;
     memset(floor_map_registry, 0, sizeof(floor_map_registry));
     for (i = 0; i < 18; i++) {

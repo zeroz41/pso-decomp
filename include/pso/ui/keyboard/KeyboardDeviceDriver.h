@@ -47,7 +47,7 @@ extern KeyboardChannelState keyboard_pad_state_table[4];
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern s32 TKeyBoardControl__polling_channel_mask;
+extern s32 key_board_control_polling_channel_mask;
 s32 __OSReschedule(void);
 
 void init_pad_states(void);

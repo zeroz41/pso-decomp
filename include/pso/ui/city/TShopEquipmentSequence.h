@@ -10,6 +10,7 @@ class TWindowBase;
 struct TWindowMenu;
 
 struct TShopEquipmentSequence : public TShopSequence {
+    static s32 slot_active_flags[4];
     TShopEquipmentSequence(TObject *parent, TObjPlayer *player);
     virtual ~TShopEquipmentSequence();
     void update_state();

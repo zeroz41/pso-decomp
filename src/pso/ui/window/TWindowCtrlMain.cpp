@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -56,9 +57,9 @@ const char *TWindowCtrlPlayer__name = "TWindowCtrlPlayer";
 
 // width, height of the player message window (TLobby__sub_80269DA4 stores it as the window size)
 const f32 lbl_8044EC4C[2] = {255.0f, 120.0f};
-s32 TWindowCtrlMain__display_flags;
+s32 TWindowCtrlMain::display_flags;
 TObject *TWindowCtrlMain__instance;
-TObject *TWindowCtrlMain__window_task_root;
+TObject *TWindowCtrlMain::window_task_root;
 TWindowCtrlScreen *TWindowCtrlMain__screen_controller;
 TWindowCtrlSub *TWindowCtrlMain__sub_controller;
 TWindowCtrlClipOut *window_clip_out_instance;
@@ -81,16 +82,11 @@ struct Poly_8024CE68 {
     s32 flags;
     s32 count;
 };
-struct Quad_8024CE68 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
-void TWindowCtrlMain__sub_8024CB7C();
-void TWindowCtrlMain__sub_8024CB8C();
 s32 TWindowMainMenu__sub_8024E3D4(void *);
 int open_submenu__15TWindowSubEquipFll(void*);
 int append_line__14TWindowMessageFii(void*);
 int try_open_battle_menu__15TWindowMainMenuFs(void*);
-void TWindowCtrlMain__sub_8024D838(void);
 }
-void load_hud_palette_textures(void);
 struct WBase_8024DCE8 { u8 pad[0x18]; };
 struct W_8024DCE8 : WBase_8024DCE8 {
     virtual void m0();
@@ -147,12 +143,12 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
 }
 
 TWindowCtrlPlayer::~TWindowCtrlPlayer() {
-    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction(); this->m_3c = 0; }
-    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->lock_on_window = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->simple_status = 0; }
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->message_information = 0; }
-    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->m_28 = 0; }
+    if (short_list != NULL) { ((TObject *)short_list)->queue_destruction(); this->short_list = 0; }
+    if (lock_on_window != NULL) { ((TWindowBase *)lock_on_window)->close(); this->lock_on_window = 0; }
+    if (action_palette != NULL) { ((TWindowBase *)action_palette)->close(); this->action_palette = 0; }
+    if (simple_status != NULL) { ((TWindowBase *)simple_status)->close(); this->simple_status = 0; }
+    if (message_information != NULL) { ((TWindowBase *)message_information)->close(); this->message_information = 0; }
+    if (main_menu != NULL) { ((TObject *)main_menu)->queue_destruction(); this->main_menu = 0; }
 }
 
 void TWindowCtrlPlayer::run_task() { sub_8024E0F0(); ((TWindowCtrl *)this)->run_all_updates(); }
@@ -174,7 +170,7 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
         break;
     case 38:
         if (is_current_area_item_enabled() != 0) {
-            temp_r3_2 = reinterpret_cast<uaddr>(this->m_34);
+            temp_r3_2 = reinterpret_cast<uaddr>(this->action_palette);
             if (temp_r3_2 != 0U) {
                 ((TObject *)temp_r3_2)->clear_update_suspension();
             }
@@ -192,47 +188,44 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
 void TWindowCtrl::run_all_updates() { update_trade_window_visibility(); update_child_window_visibility(); update_target_info_window(); update_main_menu_request(); show_active_window(); update_short_list_request(); update_countdown(); }
 
 void TWindowCtrl::update_trade_window_visibility() {
-    u8 *arg0 = (u8 *)this;
-    if ((this->m_30 != NULL) && (((TWindowCtrl *)((void *) this->m_30))->is_flag_2_set() == 0)) {
-        if ((get_player_by_client_id(this->m_24) == NULL) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (is_status_window_hidden() != 0) || ((is_split_screen() != 0) && (get_active_menu() != 0))) {
-            ((TWindowLockOn *)(this->m_30))->request_close();
+    if ((this->timer_window != NULL) && (((TWindowCtrl *)((void *) this->timer_window))->is_flag_2_set() == 0)) {
+        if ((get_player_by_client_id(this->m_24) == NULL) || (this->is_visible() != 0) || (is_status_window_hidden() != 0) || ((is_split_screen() != 0) && (get_active_menu() != 0))) {
+            ((TWindowLockOn *)(this->timer_window))->request_close();
             return;
         }
-        window_request_show((void *)this->m_30);
+        window_request_show((void *)this->timer_window);
     }
 }
 
 void TWindowCtrl::update_child_window_visibility() {
-    u8 *arg0 = (u8 *)this;
     u32 player;
-    if ((this->m_34 != NULL) && (((TWindowCtrl *)((void *) this->m_34))->is_flag_2_set() == 0)) {
+    if ((this->area_window != NULL) && (((TWindowCtrl *)((void *) this->area_window))->is_flag_2_set() == 0)) {
         player = (uaddr)get_player_by_client_id(this->m_24);
-        if ((get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (((TWindowCtrl *)arg0)->is_enabled() != 0) || (player == 0U)) {
-            ((TWindowLockOn *)(this->m_34))->request_close();
+        if ((get_active_menu() != 0) || (this->is_visible() != 0) || (this->is_enabled() != 0) || (player == 0U)) {
+            ((TWindowLockOn *)(this->area_window))->request_close();
             return;
         }
-        window_request_show((void *)this->m_34);
+        window_request_show((void *)this->area_window);
     }
 }
 
 #pragma push
 #pragma fp_contract on
 void TWindowCtrl::update_target_info_window() {
-    u8 *arg0 = (u8 *)this;
-    if ((*(void **)((s8 *)arg0 + 0x38) != NULL) && ((((TObject *)(*(void **)((s8 *)arg0 + 0x38)))->all_parents_unqueued_for_destruction() == 0) || (((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x38)))->sub_80244994() == 0))) {
-        *(u32 *)((s8 *)arg0 + 0x38) = 0U;
+    if ((*(void **)((s8 *)this + 0x38) != NULL) && ((((TObject *)(*(void **)((s8 *)this + 0x38)))->all_parents_unqueued_for_destruction() == 0) || (((TWindowBase *)(*(uaddr *)((s8 *)this + 0x38)))->is_open_and_unblocked() == 0))) {
+        *(u32 *)((s8 *)this + 0x38) = 0U;
     }
-    if ((is_lock_on_window_hidden() != 0) || (get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (has_get_com_card_window() != 0) || (TWindowCtrl__sub_8024A314() != 0)) {
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x38) != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
-            *(u32 *)((s8 *)arg0 + 0x38) = 0U;
+    if ((is_lock_on_window_hidden() != 0) || (get_active_menu() != 0) || (this->is_visible() != 0) || (has_com_card_window() != 0) || (TWindowCtrl__sub_8024A314() != 0)) {
+        if ((u32) *(u32 *)((s8 *)this + 0x38) != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close();
+            *(u32 *)((s8 *)this + 0x38) = 0U;
         }
     } else {
-        s32 id = TObjPlayer::get_battle_ctrl_id((int) ((u16) *(s32 *)((s8 *)arg0 + 0x24)));
+        s32 id = TObjPlayer::get_battle_ctrl_id((int) ((u16) *(s32 *)((s8 *)this + 0x24)));
         if ((u16) id != 0xFFFF) {
-            void *w = *(void **)((s8 *)arg0 + 0x38);
+            void *w = *(void **)((s8 *)this + 0x38);
             if (w == NULL) {
-                *(u32 *)((s8 *)arg0 + 0x38) = create_for_target__13TWindowLockOnFlUs((int) (*(s32 *)((s8 *)arg0 + 0x24)), id);
+                *(u32 *)((s8 *)this + 0x38) = create_for_target__13TWindowLockOnFlUs((int) (*(s32 *)((s8 *)this + 0x24)), id);
             } else {
                 bind_target__13TWindowLockOnFUs(w, id);
             }
@@ -415,8 +408,8 @@ void TWindowCtrlMain::reset_all(void* _w0) {
     load_hud_palette_textures();
     TWindowCtrlMain__sub_8024EF30();
     WindowDrawContext::get_or_create_instance();
-    TWindowCtrlMain__display_flags = 0;
-    TWindowCtrlMain__window_task_root = NULL;
+    TWindowCtrlMain::display_flags = 0;
+    TWindowCtrlMain::window_task_root = NULL;
     TWindowCtrlMain__screen_controller = NULL;
     TWindowCtrlMain__sub_controller = NULL;
     window_clip_out_instance = NULL;
@@ -430,8 +423,8 @@ void TWindowCtrlMain::reset_all(void* _w0) {
 void TWindowCtrlMain::free_all_windows() {
     TObject *root;
     s32 i;
-    root = TWindowCtrlMain__window_task_root;
-    TWindowCtrlMain__window_task_root = NULL;
+    root = TWindowCtrlMain::window_task_root;
+    TWindowCtrlMain::window_task_root = NULL;
     if (window_clip_out_instance != NULL) {
         delete window_clip_out_instance;
         window_clip_out_instance = NULL;
@@ -462,16 +455,16 @@ TWindowCtrlMain::TWindowCtrlMain() : TObject(tl_fadeafter) {
     WindowControlState *e;
     s32 i;
     m_name = TWindowCtrlMain__name;
-    if (TWindowCtrlMain__window_task_root == NULL) {
-        TWindowCtrlMain__window_task_root = new TObject(NULL);
+    if (TWindowCtrlMain::window_task_root == NULL) {
+        TWindowCtrlMain::window_task_root = new TObject(NULL);
     }
     if (TWindowCtrlMain__instance == NULL) {
-        TWindowCtrlMain__instance = new TObject(TWindowCtrlMain__window_task_root);
+        TWindowCtrlMain__instance = new TObject(TWindowCtrlMain::window_task_root);
     }
     for (i = 0; i < 6; i++) {
         e = &TWindowCtrlMain__viewport_states[i];
         ((TWindowCtrlMain *)e)->init_fields();
-        e->window_root = new TObject(TWindowCtrlMain__window_task_root);
+        e->window_root = new TObject(TWindowCtrlMain::window_task_root);
     }
     if (TWindowCtrlMain__screen_controller == NULL) {
         TWindowCtrlMain__screen_controller = new TWindowCtrlScreen(tl_window);
@@ -487,8 +480,8 @@ TWindowCtrlMain::TWindowCtrlMain() : TObject(tl_fadeafter) {
 TWindowCtrlMain::~TWindowCtrlMain() {
     TObject *root;
     s32 i;
-    root = TWindowCtrlMain__window_task_root;
-    TWindowCtrlMain__window_task_root = NULL;
+    root = TWindowCtrlMain::window_task_root;
+    TWindowCtrlMain::window_task_root = NULL;
     if (window_clip_out_instance != NULL) {
         delete window_clip_out_instance;
         window_clip_out_instance = NULL;
@@ -557,7 +550,7 @@ void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
 #pragma fp_contract on
 void draw_menu_backdrop_gradients(s32 viewport_index) {
     NJS_POINT2 verts[4];
-    Quad_8024CE68 q;
+    TexturedQuad q;
     Poly_8024CE68 poly;
     u32 colors[4];
     ColorLineList line;
@@ -681,11 +674,11 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
 #pragma pop
 
 s32 has_window_task_root(void) {
-    return TWindowCtrlMain__window_task_root != NULL ? 1 : 0;
+    return TWindowCtrlMain::window_task_root != NULL ? 1 : 0;
 }
 
 s32 is_window_display_enabled(void) {
-    if (TWindowCtrlMain__display_flags & 1) return 0;
+    if (TWindowCtrlMain::display_flags & 1) return 0;
     return 1;
 }
 
@@ -766,11 +759,11 @@ f32 TWindowCtrlMain::get_field_18(s32 viewport_index) {
 }
 
 void TWindowCtrlMain__sub_8024CB8C() {
-    TWindowCtrlMain__display_flags &= ~1;
+    TWindowCtrlMain::display_flags &= ~1;
 }
 
 void TWindowCtrlMain__sub_8024CB7C() {
-    TWindowCtrlMain__display_flags |= 1;
+    TWindowCtrlMain::display_flags |= 1;
 }
 
 f32 TWindowCtrlMain::get_scale() {
@@ -812,7 +805,7 @@ TWindowCtrlSub::~TWindowCtrlSub() {
 void TWindowCtrlSub::run_task() {
     resolve_chat_balloon_overlaps();
     TWindowCtrlMain::update_fade_alphas();
-    TWindowCtrlMain__window_task_root->run_tasks();
+    TWindowCtrlMain::window_task_root->run_tasks();
 }
 
 TWindowCtrlClipOut::TWindowCtrlClipOut(TObject *parent) : TObject(parent) {

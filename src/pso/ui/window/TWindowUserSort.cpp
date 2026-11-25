@@ -45,7 +45,6 @@ WindowDescriptor window_user_sort_settings = {
     {243.0f, 184.0f}, 50100.0f, &window_user_sort_layout_entries, 0x23,
 };
 
-extern "C" {
 
 void TWindowUserSort::render() {
     saddr context;
@@ -57,7 +56,7 @@ void TWindowUserSort::render() {
         reinterpret_cast<WindowDrawContext *>(context));
 }
 
-void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list(&entry_list); }
+void TWindowUserSort::run_task() { update_window(); update_fade(); update_window_entry_list(&entry_list); }
 
 TWindowUserSort::~TWindowUserSort() {}
 
@@ -72,12 +71,11 @@ TWindowUserSort::TWindowUserSort(saddr arg1, GuildCardRecord *record) : TWindowB
 void TWindowMainMenu1P::on_submenu_closed() { if (close_active_submenu() != 0) { this->create_char_select_slot(); } }
 
 void TWindowMainMenu1P::on_menu_opened() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r3;
 
-    temp_r3 = *(s32 *)((s8 *)arg0 + 0x4C);
+    temp_r3 = *(s32 *)((s8 *)this + 0x4C);
     if (!(temp_r3 & 2)) {
-        *(s32 *)((s8 *)arg0 + 0x4C) = (s32) (temp_r3 | 2);
+        *(s32 *)((s8 *)this + 0x4C) = (s32) (temp_r3 | 2);
         backdrop.begin_override();
     }
 }
@@ -88,20 +86,18 @@ void TWindowMainMenu1P::close_main_menu() {
     }
 }
 void TWindowMainMenu1P::open_main_menu() {
-    u8 *arg0 = (u8 *)this;
     u8 *player;
-    if (!(*(s32 *)((s8 *)arg0 + 0x4C) & 1)) {
-        player = (u8 *)(get_player_by_client_id(*(u32 *)((s8 *)arg0 + 0x54)));
+    if (!(*(s32 *)((s8 *)this + 0x4C) & 1)) {
+        player = (u8 *)(get_player_by_client_id(*(u32 *)((s8 *)this + 0x54)));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
-                ((TWindowMainMenu *)arg0)->open((saddr)main_menu_1p_android_entries);
+                this->open((saddr)main_menu_1p_android_entries);
             } else {
-                ((TWindowMainMenu *)arg0)->open((saddr)main_menu_1p_entries);
+                this->open((saddr)main_menu_1p_entries);
             }
-            ((TWindowMainMenu1P *)arg0)->create_char_select_slot();
+            this->create_char_select_slot();
             this->on_menu_opened();
         }
     }
 }
 
-}

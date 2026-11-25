@@ -15,7 +15,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 
 void TWindowDD_WS_String::render() {
@@ -40,12 +39,11 @@ void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
 }
 
 void TWindowDD_WS_String::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(&entry_list));
 }
 
-}
 
 extern const f32 TWindowDD__data_805DFB58;
 extern const u32 lbl_805DFC18;
@@ -102,14 +100,13 @@ TWindowDD_WS_StringLayout lbl_804EFC00 = {
     {3, {0.0f, 0.0f}, 0.2f, TWindowDD__data_805DFC14, 0x40, NULL},
 };
 
-// Size is written by TWindowDD__sub_8034146C before each window is built.
+// Size is written by create_word_select_string before each window is built.
 WindowDescriptor TWindowDD__data_804EFC24 = {
     {0.0f, 0.0f}, lbl_805DFC20, &lbl_804EFC00, 3,
 };
 
 TWindowDD_WS_String::~TWindowDD_WS_String() {}
 
-extern "C" {
 TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style)
     : TWindowBase((u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos) {
     u8 *entry;
@@ -131,10 +128,9 @@ TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style
     open_tick = 0x01000000;
 }
 
-TWindowDD_WS_String *TWindowDD__sub_8034146C(f32 *pos, f32 *size, u32 str, s32 style, f32 width) {
-    TWindowDD__data_804EFC24.pad_00[0] = width;
-    TWindowDD__data_804EFC24.pad_00[1] = TWindowDD__data_805DFB20;
+TWindowDD_WS_String *create_word_select_string(f32 *pos, f32 *size, u32 str, s32 style, f32 width) {
+    TWindowDD__data_804EFC24.size[0] = width;
+    TWindowDD__data_804EFC24.size[1] = TWindowDD__data_805DFB20;
     return new TWindowDD_WS_String(pos, size, str, style);
 }
 
-}

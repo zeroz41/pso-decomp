@@ -49,7 +49,7 @@
 #include "pso/player/TPlayerReadyCallback.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/object/base/TObjChara.h"
 
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
@@ -509,7 +509,7 @@ s32 fn_801B7CEC(u8 *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(void *chara, s32 mag_id, s32 fed_item_id);
 s32 try_send_6x27_use_item(void *player, s32 key);
 bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
-void TObjPlayer__sub_801BA42C(void);
+void release_players_from_cutscene(void);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
@@ -750,7 +750,7 @@ void TObjPlayer::init_collision_body() {
     this->collision_body.center.x = this->position.x;
     this->collision_body.center.y = this->position.y;
     this->collision_body.center.z = this->position.z;
-    this->collision_body.unk_28 = player_zero;
+    this->collision_body.defense = player_zero;
     this->set_collision_body(&this->collision_body);
 }
 
@@ -1427,7 +1427,7 @@ s32 TObjPlayer::end_camera_pan() {
     return 1;
 }
 
-void TObjPlayer__sub_801BA42C(void) {
+void release_players_from_cutscene(void) {
     ((s32 (*)(void *))foreach_player__10TObjPlayerFv)((void *)end_player_camera_pan);
     release_all_players_control_lock();
 }
@@ -1890,7 +1890,7 @@ s32 TObjPlayer::can_pickup_item(TItemData *item_data) {
 
     if (TItemData::lookup_item_def((u8 *)item_data) != 0) {
         if ((u8) *(u8 *)item_data == 4) {
-            return obj_getPtr2B0_20((u8 *)this) < 0xF423F;
+            return get_actor_meseta((u8 *)this) < 0xF423F;
         }
         void *node_3615 = this->inventory_objects->set_mode_and_refresh_object((void *)item_data);
         if (node_3615 != 0U) {
@@ -2163,11 +2163,11 @@ void TObjPlayer::drop_items_on_death() {
         if (TObjPlayer::check_flag_01000000(this) == 0) {
             count=this->inventory_objects->set_globals_and_notify(this, records);
         }
-        if (obj_getPtr2B0_20((u8 *)this)!=0) {
+        if (get_actor_meseta((u8 *)this)!=0) {
             record=&records[count];
             record->set_source_id(-1);
             item=reinterpret_cast<TPlyInventoryItem *>(record)->get_data();
-            item->init_meseta(obj_getPtr2B0_20((u8 *)this));
+            item->init_meseta(get_actor_meseta((u8 *)this));
             count+=1;
             item->id=-1;
         }
@@ -4070,7 +4070,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
         }
         break;
     case 2:
-        ((TObjPlayer *)(self + 0x7CC))->set_action_type(act);
+        this->attack_state.set_attack_kind(act);
         if (this->check_mode_action(act) != 0) {
             if (pad_binding.get_stick_magnitude() >= player_stick_deadzone) {
                 this->rotation_y = ((s32 (*)(void *, s32))calc_scaled_value__10TObjPlayerFii)(this, pad_binding.get_stick_angle());
@@ -5624,7 +5624,7 @@ void show_sub_status_window(void *window, s32 *str, s32 *name) {
 void draw_player_status(saddr window, void *player, saddr str) {
     saddr name;
 
-    name = (saddr)((TUnk_804B6C24 *)player)->get_name();
+    name = (saddr)((TObjContainerCommon *)player)->get_name();
     if (name != 0) {
         if (static_cast<TObject *>(player)->check_value_equals(TObjPlayer_name) != 0) {
             ((s32 (*)(s32, s32, s32, s32))draw_status_line)(window, str, name, ((TObjPlayer *)player)->calc_battle_score());
@@ -5746,7 +5746,7 @@ s32 TObjPlayer::calc_battle_score() {
     v += (f32)battle_score.damage_stats[0].get_total();
     v -= (f32)battle_score.damage_stats[1].get_total();
     if (test_actor_flags(0x800) == 0) {
-        v += (f32)obj_getPtr2B0_20((u8 *)this) * battle_score.damage_stats[4].get_bonus_weight();
+        v += (f32)get_actor_meseta((u8 *)this) * battle_score.damage_stats[4].get_bonus_weight();
     }
     return (s32)v;
 }
@@ -6206,7 +6206,7 @@ s32 TObjPlayer::is_player_valid_target(u16 client_index) {
         return 0;
     }
     player = get_player_by_client_id((u16) client_index);
-    if ((TObjPlayer__sub_80354C7C(client_index) == 0) || (player->is_controls_locked() != 0) || (player->reset_volopt_state() == 0)) {
+    if ((is_palettex_enabled(client_index) == 0) || (player->is_controls_locked() != 0) || (player->reset_volopt_state() == 0)) {
         return 0;
     }
     return 1;

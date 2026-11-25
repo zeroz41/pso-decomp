@@ -19,10 +19,10 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void set_flag62_bit4();
     u8 get_input_mode();
     void set_input_mode(s32 mode);
-    u16 m_60;
-    u16 m_62;
+    u16 state_flags;
+    u16 request_flags;  // set_flag62_bit2 / bit8 mark confirmed / cancelled
     u8 m_input_mode;
-    s8 m_65;
+    s8 active_input_mode;  // get_input_mode returns it; the chat shortcut handlers set it
     u8 _pad66[0x2];
     KeyboardTextBuffer *active_text;
     KeyboardTextBuffer m_text;

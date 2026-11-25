@@ -32,10 +32,10 @@ BmlResourceDescriptor light_machine01_resource_desc = { "bm_o_light_machine01.bm
 struct NJS_TEXLIST;
 
 extern "C" {
-BmlResource *TOLightMachine01__shared_bml_archive;
+BmlResource *light_machine01_shared_bml_archive;
 NJS_OBJECT *light_machine_ginja_model_handle;
 NJS_TEXLIST *light_machine_ginja_param;
-const char *TOLightMachine01__name = "TOLightMachine01";
+const char *light_machine01_name = "TOLightMachine01";
 
 void TOLightMachine01::run_task() {
     this->m_a8 = (s32) (this->m_a8 + this->m_a4);
@@ -69,17 +69,17 @@ void *TOLightMachine01::create(void *set_data) {
 }
 
 void TOLightMachine01::destroy_instance() {
-    if (TOLightMachine01__shared_bml_archive != NULL) {
-        delete (BmlResource *)TOLightMachine01__shared_bml_archive;
-        TOLightMachine01__shared_bml_archive = NULL;
+    if (light_machine01_shared_bml_archive != NULL) {
+        delete (BmlResource *)light_machine01_shared_bml_archive;
+        light_machine01_shared_bml_archive = NULL;
     }
 }
 
 void TOLightMachine01::load_assets() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&light_machine01_resource_desc, 0, 0, NULL);
-    TOLightMachine01__shared_bml_archive = archive;
+    light_machine01_shared_bml_archive = archive;
     light_machine_ginja_model_handle = (NJS_OBJECT *)get_bml_model((BmlResource *)archive, 0);
-    light_machine_ginja_param = get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 0);
+    light_machine_ginja_param = get_bml_texlist((BmlResource *)light_machine01_shared_bml_archive, 0);
 }
 
 }
@@ -91,10 +91,10 @@ TOLightMachine01::~TOLightMachine01() {
 #pragma fp_contract on
 #define light_machine01 this
 TOLightMachine01::TOLightMachine01(void *set_data) : TObjBase(tl_05) {
-    ((TOLightMachine01 *)light_machine01)->m_name = TOLightMachine01__name;
+    ((TOLightMachine01 *)light_machine01)->m_name = light_machine01_name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)set_data);
-    light_machine01->model = (void *)get_bml_model((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
-    light_machine01->texlist = get_bml_texlist((BmlResource *)TOLightMachine01__shared_bml_archive, 1);
+    light_machine01->model = (void *)get_bml_model((BmlResource *)light_machine01_shared_bml_archive, 1);
+    light_machine01->texlist = get_bml_texlist((BmlResource *)light_machine01_shared_bml_archive, 1);
     light_machine01->view_range = 500.0f;
     light_machine01->m_94 = ((GinjaModelBounds *)((NJS_OBJECT *)light_machine01->model)->model)->radius;
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);

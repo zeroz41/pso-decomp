@@ -28,10 +28,10 @@ typedef struct Entry_802A1020 {
 
 s32 opening_movie_selector = 1;
 extern "C" {
-s32 TKeyBoardControl__sub_8000F92C();
+s32 switch_to_fallback_main_phase();
 s32 request_queued_main_phase();
 void request_main_phase(s32 arg0);
-void TKeyBoardControl__sub_8000F90C(s32 arg0);
+void set_fallback_main_phase(s32 arg0);
 void set_queued_main_phase(s32 queued_main_phase);
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
 }
@@ -130,7 +130,7 @@ void update_movie_phase(void) {
         request_queued_main_phase();
     }
     if (static_cast<s8>(func_801A5E54()) != 0) {
-        TKeyBoardControl__sub_8000F92C();
+        switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         request_main_phase(0);
@@ -141,11 +141,11 @@ void update_movie_phase(void) {
 void TKeyBoardControl::update_menu_scene() {
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     switch ((s8) opening_movie_purpose) {
     case 0:
         set_queued_main_phase(1);
-        TKeyBoardControl__sub_8000F90C(9);
+        set_fallback_main_phase(9);
         break;
     case 1:
         TLobby::update_keyboard_menu();

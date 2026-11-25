@@ -28,7 +28,7 @@ void TChCrLoadAfsTextureReq::try_begin_load() {
     }
 }
 
-s32 TChCrLoadAfsTextureReq__active_load_count;
+s32 TChCrLoadAfsTextureReq::active_load_count;
 
 void TChCrLoadAfsTextureReq::run_task() {
     if (m_28 == 1) {
@@ -52,9 +52,9 @@ void TChCrLoadAfsTextureReq::run_task() {
 void TChCrLoadAfsTextureReq::finish_request() {
     s32 count;
 
-    if (m_68 != 0 && TChCrLoadAfsTextureReq__active_load_count <= 3) {
-        count = TChCrLoadAfsTextureReq__active_load_count - 1;
-        TChCrLoadAfsTextureReq__active_load_count = count;
+    if (m_68 != 0 && TChCrLoadAfsTextureReq::active_load_count <= 3) {
+        count = TChCrLoadAfsTextureReq::active_load_count - 1;
+        TChCrLoadAfsTextureReq::active_load_count = count;
         if (count >= 0) {
             m_68 = 0;
         }
@@ -62,16 +62,16 @@ void TChCrLoadAfsTextureReq::finish_request() {
 }
 
 s32 TChCrLoadAfsTextureReq::try_acquire_load_slot() {
-    if (TChCrLoadAfsTextureReq__active_load_count < 0 || TChCrLoadAfsTextureReq__active_load_count > 3) {
+    if (TChCrLoadAfsTextureReq::active_load_count < 0 || TChCrLoadAfsTextureReq::active_load_count > 3) {
         return 0;
     }
     if (m_68 == 1) {
         return 0;
     }
-    if (TChCrLoadAfsTextureReq__active_load_count >= 3) {
+    if (TChCrLoadAfsTextureReq::active_load_count >= 3) {
         return 0;
     }
-    TChCrLoadAfsTextureReq__active_load_count += 1;
+    TChCrLoadAfsTextureReq::active_load_count += 1;
     m_68 = 1;
     return 1;
 }
@@ -173,7 +173,7 @@ void TChCrLoadGmNjReq::update_model_load() {
             advance_character_load_buffer(load_slot, TLobby__sub_8001ED88(loaded_bml));
             delete loaded_bml;
             loaded_bml = NULL;
-            sub_8028C8A8();
+            release_slot();
             *completion_flags &= ~completion_mask;
             queue_destruction();
         }

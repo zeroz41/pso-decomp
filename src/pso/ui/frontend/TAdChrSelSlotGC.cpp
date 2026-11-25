@@ -9,7 +9,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
 NJS_TEXNAME lbl_804E0B40[1] = { { "f256_slot_eng", 0, 0 } };
 __declspec(section ".data") NJS_TEXLIST lbl_804E0B4C = { lbl_804E0B40, 1 };
 NJS_TEXNAME lbl_804E0B54[1] = { { "f256_slot", 0, 0 } };
@@ -18,7 +17,6 @@ const char *TAdChrSelSlotGC__name = "TAdChrSelSlotGC";
 /* per current_language: texture archive and texture list */
 const char *const chr_sel_slot_resource_name_table[5] = { "f256_slot", "f256_slot_eng", "f256_slot_eng", "f256_slot_eng", "f256_slot_eng" };
 NJS_TEXLIST *const lbl_80471D50[6] = { &lbl_804E0B60, &lbl_804E0B4C, &lbl_804E0B4C, &lbl_804E0B4C, &lbl_804E0B4C, NULL };
-}
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -33,12 +31,10 @@ NJS_TEXLIST *const lbl_80471D50[6] = { &lbl_804E0B60, &lbl_804E0B4C, &lbl_804E0B
 #include "pso/system/vector.h"
 #include "pso/render/GinjaTexture.h"
 
-extern "C" {
 uaddr lbl_805D67F0;
 f32 char_select_slot_quad_width, char_select_slot_quad_height;
 extern const s32 current_language;
 
-}
 
 void TAdChrSelSlotGC::draw_slot_icons() {
     u32 i;
@@ -77,12 +73,12 @@ block_5:
 void TAdChrSelSlotGC::reset_all_slots() {
     sub_802C754C(0);
     sub_802C754C(1);
-    sub_802C7498(0);
-    sub_802C7498(1);
-    sub_802C7498(2);
+    hide_slot_entry(0);
+    hide_slot_entry(1);
+    hide_slot_entry(2);
 }
 
-void TAdChrSelSlotGC::sub_802C7498(s32 i) {
+void TAdChrSelSlotGC::hide_slot_entry(s32 i) {
     visible[i + 2] = 0;
 }
 

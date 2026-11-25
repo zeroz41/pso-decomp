@@ -41,6 +41,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 static const char balclaw_body_class_name_text[] = "TObjEneBalClawBody";
 
@@ -476,7 +477,7 @@ void TObjEneBalClawBody::run_death_sequence() {
     case 4:
         body->advance_animation();
         if ((&body->fade)->decay_value_toward_floor() == 1) {
-            TObjPlayer::apply_effect_variant_a(&body->position, 0);
+            TDeadSpot::spawn_kind0_scale7_5(&body->position, 0);
             body->send_entity_set_flags();
             body->queue_destruction();
         }

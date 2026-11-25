@@ -38,12 +38,12 @@ CollisionBody TBoss4Zako_collision_body_parts[1] = {
 
 #pragma readonly_strings on
 
-static const char TBoss4Zako__class_name_string[] = "TBoss4Zako";
-static const char TBoss4Uro__class_name_string[] = "TBoss4Uro";
-static const char TBoss4Bishi__class_name_string[] = "TBoss4Bishi";
-const char *TBoss4Zako__name = TBoss4Zako__class_name_string;
-const char *TBoss4Uro__name = TBoss4Uro__class_name_string;
-const char *TBoss4Bishi__name = TBoss4Bishi__class_name_string;
+static const char TBoss4Zako::class_name_string[] = "TBoss4Zako";
+static const char TBoss4Uro::class_name_string[] = "TBoss4Uro";
+static const char TBoss4Bishi::class_name_string[] = "TBoss4Bishi";
+const char *TBoss4Zako::name = TBoss4Zako::class_name_string;
+const char *TBoss4Uro::name = TBoss4Uro::class_name_string;
+const char *TBoss4Bishi::name = TBoss4Bishi::class_name_string;
 
 static const f32 movement_speed_step = 0.033333335f;
 static const f32 one_third = 0.33333334f;
@@ -73,7 +73,7 @@ TBoss4Zako *TBoss4Zako::create(TBoss4ZakoSetData *set_data) {
 #pragma push
 #pragma fp_contract on
 TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy(parent) {
-    m_name = TBoss4Zako__name;
+    m_name = TBoss4Zako::name;
     add_flags_2e4(8);
     owner = set_data->owner;
     owner->count_minion_spawned();
@@ -366,7 +366,7 @@ TBoss4Uro *TBoss4Uro::create(TBoss4ZakoSetData *set_data) {
 #pragma push
 #pragma fp_contract on
 TBoss4Uro::TBoss4Uro(TObject *parent, TBoss4ZakoSetData *set_data) : TBoss4Zako(parent, set_data) {
-    m_name = TBoss4Uro__name;
+    m_name = TBoss4Uro::name;
     velocity.x = -position.x;
     velocity.y = 0.0f;
     velocity.z = -position.z;
@@ -474,11 +474,6 @@ void TBoss4Uro::run_task() {
     }
 }
 #pragma pop
-
-struct TBoss4BishiSpawnOffset {
-    f32 x;
-    f32 z;
-};
 
 // Where around its target player each TBoss4Bishi aims (entity_id & 3).
 TBoss4BishiSpawnOffset TBoss4Bishi_spawn_offsets[4] = {
@@ -589,7 +584,7 @@ TBoss4Bishi *TBoss4Bishi::create(TBoss4ZakoSetData *set_data) {
 TBoss4Bishi::TBoss4Bishi(TObject *parent, TBoss4ZakoSetData *set_data) : TBoss4Zako(parent, set_data) {
     s32 id;
     TObjPlayer *pl;
-    m_name = TBoss4Bishi__name;
+    m_name = TBoss4Bishi::name;
     if ((id = find_nearest_visible_player(this, 0, 100.0f)) == 0xFFFF ||
         (pl = get_player_by_client_id(id)) == 0) {
         velocity.x = velocity.z = 0.0f;

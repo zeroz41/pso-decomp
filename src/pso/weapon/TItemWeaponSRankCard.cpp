@@ -76,7 +76,7 @@ void TItemWeaponSRankCard::draw_held_model() {
     }
 }
 
-TItemWeaponSRankCard::TItemWeaponSRankCard(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankCard::TItemWeaponSRankCard(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(3);
     fan_flags = 0;
 }

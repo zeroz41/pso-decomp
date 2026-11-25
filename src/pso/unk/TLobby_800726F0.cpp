@@ -37,18 +37,18 @@
 #pragma readonly_strings on
 
 extern "C" {
-void TLobby__sub_80072880(u8 *arg0);
-void TLobby__sub_800728FC(u8 *arg0);
+void build_6x95_packet(u8 *arg0);
+void build_6x8A_packet(u8 *arg0);
 u8 is_challenge_lobby__6TLobbyFv(void);
 void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 
-const char *TObjChallengeRetry__class_name = "TObjChallengeRetry";
+const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
 void TLobby__sub_80072724(TLobby *lobby);
-void TLobby__sub_80072758(u8 *arg0);
+void build_6x9D_packet(u8 *arg0);
 void TLobby__sub_800727A0(void *player);
-void TLobby__sub_800727EC(u8 *arg0);
+void build_6x97_packet(u8 *arg0);
 
 void TLobby::bswap_challenge_dead_flag() {
     ((G_ClientIDHeader *)this)->bswap();
@@ -60,7 +60,7 @@ void TLobby__sub_80072724(TLobby *lobby) {
     send_subcommand((u8 *)lobby);
 }
 
-void TLobby__sub_80072758(u8 *arg0) {
+void build_6x9D_packet(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0) = 0x9D;
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
@@ -78,7 +78,7 @@ void TLobby__sub_800727A0(void *player) {
     bswap_32((u32 *)((char *)player + 16));
 }
 
-void TLobby__sub_800727EC(u8 *arg0) {
+void build_6x97_packet(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0) = 0x97;
     *(s8 *)((s8 *)arg0 + 1) = 5;
 }
@@ -95,7 +95,7 @@ void TLobby::send_state() {
     byteswap_challenge_time_packet();
     send_subcommand(this);
 }
-void TLobby__sub_80072880(u8 *arg0) {
+void build_6x95_packet(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0) = 0x95;
     *(s8 *)((s8 *)arg0 + 1) = 5;
 }
@@ -107,7 +107,7 @@ void TLobby::send_challenge_packet() {
     byteswap_challenge_packet();
     send_subcommand(this);
 }
-void TLobby__sub_800728FC(u8 *arg0) {
+void build_6x8A_packet(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0) = 0x8A;
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
@@ -376,7 +376,7 @@ void TObjChallengeRetry::sub_8007313C() {
   }
 }
 
-extern const char *TObjChallengeRetry__class_name;
+extern const char *obj_challenge_retry_class_name;
 void TObjChallengeRetry::run_task() {
     u8 *arg0 = (u8 *)this;
     this->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(arg0);
@@ -412,7 +412,7 @@ TObjChallengeRetry::~TObjChallengeRetry() {
 }
 
 TObjChallengeRetry::TObjChallengeRetry(TObject *parent) : TObject(parent) {
-    m_name = TObjChallengeRetry__class_name;
+    m_name = obj_challenge_retry_class_name;
     m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(this);
     m_24 = 0;
     menu = NULL;

@@ -5,7 +5,6 @@
 #include "pso/player/PlayerSlots.h"
 
 
-extern "C" {
 
 
 void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 client_id) {
@@ -33,4 +32,3 @@ void TWindowShortListCtrl::assign_shortcut(s32 slot, saddr item, s32 client_id) 
     }
 }
 
-}

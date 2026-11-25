@@ -10,12 +10,12 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 
-BmlResource *lbl_805D6F50;
+BmlResource *nights_npc_resource;
 
-void fn_8035B750(void) {
-    if (lbl_805D6F50 != NULL) {
-        delete lbl_805D6F50;
-        lbl_805D6F50 = NULL;
+void free_nights_npc_resource(void) {
+    if (nights_npc_resource != NULL) {
+        delete nights_npc_resource;
+        nights_npc_resource = NULL;
     }
 }
 
@@ -31,19 +31,19 @@ static TObjMotionAction nights_npc_actions[2] = {
 
 
 // inferred: spawn bindings of the two nights NPCs (TLobby::spawn_npc_enemy 0x11 and 0x12)
-const NpcAnimationBinding lbl_804798CC = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 1, 1, 2 };
-const NpcAnimationBinding lbl_804798DC = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 0, 0, 2 };
-void fn_8035B788(void) {
+const NpcAnimationBinding nights_npc_binding_0x11 = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 1, 1, 2 };
+const NpcAnimationBinding nights_npc_binding_0x12 = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 0, 0, 2 };
+void load_nights_npc_resource(void) {
     BmlResource *resource = new BmlResource(1, &nights_npc_resource_descriptor, 0, 0, NULL);
-    lbl_805D6F50 = resource;
+    nights_npc_resource = resource;
     {
-        NpcAnimationBinding r = lbl_804798CC;
+        NpcAnimationBinding r = nights_npc_binding_0x11;
         r.motions = resource->motions;
         TObjNpcEnemy::register_animated_chunk((s16)0x11, resource->models->model, resource->models->texlist, &r, 10.0f, 0.0f);
     }
     {
-        NpcAnimationBinding r = lbl_804798DC;
-        r.motions = lbl_805D6F50->motions;
-        TObjNpcEnemy::register_animated_chunk((s16)0x12, lbl_805D6F50->models->model, lbl_805D6F50->models->texlist, &r, 10.0f, 0.0f);
+        NpcAnimationBinding r = nights_npc_binding_0x12;
+        r.motions = nights_npc_resource->motions;
+        TObjNpcEnemy::register_animated_chunk((s16)0x12, nights_npc_resource->models->model, nights_npc_resource->models->texlist, &r, 10.0f, 0.0f);
     }
 }

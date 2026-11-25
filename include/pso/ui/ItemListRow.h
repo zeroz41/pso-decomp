@@ -2,12 +2,12 @@
 #define PSO_UI_ITEMLISTROW_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804CF998.h"
+#include "pso/unk/TWindowLayoutRect.h"
 
 struct TItem;
 
 // A window list row: two icons, a label and a suffix (case 8 of init_window_layout_entries).
-class ItemListRow : public TUnk_804CF998
+class ItemListRow : public TWindowLayoutRect
 {
 public:
   s32 item;

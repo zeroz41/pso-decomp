@@ -32,6 +32,7 @@ public:
 
     TBoss4ZanzoParams params;
     s32 age;  // frames since the ctor
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss4Zanzo_size, sizeof(TBoss4Zanzo) == 0x4C);

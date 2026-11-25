@@ -21,10 +21,10 @@
 const char *bm_obj_jungle_tree_model_names[4] = { "fe_obj_ryuuboku_01.gj", "fe_obj_ryuuboku_02.gj", "fe_obj_ryuuboku_03.gj", NULL };
 const char *bm_obj_jungle_tree_motion_names[1] = { NULL };
 BmlResourceDescriptor bm_obj_jungle_tree_resource_descriptor = { "bm_obj_jungle_tree.bml", bm_obj_jungle_tree_model_names, bm_obj_jungle_tree_motion_names, 3, 0 };
-const char *TOJungleDesign__name = "TOJungleDesign";
+const char *jungle_design_name = "TOJungleDesign";
 // The model each design variant (m_b0, clamped to 0..2) draws.
 const s32 jungle_design_variant_table[3] = { 0, 1, 2 };
-BmlResource *TOJungleDesign__shared_model_resource;
+BmlResource *jungle_design_shared_model_resource;
 
 void TOJungleDesign::init_design_variant() {
     this->m_b0 = (s32) this->set_params[0];
@@ -46,7 +46,7 @@ void *TOJungleDesign::create(void *set_data) {
 
 
 // One box per design variant (m_b0).
-CollisionBody TOJungleDesign__collision_desc_table[3] = {
+CollisionBody jungle_design_collision_desc_table[3] = {
     { { 0.0f, 0.0f, 0.0f }, 20.0f, 3.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 3.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
     { { 0.0f, 0.0f, 0.0f }, 5.0f, 3.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -67,36 +67,36 @@ TOJungleDesign::~TOJungleDesign() {
     free_collision_body_parts(this);
 }
 TOJungleDesign::TOJungleDesign(saddr parent, saddr set_data) : TObjCollidable((TObject *)parent) {
-    this->m_name = TOJungleDesign__name;
+    this->m_name = jungle_design_name;
     ((TOJungleDesign *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     this->init_design_variant();
-    init_collision_body_parts(this, &TOJungleDesign__collision_desc_table[this->m_b0], 1);
+    init_collision_body_parts(this, &jungle_design_collision_desc_table[this->m_b0], 1);
     ((TObjPlayer *)this)->register_object_by_id();
 }
 
 
 NJS_TEXLIST *fn_802FF028(s32 index) {
-    if (TOJungleDesign__shared_model_resource != NULL) {
-        return get_bml_texlist((BmlResource *)TOJungleDesign__shared_model_resource, index);
+    if (jungle_design_shared_model_resource != NULL) {
+        return get_bml_texlist((BmlResource *)jungle_design_shared_model_resource, index);
     }
     return NULL;
 }
 NJS_OBJECT *fn_802FF064(s32 index) {
-    if (TOJungleDesign__shared_model_resource != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)TOJungleDesign__shared_model_resource, index);
+    if (jungle_design_shared_model_resource != NULL) {
+        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_design_shared_model_resource, index);
     }
     return NULL;
 }
 
 
 void TOJungleDesign::free_shared_resource() {
-    if (TOJungleDesign__shared_model_resource != NULL) {
-        delete (BmlResource *)TOJungleDesign__shared_model_resource;
-        TOJungleDesign__shared_model_resource = NULL;
+    if (jungle_design_shared_model_resource != NULL) {
+        delete (BmlResource *)jungle_design_shared_model_resource;
+        jungle_design_shared_model_resource = NULL;
     }
 }
 
 void TOJungleDesign::load_shared_resource() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&bm_obj_jungle_tree_resource_descriptor, 0, 0, NULL);
-    TOJungleDesign__shared_model_resource = archive;
+    jungle_design_shared_model_resource = archive;
 }

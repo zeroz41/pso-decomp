@@ -71,8 +71,8 @@ void TObjEneSlimeOne::clear_parent_slime() { parent_slime = NULL; }
 
 s16 TObjPlayer::get_attack_stage() { return attack_state.get_validated_attack_stage(); }
 
-extern f32 TObjEneSlimeOne__target_depth;
-extern u8 TObjEneSlimeOne__target_depth_initialized;
+extern f32 slime_one_target_depth;
+extern u8 slime_one_target_depth_initialized;
 
 void SlimeAnimationState::draw(s32 deferred) {
     s32 state = this->state;
@@ -182,12 +182,12 @@ s32 SlimeAnimationState::is_finished() {
     if (state < 7) {
         return 0;
     }
-    if ((s8) TObjEneSlimeOne__target_depth_initialized == 0) {
+    if ((s8) slime_one_target_depth_initialized == 0) {
         f32 tmp = frame_count;
-        TObjEneSlimeOne__target_depth_initialized = 1;
-        TObjEneSlimeOne__target_depth = tmp - 1.0f;
+        slime_one_target_depth_initialized = 1;
+        slime_one_target_depth = tmp - 1.0f;
     }
-    if (frame == TObjEneSlimeOne__target_depth) {
+    if (frame == slime_one_target_depth) {
         return 1;
     }
     return 0;
@@ -207,8 +207,8 @@ __declspec(section ".data") s32 slime_one_attack_target_id_table[2] = {4, 5};
 }
 __declspec(section ".data") s32 slime_one_part_texture_index_table[2] = {0, 2};
 extern "C" {
-f32 TObjEneSlimeOne__target_depth;
-u8 TObjEneSlimeOne__target_depth_initialized;
+f32 slime_one_target_depth;
+u8 slime_one_target_depth_initialized;
 f32 slime_one_animation_end_frame;
 s8 slime_one_animation_end_initialized;
 

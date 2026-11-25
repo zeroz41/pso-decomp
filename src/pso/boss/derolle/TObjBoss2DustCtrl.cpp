@@ -28,8 +28,8 @@ s32 TObjBoss2DustCtrl_dust_counter;
 
 #pragma push
 #pragma readonly_strings on
-const char *TObjBoss2DustCtrl__name = "TObjBoss2DustCtrl";
-const char *TObjBoss2Dust__name = "TObjBoss2Dust";
+const char *TObjBoss2DustCtrl::name = "TObjBoss2DustCtrl";
+const char *TObjBoss2Dust::name = "TObjBoss2Dust";
 #pragma pop
 
 void TObjBoss2DustCtrl::init_strips() {
@@ -72,7 +72,7 @@ void TObjBoss2DustCtrl::create() {
 }
 
 TObjBoss2DustCtrl::TObjBoss2DustCtrl(TObject *parent) : TObject(parent) {
-    m_name = TObjBoss2DustCtrl__name;
+    m_name = TObjBoss2DustCtrl::name;
 }
 
 TObjBoss2DustCtrl::~TObjBoss2DustCtrl() {}
@@ -129,7 +129,7 @@ void boss2_dust_draw_at(const Vec *position, s32 slot) {
 }
 
 TObjBoss2Dust::TObjBoss2Dust(TObject *parent, const Vec *position) : TObject(parent) {
-    m_name = TObjBoss2Dust__name;
+    m_name = TObjBoss2Dust::name;
     VecCopy(&this->position, position);
     ticks = 0;
     strip_slot = TObjBoss2DustCtrl::next_strip_slot();

@@ -8,7 +8,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
 #include "pso/object/base/TAttackCollider.h"
@@ -24,46 +24,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/GinjaTexture.h"
 
-
-typedef struct Coll_800C4A5C {
-    u8 pad0[0xC];
-    f32 radius;
-} Coll_800C4A5C;
-
-typedef struct Obj_800C4A5C {
-    s32 f0;
-    u8 pad4[0x18 - 0x4];
-    void *vptr;
-    u8 pad1C[0x38 - 0x1C];
-    Vec pos;
-    u8 pad44[0xA4 - 0x44];
-    Coll_800C4A5C *coll;
-    u8 padA8[0xB0 - 0xA8];
-    u16 ownerId;
-    u8 padB2[0xB4 - 0xB2];
-    Vec start;
-    Vec velA;
-    Vec velB;
-    Vec accel;
-    f32 fE4;
-    s32 fE8;
-    s32 angle;
-    f32 fF0;
-    s32 fF4;
-    s32 fF8;
-    s32 fFC;
-    s32 f100;
-} Obj_800C4A5C;
-
-typedef struct Obj_800C55E0 {
-    u8 pad0[0xB8];
-    s16 fB8;
-    u8 padBA[0x326 - 0xBA];
-    s16 state;
-    s16 f328;
-    u8 pad32A[0x34C - 0x32A];
-    void *f34C;
-} Obj_800C55E0;
 
 extern "C" {
 

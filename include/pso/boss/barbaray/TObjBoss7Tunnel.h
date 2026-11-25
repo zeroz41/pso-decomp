@@ -33,7 +33,7 @@ public:
     void double_scroll_speed();
     void advance_effect_timer();
     // Out-of-line helpers at the end of the tunnel file (0x802F2C90..0x802F2CC4),
-    // called by its segments (TUnk_804E4B24).
+    // called by its segments (TObjBoss7TunnelSegment).
     void copy_position(const Vec *position);
     f32 get_scroll_speed();
     f32 get_segment_x();
@@ -83,8 +83,14 @@ public:
     f32 half_length;
     TObject *tunnel_col; // the TObjBoss7TunnelCol the constructor creates
     TObject *effect_nodes; // parent of the segments spawn creates
-    TObject *render_nodes; // parent of the three TUnk_804E4AD4; render walks its children
+    TObject *render_nodes; // parent of the three TObjBoss7TunnelNode; render walks its children
 };
 LAYOUT_ASSERT(TObjBoss7Tunnel_size, sizeof(TObjBoss7Tunnel) == 0x94);
+
+// count + index list; the TObjBoss7TunnelSegment constructor copies both into the segment it builds
+struct Boss2TunnelEffectEntry {
+    s32 count;
+    const s32 *indices;
+};
 
 #endif

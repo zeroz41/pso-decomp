@@ -6,7 +6,7 @@
 #include "pso/network/TLobby.h"
 
 
-struct Ent_803CF958 { CvFsDeviceInterface *device; char name[12]; };
+struct TLobbyEntry { CvFsDeviceInterface *device; char name[12]; };
 
 struct CvFsHandle {
     CvFsDeviceInterface *vtbl;
@@ -15,13 +15,13 @@ struct CvFsHandle {
 
 extern "C" {
 extern s8 fs_default_device_name[];
-extern Ent_803CF958 cvfs_entry_table[];
+extern TLobbyEntry cvfs_entry_table[];
 s32 lbl_805D7600;
 u32 lbl_80581A30[75];
 // CVFS version banner: the first string of this file's pool (0x8047CF30).
 char *const volatile lbl_805E0DA0 = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:27\n";
 s8 fs_default_device_name[12];
-Ent_803CF958 cvfs_entry_table[32];
+TLobbyEntry cvfs_entry_table[32];
 CvFsHandle si_type_info_table[40];
 extern const char lbl_805E0DA4[6] = "%s:%s";
 
@@ -172,7 +172,7 @@ void cvFsInit(void) {
 // those strings keep the pool offsets of the functions that remain.
 inline void cvfs_error(const char *msg) {
     if (cvfs_completion_callback != NULL) {
-        cvfs_completion_callback(lbl_805D75FC, msg, 0);
+        cvfs_completion_callback(cvfs_completion_context, msg, 0);
     }
 }
 
@@ -427,7 +427,7 @@ s32 cvFsGetStat(CvFsHandle *handle) {
     var_r31 = 3;
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsGetStat #1:handle error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsGetStat #1:handle error", 0);
         }
         return 3;
     }
@@ -435,14 +435,14 @@ s32 cvFsGetStat(CvFsHandle *handle) {
     if (operation != NULL) {
         var_r31 = operation(handle->fd);
     } else if (cvfs_completion_callback != NULL) {
-        cvfs_completion_callback(lbl_805D75FC, "cvFsGetStat #2:vtbl error", 0);
+        cvfs_completion_callback(cvfs_completion_context, "cvFsGetStat #2:vtbl error", 0);
     }
     return var_r31;
 }
 
 void TLobby__sub_803CEF60(void) {
     s32 i;
-    Ent_803CF958 *p;
+    TLobbyEntry *p;
     for (i = 0; i < 0x20; i++) {
         p = &cvfs_entry_table[i];
         if (p->device != NULL && p->device->exec_server != 0) {
@@ -455,7 +455,7 @@ void cvFsStopTr(CvFsHandle *handle) {
     void (*operation)(void *);
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsStopTr #1:handle error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsStopTr #1:handle error", 0);
         }
     } else {
         operation = handle->vtbl->stop_transfer;
@@ -464,7 +464,7 @@ void cvFsStopTr(CvFsHandle *handle) {
             return;
         }
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsStopTr #2:vtbl error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsStopTr #2:vtbl error", 0);
         }
     }
 }
@@ -484,7 +484,7 @@ s32 cvFsReqRd(CvFsHandle *handle, s32 sector_count, void *buffer) {
     s32 var_r31;
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsReqRd #1:handle error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsReqRd #1:handle error", 0);
         }
         return 0;
     }
@@ -494,7 +494,7 @@ s32 cvFsReqRd(CvFsHandle *handle, s32 sector_count, void *buffer) {
     } else {
         var_r31 = 0;
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsReqRd #2:vtbl error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsReqRd #2:vtbl error", 0);
         }
     }
     return var_r31;
@@ -505,7 +505,7 @@ s32 cvFsSeek(CvFsHandle *handle, s32 sector, s32 origin) {
     s32 var_r31;
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsSeek #1:handle error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsSeek #1:handle error", 0);
         }
         return 0;
     }
@@ -515,7 +515,7 @@ s32 cvFsSeek(CvFsHandle *handle, s32 sector, s32 origin) {
     } else {
         var_r31 = 0;
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsSeek #2:vtbl error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsSeek #2:vtbl error", 0);
         }
     }
     return var_r31;
@@ -526,7 +526,7 @@ s32 cvFsTell(CvFsHandle *handle) {
     s32 var_r31;
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsTell #1:handle error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsTell #1:handle error", 0);
         }
         return 0;
     }
@@ -536,7 +536,7 @@ s32 cvFsTell(CvFsHandle *handle) {
     } else {
         var_r31 = 0;
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsTell #2:vtbl error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsTell #2:vtbl error", 0);
         }
     }
     return var_r31;
@@ -545,7 +545,7 @@ void cvFsClose(CvFsHandle *handle) {
     void (*operation)(void *);
     if (handle == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsClose #1:handle error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsClose #1:handle error", 0);
         }
     } else {
         operation = handle->vtbl->close;
@@ -556,7 +556,7 @@ void cvFsClose(CvFsHandle *handle) {
             return;
         }
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsClose #2:vtbl error", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsClose #2:vtbl error", 0);
         }
     }
 }
@@ -608,7 +608,7 @@ CvFsHandle *cvFsOpen(const char *name, s32 mode, s32 arg) {
     return h;
 }
 inline s32 find_803CF958(char *s, s32 len) {
-    Ent_803CF958 *p;
+    TLobbyEntry *p;
     s32 i;
     for (p = cvfs_entry_table, i = 0; i < 32; i++, p++) {
         if (strncmp(s, p->name, len) == 0) {
@@ -623,7 +623,7 @@ void cvFsSetDefDev(char *src) {
     u32 n;
     if (src == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsSetDefDev #1:illegal device name", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsSetDefDev #1:illegal device name", 0);
         }
         return;
     }
@@ -643,7 +643,7 @@ void cvFsSetDefDev(char *src) {
         return;
     }
     if (cvfs_completion_callback != NULL) {
-        cvfs_completion_callback(lbl_805D75FC, "cvFsSetDefDev #2:unknown device name", 0);
+        cvfs_completion_callback(cvfs_completion_context, "cvFsSetDefDev #2:unknown device name", 0);
     }
 }
 
@@ -655,7 +655,7 @@ void cvFsDelDev(char *dev) {
 }
 
 inline CvFsDeviceInterface *cvfs_find_device_if(char *s, s32 len) {
-    Ent_803CF958 *p;
+    TLobbyEntry *p;
     u32 i;
     for (p = cvfs_entry_table, i = 0; i < 32; i++, p++) {
         if (strncmp(s, p->name, len) == 0) {
@@ -689,13 +689,13 @@ void cvFsAddDev(char *name, CvFsDeviceFactory getif, s32 arg) {
     lbl_805E0DA0;
     if (name == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsAddDev #1:illegal device name", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsAddDev #1:illegal device name", 0);
         }
         return;
     }
     if (getif == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsAddDev #2:illegal I/F func name", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsAddDev #2:illegal I/F func name", 0);
         }
         return;
     }
@@ -708,7 +708,7 @@ void cvFsAddDev(char *name, CvFsDeviceFactory getif, s32 arg) {
     dev = cvfs_add_device(name, getif());
     if (dev == NULL) {
         if (cvfs_completion_callback != NULL) {
-            cvfs_completion_callback(lbl_805D75FC, "cvFsAddDev #3:failed added a device", 0);
+            cvfs_completion_callback(cvfs_completion_context, "cvFsAddDev #3:failed added a device", 0);
         }
         return;
     }

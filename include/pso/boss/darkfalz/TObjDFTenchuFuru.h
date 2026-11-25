@@ -32,6 +32,7 @@ public:
 
     // Node counter shared by transform_node_tree and capture_matrix_by_frame.
     static int matrix_node_index;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjDFTenchuFuru_pos_offset, offsetof(TObjDFTenchuFuru, pos) == 0x1C);

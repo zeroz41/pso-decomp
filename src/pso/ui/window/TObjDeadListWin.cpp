@@ -16,13 +16,11 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
-extern "C" {
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
 const char* TObjDeadListWin_name = TObjDeadListWin_class_name;
 __declspec(section ".data") f32 dead_list_window_position[2] = {210.0f, 100.0f};
 extern const char dead_list_text_prefix[] = "\tC8";
 extern const char dead_list_name_separator[] = "\n";
-}
 
 void TObjDeadListWin::build_dead_list_window() {
     char text[0x44];

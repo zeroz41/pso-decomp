@@ -8,7 +8,7 @@
 
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/npc/NpcPartnerControl.h"
 
 extern const char TSetEvtDestroy_class_name[] = "TSetEvtDestroy";

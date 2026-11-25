@@ -114,12 +114,12 @@ s32 initialize_boss_scene(void) {
 }
 extern "C" {
 
-const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
+const char *obj_challenge4p_retry_class_name = "TObjChallenge4PRetry";
 
-s32 TLobby__sub_80292F5C();
+s32 get_camera_view_count();
 
 s32 TLobby::is_multi_ready() {
-    if ((TLobby::get_challenge_mode_flag() != 0) || (TLobby__sub_80292F5C() <= 1)) {
+    if ((TLobby::get_challenge_mode_flag() != 0) || (get_camera_view_count() <= 1)) {
         return 0;
     }
     return 1;
@@ -205,7 +205,7 @@ void play_effect_all_players__6TLobbyFPv(void*) {
 }
 
 
-u8 TLobby__sub_8029A16C(void) {
+u8 is_designated_client(void) {
     return (u8) (local_client_id == designated_client_id);
 }
 
@@ -343,7 +343,7 @@ void *__ct__20TObjChallenge4PRetryFP7TObject(void *, void *);
 
 void TObjChallenge4PRetry::run_task() {
     u8 *arg0 = (u8 *)this;
-    this->m_20 = ((s32 (*)(void *))TLobby__sub_8029A16C)(arg0);
+    this->m_20 = ((s32 (*)(void *))is_designated_client)(arg0);
     switch (this->state) {
     case 0:
         this->update_giveup();
@@ -377,8 +377,8 @@ TObjChallenge4PRetry::~TObjChallenge4PRetry() {
 }
 
 TObjChallenge4PRetry::TObjChallenge4PRetry(TObject *parent) : TObject(parent) {
-    m_name = TObjChallenge4PRetry__class_name;
-    this->m_20 = ((s32 (*)(void *))TLobby__sub_8029A16C)(this);
+    m_name = obj_challenge4p_retry_class_name;
+    this->m_20 = ((s32 (*)(void *))is_designated_client)(this);
     this->m_24 = 0;
     this->menu = NULL;
     this->message = NULL;

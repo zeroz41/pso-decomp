@@ -41,6 +41,8 @@ public:
     f32 particle_timer;
     s32 power;           // boss parameter 0x2C
     f32 power_scale;     // boss parameter 0x2F, applied while the owner's rotation timer runs
+    static const char *name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(TBoss6SwordWaveOwnerOffset, offsetof(TBoss6SwordWave, owner) == 0x1C);

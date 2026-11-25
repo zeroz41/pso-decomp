@@ -4,7 +4,6 @@
 #include <math.h>
 #undef PSO_SDK_COMPACT_MATH
 
-extern "C" {
 #pragma push
 #pragma scheduling off
 f32 TWindowSubComCard::trunc_float(f32 value) {
@@ -15,4 +14,3 @@ f32 TWindowSubComCard::trunc_float(f32 value) {
 }
 #pragma pop
 
-}

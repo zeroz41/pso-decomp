@@ -37,7 +37,7 @@
 #include "pso/render/CameraCapture.h"
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/unk/TLobby_802D3970.h"
-#include "pso/unk/TUnk_804EDAC0.h"
+#include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
@@ -118,7 +118,7 @@ void TLobby::create_tasks() {
     if (is_split_screen() == 0) {
         new TCameraCapturePass(tl_particlemodel, 1);
         new TCameraCapturePass(tl_particlemodel, 0);
-        new TUnk_804EDAC0(tl_particlemodel);
+        new TDeferredRenderQueue(tl_particlemodel);
         new TIndirectEffectDrawTask(tl_particlemodel);
     }
     cleanup_game_objects__9TMainTaskFv();
@@ -216,7 +216,7 @@ void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); TLobby::invoke
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct L_8007BC5C { u8 pad0; u8 count; u8 pad2[2]; s32 ids[30]; };
+struct CollectActiveCardIdsL { u8 pad0; u8 count; u8 pad2[2]; s32 ids[30]; };
 
     extern short quest_collision_next_id;
 void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }
@@ -245,7 +245,7 @@ saddr TWindowSubComCard::get_card_slot(s32 arg0) {
 }
 
 void TLobby::collect_active_card_ids() {
-    L_8007BC5C *arg0 = (L_8007BC5C *)this;
+    CollectActiveCardIdsL *arg0 = (CollectActiveCardIdsL *)this;
     u8 *card;
     s32 *p;
     s32 i;

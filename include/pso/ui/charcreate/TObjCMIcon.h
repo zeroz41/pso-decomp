@@ -18,10 +18,8 @@ struct CreationIconGroup {
 extern "C" {
 extern CreationIconState creation_icon_states[7];
 extern CreationIconState creation_initial_icon_state;
-extern f32 TObjCMIcon__horizontal_scroll_offset;
 }
 
-extern CreationIconGroup TObjCMIcon__icon_group_table[7];
 __declspec(section ".data") extern vec2f cm_icon_screen_position;
 
 LAYOUT_ASSERT(CreationIconStateSize, sizeof(CreationIconState) == 12);
@@ -29,6 +27,8 @@ LAYOUT_ASSERT(CreationIconGroupSize, sizeof(CreationIconGroup) == 0x14);
 
 class TObjCMIcon : public TObject {
 public:
+    static f32 horizontal_scroll_offset;
+    static CreationIconGroup icon_group_table[7];
     TObjCMIcon(TObject *parent);
     virtual ~TObjCMIcon();
     virtual void render();

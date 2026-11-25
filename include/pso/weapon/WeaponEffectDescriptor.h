@@ -1,7 +1,7 @@
 #ifndef PSO_WEAPON_WEAPONEFFECTDESCRIPTOR_H
 #define PSO_WEAPON_WEAPONEFFECTDESCRIPTOR_H
 
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include "pso/system/NinjaTypes.h"
 #include <stddef.h>
 
@@ -30,6 +30,6 @@ LAYOUT_ASSERT(WeaponEffectDescriptorColorOffset, offsetof(WeaponEffectDescriptor
 LAYOUT_ASSERT(WeaponEffectDescriptorWallOffset, offsetof(WeaponEffectDescriptor, wall_effect) == 0x70);
 LAYOUT_ASSERT(WeaponEffectDescriptorHitOffset, offsetof(WeaponEffectDescriptor, hit_effect) == 0x74);
 
-extern "C" WeaponEffectDescriptor *TObjPlayer__sub_802E449C(WeaponEffectDescriptor *params);
+extern "C" WeaponEffectDescriptor *reset_weapon_effect_descriptor(WeaponEffectDescriptor *params);
 
 #endif

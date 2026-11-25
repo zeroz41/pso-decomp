@@ -11,7 +11,7 @@ struct TODoorFourLightRuins : public TODoorBase {
     virtual s32 init_door_switch_binding();
     virtual void update_door_switch_state();
     virtual void vfunc_6(s16 *, s32);
-    uaddr m_d4;
+    uaddr model_tree;  // the door model's node tree
     // Draws the door, its four switch lights green when their switch is set.
     void draw_model_and_lights();
     virtual void render();

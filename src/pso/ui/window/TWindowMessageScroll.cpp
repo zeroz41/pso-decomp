@@ -10,22 +10,19 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TWindowMessageScroll__class_name = "TWindowMessageScroll";
 
 void TWindowMessageScroll::run_task() {
-    u8 *arg0 = (u8 *)this;
     this->scroll_offset[1] = (f32) (this->scroll_offset[1] + scroll_speed);
     TWindowMessage::retire_scrolled_lines();
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(&this->entry_list);
-    if ((((TWindowBase *)arg0)->sub_80244994() != 0) && (this->next_line_y <= this->scroll_offset[1])) {
+    update_window();
+    this->update_fade();
+    this->update_window_entry_list(&this->entry_list);
+    if ((this->is_open_and_unblocked() != 0) && (this->next_line_y <= this->scroll_offset[1])) {
         *completion_register = 1;
     }
 }
 
-}
 TWindowMessageScroll::~TWindowMessageScroll() {
 
 }

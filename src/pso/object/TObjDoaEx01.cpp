@@ -31,34 +31,14 @@
 
 __declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { "fs_obj_ex_doa01.gj", NULL };
 __declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { "fs_obj_ex_doa01.njm", NULL };
-BmlResourceDescriptor TObjDoaEx01__resource_descriptor = { "fs_obj_ex_doa01.bml", fs_obj_ex_doa01_model_names, fs_obj_ex_doa01_motion_names, 1, 1 };
-CollisionBody TObjDoaEx01__collision_body_parts = {{0.0f, 20.0f, -5.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
-const char *TObjDoaEx01__name = "TObjDoaEx01";
+BmlResourceDescriptor doa_ex01_resource_descriptor = { "fs_obj_ex_doa01.bml", fs_obj_ex_doa01_model_names, fs_obj_ex_doa01_motion_names, 1, 1 };
+CollisionBody doa_ex01_collision_body_parts = {{0.0f, 20.0f, -5.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *doa_ex01_name = "TObjDoaEx01";
 
-BmlResource *TObjDoaEx01__resource_bundle;
-u8 *TObjDoaEx01__alpha_model_node;
-u8 *TObjDoaEx01__alpha_model_sibling;
+BmlResource *doa_ex01_resource_bundle;
+u8 *doa_ex01_alpha_model_node;
+u8 *doa_ex01_alpha_model_sibling;
 
-
-struct Obj_8018DA54 {
-    u8 pad[0x38];
-    f32 pos[3];
-    u8 pad44[0xAC - 0x44];
-    s32 state;
-    u8 padb0[0xD0 - 0xB0];
-    u32 flags;
-};
-
-struct Obj_8018DBCC {
-    u8 pad[0x38];
-    f32 pos[3];
-    u8 pad44[0xAC - 0x44];
-    s32 state;
-    u8 padb0[0xD0 - 0xB0];
-    u32 flags;
-    u8 padd4[0xD8 - 0xD4];
-    f32 xd8;
-};
 
 extern "C" {
 
@@ -67,20 +47,18 @@ extern "C" {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TObjDoaEx01::update_closing() {
-    u8 *arg0 = (u8 *)this;
     this->animation_frame = (f32) (this->animation_frame - this->animation_step);
     if (this->animation_frame < 0.0f) {
         this->animation_frame = 0.0f;
         this->object_state = 0;
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
+        clear_player_status_flag(0, 8);
     }
 }
 #pragma pop
 
 void TObjDoaEx01::update_open() {
-    Obj_8018DA54 *self = (Obj_8018DA54 *)this;
-    if (self->flags & 1) {
-        if (((TObjMapObject *)self)->is_any_player_within_radius_xz((f32)1e+04f) == 0) {
+    if (door_flags & 1) {
+        if (is_any_player_within_radius_xz((f32)1e+04f) == 0) {
             this->object_state = 3;
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
@@ -123,11 +101,10 @@ void TObjDoaEx01::update_opening() {
     }
 }
 void TObjDoaEx01::update_closed() {
-    Obj_8018DBCC *self = (Obj_8018DBCC *)this;
-    if (self->flags & 1) {
-        if (((TObjMapObject *)self)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
+    if (door_flags & 1) {
+        if (is_any_player_within_radius_xz(4.9e+03f) == 1) {
             this->object_state = 1;
-            ((TObjCollidable *)self)->set_indexed_flags(0, 8);
+            set_indexed_flags(0, 8);
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
             case AREA_VR_TEMPLE_BETA:
@@ -142,15 +119,15 @@ void TObjDoaEx01::update_closed() {
                 break;
             }
         }
-    } else if (self->flags & 0x100000) {
-        self->xd8 += 0.1f;
-        if (1.0f <= self->xd8) {
-            self->flags &= ~0x100000;
+    } else if (door_flags & 0x100000) {
+        glow_phase += 0.1f;
+        if (1.0f <= glow_phase) {
+            door_flags &= ~0x100000;
         }
     } else {
-        self->xd8 -= 0.1f;
-        if (self->xd8 <= 0.0f) {
-            self->flags |= 0x100000;
+        glow_phase -= 0.1f;
+        if (glow_phase <= 0.0f) {
+            door_flags |= 0x100000;
         }
     }
 }
@@ -170,7 +147,7 @@ void TObjDoaEx01::draw_object_tree(saddr arg1) {
         scale_current_matrix(obj->scl);
     }
     if (!(flags & 8) && obj->model != 0) {
-        if ((u8 *)obj == TObjDoaEx01__alpha_model_node || (u8 *)obj == TObjDoaEx01__alpha_model_sibling) {
+        if ((u8 *)obj == doa_ex01_alpha_model_node || (u8 *)obj == doa_ex01_alpha_model_sibling) {
             TParticleCtrl::begin_effect_render();
             saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x10;
@@ -195,11 +172,11 @@ void TObjDoaEx01::draw_object_tree(saddr arg1) {
 void TObjDoaEx01::try_open() {
     saddr bml_model;
 
-    bml_model = (saddr)get_bml_model(TObjDoaEx01__resource_bundle, 0);
+    bml_model = (saddr)get_bml_model(doa_ex01_resource_bundle, 0);
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
-        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 1);
-        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 1);
-        TObjFish::set_global_param(get_bml_texlist(TObjDoaEx01__resource_bundle, 0));
+        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(doa_ex01_alpha_model_node)->model, 1);
+        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(doa_ex01_alpha_model_sibling)->model, 1);
+        TObjFish::set_global_param(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -212,17 +189,17 @@ void TObjDoaEx01::draw_model() {
     saddr temp_r31;
     s32 temp_r31_2;
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
-        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_node)->model, 0);
-        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(TObjDoaEx01__alpha_model_sibling)->model, 0);
-        temp_r31 = (saddr)get_bml_model(TObjDoaEx01__resource_bundle, 0);
-        TObjFish::set_global_param(get_bml_texlist(TObjDoaEx01__resource_bundle, 0));
+        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(doa_ex01_alpha_model_node)->model, 0);
+        set_ginja_model_texture_slot(reinterpret_cast<NJS_OBJECT *>(doa_ex01_alpha_model_sibling)->model, 0);
+        temp_r31 = (saddr)get_bml_model(doa_ex01_resource_bundle, 0);
+        TObjFish::set_global_param(get_bml_texlist(doa_ex01_resource_bundle, 0));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, (this->rotation_y));
         animation_frame = this->animation_frame;
         if (animation_frame > 0.0f) {
-            temp_r31 = reinterpret_cast<saddr>(get_bml_motion(TObjDoaEx01__resource_bundle, 0));
-            draw_ginja_model_with_motion(get_bml_model(TObjDoaEx01__resource_bundle, 0), reinterpret_cast<void *>(temp_r31), animation_frame);
+            temp_r31 = reinterpret_cast<saddr>(get_bml_motion(doa_ex01_resource_bundle, 0));
+            draw_ginja_model_with_motion(get_bml_model(doa_ex01_resource_bundle, 0), reinterpret_cast<void *>(temp_r31), animation_frame);
         } else {
             this->draw_object_tree((temp_r31));
         }
@@ -251,18 +228,18 @@ TObjDoaEx01::~TObjDoaEx01() {
 
 
 TObjDoaEx01::TObjDoaEx01(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
-    *(saddr *)((s8 *)this + 0) = (saddr) TObjDoaEx01__name;
+    *(saddr *)((s8 *)this + 0) = (saddr) doa_ex01_name;
     ((TObjDoaEx01 *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TObjDoaEx01 *)(((u8 *)this)))->init_door_switch_binding();
-    init_collision_body_parts(((u8 *)this), &TObjDoaEx01__collision_body_parts, 1);
+    init_collision_body_parts(((u8 *)this), &doa_ex01_collision_body_parts, 1);
     ((TObjCollidable *)this)->refresh_collision_body_centers();
     ((TObjPlayer *)this)->register_object_by_id();
     this->animation_frame = 0.0f;
     this->animation_step = 0.5f;
-    this->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion(TObjDoaEx01__resource_bundle, 0)) + 4);
+    this->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion(doa_ex01_resource_bundle, 0)) + 4);
     this->door_flags = 0x100001;
     *(f32 *)((s8 *)this + 0xD4) = 1.0f;
-    this->m_d8 = 1.0f;
+    this->glow_phase = 1.0f;
     *(f32 *)((s8 *)this + 0xDC) = 1.0f;
     this->m_e0 = 1.0f;
 }
@@ -273,18 +250,18 @@ void *TObjDoaEx01::create(void *set_data) {
 }
 
 void TObjDoaEx01::free_resource() {
-    if (TObjDoaEx01__resource_bundle != NULL) {
-        delete TObjDoaEx01__resource_bundle;
-        TObjDoaEx01__resource_bundle = NULL;
+    if (doa_ex01_resource_bundle != NULL) {
+        delete doa_ex01_resource_bundle;
+        doa_ex01_resource_bundle = NULL;
     }
 }
 void TObjDoaEx01::load_resources() {
     BmlResource *resource;
     u8 *temp_r3_2;
-    resource = new BmlResource(1, &TObjDoaEx01__resource_descriptor, 0, 0, NULL);
-    TObjDoaEx01__resource_bundle = resource;
+    resource = new BmlResource(1, &doa_ex01_resource_descriptor, 0, 0, NULL);
+    doa_ex01_resource_bundle = resource;
     temp_r3_2 = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model(resource, 0)) + 0x2C)) + 0x30)) + 0x2C)) + 0x2C));
-    TObjDoaEx01__alpha_model_node = temp_r3_2;
-    TObjDoaEx01__alpha_model_sibling = (u8 *)*(saddr *)((s8 *)temp_r3_2 + 0x30);
+    doa_ex01_alpha_model_node = temp_r3_2;
+    doa_ex01_alpha_model_sibling = (u8 *)*(saddr *)((s8 *)temp_r3_2 + 0x30);
 }
 

@@ -12,27 +12,27 @@
 #pragma readonly_strings on
 
 
-const char *TObjBoss5PillarSmoke__name = "TObjBoss5PillarSmoke";
+const char *TObjBoss5PillarSmoke::name = "TObjBoss5PillarSmoke";
 
-// Where the smoke particles are parked (fn_8028AE1C, the constructor) and the
-// node origin the model callback projects (TObjBoss5PillarDemo__sub_8028ACE8).
-static const Vec lbl_80450CD0 = {0.0f, -1000.0f, 0.0f};
-static const Vec lbl_80450CDC = {0.0f, 0.0f, 0.0f};
+// Where the smoke particles are parked (park_pillar_smoke_particles, the constructor) and the
+// node origin the model callback projects (place_pillar_smoke_at_node).
+static const Vec pillar_smoke_parked_position = {0.0f, -1000.0f, 0.0f};
+static const Vec pillar_smoke_node_origin = {0.0f, 0.0f, 0.0f};
 
 // The pillar's model callback and the smoke placement: their .sbss, the two
 // templates above and the smoke layout are this unit's, so the TU starts at
-// 0x8028ACE8, not at the destructor.
+// the model callback, not at the destructor.
 extern "C" {
 s32 boss5_pillar_demo_index;
 TObjBoss5PillarSmoke *boss5_pillar_demo_ptr;
 
-void TObjBoss5PillarDemo__sub_8028ACE8(TObjBoss5PillarSmoke *smoke, NJS_OBJECT *node) {
+void place_pillar_smoke_at_node(TObjBoss5PillarSmoke *smoke, NJS_OBJECT *node) {
     Vec position;
     s32 idx;
     idx = boss5_pillar_demo_index - 1;
     boss5_pillar_demo_index += 1;
     if (idx >= 0 && idx < smoke->count) {
-        TCameraCtrl::transform_to_view(&lbl_80450CDC, &position);
+        TCameraCtrl::transform_to_view(&pillar_smoke_node_origin, &position);
         if (smoke->particles_a != NULL && smoke->particles_a[idx] != NULL) {
             smoke->particles_a[idx]->set_position(&position);
         }
@@ -42,29 +42,29 @@ void TObjBoss5PillarDemo__sub_8028ACE8(TObjBoss5PillarSmoke *smoke, NJS_OBJECT *
     }
 }
 
-void TObjBoss5PillarDemo__sub_8028AD88(NJS_OBJECT *node) { TObjBoss5PillarDemo__sub_8028ACE8(boss5_pillar_demo_ptr, node); }
+void pillar_smoke_node_callback(NJS_OBJECT *node) { place_pillar_smoke_at_node(boss5_pillar_demo_ptr, node); }
 
-void TObjBoss5PillarDemo__sub_8028ADB0(TObjBoss5PillarSmoke *smoke) {
+void end_pillar_smoke_node_capture(TObjBoss5PillarSmoke *smoke) {
     if (smoke != NULL) {
         set_model_node_callback(0);
     }
 }
 
-void fn_8028ADDC(TObjBoss5PillarSmoke *smoke) {
+void begin_pillar_smoke_node_capture(TObjBoss5PillarSmoke *smoke) {
     if (smoke) {
         boss5_pillar_demo_index = 0;
         boss5_pillar_demo_ptr = smoke;
-        set_model_node_callback(TObjBoss5PillarDemo__sub_8028AD88);
+        set_model_node_callback(pillar_smoke_node_callback);
     }
 }
-void fn_8028AE1C(TObjBoss5PillarSmoke *smoke) {
+void park_pillar_smoke_particles(TObjBoss5PillarSmoke *smoke) {
     s32 i;
     for (i = 0; i < smoke->count; i++) {
         if (smoke->particles_a[i] != 0) {
-            smoke->particles_a[i]->set_position((void *)&lbl_80450CD0);
+            smoke->particles_a[i]->set_position((void *)&pillar_smoke_parked_position);
         }
         if (smoke->particles_b[i] != 0) {
-            smoke->particles_b[i]->set_position((void *)&lbl_80450CD0);
+            smoke->particles_b[i]->set_position((void *)&pillar_smoke_parked_position);
         }
     }
 }
@@ -91,7 +91,7 @@ TObjBoss5PillarSmoke::~TObjBoss5PillarSmoke() {
 
 TObjBoss5PillarSmoke::TObjBoss5PillarSmoke(TObject *parent, NJS_OBJECT *node) : TObject(parent) {
     s32 i;
-    m_name = TObjBoss5PillarSmoke__name;
+    m_name = TObjBoss5PillarSmoke::name;
     this->count = 0;
     this->particles_a = NULL;
     this->particles_b = NULL;
@@ -109,7 +109,7 @@ TObjBoss5PillarSmoke::TObjBoss5PillarSmoke(TObject *parent, NJS_OBJECT *node) : 
     this->particles_a = (TParticleCtrl **)mem_alloc(this->count * 4);
     this->particles_b = (TParticleCtrl **)mem_alloc(this->count * 4);
     for (i = 0; i < this->count; i++) {
-        this->particles_a[i] = spawn_continuous_particle_effect_with_flags((void *)&lbl_80450CD0, 0x213, 0x40);
-        this->particles_b[i] = spawn_continuous_particle_effect_with_flags((void *)&lbl_80450CD0, 0x214, 0x40);
+        this->particles_a[i] = spawn_continuous_particle_effect_with_flags((void *)&pillar_smoke_parked_position, 0x213, 0x40);
+        this->particles_b[i] = spawn_continuous_particle_effect_with_flags((void *)&pillar_smoke_parked_position, 0x214, 0x40);
     }
 }

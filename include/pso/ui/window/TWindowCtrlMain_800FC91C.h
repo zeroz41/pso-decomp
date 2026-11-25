@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void *__dt__13TUnk_8049CA54Fv(void *arg0, s16 arg1);
+void *__dt__21TFontPlayerStatusHelpFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TWindowCtrlMain_800FC91C.cpp ---

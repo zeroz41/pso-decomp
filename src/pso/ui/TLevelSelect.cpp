@@ -77,7 +77,7 @@ TLevelSelect::~TLevelSelect() {}
 TLevelSelect::TLevelSelect() : TObject(tl_01) {
     u32 i;
     m_name = level_select_class_name;
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     game_difficulty_selection = 0;
     m_unlocked_count = count_unlocked_difficulties();
     if (m_unlocked_count == 0) {

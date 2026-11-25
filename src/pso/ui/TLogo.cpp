@@ -30,14 +30,14 @@
 
 
 extern "C" {
-s32 TKeyBoardControl__sub_8000F90C(int);
+s32 set_fallback_main_phase(int);
 s32 __ct__15TWindowCtrlMainFv(u32);
 void request_main_phase(s32 arg0);
 u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
 u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
 u32 __ct__13TAdVIConfigGCFP7TObject(void *, void *);
 u32 __ct__18TAdTrialModemChkGCFP7TObject(void *, void *);
-s32 TKeyBoardControl__sub_8000F92C();
+s32 switch_to_fallback_main_phase();
 s8 func_801A5E54__Fv();
 
 const char *TLogo__class_name = "TLogo";
@@ -55,8 +55,6 @@ void (*logo_load_callback_table[18])(void) = {
     load_adx_logo_texture, free_adx_logo_texture,
 };
 }
-int is_logo_exit_requested(int);
-int is_sega_logo_done(TAdSEGAlogo *logo);
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern int sega_logo_done_flag;
@@ -72,9 +70,9 @@ s32 TLogo__sub_8013F800(void* p) { return *(s32*)((char*)p + 0x48); }
 
 int is_sega_logo_done(TAdSEGAlogo *logo) {  return sega_logo_done_flag; }
 
-int is_logo_exit_requested(int _w0) {  return TLogo__exit_requested_flag; }
+int is_logo_exit_requested(int _w0) {  return TLogo::exit_requested_flag; }
 
-int TLogo__sub_8013F7E8(int _w0) {  return TAdADXlogo__done; }
+int TLogo__sub_8013F7E8(int _w0) {  return TAdADXlogo::done; }
 
 void TLogo::init_logo_scene() {
     s32 i;
@@ -90,7 +88,7 @@ void TLogo::init_logo_scene() {
     Vec b = {0.0f, 0.0f, -100.0f};
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose(&a, &b);
-    TKeyBoardControl__sub_8000F90C(1);
+    set_fallback_main_phase(1);
     apply_phase_keyboard_mode();
     run_load_callback_table(logo_load_callback_table, sizeof(logo_load_callback_table));
     if (is_area_transfer_pending() != 0) {
@@ -123,7 +121,7 @@ void TLogo::run_frame() {
     process_async_file_reads();
     update_sound_request_slots();
     if (func_801A5E54__Fv() != 0) {
-        TKeyBoardControl__sub_8000F92C();
+        switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         request_main_phase(0);

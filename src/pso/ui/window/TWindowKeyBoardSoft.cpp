@@ -41,7 +41,6 @@ struct UV_80262038 {
 
 WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 50040.0f, NULL, 0x803 };
 
-extern "C" {
 
 
 extern u8 *TWindowKeyBoardSoft__language_text_resources;
@@ -419,17 +418,17 @@ void TWindowKeyBoardSoft::handle_page_cycle_input(s32 port) {
         calc_cursor_step(&spC, &sp8);
         if (test_pressed_buttons_packed(temp_r30, 0x10000) != 0) {
             this->page_slide = 10.0f;
-            *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x64) + 1);
+            *(u8 *)((s8 *)(this) + 0x64) = (u8) (*(u8 *)((s8 *)(this) + 0x64) + 1);
         }
         if (test_pressed_buttons_packed(temp_r30, 0x20000) != 0) {
             this->page_slide = -10.0f;
-            *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x64) - 1);
+            *(u8 *)((s8 *)(this) + 0x64) = (u8) (*(u8 *)((s8 *)(this) + 0x64) - 1);
         }
-        if ((s8) *(u8 *)((s8 *)((u8 *)this) + 0x64) < spC) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) sp8;
+        if ((s8) *(u8 *)((s8 *)(this) + 0x64) < spC) {
+            *(u8 *)((s8 *)(this) + 0x64) = (u8) sp8;
         }
-        if ((s8) *(u8 *)((s8 *)((u8 *)this) + 0x64) > sp8) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) spC;
+        if ((s8) *(u8 *)((s8 *)(this) + 0x64) > sp8) {
+            *(u8 *)((s8 *)(this) + 0x64) = (u8) spC;
         }
         this->update_focus_flags();
     }
@@ -480,12 +479,11 @@ void TWindowKeyBoardSoft::update_close_mode() {
 }
 
 s32 TWindowKeyBoardSoft::hit_test_relative(u8 *ctx, u8 *arg2) {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f3;
     f32 temp_f5;
     temp_f3 = *(f32 *)((s8 *)arg2 + 4);
     temp_f5 = *(f32 *)((s8 *)arg2 + 0);
-    return ((TWindowKeyBoardSoft *)arg0)->sub_802614DC((WindowDrawContext *)ctx, temp_f5 - *(f32 *)((s8 *)ctx + 0), temp_f3 - *(f32 *)((s8 *)ctx + 4), *(f32 *)((s8 *)arg2 + 8) - temp_f5, *(f32 *)((s8 *)arg2 + 0xC) - temp_f3) >= 1.0f;
+    return this->sub_802614DC((WindowDrawContext *)ctx, temp_f5 - *(f32 *)((s8 *)ctx + 0), temp_f3 - *(f32 *)((s8 *)ctx + 4), *(f32 *)((s8 *)arg2 + 8) - temp_f5, *(f32 *)((s8 *)arg2 + 0xC) - temp_f3) >= 1.0f;
 }
 
 f32 TWindowKeyBoardSoft::sub_802614DC(WindowDrawContext *context, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
@@ -860,7 +858,7 @@ void TWindowKeyBoardSoft::run_task() {
     s32 port;
 
     if (m_control != NULL) {
-        if ((this->sub_80244994() != 0) && (m_control->is_confirmed() == 0)) {
+        if ((this->is_open_and_unblocked() != 0) && (m_control->is_confirmed() == 0)) {
             port = is_player_input_active(this->client_index);
             handle_page_cycle_input(port);
             sub_80260E30(port);
@@ -868,13 +866,12 @@ void TWindowKeyBoardSoft::run_task() {
             update_keyboard_child_input_from_controller(port);
             sub_80260808(port);
         }
-        ((TWindowDD *)this)->initialize_subwindow();
-        ((TWindowBase *)this)->update_fade();
+        update_window();
+        this->update_fade();
         this->page_slide -= 0.15f * this->page_slide;
     }
 }
 
-}
 
 #pragma pop
 

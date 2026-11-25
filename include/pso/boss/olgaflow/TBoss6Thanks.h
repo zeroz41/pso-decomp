@@ -37,13 +37,17 @@ struct TBoss6Thanks : public TObject {
     void update_particle_emitters();
     void destroy_effects();
     void clear_particle_emitters();
-    static int is_player_near(void *);
+    int is_player_near();
     void update_fade_out();
     void advance_thanks_state();
     void mark_done();
     static void *create();
     static s32 is_ship_door_ready();
     static s32 try_dispatch_darkfalz_phase();
+    static const char *class_name;
 };
 LAYOUT_ASSERT(TBoss6Thanks_size, sizeof(TBoss6Thanks) == 0x64);
+// Particle effect id and the fade_frame range in which update_particle_emitters keeps it.
+struct Boss6ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
+
 #endif

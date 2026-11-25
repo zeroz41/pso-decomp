@@ -3,7 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 
 void TAdDialingGC::create() {
-    if (TAdDialingGC__instance == NULL) {
+    if (TAdDialingGC::instance == NULL) {
         new TAdDialingGC(tl_window);
     }
 }

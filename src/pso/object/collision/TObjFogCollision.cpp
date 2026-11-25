@@ -36,9 +36,9 @@
 #include "pso/render/render_util.h"
 
 
-const char *TObjFogCollision__name = "TObjFogCollision";
-const char *TObjFogCollisionSwitch__name = "TObjFogCollisionSwitch";
-const char *TObjFogCollisionPoison__name = "TObjFogCollisionPoison";
+const char *fog_collision_name = "TObjFogCollision";
+const char *fog_collision_switch_name = "TObjFogCollisionSwitch";
+const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
 struct VBase_801537CC { char pad[0x18]; };
 
@@ -47,10 +47,6 @@ struct VObj_801537CC : VBase_801537CC {
     virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
     virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
 };
-
-struct O_801538D4 { u8 pad[0x8C]; s32 v; };
-
-struct O_80153D98 { u8 pad[0x88]; s32 mode; };
 
 
 extern "C" {
@@ -69,10 +65,10 @@ void *TObjFogCollision::create(void *set) {
 
 }
 TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {
-    ((TObject *)this)->m_name = TObjFogCollision__name;
+    ((TObject *)this)->m_name = fog_collision_name;
     ((TObjFogCollision *)(((u8 *)this)))->apply_object_set_data(set);
-    this->m_90 = 0;
-    this->m_94 = 0;
+    this->debug_state = 0;
+    this->far_timer = 0;
     ((TObject *)(((u8 *)this)))->disallow_rendering();
 }
 
@@ -85,7 +81,7 @@ int TObjFogCollision::debug_draw_enabled() { return 0; }
 
 
 
-void TObjFogCollision::vfunc_13(s32) {
+void TObjFogCollision::init_params(s32) {
     s32 temp_r0;
     temp_r0 = this->set_params[0];
     if (temp_r0 < 0) {
@@ -112,7 +108,7 @@ s32 TObjFogCollision::check_collision(u16 client) {
             return 1;
         }
         if ((2.5e+03f + temp_f31) < temp_f1) {
-            this->m_94 = 0x3C;
+            this->far_timer = 0x3C;
         }
         goto block_5;
     }
@@ -131,11 +127,10 @@ void TObjFogCollision::run_task() {
     }
 }
 
-void TObjFogCollision::vfunc_14() {
-    O_80153D98 *arg0 = (O_80153D98 *)this;
+void TObjFogCollision::draw_debug_text() {
     debug_printf_at(0x13001C, "Rad");
     debug_printf_at(0x130020, "Param No");
-    if (arg0->mode == 0) {
+    if (set_params[1] == 0) {
         debug_printf_at(0x130021, "LINK : ON");
     } else {
         debug_printf_at(0x130021, "LINK : OFF");
@@ -144,7 +139,7 @@ void TObjFogCollision::vfunc_14() {
 
 void TObjFogCollision::render() {
     if (debug_text_enabled() != 0) {
-        this->vfunc_14();
+        this->draw_debug_text();
     }
     if (debug_draw_enabled() != 0) {
         this->draw_volume();
@@ -163,7 +158,7 @@ void TObjFogCollision::draw_volume() {
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(0xFF00, 0x800);
-        switch (this->m_90) {
+        switch (this->debug_state) {
         case 0:
             set_constant_material(&c0);
             break;
@@ -195,7 +190,7 @@ void *TObjFogCollisionSwitch::create(void *set) {
 }
 
 TObjFogCollisionSwitch::TObjFogCollisionSwitch(TObject *parent, void *set) : TObjFogCollision(parent, set) {
-    m_name = TObjFogCollisionSwitch__name;
+    m_name = fog_collision_switch_name;
 }
 
 
@@ -204,10 +199,10 @@ TObjFogCollisionSwitch::~TObjFogCollisionSwitch() {
 }
 
 
-void TObjFogCollisionSwitch::vfunc_13(s32 arg) {
+void TObjFogCollisionSwitch::init_params(s32 arg) {
     s32 temp_r0;
 
-    TObjFogCollision::vfunc_13(arg);
+    TObjFogCollision::init_params(arg);
     temp_r0 = this->set_params[2];
     if (temp_r0 < 0) {
         this->set_params[2] = 0;
@@ -218,7 +213,7 @@ void TObjFogCollisionSwitch::vfunc_13(s32 arg) {
     }
 }
 
-// inferred: vfunc_14 prints "SwitchMode:ON->ON" when this is nonzero, "ON->OFF" otherwise.
+// inferred: draw_debug_text prints "SwitchMode:ON->ON" when this is nonzero, "ON->OFF" otherwise.
 s32 TObjFogCollisionSwitch::get_switch_mode() {
     return this->scale.z >= 1.0f;
 }
@@ -238,10 +233,9 @@ void TObjFogCollisionSwitch::run_task() {
     }
 }
 
-void TObjFogCollisionSwitch::vfunc_14() {
-    O_801538D4 *arg0 = (O_801538D4 *)this;
-    ((TObjFogCollision *)arg0)->TObjFogCollision::vfunc_14();
-    if (((TObjFogCollisionSwitch *)arg0)->get_switch_mode() != 0) {
+void TObjFogCollisionSwitch::draw_debug_text() {
+    TObjFogCollision::draw_debug_text();
+    if (get_switch_mode() != 0) {
         debug_printf_at(0x13001E, "SwitchMode:ON->ON");
     } else {
         debug_printf_at(0x13001E, "SwitchMode:ON->OFF");
@@ -256,7 +250,7 @@ void *TObjFogCollisionPoison::create(void *set) {
 TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjFogCollisionSwitch(arg1, set) {
     u16 i;
     TObject *parent = this;
-    m_name = TObjFogCollisionPoison__name;
+    m_name = fog_collision_poison_name;
     ((VObj_801537CC *)parent)->m11();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
@@ -273,10 +267,10 @@ TObjFogCollisionPoison::~TObjFogCollisionPoison() {
 }
 
 
-void TObjFogCollisionPoison::vfunc_13(s32) {
+void TObjFogCollisionPoison::init_params(s32) {
     f32 var_f2;
 
-    *(s32 *)&this->m_98 = (s32) floor_to_float(this->scale.y);
+    this->poison_damage = (s32) floor_to_float(this->scale.y);
     switch ((s32) game_difficulty_selection) {
     default:
     case 0:
@@ -292,7 +286,7 @@ void TObjFogCollisionPoison::vfunc_13(s32) {
         var_f2 = 6.0f;
         break;
     }
-    *(s32 *)&this->m_98 = (s32) ((f32) *(s32 *)&this->m_98 * var_f2);
+    this->poison_damage = (s32) ((f32) this->poison_damage * var_f2);
 }
 
 void TObjFogCollisionPoison::run_task() {
@@ -311,7 +305,7 @@ void TObjFogCollisionPoison::run_task() {
 // manager ctor stores it in m_name like the other three X__name pointers).
 const char *TObjFogCollision_Manager__name = "TObjFogCollision_Manager";
 
-TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
+TObjFogCollision_Manager *fog_collision_poison_instances[12];
 
 extern "C" {
 s32 send_6x2F_change_player_hp(s32, u16, s16);
@@ -358,7 +352,7 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 client) {
     s16 v;
     p = (saddr)get_player_by_client_id(client & 0xFFFF);
     if (((TObjEneDD *)p)->is_valid_target() != 0) {
-        v = ((TObjChara *)p)->get_actor_hp() - this->m_98;
+        v = ((TObjChara *)p)->get_actor_hp() - this->poison_damage;
         if (v < 0) {
             v = 0;
         }
@@ -373,15 +367,15 @@ s32 TObjFogCollisionPoison::check_switch() {
     return (u8)((u8) (switch_mode == is_current_floor_switch_set((u16) this->set_params[2])));
 }
 
-void TObjFogCollisionPoison::vfunc_14() {
-    TObjFogCollisionSwitch::vfunc_14();
+void TObjFogCollisionPoison::draw_debug_text() {
+    TObjFogCollisionSwitch::draw_debug_text();
     debug_printf_at(0x13001D, "Poison Power");
 }
 
 void TObjFogCollisionPoison::clear_state_array() {
     s32 i;
     for (i = 0; i < 12; i++) {
-        TObjFogCollisionPoison__instances[i] = 0;
+        fog_collision_poison_instances[i] = 0;
     }
 }
 
@@ -399,11 +393,11 @@ void TObjFogCollisionPoison::create() {
     }
 }
 
-// One manager per client: registers itself in TObjFogCollisionPoison__instances[index].
+// One manager per client: registers itself in fog_collision_poison_instances[index].
 TObjFogCollision_Manager::TObjFogCollision_Manager(TObject *parent, s32 index) : TObject(parent) {
     m_name = TObjFogCollision_Manager__name;
     player = index;
-    TObjFogCollisionPoison__instances[player] = this;
+    fog_collision_poison_instances[player] = this;
     hit_count = 0;
     fog_level = 0;
     fog_link = 1;
@@ -411,7 +405,7 @@ TObjFogCollision_Manager::TObjFogCollision_Manager(TObject *parent, s32 index) :
 }
 
 TObjFogCollision_Manager::~TObjFogCollision_Manager() {
-    TObjFogCollisionPoison__instances[player] = 0;
+    fog_collision_poison_instances[player] = 0;
 }
 
 void TObjFogCollision_Manager::record_hit(s32 level, s32 link) {
@@ -425,7 +419,7 @@ void TObjFogCollision_Manager::record_hit(s32 level, s32 link) {
 void record_fog_collision_hit(s32 arg0, s32 level, s32 link) {
     TObjFogCollision_Manager *manager;
     if ((arg0 >= 0) && (arg0 < 0xC)) {
-        manager = TObjFogCollisionPoison__instances[arg0];
+        manager = fog_collision_poison_instances[arg0];
         if (manager != 0) {
             manager->record_hit(level, link);
         }

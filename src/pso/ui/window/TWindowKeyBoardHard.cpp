@@ -15,7 +15,6 @@ u8 keyboard_key_repeat_mask_table[4] = { 0x1D, 0x1F, 0x07, 0x00 };
 // The vowels and N/Y that take an accent, upper and lower case in pairs.
 const u8 *keyboard_accent_base_chars = (const u8 *)"AaEeIiOoUuNnYy";
 
-extern "C" {
 
 void TWindowKeyBoardHard::sub_8025EC04() {
     m_68 = 0;
@@ -46,16 +45,16 @@ s32 TWindowKeyBoardHard::has_non_modifier_key() {
             return 1;
         }
     }
-    if (hardware_keyboard_state.sub_801323C8(0x55) != 0) {
+    if (hardware_keyboard_state.is_key_pressed(0x55) != 0) {
         return 1;
     }
-    if (hardware_keyboard_state.sub_801323C8(0x54) != 0) {
+    if (hardware_keyboard_state.is_key_pressed(0x54) != 0) {
         return 1;
     }
-    if (hardware_keyboard_state.sub_801323C8(0x56) != 0) {
+    if (hardware_keyboard_state.is_key_pressed(0x56) != 0) {
         return 1;
     }
-    return hardware_keyboard_state.sub_801323C8(0x57) != 0 ? 1 : 0;
+    return hardware_keyboard_state.is_key_pressed(0x57) != 0 ? 1 : 0;
 }
 
 u16 TWindowKeyBoardHard::lookup_key_char(u8 arg1) {
@@ -453,7 +452,7 @@ void TWindowKeyBoardHard::update_modifier_flags() {
     TWindowKeyBoardBase *temp_r3_3;
     TWindowKeyBoardBase *temp_r3_4;
     if (hardware_keyboard_state.get_key_state() != 0) {
-        if ((hardware_keyboard_state.sub_801323C8(0x56) != 0) || (hardware_keyboard_state.sub_801323C8(0x5B) != 0)) {
+        if ((hardware_keyboard_state.is_key_pressed(0x56) != 0) || (hardware_keyboard_state.is_key_pressed(0x5B) != 0)) {
             input_flags |= 2;
         } else {
             input_flags &= 0xFFFFFFFD;
@@ -479,7 +478,7 @@ void TWindowKeyBoardHard::update_modifier_flags() {
     } else {
         input_flags &= 0xFFFFFFFE;
     }
-    if ((hardware_keyboard_state.sub_801323C8(0x54) != 0) || (hardware_keyboard_state.sub_801323C8(0x55) != 0)) {
+    if ((hardware_keyboard_state.is_key_pressed(0x54) != 0) || (hardware_keyboard_state.is_key_pressed(0x55) != 0)) {
         input_flags |= 0x80;
     } else {
         input_flags &= 0xFFFFFF7F;
@@ -528,7 +527,6 @@ void TWindowKeyBoardHard::set_mode1() {
     }
 }
 
-}
 
 
 void TWindowKeyBoardHard::set_mode0() {
@@ -560,7 +558,6 @@ void TWindowKeyBoardHard::set_mode0() {
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" {
 
 void TWindowKeyBoardHard::release_keyboard() {
     if (m_control != NULL) {
@@ -604,7 +601,6 @@ void TWindowKeyBoardHard::render() {
     }
 }
 
-}
 
 
 
@@ -612,7 +608,6 @@ void TWindowKeyBoardHard::render() {
 #include "pso/ui/window/WindowLayout.h"
 
 
-extern "C" {
 
 
 void TWindowKeyBoardHard::run_task() {
@@ -637,7 +632,7 @@ void TWindowKeyBoardHard::run_task() {
         if (temp_r3_2 > 0) {
             this->m_68 = (temp_r3_2 - 1);
         }
-        ((TWindowDD *)this)->initialize_subwindow();
+        update_window();
         update_fade();
     }
 }
@@ -653,7 +648,6 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
     this->release_keyboard();
 }
 
-}
 
 
 void TWindowKeyBoardHard::set_bits_shift7(saddr client_id, s32 arg1) {

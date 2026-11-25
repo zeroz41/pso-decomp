@@ -5,7 +5,7 @@
 #include "pso/camera/TCameraFollow.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/network/client_id.h"
 #include "pso/object/CursorAction.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -139,7 +139,7 @@ void TOQuestTalkBase::run_task() {
             end_conversation_camera();
             if (interactor == local_client_id) {
                 player = get_player_by_client_id(local_client_id);
-                if (player != NULL && ((TObjPlayer *)player)->check_player_flag1() != 0) {
+                if (player != NULL && (player)->check_player_flag1() != 0) {
                     send_release_hold(player);
                 }
             }

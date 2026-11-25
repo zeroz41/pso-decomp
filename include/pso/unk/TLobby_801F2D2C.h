@@ -5,58 +5,58 @@
 #include "pso/quest/QuestVm.h"
 
 extern "C" {
-void TLobby__sub_801F3314(saddr player);
-int TLobby__sub_801F3384(void *p);
-int TLobby__sub_801F33A8(void *p);
-int TLobby__sub_801F33CC(void *p);
-int TLobby__sub_801F33F0(void *p);
-int TLobby__sub_801F345C(void *p);
-void TLobby__sub_801F34E8(int a0, int a1);
-int TLobby__sub_801F34F8(void);
-void TLobby__sub_801F3568(void);
-void TLobby__sub_801F3614(void);
-void TLobby__sub_801F3694(void *p);
-void TLobby__sub_801F36BC(void);
-void TLobby__sub_801F36D8(void);
-void TLobby__sub_801F36E4(void);
+void test_player_action_10000(saddr player);
+int test_player_action_400(void *p);
+int test_player_action_200(void *p);
+int test_player_action_100(void *p);
+int test_player_action_E0(void *p);
+int test_player_action_2(void *p);
+void gba_set_identifiers(int a0, int a1);
+int get_gba_download_state(void);
+void set_screen_bw(void);
+void clear_lobby_count(void);
+void disable_player_techniques(void *p);
+void set_ult_map(void);
+void override_warp_dest_floor(void);
+void disable_quest_warp(void);
 int TLobby__sub_801F36F0(void);
 int TLobby__sub_801F36F8(void);
 int TLobby__sub_801F3700(void);
 int TLobby__sub_801F3708(void);
-s32 *TObjItemOKWindow__sub_801F3268(void);
+s32 *get_entered_item_name(void);
 }
 void build_6x77_sync_quest_register(void *p);
 quest_suspend_reason dispatch_quest_opcode(void);
 extern "C" {
-void fn_801F3480(void *p);
-void fn_801F34A0(void *p);
+void clear_player_flag_4096(void *p);
+void set_player_flag_4096(void *p);
 s32 fn_get_field_3ac(void *p);
 }
 s32 get_field_d4(void *p);
 
 // --- C functions defined in TLobby_801F2D2C.cpp ---
 extern "C" {
-void TLobby__sub_801F3314(saddr player);
-int TLobby__sub_801F3384(void *p);
-int TLobby__sub_801F33A8(void *p);
-int TLobby__sub_801F33CC(void *p);
-int TLobby__sub_801F33F0(void *p);
-int TLobby__sub_801F345C(void *p);
-void TLobby__sub_801F34E8(int a0, int a1);
-int TLobby__sub_801F34F8(void);
-void TLobby__sub_801F3568(void);
-void TLobby__sub_801F3614(void);
-void TLobby__sub_801F3694(void *p);
-void TLobby__sub_801F36BC(void);
-void TLobby__sub_801F36D8(void);
-void TLobby__sub_801F36E4(void);
+void test_player_action_10000(saddr player);
+int test_player_action_400(void *p);
+int test_player_action_200(void *p);
+int test_player_action_100(void *p);
+int test_player_action_E0(void *p);
+int test_player_action_2(void *p);
+void gba_set_identifiers(int a0, int a1);
+int get_gba_download_state(void);
+void set_screen_bw(void);
+void clear_lobby_count(void);
+void disable_player_techniques(void *p);
+void set_ult_map(void);
+void override_warp_dest_floor(void);
+void disable_quest_warp(void);
 int TLobby__sub_801F36F0(void);
 int TLobby__sub_801F36F8(void);
 int TLobby__sub_801F3700(void);
 int TLobby__sub_801F3708(void);
-s32 *TObjItemOKWindow__sub_801F3268(void);
-void fn_801F3480(void *p);
-void fn_801F34A0(void *p);
+s32 *get_entered_item_name(void);
+void clear_player_flag_4096(void *p);
+void set_player_flag_4096(void *p);
 s32 fn_get_field_3ac(void *p);
 }
 // --- end of C functions

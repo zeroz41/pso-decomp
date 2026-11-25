@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// --- C functions defined in TUnk_804C2298.cpp ---
+// --- C functions defined in TAdDialingSelectGC.cpp ---
 extern "C" {
 s32 TWindowShortListCtrl__sub_801A513C(void *p);
 int TWindowShortListCtrl__sub_801A5144(void *p);

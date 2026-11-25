@@ -19,6 +19,7 @@ public:
     TObjDFRecover(TObject *parent, u16 id, const Vec *position);
     virtual ~TObjDFRecover();
     virtual void run_task();
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjDFRecover_parent_offset, offsetof(TObjDFRecover, m_up) == 0x10);

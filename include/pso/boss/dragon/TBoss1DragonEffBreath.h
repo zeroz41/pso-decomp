@@ -15,6 +15,8 @@ struct TBoss1DragonEffBreath : public TObject {
     AreaAttackHistory *attack_history;
     virtual void render();
     virtual void run_task();
+    static const char *name;
+    static const char class_name_string[];
 };
 
 LAYOUT_ASSERT(TBoss1DragonEffBreath_size, sizeof(TBoss1DragonEffBreath) == 0x38);

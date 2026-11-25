@@ -14,7 +14,7 @@ QuestDownloadCachePage *file_page_cache_head;
 s32 quest_download_name_search_lo;
 s32 quest_download_name_search_hi;
 
-s32 TQuestVmDownLoadServer__sub_803E6970(s32 start, s32 count, u16 *buf, s32 flag) {
+s32 render_input_entries_text(s32 start, s32 count, u16 *buf, s32 flag) {
     QuestDownloadInputEntry *e;
     u16 *dst;
     QuestDownloadInputEntry *end;
@@ -229,8 +229,8 @@ s32 TQuestVmDownLoadServer__sub_803E6F98(u16 ch) {
     u8 decoded[2];
     u16 code;
     code = ch;
-    if (TQuestVmDownLoadServer__is_sjis_double_byte(ch) != 0) {
-        code = TQuestVmDownLoadServer__sub_803EC69C(code);
+    if (is_sjis_double_byte(ch) != 0) {
+        code = sjis_to_jis(code);
     }
     if (TQuestVmDownLoadServer__sub_803E7098(decoded, code) != 1) {
         return 0;
@@ -242,8 +242,8 @@ s32 TQuestVmDownLoadServer__sub_803E7018(u16 ch) {
     u8 decoded[2];
     u16 code;
     code = ch;
-    if (TQuestVmDownLoadServer__is_sjis_double_byte(ch) != 0) {
-        code = TQuestVmDownLoadServer__sub_803EC69C(code);
+    if (is_sjis_double_byte(ch) != 0) {
+        code = sjis_to_jis(code);
     }
     if (TQuestVmDownLoadServer__sub_803E7098(decoded, code) != 1) {
         return 0;
@@ -266,12 +266,12 @@ s32 TQuestVmDownLoadServer__sub_803E7098(u8 *p, u16 code) {
         code &= 0x24FF;
     case 0x2400:
     case 0x2100:
-        c = TQuestVmDownLoadServer__sub_803EC8D8(code);
-        if ((u8)c < 0x98 || (u8)c >= 0xF7) {
+        c = jis_to_single_byte(code);
+        if (c < 0x98 || c >= 0xF7) {
             *p = c;
             return 1;
         }
-        code = quest_download_char_code_table[(u8)c - 0x98];
+        code = quest_download_char_code_table[c - 0x98];
         *p++ = code;
         if (code & 0x8000) {
             *p = 0xDE;
@@ -382,7 +382,7 @@ s32 TQuestVmDownLoadServer::is_valid_item_for_slot(u8 c, u8 k) {
     return 0;
 }
 
-struct Row_803E7390 { s16 single; s16 pair; };
+struct IsValidItemForSlotRow { s16 single; s16 pair; };
 
 static const u8 glyph_bits[0x3E0] = {
     0x00, 0x08, 0x76, 0xE8, 0x4F, 0xEE, 0xDC, 0x00, 0x08, 0x76, 0xF8, 0xFF, 0xFF, 0xDD, 0x00, 0x08,
@@ -449,7 +449,7 @@ static const u8 glyph_bits[0x3E0] = {
     0x60, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x40, 0x00, 0x04, 0x3A, 0xF4, 0x67, 0xB3, 0x6A, 0x00,
 };
 
-static const Row_803E7390 glyph_rows[0x72] = {
+static const IsValidItemForSlotRow glyph_rows[0x72] = {
     { 2086, 4095 }, { 1214, 4095 }, { 1159, 2141 }, { 1104, 3370 }, { 1049, 6416 }, { 1104, 3370 },
     { 1104, 6579 }, { 994, 3370 }, { 939, 7032 }, { 884, 3554 }, { 2375, 5221 }, { 2375, 5221 },
     { 2375, 5221 }, { 2375, 5221 }, { 1899, 3600 }, { 2375, 2790 }, { 1899, 3987 }, { 2375, 3201 },
@@ -493,7 +493,7 @@ static const u8 glyph_col[0x100] = {
 s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c) {
     static const u8 bit_mask[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
     u8 col;
-    const Row_803E7390 *row;
+    const IsValidItemForSlotRow *row;
     s16 bit;
     if (c < 0x80) {
         return 0;

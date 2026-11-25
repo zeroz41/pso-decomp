@@ -24,7 +24,7 @@ public:
     void reset_all_slots();
     void init_slot_entry(s32 arg1, void *arg2);
     void init_slot(s32 arg1, void *arg2);
-    void sub_802C7498(s32 i); // hides slot entry i (visible[i + 2])
+    void hide_slot_entry(s32 i); // hides slot entry i (visible[i + 2])
     void sub_802C754C(s32 i); // hides slot i (visible[i])
     void set_select_index(s32 v); // stores enabled
 };

@@ -20,6 +20,7 @@ public:
     // Builds the strip shape, rotation and phase tables and resets the slot counter;
     // called by init_boss2_tunnel after the common resource loads.
     static void init_strips();
+    static const char *name;
 };
 
 void boss2_dust_draw_at(const Vec *position, s32 slot);

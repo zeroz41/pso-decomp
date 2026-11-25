@@ -2,11 +2,11 @@
 #define PSO_UI_WINDOW_TGAMELISTROW_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804CF998.h"
+#include "pso/unk/TWindowLayoutRect.h"
 
 // One game of the game list: the lock icon, the game name, its level, mark and difficulty
 // columns and the player count (case 12 of init_window_layout_entries).
-class TGameListRow : public TUnk_804CF998 {
+class TGameListRow : public TWindowLayoutRect {
 public:
     s32 index;
     s8 icon;

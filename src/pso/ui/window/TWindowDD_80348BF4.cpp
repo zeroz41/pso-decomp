@@ -2,9 +2,7 @@
 #include "pso/ui/window/TWindowDD_80348BF4.h"
 #include "pso/ui/window/TWindowDD.h"
 
-extern "C" {
 
-}
 extern s32 local_client_id;
 extern u32 TWindowDD__word_select_lists;
 

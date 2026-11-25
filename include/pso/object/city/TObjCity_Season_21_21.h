@@ -2,11 +2,11 @@
 #define PSO_OBJECT_CITY_TOBJCITY_SEASON_21_21_H
 
 #include "types.h"
-#include "pso/object/TUnk_804B5E48.h"
+#include "pso/object/TObjCitySeasonBase.h"
 
 class TParticleCtrl;
 
-struct TObjCity_Season_21_21 : public TUnk_804B5E48 {
+struct TObjCity_Season_21_21 : public TObjCitySeasonBase {
     TObjCity_Season_21_21(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_21_21();
     virtual void render();

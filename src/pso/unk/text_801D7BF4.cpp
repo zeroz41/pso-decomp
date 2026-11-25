@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/ui/window/ActionPaletteTag.h"
 
-typedef struct Bank_801D7BF4 { s32 pad; s32 a[4]; s32 b[4]; } Bank_801D7BF4;
+typedef struct IsPbPaletteBankEmptyBank { s32 pad; s32 a[4]; s32 b[4]; } IsPbPaletteBankEmptyBank;
 
 extern "C" {
-s32 is_pb_palette_bank_empty(Bank_801D7BF4 *arg0, s32 arg1);
-s32 is_pb_palette_bank_empty(Bank_801D7BF4 *arg0, s32 arg1) {
+s32 is_pb_palette_bank_empty(IsPbPaletteBankEmptyBank *arg0, s32 arg1);
+s32 is_pb_palette_bank_empty(IsPbPaletteBankEmptyBank *arg0, s32 arg1) {
     s32 i;
     s32 *p;
     if (arg1 == 0) {

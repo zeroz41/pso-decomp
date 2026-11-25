@@ -97,7 +97,6 @@ struct Chat_80285314 {
 
 extern "C" {
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
-void fn_802857C4(Win_802857C4 *arg0, Rect_802857C4 *arg1);
 struct TWSC *get_instance__20TWindowSubSymbolChatFv();
 
 struct TWSC;
@@ -112,9 +111,6 @@ struct Parts_80285B84 {
     saddr sub8C;
 };
 
-void clamp_list_scroll_offset(s32, NJS_POINT2 *, NJS_POINT2 *);
-void fn_80285314(Win_802857C4 *, Rect_802857C4 *);
-void fn_802855C4(Win_802857C4 *, Rect_802857C4 *);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
 
 
@@ -176,7 +172,7 @@ void TWindowSubSymbolChatParts::select_index_and_scroll(s32 symbol_index) {
 #pragma pop
 
 void TWindowSubSymbolChatParts::handle_cancel() {
-    if (((TWindowSubSymbolChatParts *)this)->sub_80283974() == 0) {
+    if (this->sub_80283974() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->m_70 = (u8) (this->m_70 | 2);
     }
@@ -185,7 +181,7 @@ void TWindowSubSymbolChatParts::handle_cancel() {
 void TWindowSubSymbolChatParts::add_part() {
     s32 temp_r3;
 
-    temp_r3 = ((TWindowSubSymbolChatParts *)this)->calc_symbol_index();
+    temp_r3 = this->calc_symbol_index();
     if (((s8) this->m_71 != 0) || (temp_r3 >= (s16) *(s16 *)&this->item_count) || (TWindowSubSymbolChat::count_instance_empty_slots() < 2)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
@@ -197,7 +193,7 @@ void TWindowSubSymbolChatParts::add_part() {
 }
 
 void TWindowSubSymbolChatParts::handle_add() {
-    if (((TWindowSubSymbolChatParts *)this)->calc_symbol_index() >= (s16) *(s16 *)&this->item_count) {
+    if (this->calc_symbol_index() >= (s16) *(s16 *)&this->item_count) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -230,33 +226,33 @@ void TWindowSubSymbolChatParts::sub_80285054() {
     if ((test_buttons_press_or_repeat(input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x54100, 0U, 0, 0);
         if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x72) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x72) + 1);
+            *(u8 *)((s8 *)(this) + 0x72) = (u8) (*(u8 *)((s8 *)(this) + 0x72) + 1);
         }
         if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x72) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x72) - 1);
+            *(u8 *)((s8 *)(this) + 0x72) = (u8) (*(u8 *)((s8 *)(this) + 0x72) - 1);
         }
-        temp_r3 = *(u8 *)((s8 *)((u8 *)this) + 0x72);
+        temp_r3 = *(u8 *)((s8 *)(this) + 0x72);
         if ((s8) temp_r3 < 0) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x72) = (temp_r3 + 4);
+            *(u8 *)((s8 *)(this) + 0x72) = (temp_r3 + 4);
         }
-        temp_r3_2 = *(u8 *)((s8 *)((u8 *)this) + 0x72);
+        temp_r3_2 = *(u8 *)((s8 *)(this) + 0x72);
         if ((s8) temp_r3_2 >= 4) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x72) = (temp_r3_2 - 4);
+            *(u8 *)((s8 *)(this) + 0x72) = (temp_r3_2 - 4);
         }
         if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x73) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x73) - 1);
+            *(u8 *)((s8 *)(this) + 0x73) = (u8) (*(u8 *)((s8 *)(this) + 0x73) - 1);
         }
         if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x73) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x73) + 1);
+            *(u8 *)((s8 *)(this) + 0x73) = (u8) (*(u8 *)((s8 *)(this) + 0x73) + 1);
         }
-        temp_r3_3 = *(u8 *)((s8 *)((u8 *)this) + 0x73);
+        temp_r3_3 = *(u8 *)((s8 *)(this) + 0x73);
         if ((s8) temp_r3_3 < 0) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x73) = (u8) (temp_r3_3 + *(u8 *)((s8 *)((u8 *)this) + 0x74));
+            *(u8 *)((s8 *)(this) + 0x73) = (u8) (temp_r3_3 + *(u8 *)((s8 *)(this) + 0x74));
         }
-        temp_r4 = *(u8 *)((s8 *)((u8 *)this) + 0x73);
-        temp_r5 = *(u8 *)((s8 *)((u8 *)this) + 0x74);
+        temp_r4 = *(u8 *)((s8 *)(this) + 0x73);
+        temp_r5 = *(u8 *)((s8 *)(this) + 0x74);
         if ((s8) temp_r4 >= (s8) temp_r5) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x73) = (u8) (temp_r4 - temp_r5);
+            *(u8 *)((s8 *)(this) + 0x73) = (u8) (temp_r4 - temp_r5);
         }
     }
 }
@@ -522,12 +518,12 @@ void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {
         ((TWindowSubStatusDisp *)(arg0->sub88))->update_subwindow();
         reinterpret_cast<TWindowSubSymbolChatParts *>(arg0)->scrollbar->increment_counter();
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
+    ((TWindowBase *)arg0)->update_window();
 }
 
 TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void **)((s8 *)this + 0x8C)), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x88)), (s16)1);
+    TWindowSubStatusDisp::destroy_allocation((saddr)scrollbar, (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)heading, (s16)1);
 }
 
 TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(void *parent, s32 *arg2, s32 *arg3)

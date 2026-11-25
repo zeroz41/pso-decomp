@@ -28,7 +28,7 @@
 #pragma defer_codegen on
 
 
-const char *TObjDFDemo5__name = "TObjDFDemo5";
+const char *TObjDFDemo5::name = "TObjDFDemo5";
 ModelNodePositionEntry df_demo5_emitter_node_entries[3] = {{0x38}, {0x39}, {-1}};
 ModelNodePositionEntry df_demo5_tail_node_entries[2] = {{0}, {-1}};
 // The motions of the three body models.
@@ -42,7 +42,7 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     BmlResource *res;
     int id;
     s32 i;
-    m_name = TObjDFDemo5__name;
+    m_name = TObjDFDemo5::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
     res = TBoss4Uro::get_instance_count();
@@ -133,13 +133,13 @@ void TObjDFDemo5::draw_fading_motion() {
     rotate_matrix_y(NULL, angle);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[0].texlist));
     node_list0->install();
-    draw_model_motion((void *)parts[0].model, parts[0].motion, frame);
+    draw_model_motion(parts[0].model, parts[0].motion, frame);
     node_list0->clear();
     part_frame = (s32)frame % 30;
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[1].texlist));
-    draw_model_motion((void *)parts[1].model, parts[1].motion, part_frame);
+    draw_model_motion(parts[1].model, parts[1].motion, part_frame);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[2].texlist));
-    draw_model_motion((void *)parts[2].model, parts[2].motion, part_frame);
+    draw_model_motion(parts[2].model, parts[2].motion, part_frame);
     clear_motion_packed_rotation();
     pop_matrix();
     if (alpha < 1.0f) {
@@ -156,7 +156,7 @@ void TObjDFDemo5::release_subobjects() {
         rotate_matrix_y(NULL, angle);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(parts[3].texlist));
         node_list1->install();
-        draw_model_motion((void *)parts[3].model, parts[3].motion, frame);
+        draw_model_motion(parts[3].model, parts[3].motion, frame);
         node_list1->clear();
         clear_motion_packed_rotation();
         pop_matrix();

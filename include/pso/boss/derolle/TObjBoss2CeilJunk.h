@@ -25,10 +25,21 @@ struct TObjBoss2CeilJunk : public TObjBase {
     s32 kind;          // index into the model, height and radius tables
     s32 fade_timer;    // frames since the bounce; it fades out after 10
     f32 alpha;
+    static const char *name;
+    static const f32 radius_table[6];
+    static const f32 height_offset_table[6];
 };
 
 LAYOUT_ASSERT(TObjBoss2CeilJunk_size, sizeof(TObjBoss2CeilJunk) == 0xB8);
 LAYOUT_ASSERT(TObjBoss2CeilJunk_velocity_offset, offsetof(TObjBoss2CeilJunk, velocity) == 0x90);
 LAYOUT_ASSERT(TObjBoss2CeilJunk_ground_normal_offset, offsetof(TObjBoss2CeilJunk, ground_normal) == 0x9C);
+
+struct Color_8003A1B4
+{
+  f32 a;
+  s32 b;
+  s32 c;
+  s32 d;
+};
 
 #endif

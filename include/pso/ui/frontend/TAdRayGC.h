@@ -6,6 +6,7 @@
 
 class TAdRayGC : public TObject {
 public:
+    static uaddr ray_texture_list;
     TAdRayGC(TObject *parent);
     virtual ~TAdRayGC();
     virtual void run_task();

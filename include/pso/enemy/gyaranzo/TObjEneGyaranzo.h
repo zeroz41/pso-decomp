@@ -5,7 +5,7 @@
 #include "dolphin/mtx.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 struct BmlResource;
 
@@ -61,7 +61,7 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     s32 fragment_cooldown;     // frames until the next spawn_hit_fragments
     u32 target_ids[4];         // select_targets, nearest first
     s32 target_count;
-    TUnk_80494938 appear_fade;
+    TObjEnemyColorFade appear_fade;
     RenderFadeState camera_fades[4];  // one per camera (render indexes it by camera mode)
     static void *create(void *set_data);
     static void free_static_instances();

@@ -73,40 +73,16 @@ CollisionBody laser_fence_collision_body_parts[2][3] = {
 NJS_TEXLIST *lazer_fence_norm_texture_list;
 BmlResource *lazer_fence_norm_bml_resource;
 
-struct Obj_80192554 { u8 pad0[0x38]; f32 f38[3]; u8 pad44[0x24 - 0xC]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; saddr model; s32 fC4; saddr fC8[4]; };
 extern "C" {
 
-struct Motion_801926D0 { u8 pad[4]; u32 frames; };
-struct TObjLazerFenceExtra_801926D0 {
-    u8 pad[0xB0];
-    s16 switchId;
-    u8 padb2[2];
-    s32 state;
-    f32 frame;
-    u8 padbc[8];
-    Motion_801926D0 *motion;
-};
 
 static const f32 lbl_805DBE58[1] = {0.0f};
 
-struct Node_80192A3C { u32 flags; void *model; u8 pad8[0x24]; Node_80192A3C *child; Node_80192A3C *sibling; };
-
-struct Fish_80192A3C { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192A3C *fBC; Node_80192A3C *bml_model; s32 fC4; void *fC8[4]; };
-
-struct Obj_80192B5C { u8 pad0[0x38]; f32 f38[3]; u8 pad44[0x24 - 0xC]; s32 f5C; s32 angle; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 frame; saddr fBC; saddr model; saddr motion; saddr fC8[4]; };
 
 
-struct Motion_80192CCC { u8 pad[4]; u32 frames; };
 
-struct TObjLazerFenceNorm_80192CCC {
-    u8 pad[0xB0];
-    s16 switchId;
-    u8 padb2[2];
-    s32 state;
-    f32 frame;
-    u8 padbc[8];
-    Motion_80192CCC *motion;
-};
+
+
 
 }
 
@@ -154,7 +130,7 @@ void *TObjLazerFenceNorm::create(void *set_data) {
 TObjLazerFenceNorm::TObjLazerFenceNorm(TObject *parent, void *set_data) : TObjCollidable(parent) {
     m_name = obj_lazer_fence_norm_class_name;
     apply_object_set_data(set_data);
-    m_b4 = 0;
+    state = 0;
     frame = lbl_805DBE58[0];
     scale_level = (s32)scale.x;
     if ((s32)scale_level < 0) {
@@ -178,7 +154,7 @@ TObjLazerFenceNorm::~TObjLazerFenceNorm() {
 
 void TObjLazerFenceNorm::run_task() {
 
-    switch (this->m_b4) {
+    switch (this->state) {
     case 0:
         update_closed();
         return;
@@ -191,25 +167,25 @@ void TObjLazerFenceNorm::run_task() {
 void TObjLazerFenceNorm::reset_by_door() {
     if (is_current_floor_switch_set((u16) *(s16 *)&this->switch_id) == 0) {
         set_indexed_flags(0, 1);
-        *(s32 *)&this->m_b4 = 0;
+        this->state = 0;
     }
 }
 
 void TObjLazerFenceNorm::update_closed() {
     this->frame += 0.9f;
-    if ((f32)(((TObjLazerFenceNorm_80192CCC *)this)->motion->frames - 1) < ((TObjLazerFenceNorm_80192CCC *)this)->frame) {
+    if ((f32)(beam_motion->frameCount - 1) < frame) {
         this->frame = lbl_805DBE58[0];
     }
-    if (is_current_floor_switch_set((u16)((TObjLazerFenceNorm_80192CCC *)this)->switchId) == 1) {
+    if (is_current_floor_switch_set((u16)switch_id) == 1) {
         clear_player_status_flag(0, 1);
-        ((TObjLazerFenceNorm_80192CCC *)this)->state = 1;
+        state = 1;
     }
 }
 
 void TObjLazerFenceNorm::render() {
 
     if (update_object_view_visibility(300.0f, 40.0f) != 0) {
-        switch (this->m_b4) {
+        switch (this->state) {
         case 0:
             draw_animated_beam();
             return;
@@ -225,50 +201,49 @@ void TObjLazerFenceNorm::draw_model() {
     push_matrix();
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(NULL, this->rotation_y);
-    draw_ginja_object(this->m_bc);
+    draw_ginja_object(this->base_model);
     pop_matrix();
 }
 
 void TObjLazerFenceNorm::draw_animated_beam() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>((((Obj_80192B5C *)this)->fC8[i])), (lbl_80445B7C[((Obj_80192B5C *)this)->fAC]));
+        set_ginja_model_texture_slot(reinterpret_cast<void *>(beam_part_models[i]), (lbl_80445B7C[scale_level]));
     }
     TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
-    post_translate_matrix(((Obj_80192B5C *)this)->f38);
-    rotate_matrix_y(NULL, ((Obj_80192B5C *)this)->angle);
-    draw_ginja_object((void *)((Obj_80192B5C *)this)->fBC);
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, rotation_y);
+    draw_ginja_object((void *)base_model);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion((void *)(((Obj_80192B5C *)this)->model), (void *)(((Obj_80192B5C *)this)->motion), ((Obj_80192B5C *)this)->frame);
+    draw_ginja_model_with_motion((void *)beam_model, (void *)beam_motion, frame);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }
 
 void TObjLazerFenceNorm::select_models() {
-    Fish_80192A3C *arg0 = (Fish_80192A3C *)this;
     s32 i;
-    Node_80192A3C *node;
+    NJS_OBJECT *node;
     s32 j;
     if (this->set_params[2] % 2 == 0) {
-        this->m_bc = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 1);
-        arg0->bml_model = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 0);
-        this->bml_motion = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 0);
+        this->base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 1);
+        beam_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 0);
+        this->beam_motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 0);
     } else {
-        this->m_bc = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 3);
-        arg0->bml_model = (Node_80192A3C *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 2);
-        this->bml_motion = (saddr)get_bml_motion(lazer_fence_norm_bml_resource, 1);
+        this->base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 3);
+        beam_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 2);
+        this->beam_motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 1);
     }
     for (j = 0; j < 4; j++) {
-        arg0->fC8[j] = 0;
+        beam_part_models[j] = 0;
     }
     i = 0;
-    node = arg0->bml_model->child;
+    node = beam_model->child;
     if (node != 0) {
-        arg0->fC8[i++] = node->model;
+        beam_part_models[i++] = node->model;
         node = node->sibling;
         while (node != 0 && i < 4) {
-            arg0->fC8[i++] = node->model;
+            beam_part_models[i++] = node->model;
             node = node->sibling;
         }
     }
@@ -283,7 +258,7 @@ TObjLazerFenceExtra::TObjLazerFenceExtra(TObject *parent, void *set_data) : TObj
     s32 i;
     m_name = lazer_fence_extra_class_name;
     apply_object_set_data(set_data);
-    m_b4 = 0;
+    state = 0;
     frame = lbl_805DBE58[0];
     scale_level = (s32)scale.x;
     if (scale_level < 0) {
@@ -319,7 +294,7 @@ TObjLazerFenceExtra::~TObjLazerFenceExtra() {
 }
 
 void TObjLazerFenceExtra::run_task() {
-    switch (m_b4) {
+    switch (state) {
     case 0:
         update_wait_switch();
         return;
@@ -332,24 +307,24 @@ void TObjLazerFenceExtra::run_task() {
 void TObjLazerFenceExtra::reset_by_door() {
     if (is_current_floor_switch_set((u16)switch_id) == 0) {
         set_indexed_flags(0, 1);
-        m_b4 = 0;
+        state = 0;
     }
 }
 
 void TObjLazerFenceExtra::update_wait_switch() {
     this->frame += 0.9f;
-    if ((f32)(((TObjLazerFenceExtra_801926D0 *)this)->motion->frames - 1) < ((TObjLazerFenceExtra_801926D0 *)this)->frame) {
+    if ((f32)(beam_motion->frameCount - 1) < frame) {
         this->frame = lbl_805DBE58[0];
     }
-    if (is_current_floor_switch_set((u16)((TObjLazerFenceExtra_801926D0 *)this)->switchId) == 1) {
+    if (is_current_floor_switch_set((u16)switch_id) == 1) {
         clear_player_status_flag(0, 1);
-        ((TObjLazerFenceExtra_801926D0 *)this)->state = 1;
+        state = 1;
     }
 }
 
 void TObjLazerFenceExtra::render() {
     if (update_object_view_visibility(300.0f, 40.0f) != 0 && size_valid != 0) {
-        switch (m_b4) {
+        switch (state) {
         case 0:
             draw_lazer_fence_extra_model();
             return;
@@ -370,18 +345,17 @@ void TObjLazerFenceExtra::render_lazer_fence_model() {
 }
 
 void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
-    Obj_80192554 *arg0 = (Obj_80192554 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        set_ginja_model_texture_slot(reinterpret_cast<void *>((arg0->fC8[i])), lbl_80445B7C[this->scale_level]);
+        set_ginja_model_texture_slot(reinterpret_cast<void *>((beam_part_models[i])), lbl_80445B7C[this->scale_level]);
     }
     TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
-    post_translate_matrix(arg0->f38);
+    post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, this->rotation_y);
     draw_ginja_object((void *)this->base_model);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion((void *)arg0->model, (void *)this->beam_motion, this->frame);
+    draw_ginja_model_with_motion((void *)beam_model, (void *)this->beam_motion, this->frame);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }

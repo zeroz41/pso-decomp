@@ -19,6 +19,7 @@ struct TObjDFDemo2 : public TObjBase {
     s32 angle;
     s32 timer;
     f32 frame;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjDFDemo2_size, sizeof(TObjDFDemo2) == 0xC4);

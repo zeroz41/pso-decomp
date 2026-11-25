@@ -31,30 +31,9 @@
 #include "pso/object/base/TObjBase.h"
 
 
-// A particle emitter of the Thanks scene, alive while fade_frame is in [first_frame, last_frame]
-// (the TBoss6Thanks twin's Boss6ThanksEmitter).
-struct Boss4ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
-
-struct Anim_8035C6FC
-{
-  u8 pad[4];
-  u32 frames;
-};
-
-struct Thanks_8035C6FC
-{
-  u8 pad0[0x1C];
-  s32 state;
-  s32 cur;
-  s32 next;
-  f32 frame;
-  u8 pad2c[0x10];
-  Anim_8035C6FC *anim[4];
-};
-
 
 extern "C" {
-const char *TBoss4Thanks__class_name = "TBoss4Thanks";
+const char *TBoss4Thanks::class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
 extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
 // Equipment any_player_has_listed_item() (text_8035C9E8, this TU's code) looks for: {type, group, index}.
@@ -80,7 +59,7 @@ void TBoss4Thanks::update_particle_emitters() {
         const Boss4ThanksEmitter *e = &boss4_thanks_emitter_table[i];
         if (this->fade_frame >= e->first_frame && this->fade_frame <= e->last_frame) {
             if (particle_emitters[i] == NULL) {
-                particle_emitters[i] = create_particle_emitter((void *)boss4_thanks_position, e->id);
+                particle_emitters[i] = create_particle_emitter(boss4_thanks_position, e->id);
                 if (particle_emitters[i] != NULL) {
                     particle_emitters[i]->set_flags(0x40);
                 }
@@ -111,7 +90,7 @@ void TBoss4Thanks::clear_particle_emitters() {
     }
 }
 
-int TBoss4Thanks::is_player_nearby(void *) {
+int TBoss4Thanks::is_player_nearby() {
     s32 n;
     s32 i;
     f32 lim;
@@ -179,33 +158,31 @@ void TBoss4Thanks::advance_thanks_state() {
     }
 }
 
-void TBoss4Thanks::mark_done() { if (TBoss4Thanks::is_player_nearby(this) != 0) { this->next_motion = 1; this->state = 1; } }
+void TBoss4Thanks::mark_done() { if (is_player_nearby() != 0) { this->next_motion = 1; this->state = 1; } }
 
-typedef struct Anim_8035C6FC Anim_8035C6FC;
-typedef struct Thanks_8035C6FC Thanks_8035C6FC;
 void TBoss4Thanks::run_task() {
-  Thanks_8035C6FC *o = (Thanks_8035C6FC *) this;
   f32 len;
-  switch (o->state)
+  s32 *next_motion_ref;
+  switch (state)
   {
     case 0:
-      ((TBoss4Thanks *)o)->mark_done();
+      mark_done();
       break;
     case 1:
-      ((TBoss4Thanks *)o)->advance_thanks_state();
+      advance_thanks_state();
       break;
     case 2:
-      ((TBoss4Thanks *)o)->update_fade_out();
+      update_fade_out();
       break;
   }
-  o->frame += 0.6f;
-  len = ((f32) o->anim[o->cur]->frames) - 1.0f;
-  if (o->frame >= len)
+  motion_frame += 0.6f;
+  len = ((f32) motions[current_motion]->frameCount) - 1.0f;
+  if (motion_frame >= len)
   {
-    o->frame -= len;
-    if (((Thanks_8035C6FC *) this)->cur != o->next)
+    motion_frame -= len;
+    if ((*(next_motion_ref = &next_motion)) != current_motion)
     {
-      ((Thanks_8035C6FC *) this)->cur = ((Thanks_8035C6FC *) this)->next;
+      current_motion = *next_motion_ref;
     }
   }
 }
@@ -217,7 +194,7 @@ TBoss4Thanks::~TBoss4Thanks() {
 
 TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     BmlResource *archive;
-    m_name = TBoss4Thanks__class_name;
+    m_name = TBoss4Thanks::class_name;
     archive = TBoss4Uro::get_instance_count();
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(archive, 1));
     this->texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(archive, 1));

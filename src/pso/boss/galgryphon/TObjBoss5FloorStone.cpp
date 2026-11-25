@@ -35,7 +35,7 @@ void TObjBoss5FloorStone::trigger_switches_in_range(const Vec *pos, const Dragon
     }
 }
 
-const char *TObjBoss5FloorStone__name = "TObjBoss5FloorStone";
+const char *TObjBoss5FloorStone::name = "TObjBoss5FloorStone";
 
 void TObjBoss5FloorStone::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
@@ -48,7 +48,7 @@ void TObjBoss5FloorStone::run_task() {  }
 TObjBoss5FloorStone::~TObjBoss5FloorStone() {}
 
 TObjBoss5FloorStone::TObjBoss5FloorStone(TObject *parent) : TObject(parent) {
-    m_name = TObjBoss5FloorStone__name;
+    m_name = TObjBoss5FloorStone::name;
 }
 
 void *TObjBoss5FloorStone::create() {

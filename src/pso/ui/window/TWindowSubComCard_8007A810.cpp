@@ -18,7 +18,6 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowGetComCard.h"
 
-extern "C" {
 
 void TWindowSubComCard::set_card_text(saddr src) {
     GuildCardSlot *slot;
@@ -60,7 +59,6 @@ GuildCardSlot *TWindowSubComCard::get_card_entry(s32 index) {
     return reinterpret_cast<GuildCardSlot *>(base) + index;
 }
 
-}
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -141,11 +139,9 @@ struct Card_8007AC7C {
 };
 
 extern "C" {
-s32 has_inactive_card__17TWindowSubComCardFPvi(GuildCardSlot *cards, s32 n);
 void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry);
 s8 TWindowSubComCard__sub_8007B6EC(void *);
 s32 TWindowSubComCard__sub_8007B6F4(void *);
-s32 TWindowSubComCard__sub_8007AC7C(Card_8007AC7C *self, GuildCardSlot *cards, s32 count);
 int __ct__16TPlyGuildCardTagFv();
 
 s32 init_guild_card_tag__17TWindowSubComCardFi(s32 ply_guild_card_tag) {
@@ -267,8 +263,6 @@ struct Card_8007B0D0 {
 };
 
 extern "C" {
-s32 count_leading_active__17TWindowSubComCardFPvi(Card_8007AF60 *p, s32 n);
-s32 TWindowSubComCard__sub_8007B010(Card_8007B010 *p, s32 n);
 
 #pragma push
 #pragma fp_contract on
@@ -372,7 +366,7 @@ void TWindowSubComCard__sub_8007B1AC(void *ply_guild_card_tag, u8 *entries, s32 
 
 void TWindowSubComCard::set_text(void *text) {
     ((s32 (*)(void *, void *, int))strncpy)((void *) (((u8 *)this) + 0x20), text, 0x6B);
-    *(s8 *)((s8 *)((u8 *)this) + 0x8B) = 0;
+    *(s8 *)((s8 *)(this) + 0x8B) = 0;
 }
 
 void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry) {
@@ -442,12 +436,12 @@ void TLobby::fill_guild_card_from_char(s32 index) {
     if (char_index != 0U) {
         temp_r31 = (unsigned char *) (char_index + 0x370);
         if (temp_r31 != NULL) {
-            *(u8 *)((s8 *)((u8 *)this) + 0x8C) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x8C) | 1);
+            *(u8 *)((s8 *)(this) + 0x8C) = (u8) (*(u8 *)((s8 *)(this) + 0x8C) | 1);
             strncpy((char *)this + 8, (const char *)temp_r31, 0x17);
-            *(s8 *)((s8 *)((u8 *)this) + 0x1F) = 0;
-            *(u8 *)((s8 *)((u8 *)this) + 0x8F) = (u8) *(u8 *)((s8 *)temp_r31 + 0x31);
-            *(u8 *)((s8 *)((u8 *)this) + 0x8E) = (u8) *(u8 *)((s8 *)temp_r31 + 0x30);
-            *(s8 *)((s8 *)((u8 *)this) + 0x8D) = (s8) current_language;
+            *(s8 *)((s8 *)(this) + 0x1F) = 0;
+            *(u8 *)((s8 *)(this) + 0x8F) = (u8) *(u8 *)((s8 *)temp_r31 + 0x31);
+            *(u8 *)((s8 *)(this) + 0x8E) = (u8) *(u8 *)((s8 *)temp_r31 + 0x30);
+            *(s8 *)((s8 *)(this) + 0x8D) = (s8) current_language;
             if (protocol_instance != NULL) {
                 TPlyGuildCardTag *src = &protocol_instance->m_guildcard_tag;
                 if (src->m_guildcard_number != 0) {
@@ -478,7 +472,6 @@ void TObjPlayer::set_com_card_window(s32 client) {
 GuildCardEntry TWindowGetComCard__received_guild_card_tags[4];
 
 extern "C" {
-void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry);
 void __construct_array(void *ptr, void *ctor, void *dtor, u32 size, u32 n);
 
 void TWindowGetComCard__sub_8007B54C(void) {

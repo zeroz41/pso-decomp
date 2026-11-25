@@ -47,7 +47,7 @@
 #include "pso/technique/TTecThunderCharge.h"
 #include "pso/technique/TTecLightCharge.h"
 #include "pso/technique/TTecSupportCharge.h"
-#include "pso/object/TUnk_804CC74C.h"
+#include "pso/object/TTecMegidCharge.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
@@ -716,7 +716,7 @@ void create_technique_charge_light(u32 kind, void *owner) {
         CHARGE_LIGHT_8022C738(1.0f, 0.9f, 0.3f, 1.0f, TTecSupportCharge)
         break;
     case 18:
-        CHARGE_LIGHT_8022C738(1.0f, 0.6f, 0.2f, 0.7f, TUnk_804CC74C)
+        CHARGE_LIGHT_8022C738(1.0f, 0.6f, 0.2f, 0.7f, TTecMegidCharge)
         break;
     }
 }

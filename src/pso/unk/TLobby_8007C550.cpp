@@ -9,7 +9,7 @@ s32 __ct__14SubtractiveRngFv(void* rng) {
     subtractive_rng_seed(rng, 0);
     return (saddr)rng;
 }
-u16 TAdSinglePlyChrSelectGC__sub_8007C584(void *self, u16 x) {
+u16 subtractive_rng_range(void *self, u16 x) {
     return (x * (subtractive_rng_next(self) >> 16)) >> 16;
 }
 

@@ -53,7 +53,7 @@ struct NJS_OBJECT;
 #include "pso/technique/TTecMegid.h"
 #include "pso/object/ambient/TObjFish.h"
 
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/TLevelSelect.h"
@@ -74,13 +74,14 @@ struct NJS_OBJECT;
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
 
 extern "C" {
-BmlResource * TObjEneBm5GibonU__model_archive;
+BmlResource * bm5_gibon_u_model_archive;
 #pragma push
-TObjEneBm5GibonUMovementParameters TObjEneBm5GibonU__movement_parameters = {
+TObjEneBm5GibonUMovementParameters bm5_gibon_u_movement_parameters = {
     225.0f, 0.0f, 0x600, { 0, 0, 0, 0 },
 };
 CollisionBody gibon_collision_body_templates[4] = {
@@ -128,24 +129,24 @@ TObjMotionAction gibon_u_action_table[17] = {
     { MOTION_MODE_ONCE, 0, 0, 1.0f, 0 },
     { MOTION_MODE_ONCE, 0, 6, 1.0f, 0 },
 };
-const char *TObjEneBm5GibonU__class_name = "TObjEneBm5GibonU";
-const NpcAnimationBinding TObjEneBm5GibonU__spawn_params = { NULL, gibon_u_action_table, 0, 1, 17 };
-__declspec(section ".data") player_stats *TObjEneBm5GibonU__stat_params[2];
+const char *bm5_gibon_u_class_name = "TObjEneBm5GibonU";
+const NpcAnimationBinding bm5_gibon_u_spawn_params = { NULL, gibon_u_action_table, 0, 1, 17 };
+__declspec(section ".data") player_stats *bm5_gibon_u_stat_params[2];
 __declspec(section ".data") AttackParams *gibon_stat_handle_a_table[2];
 __declspec(section ".data") ActorParamBlock *gibon_stat_handle_b_table[2];
 __declspec(section ".data") u8 *gibon_param_table[2];
 __declspec(section ".data") f32 lbl_80500E98[3];
 __declspec(section ".data") u32 lbl_80500EA4[3];
-__declspec(section ".data") u32 TObjEneBm5GibonU__pack_member_list[5];
-__declspec(section ".data") u32 TObjEneBm5GibonU__instance_list[3];
+__declspec(section ".data") u32 bm5_gibon_u_pack_member_list[5];
+__declspec(section ".data") u32 bm5_gibon_u_instance_list[3];
 }
 
 #pragma pop
 #pragma push
 
 extern "C" {
-s32 TObjEneBm5GibonU__render_node_index;
-s32 TObjEneBm5GibonU__render_joint_y_rotation;
+s32 bm5_gibon_u_render_node_index;
+s32 bm5_gibon_u_render_joint_y_rotation;
 }
 extern "C" {
 
@@ -384,8 +385,8 @@ void TObjEneBm5GibonU::render() {
             } else {
                 scale_matrix(0, 2.0f, 2.0f, 2.0f);
             }
-            TObjEneBm5GibonU__render_node_index = 0;
-            TObjEneBm5GibonU__render_joint_y_rotation = -(turn_offset / 2);
+            bm5_gibon_u_render_node_index = 0;
+            bm5_gibon_u_render_joint_y_rotation = -(turn_offset / 2);
             set_chunk_model_node_callback(TObjEneBm5GibonU::advance_anim_frame);
             TObjEneDD::clear_global_flag_400();
             toggle_particle_effect();
@@ -416,10 +417,10 @@ void TObjEneBm5GibonU::render() {
 }
 
 void TObjEneBm5GibonU::advance_anim_frame(NJS_OBJECT *) {
-    if (((s32) TObjEneBm5GibonU__render_node_index >= 0x30) && ((s32) TObjEneBm5GibonU__render_node_index < 0x32)) {
-        rotate_matrix_y(0, TObjEneBm5GibonU__render_joint_y_rotation);
+    if (((s32) bm5_gibon_u_render_node_index >= 0x30) && ((s32) bm5_gibon_u_render_node_index < 0x32)) {
+        rotate_matrix_y(0, bm5_gibon_u_render_joint_y_rotation);
     }
-    TObjEneBm5GibonU__render_node_index += 1;
+    bm5_gibon_u_render_node_index += 1;
 }
 
 void TObjEneBm5GibonU::handle_message(s32 msg) {
@@ -440,7 +441,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(14);
+        set_next_mode(14);
         clear_intangible();
         status_flags &= ~2;
         enemy_copy_target_destination();
@@ -569,7 +570,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0xC;
-        this->set_field_378(0xE);
+        this->set_next_mode(0xE);
         this->clear_intangible();
         this->status_flags &= ~2;
         this->substate = 0;
@@ -694,7 +695,7 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
         this->wall_reach = 0.0f;
         if (this->is_leader != 0) {
             k = 50.0f;
-            for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__pack_member_list)->head; n != NULL; n = n->next) {
+            for (n = ((TObjEneBm5GibonUList *)bm5_gibon_u_pack_member_list)->head; n != NULL; n = n->next) {
                 o = n->get_owner();
                 if (o != NULL && o->group_id == this->group_id) {
                     o->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
@@ -721,9 +722,9 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
                 rotate_xz_pair_by_angle(&spot.x, &spot.z, this->rotation_y);
                 vec3_add_to(&spot, &this->position);
                 if (this->is_leader == 1) {
-                    spawn_dead_spot_scale15(&spot, 0x32);
+                    TDeadSpot::spawn_kind2_scale15(&spot, 0x32);
                 } else {
-                    TObjPlayer::spawn_dead_spot_type2(&spot, 0x32);
+                    TDeadSpot::spawn_kind2_scale7_5(&spot, 0x32);
                 }
                 spawn_effect_at_ground(&spot, 0x46);
             }
@@ -824,7 +825,7 @@ void TObjEneBm5GibonU::action(s32 msg) {
     switch (msg) {
     case 4:
         this->clear_intangible();
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->requested_action = 9;
         this->substate = 0;
         TObjEneBm5GibonU::find_pack_leader(this->group_id);
@@ -860,7 +861,7 @@ void TObjEneBm5GibonU::repositioning_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0xE);
+        this->set_next_mode(0xE);
         this->clear_intangible();
         this->substate = 0;
         this->target_heading = 0;
@@ -944,7 +945,7 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(0xD);
+        this->set_next_mode(0xD);
         this->clear_intangible();
         this->desired_speed = 1.6f;
         this->substate = 0;
@@ -1006,7 +1007,7 @@ void TObjEneBm5GibonU::update_lunge(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0xA;
-        this->set_field_378(0xE);
+        this->set_next_mode(0xE);
         this->clear_intangible();
         flags = this->status_flags & 0xFFFFFFFD;
         this->status_flags = flags;
@@ -1093,7 +1094,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
   {
     case 4:
       requested_action = 1;
-      set_field_378(0xB);
+      set_next_mode(0xB);
       clear_intangible();
       desired_speed = 0.7f;
       substate = 0;
@@ -1333,7 +1334,7 @@ void TObjEneBm5GibonU::flanking_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 3;
-        this->set_field_378(0xA);
+        this->set_next_mode(0xA);
         this->clear_intangible();
         this->desired_speed = 2.0f;
         this->substate = 0;
@@ -1414,7 +1415,7 @@ void TObjEneBm5GibonU::chasing_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 2;
-        this->set_field_378(9);
+        this->set_next_mode(9);
         this->clear_intangible();
         this->desired_speed = 1.6f;
         this->substate = 0;
@@ -1484,7 +1485,7 @@ void TObjEneBm5GibonU::roaming_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->clear_intangible();
         this->state_timer = 0;
         this->substate = 0;
@@ -1581,7 +1582,7 @@ void TObjEneBm5GibonU::howling_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0xE;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->set_intangible();
         this->substate = 0;
         break;
@@ -1599,7 +1600,7 @@ void TObjEneBm5GibonU::howling_state(s32 msg) {
             play_sound_effect(this->remap_sound_for_area(0x3A523), &this->position, 0, 0);
         }
         if (this->substate == 0x3C) {
-            for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__instance_list)->head; n != NULL; n = n->next) {
+            for (n = ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->head; n != NULL; n = n->next) {
                 o = n->get_owner();
                 if (this->group_id == o->get_group_id()) {
                     o->set_flag();
@@ -1626,7 +1627,7 @@ void TObjEneBm5GibonU::standing_state(s32 msg) {
   {
     case 4:
       this->requested_action = 5;
-      this->set_field_378(8);
+      this->set_next_mode(8);
       (this->set_intangible());
       this->substate = 0;
       return;
@@ -1666,7 +1667,7 @@ void TObjEneBm5GibonU::alerted_state(s32 msg) {
   {
     case 4:
       *((s16 *) (((s8 *) this) - -0xB8)) = 4;
-      this->set_field_378(5);
+      this->set_next_mode(5);
       (this->set_intangible());
       this->substate = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
       return;
@@ -1695,7 +1696,7 @@ void TObjEneBm5GibonU::sleeping_state(s32 msg) {
   {
     case 4:
       this->requested_action = 4;
-      this->set_field_378(3);
+      this->set_next_mode(3);
       (this->clear_intangible());
       ((TObjEneDD_ST *)(this))->enemy_clear_target();
       this->turn_offset = 0;
@@ -1736,7 +1737,7 @@ void TObjEneBm5GibonU::spot_appearing_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->set_intangible();
         this->status_flags &= ~3;
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
@@ -1771,7 +1772,7 @@ void TObjEneBm5GibonU::appearing_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0xF;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->set_intangible();
         this->status_flags = (s32) (this->status_flags & 0xFFFFFFFC);
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
@@ -1821,7 +1822,7 @@ void TObjEneBm5GibonU::handle_state(s32 msg) {
   {
     case 4:
       state_timer = 0;
-      set_field_378(0);
+      set_next_mode(0);
       set_intangible();
       status_flags |= 2;
       return;
@@ -1860,7 +1861,7 @@ void TObjEneBm5GibonU::handle_state(s32 msg) {
 
 #pragma pop
 
-// The Gibbon's static data from TObjEneBm5GibonU__stat_params on: the parameter tables, then
+// The Gibbon's static data from bm5_gibon_u_stat_params on: the parameter tables, then
 // the two lists, each after the destructor-chain record __register_global_object fills in.
 struct TObjEneBm5GibonUStaticData {
     u8 tables[0x2c];
@@ -1884,7 +1885,7 @@ s32 TObjEneBm5GibonU::get_group_id() { return this->group_id; }
 #pragma push
 #pragma opt_propagation off
 void TObjEneBm5GibonU::register_global_objects() {
-    TObjEneBm5GibonUStaticData *data = (TObjEneBm5GibonUStaticData *)TObjEneBm5GibonU__stat_params;
+    TObjEneBm5GibonUStaticData *data = (TObjEneBm5GibonUStaticData *)bm5_gibon_u_stat_params;
     __register_global_object(data->node_list.reset(), (void *)__dt__20TObjEneBm5GibonUListFv, data->node_list_chain);
     __register_global_object(data->enemy_list.reset(), (void *)__dt__20TObjEneBm5GibonUListFv, data->enemy_list_chain);
 }
@@ -1961,26 +1962,26 @@ void TObjEneBm5GibonU::load_resources() {
     } else {
         m = load_enemy_bml_resource(&bm_ene_bm5_gibon_u_resource_descriptor);
     }
-    TObjEneBm5GibonU__model_archive = m;
-    ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__pack_member_list)->clear();
-    ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__instance_list)->clear();
-    TObjEneBm5GibonU__render_node_index = 0;
-    TObjEneBm5GibonU__render_joint_y_rotation = 0;
+    bm5_gibon_u_model_archive = m;
+    ((TObjEneBm5GibonUList *)bm5_gibon_u_pack_member_list)->clear();
+    ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->clear();
+    bm5_gibon_u_render_node_index = 0;
+    bm5_gibon_u_render_joint_y_rotation = 0;
     v = lbl_80500E98;
     lbl_80500E98[0] = 0.0f;
     v[1] = 0.0f;
     v[2] = 0.0f;
     for (i = 0; i < 2; i++) {
-        TObjEneBm5GibonU__stat_params[i] = TLobby::register_boss(gibon_base_stat_ids[i]);
+        bm5_gibon_u_stat_params[i] = TLobby::register_boss(gibon_base_stat_ids[i]);
         gibon_stat_handle_a_table[i] = TLobby::dispatch_shared_handler_b(gibon_attack_stat_ids[i]);
         gibon_stat_handle_b_table[i] = TLobby::register_object(gibon_resist_stat_ids[i]);
         gibon_param_table[i] = (u8 *)TLobby::dispatch_shared_handler_a(gibon_param_ids[i]);
     }
-    NpcAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
-    m = TObjEneBm5GibonU__model_archive;
+    NpcAnimationBinding sp = bm5_gibon_u_spawn_params;
+    m = bm5_gibon_u_model_archive;
     sp.motions = m->motions;
     TObjNpcEnemy::register_animated_chunk(0xE, m->models[0].model, m->models[0].texlist, &sp, gibon_collision_body_templates[0].radius, 0.0f);
-    TObjNpcEnemy::register_animated_chunk(0xF, TObjEneBm5GibonU__model_archive->models[1].model, TObjEneBm5GibonU__model_archive->models[1].texlist, &sp, gibon_collision_body_templates[1].radius, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(0xF, bm5_gibon_u_model_archive->models[1].model, bm5_gibon_u_model_archive->models[1].texlist, &sp, gibon_collision_body_templates[1].radius, 0.0f);
 }
 
 void *TObjEneBm5GibonU::create(void *set_data) {
@@ -1988,31 +1989,31 @@ void *TObjEneBm5GibonU::create(void *set_data) {
 }
 
 void TObjEneBm5GibonU::release_static_resource() {
-    if (TObjEneBm5GibonU__model_archive != NULL) {
-        delete TObjEneBm5GibonU__model_archive;
-        TObjEneBm5GibonU__model_archive = NULL;
+    if (bm5_gibon_u_model_archive != NULL) {
+        delete bm5_gibon_u_model_archive;
+        bm5_gibon_u_model_archive = NULL;
     }
 }
 
 void TObjEneBm5GibonU::add_to_pack_member_list() {
-    ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__pack_member_list)->append(&pack_node);
+    ((TObjEneBm5GibonUList *)bm5_gibon_u_pack_member_list)->append(&pack_node);
 }
 
 void TObjEneBm5GibonU::remove_from_pack_member_list() {
-    ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__pack_member_list)->remove(&pack_node);
+    ((TObjEneBm5GibonUList *)bm5_gibon_u_pack_member_list)->remove(&pack_node);
 }
 
 void TObjEneBm5GibonU::add_to_instance_list() {
-    ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__instance_list)->append(&instance_node);
+    ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->append(&instance_node);
 }
 
 void TObjEneBm5GibonU::remove_from_instance_list() {
-    ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__instance_list)->remove(&instance_node);
+    ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->remove(&instance_node);
 }
 
 TObjEneBm5GibonU *TObjEneBm5GibonU::find_pack_leader(s32 id) {
     TObjEneBm5GibonUNode *n;
-    for (n = ((TObjEneBm5GibonUList *)TObjEneBm5GibonU__instance_list)->head; n != 0; n = n->next) {
+    for (n = ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->head; n != 0; n = n->next) {
         TObjEneBm5GibonU *e = n->get_owner();
         if (e != 0 && e->group_id == id) {
             return e;
@@ -2024,7 +2025,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU::find_pack_leader(s32 id) {
 TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     s32 i;
     s32 b;
-    this->m_name = TObjEneBm5GibonU__class_name;
+    this->m_name = bm5_gibon_u_class_name;
     this->invoke_initialization_hook(set_data);
     this->select_subtype();
     this->init_position_vectors();
@@ -2034,14 +2035,14 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
         this->init_model(&gibon_collision_body_templates[0], 1);
     }
     this->set_action_table(gibon_u_action_table);
-    this->set_motion_list(TObjEneBm5GibonU__model_archive->motions);
+    this->set_motion_list(bm5_gibon_u_model_archive->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
     this->set_requested_action(this->requested_action);
     b = this->is_leader ? 1 : 0;
-    this->reset_hp(TObjEneBm5GibonU__stat_params[b], gibon_stat_handle_a_table[b], gibon_stat_handle_b_table[b]);
+    this->reset_hp(bm5_gibon_u_stat_params[b], gibon_stat_handle_a_table[b], gibon_stat_handle_b_table[b]);
     this->set_state_flag_1();
-    this->movementParameters = &TObjEneBm5GibonU__movement_parameters;
+    this->movementParameters = &bm5_gibon_u_movement_parameters;
     if (this->is_leader != 0) {
         this->initialize_enemy_state(0x3C);
     } else {
@@ -2178,13 +2179,13 @@ void TObjEneBm5GibonU::select_subtype() {
     if (variant >= 1) {
         is_leader = 1;
         technique_type = 1;
-        model = (void *)TObjEneBm5GibonU__model_archive->models[1].model;
-        texlist = TObjEneBm5GibonU__model_archive->models[1].texlist;
+        model = (void *)bm5_gibon_u_model_archive->models[1].model;
+        texlist = bm5_gibon_u_model_archive->models[1].texlist;
     } else {
         is_leader = 0;
         technique_type = 0;
-        model = (void *)TObjEneBm5GibonU__model_archive->models[0].model;
-        texlist = TObjEneBm5GibonU__model_archive->models[0].texlist;
+        model = (void *)bm5_gibon_u_model_archive->models[0].model;
+        texlist = bm5_gibon_u_model_archive->models[0].texlist;
     }
     backjump_chance = 0.4f + parameters[2];
     run_foie_chance = 0.3f + parameters[3];

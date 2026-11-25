@@ -349,9 +349,9 @@ void TItemDrop::load_drop_tables() {
 
 f32 TItemDrop::roll_table_ratio(u32 channel) {
     if (channel < 0x10U) {
-        return calc_random_ratio__10TObjPlayerFv(rngs[channel]);
+        return (rngs[channel])->next_ratio();
     }
-    return calc_random_ratio__10TObjPlayerFv(rngs[0x10]);
+    return (rngs[0x10])->next_ratio();
 }
 
 u32 TItemDrop::roll_channel_below(s32 count, u32 channel) {

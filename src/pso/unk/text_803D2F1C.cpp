@@ -16,15 +16,15 @@ u32 lbl_804F9E60[112] = {
     0, 10, 11, 12, 13, 14, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
-#define HEX_803D2F1C(p, i) lbl_804F9E60[(s8)(p)[i]]
-inline s32 size_803D2F1C(u8 *p) {
-    s32 v = HEX_803D2F1C(p, 8);
-    v = (v << 4) + HEX_803D2F1C(p, 9);
-    v = (v << 4) + HEX_803D2F1C(p, 10);
-    v = (v << 4) + HEX_803D2F1C(p, 11);
-    v = (v << 4) + HEX_803D2F1C(p, 12);
-    v = (v << 4) + HEX_803D2F1C(p, 13);
-    v = (v << 4) + HEX_803D2F1C(p, 14);
+#define HEX_DIGIT_VALUE(p, i) lbl_804F9E60[(s8)(p)[i]]
+inline s32 parse_hex_size(u8 *p) {
+    s32 v = HEX_DIGIT_VALUE(p, 8);
+    v = (v << 4) + HEX_DIGIT_VALUE(p, 9);
+    v = (v << 4) + HEX_DIGIT_VALUE(p, 10);
+    v = (v << 4) + HEX_DIGIT_VALUE(p, 11);
+    v = (v << 4) + HEX_DIGIT_VALUE(p, 12);
+    v = (v << 4) + HEX_DIGIT_VALUE(p, 13);
+    v = (v << 4) + HEX_DIGIT_VALUE(p, 14);
     return v;
 }
 u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk *out) {
@@ -37,13 +37,13 @@ u8 *find_archive_entry(SjChunk *arc, const char *name, const char *stop, SjChunk
     while (p < end) {
         if (strncmp((char *)p, name, 7) == 0) {
             out->data = p + 0x10;
-            out->size = size_803D2F1C(p);
+            out->size = parse_hex_size(p);
             break;
         }
         if (stop != NULL && strncmp((char *)p, stop, 7) == 0) {
             return NULL;
         }
-        p += size_803D2F1C(p) + 0x10;
+        p += parse_hex_size(p) + 0x10;
     }
     if (p < end) {
         return p;

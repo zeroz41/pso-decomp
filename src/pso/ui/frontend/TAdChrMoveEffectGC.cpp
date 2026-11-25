@@ -103,7 +103,7 @@ struct C4_803490D8 { u8 b[4]; };
 
 struct P_803490D8 { V2_803490D8 a; V2_803490D8 b; C4_803490D8 c; C4_803490D8 d; V2_803490D8 e; };
 
-TAdChrMoveEffectGC *lbl_805D6E78;
+TAdChrMoveEffectGC *chr_move_effect_instance;
 extern "C" {
 void TAdChrMoveEffectGC__sub_80349194(W_80349194 *arg0, void *arg1);
 
@@ -224,8 +224,8 @@ void TAdChrMoveEffectGC::run_task() {
 
 }
 TAdChrMoveEffectGC::~TAdChrMoveEffectGC() {
-    if (lbl_805D6E78 != NULL) {
-        lbl_805D6E78 = NULL;
+    if (chr_move_effect_instance != NULL) {
+        chr_move_effect_instance = NULL;
     }
 }
 

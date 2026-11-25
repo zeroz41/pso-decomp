@@ -9,7 +9,7 @@
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/player/TObjPlayer.h"
@@ -74,7 +74,7 @@ extern const Vec beast_zero_vector = { 0.0f, 0.0f, 0.0f };
 
 // TObjPlayer member defined in TObjControl.cpp with no declaration in TObjPlayer.h.
 
-void TUnk_80493450::select_move_speed() {
+void TObjEneBeastBase::select_move_speed() {
     if (test_actor_flags(0x100000) != 0) {
         move_speed = near_move_speed;
         play_speed = near_anim_speed;
@@ -84,7 +84,7 @@ void TUnk_80493450::select_move_speed() {
     play_speed = far_anim_speed;
 }
 
-void TUnk_80493450::update_target_near_flag() {
+void TObjEneBeastBase::update_target_near_flag() {
     TObjPlayer *player;
     f32 dist;
 
@@ -120,8 +120,8 @@ void TUnk_80493450::update_target_near_flag() {
     }
 }
 
-void TUnk_80493450::beast_retire_corpse() { TObject::queue_destruction(); }
-void TUnk_80493450::beast_update_dead() {
+void TObjEneBeastBase::beast_retire_corpse() { TObject::queue_destruction(); }
+void TObjEneBeastBase::beast_update_dead() {
     advance_animation();
     if (is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
         play_death_sound();
@@ -142,7 +142,7 @@ void TUnk_80493450::beast_update_dead() {
         beast_retire_corpse();
     }
 }
-void TUnk_80493450::run_death_reaction() {
+void TObjEneBeastBase::run_death_reaction() {
     if (mode != 8) {
         mode = 8;
         requested_action = 8;
@@ -152,7 +152,7 @@ void TUnk_80493450::run_death_reaction() {
         send_entity_set_flags();
     }
 }
-void TUnk_80493450::beast_update_hurt() {
+void TObjEneBeastBase::beast_update_hurt() {
     Vec v;
 
     advance_animation();
@@ -190,17 +190,17 @@ void TUnk_80493450::beast_update_hurt() {
     }
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
-void TUnk_80493450::run_hit_reaction() {
+void TObjEneBeastBase::run_hit_reaction() {
     if (mode != 7) {
         mode = 7;
         requested_action = 6;
     }
     clear_actor_flags(0x240000);
 }
-void TUnk_80493450::vfunc_89() {  }
-void TUnk_80493450::run_miss_reaction() { clear_actor_flags(256); }
+void TObjEneBeastBase::vfunc_89() {  }
+void TObjEneBeastBase::run_miss_reaction() { clear_actor_flags(256); }
 
-void TUnk_80493450::beast_update_attack() {
+void TObjEneBeastBase::beast_update_attack() {
     if (targetId < 0x1000) {
         TObjPlayer *player = get_player_by_client_id(targetId);
         if (player != NULL && player->get_floor() == get_current_floor()) {
@@ -247,7 +247,7 @@ void TUnk_80493450::beast_update_attack() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-void TUnk_80493450::run_attack_action() {
+void TObjEneBeastBase::run_attack_action() {
     switch (mode) {
     case 0:
         break;
@@ -280,7 +280,7 @@ void TUnk_80493450::run_attack_action() {
     }
 }
 
-s32 TUnk_80493450::update_movement_status() {
+s32 TObjEneBeastBase::update_movement_status() {
     if (TObjChara::update_movement_status() != 0) {
         switch (mode) {
         case 0:
@@ -297,7 +297,7 @@ s32 TUnk_80493450::update_movement_status() {
     return 0;
 }
 
-s32 TUnk_80493450::update_action_hold_status() {
+s32 TObjEneBeastBase::update_action_hold_status() {
     if (TObjChara::update_action_hold_status() != 0) {
         switch (mode) {
         case 0:
@@ -314,7 +314,7 @@ s32 TUnk_80493450::update_action_hold_status() {
     return 0;
 }
 
-void TUnk_80493450::beast_update_group_chase() {
+void TObjEneBeastBase::beast_update_group_chase() {
     f32 d;
     f32 r;
     advance_animation();
@@ -339,7 +339,7 @@ void TUnk_80493450::beast_update_group_chase() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-void TUnk_80493450::beast_update_approach() {
+void TObjEneBeastBase::beast_update_approach() {
     Vec dest;
     f32 r;
     switch (phase) {
@@ -385,7 +385,7 @@ void TUnk_80493450::beast_update_approach() {
     clear_actor_flags(0x200000);
 }
 
-void TUnk_80493450::update_turn_toward_target() {
+void TObjEneBeastBase::update_turn_toward_target() {
     s32 ang;
     advance_animation();
     switch (phase) {
@@ -436,7 +436,7 @@ void TUnk_80493450::update_turn_toward_target() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 
-void TUnk_80493450::run_move_action() {
+void TObjEneBeastBase::run_move_action() {
     if (test_actor_flags(0x1000) != 0) {
         mode = 4;
     }
@@ -469,14 +469,14 @@ void TUnk_80493450::run_move_action() {
     }
 }
 
-void TUnk_80493450::beast_idle_update() {
+void TObjEneBeastBase::beast_idle_update() {
     f32 r;
     f32 dist;
     f32 range;
     s32 diff;
     s32 angle;
     s32 angle2;
-    TUnk_80493450 *other;
+    TObjEneBeastBase *other;
 
     update_target_near_flag();
     select_move_speed();
@@ -487,7 +487,7 @@ void TUnk_80493450::beast_idle_update() {
         in_group = has_group();
     }
     child_count = countChildren();
-    other = (TUnk_80493450 *)next;
+    other = (TObjEneBeastBase *)next;
     if (other != NULL) {
         diff = other->child_count - child_count;
         if (diff > 1) {
@@ -577,7 +577,7 @@ end:
     clear_player_status_flag(0, 0x0A000000);
 }
 
-void TUnk_80493450::run_idle_action() {
+void TObjEneBeastBase::run_idle_action() {
     switch (mode) {
     case 1:
         if (appearing != 0) {
@@ -609,7 +609,7 @@ void TUnk_80493450::run_idle_action() {
 }
 
 
-void TUnk_80493450::refresh_target() {
+void TObjEneBeastBase::refresh_target() {
     u16 best;
     TObjPlayer *player;
     u16 id;
@@ -672,7 +672,7 @@ void TUnk_80493450::refresh_target() {
 }
 
 #pragma defer_codegen on
-TUnk_80493450::TUnk_80493450(TObject *parent) : TObjEnemy(parent) {
+TObjEneBeastBase::TObjEneBeastBase(TObject *parent) : TObjEnemy(parent) {
     mode = 0;
     phase = 0;
     retreat_timer = 0;
@@ -690,9 +690,9 @@ TUnk_80493450::TUnk_80493450(TObject *parent) : TObjEnemy(parent) {
     far_anim_speed = BEAST_DEFAULT_MOVEMENT_RATE;
     near_anim_speed = BEAST_NEAR_TARGET_MOVEMENT_RATE;
 }
-TUnk_80493450::~TUnk_80493450() {}
+TObjEneBeastBase::~TObjEneBeastBase() {}
 
-void TUnk_80493450::run_task() {
+void TObjEneBeastBase::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
         run_demo_task();
         return;

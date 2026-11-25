@@ -37,7 +37,7 @@ const TBoss6RockChaseKind boss6_rock_chase_model_radius_table[2] = {
     {4, 20.0f},
     {0, 30.0f},
 };
-const char *TBoss6RockChase__name = TBoss6RockChase__class_name_string;
+const char *TBoss6RockChase::name = TBoss6RockChase__class_name_string;
 
 void TBoss6RockChase::damage_players_in_range() {
     Vec d;
@@ -120,7 +120,7 @@ TBoss6RockChase::~TBoss6RockChase() {
 #pragma push
 #pragma fp_contract on
 TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *position, s32 size_kind) : TObjCollidable(parent) {
-    m_name = TBoss6RockChase__name;
+    m_name = TBoss6RockChase::name;
     owner = parent;
     this->size_kind = size_kind;
     delay = (s32)(15.0f * (3.0517578e-05f * (f32)rand()));
@@ -137,13 +137,13 @@ TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *position, s32 size_
 
 TBoss6RockChase *TBoss6RockChase::spawn(TObject *parent, const Vec *position) {
     Vec point;
-    s32 var_r31;
+    s32 variant;
     VecCopy(&point, position);
-    var_r31 = 0;
+    variant = 0;
     point.y = 450.0f;
     if ((3.0517578e-05f * (f32) rand()) < 0.5f) {
-        var_r31 = 1;
+        variant = 1;
     }
-    return new TBoss6RockChase(parent, &point, var_r31);
+    return new TBoss6RockChase(parent, &point, variant);
 }
 

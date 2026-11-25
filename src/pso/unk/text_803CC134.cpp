@@ -12,8 +12,8 @@ s32 lbl_805D75E4;
 /* points at the ADXF version/build banner above */
 const char *const volatile adxf_build_string = lbl_8047C7E8;
 
-LogHdr_803CD16C lbl_8057B7B0;
-LogEnt_803CD16C lbl_8057B7D0[256];
+AdxfLogHeader adxf_log_header;
+AdxfLogEntry adxf_log_entries[256];
 u8 afs_archive_toc_table[0x400];
 AdxfHandle adxf_file_handle_pool[16];
 
@@ -25,8 +25,8 @@ void adxf_finish(void) {
         lobby_afs_toc_entry_index = 0;
         lbl_805D75E4 = 0;
         adxf_log_write_index = 0;
-        memset(&lbl_8057B7B0, 0, sizeof(lbl_8057B7B0));
-        memset(lbl_8057B7D0, 0xFF, sizeof(lbl_8057B7D0));
+        memset(&adxf_log_header, 0, sizeof(adxf_log_header));
+        memset(adxf_log_entries, 0xFF, sizeof(adxf_log_entries));
         memset(afs_archive_toc_table, 0, 0x400);
         memset(adxf_file_handle_pool, 0, sizeof(adxf_file_handle_pool));
     }
@@ -37,8 +37,8 @@ void adxf_init(void) {
     if (lbl_805D75D0 == 0) {
         memset(adxf_file_handle_pool, 0, sizeof(adxf_file_handle_pool));
         memset(afs_archive_toc_table, 0, 0x400);
-        memset(lbl_8057B7D0, 0xFF, sizeof(lbl_8057B7D0));
-        memset(&lbl_8057B7B0, 0, sizeof(lbl_8057B7B0));
+        memset(adxf_log_entries, 0xFF, sizeof(adxf_log_entries));
+        memset(&adxf_log_header, 0, sizeof(adxf_log_header));
         adxf_log_write_index = 0;
         lbl_805D75E4 = 0;
         lobby_afs_toc_entry_index = 0;

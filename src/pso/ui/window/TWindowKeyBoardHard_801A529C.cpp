@@ -75,7 +75,6 @@ void buffer_reset(void) {
     memset((void *)deferred_packet_buffer, 0, 0x10000);
     lbl_805D5D04 = 1;
 }
-extern "C" {
 
 
 void TLobby__sub_801A5478(void) { mem_free((void *)deferred_packet_buffer); deferred_packet_buffer = 0; }
@@ -87,7 +86,6 @@ void alloc_work_buffer(void) {
     lbl_805D5D04 = 0;
     deferred_packet_buffer = (saddr)mem_alloc(0x10000);
     memset((void *)deferred_packet_buffer, 0, 0x10000);
-}
 }
 
 struct VBase_801a54e8_801A529C { char pad[0x18]; };
@@ -106,7 +104,6 @@ struct VObj_801a54e8_801A529C : VBase_801a54e8_801A529C {
 struct S_801A5544 { u8 pad[0x8B8]; s32 cnt; u8 buf[0x5B4]; };
 
 extern "C" {
-void append_command_to_batch_buffer(S_801A5544 *arg0, u8 *arg1);
 
 void TLobby__sub_801A54E8(u8 *arg0) {
     s32 temp_r4;

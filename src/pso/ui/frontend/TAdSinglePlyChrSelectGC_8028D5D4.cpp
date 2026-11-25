@@ -112,9 +112,7 @@ void TLobby::free_chr_select_singleton() {
     }
 }
 
-extern "C" {
 extern saddr tl_03;
-}
 
 void alloc_quest_download_buffer(void) {
     if (chr_select_load_buffer_base == 0) {

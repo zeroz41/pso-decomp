@@ -6,7 +6,6 @@
 struct Obj_8027D1E8 { u8 pad[0x60]; s8 f60; };
 
 extern "C" {
-void fn_8027D1E8(Obj_8027D1E8 *o);
 
 
 void fn_8027D1E8(Obj_8027D1E8 *o) {

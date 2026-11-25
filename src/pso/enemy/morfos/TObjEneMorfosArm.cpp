@@ -21,16 +21,16 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *TObjEneMorfosArm__name = "TObjEneMorfosArm";
+const char *morfos_arm_name = "TObjEneMorfosArm";
 TObjMotionAction morfos_arm_motion_params[1] = {
     { MOTION_MODE_ONCE, 0, 0, 0.7f, 0x4 },
 };
-extern const char *TObjEneMorfosArm__name;
-BmlResource *TObjEneMorfosArm__parent_morfos_instance;
+extern const char *morfos_arm_name;
+BmlResource *morfos_arm_parent_morfos_instance;
 }
 
 void TObjEneMorfosArm::render() {
-    if (TObjEneMorfosArm__parent_morfos_instance == NULL) {
+    if (morfos_arm_parent_morfos_instance == NULL) {
         queue_destruction();
         return;
     }
@@ -63,16 +63,16 @@ TObjEneMorfosArm::~TObjEneMorfosArm() {
 
 TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, TObjEneMorfos *owner) : TObjMotion(parent) {
     BmlModelEntry *resource;
-    m_name = TObjEneMorfosArm__name;
+    m_name = morfos_arm_name;
     morfos = owner;
     morfos_id = morfos->get_entity_id();
     VecCopy(&position, morfos->get_arm_point());
     rotation_y = morfos->get_rotation_y();
-    model = TObjEneMorfosArm__parent_morfos_instance->models[0].model;
-    resource = TObjEneMorfosArm__parent_morfos_instance->models;
+    model = morfos_arm_parent_morfos_instance->models[0].model;
+    resource = morfos_arm_parent_morfos_instance->models;
     texlist = resource->texlist;
     set_action_table(morfos_arm_motion_params);
-    set_motion_list(TObjEneMorfosArm__parent_morfos_instance->motions);
+    set_motion_list(morfos_arm_parent_morfos_instance->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
@@ -87,6 +87,6 @@ TObjEneMorfosArm *TObjEneMorfosArm::create(TObject *parent, TObjEneMorfos *owner
 }
 
 void TObjEneMorfosArm::init_global() {
-    TObjEneMorfosArm__parent_morfos_instance = TObjEneMorfos::get_instance();
+    morfos_arm_parent_morfos_instance = TObjEneMorfos::get_instance();
 }
 

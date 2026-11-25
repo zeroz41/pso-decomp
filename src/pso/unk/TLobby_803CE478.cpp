@@ -26,14 +26,14 @@ extern "C" void update_file_stream_range(void *context) {
 }
 
 CvFsErrorCallback cvfs_completion_callback;
-s32 lbl_805D75FC;
+s32 cvfs_completion_context;
 
 void cvFsEntryErrFunc(CvFsErrorCallback callback, s32 context) {
     if (callback == NULL) {
         cvfs_completion_callback = NULL;
-        lbl_805D75FC = 0;
+        cvfs_completion_context = 0;
         return;
     }
     cvfs_completion_callback = callback;
-    lbl_805D75FC = context;
+    cvfs_completion_context = context;
 }

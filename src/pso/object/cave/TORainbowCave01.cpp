@@ -24,8 +24,8 @@ const char *abeniji_fe_obj001_niji_motion_names[] = {NULL};
 BmlResourceDescriptor abeniji_fe_obj001_niji_resource_descriptor = {
     "abeniji_fe_obj001_niji.bml", abeniji_fe_obj001_niji_model_names, abeniji_fe_obj001_niji_motion_names, 1, 0,
 };
-const char *TORainbowCave01__class_name = "TORainbowCave01";
-BmlResource *TORainbowCave01__bml_resource;
+const char *rainbow_cave01_class_name = "TORainbowCave01";
+BmlResource *rainbow_cave01_bml_resource;
 
 s32 TORainbowCave01::is_player_in_range(f32 range_sq) {
     TObjCollidable *player = find_entity_by_id((u16)local_client_id);
@@ -93,24 +93,24 @@ void *TORainbowCave01::create(void *set_data) {
 }
 
 void TORainbowCave01::free_static_data() {
-    if (TORainbowCave01__bml_resource != NULL) {
-        delete TORainbowCave01__bml_resource;
-        TORainbowCave01__bml_resource = NULL;
+    if (rainbow_cave01_bml_resource != NULL) {
+        delete rainbow_cave01_bml_resource;
+        rainbow_cave01_bml_resource = NULL;
     }
 }
 
 void TORainbowCave01::load_resource_instance() {
     BmlResource *resource = new BmlResource(1, &abeniji_fe_obj001_niji_resource_descriptor, 0, 0, NULL);
-    TORainbowCave01__bml_resource = resource;
+    rainbow_cave01_bml_resource = resource;
 }
 
 TORainbowCave01::~TORainbowCave01() {}
 
 TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
-    m_name = TORainbowCave01__class_name;
+    m_name = rainbow_cave01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)TORainbowCave01__bml_resource->models[0].model;
-    texlist = TORainbowCave01__bml_resource->models[0].texlist;
+    model = (void *)rainbow_cave01_bml_resource->models[0].model;
+    texlist = rainbow_cave01_bml_resource->models[0].texlist;
     view_range = 400.0f;
     model_radius = 40000.0f;
     fade = 0.0f;

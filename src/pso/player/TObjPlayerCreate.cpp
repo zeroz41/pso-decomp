@@ -38,7 +38,7 @@
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
-#include "pso/player/TUnk_804C4540.h"
+#include "pso/player/TObjEndingPlayer.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/unk/TLobby_80227A2C.h"
@@ -535,7 +535,7 @@ void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 extern const char *TObjPlayer_name;
 }
 
-TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
+TObjPlayer::TObjPlayer(TObject *parent, EndingPlayerRecord *src) : TObjChara(parent) {
     movement_hold.init();
     photon_blast_aim.reset();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();

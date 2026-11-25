@@ -21,8 +21,8 @@ BmlResourceDescriptor bm_fs_obj_hanger_moto_resource_descriptor = {
 CollisionBody hanger_machine01_collision_body_parts[] = {
     {{0.0f, 22.5f, 0.0f}, 25.0f, 25.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-const char *TOHangerMachine01__class_name = "TOHangerMachine01";
-BmlResource *TOHangerMachine01__bml_resource;
+const char *hanger_machine01_class_name = "TOHangerMachine01";
+BmlResource *hanger_machine01_bml_resource;
 
 void TOHangerMachine01::run_task() {
     fan_angle += 0x888;
@@ -88,15 +88,15 @@ void *TOHangerMachine01::create(void *set_data) {
 }
 
 void TOHangerMachine01::free_static_model() {
-    if (TOHangerMachine01__bml_resource != NULL) {
-        delete TOHangerMachine01__bml_resource;
-        TOHangerMachine01__bml_resource = NULL;
+    if (hanger_machine01_bml_resource != NULL) {
+        delete hanger_machine01_bml_resource;
+        hanger_machine01_bml_resource = NULL;
     }
 }
 
 void TOHangerMachine01::load_shared_resource() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_hanger_moto_resource_descriptor, 0, 0, NULL);
-    TOHangerMachine01__bml_resource = resource;
+    hanger_machine01_bml_resource = resource;
 }
 
 TOHangerMachine01::~TOHangerMachine01() {
@@ -105,10 +105,10 @@ TOHangerMachine01::~TOHangerMachine01() {
 }
 
 TOHangerMachine01::TOHangerMachine01(void *set_data) : TObjMapObject(tl_05) {
-    m_name = TOHangerMachine01__class_name;
+    m_name = hanger_machine01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)TOHangerMachine01__bml_resource->models[0].model;
-    texlist = TOHangerMachine01__bml_resource->models[0].texlist;
+    model = (void *)hanger_machine01_bml_resource->models[0].model;
+    texlist = hanger_machine01_bml_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 50.0f;
     actorFlags |= 0x40000000;

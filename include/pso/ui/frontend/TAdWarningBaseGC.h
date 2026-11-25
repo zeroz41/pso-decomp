@@ -7,18 +7,20 @@
 class TWindowBase;
 
 struct TAdWarningBaseGC : public TObject {
+    static int aram_alloc_size;
+    static u32 aram_capacity;
     TAdWarningBaseGC(TObject *parent);
     virtual ~TAdWarningBaseGC();
     virtual void vfunc_6() = 0;
     virtual saddr vfunc_7() = 0;  // the warning text: get_localized_text_entry
     virtual void vfunc_8();
     virtual void vfunc_9();
-    saddr sub_8032D214();   // creates the message window holding vfunc_7's text
+    saddr create_message_window();   // creates the message window holding vfunc_7's text
     s32 state;               // 0x1C: the vfunc_8 switch
     s32 prev_state;          // 0x20: state when vfunc_8 began; a change restarts frames
     s32 next_state;          // 0x24: entered when the closing state's frames run out
     s32 frames;              // 0x28: frames spent in the closing state
-    TWindowBase *message_window; // 0x2C: sub_8032D214's message window
+    TWindowBase *message_window; // 0x2C: create_message_window's message window
     static void create();
     static void init_heap();
     static s32 load_from_aram_sync(int buf);

@@ -5,13 +5,13 @@
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct Crypt_8007C438 { s32 pos; u32 k[0x38]; };
+struct SubtractiveRngNextCrypt { s32 pos; u32 k[0x38]; };
 
-struct R_8007C48C { s32 f0; s32 tbl[55]; s32 fe0; s32 fe4; };
+struct SubtractiveRngSeedR { s32 f0; s32 tbl[55]; s32 fe0; s32 fe4; };
 
 extern "C" {
-void subtractive_rng_refill(Crypt_8007C438 *c);
-void subtractive_rng_seed(R_8007C48C *rng, s32 arg1);
+void subtractive_rng_refill(SubtractiveRngNextCrypt *c);
+void subtractive_rng_seed(SubtractiveRngSeedR *rng, s32 arg1);
 u8 save_block_shuffle_permutation[256];
 u8 save_block_unshuffle_permutation[256];
 
@@ -43,7 +43,7 @@ void subtractive_rng_make_shuffle(s32* stream) {
  s32 i; u16 index; u8 value;
  for(i=0;i<256;i++) save_block_shuffle_permutation[i]=(u8)i;
  for(i=255;i>=0;i--) {
-  index=TAdSinglePlyChrSelectGC__sub_8007C584(stream,i+1);
+  index=subtractive_rng_range(stream,i+1);
   value=save_block_shuffle_permutation[index];
   save_block_shuffle_permutation[index]=save_block_shuffle_permutation[i];
   save_block_unshuffle_permutation[value]=(u8)i;
@@ -76,12 +76,12 @@ s32 subtractive_rng_next(s32 *arg0) {
     temp_r4 = *arg0;
     *arg0 = temp_r4 + 1;
     if (temp_r4 + 1 > 0x37) {
-        subtractive_rng_refill((Crypt_8007C438 *)(arg0));
+        subtractive_rng_refill((SubtractiveRngNextCrypt *)(arg0));
         *arg0 = 1;
     }
     return arg0[*arg0 + 1];
 }
-void subtractive_rng_refill(Crypt_8007C438 *c) {
+void subtractive_rng_refill(SubtractiveRngNextCrypt *c) {
     s32 i;
     for (i = 1; i < 0x19; i++) {
         c->k[i] -= c->k[i + 0x1F];
@@ -90,7 +90,7 @@ void subtractive_rng_refill(Crypt_8007C438 *c) {
         c->k[i] -= c->k[i - 0x18];
     }
 }
-void subtractive_rng_seed(R_8007C48C *rng, s32 arg1) {
+void subtractive_rng_seed(SubtractiveRngSeedR *rng, s32 arg1) {
     s32 x;
     s32 idx;
     s32 a;
@@ -104,10 +104,10 @@ void subtractive_rng_seed(R_8007C48C *rng, s32 arg1) {
         a = arg1 - a;
         arg1 = rng->tbl[idx];
     }
-    subtractive_rng_refill((Crypt_8007C438 *)rng);
-    subtractive_rng_refill((Crypt_8007C438 *)rng);
-    subtractive_rng_refill((Crypt_8007C438 *)rng);
-    subtractive_rng_refill((Crypt_8007C438 *)rng);
+    subtractive_rng_refill((SubtractiveRngNextCrypt *)rng);
+    subtractive_rng_refill((SubtractiveRngNextCrypt *)rng);
+    subtractive_rng_refill((SubtractiveRngNextCrypt *)rng);
+    subtractive_rng_refill((SubtractiveRngNextCrypt *)rng);
     rng->f0 = 0x37;
 }
 

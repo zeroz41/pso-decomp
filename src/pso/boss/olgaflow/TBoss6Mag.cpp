@@ -41,45 +41,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/effect/particle/ParticleFactory.h"
 
-// The particle effect each emitter slot plays, and the node it follows (-1 for the mag's position).
-struct TBoss6MagEmitter {
-    s32 effect_id;
-    s32 node;
-};
-
-// Motion table row: the play mode, the row change_motion moves to when a one-shot motion ends, the motion's
-// index in the scene archive and its speed.
-struct TBoss6MagMotionEntry {
-    s32 mode;
-    s32 next;
-    s32 motion;
-    f32 speed;
-};
-
-struct TBoss6MagMotionBlend {
-    AnimationMotion *from;
-    AnimationMotion *to;
-    f32 from_frame;
-    f32 to_frame;
-};
-
-// The record exchange_object_state reads and writes.
-struct TBoss6MagStateRecord {
-    s32 flags;
-    s16 pad_04;
-    s16 value;
-    s32 pad_08;
-};
-
-// copy_vec3 copies the motion track as one block of words, which a struct with float members does not give.
-struct TBoss6MagMotionWords {
-    s32 index;
-    s32 mode;
-    struct {
-        s32 words[7];
-    } track;
-};
-
 extern "C" s32 is_local_client_floor_leader();
 
 #pragma defer_codegen on
@@ -96,7 +57,7 @@ extern const TBoss6MagMotion boss6_type2_zero_vec3_block = { 0 };
 extern const TBoss6MagMotionTrack boss6_type2_initial_state = { NULL, 0.0f, 0.0f, 0.0f, 0.06666667f, NULL, 0.0f };
 extern const s32 boss6_mag_rock_spread_angles[3] = { -0x2000, 0, 0x2000 };
 extern const TBoss6MagRamp boss6_mag_zero_ramp = { 0.0f, 0.0f };
-CollisionBody TBoss6Mag__collision_body_parts[1] = {
+CollisionBody TBoss6Mag::collision_body_parts[1] = {
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 0.0f, 0, 0x807B, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 TBoss6MagMotionEntry boss6_type2_motion_table[5] = {
@@ -136,7 +97,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     texlist = 0;
     model = NULL;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    init_collision_body_parts(this, TBoss6Mag__collision_body_parts, 1);
+    init_collision_body_parts(this, TBoss6Mag::collision_body_parts, 1);
     VecCopy(&body_center, &position);
     velocity.z = 0.0f;
     velocity.y = 0.0f;
@@ -250,7 +211,7 @@ void TBoss6Mag::render_body_effects() {
     flash = hit_flash;
     tinted = 0;
     if (flash > 0.0f) {
-        TBoss6PlotFalz__sub_802AC008(flash, hp_ratio);
+        apply_boss6_hit_flash_color(flash, hp_ratio);
         tinted = 1;
     } else {
         fade_amount = fade;
@@ -1070,6 +1031,6 @@ void TBoss6Mag::set_anim_frame(TBoss6Mag *partner) { this->partner = partner; }
 
 void TBoss6Mag::set_target_nodes(u32 flags, s32 variant) { target_attribute_mask = flags; segment_variant = variant; update_segment_angles(); }
 
-void TBoss6Mag::set_action_field_0x408(u16 client_id) { chase_target.client_id = client_id; }
+void TBoss6Mag::set_chase_target_client(u16 client_id) { chase_target.client_id = client_id; }
 
 void TBoss6Mag::set_on_shoulder(s32 on_shoulder) { chase_target.on_shoulder = on_shoulder; }

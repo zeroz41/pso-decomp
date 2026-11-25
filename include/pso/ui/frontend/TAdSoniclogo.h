@@ -6,6 +6,7 @@
 
 class TAdSoniclogo : public TObject {
 public:
+    static int state;
     TAdSoniclogo(TObject *parent);
     virtual void render();
     virtual ~TAdSoniclogo();

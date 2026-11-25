@@ -16,7 +16,7 @@ TObjBoss5PillarSmoke *TObjBoss5Pillar::create_smoke(TObject *parent, NJS_OBJECT 
 
 extern "C" {
 
-void TBoss8Dragon__sub_8028B0DC(TObjBoss5PillarCtrl *pillar_controller, const Vec *pos, const DragonAttackParams *params) {
+void trigger_pillars_in_range(TObjBoss5PillarCtrl *pillar_controller, const Vec *pos, const DragonAttackParams *params) {
     f32 off;
     NJS_OBJECT *n;
     s32 i;

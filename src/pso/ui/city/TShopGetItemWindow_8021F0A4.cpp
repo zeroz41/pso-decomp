@@ -6,7 +6,7 @@
 #include "pso/ui/font/TFontSmallTask.h"
 
 extern s32 game_difficulty_selection;
-extern s32 lbl_805D6238;
+extern s32 shop_section_id;
 extern s32 shop_difficulty_tier;
 extern s32 lbl_805D6244;
 
@@ -18,12 +18,12 @@ void reset_shop_stock_and_params(void) {
     clear_shop_tool_flags();
     lbl_805D6244 = 0;
     section_id = leader_selection.get_section_id();
-    lbl_805D6238 = section_id;
+    shop_section_id = section_id;
     if (section_id < 0) {
-        lbl_805D6238 = 0;
+        shop_section_id = 0;
     }
-    if ((s32) lbl_805D6238 > 9) {
-        lbl_805D6238 = 9;
+    if ((s32) shop_section_id > 9) {
+        shop_section_id = 9;
     }
     shop_difficulty_tier = game_difficulty_selection;
     if ((s32) game_difficulty_selection < 0) {

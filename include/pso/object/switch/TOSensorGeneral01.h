@@ -28,9 +28,9 @@ public:
 
 LAYOUT_ASSERT(TOSensorGeneral01_size, sizeof(TOSensorGeneral01) == 0xF4);
 
-extern const char *TOSensorGeneral01__class_name;
+extern const char *sensor_general01_class_name;
 extern BmlResource *sensor_general_shared_bml_archive;
 // The red texture list, then the model's own (lit).
-extern NJS_TEXLIST **TOSensorGeneral01__texture_lists;
+extern NJS_TEXLIST **sensor_general01_texture_lists;
 
 #endif

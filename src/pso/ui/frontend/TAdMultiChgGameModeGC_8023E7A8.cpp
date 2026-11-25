@@ -39,7 +39,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/unk/TUnk_804C2298.h"
+#include "pso/unk/TAdDialingSelectGC.h"
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -74,7 +74,7 @@
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/frontend/TAdSnAkPassConfirmGC.h"
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
-#include "pso/ui/TUnk_804F3A20.h"
+#include "pso/ui/TAdSystemFileCheckGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
@@ -95,7 +95,7 @@ int lbl_805D384C = 29;
 // (run_game_mode_select_frame) then destroys the current scene object (2) and creates the next one (0).
 s32 game_mode_scene_change_state;
 TObject *game_mode_scene_instance;
-int TAdPlayerLoadGC__load_state;
+int TAdPlayerLoadGC::load_state;
 
 // The scene camera's start pose (init_game_mode_select_scene). File-scope objects: they open the
 // unit's .rodata, before set_default_camera's own initialisers.
@@ -410,7 +410,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdPsoPassSaveGC(tl_01);
         break;
     case 27:
-        game_mode_scene_instance = new TUnk_804F3A20(tl_01);
+        game_mode_scene_instance = new TAdSystemFileCheckGC(tl_01);
         break;
     case 28:
         game_mode_scene_instance = new TAdEp3Exist(tl_01);
@@ -419,7 +419,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TLevelSelect();
         break;
     case 3:
-        game_mode_scene_instance = new TUnk_804C2298();
+        game_mode_scene_instance = new TAdDialingSelectGC();
         break;
     case 29:
         break;
@@ -427,13 +427,11 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
 }
 
 
-extern "C" {
 void unload_lobby_scene_resources(void) {
     TLobby::call_funcs_reverse(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
 }
 void load_lobby_scene_resources(void) {
     run_load_callback_table(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
-}
 }
 
 void TLobby::release_scene_resources() {
@@ -496,7 +494,6 @@ void init_game_mode_select_scene(void) {
     load_floor_sound_bank(0);
 }
 
-extern "C" {
 void run_game_mode_select_frame(void) {
     switch (game_mode_scene_change_state) {
     case 0:
@@ -526,14 +523,13 @@ void run_game_mode_select_frame(void) {
     TAdSinglePlyChrSelectGC::noop();
     if (TAdPlayerLoadGC::get_instance() == 0) {
         if (func_801A5E54__Fv() != 0) {
-            TKeyBoardControl__sub_8000F92C();
+            switch_to_fallback_main_phase();
         }
         if (TQuestVmDownLoadServer::is_ready() != 0) {
             request_main_phase(0);
         }
     }
     render_tick();
-}
 }
 
 void TAdMultiChgGameModeGC__sub_8023F4E4(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_mode_change_state(); render_tick(); }

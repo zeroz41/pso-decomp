@@ -63,31 +63,7 @@
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/object/base/TObjBase.h"
 
-// One row of boss4_type1_motion_states: the playback kind (update_boss4_phase_timer: 0 loop,
-// 1 hold, 2 chain to next), the row it chains to and the motion of each of the six body parts.
-struct TBoss4Type1Motion { s32 kind, next, motions[6]; };
-
-// One state of the first-form controller.
-struct TBoss4Type1State {
-    const char *name;
-    s32 motion;
-    void (TBoss4Type1::*enter)();
-    void (TBoss4Type1::*update_idle)();
-    void (TBoss4Type1::*update)();
-};
-
-struct TBoss4Type1XZ { f32 x, z; };
-
-// Stand angle of each slot, then the weighted attack picks of choose_next_attack.
-struct TBoss4Type1AttackTables {
-    s32 slot_angles[4];
-    f32 low_hp_weights[3];
-    s32 low_hp_attacks[3];
-    f32 weights[2];
-    s32 attacks[2];
-};
-
-const char *TBoss4Type1__name = "TBoss4Type1";
+const char *TBoss4Type1::name = "TBoss4Type1";
 f32 lbl_80485AE0[10] = { 0.0f, 0.0f, 0.0f, 25.0f, 2.0f, 25.0f, 0.5f, 0.5f, 0.5f, 0.5f };
 s32 boss4_type1_tenchu_hit_effect_ids[2] = { 0xFB, 0xFC };
 TBoss4Type1State boss4_type1_states[11] = {
@@ -161,7 +137,7 @@ extern const ModelNodeSpec boss4_type1_model_node_table[7] = {
     { 9, 1, 0 }, { 7, 1, 0 }, { 5, 2, 0 }, { 4, 2, 0 }, { 6, 2, 0 }, { 3, 5, 0 }, { 3, 0x5E, 0 },
 };
 
-Vec TBoss4Type2__tenchu_furu_array[64];
+Vec TBoss4Type2::tenchu_furu_array[64];
 
 extern "C" {
 void pick_tenchu_furu_spots() { pick_tenchu_furu_spots_around(NULL, 0.0f); }
@@ -179,14 +155,14 @@ void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist) {
   f32 ring;
   Vec w;
   Vec v;
-  out = TBoss4Type2__tenchu_furu_array;
+  out = TBoss4Type2::tenchu_furu_array;
   for (total = 0; total < 0x40; total++, out++)
   {
     VecCopy(out, (const Vec *)lbl_80485AE0);
   }
 
   total = 0;
-  out = TBoss4Type2__tenchu_furu_array;
+  out = TBoss4Type2::tenchu_furu_array;
   cnt = 0;
   if (is_split_screen())
   {
@@ -254,7 +230,7 @@ void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist) {
     s32 found;
     s32 m;
     found = 0;
-    p = TBoss4Type2__tenchu_furu_array;
+    p = TBoss4Type2::tenchu_furu_array;
     for (m = 0; m < total; m++)
     {
       if (xyz_distance(&w, p) <= 12.5f)
@@ -278,7 +254,7 @@ void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist) {
 }
 
 void spawn_tenchu_furu(TObject *parent) {
-    Vec *spot = TBoss4Type2__tenchu_furu_array;
+    Vec *spot = TBoss4Type2::tenchu_furu_array;
     s32 i = 0;
     do {
         TObjDFTenchuFuru::create(parent, spot);
@@ -300,7 +276,7 @@ void apply_tenchu_hits(TObject *source) {
     Vec pos;
 
     power = (f32)((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->power;
-    spot = TBoss4Type2__tenchu_furu_array;
+    spot = TBoss4Type2::tenchu_furu_array;
     for (i = 0; i < 0x40; i++) {
         TParticleCtrl *effect = spawn_particle_effect(spot, boss4_type1_tenchu_hit_effect_ids[i & 1]);
         if (effect != NULL) {
@@ -318,7 +294,7 @@ void apply_tenchu_hits(TObject *source) {
         if (is_player_in_boss_area(player->get_entity_id()) == 0) {
             continue;
         }
-        target = TBoss4Type2__tenchu_furu_array;
+        target = TBoss4Type2::tenchu_furu_array;
         VecCopy(&pos, player->get_position_ptr());
         pos.y = 0.0f;
         for (j = 0; j < 0x40; j++) {
@@ -349,7 +325,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     s32 i;
     s32 j;
 
-    m_name = TBoss4Type1__name;
+    m_name = TBoss4Type1::name;
     add_flags_2e4(8);
     owner = set_data->owner;
     apply_set_data(&set_data->entry);
@@ -546,7 +522,7 @@ void TBoss4Type1::draw_parts() {
         case 2:
         case 3:
         case 4:
-            TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
+            apply_boss6_hit_flash_color(hit_flash, hp_ratio);
             head = i - 2;
             node_captures[head]->install();
             body_model = get_bml_model(archive, boss4_type1_model_ids[i]);

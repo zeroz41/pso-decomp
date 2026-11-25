@@ -18,7 +18,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 
-const char *TBoss2Fin__name = "TBoss2Fin";
+const char *TBoss2Fin::name = "TBoss2Fin";
 // The pull run_task() hands to the rope update every frame.
 extern const Vec boss2_fin_gravity = { 0.0f, 0.0f, -2.0f };
 
@@ -92,12 +92,12 @@ void TBoss2Fin::init_link_points() {
 TBoss2Fin::~TBoss2Fin() {}
 
 // The fins' two ropes (six points each), then the end marker.
-TObjEZRopeSegment TBoss2Fin__effect_table[3];
+TObjEZRopeSegment TBoss2Fin::effect_table[3];
 
 TBoss2Fin::TBoss2Fin(TObject *parent, Vec *first_anchor, Vec *second_anchor) : TObjEZRopeBase(parent) {
     s32 i;
     TObjEZRopeCollider *collider;
-    m_name = TBoss2Fin__name;
+    m_name = TBoss2Fin::name;
     anchor_a = first_anchor;
     anchor_b = second_anchor;
     collider = rope_colliders;
@@ -109,13 +109,13 @@ TBoss2Fin::TBoss2Fin(TObject *parent, Vec *first_anchor, Vec *second_anchor) : T
     }
     collider->radius = -1.0f;
     init_link_points();
-    init_ropes(TBoss2Fin__effect_table, rope_ends, rope_colliders);
+    init_ropes(TBoss2Fin::effect_table, rope_ends, rope_colliders);
 }
 
 void TBoss2Fin::release_effect_table() {}
 
 void TBoss2Fin::init_effect_table() {
-    TObjEZRopeSegment *seg = TBoss2Fin__effect_table;
+    TObjEZRopeSegment *seg = TBoss2Fin::effect_table;
     s32 i;
     for (i = 0; i < 2; i++) {
         seg->count = 6;

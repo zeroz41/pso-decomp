@@ -33,7 +33,7 @@ CollisionBody bind_collision_body_parts[2] = {
 };
 
 extern "C" {
-BmlResource *TOBind__static_model_resource;
+BmlResource *bind_static_model_resource;
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern s32 __vt__6TOBind[];
 const char *lbl_805D2EA8 = "TOBind";
@@ -65,15 +65,15 @@ void *TOBind::create(void *set_data) {
 }
 
 void TOBind::free_static_model() {
-    if (TOBind__static_model_resource != NULL) {
-        delete (BmlResource *)TOBind__static_model_resource;
-        TOBind__static_model_resource = NULL;
+    if (bind_static_model_resource != NULL) {
+        delete (BmlResource *)bind_static_model_resource;
+        bind_static_model_resource = NULL;
     }
 }
 
 void TOBind::load_static_resource() {
     BmlResource *storage = new BmlResource(1, (BmlResourceDescriptor *)&bm_o_bind_resource_descriptor, 0, 0, NULL);
-    TOBind__static_model_resource = storage;
+    bind_static_model_resource = storage;
 }
 
 }
@@ -88,11 +88,11 @@ u8 *TOBind__ct(TOBind *bind, saddr set_data) {
     ((TOBind *)bind)->m_name = lbl_805D2EA8;
     ((TOBind *)(bind))->apply_object_set_data((void *)set_data);
     bind->m_b0 = 0;
-    bind->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 0));
-    bind->texlist = get_bml_texlist((BmlResource *)TOBind__static_model_resource, 0);
-    bind->animated_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOBind__static_model_resource, 1));
-    bind->animated_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TOBind__static_model_resource, 1));
-    bind->motion = get_bml_motion(TOBind__static_model_resource, 0);
+    bind->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)bind_static_model_resource, 0));
+    bind->texlist = get_bml_texlist((BmlResource *)bind_static_model_resource, 0);
+    bind->animated_model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)bind_static_model_resource, 1));
+    bind->animated_textures = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)bind_static_model_resource, 1));
+    bind->motion = get_bml_motion(bind_static_model_resource, 0);
     bind->motion_frame = 0.0f;
     bind->m_bc = static_cast<f32>(bind->motion->frameCount) - 1.0f;
     bind->motion_step = 1.0f;

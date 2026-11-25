@@ -4,7 +4,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include <string.h>
 
-extern "C" {
 
 void TAdSinglePlyChrSelectGC::append_extension_if_missing(char *name, char *ext) {
     char buf[8];
@@ -35,4 +34,3 @@ s32 is_palette_texture_format(u8 format) {
     return 0;
 }
 
-}
