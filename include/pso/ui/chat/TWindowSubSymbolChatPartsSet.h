@@ -10,7 +10,7 @@ struct TWindowSubStatusDisp;
 struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second);
     virtual ~TWindowSubSymbolChatPartsSet();
-    void sub_8028625C();
+    void update_part_sprites();
     s32 is_active();
     s32 is_cancelled();
     s32 get_cursor_pos();

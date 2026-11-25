@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-s16 TMainCursor__sub_8013E570(void *p);
 }
 
 

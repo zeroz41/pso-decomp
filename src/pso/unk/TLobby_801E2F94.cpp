@@ -487,7 +487,7 @@ extern "C" {
 void TLobby__sub_803382E4(void);
 s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
-void TKeyBoardControl__sub_8000F7FC(void);
+void run_end_of_render_tasks(void);
 
 
 void TObjPlayer::render_tree(void *model) {
@@ -523,7 +523,7 @@ void render_tick(void) {
     TParticleCtrl::end_effect_render();
     copy_efb_to_framebuffer();
     present_frame();
-    TKeyBoardControl__sub_8000F7FC();
+    run_end_of_render_tasks();
 }
 
 s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2) {

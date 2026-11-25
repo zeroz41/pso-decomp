@@ -119,7 +119,7 @@ TWindowSubShortMail::~TWindowSubShortMail() {
         main_menu->close();
         main_menu = NULL;
     }
-    TLobby__sub_802258C8();
+    clear_unread_flags();
     TLobby::sync_auto_reply_state();
 }
 

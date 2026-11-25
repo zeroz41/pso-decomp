@@ -7,7 +7,6 @@ struct TWindowMenu;
 
 extern "C" {
 TWindowMenu *TWindowSubSymbolChat__sub_8028233C(s32 chat);
-TWindowMenu *create_menu__20TWindowSubSymbolChatFPv(void *window_sub_symbol_chat);
 }
 
 #endif

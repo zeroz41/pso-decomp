@@ -42,6 +42,12 @@ public:
     // Clear / set the collision flag (bit 1) of every body.
     void disable_all_bodies();
     void enable_all_bodies();
+    // A per-client mark on each body: is_body_flag_valid checks the body index and client (< 12),
+    // test_body_flag reads body_flags[index] against the client's bit, set_body_flag / clear_body_flag change it.
+    s32 is_body_flag_valid(s32 index, u16 client);
+    s32 test_body_flag(s32 index, u16 client);
+    void set_body_flag(s32 index, u16 client);
+    void clear_body_flag(s32 index, u16 client);
     // The radius of collision body `body`.
     f32 get_body_radius(s32 body);
     u32 check_actor_body_contact(void *, f32);

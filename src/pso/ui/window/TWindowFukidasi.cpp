@@ -1081,7 +1081,7 @@ void TWindowFukidasi::calc_text_size(f32 *out) {
         out[1] = 0.1f + (20.0f + e->h);
         break;
     case 1:
-        TWindowSubSymbolChat__sub_802483F0((saddr)&entry_list, (void *)out);
+        get_symbol_chat_frame_size((saddr)&entry_list, (void *)out);
         break;
     case 2:
         break;

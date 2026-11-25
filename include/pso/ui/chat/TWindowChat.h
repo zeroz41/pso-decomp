@@ -13,8 +13,8 @@ public:
     TWindowChat(TObject *object, void *result);
     virtual ~TWindowChat();
     s32 sub_80247EC0();
-    s32 sub_80247128();
-    s32 sub_80247080();
+    s32 update_word_select_window();
+    s32 update_symbol_chat_window();
     virtual void run_task();
 
     s32 submit_keyboard_input();
@@ -53,8 +53,8 @@ public:
 };
 extern "C" {
 s32 TWindowCtrl__sub_8024701C(TWindowChat *chat);
-void TWindowChat__sub_80247DFC(TWindowChat *chat);
-void TWindowChat__sub_80247E50(TWindowChat *chat);
+void consume_input_active_flag(TWindowChat *chat);
+void consume_active_flag(TWindowChat *chat);
 }
 
 #include <stddef.h>

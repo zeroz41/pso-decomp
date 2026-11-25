@@ -114,7 +114,7 @@ void TWindowSubSymbolChatParts::select_index_and_scroll(s32 symbol_index) {
 #pragma pop
 
 void TWindowSubSymbolChatParts::handle_cancel() {
-    if (this->sub_80283974() == 0) {
+    if (this->is_confirmed() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
         this->result_flags = (u8) (this->result_flags | 2);
     }
@@ -146,7 +146,7 @@ void TWindowSubSymbolChatParts::handle_add() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChatParts::sub_80284FB8() {
+void TWindowSubSymbolChatParts::scroll_to_cursor_row() {
     NJS_POINT2 v;
     f32 target = 16.0f + (40.0f * (f32)(s8)cursor_row + 9.0f);
     target -= 81.0f;
@@ -157,7 +157,7 @@ void TWindowSubSymbolChatParts::sub_80284FB8() {
 }
 #pragma pop
 
-void TWindowSubSymbolChatParts::sub_80285054() {
+void TWindowSubSymbolChatParts::update_cursor_input() {
     u8 col;
     u8 col_now;
     u8 row;
@@ -201,7 +201,7 @@ void TWindowSubSymbolChatParts::sub_80285054() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChatParts::sub_80285274(u8 *ctx) {
+void TWindowSubSymbolChatParts::draw_selected_cursor(u8 *ctx) {
     NJS_POINT2 corner;
     corner.x = ((40.0f * (f32) (s8) this->cursor_col) + 10.0f) - 3.0f;
     corner.y = ((40.0f * (f32) (s8) this->cursor_row) + 9.0f) - 3.0f;
@@ -407,7 +407,7 @@ void TWindowSubSymbolChatParts::render() {
         break;
     }
     draw_window_scrollbar(scrollbar, ctx, scroll_offset);
-    sub_80285274((u8 *)ctx);
+    draw_selected_cursor((u8 *)ctx);
     heading->forward_render(ctx);
 }
 
@@ -417,8 +417,8 @@ void TWindowSubSymbolChatParts::run_task() {
     if (!(window_flags & 2)) {
         open_tick = 0x01000000;
     }
-    if (sub_80283974() == 0) {
-        sub_80285054();
+    if (is_confirmed() == 0) {
+        update_cursor_input();
         pad = &controller_input_state.controllers[0];
         if (test_pressed_buttons_packed(pad, 4) != 0 || (s32)test_controller_flag_4c_color(&(&controller_input_state)->keyboard, 4) != 0) {
             handle_add();
@@ -430,7 +430,7 @@ void TWindowSubSymbolChatParts::run_task() {
             handle_cancel();
         }
     }
-    sub_80284FB8();
+    scroll_to_cursor_row();
     if ((f32)open_tick >= 7.5f) {
         heading->update_subwindow();
         scrollbar->increment_counter();

@@ -93,7 +93,7 @@ void TWindowSubSymbolChatPartsSet::set_selection_and_refresh(s8 *selection) {
     first_part_index = 0;
     selection_out = selection;
     selection_mode = 1;
-    sub_8028625C();
+    update_part_sprites();
 }
 void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
   s32 sel;
@@ -129,7 +129,7 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
   first_part_index = instance->find_free_entry(0);
   second_part_index = instance->find_free_entry((first_part_index) + 1);
   selection_mode = 0;
-  sub_8028625C();
+  update_part_sprites();
 }
 
 
@@ -172,7 +172,7 @@ void TWindowSubSymbolChatPartsSet::handle_decide() {
     this->heading_display->set_entry_state(2);
 }
 
-void TWindowSubSymbolChatPartsSet::sub_8028625C() {
+void TWindowSubSymbolChatPartsSet::update_part_sprites() {
     u16 *e2;
     void *b3;
     void *a1;
@@ -326,7 +326,7 @@ void TWindowSubSymbolChatPartsSet::run_task() {
         }
     }
     toggle_selected_part();
-    this->sub_8028625C();
+    this->update_part_sprites();
     if ((f32) this->open_tick >= 7.5f) {
         this->heading_display->update_subwindow();
     }

@@ -361,9 +361,9 @@ void THunterGuildSeqOffline__sub_80213E64(void) {
 }
 
 
-void set_random_enemies_mode(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; TKeyBoardControl__sub_8000F950(); }
+void set_random_enemies_mode(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; set_keyboard_input_flag(); }
 
-void reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
+void reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); }
 
 
 THunterGuildSeqOnline_Client::THunterGuildSeqOnline_Client(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
@@ -393,7 +393,7 @@ THunterGuildSeqOnline_Client::~THunterGuildSeqOnline_Client() {
     hunter_guild_seq_online_client_instance = NULL;
 }
 
-void THunterGuildSeqOffline__sub_80213CA4(void) {
+void clear_online_client_instance_table(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
         hunter_guild_online_client_instance_table[i] = 0;

@@ -152,10 +152,10 @@ void TWindowSubTradeMain::run_task() {
     saddr n;
     player = is_player_input_active(this->client_id);
     if (((TWindowChat *)(this->chat))->is_mode_bit4() != 0 && chat_accept_submission((saddr)&this->submission) != 0) {
-        TWindowChat__sub_80247E50(reinterpret_cast<TWindowChat *>(this->chat));
+        consume_active_flag(reinterpret_cast<TWindowChat *>(this->chat));
     }
     if (((TWindowChat *)(this->chat))->is_visible() != 0) {
-        TWindowChat__sub_80247DFC(reinterpret_cast<TWindowChat *>(this->chat));
+        consume_input_active_flag(reinterpret_cast<TWindowChat *>(this->chat));
     }
     if (TWindowCtrl__sub_8024701C(reinterpret_cast<TWindowChat *>(this->chat)) != 0) {
         this->set_labels(0xA);

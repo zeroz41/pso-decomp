@@ -15,11 +15,11 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     TWindowSubSymbolChatParts(const NJS_POINT2 *position, s32 *flip_u_flag, s32 *flip_v_flag);
     virtual ~TWindowSubSymbolChatParts();
     static const char *class_name;
-    void sub_80284FB8();
-    void sub_80285274(u8 *);
-    void sub_80285054();
+    void scroll_to_cursor_row();
+    void draw_selected_cursor(u8 *);
+    void update_cursor_input();
     s32 calc_symbol_index();
-    s32 sub_80283974();
+    s32 is_confirmed();
     s32 is_cancelled();
     virtual void render();
     virtual void run_task();

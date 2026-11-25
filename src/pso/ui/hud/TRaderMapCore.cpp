@@ -88,7 +88,7 @@ NJS_TEXLIST *radar_frame_texlist;
 saddr TRaderMapCore::map_heap;
 
 extern NJS_TEXANIM radar_sprite_texanims[];
-extern f32 lbl_804C87B4[][4];
+extern f32 radar_compass_positions[][4];
 extern RadarScissorRect radar_map_view_scissor_table[3];
 extern RadarViewportRect radar_map_view_rect_table[3];
 s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map);
@@ -102,7 +102,7 @@ void rotate_matrix_y(void *, s32);
 extern "C" {
 
 extern RadarBackdropColor radar_map_backdrop_color;
-void TRaderMapCore__sub_801F967C(TRaderMapCore *unused, u32 color);
+void set_radar_marker_color(TRaderMapCore *unused, u32 color);
 s32 get_current_floor(void);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
 static const RadarColor4 radar_player_slot_color_table[4] = {
@@ -111,7 +111,7 @@ static const RadarColor4 radar_player_slot_color_table[4] = {
     { 1.0f, 1.0f, 1.0f, 0.0f },
     { 1.0f, 0.0f, 0.0f, 1.0f },
 };
-NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *core);
+NJS_POINT2 get_follow_marker_position(TRaderMapCore *core);
 
 int __dt__5THeapFv(void*, void*);
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
@@ -136,7 +136,8 @@ RadarScissorRect radar_map_view_scissor_table[3] = {
     { 1.0f, 9.0f, 15.0f, 13.0f },
     { 1.0f, 9.0f, 15.0f, 13.0f },
 };
-f32 lbl_804C87B4[3][4] = {
+// Per map mode: the compass sprite position and the position of the marker sprite drawn with it.
+f32 radar_compass_positions[3][4] = {
     { 575.0f, 149.0f, 575.0f, 159.0f },
     { 450.0f, 373.0f, 450.0f, 383.0f },
     { 450.0f, 373.0f, 450.0f, 383.0f },
@@ -241,9 +242,9 @@ void TRaderMapCore::load_map_resources() {
     e = (RadarSceneEntry *)get_floor_scene_table(area);
     TLobby::replace_file_extension((char *)buf, (char *)e[status].name, (char *)"r.rel");
     TRaderMapCore::floor_map_resource = static_cast<u8 *>(create_named_object(buf));
-    if (TRaderMapCore::floor_map_resource != NULL && *(u32 *)(TRaderMapCore::floor_map_resource + 4) != 0) {
+    if (TRaderMapCore::floor_map_resource != NULL && RADAR_REGION_MAP->textures != 0) {
         TLobby::replace_file_extension((char *)buf, (char *)e[status].name, "r");
-        bind_gvm_texture_list(buf, *(u8 **)(TRaderMapCore::floor_map_resource + 4));
+        bind_gvm_texture_list(buf, (u8 *)RADAR_REGION_MAP->textures);
     }
     copy_name("..");
     memcard_access_active = 0;
@@ -267,7 +268,7 @@ void TRaderMapCore::unload_floor_map() {
     }
     TRaderMapCore::free_statics();
     if ((void *) TRaderMapCore::floor_map_resource != NULL) {
-        texlist = *(NJS_TEXLIST **)(TRaderMapCore::floor_map_resource + 4);
+        texlist = (NJS_TEXLIST *)RADAR_REGION_MAP->textures;
         if (texlist != NULL) {
             release_texture_list(texlist);
         }
@@ -357,7 +358,7 @@ TRaderMapCore::~TRaderMapCore() {
 }
 
 void TRaderMapCore::run_task() {
-    saddr player;
+    TObjPlayer *player;
     s32 delay;
     s32 i;
     if ((uaddr) TRaderMapCore::floor_map_resource != 0U) {
@@ -385,14 +386,14 @@ void TRaderMapCore::run_task() {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             i = 0;
             do {
-                player = (saddr)get_player_by_client_id(i);
+                player = get_player_by_client_id(i);
                 if (player != 0) {
-                    update_radar_auto_discovery(this, 0, (void *)(player + 0x38));
+                    update_radar_auto_discovery(this, 0, &player->position);
                 }
                 i += 1;
             } while (i < 4);
         } else {
-            update_radar_auto_discovery(this, 0, (void *) ((u8 *)this + follow_marker * 0x28 + 0x94));
+            update_radar_auto_discovery(this, 0, &player_marker_records[follow_marker]);
         }
         advance_scroll();
     }
@@ -692,7 +693,7 @@ void TRaderMapCore::draw_compass(s32 mode) {
         sprite.tanim = radar_sprite_texanims;
         color = 0xFFFFFFFF;
         TParticleCtrl::begin_effect_render();
-        compass_xy = &lbl_804C87B4[mode][0];
+        compass_xy = &radar_compass_positions[mode][0];
         marker_xy = compass_xy + 2;
         sprite.p.x = marker_xy[0] + radar_sprite_texanims[1].cx;
         sprite.p.y = marker_xy[1] + radar_sprite_texanims[1].cy;
@@ -825,7 +826,7 @@ void TRaderMapCore::draw_enemy_gate_markers() {
     model_render_flags |= this->radar_render_flags;
     set_chunk_material_override_pair(-0xFF01, 0x100);
     for (i = 0, g = (RadarMarker *)&radar_marker_buffer; i < radar_marker_count; i++, g++) {
-        TRaderMapCore__sub_801F967C(this, g->color);
+        set_radar_marker_color(this, g->color);
         push_matrix();
         translate_matrix(0, g->x, 0.0f, g->z);
         rotate_matrix_y(0, g->rot);
@@ -987,7 +988,7 @@ void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos) {
     }
 }
 
-NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *core) {
+NJS_POINT2 get_follow_marker_position(TRaderMapCore *core) {
     NJS_POINT2 p = { 0.0f, 0.0f };
     if (core->follow_marker >= 0) {
         p.x = core->player_marker_records[core->follow_marker].x;
@@ -1181,7 +1182,7 @@ void TRaderMapCore::open_free_map_view() {
     NJS_CAMERA *camera = &radar_map_view_state[1].camera;
     TRaderMapCore::view_mode = 1;
     {
-        NJS_POINT2 p = TRaderMapCore__sub_801F9D38((TRaderMapCore *)TRaderMapCore::instance);
+        NJS_POINT2 p = get_follow_marker_position((TRaderMapCore *)TRaderMapCore::instance);
         camera->px = p.x;
         camera->pz = p.y;
     }
@@ -1201,7 +1202,7 @@ void TRaderMapCore::add_zoom_distance(f32 delta) {
     }
 }
 
-void TRaderMapCore__sub_801F967C(TRaderMapCore *unused, u32 color) {
+void set_radar_marker_color(TRaderMapCore *unused, u32 color) {
     f32 rgba[4];
     rgba[0] = (f32)(color >> 24) / 255.0f;
     rgba[1] = (f32)(u8)(color >> 16) / 255.0f;

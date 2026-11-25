@@ -866,7 +866,7 @@ s32 clear_floor_event_flags();
 s32 is_room_enemy_set_cleared(int, int, void *);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 delete_bank_item(u8 *item, s32 slot);
-void try_close__6TLobbyFPv(void *p);
+void receive_short_mail(void *p);
 int turn_on_bgm_p2(void*);
 int turn_off_bgm_p2(void*);
 void request_active_window_close(void);
@@ -1873,7 +1873,7 @@ void qst_op_stop_animation(s32 reg) {
 void qst_op_use_animation(s32 slot_reg, s32 anim_reg) {
     apply_to_battle_player_slot(qst_registers[(u8)slot_reg], qst_registers[(u8)anim_reg]);
 }
-void TLobby::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
+void TLobby::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); }
 
 void qst_op_qexit() {
     if (is_quest_active() == 1) {
@@ -2456,7 +2456,7 @@ void qst_op_send_mail(void) {
         tag.name[0xF] = 0;
         strncpy(tag.text, fields->tokens[1], 0x1FF);
         tag.text[0x1FF] = 0;
-        try_close__6TLobbyFPv(&tag);
+        receive_short_mail(&tag);
         delete fields;
     }
 }

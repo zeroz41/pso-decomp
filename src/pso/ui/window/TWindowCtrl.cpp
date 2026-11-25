@@ -455,10 +455,10 @@ void TWindowCtrl::update_window_visibility() {
         }
         chat_window->open_input();
         if ((chat_window->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&this->m_94) != 0)) {
-            TWindowChat__sub_80247E50(chat_window);
+            consume_active_flag(chat_window);
         }
         if (chat_window->is_visible() != 0) {
-            TWindowChat__sub_80247DFC(chat_window);
+            consume_input_active_flag(chat_window);
         }
     }
 }

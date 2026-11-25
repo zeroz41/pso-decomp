@@ -25,7 +25,7 @@ extern "C" {
 void fn_802233F8(void *);
 
     extern int evt2_random_enemies_mode;
-void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
+void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); }
 
 
 void THunterGuildSeqOffline::request_close(TShopWindowBase *) {

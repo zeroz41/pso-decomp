@@ -132,7 +132,7 @@ void TCharSaveSequence::handle_retry_menu() {
             state = 0xE;
             close_message_window();
             close_window();
-            new TScreenFadeOut(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
+            new TScreenFadeOut(tl_fade, on_chr_select_fade_out_done);
             break;
         }
     }
@@ -153,7 +153,7 @@ void TCharSaveSequence::handle_player_load() {
             case 0:
                 state = 0xE;
                 close_window();
-                new TScreenFadeOut(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
+                new TScreenFadeOut(tl_fade, on_chr_select_fade_out_done);
                 break;
             default:
                 state = 0xD;
@@ -330,7 +330,7 @@ void TCharSaveSequence::wait_card_check() {
             state = 0xE;
             close_message_window();
             close_window();
-            new TScreenFadeOut(tl_fade, TAdSinglePlyChrSelectGC__sub_8033B244);
+            new TScreenFadeOut(tl_fade, on_chr_select_fade_out_done);
         }
     } else {
         state = 0;
@@ -352,8 +352,8 @@ void TCharSaveSequence::set_char_slots(s32 message, s32 sub_message) {
         message_window->append_line(get_message_text(sub_message), 8);
     }
 }
-void TAdSinglePlyChrSelectGC__sub_8033B244(TObject *) { request_queued_main_phase(); }
-void TAdSinglePlyChrSelectGC__sub_8033B264(void) {
+void on_chr_select_fade_out_done(TObject *) { request_queued_main_phase(); }
+void release_single_ply_chr_select_scene(void) {
     main_task.delete_layer_children();
     TLobby::stop_audio_streams();
     TLobby::set_and_notify(0);

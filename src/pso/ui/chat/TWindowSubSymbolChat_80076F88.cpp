@@ -152,7 +152,7 @@ void SymbolChatPreset::set_symbol_flags(s32 low_bits, s32 mode) {
 
 s32 TWindowSubSymbolChat::count_instance_empty_slots() { return reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance())->count_empty_slots(); }
 
-void TWindowSubSymbolChat::update_layout() { reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance())->count_used_slots(); }
+s32 TWindowSubSymbolChat::update_layout() { return reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance())->count_used_slots(); }
 
 void TWindowSubSymbolChat::update_symbol_chat_result(s32 index) { selected_symbol_chat_preset = ((saddr)get_symbol_chat_preset(index)); }
 

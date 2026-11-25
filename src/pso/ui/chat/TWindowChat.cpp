@@ -39,7 +39,7 @@ saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
     extern int chat_help_color_table[];
-int TWindowSubSymbolChatHelp__sub_80247EE8(int a0);
+int get_chat_help_color(int a0);
 s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
     if (w->composer->sub_8025CB10() != 0) {
         return 1;
@@ -50,7 +50,7 @@ s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
     return TWindowChat__sub_80247D50(w->hardKeyboard) != 0 ? 1 : 0;
 }
 
-s32 TWindowChat::sub_80247080() {
+s32 TWindowChat::update_symbol_chat_window() {
     s32 *preset_index;
     if (this->symbolChatWindow == NULL) {
         return 0;
@@ -71,7 +71,7 @@ s32 TWindowChat::sub_80247080() {
     return 1;
 }
 
-s32 TWindowChat::sub_80247128() {
+s32 TWindowChat::update_word_select_window() {
     s32 mode_code;
     TWindowDD *word_window;
     word_window = this->wordSelectWindow;
@@ -125,8 +125,8 @@ void TWindowChat::update() {
     saddr player;
     if (is_open() == 0) {
         this->flags = (u16) (this->flags | 1);
-        TWindowChat__sub_80247E50(this);
-        TWindowChat__sub_80247DFC(this);
+        consume_active_flag(this);
+        consume_input_active_flag(this);
         player = (saddr)get_player_by_client_id(local_client_id);
         if ((player != 0) && !(this->flags & 2) && (is_mode_bit6() != 0)) {
             if (TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
@@ -142,8 +142,8 @@ void TWindowChat::update() {
 
 void TWindowChat::open_input() {
     if (is_open() != 0) {
-        TWindowChat__sub_80247E50(this);
-        TWindowChat__sub_80247DFC(this);
+        consume_active_flag(this);
+        consume_input_active_flag(this);
         flags = (u16) (flags & 0xFFFE);
         flags = (u16) (flags | 2);
         hardKeyboard->clear_flag60_bit200();
@@ -239,7 +239,7 @@ void TWindowChat::handle_input() {
                 }
                 break;
             case 1:
-                if ((sub_80247128() != 0) && (sub_80247EC0() != 0)) {
+                if ((update_word_select_window() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
                         ((TObjPlayer *)player)->init_parts();
                         TWindowCtrl::end_client_keyboard_hold(local_client_id);
@@ -250,7 +250,7 @@ void TWindowChat::handle_input() {
                 }
                 break;
             case 2:
-                if ((sub_80247080() != 0) && (sub_80247EC0() != 0)) {
+                if ((update_symbol_chat_window() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
                         ((TObjPlayer *)player)->init_parts();
                         TWindowCtrl::end_client_keyboard_hold(local_client_id);
@@ -436,7 +436,7 @@ void TWindowChat::set_input_active() { this->flags |= 0x20; }
 
 int TWindowChat::is_mode_bit6() { return (this->flags >> 6) & 0x1; }
 
-void TWindowChat__sub_80247DFC(TWindowChat *window_chat) {
+void consume_input_active_flag(TWindowChat *window_chat) {
     if (window_chat->is_visible() != 0) {
         window_chat->flags = (u16) (window_chat->flags & 0xFFFFFFDF);
         window_chat->open_next_input_window();
@@ -445,7 +445,7 @@ void TWindowChat__sub_80247DFC(TWindowChat *window_chat) {
 
 int TWindowChat::is_visible() { return (this->flags >> 5) & 0x1; }
 
-void TWindowChat__sub_80247E50(TWindowChat *window_chat) {
+void consume_active_flag(TWindowChat *window_chat) {
     if (window_chat->is_mode_bit4() != 0) {
         window_chat->flags = (u16) (window_chat->flags & 0xFFFFFFEF);
         if (window_chat->composer != NULL) {
@@ -465,4 +465,4 @@ s32 TWindowChat::sub_80247EC0() {
 
 void TWindowKeyBoardSoft::set_flag60_bit1() { state_flags |= 0x2; }
 
-int TWindowSubSymbolChatHelp__sub_80247EE8(int a0) {  return chat_help_color_table[a0]; }
+int get_chat_help_color(int a0) {  return chat_help_color_table[a0]; }

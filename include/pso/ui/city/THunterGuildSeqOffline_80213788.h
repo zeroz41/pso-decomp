@@ -66,7 +66,7 @@ void reset_random_enemies_mode(TObject *fade);
 
 // --- C functions defined in THunterGuildSeqOffline_80213788.cpp ---
 extern "C" {
-void THunterGuildSeqOffline__sub_80213CA4(void);
+void clear_online_client_instance_table(void);
 void THunterGuildSeqOffline__sub_80213E64(void);
 void THunterGuildSeqOffline__sub_80213EBC(void);
 void THunterGuildSeqOffline__sub_80213F78(void);

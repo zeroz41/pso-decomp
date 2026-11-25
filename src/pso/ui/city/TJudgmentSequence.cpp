@@ -18,7 +18,7 @@ TJudgmentSequence *judgment_sequence_instance;
 
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
-void TJudgmentSequence__sub_80215BA0(TShopWindowBase *window) {
+void on_judgment_close(TShopWindowBase *window) {
     if (window != NULL) {
         window->set_state(4);
     }
@@ -30,7 +30,7 @@ void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window) {
     }
 }
 
-void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window) {
+void on_judgment_cancel(TShopWindowBase *window) {
     if (window != NULL) {
         window->send_message(0xD, 1);
         window->set_state(4);
@@ -47,8 +47,8 @@ void TJudgmentSequence::handle_close_input() {
 void TJudgmentSequence::open_judgment_window() {
     TShopJudgmentItemWindow *o = new TShopJudgmentItemWindow(tl_05, this, player);
     o->m_16c = TJudgmentSequence__sub_80215BCC;
-    o->on_close = TJudgmentSequence__sub_80215BA0;
-    o->on_cancel = TJudgmentSequence__sub_80215BF8;
+    o->on_close = on_judgment_close;
+    o->on_cancel = on_judgment_cancel;
     set_state(5);
 }
 

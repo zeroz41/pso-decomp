@@ -489,7 +489,7 @@ void submit_target_to_player_cursor(void *target, s32 id);
 void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst);
 Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
 void TObjPlayer__sub_801B5A44(saddr player, s32 secondary, s32 i, s32 action, s32 param);
-void TObjPlayer__sub_801B5AF8(saddr player, s32 index);
+void get_action_palette_mode(saddr player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 void handle_6x99(void);
 void handle_6x98(void);
@@ -3258,7 +3258,7 @@ TPlyDispConfigSmth *TObjPlayer::select_action_palette(int secondary) {
 
 #pragma push
 #pragma fp_contract on
-void TObjPlayer__sub_801B5AF8(saddr player, s32 index) {
+void get_action_palette_mode(saddr player, s32 index) {
     ((TPlyDispConfigSmth *)((TObjPlayer *)player)->refresh_effect())->get_current_tag_mode(index);
 }
 #pragma pop
@@ -4010,7 +4010,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
     u8 *self = (u8 *)this;
     s16 kind;
     s16 act;
-    kind = ((s32 (*)(void *, s32))TObjPlayer__sub_801B5AF8)(this, mode);
+    kind = ((s32 (*)(void *, s32))get_action_palette_mode)(this, mode);
     act = get_action_palette_entry(mode);
     set_player_action_palette_mode(&action_palette_state, kind);
     set_player_action_palette_slot(&action_palette_state, act);

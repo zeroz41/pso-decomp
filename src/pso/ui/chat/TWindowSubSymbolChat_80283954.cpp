@@ -13,7 +13,7 @@ void TWindowSubSymbolChatHelp::set_flag60_bit2() {
     feature_flags = (u8)(feature_flags | 2);
 }
 
-s32 TWindowSubSymbolChatParts::sub_80283974() {
+s32 TWindowSubSymbolChatParts::is_confirmed() {
     return this->result_flags & 1;
 }
 

@@ -33,7 +33,7 @@ void *THunterGuildSeqOffline::create(void *player) {
 
 int get_offline_instance(int a0) {  return THunterGuildSeqOffline::instance_table[a0]; }
 
-s32 THunterGuildSeqOffline__sub_80212074(void) {
+s32 is_near_designated_player(void) {
     TObjPlayer *player;
     TObjPlayer *designated_player;
     s32 area;

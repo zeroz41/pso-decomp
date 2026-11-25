@@ -129,7 +129,7 @@ void THunterGuildSeqOffline::notify_quest_thread() {
     }
 }
 
-void THunterGuildSeqOffline__sub_8021339C(void) {
+void clear_offline_instance_table(void) {
     s32 i;
     for (i = 0; i < 4; i++) THunterGuildSeqOffline::instance_table[i] = 0;
 }

@@ -34,7 +34,7 @@ WindowDescriptor symbol_chat_help_window_layout = {
 };
 
 extern "C" {
-int TWindowSubSymbolChatHelp__sub_80247EE8(int);
+int get_chat_help_color(int);
 
 
 #pragma push
@@ -53,7 +53,7 @@ void TWindowSubSymbolChatHelp::draw_color_palette(WindowDrawContext *context) {
         if (feature_flags & 2) {
             t = TWindowSubSymbolChatPartsSet::get_parts_entry(i);
         } else {
-            t = TWindowSubSymbolChatHelp__sub_80247EE8(i);
+            t = get_chat_help_color(i);
         }
         set_constant_material_color(t);
         q.x0 = (112.0f + context->inner_x) + 12.0f * (f32)i;

@@ -373,7 +373,7 @@ s32 draw_player_status(void *, void *, const char *);
 s16 calc_scaled_value__10TObjPlayerFii(void *, int);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 void enable_action_input__10TObjPlayerFPv(void *p);
-u16 TObjPlayer__sub_801B5AF8(void *, s32);
+u16 get_action_palette_mode(void *, s32);
 s32 is_action_id_none(int);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
@@ -3898,14 +3898,14 @@ void TObjPlayer::send_attack_target_packet() {
 
 s32 TObjPlayer::select_attack_palette_slot() {
     s32 r = -1;
-    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 1) == 2 && pad_binding.is_button_pressed(4) != 0) {
+    if (get_action_palette_mode(((u8 *)this), 1) == 2 && pad_binding.is_button_pressed(4) != 0) {
         r = 1;
     }
-    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 2) == 2 && pad_binding.is_button_pressed(0x400) != 0 &&
+    if (get_action_palette_mode(((u8 *)this), 2) == 2 && pad_binding.is_button_pressed(0x400) != 0 &&
         is_palettex_activated(this->get_entity_id()) == 0) {
         r = 2;
     }
-    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 3) == 2 && pad_binding.is_button_pressed(2) != 0) {
+    if (get_action_palette_mode(((u8 *)this), 3) == 2 && pad_binding.is_button_pressed(2) != 0) {
         r = 3;
     }
     return this->check_mode_action((u16)this->get_action_palette_entry(r)) != 0 ? r : -1;

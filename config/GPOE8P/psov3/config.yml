@@ -281,7 +281,7 @@ force_active:
   - sub_802E18C8__12TAdTimeSetGCFv
   - sub_802E1A04__12TAdTimeSetGCFllll
   - report_missing_file__17TCharSaveSequenceFv
-  - TAdSinglePlyChrSelectGC__sub_8033B244
+  - on_chr_select_fade_out_done
   - close_message_window__17TCharSaveSequenceFv
   - enable_prompt__16TCheckMemoryCardFv
   - __ct__16TBGLightningCtrlFP7TObjectPv
@@ -585,9 +585,9 @@ force_active:
   - TItemTimer__sub_8011D598
   - __ct__19TItemWeaponPartisanFP7TObjectPUc
   - TItem__name
-  - TJudgmentSequence__sub_80215BA0
+  - on_judgment_close
   - TJudgmentSequence__sub_80215BCC
-  - TJudgmentSequence__sub_80215BF8
+  - on_judgment_cancel
   - pad_slot_state_buffer
   - keyboard_polling_disabled
   - poll_input_devices_frame
@@ -686,9 +686,9 @@ force_active:
   - shop_stock_lacks_technique
   - shop_stock_lacks_tool
   - TLobby__sub_80224840
-  - TLobby__sub_80225A08
+  - store_short_mail
   - clear_unread__14ShortMailEntryFv
-  - TLobby__sub_80225CB8
+  - set_new_mail_flag
   - TLobby__sub_80292AB4
   - TLobby__sub_80292BB8
   - TLobby__sub_80292DA0
@@ -741,13 +741,13 @@ force_active:
   - set_start_task__11LockOnTasksFP7TObject
   - matches_id__12CursorTargetFUs
   - get_client_id__11CursorOwnerFv
-  - TMainCursor__sub_8013E570
+  - get_target_id__12CursorTargetFv
   - set_client_id__11CursorOwnerFUs
   - deactivate_action_channel
   - clear_marker_color
   - clear_bodies_collision_flag
   - set_bodies_collision_flag
-  - TMainCursor__sub_80154288
+  - is_body_flag_valid__14TObjCollidableFlUs
   - TMainTask_name
   - slot_flags__17TMedicalCenterMes
   - TMemberCheck__previous_member_count
@@ -6387,8 +6387,8 @@ force_active:
   - get_shop_rare_tool_pool_count
   - fn_80235078
   - fn_8024450C
-  - fn_80248324
-  - fn_802483C8
+  - apply_facial_part_sprites
+  - apply_face_appearance_sprite
   - sub_8025CE00__19TWindowKeyBoardBaseFPUc
   - fn_80262C2C
   - fn_80271848
@@ -16251,8 +16251,8 @@ force_active:
   - sub_802100FC__18TCheckRoomSequenceFv
   - move_toward_target__10TTecCircleFv
   - sub_80237258__19TTecPlayerInfluenceFv
-  - sub_80247080__11TWindowChatFv
-  - sub_80247128__11TWindowChatFv
+  - update_symbol_chat_window__11TWindowChatFv
+  - update_word_select_window__11TWindowChatFv
   - sub_80247EC0__11TWindowChatFv
   - sub_8024EF3C__17TWindowDuelResultFv
   - sub_8024EF40__17TWindowDuelResultFv
@@ -16268,8 +16268,8 @@ force_active:
   - sub_802730E0__17TWindowSubComCardFv
   - get_cursor_origin__21TWindowSubCustomEquipFP10NJS_POINT2
   - sub_8027D230__26TWindowSubQuestBoardSelectFv
-  - sub_80281C60__20TWindowSubSymbolChatFv
-  - sub_80281CC4__20TWindowSubSymbolChatFv
+  - set_face_part_from_cursor__20TWindowSubSymbolChatFv
+  - add_part_at_cursor__20TWindowSubSymbolChatFv
   - sub_80288BE4__19TQuestListChallengeFv
   - sub_8028B940__12TChCrLoadAfsFv
   - sub_8028B944__12TChCrLoadAfsFv
@@ -17793,8 +17793,8 @@ force_active:
   - lbl_805DD808
   - render__19TAdSelectGameModeGCFv
   - run_task__19TAdSelectGameModeGCFv
-  - sub_80285054__25TWindowSubSymbolChatPartsFv
-  - sub_80285274__25TWindowSubSymbolChatPartsFPUc
+  - update_cursor_input__25TWindowSubSymbolChatPartsFv
+  - draw_selected_cursor__25TWindowSubSymbolChatPartsFPUc
   - "get_adx_threshold_and_chunk"
   - "TLobby__sub_803C9104"
   - "TLobby__sub_803C9350"

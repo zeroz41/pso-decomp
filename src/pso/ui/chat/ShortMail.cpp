@@ -21,7 +21,7 @@ ShortMailEntry short_mail_entries[8];
 s32 short_mail_next_id;
 int lobby_short_mail_entry_count;
 
-void try_close__6TLobbyFPv(void* p) { if (((TLobby *)p)->is_name_too_long() == 0) { TLobby__sub_80225A08(p); } }
+void receive_short_mail(void* p) { if (((TLobby *)p)->is_name_too_long() == 0) { store_short_mail(p); } }
 
 void TLobby::send_simple_mail(s32 target_card_id, void *message) {
     union {
@@ -42,7 +42,7 @@ void TLobby::send_simple_mail(s32 target_card_id, void *message) {
     }
 }
 
-void TLobby__sub_802258C8(void) {
+void clear_unread_flags(void) {
   s32 i;
   ShortMailEntry *entry;
   i = 0;
@@ -99,13 +99,13 @@ s32 TLobby::find_free_slot() {
 }
 
 
-void TLobby__sub_80225A08(void *p) {
+void store_short_mail(void *p) {
     s32 slot = TLobby::find_free_slot();
     char *storage = reinterpret_cast<char *>(&short_mail_entries);
     storage += slot * sizeof(ShortMailEntry);
     reinterpret_cast<ShortMailEntry *>(storage)->fill_from_packet(static_cast<u8 *>(p));
     lobby_short_mail_entry_count++;
-    TLobby__sub_80225CB8();
+    set_new_mail_flag();
     play_sound_effect(0x52D17, 0, 0, 0);
 }
 
@@ -176,7 +176,7 @@ u32 ShortMailEntry::get_id() { return sequence_id; }
 int TLobby::get_short_mail_ctrl() {  return lobby_short_mail_entry_count; }
 
 
-void TLobby__sub_80225CB8(void) {
+void set_new_mail_flag(void) {
     short_mail_flags |= 1;
 }
 

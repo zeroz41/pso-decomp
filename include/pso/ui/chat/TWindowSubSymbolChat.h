@@ -21,8 +21,8 @@ struct TWindowSubSymbolChat : public TObject {
     TWindowSubSymbolChat(TObject *parent, s32 client);
     virtual ~TWindowSubSymbolChat();
     static const char *class_name;
-    void sub_80281CC4();
-    void sub_80281C60();
+    void add_part_at_cursor();
+    void set_face_part_from_cursor();
     u8 selected_value;
     u8 _pad1D[0x1];
     s16 symbol_index;
@@ -48,7 +48,7 @@ struct TWindowSubSymbolChat : public TObject {
     static unsigned char get_global_4e54();
     static void send_selected_symbol_chat(s32 *preset_index);
     static s32 count_instance_empty_slots();
-    void update_layout();
+    static s32 update_layout();
     static void update_symbol_chat_result(s32 index);
     static void play_symbol_sound(s32 sound_index);
     u8 *get_symbol_chat_data();
@@ -65,6 +65,7 @@ struct TWindowSubSymbolChat : public TObject {
     TWindowOptionCtrl *create_confirm_window();
     TWindowMessageYesNo *open_confirm_prompt();
     TWindowMenu *create_menu();
+    static TWindowMenu *create_menu(void *chat);
     TWindowSubSymbolChatPartsSet *create_parts_set();
     TWindowSubSymbolChatParts *create_parts();
     static void open_menu(s32 chat, saddr list);

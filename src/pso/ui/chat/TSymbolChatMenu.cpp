@@ -37,21 +37,21 @@ TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
     static const NJS_POINT2 symbol_chat_menu_size = {168.0f, 120.0f};
     s32 i;
     u8 *text;
-    u8 *symbol_chat_preset;
-    preset_list = (TWindowSubComCardList *)(u8 *)(saddr)create_window_menu_default(&preset_list_pos, 0xC);
+    SymbolChatPreset *symbol_chat_preset;
+    preset_list = (TWindowSubComCardList *)create_window_menu_default(&preset_list_pos, 0xC);
     i = 0;
     do {
-        symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));
-        text = (u8 *)(reinterpret_cast<SymbolChatPreset *>(symbol_chat_preset)->get_symbol_chat_data());
-        if (is_symbol_chat_preset_in_use(reinterpret_cast<const SymbolChatPreset *>(symbol_chat_preset)) != 0) {
+        symbol_chat_preset = get_symbol_chat_preset(i);
+        text = (u8 *)(symbol_chat_preset->get_symbol_chat_data());
+        if (is_symbol_chat_preset_in_use(symbol_chat_preset) != 0) {
             preset_list->add_text_entry((saddr)text, 0x66, i);
         } else {
-            add_gray_text_entry((TWindowMenu *)preset_list, (const char *)text, 0x46, (s32)i);
+            add_gray_text_entry(preset_list, (const char *)text, 0x46, (s32)i);
         }
         i += 1;
     } while (i < 0xC);
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(preset_list));
+    align_menu_entry_positions(preset_list);
     chat_symbol = new TWindowChatSymbol(&symbol_chat_menu_position, (saddr)&symbol_chat_menu_size);
 }

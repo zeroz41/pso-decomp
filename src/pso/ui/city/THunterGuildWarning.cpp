@@ -338,17 +338,17 @@ void update_hunter_guild_phase(void) {
 }
 extern "C" {
 
-void THunterGuildSeqOffline__sub_8021339C(void);
+void clear_offline_instance_table(void);
 
 void TLobby::update_guild_or_quest_phase() {
     if (get_main_phase() == 0xE) {
-        THunterGuildSeqOffline__sub_8021339C();
+        clear_offline_instance_table();
         THunterGuildWarning__sub_8021170C();
     }
     if (get_main_phase() == 0xF) {
         TQuestListOnline::init_download_buffers();
         THunterGuildSeqOffline::zero_four_slots();
-        THunterGuildSeqOffline__sub_80213CA4();
+        clear_online_client_instance_table();
     }
 }
 

@@ -234,7 +234,7 @@ u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(void *window, int sel) {
     return (u16 *)((TWindowBase *)window)->get_array_entry(sel + 5);
 }
 
-void fn_80248324(WindowLayoutEntries *entries, s32 packed, s32 cur) {
+void apply_facial_part_sprites(WindowLayoutEntries *entries, s32 packed, s32 cur) {
     SymbolChatSprite **p = (SymbolChatSprite **)entries->items + cur;
     setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(p[5], p[9], p[1], (u16)((u8)packed), (s32)((packed >> 8) & 7), (s32)((packed >> 11) & 1), (s32)((packed >> 12) & 1), cur);
 }
@@ -249,20 +249,20 @@ int set_symbol_chat_face_sprite(void *sprite, u8 b) {
 }
 #undef w
 
-void fn_802483C8(WindowLayoutEntries *entries, u8 appearance) {
+void apply_face_appearance_sprite(WindowLayoutEntries *entries, u8 appearance) {
     set_symbol_chat_face_sprite(entries->items[0], appearance);
 }
 
-void TWindowSubSymbolChat__sub_802483F0(int a0, void* a1) { *(float*)((char*)a1 + 0x0) = 136.0f; *(float*)((char*)a1 + 0x4) = 90.0f; }
+void get_symbol_chat_frame_size(int a0, void* a1) { *(float*)((char*)a1 + 0x0) = 136.0f; *(float*)((char*)a1 + 0x4) = 90.0f; }
 
 void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data) {
     SymbolChatPayload *payload = static_cast<SymbolChatPayload *>(data);
     s32 i;
     s32 j;
 
-    fn_802483C8(entries, (u8)payload->appearance);
+    apply_face_appearance_sprite(entries, (u8)payload->appearance);
     for (i = 0; i < 4; i += 1) {
-        fn_80248324(entries, payload->facial_parts[i], i);
+        apply_facial_part_sprites(entries, payload->facial_parts[i], i);
     }
     j = 0;
     do {

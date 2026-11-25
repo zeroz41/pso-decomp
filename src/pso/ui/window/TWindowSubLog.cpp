@@ -31,10 +31,10 @@ void TWindowSubLog::run_task() {
     ControllerInputContext *context;
     u8 *temp_r3;
     if ((chat->is_mode_bit4() != 0) && (chat_accept_submission((saddr)&submission) != 0)) {
-        TWindowChat__sub_80247E50(chat);
+        consume_active_flag(chat);
     }
     if (chat->is_visible() != 0) {
-        TWindowChat__sub_80247DFC(chat);
+        consume_input_active_flag(chat);
     }
     if (TWindowCtrl__sub_8024701C(chat) != 0) {
         TWindowSubLog__sub_8026A664((u8 *)log_window, 200.0f);

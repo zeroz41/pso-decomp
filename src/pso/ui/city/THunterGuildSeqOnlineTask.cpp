@@ -86,7 +86,7 @@ void TQuestListOnline::close_windows_and_reset() {
     if (TKeyBoardControl::get_input() == 0) {
         TLobby::clear_counter();
         evt2_random_enemies_mode = 0;
-        TKeyBoardControl__sub_8000F95C();
+        clear_keyboard_input_flag();
         q = &quest_list_online_bin_download_state;
         if (q->buffer != NULL) {
             mem_free(q->buffer);
@@ -135,12 +135,12 @@ void TQuestListOnline::handle_quest_ready() {
             m = 4;
         }
         evt2_random_enemies_mode = m;
-        TKeyBoardControl__sub_8000F950();
+        set_keyboard_input_flag();
         TWindowCtrl::unsuppress_slot(local_client_id);
     } else {
         TLobby::clear_counter();
         evt2_random_enemies_mode = 0;
-        TKeyBoardControl__sub_8000F95C();
+        clear_keyboard_input_flag();
         q = &quest_list_online_bin_download_state;
         if (q->buffer != NULL) {
             mem_free(q->buffer);
@@ -219,7 +219,7 @@ void TLobby::handle_quest_download_chunk() {
 s32 get_guild_text(s32);
 extern "C" {
 char *strtok(char *, const char *);
-s32 THunterGuildSeqOffline__sub_80212074();
+s32 is_near_designated_player();
 
 void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
     TRecvDownloadHead *head = &file;
@@ -293,7 +293,7 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
     if (quest_list_online_selected_quest_info != NULL) {
         memcpy(quest_list_online_selected_quest_info, &info, sizeof(OnlineQuestInfo));
         set_quest_list_online_state(2);
-        if (THunterGuildSeqOffline__sub_80212074() != 0) {
+        if (is_near_designated_player() != 0) {
             TWindowCtrl::suppress_slot(local_client_id);
             if (online_quest_info_window != NULL) {
                 online_quest_info_window->close();
