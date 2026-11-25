@@ -20,7 +20,7 @@ int bswap__16TPlyGuildCardTagFv(void*);
 
 s32 GuildCardEntry::get_card_id() const { return id; }
 int GuildCardEntry::is_active() const { return flags & 1; }
-u8 TWindowSubComCard__sub_8007B6EC(void* p) { return *(u8*)((char*)p + 0x8f); }
+u8 TWindowSubComCard__sub_8007B6EC(void* p) { return ((GuildCardEntry *)p)->char_class; }
 
 s32 TWindowSubComCard__sub_8007B6F4(O_8007B6F4 *self) {
     if (self->flags & 2) {
