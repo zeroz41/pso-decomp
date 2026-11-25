@@ -159,7 +159,7 @@ struct DrawTransformedPrimitiveLines {
 
 
 extern "C" {
-void draw_line_list(DrawTransformedPrimitiveLines *l, s32 n, u32 flags);
+void draw_line_list(DrawTransformedPrimitiveLines *l, s32 count, u32 flags);
 }
 void reset_line_width(void);
 

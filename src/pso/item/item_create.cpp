@@ -597,8 +597,6 @@ s32 TObjPlayer__sub_80104840(s32 arg0) {
 
 // ---- TObjPlayer_80104860.cpp
 
-s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2);
-
 s32 is_local_player_off_current_floor() {
     TObjPlayer *player;
     s32 floor;
@@ -1308,7 +1306,6 @@ struct Item_801057A8 {
 };
 
 extern "C" {
-Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 quiet);
 Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *drop, s32 quiet) {
     Item_801057A8 *item;
     s8 me;

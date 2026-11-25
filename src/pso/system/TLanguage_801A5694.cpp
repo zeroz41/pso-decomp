@@ -4,12 +4,12 @@
 #undef PSO_SDK_COMPACT_MATH
 #include <dolphin/os/OSCache.h>
 #include "pso/system/TLanguage.h"
+#include "pso/unk/text_803DAFA8.h"
 
 extern "C" {
 
 s32 draw_string__9TLanguageFPvPvl();
 }
-void init_and_load_tlut(s32 tlut_name, s32 format, s32 entry_count, void *entries);
 
 void TLanguage::decode_font_data(void *arg0, void *arg1, s32 arg2, s32 tlut_name) {
     s32 n;

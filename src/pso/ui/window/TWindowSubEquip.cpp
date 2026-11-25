@@ -23,6 +23,7 @@
 #include "pso/ui/window/TWindowSubEquipList.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_80278460.h"
 
 #pragma readonly_strings on
 
@@ -34,7 +35,6 @@ static const NJS_POINT2 equip_list_window_size = {308.0f, 184.0f};
 static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 
 
-void mark_unequippable_items(TWindowSubEquipKind *window);
 extern "C" {
 void fn_80255A38(TWindowHelpItem *item);
 }

@@ -49,6 +49,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/unk/text_800F8A0C.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -110,8 +111,6 @@ struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 sampler; u8 padC[2]; 
 }
 
 
-void end_ginja_model_draw(void);
-
 extern W_802043CC lbl_8044A858[];
 
 
@@ -155,8 +154,6 @@ extern u8 lbl_8044A80C[];
 
 
 
-
-s32 *get_player_name_copy_buffer(void);
 
 
 extern CsnGroup **scene_collision_data;

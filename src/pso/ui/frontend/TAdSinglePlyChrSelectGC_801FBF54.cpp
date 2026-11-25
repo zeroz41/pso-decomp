@@ -46,6 +46,9 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/unk/text_801F43B4.h"
+#include "pso/unk/text_802C3AC0.h"
 CharacterFile *card_character_save_buffer;
 CharacterFile *secondary_card_character_save_buffer;
 TPlyCharData *selected_character_data;
@@ -152,7 +155,6 @@ void TAdSinglePlyChrSelectGC__sub_80203210(void *p);
 int fn_8020325C(void *arg0);
 s32 TLobby__sub_8030A770();
 }
-s32 get_game_play_mode();
 
 
 void TAdSinglePlyChrSelectGC::copy_name(s32 arg0) {
@@ -1943,7 +1945,6 @@ struct ByteBlock_C0
 extern "C" {
 s32 __as__13GuildCardSlotFRC13GuildCardSlot(saddr arg0, u8 *arg1);
 }
-void copy_card_window_data(void);
 
 
 s32 TAdSinglePlyChrSelectGC::init(void) {
@@ -2262,7 +2263,6 @@ struct Save_80200690 {
 extern "C" {
 s32 __ct__13GuildCardSlotFv(s32 object);
 }
-void init_class_starting_inventory(void *arg0);
 extern "C" {
 void TLobby__sub_801F494C(u16 client);
 s32 __ct__14GuildCardEntryFv(s32 ply_guild_card_tag);

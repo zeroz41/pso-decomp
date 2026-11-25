@@ -53,6 +53,9 @@
 #include "pso/object/TObjTombstone.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
+#include "pso/player/PlayerAttackController.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/technique/TTecLuker.h"
 
 struct TBoss3Volopt;
 struct TLobby;
@@ -68,13 +71,7 @@ s32 dispatching_own_subcommand;
 
 extern "C" void handle_6x07_symbol_chat();
 extern "C" void handle_6x18_vol_opt2_boss_actions();
-void handle_6x32_medical_center_revive_all_players();
-void handle_6x34();
-void handle_6x54();
 void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
-void handle_6x64();
-void handle_6x65();
-void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
 extern "C" void handle_6x6B_sync_game_state();
 extern "C" void handle_6x6C_sync_game_state();
 extern "C" void handle_6x6D_sync_game_state();
@@ -84,11 +81,6 @@ extern "C" void handle_6x7D_set_battle_mode_data();
 struct game_command_header;
 extern "C" void handle_6x87_shrink_player();
 extern "C" void handle_6x88_restore_shrunken_player();
-void handle_6x8B();
-void handle_6x8C();
-void handle_6x8E();
-void handle_6x98();
-void handle_6x99();
 u32 lbl_804C5238[10] = { 0 };
 
 u8 subcommand_area_masks[36] = {
