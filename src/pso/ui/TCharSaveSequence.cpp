@@ -37,6 +37,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/save/CharacterFile.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 struct RecoveredGlobal_8033B264_lbl_804EF728 {
     s32 value;
@@ -52,7 +53,7 @@ struct RecoveredGlobal_8033B264_lbl_804EF728 {
 static const f32 lbl_80477D48[2] = { 80.0f, 146.0f };
 static const f32 lbl_80477D50[2] = { 479.0f, 267.0f };
 // Window position init_warp and init_warps pass to create_window_menu_default
-static const f32 lbl_80477D58[2] = { 324.0f, 374.0f };
+static const NJS_POINT2 lbl_80477D58 = { 324.0f, 374.0f };
 // Camera position and target of init_single_player_char_select_scene
 static const Vec lbl_80477D60 = { 0.0f, 0.0f, 0.0f };
 static const Vec lbl_80477D6C = { 0.0f, 0.0f, -100.0f };
@@ -69,7 +70,6 @@ extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
 extern void *character_select_scene_resource_callbacks[];
-int create_window_menu_default(void*, void*);
 u32 __nw__7TObjectFUl(int);
 
 s32 start_memcard_read(s32, void *, u32, s32);
@@ -432,13 +432,13 @@ void TCharSaveSequence::close_window() {
 }
 void TCharSaveSequence::init_warp() {
     close_window();
-    menu = (TWindowMenu *)create_window_menu_default((void *)lbl_80477D58, (void *)2);
+    menu = create_window_menu_default(&lbl_80477D58, 2);
     menu->add_text_entry(get_message_text(14), 6, 1);
     menu->update_layout_height(289.0f);
 }
 void TCharSaveSequence::init_warps() {
     close_window();
-    menu = (TWindowMenu *)create_window_menu_default((void *)lbl_80477D58, (void *)2);
+    menu = create_window_menu_default(&lbl_80477D58, 2);
     menu->add_text_entry(get_message_text(13), 6, 0);
     menu->add_text_entry(get_message_text(14), 6, 1);
     menu->update_layout_height(289.0f);

@@ -30,8 +30,6 @@ TUnk_804CE7D0::~TUnk_804CE7D0() {
     if (preset_list != NULL) { preset_list->close(); preset_list = NULL; }
 }
 
-extern "C" {
-}
 
 TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     // preset_list_pos: where the list of the 12 symbol chat presets opens.
@@ -41,7 +39,7 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     s32 i;
     u8 *text;
     u8 *symbol_chat_preset;
-    preset_list = (TWindowSubComCardList *)(u8 *)(saddr)create_window_menu_default((saddr)(&preset_list_pos), 0xC);
+    preset_list = (TWindowSubComCardList *)(u8 *)(saddr)create_window_menu_default(&preset_list_pos, 0xC);
     i = 0;
     do {
         symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));

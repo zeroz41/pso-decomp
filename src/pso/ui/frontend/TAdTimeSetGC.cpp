@@ -2,6 +2,7 @@
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -61,7 +62,7 @@ static const f32 time_set_message_pos[2] = {
     0.5f * (640.0f - time_set_message_size[0]),
     90.0f,
 };
-static const f32 time_set_menu_pos[2] = {
+static const NJS_POINT2 time_set_menu_pos = {
     20.0f + time_set_message_pos[0],
     10.0f + (time_set_message_pos[1] + time_set_message_size[1]),
 };
@@ -799,7 +800,7 @@ void TAdTimeSetGC::open_message_choice(u32 text, s32 sel, u32 first_text, u32 se
     if (sel == -1) {
         return;
     }
-    menu_window = (TWindowMenu *)(saddr)create_window_menu_default((saddr)time_set_menu_pos, 2);
+    menu_window = (TWindowMenu *)(saddr)create_window_menu_default(&time_set_menu_pos, 2);
     if (message_window == NULL) {
         return;
     }

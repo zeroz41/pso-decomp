@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include "types.h"
+struct NJS_POINT2;
 #include "pso/system/task/TObject.h"
 
 class TAdSubPlyItemGC;
@@ -35,10 +36,10 @@ struct TAdChrSelASlotGC : public TObject {
     TWindowBase *create_formatted_window(s32 kind);
     TWindowMessageYesNo *open_confirm_message(s32 kind, s32 client_id);
     TWindowMessageYesNo *create_message_window(s32 kind, s32 client_id);
-    TWindowMessageYesNo *create_format_message_window(s32 pos, s32 client_id);
-    TWindowMessageYesNo *open_replace_character_prompt(s32 pos, s32 client_id);
-    TWindowMessageYesNo *open_yes_no_window(s32 pos, s32 client_id);
-    TWindowMessageYesNo *open_create_character_prompt(s32 pos);
+    TWindowMessageYesNo *create_format_message_window(NJS_POINT2 *pos, s32 client_id);
+    TWindowMessageYesNo *open_replace_character_prompt(NJS_POINT2 *pos, s32 client_id);
+    TWindowMessageYesNo *open_yes_no_window(NJS_POINT2 *pos, s32 client_id);
+    TWindowMessageYesNo *open_create_character_prompt(NJS_POINT2 *pos);
     TWindowBase *create_slot_message_window(s32 kind, s32 text);
     void sub_8030CBD0();
     void sub_8030CBD4();

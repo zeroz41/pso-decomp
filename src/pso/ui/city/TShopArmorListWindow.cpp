@@ -281,7 +281,7 @@ void TShopArmorListWindow::open_menu_window() {
 
     if (this->choice_menu == NULL) {
         entity_id = this->player->get_entity_id();
-        this->choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, entity_id);
+        this->choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, entity_id);
         this->choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         this->choice_menu->add_text_entry(get_shop_text(5), 6, 1);
         choice_menu->calc_window_size();

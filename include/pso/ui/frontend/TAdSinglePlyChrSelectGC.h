@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include "types.h"
+struct NJS_POINT2;
 #include "pso/system/task/TObject.h"
 
 struct CreationTextureCacheEntry;
@@ -110,7 +111,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void update_char_panels();
     static void free_global();
     static void render(void *self);
-    TWindowMenu *create_chr_warp(s32 pos);
+    TWindowMenu *create_chr_warp(NJS_POINT2 *pos);
     void close_and_change_scene();
     void handle_card_select();
     void handle_card_select2();

@@ -24,8 +24,8 @@
 const char *TWindowMakeTeam__name = "TWindowMakeTeam";
 const char *lbl_805D395C = "";
 // Menu position pairs {389, 251} of the entry and status menus.
-extern const f32 lbl_8044F300[2] = {389.0f, 251.0f};
-extern const f32 lbl_8044F308[2] = {389.0f, 251.0f};
+extern const NJS_POINT2 lbl_8044F300 = {389.0f, 251.0f};
+extern const NJS_POINT2 lbl_8044F308 = {389.0f, 251.0f};
 extern "C" {
 char *get_shared_text_buffer(void);
 }
@@ -185,33 +185,33 @@ TWindowMenuInfomation *TWindowMakeTeam::create_menu() {
 
 TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
     u8 *arg0 = (u8 *)this;
-    saddr r;
-    r = (s32)create_window_menu_default((saddr)lbl_8044F300, 3);
-    ((TWindowMenu *)r)->add_text_entry(TWindowMakeTeam::draw_entry_0x110(0), 6, 0);
-    ((TWindowMenu *)r)->add_text_entry(TWindowMakeTeam::draw_entry_0x110(1), 6, 1);
-    ((TWindowMenu *)r)->add_text_entry(TWindowMakeTeam::draw_entry_0x110(2), 6, 2);
-    ((TWindowMenu *)r)->calc_window_size();
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
+    TWindowMenu *r;
+    r = create_window_menu_default(&lbl_8044F300, 3);
+    r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(0), 6, 0);
+    r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(1), 6, 1);
+    r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(2), 6, 2);
+    r->calc_window_size();
+    align_menu_entry_positions(r);
     ((TWindowSubComCardList *)r)->set_selected_index(*(s8 *)(arg0 + 0x1E));
-    return (TWindowMenu *)r;
+    return r;
 }
 
 TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
     u8 *arg0 = (u8 *)this;
-    saddr r;
+    TWindowMenu *r;
     s32 m;
-    r = (s32)create_window_menu_default((saddr)lbl_8044F308, 4);
-    ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(0)), 6, 0);
-    ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(1)), 6, 1);
-    ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(2)), 6, 2);
+    r = create_window_menu_default(&lbl_8044F308, 4);
+    r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(0)), 6, 0);
+    r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(1)), 6, 1);
+    r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(2)), 6, 2);
     m = *(s32 *)(arg0 + 0x20);
     if (m == 1 || m == 2) {
-        ((TWindowMenu *)r)->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(3)), 6, 3);
+        r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(3)), 6, 3);
     }
-    ((TWindowMenu *)r)->calc_window_size();
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
+    r->calc_window_size();
+    align_menu_entry_positions(r);
     ((TWindowSubComCardList *)r)->set_selected_index(this->selected_value);
-    return (TWindowMenu *)r;
+    return r;
 }
 
 void TWindowMakeTeam::update_ok_button() {

@@ -375,7 +375,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     u8 *item;
     ((MagStats *)stats)->init();
     item = (u8 *)find_item_by_id(id);
-    window = (void *)create_titled_window_menu(reinterpret_cast<saddr>(get_window_layout_position(8)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
+    window = (void *)create_titled_window_menu(get_window_layout_position(8), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D), client_id);
     ((TWindowBase *)window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 1));
     if (((s32 (*)(u8 *))is_mag_full)(item) != 0) {
         add_gray_text_entry((TWindowMenu *)window, (const char *)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);

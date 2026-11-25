@@ -25,6 +25,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
 
@@ -32,7 +33,6 @@ struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 
 extern "C" {
 s32 set_info_board_text__6TLobbyFv();
-void *create_titled_window_menu_default(s32, s32, void *);
 
 const char *lbl_805D4348 = "TWindowSubInformationBoard";
 
@@ -182,8 +182,8 @@ void TWindowSubInformationBoard::run_task() {
 void TWindowSubInformationBoard::render() {  }
 
 u32 TWindowSubInformationBoard::create_info_board_menu() {
-  void *list;
-  list = create_titled_window_menu_default((saddr)get_window_layout_position(0xA4), 2, TWindowSubStatusDisp::get_message_10(0x1D));
+  TWindowMenu *list;
+  list = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
   {
     ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
@@ -208,7 +208,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
     if (it == NULL) {
         return 0;
     }
-    w = create_titled_window_menu_default((saddr)get_window_layout_position(0xA6), 0xC, TWindowSubStatusDisp::get_message_10(0x1D));
+    w = create_titled_window_menu_default(get_window_layout_position(0xA6), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
     n = ((L_8034CDE0 *)it)->n;
     it = ((L_8034CDE0 *)it)->items;
     for (i = 0; i < n; i++, it++) {

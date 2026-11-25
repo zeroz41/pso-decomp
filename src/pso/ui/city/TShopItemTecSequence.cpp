@@ -151,7 +151,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
     s32 r;
     if (choice_menu == NULL) {
         s32 id = player->get_entity_id();
-        choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
+        choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, id);
         choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         choice_menu->add_text_entry(get_shop_text(6), 6, 1);
         choice_menu->calc_window_size();

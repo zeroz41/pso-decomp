@@ -16,16 +16,16 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 extern "C" {
 saddr get_message_text(s32 arg0);
-saddr create_window_menu_default(const void *, int);
 }
 
 static const f32 TAdMultiSaveGC__data_80474D70[2] = { 80.0f, 176.0f };
 static const f32 TAdMultiSaveGC__data_80474D78[2] = { 479.0f, 207.0f };
 const char *TAdMultiSaveGC__name = "TAdMultiSaveGC";
-static const f32 lbl_80474D90[2] = { 324.0f, 374.0f };
+static const NJS_POINT2 lbl_80474D90 = { 324.0f, 374.0f };
 
 TAdMultiSaveGC::TAdMultiSaveGC(TObject *parent) : TObject(parent) {
     m_name = TAdMultiSaveGC__name;
@@ -183,7 +183,7 @@ TWindowMessage *TAdMultiSaveGC::sub_802FF1F4() {
 }
 
 TWindowSubComCardList *TAdMultiSaveGC::sub_802FF170() {
-    TWindowSubComCardList *menu = (TWindowSubComCardList *)create_window_menu_default(lbl_80474D90, 2);
+    TWindowSubComCardList *menu = (TWindowSubComCardList *)create_window_menu_default(&lbl_80474D90, 2);
     menu->add_text_entry(get_message_text(0xD), 6, 0);
     menu->add_text_entry(get_message_text(0xE), 6, 1);
     menu->update_layout_height(289.0f);

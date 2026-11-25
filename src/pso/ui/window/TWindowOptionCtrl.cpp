@@ -40,6 +40,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 // The class name opens .rodata (0x8044F478), then the menu window positions
 // (0x8044F48C..0x8044F4A4) in this order, ahead of the strings of the functions.
@@ -49,9 +50,6 @@ const vec2f lbl_8044F494 = {470.0f, 80.0f};
 const vec2f lbl_8044F49C = {470.0f, 80.0f};
 const vec2f lbl_8044F4A4 = {470.0f, 80.0f};
 
-extern "C" {
-s32 create_window_menu_default(s32, s32);
-}
 
 extern "C" {
 void set_field_value__17TWindowOptionCtrlFls(s32 arg0, s16 arg1);
@@ -389,20 +387,20 @@ void TWindowOptionCtrl::render() {  }
 
 extern "C" {
 saddr TWindowOptionCtrl::create_menu() {
-    saddr menu;
+    TWindowMenu *menu;
 
-    menu = create_window_menu_default((saddr)TWindowOptionCtrl::get_option_entry(0xCE), 9);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 0), 6, 3);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 1), 6, 7);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 2), 6, 5);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 3), 6, 9);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 4), 6, 0xB);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 5), 6, 0x10);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 6), 6, 0x19);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 7), 6, 0x1B);
-    ((TWindowMenu *)menu)->update_layout_height(470.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));
-    return menu;
+    menu = create_window_menu_default(TWindowOptionCtrl::get_option_entry(0xCE), 9);
+    menu->add_text_entry(get_localized_text_entry(0xF, 0), 6, 3);
+    menu->add_text_entry(get_localized_text_entry(0xF, 1), 6, 7);
+    menu->add_text_entry(get_localized_text_entry(0xF, 2), 6, 5);
+    menu->add_text_entry(get_localized_text_entry(0xF, 3), 6, 9);
+    menu->add_text_entry(get_localized_text_entry(0xF, 4), 6, 0xB);
+    menu->add_text_entry(get_localized_text_entry(0xF, 5), 6, 0x10);
+    menu->add_text_entry(get_localized_text_entry(0xF, 6), 6, 0x19);
+    menu->add_text_entry(get_localized_text_entry(0xF, 7), 6, 0x1B);
+    menu->update_layout_height(470.0f);
+    align_menu_entry_positions(menu);
+    return (saddr)menu;
 }
 
 saddr TWindowOptionCtrl::create_select_menu_window() {
@@ -419,26 +417,26 @@ saddr TWindowOptionCtrl::create_select_menu_window() {
 
 saddr TWindowOptionCtrl::create_list_window() {
     s32 idx;
-    saddr list;
+    TWindowMenu *list;
 
     unlock_music_flag(2);
-    list = create_window_menu_default((saddr)TWindowOptionCtrl::get_option_entry(0xCF), 0x31);
+    list = create_window_menu_default(TWindowOptionCtrl::get_option_entry(0xCF), 0x31);
     ((TWindowSubComCardList *)list)->set_flag70_bit100();
     idx = 0;
     do {
         if (is_music_flag_unlocked_stub(idx) != 0) {
             if (check_flag_index_set(idx) == 0) {
-                add_gray_text_entry((TWindowMenu *)list, (const char *)("?????"), 0x26, idx);
+                add_gray_text_entry(list, (const char *)("?????"), 0x26, idx);
             } else {
-                ((TWindowMenu *)list)->add_text_entry(get_option_table_entry(idx), 0x26, idx);
+                list->add_text_entry(get_option_table_entry(idx), 0x26, idx);
             }
         }
         idx += 1;
     } while (idx < 0x31);
     ((TWindowOptionCtrl *)list)->set_flag70_bit400();
     ((TWindowSubComCardList *)list)->set_scroll_target(470.0f, 124.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
-    return list;
+    align_menu_entry_positions(list);
+    return (saddr)list;
 }
 
 saddr TWindowOptionCtrl::create_sound_mode_menu() {
@@ -478,14 +476,14 @@ saddr TWindowOptionCtrl::create_snap_shot_window() {
 }
 
 saddr TWindowOptionCtrl::create_sub_menu_window() {
-    saddr menu;
-    menu = create_window_menu_default((saddr)TWindowOptionCtrl::get_option_entry(0xCF), 3);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 0x1A), 6, 0x12);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 0x1B), 6, 0x14);
-    ((TWindowMenu *)menu)->add_text_entry(get_localized_text_entry(0xF, 0x1C), 6, 0x15);
-    ((TWindowMenu *)menu)->update_layout_height(470.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));
-    return menu;
+    TWindowMenu *menu;
+    menu = create_window_menu_default(TWindowOptionCtrl::get_option_entry(0xCF), 3);
+    menu->add_text_entry(get_localized_text_entry(0xF, 0x1A), 6, 0x12);
+    menu->add_text_entry(get_localized_text_entry(0xF, 0x1B), 6, 0x14);
+    menu->add_text_entry(get_localized_text_entry(0xF, 0x1C), 6, 0x15);
+    menu->update_layout_height(470.0f);
+    align_menu_entry_positions(menu);
+    return (saddr)menu;
 }
 
 saddr TWindowOptionCtrl::create_option_menu() {
@@ -502,7 +500,7 @@ saddr TWindowOptionCtrl::create_option_menu() {
 saddr TWindowOptionCtrl::open_yes_no_window(saddr arg0, s32 arg1, s32 index) {
   saddr window;
   window = (saddr)TWindowMessageYesNo::create((void *)(arg0), 6, (void *)(arg0 * 0), 0);
-  ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, arg1)), (saddr)(get_window_layout_position(index)), 470.0f);
+  ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, arg1)), get_window_layout_position(index), 470.0f);
   ((TWindowMessageYesNo *)window)->set_menu_selected_index(1);
   return window;
 }

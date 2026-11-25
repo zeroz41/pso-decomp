@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include "types.h"
+struct NJS_POINT2;
 #include "pso/system/task/TObject.h"
 
 struct TAdChrSelASlotGC;
@@ -112,8 +113,8 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void sub_802DC440();
     void sub_802DC310();
     s32 sub_802DC294(s32 arg1);
-    TWindowMenu *sub_802DBEC4(s32 *desc);
-    TWindowMenu *sub_802DBE4C(s32 *desc);
+    TWindowMenu *sub_802DBEC4(const NJS_POINT2 *desc);
+    TWindowMenu *sub_802DBE4C(const NJS_POINT2 *desc);
     TWindowMessageYesNo *sub_802DBD64();
     TWindowMessageYesNo *sub_802DBCE8();
     virtual void run_task();

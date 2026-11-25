@@ -53,10 +53,10 @@
 
 
 extern "C" {
-extern s32 lbl_804728A8[];
-extern s32 lbl_804728A0[];
-extern s32 lbl_80472890[];
-extern u8 lbl_80472898[];
+extern const NJS_POINT2 lbl_804728A8;
+extern const NJS_POINT2 lbl_804728A0;
+extern const NJS_POINT2 lbl_80472890;
+extern const NJS_POINT2 lbl_80472898;
 extern u8 player_number_text_buffer[];
 }
 
@@ -64,8 +64,8 @@ s32 is_multiplayer_character_slot_selected(s32 arg0);
 
 u8 player_number_text_buffer[0x80];
 extern "C" {
-extern s8 lbl_80472880[];
-extern s8 lbl_80472888[];
+extern const NJS_POINT2 lbl_80472880;
+extern const NJS_POINT2 lbl_80472888;
 }
 
 extern "C" {
@@ -78,18 +78,18 @@ s32 TAdPlyPltAnimCtrlGC__sub_80355148();
 
 s32 is_multiplayer_character_slot_selected(s32);
 extern "C" {
-extern s32 lbl_80472870[];
-extern s32 lbl_80472878[];
-extern s32 lbl_80472868[];
+extern const NJS_POINT2 lbl_80472870;
+extern const NJS_POINT2 lbl_80472878;
+extern const NJS_POINT2 lbl_80472868;
 }
 
 extern "C" {
-extern s32 lbl_80472860[];
+extern const NJS_POINT2 lbl_80472860;
 }
 
 extern "C" {
-extern s32 lbl_80472850[];
-extern s32 lbl_80472858[];
+extern const NJS_POINT2 lbl_80472850;
+extern const NJS_POINT2 lbl_80472858;
 struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
 
 extern MultiPlayChrSelectSlotPositions multi_play_chr_select_slot_positions;
@@ -632,7 +632,7 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
             if (TAdSinglePlyChrSelectGC::is_slot_active(card_index) != 0) {
                 if (this->a_slot->is_character_transferred(player_plate->get_active_card_slot()) != 0) {
                     this->fade_task = new TAdFadeGC(tl_fade, 0);
-                    this->yes_no_prompt = this->a_slot->open_yes_no_window((saddr)((s32 *)&lbl_80472850), TAdMultiPlyChrSelectGC::get_clamped_cursor());
+                    this->yes_no_prompt = this->a_slot->open_yes_no_window((NJS_POINT2 *)&lbl_80472850, TAdMultiPlyChrSelectGC::get_clamped_cursor());
                     this->state = 7;
                     return;
                 }
@@ -642,7 +642,7 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
                 this->state = 0x19;
                 return;
             }
-            this->create_character_prompt = this->a_slot->open_create_character_prompt((saddr)lbl_80472858);
+            this->create_character_prompt = this->a_slot->open_create_character_prompt((NJS_POINT2 *)&lbl_80472858);
             this->state = 4;
             return;
         }
@@ -1092,7 +1092,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
                 return;
             }
             this->fade_task = new TAdFadeGC(tl_fade, 0);
-            this->yes_no_prompt = this->a_slot->open_yes_no_window((saddr)lbl_80472860, player_plate->get_instance());
+            this->yes_no_prompt = this->a_slot->open_yes_no_window((NJS_POINT2 *)&lbl_80472860, player_plate->get_instance());
             this->state = 0x10;
             return;
         }
@@ -1146,7 +1146,7 @@ void TAdMultiPlyChrSelectGC::update_state_wait_card() {
                         effect->setup_move_effect_params(active_card_slot + 3, card_index);
                     }
                 }
-                this->moving_notice = sub_802DBEC4(lbl_80472868);
+                this->moving_notice = sub_802DBEC4(&lbl_80472868);
                 this->b_slot->set_state(0x15);
                 this->state = 0x11;
                 return;
@@ -1338,7 +1338,7 @@ loop_7:
         load_tables(card_index);
         player_preview->set_status_value(card_index);
         player_preview->set_field_100(2);
-        this->moving_notice = sub_802DBEC4(lbl_80472870);
+        this->moving_notice = sub_802DBEC4(&lbl_80472870);
         this->a_slot->set_state(0x11);
         this->state = 0x16;
         return;
@@ -1347,7 +1347,7 @@ loop_7:
     if (iter >= 4U) {
         this->move_finished = 0;
         if (this->full_notice == NULL) {
-            this->full_notice = sub_802DBE4C(lbl_80472878);
+            this->full_notice = sub_802DBE4C(&lbl_80472878);
         }
         this->state = 0xE;
         return;
@@ -1663,7 +1663,7 @@ loop_9:
         }
         load_tables(this->swap_slot);
         player_preview->set_status_value(slot_index);
-        this->moving_notice = sub_802DBEC4((s32*)lbl_80472880);
+        this->moving_notice = sub_802DBEC4(&lbl_80472880);
         player_preview->set_field_100(1);
         this->a_slot->set_state(0x11);
         this->state = 0x23;
@@ -1673,7 +1673,7 @@ loop_9:
     if (slot_index >= 4U) {
         player_preview->set_field_100(1);
         if (this->full_notice == NULL) {
-            this->full_notice = sub_802DBE4C((s32*)lbl_80472888);
+            this->full_notice = sub_802DBE4C(&lbl_80472888);
         }
         this->state = 0x22;
         return;
@@ -1855,7 +1855,7 @@ void TAdMultiPlyChrSelectGC::collect_player_slots() {
 }
 
 TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
-    TWindowMenu *menu = create_window_menu((saddr)lbl_80472890, 4, TAdMultiPlyChrSelectGC::get_clamped_cursor());
+    TWindowMenu *menu = create_window_menu(&lbl_80472890, 4, TAdMultiPlyChrSelectGC::get_clamped_cursor());
     menu->add_text_entry(get_localized_text_entry(0x1F, 2), 6, 0);
     menu->add_text_entry(get_localized_text_entry(0x1F, 3), 6, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 4), 6, 2);
@@ -1866,8 +1866,8 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
     return menu;
 }
 
-TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBEC4(s32 *desc) {
-    TWindowMenu *menu = (TWindowMenu *)create_window_menu_default((saddr)desc, 1);
+TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBEC4(const NJS_POINT2 *desc) {
+    TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 6), 0x21, 0);
     ((TWindowMenu *)menu)->set_flag_40();
     TQuestThread::set_status_flag_80(menu);
@@ -1875,8 +1875,8 @@ TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBEC4(s32 *desc) {
     return menu;
 }
 
-TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBE4C(s32 *desc) {
-    TWindowMenu *menu = (TWindowMenu *)create_window_menu_default((saddr)desc, 1);
+TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBE4C(const NJS_POINT2 *desc) {
+    TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 7), 0x21, 0);
     ((TWindowMenu *)menu)->set_flag_40();
     TQuestThread::set_status_flag_80(menu);
@@ -1886,21 +1886,21 @@ TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBE4C(s32 *desc) {
 
 TWindowMessageYesNo *TAdMultiPlyChrSelectGC::create_confirm_window(s32 slot) {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, slot, 0, 0);
-    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 8), (saddr)lbl_80472898, 196.0f);
+    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 8), &lbl_80472898, 196.0f);
     window->set_menu_selected_index(1);
     return window;
 }
 
 TWindowMessageYesNo *TAdMultiPlyChrSelectGC::sub_802DBD64() {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
-    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 9), (saddr)lbl_804728A0, 196.0f);
+    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 9), &lbl_804728A0, 196.0f);
     window->set_menu_selected_index(1);
     return window;
 }
 
 TWindowMessageYesNo *TAdMultiPlyChrSelectGC::sub_802DBCE8() {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
-    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 0xA), (saddr)lbl_804728A8, 209.0f);
+    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 0xA), &lbl_804728A8, 209.0f);
     window->set_menu_selected_index(1);
     return window;
 }

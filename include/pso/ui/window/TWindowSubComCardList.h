@@ -2,13 +2,14 @@
 #define PSO_UI_WINDOW_TWINDOWSUBCOMCARDLIST_H
 
 #include "types.h"
+struct NJS_POINT2;
 #include "pso/ui/window/TWindowMenu.h"
 
 struct PageIndicator;
 
 struct TWindowSubComCardList : public TWindowMenu {
-    TWindowSubComCardList(void *parent);
-    TWindowSubComCardList(void *parent, s32 card_slot, s32 arg3, s32 arg4);
+    TWindowSubComCardList(const NJS_POINT2 *position);
+    TWindowSubComCardList(const NJS_POINT2 *position, s32 card_slot, s32 arg3, s32 arg4);
     virtual ~TWindowSubComCardList();
     static const char *class_name;
     void sub_80275360();

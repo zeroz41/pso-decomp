@@ -266,7 +266,7 @@ void TWindowShortListCtrl::run_task() {
     case 9:
         if (tech_window == NULL) {
             TWindowSubTechnique::get_current_selection((s16 *)&m_20, (s32 *)&m_28, client_id);
-            tech_window = create_window((saddr)get_window_layout_position(1), (saddr)&short_list_window_pos);
+            tech_window = create_window(get_window_layout_position(1), (saddr)&short_list_window_pos);
         }
         ((TWindowMenu *)tech_window)->clear_flag_and_release();
         state = 10;
@@ -319,10 +319,10 @@ void TWindowShortListCtrl::run_task() {
 
 void TWindowShortListCtrl::render() {}
 
-void *TWindowShortListCtrl::create_window(s32 position, saddr arg2_arg) {
+void *TWindowShortListCtrl::create_window(const NJS_POINT2 *position, saddr arg2_arg) {
     void *window_menu;
 
-    window_menu = (void *)create_window_menu((saddr)(position), 0x13, client_id);
+    window_menu = (void *)create_window_menu(position, 0x13, client_id);
     ((TWindowMenu *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->open_tick = 0x01000000;
     ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();

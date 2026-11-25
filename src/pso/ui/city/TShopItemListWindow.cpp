@@ -276,7 +276,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
             set_state(2);
             return;
         }
-        confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+        confirm_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
         confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
         confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
         confirm_menu->calc_window_size();
@@ -299,7 +299,7 @@ void TShopItemListWindow::handle_amount_confirm() {
     case 0:
         if (quantity_input != NULL && quantity_input->is_confirmed() != 0) {
             if (confirm_menu == NULL) {
-                confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+                confirm_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
                 confirm_menu->add_text_entry(get_shop_text(4), 6, 0);
                 confirm_menu->add_text_entry(get_shop_text(5), 6, 1);
                 confirm_menu->calc_window_size();

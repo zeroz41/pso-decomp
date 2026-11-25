@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+struct NJS_POINT2;
 struct TWindowSubStatusDisp;
 struct WindowScrollBar;
 
@@ -14,7 +15,7 @@ struct TWindowMenuRow {
 };
 
 struct TWindowMenu : public TWindowAddition {
-    TWindowMenu(u32 rows, s32 client, saddr parent);
+    TWindowMenu(u32 rows, s32 client, const NJS_POINT2 *position);
     virtual ~TWindowMenu();
     void *get_selected_entry();
     void calc_window_size();

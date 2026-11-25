@@ -13,11 +13,9 @@
 #include "pso/ui/window/TWindowMenu.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #undef PSO_SDK_COMPACT_MATH
 
-extern "C" {
-TWindowMenu *create_window_menu_default(const void *pos, s32 entries);
-}
 
 void clear_draw_record(IndirectDrawRecord *record) {
     record->texlist = NULL;

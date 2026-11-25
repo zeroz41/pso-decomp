@@ -211,28 +211,28 @@ TWindowSubShortCutList *TWindowSubShortCut::open_com_card_list() {
 }
 
 s32 TWindowSubShortCut::open_menu() {
-    saddr list;
+    TWindowMenu *list;
     u32 *chat_shortcut;
 
     com_card_list->get_cursor_value();
     chat_shortcut = get_chat_shortcut();
-    list = create_titled_window_menu_default(reinterpret_cast<saddr>(get_window_layout_position(0x74)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
-    ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
+    list = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
+    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if ((u32) *chat_shortcut != 0U) {
-        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     } else {
-        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
+        add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);
     }
-    ((TWindowMenu *)list)->set_flag70_bit10();
-    ((TWindowMenu *)list)->update_layout_height(205.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
-    return list;
+    list->set_flag70_bit10();
+    list->update_layout_height(205.0f);
+    align_menu_entry_positions(list);
+    return (saddr)list;
 }
 
 s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
     saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg0->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)((saddr)get_window_layout_position(0x75)), 205.0f);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), get_window_layout_position(0x75), 205.0f);
     ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
     return r;
 }
@@ -241,7 +241,7 @@ s32 TWindowSubShortCut::open_confirm_message() {
     saddr dialog;
 
     dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)((saddr)get_window_layout_position(0x76)), 205.0f);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x76), 205.0f);
     ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(1);
     ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
     return dialog;

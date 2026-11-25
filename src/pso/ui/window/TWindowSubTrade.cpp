@@ -153,7 +153,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     TObjPlayer *player;
     TWindowSubComCardList *list;
 
-    list = (TWindowSubComCardList *)(saddr)create_titled_window_menu_default((s32)((saddr)get_window_layout_position(0x5A)), 4, (saddr)(TWindowSubStatusDisp::get_message_10(0x1F)));
+    list = (TWindowSubComCardList *)(saddr)create_titled_window_menu_default(get_window_layout_position(0x5A), 4, (saddr)(TWindowSubStatusDisp::get_message_10(0x1F)));
     for (i = 0; i < 4; i++) {
         if (i == local_client_id) {
             continue;
@@ -207,7 +207,7 @@ TWindowMessageYesNo *TWindowSubTrade::open_trade_confirm_prompt(s32 client) {
     TWindowSubStatusDisp::get_message_10(0xD6);
     text_builder_append();
     prompt = (TWindowMessageYesNo *)TWindowMessageYesNo::create(this, m_20, NULL, NULL);
-    open_yes_no_prompt(prompt, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(get_shared_text_buffer()), (s32)((saddr)get_window_layout_position(0x5B)), 384.0f);
+    open_yes_no_prompt(prompt, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(get_shared_text_buffer()), get_window_layout_position(0x5B), 384.0f);
     prompt->set_menu_selected_index(1);
     prompt->set_choice_menu_flag70_bit10();
     return prompt;

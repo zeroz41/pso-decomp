@@ -289,7 +289,7 @@ void TCheckRoomSequence::handle_withdraw_choice() {
     switch (menu_step) {
     case 0:
         if (choice_menu == NULL) {
-            choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+            choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
             choice_menu->add_text_entry(get_shop_text(2), 6, 0);
             choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             choice_menu->calc_window_size();
@@ -331,7 +331,7 @@ void TCheckRoomSequence::handle_deposit_choice() {
     switch (menu_step) {
     case 0:
         if (choice_menu == NULL) {
-            choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+            choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
             choice_menu->add_text_entry(get_shop_text(2), 6, 0);
             choice_menu->add_text_entry(get_shop_text(3), 6, 1);
             choice_menu->calc_window_size();
@@ -375,7 +375,7 @@ void TCheckRoomSequence::handle_root_choice() {
         switch (menu_step) {
         case 0:
             if (choice_menu == NULL) {
-                choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+                choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
                 choice_menu->add_text_entry(get_shop_text(8), 6, 0);
                 choice_menu->add_text_entry(get_shop_text(9), 6, 1);
                 choice_menu->calc_window_size();
@@ -414,7 +414,7 @@ void TCheckRoomSequence::handle_root_choice() {
         switch (menu_step) {
         case 0:
             if (choice_menu == NULL) {
-                choice_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, player->get_entity_id());
+                choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, player->get_entity_id());
                 choice_menu->add_text_entry(get_shop_text(0xA), 6, 1);
                 choice_menu->calc_window_size();
                 align_menu_entry_positions(choice_menu);

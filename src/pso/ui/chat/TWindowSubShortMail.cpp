@@ -421,48 +421,48 @@ s32 TWindowSubShortMail::refresh_mail_list(TWindowMenuIconLine *mail_list) {
 }
 
 saddr TWindowSubShortMail::create_menu(void) {
-    saddr list;
+    TWindowMenu *list;
 
-    list = create_titled_window_menu_default(reinterpret_cast<saddr>(get_window_layout_position(0x9A)), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
+    list = create_titled_window_menu_default(get_window_layout_position(0x9A), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
     if (get_main_phase() == 0xF) {
-        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 3);
+        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 3);
     } else {
-        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 3);
+        add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x57)), 6, 3);
     }
     if (TLobby::get_short_mail_ctrl() > 0) {
-        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xCE)), 6, 7);
+        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xCE)), 6, 7);
     } else {
-        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xCE)), 6, 7);
+        add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0xCE)), 6, 7);
     }
     if (get_main_phase() == 0xF) {
-        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x103)), 6, 0x13);
+        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x103)), 6, 0x13);
     } else {
-        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x103)), 6, 0x13);
+        add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x103)), 6, 0x13);
     }
-    ((TWindowMenu *)list)->set_flag70_bit10();
-    ((TWindowMenu *)list)->update_layout_height(179.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
-    return list;
+    list->set_flag70_bit10();
+    list->update_layout_height(179.0f);
+    align_menu_entry_positions(list);
+    return (saddr)list;
 }
 
 #pragma push
 #pragma fp_contract on
 saddr TWindowSubShortMail::build_menu(void) {
-    saddr list;
+    TWindowMenu *list;
     s32 msg;
-    list = create_titled_window_menu_default((s32)(get_window_layout_position(0x9D)), 3, (s32)((saddr)TWindowSubStatusDisp::get_message_10(0x1E)));
+    list = create_titled_window_menu_default(get_window_layout_position(0x9D), 3, (s32)((saddr)TWindowSubStatusDisp::get_message_10(0x1E)));
     if (get_main_phase() == 0xF) {
-        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x7F)), 6, 0xB);
-        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
+        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x7F)), 6, 0xB);
+        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
     } else {
-        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x7F)), 6, 0xB);
-        add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
+        add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x7F)), 6, 0xB);
+        add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x59)), 6, 0xF);
     }
-    ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x11);
-    ((TWindowMenu *)list)->set_flag70_bit10();
-    ((TWindowMenu *)list)->update_layout_height(206.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
-    return list;
+    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 0x11);
+    list->set_flag70_bit10();
+    list->update_layout_height(206.0f);
+    align_menu_entry_positions(list);
+    return (saddr)list;
 }
 
 #pragma pop
@@ -478,62 +478,62 @@ TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
 saddr TWindowSubShortMail::open_confirm_prompt(void *parent, int client_id) {
     saddr dialog;
     dialog = (saddr)TWindowMessageYesNo::create(parent, client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), (s32)(get_window_layout_position(0x9e)), 205.0f);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), get_window_layout_position(0x9e), 205.0f);
     ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
     ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
     return dialog;
 }
 
 saddr TWindowSubShortMail::create_confirm_menu_window(void) {
-    saddr menu;
-    menu = create_window_menu_default(reinterpret_cast<saddr>(get_window_layout_position(0xA0)), 2);
-    ((TWindowMenu *)menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x107)), 6, 0x16);
-    ((TWindowMenu *)menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x108)), 6, 0x18);
-    ((TWindowMenu *)menu)->set_flag70_bit10();
-    ((TWindowMenu *)menu)->update_layout_height(206.0f);
-    return menu;
+    TWindowMenu *menu;
+    menu = create_window_menu_default(get_window_layout_position(0xA0), 2);
+    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x107)), 6, 0x16);
+    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x108)), 6, 0x18);
+    menu->set_flag70_bit10();
+    menu->update_layout_height(206.0f);
+    return (saddr)menu;
 }
 
 saddr TWindowSubShortMail::create_window(void) {
-    s32 window_layout_position;
-    saddr list;
+    const NJS_POINT2 *window_layout_position;
+    TWindowMenu *list;
 
-    window_layout_position = reinterpret_cast<saddr>(get_window_layout_position(0xA1));
+    window_layout_position = get_window_layout_position(0xA1);
     list = create_window_menu_default(window_layout_position, 2);
     if (TLobby::get_flag_bit0() != 0) {
-        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 0, 0);
-        ((TWindowMenu *)list)->add_text_entry(TLobby::get_card_window_area(), 0, 0);
+        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 0, 0);
+        list->add_text_entry(TLobby::get_card_window_area(), 0, 0);
     } else {
-        ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 0, 0);
-        add_gray_text_entry((TWindowMenu *)list, (const char *)(TLobby::get_card_window_area()), 0, 0);
+        list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 0, 0);
+        add_gray_text_entry(list, (const char *)(TLobby::get_card_window_area()), 0, 0);
     }
-    ((TWindowMenu *)list)->set_flag_40();
+    list->set_flag_40();
     TQuestThread::set_status_flag_80((void *)list);
     ((TWindowSubComCardList *)list)->set_scroll_target(206.0f, 140.0f);
-    return list;
+    return (saddr)list;
 }
 
 saddr TWindowSubShortMail::open_menu(void) {
-    s32 window_layout_position;
-    saddr menu;
+    const NJS_POINT2 *window_layout_position;
+    TWindowMenu *menu;
 
-    window_layout_position = reinterpret_cast<saddr>(get_window_layout_position(0xA2));
+    window_layout_position = get_window_layout_position(0xA2);
     menu = create_window_menu_default(window_layout_position, 2);
-    ((TWindowMenu *)menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 6, 1);
-    ((TWindowMenu *)menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 6, 0);
+    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 6, 1);
+    menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 6, 0);
     if (TLobby::get_flag_bit0() == 0) {
         ((TWindowSubComCardList *)menu)->set_selected_index(1);
     }
-    ((TWindowMenu *)menu)->set_flag70_bit10();
-    ((TWindowMenu *)menu)->update_layout_height(206.0f);
-    return menu;
+    menu->set_flag70_bit10();
+    menu->update_layout_height(206.0f);
+    return (saddr)menu;
 }
 
 saddr TWindowSubShortMail::open_confirm_dialog() {
     saddr dialog;
 
     dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x9f)), 206.0f);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3e)), get_window_layout_position(0x9f), 206.0f);
     ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
     ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
     return dialog;
@@ -543,7 +543,7 @@ saddr TWindowSubShortMail::open_delete_confirm_dialog() {
     saddr dialog;
 
     dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), (s32)(get_window_layout_position(0xa3)), 206.0f);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x104)), get_window_layout_position(0xa3), 206.0f);
     ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(0);
     ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
     return dialog;

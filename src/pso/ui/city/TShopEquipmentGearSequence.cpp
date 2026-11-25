@@ -135,7 +135,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
     TShopEquipmentGearSequence *sequence = static_cast<TShopEquipmentGearSequence *>(self);
     if (sequence->choice_menu == NULL) {
         id = ((TObjBase *)(sequence->player))->get_entity_id();
-        sequence->choice_menu = create_window_menu(((saddr (*)(int))get_window_layout_position)(0x2B), 2, id);
+        sequence->choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, id);
         sequence->choice_menu->add_text_entry(get_shop_text(4), 6, 0);
         sequence->choice_menu->add_text_entry(get_shop_text(6), 6, 1);
         sequence->choice_menu->calc_window_size();

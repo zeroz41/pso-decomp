@@ -93,7 +93,7 @@ TWindowSubGameEnd::TWindowSubGameEnd(TWindowMainMenu *parent, s32 client) : TObj
         width = 469.0f;
     }
     yes_no_window = TWindowMessageYesNo::create(this, this->client, 0, 0);
-    yes_no_window->open_yes_no_prompt_with_text(text, (saddr)get_window_layout_position(0x17), width);
+    yes_no_window->open_yes_no_prompt_with_text(text, get_window_layout_position(0x17), width);
     yes_no_window->set_menu_selected_index(1);
     yes_no_window->set_choice_menu_flag70_bit10();
     state = 0;

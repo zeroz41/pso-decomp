@@ -241,7 +241,7 @@ void TShopEquipmentSellWindow::handle_selection() {
             }
         }
         if (this->confirm_menu == NULL) {
-            this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, this->player->get_entity_id());
+            this->confirm_menu = create_window_menu(get_window_layout_position(0x2B), 2, this->player->get_entity_id());
             this->confirm_menu->add_text_entry(get_shop_text(6), 6, 0);
             this->confirm_menu->add_text_entry(get_shop_text(7), 6, 1);
             this->confirm_menu->calc_window_size();
@@ -264,7 +264,7 @@ void TShopEquipmentSellWindow::handle_input_window_result() {
 
     if (this->number_input != NULL && this->number_input->is_confirmed() != 0) {
         if (confirm_menu == NULL) {
-            this->confirm_menu = create_window_menu((saddr)get_window_layout_position(0x2B), 2, this->player->get_entity_id());
+            this->confirm_menu = create_window_menu(get_window_layout_position(0x2B), 2, this->player->get_entity_id());
             this->confirm_menu->add_text_entry(get_shop_text(6), 6, 0);
             this->confirm_menu->add_text_entry(get_shop_text(7), 6, 1);
             this->confirm_menu->calc_window_size();
