@@ -23,6 +23,6 @@ struct ObjectSetData {
 LAYOUT_ASSERT(ObjectSetDataSize, sizeof(ObjectSetData) == 0x3C);
 LAYOUT_ASSERT(ObjectSetDataPositionOffset, offsetof(ObjectSetData, position) == 0xC);
 
-extern "C" s32 init_object_set_data(ObjectSetData *set);
+s32 init_object_set_data(ObjectSetData *set);
 
 #endif
