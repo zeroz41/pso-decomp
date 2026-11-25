@@ -166,7 +166,7 @@ s32 *qst_function_table;
 s32 *qst_registers;
 TWindowMessageQuest *qst_message_window;
 TWindowMessage *qst_message_window_qb;
-void *qst_list_window;
+TWindowMenu *qst_list_window;
 u8 qst_result_register;
 s32 qst_call_stack_depth;
 saddr qst_pc;
@@ -205,10 +205,9 @@ struct QuestCommandTable {
 
 namespace pf2_p0 { extern "C" { s32 append_string(const char *); } }
 #define append_string pf2_p0::append_string
-namespace pf2_p0 { extern "C" { extern AppendCardWindowTextRecoveredGlobal quest_player_class_name_buffer; } }
-#define quest_player_class_name_buffer pf2_p0::quest_player_class_name_buffer
-namespace pf2_p0 { extern "C" { extern AppendCardWindowTextRecoveredGlobal quest_player_name_buffer; } }
-#define quest_player_name_buffer pf2_p0::quest_player_name_buffer
+// The player name and class name qst_op_get_pl_name / qst_op_get_pl_job copy for the message tags.
+extern char quest_player_class_name_buffer[16];
+extern char quest_player_name_buffer[16];
 void append_player_name(void);
 namespace pf2_p0 { extern "C" { s32 is_message_source_exhausted(); } }
 #define is_message_source_exhausted pf2_p0::is_message_source_exhausted
@@ -387,11 +386,11 @@ void TLobby::append_card_window_text() {
 
 LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(AppendCardWindowTextRecoveredGlobal) == 0x28);
 void TLobby::append_default_string() {
-    append_string((const char *)&quest_player_class_name_buffer.value);
+    append_string(quest_player_class_name_buffer);
 }
 
 void append_player_name(void) {
-    append_string((const char *)&quest_player_name_buffer.value);
+    append_string(quest_player_name_buffer);
 }
 
 void TLobby::append_color_code(s32 color) {
@@ -428,8 +427,6 @@ s32 parse_f_index(const char *a0) {
 #undef parse_r_index
 #undef read_byte_advance__6TLobbyFv
 #undef strcmp
-#undef quest_player_name_buffer
-#undef quest_player_class_name_buffer
 
 extern "C" {
 void append_string(const char *s);
@@ -859,10 +856,6 @@ struct QuestNpcVisualRecord { s32 value; u8 remaining[0x4C]; };
 extern QuestNpcVisualRecord quest_npc_visual_record;
 extern s32 symbolchat_colli_param_table[];
 extern s16 battle_event_second_table[];
-struct QuestPlayerNameBuffer { s32 value; u8 remaining[0xC]; };
-extern QuestPlayerNameBuffer quest_player_name_buffer;
-struct QuestPlayerClassNameBuffer { s32 value; u8 remaining[0xC]; };
-extern QuestPlayerClassNameBuffer quest_player_class_name_buffer;
 extern u8 quest_board_handlers[];
 extern f32 battle_player_give_damage_score;
 extern f32 battle_player_take_damage_score;
@@ -2525,11 +2518,11 @@ void qst_op_set_eventflag16() {
 }
 
 void qst_op_get_pl_job(s32 reg) {
-    u8 *player;
-    player = (u8 *)get_player_by_client_id(qst_registers[(u8)reg]);
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)reg]);
     if (player != NULL) {
-        strncpy((char *)&quest_player_class_name_buffer.value, (const char *)(TLobby::get_class_type_name((int) (((TObjPlayer *)player)->class_flags))), 0xF);
-        *(s8 *)((s8 *)(&quest_player_class_name_buffer.value) + 0xF) = 0;
+        strncpy(quest_player_class_name_buffer, (const char *)(TLobby::get_class_type_name((int) (player->class_flags))), 0xF);
+        quest_player_class_name_buffer[0xF] = 0;
         qst_registers[(u8)reg] = 1;
         return;
     }
@@ -2537,11 +2530,11 @@ void qst_op_get_pl_job(s32 reg) {
 }
 
 void qst_op_get_pl_name(s32 reg) {
-    u8 *player;
-    player = (u8 *)get_player_by_client_id(qst_registers[(u8)reg]);
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)reg]);
     if (player != NULL) {
-        strncpy((char *)&quest_player_name_buffer.value, (const char *)((TObjPlayer *)player)->get_name(), 0xF);
-        *(s8 *)((s8 *)(&quest_player_name_buffer.value) + 0xF) = 0;
+        strncpy(quest_player_name_buffer, player->get_name(), 0xF);
+        quest_player_name_buffer[0xF] = 0;
         qst_registers[(u8)reg] = 1;
         return;
     }
@@ -2633,10 +2626,10 @@ void qst_op_get_chara_class(s32 slot_reg, s32 dst) {
 
 void qst_op_get_gender(s32 slot_reg, s32 dst) {
     s32 class_flags;
-    u8 *player;
-    player = (u8 *)get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
     if (player != NULL) {
-        class_flags = ((TObjPlayer *)player)->class_flags;
+        class_flags = player->class_flags;
         if (class_flags & CLASS_FLAG_MALE) {
             qst_registers[(u8)dst] = GENDER_MALE;
             return;
@@ -2857,15 +2850,15 @@ void qst_op_set_cmode_rank_result(void) {
 }
 
 void qst_op_get_mag_levels(s32 i) {
-    saddr r;
+    TItemMag *mag;
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        r = player->activate_d04_slot();
-        if (r != 0) {
-            qst_registers[(u8)i++] = ((TItemMag *)r)->get_def_level();
-            qst_registers[(u8)i++] = ((TItemMag *)r)->get_pow_level();
-            qst_registers[(u8)i++] = ((TItemMag *)r)->get_dex_level();
-            qst_registers[(u8)i] = ((TItemMag *)r)->get_mind_level();
+        mag = (TItemMag *)player->activate_d04_slot();
+        if (mag != NULL) {
+            qst_registers[(u8)i++] = mag->get_def_level();
+            qst_registers[(u8)i++] = mag->get_pow_level();
+            qst_registers[(u8)i++] = mag->get_dex_level();
+            qst_registers[(u8)i] = mag->get_mind_level();
         }
     }
 }
@@ -3147,18 +3140,18 @@ void qst_op_set_shrink_cam1(u8 regs) {
 }
 
 void qst_op_unshrink(s32 slot_reg) {
-    saddr player;
-    player = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((TObjPlayer *)player)->scale_state.request_size_restore();
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if ((player != NULL) && (player->obj_isState2_324() == 0)) {
+        player->scale_state.request_size_restore();
     }
 }
 
 void qst_op_shrink(s32 slot_reg) {
-    saddr player;
-    player = ((s32)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((TObjPlayer *)player)->scale_state.request_shrink();
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if ((player != NULL) && (player->obj_isState2_324() == 0)) {
+        player->scale_state.request_shrink();
     }
 }
 
@@ -3221,10 +3214,10 @@ void qst_op_reset_kills(s32 slot_reg) {
 }
 
 void qst_op_get_num_kills(s32 slot_reg, s32 dst) {
-    u8 *player;
-    player = (u8 *)(((saddr)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg])))));
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
     if (player != NULL) {
-        qst_registers[(u8)dst] = (s32) ((TObjPlayer *)player)->get_kill_count();
+        qst_registers[(u8)dst] = player->get_kill_count();
         return;
     }
     qst_registers[(u8)dst] = 0;
@@ -3327,21 +3320,21 @@ void qst_op_nop_F821(u8 regs) {
 }
 
 void qst_op_cmode_stage() {
-    u32 temp_r30;
+    u32 stage;
     u32 layout_id;
 
-    temp_r30 = (u32)qst_args[0];
+    stage = (u32)qst_args[0];
     layout_id = challenge_set_stage_count(-1);
     if (is_split_screen() == 1) {
-        if (temp_r30 < layout_id) {
-            TLobby::clamp_and_store_layout_index(temp_r30);
+        if (stage < layout_id) {
+            TLobby::clamp_and_store_layout_index(stage);
             return;
         }
         TLobby::clamp_and_store_layout_index(0U);
         return;
     }
-    if (temp_r30 < layout_id) {
-        set_challenge_stage(temp_r30);
+    if (stage < layout_id) {
+        set_challenge_stage(stage);
         return;
     }
     set_challenge_stage(0U);
@@ -3479,9 +3472,9 @@ void qst_op_disable_map(void) { TRaderMapCore::set_mode(0); }
 void qst_op_enable_map(void) { TRaderMapCore::set_mode(1); }
 
 void qst_op_get_coord_of_player(s32 a, s32 b) {
-    uaddr player = ((uaddr)get_player_by_client_id((int)(qst_registers[(u8)b])));
-    if (player != 0) {
-        f32 *p = (f32 *)((TObjPlayer *)player)->get_position_ptr();
+    TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)b]);
+    if (player != NULL) {
+        f32 *p = (f32 *)player->get_position_ptr();
         if (p != NULL) {
             qst_registers[(u8)a++] = (s32)p[0];
             qst_registers[(u8)a++] = (s32)p[1];
@@ -3856,8 +3849,8 @@ void qst_op_item_delete(u32 src, u32 dst) {
 
 void qst_op_item_create2(u8 regs, u8 dst) {
     WrapItemWithColorItem item;
-    void *player;
-    player = (void *)get_player_by_client_id(local_client_id);
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         ((TItemData *)((VaCallItemRecord *)(&item)))->init();
         item.data[0] = qst_registers[regs++];
@@ -3873,8 +3866,8 @@ void qst_op_item_create2(u8 regs, u8 dst) {
         item.data[9] = qst_registers[regs++];
         item.data[10] = qst_registers[regs++];
         item.data[11] = qst_registers[regs];
-        if (((TObjPlayer *)player)->can_inventory_accept_item((u8 *)(&item)) > 0) {
-            ((TObjPlayer *)player)->request_inventory_item((TItemData*)(&item));
+        if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
+            player->request_inventory_item((TItemData*)(&item));
             qst_registers[dst] = item.id;
         } else {
             qst_registers[dst] = -1;
@@ -3886,16 +3879,16 @@ void qst_op_item_create2(u8 regs, u8 dst) {
 
 void qst_op_item_create(u8 regs, u8 dst) {
     WrapItemWithColorItem item;
-    void *player;
-    player = (void *)get_player_by_client_id(local_client_id);
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         ((TItemData *)((VaCallItemRecord *)(&item)))->init();
         item.data[0] = qst_registers[(u8)regs++];
         item.data[1] = qst_registers[(u8)regs++];
         item.data[2] = qst_registers[regs];
         item.id = advance_item_id_counter(local_client_id);
-        if (((TObjPlayer *)player)->can_inventory_accept_item((u8 *)(&item)) > 0) {
-            ((TObjPlayer *)player)->request_inventory_item((TItemData*)(&item));
+        if (player->can_inventory_accept_item((u8 *)(&item)) > 0) {
+            player->request_inventory_item((TItemData*)(&item));
             qst_registers[dst] = item.id;
         } else {
             qst_registers[dst] = -1;
@@ -4287,7 +4280,7 @@ void qst_op_p_hpstat(void) {
     s32 reg;
     f32 pct;
     f32 limit;
-    void *obj;
+    TObjChara *obj;
     f32 hp;
     s32 player;
     saddr *args = qst_args;
@@ -4300,10 +4293,10 @@ void qst_op_p_hpstat(void) {
         return;
     }
     limit = 1.0f / pct;
-    obj = (void *)((saddr)get_player_by_client_id(player));
+    obj = get_player_by_client_id(player);
     if (obj != NULL) {
-        hp = ((TObjChara *)obj)->get_actor_hp();
-        if (hp / ((TObjChara *)obj)->get_hpmax() < limit) {
+        hp = obj->get_actor_hp();
+        if (hp / obj->get_hpmax() < limit) {
             qst_registers[reg] = 1;
             return;
         }
@@ -4846,12 +4839,12 @@ void qst_op_list(void) {
     list->tokenize_args(buf);
     qst_list_window = create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
-        ((TWindowMenu *)qst_list_window)->add_text_entry((saddr)list->tokens[i], 7, i);
+        qst_list_window->add_text_entry((saddr)list->tokens[i], 7, i);
     }
-    ((TWindowMenu *)qst_list_window)->calc_window_size();
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(qst_list_window));
-    ((TWindowMenu *)qst_list_window)->set_ready_flag();
-    ((TWindowBase *)qst_list_window)->set_depth(39000.0f);
+    qst_list_window->calc_window_size();
+    align_menu_entry_positions(qst_list_window);
+    qst_list_window->set_ready_flag();
+    qst_list_window->set_depth(39000.0f);
     qst_registers[idx] = 0;
     qst_result_register = idx;
     qst_suspend_reason = QST_WAIT_LIST;
@@ -5391,8 +5384,8 @@ u16 read_be_u16(void) {
 
 saddr qst_args[8];
 s32 qst_call_stack[64];
-QuestPlayerNameBuffer quest_player_name_buffer;
-QuestPlayerClassNameBuffer quest_player_class_name_buffer;
+char quest_player_name_buffer[16];
+char quest_player_class_name_buffer[16];
 BattleRules battle_rules;
 char qst_cstring_buffer[0x404];
 
@@ -5419,7 +5412,7 @@ void close_windows() {
         qst_message_window_qb = NULL;
     }
     if (qst_list_window != NULL) {
-        ((TWindowBase *)qst_list_window)->close();
+        qst_list_window->close();
         qst_list_window = NULL;
     }
     if (qst_item_name_entry != NULL) {
