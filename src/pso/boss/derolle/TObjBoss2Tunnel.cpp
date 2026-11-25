@@ -61,26 +61,6 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby_803DE778.h"
 
-// Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,
-// TObjEneRecobox, and TObjHMS_EZRope_Player through debug_chunk_b_object) and debug_cylinder_object (TBoss1Dragon, TBoss2Mine,
-// TObjFogCollision, TBoss8Dragon). Each is a strip list, an NJD_CV_VN vertex list, an NJS_CNK_MODEL and its NJS_OBJECT.
-struct DebugChunkVertexVN {
-    f32 pos[3];
-    f32 nrm[3];
-};
-struct DebugChunkVertices16 {
-    s32 head;   // NJD_CV_VN chunk header
-    s32 range;  // index offset 0, vertex count
-    DebugChunkVertexVN vertex[16];
-    s32 end;    // NJD_CE
-};
-struct DebugChunkVertices58 {
-    s32 head;
-    s32 range;
-    DebugChunkVertexVN vertex[58];
-    s32 end;
-};
-
 static s16 debug_chunk_a_strips[59] = {
     0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0030, 0x0006, 0xFFFA,
     0x0006, 0x000A, 0x0004, 0x000C, 0x0002, 0x000E, 0x0003, 0x0008, 0x0009, 0x0007, 0x0003, 0x0000,
@@ -203,27 +183,7 @@ NJS_OBJECT debug_chunk_b_object = {
 NJS_OBJECT *debug_chunk_object = &debug_chunk_b_object;
 NJS_OBJECT *debug_cylinder_object = &debug_chunk_a_object;
 
-struct Quad_8007D828 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
-// screen.bin / the PSO_SCREEN card file: a 256x192 capture and who was in the room.
-struct ScreenSnapshot {
-    u32 checksum;
-    u16 width;
-    u16 height;
-    u8 pixels[0x18000];
-    u8 bits_per_pixel;
-    u8 format;
-    u16 player_count;
-    u32 class_flags[12];
-    u32 levels[12];
-    char names[12][0x18];
-};
 LAYOUT_ASSERT(ScreenSnapshot_size, sizeof(ScreenSnapshot) == 0x1818C);
-// The "GetFrameBuffer" temp buffer: the snapshot, then its card file image at the next 32-byte boundary.
-struct SnapshotFrameBuffer {
-    ScreenSnapshot snapshot;
-    u8 pad_1818C[0x14];
-    u8 save_image[0x1E000];
-};
 extern "C" {
 extern s32 lbl_805D49B4;
 s8 func_801A5E54__Fv(void);
@@ -351,17 +311,17 @@ void rotate_xz_pair_by_angle(f32 *x, f32 *z, s32 angle) {
     *x = (sin_a * z0) + (cos_a * x0);
 }
 
-void rotate_vec_xz(void *in, void *out, s32 angle) {
+void rotate_vec_xz(const Vec *in, Vec *out, s32 angle) {
     f32 x0;
     f32 sin_a;
     f32 cos_a;
     f32 z0;
     cos_a = cos_table_lookup(angle);
     sin_a = sin_table_lookup(angle);
-    x0 = ((Vec *)in)->x;
-    z0 = ((Vec *)in)->z;
-    ((Vec *)out)->z = (cos_a * z0) - (sin_a * x0);
-    ((Vec *)out)->x = (sin_a * z0) + (cos_a * x0);
+    x0 = in->x;
+    z0 = in->z;
+    out->z = (cos_a * z0) - (sin_a * x0);
+    out->x = (sin_a * z0) + (cos_a * x0);
 }
 
 #pragma pop

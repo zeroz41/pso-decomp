@@ -45,8 +45,6 @@
 #include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
-// The record exchange_object_state reads and writes.
-struct TBoss6MineStateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
 static CollisionBody TBoss6Mine__collision_body_template[1] = {
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -211,7 +209,7 @@ void TBoss6Mine::state_3() {
     f32 remaining;
     f32 radius;
     remaining = (f32)((s32)this->spread_frames - this->state_frames + 1);
-    VecCopy((Vec *)&v, &this->position);
+    VecCopy(&v, &this->position);
     v.y = 0.0f;
     len = vector_length(&v);
     if (len > 0.00001f) {

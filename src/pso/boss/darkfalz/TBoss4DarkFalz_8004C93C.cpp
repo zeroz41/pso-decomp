@@ -134,7 +134,7 @@ void TBoss4DarkFalz::update_fade_countdown() {
 }
 
 void TBoss4DarkFalz::begin_defeat_sequence() {
-    u16 sp8[4];
+    u16 defeat_params[4];
     s32 i;
     freeze_all_players();
     TLobby::stop_audio_streams();
@@ -147,12 +147,12 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
         TObjDFDemo5::create(this, &dark_falz_demo5_position, 0);
     }
     if (TBoss4DarkFalz::type3_instance != NULL) {
-        TBoss4DarkFalz::type3_instance->get_defeat_params(&local_attacker_id, &attacker_id, sp8);
+        TBoss4DarkFalz::type3_instance->get_defeat_params(&local_attacker_id, &attacker_id, defeat_params);
         TBoss4DarkFalz::type3_instance->queue_destruction();
         TBoss4DarkFalz::type3_instance = NULL;
         i = 0;
         do {
-            obj_setArrS16_FC(this, i, sp8[i]);
+            obj_setArrS16_FC(this, i, defeat_params[i]);
             i += 1;
         } while (i < 4);
     }

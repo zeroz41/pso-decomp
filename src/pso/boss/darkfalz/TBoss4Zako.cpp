@@ -475,11 +475,6 @@ void TBoss4Uro::run_task() {
 }
 #pragma pop
 
-struct TBoss4BishiSpawnOffset {
-    f32 x;
-    f32 z;
-};
-
 // Where around its target player each TBoss4Bishi aims (entity_id & 3).
 TBoss4BishiSpawnOffset TBoss4Bishi_spawn_offsets[4] = {
     { -4.0f, -4.0f }, { 4.0f, -4.0f }, { -4.0f, 4.0f }, { 4.0f, 4.0f },

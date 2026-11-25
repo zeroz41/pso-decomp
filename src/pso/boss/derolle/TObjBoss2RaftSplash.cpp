@@ -37,7 +37,7 @@ TObjBoss2RaftSplash::TObjBoss2RaftSplash(TObject *parent, const Vec *position, c
     step = speed;
 }
 
-// The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805D85D8, before the pad that
+// The particle helpers below share this TU's .sdata2 pool: -5.0f (before the pad that
 // ends the pool) is used by TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel::release_splash_children,
 // and the .text runs on without a pool of its own (twin: TObjBoss7RaftSplash.cpp).
 void TObjBoss2CeilJunk::create_particle(const Vec *position, s32 particle_index) {

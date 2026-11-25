@@ -17,13 +17,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-// Frame window -> effect point that carries the smoke emitter.
-struct FishSpawnEntry {
-    s32 start;
-    s32 end;
-    s32 point;
-};
-
 // One node of the list ModelNodePositionCapture::create reads (node -1 ends it).
 
 

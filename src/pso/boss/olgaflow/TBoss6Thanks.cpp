@@ -52,9 +52,6 @@ LAYOUT_ASSERT(Thanks_motions, offsetof(TBoss6Thanks,motions)==0x48);
 LAYOUT_ASSERT(Thanks_motion1, offsetof(TBoss6Thanks,motion1)==0x50);
 LAYOUT_ASSERT(Thanks_particle_emitters, offsetof(TBoss6Thanks,particle_emitters)==0x54);
 
-// Particle effect id and the fade_frame range in which update_particle_emitters keeps it.
-struct Boss6ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
-
 const char *TBoss6Thanks__class_name = "TBoss6Thanks";
 
 // Where the object sits: render translates both models there, is_player_near measures the

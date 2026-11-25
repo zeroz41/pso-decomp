@@ -29,8 +29,6 @@
 extern const Vec boss6_type2_appear_origin;
 extern Vec boss6_type2_appear_offset_particle_origin;
 
-typedef struct Ent_8033D6DC { s32 start; s32 end; s32 id; s32 src; } Ent_8033D6DC;
-
 extern "C" {
 const char TBoss6Demo20_TYPE2_APPEAR__class_name[] = "TBoss6Demo20_TYPE2_APPEAR";
 }

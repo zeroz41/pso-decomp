@@ -58,4 +58,12 @@ struct TBoss2Joint : public TObjEneDD {
 
 LAYOUT_ASSERT(TBoss2Joint_size, sizeof(TBoss2Joint) == 0x3BC);
 
+// The movement parameters init_params installs.
+struct TBoss2JointMovement {
+    f32 pad_0;
+    s32 pad_4;
+    s32 pad_8;
+    s32 pad_c[4];
+};
+
 #endif

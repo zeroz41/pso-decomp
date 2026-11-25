@@ -135,4 +135,14 @@ extern VoloptP02Params *volopt_p02_params;
 
 LAYOUT_ASSERT(TBoss3VoloptP02_size, sizeof(TBoss3VoloptP02) == 0x510);
 
+struct VoloptMovementParams {
+    f32 radius;
+    f32 scale;
+    u32 turn_speed;
+    u32 flags;
+    u32 pad_10;
+    u32 count;
+    u32 pad_18;
+};
+
 #endif

@@ -12,10 +12,6 @@
 
 #pragma readonly_strings on
 
-// Defined without a shared declaration (TCameraCtrl.cpp).
-extern "C" {
-}
-
 const char *TObjBoss7RaftSplash::name = "TObjBoss7RaftSplash";
 
 
@@ -49,7 +45,7 @@ void TObjBoss7Tunnel::create_particle(const Vec *position, s32 particle_index) {
     create_particle_effect(position, particle_index, -5.0f);
 }
 
-// The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805DEC90) is used by
+// The particle helpers below share this TU's .sdata2 pool: -5.0f is used by
 // TObjBoss7Tunnel::create_particle and TObjBoss7Tunnel::release_splash_children, and the .text runs on without a pool of its own.
 
 void TObjBoss7RaftSplash::spawn_splash(const Vec *position, s32 particle_index, const Vec *offset) {

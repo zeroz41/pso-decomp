@@ -31,4 +31,25 @@ struct TBoss3VoloptHiraisin : public TObjEnemyCustom {
 
 LAYOUT_ASSERT(TBoss3VoloptHiraisin_size, sizeof(TBoss3VoloptHiraisin) == 0x390);
 
+struct EnemyMovementParams {
+    f32 pad_0;
+    f32 pad_4;
+    s32 pad_8;
+    s32 pad_c;
+    s32 pad_10;
+    s32 pad_14;
+    s32 pad_18;
+};
+struct CollisionBodyPart {
+    Vec offset;
+    f32 radius;
+    u8 pad_10[0x8];
+    s32 flags;
+    u8 pad_1c[0x10];
+};
+struct CollisionState {
+    u8 pad_0[0x18];
+    u32 flags;
+};
+
 #endif

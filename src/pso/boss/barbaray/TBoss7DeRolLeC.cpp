@@ -581,7 +581,7 @@ void *TBoss7DeRolLeC::create(void *set_data) {
 }
 
 void TBoss7DeRolLeC::run_exit_callbacks() {
-    TLobby::call_funcs_reverse((void*)boss7_derolle_c_load_callbacks, (unsigned int)0x30U);
+    TLobby::call_funcs_reverse(boss7_derolle_c_load_callbacks, (unsigned int)0x30U);
     if (boss7_derolle_c_bml_resource != NULL) {
         delete boss7_derolle_c_bml_resource;
         boss7_derolle_c_bml_resource = NULL;
@@ -3613,19 +3613,19 @@ void TBoss7DeRolLeC::record_node_transforms(NJS_OBJECT *) {
     Vec emitter_point;
     Vec aim_point;
     Vec body_point;
-    if ((s32) boss7_derolle_c_node_index == 0x5F) {
+    if (boss7_derolle_c_node_index == 0x5F) {
         emitter_point.x = 0.0f;
         emitter_point.y = 0.0f;
         emitter_point.z = 0.0f;
         transform_point_by_current_matrix(&emitter_point.x, boss7_derolle_c_emitter_points);
     }
-    if ((s32) boss7_derolle_c_node_index == 0x71) {
+    if (boss7_derolle_c_node_index == 0x71) {
         aim_point.x = 0.0f;
         aim_point.y = 0.0f;
         aim_point.z = 0.0f;
         transform_point_by_current_matrix(&aim_point.x, boss7_derolle_c_emitter_points + 1);
     }
-    if ((s32) boss7_derolle_c_node_index == boss7_derolle_c_body_point_node_ids[boss7_derolle_c_body_point_index]) {
+    if (boss7_derolle_c_node_index == boss7_derolle_c_body_point_node_ids[boss7_derolle_c_body_point_index]) {
         body_point.x = 0.0f;
         body_point.y = 0.0f;
         body_point.z = 0.0f;
@@ -3633,19 +3633,19 @@ void TBoss7DeRolLeC::record_node_transforms(NJS_OBJECT *) {
         boss7_derolle_c_body_point_index += 1;
         boss7_derolle_c_body_point_cursor++;
     }
-    if ((s32) boss7_derolle_c_node_index == 0x33) {
+    if (boss7_derolle_c_node_index == 0x33) {
         push_matrix();
-        matrix_mult_vec_array(NULL, (const Vec *)boss7_derolle_c_part_transform_template, boss7_derolle_c_part_points, 4);
+        matrix_mult_vec_array(NULL, boss7_derolle_c_part_transform_template, boss7_derolle_c_part_points, 4);
         pop_matrix();
         subtract_vector(boss7_derolle_c_part_points + 1, boss7_derolle_c_part_points);
     }
-    if ((boss7_derolle_c_draw_state_flags & 0x80) && ((s32) boss7_derolle_c_node_index >= 0x4D) && ((s32) boss7_derolle_c_node_index <= 0x58)) {
+    if ((boss7_derolle_c_draw_state_flags & 0x80) && (boss7_derolle_c_node_index >= 0x4D) && (boss7_derolle_c_node_index <= 0x58)) {
         push_matrix();
         get_current_matrix(boss7_derolle_c_node_matrix_cursor);
         pop_matrix();
         boss7_derolle_c_node_matrix_cursor++;
     }
-    if (((s32) boss7_derolle_c_node_index >= 0x1D) && ((s32) boss7_derolle_c_node_index <= 0x20)) {
+    if ((boss7_derolle_c_node_index >= 0x1D) && (boss7_derolle_c_node_index <= 0x20)) {
         push_matrix();
         get_current_matrix(boss7_derolle_c_tentacle_matrix_cursor);
         pop_matrix();

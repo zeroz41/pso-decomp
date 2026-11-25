@@ -175,4 +175,12 @@ extern "C" {
 s32 boss6_sphere_blocks_player_view(void *pos, f32 r);
 }
 
+// The record exchange_object_state reads and writes.
+struct TBoss6PlotFalzStateRecord {
+    s32 flags;
+    s16 pad_04;
+    s16 value;
+    s32 pad_08;
+};
+
 #endif

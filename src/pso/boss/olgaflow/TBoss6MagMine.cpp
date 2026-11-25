@@ -39,13 +39,6 @@
 #include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
-// The record exchange_object_state reads and writes.
-struct TBoss6MagMineStateRecord {
-    s32 flags;
-    s16 pad_04;
-    s16 value;
-    s32 pad_08;
-};
 
 CollisionBody TBoss6MagMine__collision_body_parts[1] = {
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x803B, {0.0f, 0.0f, 0.0f}, 0.0f},

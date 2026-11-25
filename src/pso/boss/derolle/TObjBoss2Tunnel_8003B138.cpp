@@ -276,11 +276,11 @@ s32 TObjBoss2Tunnel::is_swaying() {
 }
 
 s32 TObjBoss2Tunnel::is_flag_set() {
-    return ((u32) TObjBoss2Tunnel__global_flags >> 0xCU) & 1;
+    return (TObjBoss2Tunnel__global_flags >> 0xCU) & 1;
 }
 
 s32 TObjBoss2Tunnel::is_swaying_positive_x() {
-    return ((u32) TObjBoss2Tunnel__global_flags >> 0xDU) & 1;
+    return (TObjBoss2Tunnel__global_flags >> 0xDU) & 1;
 }
 
 void TObjBoss2Tunnel::update_particles() {

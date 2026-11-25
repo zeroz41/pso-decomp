@@ -31,9 +31,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
-}
-
 
 static CollisionBody volopt_missile_collision_body[1] = {
     {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8101},
@@ -85,7 +82,7 @@ void TBoss3VoloptMissile::run_task() {
     if (player != NULL) {
         Vec steer = player->body_center;
         subtract_vector(&steer, &position);
-        vec_set_length((Vec *)&steer, TBoss3VoloptP02::get_float_param(1));
+        vec_set_length(&steer, TBoss3VoloptP02::get_float_param(1));
         vec3_add_to(&velocity, &steer);
         vec_set_length((Vec *)&velocity, TBoss3VoloptP02::get_float_param(0));
     }
@@ -99,10 +96,10 @@ void TBoss3VoloptMissile::run_task() {
         back.z = -back.z;
         direction_to_rotation_yx((u8 *)&back, &trail_rotation[1], &trail_rotation[2]);
         trail_rotation[2] -= 0x4000;
-        ((TParticleCtrl *)trail)->set_direction(trail_rotation);
+        trail->set_direction(trail_rotation);
         vec_set_length(&back, 10.0f);
         vec3_add_to(&back, &position);
-        ((TParticleCtrl *)trail)->set_position(&back);
+        trail->set_position(&back);
     }
     if (csnVector(&prev_position, &position, -1) != 0) {
         explode_and_destroy();

@@ -11,6 +11,7 @@ class TObjVoloptShutter;
 struct TBoss3Volopt;
 
 // Collision record behind TObjCollidable::m_a4.
+class TParticleCtrl;
 struct TBoss3VoloptP01Collision {
     u8 pad_0[0x4];
     f32 height;
@@ -101,7 +102,7 @@ struct TBoss3VoloptP01 : public TObjEnemyCustom {
     s32 last_state;
     s32 is_primary;
     TObject *charge_effect;
-    TObject *glow_effect;
+    TParticleCtrl *glow_effect;
     s32 pulse_angle;
     TObjVoloptShutter *shutter;
     TargetCursorList targets;

@@ -361,13 +361,6 @@ void TBoss6PlotFalz::spawn_player_hit_effects() {
 }
 
 }
-// The record exchange_object_state reads and writes.
-struct TBoss6PlotFalzStateRecord {
-    s32 flags;
-    s16 pad_04;
-    s16 value;
-    s32 pad_08;
-};
 
 void TBoss6PlotFalz::award_exp_and_destroy() {
     TBoss6PlotFalz::spawn_player_hit_effects();
@@ -441,7 +434,7 @@ s32 boss6_sphere_blocks_player_view(void *pos, f32 r) {
         return 0;
     }
     VecCopy(&pl, &player->position);
-    VecCopy((Vec *)&c, &camera_ctrl_instance->pos);
+    VecCopy(&c, &camera_ctrl_instance->pos);
     VecCopy(&d1, &p);
     subtract_vector(&d1, &pl);
     d1.y = 0.0f;

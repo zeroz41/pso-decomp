@@ -229,7 +229,7 @@ void spawn_effect_at_ground(const Vec *pos, s32 duration) {
 // Dead-stripped from the DOL: the selector-0 corner dead spots come in the same
 // 2.5/7.5/15/25 scale set as the selector-1 and selector-2 families below, and
 // only the 7.5 and 15 wrappers survive. The two missing ones left their literals:
-// .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them (0x805DA3C4-D0),
+// .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them,
 // which first use by the surviving code cannot give. Bodies and names inferred
 // from the family.
 void spawn_dead_spot_kind0_scale2_5(const Vec *point, s32 delay) {

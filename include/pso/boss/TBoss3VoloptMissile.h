@@ -7,6 +7,7 @@
 
 // A homing missile of Vol Opt: it steers towards a player and explodes on
 // contact, on the floor or when its time runs out, damaging what it hits.
+class TParticleCtrl;
 class TBoss3VoloptMissile : public TObjCollidable {
 public:
     saddr model;
@@ -16,7 +17,7 @@ public:
     s32 target_id;
     s32 age;
     u8 pad_d4[0xC];
-    void *trail;
+    TParticleCtrl *trail;
     s32 trail_rotation[3];
 
     TBoss3VoloptMissile(TObject *parent, Vec *pos, s32 angle, s32 target);

@@ -350,4 +350,15 @@ LAYOUT_ASSERT(TBoss6Type2_offset_scroll_strips, (offsetof(TBoss6Type2, scroll_st
 
 LAYOUT_ASSERT(TBoss6Type2_size, sizeof(TBoss6Type2) == 0x7B4);
 
+// One row per body motion. update_motion_tracks loops a mode 0 row, holds a
+// mode 2 row on its last frame and goes on to row `next`.
+struct TBoss6Type2Motion {
+    s32 mode;
+    s32 next;
+    s32 motion[1];  // BML motion of each track (motion_track_count tracks)
+    f32 speed;      // frames per update
+};
+// The record exchange_object_state reads and writes.
+struct TBoss6Type2StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
+
 #endif

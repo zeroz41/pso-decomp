@@ -32,4 +32,11 @@ public:
 };
 LAYOUT_ASSERT(TBoss6Demo11_TYPE1_DEAD_size, sizeof(TBoss6Demo11_TYPE1_DEAD) == 0x90);
 
+// Frame window -> effect point that carries the smoke emitter.
+struct FishSpawnEntry {
+    s32 start;
+    s32 end;
+    s32 point;
+};
+
 #endif

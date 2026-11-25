@@ -51,4 +51,11 @@ public:
 // head is the part drawn at node 0x3B (with the hair), part the one at node 0x3A (names inferred).
 void boss6type2_draw_models(s32 body_texlist, s32 head_texlist, s32 part_texlist, uaddr body, uaddr head, u32 hair, uaddr part, saddr appearance, f32 alpha);
 
+// TObjDFYutai's lerp ranges over its fade (t, 0..1): render's height offset, scale and draw weight.
+struct YutaiRange {
+    f32 min;
+    f32 max;
+    f32 lerp(f32 t) const { return t * (max - min) + min; }
+};
+
 #endif

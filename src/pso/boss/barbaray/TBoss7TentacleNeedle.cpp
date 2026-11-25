@@ -35,8 +35,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/derolle/RandomAngle.h"
 
-// Unit-owned .bss banks (0x80541528-0x80541928), defined in address order: the tentacle's working
-// copy of its model nodes 0x310, segment_offsets +0x310 (0xA8), needle_offsets +0x3B8 (0x38).
+// Unit-owned .bss banks, defined in memory order: the tentacle's working copy of its model nodes,
+// then segment_offsets and needle_offsets.
 // Defined in this unit (as in the twin TBoss2Tentacle) so the code hoists their base into r31.
 NJS_OBJECT boss7_tentacle_model_nodes[14];
 Vec TBoss7Tentacle::segment_offsets[14];
@@ -45,7 +45,7 @@ AnimationMotion *boss7_tentacle_needle_motions[4];
 NJS_OBJECT *boss7_tentacle_needle_model;
 
 // Written last-to-first: built with -inline off,deferred, which emits functions in reverse source order
-// (the Needle vtable 0x804E4830 precedes the Tentacle one although every Needle virtual comes first).
+// (the Needle vtable precedes the Tentacle one although every Needle virtual comes first).
 
 void TBoss7Tentacle::load_static_resource() {
     NJS_OBJECT *src;

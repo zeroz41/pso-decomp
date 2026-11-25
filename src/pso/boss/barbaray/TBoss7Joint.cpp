@@ -94,13 +94,6 @@ TBoss7Joint::~TBoss7Joint() {
     clear_collision_bodies();
 }
 
-// The table init_params hands to TObjEneDD at +0x350; only its first word (225.0) is a float.
-struct Boss7JointParams {
-    f32 pad_0;
-    s32 pad_4;
-    s32 pad_8;
-    s32 pad_C[4];
-};
 Boss7JointParams boss7_joint_params = { 225.0f, 0, 0x600 };
 
 #pragma opt_common_subs off

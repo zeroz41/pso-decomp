@@ -33,4 +33,19 @@ public:
 };
 LAYOUT_ASSERT(TObjDFDemo1_size, sizeof(TObjDFDemo1) == 0x130);
 
+// A particle emitter of the scene: live from frame `start` to frame `end`,
+// placed at `offset` turned by the object's angle.
+struct DFDemo1Emitter {
+    s32 effect;
+    s32 start;
+    s32 end;
+    Vec offset;
+};
+// A colour of a zanzo model node whose alpha fades in.
+struct DFDemo1NodeColor {
+    s32 part;   // index into zanzo_parts
+    s32 node;   // find_model_node index
+    s32 slot;   // s16 index into the node's chunk polygon list
+};
+
 #endif

@@ -167,4 +167,14 @@ extern s32 boss3_volopt_cage_flag;
 extern s32 volopt_p01_tech;
 extern Vec boss3_volopt_spawn_pos;
 
+// Camera offsets for the follow camera, from TLobby's shared parameter tables.
+struct VoloptCameraParams {
+    f32 target_z;
+    f32 target_y;
+    f32 position_z;
+    f32 position_y;
+    u8 pad_10[0x8];
+    s32 enabled;
+};
+
 #endif

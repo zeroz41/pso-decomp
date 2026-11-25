@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 // Compiled -inline off,deferred: the functions are written from the last
-// (0x80354B18 load_resources) back to the first (0x803537D4), so CodeWarrior
+// (load_resources) back to the first, so CodeWarrior
 // emits them in address order and the TBoss6RockMarker vtable before TBoss6Rock's.
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
@@ -59,10 +59,6 @@ TBoss6Rock *TBoss6Rock__instance_table[32];
 Vec TBoss6Rock__rock_point_table[32];
 
 /* One ring of rock points around the arena centre. */
-struct RockRing {
-    f32 radius;
-    s32 count;
-};
 
 void TBoss6Rock::load_resources() {
     BmlResource *resource;
@@ -263,7 +259,7 @@ void TBoss6Rock::push_out_players(s32 landed) {
     }
     for (i = 0; i < count; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_active((TObjPlayer *)player) == 0) {
+        if (TBoss6PlotFalz::is_active(player) == 0) {
             continue;
         }
         VecCopy(&d, &player->position);

@@ -33,14 +33,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/boss/derolle/RandomAngle.h"
 
-struct Color_8003A1B4
-{
-  f32 a;
-  s32 b;
-  s32 c;
-  s32 d;
-};
-
 
 const s32 boss2_ceil_junk_model_index_table[6] = { 0, 1, 2, 4, 3, 5 };
 const f32 TObjBoss2CeilJunk__height_offset_table[6] = { 10.0f, 10.0f, 7.0f, 3.0f, 10.0f, 6.0f };

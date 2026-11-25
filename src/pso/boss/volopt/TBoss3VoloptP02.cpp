@@ -66,16 +66,6 @@ s32 submit_cursor_candidate(void *, int);
 }
 
 
-struct VoloptMovementParams {
-    f32 radius;
-    f32 scale;
-    u32 turn_speed;
-    u32 flags;
-    u32 pad_10;
-    u32 count;
-    u32 pad_18;
-};
-
 
 
 const char *TBoss3VoloptP02_name = "TBoss3VoloptP02";
@@ -1267,7 +1257,7 @@ s16 TBoss3VoloptP02::collect_targets_in_front() {
         if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
-        if (((TObjPlayer *)player)->get_area() != 0xD) {
+        if (player->get_area() != 0xD) {
             continue;
         }
         if (player->actorFlags & 0x02000800) {
@@ -1299,7 +1289,7 @@ u16 TBoss3VoloptP02::find_facing_player() {
         if (player == NULL || player->get_entity_id() >= 0x1000) {
             break;
         }
-        if (((TObjPlayer *)player)->get_area() != 0xD) {
+        if (player->get_area() != 0xD) {
             continue;
         }
         if (player->actorFlags & 0x02000800) {

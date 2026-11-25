@@ -83,7 +83,6 @@ struct NJS_OBJECT;
 #include "pso/player/PlayerSlots.h"
 #include "types.h"
 
-struct ByteBlock_C { u8 bytes[0xC]; };
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/base/TObjBase.h"
@@ -100,20 +99,6 @@ struct ByteBlock_C { u8 bytes[0xC]; };
 #include "pso/render/render_util.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-struct DragonCaptureVectors { Vec vectors[3]; };
-// The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
-// landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.
-struct Boss1DragonParams {
-    f32 breath_attack_power;   // deliver_breath_attack
-    f32 fireball_impact_power; // apply_fireball_impact_damage; 0.666 of it for the craters
-    f32 trail_attack_power;    // the burrow trail hit while the mound trail is damaging (apply_trail_attack)
-    f32 landing_attack_radius; // apply_landing_attack: the hit body radius
-    f32 walk_speed_scale;      // V2 walking speed scale (V1 uses 0.8)
-    f32 flight_speed;          // V2 flight speed (V1 2.0); 256 times it is the turn speed
-    s32 defense[3];            // update_body_colliders: [0] body 5, [1] bodies 1 and 2, [2] bodies 0, 3, 4, 6
-};
-struct DragonModelState { s32 state[2]; f32 params[4]; };
-struct DragonEffectRotation { s32 x, y, z; };
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 extern "C" {
@@ -475,7 +460,7 @@ void TBoss1DragonAttackCollider::area_attack_receive_direct(TObjChara *chara, co
         e = &chara->bodies[i];
         if (e->flags & 0x04000000) {
             DirectAttackPayload attack = *payload;
-            chara->receive_direct_attack((void *)this->owner, attack, e, -1, -1);
+            chara->receive_direct_attack(this->owner, attack, e, -1, -1);
             apply_dragon_hit_ailment(chara);
             return;
         }
@@ -483,7 +468,7 @@ void TBoss1DragonAttackCollider::area_attack_receive_direct(TObjChara *chara, co
 }
 
 void TBoss1DragonAttackCollider::apply_hit_if_active(TObjChara *target, const f32 *) {
-    target->receive_physical_attack((void *)this->owner, 1.0f);
+    target->receive_physical_attack(this->owner, 1.0f);
     apply_dragon_hit_ailment(target);
 }
 
@@ -920,7 +905,7 @@ void TBoss1Dragon::run_task() {
                     }
                     this->clear_attack_receipts();
                 }
-                if ((s32) boss1_dragon_player_control == 0) {
+                if (boss1_dragon_player_control == 0) {
                     this->release_held_player();
                 } else {
                     this->check_death();
@@ -935,7 +920,7 @@ void TBoss1Dragon::run_task() {
                     }
                     this->clear_attack_receipts();
                 }
-                if ((s32) boss1_dragon_player_control == 0) {
+                if (boss1_dragon_player_control == 0) {
                     this->release_held_player();
                 }
                 this->dispatch_action(this->mode, 0);
@@ -1008,7 +993,7 @@ void TBoss1Dragon::choose_next_action() {
             return;
         }
 block_12:
-        if ((s32) boss1_dragon_hold_mode != 0) {
+        if (boss1_dragon_hold_mode != 0) {
             this->dispatch_action(this->mode, 2);
             return;
         }
@@ -1121,7 +1106,7 @@ s32 TBoss1Dragon::is_destination_ahead() {
     this->calc_forward_point(&pt.x, &pt.z);
     VecCopy(&diff, &this->destination);
     subtract_vector(&diff, &pt);
-    return normalize_vector_xz((Vec *)&diff) <= (35.0f);
+    return normalize_vector_xz(&diff) <= (35.0f);
 }
 
 f32 TBoss1Dragon::sample_root_height() {
@@ -1291,7 +1276,7 @@ s32 TBoss1Dragon::select_forward_target() {
         if (p->is_alive() != 0) {
             VecCopy(&delta, &p->position);
             subtract_vector(&delta, &this->position);
-            normalize_vector_xz((Vec *)&delta);
+            normalize_vector_xz(&delta);
             if (vec3_dot(&delta, &fwd) > cutoff) {
                 selected[n++] = p->get_entity_id();
             }
@@ -2876,7 +2861,7 @@ void TBoss1Dragon::update_air_fire_state(u32 reason) {
             if (this->is_passing_frame(47.0f) != 0) {
                 VecCopy(&d, tgt);
                 subtract_vector(&d, &this->position);
-                dist = normalize_vector_xz((Vec *)&d);
+                dist = normalize_vector_xz(&d);
                 d.y = (0.0f);
                 VecCopy(&dest, tgt);
                 dest.y = boss1_dragon_arena_center.y;
@@ -3843,7 +3828,7 @@ void TBoss1Dragon::update_emergence_state(u32 reason) {
                 v->x = boss1_dragon_arena_center.x - this->position.x;
                 v->y = (0.0f);
                 v->z = boss1_dragon_arena_center.z - this->position.z;
-                len = normalize_vector_xz((Vec *)v);
+                len = normalize_vector_xz(v);
                 if (len <= (100.0f)) {
                     this->fallVelocity = (0.0f);
                     this->rotation_x = 0;
@@ -4011,7 +3996,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
             if (this->frame >= (25.0f) && this->frame < (40.0f)) {
                 direction_to_rotation_xz((u8 *)&this->breath_direction, (s32 *)&rot.x, (s32 *)&rot.z);
                 if (this->breath_particles[0] == 0) {
-                    this->breath_particles[0] = (TParticleCtrl *)spawn_particle_effect_with_rotation((void *)(&this->breath_origin), (void *)&rot, (saddr)((void *)((TBoss1Dragon *)((u8 *)this))->effectResource->particle_ids[5]), (int)(0x40));
+                    this->breath_particles[0] = (TParticleCtrl *)spawn_particle_effect_with_rotation((&this->breath_origin), &rot, (saddr)((void *)((TBoss1Dragon *)((u8 *)this))->effectResource->particle_ids[5]), (int)(0x40));
                 }
                 if (this->breath_particles[0] != 0) {
                     this->breath_particles[0]->set_position(&this->breath_effect_position);
@@ -5038,13 +5023,13 @@ s32 TBoss1Dragon::check_parts_visible(TObjCollidable *parts) {
 void dragon_capture_node_points(NJS_OBJECT *) {
     s32 cursor;
     Vec *point;
-    if ((s32) boss1_dragon_capture_node == (s32) boss1_dragon_breath_node) {
+    if (boss1_dragon_capture_node == boss1_dragon_breath_node) {
         push_matrix();
         forward_split_screen_view_matrix();
         matrix_mult_vec_array(NULL, boss1_dragon_breath_local_points.vectors, boss1_dragon_breath_points_out, 3);
         pop_matrix();
     }
-    if ((s32) boss1_dragon_capture_node == (s32) boss1_dragon_capture_node_table[boss1_dragon_capture_cursor]) {
+    if (boss1_dragon_capture_node == (s32) boss1_dragon_capture_node_table[boss1_dragon_capture_cursor]) {
         point = boss1_dragon_capture_points_out;
         boss1_dragon_capture_points_out = point + 1;
         forward_transform_to_view(&boss1_dragon_node_origin, point);
@@ -5054,7 +5039,7 @@ void dragon_capture_node_points(NJS_OBJECT *) {
             boss1_dragon_capture_cursor = 0xC;
             boss1_dragon_capture_points_out += 5;
         }
-        if (((s32) boss1_dragon_capture_cursor == 0x12) && !(boss1_dragon_capture_flags & 0x200)) {
+        if ((boss1_dragon_capture_cursor == 0x12) && !(boss1_dragon_capture_flags & 0x200)) {
             boss1_dragon_capture_cursor = 0x20;
             boss1_dragon_capture_points_out += 14;
         }
@@ -5154,10 +5139,10 @@ void TBoss1Dragon::render() {
                     VecCopy(&delta, &ent->position);
                     subtract_vector(&delta, &origin);
                     delta.y = (0.0f);
-                    dist = normalize_vector_xz((Vec *)&delta);
+                    dist = normalize_vector_xz(&delta);
                     VecCopy(&boss1_dragon_reference_pos_vec, &origin);
                     VecCopy(&boss1_dragon_forward_reference_vec, &delta);
-                    *(f32 *) &boss1_dragon_visibility_distance = dist;
+                    *&boss1_dragon_visibility_distance = dist;
                     points[0] = &this->node_positions[3];
                     points[1] = &this->node_positions[4];
                     points[2] = &this->node_positions[5];
@@ -5269,7 +5254,7 @@ void TBoss1Dragon::render_low_detail() {
     s32 i;
     f32 frame;
 
-    if (((TBoss1Dragon*)self)->update_object_view_visibility((400.0f), (20.0f)) == 0) {
+    if (self->update_object_view_visibility((400.0f), (20.0f)) == 0) {
         return;
     }
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));

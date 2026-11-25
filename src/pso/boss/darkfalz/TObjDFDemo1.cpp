@@ -28,22 +28,6 @@
 // (draw_zanzo_parts first in .text).
 #pragma defer_codegen on
 
-// A particle emitter of the scene: live from frame `start` to frame `end`,
-// placed at `offset` turned by the object's angle.
-struct DFDemo1Emitter {
-    s32 effect;
-    s32 start;
-    s32 end;
-    Vec offset;
-};
-
-// A colour of a zanzo model node whose alpha fades in.
-struct DFDemo1NodeColor {
-    s32 part;   // index into zanzo_parts
-    s32 node;   // find_model_node index
-    s32 slot;   // s16 index into the node's chunk polygon list
-};
-
 // TBoss4Type1's body models and TBoss4Zanzo's model table.
 extern s32 boss4_type1_model_ids[6];
 extern s32 boss4_zanzo_bml_index_table[];

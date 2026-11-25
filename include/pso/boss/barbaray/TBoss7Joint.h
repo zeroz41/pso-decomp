@@ -41,4 +41,12 @@ struct TBoss7Joint : public TObjEneDD {
 LAYOUT_ASSERT(TBoss7Joint_collision_body, offsetof(TBoss7Joint, collision_body) == 0x38C);
 LAYOUT_ASSERT(TBoss7Joint_size, sizeof(TBoss7Joint) == 0x3C8);
 
+// The table init_params hands to TObjEneDD at +0x350; only its first word (225.0) is a float.
+struct Boss7JointParams {
+    f32 pad_0;
+    s32 pad_4;
+    s32 pad_8;
+    s32 pad_C[4];
+};
+
 #endif

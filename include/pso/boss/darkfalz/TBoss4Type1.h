@@ -115,6 +115,7 @@ struct TBoss4Type1 : public TObjEnemy
     Vec node_positions[3][2];     // node_captures' captured node positions
     ModelNodePositionCapture *core_capture;
     Vec core_positions[2];        // core_capture's captured node positions
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss4Type1_parts, offsetof(TBoss4Type1, parts) == 0x3F8);
@@ -129,5 +130,26 @@ void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist);
 
 // Scene archive ids of the six Dark Falz body models.
 extern s32 boss4_type1_model_ids[];
+
+// One row of boss4_type1_motion_states: the playback kind (update_boss4_phase_timer: 0 loop,
+// 1 hold, 2 chain to next), the row it chains to and the motion of each of the six body parts.
+struct TBoss4Type1Motion { s32 kind, next, motions[6]; };
+// One state of the first-form controller.
+struct TBoss4Type1State {
+    const char *name;
+    s32 motion;
+    void (TBoss4Type1::*enter)();
+    void (TBoss4Type1::*update_idle)();
+    void (TBoss4Type1::*update)();
+};
+struct TBoss4Type1XZ { f32 x, z; };
+// Stand angle of each slot, then the weighted attack picks of choose_next_attack.
+struct TBoss4Type1AttackTables {
+    s32 slot_angles[4];
+    f32 low_hp_weights[3];
+    s32 low_hp_attacks[3];
+    f32 weights[2];
+    s32 attacks[2];
+};
 
 #endif

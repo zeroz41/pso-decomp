@@ -101,7 +101,7 @@ void TBoss6DPB::apply_shower_damage_to_players() {
                 attack.kind = 0;
                 attack.power = r;
                 player->receive_direct_attack(owner, attack, 0, -1, -1);
-                create_TDPBShower((void *)tl_02, &player->position);
+                create_TDPBShower(tl_02, &player->position);
             }
         }
     }
@@ -113,7 +113,7 @@ void TBoss6DPB::sub_8035D8B0() {
     v.y = 5.0f;
     spawn_particle_effect_with_flags(&v, 0x21C, 0x40);
     spawn_particle_effect_with_flags(&v, 0x21D, 0x40);
-    create_TDPBShower((void *)tl_02, &position);
+    create_TDPBShower(tl_02, &position);
 }
 #pragma pop
 

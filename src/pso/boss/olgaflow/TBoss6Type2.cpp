@@ -68,15 +68,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/object/base/TObjBase.h"
 
-// One row per body motion. update_motion_tracks loops a mode 0 row, holds a
-// mode 2 row on its last frame and goes on to row `next`.
-struct TBoss6Type2Motion {
-    s32 mode;
-    s32 next;
-    s32 motion[1];  // BML motion of each track (motion_track_count tracks)
-    f32 speed;      // frames per update
-};
-
 CollisionBody boss6_type2_collision_parts[3] = {
     { { 0.0f, 0.0f, 0.0f }, 15.0f, 0.0f, 0, 0x801B },
     { { 0.0f, 0.0f, 0.0f }, 15.0f, 0.0f, 0, 0x801B },
@@ -104,9 +95,6 @@ TBoss6Type2Motion TBoss6Type2__motion_table[15] = {
 // The two offsets request_default_follow_camera hands to request_follow_camera_offsets.
 Vec boss6_type2_follow_camera_position = { 0.0f, 34.8f, -5.0f };
 Vec boss6_type2_follow_camera_target = { 0.0f, 10.43f, 70.42f };
-
-// The record exchange_object_state reads and writes.
-struct TBoss6Type2StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
 
 
@@ -1379,7 +1367,7 @@ s32 TBoss6Type2::push_players_away(const Vec *target, f32 range) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_state_1f((TObjPlayer *)pl) == 0) {
+        if (TBoss6PlotFalz::is_state_1f(pl) == 0) {
             continue;
         }
         VecCopy(&dir, &pl->position);
@@ -1712,7 +1700,7 @@ void TBoss6Type2::spawn_rocks_around_players() {
         if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
             f32 r = 40.0f * (3.0517578e-05f * (f32)rand()) + 10.0f;
             s32 ang = (s32)(65535.0f * (3.0517578e-05f * (f32)rand()));
-            VecCopy((Vec *)&p, (const Vec *)(pl + 0x38));
+            VecCopy(&p, (const Vec *)(pl + 0x38));
             p.x += r * sin_table_lookup(ang);
             p.y = 0.0f;
             p.z += r * cos_table_lookup(ang);
@@ -1723,7 +1711,7 @@ void TBoss6Type2::spawn_rocks_around_players() {
     while (n < 10) {
         f32 dx = 283.68796f * (2.0f * (3.0517578e-05f * (f32)rand()) - 1.0f);
         f32 dz = 283.68796f * (2.0f * (3.0517578e-05f * (f32)rand()) - 1.0f);
-        VecCopy((Vec *)&q, &boss6_arena_center);
+        VecCopy(&q, &boss6_arena_center);
         q.x += dx;
         q.z += dz;
         TBoss6RockChase::spawn(this, &q);
@@ -1959,7 +1947,7 @@ void TBoss6Type2::update_possess_target() {
         if (pl == NULL) {
             done = 1;
         } else if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) == 0) {
-            VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
+            VecCopy(&v, (const Vec *)(pl + 0x38));
             v.y += 10.0f;
             spawn_flow_soul(this, &v, 0x1E);
             TBoss6EffHyoui::create(possessed_client, 1, 0x1E);

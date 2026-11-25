@@ -1,6 +1,6 @@
 // The De Rol Le breakup effects: TBoss2BodyBreakUp (the pieces TBoss2DeRolLe spawns), TBoss2JointBreakUp (the pieces
 // TBoss2Joint spawns), their base TBoss2BreakUp and the breakup models they start from.
-// Built -inline off,deferred: the functions below are written last to first (the vtables at 0x80482090-0x804820D8
+// Built -inline off,deferred: the functions below are written last to first (the vtables
 // and TBoss2JointBreakUp::render's .rodata templates before TBoss2BodyBreakUp::render's only come out in that order).
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"

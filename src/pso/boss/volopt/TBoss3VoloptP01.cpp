@@ -425,13 +425,13 @@ void TBoss3VoloptP01::run_state_machine() {
         break;
     case 2:
         if (glow_effect == NULL) {
-            glow_effect = (TObject *)create_particle_emitter(&body_center, 0x21);
-            ((TParticleCtrl *)glow_effect)->set_flags(0x40U);
+            glow_effect = create_particle_emitter(&body_center, 0x21);
+            glow_effect->set_flags(0x40U);
         }
         state = 3;
     case 3:
         if (glow_effect != NULL) {
-            ((TParticleCtrl *)glow_effect)->set_position(&body_center);
+            glow_effect->set_position(&body_center);
         }
         effect_timer--;
         if (effect_timer <= 0) {

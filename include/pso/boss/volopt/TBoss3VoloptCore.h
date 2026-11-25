@@ -75,4 +75,9 @@ LAYOUT_ASSERT(TBoss3VoloptCore_size, sizeof(TBoss3VoloptCore) == 0x3D4);
 
 extern s32 boss3_volopt_core_active_flag;
 
+struct TBoss3VoloptOrbitSpeeds {
+    u8 pad_0[0x18];
+    s32 speeds[1];
+};
+
 #endif

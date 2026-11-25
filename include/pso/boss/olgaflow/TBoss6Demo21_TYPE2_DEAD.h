@@ -42,4 +42,6 @@ LAYOUT_ASSERT(TBoss6Demo21_TYPE2_DEAD_size, sizeof(TBoss6Demo21_TYPE2_DEAD) == 0
 
 LAYOUT_ASSERT(TBoss6Demo21_TYPE2_DEAD_camera_position_offset, offsetof(TBoss6Demo21_TYPE2_DEAD, camera_position) == 0x58);
 LAYOUT_ASSERT(TBoss6Demo21_TYPE2_DEAD_trail_offset, offsetof(TBoss6Demo21_TYPE2_DEAD, trail_effect) == 0xB0);
+struct EmitterSchedule { s32 start; s32 end; s32 id; };
+
 #endif

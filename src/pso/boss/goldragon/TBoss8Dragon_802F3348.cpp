@@ -228,7 +228,7 @@ s32 TBoss8Dragon::is_near_other_part() {
 s32 TBoss8DragonLeaderPart::spawn_attack_object(Vec *pos, s32 angle, s32 hp, s32 index) {
     TBoss8DragonLeaderPartSetEntry entry;
     if (this->setup_attack_slot(pos, angle, index, &entry) != 0) {
-        return (saddr)new TUnk_804F1A78(tl_04, &entry, hp);
+        return (saddr)new TBoss8DragonPart(tl_04, &entry, hp);
     }
     return 0;
 }

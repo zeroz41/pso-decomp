@@ -21,7 +21,7 @@ static const Vec lbl_80450CDC = {0.0f, 0.0f, 0.0f};
 
 // The pillar's model callback and the smoke placement: their .sbss, the two
 // templates above and the smoke layout are this unit's, so the TU starts at
-// 0x8028ACE8, not at the destructor.
+// the model callback, not at the destructor.
 extern "C" {
 s32 boss5_pillar_demo_index;
 TObjBoss5PillarSmoke *boss5_pillar_demo_ptr;

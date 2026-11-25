@@ -6,10 +6,10 @@
 
 // The TBoss8Dragon that TBoss8Dragon::spawn_attack_object creates. Its table (0x804F1A78) differs from
 // TBoss8Dragon's only in the destructor and run_task slots.
-class TUnk_804F1A78 : public TBoss8Dragon {
+class TBoss8DragonPart : public TBoss8Dragon {
 public:
-    TUnk_804F1A78(TObject *parent, void *set_data, s32 hp);
-    virtual ~TUnk_804F1A78();
+    TBoss8DragonPart(TObject *parent, void *set_data, s32 hp);
+    virtual ~TBoss8DragonPart();
     virtual void run_task();
 };
 

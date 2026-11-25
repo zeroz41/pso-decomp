@@ -30,8 +30,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 
-struct EmitterSchedule { s32 start; s32 end; s32 id; };
-
 extern "C" const char TBoss6Demo21_TYPE2_DEAD__class_name_string[] = "TBoss6Demo21_TYPE2_DEAD";
 extern "C" const Vec boss6_type2_dead_origin = {-10000.0f, 0.0f, 0.0f};
 extern "C" const Vec boss6_type2_dead_burst_offset = {0.0f, 0.0f, -142.0f};

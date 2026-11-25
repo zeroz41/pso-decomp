@@ -110,7 +110,7 @@ void TObjBoss1Crater::area_attack_receive_direct(TObjChara *chara, const f32 *, 
         body = (CollisionBody *)((u8 *)chara->bodies + off);
         if (body->flags & 0x04000000) {
             DirectAttackPayload payload = *attack;
-            chara->receive_direct_attack((void *)owner, payload, body, -1, -1);
+            chara->receive_direct_attack(owner, payload, body, -1, -1);
             if (attack_kind == 0x13 && !(chara->actorFlags & 0x20)) {
                 apply_dragon_hit_ailment(chara);
             }

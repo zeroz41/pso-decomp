@@ -11,15 +11,6 @@ void TBoss4Fade::set_fade(s32 color, f32 alpha) {
     frames[write_index].alpha = alpha;
 }
 
-typedef struct Quad_803594EC
-{
-  void *tex;
-  u32 *colors;
-  s32 a;
-  s32 b;
-  u32 col[4];
-} Quad_803594EC;
-
 // The 640x480 screen corners the fade quad is drawn over.
 f32 TBoss4Fade::fullscreen_vertices[4][2] = {
     {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},

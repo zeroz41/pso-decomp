@@ -25,21 +25,6 @@ const char *TBoss5GryphonLightningWing__name = "TBoss5GryphonLightningWing";
 #pragma opt_lifetimes off
 
 
-struct Pt_80351C18 { Vec v; f32 w; };
-
-struct Wing_80351C18 {
-    s32 x0;
-    u8 pad4[0x14];
-    void *vt;
-    u8 pad1C[0x48 - 0x1C];
-    Pt_80351C18 pts[4];
-    u8 pad88[8];
-    s32 n;
-    s32 pad94;
-    s32 x98;
-    s32 x9C;
-};
-
 extern "C" {
 s32 __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];

@@ -305,4 +305,20 @@ DRAGON_OFFSET(facingAngle, 0x76C);
 LAYOUT_ASSERT(DragonSize, sizeof(TBoss1Dragon) == 0x8BC);
 #undef DRAGON_OFFSET
 
+struct ByteBlock_C { u8 bytes[0xC]; };
+struct DragonCaptureVectors { Vec vectors[3]; };
+// The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
+// landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.
+struct Boss1DragonParams {
+    f32 breath_attack_power;   // deliver_breath_attack
+    f32 fireball_impact_power; // apply_fireball_impact_damage; 0.666 of it for the craters
+    f32 trail_attack_power;    // the burrow trail hit while the mound trail is damaging (apply_trail_attack)
+    f32 landing_attack_radius; // apply_landing_attack: the hit body radius
+    f32 walk_speed_scale;      // V2 walking speed scale (V1 uses 0.8)
+    f32 flight_speed;          // V2 flight speed (V1 2.0); 256 times it is the turn speed
+    s32 defense[3];            // update_body_colliders: [0] body 5, [1] bodies 1 and 2, [2] bodies 0, 3, 4, 6
+};
+struct DragonModelState { s32 state[2]; f32 params[4]; };
+struct DragonEffectRotation { s32 x, y, z; };
+
 #endif

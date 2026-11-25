@@ -36,11 +36,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/barbaray/TBoss7BreakUp.h"
 
-// count + index list; the TObjBoss7TunnelSegment constructor copies both into the segment it builds
-struct Boss2TunnelEffectEntry {
-    s32 count;
-    const s32 *indices;
-};
 const s32 boss7_tunnel_kind0_model_indices[3] = {0, 1, 2};
 const s32 boss7_tunnel_kind1_model_indices[4] = {3, 4, 5, 6};
 const s32 boss7_tunnel_kind2_model_indices[3] = {7, 8, 9};
@@ -63,7 +58,7 @@ s32 boss2_tunnel_spawn_timer_table[0x1F] = {
 };
 s32 boss2_tunnel_spawn_timer_table_b[10] = {1, 1, 3, 4, 3, 3, 3, 3, 3, 3};
 // y comes from a float constant of another file, so this file's static
-// initializer (0x802F2CC4, .ctors 0x80433FDC) fills it in at startup.
+// initializer fills it in at startup.
 Vec boss7_tunnel_raft_splash_positions[2] = {
     {78.0f, boss7_tunnel_splash_y, 83.0f},
     {-78.0f, boss7_tunnel_splash_y, 83.0f},
@@ -224,7 +219,7 @@ void TObjBoss7Tunnel::advance_effect_timer() {
 }
 
 // Dead-stripped from the DOL: no code of it survives, only its literal 2.0f
-// (.sdata2 0x805DECF8, pooled between update_dust_spawn's 600.0f and
+// (pooled between update_dust_spawn's 600.0f and
 // advance_effect_timer's 0.05f). It sits between the two scroll-speed helpers
 // (update_spawn_timer, advance_effect_timer); body and name inferred from that role.
 void TObjBoss7Tunnel::double_scroll_speed() {

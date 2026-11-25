@@ -65,8 +65,6 @@
 
 
 
-// A row of TBoss6Type1__effect_slot_table: the emitter's effect and the node it follows (-1: position).
-struct Boss6EffectSlotDesc { s32 effect_id; s32 node; };
 
 
 
@@ -80,8 +78,6 @@ struct Boss6EffectSlotDesc { s32 effect_id; s32 node; };
 
 
 
-// A row of TBoss6Type1__part_position_sources: kind 1 reads node_points, 0 arm_node_positions, at idx.
-struct Boss6PartPositionSource { s32 kind; s32 idx; };
 
 
 
@@ -91,11 +87,6 @@ struct Boss6PartPositionSource { s32 kind; s32 idx; };
 
 
 
-
-
-
-// The two motions and frames draw_model_blend_motion blends.
-struct Boss6BlendMotion { AnimationMotion *motions[2]; f32 frames[2]; };
 
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
 CollisionBody TBoss6Type1__collision_body_parts[7] = {
@@ -142,17 +133,12 @@ inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
 
 
 
-struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
-
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/TObjControl.h"
 
-
-// The record exchange_object_state reads and writes.
-struct TBoss6Type1StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
 
 
 // The class name and the tables TBoss6Type1's code reads, in .rodata order.
@@ -931,7 +917,7 @@ void TBoss6Type1::update_part_positions() {
             if (base == NULL) {
                 return;
             }
-            VecCopy((Vec *)&v, (const Vec *)&base[t->idx]);
+            VecCopy(&v, (const Vec *)&base[t->idx]);
             subtract_vector(&v, &position);
             push_matrix();
             set_matrix_identity(0);
@@ -1088,7 +1074,7 @@ void TBoss6Type1::spawn_sword_shots() {
         ok = 0;
     }
     if (ok != 0) {
-        VecCopy((Vec *)&d, (const Vec *)b);
+        VecCopy(&d, b);
         subtract_vector(&d, a);
         if (d.y <= 0.00001f) {
             t = 1.0f;
@@ -1140,7 +1126,7 @@ void TBoss6Type1::check_sweep_hits() {
         for (i = 0; i < n; i++) {
             inside = 1;
             TObjPlayer *p = TObjPlayer::get_player_data(i);
-            if (TBoss6PlotFalz::is_active((TObjPlayer *)p) != 0) {
+            if (TBoss6PlotFalz::is_active(p) != 0) {
                 corner[0] = corner[3] = &position;
                 corner[1] = &prev_effect_point;
                 corner[2] = tip;
@@ -1209,7 +1195,7 @@ void TBoss6Type1::check_laser_hits() {
     if (xyz_distance(a, b) < 10.0f) {
         return;
     }
-    VecCopy((Vec *)&mid, (const Vec *)a);
+    VecCopy(&mid, a);
     vec3_add_to(&mid, b);
     mid.x *= 0.5f;
     mid.y *= 0.5f;
@@ -1232,15 +1218,15 @@ void TBoss6Type1::check_laser_hits() {
             continue;
         }
         inside = 1;
-        VecCopy((Vec *)&pts[0], (const Vec *)((void *)VecCopy((Vec *)((Vec *)p3), (const Vec *)((void *)VecCopy((Vec *)((Vec *)p4), (const Vec *)((const Vec *)pA))))));
-        VecCopy((Vec *)p1, (const Vec *)((void *)VecCopy((Vec *)((Vec *)p2), (const Vec *)((const Vec *)pB))));
+        VecCopy((Vec *)&pts[0], (const Vec *)((void *)VecCopy((Vec *)(p3), (const Vec *)((void *)VecCopy((Vec *)(p4), (const Vec *)(pA))))));
+        VecCopy(p1, (const Vec *)((void *)VecCopy((Vec *)(p2), (const Vec *)(pB))));
         off.x = -500.0f * sin_table_lookup(rotation_y);
         off.y = 0.0f;
         off.z = -500.0f * cos_table_lookup(rotation_y);
         vec3_add_to(p2, &off);
         vec3_add_to(p3, &off);
         for (j = 0; j < 4; j++) {
-            VecCopy((Vec *)&e, (const Vec *)&pts[j + 1]);
+            VecCopy(&e, (const Vec *)&pts[j + 1]);
             subtract_vector(&e, &pts[j]);
             e.y = 0.0f;
             VecCopy(&f, &pl->position);
@@ -1262,7 +1248,7 @@ void TBoss6Type1::check_laser_hits() {
         attack.kind = 0;
         attack.power = power;
         pl->receive_direct_attack(this, attack, 0, -1, -1);
-        VecCopy((Vec *)&d0, (const Vec *)pA);
+        VecCopy(&d0, pA);
         subtract_vector(&d0, pB);
         d0.y = 0.0f;
         VecCopy(&d3, &pl->position);
@@ -1278,7 +1264,7 @@ void TBoss6Type1::check_laser_hits() {
         if (t <= 0.0f) {
             continue;
         }
-        VecCopy((Vec *)&m, (const Vec *)pA);
+        VecCopy(&m, pA);
         subtract_vector(&m, pB);
         m.y = 0.0f;
         if (vector_length(&m) <= 0.00001f) {
@@ -1287,10 +1273,10 @@ void TBoss6Type1::check_laser_hits() {
         normalize_vector(&m);
         m.x *= t;
         m.z *= t;
-        VecCopy((Vec *)&q2, (const Vec *)pA);
+        VecCopy(&q2, pA);
         subtract_vector(&q2, &pl->position);
         q2.y = 0.0f;
-        VecCopy((Vec *)&q1, (const Vec *)pB);
+        VecCopy(&q1, pB);
         subtract_vector(&q1, &pl->position);
         q1.y = 0.0f;
         t = vector_length(&q1);
@@ -1299,7 +1285,7 @@ void TBoss6Type1::check_laser_hits() {
             m.z *= -1.0f;
         }
         vec3_add_to(&m, &pl->position);
-        if (project_actor_to_ground((TObjChara *)this, (Vec *)&m, 0) == 0) {
+        if (project_actor_to_ground((TObjChara *)this, &m, 0) == 0) {
             m.y = 0.0f;
             if (vector_length(&m) <= 0.00001f) {
                 continue;
@@ -1738,11 +1724,11 @@ void TBoss6Type1::fire_at_all_players(f32 dy) {
     }
     for (i = 0; i < n; i++) {
         p = TObjPlayer::get_player_data(i);
-        VecCopy((Vec *)&ofs, (const Vec *)&boss6_type1_camera_eye);
+        VecCopy(&ofs, &boss6_type1_camera_eye);
         if (p == 0) continue;
         VecCopy(&pp, &p->position);
         pp.y += ofs.y;
-        VecCopy((Vec *)&d, (const Vec *)&me);
+        VecCopy(&d, &me);
         subtract_vector(&d, &pp);
         h = d.y;
         d.y = 0.0f;
@@ -2020,7 +2006,7 @@ void TBoss6Type1::rotate_around_center(s32 num, s32 den) {
     }
     {
     {
-        VecCopy((Vec *)&v, &this->position);
+        VecCopy(&v, &this->position);
         v.y = 0.0f;
         dist = vector_length(&v);
         angle = (s32)(10430.38043493439 * atan2_float(v.x, v.z));

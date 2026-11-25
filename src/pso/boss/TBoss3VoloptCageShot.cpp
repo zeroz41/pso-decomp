@@ -25,9 +25,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"
 
-extern "C" {
-}
-
 static const Vec volopt_shot_forward = {0.0f, 0.0f, 0.0f};
 
 static CollisionBody volopt_shot_collision_body[1] = {
@@ -76,12 +73,12 @@ void TBoss3VoloptCageShot::run_task() {
     direction_to_rotation_yx((u8 *)&velocity, &rotation_y, &rotation_z);
     rotation_z -= 0x4000;
     if (trail != NULL) {
-        ((TParticleCtrl *)trail)->set_position(&position);
-        ((TParticleCtrl *)trail)->set_direction(&rotation_x);
+        trail->set_position(&position);
+        trail->set_direction(&rotation_x);
     }
     if (glow != NULL) {
-        ((TParticleCtrl *)glow)->set_position(&position);
-        ((TParticleCtrl *)glow)->set_direction(&rotation_x);
+        glow->set_position(&position);
+        glow->set_direction(&rotation_x);
     }
     if (csnVector(&prev_position, &position, -1) != 0) {
         queue_destruction();

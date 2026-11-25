@@ -67,13 +67,6 @@ const CollisionBody crawfish_collision_body_desc = {{0.0f, 0.0f, 0.0f}, 10.0f, 0
 // is_visible measures the crawfish's distance from here (the arena centre is inferred).
 const Vec boss7_arena_center = {0.0f, 0.0f, 0.0f};
 
-// The record exchange_object_state reads and writes.
-struct Boss7CrawfishStateRecord {
-    s32 flags;
-    u8 unk_4[0x2];
-    s16 value;
-};
-
 // Defined without a shared declaration in their owners' headers.
 
 BmlResource *TBoss7Crawfish::shared_resource;

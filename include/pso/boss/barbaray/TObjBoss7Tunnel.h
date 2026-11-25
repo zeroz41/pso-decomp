@@ -87,4 +87,10 @@ public:
 };
 LAYOUT_ASSERT(TObjBoss7Tunnel_size, sizeof(TObjBoss7Tunnel) == 0x94);
 
+// count + index list; the TObjBoss7TunnelSegment constructor copies both into the segment it builds
+struct Boss2TunnelEffectEntry {
+    s32 count;
+    const s32 *indices;
+};
+
 #endif

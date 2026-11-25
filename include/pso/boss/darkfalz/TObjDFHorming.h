@@ -45,4 +45,9 @@ struct TBoss4DarkFalz;
 // from that body; every boss spawner that clones a set entry template calls it.
 extern "C" void copy_set_entry(void *dst, void *src);
 
+// One arena zone of the fight (push_players_out_of_zone): players farther than radius from the center of
+// the zone being entered who stand inside another zone land at landing, spread from it along their offset
+// from that zone's center.
+struct DarkFalzPushZone { Vec center; f32 radius; Vec landing; f32 spread; };
+
 #endif

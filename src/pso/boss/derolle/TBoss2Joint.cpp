@@ -12,17 +12,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
-extern "C" {
-}
-
-// The movement parameters init_params installs.
-struct TBoss2JointMovement {
-    f32 pad_0;
-    s32 pad_4;
-    s32 pad_8;
-    s32 pad_c[4];
-};
-
 // The colour a flash fades back to (update_flash_color reads r, g and b).
 static const NJS_ARGB joint_base_color = {1.0f, 1.0f, 1.0f, 1.0f};
 // The colours start_flash fades from: [0] a hit on the shell, [1] a photon pad spawning at the joint.

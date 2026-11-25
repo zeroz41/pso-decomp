@@ -330,4 +330,14 @@ LAYOUT_ASSERT(TBoss6Type1_map_csn_offset, (offsetof(TBoss6Type1,map_csn)==0x680)
 LAYOUT_ASSERT(TBoss6Type1_target_position_offset, offsetof(TBoss6Type1, target_position) == 0x420);
 LAYOUT_ASSERT(TBoss6Type1_node_points_offset, offsetof(TBoss6Type1, node_points) == 0x578);
 LAYOUT_ASSERT(TBoss6Type1_arm_node_positions_offset, offsetof(TBoss6Type1, arm_node_positions) == 0x5FC);
+// A row of TBoss6Type1__effect_slot_table: the emitter's effect and the node it follows (-1: position).
+struct Boss6EffectSlotDesc { s32 effect_id; s32 node; };
+// A row of TBoss6Type1__part_position_sources: kind 1 reads node_points, 0 arm_node_positions, at idx.
+struct Boss6PartPositionSource { s32 kind; s32 idx; };
+// The two motions and frames draw_model_blend_motion blends.
+struct Boss6BlendMotion { AnimationMotion *motions[2]; f32 frames[2]; };
+struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
+// The record exchange_object_state reads and writes.
+struct TBoss6Type1StateRecord { s32 flags; s16 pad_04; s16 value; s32 pad_08; };
+
 #endif

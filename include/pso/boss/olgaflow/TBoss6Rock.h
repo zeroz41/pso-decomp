@@ -81,4 +81,9 @@ struct TBoss6Rock : public TObjCollidable {
 
 LAYOUT_ASSERT(TBoss6Rock_size, sizeof(TBoss6Rock) == 0xE8);
 
+struct RockRing {
+    f32 radius;
+    s32 count;
+};
+
 #endif

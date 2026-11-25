@@ -69,4 +69,9 @@ LAYOUT_ASSERT(TBoss4Zako_state, offsetof(TBoss4Zako, state) == 0x374);
 LAYOUT_ASSERT(TBoss4Zako_velocity, offsetof(TBoss4Zako, velocity) == 0x38C);
 LAYOUT_ASSERT(TBoss4Zako_emitter, offsetof(TBoss4Zako, emitter) == 0x3B4);
 LAYOUT_ASSERT(TBoss4Zako_size, sizeof(TBoss4Zako) == 0x3C4);
+struct TBoss4BishiSpawnOffset {
+    f32 x;
+    f32 z;
+};
+
 #endif

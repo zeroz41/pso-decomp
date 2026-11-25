@@ -8,8 +8,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 
-struct Ent_8035C03C { s32 x; s32 y; };
-
 #pragma readonly_strings on
 
 const char *TObjBoss8PillerCtrl__class_name = "TObjBoss8PillerCtrl";

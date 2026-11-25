@@ -34,4 +34,13 @@ struct TBoss4DarkFalz;
 
 TBoss4Fade *create_boss4_fade();
 
+typedef struct Quad_803594EC
+{
+  void *tex;
+  u32 *colors;
+  s32 a;
+  s32 b;
+  u32 col[4];
+} Quad_803594EC;
+
 #endif

@@ -54,16 +54,6 @@
 #include "pso/system/SoundEffect.h"
 #pragma readonly_strings on
 
-// Camera offsets for the follow camera, from TLobby's shared parameter tables.
-struct VoloptCameraParams {
-    f32 target_z;
-    f32 target_y;
-    f32 position_z;
-    f32 position_y;
-    u8 pad_10[0x8];
-    s32 enabled;
-};
-
 extern "C" {
 s32 is_local_client_floor_leader();
 void release_players_from_cutscene(void);
@@ -1323,7 +1313,7 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
                 offset.y = 0.0f;
                 offset.z = pos.z - center_z;
                 if (newton_sqrtf(offset.x * offset.x + offset.z * offset.z) < 50.0f) {
-                    vec_set_length((Vec *)&offset, 50.0f);
+                    vec_set_length(&offset, 50.0f);
                     pos.x = offset.x;
                     pos.z = offset.z + center_z;
                 }

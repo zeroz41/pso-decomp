@@ -35,4 +35,7 @@ struct TBoss7LaserPtcl : public TObject {
 void calc_laser_ray_hit_point(u8 *laser, u8 *out);
 
 LAYOUT_ASSERT(TBoss7LaserPtcl_size, sizeof(TBoss7LaserPtcl) == 0x58);
+// An x/y/z angle triple.
+struct Boss7LaserAngles { s32 x, y, z; };
+
 #endif

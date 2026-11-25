@@ -66,14 +66,7 @@ const char *TObjDFJisin::name = "TObjDFJisin";
 const char *TObjDFHorming::name = "TObjDFHorming";
 const char *TObjDFYutai::name = "TObjDFYutai";
 
-// TObjDFYutai's lerp ranges over its fade (t, 0..1): render's height offset, scale and draw weight.
-struct YutaiRange {
-    f32 min;
-    f32 max;
-    f32 lerp(f32 t) const { return t * (max - min) + min; }
-};
-
-// The TU's .data opens with these (0x804858A8), ahead of the vtables.
+// The TU's .data opens with these, ahead of the vtables.
 Vec uso_tower_start_position = {0.0f, 0.0f, -81.0f}; // name inferred: TObjDFUsoTower's ctor copies it to its position
 Vec dark_falz_jisin_zero_vec = {0.0f, 0.0f, 0.0f};
 __declspec(section ".data") s32 TObjDFJisin__particle_emitter_id_table[2] = {0xE0, 0xF4};

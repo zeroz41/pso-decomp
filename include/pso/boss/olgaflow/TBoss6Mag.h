@@ -180,4 +180,39 @@ extern TBoss6MagAction boss6_type2_action_table[6];
 void copy_mag_ramp(TBoss6MagRamp *dst, TBoss6MagRamp *src);
 void copy_mag_target(TBoss6MagTarget *dst, TBoss6MagTarget *src);
 
+// The particle effect each emitter slot plays, and the node it follows (-1 for the mag's position).
+struct TBoss6MagEmitter {
+    s32 effect_id;
+    s32 node;
+};
+// Motion table row: the play mode, the row change_motion moves to when a one-shot motion ends, the motion's
+// index in the scene archive and its speed.
+struct TBoss6MagMotionEntry {
+    s32 mode;
+    s32 next;
+    s32 motion;
+    f32 speed;
+};
+struct TBoss6MagMotionBlend {
+    AnimationMotion *from;
+    AnimationMotion *to;
+    f32 from_frame;
+    f32 to_frame;
+};
+// The record exchange_object_state reads and writes.
+struct TBoss6MagStateRecord {
+    s32 flags;
+    s16 pad_04;
+    s16 value;
+    s32 pad_08;
+};
+// copy_vec3 copies the motion track as one block of words, which a struct with float members does not give.
+struct TBoss6MagMotionWords {
+    s32 index;
+    s32 mode;
+    struct {
+        s32 words[7];
+    } track;
+};
+
 #endif

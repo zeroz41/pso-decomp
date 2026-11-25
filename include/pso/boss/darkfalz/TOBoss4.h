@@ -19,4 +19,9 @@ struct TOBoss4 : public TObjBase {
 };
 
 LAYOUT_ASSERT(TOBoss4_size, sizeof(TOBoss4) == 0x98);
+// The flock's V formation.
+struct TOBoss4BirdFormation {
+    Vec offsets[6];
+};
+
 #endif

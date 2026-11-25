@@ -31,27 +31,6 @@
 #include "pso/object/base/TObjBase.h"
 
 
-// A particle emitter of the Thanks scene, alive while fade_frame is in [first_frame, last_frame]
-// (the TBoss6Thanks twin's Boss6ThanksEmitter).
-struct Boss4ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
-
-struct Anim_8035C6FC
-{
-  u8 pad[4];
-  u32 frames;
-};
-
-struct Thanks_8035C6FC
-{
-  u8 pad0[0x1C];
-  s32 state;
-  s32 cur;
-  s32 next;
-  f32 frame;
-  u8 pad2c[0x10];
-  Anim_8035C6FC *anim[4];
-};
-
 
 extern "C" {
 const char *TBoss4Thanks::class_name = "TBoss4Thanks";
@@ -80,7 +59,7 @@ void TBoss4Thanks::update_particle_emitters() {
         const Boss4ThanksEmitter *e = &boss4_thanks_emitter_table[i];
         if (this->fade_frame >= e->first_frame && this->fade_frame <= e->last_frame) {
             if (particle_emitters[i] == NULL) {
-                particle_emitters[i] = create_particle_emitter((void *)boss4_thanks_position, e->id);
+                particle_emitters[i] = create_particle_emitter(boss4_thanks_position, e->id);
                 if (particle_emitters[i] != NULL) {
                     particle_emitters[i]->set_flags(0x40);
                 }

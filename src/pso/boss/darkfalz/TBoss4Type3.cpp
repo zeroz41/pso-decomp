@@ -62,9 +62,6 @@ extern const s32 boss4_type3_effect_ids[8] = {326,326,326,326,328,327,327,323};
 const char *TObjBs4CutAtk_name = TObjBs4CutAtk_type_name;
 const char *TBoss4Type3_name = TBoss4Type3_type_name;
 typedef TBoss4Type3Handler Type3Handler;
-// A row of TBoss4Type3__anim_state_table: how the animation ends (0 loops, 1 holds
-// its last frame, 2 goes on to next) and the motion of each of the three models.
-struct Type3MotionView { s32 kind, next, motions[3]; };
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -160,10 +157,6 @@ Vec boss4_type3_zero_vec = {0.0f, 0.0f, 0.0f};
 Vec boss4_type3_default_position = {10000.0f, -10.0f, 0.0f};
 Vec boss4_type3_interp_origin_vec = {10000.0f, 300.0f, 0.0f};
 u32 boss4_type3_radar_marker_colors[4] = {0xffff0000, 0xff00ff00, 0xffffff00, 0xff0000ff};
-
-struct Pair_8005A438 { void *p; f32 f; };
-
-struct Words_8005A438 { void *p; u32 w; };
 
 TObjBs4CutAtk *TObjBs4CutAtk::create(TObject *parent, s32 heading, s32 side) {
     return new TObjBs4CutAtk(parent, heading, side);
@@ -518,7 +511,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     for (i = 0; i < 3; i++) {
         TObjFish::set_global_param(get_bml_texlist(archive, tbl[i]));
         render_lists[i]->install();
-        draw_model_motion((void *)get_bml_model(archive, tbl[i]), (void *)get_bml_motion(archive, TBoss4Type3__anim_state_table[anim].motions[i]), anim_frame);
+        draw_model_motion(get_bml_model(archive, tbl[i]), get_bml_motion(archive, TBoss4Type3__anim_state_table[anim].motions[i]), anim_frame);
         render_lists[i]->clear();
     }
     clear_motion_packed_rotation();

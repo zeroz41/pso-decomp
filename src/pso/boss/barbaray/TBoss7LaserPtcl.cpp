@@ -35,9 +35,6 @@ LAYOUT_ASSERT(Laser_distance_offset, offsetof(TBoss7LaserPtcl, travel_distance) 
 LAYOUT_ASSERT(Laser_yaw_offset, offsetof(TBoss7LaserPtcl, yaw) == 0x54);
 LAYOUT_ASSERT(LaserHit_body_offset, offsetof(TBoss7LaserImpact, hit_body) == 0x34);
 
-// An x/y/z angle triple.
-struct Boss7LaserAngles { s32 x, y, z; };
-
 // Defined without a shared declaration in their owners' headers.
 
 const char *TBoss7LaserPtcl::class_name = "TBoss7LaserPtcl";

@@ -158,4 +158,44 @@ s32 count_visible_nodes(NJS_OBJECT *node);
 // De Rol Le's mines, TBoss8Dragon and TObjFogCollision draw it scaled to show hit volumes.
 extern NJS_OBJECT *debug_cylinder_object;
 
+// Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,
+// TObjEneRecobox, and TObjHMS_EZRope_Player through debug_chunk_b_object) and debug_cylinder_object (TBoss1Dragon, TBoss2Mine,
+// TObjFogCollision, TBoss8Dragon). Each is a strip list, an NJD_CV_VN vertex list, an NJS_CNK_MODEL and its NJS_OBJECT.
+struct DebugChunkVertexVN {
+    f32 pos[3];
+    f32 nrm[3];
+};
+struct DebugChunkVertices16 {
+    s32 head;   // NJD_CV_VN chunk header
+    s32 range;  // index offset 0, vertex count
+    DebugChunkVertexVN vertex[16];
+    s32 end;    // NJD_CE
+};
+struct DebugChunkVertices58 {
+    s32 head;
+    s32 range;
+    DebugChunkVertexVN vertex[58];
+    s32 end;
+};
+struct Quad_8007D828 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
+// screen.bin / the PSO_SCREEN card file: a 256x192 capture and who was in the room.
+struct ScreenSnapshot {
+    u32 checksum;
+    u16 width;
+    u16 height;
+    u8 pixels[0x18000];
+    u8 bits_per_pixel;
+    u8 format;
+    u16 player_count;
+    u32 class_flags[12];
+    u32 levels[12];
+    char names[12][0x18];
+};
+// The "GetFrameBuffer" temp buffer: the snapshot, then its card file image at the next 32-byte boundary.
+struct SnapshotFrameBuffer {
+    ScreenSnapshot snapshot;
+    u8 pad_1818C[0x14];
+    u8 save_image[0x1E000];
+};
+
 #endif

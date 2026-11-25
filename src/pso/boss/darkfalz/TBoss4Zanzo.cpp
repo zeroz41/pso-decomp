@@ -366,16 +366,16 @@ void TBoss4Type2::draw_hanger() {
             model_render_flags |= 0x20000;
             TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
             node_capture->install();
-            draw_model_motion((void *)get_bml_model(archive, boss4_zanzo_bml_index_table[i]),
-                (void *)get_bml_motion(archive, TBoss4Type2__attack_pattern_table[anim].motions[i]),
+            draw_model_motion(get_bml_model(archive, boss4_zanzo_bml_index_table[i]),
+                get_bml_motion(archive, TBoss4Type2__attack_pattern_table[anim].motions[i]),
                 anim_frame);
             node_capture->clear();
             model_render_flags &= ~0x20000;
             break;
         default:
             apply_boss6_hit_flash_color(hit_flash, hp_ratio);
-            draw_model_motion((void *)get_bml_model(archive, boss4_zanzo_bml_index_table[i]),
-                (void *)get_bml_motion(archive, TBoss4Type2__attack_pattern_table[anim].motions[i]),
+            draw_model_motion(get_bml_model(archive, boss4_zanzo_bml_index_table[i]),
+                get_bml_motion(archive, TBoss4Type2__attack_pattern_table[anim].motions[i]),
                 anim_frame);
             TBoss6PlotFalz::update_camera_target();
             break;

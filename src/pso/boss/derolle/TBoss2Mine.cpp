@@ -23,19 +23,6 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/object/base/ActorCollision.h"
 
-struct TBoss2MineMovement {
-    f32 target_range;
-    f32 base_speed;
-    s32 turn_speed;
-    s32 params[4];
-};
-
-// The mine's attack template: state_explode copies it, sets the power from the boss and
-// hands it to setup_attack_at_owner, whose setup_instance installs the collision radius.
-struct TBoss2MineCollisionWords {
-    s32 w[5];
-};
-
 static const DragonAttackParams boss2_mine_collision_desc = { 1, 2.0f, 50.0f, {5.0f, 1} };
 
 const char *TBoss2Mine__name = "TBoss2Mine";

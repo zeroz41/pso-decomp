@@ -183,7 +183,7 @@ void TObjDFDemo4::draw_zanzo_parts() {
     rotate_matrix_y(NULL, angle);
     for (i = 0; i < 2; i++) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(zanzo_parts[i].texlist));
-        draw_model_motion((void *)zanzo_parts[i].model, zanzo_parts[i].motion, 120.0f);
+        draw_model_motion(zanzo_parts[i].model, zanzo_parts[i].motion, 120.0f);
     }
     clear_motion_packed_rotation();
     pop_matrix();
@@ -204,7 +204,7 @@ void TObjDFDemo4::draw_body_parts() {
             if (i == 0) {
                 node_list->install();
             }
-            draw_model_motion((void *)body_parts[i].model, body_parts[i].motion, frame);
+            draw_model_motion(body_parts[i].model, body_parts[i].motion, frame);
             if (i == 0) {
                 node_list->clear();
             }

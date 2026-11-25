@@ -20,7 +20,7 @@
 //
 // 36 rows of {name, s32, s32, enter / idle / update handler}. The handlers are pointers
 // to members, so CodeWarrior builds the table in __sinit from a per-handler template
-// (the 97 0xC objects at 0x804DFC50).
+// (97 small objects).
 TBoss6Type2BattleAction boss6_type2_battle_actions[36] = {
     { "WAIT", 0, 1, &TBoss6Type2::act_wait, &TBoss6Type2::select_attack_state, &TBoss6Type2::tick_timer_460 },
     { "INFO_STAT", 4, 1, &TBoss6Type2::reset_state_timers, 0, &TBoss6Type2::update_info_stat },
@@ -258,7 +258,7 @@ void TBoss6Type2::update_timer() {
 
 void TBoss6Type2::init_timers_and_copy_pos() {
     static s32 dur = (s32)(15.0f + (30.0f / boss6_type2_bkjump_speed));
-    state_timer = (state_duration = (s32) dur);
+    state_timer = (state_duration = dur);
     VecCopy(&move_origin, &position);
     iai_count = 0;
     if ((s32) berserk == 0) {

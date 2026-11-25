@@ -51,11 +51,6 @@
 
 #pragma readonly_strings on
 
-// One arena zone of the fight (push_players_out_of_zone): players farther than radius from the center of
-// the zone being entered who stand inside another zone land at landing, spread from it along their offset
-// from that zone's center.
-struct DarkFalzPushZone { Vec center; f32 radius; Vec landing; f32 spread; };
-
 const char *darkfalz_dat_model_names[] = {
     "df_event_tower.nj",
     "df_rikomiraju_body.nj",
@@ -179,7 +174,7 @@ BmlResourceDescriptor darkfalz_dat_resource_descriptor = {
 
 const char *TBoss4DarkFalz::name = "TBoss4DarkFalz";
 
-// Read-only start positions (.rodata) of sub_8004B8F8 and sub_8004B7DC. Declared const, the visible
+// Read-only start positions (.rodata) of the two functions that copy them. Declared const, the visible
 // definition lets CodeWarrior hoist the copy above the stmw in both users, so they are placed explicitly.
 __declspec(section ".rodata") Vec dark_falz_player_ring_center_origin = { 0.0f, 10.0f, 0.0f };
 __declspec(section ".rodata") Vec dark_falz_player_ring_center = { 10000.0f, 10.0f, 0.0f };

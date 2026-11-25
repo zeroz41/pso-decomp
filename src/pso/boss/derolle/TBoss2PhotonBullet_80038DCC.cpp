@@ -33,14 +33,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 
 
-// One row per bullet level: how many shots, frames between them, the angle the fan spans, and the speed.
-struct Boss2PhotonLevel {
-    s32 shots;
-    s32 interval;
-    s32 spread;
-    f32 speed;
-};
-
 // The bullet level table, the two hit-check arguments and the class names, in their original .rodata order.
 extern const Boss2PhotonLevel TBoss2PhotonPad__bullet_level_param_table[3] = {
     { 3, 1, 0x3000, 3.5f },

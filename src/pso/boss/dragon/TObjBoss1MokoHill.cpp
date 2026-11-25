@@ -72,9 +72,9 @@ struct TrailRaisedVertex {
 };
 
 
-Unk_8002DB7C *dragon_trail_grid;
-Unk_8002DB7C *dragon_trail_strip;
-Unk_8002DB7C *dragon_trail_small_grid;
+ChunkStripGrid *dragon_trail_grid;
+ChunkStripGrid *dragon_trail_strip;
+ChunkStripGrid *dragon_trail_small_grid;
 TrailUV *dragon_trail_uvs;
 s16 *dragon_trail_strips;
 s32 dragon_trail_raised_count;
@@ -130,7 +130,7 @@ f32 apply_default_velocity_scale(Vec *vector) {
     return apply_velocity_scale(vector, 60.0f, 16.0f);
 }
 
-Unk_8002DB7C::Unk_8002DB7C(s32 width, s32 strips, s32 materialWords, s16 *material) {
+ChunkStripGrid::ChunkStripGrid(s32 width, s32 strips, s32 materialWords, s16 *material) {
     s32 i;
     s32 first;
     s32 second;
@@ -205,7 +205,7 @@ Unk_8002DB7C::Unk_8002DB7C(s32 width, s32 strips, s32 materialWords, s16 *materi
     this->object.sibling = NULL;
 }
 
-Unk_8002DB7C::~Unk_8002DB7C() {
+ChunkStripGrid::~ChunkStripGrid() {
     mem_free(vertices);
     vertices = NULL;
     mem_free(polygons);
@@ -214,11 +214,11 @@ Unk_8002DB7C::~Unk_8002DB7C() {
     model.polygon_list = NULL;
 }
 
-Unk_8002DB7C::Vertex *Unk_8002DB7C::get_vertices() {
+ChunkStripGrid::Vertex *ChunkStripGrid::get_vertices() {
     return (Vertex *)(vertices + 2);
 }
 
-s16 *Unk_8002DB7C::get_strips() {
+s16 *ChunkStripGrid::get_strips() {
     return polygons + (materialWords + 3);
 }
 
@@ -240,13 +240,13 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
     s32 total;
     s32 strip_index;
     s32 lower_v;
-    Unk_8002DB7C::Vertex *verts;
+    ChunkStripGrid::Vertex *verts;
     f32 *vtx;
     s32 u;
     s32 uv_col;
     s32 j;
     s16 n;
-    Unk_8002DB7C::Vertex *v;
+    ChunkStripGrid::Vertex *v;
     NJS_CNK_MODEL *trail;
     TrailRaisedVertex *e;
     s32 small_col;
@@ -259,18 +259,18 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
     s16 *uv_strip;
     s32 strip_count;
     s32 uv_strip_index;
-    Unk_8002DB7C::Vertex *v2;
+    ChunkStripGrid::Vertex *v2;
     s32 small_row;
     f32 *vstart;
     s16 *poly;
     s32 uv_row;
     BmlResource *resource;
     s32 entry_index;
-    Unk_8002DB7C *grid;
+    ChunkStripGrid *grid;
     s32 width = 11;
     resource = dragon_ground_resource;
     material = ((NJS_CNK_MODEL *)resource->models[4].model->model)->polygon_list;
-    grid = new Unk_8002DB7C(width, 10, 8, material);
+    grid = new ChunkStripGrid(width, 10, 8, material);
     dragon_trail_grid = grid;
     verts = grid->get_vertices();
     v = verts;
@@ -297,7 +297,7 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
         dragon_trail_grid_v[uv_index] = (s16)(1024.0f * (-0.0125f * v->pos.x));
     }
 
-    grid = new Unk_8002DB7C(5, 4, 8, material);
+    grid = new ChunkStripGrid(5, 4, 8, material);
     dragon_trail_small_grid = grid;
     v2 = grid->get_vertices();
     small_z = 0.0f;
@@ -338,7 +338,7 @@ void TObjBoss1MokoHill_SoloM::load_resources() {
         lower_v -= 0x100;
     }
 
-    grid = new Unk_8002DB7C(11, 1, 8, material);
+    grid = new ChunkStripGrid(11, 1, 8, material);
     dragon_trail_strip = grid;
     {
         s16 *start;
