@@ -585,9 +585,9 @@ force_active:
   - TItemTimer__sub_8011D598
   - __ct__19TItemWeaponPartisanFP7TObjectPUc
   - TItem__name
-  - TJudgmentSequence__sub_80215BA0
+  - on_judgment_closed__17TJudgmentSequenceFP15TShopWindowBase
   - TJudgmentSequence__sub_80215BCC
-  - TJudgmentSequence__sub_80215BF8
+  - on_judgment_cancelled__17TJudgmentSequenceFP15TShopWindowBase
   - pad_slot_state_buffer
   - keyboard_polling_disabled
   - poll_input_devices_frame

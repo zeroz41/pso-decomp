@@ -21,15 +21,15 @@ struct TJudgmentSequence : public TShopSequence {
     TWindowBase *meseta_window;       // meseta window
     TObject *counter_camera; // 0x30: set_service_counter_camera
     void open_judgment_window();
+    static void on_judgment_closed(TShopWindowBase *window);
+    static void on_judgment_cancelled(TShopWindowBase *window);
 };
 
 LAYOUT_ASSERT(TJudgmentSequence_size, sizeof(TJudgmentSequence) == 0x34);
 
 // --- C functions defined in TJudgmentSequence.cpp ---
 extern "C" {
-void TJudgmentSequence__sub_80215BA0(TShopWindowBase *window);
 void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window);
-void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window);
 void TJudgmentSequence__sub_80216030(void);
 void TJudgmentSequence__sub_80216058(void);
 }
