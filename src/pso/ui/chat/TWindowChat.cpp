@@ -377,27 +377,27 @@ TWindowChat::~TWindowChat() {
             }
         }
     }
-    if ((u32)symbolChatWindow != 0U) {
+    if (symbolChatWindow != NULL) {
         ((TObject *)this->symbolChatWindow)->queue_destruction();
         symbolChatWindow = NULL;
     }
-    if ((u32)wordSelectWindow != 0U) {
+    if (wordSelectWindow != NULL) {
         ((TObject *)this->wordSelectWindow)->queue_destruction();
         wordSelectWindow = NULL;
     }
-    if ((u32)auxiliaryWindow != 0U) {
+    if (auxiliaryWindow != NULL) {
         ((TWindowBase *)this->auxiliaryWindow)->close();
         auxiliaryWindow = NULL;
     }
-    if ((u32)softKeyboard != 0U) {
+    if (softKeyboard != NULL) {
         ((TWindowBase *)this->softKeyboard)->close();
         softKeyboard = NULL;
     }
-    if ((u32)hardKeyboard != 0U) {
+    if (hardKeyboard != NULL) {
         ((TWindowBase *)this->hardKeyboard)->close();
         hardKeyboard = NULL;
     }
-    if ((u32)composer != 0U) {
+    if (composer != NULL) {
         ((TWindowBase *)this->composer)->close();
         composer = NULL;
     }
