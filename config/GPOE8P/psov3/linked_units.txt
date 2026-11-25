@@ -645,8 +645,6 @@ pso/render/GinjaScreen.cpp
 pso/render/GinjaPerspective.cpp
 pso/animation/MotionSampling.cpp
 pso/animation/MotionContext.cpp
-pso/ui/charcreate/TChCrCharSelect_80293D10.cpp
-pso/ui/charcreate/TChCrCharSelect_80293D58.cpp
 pso/ui/charcreate/TObjCMProportion.cpp
 pso/ui/charcreate/TChCrCharSelect_802A207C.cpp
 pso/ui/charcreate/TChCrEffCtrlPl.cpp

@@ -95,7 +95,6 @@ void TChCrCharSelect::handle_menu_input() {
     }
 }
 
-
 void TChCrCharSelect::handle_cursor_input() {
     s32 temp_r0;
     s32 temp_r0_2;
@@ -122,7 +121,6 @@ void TChCrCharSelect::handle_cursor_input() {
     }
 }
 
-
 void TChCrCharSelect::run_task() {
     reset_proportions();
     static void (TChCrCharSelect::*tbl[3])() = {
@@ -148,7 +146,6 @@ void TChCrCharSelect::init_widgets() { TChCrTagOccupation::create_all(); TChCrTa
 
 TChCrCharSelect::~TChCrCharSelect() {}
 
-
 TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     m_name = TChCrCharSelect__name;
     TChCrEffTag::set_eff_tag(0);
@@ -162,4 +159,14 @@ TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     }
     TObjCMIcon::set_screen_position(&lbl_80464E88);
     init_widgets();
+}
+
+TChCrCharSelect *TChCrCharSelect::create(TObject *parent) {
+    return new TChCrCharSelect(parent);
+}
+
+void TChCrCharSelect::init_and_create(TObject *parent) {
+    TChCrCharSelect::selected_char_index = -1;
+    TChCrCharSelect::selected_slot_index = -1;
+    create(parent);
 }

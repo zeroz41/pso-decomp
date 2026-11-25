@@ -7030,18 +7030,12 @@ pso/unk/TLobby_80291D94.cpp:
 	.sdata2     start:0x805DD9D0 end:0x805DD9D8
 
 pso/ui/charcreate/TChCrCharSelect.cpp:
-	.text       start:0x802937D4 end:0x80293D10
+	.text       start:0x802937D4 end:0x80293D84
 	.rodata     start:0x80464E60 end:0x80464EC8
 	.data       start:0x804DB8A0 end:0x804DB900
 	.sdata      start:0x805D3CB0 end:0x805D3CC0
 	.sbss       start:0x805D6590 end:0x805D6598
 	.sdata2     start:0x805DD9D8 end:0x805DD9DC
-
-pso/ui/charcreate/TChCrCharSelect_80293D10.cpp:
-	.text       start:0x80293D10 end:0x80293D58
-
-pso/ui/charcreate/TChCrCharSelect_80293D58.cpp:
-	.text       start:0x80293D58 end:0x80293D84
 
 pso/ui/charcreate/TChCrEffFade.cpp:
 	.text       start:0x80293D84 end:0x8029427C
