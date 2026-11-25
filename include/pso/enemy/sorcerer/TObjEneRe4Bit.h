@@ -12,7 +12,7 @@ struct TObjEneRe4InitParams {
     f32 max_distance;
     f32 min_distance;
     s32 turn_speed;
-    u32 unk_c[4];
+    u32 extra[4];
 };
 
 struct TObjEneRe4Bit : public TObjEneDD_ST {

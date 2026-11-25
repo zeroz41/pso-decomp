@@ -12,14 +12,6 @@ struct NJS_OBJECT;
 struct BmlResource;
 class TParticleCtrl;
 
-// What TObjEnemy::movementParameters points at for the Gee.
-struct GeeMovementParameters {
-    f32 target_range;
-    f32 move_speed;
-    s32 turn_speed;
-    u32 unknown_0C[4];
-};
-
 // The kind's parameter block (kind_params, from TLobby::dispatch_shared_handler_a); the field layout is
 // shared with TObjEneMe1CanadinParams.
 struct TObjEneMe1GeeParams {

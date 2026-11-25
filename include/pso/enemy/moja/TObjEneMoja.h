@@ -15,7 +15,7 @@ struct MojaMovementParameters {
     f32 target_range;  // find_nearest_visible_player's radius; a farther target is dropped
     f32 move_speed;    // wander and chase speed
     s32 turn_speed;    // turn_toward_direction's max step
-    u32 unknown_0C[4];
+    u32 extra[4];      // BossMovementParameters::extra
 };
 struct MojaParticleAngles {
     s32 x, y, z;

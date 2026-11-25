@@ -18,7 +18,7 @@ struct DelbiterInitialParameters {
     f32 max_distance;
     f32 min_distance;
     s32 turn_speed;
-    u32 unknown_c[4];
+    u32 extra[4];
 };
 
 struct DelbiterMovementParameters {
