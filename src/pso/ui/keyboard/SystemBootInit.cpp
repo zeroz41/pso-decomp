@@ -136,7 +136,7 @@ void shutdown_and_reset_system(void) {
     TWindowSnapShot__sub_802A7DA0();
     TAdWarningBaseGC__sub_8032D188();
     TLobby::destroy_game_heap();
-    TLobby__sub_8022809C();
+    reset_sound_control_state();
     TLobby::shutdown_buffers();
     TAdSinglePlyChrSelectGC::release_all();
     free_info_icon_texture();
@@ -311,7 +311,7 @@ void init_game_systems(void) {
     TLobby::load_now_loading_texture();
     TCharaMaking__sub_8028E790();
     TAdSinglePlyChrSelectGC::init_char_select_globals();
-    TLobby__sub_80226BA4();
+    reset_sound_request_state();
     TLobby::wait_for_sound_init();
     load_info_icon();
     alloc_item_drop_memory_pool();

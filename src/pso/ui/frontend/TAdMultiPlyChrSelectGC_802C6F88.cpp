@@ -48,7 +48,7 @@ void TAdMultiPlyChrSelectTransitionGC::update_transition_anim() {
         fade1 = 1.0f;
         fade0 = (15.0f - (f32) elapsed) / 15.0f;
     }
-    TLobby__sub_8001EA5C(this->position0X, this->position0Y, -1.5f, fade0);
+    draw_play_time_clock(this->position0X, this->position0Y, -1.5f, fade0);
     TLobby__sub_8001E998(this->position1X, this->position1Y, -1.5f, fade1);
 }
 

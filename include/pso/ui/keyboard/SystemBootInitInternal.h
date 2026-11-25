@@ -12,9 +12,9 @@ void init_disc_error_messages(void);
 extern u8 *resource_decompress_buffer;
 
 
-extern "C" {
 extern s32 sound_requests_enabled;
-s32 TLobby__sub_80226BA4(void);
+s32 reset_sound_request_state(void);
+extern "C" {
 void fn_800FFE0C(void);
 void fn_800FFE10(void);
 }

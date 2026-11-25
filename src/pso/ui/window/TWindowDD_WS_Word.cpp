@@ -386,7 +386,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     }
     v0 *= TWindowDD__data_805DFB18;
     v1 *= TWindowDD__data_805DFB18;
-    frac = window_dd_row_height * fn_803D6308(-self->scroll_offset / window_dd_row_height);
+    frac = window_dd_row_height * fractional_part(-self->scroll_offset / window_dd_row_height);
     if (0.0f != frac) {
         count = self->visible_row_count - 1;
         if (frac < 0.0f) {

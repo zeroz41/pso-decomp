@@ -301,7 +301,7 @@ void reload_lobby_floor_scene(void) {
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(2);
-    TLobby__sub_8020A6B0(0xF);
+    load_floor_object_set(0xF);
     initialize_floor_transition(&floor_transition_state, 0xF, TLobby::lobby_number);
     floor_transition_state.set_next_floor_index(0);
     set_current_floor_area(0xF);
@@ -378,7 +378,7 @@ void reload_floor_scene() {
     init_area_lights();
     depart_floor_population();
     clear_floor_population();
-    TLobby__sub_8020A6B0(0xF);
+    load_floor_object_set(0xF);
     arrive_floor_population();
     TLobby::create_tasks();
     TLoadCtrl::cleanup_scene();
@@ -723,7 +723,7 @@ void run_online_lobby_scene(void) {
     }
     TLobby::clear_callback_and_reset_keyboard();
     TLobby__sub_80207F10();
-    TLobby__sub_8020A6B0(0xF);
+    load_floor_object_set(0xF);
     TAdDialingGC::open();
     ((TAdDialingGC *)tl_window)->create();
     online_lobby_scene_handle = TLobby__sub_80146908();

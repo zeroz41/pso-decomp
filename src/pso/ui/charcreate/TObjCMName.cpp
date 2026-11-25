@@ -1550,8 +1550,8 @@ void TObjCMHairMenu::render() {
         pts[2].y *= scale;
         pts[3].y *= scale;
         color.c[3] = 255.0f * t;
-        TObjCMHairMenu__sub_801E3F54(&cols[0].color, TObjCMHairMenu__sub_801E3F54(&cols[1].color,
-            TObjCMHairMenu__sub_801E3F54(&cols[2].color, TObjCMHairMenu__sub_801E3F54(&cols[3].color, &color.rgba))));
+        copy_u32(&cols[0].color, copy_u32(&cols[1].color,
+            copy_u32(&cols[2].color, copy_u32(&cols[3].color, &color.rgba))));
         for (s32 i = 0; i < 3; i++) {
             draw_polygon_2d(&list, 4, 6, -2.75f);
             pts[0].y += step;
@@ -1571,8 +1571,8 @@ void TObjCMHairMenu::render() {
                 }
                 HairBarColor bar_color = hair_bar_colors[i];
                 bar_color.c[3] = 255.0f * t;
-                TObjCMHairMenu__sub_801E3F54(&cols[0].color, TObjCMHairMenu__sub_801E3F54(&cols[1].color,
-                    TObjCMHairMenu__sub_801E3F54(&cols[2].color, TObjCMHairMenu__sub_801E3F54(&cols[3].color, &bar_color.rgba))));
+                copy_u32(&cols[0].color, copy_u32(&cols[1].color,
+                    copy_u32(&cols[2].color, copy_u32(&cols[3].color, &bar_color.rgba))));
                 draw_polygon_2d(&list, 4, 6, -2.4375f);
             }
         }
