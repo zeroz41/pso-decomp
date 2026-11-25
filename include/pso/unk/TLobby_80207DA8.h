@@ -20,9 +20,7 @@ void bswap_enemy_set_row(void *arg0);
 void bswap_enemy_set_row_fields(void *arg0);
 void bswap_floor_event_set(s32 idx);
 void bswap_object_row_fields(void *arg0);
-extern "C" {
 void clear_floor_event_flags(void);
-}
 struct SetDestroyEventRecord;
 void create_empty_floor_event(SetDestroyEventRecord *event);
 void spawn_destroy_event(SetDestroyEventRecord *event);

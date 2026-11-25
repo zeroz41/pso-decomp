@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/save/CardFileInfo.h"
+#include "pso/item/item_create.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
@@ -71,7 +72,6 @@ struct InventorySortBuffer {
 };
 extern "C" {
 void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
-s32 item_identity_matches(u8 *item, u8 *other);
 }
 s32 compare_item_data_masked(void *item, void *other, s32 mode);
 

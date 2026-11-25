@@ -12,9 +12,7 @@ TParticleCtrl *create_attached_oneshot_emitter(void *owner, u16 target_id, s32 i
 }
 void emit_idle_water_splash(PlayerHandParticles *owner, const Vec *position);
 TParticleCtrl *emit_player_model_particle(PlayerHandParticles *owner, const Vec *position, s32 id, s32 model);
-extern "C" {
 TParticleCtrl *emit_player_particle(void *owner, const Vec *position, s32 id);
-}
 void emit_player_sprite_particle(PlayerHandParticles *owner, const Vec *position, s32 id);
 void emit_sand_step_particles(PlayerHandParticles *owner, const Vec *position);
 void emit_water_step_particles(PlayerHandParticles *owner, const Vec *position);

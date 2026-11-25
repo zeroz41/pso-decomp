@@ -167,8 +167,8 @@ typedef struct Send6x7DSetBattleModeDataMsg {
     s32 order[4];
 } Send6x7DSetBattleModeDataMsg;
 
+void obj_clear_flag30_20000(TObjBase *actor);
 extern "C" {
-void obj_clear_flag30_20000(void *);
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern const char *dead_spot_class_name;
@@ -289,11 +289,11 @@ extern "C" {
 s32 fn_801D6D8C(void *, int, int);
 s32 fn_801D726C(void *, int);
 s32 fn_801D72B0(void *, int);
+}
 extern u32 player_slot_table[];
 
 extern s32 battle_intro_value_table[];
-void obj_clear_flag30_20000(void *actor);
-}
+void obj_clear_flag30_20000(TObjBase *actor);
 
 extern "C" {
 
@@ -718,7 +718,7 @@ void TPlayerBattleCtrl::update_duel_result() {
         }
         p = (void *)(saddr)get_local_player();
         if (p != NULL) {
-            obj_clear_flag30_20000(p);
+            obj_clear_flag30_20000((TObjBase *)p);
         }
         TWindowCtrl::close_timer_window();
         TWindowCtrl::suppress_slot(local_client_id);
@@ -1264,7 +1264,7 @@ void TPlayerBattleCtrl::start_duel_battle() {
     start_time = OSGetTime();
     TLobby::handle_battle_result((u16)local_client_id, 1);
     if ((p = (saddr)get_local_player()) != 0) {
-        obj_clear_flag30_20000((void *)p);
+        obj_clear_flag30_20000((TObjBase *)p);
     }
     TLobby::clear_counter(this);
     area = get_current_floor_area();

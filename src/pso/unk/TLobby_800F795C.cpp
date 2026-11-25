@@ -1,4 +1,5 @@
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
+#include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/map/FloorResourceCallbacks.h"
@@ -186,7 +187,6 @@ s32 load_current_floor_resources(void) {
 extern "C" {
 
 void load_boss5_gryphon_resources();
-void load_darkgunner_effect_resources();
 
 
 FloorResourceCallbacks floor_resource_callbacks_selector_00[43] = {

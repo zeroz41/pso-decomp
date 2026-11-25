@@ -4,8 +4,6 @@
 #include "types.h"
 
 // Defined in SwitcherLaunch.cpp: loads switcher.dol and starts it on the given page.
-extern "C" {
 s32 launch_switcher_dol(const char *url);
-}
 
 #endif

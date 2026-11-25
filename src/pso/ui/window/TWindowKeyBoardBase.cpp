@@ -1,4 +1,5 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
+#include "pso/quest/QuestDownloadAramFile.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/ResourceFile.h"
@@ -908,7 +909,6 @@ void TWindowKeyBoardBase::draw_input_text(WindowDrawContext *ctx) {
 }
 extern "C" {
 s32 ARAlloc(s32);
-void aram_dma_setup(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 
 void TWindowKeyBoardBase::render() {
     if ((sub_8025EB68() == 0) && ((sub_8025CB10() != 0) || (this->request_flags & 2))) {

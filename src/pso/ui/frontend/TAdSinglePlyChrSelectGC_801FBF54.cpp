@@ -1,4 +1,5 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
+#include "pso/item/item_create.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -151,7 +152,6 @@ void TAdSinglePlyChrSelectGC__sub_80203210(void *p);
 int fn_8020325C(void *arg0);
 s32 TLobby__sub_8030A770();
 s32 get_game_play_mode();
-s32 item_identity_matches(u8 *arg0, u8 *arg1);
 }
 
 
@@ -250,7 +250,7 @@ s32 CharacterSaveRecord::find_bank_item(saddr item) {
     entry = bank_items;
     i = 0;
     do {
-        if ((entry->is_empty() == 0) && (item_identity_matches((u8 *)item, entry->item.data1.data_u8) != 0)) {
+        if ((entry->is_empty() == 0) && (item_identity_matches((u8 *)item, (u8 *)entry->item.data1.data_u8) != 0)) {
             return 1;
         }
         i++;
