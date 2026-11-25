@@ -343,16 +343,16 @@ void TWindowSubSymbolChatParts::draw_part_choices(WindowDrawContext *ctx) {
 void TWindowSubSymbolChatParts::draw_part_icons(WindowDrawContext *ctx) {
     s32 i;
     s32 j;
-    f32 *e0;
+    WindowSpritePart *e0;
     s32 row;
-    f32 *e1;
+    WindowSpritePart *e1;
     f32 y;
     f32 off;
     f32 x;
     f32 h;
     row = 0;
-    e1 = (f32 *)get_array_entry(1);
-    e0 = (f32 *)get_array_entry(0);
+    e1 = (WindowSpritePart *)get_array_entry(1);
+    e0 = (WindowSpritePart *)get_array_entry(0);
     h = 32.0f;
     for (i = 0; i < item_count; row++) {
         off = 40.0f * (f32)row;
@@ -364,10 +364,10 @@ void TWindowSubSymbolChatParts::draw_part_icons(WindowDrawContext *ctx) {
             x = 9.0f + off;
             for (j = 0; j < 4; j++, i++) {
                 if (i >= item_count) break;
-                e0[2] = 40.0f * (f32)j + 10.0f;
-                e0[3] = x;
-                e1[2] = 16.0f + e0[2];
-                e1[3] = 16.0f + e0[3];
+                e0->x = 40.0f * (f32)j + 10.0f;
+                e0->y = x;
+                e1->x = 16.0f + e0->x;
+                e1->y = 16.0f + e0->y;
                 TWindowSubSymbolChatPartsSet::set_part_sprite(e1, (s16)i, *m_7c, *m_80);
                 draw_visible_window_entries(this, &entry_list, ctx);
             }
