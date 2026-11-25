@@ -290,7 +290,7 @@ void TGStream::align_read_offset(s32 alignment) {
     gstream_buffer_read_offset = alignment * ((gstream_buffer_read_offset + alignment - 1) / alignment);
 }
 
-s32 TGStream::read_data(saddr dst, s32 size) {
+s32 TGStream::read_data(void *dst, s32 size) {
     s32 total;
     s32 n;
     total = 0;
@@ -303,8 +303,8 @@ s32 TGStream::read_data(saddr dst, s32 size) {
         } else {
             n = get_gstream_buffered_bytes();
         }
-        move_data((void *)(dst), (const void *)((const void *)(gstream_tmp_buffer + gstream_buffer_read_offset)), (u32)n);
-        dst += n;
+        move_data(dst, (const void *)(gstream_tmp_buffer + gstream_buffer_read_offset), (u32)n);
+        dst = (u8 *)dst + n;
         size -= n;
         total += n;
         gstream_buffer_read_offset += n;
