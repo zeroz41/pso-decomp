@@ -716,7 +716,6 @@ pso/ui/keyboard/KBDXfer.c
 pso/effect/TKomorebi.cpp
 pso/system/TLanguage.cpp
 pso/system/TLanguage_801A5694.cpp
-pso/system/TLanguage_803DAF68.cpp
 pso/object/container/TContainerAncient01_8018A55C.cpp
 pso/ui/TLevelSelect.cpp
 pso/system/TLoadCtrl.cpp
@@ -1952,8 +1951,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.cpp
 pso/unk/text_803DA12C.cpp
 pso/unk/text_803DA16C.cpp
 pso/unk/text_803DA798.cpp
-pso/unk/text_803DAF30.cpp
-pso/unk/text_803DAFA8.cpp
+pso/render/GinjaTextureHeader.cpp
 pso/render/gjSystem.c
 pso/render/RenderSbssGlobals.cpp
 pso/render/RenderUtilSdata.cpp

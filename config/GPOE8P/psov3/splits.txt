@@ -11073,14 +11073,8 @@ pso/render/GinjaTextureTable.cpp:
 pso/unk/text_803DA798.cpp:
 	.text       start:0x803DA798 end:0x803DAF30
 
-pso/unk/text_803DAF30.cpp:
-	.text       start:0x803DAF30 end:0x803DAF68
-
-pso/system/TLanguage_803DAF68.cpp:
-	.text       start:0x803DAF68 end:0x803DAFA8
-
-pso/unk/text_803DAFA8.cpp:
-	.text       start:0x803DAFA8 end:0x803DB23C
+pso/render/GinjaTextureHeader.cpp:
+	.text       start:0x803DAF30 end:0x803DB23C
 
 pso/render/GinjaModelQueue.cpp:
 	.text       start:0x803DB23C end:0x803DB470
