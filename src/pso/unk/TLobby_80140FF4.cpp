@@ -16,7 +16,7 @@ void TLobby::create_map_csn_ctrl() {
 
 CsnGroup *get_map_collision_group(TObjMapCsn *object) { return &object->collision_group; }
 
-void initialize_floor_transition(Obj_80515BA0 *transition, s32 floor, s32 map) {
+void initialize_floor_transition(FloorTransition *transition, s32 floor, s32 map) {
     s32 next_floor;
     transition->current_floor = floor;
     next_floor = floor + 1;

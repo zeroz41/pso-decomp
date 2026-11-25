@@ -14,7 +14,7 @@ QuestDownloadCachePage *file_page_cache_head;
 s32 quest_download_name_search_lo;
 s32 quest_download_name_search_hi;
 
-s32 TQuestVmDownLoadServer__sub_803E6970(s32 start, s32 count, u16 *buf, s32 flag) {
+s32 render_input_entries_text(s32 start, s32 count, u16 *buf, s32 flag) {
     QuestDownloadInputEntry *e;
     u16 *dst;
     QuestDownloadInputEntry *end;

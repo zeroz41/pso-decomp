@@ -1006,7 +1006,7 @@ typedef struct {
 s8 func_801A5E54__Fv(void);
 
 #define disk_error_msg_last ((Msg_800F8FB8 *)disk_error_msg_last)
-#define show_msg_800F8FB8(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
+#define show_disk_error_msg(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
 
 s32 TLobby::run_disk_error_check() {
     NJS_POINT2 pos[4];
@@ -1047,7 +1047,7 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)0)->draw_fullscreen_texture_quad();
         } else {
-            show_msg_800F8FB8(disk_error_msg_table, 0);
+            show_disk_error_msg(disk_error_msg_table, 0);
         }
         break;
     case 1:
@@ -1063,7 +1063,7 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)1)->draw_fullscreen_texture_quad();
         } else {
-            show_msg_800F8FB8(disk_error_msg_table, 1);
+            show_disk_error_msg(disk_error_msg_table, 1);
         }
         if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();
@@ -1076,9 +1076,9 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)2)->draw_fullscreen_texture_quad();
         } else if (get_main_phase() == 0xF) {
-            show_msg_800F8FB8(disk_error_msg_last, 0);
+            show_disk_error_msg(disk_error_msg_last, 0);
         } else {
-            show_msg_800F8FB8(disk_error_msg_table, 2);
+            show_disk_error_msg(disk_error_msg_table, 2);
         }
         if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();
@@ -1091,7 +1091,7 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)3)->draw_fullscreen_texture_quad();
         } else {
-            show_msg_800F8FB8(disk_error_msg_table, 3);
+            show_disk_error_msg(disk_error_msg_table, 3);
         }
         if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();
@@ -1105,7 +1105,7 @@ s32 TLobby::run_disk_error_check() {
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)4)->draw_fullscreen_texture_quad();
         } else {
-            show_msg_800F8FB8(disk_error_msg_table, 4);
+            show_disk_error_msg(disk_error_msg_table, 4);
         }
         if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();

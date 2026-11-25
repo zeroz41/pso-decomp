@@ -22,19 +22,19 @@ struct NormalizeBattleRuleValueBObject { u8 pad[0x9]; u8 v; };
 struct TLobbyObject3 { u8 pad[0x7]; u8 v; };
 
 extern "C" {
-u8 ret_801D78EC(ClampValueBelow200Object *p);
-u8 ret_801D790C(NormalizeBattleRuleValueObject *p);
-u8 ret_801D78F4(TLobbyObject *p);
+u8 default_setting_16(ClampValueBelow200Object *p);
+u8 default_setting_0B(NormalizeBattleRuleValueObject *p);
+u8 default_setting_0E(TLobbyObject *p);
 u8 TLobby__sub_801D6F94(TLobbyObject *p);
-u8 ret_801D78FC(ClampValueBelow2Object *p);
-u8 ret_801D7904(TLobbyObject2 *p);
+u8 default_setting_0D(ClampValueBelow2Object *p);
+u8 default_setting_0C(TLobbyObject2 *p);
 u8 TLobby__sub_801D6FFC(TLobbyObject2 *p);
-u8 ret_801D7914(GetRuleFieldAObject *p);
-u8 ret_801D7924(ClampRuleValue2Object *p);
-u8 ret_801D791C(NormalizeBattleRuleValueBObject *p);
-u8 ret_801D792C(TLobbyObject3 *p);
+u8 default_setting_0A(GetRuleFieldAObject *p);
+u8 default_setting_08(ClampRuleValue2Object *p);
+u8 default_setting_09(NormalizeBattleRuleValueBObject *p);
+u8 default_setting_07(TLobbyObject3 *p);
 u8 TLobby__sub_801D7100(TLobbyObject3 *p);
-u8 ret_801D78E4();
+u8 default_setting_18();
 
 void TLobby::set_volume(u8 vol) {
     u8 var_r4;
@@ -102,21 +102,21 @@ u8 TLobby::get_clamped_level() {
 
     temp_r0 = *(s16 *)((s8 *)this + 0x18);
     if (temp_r0 >= 0x1E) {
-        return ret_801D78E4();
+        return default_setting_18();
     }
     return (u8) temp_r0;
 }
 s16 TLobby::clamp_value_below_200() {
     ClampValueBelow200Object *p = (ClampValueBelow200Object *)this;
     if (p->v >= 200) {
-        return ret_801D78EC(p);
+        return default_setting_16(p);
     }
     return p->v;
 }
 
 u8 TLobby__sub_801D6F94(TLobbyObject *p) {
     if (p->v >= 2) {
-        return ret_801D78F4(p);
+        return default_setting_0E(p);
     }
     return p->v;
 }
@@ -124,14 +124,14 @@ u8 TLobby__sub_801D6F94(TLobbyObject *p) {
 u8 TLobby::clamp_value_below_2() {
     ClampValueBelow2Object *p = (ClampValueBelow2Object *)this;
     if (p->v >= 2) {
-        return ret_801D78FC(p);
+        return default_setting_0D(p);
     }
     return p->v;
 }
 
 u8 TLobby__sub_801D6FFC(TLobbyObject2 *p) {
     if (p->v >= 3) {
-        return ret_801D7904(p);
+        return default_setting_0C(p);
     }
     return p->v;
 }
@@ -139,14 +139,14 @@ u8 TLobby__sub_801D6FFC(TLobbyObject2 *p) {
 u8 TLobby::normalize_battle_rule_value() {
     NormalizeBattleRuleValueObject *p = (NormalizeBattleRuleValueObject *)this;
     if (p->v >= 2) {
-        return ret_801D790C(p);
+        return default_setting_0B(p);
     }
     return p->v;
 }
 u8 TLobby::get_rule_field_a() {
     GetRuleFieldAObject *p = (GetRuleFieldAObject *)this;
     if (p->v >= 2) {
-        return ret_801D7914(p);
+        return default_setting_0A(p);
     }
     return p->v;
 }
@@ -154,7 +154,7 @@ u8 TLobby::get_rule_field_a() {
 u8 TLobby::normalize_battle_rule_value_b() {
     NormalizeBattleRuleValueBObject *p = (NormalizeBattleRuleValueBObject *)this;
     if (p->v >= 2) {
-        return ret_801D791C(p);
+        return default_setting_09(p);
     }
     return p->v;
 }
@@ -162,13 +162,13 @@ u8 TLobby::normalize_battle_rule_value_b() {
 u8 TLobby::clamp_rule_value_2() {
     ClampRuleValue2Object *p = (ClampRuleValue2Object *)this;
     if (p->v >= 2) {
-        return ret_801D7924(p);
+        return default_setting_08(p);
     }
     return p->v;
 }
 u8 TLobby__sub_801D7100(TLobbyObject3 *p) {
     if (p->v >= 3) {
-        return ret_801D792C(p);
+        return default_setting_07(p);
     }
     return p->v;
 }

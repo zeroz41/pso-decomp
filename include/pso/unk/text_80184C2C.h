@@ -19,12 +19,12 @@ void TLobby__sub_80184CE0(void *p);
 }
 BmlResource *get_season_model_resource(int a0);
 
-extern StripBufferPair *lbl_805D5B34;
-extern BmlResource *lbl_805D5B38;
-extern saddr lbl_805D5B3C;
-extern saddr lbl_805D5B40;
-extern NJS_TEXLIST *lbl_805D5B44;
-extern StripBufferPair *lbl_805D5B48;
+extern StripBufferPair *city_season_strips;
+extern BmlResource *city_season_board_resource;
+extern saddr city_season_board_model;
+extern saddr city_season_board_aux;
+extern NJS_TEXLIST *city_season_board_texlist;
+extern StripBufferPair *city_season_board_strips;
 
 
 #endif

@@ -195,7 +195,7 @@ void init_event_shuffle_table(EventShuffleTable *table, s32 count);
 s32 next_event_shuffle_entry(EventShuffleTable *s);
 extern "C" {
 
-void TLobby__sub_802097B0(s16 id) {
+void select_event_shuffle_table(s16 id) {
     TLobbyEntry e;
     TLobbyHdr2 hdr = *(TLobbyHdr2 *)lbl_805D60AC;
     u8 *table;
@@ -209,16 +209,16 @@ void TLobby__sub_802097B0(s16 id) {
     hi = hdr.count - 1;
     while (lo < hi) {
         mid = (lo + hi) / 2;
-        TLobby__sub_8020A3D0(&e, table + mid * 8);
-        TLobby__sub_8020A394(&e);
+        copy_event_table_entry(&e, table + mid * 8);
+        bswap_event_table_entry(&e);
         if (e.id < id) {
             lo = mid + 1;
         } else {
             hi = mid;
         }
     }
-    TLobby__sub_8020A3D0(&e, table + lo * 8);
-    TLobby__sub_8020A394(&e);
+    copy_event_table_entry(&e, table + lo * 8);
+    bswap_event_table_entry(&e);
     if (e.id == id) {
         lbl_805D60B8 = (DestroyEventShuffleTableEntry *)((uaddr)lbl_805D60AC + hdr.data + e.offset);
         init_event_shuffle_table(challenge_event_shuffle, e.count);
@@ -250,7 +250,7 @@ AppendRecord *bsearch_record__6TLobbyFPvii(void *arg0, s32 n, s32 key) {
     while (lo < hi) {
         mid = (lo + hi) / 2;
         ((TLobby *)(&t))->copy_record_entry((saddr)(arr + mid * 32));
-        TLobby__sub_8020A48C(&t);
+        bswap_item_data_record(&t);
         if (t.v < key) {
             lo = mid + 1;
         } else {
@@ -259,21 +259,21 @@ AppendRecord *bsearch_record__6TLobbyFPvii(void *arg0, s32 n, s32 key) {
     }
     e = arr + lo * 32;
     ((TLobby *)(&t))->copy_record_entry((saddr)e);
-    TLobby__sub_8020A48C(&t);
+    bswap_item_data_record(&t);
     if (t.v == key) {
         return (AppendRecord *)e;
     }
     return NULL;
 }
 
-void TLobby__sub_802099FC(AppendOut *arg0, s32 key) {
+void lookup_item_data_record(AppendOut *arg0, s32 key) {
     TLobbyHdr hdr = *(TLobbyHdr *)item_data_table_buffer;
     AppendRecord *p;
-    TLobby__sub_8020A568(&hdr);
+    bswap_table_header(&hdr);
     p = (AppendRecord *)TLobby::bsearch_record((void *)(item_data_table_buffer + hdr.table), hdr.count, key);
     if (p != NULL) {
         AppendRecord r = *p;
-        TLobby__sub_8020A48C(&r);
+        bswap_item_data_record(&r);
         arg0->f[0] = r.f[0];
         arg0->f[1] = r.f[1];
         arg0->f[2] = r.f[2];
@@ -292,7 +292,7 @@ void TLobby::pick_weighted_entry(s32 *key, s32 *slot) {
     u32 r;
     s32 i;
     s32 n;
-    TLobby__sub_8020A568(&hdr);
+    bswap_table_header(&hdr);
     tbl = (PickWeightedEntryEntry *)(item_data_table_buffer + hdr.table);
     n = hdr.count;
     total = 0;
@@ -330,7 +330,7 @@ s32 pick_random_slot__6TLobbyFPv(s16 *arg0) {
     TLobby::pick_weighted_entry(&key, &sp8);
     if ((key != -1) && (sp8 != -1)) {
         *arg0 = (s16) lobby_random_slot_id_table[sp8];
-        TLobby__sub_802099FC((AppendOut *)arg0, key);
+        lookup_item_data_record((AppendOut *)arg0, key);
         ((TLobby *)arg0)->pick_random_entry();
         return 0;
     }
@@ -442,7 +442,7 @@ void build_challenge_enemy_set(s32 floor) {
         id = event.id;
         while (waves-- > 0) {
             enemies = TLobby::clamp_min_drop(event.minEnemies, event.maxEnemies + 1);
-            TLobby__sub_802097B0(event.room);
+            select_event_shuffle_table(event.room);
             while (enemies-- > 0) {
                 u8 *placement = challenge_enemy_buffer + enemyOffset;
                 if (TLobby::pick_random_slot(reinterpret_cast<s16 *>(placement)) == 0) {
@@ -595,9 +595,9 @@ void TLobby__sub_8020A2AC(void) {
 
 void TLobby::bswap_quad_word() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); }
 
-void TLobby__sub_8020A394(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_32((u32 *)((char*)p + 0x4)); }
+void bswap_event_table_entry(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_32((u32 *)((char*)p + 0x4)); }
 
-void TLobby__sub_8020A3D0(void *arg0, void *arg1) {
+void copy_event_table_entry(void *arg0, void *arg1) {
     *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
     *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
@@ -607,7 +607,7 @@ void TLobby::bswap_vec3() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this 
 
 void TLobby::swap_header_endian() { bswap_32((u32 *)this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_32((u32 *)((char*)this + 0x14)); bswap_16((u16 *)((char*)this + 0x18)); bswap_16((u16 *)((char*)this + 0x1a)); }
 
-void TLobby__sub_8020A48C(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); bswap_32((u32 *)((char*)p + 0x10)); bswap_16((u16 *)((char*)p + 0x14)); bswap_16((u16 *)((char*)p + 0x16)); bswap_16((u16 *)((char*)p + 0x18)); bswap_16((u16 *)((char*)p + 0x1a)); bswap_16((u16 *)((char*)p + 0x1c)); bswap_16((u16 *)((char*)p + 0x1e)); }
+void bswap_item_data_record(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); bswap_32((u32 *)((char*)p + 0x10)); bswap_16((u16 *)((char*)p + 0x14)); bswap_16((u16 *)((char*)p + 0x16)); bswap_16((u16 *)((char*)p + 0x18)); bswap_16((u16 *)((char*)p + 0x1a)); bswap_16((u16 *)((char*)p + 0x1c)); bswap_16((u16 *)((char*)p + 0x1e)); }
 
 // ---- pso/unk/text_8020A508
 
@@ -629,7 +629,7 @@ void TLobby::copy_record_entry(saddr src) {
 
 // ---- pso/unk/TLobby_8020A568
 
-void TLobby__sub_8020A568(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
+void bswap_table_header(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
 
 void ChallengeRandomEvent::swap_endian() {
     bswap_32(reinterpret_cast<u32 *>(&id));

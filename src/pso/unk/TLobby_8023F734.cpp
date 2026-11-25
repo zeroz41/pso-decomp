@@ -512,7 +512,7 @@ typedef struct ResolveSoundEffectBankRange {
 
 SoundRequestVoice sound_request_voices[0x28];
 u8 lbl_80517BEC[0x258];   // contents of SOUND.BIN (read by init_sound_aux_effects)
-void *lbl_80517E44[0x27];  // MusyX sdir buffers per sound bank (inferred)
+void *musyx_sdir_buffers[0x27];  // MusyX sdir buffers per sound bank (inferred)
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
 s32 sndOutputMode(s32);
@@ -772,7 +772,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
         }
     }
     sndPushGroup((void *)self->ents[id].h[0], sound_bank_group_ids[id], (void *)self->ents[id].h[3],
-                 lbl_80517E44[self->ents[id].k[2] / 4], (void *)self->ents[id].h[1]);
+                 musyx_sdir_buffers[self->ents[id].k[2] / 4], (void *)self->ents[id].h[1]);
     self->stack[self->depth] = id;
     self->depth++;
     if (self->ents[id].h[3] != 0) {
@@ -957,18 +957,18 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     sndAuxCallbackPrepareChorus(&self->chorus);
     sndSetAuxProcessingCallbacks(0, sndAuxCallbackReverbHI, self, 0xFF, 0, sndAuxCallbackChorus, &self->chorus, 0xFF,
                                  0);
-    memset(lbl_80517E44, 0, 38 * sizeof(void *));
+    memset(musyx_sdir_buffers, 0, 38 * sizeof(void *));
     for (i = 0; i < 38; i++) {
         size = (sound_bank_file_sizes[sound_bank_file_indices[i][2]] + 0x7FF) & ~0x7FF;
-        lbl_80517E44[i] = xmalloc(size);
-        if (lbl_80517E44[i] == NULL) {
+        musyx_sdir_buffers[i] = xmalloc(size);
+        if (musyx_sdir_buffers[i] == NULL) {
             return 3;
         }
-        memset(lbl_80517E44[i], 0, size);
+        memset(musyx_sdir_buffers[i], 0, size);
         AdxfHandle *handle = ADXF_OpenAfs(0, sound_bank_file_indices[i][2]);
         if (handle != NULL) {
-            ADXF_ReadNw(handle, (s32)size / 2048, lbl_80517E44[i]);
-            TLobby::set_read_params(&handle, (s32)size / 2048, (saddr)lbl_80517E44[i]);
+            ADXF_ReadNw(handle, (s32)size / 2048, musyx_sdir_buffers[i]);
+            TLobby::set_read_params(&handle, (s32)size / 2048, (saddr)musyx_sdir_buffers[i]);
             do {
                 TLobby__sub_803382E4();
                 TLobby::run_disk_error_check();

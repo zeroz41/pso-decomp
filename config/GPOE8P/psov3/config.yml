@@ -8191,8 +8191,8 @@ force_active:
   - lbl_805137C8
   - lbl_80513918
   - lbl_80513F70
-  - lbl_80514CE0
-  - lbl_80514CE8
+  - music_slot_cues
+  - music_slot_progress
   - lbl_80514CF0
   - lbl_80514D40
   - lbl_8051607C
@@ -15600,7 +15600,7 @@ force_active:
   - set_model__14TDrawableModelFPv
   - set_owner_id__21PlayerFollowParticlesFUs
   - init__24G_DragonBossActions_6x12Fv
-  - set_next_floor_index__12Obj_80515BA0Fl
+  - set_next_floor_index__15FloorTransitionFl
   - set_visible_flag__14TBoss6PlotFalzFv
   - set_volopt_cage_flag__Fv
   - __ct__23TItemWeaponRainbowBatonFP7TObjectPUc

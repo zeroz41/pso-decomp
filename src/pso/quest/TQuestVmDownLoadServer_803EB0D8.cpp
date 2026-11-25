@@ -101,7 +101,7 @@ inline QuestDownloadTextNode *Advance_803EB0D8(QuestDownloadTextNode *p, s32 n) 
 inline void Reload_803EB0D8(void) {
     s32 r = TQuestVmDownLoadServer::count_fitting_entries(quest_page_node_head);
     if (r == 0) {
-        TQuestVmDownLoadServer__sub_803EC284(0, 0);
+        seek_quest_text_page(0, 0);
     } else {
         quest_page_node_count = r;
     }
@@ -111,7 +111,7 @@ s32 quest_text_prev_page(s32 mode, s32 force) {
     QuestDownloadTextNode *save = quest_page_node_head;
     s32 cnt = quest_page_node_count;
     u8 unused[8];
-    TQuestVmDownLoadServer__sub_803EC284(0, 0);
+    seek_quest_text_page(0, 0);
     if (save == quest_page_node_head) {
         if (force == 0) {
             quest_page_node_head = save;
@@ -184,7 +184,7 @@ s32 quest_text_next_page(s32 mode, s32 force) {
             quest_page_node_head = save;
             return 0;
         }
-        TQuestVmDownLoadServer__sub_803EC284(0, 0);
+        seek_quest_text_page(0, 0);
     } else {
         quest_page_node_count = count;
     }
@@ -240,11 +240,11 @@ inline s32 group_name_text(QuestDownloadTextNode *p, u16 *buf) {
 s32 write_entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u16 *buf) {
     s32 n;
     if (node == NULL || (node->flags & 0x80)) {
-        return TQuestVmDownLoadServer__sub_803E6970(start, count, buf, 0);
+        return render_input_entries_text(start, count, buf, 0);
     }
     n = group_name_text(node, buf);
     buf += n;
-    return n + TQuestVmDownLoadServer__sub_803E6970((s32)(start + node->len), (s32)(count - node->len), buf, 0);
+    return n + render_input_entries_text((s32)(start + node->len), (s32)(count - node->len), buf, 0);
 }
 #pragma pop
 
@@ -265,11 +265,11 @@ inline s32 count_entry_groups(QuestDownloadTextNode *p) {
 inline s32 entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u16 *buf) {
     s32 n;
     if (node == NULL || (node->flags & 0x80)) {
-        return TQuestVmDownLoadServer__sub_803E6970(start, count, buf, 0);
+        return render_input_entries_text(start, count, buf, 0);
     }
     n = group_name_text(node, buf);
     buf += n;
-    return n + TQuestVmDownLoadServer__sub_803E6970(start + node->len, count - node->len, buf, 0);
+    return n + render_input_entries_text(start + node->len, count - node->len, buf, 0);
 }
 void render_quest_text_page(void) {
     u8 *p;
@@ -391,7 +391,7 @@ inline s32 Conv_803EB8BC(s32 start, s32 count, QuestDownloadTextNode *node, u16 
     s32 lim = count;
     u8 unused[8];
     if (node == NULL || (node->flags & 0x80)) {
-        return TQuestVmDownLoadServer__sub_803E6970(start, lim, b, 0);
+        return render_input_entries_text(start, lim, b, 0);
     }
     p = node;
     n = 0;
@@ -403,7 +403,7 @@ inline s32 Conv_803EB8BC(s32 start, s32 count, QuestDownloadTextNode *node, u16 
         p = p->next;
     }
     b += n;
-    return n + TQuestVmDownLoadServer__sub_803E6970((s32)(start + node->len), (s32)(lim - node->len), b, 0);
+    return n + render_input_entries_text((s32)(start + node->len), (s32)(lim - node->len), b, 0);
 }
 inline s32 Find_803EB8BC(u8 *key, s32 len) {
     s32 l;
@@ -466,7 +466,7 @@ inline s32 Conv_803EBA98(s32 start, s32 count, QuestDownloadTextNode *node, u16 
     s32 lim = count;
     u8 unused[8];
     if (node == NULL || (node->flags & 0x80)) {
-        return TQuestVmDownLoadServer__sub_803E6970(start, lim, b, 0);
+        return render_input_entries_text(start, lim, b, 0);
     }
     p = node;
     n = 0;
@@ -478,7 +478,7 @@ inline s32 Conv_803EBA98(s32 start, s32 count, QuestDownloadTextNode *node, u16 
         p = p->next;
     }
     b += n;
-    return n + TQuestVmDownLoadServer__sub_803E6970((s32)(start + node->len), (s32)(lim - node->len), b, 0);
+    return n + render_input_entries_text((s32)(start + node->len), (s32)(lim - node->len), b, 0);
 }
 inline QuestDownloadTextNode *Next_803EBA98(QuestDownloadTextNode *p) {
     while (p->flags & 1) {
@@ -786,7 +786,7 @@ void TQuestVmDownLoadServer__sub_803EC09C(void) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TQuestVmDownLoadServer__sub_803EC284(s32 pos, s32 mode) {
+void seek_quest_text_page(s32 pos, s32 mode) {
     QuestDownloadTextNode *p;
     s32 n;
     if (mode == 1) {
@@ -806,7 +806,7 @@ void TQuestVmDownLoadServer__sub_803EC284(s32 pos, s32 mode) {
         }
         n = count_fitting_groups(p);
         if (n == 0) {
-            TQuestVmDownLoadServer__sub_803EC284(0, 0);
+            seek_quest_text_page(0, 0);
             goto done;
         }
     }

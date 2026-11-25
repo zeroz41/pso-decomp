@@ -152,19 +152,19 @@ void TChallenge4PResult::update_input() {
     }
 }
 void TChallenge4PResult::handle_result_code() {
-    u8 *arg0 = (u8 *)this;
+    TChallenge4PResult *arg0 = (TChallenge4PResult *)this;
     switch (challenge_check_rank_time((this->result_code), (this->slot_index))) {
     case 2:
-        ((TChallenge4PResult *)arg0)->handle_third_reward();
+        arg0->handle_third_reward();
         return;
     case 1:
-        ((TChallenge4PResult *)arg0)->sub_8034B918();
+        arg0->sub_8034B918();
         return;
     case 0:
-        ((TChallenge4PResult *)arg0)->sub_8034B8BC();
+        arg0->sub_8034B8BC();
         return;
     case -1:
-        ((TChallenge4PResult *)arg0)->sub_8034B8B0();
+        arg0->sub_8034B8B0();
         return;
     case -2:
         init();

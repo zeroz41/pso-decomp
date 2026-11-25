@@ -43,7 +43,7 @@ s32 quest_bin_download_complete;
 s32 quest_pvr_download_complete;
 s32 quest_gba_download_complete;
 u8 quest_download_kind;
-uaddr quest_download_window;
+TWindowMessage *quest_download_window;
 s32 quest_download_in_progress;
 s32 quest_total_download_bytes;
 s32 quest_received_file_bytes;
@@ -123,9 +123,9 @@ void TQuestVmDownLoadServer::free_download_buffers() {
     QuestDownloadRecord *s2;
     QuestDownloadRecord *s3;
 
-    if (quest_download_window != 0) {
-        ((TWindowBase *)quest_download_window)->close();
-        quest_download_window = 0;
+    if (quest_download_window != NULL) {
+        quest_download_window->close();
+        quest_download_window = NULL;
     }
     s0 = &quest_download_file_state;
     if (s0->data != 0) {
@@ -155,9 +155,9 @@ void TQuestVmDownLoadServer::free_download_buffers() {
 void TQuestVmDownLoadServer::free_buffers() {
     QuestDownloadRecord *s;
 
-    if (quest_download_window != 0U) {
-        ((TWindowBase *)quest_download_window)->close();
-        quest_download_window = 0U;
+    if (quest_download_window != NULL) {
+        quest_download_window->close();
+        quest_download_window = NULL;
     }
     s = &quest_download_file_state;
     if (s->data != 0) {
@@ -198,12 +198,12 @@ void TQuestVmDownLoadServer::begin_file_download() {
     char *ext;
     QuestDownloadRecord *s;
 
-    if (quest_download_window == 0) {
+    if (quest_download_window == NULL) {
         static const DownloadWindowPos window_size = {444.0f, 84.0f};
         DownloadWindowPos pos = window_size;
-        quest_download_window = (uaddr)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (saddr)&pos, 1);
-        ((TWindowMessage *)quest_download_window)->append_line(get_message_text(0x3E), 0x81);
-        ((TWindowMessage *)quest_download_window)->complete_reveal();
+        quest_download_window = (TWindowMessage *)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (saddr)&pos, 1);
+        quest_download_window->append_line(get_message_text(0x3E), 0x81);
+        quest_download_window->complete_reveal();
         quest_total_download_bytes = 0;
         quest_received_file_bytes = 0;
     }
@@ -288,9 +288,9 @@ void TQuestVmDownLoadServer::receive_file_chunk() {
     switch ((s8)quest_download_kind) {
     case 0:
         if (quest_dat_download_complete != 0 && quest_bin_download_complete != 0) {
-            if (quest_download_window != 0) {
-                ((TWindowBase *)quest_download_window)->close();
-                quest_download_window = 0;
+            if (quest_download_window != NULL) {
+                quest_download_window->close();
+                quest_download_window = NULL;
             }
             v = TQuestVmDownLoadServer::get_serial_access();
             if (v == 0) {
@@ -306,9 +306,9 @@ void TQuestVmDownLoadServer::receive_file_chunk() {
     case 1:
         if (quest_dat_download_complete != 0 && quest_bin_download_complete != 0 &&
             quest_pvr_download_complete != 0) {
-            if (quest_download_window != 0) {
-                ((TWindowBase *)quest_download_window)->close();
-                quest_download_window = 0;
+            if (quest_download_window != NULL) {
+                quest_download_window->close();
+                quest_download_window = NULL;
             }
             v = TQuestVmDownLoadServer::get_serial_access();
             if (v == 0) {
@@ -323,9 +323,9 @@ void TQuestVmDownLoadServer::receive_file_chunk() {
         break;
     case 2:
         if (quest_gba_download_complete != 0) {
-            if (quest_download_window != 0) {
-                ((TWindowBase *)quest_download_window)->close();
-                quest_download_window = 0;
+            if (quest_download_window != NULL) {
+                quest_download_window->close();
+                quest_download_window = NULL;
             }
             TAdWarningBaseGC::create();
         }
@@ -439,11 +439,11 @@ TQuestVmDownLoadServer::~TQuestVmDownLoadServer() {
         mc_select = NULL;
     }
     if (status_window != NULL) {
-        ((TWindowBase *)status_window)->close();
+        status_window->close();
         status_window = NULL;
     }
     if (icon_menu != NULL) {
-        ((TWindowBase *)icon_menu)->close();
+        icon_menu->close();
         icon_menu = NULL;
     }
     close_message();
@@ -452,95 +452,95 @@ TQuestVmDownLoadServer::~TQuestVmDownLoadServer() {
 }
 
 void TQuestVmDownLoadServer::run_task() {
-    u8 *self_bytes = (u8 *)this;
-    ((TQuestVmDownLoadServer *)self_bytes)->check_client_connections();
+    TQuestVmDownLoadServer *self_bytes = (TQuestVmDownLoadServer *)this;
+    self_bytes->check_client_connections();
     switch (state) {
     case 0:
-        ((TQuestVmDownLoadServer *)self_bytes)->count_download_file_blocks();
+        self_bytes->count_download_file_blocks();
         break;
     case 1:
-        ((TQuestVmDownLoadServer *)self_bytes)->close_window();
+        self_bytes->close_window();
         break;
     case 2:
-        ((TQuestVmDownLoadServer *)self_bytes)->open();
+        self_bytes->open();
         break;
     case 3:
-        ((TQuestVmDownLoadServer *)self_bytes)->update_mc_select();
+        self_bytes->update_mc_select();
         break;
     case 4:
         if (lbl_805D55C0 != 0) {
             if (status_window != NULL) {
-                ((TObject *)status_window)->suspend_update();
+                status_window->suspend_update();
             }
             if (mc_select != NULL) {
-                ((TObject *)mc_select)->suspend_update();
+                mc_select->suspend_update();
             }
         } else {
             if (status_window != NULL) {
-                ((TObject *)status_window)->clear_update_suspension();
+                status_window->clear_update_suspension();
             }
             if (mc_select != NULL) {
-                ((TObject *)mc_select)->clear_update_suspension();
+                mc_select->clear_update_suspension();
             }
-            ((TQuestVmDownLoadServer *)self_bytes)->handle_confirm_input();
+            self_bytes->handle_confirm_input();
         }
         break;
     case 5:
-        ((TQuestVmDownLoadServer *)self_bytes)->check_memcard_slot();
+        self_bytes->check_memcard_slot();
         break;
     case 6:
-        ((TQuestVmDownLoadServer *)self_bytes)->handle_confirm_window();
+        self_bytes->handle_confirm_window();
         break;
     case 7:
-        ((TQuestVmDownLoadServer *)self_bytes)->find_free_file_names();
+        self_bytes->find_free_file_names();
         break;
     case 8:
-        ((TQuestVmDownLoadServer *)self_bytes)->build_file_slot_image();
+        self_bytes->build_file_slot_image();
         break;
     case 9:
-        ((TQuestVmDownLoadServer *)self_bytes)->load_quest_data();
+        self_bytes->load_quest_data();
         break;
     case 10:
-        ((TQuestVmDownLoadServer *)self_bytes)->abort_download();
+        self_bytes->abort_download();
         break;
     case 11:
-        ((TQuestVmDownLoadServer *)self_bytes)->write_memcard_file();
+        self_bytes->write_memcard_file();
         break;
     case 12:
-        ((TQuestVmDownLoadServer *)self_bytes)->write_quest_data_named();
+        self_bytes->write_quest_data_named();
         break;
     case 13:
-        ((TQuestVmDownLoadServer *)self_bytes)->finish_download();
+        self_bytes->finish_download();
         break;
     case 14:
-        ((TQuestVmDownLoadServer *)self_bytes)->build_file_info_image();
+        self_bytes->build_file_info_image();
         break;
     case 15:
-        ((TQuestVmDownLoadServer *)self_bytes)->write_quest_data();
+        self_bytes->write_quest_data();
         break;
     case 16:
-        ((TQuestVmDownLoadServer *)self_bytes)->close_download();
+        self_bytes->close_download();
         break;
     case 19:
-        ((TQuestVmDownLoadServer *)self_bytes)->handle_download_done_input();
+        self_bytes->handle_download_done_input();
         break;
     case 20:
-        ((TQuestVmDownLoadServer *)self_bytes)->check_cancel_input();
+        self_bytes->check_cancel_input();
         break;
     case 17:
-        ((TQuestVmDownLoadServer *)self_bytes)->close();
+        self_bytes->close();
         break;
     case 18:
-        ((TQuestVmDownLoadServer *)self_bytes)->sub_801F6D24();
+        self_bytes->sub_801F6D24();
         break;
     case 21:
-        ((TQuestVmDownLoadServer *)self_bytes)->destroy();
+        self_bytes->destroy();
         break;
     case 22:
-        ((TQuestVmDownLoadServer *)self_bytes)->close_message();
+        self_bytes->close_message();
         break;
     case 23:
-        ((TQuestVmDownLoadServer *)self_bytes)->check_dismiss_to_close_input();
+        self_bytes->check_dismiss_to_close_input();
         break;
     }
 }
@@ -715,7 +715,7 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
                 ((TWindowBase *)this->status_window)->close();
                 this->status_window = NULL;
             }
-            this->status_window = init_shop_judgment_window((void *)(get_window_layout_position(0x2B)));
+            this->status_window = (TWindowBase *)init_shop_judgment_window((void *)(get_window_layout_position(0x2B)));
             show_status_message(get_message_text(0x40), 1);
             this->memcard_slot = slot;
             this->state = 6;

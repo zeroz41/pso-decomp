@@ -113,7 +113,7 @@ extern u32 quest_download_aram_owner;
 extern u32 quest_download_aram_dma_pending;
 extern u32 quest_download_aram_base;
 void render_quest_text_page(void);
-void TQuestVmDownLoadServer__sub_803EC284(s32, s32);
+void seek_quest_text_page(s32, s32);
 extern s32 quest_page_node_count;
 s32 measure_entry_group_len(QuestDownloadTextNode *quest_download_text_node);
 void release_node_chain__22TQuestVmDownLoadServerFPv(QuestDownloadItemNode *p);

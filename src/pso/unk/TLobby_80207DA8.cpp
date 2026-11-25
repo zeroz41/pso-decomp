@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/map/MapSetArchive.h"
 #include "pso/network/FloorEventCommand.h"
@@ -174,53 +175,57 @@ s32 run_floor_initialize_callbacks(s32 floor) {
 }
 
 s32 TLobby::update_key_machine() { get_current_floor_area(); return ((int (*)(void))run_floor_initialize_callbacks)(); }
-void bswap_enemy_set_row(void *arg0) {
-    bswap_16((u16 *)arg0);
-    bswap_enemy_set_row_fields((void *)((void *)((char *)arg0 + 4)));
+void bswap_enemy_set_row(void *row_ptr) {
+    EnemySetRecord *row = (EnemySetRecord *)row_ptr;
+    bswap_16((u16 *)&row->type);
+    bswap_enemy_set_row_fields(&row->placement);
 }
 
-void bswap_enemy_set_row_fields(void *arg0) {
-    bswap_16((u16 *)((void *)((char *)arg0 + 2)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 4)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 12)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 8)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 10)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 16)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 20)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 24)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 28)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 32)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 36)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 40)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 44)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 48)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 52)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 56)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 60)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 62)));
+void bswap_enemy_set_row_fields(void *placement_ptr) {
+    EnemyPlacement *placement = (EnemyPlacement *)placement_ptr;
+    bswap_16((u16 *)&placement->child_count);
+    bswap_16((u16 *)&placement->unknown04[0]);
+    bswap_16((u16 *)&placement->unknown0c[0]);
+    bswap_16((u16 *)&placement->room);
+    bswap_16((u16 *)&placement->wave);
+    bswap_32((u32 *)&placement->position.x);
+    bswap_32((u32 *)&placement->position.y);
+    bswap_32((u32 *)&placement->position.z);
+    bswap_32((u32 *)&placement->rotation[0]);
+    bswap_32((u32 *)&placement->rotation[1]);
+    bswap_32((u32 *)&placement->rotation[2]);
+    bswap_32((u32 *)&placement->parameters[0]);
+    bswap_32((u32 *)&placement->parameters[1]);
+    bswap_32((u32 *)&placement->parameters[2]);
+    bswap_32((u32 *)&placement->parameters[3]);
+    bswap_32((u32 *)&placement->parameters[4]);
+    bswap_16((u16 *)&placement->variant);
+    bswap_16((u16 *)&placement->unknown3e);
 }
 
-void swap_object_row_endian(void *arg0) {
-    bswap_16((u16 *)arg0);
-    bswap_object_row_fields((void *)((void *)((char *)arg0 + 4)));
+void swap_object_row_endian(void *row_ptr) {
+    FloorObjectSetRow *row = (FloorObjectSetRow *)row_ptr;
+    bswap_16((u16 *)&row->type);
+    bswap_object_row_fields(&row->placement);
 }
 
-void bswap_object_row_fields(void *arg0) {
-    bswap_16((u16 *)((void *)((char *)arg0 + 2)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 6)));
-    bswap_16((u16 *)((void *)((char *)arg0 + 8)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 12)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 16)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 20)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 24)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 28)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 32)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 36)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 40)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 44)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 48)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 52)));
-    bswap_32((u32 *)((void *)((char *)arg0 + 56)));
+void bswap_object_row_fields(void *placement_ptr) {
+    ObjectSetData *placement = (ObjectSetData *)placement_ptr;
+    bswap_16((u16 *)&placement->floor);
+    bswap_16((u16 *)&placement->wave);
+    bswap_16((u16 *)&placement->room);
+    bswap_32((u32 *)&placement->position.x);
+    bswap_32((u32 *)&placement->position.y);
+    bswap_32((u32 *)&placement->position.z);
+    bswap_32((u32 *)&placement->rotation[0]);
+    bswap_32((u32 *)&placement->rotation[1]);
+    bswap_32((u32 *)&placement->rotation[2]);
+    bswap_32((u32 *)&placement->scale.x);
+    bswap_32((u32 *)&placement->scale.y);
+    bswap_32((u32 *)&placement->scale.z);
+    bswap_32((u32 *)&placement->set_params[0]);
+    bswap_32((u32 *)&placement->set_params[1]);
+    bswap_32((u32 *)&placement->set_params[2]);
 }
 
 MapSetArea *map_set_areas;

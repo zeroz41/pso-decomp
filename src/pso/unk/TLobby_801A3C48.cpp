@@ -790,6 +790,6 @@ void TLobby::update_periodic_tick() {
         protocol_instance->send_keepalive();
     }
 }
-void set_floor_transition_ready(Obj_80515BA0 *transition) { transition->state_flags |= 1; }
-void Obj_80515BA0::set_next_floor_index(s32 floor) { next_floor = floor; }
+void set_floor_transition_ready(FloorTransition *transition) { transition->state_flags |= 1; }
+void FloorTransition::set_next_floor_index(s32 floor) { next_floor = floor; }
 void TLobby::reset_counter() { challenge_task_created = 0; }

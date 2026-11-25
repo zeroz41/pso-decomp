@@ -44,37 +44,6 @@
 
 struct ResetFloorItemsEntry { u8 pad[0x24]; };
 
-struct Base_80103748 { char pad[0x18]; };
-struct VObj_80103748 : Base_80103748 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-};
 
 struct TLobbyPlayer { u8 pad[0x10]; void *owner; };
 
@@ -137,13 +106,13 @@ void reset_map(void) {
 }
 void evict_lowest_key_floor_item(s32 n);
 void handle_6x63_destroy_floor_item(void *command) {
-    struct VObj_80103748 *o;
+    TItem *o;
 
     ((TLobby *)command)->bswap_player_packet();
     remove_item_condition((s32)(*(s32 *)((s8 *)command + 8)), (s32)(*(s32 *)((s8 *)command + 4)));
-    o = (struct VObj_80103748 *)find_item_by_id(*(s32 *)((s8 *)command + 4));
+    o = find_item_by_id(*(s32 *)((s8 *)command + 4));
     if (o != NULL) {
-        o->m27();
+        o->destroy();
     }
 }
 

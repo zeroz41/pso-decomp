@@ -15,6 +15,7 @@ struct QuestDownloadTextRecord;
 struct QuestNameLookupResult;
 struct QuestDownloadRequest;
 
+class TWindowBase;
 class TQuestVmDownLoadServer : public TObject, public TMessageWindowController {
 public:
     // Field names are inferred from their uses in TQuestVmDownLoadServer.cpp.
@@ -30,8 +31,8 @@ public:
     s32 info_file_blocks;      // blocks of quest_download_file_info
     char slot_file_name[0xD];  // written with slot_file_blocks
     char state_file_name[0xD]; // written with state_file_blocks
-    void *icon_menu;           // TWindowMenuIconLine (clear_decided)
-    void *status_window;       // init_shop_judgment_window
+    TWindowBase *icon_menu;    // TWindowMenuIconLine (clear_decided)
+    TWindowBase *status_window; // init_shop_judgment_window
     TWindowMessagePage *message_window; // create_window's window, closed by close_message
     s32 file_count;            // files to save, checked against get_memcard_free_files
     TObject *mc_select;        // TAdMcSelectGC::create

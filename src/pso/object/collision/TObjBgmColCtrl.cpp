@@ -79,13 +79,13 @@ struct Zone_8017E748 { u8 pad[0x9C]; s32 category; };
 const char *bgm_col_name = "TObjBgmCol";
 const char *bgm_col_ctrl_name = "TObjBgmColCtrl";
 
-extern s32 lbl_805D62E4;
+extern s32 music_state;
 extern int quest_bgm_ctrl_bgm_issued_flag;
 
 int get_quest_bgm_issued_flag(void) {  return quest_bgm_ctrl_bgm_issued_flag; }
 
 s32 TObjBgmColCtrl::is_active() {
-    return (u8)((u8) (lbl_805D62E4 != 0));
+    return (u8)((u8) (music_state != 0));
 }
 
 TObjBgmCol::TObjBgmCol(TObject *parent, void *arg2) : TObjBase(parent) {

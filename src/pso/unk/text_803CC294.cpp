@@ -28,7 +28,7 @@ extern GetAfsFileInfoEntry *afs_archive_toc_table[];
 extern s32 lobby_adxf_current_file_id;
 extern s32 lobby_afs_toc_entry_index;
 s32 lbl_805D75E8;
-u8 * lbl_805D75EC;
+u8 * afs_toc_buffer;
 u8 *lbl_805D75F0;
 extern s32 adxf_log_write_index;
 extern s32 lbl_805D75E4;
@@ -36,10 +36,10 @@ extern s32 lbl_805D75E4;
 
 // Command history: one entry per call (phase 0) and per return (phase 1) of an ADXF command.
 template <typename LastArgument>
-inline void hist_803CC294(s32 cmd, s32 phase, u16 &sequence, AdxfHandle *a, s32 b, LastArgument c) {
-    LogEnt_803CD16C *e;
+inline void log_adxf_command(s32 cmd, s32 phase, u16 &sequence, AdxfHandle *a, s32 b, LastArgument c) {
+    AdxfLogEntry *e;
     adxf_log_write_index %= 256;
-    e = &lbl_8057B7D0[adxf_log_write_index];
+    e = &adxf_log_entries[adxf_log_write_index];
     if (phase == 0) {
         sequence++;
     }
@@ -169,9 +169,9 @@ s32 adxf_tell(AdxfHandle *adxf) {
     return adxf->sector_position;
 }
 
-inline s32 stop_803CC980(AdxfHandle *adxf) {
+inline s32 adxf_stop_logged(AdxfHandle *adxf) {
     s32 sp8;
-    hist_803CC294(5, 0, lbl_8057B7B0.stop_sequence, adxf, -1, -1);
+    log_adxf_command(5, 0, adxf_log_header.stop_sequence, adxf, -1, -1);
     if (adxf == NULL) {
         adxerr_report("E9040822:'adxf' is NULL.(ADXF_Stop)");
         return -3;
@@ -200,19 +200,19 @@ inline s32 stop_803CC980(AdxfHandle *adxf) {
     }
     adxf->state = 1;
     adx_unlock();
-    hist_803CC294(5, 1, lbl_8057B7B0.stop_sequence, adxf, -1, -1);
+    log_adxf_command(5, 1, adxf_log_header.stop_sequence, adxf, -1, -1);
     return adxf->sector_position;
 }
 
 // ADXF_Seek (named by its messages)
 s32 ADXF_Seek(AdxfHandle *adxf, s32 pos, s32 type) {
-    hist_803CC294(6, 0, lbl_8057B7B0.seek_sequence, adxf, pos, type);
+    log_adxf_command(6, 0, adxf_log_header.seek_sequence, adxf, pos, type);
     if (adxf == NULL) {
         adxerr_report("E9040825:'adxf' is NULL.(ADXF_Seek)");
         return -3;
     }
     if (adxf->state == 2) {
-        stop_803CC980(adxf);
+        adxf_stop_logged(adxf);
     }
     if (type == 0) {
         adxf->sector_position = pos;
@@ -229,7 +229,7 @@ s32 ADXF_Seek(AdxfHandle *adxf, s32 pos, s32 type) {
     } else if (adxf->sector_position > adxf->sector_count) {
         adxf->sector_position = adxf->sector_count;
     }
-    hist_803CC294(6, 1, lbl_8057B7B0.seek_sequence, adxf, pos, type);
+    log_adxf_command(6, 1, adxf_log_header.seek_sequence, adxf, pos, type);
     return adxf->sector_position;
 }
 
@@ -260,7 +260,7 @@ void TLobby__sub_803CC884(void) {
 }
 
 s32 ADXF_Stop(AdxfHandle *adxf) {
-    return stop_803CC980(adxf);
+    return adxf_stop_logged(adxf);
 }
 
 s32 ADXF_ReadNw(AdxfHandle *file, s32 sectors, void *destination) {
@@ -275,7 +275,7 @@ s32 ADXF_ReadNw(AdxfHandle *file, s32 sectors, void *destination) {
 s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     SjRingBuffer *sj;
     s32 rqsct;
-    hist_803CC294(4, 0, lbl_8057B7B0.read_sequence, adxf, nsct, buf);
+    log_adxf_command(4, 0, adxf_log_header.read_sequence, adxf, nsct, buf);
     if (adxf == NULL) {
         adxerr_report("E9040816:'adxf' is NULL.(ADXF_ReadNw32)");
         return -3;
@@ -332,7 +332,7 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     }
     adxf->f2 = 0;
     adx_unlock();
-    hist_803CC294(4, 1, lbl_8057B7B0.read_sequence, adxf, nsct, buf);
+    log_adxf_command(4, 1, adxf_log_header.read_sequence, adxf, nsct, buf);
     return rqsct;
 }
 
@@ -443,12 +443,12 @@ void ADXF_CloseAll(void) {
 
 void ADXF_Close(AdxfHandle *adxf) {
     {
-        LogEnt_803CD16C *e;
+        AdxfLogEntry *e;
         s32 i = adxf_log_write_index % 256;
         u16 seq;
-        e = &lbl_8057B7D0[i];
+        e = &adxf_log_entries[i];
         adxf_log_write_index = i;
-        seq = ++lbl_8057B7B0.close_sequence;
+        seq = ++adxf_log_header.close_sequence;
         e->type = 3;
         e->phase = 0;
         e->seq = seq;
@@ -460,7 +460,7 @@ void ADXF_Close(AdxfHandle *adxf) {
     if (adxf != NULL) {
         adx_lock();
         if ((s32)(u8)adxf->state == 2) {
-            stop_803CC980(adxf);
+            adxf_stop_logged(adxf);
         }
         if (adxf->stream != 0) {
             adxstm_close(adxf->stream);
@@ -469,10 +469,10 @@ void ADXF_Close(AdxfHandle *adxf) {
         adx_unlock();
         {
             s32 i = adxf_log_write_index % 256;
-            LogEnt_803CD16C *e = &lbl_8057B7D0[adxf_log_write_index = i];
+            AdxfLogEntry *e = &adxf_log_entries[adxf_log_write_index = i];
             e->type = 3;
             e->phase = 1;
-            e->seq = lbl_8057B7B0.close_sequence;
+            e->seq = adxf_log_header.close_sequence;
             e->handle = adxf;
             e->b = -1;
             e->c = -1;
@@ -484,18 +484,18 @@ void ADXF_Close(AdxfHandle *adxf) {
 AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
     AdxfHandle *s;
     {
-        LogEnt_803CD16C *e;
+        AdxfLogEntry *e;
         s32 i = adxf_log_write_index % 256;
         u16 seq;
-        e = &lbl_8057B7D0[i];
+        e = &adxf_log_entries[i];
         adxf_log_write_index = i;
-        seq = lbl_8057B7B0.afs_open_sequence + 1;
+        seq = adxf_log_header.afs_open_sequence + 1;
         e->type = 2;
         e->phase = 0;
         e->seq = seq;
         e->a = partition;
         e->b = file;
-        lbl_8057B7B0.afs_open_sequence = seq;
+        adxf_log_header.afs_open_sequence = seq;
         e->c = -1;
         adxf_log_write_index = i + 1;
     }
@@ -510,10 +510,10 @@ AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
     adx_unlock();
     {
         s32 i = adxf_log_write_index % 256;
-        LogEnt_803CD16C *e = &lbl_8057B7D0[adxf_log_write_index = i];
+        AdxfLogEntry *e = &adxf_log_entries[adxf_log_write_index = i];
         e->type = 2;
         e->phase = 1;
-        e->seq = lbl_8057B7B0.afs_open_sequence;
+        e->seq = adxf_log_header.afs_open_sequence;
         e->a = partition;
         e->b = file;
         e->c = -1;
@@ -543,18 +543,18 @@ inline s32 open_803CD3A8(AdxfHandle *s, const void *name, s32 mode) {
 AdxfHandle *ADXF_Open(const void *name, s32 mode) {
     AdxfHandle *s;
     {
-        LogEnt_803CD16C *e;
+        AdxfLogEntry *e;
         s32 i = adxf_log_write_index % 256;
         u16 seq;
-        e = &lbl_8057B7D0[i];
+        e = &adxf_log_entries[i];
         adxf_log_write_index = i;
-        seq = lbl_8057B7B0.open_sequence + 1;
+        seq = adxf_log_header.open_sequence + 1;
         e->type = 1;
         e->phase = 0;
         e->seq = seq;
         e->name = name;
         e->b = mode;
-        lbl_8057B7B0.open_sequence = seq;
+        adxf_log_header.open_sequence = seq;
         e->c = -1;
         adxf_log_write_index = i + 1;
     }
@@ -569,10 +569,10 @@ AdxfHandle *ADXF_Open(const void *name, s32 mode) {
     adx_unlock();
     {
         s32 i = adxf_log_write_index % 256;
-        LogEnt_803CD16C *e = &lbl_8057B7D0[adxf_log_write_index = i];
+        AdxfLogEntry *e = &adxf_log_entries[adxf_log_write_index = i];
         e->type = 1;
         e->phase = 1;
-        e->seq = lbl_8057B7B0.open_sequence;
+        e->seq = adxf_log_header.open_sequence;
         e->name = name;
         e->b = mode;
         e->c = -1;
@@ -627,12 +627,12 @@ s32 TLobby::read_afs_toc(s32 id) {
     arr = e->arr;
     if (e->f8 == 0) {
         s32 n;
-        if (memcmp(lbl_805D75EC, "AFS", 3) != 0) {
+        if (memcmp(afs_toc_buffer, "AFS", 3) != 0) {
             adxerr_report("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
             TLobby__sub_803CD804();
             return 4;
         }
-        n = rd32_803CD5C4(lbl_805D75EC + 4);
+        n = rd32_803CD5C4(afs_toc_buffer + 4);
         if (n > 0x10000) {
             adxerr_report("E0040702:Illigal number of file.(ADXF_GetPtStat)");
             TLobby__sub_803CD804();
@@ -642,12 +642,12 @@ s32 TLobby::read_afs_toc(s32 id) {
         i = 3;
         e->f8 = (u16)n;
         e->f4 = ((e->f8 + 1) * 2 + 0x116) & ~3;
-        e->f114 = LE32_803CD5C4(lbl_805D75EC + 8) / 2048;
+        e->f114 = LE32_803CD5C4(afs_toc_buffer + 8) / 2048;
     } else {
         i = 1;
     }
     for (; i < 0x200; i += 2) {
-        u8 *q = lbl_805D75EC + i * 4;
+        u8 *q = afs_toc_buffer + i * 4;
         arr[lobby_afs_toc_entry_index++] = (LE32_803CD5C4(q) + 0x7FF) / 2048;
         if (lobby_afs_toc_entry_index >= e->f8) {
             st = 3;
@@ -656,7 +656,7 @@ s32 TLobby::read_afs_toc(s32 id) {
         }
     }
     if (i >= 0x200) {
-        if (ADXF_ReadNw32(lobby_adxf_open_file_handle, 1, lbl_805D75EC) < 0) {
+        if (ADXF_ReadNw32(lobby_adxf_open_file_handle, 1, afs_toc_buffer) < 0) {
             st = 4;
             TLobby__sub_803CD804();
         } else {
@@ -703,7 +703,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, GetAfsFil
     e->fe = 0;
     buf = (u8 *)((saddr)(adxf_open_file_buffer + 0x20) & ~0x1F);
     lbl_805D75F0 = buf;
-    lbl_805D75EC = buf;
+    afs_toc_buffer = buf;
     r = ADXF_ReadNw32(lobby_adxf_open_file_handle, 1, buf);
     if (r < 0) {
         ADXF_Close(lobby_adxf_open_file_handle);

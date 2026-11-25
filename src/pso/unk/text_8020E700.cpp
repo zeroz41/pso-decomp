@@ -39,9 +39,9 @@ extern "C" {
 // Per shop list (four in split screen): the stock array (0x1A4 bytes, allocated by load_armor_random_table),
 // its entry count and whether it was generated.
 s32 shop_armor_stock_generated_flags[4];
-s32 lbl_80513D68[4];
-saddr lbl_80513D78[4];
-GenerateShopShieldPoolTable ** lbl_805D6158;
+s32 shop_stock_counts[4];
+saddr shop_stock_entries[4];
+GenerateShopShieldPoolTable ** armor_random_rel;
 s32 shop_player_level;
 extern s32 shop_difficulty_tier;
 void push_shop_pool_entry(ShopPool *, u8);
@@ -49,8 +49,8 @@ s32 is_duplicate_shop_shield_or_unit(IsDuplicateShopShieldOrUnitItem *, s32);
 s32 is_duplicate_shop_armor(IsDuplicateShopArmorRecord *arg0, s32 arg1);
 s32 is_duplicate_shop_armor(IsDuplicateShopArmorRecord *arg0, s32 arg1) {
     s32 i;
-    IsDuplicateShopArmorRecord *tbl = (IsDuplicateShopArmorRecord *)lbl_80513D78[arg1];
-    for (i = 0; i < lbl_80513D68[arg1]; i++) {
+    IsDuplicateShopArmorRecord *tbl = (IsDuplicateShopArmorRecord *)shop_stock_entries[arg1];
+    for (i = 0; i < shop_stock_counts[arg1]; i++) {
         if (arg0->a == tbl[i].a && arg0->b == tbl[i].b && arg0->c == tbl[i].c && arg0->f == tbl[i].f) {
             return 0;
         }
@@ -60,8 +60,8 @@ s32 is_duplicate_shop_armor(IsDuplicateShopArmorRecord *arg0, s32 arg1) {
 
 s32 is_duplicate_shop_shield_or_unit(IsDuplicateShopShieldOrUnitItem *arg0, s32 arg1) {
     s32 i;
-    IsDuplicateShopShieldOrUnitItem *tbl = (IsDuplicateShopShieldOrUnitItem *)lbl_80513D78[arg1];
-    for (i = 0; i < lbl_80513D68[arg1]; i++) {
+    IsDuplicateShopShieldOrUnitItem *tbl = (IsDuplicateShopShieldOrUnitItem *)shop_stock_entries[arg1];
+    for (i = 0; i < shop_stock_counts[arg1]; i++) {
         if (arg0->b[0] == tbl[i].b[0] && arg0->b[1] == tbl[i].b[1] && arg0->b[2] == tbl[i].b[2]) {
             return 0;
         }
@@ -84,12 +84,12 @@ void generate_shop_unit_pool(s32 arg0) {
     s32 k;
     s32 grp;
     ((TLobby *)(&ctr))->reset_counter_64();
-    dst = (IsDuplicateShopShieldOrUnitItem *)lbl_80513D78[arg0];
+    dst = (IsDuplicateShopShieldOrUnitItem *)shop_stock_entries[arg0];
     n = get_shop_unit_count(shop_player_level);
     if (n == 0) {
         return;
     }
-    tbl = (GenerateShopUnitPoolTable *)*lbl_805D6158;
+    tbl = (GenerateShopUnitPoolTable *)*armor_random_rel;
     grp = TLobby::get_lobby_group(shop_player_level);
     cnt = tbl->count;
     p = tbl->pairs + grp * cnt * 2;
@@ -112,7 +112,7 @@ void generate_shop_unit_pool(s32 arg0) {
         item.b[1] = 3;
         item.b[2] = b;
         if (is_duplicate_shop_shield_or_unit(&item, arg0) == 1) {
-            ((TItemData *)(&dst[lbl_80513D68[arg0]++]))->copy_from((TItemData *)(&item));
+            ((TItemData *)(&dst[shop_stock_counts[arg0]++]))->copy_from((TItemData *)(&item));
             cnt++;
         }
     }
@@ -133,9 +133,9 @@ void generate_shop_shield_pool(s32 arg0) {
     s32 k;
     s32 grp;
     ((TLobby *)(&ctr))->reset_counter_64();
-    dst = (IsDuplicateShopShieldOrUnitItem *)lbl_80513D78[arg0];
+    dst = (IsDuplicateShopShieldOrUnitItem *)shop_stock_entries[arg0];
     n = TLobby::get_shield_shop_tier_for_level(shop_player_level);
-    tbl = *lbl_805D6158;
+    tbl = *armor_random_rel;
     grp = TLobby::get_lobby_group(shop_player_level);
     cnt = tbl->count;
     p = tbl->pairs + grp * cnt * 2;
@@ -148,7 +148,7 @@ void generate_shop_shield_pool(s32 arg0) {
     }
     shuffle_shop_pool_n_times(&ctr, 8);
     j = 0;
-    counts = lbl_80513D68;
+    counts = shop_stock_counts;
     while (j < n) {
         b = ((TLobby *)(&ctr))->pop_byte();
         if (b == -1) {
@@ -191,9 +191,9 @@ void generate_shop_armor_pool(s32 arg0) {
     s32 k;
     s32 grp;
     ((TLobby *)(&ctr))->reset_counter_64();
-    dst = (IsDuplicateShopShieldOrUnitItem *)lbl_80513D78[arg0];
+    dst = (IsDuplicateShopShieldOrUnitItem *)shop_stock_entries[arg0];
     n = TLobby::get_armor_shop_tier_for_level(shop_player_level);
-    tbl = *(GenerateShopArmorPoolTable **)lbl_805D6158;
+    tbl = *(GenerateShopArmorPoolTable **)armor_random_rel;
     grp = TLobby::get_lobby_group(shop_player_level);
     cnt = tbl->count;
     grp *= cnt;
@@ -207,7 +207,7 @@ void generate_shop_armor_pool(s32 arg0) {
     }
     shuffle_shop_pool_n_times(&ctr, 8);
     j = 0;
-    counts = lbl_80513D68;
+    counts = shop_stock_counts;
     while (j < n) {
         b = ((TLobby *)(&ctr))->pop_byte();
         if (b == -1) {
@@ -236,7 +236,7 @@ void generate_shop_armor_pool(s32 arg0) {
 }
 
 void TLobby::clear_shop_entry_value(s32 i, s32 j) {
-    ClearShopEntryValueEntry *e = (ClearShopEntryValueEntry *)lbl_80513D78[j];
+    ClearShopEntryValueEntry *e = (ClearShopEntryValueEntry *)shop_stock_entries[j];
     if (i >= 0 && i <= 0x14) {
         if (e[i].v != -1) e[i].v = -1;
     }
@@ -248,7 +248,7 @@ void clear_shop_armor_flags(void) {
 
 void TLobby::copy_armor_shop_entry(s32 index, s32 base) {
     saddr arg0 = (saddr)this;
-    *(ByteBlock_14 *)(arg0) = ((const ByteBlock_14 *)lbl_80513D78[base])[index];
+    *(ByteBlock_14 *)(arg0) = ((const ByteBlock_14 *)shop_stock_entries[base])[index];
 }
 
 // ---- pso/unk/TLobby_8020ED20
@@ -263,10 +263,10 @@ void TLobby::set_shop_armor_list_flag(int a0, int a1) { shop_player_level = a1; 
 #include "pso/unk/text_8020ED44.h"
 
 void generate_armor_shop_stock(s32 arg0) {
-    if (lbl_805D6158 != NULL) {
+    if (armor_random_rel != NULL) {
         if (shop_armor_stock_generated_flags[arg0] == 0) {
             shop_armor_stock_generated_flags[arg0] = 1;
-            lbl_80513D68[arg0] = 0;
+            shop_stock_counts[arg0] = 0;
             generate_shop_armor_pool(arg0);
             generate_shop_shield_pool(arg0);
             generate_shop_unit_pool(arg0);
@@ -281,7 +281,7 @@ void mem_free(void *p);
 
 void TLobby::free_rocks() {
     s32 i = 3;
-    saddr *var_r29 = lbl_80513D78;
+    saddr *var_r29 = shop_stock_entries;
     saddr var_r30 = 0;
     s32 var_r31 = 3;
     do {
@@ -293,9 +293,9 @@ void TLobby::free_rocks() {
         i -= 1;
         var_r31 -= 1;
     } while (i >= 0);
-    if (lbl_805D6158 != NULL) {
-        TLobby::free_nodes_with_id((uaddr)lbl_805D6158);
-        lbl_805D6158 = (GenerateShopShieldPoolTable **)var_r30;
+    if (armor_random_rel != NULL) {
+        TLobby::free_nodes_with_id((uaddr)armor_random_rel);
+        armor_random_rel = (GenerateShopShieldPoolTable **)var_r30;
     }
 }
 
@@ -319,16 +319,16 @@ s32 draw_shop_pool_index(s32 count) {
 
 void load_armor_random_table(void) {
     s32 i;
-    lbl_805D6158 = static_cast<GenerateShopShieldPoolTable **>(create_named_object("ArmorRandom.rel"));
+    armor_random_rel = static_cast<GenerateShopShieldPoolTable **>(create_named_object("ArmorRandom.rel"));
     for (i = 0; i < 4; i++) {
-        lbl_80513D78[i] = 0;
+        shop_stock_entries[i] = 0;
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            lbl_80513D78[i] = mem_alloc(0x1A4);
+            shop_stock_entries[i] = mem_alloc(0x1A4);
         }
     } else {
-        lbl_80513D78[0] = mem_alloc(0x1A4);
+        shop_stock_entries[0] = mem_alloc(0x1A4);
     }
     shop_player_level = 0;
 }

@@ -45,10 +45,10 @@ s32 lbl_805D56F0;
 s32 lbl_805D56F4;
 s32 connect_pending_flags;
 s32 lobby_default_gateway;
-uaddr lbl_805D5700;
+uaddr avetcp_work_area;
 s32 net_session_mode;
-int lbl_805D5708;
-s32 lbl_805D570C;
+int phone_number_index;
+s32 dns_initialized;
 s32 lobby_connect_active_flag;
 s32 lbl_805D5714;
 s32 lbl_805D5718;
@@ -133,7 +133,7 @@ struct LoadNetworkConfigsInfo {
 extern "C" {
 void set_keyboard_buffer_cursor(int a0);
 s16 DHCP_init(s16);
-int TLobby__sub_80145E40(void);
+int is_network_info_loaded(void);
 int TLobby__sub_80146724(void);
 int TLobby__sub_8014677C(void);
 s32 load_network_info(void);
@@ -142,7 +142,7 @@ s32 TLobby__sub_80147284();
 s32 route4_del(saddr, saddr, saddr);
 s32 route4_add(saddr, saddr, saddr);
 
-    extern void *lbl_805D56C8;
+    extern void *network_info_work;
     extern short lbl_805D56CE;
     extern int keyboard_buffer_cursor;
 u32 lbl_8050C0A8[7];
@@ -163,8 +163,8 @@ u8 lbl_8050CE54[0x114];
 void TLobby::init_keyboard_buffer() {
     keyboard_buffer_cursor = 0;
     lbl_805D56CE = 0;
-    lbl_805D56C8 = NULL;
-    lbl_805D56C8 = xmalloc(get_network_config_buffer_size(0));
+    network_info_work = NULL;
+    network_info_work = xmalloc(get_network_config_buffer_size(0));
     load_network_info();
 }
 
@@ -412,9 +412,9 @@ void TLobby::cleanup() {
         avetcp_term();
         connect_pending_flags &= 0xFFFFFFF7;
     }
-    if ((u32) lbl_805D5700 != 0U) {
-        xfree((void*)lbl_805D5700);
-        lbl_805D5700 = 0U;
+    if ((u32) avetcp_work_area != 0U) {
+        xfree((void*)avetcp_work_area);
+        avetcp_work_area = 0U;
     }
 }
 extern "C" {
@@ -427,14 +427,14 @@ s32 TLobby__sub_80146908() {
     params.tcp_buffer_size = 0x1000;
     params.thread_stack_size = 0x3000;
     AT_SetInitParam(&params);
-    lbl_805D5700 = (uaddr)xmalloc(size);
-    if (lbl_805D5700 != 0) {
-        AT_SetWorkArea((u8 *)lbl_805D5700, size);
+    avetcp_work_area = (uaddr)xmalloc(size);
+    if (avetcp_work_area != 0) {
+        AT_SetWorkArea((u8 *)avetcp_work_area, size);
     }
     avetcp_init();
     connect_pending_flags |= 8;
     lobby_connect_active_flag = 0;
-    lbl_805D570C = 0;
+    dns_initialized = 0;
     if (net_session_mode != 0) {
         return TLobby::run_connect_sequence();
     }
@@ -538,7 +538,7 @@ s32 TLobby::run_connect_sequence() {
     return 0xE;
 }
 
-char *TLobby::get_dialing_phone_number() { return get_modem_phone_number(lbl_805D5708); }
+char *TLobby::get_dialing_phone_number() { return get_modem_phone_number(phone_number_index); }
 
 char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;
@@ -574,7 +574,7 @@ void TLobby::load_network_configs() {
     LoadNetworkConfigsWork w;
     LoadNetworkConfigsInfo info;
 
-    if (TLobby__sub_80145E40() == 1) {
+    if (is_network_info_loaded() == 1) {
         lbl_8050CE0C[1] = 1;
     } else {
         lbl_8050CE0C[1] = 0;
@@ -645,10 +645,10 @@ void TLobby::load_network_configs() {
 #undef C_80146D7C
 void TLobby__sub_8014715C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
 void TLobby::teardown_boss2() {
-    if ((s32) lbl_805D570C != 0) {
+    if ((s32) dns_initialized != 0) {
         dns_clear_server();
         dns_term();
-        lbl_805D570C = 0;
+        dns_initialized = 0;
     }
 }
 
@@ -670,7 +670,7 @@ s32 TLobby::set_dns_servers() {
     s16 r1;
     s16 r2;
     if (dns_init() == 0) {
-        lbl_805D570C = 1;
+        dns_initialized = 1;
         req.type = 4;
         req.addr = lobby_dns_server_addr;
         if (lobby_account_entries[2].dns1 != 0) {
@@ -935,11 +935,11 @@ s32 TLobby__sub_801478C4(s32 id) {
     char name[0x81];
     result = 4;
     count = TLobby__sub_80146724();
-    for (lbl_805D5708 = 0; lbl_805D5708 < count; lbl_805D5708++) {
+    for (phone_number_index = 0; phone_number_index < count; phone_number_index++) {
         memset(name, 0, sizeof(name));
-        strncpy(name, get_modem_phone_number(lbl_805D5708), sizeof(name));
+        strncpy(name, get_modem_phone_number(phone_number_index), sizeof(name));
         if (name[0] != 0) {
-            result = connect_modem(lbl_805D5708, id);
+            result = connect_modem(phone_number_index, id);
             if (TLobby__sub_801466F4(result) == 0) {
                 return result;
             }

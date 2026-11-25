@@ -27,20 +27,20 @@ void assign_default_photon_blast_palette_slots(TPlyDispConfig *palettes) {
 }
 
 extern "C" {
-int ret_801D795C(void) { return 0; }
-int ret_801D7954(void) { return 0; }
-int ret_801D794C(void) { return 0; }
-int ret_801D7944(void) { return 0; }
-int ret_801D793C(void) { return 0; }
-int ret_801D7934(void) { return 0; }
-int ret_801D792C(void) { return 0; }
-int ret_801D7924(void) { return 0; }
-int ret_801D791C(void) { return 0; }
-int ret_801D7914(void) { return 0; }
-int ret_801D790C(void) { return 0; }
-int ret_801D7904(void) { return 0; }
-int ret_801D78FC(void) { return 0; }
-int ret_801D78F4(void) { return 0; }
-int ret_801D78EC(void) { return 0; }
-int ret_801D78E4(void) { return 0; }
+int default_setting_01(void) { return 0; }
+int default_setting_02(void) { return 0; }
+int default_setting_03(void) { return 0; }
+int default_setting_04(void) { return 0; }
+int default_setting_05(void) { return 0; }
+int default_setting_06(void) { return 0; }
+int default_setting_07(void) { return 0; }
+int default_setting_08(void) { return 0; }
+int default_setting_09(void) { return 0; }
+int default_setting_0A(void) { return 0; }
+int default_setting_0B(void) { return 0; }
+int default_setting_0C(void) { return 0; }
+int default_setting_0D(void) { return 0; }
+int default_setting_0E(void) { return 0; }
+int default_setting_16(void) { return 0; }
+int default_setting_18(void) { return 0; }
 }

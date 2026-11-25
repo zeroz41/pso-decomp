@@ -332,7 +332,7 @@ void TObjCity_Season_21_21::render() {
     if (resource != NULL) {
         if (update_object_view_visibility(800.0f, 60.0f) != 0) {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_season_xmas_model_table[4]));
-            lbl_805D5B34->scroll_uvs(0, uv_scroll);
+            city_season_strips->scroll_uvs(0, uv_scroll);
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
@@ -417,14 +417,14 @@ void TObjCity_Season_Board::run_task() {
     }
 }
 void TObjCity_Season_Board::render() {
-    if ((lbl_805D5B38 != NULL) && (update_object_view_visibility(800.0f, 200.0f) != 0)) {
-        TObjFish::set_global_param(lbl_805D5B44);
-        lbl_805D5B48->scroll_uvs(uv_scroll, 0);
+    if ((city_season_board_resource != NULL) && (update_object_view_visibility(800.0f, 200.0f) != 0)) {
+        TObjFish::set_global_param(city_season_board_texlist);
+        city_season_board_strips->scroll_uvs(uv_scroll, 0);
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        draw_chunk_object((void *)lbl_805D5B3C);
-        draw_chunk_object((void *)lbl_805D5B40);
+        draw_chunk_object((void *)city_season_board_model);
+        draw_chunk_object((void *)city_season_board_aux);
         pop_matrix();
     }
 }

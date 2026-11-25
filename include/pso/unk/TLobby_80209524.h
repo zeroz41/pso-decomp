@@ -10,12 +10,12 @@ struct ChallengeRandomEvent;
 // --- C functions defined in TLobby_80209524.cpp ---
 extern "C" {
 EventShuffleTable *TLobby__sub_80209584(EventShuffleTable *table, s32 capacity);
-void TLobby__sub_802097B0(s16 id);
+void select_event_shuffle_table(s16 id);
 void TLobby__sub_8020A2AC(void);
-void TLobby__sub_8020A394(void *p);
-void TLobby__sub_8020A3D0(void *arg0, void *arg1);
-void TLobby__sub_8020A48C(void *p);
-void TLobby__sub_8020A568(void *p);
+void bswap_event_table_entry(void *p);
+void copy_event_table_entry(void *arg0, void *arg1);
+void bswap_item_data_record(void *p);
+void bswap_table_header(void *p);
 void TLobby__sub_8020A618(ChallengeRandomEvent *dst, ChallengeRandomEvent *src);
 void TLobby__sub_8020A6B0(s32 player);
 s32 get_total_object_set_count(void);

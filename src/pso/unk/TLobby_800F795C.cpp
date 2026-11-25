@@ -533,7 +533,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_34[15] = {
     { TObjEneMerillLia::load_resources, TObjEneMerillLia::free_resources },
     { TObjEneBm5GibonU::load_resources, TObjEneBm5GibonU::release_static_resource },
     { TObjEneMe1Gee::load_resources, TObjEneMe1Gee::free_globals },
-    { fn_8035B788, fn_8035B750 },
+    { load_nights_npc_resource, free_nights_npc_resource },
     { TObjEneLappy::load_resources, TObjEneLappy::free_resources },
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
     { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },
