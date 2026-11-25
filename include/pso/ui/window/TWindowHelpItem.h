@@ -120,6 +120,7 @@ struct TWindowHelpItem : public TWindowBase
     void enable_help_toggle();
     TItemData *get_mag_state();
     s32 update_mag_status_gauges();
+    s32 are_status_entries_ready();
     void update_help_item(s32 mode);
     // 1: an item is shown, 2: it has pages, 4: page flipping locked,
     // 8: the help button toggle is off.

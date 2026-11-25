@@ -30,7 +30,6 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubMag.h"
-#include "pso/ui/window/TWindowSubMag_80253698.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
@@ -1073,44 +1072,23 @@ s32 fn_8025373C(TWindowHelpItem *self) {
     return 0;
 }
 
-#pragma push
-#pragma opt_propagation off
-s32 are_status_entries_ready__13TWindowSubMagFi(saddr help) {
-    s32 var_r28;
-    saddr var_r3;
-    s32 var_r4;
-    u16 *temp_r3;
-    u16 *var_r29;
-    u16 *var_r30;
-    u16 *var_r31;
-    var_r4 = 5;
-    var_r28 = help;
-    var_r29 = (u16 *)(((TWindowBase *)help)->get_array_entry(5));
-    var_r3 = var_r28;
-    var_r4 = 8;
-    var_r30 = (u16 *)(((TWindowBase *)var_r3)->get_array_entry(8));
-    var_r3 = var_r28;
-    var_r4 = 0xB;
-    var_r31 = (u16 *)(((TWindowBase *)var_r3)->get_array_entry(0xB));
-    var_r3 = var_r28;
-    var_r4 = 0xE;
-    temp_r3 = (u16 *)(((TWindowBase *)var_r3)->get_array_entry(0xE));
-    if (!(*var_r29 & 4)) {
-        var_r3 = 0;
-        return 0;
+s32 TWindowHelpItem::are_status_entries_ready() {
+    TWindowStatusGaugeFeedback *def_gauge = (TWindowStatusGaugeFeedback *)get_array_entry(5);
+    TWindowStatusGaugeFeedback *pow_gauge = (TWindowStatusGaugeFeedback *)get_array_entry(8);
+    TWindowStatusGaugeFeedback *dex_gauge = (TWindowStatusGaugeFeedback *)get_array_entry(0xB);
+    TWindowStatusGaugeFeedback *mind_gauge = (TWindowStatusGaugeFeedback *)get_array_entry(0xE);
+    s32 ready;
+    if (!(def_gauge->flags & 4)) {
+        ready = 0;
+    } else if (!(pow_gauge->flags & 4)) {
+        ready = 0;
+    } else if (!(dex_gauge->flags & 4)) {
+        ready = 0;
+    } else {
+        ready = (mind_gauge->flags >> 2) & 1;
     }
-    if (!(*var_r30 & 4)) {
-        var_r3 = 0;
-        return 0;
-    }
-    if (!(*var_r31 & 4)) {
-        var_r3 = 0;
-        return 0;
-    }
-    var_r3 = ((u16) *temp_r3 >> 2U) & 1;
-    return var_r3;
+    return ready;
 }
-#pragma pop
 
 void TWindowHelpItem::refresh_copied_items() {
     s32 id;

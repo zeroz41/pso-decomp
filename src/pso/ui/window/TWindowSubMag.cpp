@@ -56,7 +56,6 @@ extern u8 *text_language_group_table;
 extern "C" {
 s32 calc_text_width();
 s32 text_builder_append();
-s32 are_status_entries_ready__13TWindowSubMagFi(void *);
 }
 
 const char *TWindowSubMag::class_name = "TWindowSubMag";
@@ -257,7 +256,7 @@ void TWindowSubMag::run_task() {
         }
         break;
     case 9:
-        if (are_status_entries_ready__13TWindowSubMagFi(help) != 0) {
+        if (help->are_status_entries_ready() != 0) {
             state = 10;
         }
         break;
@@ -271,7 +270,7 @@ void TWindowSubMag::run_task() {
             break;
         }
     case 11:
-        if ((f32)timer++ > (3e+01f) && are_status_entries_ready__13TWindowSubMagFi(help) != 0) {
+        if ((f32)timer++ > (3e+01f) && help->are_status_entries_ready() != 0) {
             state = 10;
         }
         break;
