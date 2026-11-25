@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TLOBBY_803CBF50_H
-#define PSO_UNK_TLOBBY_803CBF50_H
+#ifndef PSO_AUDIO_GCRNA_BRIDGE_H
+#define PSO_AUDIO_GCRNA_BRIDGE_H
 
 #include "types.h"
 
@@ -13,6 +13,7 @@ void TLobby__sub_803CBFB0(GcrnaStream *stream, s32 stream_count);
 s32 TLobby__sub_803CBFF0(GcrnaStream *stream);
 s32 query_available_size(GcrnaStream *stream);
 void TLobby__sub_803CC030(GcrnaStream *stream, s32 enabled);
+void TLobby__sub_803CC114(void);
 }
 
 #endif

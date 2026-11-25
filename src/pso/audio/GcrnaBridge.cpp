@@ -1,9 +1,16 @@
 #include "types.h"
-#include "pso/unk/TLobby_803CBF50.h"
+#include "pso/audio/GcrnaBridgeSampleBits.h"
+#include "pso/audio/GcrnaStatusBridge.h"
+#include "pso/audio/GcrnaBridge.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/GcrnaStream.h"
 #include "pso/audio/GcrnaBufferQuery.h"
 #include "pso/audio/GcrnaChannelBridge.h"
+#include "pso/audio/GcrnaBridgeTeardown.h"
+
+void TLobby__sub_803CBF30(GcrnaStream *stream, s32 sample_bits) {
+    gcrna_set_sample_bits(stream, sample_bits);
+}
 
 extern "C" {
 
@@ -43,4 +50,26 @@ void TLobby::dispatch_packet(GcrnaStream *stream, s32 enabled) {
     GCRNA_SetTransSw(stream, enabled);
 }
 
+}
+
+void unregister_si_polling(GcrnaStream *stream) {
+    GCRNA_SetPlaySw(stream, 0);
+    GCRNA_SetTransSw(stream, 0);
+    gcrna_destroy_stream(stream);
+}
+
+GcrnaStream *TLobby::run_step_5210(SjRingBuffer **inputs, s32 channels) {
+    return GCRNA_Create(inputs, channels);
+}
+
+void TLobby::flush_update(GcrnaErrorCallback callback, void *context) {
+    gcrna_set_error_callback(callback, context);
+}
+
+void TLobby::shutdown_cleanup() {
+    gcrna_shutdown();
+}
+
+void TLobby__sub_803CC114(void) {
+    gcrna_initialize();
 }

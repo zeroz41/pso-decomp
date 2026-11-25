@@ -8,7 +8,7 @@
 #include "pso/audio/LscStream.h"
 #include "pso/audio/AdxFsServer.h"
 #include "pso/audio/AdxLock.h"
-#include "pso/unk/TLobby_803CC0B4.h"
+#include "pso/audio/GcrnaBridge.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxEncoder.h"

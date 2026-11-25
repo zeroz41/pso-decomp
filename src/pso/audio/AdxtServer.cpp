@@ -17,7 +17,7 @@
 #include "pso/audio/GcrnaBridgePanId.h"
 #include "pso/audio/GcrnaBridgeSampleBits.h"
 #include "pso/audio/GcrnaBridgeStatus.h"
-#include "pso/unk/TLobby_803CBF50.h"
+#include "pso/audio/GcrnaBridge.h"
 #include "pso/unk/text_803D31A4.h"
 
 struct Pair_803C8678 { u32 a, b; };

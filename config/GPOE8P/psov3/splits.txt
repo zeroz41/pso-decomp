@@ -10740,27 +10740,15 @@ pso/audio/GcrnaBridgePanId.cpp:
 pso/audio/GcrnaBridgeReady.cpp:
 	.text       start:0x803CBF10 end:0x803CBF30
 
-pso/audio/GcrnaBridgeSampleBits.cpp:
-	.text       start:0x803CBF30 end:0x803CBF50
+pso/audio/GcrnaBridge.cpp:
+	.text       start:0x803CBF30 end:0x803CC134
 
-pso/unk/TLobby_803CBF50.cpp:
-	.text       start:0x803CBF50 end:0x803CC070
-
-pso/audio/GcrnaBridgeTeardown.cpp:
-	.text       start:0x803CC070 end:0x803CC0B4
-
-pso/unk/TLobby_803CC0B4.cpp:
-	.text       start:0x803CC0B4 end:0x803CC134
-
-pso/unk/text_803CC134.cpp:
-	.text       start:0x803CC134 end:0x803CC274
+pso/audio/AdxfInit.cpp:
+	.text       start:0x803CC134 end:0x803CC294
 	.rodata     start:0x8047C7E8 end:0x8047C818
 	.bss        start:0x8057B7B0 end:0x8057DF50
 	.sbss       start:0x805D75D0 end:0x805D75E8
 	.sdata2     start:0x805E0D80 end:0x805E0D84
-
-pso/audio/AdxCacheControl.cpp:
-	.text       start:0x803CC274 end:0x803CC294
 
 pso/unk/text_803CC294.cpp:
 	.text       start:0x803CC294 end:0x803CD99C
@@ -10862,26 +10850,8 @@ pso/system/movie/Mfci.cpp:
 	.sbss       start:0x805D7678 end:0x805D7680
 	.sdata2     start:0x805E0DC0 end:0x805E0DC8
 
-pso/audio/GcrnaControlBridge.cpp:
-	.text       start:0x803D43C8 end:0x803D4418
-
-pso/unk/text_803D4418.cpp:
-	.text       start:0x803D4418 end:0x803D4428
-
-pso/audio/GcrnaStatusBridge.cpp:
-	.text       start:0x803D4428 end:0x803D4448
-
-pso/unk/text_803D4448.cpp:
-	.text       start:0x803D4448 end:0x803D4704
-
-pso/audio/GcrnaChannelBridge.cpp:
-	.text       start:0x803D4704 end:0x803D4714
-
-pso/unk/text_803D4714.cpp:
-	.text       start:0x803D4714 end:0x803D4B68
-
-pso/audio/GcrnaBufferQuery.cpp:
-	.text       start:0x803D4B68 end:0x803D4CA0
+pso/audio/GcrnaStreamControl.cpp:
+	.text       start:0x803D43C8 end:0x803D4CA0
 
 pso/audio/GcrnaStream.cpp:
 	.text       start:0x803D4CA0 end:0x803D6140

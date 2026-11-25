@@ -10,7 +10,7 @@
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AudioStreamInput.h"
 #include "pso/unk/TLobby_803BFE50.h"
-#include "pso/unk/TLobby_803CBF50.h"
+#include "pso/audio/GcrnaBridge.h"
 #include "pso/audio/GcrnaBridgeReady.h"
 #include "pso/audio/GcrnaBridgeTeardown.h"
 #include "pso/network/TLobby.h"
