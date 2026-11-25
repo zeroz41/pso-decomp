@@ -65,12 +65,14 @@ public:
     void clamp_text_size(f32 *out);
     s32 is_speech_balloon_ready();
     void complete_speech_balloon();
+    void set_text(saddr str, saddr flags);
+    void open(u32 *symbol_chat, s32 flags);
 
-    s8 state;            // run_task's state machine
+    u8 state;            // run_task's state machine
     u8 balloon_flags;    // bit 0 shown, 1 reveal, 2 active, 5 balloon visible
     u8 content_kind;     // 0 text entry, 1 symbol chat, 2 none (calc_text_size)
     s8 slot;             // the balloon slot taken from TWindowCtrl (alloc_nearest_free_slot)
-    u8 unk_74[0x2];
+    s16 display_ticks;   // counts down while the balloon is shown; set from the text length (inferred)
     u16 speaker_id;  // Speaker entity ID, or 0xFFFF for no entity.
     char *name;  // speaker name, drawn by draw_name_plate (inferred)
     f32 scale;
@@ -89,11 +91,7 @@ LAYOUT_ASSERT(TWindowFukidasi_head_position_offset, offsetof(TWindowFukidasi, he
 LAYOUT_ASSERT(TWindowFukidasi_size, sizeof(TWindowFukidasi) == 0x98);
 
 extern "C" {
-}
-extern "C" {
-void open__15TWindowFukidasiFPvPvi(u8 *window_fukidasi, u32 *arg1, s32 flags);
 void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);
-void set_text__15TWindowFukidasiFPvii(u8 *window_fukidasi, saddr str, saddr flags);
 }
 
 #endif

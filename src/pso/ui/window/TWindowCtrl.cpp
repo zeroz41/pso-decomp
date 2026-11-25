@@ -756,7 +756,7 @@ saddr TWindowCtrl::open(u16 id, const char *text, s32 flags) {
     if (temp_r3 == 0) {
         return 0;
     }
-    set_text__15TWindowFukidasiFPvii((u8 *)temp_r3, (saddr)text, flags);
+    ((TWindowFukidasi *)temp_r3)->set_text((saddr)text, flags);
     return temp_r3;
 }
 
@@ -770,7 +770,7 @@ s32 TWindowCtrl::open_balloon(u16 player, u8 *arg1, s32 flags, s32 client) {
     if (temp_r3 == 0) {
         return 0;
     }
-    open__15TWindowFukidasiFPvPvi((u8 *)temp_r3, (u32 *)arg1, flags);
+    ((TWindowFukidasi *)temp_r3)->open((u32 *)arg1, flags);
     return temp_r3;
 }
 
