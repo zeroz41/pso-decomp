@@ -245,6 +245,7 @@ extern "C" u8 lbl_805DCDD0[];
 extern "C" u8 lbl_805DCDD4[];
 extern "C" u8 lbl_805DCDD8[];
 extern "C" u8 lbl_805DCDDC[];
+}
 void *TWindowHelpItem::item_layout_entries[67] = {
     (void *)0xc, (void *)0x1, (void *)0xb, (void *)0x0,
     (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
@@ -264,6 +265,7 @@ void *TWindowHelpItem::item_layout_entries[67] = {
     (void *)0x3, (void *)0x43500000, (void *)0x42f80000, (void *)0x3f000000,
     (void *)0xffffffff, (void *)0x0, (void *)&lbl_805DCDD0,
 };
+extern "C" {
 void *lbl_804CF24C[17] = {
     (void *)0x5, (void *)0x1, (void *)0xb, (void *)0x0,
     (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
@@ -271,6 +273,7 @@ void *lbl_804CF24C[17] = {
     (void *)0x0, (void *)0x42700000, (void *)0xb, (void *)0x0,
     (void *)0x42a00000,
 };
+}
 void *TWindowHelpItem::resistance_layout_entries[31] = {
     (void *)0x7, (void *)0x1, (void *)0xb, (void *)0x0,
     (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
@@ -281,6 +284,7 @@ void *TWindowHelpItem::resistance_layout_entries[31] = {
     (void *)0x4, (void *)0x43530000, (void *)0x42f60000, (void *)0x3f000000,
     (void *)0xffffffff, (void *)0x0, (void *)0x0,
 };
+extern "C" {
 void *lbl_804CF30C[118] = {
     (void *)0x10, (void *)0x1, (void *)0xb, (void *)0x0,
     (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,
@@ -349,11 +353,13 @@ void *help_item_tech_disk_window_layout_table[56] = {
     (void *)0x0, (void *)0x3, (void *)0x43500000, (void *)0x42f80000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)&lbl_805DCDD0,
 };
+}
 void *TWindowHelpItem::description_text_layout[9] = {
     (void *)0x1, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0,
 };
+extern "C" {
 WindowDescriptor window_help_item_layout = {
     {228.0f, 184.0f}, 38900.0f, NULL, 3,
 };

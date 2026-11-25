@@ -414,9 +414,9 @@ void TWindowDD::free_buffers() {
         mem_free((void*)TWindowDD::work_buffer);
         TWindowDD::work_buffer = 0U;
     }
-    if ((u32) TWindowDD::ws_data_buffer != 0U) {
+    if (TWindowDD::ws_data_buffer != NULL) {
         TLobby::free_nodes_with_id((uaddr)((void*)TWindowDD::ws_data_buffer));
-        TWindowDD::ws_data_buffer = 0U;
+        TWindowDD::ws_data_buffer = NULL;
     }
     if ((u32) ws_data_de != 0U) {
         TLobby::free_nodes_with_id((uaddr)((void*)ws_data_de));
