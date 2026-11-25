@@ -17786,11 +17786,11 @@ force_active:
   - __dt__19TAdSelectGameModeGCFv
   - __vt__19TAdSelectGameModeGC
   - add_part__25TWindowSubSymbolChatPartsFv
-  - fn_80284C04
+  - update_row_count__25TWindowSubSymbolChatPartsFv
   - fn_80284FB8
-  - fn_80285314
-  - fn_802855C4
-  - fn_802857C4
+  - draw_preset_parts__25TWindowSubSymbolChatPartsFP17WindowDrawContext
+  - draw_part_choices__25TWindowSubSymbolChatPartsFP17WindowDrawContext
+  - draw_part_icons__25TWindowSubSymbolChatPartsFP17WindowDrawContext
   - handle_add__25TWindowSubSymbolChatPartsFv
   - handle_cancel__25TWindowSubSymbolChatPartsFv
   - lbl_805DD808

@@ -104,7 +104,6 @@ extern "C" {
 struct Obj_80283850 { s32 value; u8 pad_4[0x17]; u32 pad_1C[0xF]; };
 extern void *TWindowSubSymbolChat__instance;
 
-s32 fn_80285A28(int, void *);
 extern s8 TWindowSubSymbolChat__data_805D6494;
 extern s32 TWindowSubSymbolChat__data_805D6498;
 extern s32 TWindowSubSymbolChat__data_805D649C;
@@ -433,7 +432,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         if ((u32) this->parts == 0U) {
             this->parts = ((TWindowSubSymbolChat *)arg0)->create_parts();
-            fn_80285A28(this->parts, &TWindowSubSymbolChat__help_window);
+            ((TWindowSubSymbolChatParts *)this->parts)->init_help(&TWindowSubSymbolChat__help_window);
         }
         ((TWindowSubSymbolChatParts *)this->parts)->select_index_and_scroll(this->symbol_index);
         if ((u32) this->m_54 == 0U) {

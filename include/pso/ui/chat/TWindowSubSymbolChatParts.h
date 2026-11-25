@@ -9,6 +9,7 @@ struct NJS_POINT2;
 struct TWindowSubStatusDisp;
 
 struct WindowScrollBar;
+struct WindowDrawContext;
 
 struct TWindowSubSymbolChatParts : public TWindowAddition {
     TWindowSubSymbolChatParts(const NJS_POINT2 *position, s32 *arg2, s32 *arg3);
@@ -31,7 +32,7 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     s8 *selection;
     s32 *m_7c;
     s32 *m_80;
-    u8 _pad84[0x4];
+    s32 *help;
     TWindowSubStatusDisp *heading;
     WindowScrollBar *scrollbar;
     void select_index_and_scroll(s32 index);
@@ -40,14 +41,15 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     void handle_cancel();
     void add_part();
     void handle_add();
+    void update_row_count();
+    void draw_preset_parts(WindowDrawContext *ctx);
+    void draw_part_choices(WindowDrawContext *ctx);
+    void draw_part_icons(WindowDrawContext *ctx);
+    void init_help(s32 *help_value);
 };
 
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_size, sizeof(TWindowSubSymbolChatParts) == 0x90);
 
-extern "C" {
-void fn_80284C04(TWindowSubSymbolChatParts *parts);
-void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts);
-}
 void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts);
 
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_row_count_offset, offsetof(TWindowSubSymbolChatParts, row_count) == 0x74);
