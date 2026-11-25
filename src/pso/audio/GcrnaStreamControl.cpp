@@ -5,7 +5,7 @@
 #include "pso/audio/GcrnaStatusBridge.h"
 #include "pso/audio/GcrnaChannelBridge.h"
 #include <string.h>
-#include "pso/unk/text_803D2F1C.h"
+#include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/GcrnaBufferQuery.h"
 
 void gcrna_interrupt_lock_leave(void) {

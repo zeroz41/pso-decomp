@@ -1,5 +1,5 @@
 #include <string.h>
-#include "pso/unk/text_803D2F1C.h"
+#include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/AixPlayer.h"
 #include "pso/system/MiddlewareInterruptLock.h"
 #include "types.h"

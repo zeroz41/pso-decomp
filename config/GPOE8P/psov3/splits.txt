@@ -10611,16 +10611,12 @@ musyx/runtime/Chorus/chorus_fx.c:
 	.data       start:0x804F9380 end:0x804F9B80
 	.sdata2     start:0x805E0C98 end:0x805E0CA0
 
-pso/unk/TLobby_803BFE50.cpp:
-	.text       start:0x803BFE50 end:0x803C1A58
+pso/audio/AdxAiff.cpp:
+	.text       start:0x803BFE50 end:0x803C25F8
 	.bss        start:0x80570AC0 end:0x80571480
 	.sdata      start:0x805D4650 end:0x805D4658
 	.sbss       start:0x805D7510 end:0x805D7518
-	.sdata2     start:0x805E0CA0 end:0x805E0CC0
-
-pso/audio/AdxAiff.cpp:
-	.text       start:0x803C1A58 end:0x803C25F8
-	.sdata2     start:0x805E0CC0 end:0x805E0CD0
+	.sdata2     start:0x805E0CA0 end:0x805E0CD0
 
 pso/audio/AdxAu.cpp:
 	.text       start:0x803C25F8 end:0x803C34F4
@@ -10828,13 +10824,10 @@ pso/audio/SjRingBuffer.cpp:
 	.sdata2     start:0x805E0DB8 end:0x805E0DC0
 
 pso/system/RefCountedWorkBuffer.cpp:
-	.text       start:0x803D2E94 end:0x803D2F1C
+	.text       start:0x803D2E94 end:0x803D3194
+	.data       start:0x804F9E60 end:0x804FA020
 	.bss        start:0x8058A880 end:0x8058B480
 	.sbss       start:0x805D7650 end:0x805D7658
-
-pso/unk/text_803D2F1C.cpp:
-	.text       start:0x803D2F1C end:0x803D3194
-	.data       start:0x804F9E60 end:0x804FA020
 
 pso/audio/CriSvm.cpp:
 	.text       start:0x803D3194 end:0x803D39F8

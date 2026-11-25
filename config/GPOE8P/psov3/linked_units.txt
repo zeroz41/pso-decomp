@@ -1900,7 +1900,6 @@ PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Src/GCN_Mem_Alloc.c
 pso/unk/text_803CC294.cpp
 pso/unk/text_803CE568.cpp
 pso/system/movie/Gcci.cpp
-pso/unk/text_803D2F1C.cpp
 pso/unk/text_803D619C.cpp
 pso/ui/window/TWindowSubComCard_803D6438.cpp
 pso/unk/text_803D647C.cpp
@@ -2010,7 +2009,6 @@ pso/technique/TechniqueRingwaveList.cpp
 pso/technique/TTecIceCharge.cpp
 pso/technique/TTecLightCharge.cpp
 pso/weapon/TItemAttackCol.cpp
-pso/unk/TLobby_803BFE50.cpp
 pso/unk/text_8020B5CC.cpp
 pso/player/PlayerActionProvider.cpp
 pso/boss/barbaray/TBoss7Joint_802EE704.cpp

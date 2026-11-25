@@ -1,12 +1,11 @@
 #include <string.h>
 #include "pso/audio/AdxError.h"
 #include <dolphin/os/OSThread.h>
-#include "pso/unk/text_803D2F1C.h"
+#include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AudioStreamInput.h"
-#include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/SjRingBuffer.h"
