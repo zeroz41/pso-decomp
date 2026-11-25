@@ -7202,11 +7202,8 @@ pso/ui/charcreate/TObjCMName.cpp:
 pso/ui/charcreate/TChCrEffCtrlPl.cpp:
 	.text       start:0x80298F08 end:0x80298F8C
 
-pso/unk/text_80298F8C.cpp:
-	.text       start:0x80298F8C end:0x80298FAC
-
 pso/ui/charcreate/TObjCMProportion.cpp:
-	.text       start:0x80298FAC end:0x80299420
+	.text       start:0x80298F8C end:0x80299420
 	.rodata     start:0x80465150 end:0x80465180
 	.data       start:0x804DBDC0 end:0x804DBDE0
 	.bss        start:0x805409C8 end:0x805409E0

@@ -25,6 +25,7 @@ s32 creation_buttons_held(s32 mask);
 s32 creation_buttons_pressed(s32 mask);
 s32 creation_direction_repeated(s32 mask);
 void update_creation_direction_repeat();
+void reset_creation_input_state();
 void get_creation_pad_stick(s32 *angle, f32 *magnitude);
 
 struct PadSlot;

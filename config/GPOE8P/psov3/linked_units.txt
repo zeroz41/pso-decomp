@@ -1897,7 +1897,6 @@ pso/unk/text_80290BE0.cpp
 pso/unk/text_80290BEC.cpp
 pso/ui/UISprite.cpp
 pso/unk/text_802948A8.cpp
-pso/unk/text_80298F8C.cpp
 pso/unk/text_80299420.cpp
 pso/unk/text_8029A97C.cpp
 pso/unk/text_802A0A30.cpp

@@ -17,7 +17,6 @@
 #include "pso/ui/charcreate/TChCrTagPlBack.h"
 #include "pso/ui/charcreate/TChCrTagPlGraphic.h"
 #include "pso/ui/charcreate/TChCrTagInformation.h"
-#include "pso/unk/text_802993F0.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
@@ -155,7 +154,7 @@ TChCrCharSelect::~TChCrCharSelect() {}
 TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     m_name = TChCrCharSelect__name;
     TChCrEffTag::set_eff_tag(0);
-    fn_802993F0();
+    reset_creation_input_state();
     if (TChCrCharSelect__selected_char_index == -1 || TChCrCharSelect__selected_slot_index == -1) {
         TChCrCharSelect__selected_char_index = 0;
         TChCrCharSelect__selected_slot_index = 0;
