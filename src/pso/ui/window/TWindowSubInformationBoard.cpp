@@ -32,7 +32,6 @@ struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
 struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 
 extern "C" {
-s32 set_info_board_text__6TLobbyFv();
 
 const char *lbl_805D4348 = "TWindowSubInformationBoard";
 
@@ -160,7 +159,7 @@ void TWindowSubInformationBoard::run_task() {
         }
         if (this->keyboard->is_confirmed() != 0) {
             temp_r30 = (saddr)this->keyboard->realloc_buffer();
-            set_info_board_text__6TLobbyFv();
+            TLobby::set_info_board_text((char *)temp_r30);
             TLobby::flush_pending_send();
             mem_free((void *)temp_r30);
             this->m_1c = 0xBU;

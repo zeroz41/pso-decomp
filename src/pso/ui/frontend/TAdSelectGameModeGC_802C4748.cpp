@@ -47,9 +47,7 @@ const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 2
 s32 TAdSelectGameModeGC__cached_mode_value;
 extern "C" {
 
-int sync_char_select_state__10TObjPlayerFv(void*);
-
-int fn_802C4748(void* p) { return sync_char_select_state__10TObjPlayerFv(p); }
+int fn_802C4748(void* p) { return TObjPlayer::sync_char_select_state(); }
 
 void TAdSelectGameModeGC::render() {  }
 
