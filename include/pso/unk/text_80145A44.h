@@ -7,10 +7,4 @@ extern "C" {
 BOOL fn_80145A44(char *dst);
 }
 
-// --- C functions defined in text_80145A44.cpp ---
-extern "C" {
-BOOL fn_80145A44(char *dst);
-}
-// --- end of C functions
-
 #endif
