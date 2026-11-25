@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowVertexBufferAbi.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -276,7 +277,7 @@ void TTecZondeEff::render() {
     set_depth_buffer_settings_1();
     if (project_lightning_points(screen_points, strip_widths, strip_heights) != 0 && build_lightning_strip(verts, screen_points, strip_widths, strip_heights) != 0) {
         set_additive_blend();
-        ((TWindowDD *)verts)->draw_transformed_primitive(point_count * 2, TTecZondeEff__beam_vertex_data, 1);
+        draw_window_vertices((WindowVertex *)verts, point_count * 2, (u32)TTecZondeEff__beam_vertex_data, 1);
         set_default_alpha_blend();
     }
     TParticleCtrl::end_effect_render();

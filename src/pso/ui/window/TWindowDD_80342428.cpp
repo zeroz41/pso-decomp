@@ -4,33 +4,31 @@
 #include "pso/ui/window/TWindowDD.h"
 
 extern "C" {
-s32 TWindowDD__sub_803435A0(void *);
+s32 begin_word_select_state(void *);
 s32 refresh_word_select_child_list();
 s32 is_word_select_cancel_input(void *);
-s32 TWindowDD__sub_803484C4(void *);
+s32 finish_word_select(void *);
 
 void TWindowDD__sub_80342428(u8 *window_dd) {
-  u8 *new_var;
+  TWindowDD *w = (TWindowDD *)window_dd;
   refresh_word_select_child_list();
-  ((TWindowDD *)window_dd)->update_selection_state();
-  if (((TWindowDD *)window_dd)->test_input_flag_4())
+  w->update_selection_state();
+  if (w->test_input_flag_4())
   {
     TWindowDD::play_sound();
-    if (((s32) (*((s32 *) (((s8 *) window_dd) + 0xB0)))) == 0xA)
+    if (((s32) w->state) == 0xA)
     {
-      new_var = window_dd;
-      new_var = new_var + ((*((s32 *) (((s8 *) window_dd) + 0x20))) * 4);
-      if (static_cast<s16>(get_word_select_selected_id(*reinterpret_cast<TWindowDD_WS_Word **>(new_var + 0x24))) == 0x685)
+      if (static_cast<s16>(get_word_select_selected_id(reinterpret_cast<TWindowDD_WS_Word *>(w->word_windows[w->depth]))) == 0x685)
       {
-        *((s32 *) (((s8 *) window_dd) + 0xB4)) = 0x14;
-        ((TWindowDD *)window_dd)->m_8c = -0x3C;
-        TWindowDD__sub_803435A0((void *) window_dd);
+        w->next_state = 0x14;
+        w->m_8c = -0x3C;
+        begin_word_select_state((void *) window_dd);
         return;
       }
-      TWindowDD__sub_803484C4((void *) window_dd);
+      finish_word_select((void *) window_dd);
       return;
     }
-    TWindowDD__sub_803484C4((void *) window_dd);
+    finish_word_select((void *) window_dd);
     return;
   }
   if (is_word_select_cancel_input((void *) window_dd) != 0)

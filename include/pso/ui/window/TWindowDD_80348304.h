@@ -7,7 +7,7 @@
 extern "C" {
 int TWindowDD__sub_80348424(s32 _w0, s32 _w1);
 void TWindowDD__sub_80348448(s32 arg0, s16 id);
-void TWindowDD__sub_803484C4(u8 *window_dd);
+void finish_word_select(u8 *window_dd);
 }
 // --- end of C functions
 

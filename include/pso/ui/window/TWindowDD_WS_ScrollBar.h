@@ -9,16 +9,18 @@ public:
     TWindowDD_WS_ScrollBar();
     virtual void run_task();
     virtual void render();
-    f32 pad_60; // thumb length = track * pad_60 * pad_68; offset = track * pad_60 * pad_6C
-    f32 pad_64; // no thumb travel while pad_64 <= pad_68
-    f32 pad_68;
-    f32 pad_6C;
+    void set_range(s32 count, s32 visible);
+    void set_first_index(s32 index);
+    f32 inverse_count;  // thumb length = track * inverse_count * visible_count; offset = track * inverse_count * first_index
+    f32 count;  // entries in the list; no thumb travel while count <= visible_count
+    f32 visible_count;
+    f32 first_index;  // index of the first visible entry
 };
 LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_size, sizeof(TWindowDD_WS_ScrollBar) == 0x70);
 
-LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_pad_60, offsetof(TWindowDD_WS_ScrollBar, pad_60) == 0x60);
-LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_pad_64, offsetof(TWindowDD_WS_ScrollBar, pad_64) == 0x64);
-LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_pad_68, offsetof(TWindowDD_WS_ScrollBar, pad_68) == 0x68);
-LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_pad_6C, offsetof(TWindowDD_WS_ScrollBar, pad_6C) == 0x6C);
+LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_inverse_count, offsetof(TWindowDD_WS_ScrollBar, inverse_count) == 0x60);
+LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_count, offsetof(TWindowDD_WS_ScrollBar, count) == 0x64);
+LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_visible_count, offsetof(TWindowDD_WS_ScrollBar, visible_count) == 0x68);
+LAYOUT_ASSERT(TWindowDD_WS_ScrollBar_first_index, offsetof(TWindowDD_WS_ScrollBar, first_index) == 0x6C);
 
 #endif

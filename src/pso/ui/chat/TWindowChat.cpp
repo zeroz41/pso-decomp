@@ -339,7 +339,7 @@ void TWindowChat::open_next_input_window() {
     case 1: {
         composer->reset_input();
         *static_cast<s32 *>(result) = 2;
-        wordSelectWindow = new TWindowDD(this, static_cast<s32 *>(result) + 1);
+        wordSelectWindow = new TWindowDD(this, reinterpret_cast<WordSelectMessage *>(static_cast<s32 *>(result) + 1));
         hardKeyboard->sub_8025EC04();
         return;
     }

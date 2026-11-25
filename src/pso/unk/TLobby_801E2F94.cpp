@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/system/memory.h"
 #include "pso/render/TriangleFan3D.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -148,7 +149,7 @@ void set_screen_center(f32 x, f32 y) {
 extern "C" {
 void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
-void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { select_texture_by_surface_id(id); draw_screen_textured_strip((ScreenTexturedVertex *)this, a1, a3); }
+void draw_window_vertices(WindowVertex *vertices, s32 count, u32 surface_id, s32 blended) { select_texture_by_surface_id(surface_id); draw_screen_textured_strip((ScreenTexturedVertex *)vertices, count, blended); }
 
 }
 

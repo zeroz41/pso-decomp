@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void *TWindowDD__sub_80340F70(void);
+void *create_word_select_scroll_bar(void);
 }
 
 // --- C functions defined in TWindowDD_80340EA8.cpp ---
 extern "C" {
-void *TWindowDD__sub_80340F70(void);
+void *create_word_select_scroll_bar(void);
 }
 // --- end of C functions
 

@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/math/AngleLookup.h"
@@ -263,7 +264,7 @@ void TeneFakeTecThunderEff::render() {
     p[1].v = vv;
     p[1].color = vertex_color;
     set_additive_blend();
-    ((TWindowDD *)verts)->draw_transformed_primitive(point_count * 2, fake_tec_texture, 1);
+    draw_window_vertices((WindowVertex *)verts, point_count * 2, fake_tec_texture, 1);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
 }

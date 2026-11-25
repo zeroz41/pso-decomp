@@ -8,11 +8,11 @@ void *load_encrypted_archive_data(const char *);
 extern s32 TWindowDD__word_select_lists;
 s32 window_dd_element_count;
 
-saddr TWindowDD::get_element_ptr(s32 arg0) {
-    if (arg0 == -1) {
+saddr TWindowDD::get_element_ptr(s32 list_id) {
+    if (list_id == -1) {
         return 0;
     }
-    if (arg0 == -0x32) {
+    if (list_id == -0x32) {
         switch ((s32) TWindowDD::window_mode) {
         case 0:
             return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x8C0;
@@ -26,10 +26,10 @@ saddr TWindowDD::get_element_ptr(s32 arg0) {
             return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + 0x928;
         }
     } else {
-        if ((arg0 >= 0) && (arg0 < (s32) window_dd_element_count)) {
-            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + (arg0 * 8);
+        if ((list_id >= 0) && (list_id < (s32) window_dd_element_count)) {
+            return reinterpret_cast<saddr>(TWindowDD::ws_data_base) + (list_id * 8);
         }
-        switch (arg0) {
+        switch (list_id) {
         default:
             return 0;
         case -60:
@@ -68,117 +68,117 @@ char *lbl_805D6E6C;
 s8 lbl_805D6E70;
 
 void ws_data_load(void) {
-    void *temp_r3;
-    void *temp_r3_2;
-    void *temp_r3_3;
-    void *temp_r3_4;
-    void *temp_r3_5;
+    void *jp_data;
+    void *us_data;
+    void *es_data;
+    void *de_data;
+    void *fr_data;
 
     switch ((s32) TWindowDD::window_mode) {
     case 0:
-        temp_r3 = load_encrypted_archive_data("ws_data_jp.bin");
-        ws_data_jp = temp_r3;
-        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3 + 0);
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3)[2];
-        lbl_805D6E34 = *(s32 *)((s8 *)temp_r3 + 0xC);
+        jp_data = load_encrypted_archive_data("ws_data_jp.bin");
+        ws_data_jp = jp_data;
+        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)jp_data + 0);
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(jp_data)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(jp_data)[2];
+        lbl_805D6E34 = *(s32 *)((s8 *)jp_data + 0xC);
         window_dd_element_count = 0x11A;
         twindowdd_entry_count = 0x12;
         return;
     default:
-        temp_r3_2 = load_encrypted_archive_data("ws_data_us.bin");
-        ws_data_us = temp_r3_2;
-        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3_2 + 0);
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_2)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_2)[2];
-        lbl_805D6E34 = *(s32 *)((s8 *)temp_r3_2 + 0xC);
-        TWindowDD__data_805D6E40 = *(s32 *)((s8 *)temp_r3_2 + 0x10);
-        TWindowDD__data_805D6E48 = *(s32 *)((s8 *)temp_r3_2 + 0x14);
-        TWindowDD__data_805D6E44 = *(s32 *)((s8 *)temp_r3_2 + 0x18);
+        us_data = load_encrypted_archive_data("ws_data_us.bin");
+        ws_data_us = us_data;
+        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)us_data + 0);
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(us_data)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(us_data)[2];
+        lbl_805D6E34 = *(s32 *)((s8 *)us_data + 0xC);
+        TWindowDD__data_805D6E40 = *(s32 *)((s8 *)us_data + 0x10);
+        TWindowDD__data_805D6E48 = *(s32 *)((s8 *)us_data + 0x14);
+        TWindowDD__data_805D6E44 = *(s32 *)((s8 *)us_data + 0x18);
         window_dd_element_count = 0x126;
         twindowdd_entry_count = 0x13;
         return;
     case 4:
-        temp_r3_3 = load_encrypted_archive_data("ws_data_es.bin");
-        ws_data_es = temp_r3_3;
-        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3_3 + 0);
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_3)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_3)[2];
-        lbl_805D6E34 = *(s32 *)((s8 *)temp_r3_3 + 0xC);
-        TWindowDD__data_805D6E40 = *(s32 *)((s8 *)temp_r3_3 + 0x10);
-        TWindowDD__data_805D6E48 = *(s32 *)((s8 *)temp_r3_3 + 0x18);
-        TWindowDD__data_805D6E44 = *(s32 *)((s8 *)temp_r3_3 + 0x14);
-        lbl_805D6E4C = *(u8 **)((s8 *)temp_r3_3 + 0x20);
+        es_data = load_encrypted_archive_data("ws_data_es.bin");
+        ws_data_es = es_data;
+        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)es_data + 0);
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(es_data)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(es_data)[2];
+        lbl_805D6E34 = *(s32 *)((s8 *)es_data + 0xC);
+        TWindowDD__data_805D6E40 = *(s32 *)((s8 *)es_data + 0x10);
+        TWindowDD__data_805D6E48 = *(s32 *)((s8 *)es_data + 0x18);
+        TWindowDD__data_805D6E44 = *(s32 *)((s8 *)es_data + 0x14);
+        lbl_805D6E4C = *(u8 **)((s8 *)es_data + 0x20);
         window_dd_element_count = 0x126;
         twindowdd_entry_count = 0x13;
         return;
     case 2:
-        temp_r3_4 = load_encrypted_archive_data("ws_data_de.bin");
-        ws_data_de = temp_r3_4;
-        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3_4 + 0);
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_4)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_4)[2];
-        lbl_805D6E34 = *(s32 *)((s8 *)temp_r3_4 + 0xC);
-        TWindowDD__data_805D6E40 = *(s32 *)((s8 *)temp_r3_4 + 0x10);
-        TWindowDD__data_805D6E44 = *(s32 *)((s8 *)temp_r3_4 + 0x14);
-        TWindowDD__data_805D6E48 = *(s32 *)((s8 *)temp_r3_4 + 0x18);
+        de_data = load_encrypted_archive_data("ws_data_de.bin");
+        ws_data_de = de_data;
+        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)de_data + 0);
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(de_data)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(de_data)[2];
+        lbl_805D6E34 = *(s32 *)((s8 *)de_data + 0xC);
+        TWindowDD__data_805D6E40 = *(s32 *)((s8 *)de_data + 0x10);
+        TWindowDD__data_805D6E44 = *(s32 *)((s8 *)de_data + 0x14);
+        TWindowDD__data_805D6E48 = *(s32 *)((s8 *)de_data + 0x18);
         window_dd_element_count = 0x126;
         twindowdd_entry_count = 0x13;
         return;
     case 3:
-        temp_r3_5 = load_encrypted_archive_data("ws_data_fr.bin");
-        TWindowDD::ws_data_buffer = temp_r3_5;
-        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)temp_r3_5 + 0);
-        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(temp_r3_5)[1];
-        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(temp_r3_5)[2];
-        lbl_805D6E34 = *(s32 *)((s8 *)temp_r3_5 + 0xC);
-        TWindowDD__data_805D6E40 = *(s32 *)((s8 *)temp_r3_5 + 0x10);
-        TWindowDD__data_805D6E48 = *(s32 *)((s8 *)temp_r3_5 + 0x18);
-        TWindowDD__data_805D6E44 = *(s32 *)((s8 *)temp_r3_5 + 0x14);
+        fr_data = load_encrypted_archive_data("ws_data_fr.bin");
+        TWindowDD::ws_data_buffer = fr_data;
+        TWindowDD__data_805D6E28 = *(s32 *)((s8 *)fr_data + 0);
+        TWindowDD::ws_data_base = reinterpret_cast<TWindowDDValueList **>(fr_data)[1];
+        TWindowDD::ws_data_table = reinterpret_cast<TWindowDDValueList **>(fr_data)[2];
+        lbl_805D6E34 = *(s32 *)((s8 *)fr_data + 0xC);
+        TWindowDD__data_805D6E40 = *(s32 *)((s8 *)fr_data + 0x10);
+        TWindowDD__data_805D6E48 = *(s32 *)((s8 *)fr_data + 0x18);
+        TWindowDD__data_805D6E44 = *(s32 *)((s8 *)fr_data + 0x14);
         window_dd_element_count = 0x127;
         twindowdd_entry_count = 0x13;
         return;
     }
 }
 
-s32 TWindowDD__sub_80346DB8(saddr window_dd) {
-  s32 var_r31;
-  s32 var_r30;
-  saddr var_r3;
-  var_r30 = window_dd;
-  var_r31 = 0;
+s32 get_initial_word_select_list(saddr window_dd) {
+  s32 list_base;
+  s32 offset;
+  saddr result;
+  offset = window_dd;
+  list_base = 0;
   switch (((TWindowDD *)window_dd)->get_word_select_context())
   {
     case 0:
-      var_r31 = 1;
+      list_base = 1;
       break;
     case 1:
-      var_r31 = 3;
-      if (var_r30)
+      list_base = 3;
+      if (offset)
     {
     }
       break;
     case 2:
-      var_r31 = 5;
+      list_base = 5;
       break;
     case 3:
-      var_r31 = 7;
+      list_base = 7;
       break;
     case 4:
-      var_r31 = 9;
+      list_base = 9;
       break;
     case 5:
-      var_r31 = 0xB;
+      list_base = 0xB;
       break;
   }
-  var_r3 = var_r30;
-  var_r30 = 0;
-  if (TWindowDD__sub_80346F30((u8 *)((saddr) var_r3)) != 0)
+  result = offset;
+  offset = 0;
+  if (TWindowDD__sub_80346F30((u8 *)((saddr) result)) != 0)
   {
-    var_r30 = 1;
+    offset = 1;
   }
-  var_r3 = var_r31 + var_r30;
-  return var_r3;
+  result = list_base + offset;
+  return result;
 }
 
 void TWindowDD::render() {  }
@@ -213,6 +213,6 @@ s16 TWindowDD_read_resolved_value(s32 entry_id, s32 value_index) {
     return result;
 }
 
-s32 TWindowDD__sub_80346F30(u8 *arg0) {
-    return *(s16 *)((s8 *)arg0 + 0x1C) != -1;
+s32 TWindowDD__sub_80346F30(u8 *window) {
+    return ((TWindowDD *)window)->menu_index != -1;
 }
