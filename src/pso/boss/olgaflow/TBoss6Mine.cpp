@@ -83,7 +83,7 @@ void TBoss6Mine::draw() {
     bml_model = (saddr)get_bml_model(scene_archive, 2);
     bml_motion = get_bml_motion(scene_archive, 0);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
-    TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
+    apply_boss6_hit_flash_color(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, this->anim_frame);
     TBoss6PlotFalz::update_camera_target();
     clear_motion_packed_rotation();

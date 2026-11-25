@@ -1610,7 +1610,7 @@ void TObjEneGibbles::state_dead() {
             point.z = -10.0f;
             rotate_xz_pair_by_angle(&point.x, &point.z, this->rotation_y);
             vec3_add_to(&point, &position);
-            TObjPlayer__sub_800D93C4(&point, 0xA);
+            spawn_dead_spot_kind2_scale25(&point, 0xA);
             spawn_effect_at_ground(&point, 0x46);
         }
     case 2:

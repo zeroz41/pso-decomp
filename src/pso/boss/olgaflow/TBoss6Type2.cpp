@@ -2292,7 +2292,7 @@ void TBoss6Type2::render_body_effects() {
         settled = 1;
     }
     if (settled != 0) {
-        TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
+        apply_boss6_hit_flash_color(hit_flash, hp_ratio);
     }
     draw_body_models();
     if (settled != 0) {

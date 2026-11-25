@@ -769,7 +769,7 @@ void TObjEneMe1Gee::state_spawn(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        set_field_378(3);
+        set_next_mode(3);
         this->set_intangible();
         this->status_flags |= 0x400000;
         this->fade_mode = 1;
@@ -803,7 +803,7 @@ void TObjEneMe1Gee::state_appear(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        set_field_378(3);
+        set_next_mode(3);
         this->status_flags &= 0xFFBFFFFF;
         this->set_intangible();
         this->actorFlags = (this->actorFlags & 0xFEFFFFFF);
@@ -834,7 +834,7 @@ void TObjEneMe1Gee::state_high_appear(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(3);
+        this->set_next_mode(3);
         this->status_flags &= 0xFFBFFFFF;
         this->status_flags &= 0xFFF7FFFF;
         this->actorFlags |= 0x01000000;
@@ -880,7 +880,7 @@ void TObjEneMe1Gee::state_hover(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        set_field_378(3);
+        set_next_mode(3);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->actorFlags &= 0xFEFFFFFF;
@@ -920,7 +920,7 @@ void TObjEneMe1Gee::state_activate(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(4);
+        this->set_next_mode(4);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->actorFlags &= 0xFEFFFFFF;
@@ -987,7 +987,7 @@ void TObjEneMe1Gee::state_rise(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        set_field_378(5);
+        set_next_mode(5);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->actorFlags |= 0x01000000;
@@ -1014,7 +1014,7 @@ void TObjEneMe1Gee::state_formation(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        set_field_378(6);
+        set_next_mode(6);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->actorFlags |= 0x01000000;
@@ -1077,7 +1077,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
     Vec *dir = &this->work_point;
     switch (mode) {
     case 4:
-        this->set_field_378(7);
+        this->set_next_mode(7);
         this->status_flags |= 0x10000;
         this->status_flags &= ~0x400000;
         this->clear_intangible();
@@ -1114,7 +1114,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                 this->stage = 2;
                 this->status_flags |= 0x40000;
             }
-            TObjEneEpsilon__sub_800B92F8(this, 0x200, 0.5f);
+            enemy_turn_and_move_xz_slide(this, 0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
@@ -1219,7 +1219,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->actorFlags &= ~0x1000000;
@@ -1326,7 +1326,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 if (this->destination_distance > 40.0f) {
                     this->stage = 1;
                 }
-                TObjEneEpsilon__sub_800B92AC(this, 0x200, this->kind_params->melee_speed);
+                enemy_turn_and_move_xz_clamped(this, 0x200, this->kind_params->melee_speed);
             }
             break;
         case 3:
@@ -1391,7 +1391,7 @@ void TObjEneMe1Gee::state_orbit(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(9);
+        this->set_next_mode(9);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->attack_count = 0;
@@ -1482,7 +1482,7 @@ void TObjEneMe1Gee::state_regroup(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0xA);
+        this->set_next_mode(0xA);
         this->status_flags &= 0xFFBFFFFF;
         this->set_intangible();
         if ((s32) this->kind == 1) {
@@ -1589,7 +1589,7 @@ void TObjEneMe1Gee::state_vanish(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0xC);
+        this->set_next_mode(0xC);
         this->set_intangible();
         this->status_flags &= 0xFFBFFFFF;
         this->actorFlags |= 0x800;
@@ -1616,7 +1616,7 @@ void TObjEneMe1Gee::state_return_home(s32 mode) {
 
     switch (mode) {
     case 4:
-        set_field_378(0xF);
+        set_next_mode(0xF);
         this->status_flags &= 0xFFBFFFFF;
         this->clear_intangible();
         this->stage = 0;
@@ -2070,7 +2070,7 @@ void TObjEneMe1GeeLeader::state_activate(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(4);
+        this->set_next_mode(4);
         this->clear_intangible();
         this->core_color.r = gee_formation_reset_vec4.r;
         this->core_color.g = gee_formation_reset_vec4.g;
@@ -2129,7 +2129,7 @@ void TObjEneMe1GeeLeader::state_rise(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         this->clear_intangible();
         break;
     case 3:

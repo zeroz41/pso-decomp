@@ -41,13 +41,13 @@ void TBoss6Zanzo::copy_trail_buffer(Boss6TrailFrame *dest, Boss6TrailFrame *sour
         dst = dest->points;
         end = dst + count;
         src = source->points;
-        for (; dst < end; ++dst, ++src) TBoss6Zanzo__sub_803205A0(dst, src);
+        for (; dst < end; ++dst, ++src) copy_boss6_trail_point(dst, src);
     }
 }
 
 #pragma push
 #pragma scheduling off
-void TBoss6Zanzo__sub_803205A0(Boss6TrailPoint *dest, const Boss6TrailPoint *source) {
+void copy_boss6_trail_point(Boss6TrailPoint *dest, const Boss6TrailPoint *source) {
     *dest = *source;
 }
 #pragma pop

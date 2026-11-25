@@ -322,7 +322,7 @@ void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
 
 void TObjEneBm3Fly::update_state_flag() {
 
-    if (TObjEneEpsilon__sub_800B92F8(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->distance) != 0) {
+    if (enemy_turn_and_move_xz_slide(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->distance) != 0) {
         this->status_flags |= BM3_FLY_SHADOW;
         return;
     }
@@ -929,7 +929,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 msg) {
         this->clear_intangible();
         this->status_flags &= ~BM3_FLY_HIDDEN;
         this->status_flags |= BM3_FLY_SHADOW;
-        this->set_field_378(this->mode);
+        this->set_next_mode(this->mode);
         ((TBoss8Dragon *)this)->noop();
         play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
         this->step = 0;
@@ -1045,7 +1045,7 @@ void TObjEneBm3Fly::state_death_fall(s32 msg) {
                     this->step = 2;
                     this->slide_speed = 0.0f;
                     this->status_flags &= ~BM3_FLY_SHADOW;
-                    spawn_landing_dead_spot(&position, 0xA);
+                    spawn_dead_spot_kind2_scale2_5(&position, 0xA);
                     spawn_effect_at_ground(&this->position, 0x1E);
                 }
             }

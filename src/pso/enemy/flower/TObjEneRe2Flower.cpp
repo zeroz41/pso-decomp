@@ -466,7 +466,7 @@ void TObjEneRe2Flower::state_fade_in(s32 reason) {
         set_intangible();
         clear_child_flags();
         flags |= 8;
-        set_field_378(2);
+        set_next_mode(2);
         enemy_clear_target();
         appear_fade.start_fade_in();
         if (is_tower_variant() != 0) {
@@ -499,7 +499,7 @@ void TObjEneRe2Flower::state_wait(s32 reason) {
         clear_intangible();
         clear_child_flags();
         flags &= ~8;
-        set_field_378(2);
+        set_next_mode(2);
         enemy_clear_target();
         return;
     case 3:
@@ -534,7 +534,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
         clear_intangible();
         set_child_flags();
         flags &= ~8;
-        set_field_378(3);
+        set_next_mode(3);
         state_timer = 0;
         target_angle = 0;
         if (is_tower_variant() != 0) {
@@ -595,7 +595,7 @@ void TObjEneRe2Flower::state_shoot(s32 reason) {
         clear_intangible();
         set_child_flags();
         flags &= ~8;
-        set_field_378(3);
+        set_next_mode(3);
         charge_effect = NULL;
         break;
     case 3:
@@ -650,7 +650,7 @@ void TObjEneRe2Flower::state_attack(s32 reason) {
         clear_intangible();
         set_child_flags();
         flags &= ~8;
-        set_field_378(3);
+        set_next_mode(3);
         state_step = 0;
         state_timer = 0;
         swing_count = 0;

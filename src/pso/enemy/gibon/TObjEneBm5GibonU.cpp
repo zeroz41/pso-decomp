@@ -440,7 +440,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(14);
+        set_next_mode(14);
         clear_intangible();
         status_flags &= ~2;
         enemy_copy_target_destination();
@@ -569,7 +569,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0xC;
-        this->set_field_378(0xE);
+        this->set_next_mode(0xE);
         this->clear_intangible();
         this->status_flags &= ~2;
         this->substate = 0;
@@ -721,9 +721,9 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
                 rotate_xz_pair_by_angle(&spot.x, &spot.z, this->rotation_y);
                 vec3_add_to(&spot, &this->position);
                 if (this->is_leader == 1) {
-                    spawn_dead_spot_scale15(&spot, 0x32);
+                    spawn_dead_spot_kind2_scale15(&spot, 0x32);
                 } else {
-                    TObjPlayer::spawn_dead_spot_type2(&spot, 0x32);
+                    TObjPlayer::spawn_dead_spot_kind2_scale7_5(&spot, 0x32);
                 }
                 spawn_effect_at_ground(&spot, 0x46);
             }
@@ -824,7 +824,7 @@ void TObjEneBm5GibonU::action(s32 msg) {
     switch (msg) {
     case 4:
         this->clear_intangible();
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->requested_action = 9;
         this->substate = 0;
         TObjEneBm5GibonU::find_pack_leader(this->group_id);
@@ -860,7 +860,7 @@ void TObjEneBm5GibonU::repositioning_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0xE);
+        this->set_next_mode(0xE);
         this->clear_intangible();
         this->substate = 0;
         this->target_heading = 0;
@@ -944,7 +944,7 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(0xD);
+        this->set_next_mode(0xD);
         this->clear_intangible();
         this->desired_speed = 1.6f;
         this->substate = 0;
@@ -1006,7 +1006,7 @@ void TObjEneBm5GibonU::update_lunge(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0xA;
-        this->set_field_378(0xE);
+        this->set_next_mode(0xE);
         this->clear_intangible();
         flags = this->status_flags & 0xFFFFFFFD;
         this->status_flags = flags;
@@ -1093,7 +1093,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
   {
     case 4:
       requested_action = 1;
-      set_field_378(0xB);
+      set_next_mode(0xB);
       clear_intangible();
       desired_speed = 0.7f;
       substate = 0;
@@ -1333,7 +1333,7 @@ void TObjEneBm5GibonU::flanking_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 3;
-        this->set_field_378(0xA);
+        this->set_next_mode(0xA);
         this->clear_intangible();
         this->desired_speed = 2.0f;
         this->substate = 0;
@@ -1414,7 +1414,7 @@ void TObjEneBm5GibonU::chasing_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 2;
-        this->set_field_378(9);
+        this->set_next_mode(9);
         this->clear_intangible();
         this->desired_speed = 1.6f;
         this->substate = 0;
@@ -1484,7 +1484,7 @@ void TObjEneBm5GibonU::roaming_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->clear_intangible();
         this->state_timer = 0;
         this->substate = 0;
@@ -1581,7 +1581,7 @@ void TObjEneBm5GibonU::howling_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0xE;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->set_intangible();
         this->substate = 0;
         break;
@@ -1626,7 +1626,7 @@ void TObjEneBm5GibonU::standing_state(s32 msg) {
   {
     case 4:
       this->requested_action = 5;
-      this->set_field_378(8);
+      this->set_next_mode(8);
       (this->set_intangible());
       this->substate = 0;
       return;
@@ -1666,7 +1666,7 @@ void TObjEneBm5GibonU::alerted_state(s32 msg) {
   {
     case 4:
       *((s16 *) (((s8 *) this) - -0xB8)) = 4;
-      this->set_field_378(5);
+      this->set_next_mode(5);
       (this->set_intangible());
       this->substate = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
       return;
@@ -1695,7 +1695,7 @@ void TObjEneBm5GibonU::sleeping_state(s32 msg) {
   {
     case 4:
       this->requested_action = 4;
-      this->set_field_378(3);
+      this->set_next_mode(3);
       (this->clear_intangible());
       ((TObjEneDD_ST *)(this))->enemy_clear_target();
       this->turn_offset = 0;
@@ -1736,7 +1736,7 @@ void TObjEneBm5GibonU::spot_appearing_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->set_intangible();
         this->status_flags &= ~3;
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
@@ -1771,7 +1771,7 @@ void TObjEneBm5GibonU::appearing_state(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0xF;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->set_intangible();
         this->status_flags = (s32) (this->status_flags & 0xFFFFFFFC);
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
@@ -1821,7 +1821,7 @@ void TObjEneBm5GibonU::handle_state(s32 msg) {
   {
     case 4:
       state_timer = 0;
-      set_field_378(0);
+      set_next_mode(0);
       set_intangible();
       status_flags |= 2;
       return;

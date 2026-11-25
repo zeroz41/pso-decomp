@@ -688,7 +688,7 @@ void TObjEneRe7Berura::state_attack(s32 reason) {
         flags = status_flags;
         status_flags = flags & ~5;
         status_flags = status_flags | 2;
-        this->set_field_378(3);
+        this->set_next_mode(3);
         body_fade.start_fade_in();
         play_area_se_with_particle(&position);
         reset_turn_total();
@@ -718,7 +718,7 @@ void TObjEneRe7Berura::update_emerge_state(s32 reason) {
         requested_action = 0;
         set_intangible();
         status_flags &= ~7;
-        set_field_378(4);
+        set_next_mode(4);
         node2_color = 0xFFFFFFU;
         node1_color = 0xFF000000;
         texture_scroll_speed = 0;
@@ -791,7 +791,7 @@ void TObjEneRe7Berura::update_hidden_state(s32 reason) {
         set_intangible();
         status_flags &= ~6;
         status_flags |= 1;
-        set_field_378(2);
+        set_next_mode(2);
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &position);
         VecCopy(&body_center, &position);
@@ -818,7 +818,7 @@ void TObjEneRe7Berura::handle_state(s32 reason) {
         requested_action = 0;
         set_intangible();
         status_flags &= ~7;
-        set_field_378(8);
+        set_next_mode(8);
         step = 0;
         counter = 0;
         return;
@@ -869,7 +869,7 @@ void TObjEneRe7Berura::update_walk_state(s32 reason) {
         requested_action = 1;
         clear_intangible();
         status_flags &= ~7;
-        set_field_378(4);
+        set_next_mode(4);
         step = 0;
         target_angle = 0;
         counter = 0;
@@ -963,7 +963,7 @@ void TObjEneRe7Berura::update_punch_state(s32 reason) {
         clear_intangible();
         status_flags &= ~3;
         status_flags |= 4;
-        set_field_378(5);
+        set_next_mode(5);
         t = &re7_berura_detached_part_states[current_arm];
         requested_action = t->action;
         accum = t->launch_frame;
@@ -1070,7 +1070,7 @@ void TObjEneRe7Berura::update_melee_state(s32 reason) {
         requested_action = 1;
         clear_intangible();
         status_flags &= ~7;
-        set_field_378(6);
+        set_next_mode(6);
         step = 0;
         counter = 0;
         target_angle = 0;
@@ -1168,7 +1168,7 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 reason) {
         clear_intangible();
         status_flags &= ~3;
         status_flags |= 4;
-        set_field_378(4);
+        set_next_mode(4);
         step = 0;
         counter = get_dizzy_duration();
         texture_scroll_speed = 0;
@@ -1221,7 +1221,7 @@ void TObjEneRe7Berura::state_patrol(s32 reason) {
         clear_intangible();
         status_flags = status_flags & ~3;
         status_flags = status_flags | 4;
-        set_field_378(9);
+        set_next_mode(9);
         step = 0;
         target_angle = rotation_y + 0x3800;
         break;
@@ -1302,7 +1302,7 @@ void TObjEneRe7Berura::update_death_state(s32 reason) {
             if (body_fade.decay_value_toward_floor() != 0) {
                 counter = 4;
                 status_flags |= 1;
-                TObjPlayer::apply_effect_variant_b(&position, 0);
+                TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0);
                 queue_destruction();
             }
         }

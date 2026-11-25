@@ -509,7 +509,7 @@ s32 fn_801B7CEC(u8 *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(void *chara, s32 mag_id, s32 fed_item_id);
 s32 try_send_6x27_use_item(void *player, s32 key);
 bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
-void TObjPlayer__sub_801BA42C(void);
+void release_players_from_cutscene(void);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
@@ -1427,7 +1427,7 @@ s32 TObjPlayer::end_camera_pan() {
     return 1;
 }
 
-void TObjPlayer__sub_801BA42C(void) {
+void release_players_from_cutscene(void) {
     ((s32 (*)(void *))foreach_player__10TObjPlayerFv)((void *)end_player_camera_pan);
     release_all_players_control_lock();
 }

@@ -225,7 +225,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
         if (body_fade.decay_value_toward_floor() == 1) {
-            TObjPlayer::apply_effect_variant_a(&position, 0);
+            TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
             phase = 2;
         }
         return;

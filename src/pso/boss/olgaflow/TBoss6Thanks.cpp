@@ -186,7 +186,7 @@ void TBoss6Thanks::mark_done() { if (TBoss6Thanks::is_player_near(this) != 0) { 
 
 void TBoss6Thanks::run_task() {
   f32 lim;
-  s32 *new_var;
+  s32 *next_motion_ref;
   switch (state)
   {
     case 0:
@@ -204,9 +204,9 @@ void TBoss6Thanks::run_task() {
   if (frame0 >= lim)
   {
     frame0 -= lim;
-    if ((*(new_var = &next_motion)) != current_motion)
+    if ((*(next_motion_ref = &next_motion)) != current_motion)
     {
-      current_motion = *new_var;
+      current_motion = *next_motion_ref;
     }
   }
   frame1 += 0.6f;

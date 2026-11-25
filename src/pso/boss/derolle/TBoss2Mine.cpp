@@ -31,7 +31,7 @@ struct TBoss2MineMovement {
 };
 
 // The mine's attack template: state_explode copies it, sets the power from the boss and
-// hands it to TObjEneDD__sub_800BA5A4, whose setup_instance installs the collision radius.
+// hands it to setup_attack_at_owner, whose setup_instance installs the collision radius.
 struct TBoss2MineCollisionWords {
     s32 w[5];
 };
@@ -158,7 +158,7 @@ void TBoss2Mine::run_task() {
         dispatch_action(mode, 3);
     }
     dispatch_action(mode, 0);
-    sub_800BBA0C();
+    save_mode();
     if (!(mine_flags & 1)) {
         save_position();
         update_body_colliders();
@@ -337,7 +337,7 @@ void TBoss2Mine::state_explode(s32 reason) {
             *reinterpret_cast<TBoss2MineCollisionWords *>(&hit) =
                 *reinterpret_cast<const TBoss2MineCollisionWords *>(&boss2_mine_collision_desc);
             hit.attack.power = TBoss2DeRolLe::get_mine_power();
-            TObjEneDD__sub_800BA5A4(this, &hit);
+            setup_attack_at_owner(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);
             timer = 2;
             play_sound_effect(0x4003AD05, &body_center, 0, 0);

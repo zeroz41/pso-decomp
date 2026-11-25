@@ -851,7 +851,7 @@ void TObjEneDarkGunner::update_dying() {
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         if (render_control.decay_value_toward_floor() == 1) {
-            TObjPlayer::apply_effect_variant_a(&position, 0);
+            TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
             queue_destruction();
         }
         break;

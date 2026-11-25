@@ -22,7 +22,7 @@
 
 #pragma readonly_strings on
 // Built with deferred code generation (-inline deferred): functions come out in reverse
-// order (sub_8004F1FC first in .text).
+// order (draw_body_parts first in .text).
 
 // Dark Falz's afterimage (zanzo) models.
 extern s32 boss4_zanzo_bml_index_table[2];
@@ -160,11 +160,11 @@ void TObjDFDemo4::run_task() {
 }
 
 void TObjDFDemo4::render() {
-    sub_8004F2A8();
-    sub_8004F1FC();
+    draw_zanzo_parts();
+    draw_body_parts();
 }
 
-void TObjDFDemo4::sub_8004F2A8() {
+void TObjDFDemo4::draw_zanzo_parts() {
     f32 alpha;
     s32 i;
     alpha = 1.0f;
@@ -192,7 +192,7 @@ void TObjDFDemo4::sub_8004F2A8() {
     }
 }
 
-void TObjDFDemo4::sub_8004F1FC() {
+void TObjDFDemo4::draw_body_parts() {
     s32 i;
     if (timer >= 0x44) {
         push_matrix();

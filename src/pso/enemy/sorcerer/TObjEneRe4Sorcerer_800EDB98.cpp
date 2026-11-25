@@ -796,7 +796,7 @@ void TObjEneRe4Sorcerer::handle_state(s32 mode) {
 void TObjEneRe4Sorcerer::update_hidden_state(s32 reason) {
     switch (reason) {
     case 4:
-        ((TObjEneDD *)this)->set_field_378(1);
+        ((TObjEneDD *)this)->set_next_mode(1);
         VecCopy(&this->position, &this->home_position);
         VecCopy(&this->prev_position, &this->home_position);
         VecCopy(&this->body_center, &this->home_position);
@@ -829,7 +829,7 @@ void TObjEneRe4Sorcerer::update_enter_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 7;
-        ((TObjEneDD *)this)->set_field_378(3);
+        ((TObjEneDD *)this)->set_next_mode(3);
         this->behavior_flags |= 0xE;
         this->clear_intangible();
         disable_hits();
@@ -890,7 +890,7 @@ void TObjEneRe4Sorcerer::update_fade_out_state(s32 reason) {
     s32 i;
     switch (reason) {
     case 4:
-        ((TObjEneDD *)this)->set_field_378(3);
+        ((TObjEneDD *)this)->set_next_mode(3);
         this->clear_intangible();
         disable_hits();
         this->behavior_flags |= 2;
@@ -947,7 +947,7 @@ void TObjEneRe4Sorcerer::state_wait(s32 mode) {
     switch (mode) {
     case 4:
         state_timer = 0;
-        set_field_378(4);
+        set_next_mode(4);
         behavior_flags &= 0xFFFFFFFD;
         set_intangible();
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
@@ -981,7 +981,7 @@ void TObjEneRe4Sorcerer::update_attack_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        ((TObjEneDD *)this)->set_field_378(3);
+        ((TObjEneDD *)this)->set_next_mode(3);
         this->behavior_flags |= 0xA;
         this->state_timer = 0;
         this->state_step = 0;
@@ -1087,7 +1087,7 @@ void TObjEneRe4Sorcerer::update_state_machine(s32 reason) {
     s32 j;
     switch (reason) {
     case 4:
-        set_field_378(6);
+        set_next_mode(6);
         set_intangible();
         behavior_flags &= ~2;
         ((TObjEneDD_ST *)(this))->enemy_clear_target();
@@ -1173,7 +1173,7 @@ void TObjEneRe4Sorcerer::update_cure_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        ((TObjEneDD *)this)->set_field_378(3);
+        ((TObjEneDD *)this)->set_next_mode(3);
         this->behavior_flags |= 0xA;
         this->state_timer = 0;
         this->state_step = 0;
@@ -1317,7 +1317,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 mode) {
     case 0:
         advance_animation();
         if (fade.decay_value_toward_floor() != 0) {
-            TObjPlayer::apply_effect_variant_b(&position, 0);
+            TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0);
             queue_destruction();
         }
     case 3:

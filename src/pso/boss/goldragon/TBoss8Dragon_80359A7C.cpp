@@ -79,7 +79,7 @@ void TUnk_804F1A78::run_task() {
             }
         }
     }
-    this->sub_800BBA0C();
+    this->save_mode();
     this->update_body_colliders();
     this->update_position_history();
     this->submit_default_cursor_candidate();

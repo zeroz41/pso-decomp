@@ -91,7 +91,7 @@ void TObjEneShark::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &position);
     spawn_ground_effect(&stack, 0x23);
-    TObjPlayer__sub_800D92BC(&stack, 0xF);
+    spawn_dead_spot_kind1_scale7_5(&stack, 0xF);
 }
 
 void TObjEneShark::update_attack_trail() {

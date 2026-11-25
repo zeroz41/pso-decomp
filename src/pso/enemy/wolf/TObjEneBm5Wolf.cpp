@@ -751,7 +751,7 @@ void TObjEneBm5Wolf::anchor_state(s32 event) {
     switch (event) {
     case 4:
         this->state_timer = 0;
-        this->set_field_378(0);
+        this->set_next_mode(0);
         this->set_intangible();
         this->status_flags = (s32) (this->status_flags | 2);
         return;
@@ -784,7 +784,7 @@ void TObjEneBm5Wolf::appearing_state(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 0x11;
-        this->set_field_378(7);
+        this->set_next_mode(7);
         this->set_intangible();
         this->status_flags &= ~3;
         this->status_flags |= 4;
@@ -844,7 +844,7 @@ void TObjEneBm5Wolf::sleeping_state(s32 event) {
   {
     case 4:
       this->requested_action = 4;
-      this->set_field_378(2);
+      this->set_next_mode(2);
       (this->set_intangible());
       this->enemy_clear_target();
       this->turn_offset = 0;
@@ -886,7 +886,7 @@ void TObjEneBm5Wolf::alerted_state(s32 event) {
   {
     case 4:
       this->requested_action = 4;
-      this->set_field_378(4);
+      this->set_next_mode(4);
       (this->set_intangible());
       new_var = (s32) (((s32) (60.0f * this->random_ratio())) + 0xA);
       this->substate = new_var;
@@ -914,7 +914,7 @@ void TObjEneBm5Wolf::standing_state(s32 event) {
   {
     case 4:
       this->requested_action = 5;
-      this->set_field_378(7);
+      this->set_next_mode(7);
       (this->set_intangible());
       this->substate = 0;
       return;
@@ -952,7 +952,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 0x10;
-        set_field_378(7);
+        set_next_mode(7);
         this->set_intangible();
         this->substate = 0;
         break;
@@ -1010,7 +1010,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
     switch (event) {
     case 4:
         this->requested_action = 1;
-        set_field_378(7);
+        set_next_mode(7);
         this->clear_intangible();
         this->state_timer = 0;
         this->substate = 0;
@@ -1103,7 +1103,7 @@ void TObjEneBm5Wolf::chasing_state(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 2;
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->clear_intangible();
         this->desired_speed = (f32) (1.6f);
         this->substate = 0;
@@ -1160,7 +1160,7 @@ void TObjEneBm5Wolf::flanking_state(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 3;
-        set_field_378(9);
+        set_next_mode(9);
         this->clear_intangible();
         this->desired_speed = 2.0f;
         this->substate = 0;
@@ -1230,7 +1230,7 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(10);
+        this->set_next_mode(10);
         this->clear_intangible();
         this->desired_speed = 0.7f;
         this->substate = 0;
@@ -1395,7 +1395,7 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 0xC;
-        this->set_field_378(0xD);
+        this->set_next_mode(0xD);
         this->clear_intangible();
         this->status_flags = (s32) (this->status_flags & 0xFFFFFFFD);
         this->status_flags = (this->status_flags | 4);
@@ -1502,7 +1502,7 @@ void TObjEneBm5Wolf::returning_state(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(0xC);
+        this->set_next_mode(0xC);
         this->clear_intangible();
         this->desired_speed = 1.6f;
         this->substate = 0;
@@ -1562,7 +1562,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 event) {
     switch (event) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0xD);
+        this->set_next_mode(0xD);
         this->clear_intangible();
         this->substate = 0;
         this->target_heading = 0;
@@ -1642,7 +1642,7 @@ void TObjEneBm5Wolf::action(s32 event) {
     switch (event) {
     case 4:
         this->clear_intangible();
-        this->set_field_378(7);
+        this->set_next_mode(7);
         this->requested_action = 0xB;
         this->substate = 0;
         TObjEneBm5Wolf::find_pack_leader(this->group_id);
@@ -1789,7 +1789,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
                 }
                 rotate_xz_pair_by_angle(&pos.x, &pos.z, this->rotation_y);
                 vec3_add_to(&pos, &this->position);
-                TObjPlayer::spawn_dead_spot_type2(&pos, 0x32);
+                TObjPlayer::spawn_dead_spot_kind2_scale7_5(&pos, 0x32);
                 spawn_effect_at_ground(&pos, 0x46);
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, *tgt, 0x300);

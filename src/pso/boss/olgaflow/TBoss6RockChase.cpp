@@ -137,13 +137,13 @@ TBoss6RockChase::TBoss6RockChase(TObject *parent, const Vec *position, s32 size_
 
 TBoss6RockChase *TBoss6RockChase::spawn(TObject *parent, const Vec *position) {
     Vec point;
-    s32 var_r31;
+    s32 variant;
     VecCopy(&point, position);
-    var_r31 = 0;
+    variant = 0;
     point.y = 450.0f;
     if ((3.0517578e-05f * (f32) rand()) < 0.5f) {
-        var_r31 = 1;
+        variant = 1;
     }
-    return new TBoss6RockChase(parent, &point, var_r31);
+    return new TBoss6RockChase(parent, &point, variant);
 }
 

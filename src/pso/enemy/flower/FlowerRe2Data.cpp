@@ -9,7 +9,7 @@
 
 extern TObjMotionAction re2_flower_animation_descriptors[8];
 
-// The normal and rare variants' self-destruct blast (state_self_destruct hands it to TObjEneDD__sub_800BA5A4).
+// The normal and rare variants' self-destruct blast (state_self_destruct hands it to setup_attack_at_owner).
 __declspec(section ".rodata") extern const DragonAttackParams enemy_dd_attack_param_block ATTRIBUTE_ALIGN(4) = {
     0x10, 0.0f, 30.0f, {0.0f, 1},
 };

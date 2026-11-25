@@ -106,7 +106,7 @@ TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *parent, TBoss5Gryphon *o
 
 void TBoss5GryphonShockWave::release_particle_table() {  }
 void TBoss5GryphonShockWave::select_particle_table() {
-    switch (TBoss8Dragon__sub_8005D700()) {
+    switch (get_boss_asset_variant()) {
     case 0:
         gryphon_shockwave_particle_ids_ptr = lbl_80437F40;
         break;

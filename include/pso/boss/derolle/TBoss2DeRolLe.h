@@ -111,7 +111,7 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     void set_all_intangible();  // the body and its ten joints (inferred name)
     void clear_all_intangible();  // the body and its ten joints (inferred name)
     void handle_opening_state(u32 reason);
-    void handle_surface_state(u32 reason, s32 arg2);  // undoes handle_deep_sink_state (inferred name)
+    void handle_surface_state(u32 reason, s32 set_tunnel_flag);  // undoes handle_deep_sink_state (inferred name)
     void handle_deep_sink_state(u32 reason);
     void handle_despawn_state(u32 reason);
     void reload_stats_for_phase(s32 kind);

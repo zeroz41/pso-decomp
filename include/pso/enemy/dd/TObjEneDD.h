@@ -15,7 +15,7 @@ struct TObjEneDD : public TObjEnemy {
     void set_part_local_pos(void *, s32);
     static void set_part_position(void *actor, void *v, int i);
     void transition_enemy_state(s32);
-    void sub_800BBA0C();
+    void save_mode();
     void invoke_initialization_hook(void *set_data);
     void reset_state_fields();
     void init_common_from(TObjBase *source);
@@ -96,7 +96,7 @@ struct TObjEneDD : public TObjEnemy {
     static void create_instance();
     static int get_enemy_count();
     int get_target_info();
-    void set_field_378(s32 v);
+    void set_next_mode(s32 v);
     void init_position_vectors();
     static void release_resource();
 
@@ -140,14 +140,14 @@ s32 pack_debug_text_position(s32 x, s32 y);
 void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance);
 void TObjEneDD__sub_800BA378(TObjChara *attacker, TObjChara *target);
 void TObjEneDD__sub_800BA438(TObjChara *attacker, TObjChara *target);
-void TObjEneDD__sub_800BA5A4(TObjBase *owner, DragonAttackParams *params);
+void setup_attack_at_owner(TObjBase *owner, DragonAttackParams *params);
 int is_target_android(void *p);
 int is_target_ranger(void *p);
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src);
 void TBoss8Dragon__sub_800BB7D4(void *self, int id);
-CsnHit *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 max_step, f32 distance);
-CsnHit *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 max_step, f32 distance);
-CsnHit *TObjEneEpsilon__sub_800B9384(TObjEneDD_ST *self, s32 iscale, f32 scale);
+CsnHit *enemy_turn_and_move_xz_clamped(TObjEneDD_ST *self, s32 max_step, f32 distance);
+CsnHit *enemy_turn_and_move_xz_slide(TObjEneDD_ST *self, s32 max_step, f32 distance);
+CsnHit *enemy_turn_and_move_shot_step(TObjEneDD_ST *self, s32 iscale, f32 scale);
 void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);
 }

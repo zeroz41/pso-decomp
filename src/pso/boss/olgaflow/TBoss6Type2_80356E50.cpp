@@ -31,7 +31,7 @@ void TBoss6Type2::send_6xAD_grid_positions(s32 index, saddr points, s32 count) {
     if (count < 0 || count > 3) {
         return;
     }
-    TBoss6Type2__sub_803570C8((s8 *)buf);
+    clear_6xAD_action_buffer((s8 *)buf);
     buf[0] = index;
     p = points;
     j = 1;
@@ -47,7 +47,7 @@ void TBoss6Type2::send_subordinate_actions(s32 kind, saddr ids, s32 n, s32 force
     Pkt_80356F28 pkt;
     s32 i;
 
-    TBoss6Type2__sub_803570C8((s8 *)&pkt);
+    clear_6xAD_action_buffer((s8 *)&pkt);
     for (i = 0; i < n; i++) {
         s32 off = ((s32 *)ids)[i] + 7;
         u8 flags = 0;

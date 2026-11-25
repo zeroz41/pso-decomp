@@ -61,7 +61,7 @@
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-void TObjPlayer__sub_801BA42C(void);
+void release_players_from_cutscene(void);
 s32 submit_cursor_candidate(void *, int);
 }
 
@@ -1075,7 +1075,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         if ((get_scripted_camera_playback()->flags & CameraPlayback::FLAG_DONE) || timer < 0) {
             restore_player_cameras();
             TWindowCtrl::init_all_slots2();
-            TObjPlayer__sub_801BA42C();
+            release_players_from_cutscene();
             model_node_3f->evalflags |= 8;
             model_node_44->evalflags |= 8;
             this->requested_action = 4;
@@ -1107,7 +1107,7 @@ void TBoss3VoloptP02::update_death_sequence() {
             play_sound_effect(0x4003A80F, &position, 0, 1);
         }
         if (--timer <= 0) {
-            TObjPlayer__sub_801BA42C();
+            release_players_from_cutscene();
             queue_destruction();
         }
         break;

@@ -376,7 +376,7 @@ void TObjEneBalClawClaw::run_death_sequence() {
     case 1:
         advance_animation();
         if (fade.decay_value_toward_floor() == 1) {
-            TObjPlayer::apply_effect_variant_a(&position, 0);
+            TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
             send_entity_set_flags();
             queue_destruction();
         }

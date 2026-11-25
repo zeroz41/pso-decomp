@@ -510,7 +510,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     if (t < 1.0f) {
         begin_alpha_blend(t);
     } else if (tbl == boss4_type3_model_ids) {
-        TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
+        apply_boss6_hit_flash_color(hit_flash, hp_ratio);
     }
     model_render_flags |= 0x20000;
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);

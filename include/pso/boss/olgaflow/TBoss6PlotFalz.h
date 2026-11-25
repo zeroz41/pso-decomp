@@ -167,12 +167,12 @@ extern u16 boss6_plot_falz_player_order_table[];
 extern s32 plot_falz_phase;
 
 extern "C" {
-void TBoss6PlotFalz__sub_802AC008(f32 fade, f32 hp_ratio);
+void apply_boss6_hit_flash_color(f32 fade, f32 hp_ratio);
 }
 
 extern "C" {
 // TRUE when the sphere (pos, r) is out of the arena (inferred from TBoss6Rock).
-s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r);
+s32 boss6_sphere_blocks_player_view(void *pos, f32 r);
 }
 
 #endif

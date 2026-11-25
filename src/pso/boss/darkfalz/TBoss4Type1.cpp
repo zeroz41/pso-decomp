@@ -546,7 +546,7 @@ void TBoss4Type1::draw_parts() {
         case 2:
         case 3:
         case 4:
-            TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
+            apply_boss6_hit_flash_color(hit_flash, hp_ratio);
             head = i - 2;
             node_captures[head]->install();
             body_model = get_bml_model(archive, boss4_type1_model_ids[i]);

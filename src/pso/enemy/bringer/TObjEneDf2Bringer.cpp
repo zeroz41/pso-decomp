@@ -649,7 +649,7 @@ void TObjEneDf2Bringer::dispatch_action(u32 state, s32 reason) {
 void TObjEneDf2Bringer::handle_state(s32 reason) {
     switch (reason) {
     case 4:
-        this->set_field_378(0);
+        this->set_next_mode(0);
         this->step = 0;
         return;
     case 3:
@@ -665,7 +665,7 @@ void TObjEneDf2Bringer::handle_state(s32 reason) {
 void TObjEneDf2Bringer::update_hidden_state(s32 reason) {
     switch (reason) {
     case 4:
-        this->set_field_378(1);
+        this->set_next_mode(1);
         this->status_flags |= 1;
         this->set_intangible();
         return;
@@ -686,7 +686,7 @@ void TObjEneDf2Bringer::update_emerge_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(4);
+        this->set_next_mode(4);
         this->status_flags &= ~1;
         this->status_flags |= 2;
         this->set_intangible();
@@ -745,7 +745,7 @@ void TObjEneDf2Bringer::update_fade_out_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(3);
+        this->set_next_mode(3);
         this->status_flags &= ~7;
         this->set_intangible();
         this->step = 0;
@@ -798,7 +798,7 @@ void TObjEneDf2Bringer::update_walk_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        set_field_378(4);
+        set_next_mode(4);
         clear_intangible();
         status_flags &= ~7;
         step = 0;
@@ -848,7 +848,7 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 7;
-        set_field_378(4);
+        set_next_mode(4);
         status_flags &= ~7;
         step = 0;
         counter = 0;
@@ -918,7 +918,7 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
                 counter = 0;
                 stagger_timer = df2_bringer_params->stagger_frames;
                 status_flags &= ~4;
-                set_field_378(7);
+                set_next_mode(7);
                 play_sound_effect(remap_sound_for_area(0x4003B40E), &position, 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x200);
             }
@@ -961,7 +961,7 @@ void TObjEneDf2Bringer::update_slash_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 4;
-        set_field_378(4);
+        set_next_mode(4);
         status_flags &= ~3;
         status_flags |= 4;
         fill_value_array(attack_history);
@@ -1034,7 +1034,7 @@ void TObjEneDf2Bringer::update_stagger_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 8;
-        set_field_378(7);
+        set_next_mode(7);
         emitter = NULL;
         return;
     case 3:
@@ -1076,7 +1076,7 @@ void TObjEneDf2Bringer::update_shot_state(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 9;
-        set_field_378(4);
+        set_next_mode(4);
         status_flags &= ~3;
         status_flags |= 4;
         step = 0;
@@ -1261,7 +1261,7 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
     case 0:
         this->advance_animation();
         if (this->body_fade.decay_value_toward_floor() != 0) {
-            TObjPlayer::apply_effect_variant_b(&this->position, 0);
+            TObjPlayer::spawn_dead_spot_kind0_scale15(&this->position, 0);
             this->queue_destruction();
         }
     case 3:

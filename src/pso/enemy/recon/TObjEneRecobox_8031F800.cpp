@@ -458,7 +458,7 @@ void TObjEneRecobox::handle_state(s32 reason) {
         status_flags &= ~1;
         requested_action = 0;
         set_intangible();
-        set_field_378(0);
+        set_next_mode(0);
         fade.start_fade_in();
         return;
     case 3:
@@ -479,7 +479,7 @@ void TObjEneRecobox::state_idle(s32 reason) {
         status_flags |= 1;
         requested_action = 0;
         set_intangible();
-        set_field_378(0);
+        set_next_mode(0);
         return;
     case 3:
         transition_enemy_state(1);
@@ -495,7 +495,7 @@ void TObjEneRecobox::state_closed(s32 reason) {
         status_flags &= ~1;
         requested_action = 0;
         clear_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         return;
     case 3:
         if (acquire_target(500.0f) != 0 && can_spawn_recons() != 0) {
@@ -516,7 +516,7 @@ void TObjEneRecobox::update_state(s32 reason) {
         status_flags &= ~1;
         requested_action = 1;
         clear_intangible();
-        set_field_378(3);
+        set_next_mode(3);
         return;
     case 3:
         if (get_flag_b4() != 0) {
@@ -538,7 +538,7 @@ void TObjEneRecobox::handle_action_state(s32 reason) {
         status_flags &= ~1;
         requested_action = 2;
         clear_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         return;
     case 3:
         if (is_out_of_range() != 0) {
@@ -559,7 +559,7 @@ void TObjEneRecobox::state_close(s32 reason) {
         status_flags &= ~1;
         requested_action = 3;
         clear_intangible();
-        set_field_378(5);
+        set_next_mode(5);
         break;
     case 3:
         if (get_flag_b4() != 0) {

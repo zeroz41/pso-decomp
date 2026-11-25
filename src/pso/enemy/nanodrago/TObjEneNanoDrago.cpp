@@ -941,7 +941,7 @@ void TObjEneNanoDrago::update_dying_state() {
         timer = (timer - 1);
         if (timer <= 0) {
             spawn_ground_effect(&position, 0x1E);
-            TObjPlayer__sub_800D92BC(&position, 0xF);
+            spawn_dead_spot_kind1_scale7_5(&position, 0xF);
             state = 4;
             return;
         }

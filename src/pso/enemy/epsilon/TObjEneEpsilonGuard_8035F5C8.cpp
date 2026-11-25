@@ -299,7 +299,7 @@ void TObjEneEpsilonBody::run_demo_task() {  }
 void TObjEneEpsilonBody::handle_wait_state(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(0);
+        set_next_mode(0);
         set_intangible();
         flags |= 0x43;
         flags &= ~0x200;
@@ -323,7 +323,7 @@ void TObjEneEpsilonBody::handle_wait_state(s32 reason) {
 void TObjEneEpsilonBody::handle_fade_in_state(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(0);
+        set_next_mode(0);
         clear_intangible();
         flags |= 0x42;
         flags &= ~0x201;
@@ -352,7 +352,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
     tgt = &target_position;
     switch (reason) {
     case 4:
-        set_field_378(2);
+        set_next_mode(2);
         clear_intangible();
         flags |= 0x42;
         flags &= ~0x309;
@@ -496,7 +496,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
 void TObjEneEpsilonBody::handle_guard_action_state(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(3);
+        set_next_mode(3);
         clear_intangible();
         flags |= 0x42;
         flags &= ~0x201;
@@ -548,7 +548,7 @@ void TObjEneEpsilonBody::handle_guard_action_state(s32 reason) {
 void TObjEneEpsilonBody::action(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(4);
+        set_next_mode(4);
         clear_intangible();
         flags |= 0x400;
         flags &= ~0x247;
@@ -595,7 +595,7 @@ void TObjEneEpsilonBody::action(s32 reason) {
 void TObjEneEpsilonBody::handle_pre_warp_state(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(4);
+        set_next_mode(4);
         clear_intangible();
         flags &= ~0x253;
         set_guard_state();
@@ -620,7 +620,7 @@ void TObjEneEpsilonBody::handle_pre_warp_state(s32 reason) {
         case 0:
             action_timer--;
             if (notify_guards_if_ready() == 1) {
-                set_field_378(5);
+                set_next_mode(5);
                 flags |= 0x40;
                 action_step = 1;
                 action_timer = 0x3C;
@@ -678,7 +678,7 @@ void TObjEneEpsilonBody::handle_pre_warp_state(s32 reason) {
 void TObjEneEpsilonBody::handle_warp_state(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(4);
+        set_next_mode(4);
         clear_intangible();
         flags |= 0x242;
         flags &= ~1;
@@ -751,7 +751,7 @@ void TObjEneEpsilonBody::handle_warp_state(s32 reason) {
 void TObjEneEpsilonBody::handle_return_home_state(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(4);
+        set_next_mode(4);
         clear_intangible();
         flags |= 0x42;
         flags &= ~0x201;
@@ -777,7 +777,7 @@ void TObjEneEpsilonBody::handle_return_home_state(s32 reason) {
                 action_timer--;
                 if (action_step <= 0) {
                     flags |= 0x40;
-                    set_field_378(4);
+                    set_next_mode(4);
                     action_step = 1;
                     fade.reset_color();
                 }
@@ -800,7 +800,7 @@ void TObjEneEpsilonBody::handle_return_home_state(s32 reason) {
 void TObjEneEpsilonBody::update_fade(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(2);
+        set_next_mode(2);
         clear_intangible();
         flags |= 0x10;
         flags &= ~0x243;
@@ -846,7 +846,7 @@ void TObjEneEpsilonBody::update_fade(s32 reason) {
 void TObjEneEpsilonBody::action_destroy(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(9);
+        set_next_mode(9);
         clear_intangible();
         flags |= 0x800;
         flags &= ~0x243;

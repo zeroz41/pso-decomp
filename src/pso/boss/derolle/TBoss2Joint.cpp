@@ -178,7 +178,7 @@ void TBoss2Joint::run_task() {
             dispatch_action(mode, 3);
         }
         dispatch_action(mode, 0);
-        sub_800BBA0C();
+        save_mode();
         update_flash_color();
         update_position_history();
         update_body_colliders();

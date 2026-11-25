@@ -864,7 +864,7 @@ void TBoss2DeRolLe::run_task() {
     advance_phase_wrap();
     update_projectile_spawns();
   }
-  sub_800BBA0C();
+  save_mode();
   update_body_colliders();
   backup_pos();
   submit_default_cursor_candidate();
@@ -3448,7 +3448,7 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
 
 #pragma pop
 
-void TBoss2DeRolLe::handle_surface_state(u32 reason, s32 arg2) {
+void TBoss2DeRolLe::handle_surface_state(u32 reason, s32 set_tunnel_flag) {
     switch (reason) {
     case 4:
         state_flags &= ~4;
@@ -3457,7 +3457,7 @@ void TBoss2DeRolLe::handle_surface_state(u32 reason, s32 arg2) {
         clear_all_intangible();
         position_index = 3;
         set_position_index(position_index);
-        if (arg2 != 0) {
+        if (set_tunnel_flag != 0) {
             TObjBoss2Tunnel::set_global_flag_800();
         }
         break;

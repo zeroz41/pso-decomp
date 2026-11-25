@@ -25,7 +25,7 @@
 
 #pragma readonly_strings on
 // Built with deferred code generation: functions come out in reverse order
-// (sub_8004E068 first in .text).
+// (draw_zanzo_parts first in .text).
 #pragma defer_codegen on
 
 // A particle emitter of the scene: live from frame `start` to frame `end`,
@@ -175,7 +175,7 @@ void TObjDFDemo1::run_task() {
 
 void TObjDFDemo1::render() {
     draw_fading_model();
-    sub_8004E068();
+    draw_zanzo_parts();
 }
 
 void TObjDFDemo1::draw_fading_model() {
@@ -218,7 +218,7 @@ void TObjDFDemo1::draw_fading_model() {
     }
 }
 
-void TObjDFDemo1::sub_8004E068() {
+void TObjDFDemo1::draw_zanzo_parts() {
     f32 alpha;
     s32 i;
     s16 *col;

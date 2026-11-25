@@ -481,7 +481,7 @@ void TObjEneBm9Mericarol::state_fade_in(s32 reason) {
         clear_child_flags();
         flags |= 0x28;
         flags &= ~0x10;
-        set_field_378(2);
+        set_next_mode(2);
         this->enemy_clear_target();
         appear_fade.start_fade_in();
         play_area_sound_effect(&position);
@@ -510,7 +510,7 @@ void TObjEneBm9Mericarol::state_wait(s32 reason) {
         clear_intangible();
         clear_child_flags();
         flags &= ~0x28;
-        set_field_378(2);
+        set_next_mode(2);
         this->enemy_clear_target();
         return;
     case 3:
@@ -542,7 +542,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
         clear_intangible();
         set_child_flags();
         flags &= ~0x28;
-        set_field_378(3);
+        set_next_mode(3);
         state_timer = 0;
         target_angle = 0;
         break;
@@ -608,7 +608,7 @@ void TObjEneBm9Mericarol::state_shoot(s32 reason) {
         set_child_flags();
         flags &= ~8;
         flags |= 0x20;
-        set_field_378(3);
+        set_next_mode(3);
         charge_effect = 0;
         break;
     case 3:
@@ -659,7 +659,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
         set_child_flags();
         flags &= ~8;
         flags |= 0x20;
-        set_field_378(3);
+        set_next_mode(3);
         state_step = 0;
         state_timer = 0;
         break;
@@ -753,7 +753,7 @@ void TObjEneBm9Mericarol::state_rush(s32 reason) {
             return;
         }
         requested_action = 2;
-        set_field_378(3);
+        set_next_mode(3);
         flags &= ~0x28;
         state_step = 0;
         state_timer = 0;
@@ -819,7 +819,7 @@ void TObjEneBm9Mericarol::state_rush(s32 reason) {
                 state_step = 2;
                 state_timer = 0;
                 flags &= ~0x20;
-                set_field_378(3);
+                set_next_mode(3);
                 return;
             }
             break;
@@ -989,7 +989,7 @@ void TObjEneBm9Mericarol::state_die(s32 reason) {
                 pos.x = x;
                 pos.z = 10.0f * cos_table_lookup(rotation_y);
                 vec3_add_to(&pos, &position);
-                TObjPlayer::spawn_dead_spot_here(&pos, 0x32);
+                TObjPlayer::spawn_dead_spot_kind1_scale25(&pos, 0x32);
                 spawn_ground_effect(&pos, 0x46);
             }
             update_ground_contact();
@@ -1023,7 +1023,7 @@ void TObjEneBm9Mericarol::state_laugh(s32 reason) {
         clear_intangible();
         clear_child_flags();
         flags &= ~0x28;
-        set_field_378(3);
+        set_next_mode(3);
         state_step = 0;
         play_sound_effect(remap_sound_for_area(0x3AD0F), &position, 0, 0);
         return;
@@ -1051,7 +1051,7 @@ void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 2;
-        set_field_378(3);
+        set_next_mode(3);
         flags &= ~8;
         flags |= 0x20;
         state_step = 0;

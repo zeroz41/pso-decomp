@@ -417,7 +417,7 @@ f32 TBoss6PlotFalz::arena_center_distance(const Vec *pos) {
     return vector_length(&d);
 }
 __declspec(section ".sdata2") const f32 plot_falz_length_epsilon[1] = { 1e-05f };
-s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r) {
+s32 boss6_sphere_blocks_player_view(void *pos, f32 r) {
     Vec c;
     Vec pl;
     Vec p = *(Vec *)pos;
@@ -652,7 +652,7 @@ void TBoss6PlotFalz::update_camera_target() {
 }
 #pragma push
 #pragma fp_contract on
-void TBoss6PlotFalz__sub_802AC008(f32 fade, f32 hp_ratio) {
+void apply_boss6_hit_flash_color(f32 fade, f32 hp_ratio) {
     f32 tint = 0.25f * hp_ratio;
     TBoss6PlotFalz::apply_fade_material_color(fade, ((-0.75f) * hp_ratio) + 1.0f, tint, tint);
 }
@@ -922,7 +922,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
         send_entity_set_flags();
         break;
     }
-    if (((TBoss6PlotFalz *)this)->is_ending_or_split_screen() == 0) {
+    if (this->is_ending_or_split_screen() == 0) {
         TLobby::stop_audio_streams();
         if (state_index == 7) {
             play_area_music("HALL.adx");
@@ -998,7 +998,7 @@ void TBoss6PlotFalz::load_resources() {
     boss6_scene_archive = resource;
     if (resource != NULL) {
         clear_boss6_player_snapshots();
-        TItemEffOrgaFlowShot__sub_80357210();
+        enable_olga_flow_subordinate_actions();
         TBoss6Rock::load_resources();
         TBoss6Tube::load_resources();
         fn_802E52AC();

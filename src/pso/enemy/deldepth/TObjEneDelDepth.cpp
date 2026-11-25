@@ -969,7 +969,7 @@ void TObjEneDelDepth::update_death_fade() {
         ((TObjEnemy *)enemy)->exchange_object_state(&record, 0);
         apply_enemy_state(&record);
         ((TObjEnemy *)enemy)->send_entity_set_flags();
-        TObjPlayer::apply_effect_variant_a(&position, 0);
+        TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
         this->queue_destruction();
         break;
     }

@@ -348,7 +348,7 @@ void TObjEneRe4Bit::handle_event(s32 mode) {
 
     switch (mode) {
     case 4:
-        set_field_378(1);
+        set_next_mode(1);
         behavior_flags &= ~0x1000;
         break;
     case 3:
@@ -379,7 +379,7 @@ void TObjEneRe4Bit::update_raise_state(s32 reason) {
     u32 flags;
     switch (reason) {
     case 4:
-        this->set_field_378(3);
+        this->set_next_mode(3);
         this->behavior_flags |= 0x1000;
         this->state_step = 0;
         this->cast_state = 1;
@@ -421,7 +421,7 @@ void TObjEneRe4Bit::update_raise_state(s32 reason) {
 void TObjEneRe4Bit::update_lower_state(s32 reason) {
     switch (reason) {
     case 4:
-        this->set_field_378(3);
+        this->set_next_mode(3);
         this->behavior_flags &= ~0x1000;
         this->texture_index = 3;
         break;

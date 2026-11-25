@@ -95,7 +95,7 @@ void TObjEneBeast::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &this->position);
     spawn_effect_at_ground(&stack, 0x23);
-    TObjPlayer::spawn_dead_spot_type2(&stack, 0xF);
+    TObjPlayer::spawn_dead_spot_kind2_scale7_5(&stack, 0xF);
 }
 
 void TObjEneBeast::update_attack_trail() {

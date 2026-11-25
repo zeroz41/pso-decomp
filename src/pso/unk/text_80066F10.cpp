@@ -20,7 +20,7 @@ BmlResourceDescriptor bm_obj_boss5_common_resource_descriptor = {
 BmlResource *boss5_common_bml_resource;
 NJS_TEXLIST *boss5_common_texture_list;
 void load_boss5_common_assets(void) {
-    switch (TBoss8Dragon__sub_8005D700()) {
+    switch (get_boss_asset_variant()) {
     case 0:
         boss5_common_bml_resource = load_enemy_bml_resource(&bm_obj_boss5_common_resource_descriptor);
         boss5_common_texture_list = LoadPvmFileTls("obj_boss5_common.gvm");

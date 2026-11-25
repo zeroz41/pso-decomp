@@ -375,7 +375,7 @@ void TObjEneRecon::state_damage(s32 reason) {
         clear_intangible();
         recon_flags &= ~1;
         recon_flags |= 2;
-        set_field_378(mode);
+        set_next_mode(mode);
         ((TBoss8Dragon *)this)->noop();
         play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003E425), &position, 0, 0);
         state_step = 0;
@@ -1023,7 +1023,7 @@ extern "C" {
 
 
 void TObjEneRecon::update_collide_flag() {
-    if (TObjEneEpsilon__sub_800B92F8(this, ((ReconMoveParams *)movementParameters)->turn_speed, recon_behavior_params->collide_distance) != 0) {
+    if (enemy_turn_and_move_xz_slide(this, ((ReconMoveParams *)movementParameters)->turn_speed, recon_behavior_params->collide_distance) != 0) {
         recon_flags |= 2;
         return;
     }

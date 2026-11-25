@@ -692,7 +692,7 @@ void TObjEneDellBiter::dispatch_action(u32 state, s32 reason) {
 void TObjEneDellBiter::update_state(s32 reason) {
     switch (reason) {
     case 4:
-        set_field_378(0);
+        set_next_mode(0);
         state_timer = 0;
         return;
     case 3:
@@ -708,7 +708,7 @@ void TObjEneDellBiter::update_state(s32 reason) {
 void TObjEneDellBiter::update_hidden_state(s32 reason) {
     switch (reason) {
     case 4:
-        this->set_field_378(1);
+        this->set_next_mode(1);
         flags = (s32) (flags | 1);
         this->set_intangible();
         VecCopy(&position, &home_position);
@@ -737,7 +737,7 @@ void TObjEneDellBiter::update_emerge_walk_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         flags = (s32) (flags & 0xFFFFFFFE);
         flags = (s32) (flags | 2);
         this->set_intangible();
@@ -795,7 +795,7 @@ void TObjEneDellBiter::update_emerge_run_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 2;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         flags &= ~1;
         flags |= 6;
         bodies->flags |= 0x700;
@@ -832,7 +832,7 @@ void TObjEneDellBiter::update_emerge_run_state(s32 reason) {
                 step = 1;
                 state_timer = 0;
                 flags &= ~4;
-                this->set_field_378(5);
+                this->set_next_mode(5);
                 play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039B14)), &position, 0, 0);
             }
             update_ground_contact();
@@ -868,7 +868,7 @@ void TObjEneDellBiter::update_wait_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(4);
+        this->set_next_mode(4);
         flags = (s32) (flags & 0xFFFFFFF8);
         this->set_intangible();
         state_timer = 0;
@@ -917,7 +917,7 @@ void TObjEneDellBiter::update_walk_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         this->clear_intangible();
         flags = (s32) (flags & 0xFFFFFFF8);
         state_timer = 0;
@@ -965,7 +965,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 7;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         flags &= ~3;
         flags |= 4;
         state_timer = 0;
@@ -1041,7 +1041,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
             if (hit != 0 || rush_traveled >= dell_biter_movement_params->rush_distance) {
                 state_timer = 2;
                 step = 0;
-                this->set_field_378(5);
+                this->set_next_mode(5);
                 play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039B14)), &position, 0, 0);
             }
             break;
@@ -1077,7 +1077,7 @@ void TObjEneDellBiter::update_attack_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 4;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         flags = (s32) (flags & 0xFFFFFFFC);
         flags = (s32) (flags | 4);
         fill_value_array(attack_history);
@@ -1139,7 +1139,7 @@ void TObjEneDellBiter::update_howl_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 8;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         flags = (s32) (flags & 0xFFFFFFFC);
         flags = (s32) (flags | 4);
         state_timer = 0;
@@ -1193,7 +1193,7 @@ void TObjEneDellBiter::update_change_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 8;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         flags = (s32) (flags & 0xFFFFFFFC);
         flags = (s32) (flags | 4);
         state_timer = 0;
@@ -1238,7 +1238,7 @@ void TObjEneDellBiter::update_laser_state(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(5);
+        this->set_next_mode(5);
         flags = (s32) (flags & 0xFFFFFFFC);
         flags = (s32) (flags | 4);
         state_timer = 0;
@@ -1383,7 +1383,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
             break;
         case 1:
             if (fade.decay_value_toward_floor() != 0) {
-                TObjPlayer::apply_effect_variant_b(&position, 0);
+                TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0);
                 state_timer = 2;
                 return;
             }

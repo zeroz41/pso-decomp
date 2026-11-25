@@ -517,7 +517,7 @@ void TObjEneBm3FlyNest::handle_appear(s32 reason) {
     case 4:
         requested_action = 8;
         set_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         height_offset = 100.0f;
         counter = 0;
         step = 0;
@@ -577,7 +577,7 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 reason) {
     case 4:
         requested_action = 0;
         set_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         height_offset = -5.0f;
         counter = 0;
         emitted = 0;
@@ -646,7 +646,7 @@ void TObjEneBm3FlyNest::state_wait(s32 reason) {
     case 4:
         requested_action = 0;
         clear_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         height_offset = -5.0f;
         replenish_count = 1;
         replenish_interval = 0x96;
@@ -671,7 +671,7 @@ void TObjEneBm3FlyNest::handle_event(s32 reason) {
     case 4:
         requested_action = 1;
         clear_intangible();
-        set_field_378(2);
+        set_next_mode(2);
         height_offset = -5.0f;
         return;
     case 3:
@@ -703,7 +703,7 @@ void TObjEneBm3FlyNest::update_down_state(s32 reason) {
         set_invulnerable();
         requested_action = 3;
         clear_intangible();
-        set_field_378(5);
+        set_next_mode(5);
         height_offset = -5.0f;
         break;
     case 3:
@@ -744,7 +744,7 @@ void TObjEneBm3FlyNest::update_state(s32 reason) {
     case 4:
         requested_action = 4;
         clear_intangible();
-        set_field_378(5);
+        set_next_mode(5);
         height_offset = 0.0f;
         if (fallen == 0) {
             fallen = 1;
@@ -773,7 +773,7 @@ void TObjEneBm3FlyNest::state_spawn(s32 reason) {
     case 4:
         requested_action = 5;
         clear_intangible();
-        set_field_378(5);
+        set_next_mode(5);
         height_offset = 0.0f;
         return;
     case 3:
@@ -870,7 +870,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 v.z = -8.0f;
                 rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
                 vec3_add_to(&v, &position);
-                spawn_dead_spot_scale15(&v, 0x32);
+                spawn_dead_spot_kind2_scale15(&v, 0x32);
                 create_dead_spot_e4(&v, 0x46, 10.0f);
             }
             if (frame < 25.0f) {

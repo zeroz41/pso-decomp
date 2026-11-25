@@ -491,7 +491,7 @@ void TObjEneMorfos::state_fade_in(s32 ev) {
         this->set_intangible();
         morfos_flags = (s32) (morfos_flags & ~5);
         morfos_flags = (s32) (morfos_flags | 2);
-        this->set_field_378(3);
+        this->set_next_mode(3);
         body_fade.start_fade_in();
         wall_fade.start_fade_in();
         play_area_se_with_particle(&position);
@@ -520,7 +520,7 @@ void TObjEneMorfos::state_appear(s32 ev) {
         this->requested_action = 0;
         this->set_intangible();
         morfos_flags = (s32) (morfos_flags & 0xFFFFFFF8);
-        set_field_378(4);
+        set_next_mode(4);
         texture_scroll = 0;
         step = 0;
         this->accum = 0.0f;
@@ -566,7 +566,7 @@ void TObjEneMorfos::state_hidden(s32 ev) {
         this->set_intangible();
         morfos_flags = (s32) (morfos_flags & 0xFFFFFFF9);
         morfos_flags = (s32) (morfos_flags | 1);
-        this->set_field_378(2);
+        this->set_next_mode(2);
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &position);
         VecCopy(&body_center, &position);
@@ -593,7 +593,7 @@ void TObjEneMorfos::state_fade_out(s32 ev) {
         this->requested_action = 0;
         this->set_intangible();
         morfos_flags = (s32) (morfos_flags & 0xFFFFFFF8);
-        this->set_field_378(7);
+        this->set_next_mode(7);
         step = 0;
         counter = 0;
         return;
@@ -648,7 +648,7 @@ void TObjEneMorfos::state_walk(s32 ev) {
         this->requested_action = 0;
         this->clear_intangible();
         morfos_flags = (s32) (morfos_flags & 0xFFFFFFF8);
-        this->set_field_378(4);
+        this->set_next_mode(4);
         step = 0;
         target_angle = 0;
         counter = 0;
@@ -738,7 +738,7 @@ void TObjEneMorfos::state_beam(s32 ev) {
     case 4:
         this->clear_intangible();
         morfos_flags = (s32) (morfos_flags & 0xFFFFFFF8);
-        this->set_field_378(6);
+        this->set_next_mode(6);
         if (this->enemy_has_live_target() != 0) {
             this->target_angle = (s32) (u16) ((s32) (10430.38043493439 * atan2_float(this->destination_direction.x, destination_direction.z)) + 0x8000);
             step = 0;
@@ -847,7 +847,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
         clear_intangible();
         morfos_flags &= ~3;
         morfos_flags |= 4;
-        set_field_378(4);
+        set_next_mode(4);
         target_angle = 0;
         burst_start_angle = 0;
         step = 0;
@@ -957,7 +957,7 @@ void TObjEneMorfos::state_attack(s32 ev) {
         this->requested_action = 0;
         this->clear_intangible();
         morfos_flags = (s32) (morfos_flags & 0xFFFFFFF8);
-        this->set_field_378(5);
+        this->set_next_mode(5);
         step = 0;
         this->counter = 0;
         break;
@@ -1026,7 +1026,7 @@ void TObjEneMorfos::state_patrol(s32 ev) {
         this->requested_action = 0;
         this->clear_intangible();
         morfos_flags = (s32) (morfos_flags & 0xFFFFFFF8);
-        set_field_378(8);
+        set_next_mode(8);
         step = 0;
         this->target_angle = (this->rotation_y + 0x3800);
         break;
@@ -1129,7 +1129,7 @@ void TObjEneMorfos::state_death(s32 ev) {
             if (body_fade.decay_value_toward_floor() != 0) {
                 this->counter = 2;
                 morfos_flags = (s32) (morfos_flags | 1);
-                TObjPlayer::apply_effect_variant_b(&position, 0);
+                TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0);
                 return;
             }
             break;

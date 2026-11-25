@@ -58,9 +58,9 @@ void TObjBoss8DemoRoom::free_static_instance() {
 }
 
 void TObjBoss8DemoRoom::load_resource() {
-    saddr var_r0;
-    var_r0 = (saddr)new BmlResource(1, &TObjBoss8DemoRoom__resource_desc, 0, 0, NULL);
-    TObjBoss8DemoRoom__shared_resource_object = (void *)var_r0;
+    saddr resource;
+    resource = (saddr)new BmlResource(1, &TObjBoss8DemoRoom__resource_desc, 0, 0, NULL);
+    TObjBoss8DemoRoom__shared_resource_object = (void *)resource;
 }
 }
 

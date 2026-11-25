@@ -179,7 +179,7 @@ void TBoss6Rock::draw_model() {
         return;
     }
     if (marker != NULL) {
-        if (TBoss6PlotFalz__sub_802AB6CC(&position, boss6_rock_kind_params[kind_index].radius - 3.0f) != 0) {
+        if (boss6_sphere_blocks_player_view(&position, boss6_rock_kind_params[kind_index].radius - 3.0f) != 0) {
             return;
         }
     }
@@ -541,7 +541,7 @@ void TBoss6RockMarker::run_task() {
 }
 
 void TBoss6RockMarker::render() {
-    if (enabled != 0 && TBoss6PlotFalz__sub_802AB6CC(&position, radius - 3.0f) != 0) {
+    if (enabled != 0 && boss6_sphere_blocks_player_view(&position, radius - 3.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

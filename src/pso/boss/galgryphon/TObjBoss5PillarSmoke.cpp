@@ -14,8 +14,8 @@
 
 const char *TObjBoss5PillarSmoke__name = "TObjBoss5PillarSmoke";
 
-// Where the smoke particles are parked (fn_8028AE1C, the constructor) and the
-// node origin the model callback projects (TObjBoss5PillarDemo__sub_8028ACE8).
+// Where the smoke particles are parked (park_pillar_smoke_particles, the constructor) and the
+// node origin the model callback projects (place_pillar_smoke_at_node).
 static const Vec lbl_80450CD0 = {0.0f, -1000.0f, 0.0f};
 static const Vec lbl_80450CDC = {0.0f, 0.0f, 0.0f};
 
@@ -26,7 +26,7 @@ extern "C" {
 s32 boss5_pillar_demo_index;
 TObjBoss5PillarSmoke *boss5_pillar_demo_ptr;
 
-void TObjBoss5PillarDemo__sub_8028ACE8(TObjBoss5PillarSmoke *smoke, NJS_OBJECT *node) {
+void place_pillar_smoke_at_node(TObjBoss5PillarSmoke *smoke, NJS_OBJECT *node) {
     Vec position;
     s32 idx;
     idx = boss5_pillar_demo_index - 1;
@@ -42,22 +42,22 @@ void TObjBoss5PillarDemo__sub_8028ACE8(TObjBoss5PillarSmoke *smoke, NJS_OBJECT *
     }
 }
 
-void TObjBoss5PillarDemo__sub_8028AD88(NJS_OBJECT *node) { TObjBoss5PillarDemo__sub_8028ACE8(boss5_pillar_demo_ptr, node); }
+void pillar_smoke_node_callback(NJS_OBJECT *node) { place_pillar_smoke_at_node(boss5_pillar_demo_ptr, node); }
 
-void TObjBoss5PillarDemo__sub_8028ADB0(TObjBoss5PillarSmoke *smoke) {
+void end_pillar_smoke_node_capture(TObjBoss5PillarSmoke *smoke) {
     if (smoke != NULL) {
         set_model_node_callback(0);
     }
 }
 
-void fn_8028ADDC(TObjBoss5PillarSmoke *smoke) {
+void begin_pillar_smoke_node_capture(TObjBoss5PillarSmoke *smoke) {
     if (smoke) {
         boss5_pillar_demo_index = 0;
         boss5_pillar_demo_ptr = smoke;
-        set_model_node_callback(TObjBoss5PillarDemo__sub_8028AD88);
+        set_model_node_callback(pillar_smoke_node_callback);
     }
 }
-void fn_8028AE1C(TObjBoss5PillarSmoke *smoke) {
+void park_pillar_smoke_particles(TObjBoss5PillarSmoke *smoke) {
     s32 i;
     for (i = 0; i < smoke->count; i++) {
         if (smoke->particles_a[i] != 0) {

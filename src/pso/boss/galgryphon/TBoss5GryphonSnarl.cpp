@@ -118,10 +118,10 @@ TBoss5GryphonSnarl::~TBoss5GryphonSnarl() {
 
 #pragma push
 #pragma opt_common_subs off
-TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *arg2) : TObject(parent) {
+TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *origin) : TObject(parent) {
     s32 i;
     m_name = TBoss5GryphonSnarl__name;
-    VecCopy(&position, (const Vec *)arg2);
+    VecCopy(&position, (const Vec *)origin);
     position.y = 2.0f;
     frame = 0;
     state = 0;
@@ -138,7 +138,7 @@ void TBoss5GryphonSnarl::release_effect_table() {  }
 
 
 void TBoss5GryphonSnarl::select_effect_table() {
-    switch (TBoss8Dragon__sub_8005D700()) {
+    switch (get_boss_asset_variant()) {
     case 0:
         TBoss5GryphonSnarl__effect_table = boss5_gryphon_snarl_effect_id_table;
         break;

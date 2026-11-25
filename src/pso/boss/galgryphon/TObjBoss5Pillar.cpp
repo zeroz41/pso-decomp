@@ -29,9 +29,9 @@ void TObjBoss5Pillar::render() {
         TObjFish::set_global_param(boss5_common_texture_list);
         post_translate_matrix(&this->position.x);
         if (this->state != 3) {
-            fn_8028ADDC(this->smoke);
+            begin_pillar_smoke_node_capture(this->smoke);
             draw_ginja_model_with_motion(this->models[0], this->motions[0], this->frame);
-            TObjBoss5PillarDemo__sub_8028ADB0(this->smoke);
+            end_pillar_smoke_node_capture(this->smoke);
         }
         draw_ginja_model_with_motion(this->models[1], this->motions[1], this->frame);
         pop_matrix();
@@ -56,7 +56,7 @@ void TObjBoss5Pillar::run_task() {
         break;
     case 2:
         if (this->smoke != NULL) {
-            fn_8028AE1C(this->smoke);
+            park_pillar_smoke_particles(this->smoke);
         }
         if (this->timer++ > 0x1E) {
             if (this->smoke != NULL) {

@@ -651,7 +651,7 @@ void TObjEneMe3Shinowa::action(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 1;
-        set_field_378(1);
+        set_next_mode(1);
         set_intangible();
         behavior_flags |= 2;
         behavior_flags &= 0xFFFFFFFE;
@@ -691,7 +691,7 @@ void TObjEneMe3Shinowa::state_fade_appear(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        set_field_378(0);
+        set_next_mode(0);
         set_intangible();
         behavior_flags &= 0xFFFFFFFC;
         fade.start_fade_in();
@@ -716,7 +716,7 @@ void TObjEneMe3Shinowa::state_t_wait(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(3);
+        this->set_next_mode(3);
         this->set_intangible();
         this->behavior_flags &= 0xFFFFFFFC;
         this->state_step = 0;
@@ -776,7 +776,7 @@ void TObjEneMe3Shinowa::state_drop_appear(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(0xB);
+        this->set_next_mode(0xB);
         this->clear_intangible();
         this->behavior_flags &= 0xFFFFFFFD;
         this->behavior_flags |= 1;
@@ -854,7 +854,7 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 9;
-        set_field_378(4);
+        set_next_mode(4);
         clear_intangible();
         behavior_flags &= 0xFFFFFFFC;
         destination_distance = 300.0f;
@@ -905,7 +905,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 5;
-        this->set_field_378(4);
+        this->set_next_mode(4);
         this->clear_intangible();
         this->behavior_flags &= ~3;
         this->behavior_flags |= 0x10000;
@@ -1032,7 +1032,7 @@ void TObjEneMe3Shinowa::state_sword_attack(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 6;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= ~3;
         this->behavior_flags |= 0x10000;
@@ -1094,7 +1094,7 @@ void TObjEneMe3Shinowa::state_backstep(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 2;
-        this->set_field_378(7);
+        this->set_next_mode(7);
         this->clear_intangible();
         this->behavior_flags &= ~3;
         this->attack_count = 0;
@@ -1298,7 +1298,7 @@ void TObjEneMe3Shinowa::state_cast_support(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 7;
-        set_field_378(0xA);
+        set_next_mode(0xA);
         clear_intangible();
         behavior_flags &= ~3;
         state_step = 0;
@@ -1348,7 +1348,7 @@ void TObjEneMe3Shinowa::state_wait(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 8;
-        this->set_field_378(0xB);
+        this->set_next_mode(0xB);
         this->behavior_flags &= ~3;
         this->set_intangible();
         this->attack_count = 0;
@@ -1376,7 +1376,7 @@ void TObjEneMe3Shinowa::sub_800E50D8(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 7;
-        this->set_field_378(4);
+        this->set_next_mode(4);
         this->set_intangible();
         this->behavior_flags &= ~3;
         flags = this->behavior_flags;
@@ -1732,7 +1732,7 @@ void TObjEneMe3ShinowaReal::state_split_mirages(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 7;
-        set_field_378(0xE);
+        set_next_mode(0xE);
         clear_intangible();
         behavior_flags &= ~3;
         particle_emitters[0] = NULL;
@@ -1801,7 +1801,7 @@ void TObjEneMe3ShinowaReal::state_toggle_cloak(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 7;
-        set_field_378(0x10);
+        set_next_mode(0x10);
         clear_intangible();
         behavior_flags &= ~2;
         behavior_flags |= 1;

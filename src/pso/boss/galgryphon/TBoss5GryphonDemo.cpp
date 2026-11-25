@@ -38,7 +38,7 @@ TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 *done_flag, f32 frame_
     this->frame_step = frame_step;
     this->frame = 0.0f;
     this->done_flag = done_flag;
-    switch (TBoss8Dragon__sub_8005D700()) {
+    switch (get_boss_asset_variant()) {
     case 0:
         c.bank = 1;
         c.index = 0;

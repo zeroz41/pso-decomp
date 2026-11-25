@@ -1020,7 +1020,7 @@ void TObjEneIllGill::update_death_fall() {
       if (((TObjMotion *)self)->is_passing_frame((f32)(52.0f)) != 0)
     {
       play_sound_effect(0x4003A358, &position, 0, 0);
-      TObjPlayer::apply_effect_variant_b(&position, 0xA);
+      TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0xA);
       fn_800D911C(&position);
       this->phase = 4;
       this->deathTimer = 0xA;

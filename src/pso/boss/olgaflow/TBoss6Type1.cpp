@@ -2152,7 +2152,7 @@ void TBoss6Type1::draw_model() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rotation_y);
     rotate_matrix_x(0, rotation_x);
-    TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
+    apply_boss6_hit_flash_color(hit_flash, hp_ratio);
     draw_part_motions();
     TBoss6PlotFalz::update_camera_target();
     pop_matrix();

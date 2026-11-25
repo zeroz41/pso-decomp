@@ -199,7 +199,7 @@ f32 calc_nearest_crater_distance(Vec *position) {
 
 void TObjBoss1Crater__sub_8002C7B4(void) {  }
 
-void TObjBoss1Crater__sub_8002C7B8(void) {
+void clear_boss1_crater_instances(void) {
     s32 i;
     TObjBoss1Crater__instance_count = 0;
     for (i = 0; i < 20; i++) {

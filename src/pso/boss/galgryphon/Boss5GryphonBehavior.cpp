@@ -362,10 +362,7 @@ void *gryphon_particle_position_vec[3] = {
 };
 #define gryphon_particle_enable_pos ((u8 *)gryphon_particle_enable_pos)
 #define gryphon_particle_position_vec ((s32 *)gryphon_particle_position_vec)
-#define F(t, o) (*(t *)(arg0 + (o)))
-#define TBL(o) (*(s32 *)((s8 *)(F(u8 *, 0x778)) + (o)))
-#define PLAY_SE(o, id) ((TBoss5Gryphon *)o)->play_se((id))
-inline s32 initial_angle_800623E4(TBoss5Gryphon *self) {
+inline s32 angle_to_move_target(TBoss5Gryphon *self) {
     Boss5GryphonMoveArgs *move = &self->motion->args.move;
     f32 initial_dx = move->x;
     f32 initial_dz = move->z - self->position.z;
@@ -373,7 +370,6 @@ inline s32 initial_angle_800623E4(TBoss5Gryphon *self) {
     return (s32)(10430.38043493439 * atan2_float(initial_dx, initial_dz));
 }
 
-#define F(t, o) (*(t *)(arg0 + (o)))
 }
 extern "C" {
 // Ids resolved into boss5_gryphon_base_params / boss5_gryphon_resistance_params by the resource loader.
@@ -499,7 +495,7 @@ void TBoss5Gryphon::fill_follow_camera_params(Vec *target_offset, Vec *eye_offse
 extern "C" {
 // Inferred: TBoss5Gryphon's resource loader (paired with TBoss5Gryphon::cleanup in the boss resource table).
 void load_boss5_gryphon_resources(void) {
-    switch (TBoss8Dragon__sub_8005D700()) {
+    switch (get_boss_asset_variant()) {
     case 0:
         boss5_gryphon_body_bml_resource = load_enemy_bml_resource(&boss5_gryphon_body_bml_desc);
         boss5_gryphon_bml_resource = load_enemy_bml_resource(&boss5_gryphon_bml_desc);
@@ -567,7 +563,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     if (boss5_gryphon_instance == NULL) {
         boss5_gryphon_instance = this;
     }
-    ((TObjEneDD *)this)->invoke_initialization_hook(data);
+    this->invoke_initialization_hook(data);
     this->flags = 0;
     if (this->exchange_object_state(flags, 1) != 0 && (flags[0] & 0x12008) == 0x12008) {
         this->flags |= 1;
@@ -579,19 +575,19 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
         this->model = boss5_gryphon_body_bml_resource->models[0].model;
     }
     this->texlist = boss5_gryphon_body_bml_resource->models[0].texlist;
-    ((TObjEneDD *)this)->init_model((CollisionBody *)boss5_gryphon_collision_body_parts, (s32)10);
+    this->init_model((CollisionBody *)boss5_gryphon_collision_body_parts, (s32)10);
     this->motion_flags = 0;
     this->set_action_table(boss5_gryphon_action_table);
     this->set_motion_list(boss5_gryphon_body_bml_resource->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
     this->set_requested_action(this->requested_action);
-    ((TObjEneDD *)this)->reset_hp(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]], boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]], boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]);
+    this->reset_hp(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]], boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]], boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]);
     this->set_state_flag_2();
     this->movementParameters = &boss5_gryphon_movement_params;
-    ((TObjEneDD *)this)->initialize_enemy_state(77);
+    this->initialize_enemy_state(77);
     this->wall_reach = 20.0f;
-    ((TObjEneDD_ST *)this)->set_target_destination(&boss5_gryphon_arena_center);
+    this->set_target_destination(&boss5_gryphon_arena_center);
     this->enemy_init_acquire_period(10);
     this->enemy_init_validate_period(10);
     this->move_velocity.x = 0.0f;
@@ -625,7 +621,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     for (i = 0; i < 4; i++) {
         this->renderFadeStates[i].activate_and_dispatch();
     }
-    switch (TBoss8Dragon__sub_8005D700()) {
+    switch (get_boss_asset_variant()) {
     case 0:
         this->effect_ids = boss5_gryphon_effect_ids;
         break;
@@ -692,7 +688,7 @@ TBoss5Gryphon::~TBoss5Gryphon() {
 
 void TBoss5Gryphon::run_task() {
     s32 run_mode;
-    s32 temp_r31_2;
+    s32 teammate_state;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
         run_demo_task();
@@ -714,10 +710,10 @@ void TBoss5Gryphon::run_task() {
             this->run_mode = 1;
         }
     }
-    temp_r31_2 = TObjEneDD::query_teammate_state();
+    teammate_state = TObjEneDD::query_teammate_state();
     update_attack_stat_status();
     update_defense_stat_status();
-    if (temp_r31_2 == 0) {
+    if (teammate_state == 0) {
         if (get_flag_bit6() != 0) {
             this->actorFlags = (s32) (this->actorFlags | 0x800);
         } else {
@@ -738,7 +734,7 @@ void TBoss5Gryphon::run_task() {
             dispatch_action(this->mode, 0);
         }
     }
-    sub_800BBA0C();
+    save_mode();
     apply_velocity();
     apply_position_correction();
     advance_motion_timer();
@@ -747,7 +743,7 @@ void TBoss5Gryphon::run_task() {
     submit_default_cursor_candidate();
     add_radar_scaled_marker(&this->position, -0x5DB4, 1, 1, 2.0f);
     VecCopy(&this->pad_56C, &this->body_center);
-    if (temp_r31_2 == 0) {
+    if (teammate_state == 0) {
         this->sub_tasks.run_tasks();
     }
     project_sound_origin_from_camera(&this->position, &this->sound_origin, gryphon_point_four);
@@ -959,7 +955,7 @@ void TBoss5Gryphon::emit_part_attack_effect(int part) {
     fill_value_array(attack_history);
     p = &bone_positions[gryphon_part_attack_index_table[part]];
     reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
-    TBoss8Dragon__sub_80067074(p, &prm);
+    boss5_attack_floor_in_range(p, &prm);
     TObjEneDD::emit_enemy_effect(this, p, &prm, attack_history);
     reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
     spawn_particle_effect_with_flags(p, effect_ids[2], 0x40);
@@ -1014,17 +1010,17 @@ void TBoss5Gryphon::run_default_state() { query_default(); attack_default(); }
 
 void TBoss5Gryphon::emit_landing_impact() {
     DragonAttackParams stack;
-    TBoss1Dragon__sub_80027A80(&stack, &boss5_gryphon_params_b);
+    copy_dragon_attack_params(&stack, &boss5_gryphon_params_b);
     stack.radius = boss5_gryphon_behavior_params[2]->attack.landing_radius;
     reload_stats_for_phase(boss5_gryphon_behavior_params[2]);
-    TBoss8Dragon__sub_80067074(&position, &stack);
+    boss5_attack_floor_in_range(&position, &stack);
     emit_effect_at_position(&stack);
     reload_stats_for_type();
 }
 
 void TBoss5Gryphon::update_collider_from_table() {
     DragonAttackParams desc = gryphon_collider_desc;
-    TBoss8Dragon__sub_800670E0(&bone_positions[0], &desc);
+    boss5_attack_pillars_in_range(&bone_positions[0], &desc);
 }
 
 void TBoss5Gryphon::emit_wing_attacks() {
@@ -1032,7 +1028,7 @@ void TBoss5Gryphon::emit_wing_attacks() {
     Vec pts[10];
     Vec *p;
     s32 i;
-    TBoss1Dragon__sub_80027A80(&fx, &gryphon_effect_param_block);
+    copy_dragon_attack_params(&fx, &gryphon_effect_param_block);
     fill_value_array(attack_history);
     p = pts;
     VecCopy(p++, &bone_positions[3]);
@@ -1062,9 +1058,9 @@ void TBoss5Gryphon::emit_wing_attacks() {
     p = pts;
     for (i = 0; i < 5; i++) {
         fx.radius = gryphon_effect_scale_table[i];
-        TBoss8Dragon__sub_800670E0(p, &fx);
+        boss5_attack_pillars_in_range(p, &fx);
         TObjEneDD::emit_enemy_effect(this, p++, &fx, attack_history);
-        TBoss8Dragon__sub_800670E0(p, &fx);
+        boss5_attack_pillars_in_range(p, &fx);
         TObjEneDD::emit_enemy_effect(this, p++, &fx, attack_history);
     }
     reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
@@ -1073,16 +1069,16 @@ void TBoss5Gryphon::emit_wing_attacks() {
 void TBoss5Gryphon::emit_flight_body_attacks() {
     DragonAttackParams prm;
     Vec *point;
-    TBoss1Dragon__sub_80027A80(&prm, &boss8_dragon_attack_params);
+    copy_dragon_attack_params(&prm, &boss8_dragon_attack_params);
     fill_value_array(attack_history);
     reset_hp(NULL, boss5_gryphon_attack_params[3], NULL);
     point = &bone_positions[11];
     prm.radius = gryphon_thirty;
-    TBoss8Dragon__sub_800670E0(point, &prm);
+    boss5_attack_pillars_in_range(point, &prm);
     TObjEneDD::emit_enemy_effect(this, point, &prm, attack_history);
     point = &bone_positions[0];
     prm.radius = gryphon_fifty;
-    TBoss8Dragon__sub_800670E0(point, &prm);
+    boss5_attack_pillars_in_range(point, &prm);
     TObjEneDD::emit_enemy_effect(this, point, &prm, attack_history);
     reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
 }
@@ -1120,7 +1116,7 @@ void TBoss5Gryphon::emit_ground_contact_attack() {
 void TBoss5Gryphon::apply_shockwave_hit(TBoss5Gryphon *owner, Vec *pos) {
     DragonAttackParams desc = gryphon_shockwave_hit_params;
     desc.attack.power = boss5_gryphon_behavior_params[2]->attack.shockwave_power;
-    TBoss8Dragon__sub_80067074(pos, &desc);
+    boss5_attack_floor_in_range(pos, &desc);
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
 
@@ -1273,12 +1269,12 @@ void TBoss5Gryphon::update_ground_pursuit(s32 event) {
         self->emit_walk_foot_attacks();
         spd = self->get_motion_frame();
         if (spd < gryphon_four) {
-            TObjEneEpsilon__sub_800B9384(this, 0x100, gryphon_one_point_eight);
+            enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
         } else if (!(spd < gryphon_ten)) {
             if (spd < gryphon_eighteen) {
-                TObjEneEpsilon__sub_800B9384(this, 0x100, gryphon_one_point_eight);
+                enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
             } else if (!(spd < gryphon_twenty_five)) {
-                TObjEneEpsilon__sub_800B9384(this, 0x100, gryphon_one_point_eight);
+                enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
             }
         }
         break;
@@ -1545,7 +1541,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
         self->position.z = p->z - gryphon_six_hundred * cos_table_lookup(self->rotation_y);
         play_cue_stream_file("dradeath.adx");
         TWindowCtrl::init_all_slots();
-        switch (TBoss8Dragon__sub_8005D700()) {
+        switch (get_boss_asset_variant()) {
         case 0:
             cam.index = 0;
             cam.bank = 2;
@@ -1560,7 +1556,7 @@ void TBoss5Gryphon::update_death_state(u32 event) {
         return;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
-        switch (TBoss8Dragon__sub_8005D700()) {
+        switch (get_boss_asset_variant()) {
         case 0:
         if (self->is_passing_frame((f32)gryphon_one_hundred_ten) != 0) {
             v.x = self->position.x;
@@ -1632,7 +1628,7 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
         this->rotation_x = 0;
         this->rotation_y = 0;
         this->rotation_z = 0;
-        switch (TBoss8Dragon__sub_8005D700()) {
+        switch (get_boss_asset_variant()) {
         case 0:
             this->work.step = 0;
             break;
@@ -1820,7 +1816,7 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
         self->clear_intangible();
         enter_flight_mode();
         self->set_flight_height();
-        self->work.target_angle = initial_angle_800623E4(self);
+        self->work.target_angle = angle_to_move_target(self);
         break;
     case ENEMY_STATE_UPDATE:
         self->advance_animation();
@@ -3758,11 +3754,11 @@ s32 TBoss5Gryphon::blocks_camera_view() {
 }
 
 void TBoss5Gryphon::render_nodes_with_flag() {
-    s32 temp_r4;
+    s32 saved_flags;
 
-    temp_r4 = model_render_flags;
-    saved_model_render_flags = temp_r4;
-    model_render_flags = temp_r4 | 0x400;
+    saved_flags = model_render_flags;
+    saved_model_render_flags = saved_flags;
+    model_render_flags = saved_flags | 0x400;
     this->sub_tasks.render_nodes();
     model_render_flags = saved_model_render_flags;
 }

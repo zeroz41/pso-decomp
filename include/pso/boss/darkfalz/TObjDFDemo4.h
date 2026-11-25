@@ -14,8 +14,8 @@ struct TObjFish;
 struct TObjDFDemo4 : public TObjBase {
     TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle);
     virtual ~TObjDFDemo4();
-    void sub_8004F2A8();
-    void sub_8004F1FC();
+    void draw_zanzo_parts();
+    void draw_body_parts();
     virtual void render();
     virtual void run_task();
     static TObjDFDemo4 *create(TObject *parent, const Vec *position, s32 angle);

@@ -686,10 +686,10 @@ void TObjEneMe3SinowZoa::state_reset(s32 mode) {
     case 4:
         if (this->fade_in_start == 1) {
             this->requested_action = 2;
-            set_field_378(1);
+            set_next_mode(1);
         } else {
             this->requested_action = 0;
-            set_field_378(3);
+            set_next_mode(3);
         }
         set_intangible();
         this->behavior_flags |= 2;
@@ -732,7 +732,7 @@ void TObjEneMe3SinowZoa::state_fade_in(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 2;
-        this->set_field_378(0);
+        this->set_next_mode(0);
         this->set_intangible();
         this->behavior_flags &= 0xFFEFFFFD;
         this->behavior_flags |= 5;
@@ -777,7 +777,7 @@ void TObjEneMe3SinowZoa::state_chase(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 9;
-        this->set_field_378(0xD);
+        this->set_next_mode(0xD);
         this->clear_intangible();
         this->behavior_flags &= 0xFFEFFFF8;
         this->state_step = 0;
@@ -828,7 +828,7 @@ void TObjEneMe3SinowZoa::state_ambush(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0);
+        this->set_next_mode(0);
         this->set_intangible();
         this->behavior_flags |= 7;
         this->fade.start_fade_in();
@@ -857,7 +857,7 @@ void TObjEneMe3SinowZoa::state_reveal(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0;
-        set_field_378(5);
+        set_next_mode(5);
         this->set_intangible();
         this->behavior_flags &= 0xFFEFFFF8;
         this->state_step = 0;
@@ -908,7 +908,7 @@ void TObjEneMe3SinowZoa::state_appear(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 1;
-        this->set_field_378(0xD);
+        this->set_next_mode(0xD);
         this->clear_intangible();
         this->behavior_flags &= 0xFFEFFFF9;
         this->behavior_flags |= 1;
@@ -983,7 +983,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0xA;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFEFFFF8;
         this->destination_distance = (f32) 300.0f;
@@ -1028,7 +1028,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 6;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFEFFFF8;
         this->behavior_flags |= 0x10000;
@@ -1172,7 +1172,7 @@ void TObjEneMe3SinowZoa::state_sword(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 7;
-        this->set_field_378(0xC);
+        this->set_next_mode(0xC);
         this->clear_intangible();
         this->behavior_flags &= 0xFFEFFFF8;
         this->behavior_flags |= 0x10000;
@@ -1261,7 +1261,7 @@ void TObjEneMe3SinowZoa::state_backstep(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 3;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         zero = 0;
         this->behavior_flags &= 0xFFEFFFF8;
@@ -1344,7 +1344,7 @@ void TObjEneMe3SinowZoa::state_cast_technique(s32 mode) {
     switch (mode) {
     case 4:
         (this->requested_action) = 8;
-        this->set_field_378(0xB);
+        this->set_next_mode(0xB);
         this->clear_intangible();
         (this->behavior_flags) &= 0xFFEFFFF8;
         if ((this->stealthed) != 0) {
@@ -1421,7 +1421,7 @@ void TObjEneMe3SinowZoa::state_wait(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 9;
-        set_field_378(0xD);
+        set_next_mode(0xD);
         this->behavior_flags &= 0xFFEFFFF8;
         this->set_intangible();
         this->attack_count = 0;
@@ -1449,7 +1449,7 @@ void TObjEneMe3SinowZoa::state_vanish(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 8;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->set_intangible();
         this->behavior_flags &= 0xFFEFFFFC;
         this->behavior_flags |= 4;
@@ -1593,7 +1593,7 @@ void TObjEneMe3SinowZoa::state_warp(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0xC;
-        this->set_field_378(0xC);
+        this->set_next_mode(0xC);
         this->set_intangible();
         this->behavior_flags &= 0xFFEFFFF9;
         this->behavior_flags |= 1;
@@ -1874,7 +1874,7 @@ void TObjEneMe3SinowZoa::state_stealth_on(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0xC;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFEFFFFD;
         this->behavior_flags |= 5;
@@ -1908,7 +1908,7 @@ void TObjEneMe3SinowZoa::state_stealth_off(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0xB;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFEFFFFD;
         this->behavior_flags |= 5;
@@ -1965,7 +1965,7 @@ void TObjEneMe3SinowZoa::state_cast_barta(s32 mode) {
         break;
     case 4:
         this->requested_action = 0xA;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFEFFFF8;
         this->behavior_flags |= 0x10000;

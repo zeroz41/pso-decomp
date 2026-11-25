@@ -928,7 +928,7 @@ force_active:
   - TObjBoss2Tunnel__sub_802F2A2C
   - __ct__19TObjBoss5PillarCtrlFP7TObject
   - __ct__19TObjBoss5PillarDemoFP7TObjectP3Vec
-  - TObjBoss5PillarDemo__sub_8028ACE8
+  - place_pillar_smoke_at_node
   - __ct__17TObjBoss7DustCtrlFP7TObject
   - TObjBoss7DustCtrl__helix_points
   - TObjBoss7DustCtrl__rotation_pairs
@@ -6223,9 +6223,9 @@ force_active:
   - finish_request__22TChCrLoadAfsTextureReqFv
   - finish_room_check__18TCheckRoomSequenceFP15TShopWindowBase
   - fire_at_angle__13TBoss5GryphonFl
-  - fire_attack_a__12TObjEneDD_STFP3Veclf
-  - fire_attack_b__12TObjEneDD_STFP3Veclf
-  - fire_attack_c__12TObjEneDD_STFP3Veclf
+  - turn_and_calc_clamped_destination__12TObjEneDD_STFP3Veclf
+  - turn_and_calc_slide_destination__12TObjEneDD_STFP3Veclf
+  - turn_and_calc_shot_destination__12TObjEneDD_STFP3Veclf
   - fire_zonde_at_players__15TBoss3VoloptP01Fv
   - fixed_npc_camera_destination_table
   - flanking_state__14TObjEneBm5WolfFl
@@ -16128,8 +16128,8 @@ force_active:
   - reset_child_ids__14TBoss4DarkFalzFv
   - run_state_update__14TBoss4DarkFalzFv
   - run_state_leader_update__14TBoss4DarkFalzFv
-  - sub_8004E068__11TObjDFDemo1Fv
-  - sub_8004F2A8__11TObjDFDemo4Fv
+  - draw_zanzo_parts__11TObjDFDemo1Fv
+  - draw_zanzo_parts__11TObjDFDemo4Fv
   - choose_action_after_move__11TBoss4Type2Fv
   - send_turn_action__11TBoss4Type2Fll
   - send_action__11TBoss4Type2Fl

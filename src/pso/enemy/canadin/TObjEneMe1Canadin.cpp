@@ -769,7 +769,7 @@ void TObjEneMe1Canadin::state_spawn(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(2);
+        set_next_mode(2);
         this->set_intangible();
         status_flags |= 0x400000;
         move_action = 4;
@@ -800,7 +800,7 @@ void TObjEneMe1Canadin::state_appear(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(2);
+        this->set_next_mode(2);
         this->status_flags &= ~0x400000;
         this->set_intangible();
         this->actorFlags |= 0x01000000;
@@ -831,7 +831,7 @@ void TObjEneMe1Canadin::state_hover(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(2);
+        set_next_mode(2);
         status_flags &= ~0x400000;
         this->set_intangible();
         actorFlags &= ~0x1000000;
@@ -870,7 +870,7 @@ void TObjEneMe1Canadin::state_activate(s32 msg) {
     switch (msg) {
     case 4:
         advance_state_5_to_4();
-        set_field_378(3);
+        set_next_mode(3);
         status_flags &= ~0x400000;
         this->clear_intangible();
         actorFlags &= ~0x1000000;
@@ -940,7 +940,7 @@ void TObjEneMe1Canadin::state_rise(s32 msg) {
     switch (msg) {
     case 4:
         advance_state_5_to_4();
-        set_field_378(4);
+        set_next_mode(4);
         status_flags &= ~0x400000;
         this->clear_intangible();
         actorFlags |= 0x01000000;
@@ -968,7 +968,7 @@ void TObjEneMe1Canadin::state_formation(s32 msg) {
     switch (msg) {
     case 4:
         advance_state_5_to_4();
-        set_field_378(5);
+        set_next_mode(5);
         status_flags &= ~0x400000;
         this->clear_intangible();
         actorFlags |= 0x01000000;
@@ -1034,7 +1034,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
     pos = &this->work_point;
     switch (msg) {
     case 4:
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->status_flags |= 0x10000;
         this->status_flags &= ~0x400000;
         this->clear_intangible();
@@ -1074,7 +1074,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             } else {
                 this->advance_state_5_to_4();
             }
-            TObjEneEpsilon__sub_800B92F8(this, 0x200, 0.5f);
+            enemy_turn_and_move_xz_slide(this, 0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
@@ -1172,7 +1172,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
     switch (msg) {
     case 4:
         this->advance_state_4_to_5();
-        this->set_field_378(7);
+        this->set_next_mode(7);
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->actorFlags &= ~0x1000000;
@@ -1282,7 +1282,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 if (this->destination_distance > 40.0f) {
                     this->stage = 1;
                 }
-                TObjEneEpsilon__sub_800B92AC(this, 0x200, this->kind_params->melee_speed);
+                enemy_turn_and_move_xz_clamped(this, 0x200, this->kind_params->melee_speed);
             }
             this->noop();
             break;
@@ -1348,7 +1348,7 @@ void TObjEneMe1Canadin::state_orbit(s32 msg) {
     switch (msg) {
     case 4:
         this->advance_state_4_to_5();
-        this->set_field_378(8);
+        this->set_next_mode(8);
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->attack_count = 0;
@@ -1440,7 +1440,7 @@ void TObjEneMe1Canadin::state_regroup(s32 msg) {
     switch (msg) {
     case 4:
         advance_state_5_to_4();
-        set_field_378(9);
+        set_next_mode(9);
         status_flags &= ~0x400000;
         set_intangible();
         actorFlags |= 0x01000000;
@@ -1552,7 +1552,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
     switch (msg) {
     case 4:
         this->advance_state_4_to_5();
-        this->set_field_378(0xA);
+        this->set_next_mode(0xA);
         this->clear_intangible();
         this->status_flags &= ~0x400000;
         this->status_flags |= 0x200000;
@@ -1576,14 +1576,14 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         }
         this->update_velocity();
         this->approach_hover_y(this->position.y + this->hover_height);
-        TObjEneEpsilon__sub_800B92AC(this, 0x200, 0.68f);
+        enemy_turn_and_move_xz_clamped(this, 0x200, 0.68f);
         this->rotation_z += 0x2000;
         this->stage++;
         if (this->stage >= 0x96) {
             DragonAttackParams c = canadin_self_destruct_attack_params;
             TObjEneMe1CanadinParams *t = this->kind_params;
             c.attack.power = t->self_destruct_power;
-            TObjEneDD__sub_800BA5A4(this, &c);
+            setup_attack_at_owner(this, &c);
             this->status_flags |= 0x800000;
         }
         if (this->stage % 10 < 5) {
@@ -1604,7 +1604,7 @@ void TObjEneMe1Canadin::state_vanish(s32 msg) {
     switch (msg) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0xB);
+        this->set_next_mode(0xB);
         this->set_intangible();
         this->status_flags &= ~0x400000;
         this->actorFlags |= 0x800;
@@ -1633,7 +1633,7 @@ void TObjEneMe1Canadin::state_return_home(s32 msg) {
 
     switch (msg) {
     case 4:
-        this->set_field_378(0xE);
+        this->set_next_mode(0xE);
         this->status_flags &= ~0x400000;
         this->clear_intangible();
         this->stage = 0;
@@ -2109,7 +2109,7 @@ void TObjEneMe1CanadinLeader::state_activate(s32 msg) {
     switch (msg) {
     case 4: {
         advance_state_5_to_4();
-        set_field_378(3);
+        set_next_mode(3);
         clear_intangible();
         const f32 *p = (const f32 *)&canadin_formation_reset_vec4;
         core_color.r = p[1];
@@ -2172,7 +2172,7 @@ void TObjEneMe1CanadinLeader::state_rise(s32 mode) {
     switch (mode) {
     case 4:
         advance_state_5_to_4();
-        set_field_378(4);
+        set_next_mode(4);
         clear_intangible();
         break;
     case 3:

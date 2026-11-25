@@ -232,57 +232,57 @@ void spawn_effect_at_ground(const Vec *pos, s32 duration) {
 // .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them (0x805DA3C4-D0),
 // which first use by the surviving code cannot give. Bodies and names inferred
 // from the family.
-void spawn_corner_dead_spot_scale2_5(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind0_scale2_5(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 2.5f);
 }
 extern "C" {
 
-void TObjPlayer::apply_effect_variant_a(const Vec *point, s32 delay) {
+void TObjPlayer::spawn_dead_spot_kind0_scale7_5(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 7.5f);
 }
 
-void TObjPlayer::apply_effect_variant_b(const Vec *point, s32 delay) {
+void TObjPlayer::spawn_dead_spot_kind0_scale15(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 15.0f);
 }
 
-// Dead-stripped, see spawn_corner_dead_spot_scale2_5.
+// Dead-stripped, see spawn_dead_spot_kind0_scale2_5.
 }
-void spawn_corner_dead_spot_scale25(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind0_scale25(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 25.0f);
 }
 extern "C" {
 
-void TObjPlayer__sub_800D9290(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind1_scale2_5(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 2.5f);
 }
 
-void TObjPlayer__sub_800D92BC(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind1_scale7_5(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 7.5f);
 }
 
-void TObjPlayer::spawn_dead_spot_default(const Vec *point, s32 delay) {
+void TObjPlayer::spawn_dead_spot_kind1_scale15(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 15.0f);
 }
 
-void TObjPlayer::spawn_dead_spot_here(const Vec *point, s32 delay) {
+void TObjPlayer::spawn_dead_spot_kind1_scale25(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 25.0f);
 }
 }
 
-void spawn_landing_dead_spot(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind2_scale2_5(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 2, delay, 2.5f);
 }
 extern "C" {
 
-void TObjPlayer::spawn_dead_spot_type2(const Vec *point, s32 delay) {
+void TObjPlayer::spawn_dead_spot_kind2_scale7_5(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 2, delay, 7.5f);
 }
 
-void spawn_dead_spot_scale15(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind2_scale15(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 2, delay, 15.0f);
 }
 
-void TObjPlayer__sub_800D93C4(const Vec *point, s32 delay) {
+void spawn_dead_spot_kind2_scale25(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 2, delay, 25.0f);
 }
 

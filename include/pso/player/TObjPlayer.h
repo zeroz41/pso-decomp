@@ -403,11 +403,11 @@ struct TObjPlayer : public TObjChara {
     s16 get_atp();
     s16 get_atp_range();
     static void update_effect_sequence(NJS_OBJECT *);
-    static void apply_effect_variant_a(const Vec *point, s32 delay);
-    static void apply_effect_variant_b(const Vec *point, s32 delay);
-    static void spawn_dead_spot_default(const Vec *point, s32 delay);
-    static void spawn_dead_spot_here(const Vec *point, s32 delay);
-    static void spawn_dead_spot_type2(const Vec *point, s32 delay);
+    static void spawn_dead_spot_kind0_scale7_5(const Vec *point, s32 delay);
+    static void spawn_dead_spot_kind0_scale15(const Vec *point, s32 delay);
+    static void spawn_dead_spot_kind1_scale15(const Vec *point, s32 delay);
+    static void spawn_dead_spot_kind1_scale25(const Vec *point, s32 delay);
+    static void spawn_dead_spot_kind2_scale7_5(const Vec *point, s32 delay);
     static void destroy_static_lobby();
     static void init_render_globals();
     static void push_material_color_override(f32 alpha, f32 r, f32 g, f32 b);

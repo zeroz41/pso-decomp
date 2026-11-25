@@ -20,7 +20,7 @@
 #include "pso/network/client_id.h"
 
 extern "C" {
-void TObjPlayer__sub_801BA42C(void);
+void release_players_from_cutscene(void);
 }
 
 #pragma defer_codegen on
@@ -70,7 +70,7 @@ void TBoss3VoloptCtrl::run_task() {
         break;
     case 2:
         restore_player_cameras();
-        TObjPlayer__sub_801BA42C();
+        release_players_from_cutscene();
         queue_destruction();
         break;
     case -1:

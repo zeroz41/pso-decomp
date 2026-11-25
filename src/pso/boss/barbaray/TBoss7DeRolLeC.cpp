@@ -851,7 +851,7 @@ void TBoss7DeRolLeC::run_task() {
         }
         this->update_projectile_spawns();
     }
-    this->sub_800BBA0C();
+    this->save_mode();
     this->update_body_colliders();
     sync_position_vectors();
     this->flee_if_disturbed();

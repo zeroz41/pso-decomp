@@ -277,7 +277,7 @@ void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(4);
+        set_next_mode(4);
         flags |= 0x40;
         flags &= ~0x14;
         clear_intangible();
@@ -312,7 +312,7 @@ void TObjEneEpsilonGuard::state_fade_out(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(3);
+        set_next_mode(3);
         fade.set_rate_from_divisor(0x14);
         fade.reset_color();
         flags &= ~0x14;
@@ -340,7 +340,7 @@ void TObjEneEpsilonGuard::state_orbit(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(2);
+        set_next_mode(2);
         flags |= 4;
         flags &= ~0x18;
         clear_intangible();
@@ -399,7 +399,7 @@ void TObjEneEpsilonGuard::state_move_out(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(1);
+        set_next_mode(1);
         flags &= ~0x216;
         clear_intangible();
         return;
@@ -431,7 +431,7 @@ void TObjEneEpsilonGuard::handle_event(s32 msg) {
     switch (msg) {
     case 4:
         requested_action = 0;
-        set_field_378(0);
+        set_next_mode(0);
         set_intangible();
         flags |= 0x10;
         flags &= ~5;

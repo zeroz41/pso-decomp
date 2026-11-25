@@ -102,7 +102,7 @@ void TObjEneDimedian::play_alert_sound() {
 
 void TObjEneDimedian::spawn_death_effect() {
     s32 area;
-    TObjPlayer::apply_effect_variant_a(&position, 0);
+    TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
     fn_800D911C(&body_center);
     area = get_current_floor_area();
     if ((area == AREA_VR_TEMPLE_ALPHA) || (area == AREA_VR_TEMPLE_BETA)) {

@@ -52,14 +52,14 @@ const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 const f32 boss2_ceil_junk_water_level = boss2_water_level;
 
 void TObjBoss2CeilJunk::render() {
-  float new_var;
+  float shadow_scale;
   if (state == 2)
   {
     Vec s;
     f32 t = TObjBoss2CeilJunk__radius_table[kind];
-    new_var = (0.2f) * t;
+    shadow_scale = (0.2f) * t;
     s.y = (1.0f);
-    s.x = (s.z = new_var);
+    s.x = (s.z = shadow_scale);
     TObjEneDD::draw_oriented_shadow(&prev_position, &ground_normal, 0, &s);
   }
   saved_model_render_flags = model_render_flags;

@@ -250,7 +250,7 @@ void TBoss6Mag::render_body_effects() {
     flash = hit_flash;
     tinted = 0;
     if (flash > 0.0f) {
-        TBoss6PlotFalz__sub_802AC008(flash, hp_ratio);
+        apply_boss6_hit_flash_color(flash, hp_ratio);
         tinted = 1;
     } else {
         fade_amount = fade;

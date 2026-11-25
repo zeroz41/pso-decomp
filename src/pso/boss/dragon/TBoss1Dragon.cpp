@@ -969,7 +969,7 @@ void TBoss1Dragon::run_task() {
             }
         }
     }
-    this->sub_800BBA0C();
+    this->save_mode();
     this->update_body_colliders();
     this->update_position_history();
     this->submit_default_cursor_candidate();
@@ -1697,7 +1697,7 @@ void TBoss1Dragon::apply_foot_attack_pair_1() {
 
 void TBoss1Dragon::apply_landing_attack() {
     DragonAttackParams stack;
-    TBoss1Dragon__sub_80027A80(&stack, &boss1_dragon_attack_sphere_params);
+    copy_dragon_attack_params(&stack, &boss1_dragon_attack_sphere_params);
     stack.radius = boss1_dragon_behavior_params[0]->landing_attack_radius;
     this->reload_stats_for_phase((saddr)boss1_dragon_behavior_params[0]);
     switch (TBoss1Dragon::isV2Mode()) {
@@ -1800,7 +1800,7 @@ void TBoss1Dragon::apply_ground_impact_attack() {
 
 #pragma push
 #pragma scheduling off
-void TBoss1Dragon__sub_80027A80(DragonAttackParams *destination, const DragonAttackParams *source) {
+void copy_dragon_attack_params(DragonAttackParams *destination, const DragonAttackParams *source) {
     __memcpy(destination, source, 8);
     destination->radius = source->radius;
     // Character views start at the complete objects, not a smaller member.
@@ -1819,7 +1819,7 @@ void TBoss1Dragon::sweep_death_body_attack() {
     s32 off;
     reset_hp(NULL, boss1_dragon_part_hp_stats[4], NULL);
     fill_value_array(this->attack_history);
-    TBoss1Dragon__sub_80027A80(&params, &boss1_dragon_head_fall_attack_params);
+    copy_dragon_attack_params(&params, &boss1_dragon_head_fall_attack_params);
     VecCopy(&pos, &this->node_positions[12]);
     params.radius = (15.0f);
     switch (TBoss1Dragon::isV2Mode()) {
@@ -2417,11 +2417,11 @@ void TBoss1Dragon::update_walking_state(u32 reason) {
             this->move_to_shot_position(sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), scale);
         } else if (!(v < (9.0f))) {
             if (v < 19.0f) {
-                TObjEneEpsilon__sub_800B9384(this, iscale, scale);
+                enemy_turn_and_move_shot_step(this, iscale, scale);
             } else if (v < (24.0f)) {
                 this->move_to_shot_position(sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), scale);
             } else if (!(v < (30.0f))) {
-                TObjEneEpsilon__sub_800B9384(this, iscale, scale);
+                enemy_turn_and_move_shot_step(this, iscale, scale);
             }
         }
         break;
@@ -3400,7 +3400,7 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0x10;
-        ((TBoss1Dragon *)(((u8 *)this)))->clear_intangible();
+        this->clear_intangible();
         this->setActive();
         this->set_flight_height();
         this->flags &= ~0xE80;
@@ -3518,8 +3518,8 @@ void TBoss1Dragon::update_dive_state(u32 reason) {
                 this->spawn_impact_crater(&this->position);
                 this->apply_ground_impact_attack();
                 this->ground_impact_done = 1;
-                ((TBoss1Dragon *)(((u8 *)this)))->set_invulnerable();
-                ((TBoss1Dragon *)(((u8 *)this)))->disable_body_collision();
+                this->set_invulnerable();
+                this->disable_body_collision();
                 this->setPhase2();
             }
             r = get_random_scaled();
@@ -3956,7 +3956,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0x13;
-        ((TBoss1Dragon *)(((u8 *)this)))->set_intangible();
+        this->set_intangible();
         this->clearState();
         this->beginHeightTransition();
         this->flags |= 0xE80;
@@ -4078,7 +4078,7 @@ void TBoss1Dragon::update_death_state(u32 reason) {
         this->refresh_and_send_entity_flags();
         set_story_flag_or_send_quest_flag(0x17);
         this->actorFlags = 0x12008;
-        ((TBoss1Dragon *)(((u8 *)this)))->sync_enemy_state(0);
+        this->sync_enemy_state(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         if (this->breath_particles[0] != 0) {

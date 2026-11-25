@@ -1509,7 +1509,7 @@ void TObjGrass::update_dying() {
             }
             }
             play_sound_effect(remap_sound_for_area(0x4003AB0A), &position, 0, 0);
-            TObjPlayer::spawn_dead_spot_default(&position, 0xA);
+            TObjPlayer::spawn_dead_spot_kind1_scale15(&position, 0xA);
             spawn_ground_effect((const Vec *)(arg0 + 0x38), 0x1E);
         }
         ((TObjEnePanarms *)arg0)->scale.y -= 0.01f;

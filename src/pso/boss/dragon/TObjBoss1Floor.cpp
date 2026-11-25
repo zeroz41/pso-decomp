@@ -42,17 +42,17 @@ void TObjBoss1Floor__sub_8002CB78(void);
 
 void TLobby::update_boss1_objects() { TObjBoss1MokoHill_SoloM::free_resources(); TObjBoss1Rock__sub_8002E3CC(); TObjBoss1Crater__sub_8002C7B4(); TObjBoss1Floor__sub_8002CB40(); TLobby::free_char_select(); }
 void TLobby::forward_floor_2CB44() { TObjBoss1Floor::create_instance(); }
-void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_8002CB78(); TObjBoss1Crater__sub_8002C7B8(); TObjBoss1Rock__sub_8002E3D0(); TObjBoss1MokoHill_SoloM::load_resources(); }
+void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_8002CB78(); clear_boss1_crater_instances(); TObjBoss1Rock__sub_8002E3D0(); TObjBoss1MokoHill_SoloM::load_resources(); }
 
 
 void TObjBoss1Floor::render() {
-    u32 temp_r3;
+    u32 saved_flags;
     NJS_OBJECT *floor;
 
     if ((TObjPlayer::is_any_teammate_in_state() == 0) && ((TObjEneDD::check_v2_mode() != 0) || (TMainTask::get_render_pass() != 1))) {
-        temp_r3 = model_render_flags;
-        saved_model_render_flags = temp_r3;
-        model_render_flags = temp_r3 | 0x400;
+        saved_flags = model_render_flags;
+        saved_model_render_flags = saved_flags;
+        model_render_flags = saved_flags | 0x400;
         TParticleCtrl::end_effect_render();
         push_matrix();
         model_render_flags = 1;

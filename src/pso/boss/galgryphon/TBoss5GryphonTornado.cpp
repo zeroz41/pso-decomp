@@ -177,7 +177,7 @@ TBoss5GryphonTornado *TBoss5GryphonTornado::spawn(TObject *parent, TBoss5Gryphon
 
 void TBoss5GryphonTornado::release_particle_table() {  }
 void TBoss5GryphonTornado::select_particle_table() {
-    switch (TBoss8Dragon__sub_8005D700()) {
+    switch (get_boss_asset_variant()) {
     case 0:
         gryphon_tornado_particle_id_table = gryphon_tornado_particle_ids;
         break;

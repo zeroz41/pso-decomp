@@ -647,10 +647,10 @@ void TObjEneMe3Stelth::state_reset(s32 reason) {
     case 4:
         if (fade_in_start == 1) {
             requested_action = 2;
-            set_field_378(1);
+            set_next_mode(1);
         } else {
             requested_action = 0;
-            set_field_378(3);
+            set_next_mode(3);
         }
         set_intangible();
         behavior_flags |= 2;
@@ -691,7 +691,7 @@ void TObjEneMe3Stelth::state_fade_in(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 2;
-        set_field_378(0);
+        set_next_mode(0);
         set_intangible();
         behavior_flags &= ~2;
         behavior_flags |= 5;
@@ -731,7 +731,7 @@ void TObjEneMe3Stelth::state_chase(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 9;
-        set_field_378(0xD);
+        set_next_mode(0xD);
         clear_intangible();
         behavior_flags &= ~7;
         state_step = 0;
@@ -784,7 +784,7 @@ void TObjEneMe3Stelth::state_ambush(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0;
-        this->set_field_378(0);
+        this->set_next_mode(0);
         this->set_intangible();
         this->behavior_flags |= 7;
         this->fade.start_fade_in();
@@ -809,7 +809,7 @@ void TObjEneMe3Stelth::state_reveal(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 0;
-        set_field_378(5);
+        set_next_mode(5);
         set_intangible();
         behavior_flags &= ~7;
         state_step = 0;
@@ -861,7 +861,7 @@ void TObjEneMe3Stelth::state_appear(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 1;
-        set_field_378(0xD);
+        set_next_mode(0xD);
         clear_intangible();
         behavior_flags &= ~6;
         behavior_flags |= 1;
@@ -933,7 +933,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 mode) {
     switch (mode) {
     case 4:
         requested_action = 0xA;
-        set_field_378(6);
+        set_next_mode(6);
         clear_intangible();
         behavior_flags &= ~7;
         destination_distance = 300.0f;
@@ -985,7 +985,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 6;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= ~7;
         this->behavior_flags |= 0x10000;
@@ -1115,7 +1115,7 @@ void TObjEneMe3Stelth::state_sword(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 7;
-        this->set_field_378(0xC);
+        this->set_next_mode(0xC);
         this->clear_intangible();
         this->behavior_flags &= ~7;
         this->behavior_flags |= 0x10000;
@@ -1177,7 +1177,7 @@ void TObjEneMe3Stelth::state_backstep(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 3;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= ~7;
         this->attack_count = 0;
@@ -1263,7 +1263,7 @@ void TObjEneMe3Stelth::state_cast_technique(s32 reason) {
     switch (reason) {
     case 4:
         requested_action = 8;
-        set_field_378(0xB);
+        set_next_mode(0xB);
         clear_intangible();
         behavior_flags &= ~6;
         behavior_flags |= 1;
@@ -1315,7 +1315,7 @@ void TObjEneMe3Stelth::state_wait(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 9;
-        this->set_field_378(0xD);
+        this->set_next_mode(0xD);
         this->behavior_flags &= ~7;
         this->set_intangible();
         this->attack_count = 0;
@@ -1346,7 +1346,7 @@ void TObjEneMe3Stelth::state_vanish(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 8;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->set_intangible();
         this->behavior_flags &= ~3;
         this->behavior_flags |= 4;
@@ -1489,7 +1489,7 @@ void TObjEneMe3Stelth::state_warp(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0xC;
-        this->set_field_378(0xC);
+        this->set_next_mode(0xC);
         this->set_intangible();
         this->behavior_flags &= ~6;
         this->behavior_flags |= 1;
@@ -1817,7 +1817,7 @@ void TObjEneMe3Stelth::state_stealth_on(s32 mode) {
     switch (mode) {
     case 4:
         this->requested_action = 0xC;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFFFFFF1;
         this->behavior_flags |= 1;
@@ -1871,7 +1871,7 @@ void TObjEneMe3Stelth::state_stealth_off(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0xB;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFFFFFF1;
         this->behavior_flags |= 1;
@@ -1930,7 +1930,7 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
     switch (reason) {
     case 4:
         this->requested_action = 0xA;
-        this->set_field_378(6);
+        this->set_next_mode(6);
         this->clear_intangible();
         this->behavior_flags &= 0xFFFFFFF8;
         this->behavior_flags |= 0x10000;

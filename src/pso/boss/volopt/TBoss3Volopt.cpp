@@ -66,7 +66,7 @@ struct VoloptCameraParams {
 
 extern "C" {
 s32 is_local_client_floor_leader();
-void TObjPlayer__sub_801BA42C(void);
+void release_players_from_cutscene(void);
 extern const char *door_vo_ship_class_name;
 }
 void reset_cameras_to_actor(void *actor, s32 flags);
@@ -1004,7 +1004,7 @@ void TBoss3Volopt::update_intro_cutscene() {
         }
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
-        TObjPlayer__sub_801BA42C();
+        release_players_from_cutscene();
         break;
     }
 }
@@ -1133,7 +1133,7 @@ void TBoss3Volopt::update_phase2_intro() {
             }
         }
         TWindowCtrl::init_all_slots2();
-        TObjPlayer__sub_801BA42C();
+        release_players_from_cutscene();
         break;
     }
 }
