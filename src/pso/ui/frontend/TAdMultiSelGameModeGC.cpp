@@ -52,19 +52,19 @@ void fn_803000C8(void) {
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 
-typedef void (TAdMultiSelGameModeGC::*Action_80300770)();
+typedef void (TAdMultiSelGameModeGC::*StateAction)();
 
 
-struct Pos_8030095C { f32 v[8]; };
+struct Float8 { f32 v[8]; };
 
-struct Cur_8030095C { f32 v[2]; };
+struct Float2 { f32 v[2]; };
 
 s32 is_multiplayer_character_slot_selected(s32 slot);
 saddr multi_sel_episode;
 
-typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
+typedef struct Point3 { NJS_POINT2 p[3]; } Point3;
 
-typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
+typedef struct Int3 { s32 v[3]; } Int3;
 
 extern "C" {
 
@@ -73,9 +73,9 @@ static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {
     { -1, 340.0f, 145.0f }, { -1, 310.0f, 197.0f }, { -1, 280.0f, 250.0f },
 };
 const char *TAdMultiSelGameModeGC__name = "TAdMultiSelGameModeGC";
-extern Pos3_803001B4 multi_sel_game_mode_position;
-extern Arr3_803001B4 lbl_80474EEC;
-extern Arr3_803001B4 multi_sel_game_mode_arr3;
+extern Point3 multi_sel_game_mode_position;
+extern Int3 lbl_80474EEC;
+extern Int3 multi_sel_game_mode_arr3;
 
 void TAdMultiSelGameModeGC::render() {  }
 
@@ -96,7 +96,7 @@ s32 TAdMultiSelGameModeGC::is_mode_entry_enabled(s32 menu, u32 idx) {
 }
 
 saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
-    Pos3_803001B4 pos = multi_sel_game_mode_position;
+    Point3 pos = multi_sel_game_mode_position;
     u32 counts[3];
     u32 n;
     TWindowMenu *r;
@@ -105,8 +105,8 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
     counts[1] = 3;
     counts[2] = 2;
     {
-    Arr3_803001B4 a = lbl_80474EEC;
-    Arr3_803001B4 b = multi_sel_game_mode_arr3;
+    Int3 a = lbl_80474EEC;
+    Int3 b = multi_sel_game_mode_arr3;
     n = counts[menu];
     r = create_window_menu_default(&pos.p[menu], n);
     for (i = 0; i < n; i++) {
@@ -235,7 +235,7 @@ void TAdMultiSelGameModeGC::sub_80300764() { state = 1; }
 
 void TAdMultiSelGameModeGC::run_task() {
     TAdMultiChgGameModeGC::set_default_camera();
-    static Action_80300770 tbl[5] = {
+    static StateAction tbl[5] = {
         &TAdMultiSelGameModeGC::sub_80300764, &TAdMultiSelGameModeGC::sub_80300648,
         &TAdMultiSelGameModeGC::sub_803003A4, &TAdMultiSelGameModeGC::update_transition_state,
         &TAdMultiSelGameModeGC::exit_keyboard_mode,
@@ -314,8 +314,8 @@ TAdMultiSelGameModeGC::TAdMultiSelGameModeGC(TObject *parent, s32 mode) : TObjec
     rule_text = new TAdSelectTxtGC(this, (TAdSelectTxtLayout *)&multi_sel_text_layouts[5], multi_sel_rule + 9);
     episode_text = new TAdSelectTxtGC(this, (TAdSelectTxtLayout *)&multi_sel_text_layouts[6], multi_sel_episode + 4);
     {
-        Cur_8030095C cur = { { 442.0f, 28.0f } };
-        Pos_8030095C pos = { { 144.0f, 146.0f, 114.0f, 198.0f, 84.0f, 250.0f, 54.0f, 302.0f } };
+        Float2 cur = { { 442.0f, 28.0f } };
+        Float8 pos = { { 144.0f, 146.0f, 114.0f, 198.0f, 84.0f, 250.0f, 54.0f, 302.0f } };
         cursor = new TAdSelectCurGC(this, reinterpret_cast<const NJS_POINT2 *>(&pos), reinterpret_cast<const NJS_POINT2 *>(&cur));
         cursor->append_entry(&pos.v[0]);
         cursor->append_entry(&pos.v[2]);
@@ -328,6 +328,6 @@ TAdMultiSelGameModeGC::TAdMultiSelGameModeGC(TObject *parent, s32 mode) : TObjec
 }
 #pragma pool_data reset
 
-__declspec(section ".rodata") Pos3_803001B4 multi_sel_game_mode_position = { 364.0f, 145.0f, 340.0f, 197.0f, 318.0f, 250.0f };
-__declspec(section ".rodata") Arr3_803001B4 lbl_80474EEC = { 0 };
-__declspec(section ".rodata") Arr3_803001B4 multi_sel_game_mode_arr3 = { 0x4, 0x8, 0xB };
+__declspec(section ".rodata") Point3 multi_sel_game_mode_position = { 364.0f, 145.0f, 340.0f, 197.0f, 318.0f, 250.0f };
+__declspec(section ".rodata") Int3 lbl_80474EEC = { 0 };
+__declspec(section ".rodata") Int3 multi_sel_game_mode_arr3 = { 0x4, 0x8, 0xB };

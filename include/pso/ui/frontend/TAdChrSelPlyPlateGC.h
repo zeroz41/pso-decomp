@@ -29,7 +29,7 @@ struct TAdChrSelPlyPlateGC : public TObject {
     void reset_cursor_state();
     s32 get_selection();
     s32 get_card_index(s32);
-    void set_selection(s32 selection);
+    void set_selection(s32 value);
     s32 get_cursor();
     void set_state_ready();
     void set_cursor_column(s32 column);
@@ -63,12 +63,12 @@ struct TAdChrSelPlyPlateGC : public TObject {
     vec2f pos;
     s32 sel[4][3];
     s32 unk_4dc[3];
-    s32 unk_4e8;
+    s32 captured_card_index;
     s32 cursor_col;
     s32 unk_4f0;
     s32 unk_4f4;
-    s32 unk_4f8;
-    s32 unk_4fc;
+    s32 selection;
+    s32 ready;
     s32 unk_500[4][3];
     s32 unk_530;
     s32 unk_534;

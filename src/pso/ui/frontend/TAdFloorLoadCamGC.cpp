@@ -9,7 +9,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/ControllerInputState.h"
 
-struct Cam_8034BE5C {
+struct FloorLoadCamFields {
     u8 pad0[0x1C];
     s32 direction;
     s32 ticks;
@@ -19,25 +19,25 @@ struct Cam_8034BE5C {
     Vec up;
 };
 
-const char *lbl_805D4340 = "TAdFloorLoadCamGC";
-extern const f32 lbl_805DFDB8;
+const char *floor_load_cam_class_name = "TAdFloorLoadCamGC";
+extern const f32 floor_load_cam_zero;
 
 u16 fn_8034BE30(void* p) { return *(u16*)((char*)p + 0x24); }
 void fn_8034BE38(void* p) { *(u32*)((char*)p + 0x334) &= 0xbfffffff; }
 void fn_8034BE48(void* p) { *(u32*)((char*)p + 0x334) |= 0x40000000; }
 void TAdFloorLoadCamGC::render() {  }
 
-extern const f32 lbl_805DFDA8 = 182.04445f;
-extern const f32 lbl_805DFDAC = -0.1f;
-extern const f32 lbl_805DFDB0 = 1.2f;
-extern const f32 lbl_805DFDB4 = 100.0f;
-extern const f32 lbl_805DFDB8 = 0.0f;
-extern const f32 lbl_805DFDBC = 99.3f;
-extern const f32 lbl_805DFDC0 = 0.4f;
+extern const f32 floor_load_cam_angle_units_per_degree = 182.04445f;
+extern const f32 floor_load_cam_stick_scale = -0.1f;
+extern const f32 floor_load_cam_x_scale = 1.2f;
+extern const f32 floor_load_cam_radius = 100.0f;
+extern const f32 floor_load_cam_zero = 0.0f;
+extern const f32 floor_load_cam_target_radius = 99.3f;
+extern const f32 floor_load_cam_tilt_scale = 0.4f;
 #pragma push
 #pragma fp_contract on
 void TAdFloorLoadCamGC::run_task() {
-    Cam_8034BE5C *s = (Cam_8034BE5C *)this;
+    FloorLoadCamFields *s = (FloorLoadCamFields *)this;
     Vec up;
     f32 x;
     f32 y;
@@ -50,24 +50,24 @@ void TAdFloorLoadCamGC::run_task() {
     activate_camera_mode(9);
     s->ticks++;
     tilt = controller_physical_port_bank.controllers[0].stick_x;
-    s->angle += (s32)((*(const f32 *)&lbl_805DFDA8) * (f32)(s32)((*(const f32 *)&lbl_805DFDAC) * (f32)controller_physical_port_bank.controllers[0].cstick_y)) / 10 + 0x1B4;
+    s->angle += (s32)((*(const f32 *)&floor_load_cam_angle_units_per_degree) * (f32)(s32)((*(const f32 *)&floor_load_cam_stick_scale) * (f32)controller_physical_port_bank.controllers[0].cstick_y)) / 10 + 0x1B4;
     a = s->angle;
     if (a >= 0x10000) {
         a -= 0x10000;
     }
     s->angle = a;
-    s->pos.x = (*(const f32 *)&lbl_805DFDB0) * sin_table_lookup(s->angle);
-    s->pos.y = (*(const f32 *)&lbl_805DFDB4) * cos_table_lookup(s->angle);
-    s->pos.z = (*(const f32 *)&lbl_805DFDB4) * sin_table_lookup(s->angle);
-    s->target.x = (*(const f32 *)&lbl_805DFDB8);
-    s->target.y = (*(const f32 *)&lbl_805DFDBC) * cos_table_lookup(s->angle + 0x1B4);
-    s->target.z = (*(const f32 *)&lbl_805DFDBC) * sin_table_lookup(s->angle + 0x1B4);
+    s->pos.x = (*(const f32 *)&floor_load_cam_x_scale) * sin_table_lookup(s->angle);
+    s->pos.y = (*(const f32 *)&floor_load_cam_radius) * cos_table_lookup(s->angle);
+    s->pos.z = (*(const f32 *)&floor_load_cam_radius) * sin_table_lookup(s->angle);
+    s->target.x = (*(const f32 *)&floor_load_cam_zero);
+    s->target.y = (*(const f32 *)&floor_load_cam_target_radius) * cos_table_lookup(s->angle + 0x1B4);
+    s->target.z = (*(const f32 *)&floor_load_cam_target_radius) * sin_table_lookup(s->angle + 0x1B4);
     if (s->direction == 0) {
-        x = (*(const f32 *)&lbl_805DFDC0) * (f32)tilt + -s->pos.x;
+        x = (*(const f32 *)&floor_load_cam_tilt_scale) * (f32)tilt + -s->pos.x;
         y = -s->pos.y;
         z = -s->pos.z;
     } else {
-        x = (*(const f32 *)&lbl_805DFDC0) * (f32)tilt + s->pos.x;
+        x = (*(const f32 *)&floor_load_cam_tilt_scale) * (f32)tilt + s->pos.x;
         y = s->pos.y;
         z = s->pos.z;
     }
@@ -78,7 +78,7 @@ void TAdFloorLoadCamGC::run_task() {
     s->up.y += dy;
     s->up.z += dz;
     VecCopy((Vec *)&up, (const Vec *)&s->up);
-    if (vec_squared_length(&s->up) == (*(const f32 *)&lbl_805DFDB8)) {
+    if (vec_squared_length(&s->up) == (*(const f32 *)&floor_load_cam_zero)) {
         up.y = 1.0f;
     } else {
         normalize_vector(&up);
@@ -92,12 +92,12 @@ TAdFloorLoadCamGC::~TAdFloorLoadCamGC() {
     TCameraCtrl::reset_up_vector();
 }
 TAdFloorLoadCamGC::TAdFloorLoadCamGC(TObject *parent, s32 mode) : TObject(parent) {
-    m_name = lbl_805D4340;
+    m_name = floor_load_cam_class_name;
     this->m_20 = 0;
     this->m_24 = 0;
-    this->up_x = (*(const f32 *)&lbl_805DFDB8);
-    this->up_y = (*(const f32 *)&lbl_805DFDB8);
-    this->m_48 = (*(const f32 *)&lbl_805DFDB8);
+    this->up_x = (*(const f32 *)&floor_load_cam_zero);
+    this->up_y = (*(const f32 *)&floor_load_cam_zero);
+    this->m_48 = (*(const f32 *)&floor_load_cam_zero);
     this->mode = mode;
     TAdMultiChgGameModeGC::set_default_camera();
 }

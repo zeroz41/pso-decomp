@@ -20,19 +20,19 @@
 extern "C" {
 extern TObject *tl_04;
 BmlResource *TAdRicoRing__resource_bundle;
-f32 lbl_805D4A04;
-s8 lbl_805D4A08;
-f32 lbl_805D4A0C;
-s8 lbl_805D4A10;
-f32 lbl_805D4A14;
-s8 lbl_805D4A18;
-f32 lbl_805D4A1C;
-s8 lbl_805D4A20;
-f32 lbl_805D4A24;
-s8 lbl_805D4A28;
-f32 lbl_805D4A2C;
-s8 lbl_805D4A30;
-s8 lbl_805D4A31;
+f32 rico_ring_quad_x_min;
+s8 rico_ring_quad_x_min_ready;
+f32 rico_ring_quad_x_max;
+s8 rico_ring_quad_x_max_ready;
+f32 rico_ring_quad_y_bottom;
+s8 rico_ring_quad_y_bottom_ready;
+f32 rico_ring_quad_y_top;
+s8 rico_ring_quad_y_top_ready;
+f32 rico_ring_quad_z_near;
+s8 rico_ring_quad_z_near_ready;
+f32 rico_ring_quad_z_far;
+s8 rico_ring_quad_z_far_ready;
+s8 rico_ring_quad_vertices_ready;
 u32 __cvt_fp2unsigned(f32);
 }
 
@@ -249,37 +249,37 @@ void TAdRicoRingCtrl::render() {
     if (t >= 1.0f) {
         return;
     }
-    if (lbl_805D4A08 == 0) {
-        lbl_805D4A08 = 1;
-        lbl_805D4A04 = rico_ring_base_pos[0] - 50.0f;
+    if (rico_ring_quad_x_min_ready == 0) {
+        rico_ring_quad_x_min_ready = 1;
+        rico_ring_quad_x_min = rico_ring_base_pos[0] - 50.0f;
     }
-    if (lbl_805D4A10 == 0) {
-        lbl_805D4A10 = 1;
-        lbl_805D4A0C = 50.0f + rico_ring_base_pos[0];
+    if (rico_ring_quad_x_max_ready == 0) {
+        rico_ring_quad_x_max_ready = 1;
+        rico_ring_quad_x_max = 50.0f + rico_ring_base_pos[0];
     }
-    if (lbl_805D4A18 == 0) {
-        lbl_805D4A18 = 1;
-        lbl_805D4A14 = -8.75f + (rico_ring_base_pos[1] - 1.0f);
+    if (rico_ring_quad_y_bottom_ready == 0) {
+        rico_ring_quad_y_bottom_ready = 1;
+        rico_ring_quad_y_bottom = -8.75f + (rico_ring_base_pos[1] - 1.0f);
     }
-    if (lbl_805D4A20 == 0) {
-        lbl_805D4A20 = 1;
-        lbl_805D4A1C = 0.025f + (rico_ring_base_pos[1] - 1.0f);
+    if (rico_ring_quad_y_top_ready == 0) {
+        rico_ring_quad_y_top_ready = 1;
+        rico_ring_quad_y_top = 0.025f + (rico_ring_base_pos[1] - 1.0f);
     }
-    if (lbl_805D4A28 == 0) {
-        lbl_805D4A28 = 1;
-        lbl_805D4A24 = rico_ring_base_pos[2];
+    if (rico_ring_quad_z_near_ready == 0) {
+        rico_ring_quad_z_near_ready = 1;
+        rico_ring_quad_z_near = rico_ring_base_pos[2];
     }
-    if (lbl_805D4A30 == 0) {
-        lbl_805D4A30 = 1;
-        lbl_805D4A2C = 50.0f + rico_ring_base_pos[2];
+    if (rico_ring_quad_z_far_ready == 0) {
+        rico_ring_quad_z_far_ready = 1;
+        rico_ring_quad_z_far = 50.0f + rico_ring_base_pos[2];
     }
-    if (lbl_805D4A31 == 0) {
-        f32 b = lbl_805D4A1C;
-        f32 c = lbl_805D4A24;
-        f32 d = lbl_805D4A0C;
-        f32 a = lbl_805D4A04;
-        f32 e = lbl_805D4A14;
-        f32 g = lbl_805D4A2C;
+    if (rico_ring_quad_vertices_ready == 0) {
+        f32 b = rico_ring_quad_y_top;
+        f32 c = rico_ring_quad_z_near;
+        f32 d = rico_ring_quad_x_max;
+        f32 a = rico_ring_quad_x_min;
+        f32 e = rico_ring_quad_y_bottom;
+        f32 g = rico_ring_quad_z_far;
         f32 *v = (f32 *)rico_ring_quad_vertices;
         v[0] = a;
         v[1] = b;
@@ -293,7 +293,7 @@ void TAdRicoRingCtrl::render() {
         v[9] = a;
         v[10] = e;
         v[11] = g;
-        lbl_805D4A31 = 1;
+        rico_ring_quad_vertices_ready = 1;
     }
     draw_tri_fan_3d(&rico_ring_quad, 4, 6);
     t = fade;

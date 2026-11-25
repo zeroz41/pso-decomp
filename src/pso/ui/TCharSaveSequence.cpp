@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TCharSaveSequence.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include <string.h>
 #include "pso/object/ambient/TObjLight_80133568.h"
 #pragma push
@@ -68,8 +69,6 @@ s32 lbl_805D6D88;
 s32 single_ply_quest_download_server;
 s32 lbl_805D6D90;
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
-
 extern void *character_select_scene_resource_callbacks[];
 
 s32 start_memcard_read(s32, void *, u32, s32);
@@ -233,7 +232,7 @@ void TCharSaveSequence::wait_character_file_write() {
 }
 
 void TCharSaveSequence::update_select_state() {
-    if (TAdSinglePlyChrSelectGC__sub_801FDA4C() == 0) {
+    if (start_character_file_write() == 0) {
         state = 5;
         TAdSinglePlyChrSelectGC::set_player_index(6);
         set_char_slots(0xC, -1);

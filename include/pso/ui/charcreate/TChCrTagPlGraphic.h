@@ -17,9 +17,9 @@ public:
     static void create_matching_tags();
     void draw_class_illustration();
 
-    f32 m_3c;
-    f32 m_40;
-    f32 m_44;
+    f32 m_alpha;
+    f32 m_depth;
+    f32 m_scale;
     vec2f pos;
 };
 

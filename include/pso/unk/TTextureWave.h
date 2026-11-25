@@ -7,21 +7,21 @@ struct NJS_TEXLIST;
 // A texture image that update_texture_wave_image redraws distorted every frame (TEF_PvrWave).
 class TTextureWave {
 public:
-    s32 m_0;
-    s32 m_4;
-    s32 m_8;
-    u8 m_c[0x30];
-    s32 m_3c;
-    u8 *m_40;
-    s32 m_44;
-    s32 m_48;
-    s32 m_4c;
+    s32 height;
+    s32 width;
+    s32 texture_id;
+    u8 records[0x30];
+    s32 texture_list;
+    u8 *image_data;
+    s32 output;
+    s32 displacement;
+    s32 phase;
 
-    TTextureWave(NJS_TEXLIST *texture_list);
+    TTextureWave(NJS_TEXLIST *list);
     virtual void advance_wrapped_cursor();
     virtual void update_texture_wave_image();
     ~TTextureWave();
-    void init_image_buffer(u8 *image, s32 size);
+    void init_image_buffer(u8 *image, s32 displacement);
 };
 
 LAYOUT_ASSERT(TTextureWave_size, sizeof(TTextureWave) == 0x54);

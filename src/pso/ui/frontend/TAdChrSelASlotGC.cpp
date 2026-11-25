@@ -52,7 +52,7 @@ static const CharacterSlotPosition chr_sel_a_slot_left_message_pos = { 24.0f, 18
 static const CharacterSlotPosition chr_sel_b_slot_message_pos = { 431.0f, 182.0f };
 const char *TAdChrSelASlotGC__name = "TAdChrSelASlotGC";
 
-struct S_8030C45C { s32 x; s32 y; s32 state; };
+struct CardSlotSummary { s32 x; s32 y; s32 state; };
 
 TAdChrSelASlotGC *TAdChrSel__global_slot_data;
 extern PlayerSlotLabel chr_select_a_slot_entry;
@@ -64,7 +64,7 @@ void TAdChrSelASlotGC::render() {
 }
 
 s32 TAdChrSelASlotGC::is_character_transferred(u32 i) {
-    S_8030C45C *e = (S_8030C45C *)TAdSinglePlyChrSelectGC__sub_801FE4BC(i);
+    CardSlotSummary *e = (CardSlotSummary *)TAdSinglePlyChrSelectGC__sub_801FE4BC(i);
     if (e == 0) {
         return 0;
     }
@@ -83,7 +83,7 @@ s32 TAdChrSelASlotGC::get_plate_value_for_slot(s32 k) {
 }
 
 PlayerSlotLabel *TAdChrSelASlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
-    S_8030C45C *e = (S_8030C45C *)TAdSinglePlyChrSelectGC__sub_801FE4BC(slot);
+    CardSlotSummary *e = (CardSlotSummary *)TAdSinglePlyChrSelectGC__sub_801FE4BC(slot);
     chr_select_a_slot_entry.slot = index;
     chr_select_a_slot_entry.name = reinterpret_cast<const char *>(
         e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C));

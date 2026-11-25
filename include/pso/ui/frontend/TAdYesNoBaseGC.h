@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 
 struct TAdYesNoBaseGC : public TObject {
     TAdYesNoBaseGC(TObject *parent);
@@ -20,14 +21,12 @@ struct TAdYesNoBaseGC : public TObject {
     u32 m_24;
     u32 m_28;
     u32 m_2c;
-    u8 unk_30[0x4];
-    f32 m_34;
-    u8 unk_38[0x4];
-    f32 m_3c;
+    NJS_POINT2 message_position;
+    NJS_POINT2 message_size;
     uaddr m_40;
     uaddr m_44;
     s32 create_menu_window();
-    void init_parts(void *arg1, void *position);
+    void init_parts(void *position, void *size);
 };
 
 LAYOUT_ASSERT(TAdYesNoBaseGC_size, sizeof(TAdYesNoBaseGC) == 0x48);

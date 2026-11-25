@@ -68,7 +68,7 @@ BmlResourceDescriptor creation_menu_resource_descriptor = {
 const char *TCharaMaking__name = "TCharaMaking";
 // Per-class value passed with each player_class_texture_archive_table entry
 // (19 entries, like the class tables).
-const s32 lbl_8045122C[19] = {
+const s32 player_class_texture_archive_length[19] = {
     137, 310, 286, 208, 311, 386, 337, 355, 516, 386, 321, 333,
     16, 17, 14, 14, 14, 14, 14,
 };
@@ -76,32 +76,32 @@ const s32 lbl_8045122C[19] = {
 struct P_8028DCCC { f32 a; f32 b; };
 
 
-u8 lbl_80518880[0x228];
-u8 lbl_80518AA8[0x384];
-u8 lbl_80518E2C[0x354];
-u8 lbl_80519180[0x2B8];
-u8 lbl_80519438[0x384];
-u8 lbl_805197BC[0x41C];
-u8 lbl_80519BD8[0x3B8];
-u8 lbl_80519F90[0x3DC];
-u8 lbl_8051A36C[0x520];
-u8 lbl_8051A88C[0x41C];
-u8 lbl_8051ACA8[0x398];
-u8 lbl_8051B040[0x3B0];
-u8 lbl_8051B3F0[0x138];
-u8 lbl_8051B528[0x138];
-u8 lbl_8051B660[0x134];
-u8 lbl_8051B794[0x134];
-u8 lbl_8051B8C8[0x134];
-u8 lbl_8051B9FC[0x134];
-u8 lbl_8051BB30[0x134];
+u8 player_class_texture_buffer_00[0x228];
+u8 player_class_texture_buffer_01[0x384];
+u8 player_class_texture_buffer_02[0x354];
+u8 player_class_texture_buffer_03[0x2B8];
+u8 player_class_texture_buffer_04[0x384];
+u8 player_class_texture_buffer_05[0x41C];
+u8 player_class_texture_buffer_06[0x3B8];
+u8 player_class_texture_buffer_07[0x3DC];
+u8 player_class_texture_buffer_08[0x520];
+u8 player_class_texture_buffer_09[0x41C];
+u8 player_class_texture_buffer_10[0x398];
+u8 player_class_texture_buffer_11[0x3B0];
+u8 player_class_texture_buffer_12[0x138];
+u8 player_class_texture_buffer_13[0x138];
+u8 player_class_texture_buffer_14[0x134];
+u8 player_class_texture_buffer_15[0x134];
+u8 player_class_texture_buffer_16[0x134];
+u8 player_class_texture_buffer_17[0x134];
+u8 player_class_texture_buffer_18[0x134];
 u8 chara_making_load_buffer[0x40C];
 
 void *player_class_texture_buffer_table[19] = {
-    lbl_80518880, lbl_80518AA8, lbl_80518E2C, lbl_80519180, lbl_80519438,
-    lbl_805197BC, lbl_80519BD8, lbl_80519F90, lbl_8051A36C, lbl_8051A88C,
-    lbl_8051ACA8, lbl_8051B040, lbl_8051B3F0, lbl_8051B528, lbl_8051B660,
-    lbl_8051B794, lbl_8051B8C8, lbl_8051B9FC, lbl_8051BB30,
+    player_class_texture_buffer_00, player_class_texture_buffer_01, player_class_texture_buffer_02, player_class_texture_buffer_03, player_class_texture_buffer_04,
+    player_class_texture_buffer_05, player_class_texture_buffer_06, player_class_texture_buffer_07, player_class_texture_buffer_08, player_class_texture_buffer_09,
+    player_class_texture_buffer_10, player_class_texture_buffer_11, player_class_texture_buffer_12, player_class_texture_buffer_13, player_class_texture_buffer_14,
+    player_class_texture_buffer_15, player_class_texture_buffer_16, player_class_texture_buffer_17, player_class_texture_buffer_18,
 };
 s32 player_class_trait_table[12] = {
     0x25, 0x2A, 0x31, 0x45, 0x51, 0x52, 0x86, 0x89, 0x8A, 0x32, 0x85, 0x46,
@@ -166,7 +166,7 @@ f32 calc_character_height(CharacterAppearanceFields *appearance) {
 // Render flags OR'ed into model_render_flags for the hair pass. The original
 // loads them from .sdata2 (lwz) between the pool's 1.0 and 1/255, so they are
 // a const object, not a folded literal.
-static const s32 lbl_805DD930[1] = {0x81C};
+static const s32 hair_render_flags[1] = {0x81C};
 
 #pragma push
 #pragma opt_dead_assignments off
@@ -186,7 +186,7 @@ void TCharaMaking__draw_colored_hair(f32 alpha, saddr child, CharacterAppearance
     saved_model_render_flags = flags;
     saved_chunk_polygon_flags_and_mask = first;
     saved_chunk_polygon_flags_or_mask = second;
-    model_render_flags = flags_masked | lbl_805DD930[0];
+    model_render_flags = flags_masked | hair_render_flags[0];
     if (alpha < 1.0f) {
         set_chunk_material_override_pair(-1, 0x800);
     }
@@ -486,7 +486,7 @@ void request_chara_making_archives(void) {
         if (TQuestVmDownLoadServer::is_ready() != 0) {
             return;
         }
-        if (TLobby__sub_801E3E9C(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], lbl_8045122C[i]) != 0) {
+        if (TLobby__sub_801E3E9C(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], player_class_texture_archive_length[i]) != 0) {
             if (TQuestVmDownLoadServer::is_ready() == 0) {
                 return;
             }

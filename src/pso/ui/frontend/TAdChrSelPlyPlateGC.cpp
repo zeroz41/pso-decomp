@@ -94,14 +94,14 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
     TAdMultiPlyChrSelectGC::select_mode = 0;
     copy_vec2(&this->pos, pos);
     unk_1c = -1;
-    unk_4e8 = 0;
+    captured_card_index = 0;
     TAdMultiPlyChrSelectGC::selected_slot = 0;
     multi_ply_chr_select_active_player = 0;
     cursor_col = 0;
     unk_4f0 = 0;
     unk_4f4 = 0;
-    unk_4f8 = 0;
-    unk_4fc = 0;
+    selection = 0;
+    ready = 0;
     unk_20 = multi_ply_chr_select_active_player;
     unk_534 = 1;
     update_cell_uvs();
@@ -187,9 +187,9 @@ void TAdChrSelPlyPlateGC::run_task() {
             cursor_color[i][j] = (cursor_alpha[i][j] << 24) | 0xFFFFFF;
         }
     }
-    if (unk_4fc != 0) {
-        unk_4f8 = 0;
-        unk_4fc = 0;
+    if (ready != 0) {
+        selection = 0;
+        ready = 0;
     }
     unk_20 = TAdMultiPlyChrSelectGC::count_ready();
 }
@@ -410,7 +410,7 @@ void TAdChrSelPlyPlateGC::handle_dpad_input() {
     update_cell_uvs();
     n = TAdMultiPlyChrSelectGC::count_ready();
     m = TAdMultiPlyChrSelectGC::count_selected_slots();
-    if (m != n && unk_4dc[cursor_col] != 0 && unk_4f8 == 0) {
+    if (m != n && unk_4dc[cursor_col] != 0 && selection == 0) {
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x10, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, -1, unk_4dc[cursor_col]);
         }
@@ -424,15 +424,15 @@ void TAdChrSelPlyPlateGC::handle_dpad_input() {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], -1, 0, 2);
         }
     }
-    if (test_pressed_buttons_packed(WIN_802C61E4, 4) != 0 && unk_4f8 == 0) {
-        unk_4f8 = 1;
+    if (test_pressed_buttons_packed(WIN_802C61E4, 4) != 0 && selection == 0) {
+        selection = 1;
     }
 }
 
 void TAdChrSelPlyPlateGC::update_option_cursor() {
     unk_1c++;
     update_cell_uvs();
-    if (unk_4dc[cursor_col] != 0 && unk_4f8 == 0) {
+    if (unk_4dc[cursor_col] != 0 && selection == 0) {
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C6008, 0x10, 6, 1) != 0) {
             play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]--;
@@ -448,8 +448,8 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
             sel[multi_ply_chr_select_active_player][cursor_col] = unk_4dc[cursor_col] - 1;
         }
     }
-    if (test_pressed_buttons_packed(WIN_802C6008, 4) != 0 && unk_4f8 == 0) {
-        unk_4f8 = 1;
+    if (test_pressed_buttons_packed(WIN_802C6008, 4) != 0 && selection == 0) {
+        selection = 1;
     }
 }
 

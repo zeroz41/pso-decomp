@@ -78,45 +78,45 @@ s32 release_texture_list(void *);
 #pragma push
 #pragma readonly_strings on
 // empty motion name lists of the character-making BmlResourceDescriptors (inferred)
-const char *lbl_805D3B70[1] = {NULL};
-const char *lbl_805D3B74[1] = {NULL};
-const char *lbl_805D3B78[1] = {NULL};
-const char *lbl_805D3B7C[1] = {NULL};
-const char *lbl_805D3B80[1] = {NULL};
-const char *lbl_805D3B84[1] = {NULL};
-const char *lbl_805D3B88[1] = {NULL};
-const char *lbl_805D3B8C[1] = {NULL};
-const char *lbl_805D3B90[1] = {NULL};
-const char *lbl_805D3B94[1] = {NULL};
-const char *lbl_805D3B98[1] = {NULL};
-const char *lbl_805D3B9C[1] = {NULL};
-const char *lbl_805D3BA0[1] = {NULL};
-const char *lbl_805D3BA4[1] = {NULL};
-const char *lbl_805D3BA8[1] = {NULL};
-const char *lbl_805D3BAC[1] = {NULL};
-const char *lbl_805D3BB0[1] = {NULL};
-const char *lbl_805D3BB4[1] = {NULL};
-const char *lbl_805D3BB8[1] = {NULL};
-const char *lbl_804D3A08[14] = {
+const char *pla_motion_files[1] = {NULL};
+const char *plb_motion_files[1] = {NULL};
+const char *plc_motion_files[1] = {NULL};
+const char *pld_motion_files[1] = {NULL};
+const char *ple_motion_files[1] = {NULL};
+const char *plf_motion_files[1] = {NULL};
+const char *plg_motion_files[1] = {NULL};
+const char *plh_motion_files[1] = {NULL};
+const char *pli_motion_files[1] = {NULL};
+const char *plj_motion_files[1] = {NULL};
+const char *plk_motion_files[1] = {NULL};
+const char *pll_motion_files[1] = {NULL};
+const char *pls_motion_files[1] = {NULL};
+const char *plt_motion_files[1] = {NULL};
+const char *plu_motion_files[1] = {NULL};
+const char *plv_motion_files[1] = {NULL};
+const char *plw_motion_files[1] = {NULL};
+const char *plx_motion_files[1] = {NULL};
+const char *ply_motion_files[1] = {NULL};
+const char *pla_model_files[14] = {
     "plAbdy00.nj", "plAcap06.nj", "plAhai00.nj", "plAhai01.nj",
     "plAhai02.nj", "plAhai03.nj", "plAhai04.nj", "plAhai05.nj",
     "plAhai06.nj", "plAhai07.nj", "plAhai08.nj", "plAhai09.nj",
     "plAhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3A40 = {"planj.bml", lbl_804D3A08, lbl_805D3B70, 13, 0};
-const char *lbl_804D3A50[13] = {
+BmlResourceDescriptor pla_bml_descriptor = {"planj.bml", pla_model_files, pla_motion_files, 13, 0};
+const char *plb_model_files[13] = {
     "plBbdy00.nj", "plBhai00.nj", "plBhai01.nj", "plBhai02.nj",
     "plBhai03.nj", "plBhai04.nj", "plBhai05.nj", "plBhai06.nj",
     "plBhai07.nj", "plBhai08.nj", "plBhai09.nj", "plBhed00.nj",
     NULL,
 };
-BmlResourceDescriptor lbl_804D3A84 = {"plbnj.bml", lbl_804D3A50, lbl_805D3B74, 12, 0};
-const char *lbl_804D3A94[7] = {
+BmlResourceDescriptor plb_bml_descriptor = {"plbnj.bml", plb_model_files, plb_motion_files, 12, 0};
+const char *plc_model_files[7] = {
     "plCbdy00.nj", "plChed00.nj", "plChed01.nj", "plChed02.nj",
     "plChed03.nj", "plChed04.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3AB0 = {"plcnj.bml", lbl_804D3A94, lbl_805D3B78, 6, 0};
-const char *lbl_804D3AC0[23] = {
+BmlResourceDescriptor plc_bml_descriptor = {"plcnj.bml", plc_model_files, plc_motion_files, 6, 0};
+const char *pld_model_files[23] = {
     "plDbdy00.nj", "plDcap00.nj", "plDcap01.nj", "plDcap02.nj",
     "plDcap03.nj", "plDcap04.nj", "plDcap05.nj", "plDcap06.nj",
     "plDcap07.nj", "plDcap08.nj", "plDcap09.nj", "plDhai00.nj",
@@ -124,18 +124,18 @@ const char *lbl_804D3AC0[23] = {
     "plDhai05.nj", "plDhai06.nj", "plDhai07.nj", "plDhai08.nj",
     "plDhai09.nj", "plDhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3B1C = {"pldnj.bml", lbl_804D3AC0, lbl_805D3B7C, 22, 0};
-const char *lbl_804D3B2C[7] = {
+BmlResourceDescriptor pld_bml_descriptor = {"pldnj.bml", pld_model_files, pld_motion_files, 22, 0};
+const char *ple_model_files[7] = {
     "plEbdy00.nj", "plEhed00.nj", "plEhed01.nj", "plEhed02.nj",
     "plEhed03.nj", "plEhed04.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3B48 = {"plenj.bml", lbl_804D3B2C, lbl_805D3B80, 6, 0};
-const char *lbl_804D3B58[7] = {
+BmlResourceDescriptor ple_bml_descriptor = {"plenj.bml", ple_model_files, ple_motion_files, 6, 0};
+const char *plf_model_files[7] = {
     "plFbdy00.nj", "plFhed00.nj", "plFhed01.nj", "plFhed02.nj",
     "plFhed03.nj", "plFhed04.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3B74 = {"plfnj.bml", lbl_804D3B58, lbl_805D3B84, 6, 0};
-const char *lbl_804D3B84[23] = {
+BmlResourceDescriptor plf_bml_descriptor = {"plfnj.bml", plf_model_files, plf_motion_files, 6, 0};
+const char *plg_model_files[23] = {
     "plGbdy00.nj", "plGcap00.nj", "plGcap01.nj", "plGcap02.nj",
     "plGcap03.nj", "plGcap04.nj", "plGcap05.nj", "plGcap06.nj",
     "plGcap07.nj", "plGcap08.nj", "plGcap09.nj", "plGhai00.nj",
@@ -143,8 +143,8 @@ const char *lbl_804D3B84[23] = {
     "plGhai05.nj", "plGhai06.nj", "plGhai07.nj", "plGhai08.nj",
     "plGhai09.nj", "plGhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3BE0 = {"plgnj.bml", lbl_804D3B84, lbl_805D3B88, 22, 0};
-const char *lbl_804D3BF0[23] = {
+BmlResourceDescriptor plg_bml_descriptor = {"plgnj.bml", plg_model_files, plg_motion_files, 22, 0};
+const char *plh_model_files[23] = {
     "plHbdy00.nj", "plHcap00.nj", "plHcap01.nj", "plHcap02.nj",
     "plHcap03.nj", "plHcap04.nj", "plHcap05.nj", "plHcap06.nj",
     "plHcap07.nj", "plHcap08.nj", "plHcap09.nj", "plHhai00.nj",
@@ -152,8 +152,8 @@ const char *lbl_804D3BF0[23] = {
     "plHhai05.nj", "plHhai06.nj", "plHhai07.nj", "plHhai08.nj",
     "plHhai09.nj", "plHhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3C4C = {"plhnj.bml", lbl_804D3BF0, lbl_805D3B8C, 22, 0};
-const char *lbl_804D3C5C[23] = {
+BmlResourceDescriptor plh_bml_descriptor = {"plhnj.bml", plh_model_files, plh_motion_files, 22, 0};
+const char *pli_model_files[23] = {
     "plIbdy00.nj", "plIcap00.nj", "plIcap01.nj", "plIcap02.nj",
     "plIcap03.nj", "plIcap04.nj", "plIcap05.nj", "plIcap06.nj",
     "plIcap07.nj", "plIcap08.nj", "plIcap09.nj", "plIhai00.nj",
@@ -161,13 +161,13 @@ const char *lbl_804D3C5C[23] = {
     "plIhai05.nj", "plIhai06.nj", "plIhai07.nj", "plIhai08.nj",
     "plIhai09.nj", "plIhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3CB8 = {"plinj.bml", lbl_804D3C5C, lbl_805D3B90, 22, 0};
-const char *lbl_804D3CC8[7] = {
+BmlResourceDescriptor pli_bml_descriptor = {"plinj.bml", pli_model_files, pli_motion_files, 22, 0};
+const char *plj_model_files[7] = {
     "plJbdy00.nj", "plJhed00.nj", "plJhed01.nj", "plJhed02.nj",
     "plJhed03.nj", "plJhed04.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3CE4 = {"pljnj.bml", lbl_804D3CC8, lbl_805D3B94, 6, 0};
-const char *lbl_804D3CF4[23] = {
+BmlResourceDescriptor plj_bml_descriptor = {"pljnj.bml", plj_model_files, plj_motion_files, 6, 0};
+const char *plk_model_files[23] = {
     "plKbdy00.nj", "plKcap00.nj", "plKcap01.nj", "plKcap02.nj",
     "plKcap03.nj", "plKcap04.nj", "plKcap05.nj", "plKcap06.nj",
     "plKcap07.nj", "plKcap08.nj", "plKcap09.nj", "plKhai00.nj",
@@ -175,8 +175,8 @@ const char *lbl_804D3CF4[23] = {
     "plKhai05.nj", "plKhai06.nj", "plKhai07.nj", "plKhai08.nj",
     "plKhai09.nj", "plKhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3D50 = {"plknj.bml", lbl_804D3CF4, lbl_805D3B98, 22, 0};
-const char *lbl_804D3D60[23] = {
+BmlResourceDescriptor plk_bml_descriptor = {"plknj.bml", plk_model_files, plk_motion_files, 22, 0};
+const char *pll_model_files[23] = {
     "plLbdy00.nj", "plLcap00.nj", "plLcap01.nj", "plLcap02.nj",
     "plLcap03.nj", "plLcap04.nj", "plLcap05.nj", "plLcap06.nj",
     "plLcap07.nj", "plLcap08.nj", "plLcap09.nj", "plLhai00.nj",
@@ -184,41 +184,41 @@ const char *lbl_804D3D60[23] = {
     "plLhai05.nj", "plLhai06.nj", "plLhai07.nj", "plLhai08.nj",
     "plLhai09.nj", "plLhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3DBC = {"pllnj.bml", lbl_804D3D60, lbl_805D3B9C, 22, 0};
-const char *lbl_804D3DCC[4] = {
+BmlResourceDescriptor pll_bml_descriptor = {"pllnj.bml", pll_model_files, pll_motion_files, 22, 0};
+const char *pls_model_files[4] = {
     "plSbdy00.nj", "plShai00.nj", "plShed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3DDC = {"plsnj.bml", lbl_804D3DCC, lbl_805D3BA0, 3, 0};
-const char *lbl_804D3DEC[4] = {
+BmlResourceDescriptor pls_bml_descriptor = {"plsnj.bml", pls_model_files, pls_motion_files, 3, 0};
+const char *plt_model_files[4] = {
     "plTbdy00.nj", "plThai00.nj", "plThed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3DFC = {"pltnj.bml", lbl_804D3DEC, lbl_805D3BA4, 3, 0};
-const char *lbl_804D3E0C[3] = {
+BmlResourceDescriptor plt_bml_descriptor = {"pltnj.bml", plt_model_files, plt_motion_files, 3, 0};
+const char *plu_model_files[3] = {
     "plUbdy00.nj", "plUhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3E18 = {"plunj.bml", lbl_804D3E0C, lbl_805D3BA8, 2, 0};
-const char *lbl_804D3E28[3] = {
+BmlResourceDescriptor plu_bml_descriptor = {"plunj.bml", plu_model_files, plu_motion_files, 2, 0};
+const char *plv_model_files[3] = {
     "plVbdy00.nj", "plVhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3E34 = {"plvnj.bml", lbl_804D3E28, lbl_805D3BAC, 2, 0};
-const char *lbl_804D3E44[3] = {
+BmlResourceDescriptor plv_bml_descriptor = {"plvnj.bml", plv_model_files, plv_motion_files, 2, 0};
+const char *plw_model_files[3] = {
     "plWbdy00.nj", "plWhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3E50 = {"plwnj.bml", lbl_804D3E44, lbl_805D3BB0, 2, 0};
-const char *lbl_804D3E60[3] = {
+BmlResourceDescriptor plw_bml_descriptor = {"plwnj.bml", plw_model_files, plw_motion_files, 2, 0};
+const char *plx_model_files[3] = {
     "plXbdy00.nj", "plXhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3E6C = {"plxnj.bml", lbl_804D3E60, lbl_805D3BB4, 2, 0};
-const char *lbl_804D3E7C[3] = {
+BmlResourceDescriptor plx_bml_descriptor = {"plxnj.bml", plx_model_files, plx_motion_files, 2, 0};
+const char *ply_model_files[3] = {
     "plYbdy00.nj", "plYhed00.nj", NULL,
 };
-BmlResourceDescriptor lbl_804D3E88 = {"plynj.bml", lbl_804D3E7C, lbl_805D3BB8, 2, 0};
+BmlResourceDescriptor ply_bml_descriptor = {"plynj.bml", ply_model_files, ply_motion_files, 2, 0};
 BmlResourceDescriptor *character_making_resource_descriptor_table[19] = {
-    &lbl_804D3A40, &lbl_804D3A84, &lbl_804D3AB0, &lbl_804D3B1C,
-    &lbl_804D3B48, &lbl_804D3B74, &lbl_804D3BE0, &lbl_804D3C4C,
-    &lbl_804D3CB8, &lbl_804D3CE4, &lbl_804D3D50, &lbl_804D3DBC,
-    &lbl_804D3DDC, &lbl_804D3DFC, &lbl_804D3E18, &lbl_804D3E34,
-    &lbl_804D3E50, &lbl_804D3E6C, &lbl_804D3E88,
+    &pla_bml_descriptor, &plb_bml_descriptor, &plc_bml_descriptor, &pld_bml_descriptor,
+    &ple_bml_descriptor, &plf_bml_descriptor, &plg_bml_descriptor, &plh_bml_descriptor,
+    &pli_bml_descriptor, &plj_bml_descriptor, &plk_bml_descriptor, &pll_bml_descriptor,
+    &pls_bml_descriptor, &plt_bml_descriptor, &plu_bml_descriptor, &plv_bml_descriptor,
+    &plw_bml_descriptor, &plx_bml_descriptor, &ply_bml_descriptor,
 };
 TObjMotionAction character_making_action_table[9] = {
     { MOTION_MODE_LOOP, 0, 33, 1.0f, 0 },
@@ -234,7 +234,7 @@ TObjMotionAction character_making_action_table[9] = {
 // TCMCharacter class-name pointer, stored as the object name by TCMCharacter__ct (inferred)
 const char *TCMCharacter__name = "TCMCharacter";
 // empty model part copied into every slot by init_entry_tables (inferred)
-__declspec(section ".rodata") CreationModelPart lbl_80451CD0 = {0, 0};
+__declspec(section ".rodata") CreationModelPart empty_creation_model_part = {0, 0};
 #pragma pop
 __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {0,0};
 
@@ -321,14 +321,14 @@ TCMCharacter::~TCMCharacter() {
 void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }
 
 extern "C" {
-void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
+void copy_creation_model_part(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 void TAdSinglePlyChrSelectGC::init_entry_tables(void* _w0) {
     for (s32 i = 0; i < 10; i++) {
-        TAdSinglePlyChrSelectGC__sub_80290884(&creation_hair_model_parts[i], &lbl_80451CD0);
-        TAdSinglePlyChrSelectGC__sub_80290884(&creation_cap_model_parts[i], &lbl_80451CD0);
+        copy_creation_model_part(&creation_hair_model_parts[i], &empty_creation_model_part);
+        copy_creation_model_part(&creation_cap_model_parts[i], &empty_creation_model_part);
     }
     for (s32 i = 0; i < 5; i++) {
-        TAdSinglePlyChrSelectGC__sub_80290884(&creation_head_model_parts[i], &lbl_80451CD0);
+        copy_creation_model_part(&creation_head_model_parts[i], &empty_creation_model_part);
     }
 }
 void TCMCharacter::load_model_parts() {
@@ -384,9 +384,9 @@ s32 TAdSinglePlyChrSelectGC::is_active() {
 }
 }
 int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
-extern "C" void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
+extern "C" void copy_creation_model_node(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 void reset_creation_shape_set(saddr node) {
-    TAdSinglePlyChrSelectGC__sub_802905A4((void*)node, (void*)((void *)&creation_empty_model_node));
+    copy_creation_model_node((void*)node, (void*)((void *)&creation_empty_model_node));
 }
 #pragma push
 #pragma fp_contract on

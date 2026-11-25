@@ -308,17 +308,17 @@ void TTitleScene::run_task() {
         TAdMultiChgGameModeGC::request_scene_change();
         return;
     }
-    if (attract_tick < m_38) {
+    if (attract_tick < attract_timeout) {
         if ((hardware_keyboard_state.has_any_key_pressed() != 0) || (TKeyBoardControl::any_pad_input_active() != 0)) {
             attract_tick = 0;
         }
         TLobby__sub_803362A4(this);
     }
-    if (m_38 == attract_tick) {
+    if (attract_timeout == attract_tick) {
         transition_controller->suspend_update();
         TWindowOptionCtrl__sub_802273B4(0x1E);
     }
-    if (m_38 < attract_tick && start_offline_seq() != 0) {
+    if (attract_timeout < attract_tick && start_offline_seq() != 0) {
         set_fallback_main_phase(2);
         set_opening_movie_purpose(0);
         request_main_phase(3);
@@ -356,9 +356,9 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     TAdMultiPlyChrSelectGC__sub_803367E8();
     lobby_game_mode_state = 0;
     if (TKeyBoardControl__sub_8000F828() == 0) {
-        m_38 = 0x4B0;
+        attract_timeout = 0x4B0;
     } else {
-        m_38 = 0x320;
+        attract_timeout = 0x320;
     }
     title_layer = new TTitleBackground(this);
     transition_controller = new TTitleMenu(this);

@@ -52,10 +52,10 @@
 #include "pso/system/SoundEffect.h"
 
 
-extern const NJS_POINT2 lbl_804728A8;
-extern const NJS_POINT2 lbl_804728A0;
-extern const NJS_POINT2 lbl_80472890;
-extern const NJS_POINT2 lbl_80472898;
+extern const NJS_POINT2 delete_prompt_position;
+extern const NJS_POINT2 yes_no_dialog_position;
+extern const NJS_POINT2 choice_menu_position;
+extern const NJS_POINT2 confirm_window_position;
 extern u8 player_number_text_buffer[];
 
 
@@ -75,8 +75,8 @@ extern const NJS_POINT2 lbl_80472868;
 
 extern const NJS_POINT2 lbl_80472860;
 
-extern const NJS_POINT2 lbl_80472850;
-extern const NJS_POINT2 lbl_80472858;
+extern const NJS_POINT2 yes_no_prompt_position;
+extern const NJS_POINT2 create_character_prompt_position;
 struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
 
 extern MultiPlayChrSelectSlotPositions multi_play_chr_select_slot_positions;
@@ -97,21 +97,21 @@ const char *TAdMultiPlyChrSelectGC__name = TAdMultiPlyChrSelectGC__class_name_st
 extern s32 multi_ply_chr_select_active_player;
 void TAdChrSelPlyPlateGC::set_select_mode(int mode) { TAdMultiPlyChrSelectGC::select_mode = mode; }
 
-s32 TAdChrSelPlyPlateGC::get_selection() { return unk_4f8; }
+s32 TAdChrSelPlyPlateGC::get_selection() { return selection; }
 
 TAdChrSelPlyPlateGC *TAdMultiPlyChrSelectGC::get_card_instance() { return ad_chr_sel_ply_plate_instance; }
 
-s32 TAdChrSelPlyPlateGC::get_card_index(s32) { return unk_4e8; }
+s32 TAdChrSelPlyPlateGC::get_card_index(s32) { return captured_card_index; }
 
 void TAdChrSelPlyPlateGC::set_active_card_slot(s32 slot) {
     sel[multi_ply_chr_select_active_player][cursor_col] = slot;
 }
 
-void TAdChrSelPlyPlateGC::set_selection(s32 selection) { unk_4f8 = selection; }
+void TAdChrSelPlyPlateGC::set_selection(s32 value) { selection = value; }
 
 s32 TAdChrSelPlyPlateGC::get_cursor() { return cursor_col; }
 
-void TAdChrSelPlyPlateGC::set_state_ready() { unk_4fc = 1; }
+void TAdChrSelPlyPlateGC::set_state_ready() { ready = 1; }
 
 s32 TAdChrSelPlyPlateGC::get_active_card_slot() {
     return sel[multi_ply_chr_select_active_player][cursor_col];
@@ -331,7 +331,7 @@ void TAdMultiPlyChrSelectGC::run_task() {
                 }
             } else if (self->state >= 3 && TAdMultiPlyChrSelectGC::is_controller_connected(TAdMultiPlyChrSelectGC::get_clamped_cursor()) != 0) {
                 if (self->show_flag_notice == 0) {
-                    self->sub_802DC118(TAdMultiPlyChrSelectGC::get_clamped_cursor());
+                    self->update_guide_text(TAdMultiPlyChrSelectGC::get_clamped_cursor());
                 } else {
                     self->guide->set_line(0, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xD)));
                     self->guide->set_line(1, reinterpret_cast<const char *>(get_localized_text_entry(0x1F, 0xE)));
@@ -515,7 +515,7 @@ void TAdMultiPlyChrSelectGC::update_button_input() {
         }
     } else {
         this->guide_state = 2;
-        sub_802DC118(TAdMultiPlyChrSelectGC::get_clamped_cursor());
+        update_guide_text(TAdMultiPlyChrSelectGC::get_clamped_cursor());
         this->state = 3;
     }
 }
@@ -575,7 +575,7 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
             this->state = 0;
             return;
         }
-        card_index = sub_802DC294(player_plate->get_cursor());
+        card_index = cursor_to_card_index(player_plate->get_cursor());
         if ((this->last_card_slot != player_plate->get_active_card_slot()) || (this->last_cursor != player_plate->get_cursor())) {
             player_preview->set_field_100(1);
             this->show_flag_notice = 0;
@@ -611,7 +611,7 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
             if (TAdSinglePlyChrSelectGC::is_slot_active(card_index) != 0) {
                 if (this->a_slot->is_character_transferred(player_plate->get_active_card_slot()) != 0) {
                     this->fade_task = new TAdFadeGC(tl_fade, 0);
-                    this->yes_no_prompt = this->a_slot->open_yes_no_window((NJS_POINT2 *)&lbl_80472850, TAdMultiPlyChrSelectGC::get_clamped_cursor());
+                    this->yes_no_prompt = this->a_slot->open_yes_no_window((NJS_POINT2 *)&yes_no_prompt_position, TAdMultiPlyChrSelectGC::get_clamped_cursor());
                     this->state = 7;
                     return;
                 }
@@ -621,7 +621,7 @@ void TAdMultiPlyChrSelectGC::sub_802DE7D0() {
                 this->state = 0x19;
                 return;
             }
-            this->create_character_prompt = this->a_slot->open_create_character_prompt((NJS_POINT2 *)&lbl_80472858);
+            this->create_character_prompt = this->a_slot->open_create_character_prompt((NJS_POINT2 *)&create_character_prompt_position);
             this->state = 4;
             return;
         }
@@ -720,7 +720,7 @@ void TAdMultiPlyChrSelectGC::update_state_option() {
             return;
         case 2:
             this->choice_menu->open();
-            this->delete_prompt = sub_802DBCE8();
+            this->delete_prompt = create_delete_prompt();
             this->state = 6;
             return;
         case 3:
@@ -1041,7 +1041,7 @@ void TAdMultiPlyChrSelectGC::update_select() {
         this->state = 0xC;
         return;
     }
-    card_index = sub_802DC294(player_plate->get_cursor());
+    card_index = cursor_to_card_index(player_plate->get_cursor());
     if (this->last_card_slot != player_plate->get_active_card_slot()) {
         player_preview->set_field_100(1);
         this->show_flag_notice = 0;
@@ -1123,7 +1123,7 @@ void TAdMultiPlyChrSelectGC::update_state_wait_card() {
                         effect->setup_move_effect_params(active_card_slot + 3, card_index);
                     }
                 }
-                this->moving_notice = sub_802DBEC4(&lbl_80472868);
+                this->moving_notice = create_moving_notice(&lbl_80472868);
                 this->b_slot->set_state(0x15);
                 this->state = 0x11;
                 return;
@@ -1311,11 +1311,11 @@ loop_7:
         }
         player_plate->set_active_card_slot(iter);
         player_plate->set_selection(1);
-        card_index = sub_802DC294(player_plate->get_cursor());
+        card_index = cursor_to_card_index(player_plate->get_cursor());
         load_tables(card_index);
         player_preview->set_status_value(card_index);
         player_preview->set_field_100(2);
-        this->moving_notice = sub_802DBEC4(&lbl_80472870);
+        this->moving_notice = create_moving_notice(&lbl_80472870);
         this->a_slot->set_state(0x11);
         this->state = 0x16;
         return;
@@ -1324,7 +1324,7 @@ loop_7:
     if (iter >= 4U) {
         this->move_finished = 0;
         if (this->full_notice == NULL) {
-            this->full_notice = sub_802DBE4C(&lbl_80472878);
+            this->full_notice = create_full_notice(&lbl_80472878);
         }
         this->state = 0xE;
         return;
@@ -1559,7 +1559,7 @@ void TAdMultiPlyChrSelectGC::sub_802DC8A0() {
             this->select_cursor->append_entry(&((const NJS_POINT2 *)&TAdMultiPlyChrSelectGC__character_slot_positions)[i]);
             this->select_cursor->lock_navigation();
             this->swap_search = i;
-            this->yes_no_dialog = sub_802DBD64();
+            this->yes_no_dialog = create_yes_no_dialog();
             this->state = 0x20;
             return;
         }
@@ -1640,7 +1640,7 @@ loop_9:
         }
         load_tables(this->swap_slot);
         player_preview->set_status_value(slot_index);
-        this->moving_notice = sub_802DBEC4(&lbl_80472880);
+        this->moving_notice = create_moving_notice(&lbl_80472880);
         player_preview->set_field_100(1);
         this->a_slot->set_state(0x11);
         this->state = 0x23;
@@ -1650,7 +1650,7 @@ loop_9:
     if (slot_index >= 4U) {
         player_preview->set_field_100(1);
         if (this->full_notice == NULL) {
-            this->full_notice = sub_802DBE4C(&lbl_80472888);
+            this->full_notice = create_full_notice(&lbl_80472888);
         }
         this->state = 0x22;
         return;
@@ -1754,7 +1754,7 @@ void TAdMultiPlyChrSelectGC::sub_802DC310() {
 
 void TAdMultiPlyChrSelectGC::request_scene_change() { TAdMultiChgGameModeGC::request_scene_change(); }
 
-s32 TAdMultiPlyChrSelectGC::sub_802DC294(s32 cursor) {
+s32 TAdMultiPlyChrSelectGC::cursor_to_card_index(s32 cursor) {
     switch (cursor) {
     case 0:
     case 2:
@@ -1772,7 +1772,7 @@ u8 *TAdMultiPlyChrSelectGC::format_player_number_text(s32 self, s32 player_numbe
     return player_number_text_buffer;
 }
 
-void TAdMultiPlyChrSelectGC::sub_802DC118(s32 cursor) {
+void TAdMultiPlyChrSelectGC::update_guide_text(s32 cursor) {
     if (guide != NULL) {
         switch (cursor) {
         case -1:
@@ -1832,7 +1832,7 @@ void TAdMultiPlyChrSelectGC::collect_player_slots() {
 }
 
 TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
-    TWindowMenu *menu = create_window_menu(&lbl_80472890, 4, TAdMultiPlyChrSelectGC::get_clamped_cursor());
+    TWindowMenu *menu = create_window_menu(&choice_menu_position, 4, TAdMultiPlyChrSelectGC::get_clamped_cursor());
     menu->add_text_entry(get_localized_text_entry(0x1F, 2), 6, 0);
     menu->add_text_entry(get_localized_text_entry(0x1F, 3), 6, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 4), 6, 2);
@@ -1843,7 +1843,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
     return menu;
 }
 
-TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBEC4(const NJS_POINT2 *desc) {
+TWindowMenu *TAdMultiPlyChrSelectGC::create_moving_notice(const NJS_POINT2 *desc) {
     TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 6), 0x21, 0);
     ((TWindowMenu *)menu)->set_flag_40();
@@ -1852,7 +1852,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBEC4(const NJS_POINT2 *desc) {
     return menu;
 }
 
-TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBE4C(const NJS_POINT2 *desc) {
+TWindowMenu *TAdMultiPlyChrSelectGC::create_full_notice(const NJS_POINT2 *desc) {
     TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 7), 0x21, 0);
     ((TWindowMenu *)menu)->set_flag_40();
@@ -1863,21 +1863,21 @@ TWindowMenu *TAdMultiPlyChrSelectGC::sub_802DBE4C(const NJS_POINT2 *desc) {
 
 TWindowMessageYesNo *TAdMultiPlyChrSelectGC::create_confirm_window(s32 slot) {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, slot, 0, 0);
-    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 8), &lbl_80472898, 196.0f);
+    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 8), &confirm_window_position, 196.0f);
     window->set_menu_selected_index(1);
     return window;
 }
 
-TWindowMessageYesNo *TAdMultiPlyChrSelectGC::sub_802DBD64() {
+TWindowMessageYesNo *TAdMultiPlyChrSelectGC::create_yes_no_dialog() {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
-    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 9), &lbl_804728A0, 196.0f);
+    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 9), &yes_no_dialog_position, 196.0f);
     window->set_menu_selected_index(1);
     return window;
 }
 
-TWindowMessageYesNo *TAdMultiPlyChrSelectGC::sub_802DBCE8() {
+TWindowMessageYesNo *TAdMultiPlyChrSelectGC::create_delete_prompt() {
     TWindowMessageYesNo *window = TWindowMessageYesNo::create(this, TAdMultiPlyChrSelectGC::get_clamped_cursor(), 0, 0);
-    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 0xA), &lbl_804728A8, 209.0f);
+    window->open_yes_no_prompt_with_text(get_localized_text_entry(0x1F, 0xA), &delete_prompt_position, 209.0f);
     window->set_menu_selected_index(1);
     return window;
 }

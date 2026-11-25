@@ -228,17 +228,17 @@ force_active:
   - copy_light_range__FPfPf
   - TAdSinglePlyChrSelectGC__sub_801FBC3C
   - __dt__17CharacterFileSlotFv
-  - TAdSinglePlyChrSelectGC__sub_801FCCB4
-  - TAdSinglePlyChrSelectGC__sub_801FCCC0
+  - set_character_file_seed__FPUcl
+  - get_character_file_seed__FPUc
   - get_selected_character_slot
   - TAdSinglePlyChrSelectGC__sub_801FDC14
   - TAdSinglePlyChrSelectGC__sub_801FE380
   - TAdSinglePlyChrSelectGC__sub_801FEBBC
-  - TAdSinglePlyChrSelectGC__sub_801FFC74
-  - TAdSinglePlyChrSelectGC__sub_801FFCFC
+  - copy_guild_card_payload__FPUcPUc
+  - copy_guild_card_entries__Fll
   - TAdSinglePlyChrSelectGC__sub_801FFF14
-  - TAdSinglePlyChrSelectGC__sub_801FFF98
-  - TAdSinglePlyChrSelectGC__sub_802000C8
+  - decrypt_guild_card_payload__FPv
+  - encrypt_guild_card_payload__FPvPv
   - TAdSinglePlyChrSelectGC__sub_80200418
   - TAdSinglePlyChrSelectGC__sub_80202D7C
   - __ct__21Pso3CharacterFileSlotFv
@@ -7680,14 +7680,14 @@ force_active:
   - lbl_80466420
   - lbl_80466428
   - lbl_80466430
-  - lbl_80466720
-  - lbl_80466728
-  - lbl_80466730
-  - lbl_80466738
-  - lbl_80466740
-  - lbl_80466748
-  - lbl_80466750
-  - lbl_80466758
+  - tag_back_top_left
+  - tag_back_top_right
+  - tag_back_bottom_left
+  - tag_back_bottom_right
+  - tag_back_scale
+  - tag_back_inner_top
+  - tag_back_inner_bottom
+  - tag_back_origin
   - TBGLightning__class_name_string
   - TBGLightningCtrl__class_name_string
   - bolt_first_texture__12TBGLightning
@@ -8068,10 +8068,10 @@ force_active:
   - fomar_motion_file_tables
   - hucaseal_motion_file_tables
   - ramarl_motion_file_tables
-  - lbl_804E0B40
-  - lbl_804E0B4C
-  - lbl_804E0B54
-  - lbl_804E0B60
+  - chr_sel_slot_texnames_eng
+  - chr_sel_slot_texlist_eng
+  - chr_sel_slot_texnames
+  - chr_sel_slot_texlist
   - gigue_low_model_names
   - __vt__15TObjEneMe1GiGue
   - mericarol_movement_params
@@ -8202,10 +8202,10 @@ force_active:
   - lbl_80540BC8
   - lbl_80541528
   - lbl_80543000
-  - lbl_80543010
-  - lbl_80543050
-  - lbl_805430A4
-  - lbl_805430BC
+  - serial_hex_buffer
+  - serial_decimal_buffer
+  - access_key_dashed_buffer
+  - stored_serial_dashed_buffer
   - lobby_male_motions
   - lobby_female_motions
   - lbl_805434D0
@@ -8509,10 +8509,10 @@ force_active:
   - lbl_805D7AEC
   - lbl_805D7CC8
   - lbl_805D7D3C
-  - lbl_805D7DD8
-  - lbl_805D7DDC
-  - lbl_805D7DE0
-  - lbl_805D7DE4
+  - draw_line_one
+  - draw_line_zero
+  - draw_line_minus_one
+  - draw_line_half
   - lbl_805D85A0
   - lbl_805D8D70
   - lbl_805D8D74
@@ -8793,13 +8793,13 @@ force_active:
   - lbl_805DFA48
   - lbl_805DFA4C
   - lbl_805DFA50
-  - lbl_805DFDA8
-  - lbl_805DFDAC
-  - lbl_805DFDB0
-  - lbl_805DFDB4
-  - lbl_805DFDB8
-  - lbl_805DFDBC
-  - lbl_805DFDC0
+  - floor_load_cam_angle_units_per_degree
+  - floor_load_cam_stick_scale
+  - floor_load_cam_x_scale
+  - floor_load_cam_radius
+  - floor_load_cam_zero
+  - floor_load_cam_target_radius
+  - floor_load_cam_tilt_scale
   - lbl_805E0198
   - lbl_805E019C
   - lbl_805E01A0

@@ -26,7 +26,7 @@
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
 
-typedef void (TAdEnterPPPPassGC::*Pmf_80339378)();
+typedef void (TAdEnterPPPPassGC::*StateHandler)();
 
 extern "C" {
 extern s32 password_entry_dispatch_state;
@@ -147,12 +147,12 @@ void TAdEnterPPPPassGC::run_task() {
     TAdEnterPPPPassGC *self = this;
     self->fn_8032B318(password_screen_status_line_position);
     self->m_1c = password_entry_dispatch_state;
-    static Pmf_80339378 tbl[5] = {
-        (Pmf_80339378)&TAdEnterPPPPassGC::open_keyboard_window,
-        (Pmf_80339378)&TAdEnterPPPPassGC::update_password_input,
-        (Pmf_80339378)&TAdEnterPPPPassGC::request_transition,
-        (Pmf_80339378)&TAdEnterPPPPassGC::forward_chg_game_mode,
-        (Pmf_80339378)&TAdEnterPPPPassGC::close_windows_and_advance,
+    static StateHandler tbl[5] = {
+        (StateHandler)&TAdEnterPPPPassGC::open_keyboard_window,
+        (StateHandler)&TAdEnterPPPPassGC::update_password_input,
+        (StateHandler)&TAdEnterPPPPassGC::request_transition,
+        (StateHandler)&TAdEnterPPPPassGC::forward_chg_game_mode,
+        (StateHandler)&TAdEnterPPPPassGC::close_windows_and_advance,
     };
     (self->*tbl[password_entry_dispatch_state])();
     if (self->m_1c != password_entry_dispatch_state) {

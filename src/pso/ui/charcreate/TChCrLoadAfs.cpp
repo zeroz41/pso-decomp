@@ -156,12 +156,12 @@ s32 find_player_texture_name_ordinal(u8 *object) {
     s32 r;
     TChCrLoadAfsTextureReq *req = (TChCrLoadAfsTextureReq *)object;
     name = req->textures->textures[req->index].filename;
-    count = player_class_texture_archive_table[req->m_70].count;
+    count = player_class_texture_archive_table[req->display_index].count;
     l2 = TLobby__sub_8028C50C(2.0f);
     steps = (s32)ceil_to_float(TLobby__sub_8028C50C(count) / l2) + 1;
     mid = (count + 1) >> 1;
     step = (mid + 1) >> 1;
-    list = player_class_texture_archive_table[req->m_70].textureNames;
+    list = player_class_texture_archive_table[req->display_index].textureNames;
     for (i = 0; i < steps; i++) {
         r = strcmp(name + 3, list[mid] + 3);
         if (r == 0) {
@@ -237,7 +237,7 @@ void TChCrLoadAfsTextureReq::start_read() {
     s32 n;
     AdxfHandle *handle;
     uaddr buf;
-    handle = ADXF_OpenAfs(player_class_texture_archive_table[m_70].archiveId, find_player_texture_name_ordinal((u8 *)this));
+    handle = ADXF_OpenAfs(player_class_texture_archive_table[display_index].archiveId, find_player_texture_name_ordinal((u8 *)this));
     load_handle = handle;
     if (handle != 0) {
         m_20 = 0;

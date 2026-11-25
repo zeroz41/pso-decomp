@@ -10,8 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 
-struct O_80355148 { u8 pad[0x1c]; s32 state; };
-
 // Frame thresholds at which run_task starts each of the five palette animations.
 const u32 ply_plt_anim_time_threshold_table[5] = { 0, 2, 4, 6, 12 };
 
@@ -36,8 +34,8 @@ TAdPlyPltAnimCtrlGC::TAdPlyPltAnimCtrlGC(TObject *parent) : TObject(parent) {
     s32 index;
     index = 0;
     m_name = TAdPlyPltAnimCtrlGC__class_name;
-    m_1c = 0;
-    m_20 = -1;
+    state = 0;
+    frame = -1;
     do {
         TAdPlyPltAnimGC::get_or_create(this, index);
         index += 1;
@@ -52,56 +50,56 @@ TAdPlyPltAnimCtrlGC::~TAdPlyPltAnimCtrlGC() {
 
 void TAdPlyPltAnimCtrlGC::run_task() {
     TAdPlyPltAnimGC *p;
-    if ((s32)this->m_1c == 0) {
+    if ((s32)this->state == 0) {
         return;
     }
-    (this->m_20)++;
-    switch (this->m_1c) {
+    (this->frame)++;
+    switch (this->state) {
     case 0:
         break;
     case 1:
-        if (this->m_20 >= ply_plt_anim_time_threshold_table[0]) {
+        if (this->frame >= ply_plt_anim_time_threshold_table[0]) {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(0)) != NULL) {
-                p->start_anim_rect(&this->m_24);
+                p->start_anim_rect(&this->plate_position);
             }
-            this->m_1c = 2;
+            this->state = 2;
         }
         break;
     case 2:
-        if (this->m_20 >= ply_plt_anim_time_threshold_table[1]) {
+        if (this->frame >= ply_plt_anim_time_threshold_table[1]) {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(1)) != NULL) {
-                p->start_anim_rect(&this->m_24);
+                p->start_anim_rect(&this->plate_position);
             }
-            this->m_1c = 3;
+            this->state = 3;
         }
         break;
     case 3:
-        if (this->m_20 >= ply_plt_anim_time_threshold_table[2]) {
+        if (this->frame >= ply_plt_anim_time_threshold_table[2]) {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(2)) != NULL) {
-                p->start_anim_rect(&this->m_24);
+                p->start_anim_rect(&this->plate_position);
             }
-            this->m_1c = 4;
+            this->state = 4;
         }
         break;
     case 4:
-        if (this->m_20 >= ply_plt_anim_time_threshold_table[3]) {
+        if (this->frame >= ply_plt_anim_time_threshold_table[3]) {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(3)) != NULL) {
-                p->start_anim_rect(&this->m_24);
+                p->start_anim_rect(&this->plate_position);
             }
-            this->m_1c = 5;
+            this->state = 5;
         }
         break;
     case 5:
-        if (this->m_20 >= ply_plt_anim_time_threshold_table[4]) {
+        if (this->frame >= ply_plt_anim_time_threshold_table[4]) {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(4)) != NULL) {
-                p->start_anim_rect(&this->m_24);
+                p->start_anim_rect(&this->plate_position);
             }
-            this->m_1c = 6;
+            this->state = 6;
         }
         break;
     case 6:
-        if (this->m_20 > 0x1A) {
-            this->m_1c = 7;
+        if (this->frame > 0x1A) {
+            this->state = 7;
         }
         break;
     case 7:
@@ -109,13 +107,13 @@ void TAdPlyPltAnimCtrlGC::run_task() {
     }
 }
 
-void TAdPlyPltAnimCtrlGC::init(void* a1) { TAdPlyPltAnimCtrlGC__sub_80355168((u8 *)this); copy_vec2(((char*)this + 0x24), a1); this->m_1c = 1; }
+void TAdPlyPltAnimCtrlGC::init(void* a1) { TAdPlyPltAnimCtrlGC__sub_80355168(this); copy_vec2(((char*)this + 0x24), a1); this->state = 1; }
 
-void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *anim) {
+void TAdPlyPltAnimCtrlGC__sub_80355168(TAdPlyPltAnimCtrlGC *ctrl) {
     s32 i;
     i = 0;
-    *(s32 *)((s8 *)anim + 0x1C) = 0;
-    *(s32 *)((s8 *)anim + 0x20) = -1;
+    ctrl->state = 0;
+    ctrl->frame = -1;
     do {
         TAdPlyPltAnimGC *anim = TAdPlyPltAnimCtrlGC::get_table_value(i);
         if (anim != NULL) {
@@ -125,9 +123,9 @@ void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *anim) {
     } while (i < 5);
 }
 
-s32 TAdPlyPltAnimCtrlGC__sub_80355148(O_80355148 *self) {
+s32 TAdPlyPltAnimCtrlGC__sub_80355148(TAdPlyPltAnimCtrlGC *self) {
     s32 r = 1;
-    if (self->state == 7 || self->state == 0) {
+    if ((s32)self->state == 7 || (s32)self->state == 0) {
         r = 0;
     }
     return r;
