@@ -388,7 +388,7 @@ TObjCollidable *find_entity_by_id(u16 id) {
     return NULL;
 }
 
-void TOTrapAncient02R__sub_80154D78(TObject *) {}
+void TObjCollidable::sub_80154D78() {}
 
 void clear_battle_param_slots() {
     int i;

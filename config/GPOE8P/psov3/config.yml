@@ -767,9 +767,9 @@ force_active:
   - TOAirconCave02_class_name
   - attackable_col_collision_parts
   - TOAttackableCol__ct
-  - TOAttackableCol__sub_80157310
-  - TOAttackableCol__sub_80157C20
-  - TOAttackableCol__sub_80157C28
+  - sub_80157310__15TOAttackableColFv
+  - sub_80157C20__15TOAttackableColFl
+  - sub_80157C28__15TOAttackableColFv
   - TOBarrierEnergy01_name
   - __ct__6TOBindFPv
   - cakeshop_cave01_model_resource
@@ -909,7 +909,7 @@ force_active:
   - __ct__12TOVS2Wreck06FPv
   - vs2_class_name
   - wreck_ancient_brakable_name
-  - TOWreckAncientBrakable__sub_8017D444
+  - sub_8017D444__22TOWreckAncientBrakableFv
   - wreck_ancient_resource_descriptor
   - __ct__22TObjAreaWarpEndingJungFP7TObjectPv
   - bgm_col_ctrl_name

@@ -1,4 +1,4 @@
 #include "types.h"
-#include "pso/object/TOBind_80158608.h"
+#include "pso/object/TOBind.h"
 
-void TOBind__sub_80158608(void) {  }
+void TOBind::sub_80158608() {  }

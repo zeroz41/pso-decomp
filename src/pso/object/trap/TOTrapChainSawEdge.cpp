@@ -478,7 +478,7 @@ void TOTrapChainSaw::update_demo() {
     if (TObjPlayer::check_demo_mode() == 1) {
         temp_r31 = rotation_y;
         rotation_y = (saddr) (temp_r31 + yaw_offset);
-        TOTrapAncient02R__sub_80154D78(this);
+        sub_80154D78();
         rotation_y = temp_r31;
     }
 }

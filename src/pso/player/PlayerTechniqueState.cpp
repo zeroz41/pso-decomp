@@ -70,7 +70,7 @@ void PlayerTechniqueState::reset_tech_state() {
     set_tech_override(0);
     set_technique_id(0);
     set_tech_level(0);
-    TObjPlayer__sub_801D9E10(this, 0);
+    sub_801D9E10(0);
     set_technique_state(0);
     set_charge_step(0.0f);
     set_field18(0.0f);
@@ -86,8 +86,8 @@ s32 PlayerTechniqueState::technique_count() {
     return 19;
 }
 
-void TObjPlayer__sub_801D9E10(PlayerTechniqueState *techs, s16 value) {
-    techs->pad_8 = value;
+void PlayerTechniqueState::sub_801D9E10(s16 value) {
+    pad_8 = value;
 }
 
 PhotonBlastTarget *PlayerTechniqueState::get_target(s32 slot) {

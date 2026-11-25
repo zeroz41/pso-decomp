@@ -7,8 +7,6 @@
 
 extern "C" {
 
-s32 TOBind__sub_80158608(void *);
-
 
 void TOBind::sub_8015860C() {
     f32 temp_f0;
@@ -23,7 +21,7 @@ void TOBind::sub_8015860C() {
 
 void TOBind::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
-        TOBind__sub_80158608(this);
+        sub_80158608();
         return;
     }
     if ((s32) this->m_b0 != 1) {

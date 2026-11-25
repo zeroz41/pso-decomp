@@ -25,6 +25,9 @@ struct TOAttackableCol : public TObjChara {
     f32 apply_hit(saddr player);
     void release();
     void check_door_trigger();
+    void sub_80157310();
+    void sub_80157C20(s32 v);
+    s32 sub_80157C28();
     virtual void run_task();
     virtual void render();
     static void *create(void *arg0);
@@ -36,9 +39,6 @@ struct TOAttackableCol : public TObjChara {
 
 LAYOUT_ASSERT(TOAttackableCol_size, sizeof(TOAttackableCol) == 0x350);
 extern "C" {
-void TOAttackableCol__sub_80157310(void *_w0);
-void TOAttackableCol__sub_80157C20(void *p, s32 v);
-s32 TOAttackableCol__sub_80157C28(void *p);
 void *__dt__15TOAttackableColFv(void *arg0, s16 arg1);
 }
 struct G_UpdateAttackableColState_6x91;

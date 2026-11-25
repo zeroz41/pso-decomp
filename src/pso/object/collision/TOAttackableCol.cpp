@@ -34,16 +34,12 @@ const char *attackable_col_name = "TOAttackableCol";
 
 
 extern "C" {
-void TOAttackableCol__sub_80157310(void *_w0);
 s32 init_collision_body_parts(void *, void *, int);
 s32 get_current_floor(void);
-void TOAttackableCol__sub_80157C20(void* p, s32 v);
-s32 TOAttackableCol__sub_80157C28(void* p);
 }
-extern "C" {
 
-void TOAttackableCol__sub_80157310(void * _w0) {  }
-}
+// Inferred: run_demo_task (run_task calls it in demo mode).
+void TOAttackableCol::sub_80157310() {  }
 
 void TOAttackableCol::init_params() {
     s32 hits;
@@ -104,8 +100,8 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
                             if ((mode >= 1) || (mode < 0)) {
                                 col->mode = 0;
                             }
-                            if (command->remaining_hits < TOAttackableCol__sub_80157C28(col)) {
-                                TOAttackableCol__sub_80157C20(col, command->remaining_hits);
+                            if (command->remaining_hits < col->sub_80157C28()) {
+                                col->sub_80157C20(command->remaining_hits);
                             }
                         }
                         break;
@@ -255,7 +251,7 @@ void TOAttackableCol::check_door_trigger() {
 
 void TOAttackableCol::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
-        TOAttackableCol__sub_80157310(this);
+        sub_80157310();
         return;
     }
     switch (this->mode) {
@@ -315,8 +311,9 @@ f32 TOAttackableCol::receive_weapon_special_attack(void *player, void *) { retur
 
 void TOAttackableCol::apply_knockback_from_attacker(u8 *, f32) {  }
 
-void TOAttackableCol__sub_80157C20(void* p, s32 v) { ((TOAttackableCol *)p)->hits_left = v; }
-s32 TOAttackableCol__sub_80157C28(void* p) { return ((TOAttackableCol *)p)->hits_left; }
+// Inferred: set_hits_left / get_hits_left.
+void TOAttackableCol::sub_80157C20(s32 v) { hits_left = v; }
+s32 TOAttackableCol::sub_80157C28() { return hits_left; }
 void G_UpdateAttackableColState_6x91::bswap() {
     G_UpdateObjectState_6x0B::bswap();
     bswap_16(&is_destroyed);

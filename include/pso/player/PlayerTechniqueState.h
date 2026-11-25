@@ -69,9 +69,8 @@ public:
     void level_up_all_techniques(u8 add);
     static s32 is_valid_technique_id(s16 technique);
     void clear_technique_level(s16 technique);
+    void sub_801D9E10(s16 value);
 };
-
-extern "C" void TObjPlayer__sub_801D9E10(PlayerTechniqueState *techs, s16 value);
 
 LAYOUT_ASSERT(PlayerTechniqueStateSize, sizeof(PlayerTechniqueState) == 0x84);
 LAYOUT_ASSERT(PlayerTechniqueStateLearnedLevels, offsetof(PlayerTechniqueState, learned_levels) == 0x48);
