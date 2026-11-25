@@ -388,7 +388,7 @@ struct TLobby : public TObject {
     static saddr get_card_window_field();
     void set_info_board_text();
     static void reset_info_board();
-    static void *create_dialing_message_window(void *message, void *delay);
+    static void *create_dialing_message_window(const char *message, u32 delay);
     static void release_bg_multi_textures();
     static void clear_session_buffer();
     static void reset_sound_buffers();

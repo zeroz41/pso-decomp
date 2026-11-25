@@ -2590,7 +2590,7 @@ void TLobby::run_join_lobby_connect(int parent) {
             init_idle_timeout_timer((u8 *)p, parent);
         }
         join_state_flag = 1;
-        win = TLobby::create_dialing_message_window((void *)(get_connection_message_text(7)), (void *)1);
+        win = TLobby::create_dialing_message_window((const char *)get_connection_message_text(7), 1);
         switch (TAdSinglePlyChrSelectGC__sub_8033605C()) {
         case 0:
         case 1:
