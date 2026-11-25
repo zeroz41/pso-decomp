@@ -663,12 +663,6 @@ struct Card_801E7D7C {
     s32 v;
 };
 
-struct ItemData_801E7810 {
-    u8 data1[12];
-    u32 id;
-    u8 data2[4];
-};
-
 struct ItemData_801E8000 {
     u8 b0, b1, b2, b3, b4, b5, b6;
     s8 b7;
@@ -770,20 +764,6 @@ struct Ctx_801EB508 { u8 pad[0x10]; u8 buf[0xFD]; };
 
 struct Ctx_801EB658 { u8 pad[0x10]; u8 buf[0xFF]; };
 
-struct Item_801EC720 { s8 a; s8 b; s8 c; u8 pad[0x1D]; };
-
-struct Item_801ED7BC {
-    u8 data[12];
-    s32 id;
-    u32 f10;
-};
-
-struct Item_801EE0BC {
-    u8 data[12];
-    s32 id;
-    u32 f10;
-};
-
 struct Pkt_801EDF64 {
     u8 cmd;
     u8 size;
@@ -855,7 +835,6 @@ s32 fn_80077788(void);
 s32 fn_80077790(void);
 s32 __ct__16TPlyGuildCardTagFv(s32);
 s32 TLobby__sub_801036CC();
-void init__9TItemDataFv(Item_801EE77C *);
 s32 advance_item_id_counter(u16);
 void TOMineTrap__sub_80171368(f32);
 int clear_enabled_main_warps(void*);
@@ -884,9 +863,9 @@ int TLobby__sub_801F36BC(void*);
 int TLobby__sub_801F36D8(void*);
 int TLobby__sub_801F36E4(void*);
 s32 TLobby__sub_801F36F0(int);
-void TLobby__sub_801F36F8(s32, s32, s32, Item_801ED7BC *);
+void TLobby__sub_801F36F8(s32, s32, s32, TItemData *);
 s32 TLobby__sub_801F3700(int);
-void TLobby__sub_801F3708(s32, s32, s32, Item_801ED7BC *);
+void TLobby__sub_801F3708(s32, s32, s32, TItemData *);
 int set_quest_exit_callback(void*);
 int set_quest_cancel_callback(void*);
 int set_quest_success_callback(void*);
@@ -1123,16 +1102,16 @@ void qst_op_get_players_present(u8 out) {
 }
 
 void qst_op_find_bank_item(u8 i, u8 out) {
-    ItemData_801E7810 item;
+    TItemData item;
     saddr card;
     qst_registers[out] = -1;
     card = get_character_save_record(0xFFFF);
     if (card != 0) {
-        ((void (*)(ItemData_801E7810 *))init__9TItemDataFv)(&item);
-        item.data1[0] = qst_registers[i++];
-        item.data1[1] = qst_registers[i++];
-        item.data1[2] = qst_registers[i++];
-        item.data1[4] = qst_registers[i];
+        item.init();
+        item.data1.data_u8[0] = qst_registers[i++];
+        item.data1.data_u8[1] = qst_registers[i++];
+        item.data1.data_u8[2] = qst_registers[i++];
+        item.data1.data_u8[4] = qst_registers[i];
         if (((CharacterSaveRecord *)card)->find_bank_item((saddr)&item) != 0) {
             qst_registers[out] = 1;
         } else {
@@ -3029,12 +3008,12 @@ void qst_op_unequip_item() {
 }
 
 void qst_op_equip_item(u8 i) {
-    Item_801EC720 item;
+    TItemData item;
     u16 id = qst_registers[i++];
-    ((s32 (*)(void *))init__9TItemDataFv)(&item);
-    item.a = qst_registers[i++];
-    item.b = qst_registers[i++];
-    item.c = qst_registers[i++];
+    item.init();
+    item.data1.data_u8[0] = qst_registers[i++];
+    item.data1.data_u8[1] = qst_registers[i++];
+    item.data1.data_u8[2] = qst_registers[i++];
     TLobby::forward_to_player(id, &item);
 }
 
@@ -3403,20 +3382,20 @@ void qst_op_nop_F822(s32 reg) {
 }
 
 void qst_op_nop_F821(u8 regs) {
-    Item_801ED7BC item;
+    TItemData item;
     s32 a;
     s32 b;
     s32 c;
     a = qst_registers[(u8)regs++];
     b = qst_registers[(u8)regs++];
     c = qst_registers[(u8)regs++];
-    ((void (*)(Item_801ED7BC *))init__9TItemDataFv)(&item);
-    item.data[0] = qst_registers[(u8)regs++];
-    item.data[1] = qst_registers[(u8)regs++];
-    item.data[2] = qst_registers[(u8)regs++];
-    item.data[3] = qst_registers[(u8)regs++];
-    item.data[4] = qst_registers[(u8)regs++];
-    item.data[5] = qst_registers[(u8)regs];
+    item.init();
+    item.data1.data_u8[0] = qst_registers[(u8)regs++];
+    item.data1.data_u8[1] = qst_registers[(u8)regs++];
+    item.data1.data_u8[2] = qst_registers[(u8)regs++];
+    item.data1.data_u8[3] = qst_registers[(u8)regs++];
+    item.data1.data_u8[4] = qst_registers[(u8)regs++];
+    item.data1.data_u8[5] = qst_registers[(u8)regs];
     item.id = advance_item_id_counter(local_client_id);
     if (is_split_screen() == 1) {
         TLobby__sub_801F3708(a, b, c, &item);
@@ -3645,14 +3624,14 @@ void qst_op_start_setevt() {
 void qst_op_pad_dragon(void* p) { TBoss1Dragon::requestActionRefresh(); }
 
 void qst_op_delete_bank_item(u8 regs, u8 dst) {
-    Item_801EE0BC item;
-    ((void (*)(Item_801EE0BC *))init__9TItemDataFv)(&item);
-    item.data[0] = qst_registers[(u8)regs++];
-    item.data[1] = qst_registers[(u8)regs++];
-    item.data[2] = qst_registers[(u8)regs++];
-    item.data[3] = qst_registers[(u8)regs++];
-    item.data[4] = qst_registers[(u8)regs++];
-    item.data[5] = qst_registers[(u8)regs];
+    TItemData item;
+    item.init();
+    item.data1.data_u8[0] = qst_registers[(u8)regs++];
+    item.data1.data_u8[1] = qst_registers[(u8)regs++];
+    item.data1.data_u8[2] = qst_registers[(u8)regs++];
+    item.data1.data_u8[3] = qst_registers[(u8)regs++];
+    item.data1.data_u8[4] = qst_registers[(u8)regs++];
+    item.data1.data_u8[5] = qst_registers[(u8)regs];
     if (TCheckRoomSequence__delete_bank_item((u8 *)&item, 0) != 0) {
         qst_registers[dst] = 1;
     } else {
