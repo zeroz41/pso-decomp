@@ -38,7 +38,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/task/TMainTask.h"
 
-// Flower literals the split parts share (TObjEneRe2Flower_800C20D0.cpp, text_800C2CE0.cpp define them).
+// Flower literals the split parts share (TObjEneRe2Flower_800C20D0.cpp, TObjEneRe2FlowerStates.cpp define them).
 extern const f32 lbl_805D9FD8;
 extern const f32 lbl_805D9FDC;
 extern const f32 lbl_805D9FAC;

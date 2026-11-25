@@ -567,7 +567,7 @@ pso/boss/darkfalz/TBoss4Type2_800522CC.cpp:
 	.rodata     start:0x804374F8 end:0x80437500
 	.sdata2     start:0x805D8AD8 end:0x805D8AF4
 
-pso/unk/text_80052420.cpp:
+pso/boss/darkfalz/DrainPlayerHp.cpp:
 	.text       start:0x80052420 end:0x800524E8
 
 pso/boss/darkfalz/TBoss4Type3_800524E8.cpp:
@@ -1473,14 +1473,10 @@ pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp:
 	.text       start:0x800C20D0 end:0x800C2A88
 	.sdata2     start:0x805D9FA0 end:0x805D9FC8
 
-pso/unk/text_800C2A88.cpp:
-	.text       start:0x800C2A88 end:0x800C2CE0
-	.sdata2     start:0x805D9FC8 end:0x805D9FD0
-
-pso/unk/text_800C2CE0.cpp:
-	.text       start:0x800C2CE0 end:0x800C3088
+pso/enemy/flower/TObjEneRe2FlowerStates.cpp:
+	.text       start:0x800C2A88 end:0x800C3088
 	.rodata     start:0x8043BA60 end:0x8043BA68
-	.sdata2     start:0x805D9FD0 end:0x805DA000
+	.sdata2     start:0x805D9FC8 end:0x805DA000
 
 pso/enemy/flower/FlowerRe2Data.cpp:
 	.rodata     start:0x8043BA68 end:0x8043BBD0

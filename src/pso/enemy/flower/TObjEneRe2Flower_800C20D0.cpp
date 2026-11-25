@@ -316,7 +316,7 @@ void TObjEneRe2Flower::state_laugh(s32 reason) {
     }
 }
 
-// Literals of the flower file that the units split from it (text_800C2A88, text_800C2CE0, TObjEneRe2Flower.cpp)
+// Literals of the flower file that the units split from it (TObjEneRe2FlowerStates.cpp, TObjEneRe2Flower.cpp)
 // share; they follow this unit's own literals in .sdata2.
 __declspec(section ".sdata2") extern const f32 lbl_805D9FAC = 0.0f;
 __declspec(section ".sdata2") extern const f32 re2_flower_node_point0_y = 2.0f;

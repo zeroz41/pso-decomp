@@ -76,7 +76,7 @@
 #include "pso/camera/TCameraFollow.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_80052420.h"
+#include "pso/boss/darkfalz/DrainPlayerHp.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/player/TPlyDispData.h"

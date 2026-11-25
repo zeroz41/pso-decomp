@@ -1717,7 +1717,7 @@ pso/unk/text_8000F740.cpp
 pso/ui/frontend/DrawLine.cpp
 pso/ui/frontend/TitleBackground.cpp
 pso/boss/darkfalz/TObjDFDemo0.cpp
-pso/unk/text_80052420.cpp
+pso/boss/darkfalz/DrainPlayerHp.cpp
 pso/unk/text_80066F10.cpp
 pso/unk/text_80066F5C.cpp
 pso/unk/text_80071A9C.cpp
@@ -1730,8 +1730,7 @@ pso/unk/text_80076BC4.cpp
 pso/unk/text_80076E84.cpp
 pso/network/protocol/choice_search.cpp
 pso/effect/TDuelEffectCtrl.cpp
-pso/unk/text_800C2A88.cpp
-pso/unk/text_800C2CE0.cpp
+pso/enemy/flower/TObjEneRe2FlowerStates.cpp
 pso/enemy/TObjEneBeastBase_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp
