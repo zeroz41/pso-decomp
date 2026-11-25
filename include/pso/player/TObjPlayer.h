@@ -182,7 +182,7 @@ struct TObjPlayer : public TObjChara {
     void clear_lock_on_cursor(void *data);
     void setup_fresh_player_state(u8 *);
     void init_class_flags(PlayerSyncRecord *record);
-    void sub_801BB8B0(u8 *);
+    void unpack_record_flags(TPlyCharData *record);  // (name inferred) undoes the flag packing of fill_player_record
     s32 setup_control_role(s32);
     s32 is_target_in_facing_cone(Vec *target);
     void create_inventory();
@@ -252,7 +252,7 @@ struct TObjPlayer : public TObjChara {
     Vec facing_dir;  // (name inferred) update_facing_vector: sin, 0, cos of rotation_y
     Vec ground_normal;
     FlagWord pending_actions;  // action bits apply_pending_action copies into the save record
-    u8 unk_420[0x4];
+    s32 record_flags_hi;  // (name inferred) unpack_record_flags restores it from the packed byte of record items 4-7
     TLockOnCursor *lock_on_cursor;  // created by create_lockon_cursor for local players
     PlayerTechniqueState technique_state;
     PhotonBlastGauge photon_blast_gauge;
@@ -518,8 +518,6 @@ struct TObjPlayer : public TObjChara {
     int sub_802a7290_fwd();
     int is_handle_valid();
     static u8 get_item_count_max();
-    u32 unpack_u32_hi();
-    u32 unpack_u32_lo();
     static s32 decrement_clamp(s32 *value, s32 amount);
     void set_visible_flag();
     s32 check_flag_04000000();

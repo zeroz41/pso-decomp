@@ -202,7 +202,7 @@ void TObjPlayer::init_action_provider() {
     set_floor(0xF);
     m_54c = 0;
     lobby_marker = NULL;
-    *(s32 *)&unk_420 = 0;
+    record_flags_hi = 0;
     controller_port = 0;
     reset_state();
     ::set_flag_400000(this);
@@ -604,7 +604,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     this->update_if_active();
     assign_owner_ids();
     this->setup_fresh_player_state((u8 *)record);
-    this->sub_801BB8B0((u8 *)record);
+    this->unpack_record_flags(record);
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
 }
 

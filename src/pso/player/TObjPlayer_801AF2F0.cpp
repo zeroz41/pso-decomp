@@ -730,21 +730,11 @@ void TObjPlayer::init_class_flags(PlayerSyncRecord *record) {
     *(s8 *)&this->unk_33A = record->get_class_flag_2();
 }
 
-void TObjPlayer::sub_801BB8B0(u8 *arg1) {
-    s32 temp_r0;
-    s32 var_r4;
-    u8 *var_r30;
-    u8 *var_r31;
-    u8 *var_r3;
-    var_r31 = arg1;
-    var_r30 = (u8 *)this;
-    var_r3 = var_r31;
-    temp_r0 = ((TObjPlayer *)var_r3)->unpack_u32_lo();
-    var_r3 = (var_r30 + 0x41C);
-    var_r4 = temp_r0;
-    ((TTecLuker *)var_r3)->set_state(var_r4);
-    var_r3 = var_r31;
-    *(s32 *)((s8 *)var_r30 + 0x420) = ((TObjPlayer *)var_r3)->unpack_u32_hi();
+void TObjPlayer::unpack_record_flags(TPlyCharData *record) {
+    s32 bits = record->unpack_u32_lo();
+    // set_state is FlagWord's whole-word setter, still filed under TTecLuker.
+    ((TTecLuker *)&pending_actions)->set_state(bits);
+    record_flags_hi = record->unpack_u32_hi();
 }
 
 void TObjPlayer::release_pending_action() {  }
@@ -1562,11 +1552,11 @@ s32 TObjPlayer::preview_unequip_stats(PlayerRequirementStats *out, s32 key) {
     s32 base;
     f32 k;
     s16 d;
-    void *node_3423 = this->inventory_objects->start_inventory_update(key);
-    if (node_3423 == 0U) {
+    TItemList *list = this->inventory_objects->start_inventory_update(key);
+    if (list == NULL) {
         return 0;
     }
-    owner = (TItem *)((TItemList *)node_3423)->get_owner_if_alive();
+    owner = list->get_owner_if_alive();
     if (owner == NULL) {
         return 0;
     }
@@ -1721,14 +1711,14 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
         if (item[0] == 4) {
             return 1;
         }
-        void *node_3581 = this->inventory_objects->set_mode_and_refresh_object(item);
-        if (node_3581 == 0) {
+        TItemList *list = this->inventory_objects->set_mode_and_refresh_object(item);
+        if (list == NULL) {
             if (this->inventory_objects->item_count >= 30) {
                 return 0;
             }
             return ((TItemData *)item)->get_max_stack_size();
         }
-        owner = (TItem *)((TItemList *)node_3581)->get_owner_if_alive();
+        owner = list->get_owner_if_alive();
         if (owner == NULL) {
             return 0;
         }
@@ -1750,20 +1740,20 @@ s32 TObjPlayer::can_pickup_item_by_id(TItem *item) {
 s32 TObjPlayer::can_pickup_item(TItemData *item_data) {
     s32 room;
     s32 max_stack_size;
-    void *held;
+    TItem *held;
 
     if (TItemData::lookup_item_def((u8 *)item_data) != 0) {
         if ((u8) *(u8 *)item_data == 4) {
             return get_actor_meseta() < 0xF423F;
         }
-        void *node_3615 = this->inventory_objects->set_mode_and_refresh_object((void *)item_data);
-        if (node_3615 != 0U) {
-            held = ((void *)((TItemList *)node_3615)->get_owner_if_alive());
+        TItemList *list = this->inventory_objects->set_mode_and_refresh_object((void *)item_data);
+        if (list != NULL) {
+            held = list->get_owner_if_alive();
             if (held == NULL) {
                 return 0;
             }
-            max_stack_size = ((TItem *)held)->get_max_stack_size();
-            room = max_stack_size - ((TItem *)held)->get_amount();
+            max_stack_size = held->get_max_stack_size();
+            room = max_stack_size - held->get_amount();
             return (item_data->get_stack_count() <= room) ? 1 : 0;
         }
         goto block_7;
@@ -1911,11 +1901,11 @@ void TObjPlayer::request_item_drop(s32 key, s32 count) {
         ((void (*)(s32, s32, s32, s32))play_sound_effect)(0x53F06, 0, 0, 0);
         return;
     }
-    void *node_3768 = this->inventory_objects->start_inventory_update(key);
-    if (node_3768 == 0) {
+    TItemList *list = this->inventory_objects->start_inventory_update(key);
+    if (list == NULL) {
         return;
     }
-    owner = (TItem *)((TItemList *)node_3768)->get_owner_if_alive();
+    owner = list->get_owner_if_alive();
     if (owner == NULL) {
         return;
     }
@@ -2201,11 +2191,11 @@ s32 try_send_6x27_use_item(void *player, s32 key) {
     if (TFontSmallLobby::is_lobby_floor_15() != 0) {
         return 0;
     }
-    void *node_4064 = ((TObjPlayer *)player)->inventory_objects->start_inventory_update(key);
-    if (node_4064 == 0U) {
+    TItemList *list = ((TObjPlayer *)player)->inventory_objects->start_inventory_update(key);
+    if (list == NULL) {
         return 0;
     }
-    temp = ((void *)((TItemList *)node_4064)->get_owner_if_alive());
+    temp = list->get_owner_if_alive();
     if (temp == NULL) {
         return 0;
     }

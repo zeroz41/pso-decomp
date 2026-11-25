@@ -1745,8 +1745,8 @@ u8 PlayerLevelTableRow::get_mst_growth() const { return growth[1]; }
 u8 PlayerLevelTableRow::get_atp_growth() const { return growth[0]; }
 s32 PlayerLevelTableRow::get_exp_threshold() const { return experience; }
 
-u32 TObjPlayer::unpack_u32_hi() {
-    TPlyInventoryItem *items = reinterpret_cast<TPlyCharData *>(this)->m_inventory.m_items;
+u32 TPlyCharData::unpack_u32_hi() {
+    TPlyInventoryItem *items = m_inventory.m_items;
     u32 r = (u8)items[4].m_present[3];
     r |= (u8)items[5].m_present[3] << 8;
     r |= (u8)items[6].m_present[3] << 16;
@@ -1754,8 +1754,8 @@ u32 TObjPlayer::unpack_u32_hi() {
     return r;
 }
 
-u32 TObjPlayer::unpack_u32_lo() {
-    TPlyInventoryItem *items = reinterpret_cast<TPlyCharData *>(this)->m_inventory.m_items;
+u32 TPlyCharData::unpack_u32_lo() {
+    TPlyInventoryItem *items = m_inventory.m_items;
     u32 r = (u8)items[0].m_present[3];
     r |= (u8)items[1].m_present[3] << 8;
     r |= (u8)items[2].m_present[3] << 16;
