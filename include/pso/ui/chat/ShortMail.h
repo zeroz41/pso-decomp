@@ -47,7 +47,6 @@ void TLobby__sub_80225A08(void *p);
 void TLobby__sub_80225C44(void *p);
 void TLobby__sub_80225C64(void *p);
 void TLobby__sub_80225CB8(void);
-void *get_com_card_list__6TLobbyFv(void *p);
 void try_close__6TLobbyFPv(void *p);
 void *TLobby__sub_8022598C(int a0);
 void TLobby__sub_80225C8C(void *p);

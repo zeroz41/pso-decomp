@@ -46,7 +46,6 @@ LAYOUT_ASSERT(TShopEquipmentListWindow_size, sizeof(TShopEquipmentListWindow) ==
 // --- C functions defined in TShopEquipmentListWindow.cpp ---
 extern "C" {
 int TShopEquipmentListWindow__sub_8021C85C(int a0);
-void *__dt__24TShopEquipmentListWindowFv(TShopEquipmentListWindow *arg0, s16 arg1);
 }
 // --- end of C functions
 

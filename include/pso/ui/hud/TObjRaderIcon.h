@@ -20,9 +20,6 @@ struct TObjRaderIcon : public TObjBase {
 
 LAYOUT_ASSERT(TObjRaderIcon_size, sizeof(TObjRaderIcon) == 0xA4);
 
-extern "C" {
-void *__dt__13TObjRaderIconFv(void *arg0, s16 arg1);
-}
 
 
 #endif

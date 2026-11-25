@@ -20,11 +20,6 @@ struct TAdLicAgreementGC : public TAdAgreementBaseGC {
 
 LAYOUT_ASSERT(TAdLicAgreementGC_size, sizeof(TAdLicAgreementGC) == 0x3C);
 
-extern "C" {
-void *__dt__17TAdLicAgreementGCFv(void *arg0, s16 arg1);
-}
 
-// --- C functions defined in TAdLicAgreementGC.cpp ---
-// --- end of C functions
 
 #endif

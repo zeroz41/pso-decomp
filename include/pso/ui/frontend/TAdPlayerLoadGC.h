@@ -66,10 +66,5 @@ LAYOUT_ASSERT(TAdPlayerLoadGCExtent, sizeof(TAdPlayerLoadGC) == 0x24);
 int get_player_load_state(void);
 void set_character_select_b_slot_state(int a0);
 
-// --- C functions defined in TAdPlayerLoadGC.cpp ---
-extern "C" {
-void *__dt__25TItemWeaponPhotonLauncherFv(void *arg0, s16 arg1);
-}
-// --- end of C functions
 
 #endif

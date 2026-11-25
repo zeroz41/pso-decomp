@@ -6,7 +6,6 @@
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80132ED0.h"

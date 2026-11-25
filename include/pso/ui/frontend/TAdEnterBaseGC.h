@@ -34,7 +34,6 @@ LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x38);
 extern "C" {
 void fn_8032AC94(void);
 // TAdEnterBaseGC::TAdEnterBaseGC(TObject *), called by the constructors that are still written by hand.
-void *__ct__14TAdEnterBaseGCFP7TObject(void *self, TObject *parent);
 }
 
 // --- C functions defined in TAdEnterBaseGC.cpp ---

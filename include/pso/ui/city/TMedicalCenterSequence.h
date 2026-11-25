@@ -33,13 +33,11 @@ LAYOUT_ASSERT(TMedicalCenterSequence_size, sizeof(TMedicalCenterSequence) == 0x3
 
 extern "C" {
 void TMedicalCenterMes__sub_80216260(void);
-u8 *__dt__22TMedicalCenterSequenceFv(TMedicalCenterSequence *arg0, s16 arg1);
 }
 
 // --- C functions defined in TMedicalCenterSequence.cpp ---
 extern "C" {
 void TMedicalCenterMes__sub_80216260(void);
-u8 *__dt__22TMedicalCenterSequenceFv(TMedicalCenterSequence *arg0, s16 arg1);
 }
 
 #endif

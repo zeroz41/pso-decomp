@@ -5,7 +5,6 @@
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
-#include "pso/ui/frontend/TitleBackgroundStorage.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
