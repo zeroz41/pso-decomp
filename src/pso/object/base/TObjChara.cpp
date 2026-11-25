@@ -348,7 +348,6 @@ s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 void create_hit_effect__10TObjPlayerFPv(void *);
-int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
 extern s32 registered_enemy_count;
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
@@ -585,7 +584,7 @@ int bswap_16__FPUs(void*);
 u32 __nw__7TObjectFUl(s32);
 void matrix_mult_vec(s32, void *, void *);
 extern const f64 TObjPlayer__data_804340B8;
-extern int TObjPlayer__data_8050D460[];
+extern TObjCollidable *TObjPlayer__data_8050D460[];
 extern const f64 lbl_80434098;
 extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
@@ -883,7 +882,7 @@ void obj_setField96_1(TObjCollidable *p) {
     p->hit_receive_state = 1;
 }
 
-int get_player_data__10TObjPlayerFi(int a0) {  return TObjPlayer__data_8050D460[a0]; }
+TObjPlayer *TObjPlayer::get_player_data(int index) { return static_cast<TObjPlayer *>(TObjPlayer__data_8050D460[index]); }
 
 extern "C" s32 obj_is_hit_receivable(const TObjCollidable *target) {
     return target->hit_receive_state == 1;
@@ -3532,7 +3531,7 @@ u16 find_nearest_visible_player(TObjChara *searcher, Vec *direction, f32 range) 
     Player_800115C4 *player;
     s32 i;
     for (i = 0; i < registered_player_count; i++) {
-        player = ((Player_800115C4 * (*)(s32))get_player_data__10TObjPlayerFi)(i);
+        player = reinterpret_cast<Player_800115C4 *>(TObjPlayer::get_player_data(i));
         if (player != NULL && player->id < 0x1000 && !(player->flags & 0x02000800)) {
             if (((TObjPlayer *)player)->get_floor() == get_current_floor()) {
                 ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&diff, &player->pos);
@@ -3562,7 +3561,7 @@ u16 find_nearest_hittable_enemy(TObjBase *searcher, Vec *direction, f32 range) {
     best = range * range;
     result = 0xFFFF;
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
-        p = ((ObjFlags * (*)(s32))get_player_data__10TObjPlayerFi)(i);
+        p = reinterpret_cast<ObjFlags *>(TObjPlayer::get_player_data(i));
         if (p == NULL) {
             break;
         }

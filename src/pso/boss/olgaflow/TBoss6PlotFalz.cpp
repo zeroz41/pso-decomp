@@ -280,7 +280,6 @@ s32 TBoss6PlotFalz::is_active(TObjPlayer *player) {
 }
 
 }
-#undef get_player_data__10TObjPlayerFi
 
 extern "C" {
 
