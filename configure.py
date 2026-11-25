@@ -790,6 +790,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -fp_contract on: T_ATS_DrawCalendar::render uses fnmsubs and the static initialiser fmadds.
     # -inline off,deferred: __vt__18T_ATS_DrawCalendar (0x804E34FC) sits before __vt__12TAdTimeSetGC (0x804E3514)
     # although the functions and literals are in address order; the source is written last function first.
+    # The CharacterPreview/TAdPlyStatusGC accessors at 0x802E1128 come first in .text: they sit in a
+    # defer_codegen off region.
     "pso/ui/frontend/TAdTimeSetGC.cpp": {
         "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4", "-fp_contract on")
     },

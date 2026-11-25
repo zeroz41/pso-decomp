@@ -31,7 +31,6 @@ extern "C" {
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
-extern u32 ply_status_index;
 TAdPlyStatusGC *ply_status_gc_instance;
 CharacterPreview *ply_status_preview;
 s32 TAdPlyStatusGC::window_offset_index;

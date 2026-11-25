@@ -1633,7 +1633,6 @@ pso/system/save/McFsGcRequests.cpp
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp
 pso/ui/frontend/TAdPlyPltAnimGC.cpp
 pso/ui/frontend/TAdPlyStatusGC.cpp
-pso/ui/frontend/TAdPlyStatusGC_802E1128.cpp
 pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.cpp
 pso/ui/frontend/TAdPsoPassSaveGC.cpp
 pso/ui/frontend/TAdRayGC.cpp

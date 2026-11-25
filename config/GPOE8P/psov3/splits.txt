@@ -7754,11 +7754,8 @@ pso/ui/frontend/TAdChrSelPlayerGC.cpp:
 pso/unk/text_802E10D8.cpp:
 	.text       start:0x802E10D8 end:0x802E1128
 
-pso/ui/frontend/TAdPlyStatusGC_802E1128.cpp:
-	.text       start:0x802E1128 end:0x802E11BC
-
 pso/ui/frontend/TAdTimeSetGC.cpp:
-	.text       start:0x802E11BC end:0x802E3AE4
+	.text       start:0x802E1128 end:0x802E3AE4
 	.ctors      start:0x80433FD0 end:0x80433FD4
 	.rodata     start:0x80472920 end:0x80472998
 	.data       start:0x804E3040 end:0x804E3530

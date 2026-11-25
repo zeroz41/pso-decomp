@@ -38,4 +38,5 @@ LAYOUT_ASSERT(TAdPlyStatusGC_size, sizeof(TAdPlyStatusGC) == 0x70);
 extern "C" TAdPlyStatusGC *ply_status_gc_instance;
 // The character the status window shows (set_status_param).
 extern "C" CharacterPreview *ply_status_preview;
+extern "C" u32 ply_status_index;
 #endif
