@@ -34,7 +34,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/MatrixStack.h"

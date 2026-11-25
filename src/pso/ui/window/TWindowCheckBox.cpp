@@ -2,7 +2,6 @@
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/unk/TWindowLayoutEntry.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/WindowLayoutEntries.h"

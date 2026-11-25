@@ -36,7 +36,6 @@
 #include "pso/math/TMath.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/WindowLayout.h"

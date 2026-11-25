@@ -11,7 +11,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include <string.h>
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"

@@ -10,7 +10,6 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowCheckBox.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include <string.h>

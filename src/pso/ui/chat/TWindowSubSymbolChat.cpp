@@ -36,7 +36,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/vector.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/TWindowCheckBox.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"

@@ -25,6 +25,10 @@ public:
     s16 selected_index;
     u8 pad_8A[0x2];
 };
+
+TWindowCheckBox *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position);
+TWindowCheckBox *create_check_box_window_on_layer(const NJS_POINT2 *position, s32 size, s32 client);
+
 LAYOUT_ASSERT(TWindowCheckBox_size, sizeof(TWindowCheckBox) == 0x8C);
 
 #endif
