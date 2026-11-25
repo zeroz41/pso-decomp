@@ -62,7 +62,7 @@ s32 is_id_in_special_range__9TWindowDDFs(s16);
 s32 TWindowDD__sub_80347238();
 
 s32 TWindowDD::classify_id(s16 id) {
-    s32 var_r3;
+    s32 kind;
 
     if (id == 0x2E4) {
         return 0;
@@ -79,11 +79,11 @@ s32 TWindowDD::classify_id(s16 id) {
     if (id == 0x635) {
         return 4;
     }
-    var_r3 = 7;
+    kind = 7;
     if (id == 0x650) {
-        var_r3 = 5;
+        kind = 5;
     }
-    return var_r3;
+    return kind;
 }
 
 s32 TWindowDD::get_player_battle_flag_state(u16 client) {
@@ -273,11 +273,11 @@ s32 TWindowDD::is_state_zero_unless_0x2C8(s32 arg0) {
 }
 
 s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value) {
-    u8 var_r3 = 0;
+    u8 in_range = 0;
     if (static_cast<s16>(value) >= 0x5ac && static_cast<s16>(value) <= 0x5f9) {
-        var_r3 = 1;
+        in_range = 1;
     }
-    return var_r3;
+    return in_range;
 }
 
 void TWindowDD::destroy_menu_entry(s32 arg1) {
@@ -651,12 +651,12 @@ void TWindowDD__sub_80348448(s32 arg0, s16 id) {
 }
 
 s32 TWindowDD::get_mode_code() {
-    s32 temp_r3;
-    temp_r3 = status;
-    if (temp_r3 == 2) {
+    s32 mode_status;
+    mode_status = status;
+    if (mode_status == 2) {
         return 1;
     }
-    return ((temp_r3 - 3) == 0) ? 2 : 0;
+    return ((mode_status - 3) == 0) ? 2 : 0;
 }
 
 void TWindowDD::set_state() { status = 3; close_all_windows(); }
