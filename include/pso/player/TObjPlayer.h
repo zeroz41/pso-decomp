@@ -371,6 +371,7 @@ struct TObjPlayer : public TObjChara {
     void send_head();
     void init_packet_9a();
     s32 get_floor();
+    s32 is_on_current_floor();
     s32 get_area();
     static s32 get_player_count();
     void send_6x12_packet();

@@ -38,7 +38,6 @@
 
 
 extern "C" {
-s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player);
 
 }
 
@@ -414,7 +413,7 @@ void TPlayerSoul::run_task() {
     Vec pos;
     player = get_player();
     if (player != NULL && player->test_action_mask(0x8000) != 0 && is_current_area_item_enabled() != 0 &&
-        is_on_current_floor__10TObjPlayerFi(player) != 0) {
+        player->is_on_current_floor() != 0) {
         particle = get_particle();
         if (particle != 0) {
             player->get_anim_node_position(1, &pos);
@@ -677,7 +676,7 @@ void PlayerAppearFade::update() {
         default:
             break;
         case WAITING:
-            if ((player->is_inactive() != 0) && (player->check_flag_40000() == 0) && (player->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi(player) != 0)) {
+            if ((player->is_inactive() != 0) && (player->check_flag_40000() == 0) && (player->check_flag_04000000() != 0) && (player->is_on_current_floor() != 0)) {
                 if (--delay < 0) {
                     if (TCameraCtrl::get_mode() != 0) {
                         player->render_material_state.fade_color.a = 1.0f;

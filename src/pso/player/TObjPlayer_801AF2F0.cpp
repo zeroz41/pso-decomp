@@ -476,7 +476,6 @@ bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 s8 TObjPlayer__sub_801AFDBC(s8 cls);
-s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player);
 void apply_camera_shake__10TObjPlayerFiii(saddr player, saddr target, s32 damage);
 void handle_6x8E(void);
 void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damage);
@@ -1487,7 +1486,7 @@ call3:
         run_action_state_phase(this->mode, 3);
         break;
     case 2:
-        if ((is_on_current_floor__10TObjPlayerFi(this) == 0) && (this->check_flag_4() == 0)) {
+        if ((is_on_current_floor() == 0) && (this->check_flag_4() == 0)) {
             run_action_state_phase(0x16, 0);
             return;
         }
@@ -3552,7 +3551,7 @@ void handle_6x2C_impose_hold(G_ImposeHold_6x2C *command) {
     player->movement_hold.set_center(pkt.f8, pkt.fC);
     player->movement_hold.set_radius_sq(pkt.f10);
     player->set_state_flags(1);
-    if (player->check_flag_4() == 0 && is_on_current_floor__10TObjPlayerFi(player) != 0) {
+    if (player->check_flag_4() == 0 && player->is_on_current_floor() != 0) {
         TObjEneHoldEffect::create(player, pkt.f6, pkt.f4);
     }
 }
@@ -3704,11 +3703,11 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
 }
 
 s32 TObjPlayer::get_battle_ctrl_flag(u16 id) {
-    s32 player;
+    TObjPlayer *player;
 
-    player = (saddr)get_player_by_client_id((u16)id);
-    if ((player != 0) && (((s32 (*)(void))is_on_current_floor__10TObjPlayerFi)() != 0)) {
-        return player;
+    player = get_player_by_client_id(id);
+    if ((player != NULL) && (player->is_on_current_floor() != 0)) {
+        return (saddr)player;
     }
     return 0;
 }
@@ -4917,7 +4916,7 @@ s32 TObjPlayer::is_in_tl03_state() {
 }
 
 void TObjPlayer::play_sound_if_on_floor(s32 sound_id) {
-    if (((s32 (*)(void))is_on_current_floor__10TObjPlayerFi)() != 0) {
+    if (is_on_current_floor() != 0) {
         play_sound_effect(sound_id, get_position_ptr(), 0, 0);
     }
 }
@@ -5763,11 +5762,11 @@ void TObjPlayer::sync_current_floor() {
     this->current_floor = get_current_floor();
 }
 
-s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player) {
+s32 TObjPlayer::is_on_current_floor() {
     s32 current_floor;
     s32 player_floor;
     current_floor = get_current_floor();
-    player_floor = player->get_floor();
+    player_floor = get_floor();
     return (u8) (player_floor == current_floor);
 }
 

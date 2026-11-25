@@ -412,7 +412,6 @@ void TObjPlayer::load_character_state(TPlyCharData *record) {
 
 extern "C" {
 
-s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player);
 
 
 void TObjPlayer::update_action_animation() {
@@ -421,7 +420,7 @@ void TObjPlayer::update_action_animation() {
         this->update_position_from_target();
         return;
     }
-    if (is_on_current_floor__10TObjPlayerFi(this) != 0) {
+    if (is_on_current_floor() != 0) {
         this->clear_state_flags(4);
         if (this->test_actor_flags(0x800) != 0) {
             run_action_state_phase(0xF, 0);

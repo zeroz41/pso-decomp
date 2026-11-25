@@ -427,7 +427,6 @@ s32 copy_attack_targets(void *, void *);
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TObjChara *target, s32 damage);
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
-s32 is_on_current_floor__10TObjPlayerFi();
 s32 draw_player_status(void *, void *, const char *);
 s16 calc_scaled_value__10TObjPlayerFii(void *, int);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
@@ -1004,7 +1003,7 @@ void TObjPlayer::send_6x57() {
 void TObjPlayer::update_off_floor_state() {
   f32 alpha;
   s16 *new_var;
-  if (is_on_current_floor__10TObjPlayerFi() != 0)
+  if (is_on_current_floor() != 0)
   {
     this->clear_state_flags(4);
     this->update_active_state();
@@ -1045,7 +1044,7 @@ void TObjPlayer::fade_out_off_floor() {
   u8 *var_r31;
   u8 *var_r3;
   var_r31 = (u8 *) this;
-  if (((s32) is_on_current_floor__10TObjPlayerFi()) != 0)
+  if (is_on_current_floor() != 0)
   {
     var_r3 = (u8 *) var_r31;
     var_r4 = 4;
@@ -1225,7 +1224,7 @@ void TObjPlayer::update_warp_relocation() {
             refresh_equipment_slot();
             this->set_flag_4000();
             this->update_actor_ground_y();
-            if (((s32 (*)(void *))is_on_current_floor__10TObjPlayerFi)(this) != 0) {
+            if (is_on_current_floor() != 0) {
                 this->play_sound_if_on_floor(0x40003206);
             }
             if (this->is_locally_controlled() != 0) {
@@ -1250,7 +1249,7 @@ void TObjPlayer::update_warp_relocation() {
         if (temp <= 0) {
             this->phase = 3;
             activate_body_collision();
-            if (((s32 (*)(void *))is_on_current_floor__10TObjPlayerFi)(this) != 0) {
+            if (is_on_current_floor() != 0) {
                 spawn_appearance_effect(get_entity_id());
             }
         }
@@ -1825,7 +1824,7 @@ void queue_player_injured_pose(TObjPlayer *player) {
 
 extern "C" {
 void TObjPlayer::update_active_state() {
-    if (is_on_current_floor__10TObjPlayerFi() != 0) {
+    if (is_on_current_floor() != 0) {
         this->clear_state_flags(4);
         if (this->test_actor_flags(0x800) == 0) {
             run_action_state_phase(1, 0);
@@ -2778,7 +2777,7 @@ void freeze_players_for_photon_blast(s16 arg0, u16 *arg1) {
     i = 0;
     do {
         obj = *tbl;
-        if (obj != NULL && ((s32 (*)(void *))is_on_current_floor__10TObjPlayerFi)(obj) != 0 && ((TObjPlayer *)obj)->test_action_mask(0x8000) == 0 &&
+        if (obj != NULL && ((TObjPlayer *)obj)->is_on_current_floor() != 0 && ((TObjPlayer *)obj)->test_action_mask(0x8000) == 0 &&
             (TObjPlayer::is_single_screen() != 0 ||
              (TObjPlayer::is_single_screen() == 0 && arg0 == ((TObjBase *)obj)->get_room()))) {
             TObjPlayer__sub_801D0F70(obj);
