@@ -628,7 +628,7 @@ void TPlayerBattleCtrl::update_duel_result() {
                 if (window_4c == NULL) {
                     window_4c = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)lbl_80446FA4, 1);
                     if (window_4c != NULL) {
-                        ((TWindowMessage *)(window_4c))->append_line((s32)text[0], 0x80);
+                        ((TWindowMessage *)(window_4c))->append_line((saddr)text[0], 0x80);
                     }
                 }
                 if (window_50 == NULL) {
