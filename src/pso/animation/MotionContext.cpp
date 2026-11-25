@@ -59,16 +59,16 @@ s32 blend_motion_poses(NJS_OBJECT *node, f32 *pos, s32 *ang, f32 *scl, f32 *quat
     kind_b = sample_motion_node_transform(node, pos_b, ang_b, scl_b, quat_b);
     if (kind_b != 2) {
         if (kind_b == 0) {
-            euler_zyx_to_quaternion((u8 *)ang_b, (u8 *)quat_b);
+            euler_zyx_to_quaternion(ang_b, quat_b);
         } else {
-            euler_yxz_to_quaternion((u8 *)ang_b, (u8 *)quat_b);
+            euler_yxz_to_quaternion(ang_b, quat_b);
         }
     }
     if (kind_a != 2) {
         if (kind_a == 0) {
-            euler_zyx_to_quaternion((u8 *)ang_a, (u8 *)quat_a);
+            euler_zyx_to_quaternion(ang_a, quat_a);
         } else {
-            euler_yxz_to_quaternion((u8 *)ang_a, (u8 *)quat_a);
+            euler_yxz_to_quaternion(ang_a, quat_a);
         }
     }
     pos[0] = pos_b[0] * u + pos_a[0] * t;

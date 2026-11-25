@@ -46,45 +46,43 @@ asm void subtract_vector(Vec *v, const Vec *sub) {
 #include "orig_asm/pso/math/MatrixTransforms/subtract_vector.inc"
 }
 
-void euler_zyx_to_quaternion(u8 *arg0, u8 *arg1) {
-    f32 temp_f1;
-    f32 temp_f27;
-    f32 temp_f28;
-    f32 temp_f29;
-    f32 temp_f30;
-    f32 temp_f31;
-    temp_f27 = sin_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 0) >> 1));
-    temp_f28 = cos_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 0) >> 1));
-    temp_f29 = sin_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 4) >> 1));
-    temp_f30 = cos_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 4) >> 1));
-    temp_f31 = sin_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 8) >> 1));
-    temp_f1 = cos_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 8) >> 1));
-    *(f32 *)((s8 *)arg1 + 0) = (f32) ((temp_f1 * (temp_f28 * temp_f30)) + (temp_f31 * (temp_f27 * temp_f29)));
-    *(f32 *)((s8 *)arg1 + 4) = (f32) ((temp_f31 * (-temp_f28 * temp_f29)) + (temp_f1 * (temp_f27 * temp_f30)));
-    *(f32 *)((s8 *)arg1 + 8) = (f32) ((temp_f27 * (temp_f30 * temp_f31)) + (temp_f28 * (temp_f29 * temp_f1)));
-    *(f32 *)((s8 *)arg1 + 0xC) = (f32) ((temp_f29 * (-temp_f1 * temp_f27)) + (temp_f30 * (temp_f31 * temp_f28)));
+void euler_zyx_to_quaternion(const s32 *ang, f32 *quat) {
+    f32 cos_z;
+    f32 sin_x;
+    f32 cos_x;
+    f32 sin_y;
+    f32 cos_y;
+    f32 sin_z;
+    sin_x = sin_table_lookup(ang[0] >> 1);
+    cos_x = cos_table_lookup(ang[0] >> 1);
+    sin_y = sin_table_lookup(ang[1] >> 1);
+    cos_y = cos_table_lookup(ang[1] >> 1);
+    sin_z = sin_table_lookup(ang[2] >> 1);
+    cos_z = cos_table_lookup(ang[2] >> 1);
+    quat[0] = (cos_z * (cos_x * cos_y)) + (sin_z * (sin_x * sin_y));
+    quat[1] = (sin_z * (-cos_x * sin_y)) + (cos_z * (sin_x * cos_y));
+    quat[2] = (sin_x * (cos_y * sin_z)) + (cos_x * (sin_y * cos_z));
+    quat[3] = (sin_y * (-cos_z * sin_x)) + (cos_y * (sin_z * cos_x));
 }
 
-void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1) {
-    f32 temp_f1;
-    f32 temp_f27;
-    f32 temp_f28;
-    f32 temp_f29;
-    f32 temp_f30;
-    f32 temp_f31;
-    temp_f27 = sin_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 0) >> 1));
-    temp_f28 = cos_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 0) >> 1));
-    temp_f29 = sin_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 4) >> 1));
-    temp_f30 = cos_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 4) >> 1));
-    temp_f31 = sin_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 8) >> 1));
-    temp_f1 = cos_table_lookup((int) ((s32) *(s32 *)((s8 *)arg0 + 8) >> 1));
-    *(f32 *)((s8 *)arg1 + 0) = (f32) ((temp_f1 * (temp_f28 * temp_f30)) + (temp_f31 * (temp_f27 * temp_f29)));
-    *(f32 *)((s8 *)arg1 + 4) = (f32) ((temp_f31 * (temp_f28 * temp_f29)) + (temp_f1 * (temp_f27 * temp_f30)));
-    *(f32 *)((s8 *)arg1 + 8) = (f32) ((temp_f27 * (-temp_f30 * temp_f31)) + (temp_f28 * (temp_f29 * temp_f1)));
-    *(f32 *)((s8 *)arg1 + 0xC) = (f32) ((temp_f29 * (-temp_f1 * temp_f27)) + (temp_f30 * (temp_f31 * temp_f28)));
+void euler_yxz_to_quaternion(const s32 *ang, f32 *quat) {
+    f32 cos_z;
+    f32 sin_x;
+    f32 cos_x;
+    f32 sin_y;
+    f32 cos_y;
+    f32 sin_z;
+    sin_x = sin_table_lookup(ang[0] >> 1);
+    cos_x = cos_table_lookup(ang[0] >> 1);
+    sin_y = sin_table_lookup(ang[1] >> 1);
+    cos_y = cos_table_lookup(ang[1] >> 1);
+    sin_z = sin_table_lookup(ang[2] >> 1);
+    cos_z = cos_table_lookup(ang[2] >> 1);
+    quat[0] = (cos_z * (cos_x * cos_y)) + (sin_z * (sin_x * sin_y));
+    quat[1] = (sin_z * (cos_x * sin_y)) + (cos_z * (sin_x * cos_y));
+    quat[2] = (sin_x * (-cos_y * sin_z)) + (cos_x * (sin_y * cos_z));
+    quat[3] = (sin_y * (-cos_z * sin_x)) + (cos_y * (sin_z * cos_x));
 }
-
-#pragma push
 
 void translate_matrix(MtxP matrix, f32 x, f32 y, f32 z) {
     if (matrix == NULL) {
@@ -92,4 +90,3 @@ void translate_matrix(MtxP matrix, f32 x, f32 y, f32 z) {
     }
     matrix_apply_translation(matrix, x, y, z);
 }
-#pragma pop
