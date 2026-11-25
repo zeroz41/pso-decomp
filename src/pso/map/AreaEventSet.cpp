@@ -9,7 +9,7 @@
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/system/THeap.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -113,7 +113,7 @@ s32 TLobby::count_sync_record_bytes() {
     return sum * 2;
 }
 
-void TLobby::import_sync_records(s16 *arg0) {
+void TLobby::import_sync_records(s16 *records, u16 size) {
     FloorEventSet **t;
     s16 *src;
     s32 i;
@@ -122,7 +122,7 @@ void TLobby::import_sync_records(s16 *arg0) {
     s32 j;
     s16 tmp;
     TLobby::count_sync_record_bytes();
-    src = arg0;
+    src = records;
     t = floor_event_sets;
     i = 0;
     do {
@@ -140,7 +140,7 @@ void TLobby::import_sync_records(s16 *arg0) {
     } while (i < 0x12);
 }
 
-s32 TLobby::export_sync_records(s16 *arg0) {
+s32 TLobby::export_sync_records(s16 *dest) {
     s32 ret;
     FloorEventSet **t;
     s16 *src;
@@ -150,7 +150,7 @@ s32 TLobby::export_sync_records(s16 *arg0) {
     s32 j;
     s16 tmp;
     ret = TLobby::count_sync_record_bytes();
-    src = arg0;
+    src = dest;
     t = floor_event_sets;
     i = 0;
     do {

@@ -1,7 +1,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"

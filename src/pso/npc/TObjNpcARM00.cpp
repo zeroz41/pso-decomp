@@ -9,7 +9,7 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/npc/TObjNpcMale.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"

@@ -1,6 +1,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"

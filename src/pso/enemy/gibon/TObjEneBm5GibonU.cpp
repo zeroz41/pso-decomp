@@ -27,7 +27,7 @@ struct NJS_OBJECT;
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
@@ -344,7 +344,7 @@ void TObjEneBm5GibonU::render() {
         fade = 0;
         if (is_leader != 0) {
             camera_fades[cam].update();
-            fade = camera_fades[cam].updateFromCamera(&body_center.x);
+            fade = camera_fades[cam].updateFromCamera(&body_center);
         }
         if (TObjEneDD::is_main_phase_15() != 0) {
             vis = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 20.0f);

@@ -16,7 +16,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/item/TItemList.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/system/task/TObject.h"

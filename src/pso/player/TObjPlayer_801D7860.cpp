@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 s32 TObjPlayer::init_sub_object(saddr lobby) {

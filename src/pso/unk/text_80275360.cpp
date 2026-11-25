@@ -1,7 +1,7 @@
 #include "pso/player/GuildCardEntry.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

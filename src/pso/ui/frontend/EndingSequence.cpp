@@ -17,7 +17,7 @@
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/render/gjSystem.h"
 #include "pso/unk/text_800FA464.h"

@@ -10,7 +10,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TObjSinBoard.h"

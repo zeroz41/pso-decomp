@@ -12,7 +12,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -172,7 +172,7 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
 extern "C" {
 extern s32 split_screen_hud_animation_frame;
 
-void TLobby::free_singleton_805D7018() {
+void TLobby::release_bg_multi_textures() {
     if (TBGMulti__textures != NULL) {
         release_texture_list(TBGMulti__textures);
         safe_free(TBGMulti__textures);

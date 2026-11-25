@@ -26,7 +26,7 @@
 #include <stddef.h>
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItem.h"
 
 Vec epsilon_zero_vector;

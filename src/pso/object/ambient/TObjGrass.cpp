@@ -36,7 +36,7 @@
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/player/TObjPlayer.h"
@@ -817,17 +817,17 @@ void TObjGrass::update_ai(void *arg0) {
                 subtract_vector(&scratch_vec, &o->pos);
                 d = &scratch_vec;
                 ang = (s32)((10430.38043493439) * atan2_float(d->x, d->z));
-                v = &lbl_8050BF00;
+                v = &scratch_vec2;
                 v->x = v->y = (0.0f);
                 v->z = o->param->speed;
                 push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, ang);
-                rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+                rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
                 pop_matrices(1);
-                vec3_add_to(&lbl_8050BF00, &o->pos);
-                if (project_actor_to_ground(static_cast<TObjCollidable *>(arg0), &lbl_8050BF00, NULL) == 1) {
+                vec3_add_to(&scratch_vec2, &o->pos);
+                if (project_actor_to_ground(static_cast<TObjCollidable *>(arg0), &scratch_vec2, NULL) == 1) {
                     o->fB8 = 1;
-                    VecCopy((Vec *)&o->pos, (const Vec *)&lbl_8050BF00);
+                    VecCopy((Vec *)&o->pos, (const Vec *)&scratch_vec2);
                     o->angle = approach_angle_limited(o->angle, ang, o->param->turn);
                 } else {
                     f32 r = fabs_float(d->z);
@@ -837,16 +837,16 @@ void TObjGrass::update_ai(void *arg0) {
                         ang = (s32)((10430.38043493439) * atan2_float((0.0f), d->z));
                     }
                     v->y = (0.0f);
-                    lbl_8050BF00.x = (0.0f);
+                    scratch_vec2.x = (0.0f);
                     v->z = o->param->speed;
                     push_matrix_from(identity_matrix);
                     rotate_matrix_y(0, ang);
-                    rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+                    rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
                     pop_matrices(1);
-                    vec3_add_to(&lbl_8050BF00, &o->pos);
-                    if (project_actor_to_ground(static_cast<TObjCollidable *>(arg0), &lbl_8050BF00, NULL) == 1) {
+                    vec3_add_to(&scratch_vec2, &o->pos);
+                    if (project_actor_to_ground(static_cast<TObjCollidable *>(arg0), &scratch_vec2, NULL) == 1) {
                         o->fB8 = 1;
-                        VecCopy((Vec *)&o->pos, (const Vec *)&lbl_8050BF00);
+                        VecCopy((Vec *)&o->pos, (const Vec *)&scratch_vec2);
                         o->angle = approach_angle_limited(o->angle, ang, o->param->turn);
                     } else {
                         s32 ang2;
@@ -857,16 +857,16 @@ void TObjGrass::update_ai(void *arg0) {
                             ang2 = (s32)((10430.38043493439) * atan2_float(scratch_vec.x, (0.0f)));
                         }
                         v->y = (0.0f);
-                        lbl_8050BF00.x = (0.0f);
+                        scratch_vec2.x = (0.0f);
                         v->z = o->param->speed;
                         push_matrix_from(identity_matrix);
                         rotate_matrix_y(0, ang2);
-                        rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+                        rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
                         pop_matrices(1);
-                        vec3_add_to(&lbl_8050BF00, &o->pos);
-                        if (project_actor_to_ground(static_cast<TObjCollidable *>(arg0), &lbl_8050BF00, NULL) == 1) {
+                        vec3_add_to(&scratch_vec2, &o->pos);
+                        if (project_actor_to_ground(static_cast<TObjCollidable *>(arg0), &scratch_vec2, NULL) == 1) {
                             o->fB8 = 1;
-                            VecCopy((Vec *)&o->pos, (const Vec *)&lbl_8050BF00);
+                            VecCopy((Vec *)&o->pos, (const Vec *)&scratch_vec2);
                             o->angle = approach_angle_limited(o->angle, ang2, o->param->turn);
                         } else {
                             o->fB8 = 1;

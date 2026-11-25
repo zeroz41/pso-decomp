@@ -1,7 +1,8 @@
 #include <string.h>
+#include "pso/audio/AdxError.h"
 #include <dolphin/os/OSThread.h>
 #include "pso/unk/text_803D2F1C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AudioStreamInput.h"
@@ -9,6 +10,7 @@
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/SjRingBuffer.h"
+#include "pso/audio/AdxHeader.h"
 
 #include "types.h"
 #include "pso/audio/GcrnaStream.h"
@@ -136,8 +138,8 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
     if (audio_stream_get_state(input_state) == 2) {
         s32 v = input_state->send_with_offset4();
         if (v > self->max_channels) {
-            TLobby::format_number_pair(v, self->max_channels, buf, 0x10);
-            TLobby::report_adx_error("E9081001 adxt_stat_decinfo: can't play this number of channels", buf);
+            adxerr_format_id_pair(v, self->max_channels, buf, 0x10);
+            adxerr_report_pair("E9081001 adxt_stat_decinfo: can't play this number of channels", buf);
             stop_audio_stream(self);
             return;
         }
@@ -241,7 +243,7 @@ void TLobby__sub_803CAEB4(void *context) {
     tlen = 0;
     ring->interface->get_chunk(ring, 1, 0x7FFFFFFF, &a);
     ring->interface->get_chunk(ring, 1, 0x7FFFFFFF, &b);
-    if (((TLobby *)(a.data))->parse_packet_header_len(a.size, &hlen) != 0)
+    if (adx_parse_packet_header_len(a.data, a.size, &hlen) != 0)
     {
       o->sync_mode_flag = 0;
       ring->interface->unget_chunk(ring, 1, &b);
@@ -249,14 +251,14 @@ void TLobby__sub_803CAEB4(void *context) {
       return;
     }
     n = hlen;
-    r1 = TLobby::find_terminator_index((s16 *)(a.data + n), (s32)(a.size - n), &hlen);
+    r1 = adx_find_end_marker((s16 *)(a.data + n), (s32)(a.size - n), &hlen);
     if (r1 == 0)
     {
       r2 = -1;
     }
     else
     {
-      r2 = TLobby::find_terminator_index((s16 *)b.data, (s32)b.size, &tlen);
+      r2 = adx_find_end_marker((s16 *)b.data, (s32)b.size, &tlen);
     }
     n += hlen;
     m = tlen & 0xFFFFFFFFFFFFFFFFu;
@@ -328,7 +330,7 @@ void adxt_trap_entry_update(void *context) {
     }
     s->interface->get_chunk(s, 1, player->reserved_50, &b);
     if (b.size < player->reserved_50) {
-        TLobby::notify_error("E8101201 adxt_trap_entry: not enough data");
+        adxerr_report("E8101201 adxt_trap_entry: not enough data");
     }
     s->interface->put_chunk(s, 0, &b);
     input->set_notify_count(0);

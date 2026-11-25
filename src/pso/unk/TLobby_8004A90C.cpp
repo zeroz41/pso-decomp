@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 extern s32 game_difficulty_selection;

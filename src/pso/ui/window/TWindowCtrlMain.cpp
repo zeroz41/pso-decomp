@@ -32,7 +32,7 @@
 #include "pso/ui/window/TWindowMainMenu4P.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"

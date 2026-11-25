@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_803CC0B4.h"
 #include "pso/audio/GcrnaStream.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 
 GcrnaStream *TLobby::run_step_5210(SjRingBuffer **inputs, s32 channels) {

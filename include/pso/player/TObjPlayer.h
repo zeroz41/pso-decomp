@@ -311,7 +311,8 @@ struct TObjPlayer : public TObjChara {
     player_stats base_stats;
     AttackParams attack_stats;
     ActorParamBlock resistance_stats;
-    void* m_dac;
+    // Guild card tag (tag triplet + guild card number) the lobby entry gives the player.
+    u8 guild_card_tag[8];
     static void draw_area_chunk_objects();
     static void reset_effect_count();
     static void step_cutscene_frame(NJS_OBJECT *);
@@ -789,8 +790,6 @@ struct TObjPlayer : public TObjChara {
     static void play_effect_if_v2(s32 pitch);
     static s32 get_level_tier(s32 arg0);
     static s32 is_valid_and_active(uaddr actor);
-    static void clear_state_if_flag80(s32 arg0);
-    static void setup_projection_texture(Vec *pos, SceneSectionAngles *angles, u32 flags);
     void init_select_txt();
     void copy_lobby_header(saddr player);
     void initialize_player_data();
@@ -1135,7 +1134,6 @@ struct TObjPlayer : public TObjChara {
     int is_status_flag_200();
     int start_freeze_self();
     void set_floor_index(s32 v);
-    u8 unk_DB0[0x4];
     GC_Mtx *item_node_matrices;
     void revive_or_spawn_marker();
     static void spawn_dead_spot(const Vec *point, s32 selector, s32 delay, f32 maxScale);
@@ -1220,6 +1218,7 @@ struct TObjPlayer : public TObjChara {
     void set_regen_timer(s32 v);
     void* get_position_history_entry(int index, void* x, void* z);
     s32 get_state_flags();
+    int check_player_state_flag_2();
     static int default_action_provider_variant();
     void lobby_chair_phase8_nop();
     void finish_chair_sit_down();

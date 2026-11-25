@@ -1,8 +1,8 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/UdpRuntime.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/NetApi.h"
 #include "pso/unk/TLobby_801461EC.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetStack.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include <string.h>
@@ -11,7 +11,7 @@
 #include "pso/network/TSocket.h"
 #include "pso/network/TTcpSocket.h"
 #include "pso/network/TUdpSocket.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #pragma readonly_strings on
 

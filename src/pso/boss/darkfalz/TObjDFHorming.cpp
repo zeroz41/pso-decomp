@@ -17,7 +17,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include <stddef.h>
 #include "pso/enemy/BattleParameters.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"

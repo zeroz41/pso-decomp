@@ -9,7 +9,7 @@
 
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"

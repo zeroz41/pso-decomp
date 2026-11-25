@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/render/RenderFadeState.h"
-
-extern "C" void matrix_mult_vec(int, const f32*, f32*);
+#include "pso/unk/text_803D853C.h"
 
 #pragma push
 #pragma opt_common_subs off
@@ -22,10 +21,10 @@ void RenderFadeState::update_fast() {
 }
 #pragma pop
 
-s32 RenderFadeState::updateFromCamera(const f32* position) {
-    f32 cameraPosition[3];
-    matrix_mult_vec(0, position, cameraPosition);
-    if (-cameraPosition[2] < 28.0f) {
+s32 RenderFadeState::updateFromCamera(const Vec *position) {
+    Vec cameraPosition;
+    matrix_mult_vec(NULL, position, &cameraPosition);
+    if (-cameraPosition.z < 28.0f) {
         fadeOut();
     } else {
         restore();

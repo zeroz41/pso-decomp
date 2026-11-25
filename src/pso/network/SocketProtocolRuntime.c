@@ -3,10 +3,10 @@
  * buffers, gathering a segment's data, queueing a send request). */
 #include "pso/network/NetworkRuntime.h"
 #include "types.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetStack.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/NetTcpState.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/NetApi.h"
 
 void tcp_reass_advance(TcpTcb *o);
 
@@ -443,44 +443,44 @@ done:
 }
 #pragma pop
 
-void tcp_reass_insert_block(TcpTcb *o, s16 idx, u32 start, u32 end) {
+void tcp_reass_insert_block(TcpTcb *tcb, s16 idx, u32 start, u32 end) {
     s16 i;
     if (idx < 0) {
         return;
     }
-    if (idx > o->reasm_n + 1) {
+    if (idx > tcb->reasm_n + 1) {
         return;
     }
     if (idx > 0x1F) {
         return;
     }
-    if (o->reasm_n >= 0x1F) {
-        o->reasm_n = 0x1E;
+    if (tcb->reasm_n >= 0x1F) {
+        tcb->reasm_n = 0x1E;
     }
-    for (i = o->reasm_n; i >= idx; i--) {
-        o->reasm[i + 1] = o->reasm[i];
+    for (i = tcb->reasm_n; i >= idx; i--) {
+        tcb->reasm[i + 1] = tcb->reasm[i];
     }
-    o->reasm[idx].start = start;
-    o->reasm[idx].end = end;
-    o->reasm_n++;
-    o->reasm_total += end - start;
+    tcb->reasm[idx].start = start;
+    tcb->reasm[idx].end = end;
+    tcb->reasm_n++;
+    tcb->reasm_total += end - start;
 }
 
-void expire_timeout_entries(TcpTcb *o) {
-    const s16 count = sizeof(o->sack) / sizeof(o->sack[0]);
+void expire_timeout_entries(TcpTcb *tcb) {
+    const s16 count = sizeof(tcb->sack) / sizeof(tcb->sack[0]);
     s16 i;
     s16 j;
     i = 0;
     while (i < count) {
-        if (o->sack[i].start == o->sack[i].end) {
+        if (tcb->sack[i].start == tcb->sack[i].end) {
             return;
         }
-        if ((s32)(o->sack[i].end - o->rcv_nxt) <= 0) {
+        if ((s32)(tcb->sack[i].end - tcb->rcv_nxt) <= 0) {
             for (j = i; j < count - 1; j++) {
-                o->sack[j] = o->sack[j + 1];
+                tcb->sack[j] = tcb->sack[j + 1];
             }
-            o->sack[count - 1].start = 0;
-            o->sack[count - 1].end = 0;
+            tcb->sack[count - 1].start = 0;
+            tcb->sack[count - 1].end = 0;
         } else {
             i++;
         }
@@ -915,7 +915,7 @@ s32 tcp_gather_send_data(u32 offset, u32 length, NetPacket *packet, TcpTcb *cont
         netbuf_ref_advance(&output_tail->buffer, ring_offset);
         partial_length = control->req.in_use - ring_offset;
         partial_total = packet->total_bytes;
-        output_tail->length = (u16)partial_length;
+        output_tail->length = partial_length;
         packet->total_bytes = partial_total + (s16)partial_length;
     }
     return 0;

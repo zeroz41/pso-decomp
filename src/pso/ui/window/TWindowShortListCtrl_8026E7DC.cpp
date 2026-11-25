@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowCtrl.h"

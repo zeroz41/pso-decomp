@@ -14,7 +14,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/quest/TQuestThread.h"

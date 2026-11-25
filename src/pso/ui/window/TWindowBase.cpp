@@ -8,7 +8,7 @@
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -150,7 +150,7 @@ extern int lbl_805D3614;
 
 int TWindowSubComCard__sub_80244774(void) {  return lbl_805D3614; }
 
-uaddr TWindowSubComCard::get_field_20() { return this->m_20; }
+uaddr TWindowSubComCard::get_field_20() { return this->client_id; }
 
 f32 TWindowBase::get_transition_progress() {
     f32 v = get_close_progress();
@@ -906,7 +906,7 @@ void TWindowSubComCard::update_open_close() {
     s32 state_flags;
 
     if ((s32) *(s32 *)&this->m_5c < 0x01000000) {
-        card_window_flags = TWindowSubStatusDisp::get_card_window_flags(*(s16 *)&this->m_20);
+        card_window_flags = TWindowSubStatusDisp::get_card_window_flags(*(s16 *)&this->client_id);
         card_window_flags += *(s32 *)&this->m_5c;
         *(s32 *)&this->m_5c = card_window_flags + 1;
     }

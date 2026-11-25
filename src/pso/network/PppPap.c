@@ -1,12 +1,12 @@
 /* PPP PAP, the protocol that names itself "Pap", and its state objects (a C library, built with GC/1.2.5n). */
 #include "types.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 #include "pso/network/NetStackTypes.h"
@@ -149,9 +149,9 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
     requested = ppp_buffer_read(&source, pap_read_byte_buffer, 1) != 1 ? -1 : (s16)pap_read_byte_buffer[0];
     if (requested != -1) {
         if (requested != 0) {
-            available = get_field_4(source);
+            available = ppp_frame_length(source);
             destination = pap_message_buffer();
-            copied = (s16)ppp_buffer_copy_out((u8 *)source, *destination, requested);
+            copied = (s16)ppp_buffer_copy_out(source, *destination, requested);
             (*destination)[copied] = 0;
             options->message = *destination;
             result = 1;

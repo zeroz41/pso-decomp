@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_80222C28.h"

@@ -1,7 +1,7 @@
 #include "pso/render/GinjaTextureInput.h"
 #include "types.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/player/TObjPlayer.h"

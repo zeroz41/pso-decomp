@@ -7,7 +7,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/unk/TLobby_80242910.h"
@@ -856,12 +856,12 @@ s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step) {
 }
 
 #pragma push
-s32 TLobby::init_sound_voice(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+s32 TLobby::init_sound_voice(s32 kind, s32 bank, s32 index, s32 flags) {
     *(s32 *)((s8 *)this + 4) = 0;
-    *(s32 *)((s8 *)this + 8) = arg4;
-    *(s32 *)((s8 *)this + 0xC) = arg1;
-    *(s32 *)((s8 *)this + 0x10) = arg2;
-    *(s32 *)((s8 *)this + 0x14) = arg3;
+    *(s32 *)((s8 *)this + 8) = flags;
+    *(s32 *)((s8 *)this + 0xC) = kind;
+    *(s32 *)((s8 *)this + 0x10) = bank;
+    *(s32 *)((s8 *)this + 0x14) = index;
     *(s32 *)((s8 *)this + 0x1C) = 0;
     *(s32 *)((s8 *)this + 0x20) = 0;
     *(s32 *)((s8 *)this + 0x28) = 0x7F;
@@ -988,12 +988,12 @@ void TLobby__sub_802422EC(void *arg0, void *arg1) {
     *(s16 *)((s8 *)arg0 + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
 }
 
-void TLobby::find_and_load_com_card(u32 arg0) {
+void TLobby::find_and_load_com_card(u32 serial) {
     s32 n;
     s32 i;
     n = TLobby::get_com_card_data();
     for (i = 0; i < n; i++) {
-        if (arg0 == ((GuildCardRecord *)TLobby::get_com_card_entry(i))->get_serial()) break;
+        if (serial == ((GuildCardRecord *)TLobby::get_com_card_entry(i))->get_serial()) break;
     }
     if (i < n) {
         TLobby::copy_com_card_entry((Entry_80242380 *)&selected_guild_card_record, (Entry_80242380 *)(TLobby::get_com_card_entry(i)));
@@ -1103,11 +1103,11 @@ void init_player_entry__6TLobbyFPvPv(u8 *arg0, u8 *arg1) {
     TLobby::parse_csv_token(p, arg0 + 0x3B);
 }
 
-void TLobby::remove_com_card_entry(s32 arg0) {
+void TLobby::remove_com_card_entry(s32 index) {
     u8 *lobby;
-    if (arg0 < 7) {
-        lobby = (u8 *)&com_card_entries[arg0];
-        move_words(reinterpret_cast<void *>(lobby), reinterpret_cast<const void *>(lobby + 0xBC), static_cast<u32>((7 - arg0) * 0xBC) >> 2);
+    if (index < 7) {
+        lobby = (u8 *)&com_card_entries[index];
+        move_words(reinterpret_cast<void *>(lobby), reinterpret_cast<const void *>(lobby + 0xBC), static_cast<u32>((7 - index) * 0xBC) >> 2);
     }
     (*(s32 *)&com_card_entry_count) -= 1;
 }
@@ -1122,12 +1122,12 @@ void TLobby__sub_8024273C(TUserAns &response) {
     TLobby__sub_80242918();
 }
 
-s32 TLobby::remove_com_card_by_id(u32 arg0) {
+s32 TLobby::remove_com_card_by_id(u32 id) {
     s32 i;
     s32 n;
     n = TLobby::get_com_card_data();
     for (i = 0; i < n; i++) {
-        if (arg0 == ((u32)reinterpret_cast<GuildCardRecord *>(TLobby::get_com_card_entry(i))->get_id())) {
+        if (id == ((u32)reinterpret_cast<GuildCardRecord *>(TLobby::get_com_card_entry(i))->get_id())) {
             TLobby::remove_com_card_entry(i);
             n -= 1;
         }

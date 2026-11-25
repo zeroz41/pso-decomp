@@ -123,7 +123,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItem.h"
 
 #include "pso/enemy/bringer/BringerEffects.h"
@@ -1331,7 +1331,7 @@ void TObjEneDf2Bringer::render() {
         fade = &renderFadeStates[view];
         show = 1;
         fade->update();
-        fading = fade->updateFromCamera(&body_center.x);
+        fading = fade->updateFromCamera(&body_center);
         if (status_flags & 2) {
             body_fade.set_flags_and_apply_damage_color();
             if (defer_render() != 0) {

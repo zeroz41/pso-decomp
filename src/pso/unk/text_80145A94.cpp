@@ -11,7 +11,7 @@
 #include "pso/unk/text_8042EE4C.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80145E40.h"
 
 struct Ids_80145A94 { s32 v[2]; };

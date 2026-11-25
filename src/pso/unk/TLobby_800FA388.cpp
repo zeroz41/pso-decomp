@@ -3,7 +3,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/text_803CC294.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
 extern "C" {

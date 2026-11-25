@@ -27,8 +27,6 @@ const char *lbl_805D395C = "";
 extern const f32 lbl_8044F300[2] = {389.0f, 251.0f};
 extern const f32 lbl_8044F308[2] = {389.0f, 251.0f};
 extern "C" {
-const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *o);
-const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *o);
 char *get_shared_text_buffer(void);
 }
 
@@ -254,13 +252,13 @@ void TWindowMakeTeam::set_state(s32 state) {
     }
 }
 
-const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *o) {
-    if (o->name) return o->name;
+const char *TWindowMakeTeam::get_name() {
+    if (name) return name;
     return lbl_805D395C;
 }
 
-const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *o) {
-    if (o->comment) return o->comment;
+const char *TWindowMakeTeam::get_comment() {
+    if (comment) return comment;
     return lbl_805D395C;
 }
 

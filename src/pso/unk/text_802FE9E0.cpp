@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_802FE9E0.h"
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"
 #include "pso/boss/goldragon/TObjBoss8DemoRoom.h"

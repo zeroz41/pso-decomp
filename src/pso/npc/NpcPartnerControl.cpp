@@ -4,7 +4,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -310,7 +310,7 @@ void send_6x3e_to_all_players(const Vec *pos, s32 angle) {
             }
             cmd.init();
             cmd.header.client_id = player->get_entity_id();
-            VecCopy((Vec *)&cmd.pos, pos);
+            VecCopy(&cmd.pos, pos);
             cmd.angle = angle;
             cmd.is_near_enemy = near_enemy;
             cmd.send();
@@ -382,7 +382,7 @@ void send_stop_at_position(u16 id, const Vec *pos, s32 angle) {
             near_enemy = 1;
         }
         cmd.header.client_id = id;
-        VecCopy((Vec *)&cmd.pos, pos);
+        VecCopy(&cmd.pos, pos);
         cmd.angle = angle;
         cmd.is_near_enemy = near_enemy;
         cmd.send();
@@ -430,7 +430,7 @@ void quest_player_look_at_partner(u16 src) {
     angle = (s32)((65536.0 / (2.0 * 3.141592f)) *
                   atan2_float(partner->position.x - player->position.x, partner->position.z - player->position.z));
     cmd.header.client_id = src;
-    VecCopy((Vec *)&cmd.pos, &player->position);
+    VecCopy(&cmd.pos, &player->position);
     cmd.angle = angle;
     cmd.is_near_enemy = near_enemy;
     if (near_enemy == 1) {
@@ -458,7 +458,7 @@ void quest_player_face_actor(u16 src, u16 dst) {
     angle = (s32)((65536.0 / (2.0 * 3.141592f)) *
                   atan2_float(target->position.x - player->position.x, target->position.z - player->position.z));
     cmd.header.client_id = src;
-    VecCopy((Vec *)&cmd.pos, &player->position);
+    VecCopy(&cmd.pos, &player->position);
     cmd.angle = angle;
     cmd.send();
 }

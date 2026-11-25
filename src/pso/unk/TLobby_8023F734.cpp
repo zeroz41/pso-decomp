@@ -1,7 +1,7 @@
 #include "pso/system/Adxf.h"
 #include "musyx/musyx.h"
 #include "pso/audio/SoundBankTables.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 // --- data head (folded from pso/audio/SoundBankTables.cpp) ---
 
@@ -662,7 +662,6 @@ found:
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-extern "C" {
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index) {
     u8 *t = (u8 *)&sound_bank_file_sizes;
     s32 result = -1;
@@ -702,6 +701,7 @@ s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 
 #pragma pop
 
 #pragma pop
+extern "C" {
 
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
@@ -797,10 +797,10 @@ void TLobby::reset_sound_group_fade() {
         lbl_805162EC[i].extra = -0x100;
     }
 }
-void TLobby::fade_voice_channels(s32 arg0) {
+void TLobby::fade_voice_channels(s32 step) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
-        ((void (*)(void*, s32))start_voice_fade)(&lbl_805162EC[i], arg0);
+        ((void (*)(void*, s32))start_voice_fade)(&lbl_805162EC[i], step);
     }
 }
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
@@ -985,7 +985,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
 }
 
 #define M ((Mgr_802405B0 *)p)
-s32 TLobby::pop_sound_groups(void *p, s32 arg1) {
+s32 TLobby::pop_sound_groups(void *p, s32 pop_all) {
     s32 idx;
     s32 n;
     TLobby::fade_voice_channels(0);
@@ -993,7 +993,7 @@ s32 TLobby::pop_sound_groups(void *p, s32 arg1) {
     if (M->state == -1) {
         return 8;
     }
-    if (arg1 == 0) {
+    if (pop_all == 0) {
         while ((n = M->depth) > 0) {
             idx = M->stack[n];
             if (idx < 4) {
@@ -1054,11 +1054,11 @@ extern "C" {
 s32 sndVolume(s32, s32, s32);
 }
 
-s32 TLobby::validate_and_set_selection(s32 arg1) {
-    if ((arg1 < 0) || (arg1 >= 0x16)) {
+s32 TLobby::validate_and_set_selection(s32 bank) {
+    if ((bank < 0) || (bank >= 0x16)) {
         return 4;
     }
-    if ((arg1 != 0) && ((s32) *(s32 *)((s8 *)this + 0x288) == -1)) {
+    if ((bank != 0) && ((s32) *(s32 *)((s8 *)this + 0x288) == -1)) {
         return 8;
     }
     if ((s32) *(s32 *)((s8 *)this + 0x288) > 0) {
@@ -1069,8 +1069,8 @@ s32 TLobby::validate_and_set_selection(s32 arg1) {
         return 9;
     }
     *(s32 *)((s8 *)this + 0x2B0) = -1;
-    *(s32 *)((s8 *)this + 0x2B4) = (saddr) sound_bank_load_routes[arg1];
-    *(s32 *)((s8 *)this + 0x29C) = arg1;
+    *(s32 *)((s8 *)this + 0x2B4) = (saddr) sound_bank_load_routes[bank];
+    *(s32 *)((s8 *)this + 0x29C) = bank;
     return 0;
 }
 

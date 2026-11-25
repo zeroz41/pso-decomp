@@ -97,7 +97,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 
 #pragma pop
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3VoloptMonitor.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
@@ -363,7 +363,7 @@ void TObjEneNanoDrago::render() {
         saved_model_render_flags = model_render_flags;
         fade = &cameraFades[cameraIndex];
         fade->update();
-        if (fade->updateFromCamera((const f32*)(&body_center)) != 0) {
+        if (fade->updateFromCamera(&body_center) != 0) {
             fade->set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
                 model_render_flags = saved_model_render_flags;

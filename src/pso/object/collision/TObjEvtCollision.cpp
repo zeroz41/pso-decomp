@@ -5,7 +5,7 @@
 #include "pso/object/collision/TObjEvtCollision.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TObject.h"

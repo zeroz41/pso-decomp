@@ -18,7 +18,7 @@
 #include "pso/ui/window/TUnk_804CE7E8.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/ui/window/TWindowSubMag.h"
@@ -363,11 +363,11 @@ void TWindowMenuIconLine::add_ground_item(TItemData *item, s32 index) {
     }
 }
 
-void TLobby::add_status_disp_entry(s32 src, s32 arg2) {
+void TLobby::add_status_disp_entry(s32 name, s32 id) {
     TWindowMenuIconLine *list = (TWindowMenuIconLine *)this;
     if (list->entry_count < list->entry_capacity) {
         ItemListRow *entry = (ItemListRow *)list->get_array_entry(list->entry_count);
-        entry->init_display(src, arg2);
+        entry->init_display(name, id);
         list->entry_count++;
     }
 }

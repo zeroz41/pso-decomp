@@ -6,7 +6,7 @@
 #include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/ui/window/TWindowBase.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"

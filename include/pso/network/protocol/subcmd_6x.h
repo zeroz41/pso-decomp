@@ -35,7 +35,7 @@ struct G_6x70_Base_DCNTE {
  u16 client_id;
  u16 room_id;
  u32 game_flags;
- struct VectorXYZF pos;
+ Vec pos;
  struct VectorXYZI angle;
  u16 phase;
  u16 current_hp;
@@ -154,8 +154,8 @@ struct G_Attack_6x45 : G_Attack_6x43_6x44_6x45 {
 // entity id.
 struct G_BarbaRayBossActions_6xA9 {
  struct G_ClientIDHeader header;
- s16 what;       // the boss state (transition_enemy_state)
- s16 unknown_a2; // the boss action_index
+ s16 what; // the boss state (transition_enemy_state)
+ s16 action_index;
  void bswap();
  void send();
  void init();
@@ -163,8 +163,8 @@ struct G_BarbaRayBossActions_6xA9 {
 
 struct G_BarbaRayBossActions_6xAA {
  struct G_ClientIDHeader header;
- s16 what;       // the boss state (transition_enemy_state)
- s16 unknown_a2; // the boss action_index
+ s16 what; // the boss state (transition_enemy_state)
+ s16 action_index;
  u32 target_client_id;
  void bswap();
  void send();
@@ -186,7 +186,7 @@ struct G_CardCounts_Ep3NTE_6xBC {
 
 struct G_CastTechniqueComplete_6x48 {
  struct G_ClientIDHeader header;
- u16 technique_number;
+ s16 technique_number;
  u16 level;
 };
 
@@ -384,7 +384,7 @@ struct G_DropItem_6x2A {
  s16 amount;
  s16 floor;
  u32 item_id;
- struct VectorXYZF pos;
+ Vec pos;
  void bswap();
  G_DropItem_6x2A &operator=(G_DropItem_6x2A &src);
  void init();
@@ -527,7 +527,7 @@ struct G_GolDragonBossActions_6xA8 {
 struct G_HitByEnemy_6x4B_6x4C {
  struct G_ClientIDHeader header;
  u16 angle;
- u16 current_hp;
+ s16 current_hp;
  struct VectorXZF velocity;
 };
 
@@ -622,6 +622,7 @@ struct G_LegacyActivateSwitchByToken_6x04 {
  struct G_ParameterHeader header;
  u16 switch_token;
  u16 unused;
+ void bswap();
 };
 
 struct G_LegacyKillEnemy_6x09 {
@@ -659,7 +660,8 @@ struct G_ModifyTradeProposal_6xA6 {
  struct G_ClientIDHeader header;
  u8 what;
  u8 result;
- u16 unknown_a1;
+ // what 7: the member who left trade range.
+ s16 out_of_range_client_id;
  u32 item_id;
  u32 amount;
  void bswap();
@@ -715,7 +717,7 @@ struct G_PartialPlayerData_DCProtos_6x1E {
  struct G_ClientIDHeader header;
  u16 floor;
  u16 num_items;
- struct VectorXYZF pos;
+ Vec pos;
  u32 angle_y;
  u32 items[30];
 };
@@ -912,7 +914,7 @@ struct G_SetEnemyLowGameFlagsUltimate_6x9C {
 
 struct G_SetEntityPositionAndAngle_6x17 {
  struct G_EntityIDHeader header;
- struct VectorXYZF pos;
+ Vec pos;
  u32 angle;
 };
 
@@ -1003,7 +1005,7 @@ struct G_SetPlayerVisibility_6x22_6x23 {
 struct G_SetPosition_6x20 {
  struct G_ClientIDHeader header;
  s32 floor;
- struct VectorXYZF pos;
+ Vec pos;
  u32 angle_y;
  void bswap();
  G_SetPosition_6x20 &operator=(G_SetPosition_6x20 &src);
@@ -1017,7 +1019,7 @@ struct G_SetPosition_6x3F {
  u16 angle;
  s16 floor;
  s16 room;
- struct VectorXYZF pos;
+ Vec pos;
  void send();
  void bswap();
  void init();
@@ -1086,10 +1088,9 @@ struct G_StandardDropItemRequest_PC_V3_BB_6x60 {
 
 struct G_SpecializableItemDropRequest_6xA2 {
  struct G_StandardDropItemRequest_PC_V3_BB_6x60 __base_G_StandardDropItemRequest_PC_V3_BB_6x60;
- f32 param3;
- s32 param4;
- s32 param5;
- s32 param6;
+ // The box's object set entry: scale.z and set_params (params 3-6 of the .dat entry).
+ f32 scale_z;
+ s32 set_params[3];
  G_SpecializableItemDropRequest_6xA2 *init();
  void bswap();
  void send();
@@ -1101,7 +1102,7 @@ struct G_StopAtPosition_6x3E {
  u16 angle;
  s16 floor;
  s16 room;
- struct VectorXYZF pos;
+ Vec pos;
  void init();
  void bswap();
  void send();
@@ -1191,7 +1192,7 @@ struct G_TargetBase_6x3D {
 struct G_TeleportPlayer_6x24 {
  struct G_ClientIDHeader header;
  u32 angle_y;
- struct VectorXYZF pos;
+ Vec pos;
  void bswap();
  G_TeleportPlayer_6x24 &operator=(G_TeleportPlayer_6x24 &src);
  void init();

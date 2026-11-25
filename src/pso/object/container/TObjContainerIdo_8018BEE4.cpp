@@ -21,7 +21,7 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/text_803D8F74.h"
@@ -96,7 +96,7 @@ void TObjContainerIdo::render() {
     if (update_object_view_visibility(4e+02f, 2e+02f) != 0) {
         fading = 0;
         if (TRaderMapCore::is_not_split_screen() == 0) {
-            fading = fade.updateFromCamera(&position.x);
+            fading = fade.updateFromCamera(&position);
         }
         if (fading != 0) {
             fade.set_flags_and_apply_damage_color();

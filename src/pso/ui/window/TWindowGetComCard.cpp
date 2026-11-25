@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowFukidasi.h"
 
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjCityMainWarp.h"

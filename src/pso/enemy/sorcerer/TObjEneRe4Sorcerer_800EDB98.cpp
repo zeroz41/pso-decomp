@@ -24,7 +24,7 @@
 
 #include "pso/system/task/TObject.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer.h"
 
@@ -1374,7 +1374,7 @@ void TObjEneRe4Sorcerer::render() {
     }
     camera_fade = &fades[camera];
     camera_fade->update();
-    fading = camera_fade->updateFromCamera(&body_center.x);
+    fading = camera_fade->updateFromCamera(&body_center);
     if (!(behavior_flags & 2)) {
         detail = 0;
     } else if (TObjEneDD::is_main_phase_15() != 0) {

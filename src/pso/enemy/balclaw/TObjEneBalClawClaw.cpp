@@ -25,7 +25,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"

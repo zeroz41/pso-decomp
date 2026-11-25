@@ -1,15 +1,14 @@
-/* PPP IPCP, the protocol that names itself "IPcp" (805E1170), and its state object (.bss 805C0328) (a C
- * library, built with GC/1.2.5n). */
+/* PPP IPCP, the protocol that names itself "IPcp", and its state object (a C library, built with GC/1.2.5n). */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
 #include "pso/network/PppFsm.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/PppIpcp.h"
 /* This file's functions. */
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 extern IpcpState ipcp_state;
@@ -19,14 +18,14 @@ extern IpcpState ipcp_state;
 #include "pso/network/NetStackTypes.h"
 
 #include "pso/network/PppBuffer.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/PppApi.h"
 
-/* The empty option set each IPCP side starts from (.rodata 8047FE18). */
+/* The empty option set each IPCP side starts from. */
 const IpcpOptions ipcp_default_options = {0};
 /* Each option's length by flag bit: option 1 (two addresses) 10, options 2 and 3 6, options 0x81 and 0x83
  * (RFC 1877 name servers, bits 9 and 11) 6. */
 const u8 ipcp_option_lengths[20] = {0, 10, 6, 6, 0, 0, 0, 0, 0, 6, 0, 6};
-/* The option readers' scratch bytes (.sbss 805D7AA8), in reverse definition order. */
+/* The option readers' scratch bytes, in reverse definition order. */
 u8 lcp_read_byte_buffer;
 u8 ipcp_option_value[4];
 s16 wait_for_ipcp_open(PppFsm *self) {
@@ -40,7 +39,7 @@ s16 wait_for_ipcp_open(PppFsm *self) {
     blocks = self->blocks;
     self->abort = 0;
     ipv6cp_state = &ppp_proto_blocks.ipv6cp;
-    ipv6cp = (PppFsm *)ipv6cp_state;
+    ipv6cp = ipv6cp_state;
     ipv6cp->abort = 0;
     p = (PppFsm *)ipv6cp_state;
     pd = &net_thread_state;
@@ -306,7 +305,7 @@ s16 recv_ipcp_config_reject(PppFsm *self, PppHeader *item, PppFrame *arg) {
     if (item->id != self->id) {
         return -1;
     }
-    while (count > 0 && (s16)read_2_bytes((void *)hdr, &arg) != -1) {
+    while (count > 0 && (s16)read_2_bytes(hdr, &arg) != -1) {
         len = hdr[1];
         count -= len;
         if (count < 0) {
@@ -348,7 +347,7 @@ s16 recv_ipcp_config_nak(PppFsm *self, PppHeader *item, PppFrame *arg) {
     if (item->id != self->id) {
         return -1;
     }
-    while (count > 0 && (s16)read_2_bytes((void *)hdr, &arg) != -1) {
+    while (count > 0 && (s16)read_2_bytes(hdr, &arg) != -1) {
         count -= hdr[1];
         if (count < 0) {
             return -1;
@@ -377,26 +376,26 @@ s16 recv_ipcp_config_nak(PppFsm *self, PppHeader *item, PppFrame *arg) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline uaddr build_requested_options(IpcpConfig *opts) {
-    uaddr t;
-    uaddr v = 0;
+inline PppFrame *build_requested_options(IpcpConfig *opts) {
+    PppFrame *t;
+    PppFrame *v = NULL;
     t = v;
-    t = ((uaddr)init_net_buffer_entry((u16)(0)));
-    if (t == 0) {
+    t = init_net_buffer_entry(0);
+    if (t == NULL) {
         return v;
     }
     append_masked_ipcp_options(&t, &opts->local.got, opts->local.got.flags);
     v = t;
     return v;
 }
-inline s32 read_option_byte(void *p) {
+inline s32 read_option_byte(PppFrame **p) {
     if (ppp_buffer_read(p, &lcp_read_byte_buffer, 1) != 1) {
         return -1;
     }
     return (s16)lcp_read_byte_buffer;
 }
 s16 verify_ipcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
-    uaddr cur;
+    PppFrame *cur;
     s16 err;
     s16 a;
     s16 b;
@@ -405,7 +404,7 @@ s16 verify_ipcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
         return -1;
     }
     cur = build_requested_options((IpcpConfig *)fsm->opts);
-    if (msg->len != (u16)get_field_4((PppFrame *)cur)) {
+    if (msg->len != (u16)ppp_frame_length(cur)) {
         err = 1;
     } else {
         while ((a = read_option_byte(&cur)) != -1) {
@@ -427,7 +426,7 @@ s16 verify_ipcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
 
 s16 recv_ipcp_config_request(PppFsm *self, PppHeader *src, PppFrame *bits) {
     u32 sh;
-    void *buf;
+    PppFrame *buf;
     unsigned int code;
     IpcpConfig *base;
     s32 n;
@@ -440,7 +439,7 @@ s16 recv_ipcp_config_request(PppFsm *self, PppHeader *src, PppFrame *bits) {
     k = 2;
     buf = 0;
     base->peer.got.flags = 0;
-    while (n > 0 && (s16)read_2_bytes((void *)hdr, &bits) != -1) {
+    while (n > 0 && (s16)read_2_bytes(hdr, &bits) != -1) {
         n -= hdr[1];
         if (n < 0) {
             return -1;
@@ -460,7 +459,7 @@ s16 recv_ipcp_config_request(PppFsm *self, PppHeader *src, PppFrame *bits) {
             sh = (hdr[0] < 8) ? hdr[0] : (((code = hdr[0]) >= 0x80 && code < 0x90) ? code - 0x78 : 0);
             base->peer.got.flags |= 1 << sh;
         }
-        append_ipcp_option((PppFrame **)&buf, &base->peer.got, hdr[0], hdr[1], &bits);
+        append_ipcp_option(&buf, &base->peer.got, hdr[0], hdr[1], &bits);
         if (res > 3) {
             ppp_fsm_send_packet(self, k, src->id, buf);
         }
@@ -483,7 +482,7 @@ s16 recv_ipcp_config_request(PppFsm *self, PppHeader *src, PppFrame *bits) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c) {
+s16 ipcp_merge_config_options(PppFrame **cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c) {
     s16 len;
     s16 res;
     s16 ch;
@@ -705,25 +704,25 @@ inline s32 ppp_option_type(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask) {
+void append_masked_ipcp_options(PppFrame **self, IpcpOptions *opt, s32 mask) {
     s16 new_var;
     s16 i;
     s32 m;
-    if (*self == 0) {
-        *self = (uaddr)init_net_buffer_entry(0);
-        if (*self == 0) {
+    if (*self == NULL) {
+        *self = init_net_buffer_entry(0);
+        if (*self == NULL) {
             return;
         }
     }
     m = (new_var = (s16)mask);
     for (i = 1; i < 0x20; i++) {
         if (m & (1 << i)) {
-            append_ipcp_option((PppFrame **)self, (IpcpOptions *)opt, ppp_option_type(i), ipcp_option_lengths[i], 0);
+            append_ipcp_option(self, opt, ppp_option_type(i), ipcp_option_lengths[i], 0);
         }
     }
 }
 #pragma pop
-void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src) {
+void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, PppFrame **src) {
     PppFrame *buf;
     s16 n;
     u8 *p;

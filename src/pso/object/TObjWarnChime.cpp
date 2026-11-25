@@ -6,7 +6,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/client_id.h"
 
@@ -19,7 +19,7 @@ s32 TObjWarnChime::should_update() {
 
     if (!is_split_screen()) {
         player = get_player_by_client_id(local_client_id);
-        if (player == NULL || ((TLobby *)player)->check_player_state_flag_2() != 0) {
+        if (player == NULL || player->check_player_state_flag_2() != 0) {
             return 0;
         }
         if (!is_quest_active()) {

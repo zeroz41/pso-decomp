@@ -24,7 +24,7 @@ s32 TObjCollidable::set_flag8() {
     return 0;
 }
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 
@@ -59,7 +59,7 @@ s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&TLobby__data_805D6144[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
                 }
                 append_wave_member(wave_members, enemy);
                 spawned += 1;

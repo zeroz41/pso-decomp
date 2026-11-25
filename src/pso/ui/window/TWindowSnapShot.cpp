@@ -6,7 +6,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
 #include "pso/player/PlayerActionProvider.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"

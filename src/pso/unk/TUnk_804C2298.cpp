@@ -20,7 +20,8 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/unk/TLobbyIdleTimer.h"
 #include "pso/camera/TCameraCtrl.h"
 
 typedef struct WindowPos {
@@ -29,7 +30,6 @@ typedef struct WindowPos {
 
 extern "C" {
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
-s32 pso_system_load_gc(void);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 }
 
@@ -172,13 +172,11 @@ s32 TWindowShortListCtrl::get_card_status_bits(s32 client_id) {
 // Card window scale for each of the four card window flag values.
 const f32 card_window_scale_table[4] = {34.0f, 51.0f, 68.0f, 0.0f};
 
-// Idle timeout in frames for each idle timeout setting (fn_801A51F0); 900 frames = 15 s.
+// Idle time allowed for each idle timeout setting (fn_801A51F0).
 const s32 short_list_ctrl_interval_table[6] = {900, 1800, 2700, 3600, 0, 0};
 
-s32 TLobby::get_table_entry_by_index() {
-    // The caller's client id passes through in r3: the parameter comes back with the hand-mangled
-    // callers in TPlyJoinLobbyEntry.cpp.
-    return short_list_ctrl_interval_table[((s32 (*)())fn_801A51F0)()];
+s32 get_idle_timeout_limit(u32 client_id) {
+    return short_list_ctrl_interval_table[fn_801A51F0(client_id)];
 }
 
 // Bits 10-12 of the client's character save record word at +0x10 (the idle timeout setting).

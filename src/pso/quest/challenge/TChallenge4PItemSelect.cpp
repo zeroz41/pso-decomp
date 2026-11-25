@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "types.h"
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/WindowLayout.h"

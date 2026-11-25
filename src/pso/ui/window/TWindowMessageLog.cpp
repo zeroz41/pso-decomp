@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/THeap.h"
 #include "pso/ui/Language.h"

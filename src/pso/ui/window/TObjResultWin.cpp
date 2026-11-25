@@ -6,7 +6,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
@@ -67,11 +68,11 @@ void TObjResultWin::build_result_text() {
         m_text[i] = 0;
     }
     c = m_result.summary.stage_index + '1';
-    TQuestVmDownLoadServer::split_time_hms(m_result.current.time, &h, &m, &sec);
+    split_challenge_time(m_result.current.time, &h, &m, &sec);
     sprintf(tmp, challenge_result_time_format, get_message_text(0x54), get_message_text(0x53), c, h, m, sec);
     strncat(m_text, tmp, 0x30);
     if (m_result.summary.total_time != 0) {
-        TQuestVmDownLoadServer::split_time_hms(m_result.summary.total_time, &h2, &m2, &s2);
+        split_challenge_time(m_result.summary.total_time, &h2, &m2, &s2);
         sprintf(tmp, challenge_result_total_time_format, get_message_text(0x55), h2, m2, s2);
         strncat(m_text, tmp, 0x30);
     }
@@ -83,16 +84,16 @@ void TObjResultWin::build_result_text() {
         if (d == 0) {
             sprintf(tmp, challenge_result_equal_time_text);
         } else if (d >= 0) {
-            TQuestVmDownLoadServer::split_time_hms(d, &h3, &m3, &s3);
+            split_challenge_time(d, &h3, &m3, &s3);
             sprintf(tmp, challenge_result_slower_time_format, h3, m3, s3);
         } else {
-            TQuestVmDownLoadServer::split_time_hms(-d, &h3, &m3, &s3);
+            split_challenge_time(-d, &h3, &m3, &s3);
             sprintf(tmp, challenge_result_faster_time_format, h3, m3, s3, get_message_text(0x56));
         }
         strncat(m_text, tmp, 0x30);
     }
     strncat(m_text, challenge_result_newline, 2);
-    if (TWindowSubStatusDisp::resolve_player_slot(-1) == 0) {
+    if (resolve_challenge_record_set(-1) == 0) {
         n = get_message_text(0x57);
         if (m_result.previous.award_name[0] == 0 || strncmp(m_result.previous.award_name, m_result.current.award_name, 0xC) == 0) {
             sprintf(tmp, challenge_result_value_format, n, m_result.current.award_name);

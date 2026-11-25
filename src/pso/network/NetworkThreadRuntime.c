@@ -3,10 +3,10 @@
  * control protocol. Split from NetworkRuntime.c: signal_alarm_queue addresses the alarm table as an extern while
  * the functions before it pool the tables as their own file's data. */
 #include "types.h"
-#include "pso/network/TLobby_803F86BC.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/NetConfig.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/PppChap.h"
 #include "string.h"
 #include <ctype.h>
 #include "dolphin/os/OSThread.h"
@@ -17,8 +17,8 @@
 #include "pso/network/PppFsm.h"
 #include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/NetworkPacketPool.h"
-#include "pso/network/TLobby_80428374.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/ModemSession.h"
+#include "pso/network/PppApi.h"
 
 
 #include "pso/network/PppBuffer.h"
@@ -31,8 +31,8 @@ u8 ppp_option_word_buf[4];
 #define PCO_RD32(p) (ppp_buffer_read((p), ppp_option_word_buf, 4) != 4 ? 0 : read_network_u32_be(ppp_option_word_buf))
 #define PCO_RD8(p) (ppp_buffer_read((p), ppp_option_byte_buf, 1) != 1 ? -1 : (s16)ppp_option_byte_buf[0])
 
-void NetStoreCurrentThread(s32 *thread) {
-    *thread = (saddr)OSGetCurrentThread();
+void NetStoreCurrentThread(NetThreadHandle *thread) {
+    *thread = OSGetCurrentThread();
 }
 
 void net_sleep_ms(s32 ms) {
@@ -85,8 +85,8 @@ void NetYieldThread(void) {
     OSYieldThread();
 }
 
-void resume_thread(saddr thread) {
-    OSResumeThread((OSThread*)thread);
+void resume_thread(NetThreadHandle thread) {
+    OSResumeThread(thread);
 }
 
 void NetSuspendCurrentThread(void) {
@@ -94,25 +94,24 @@ void NetSuspendCurrentThread(void) {
 }
 
 /* Cancels the thread unless it already terminated. */
-void AT_TerminateTask(void *thread) {
-    saddr handle = (saddr)thread;
-    if (OSIsThreadTerminated((OSThread*)thread) == 0) {
-        OSCancelThread((OSThread*)handle);
+void AT_TerminateTask(NetThreadHandle thread) {
+    if (OSIsThreadTerminated(thread) == 0) {
+        OSCancelThread(thread);
     }
 }
 
-void AT_StartTask(uaddr thread) {
-    OSResumeThread((OSThread*)thread);
+void AT_StartTask(NetThreadHandle thread) {
+    OSResumeThread(thread);
 }
 
-void AT_DeleteTask(u32 key) {
+void AT_DeleteTask(NetThreadHandle thread) {
     NetworkThreadSlot *p;
     u16 n = lobby_thread_pool_count;
     NetworkThreadSlot *base = lobby_thread_pool_base;
     s32 i;
     p = base;
     for (i = 0; i < n; i++) {
-        if (key == p->key) break;
+        if (thread == p->key) break;
         p++;
     }
     if (i < n) {
@@ -150,7 +149,7 @@ s16 AT_CreateTask(NetThreadEntry entry, NetThreadHandle *out_key) {
 #pragma push
 #pragma opt_propagation off
 void *run_current_thread_callback(void *unused) {
-    uaddr key = (uaddr)OSGetCurrentThread();
+    NetThreadHandle key = OSGetCurrentThread();
     NetworkThreadSlot *p;
     u16 n = lobby_thread_pool_count;
     NetworkThreadSlot *base = lobby_thread_pool_base;
@@ -234,7 +233,7 @@ void* NetMemmove(void* destination, const void* source, u32 size) {
     return memmove(destination, source, size);
 }
 
-s32 NetMemcmp(void* left, void* right, int size) {
+s32 NetMemcmp(const void *left, const void *right, int size) {
     return memcmp(left, right, size);
 }
 
@@ -242,7 +241,7 @@ void NetMemset(void* destination, int value, int size) {
     memset(destination, value, size);
 }
 
-void NetMemcpy(void* destination, void* source, int size) {
+void NetMemcpy(void *destination, const void *source, int size) {
     memcpy(destination, source, size);
 }
 
@@ -324,15 +323,15 @@ s16 clear_flag_bit4(s32 unused, Ipv6cpOptions *opts) {
 }
 
 s16 NetIPv6CPSetInterfaceIdentifier(Ipv6cpOptions *state, u8 *ident) {
-    s32 sp18;
-    s32 sp14;
-    s32 sp10;
-    NetMemset(&sp18, 0xFF, 8);
-    if (NetMemcmp(ident, &sp18, 8) != 0) {
-        NetMemcpy(&sp14, ident, 4);
-        NetMemcpy(&sp10, ident + 4, 4);
-        state->current.words[0] = sp14;
-        state->current.words[1] = sp10;
+    u8 all_ones[8];
+    s32 high;
+    s32 low;
+    NetMemset(all_ones, 0xFF, 8);
+    if (NetMemcmp(ident, all_ones, 8) != 0) {
+        NetMemcpy(&high, ident, 4);
+        NetMemcpy(&low, ident + 4, 4);
+        state->current.words[0] = high;
+        state->current.words[1] = low;
         state->current.mask = (s16) (state->current.mask | 2);
     } else {
         state->current.words[0] = 0;
@@ -347,16 +346,15 @@ void ipv6cp_release_resources(PppFsm *fsm) {
 }
 
 void ipv6cp_start_negotiation(PppFsm *entry) {
-    *((s8 *)entry + 0xA) = 0;
-    *(s8 *)((s8 *)entry + 0xB) = 0;
+    entry->padA = 0;
+    entry->ack_count = 0;
 }
 
 void ipv6cp_opening(PppFsm *entry) {
-    s8 *entry_s8 = (s8 *)entry;
-  s8 *new_var;
-  new_var = (s8 *) (((s8 *) entry_s8) + ((0, 0)));
-  lobby_timer_stop(&entry->timer);
-  *new_var = 5;
+    PppFsm *fsm = entry;
+    u8 *state = &fsm->state;
+    lobby_timer_stop(&entry->timer);
+    *state = 5;
 }
 
 void ipv6cp_link_closed(PppFsm *fsm) {
@@ -465,12 +463,12 @@ s16 recv_ipv6cp_config_nak(PppFsm *self, PppHeader *src, PppFrame *h) {
 #pragma opt_dead_assignments off
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline uaddr build_requested_options(Ipv6cpOptions *opts) {
-    uaddr t;
-    uaddr v = 0;
+inline PppFrame *build_requested_options(Ipv6cpOptions *opts) {
+    PppFrame *t;
+    PppFrame *v = NULL;
     t = v;
-    t = (uaddr)init_net_buffer_entry(0);
-    if (t == 0) {
+    t = init_net_buffer_entry(0);
+    if (t == NULL) {
         return v;
     }
     append_masked_ipv6cp_options(&t, &opts->requested, opts->requested.mask);
@@ -478,7 +476,7 @@ inline uaddr build_requested_options(Ipv6cpOptions *opts) {
     return v;
 }
 
-inline s32 read_option_byte(void *p) {
+inline s32 read_option_byte(PppFrame **p) {
     if (ppp_buffer_read(p, ppp_option_byte_buf, 1) != 1) {
         return -1;
     }
@@ -489,14 +487,14 @@ s16 verify_message_sequence(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
     s16 err;
     s16 a;
     s16 b;
-    uaddr cur;
+    PppFrame *cur;
 
     err = 0;
     if (msg->id != fsm->id) {
         return -1;
     }
     cur = build_requested_options((Ipv6cpOptions *)fsm->opts);
-    if (msg->len != (u16)get_field_4((PppFrame *)cur)) {
+    if (msg->len != (u16)ppp_frame_length(cur)) {
         err = 1;
     } else {
         while ((a = read_option_byte(&cur)) != -1) {
@@ -529,7 +527,6 @@ s16 recv_ipv6cp_config_request(PppFsm *self, PppHeader *src, PppFrame *h)
   s16 state;
   s16 res;
   Ipv6cpConfig *new_var;
-  self = self;
   new_var = self->opts;
   m = new_var;
   cnt = src->len;
@@ -703,15 +700,15 @@ inline s32 ppp_option_type(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void append_masked_ipv6cp_options(uaddr *self, Ipv6cpOptionSet *opts, s32 mask)
+void append_masked_ipv6cp_options(PppFrame **self, Ipv6cpOptionSet *opts, s32 mask)
 {
   s16 new_var;
   s16 i;
   s32 m;
-  if ((*self) == 0)
+  if ((*self) == NULL)
   {
-    *self = (uaddr) init_net_buffer_entry(0);
-    if ((*self) == 0)
+    *self = init_net_buffer_entry(0);
+    if ((*self) == NULL)
     {
       return;
     }
@@ -721,13 +718,13 @@ void append_masked_ipv6cp_options(uaddr *self, Ipv6cpOptionSet *opts, s32 mask)
   {
     if (m & (1 << i))
     {
-      append_ipv6cp_option((PppFrame **) self, opts, ppp_option_type(i), ipv6cp_option_lengths[i], 0);
+      append_ipv6cp_option(self, opts, ppp_option_type(i), ipv6cp_option_lengths[i], 0);
     }
   }
 
 }
 #pragma pop
-void append_ipv6cp_option(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src) {
+void append_ipv6cp_option(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, PppFrame **src) {
     u8 *p;
     PppFrame *b;
     s16 n;

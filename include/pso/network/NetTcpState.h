@@ -6,6 +6,7 @@
 #include "pso/network/IPv6Send.h"
 #include "pso/network/SocketEvents.h"
 #include "pso/network/UdpRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 
 typedef struct TcpTcb TcpTcb;
 
@@ -39,12 +40,12 @@ typedef struct TcpHdr {
     u16 urp;
 } TcpHdr;
 LAYOUT_ASSERT(TcpHdr_size_check, sizeof(TcpHdr) == 0x14);
-/* A user call blocked on (or with a callback for) a TCB operation (text_80421620.c). */
+/* A user call blocked on (or with a callback for) a TCB operation (NetApi.c). */
 typedef struct TcpWait {
     u8 flags; /* 1 active, 2 a thread waits, 4 done, 8 callback mode */
     u8 count;
     s16 status;
-    s32 thread;
+    NetThreadHandle thread;
 } TcpWait;
 LAYOUT_ASSERT(TcpWait_size_check, sizeof(TcpWait) == 8);
 /* A TCP control block (0x544 bytes; tcp_protocol_state.tcbs[]). */
@@ -194,12 +195,20 @@ extern "C" {
 extern TcpState tcp_protocol_state;
 
 s16 AT_TCP_Rawsend(TcpTcb *tcb);
+/* NetTcp.c's socket calls behind the TCP API (NetApi.c). They are K&R definitions, so callers pass promoted
+ * arguments. */
+s16 validate_tcp_handle(int nh);
+s16 tcp_get_socket_handle(int nh);
+s32 get_tcp_stat(int nh, s16 *stat, s16 *backlog, u32 *sendwin, u32 *recvwin);
+s32 mark_connection_closed(int nh);
+s32 abort_tcp_connection(int nh);
+void tcp_set_ip_options(int nh, void *ip4_opts, void *ip6_opts);
 /* NetTcp.c: claim a free TCB, else the state-10 one with the smallest timers[3]; returns its index or -0x103. */
 s16 tcp_alloc_tcb(void);
 /* NetTcp.c: account the resent range [first, last) against the retransmit scoreboard (segs[]). */
 void tcp_sack_mark_rexmit(TcpTcb *tp, s32 first, s32 last);
 /* NetTcp.c: start sending a queued packet on connection arg0. */
-s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent);
+s16 tcp_start_send(int nh, NetPacket *req, TcpCompletion completion, int urgent);
 
 /* SocketProtocolRuntime.c: the TCP send and receive queues. */
 s32 tcp_user_receive(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback);

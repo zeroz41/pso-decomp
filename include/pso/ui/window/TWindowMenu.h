@@ -19,6 +19,7 @@ struct TWindowMenu : public TWindowAddition {
     void *get_selected_entry();
     void calc_window_size();
     void update_layout_height(f32 width);
+    void calc_layout_height(f32 width);
     void set_ready_flag();
     void clear_transition_flag();
     void open();

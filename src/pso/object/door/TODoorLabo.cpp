@@ -3,7 +3,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/door/TODoorFourLightBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"

@@ -2,7 +2,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/unk/TUnk_804CF998.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"

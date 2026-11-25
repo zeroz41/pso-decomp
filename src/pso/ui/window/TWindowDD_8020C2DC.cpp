@@ -1,7 +1,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 

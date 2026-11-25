@@ -2,10 +2,10 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/PppVj.h"
+#include "pso/network/NetStack.h"
 #include "pso/network/NetTcpState.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
@@ -13,10 +13,10 @@
 
 #include "types.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_8041112C.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetIpv6Route.h"
+#include "pso/network/NetApi.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
 
 #include <stddef.h>
@@ -141,6 +141,7 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
     NetPacket *pkt;
     s16 reassembled;
     Ipv6RawSocket *sock;
+    Ipv6Header *header = (Ipv6Header *)ip;
 
     if (((s16) len) < (s32) sizeof(Ipv6Header)) {
         goto ret;
@@ -152,10 +153,10 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
     if ((ip[0] & 0xF0) != 0x60) {
         return -1;
     }
-    total_len = min_s32(((Ipv6Header *) ip)->payload_length + sizeof(Ipv6Header), (s16) len);
+    total_len = min_s32(header->payload_length + sizeof(Ipv6Header), (s16) len);
     if (NetIPv6IsLoopbackInterface(iface) == 0) {
-        if (ipv6_iface_for_address(((Ipv6Header *) ip)->dst.bytes) < 0) {
-            if (NetIPv6IsMulticast(((Ipv6Header *) ip)->dst.bytes) == 0) {
+        if (ipv6_iface_for_address(header->dst.bytes) < 0) {
+            if (NetIPv6IsMulticast(header->dst.bytes) == 0) {
                 if (ipv6_forward(ip, ip, total_len, iface) == 0) {
                     return 0;
                 }
@@ -165,11 +166,11 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
     }
     src_addr.family = 6;
     src = src_addr.address;
-    NetMemcpy(src, ((Ipv6Header *) ip)->src.bytes, 16);
+    NetMemcpy(src, header->src.bytes, 16);
     dst_addr.family = 6;
     dst = dst_addr.address;
-    NetMemcpy(dst, ((Ipv6Header *) ip)->dst.bytes, 16);
-    next_header = ((Ipv6Header *) ip)->next_header;
+    NetMemcpy(dst, header->dst.bytes, 16);
+    next_header = header->next_header;
     remaining = total_len - sizeof(Ipv6Header);
     hdr = ip;
     ext = hdr + sizeof(Ipv6Header);
@@ -357,7 +358,7 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   u8 state;
   u8 *dst;
   s32 adv;
-  s16 r21;
+  s16 sent;
   l = lim;
   tot = l - 0x28;
   hop_limit = &params.hop_limit;
@@ -388,7 +389,7 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
         break;
 
       case 0x2c:
-        flags = (*((u16 *) (q + 2))) & 0xFFF8;
+        flags = ((Ipv6FragmentHeader *) q)->offset_flags & 0xFFF8;
         flag = 1;
 
       default:
@@ -461,14 +462,14 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   NetMemcpy(&params.destination, self + 0x18, sizeof(params.destination));
   if ((NetIPv6IsMulticast(dst) == 0) && (NetIPv6InterfaceNeedsResolution(hit->iface) != 0))
   {
-    r21 = NetIPv6NeighborOutput(e, dst, &params, hit->iface);
+    sent = NetIPv6NeighborOutput(e, dst, &params, hit->iface);
   }
   else
   {
-    r21 = ipv6_transmit(e, &params, hit->iface, 0);
+    sent = ipv6_transmit(e, &params, hit->iface, 0);
   }
   release_entry(e);
-  return r21;
+  return sent;
 }
 #pragma pop
 s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
@@ -716,8 +717,8 @@ extern u16 calc_ipv6_pseudo_header_checksum(const struct IPv6Address *src, const
     Ipv6PseudoHeader ph;
     u32 sum;
 
-    NetMemcpy(&ph.src, (void *)src, sizeof(IPv6Address));
-    NetMemcpy(&ph.dst, (void *)dst, sizeof(IPv6Address));
+    NetMemcpy(&ph.src, src, sizeof(IPv6Address));
+    NetMemcpy(&ph.dst, dst, sizeof(IPv6Address));
     ph.zero[0] = 0;
     ph.zero[1] = 0;
     ph.zero[2] = 0;

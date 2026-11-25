@@ -20,7 +20,7 @@
 #include <stddef.h>
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/math/MatrixVector.h"

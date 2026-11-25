@@ -12,7 +12,7 @@
 #include "pso/render/AltModel.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"

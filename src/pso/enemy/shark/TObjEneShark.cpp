@@ -41,7 +41,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
@@ -221,7 +221,7 @@ void TObjEneShark::render() {
   {
     RenderFadeState *f = &camera_fades[mode];
     f->update();
-    fade = f->updateFromCamera(&body_center.x);
+    fade = f->updateFromCamera(&body_center);
   }
   select_actor_lighting(this);
   model_render_flags |= 1;

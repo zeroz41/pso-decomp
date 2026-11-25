@@ -44,7 +44,7 @@ void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width
     ((TWindowMenu *)(*(saddr *)((s8 *)dialog + 0x28)))->add_text_entry(message, 0x21, 0);
     ((TWindowMenu *)(*(saddr *)((s8 *)dialog + 0x28)))->set_flag_40();
     TQuestThread::set_status_flag_80((void *)(*(saddr *)((s8 *)dialog + 0x28)));
-    ((TWindowSubComCard *)(*(saddr *)((s8 *)dialog + 0x28)))->calc_layout_height(width);
+    ((TWindowMenu *)(*(saddr *)((s8 *)dialog + 0x28)))->calc_layout_height(width);
 }
 
 void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, s32 position_id, f32 width) {
@@ -57,7 +57,7 @@ void open_yes_no_prompt(TWindowMessageYesNo *dialog, u32 title, s32 text, s32 po
     dialog->message_menu->add_text_entry(text, 0x21, 0);
     reinterpret_cast<TWindowMenu *>(dialog->message_menu)->set_flag_40();
     TQuestThread::set_status_flag_80(dialog->message_menu);
-    reinterpret_cast<TWindowSubComCard *>(dialog->message_menu)->calc_layout_height(width);
+    dialog->message_menu->calc_layout_height(width);
     dialog->get_choice_menu_position(&position);
     dialog->choice_menu = create_yes_no_window(&position, dialog->client_id,
                                               reinterpret_cast<const char *>(dialog->yes_text),

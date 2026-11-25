@@ -9,7 +9,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8001EF5C.h"

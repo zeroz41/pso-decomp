@@ -1,14 +1,14 @@
 #include "types.h"
-#include "pso/unk/TLobby.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/TLobby.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetApi.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/NetworkMessageTransport.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/NetDhcp.h"
-#include "pso/network/TLobby_80428374.h"
+#include "pso/network/ModemSession.h"
 #include "pso/unk/text_80145A44.h"
 #include "pso/unk/text_803F4D84.h"
 #include <string.h>
@@ -135,7 +135,6 @@ void fn_80147A60(int a0);
 s16 DHCP_init(s16);
 int TLobby__sub_80145E40(void);
 int TLobby__sub_80146724(void);
-int TLobby__sub_80146740(void);
 int TLobby__sub_8014677C(void);
 s32 load_network_info(void);
 s32 TLobby__sub_80145DB4(s32 arg0);
@@ -365,7 +364,7 @@ void TLobby__sub_8014672C(s32 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)&lbl_8050C0A8.value + 4);
 }
 
-int TLobby__sub_80146740(void) { return 0; }
+int get_post_save_lobby_action(void) { return 0; }
 
 s32 TLobby::query_task_active() {
     if ((s32) lobby_connect_active_flag != 0) {
@@ -424,9 +423,9 @@ s32 TLobby__sub_80146908() {
     s32 size;
     NetSetDefaultThreadPriority(0x10);
     size = AT_GetInitParam(&params);
-    params.room_count = 1;
-    params.e = 0x1000;
-    params.f = 0x3000;
+    params.tcp_socket_count = 1;
+    params.tcp_buffer_size = 0x1000;
+    params.thread_stack_size = 0x3000;
     AT_SetInitParam(&params);
     lbl_805D5700 = (uaddr)xmalloc(size);
     if (lbl_805D5700 != 0) {
@@ -539,7 +538,7 @@ s32 TLobby::run_connect_sequence() {
     return 0xE;
 }
 
-void TLobby::call_146CA0_with_5708() { get_modem_phone_number(lbl_805D5708); }
+char *TLobby::get_dialing_phone_number() { return get_modem_phone_number(lbl_805D5708); }
 
 char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;

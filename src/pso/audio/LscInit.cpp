@@ -1,7 +1,8 @@
 // CRI LSC init and finish (lsc_ini.c in other CRI builds): the stream table and the build string.
 #include "pso/audio/LscStream.h"
+#include "pso/audio/LscLog.h"
 #include "pso/audio/LscInit.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include <string.h>
 
 extern "C" {
@@ -21,7 +22,7 @@ void lsc_shutdown(void) {
             }
         }
         memset(lsc_slot_table, 0, sizeof(lsc_slot_table));
-        TLobby::set_callback(0, 0);
+        lsc_set_log_callback(0, 0);
     }
     lsc_interrupt_lock_leave(lock);
 }
@@ -32,7 +33,7 @@ void lsc_init(void) {
     lsc_interrupt_lock_enter(lock);
     if (lsc_init_count == 0) {
         memset(lsc_slot_table, 0, sizeof(lsc_slot_table));
-        TLobby::set_callback(0, 0);
+        lsc_set_log_callback(0, 0);
     }
     lsc_init_count++;
     lsc_interrupt_lock_leave(lock);

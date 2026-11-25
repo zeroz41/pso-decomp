@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TUnk_804C3E88.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -728,7 +728,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
     ((TObjPlayer *)lobby_rule_settings)->set_level(((s8 *) rule_data)[0x12]);
     TLobby::set_field_0xE(lobby_rule_settings, rule_data[0x13]);
     ((TLobby *)lobby_rule_settings)->set_volume((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x18))))));
-    ((TLobby *)lobby_rule_settings)->set_validated_field_0x11((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x1C))))));
+    ((TLobby *)lobby_rule_settings)->set_max_tech_level((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x1C))))));
     ((TLobby *)lobby_rule_settings)->set_clamped_index((s16)(((s16) (*((s32 *) (((s8 *) rule_data) + 0x20))))));
     ((TLobby *)lobby_rule_settings)->set_clamped_value_1c((saddr)((*((s32 *) (((s8 *) rule_data) + 0x24)))));
     fn_801D726C(lobby_rule_settings, ((u8) (*((s16 *) (((s8 *) rule_data) + 0x28)))));
@@ -854,8 +854,8 @@ s32 TPlayerBattleCtrl4P::calculate_rankings() {
             for (j = i + 1; j < n; j++) {
                 if (split_screen_battle_rankings[j].client_id != 0xFFFF && split_screen_battle_rankings[i].score < split_screen_battle_rankings[j].score) {
                     BattleRanking tmp = split_screen_battle_rankings[i];
-                    TLobby__sub_801C36E4(&split_screen_battle_rankings[i], &split_screen_battle_rankings[j]);
-                    TLobby__sub_801C36E4(&split_screen_battle_rankings[j], &tmp);
+                    copy_battle_ranking(&split_screen_battle_rankings[i], &split_screen_battle_rankings[j]);
+                    copy_battle_ranking(&split_screen_battle_rankings[j], &tmp);
                 }
             }
         }
@@ -1134,8 +1134,8 @@ s32 are_split_screen_battle_players_tied(void) {
     }
     return result;
 }
-s32 *get_split_screen_battle_rankings(void) {
-    return (s32 *)split_screen_battle_rankings;
+BattleRanking *get_split_screen_battle_rankings(void) {
+    return split_screen_battle_rankings;
 }
 
 u8 TPlayerBattleCtrl4P::is_battle_mode_active() {

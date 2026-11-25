@@ -2,6 +2,7 @@
 #define PSO_UNK_TLOBBY_801C25B4_H
 
 #include "types.h"
+#include "pso/player/BattleRanking.h"
 
 class TPlayerBattleCtrl;
 extern "C" {
@@ -9,7 +10,6 @@ u8 TLobby__sub_801C2614(void);
 s32 TLobby__sub_801C2678(void);
 s32 TLobby__sub_801C26A8(void);
 void TLobby__sub_801C2C34(void);
-void TLobby__sub_801C36E4(void *arg0, void *arg1);
 void TLobby__sub_801C38A4(void);
 void TLobby__sub_801C38E8(void *arg0);
 void TLobby__sub_801C3A40(void);
@@ -20,7 +20,9 @@ s32 check_all_battle_flags__6TLobbyFPv(void);
 s32 check_all_players_ready__6TLobbyFPv(void);
 u8 check_battle_end__6TLobbyFPv(void);
 u8 check_timeout__6TLobbyFl(void *arg0);
+}
 void clear_battle_player_ready_flags(void);
+extern "C" {
 void close_and_play_effect__6TLobbyFil(int arg0, s32 arg1);
 void destroy_matching_children__6TLobbyFv(void *arg0);
 void end_battle_mode_cleanup__6TLobbyFv(void *arg0);
@@ -34,15 +36,17 @@ void init_and_set_flag__6TLobbyFv(void);
 void init_battle_ctrl__6TLobbyFll(s32 arg0, s32 arg1);
 void init_battle_round__17TPlayerBattleCtrlFv(void *arg0);
 void init_char_slots__6TLobbyFv(void);
-s32 record_local_battle_placement(void *arg0);
+}
+void record_local_battle_placement(void *arg0);
+extern "C" {
 void send_6x7D_set_battle_mode_data(void);
 void send_battle_mode_params__6TLobbyFScll(s8 arg0, s32 arg1, s32 arg2);
 void send_battle_mode_state__6TLobbyFv(void *self);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
 void update_duel_result__6TLobbyFPv(u8 *arg0);
-void update_player_battle_ctrl_state(void *player_battle_ctrl);
 }
+void update_player_battle_ctrl_state(void *player_battle_ctrl);
 
 // --- C functions defined in TLobby_801C25B4.cpp ---
 extern "C" {
@@ -50,7 +54,6 @@ u8 TLobby__sub_801C2614(void);
 s32 TLobby__sub_801C2678(void);
 s32 TLobby__sub_801C26A8(void);
 void TLobby__sub_801C2C34(void);
-void TLobby__sub_801C36E4(void *arg0, void *arg1);
 void TLobby__sub_801C38A4(void);
 void TLobby__sub_801C38E8(void *arg0);
 void TLobby__sub_801C3A40(void);
@@ -61,7 +64,9 @@ s32 check_all_battle_flags__6TLobbyFPv(void);
 s32 check_all_players_ready__6TLobbyFPv(void);
 u8 check_battle_end__6TLobbyFPv(void);
 u8 check_timeout__6TLobbyFl(void *arg0);
+}
 void clear_battle_player_ready_flags(void);
+extern "C" {
 void close_and_play_effect__6TLobbyFil(int arg0, s32 arg1);
 void end_battle_mode_cleanup__6TLobbyFv(void *object);
 s32 fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
@@ -72,20 +77,24 @@ void init__6TLobbyFPv(void *arg0);
 void init_and_set_flag__6TLobbyFv(void);
 void init_battle_ctrl__6TLobbyFll(s32 arg0, s32 arg1);
 void init_char_slots__6TLobbyFv(void);
-s32 record_local_battle_placement(void *arg0);
+}
+void record_local_battle_placement(void *arg0);
+extern "C" {
 void send_6x7D_set_battle_mode_data(void);
 void send_battle_mode_params__6TLobbyFScll(s8 arg0, s32 arg1, s32 arg2);
 void send_battle_mode_state__6TLobbyFv(void *self);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
 void update_duel_result__6TLobbyFPv(u8 *arg0);
-void update_player_battle_ctrl_state(void *player_battle_ctrl);
 }
+void update_player_battle_ctrl_state(void *player_battle_ctrl);
 // --- end of C functions
 
-// duel_result_table: layout known from its uses only.
-struct TLobbyDuelResultTable { s32 value; u8 remaining[0x1C]; };
-extern TLobbyDuelResultTable duel_result_table;
+// Copies one ranking row; the ranking sorts swap rows through it.
+void copy_battle_ranking(BattleRanking *dst, BattleRanking *src);
+
+// Final places and scores of the current network battle.
+extern BattleRanking duel_result_table[4];
 
 // Plays the result jingle and shows the duel result window for duration frames.
 void play_duel_result_stream(const char *file, saddr duration);

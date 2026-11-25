@@ -10,7 +10,7 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 

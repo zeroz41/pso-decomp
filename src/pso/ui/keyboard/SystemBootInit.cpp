@@ -60,7 +60,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_802A1180.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_801461EC.h"
 #include "pso/unk/TLobby_801A3C48.h"

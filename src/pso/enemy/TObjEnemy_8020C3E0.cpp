@@ -2,7 +2,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 
 s32 TObjEnemy::mask_sub_flags(s32 mask) {

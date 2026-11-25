@@ -31,7 +31,7 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/TLanguage.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/npc/TNpcPlayer.h"

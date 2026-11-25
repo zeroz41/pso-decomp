@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/map/FloorPopulation.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/protocol/subcmd_6x.h"

@@ -9,7 +9,7 @@
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/system/THeap.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/map/FloorArea.h"

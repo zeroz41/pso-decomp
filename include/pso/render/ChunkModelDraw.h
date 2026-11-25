@@ -14,7 +14,7 @@ void draw_chunk_model(void *model);
 extern "C" {
 void draw_chunk_object(void *child);
 }
-void set_chunk_alpha_compare_ref(int ref);
+void set_chunk_alpha_compare_ref(u8 ref);
 void set_chunk_blend(u32 x);
 void set_chunk_blend_depth_mode(s32 header, s32 textured);
 void set_strip_lighting_chan_ctrl(u32 flags);
@@ -29,6 +29,7 @@ void clear_chunk_render_flags();
 // set_chunk_blend_depth_mode leaves in chunk_render_flags.
 void clear_chunk_strip_blend_flags();
 // Called by end_chunk_draw after every chunk model.
+extern void (*player_chunk_draw_end_callback)();
 void set_chunk_draw_end_callback(void (*callback)());
 // A chunk model draw is setup_model_draw_state, draw_chunk_vertices_cached
 // for every model in the tree, then end_chunk_draw.
@@ -45,12 +46,12 @@ extern "C" {
 void draw_model_motion(void *model, void *motion, f32 frame);
 }
 void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
-void draw_object_tree_recursive(void *arg);
+void draw_object_tree_recursive(NJS_OBJECT *node);
 // Motions sample packed (16-bit) rotation keys while set.
 extern s32 motion_packed_rotation_mode;
 void set_motion_packed_rotation();
 void clear_motion_packed_rotation();
-void traverse_animated_node_tree(void *arg);
+void traverse_animated_node_tree(NJS_OBJECT *node);
 
 // ShapeMotionDraw.cpp: shape motions (per-node vertex and normal keys).
 // Bits of the current chunk draw (set_chunk_render_flags, and the strip marks

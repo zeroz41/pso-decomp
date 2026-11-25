@@ -12,7 +12,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -201,7 +201,7 @@ void TLobby__sub_80338534(void) {
 
 #pragma push
 #pragma fp_contract on
-void TLobby::update_pulse_colors(s32 arg0) {
+void TLobby::update_pulse_colors(s32 request) {
     f32 t;
     u32 c0;
     u32 c1;
@@ -220,7 +220,7 @@ void TLobby::update_pulse_colors(s32 arg0) {
         b->color = c1;
         b++;
     }
-    switch (arg0) {
+    switch (request) {
     case 0:
         lobby_request_flags &= ~4;
         break;

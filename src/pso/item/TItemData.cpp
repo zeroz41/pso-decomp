@@ -8,7 +8,8 @@
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/object/base/ObjectSetData.h"
 #include "pso/item/TItemData.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/city/TShopEquipmentListWindow.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
@@ -982,7 +983,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       {
         result |= 1;
       }
-      if ((!(flags & 0x40)) && ((TLobby::is_flag_set() != 0) || (is_challenge_mode_active() != 0)))
+      if ((!(flags & 0x40)) && ((is_challenge_mode() != 0) || (is_challenge_mode_active() != 0)))
       {
         result |= 1;
       }

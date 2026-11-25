@@ -7,7 +7,8 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -83,7 +84,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/render/gjSystem.h"
-#include "pso/unk/text_8006EF90.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_801F3774.h"
@@ -195,7 +195,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {fn_803000C8, TLobby__sub_803000A0},
     {prepare_adventure_maps, TLobby__sub_802075F4},
     {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
-    {TLobby::init_on_main_phase, NULL},
+    {start_challenge_mode, NULL},
     {(FloorResourceCallback)TLobby__sub_80293124, TLobby::destroy_tombstone},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
@@ -225,7 +225,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
     {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
-    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
+    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::clear_auto_reply_flags},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
     {TLobby__sub_8024285C, TLobby::reset_state},
@@ -235,7 +235,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, (FloorResourceCallback)TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel__sub_8007DD24},
-    {TBGMulti__ct, TLobby::free_singleton_805D7018},
+    {TBGMulti__ct, TLobby::release_bg_multi_textures},
     {clear_boss6_player_snapshots, NULL},
 };
 
@@ -488,7 +488,7 @@ void run_offline_transfer_frame(void) {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     take_snapshot();
-    TLobby__sub_8006EF90();
+    run_challenge_frame();
     if (static_cast<s8>(func_801A5E54()) != 0) {
         TLobby::reset_keyboard_input();
     }

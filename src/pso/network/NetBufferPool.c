@@ -4,7 +4,7 @@
 #include "pso/network/BufferRef.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/netcfg.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetIpv6Route.h"
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -124,8 +124,7 @@ s16 buffer_pool_free(NetBufferRef *self)
     return 0;
 }
 
-s16 buffer_pool_alloc(void *out_, int size, s16 owner) {
-    NetBufferRef *ref = (NetBufferRef *)out_;
+s16 buffer_pool_alloc(NetBufferRef *ref, int size, s16 owner) {
     NetBufferPool *pool;
     NetBufferPoolEntry *e;
     u32 p;

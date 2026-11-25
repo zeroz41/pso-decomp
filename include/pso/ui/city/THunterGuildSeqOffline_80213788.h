@@ -59,6 +59,7 @@ LAYOUT_ASSERT(THunterGuildSeqOnline_Server_size, sizeof(THunterGuildSeqOnline_Se
 // The live counter of each side; set by its ctor, cleared by its dtor.
 extern THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;
 extern THunterGuildSeqOnline_Client *hunter_guild_seq_online_client_instance;
+extern s32 quest_download_active;
 
 void set_random_enemies_mode(TObject *fade);
 void reset_random_enemies_mode(TObject *fade);

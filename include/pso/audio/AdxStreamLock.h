@@ -7,4 +7,8 @@ extern "C" {
 void TLobby__sub_803CE220(void);
 }
 
+extern "C" {
+void adx_interrupt_lock_leave();
+}
+
 #endif

@@ -8,7 +8,7 @@
 // rows of slots.
 class TPlyDispConfigSmth {
 public:
-    TPlyDispConfigSmth() { m_mbr_0x0 = 0; };
+    TPlyDispConfigSmth() { bank = 0; };
     void bswap();
     TPlyDispConfigSmth *copy(TPlyDispConfigSmth *src);
     int is_first_bank();
@@ -26,7 +26,7 @@ public:
     u16 get_tag_mode(s32 row, s32 index);
     u16 get_current_tag_mode(s32 index);
 public:
-    u32 m_mbr_0x0;
+    u32 bank;  // the bank shown: 0 or 1
     gc_tag m_tags[4];
     gc_tag m_tags1[4];
 };
@@ -41,12 +41,11 @@ public:
     TPlyDispConfigSmth m_smth;
     TPlyDispConfigSmth m_smth1;
 public:
-    void bswap_pair();
     TPlyDispConfig *copy_full(TPlyDispConfig *src);
-    TPlyDispConfigSmth *get_primary();
-    TPlyDispConfigSmth *get_secondary();
+    TPlyDispConfigSmth *ref_primary_palette();
+    TPlyDispConfigSmth *ref_secondary_palette();
     int is_primary_first_bank();
-    int is_secondary_first_bank();
+    int test_photon_blast_modifier();
     void clear_primary_bank();
     void clear_secondary_bank();
     void set_primary_bank();

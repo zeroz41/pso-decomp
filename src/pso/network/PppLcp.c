@@ -1,15 +1,14 @@
-/* PPP LCP, the protocol that names itself "Lcp" (805E1178), and its state object (.bss 805C0400) (a C library,
- * built with GC/1.2.5n). */
+/* PPP LCP, the protocol that names itself "Lcp", and its state object (a C library, built with GC/1.2.5n). */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
 #include "pso/network/PppFsm.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/PppLcp.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 
@@ -18,11 +17,11 @@
 
 #include "pso/network/PppBuffer.h"
 
-/* The option values both sides start from: MRU 1500 and a full async control-character map (.rodata 8047FE50). */
+/* The option values both sides start from: MRU 1500 and a full async control-character map. */
 const LcpVals lcp_default_values = {0, 1500, 0xFFFFFFFF};
-/* Each option's length, by option type (.rodata 8047FE68). */
+/* Each option's length, by option type. */
 const u8 lcp_option_lengths[16] = {4, 4, 6, 4, 4, 6, 6, 2, 2};
-/* The option readers' scratch bytes (.sbss 805D7AB0), in reverse definition order. */
+/* The option readers' scratch bytes, in reverse definition order. */
 u8 lobby_read_byte_buffer[1];
 u8 lcp_read_value_buffer[4];
 
@@ -373,7 +372,7 @@ s16 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
     }
     {
         PppFrame *cur = build_requested_options(fsm);
-        if (msg->len != (u16)get_field_4(cur)) {
+        if (msg->len != (u16)ppp_frame_length(cur)) {
             err = 1;
         } else {
             while ((a = read_option_byte(&cur)) != -1) {
@@ -663,24 +662,23 @@ void append_lcp_option(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame
     p->len += len;
 }
 
-s32 configure_mode_by_type(void *self, s16 type) {
-    LcpSide *c = (LcpSide *)self;
+s32 configure_mode_by_type(LcpSide *side, s16 type) {
     if (type == 0) {
-        c->want.mask |= 8;
-        c->want.auth_proto = 0xC023;
+        side->want.mask |= 8;
+        side->want.auth_proto = 0xC023;
     } else if (type == 1) {
-        c->want.mask &= ~8;
-        c->want.auth_negotiable = 0;
+        side->want.mask &= ~8;
+        side->want.auth_negotiable = 0;
     } else if (type == 2) {
-        c->want.mask |= 8;
-        c->want.auth_proto = 0xC223;
-        c->want.chap_alg = 5;
-        c->want.auth_negotiable = 0;
+        side->want.mask |= 8;
+        side->want.auth_proto = 0xC223;
+        side->want.chap_alg = 5;
+        side->want.auth_negotiable = 0;
     } else if (type == 4) {
-        c->want.mask |= 8;
-        c->want.auth_proto = 0xC223;
-        c->want.chap_alg = 5;
-        c->want.auth_negotiable = 1;
+        side->want.mask |= 8;
+        side->want.auth_proto = 0xC223;
+        side->want.chap_alg = 5;
+        side->want.auth_negotiable = 1;
     } else {
         return 1;
     }

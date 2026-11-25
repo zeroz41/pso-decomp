@@ -10,7 +10,6 @@ s32 TLobby__sub_801465C0(s32 *netmask);
 s32 TLobby__sub_801466F4(u32 arg0);
 int TLobby__sub_80146724(void);
 void TLobby__sub_8014672C(s32 *arg0);
-int TLobby__sub_80146740(void);
 int TLobby__sub_8014677C(void);
 s32 TLobby__sub_80146908(void);
 void TLobby__sub_801469B8(void *p);
@@ -22,6 +21,9 @@ s32 TLobby__sub_80147284(void);
 s32 TLobby__sub_801478C4(s32 id);
 void TLobby__sub_80147978(void);
 }
+// What follows the online character save: 0 asks the server for the time, 1 and 2
+// close the lobby with state 0x13 or 0x14. Always 0 in this build.
+int get_post_save_lobby_action();
 s32 connect_modem(s32 idx, s16 id);
 s32 connect_pppoe(s32 *out_value);
 extern "C" {

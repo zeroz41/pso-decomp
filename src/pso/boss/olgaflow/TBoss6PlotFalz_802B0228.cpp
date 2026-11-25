@@ -15,7 +15,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"

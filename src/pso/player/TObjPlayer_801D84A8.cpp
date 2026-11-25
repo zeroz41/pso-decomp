@@ -27,7 +27,7 @@ void TObjPlayer::init_action_config() {
     TPlyDispConfigSmth *smth = (TPlyDispConfigSmth *)this;
     s32 i;
     i = 0;
-    smth->m_mbr_0x0 = 0;
+    smth->bank = 0;
     do {
         smth->m_tags[i].init();
         smth->m_tags1[i].init();

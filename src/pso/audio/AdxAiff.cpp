@@ -2,8 +2,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/audio/AdxAiff.h"
-#include "pso/unk/TLobby_803C1A58.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
 #include "pso/audio/AdxExpand.h"
 #include "pso/audio/AiffHeader.h"
@@ -13,89 +12,14 @@ void adxb_decode_aiff_pcm8(AdxbDecoder *o);
 void adxb_decode_aiff_pcm16(AdxbDecoder *o);
 }
 
-static inline void adxb_exec_aiff_impl(void *ptr) {
-    AdxbDecoder *o = (AdxbDecoder *)ptr;
-    if (o->m_AA == 1) {
-        adxb_decode_aiff_pcm8(o);
-        return;
-    }
-    adxb_decode_aiff_pcm16(o);
-}
-
-static inline s32 adxb_parse_aiff_stream_header(void *ptr, void *hdr, void *size) {
-    AdxbDecoder *o = (AdxbDecoder *)ptr;
-    u8 *p = (u8 *)hdr;
-    s32 rate;
-    s32 channels;
-    s32 bits;
-    s32 frames;
-    s16 len;
-    s32 st;
-    u8 *e;
-    o->m_02 = 1;
-    if ((saddr)size < 0x1000) {
-        len = 0;
-        st = -1;
-    } else if ((e = adx_aiff_parse_header(p, &rate, &channels, &bits, &frames)) == NULL) {
-        st = -1;
-    } else if ((len = e - p) <= 0) {
-        st = -1;
-    } else {
-        o->rate = rate;
-        o->channels = channels;
-        o->bits = bits;
-        o->samples = frames;
-        o->m_0C = -1;
-        o->block_bytes = (o->channels * o->bits) / 8;
-        o->block_samples = 1;
-        st = 0;
-    }
-    if (st < 0) {
-        return 0;
-    }
-    o->m_1C = 0;
-    o->m_4A = 0;
-    o->m_48 = 0;
-    o->loop_count = 0;
-    o->loop_type = 0;
-    o->loop_end_byte = 0;
-    o->loop_end_sample = 0;
-    o->loop_start_byte = 0;
-    o->loop_start_sample = 0;
-    o->loop_enabled = 0;
-    o->stream_channels = o->channels;
-    o->stream_block_bytes = o->block_bytes;
-    o->stream_block_samples = o->block_samples;
-    o->buf = o->output_buffer;
-    o->bufLen = o->wrap_len;
-    o->rOff = o->wrap_offset;
-    o->m_7C = o->m_48;
-    o->m_7E = o->m_4A;
-    o->m_80 = o->m_4C;
-    o->m_9C = 0;
-    o->m_98 = 0;
-    o->format = 3;
-    if (o->bits == 8) {
-        o->m_AA = 1;
-    } else {
-        o->m_AA = 0;
-    }
-    memset(o->m_4C, 0, 4);
-    return len;
-}
-
-static inline s32 adxb_is_aiff_header(const void *ptr) {
-    const AiffFormHeader *h = (const AiffFormHeader *)ptr;
-    if (memcmp(h->id, "FORM", 4) == 0 && memcmp(h->type, "AIFF", 4) == 0) {
-        return 1;
-    }
-    return 0;
-}
-
 extern "C" {
 
-void TLobby::dispatch_network_state() {
-    adxb_exec_aiff_impl(this);
+void adxb_exec_one_aiff(AdxbDecoder *adxb) {
+    if (adxb->encoding == 1) {
+        adxb_decode_aiff_pcm8(adxb);
+        return;
+    }
+    adxb_decode_aiff_pcm16(adxb);
 }
 
 void adxb_decode_aiff_pcm8(AdxbDecoder *o) {
@@ -174,12 +98,72 @@ void adxb_decode_aiff_pcm16(AdxbDecoder *o) {
     }
 }
 
-s32 TLobby::parse_stream_header(void *hdr, void *size) {
-    return adxb_parse_aiff_stream_header(this, hdr, size);
+s32 adxb_decode_header_aiff(AdxbDecoder *adxb, u8 *hdr, s32 size) {
+    s32 frames;
+    s32 bits;
+    s32 channels;
+    s32 rate;
+    s16 len;
+    s32 st;
+    u8 *e;
+    adxb->m_02 = 1;
+    if (size < 0x1000) {
+        len = 0;
+        st = -1;
+    } else if ((e = adx_aiff_parse_header(hdr, &rate, &channels, &bits, &frames)) == NULL) {
+        st = -1;
+    } else if ((len = e - hdr) <= 0) {
+        st = -1;
+    } else {
+        adxb->rate = rate;
+        adxb->channels = channels;
+        adxb->bits = bits;
+        adxb->samples = frames;
+        adxb->encoding_type = -1;
+        adxb->block_bytes = (adxb->channels * adxb->bits) / 8;
+        adxb->block_samples = 1;
+        st = 0;
+    }
+    if (st < 0) {
+        return 0;
+    }
+    adxb->cutoff = 0;
+    adxb->m_4A = 0;
+    adxb->m_48 = 0;
+    adxb->loop_count = 0;
+    adxb->loop_type = 0;
+    adxb->loop_end_byte = 0;
+    adxb->loop_end_sample = 0;
+    adxb->loop_start_byte = 0;
+    adxb->loop_start_sample = 0;
+    adxb->loop_enabled = 0;
+    adxb->stream_channels = adxb->channels;
+    adxb->stream_block_bytes = adxb->block_bytes;
+    adxb->stream_block_samples = adxb->block_samples;
+    adxb->buf = adxb->output_buffer;
+    adxb->bufLen = adxb->wrap_len;
+    adxb->rOff = adxb->wrap_offset;
+    adxb->m_7C = adxb->m_48;
+    adxb->m_7E = adxb->m_4A;
+    adxb->m_80 = adxb->m_4C;
+    adxb->write_pos = 0;
+    adxb->total_written = 0;
+    adxb->format = 3;
+    if (adxb->bits == 8) {
+        adxb->encoding = 1;
+    } else {
+        adxb->encoding = 0;
+    }
+    memset(adxb->m_4C, 0, 4);
+    return len;
 }
 
-s32 TLobby::is_aiff_header() {
-    return adxb_is_aiff_header(this);
+s32 adxb_is_aiff_header(const u8 *hdr) {
+    const AiffFormHeader *h = (const AiffFormHeader *)hdr;
+    if (memcmp(h->id, "FORM", 4) == 0 && memcmp(h->type, "AIFF", 4) == 0) {
+        return 1;
+    }
+    return 0;
 }
 
 // Little-endian reads of big-endian header fields, swapped in place afterwards.

@@ -25,7 +25,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/client_id.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"

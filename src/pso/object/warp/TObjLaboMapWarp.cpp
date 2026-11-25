@@ -9,7 +9,7 @@
 #include "types.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/unk/TLobby_8006F278.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -35,7 +35,7 @@
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/ui/window/TWindowCtrl.h"
 
@@ -80,6 +80,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/TLobby_801A3C48.h"
 
 s32 get_story_flag(s32);
 
@@ -110,7 +111,6 @@ s32 rotate_matrix_y(s32, s32);
 extern void request_active_window_close();
 
 
-extern s16 TLobby__data_805D5CE8;
 
 
 }
@@ -121,7 +121,7 @@ extern "C" {
 
 extern s32 lbl_805D55C0;
 
-s32 *TObjCityMainWarp__sub_80186AF4(void);
+char *TObjCityMainWarp__sub_80186AF4(void);
 
 
 }
@@ -153,13 +153,13 @@ const s32 city_warp_floor_destination_table[16] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
 };
 
-// inferred: the lobby counterpart of city_warp_floor_destination_table; TObjCityMainWarp::is_choice_confirmed reads it
+// The lobby counterpart of city_warp_floor_destination_table; TObjCityMainWarp::is_choice_confirmed reads it
 // when TLobby::get_instance() != 0, indexed by the f10C list the lobby branch of __vt13 fills.
 const s32 city_warp_floor_destination_table_b[17] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
 };
 
-// inferred: group-9 text ids of the three map warp destinations ("GOVERNOR", "CITY", "LABO" in the debug
+// Group-9 text ids of the three map warp destinations ("GOVERNOR", "CITY", "LABO" in the debug
 // name tables), indexed by set_params[2] in TObjLaboMapWarp__vt13 and TObjCityMapWarp__vt13.
 const s32 map_warp_dest_text_ids[3] = {0x22, 0x23, 0x10};
 
@@ -211,8 +211,8 @@ s32 TObjCityMainWarp::get_phase_flag() {
     return ((get_main_phase() - 0xF) == 0) ? lbl_805D55C0 : 0;
 }
 
-s32 *TObjCityMainWarp__sub_80186AF4(void) {
-    return &lobby_name_string_buffer.value;
+char *TObjCityMainWarp__sub_80186AF4(void) {
+    return area_title;
 }
 
 void TWindowMenu::set_flag70_bit10() { this->m_70 |= 0x10; }
@@ -638,7 +638,7 @@ void TObjCityAreaWarp::debug_print_area_num() { this->do_warp(); }
 
 void TObjCityAreaWarp::confirm_area_transfer(TObjPlayer *) {
     play_sound_effect(0x40003205, 0, 0, 0);
-    TLobby__data_805D5CE8 = 1;
+    lobby_floor_reload_pending = 1;
 }
 
 TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {

@@ -17,7 +17,7 @@
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"

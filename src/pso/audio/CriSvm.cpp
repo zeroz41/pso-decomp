@@ -3,7 +3,7 @@
 #include "pso/audio/CriSvm.h"
 #include <stdarg.h>
 #include <stdio.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 s32 lobby_callback_tables_refcount;
 
@@ -26,7 +26,7 @@ SvmCallbackCounts svm_callback_counts;
 
 extern "C" {
 
-void TLobby::init_callback_tables() {
+void svm_init() {
     if (lobby_callback_tables_refcount == 0) {
         memset(worker_callback_flag_table.values, 0, sizeof(worker_callback_flag_table.values));
         memset(&svm_lock_slot, 0, sizeof(svm_lock_slot));
@@ -56,15 +56,15 @@ static inline s32 svm_run_callbacks(s32 idx) {
     return r;
 }
 
-s32 TLobby::run_worker_callbacks_slot5() {
+s32 svm_exec_group5() {
     return svm_run_callbacks(5);
 }
 
-s32 TLobby::run_worker_callbacks_slot4() {
+s32 svm_exec_group4() {
     return svm_run_callbacks(4);
 }
 
-s32 TLobby::run_callbacks_group2() {
+s32 svm_exec_group2() {
     return svm_run_callbacks(2);
 }
 
@@ -78,7 +78,7 @@ void svm_set_lock_callback(AdxTransitionCallback callback, s32 context) {
     svm_lock_slot.arg = context;
 }
 
-void TLobby::set_callback_params(AdxMessageCallback callback, s32 context) {
+void svm_set_message_callback(AdxMessageCallback callback, s32 context) {
     if (svm_lock_slot.fn != NULL) {
         svm_lock_slot.fn(svm_lock_slot.arg);
     }
@@ -106,7 +106,7 @@ void svm_set_single_callback(s32 group, AdxTransitionCallback callback, s32 cont
     }
 }
 
-void TLobby::SVM_SetCbSvrId(s32 group, s32 id, AdxWorkerCallback fn, s32 arg) {
+void SVM_SetCbSvrId(s32 group, s32 id, AdxWorkerCallback fn, s32 arg) {
     SvmWorkerSlot *c;
     if (id < 0 || id >= 4) {
         strncpy(svm_callback_message_buffer, "1071201:SVM_SetCbSvrId:illegal id", 0xFF);
@@ -131,7 +131,7 @@ void TLobby::SVM_SetCbSvrId(s32 group, s32 id, AdxWorkerCallback fn, s32 arg) {
     }
 }
 
-void TLobby::SVM_DelCbSvr(s32 group, s32 id) {
+void SVM_DelCbSvr(s32 group, s32 id) {
     if (id < 0 || id >= 4) {
         strncpy(svm_callback_message_buffer, "1051002:SVM_DelCbSvr:illegal id", 0xFF);
         if (svm_message_slot.fn != NULL) {
@@ -148,7 +148,7 @@ void TLobby::SVM_DelCbSvr(s32 group, s32 id) {
     }
 }
 
-s32 TLobby::svm_set_cb_svr(s32 group, AdxWorkerCallback fn, s32 arg) {
+s32 SVM_SetCbSvr(s32 group, AdxWorkerCallback fn, s32 arg) {
     SvmWorkerSlot *c;
     s32 i;
     if (svm_lock_slot.fn != NULL) {
@@ -177,7 +177,7 @@ s32 TLobby::svm_set_cb_svr(s32 group, AdxWorkerCallback fn, s32 arg) {
     return i;
 }
 
-void TLobby::set_message_and_notify(char *src) {
+void svm_report_message(char *src) {
     strncpy(svm_callback_message_buffer, src, 0xFF);
     if (svm_message_slot.fn != NULL) {
         svm_message_slot.fn(svm_message_slot.arg, svm_callback_message_buffer);

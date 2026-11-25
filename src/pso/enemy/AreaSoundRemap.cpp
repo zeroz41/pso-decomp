@@ -1,7 +1,7 @@
 #include "pso/enemy/AreaSoundRemap.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
 struct AreaSoundRemapEntry {

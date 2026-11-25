@@ -63,7 +63,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/render/GinjaTexture.h"

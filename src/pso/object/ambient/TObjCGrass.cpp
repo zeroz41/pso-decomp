@@ -13,7 +13,7 @@
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

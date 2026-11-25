@@ -7,7 +7,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_800F9B84.h"
 
 #pragma readonly_strings on

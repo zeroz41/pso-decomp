@@ -10,7 +10,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"

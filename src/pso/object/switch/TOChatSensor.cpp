@@ -37,7 +37,7 @@ const char *TOChatSensorCapture__class_name = "TOChatSensorCapture";
 
 #include "pso/object/base/TObjCharaHelpers.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/network/protocol/protocol_types.h"
 

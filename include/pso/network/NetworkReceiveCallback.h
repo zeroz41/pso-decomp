@@ -18,4 +18,7 @@ LAYOUT_ASSERT(NetworkReceivePrefix_buf, offsetof(NetworkReceivePrefix, buf) == 4
 
 typedef s16 (*NetworkReceiveCallback)(s16 mode, NetworkReceivePrefix *record);
 
+/* An IPv6 interface's routing event callback: (interface, event, event record). */
+typedef s16 (*Ipv6EventCallback)(s16 iface, s32 event, void *data);
+
 #endif

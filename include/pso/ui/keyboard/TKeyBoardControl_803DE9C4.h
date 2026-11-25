@@ -24,6 +24,14 @@ struct PadSlot {
 
 extern PadSlot keyboard_control_pad_slots[4];
 
+// One pad button and the game button map_pad_buttons reports for it.
+struct PadButtonMapping {
+    u32 pad_mask;
+    u32 button;
+};
+
+extern PadButtonMapping pad_button_map_table[12];
+
 struct PADStatus;
 
 extern "C" {

@@ -27,7 +27,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/map/TObjMapCsn.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"

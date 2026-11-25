@@ -11,7 +11,7 @@
 #include "pso/unk/text_80145804.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/font/TNECFontEORFunction.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/TLanguage.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

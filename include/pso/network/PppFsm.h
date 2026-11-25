@@ -81,4 +81,7 @@ LAYOUT_ASSERT(PppFsmProtocol_size_check, sizeof(PppFsmProtocol) == 0x3C);
 LAYOUT_ASSERT(PppFsmTimer_size_check, sizeof(PppFsmTimer) == 0x1C);
 LAYOUT_ASSERT(PppFsm_size_check, sizeof(PppFsm) == 0x34);
 
+/* The PPP FCS-16 lookup table (RFC 1662 fcstab). */
+extern u16 ppp_fcs16_table[256];
+
 #endif

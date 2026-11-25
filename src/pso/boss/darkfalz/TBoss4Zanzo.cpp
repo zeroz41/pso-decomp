@@ -11,7 +11,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/BattleParameters.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
 #pragma defer_codegen on

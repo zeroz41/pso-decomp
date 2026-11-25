@@ -2,7 +2,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80227A2C.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/item/shop/ShopToolStock.h"
@@ -13,6 +13,7 @@
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/GbaDownloadRuntime.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
 #include "pso/unk/TLobby_80207DA8.h"
@@ -41,7 +42,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     TCheckRoomSequence::alloc_item_buffers, TCheckRoomSequence::free_bank_item_records,
     measure_traffic_path_lengths, free_buffer_pair_table,
     TQuestVmDownLoadServer::reset_download_state, TQuestVmDownLoadServer::free_download_buffers,
-    TLobby::alloc_buffer, TLobby::free_buffer,
+    gba_download_alloc_buffer, gba_download_free_buffer,
 };
 
 void TLobby::cleanup_boss3_scene() {

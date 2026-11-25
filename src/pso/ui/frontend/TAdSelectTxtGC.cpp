@@ -4,7 +4,7 @@
 #include "pso/ui/frontend/TAdSelectTxtSubGC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"

@@ -1,7 +1,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/TLobby_8020B334.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 struct VObj8020 {
     char pad[0x18];
@@ -18,7 +18,7 @@ u8 *create_set_object_from_row(void *);
 
 extern s32 quest_object_entries;
 
-s32 TLobby::spawn_objects_at_pos(s16 arg0, s16 arg1) {
+s32 TLobby::spawn_objects_at_pos(s16 room, s16 wave) {
     s16 temp_r0;
     s16 temp_r3;
     s32 obj_table_entry;
@@ -32,7 +32,7 @@ s32 TLobby::spawn_objects_at_pos(s16 arg0, s16 arg1) {
     obj_table_entry = TLobby::get_obj_table_entry(active_set_floor);
     for (k = 0; k < obj_table_entry; k++, var_r29 += 0x44) {
         temp_r3 = *(s16 *)((s8 *)var_r29 + 2);
-        if (!(temp_r3 & 8) && !(temp_r3 & 2) && ((s16) *(s16 *)((s8 *)var_r29 + 0xC) == arg0) && ((s16) *(s16 *)((s8 *)var_r29 + 0xA) == arg1)) {
+        if (!(temp_r3 & 8) && !(temp_r3 & 2) && ((s16) *(s16 *)((s8 *)var_r29 + 0xC) == room) && ((s16) *(s16 *)((s8 *)var_r29 + 0xA) == wave)) {
             set_object = create_set_object_from_row(var_r29);
             if (set_object != NULL) {
                 *(void **)((s8 *)var_r29 + 0x40) = set_object;

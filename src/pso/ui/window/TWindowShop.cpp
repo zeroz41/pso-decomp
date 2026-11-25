@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowShop.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/network/client_id.h"
 #include "pso/system/NinjaTypes.h"

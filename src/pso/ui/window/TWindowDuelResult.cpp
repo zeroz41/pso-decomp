@@ -5,7 +5,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
@@ -19,11 +19,6 @@
 
 #pragma readonly_strings on
 
-typedef struct Entry_8024F094 {
-    u16 id;
-    s16 rank;
-    s32 value;
-} Entry_8024F094;
 
 extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
@@ -147,7 +142,7 @@ void TWindowDuelResult::sub_8024F090() {  }
 void TWindowDuelResult::sub_8024F094() {
     s32 i;
     s32 none;
-    Entry_8024F094 *e;
+    BattleRanking *e;
     u8 *p;
     u8 *a;
     u8 *b;
@@ -159,20 +154,20 @@ void TWindowDuelResult::sub_8024F094() {
     b = (u8 *)get_array_entry(0x12);
     set_default_status(b, get_localized_text_entry(0x10, 5));
     none = 1;
-    e = (Entry_8024F094 *)TWindowDuelResult__sub_801C257C();
+    e = get_battle_rankings();
     for (i = 0; i < 4; i++, e++) {
-        p = (e->id == 0xFFFF) ? NULL : (u8 *)get_player_by_client_id(e->id);
-        if (p != NULL && e->rank != 0) {
+        p = (e->client_id == 0xFFFF) ? NULL : (u8 *)get_player_by_client_id(e->client_id);
+        if (p != NULL && e->place != 0) {
             none = 0;
         }
     }
-    e = (Entry_8024F094 *)TWindowDuelResult__sub_801C257C();
+    e = get_battle_rankings();
     for (i = 0; i < 4; i++, e++) {
         a = (u8 *)get_array_entry(i * 4 + 1);
         b = (u8 *)get_array_entry(i * 4 + 2);
         c = (u8 *)get_array_entry(i * 4 + 3);
         d = (u8 *)get_array_entry(i * 4 + 4);
-        p = (e->id == 0xFFFF) ? NULL : (u8 *)get_player_by_client_id(e->id);
+        p = (e->client_id == 0xFFFF) ? NULL : (u8 *)get_player_by_client_id(e->client_id);
         if (p == NULL) {
             *(u16 *)a |= 2;
             *(u16 *)b |= 2;
@@ -182,17 +177,17 @@ void TWindowDuelResult::sub_8024F094() {
             if (none) {
                 set_default_status(a, get_localized_text_entry(0x10, 0xA));
             } else if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
-                if (e->rank == 0) {
+                if (e->place == 0) {
                     set_default_status(a, get_localized_text_entry(0x10, 0xB));
                 } else {
                     set_default_status(a, get_localized_text_entry(0x10, 0xC));
                 }
             } else {
-                set_default_status(a, get_localized_text_entry(0x10, e->rank + 6));
+                set_default_status(a, get_localized_text_entry(0x10, e->place + 6));
             }
             set_text_entry_string((u8 *)c, (uaddr)(p + 0x85C), 0x20);
             text_builder_reset();
-            text_builder_append_int(e->value);
+            text_builder_append_int(e->score);
             set_text_entry_string(d, (uaddr)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
             measure_message_text_width_default(d);
             *(f32 *)(d + 8) = (372.0f) - *(f32 *)(d + 0x10);

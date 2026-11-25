@@ -2,7 +2,6 @@
 #include <string.h>
 #include "pso/network/NetworkInfoCodec.h"
 char network_info_file_header[19] = "GAMECUBE_NETINFO\r\n";
-s32 parse_netinfo(char *, u32, NetworkInfoConfig *);
 extern char network_info_unparsed_config_lines[0x400];
 extern char network_info_config_key_iver[5];
 extern char network_info_config_key_cnum[5];
@@ -58,7 +57,6 @@ extern char network_info_config_key_sg[4];
 extern char network_info_config_key_url[4];
 extern s32 network_info_config_field_handled;
 extern u32 network_info_unparsed_config_length;
-s32 parse_network_info_config_line(char *s, u32 n, NetworkInfoConfig *q);
 #pragma push
 #pragma use_lmw_stmw off
 #pragma optimization_level 2
@@ -87,9 +85,6 @@ s32 parse_netinfo(char *buf, u32 len, NetworkInfoConfig *config) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-#define GET(f) parse_network_info_config_decimal(s, n)
-#define GETL() parse_network_info_config_hex(s, n)
-#define CPY(dst, len) copy_network_info_config_string(dst, s, n, len)
 s32 parse_network_info_config_line(char *s, u32 n, NetworkInfoConfig *q) {
     char buf[8];
     s32 i;
@@ -104,123 +99,123 @@ s32 parse_network_info_config_line(char *s, u32 n, NetworkInfoConfig *q) {
     buf[4] = 0;
     i = atoi(&buf[3]);
     if (strncmp(s, network_info_config_key_iver, 4) == 0) {
-        q->v0 = parse_network_info_config_decimal(s, n);
+        q->iver = parse_network_info_config_decimal(s, n);
     } else if (strncmp(s, network_info_config_key_cnum, 4) == 0) {
-        q->v2 = parse_network_info_config_decimal(s, n);
+        q->cnum = parse_network_info_config_decimal(s, n);
     } else if (strncmp(s, network_info_config_key_mnum, 4) == 0) {
-        q->v4 = parse_network_info_config_decimal(s, n);
+        q->mnum = parse_network_info_config_decimal(s, n);
     } else if (strncmp(s, network_info_config_key_bnum, 4) == 0) {
-        q->v6 = parse_network_info_config_decimal(s, n);
+        q->bnum = parse_network_info_config_decimal(s, n);
     }
     if (network_info_config_field_handled == 0 && i < 6) {
         if (strncmp(s, network_info_config_key_nam, 3) == 0) {
-            CPY(q->a[i].name, 0x20);
+            copy_network_info_config_string(q->a[i].name, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_pan, 3) == 0) {
-            q->a[i].v20 = GET();
+            q->a[i].pan = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_man, 3) == 0) {
-            q->a[i].v22 = GET();
+            q->a[i].man = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_sgn, 3) == 0) {
-            q->a[i].v24 = GET();
+            q->a[i].sgn = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_urn, 3) == 0) {
-            q->a[i].v26 = GET();
+            q->a[i].urn = parse_network_info_config_decimal(s, n);
         }
     }
     if (network_info_config_field_handled == 0 && i < 6) {
         if (strncmp(s, network_info_config_key_pn, 3) == 0) {
-            CPY(q->b[i].s000, 0x20);
+            copy_network_info_config_string(q->b[i].pn, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_li, 3) == 0) {
-            CPY(q->b[i].s020, 0x80);
+            copy_network_info_config_string(q->b[i].li, s, n, 0x80);
         } else if (strncmp(s, network_info_config_key_lp, 3) == 0) {
-            CPY(q->b[i].s0A0, 0x20);
+            copy_network_info_config_string(q->b[i].lp, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_d1, 3) == 0) {
-            q->b[i].v0C0 = GETL();
+            q->b[i].d1 = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_d2, 3) == 0) {
-            q->b[i].v0C4 = GETL();
+            q->b[i].d2 = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_it, 3) == 0) {
-            q->b[i].v0C8 = GET();
+            q->b[i].it = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_pxs, 3) == 0) {
-            CPY(q->b[i].s0CC, 0x40);
+            copy_network_info_config_string(q->b[i].pxs, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_pxp, 3) == 0) {
-            q->b[i].v10C = GETL();
+            q->b[i].pxp = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_at, 3) == 0) {
-            q->b[i].v10E = GET();
+            q->b[i].at = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_dt, 3) == 0) {
-            q->b[i].v110 = GET();
+            q->b[i].dt = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_pa, 3) == 0) {
-            q->b[i].v111 = GET();
+            q->b[i].pa = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_ol, 3) == 0) {
-            CPY(q->b[i].s114, 0x10);
+            copy_network_info_config_string(q->b[i].ol, s, n, 0x10);
         } else if (strncmp(s, network_info_config_key_od, 3) == 0) {
-            CPY(q->b[i].s124, 0x10);
+            copy_network_info_config_string(q->b[i].od, s, n, 0x10);
         } else if (strncmp(s, network_info_config_key_t1, 3) == 0) {
-            CPY(q->b[i].s134, 0x20);
+            copy_network_info_config_string(q->b[i].t1, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_t2, 3) == 0) {
-            CPY(q->b[i].s154, 0x20);
+            copy_network_info_config_string(q->b[i].t2, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_t3, 3) == 0) {
-            CPY(q->b[i].s174, 0x20);
+            copy_network_info_config_string(q->b[i].t3, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_rc, 3) == 0) {
-            q->b[i].v194 = GET();
+            q->b[i].rc = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_ri, 3) == 0) {
-            q->b[i].v196 = GET();
+            q->b[i].ri = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_mi, 3) == 0) {
-            CPY(q->b[i].s198, 0x20);
+            copy_network_info_config_string(q->b[i].mi, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_dy, 3) == 0) {
-            q->b[i].v1B8 = GET();
+            q->b[i].dy = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_py, 3) == 0) {
-            q->b[i].v1B9 = GET();
+            q->b[i].py = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_ip, 3) == 0) {
-            q->b[i].v1BC = GETL();
+            q->b[i].ip = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_snm, 3) == 0) {
-            q->b[i].v1C0 = GETL();
+            q->b[i].snm = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_g1, 3) == 0) {
-            q->b[i].v1C4 = GETL();
+            q->b[i].g1 = parse_network_info_config_hex(s, n);
         } else if (strncmp(s, network_info_config_key_hn, 3) == 0) {
-            CPY(q->b[i].s1C8, 0x40);
+            copy_network_info_config_string(q->b[i].hn, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_mt, 3) == 0) {
-            q->b[i].v208 = GET();
+            q->b[i].mt = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_mr, 3) == 0) {
-            q->b[i].v20C = GET();
+            q->b[i].mr = parse_network_info_config_decimal(s, n);
         }
     }
     if (network_info_config_field_handled == 0 && i < 6) {
         if (strncmp(s, network_info_config_key_sa, 3) == 0) {
-            q->c[i].v00 = GET();
+            q->c[i].sa = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_sd, 3) == 0) {
-            q->c[i].v01 = GET();
+            q->c[i].sd = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_iv, 3) == 0) {
-            q->c[i].v02 = GET();
+            q->c[i].iv = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_ma, 3) == 0) {
-            CPY(q->c[i].s04, 0x40);
+            copy_network_info_config_string(q->c[i].ma, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_ms, 3) == 0) {
-            CPY(q->c[i].s44, 0x40);
+            copy_network_info_config_string(q->c[i].ms, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_ps, 3) == 0) {
-            CPY(q->c[i].s84, 0x40);
+            copy_network_info_config_string(q->c[i].ps, s, n, 0x40);
         } else if (strncmp(s, network_info_config_key_pi, 3) == 0) {
-            CPY(q->c[i].sC4, 0x20);
+            copy_network_info_config_string(q->c[i].pi, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_pp, 3) == 0) {
-            CPY(q->c[i].sE4, 0x20);
+            copy_network_info_config_string(q->c[i].pp, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_mn, 3) == 0) {
-            CPY(q->c[i].s104, 0x20);
+            copy_network_info_config_string(q->c[i].mn, s, n, 0x20);
         }
     }
     if (network_info_config_field_handled == 0 && i < 1) {
         if (strncmp(s, network_info_config_key_nm, 3) == 0) {
-            q->d[i].v00 = GET();
+            q->d[i].nm = parse_network_info_config_decimal(s, n);
         } else if (strncmp(s, network_info_config_key_cni, 3) == 0) {
-            CPY(q->d[i].s04, 0x20);
+            copy_network_info_config_string(q->d[i].cni, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_cnp, 3) == 0) {
-            CPY(q->d[i].s24, 0x20);
+            copy_network_info_config_string(q->d[i].cnp, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_cmi, 3) == 0) {
-            CPY(q->d[i].s44, 0x20);
+            copy_network_info_config_string(q->d[i].cmi, s, n, 0x20);
         } else if (strncmp(s, network_info_config_key_cmp, 3) == 0) {
-            CPY(q->d[i].s64, 0x20);
+            copy_network_info_config_string(q->d[i].cmp, s, n, 0x20);
         }
     }
     if (network_info_config_field_handled == 0 && network_info_unparsed_config_length + n < 0x400) {
         if (strncmp(s, network_info_config_key_sg, 3) == 0) {
-            CPY(q->e[i].s, 0x190);
+            copy_network_info_config_string(q->e[i].s, s, n, 0x190);
         } else if (strncmp(s, network_info_config_key_url, 3) == 0) {
-            CPY(q->f[i].s, 0x100);
+            copy_network_info_config_string(q->f[i].s, s, n, 0x100);
         }
     }
     if (network_info_config_field_handled == 0 && network_info_unparsed_config_length + n < 0x400) {
@@ -290,8 +285,6 @@ s32 copy_network_info_config_string(char *dest, char *line, u32 num, u32 size) {
 }
 #pragma pop
 
-#include "types.h"
-
 extern NetworkInfoCipherPoolBinding network_info_cipher_pool_binding;
 extern NetworkInfoCipherWorkspace network_info_cipher_workspace;
 
@@ -332,7 +325,7 @@ s32 decode_network_info_payload(u8 *key_data, u8 *payload, u32 size, NetworkInfo
     bind_network_info_cipher_pool((u32 *)&network_info_cipher_workspace, 1);
     key = allocate_network_info_cipher_key(key_data);
     for (i = 0; i < size; i += 0x10) {
-        if (decrypt_network_info_cipher_blocks(key, (u8 *)(payload + i), 0x10, (u8 *)(payload + i)) != 0) {
+        if (decrypt_network_info_cipher_blocks(key, payload + i, 0x10, payload + i) != 0) {
             return -1;
         }
     }
@@ -436,11 +429,9 @@ s32 decrypt_network_info_cipher_blocks(u32 *key, u8 *src, s32 len, u8 *dst) {
 u32 *allocate_network_info_cipher_key(u8 *key_data) {
     s32 i;
     u32 *b;
-    u32 mask;
     u32 *a;
-    u32 bit;
     s32 n;
-    u32 *slot;
+    NetworkInfoCipherKey *slot;
     n = *network_info_cipher_pool_binding.pool >> 16;
     for (i = 0; i <= n; i++) {
         if (i == n) {
@@ -451,18 +442,18 @@ u32 *allocate_network_info_cipher_key(u8 *key_data) {
             break;
         }
     }
-    slot = (u32 *)&((NetworkInfoCipherPoolView *)network_info_cipher_pool_binding.pool)->slots[i];
-    *slot = 1 << i;
-    copy_network_info_cipher_block(slot + 1, (u32 *)key_data);
+    slot = &((NetworkInfoCipherPoolView *)network_info_cipher_pool_binding.pool)->slots[i];
+    slot->bit = 1 << i;
+    copy_network_info_cipher_block(slot->keys[0], (u32 *)key_data);
     for (i = 0; i < 3; i++) {
-        a = &((NetworkInfoCipherKey *)slot)->keys[i][0];
-        b = &((NetworkInfoCipherKey *)slot)->keys[i + 1][0];
+        a = slot->keys[i];
+        b = slot->keys[i + 1];
         b[1] = ~((a[1] + a[3]) >> 1) + ~((a[0] - a[2]) << 1);
         b[2] = ~((a[2] + a[3]) >> 1) + ~((a[0] - a[1]) << 1);
         b[3] = ~((a[1] + a[2]) >> 1) + ~((a[0] - a[3]) << 1);
         b[0] = ~((a[2] + a[0]) >> 1) + ~((a[1] - a[3]) << 1);
     }
-    return slot;
+    return &slot->bit;
 }
 #pragma pop
 

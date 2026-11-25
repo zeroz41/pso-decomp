@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 
 extern "C" {

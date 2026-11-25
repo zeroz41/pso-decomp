@@ -29,7 +29,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"

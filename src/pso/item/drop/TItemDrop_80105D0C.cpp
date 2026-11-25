@@ -8,7 +8,7 @@
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/item/TItemData.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/city/TShopEquipmentListWindow.h"
 #include "pso/player/TObjPlayer.h"

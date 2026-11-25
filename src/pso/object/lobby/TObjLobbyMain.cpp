@@ -6,7 +6,7 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -116,7 +116,7 @@ TObjLobbyMain::~TObjLobbyMain() {
 
 void TObjLobbyMain::load_resources() {
     model_resource = new BmlResource(5, &bm_obj_lobby_main_resource_descriptor, 0, 0, NULL);
-    lobby_texlist = TLobby::get_lobby_texlist();
+    lobby_texlist = get_lobby_main_texlist();
     computer_screen_model = static_cast<GinjaModel *>(get_bml_model(model_resource, 6)
         ->child->sibling->sibling->sibling->sibling->sibling->sibling->model);
     computer_screen_model_b = static_cast<GinjaModel *>(get_bml_model(model_resource, 2)

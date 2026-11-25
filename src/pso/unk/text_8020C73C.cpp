@@ -2,13 +2,13 @@
 #include "pso/unk/text_8020CCF4.h"
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 extern "C" {
 s32 set_flags_on_matching_entries__6TLobbyFlssl(s32, s32, s32, s32);
 }
 
-s32 TLobby::unhide_enemies_at(s32 floor, s32 arg1, s32 arg2) {
+s32 unhide_enemies_at(s32 floor, s32 room, s32 wave) {
     s32 n;
     s32 count;
     s32 local;
@@ -21,7 +21,7 @@ s32 TLobby::unhide_enemies_at(s32 floor, s32 arg1, s32 arg2) {
         local = 1;
     }
     if (local == 0) {
-        return set_flags_on_matching_entries__6TLobbyFlssl(floor, arg1, arg2, 1);
+        return set_flags_on_matching_entries__6TLobbyFlssl(floor, room, wave, 1);
     }
     set = get_active_floor_enemy_rows(floor);
     n = TLobby::get_object_type(floor);
@@ -29,8 +29,8 @@ s32 TLobby::unhide_enemies_at(s32 floor, s32 arg1, s32 arg2) {
         if (set->flags & 8) continue;
         if (set->flags & 2) continue;
         if (set->flags & 1) continue;
-        if (set->placement.room != (s16)arg1) continue;
-        if (set->placement.wave != (s16)arg2) continue;
+        if (set->placement.room != (s16)room) continue;
+        if (set->placement.wave != (s16)wave) continue;
         if (local != 0) {
             obj = construct_enemy_from_set_row(set);
             if (obj != NULL) {
@@ -41,7 +41,7 @@ s32 TLobby::unhide_enemies_at(s32 floor, s32 arg1, s32 arg2) {
                 obj->set_index = set->placement.enemy_index;
                 obj->set_entry = set;
                 if (obj->set_index != -1) {
-                    obj->apply_enemy_state(&TLobby__data_805D6144[obj->set_index].flags);
+                    obj->apply_enemy_state(&enemy_state_records[obj->set_index].flags);
                 }
                 count++;
             } else {

@@ -28,7 +28,7 @@
 #include <stddef.h>
 #include "pso/system/THeap.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjLight.h"

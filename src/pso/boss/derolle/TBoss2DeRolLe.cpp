@@ -117,7 +117,7 @@ struct NJS_OBJECT;
 
 #include "pso/camera/TCameraCtrl.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/ui/hud/TNowLoading.h"
 

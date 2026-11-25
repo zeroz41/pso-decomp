@@ -17,7 +17,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowSubItem.h"

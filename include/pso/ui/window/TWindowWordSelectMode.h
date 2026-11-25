@@ -10,14 +10,16 @@ public:
     virtual ~TWindowWordSelectMode();
     virtual void run_task();
     virtual void render();
-    s32 pad_60; // nonzero hides the selected row's highlight
-    s32 pad_64; // rows below this index draw grey, the rest white
-    s32 pad_68; // selected row
+    s32 get_selected_row();
+    void hide_selection();
+    s32 highlight_hidden; // nonzero hides the selected row's highlight
+    s32 grey_row_count;   // rows below this index draw grey, the rest white
+    s32 selected_row;
 };
 LAYOUT_ASSERT(TWindowWordSelectMode_size, sizeof(TWindowWordSelectMode) == 0x6C);
 
-LAYOUT_ASSERT(TWindowWordSelectMode_pad_60, offsetof(TWindowWordSelectMode, pad_60) == 0x60);
-LAYOUT_ASSERT(TWindowWordSelectMode_pad_64, offsetof(TWindowWordSelectMode, pad_64) == 0x64);
-LAYOUT_ASSERT(TWindowWordSelectMode_pad_68, offsetof(TWindowWordSelectMode, pad_68) == 0x68);
+LAYOUT_ASSERT(TWindowWordSelectMode_highlight_hidden, offsetof(TWindowWordSelectMode, highlight_hidden) == 0x60);
+LAYOUT_ASSERT(TWindowWordSelectMode_grey_row_count, offsetof(TWindowWordSelectMode, grey_row_count) == 0x64);
+LAYOUT_ASSERT(TWindowWordSelectMode_selected_row, offsetof(TWindowWordSelectMode, selected_row) == 0x68);
 
 #endif

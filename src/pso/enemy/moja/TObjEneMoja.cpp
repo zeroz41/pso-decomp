@@ -37,7 +37,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_803D853C.h"
 
 #include "pso/object/base/TObjChara.h"
@@ -388,7 +388,7 @@ void TObjEneMoja::render() {
     model_render_flags = id | 1;
     fade->update();
     draw = 1;
-    if (fade->updateFromCamera((const f32 *)&position) == 1) {
+    if (fade->updateFromCamera(&position) == 1) {
         fade->set_flags_and_apply_damage_color();
         if (defer_render() != 0) {
             draw = 0;
@@ -417,7 +417,7 @@ void TObjEneMoja::render() {
         clear_motion_packed_rotation();
     }
     model_render_flags &= ~1;
-    if (fade->updateFromCamera((const f32 *)&position) == 1) {
+    if (fade->updateFromCamera(&position) == 1) {
         fade->clear_flag_and_notify();
     }
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

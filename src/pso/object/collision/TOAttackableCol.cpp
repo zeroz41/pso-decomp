@@ -10,7 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 

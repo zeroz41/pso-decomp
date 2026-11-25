@@ -1,38 +1,37 @@
 // CRI adx_bsps.c: the SPSD decoder (ADXB_CheckSpsd, ADXB_ExecOneSpsd, header decode and info).
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby_803C1A58.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
 #include "pso/audio/AdxExpand.h"
 
 extern "C" {
 
-s32 TLobby::is_spsd_header() {
-    if (memcmp(this, "SPSD", 4) == 0) {
+s32 adxb_is_spsd_header(const u8 *hdr) {
+    if (memcmp(hdr, "SPSD", 4) == 0) {
         return 1;
     }
     return 0;
 }
 
-void TLobby__sub_803C40D0(AdxbDecoder *o) {
-    u16 *src = (u16 *)o->src;
-    if (o->state == 1 && o->channel->get_state() == 0) {
+void adxb_exec_one_spsd(AdxbDecoder *adxb) {
+    u16 *src = (u16 *)adxb->src;
+    if (adxb->state == 1 && adxb->channel->get_state() == 0) {
         s16 *l;
         s16 *r;
         s32 i;
         s32 n;
-        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
-        n = o->bufLen - o->pos;
-        if (n > o->avail) {
-            n = o->avail;
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        n = adxb->bufLen - adxb->pos;
+        if (n > adxb->avail) {
+            n = adxb->avail;
         }
-        if (n > o->maxLen) {
-            n = o->maxLen;
+        if (n > adxb->maxLen) {
+            n = adxb->maxLen;
         }
-        l = o->buf + o->pos;
-        if (o->channels == 2) {
-            r = o->buf + (o->rOff + o->pos);
+        l = adxb->buf + adxb->pos;
+        if (adxb->channels == 2) {
+            r = adxb->buf + (adxb->rOff + adxb->pos);
             for (i = 0; i < n; i++) {
                 l[i] = src[i * 2];
                 r[i] = src[i * 2 + 1];
@@ -42,46 +41,45 @@ void TLobby__sub_803C40D0(AdxbDecoder *o) {
                 l[i] = src[i];
             }
         }
-        o->n = n;
-        o->bytes = o->channels * (n * 2);
-        o->state = 2;
+        adxb->n = n;
+        adxb->bytes = adxb->channels * (n * 2);
+        adxb->state = 2;
     }
-    if (o->state == 2) {
-        o->done(o->doneArg, o->bytes, o->n);
-        o->state = 3;
+    if (adxb->state == 2) {
+        adxb->done(adxb->doneArg, adxb->bytes, adxb->n);
+        adxb->state = 3;
     }
 }
 
-s32 TLobby__sub_803C43A8(void *decoder, void *hdr, void *size) {
-    AdxbDecoder *o = (AdxbDecoder *)decoder;
+s32 adxb_decode_header_spsd(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 len;
-    o->m_02 = 1;
-    if (TLobby__sub_803C44C0((SpsdHeader *)hdr, (saddr)size, &len, &o->m_0C, &o->bits, &o->block_bytes, &o->channels, &o->rate, &o->samples, &o->block_samples, &o->m_AA) < 0) {
+    adxb->m_02 = 1;
+    if (TLobby__sub_803C44C0((SpsdHeader *)hdr, size, &len, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes, &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }
-    o->m_1C = 0;
-    o->m_4A = 0;
-    o->m_48 = 0;
-    o->loop_count = 0;
-    o->loop_type = 0;
-    o->loop_end_byte = 0;
-    o->loop_end_sample = 0;
-    o->loop_start_byte = 0;
-    o->loop_start_sample = 0;
-    o->loop_enabled = 0;
-    o->stream_channels = o->channels;
-    o->stream_block_bytes = o->block_bytes;
-    o->stream_block_samples = o->block_samples;
-    o->buf = o->output_buffer;
-    o->bufLen = o->wrap_len;
-    o->rOff = o->wrap_offset;
-    o->m_7C = o->m_48;
-    o->m_7E = o->m_4A;
-    o->m_80 = o->m_4C;
-    o->m_9C = 0;
-    o->m_98 = 0;
-    o->format = 2;
-    memset(o->m_4C, 0, 4);
+    adxb->cutoff = 0;
+    adxb->m_4A = 0;
+    adxb->m_48 = 0;
+    adxb->loop_count = 0;
+    adxb->loop_type = 0;
+    adxb->loop_end_byte = 0;
+    adxb->loop_end_sample = 0;
+    adxb->loop_start_byte = 0;
+    adxb->loop_start_sample = 0;
+    adxb->loop_enabled = 0;
+    adxb->stream_channels = adxb->channels;
+    adxb->stream_block_bytes = adxb->block_bytes;
+    adxb->stream_block_samples = adxb->block_samples;
+    adxb->buf = adxb->output_buffer;
+    adxb->bufLen = adxb->wrap_len;
+    adxb->rOff = adxb->wrap_offset;
+    adxb->m_7C = adxb->m_48;
+    adxb->m_7E = adxb->m_4A;
+    adxb->m_80 = adxb->m_4C;
+    adxb->write_pos = 0;
+    adxb->total_written = 0;
+    adxb->format = 2;
+    memset(adxb->m_4C, 0, 4);
     return len;
 }
 

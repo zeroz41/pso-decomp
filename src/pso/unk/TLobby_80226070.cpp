@@ -1,9 +1,10 @@
 #include "pso/system/SoundEffect.h"
+#include "pso/unk/TLobby_8023F734.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_80227A2C.h"
@@ -96,9 +97,10 @@ void TLobby__sub_8022644C(void);
 void set_menu_index_main__6TLobbyFPUc(void);
 int TLobby__sub_80226308(void);
 void TTecRaFoie__sub_80226254(void);
-void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
+}
 
 int TLobby::get_lobby_data() {  return lbl_805D6280; }
+extern "C" {
 
 void TLobby__sub_8022614C(s32 gain) {
     set_menu_index_main__6TLobbyFPUc();
@@ -167,14 +169,14 @@ int TLobby::init_sound_mode() {
     return sound_mode_value;
 }
 
-void TLobby::set_sound_output_mode(s32 arg0) {
+void TLobby::set_sound_output_mode(s32 mode) {
     s32 var_r30;
     u8 *global_state;
     global_state = TAdSinglePlyChrSelectGC::get_global_state();
     if (global_state != NULL) {
         *(s16 *)((s8 *)global_state + 0xE) = 0;
     }
-    switch (arg0) {
+    switch (mode) {
     case 0:
         var_r30 = 1;
         OSSetSoundMode(1);

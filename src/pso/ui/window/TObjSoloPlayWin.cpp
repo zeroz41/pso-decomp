@@ -2,9 +2,9 @@
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby_8006F278.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -22,7 +22,7 @@ __declspec(section ".data") float solo_play_result_window_extent[2] = {240.0f, 1
 }
 
 s32 TObjSoloPlayWin::has_at_most_one_player() {
-    return (TLobby__sub_8006FBE4() <= 1) ? 1 : 0;
+    return (count_challenge_players() <= 1) ? 1 : 0;
 }
 s32 TObjSoloPlayWin::area_allows_win_timer() {
     switch (get_current_floor_area()) {
@@ -55,7 +55,7 @@ void TObjSoloPlayWin::update_close_timer() {
             ((TWindowBase *)m_result_window)->close();
             m_result_window = 0;
         }
-        TLobby::mark_solo_win_closing();
+        mark_solo_play_notice_shown();
         queue_destruction();
     }
 }

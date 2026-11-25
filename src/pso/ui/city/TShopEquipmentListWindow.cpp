@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/TShopEquipmentListWindow.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
@@ -302,7 +302,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 send_6x25_equip_item(reinterpret_cast<TObjPlayer *>(player), it.id, 0);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::clear_slot_field_f10(i, get_split_screen_slot());
+                    TLobby::mark_shop_weapon_sold_out(i, get_split_screen_slot());
                 }
                 item_list->save_cursor_selection();
             }
@@ -319,7 +319,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 try_buy_item(player, &it);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::clear_slot_field_f10(i, get_split_screen_slot());
+                    TLobby::mark_shop_weapon_sold_out(i, get_split_screen_slot());
                 }
                 item_list->save_cursor_selection();
             }
@@ -337,7 +337,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
             try_buy_item(player, &it);
             update_list(&stock[i]);
             if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                TLobby::clear_slot_field_f10(i, get_split_screen_slot());
+                TLobby::mark_shop_weapon_sold_out(i, get_split_screen_slot());
             }
             item_list->save_cursor_selection();
         }
@@ -369,7 +369,7 @@ void TShopEquipmentListWindow::handle_equip_offer() {
                 try_buy_item(player, &c);
                 update_list(&stock[i]);
                 if (is_single_purchase_shop_item((u8 *)&stock[i]) != 0) {
-                    TLobby::clear_slot_field_f10(i, get_split_screen_slot());
+                    TLobby::mark_shop_weapon_sold_out(i, get_split_screen_slot());
                 }
                 confirm_menu->close();
                 confirm_menu = NULL;

@@ -6,6 +6,9 @@
 struct TObjPlayer;
 class TPlyCharData;
 
+// Players in the current lobby; TLobby::set_player_count writes it.
+extern s32 lobby_player_count;
+
 TObjPlayer *get_player_by_client_id(s32 client);
 // The player of this machine's client, or NULL.
 TObjPlayer *get_local_player();

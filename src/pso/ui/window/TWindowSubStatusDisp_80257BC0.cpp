@@ -2,12 +2,12 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowSpritePart.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/unk/TUnk_804CF998.h"
 #include "pso/unk/TUnk_804CF9C8.h"
-#include "pso/unk/TUnk_804EF440.h"
+#include "pso/ui/window/TGameListRow.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/system/memory.h"
@@ -207,7 +207,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 12:
                 o = ::operator new(0x28);
                 if (o != NULL) {
-                    o = __ct__13TUnk_804EF440FPUcl(o, (u8 *)rec, client);
+                    o = __ct__12TGameListRowFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 1;

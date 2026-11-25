@@ -13,7 +13,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/ambient/TObjFish.h"

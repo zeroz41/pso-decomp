@@ -11,7 +11,7 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

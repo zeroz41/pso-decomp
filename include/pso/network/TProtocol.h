@@ -36,6 +36,7 @@ extern const char *lobby_server_greeting_text;
 extern const char *port_map_copyright;
 extern u32 game_variations[16][2];
 extern void copy_packet(union packet *pkt);
+void set_lobby_count_value();
 
 class TBlockedSenders {
 public:
@@ -128,7 +129,28 @@ union packet {
 struct TRecvLobbyName {
     packet_header header;
     char name[16];
+
+    void bswap();
 };
+
+// 88: one player's lobby arrow colour.
+struct TArrowColorEntry {
+    TPlyGuildCardTag tag;
+    u32 color;
+
+    void bswap();
+};
+
+// 88: the lobby arrow colours of the players in the lobby.
+struct TArrowColorList {
+    packet_header header;
+    TArrowColorEntry entries[16];
+
+    void bswap();
+};
+
+TArrowColorList *copy_arrow_color_list(TArrowColorList *dst, TArrowColorList *src);
+TArrowColorEntry *copy_arrow_color_entry(TArrowColorEntry *dst, TArrowColorEntry *src);
 
 // B1: the server's current time as text; the bytes after it carry the lobby state flags.
 struct TRecvServerTime {
@@ -137,6 +159,28 @@ struct TRecvServerTime {
     s8 time_flags_low;
     s8 time_flags_mid;
     s8 time_flags_high;
+
+    void bswap();
+};
+
+// 96: the character's creation time and save counter, sent before it is saved.
+struct CharacterSaveInfoPacket {
+    packet_header header;
+    u32 creation_timestamp;
+    u32 event_counter;
+
+    void bswap();
+};
+
+// A0/A1: ask for the ship or block list.
+struct ChangeShipOrBlockPacket {
+    ChangeShipOrBlockPacket();
+
+    packet_header header;
+    TPlyGuildCardTag tag;
+    u8 unused[0x10];
+
+    void bswap();
 };
 
 // D8: the info boards of the players in the lobby.
@@ -168,6 +212,8 @@ struct TTradeList {
     TItemData items[32];
 
     void bswap();
+    // Fills the list with the local player's offer, addressed to the trade partner.
+    void build_from_trade_window();
 };
 
 // AA: a quest statistic the client reports to the server.
@@ -214,7 +260,7 @@ struct TSendClientConfig {
     o(unused7, void) \
     o(handle_64_recv_start_game3, TPlyJoinGame &join_data) \
     o(unused8, void) \
-    o(handle_67_recv_start_lobby2, TPlyJoinLobbyEntry *entries, u8 entry_count, int client_id, int leader_id, int lobby_number, int block_number, int smth, int event) \
+    o(handle_67_recv_start_lobby2, TPlyJoinLobbyEntry *entries, u8 entry_count, int client_id, int leader_id, int lobby_number, int block_number, int enable_battle_mode, int event) \
     o(handle_80_recv_generate_id, TRecvGenerateID gen_id) \
     o(unused9, void) \
     o(handle_65_recv_burst_game, TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp) \
@@ -442,7 +488,7 @@ public:
     void send_find_user(TPlyGuildCardTag &tag, u32 gc_num);
     void send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, u8 episode);
 public:
-    static u8 *copy_player_data(void *, void *);
+    static TPlyCharData *copy_player_data(TPlyCharData *dst, TPlyCharData *src);
 };
 
 extern s32 lobby_state_flags;

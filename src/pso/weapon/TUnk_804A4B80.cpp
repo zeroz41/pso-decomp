@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A4B80.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/effect/item/TItemEffHeaven.h"

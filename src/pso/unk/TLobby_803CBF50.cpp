@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TLobby_803CBF50.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/GcrnaStream.h"
 #include "pso/audio/GcrnaBufferQuery.h"
 #include "pso/audio/GcrnaChannelBridge.h"

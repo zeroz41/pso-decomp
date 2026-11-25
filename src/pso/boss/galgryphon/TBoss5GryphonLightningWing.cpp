@@ -13,7 +13,7 @@
 #include "pso/system/task/TObject.h"
 
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
 #pragma readonly_strings on

@@ -21,7 +21,8 @@
 #include <stddef.h>
 #include "pso/network/TProtocol.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/unk/text_801F43B4.h"
@@ -40,12 +41,12 @@ struct WindowSize {
     f32 height;
 };
 
-// inferred: owner token for TLobby::tmp_buf_use_req/tmp_buf_release_if_owner, like TQuestListVM's tmp_buf_owner_name
+// Owner token for TLobby::tmp_buf_use_req/tmp_buf_release_if_owner, like TQuestListVM's tmp_buf_owner_name
 static const char online_tmp_buf_owner_name[] = "quest_online";
 const char *TQuestListOnline__class_name = "TQuestListOnline";
-// inferred: size of the description window build_list_window creates (TQuestListVM's description window uses the same size)
+// Size of the description window build_list_window creates (TQuestListVM's description window uses the same size)
 static const WindowSize online_description_window_size = {228.0f, 184.0f};
-// inferred: size of the info window show_info_window creates (TQuestListVM's detail window uses the same size)
+// Size of the info window show_info_window creates (TQuestListVM's detail window uses the same size)
 static const WindowSize online_info_window_size = {332.0f, 210.0f};
 
 TQuestListOnline *TQuestListOnline__instance;
@@ -465,12 +466,12 @@ void TQuestListOnline::close_windows() {
 }
 
 u8 TQuestListOnline::get_unlocked_tier() {
-    if (TLobby::is_flag_set() != 0) {
+    if (is_challenge_mode() != 0) {
         switch ((s32) online_quest_list_state) {
         case 0:
-            return (u8) TLobby::get_party_min_tier(0);
+            return (u8) party_min_cleared_stages(0);
         case 1:
-            return (u8) TLobby::get_party_min_tier(1);
+            return (u8) party_min_cleared_stages(1);
         default:
             return 0U;
         }

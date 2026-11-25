@@ -11,7 +11,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/chat/TWindowChat_800774C0.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowChat.h"

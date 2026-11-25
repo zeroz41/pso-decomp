@@ -168,7 +168,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     fade = &this->fades[i];
     fade->update();
-    if (fade->updateFromCamera(&this->body_center.x) != 0) {
+    if (fade->updateFromCamera(&this->body_center) != 0) {
         fade->set_flags_and_apply_damage_color();
         if (!((s32)main_task.get_task_flags() & 0x200)) {
             model_render_flags = saved_model_render_flags;
@@ -213,7 +213,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     set_chunk_model_node_callback(NULL);
     pop_matrix();
     this->update_primary_light();
-    if (fade->updateFromCamera(&this->body_center.x) != 0) {
+    if (fade->updateFromCamera(&this->body_center) != 0) {
         fade->clear_flag_and_notify();
     } else if (this->mode == 3) {
         this->fade.clear_flag_and_notify();

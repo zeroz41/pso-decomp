@@ -3,6 +3,7 @@
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/text_80076BC4.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/network/TProtocol.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -76,13 +77,12 @@ struct S_80202DD4 {
 struct S_801FE010;
 struct B8_801FDFB8 { u32 w[2]; };
 
-struct P_801FDFB8 { u8 pad[0x41C]; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
+struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
 
 extern "C" {
 s32 *TAdSinglePlyChrSelectGC__sub_80202B38(Obj_80202B38 *self, s32 i);
 Ent_80202B1C *TAdSinglePlyChrSelectGC__sub_80202B1C(Obj_80202B1C *self, s32 i);
 Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *arg0, Pso3CharacterFile *arg1);
-void copy_player_data__9TProtocolFPvPv();
 
 s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0) {
     return *(s32 *)((s8 *)arg0 + 0x194AC);
@@ -177,17 +177,17 @@ Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterF
     return arg0;
 }
 
-#define arg0 ((P_801FDFB8 *)a0)
-#define arg1 ((P_801FDFB8 *)a1)
+#define dst ((P_801FDFB8 *)a0)
+#define src ((P_801FDFB8 *)a1)
 void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1) {
-    copy_player_data__9TProtocolFPvPv();
-    ((TAdSinglePlyChrSelectGC *)((S_801FE010 *)arg0->a))->copy_character_data((u8 *)((S_801FE010 *)arg1->a));
-    arg0->f278C = arg1->f278C;
-    arg0->f2794 = arg1->f2794;
+    TProtocol::copy_player_data(&dst->char_data, &src->char_data);
+    ((TAdSinglePlyChrSelectGC *)((S_801FE010 *)dst->a))->copy_character_data((u8 *)((S_801FE010 *)src->a));
+    dst->f278C = src->f278C;
+    dst->f2794 = src->f2794;
     return a0;
 }
-#undef arg0
-#undef arg1
+#undef dst
+#undef src
 
 u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *arg1) {
     S_80202DD4 *d = (S_80202DD4 *)this;

@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/ui/TLogo.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"

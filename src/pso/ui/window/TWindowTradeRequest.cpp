@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/network/TradeSession.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 
 

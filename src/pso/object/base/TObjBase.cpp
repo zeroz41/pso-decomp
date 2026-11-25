@@ -5,7 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/container/TContainerAncient01.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"

@@ -31,7 +31,7 @@
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/render/MaterialShadeFade.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/map/FloorArea.h"
@@ -224,7 +224,7 @@ void TObjEneDimedian::render() {
     fading = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
         camera_fades[camera].update();
-        fading = camera_fades[camera].updateFromCamera(&body_center.x);
+        fading = camera_fades[camera].updateFromCamera(&body_center);
     }
     select_actor_lighting(this);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));

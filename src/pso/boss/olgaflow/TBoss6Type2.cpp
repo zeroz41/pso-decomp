@@ -26,7 +26,7 @@
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 struct Obj_801D7238 { u8 v; };
 
 extern "C" {

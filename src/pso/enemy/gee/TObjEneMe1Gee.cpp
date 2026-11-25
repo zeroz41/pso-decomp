@@ -47,7 +47,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/AngleUnits.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"

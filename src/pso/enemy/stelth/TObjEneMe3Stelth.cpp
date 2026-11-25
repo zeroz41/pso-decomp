@@ -52,7 +52,7 @@
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/TUnk_80494938.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecResta.h"

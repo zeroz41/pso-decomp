@@ -1,0 +1,28 @@
+#ifndef PSO_NETWORK_NETCONFIG_H
+#define PSO_NETWORK_NETCONFIG_H
+
+#include "types.h"
+#include "pso/network/NetworkRuntime.h"
+
+/* NetConfig.c: the network stack's configuration (thread pool, buffer slots and buffer pools). */
+
+/* A buffer slot: `addr` is the buffer alloc_buffer_slot hands out, `active` the size in use (0 = free). */
+typedef struct LobbyBufferSlot {
+    s32 active;
+    s32 size;
+    u32 addr;
+} LobbyBufferSlot;
+LAYOUT_ASSERT(LobbyBufferSlot_size, sizeof(LobbyBufferSlot) == 12);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern u16 lobby_buffer_slot_count;
+extern u16 lobby_thread_pool_count;
+extern NetworkThreadSlot *lobby_thread_pool_base;
+extern LobbyBufferSlot *lobby_buffer_slots;
+#ifdef __cplusplus
+}
+#endif
+
+#endif

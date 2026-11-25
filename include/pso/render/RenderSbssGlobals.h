@@ -13,6 +13,10 @@ extern GC_Mtx *matrix_stack_limit;
 
 extern GinjaSceneState *current_render_context;
 
+// Bit 1 (2): the draw runs without lighting, so material colours go to GX as
+// they are.
+extern u32 ginja_draw_flags;
+
 // The heap in the locked cache that texture pixels are allocated from.
 extern u32 locked_cache_heap_handle;
 // The locked-cache heap's size in bytes.

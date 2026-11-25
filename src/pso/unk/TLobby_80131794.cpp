@@ -1,7 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/TLobby_80131794.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 

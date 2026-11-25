@@ -7,11 +7,10 @@
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803CC294.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
-#include "pso/unk/TLobby.h"
 #include <string.h>
 
 extern "C" s32 chcr_load_afs_busy_flag;

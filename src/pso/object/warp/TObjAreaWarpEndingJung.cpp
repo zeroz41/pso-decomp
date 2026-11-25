@@ -11,7 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "pso/unk/TLobby_80070A00.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -38,7 +38,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -1022,7 +1022,7 @@ void TObjMapForceWarp::create_warp_id_string(u16 client_id) {
     char *p;
     sprintf(buf, "%xF", set_params[1]);
     for (p = buf; *p != 0; p++) {
-        *p = TLobby__sub_80070AD8(*p);
+        *p = to_upper_char(*p);
     }
     create_TObjWarpString(buf, client_id);
 }

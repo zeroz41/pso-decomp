@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -33,7 +33,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_804DC7C4.h"
+#include "pso/render/FloorReflection.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -90,7 +90,7 @@ s32 initialize_boss_scene(void) {
     }
     init_area_lights();
     if (is_split_screen() == 0) {
-        new TUnk_804DC7C4(tl_particlemodel);
+        new TFloorReflection(tl_particlemodel);
     }
     TLobby::create_tasks();
     TLobby__sub_801403B4(0);

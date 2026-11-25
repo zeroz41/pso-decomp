@@ -76,7 +76,7 @@
 #include "pso/unk/text_8011A780.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/font/TFontSmallLobby.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/object/key/TOKeyMachine01.h"
@@ -567,12 +567,11 @@ void *__construct_array(void *, void *, void *, u32, u32);
 extern const char *TOMineTrap__data_805D3080;
 extern const char *TObjPlayer__player_set_class_name;
 extern const f32 player_front_distance;
-extern Vec lbl_8050BF60;
+extern Vec scratch_vec5;
 extern Color_801B6964 player_feedback_light_color[];
 extern TObjPlayer *player_slot_table[];
 const char *TObjPlayer_name = "TObjPlayer";
 extern s32 lbl_805D55C0;
-extern s32 lobby_player_count;
 extern PlayerCharDataEntry *lobby_char_slot_array;
 extern const char status_line_break[];
 extern f32 player_angle_per_degree;
@@ -779,7 +778,7 @@ void TObjPlayer::init_action_palette_defaults(saddr player) {
 }
 
 void TObjPlayer::init_player_substructs(u8 *data) {
-    copy_disp_config(&action_palettes, data);
+    copy_disp_config(&action_palettes, (TPlyDispConfig *)data);
     TObjPlayer::init_action_palette_defaults((saddr)this);
 }
 
@@ -1252,7 +1251,7 @@ void handle_6x21_inter_level_warp(G_InterLevelWarp_6x21 *command) {
     m.init();
     m = *command;
     m.bswap();
-    if (validate_6x21_inter_level_warp(&m.header) != 0) {
+    if (validate_6x21_inter_level_warp(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
             if ((((TObjChara *)p)->obj_isState2_324() != 0) && (m.floor != ((TObjPlayer *)p)->get_floor())) {
@@ -1286,7 +1285,7 @@ void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command) {
     m.init();
     m = *command;
     m.bswap();
-    if (validate_6x1F_set_player_floor(&m.header) != 0) {
+    if (validate_6x1F_set_player_floor(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
@@ -1318,7 +1317,7 @@ void handle_6x20_set_position(G_SetPosition_6x20 *command) {
     m.init();
     m = *command;
     m.bswap();
-    if (validate_6x20_set_position(&m.header) != 0) {
+    if (validate_6x20_set_position(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
             p->set_position_from(&m.pos);
@@ -2181,10 +2180,10 @@ void TObjPlayer::drop_items_on_death() {
         }
     }
     if (count>0) {
-        lbl_8050BF60.x=this->position.x;
-        lbl_8050BF60.y=player_front_distance+this->position.y;
-        lbl_8050BF60.z=this->position.z;
-        this->inventory_objects->list.add_drops(&lbl_8050BF60, this, records, count);
+        scratch_vec5.x=this->position.x;
+        scratch_vec5.y=player_front_distance+this->position.y;
+        scratch_vec5.z=this->position.z;
+        this->inventory_objects->list.add_drops(&scratch_vec5, this, records, count);
         set_action_flag_2();
     }
 }
@@ -3285,19 +3284,19 @@ void TObjPlayer::select_contextual_pickup_action() {
 
 saddr TObjPlayer::refresh_effect() {
     if (this->photon_blast_gauge.has_ready_flag() != 0) {
-        if (action_palettes.is_secondary_first_bank() != 0) {
-            return (saddr)action_palettes.get_primary();
+        if (action_palettes.test_photon_blast_modifier() != 0) {
+            return (saddr)action_palettes.ref_primary_palette();
         }
-        return (saddr)action_palettes.get_secondary();
+        return (saddr)action_palettes.ref_secondary_palette();
     }
-    return (saddr)action_palettes.get_primary();
+    return (saddr)action_palettes.ref_primary_palette();
 }
 
 TPlyDispConfigSmth *TObjPlayer::select_action_palette(int secondary) {
     if (secondary == 1) {
-        return action_palettes.get_secondary();
+        return action_palettes.ref_secondary_palette();
     }
-    return action_palettes.get_primary();
+    return action_palettes.ref_primary_palette();
 }
 
 #pragma push
@@ -4406,7 +4405,7 @@ void TObjPlayer::prepare_hospital_return() {
 
 void handle_6x34(void) {  }
 
-int TLobby::check_player_state_flag_2() { return test_flags_any((s32 *)((char*)this + 0x858), 2); }
+int TObjPlayer::check_player_state_flag_2() { return test_flags_any((s32 *)((char*)this + 0x858), 2); }
 
 void TLobby::player_flag_1() { ((TObjPlayer *)this)->set_battle_flag(1); }
 
@@ -5585,7 +5584,7 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
     cmd.init();
     cmd = *command;
     cmd.bswap();
-    if (validate_6x90_set_player_battle_team(&cmd.header) == 0) {
+    if (validate_6x90_set_player_battle_team(&cmd) == 0) {
         return;
     }
     p = get_player_by_client_id((u16)cmd.header.client_id);
@@ -5708,7 +5707,7 @@ void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command)
     ((G_AddBattleDamageScores_6x8F *)&pkt)->init();
     *(G_AddBattleDamageScores_6x8F *)&pkt = *command;
     ((G_AddBattleDamageScores_6x8F *)&pkt)->bswap();
-    if (validate_6x8F_add_battle_damage_scores((G_ClientIDHeader *)&pkt) == 0) {
+    if (validate_6x8F_add_battle_damage_scores((G_AddBattleDamageScores_6x8F *)&pkt) == 0) {
         return;
     }
     player = get_player_by_client_id((u16)pkt.client);
@@ -5991,9 +5990,9 @@ s32 TObjPlayer::get_battle_place() {
 
     id = get_entity_id();
     if (is_single_screen() != 0) {
-        e = (BattleRanking *)get_split_screen_battle_rankings();
+        e = get_split_screen_battle_rankings();
     } else {
-        e = (BattleRanking *)TWindowDuelResult__sub_801C257C();
+        e = get_battle_rankings();
     }
     for (i = 0; i < 4; i++, e++) {
         if (id == e->client_id) {
@@ -6076,7 +6075,7 @@ void handle_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *command) {
     ((G_LevelUpAllTechniques_6x9B *)&m)->init();
     *(G_LevelUpAllTechniques_6x9B *)&m = *reinterpret_cast<G_LevelUpAllTechniques_6x9B *>(raw);
     bswap_g_client_id_header(&m);
-    if (validate_6x9B_level_up_all_techniques((G_ClientIDHeader *)&m) != 0) {
+    if (validate_6x9B_level_up_all_techniques((G_LevelUpAllTechniques_6x9B *)&m) != 0) {
         p = (u8 *)get_player_by_client_id((u16)m.id);
         if (p != NULL) {
             ((TObjPlayer *)(p + 0x428))->level_up_all_techniques(m.level);

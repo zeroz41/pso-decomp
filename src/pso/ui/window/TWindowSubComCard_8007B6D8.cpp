@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubComCard_8007B6D8.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlyGuildCardTag.h"

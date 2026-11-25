@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/network/protocol/packet_classes.h"

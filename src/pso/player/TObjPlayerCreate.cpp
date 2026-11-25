@@ -8,7 +8,7 @@
 #include "pso/network/client_id.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TForceOperate.h"
@@ -133,7 +133,7 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
     copy_xyz(&rotation_x, record->angle);
     mode = record->phase;
     hp = record->current_hp;
-    ((TLobby *)&m_dac)->copy_header_struct(&record->player_tag);
+    ((TLobby *)&guild_card_tag)->copy_header_struct(&record->player_tag);
     TObjPlayer__sub_801BEF30(&pk_state, &record->unknown_a6);
     ((TObjPlayer *)&telepipe)->copy_player_record_header((u8 *)&record->telepipe);
     TObjPlayer__sub_801BEEE0(&death_flags, &record->death_flags);
@@ -706,6 +706,6 @@ s32 TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {
     TObjPlayer *created;
 
     created = new TObjPlayer(tl_03, slot & 0xFFFF, entry->get_role(), entry->get_char_data());
-    ((TLobby *)&created->m_dac)->copy_header_struct(entry->get_lobby_header());
+    ((TLobby *)&created->guild_card_tag)->copy_header_struct(entry->get_lobby_header());
     return (s32)created;
 }

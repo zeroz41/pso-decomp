@@ -26,7 +26,7 @@ const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"

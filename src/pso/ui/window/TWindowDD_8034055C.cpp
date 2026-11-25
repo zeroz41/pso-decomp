@@ -33,9 +33,9 @@ void *TWindowDD::create() { return new TWindowWordSelectMode; }
 
 TWindowWordSelectMode::TWindowWordSelectMode()
     : TWindowBase((u8 *)&TWindowDD__layout_constants, 4, (u8 *)TWindowDD__layout_constant_pair) {
-    pad_60 = 1;
-    pad_64 = 2;
-    pad_68 = 2;
+    highlight_hidden = 1;
+    grey_row_count = 2;
+    selected_row = 2;
     open_tick = 0x01000000;
 }
 
@@ -55,7 +55,7 @@ void TWindowDD::set_clamped_selection(s32 clamped_selection) {
     this->m_44[7] = 0;
 }
 
-void TWindowDD__sub_80340910(void *p) { ((TWindowWordSelectMode *)p)->pad_60 = 1; }
+void TWindowWordSelectMode::hide_selection() { highlight_hidden = 1; }
 
 #pragma push
 #pragma opt_common_subs off
@@ -87,7 +87,7 @@ void TWindowDD::handle_input() {
 }
 #pragma pop
 
-s32 TWindowDD__sub_80340820(void *p) { return ((TWindowWordSelectMode *)p)->pad_68; }
+s32 TWindowWordSelectMode::get_selected_row() { return selected_row; }
 
 void TWindowDD::set_clamped_page(s32 clamped_page) {
     if (clamped_page < 0) {
@@ -129,8 +129,8 @@ void TWindowWordSelectMode::render() {
     TWindowDD__sub_80348A2C(ctx, points);
     TWindowDD__sub_803489B8(ctx, points, 0);
     count = TWindowDD::get_draw_count(hud_texlist);
-    if (this->pad_60 == 0) {
-        sel = this->pad_68;
+    if (this->highlight_hidden == 0) {
+        sel = this->selected_row;
     } else {
         sel = -1;
     }
@@ -161,9 +161,9 @@ void TWindowWordSelectMode::render() {
     begin_screen_draw(1);
     set_draw_texture_and_color(4, -1);
     for (s32 j = 0; j < 3; j++) {
-        if (j == this->pad_68 && this->pad_60 == 0) {
+        if (j == this->selected_row && this->highlight_hidden == 0) {
             color = 0xFF000000;
-        } else if (this->pad_64 <= j) {
+        } else if (this->grey_row_count <= j) {
             color = 0xFFFFFFFF;
         } else {
             color = 0xFF808080;

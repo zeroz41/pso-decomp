@@ -2,9 +2,14 @@
 #define PSO_NETWORK_TPLYJOINLOBBYENTRY_H
 
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
+class TPlyCharData;
+class TPlyDispConfig;
+class TPlyDispConfigSmth;
 class TProtocol;
+struct gc_tag;
 struct TAdScrollWinGC;
 struct TKeyBoardControl;
 struct TLobby;
@@ -19,7 +24,7 @@ extern TWindowMenu *lobby_keyboard_prompt_window;
 extern TKeyBoardControl *lobby_keyboard_controller;
 extern TAdScrollWinGC *lobby_scroll_text_window;
 // The idle-timeout warning window TLobby::update_idle_timeout opens.
-extern TWindowMessage *TLobby__idle_timeout_object;
+extern TWindowMessage *lobby_idle_timeout_window;
 
 void handle_generate_id(void);
 void handle_lobby_text(s32 text);
@@ -28,9 +33,11 @@ void handle_error(s32 text);
 void update_state_with_location(void);
 void lobby_init_hook(void);
 void render_idle_timeout(void);
-void init_6x6F_quest_flags_packet(void *p);
-void *copy_disp_config(void *dst, void *src);
-void *copy_disp_config_palette(void *p, void *a1);
+void init_6x6F_quest_flags_packet(G_SetQuestFlags_V2_V3_6x6F *packet);
+void init_6x72_resume_packet(G_DoneLoadingIntoGame_6x72 *packet);
+TPlyDispConfig *copy_disp_config(TPlyDispConfig *dst, TPlyDispConfig *src);
+TPlyDispConfigSmth *copy_disp_config_palette(TPlyDispConfigSmth *dst, TPlyDispConfigSmth *src);
+void copy_gc_tag(gc_tag *dst, gc_tag *src);
 
 extern "C" {
 u8 *init_idle_timeout_timer(u8 *timer, saddr parent);
@@ -38,19 +45,16 @@ void queue_join_entry_exit_on_input(void *self);
 void show_join_entry_message(s32 id);
 void show_dialog_value_line(saddr text);
 void *__ct__17TPlyJoinLobbyDataFv(void *self);
-void copy_gc_tag(void *dst, void *src);
 void *__ct__13GameListEntryFv(void *entry);
 void *__ct__18TPlyJoinLobbyEntryFv(void *self);
 void *__dt__18TPlyJoinLobbyEntryFv(void *self, s16 del);
 void bswap_and_send_extended_subcommand(void *p, u32 size);
 void bswap_extended_subcommand_header(void *p);
-u8 *copy_player_data__9TProtocolFPvPv(u8 *arg0, u8 *arg1);
 }
 void handle_6x6F_set_quest_flags_v2(saddr pkt);
 void handle_6x71_unblock_game_join(void);
 void handle_6x72_done_loading_into_game(void);
 extern "C" {
-void init_6x72_resume_packet(void *p);
 void open_lobby_warp_menu__6TLobbyFv(void);
 void process_deferred_player_setup__6TLobbyFv(void);
 void reset_state_flags__6TLobbyFv(void);
@@ -62,7 +66,7 @@ void set_player_count__6TLobbyFi(int a0);
 
 extern char lobby_ship_name[0x28];
 
-// Lobby log lines, window titles and messages; defined at the end of TPlyJoinLobbyEntry.cpp,
+// Lobby log lines, window titles and messages; defined at the end of TLobby.cpp,
 // after the code that uses them.
 extern const char lobby_debug_udp_open_format[];
 extern const char lobby_debug_make_player_format[];

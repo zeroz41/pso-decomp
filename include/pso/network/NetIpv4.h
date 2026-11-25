@@ -1,6 +1,6 @@
 #ifndef PSO_NETWORK_NETIPV4_H
 #define PSO_NETWORK_NETIPV4_H
-/* IPv4 routing (ipv4_address_routing_state, src/pso/network/TLobby_804050DC.c): the routing table, the interfaces and
+/* IPv4 routing (ipv4_address_routing_state, src/pso/network/PppFraming.c): the routing table, the interfaces and
  * their extra addresses. init_buffer_descriptor_a sets the counts and the arrays. */
 #include "types.h"
 

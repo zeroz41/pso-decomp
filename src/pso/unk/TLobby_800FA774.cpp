@@ -1,7 +1,7 @@
 #include "pso/unk/text_800FA464.h"
 #include "pso/system/Adxf.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/THeap.h"
 

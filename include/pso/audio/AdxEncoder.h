@@ -109,4 +109,9 @@ s32 adx_encoder_process_step(AdxEncoder *enc, s32 ch);
 }
 // --- end of C functions
 
+extern "C" {
+void adx_encoder_pool_finish();
+void adx_encoder_pool_init();
+}
+
 #endif

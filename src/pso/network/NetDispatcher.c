@@ -2,14 +2,14 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntimeSlots.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/IPv6.h"
 
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/Ppp.h"
 
 
 #include <stddef.h>
@@ -35,8 +35,8 @@ s16 rtos_init(void) {
 
 s32 dispatcher_term(void) {
     lock_mutex(network_dispatch_state.lock_handle);
-    AT_TerminateTask((void *)network_dispatch_state.thread_ids[1]);
-    AT_TerminateTask((void *)network_dispatch_state.thread_ids[0]);
+    AT_TerminateTask(network_dispatch_state.thread_ids[1]);
+    AT_TerminateTask(network_dispatch_state.thread_ids[0]);
     AT_DeleteTask(network_dispatch_state.thread_ids[1]);
     AT_DeleteTask(network_dispatch_state.thread_ids[0]);
     clear_slot_for_handle(network_dispatch_state.queue_handle);
@@ -46,7 +46,7 @@ s32 dispatcher_term(void) {
 }
 
 s16 NetInitializeDispatcher(void) {
-    s32 *p4 = &network_dispatch_state.queue_handle;
+    NetQueueHandle *p4 = &network_dispatch_state.queue_handle;
     NetThreadHandle *p8;
     NetThreadHandle *p12;
     if (create_message_queue(p4) < 0) {
@@ -76,7 +76,7 @@ s16 NetInitializeDispatcher(void) {
 
 extern void NetYieldOutsideDispatcherThread(void) {
     NetworkDispatchState *g = &network_dispatch_state;
-    s32 self;
+    NetThreadHandle self;
 
     NetStoreCurrentThread(&self);
     if (self != g->thread_ids[0] && self != g->thread_ids[1]) {
@@ -208,7 +208,7 @@ s16 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn) {
     return 0;
 }
 
-void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol) {
+void NetEnqueueProtocolMessage(u8 *payload, s16 detail, s16 first, s16 second, u16 protocol) {
     NetProtocolMessage message;
     message.first = first;
     message.second = second;

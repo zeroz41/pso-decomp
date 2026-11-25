@@ -44,7 +44,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/TBreakUpMdl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/SoundEffect.h"
@@ -378,7 +378,7 @@ void TObjEneMe1GiGue::render() {
         return;
     }
     saved_model_render_flags = model_render_flags;
-    if (cameraFade.updateFromCamera(&body_center.x) != 0) {
+    if (cameraFade.updateFromCamera(&body_center) != 0) {
         cameraFade.set_flags_and_apply_damage_color();
         if (defer_render() != 0) {
             model_render_flags = saved_model_render_flags;

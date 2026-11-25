@@ -30,7 +30,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
@@ -369,7 +369,7 @@ void TObjEnePanarms::render() {
     saved_model_render_flags = model_render_flags;
     fade = &this->fades[cam];
     fade->update();
-    if (fade->updateFromCamera(&this->body_center.x) != 0) {
+    if (fade->updateFromCamera(&this->body_center) != 0) {
         fade->set_flags_and_apply_damage_color();
         draw_now = 1;
         if (defer_render() != 0) {

@@ -1,6 +1,6 @@
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/TTokenList.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"

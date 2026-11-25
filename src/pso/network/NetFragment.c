@@ -4,8 +4,8 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/netcfg.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 
 
 
@@ -386,16 +386,11 @@ s16 fragment_send_time_exceeded(NetFragPacket *pkt) {
     total = pkt->hdr_len + pkt->first->len;
     switch (type) {
     case 4: {
-        struct {
-            u8 type;
-            u8 code;
-            u16 checksum;
-            u32 unused;
-        } msg;
+        Icmp4Header msg;
         msg.type = 0xb;
         msg.code = 1;
         msg.unused = 0;
-        return icmp_send_error((u8 *)&msg, q, total, pkt->iface);
+        return icmp_send_error(&msg, (IPv4Header *)q, total, pkt->iface);
     }
     case 6: {
         NetIcmpv6Header msg;
@@ -520,7 +515,7 @@ found:
     NetMemcpy(&e->src, src, sizeof(NetworkAddress));
     e->ident = ident;
     e->have_last = 0;
-    e->ttl = (u8)ttl;
+    e->ttl = ttl;
     e->next = 0;
     e->last = 0;
     e->first = 0;

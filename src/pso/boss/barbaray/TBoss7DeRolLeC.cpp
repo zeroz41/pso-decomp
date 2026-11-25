@@ -65,7 +65,7 @@ struct NJS_OBJECT;
 
 #include "pso/camera/TCameraCtrl.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/ui/hud/TNowLoading.h"
 
@@ -961,7 +961,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 state) {
         pa.init();
         pa.header.client_id = this->entity_id;
         pa.what = state;
-        pa.unknown_a2 = this->action_index;
+        pa.action_index = this->action_index;
         pa.target_client_id = this->target_id;
         pa.send();
         return;
@@ -969,7 +969,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 state) {
     pb.init();
     pb.header.client_id = this->entity_id;
     pb.what = state;
-    pb.unknown_a2 = this->action_index;
+    pb.action_index = this->action_index;
     pb.send();
 }
 
@@ -1331,13 +1331,13 @@ void handle_6xAA_barba_ray_boss_actions(void *data) {
 }
 
 void TBoss7DeRolLeC::init_from_param(G_BarbaRayBossActions_6xA9 *cmd) {
-    action_index = cmd->unknown_a2;
+    action_index = cmd->action_index;
     transition_enemy_state(cmd->what);
 }
 
 void TBoss7DeRolLeC::set_params(G_BarbaRayBossActions_6xAA *cmd) {
     enemy_set_target_id(this, cmd->target_client_id);
-    action_index = cmd->unknown_a2;
+    action_index = cmd->action_index;
     transition_enemy_state(cmd->what);
 }
 

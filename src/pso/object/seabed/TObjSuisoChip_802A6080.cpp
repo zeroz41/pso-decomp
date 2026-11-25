@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/seabed/TObjSuisoChip.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"

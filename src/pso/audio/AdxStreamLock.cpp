@@ -1,9 +1,9 @@
 #include "pso/system/MiddlewareInterruptLock.h"
 #include "pso/audio/AdxStreamLock.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
-void TLobby::update_scroll_impl() {
+void adx_interrupt_lock_leave() {
     middleware_interrupt_lock_leave();
 }
 

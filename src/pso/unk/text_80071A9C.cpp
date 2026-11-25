@@ -1,23 +1,20 @@
 #include "types.h"
-#include "pso/unk/text_80071A9C.h"
+#include "pso/quest/challenge/TChallenge.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/TLobby.h"
-extern "C" {
-s32 *TWindowSubStatusDisp__sub_8006F0D8(s32, s32);
-s32 fn_80071A9C(s32 arg0, s32 record, s32 slot) {
+#include "pso/quest/challenge/ChallengeMode.h"
+
+s32 TChallenge::count_cleared_stages(ChallengeRecord *record, s32 slot) {
     s32 n;
     s32 i;
     s32 *p;
-    slot = TWindowSubStatusDisp::resolve_player_slot(slot);
-    p = TWindowSubStatusDisp__sub_8006F0D8(record, slot);
-    n = TWindowSubStatusDisp::get_layout_id(slot);
+    slot = resolve_challenge_record_set(slot);
+    p = challenge_set_stage_times(record, slot);
+    n = challenge_set_stage_count(slot);
     for (i = 0; i < n; i++, p++) {
-        s32 r = TLobby::get_valid_slot(*p);
+        s32 r = decode_challenge_time(*p);
         if (*p == 0 || r == 0) {
             break;
         }
     }
     return i;
-}
-
 }

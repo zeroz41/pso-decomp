@@ -1,4 +1,4 @@
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_800FA464.h"
 
 AsyncFileReadRequest *TLobby::pop_stack_entry(AsyncFileReadRequest *entry, s16 release) {

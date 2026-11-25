@@ -11,7 +11,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_803DC834.h"
+#include "pso/render/GinjaMaterial.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -54,10 +54,10 @@ void set_shadow_material_state() {
 NJS_ARGB saved_model_draw_color;
 NJS_ARGB lbl_8050BED0; // no reference in the game
 f32 scratch_vec[8];
-f32 lbl_8050BF00[8];
-u32 lbl_8050BF20[8];
-u32 lbl_8050BF40[8];
-f32 lbl_8050BF60[16];
+f32 scratch_vec2[8];
+u32 scratch_vec3[8];
+u32 scratch_vec4[8];
+f32 scratch_vec5[16];
 u32 scratch_rotation[16];
 f32 player_feedback_light_color[4];
 NJS_ARGB color_draw_saved_color;
@@ -400,13 +400,10 @@ s32 approach_angle_limited(s32 from, s32 to, s32 max_step) {
     return (u16)to;
 }
 
-void vsub(void *a, void *b, void *out) {
-    Vec *va = (Vec *)a;
-    Vec *vb = (Vec *)b;
-    Vec *vo = (Vec *)out;
-    vo->x = vb->x - va->x;
-    vo->y = vb->y - va->y;
-    vo->z = vb->z - va->z;
+void vsub(const Vec *a, const Vec *b, Vec *out) {
+    out->x = b->x - a->x;
+    out->y = b->y - a->y;
+    out->z = b->z - a->z;
 }
 
 f32 vec_distance_squared(u8 *a, u8 *b) {
@@ -478,9 +475,6 @@ void save_model_draw_state(void *owner) {
 // constants above), so it reads the three doubles by address.
 extern const f32 __float_nan[];
 extern const f32 __float_huge[];
-extern const f64 sqrt_double_zero[]; // 0.0
-extern const f64 sqrt_double_half[]; // 0.5
-extern const f64 sqrt_double_three[]; // 3.0
 
 // MSL's double sqrt.
 f64 sqrt_double(f64 x) {

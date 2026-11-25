@@ -15,7 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/network/protocol/GameplaySoundPacket.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/text_801E3F24.h"
 #include "pso/system/debug_print.h"
@@ -40,52 +40,47 @@
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
+#include "pso/object/key/TOKey.h"
+#include "pso/object/base/TObjCollidable.h"
+#include "pso/player/PhotonBlastGauge.h"
+#include "pso/item/TItemObject.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask.h"
+#include "pso/ui/window/TWindowDD_80348BF4.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
+#include "pso/object/TObjTombstone.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 
 struct TBoss3Volopt;
 struct TLobby;
 struct TObjPlayer;
 
 TObject *game_protocol_instance;
-void *TGameProtocol__instance;
+TGameProtocol *TGameProtocol::instance;
 // The class name opens the unit's .rodata, before the receive log formats of the
 // dispatchers below.
-extern "C" {
-const char *TGameProtocol__class_name = "TGameProtocol";
-}
+const char *TGameProtocol::class_name = "TGameProtocol";
 s32 dispatching_own_subcommand;
 
 
-void handle_6x05_write_switch_flag(void *arg0);
 extern "C" void handle_6x07_symbol_chat();
-void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 extern "C" void handle_6x18_vol_opt2_boss_actions();
 extern "C" void handle_6x32_medical_center_revive_all_players();
 extern "C" void handle_6x34();
 extern "C" void handle_6x36();
-void handle_6x38_donate_to_photon_blast(saddr arg0);
-void handle_6x39_set_photon_blast_ready_flag(saddr arg0);
-void handle_6x3A_clear_photon_blast_ready_flag(saddr arg0);
-void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr arg0);
 extern "C" void handle_6x41_move_to_position();
 extern "C" void handle_6x48_cast_technique_complete(void *arg);
 extern "C" void handle_6x54();
 extern "C" void handle_6x57(G_Unknown_6x57 *command);
 extern "C" void handle_6x5F_drop_item();
-void handle_6x62();
 extern "C" void handle_6x64();
 extern "C" void handle_6x65();
-void handle_6x66_use_star_atomizer(u8 *arg0);
 extern "C" void handle_6x68_set_telepipe_state();
 extern "C" void handle_6x6B_sync_game_state();
 extern "C" void handle_6x6C_sync_game_state();
 extern "C" void handle_6x6D_sync_game_state();
 extern "C" void handle_6x6E_sync_game_state();
-void handle_6x6F_set_quest_flags_v2(saddr pkt);
 extern "C" void handle_6x70_sync_player_disp_and_inventory();
-void handle_6x71_unblock_game_join();
-void handle_6x72_done_loading_into_game();
-void handle_6x73_exit_quest();
-void handle_6x74_word_select(u8 *arg0);
 extern "C" void handle_6x7D_set_battle_mode_data();
 struct game_command_header;
 extern "C" void handle_6x80_trigger_trap(game_command_header *command);
@@ -94,14 +89,8 @@ extern "C" void handle_6x88_restore_shrunken_player();
 extern "C" void handle_6x8B();
 extern "C" void handle_6x8C();
 extern "C" void handle_6x8E();
-void handle_6x92(u8 *arg0);
-void handle_6x96();
 extern "C" void handle_6x98();
 extern "C" void handle_6x99();
-void handle_6xA7();
-void handle_6xA8_gol_dragon_boss_actions(void *arg0);
-void handle_6xA9_barba_ray_boss_actions(void *arg0);
-void handle_6xAA_barba_ray_boss_actions(void *arg0);
 extern "C" void handle_6xB1();
 u32 lbl_804C5238[10] = { 0 };
 
@@ -285,29 +274,24 @@ void handle_6x9E_player_camera_shutter_sound(void) {
 
 }
 
-void handle_6x04_legacy_activate_switch_by_token(void *arg0) {
-    ((TLobby *)arg0)->bswap_switch_activate_token();
-    TObjDoorKey__sub_8018FAEC(*(u16 *)((s8 *)arg0 + 2), *(u16 *)((s8 *)arg0 + 4));
+void handle_6x04_legacy_activate_switch_by_token(G_LegacyActivateSwitchByToken_6x04 *packet) {
+    packet->bswap();
+    TObjDoorKey__sub_8018FAEC(packet->header.param, packet->switch_token);
 }
 
 void handle_6x03(void) {  }
 void handle_6x02(void) {  }
 
-struct Msg_801E3FA4 {
-    u8 a;
-    u8 b;
-};
-
 extern "C" {
-void dispatch_6x_subcommand(Msg_801E3FA4 *arg0) {
+void dispatch_6x_subcommand(G_ParameterHeader *command) {
     s32 i;
     char buf[0x80];
-    s32 key = arg0->a;
+    s32 key = command->subcommand;
     for (i = 0; pso_command_dispatch_table[i].command != 0; i++) {
         if (key == pso_command_dispatch_table[i].command && (pso_command_dispatch_table[i].area_mask & subcommand_area_masks[get_current_floor_area()])) {
-            sprintf(buf, "RcvPsoData2 %d %d", arg0->a, arg0->b);
+            sprintf(buf, "RcvPsoData2 %d %d", command->subcommand, command->size);
             debug_print(buf);
-            pso_command_dispatch_table[i].handle((game_command_header *)arg0);
+            pso_command_dispatch_table[i].handle((game_command_header *)command);
             return;
         }
     }
@@ -352,38 +336,29 @@ void TPsoDataBuf::recv_pso_data_buf(size_t size) {
     }
 }
 
-struct Buf_801E416C {
-    u8 pad0[0x2C];
-    s16 end;
-    s16 pos;
-    u8 pad30[0x44];
-    u8 data[1];
-};
-
-extern "C" {
-void dispatch_pso_data_commands(Buf_801E416C *b) {
+// The commands a packet received: m_buffer_offset walks m_packet_buffer up to m_size.
+void dispatch_pso_data_commands(TPacket *packet) {
     char msg[0x80];
-    u8 *pkt;
+    extended_game_command_header *command;
     s32 i;
-    while (b->pos < b->end) {
-        pkt = &b->data[b->pos];
+    while (packet->m_buffer_offset < packet->m_size) {
+        command = (extended_game_command_header *)&packet->m_packet_buffer[packet->m_buffer_offset];
         for (i = 0; pso_command_dispatch_table[i].command != 0; i++) {
-            if (pkt[0] == pso_command_dispatch_table[i].command) {
-                sprintf(msg, "RcvPsoData %d %d", pkt[0], pkt[1]);
+            if ((u8)command->header.command == pso_command_dispatch_table[i].command) {
+                sprintf(msg, "RcvPsoData %d %d", (u8)command->header.command, command->header.size);
                 debug_print(msg);
                 if (pso_command_dispatch_table[i].area_mask & subcommand_area_masks[get_current_floor_area()]) {
-                    pso_command_dispatch_table[i].handle((game_command_header *)pkt);
+                    pso_command_dispatch_table[i].handle(&command->header);
                 }
                 break;
             }
         }
-        if (pkt[1] != 0) {
-            b->pos += pkt[1] * 4;
+        if (command->header.size != 0) {
+            packet->m_buffer_offset += command->header.size * 4;
         } else {
-            b->pos += *(s32 *)(pkt + 4);
+            packet->m_buffer_offset += command->size;
         }
     }
-}
 }
 
 void TGameProtocol::run_task() {
@@ -391,7 +366,7 @@ void TGameProtocol::run_task() {
     for (n = (TPacket *)game_protocol_instance->m_down; n != 0; n = (TPacket *)n->m_next) {
         TLobby__sub_8007EB20("Packet %s %x", n->m_name, n);
         if (n->m_buffer_cleared == 0) {
-            dispatch_pso_data_commands((Buf_801E416C *)n);
+            dispatch_pso_data_commands(n);
             n->recv();
         }
         if (n->m_id == frame_slot) {
@@ -407,8 +382,8 @@ TGameProtocol::~TGameProtocol() {
 }
 
 TGameProtocol::TGameProtocol(TObject *parent) : TObject(parent) {
-    m_name = TGameProtocol__class_name;
-    TGameProtocol__instance = this;
+    m_name = class_name;
+    instance = this;
     frame_slot = 0;
     game_protocol_instance = new TObject(this);
 }

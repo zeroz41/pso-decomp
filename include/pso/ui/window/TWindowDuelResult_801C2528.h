@@ -2,15 +2,9 @@
 #define PSO_UI_WINDOW_TWINDOWDUELRESULT_801C2528_H
 
 #include "types.h"
+#include "pso/player/BattleRanking.h"
 
-extern "C" {
-s32 *TWindowDuelResult__sub_801C257C(void);
-}
-
-// --- C functions defined in TWindowDuelResult_801C2528.cpp ---
-extern "C" {
-s32 *TWindowDuelResult__sub_801C257C(void);
-}
-// --- end of C functions
+// The rankings of the running battle: the split-screen table offline, the network duel table online.
+BattleRanking *get_battle_rankings(void);
 
 #endif

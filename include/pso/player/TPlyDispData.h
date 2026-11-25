@@ -57,19 +57,6 @@ struct disp_data_part2 {
     vec2f proportions;
 };
 
-inline void TPlyDispConfigSmth::bswap() {
-    bswap_32(&m_mbr_0x0);
-    for (int i = 0; i < 4; ++i) {
-        m_tags[i].bswap();
-        m_tags1[i].bswap();
-    }
-}
-
-inline void TPlyDispConfig::bswap() {
-    m_smth.bswap();
-    m_smth1.bswap();
-}
-
 class TPlyDispData {
 public:
     void bswap();

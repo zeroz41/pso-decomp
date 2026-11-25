@@ -13,7 +13,8 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/unk/TLobbyEventTheme.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TObjPathObj.h"
 #include "pso/player/TObjPlayer.h"
@@ -1100,7 +1101,7 @@ s32 filter_lobby_pigeon_theme(void *) {
 void TObjLobbyPigeon::load_static_resource() {
     saddr temp_r3;
     lobby_pigeon_bml_archive = new BmlResource(5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, NULL);
-    lobby_pigeon_lobby_type = TLobby::get_lobby_texlist();
+    lobby_pigeon_lobby_type = get_lobby_main_texlist();
 }
 
 void TObjLobbyPigeon::destroy_instance() {

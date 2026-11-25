@@ -2,7 +2,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/Language.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 

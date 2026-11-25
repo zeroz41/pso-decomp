@@ -14,6 +14,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/render/model_render_state.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/system/MatrixOps.h"
 #include <dolphin/mtx.h>
@@ -29,6 +30,7 @@
 #include <dolphin/gx/GXLighting.h>
 #include <dolphin/gx/GXPixel.h>
 #include <dolphin/gx/GXVert.h>
+#include <dolphin/gx/GXTev.h>
 #undef PSO_SDK_COMPACT_MATH
 
 
@@ -46,39 +48,36 @@ struct ChunkCachedVertex {
 };
 
 extern "C" {
-void GXSetNumTevStages(u8 stages);
-void GXSetTevOp(GXTevStageID stage, GXTevMode mode);
-void GXSetTevOrder(GXTevStageID stage, GXTexCoordID coord, GXTexMapID map, GXChannelID color);
-void GXSetAlphaCompare(GXCompare comp0, int ref0, GXAlphaOp op, GXCompare comp1, int ref1);
-extern u8 chunk_tev_stage_extra;
-extern u8 chunk_texgen_extra;
-extern s32 ginja_draw_flags;
-extern void (*player_chunk_draw_end_callback)();
-extern s32 chunk_texture_record_index;
-extern NJS_ARGB model_material_color;
-extern s32 model_render_flags;
-
-extern u32 chunk_blend_header_bits;
-extern u32 chunk_strip_dirty_flags;
-extern saddr chunk_vertex_cache_buffer;
-extern s32 chunk_vertex_cache_size;
 void transform_chunk_object_tree(void *object, s32 (*draw)(void *model));
-s32 __cvt_fp2unsigned(f32);
-extern GC_Mtx chunk_object_current_matrix;
 void draw_strip_list_pos_nrm(s16 *list, ChunkCachedVertex *verts, u32 info);
-extern u32 chunk_has_vertex_colors;
 void draw_strip_pos_normal(s16 *list, ChunkCachedVertex *verts, u32 info);
 void draw_triangle_strips(s16 *list, ChunkCachedVertex *verts, u32 info);
 void draw_chunk_textured_strips(s16 *list, ChunkCachedVertex *verts, u32 info, s32 large);
+}
+
 // One recorded chunk vertex cache: the transformed vertices of one model draw.
 struct ChunkCacheBuffer { void *vertices; s32 bytes; };
 struct ChunkCacheRecording { ChunkCacheBuffer buffers[32]; s32 index; };
-}
+
 char chunk_memory_assert_message[19] = "CHNK MEMORY ASSERT";
-extern u32 chunk_vertex_cache_flags;
-extern ChunkCacheRecording* chunk_vertex_cache_state;
+GC_Mtx chunk_object_current_matrix;
+
+s32 chunk_previous_strip_flags;
+u32 chunk_strip_dirty_flags;
+u8 chunk_tev_stage_extra;
+u8 chunk_texgen_extra;
+void (*player_chunk_draw_end_callback)();
+u32 chunk_has_vertex_colors;
+u32 chunk_vertex_cache_flags;
+ChunkCacheRecording* chunk_vertex_cache_state;
+s32 chunk_texture_record_index;
+u32 chunk_blend_header_bits;
+u32 lbl_805D77F4;
+u32 chunk_render_flags;
+s32 chunk_vertex_cache_size;
+saddr chunk_vertex_cache_buffer;
+
 extern "C" {
-extern s32 chunk_previous_strip_flags;
 
 #pragma push
 #pragma peephole off
@@ -507,7 +506,7 @@ void set_strip_lighting_chan_ctrl(u32 flags) {
     }
 }
 
-void set_chunk_alpha_compare_ref(int ref) {
+void set_chunk_alpha_compare_ref(u8 ref) {
     GXSetAlphaCompare(GX_GREATER, ref, GX_AOP_AND, GX_ALWAYS, 0);
 }
 
@@ -520,7 +519,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 textured) {
     GXBlendFactor dst_factor;
     u32 material_opaque;
     GinjaSurfaceState *alpha_surface;
-    u32 id;
+    s32 id;
     GinjaSurfaceState *zcomp_surface;
     u32 alpha_reasons;
     if ((u32) (header & (NJD_FST_UA >> NJD_FST_SHIFT)) != 0) {
@@ -572,7 +571,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 textured) {
             } else {
                 GXSetZCompLoc(GX_FALSE);
                 GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
-                set_chunk_alpha_compare_ref((u8) material_alpha_compare_reference);
+                set_chunk_alpha_compare_ref(material_alpha_compare_reference);
             }
         } else {
             if (chunk_render_flags != 0) {
@@ -582,7 +581,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 textured) {
                 GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
                 GXSetZCompLoc(GX_FALSE);
                 GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
-                set_chunk_alpha_compare_ref((u8) material_alpha_compare_reference);
+                set_chunk_alpha_compare_ref(material_alpha_compare_reference);
             } else {
                 GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
                 GXSetZCompLoc(GX_FALSE);
@@ -617,8 +616,6 @@ void set_chunk_blend_depth_mode(s32 header, s32 textured) {
 
 extern "C" {
 extern s32 chunk_polygon_cache_pending;  // lists cached by NJD_CB_CP and not yet drawn by NJD_CB_DP
-extern u32 chunk_polygon_flags_and_mask;
-extern u32 chunk_polygon_flags_or_mask;
 }
 
 #pragma push
@@ -936,19 +933,3 @@ void clear_chunk_render_flags() {
 }
 
 
-GC_Mtx chunk_object_current_matrix;
-
-s32 chunk_previous_strip_flags;
-u32 chunk_strip_dirty_flags;
-u8 chunk_tev_stage_extra;
-u8 chunk_texgen_extra;
-void (*player_chunk_draw_end_callback)();
-u32 chunk_has_vertex_colors;
-u32 chunk_vertex_cache_flags;
-ChunkCacheRecording* chunk_vertex_cache_state;
-s32 chunk_texture_record_index;
-u32 chunk_blend_header_bits;
-u32 lbl_805D77F4;
-u32 chunk_render_flags;
-s32 chunk_vertex_cache_size;
-saddr chunk_vertex_cache_buffer;

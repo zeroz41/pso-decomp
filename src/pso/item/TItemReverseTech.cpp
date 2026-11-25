@@ -15,7 +15,7 @@
 #include "pso/render/render_util.h"
 #include "pso/item/TItemReverseTechPart1.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FC3CC.h"
 #include "pso/item/TItemReverseTech.h"
 #include "pso/object/ambient/TObjLight_80133568.h"

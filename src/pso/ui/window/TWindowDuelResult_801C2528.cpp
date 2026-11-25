@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TUnk_804C3E60.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -45,11 +45,11 @@ TUnk_804C3E60::TUnk_804C3E60(TObject *parent, s32 gain, s32 duration) : TObject(
     TLobby::set_and_notify(gain);
 }
 
-s32 *TWindowDuelResult__sub_801C257C(void) {
+}
+
+BattleRanking *get_battle_rankings(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return get_split_screen_battle_rankings();
     }
-    return &duel_result_table.value;
-}
-
+    return duel_result_table;
 }

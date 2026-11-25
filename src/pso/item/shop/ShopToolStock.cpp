@@ -2,7 +2,7 @@
 #include <string.h>
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/unk/text_80223B98.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -394,9 +394,9 @@ void clear_shop_tool_flags(void) {
     memset(shop_tool_flags, 0, 0x10);
 }
 
-void TLobby::copy_shop_item_entry(s32 arg1, s32 arg2) {
+void TLobby::copy_shop_item_entry(s32 index, s32 buffer) {
     saddr arg0 = (saddr)this;
-    *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(shop_tool_stock_buffers[arg2] + (arg1 * 0x14));
+    *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(shop_tool_stock_buffers[buffer] + (index * 0x14));
 }
 void mark_shop_tool_sold_out(s32 a, s32 b) {
     E_8022444C *arr = ((E_8022444C * *)&shop_tool_stock_buffers)[b];
@@ -408,7 +408,7 @@ void mark_shop_tool_sold_out(s32 a, s32 b) {
 }
 
 
-void TLobby::set_6264_and_call_2244B0(int a0, int a1) { shop_tool_stock_level = a1; TLobby::generate_shop_inventory(a0); }
+void TLobby::generate_shop_inventory_at_level(int slot, int level) { shop_tool_stock_level = level; TLobby::generate_shop_inventory(slot); }
 
 void TLobby::generate_shop_inventory(s32 idx) {
     if (lobby_tool_random_rel != NULL) {

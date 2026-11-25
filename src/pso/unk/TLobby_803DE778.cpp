@@ -1,7 +1,7 @@
 #include "pso/system/memory.h"
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
 
 

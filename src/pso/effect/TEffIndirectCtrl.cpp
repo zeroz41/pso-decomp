@@ -9,7 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_803DC834.h"
+#include "pso/render/GinjaMaterial.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/task/TObject_80019A50.h"

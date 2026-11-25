@@ -63,7 +63,7 @@
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/SubtractiveRng.h"
 
 #include "pso/enemy/dubchik/TOCtrlDubchik.h"

@@ -20,7 +20,8 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/network/TProtocol.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/TLoadCtrl.h"
@@ -118,12 +119,10 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 
 extern "C" {
 void clear_enabled_main_warps(void);
-    extern int challenge_task_created;
 int TKeyBoardControl__sub_8000F95C(void);
 s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
 int request_main_phase(int);
-s32 TLobby__sub_8006EF90();
 
 s32 cleanup__6TLobbyFv();
 s32 PPCSync();
@@ -152,7 +151,6 @@ void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
 void reset_globals(void);
 }
-void init_scene_fog_system(void);
 void clear_received_symbol_chat(void);
 
 // Load and release hooks of the online lobby scene, in pairs: run_online_lobby_scene runs
@@ -188,7 +186,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
     {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
-    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
+    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::clear_auto_reply_flags},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
     {TLobby__sub_8024285C, TLobby::reset_state},
@@ -206,7 +204,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
 
 // Area resources reloaded on a floor change and released with the lobby scene.
 FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
-    { TLobby::init_on_main_phase, NULL },
+    { start_challenge_mode, NULL },
     { TLobby::update_drop_item, NULL },
     { clear_floor_population, NULL },
     { TLobby::load_set_gsl_files, clear_map_set_data },
@@ -226,7 +224,7 @@ extern s32 actor_frame_tick;
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern s32 lbl_805D55C0;
-s16 TLobby__data_805D5CE8;
+s16 lobby_floor_reload_pending;
 int new_game_setup_flags;
 s32 online_lobby_scene_handle;
 s32 online_lobby_frame_counter;
@@ -322,7 +320,7 @@ void reload_lobby_floor_scene(void) {
     TObjPlayer::send_local_player_visible();
     TLobby::send_room_change(TLobby::lobby_number);
     init_key_slots__15TOKeyJungleMainFPv();
-    TLobby__data_805D5CE8 = 0;
+    lobby_floor_reload_pending = 0;
 }
 
 void TLobby::send_and_handle() { TLobby::blocking_vsync(); }
@@ -653,7 +651,7 @@ void TLobby::run_main_frame() {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     take_snapshot();
-    TLobby__sub_8006EF90();
+    run_challenge_frame();
     if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
             online_lobby_frame_counter = 0;
@@ -678,7 +676,7 @@ void TLobby::run_main_frame() {
         TLobby::reload_floor_scene();
         deactivate_keyboard();
     }
-    if ((s16) TLobby__data_805D5CE8 == 1) {
+    if ((s16) lobby_floor_reload_pending == 1) {
         reload_lobby_floor_scene();
     }
     if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) idle_timeout_active == 1)) {
@@ -782,7 +780,7 @@ void run_online_lobby_scene(void) {
         }
     }
     actor_frame_tick = 0;
-    TLobby__data_805D5CE8 = 0;
+    lobby_floor_reload_pending = 0;
     online_lobby_frame_counter = 0;
     render_tick();
 }

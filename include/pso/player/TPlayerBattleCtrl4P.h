@@ -1,22 +1,16 @@
 #ifndef PSO_PLAYER_TPLAYERBATTLECTRL4P_H
 #define PSO_PLAYER_TPLAYERBATTLECTRL4P_H
 #include "pso/system/task/TObject.h"
+#include "pso/player/BattleRanking.h"
 
 class TObjPlayer;
 class TWindowBase;
-
-// One row of the split-screen battle ranking: place 0 is first.
-struct BattleRanking {
-    u16 client_id;
-    s16 place;
-    s32 score;
-};
 
 extern BattleRanking split_screen_battle_rankings[4];
 
 extern "C" {
 s32 are_split_screen_battle_players_tied(void);
-s32 *get_split_screen_battle_rankings(void);
+BattleRanking *get_split_screen_battle_rankings(void);
 }
 
 class TPlayerBattleCtrl4P : public TObject {

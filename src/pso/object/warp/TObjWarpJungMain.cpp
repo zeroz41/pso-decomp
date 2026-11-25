@@ -12,7 +12,7 @@
 #include "pso/object/warp/TObjWarpJungMain.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"

@@ -42,7 +42,7 @@
 #include "pso/network/protocol/subcommand_validation_photon_blast.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/npc/TNpcPlayer.h"
@@ -576,7 +576,7 @@ void handle_6xAB(G_CreateLobbyChair_6xAB *command) {
     m.init();
     m = *command;
     m.bswap();
-    if (validate_6xAB(&m.header) != 0) {
+    if (validate_6xAB(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL && p->is_in_tl03_state() != 0) {
             if (m.uses_alt_chair() == 0) {
@@ -885,7 +885,7 @@ void handle_6x58_lobby_animation(G_LobbyAnimation_6x58 *command) {
     m.init();
     m = *command;
     m.bswap();
-    if (validate_6x58_lobby_animation(&m.header) != 0) {
+    if (validate_6x58_lobby_animation(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if ((p != NULL) && (p->is_in_tl03_state() != 0)) {
             p->lobby_animation = m.animation_number;
@@ -1136,7 +1136,7 @@ void handle_6x56_set_player_position_and_angle(G_SetPlayerPositionAndAngle_6x56 
     m.init();
     m = *command;
     m.bswap();
-    if (validate_6x56_set_player_position_and_angle(&m.header) != 0) {
+    if (validate_6x56_set_player_position_and_angle(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
             p->rotation_y = m.angle_y;
@@ -1282,7 +1282,7 @@ void handle_6x55_intra_map_warp(game_command_header *command) {
     packet.init();
     TObjPlayer__sub_801D0EA0(&packet, reinterpret_cast<G_IntraMapWarp_6x55 *>(command));
     packet.bswap();
-    if (validate_6x55_intra_map_warp(&packet.header) != 0) {
+    if (validate_6x55_intra_map_warp(&packet) != 0) {
         TObjPlayer *player = get_player_by_client_id(packet.header.client_id);
         if (player != NULL && player->is_in_tl03_state() != 0 && player->test_action_mask(0x8200) == 0) {
             player->intra_map_warp.yaw = packet.angle_y;
@@ -1543,7 +1543,7 @@ void handle_6x52_set_animation_state(G_SetAnimationState_6x52 *command) {
     pkt.init();
     pkt = *command;
     pkt.bswap();
-    if (validate_6x52_set_animation_state(&pkt.header) != 0) {
+    if (validate_6x52_set_animation_state(&pkt) != 0) {
         player = get_player_by_client_id(pkt.header.client_id);
         if ((player != NULL) && (player->is_in_tl03_state() != 0) && (player->test_action_mask(0x8000) == 0) && ((TFontSmallLobby::is_lobby_floor_15() == 0) || (player->obj_isState2_324() == 0) || (player->check_flag(0x04000000) == 0))) {
             player->anim_state.set_animation(pkt.animation);
@@ -2158,7 +2158,7 @@ void handle_6x4C_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *command) {
     ((TObjPlayer *)(&m))->init_6x4C_packet();
     ((void (*)(void *, void *))copy_6x4c_hit_by_enemy_packet__10TObjPlayerFPvPv)(&m, command);
     ((TObjPlayer *)(&m))->bswap_head_pair();
-    if (validate_6x4C_hit_by_enemy(reinterpret_cast<G_ClientIDHeader *>(&m)) != 0) {
+    if (validate_6x4C_hit_by_enemy(reinterpret_cast<G_HitByEnemy_6x4B_6x4C *>(&m)) != 0) {
         p = (Player_801CACD8 *)get_player_by_client_id(m.id);
         {
             TObjPlayer *tp = (TObjPlayer *)p;
@@ -2296,7 +2296,7 @@ void handle_6x4B_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *command) {
     ((TObjPlayer *)(&m))->reset_action_state();
     ((void (*)(void *, void *))copy_6x4b_hit_by_enemy_packet__10TObjPlayerFPvPv)(&m, command);
     ((TObjPlayer *)(&m))->read_swapped_fields();
-    if (validate_6x4B_hit_by_enemy(reinterpret_cast<G_ClientIDHeader *>(&m)) != 0) {
+    if (validate_6x4B_hit_by_enemy(reinterpret_cast<G_HitByEnemy_6x4B_6x4C *>(&m)) != 0) {
         p = (Player_801CB1B0 *)get_player_by_client_id(m.id);
         {
             TObjPlayer *tp = (TObjPlayer *)p;
@@ -3173,7 +3173,7 @@ void handle_6x48_cast_technique_complete(void *arg) {
     ((void (*)(void *))init_6x48_cast_complete_packet)(&pkt);
     ((TObjPlayer *)(&pkt))->copy_6x48_cast_technique_complete_packet(arg);
     ((TObjPlayer *)(&pkt))->swap_header();
-    if (validate_6x48_cast_technique_complete(reinterpret_cast<G_ClientIDHeader *>(&pkt)) == 0) {
+    if (validate_6x48_cast_technique_complete(reinterpret_cast<G_CastTechniqueComplete_6x48 *>(&pkt)) == 0) {
         return;
     }
     p = (Player_801CCD38 *)get_player_by_client_id((u16)pkt.id);
@@ -3410,7 +3410,7 @@ void handle_6x8D_set_technique_level_override(G_SetTechniqueLevelOverride_6x8D *
     ((void (*)(void *))init_6x8D_technique_level_packet)(&m);
     ((TObjPlayer *)(&m))->copy_6x8d_technique_level_packet(command);
     ((TObjPlayer *)(&m))->swap_field6();
-    if (validate_6x8D_set_technique_level_override(reinterpret_cast<G_ClientIDHeader *>(&m)) != 0) {
+    if (validate_6x8D_set_technique_level_override(reinterpret_cast<G_SetTechniqueLevelOverride_6x8D *>(&m)) != 0) {
         p = get_player_by_client_id(m.id);
         if (p != NULL) {
             p->technique_state.set_tech_override(m.level);

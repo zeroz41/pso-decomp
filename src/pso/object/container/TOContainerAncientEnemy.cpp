@@ -30,7 +30,7 @@
 #include "pso/object/container/TObjContainerItem.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/CameraDistanceFade.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/ambient/TObjFish.h"

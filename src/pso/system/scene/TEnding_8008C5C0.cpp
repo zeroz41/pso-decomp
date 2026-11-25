@@ -7,7 +7,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/render/GinjaView.h"
 #include "pso/system/scene/TEnding_8008C5C0.h"

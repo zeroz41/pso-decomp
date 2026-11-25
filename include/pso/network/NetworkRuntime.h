@@ -4,9 +4,12 @@
 #include "types.h"
 #include <stddef.h>
 
-typedef uaddr NetThreadHandle;
-/* A mutex handle from create_mutex: the address of its slot's OSMutex, kept and compared as an unsigned word (NetReleaseMutex). */
-typedef uaddr NetMutexHandle;
+/* A thread the stack created (AT_CreateTask) or a caller waiting on it. */
+typedef struct OSThread *NetThreadHandle;
+/* A mutex from create_mutex: its slot's OSMutex. */
+typedef struct OSMutex *NetMutexHandle;
+/* A message queue from create_message_queue: its slot's OSMessageQueue. */
+typedef struct OSMessageQueue *NetQueueHandle;
 typedef struct NetworkThreadSlot NetworkThreadSlot;
 typedef void (*NetThreadEntry)(void);
 typedef struct PppFrame PppFrame;
@@ -43,7 +46,7 @@ typedef struct Ipv6cpConfig {
 LAYOUT_ASSERT(Ipv6cpConfig_peer_offset, offsetof(Ipv6cpConfig, peer) == 0x34);
 struct PppFsm;
 struct PppHeader;
-/* The network stack's thread (net_thread_state, TLobby_804048E8.c): the mutex the stack's callers hold, the thread running
+/* The network stack's thread (net_thread_state, PppVjCompress.c): the mutex the stack's callers hold, the thread running
  * run_net_thread_loop (start_network_thread) and how long that loop sleeps between polls. */
 typedef struct NetThreadState {
     NetMutexHandle mutex;
@@ -61,15 +64,15 @@ s16 AT_InitializeRTOS(void);
 s32 AT_TerminateRTOS(void);
 void get_time_seconds(s32* out);
 void get_time_ms(s32* out);
-s16 create_message_queue(s32 *out);
-void clear_slot_for_handle(u32 handle);
-void send_message_queue(u32 handle, void *source, s32 size);
+s16 create_message_queue(NetQueueHandle *out);
+void clear_slot_for_handle(NetQueueHandle handle);
+void send_message_queue(NetQueueHandle handle, void *source, s32 size);
 void unlock_mutex(NetMutexHandle mutex);
 void lock_mutex(NetMutexHandle mutex);
 void signal_alarm_queue(void* alarm);
-void resume_thread(saddr thread);
-void AT_TerminateTask(void* thread);
-void AT_DeleteTask(u32 key);
+void resume_thread(NetThreadHandle thread);
+void AT_TerminateTask(NetThreadHandle thread);
+void AT_DeleteTask(NetThreadHandle thread);
 /* The thread key is the original native address word stored by the pool. */
 s16 AT_CreateTask(NetThreadEntry entry, NetThreadHandle *out_key);
 void *run_current_thread_callback(void *unused);
@@ -80,10 +83,10 @@ void ipv6cp_opening(struct PppFsm *entry);
 void NetIPv6CPCancelTimer(struct PppFsm *entry);
 void NetYieldThread(void);
 void NetStoreTick(s32* tick);
-void NetStoreCurrentThread(s32* thread);
+void NetStoreCurrentThread(NetThreadHandle *thread);
 void NetSuspendCurrentThread(void);
-void AT_StartTask(uaddr thread);
-void NetReceiveMessage(u32 handle, void* destination, s32 size);
+void AT_StartTask(NetThreadHandle thread);
+void NetReceiveMessage(NetQueueHandle handle, void* destination, s32 size);
 void NetReleaseMutex(NetMutexHandle handle);
 
 s16 NetIPv4IsLoopback(s32 address);
@@ -98,8 +101,8 @@ char* NetCopyString(char* destination, const char* source);
 u32 NetStringLength(const char* text);
 void* NetMemmove(void* destination, const void* source, u32 size);
 
-s32 NetMemcmp(void* left, void* right, int size);
-void NetMemcpy(void* destination, void* source, int size);
+s32 NetMemcmp(const void *left, const void *right, int size);
+void NetMemcpy(void *destination, const void *source, int size);
 void NetMemset(void* destination, int value, int size);
 
 void ipv6cp_release_resources(struct PppFsm *fsm);
@@ -108,8 +111,8 @@ void ipv6cp_link_closed(struct PppFsm *fsm);
 extern s32 net_default_thread_priority;
 void ipv6cp_reset_options(struct PppFsm *o);
 s16 verify_message_sequence(struct PppFsm *fsm, struct PppHeader *msg, PppFrame *expected);
-void append_ipv6cp_option(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src);
-void append_masked_ipv6cp_options(uaddr *self, Ipv6cpOptionSet *opts, s32 mask);
+void append_ipv6cp_option(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, PppFrame **src);
+void append_masked_ipv6cp_options(PppFrame **self, Ipv6cpOptionSet *opts, s32 mask);
 
 void net_sleep_ms(s32 ms);
 s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);

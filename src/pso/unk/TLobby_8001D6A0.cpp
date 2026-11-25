@@ -12,7 +12,7 @@
 #include "pso/system/date.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -66,16 +66,16 @@ void TLobby::set_short_mail_text() {
 
 int get_flag_bit0__6TLobbyFv(void) {  return (auto_reply_flags & 0x1); }
 
-s32 TLobby::set_flag_bit0(s32 arg0) {
+s32 TLobby::set_flag_bit0(s32 enabled) {
     s32 var_r3;
     s32 ret;
 
-    ret = ((s32 (*)(s32))get_flag_bit0__6TLobbyFv)(arg0);
-    if (ret == arg0) {
+    ret = ((s32 (*)(s32))get_flag_bit0__6TLobbyFv)(enabled);
+    if (ret == enabled) {
         return 0;
     }
     var_r3 = auto_reply_flags & 0xFFFFFFFE;
-    if (arg0 != 0) {
+    if (enabled != 0) {
         var_r3 = auto_reply_flags | 1;
     }
     auto_reply_flags = var_r3;
@@ -96,7 +96,7 @@ void TLobby__sub_8001DBD8(s32 _w0) {
     auto_reply_flags = 0;
 }
 
-void TLobby::forward_8001DBD8(void* p) { TLobby__sub_8001DBD8((saddr)p); }
+void TLobby::clear_auto_reply_flags(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 
 
@@ -269,23 +269,23 @@ void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1) {
     }
 }
 
-void TLobby::copy_from(void *arg1) {
-    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)this + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    this->m_flags = (s16) *(s16 *)((s8 *)arg1 + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(f32 *)&this->m_prev = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)arg1 + 0xC);
-    *(f32 *)&this->m_up = (f32) *(f32 *)((s8 *)arg1 + 0x10);
-    *(s16 *)&this->m_down = (s16) *(s16 *)((s8 *)arg1 + 0x14);
-    *(s16 *)((s8 *)this + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
-    *(s16 *)((s8 *)this + 0x18) = (s16) *(s16 *)((s8 *)arg1 + 0x18);
-    *(s16 *)((s8 *)this + 0x1A) = (s16) *(s16 *)((s8 *)arg1 + 0x1A);
-    *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
-    *(s32 *)((s8 *)this + 0x20) = (s32) *(s32 *)((s8 *)arg1 + 0x20);
-    *(s32 *)((s8 *)this + 0x24) = (s32) *(s32 *)((s8 *)arg1 + 0x24);
-    *(s32 *)((s8 *)this + 0x28) = (s32) *(s32 *)((s8 *)arg1 + 0x28);
-    *(s32 *)((s8 *)this + 0x2C) = (s32) *(s32 *)((s8 *)arg1 + 0x2C);
+void TLobby::copy_from(void *src) {
+    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)src + 0);
+    *(s16 *)((s8 *)this + 2) = (s16) *(s16 *)((s8 *)src + 2);
+    this->m_flags = (s16) *(s16 *)((s8 *)src + 4);
+    this->m_id = (s16) *(s16 *)((s8 *)src + 6);
+    *(f32 *)&this->m_prev = (f32) *(f32 *)((s8 *)src + 8);
+    *(s32 *)&this->m_next = (s32) *(s32 *)((s8 *)src + 0xC);
+    *(f32 *)&this->m_up = (f32) *(f32 *)((s8 *)src + 0x10);
+    *(s16 *)&this->m_down = (s16) *(s16 *)((s8 *)src + 0x14);
+    *(s16 *)((s8 *)this + 0x16) = (s16) *(s16 *)((s8 *)src + 0x16);
+    *(s16 *)((s8 *)this + 0x18) = (s16) *(s16 *)((s8 *)src + 0x18);
+    *(s16 *)((s8 *)this + 0x1A) = (s16) *(s16 *)((s8 *)src + 0x1A);
+    *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)src + 0x1C);
+    *(s32 *)((s8 *)this + 0x20) = (s32) *(s32 *)((s8 *)src + 0x20);
+    *(s32 *)((s8 *)this + 0x24) = (s32) *(s32 *)((s8 *)src + 0x24);
+    *(s32 *)((s8 *)this + 0x28) = (s32) *(s32 *)((s8 *)src + 0x28);
+    *(s32 *)((s8 *)this + 0x2C) = (s32) *(s32 *)((s8 *)src + 0x2C);
 }
 
 void copy_all_data__6TLobbyFii(s32 arg0, saddr src) {
@@ -347,10 +347,10 @@ void set_difficulty__6TLobbyFi(s32 arg0) {
 }
 
 
-void TLobby::clamp_difficulty(s32 arg0) {
+void TLobby::clamp_difficulty(s32 difficulty) {
     s32 var_r3;
 
-    var_r3 = arg0;
+    var_r3 = difficulty;
     if (var_r3 < 0) {
         var_r3 = 0;
     } else if ((s32) enable_v2_features != 0) {
@@ -407,8 +407,6 @@ void alloc_battle_param_tables(void) {
     load_battle_param_entry();
     lobby_instance = 0;
 }
-extern "C" {
-
 void ActorParamBlock::swap_endian() {
     bswap_16(reinterpret_cast<u16 *>(&values[0]));
     bswap_16(reinterpret_cast<u16 *>(&values[1]));
@@ -441,6 +439,7 @@ void AttackParams::byteswap_packet() {
     bswap_32(reinterpret_cast<u32 *>(pad_14 + 20));
     bswap_32(reinterpret_cast<u32 *>(pad_14 + 24));
 }
+extern "C" {
 
 void bswap__12player_statsFv(void *arg0) {
     bswap_16((u16 *)arg0);
@@ -507,6 +506,7 @@ s32 TLobby__sub_8001E75C(void *arg0) {
 }
 
 s32 __cvt_fp2unsigned(f32);
+}
 
 s32 TLobby::calc_alpha_shifted(f32 alpha) {
     return __cvt_fp2unsigned(255.0f * alpha) << 0x18;
@@ -592,6 +592,7 @@ s32 TLobby::get_clock_frames() {
   t += base;
   return t;
 }
+extern "C" {
 
 void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3) {
     f32 scale;

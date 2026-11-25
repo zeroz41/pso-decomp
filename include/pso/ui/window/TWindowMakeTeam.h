@@ -26,6 +26,8 @@ struct TWindowMakeTeam : public TObject {
     static saddr draw_entry_0x110(s8 arg0);
     s32 is_enabled();
     u8 get_mode();
+    const char *get_name();
+    const char *get_comment();
     u8 read_mode();
     s32 get_field_20();
     int test_flag_1d_bit1();

@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include "pso/enemy/TNeedleShoot.h"
 #include "pso/technique/TechniqueContact.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/CsnQuery.h"

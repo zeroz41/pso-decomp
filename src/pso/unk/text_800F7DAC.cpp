@@ -11,7 +11,7 @@
 #include "pso/unk/TScreenFadeController.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"

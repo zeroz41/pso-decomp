@@ -64,4 +64,7 @@ struct TObjTombstone : public TObjCollidable {
 };
 
 LAYOUT_ASSERT(TObjTombstone_size, sizeof(TObjTombstone) == 0x238);
+
+void handle_6x96(void);
+
 #endif

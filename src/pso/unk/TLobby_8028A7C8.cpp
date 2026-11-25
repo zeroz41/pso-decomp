@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResourceLoader.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_8028A820.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 

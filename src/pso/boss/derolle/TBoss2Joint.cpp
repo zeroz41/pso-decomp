@@ -9,7 +9,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {

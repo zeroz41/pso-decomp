@@ -53,8 +53,10 @@ struct TWindowSubTradeMain : public TObject {
     void clear_flag();
     void clear_flag70_bit80();
     void set_trade_state(s16 trade_state);
-    static void draw_offer(void *item, void *amount);
-    static void draw_request(void *item, void *amount);
+    static void draw_offer(u32 item_id, s32 amount);
+    static void draw_request(u32 item_id, s32 amount);
+    // Opens the status window once the trade list was sent.
+    void show_trade_status();
     TWindowMessageYesNo *open_confirm_yes_no();
     TWindowMessageYesNo *open_option_dialog(saddr message);
     TWindowMessageYesNo *open_option_dialog_thunk(saddr message);

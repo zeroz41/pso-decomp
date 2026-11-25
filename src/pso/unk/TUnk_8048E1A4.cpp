@@ -21,7 +21,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/ambient/TObjFish.h"

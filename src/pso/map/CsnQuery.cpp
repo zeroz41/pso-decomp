@@ -38,9 +38,9 @@ CsnContact lbl_804FF9C0[0x20];
 CsnGroup *csn_query_groups[0x100];
 __declspec(section ".data") CsnHit lbl_80500140;
 WallRayResult csn_query_map_object;
-extern Vec lbl_8050BF20;
-extern Vec lbl_8050BF40;
-extern Vec lbl_8050BF60;
+extern Vec scratch_vec3;
+extern Vec scratch_vec4;
+extern Vec scratch_vec5;
 extern "C" {
 
 s32 get_csn_group_flags(u8 arg0) {
@@ -127,10 +127,10 @@ s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg
   hdr = &lbl_80500140;
   hits = lbl_80500140.contact;
   minT = GT_TMAX;
-  lbl_8050BF60.x = origin->x;
-  lbl_8050BF60.y = GT_DOWN + origin->y;
-  lbl_8050BF60.z = origin->z;
-  vsub(origin, &lbl_8050BF60, &tmp);
+  scratch_vec5.x = origin->x;
+  scratch_vec5.y = GT_DOWN + origin->y;
+  scratch_vec5.z = origin->z;
+  vsub(origin, &scratch_vec5, &tmp);
   ox = origin->x;
   oy = origin->y;
   oz = origin->z;
@@ -422,23 +422,23 @@ s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *
     if (t > 1.0f || t < 0.0f) {
         return 0;
     }
-    lbl_8050BF60.x = dir->x * t + origin->x;
-    lbl_8050BF60.y = dir->y * t + origin->y;
-    lbl_8050BF60.z = dir->z * t + origin->z;
+    scratch_vec5.x = dir->x * t + origin->x;
+    scratch_vec5.y = dir->y * t + origin->y;
+    scratch_vec5.z = dir->z * t + origin->z;
     v1 = &vertices[face->vertex[1]];
-    vsub(&lbl_8050BF60, v, &scratch_vec);
-    vsub(&lbl_8050BF60, v1, &lbl_8050BF00);
-    vec3_cross(&scratch_vec, &lbl_8050BF00, &lbl_8050BF40);
-    if (vec3_dot(&lbl_8050BF40, &n) < 0.0f) {
+    vsub(&scratch_vec5, v, &scratch_vec);
+    vsub(&scratch_vec5, v1, &scratch_vec2);
+    vec3_cross(&scratch_vec, &scratch_vec2, &scratch_vec4);
+    if (vec3_dot(&scratch_vec4, &n) < 0.0f) {
         return 0;
     }
-    vsub(&lbl_8050BF60, &vertices[face->vertex[2]], &lbl_8050BF20);
-    vec3_cross(&lbl_8050BF00, &lbl_8050BF20, &lbl_8050BF40);
-    if (vec3_dot(&lbl_8050BF40, &n) < 0.0f) {
+    vsub(&scratch_vec5, &vertices[face->vertex[2]], &scratch_vec3);
+    vec3_cross(&scratch_vec2, &scratch_vec3, &scratch_vec4);
+    if (vec3_dot(&scratch_vec4, &n) < 0.0f) {
         return 0;
     }
-    vec3_cross(&lbl_8050BF20, &scratch_vec, &lbl_8050BF40);
-    if (vec3_dot(&lbl_8050BF40, &n) < 0.0f) {
+    vec3_cross(&scratch_vec3, &scratch_vec, &scratch_vec4);
+    if (vec3_dot(&scratch_vec4, &n) < 0.0f) {
         return 0;
     }
     switch (mode) {
@@ -446,14 +446,14 @@ s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *
         if (t < csn_query_nearest_hit_t) {
             csn_query_nearest_hit_t = t;
             csn_query_hit_buffer->hit_mask = 1;
-            VecCopy(&wall_query_hit_result->point, &lbl_8050BF60);
+            VecCopy(&wall_query_hit_result->point, &scratch_vec5);
             VecCopy(&wall_query_hit_result->normal, &n);
             wall_query_hit_result->flags = face->flags;
         }
         break;
     case 1:
         csn_query_hit_buffer->hit_mask = 1;
-        VecCopy(&wall_query_hit_result->point, &lbl_8050BF60);
+        VecCopy(&wall_query_hit_result->point, &scratch_vec5);
         VecCopy(&wall_query_hit_result->normal, &n);
         wall_query_hit_result->flags = face->flags;
         break;
@@ -462,7 +462,7 @@ s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *
             return 0;
         }
         csn_query_hit_buffer->hit_mask = 1;
-        VecCopy(&wall_query_hit_result->point, &lbl_8050BF60);
+        VecCopy(&wall_query_hit_result->point, &scratch_vec5);
         VecCopy(&wall_query_hit_result->normal, &n);
         wall_query_hit_result->flags = face->flags;
         wall_query_hit_result++;
@@ -471,7 +471,7 @@ s32 intersect_wall_triangle_one_sided(Vec *origin, Vec *dir, u32 mask, CsnFace *
     case 3:
         if (t < csn_query_nearest_hit_t) {
             csn_query_nearest_hit_t = t;
-            VecCopy(&wall_query_hit_result->point, &lbl_8050BF60);
+            VecCopy(&wall_query_hit_result->point, &scratch_vec5);
             VecCopy(&wall_query_hit_result->normal, &n);
             wall_query_hit_result->flags = face->flags;
         }

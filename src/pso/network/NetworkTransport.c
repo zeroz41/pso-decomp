@@ -8,12 +8,12 @@
 #include "pso/network/NetPppLink.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/netcfg.h"
-#include "pso/network/TLobby_80426CAC.h"
-#include "pso/network/TLobby_80428374.h"
+#include "pso/network/NetPppoe.h"
+#include "pso/network/ModemSession.h"
 
 #include "types.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetStack.h"
 
 /* The CHAP and PAP buffers init_net_buffer_table and init_net_block_620_params hand out (PppAuthState, PppPapState). */
 typedef struct PppAuthBuffers {
@@ -55,7 +55,7 @@ void subtract_network_queue_timeout(s32 elapsed_ms);
 void set_lobby_map_state_code(s32 code);
 NetSendChunk *get_next_send_chunk(void);
 s32 AT_SetWorkArea(u8 *data, s32 size);
-u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit);
+u8 *compute_range_end(NetTransportParams *params, u8 *base, u8 *limit);
 
 /* CodeWarrior emits these .sbss globals in reverse order of definition. */
 s16 net_slot_id = -1;
@@ -243,7 +243,7 @@ void init_net_buffer_desc(PppBuffers *bufs) {
 
 void stop_network_thread(void) {
     lock_mutex(net_thread_state.mutex);
-    AT_TerminateTask((void *)net_thread_state.thread);
+    AT_TerminateTask(net_thread_state.thread);
     AT_DeleteTask(net_thread_state.thread);
     unlock_mutex(net_thread_state.mutex);
     NetReleaseMutex(net_thread_state.mutex);
@@ -319,13 +319,13 @@ s32 write_ring_buffer(u8 *src, s32 len) {
     s32 first;
     s32 over;
     s32 end;
-    s32 thread;
+    NetThreadHandle thread;
     u8 pad[8];
     thread = queue_thread_handle;
     lock_mutex(send_ring_mutex);
     if (lobby_ring_buffer_size - lobby_send_ring_pending_bytes < len) {
         unlock_mutex(send_ring_mutex);
-        if (OSIsThreadSuspended((OSThread *)thread) == 1) {
+        if (OSIsThreadSuspended(thread) == 1) {
             resume_thread(queue_thread_handle);
         }
         return 0;
@@ -343,7 +343,7 @@ s32 write_ring_buffer(u8 *src, s32 len) {
     }
     lobby_send_ring_pending_bytes += len;
     unlock_mutex(send_ring_mutex);
-    if (OSIsThreadSuspended((OSThread *)thread) == 1) {
+    if (OSIsThreadSuspended(thread) == 1) {
         resume_thread(queue_thread_handle);
     }
     return 1;
@@ -521,26 +521,23 @@ s32 recv_network_frame(u16 max_len, void *lobby, u16 *out_len) {
 
 /* Sends a frame over PPPoE or the modem send ring; returns 5 on failure. */
 s32 send_network_frame(u16 len, u8 *src) {
-    if ((s16) network_pppoe_transport_enabled != 0) {
-        if ((s16) net_slot_id < 0) {
+    if (network_pppoe_transport_enabled != 0) {
+        if (net_slot_id < 0) {
             return 5;
         }
         if (pppoe_send_session_frame(net_slot_id, src, len) < 0) {
             return 5;
         }
-        goto block_7;
-    }
-    if (((u16)write_ring_buffer(src, (s32) len)) == 0) {
+    } else if (((u16)write_ring_buffer(src, (s32) len)) == 0) {
         return 5;
     }
-block_7:
     return 0;
 }
 
 void close_network_transport(void) {
     s32 tries;
-    if ((s16) network_pppoe_transport_enabled != 0) {
-        if ((s16) net_slot_id >= 0) {
+    if (network_pppoe_transport_enabled != 0) {
+        if (net_slot_id >= 0) {
             pppoe_close(net_slot_id);
             tries = 0;
 retry_close:
@@ -558,8 +555,8 @@ retry_close:
             goto after_close;
         }
     } else {
-        AT_TerminateTask((void *)queue_thread_handle);
-        AT_DeleteTask((u32) queue_thread_handle);
+        AT_TerminateTask(queue_thread_handle);
+        AT_DeleteTask(queue_thread_handle);
         NetReleaseMutex(send_ring_mutex);
 after_close:
         if ((u32) (copy_default_and_get_state(NULL) - 2) <= 1U) {
@@ -612,15 +609,15 @@ s32 open_network_transport(NetTransportOpenCfg *cfg) {
 #pragma push
 #pragma opt_common_subs off
 /* Places the send ring at base; returns its end, or 0 (and clears the ring) if it passes limit. */
-u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit) {
-    u32 end;
-    send_ring_buffer_base = (u8 *)base;
+u8 *compute_range_end(NetTransportParams *params, u8 *base, u8 *limit) {
+    u8 *end;
+    send_ring_buffer_base = base;
     lobby_ring_buffer_size = params->ring_buffer_size;
     end = base + lobby_ring_buffer_size;
     if (end > limit) {
         send_ring_buffer_base = NULL;
         lobby_ring_buffer_size = 0;
-        return 0U;
+        return NULL;
     }
     return end;
 }
@@ -630,33 +627,33 @@ u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit) {
 #pragma opt_common_subs off
 s32 AT_SetWorkArea(u8 *data, s32 size) {
     NetTransportParams params;
-    uaddr end;
+    u8 *end;
     u8 *cur;
     s32 header_size;
-    uaddr after_tables;
-    end = (uaddr)(data + size);
-    header_size = AT_GetInitParam((NetTransportParams *)((saddr)&params));
+    u8 *after_tables;
+    end = data + size;
+    header_size = AT_GetInitParam(&params);
     if (size < 0) {
         return -1;
     }
     if (size < header_size) {
         return -1;
     }
-    net_transport_buffer_ptr_a = data;
-    cur = data + params.player_count * 0x44;
-    if ((uaddr)cur > end) {
+    net_udp_socket_storage = data;
+    cur = data + params.udp_socket_count * 0x44;
+    if (cur > end) {
         return -1;
     }
-    net_transport_buffer_ptr_b = cur;
-    cur += params.room_count * 0x544;
-    if ((uaddr)cur > end) {
+    net_tcp_socket_storage = cur;
+    cur += params.tcp_socket_count * 0x544;
+    if (cur > end) {
         return -1;
     }
-    after_tables = (uaddr)layout_buffers(&params, cur, (u8 *)end);
-    if (after_tables == 0) {
+    after_tables = layout_buffers(&params, cur, end);
+    if (after_tables == NULL) {
         return -1;
     }
-    if (params.b != 0 && compute_range_end(&params, after_tables, end) == 0) {
+    if (params.with_ppp != 0 && compute_range_end(&params, after_tables, end) == NULL) {
         return -1;
     }
     return 0;
@@ -666,52 +663,51 @@ s32 AT_SetWorkArea(u8 *data, s32 size) {
 #pragma push
 #pragma opt_common_subs off
 s32 AT_SetInitParam(NetTransportParams *params) {
-    u8 *raw = (u8 *)params;
     s32 e;
-    if ((u16) params->player_count > 0x200U) {
+    if ((u16) params->udp_socket_count > 0x200U) {
         return -1;
     }
-    if ((u16) params->room_count > 0x400U) {
+    if ((u16) params->tcp_socket_count > 0x400U) {
         return -1;
     }
-    e = params->e;
+    e = params->tcp_buffer_size;
     if ((e < 0x400) || (e > 0xFFFF)) {
         return -1;
     }
-    net_param_a = params->a;
-    net_param_b = *(s16 *)((s8 *)raw + 2);
-    net_param_player_count = params->player_count;
-    net_param_room_count = params->room_count;
-    net_param_word_e = params->e;
-    net_param_word_f = params->f;
+    net_param_with_ethernet = params->with_ethernet;
+    net_param_with_ppp = params->with_ppp;
+    net_param_udp_socket_count = params->udp_socket_count;
+    net_param_tcp_socket_count = params->tcp_socket_count;
+    net_param_tcp_buffer_size = params->tcp_buffer_size;
+    net_param_thread_stack_size = params->thread_stack_size;
     net_param_ring_buffer_size = params->ring_buffer_size;
-    net_param_word_h = params->h;
-    net_param_word_i = *(s32 *)((s8 *)raw + 0x18);
-    return AT_GetInitParam((NetTransportParams *)(0));
+    net_param_buffer_pool_size = params->buffer_pool_size;
+    net_param_modem_ring_size = params->modem_ring_size;
+    return AT_GetInitParam(NULL);
 }
 #pragma pop
 
 s32 AT_GetInitParam(NetTransportParams *out) {
     NetTransportParams local;
-    s32 rooms_size;
-    s32 players_size;
+    s32 tcp_sockets_size;
+    s32 udp_sockets_size;
     s32 total;
     if (out == NULL) {
         out = &local;
     }
-    out->a = net_param_a;
-    out->b = net_param_b;
-    out->player_count = net_param_player_count;
-    players_size = net_param_player_count * 0x44;
-    out->room_count = net_param_room_count;
-    rooms_size = net_param_room_count * 0x544;
+    out->with_ethernet = net_param_with_ethernet;
+    out->with_ppp = net_param_with_ppp;
+    out->udp_socket_count = net_param_udp_socket_count;
+    udp_sockets_size = net_param_udp_socket_count * 0x44;
+    out->tcp_socket_count = net_param_tcp_socket_count;
+    tcp_sockets_size = net_param_tcp_socket_count * 0x544;
     out->ring_buffer_size = net_param_ring_buffer_size;
-    total = players_size + rooms_size;
+    total = udp_sockets_size + tcp_sockets_size;
     total += net_param_ring_buffer_size;
-    out->e = net_param_word_e;
-    out->f = net_param_word_f;
-    out->h = net_param_word_h;
-    out->i = net_param_word_i;
+    out->tcp_buffer_size = net_param_tcp_buffer_size;
+    out->thread_stack_size = net_param_thread_stack_size;
+    out->buffer_pool_size = net_param_buffer_pool_size;
+    out->modem_ring_size = net_param_modem_ring_size;
     total += calc_work_area_size(out);
     return total;
 }

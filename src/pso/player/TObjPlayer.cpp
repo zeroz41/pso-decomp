@@ -11,7 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/ui/hud/TLockOnCursor_8013D91C.h"
@@ -1639,7 +1639,7 @@ TPlyInventoryItem *fn_801C1BA8(TPlyInventoryItem *destination, const TPlyInvento
 
 int TPlyDispConfig::is_primary_first_bank() { return m_smth.is_first_bank(); }
 
-int TPlyDispConfigSmth::is_first_bank() { return m_mbr_0x0 == 0; }
+int TPlyDispConfigSmth::is_first_bank() { return bank == 0; }
 
 s32 TPlyDispConfigSmth::is_channel_active_at(s32 row, s32 index) {
     return ((TMainCursor *)(get_row(row) + index))->is_channel_active();
@@ -1653,7 +1653,7 @@ gc_tag *TPlyDispConfigSmth::get_row(s32 row) {
 }
 
 s32 TPlyDispConfigSmth::is_channel_active(s32 index) {
-    return is_channel_active_at(m_mbr_0x0, index);
+    return is_channel_active_at(bank, index);
 }
 
 void TPlyDispConfigSmth::set_tag(s32 row, s32 index, s32 mode, u16 slot) {
@@ -1675,7 +1675,7 @@ u16 TPlyDispConfigSmth::get_tag_slot(s32 row, s32 index) {
 }
 
 u16 TPlyDispConfigSmth::get_current_tag_slot(s32 index) {
-    return get_tag_slot(m_mbr_0x0, index);
+    return get_tag_slot(bank, index);
 }
 
 u16 TPlyDispConfigSmth::get_tag_mode(s32 row, s32 index) {
@@ -1683,24 +1683,24 @@ u16 TPlyDispConfigSmth::get_tag_mode(s32 row, s32 index) {
 }
 
 u16 TPlyDispConfigSmth::get_current_tag_mode(s32 index) {
-    return get_tag_mode(m_mbr_0x0, index);
+    return get_tag_mode(bank, index);
 }
 
-TPlyDispConfigSmth *TPlyDispConfig::get_primary() { return &m_smth; }
+TPlyDispConfigSmth *TPlyDispConfig::ref_primary_palette() { return &m_smth; }
 
-TPlyDispConfigSmth *TPlyDispConfig::get_secondary() { return &m_smth1; }
+TPlyDispConfigSmth *TPlyDispConfig::ref_secondary_palette() { return &m_smth1; }
 
-int TPlyDispConfig::is_secondary_first_bank() { return m_smth1.is_first_bank(); }
+int TPlyDispConfig::test_photon_blast_modifier() { return m_smth1.is_first_bank(); }
 
 void TPlyDispConfig::clear_secondary_bank() { m_smth1.clear_bank(); }
 
-void TPlyDispConfigSmth::clear_bank() { m_mbr_0x0 = 0; }
+void TPlyDispConfigSmth::clear_bank() { bank = 0; }
 
 void TPlyDispConfig::clear_primary_bank() { m_smth.clear_bank(); }
 
 void TPlyDispConfig::set_secondary_bank() { m_smth1.set_bank(); }
 
-void TPlyDispConfigSmth::set_bank() { m_mbr_0x0 = 1; }
+void TPlyDispConfigSmth::set_bank() { bank = 1; }
 
 void TPlyDispConfig::set_primary_bank() { m_smth.set_bank(); }
 

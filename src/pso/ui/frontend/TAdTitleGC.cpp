@@ -10,7 +10,7 @@
 #include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/unk/text_802A1020.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaTexture.h"

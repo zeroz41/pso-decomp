@@ -41,7 +41,7 @@
 
 #include "pso/effect/particle/TParticleCtrl.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/object/key/TOKey.h"
 

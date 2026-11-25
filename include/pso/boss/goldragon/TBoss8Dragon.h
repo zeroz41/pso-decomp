@@ -335,4 +335,6 @@ struct Boss8DragonParams {
 // Nonzero while a debug controller steers the dragon (TBoss8Dragon::select_freeze_target).
 extern s32 boss8_dragon_player_control;
 
+void handle_6xA8_gol_dragon_boss_actions(void *data);
+
 #endif

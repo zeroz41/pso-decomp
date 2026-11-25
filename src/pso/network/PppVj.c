@@ -1,12 +1,12 @@
 /* Van Jacobson TCP/IP header compression (a C library, built with GC/1.2.5n). PppVj is an inferred name, from
  * the vj_ helpers it calls. */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 #include "pso/network/NetStackTypes.h"
@@ -16,7 +16,7 @@
 u8 vj_byte_buffer[1];
 u8 vj_u16_buffer[2];
 
-s16 vj_remember_uncompressed(PppVjCompressionState *o, PppFrame **spp) {
+s16 vj_remember_uncompressed(PppVjCompressionState *state, PppFrame **spp) {
     ParsedIpHeader a;
     ParsedTcpHeader b;
     PppVjConnectionState *e;
@@ -25,24 +25,24 @@ s16 vj_remember_uncompressed(PppVjCompressionState *o, PppFrame **spp) {
     NetIPv4ReadHeader(&a, spp);
     NetTcpReadHeader(&b, spp);
     c = a.proto;
-    if (c > o->max) {
-        o->in_errors++;
-        if (o == NULL) {
+    if (c > state->max) {
+        state->in_errors++;
+        if (state == NULL) {
             return 0;
         }
-        o->flags |= 1;
+        state->flags |= 1;
         return 0;
     }
-    e = &o->rstate[c];
-    o->cur = c;
-    o->flags &= ~1;
+    e = &state->rstate[c];
+    state->cur = c;
+    state->flags &= ~1;
     a.proto = 6;
     e->a = a;
     e->b = b;
     *spp = NetTcpWriteHeader(&b, *spp, NULL);
     *spp = NetIPv4WriteHeader(&a, *spp, 1);
-    o->in_uncompressed++;
-    return (s16)(s64)get_field_4(*spp);
+    state->in_uncompressed++;
+    return (s16)(s64)ppp_frame_length(*spp);
 }
 
 #pragma push
@@ -86,7 +86,7 @@ s16 sl_uncompress_tcp(PppVjCompressionState *comp, PppFrame **src) {
     s16 len;
 
     comp->in_compressed++;
-    if ((u16)get_field_4(*src) < 3) {
+    if ((u16)ppp_frame_length(*src) < 3) {
         comp->in_errors++;
         return 0;
     }
@@ -182,7 +182,7 @@ s16 sl_uncompress_tcp(PppVjCompressionState *comp, PppFrame **src) {
     } else {
         cs->a.id++;
     }
-    len = get_field_4(*src) + 40 + cs->a.optlen;
+    len = ppp_frame_length(*src) + 40 + cs->a.optlen;
     cs->a.len = len;
     *src = NetTcpWriteHeader(th, *src, NULL);
     *src = NetIPv4WriteHeader(&cs->a, *src, 0);

@@ -24,7 +24,7 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/TUnk_804EDAC0.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"

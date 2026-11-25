@@ -77,7 +77,6 @@ public:
     static void create();
     static s32 get_field230();
     static void clear_field2A0(TMCFormatSequence *sequence);
-    static void split_time_hms(s32 arg0, s32 *arg1, s32 *arg2, s32 *arg3);
     static void *alloc(u32 size);
     static s32 is_ready();
     static s32 get_serial_access();

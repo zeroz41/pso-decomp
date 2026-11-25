@@ -1,8 +1,9 @@
 #pragma readonly_strings on
 #include <string.h>
+#include "pso/audio/LscLog.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/AdxStreamRuntime.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 void (*lsc_queue_empty_callback)(void *, void *);
 void *lsc_queue_empty_object;
@@ -11,7 +12,7 @@ void *lsc_queue_empty_param;
 extern "C" {
 void lsc_set_repeat(LscStream *lsc_stream, u8 repeat) {
     if (lsc_stream == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return;
     }
     lsc_stream->repeat = repeat;
@@ -25,7 +26,7 @@ void lsc_notify_queue_empty(void) {
 
 s32 lsc_get_min_buffer_bytes(LscStream *p) {
     if (p == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
     return p->min_buffer_bytes;
@@ -33,11 +34,11 @@ s32 lsc_get_min_buffer_bytes(LscStream *p) {
 
 void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 bytes) {
     if (lsc_stream == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return;
     }
     if (bytes < 0 || bytes > lsc_stream->buffer_capacity) {
-        TLobby::log_printf("E0010: Illigal parameter min=%d");
+        lsc_log_printf("E0010: Illigal parameter min=%d");
         return;
     }
     lsc_stream->min_buffer_bytes = bytes;
@@ -46,7 +47,7 @@ void lsc_set_min_buffer_bytes(LscStream *lsc_stream, s32 bytes) {
 s32 lsc_get_stream_progress(LscStream *lsc_stream, s32 stream_id) {
     s32 i;
     if (lsc_stream == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return 0;
     }
     for (i = 0; i < 16; i++) {
@@ -55,7 +56,7 @@ s32 lsc_get_stream_progress(LscStream *lsc_stream, s32 stream_id) {
         }
     }
     if (i == 16) {
-        TLobby::log_printf("E0012: Can not find stream ID =%d");
+        lsc_log_printf("E0012: Can not find stream ID =%d");
         return 0;
     }
     return lsc_stream->entries[i].progress;
@@ -64,7 +65,7 @@ s32 lsc_get_stream_progress(LscStream *lsc_stream, s32 stream_id) {
 s32 lsc_get_stream_status(LscStream *lsc_stream, s32 stream_id) {
     s32 i;
     if (lsc_stream == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
     for (i = 0; i < 16; i++) {
@@ -73,7 +74,7 @@ s32 lsc_get_stream_status(LscStream *lsc_stream, s32 stream_id) {
         }
     }
     if (i == 16) {
-        TLobby::log_printf("E0012: Can not find stream ID =%d");
+        lsc_log_printf("E0012: Can not find stream ID =%d");
         return -1;
     }
     return lsc_stream->entries[i].status;
@@ -82,7 +83,7 @@ s32 lsc_get_stream_status(LscStream *lsc_stream, s32 stream_id) {
 char *lsc_get_stream_filename(LscStream *lsc_stream, s32 stream_id) {
     s32 i;
     if (lsc_stream == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return 0;
     }
     for (i = 0; i < 16; i++) {
@@ -91,7 +92,7 @@ char *lsc_get_stream_filename(LscStream *lsc_stream, s32 stream_id) {
         }
     }
     if (i == 16) {
-        TLobby::log_printf("E0012: Can not find stream ID =%d");
+        lsc_log_printf("E0012: Can not find stream ID =%d");
         return 0;
     }
     return lsc_stream->entries[i].filename;
@@ -99,11 +100,11 @@ char *lsc_get_stream_filename(LscStream *lsc_stream, s32 stream_id) {
 
 s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 ordinal) {
     if (lsc_stream == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
     if (ordinal < 0 || ordinal >= lsc_stream->queued_count) {
-        TLobby::log_printf("E0009: Illigal parameter no=%d");
+        lsc_log_printf("E0009: Illigal parameter no=%d");
         return -1;
     }
     return lsc_stream->entries[(lsc_stream->read_index + ordinal) % 16].stream_id;
@@ -111,7 +112,7 @@ s32 lsc_get_queued_stream_id(LscStream *lsc_stream, s32 ordinal) {
 
 s32 lsc_get_queued_stream_count(LscStream *p) {
     if (p == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
     return p->queued_count;
@@ -119,7 +120,7 @@ s32 lsc_get_queued_stream_count(LscStream *p) {
 
 s32 lsc_get_state(LscStream *lsc_stream) {
     if (lsc_stream == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
     return lsc_stream->state;
@@ -140,7 +141,7 @@ void lsc_poll_all(void) {
 void lsc_stop(LscStream *lsc_stream) {
     s32 lock;
     if (lsc_stream == NULL) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return;
     }
     if ((s8) lsc_stream->state != 0) {
@@ -156,7 +157,7 @@ void lsc_stop(LscStream *lsc_stream) {
         }
         lsc_stream->file_sector_count = 0;
         if (lsc_stream == NULL) {
-            TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+            lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         } else if ((s8) lsc_stream->state == 0) {
             lsc_stream->write_index = 0;
             lsc_stream->read_index = 0;
@@ -171,13 +172,13 @@ void lsc_start(LscStream *o) {
     u8 lk0[4];
     u8 lk1[4];
     if (o == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return;
     }
     lsc_interrupt_lock_enter(lk0);
     if (o->state != 0) {
         if (o == 0) {
-            TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+            lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         } else if (o->state != 0) {
             lsc_interrupt_lock_enter(lk1);
             o->state = 0;
@@ -191,7 +192,7 @@ void lsc_start(LscStream *o) {
             }
             o->file_sector_count = 0;
             if (o == 0) {
-                TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+                lsc_log_printf("E0003: Illigal parameter lsc=NULL");
             } else if (o->state == 0) {
                 o->write_index = 0;
                 o->read_index = 0;
@@ -214,14 +215,14 @@ s32 lsc_enqueue_range(LscStream *lsc_stream, const char *filename, s32 open_mode
     s32 id;
     s32 prev;
     if (lsc_stream == 0) {
-        TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+        lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         return -1;
     }
     if (lsc_stream->queued_count >= 16) {
         return -1;
     }
     if (filename == 0) {
-        TLobby::log_printf("E0011: Illigal parameter fname=%s", filename);
+        lsc_log_printf("E0011: Illigal parameter fname=%s", filename);
         return -1;
     }
     prev = lsc_stream->entries[(lsc_stream->write_index + 15) % 16].stream_id;
@@ -251,7 +252,7 @@ s32 lsc_enqueue_file(LscStream *lsc_stream, const char *filename) {
     s32 sectors;
     file = ADXSTM_OpenFnameEx(filename, (saddr)lsc_stream->stream);
     if (file == 0) {
-        TLobby::log_printf("E0004: Can not open '%s'", filename);
+        lsc_log_printf("E0004: Can not open '%s'", filename);
         return -1;
     }
     sectors = (get_field_14__6TLobbyFv(file) + 0x7FF) / 0x800;
@@ -277,7 +278,7 @@ void lsc_destroy(LscStream *lsc_stream) {
     if (lsc_stream != NULL) {
         lsc_interrupt_lock_enter(&outer_lock);
         if (lsc_stream == NULL) {
-            TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+            lsc_log_printf("E0003: Illigal parameter lsc=NULL");
         } else if ((s8) lsc_stream->state != 0) {
             lsc_interrupt_lock_enter(&inner_lock);
             lsc_stream->state = 0U;
@@ -291,7 +292,7 @@ void lsc_destroy(LscStream *lsc_stream) {
             }
             lsc_stream->file_sector_count = 0;
             if (lsc_stream == NULL) {
-                TLobby::log_printf("E0003: Illigal parameter lsc=NULL");
+                lsc_log_printf("E0003: Illigal parameter lsc=NULL");
             } else if ((s8) lsc_stream->state == 0) {
                 lsc_stream->write_index = 0;
                 lsc_stream->read_index = 0;
@@ -312,13 +313,13 @@ LscStream *LSC_Create(void *sj_handle) {
     s32 i;
     LscStream *o;
     if (sj == 0) {
-        TLobby::log_printf("E0001: Illigal parameter=sj (LSC_Create)");
+        lsc_log_printf("E0001: Illigal parameter=sj (LSC_Create)");
         return 0;
     }
     lsc_interrupt_lock_enter(lk);
     o = lsc_find_free_slot();
     if (o == 0) {
-        TLobby::log_printf("E0002: Not enough instance (LSC_Create)");
+        lsc_log_printf("E0002: Not enough instance (LSC_Create)");
     } else {
         o->stream = sj;
         o->state = 0;

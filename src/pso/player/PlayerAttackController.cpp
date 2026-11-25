@@ -21,7 +21,7 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/npc/TNpcPlayer.h"

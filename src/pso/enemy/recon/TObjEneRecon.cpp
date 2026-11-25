@@ -40,7 +40,7 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"

@@ -39,7 +39,7 @@
 #include "pso/enemy/morfos/TObjEneMorfosArm.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -1161,7 +1161,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     RenderFadeState *part;
     part = &part_fades[idx];
     part->update();
-    vis = part->updateFromCamera((const f32 *)&body_center);
+    vis = part->updateFromCamera(&body_center);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     toggle_particle_effect();
     push_matrix();

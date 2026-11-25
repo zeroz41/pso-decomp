@@ -3,7 +3,7 @@
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include <string.h>
 
 

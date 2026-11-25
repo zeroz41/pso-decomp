@@ -26,7 +26,7 @@ NJS_TEXLIST *const lbl_80471D50[6] = { &lbl_804E0B60, &lbl_804E0B4C, &lbl_804E0B
 #include <stddef.h>
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"

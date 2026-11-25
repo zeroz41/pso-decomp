@@ -2,7 +2,7 @@
 #include "pso/player/TPlyInventory.h"
 #include "types.h"
 #include "pso/network/protocol/protocol_types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 extern "C" {
 
 void copy_entries(s32 count, const TPlyInventoryItem *source, TPlyInventoryItem *destination) {

@@ -14,7 +14,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/network/TProtocol.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TTextureWave.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -118,7 +118,11 @@ void broadcast_subcommand(void *cmd) {
     dispatching_own_subcommand = 0;
 }
 
-void TLobby::bswap_switch_activate_token() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+void G_LegacyActivateSwitchByToken_6x04::bswap() {
+    ((G_ClientIDHeader *)&header)->bswap();
+    bswap_16(&switch_token);
+    bswap_16(&unused);
+}
 
 s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     char path[0x40];

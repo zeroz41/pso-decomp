@@ -509,16 +509,16 @@ void TUnk_80493450::beast_idle_update() {
         VecCopy(&scratch_vec, &home_position);
         subtract_vector(&scratch_vec, &position);
         angle = BEAST_ANGLE_UNITS_PER_RADIAN * atan2_float(scratch_vec.x, scratch_vec.z);
-        lbl_8050BF00.x = lbl_8050BF00.y = BEAST_ZERO_VECTOR_COMPONENT;
-        lbl_8050BF00.z = move_speed;
+        scratch_vec2.x = scratch_vec2.y = BEAST_ZERO_VECTOR_COMPONENT;
+        scratch_vec2.z = move_speed;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, angle);
-        rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+        rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
         pop_matrices(1);
-        vec3_add_to(&lbl_8050BF00, &position);
-        if (project_actor_to_ground(this, &lbl_8050BF00, 0) == 1) {
+        vec3_add_to(&scratch_vec2, &position);
+        if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
-            VecCopy(&position, &lbl_8050BF00);
+            VecCopy(&position, &scratch_vec2);
             rotation_y = approach_angle_limited(rotation_y, angle, ((BeastMovementParams *)movementParameters)->turnSpeed);
             goto end;
         }
@@ -528,16 +528,16 @@ void TUnk_80493450::beast_idle_update() {
         } else {
             angle = BEAST_ANGLE_UNITS_PER_RADIAN * atan2_float(BEAST_ZERO_VECTOR_COMPONENT, scratch_vec.z);
         }
-        lbl_8050BF00.x = lbl_8050BF00.y = BEAST_ZERO_VECTOR_COMPONENT;
-        lbl_8050BF00.z = move_speed;
+        scratch_vec2.x = scratch_vec2.y = BEAST_ZERO_VECTOR_COMPONENT;
+        scratch_vec2.z = move_speed;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, angle);
-        rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+        rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
         pop_matrices(1);
-        vec3_add_to(&lbl_8050BF00, &position);
-        if (project_actor_to_ground(this, &lbl_8050BF00, 0) == 1) {
+        vec3_add_to(&scratch_vec2, &position);
+        if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
-            VecCopy(&position, &lbl_8050BF00);
+            VecCopy(&position, &scratch_vec2);
             rotation_y = approach_angle_limited(rotation_y, angle, ((BeastMovementParams *)movementParameters)->turnSpeed);
             goto end;
         }
@@ -547,16 +547,16 @@ void TUnk_80493450::beast_idle_update() {
         } else {
             angle2 = BEAST_ANGLE_UNITS_PER_RADIAN * atan2_float(scratch_vec.x, BEAST_ZERO_VECTOR_COMPONENT);
         }
-        lbl_8050BF00.x = lbl_8050BF00.y = BEAST_ZERO_VECTOR_COMPONENT;
-        lbl_8050BF00.z = move_speed;
+        scratch_vec2.x = scratch_vec2.y = BEAST_ZERO_VECTOR_COMPONENT;
+        scratch_vec2.z = move_speed;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, angle2);
-        rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+        rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
         pop_matrices(1);
-        vec3_add_to(&lbl_8050BF00, &position);
-        if (project_actor_to_ground(this, &lbl_8050BF00, 0) == 1) {
+        vec3_add_to(&scratch_vec2, &position);
+        if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
-            VecCopy(&position, &lbl_8050BF00);
+            VecCopy(&position, &scratch_vec2);
             rotation_y = approach_angle_limited(rotation_y, angle2, ((BeastMovementParams *)movementParameters)->turnSpeed);
         } else {
             requested_action = 2;

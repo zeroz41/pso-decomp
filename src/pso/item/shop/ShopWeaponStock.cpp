@@ -4,7 +4,7 @@
 #include "pso/item/shop/ShopWeaponStock.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/unk/text_8020EEFC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
@@ -233,47 +233,47 @@ s32 TLobby::classify_level_bracket_narrow(s32 shop_weapon_stock_level) {
     return -1;
 }
 
-s32 TLobby::get_level_tier(s32 arg0) {
+s32 TLobby::get_level_tier(s32 level) {
     if ((s32) shop_difficulty_tier != 3) {
-        if ((arg0 >= 1) && (arg0 <= 0xA)) {
+        if ((level >= 1) && (level <= 0xA)) {
             return 0;
         }
-        if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+        if ((level >= 0xB) && (level <= 0x19)) {
             return 1;
         }
-        if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+        if ((level >= 0x1A) && (level <= 0x2A)) {
             return 2;
         }
-        if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+        if ((level >= 0x2B) && (level <= 0x3C)) {
             return 3;
         }
-        if ((arg0 >= 0x3D) && (arg0 <= 0x64)) {
+        if ((level >= 0x3D) && (level <= 0x64)) {
             return 4;
         }
-        if (arg0 >= 0x65) {
+        if (level >= 0x65) {
             return 4;
         }
         return -1;
     }
-    if ((arg0 >= 1) && (arg0 <= 0xA)) {
+    if ((level >= 1) && (level <= 0xA)) {
         return 0;
     }
-    if ((arg0 >= 0xB) && (arg0 <= 0x19)) {
+    if ((level >= 0xB) && (level <= 0x19)) {
         return 1;
     }
-    if ((arg0 >= 0x1A) && (arg0 <= 0x2A)) {
+    if ((level >= 0x1A) && (level <= 0x2A)) {
         return 2;
     }
-    if ((arg0 >= 0x2B) && (arg0 <= 0x3C)) {
+    if ((level >= 0x2B) && (level <= 0x3C)) {
         return 3;
     }
-    if ((arg0 >= 0x3D) && (arg0 <= 0x63)) {
+    if ((level >= 0x3D) && (level <= 0x63)) {
         return 4;
     }
-    if ((arg0 >= 0x64) && (arg0 <= 0x96)) {
+    if ((level >= 0x64) && (level <= 0x96)) {
         return 5;
     }
-    if (arg0 >= 0x97) {
+    if (level >= 0x97) {
         return 6;
     }
     return -1;
@@ -614,11 +614,11 @@ void clear_shop_weapon_flags(void) {
 #pragma push
 #pragma optimization_level 1
 
-void TLobby::clear_slot_field_f10(s32 a, s32 b) {
-    E_802255CC *arr = (E_802255CC *)shop_weapon_stock_buffers[b];
-    if (a >= 0 && a <= 0xf) {
-        if (arr[a].f10 != -1) {
-            arr[a].f10 = -1;
+void TLobby::mark_shop_weapon_sold_out(s32 index, s32 slot) {
+    E_802255CC *arr = (E_802255CC *)shop_weapon_stock_buffers[slot];
+    if (index >= 0 && index <= 0xf) {
+        if (arr[index].f10 != -1) {
+            arr[index].f10 = -1;
         }
     }
 }

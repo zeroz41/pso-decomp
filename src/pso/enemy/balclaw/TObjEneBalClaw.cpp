@@ -3,7 +3,7 @@
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/math/AngleLookup.h"

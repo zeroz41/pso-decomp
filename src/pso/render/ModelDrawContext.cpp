@@ -14,20 +14,17 @@
 #include <dolphin/gx/GXPixel.h>
 #undef PSO_SDK_COMPACT_MATH
 
-typedef void (*RecoveredCallback_2be3cacebb2e)(void);
-
 // The blend factor index of each colour blending mode, copied whole by set_color_blending_mode.
 struct BlendModeFactorTable { u32 factor[12]; };
 
-ModelNodeCallback model_node_callback;
-void flush_model_draw_queue(void);
-extern "C" {
-
-extern RecoveredCallback_2be3cacebb2e ginja_draw_end_callback;
-void copy_rotation_to_current_matrix(const GC_Mtx *src);
+// Defined at the end of the unit.
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[];
 __declspec(section ".rodata") extern const BlendModeFactorTable gx_blend_mode_table;
 extern GC_Mtx node_saved_matrix;
+
+ModelNodeCallback model_node_callback;
+extern "C" {
+
 void set_model_node_callback(ModelNodeCallback callback) {
     model_node_callback = callback;
 }

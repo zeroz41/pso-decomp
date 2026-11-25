@@ -10,7 +10,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/ui/frontend/TAdEndText.h"
 

@@ -2,7 +2,7 @@
 #define PSO_NETWORK_PPPIPCP_H
 
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/Ppp.h"
 
 /* One set of IPCP option values. Bit n of flags marks option n (n < 8) or option 0x78 + n (n < 0x20) as in use. */
 typedef struct IpcpOptions {
@@ -48,7 +48,7 @@ void init_ipcp_protocol(struct PppProtoBlocks *connection);
 /* Reads one option (hdr = type, length) from the packet at cursor into side->got and settles it against cfg. c is 1
  * for the peer's Configure-Request, 0 for a reply to ours. Returns the PPP reply code 2 (ack), 3 (nak), 4 (reject),
  * or -1 on a short packet. */
-s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c);
+s16 ipcp_merge_config_options(PppFrame **cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c);
 
 /* Option setters for one side of the IPCP configuration; addr -1 turns the option off. */
 s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side);
@@ -59,6 +59,7 @@ s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
 s16 ipcp_set_peer_address(IpcpSide *side, s32 addr);
 s16 ipcp_set_local_address(IpcpSide *side, s32 addr);
 
-void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
+void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, PppFrame **src);
+void append_masked_ipcp_options(PppFrame **self, IpcpOptions *opt, s32 mask);
 
 #endif

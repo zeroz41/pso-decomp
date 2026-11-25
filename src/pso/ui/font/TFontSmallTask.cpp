@@ -6,7 +6,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/dubchik/TOCtrlDubchik.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"

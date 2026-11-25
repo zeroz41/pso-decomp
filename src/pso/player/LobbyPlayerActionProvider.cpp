@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/player/TObjPlayer.h"

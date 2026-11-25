@@ -24,7 +24,7 @@
 
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
