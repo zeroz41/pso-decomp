@@ -89,7 +89,7 @@ void TWindowSubInformationBoard::run_task() {
         this->menu_window->clear_flag_and_release();
         this->state = 2U;
     case 2:
-        set_message_index(((TWindowShortListCtrl *)this->menu_window)->get_cursor_pos());
+        set_message_index(((TWindowMenu *)this->menu_window)->get_cursor_pos());
         if (this->menu_window->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             this->state = 0xCU;
@@ -214,11 +214,11 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
             add_gray_text_entry((TWindowMenu *)w, (const char *)it, 0x16, i);
         }
     }
-    if (((TWindowSubComCardList *)w)->get_field_72() <= 0) {
+    if (((TWindowMenu *)w)->get_entry_count() <= 0) {
         add_gray_text_entry((TWindowMenu *)w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 6, -1);
     }
     ((TWindowMenu *)w)->set_flag70_bit10();
-    ((TWindowSubComCardList *)w)->set_scroll_target(223.0f, 184.0f);
+    ((TWindowMenu *)w)->set_scroll_target(223.0f, 184.0f);
     return (uaddr)w;
 }
 

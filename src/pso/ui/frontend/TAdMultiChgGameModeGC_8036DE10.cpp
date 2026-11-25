@@ -310,11 +310,11 @@ void TAdSystemFileCheckGC::setup_mode_menu(s32 mode) {
         if (mode == 0) {
             ((TWindowMenu *)this->menu_window)->add_text_entry(a, 5, 0);
             ((TWindowMenu *)this->menu_window)->add_text_entry(b, 5, 1);
-            ((TWindowSubComCardList *)(this->menu_window))->set_selected_index(1);
+            ((TWindowMenu *)(this->menu_window))->set_selected_index(1);
         } else {
             ((TWindowMenu *)this->menu_window)->add_text_entry(c, 5, 0);
             ((TWindowMenu *)this->menu_window)->add_text_entry(d, 5, 1);
-            ((TWindowSubComCardList *)(this->menu_window))->set_selected_index(0);
+            ((TWindowMenu *)(this->menu_window))->set_selected_index(0);
         }
         ((TWindowMenu *)(this->menu_window))->update_layout_height(lbl_805D7020);
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));

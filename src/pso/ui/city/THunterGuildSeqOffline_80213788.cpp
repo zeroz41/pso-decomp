@@ -236,7 +236,7 @@ void THunterGuildSeqOnline_Server::update() {
 void THunterGuildSeqOnline_Server::create_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         choice_menu = create_yes_no_window(get_window_layout_position(0x2B), ((TObjBase *)(player))->get_entity_id(), NULL, NULL);
-        ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
+        ((TWindowMenu *)choice_menu)->set_selected_index(1);
         choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
         set_state(7);

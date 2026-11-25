@@ -508,7 +508,7 @@ TWindowMenu *TWindowSubShortMail::create_window(void) {
     }
     list->set_flag_40();
     TQuestThread::set_status_flag_80((void *)list);
-    ((TWindowSubComCardList *)list)->set_scroll_target(206.0f, 140.0f);
+    ((TWindowMenu *)list)->set_scroll_target(206.0f, 140.0f);
     return list;
 }
 
@@ -521,7 +521,7 @@ TWindowMenu *TWindowSubShortMail::open_menu(void) {
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 6, 1);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 6, 0);
     if (get_flag_bit0() == 0) {
-        ((TWindowSubComCardList *)menu)->set_selected_index(1);
+        ((TWindowMenu *)menu)->set_selected_index(1);
     }
     menu->set_flag70_bit10();
     menu->update_layout_height(206.0f);

@@ -56,13 +56,13 @@ static const NJS_POINT2 short_list_window_pos = {308.0f, 124.0f};
 // First run_task state of each page (inferred from sub_8026EA48 and run_task's case labels).
 static const u8 page_first_state[4] = {0, 3, 6, 9};
 
-s16 TWindowSubComCardList::get_selected_index() { return *(s16 *)&this->unk_7A; }
+s16 TWindowMenu::get_selected_index() { return marked_row; }
 
-void TWindowShortListCtrl::update_cursor_pos() {
-    *(s16 *)((s8 *)this + 0x7A) = get_cursor_pos();
+void TWindowMenu::update_cursor_pos() {
+    marked_row = get_cursor_pos();
 }
 
-s16 TWindowShortListCtrl::get_cursor_pos() { return *(s16*)((char*)this + 0x78); }
+s16 TWindowMenu::get_cursor_pos() { return selected_row; }
 
 void TWindowShortListCtrl::set_card_window_flags(saddr client_id, s32 page) {
     TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(page << 0x10), (s32)0xFFFCFFFF);
@@ -272,10 +272,10 @@ void TWindowShortListCtrl::run_task() {
             refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
         }
         if (test_pressed_buttons_packed(&controller_input_state.controllers[idx], 0x400) != 0) {
-            if (((TWindowSubComCardList *)tech_window)->get_selected_index() == -1) {
-                ((TWindowShortListCtrl *)tech_window)->update_cursor_pos();
+            if (((TWindowMenu *)tech_window)->get_selected_index() == -1) {
+                ((TWindowMenu *)tech_window)->update_cursor_pos();
             } else {
-                swap_card_entries(((TWindowSubComCardList *)tech_window)->get_selected_index(), ((TWindowShortListCtrl *)tech_window)->get_cursor_pos());
+                swap_card_entries(((TWindowMenu *)tech_window)->get_selected_index(), ((TWindowMenu *)tech_window)->get_cursor_pos());
                 tech_window->reset_selection();
                 refresh_technique_rows((saddr)tech_window, (void *)&short_list_window_pos);
             }
@@ -321,7 +321,7 @@ void *TWindowShortListCtrl::create_window(const NJS_POINT2 *position, saddr arg2
     window_menu = (void *)create_window_menu(position, 0x13, client_id);
     ((TWindowMenu *)window_menu)->set_flag70_bit10();
     ((TWindowSubComCardList *)window_menu)->open_tick = 0x01000000;
-    ((TWindowSubComCardList *)window_menu)->set_flag70_bit100();
+    ((TWindowMenu *)window_menu)->set_flag70_bit100();
     refresh_technique_rows((saddr)window_menu, (void *)arg2_arg);
     return window_menu;
 }
@@ -331,14 +331,14 @@ void TWindowShortListCtrl::refresh_technique_rows(saddr tech_window, void *arg2_
     s32 i;
     s16 cur;
     s16 *order = (s16 *)(get_character_save_record(client_id) + 0x22C4);
-    cur = ((TWindowShortListCtrl *)tech_window)->get_cursor_pos();
-    ((TWindowSubComCardList *)tech_window)->reset_entries();
+    cur = ((TWindowMenu *)tech_window)->get_cursor_pos();
+    ((TWindowMenu *)tech_window)->reset_entries();
     for (i = 0; i < 0x13; i++) {
         TWindowSubTechnique::draw_technique_row(order[i], client_id, tech_window);
     }
-    ((TWindowSubComCardList *)tech_window)->set_scroll_target(pos->x, pos->y);
+    ((TWindowMenu *)tech_window)->set_scroll_target(pos->x, pos->y);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(tech_window));
-    ((TWindowSubComCardList *)tech_window)->set_selected_index(cur);
+    ((TWindowMenu *)tech_window)->set_selected_index(cur);
 }
 
 void TWindowShortListCtrl::cycle_list_page() {

@@ -16253,7 +16253,7 @@ force_active:
   - sub_8024F094__17TWindowDuelResultFv
   - sub_8025F2F8__19TWindowKeyBoardHardFUc
   - sub_8025F4A0__19TWindowKeyBoardHardFUc
-  - sub_8026556C__21TWindowSubComCardListFv
+  - create_scroll_bar__11TWindowMenuFv
   - sub_80266BB8__11TWindowMenuFv
   - sub_8027095C__19TWindowSoundBalanceFv
   - set_choice_search_option__17TWindowSubComCardFP21ChoiceSearchSelectionll
@@ -17141,7 +17141,7 @@ force_active:
   - update_scroll_close__6TLobbyFv
   - update_scroll_mode__16TEffIndirectCtrlFv
   - update_scroll_offset__19TWindowMenuIconLineFv
-  - update_scroll_target_position__21TWindowSubComCardListFv
+  - update_scroll_target_position__11TWindowMenuFv
   - update_scroll_value__11TWindowMenuFv
   - update_segment_angles__9TBoss6MagFv
   - update_segments__11TBoss6Type2Fv

@@ -862,7 +862,7 @@ TWindowMenu *TWindowSubSymbolChat::open_edit_menu() {
         add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB5)), 6, 0x20);
     }
     list->set_flag70_bit10();
-    ((TWindowSubComCardList *)list)->set_scroll_target(193.0f, 128.0f);
+    ((TWindowMenu *)list)->set_scroll_target(193.0f, 128.0f);
     align_menu_entry_positions(list);
     return list;
 }
@@ -920,7 +920,7 @@ TWindowMenu *TWindowSubSymbolChat::create_menu(void *window_sub_symbol_chat) {
         add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
     }
     list->set_flag70_bit10();
-    ((TWindowSubComCardList *)list)->set_scroll_target(193.0f, 128.0f);
+    ((TWindowMenu *)list)->set_scroll_target(193.0f, 128.0f);
     align_menu_entry_positions(list);
     return list;
 }
@@ -939,7 +939,7 @@ TWindowMenu *TWindowSubSymbolChat::create_menu() {
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xBD)), 0x26, 7);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xBE)), 0x26, 8);
     menu->set_flag70_bit10();
-    ((TWindowSubComCardList *)menu)->set_scroll_target(193.0f, 128.0f);
+    ((TWindowMenu *)menu)->set_scroll_target(193.0f, 128.0f);
     align_menu_entry_positions(menu);
     return menu;
 }
@@ -1081,7 +1081,7 @@ s32 TWindowSubSymbolChat::is_card_confirmed() {
     if (this->symbol_list->get_selected_value() != 0x20) {
         return 0;
     }
-    s16 row = ((TWindowShortListCtrl *)this->symbol_list)->get_cursor_pos();
+    s16 row = ((TWindowMenu *)this->symbol_list)->get_cursor_pos();
     return this->symbol_list->is_row_enabled(row) ? 1 : 0;
 }
 

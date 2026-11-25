@@ -44,8 +44,6 @@ struct TWindowShortListCtrl : public TObject {
     void *create_window(const NJS_POINT2 *position, saddr arg2_arg);
     virtual void render();
     static void set_card_window_flags(saddr client_id, s32 page);
-    s16 get_cursor_pos();
-    void update_cursor_pos();
     static void assign_shortcut(s32 slot, saddr item, s32 client_id);
 };
 

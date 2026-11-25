@@ -170,7 +170,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
             add_gray_text_entry((TWindowMenu *)list, (const char *)(player->get_name()), 7, i);
         }
     }
-    if (list->get_field_72() <= 0) {
+    if (list->get_entry_count() <= 0) {
         add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
     }
     list->set_flag70_bit10();

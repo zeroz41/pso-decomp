@@ -34,7 +34,7 @@ s32 TAdYesNoBaseGC::create_menu_window() {
     saddr r = (saddr)init_shop_judgment_window(&pos);
     ((TWindowMenu *)r)->update_layout_height(470.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
-    ((TWindowSubComCardList *)r)->set_selected_index((s16)owner->m_2c);
+    ((TWindowMenu *)r)->set_selected_index((s16)owner->m_2c);
     return r;
 }
 

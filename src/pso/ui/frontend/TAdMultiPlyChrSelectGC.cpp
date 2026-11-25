@@ -1832,7 +1832,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
     menu->add_text_entry(get_localized_text_entry(0x1F, 4), 6, 2);
     menu->add_text_entry(get_localized_text_entry(0x1F, 5), 6, 3);
     menu->update_layout_height(224.0f);
-    ((TWindowSubComCardList *)menu)->set_selected_index(0);
+    ((TWindowMenu *)menu)->set_selected_index(0);
     align_menu_entry_positions(menu);
     return menu;
 }

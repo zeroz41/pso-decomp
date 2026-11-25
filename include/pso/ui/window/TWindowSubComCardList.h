@@ -14,15 +14,7 @@ struct TWindowSubComCardList : public TWindowMenu {
     static const char *class_name;
     void sub_80275360();
     void draw_card_list_selection(u8 *);
-    s16 get_field_72();
-    s16 get_selected_index();
 
-    void set_scroll_target(f32 width, f32 max_height);
-    void set_selected_index(s16);
-    void reset_entries();
-    void sub_8026556C();
-    void update_scroll_target_position();
-    void set_flag70_bit100();
     virtual void render();
     PageIndicator *storage;
     uaddr cards;

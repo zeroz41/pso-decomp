@@ -383,7 +383,7 @@ void TChallenge4PItemSelect::open_menu() {
                 ((TWindowMenu *)menu_window)->add_text_entry(get_text_collection(challenge4p_item_select_text_ids[i]), 6, i);
                 i += 1;
             } while (i < 8);
-            ((TWindowSubComCardList *)menu_window)->set_scroll_target(252.0f, 1.4e+02f);
+            ((TWindowMenu *)menu_window)->set_scroll_target(252.0f, 1.4e+02f);
             ((TWindowMenu *)menu_window)->clamp_scroll_offset();
             ((TWindowBase *)menu_window)->set_depth(3.9e+04f);
             if (TCameraCtrl::get_view_count() > 2) {

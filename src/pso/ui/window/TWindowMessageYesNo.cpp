@@ -72,7 +72,7 @@ void TWindowMessageYesNo::set_choice_menu_flag70_bit10() {
 
 
 void TWindowMessageYesNo::close() { queue_destruction(); }
-void TWindowMessageYesNo::set_menu_selected_index(s16 index) { if (choice_menu) ((TWindowSubComCardList *)choice_menu)->set_selected_index(index); }
+void TWindowMessageYesNo::set_menu_selected_index(s16 index) { if (choice_menu) ((TWindowMenu *)choice_menu)->set_selected_index(index); }
 s32 TWindowMessageYesNo::get_selected_value() {
     if (choice_menu == NULL) {
         return -1;

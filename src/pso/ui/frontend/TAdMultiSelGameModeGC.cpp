@@ -115,7 +115,7 @@ saddr TAdMultiSelGameModeGC::build_mode_menu(s32 menu) {
             add_gray_text_entry(r, (const char *)(get_localized_text_entry(0x18, i + b.v[menu])), 6, i + a.v[menu]);
         }
         r->update_layout_height(206.0f);
-        ((TWindowSubComCardList *)r)->set_selected_index(a.v[menu]);
+        ((TWindowMenu *)r)->set_selected_index(a.v[menu]);
         align_menu_entry_positions(r);
     }
     return (saddr)r;

@@ -335,7 +335,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
         if (yes_no_menu == NULL) {
             id = player->get_entity_id();
             yes_no_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
-            ((TWindowSubComCardList *)yes_no_menu)->set_selected_index(0);
+            ((TWindowMenu *)yes_no_menu)->set_selected_index(0);
             y = get_scale();
             yes_no_menu->set_position_xy(get_scale(), y);
         }
@@ -416,7 +416,7 @@ void TShopJudgmentItemWindow::handle_pay_confirm() {
     if (this->is_message_ready() != 0) {
         if (this->yes_no_menu == NULL) {
             this->yes_no_menu = create_yes_no_window(get_window_layout_position(0x2B), this->player->get_entity_id(), NULL, NULL);
-            ((TWindowSubComCardList *)this->yes_no_menu)->set_selected_index(0);
+            ((TWindowMenu *)this->yes_no_menu)->set_selected_index(0);
             this->yes_no_menu->set_position_xy(get_scale(), get_scale());
         }
         if ((this->yes_no_menu != NULL) && (this->yes_no_menu->is_decided() != 0)) {

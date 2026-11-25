@@ -260,7 +260,7 @@ int fn_80223480(void*);
 void THunterGuildSeqOnline_Client::open_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         choice_menu = create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)player))->get_entity_id(), NULL, NULL);
-        ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
+        ((TWindowMenu *)choice_menu)->set_selected_index(1);
         ((TWindowAddition *)choice_menu)->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
         set_state(7);
@@ -447,7 +447,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
     if ((this->is_message_ready() != 0)
         && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         this->choice_menu = (TWindowMenu *)create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)this->player))->get_entity_id(), NULL, NULL);
-        ((TWindowSubComCardList *)this->choice_menu)->set_selected_index(1);
+        ((TWindowMenu *)this->choice_menu)->set_selected_index(1);
         ((TWindowAddition *)(this->choice_menu))->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);
         set_state((saddr)((void*)(6)));

@@ -1612,7 +1612,7 @@ void TLobby::open_menu_window() {
     lobby_make_team_menu_window->calc_window_size();
     align_menu_entry_positions(lobby_make_team_menu_window);
     lobby_make_team_menu_window->set_ready_flag();
-    ((TWindowSubComCardList *)lobby_make_team_menu_window)->set_selected_index(0);
+    ((TWindowMenu *)lobby_make_team_menu_window)->set_selected_index(0);
     lobby_state = 0x18;
 }
 void TLobby::open_make_team_window(int mode) {

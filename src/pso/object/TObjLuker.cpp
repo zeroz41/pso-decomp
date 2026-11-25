@@ -83,7 +83,7 @@ void TObjLuker::update_floor_name_windows() {
             if (this->current_floor != target) {
                 s32 j;
                 for (j = 0; j < 4; j++) {
-                    ((TWindowSubComCardList *)(windows[j]))->reset_entries();
+                    ((TWindowMenu *)(windows[j]))->reset_entries();
                 }
                 this->current_floor = target;
             }

@@ -152,7 +152,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     m_name = obj_item_ok_window_class_name;
     confirm_menu = init_shop_judgment_window((void *)get_window_layout_position(0x57));
     if (confirm_menu != NULL) {
-        ((TWindowSubComCardList *)confirm_menu)->set_scroll_target(104.0f, 74.0f);
+        ((TWindowMenu *)confirm_menu)->set_scroll_target(104.0f, 74.0f);
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(confirm_menu));
     }
     name_menu = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x56), 1);
@@ -166,7 +166,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
         m_text[0x3F] = 0;
         ((TWindowMenu *)name_menu)->add_text_entry((saddr)m_text, 0x81, 0);
     }
-    ((TWindowSubComCardList *)name_menu)->set_scroll_target(442.0f, 64.0f);
+    ((TWindowMenu *)name_menu)->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(name_menu));
     TQuestThread::set_status_flag_80(name_menu);
     pos.x = 332.0f;
@@ -219,7 +219,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
     for (i = 0; item_name_selection_table[i].text_id != -1; i++) {
         ((TWindowMenu *)selection_menu)->add_text_entry(get_text_collection(item_name_selection_table[i].text_id), 6, i);
     }
-    ((TWindowSubComCardList *)selection_menu)->set_scroll_target(216.0f, 144.0f);
+    ((TWindowMenu *)selection_menu)->set_scroll_target(216.0f, 144.0f);
     ((TWindowMenu *)selection_menu)->clamp_scroll_offset();
     ((TWindowBase *)selection_menu)->set_depth(39000.0f);
     pos.x = 332.0f;
@@ -278,7 +278,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
     if (prompt_menu != NULL) {
         ((TWindowMenu *)prompt_menu)->add_text_entry(get_message_text(0x47), 0x81, 0);
     }
-    ((TWindowSubComCardList *)prompt_menu)->set_scroll_target(442.0f, 64.0f);
+    ((TWindowMenu *)prompt_menu)->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(prompt_menu));
     TQuestThread::set_status_flag_80(prompt_menu);
 }

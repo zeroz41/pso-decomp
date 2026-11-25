@@ -66,7 +66,7 @@ int TWindowOptionCtrl__sub_8026C630(void* p) { return *(u8*)((char*)p + 0x60) & 
 
 void TWindowOptionCtrl::clear_flag70_bit4() { *(u16*)((char*)this + 0x70) &= 0xfffffffb; }
 
-void TWindowSubComCardList::set_flag70_bit100() { this->m_70 |= 0x100; }
+void TWindowMenu::set_flag70_bit100() { this->m_70 |= 0x100; }
 
 void TWindowOptionCtrl::set_flag70_bit400() { *(u16*)((char*)this + 0x70) |= 0x400; }
 
@@ -417,7 +417,7 @@ saddr TWindowOptionCtrl::create_list_window() {
 
     unlock_music_flag(2);
     list = create_window_menu_default(TWindowOptionCtrl::get_option_entry(0xCF), 0x31);
-    ((TWindowSubComCardList *)list)->set_flag70_bit100();
+    ((TWindowMenu *)list)->set_flag70_bit100();
     idx = 0;
     do {
         if (is_music_flag_unlocked_stub(idx) != 0) {
@@ -430,7 +430,7 @@ saddr TWindowOptionCtrl::create_list_window() {
         idx += 1;
     } while (idx < 0x31);
     ((TWindowOptionCtrl *)list)->set_flag70_bit400();
-    ((TWindowSubComCardList *)list)->set_scroll_target(470.0f, 124.0f);
+    ((TWindowMenu *)list)->set_scroll_target(470.0f, 124.0f);
     align_menu_entry_positions(list);
     return (saddr)list;
 }

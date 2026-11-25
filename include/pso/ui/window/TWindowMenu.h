@@ -50,10 +50,11 @@ struct TWindowMenu : public TWindowAddition {
     s16 row_cursor;
     s16 row_count;
     s16 selected_row;
-    u8 unk_7A[0x2];
+    // Row remembered by update_cursor_pos (-1 after reset_selection), e.g. the first of two rows to swap.
+    s16 marked_row;
     f32 layout_height;
     TWindowMenuRow *rows;
-    WindowScrollBar *scroll_bar;  // the list scroll bar, made on demand by sub_8026556C
+    WindowScrollBar *scroll_bar;  // the list scroll bar, made on demand by create_scroll_bar
     TWindowSubStatusDisp *heading;  // type-1 heading made by create_titled_window_menu
     void set_active_flag();
     void confirm_selection();
@@ -67,6 +68,16 @@ struct TWindowMenu : public TWindowAddition {
     s32 is_row_enabled(s16 row);
     void disable_row(s16 row);
     void enable_row(s16 row, s32 color);
+    s16 get_entry_count();
+    s16 get_cursor_pos();
+    void set_selected_index(s16 index);
+    s16 get_selected_index();
+    void update_cursor_pos();
+    void reset_entries();
+    void create_scroll_bar();
+    void set_scroll_target(f32 width, f32 max_height);
+    void update_scroll_target_position();
+    void set_flag70_bit100();
 };
 
 LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);

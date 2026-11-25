@@ -74,7 +74,7 @@ void TWindowMenuInfomation::clear_flag_and_release2() {
     }
 }
 
-void TWindowSubComCardList::update_scroll_target_position() {
+void TWindowMenu::update_scroll_target_position() {
     NJS_POINT2 extent;
     WindowScrollBar *scroll = scroll_bar;
     if (scroll != NULL) {
@@ -98,7 +98,7 @@ void TWindowMenu::clamp_scroll_offset() {
     }
 }
 
-void TWindowSubComCardList::sub_8026556C() {
+void TWindowMenu::create_scroll_bar() {
     NJS_POINT2 extent;
     f32 extent_x;
     if (scroll_bar == NULL) {
@@ -110,7 +110,7 @@ void TWindowSubComCardList::sub_8026556C() {
     }
 }
 
-void TWindowSubComCardList::reset_entries() {
+void TWindowMenu::reset_entries() {
     s32 i;
     TWindowMenuRow *r;
     void *e;
@@ -320,7 +320,7 @@ s32 TWindowMenu::get_selected_value() {
     return rows[selected_row].value;
 }
 
-void TWindowSubComCardList::set_selected_index(s16 index) {
+void TWindowMenu::set_selected_index(s16 index) {
     if ((index >= 0) && (index < row_count)) {
         selected_row = index;
     }
@@ -368,10 +368,10 @@ void TWindowMenu::calc_layout_height(f32 width) {
     save_position();
 }
 
-void TWindowSubComCardList::set_scroll_target(f32 width, f32 max_height) {
+void TWindowMenu::set_scroll_target(f32 width, f32 max_height) {
     update_layout_height(width);
     if (this->target_size[1] > max_height) {
-        sub_8026556C();
+        create_scroll_bar();
     }
     this->target_size[1] = max_height;
     layout_height = (f32) (max_height - 20.0f);
@@ -589,7 +589,7 @@ void TWindowMenu::draw_selected_bar(WindowDrawContext *context) {
     s16 selected_row;
     u16 *entry;
     if (!(actor_frame_tick & 0x10)) {
-        selected_row = *(s16 *)&this->unk_7A;
+        selected_row = marked_row;
         if (selected_row >= 0) {
             entry = (u16 *)(((saddr)get_array_entry((s32) selected_row)));
             if (*entry & 1) {
@@ -739,4 +739,4 @@ s32 TWindowMenu::is_locked(s32 buttons) {
 
 int TWindowMenu::sub_80266BB8() { return (this->m_70 >> 6) & 0x1; }
 
-void TWindowMenu::reset_selection() { *(s16 *)&this->unk_7A = -1; }
+void TWindowMenu::reset_selection() { marked_row = -1; }

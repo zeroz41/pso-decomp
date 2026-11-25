@@ -70,7 +70,7 @@ void TWindowSubComCardList::sub_80275360() {
         }
         this->add_text_entry((saddr)card->get_name(), 7, index);
     }
-    if (this->get_field_72() <= 0) {
+    if (this->get_entry_count() <= 0) {
         switch ((s8)this->empty_message) {
         case 0:
             msg = (saddr)TWindowSubStatusDisp::get_message_10(0xD4);
