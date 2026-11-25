@@ -4,7 +4,7 @@
 #include "types.h"
 
 struct AnimationMotion {
-    u8 unknown0[4];
+    u8 pad_00[4];
     u32 frameCount;
 };
 
