@@ -224,7 +224,6 @@ int is_quest_active();
 // Nonzero when value is a NaN or an infinity.
 int is_float_nonfinite(f32 value);
 
-extern "C" {
 const CharacterSelectionRequest *get_character_select_request_buffer();
 // Forces registry controller `index` until restore_player_cameras; 0 if a
 // mode is already forced.
@@ -234,7 +233,6 @@ s32 restore_player_cameras(void);
 void set_active_camera_pose(Vec *position, Vec *target);
 void set_active_camera_pose_from_params(CameraParams *params);
 void start_camera_shake(s32 frames, f32 amplitude);
-}
 void calc_projection_screen_offset(f32 *x, f32 *y);
 
 #endif
