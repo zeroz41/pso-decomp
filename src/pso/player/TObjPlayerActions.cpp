@@ -364,12 +364,8 @@ extern "C" {
 void set_technique_id__20PlayerTechniqueStateFs(void *, s32);
 s32 copy_attack_targets(void *, void *);
 s32 play_weapon_hit_sound(void *);
-void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TObjChara *target, s32 damage);
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s32 draw_player_status(void *, void *, const char *);
-s16 calc_scaled_value__10TObjPlayerFii(void *, int);
-int is_flag_400_set__10TObjPlayerFPv(void *p);
-void enable_action_input__10TObjPlayerFPv(void *p);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 s32 is_action_id_none(int);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
@@ -1938,8 +1934,8 @@ void TObjPlayer::prepare_death() {
     if (test_flags_any((s32 *)&this->death_flags, 1) == 0) {
         this->drop_items_on_death();
     }
-    if (is_flag_400_set__10TObjPlayerFPv(this) != 0) {
-        enable_action_input__10TObjPlayerFPv(this);
+    if (is_action_input_disabled() != 0) {
+        enable_action_input();
     }
     if (this->lock_on_cursor != NULL && ((TMainCursor *)this->lock_on_cursor)->is_cursor_clear() == 0) {
         ((TObjPlayer *)this->lock_on_cursor)->clear_flag_1_at_1c();
@@ -3470,7 +3466,7 @@ extern "C" {
 
 void TObjPlayer::send_attack_stage3_request() {
     G_Attack_6x45 cmd;
-    s16 heading;
+    s32 heading;
     Vec *position;
     s32 angle;
     TObjChara *target;
@@ -3484,7 +3480,7 @@ void TObjPlayer::send_attack_stage3_request() {
         } else {
             angle = this->rotation_y;
         }
-        heading = calc_scaled_value__10TObjPlayerFii(this, angle);
+        heading = calc_scaled_value(angle);
         if ((this == NULL) || (this->obj_isState2_324() == 0)) {
             cmd.init();
             cmd.header.client_id = this->get_entity_id();
@@ -3594,7 +3590,7 @@ extern "C" {
 
 void TObjPlayer::send_attack_stage2_request() {
     G_Attack_6x44 cmd;
-    s16 heading;
+    s32 heading;
     Vec *position;
     s32 angle;
     TObjChara *target;
@@ -3608,7 +3604,7 @@ void TObjPlayer::send_attack_stage2_request() {
         } else {
             angle = this->rotation_y;
         }
-        heading = calc_scaled_value__10TObjPlayerFii(this, angle);
+        heading = calc_scaled_value(angle);
         if ((this == NULL) || (this->obj_isState2_324() == 0)) {
             cmd.init();
             cmd.header.client_id = this->get_entity_id();
@@ -3789,13 +3785,13 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             case 0:
                 damage = target->receive_physical_attack(this, damage_scale * attack_state.get_attack_damage_scale());
                 gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
-                apply_camera_shake__10TObjPlayerFiii(this, target, damage);
+                apply_camera_shake(target, damage);
                 break;
             case 1:
                 dealt = target->receive_physical_attack(this, damage_scale * attack_state.get_attack_damage_scale());
                 damage = dealt;
                 gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
-                apply_camera_shake__10TObjPlayerFiii(this, target, damage);
+                apply_camera_shake(target, damage);
                 target->apply_knockback_from_attacker((u8 *)this, 0.1f * dealt);
                 break;
             case 2:
@@ -3831,7 +3827,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                                                        attack_state.calc_attack_stage_multiplier(2)) != 0) {
                         s32 damage = target->receive_physical_attack(this, damage_scale * attack_state.get_attack_damage_scale());
                         gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
-                        apply_camera_shake__10TObjPlayerFiii(this, target, damage);
+                        apply_camera_shake(target, damage);
                         hit = 1;
                         WeaponHitSound sound;
                         ((ItemSoundRequest *)&sound)->clear();
@@ -4066,7 +4062,7 @@ void handle_6x43_attack(G_Attack_6x43 *command) {
 void TObjPlayer::request_normal_attack_stage1() {
     Vec target_pos;
     G_Attack_6x43 cmd;
-    s16 heading;
+    s32 heading;
     s32 angle;
     if ((this->reset_volopt_state() != 0) && (this->attack_state.capture_lockon_targets(this) != 0)) {
         if (this->attack_state.get_first_target_position(&target_pos) != 0) {
@@ -4074,7 +4070,7 @@ void TObjPlayer::request_normal_attack_stage1() {
         } else {
             angle = this->rotation_y;
         }
-        heading = calc_scaled_value__10TObjPlayerFii(this, angle);
+        heading = calc_scaled_value(angle);
         if ((this == NULL) || (obj_isState2_324() == 0)) {
             cmd.init();
             cmd.header.client_id = get_entity_id();
@@ -4283,7 +4279,7 @@ void TObjPlayer::select_run_request() {
             }
             return;
         } else {
-            heading = ((s32 (*)(void *, int))calc_scaled_value__10TObjPlayerFii)(this, stick_angle);
+            heading = calc_scaled_value(stick_angle);
             if ((this->test_actor_flags(0x100000) != 0) || (magnitude < 0.5f)) {
                 move_speed.set_run_counter(0);
                 if (test_flags_any(&move_speed.flags.bits, 4) != 0) {
@@ -4561,7 +4557,7 @@ void TObjPlayer::select_walk_request() {
             }
             return;
         } else {
-            heading = ((s32 (*)(void *, int))calc_scaled_value__10TObjPlayerFii)(this, stick_angle);
+            heading = calc_scaled_value(stick_angle);
             if (magnitude > 0.5f) {
                 move_speed.increment_run_counter();
             }
@@ -4779,7 +4775,7 @@ void TObjPlayer::check_idle_movement_request() {
             return;
         }
         if (magnitude >= 0.1f) {
-            this->target_heading = ((s32 (*)(void *, int))calc_scaled_value__10TObjPlayerFii)(this, (int) (stick_angle));
+            this->target_heading = calc_scaled_value(stick_angle);
             run_action_state_phase(2, 5);
         }
     }
@@ -4962,7 +4958,7 @@ void TObjPlayer::set_float_param(s16 value) {
 }
 
 void update_player_action_palette(TObjPlayer *player, u8 slot) {
-    set_player_action_palette_slot(&player->action_palette_state, slot);
+    player->action_palette_state.set_slot(slot);
 }
 }
 

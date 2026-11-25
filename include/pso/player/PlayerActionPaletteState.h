@@ -6,21 +6,22 @@
 // The player's action palette selection (TObjPlayer::action_palette_state):
 // the tag's mode/slot pick the palette entry the player last used.
 struct PlayerActionPaletteState {
-    u32 prefix;
+    u32 disabled_slots;  // bit n blocks palette slot n
     ActionPaletteTag tag;
 
     PlayerActionPaletteState();
     virtual ~PlayerActionPaletteState();
     void init_tag();
+    u8 get_mode() const;
+    u8 get_slot() const;
+    void set_mode(u8 mode);
+    void set_slot(u8 slot);
+    s32 is_slot_enabled(s32 slot);
+    void enable_all_slots();
+    void enable_slot(s32 slot);
+    void disable_slot(s32 slot);
 };
 
 LAYOUT_ASSERT(PlayerActionPaletteTagOffset, offsetof(PlayerActionPaletteState, tag) == 4);
-
-extern "C" {
-u8 get_player_action_palette_slot(const PlayerActionPaletteState *state);
-u8 get_player_action_palette_mode(const PlayerActionPaletteState *state);
-void set_player_action_palette_slot(PlayerActionPaletteState *state, u8 slot);
-void set_player_action_palette_mode(PlayerActionPaletteState *state, u8 mode);
-}
 
 #endif

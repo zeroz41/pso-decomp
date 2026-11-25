@@ -182,7 +182,7 @@ struct TObjPlayer : public TObjChara {
     void init_class_flags(PlayerSyncRecord *record);
     void sub_801BB8B0(u8 *);
     s32 setup_control_role(s32);
-    bool is_target_in_facing_cone(void *);
+    s32 is_target_in_facing_cone(Vec *target);
     void create_inventory();
     void select_contextual_pickup_action();
     void init_trait_flags();
@@ -518,10 +518,6 @@ struct TObjPlayer : public TObjChara {
     int sub_802a7290_fwd();
     int is_handle_valid();
     static u8 get_item_count_max();
-    u8 get_field_5();
-    u8 get_byte_4();
-    u8 get_team_id();
-    u8 get_char_class();
     u32 unpack_u32_hi();
     u32 unpack_u32_lo();
     s32 get_slot_value_checked(s32 i);
@@ -887,6 +883,12 @@ struct TObjPlayer : public TObjChara {
     void set_flag_4096();
     void disable_primary_action_input();
     void disable_action_input();
+    void enable_action_input();
+    s32 is_action_input_disabled();
+    void disable_palette_slot(s32 slot);
+    void enable_palette_slot(s32 slot);
+    void enable_all_palette_slots();
+    s32 is_palette_slot_enabled(s32 slot);
     int try_use_item_by_type(int kind, int group, int subgroup);
     s32 check_can_add_item(s8 kind, s8 group);
     s32 can_use_item(void *item);
@@ -1076,7 +1078,10 @@ struct TObjPlayer : public TObjChara {
     static void set_technique_level_clamped(TObjPlayer *player, u8 level, s16 tech);
     static void send_6x29_delete_item(TObjPlayer *player, s32 item_id, s32 count);
     static s32 fill_player_record(void *, void *);
-    s32 foreach_player();
+    static void foreach_player(void (*callback)(TObjPlayer *));
+    s32 calc_scaled_value(s32 value);
+    void prepare_guild_return(s32);
+    void apply_camera_shake(TObjCollidable *target, s32 damage);
     static s32 begin_action_state(TPlyCharData *character);
     // Calls callback with each occupied entry of the player table.
     static void for_each_player_slot(void (*callback)(TObjPlayer *));
@@ -1111,7 +1116,7 @@ struct TObjPlayer : public TObjChara {
     void resend_status_effects();
     void reset_pending_action();
     void release_pending_action();
-    int reset_action_input();
+    void reset_action_input();
     void release_action_palettes();
     void release_lock_on_cursor();
     void send_selected_spawn_position(u16 id);

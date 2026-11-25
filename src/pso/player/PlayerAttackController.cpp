@@ -223,7 +223,7 @@ int PlayerAttackController::is_flag32_clear() { return test_flags_any(&flags, 32
 CapturedTarget *PlayerAttackController::get_first_target() { return lockon_targets.get_captured_target_entry(0); }
 
 void TObjPlayer::set_action_palette_state_mode(u8 mode) {
-    set_player_action_palette_mode(&action_palette_state, mode);
+    action_palette_state.set_mode(mode);
 }
 
 void TObjPlayer::clear_flag_128() { this->clear_state_flags(128); }

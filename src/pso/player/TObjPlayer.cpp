@@ -417,9 +417,6 @@ extern "C" {
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
-void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
-void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 }
@@ -428,7 +425,6 @@ void emit_water_footstep_effect(PlayerFollowParticles *particles);
 void emit_sand_footstep_effect(PlayerFollowParticles *particles);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
 extern "C" {
-void TObjPlayer__sub_801BF47C(void* p);
 int shared_count;
 int shared_flag;
 }
@@ -456,7 +452,7 @@ void BattleMusicState::reset_counter_field4() {
 }
 
 void PlayerActionPaletteState::init_tag() {
-    prefix = 0;
+    disabled_slots = 0;
     tag.init();
 }
 
@@ -536,12 +532,12 @@ s32 ContactSurfaceState::update_timer() {
 
 void*TObjPlayer::reset_sub_status_disp() { ((TWindowSubStatusDisp *)this)->clear_fields(); *(short*)((char*)this + 0x18) = 0; *(short*)((char*)this + 0x16) = 0; return this; }
 
-u8 get_player_action_palette_mode(const PlayerActionPaletteState *state) {
-    return get_action_palette_tag_mode(&state->tag);
+u8 PlayerActionPaletteState::get_mode() const {
+    return get_action_palette_tag_mode(&tag);
 }
 
-u8 get_player_action_palette_slot(const PlayerActionPaletteState *state) {
-    return get_action_palette_tag_slot(&state->tag);
+u8 PlayerActionPaletteState::get_slot() const {
+    return get_action_palette_tag_slot(&tag);
 }
 
 void MovementHold::set_effect_type(s16 v) { effect_type = v; }
@@ -606,26 +602,26 @@ void BattleMusicState::set_flag_2() { flags.set(2); }
 
 void BattleMusicState::clear_flag0_bit1() { flags.clear(2); }
 
-void set_player_action_palette_mode(PlayerActionPaletteState *state, u8 mode) {
-    set_action_palette_tag_mode(&state->tag, mode);
+void PlayerActionPaletteState::set_mode(u8 mode) {
+    set_action_palette_tag_mode(&tag, mode);
 }
 
-void set_player_action_palette_slot(PlayerActionPaletteState *state, u8 slot) {
-    set_action_palette_tag_slot(&state->tag, slot);
+void PlayerActionPaletteState::set_slot(u8 slot) {
+    set_action_palette_tag_slot(&tag, slot);
 }
 
-void TObjPlayer__sub_801BF4A0(s32 *bits, s32 bit) {
-    *bits |= 1 << bit;
+void PlayerActionPaletteState::disable_slot(s32 slot) {
+    disabled_slots |= 1 << slot;
 }
 
-void TObjPlayer__sub_801BF488(s32 *bits, s32 bit) {
-    *bits &= ~(1 << bit);
+void PlayerActionPaletteState::enable_slot(s32 slot) {
+    disabled_slots &= ~(1 << slot);
 }
 
-void TObjPlayer__sub_801BF47C(void* p) { *(s32*)((char*)p + 0x0) = 0; }
+void PlayerActionPaletteState::enable_all_slots() { disabled_slots = 0; }
 
-u8 TObjPlayer__sub_801BF460(s32 *bits, s32 bit) {
-    return (u8) ((*bits & (1 << bit)) == 0);
+s32 PlayerActionPaletteState::is_slot_enabled(s32 slot) {
+    return !(disabled_slots & (1 << slot));
 }
 
 TPlayerReadyCallback::TPlayerReadyCallback(TObject* parent, u16 id, void (*fn)(TObjPlayer*)) : TObject(parent) {
@@ -928,7 +924,7 @@ void ContactSurfaceFlags::reset() { word.reset(); }
 
 
 PlayerActionPaletteState::PlayerActionPaletteState() {
-    prefix = 0;
+    disabled_slots = 0;
 }
 
 void init_arrival_override(ArrivalOverride *entry) {
@@ -1762,13 +1758,13 @@ PlayerTelepipe *PlayerTelepipe::init() {
 
 void PlayerMotionKey::set_body_type(s32 body_type) { this->body_type = body_type; }
 int TObjPlayer::default_action_provider_variant() { return 0; }
-u8 get_field_5__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[5]; }
-u8 get_byte_4__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[4]; }
-u8 get_byte_3(const PlayerLevelTableRow *row) { return row->growth[3]; }
-u8 get_byte_2(const PlayerLevelTableRow *row) { return row->growth[2]; }
-u8 get_team_id__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[1]; }
-u8 get_char_class__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->growth[0]; }
-s32 get_level_row_exp_threshold(const PlayerLevelTableRow *row) { return row->experience; }
+u8 PlayerLevelTableRow::get_ata_growth() const { return growth[5]; }
+u8 PlayerLevelTableRow::get_dfp_growth() const { return growth[4]; }
+u8 PlayerLevelTableRow::get_hp_growth() const { return growth[3]; }
+u8 PlayerLevelTableRow::get_evp_growth() const { return growth[2]; }
+u8 PlayerLevelTableRow::get_mst_growth() const { return growth[1]; }
+u8 PlayerLevelTableRow::get_atp_growth() const { return growth[0]; }
+s32 PlayerLevelTableRow::get_exp_threshold() const { return experience; }
 
 u32 TObjPlayer::unpack_u32_hi() {
     TPlyInventoryItem *items = reinterpret_cast<TPlyCharData *>(this)->m_inventory.m_items;

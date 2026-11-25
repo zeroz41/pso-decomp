@@ -125,7 +125,6 @@ union WarpStringPos {
 extern "C" {
 
 
-int is_flag_400_set__10TObjPlayerFPv(void *p);
 
 extern s32 lbl_805D55C0;
 
@@ -280,7 +279,7 @@ s32 TObjWarpBase::is_warp_enabled() {
         return 0;
     }
     if (player != NULL) {
-        return is_flag_400_set__10TObjPlayerFPv(player) == 0;
+        return player->is_action_input_disabled() == 0;
     }
     if ((player != NULL) && (player->is_body_collision_inactive() != 0)) {
         return 0;
@@ -362,7 +361,7 @@ s32 TObjMapWarp::can_warp(u16 client_id) {
         return 0;
     }
     if (player != NULL) {
-        return is_flag_400_set__10TObjPlayerFPv(player) == 0;
+        return player->is_action_input_disabled() == 0;
     }
     return 1;
 }

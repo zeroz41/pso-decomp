@@ -44,7 +44,6 @@ void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 // render_util.h declares (pos, color, size); the lock code still loads its collision body into r5 first, which
 // only a third argument explains, though debug_draw_uniform_scaled never reads r5 (TObjRoomId passes nothing there).
 void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, CollisionBody *body, f32 size);
-void enable_action_input__10TObjPlayerFPv(void *p);
 }
 
 u16 quest_collision_next_id;
@@ -178,11 +177,11 @@ int TObjQuestColA::is_triggered() {
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         if (player->is_controls_locked() != 0) {
-            enable_action_input__10TObjPlayerFPv(player);
+            player->enable_action_input();
             return 0;
         }
         if (player->is_quest_interaction_blocked() != 0) {
-            enable_action_input__10TObjPlayerFPv(player);
+            player->enable_action_input();
             return 0;
         }
         temp_r3_2 = update_trigger_state(radius);
@@ -190,7 +189,7 @@ int TObjQuestColA::is_triggered() {
             player->disable_primary_action_input();
         }
         if (temp_r3_2 == 3) {
-            enable_action_input__10TObjPlayerFPv(player);
+            player->enable_action_input();
         }
         if (temp_r3_2 == 0) {
             player->disable_primary_action_input();
@@ -254,11 +253,11 @@ int TObjQuestColALock::is_triggered() {
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         if (player->is_controls_locked() != 0) {
-            enable_action_input__10TObjPlayerFPv(player);
+            player->enable_action_input();
             return 0;
         }
         if (player->is_quest_interaction_blocked() != 0) {
-            enable_action_input__10TObjPlayerFPv(player);
+            player->enable_action_input();
             return 0;
         }
         submit_cursor_candidate(this, -1);
@@ -267,7 +266,7 @@ int TObjQuestColALock::is_triggered() {
             player->disable_primary_action_input();
         }
         if (temp_r3_2 == 3) {
-            enable_action_input__10TObjPlayerFPv(player);
+            player->enable_action_input();
         }
         if (temp_r3_2 == 0) {
             player->disable_primary_action_input();
@@ -560,11 +559,11 @@ int TObjQuestColALock2::is_triggered() {
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         if (player->is_controls_locked() != 0) {
-            enable_action_input__10TObjPlayerFPv(player);
+            player->enable_action_input();
             return 0;
         }
         if (player->is_quest_interaction_blocked() != 0) {
-            enable_action_input__10TObjPlayerFPv(player);
+            player->enable_action_input();
             return 0;
         }
         submit_cursor_candidate(this, -1);
@@ -573,7 +572,7 @@ int TObjQuestColALock2::is_triggered() {
             player->disable_primary_action_input();
         }
         if (temp_r3_2 == 3) {
-            enable_action_input__10TObjPlayerFPv(player);
+            player->enable_action_input();
         }
         if (temp_r3_2 == 0) {
             player->disable_primary_action_input();

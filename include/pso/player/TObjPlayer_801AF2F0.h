@@ -6,6 +6,7 @@
 
 struct Vec;
 struct TItem;
+class TObject;
 
 extern "C" {
 // Thin wrapper: sends 6x29 to delete the item with this id (count of it) from the player.
@@ -18,6 +19,8 @@ void TObjPlayer__sub_801B1BA4(void);
 void TObjPlayer__sub_801B1C8C(void);
 }
 
+// True when obj exists and neither it nor a parent is queued for destruction.
+s32 can_destroy_with_parents(TObject *obj);
 // 6x24: moves player `slot` to pos, facing heading.
 void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
 // The TPlayerReadyCallback that queue_player_kill queues: flags the player as killed.

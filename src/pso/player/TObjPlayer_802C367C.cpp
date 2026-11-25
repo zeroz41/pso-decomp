@@ -66,7 +66,7 @@ void TObjPlayer::setup_effect_slots(s32 arg0, TPlyDispConfigSmth *palette) {
 void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {
     struct stats st;
     level = TObjPlayer::clamp_index_to_max(level);
-    copy_stats__10TObjPlayerFPv(&st, get_class_base_stats(cls));
+    copy_stats(&st, get_class_base_stats(cls));
     if (level != 0) {
         apply_class_level_growth(cls, level, &st);
     }
