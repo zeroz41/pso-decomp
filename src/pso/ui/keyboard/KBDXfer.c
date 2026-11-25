@@ -309,8 +309,8 @@ void update_key_events(s32 chan) {
 #pragma pop
 
 u8 get_keyboard_port_layout(s32 chan) {
-    u8 *entry = &keyboard_pad_state_table[0].type + (chan * sizeof(KeyboardChannelState));
-    return entry[offsetof(KeyboardChannelState, layout)];
+    KeyboardChannelState *state = &keyboard_pad_state_table[chan];
+    return state->layout;
 }
 
 void enable_keyboard_polling(s32 chan) {
