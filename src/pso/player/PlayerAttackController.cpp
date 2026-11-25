@@ -216,7 +216,7 @@ void PlayerAttackController::reset() {
     lockon_targets.clear_lockon_list();
 }
 
-s16 LockOnTargetRecord::get_part() { return part; }
+s16 LockOnTargetRecord::get_part() { return flag; }
 
 void PlayerAttackController::set_saved_attack_stage(s16 stage) { pending_stage = stage; }
 

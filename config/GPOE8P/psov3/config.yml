@@ -726,8 +726,8 @@ force_active:
   - get_list_clear_task__13TUnk_8013F08CFv
   - get_end_task__13TUnk_8013F08CFv
   - get_start_task__13TUnk_8013F08CFv
-  - destroy_target_records
-  - TLockOnCursor__sub_8013F000
+  - __dt__22LockOnTargetRecordListFv
+  - __ct__22LockOnTargetRecordListFv
   - TLogo__sub_8013F7E8
   - TLogo__sub_8013F800
   - TLogo__sub_8013F808
@@ -740,9 +740,9 @@ force_active:
   - set_end_task__13TUnk_8013F08CFP7TObject
   - set_start_task__13TUnk_8013F08CFP7TObject
   - matches_id
-  - TMainCursor__sub_8013E4A0
+  - get_client_id__13TUnk_8013E800Fv
   - TMainCursor__sub_8013E570
-  - TMainCursor__sub_8013E694
+  - set_client_id__13TUnk_8013E800FUs
   - TMainCursor__sub_8013E8A0
   - TMainCursor__sub_8013F22C
   - TMainCursor__sub_801540D8
@@ -7184,7 +7184,7 @@ force_active:
   - __ct__13TUnk_804A0DB0FP7TObjectPUc
   - init_state_vectors__19TContainerAncient01Fv
   - init_state_zero__13TBoss5GryphonFv
-  - init_sub__13TLockOnCursorFPv
+  - __ct__18LockOnTargetRecordFv
   - init_sub_object_vectors__10TObjPlayerFl
   - init_target_offsets__16TObjEneDellBiterFv
   - init_target_vector__11TMainCursorFiii

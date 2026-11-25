@@ -739,7 +739,7 @@ void TForceOperate::run_task() {
     if (player_ref.resolve() != 0) {
         player = player_ref.get_player();
         if ((player->is_target_valid() != 0) && (player->has_action_palette_entry() != 0)) {
-            entity = find_entity_by_id(((TMainCursor *)&player->lock_on_cursor->selection.target)->get_id());
+            entity = find_entity_by_id(player->lock_on_cursor->selection.target.get_entity_id());
             if (entity != NULL) {
                 entity->interact(player->get_entity_id());
                 queue_destruction();

@@ -102,8 +102,6 @@ struct W_8024DCE8 : WBase_8024DCE8 {
     virtual void m6();
 };
 extern "C" {
-s32 bind_target__13TWindowLockOnFUs(void *, s32);
-u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 fn_8002AE08(void *p);
 int TWindowMainMenu__sub_8024E3F4(void *p);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
@@ -228,13 +226,13 @@ void TWindowCtrl::update_target_info_window() {
             *(u32 *)((s8 *)arg0 + 0x38) = 0U;
         }
     } else {
-        s32 id = TObjPlayer::get_battle_ctrl_id((int) ((u16) *(s32 *)((s8 *)arg0 + 0x24)));
-        if ((u16) id != 0xFFFF) {
-            void *w = *(void **)((s8 *)arg0 + 0x38);
+        u16 id = TObjPlayer::get_battle_ctrl_id(((TWindowCtrlPlayer *)arg0)->m_24);
+        if (id != 0xFFFF) {
+            TWindowLockOn *w = ((TWindowCtrlPlayer *)arg0)->lock_on_window;
             if (w == NULL) {
-                *(u32 *)((s8 *)arg0 + 0x38) = create_for_target__13TWindowLockOnFlUs((int) (*(s32 *)((s8 *)arg0 + 0x24)), id);
+                ((TWindowCtrlPlayer *)arg0)->lock_on_window = TWindowLockOn::create_for_target(((TWindowCtrlPlayer *)arg0)->m_24, id);
             } else {
-                bind_target__13TWindowLockOnFUs(w, id);
+                w->bind_target(id);
             }
         }
     }

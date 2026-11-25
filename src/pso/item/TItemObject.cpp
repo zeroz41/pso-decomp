@@ -34,7 +34,7 @@ extern const char *TItemObject_name;
 
 LockOnTargetRecord *LockOnTargetRecordList::get_record(s32 index) { return &records[index]; }
 
-u16 LockOnTargetRecord::get_entity_id() { return entity_id; }
+u16 LockOnTargetRecord::get_entity_id() { return id; }
 
 void G_UseStarAtomizer_6x66::init_header() {
     header.subcommand = 0x66;

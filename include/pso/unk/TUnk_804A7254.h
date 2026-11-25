@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 
-// A colour (ahead of the vptr) that TMainCursor::get_rader_map fills with copy_argb.
+// A colour (ahead of the vptr): TMainCursor sets it from its colour table and fades its alpha out.
 // Members of TMainCursor (+0x4C), TLockOnCursor (+0x48) and TPlyPhotonChair (+0xD0).
 class TUnk_804A7254 {
 public:
@@ -13,6 +13,9 @@ public:
     TUnk_804A7254();
     virtual ~TUnk_804A7254();
     void get_color(NJS_ARGB *out);
+    void set_color(NJS_ARGB *src);
+    f32 get_alpha();
+    void set_alpha(f32 alpha);
 };
 
 

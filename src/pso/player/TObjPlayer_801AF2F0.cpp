@@ -469,7 +469,6 @@ struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-u16 get_id__11TMainCursorFv(void* p);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
 saddr TObjPlayer__sub_80116620(void *, int);
@@ -3226,15 +3225,15 @@ void TObjPlayer::update_ground_contact() {
 
 void TObjPlayer::select_contextual_pickup_action() {
     s32 type;
-    TMainCursor *cursor;
+    CursorTarget *cursor;
     saddr ent;
     TLockOnCursor *obj;
     obj = this->lock_on_cursor;
     if (obj != NULL) {
-        cursor = (TMainCursor *)&obj->selection.target;
+        cursor = &obj->selection.target;
         type = 0;
-        if (cursor->get_id() != 0xFFFF) {
-            ent = ((s32 (*)(u16))find_entity_by_id)(cursor->get_id());
+        if (cursor->get_entity_id() != 0xFFFF) {
+            ent = ((s32 (*)(u16))find_entity_by_id)(cursor->get_entity_id());
             if (ent != 0) {
                 type = ((TObjCollidable *)ent)->get_cursor_action();
                 if (type != 0) {
@@ -3243,7 +3242,7 @@ void TObjPlayer::select_contextual_pickup_action() {
                         if (test_action_mask(0xE0) != 0) {
                             type = 0;
                         } else {
-                            TItem *item = (TItem *)find_entity_by_id(cursor->get_id());
+                            TItem *item = (TItem *)find_entity_by_id(cursor->get_entity_id());
                             if (this->can_pickup_item_by_id(item) != 0) {
                                 if ((((s32 (*)(void *))is_flag_400_set__10TObjPlayerFPv)(this)) != 0) {
                                     get_field_340__18TChallenge4PResultFPv(this, 1);
@@ -3763,7 +3762,7 @@ void submit_cursor_candidate(void *self, s32) {
     }
 }
 
-s32 TObjPlayer::get_battle_ctrl_id(u16 client) {
+u16 TObjPlayer::get_battle_ctrl_id(u16 client) {
     TLockOnCursor *cursor;
     TObjPlayer *player;
 
@@ -3775,7 +3774,7 @@ s32 TObjPlayer::get_battle_ctrl_id(u16 client) {
     if (cursor == NULL) {
         return 0xFFFF;
     }
-    return ((s32 (*)(void *))get_id__11TMainCursorFv)(&cursor->selection.target);
+    return cursor->selection.target.get_entity_id();
 }
 
 void TObjPlayer::update_subsystems() {
@@ -4100,7 +4099,7 @@ s32 TObjPlayer::handle_palette_button_input() {
         s32 mode;
         void *target;
         if (has_action_palette_entry() != 0) {
-            target = find_entity_by_id(((TMainCursor *)&this->lock_on_cursor->selection.target)->get_id());
+            target = find_entity_by_id(this->lock_on_cursor->selection.target.get_entity_id());
             mode = 0;
         } else {
             target = 0;

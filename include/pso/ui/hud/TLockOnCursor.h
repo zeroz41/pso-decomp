@@ -6,6 +6,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/ui/hud/TMainCursor.h"
+#include "pso/player/TargetCursorList.h"
 #include "pso/unk/TUnk_804A7248.h"
 #include "pso/unk/TUnk_804A7254.h"
 
@@ -56,25 +57,24 @@ public:
     TObject *get_start_task();
 };
 
-// A TargetCursorRecord and a flag word. Built and destroyed by the
-// static TLockOnCursor::init_sub and the free function destroy_target_record, so both stay untyped here.
-// TargetCursorList.h is not included: its C declarations clash with the cursor units' own.
-struct LockOnTargetRecord {
-    u16 entity_id;  // 0xFFFF when the slot has no target
-    s16 part;
-    f32 value;
-    s32 flags;
+// A TargetCursorRecord (id 0xFFFF when the slot has no target) and a flag word.
+struct LockOnTargetRecord : public TargetCursorRecord {
+    FlagWord flags;
 
+    LockOnTargetRecord();
+    ~LockOnTargetRecord();
     s16 get_part();
     u16 get_entity_id();
 };
 
-// A count and eleven LockOnTargetRecord, built by TLockOnCursor__sub_8013F000 and destroyed
-// by destroy_target_records (no real constructor until LockOnTargetRecord has one).
+// A count and eleven LockOnTargetRecord.
 struct LockOnTargetRecordList {
     s32 count;
     LockOnTargetRecord records[11];
 
+    LockOnTargetRecordList();
+    ~LockOnTargetRecordList();
+    void clear();
     LockOnTargetRecord *get_record(s32 index);
 };
 
@@ -97,14 +97,18 @@ public:
     // Cosines of the half-angles of the cone a candidate must lie in.
     f32 horizontal_cone_cos;
     f32 vertical_cone_cos;
-    u8 pad_34[0x8];
+    // Half-angles of that cone; the cosines above are taken from them.
+    s32 horizontal_cone_angle;
+    s32 vertical_cone_angle;
     // How far behind origin the cone's apex sits.
     f32 cone_apex_offset;
-    u8 target_list[0x5C]; // a TargetCursorList, built by its constructor
+    TargetCursorList target_list;
     LockOnTargetRecordList target_records;
 
     LockOnActionSlot();
     ~LockOnActionSlot();
+    void reset_target_list();
+    void reset_state();
     s32 get_body_exclude_mask();
     s32 get_body_include_mask();
     s32 get_actor_exclude_mask();
@@ -197,7 +201,6 @@ struct TLockOnCursor : public TObject {
     TObject *get_end_task();
     TObject *get_start_task();
     void reset_and_spawn_cursors();
-    static void *init_sub(void* p);
     LockOnActionSlot *find_by_pos(s16 mode, s16 kind);
 };
 
