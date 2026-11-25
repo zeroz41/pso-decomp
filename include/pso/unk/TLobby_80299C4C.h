@@ -11,4 +11,6 @@ void send_giveup_to_all_players__6TLobbyFv(void);
 }
 // --- end of C functions
 
+s32 initialize_boss_scene(void);
+
 #endif

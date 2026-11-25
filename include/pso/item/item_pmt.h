@@ -44,4 +44,19 @@ void roll_item_channel_below(u32 count, s32 channel);
 
 void *get_armor_pmt_record(int type, int id);
 
+// One row of the item combination table: using use_item while equipped_item
+// is equipped turns it into result_item; 0xFF fields match anything.
+struct ItemCombination {
+    u8 use_item[3];
+    u8 equipped_item[3];
+    u8 result_item[3];
+    u8 mag_level;
+    u8 grind;
+    u8 level;
+    u8 section_id;
+    u8 pad_D[3];
+};
+
+ItemCombination *find_item_combination_recipe(u8 *id, void *item);
+
 #endif

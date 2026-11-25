@@ -29,4 +29,7 @@ LAYOUT_ASSERT(ChallengeItemSelectState, offsetof(TChallenge4PItemSelect,state)==
 LAYOUT_ASSERT(ChallengeItemSelectTimer, offsetof(TChallenge4PItemSelect,waitFrames)==0x24);
 LAYOUT_ASSERT(ChallengeItemSelectResult, offsetof(TChallenge4PItemSelect,result)==0x28);
 LAYOUT_ASSERT(ChallengeItemSelectWindow, offsetof(TChallenge4PItemSelect,menu_window)==0x2C);
+
+s32 update_challenge_result_player_locks();
+
 #endif

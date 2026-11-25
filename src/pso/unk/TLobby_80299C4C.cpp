@@ -40,12 +40,11 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
 }
-void init_music_sequencer(s32);
-void init_area_lights(void);
 
 void TLobby::update_floor_state_deferred() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 

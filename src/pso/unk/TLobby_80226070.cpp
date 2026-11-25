@@ -313,7 +313,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
         if (position != NULL) {
             pos = &sound_pitch_requests[idx].pos;
             VecCopy(pos, position);
-            ((void (*)(s32, Vec *))TLobby__sub_80227AF8)(idx, pos);
+            TLobby__sub_80227AF8(idx, pos);
         }
         sound_pitch_requests[idx].flags &= lbl_805DC748;
         if (flags & 1) {

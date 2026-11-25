@@ -113,7 +113,6 @@ extern "C" {
 extern void *bgm_stream_buffers[];
 extern const char *bgm_stream_files[];
 }
-int get_music_base_gain(void);
 extern "C" {
 
 void TLoadCtrl__sub_80226DA0(s32 index) {

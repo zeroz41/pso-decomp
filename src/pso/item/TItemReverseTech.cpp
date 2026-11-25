@@ -36,6 +36,10 @@
 #include "pso/unk/TScreenFadeIn.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/text_800F7D30.h"
+#include "pso/render/GinjaView.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/unk/text_800F9B84.h"
+#include "pso/unk/text_800FA464.h"
 
 
 
@@ -59,10 +63,6 @@ const char *TItemReverseTech__name = "TItemReverseTech";
 void activate_fast_rotation_code(void);
 void activate_reverse_rotation_code(void);
 void activate_uraending_code(void);
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
-void clear_resource_load_tasks();
-void set_screen_size(f32, f32);
 TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},

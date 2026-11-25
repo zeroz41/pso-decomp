@@ -20,4 +20,6 @@ struct TObjPlayer;
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 
+void normalize_drop_area(s32 *p);
+
 #endif

@@ -6,14 +6,14 @@
 struct TLobby;
 struct TItemData;
 void challenge_set_min_clear_time(s32 v);
-void challenge_set_boss_warp_disabled(s32 arg0);
+void challenge_set_boss_warp_disabled(s32 disabled);
 extern "C" {
 s32 TLobby__sub_80291F9C(void);
 }
 s32 challenge_get_time_record(void);
 void challenge_set_time_record(s32 seed);
 extern "C" {
-int challenge_set_rank_override(void);
+s32 challenge_set_rank_override(const char *match, const char *title, s32 color);
 }
 s32 challenge_check_rank_time(s32 seed, s32 card);
 s32 challenge_set_rank_threshold(s32 idx, s32 value, s32 arg);

@@ -7,16 +7,16 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/FloorReflection.h"
+#include "pso/boss/goldragon/Boss8DemoObjects.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
 void fn_802FE9E0(void);
 void fn_802FEA0C(void);
 }
-void init_area_lights(void);
 s32 load_dragon2_scene(void);
-void stop_cue_stream(void);
-void create_boss8_demo_objects(void);
 
 void TLobby::refresh_lobby_state() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 

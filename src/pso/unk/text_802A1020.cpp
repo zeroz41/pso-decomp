@@ -19,6 +19,8 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/unk/text_800FA464.h"
 
 typedef struct Entry_802A1020 {
     const char *file;
@@ -33,8 +35,6 @@ void request_main_phase(s32 phase);
 extern "C" {
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
 }
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
 s8 movie_finished_flag;
 u8 opening_movie_purpose;
 s32 game_files_modified_flag;

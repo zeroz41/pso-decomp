@@ -39,6 +39,7 @@
 #include <dolphin/gx.h>
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/unk/text_803DA798.h"
 #undef PSO_SDK_COMPACT_MATH
 
 void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
@@ -46,8 +47,6 @@ void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f3
     TLobby__sub_80228154(sprite, frame_index, flags, depth);
     TCameraCtrl::restore_saved_view();
 }
-
-s32 set_texture_num(s32 i);
 
 void draw_shadow_quad(NJS_SPRITE *sprite, s32 frame, s32 flags) {
     ParticleStripVertex v[4];
@@ -163,9 +162,6 @@ extern "C" {
 void draw_line_list(DrawTransformedPrimitiveLines *l, s32 n, u32 flags);
 }
 void reset_line_width(void);
-void setup_opaque_color_draw(void);
-void setup_blended_textured_draw(void);
-void load_context_texture_obj(void);
 
 void set_line_width(int a0);
 

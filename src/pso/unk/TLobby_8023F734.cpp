@@ -561,12 +561,11 @@ s32 TLobby::advance_rng() {
     return *(s32 *)((s8 *)this + 0x2AC);
 }
 
-void TLobby__sub_8023F754(s32 arg0, s32 arg1) {
-    if (arg0 < 0 || arg0 >= 0x20) {
+void TLobby__sub_8023F754(s32 slot, const Vec *position) {
+    if (slot < 0 || slot >= 0x20) {
         return;
     }
-    s32 *p = (s32 *)&sound_request_voices;
-    p[arg0 * 40 + 34] = arg1;
+    sound_request_voices[slot].position = position;
 }
 }
 

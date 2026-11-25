@@ -9,12 +9,12 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/unk/text_800FA464.h"
 
 extern "C" {
 void request_main_phase(s32 phase);
 }
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
 extern "C" {
 void fn_80290BEC(void) {
     s32 *var_r3;

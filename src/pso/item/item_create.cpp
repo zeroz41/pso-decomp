@@ -216,6 +216,7 @@
 #include "pso/weapon/TItemWeaponSRankGun.h"
 #include "pso/weapon/TItemWeaponSRankHarisen.h"
 #include "pso/weapon/TItemWeaponTwinkleStar.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -746,8 +747,6 @@ s32 compare_item_data_masked(void *item, void *other, s32 mode) {
 
 // ---- TMainTask_80104C40.cpp
 
-s32 get_game_play_mode();
-
 void TMainTask::cleanup_game_objects() {
     s32 floor;
     s32 main_phase;
@@ -784,12 +783,6 @@ struct ItemData_80104DAC { u8 b[0x14]; };
 
 struct MagData_80104DAC { u8 b[0x10]; };
 
-struct Rec_80104DAC { u8 pad0[6]; u8 b6; u8 b7; u8 b8; u8 b9; u8 bA; u8 bB; u8 bC; };
-
-Rec_80104DAC *find_item_combination_recipe(u8 *, void *);
-
-void *lookup_item_pmt_record(u8 *);
-
 s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
     if (TItemData::is_wrapped(item) != 0) {
         return (u8)(1U);
@@ -808,7 +801,7 @@ saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
     ItemData_80104DAC d2;
     MagData_80104DAC mag;
     s16 m;
-    Rec_80104DAC *rec;
+    ItemCombination *rec;
     void *it;
     u8 v;
     rec = NULL;
@@ -821,41 +814,41 @@ saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
         } else {
             return 0;
         }
-        if (rec->b9 != 0xFF) {
+        if (rec->mag_level != 0xFF) {
             if (d.b[0] != 2) {
                 return 0;
             }
             ((MagStats *)(&mag))->init();
             TItemData::deserialize_mag(&d, &mag);
-            m = rec->b9;
+            m = rec->mag_level;
             if (((MagStats *)(&mag))->get_level() < m) {
                 return 0;
             }
         }
-        if (rec->bA != 0xFF) {
+        if (rec->grind != 0xFF) {
             if (d.b[0] != 0) {
                 return 0;
             }
-            if (d.b[3] < rec->bA) {
+            if (d.b[3] < rec->grind) {
                 return 0;
             }
         }
-        v = rec->bB;
+        v = rec->level;
         if (v != 0xFF) {
             if (o->get_actor_level_index() < v - 1) {
                 return 0;
             }
         }
-        v = rec->bC;
+        v = rec->section_id;
         if (v != 0xFF) {
             if (v != o->get_section_id()) {
                 return 0;
             }
         }
         ((TItemData *)(&d2))->init();
-        d2.b[0] = rec->b6;
-        d2.b[1] = rec->b7;
-        d2.b[2] = rec->b8;
+        d2.b[0] = rec->result_item[0];
+        d2.b[1] = rec->result_item[1];
+        d2.b[2] = rec->result_item[2];
         if (check_equip_requirements(o, (TItemData *)&d2, NULL) == 0) {
             return 0;
         }

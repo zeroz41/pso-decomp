@@ -26,7 +26,7 @@ void TLobby__sub_80227AA8(s32 tracks) {
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-void TLobby__sub_80227AF8(s32 arg0, s32 arg1) { TLobby__sub_8023F754(arg0, arg1); }
+void TLobby__sub_80227AF8(s32 slot, const Vec *position) { TLobby__sub_8023F754(slot, position); }
 }
 
 extern s32 local_client_id;
@@ -189,8 +189,6 @@ void is_sound_enabled(void) {
 }
 
 
-s32 update_sound_frame(SoundControlState *self);
-s32 init_sound_aux_effects(SoundControlState *self);
 extern "C" {
 void TLobby__sub_803382E4(void);
 s32 TLobby__sub_80226B64(int);

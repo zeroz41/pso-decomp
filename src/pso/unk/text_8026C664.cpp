@@ -14,6 +14,7 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 
 struct Stack_8026C708
 {
@@ -69,7 +70,6 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
 void text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 }
-void text_builder_reset(void);
 
 
 s32 fn_8026C7AC(void *arg0, s8 arg1) {

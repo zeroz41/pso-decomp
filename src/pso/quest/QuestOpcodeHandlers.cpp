@@ -138,6 +138,17 @@
 #include "pso/object/warp/ForestWarpResources.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/object/TObjLuker.h"
+#include "pso/map/AreaEventSet.h"
+#include "pso/network/GbaJoybootState.h"
+#include "pso/object/trap/TOMine.h"
+#include "pso/player/Palettex.h"
+#include "pso/quest/challenge/TChallenge4PItemSelect.h"
+#include "pso/unk/TLobby_80103F5C.h"
+#include "pso/unk/TLobby_801F3A24.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/unk/TLobby_80291D94.h"
+#include "pso/unk/text_801F43B4.h"
+#include "pso/unk/text_801F45FC.h"
 
 
 
@@ -813,58 +824,33 @@ int set_camera_capture_overlay_alpha(void*);
 s32 copy_player_visual_record(void *, int);
 s32 __ct__16TPlyGuildCardTagFv(s32);
 }
-void reset_map(void);
 extern "C" {
 s32 advance_item_id_counter(u16);
 }
-void set_mine_trap_damage(f32);
 extern "C" {
 int clear_enabled_main_warps(void*);
 int set_hashi_versus2_flag(void*);
 int clear_hashi_versus2_flag(void*);
 }
-void play_cue_stream_file(const char *name);
 extern "C" {
 int set_quest_exit_callback(void*);
 int set_quest_cancel_callback(void*);
 int set_quest_success_callback(void*);
 int set_quest_failure_callback(void*);
 }
-void clear_floor_event_flags(void);
 extern "C" {
 s32 is_room_enemy_set_cleared(int, int, void *);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot);
 void try_close__6TLobbyFPv(void *p);
-int turn_on_bgm_p2(void*);
-int turn_off_bgm_p2(void*);
 void request_active_window_close(void);
 }
-void set_quest_floor_designation_ex(s16, s32, s32, s32, s32);
-void set_quest_floor_designation(s16, s32, s32, s32);
-s32 get_story_flag(s32 flag);
-void clear_story_flag(s32 flag);
 extern "C" {
 saddr create_equip_kind_window(saddr, const f32 *, s32);
 }
-void challenge_set_min_clear_time(s32 v);
-void challenge_set_boss_warp_disabled(s32 arg0);
-s32 challenge_get_time_record();
-void challenge_set_time_record(s32 seed);
-extern "C" {
-void challenge_set_rank_override(void *, void *, s32);
-}
-s32 challenge_check_rank_time(s32, s32);
-s32 challenge_create_reward_item(TItemData *, u16);
-s32 challenge_check_any_player_dead();
-s32 challenge_check_all_players_dead();
 extern "C" {
 int update_alloc_size__6TLobbyFv(void*);
 }
-void disable_palettex(u16 client_index);
-void enable_palettex(u16 client_index);
-void restore_palettex(u16 client_index);
-void activate_palettex(u16 client_index);
 
 int quest_active_flag;
 int evt2_random_enemies_mode;
@@ -1214,8 +1200,6 @@ void qst_op_get_time_played(s32 reg) {
     }
     qst_registers[(u8)reg] = -1;
 }
-void update_gba_joyboot_transfer();
-s32 update_challenge_result_player_locks();
 void qst_op_get_lang_setting(void) {
     qst_registers[qst_args[0]] = current_language;
 }
@@ -1327,21 +1311,13 @@ void qst_op_disable_movement2() {
         player->stop_force_if_alive();
     }
 }
-extern "C" {
-
-s32 is_palettex_enabled(u16, void *);
-}
 void qst_op_get_palettex_enabled(void) {
     u8 idx = qst_args[2];
-    qst_registers[idx] = is_palettex_enabled(qst_args[0], qst_args);
-}
-extern "C" {
-
-s32 is_palettex_activated(u16, void *);
+    qst_registers[idx] = is_palettex_enabled(qst_args[0]);
 }
 void qst_op_get_palettex_activated(void) {
     u8 idx = qst_args[1];
-    qst_registers[idx] = is_palettex_activated(qst_args[0], qst_args);
+    qst_registers[idx] = is_palettex_activated(qst_args[0]);
 }
 
 void qst_op_disable_palettex(void) {
@@ -1359,7 +1335,6 @@ void qst_op_enable_palettex() {
 void qst_op_activate_palettex() {
     activate_palettex(((u16) qst_args[0]));
 }
-void set_palettex_callback(u16 client_index, s32 label);
 void qst_op_set_palettex_callback(void) {
     set_palettex_callback(qst_args[0], (u16)qst_args[1]);
 }
@@ -2515,9 +2490,9 @@ void qst_op_set_eventflag32() {
     }
 }
 
-int qst_op_turn_on_bgm_p2(void *p) { return turn_on_bgm_p2(p); }
+void qst_op_turn_on_bgm_p2() { turn_on_bgm_p2(); }
 
-int qst_op_turn_off_bgm_p2(void* p) { return turn_off_bgm_p2(p); }
+void qst_op_turn_off_bgm_p2() { turn_off_bgm_p2(); }
 
 void qst_op_nop_F8EF(void) {  }
 
@@ -2825,7 +2800,6 @@ void qst_op_get_player_proximity(u8 regs, u8 dst) {
         }
     }
 }
-s32 challenge_set_rank_threshold(s32, s32, s32);
 void qst_op_set_cmode_rank_threshold(u8 regs, u8 dst) {
     s32 a = qst_registers[(u8)regs++];
     s32 b = qst_registers[(u8)regs++];

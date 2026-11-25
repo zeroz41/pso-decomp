@@ -39,6 +39,7 @@
 #include "pso/unk/TLobby_803DE778.h"
 #include <stdlib.h>
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/map/TSetEvtDestroy.h"
 
 // ---- pso/unk/TLobby_80209524
 
@@ -174,9 +175,6 @@ struct TLobbyHdr2 { s32 table; s32 data; s32 count; };
 
 struct TLobbyEntry { s16 id; s16 count; s32 offset; };
 
-void init_event_shuffle_table(EventShuffleTable *table, s32 count);
-
-s32 next_event_shuffle_entry(EventShuffleTable *s);
 void select_event_shuffle_table(s16 id) {
     TLobbyEntry e;
     TLobbyHdr2 hdr = *(TLobbyHdr2 *)lbl_805D60AC;

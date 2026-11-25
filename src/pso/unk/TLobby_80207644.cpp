@@ -8,6 +8,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 
 FloorMapSelection floor_map_registry[18];
 
@@ -310,7 +311,6 @@ void randomize_adventure_maps(void);
 extern "C" {
 void TLobby__sub_80207BB0(void);
 }
-s32 get_game_play_mode();
 s32 get_floor_map_terrain(s32 floor);
 s32 get_boss_warp_destination(void);
 saddr story_select_pending_state = -1;

@@ -73,7 +73,7 @@ extern SoundControlState sound_control_state;
 
 
 extern "C" {
-void TLobby__sub_8023F754(s32 arg0, s32 arg1);
+void TLobby__sub_8023F754(s32 slot, const Vec *position);
 s32 TLobby__sub_8023F880(s32 arg0);
 int TLobby__sub_802401C8(SoundControlState *self);
 void TLobby__sub_802409E4(struct SoundRequestVoice *voice);
@@ -114,7 +114,7 @@ s32 tick_sound_voice(struct SoundRequestVoice *v);
 
 // --- C functions defined in TLobby_8023F734.cpp ---
 extern "C" {
-void TLobby__sub_8023F754(s32 arg0, s32 arg1);
+void TLobby__sub_8023F754(s32 slot, const Vec *position);
 s32 TLobby__sub_8023F880(s32 arg0);
 int TLobby__sub_802401C8(SoundControlState *self);
 void TLobby__sub_802409E4(struct SoundRequestVoice *voice);
@@ -146,5 +146,8 @@ extern "C" {
 s32 validate_and_set_selection__6TLobbyFl(void *arg0, s32 arg1);
 }
 // --- end of C functions
+
+s32 update_sound_frame(SoundControlState *self);
+s32 init_sound_aux_effects(SoundControlState *self);
 
 #endif

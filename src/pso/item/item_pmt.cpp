@@ -20,6 +20,7 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/item/item_create.h"
 
 void *item_pmt;
 
@@ -83,9 +84,7 @@ struct Ctx_8011C7C8 { u8 group; u8 variant; u8 pad[2]; u8 *owner; u8 pad8[4]; u8
 
 typedef struct Pmt_8011CA10 { u8 pad[0x20]; f32 *t20; f32 *t24; } Pmt_8011CA10;
 
-struct Rule_8011C0B8 { u8 k[6]; u8 pad[10]; };
-
-struct RuleTbl_8011C0B8 { s32 count; Rule_8011C0B8 *rules; };
+struct RuleTbl_8011C0B8 { s32 count; ItemCombination *rules; };
 
 struct Pmt_8011C0B8 { u8 pad[0x44]; RuleTbl_8011C0B8 *tbl; };
 
@@ -121,8 +120,6 @@ saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
     return 0;
 }
 }
-Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
-void normalize_drop_area(s32 *p);
 s32 is_unsealable_item(u8 *id) {
     List_8011C030 *l = ((Tbl_8011C030 *)item_pmt_tbl)->list;
     s32 n = l->count;
@@ -144,8 +141,8 @@ saddr TObjPlayer::get_shield_pmt_entry(u8 arg0) {
     return *(s32 *)((s8 *)item_pmt_tbl + 0x4C) + (arg0 * 0x18);
 }
 
-Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item) {
-    Rule_8011C0B8 *r;
+ItemCombination *find_item_combination_recipe(u8 *id, void *item) {
+    ItemCombination *r;
     s32 n;
     RuleTbl_8011C0B8 *t;
     if (id != NULL && item != NULL) {
@@ -153,12 +150,12 @@ Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item) {
         r = t->rules;
         n = t->count;
         while (n != 0) {
-            if ((id[0] == r->k[0] || r->k[0] == 0xFF) &&
-                (id[1] == r->k[1] || r->k[1] == 0xFF) &&
-                (id[2] == r->k[2] || r->k[2] == 0xFF) &&
-                (r->k[3] == ((TItem *)item)->get_item_type() || r->k[3] == 0xFF) &&
-                (r->k[4] == ((TItem *)item)->get_item_group() || r->k[4] == 0xFF) &&
-                (r->k[5] == ((TItem *)item)->get_item_index() || r->k[5] == 0xFF)) {
+            if ((id[0] == r->use_item[0] || r->use_item[0] == 0xFF) &&
+                (id[1] == r->use_item[1] || r->use_item[1] == 0xFF) &&
+                (id[2] == r->use_item[2] || r->use_item[2] == 0xFF) &&
+                (r->equipped_item[0] == ((TItem *)item)->get_item_type() || r->equipped_item[0] == 0xFF) &&
+                (r->equipped_item[1] == ((TItem *)item)->get_item_group() || r->equipped_item[1] == 0xFF) &&
+                (r->equipped_item[2] == ((TItem *)item)->get_item_index() || r->equipped_item[2] == 0xFF)) {
                 return r;
             }
             r++;

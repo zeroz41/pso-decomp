@@ -33,6 +33,7 @@
 #include "pso/item/item_param.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/weapon/TItemAttacker.h"
 
 struct Parm_8010C1E0;
 struct Item_8010C498;
@@ -120,7 +121,6 @@ void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 u
 void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2, void *res, EquipStats *st, Stats2_8010BEC4 *st2);
 void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st);
 }
-u8 get_technique_learn_limit(u8, u8);
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 
 struct Parm_8010C1E0 { u8 pad[8]; s16 dfp; s16 evp; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
@@ -155,7 +155,6 @@ static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
 extern "C" {
 extern const u8 lbl_805DAB68 = 0x40;
 }
-saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id);
 extern "C" {
 
 
@@ -797,7 +796,6 @@ struct Item_8010E59C {
     s32 meseta;
 };
 
-saddr get_item_chunk_buffer(int a0);
 extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {

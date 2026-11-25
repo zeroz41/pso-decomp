@@ -122,9 +122,6 @@ s32 TObjPlayer::get_section_id() {
 const char *TObjPlayer::get_name() { return name; }
 
 
-void load_particle_entry_resources(void);
-void load_technique_resources(void);
-
 
 extern "C" {
 void TSceneSora__sub_80207430(void);

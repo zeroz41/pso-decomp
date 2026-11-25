@@ -58,7 +58,6 @@ void challenge_set_min_clear_time(s32 v) {
     }
 }
 
-void challenge_set_boss_warp_disabled(s32 arg0);
 s32 TLobby::get_normalized_mode() {
     if (is_challenge_mode_active() == 0) {
         return 0;
@@ -68,9 +67,9 @@ s32 TLobby::get_normalized_mode() {
     }
     return challenge4p_mode_state.boss_warp_disabled;
 }
-void challenge_set_boss_warp_disabled(s32 arg0) {
+void challenge_set_boss_warp_disabled(s32 disabled) {
     s32 var_r31;
-    var_r31 = arg0;
+    var_r31 = disabled;
     if (is_challenge_mode_active() == 0) {
         challenge4p_mode_state.boss_warp_disabled = 0;
         return;
@@ -91,7 +90,6 @@ s32 TLobby__sub_80291F9C(void);
 char split_screen_player_name[0x20];
 }
 void challenge_set_time_record(s32 seed);
-void set_challenge_time_window_timer(int);
 extern "C" {
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 }
@@ -99,7 +97,6 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 s32 challenge_check_rank_time(s32 seed, s32 card);
 s32 challenge_get_time_record(void);
 extern "C" {
-int challenge_set_rank_override(void);
 
 
 void TLobby::draw_if_ready2() {
@@ -210,7 +207,7 @@ void challenge_set_time_record(s32 seed) {
 }
 extern "C" {
 
-int challenge_set_rank_override(void) { return 1; }
+s32 challenge_set_rank_override(const char *match, const char *title, s32 color) { return 1; }
 }
 
 
