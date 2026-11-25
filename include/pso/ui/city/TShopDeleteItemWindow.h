@@ -32,7 +32,7 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     s32 last_cursor;                    // the entry the help window shows
     TShopWindowBase *sequence;          // the bank sequence that opened it; messages go to it
     void destroy();
-    static void update_item_select(void *window);
+    static void update_item_select(void *arg0);
     void handle_number_input();
     void handle_confirm_dialog();
 };

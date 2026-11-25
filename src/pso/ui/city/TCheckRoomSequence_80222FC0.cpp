@@ -8,9 +8,9 @@ typedef struct Item_80222FF0 { u8 d[0x14]; } Item_80222FF0;
 extern "C" {
 s32 TLobby__sub_8022318C(Item_80222FF0 *, Item_80222FF0 *);
 
-s32 TCheckRoomSequence::get_item_def(uaddr item) {
-    if (item != 0U) {
-        return TItemData::lookup_item_def((void *)item);
+s32 TCheckRoomSequence::get_item_def(uaddr arg0) {
+    if (arg0 != 0U) {
+        return TItemData::lookup_item_def((void *)arg0);
     }
     return 0;
 }
