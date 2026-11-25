@@ -26,7 +26,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/derolle/RandomAngle.h"
 
-static const int TBoss2Tentacle::rest_angles[] = {-2048, 2048, -4864, 4864};
+static const int boss2_tentacle_rest_angles[] = {-2048, 2048, -4864, 4864};
 static const s32 boss2_tentacle_angle_limit_table[] = {4096, -4096, 6144, -6144};
 const char *TBoss2Tentacle::name = "TBoss2Tentacle";
 
@@ -206,7 +206,7 @@ void TBoss2Tentacle::run_task() {
     }
     case 4:
         advance_motion_position();
-        yaw = approach_angle_limited(yaw, TBoss2Tentacle::rest_angles[index], 0x80);
+        yaw = approach_angle_limited(yaw, boss2_tentacle_rest_angles[index], 0x80);
         break;
     case 5:
         advance_motion_position();
@@ -310,7 +310,7 @@ void TBoss2Tentacle::reset() {
 }
 
 void TBoss2Tentacle::init_motion_from_table() {
-    yaw = TBoss2Tentacle::rest_angles[index];
+    yaw = boss2_tentacle_rest_angles[index];
     pitch = 0x4000;
     attack_phase = 0;
 }
@@ -321,7 +321,7 @@ void TBoss2Tentacle::enter_turn_to_rest() {
 }
 
 void TBoss2Tentacle::enter_raise() {
-    yaw = TBoss2Tentacle::rest_angles[index];
+    yaw = boss2_tentacle_rest_angles[index];
     pitch = 0;
 }
 
