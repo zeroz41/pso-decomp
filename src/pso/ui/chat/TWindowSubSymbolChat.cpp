@@ -135,14 +135,13 @@ struct SymbolChatWindowView { u8 pad[0x24]; s32 ctrl; u8 pad2[0x34 - 0x28]; Symb
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
-s32 add__16SymbolChatPresetFlllll(int, int, int, int, int, int);
-void * TWindowSubSymbolChat::instance;
+void *TWindowSubSymbolChat::instance;
 s8 symbol_chat_color;
 s32 symbol_chat_flip_u;
 s32 symbol_chat_flip_v;
 s32 symbol_chat_mirror_mode;
-
+extern "C" {
+s32 add__16SymbolChatPresetFlllll(int, int, int, int, int, int);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 
 void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window);
@@ -166,11 +165,6 @@ extern "C" {
 // 0x58-byte record held in symbol_chat_receive_buffer; its compiler-generated operator=
 // copies the char array at +4 with __copy and the word array at +0x1C as a block.
 struct SymbolChatPresetCopy { s32 value; u8 pad_4[0x17]; u32 pad_1C[0xF]; };
-
-extern s8 symbol_chat_color;
-extern s32 symbol_chat_flip_u;
-extern s32 symbol_chat_flip_v;
-extern s32 symbol_chat_mirror_mode;
 
 extern s32 close_child__20TWindowSubSymbolChatFv[];
 }
@@ -310,15 +304,15 @@ void TWindowSubSymbolChat::run_task() {
     switch (this->selected_value) {
     case 0:
     case 1:
-        if ((u32) this->selected_preset != 0U) {
+        if (this->selected_preset != NULL) {
             selected_preset->clear_flag_bit2();
             this->selected_preset = NULL;
         }
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = NULL;
         }
-        if ((u32) this->main_menu != 0U) {
+        if (this->main_menu != NULL) {
             this->main_menu->close();
             this->main_menu = NULL;
         }
@@ -347,32 +341,32 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 3:
-        if ((u32) this->main_menu != 0U) {
+        if (this->main_menu != NULL) {
             this->main_menu->close();
             this->main_menu = NULL;
         }
     case 4:
-        if ((u32) this->keyboard != 0U) {
+        if (this->keyboard != NULL) {
             ((TObject *)this->keyboard)->queue_destruction();
             this->keyboard = NULL;
         }
-        if ((u32) this->option_window != 0U) {
+        if (this->option_window != NULL) {
             ((TWindowBase *)this->option_window)->close();
             this->option_window = NULL;
         }
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = NULL;
         }
-        if ((u32) this->help_window != 0U) {
+        if (this->help_window != NULL) {
             this->help_window->close();
             this->help_window = NULL;
         }
-        if ((u32) this->parts != 0U) {
+        if (this->parts != NULL) {
             this->parts->close();
             this->parts = NULL;
         }
-        if ((u32) this->face_type_window != 0U) {
+        if (this->face_type_window != NULL) {
             this->face_type_window->close();
             this->face_type_window = NULL;
         }
@@ -380,7 +374,7 @@ void TWindowSubSymbolChat::run_task() {
             this->second_symbol_window->close();
             this->second_symbol_window = NULL;
         }
-        if ((u32) this->symbol_list != 0U) {
+        if (this->symbol_list != NULL) {
             this->symbol_list->close();
             this->symbol_list = NULL;
         }
@@ -391,7 +385,7 @@ void TWindowSubSymbolChat::run_task() {
         window = (u8 *)this->symbol_window;
         copy_vec2(this->symbol_window->target_position, (void *)((void*)(get_window_layout_position(0x7B))));
         this->symbol_window->tween_ticks = 6;
-        if ((u32) this->main_menu == 0U) {
+        if (this->main_menu == NULL) {
             this->main_menu = TWindowSubSymbolChat::open_main_menu(this);
         }
         ((TWindowMenu *)(this->main_menu))->clear_flag_and_release();
@@ -409,15 +403,15 @@ void TWindowSubSymbolChat::run_task() {
         break;
     case 6:
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->help_window != 0U) {
+        if (this->help_window != NULL) {
             this->help_window->close();
             this->help_window = NULL;
         }
-        if ((u32) this->face_type_window != 0U) {
+        if (this->face_type_window != NULL) {
             this->face_type_window->close();
             this->face_type_window = NULL;
         }
-        if ((u32) this->symbol_list == 0U) {
+        if (this->symbol_list == NULL) {
             this->symbol_list = open_edit_menu();
         }
         ((TWindowMenu *)(this->symbol_list))->clear_flag_and_release();
@@ -434,10 +428,10 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 8:
-        if ((u32) this->face_type_window == 0U) {
+        if (this->face_type_window == NULL) {
             this->face_type_window = new TWindowSubSymbolChatFaceType(get_window_layout_position(0x7D), &symbol_chat_color);
         }
-        if ((u32) this->help_window == 0U) {
+        if (this->help_window == NULL) {
             this->help_window = new TWindowSubSymbolChatHelp(&symbol_chat_color, &symbol_chat_mirror_mode);
         }
         help_window->set_flag60_bit2();
@@ -455,20 +449,20 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 10:
-        if ((u32) this->parts_set != 0U) {
+        if (this->parts_set != NULL) {
             this->parts_set->close();
             this->parts_set = NULL;
         }
-        if ((u32) this->help_window != 0U) {
+        if (this->help_window != NULL) {
             this->help_window->close();
             this->help_window = NULL;
         }
-        if ((u32) this->parts != 0U) {
+        if (this->parts != NULL) {
             this->parts->close();
             this->parts = NULL;
         }
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->symbol_list == 0U) {
+        if (this->symbol_list == NULL) {
             this->symbol_list = TWindowSubSymbolChat__sub_8028233C((saddr)this);
         }
         ((TWindowMenu *)(this->symbol_list))->clear_flag_and_release();
@@ -486,16 +480,16 @@ void TWindowSubSymbolChat::run_task() {
         break;
     case 12:
         symbol_chat_mirror_mode = 0;
-        if ((u32) this->parts_set != 0U) {
+        if (this->parts_set != NULL) {
             this->parts_set->close();
             this->parts_set = NULL;
         }
-        if ((u32) this->parts == 0U) {
+        if (this->parts == NULL) {
             this->parts = this->create_parts();
             this->parts->init_help(&symbol_chat_mirror_mode);
         }
         this->parts->select_index_and_scroll(this->symbol_index);
-        if ((u32) this->help_window == 0U) {
+        if (this->help_window == NULL) {
             this->help_window = new TWindowSubSymbolChatHelp(&symbol_chat_color, &symbol_chat_mirror_mode);
         }
         if (TWindowSubSymbolChat::count_instance_empty_slots() > 1) {
@@ -516,12 +510,12 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 14:
-        if ((u32) this->parts != 0U) {
+        if (this->parts != NULL) {
             this->symbol_index = ((TWindowSubSymbolChatParts *)(this->parts))->calc_symbol_index();
             this->parts->close();
             this->parts = NULL;
         }
-        if ((u32) this->parts_set == 0U) {
+        if (this->parts_set == NULL) {
             this->parts_set = this->create_parts_set();
             parts_set->init_symbol_layout(&symbol_chat_mirror_mode);
         }
@@ -545,16 +539,16 @@ void TWindowSubSymbolChat::run_task() {
         break;
     case 16:
         symbol_chat_mirror_mode = 0;
-        if ((u32) this->parts_set != 0U) {
+        if (this->parts_set != NULL) {
             this->parts_set->close();
             this->parts_set = NULL;
         }
-        if ((u32) this->parts == 0U) {
+        if (this->parts == NULL) {
             this->parts = this->create_parts();
             this->parts->open(&symbol_chat_color);
         }
         this->parts->select_index_and_scroll(this->symbol_index);
-        if ((u32) this->help_window == 0U) {
+        if (this->help_window == NULL) {
             this->help_window = new TWindowSubSymbolChatHelp(&symbol_chat_color, &symbol_chat_mirror_mode);
         }
         help_window->set_flag60_bit2();
@@ -571,12 +565,12 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 18:
-        if ((u32) this->parts != 0U) {
+        if (this->parts != NULL) {
             this->symbol_index = ((TWindowSubSymbolChatParts *)(this->parts))->calc_symbol_index();
             this->parts->close();
             this->parts = NULL;
         }
-        if ((u32) this->parts_set == 0U) {
+        if (this->parts_set == NULL) {
             this->parts_set = this->create_parts_set();
             parts_set->set_selection_and_refresh(&symbol_chat_color);
         }
@@ -594,16 +588,16 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 20:
-        if ((u32) this->help_window != 0U) {
+        if (this->help_window != NULL) {
             this->help_window->close();
             this->help_window = NULL;
         }
-        if ((u32) this->parts != 0U) {
+        if (this->parts != NULL) {
             this->parts->close();
             this->parts = NULL;
         }
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->symbol_list == 0U) {
+        if (this->symbol_list == NULL) {
             this->symbol_list = TWindowSubSymbolChat::create_menu(this);
         }
         ((TWindowMenu *)(this->symbol_list))->clear_flag_and_release();
@@ -622,16 +616,16 @@ void TWindowSubSymbolChat::run_task() {
     case 22:
     case 26:
         symbol_chat_mirror_mode = 0;
-        if ((u32) this->parts_set != 0U) {
+        if (this->parts_set != NULL) {
             this->parts_set->close();
             this->parts_set = NULL;
         }
-        if ((u32) this->parts == 0U) {
+        if (this->parts == NULL) {
             this->parts = this->create_parts();
             this->parts->update_height();
         }
         this->parts->select_index_and_scroll(this->symbol_index);
-        if ((u32) this->help_window == 0U) {
+        if (this->help_window == NULL) {
             this->help_window = new TWindowSubSymbolChatHelp(&symbol_chat_color, &symbol_chat_mirror_mode);
         }
         help_window->clear_flag60_bit4();
@@ -650,12 +644,12 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 24:
-        if ((u32) this->parts != 0U) {
+        if (this->parts != NULL) {
             this->symbol_index = ((TWindowSubSymbolChatParts *)(this->parts))->calc_symbol_index();
             this->parts->close();
             this->parts = NULL;
         }
-        if ((u32) this->parts_set == 0U) {
+        if (this->parts_set == NULL) {
             this->parts_set = this->create_parts_set();
         }
         if (parts_set->select_symbol_chat_record(&symbol_chat_color, &symbol_chat_mirror_mode) != 0) {
@@ -686,11 +680,11 @@ void TWindowSubSymbolChat::run_task() {
         this->selected_value = 4U;
         return;
     case 30:
-        if ((u32) this->symbol_list != 0U) {
+        if (this->symbol_list != NULL) {
             this->symbol_list->close();
             this->symbol_list = NULL;
         }
-        if ((u32) this->main_menu != 0U) {
+        if (this->main_menu != NULL) {
             this->main_menu->close();
             this->main_menu = NULL;
         }
@@ -725,11 +719,11 @@ void TWindowSubSymbolChat::run_task() {
         return;
     case 34:
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->confirm_window != 0U) {
+        if (this->confirm_window != NULL) {
             ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = NULL;
         }
-        if ((u32) this->symbol_list == 0U) {
+        if (this->symbol_list == NULL) {
             this->symbol_list = this->create_menu();
         }
         ((TWindowMenu *)(this->symbol_list))->clear_flag_and_release();
@@ -765,7 +759,7 @@ void TWindowSubSymbolChat::run_task() {
         break;
     case 38:
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->option_window == 0U) {
+        if (this->option_window == NULL) {
             this->option_window = this->create_confirm_window();
         }
         this->selected_value = 0x27U;
@@ -777,7 +771,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         break;
     case 40:
-        if ((u32) this->main_menu != 0U) {
+        if (this->main_menu != NULL) {
             this->main_menu->close();
             this->main_menu = NULL;
         }
@@ -993,11 +987,11 @@ void TWindowSubSymbolChat::add_part_at_cursor() {
   s32 pos_y;
   cursor_x = parts_set->get_cursor_x();
   cursor_pos = parts_set->get_cursor_pos();
-  add__16SymbolChatPresetFlllll((int)this->selected_preset, this->symbol_index, (int) ((s32) cursor_x), (int) ((s32) cursor_pos), (int) (*(s32 *)&symbol_chat_flip_u), (int) (*(s32 *)&symbol_chat_flip_v));
+  add__16SymbolChatPresetFlllll((int)this->selected_preset, this->symbol_index, (int) ((s32) cursor_x), (int) ((s32) cursor_pos), (int) symbol_chat_flip_u, (int) symbol_chat_flip_v);
   pos_y = (s32) cursor_pos;
-  if (((s32) symbol_chat_mirror_mode) != 0)
+  if (symbol_chat_mirror_mode != 0)
   {
-    add__16SymbolChatPresetFlllll((int)this->selected_preset, this->symbol_index, (int) (0x40 - cursor_x), (int) pos_y, (int) ((s32) ((u8) ((*(s32 *)&symbol_chat_flip_u) == 0))), (int) (*(s32 *)&symbol_chat_flip_v));
+    add__16SymbolChatPresetFlllll((int)this->selected_preset, this->symbol_index, (int) (0x40 - cursor_x), (int) pos_y, (int) ((s32) ((u8) (symbol_chat_flip_u == 0))), (int) symbol_chat_flip_v);
   }
 }
 

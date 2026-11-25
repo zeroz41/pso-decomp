@@ -219,17 +219,17 @@ void TAdSystemFileCheckGC::update_confirm_selection() {
 }
 
 void TAdSystemFileCheckGC::close_windows_and_cleanup() {
-    if ((u32) menu_window != 0U) {
+    if (menu_window != NULL) {
         menu_window->close();
         menu_window = NULL;
     }
-    if ((u32) message_window != 0U) {
+    if (message_window != NULL) {
         message_window->close();
         message_window = NULL;
     }
     setup_mode_menu(0);
     open_message_window(4);
-    if ((u32) message_window != 0U) {
+    if (message_window != NULL) {
         message_window->append_line(TAdMultiChgGameModeGC__sub_8036DE10(this, 3, (s32)this->language), 3);
     }
 }
@@ -260,17 +260,17 @@ void TAdSystemFileCheckGC::update_card_confirm_selection() {
 }
 
 void TAdSystemFileCheckGC::close_windows_and_reopen() {
-    if ((u32) menu_window != 0U) {
+    if (menu_window != NULL) {
         menu_window->close();
         menu_window = NULL;
     }
-    if ((u32) message_window != 0U) {
+    if (message_window != NULL) {
         message_window->close();
         message_window = NULL;
     }
     setup_mode_menu(0);
     open_message_window(4);
-    if ((u32) message_window != 0U) {
+    if (message_window != NULL) {
         message_window->append_line(TAdMultiChgGameModeGC__sub_8036DE10(this, 1, (s32)this->language), 3);
     }
 }
@@ -363,13 +363,13 @@ void TAdSystemFileCheckGC::create_back_objects() {
     }
 }
 void TAdSystemFileCheckGC::sub_8036E51C() {
-    if ((u32) menu_window != 0U) {
+    if (menu_window != NULL) {
         ((TWindowBase *)((void*)(menu_window)))->close();
         menu_window = NULL;
     }
     setup_mode_menu(1);
     open_message_window(4);
-    if ((u32) message_window != 0U) {
+    if (message_window != NULL) {
         message_window->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10(this, 0, (s32)((s32)((int) this->language))))), 3);
     }
     create_back_objects();

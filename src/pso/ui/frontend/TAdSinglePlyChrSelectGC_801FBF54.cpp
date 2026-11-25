@@ -2224,6 +2224,7 @@ s32 __ct__13GuildCardSlotFv(s32 object);
 extern "C" {
 void TLobby__sub_801F494C(u16 client);
 s32 __ct__14GuildCardEntryFv(s32 ply_guild_card_tag);
+}
 
 void *TAdSinglePlyChrSelectGC::init_windows(void *file) {
     TAdSinglePlyChrSelectGC::construct_card_window_array(&((GuildCardSaveData *)file)->list);
@@ -2345,7 +2346,6 @@ void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1) {
     copy_guild_card_payload(data, b);
     ::operator delete(b);
     ::operator delete(a);
-}
 }
 #pragma pop
 
@@ -3497,25 +3497,10 @@ void TAdSinglePlyChrSelectGC::free_callbacks() {
 
 
 void TAdSinglePlyChrSelectGC::alloc_char_buffers() {
-    s32 buffer;
-    s32 dst;
-    s32 fill;
-    s32 length;
-    dst = 0x10000;
-    dst = 0x1156C;
-    buffer = (saddr)new CharacterFile;
-    secondary_card_character_save_buffer = (CharacterFile *)buffer;
-    dst = 0x11C;
-    (*(s32 *)&secondary_card_system_save_payload) = (saddr)::operator new(0x11C);
-    fill = 0x10000;
-    dst = (*(s32 *)&secondary_card_character_save_buffer);
-    length = 0x1156C;
-    fill = 0;
-    memset((void *)(saddr)dst, 0, 0x1156C);
-    dst = (*(s32 *)&secondary_card_system_save_payload);
-    fill = 0;
-    length = 0x11C;
-    memset((void *)(saddr)dst, 0, 0x11C);
+    secondary_card_character_save_buffer = new CharacterFile;
+    secondary_card_system_save_payload = new SystemSaveData;
+    memset(secondary_card_character_save_buffer, 0, sizeof(CharacterFile));
+    memset(secondary_card_system_save_payload, 0, sizeof(SystemSaveData));
 }
 
 
