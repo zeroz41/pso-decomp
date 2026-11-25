@@ -195,7 +195,7 @@ s32 *get_selected_guild_card_record(void) {
 }
 extern "C" {
 
-void TWindowSubComCard::set_com_param(s32 client_id, s32 com_param) {
+void TWindowSubComCard::set_com_param(saddr client_id, s32 com_param) {
     TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(com_param << 0x12), (s32)0xFFFBFFFF);
 }
 }

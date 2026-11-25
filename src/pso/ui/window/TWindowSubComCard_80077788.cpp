@@ -75,6 +75,8 @@ void set_value_by_key(S_80077814 *arr, u16 key, s32 val) {
     }
 }
 
+}
+
 s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choice_id) {
     s32 i;
     for (i = 0; i < 5; i++) {
@@ -85,6 +87,8 @@ s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choic
     }
     return 0;
 }
+
+extern "C" {
 
 saddr TWindowSubComCard::get_com_count() {
     return (saddr)choice_search_results;

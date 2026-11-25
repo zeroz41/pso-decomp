@@ -101,7 +101,7 @@ struct TWindowSubComCard : public TObject {
     s32 create_entry_list_window();
     s32 open_yesno_dialog();
     s32 confirm_and_free();
-    static void set_com_param(s32 client_id, s32 com_param);
+    static void set_com_param(saddr client_id, s32 com_param);
     void set_page(s16 v);
     void set_display_page();
     static s32 create_com_card_window(s32 parent);
