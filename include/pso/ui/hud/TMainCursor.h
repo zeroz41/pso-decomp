@@ -8,6 +8,9 @@
 #include "pso/unk/TUnk_804A7254.h"
 
 struct NJS_OBJECT;
+class LockOnActionSlot;
+struct TObjPlayer;
+class TUnk_8013EF0C;
 
 // TMainCursor +0x24.
 class TUnk_8013E800 {
@@ -68,7 +71,7 @@ struct TMainCursor : public TObject {
     static void setup_flags(s32 arg0, s32 player, saddr main_cursor);
     static void sort_list(s32 arg0, s32 arg1);
     s32 is_channel_active();
-    int check_visible();
+    static s32 check_visible(void *slots, void *player, s16 type, s32 enabled);
     void set_target_index(s16 v);
     saddr get_index();
     void reset_slot();
@@ -101,7 +104,7 @@ struct TMainCursor : public TObject {
     void set_size(f32 v);
     f32 get_pos();
     int get_rader_map();
-    static void find_action_slot_for_target(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 find_action_slot_for_target(void *slots, void *player, s16 type, s32 enabled);
     void refresh_target_marker();
     void update_chair();
     void validate_target();
@@ -121,7 +124,7 @@ struct TMainCursor : public TObject {
     static s32 find_action_slot(saddr arg0, void *arg1, s16 type, s32 enabled, s32 arg4);
     s32 check_can_pickup();
     void setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id);
-    static s32 try_add_target_candidate(void *, void *, void *, void *);
+    static s32 try_add_target_candidate(LockOnActionSlot *entry, void *candidate, TObjPlayer *owner, TUnk_8013EF0C *best);
     static void *get_record_at(void *self, int i);
 };
 

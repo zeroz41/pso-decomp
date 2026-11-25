@@ -82,7 +82,9 @@ struct LockOnTargetRecordList {
 class LockOnActionSlot {
 public:
     gc_tag unk_0;
-    u8 pad_4[0x18];
+    u8 pad_4[0x14];
+    // The farthest candidate distance in target_list; a closer one replaces it once the list is full.
+    f32 max_candidate_dist;
     Vec origin;
     // Added to a candidate's radius.
     f32 lock_range;
@@ -166,7 +168,7 @@ struct TLockOnCursor : public TObject {
     u16 get_target_id();
     void sub_8013EEC0(u16 target_id);
     virtual void render();
-    void renderSecondaryCursor(u8* body, s32 type, s32 action);
+    void renderSecondaryCursor(u8 *body, s16 type, s32 action);
     virtual void run_task();
     static void free_cursor_resources();
     int render_part();
