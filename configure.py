@@ -622,7 +622,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/item/shop/TShopGenerator.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TNpcPlayer.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Inline the generated row-position assignment to preserve its two word-pair copies.
-    "pso/ui/window/TWindowMainMenu_802AD538.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline noauto,level=1")},
+    "pso/ui/window/TWindowMenuMainMenu.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-inline noauto,level=1")},
     # -fp_contract on: the lens flare render 0x800812D0 fuses its element placement into fmadds/fnmsubs;
     # the unit's other functions are the same either way.
     "pso/effect/TEF_LensFlare.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
