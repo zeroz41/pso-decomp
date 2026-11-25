@@ -122,7 +122,7 @@ int TKeyBoardControl__sub_8000F828(void) {
 }
 
 void shutdown_and_reset_system(void) {
-    TLobby__sub_802433A8();
+    free_player_data_load_buffer();
     fn_800FFE0C();
     init_depth_alpha_state();
     release_blob_shadow_texture();
@@ -139,7 +139,7 @@ void shutdown_and_reset_system(void) {
     TLobby__sub_8022809C();
     TLobby::shutdown_buffers();
     TAdSinglePlyChrSelectGC::release_all();
-    TWindowSubStatusDisp__sub_803386F0();
+    free_info_icon_texture();
     reset_display_copy_filter();
     TLobby__sub_80147978();
     xfree(texture_state_buffer);

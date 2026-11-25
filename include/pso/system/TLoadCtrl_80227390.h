@@ -3,8 +3,8 @@
 
 #include "types.h"
 
+void start_music_crossfade(s32 frames);
 extern "C" {
-void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 void play_area_music(char *name);
 }
 void update_music_fade(void);

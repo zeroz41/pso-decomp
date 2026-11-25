@@ -27,7 +27,7 @@
 // with deferred code generation, which emits functions in reverse order.
 
 extern "C" {
-void TLobby__sub_801E3E9C(s32 partition_id, const char *path, void *partition_info, s32);
+void open_afs_file_wait_render(s32 partition_id, const char *path, void *partition_info, s32);
 }
 
 __declspec(section ".data") const char *item_model_names[15] = {
@@ -258,7 +258,7 @@ AfsPartition::AfsPartition(const char *path, s32 id, s32 nfiles) {
     partition_id = id;
     handle = NULL;
     size_sectors = 0;
-    TLobby__sub_801E3E9C(id, path, partition_info, 0);
+    open_afs_file_wait_render(id, path, partition_info, 0);
     ready = 1;
 }
 

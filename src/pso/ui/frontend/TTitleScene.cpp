@@ -227,7 +227,6 @@ int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
 
 extern "C" {
-void request_main_phase(s32 arg0);
     extern int lbl_805D68C8;
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 }
@@ -314,7 +313,7 @@ void TTitleScene::run_task() {
     }
     if (attract_timeout == attract_tick) {
         transition_controller->suspend_update();
-        TWindowOptionCtrl__sub_802273B4(0x1E);
+        start_music_crossfade(0x1E);
     }
     if (attract_timeout < attract_tick && start_offline_seq() != 0) {
         set_fallback_main_phase(2);

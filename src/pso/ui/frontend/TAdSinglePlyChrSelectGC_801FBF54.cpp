@@ -53,6 +53,7 @@
 #include "pso/unk/text_802C3AC0.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
 #include "pso/unk/text_80076BC4.h"
+#include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_80269C6C.h"
 #include "pso/unk/TLobby_801F487C.h"
 CharacterFile *card_character_save_buffer;
@@ -132,7 +133,6 @@ static const char card_disk_game_code[] = "GPSE";
 
 void __construct_array(void*, void*, void*, int, int);
 s32 start_memcard_read(s32, char *, void *, s32);
-s32 TLobby__sub_8030A770();
 }
 
 
@@ -1599,9 +1599,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FEBBC(void) {
 
 
 extern "C" {
-saddr get_localized_text_entry(s32, s32);
 s8 poll_reset_request__Fv(void);
-void TLobby__sub_80269CA4(s32);
 
 
 }
@@ -2254,7 +2252,7 @@ void encrypt_guild_card_payload(GuildCardSaveData *data, void *arg1) {
 void game_state_load(void) {
     memcpy(selected_character_data, get_selected_character_slot(card_character_save_buffer), 0x41C);
     memcpy(active_character_save_record, get_selected_save_record(card_character_save_buffer), 0x2370);
-    TLobby__sub_801F494C(0);
+    load_quest_story_flags(0);
     if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
         if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
             TAdSinglePlyChrSelectGC::reset_character_data();
@@ -2283,7 +2281,7 @@ s32 TAdSinglePlyChrSelectGC::apply_loaded_character(int verify_only) {
     }
     memcpy(selected_character_data, get_selected_character_slot(card_character_save_buffer), 0x41C);
     memcpy(active_character_save_record, get_selected_save_record(card_character_save_buffer), 0x2370);
-    TLobby__sub_801F494C(0);
+    load_quest_story_flags(0);
     if (TAdSinglePlyChrSelectGC::get_game_mode() == 0) {
         if (TAdSinglePlyChrSelectGC::check_flag(1) != 0U) {
             TAdSinglePlyChrSelectGC::reset_character_data();

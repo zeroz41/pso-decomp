@@ -184,7 +184,7 @@ void TWindowOptionCtrl::run_task() {
         }
         break;
     case 5:
-        TWindowOptionCtrl__sub_802273B4(0x1E);
+        start_music_crossfade(0x1E);
         main_menu->open();
         if (sub_menu == NULL) {
             sub_menu = (TWindowMenu *)create_list_window();
@@ -193,7 +193,7 @@ void TWindowOptionCtrl::run_task() {
     case 6:
         if (sub_menu->is_cancelled() != 0) {
             if (flags & 2) {
-                TWindowOptionCtrl__sub_802273B4(0x1E);
+                start_music_crossfade(0x1E);
                 flags &= ~2;
                 ((TWindowOptionCtrl *)(sub_menu))->clear_flag70_bit4();
             } else {

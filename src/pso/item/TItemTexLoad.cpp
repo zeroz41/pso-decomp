@@ -10,7 +10,7 @@
 #include "pso/unk/text_800F7D30.h"
 
 extern "C" {
-void TLobby__sub_801E3E9C(s32, const char*, void*, s32);
+void open_afs_file_wait_render(s32, const char*, void*, s32);
 extern const char item_kt_archive_filename[] = "ItemKT.afs";
 extern const char TItemTexLoad_class_name[] = "TItemTexLoad";
 const char* TItemTexLoad_name = TItemTexLoad_class_name;
@@ -141,5 +141,5 @@ void load_item_kt_afs(void) {
     item_texture_afs_work_buffer = mem_alloc(0x40C);
     item_texture_filename_buffer = (char*)mem_alloc(0x1C);
     strncpy(item_texture_filename_buffer, item_kt_archive_filename, 0x1C);
-    TLobby__sub_801E3E9C(0xB8, item_kt_archive_filename, item_texture_afs_work_buffer, 0);
+    open_afs_file_wait_render(0xB8, item_kt_archive_filename, item_texture_afs_work_buffer, 0);
 }

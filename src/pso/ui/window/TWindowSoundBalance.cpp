@@ -62,7 +62,7 @@ const char *TWindowSoundBalance::class_name = "TWindowSoundBalance";
 void TWindowSoundBalance::set_sound_effect_gain(s16 gain) {
     if (sound_effect_gain != gain) {
         sound_effect_gain = gain;
-        TLobby__sub_8022614C(gain);
+        set_cue_stream_user_gain(gain);
         TWindowStatusGauge *gauge = (TWindowStatusGauge *)get_array_entry(3);
         gauge->target = gain + 100;
         gauge->calc_bar_width();

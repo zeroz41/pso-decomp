@@ -3,6 +3,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80228154.h"
 #include "pso/unk/TLobby_802268F4.h"
+#include "pso/unk/TLobby_80226C3C.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/frontend/TAdFloorLoadGC.h"
@@ -28,11 +29,6 @@ void TLoadCtrl::set_field1C(s32 poll_input) {
 }
 
 s32 TLoadCtrl::loading_mode;
-
-extern "C" {
-// Starts the loading music stream of the given index (0-3).
-void TLoadCtrl__sub_80226DA0(s32 index);
-}
 
 TAdFadeGC *load_ctrl_fade_task;
 
@@ -163,16 +159,16 @@ void TLoadCtrl::start_loading(u32 mode) {
     case 2:
         break;
     case 0:
-        TLoadCtrl__sub_80226DA0(0);
+        start_bgm_stream(0);
         break;
     case 1:
-        TLoadCtrl__sub_80226DA0(3);
+        start_bgm_stream(3);
         break;
     case 3:
-        TLoadCtrl__sub_80226DA0(1);
+        start_bgm_stream(1);
         break;
     case 4:
-        TLoadCtrl__sub_80226DA0(2);
+        start_bgm_stream(2);
         break;
     }
     new TCameraCtrl(tl_camera);

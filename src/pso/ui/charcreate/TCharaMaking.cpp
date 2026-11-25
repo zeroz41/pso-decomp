@@ -32,6 +32,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
@@ -487,9 +488,6 @@ s32 TCharaMaking__sub_8028E3A0(f32 *uv) {
     return 0;
 }
 
-extern "C" {
-s32 TLobby__sub_801E3E9C(s32, const void *, void *, s32);
-}
 
 s32 TCharaMaking::is_end() {
     if ((get_main_phase() == 0xF) || (is_quest_active() != 0)) {
@@ -572,7 +570,7 @@ void request_chara_making_archives(void) {
         if (TQuestVmDownLoadServer::is_ready() != 0) {
             return;
         }
-        if (TLobby__sub_801E3E9C(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], player_class_texture_archive_length[i]) != 0) {
+        if (open_afs_file_wait_render(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], player_class_texture_archive_length[i]) != 0) {
             if (TQuestVmDownLoadServer::is_ready() == 0) {
                 return;
             }
@@ -582,7 +580,7 @@ void request_chara_making_archives(void) {
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         return;
     }
-    if (TLobby__sub_801E3E9C(0xDB, "PLZSMPNJ.AFS", chara_making_load_buffer, 0x17A) != 0) {
+    if (open_afs_file_wait_render(0xDB, "PLZSMPNJ.AFS", chara_making_load_buffer, 0x17A) != 0) {
         if (TQuestVmDownLoadServer::is_ready() == 0) {
             return;
         }

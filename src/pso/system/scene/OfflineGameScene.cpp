@@ -208,7 +208,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
-    {TLobby::load_item_data, TLobby__sub_802083C0},
+    {TLobby::load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {init_item_system, free_item_system},
     {TLobby::create_heap_8000, TLobby::free_heap},

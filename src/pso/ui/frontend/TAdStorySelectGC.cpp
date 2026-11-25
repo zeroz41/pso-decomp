@@ -21,7 +21,7 @@ void TAdStorySelectGC::set_state(s32 episode) {
         init_floor_map_registry();
         return;
     case 1:
-        TLobby__sub_80207BB0();
+        reset_floor_map_registry();
         return;
     }
 }

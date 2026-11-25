@@ -86,6 +86,16 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/unk/TObjFreezeShell.h"
+#include "dolphin/base/PPCArch.h"
+#include "pso/ui/frontend/TAdDialingGC_801A4C90.h"
+#include "pso/unk/text_801F3774.h"
+#include "pso/unk/TLobby_80209524.h"
+#include "pso/unk/TLobby_801F487C.h"
+#include "pso/unk/text_800FA464.h"
+#include "pso/unk/TLobby_802268F4.h"
+#include "pso/unk/text_800F9B84.h"
+#include "pso/unk/text_800FA260.h"
+#include "pso/unk/TLobby_801F3A24.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -133,7 +143,6 @@ void set_fallback_main_phase(s32 phase);
 void set_queued_main_phase(s32 phase);
 extern "C" {
 
-s32 PPCSync();
 extern s32 lbl_805D5718;
 s32 unlock_main_warp_destination();
 s32 load_area_scene_and_init(void *);
@@ -142,23 +151,15 @@ extern "C" {
 void TLobby__sub_801A3E94(void);
 }
 extern "C" {
-s32 TLobby__sub_80146908();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
-u32 TAdDialingGC__sub_801A4C9C();
-s32 TLobby__sub_801F3774();
-s32 TLobby__sub_8020A6B0(int);
 s32 TAdDialingGC__sub_80328730();
-void TLobby__sub_801F494C(u16 client);
+}
+extern "C" {
 s32 reset_story_select__6TLobbyFPv();
 s32 init_key_slots__15TOKeyJungleMainFPv();
-void TWindowCtrlMain__sub_8024D838(void);
-void TRaderMapCore__sub_801F95CC(void);
-void TWindowDD__sub_80344114(void);
-void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
 }
-void clear_received_symbol_chat(void);
 
 // Load and release hooks of the online lobby scene, in pairs: run_online_lobby_scene runs
 // each load front to back (run_load_callback_table), cleanup_online_lobby_scene each release
@@ -181,7 +182,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {load_light_entry_file, TObjLight::free_shared_data},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},
     {init_item_system, free_item_system},
-    {TLobby::load_item_data, TLobby__sub_802083C0},
+    {TLobby::load_item_data, free_forest_rel_work_buffer},
     {init_item_drop_tables, free_item_drop_tables},
     {TLobby::create_heap_8000, TLobby::free_heap},
     {TRaderMapCore__sub_801F95CC, TRaderMapCore::free_heap},
@@ -227,21 +228,14 @@ Pair_801A3CFC lobby_udp_test_game_entries[2] = {
 };
 
 void deactivate_keyboard(void);
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
 extern s32 lbl_805D55C0;
 s16 lobby_floor_reload_pending;
 int new_game_setup_flags;
 s32 online_lobby_scene_handle;
 s32 online_lobby_frame_counter;
-void clear_resource_load_tasks(void);
-void process_pending_resources(void);
-void clear_quest_floor_designations(void);
 void start_quest_mission(void);
 void change_floor_reload_area(void);
-void load_battle_param_entry(void);
 void reload_lobby_floor_scene(void);
-void init_area_lights(void);
 void load_floor_scene(void);
 void TLobby::set_flag_and_update() { new_game_setup_flags = (new_game_setup_flags | 0x1); set_floor_transition_ready(&floor_transition_state); }
 
@@ -318,7 +312,7 @@ void reload_lobby_floor_scene(void) {
     main_task.begin_frame();
     main_task.run_task();
     main_task.render_screen_overlay();
-    TLobby__sub_801F494C(0);
+    load_quest_story_flags(0);
     TLobby__sub_801A3E94();
     TLobby::process_deferred_player_setup();
     TLobby::install_game_join_handlers();

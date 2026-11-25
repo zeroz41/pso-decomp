@@ -141,7 +141,7 @@ void TShopArmorListWindow::refresh_item_list() {
     u8 *e;
     TWindowCost *c;
     base = get_split_screen_slot();
-    item_count = TLobby__sub_8021B274(base);
+    item_count = get_shop_stock_count(base);
     for (i = 0; i < item_count; i++) {
         ((TLobby *)(&tmp))->copy_armor_shop_entry(i, base);
         stock[i].copy_from(&tmp);
