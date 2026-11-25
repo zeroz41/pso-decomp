@@ -3,13 +3,10 @@
 
 #include "types.h"
 
-struct GcrnaLoopTarget {
-    u8 pad_00[0x74];
-    s32 loop_flag;
-};
+struct GcrnaStream;
 
 extern "C" {
-void gcrna_set_loop_flag(GcrnaLoopTarget *target, s32 enabled);
+void gcrna_set_loop_flag(GcrnaStream *stream, s32 enabled);
 void gcrna_interrupt_lock_enter(void);
 void gcrna_interrupt_lock_leave(void);
 }

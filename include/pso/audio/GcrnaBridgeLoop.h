@@ -3,10 +3,10 @@
 
 #include "types.h"
 
-struct GcrnaLoopTarget;
+struct GcrnaStream;
 
 extern "C" {
-void gcrna_bridge_set_loop_flag(GcrnaLoopTarget *target, s32 enabled);
+void gcrna_bridge_set_loop_flag(GcrnaStream *stream, s32 enabled);
 }
 
 #endif

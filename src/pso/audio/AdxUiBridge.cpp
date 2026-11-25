@@ -19,9 +19,9 @@ void TLobby__sub_803CBE20(void) {
 }
 
 void adx_bridge_set_loop_flag(AdxUiBridgeTarget *bridge, s32 enabled) {
-    gcrna_bridge_set_loop_flag(bridge->target, enabled);
+    gcrna_bridge_set_loop_flag(bridge->stream, enabled);
 }
 
-void TLobby__sub_803CBE64(AdxUiBridgeTarget *bridge) {
-    adx_bridge_get_stream_id((int)bridge->target);
+s32 TLobby__sub_803CBE64(AdxUiBridgeTarget *bridge, s32 channel) {
+    return adx_bridge_get_stream_id(bridge->stream, channel);
 }
