@@ -210,7 +210,7 @@ void TWindowMenuInfomation::render() {
     ((TWindowBase *)(this))->draw_window_frame(draw_context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>((this)),
-        reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        &entry_list,
         draw_context);
     draw_setting(draw_context);
     if (this->heading != 0) {
@@ -267,7 +267,7 @@ void TWindowMenuInfomation::run_task() {
     this->step_window_tween();
     this->update_scroll_offset();
     this->clamp_scroll();
-    ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&(*(void * *)((u8 *)this + 0x24))));
+    update_window_entry_list(&entry_list);
 }
 
 TWindowMenuInfomation::~TWindowMenuInfomation() {

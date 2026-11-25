@@ -181,7 +181,7 @@ void TWindowFukidasi::run_task() {
   this->update_reveal_timer();
   if (this->is_active() != 0)
   {
-    ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(((u8 *) this) + 0x24));
+    update_window_entry_list(&entry_list);
   }
 }
 

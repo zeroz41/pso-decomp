@@ -194,7 +194,7 @@ saddr get_help_text_string(s32 id) {
 
 TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
     this->m_name = window_help_item_class_name;
-    copy_vec2(((u8 *)this + 0x30), pos);
+    copy_vec2(target_position, pos);
     this->save_position();
     this->help_flags = 0;
     page_indicator = new PageIndicator(0, 3, client_index);
@@ -241,11 +241,11 @@ void TWindowHelpItem::render() {
     saddr context;
     u8 temp_r3_2;
 
-    context = reinterpret_cast<saddr>(this->setup_window_draw_context((f32 *)((u8 *)this + 0xA8)));
+    context = reinterpret_cast<saddr>(this->setup_window_draw_context(&scale_x));
     this->draw_window_frame((void *)context);
     draw_visible_window_entries(
         this,
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
+        &entry_list,
         reinterpret_cast<WindowDrawContext *>(context));
     temp_r3_2 = this->help_flags;
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2)) {
@@ -562,7 +562,7 @@ void TWindowHelpItem::init_help_texts() {
     TWindowHelpItem *temp_r26;
 
     init_window_layout_entries(
-        reinterpret_cast<WindowLayoutEntries *>((void *) ((u8 *) this + 0x24)),
+        &entry_list,
         &TWindowHelpItem::item_layout_entries,
         this->client_index);
     temp_r31 = (TWindowHelpItem *)(this->get_array_entry(0));
