@@ -58,8 +58,8 @@ TWindowMenu *TWindowStatusCategoryMenu::create_status_category_menu() {
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10A)), 0x36, 0);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10B)), 0x36, 1);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x10C)), 0x36, 2);
-    ((TWindowMenu *)menu)->set_flag70_bit10();
-    ((TWindowMenu *)menu)->update_layout_height(202.0f);
+    (menu)->set_flag70_bit10();
+    (menu)->update_layout_height(202.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu));
     return menu;
 }

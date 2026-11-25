@@ -143,7 +143,7 @@ saddr lbl_805D5B40;
 NJS_TEXLIST *lbl_805D5B44;
 StripBufferPair *lbl_805D5B48;
 
-NJS_TEXLIST *TLobby__sub_80184C2C(int a0) {  return city_season_xmas_model_table[a0]; }
+NJS_TEXLIST *get_city_season_xmas_model(int a0) {  return city_season_xmas_model_table[a0]; }
 
 BmlResource *get_season_model_resource(int a0) {  return city_season_easter_egg_model_table[a0]; }
 
@@ -179,7 +179,7 @@ void TLobby::free_buffers() {
         lbl_805D5B48 = NULL;
     }
     if (lbl_805D5B38 != NULL) {
-        delete (BmlResource *)lbl_805D5B38;
+        delete lbl_805D5B38;
         lbl_805D5B38 = NULL;
     }
     lbl_805D5B44 = NULL;

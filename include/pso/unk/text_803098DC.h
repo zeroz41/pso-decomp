@@ -4,14 +4,14 @@
 #include "types.h"
 
 extern "C" {
-void fn_803098DC(void);
-void fn_803098E8(void);
+void clear_char_creation_tag_selection(void);
+void clear_char_creation_tag_selection_2(void);
 }
 
 // --- C functions defined in text_803098DC.cpp ---
 extern "C" {
-void fn_803098DC(void);
-void fn_803098E8(void);
+void clear_char_creation_tag_selection(void);
+void clear_char_creation_tag_selection_2(void);
 }
 // --- end of C functions
 

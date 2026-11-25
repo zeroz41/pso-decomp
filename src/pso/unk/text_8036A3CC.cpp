@@ -5,7 +5,7 @@
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct Inst_8036A3CC { u8 pad0[0x1155C]; u32 flags[2]; };
+struct GetFlagWordMaskInst { u8 pad0[0x1155C]; u32 flags[2]; };
 
 struct FlagLink_8036A514 {
     s32 flag;
@@ -157,7 +157,7 @@ u32 *get_flag_word_mask(s32 flag, u32 *mask) {
         return 0;
     }
     *mask = 1 << (flag & 0x1F);
-    return &((Inst_8036A3CC *)TAdSinglePlyChrSelectGC::get_instance())->flags[word];
+    return &((GetFlagWordMaskInst *)TAdSinglePlyChrSelectGC::get_instance())->flags[word];
 }
 
 void unlock_sequencer_flag(s32 program) {

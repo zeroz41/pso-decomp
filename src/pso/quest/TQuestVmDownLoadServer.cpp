@@ -57,7 +57,7 @@ saddr get_window_layout_position(s32);
 }
 extern s32 lbl_805D55C0;
 extern uaddr lobby_player_construction_window;
-extern s32 lbl_805D49B4;
+extern s32 memcard_access_active;
 
 
 #include "pso/render/TDLGraph.h"
@@ -341,7 +341,7 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     *body = 0;
     *body = TQuestVmDownLoadServer__sub_801F8538(this, size);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, ((u32 *)this)[0]);
-    subtractive_rng_xor_buffer((s32 *)&TQuestVmDownLoadServer__rng_cipher_state, (u32 *)body, (s32)((size - 4) & ~3));
+    subtractive_rng_xor_buffer((s32 *)&TQuestVmDownLoadServer__rng_cipher_state, body, (s32)((size - 4) & ~3));
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[0]);
     ((TAdSinglePlyChrSelectGC *)(&TQuestVmDownLoadServer__rng_cipher_state))->apply_rng_cipher(((u32 *)this), size & ~3);
     src = TQuestVmDownLoadServer::alloc(size);
@@ -350,7 +350,7 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle((s32 *)&TQuestVmDownLoadServer__rng_cipher_state);
     TAdSinglePlyChrSelectGC::permute_save_blocks(&TQuestVmDownLoadServer__rng_cipher_state, (const u8*)src, (u8*)dst, (u32)size);
-    move_data((void *)(this), (const void *)((const void *)dst), (u32)size);
+    move_data((void *)(this), (const void *)(dst), (u32)size);
     safe_free(dst);
     safe_free(src);
 }
@@ -363,7 +363,7 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle((s32 *)&TQuestVmDownLoadServer__rng_cipher_state);
     subtractive_rng_unshuffle((void *)&TQuestVmDownLoadServer__rng_cipher_state, (const u8 *)src, (u8 *)dst, (u32)size);
-    move_data((void *)(((u32 *)data)), (const void *)((const void *)dst), (u32)size);
+    move_data((void *)(((u32 *)data)), (const void *)(dst), (u32)size);
     safe_free(dst);
     safe_free(src);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[0]);
@@ -840,7 +840,7 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
 }
 void TQuestVmDownLoadServer::load_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->memcard_slot);
-    lbl_805D49B4 = 1;
+    memcard_access_active = 1;
     if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, (saddr)&this->slot_file_name, (s32)(*(s32 *)&this->save_image), (s32)(this->slot_file_blocks)) == 0) {
         this->state = 0xA;
         show_status_message(get_message_text(0xC), 1);
@@ -849,7 +849,7 @@ void TQuestVmDownLoadServer::load_quest_data() {
     }
     show_status_message(get_localized_text_entry(0x29, 2), 1);
     this->state = 0x17;
-    lbl_805D49B4 = 0;
+    memcard_access_active = 0;
 }
 void TQuestVmDownLoadServer::abort_download() {
     if (poll_memcard_result(this->memcard_slot) == 0) {
@@ -859,7 +859,7 @@ void TQuestVmDownLoadServer::abort_download() {
             this->save_image = 0U;
         }
         this->state = 0xB;
-        lbl_805D49B4 = 0;
+        memcard_access_active = 0;
     }
 }
 void TQuestVmDownLoadServer::write_memcard_file() {
@@ -909,7 +909,7 @@ void TQuestVmDownLoadServer::write_memcard_file() {
 }
 void TQuestVmDownLoadServer::write_quest_data_named() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->memcard_slot);
-    lbl_805D49B4 = 1;
+    memcard_access_active = 1;
     if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, (saddr)&this->state_file_name, (saddr)this->save_image, this->state_file_blocks) == 0) {
         this->state = 0xD;
         show_status_message(get_message_text(0xC), 1);
@@ -917,7 +917,7 @@ void TQuestVmDownLoadServer::write_quest_data_named() {
     }
     show_status_message(get_localized_text_entry(0x29, 2), 1);
     this->state = 0x17;
-    lbl_805D49B4 = 0;
+    memcard_access_active = 0;
 }
 void TQuestVmDownLoadServer::finish_download() {
     if (poll_memcard_result(this->memcard_slot) == 0) {
@@ -930,7 +930,7 @@ void TQuestVmDownLoadServer::finish_download() {
             ((TWindowMenuIconLine *)(this->icon_menu))->clear_decided();
         }
         this->state = 0xE;
-        lbl_805D49B4 = 0;
+        memcard_access_active = 0;
     }
 }
 void TQuestVmDownLoadServer::build_file_info_image() {
@@ -989,7 +989,7 @@ void TQuestVmDownLoadServer::build_file_info_image() {
 }
 void TQuestVmDownLoadServer::write_quest_data() {
     TAdSinglePlyChrSelectGC::set_quest_download_server(this->memcard_slot);
-    lbl_805D49B4 = 1;
+    memcard_access_active = 1;
     if (TAdSinglePlyChrSelectGC::draw_window_bg(this->memcard_slot, (saddr)quest_file_99_name, (s32)(*(s32 *)&this->save_image), (s32)(this->info_file_blocks)) == 0) {
         this->state = 0x10;
         show_status_message(get_message_text(0xC), 1);
@@ -997,7 +997,7 @@ void TQuestVmDownLoadServer::write_quest_data() {
     }
     show_status_message(get_localized_text_entry(0x29, 2), 1);
     this->state = 0x17;
-    lbl_805D49B4 = 0;
+    memcard_access_active = 0;
 }
 void TQuestVmDownLoadServer::close_download() {
     if (poll_memcard_result(this->memcard_slot) == 0) {
@@ -1011,7 +1011,7 @@ void TQuestVmDownLoadServer::close_download() {
         }
         show_status_message((s32)(get_message_text(0x41)), 1);
         this->state = 0x13;
-        lbl_805D49B4 = 0;
+        memcard_access_active = 0;
     }
 }
 void TQuestVmDownLoadServer::destroy() {
@@ -1064,7 +1064,7 @@ void TQuestVmDownLoadServer::check_client_connections() {
             card_mask_now = this->card_mask;
             if (card_mask_now != (s32) this->prev_card_mask) {
                 this->prev_card_mask = card_mask_now;
-                if ((s32) quest_download_in_progress != 0) {
+                if (quest_download_in_progress != 0) {
                     quest_download_in_progress = 0;
                     show_status_message((s32)(get_message_text(0xB)), 1);
                     this->state = 0x12;

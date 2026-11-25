@@ -800,7 +800,7 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     fade = create_boss4_fade();
     minions_spawned = 0;
     minions_lost = 0;
-    fn_8030A83C(this);
+    create_boss4_zako_draw(this);
     init_music_sequencer(4);
     dark_falz_form_index = 0;
     roar_timer = 0;

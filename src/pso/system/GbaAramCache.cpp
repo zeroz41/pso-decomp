@@ -17,7 +17,7 @@ int TAdWarningBaseGC__aram_alloc_size;
 int lobby_count_value;
 s32 aram_request_busy_flag;
 
-void TLobby__sub_8032CDEC(void) { TAdWarningBaseGC__aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
+void reset_warning_aram_cache(void) { TAdWarningBaseGC__aram_alloc_size = 0; warning_aram_load_done_flag = 0; }
 
 void TGbaAramUploadTask::destroy() { queue_destruction(); }
 

@@ -291,7 +291,7 @@ void TLobby__sub_803362A4(TTitleScene *scene) {
         TKeyBoardControl__sub_8000F90C(2);
         if (scene->start_offline_seq() != 0) {
             ((void (*)(void *))TLobby__sub_803361FC)(scene);
-            TitleStateHandler handler = state_handler_pmf_table[TLobby__sub_80336030(scene)];
+            TitleStateHandler handler = state_handler_pmf_table[get_transition_cursor(scene)];
             (scene->*handler)();
         }
     }

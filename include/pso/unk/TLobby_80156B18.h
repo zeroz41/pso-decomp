@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_80156BA8(void *p);
+void build_6x0B_packet(void *p);
 }
 
 // --- C functions defined in TLobby_80156B18.cpp ---
 extern "C" {
-void TLobby__sub_80156BA8(void *p);
+void build_6x0B_packet(void *p);
 }
 // --- end of C functions
 

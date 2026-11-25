@@ -3,37 +3,37 @@
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
-struct Obj_801D6F60 { u8 pad[0x16]; s16 v; };
+struct ClampValueBelow200Object { u8 pad[0x16]; s16 v; };
 
-struct Obj_801D7030 { u8 pad[0xB]; u8 v; };
+struct NormalizeBattleRuleValueObject { u8 pad[0xB]; u8 v; };
 
-struct Obj_801D6F94 { u8 pad[0xE]; u8 v; };
+struct TLobbyObject { u8 pad[0xE]; u8 v; };
 
-struct Obj_801D6FC8 { u8 pad[0xD]; u8 v; };
+struct ClampValueBelow2Object { u8 pad[0xD]; u8 v; };
 
-struct Obj_801D6FFC { u8 pad[0xC]; u8 v; };
+struct TLobbyObject2 { u8 pad[0xC]; u8 v; };
 
-struct Obj_801D7064 { u8 pad[0xA]; u8 v; };
+struct GetRuleFieldAObject { u8 pad[0xA]; u8 v; };
 
-struct Obj_801D70CC { u8 pad[0x8]; u8 v; };
+struct ClampRuleValue2Object { u8 pad[0x8]; u8 v; };
 
-struct Obj_801D7098 { u8 pad[0x9]; u8 v; };
+struct NormalizeBattleRuleValueBObject { u8 pad[0x9]; u8 v; };
 
-struct Obj_801D7100 { u8 pad[0x7]; u8 v; };
+struct TLobbyObject3 { u8 pad[0x7]; u8 v; };
 
 extern "C" {
-u8 ret_801D78EC(Obj_801D6F60 *p);
-u8 ret_801D790C(Obj_801D7030 *p);
-u8 ret_801D78F4(Obj_801D6F94 *p);
-u8 TLobby__sub_801D6F94(Obj_801D6F94 *p);
-u8 ret_801D78FC(Obj_801D6FC8 *p);
-u8 ret_801D7904(Obj_801D6FFC *p);
-u8 TLobby__sub_801D6FFC(Obj_801D6FFC *p);
-u8 ret_801D7914(Obj_801D7064 *p);
-u8 ret_801D7924(Obj_801D70CC *p);
-u8 ret_801D791C(Obj_801D7098 *p);
-u8 ret_801D792C(Obj_801D7100 *p);
-u8 TLobby__sub_801D7100(Obj_801D7100 *p);
+u8 ret_801D78EC(ClampValueBelow200Object *p);
+u8 ret_801D790C(NormalizeBattleRuleValueObject *p);
+u8 ret_801D78F4(TLobbyObject *p);
+u8 TLobby__sub_801D6F94(TLobbyObject *p);
+u8 ret_801D78FC(ClampValueBelow2Object *p);
+u8 ret_801D7904(TLobbyObject2 *p);
+u8 TLobby__sub_801D6FFC(TLobbyObject2 *p);
+u8 ret_801D7914(GetRuleFieldAObject *p);
+u8 ret_801D7924(ClampRuleValue2Object *p);
+u8 ret_801D791C(NormalizeBattleRuleValueBObject *p);
+u8 ret_801D792C(TLobbyObject3 *p);
+u8 TLobby__sub_801D7100(TLobbyObject3 *p);
 u8 ret_801D78E4();
 
 void TLobby::set_volume(u8 vol) {
@@ -107,14 +107,14 @@ u8 TLobby::get_clamped_level() {
     return (u8) temp_r0;
 }
 s16 TLobby::clamp_value_below_200() {
-    Obj_801D6F60 *p = (Obj_801D6F60 *)this;
+    ClampValueBelow200Object *p = (ClampValueBelow200Object *)this;
     if (p->v >= 200) {
         return ret_801D78EC(p);
     }
     return p->v;
 }
 
-u8 TLobby__sub_801D6F94(Obj_801D6F94 *p) {
+u8 TLobby__sub_801D6F94(TLobbyObject *p) {
     if (p->v >= 2) {
         return ret_801D78F4(p);
     }
@@ -122,14 +122,14 @@ u8 TLobby__sub_801D6F94(Obj_801D6F94 *p) {
 }
 
 u8 TLobby::clamp_value_below_2() {
-    Obj_801D6FC8 *p = (Obj_801D6FC8 *)this;
+    ClampValueBelow2Object *p = (ClampValueBelow2Object *)this;
     if (p->v >= 2) {
         return ret_801D78FC(p);
     }
     return p->v;
 }
 
-u8 TLobby__sub_801D6FFC(Obj_801D6FFC *p) {
+u8 TLobby__sub_801D6FFC(TLobbyObject2 *p) {
     if (p->v >= 3) {
         return ret_801D7904(p);
     }
@@ -137,14 +137,14 @@ u8 TLobby__sub_801D6FFC(Obj_801D6FFC *p) {
 }
 
 u8 TLobby::normalize_battle_rule_value() {
-    Obj_801D7030 *p = (Obj_801D7030 *)this;
+    NormalizeBattleRuleValueObject *p = (NormalizeBattleRuleValueObject *)this;
     if (p->v >= 2) {
         return ret_801D790C(p);
     }
     return p->v;
 }
 u8 TLobby::get_rule_field_a() {
-    Obj_801D7064 *p = (Obj_801D7064 *)this;
+    GetRuleFieldAObject *p = (GetRuleFieldAObject *)this;
     if (p->v >= 2) {
         return ret_801D7914(p);
     }
@@ -152,7 +152,7 @@ u8 TLobby::get_rule_field_a() {
 }
 
 u8 TLobby::normalize_battle_rule_value_b() {
-    Obj_801D7098 *p = (Obj_801D7098 *)this;
+    NormalizeBattleRuleValueBObject *p = (NormalizeBattleRuleValueBObject *)this;
     if (p->v >= 2) {
         return ret_801D791C(p);
     }
@@ -160,13 +160,13 @@ u8 TLobby::normalize_battle_rule_value_b() {
 }
 
 u8 TLobby::clamp_rule_value_2() {
-    Obj_801D70CC *p = (Obj_801D70CC *)this;
+    ClampRuleValue2Object *p = (ClampRuleValue2Object *)this;
     if (p->v >= 2) {
         return ret_801D7924(p);
     }
     return p->v;
 }
-u8 TLobby__sub_801D7100(Obj_801D7100 *p) {
+u8 TLobby__sub_801D7100(TLobbyObject3 *p) {
     if (p->v >= 3) {
         return ret_801D792C(p);
     }

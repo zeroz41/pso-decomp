@@ -5,7 +5,7 @@
 #include "pso/unk/TLobby_80140FF4.h"
 
 void fn_80140DFC(TMapCsnCtrl *controller, TObjMapCsn *object) {
-    remove_collision_group(controller, TLobby__sub_80141030(object));
+    remove_collision_group(controller, get_map_collision_group(object));
 }
 
 void remove_collision_group(TMapCsnCtrl *controller, CsnGroup *group) {
@@ -30,7 +30,7 @@ void remove_collision_group(TMapCsnCtrl *controller, CsnGroup *group) {
 }
 
 void fn_80140EA8(TMapCsnCtrl *controller, TObjMapCsn *object) {
-    register_slot(controller, TLobby__sub_80141030(object));
+    register_slot(controller, get_map_collision_group(object));
 }
 
 void register_slot(TMapCsnCtrl *controller, CsnGroup *group) {

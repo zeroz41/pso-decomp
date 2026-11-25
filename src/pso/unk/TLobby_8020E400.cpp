@@ -9,16 +9,16 @@
 void TLobby::bswap_player_fields() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 void TLobby::send_player_update() { bswap_player_fields(); send_subcommand((u8 *)this); }
 
-struct Item_8020E484 { u8 pad[0x80]; s32 v; };
+struct SendPlayerUpdateItem { u8 pad[0x80]; s32 v; };
 
-struct Obj_8020E484 { u8 pad[0x1c]; s32 max; s32 count; Item_8020E484 **ptrs; s32 *vals; };
+struct SendPlayerUpdateObject { u8 pad[0x1c]; s32 max; s32 count; SendPlayerUpdateItem **ptrs; s32 *vals; };
 
 extern "C" {
-void append_wave_member(Obj_8020E484 *o, Item_8020E484 *item);
+void append_wave_member(SendPlayerUpdateObject *o, SendPlayerUpdateItem *item);
 }
 void build_6x76_set_entity_set_flags(void* p) { *(u8*)((char*)p + 0x0) = 118; *(u8*)((char*)p + 0x1) = 2; }
 
-void append_wave_member(Obj_8020E484 *o, Item_8020E484 *item) {
+void append_wave_member(SendPlayerUpdateObject *o, SendPlayerUpdateItem *item) {
     if (o->count < o->max) {
         o->ptrs[o->count] = item;
         o->vals[o->count++] = item->v;

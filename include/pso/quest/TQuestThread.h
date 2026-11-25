@@ -50,8 +50,8 @@ public:
 
 class TObjItemNameEntry : public TObject {
 public:
-    void *m_1c;
-    void *m_20;
+    void *keyboard;      // TKeyBoardControl for the name
+    void *prompt_menu;
 
     TObjItemNameEntry(TObject *parent);
     virtual void render();

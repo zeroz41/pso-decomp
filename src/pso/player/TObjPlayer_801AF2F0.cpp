@@ -6206,7 +6206,7 @@ s32 TObjPlayer::is_player_valid_target(u16 client_index) {
         return 0;
     }
     player = get_player_by_client_id((u16) client_index);
-    if ((TObjPlayer__sub_80354C7C(client_index) == 0) || (player->is_controls_locked() != 0) || (player->reset_volopt_state() == 0)) {
+    if ((is_palettex_enabled(client_index) == 0) || (player->is_controls_locked() != 0) || (player->reset_volopt_state() == 0)) {
         return 0;
     }
     return 1;

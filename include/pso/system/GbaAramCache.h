@@ -12,7 +12,7 @@ extern int lobby_count_value;
 extern s32 aram_request_busy_flag;
 
 extern "C" {
-void TLobby__sub_8032CDEC(void);
+void reset_warning_aram_cache(void);
 int TAdWarningBaseGC__sub_8032D020(void);
 void TAdWarningBaseGC__sub_8032D188(void);
 }

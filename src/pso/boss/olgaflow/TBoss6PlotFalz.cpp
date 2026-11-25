@@ -984,7 +984,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
 }
 #pragma pop
 
-void TBoss6PlotFalz::free_all() { TBoss4DarkFalz::free_global_instance(); TBoss6Tube::free_resources(); TBoss6Rock::free_data(); TItemEffOrgaFlowShot__sub_80357204(); delete boss6_scene_archive; boss6_scene_archive = NULL; }
+void TBoss6PlotFalz::free_all() { TBoss4DarkFalz::free_global_instance(); TBoss6Tube::free_resources(); TBoss6Rock::free_data(); disable_olga_flow_subordinate_actions(); delete boss6_scene_archive; boss6_scene_archive = NULL; }
 
 void TBoss6PlotFalz::load_resources() {
     BmlResource *resource = new BmlResource(5, &boss6_plot_falz_resource_descriptor, 0, 0, NULL);

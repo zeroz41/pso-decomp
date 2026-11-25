@@ -9,7 +9,7 @@
 
 #include <stddef.h>
 
-struct Stack_800724F0 {
+struct SendChallengeWithValueStack {
     s32 sp8;
     s32 spC;
 };
@@ -17,27 +17,27 @@ struct Stack_800724F0 {
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 
-struct Stack_80072448 {
+struct SendChallengeTimeStack {
     s32 sp8;
     s32 spC;
     s32 sp10;
     u8 trailing_storage[0x8];
 };
 
-struct Stack_80072308 {
+struct SendChallengeRetryCmdStack {
     s32 sp8;
     s32 spC;
     s32 sp10;
     u8 trailing_storage[0x8];
 };
 
-struct Stack_800722AC { s32 sp8; s32 spC; s32 sp10; s32 sp14; };
+struct TLobbyStack { s32 sp8; s32 spC; s32 sp10; s32 sp14; };
 
 extern "C" {
-void TLobby__sub_800728FC(u8 *arg0);
-void TLobby__sub_80072880(u8 *arg0);
-void TLobby__sub_800727EC(u8 *arg0);
-void TLobby__sub_80072758(u8 *arg0);
+void build_6x8A_packet(u8 *arg0);
+void build_6x95_packet(u8 *arg0);
+void build_6x97_packet(u8 *arg0);
+void build_6x9D_packet(u8 *arg0);
 void TLobby__sub_80072724(TLobby *lobby);
 void TLobby__sub_800722AC(s32 arg0);
 void TLobby__sub_80072618(void);
@@ -60,25 +60,25 @@ void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
 extern "C" {
 
 void TLobby__sub_800722AC(s32 arg0) {
-    Stack_800722AC stack;
+    TLobbyStack stack;
     if (is_challenge_mode() == 0) {
         return;
     }
     if (arg0 < 0 || arg0 >= 4) {
         return;
     }
-    TLobby__sub_80072758((u8 *)&stack);
+    build_6x9D_packet((u8 *)&stack);
     stack.spC = arg0;
     TLobby__sub_80072724((TLobby *)&stack);
 }
 
 void TLobby::send_challenge_retry_cmd(s32 choice) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80072308, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80072308, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80072308, sp10) == 0x8);
-    Stack_80072308 stack;
+    LAYOUT_ASSERT(sp8_offset, offsetof(SendChallengeRetryCmdStack, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(SendChallengeRetryCmdStack, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(SendChallengeRetryCmdStack, sp10) == 0x8);
+    SendChallengeRetryCmdStack stack;
     if (is_challenge_mode() != 0) {
-        TLobby__sub_800727EC((u8 *)&stack.sp8);
+        build_6x97_packet((u8 *)&stack.sp8);
         stack.sp10 = choice;
         stack.spC = local_client_id;
         ((TLobby *)(&stack.sp8))->send_and_handle_60_wrapper();
@@ -120,11 +120,11 @@ void handle_6x95_set_challenge_time(G_SetChallengeTime_6x95 *command) {
 }
 
 void send_challenge_time(s32 clear_time) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80072448, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80072448, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80072448, sp10) == 0x8);
-    Stack_80072448 stack;
-    TLobby__sub_80072880((u8 *)&stack.sp8);
+    LAYOUT_ASSERT(sp8_offset, offsetof(SendChallengeTimeStack, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(SendChallengeTimeStack, spC) == 0x4);
+    LAYOUT_ASSERT(sp10_offset, offsetof(SendChallengeTimeStack, sp10) == 0x8);
+    SendChallengeTimeStack stack;
+    build_6x95_packet((u8 *)&stack.sp8);
     stack.sp10 = encode_challenge_time(clear_time);
     stack.spC = local_client_id;
     ((TLobby *)(&stack.sp8))->send_state();
@@ -142,10 +142,10 @@ void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWi
 }
 
 void TLobby::send_challenge_with_value(s32 challenge, s32 window_mode) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800724F0, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_800724F0, spC) == 0x4);
-    Stack_800724F0 stack;
-    TLobby__sub_800728FC((u8 *)&stack.sp8);
+    LAYOUT_ASSERT(sp8_offset, offsetof(SendChallengeWithValueStack, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(SendChallengeWithValueStack, spC) == 0x4);
+    SendChallengeWithValueStack stack;
+    build_6x8A_packet((u8 *)&stack.sp8);
     stack.spC = window_mode;
     ((TLobby *)(&stack.sp8))->send_challenge_packet();
 }

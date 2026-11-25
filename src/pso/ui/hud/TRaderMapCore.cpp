@@ -293,7 +293,7 @@ struct Ent_801FB798 { s32 a; char *name; };
 extern "C" {
 void bind_gvm_texture_list(char *, u8 *);
 }
-extern s32 lbl_805D49B4;
+extern s32 memcard_access_active;
 
 
 // The unit was built -inline off,deferred, which emits functions in reverse source order: they are
@@ -350,7 +350,7 @@ void TRaderMapCore::load_map_resources() {
         bind_gvm_texture_list(buf, *(u8 **)(TRaderMapCore__floor_map_resource + 4));
     }
     copy_name("..");
-    lbl_805D49B4 = 0;
+    memcard_access_active = 0;
     TRaderMapCore::load_frame_texture();
     e = (Ent_801FB798 *)TRaderMapCore__floor_map_resource;
     if (e != NULL) {

@@ -159,7 +159,7 @@ void create_bgm_col_zones(void) {
     ObjectSetData set;
     s32 i;
     bgm_zone_category = 4;
-    TLobby__sub_80207F30(&set);
+    init_object_set_data(&set);
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
         for (i = 0; i < 12; i++) {

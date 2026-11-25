@@ -216,7 +216,7 @@ void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); TLobby::invoke
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct L_8007BC5C { u8 pad0; u8 count; u8 pad2[2]; s32 ids[30]; };
+struct CollectActiveCardIdsL { u8 pad0; u8 count; u8 pad2[2]; s32 ids[30]; };
 
     extern short quest_collision_next_id;
 void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }
@@ -245,7 +245,7 @@ saddr TWindowSubComCard::get_card_slot(s32 arg0) {
 }
 
 void TLobby::collect_active_card_ids() {
-    L_8007BC5C *arg0 = (L_8007BC5C *)this;
+    CollectActiveCardIdsL *arg0 = (CollectActiveCardIdsL *)this;
     u8 *card;
     s32 *p;
     s32 i;

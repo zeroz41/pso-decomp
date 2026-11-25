@@ -189,6 +189,6 @@ void TOBarrierEnergy01::play_ambient_loop_sound() {
 void TOBarrierEnergy01::update_demo() {}
 
 void *init_collision_subcommand_header(void *packet) {
-    TLobby__sub_80156BA8(packet);
+    build_6x0B_packet(packet);
     return packet;
 }

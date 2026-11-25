@@ -77,7 +77,7 @@ void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
-extern s32 lbl_805D49B4;
+extern s32 memcard_access_active;
 
 s32 creation_resource_ready_state;
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
@@ -276,7 +276,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     CharacterAppearanceFields *cm;
 
     m_name = TCMCharacter__name;
-    lbl_805D49B4 = 1;
+    memcard_access_active = 1;
     cm = creation_player_character;
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
@@ -329,7 +329,7 @@ TCMCharacter::~TCMCharacter() {
     mem_free(joint_matrices);
     creation_resource_ready_state = 0;
     creation_figure_object = 0;
-    lbl_805D49B4 = 0;
+    memcard_access_active = 0;
     char_creation_figure_draw_flag = 0;
 }
 }
@@ -565,7 +565,7 @@ void TCMCharacter::apply_character_appearance() {
     TCharaMaking__bind_body_shape_nodes((CharacterAppearanceFields *)((CharacterAppearanceFields *)app), this->model);
     TCharaMaking__bind_head_shape_nodes((CharacterAppearanceFields *)((CharacterAppearanceFields *)app), (void *)((void *)chara_select_head_node));
     blend_creation_proportion_shapes(&((CharacterAppearanceFields *)creation_player_character)->width);
-    lbl_805D49B4 = 0;
+    memcard_access_active = 0;
     char_select_active_flag = 1;
 }
 

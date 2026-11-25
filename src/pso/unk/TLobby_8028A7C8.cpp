@@ -18,7 +18,7 @@ void TLobby::free_shared_objects() {
         green_door_texture_handle = NULL;
     }
     if (green_door_bml_resource != NULL) {
-        delete (BmlResource *)green_door_bml_resource;
+        delete green_door_bml_resource;
         green_door_bml_resource = NULL;
     }
 }

@@ -633,12 +633,12 @@ force_active:
   - player_setup_pending__6TLobby
   - state_handler_pmf_table
   - clear__9AramBlockFv
-  - TLobby__sub_8001DBD8
+  - reset_auto_reply_flags
   - TLobby__sub_8001DF58
-  - TLobby__sub_8001E270
-  - TLobby__sub_8001E2A8
-  - TLobby__sub_8001E75C
-  - TLobby__sub_8001EDD8
+  - get_battle_param_attack
+  - get_battle_param_stats
+  - parse_two_digit_number
+  - add_resource_handle
   - challenge_rank_for_total__Fl
   - apply_challenge_rank_title__Fv
   - record_challenge_stage_time__Fl
@@ -649,7 +649,7 @@ force_active:
   - __dt__10TChallengeFv
   - TLobby__sub_80072AB8
   - TLobby__sub_800F8BD8
-  - TLobby__sub_800F8DD8
+  - request_pending_file_read_flush
   - __sinit_TLobby_800F8AA8_cpp
   - __sinit_TLobby_80103F5C_cpp
   - init_idle_timeout_timer
@@ -696,12 +696,12 @@ force_active:
   - TLobby__sub_80293218
   - refresh_challenge_windows__12TChallenge4PFv
   - __dt__12TChallenge4PFv
-  - TLobby__sub_8029A16C
+  - is_designated_client
   - free_game_action_motion_buffer__Fv
   - clear__21PlayerMotionAramEntryFv
   - stamp_joyboot_image
   - probe_gba_device
-  - TLobby__sub_8032CDC0
+  - gba_clear_identifiers
   - reset_joyboot_state
   - TLobby__sub_803361FC
   - TLobby__sub_803362A4
@@ -7987,57 +7987,57 @@ force_active:
   - particle_full_texture_uv
   - memory_card_system_dir_name
   - lbl_804C8A44
-  - lbl_804C8C60
-  - lbl_804C8C68
-  - lbl_804C8C70
-  - lbl_804C8C78
-  - lbl_804C8CA8
-  - lbl_804C8CD0
-  - lbl_804C8D00
-  - lbl_804C8D30
-  - lbl_804C8D60
-  - lbl_804C8D88
-  - lbl_804C8DB0
-  - lbl_804C8DD8
-  - lbl_804C8DE0
-  - lbl_804C8DE8
-  - lbl_804C8DF0
-  - lbl_804C8DF8
-  - lbl_804C8E70
-  - lbl_804C8E88
-  - lbl_804C8EA0
-  - lbl_804C8EA8
-  - lbl_804C8EC0
-  - lbl_804C8ED8
-  - lbl_804C8EF0
-  - lbl_804C8F08
-  - lbl_804C8F10
-  - lbl_804C8F18
-  - lbl_804C8F20
-  - lbl_804C8F38
-  - lbl_804C8F40
-  - lbl_804C8F48
-  - lbl_804C8F70
-  - lbl_804C8F88
-  - lbl_804C8FA0
-  - lbl_804C8FA8
-  - lbl_804C8FB0
-  - lbl_804C8FB8
-  - lbl_804C8FC0
-  - lbl_804C90E0
-  - lbl_804C90E8
-  - lbl_804C90F0
-  - lbl_804C90F8
-  - lbl_804C9128
-  - lbl_804C9150
-  - lbl_804C9180
-  - lbl_804C91B0
-  - lbl_804C91E0
-  - lbl_804C9208
-  - lbl_804C9230
-  - lbl_804C9258
-  - lbl_804C9260
-  - lbl_804C9268
+  - floor_map_set_city00
+  - floor_map_set_forest01
+  - floor_map_set_forest02
+  - floor_map_set_cave01
+  - floor_map_set_cave02
+  - floor_map_set_cave03
+  - floor_map_set_machine01
+  - floor_map_set_machine02
+  - floor_map_set_ancient01
+  - floor_map_set_ancient02
+  - floor_map_set_ancient03
+  - floor_map_set_boss01
+  - floor_map_set_boss02
+  - floor_map_set_boss03
+  - floor_map_set_darkfalz00
+  - floor_map_set_lobby_01
+  - floor_map_set_vs01
+  - floor_map_set_vs02
+  - floor_map_set_labo00
+  - floor_map_set_space01
+  - floor_map_set_space02
+  - floor_map_set_ruins01
+  - floor_map_set_ruins02
+  - floor_map_set_jungle01
+  - floor_map_set_jungle02
+  - floor_map_set_jungle03
+  - floor_map_set_jungle04
+  - floor_map_set_jungle05
+  - floor_map_set_jungle06
+  - floor_map_set_jungle07
+  - floor_map_set_seabed01
+  - floor_map_set_seabed02
+  - floor_map_set_boss05
+  - floor_map_set_boss06
+  - floor_map_set_boss07
+  - floor_map_set_boss08
+  - offline_floor_scene_table
+  - floor_map_set_acity00
+  - floor_map_set_aforest01
+  - floor_map_set_aforest02
+  - floor_map_set_acave01
+  - floor_map_set_acave02
+  - floor_map_set_acave03
+  - floor_map_set_amachine01
+  - floor_map_set_amachine02
+  - floor_map_set_aancient01
+  - floor_map_set_aancient02
+  - floor_map_set_aancient03
+  - floor_map_set_aboss01
+  - floor_map_set_aboss02
+  - floor_map_set_aboss03
   - lbl_804C9C9C
   - lbl_804CB838
   - lbl_804CDC88

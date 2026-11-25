@@ -185,7 +185,7 @@ NJS_OBJECT *debug_cylinder_object = &debug_chunk_a_object;
 
 LAYOUT_ASSERT(ScreenSnapshot_size, sizeof(ScreenSnapshot) == 0x1818C);
 extern "C" {
-extern s32 lbl_805D49B4;
+extern s32 memcard_access_active;
 s8 func_801A5E54__Fv(void);
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
@@ -807,7 +807,7 @@ s32 take_snapshot(void) {
     f32 t;
 
     if (get_main_phase() == 0xF &&
-        (is_boss_area() != 0 || is_quest_active() != 0 || TQuestVmDownLoadServer__sub_8007EB14() != 0)) {
+        (is_boss_area() != 0 || is_quest_active() != 0 || get_quest_vm_download_server() != 0)) {
         return 0;
     }
     if (TQuestListVM::get_quest_bin() != NULL) {
@@ -1151,7 +1151,7 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
         return 0;
     }
-    lbl_805D49B4 = 1;
+    memcard_access_active = 1;
     TObjBoss2Tunnel__snapshot_state = 1;
     return 1;
 }
@@ -1177,7 +1177,7 @@ s32 TObjBoss2Tunnel::load_snapshot() {
                 memcpy(buf, file.data + 8, 0x1818C);
                 DCFlushRange(buf, 0x1818C);
             }
-            lbl_805D49B4 = 0;
+            memcard_access_active = 0;
         }
         return 1;
     }

@@ -220,7 +220,7 @@ TQuestListChallenge::~TQuestListChallenge() {
 
 TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player)
     : TShopWindowBase(parent) {
-    s32 temp_r3;
+    s32 mode;
     s32 limit;
     m_name = TQuestListChallenge__name;
     if (TQuestListChallenge__active_instance != NULL) {
@@ -236,8 +236,8 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
     this->player = player;
     unk_44 = 0;
     unk_48 = 0;
-    temp_r3 = get_game_play_mode();
-    switch (temp_r3) {
+    mode = get_game_play_mode();
+    switch (mode) {
     case 1:
         if (TLobby::get_instance() == 0) {
             entries = quest_list_challenge_stage_table;
@@ -246,9 +246,9 @@ TQuestListChallenge::TQuestListChallenge(TObject *parent, TShopWindowBase *seque
         }
         text_group = 0xF;
         count = TLobby::calc_min_challenge_progress() + 1;
-        temp_r3 = TLobby::get_instance();
+        mode = TLobby::get_instance();
         limit = 5;
-        if (temp_r3 == 0) {
+        if (mode == 0) {
             limit = 9;
         }
         if (count > limit) {

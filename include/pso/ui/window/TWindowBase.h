@@ -77,7 +77,7 @@ LAYOUT_ASSERT(WindowOpenTickOffset, offsetof(TWindowBase, open_tick) == 0x5C);
 struct TWindowSubComCard;
 class TWindowFukidasi;
 extern "C" {
-int TWindowSubComCard__sub_80244774(void);
+int get_area_total(void);
 BOOL TWindowSubComCard__sub_80245558(void *ctx, void *position, void *size);
 void fn_802449E0(u8 *object);
 }

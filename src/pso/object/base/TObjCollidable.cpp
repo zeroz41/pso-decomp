@@ -263,7 +263,7 @@ void TObjCollidable::send_object_state_update(void *saved_state) {
     entry = (FloorObjectSetRow *)set_entry;
     if (entry != NULL) {
         G_UpdateObjectState_6x0B packet;
-        TLobby__sub_80156BA8(&packet);
+        build_6x0B_packet(&packet);
         packet.header.entity_id = entity_id;
         packet.flags = state.flags;
         packet.object_index = entry->placement.set_index;

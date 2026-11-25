@@ -82,7 +82,7 @@ s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
 extern "C" {
 void *create_window_menu_default(const NJS_POINT2 *pos, int entries);
-void TLobby__sub_801036CC();
+void reset_map();
 }
 char team_matchup_message_buffer[256];
     extern int evt2_random_enemies_mode;
@@ -491,7 +491,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload() {
 void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
     if (--this->frame_timer <= 0) {
         TLobby__sub_8020BC50();
-        TLobby__sub_801036CC();
+        reset_map();
         if (quest_mission_manager != NULL) {
             TQuestThread::clear_buffer(quest_mission_manager);
         }

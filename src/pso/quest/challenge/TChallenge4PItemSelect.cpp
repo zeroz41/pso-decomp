@@ -33,7 +33,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/object/base/TObjBase.h"
 
-struct Stack_8034B158 {
+struct SubmitSelectedItemStack {
     s8 sp8;
     s8 sp9;
     s8 spA;
@@ -62,7 +62,7 @@ Challenge4PItemCode TChallenge4PItemSelect__item_table[8] = {
 s32 TChallenge4PResult__slot_entries[4];
 struct E_8034B694 { u8 b[0x14]; };
 struct Q_8034B694 { s32 v; };
-struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_8034B694 f[1]; };
+struct SetEntryItemW { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_8034B694 f[1]; };
 
 extern "C" {
 
@@ -153,7 +153,7 @@ void TChallenge4PResult::update_input() {
 }
 void TChallenge4PResult::handle_result_code() {
     u8 *arg0 = (u8 *)this;
-    switch (TLobby__sub_80292270((this->result_code), (this->slot_index))) {
+    switch (challenge_check_rank_time((this->result_code), (this->slot_index))) {
     case 2:
         ((TChallenge4PResult *)arg0)->handle_third_reward();
         return;
@@ -206,7 +206,7 @@ void TChallenge4PResult::handle_third_reward() {
     TChallenge4PItemSelect *selector;
     if (reward_available[2] != 0) {
         show_message(get_localized_text_entry(0x2B, 0));
-        TLobby__sub_802924B4((saddr)&reward_items[2], slot_index);
+        challenge_create_reward_item((saddr)&reward_items[2], slot_index);
         wait_frames = 90;
         state_1c = 5;
         return;
@@ -220,13 +220,13 @@ void TChallenge4PResult::handle_third_reward() {
 
 void TChallenge4PResult::sub_8034B918() {
     this->show_message((s32)((s32)((int) (get_localized_text_entry(0x2B, 2)))));
-    TLobby__sub_802924B4((saddr)(((u8 *)this) + 0x48), (this->slot_index));
+    challenge_create_reward_item((saddr)(((u8 *)this) + 0x48), (this->slot_index));
     this->wait_frames = 0x5A;
     this->state_1c = 5;
 }
 void TChallenge4PResult::sub_8034B8BC() {
     this->show_message((s32)((s32)((int) (get_localized_text_entry(0x2B, 1)))));
-    TLobby__sub_802924B4((saddr)(((u8 *)this) + 0x34), (this->slot_index));
+    challenge_create_reward_item((saddr)(((u8 *)this) + 0x34), (this->slot_index));
     this->wait_frames = 0x5A;
     this->state_1c = 5;
 }
@@ -263,7 +263,7 @@ void TChallenge4PResult::show_message(saddr text_handle) {
 
 void TChallenge4PResult::close_window() { if (this->message_window != 0) { this->message_window->close(); this->message_window = 0; } }
 void TChallenge4PResult::set_entry_item(void *arg1, s32 arg2) {
-    W_8034B694 *arg0 = (W_8034B694 *)this;
+    SetEntryItemW *arg0 = (SetEntryItemW *)this;
     ((TItemData *)(&arg0->e[arg2]))->copy_from((TItemData *)(arg1));
     arg0->f[arg2].v = 1;
 }
@@ -292,14 +292,14 @@ s32 update_challenge_result_player_locks() {
     if (active) {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = get_player_by_client_id(i);
-            if (player && ((TObjPlayer *)player)->check_player_flag1() == 0) {
+            if (player && (player)->check_player_flag1() == 0) {
                 send_impose_hold(player, (int)(-1));
                 obj_set_flag_20000(player);
                 get_player_result__18TChallenge4PResultFPv(player, 0);
                 get_player_result__18TChallenge4PResultFPv(player, 1);
                 get_player_result__18TChallenge4PResultFPv(player, 2);
                 get_player_result__18TChallenge4PResultFPv(player, 3);
-                if (((TObjPlayer *)player)->check_flag_0x40000000() == 0) fn_8034BE48(player);
+                if ((player)->check_flag_0x40000000() == 0) fn_8034BE48(player);
                 TWindowCtrl::disable_client_main_menu(player->get_entity_id());
                 request_active_window_close();
                 TWindowCtrl::set_close_flag();
@@ -308,11 +308,11 @@ s32 update_challenge_result_player_locks() {
     } else {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = get_player_by_client_id(i);
-            if (player && ((TObjPlayer *)player)->check_player_flag1() != 0) {
+            if (player && (player)->check_player_flag1() != 0) {
                 send_release_hold(player);
                 obj_clear_flag30_20000(player);
                 ((TChallenge4PResult *)player)->get_player_rank();
-                if (((TObjPlayer *)player)->check_flag_0x40000000()) fn_8034BE38(player);
+                if ((player)->check_flag_0x40000000()) fn_8034BE38(player);
                 TWindowCtrl::enable_client_main_menu(player->get_entity_id());
                 TWindowCtrl::clear_flag();
                 TWindowCtrl::clear_flag_2();
@@ -325,15 +325,15 @@ s32 update_challenge_result_player_locks() {
 
 void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1) {
     s32 i = 0;
-    s32 *var_r30 = TChallenge4PResult__slot_entries;
-    s32 var_r31 = 0;
+    s32 *slot_entries = TChallenge4PResult__slot_entries;
+    s32 index = 0;
     do {
-        uaddr v = (u32)var_r30[var_r31];
+        uaddr v = (u32)slot_entries[index];
         if (v != 0U) {
             ((TChallenge4PResult *)v)->set_entry_item((void *)arg0, arg1);
         }
         i += 1;
-        var_r31 += 1;
+        index += 1;
     } while (i < 4);
 }
 
@@ -376,13 +376,13 @@ void TChallenge4PItemSelect::run_task() {
 }
 
 void TChallenge4PItemSelect::open_menu() {
-    s32 temp_r0;
+    s32 frames_left;
     u16 client_id;
     s32 i;
 
-    temp_r0 = waitFrames - 1;
-    waitFrames = temp_r0;
-    if (temp_r0 <= 0) {
+    frames_left = waitFrames - 1;
+    waitFrames = frames_left;
+    if (frames_left <= 0) {
         client_id = fn_8034BE30(result);
         (uaddr &)menu_window = (uaddr)create_window_menu((saddr)get_window_layout_position(0x42), 8, client_id);
         if ((uaddr)menu_window != 0U) {
@@ -403,34 +403,34 @@ void TChallenge4PItemSelect::open_menu() {
 }
 
 void TChallenge4PItemSelect::submit_selected_item() {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8034B158, sp8) == 0x0);
-    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_8034B158, sp9) == 0x1);
-    LAYOUT_ASSERT(spA_offset, offsetof(Stack_8034B158, spA) == 0x2);
-    Stack_8034B158 stack;
-    uaddr temp_r3_2;
-    u8 *temp_r31;
+    LAYOUT_ASSERT(sp8_offset, offsetof(SubmitSelectedItemStack, sp8) == 0x0);
+    LAYOUT_ASSERT(sp9_offset, offsetof(SubmitSelectedItemStack, sp9) == 0x1);
+    LAYOUT_ASSERT(spA_offset, offsetof(SubmitSelectedItemStack, spA) == 0x2);
+    SubmitSelectedItemStack stack;
+    uaddr result_addr;
+    u8 *item_entry;
     u8 *window_menu;
     window_menu = (u8 *)((u8 *)menu_window);
     if ((window_menu != NULL) && (((TWindowMenu *)window_menu)->is_decided() != 0)) {
-        temp_r31 = (u8 *)&TChallenge4PItemSelect__item_table[((TWindowMenu *)menu_window)->get_selected_value()];
+        item_entry = (u8 *)&TChallenge4PItemSelect__item_table[((TWindowMenu *)menu_window)->get_selected_value()];
         ((TItemData *)(&stack.sp8))->init();
-        stack.sp8 = (s8) *(s32 *)((s8 *)temp_r31 + 0);
-        stack.sp9 = (s8) *(s32 *)((s8 *)temp_r31 + 4);
-        stack.spA = (s8) *(s32 *)((s8 *)temp_r31 + 8);
-        temp_r3_2 = (uaddr)result;
-        if (temp_r3_2 != 0U) {
-            ((TChallenge4PResult *)temp_r3_2)->set_entry_item((void *)((saddr) &stack.sp8), 2);
+        stack.sp8 = (s8) *(s32 *)((s8 *)item_entry + 0);
+        stack.sp9 = (s8) *(s32 *)((s8 *)item_entry + 4);
+        stack.spA = (s8) *(s32 *)((s8 *)item_entry + 8);
+        result_addr = (uaddr)result;
+        if (result_addr != 0U) {
+            ((TChallenge4PResult *)result_addr)->set_entry_item((void *)((saddr) &stack.sp8), 2);
         }
         state = 2;
     }
 }
 
 void TChallenge4PItemSelect::close_with_callback() {
-    void (*temp_r12)(void *);
+    void (*callback)(void *);
 
-    temp_r12 = onClosed;
-    if (temp_r12 != NULL) {
-        temp_r12(result);
+    callback = onClosed;
+    if (callback != NULL) {
+        callback(result);
     }
     queue_destruction();
 }

@@ -11,23 +11,23 @@
 #include "pso/render/GinjaTexture.h"
 #include <dolphin/mtx.h>
 
-struct Q_803D98E4 { f32 x, y, z, w; };
+struct ConcatQuaternionRotationQ { f32 x, y, z, w; };
 
-struct Q_803D993C { f32 x, y, z, w; };
+struct ApplyQuatRotationQ { f32 x, y, z, w; };
 
-struct A_803D9DA8 { u8 pad[0xC]; u8 *p; };
+struct InitTextureFromGvrDescA { u8 pad[0xC]; u8 *p; };
 
-struct B_803D9DA8 { s32 a; u16 b; u16 c; };
+struct InitTextureFromGvrDescB { s32 a; u16 b; u16 c; };
 
 struct Matrix34 { f32 elements[3][4]; };
 
 struct Ent_803D9E38 { u8 *p; s32 a; s32 b; };
 
-struct Tbl_803D9E38 { u8 pad[8]; Ent_803D9E38 arr[1]; };
+struct ResolveTexlistEntryTable { u8 pad[8]; Ent_803D9E38 arr[1]; };
 
 extern "C" {
 s32 fn_803DA12C(u8 *, s32, s32, s32);
-s32 init_texture_from_gvr_desc(A_803D9DA8 *texture, B_803D9DA8 *desc);
+s32 init_texture_from_gvr_desc(InitTextureFromGvrDescA *texture, InitTextureFromGvrDescB *desc);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
 s32 notify_texture_state_ready(int, int);
 
@@ -86,12 +86,12 @@ s32 push_matrix_from(void *src) {
 }
 
 s32 pop_matrices(s32 arg0) {
-    GC_Mtx *temp_r3;
-    temp_r3 = current_matrix - arg0;
-    if (temp_r3 < matrix_stack_base) {
+    GC_Mtx *new_top;
+    new_top = current_matrix - arg0;
+    if (new_top < matrix_stack_base) {
         return 0;
     }
-    current_matrix = temp_r3;
+    current_matrix = new_top;
     return 1;
 }
 extern "C" {
@@ -102,7 +102,7 @@ asm void transform_point_by_current_matrix(const f32 *src, Vec *dst) {
 
 void concat_quaternion_rotation(const f32 *quat) {
     Mtx34 mtx;
-    Q_803D98E4 q;
+    ConcatQuaternionRotationQ q;
     q.w = quat[0];
     q.x = quat[1];
     q.y = quat[2];
@@ -114,7 +114,7 @@ void concat_quaternion_rotation(const f32 *quat) {
 
 void apply_quat_rotation(f32 farg0, f32 *xyz) {
     Mtx34 mtx;
-    Q_803D993C q;
+    ApplyQuatRotationQ q;
     q.w = farg0;
     q.x = xyz[0];
     q.y = xyz[1];
@@ -142,12 +142,12 @@ asm s32 push_matrix(void) {
 }
 
 s32 pop_matrix(void) {
-    GC_Mtx *temp_r3;
-    temp_r3 = current_matrix - 1;
-    if (temp_r3 < matrix_stack_base) {
+    GC_Mtx *new_top;
+    new_top = current_matrix - 1;
+    if (new_top < matrix_stack_base) {
         return 0;
     }
-    current_matrix = temp_r3;
+    current_matrix = new_top;
     return 1;
 }
 
@@ -197,7 +197,7 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
     return p;
 }
 
-s32 init_texture_from_gvr_desc(A_803D9DA8 *texture, B_803D9DA8 *desc) {
+s32 init_texture_from_gvr_desc(InitTextureFromGvrDescA *texture, InitTextureFromGvrDescB *desc) {
     if (fn_803DA12C(texture->p + 4, desc->b, desc->c, desc->a) != 0) {
         texture_error.code = 6;
         return -1;
@@ -229,7 +229,7 @@ s32 resolve_texlist_entry(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
     if (((u32) (temp_r3 & 0x10000) != 0) && (idx != 0)) {
         *(u32 *)((s8 *)arg3 + 0) = (u32) (*(s32 *)((s8 *)temp_r31 + 8) & 0xFC000000) >> 0x1AU;
         j = idx - 1;
-        temp_r29 = ((Tbl_803D9E38 *)temp_r6)->arr[j].p;
+        temp_r29 = ((ResolveTexlistEntryTable *)temp_r6)->arr[j].p;
         *(s32 *)((s8 *)arg2 + 0) = *(s32 *)((s8 *)(*(s32 **)((s8 *)temp_r29 + 0xC)) + 0);
         record_index = find_texture_by_surface_and_tlut((int) (*(s32 *)((s8 *)arg2 + 0)), (int) (*(u32 *)((s8 *)arg3 + 0)));
         if (record_index < 0) {

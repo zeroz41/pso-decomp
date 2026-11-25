@@ -26,7 +26,7 @@ void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern u8 chr_select_rng_state[];
 extern s32 chr_select_serial_seeds[];
 extern char memory_card_character_dir_name[];
-extern s32 lbl_805D49B4;
+extern s32 memcard_access_active;
 }
 int TWindowKeyBoardHard::is_card_flag_set() { return TWindowKeyBoardHard::test_card_flag((saddr)this, 1); }
 void draw_ginja_box_tree(u8 *arg0) {
@@ -124,23 +124,23 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     buf = (u8 *)TQuestVmDownLoadServer::alloc(0x214B0);
     res = TAdPlayerLoadGC::find_card_file(0, memory_card_character_dir_name);
     if (res == 0) {
-        lbl_805D49B4 = 1;
+        memcard_access_active = 1;
         TAdSinglePlyChrSelectGC::set_card_disk_id(0);
         res = TAdSinglePlyChrSelectGC::load_player_slot(0, memory_card_character_dir_name, buf);
         TAdSinglePlyChrSelectGC::wait_for_card_load(0);
         TAdSinglePlyChrSelectGC::copy_name(0);
     }
     if (res != 0) {
-        lbl_805D49B4 = 0;
+        memcard_access_active = 0;
         safe_free(buf);
         return (u8)(0);
     }
     if (TAdSinglePlyChrSelectGC::load_system_file(0, &sum) == 0) {
-        lbl_805D49B4 = 0;
+        memcard_access_active = 0;
         safe_free(buf);
         return (u8)(0);
     }
-    lbl_805D49B4 = 0;
+    memcard_access_active = 0;
     chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = sum;
     data = (u8 *)TQuestVmDownLoadServer::alloc(0x194B0);
     memcpy(data, buf + 0x2048, 0x194B0);

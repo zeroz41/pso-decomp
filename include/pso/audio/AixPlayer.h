@@ -92,10 +92,10 @@ extern "C" {
 s32 demux_stream_chunks(AixDemuxer *demuxer);
 s32 parse_aix_header(u8 *data, s32 size, AixHeader *header);
 void get_entry_pair(AixDemuxer *demuxer, s32 segment, s32 *offset, s32 *size);
-s32 TLobby__sub_803CE1D8(AixDemuxer *demuxer);
+s32 get_demuxer_layer_count(AixDemuxer *demuxer);
 void set_flag_4(AixDemuxer *demuxer, s8 continuous);
 void set_client_slot(AixDemuxer *demuxer, s8 paused);
-s32 TLobby__sub_803CE1F4(AixDemuxer *demuxer);
+s32 get_demuxer_state(AixDemuxer *demuxer);
 void TLobby__sub_803CE2A0(AixPlayer *player);
 }
 

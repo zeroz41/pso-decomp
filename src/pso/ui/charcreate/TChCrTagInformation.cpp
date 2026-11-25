@@ -80,7 +80,7 @@ void TChCrTagInformation::run_task() { TChCrTag::run_task(); update_selected_cha
 s32 TChCrTagInformation::is_selected() { return 0; }
 
 TChCrTagInformation::~TChCrTagInformation() {
-    fn_803098DC();
+    clear_char_creation_tag_selection();
 }
 
 }
@@ -91,7 +91,7 @@ TChCrTagInformation::TChCrTagInformation(TObject *parent, s32 index) : TChCrTag(
     m_fade_out_step = -0.06666667f;
     m_highlight_in_step = 0.06666667f;
     m_highlight_out_step = -0.06666667f;
-    fn_803098E8();
+    clear_char_creation_tag_selection_2();
 }
 
 

@@ -77,9 +77,9 @@ void award_enemy_experience__9TObjEnemyFl(u8 *arg0, s32 arg1);
 
 s32 get_attack_credit_slot_count(void *);
 
-f32 TLobby__sub_800F7A6C();
+f32 get_challenge4p_exp_multiplier();
 
-f32 TLobby__sub_800F7A7C();
+f32 get_challenge_exp_multiplier();
 
 s32 create_font_small_task(void *, s32, s32, s32, const char *, s32, u16);
 
@@ -557,9 +557,9 @@ void TObjEnemy::award_enemy_experience(s32 client) {
     }
     if (is_quest_active() == 1) {
         if (is_challenge_mode() != 0) {
-            val = (s32)((f32)val * TLobby__sub_800F7A7C());
+            val = (s32)((f32)val * get_challenge_exp_multiplier());
         } else if (is_challenge_mode_active() != 0) {
-            val = (s32)((f32)val * TLobby__sub_800F7A6C());
+            val = (s32)((f32)val * get_challenge4p_exp_multiplier());
         }
     }
     p->add_actor_exp(val);

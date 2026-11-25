@@ -213,7 +213,7 @@ void *TObjQuestColA::create(void *set_data) {
     return new TObjQuestColA(quest_collision_task_root, set_data);
 }
 
-TObjQuestColA *fn_80196814(ObjectSetData *arg, s32 *out_id) {
+TObjQuestColA *create_quest_col_a(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColA *o = new TObjQuestColA(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -330,7 +330,7 @@ TQuestThread *TObjQuestColApc::start_quest_thread() {
     return TQuestThread::create(label);
 }
 
-TObjQuestColApc *fn_801963A8(ObjectSetData *arg, s32 *out_id) {
+TObjQuestColApc *create_quest_col_apc(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColApc *o = new TObjQuestColApc(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -374,7 +374,7 @@ TQuestThread *TObjQuestColApcIN::start_quest_thread() {
     return TQuestThread::create(label);
 }
 
-TObjQuestColApcIN *fn_80196214(ObjectSetData *arg, s32 *out_id) {
+TObjQuestColApcIN *create_quest_col_apc_in(ObjectSetData *arg, s32 *out_id) {
     TObjQuestColApcIN *o = new TObjQuestColApcIN(quest_collision_task_root, arg);
     if (o != NULL) {
         *out_id = o->m_id;
@@ -427,7 +427,7 @@ TQuestThread *TObjQuestColApcINW::start_quest_thread() {
     return TQuestThread::create(label);
 }
 
-void fn_8019608C(void) {
+void send_quest_collision_warp(void) {
     if (quest_collision_warp_pending != 0) {
         send_warp_toward_player(1, &quest_col_apc_warp_target_pos);
     }

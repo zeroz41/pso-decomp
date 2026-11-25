@@ -85,6 +85,6 @@ void bind_title_texture_list(void) {
     set_texlist(&title_texture_list);
 }
 
-int TLobby__sub_80336030(TTitleScene *scene) {
+int get_transition_cursor(TTitleScene *scene) {
     return scene->transition_controller->get_cursor();
 }

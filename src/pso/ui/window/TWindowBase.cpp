@@ -141,14 +141,14 @@ void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f3
 
 struct Rect_802455CC { f32 x, y, w, h; u8 pad10[0x20 - 0x10]; f32 px, py, sx, sy; u8 pad30[0x38 - 0x30]; f32 depth; };
 
-int TWindowSubComCard__sub_80244774(void);
+int get_area_total(void);
 void fn_802449E0(u8 *object);
 int TWindowFukidasi__sub_8024695C(void *p);
 
-extern int lbl_805D3614;
+extern int area_total;
 
 
-int TWindowSubComCard__sub_80244774(void) {  return lbl_805D3614; }
+int get_area_total(void) {  return area_total; }
 
 uaddr TWindowSubComCard::get_field_20() { return this->client_id; }
 

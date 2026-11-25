@@ -125,7 +125,7 @@ void measure_traffic_path_lengths(void) {
   city_air_car_model_resource = get_season_model_resource(2);
   if (city_air_car_model_resource != 0)
   {
-    city_air_car_model_handle = TLobby__sub_80184C2C(2);
+    city_air_car_model_handle = get_city_season_xmas_model(2);
     for (j = 0; j < 5; j++)
     {
       air_car_buffer_pair_table[j] = new StripBufferPair(city_air_car_model_resource->models[city_traffic_car_chunk_index_table[j]].model, 1);

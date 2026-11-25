@@ -44,7 +44,7 @@ void TQuestBgmCtrl::defer_bgm(int index) {
 }
 
 void TQuestBgmCtrl::run_task() {
-    if (((s32) quest_bgm_ctrl_bgm_issued_flag == 0) && ((TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) || ((s32) TQuestBgmCtrl__bgm_forced_flag != 0)) && ((s32) TQuestBgmCtrl__area_bgm_index > 0) && ((s32) TQuestBgmCtrl__area_bgm_index <= 0x11)) {
+    if ((quest_bgm_ctrl_bgm_issued_flag == 0) && ((TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) || (TQuestBgmCtrl__bgm_forced_flag != 0)) && (TQuestBgmCtrl__area_bgm_index > 0) && (TQuestBgmCtrl__area_bgm_index <= 0x11)) {
         play_area_music((char *)quest_bgm_area_filename_table[TQuestBgmCtrl__area_bgm_index - 1]);
         quest_bgm_ctrl_bgm_issued_flag = 1;
     }

@@ -73,7 +73,7 @@ void fn_8024450C(s32 arg0) {
     var_r30 = arg0;
     var_r31 = TObjNewFloorWin__sub_8007410C();
     var_r3 = var_r30;
-    var_r5 = TWindowSubComCard__sub_80244774();
+    var_r5 = get_area_total();
     ((TWindowSubStatusDisp *)var_r3)->set_count_ratio_text(var_r31, var_r5);
 }
 }

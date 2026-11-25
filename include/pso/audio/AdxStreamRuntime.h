@@ -17,7 +17,7 @@ AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
 AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg);
 AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
 AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s32 nsect, saddr arg);
-s32 TLobby__sub_803C5D00(AdxtPlayer *player);
+s32 get_stream_queued_count(AdxtPlayer *player);
 void TLobby__sub_803C5D24(AdxtPlayer *player);
 void TLobby__sub_803C5E58(void);
 void TLobby__sub_803C5E68(void);
@@ -53,7 +53,7 @@ void update_active_stream_reads(void);
 
 // --- C functions of the ADX stream, talk and manager files (AdxStream.cpp to AdxManager.cpp) ---
 extern "C" {
-s32 TLobby__sub_803C5D00(AdxtPlayer *player);
+s32 get_stream_queued_count(AdxtPlayer *player);
 void TLobby__sub_803C5D24(AdxtPlayer *player);
 void TLobby__sub_803C5E58(void);
 void TLobby__sub_803C5E68(void);

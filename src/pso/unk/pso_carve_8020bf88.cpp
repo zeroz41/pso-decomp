@@ -5,7 +5,7 @@
 
 int TLobby__sub_8020BF88(void) {
     s32 count = 0;
-    count += TLobby__sub_8020B308();
+    count += get_total_object_set_count();
     count += TLobby::sum_floor_enemy_counts();
     return count * 2 + 0x10;
 }

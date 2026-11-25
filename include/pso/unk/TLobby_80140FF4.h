@@ -8,7 +8,7 @@ struct CsnGroup;
 struct TObjMapCsn;
 
 extern "C" {
-CsnGroup *TLobby__sub_80141030(TObjMapCsn *object);
+CsnGroup *get_map_collision_group(TObjMapCsn *object);
 }
 
 // Floor prepare_adventure_maps (TSceneSora) sets up next through initialize_floor_transition; -1 = none.

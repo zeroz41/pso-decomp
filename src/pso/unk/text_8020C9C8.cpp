@@ -4,7 +4,7 @@
 #include "pso/unk/text_8020C9C8.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-struct Set_8020C9C8 {
+struct UnhideRoomSetObjectsSet {
     s16 f0;
     s16 flags;
     s16 f4;
@@ -25,18 +25,18 @@ struct Obj_8020C9C8 : ObjBase_8020C9C8 {
     s16 z;
     s16 kind;
     u8 pad2e[0x52];
-    Set_8020C9C8 *set;
+    UnhideRoomSetObjectsSet *set;
 };
 
 extern "C" {
 s32 set_room_group_flags__6TLobbyFlssl(s32, s32, s32, s32);
-Obj_8020C9C8 *create_set_object_from_row(Set_8020C9C8 *);
+Obj_8020C9C8 *create_set_object_from_row(UnhideRoomSetObjectsSet *);
 extern u8 *quest_object_entries;
 s32 unhide_room_set_objects(saddr floor, s32 arg1, s32 arg2) {
     s32 n;
     s32 count;
     s32 local;
-    Set_8020C9C8 *set;
+    UnhideRoomSetObjectsSet *set;
     s32 i;
     Obj_8020C9C8 *obj;
     count = 0;
@@ -47,7 +47,7 @@ s32 unhide_room_set_objects(saddr floor, s32 arg1, s32 arg2) {
     if (local == 0) {
         return set_room_group_flags__6TLobbyFlssl(floor, arg1, arg2, 1);
     }
-    set = reinterpret_cast<Set_8020C9C8 *>(get_active_floor_object_rows(floor));
+    set = reinterpret_cast<UnhideRoomSetObjectsSet *>(get_active_floor_object_rows(floor));
     n = TLobby::get_obj_table_entry(floor);
     for (i = 0; i < n; i++, set++) {
         if (set->flags & 8) continue;

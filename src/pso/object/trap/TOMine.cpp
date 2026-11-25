@@ -131,7 +131,7 @@ extern const char *mine_icon04_name;
 extern "C" {
 int submit_target_to_player_cursor(void*);
 // ---- declarations carried over from the fragment TOMineTrap.cpp
-void TOMineTrap__sub_80171368(f32 farg0);
+void set_mine_trap_damage(f32 farg0);
 int TOMineTrap__sub_80171350(void);
 // ---- functions, last address first (deferred codegen emits them in reverse)
 void G_TriggerTrap_6x80::init() {
@@ -169,7 +169,7 @@ s32 TOMineTrap::select_melee_contact_body(void *attacker, f32) {
 void TOMine::vfunc_84() {  }
 int TOMineTrap::set_trap_count(int trap_count) { mine_trap_count = trap_count; return trap_count; }
 int TOMineTrap::set_instance(int instance) { mine_trap_instance_id = instance; return instance; }
-void TOMineTrap__sub_80171368(f32 farg0) {
+void set_mine_trap_damage(f32 farg0) {
     mine_trap_attack_power = farg0;
 }
 int TOMineTrap::get_trap_count() {  return mine_trap_count; }

@@ -62,20 +62,20 @@ void set_palettex_callback(u16 client_index, s32 label) {
     }
 }
 
-s32 TObjPlayer__sub_80354C7C(u16 client_index) {
+s32 is_palettex_enabled(u16 client_index) {
     if (is_local_client(client_index) != 0) {
         return palettex_states[client_index].is_enabled();
     }
     return 0;
 }
 
-void TObjPlayer__sub_80354CCC(u16 client_index) {
+void disable_palettex(u16 client_index) {
     if (is_local_client(client_index) != 0) {
         palettex_states[client_index].disable();
     }
 }
 
-void TObjPlayer__sub_80354D14(u16 client_index) {
+void enable_palettex(u16 client_index) {
     if (is_local_client(client_index) != 0) {
         palettex_states[client_index].enable();
     }
@@ -88,7 +88,7 @@ s32 is_palettex_activated(u16 client_index) {
     return 0;
 }
 
-void TObjPlayer__sub_80354DAC(u16 client_index) {
+void restore_palettex(u16 client_index) {
     if (is_local_client(client_index) != 0) {
         palettex_states[client_index].restore();
     }

@@ -27,7 +27,7 @@ s8 keyboard_reset_button_pressed;
 s8 pad_recalibration_hold_frames[4];
 extern "C" {
 BOOL DVDCheckDisk();
-extern s32 lbl_805D49B4;
+extern s32 memcard_access_active;
 }
 
 // Stands in for a port with no controller: nothing held.
@@ -262,7 +262,7 @@ s32 func_801A5E54(void) {
     if ((DVDCheckDisk() == 0) && (TKeyBoardControl::check_reset_button() != 0)) {
         reset_system();
     }
-    return (lbl_805D49B4 != 0) ? 0 : controller_reset_requested;
+    return (memcard_access_active != 0) ? 0 : controller_reset_requested;
 }
 
 s32 TKeyBoardControl::read_key_checked(u8 arg0) {

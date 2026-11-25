@@ -930,7 +930,7 @@ QuestDownloadItemNode *TQuestVmDownLoadServer::build_item_list(s32 start, Hdr_80
     x4 = hdr_803_ea384->x4;
     n = hdr_803_ea384->count;
     while (n-- != 0) {
-        node = TQuestVmDownLoadServer__sub_803ECF84();
+        node = TQuestVmDownLoadServer__alloc_quest_item_node();
         if (node == NULL) {
             break;
         }
@@ -1058,7 +1058,7 @@ s32 TQuestVmDownLoadServer__sub_803EA428(s32 start, s32 end) {
         if (lbl_805D7888 >= 3 && stop == end) {
             return 0;
         }
-        QuestDownloadItemNode *item = TQuestVmDownLoadServer__sub_803ECF84();
+        QuestDownloadItemNode *item = TQuestVmDownLoadServer__alloc_quest_item_node();
         if (item != NULL) {
             item->off = stop - start;
             item->a = runKind;
@@ -1078,7 +1078,7 @@ s32 TQuestVmDownLoadServer__sub_803EA428(s32 start, s32 end) {
         }
         QuestDownloadInputEntry *table = quest_download_entry_table;
         last = table + stop;
-        if (TQuestVmDownLoadServer__sub_803EC884((--last)->ch)) {
+        if (is_jis_kanji_code((--last)->ch)) {
             runKind = 0x28;
         } else if (TQuestVmDownLoadServer::is_valid_sjis_code(last->ch)) {
             runKind = 0x29;
@@ -1131,7 +1131,7 @@ candidates:
     QuestDownloadItemNode **items = &slot->items;
     for (; candidateLength >= end; candidateLength--) {
         if (kind != 0 && candidateLength == end) {
-            QuestDownloadItemNode *item = TQuestVmDownLoadServer__sub_803ECF84();
+            QuestDownloadItemNode *item = TQuestVmDownLoadServer__alloc_quest_item_node();
             if (item != NULL) {
                 s8 maximum = end + 1;
                 item->off = end;

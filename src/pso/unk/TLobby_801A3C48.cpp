@@ -166,7 +166,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
     {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
     {TWindowCtrl::close, TWindowCtrl::shutdown},
-    {TLobby__sub_8001ED74, TLobby__sub_8001ED70},
+    {reset_clock_bar_pulse, TLobby__sub_8001ED70},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
     {reset_id_counters, free_id_counters},
     {init_entity_tables, clear_entity_tables},
@@ -571,7 +571,7 @@ void cleanup_online_lobby_scene(void) {
         i += 1;
     } while (i < 0x1E);
     cleanup__6TLobbyFv();
-    if ((s32) online_lobby_scene_handle == 0) {
+    if (online_lobby_scene_handle == 0) {
         var_r3 = (s32 *)&floor_transition_state;
         var_r3 = (s32 *)&floor_transition_state;
         run_area_scene_cleanup(&floor_transition_state);
@@ -676,7 +676,7 @@ void TLobby::run_main_frame() {
         TLobby::reload_floor_scene();
         deactivate_keyboard();
     }
-    if ((s16) lobby_floor_reload_pending == 1) {
+    if (lobby_floor_reload_pending == 1) {
         reload_lobby_floor_scene();
     }
     if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) idle_timeout_active == 1)) {

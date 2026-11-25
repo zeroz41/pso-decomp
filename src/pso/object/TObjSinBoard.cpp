@@ -94,7 +94,7 @@ void load_memcard_file(void) {
         safe_free(buf);
         return;
     }
-    fn_80197FD0(hdr.data, hdr.size);
+    load_sin_board_image(hdr.data, hdr.size);
     safe_free(buf);
 }
 
@@ -112,7 +112,7 @@ void TLobby::free_global_buffer() {
 
 void clear_signboard_texture_buffer_pointer(void) { sin_board_texture_buffer = 0; }
 
-void fn_80197FD0(const void *image, u32 size) {
+void load_sin_board_image(const void *image, u32 size) {
     void *buffer = TQuestVmDownLoadServer::alloc(size);
     sin_board_texture_buffer = buffer;
     if (buffer != NULL) {

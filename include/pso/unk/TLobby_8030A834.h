@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void *fn_8030A83C(void *arg0);
+void *create_boss4_zako_draw(void *arg0);
 }
 
 // --- C functions defined in TLobby_8030A834.cpp ---
 extern "C" {
-void *fn_8030A83C(void *arg0);
+void *create_boss4_zako_draw(void *arg0);
 }
 // --- end of C functions
 

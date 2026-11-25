@@ -6,8 +6,8 @@
 
 class TObjItemNameSelect : public TObject {
 public:
-    void *m_1c;
-    void *m_20;
+    void *selection_menu;
+    void *message_window;
 
     TObjItemNameSelect(TObject *parent);
     // never defined; keeps the vtable hand-written in TQuestThread.cpp from being emitted

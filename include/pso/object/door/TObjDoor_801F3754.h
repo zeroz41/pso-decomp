@@ -5,7 +5,7 @@
 
 extern "C" {
 void TObjDoor__sub_801F3754(void);
-void TObjDoor__sub_801F3760(void);
+void force_switch_doors_closed(void);
 }
 
 #endif

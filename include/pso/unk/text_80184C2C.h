@@ -11,7 +11,7 @@ struct StripBufferPair;
 extern "C" {
 extern BmlResource *city_season_easter_egg_model_table[6];
 extern NJS_TEXLIST *city_season_xmas_model_table[6];
-NJS_TEXLIST *TLobby__sub_80184C2C(int a0);
+NJS_TEXLIST *get_city_season_xmas_model(int a0);
 s32 TLobby__sub_80184C54(void);
 int TLobby__sub_80184C6C(int a0);
 void TLobby__sub_80184C80(void *p);

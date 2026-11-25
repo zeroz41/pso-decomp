@@ -12,19 +12,19 @@
 #include "pso/network/TLobby.h"
 #include "pso/audio/SjRingBuffer.h"
 
-struct Chunk_803CC294 { u16 id; u16 len; s32 off; };
+struct GetAfsFileInfoChunk { u16 id; u16 len; s32 off; };
 
-struct Ent_803CC294 {
-    struct Ent_803CC294 *next; s32 f4; s32 f8; u16 fc; s8 fe; u8 pad_f; char name[0x100];
+struct GetAfsFileInfoEntry {
+    struct GetAfsFileInfoEntry *next; s32 f4; s32 f8; u16 fc; s8 fe; u8 pad_f; char name[0x100];
     s32 mode; u16 f114; u16 arr[1];
 };
 
-struct Ent_803CD5C4 {
+struct ReadAfsTocEntry {
     u8 pad_0[4]; s32 f4; s32 f8; u16 fc; u8 pad_e[0x114 - 0xE]; s16 f114; s16 arr[1];
 };
 
 
-extern Ent_803CC294 *afs_archive_toc_table[];
+extern GetAfsFileInfoEntry *afs_archive_toc_table[];
 extern s32 lobby_adxf_current_file_id;
 extern s32 lobby_afs_toc_entry_index;
 s32 lbl_805D75E8;
@@ -80,11 +80,11 @@ inline s32 check_803CC294(s32 arg0, s32 arg1) {
 }
 s32 TLobby::get_afs_file_info(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *offset, s32 *size) {
     s32 st;
-    Ent_803CC294 *e;
+    GetAfsFileInfoEntry *e;
     u16 *arr;
     s32 sum;
     s32 i;
-    Ent_803CC294 *next;
+    GetAfsFileInfoEntry *next;
     st = check_803CC294(archive, file_id);
     if (st < 0) {
         *mode = 0;
@@ -94,7 +94,7 @@ s32 TLobby::get_afs_file_info(s32 archive, s32 file_id, char *dest, s32 *mode, s
     }
     e = afs_archive_toc_table[archive];
     while ((next = e->next) != NULL) {
-        Chunk_803CC294 *c = (Chunk_803CC294 *)&e->f114;
+        GetAfsFileInfoChunk *c = (GetAfsFileInfoChunk *)&e->f114;
         for (i = 0; i < e->fc; i++, c++) {
             if (c->id == file_id) {
                 strncpy(dest, e->name, 0x100);
@@ -612,7 +612,7 @@ s32 adxf_load_partition(s32 broken) {
 
 s32 TLobby::read_afs_toc(s32 id) {
     s16 *arr;
-    Ent_803CD5C4 *e;
+    ReadAfsTocEntry *e;
     s32 st;
     s32 i;
     if (id != lobby_adxf_current_file_id) {
@@ -623,7 +623,7 @@ s32 TLobby::read_afs_toc(s32 id) {
     if (st != 3) {
         return st;
     }
-    e = ((Ent_803CD5C4 * *)&afs_archive_toc_table)[id];
+    e = ((ReadAfsTocEntry * *)&afs_archive_toc_table)[id];
     arr = e->arr;
     if (e->f8 == 0) {
         s32 n;
@@ -677,7 +677,7 @@ void TLobby__sub_803CD804(void) {
 u8 adxf_open_file_buffer[0x2080];
 
 // ADXF_LoadPartitionNw (named by its messages)
-s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, Ent_803CC294 *e) {
+s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, GetAfsFileInfoEntry *e) {
     s32 r;
     u8 *buf;
     r = adxf_chk_prm_pt(id, e);
@@ -716,7 +716,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, Ent_803CC
 // ADXF_LoadPtNwEx (named by its messages) and a second loader whose messages also say ADXF_LoadPartition
 // (real name unknown): removed by the linker. Only their messages are left after ADXF_LoadPartitionNw's, at
 // the end of the string pool; the bodies follow ADXF_LoadPartitionNw.
-s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *ptinfo, void *tmpbuf, s32 tbsize) {
+s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, GetAfsFileInfoEntry *ptinfo, void *tmpbuf, s32 tbsize) {
     if (tmpbuf == NULL) {
         adxerr_report("E1110701:'tmpbuf' is null.(ADXF_LoadPtNwEx)");
         return -3;
@@ -740,7 +740,7 @@ s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *ptinf
     return 0;
 }
 
-s32 adxf_load_partition2(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *ptinfo) {
+s32 adxf_load_partition2(s32 ptid, const char *fname, s32 dir, GetAfsFileInfoEntry *ptinfo) {
     if (adxf_chk_prm_pt(ptid, ptinfo) < 0) {
         return -3;
     }

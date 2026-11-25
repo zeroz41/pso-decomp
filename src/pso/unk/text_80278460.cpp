@@ -29,7 +29,7 @@ void mark_unequippable_items(TWindowSubEquipKind *window) {
         }
     }
 }
-void fn_80278518(void *qst_pack_select_window, s32 arg1) {
+void disable_pack_item_rows(void *qst_pack_select_window, s32 arg1) {
     s32 i;
     u16 *temp_r30;
     for (i = 0; i < *(s16 *)((s8 *)qst_pack_select_window + 0x76); i++) {

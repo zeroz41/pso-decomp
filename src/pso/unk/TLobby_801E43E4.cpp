@@ -135,7 +135,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     if (((TLobby *)path)->compare_file_extension("gvm") != 0) {
         TLobby::change_file_extension(0, path, (char *)"gvm");
     }
-    size = TGStream::get_resource_file_size((const char *)path);
+    size = TGStream::get_resource_file_size(path);
     if (size <= 0) {
         TLobby::debug_print("psoLoadTexturePvmFile:%s file not found.", name);
         return -1;
@@ -151,7 +151,7 @@ s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     } else {
         buf = (u8 *)TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
-    TGStream::gsSctLoadFile((const char *)path, buf);
+    TGStream::gsSctLoadFile(path, buf);
     ret = load_gvm_texture_archive(buf, texlist);
     if (allocated != 0) {
         safe_free(buf);

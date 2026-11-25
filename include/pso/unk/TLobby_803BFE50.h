@@ -13,8 +13,8 @@ s16 *audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3)
 // --- C functions defined in TLobby_803BFE50.cpp ---
 extern "C" {
 void sub_803C0018(void);
-s32 TLobby__sub_803BFE58(AudioStreamInputState *st);
-s32 TLobby__sub_803BFEE8(AudioStreamInputState *st);
+s32 get_stream_loop_end_byte(AudioStreamInputState *st);
+s32 get_stream_loop_type(AudioStreamInputState *st);
 s32 audio_stream_get_format(AudioStreamInputState *st);
 void audio_stream_set_notify_callback(AudioStreamInputState *st, void (*callback)(void *), void *context);
 s32 audio_stream_get_output_samples(AudioStreamInputState *st);

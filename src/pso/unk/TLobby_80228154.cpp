@@ -26,16 +26,15 @@ s32 load_dragon2_scene();
 
 
 extern "C" {
-s32 get_floor_map_terrain(s32);
 
 
 // The screen quad draw_textured_quad_at_depth reads.
-struct ScreenQuad_80228154 {
+struct TLobbyScreenQuad {
     f32 x0, y0, x1, y1;
     f32 u0, v0, u1, v1;
 };
 
-union SpriteColor_80228154 {
+union TLobbySpriteColor {
     struct { u8 a, r, g, b; } channels;
     u32 packed;
 };
@@ -43,8 +42,8 @@ union SpriteColor_80228154 {
 // Draws one frame of a sprite on the screen; flags 1 rotates the quad by the
 // sprite's angle, 2 tints it with the model material colour, 0x20 blends.
 void TLobby__sub_80228154(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
-    ScreenQuad_80228154 quad;
-    union SpriteColor_80228154 color;
+    TLobbyScreenQuad quad;
+    union TLobbySpriteColor color;
     if (sprite == NULL) {
         return;
     }

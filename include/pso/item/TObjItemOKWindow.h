@@ -7,9 +7,9 @@
 class TObjItemOKWindow : public TObject {
 public:
     char m_text[0x40];
-    void *m_5c;
-    void *m_60;
-    void *m_64;
+    void *name_menu;       // shows the entered item name
+    void *confirm_menu;    // the yes/no choice get_result reads
+    void *message_window;
 
     TObjItemOKWindow(TObject *parent);
     // never defined; keeps the vtable hand-written in TQuestThread.cpp from being emitted

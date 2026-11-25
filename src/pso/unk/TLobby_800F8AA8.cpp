@@ -74,7 +74,7 @@ void copy_name(char *name) {
     if (strncmp(name, "..", 0x10) == 0) {
         fn_800F8A78();
     }
-    fn_803DEE48(name);
+    change_disc_directory(name);
 }
 
 void fn_800F8A78(void) {
@@ -927,7 +927,7 @@ void TLobby::set_entry_params(s32 index, s32 sector_count, s32 buffer) {
 
 void TLobby::set_read_params(void *handle_ref, int sector_count, int destination) { pending_file_read_handle_ref = (AdxfHandle **)handle_ref; (*(int *)&pending_file_read_sector_count) = sector_count; (*(int *)&pending_file_read_destination) = destination; }
 
-void TLobby__sub_800F8DD8(void) { (*(int *)&pending_file_read_flush_requested) = 1; }
+void request_pending_file_read_flush(void) { (*(int *)&pending_file_read_flush_requested) = 1; }
 
 
 void TLobby::draw_fullscreen_texture_quad() {
@@ -1096,7 +1096,7 @@ s32 TLobby::run_disk_error_check() {
         if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();
         } else {
-            TLobby__sub_800F8DD8();
+            request_pending_file_read_flush();
         }
         break;
     case 11:
@@ -1110,7 +1110,7 @@ s32 TLobby::run_disk_error_check() {
         if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();
         } else {
-            TLobby__sub_800F8DD8();
+            request_pending_file_read_flush();
         }
         break;
     }
@@ -1132,7 +1132,7 @@ s32 TLobby::run_disk_error_check() {
 // .text 0x800F93B4-0x800F9F4C: the GSL archive close hook, the resource load tasks (TRelDataFile
 // children of resource_load_task_root, one per relocatable data file), the quest and text
 // archive decryption, the disc-file wrappers and TLobby::run_frame; __sinit closes the TU.
-extern s32 lbl_805D49B4;
+extern s32 memcard_access_active;
 extern int TAdPlayerLoadGC__load_state;
 
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
@@ -1381,7 +1381,7 @@ TRelDataFile::TRelDataFile() : TObject(NULL) {}
 
 s32 TQuestVmDownLoadServer::is_ready() {
     TLobby::wait_ready_loop();
-    if (lbl_805D49B4 != 0) {
+    if (memcard_access_active != 0) {
         return 0;
     }
     if (quest_download_in_progress != 0) {
@@ -1429,7 +1429,7 @@ void TLobby::run_frame() {
     tl_camera->run_tasks();
     tl_07->run_tasks();
     tl_particle->run_tasks();
-    fade_task = TLoadCtrl__sub_800F9F00();
+    fade_task = get_load_fade_task();
     if (fade_task != NULL && fade_task->all_parents_unqueued_for_destruction() != 0) {
         tl_fade->run_tasks();
     }
@@ -1437,7 +1437,7 @@ void TLobby::run_frame() {
     tl_su->render_nodes();
     tl_07->render_nodes();
     tl_particle->render_nodes();
-    fade_task = TLoadCtrl__sub_800F9F00();
+    fade_task = get_load_fade_task();
     if (fade_task != NULL && fade_task->all_parents_unqueued_for_destruction() != 0) {
         tl_fade->render_nodes();
     }
@@ -1458,6 +1458,6 @@ void TLobby::run_frame() {
 void TAdPlayerLoadGC::set_state(int state) { TAdPlayerLoadGC__load_state = state; }
 
 
-TObject *TLoadCtrl__sub_800F9F00(void) {
+TObject *get_load_fade_task(void) {
     return (TObject *)TLoadCtrl__fade_task;
 }

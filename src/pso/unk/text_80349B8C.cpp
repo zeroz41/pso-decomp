@@ -7,7 +7,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma pool_data off
-struct Item_80349C54 {
+struct DrawFilledRects2dItem {
     u32 count;
     u32 color;
     const NJS_POINT2 *pos;
@@ -36,8 +36,8 @@ static const f32 quest_line_quad_vertices[8] = { 409.0f, 456.0f, 409.0f, 457.0f,
 extern const char TAdLoadQuestLineGC__class_name_string[] = "TAdLoadQuestLineGC";
 
 // Each function copies its rectangle list to the stack before drawing it.
-struct QuestLineRects6 { Item_80349C54 items[6]; };
-struct QuestLineRects2 { Item_80349C54 items[2]; };
+struct QuestLineRects6 { DrawFilledRects2dItem items[6]; };
+struct QuestLineRects2 { DrawFilledRects2dItem items[2]; };
 
 static const QuestLineRects6 TAdLoadQuestLineGC__rectangle_groups = { {
     { 3, 0x777777FF, lbl_80478778, lbl_80478790 },
@@ -85,7 +85,7 @@ void draw_filled_rects_2d(void *arg0, void *arg1, int arg2) {
     NJS_POINT2 pos[4];
     NJS_POINT2COL d;
     NJS_COLOR col[4];
-    Item_80349C54 *item;
+    DrawFilledRects2dItem *item;
     u32 i;
     u32 c;
     u32 j;
@@ -94,7 +94,7 @@ void draw_filled_rects_2d(void *arg0, void *arg1, int arg2) {
     d.tex = NULL;
     d.num = 4;
     for (i = 0; i < (u32) arg2; i++) {
-        item = &((Item_80349C54 *) arg1)[i];
+        item = &((DrawFilledRects2dItem *) arg1)[i];
         c = item->color;
         for (j = 0; j < item->count; j++) {
             d.p[0].x = item->pos[j].x;

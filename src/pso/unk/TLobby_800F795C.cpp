@@ -139,11 +139,11 @@ void send_6x0A_enemy_state_packet(void* p) { ((TLobby *)p)->bswap_enemy_state();
 void init_6x0A_enemy_state_packet(void* p) { *(u8*)((char*)p + 0x0) = 10; *(u8*)((char*)p + 0x1) = 3; }
 int get_attack_credit_slot_count(void) { return 4; }
 
-f32 TLobby__sub_800F7A6C(void) {
+f32 get_challenge4p_exp_multiplier(void) {
     return challenge4p_mode_state.exp_multiplier;
 }
 
-f32 TLobby__sub_800F7A7C(void) {
+f32 get_challenge_exp_multiplier(void) {
     return challenge_mode_state.exp_multiplier;
 }
 

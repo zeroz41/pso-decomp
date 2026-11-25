@@ -89,7 +89,7 @@ GinjaSurfaceState *texture_surface_buffer;
 saddr player_matrix_stack_buffer;
 DebugTextRecord *keyboard_input_buffer;
 u8 *resource_decompress_buffer;
-s32 lbl_805D49B4;
+s32 memcard_access_active;
 s32 keyboard_key_state;
 s32 keyboard_active_flag;
 s32 keyboard_input_flag;
@@ -105,7 +105,7 @@ void poll_input_devices_frame(void) {
 void TKeyBoardControl::run_tasks() {
     TObjPlayer::clear_shadow_pass_request();
     update_global_sound_frame();
-    if (lbl_805D62B0 != 0) {
+    if (sound_requests_enabled != 0) {
         update_music_sequencer();
     }
     keyboard_task_object.run_tasks();

@@ -6,7 +6,7 @@
 struct TItemEffOrgaFlowShot;
 extern "C" {
 void clear_6xAD_action_buffer(s8 *buf);
-void TItemEffOrgaFlowShot__sub_80357204(void);
+void disable_olga_flow_subordinate_actions(void);
 void enable_olga_flow_subordinate_actions(void);
 }
 void build_6xAD_olga_flow_subordinate_boss_actions(void *p);

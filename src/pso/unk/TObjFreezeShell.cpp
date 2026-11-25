@@ -55,12 +55,12 @@ void TObjFreezeShell::update_freeze_shell_timer() {
     }
 }
 
-struct RecoveredGlobal_80081CD0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-LAYOUT_ASSERT(RecoveredGlobal_80081CD0_lbl_8058D490_size, sizeof(RecoveredGlobal_80081CD0_lbl_8058D490) == 0x30);
+struct UpdateFreezeShellTimerRecoveredGlobal { s32 value; u8 remaining[0x2C]; };
+LAYOUT_ASSERT(RecoveredGlobal_80081CD0_lbl_8058D490_size, sizeof(UpdateFreezeShellTimerRecoveredGlobal) == 0x30);
 
-struct VBase_80081EA4 { u8 pad[0x18]; };
+struct UpdateFreezeShellTimerVBase { u8 pad[0x18]; };
 
-struct VObj_80081EA4 : VBase_80081EA4 {
+struct VObj_80081EA4 : UpdateFreezeShellTimerVBase {
     virtual void m0();
     virtual void m1();
     virtual void m2();
@@ -76,7 +76,7 @@ extern "C" {
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
-extern RecoveredGlobal_80081CD0_lbl_8058D490 identity_matrix;
+extern UpdateFreezeShellTimerRecoveredGlobal identity_matrix;
 
 
 saddr freeze_shell_bml_resource;
@@ -224,7 +224,7 @@ extern const char *bm_eff_ice_model_names[3];
 extern const char *bm_eff_ice_motion_names[2];
 extern BmlResourceDescriptor enemy_freeze_ice_resource_descriptor;
 
-struct RecoveredFields_8008213C_arg0 {
+struct LoadFreezeIceResourceRecoveredFields {
     u8 unknown_0[0x18];
     s32 * field_18;
     u8 unknown_1C[0x18];
@@ -248,12 +248,12 @@ struct RecoveredFields_8008213C_arg0 {
     s16 field_358;
 };
 
-struct RecoveredFields_8008213C_arg2 {
+struct LoadFreezeIceResourceRecoveredFields2 {
     u8 unknown_0[0xC];
     f32 field_C;
 };
 
-struct RecoveredFields_8008213C_arg1 {
+struct LoadFreezeIceResourceRecoveredFields3 {
     u8 unknown_0[0x60];
     s32 field_60;
     u8 unknown_64[0x40];
@@ -285,61 +285,61 @@ TObjFreezeShell::~TObjFreezeShell() {
 
 #pragma push
 #pragma fp_contract on
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_18_offset, offsetof(RecoveredFields_8008213C_arg0, field_18) == 0x18);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34_offset, offsetof(RecoveredFields_8008213C_arg0, field_34) == 0x34);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_60_offset, offsetof(RecoveredFields_8008213C_arg0, field_60) == 0x60);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_68_offset, offsetof(RecoveredFields_8008213C_arg0, field_68) == 0x68);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_6C_offset, offsetof(RecoveredFields_8008213C_arg0, field_6C) == 0x6C);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_70_offset, offsetof(RecoveredFields_8008213C_arg0, field_70) == 0x70);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_334_offset, offsetof(RecoveredFields_8008213C_arg0, field_334) == 0x334);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_338_offset, offsetof(RecoveredFields_8008213C_arg0, field_338) == 0x338);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_33C_offset, offsetof(RecoveredFields_8008213C_arg0, field_33C) == 0x33C);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_340_offset, offsetof(RecoveredFields_8008213C_arg0, field_340) == 0x340);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_344_offset, offsetof(RecoveredFields_8008213C_arg0, field_344) == 0x344);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_348_offset, offsetof(RecoveredFields_8008213C_arg0, field_348) == 0x348);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34C_offset, offsetof(RecoveredFields_8008213C_arg0, field_34C) == 0x34C);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_350_offset, offsetof(RecoveredFields_8008213C_arg0, field_350) == 0x350);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_354_offset, offsetof(RecoveredFields_8008213C_arg0, field_354) == 0x354);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_358_offset, offsetof(RecoveredFields_8008213C_arg0, field_358) == 0x358);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg2_C_offset, offsetof(RecoveredFields_8008213C_arg2, field_C) == 0xC);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_60_offset, offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_A4_offset, offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_18_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_18) == 0x18);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_34) == 0x34);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_60_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_60) == 0x60);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_68_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_68) == 0x68);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_6C_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_6C) == 0x6C);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_70_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_70) == 0x70);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_334_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_334) == 0x334);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_338_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_338) == 0x338);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_33C_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_33C) == 0x33C);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_340_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_340) == 0x340);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_344_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_344) == 0x344);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_348_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_348) == 0x348);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34C_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_34C) == 0x34C);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_350_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_350) == 0x350);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_354_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_354) == 0x354);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_358_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_358) == 0x358);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg2_C_offset, offsetof(LoadFreezeIceResourceRecoveredFields2, field_C) == 0xC);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_60_offset, offsetof(LoadFreezeIceResourceRecoveredFields3, field_60) == 0x60);
+LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_A4_offset, offsetof(LoadFreezeIceResourceRecoveredFields3, field_A4) == 0xA4);
 TObjFreezeShell::TObjFreezeShell(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
     player_stats *temp_r3;
-    ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = (saddr)get_bml_model((BmlResource *)freeze_shell_bml_resource, 1);
+    ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_34 = (saddr)get_bml_model((BmlResource *)freeze_shell_bml_resource, 1);
     if (chara != NULL) {
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = ((TObjBase *)(chara))->get_entity_id();
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_358 = ((TObjBase *)(chara))->get_entity_id();
         VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(chara + 0x38));
         if (arg2 != NULL) {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x1C));
-            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * ((RecoveredFields_8008213C_arg2 *)arg2)->field_C);
-        } else if ((void *) ((RecoveredFields_8008213C_arg1 *)chara)->field_A4 != NULL) {
+            ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_338 = (f32) (0.15f * ((LoadFreezeIceResourceRecoveredFields2 *)arg2)->field_C);
+        } else if ((void *) ((LoadFreezeIceResourceRecoveredFields3 *)chara)->field_A4 != NULL) {
             ((TObjCollidable *)chara)->refresh_collision_body_centers();
-            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((RecoveredFields_8008213C_arg1 *)chara)->field_A4 + 0x1C));
-            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * *(f32 *)((s8 *)(((RecoveredFields_8008213C_arg1 *)chara)->field_A4) + 0xC));
+            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((LoadFreezeIceResourceRecoveredFields3 *)chara)->field_A4 + 0x1C));
+            ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_338 = (f32) (0.15f * *(f32 *)((s8 *)(((LoadFreezeIceResourceRecoveredFields3 *)chara)->field_A4) + 0xC));
         } else {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(chara + 0x2FC));
             temp_r3 = ((TObjChara *)chara)->get_stats();
             if (temp_r3 != NULL) {
-                ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.075f * temp_r3->proportions);
+                ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_338 = (f32) (0.075f * temp_r3->proportions);
             } else {
-                ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = 1.5f;
+                ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_338 = 1.5f;
             }
         }
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_60 = (s32) ((RecoveredFields_8008213C_arg1 *)chara)->field_60;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_70 = 0.0f;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_6C = 0.0f;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_68 = 0.0f;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_334 = 0;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_33C = 0;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_340 = 0.0f;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_344 = 0.0f;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_348 = 0.0f;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34C = 0.0f;
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_350 = (saddr)create_particle_emitter((((u8 *)this) + 0x38), 0x12E);
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_354 = 0;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_60 = (s32) ((LoadFreezeIceResourceRecoveredFields3 *)chara)->field_60;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_70 = 0.0f;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_6C = 0.0f;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_68 = 0.0f;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_334 = 0;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_33C = 0;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_340 = 0.0f;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_344 = 0.0f;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_348 = 0.0f;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_34C = 0.0f;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_350 = (saddr)create_particle_emitter((((u8 *)this) + 0x38), 0x12E);
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_354 = 0;
     } else {
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_350 = 0;
+        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_350 = 0;
         queue_destruction();
     }
 }

@@ -11,31 +11,31 @@
 #pragma dont_inline off
 struct ByteBlock_50 { u8 bytes[0x50]; };
 
-struct Dst_8028ED24 { u8 pad[4]; s16 a[5]; u8 b; };
+struct CopySlotDataDst { u8 pad[4]; s16 a[5]; u8 b; };
 
-struct Src_8028ED24 { u8 pad[0x30]; u8 b; u8 pad2[7]; s16 a[5]; };
+struct CopySlotDataSrc { u8 pad[0x30]; u8 b; u8 pad2[7]; s16 a[5]; };
 
 #pragma inline_depth(1)
 #pragma auto_inline on
 #pragma dont_inline off
-struct Chr_8028EE20 { u8 pad[0x38]; s16 sel[5]; u8 pad2[0x50 - 0x42]; };
+struct TAdSinglePlyChrSelectGCChr { u8 pad[0x38]; s16 sel[5]; u8 pad2[0x50 - 0x42]; };
 
-struct A_8028EC70 { u8 pad0[4]; s16 v[5]; s8 e; };
+struct IsEntryEqualA { u8 pad0[4]; s16 v[5]; s8 e; };
 
-struct B_8028EC70 { u8 pad0[0x30]; s8 e; u8 pad31[7]; s16 v[5]; };
+struct IsEntryEqualB { u8 pad0[0x30]; s8 e; u8 pad31[7]; s16 v[5]; };
 
-struct A_8028ECCC { u8 pad0[4]; s16 v[5]; s8 e; };
+struct CountCharDiffsA { u8 pad0[4]; s16 v[5]; s8 e; };
 
-struct B_8028ECCC { u8 pad0[0x30]; s8 e; u8 pad31[7]; s16 v[5]; };
+struct CountCharDiffsB { u8 pad0[0x30]; s8 e; u8 pad31[7]; s16 v[5]; };
 
 extern "C" {
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, TCharaMaking *appearance);
-void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(Dst_8028ED24 *d, Src_8028ED24 *s);
+void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(CopySlotDataDst *d, CopySlotDataSrc *s);
 void copy_player_visual_record(void *, void *);
-s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(A_8028EC70 *a, B_8028EC70 *b);
-s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(A_8028ECCC *a, B_8028ECCC *b);
+s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(IsEntryEqualA *a, IsEntryEqualB *b);
+s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(CountCharDiffsA *a, CountCharDiffsB *b);
 
-s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(A_8028EC70 *a, B_8028EC70 *b) {
+s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(IsEntryEqualA *a, IsEntryEqualB *b) {
     s32 i;
     if (a->e != b->e) {
         return 0;
@@ -48,7 +48,7 @@ s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(A_8028EC70 *a, B_8028EC70 *b)
     return 1;
 }
 
-s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(A_8028ECCC *a, B_8028ECCC *b) {
+s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(CountCharDiffsA *a, CountCharDiffsB *b) {
     s32 n = 0;
     s32 i;
     for (i = 0; i < 5; i++) {
@@ -62,7 +62,7 @@ s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(A_8028ECCC *a, B_8028ECCC *
     return n;
 }
 
-void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(Dst_8028ED24 *d, Src_8028ED24 *s) {
+void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(CopySlotDataDst *d, CopySlotDataSrc *s) {
     s32 i;
     for (i = 0; i < 5; i++) d->a[i] = s->a[i];
     d->b = s->b;
@@ -98,7 +98,7 @@ block_7:
 
 s32 TAdSinglePlyChrSelectGC__sub_8028EE20(void *arg0, void *arg1_) {
     s32 arg1 = (saddr)arg1_;
-    Chr_8028EE20 c = *(Chr_8028EE20 *)arg0;
+    TAdSinglePlyChrSelectGCChr c = *(TAdSinglePlyChrSelectGCChr *)arg0;
     s32 max;
     s32 cur;
     s32 v;

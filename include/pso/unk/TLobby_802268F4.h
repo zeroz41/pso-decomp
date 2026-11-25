@@ -8,8 +8,8 @@ extern const u32 lbl_805DC748;
 extern "C" {
 void clear_sound_listener_position(void);
 int TLobby__sub_80226B64(void);
-void TLobby__sub_802272B4(void);
-void TLobby__sub_8022733C(void);
+void turn_on_bgm_p2(void);
+void turn_off_bgm_p2(void);
 }
 // Plays an ADX file on the cue stream.
 void play_cue_stream_file(const char *name);

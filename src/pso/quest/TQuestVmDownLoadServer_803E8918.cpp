@@ -7,15 +7,15 @@
 #pragma inline_depth(2)
 
 extern "C" {
-QuestDownloadNameCacheImage lbl_80591EC8;
-QuestDownloadCachedNameIndex lbl_80593EC8;
-u8 lbl_805D7868;
-u8 *lbl_805D786C;
-u8 *lbl_805D7870;
+QuestDownloadNameCacheImage name_cache_image;
+QuestDownloadCachedNameIndex name_cache_index;
+u8 name_cache_dirty;
+u8 *name_cache_pool_end;
+u8 *name_cache_pool_cursor;
 s32 lbl_805D7874;
-QuestDownloadCachedNameNode *lbl_805D7878;
+QuestDownloadCachedNameNode *name_cache_node_list;
 void mark_name_cache_dirty(void) {
-    lbl_805D7868 = 1;
+    name_cache_dirty = 1;
 }
 
 void rotate_cache_page(void);
@@ -42,7 +42,7 @@ inline QuestDownloadCachedNameNode *FindName_80591EC8(char *buf, s16 len, QuestD
     QuestDownloadCachedNameNode *prev = NULL;
     s32 h;
     h = Hash_80591EC8(buf);
-    for (n = lbl_80593EC8.heads[h]; n != NULL; n = n->next) {
+    for (n = name_cache_index.heads[h]; n != NULL; n = n->next) {
         s32 r;
         u8 elen = n->encodedRecord[2];
         r = strncmp((char *)(n->encodedRecord + 3), buf, (s16)elen);
@@ -55,7 +55,7 @@ inline QuestDownloadCachedNameNode *FindName_80591EC8(char *buf, s16 len, QuestD
         }
         prev = n;
     }
-    *plink = prev == NULL ? &lbl_80593EC8.heads[h] : &prev->next;
+    *plink = prev == NULL ? &name_cache_index.heads[h] : &prev->next;
     return n;
 }
 
@@ -77,18 +77,18 @@ void relocate_name_record(s32 id) {
     if (lbl_805D7874 == page) {
         return;
     }
-    p = &lbl_80591EC8.pages[page][(s16)(id & 0xFFF)];
+    p = &name_cache_image.pages[page][(s16)(id & 0xFFF)];
     u8 *lo = &p[(lbl_805D7874 == page) * 0];
     size = *lo + (p[1] << 8);
     size &= 0xFFFF;
     u8 *rec = p;
-    if (lbl_805D7870 > lbl_805D786C - size - 2) {
+    if (name_cache_pool_cursor > name_cache_pool_end - size - 2) {
         rotate_cache_page();
     }
-    dst = lbl_805D7870;
-    lbl_805D7870 += size;
-    lbl_805D7870[0] = 0;
-    lbl_805D7870[1] = 0;
+    dst = name_cache_pool_cursor;
+    name_cache_pool_cursor += size;
+    name_cache_pool_cursor[0] = 0;
+    name_cache_pool_cursor[1] = 0;
     if (page == lbl_805D7874) {
         return;
     }
@@ -101,7 +101,7 @@ void relocate_name_record(s32 id) {
     } else {
         h = 0;
     }
-    n = lbl_80593EC8.heads[h];
+    n = name_cache_index.heads[h];
     while (n != NULL) {
         elen = n->encodedRecord[2];
         r = strncmp((char *)(n->encodedRecord + 3), buf, elen);
@@ -139,7 +139,7 @@ s32 TQuestVmDownLoadServer::lookup_name_entry(char *name, s16 name_len, QuestNam
     s32 r;
     u8 len;
     u8 *e;
-    for (n = lbl_80593EC8.heads[Hash_80591EC8(name)]; n != NULL; n = n->next) {
+    for (n = name_cache_index.heads[Hash_80591EC8(name)]; n != NULL; n = n->next) {
         e = n->encodedRecord;
         len = e[2];
         r = strncmp((char *)(e + 3), name, (s16)len);
@@ -157,7 +157,7 @@ s32 TQuestVmDownLoadServer::lookup_name_entry(char *name, s16 name_len, QuestNam
         return 0;
     }
     out->page_index = 0;
-    out->record_id = NameRecordId_80591EC8(&lbl_80591EC8, e);
+    out->record_id = NameRecordId_80591EC8(&name_cache_image, e);
     out->encodedRecord = e;
     return 1;
 }
@@ -175,16 +175,16 @@ s32 lookup_name_prefix(char *name, s16 name_len, QuestNameLookupResult *out) {
     pre = 0;
     out->prefix_length = 0;
     out->match_length = 0;
-    for (n = lbl_80593EC8.heads[Hash_80591EC8(name)]; n != NULL; n = n->next) {
+    for (n = name_cache_index.heads[Hash_80591EC8(name)]; n != NULL; n = n->next) {
         e = n->encodedRecord;
         len = e[2];
-        m = TQuestVmDownLoadServer::match_prefix_length(e + 3, (u8 *)name, (s16)len);
+        m = TQuestVmDownLoadServer::match_prefix_length(e + 3, (u8 *)name, len);
         if (m >= pre) {
             pre = m + 1;
         }
-        r = strncmp((char *)(e + 3), name, (s16)len);
+        r = strncmp((char *)(e + 3), name, len);
         if (r == 0) {
-            if ((s16)len == name_len) {
+            if (len == name_len) {
                 return 2;
             }
             blen = len;
@@ -201,7 +201,7 @@ s32 lookup_name_prefix(char *name, s16 name_len, QuestNameLookupResult *out) {
         return 0;
     }
     out->page_index = 0;
-    out->record_id = NameRecordId_80591EC8(&lbl_80591EC8, found);
+    out->record_id = NameRecordId_80591EC8(&name_cache_image, found);
     out->match_length = blen;
     out->prefix_length = pre;
     out->encodedRecord = found;
@@ -232,13 +232,13 @@ inline void WriteRecord_803E8DA0(u8 *p, s32 size, QuestDownloadRequest *req, u8 
 }
 inline u8 *AllocRecord_80591EC8(s32 size) {
     u8 *p;
-    if (lbl_805D7870 > lbl_805D786C - size - 2) {
+    if (name_cache_pool_cursor > name_cache_pool_end - size - 2) {
         rotate_cache_page();
     }
-    p = lbl_805D7870;
-    lbl_805D7870 += size;
-    lbl_805D7870[0] = 0;
-    lbl_805D7870[1] = 0;
+    p = name_cache_pool_cursor;
+    name_cache_pool_cursor += size;
+    name_cache_pool_cursor[0] = 0;
+    name_cache_pool_cursor[1] = 0;
     return p;
 }
 s32 store_name_record(char *name, QuestDownloadRequest *req, s32 attr) {
@@ -249,22 +249,22 @@ s32 store_name_record(char *name, QuestDownloadRequest *req, s32 attr) {
     u8 *e;
     s32 size;
     u8 *rec;
-    lbl_805D7868 = 1;
-    cache = &lbl_80591EC8;
+    name_cache_dirty = 1;
+    cache = &name_cache_image;
     n = FindName_80591EC8(name, req->len, &link);
     e = n->encodedRecord;
     if (e[2] == req->len && strncmp(name, (char *)(e + 3), req->len) == 0) {
         e[2] = 0;
         *link = n->next;
         TQuestVmDownLoadServer::invalidate_entries_by_id(NameRecordId_80591EC8(cache, n->encodedRecord));
-        n->next = lbl_805D7878;
-        lbl_805D7878 = n;
+        n->next = name_cache_node_list;
+        name_cache_node_list = n;
     }
-    if (lbl_805D7878 == NULL) {
+    if (name_cache_node_list == NULL) {
         rotate_cache_page();
     }
-    node = lbl_805D7878;
-    lbl_805D7878 = node->next;
+    node = name_cache_node_list;
+    name_cache_node_list = node->next;
     size = RecordSize_803E8DA0(req);
     rec = AllocRecord_80591EC8(size);
     WriteRecord_803E8DA0(rec, size, req, attr);
@@ -377,9 +377,9 @@ s32 QuestDownloadRequest::calc_message_length() const {
 
 // The original code addresses the name index relative to the eight page images.
 #ifdef __MWERKS__
-#define QUEST_DOWNLOAD_CACHE_INDEX(base) reinterpret_cast<QuestDownloadCachedNameIndex *>((base) + sizeof(lbl_80591EC8))
+#define QUEST_DOWNLOAD_CACHE_INDEX(base) reinterpret_cast<QuestDownloadCachedNameIndex *>((base) + sizeof(name_cache_image))
 #else
-#define QUEST_DOWNLOAD_CACHE_INDEX(base) (&lbl_80593EC8)
+#define QUEST_DOWNLOAD_CACHE_INDEX(base) (&name_cache_index)
 #endif
 
 #pragma push
@@ -459,16 +459,16 @@ s32 load_name_cache_image(void) {
     QuestDownloadCachedNameNode *node;
     QuestDownloadCachedNameNode **link;
 
-    size_t cacheAddress = (size_t)&lbl_80591EC8;
+    size_t cacheAddress = (size_t)&name_cache_image;
     if (TQuestVmDownLoadServer::seek_or_reopen(0x1400) == -1) {
         return -1;
     }
     s32 readCount = (s32)read_cached_name_image(
-            quest_download_file_handle, reinterpret_cast<u8 *>(&lbl_80591EC8));
+            quest_download_file_handle, reinterpret_cast<u8 *>(&name_cache_image));
     if (readCount != 0x2000) {
         return -1;
     }
-    pageStart = reinterpret_cast<u8 *>(&lbl_80591EC8);
+    pageStart = reinterpret_cast<u8 *>(&name_cache_image);
     for (page = 0; page < 8; page++, pageStart += 0x400) {
         for (record = pageStart;
              (u16)(record[0] + (record[1] << 8)) != 0;
@@ -478,19 +478,19 @@ s32 load_name_cache_image(void) {
                 strncpy(scratch.name, (const char *)(record + 3), (s16)len);
                 scratch.name[(s16)len] = 0;
                 node = find_cached_name_link(scratch.name, cacheAddress, len, link);
-                if (lbl_805D7878 == NULL) {
+                if (name_cache_node_list == NULL) {
                     rotate_cache_page();
                 }
-                QuestDownloadCachedNameNode *allocated = lbl_805D7878;
-                lbl_805D7878 = allocated->next;
+                QuestDownloadCachedNameNode *allocated = name_cache_node_list;
+                name_cache_node_list = allocated->next;
                 allocated->encodedRecord = record;
                 allocated->next = node;
                 *link = allocated;
             }
         }
         if (lbl_805D7874 == page) {
-            lbl_805D7870 = record;
-            lbl_805D786C = pageStart + 0x400;
+            name_cache_pool_cursor = record;
+            name_cache_pool_end = pageStart + 0x400;
         }
     }
     return 0;
@@ -499,7 +499,7 @@ s32 load_name_cache_image(void) {
 #pragma pop
 
 u8 *TQuestVmDownLoadServer::get_buffer_ptr(s32 id) {
-    return &lbl_80591EC8.pages[(s16)(id >> 12)][(s16)(id & 0xFFF)];
+    return &name_cache_image.pages[(s16)(id >> 12)][(s16)(id & 0xFFF)];
 }
 
 #pragma push
@@ -510,19 +510,19 @@ u8 *TQuestVmDownLoadServer::get_buffer_ptr(s32 id) {
 void rotate_cache_page(void) {
     char name[0x50];
 
-    size_t cacheAddress = (size_t)&lbl_80591EC8;
+    size_t cacheAddress = (size_t)&name_cache_image;
     u8 *cacheBytes = reinterpret_cast<u8 *>(cacheAddress);
     u8 *record;
     u8 len;
     QuestDownloadCachedNameNode *node;
     QuestDownloadCachedNameNode **link;
 
-    *lbl_805D7870++ = 0;
-    *lbl_805D7870++ = 0;
+    *name_cache_pool_cursor++ = 0;
+    *name_cache_pool_cursor++ = 0;
     lbl_805D7874 = (lbl_805D7874 + 1) % 8;
-    lbl_805D7870 = cacheBytes + lbl_805D7874 * 0x400;
-    lbl_805D786C = lbl_805D7870 + 0x400;
-    for (record = lbl_805D7870;
+    name_cache_pool_cursor = cacheBytes + lbl_805D7874 * 0x400;
+    name_cache_pool_end = name_cache_pool_cursor + 0x400;
+    for (record = name_cache_pool_cursor;
          (u16)(record[0] + (record[1] << 8)) != 0;
          record += (u16)(record[0] + (record[1] << 8))) {
         len = record[2];
@@ -533,8 +533,8 @@ void rotate_cache_page(void) {
             // The native code also requires a non-null stopping node here.
             if (node->encodedRecord == record) {
                 *link = node->next;
-                node->next = lbl_805D7878;
-                lbl_805D7878 = node;
+                node->next = name_cache_node_list;
+                name_cache_node_list = node;
             }
         }
     }
@@ -544,9 +544,9 @@ void rotate_cache_page(void) {
 #pragma pop
 
 void save_name_cache(void) {
-    if (lbl_805D7868 != 0) {
+    if (name_cache_dirty != 0) {
         if (TQuestVmDownLoadServer::seek_or_reopen(0x1400) != -1) {
-            TQuestVmDownLoadServer__sub_803E8788(quest_download_file_handle, lbl_80591EC8.pages, 0x2000);
+            TQuestVmDownLoadServer__sub_803E8788(quest_download_file_handle, name_cache_image.pages, 0x2000);
         }
     }
 }
@@ -555,14 +555,14 @@ void save_name_cache(void) {
 #pragma opt_common_subs off
 
 void __VIRetraceHandler(void) {
-    size_t cacheAddress = (size_t)&lbl_80591EC8;
+    size_t cacheAddress = (size_t)&name_cache_image;
     QuestDownloadCachedNameNode *node = QUEST_DOWNLOAD_CACHE_INDEX(cacheAddress)->nodes;
     QuestDownloadCachedNameNode *end = node + 511;
     for (; node < end; node++) {
         node->next = node + 1;
     }
     node->next = NULL;
-    lbl_805D7878 = QUEST_DOWNLOAD_CACHE_INDEX(cacheAddress)->nodes;
+    name_cache_node_list = QUEST_DOWNLOAD_CACHE_INDEX(cacheAddress)->nodes;
     for (u32 i = 0; i < 80; i++) {
         QUEST_DOWNLOAD_CACHE_INDEX(cacheAddress)->heads[i] = NULL;
     }
@@ -575,11 +575,11 @@ void __VIRetraceHandler(void) {
             page += 0x400;
         }
         lbl_805D7874 = 0;
-        lbl_805D7870 = bytes;
+        name_cache_pool_cursor = bytes;
         // Rewind the completed page walk to the end of the first append page.
-        lbl_805D786C = page -= sizeof(lbl_80591EC8) - 0x400;
+        name_cache_pool_end = page -= sizeof(name_cache_image) - 0x400;
     }
-    lbl_805D7868 = 0;
+    name_cache_dirty = 0;
 }
 
 #pragma pop

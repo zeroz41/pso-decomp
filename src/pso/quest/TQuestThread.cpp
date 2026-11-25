@@ -126,7 +126,7 @@ void *TObjItemOKWindow::create(void *parent) {
 }
 
 s32 TObjItemOKWindow::get_result() {
-    void *menu = m_60;
+    void *menu = confirm_menu;
     if (menu != NULL) {
         return ((TWindowMenu *)menu)->get_selected_value();
     }
@@ -134,7 +134,7 @@ s32 TObjItemOKWindow::get_result() {
 }
 
 s32 TObjItemOKWindow::is_done() {
-    void *menu = m_60;
+    void *menu = confirm_menu;
     if (menu != NULL) {
         return ((TWindowMenu *)menu)->is_decided();
     }
@@ -142,9 +142,9 @@ s32 TObjItemOKWindow::is_done() {
 }
 
 TObjItemOKWindow::~TObjItemOKWindow() {
-    if (m_64 != nullptr) { ((TWindowBase *)m_64)->close(); m_64 = nullptr; }
-    if (m_5c != nullptr) { ((TWindowBase *)m_5c)->close(); m_5c = nullptr; }
-    if (m_60 != nullptr) { ((TWindowBase *)m_60)->close(); m_60 = nullptr; }
+    if (message_window != nullptr) { ((TWindowBase *)message_window)->close(); message_window = nullptr; }
+    if (name_menu != nullptr) { ((TWindowBase *)name_menu)->close(); name_menu = nullptr; }
+    if (confirm_menu != nullptr) { ((TWindowBase *)confirm_menu)->close(); confirm_menu = nullptr; }
 }
 
 TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
@@ -152,30 +152,30 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     s32 name;
 
     m_name = TObjItemOKWindow__class_name;
-    m_60 = init_shop_judgment_window((void *)get_window_layout_position(0x57));
-    if (m_60 != NULL) {
-        ((TWindowSubComCardList *)m_60)->set_scroll_target(104.0f, 74.0f);
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_60));
+    confirm_menu = init_shop_judgment_window((void *)get_window_layout_position(0x57));
+    if (confirm_menu != NULL) {
+        ((TWindowSubComCardList *)confirm_menu)->set_scroll_target(104.0f, 74.0f);
+        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(confirm_menu));
     }
-    m_5c = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x56), 1);
-    if (m_5c != NULL) {
+    name_menu = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x56), 1);
+    if (name_menu != NULL) {
         name = (saddr)TObjItemNameSelect::get_selected_name();
         if (name != 0) {
-            sprintf(m_text, TObjItemOKWindow__text_format, TObjItemOKWindow__sub_801F3268(), name);
+            sprintf(m_text, TObjItemOKWindow__text_format, get_entered_item_name(), name);
         } else {
-            sprintf(m_text, "%s", TObjItemOKWindow__sub_801F3268());
+            sprintf(m_text, "%s", get_entered_item_name());
         }
         m_text[0x3F] = 0;
-        ((TWindowMenu *)m_5c)->add_text_entry((saddr)m_text, 0x81, 0);
+        ((TWindowMenu *)name_menu)->add_text_entry((saddr)m_text, 0x81, 0);
     }
-    ((TWindowSubComCardList *)m_5c)->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_5c));
-    TQuestThread::set_status_flag_80(m_5c);
+    ((TWindowSubComCardList *)name_menu)->set_scroll_target(442.0f, 64.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(name_menu));
+    TQuestThread::set_status_flag_80(name_menu);
     pos.x = 332.0f;
     pos.y = 80.0f;
-    m_64 = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), (NJS_POINT2 *)&pos);
-    if (m_64 != NULL) {
-        ((TWindowMessage *)m_64)->append_line(get_message_text(0x48), 0x81);
+    message_window = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), (NJS_POINT2 *)&pos);
+    if (message_window != NULL) {
+        ((TWindowMessage *)message_window)->append_line(get_message_text(0x48), 0x81);
     }
 }
 
@@ -198,17 +198,17 @@ void *TObjItemNameSelect::create(void *parent) {
 }
 
 s32 TObjItemNameSelect::get_result() {
-    if (m_1c != NULL) {
-        if (((TWindowMenu *)m_1c)->is_decided() != 0) {
-            return ((TWindowMenu *)m_1c)->get_selected_value();
+    if (selection_menu != NULL) {
+        if (((TWindowMenu *)selection_menu)->is_decided() != 0) {
+            return ((TWindowMenu *)selection_menu)->get_selected_value();
         }
     }
     return -1;
 }
 
 TObjItemNameSelect::~TObjItemNameSelect() {
-    if (m_20 != nullptr) { ((TWindowBase *)m_20)->close(); m_20 = nullptr; }
-    if (m_1c != nullptr) { ((TWindowBase *)m_1c)->close(); m_1c = nullptr; }
+    if (message_window != nullptr) { ((TWindowBase *)message_window)->close(); message_window = nullptr; }
+    if (selection_menu != nullptr) { ((TWindowBase *)selection_menu)->close(); selection_menu = nullptr; }
 }
 
 TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
@@ -217,18 +217,18 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
 
     m_name = TObjItemNameSelect__class_name;
     item_name_selection_table = TLobby::get_instance() == 0 ? item_name_table_a : item_name_table_b;
-    m_1c = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x58), 0x19);
+    selection_menu = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x58), 0x19);
     for (i = 0; item_name_selection_table[i].text_id != -1; i++) {
-        ((TWindowMenu *)m_1c)->add_text_entry(get_text_collection(item_name_selection_table[i].text_id), 6, i);
+        ((TWindowMenu *)selection_menu)->add_text_entry(get_text_collection(item_name_selection_table[i].text_id), 6, i);
     }
-    ((TWindowSubComCardList *)m_1c)->set_scroll_target(216.0f, 144.0f);
-    TWindowSubComCard__sub_80265500((TWindowMenu *)m_1c);
-    ((TWindowBase *)m_1c)->set_depth(39000.0f);
+    ((TWindowSubComCardList *)selection_menu)->set_scroll_target(216.0f, 144.0f);
+    TWindowSubComCard__sub_80265500((TWindowMenu *)selection_menu);
+    ((TWindowBase *)selection_menu)->set_depth(39000.0f);
     pos.x = 332.0f;
     pos.y = 80.0f;
-    m_20 = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), (NJS_POINT2 *)&pos);
-    if (m_20 != NULL) {
-        ((TWindowMessage *)m_20)->append_line(get_message_text(0x46), 0x81);
+    message_window = (void *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x55), (NJS_POINT2 *)&pos);
+    if (message_window != NULL) {
+        ((TWindowMessage *)message_window)->append_line(get_message_text(0x46), 0x81);
     }
 }
 
@@ -240,15 +240,15 @@ void TObjItemNameEntry::set_entered_name(const char *name) {
 s32 TObjItemNameEntry::process_keyboard_input() {
     saddr text;
 
-    if (m_1c != NULL && ((TKeyBoardControl *)m_1c)->is_confirmed() != 0) {
-        text = (saddr)((TKeyBoardControl *)m_1c)->realloc_buffer();
+    if (keyboard != NULL && ((TKeyBoardControl *)keyboard)->is_confirmed() != 0) {
+        text = (saddr)((TKeyBoardControl *)keyboard)->realloc_buffer();
         if (strcmp((const char *)text, "") == 0) {
             mem_free((void *)text);
-            ((TKeyBoardControl *)m_1c)->clear_keyboard_flag60_bit1();
+            ((TKeyBoardControl *)keyboard)->clear_keyboard_flag60_bit1();
             return 0;
         }
         if (TWindowSubComCard::contains_profanity((char *)text) != 0) {
-            ((TKeyBoardControl *)m_1c)->clear_keyboard_flag60_bit1();
+            ((TKeyBoardControl *)keyboard)->clear_keyboard_flag60_bit1();
             mem_free((void *)text);
             return 0;
         }
@@ -264,25 +264,25 @@ void *TObjItemNameEntry::create(void *parent) {
 }
 
 TObjItemNameEntry::~TObjItemNameEntry() {
-    if (m_20 != nullptr) { ((TWindowBase *)m_20)->close(); m_20 = nullptr; }
-    if (m_1c != nullptr) { ((TObject *)m_1c)->queue_destruction(); m_1c = nullptr; }
+    if (prompt_menu != nullptr) { ((TWindowBase *)prompt_menu)->close(); prompt_menu = nullptr; }
+    if (keyboard != nullptr) { ((TObject *)keyboard)->queue_destruction(); keyboard = nullptr; }
 }
 
 TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
     m_name = TObjItemNameEntry__class_name;
-    m_1c = new TKeyBoardControl(this, 8, 0, 1, local_client_id);
-    if (m_1c != NULL) {
-        ((TKeyBoardControl *)m_1c)->set_sub_position((u8 *)get_window_layout_position(0xBF));
-        ((TKeyBoardControl *)m_1c)->set_soft_position((u8 *)get_window_layout_position(0xC0));
-        ((TKeyBoardControl *)m_1c)->set_hard_position((u8 *)fn_8026CB5C());
+    keyboard = new TKeyBoardControl(this, 8, 0, 1, local_client_id);
+    if (keyboard != NULL) {
+        ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)get_window_layout_position(0xBF));
+        ((TKeyBoardControl *)keyboard)->set_soft_position((u8 *)get_window_layout_position(0xC0));
+        ((TKeyBoardControl *)keyboard)->set_hard_position((u8 *)fn_8026CB5C());
     }
-    m_20 = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x56), 1);
-    if (m_20 != NULL) {
-        ((TWindowMenu *)m_20)->add_text_entry(get_message_text(0x47), 0x81, 0);
+    prompt_menu = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x56), 1);
+    if (prompt_menu != NULL) {
+        ((TWindowMenu *)prompt_menu)->add_text_entry(get_message_text(0x47), 0x81, 0);
     }
-    ((TWindowSubComCardList *)m_20)->set_scroll_target(442.0f, 64.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_20));
-    TQuestThread::set_status_flag_80(m_20);
+    ((TWindowSubComCardList *)prompt_menu)->set_scroll_target(442.0f, 64.0f);
+    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(prompt_menu));
+    TQuestThread::set_status_flag_80(prompt_menu);
 }
 
 TQuestThreadBoard *TQuestThreadBoard::create_instance(int label) {
@@ -787,12 +787,12 @@ TQuestManager::TQuestManager(TObject *parent, const char *filename, s32 kind) : 
     switch (this->kind) {
     case 0:
         copy_name("QUEST");
-        size = get_resource_file_size((const char *)filename);
+        size = get_resource_file_size(filename);
         if (size < 0) {
             queue_destruction();
         } else {
             script = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size + 0x400));
-            read_disc_file((const char *)filename, script);
+            read_disc_file(filename, script);
             copy_name("..");
             quest_mission_manager = this;
             init_quest_script_context(reinterpret_cast<QuestBinHeader *>(script), &ctx);
@@ -801,12 +801,12 @@ TQuestManager::TQuestManager(TObject *parent, const char *filename, s32 kind) : 
         TQuestThread::clear_thread_state();
         break;
     case 1:
-        size = get_resource_file_size((const char *)filename);
+        size = get_resource_file_size(filename);
         if (size < 0) {
             queue_destruction();
         } else {
             script = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size + 0x400));
-            read_disc_file((const char *)filename, script);
+            read_disc_file(filename, script);
             quest_area_manager = this;
             init_quest_script_context(reinterpret_cast<QuestBinHeader *>(script), &ctx);
         }
@@ -820,12 +820,12 @@ TQuestManager::TQuestManager(TObject *parent, const char *filename, s32 kind) : 
 TQuestManager::TQuestManager(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;
     copy_name("QUEST");
-    size = get_resource_file_size((const char *)filename);
+    size = get_resource_file_size(filename);
     if (size < 0) {
         queue_destruction();
     } else {
         script = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size + 0x400));
-        read_disc_file((const char *)filename, script);
+        read_disc_file(filename, script);
         copy_name("..");
         quest_mission_manager = this;
         init_quest_script_context(reinterpret_cast<QuestBinHeader *>(script), &ctx);

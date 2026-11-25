@@ -57,7 +57,7 @@ extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 s32 is_palettex_activated(u16 client_index);
-s32 TObjPlayer__sub_80354C7C(u16);
+s32 is_palettex_enabled(u16);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
@@ -319,7 +319,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
 void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
     if (get_player_by_client_id(client_index) != NULL) {
         WindowSpritePart *icon = static_cast<WindowSpritePart *>(get_array_entry(4));
-        if (TObjPlayer__sub_80354C7C((u16)client_index) != 0) {
+        if (is_palettex_enabled((u16)client_index) != 0) {
             icon->color = -1;
         } else {
             icon->color = 0xFF404040;
