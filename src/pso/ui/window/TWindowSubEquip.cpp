@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/ui/window/TWindowHelpItem_802540AC.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
@@ -34,7 +33,7 @@ void TWindowSubEquip::update() {
         }
         if (item_id != (s32) this->m_20) {
             this->m_20 = item_id;
-            show_item_by_id__15TWindowHelpItemFPvi((u8 *)this->window_help_item, item_id);
+            this->window_help_item->show_item_by_id(item_id);
         }
     }
 }

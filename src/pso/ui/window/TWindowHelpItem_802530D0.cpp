@@ -22,7 +22,6 @@
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowHelpItem_802531A0.h"
-#include "pso/ui/window/TWindowHelpItem_802540AC.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -329,19 +328,19 @@ void TWindowHelpItem::set_displayed_item_colored(uaddr displayed_item_colored) {
     set_displayed_item_data((void*)displayed_item_colored, (void*)var_r5);
 }
 
-void show_item_by_id__15TWindowHelpItemFPvi(u8 *window_help_item, saddr id) {
-    u8 *item;
+void TWindowHelpItem::show_item_by_id(int id) {
+    TItem *item;
     if (id == -1) {
-        ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(NULL, (void*)((void*)((void *)-1)));
+        set_items_and_refresh(NULL, (void *)-1);
         return;
     }
-    item = (u8 *)(find_item_by_id(id));
+    item = find_item_by_id(id);
     if (item == NULL) {
-        ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(NULL, (void*)((void*)((void *) id)));
+        set_items_and_refresh(NULL, (void *)id);
         return;
     }
-    ((TItem *)item)->copy_to_item_data((TItemData *)(window_help_item + 0x74));
-    ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(window_help_item + 0x74, (void*)((void*)((void *) id)));
+    item->copy_to_item_data(&item_copy);
+    set_items_and_refresh(&item_copy, (void *)id);
 }
 
 void TWindowHelpItem::set_displayed_item_by_id(saddr id) {
@@ -1164,7 +1163,6 @@ s32 are_status_entries_ready__13TWindowSubMagFi(saddr help) {
 #pragma pop
 
 void TWindowHelpItem::refresh_copied_items() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r3;
     s32 temp_r3_3;
     u8 *item;
@@ -1173,14 +1171,14 @@ void TWindowHelpItem::refresh_copied_items() {
     if (temp_r3 != -1) {
         item = (u8 *)(find_item_by_id(temp_r3));
         if (item != NULL) {
-            ((TItem *)item)->copy_to_item_data((TItemData *)((u8 *)&this->_pad74));
+            ((TItem *)item)->copy_to_item_data(&this->item_copy);
         }
     }
     temp_r3_3 = this->displayed_item_id;
     if (temp_r3_3 != -1) {
         temp_r3_4 = (u8 *)(find_item_by_id(temp_r3_3));
         if (temp_r3_4 != NULL) {
-            ((TItem *)temp_r3_4)->copy_to_item_data((TItemData *)(arg0 + 0x88));
+            ((TItem *)temp_r3_4)->copy_to_item_data(&this->displayed_item);
         }
     }
 }

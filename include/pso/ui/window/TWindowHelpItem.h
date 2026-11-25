@@ -108,6 +108,7 @@ struct TWindowHelpItem : public TWindowBase
     virtual void render();
     virtual void run_task();
     void show_item_description();
+    void show_item_by_id(int id);
     void update_tech_disk_details();
     void update_tech_disk_stats();
     void idle_update();
@@ -127,7 +128,7 @@ struct TWindowHelpItem : public TWindowBase
     TItemData *active_item;
     u32 item_data;            // shown when no displayed item is set (item_id)
     uaddr displayed_item_data;  // takes precedence; compared with the equipped one
-    u8 _pad74[0x14];
+    TItemData item_copy;  // copy of the item item_id names
     TItemData displayed_item;
     s32 shown_item_id;  // id of the item on show, -1 for none
     u32 item_id;
