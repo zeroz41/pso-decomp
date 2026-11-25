@@ -1,5 +1,4 @@
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 // ---- pso/ui/window/TWindowSubTrade_802B1AB4
 #include "types.h"

@@ -1251,10 +1251,8 @@ pso/ui/window/TWindowSubTechnique.cpp
 pso/ui/window/TWindowSubTrade.cpp
 pso/ui/window/TWindowSubTradeMain_80187C98.cpp
 pso/ui/window/TWindowSubEquipKind_80278300.cpp
-pso/ui/window/TWindowSubTradeMain_802D3924.cpp
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp
 pso/ui/window/TWindowTimer.cpp
-pso/ui/window/TWindowTradeRequest.cpp
 pso/ui/window/TWindowTradeRequest_802E0170.cpp
 pso/ui/window/TWindowUserSort.cpp
 pso/quest/TQuestListOffline.cpp

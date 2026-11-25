@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/collision/TObjTradeCollision.h"
-#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
+#include "pso/network/TradeSession.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/object/base/TObjMotion.h"
 
