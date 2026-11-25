@@ -22,6 +22,9 @@ struct TLanguage
     void set_index(s32 x);
     static void set_entry_index(s32 i, s32 x);
     static void load_container_fragment_textures();
+
+    // Tag of the temporary buffer load_fonts borrows.
+    static const char class_name[];
 };
 
 #endif
