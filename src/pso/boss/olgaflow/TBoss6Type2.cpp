@@ -469,7 +469,7 @@ void TBoss6Type2::pick_walk_target(Boss6GridBytes *grid) {
 }
 #pragma pop
 
-extern "C" void handle_6xA5_olga_flow_boss_actions(game_command_header *command) {
+void handle_6xA5_olga_flow_boss_actions(game_command_header *command) {
     OlgaFlowType2ActionMsg *packet = reinterpret_cast<OlgaFlowType2ActionMsg *>(command);
     TBoss6Type2 *boss;
     saddr state;

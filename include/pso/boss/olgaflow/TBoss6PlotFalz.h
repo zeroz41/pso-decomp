@@ -5,10 +5,8 @@
 #include "pso/enemy/TObjEnemy.h"
 struct TObjPlayer;
 
-extern "C" {
 // Nonzero when the game runs on Normal difficulty (game_difficulty_selection == 0).
 s32 is_normal_difficulty(void);
-}
 
 // One step of the boss's pseudo-random sequence (the ANSI C rand() recurrence on a caller-held seed):
 // returns the next value of seed (next_random_seed is an inferred name).
@@ -168,9 +166,7 @@ extern u16 boss6_plot_falz_player_order_table[];
 // 1 on the main floor phase 0xF or in split screen (update_active_flag, get_phase).
 extern s32 plot_falz_phase;
 
-extern "C" {
 void apply_boss6_hit_flash_color(f32 fade, f32 hp_ratio);
-}
 
 // TRUE when the sphere (pos, r) is out of the arena (inferred from TBoss6Rock).
 s32 boss6_sphere_blocks_player_view(void *pos, f32 r);

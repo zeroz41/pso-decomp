@@ -109,10 +109,8 @@ struct TItemData {
     f32 get_set_bonus_multiplier(saddr player);
 };
 
-extern "C" {
 // The ItemPMT record for an item's type bytes, NULL for none.
 void *lookup_item_pmt_record(u8 *item);
-}
 
 #include <stddef.h>
 LAYOUT_ASSERT(ItemDataSize, sizeof(TItemData) == 0x14);

@@ -46,12 +46,8 @@ public:
     static const char *name;
 };
 
-extern "C" {
 void enemy_set_target_id(TObjEneDD_ST *self, u16 id);
-}
 s32 enemy_bind_or_clear_target(TObjEneDD_ST *self, u16 id);
-extern "C" {
 s32 enemy_validate_retained_target(TObjEneDD_ST *self);
-}
 
 #endif

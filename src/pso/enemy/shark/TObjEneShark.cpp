@@ -527,7 +527,7 @@ s32 TObjEneMoja::calc_technique_level() {
     return v;
 }
 
-void TObjPlayer__sub_800ACA0C(void) {  }
+void TObjPlayer__sub_800ACA0C(void *) {  }
 
 void TObjEneShark::sub_800AC9DC(s32 i) {
     model = shark_bml_resource->models[i].model;

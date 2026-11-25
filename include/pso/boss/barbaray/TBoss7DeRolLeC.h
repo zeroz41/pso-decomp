@@ -209,13 +209,11 @@ LAYOUT_ASSERT(TBoss7DeRolLeCNodeRecorder, offsetof(TBoss7DeRolLeC, node_recorder
 LAYOUT_ASSERT(TBoss7DeRolLeC_size, sizeof(TBoss7DeRolLeC) == 0x7D4);
 
 // Globals of the De Rol Le C translation unit.
-extern "C" {
 // 11 empty nodes chained through child (evalflags 0xF, the last 0x1F); render hangs
 // them under model node 0x4D in place of its own child while state_flags & 0x40.
 extern NJS_OBJECT boss7_derolle_light_pool[11];
 
 void TObjPlayer__sub_802ED984(void);
-}
 
 // Functions defined in TBoss7DeRolLeC.cpp.
 struct TObjEneDD;

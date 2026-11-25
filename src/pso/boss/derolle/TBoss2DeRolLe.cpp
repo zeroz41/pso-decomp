@@ -1603,7 +1603,7 @@ void TBoss2DeRolLe::update_projectile_spawns() {
 
 void TBoss2DeRolLe::sub_800338BC() {  }
 
-extern "C" s32 play_sound(s32 id, Vec *position) {
+s32 play_sound(s32 id, Vec *position) {
     return play_sound_effect(id, position, 0, 0);
 }
 

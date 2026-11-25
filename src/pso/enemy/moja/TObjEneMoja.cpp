@@ -64,9 +64,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"
-extern "C" {
-void TObjPlayer__sub_800ACA0C(void *);
-}
+#include "pso/enemy/shark/TObjEneShark.h"
 extern "C" {
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);

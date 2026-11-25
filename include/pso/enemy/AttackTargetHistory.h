@@ -19,9 +19,7 @@ public:
     ~AreaAttackHistory();
 };
 
-extern "C" {
 // Sets every entry to the buffer's empty value and the count to 0 (defined in TBoss1Dragon.cpp).
 void fill_value_array(PointerBuffer *buffer);
-}
 
 #endif

@@ -38,8 +38,6 @@ LAYOUT_ASSERT(Shark_camera_fades_offset, offsetof(TObjEneShark, camera_fades) ==
 LAYOUT_ASSERT(SharkFadeStride, sizeof(RenderFadeState) == 0x1C);
 LAYOUT_ASSERT(SharkSize, sizeof(TObjEneShark) == 0x43C);
 
-extern "C" {
-void TObjPlayer__sub_800ACA0C(void);
-}
+void TObjPlayer__sub_800ACA0C(void *);
 
 #endif

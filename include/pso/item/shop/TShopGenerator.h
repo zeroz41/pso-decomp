@@ -35,9 +35,7 @@ struct TShopGenerator : public TObjBase {
 
 LAYOUT_ASSERT(TShopGenerator_size, sizeof(TShopGenerator) == 0x98);
 
-extern "C" {
 void set_shop_slot_active(u16 client);
-}
 
 // One flag per client, indexed by get_client_split_screen_slot(entity id).
 
