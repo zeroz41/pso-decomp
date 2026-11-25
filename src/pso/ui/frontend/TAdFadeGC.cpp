@@ -18,7 +18,9 @@ f32 xz_distance_squared(void *, void *);
 f32 lbl_805D6800;
 s8 lbl_805D6804;
 extern const char TAdFadeGC__class_name_string[] = "TAdFadeGC";
+}
 const char *TAdFadeGC::name = TAdFadeGC__class_name_string;
+extern "C" {
 
 void TAdFadeGC::draw_fade() {
     ColorLineVertex pos[4];

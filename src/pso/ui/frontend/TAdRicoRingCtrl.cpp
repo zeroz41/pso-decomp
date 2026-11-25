@@ -19,7 +19,9 @@
 
 extern "C" {
 extern TObject *tl_04;
+}
 BmlResource *TAdRicoRing::resource_bundle;
+extern "C" {
 f32 rico_ring_quad_x_min;
 s8 rico_ring_quad_x_min_ready;
 f32 rico_ring_quad_x_max;
