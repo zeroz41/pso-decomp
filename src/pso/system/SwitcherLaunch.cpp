@@ -14,12 +14,12 @@
 #include "pso/unk/text_8007FA24.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
+#include "pso/ui/keyboard/SystemBootInitInternal.h"
 #pragma pool_data off
 
 extern "C" {
 s32 set_shared_memory_data(u8 *arg0, u32 arg1);
 void launch_iwanaga_dol(DolHeader *, s32);
-extern s32 resource_decompress_buffer;
 }
 // The switcher.dol pages: the modem check (TAdTrialModemChkGC__sub_8007FA24) and the dial screen
 // (TAdDialingGC::select_dial_image) pick one by index. Defined first: they open the unit's .rodata and
@@ -74,9 +74,9 @@ void init_disc_error_messages(void) {
 s32 launch_switcher_dol(const char *url) {
     char buf[0x100];
     s32 r;
-    saddr v;
+    u8 *v;
     r = get_resource_file_size(switcher_dol_filename);
-    read_disc_file(switcher_dol_filename, (void *)(v = resource_decompress_buffer));
+    read_disc_file(switcher_dol_filename, v = resource_decompress_buffer);
     VISetBlack(1);
     VIFlush();
     VIWaitForRetrace();

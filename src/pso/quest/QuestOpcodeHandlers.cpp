@@ -56,6 +56,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_800F7DAC.h"
+#include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/unk/TColorOverlayFade.h"
 #include "pso/object/door/TObjDoor_801F3754.h"
 #include "pso/unk/TLobby_80207644.h"
@@ -960,7 +961,6 @@ extern f32 battle_player_take_damage_score;
 extern f32 battle_player_kill_score;
 extern f32 battle_player_death_score;
 extern f32 battle_enemy_give_damage_score;
-extern u8 *resource_decompress_buffer;
 extern s32 game_difficulty_selection;
 extern f32 battle_enemy_take_damage_score;
 

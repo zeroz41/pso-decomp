@@ -18,6 +18,7 @@
 #include "pso/unk/TLobby_800FA2A0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_800F7DAC.h"
+#include "pso/ui/keyboard/SystemBootInitInternal.h"
 
 
 struct BmlModelLoadRequest {
@@ -86,7 +87,6 @@ u8 * lobby_bml_read_buffer;
 void check_bin_model_loaded__6TLobbyFPvPv(BmlResource *resource, void *);
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes);
 s32 TLobby__sub_800F9FF4(saddr);
-extern u8 *resource_decompress_buffer;
 s32 release_texture_list(void *);
 
 extern const char *lbl_805D2B10;
