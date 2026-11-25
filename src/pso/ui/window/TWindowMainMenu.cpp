@@ -335,7 +335,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
 void TWindowMainMenu::close_child_window() { if (help_window != NULL) { ((TWindowBase *)this->help_window)->close(); help_window = NULL; } }
 
 void TWindowMainMenu::sub_80263FE0() {
-    toggle_help_window_on_button((s32)help_window, this->client_index);
+    toggle_help_window_on_button((uaddr)help_window, this->client_index);
 }
 
 s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
