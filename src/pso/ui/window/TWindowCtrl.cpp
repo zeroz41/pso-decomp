@@ -59,6 +59,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TWindowMessageLog.h"
 
 TWindowCtrl *TWindowCtrl::instance;
 u16 lbl_805D63FC;
@@ -133,47 +134,6 @@ extern "C" {
 void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl);
 
 }
-
-
-
-struct TWindowCtrl_8024C160 {
-    u8 pad0[0x18];
-    void *vt;
-    u8 pad1C[0x2C - 0x1C];
-    void *f2C;
-    void *f30;
-    void *f34;
-    void *f38;
-    void *f3C;
-    void *f40;
-    void *f44;
-    void *objs[12];
-    void *wins78[3];
-    void *wins84[4];
-};
-
-struct TWindowCtrl_8024C308 {
-    const char *name;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    s16 f1C;
-    s16 f1E;
-    s16 f20;
-    s16 f22;
-    s32 f24;
-    u16 f28;
-    void *f2C;
-    void *f30;
-    void *f34;
-    void *f38;
-    void *f3C;
-    void *f40;
-    void *f44;
-    void *objs[12];
-    void *wins78[3];
-    void *wins84[4];
-    u8 f94[4];
-};
 
 
 
@@ -335,41 +295,38 @@ void TWindowCtrl::shutdown() {
 
 
 TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
-    TWindowCtrl_8024C308 *self = (TWindowCtrl_8024C308 *)this;
     s32 i;
-    void *p;
-    self->name = TWindowCtrl__name;
+    m_name = TWindowCtrl__name;
     if (instance != NULL) {
         instance->queue_destruction();
     }
     instance = this;
-    self->f1C = 0;
-    self->f1E = 0;
-    self->f20 = 0;
-    self->f22 = 0;
-    self->f24 = 0;
-    self->f28 = 0xFFFF;
-    self->f2C = NULL;
-    self->f30 = NULL;
-    self->f34 = NULL;
-    self->f38 = NULL;
-    self->f3C = NULL;
-    self->f40 = NULL;
-    self->f44 = NULL;
+    flags = 0;
+    open_timer = 0;
+    open_step = 0;
+    submit_cooldown = 0;
+    pulse_color = 0;
+    window_id = 0xFFFF;
+    break_in_window = NULL;
+    timer_window = NULL;
+    area_window = NULL;
+    chat_window = NULL;
+    com_card_window = NULL;
+    trade_request = NULL;
+    message_log = NULL;
     for (i = 0; i < 12; i++) {
         players[i] = NULL;
     }
     for (i = 0; i < 3; i++) {
-        self->wins78[i] = NULL;
+        simple_status[i] = NULL;
     }
     for (i = 0; i < 4; i++) {
-        self->wins84[i] = NULL;
+        balloons[i] = NULL;
     }
-    p = new TWindowBreakIn();
-    self->f2C = p;
+    break_in_window = new TWindowBreakIn();
     if (is_split_screen() == 0) {
-        self->f38 = new TWindowChat(tl_00, self->f94);
-        ((TWindowChat *)(self->f38))->set_flag1e_bit40();
+        chat_window = new TWindowChat(tl_00, &m_94);
+        chat_window->set_flag1e_bit40();
     }
     if (is_split_screen() != 0) {
         for (i = 0; i < 4; i++) {
@@ -380,8 +337,8 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
         players[local_client_id] = new TWindowCtrlPlayer(this, local_client_id);
         for (i = 0; i < 3; i++) {
             if (get_current_floor_area() != AREA_LOBBY && is_split_screen() == 0) {
-                self->wins78[i] = create_party_status_window(i);
-                ((TObject *)(self->wins78[i]))->suspend_update();
+                simple_status[i] = (TWindowSimpleStatus *)create_party_status_window(i);
+                simple_status[i]->suspend_update();
             }
         }
     }
@@ -392,38 +349,37 @@ TWindowCtrl::TWindowCtrl(TObject *parent) : TObject(parent) {
 
 
 TWindowCtrl::~TWindowCtrl() {
-    TWindowCtrl_8024C160 *self = (TWindowCtrl_8024C160 *)this;
     s32 i;
     for (i = 3; i >= 0; i--) {
-        if (self->wins84[i] != NULL) {
-            ((TWindowBase *)(self->wins84[i]))->close();
-            self->wins84[i] = NULL;
+        if (balloons[i] != NULL) {
+            balloons[i]->close();
+            balloons[i] = NULL;
         }
     }
-    if (self->f44 != NULL) {
-        ((TWindowBase *)self->f44)->close();
-        self->f44 = NULL;
+    if (message_log != NULL) {
+        message_log->close();
+        message_log = NULL;
     }
-    if (self->f34 != NULL) {
-        ((TWindowBase *)self->f34)->close();
-        self->f34 = NULL;
+    if (area_window != NULL) {
+        area_window->close();
+        area_window = NULL;
     }
-    if (self->f30 != NULL) {
-        ((TWindowBase *)self->f30)->close();
-        self->f30 = NULL;
+    if (timer_window != NULL) {
+        timer_window->close();
+        timer_window = NULL;
     }
-    if (self->f40 != NULL) {
-        ((TObject *)self->f40)->queue_destruction();
-        self->f40 = NULL;
+    if (trade_request != NULL) {
+        trade_request->queue_destruction();
+        trade_request = NULL;
     }
-    if (self->f3C != NULL) {
-        ((TObject *)self->f3C)->queue_destruction();
-        self->f3C = NULL;
+    if (com_card_window != NULL) {
+        com_card_window->queue_destruction();
+        com_card_window = NULL;
     }
     for (i = 2; i >= 0; i--) {
-        if (self->wins78[i] != NULL) {
-            ((TWindowBase *)(self->wins78[i]))->close();
-            self->wins78[i] = NULL;
+        if (simple_status[i] != NULL) {
+            simple_status[i]->close();
+            simple_status[i] = NULL;
         }
     }
     for (i = 11; i >= 0; i--) {
@@ -432,13 +388,13 @@ TWindowCtrl::~TWindowCtrl() {
             players[i] = NULL;
         }
     }
-    if (self->f38 != NULL) {
-        ((TObject *)self->f38)->queue_destruction();
-        self->f38 = NULL;
+    if (chat_window != NULL) {
+        chat_window->queue_destruction();
+        chat_window = NULL;
     }
-    if (self->f2C != NULL) {
-        ((TWindowBase *)self->f2C)->close();
-        self->f2C = NULL;
+    if (break_in_window != NULL) {
+        break_in_window->close();
+        break_in_window = NULL;
     }
     if (instance == this) {
         instance = NULL;
