@@ -3128,7 +3128,6 @@ u16 find_nearest_hittable_enemy(TObjBase *searcher, Vec *direction, f32 range) {
     }
     return result;
 }
-extern "C" {
 
 s32 TObjChara::damage_hp(s32 amount) {
     if (obj_isState2_324() != 0) {
@@ -3385,7 +3384,6 @@ void TObjChara::assign_slots_from_list(TObjChara *source) {
             local_attacker_id = source->get_local_attacker_id();
         }
     }
-}
 }
 
 void TObjChara::gain_photon_blast_charge(f32) {  }
