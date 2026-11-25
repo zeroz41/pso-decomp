@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TUnk_804EF440.h"
+#include "pso/ui/window/TGameListRow.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
@@ -47,7 +47,7 @@ saddr TWindowSubStatusDisp::get_flag_or_zero(void *arg0, s8 arg1) {
     return (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x10D);
 }
 
-void TUnk_804EF440::render(WindowDrawContext *context) {
+void TGameListRow::render(WindowDrawContext *context) {
   WindowDrawContext *win = context;
   f32 scale;
   f32 y;
@@ -78,38 +78,38 @@ void TUnk_804EF440::render(WindowDrawContext *context) {
   set_text_draw_params(win, 1, 1, (f32)scale, 100000.0f);
   draw_window_text((f32 *)&pos, this->text, -1, 1, 100000.0f);
   pos.x += 210.0f;
-  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(this, this->m_1d)), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(this, this->level)), -1, 0, 100000.0f);
   pos.x += 108.0f;
-  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::query_status_field(this, this->m_1e)), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::query_status_field(this, this->mark)), -1, 0, 100000.0f);
   pos.x += 96.0f;
-  draw_window_text((f32 *)&pos, (const char *)(((saddr (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(this, this->m_1f)), -1, 0, 100000.0f);
+  draw_window_text((f32 *)&pos, (const char *)(((saddr (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(this, this->difficulty)), -1, 0, 100000.0f);
   pos.x += 126.0f;
   text_builder_reset();
-  text_builder_append_int(this->m_20);
+  text_builder_append_int(this->player_count);
   text_builder_append((u8 *)separator);
-  text_builder_append_int(this->m_21);
+  text_builder_append_int(this->max_players);
   draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, 100000.0f);
 }
 
-void TUnk_804EF440::update() {}
+void TGameListRow::update() {}
 
-TUnk_804EF440::~TUnk_804EF440() {
+TGameListRow::~TGameListRow() {
     if (this->text != NULL) {
         mem_free(this->text);
         this->text = NULL;
     }
 }
 
-TUnk_804EF440::TUnk_804EF440(u8 *rec, s32 m_2) : TUnk_804CF998(m_2) {
+TGameListRow::TGameListRow(u8 *rec, s32 m_2) : TUnk_804CF998(m_2) {
     this->height = 18.0f;
     this->icon = 51;
-    this->m_1d = -1;
-    this->m_1e = -1;
-    this->m_1f = -1;
-    this->m_20 = -1;
-    this->m_21 = -1;
+    this->level = -1;
+    this->mark = -1;
+    this->difficulty = -1;
+    this->player_count = -1;
+    this->max_players = -1;
     this->text = NULL;
-    this->m_18 = 0;
+    this->index = 0;
 }
 
 int TWindowSubStatusDisp__sub_80338B88(void* p) { return (*(u16*)((char*)p + 0x0) >> 2) & 0x1; }
