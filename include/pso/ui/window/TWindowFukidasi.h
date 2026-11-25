@@ -81,7 +81,6 @@ LAYOUT_ASSERT(TWindowFukidasi_head_position_offset, offsetof(TWindowFukidasi, he
 LAYOUT_ASSERT(TWindowFukidasi_size, sizeof(TWindowFukidasi) == 0x98);
 
 extern "C" {
-s32 clamp_position__15TWindowFukidasiFPvf(void *arg0, void *arg1, f32 farg0);
 }
 void complete_speech_balloon(u8 *arg0);
 s32 is_speech_balloon_ready(u8 *window_base);

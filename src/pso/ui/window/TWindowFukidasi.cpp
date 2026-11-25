@@ -12,6 +12,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -139,7 +140,6 @@ void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b);
 void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr arg1, saddr arg2);
 void TWindowFukidasi__sub_80252C38(void *p);
 s32 fn_80252CBC(void);
-s32 reset_float_field__15TWindowHelpItemFv();
 s32 measure_message_text_width(int, f32);
 }
 
@@ -162,9 +162,7 @@ u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
 const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
 
 #define F70_80250A24 ((Fuki_80250F70 *)b)
-#define CLAMP_80250A24 ((s32 (*)(Fuki_80250F70 *, f32 *, f32))clamp_position__15TWindowFukidasiFPvf)
 #define F70_802506E8 ((Fuki_80250F70 *)b)
-#define CLAMP_802506E8 ((s32 (*)(Fuki_80250F70 *, f32 *, f32))clamp_position__15TWindowFukidasiFPvf)
 extern "C" {
 struct Fuki_80251790 {
     u8 pad0[0x20];
@@ -1043,7 +1041,7 @@ s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
     }
     o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position((f32 *)o, 1.0f) != 0) {
         return 0;
     }
     if (((TWindowFukidasi *)b)->draw_resolved_window((f32 *)o, b->size, 4) == NULL) {
@@ -1064,7 +1062,7 @@ s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
     edge[1] += reach * sin_table_lookup(a);
     o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position((f32 *)o, 1.0f) != 0) {
         return 0;
     }
     if (((TWindowFukidasi *)b)->draw_resolved_window((f32 *)o, b->size, 4) == NULL) {
@@ -1077,7 +1075,7 @@ s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
     edge[1] += reach * sin_table_lookup(a);
     o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position((f32 *)o, 1.0f) != 0) {
         return 0;
     }
     return (u32) __cntlzw((uaddr) ((TWindowFukidasi *)b)->draw_resolved_window((f32 *)o, b->size, 4)) >> 5;
@@ -1111,7 +1109,7 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
     edge[1] += reach * sin_table_lookup(a);
     o[0] = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o[1] = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_802506E8(F70_802506E8, o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position(o, 1.0f) != 0) {
         return 0;
     }
     if (((TWindowFukidasi *)b)->draw_resolved_window(o, b->size, 4) == NULL) {
@@ -1124,7 +1122,7 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
     edge[1] += reach * sin_table_lookup(a);
     o[0] = (b->center[0] + edge[0]) - 0.5f * b->size[0];
     o[1] = (b->center[1] + edge[1]) - 0.5f * b->size[1];
-    if (CLAMP_802506E8(F70_802506E8, o, 1.0f) != 0) {
+    if (((TWindowFukidasi *)b)->clamp_position(o, 1.0f) != 0) {
         return 0;
     }
     return (u32) __cntlzw((uaddr) ((TWindowFukidasi *)b)->draw_resolved_window(o, b->size, 4)) >> 5;
@@ -1133,9 +1131,7 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
 
 #pragma pop
 #undef F70_80250A24
-#undef CLAMP_80250A24
 #undef F70_802506E8
-#undef CLAMP_802506E8
 extern "C" {
 s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out) {
     f32 x = TWindowCtrlMain::get_position_z(b->viewport);
@@ -1304,8 +1300,7 @@ void complete_speech_balloon(u8 *arg0) {
     t = *(u8 *)(arg0 + 0x72);
     switch (t) {
     case 0:
-        ((TWindowBase *)arg0)->get_array_entry(0);
-        reset_float_field__15TWindowHelpItemFv();
+        ((TWindowHelpItem *)((TWindowBase *)arg0)->get_array_entry(0))->reset_float_field();
         break;
     case 1:
     case 2:
