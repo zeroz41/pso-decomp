@@ -824,29 +824,22 @@ void TItemWeapon::update_equipped() {
     }
 }
 
-struct Pair_801200C0 { u8 a; u8 b; };
-
-struct Data_801200C0 { u8 pad[0x16]; u8 max; u8 pad17[0x27 - 0x17]; u8 flags; };
-
-struct Self_801200C0 { u8 pad[0x1a4]; Pair_801200C0 pairs[3]; u8 pad1aa[0x1d1 - 0x1aa]; u8 cur; u8 pad1d2[0x1dc - 0x1d2]; Data_801200C0 *data; };
-
 void TItemWeapon::update_owned() {
-    Self_801200C0 *self = (Self_801200C0 *)this;
     s32 i;
-    Pair_801200C0 *p;
-    if (self->data->max < this->grind) {
+    u8 *p;
+    if (this->parameters->max_grind < this->grind) {
         this->grind = 0;
     }
-    if (self->data->flags & 8) {
-        p = self->pairs;
+    if (this->parameters->flags & 8) {
+        p = this->attributes;
         for (i = 0; i < 3; i++) {
-            u8 a = p->a;
-            s8 b = p->b;
+            u8 a = p[0];
+            s8 b = p[1];
             if (a <= 5 && b != 0) {
-                p->a = 0;
-                p->b = 0;
+                p[0] = 0;
+                p[1] = 0;
             }
-            p++;
+            p += 2;
         }
     }
 }
@@ -980,12 +973,6 @@ void TItemWeapon::remove_owner_bonuses() {
 }
 
 // ---- pso/unk/text_80120568
-struct Pair_801205F4 { u8 a; s8 b; };
-
-struct Data_801205F4 { u8 pad[0x27]; u8 flags; };
-
-struct Self_801205F4 { u8 pad[0xf0]; void *f0; u8 padf4[0x1a4 - 0xf4]; Pair_801205F4 pairs[3]; u8 pad1aa[0x1dc - 0x1aa]; Data_801205F4 *data; };
-
 struct Ctl_80120568B { char pad[0x18]; };
 
 struct Ctl_80120568 : Ctl_80120568B {
@@ -1070,12 +1057,11 @@ void TItemWeapon::on_unequip() {
 }
 
 void TItemWeapon::apply_owner_bonuses() {
-    Self_801205F4 *self = (Self_801205F4 *)this;
     s32 i;
-    ((TItemWeapon *)self)->apply_model_params();
-    if (!(self->data->flags & 8)) {
+    apply_model_params();
+    if (!(this->parameters->flags & 8)) {
         for (i = 0; i != 3; i++) {
-            ((TObjPlayer *)(self->f0))->set_attribute_entry(i, &self->pairs[i]);
+            owner->set_attribute_entry(i, &this->attributes[i * 2]);
         }
     }
 }
