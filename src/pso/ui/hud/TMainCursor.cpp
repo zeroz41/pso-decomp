@@ -26,7 +26,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/hud/TMainCursor_8013AE18.h"
 #include "pso/ui/hud/TMainCursor_8013B690.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
@@ -78,7 +77,6 @@
 
 extern "C" {
 
-u8 *__dt__14TLOC_ListClearFv(u8 *arg0, s16 arg1);
 void TObjPlayer__sub_8013DEF8(u8 *arg0);
 
 extern void *lbl_804A71C4[6];
@@ -270,28 +268,23 @@ u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
 #pragma defer_codegen off
 
 void TLOC_ListClear::run_task() {
-    saddr arg0 = (saddr)this;
-    if ((((PlayerRef *)(arg0 + 0x1C))->resolve() != 0) && ((u32) *(u32 *)((s8 *)(((PlayerRef *)(arg0 + 0x1C))->get_player()) + 0x424) != 0U)) {
-        TObjPlayer__sub_8013DEF8((u8 *)(*(saddr *)((s8 *)(((PlayerRef *)(arg0 + 0x1C))->get_player()) + 0x424) + 0x520));
+    if (m_target.resolve() != 0 && m_target.get_player()->lock_on_cursor != NULL) {
+        TObjPlayer__sub_8013DEF8((u8 *)&m_target.get_player()->lock_on_cursor->palette_override);
     }
 }
 
-extern "C" {
-
-u8 *__dt__14TLOC_ListClearFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 0x18) = lbl_804A71C4;
-        if ((((PlayerRef *)(arg0 + 0x1C))->resolve() != 0) &&((u32) *(u32 *)((s8 *)(((PlayerRef *)(arg0 + 0x1C))->get_player()) + 0x424) != 0U)) {
-            ((TLockOnCursor *)(*(saddr *)((s8 *)(((PlayerRef *)(arg0 + 0x1C))->get_player()) + 0x424)))->set_list_clear_task(NULL);
+extern "C" TLOC_ListClear *__dt__14TLOC_ListClearFv(TLOC_ListClear *task, s16 flags) {
+    if (task != NULL) {
+        *(void ***)((u8 *)task + 0x18) = lbl_804A71C4;
+        if (task->m_target.resolve() != 0 && task->m_target.get_player()->lock_on_cursor != NULL) {
+            task->m_target.get_player()->lock_on_cursor->set_list_clear_task(NULL);
         }
-        __dt__13TUnk_804A7260Fv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
+        __dt__13TUnk_804A7260Fv(task, 0);
+        if (flags > 0) {
+            TObject::operator delete(task);
         }
     }
-    return arg0;
-}
-
+    return task;
 }
 
 void *TLOC_ListClear::init_lockon(TObject *parent, u16 id) {
