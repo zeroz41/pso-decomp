@@ -2907,10 +2907,10 @@ pso/ui/TLevelSelect.cpp:
 	.sdata2     start:0x805DB080 end:0x805DB084
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.cpp:
-	.text       start:0x801334D4 end:0x80133568
+	.text       start:0x801334D4 end:0x801334E4
 
 pso/object/ambient/TObjLight_80133568.cpp:
-	.text       start:0x80133568 end:0x801349C8
+	.text       start:0x801334E4 end:0x801349C8
 	.rodata     start:0x8043ED80 end:0x8043ED98
 	.data       start:0x804A6F28 end:0x804A6FD8
 	.bss        start:0x80506320 end:0x80506A60
