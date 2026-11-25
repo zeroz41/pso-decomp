@@ -104,7 +104,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     void sub_8025DBDC(s32 force);
     void draw_composition_background(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count);
     void layout_wrapped_glyphs(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count, s32 scaled);
-    void sub_8025C51C(s32 arg1);
+    void sub_8025C51C(s32 status_index);
     void sub_8025CC48();
     void update_close_mode();
     void reset_input();
