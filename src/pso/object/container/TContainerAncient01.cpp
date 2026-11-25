@@ -264,12 +264,12 @@ void TContainerAncient01::run_task() {
             }
             frame_timer = this->frame_timer;
             this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(((u8 *)this), -1, frame_timer);
+            submit_cursor_candidate((u8 *)this, -1, frame_timer);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)((u8 *)this) + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
+                *(f32 *)((s8 *)this + 0x3C) = (f32) (*(f32 *)((s8 *)this + 0x3C) - 0.025f);
+                if (*(f32 *)((s8 *)this + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     this->TObject::queue_destruction();
                 }
             } else {
@@ -547,12 +547,12 @@ void TContainerAncient01R::run_task() {
             }
             frame_timer = this->frame_timer;
             this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(((u8 *)this), -1, frame_timer);
+            submit_cursor_candidate((u8 *)this, -1, frame_timer);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)((u8 *)this) + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
+                *(f32 *)((s8 *)this + 0x3C) = (f32) (*(f32 *)((s8 *)this + 0x3C) - 0.025f);
+                if (*(f32 *)((s8 *)this + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
                     this->TObject::queue_destruction();
                 }
             } else {

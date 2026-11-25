@@ -111,7 +111,7 @@ void measure_traffic_path_lengths(void) {
       sample_motion_node_transform(get_city_common_model(city_aircar_model_indices[i]), &cur.x, (s32 *)&a2, &b2.x, (f32 *)&q2);
       subtract_vector(&prev, &cur);
       total += normalize_vector_safe(&prev);
-      VecCopy((Vec *)&prev, (const Vec *)&cur);
+      VecCopy(&prev, &cur);
     }
     air_car_lane_spacing_table[i] = total;
     air_car_lane_speed_scale_table[i] = end / total;

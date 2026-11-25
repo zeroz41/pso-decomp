@@ -922,12 +922,11 @@ f32 TOMineTrap::receive_physical_attack(void *attacker, f32) {
 
 
 void TOMineTrap::send_state_packet(u16 idx) {
-    TOMineTrap *self = this;
     if (idx < 3) {
         G_TriggerTrap_6x80 packet;
         packet.init();
-        packet.header.client_id = self->entity_id;
-        packet.trap_number = self->m_37e;
+        packet.header.client_id = this->entity_id;
+        packet.trap_number = this->m_37e;
         packet.what = idx;
         packet.send();
     }

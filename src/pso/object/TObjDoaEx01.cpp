@@ -90,11 +90,10 @@ void TObjDoaEx01::update_open() {
 }
 
 void TObjDoaEx01::update_opening() {
-    TObjDoaEx01 *self = this;
-    self->animation_frame += self->animation_step;
-    if (self->animation_frame > self->animation_end_frame - 1.0f) {
-        self->animation_frame = self->animation_end_frame - 1.0f;
-        self->object_state = 2;
+    this->animation_frame += this->animation_step;
+    if (this->animation_frame > this->animation_end_frame - 1.0f) {
+        this->animation_frame = this->animation_end_frame - 1.0f;
+        this->object_state = 2;
     }
 }
 void TObjDoaEx01::update_closed() {

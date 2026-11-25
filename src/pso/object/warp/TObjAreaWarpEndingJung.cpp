@@ -451,7 +451,7 @@ void TObjMapWarp::draw_debug_destinations() {
         rotate_matrix_y(0, set_params[0]);
         matrix_mult_vec(NULL, &a, &a);
         pop_matrix();
-        VecCopy((Vec *)&b, (const Vec *)end);
+        VecCopy(&b, (const Vec *)end);
         b.y += 5.0f;
         a.y += 5.0f;
         debug_draw_line(&b, &a, 0xFFFF0000, 0xFFFF0000);

@@ -301,7 +301,7 @@ f32 TObjContainerCommon::receive_direct_attack(void *arg1, DirectAttackPayload p
 
 f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
     s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
         this->access_object_saved_state(&sp8, 0);
         this->send_object_state_update(&sp8);
@@ -661,7 +661,7 @@ void TObjContainerNoItem::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
-        draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)((u8 *)this) + 0x34)));
+        draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)this + 0x34)));
         pop_matrix();
             break;
         }
@@ -670,7 +670,7 @@ void TObjContainerNoItem::draw_model() {
 
 f32 TObjContainerNoItem::receive_physical_attack(void *, f32) {
     s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)this + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
         this->access_object_saved_state(&sp8, 0);
         this->send_object_state_update(&sp8);

@@ -350,10 +350,10 @@ void TOTrapChainSaw::update_state() {
     (this->*tbl[behavior])();
     // This trap keeps its frame at 0xB4, the frame step at 0xB8 and its motion at 0xBC
     // (TObjMapObject's fields are laid out differently).
-    if (*(u8 **)((s8 *)((u8 *)this) + 0xBC) != NULL) {
-        *(f32 *)((s8 *)((u8 *)this) + 0xB4) = *(f32 *)((s8 *)((u8 *)this) + 0xB4) + *(f32 *)((s8 *)((u8 *)this) + 0xB8);
-        if (*(f32 *)((s8 *)((u8 *)this) + 0xB4) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0xBC)) + 4) - 1)) {
-            *(f32 *)((s8 *)((u8 *)this) + 0xB4) = (0.0f);
+    if (*(u8 **)((s8 *)this + 0xBC) != NULL) {
+        *(f32 *)((s8 *)this + 0xB4) = *(f32 *)((s8 *)this + 0xB4) + *(f32 *)((s8 *)this + 0xB8);
+        if (*(f32 *)((s8 *)this + 0xB4) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1)) {
+            *(f32 *)((s8 *)this + 0xB4) = (0.0f);
         }
     }
 }
@@ -661,12 +661,12 @@ void TOTrapChainSawKey::vfunc_18(TObjPlayer *) {
 
 void TOTrapChainSawKey::update_state() {
     TOTrapChainSaw::update_state();
-    *(f32 *)((s8 *)((u8 *)this) + 0x104) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x104) + *(f32 *)((s8 *)((u8 *)this) + 0x108));
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x100)) + 4) - 1)) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x104) = 0.0f;
+    *(f32 *)((s8 *)this + 0x104) = (f32) (*(f32 *)((s8 *)this + 0x104) + *(f32 *)((s8 *)this + 0x108));
+    if (*(f32 *)((s8 *)this + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x100)) + 4) - 1)) {
+        *(f32 *)((s8 *)this + 0x104) = 0.0f;
     }
     play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 2), this, &position, 0, 0);
-    if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0xF0) == 1) {
+    if ((s32) *(s32 *)((s8 *)this + 0xF0) == 1) {
         play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 1), this, &position, 0, 0);
     }
 }

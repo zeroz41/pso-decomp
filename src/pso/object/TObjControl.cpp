@@ -524,9 +524,8 @@ void TObjEnemy::link_chain_nodes(TObjEnemy *source, TObjEnemy *destination) {
 #pragma push
 #pragma fp_contract on
 void TObjEnemy::update_prev_position() {
-    u8 *arg0 = (u8 *)this;
     player_stats *stat_block;
-    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
+    VecCopy(&this->body_center, &this->position);
     stat_block = this->stat_block;
     if (stat_block != NULL) {
         this->body_center.y = (f32) ((0.5f * stat_block->proportions) + this->body_center.y);

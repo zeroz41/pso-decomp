@@ -91,7 +91,7 @@ TDeadSpot::TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s3
         (this)->queue_destruction();
         return;
     }
-    VecCopy(&center, (const Vec *)&ground->contact->point);
+    VecCopy(&center, &ground->contact->point);
     center.y += 0.5f * (3.0517578125e-05f * (f32)rand()) + 0.213456f;
     basis[0].x = 0.0f;
     basis[0].y = 0.0f;
@@ -143,7 +143,7 @@ TDeadSpot::TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s3
     scale = max_scale;
     if (scale > 5.0f) {
         for (i = 0; i < 4; i++) {
-            VecCopy((Vec *)&tmp, (const Vec *)&center);
+            VecCopy(&tmp, &center);
             // Row i of the corners, reached from this + 12 * i as the original does.
             CornerRow *c = (CornerRow *)((u8 *)this + i * 12);
             tmp.x += c->corners[0].x * scale;

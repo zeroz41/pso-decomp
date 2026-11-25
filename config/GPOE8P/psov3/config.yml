@@ -1383,7 +1383,7 @@ force_active:
   - grass_render_node_index
   - grass_resource_bundle
   - TObjGrass__sub_800BCA2C
-  - TObjGrass__sub_800BFB68
+  - clear_hit_targets__9TObjGrassFv
   - __ct__21TObjHMS_EZRope_PlayerFP7TObjectP15TObjHMSRopeSpecP19TObjHMSColliderSpec
   - obj_item_name_entry_class_name
   - obj_item_name_select_class_name
@@ -7339,7 +7339,7 @@ force_active:
   - is_sega_logo_done__FP11TAdSEGAlogo
   - is_signboard_texture_buffer_missing__Fv
   - is_slot_active__14TShopGeneratorFUs
-  - is_sound_enabled__12TObjEnvSoundFPvl
+  - is_sound_enabled__12TObjEnvSoundFl
   - is_sphere_visible__12TBoss1DragonFP3Vecf
   - split_screen_active__Fv
   - is_stat_over_limit__6TLobbyFl
@@ -14344,7 +14344,7 @@ force_active:
   - render__18TOCapsuleMachine01Fv
   - render__18TOExplosiveMachineFv
   - render__18TOMonitorMachine01Fv
-  - render__18TObjButterflyLobbyFPv
+  - draw_butterfly__18TObjButterflyLobbyFv
   - render__18TObjButterflyLobbyFv
   - render__18TObjCityAirCar_CarFv
   - render__18TObjCityDoor_GuildFv
@@ -16620,7 +16620,7 @@ force_active:
   - update_active__10TChallengeFv
   - update_active_controller__11TCameraCtrlFv
   - update_active_flag__14TBoss6PlotFalzFv
-  - update_ai__9TObjGrassFPv
+  - update_ai__9TObjGrassFv
   - update_ai_state__15TObjEneDelDepthFv
   - update_air_fire_state__12TBoss1DragonFUl
   - update_all_parts__9TBoss6MagFv

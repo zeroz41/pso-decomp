@@ -160,7 +160,7 @@ void create_bgm_col_zones(void) {
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
         for (i = 0; i < 12; i++) {
-            VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443690[i].pos);
+            VecCopy(&set.position, &lbl_80443690[i].pos);
             set.scale.x = lbl_80443690[i].radius;
             set.set_params[0] = lbl_80443690[i].category;
             new TObjBgmCol(bgm_col_ctrl_instance, &set);
@@ -168,7 +168,7 @@ void create_bgm_col_zones(void) {
         break;
     case AREA_PIONEER2_EP2:
         for (i = 0; i < 12; i++) {
-            VecCopy((Vec *)&set.position, (const Vec *)&lbl_80443780[i].pos);
+            VecCopy(&set.position, &lbl_80443780[i].pos);
             set.scale.x = lbl_80443780[i].radius;
             set.set_params[0] = lbl_80443780[i].category;
             new TObjBgmCol(bgm_col_ctrl_instance, &set);

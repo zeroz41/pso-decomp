@@ -1083,12 +1083,11 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 range_x, f32 range_z, s32 turn) 
     Vec v;
     f32 var_f31;
     s32 ang;
-    u8 *arg0 = (u8 *)this;
     var_f31 = horizontal_distance_squared(&this->body_center, &this->move_destination);
-    if ((var_f31 < (farg0 * farg0)) || (((TObjEnemy *)(arg0))->is_actor_cadence_frame(0x96) != 0)) {
+    if ((var_f31 < (farg0 * farg0)) || (this->is_actor_cadence_frame(0x96) != 0)) {
         v.x = v.y = (0.0f);
         v.z = (1.0f);
-        ang = (s32) ((182.04445f) * ((3.6e+02f) * ((TObjChara *)arg0)->random_ratio()));
+        ang = (s32) ((182.04445f) * ((3.6e+02f) * this->random_ratio()));
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, ang);
         rotate_vector_by_matrix(0, &v, &v);
@@ -1097,14 +1096,14 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 range_x, f32 range_z, s32 turn) 
         v.z *= range_z;
         vec3_add_to(&v, &this->home_position);
         select_enemy_destination(this, v, 1);
-        *(f32 *)((s8 *)arg0 + 0x308) = ((TObjEnemy *)arg0)->velocity.z = (0.0f);
-        ((TObjEnemy *)arg0)->m_2ac = 0;
+        *(f32 *)((s8 *)this + 0x308) = this->velocity.z = (0.0f);
+        this->m_2ac = 0;
     } else {
-        ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
-        enemy_set_heading_velocity(farg0, (TObjEnemy *)arg0, ((TObjEnemy *)arg0)->rotation_y);
+        this->enemy_turn_toward_dest(turn);
+        enemy_set_heading_velocity(farg0, this, this->rotation_y);
         move_with_wall_slide(this);
         var_f31 = horizontal_distance_squared(&this->move_destination, &this->body_center);
-        ((TObjEnemy *)arg0)->m_2ac = ((TObjEnemy *)arg0)->m_2ac + 1;
+        this->m_2ac = this->m_2ac + 1;
     }
     return var_f31;
 }
@@ -2082,7 +2081,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
             d = dmg - 0.2f * ((Obj_80014108 *)this)->dfp - COLL_80014108()->def;
             if (d < 0.0f) {
                 d = 0.0f;
-                this->try_apply_damage((const Vec *)&hit, (s32)d);
+                this->try_apply_damage(&hit, (s32)d);
             } else {
                 d *= scale;
                 if (this->test_actor_flags(0x02000000) == 0) {
@@ -2103,8 +2102,8 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
                     } else {
                         create_hit_effect__10TObjPlayerFPv(&hit);
                     }
-                    ((TObjChara *)this)->trigger_switch_attack((const Vec *)&hit);
-                    this->try_apply_damage((const Vec *)&hit, (s32)d);
+                    ((TObjChara *)this)->trigger_switch_attack(&hit);
+                    this->try_apply_damage(&hit, (s32)d);
                 }
                 total += d;
             }
@@ -2902,7 +2901,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         hit_flags |= 4;
         if (test_actor_flags(0x02000000) == 0) {
             create_hit_effect__10TObjPlayerFPv(&pos);
-            this->trigger_switch_attack((const Vec *)&pos);
+            this->trigger_switch_attack(&pos);
             try_apply_damage(&pos, (s32)dmg);
             dispatch_weapon_special_effect(att, this, &pos, 1);
         }
@@ -3160,9 +3159,8 @@ s32 add_actor_hp(TObjChara *actor, s16 amount) {
 }
 #pragma pop
 void TObjPlayer::set_hp_clamped(s16 arg1) {
-    u8 *arg0 = (u8 *)this;
     this->hp = arg1;
-    clamp_hp_value((s16 *)(arg0 + 0x32C));
+    clamp_hp_value(&this->hp);
 }
 
 s32 TObjPlayer::clamp_hp_value(s16 *arg1) {
@@ -3241,11 +3239,10 @@ s32 add_actor_tp_bonus(TObjChara *actor, s32 amount) {
 }
 
 int TObjPlayer::get_tp_materials_clamped() {
-    u8 *arg0 = (u8 *)this;
   int new_var;
   s16 temp_r0;
   new_var = 0xFFFFu;
-  temp_r0 = (unsigned long) (*((s16 *) (((s8 *) arg0) + (((((0x2BE & new_var) & new_var) & new_var) & new_var) & new_var))));
+  temp_r0 = (unsigned long) (*((s16 *) (((s8 *)this) + (((((0x2BE & new_var) & new_var) & new_var) & new_var) & new_var))));
   if (temp_r0 < 0)
   {
     return 0U;
@@ -3294,14 +3291,13 @@ s32 TObjPlayer::add_capped_counter_999(s32 arg1) {
 s32 TObjChara::get_actor_level_index() { return this->stat_block->level; }
 
 s32 TObjPlayer::add_meseta(s32 amount) {
-  TObjPlayer* self = this;
   s32 limit = 999999;
   int maximum;
-  self->stat_block->meseta += amount;
+  this->stat_block->meseta += amount;
   maximum = limit;
-  if (maximum < (s32)self->stat_block->meseta)
+  if (maximum < (s32)this->stat_block->meseta)
   {
-    self->stat_block->meseta = maximum;
+    this->stat_block->meseta = maximum;
     return 0;
   }
   return 1;

@@ -203,34 +203,33 @@ void TObjCityMainWarp::update_state() {
 }
 
 void TObjCityMainWarpChallenge::update_warp_sequence() {
-    TObjCityMainWarpChallenge *arg0 = this;
     s32 r;
-    switch (arg0->state_step) {
+    switch (this->state_step) {
     case 0:
-        arg0->warp_countdown = 0x12C;
-        play_sound_effect(0x40003205, reinterpret_cast<const Vec *>((u8 *)&arg0->position), 0, 0);
-        arg0->state_step = 1;
-        arg0->model = (saddr)city_common_model_archive->models[0].model;
-        arg0->motion = city_common_model_archive->motions[5].motion;
+        this->warp_countdown = 0x12C;
+        play_sound_effect(0x40003205, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
+        this->state_step = 1;
+        this->model = (saddr)city_common_model_archive->models[0].model;
+        this->motion = city_common_model_archive->motions[5].motion;
         break;
     case 1:
-        if (find_local_city_warp_player(arg0, arg0->warp_range) != 0) {
-            ((TObjCityMainWarpChallenge *)arg0)->sub_801875F8();
-            if (arg0->warp_triggered == 0) {
-                arg0->trigger_warp_effect(local_client_id);
-                arg0->warp_triggered = 1;
+        if (find_local_city_warp_player(this, this->warp_range) != 0) {
+            this->sub_801875F8();
+            if (this->warp_triggered == 0) {
+                this->trigger_warp_effect(local_client_id);
+                this->warp_triggered = 1;
             }
         }
         if (TWindowSubTradeMain::get_warp_state() != 0) {
-            if (is_local_client_floor_leader(arg0->warp_countdown--) != 0) {
-                if (arg0->warp_countdown <= 0) {
+            if (is_local_client_floor_leader(this->warp_countdown--) != 0) {
+                if (this->warp_countdown <= 0) {
                     r = 1;
                 } else {
-                    r = arg0->are_all_players_in_range();
+                    r = this->are_all_players_in_range();
                 }
                 if (r != 0) {
-                    arg0->send_6x6A_set_boss_warp_flags(2);
-                    arg0->state_step = 2;
+                    this->send_6x6A_set_boss_warp_flags(2);
+                    this->state_step = 2;
                 }
             }
         }

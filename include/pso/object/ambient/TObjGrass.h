@@ -45,13 +45,14 @@ struct TObjGrass : public TObjEnemy {
     void update();
     void update_web_attack();
     void update_chase_target();
-    static void update_ai(void *object);
+    void update_ai();
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
     static void destroy_all();
     static void load_resources();
     void init_from_table_entry(s32 i);
+    void clear_hit_targets();
     TObjChara *hit_targets[12];  // players this charge has already hit
 };
 

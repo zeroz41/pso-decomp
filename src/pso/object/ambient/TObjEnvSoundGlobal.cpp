@@ -144,7 +144,7 @@ TObjEnvSound::~TObjEnvSound() {
 void TObjEnvSound::run_task() {
     f32 temp_f0;
     temp_f0 = radius;
-    if ((fn_801908F8((saddr)this, (f32) (temp_f0 * temp_f0)) != 0) && (TObjEnvSound::is_sound_enabled(((u8 *)this), this->cue) != 0)) {
+    if ((fn_801908F8((saddr)this, (f32) (temp_f0 * temp_f0)) != 0) && (is_sound_enabled(this->cue) != 0)) {
         switch (this->mode) {
         case 0:
             break;
@@ -171,7 +171,7 @@ s32 fn_801908F8(saddr arg0, f32 farg0) {
     return xyz_distance_squared(&camera_ctrl_instance->pos, &reinterpret_cast<const TObjBase *>(arg0)->position) < farg0;
 }
 
-s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
+s32 TObjEnvSound::is_sound_enabled(s32 cue) {
     if (TRaderMapCore::is_not_split_screen() == 1 && get_current_floor_area() == AREA_FOREST2) {
         switch (cue) {
         case 0x43704:
