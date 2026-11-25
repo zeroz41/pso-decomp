@@ -1227,7 +1227,6 @@ pso/ui/window/TWindowSubComCard_80225E0C.cpp
 pso/ui/window/TWindowBase.cpp
 pso/ui/window/TWindowSubComCard_802495FC.cpp
 pso/ui/window/TWindowSubComCard_80265410.cpp
-pso/ui/window/TWindowSubComCard_80268494.cpp
 pso/ui/window/TWindowSubComCard_80269064.cpp
 pso/ui/window/TWindowSubComCard.cpp
 pso/ui/window/TWindowSubComCard_80275484.cpp
@@ -1284,8 +1283,6 @@ pso/ui/window/TWindowSubStatusDisp_8025A9B4.cpp
 pso/ui/window/TWindowSubStatusDisp_8025B050.cpp
 pso/ui/window/TWindowSubStatusDisp_8025B4A0.cpp
 pso/ui/window/TWindowSubStatusDisp_802671F0.cpp
-pso/ui/window/TWindowSubStatusDisp_80268488.cpp
-pso/ui/window/TWindowSubStatusDisp_80268738.cpp
 pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp
 pso/ui/window/TWindowSubStatusDisp_80287570.cpp
 pso/ui/window/TWindowSubStatusDisp_80288030.cpp
@@ -1305,7 +1302,6 @@ pso/ui/chat/TWindowSubSymbolChat_802ACF5C.cpp
 pso/ui/window/TWindowSubTechnique.cpp
 pso/ui/window/TWindowSubTrade.cpp
 pso/ui/window/TWindowSubTradeMain_80187C98.cpp
-pso/ui/window/TWindowSubTradeMain_80268468.cpp
 pso/ui/window/TWindowSubEquipKind_80278300.cpp
 pso/ui/window/TWindowSubTradeMain_802D3924.cpp
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp
