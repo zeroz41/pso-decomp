@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
+#include "pso/technique/TTelepipeSelectField.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -80,7 +81,7 @@ TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_
     model = (saddr)city_common_model_archive->models[0].model;
     motion = city_common_model_archive->motions[5].motion;
     if (field_collider != NULL) {
-        ((TObject *)field_collider)->queue_destruction();
+        field_collider->queue_destruction();
         field_collider = NULL;
     }
     for (int i = 0; i < 4; i++) {

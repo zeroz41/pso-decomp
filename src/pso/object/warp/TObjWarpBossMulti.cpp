@@ -5,6 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjWarpBase.h"
+#include "pso/technique/TTelepipeSelectField.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
@@ -214,7 +215,7 @@ TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(paren
     model = NULL;
     motion = NULL;
     if (field_collider != NULL) {
-        ((TObject *)field_collider)->queue_destruction();
+        field_collider->queue_destruction();
         field_collider = NULL;
     }
     for (i = 0; i < 4; i++) {

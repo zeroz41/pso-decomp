@@ -979,8 +979,8 @@ TObjMapForceWarp::TObjMapForceWarp(TObject *parent, void *set_data) : TObjMapWar
         display_number = 1;
     }
     if (field_collider != NULL) {
-        ((TObject *)field_collider)->disallow_rendering();
-        ((TObject *)field_collider)->suspend_update();
+        field_collider->disallow_rendering();
+        field_collider->suspend_update();
     }
 }
 
