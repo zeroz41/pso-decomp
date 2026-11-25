@@ -9,7 +9,6 @@ struct TAdExNetConfirmGC : public TAdWarningBaseGC {
     virtual ~TAdExNetConfirmGC();
     virtual saddr vfunc_7();
     virtual void vfunc_6();
-    static s32 is_confirmed();
     virtual void render();
     virtual void run_task();
 };

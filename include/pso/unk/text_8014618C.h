@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+s32 is_confirmed();
+
 // --- C functions defined in text_8014618C.cpp ---
 extern "C" {
 s32 TLobby__sub_8014618C(void);

@@ -1589,7 +1589,6 @@ pso/ui/frontend/TAdEnterSerialAccessGC.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC_802ACF04.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC_802E0110.cpp
 pso/ui/frontend/TAdEp3Exist.cpp
-pso/ui/frontend/TAdExNetConfirmGC.cpp
 pso/ui/frontend/TAdExNetConfirmGC_8032C504.cpp
 pso/ui/frontend/TAdFadeGC.cpp
 pso/ui/frontend/TAdFloorLoadCamGC.cpp

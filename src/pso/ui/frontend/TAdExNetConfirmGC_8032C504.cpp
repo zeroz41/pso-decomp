@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdExNetConfirmGC.h"
+#include "pso/unk/text_8014618C.h"
 #include "pso/network/NetworkConnect.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -21,7 +22,7 @@ void TAdExNetConfirmGC::render() {
 }
 
 saddr TAdExNetConfirmGC::vfunc_7() {
-    if (TAdExNetConfirmGC::is_confirmed() != 0) {
+    if (is_confirmed() != 0) {
         return get_localized_text_entry(0x22, 1);
     }
     return get_localized_text_entry(0x22, 0);
