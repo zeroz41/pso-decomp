@@ -28,7 +28,7 @@ void TChCrEffTag::draw_chcr_tag_frame() {
 
 const char *TChCrEffTag__name = "TChCrEffTag";
 s32 TChCrEffTag::selected_heading = -1;
-static const saddr lbl_804652A4[] = {0xA4, 0xA5, 0xA6, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, 0xA2, 0xA3};
+static const saddr heading_sprite_ids[] = {0xA4, 0xA5, 0xA6, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, 0xA2, 0xA3};
 
 void TChCrEffTag::render() { set_depth_buffer_settings_1(); draw_chcr_tag_frame(); draw_chcr_tag_heading_frame(); restore_saved_depth_alpha_state(); }
 void TChCrEffTag::refresh_label() {
@@ -43,7 +43,7 @@ void TChCrEffTag::refresh_label() {
     if (heading >= 0) {
         pos.x = 27.0f;
         pos.y = 44.0f;
-        label = TChCrEffTagStr::create(this, lbl_804652A4[heading], &pos);
+        label = TChCrEffTagStr::create(this, heading_sprite_ids[heading], &pos);
     }
 }
 
@@ -61,7 +61,7 @@ void TChCrEffTag::run_task()
   index = heading;
   if (index >= 0)
   {
-    targetWidth = 15.0f + (f32) TObjCMMainMenu::get_creation_sprite_id(lbl_804652A4[index]);
+    targetWidth = 15.0f + (f32) TObjCMMainMenu::get_creation_sprite_id(heading_sprite_ids[index]);
   }
   target = targetWidth;
   if (width + 12.933333f < target)
