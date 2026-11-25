@@ -2453,7 +2453,7 @@ force_active:
   - __dt__13TUnk_804A4238Fv
   - __dt__13TUnk_804A4338Fv
   - __dt__13TUnk_804A4A88Fv
-  - __dt__13TUnk_804A4B80Fv
+  - __dt__25TItemWeaponHeavenPunisherFv
   - __dt__13TUnk_804A4C78Fv
   - __dt__13TUnk_804A4E68Fv
   - __dt__13TUnk_804A5058Fv
@@ -3223,7 +3223,7 @@ force_active:
   - __vt__13TUnk_804A2F78
   - __vt__13TUnk_804A3928
   - __vt__13TUnk_804A4A88
-  - __vt__13TUnk_804A4B80
+  - __vt__25TItemWeaponHeavenPunisher
   - __vt__13TUnk_804A4C78
   - __vt__13TUnk_804A4E68
   - __vt__13TUnk_804A5058
@@ -3750,7 +3750,7 @@ force_active:
   - update_appear__18TObjEneBalClawClawFv
   - action__18TObjEneEpsilonBodyFl
   - action_destroy__19TObjEneEpsilonGuardFl
-  - activate_effect__13TUnk_804A4B80Fl
+  - activate_effect__25TItemWeaponHeavenPunisherFl
   - activate_effect__20TItemWeaponTsumikiriFl
   - activate_effect__8TItemMagFl
   - activate_switch_attacks__10TObjPlayerFii
@@ -5960,7 +5960,7 @@ force_active:
   - emit_marker_effects__13TUnk_804A4238Fv
   - emit_marker_effects__13TUnk_804A4338Fv
   - emit_marker_effects__13TUnk_804A4A88Fv
-  - emit_marker_effects__13TUnk_804A4B80Fv
+  - emit_marker_effects__25TItemWeaponHeavenPunisherFv
   - emit_marker_effects__22TItemWeaponRocketPunchFv
   - emit_marker_effects__13TUnk_804A5648Fv
   - emit_marker_effects__13TUnk_804A5A28Fv
@@ -6930,8 +6930,8 @@ force_active:
   - hashi_versus1_collision_bodies
   - hashi_versus2_collision_bodies
   - heal_general_collision_body_part
-  - heaven_punisher_ct__FPvll
-  - heaven_punisher_strike_locks__13TUnk_804A4B80Fv
+  - __ct__25TItemWeaponHeavenPunisherFP7TObjectPUc
+  - heaven_punisher_strike_locks__25TItemWeaponHeavenPunisherFv
   - hide__5TItemFv
   - hide_part__9TObjLukerFUs
   - hide_title_layers_and_release
