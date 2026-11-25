@@ -10,9 +10,9 @@
 
 #pragma readonly_strings on
 
-const char *TChCrEffCtrlPl__name = "TChCrEffCtrlPl";
-const vec2f lbl_80477C70 = {714.0f, 82.0f};
-const vec2f lbl_80477C78 = {542.0f, 82.0f};
+const char *TChCrEffCtrlPl::name = "TChCrEffCtrlPl";
+static const vec2f start_pos = {714.0f, 82.0f};
+static const vec2f target_pos = {542.0f, 82.0f};
 
 #pragma push
 #pragma opt_common_subs off
@@ -24,7 +24,7 @@ void TChCrEffCtrlPl::render() {
         alpha = (1.0f);
     }
     draw_ui_sprite(sprite_id, &pos, -1.8125f, alpha);
-    draw_ui_sprite(m_20, &pos, -1.8125f, m_30);
+    draw_ui_sprite(overlay_sprite_id, &pos, -1.8125f, overlay_alpha);
     restore_saved_depth_alpha_state();
 }
 #pragma pop
@@ -36,34 +36,34 @@ void TChCrEffCtrlPl::run_task() {
     f32 v;
     f32 x;
     f32 y;
-    m_34 += 0xB60;
-    pos.x += (0.05f) * (lbl_80477C78.x - pos.x);
-    pos.y += (0.05f) * (lbl_80477C78.y - pos.y);
+    blink_angle += 0xB60;
+    pos.x += (0.05f) * (target_pos.x - pos.x);
+    pos.y += (0.05f) * (target_pos.y - pos.y);
     fade += (0.011111111f);
     if (fade > 1.0f) {
         fade = 1.0f;
     }
-    m_30 = fade;
+    overlay_alpha = fade;
     if ((1.0f) == fade) {
         s = (1.0f);
-        v = sin_table_lookup(m_34);
-        if ((m_34 & 0x20000) && v > (0.7f)) {
+        v = sin_table_lookup(blink_angle);
+        if ((blink_angle & 0x20000) && v > (0.7f)) {
             s -= v - (0.7f);
         }
-        m_30 = s * fade;
+        overlay_alpha = s * fade;
     }
 }
 #pragma pop
 
 TChCrEffCtrlPl::~TChCrEffCtrlPl() {}
 
-TChCrEffCtrlPl::TChCrEffCtrlPl(TObject *object) : TObject(object) {
-    m_name = TChCrEffCtrlPl__name;
+TChCrEffCtrlPl::TChCrEffCtrlPl(TObject *parent) : TObject(parent) {
+    m_name = name;
     sprite_id = get_clamped_player_index() + 0x8B;
-    m_20 = get_clamped_player_index() + 0xBC;
-    copy_vec2(&pos, (void *)&lbl_80477C70);
+    overlay_sprite_id = get_clamped_player_index() + 0xBC;
+    copy_vec2(&pos, (void *)&start_pos);
     fade = 0.0f;
-    m_34 = 0;
+    blink_angle = 0;
 }
 
 TChCrEffCtrlPl *TChCrEffCtrlPl::create(TObject *parent) {
