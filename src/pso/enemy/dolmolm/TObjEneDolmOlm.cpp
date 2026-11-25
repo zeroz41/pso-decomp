@@ -517,11 +517,11 @@ void TObjEneDolmOlm::update_retreat() {
                 if ((f32)home_chase_frames++ < 60.0f) {
                     VecCopy(&v, &home_position);
                 } else {
-                    VecCopy(&v, &((TObjChara *)target)->body_center);
+                    VecCopy(&v, &target->body_center);
                 }
             } else {
                 home_chase_frames = 0;
-                VecCopy(&v, &((TObjChara *)target)->body_center);
+                VecCopy(&v, &target->body_center);
             }
             advance_animation();
             play_sound_effect(remap_sound_for_area(0x4003B205), &position, 0, 0);
@@ -539,9 +539,9 @@ void TObjEneDolmOlm::update_retreat() {
                 if (retreat_distance >= 50.0f) {
                     phase = 2;
                 }
-                f32 d = horizontal_distance_squared(&((TObjChara *)target)->body_center, &position);
-                for (s32 i = 0; i < ((TObjChara *)target)->body_count; i++) {
-                    if (d > (((TObjChara *)target)->bodies[i].radius + get_attack_range()) * (((TObjChara *)target)->bodies[i].radius + get_attack_range())) {
+                f32 d = horizontal_distance_squared(&target->body_center, &position);
+                for (s32 i = 0; i < target->body_count; i++) {
+                    if (d > (target->bodies[i].radius + get_attack_range()) * (target->bodies[i].radius + get_attack_range())) {
                         phase = 2;
                         break;
                     }
@@ -589,7 +589,7 @@ void TObjEneDolmOlm::update_special_attack() {
     advance_animation();
     switch (phase) {
     case 0:
-        if (target == 0 || ((TObjBase *)target)->get_entity_id() >= 0x1000) {
+        if (target == 0 || target->get_entity_id() >= 0x1000) {
             actorFlags &= ~0x200000;
             phase = 2;
             requested_action = 2;
@@ -621,7 +621,7 @@ void TObjEneDolmOlm::update_special_attack() {
     case 1:
         if (target != 0) {
             Vec v;
-            VecCopy(&v, &((TObjChara *)target)->body_center);
+            VecCopy(&v, &target->body_center);
             subtract_vector(&v, &body_center);
             if (turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &v) < dolm_olm_behavior_params_by_variant[variant]->special_angle) {
                 phase = 3;
@@ -641,13 +641,13 @@ void TObjEneDolmOlm::update_special_attack() {
             s32 a;
             f32 d;
             DolmOlmBehaviorParams *t;
-            VecCopy(&v, &((TObjChara *)target)->body_center);
+            VecCopy(&v, &target->body_center);
             subtract_vector(&v, &body_center);
             a = angle_difference_abs(rotation_y, (s32)(dolmolm_radians_to_angle[0] * atan2_float(v.x, v.z)));
-            d = horizontal_distance_squared(&((TObjChara *)target)->position, &position);
+            d = horizontal_distance_squared(&target->position, &position);
             t = dolm_olm_behavior_params_by_variant[variant];
             if (a < t->special_angle && d < t->special_range * t->special_range) {
-                u16 id = ((TObjBase *)target)->get_entity_id();
+                u16 id = target->get_entity_id();
                 if (((TObjCollidable *)target)->test_actor_flags(0x4000000) == 0) {
                     TObjPlayer *pl = get_player_by_client_id(id);
                     if (pl != 0 && pl->is_locally_controlled() != 0 &&

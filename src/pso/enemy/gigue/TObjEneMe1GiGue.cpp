@@ -504,7 +504,7 @@ void TObjEneMe1GiGue::update_circling_state() {
         requested_action = 1;
         circlingAngle = 0;
         if (target != NULL) {
-            VecCopy(&move_destination, &((TObjChara *)target)->body_center);
+            VecCopy(&move_destination, &target->body_center);
         }
         state = 1;
     case 1:
@@ -603,13 +603,13 @@ void TObjEneMe1GiGue::update_missile_state() {
                     GiGueShotAngles dir = {0x4000, 0, 0};
                     particle->set_direction(&dir);
                 }
-                TObjEneMe1GiGueMissile::create(this, &missileOrigin, &((TObjChara *)target)->body_center, gigue_missile_speed, (f32)gigue_missile_power);
+                TObjEneMe1GiGueMissile::create(this, &missileOrigin, &target->body_center, gigue_missile_speed, (f32)gigue_missile_power);
                 play_sound_effect(remap_sound_id(0x3A31E), &position, 0, 0);
                 state = 3;
             }
             break;
         }
-        VecCopy(&move_destination, &((TObjChara *)target)->body_center);
+        VecCopy(&move_destination, &target->body_center);
         enemy_turn_half_toward_dest(this);
         advance_animation();
         if (!(actorFlags & 0x01000000)) {

@@ -586,8 +586,8 @@ void TObjEneIllGill::update_chase_target() {
         case 0: {
             Vec dir;
             this->body_center.y += 5.0f;
-            d = enemy_move_toward(this, id, ((TObjChara *)target)->body_center, 0, 0.125f * r);
-            VecCopy(&dir, (const Vec *)((u8 *)&((TObjChara *)target)->body_center));
+            d = enemy_move_toward(this, id, target->body_center, 0, 0.125f * r);
+            VecCopy(&dir, (const Vec *)((u8 *)&target->body_center));
             subtract_vector(&dir, &body_center);
             a = angle_difference_abs(this->rotation_y,
                                      (s32)(10430.38043493439 * atan2_float(dir.x, dir.z)));
@@ -598,7 +598,7 @@ void TObjEneIllGill::update_chase_target() {
         }
         case 2: {
             this->body_center.y += 5.0f;
-            enemy_pursue_point(this, id, ((TObjChara *)target)->body_center, r, 40.0f);
+            enemy_pursue_point(this, id, target->body_center, r, 40.0f);
             d = horizontal_distance_squared(&move_destination, &body_center);
             t = r + this->bodies->radius;
             if (d < t * t) {
@@ -1082,7 +1082,7 @@ void TObjEneIllGill::update_shadow_attack() {
             this->actionTimer = 0;
         } else {
             Vec v;
-            VecCopy(&v, (const Vec *)((u8 *)&((TObjChara *)target)->body_center));
+            VecCopy(&v, (const Vec *)((u8 *)&target->body_center));
             subtract_vector(&v, &body_center);
             a = this->turn_toward_direction(((IllGillMovementParameters *)movementParameters)->turn, &v);
             apply_actor_gravity(this, (s32 *)(0), 0.0f);
@@ -1099,7 +1099,7 @@ void TObjEneIllGill::update_shadow_attack() {
             this->requested_action = 4;
             this->actionTimer = 0;
             {
-                Vec d = *(Vec *)((u8 *)&((TObjChara *)target)->body_center);
+                Vec d = *(Vec *)((u8 *)&target->body_center);
                 IllGillEffectRotation ang;
                 subtract_vector(&d, &shadowEffectPosition);
                 ang.x = (s32)(10430.38043493439 * atan2_float(d.z, newton_sqrtf(d.x * d.x + d.y * d.y)));
@@ -1117,11 +1117,11 @@ void TObjEneIllGill::update_shadow_attack() {
         apply_actor_gravity(this, (s32 *)(0), 0.0f);
         if (this->target != NULL) {
             Vec w;
-            VecCopy(&w, (const Vec *)((u8 *)&((TObjChara *)target)->body_center));
+            VecCopy(&w, (const Vec *)((u8 *)&target->body_center));
             subtract_vector(&w, &body_center);
             a = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)));
             if (a < ((AttackParams *)(ill_gill_combat_parameter_variants[2]))->get_attack_angle()) {
-                VecCopy(&w, (const Vec *)((u8 *)&((TObjChara *)target)->position));
+                VecCopy(&w, (const Vec *)((u8 *)&target->position));
                 subtract_vector(&w, &shadowEffectPosition);
                 atan2_float(w.z, newton_sqrtf(w.x * w.x + w.y * w.y));
                 atan2_float(w.x, w.y);

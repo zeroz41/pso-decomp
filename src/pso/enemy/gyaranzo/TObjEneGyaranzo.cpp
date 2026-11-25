@@ -701,9 +701,9 @@ void TObjEneGyaranzo::spawn_hit_fragments() {
         gyaranzo_bml_resource->models[2].model, gyaranzo_bml_resource->models[2].texlist, 2,
     };
 
-    new TObjChip((TObject *)tl_05, &first);
-    new TObjChip((TObject *)tl_05, &second);
-    new TObjChip((TObject *)tl_05, &third);
+    new TObjChip(tl_05, &first);
+    new TObjChip(tl_05, &second);
+    new TObjChip(tl_05, &third);
 }
 #pragma pool_data reset
 

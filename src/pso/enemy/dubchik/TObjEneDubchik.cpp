@@ -563,7 +563,7 @@ void TObjEneDubchik::update_chase() {
             state = 1;
         }
         if (target != NULL) {
-            VecCopy(&move_destination, &((TObjChara *)target)->body_center);
+            VecCopy(&move_destination, &target->body_center);
         }
         break;
     case 1:
@@ -594,7 +594,7 @@ void TObjEneDubchik::update_chase() {
             } else {
                 speed = dubchik_walk_speed_by_variant[variant];
             }
-            update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, speed);
+            update_enemy_wander_move(this, target->body_center, 1, speed);
             chase_distance += speed;
             turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         } else {
@@ -821,7 +821,7 @@ void TObjEneDubchik::update_scratch() {
     }
     case 1:
         if (target != NULL) {
-            VecCopy(&move_destination, &((TObjChara *)target)->body_center);
+            VecCopy(&move_destination, &target->body_center);
             enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
         }
         advance_animation();
@@ -835,12 +835,12 @@ void TObjEneDubchik::update_scratch() {
         }
         if (act >= 0) {
             play_sound_effect(remap_sound_for_area(0x4003AD03), &position, 0, 0);
-            if (target != NULL && ((TObjChara *)target)->select_melee_contact_body(this, 1.0f) != 0) {
-                ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
-                ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
+            if (target != NULL && target->select_melee_contact_body(this, 1.0f) != 0) {
+                target->receive_physical_attack(this, 1.0f);
+                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                 if (variant != 0 && random_ratio() <= 0.16666667f) {
                     DirectAttackPayload p = {0x11, 0};
-                    ((TObjChara *)target)->receive_direct_attack(this, p, 0, -1, -1);
+                    target->receive_direct_attack(this, p, 0, -1, -1);
                 }
             }
         }
@@ -904,7 +904,7 @@ void TObjEneDubchik::update_shoot() {
         state = 2;
     case 2:
         if (target != NULL) {
-            VecCopy(&move_destination, &((TObjChara *)target)->body_center);
+            VecCopy(&move_destination, &target->body_center);
             enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
         }
         advance_animation();
@@ -929,7 +929,7 @@ void TObjEneDubchik::update_shoot() {
         break;
     case 3:
         if (target != NULL) {
-            VecCopy(&move_destination, &((TObjChara *)target)->body_center);
+            VecCopy(&move_destination, &target->body_center);
             enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
         }
         apply_actor_gravity(this, NULL, 0.0f);

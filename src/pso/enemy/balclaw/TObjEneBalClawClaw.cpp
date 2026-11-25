@@ -310,7 +310,7 @@ void TObjEneBalClawClaw::update_chase() {
         }
         target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
         if (target != NULL) {
-            VecCopy(&move_destination, &((TObjChara *)target)->body_center);
+            VecCopy(&move_destination, &target->body_center);
         }
         break;
     case 1: {
@@ -319,7 +319,7 @@ void TObjEneBalClawClaw::update_chase() {
             break;
         }
         play_persistent_sound(0x4003B235, this, &position, 0, 0);
-        update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, ((EnemyMoveParams *)movementParameters)->min_distance);
+        update_enemy_wander_move(this, target->body_center, 1, ((EnemyMoveParams *)movementParameters)->min_distance);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
@@ -405,7 +405,7 @@ void TObjEneBalClawClaw::update_attack() {
             reset_active_state();
             return;
         }
-        update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, 0.7f);
+        update_enemy_wander_move(this, target->body_center, 1, 0.7f);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         if (target_distance_sq <= attack_params->get_attack_range() * attack_params->get_attack_range()) {
             state = requested_action = 2;
@@ -417,13 +417,13 @@ void TObjEneBalClawClaw::update_attack() {
             reset_active_state();
             return;
         }
-        update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, 0.7f);
+        update_enemy_wander_move(this, target->body_center, 1, 0.7f);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         if (is_passing_frame(8.0f) != 0) {
             play_sound_effect(0x4003B032, &position, 0, 0);
-            if (((TObjChara *)target)->select_melee_contact_body(this, 1.0f) != 0) {
-                ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
-                ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
+            if (target->select_melee_contact_body(this, 1.0f) != 0) {
+                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
+                target->receive_physical_attack(this, 1.0f);
                 behavior_flags |= 8;
             }
         }
@@ -706,7 +706,7 @@ void TObjEneBalClawClaw::update_retreat() {
             break;
         }
         velocity.y = 0.0f;
-        move_along_ground_avoiding_walls(((TObjChara *)target)->body_center, -0.6f, bodies->radius);
+        move_along_ground_avoiding_walls(target->body_center, -0.6f, bodies->radius);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
