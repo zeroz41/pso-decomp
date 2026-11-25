@@ -17,7 +17,7 @@ struct TOCtrlDubchik : public TObjEnemy {
     void run_demo_task();       // run_task's demo branch (empty)
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual s32 try_start_action(s32, s32);
+    virtual s32 try_start_action(void *, s32, f32);
     virtual s32 select_melee_contact_body(void *, f32);
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual void render();

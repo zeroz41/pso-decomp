@@ -25,7 +25,7 @@ struct TOVS2Wall01 : public TObjChara {
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual s32 try_start_action(s32, s32);
+    virtual s32 try_start_action(void *, s32, f32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     static void *create(void *set_data);
     static void release_model();

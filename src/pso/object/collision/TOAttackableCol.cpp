@@ -300,7 +300,7 @@ TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
     this->init_params();
 }
 
-s32 TOAttackableCol::try_start_action(s32, s32) { return 1; }
+s32 TOAttackableCol::try_start_action(void *, s32, f32) { return 1; }
 
 s32 TOAttackableCol::roll_physical_accuracy(void *, s32, f32) { return 1; }
 

@@ -37,7 +37,7 @@ struct TOMine : public TObjChara {
     virtual const char *get_name();
     virtual void apply_object_set_data(void *);
     virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual s32 try_start_action(s32, s32);
+    virtual s32 try_start_action(void *, s32, f32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     Vec float_position; // copied from position on spawn; y bobs in update_float_height
     u32 float_flags;  // bit 2: it has reached its float height

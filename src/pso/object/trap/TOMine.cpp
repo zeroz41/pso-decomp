@@ -583,7 +583,7 @@ int TOMine::calc_distance_accuracy_penalty(void *attacker, void *, void *, float
 
 void TOMine::vfunc_79() {  }
 void TOMine::apply_knockback_from_attacker(u8 *, f32) {  }
-s32 TOMine::try_start_action(s32, s32) { return 1; }
+s32 TOMine::try_start_action(void *, s32, f32) { return 1; }
 s32 TOMine::roll_physical_accuracy(void *, s32, f32) { return 1; }
 s32 TOMine::is_target_in_list(void *obj) {
     if (obj != 0) {

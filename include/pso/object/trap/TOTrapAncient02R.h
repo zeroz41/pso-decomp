@@ -18,7 +18,7 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
     virtual void vfunc_88();
     virtual void vfunc_86();
     virtual s32 roll_physical_accuracy(void *, s32, f32);
-    virtual s32 try_start_action(s32, s32);
+    virtual s32 try_start_action(void *, s32, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_physical_attack(void *, f32);

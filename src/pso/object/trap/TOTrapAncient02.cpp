@@ -123,7 +123,7 @@ s32 TOTrapAncient02R::roll_physical_accuracy(void *, s32, f32) {
     return 1;
 }
 
-s32 TOTrapAncient02R::try_start_action(s32, s32) {
+s32 TOTrapAncient02R::try_start_action(void *, s32, f32) {
     return 1;
 }
 

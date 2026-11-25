@@ -53,9 +53,9 @@ s32 TOCtrlDubchik::roll_physical_accuracy(void *attacker, s32 collider, f32 accu
     return 0;
 }
 
-s32 TOCtrlDubchik::try_start_action(s32 attacker, s32 collider) {
+s32 TOCtrlDubchik::try_start_action(void *attacker, s32 collider, f32 accuracy) {
     if (mode != 0) {
-        return TObjChara::try_start_action(attacker, collider);
+        return TObjChara::try_start_action(attacker, collider, accuracy);
     }
     return 0;
 }

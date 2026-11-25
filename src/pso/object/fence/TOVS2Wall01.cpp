@@ -296,7 +296,7 @@ f32 TOVS2Wall01::receive_physical_attack(void *attacker, f32) { return take_hit(
 int TOVS2Wall01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 s32 TOVS2Wall01::select_melee_contact_body(void *, f32) { return 1; }
 s32 TOVS2Wall01::roll_physical_accuracy(void *, s32, f32) { return 1; }
-s32 TOVS2Wall01::try_start_action(s32, s32) { return 1; }
+s32 TOVS2Wall01::try_start_action(void *, s32, f32) { return 1; }
 TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = vs2_class_name;
     apply_object_set_data(set_data);

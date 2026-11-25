@@ -154,7 +154,7 @@ TObjContainerCommon::~TObjContainerCommon() {
 
 s32 TObjContainerCommon::roll_physical_accuracy(void *, s32, f32) { return 1; }
 
-s32 TObjContainerCommon::try_start_action(s32, s32) { return 1; }
+s32 TObjContainerCommon::try_start_action(void *, s32, f32) { return 1; }
 
 void TObjContainerCommon::apply_knockback_from_attacker(u8 *, f32) {  }
 

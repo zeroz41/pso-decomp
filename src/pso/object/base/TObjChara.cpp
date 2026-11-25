@@ -281,37 +281,6 @@ typedef struct Player_800115C4 {
 struct Obj_80014C1C { u8 pad0[0x30]; u32 f30; u8 pad34[0x254 - 0x34]; u8 f254[0x330 - 0x254]; u32 f330; };
 struct O_80015D74 { u8 pad[0x110]; s16 arr[3]; };
 struct O_80015DC4 { u8 pad[0x110]; s16 arr[3]; };
-struct Base_800163F8 { char pad[0x18]; };
-
-struct VObj_800163F8 : Base_800163F8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual s32 m25();
-};
-
 struct RecoveredGlobal_8001806C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 LAYOUT_ASSERT(RecoveredGlobal_8001806C_lbl_8058D490_size, sizeof(RecoveredGlobal_8001806C_lbl_8058D490) == 0x30);
 struct Obj_80018660 { u8 pad[0x38]; Vec pos; u8 pad44[0x1c]; s32 angle; u8 pad64[0x238]; Vec dest; };
@@ -330,32 +299,6 @@ struct Obj_800182A0 {
 
 struct Obj_800182A0;
 
-struct Body_80016454 {
-    Vec local;
-    f32 radius;
-    u8 pad10[0x8];
-    u32 flags;
-    u8 pad1c[0x10];
-};
-
-struct Base_80016454 { u8 pad[0x18]; };
-
-struct Actor_80016454 : Base_80016454 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual s32 m24(Actor_80016454 *, s32, f32);
-    u8 pad1c[0x38 - 0x1c];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 yaw;
-    u8 pad64[0xa4 - 0x64];
-    Body_80016454 *bodies;
-    s32 bodyCount;
-};
 
 struct RecoveredGlobal_8001806C_lbl_8058D490;
 
@@ -1827,15 +1770,15 @@ s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
             return 0;
         }
     }
-    if (((Actor_80016454 *)this)->m24(((Actor_80016454 *)source), selected, factor) != 0) {
+    if (try_start_action(source, selected, factor) != 0) {
         return 1;
     }
     }
     return 0;
 }
 
-s32 TObjChara::try_start_action(s32 attacker, s32 collider) {
-    if (((VObj_800163F8 *)this)->m25() != 0) {
+s32 TObjChara::try_start_action(void *attacker, s32 collider, f32 accuracy) {
+    if (roll_physical_accuracy(attacker, collider, accuracy) != 0) {
         return 1;
     }
     ((TObjPlayer *)this)->show_miss_for_collider(collider);
