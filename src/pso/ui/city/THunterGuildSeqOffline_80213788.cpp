@@ -4,6 +4,7 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
@@ -59,8 +60,6 @@ TWindowMessage *TQuestListOnline__download_barrier_window;
 s32 quest_download_active;
 s32 quest_download_received_bytes;
 s32 quest_download_graph_current_bytes;
-extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
-extern int evt2_random_enemies_mode;
 
 // Set by each class's ctor, cleared by its dtor.
 THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;

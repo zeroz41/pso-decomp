@@ -22,7 +22,6 @@
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {
-extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 void fn_802233F8(void *);
 
     extern int evt2_random_enemies_mode;

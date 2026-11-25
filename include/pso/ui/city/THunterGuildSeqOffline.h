@@ -52,4 +52,6 @@ LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3
 extern "C" THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
 
 extern "C" void THunterGuildSeqOffline__sub_80213410(void);
+// Quest thread ids started per quest result ([1] success, [2] cancel, [3] exit); -1 when unset.
+extern "C" s32 THunterGuildSeqOffline__quest_result_callbacks[4];
 #endif
