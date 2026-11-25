@@ -26,7 +26,7 @@
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_803DC86C.h"
+#include "pso/render/GinjaMaterial.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"

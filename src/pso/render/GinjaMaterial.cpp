@@ -15,8 +15,6 @@
 #include "pso/render/GinjaModel.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
-#include "pso/unk/text_803DC86C.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/model_render_state.h"
@@ -25,16 +23,6 @@
 #pragma scheduling off
 typedef void (*GinjaPreCallback)(s32 first);
 typedef void (*GinjaPostCallback)(u8 first);
-
-extern "C" {
-void set_ginja_vertex_arrays(GinjaVertexArray *array);
-extern GinjaMaterialCache ginja_material_cache;
-extern GXTexCoordID ginja_texcoord_ids[];
-extern GXTexMapID ginja_texmap_ids[];
-extern GXAttr ginja_vertex_attributes[];
-extern GXCompCnt ginja_vertex_component_counts[];
-extern GXCompType ginja_vertex_component_types[];
-extern GXTexMtx ginja_texture_matrix_ids[];
 
 u32 ginja_blend_override = 0x250F;
 
@@ -52,6 +40,15 @@ s32 ginja_draw_list_mask;
 
 GinjaMaterialCache ginja_material_cache;
 
+// Lookup tables, defined at the end of the file.
+extern GinjaParameterHandler ginja_parameter_handlers[11];
+extern GXAttr ginja_vertex_attributes[14];
+extern GXTexCoordID ginja_texcoord_ids[9];
+extern GXTexMapID ginja_texmap_ids[9];
+extern GXCompCnt ginja_vertex_component_counts[9];
+extern GXCompType ginja_vertex_component_types[11];
+extern GXTexMtx ginja_texture_matrix_ids[11];
+
 void draw_ginja_object(void *child) {
     prepare_ginja_model();
     init_model_draw_queue(draw_ginja_model_lists);
@@ -65,9 +62,7 @@ void draw_ginja_object(void *child) {
         apply_scene_fog();
     }
 }
-}
-void apply_ginja_material_params(const GinjaDrawRecord *);
-GinjaMaterialCache *invalidate_ginja_inherited_state();
+
 s32 queue_model_draw_current_matrix(void *model) {
     queue_model_draw_matrix(model, *current_matrix);
     return 1;
@@ -309,9 +304,6 @@ void ginja_set_alpha_compare(u8 ref) {
 }
 #pragma pop
 
-
-// Each handler gets the parameter's value and the bits that changed (update_ginja_cached_parameter).
-extern GinjaParameterHandler ginja_parameter_handlers[11];
 
 #pragma push
 #pragma use_lmw_stmw off
@@ -555,6 +547,7 @@ void load_ginja_model_matrices(int matrix_id) {
     }
 }
 
+// Each handler gets the parameter's value and the bits that changed (update_ginja_cached_parameter).
 GinjaParameterHandler ginja_parameter_handlers[11] = {
     ginja_set_vertex_format, set_ginja_indexed_vtx_desc,
     set_ginja_channel_counts, NULL,
@@ -626,7 +619,7 @@ void set_ginja_draw_end_callback(GinjaDrawEndCallback callback) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d) {
-    ginja_blend_override = (a << 14) | (b << 11) | (c << 8) | d;
+void set_color_blend_mode(s32 mode, s32 source, s32 destination, s32 operation) {
+    ginja_blend_override = (mode << 14) | (source << 11) | (destination << 8) | operation;
 }
 #pragma pop

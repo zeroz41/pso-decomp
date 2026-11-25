@@ -6,7 +6,6 @@
 
 #include "pso/render/render_util.h"
 #include <dolphin/gx.h>
-#include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"

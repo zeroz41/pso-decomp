@@ -6,7 +6,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/unk/text_803DC86C.h"
+#include "pso/render/GinjaMaterial.h"
 
 s32 CameraDistanceFade::update_visibility(const Vec *pos) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
