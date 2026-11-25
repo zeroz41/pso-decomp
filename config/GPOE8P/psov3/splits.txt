@@ -5914,7 +5914,7 @@ pso/ui/window/TWindowActionPalette.cpp:
 	.sdata      start:0x805D3870 end:0x805D3878
 	.sdata2     start:0x805DCA10 end:0x805DCAA8
 
-pso/ui/window/TWindowAddition_80244238.cpp:
+pso/ui/window/TWindowAddition.cpp:
 	.text       start:0x8024422C end:0x802443F0
 	.rodata     start:0x8044E628 end:0x8044E640
 	.sdata      start:0x805D3878 end:0x805D3880
@@ -6081,7 +6081,7 @@ pso/ui/window/TWindowGetComCard.cpp:
 	.data       start:0x804CF120 end:0x804CF140
 	.sdata      start:0x805D3908 end:0x805D3910
 
-pso/ui/window/TWindowHelpItem_802530D0.cpp:
+pso/ui/window/TWindowHelpItem.cpp:
 	.text       start:0x802530D0 end:0x80255E3C
 	.rodata     start:0x8044EDA8 end:0x8044EDD8
 	.data       start:0x804CF140 end:0x804CF8C8

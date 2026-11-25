@@ -1778,9 +1778,9 @@ pso/technique/TTecCircle.cpp
 pso/unk/text_8023DCB8.cpp
 pso/unk/text_8023F660.cpp
 pso/unk/text_802432F0.cpp
-pso/ui/window/TWindowAddition_80244238.cpp
+pso/ui/window/TWindowAddition.cpp
 pso/ui/window/TWindowChoiceSetting_80249078.cpp
-pso/ui/window/TWindowHelpItem_802530D0.cpp
+pso/ui/window/TWindowHelpItem.cpp
 pso/unk/text_8025CD10.cpp
 pso/ui/window/TWindowLockOn_80262C3C.cpp
 pso/unk/text_80263A20.cpp
