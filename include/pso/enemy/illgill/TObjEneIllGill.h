@@ -52,7 +52,7 @@ struct TObjEneIllGill : public TObjEnemy {
     Vec chargeEffectPosition1;
     Vec chargeEffectPosition2;
     TObjChara *chargeHits[4];
-    u8 unknown3F0[0x20];
+    u8 pad_3F0[0x20];
     s32 chargeFrames;
     TParticleCtrl *primaryEffect;
     TParticleCtrl *secondaryEffect;

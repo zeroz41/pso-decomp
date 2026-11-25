@@ -141,7 +141,7 @@ struct TBoss6Type2 : public TObjEnemy
     s32 iai_count;      // IAI_* entries since the last BKJUMP (should_back_jump at 3)
     u32 action_flags;  // the action row's flags (update_parts_flags)
     u8 random_factor;  // OlgaFlowType2ActionMsg::random_factor
-    u8 unk_479[0x3];
+    u8 pad_479[0x3];
     u32 next_motion;   // OlgaFlowType2ActionMsg::next_motion
     Boss6Type2MoveTarget move_target;
     s32 motion_index;  // row of TBoss6Type2__motion_table
@@ -178,7 +178,7 @@ struct TBoss6Type2 : public TObjEnemy
     TBoss6Type2Joint aim_joints[2];  // one per body model
     s32 foot_grounded[2];  // update_footstep_effects: set when a foot comes down (footstep sound), cleared when it lifts
     u16 possessed_client;  // grab_player's player; 0xFFFF when none
-    u8 unk_55E[0x2];
+    u8 pad_55E[0x2];
     // BML entries 0xB and 0xA (cache_fish_params); grab_player puts them on the grabbed player.
     NJS_TEXLIST *grab_texlists[2];
     NJS_OBJECT *grab_models[2];

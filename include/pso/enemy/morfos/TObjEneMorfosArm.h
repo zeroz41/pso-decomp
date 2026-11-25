@@ -16,7 +16,7 @@ struct TObjEneMorfosArm : public TObjMotion {
     static void free_global();  // empty; unload_static_data's counterpart of init_global
     virtual void render();
     virtual void run_task();
-    u8 unk_102[0x2];
+    u8 pad_102[0x2];
 };
 
 LAYOUT_ASSERT(TObjEneMorfosArm_owner, offsetof(TObjEneMorfosArm, morfos) == 0xFC);

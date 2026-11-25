@@ -49,9 +49,9 @@ struct BalClawBehaviorParams {
 struct BalClawMovement {
     EnemyMoveParams move;
     s16 m_c;
-    s16 m_e;
+    s16 pad_E;
     s32 m_10;
-    s32 m_14;
+    s32 pad_14;
     s32 m_18;
 };
 

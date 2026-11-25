@@ -35,13 +35,13 @@ TDubchikPart::TDubchikPart(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texli
     s32 node;
     part_index = index;
     parent_id = parent->get_entity_id();
-    m_ae = 0;
+    state = 0;
     node = part_model_nodes[index];
-    m_d8 = texlist;
-    m_c8 = find_model_node(dubchik_resource->models[1].model, node);
+    part_texlist = texlist;
+    part_model = find_model_node(dubchik_resource->models[1].model, node);
     target = &parent->part_offsets[index];
     VecCopy(&pos, VecCopy(&origin, offset));
-    m_e8 = 3.0f + parent->position.y;
+    floor_y = 3.0f + parent->position.y;
     push_matrix_from(&identity_matrix);
     v.x = v.y = 0.0f;
     v.z = -2.0f;
@@ -75,7 +75,7 @@ void TDubchikPart::run_task() {
     f32 t;
     f32 step;
     f32 dist_sq;
-    switch (m_ae) {
+    switch (state) {
     case 0: {
         Vec v = pos;
         v.x += velocity.x;
@@ -88,21 +88,21 @@ void TDubchikPart::run_task() {
                 pos.y = v.y;
                 velocity.y = 0.6f * fabs_float(velocity.y);
             }
-            if ((v.y - m_e8) > 2.0f) {
-                m_ae = 1;
+            if ((v.y - floor_y) > 2.0f) {
+                state = 1;
             } else {
-                m_e8 = v.y;
+                floor_y = v.y;
             }
         }
         if (xz_distance_squared(&pos, &origin) >= range * range) {
-            m_ae = 1;
+            state = 1;
         }
     }
     case 1:
         pos.y += velocity.y;
         velocity.y += -0.10888889f;
-        if (pos.y < m_e8) {
-            pos.y = m_e8;
+        if (pos.y < floor_y) {
+            pos.y = floor_y;
             velocity.y = 0.0f;
         }
         break;
@@ -122,7 +122,7 @@ void TDubchikPart::run_task() {
             }
             pos.y += step;
         } else {
-            m_ae = 3;
+            state = 3;
         }
         break;
     case 3:
@@ -133,19 +133,19 @@ void TDubchikPart::run_task() {
 #pragma pop
 
 void TDubchikPart::render() {
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(m_d8));
+    TObjFish::set_global_param(dubchik_texlist);
+    TObjFish::set_global_param(part_texlist);
     push_matrix();
     post_translate_matrix(&pos.x);
     rotate_matrix_y(0, rot_y);
     scale_matrix(0, 1.3f, 1.3f, 1.3f);
     model_render_flags &= 0xFFFFFBFF;
-    draw_chunk_object(m_c8);
+    draw_chunk_object(part_model);
     pop_matrix();
 }
 
 s32 TDubchikPart::get_action_priority() {
-    if (m_ae == 3) {
+    if (state == 3) {
         return 1;
     }
     return 0;
@@ -156,6 +156,6 @@ void TDubchikPart::cancel_action() {
         if (thunder_effect != NULL) {
             thunder_effect->set_cancel_flag();
         }
-        m_ae = 2;
+        state = 2;
     }
 }
