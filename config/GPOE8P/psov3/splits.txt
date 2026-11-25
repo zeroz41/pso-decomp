@@ -7590,19 +7590,9 @@ pso/ui/window/TWindowMenuMainMenu.cpp:
 pso/ui/window/TWindowMainMenu_802AE928.cpp:
 	.text       start:0x802AE928 end:0x802AE978
 
-pso/unk/text_802AE978.cpp:
-	.text       start:0x802AE978 end:0x802AEA38
-
-pso/ui/frontend/TAdSelectCurGC_802AEA38.cpp:
-	.text       start:0x802AEA38 end:0x802AEAA4
-
-pso/unk/text_802AEAA4.cpp:
-	.text       start:0x802AEAA4 end:0x802AEBA8
-	.sdata2     start:0x805DE1B0 end:0x805DE1D8
-
-pso/ui/TLevelSelect_802AEBA8.cpp:
-	.text       start:0x802AEBA8 end:0x802AED98
-	.sdata2     start:0x805DE1D8 end:0x805DE1E0
+pso/ui/frontend/TAdSelectCurGC_802AE978.cpp:
+	.text       start:0x802AE978 end:0x802AED98
+	.sdata2     start:0x805DE1B0 end:0x805DE1E0
 
 pso/ui/frontend/TAdSelectCurGC_802AED98.cpp:
 	.text       start:0x802AED98 end:0x802AF27C
