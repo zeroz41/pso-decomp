@@ -17,6 +17,12 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
+#include "pso/render/gjSystem.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXFrameBuffer.h>
+#include <dolphin/os/OSRtc.h>
+#include <dolphin/vi.h>
+#undef PSO_SDK_COMPACT_MATH
 
 #pragma readonly_strings on
 
@@ -32,12 +38,7 @@ struct Cfg_80307D00 {
 s32 logo_clear_flag = 1;
 const char *TAdVIConfigGC__class_name = "TAdVIConfigGC";
 extern "C" {
-void *VIGetDTVStatus(void *);
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
-int OSSetProgressiveMode(void*);
-int VIWaitForRetrace(void);
-int VIConfigure(void*);
-int VIFlush(void);
 
 void TAdVIConfigGC::open_player_names_window() {
     s32 i;
@@ -130,20 +131,26 @@ void TAdVIConfigGC::set_field48_clear_global() {
     logo_clear_flag = 0;
 }
 
-    extern unsigned char GXNtsc480Prog[];
-    extern int active_gx_render_mode;
-void TAdVIConfigGC::enable_progressive_mode(void * _w0) { OSSetProgressiveMode((void*)1); active_gx_render_mode = (saddr)GXNtsc480Prog; VIConfigure(GXNtsc480Prog); VIFlush(); VIWaitForRetrace(); VIWaitForRetrace(); }
+void TAdVIConfigGC::enable_progressive_mode() {
+    OSSetProgressiveMode(1);
+    active_gx_render_mode = &GXNtsc480Prog;
+    VIConfigure(&GXNtsc480Prog);
+    VIFlush();
+    VIWaitForRetrace();
+    VIWaitForRetrace();
+}
 
-int TAdVIConfigGC::disable_progressive_mode(void* _w0) { return OSSetProgressiveMode((void*)(0)); }
+void TAdVIConfigGC::disable_progressive_mode() { OSSetProgressiveMode(0); }
 saddr TAdVIConfigGC::vfunc_10() { return get_localized_text_entry(29, 0); }
 
-void TAdVIConfigGC::vfunc_7() { disable_progressive_mode(this); set_field48_clear_global(); }
+void TAdVIConfigGC::vfunc_7() {
+    disable_progressive_mode();
+    set_field48_clear_global();
+}
 
 void TAdVIConfigGC::vfunc_6() {
-    void *x;
-    x = VIGetDTVStatus(this);
-    if (x != NULL) {
-        enable_progressive_mode(this);
+    if (VIGetDTVStatus() != 0) {
+        enable_progressive_mode();
     }
     set_field48_clear_global();
 }

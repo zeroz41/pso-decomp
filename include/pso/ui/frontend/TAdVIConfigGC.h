@@ -14,8 +14,8 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     u8 *init(const Vec *position, f32 radius);
     virtual void render();
     void set_field48_clear_global();
-    static void enable_progressive_mode(void * _w0);
-    static int disable_progressive_mode(void* _w0);
+    void enable_progressive_mode();
+    static void disable_progressive_mode();
     virtual void run_task();
     void set_field_2c(s32 v);
     static void apply_config_if_valid(s32 arg0, s32 arg1);
