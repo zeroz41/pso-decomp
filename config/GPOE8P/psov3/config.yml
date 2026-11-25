@@ -6436,7 +6436,7 @@ force_active:
   - enter_check_state__9TSaveChCrFv
   - is_held__22ControllerInputContextFl
   - is_pressed__22ControllerInputContextFl
-  - __ct__13TUnk_804F1EC8FP7TObjectPUc
+  - __ct__21TItemWeaponRubyBulletFP7TObjectPUc
   - get_flag_word_mask__FlPUl
   - get_texture_buffer_size
   - fn_803DD3C8

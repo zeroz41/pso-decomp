@@ -399,7 +399,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponGAssassinsSabers::create,
     TItemWeaponRappysFan::create,
     create_common_weapon,
-    alloc_and_init_obj_effect,
+    TItemWeaponRubyBullet::create,
     TItemWeaponCard::create,
     TItemWeaponSRankBlade::create,
     TItemWeaponSRankLauncher::create,
