@@ -41,10 +41,10 @@
 
 #pragma dont_inline off
 
-const char *TShopEquipmentSellWindow__class_name = "TShopEquipmentSellWindow";
+const char *TShopEquipmentSellWindow::class_name = "TShopEquipmentSellWindow";
 
 TShopEquipmentSellWindow::TShopEquipmentSellWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player, s32 title_text) : TShopWindowBase(parent) {
-    this->m_name = TShopEquipmentSellWindow__class_name;
+    this->m_name = class_name;
     this->pad_370 = 0;
     this->entry_count = 0;
     this->title_text = title_text;

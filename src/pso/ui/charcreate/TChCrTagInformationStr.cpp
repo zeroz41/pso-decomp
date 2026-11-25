@@ -12,7 +12,7 @@ struct TagTextOrigin {
     f32 x, y;
 };
 
-const char *TChCrTagInformationStr__class_name = "TChCrTagInformationStr";
+const char *TChCrTagInformationStr::class_name = "TChCrTagInformationStr";
 s32 char_creation_tag_info_selected_index = -1;
 
 TChCrTagInformationStr *TChCrTagInformationStr::create(TObject *parent, s32 index) {
@@ -105,7 +105,7 @@ TChCrTagInformationStr::~TChCrTagInformationStr() {}
 
 
 TChCrTagInformationStr::TChCrTagInformationStr(TObject *parent, s32 tag_index) : TObject(parent) {
-    m_name = TChCrTagInformationStr__class_name;
+    m_name = class_name;
     this->tag_index = tag_index;
     if (this->tag_index <= 2) {
         text_group = 0x11;

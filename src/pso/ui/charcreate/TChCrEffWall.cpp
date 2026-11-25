@@ -9,7 +9,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby_801E2F94.h"
 
-const char *TChCrEffWall__name = "TChCrEffWall";
+const char *TChCrEffWall::name = "TChCrEffWall";
 extern const vec2f creation_effwall_sprite_position_table[6] = {
     {0.0f, 0.0f}, {0.0f, 256.0f}, {256.0f, 0.0f}, {256.0f, 128.0f}, {256.0f, 256.0f}, {256.0f, 384.0f},
 };
@@ -54,7 +54,7 @@ void TChCrEffWall::render() {
 
 TChCrEffWall::~TChCrEffWall() {}
 TChCrEffWall::TChCrEffWall(TObject *object) : TObject(object) {
-    m_name = TChCrEffWall__name;
+    m_name = name;
 }
 
 TChCrEffWall *fn_8029AE88(TObject *parent) {

@@ -9,7 +9,7 @@
 #include "pso/system/vector.h"
 
 #pragma readonly_strings on
-const char *TChCrEffTagStr__name = "TChCrEffTagStr";
+const char *TChCrEffTagStr::name = "TChCrEffTagStr";
 
 extern "C" s32 draw_creation_sprite_offset(s32, vec2f *, vec2f *, f32, f32, f32, f32, f32);
 
@@ -66,7 +66,7 @@ void TChCrEffTagStr::run_task() {
 TChCrEffTagStr::~TChCrEffTagStr() {}
 
 TChCrEffTagStr::TChCrEffTagStr(TObject *parent, s32 sprite_id, vec2f *pos) : TObject(parent) {
-    m_name = TChCrEffTagStr__name;
+    m_name = name;
     this->sprite_id = sprite_id;
     copy_vec2(&this->pos, pos);
     state = 0;

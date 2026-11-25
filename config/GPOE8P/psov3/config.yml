@@ -482,13 +482,13 @@ force_active:
   - viewport_height__11TCameraCtrl
   - viewport_width__11TCameraCtrl
   - TChCrEffCtrlPl__name
-  - TChCrEffTagStr__name
+  - name__14TChCrEffTagStr
   - TChCrEffTag__name
   - active_load_count__22TChCrLoadAfsTextureReq
   - __ct__22TChCrLoadAfsTextureReqFP7TObjectP11NJS_TEXLISTPll
   - __ct__16TChCrLoadGmNjReqFP7TObjectP20TChCrLoadGmNjReqArgs
   - __ct__12TChCrLoadReqFP10TObjPlayer
-  - TChCrTagName__class_name
+  - class_name__12TChCrTagName
   - TChCrTagName__sub_802A226C
   - is_selected__12TChCrTagNameFv
   - TChCrTagOccHeader__vt4

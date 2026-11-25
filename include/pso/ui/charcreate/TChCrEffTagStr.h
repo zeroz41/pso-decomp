@@ -7,6 +7,7 @@
 
 class TChCrEffTagStr : public TObject {
 public:
+    static const char *name;
     TChCrEffTagStr(TObject *parent, s32 sprite_id, vec2f *pos);
     virtual ~TChCrEffTagStr();
     virtual void run_task();

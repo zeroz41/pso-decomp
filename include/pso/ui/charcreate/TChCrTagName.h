@@ -7,6 +7,7 @@
 
 class TChCrTagName : public TChCrTag {
 public:
+    static const char *class_name;
     TChCrTagName(TObject *parent, s32 index);
     virtual ~TChCrTagName();
     virtual void run_task();

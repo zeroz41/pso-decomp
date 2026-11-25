@@ -9,7 +9,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TChCrTagPlBack__name = "TChCrTagPlBack";
+const char *TChCrTagPlBack::name = "TChCrTagPlBack";
 #pragma pop
 
 extern const vec2f lbl_80466720[];
@@ -57,7 +57,7 @@ s32 TChCrTagPlBack::is_selected() { return 0; }
 TChCrTagPlBack::~TChCrTagPlBack() {}
 
 TChCrTagPlBack::TChCrTagPlBack(TObject *parent, s32 index) : TChCrTag(parent, index) {
-    m_name = TChCrTagPlBack__name;
+    m_name = name;
     m_fade_in_step = 0.06666667f;
     m_fade_out_step = -0.06666667f;
     m_highlight_in_step = 0.06666667f;

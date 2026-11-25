@@ -24,6 +24,7 @@ struct TShopSellEntry {
 };
 
 struct TShopEquipmentSellWindow : public TShopWindowBase {
+    static const char *class_name;
     TShopEquipmentSellWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player, s32 title_text);
     virtual ~TShopEquipmentSellWindow();
     virtual void update_state();

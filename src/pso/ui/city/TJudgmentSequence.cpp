@@ -120,10 +120,10 @@ TJudgmentSequence::~TJudgmentSequence() {
     TJudgmentSequence::slot_flags[get_split_screen_slot()] = 0;
 }
 
-const char *TJudgmentSequence__class_name = "TJudgmentSequence";
+const char *TJudgmentSequence::class_name = "TJudgmentSequence";
 
 TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = TJudgmentSequence__class_name;
+    m_name = class_name;
     this->player = player;
     meseta_window = 0;
     counter_camera = NULL;

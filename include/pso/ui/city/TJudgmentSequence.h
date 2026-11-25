@@ -8,6 +8,7 @@ struct TObjPlayer;
 class TWindowBase;
 
 struct TJudgmentSequence : public TShopSequence {
+    static const char *class_name;
     static s32 slot_flags[4];
     TJudgmentSequence(TObject *parent, TObjPlayer *player);
     virtual ~TJudgmentSequence();

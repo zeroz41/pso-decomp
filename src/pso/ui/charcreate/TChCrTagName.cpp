@@ -11,7 +11,7 @@
 #include "pso/system/vector.h"
 
 __declspec(section ".rodata") extern const char TChCrTagName__class_name_string[] = "TChCrTagName";
-const char *TChCrTagName__class_name = TChCrTagName__class_name_string;
+const char *TChCrTagName::class_name = TChCrTagName__class_name_string;
 extern vec2f lbl_80466408[];
 extern vec2f lbl_80466410[];
 extern vec2f lbl_80466418[];
@@ -219,7 +219,7 @@ s32 TChCrTagName::is_selected() {
 TChCrTagName::~TChCrTagName() {}
 
 TChCrTagName::TChCrTagName(TObject *parent, s32 index) : TChCrTag(parent, index) {
-    m_name = TChCrTagName__class_name;
+    m_name = class_name;
     m_fade_in_step = (0.033333335f);
     m_fade_out_step = (-0.022222223f);
     m_highlight_in_step = (0.6666667f);
