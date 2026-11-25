@@ -205,7 +205,7 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 #include "pso/quest/TQuestListOnline.h"
 
 extern "C" {
-s32 THunterGuildSeqOffline__sub_80213458(void);
+s32 get_online_client_state(void);
 }
 
 s32 TLobby__sub_80211C3C(void) {
@@ -224,7 +224,7 @@ s32 TLobby__sub_80211C3C(void) {
             return 0;
         }
     }
-    switch (THunterGuildSeqOffline__sub_80213458()) {
+    switch (get_online_client_state()) {
     case -1:
         return 3;
     default:
@@ -261,9 +261,9 @@ s32 TLobby::handle_main_phase(saddr player) {
 
 extern "C" {
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
-s32 THunterGuildSeqOffline__sub_80211FEC(s32);
-s32 THunterGuildSeqOffline__sub_80212000(s32);
-s32 THunterGuildSeqOffline__sub_80212060(s32);
+s32 get_online_client_instance(s32);
+s32 get_online_server_instance(s32);
+s32 get_offline_instance(s32);
 extern s32 lbl_805D55C0;
 s32 TLobby__sub_80211D58(s32 client_id) {
     s32 kind;
@@ -300,16 +300,16 @@ s32 TLobby__sub_80211D58(s32 client_id) {
                 return 1;
             }
         }
-        return THunterGuildSeqOffline__sub_80212060(client_id);
+        return get_offline_instance(client_id);
     }
     if (get_main_phase() == 15) {
         if (lbl_805D55C0 != 0) {
             return 1;
         }
-        if (THunterGuildSeqOffline__sub_80212000(client_id) != 0) {
+        if (get_online_server_instance(client_id) != 0) {
             return 1;
         }
-        return THunterGuildSeqOffline__sub_80211FEC(client_id) != 0 ? 1 : 0;
+        return get_online_client_instance(client_id) != 0 ? 1 : 0;
     }
     return 0;
 }

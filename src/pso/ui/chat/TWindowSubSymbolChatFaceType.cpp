@@ -89,7 +89,7 @@ void TWindowSubSymbolChatFaceType::handle_input() {
     }
 }
 
-void TWindowSubSymbolChatFaceType__sub_80283C84(FaceCursorContext *ctx, f32 *pos, f32 size, f32 amp) {
+void draw_selection_corners(FaceCursorContext *ctx, f32 *pos, f32 size, f32 amp) {
     FaceCursorQuad q;
     u32 alpha;
     f32 x;
@@ -164,7 +164,7 @@ void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {
   entry = (u8 *) ((TWindowBase *)window_base)->get_array_entry(entry_index);
   corner.x = (*((f32 *) (((s8 *) entry) + 8))) - 3.0f;
   corner.y = (*((f32 *) (((s8 *) entry) + 0xC))) - 3.0f;
-  TWindowSubSymbolChatFaceType__sub_80283C84((FaceCursorContext *)ctx, (f32 *)&corner, 66.0f, 0.3f);
+  draw_selection_corners((FaceCursorContext *)ctx, (f32 *)&corner, 66.0f, 0.3f);
 }
 
 void TWindowSubSymbolChatFaceType::update_parts_entries() {

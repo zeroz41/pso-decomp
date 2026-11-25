@@ -53,7 +53,7 @@ extern "C" {
 s32 quest_result_callbacks[4];
 s32 THunterGuildSeqOffline::instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline::active_instance;
-const char *lbl_805D3658 = "THunterGuildSeqOffline";
+const char *hunter_guild_seq_offline_class_name = "THunterGuildSeqOffline";
 
 int fn_80223480(void*);
 
@@ -111,7 +111,7 @@ void THunterGuildSeqOnline_Client::close_window() {
         switch (exit_action) {
         case 1: {
             new TScreenFadeOut(tl_00, reset_random_enemies_mode);
-            THunterGuildSeqOffline__sub_8021E180(((TObjBase *)((saddr)player))->get_entity_id());
+            set_shop_slot_active(((TObjBase *)((saddr)player))->get_entity_id());
             break;
         }
         case 0:
@@ -124,7 +124,7 @@ void THunterGuildSeqOnline_Client::close_window() {
     }
 }
 
-s32 THunterGuildSeqOffline__sub_80213458(void) {
+s32 get_online_client_state(void) {
     if (hunter_guild_seq_online_client_instance != NULL) {
         return hunter_guild_seq_online_client_instance->state;
     }
@@ -159,7 +159,7 @@ void THunterGuildSeqOffline::clear_instance_table() {
 }
 
 THunterGuildSeqOffline::THunterGuildSeqOffline(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = lbl_805D3658;
+    m_name = hunter_guild_seq_offline_class_name;
     state = 0;
     choice_menu = NULL;
     this->player = player;

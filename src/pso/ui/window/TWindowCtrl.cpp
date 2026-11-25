@@ -62,7 +62,7 @@
 #include "pso/ui/window/WindowLayout.h"
 
 TWindowCtrl *TWindowCtrl::instance;
-u16 lbl_805D63FC;
+u16 short_mail_flags;
 
 
 
@@ -1321,7 +1321,7 @@ s32 is_player_input_active(s32 client) {
 
 void TWindowCtrl__sub_8024A08C(void) {
     TObject *object;
-    lbl_805D63FC &= 0xFFFFFFFD;
+    short_mail_flags &= 0xFFFFFFFD;
     if (TWindowCtrl::instance != NULL) {
         object = (TObject *)TWindowCtrl::instance->com_card_window;
         if (object != NULL) {

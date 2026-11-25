@@ -65,7 +65,7 @@ struct SymbolChatSprite {
 };
 
 extern "C" {
-void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
+void draw_selection_corners(void *, void *, f32, f32);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
 }
 
@@ -94,9 +94,9 @@ void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts) {
     }
     i -= remaining;
     for (j = 0; j < 4; j += 1) {
-        if (TWindowSubSymbolChat__sub_800771C4(preset, j) != 0) {
+        if (is_facial_part_set(preset, j) != 0) {
             if (i-- <= 0) {
-                TWindowSubSymbolChat__sub_800771B0(preset, j);
+                clear_facial_part(preset, j);
                 return;
             }
         }
@@ -217,7 +217,7 @@ void TWindowSubSymbolChatParts::sub_80285274(u8 *ctx) {
     NJS_POINT2 corner;
     corner.x = ((40.0f * (f32) (s8) this->cursor_col) + 10.0f) - 3.0f;
     corner.y = ((40.0f * (f32) (s8) this->cursor_row) + 9.0f) - 3.0f;
-    TWindowSubSymbolChatFaceType__sub_80283C84(ctx, &corner, 38.0f, 0.1f);
+    draw_selection_corners(ctx, &corner, 38.0f, 0.1f);
 }
 #pragma pop
 

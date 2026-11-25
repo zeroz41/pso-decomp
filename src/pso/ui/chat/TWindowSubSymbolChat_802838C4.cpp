@@ -44,7 +44,7 @@ void TWindowSubSymbolChatHelp::set_pos_and_flag(s32 *first, s32 *second) {
     flip_v = second;
     feature_flags = (u8)(feature_flags | 4);
 }
-void TWindowSubSymbolChat__sub_80283944(TWindowSubSymbolChatHelp *window) {
+void clear_help_feature_flag1(TWindowSubSymbolChatHelp *window) {
     window->feature_flags &= ~1;
 }
 

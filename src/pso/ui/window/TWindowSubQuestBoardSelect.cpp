@@ -130,7 +130,7 @@ void TWindowSubQuestBoardSelect::select_next() {
     }
 }
 
-void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
+void draw_selection_corners(void *, void *, f32, f32);
 
 void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, WindowDrawContext *ctx) {
     ColorLineVertex v[3];
@@ -151,7 +151,7 @@ void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, 
         return;
     }
     e = static_cast<WindowTextEntry *>(self->get_array_entry(self->slot + 2));
-    TWindowSubSymbolChatFaceType__sub_80283C84(ctx, &e->x, 56.0f, 0.3f);
+    draw_selection_corners(ctx, &e->x, 56.0f, 0.3f);
     x = ctx->inner_x + e->x;
     y = ctx->inner_y + e->y;
     if (ctx->open_tick < 6) {

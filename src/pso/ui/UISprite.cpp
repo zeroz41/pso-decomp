@@ -357,10 +357,10 @@ void draw_creation_ruler_lines(f32 fade) {
     draw_line_list(&d, 0x10, 5);
     c = (u32)(64.0f * fade) | 0x40400000 | 0x4000;
     creation_ruler_line_colors[0] = creation_ruler_line_colors[1] = c;
-    draw_tri_fan_3d(&lbl_804DA98C, 4, 7);
+    draw_tri_fan_3d(&creation_ruler_line_desc, 4, 7);
 }
 
-NJS_POINT3 lbl_804DA94C[4] = {
+NJS_POINT3 creation_ruler_line_verts[4] = {
     { -7.5f, 0.0f, -0.1f },
     { 7.5f, 0.0f, -0.1f },
     { 7.5f, 15.0f, -0.1f },
@@ -369,7 +369,7 @@ NJS_POINT3 lbl_804DA94C[4] = {
 
 u32 creation_ruler_line_colors[4] = { 0x40404000, 0x40404000, 0xFFFFFF00, 0xFFFFFF00 };
 
-NJS_POINT3COL lbl_804DA98C = { lbl_804DA94C, creation_ruler_line_colors, NULL, 4 };
+NJS_POINT3COL creation_ruler_line_desc = { creation_ruler_line_verts, creation_ruler_line_colors, NULL, 4 };
 
 s32 TObjCMMainMenu::get_creation_sprite_id(s32 sprite_id) {
     NJS_TEXANIM *cells;

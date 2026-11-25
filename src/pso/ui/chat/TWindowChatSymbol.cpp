@@ -241,7 +241,7 @@ void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(PartSpriteW
     }
 }
 
-u16 *TWindowSubSymbolChatPartsSet__sub_802482B8(void *window, s32 sel) {
+u16 *get_shortcut_icon_entry(void *window, s32 sel) {
     return (u16 *)((TWindowBase *)window)->get_array_entry(sel + 0x1);
 }
 

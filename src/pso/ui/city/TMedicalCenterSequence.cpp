@@ -259,7 +259,7 @@ void TMedicalCenterMes::run_task() {
         if (player == NULL) {
             player = get_player_by_client_id(local_client_id);
         }
-        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        set_shop_slot_active(player->get_entity_id());
         TWindowCtrl::suppress_slot(player->get_entity_id());
         f32 pos[2] = {332.0f, 80.0f};
         s32 id = player->get_entity_id();

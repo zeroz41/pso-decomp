@@ -38,8 +38,8 @@ class TChCrTagPlBack;
 const char *TWindowSubShortMail::class_name = "TWindowSubShortMail";
 
 // Size arguments of the mail list item and the mail text window.
-static const f32 lbl_8044FAC4[2] = {218.0f, 184.0f};
-static const f32 lbl_8044FACC[2] = {206.0f, 120.0f};
+static const f32 short_mail_item_size[2] = {218.0f, 184.0f};
+static const f32 short_mail_text_window_size[2] = {206.0f, 120.0f};
 
 extern "C" {
 s32 *get_shared_text_buffer(void);
@@ -374,7 +374,7 @@ void TWindowSubShortMail::render() {  }
 TWindowMenuIconLine *TWindowSubShortMail::create_list_item() {
     const NJS_POINT2 *position = get_window_layout_position(0x9B);
     TWindowMenuIconLine *list = fn_80267F38(reinterpret_cast<saddr>(position),
-        reinterpret_cast<saddr>(lbl_8044FAC4), 8, static_cast<s16>(client_id));
+        reinterpret_cast<saddr>(short_mail_item_size), 8, static_cast<s16>(client_id));
     list->ensure_status_display(reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0x2E)));
     list->set_flag70_bit10();
     return list;
@@ -409,7 +409,7 @@ s32 TWindowSubShortMail::refresh_mail_list(TWindowMenuIconLine *mail_list) {
         }
     } else if (this->message_window == 0) {
         this->message_window = reinterpret_cast<TWindowMessage *>(
-            TWindowMessage::create(get_window_layout_position(0x9C), lbl_8044FACC, 1));
+            TWindowMessage::create(get_window_layout_position(0x9C), short_mail_text_window_size, 1));
         this->mail_id = -1;
     }
     if (sel == -1) {

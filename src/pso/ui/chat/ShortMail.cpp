@@ -177,9 +177,9 @@ int TLobby::get_short_mail_ctrl() {  return lobby_short_mail_entry_count; }
 
 
 void TLobby__sub_80225CB8(void) {
-    lbl_805D63FC |= 1;
+    short_mail_flags |= 1;
 }
 
 void TLobby::clear_lobby_flag() {
-    lbl_805D63FC &= 0xFFFE;
+    short_mail_flags &= 0xFFFE;
 }

@@ -296,13 +296,13 @@ void THunterGuildSeqOnline_Server::close_window() {
         break;
     case 1:
         new TScreenFadeOut(tl_00, reset_random_enemies_mode);
-        THunterGuildSeqOffline__sub_8021E180(((TObjBase *)(player))->get_entity_id());
+        set_shop_slot_active(((TObjBase *)(player))->get_entity_id());
         TShopSequence::close_window();
         queue_destruction();
         break;
     case 2:
         new TScreenFadeOut(tl_00, set_random_enemies_mode);
-        THunterGuildSeqOffline__sub_8021E180(((TObjBase *)(player))->get_entity_id());
+        set_shop_slot_active(((TObjBase *)(player))->get_entity_id());
         TShopSequence::close_window();
         queue_destruction();
         break;

@@ -90,19 +90,19 @@ void THunterGuildSeqOffline::close_window() {
         break;
     case 1:
         new TScreenFadeOut(tl_00, THunterGuildSeqOffline::set_enemy_mode_0);
-        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        set_shop_slot_active(player->get_entity_id());
         break;
     case 2:
         new TScreenFadeOut(tl_00, THunterGuildSeqOffline::set_enemy_mode_1);
-        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        set_shop_slot_active(player->get_entity_id());
         break;
     case 3:
         new TScreenFadeOut(tl_00, TQuestListVM::set_enemy_mode_3);
-        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        set_shop_slot_active(player->get_entity_id());
         break;
     case 4:
         new TScreenFadeOut(tl_00, THunterGuildSeqOffline::set_enemy_mode_5);
-        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        set_shop_slot_active(player->get_entity_id());
         break;
     }
     TShopSequence::close_window();

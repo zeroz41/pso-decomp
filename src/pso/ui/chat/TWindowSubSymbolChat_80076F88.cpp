@@ -33,14 +33,14 @@ static const s32 symbol_chat_sound_ids[9] = {
 void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *preset_index) {
     G_SymbolChat_6x07 packet;
     saddr symbol_chat_preset;
-    TWindowSubSymbolChat__sub_80077704((&packet.header));
+    init_symbol_chat_header((&packet.header));
     symbol_chat_preset = ((s32)((saddr)get_symbol_chat_preset((saddr)(*preset_index))));
     packet.client_id = local_client_id;
     TLobby::copy_symbol_chat_entry((void *)&packet.data[0], (void *)(symbol_chat_preset + 0x1C));
     ((TWindowSubSymbolChat *)(&packet.header))->send_symbol_chat();
 }
 
-int TWindowSubSymbolChat__sub_80076FE0(const SymbolChatPreset *preset) { return (preset->payload.appearance >> 9) & 1; }
+int is_preset_flag_bit9_set(const SymbolChatPreset *preset) { return (preset->payload.appearance >> 9) & 1; }
 
 void SymbolChatPreset::set_entry_name(const char *text) {
     strncpy(name, text, 0x16);
@@ -108,11 +108,11 @@ void SymbolChatPreset::remove_slot_shift_down(s32 i) {
     payload.parts[11].flags = 0;
 }
 
-void TWindowSubSymbolChat__sub_800771B0(SymbolChatPreset *preset, s32 index) {
+void clear_facial_part(SymbolChatPreset *preset, s32 index) {
     preset->payload.facial_parts[index] = 0xFF;
 }
 
-s32 TWindowSubSymbolChat__sub_800771C4(const SymbolChatPreset *preset, s32 index) {
+s32 is_facial_part_set(const SymbolChatPreset *preset, s32 index) {
     return ((u8)preset->payload.facial_parts[index] - 0xFF) != 0 ? 1 : 0;
 }
 
@@ -247,7 +247,7 @@ SymbolChatPayload *SymbolChatPreset::get_data_ptr() { return &payload; }
 void TWindowSubSymbolChat::bswap_symbol_chat_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); ((SymbolChatPayload *)((char*)this + 0x8))->byteswap_entry(); }
 void SymbolChatPayload::byteswap_entry() { bswap_32(&appearance); { int i; for (i = 0; i < 4; i++) { bswap_16(&facial_parts[i]); } } }
 void TWindowSubSymbolChat::send_symbol_chat() { bswap_symbol_chat_packet(); broadcast_subcommand(this); }
-void TWindowSubSymbolChat__sub_80077704(void* p) { *(u8*)((char*)p + 0x0) = 7; *(u8*)((char*)p + 0x1) = 17; }
+void init_symbol_chat_header(void* p) { *(u8*)((char*)p + 0x0) = 7; *(u8*)((char*)p + 0x1) = 17; }
 
     extern int selected_symbol_chat_preset;
 saddr TWindowSubSymbolChat::get_instance() {  return selected_symbol_chat_preset; }

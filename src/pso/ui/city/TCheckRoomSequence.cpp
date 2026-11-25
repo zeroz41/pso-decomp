@@ -51,7 +51,7 @@ s32 TCheckRoomSequence::active_instance;
 #pragma optimization_level 1
 
 
-typedef void (TCheckRoomSequence::*Fn_802102D0)();
+typedef void (TCheckRoomSequence::*StateHandler)();
 
 struct BankCardView { u8 pad[0x248]; s32 count; s32 meseta; u8 items[1]; };
 
@@ -483,27 +483,27 @@ void TCheckRoomSequence::restore_player_state() {
 }
 
 void TCheckRoomSequence::update_state() {
-    static Fn_802102D0 fns[20] = {
-        (Fn_802102D0)&TCheckRoomSequence::restore_player_state,
-        (Fn_802102D0)&TCheckRoomSequence::open_bank,
-        (Fn_802102D0)&TCheckRoomSequence::handle_root_choice,
-        (Fn_802102D0)&TCheckRoomSequence::handle_deposit_choice,
-        (Fn_802102D0)&TCheckRoomSequence::open_deposit_item_window,
-        (Fn_802102D0)&TCheckRoomSequence::accept_meseta_deposit,
-        (Fn_802102D0)&TCheckRoomSequence::begin_meseta_deposit,
-        (Fn_802102D0)&TCheckRoomSequence::begin_meseta_withdrawal,
+    static StateHandler fns[20] = {
+        (StateHandler)&TCheckRoomSequence::restore_player_state,
+        (StateHandler)&TCheckRoomSequence::open_bank,
+        (StateHandler)&TCheckRoomSequence::handle_root_choice,
+        (StateHandler)&TCheckRoomSequence::handle_deposit_choice,
+        (StateHandler)&TCheckRoomSequence::open_deposit_item_window,
+        (StateHandler)&TCheckRoomSequence::accept_meseta_deposit,
+        (StateHandler)&TCheckRoomSequence::begin_meseta_deposit,
+        (StateHandler)&TCheckRoomSequence::begin_meseta_withdrawal,
         0,
-        (Fn_802102D0)&TCheckRoomSequence::open_get_item_window,
-        (Fn_802102D0)&TCheckRoomSequence::handle_withdraw_choice,
-        (Fn_802102D0)&TCheckRoomSequence::close_window,
-        (Fn_802102D0)&TCheckRoomSequence::accept_meseta_withdrawal,
-        (Fn_802102D0)&TCheckRoomSequence::close_window,
-        (Fn_802102D0)&TCheckRoomSequence::sub_802100FC,
-        (Fn_802102D0)&TCheckRoomSequence::sub_802100F8,
-        (Fn_802102D0)&TCheckRoomSequence::handle_error_ack,
-        (Fn_802102D0)&TCheckRoomSequence::sub_8020F1DC,
-        (Fn_802102D0)&TCheckRoomSequence::set_quest_list_mode_19,
-        (Fn_802102D0)&TCheckRoomSequence::open_delete_item_window,
+        (StateHandler)&TCheckRoomSequence::open_get_item_window,
+        (StateHandler)&TCheckRoomSequence::handle_withdraw_choice,
+        (StateHandler)&TCheckRoomSequence::close_window,
+        (StateHandler)&TCheckRoomSequence::accept_meseta_withdrawal,
+        (StateHandler)&TCheckRoomSequence::close_window,
+        (StateHandler)&TCheckRoomSequence::sub_802100FC,
+        (StateHandler)&TCheckRoomSequence::sub_802100F8,
+        (StateHandler)&TCheckRoomSequence::handle_error_ack,
+        (StateHandler)&TCheckRoomSequence::sub_8020F1DC,
+        (StateHandler)&TCheckRoomSequence::set_quest_list_mode_19,
+        (StateHandler)&TCheckRoomSequence::open_delete_item_window,
     };
     if (fns[state]) {
         (this->*fns[state])();

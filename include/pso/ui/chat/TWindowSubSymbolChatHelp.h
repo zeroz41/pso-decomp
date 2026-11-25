@@ -36,7 +36,7 @@ LAYOUT_ASSERT(TWindowSubSymbolChatHelp_m64, offsetof(TWindowSubSymbolChatHelp, c
 LAYOUT_ASSERT(TWindowSubSymbolChatHelp_m70, offsetof(TWindowSubSymbolChatHelp, flip_v) == 0x70);
 
 extern "C" {
-void TWindowSubSymbolChat__sub_80283944(TWindowSubSymbolChatHelp *window);
+void clear_help_feature_flag1(TWindowSubSymbolChatHelp *window);
 }
 
 #endif

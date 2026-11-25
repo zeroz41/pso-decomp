@@ -28,16 +28,16 @@ f32 xz_distance_squared(void *, void *);
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
 
     extern int hunter_guild_online_client_instance_table[];
-int THunterGuildSeqOffline__sub_80211FEC(int a0) {  return hunter_guild_online_client_instance_table[a0]; }
+int get_online_client_instance(int a0) {  return hunter_guild_online_client_instance_table[a0]; }
 
     extern int hunter_guild_online_server_instance_table[];
-int THunterGuildSeqOffline__sub_80212000(int a0) {  return hunter_guild_online_server_instance_table[a0]; }
+int get_online_server_instance(int a0) {  return hunter_guild_online_server_instance_table[a0]; }
 
 void *THunterGuildSeqOffline::create(void *player) {
     return new THunterGuildSeqOffline(tl_05, (TObjPlayer *)player);
 }
 
-int THunterGuildSeqOffline__sub_80212060(int a0) {  return THunterGuildSeqOffline::instance_table[a0]; }
+int get_offline_instance(int a0) {  return THunterGuildSeqOffline::instance_table[a0]; }
 
 s32 THunterGuildSeqOffline__sub_80212074(void) {
     saddr player;

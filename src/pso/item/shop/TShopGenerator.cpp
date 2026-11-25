@@ -195,7 +195,7 @@ void TShopGenerator::clear_slot_active(u16 client) {
 }
 
 
-void THunterGuildSeqOffline__sub_8021E180(u16 client) {
+void set_shop_slot_active(u16 client) {
     u16 idx = get_client_split_screen_slot(client);
     TShopGenerator__slot_active_table[idx] = 1;
 }

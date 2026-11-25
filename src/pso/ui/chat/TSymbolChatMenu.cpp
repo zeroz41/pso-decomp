@@ -33,8 +33,8 @@ TSymbolChatMenu::~TSymbolChatMenu() {
 TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
     // preset_list_pos: where the list of the 12 symbol chat presets opens.
     static const NJS_POINT2 preset_list_pos = {30.0f, 314.0f};
-    static const NJS_POINT2 lbl_8044EAC8 = {250.0f, 314.0f};
-    static const NJS_POINT2 lbl_8044EAD0 = {168.0f, 120.0f};
+    static const NJS_POINT2 symbol_chat_menu_position = {250.0f, 314.0f};
+    static const NJS_POINT2 symbol_chat_menu_size = {168.0f, 120.0f};
     s32 i;
     u8 *text;
     u8 *symbol_chat_preset;
@@ -53,5 +53,5 @@ TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(preset_list));
-    chat_symbol = new TWindowChatSymbol(&lbl_8044EAC8, (saddr)&lbl_8044EAD0);
+    chat_symbol = new TWindowChatSymbol(&symbol_chat_menu_position, (saddr)&symbol_chat_menu_size);
 }

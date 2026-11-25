@@ -743,8 +743,8 @@ force_active:
   - get_client_id__11CursorOwnerFv
   - TMainCursor__sub_8013E570
   - set_client_id__11CursorOwnerFUs
-  - TMainCursor__sub_8013E8A0
-  - TMainCursor__sub_8013F22C
+  - deactivate_action_channel
+  - clear_marker_color
   - clear_bodies_collision_flag
   - set_bodies_collision_flag
   - TMainCursor__sub_80154288
@@ -1867,7 +1867,7 @@ force_active:
   - symbol_chat_parts_set_part_uv_table
   - TWindowSubSymbolChat__sub_80281840
   - TWindowSubSymbolChat__sub_8028233C
-  - TWindowSubSymbolChat__sub_8028379C
+  - get_symbol_chat_receive_buffer
   - get_technique_description_text
   - TWindowSubTradeMessage__name
   - TWindowTimer__sub_8019886C
@@ -8050,8 +8050,8 @@ force_active:
   - lbl_804D9670
   - lbl_804DA19C
   - lbl_804DA570
-  - lbl_804DA94C
-  - lbl_804DA98C
+  - creation_ruler_line_verts
+  - creation_ruler_line_desc
   - lbl_804DC098
   - lbl_804DC0F8
   - lbl_804DC2D8
@@ -8403,10 +8403,10 @@ force_active:
   - recobox_attack_params
   - recobox_behavior_params
   - lobby_action_motion_buffer
-  - lbl_805D6D80
+  - chr_select_logo_state
   - lbl_805D6D84
   - lbl_805D6D88
-  - lbl_805D6D90
+  - char_save_message_flags
   - indirect_draw_task
   - lbl_805D6DC8
   - boss6_rock_damage

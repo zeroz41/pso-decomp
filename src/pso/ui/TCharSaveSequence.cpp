@@ -55,7 +55,7 @@ struct CharacterSelectCallbackTable {
 static const f32 lbl_80477D48[2] = { 80.0f, 146.0f };
 static const f32 lbl_80477D50[2] = { 479.0f, 267.0f };
 // Window position init_warp and init_warps pass to create_window_menu_default
-static const NJS_POINT2 lbl_80477D58 = { 324.0f, 374.0f };
+static const NJS_POINT2 char_save_menu_position = { 324.0f, 374.0f };
 // Camera position and target of init_single_player_char_select_scene
 static const Vec lbl_80477D60 = { 0.0f, 0.0f, 0.0f };
 static const Vec lbl_80477D6C = { 0.0f, 0.0f, -100.0f };
@@ -63,11 +63,11 @@ static const Vec lbl_80477D6C = { 0.0f, 0.0f, -100.0f };
 static const Vec lbl_80477D78 = { 0.0f, 0.0f, 0.0f };
 static const Vec lbl_80477D84 = { 0.0f, 0.0f, -100.0f };
 
-s32 lbl_805D6D80;
+s32 chr_select_logo_state;
 s32 lbl_805D6D84;
 s32 lbl_805D6D88;
 s32 single_ply_quest_download_server;
-s32 lbl_805D6D90;
+s32 char_save_message_flags;
 extern "C" {
 extern void *character_select_scene_resource_callbacks[];
 
@@ -93,7 +93,7 @@ void TAdSinglePlyChrSelectGC::set_quest_download_server(int quest_download_serve
 void TAdSinglePlyChrSelectGC::init_logo_state(s32 state) {
     lbl_805D6D88 = 0;
     lbl_805D6D84 = 0;
-    lbl_805D6D80 = state;
+    chr_select_logo_state = state;
     single_ply_quest_download_server = 0xFFFF;
 }
 void TAdSinglePlyChrSelectGC::noop() {  }
@@ -117,7 +117,7 @@ void TCharSaveSequence::alloc_download_buffer() {
 }
 void TCharSaveSequence::report_missing_file() {
     state = 0xB;
-    lbl_805D6D90 &= 0xFFFFFFFE;
+    char_save_message_flags &= 0xFFFFFFFE;
     set_char_slots(0xA, chr_select_state + 0xF);
     init_warps();
 }
@@ -160,7 +160,7 @@ void TCharSaveSequence::handle_player_load() {
                 break;
             default:
                 state = 0xD;
-                lbl_805D6D90 &= ~1;
+                char_save_message_flags &= ~1;
                 set_char_slots(0xB, -1);
                 init_warps();
                 break;
@@ -193,7 +193,7 @@ void TCharSaveSequence::check_memcard_space() {
             state = 7;
         } else {
             state = 0xA;
-            lbl_805D6D90 &= ~1;
+            char_save_message_flags &= ~1;
             set_char_slots(8, -1);
             init_warps();
         }
@@ -220,7 +220,7 @@ void TCharSaveSequence::wait_character_file_write() {
                 break;
             default:
                 state = 0xD;
-                lbl_805D6D90 &= ~1;
+                char_save_message_flags &= ~1;
                 set_char_slots(0xB, -1);
                 init_warps();
                 break;
@@ -254,7 +254,7 @@ void TCharSaveSequence::handle_load_result() {
         memcpy(obj, (void *)(src + 0x2048), 0x1156C);
         TAdSinglePlyChrSelectGC::decrypt_char_data(obj);
         if (TAdSinglePlyChrSelectGC::init_and_register(obj) == 0) {
-            lbl_805D6D90 &= ~1;
+            char_save_message_flags &= ~1;
             message_window->append_line(get_message_text(0x6D), 1);
             state = 0xB;
             init_warp();
@@ -265,7 +265,7 @@ void TCharSaveSequence::handle_load_result() {
             r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (CharacterSaveRecord *)get_character_save_record(0xFFFF), obj, (CharacterFile *)TAdSinglePlyChrSelectGC::get_instance());
             if (r != 7) {
                 state = 0xC;
-                lbl_805D6D90 &= ~1;
+                char_save_message_flags &= ~1;
                 message_window->append_line(get_message_text(0xA), 1);
                 if (r == 6) {
                     init_warp();
@@ -324,7 +324,7 @@ void TCharSaveSequence::wait_card_check() {
             check_memory_card = NULL;
             state = 2;
             message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)lbl_80477D48, (NJS_POINT2 *)lbl_80477D50);
-            lbl_805D6D90 |= 1;
+            char_save_message_flags |= 1;
             return;
         }
         if (check_memory_card->prompt_was_accepted() == 1) {
@@ -380,7 +380,7 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
-    if (!(lbl_805D6D90 & 1)) {
+    if (!(char_save_message_flags & 1)) {
         if (func_801A5E54__Fv() != 0) {
             switch_to_fallback_main_phase();
         }
@@ -411,7 +411,7 @@ void init_single_player_char_select_scene(void) {
     }
     new TCharSaveSequence();
     set_fallback_main_phase(2);
-    lbl_805D6D90 = 0;
+    char_save_message_flags = 0;
     play_area_music("title.adx");
     TLobby::set_and_notify(-900);
     ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
@@ -430,13 +430,13 @@ void TCharSaveSequence::close_window() {
 }
 void TCharSaveSequence::init_warp() {
     close_window();
-    menu = create_window_menu_default(&lbl_80477D58, 2);
+    menu = create_window_menu_default(&char_save_menu_position, 2);
     menu->add_text_entry(get_message_text(14), 6, 1);
     menu->update_layout_height(289.0f);
 }
 void TCharSaveSequence::init_warps() {
     close_window();
-    menu = create_window_menu_default(&lbl_80477D58, 2);
+    menu = create_window_menu_default(&char_save_menu_position, 2);
     menu->add_text_entry(get_message_text(13), 6, 0);
     menu->add_text_entry(get_message_text(14), 6, 1);
     menu->update_layout_height(289.0f);

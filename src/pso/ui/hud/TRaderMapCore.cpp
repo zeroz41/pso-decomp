@@ -193,7 +193,7 @@ BmlResourceDescriptor obj_f_enemy_resource_descriptor = {
 };
 const char *rader_map_core_name_ptr = "TRaderMapCore";
 // setup_overhead_projection: eye distance factor and field of view (degrees).
-f32 lbl_805D3608 = 1.0f;
+f32 radar_eye_scale = 1.0f;
 f32 radar_overhead_projection_scale = 75.0f;
 
 #define RADAR_BACKDROP_MAP ((RadarBackdropMap *)TRaderMapCore::floor_map_resource)
@@ -1307,9 +1307,9 @@ void TRaderMapCore::setup_overhead_projection(RadarMapViewState *view) {
     Vec up = { 0.0f, 0.0f, -1.0f };
     Vec eye;
     Vec at;
-    eye.x = view->camera.px * lbl_805D3608;
-    eye.y = view->camera.py * lbl_805D3608;
-    eye.z = view->camera.pz * lbl_805D3608;
+    eye.x = view->camera.px * radar_eye_scale;
+    eye.y = view->camera.py * radar_eye_scale;
+    eye.z = view->camera.pz * radar_eye_scale;
     at.x = view->camera.vx + eye.x;
     at.y = view->camera.vy + eye.y;
     at.z = view->camera.vz + eye.z;

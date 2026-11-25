@@ -53,7 +53,7 @@ void TPlyGuildCardTag::bswap() {
 }
 
 void set_guild_card_receive_active() {
-    lbl_805D63FC |= 2;
+    short_mail_flags |= 2;
 }
 
 s32 ShortMailEntry::get_sender_card_id() { return sender_card_id; }

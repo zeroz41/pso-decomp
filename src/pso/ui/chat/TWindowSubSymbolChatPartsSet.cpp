@@ -53,7 +53,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *selection, s32 *
         do {
             part_flags = get_parts_entry(this, i);
             second_entry = get_parts_entry((saddr)i);
-            third_entry = TWindowSubSymbolChatPartsSet__sub_802482B8(this, i);
+            third_entry = get_shortcut_icon_entry(this, i);
             i += 1;
             *part_flags |= 2;
             *second_entry |= 2;
@@ -67,7 +67,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *selection, s32 *
     selection_mode = 3;
     skip = *(s16 *)((s8 *)(this) + 0x6E) - free_slots;
     for (; i < 4; i++) {
-        if (TWindowSubSymbolChat__sub_800771C4(instance, i) != 0) {
+        if (is_facial_part_set(instance, i) != 0) {
             if (skip-- <= 0) {
                 sign = (u32) i >> 0x1FU;
                 facial = data_ptr->facial_parts[i];
@@ -116,7 +116,7 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
   {
     parts_entry = TWindowSubSymbolChatPartsSet::get_parts_entry(this, sel);
     second_entry = (u16 *) this->get_parts_entry((saddr)sel);
-    third_entry = (u16 *) TWindowSubSymbolChatPartsSet__sub_802482B8(this, sel);
+    third_entry = (u16 *) get_shortcut_icon_entry(this, sel);
     sel += 1;
     *parts_entry |= 2;
     *second_entry |= 2;
@@ -133,13 +133,13 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
 
 
 const char *window_sub_symbol_chat_parts_set_name = "TWindowSubSymbolChatPartsSet";
-static const NJS_POINT2 lbl_8044FC30 = {178.0f, 188.0f};
+static const NJS_POINT2 parts_set_window_size = {178.0f, 188.0f};
 
 struct PartSpriteView { u8 pad[8]; f32 f8; f32 fc; };
 
 extern "C" {
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
-void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
+void draw_selection_corners(void *, void *, f32, f32);
 
 
 void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
@@ -151,7 +151,7 @@ void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
         e = (PartSpriteView *)TWindowSubSymbolChatPartsSet::get_parts_entry(this, first_part_index);
         corner.x = e->f8 - 3.0f;
         corner.y = e->fc - 3.0f;
-        TWindowSubSymbolChatFaceType__sub_80283C84(ctx, &corner, 38.0f, 0.1f);
+        draw_selection_corners(ctx, &corner, 38.0f, 0.1f);
         break;
     case 0:
     case 2:
@@ -198,12 +198,12 @@ void TWindowSubSymbolChatPartsSet::sub_8028625C() {
     case 3:
         a3 = get_parts_entry(this, (u32)second_part_index);
         b3 = get_parts_entry((saddr)(u32)second_part_index);
-        c = TWindowSubSymbolChatPartsSet__sub_802482B8(this, (u32)second_part_index);
+        c = get_shortcut_icon_entry(this, (u32)second_part_index);
         setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a3, b3, c, 0xFF, 0, 0, 0, 0);
     case 1:
         a1 = get_parts_entry(this, first_part_index);
         b1 = get_parts_entry((saddr)first_part_index);
-        c = TWindowSubSymbolChatPartsSet__sub_802482B8(this, first_part_index);
+        c = get_shortcut_icon_entry(this, first_part_index);
         setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a1, b1, c, part_id, *selection_out, *first_flag_out, *second_flag_out, first_part_index);
         break;
     }
@@ -340,7 +340,7 @@ TWindowSubSymbolChatPartsSet::~TWindowSubSymbolChatPartsSet() {
 }
 
 TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second)
-    : TWindowChatSymbol(position, (saddr)&lbl_8044FC30) {
+    : TWindowChatSymbol(position, (saddr)&parts_set_window_size) {
     m_name = window_sub_symbol_chat_parts_set_name;
     set_depth(50030.0f);
     result_flags = 0;

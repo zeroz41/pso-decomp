@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-int TLockOnCursor__sub_8013EB34(void);
+int get_target_cursor_model(void);
 }
 
 

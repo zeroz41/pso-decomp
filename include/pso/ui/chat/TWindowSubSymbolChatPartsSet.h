@@ -49,7 +49,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     static u16 *get_parts_entry(void *window, int index);
 };
 
-extern "C" u16 *TWindowSubSymbolChatPartsSet__sub_802482B8(void *window, s32 index);
+extern "C" u16 *get_shortcut_icon_entry(void *window, s32 index);
 
 LAYOUT_ASSERT(TWindowSubSymbolChatPartsSet_size, sizeof(TWindowSubSymbolChatPartsSet) == 0x98);
 #endif

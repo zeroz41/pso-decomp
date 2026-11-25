@@ -144,7 +144,7 @@ LAYOUT_ASSERT(TWindowCtrlPlayersOffset, offsetof(TWindowCtrl, players) == 0x48);
 LAYOUT_ASSERT(TWindowCtrlBalloonSlotsOffset, offsetof(TWindowCtrl, balloons) == 0x84);
 LAYOUT_ASSERT(TWindowCtrl_size, sizeof(TWindowCtrl) == 0xE8);
 
-extern u16 lbl_805D63FC;
+extern u16 short_mail_flags;
 
 
 #endif
