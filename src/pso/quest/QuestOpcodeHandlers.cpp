@@ -722,11 +722,8 @@ struct ByteBlock_20 { u8 bytes[0x20]; };
 
 struct ByteBlock_24 { u8 bytes[0x24]; };
 
-struct WriteFlagBufToEventFlagsContext { u8 pad[0x10]; u8 buf[0xFD]; };
-
-struct GetEventflag32Context { u8 pad[0x10]; u8 buf[0xFD]; };
-
-struct GetEventflag16Context { u8 pad[0x10]; u8 buf[0xFF]; };
+// The quest event flags of the selected character's record (get/set_eventflag16/32).
+struct QuestEventFlagRecord { u8 pad_0[0x10]; u8 event_flags[0x100]; };
 
 struct GetBaRecordCard {
     u8 pad[0x21A8];
@@ -764,10 +761,6 @@ struct SetSwitchFlagSyncPacket {
     u8 e;
 };
 
-
-struct SetEventflag32Context { u8 pad[0x10]; u8 buf[0xFD]; };
-
-struct SetEventflag16Context { u8 pad[0x10]; u8 buf[0xFF]; };
 
 struct UpdateSwitchFlagPacket {
     u8 cmd;
@@ -2118,9 +2111,9 @@ void qst_op_set_chat_callback_no_filter(u8 i) {
 
 void qst_op_write_flag_buf_to_event_flags(u8 reg) {
     s32 idx = qst_registers[reg];
-    WriteFlagBufToEventFlagsContext *w = (WriteFlagBufToEventFlagsContext *)TAdSinglePlyChrSelectGC::get_global_state();
+    QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && idx >= 0 && idx < 0xFD) {
-        move_data((void *)((&w->buf[idx])), (const void *)(&qst_flag_buf), 4);
+        move_data((void *)((&w->event_flags[idx])), (const void *)(&qst_flag_buf), 4);
     }
 }
 
@@ -2253,11 +2246,11 @@ void qst_op_shift_left(s32 dst, s32 src) {
 void qst_op_get_eventflag32(u8 a0, u8 a1) {
     s32 v;
     qst_registers[a1] = 0;
-    GetEventflag32Context *w = ((GetEventflag32Context *)TAdSinglePlyChrSelectGC::get_global_state());
+    QuestEventFlagRecord *w = ((QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state());
     if (w != NULL) {
         s32 i = qst_registers[a0];
         if (i >= 0 && i < 0xFD) {
-            memcpy(&v, &w->buf[i], 4);
+            memcpy(&v, &w->event_flags[i], 4);
             qst_registers[a1] = v;
         }
     }
@@ -2266,11 +2259,11 @@ void qst_op_get_eventflag32(u8 a0, u8 a1) {
 void qst_op_get_eventflag16(u8 a0, u8 a1) {
     s16 v;
     qst_registers[a1] = 0;
-    GetEventflag16Context *w = ((GetEventflag16Context *)TAdSinglePlyChrSelectGC::get_global_state());
+    QuestEventFlagRecord *w = ((QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state());
     if (w != NULL) {
         s32 i = qst_registers[a0];
         if (i >= 0 && i < 0xFF) {
-            memcpy(&v, &w->buf[i], 2);
+            memcpy(&v, &w->event_flags[i], 2);
             qst_registers[a1] = v;
         }
     }
@@ -2514,9 +2507,9 @@ void qst_op_ba_get_place(u8 a0, u8 a1) {
 void qst_op_set_eventflag32() {
     u32 i = (u32)qst_args[0];
     s32 v = qst_args[1];
-    SetEventflag32Context *w = (SetEventflag32Context *)TAdSinglePlyChrSelectGC::get_global_state();
+    QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFD) {
-        move_data((void *)((&w->buf[i])), (const void *)(&v), 4);
+        move_data((void *)((&w->event_flags[i])), (const void *)(&v), 4);
     }
 }
 
@@ -2548,9 +2541,9 @@ void qst_op_animation_check(s32 slot_reg, s32 dst) {
 void qst_op_set_eventflag16() {
     u32 i = (u32)qst_args[0];
     s16 v = qst_args[1];
-    SetEventflag16Context *w = (SetEventflag16Context *)TAdSinglePlyChrSelectGC::get_global_state();
+    QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFF) {
-        move_data((void *)((&w->buf[i])), (const void *)(&v), 2);
+        move_data((void *)((&w->event_flags[i])), (const void *)(&v), 2);
     }
 }
 
