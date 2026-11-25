@@ -10,6 +10,7 @@ struct GuildCardSlot;
 struct NJS_POINT2;
 struct TWindowComCard;
 struct TWindowMenu;
+struct TWindowMessage;
 
 struct TWindowSubComCard : public TObject {
     static void update_display_value(uaddr list_window, uaddr card_window, s32 *last_selected);
@@ -42,12 +43,12 @@ struct TWindowSubComCard : public TObject {
     ChoiceSearchSelection choice_selections[5];
     uaddr chr_select;
     u32 m_5c;
-    uaddr menu_window;
+    TWindowMenu *menu_window;
     // Menu the current state waits on (option lists, menus, player select). inferred: name from its creators.
     TWindowMenu *submenu;
     // Card list or card action menu. inferred: name from its creators.
     TWindowMenu *card_menu;
-    uaddr message_window;
+    TWindowMessage *message_window;
     uaddr confirm_window;
     uaddr com_card_window;
     uaddr m_78;
@@ -121,14 +122,14 @@ struct TWindowSubComCard : public TObject {
     void set_page(s16 v);
     void set_display_page();
     static TWindowComCard *create_com_card_window(const NJS_POINT2 *position);
-    static s32 create_menu();
+    TWindowMenu *create_menu();
     TWindowMenu *create_single_entry_window();
     TWindowMenu *open_menu();
-    static void open_layout_window();
-    static void open_mode4_window();
+    TWindowMessage *open_layout_window();
+    TWindowMessage *open_mode4_window();
     TWindowMenu *create_menu_window();
     TWindowMenu *create_player_select_window();
-    static saddr create();
+    TWindowMessage *create();
     static void cleanup(void* p);
     static u8 *send_cmd_133();
     static void init_layout();
