@@ -1142,7 +1142,7 @@ s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *entry, char *window_dd
         s32 i;
         for (i = 0; i < n; i++) {
             if (i != 2) {
-                ((TWindowDD *)window_dd)->maybe_scroll(&pos);
+                TWindowDD::maybe_scroll(window_dd, &pos);
             }
             TWindowDD__sub_80347474(entry, entry->ids[i], window_dd, &pos);
         }
@@ -1157,7 +1157,7 @@ s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *entry, char *window_dd
             TWindowDD__sub_80347474(entry, entry->ids[2], window_dd, &pos);
         }
         if (n > 1) {
-            ((TWindowDD *)window_dd)->maybe_scroll(&pos);
+            TWindowDD::maybe_scroll(window_dd, &pos);
             append_word_select_token(entry->ids[1], window_dd, &pos);
         }
         if (n > 3) {
@@ -1171,7 +1171,7 @@ s32 format_entry_text__9TWindowDDFPvPv(WordSelectMessage *entry, char *window_dd
         s32 i;
         for (i = 0; i < n; i++) {
             if (i != 2) {
-                ((TWindowDD *)window_dd)->maybe_scroll(&pos);
+                TWindowDD::maybe_scroll(window_dd, &pos);
             }
             TWindowDD__sub_80347474(entry, entry->ids[i], window_dd, &pos);
         }

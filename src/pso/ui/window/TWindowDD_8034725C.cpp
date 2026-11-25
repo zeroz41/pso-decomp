@@ -349,7 +349,7 @@ TWindowDD *TWindowDD__sub_80347980(TWindowDD *self) {
     if (w->depth > 0) {
         child = w->child[w->depth - 1];
         if (child != NULL) {
-            self->update((saddr)child);
+            self->update((TWindowDD_WS_Word *)child);
             w->entry_id = TWindowDD__sub_8034214C((u8 *)child);
         }
     }
@@ -401,7 +401,7 @@ u8 *TWindowDD__sub_80347AD4(W_80347AD4 *self, s32 offset, s32 id) {
     win = self->child[i];
     if (win == NULL) {
         win = (u8 *)TWindowDD__sub_80342384(id, (s32)lbl_805DFB54);
-        TWindowDD::set_default_coords((saddr)self, (TWindowDD_WS_Word *)win);
+        TWindowDD::set_default_coords(self, (TWindowDD_WS_Word *)win);
         self->child[self->depth + offset] = win;
     }
     return win;
@@ -580,7 +580,7 @@ void TWindowDD::apply_input(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a
 void TWindowDD::update(void* p, void* child) { TWindowDD__sub_80341AE0((u8 *)child); ((TWindowDD *)child)->set_mode_2(); }
 
 
-void TWindowDD::update(saddr window_dd) {
+void TWindowDD::update(TWindowDD_WS_Word *window_dd) {
     TWindowDD__sub_80341AF8((u8 *)window_dd);
     ((TWindowDD *)window_dd)->reset_cursor();
     if ((u32) this->m_7c != 0U) {
@@ -590,15 +590,12 @@ void TWindowDD::update(saddr window_dd) {
 }
 
 extern "C" {
-int refresh_sub__9TWindowDDFPvPv(void);
-int update__9TWindowDDFPvPv(void);
-int update__9TWindowDDFl(void);
 
         extern const float lbl_805DFB98;
     extern const float lbl_805DFB9C;
     extern const float lbl_805DFBA0;
-void TWindowDD::set_default_coords(int a0, TWindowDD_WS_Word *win) {
-    refresh_sub__9TWindowDDFPvPv();
+void TWindowDD::set_default_coords(void *window, TWindowDD_WS_Word *win) {
+    TWindowDD::refresh_sub(window, win);
     win->target_position[0] = lbl_805DFB94;
     win->frame_position[0] = lbl_805DFB94;
     win->target_position[1] = lbl_805DFB98;
@@ -614,7 +611,7 @@ void TWindowDD::set_default_coords(int a0, TWindowDD_WS_Word *win) {
     extern const float lbl_805DFB88;
     extern const float lbl_805DFB8C;
 void TWindowDD::init_layout(void *window, TWindowDD_WS_Word *child) {
-    update__9TWindowDDFPvPv();
+    TWindowDD::update(window, child);
     child->target_position[0] = lbl_805DFB80;
     child->frame_position[0] = lbl_805DFB80;
     child->target_position[1] = lbl_805DFB84;
@@ -627,8 +624,8 @@ void TWindowDD::init_layout(void *window, TWindowDD_WS_Word *child) {
 
         extern const float lbl_805DFB70;
         extern const float lbl_805DFB78;
-void TWindowDD::set_default_positions(void *window, TWindowDD_WS_Word *child) {
-    update__9TWindowDDFl();
+void TWindowDD::set_default_positions(TWindowDD_WS_Word *child) {
+    update(child);
     child->target_position[0] = TWindowDD__data_805DFB6C;
     child->frame_position[0] = TWindowDD__data_805DFB6C;
     child->target_position[1] = lbl_805DFB70;
@@ -815,10 +812,8 @@ s32 TWindowDD::clamp_range_2C9_552(s16 id) {
 
 extern "C" {
 
-s32 count_chars_since_newline__9TWindowDDFPl();
-
 void TWindowDD::show_message_by_count(char *buf, s32 *pos) {
-    if (count_chars_since_newline__9TWindowDDFPl() > 0xF) {
+    if (TWindowDD::count_chars_since_newline(buf, pos) > 0xF) {
         TWindowDD::append_char(0xA, buf, pos);
         return;
     }
@@ -829,13 +824,16 @@ void TWindowDD::show_message_by_count(char *buf, s32 *pos) {
 
 
 extern "C" {
-void TWindowDD::maybe_scroll(void* a1) { if (count_chars_since_newline((s32 *)a1) > 15) { TWindowDD::append_char(10, (char *)this, (s32 *)a1); } }
+void TWindowDD::maybe_scroll(char *buf, s32 *pos) {
+    if (TWindowDD::count_chars_since_newline(buf, pos) > 15) {
+        TWindowDD::append_char(10, buf, pos);
+    }
+}
 
-s32 TWindowDD::count_chars_since_newline(s32 *len) {
-    u8 *buf = (u8 *)this;
+s32 TWindowDD::count_chars_since_newline(const char *buf, s32 *pos) {
     s32 n = 0;
     s32 i;
-    for (i = *len - 1; i >= 0; i--) {
+    for (i = *pos - 1; i >= 0; i--) {
         if (buf[i] == '\n') {
             break;
         }

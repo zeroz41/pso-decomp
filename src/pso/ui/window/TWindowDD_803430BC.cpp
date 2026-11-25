@@ -176,7 +176,7 @@ TWindowDDValueList *TWindowDD__ws_data_table;
 u32 lbl_805D6E34;
 extern "C" {
 s32 apply_input__9TWindowDDFPvPv(int, int);
-s32 update__9TWindowDDFl(int, int, int);
+s32 update__9TWindowDDFP17TWindowDD_WS_Word(int, int, int);
 void TWindowDD__sub_803434F4(u8 *arg0);
 void TWindowDD__sub_80342800(u8 *arg0);
 void update__9TWindowDDFi(saddr window_dd);
@@ -495,7 +495,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
     saddr w = TWindowDD__sub_80342384(self->f88, (s32) lbl_805DFB54);
     if (w != 0)
     {
-      TWindowDD::set_default_positions(self, (TWindowDD_WS_Word *)w);
+      set_default_positions((TWindowDD_WS_Word *)w);
       self->a24[0] = w;
     }
   }
@@ -865,7 +865,7 @@ void TWindowDD__sub_803434F4(u8 *arg0) {
     *(s32 *)((s8 *)var_r31 + 0x20) = (saddr)(var_r4 + 1);
     var_r4 = (u8 *)(var_r31 + (*(s32 *)((s8 *)var_r31 + 0x20) * 4));
     var_r4 = (u8 *)(*(u8 **)((s8 *)var_r4 + 0x24));
-    update__9TWindowDDFl((saddr)var_r3, (saddr)var_r4, (saddr)var_r5);
+    update__9TWindowDDFP17TWindowDD_WS_Word((saddr)var_r3, (saddr)var_r4, (saddr)var_r5);
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB4));
     *(u8 **)((s8 *)var_r31 + 0xB0) = var_r3;
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0x8C));

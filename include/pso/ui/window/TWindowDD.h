@@ -100,10 +100,10 @@ struct TWindowDD : public TObject
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
     static void update(void* p, void* child);
-    void update(saddr window_dd);
-    static void set_default_coords(int a0, TWindowDD_WS_Word *win);
+    void update(TWindowDD_WS_Word *child);
+    static void set_default_coords(void *window, TWindowDD_WS_Word *child);
     static void init_layout(void *window, TWindowDD_WS_Word *child);
-    static void set_default_positions(void *window, TWindowDD_WS_Word *child);
+    void set_default_positions(TWindowDD_WS_Word *child);
     static void spawn_window();
     static void play_se();
     static void play_sound();
@@ -125,8 +125,8 @@ struct TWindowDD : public TObject
     static s32 clamp_range_5FA_682(s16 id);
     static s32 clamp_range_2C9_552(s16 id);
     static void show_message_by_count(char *buf, s32 *pos);
-    void maybe_scroll(void* a1);
-    s32 count_chars_since_newline(s32 *len);
+    static void maybe_scroll(char *buf, s32 *pos);
+    static s32 count_chars_since_newline(const char *buf, s32 *pos);
     static void append_char(s8 c, char *buf, s32 *pos);
     static void append_string(const char *str, char *buf, s32 *pos);
     void copy_point_table(s32 idx);
