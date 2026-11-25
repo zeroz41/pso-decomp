@@ -277,7 +277,7 @@ void TWindowChat::handle_chat_input() {
     if (flags & 2)
     {
       context = &controller_input_state.controllers[0];
-      if ((test_pressed_buttons_packed((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), (saddr)((void *) fn_8002AE08((saddr)(local_client_id)))) == 0))
+      if ((test_pressed_buttons_packed((void *)((void *) context), 0x200) != 0) && (test_previous_buttons_packed((void *)((saddr) context), fn_8002AE08(local_client_id)) == 0))
       {
         flags = (u16) (flags & 0xFFFFFFFD);
         close_all_children();

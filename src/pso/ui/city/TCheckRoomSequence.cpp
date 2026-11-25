@@ -62,6 +62,11 @@ struct Rec_80210F78
   s16 f16;
 };
 
+BankItemRecord *bank_item_records_by_slot[4];
+s32 bank_item_count_by_slot[4];
+s32 bank_meseta_by_slot[4];
+u32 TCheckRoomSequence::slot_active_flags[4];
+
 extern "C" {
 // The runtime's array new and BankItemRecord::BankItemRecord(), whose address
 // C++ does not let alloc_item_buffers take.
@@ -69,11 +74,6 @@ void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 n
 void __ct__14BankItemRecordFv();
 s32 get_max_stack_size__9TItemDataFv(void *);
 s32 TCheckRoomSequence__sub_80210B34(TItemData *item, s32 amount, s32 slot);
-
-BankItemRecord *bank_item_records_by_slot[4];
-s32 bank_item_count_by_slot[4];
-s32 bank_meseta_by_slot[4];
-u32 TCheckRoomSequence::slot_active_flags[4];
 
 s32 TCheckRoomSequence::check_room_ready() {
     if (TRaderMapCore::is_not_split_screen() == 0) {
