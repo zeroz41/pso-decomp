@@ -671,7 +671,7 @@ void *TBoss1Dragon::create(void *set_data) {
 }
 
 void TBoss1Dragon::free_resources() {
-    if ((u32) boss1_dragon_capture_model != 0U) {
+    if (boss1_dragon_capture_model != NULL) {
         safe_free(boss1_dragon_capture_model);
         boss1_dragon_capture_model = 0U;
     }

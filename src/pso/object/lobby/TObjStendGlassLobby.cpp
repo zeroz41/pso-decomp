@@ -25,7 +25,7 @@ NJS_TEXLIST *TObjStendGlassLobby::lobby_texlist;
 void TObjStendGlassLobby::demo_step() {}
 
 void TObjStendGlassLobby::render() {
-    if (fade_state != 0 && (u32)texlist != 0) {
+    if (fade_state != 0 && texlist != NULL) {
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
