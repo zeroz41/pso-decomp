@@ -6351,14 +6351,11 @@ pso/ui/window/TWindowMakeTeam.cpp:
 	.sdata2     start:0x805DD140 end:0x805DD148
 
 pso/ui/window/TWindowSubComCard_80265410.cpp:
-	.text       start:0x80265410 end:0x80266BC4
+	.text       start:0x80265410 end:0x80266BD0
 	.rodata     start:0x8044F310 end:0x8044F338
 	.data       start:0x804D05A8 end:0x804D05F8
 	.sdata      start:0x805D3960 end:0x805D3968
 	.sdata2     start:0x805DD148 end:0x805DD180
-
-pso/ui/window/TWindowSubComCard_80266BC4.cpp:
-	.text       start:0x80266BC4 end:0x80266BD0
 
 pso/ui/window/TWindowSubStatusDisp_802671F0.cpp:
 	.text       start:0x80266BD0 end:0x80268468

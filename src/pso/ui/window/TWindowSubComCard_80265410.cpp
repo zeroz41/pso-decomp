@@ -15,7 +15,6 @@
 #include <stddef.h>
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
@@ -31,7 +30,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/system/SoundEffect.h"
-
 
 #pragma readonly_strings on
 
@@ -772,3 +770,5 @@ s32 TWindowMenu::is_locked(s32 buttons) {
 }
 
 int TWindowMenu::sub_80266BB8() { return (this->m_70 >> 6) & 0x1; }
+
+void TWindowMenu::reset_selection() { *(s16 *)&this->unk_7A = -1; }
