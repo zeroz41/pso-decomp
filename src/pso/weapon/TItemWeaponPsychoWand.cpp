@@ -62,14 +62,14 @@ void TItemWeaponPsychoWand::update_weapon() {
     s16 spent;
 
     if (is_current_area_item_enabled() != 0) {
-        tp = get_actor_tp(owner);
+        tp = owner->get_actor_tp();
         spent = last_tp - tp;
         if (spent != 0) {
             last_tp = tp;
         }
         if (spent > 0) {
             subtract_actor_hp(owner, spent);
-            add_actor_tp((TObjChara *)owner, (s16)(spent / 2));
+            add_actor_tp((TObjChara *)owner, spent / 2);
         }
     }
 }

@@ -516,7 +516,7 @@ void TItemMag::on_equip() {
         owner_watch.area = get_current_floor_area();
     }
     owner_watch.hp = ((TObjChara *)owner)->get_actor_hp();
-    owner_watch.tp = get_actor_tp(owner);
+    owner_watch.tp = owner->get_actor_tp();
     if (test_flags_any(&effect_flags.bits, 1) != 0) {
         state &= ~MAG_INACTIVE;
     } else {

@@ -115,7 +115,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
         b = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(0xD);
         c = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(0xA);
         d = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(0xC);
-        *(s32 *)((s8 *)b + 0x20) = obj_getS16_2BA(pl);
+        *(s32 *)((s8 *)b + 0x20) = ((TObjChara *)pl)->get_tpmax();
         *(s32 *)((s8 *)a + 0x20) = *(s16 *)((s8 *)pl + 0x32E);
         v = ((TWindowSubStatusDisp *)window_sub_status_disp)->update_hp_gauge();
         *(s32 *)((s8 *)a + 0x1C) = v;

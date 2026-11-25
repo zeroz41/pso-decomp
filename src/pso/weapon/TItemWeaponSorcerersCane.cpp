@@ -83,15 +83,15 @@ void TItemWeaponSorcerersCane::update_weapon() {
             this->scale_step = (step - 1);
         }
     }
-    tp = get_actor_tp(this->owner);
+    tp = this->owner->get_actor_tp();
     tp_drop = this->cached_tp - tp;
     if (tp_drop < 0) {
         this->cached_tp = tp;
         return;
     }
     if (tp_drop > 0) {
-        add_actor_tp(this->owner, static_cast<s32>(0.1f * (f32) tp_drop));
-        this->cached_tp = get_actor_tp(this->owner);
+        add_actor_tp(this->owner, 0.1f * (f32) tp_drop);
+        this->cached_tp = this->owner->get_actor_tp();
     }
 }
 

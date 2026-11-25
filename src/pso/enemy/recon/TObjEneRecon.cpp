@@ -703,7 +703,7 @@ void TObjEneRecon::state_attack(s32 reason) {
                         if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                             DirectAttackPayload attack;
                             attack.kind = 0;
-                            attack.power = (f32)get_attack_params_atp_min(attack_params);
+                            attack.power = (f32)attack_params->get_atp_min();
                             p->receive_direct_attack(this, attack, NULL, -1, -1);
                             p->apply_knockback_from_attacker((u8 *)this, 7.0f);
                         }

@@ -36,7 +36,6 @@ struct ShieldSoundCue {
 extern "C" {
 // Defined in files that have no headers yet.
 s32 play_shield_sound_cue(ShieldSoundCue *cue);
-s16 obj_getS16_2BA(u8 *p);
 // The item file helpers (TItemDrop_800F93F0.cpp).
 // The class name and the effect table's file name. This object starts at
 // 0x80117E50 with the nearby player checks (the last two functions below),
@@ -123,7 +122,7 @@ void TItemProShield::perform_action() {
                 break;
             case 35:
                 add_actor_hp(owner, 0.05f * (f32)owner->get_hpmax());
-                add_actor_tp(owner, (s32)(0.05f * (f32)obj_getS16_2BA((u8 *)owner)));
+                add_actor_tp(owner, 0.05f * (f32)owner->get_tpmax());
                 break;
             }
         }

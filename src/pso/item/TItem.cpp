@@ -1188,7 +1188,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
         TObjPlayer *owner = get_player_by_client_id(get_owner_client());
         if (owner != NULL) {
             s16 hp = ((TObjChara *)owner)->get_actor_hp();
-            s16 tp = get_actor_tp(owner);
+            s16 tp = owner->get_actor_tp();
             s32 slot;
             for (slot = 9; slot != 13; slot++) {
                 TItem *equipped = owner->get_equipped_item(slot);
@@ -1344,7 +1344,7 @@ void TItemEquipBase::refresh_owner_stats() {
     TObjPlayer *player = owner;
     if (player != NULL) {
         s16 hp = ((TObjChara *)player)->get_actor_hp();
-        s16 tp = get_actor_tp(owner);
+        s16 tp = owner->get_actor_tp();
         remove_equip_stats(0);
         add_equip_stats(0);
         owner->recalc_stats();

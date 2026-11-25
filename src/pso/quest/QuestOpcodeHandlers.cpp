@@ -816,9 +816,6 @@ struct PlWalkObject {
     u32 f30;
 };
 
-s16 get_actor_tp(u8 *);
-s32 get_actor_meseta();
-s16 obj_getS16_2BA(u8 *);
 s32 get_current_floor();
 f64 atan2_float(void *, f32, f32);
 int set_camera_capture_overlay_alpha(void*);
@@ -1172,13 +1169,13 @@ void qst_op_get_player_room(void) {
 }
 
 void qst_op_get_player_hp_tp(void) {
-    u8 *player = (u8 *)get_player_by_client_id(qst_args[0]);
+    TObjPlayer *player = get_player_by_client_id(qst_args[0]);
     u8 i = qst_args[1];
     if (player != NULL) {
-        qst_registers[i++] = ((TObjChara *)player)->get_hpmax();
-        qst_registers[i++] = ((TObjChara *)player)->get_actor_hp();
-        qst_registers[i++] = obj_getS16_2BA(player);
-        qst_registers[i] = get_actor_tp(player);
+        qst_registers[i++] = player->get_hpmax();
+        qst_registers[i++] = player->get_actor_hp();
+        qst_registers[i++] = player->get_tpmax();
+        qst_registers[i] = player->get_actor_tp();
     } else {
         qst_registers[i++] = -1;
         qst_registers[i++] = -1;
@@ -1218,8 +1215,9 @@ void qst_op_get_player_level(void) {
 
 void qst_op_get_slot_meseta(u8 i) {
     GetSlotMesetaCard *w;
-    if (get_player_by_client_id(local_client_id) != NULL) {
-        qst_registers[i] = get_actor_meseta();
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        qst_registers[i] = player->get_actor_meseta();
     } else {
         qst_registers[i] = -1;
     }
@@ -2651,7 +2649,7 @@ extern "C" {
 void qst_op_take_slot_meseta(s32 regs, s32 dst) {
     TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)regs++]);
     if (player != NULL) {
-        if (try_spend_actor_meseta(player, qst_registers[(u8)regs]) != 0) {
+        if (player->try_spend_actor_meseta(qst_registers[(u8)regs]) != 0) {
             qst_registers[(u8)dst] = 1;
         } else {
             qst_registers[(u8)dst] = 0;

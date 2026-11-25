@@ -141,7 +141,6 @@ struct LockOnEntryColor {
 };
 
 extern "C" {
-s16 obj_getS16_2BA(LockOnEnemyView *);
 s32 is_split_screen(void);
 }
 extern "C" {
@@ -364,7 +363,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     p->max = (f32)((LockOnEnemyView *)enemy)->hp_max;
     p = (LockOnEntryText *)get_array_entry(8);
     p->w = target_size[0] - 28.0f;
-    p->cur = (f32)obj_getS16_2BA((LockOnEnemyView *)enemy);
+    p->cur = (f32)enemy->get_tpmax();
     p->max = (f32)((LockOnEnemyView *)enemy)->tp_max;
 }
 #pragma pop
@@ -401,7 +400,7 @@ void TWindowLockOn::refresh_enemy_statuses() {
     }
     {
         g = (LockOnGauge *)get_array_entry(8);
-        g->cur = obj_getS16_2BA(enemy);
+        g->cur = ((TObjChara *)enemy)->get_tpmax();
         g->max = enemy->tp_max;
         ((TWindowHelpItem *)g)->set_flag0_bit2();
     }

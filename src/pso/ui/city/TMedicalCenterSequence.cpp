@@ -36,7 +36,6 @@ s32 TMedicalCenterMes::slot_flags[4];
 extern "C" {
 extern const char *TMedicalCenterSequence__class_name;
 
-int get_actor_meseta(u8 *p);
 }
 
 struct VBase_18_a93f07
@@ -181,7 +180,7 @@ void TMedicalCenterSequence::handle_window_result() {
 }
 
 void TMedicalCenterSequence::exec_heal() {
-    if (get_actor_meseta((u8 *)player) < 0xA) {
+    if (player->get_actor_meseta() < 0xA) {
         display_shop_message(0xF, 1);
         set_state(0xA);
         return;
@@ -193,7 +192,7 @@ void TMedicalCenterSequence::exec_heal() {
         player->refill_traps();
     }
     player->send_field_state();
-    try_spend_actor_meseta(player, 0xA);
+    player->try_spend_actor_meseta(0xA);
     display_shop_message(0x22, 1);
     set_state(0xA);
 }

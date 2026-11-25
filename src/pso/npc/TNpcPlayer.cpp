@@ -1784,8 +1784,8 @@ void TNpcPlayer::update_combat_action() {
         }
         id = npc_player_combat_action_table[tier][alt];
         tec = calc_technique_parameters(id, *(s8 *)&ai_params.attack_technique_level, 0xFFFF);
-        diff = (f32)(get_actor_tp((u8 *)self_view->player) - tec->tp_cost);
-        mx = (f32)obj_getS16_2BA((u8 *)self_view->player);
+        diff = (f32)(self_view->player->get_actor_tp() - tec->tp_cost);
+        mx = (f32)self_view->player->get_tpmax();
         if (diff / mx <= 0.2f && 0.0f != mx) {
             request_chatter(3);
         }
@@ -2229,8 +2229,8 @@ s32 NpcPlayerView::update_conditions() {
         condition = condition | NPC_CONDITION_STATUS_AILMENT;
         status = status | NPC_STATUS_NEEDS_RECOVERY;
     }
-    actor_tp = (f32)get_actor_tp((u8 *)player);
-    tp_max = (f32)obj_getS16_2BA((u8 *)player);
+    actor_tp = (f32)player->get_actor_tp();
+    tp_max = (f32)player->get_tpmax();
     if (((actor_tp / tp_max) <= 0.2f) && (0.0f != tp_max)) {
         status = status | NPC_STATUS_NEEDS_RECOVERY;
         condition = condition | NPC_CONDITION_TP_LOW;

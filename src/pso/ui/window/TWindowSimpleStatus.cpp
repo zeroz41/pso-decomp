@@ -194,7 +194,7 @@ s32 TWindowSubStatusDisp::update_hp_gauge() {
         return 0xFF008CFC;
     }
     array_entry = (void *)((TWindowBase *)arg0)->get_array_entry(4);
-    *(f32 *)((s8 *)array_entry + 0x20) = (f32) obj_getS16_2BA((u8 *)player);
+    *(f32 *)((s8 *)array_entry + 0x20) = (f32) ((TObjChara *)player)->get_tpmax();
     *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32E);
     if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
         var_r31 = -1;

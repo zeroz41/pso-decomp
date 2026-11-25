@@ -44,8 +44,7 @@ void TUnk_804F112C::update_shield() {
 }
 
 void TUnk_804F112C::fn_80353194() {
-    // The signed load in obj_getS16_2BA already extends the result in the return register.
-    add_actor_tp((TObjChara *)owner, reinterpret_cast<s32 (*)(u8 *)>(obj_getS16_2BA)((u8 *)owner));
+    add_actor_tp(owner, owner->get_tpmax());
 }
 
 // The Star Atomizer's effect (see send_nearby_player_ids).

@@ -6,22 +6,18 @@
 #include "pso/item/TItem.h"
 #include "pso/ui/TLevelSelect.h"
 
-extern "C" {
-int obj_getS16_2BA(void*);
+s16 TItemToolFluid::get_max_tp() { return this->owner->get_tpmax(); }
+
+s16 TItemToolFluid::calc_large_tp() {
+    return (game_difficulty_selection * 0x32) + get_pmt_amount();
 }
 
-int TItemToolFluid::get_max_tp() { return obj_getS16_2BA(this->owner); }
-
-int TItemToolFluid::calc_large_tp() {
-    return (s16) ((game_difficulty_selection * 0x32) + get_pmt_amount());
-}
-
-int TItemToolFluid::calc_small_tp() {
-    return (s16) ((game_difficulty_selection * 0x19) + get_pmt_amount());
+s16 TItemToolFluid::calc_small_tp() {
+    return (game_difficulty_selection * 0x19) + get_pmt_amount();
 }
 
 void TItemToolFluid::apply_use_effect() {
-    s32 stat_value;
+    s16 stat_value;
 
     stat_value = 0;
     switch ((s32) this->get_item_index()) {
@@ -35,7 +31,7 @@ void TItemToolFluid::apply_use_effect() {
         stat_value = get_max_tp();
         break;
     }
-    add_actor_tp((TObjChara *)this->owner, stat_value);
+    add_actor_tp(this->owner, stat_value);
 }
 
 TItemToolFluid::~TItemToolFluid() {}

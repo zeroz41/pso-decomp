@@ -3620,7 +3620,7 @@ void TBoss2DeRolLe::handle_death_state(u32 reason) {
         position.z = 60.29f;
         update_prev_position();
         for (i = 0; i != 10; i++) {
-            assign_slots_from_list(this, (saddr)joints[i]);
+            assign_slots_from_list(joints[i]);
         }
         refresh_and_send_entity_flags();
         set_story_flag_or_send_quest_flag(0x20);

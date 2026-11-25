@@ -24,8 +24,8 @@ const char *item_equip_base_class_name = "TItemEquipBase";
 extern "C" {
 // The attack parameter getters (TObjChara.cpp), seen here as
 // returning int: the stat helpers take the values without re-extending them.
-s32 get_attack_params_atp_min(AttackParams *params);
-s32 get_attack_params_atp_max(AttackParams *params);
+s32 get_atp_min__12AttackParamsFv(AttackParams *params);
+s32 get_atp_max__12AttackParamsFv(AttackParams *params);
 s32 get_ata__12AttackParamsFv(AttackParams *params);
 void *resolve_hittable_target(u16 actor_id, s32 collider);
 }
@@ -204,8 +204,8 @@ void TItemEquipBase::subtract_equip_stats(void *atp, s16 *stats, s16 *stats2) {
     ActorParamBlock *params = (ActorParamBlock *)stats;
     EquipStatBonus *player_stats = (EquipStatBonus *)stats2;
     if (attack != NULL) {
-        attack->sub_atp_min(get_attack_params_atp_min(&attack_bonus));
-        attack->sub_atp_max(get_attack_params_atp_max(&attack_bonus));
+        attack->sub_atp_min(get_atp_min__12AttackParamsFv(&attack_bonus));
+        attack->sub_atp_max(get_atp_max__12AttackParamsFv(&attack_bonus));
         attack->sub_ata(get_ata__12AttackParamsFv(&attack_bonus));
     }
     if (params != NULL) {
@@ -303,8 +303,8 @@ void TItemEquipBase::add_equip_stats(s32 apply) {
                                  (saddr)&hp_tp_bonus);
         attack = get_actor_attack_params(owner);
         if (attack != NULL) {
-            attack->add_atp_min(get_attack_params_atp_min(&attack_bonus));
-            attack->add_atp_max(get_attack_params_atp_max(&attack_bonus));
+            attack->add_atp_min(get_atp_min__12AttackParamsFv(&attack_bonus));
+            attack->add_atp_max(get_atp_max__12AttackParamsFv(&attack_bonus));
             attack->add_ata(get_ata__12AttackParamsFv(&attack_bonus));
         }
         params = get_actor_param_block(owner);

@@ -1232,7 +1232,7 @@ void TObjEneMoja::update_attack_jump() {
                     if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                         DirectAttackPayload hit;
                         hit.kind = 0;
-                        hit.power = get_attack_params_atp_min(attack_params);
+                        hit.power = attack_params->get_atp_min();
                         f32 damage = p->receive_direct_attack(this, hit, 0, -1, -1);
                         p->apply_knockback_from_attacker((u8 *)this, damage);
                     }

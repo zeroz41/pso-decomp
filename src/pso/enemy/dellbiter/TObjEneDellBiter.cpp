@@ -412,7 +412,7 @@ void TObjEneDellBiter::update_contact_attacks() {
         attack_bodies[1]->rotation_y = rotation_y;
         VecCopy(&attack_bodies[1]->position, &part_positions[1]);
         attack_bodies[1]->refresh_collision_body_centers();
-        AreaAttackContact attack = { get_attack_params_atp_min(dell_biter_shared_handler_param), 1 };
+        AreaAttackContact attack = { dell_biter_shared_handler_param->get_atp_min(), 1 };
         if (is_confused() != 0) {
             attack.contact_flags |= 2;
         }
