@@ -8118,7 +8118,7 @@ force_active:
   - lbl_804EFBC8
   - lbl_804EFBD0
   - __vt__22TWindowDD_WS_ScrollBar
-  - lbl_804EFC74
+  - word_page_position
   - word_select_page_descriptor
   - __vt__17TWindowDD_WS_Word
   - epsilon_body_action_table

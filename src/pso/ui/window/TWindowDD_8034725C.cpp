@@ -51,8 +51,6 @@ extern const f32 lbl_805DFBEC;
 extern const f32 lbl_805DFC28;
 void TWindowDD__sub_80347CC8(TWindowDD *window_dd, WordSelectMessage *message);
 void TWindowDD__sub_80348D90(void *, int);
-extern const f32 TWindowDD__data_805DFB6C;
-extern const f32 TWindowDD__data_805DFB74;
 s32 is_id_in_special_range__9TWindowDDFs(s16);
 s32 TWindowDD__sub_80347238();
 
@@ -312,8 +310,8 @@ TWindowDD_WS_Word *TWindowDD::init_last_child() {
         child = pages[level - 1];
         if (child != NULL) {
             child->init_and_mark_field8C();
-            child->set_pos_and_data(TWindowDD__data_805DFB6C);
-            child->target_size[0] = TWindowDD__data_805DFB74;
+            child->set_pos_and_data(word_page_x);
+            child->target_size[0] = word_page_width;
         }
     }
     return child;
@@ -569,18 +567,16 @@ void TWindowDD::init_layout(void *window, TWindowDD_WS_Word *child) {
     child->frame_size[1] = lbl_805DFB8C;
 }
 
-        extern const float lbl_805DFB70;
-        extern const float lbl_805DFB78;
 void TWindowDD::set_default_positions(TWindowDD_WS_Word *child) {
     update(child);
-    child->target_position[0] = TWindowDD__data_805DFB6C;
-    child->frame_position[0] = TWindowDD__data_805DFB6C;
-    child->target_position[1] = lbl_805DFB70;
-    child->frame_position[1] = lbl_805DFB70;
-    child->target_size[0] = TWindowDD__data_805DFB74;
-    child->frame_size[0] = TWindowDD__data_805DFB74;
-    child->target_size[1] = lbl_805DFB78;
-    child->frame_size[1] = lbl_805DFB78;
+    child->target_position[0] = word_page_x;
+    child->frame_position[0] = word_page_x;
+    child->target_position[1] = word_page_y;
+    child->frame_position[1] = word_page_y;
+    child->target_size[0] = word_page_width;
+    child->frame_size[0] = word_page_width;
+    child->target_size[1] = word_page_height;
+    child->frame_size[1] = word_page_height;
 }
 
 void TWindowDD::spawn_window() { play_sound_effect(344320, 0, 0, 0); }

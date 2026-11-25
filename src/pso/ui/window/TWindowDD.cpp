@@ -28,10 +28,11 @@ extern const f32 lbl_805DFB5C = 0.0f;
 extern const f32 lbl_805DFB60 = -20.0f;
 extern const f32 lbl_805DFB64 = 680.0f;
 extern const f32 lbl_805DFB68 = 480.0f;
-extern const f32 TWindowDD__data_805DFB6C = 50.0f;
-extern const f32 lbl_805DFB70 = 310.0f;
-extern const f32 TWindowDD__data_805DFB74 = 240.0f;
-extern const f32 lbl_805DFB78 = 120.0f;
+// inferred: word select page window placement and size.
+extern const f32 word_page_x = 50.0f;
+extern const f32 word_page_y = 310.0f;
+extern const f32 word_page_width = 240.0f;
+extern const f32 word_page_height = 120.0f;
 extern const f32 lbl_805DFB7C = 480.0f;
 extern const f32 lbl_805DFB80 = 370.0f;
 extern const f32 lbl_805DFB84 = 310.0f;
@@ -72,7 +73,8 @@ extern const f32 lbl_805DFC0C = 530.0f;
 extern const f32 TWindowDD__data_805DFC10 = 594.0f;
 extern const u32 TWindowDD__data_805DFC14 = 0xFFFFFFFF;
 extern const u32 lbl_805DFC18 = 0xFF000000;
-extern const f32 lbl_805DFC1C = 50039.0f;
+// inferred: sort depth of the word select page window.
+extern const f32 word_page_depth = 50039.0f;
 extern const f32 lbl_805DFC20 = 50038.0f;
 extern const f32 lbl_805DFC24 = 50040.0f;
 extern const f32 lbl_805DFC28 = 50037.0f;

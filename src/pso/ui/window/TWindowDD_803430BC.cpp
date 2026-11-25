@@ -66,7 +66,6 @@ TWindowDD_WS_Word *TWindowDD__sub_80347980(TWindowDD *window_dd);
 void pop_menu_level__9TWindowDDFPv(TWindowDD *window);
 void TWindowDD__sub_80347CC8(void *, void *);
 
-extern const f32 TWindowDD__data_805DFB74;
 
 extern const f32 lbl_805DFB7C;
 
@@ -82,7 +81,6 @@ extern const f32 TWindowDD__data_805DFC10;
 void TWindowDD__sub_80347A4C(TWindowDD *window_dd, TWindowDD_WS_Word *page);
 TWindowDD_WS_Word *TWindowDD__sub_80347AD4(TWindowDD *window_dd, s32 offset, s32 id);
 void TWindowDD__sub_80347E04(TWindowDD *window_dd, s32 index);
-extern const f32 TWindowDD__data_805DFB6C;
 
 extern const f32 lbl_805DFB90;
 s32 is_word_select_cancel_input(void *);
@@ -131,7 +129,7 @@ extern const f32 lbl_805DFBF4;
 extern const f32 lbl_805DFBF8;
 
 
-extern const f32 lbl_805DFB70, lbl_805DFC28;
+extern const f32 lbl_805DFC28;
 
 
 
@@ -642,7 +640,7 @@ void TWindowDD__sub_803435A0(TWindowDD *window_dd) {
     page = window_dd->pages[window_dd->depth];
     if (page != NULL) {
         page->target_position[0] = lbl_805DFB90;
-        page->target_size[0] = TWindowDD__data_805DFB74;
+        page->target_size[0] = word_page_width;
         page->tween_ticks = window_dd_tween_ticks;
         if (entry->flags & 4) {
             TWindowDD__sub_80347E04(window_dd, window_dd->extra_string_count++);
@@ -650,7 +648,7 @@ void TWindowDD__sub_803435A0(TWindowDD *window_dd) {
     }
     next_page = TWindowDD__sub_80347AD4(window_dd, 1, window_dd->list_ids[1]);
     if (next_page != NULL) {
-        next_page->set_pos_and_data(TWindowDD__data_805DFB6C);
+        next_page->set_pos_and_data(word_page_x);
         if (next->flags & 1) {
             next_page->target_size[0] = lbl_805DFB7C;
             if (window_dd->mode_window != NULL) {
@@ -658,7 +656,7 @@ void TWindowDD__sub_803435A0(TWindowDD *window_dd) {
                 window_dd->mode_window->tween_ticks = window_dd_tween_ticks;
             }
         } else {
-            next_page->target_size[0] = TWindowDD__data_805DFB74;
+            next_page->target_size[0] = word_page_width;
             if (window_dd->mode_window != NULL) {
                 window_dd->mode_window->target_position[0] = TWindowDD__data_805DFBFC;
                 window_dd->mode_window->tween_ticks = window_dd_tween_ticks;
@@ -724,7 +722,7 @@ void TWindowDD::apply_entry_layout() {
                 mode_window->tween_ticks = window_dd_tween_ticks;
             }
         } else {
-            w->target_size[0] = TWindowDD__data_805DFB74;
+            w->target_size[0] = word_page_width;
             if (mode_window != NULL) {
                 mode_window->target_position[0] = TWindowDD__data_805DFBFC;
                 mode_window->tween_ticks = window_dd_tween_ticks;
@@ -800,8 +798,8 @@ void pop_menu_level__9TWindowDDFPv(TWindowDD *window) {
 
 void open_numeric_parameter_input__9TWindowDDFPviii(TWindowDD *self, s32 minimum, s32 maximum, s32 initial) {
     NJS_POINT2 position;
-    position.x = 60.0f + TWindowDD__data_805DFB6C;
-    position.y = 10.0f + lbl_805DFB70;
+    position.x = 60.0f + word_page_x;
+    position.y = 10.0f + word_page_y;
     self->number_window = new TWindowInputNumber(&position, minimum, maximum, initial, (s16)local_client_id);
     if (self->number_window) {
         self->number_window->set_depth(lbl_805DFC28);

@@ -167,5 +167,10 @@ extern const f32 window_dd_row_height;
 extern const s32 window_dd_tween_ticks;
 extern const f32 window_dd_visible_rows;
 extern const f32 window_dd_frame_margin;
+extern const f32 word_page_x;
+extern const f32 word_page_y;
+extern const f32 word_page_width;
+extern const f32 word_page_height;
+extern const f32 word_page_depth;
 
 #endif

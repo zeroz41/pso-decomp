@@ -42,19 +42,14 @@ struct TWindowDD_WS_WordLayout {
     TextLayoutRecord rec_0;
 };
 
-extern const f32 TWindowDD__data_805DFB6C;
-extern const f32 lbl_805DFB70;
-extern const f32 TWindowDD__data_805DFB74;
-extern const f32 lbl_805DFB78;
-extern const f32 lbl_805DFC1C;
 
 TWindowDD_WS_WordLayout word_select_page_layout = {
     1, 1,
     {3, {0.0f, 0.0f}, 0.2f, TWindowDD__data_805DFC14, 0x40, NULL},
 };
-__declspec(section ".data") f32 lbl_804EFC74[2] = {TWindowDD__data_805DFB6C, lbl_805DFB70};
+__declspec(section ".data") f32 word_page_position[2] = {word_page_x, word_page_y};
 WindowDescriptor word_select_page_descriptor = {
-    {TWindowDD__data_805DFB74, lbl_805DFB78}, lbl_805DFC1C, &word_select_page_layout, 3,
+    {word_page_width, word_page_height}, word_page_depth, &word_select_page_layout, 3,
 };
 
 struct Elem_80341FFC {
@@ -70,7 +65,7 @@ TWindowDD_WS_Word *TWindowDD_WS_Word::create(s32 element_list, s32 rows) {
 }
 
 TWindowDD_WS_Word::TWindowDD_WS_Word(s32 list_id, s32 visible_count)
-    : TWindowBase((u8 *)&word_select_page_descriptor, 4, (u8 *)lbl_804EFC74) {
+    : TWindowBase((u8 *)&word_select_page_descriptor, 4, (u8 *)word_page_position) {
     m_name = lbl_805D42E0;
     visible_row_count = visible_count;
     point_table_index = 0;
