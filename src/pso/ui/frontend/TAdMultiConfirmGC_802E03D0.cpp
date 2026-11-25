@@ -26,14 +26,6 @@
 extern const char lbl_804728D0[];
 const char lbl_804728D0[] = "TAdChrSelPlayerGC";
 
-struct Stack_802E0468
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-  f32 sp14;
-};
-
 extern "C" {
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -259,10 +251,10 @@ void TAdChrSelPlayerGC::init_model_animation() {
     set_animation((this->requested_action));
 }
 
-void TAdChrSelPlayerGC::set_cursor_index(s32 arg1) {
+void TAdChrSelPlayerGC::set_cursor_index(s32 index) {
     s16 requested_action;
 
-    this->requested_action = (s16) (arg1 * 3);
+    this->requested_action = (s16) (index * 3);
     requested_action = this->requested_action;
     if ((requested_action < 0) || (requested_action > 8)) {
         this->requested_action = 0;
@@ -320,31 +312,31 @@ void TObjPlayer__sub_802E0580(void * _w0, int _w1, void * _w2) {
     ((s32 (*)(f32))TObjPlayer__sub_802E0468)(1.0f);
 }
 
-void TObjPlayer__sub_802E0468(long long child, u8 *arg2, f32 farg0) {
-  Stack_802E0468 stack;
-  int new_var;
+void TObjPlayer__sub_802E0468(long long child, u8 *appearance, f32 alpha) {
+  NJS_ARGB color;
+  int one;
   saved_model_render_flags = model_render_flags;
   saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
   saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
   model_render_flags |= 0x10;
-  new_var = 1;
-  if (farg0 < 1.0f)
+  one = 1;
+  if (alpha < 1.0f)
   {
-    set_chunk_material_override_pair(-new_var, 0x800);
+    set_chunk_material_override_pair(-one, 0x800);
   }
-  stack.sp8 = farg0;
-  stack.spC = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x42))));
-  stack.sp10 = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x44))));
-  stack.sp14 = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x46))));
-  set_constant_material((const NJS_ARGB *)((&stack.sp8)));
+  color.a = alpha;
+  color.r = 0.003921569f * ((f32) (*((s16 *) (((s8 *) appearance) + 0x42))));
+  color.g = 0.003921569f * ((f32) (*((s16 *) (((s8 *) appearance) + 0x44))));
+  color.b = 0.003921569f * ((f32) (*((s16 *) (((s8 *) appearance) + 0x46))));
+  set_constant_material(&color);
   TObjPlayer::play_phase_transition_sound(child);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
   chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
   model_render_flags = saved_model_render_flags;
 }
 
-bool fn_802E0454(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0xFC) == 3;
+bool fn_802E0454(u8 *player) {
+    return *(s32 *)((s8 *)player + 0xFC) == 3;
 }
 
 void TAdMultiConfirmGC__sub_802E0448(void* p) { *(s32*)((char*)p + 0x11c) = 1; }

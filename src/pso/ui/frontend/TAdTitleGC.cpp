@@ -134,11 +134,11 @@ block_5:
     }
 }
 
-s32 TAdTitleGC::draw_title_layer(s32 arg1, s32 color) {
+s32 TAdTitleGC::draw_title_layer(s32 layer, s32 color) {
     s32 i;
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6630));
-    set_draw_texture_and_color(arg1 > 0xB, color);
+    set_draw_texture_and_color(layer > 0xB, color);
     for (i = 0; i < 8; i++) {
         draw_textured_quad_at_depth(&rects[i].x0, (-1.0f) / -((113.0f) - (f32)i));
     }

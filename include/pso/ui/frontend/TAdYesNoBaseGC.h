@@ -27,7 +27,7 @@ struct TAdYesNoBaseGC : public TObject {
     uaddr m_40;
     uaddr m_44;
     s32 create_menu_window();
-    void init_parts(void *arg1, void *arg2);
+    void init_parts(void *arg1, void *position);
 };
 
 LAYOUT_ASSERT(TAdYesNoBaseGC_size, sizeof(TAdYesNoBaseGC) == 0x48);

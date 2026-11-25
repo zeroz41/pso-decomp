@@ -40,7 +40,7 @@ struct E_8034923C {
 struct O_8034923C { u8 pad0[0x1C]; s32 n; s32 active; E_8034923C e[16]; };
 
 extern "C" {
-void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *arg0, S_803491F8 *arg1);
+void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *dest, S_803491F8 *source);
 #pragma push
 #pragma fp_contract on
 void TAdChrMoveEffectGC::sub_80348E34() {
@@ -105,7 +105,7 @@ struct P_803490D8 { V2_803490D8 a; V2_803490D8 b; C4_803490D8 c; C4_803490D8 d; 
 
 TAdChrMoveEffectGC *chr_move_effect_instance;
 extern "C" {
-void TAdChrMoveEffectGC__sub_80349194(W_80349194 *arg0, void *arg1);
+void TAdChrMoveEffectGC__sub_80349194(W_80349194 *effects, void *params);
 
 
 void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); sub_80348E34(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
@@ -134,34 +134,34 @@ void TAdChrMoveEffectGC::clear_entries() {
 }
 
 struct W_80349194;
-void TAdChrMoveEffectGC::setup_move_effect_params(s32 arg1, s32 arg2) {
+void TAdChrMoveEffectGC::setup_move_effect_params(s32 from_index, s32 to_index) {
     P_803490D8 p;
-    copy_vec2((&p.a), (void *)&chr_move_effect_pos_table[arg1]);
-    copy_vec2((&p.b), (void *)&chr_move_effect_pos_table[arg2]);
-    copy4(&p.c, (void *)(arg1 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
-    copy4(&p.d, (void *)(arg2 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
+    copy_vec2((&p.a), (void *)&chr_move_effect_pos_table[from_index]);
+    copy_vec2((&p.b), (void *)&chr_move_effect_pos_table[to_index]);
+    copy4(&p.c, (void *)(from_index < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
+    copy4(&p.d, (void *)(to_index < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
     copy_vec2((&p.e), (void *)lbl_804786F0);
     TAdChrMoveEffectGC__sub_80349194((W_80349194 *)this, &p);
 }
 
-void TAdChrMoveEffectGC__sub_80349194(W_80349194 *arg0, void *arg1) {
+void TAdChrMoveEffectGC__sub_80349194(W_80349194 *effects, void *params) {
     s32 i;
     for (i = 0; i < 16; i++) {
-        copy_effect_data__18TAdChrMoveEffectGCFPvPv((S_803491F8 *)(&arg0->e[i]), (S_803491F8 *)(arg1));
+        copy_effect_data__18TAdChrMoveEffectGCFPvPv((S_803491F8 *)(&effects->e[i]), (S_803491F8 *)(params));
     }
-    ((TAdChrMoveEffectGC *)arg0)->reset_effect_entries();
-    arg0->f20 = 1;
+    ((TAdChrMoveEffectGC *)effects)->reset_effect_entries();
+    effects->f20 = 1;
 }
 
 #pragma push
 #pragma optimization_level 1
-void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *arg0, S_803491F8 *arg1) {
+void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *dest, S_803491F8 *source) {
     u32 b, a;
-    a = arg1->w[0]; b = arg1->w[1]; arg0->w[0] = a; arg0->w[1] = b;
-    a = arg1->w[2]; b = arg1->w[3]; arg0->w[2] = a; arg0->w[3] = b;
-    arg0->w[4] = arg1->w[4];
-    arg0->w[5] = arg1->w[5];
-    a = arg1->w[6]; b = arg1->w[7]; arg0->w[6] = a; arg0->w[7] = b;
+    a = source->w[0]; b = source->w[1]; dest->w[0] = a; dest->w[1] = b;
+    a = source->w[2]; b = source->w[3]; dest->w[2] = a; dest->w[3] = b;
+    dest->w[4] = source->w[4];
+    dest->w[5] = source->w[5];
+    a = source->w[6]; b = source->w[7]; dest->w[6] = a; dest->w[7] = b;
 }
 #pragma pop
 

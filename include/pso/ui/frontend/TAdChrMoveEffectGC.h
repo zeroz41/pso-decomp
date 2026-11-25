@@ -13,7 +13,7 @@ struct TAdChrMoveEffectGC : public TObject {
     virtual void render();
     void reset_effect_entries();
     void clear_entries();
-    void setup_move_effect_params(s32 arg1, s32 arg2);
+    void setup_move_effect_params(s32 from_index, s32 to_index);
     virtual void run_task();
     u8 unk_24[0x380];
 };

@@ -70,7 +70,7 @@ void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, Cha
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
 extern s32 memcard_access_active;
 
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
+void translate_matrix_vec3(u8 *matrix, u8 *vec);
 void rotate_matrix_y(int, u32);
 int fn_8001ED90(void *p);
 s32 release_texture_list(void *);
@@ -249,7 +249,7 @@ struct Sel_802902CC {
 
 }
 extern CreationShapeBlend creation_shape_blend;
-s32 scan_creation_resources(void *arg0);
+s32 scan_creation_resources(void *context);
 uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);
 void reset_character_creation_figure_rotation(void);
 
@@ -385,8 +385,8 @@ s32 TAdSinglePlyChrSelectGC::is_active() {
 }
 int get_char_creation_figure_draw_flag(void) { return char_creation_figure_draw_flag; }
 extern "C" void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
-void reset_creation_shape_set(saddr arg0) {
-    TAdSinglePlyChrSelectGC__sub_802905A4((void*)arg0, (void*)((void *)&creation_empty_model_node));
+void reset_creation_shape_set(saddr node) {
+    TAdSinglePlyChrSelectGC__sub_802905A4((void*)node, (void*)((void *)&creation_empty_model_node));
 }
 #pragma push
 #pragma fp_contract on
@@ -629,7 +629,7 @@ void TCMCharacter::draw_creation_figure() {
         TParticleCtrl::end_effect_render();
     }
 }
-s32 scan_creation_resources(void *arg0) {
+s32 scan_creation_resources(void *context) {
     CreationTextureCacheEntry *p;
     CreationTextureCacheEntry *end;
     end = &((CreationTextureCacheEntry *)&creation_texture_cache)[0x80];
@@ -662,32 +662,32 @@ s32 scan_creation_resources(void *arg0) {
     creation_resource_ready_state = 2;
     return 1;
 }
-s32 find_shape_triangle_region(u8 *arg0) {
-    f32 temp_f3;
-    f32 temp_f4;
-    f32 temp_f4_2;
-    temp_f3 = *(f32 *)((s8 *)arg0 + 0);
-    if (temp_f3 > 0.6666667f) {
-        if ((3.0f * (temp_f3 - 0.6666667f)) <= *(f32 *)((s8 *)arg0 + 4)) {
+s32 find_shape_triangle_region(u8 *point) {
+    f32 u;
+    f32 v0;
+    f32 v1;
+    u = *(f32 *)((s8 *)point + 0);
+    if (u > 0.6666667f) {
+        if ((3.0f * (u - 0.6666667f)) <= *(f32 *)((s8 *)point + 4)) {
             return 6;
         }
         return 7;
     }
-    if (temp_f3 <= 0.33333334f) {
-        temp_f4 = *(f32 *)((s8 *)arg0 + 4);
-        if (temp_f3 >= (0.6666667f * temp_f4)) {
+    if (u <= 0.33333334f) {
+        v0 = *(f32 *)((s8 *)point + 4);
+        if (u >= (0.6666667f * v0)) {
             return 0;
         }
-        if (temp_f3 <= (-0.6666667f * (temp_f4 - 1.0f))) {
+        if (u <= (-0.6666667f * (v0 - 1.0f))) {
             return 1;
         }
         return 2;
     }
-    temp_f4_2 = *(f32 *)((s8 *)arg0 + 4);
-    if (temp_f3 <= (-0.6666667f * (temp_f4_2 - 1.0f))) {
+    v1 = *(f32 *)((s8 *)point + 4);
+    if (u <= (-0.6666667f * (v1 - 1.0f))) {
         return 3;
     }
-    if (temp_f3 >= (0.6666667f * temp_f4_2)) {
+    if (u >= (0.6666667f * v1)) {
         return 4;
     }
     return 5;
@@ -762,8 +762,8 @@ s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const 
     return 1;
 }
 
-s32 TAdSinglePlyChrSelectGC::map_button_code(s32 arg0) {
-    switch (arg0) {
+s32 TAdSinglePlyChrSelectGC::map_button_code(s32 code) {
+    switch (code) {
     case 0x29:
         return 3;
     case 0x2C:
@@ -957,12 +957,12 @@ s32 TAdSinglePlyChrSelectGC::count_remaining_slots() {
     }
     return n;
 }
-s32 TAdSinglePlyChrSelectGC::has_matching_entry(void *arg0) {
+s32 TAdSinglePlyChrSelectGC::has_matching_entry(void *character) {
     CreationTextureCacheEntry *p;
     CreationTextureCacheEntry *end;
     end = (CreationTextureCacheEntry *)((u8 *)((CreationTextureCacheEntry *)&creation_texture_cache) + 0x23600);
     for (p = ((CreationTextureCacheEntry *)&creation_texture_cache); p < end; p++) {
-        if (p->in_use != 0 && is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(p, arg0) != 0) return 1;
+        if (p->in_use != 0 && is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(p, character) != 0) return 1;
     }
     return 0;
 }
@@ -991,7 +991,7 @@ void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, Cha
     entry->in_use = 1;
     copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(entry, appearance);
 }
-s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 arg0) {
+s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
     s32 n;
     s32 k;
     CreationTextureCacheEntry *p;
@@ -1003,7 +1003,7 @@ s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 arg0) {
                 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(p, creation_player_character) >= k) {
                 p->in_use = 0;
                 ((TAdSinglePlyChrSelectGC *)p)->update_char_panels();
-                if (++n == arg0) {
+                if (++n == limit) {
                     return n;
                 }
             }
@@ -1012,15 +1012,15 @@ s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 arg0) {
     return n;
 }
 void TAdSinglePlyChrSelectGC::update_char_panels() {
-    u8 *arg0 = (u8 *)this;
+    u8 *base = (u8 *)this;
     if (((saddr) this->m_down != 0) && ((saddr) this->m_up != 0)) {
-        release_texture_list(arg0 + 0x178);
+        release_texture_list(base + 0x178);
     }
-    if (((s32) *(s32 *)((s8 *)arg0 + 0x188) != 0) && ((s32) *(s32 *)((s8 *)arg0 + 0x184) != 0)) {
-        release_texture_list(arg0 + 0x2EC);
+    if (((s32) *(s32 *)((s8 *)base + 0x188) != 0) && ((s32) *(s32 *)((s8 *)base + 0x184) != 0)) {
+        release_texture_list(base + 0x2EC);
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x2F8) != 0) {
-        release_texture_list(arg0 + 0x460);
+    if ((s32) *(s32 *)((s8 *)base + 0x2F8) != 0) {
+        release_texture_list(base + 0x460);
     }
 }
 

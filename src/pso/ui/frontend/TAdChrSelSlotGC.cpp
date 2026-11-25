@@ -82,28 +82,28 @@ void TAdChrSelSlotGC::hide_slot_entry(s32 i) {
     visible[i + 2] = 0;
 }
 
-void TAdChrSelSlotGC::init_slot_entry(s32 arg1, void *arg2) {
-    visible[arg1 + 2] = 1;
-    copy_vec2(&positions[arg1 + 2], arg2);
-    quads[arg1 + 2].left = positions[arg1 + 2].x;
-    quads[arg1 + 2].top = positions[arg1 + 2].y;
-    quads[arg1 + 2].right = 174.0f + positions[arg1 + 2].x;
-    quads[arg1 + 2].bottom = 24.0f + positions[arg1 + 2].y;
-    alpha[arg1 + 2] = 0;
+void TAdChrSelSlotGC::init_slot_entry(s32 slot, void *position) {
+    visible[slot + 2] = 1;
+    copy_vec2(&positions[slot + 2], position);
+    quads[slot + 2].left = positions[slot + 2].x;
+    quads[slot + 2].top = positions[slot + 2].y;
+    quads[slot + 2].right = 174.0f + positions[slot + 2].x;
+    quads[slot + 2].bottom = 24.0f + positions[slot + 2].y;
+    alpha[slot + 2] = 0;
 }
 
 void TAdChrSelSlotGC::sub_802C754C(s32 i) {
     visible[i] = 0;
 }
 
-void TAdChrSelSlotGC::init_slot(s32 arg1, void *arg2) {
-    visible[arg1] = 1;
-    copy_vec2(&positions[arg1], arg2);
-    quads[arg1].left = positions[arg1].x;
-    quads[arg1].top = positions[arg1].y;
-    quads[arg1].right = 174.0f + positions[arg1].x;
-    quads[arg1].bottom = 32.0f + positions[arg1].y;
-    alpha[arg1] = 0;
+void TAdChrSelSlotGC::init_slot(s32 slot, void *position) {
+    visible[slot] = 1;
+    copy_vec2(&positions[slot], position);
+    quads[slot].left = positions[slot].x;
+    quads[slot].top = positions[slot].y;
+    quads[slot].right = 174.0f + positions[slot].x;
+    quads[slot].bottom = 32.0f + positions[slot].y;
+    alpha[slot] = 0;
 }
 
 void TAdChrSelSlotGC::run_task() {

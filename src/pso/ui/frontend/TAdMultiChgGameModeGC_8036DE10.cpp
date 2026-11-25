@@ -32,19 +32,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C88C0_size, sizeof(RecoveredGlobal
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-struct Stack_8036EA24 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
 union MemberActionStorage_8036EA24 { s32 words[3]; void (TAdMultiChgGameModeGC::*action)(); };
-
-struct Stack_8036E858 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
 
 union MemberActionStorage_8036E858 { s32 words[3]; void (TAdMultiChgGameModeGC::*action)(); };
 
@@ -56,7 +44,7 @@ struct Self_8036E2AC {
 };
 
 extern "C" {
-void set_fallback_main_phase(s32 arg0);
+void set_fallback_main_phase(s32 phase);
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
 const char *multi_chg_game_mode_text_table_a[11] = {
@@ -177,28 +165,28 @@ __declspec(section ".data") NJS_POINT2 lbl_804F3A18 = {
 };
 f32 lbl_805D7020 = multi_chg_game_mode_window_size[0] - 40.0f;
 
-s32 TAdMultiChgGameModeGC__sub_8036DE10(s32 arg0, s32 arg1, s32 arg2) {
-    if (arg2 == -1) {
-        return get_message_text((arg1));
+s32 TAdMultiChgGameModeGC__sub_8036DE10(s32 owner, s32 index, s32 text_set) {
+    if (text_set == -1) {
+        return get_message_text((index));
     }
-    if (arg2 == 0) {
-        return (saddr)multi_chg_game_mode_text_table_b[arg1];
+    if (text_set == 0) {
+        return (saddr)multi_chg_game_mode_text_table_b[index];
     }
-    return (saddr)multi_chg_game_mode_text_table_a[arg1];
+    return (saddr)multi_chg_game_mode_text_table_a[index];
 }
 }
 
 void TAdMultiChgGameModeGC::close_windows_on_selection() {
-    void *temp_r3;
+    void *window;
     if (handle_mode_selection() == 0) {
-        temp_r3 = *(void **)((s8 *)this + 0x30);
-        if ((uaddr) temp_r3 != 0U) {
-            ((TObject *)temp_r3)->queue_destruction();
+        window = *(void **)((s8 *)this + 0x30);
+        if ((uaddr) window != 0U) {
+            ((TObject *)window)->queue_destruction();
             *(u32 *)((s8 *)this + 0x30) = 0U;
         }
-        temp_r3 = *(void **)((s8 *)this + 0x34);
-        if ((uaddr) temp_r3 != 0U) {
-            ((TObject *)temp_r3)->queue_destruction();
+        window = *(void **)((s8 *)this + 0x34);
+        if ((uaddr) window != 0U) {
+            ((TObject *)window)->queue_destruction();
             *(u32 *)((s8 *)this + 0x34) = 0U;
         }
         set_state(3);
@@ -213,12 +201,12 @@ void TAdMultiChgGameModeGC::sub_8036DEDC() {
 
 void TAdMultiChgGameModeGC::update_confirm_selection() {
     s32 selected_menu_value;
-    uaddr temp_r3_2;
+    uaddr menu;
 
     if (handle_mode_selection() == 0) {
-        temp_r3_2 = *(u32 *)((s8 *)this + 0x34);
-        if (temp_r3_2 != 0U) {
-            if (((TWindowMenu *)temp_r3_2)->is_decided() != 0) {
+        menu = *(u32 *)((s8 *)this + 0x34);
+        if (menu != 0U) {
+            if (((TWindowMenu *)menu)->is_decided() != 0) {
                 selected_menu_value = ((TWindowMenu *)(*(uaddr *)((s8 *)this + 0x34)))->get_selected_value();
                 switch (selected_menu_value) {
                 case 0:
@@ -295,14 +283,14 @@ void TAdMultiChgGameModeGC::close_windows_and_reopen() {
     }
 }
 
-void TAdMultiChgGameModeGC__sub_8036E19C(u8 *arg0, s32 arg1) {
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
-        *(u32 *)((s8 *)arg0 + 0x30) = 0U;
+void TAdMultiChgGameModeGC__sub_8036E19C(u8 *owner, s32 index) {
+    if ((u32) *(u32 *)((s8 *)owner + 0x30) != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)owner + 0x30)))->close();
+        *(u32 *)((s8 *)owner + 0x30) = 0U;
     }
-    *(u32 *)((s8 *)arg0 + 0x30) = (uaddr)create_message_window_for_size((NJS_POINT2 *)multi_chg_game_mode_window_extent, (NJS_POINT2 *)multi_chg_game_mode_window_size);
-    if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-        ((TWindowMessage *)(*(uaddr *)((s8 *)arg0 + 0x30)))->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((saddr)arg0, (s32)arg1, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x24)))))), 3);
+    *(u32 *)((s8 *)owner + 0x30) = (uaddr)create_message_window_for_size((NJS_POINT2 *)multi_chg_game_mode_window_extent, (NJS_POINT2 *)multi_chg_game_mode_window_size);
+    if ((u32) *(u32 *)((s8 *)owner + 0x30) != 0U) {
+        ((TWindowMessage *)(*(uaddr *)((s8 *)owner + 0x30)))->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((saddr)owner, (s32)index, (s32)((int) (*(s32 *)((s8 *)owner + 0x24)))))), 3);
     }
 }
 
@@ -316,8 +304,8 @@ void TAdMultiChgGameModeGC::close_window_30() {
 }
 void close_window__21TAdMultiChgGameModeGCFPv(void* p) { if (*(unsigned int*)((char*)p + 0x34) != 0) { ((TWindowBase *)((void*)(*(void**)((char*)p + 0x34))))->close(); *(int*)((char*)p + 0x34) = 0; } }
 
-#define self ((Self_8036E2AC *)arg0)
-void TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
+#define self ((Self_8036E2AC *)owner)
+void TAdMultiChgGameModeGC::setup_mode_menu(void *owner, s32 mode) {
     s32 a;
     s32 b;
     s32 c;
@@ -328,7 +316,7 @@ void TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
     c = TAdMultiChgGameModeGC__sub_8036DE10((saddr)self, 2, self->f24);
     d = TAdMultiChgGameModeGC__sub_8036DE10((saddr)self, 5, self->f24);
     if (self->win != 0) {
-        if (arg1 == 0) {
+        if (mode == 0) {
             ((TWindowMenu *)self->win)->add_text_entry(a, 5, 0);
             ((TWindowMenu *)self->win)->add_text_entry(b, 5, 1);
             ((TWindowSubComCardList *)(self->win))->set_selected_index(1);
@@ -397,7 +385,7 @@ void TAdMultiChgGameModeGC::sub_8036E51C() {
     create_back_objects();
 }
 void TAdMultiChgGameModeGC::update_mode_selection() {
-    s32 arg0 = (saddr)this;
+    s32 this_addr = (saddr)this;
     if ((handle_mode_selection() == 0) && (TAdPlayerLoadGC::get_instance() == 0)) {
         set_state(2);
     }
@@ -430,7 +418,7 @@ void TAdMultiChgGameModeGC::sub_8036E6A0() {
 }
 void TAdMultiChgGameModeGC::sub_8036E6EC() {  }
 void TAdMultiChgGameModeGC::update_mode_selection_and_save() {
-    s32 arg0 = (saddr)this;
+    s32 this_addr = (saddr)this;
     if (((int)handle_mode_selection()) == 0) {
         TAdSinglePlyChrSelectGC::refresh_char_slots();
         if (TAdSinglePlyChrSelectGC::encrypt_save_and_write() != 0) {
@@ -478,19 +466,16 @@ void TAdMultiChgGameModeGC::sub_8036E834() { TAdMultiChgGameModeGC::init_change_
 void TAdMultiChgGameModeGC::sub_8036E854() {  }
 
 LAYOUT_ASSERT(MemberActionStorage_8036E858_size, sizeof(MemberActionStorage_8036E858) == 12);
-void TAdMultiChgGameModeGC::set_state(s32 arg1) {
+void TAdMultiChgGameModeGC::set_state(s32 state) {
     MemberActionStorage_8036E858 member_action;
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036E858, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8036E858, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8036E858, sp10) == 0x8);
-    Stack_8036E858 stack;
-    u8 *temp_r6;
-    if ((s32) *(s32 *)((s8 *)(this) + 0x1C) != arg1) {
-        *(s32 *)((s8 *)(this) + 0x1C) = arg1;
-        temp_r6 = (u8 *)multi_chg_game_mode_entry_table + (*(s32 *)((s8 *)(this) + 0x1C) * 0x18);
-        member_action.words[0] = *(s32 *)((s8 *)temp_r6 + 0);
-        member_action.words[1] = *(s32 *)((s8 *)temp_r6 + 4);
-        member_action.words[2] = *(s32 *)((s8 *)temp_r6 + 8);
+    s32 frame_padding[3];
+    u8 *entry;
+    if ((s32) *(s32 *)((s8 *)(this) + 0x1C) != state) {
+        *(s32 *)((s8 *)(this) + 0x1C) = state;
+        entry = (u8 *)multi_chg_game_mode_entry_table + (*(s32 *)((s8 *)(this) + 0x1C) * 0x18);
+        member_action.words[0] = *(s32 *)((s8 *)entry + 0);
+        member_action.words[1] = *(s32 *)((s8 *)entry + 4);
+        member_action.words[2] = *(s32 *)((s8 *)entry + 8);
         if (member_action.action != 0) {
             (this->*member_action.action)();
         }
@@ -522,19 +507,16 @@ void TAdMultiChgGameModeGC::sub_8036E9EC() { close_window_30(); TAdMultiChgGameM
 LAYOUT_ASSERT(MemberActionStorage_8036EA24_size, sizeof(MemberActionStorage_8036EA24) == 12);
 void TAdSystemFileCheckGC::run_task() {
     MemberActionStorage_8036EA24 member_action;
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036EA24, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8036EA24, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8036EA24, sp10) == 0x8);
-    Stack_8036EA24 stack;
-    u8 *temp_r6;
+    s32 frame_padding[3];
+    u8 *entry;
     this->m_20 = TAdSinglePlyChrSelectGC::check_system_file_status();
     if (this->m_20 & 1) {
         ((TAdMultiChgGameModeGC *)this)->set_state(9);
     }
-    temp_r6 = (u8 *)multi_chg_game_mode_entry_table + (*(s32 *)&this->unk_1C * 0x18);
-    member_action.words[0] = *(s32 *)((s8 *)temp_r6 + 0xC);
-    member_action.words[1] = *(s32 *)((s8 *)temp_r6 + 0x10);
-    member_action.words[2] = *(s32 *)((s8 *)temp_r6 + 0x14);
+    entry = (u8 *)multi_chg_game_mode_entry_table + (*(s32 *)&this->unk_1C * 0x18);
+    member_action.words[0] = *(s32 *)((s8 *)entry + 0xC);
+    member_action.words[1] = *(s32 *)((s8 *)entry + 0x10);
+    member_action.words[2] = *(s32 *)((s8 *)entry + 0x14);
     if (member_action.action != 0) {
         (((TAdMultiChgGameModeGC *)(this))->*member_action.action)();
     }

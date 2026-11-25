@@ -11,12 +11,12 @@ PadSlot *get_creation_pad(void) {
 }
 
 s32 TChCrEffCtrlPl::get_clamped_player_index() {
-    s32 var_r3;
+    s32 index;
 
-    var_r3 = TAdMultiPlyChrSelectGC::is_selection_confirmed();
-    if ((var_r3 < 0) || (var_r3 > 3)) {
-        var_r3 = 0;
+    index = TAdMultiPlyChrSelectGC::is_selection_confirmed();
+    if ((index < 0) || (index > 3)) {
+        index = 0;
     }
-    return var_r3;
+    return index;
 }
 int TChCrEffCtrlPl__sub_80298F6C() { return TAdMultiPlyChrSelectGC__sub_80299454(); }

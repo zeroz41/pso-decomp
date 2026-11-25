@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_8032AC9C(void *arg0, void *context);
+void fn_8032AC9C(void *window, void *context);
 }
 
 // --- C functions defined in text_8032AC9C.cpp ---
 extern "C" {
-void fn_8032AC9C(void *arg0, void *context);
+void fn_8032AC9C(void *window, void *context);
 }
 // --- end of C functions
 

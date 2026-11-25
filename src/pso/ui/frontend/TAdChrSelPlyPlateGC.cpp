@@ -195,14 +195,14 @@ void TAdChrSelPlyPlateGC::run_task() {
 }
 
 s32 TAdChrSelPlyPlateGC::find_active_slot() {
-    s32 var_r31;
-    var_r31 = 0;
+    s32 slot;
+    slot = 0;
 loop_1:
-    if ((TAdMultiPlyChrSelectGC::is_controller_connected(var_r31) != 0) && (is_multiplayer_character_slot_selected(var_r31) == 0)) {
-        return var_r31;
+    if ((TAdMultiPlyChrSelectGC::is_controller_connected(slot) != 0) && (is_multiplayer_character_slot_selected(slot) == 0)) {
+        return slot;
     }
-    var_r31 += 1;
-    if (var_r31 >= 4) {
+    slot += 1;
+    if (slot >= 4) {
         return 3;
     }
     goto loop_1;
@@ -330,17 +330,17 @@ void TAdMultiPlyChrSelectGC::deselect_slot(s32 slot) {
 }
 
 s32 TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(s32 slot) {
-    s32 temp_r3;
-    s32 var_r3;
-    var_r3 = slot;
-    if ((var_r3 > 3) || (var_r3 < 0)) {
-        var_r3 = 3;
+    s32 value;
+    s32 clamped;
+    clamped = slot;
+    if ((clamped > 3) || (clamped < 0)) {
+        clamped = 3;
     }
-    temp_r3 = multi_ply_chr_select_player_slot[var_r3];
-    if (temp_r3 == -1) {
+    value = multi_ply_chr_select_player_slot[clamped];
+    if (value == -1) {
         return 0;
     }
-    return temp_r3;
+    return value;
 }
 
 s32 TAdMultiPlyChrSelectGC::count_selected_slots(void) {
@@ -353,24 +353,24 @@ s32 TAdMultiPlyChrSelectGC::count_selected_slots(void) {
 }
 
 s32 TAdMultiPlyChrSelectGC::count_ready() {
-    s32 var_r31;
+    s32 count;
     s32 i;
-    var_r31 = 0;
+    count = 0;
     i = 0;
     do {
         if (TAdMultiPlyChrSelectGC::is_controller_connected(i) != 0) {
-            var_r31 += 1;
+            count += 1;
         }
         i += 1;
     } while (i < 4);
-    return var_r31;
+    return count;
 }
 
-s32 is_multiplayer_character_slot_selected(s32 arg0) {
-    if ((arg0 < 0) || ((u32) arg0 > 3U)) {
+s32 is_multiplayer_character_slot_selected(s32 slot) {
+    if ((slot < 0) || ((u32) slot > 3U)) {
         return 0;
     }
-    if (multi_ply_chr_select_player_slot[arg0] == -1) {
+    if (multi_ply_chr_select_player_slot[slot] == -1) {
         return 0;
     }
     return 1;
@@ -387,13 +387,13 @@ s32 TAdMultiPlyChrSelectGC::is_selection_confirmed() {
 }
 
 s32 TAdMultiPlyChrSelectGC::get_status() {
-    s32 var_r3 = (s32) multi_ply_chr_select_active_player;
-    if (var_r3 == 0) {
+    s32 active_player = (s32) multi_ply_chr_select_active_player;
+    if (active_player == 0) {
         return 0;
     }
     switch ((s32) TAdMultiPlyChrSelectGC::select_mode) {
     case 0:
-        return var_r3;
+        return active_player;
     case 1:
         return (s32) TAdMultiPlyChrSelectGC::selected_slot;
     default:
@@ -606,13 +606,13 @@ void TAdChrSelPlyPlateGC::find_first_open_cell(u32 *cell) {
 }
 
 void TAdMultiPlyChrSelectGC::split_slot_index(s32 slot_index, s32 *out_cursor_column, s32 *out_card_slot) {
-    s32 var_r3;
-    var_r3 = TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(slot_index);
-    *out_cursor_column = var_r3 > 3;
-    if (var_r3 > 3) {
-        var_r3 -= 4;
+    s32 slot;
+    slot = TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(slot_index);
+    *out_cursor_column = slot > 3;
+    if (slot > 3) {
+        slot -= 4;
     }
-    *out_card_slot = var_r3;
+    *out_card_slot = slot;
 }
 
 void TAdMultiPlyChrSelectGC::reset_slot_selection_table() {

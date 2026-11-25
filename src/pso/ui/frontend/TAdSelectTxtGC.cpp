@@ -42,30 +42,30 @@ struct O_802A15BC {
 
 extern "C" {
 
-void clear_player_data_block(O_802A15BC *arg0) {
+void clear_player_data_block(O_802A15BC *block) {
     s32 i;
     for (i = 0; i < 0x10; i++) {
-        arg0->a[i] = 0;
+        block->a[i] = 0;
     }
     for (i = 0; i < 8; i++) {
-        arg0->b[i] = 0;
+        block->b[i] = 0;
     }
-    arg0->f1c = 0;
-    arg0->f18 = 0;
+    block->f1c = 0;
+    block->f18 = 0;
     for (i = 0; i < 15; i++) {
-        arg0->c[i] = 0;
+        block->c[i] = 0;
     }
-    arg0->f34 = 0;
-    arg0->f33 = 0;
-    arg0->f32_ = 0;
-    arg0->f31 = 0;
-    arg0->f30 = 0;
-    arg0->f2c = 0;
+    block->f34 = 0;
+    block->f33 = 0;
+    block->f32_ = 0;
+    block->f31 = 0;
+    block->f30 = 0;
+    block->f2c = 0;
     for (i = 0; i < 8; i++) {
-        arg0->d[i] = 0;
+        block->d[i] = 0;
     }
-    arg0->f4c = 0.0f;
-    arg0->f48 = 0.0f;
+    block->f4c = 0.0f;
+    block->f48 = 0.0f;
 }
 
 }

@@ -9,11 +9,6 @@
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/system/vector.h"
 
-struct Stack_8029AEDC {
-    f32 sp8;
-    f32 spC;
-};
-
 #pragma readonly_strings on
 const char *TChCrEffTagStr__name = "TChCrEffTagStr";
 
@@ -25,15 +20,15 @@ void TChCrEffTagStr__sub_8029AED0(TChCrEffTagStr *p) { p->state = 1; }
 #pragma push
 #pragma fp_contract on
 void TChCrEffTagStr::render() {
-    Stack_8029AEDC stack;
-    f32 temp_f2;
-    f32 temp_f3;
+    NJS_POINT2 scale;
+    f32 fade_value;
+    f32 inv_fade;
     set_depth_buffer_settings_1();
-    temp_f2 = fade;
-    temp_f3 = 1.0f - temp_f2;
-    stack.spC = temp_f2 * temp_f2;
-    stack.sp8 = (0.5f * temp_f3) + 1.0f;
-    draw_creation_sprite_offset(sprite_id, &pos, &stack.sp8, -2.4375f, temp_f2, temp_f3, 1.0f, 0.5f);
+    fade_value = fade;
+    inv_fade = 1.0f - fade_value;
+    scale.y = fade_value * fade_value;
+    scale.x = (0.5f * inv_fade) + 1.0f;
+    draw_creation_sprite_offset(sprite_id, &pos, &scale.x, -2.4375f, fade_value, inv_fade, 1.0f, 0.5f);
     restore_saved_depth_alpha_state();
 }
 #pragma pop
@@ -41,27 +36,27 @@ void TChCrEffTagStr::render() {
 #pragma push
 #pragma opt_common_subs off
 void TChCrEffTagStr::run_task() {
-    f32 temp_f0;
-    f32 temp_f1;
-    f32 temp_f2;
+    f32 grown;
+    f32 shrunk;
+    f32 current;
     f32 step0 = 0.13333334f;
     f32 step1 = -0.06666667f;
     switch (state) {
     case 0:
-        temp_f2 = fade;
-        if (!(temp_f2 >= 1.0f)) {
-            temp_f0 = temp_f2 + step0;
-            fade = temp_f0;
-            if (temp_f0 >= 1.0f) {
+        current = fade;
+        if (!(current >= 1.0f)) {
+            grown = current + step0;
+            fade = grown;
+            if (grown >= 1.0f) {
                 fade = 1.0f;
                 break;
             }
         }
         break;
     case 1:
-        temp_f1 = fade + step1;
-        fade = temp_f1;
-        if (temp_f1 <= 0.0f) {
+        shrunk = fade + step1;
+        fade = shrunk;
+        if (shrunk <= 0.0f) {
             fade = 0.0f;
             queue_destruction();
         }
@@ -72,14 +67,14 @@ void TChCrEffTagStr::run_task() {
 
 TChCrEffTagStr::~TChCrEffTagStr() {}
 }
-TChCrEffTagStr::TChCrEffTagStr(TObject *object, void *arg2, void *arg3) : TObject(object) {
+TChCrEffTagStr::TChCrEffTagStr(TObject *object, void *sprite, void *position) : TObject(object) {
     m_name = TChCrEffTagStr__name;
-    sprite_id = (saddr)arg2;
-    copy_vec2(&pos, arg3);
+    sprite_id = (saddr)sprite;
+    copy_vec2(&pos, position);
     state = 0;
     fade = 0.0f;
 }
 
-void *TChCrEffTag::create_str(void *arg0, void *arg1, void *arg2) {
-    return new TChCrEffTagStr((TObject *)arg0, arg1, arg2);
+void *TChCrEffTag::create_str(void *parent, void *sprite, void *position) {
+    return new TChCrEffTagStr((TObject *)parent, sprite, position);
 }

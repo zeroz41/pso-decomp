@@ -7,7 +7,7 @@
 
 class TChCrEffTagStr : public TObject {
 public:
-    TChCrEffTagStr(TObject *arg1, void *arg2, void *arg3);
+    TChCrEffTagStr(TObject *arg1, void *sprite, void *position);
     virtual ~TChCrEffTagStr();
     virtual void run_task();
     virtual void render();

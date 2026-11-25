@@ -59,7 +59,7 @@ struct Pos_8030095C { f32 v[8]; };
 
 struct Cur_8030095C { f32 v[2]; };
 
-s32 is_multiplayer_character_slot_selected(s32 arg0);
+s32 is_multiplayer_character_slot_selected(s32 slot);
 saddr multi_sel_episode;
 
 typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;

@@ -43,7 +43,7 @@ s32 fn_802E0454(void *);
 extern "C" {
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 }
-s32 is_multiplayer_character_slot_selected(s32 arg0);
+s32 is_multiplayer_character_slot_selected(s32 slot);
 extern "C" {
 void fn_802FF7EC(void *);
 extern const char *multi_confirm_name;
@@ -54,7 +54,7 @@ void fn_802FF760(void *);
 void TAdMultiConfirmGC::render() {  }
 
 void TAdMultiConfirmGC::run_task() {
-    Obj_802FF87C *arg0 = (Obj_802FF87C *)this;
+    Obj_802FF87C *view = (Obj_802FF87C *)this;
     u32 j;
     u32 i;
     switch (this->m_1c) {
@@ -63,8 +63,8 @@ void TAdMultiConfirmGC::run_task() {
         break;
     case 1:
         for (i = 0; i < 4; i++) {
-            if (arg0->players[i] != NULL) {
-                arg0->players[i]->set_field_100(2);
+            if (view->players[i] != NULL) {
+                view->players[i]->set_field_100(2);
             }
         }
         this->m_1c = 2;
@@ -72,16 +72,16 @@ void TAdMultiConfirmGC::run_task() {
     case 2:
         i = 1;
         for (j = 0; j < this->m_20; j++) {
-            if (arg0->players[j] != NULL && fn_802E0454(arg0->players[j]) == 0) {
+            if (view->players[j] != NULL && fn_802E0454(view->players[j]) == 0) {
                 i = 0;
                 break;
             }
         }
         if ((s32)i == 1) {
             for (i = 0; i < this->m_20; i++) {
-                if (arg0->players[i] != NULL) {
-                    TAdMultiConfirmGC__sub_802E0448(arg0->players[i]);
-                    TAdMultiConfirmGC__sub_802E03D0(arg0->players[i]);
+                if (view->players[i] != NULL) {
+                    TAdMultiConfirmGC__sub_802E0448(view->players[i]);
+                    TAdMultiConfirmGC__sub_802E03D0(view->players[i]);
                 }
             }
             this->m_1c = 3;

@@ -702,9 +702,9 @@ void TAdChrSelASlotGC::run_task() {
     this->state_frames++;
 }
 
-void TAdChrSelASlotGC::create_children(s32 arg1) {
+void TAdChrSelASlotGC::create_children(s32 new_mode) {
     slot_gc = new TAdChrSelSlotGC(this);
-    switch (arg1) {
+    switch (new_mode) {
     case 0:
         this->player_load = new TAdPlayerLoadGC(this, 0);
         plate_a = new TAdPlyChrSelPlateGC(this, &chr_sel_a_slot_plate_layout);
@@ -727,10 +727,10 @@ void TAdChrSelASlotGC::create_children(s32 arg1) {
     }
 }
 
-void TAdChrSelASlotGC::init(s32 arg1) {
+void TAdChrSelASlotGC::init(s32 new_mode) {
     this->state = 0;
     this->prev_state = 0;
-    this->mode = arg1;
+    this->mode = new_mode;
     this->state_frames = -1;
     slot_gc = NULL;
     this->player_load = NULL;

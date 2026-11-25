@@ -51,7 +51,7 @@ public:
     void update_card_confirm_selection();
     void close_windows_and_reopen();
     void close_window_30();
-    static void setup_mode_menu(void *arg0, s32 arg1);
+    static void setup_mode_menu(void *owner, s32 mode);
     void handle_menu_input();
     void create_back_objects();
     void update_mode_selection();
@@ -60,7 +60,7 @@ public:
     void update_mode_selection_and_save();
     void check_player_load_result();
     void request_scene_change_vt();
-    void set_state(s32 arg1);
+    void set_state(s32 state);
     void confirm_mode_selection();
     void sub_8036DEDC();
     void close_windows_and_cleanup();

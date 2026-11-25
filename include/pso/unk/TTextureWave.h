@@ -21,7 +21,7 @@ public:
     virtual void advance_wrapped_cursor();
     virtual void update_texture_wave_image();
     ~TTextureWave();
-    void init_image_buffer(u8 *arg1, s32 arg2);
+    void init_image_buffer(u8 *image, s32 size);
 };
 
 LAYOUT_ASSERT(TTextureWave_size, sizeof(TTextureWave) == 0x54);

@@ -272,9 +272,9 @@ void TAdDialingGC::update() {
     }
 }
 
-void TAdDialingGC__sub_80328730(s32 arg0) {
+void TAdDialingGC__sub_80328730(s32 status) {
     if (TAdDialingGC::instance != 0) {
-        TAdDialingGC::instance->status_code = arg0;
+        TAdDialingGC::instance->status_code = status;
         TAdDialingGC::instance->dial_step = 2;
         switch (TAdDialingGC::instance->dial_mode) {
         case 0:
@@ -283,7 +283,7 @@ void TAdDialingGC__sub_80328730(s32 arg0) {
             break;
         case 1:
         case 2:
-            switch (arg0) {
+            switch (status) {
             case 0:
             case 16:
             case 17:
@@ -427,21 +427,21 @@ void TAdDialingGC::update_idle_dial_state() {
 }
 
 void TAdDialingGC::update_state() {
-    s32 temp_r0_2;
+    s32 status;
 
     switch (this->dial_step) {
     case 0:
         this->dial_step = 1;
         return;
     case 2:
-        temp_r0_2 = this->status_code;
-        if (temp_r0_2 < 0x10) {
-            if (temp_r0_2 == 0) {
+        status = this->status_code;
+        if (status < 0x10) {
+            if (status == 0) {
                 goto block_11;
             }
             goto block_12;
         }
-        if (temp_r0_2 < 0x12) {
+        if (status < 0x12) {
 block_11:
             this->dial_step = 3;
             return;
@@ -458,21 +458,21 @@ block_12:
 }
 
 void TAdDialingGC::update_dial_state() {
-    s32 temp_r0_2;
+    s32 status;
 
     switch (this->dial_step) {
     case 0:
         this->dial_step = 1;
         return;
     case 2:
-        temp_r0_2 = this->status_code;
-        if (temp_r0_2 < 0x10) {
-            if (temp_r0_2 == 0) {
+        status = this->status_code;
+        if (status < 0x10) {
+            if (status == 0) {
                 goto block_11;
             }
             goto block_12;
         }
-        if (temp_r0_2 < 0x12) {
+        if (status < 0x12) {
 block_11:
             this->dial_step = 3;
             return;

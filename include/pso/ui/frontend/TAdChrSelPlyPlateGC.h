@@ -88,6 +88,6 @@ extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
 extern "C" {
 u32 get_multiplayer_controller_active_index(int param_1);
 }
-s32 is_multiplayer_character_slot_selected(s32 arg0);
+s32 is_multiplayer_character_slot_selected(s32 slot);
 
 #endif

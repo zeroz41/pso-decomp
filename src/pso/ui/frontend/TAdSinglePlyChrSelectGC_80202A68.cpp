@@ -80,8 +80,8 @@ struct B8_801FDFB8 { u32 w[2]; };
 struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
 
 
-s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0x194AC);
+s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *file) {
+    return *(s32 *)((s8 *)file + 0x194AC);
 }
 
 
@@ -108,9 +108,9 @@ void TAdSinglePlyChrSelectGC::clear_inventory_slot_by_index(s32 i) {
 
 int TAdSinglePlyChrSelectGC::get_selection() {  return TAdSinglePlyChrSelectGC::selection_index; }
 
-void TAdSinglePlyChrSelectGC::set_global_flags(s32 arg0) {
+void TAdSinglePlyChrSelectGC::set_global_flags(s32 flags) {
     if ((s32 *) active_character_save_record != NULL) {
-        *(s32 *)active_character_save_record |= arg0;
+        *(s32 *)active_character_save_record |= flags;
     }
 }
 
@@ -120,15 +120,15 @@ void TAdSinglePlyChrSelectGC::set_player_index(int a0) { card_load_sequence_stat
 
 void TAdSinglePlyChrSelectGC::set_save_slot(int a0) { chr_select_save_slot = a0; }
 
-void TAdSinglePlyChrSelectGC::clear_flags(s32 arg0) {
+void TAdSinglePlyChrSelectGC::clear_flags(s32 flags) {
     if ((s32 *) active_character_save_record != NULL) {
-        *(s32 *)active_character_save_record &= ~arg0;
+        *(s32 *)active_character_save_record &= ~flags;
     }
 }
 
-s32 TAdSinglePlyChrSelectGC::check_flag(s32 arg0) {
+s32 TAdSinglePlyChrSelectGC::check_flag(s32 flags) {
     if ((s32 *) active_character_save_record != NULL) {
-        return (u8)((u8) ((*(s32 *)active_character_save_record & arg0) != 0));
+        return (u8)((u8) ((*(s32 *)active_character_save_record & flags) != 0));
     }
     return (u8)(0U);
 }
@@ -155,21 +155,21 @@ void CharacterSelectionRequest::reset_slot_lists() {
     }
 }
 
-Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *arg0, Pso3CharacterFile *arg1) {
+Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *to, Pso3CharacterFile *from) {
     Pso3CharacterFileSlot *d;
     Pso3CharacterFileSlot *s;
-    arg0->checksum = arg1->checksum;
-    d = arg0->slots;
-    s = arg1->slots;
+    to->checksum = from->checksum;
+    d = to->slots;
+    s = from->slots;
     do {
         TAdSinglePlyChrSelectGC__sub_80202D7C(d, s);
         d++;
         s++;
-    } while (d < &arg0->slots[7]);
-    arg0->tail = arg1->tail;
-    arg0->blk = arg1->blk;
-    arg0->cipher_seed = arg1->cipher_seed;
-    return arg0;
+    } while (d < &to->slots[7]);
+    to->tail = from->tail;
+    to->blk = from->blk;
+    to->cipher_seed = from->cipher_seed;
+    return to;
 }
 
 #define dst ((P_801FDFB8 *)a0)
@@ -184,9 +184,9 @@ void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1) {
 #undef dst
 #undef src
 
-u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *arg1) {
+u8 *TAdSinglePlyChrSelectGC::copy_character_data(u8 *source) {
     S_80202DD4 *d = (S_80202DD4 *)this;
-    S_80202DD4 *s = (S_80202DD4 *)arg1;
+    S_80202DD4 *s = (S_80202DD4 *)source;
     Elem_80202DD4 *p;
     Elem_80202DD4 *q;
     d->f0 = s->f0;
@@ -251,13 +251,13 @@ void TAdSinglePlyChrSelectGC::clear_inventory_slot() {
     ((TItemData *)((u8 *)&this->m_prev))->init();
 }
 
-int fn_8020325C(void *arg0) {
-    int var_r4;
-    var_r4 = 0;
-    if (((u8) *(u8 *)((s8 *)arg0 + 0x0) == 1) && ((u8) *(u8 *)((s8 *)arg0 + 0x1) == 3)) {
-        var_r4 = 1;
+int fn_8020325C(void *entry) {
+    int matches;
+    matches = 0;
+    if (((u8) *(u8 *)((s8 *)entry + 0x0) == 1) && ((u8) *(u8 *)((s8 *)entry + 0x1) == 3)) {
+        matches = 1;
     }
-    return (u8)var_r4;
+    return (u8)matches;
 }
 
 }

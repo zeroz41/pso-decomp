@@ -18,7 +18,7 @@
 #pragma pool_data off
 
 extern "C" {
-s32 set_shared_memory_data(u8 *arg0, u32 arg1);
+s32 set_shared_memory_data(u8 *src, u32 size);
 void launch_iwanaga_dol(DolHeader *, s32);
 }
 // The switcher.dol pages: the modem check (TAdTrialModemChkGC__sub_8007FA24) and the dial screen

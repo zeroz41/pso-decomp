@@ -49,20 +49,20 @@ LAYOUT_ASSERT(Pso3CharacterFileSlot_size, sizeof(Pso3CharacterFileSlot) == 0x39B
 LAYOUT_ASSERT(Pso3CharacterFile_size, sizeof(Pso3CharacterFile) == 0x194B0);
 
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0);
+s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *file);
 u8 TAdSinglePlyChrSelectGC__sub_80202B30(void *p);
 void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1);
 void TAdSinglePlyChrSelectGC__sub_80203210(void *p);
-int fn_8020325C(void *arg0);
+int fn_8020325C(void *entry);
 }
 
 // --- C functions defined in TAdSinglePlyChrSelectGC_80202A68.cpp ---
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *arg0);
+s32 TAdSinglePlyChrSelectGC__sub_80202A68(u8 *file);
 u8 TAdSinglePlyChrSelectGC__sub_80202B30(void *p);
 void *TAdSinglePlyChrSelectGC__sub_80202D7C(void *a0, void *a1);
 void TAdSinglePlyChrSelectGC__sub_80203210(void *p);
-int fn_8020325C(void *arg0);
+int fn_8020325C(void *entry);
 }
 // --- end of C functions
 

@@ -32,24 +32,24 @@ s32 TAdYesNoBaseGC::sub_8032C0B4() {
 }
 
 s32 TAdYesNoBaseGC::create_menu_window() {
-    TAdYesNoBaseGC *arg0 = this;
+    TAdYesNoBaseGC *owner = this;
     NJS_POINT2 pos = {85.0f, 384.0f};
     saddr r = (saddr)init_shop_judgment_window(&pos);
     ((TWindowMenu *)r)->update_layout_height(470.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
-    ((TWindowSubComCardList *)r)->set_selected_index((s16)arg0->m_2c);
+    ((TWindowSubComCardList *)r)->set_selected_index((s16)owner->m_2c);
     return r;
 }
 
-void TAdYesNoBaseGC::init_parts(void *arg1, void *arg2) {
+void TAdYesNoBaseGC::init_parts(void *unused, void *position) {
     copy_vec2__FPvPv((void *)((char *)this + 48));
-    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)this + 56), arg2);
+    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)this + 56), position);
 }
 
 
 void TAdYesNoBaseGC::vfunc_11() {
     s32 selected_menu_value;
-    s32 temp_r4;
+    s32 timer;
 
     this->m_20 = (s32) this->m_1c;
     switch (this->m_1c) {
@@ -87,9 +87,9 @@ void TAdYesNoBaseGC::vfunc_11() {
             ((TWindowBase *)this->m_44)->close();
             this->m_44 = 0U;
         }
-        temp_r4 = this->m_28 + 1;
-        this->m_28 = temp_r4;
-        if ((f32) temp_r4 > 4.5f) {
+        timer = this->m_28 + 1;
+        this->m_28 = timer;
+        if ((f32) timer > 4.5f) {
             this->m_1c = (s32) this->m_24;
         }
         break;

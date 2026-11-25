@@ -50,12 +50,12 @@ struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
     static void set_entered_value(u32 value, s32 field);
     static void init_state();
     static TWindowCallBack *create_callback(void *position, void *scale, WindowCallback callback);
-    static TWindowBase *show_message_window(void *arg0, void *arg1);
+    static TWindowBase *show_message_window(void *owner, void *message_index);
     static void clear_serial_buffer();
-    static void store_serial_access_key(saddr arg0, saddr arg1, saddr arg2);
+    static void store_serial_access_key(saddr serial, saddr access_key, saddr password);
     static char *serial_to_hex_string(const char *serial);
     static int forward_input(void *screen, s32 field, const char *text);
-    static TKeyBoardControl *create_keyboard_control(saddr arg0, s32 field);
+    static TKeyBoardControl *create_keyboard_control(saddr parent, s32 field);
 
     static const NJS_POINT2 selection_positions[2];
     static char raw_serial_buffer[0xC];

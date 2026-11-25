@@ -75,7 +75,7 @@ struct Menu_80296D68
 typedef void (TObjCMMainMenu::*MainMenuStateHandler)();
 
 extern "C" {
-void run_task__16TObjCMAssignMenuFv(void *arg0);
+void run_task__16TObjCMAssignMenuFv(void *menu);
 }
 
 s32 creation_menu_selected_entry;
@@ -916,17 +916,17 @@ TObjCMAssignMenu *TObjCMAssignMenu::create(TObject *parent, s32 kind) {
 
 #pragma push
 #pragma opt_common_subs off
-void run_task__16TObjCMAssignMenuFv(void *arg0) {
+void run_task__16TObjCMAssignMenuFv(void *menu) {
   s32 step;
   s32 wrap;
   s32 old;
   s16 r;
-  s16 *new_var;
+  s16 *target;
   s16 v;
   s32 t;
   f32 fade;
   s32 off;
-  Menu_80296D68 *self = (Menu_80296D68 *) arg0;
+  Menu_80296D68 *self = (Menu_80296D68 *) menu;
   u8 *app;
   s32 delta;
   self->ticks++;
@@ -1013,12 +1013,12 @@ void run_task__16TObjCMAssignMenuFv(void *arg0) {
         }
       }
     }
-    new_var = (s16 *) (((s8 *) app) + off);
-    if ((*new_var) != old)
+    target = (s16 *) (((s8 *) app) + off);
+    if ((*target) != old)
     {
       play_sound_effect(0x54100, 0, 0, 0);
     }
-    self->value = *new_var;
+    self->value = *target;
   }
   ((TObjCMAssignMenu *)self)->calc_grid_layout();
   if (self->scroll < ((f32) self->target))
@@ -1612,7 +1612,7 @@ void TObjCMAutoMkData::run_task() {
   s16 *sel;
   s32 i;
   s32 v;
-  CharacterAppearanceFields **new_var;
+  CharacterAppearanceFields **appearance_slot;
   x = TObjCMMainMenu::get_proportion();
   if (state != 2)
   {
@@ -1630,7 +1630,7 @@ void TObjCMAutoMkData::run_task() {
     x = (x > (1.0f - fade)) ? (x) : (1.0f - fade);
   }
   set_creation_projection_center(x);
-  new_var = &appearance;
+  appearance_slot = &appearance;
   if (state == 2)
   {
     if ((fade += -0.083333336f) <= 0.0f)
@@ -1713,11 +1713,11 @@ void TObjCMAutoMkData::run_task() {
     case 3:
       ticks++;
       t = ((f32) ticks) / 30.0f;
-      (*new_var)->red = (s32) (((f32) appearance->red) + (t * ((f32) (red - (*new_var)->red))));
-      appearance->green = (s32) (((f32) (*new_var)->green) + (t * ((f32) (green - appearance->green))));
-      appearance->blue = (s32) (((f32) appearance->blue) + (t * ((f32) (blue - (*new_var)->blue))));
-      (*new_var)->width = (t * (width - appearance->width)) + appearance->width;
-      appearance->height = (t * (height - (*new_var)->height)) + appearance->height;
+      (*appearance_slot)->red = (s32) (((f32) appearance->red) + (t * ((f32) (red - (*appearance_slot)->red))));
+      appearance->green = (s32) (((f32) (*appearance_slot)->green) + (t * ((f32) (green - appearance->green))));
+      appearance->blue = (s32) (((f32) appearance->blue) + (t * ((f32) (blue - (*appearance_slot)->blue))));
+      (*appearance_slot)->width = (t * (width - appearance->width)) + appearance->width;
+      appearance->height = (t * (height - (*appearance_slot)->height)) + appearance->height;
       if (ticks >= 30)
     {
       if (creation_resource_ready_state == 2)

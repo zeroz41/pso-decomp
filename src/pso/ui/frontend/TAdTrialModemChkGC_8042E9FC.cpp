@@ -83,20 +83,20 @@ extern "C" {
 
 #pragma push
 #pragma optimize_for_size off
-s32 set_shared_memory_data(u8 *arg0, u32 arg1) {
+s32 set_shared_memory_data(u8 *src, u32 size) {
     u8 *dst;
     u32 i;
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    if (arg1 > 0x800U) {
+    if (size > 0x800U) {
         return -2;
     }
     dst = shared_memory_block->data;
-    for (i = arg1; i != 0; i--) {
-        *dst++ = *arg0++;
+    for (i = size; i != 0; i--) {
+        *dst++ = *src++;
     }
-    shared_memory_block->data_size = arg1;
+    shared_memory_block->data_size = size;
     shared_memory_block->flags |= SHARED_MEMORY_DATA_SET;
     return 0;
 }
@@ -104,9 +104,9 @@ s32 set_shared_memory_data(u8 *arg0, u32 arg1) {
 
 #pragma push
 #pragma optimize_for_size off
-void launch_iwanaga_dol(DolHeader *dol_image, s32 arg1) {
+void launch_iwanaga_dol(DolHeader *dol_image, s32 param) {
     strcpy(launch_dol_context->dol_name, "iwanaga.dol");
-    launch_dol_context->unk_100 = arg1;
+    launch_dol_context->unk_100 = param;
     launch_dol_context->dol_image = dol_image;
     launch_dol_context->keep_size = sizeof(SharedMemory);
     LaunchDol(launch_dol_context);
@@ -160,17 +160,17 @@ void init_shared_memory(void) {
 
 #pragma push
 #pragma optimize_for_size off
-s32 set_disc_error_message(s32 arg0, const char *arg1) {
+s32 set_disc_error_message(s32 index, const char *message) {
     s32 ret = 0;
     if (shared_memory_ready == 0) {
         return -1;
     }
-    if (arg0 < 0 || arg0 > 4) {
+    if (index < 0 || index > 4) {
         return -2;
     }
-    memset(shared_memory_disc_messages->message[arg0], 0, sizeof(shared_memory_disc_messages->message[arg0]));
-    strncpy(shared_memory_disc_messages->message[arg0], arg1, sizeof(shared_memory_disc_messages->message[arg0]) - 1);
-    if (strlen(arg1) >= 0x100) {
+    memset(shared_memory_disc_messages->message[index], 0, sizeof(shared_memory_disc_messages->message[index]));
+    strncpy(shared_memory_disc_messages->message[index], message, sizeof(shared_memory_disc_messages->message[index]) - 1);
+    if (strlen(message) >= 0x100) {
         ret = -2;
     }
     return ret;
@@ -180,35 +180,35 @@ s32 set_disc_error_message(s32 arg0, const char *arg1) {
 s32 EXIGetType(int, int, void *);
 u32 lbl_805D7CC8;
 
-s32 get_network_adapter_type(s32 *arg0) {
-    s32 sp8;
+s32 get_network_adapter_type(s32 *out_type) {
+    s32 adapter_type;
     if ((u32) lbl_805D7CC8 == 2U) {
-        *arg0 = 2;
+        *out_type = 2;
         goto block_18;
     }
     if ((u32) lbl_805D7CC8 == 5U) {
-        *arg0 = 5;
+        *out_type = 5;
         goto block_18;
     }
-    if (EXIGetType(0, 2, &sp8) != 0) {
-        switch (sp8) {
+    if (EXIGetType(0, 2, &adapter_type) != 0) {
+        switch (adapter_type) {
         case -1:
-            *arg0 = 0;
+            *out_type = 0;
             break;
         case 33685504:
-            *arg0 = 2;
+            *out_type = 2;
             lbl_805D7CC8 = 2U;
             break;
         case 67240448:
             if (exi_read_status_byte() == 0U) {
-                *arg0 = 5;
+                *out_type = 5;
                 lbl_805D7CC8 = 5U;
             } else {
-                *arg0 = 1;
+                *out_type = 1;
             }
             break;
         default:
-            *arg0 = 1;
+            *out_type = 1;
             break;
         }
     } else {
@@ -218,90 +218,90 @@ block_18:
     return 0;
 }
 
-s32 fn_8042EF48(s8 arg0) {
+s32 fn_8042EF48(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_disc_messages->unk_000 = arg0;
+    shared_memory_disc_messages->unk_000 = value;
     shared_memory_block->flags |= SHARED_MEMORY_DISC_MESSAGES_SET;
     return 0;
 }
 }
 
-s32 set_modem_check_param_360(s8 arg0) {
+s32 set_modem_check_param_360(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->check_param_360 = arg0;
+    shared_memory_connect_param->check_param_360 = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
-s32 set_modem_param(s16 arg0) {
+s32 set_modem_param(s16 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->modem_param = arg0;
+    shared_memory_connect_param->modem_param = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
-s32 set_modem_check_char(s8 arg0) {
+s32 set_modem_check_char(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->check_char = arg0;
+    shared_memory_connect_param->check_char = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
-s32 set_modem_flag(s8 arg0) {
+s32 set_modem_flag(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->modem_flag = arg0;
+    shared_memory_connect_param->modem_flag = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
-s32 set_modem_check_param(s32 arg0) {
+s32 set_modem_check_param(s32 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->check_param = arg0;
+    shared_memory_connect_param->check_param = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
-s32 TAdTrialModemChkGC__sub_8042F080(s16 arg0) {
-    shared_memory_connect_param->unk_1C2 = arg0;
+s32 TAdTrialModemChkGC__sub_8042F080(s16 value) {
+    shared_memory_connect_param->unk_1C2 = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
-s32 set_modem_trial_param(s16 arg0) {
+s32 set_modem_trial_param(s16 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->trial_param = arg0;
+    shared_memory_connect_param->trial_param = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
-s32 TAdTrialModemChkGC__sub_8042F0D4(s8 arg0) {
+s32 TAdTrialModemChkGC__sub_8042F0D4(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->unk_13D = arg0;
+    shared_memory_connect_param->unk_13D = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
-s32 ntUtlExSetDialType(s8 arg0) {
+s32 ntUtlExSetDialType(s8 value) {
     if ((s32) shared_memory_ready == 0) {
         return -1;
     }
-    shared_memory_connect_param->unk_13C = arg0;
+    shared_memory_connect_param->unk_13C = value;
     shared_memory_block->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }

@@ -30,7 +30,7 @@ struct TAdPlyStatusGC : public TObject {
     static TAdPlyStatusGC *get_instance(TObject *parent, s32 window_offset_index);
     static TAdGuideButtonGC *get_player_index(); // the guide button, or NULL
     void format_status_strings();
-    void set_load_state(s32 arg1);
+    void set_load_state(s32 load_result);
 };
 
 LAYOUT_ASSERT(TAdPlyStatusGC_size, sizeof(TAdPlyStatusGC) == 0x70);

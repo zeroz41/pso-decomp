@@ -64,8 +64,8 @@ struct TAdChrSelASlotGC : public TObject {
     void update_slot1();
     void show_no_card_message();
     void close_windows();
-    void create_children(s32 arg1);
-    void init(s32 arg1);
+    void create_children(s32 new_mode);
+    void init(s32 new_mode);
     void forward_slot_selection(void* a1, void* a2);
     TAdPlyChrSelPlateGC *plate_a;          // 0x34  slot A plate (modes 0 and 1)
     TAdPlyChrSelPlateGC *plate_b;          // 0x38  slot B plate (modes 1 and 2)

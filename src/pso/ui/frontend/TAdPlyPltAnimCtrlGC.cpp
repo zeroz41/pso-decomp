@@ -22,11 +22,11 @@ u32 plyplt_anim_ctrl_instance;
 
 TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int a0) { return TAdPlyPltAnimGC::instances[a0]; }
 
-u32 TAdPlyPltAnimCtrlGC::get_instance(saddr arg0) {
+u32 TAdPlyPltAnimCtrlGC::get_instance(saddr parent) {
     uaddr ad_ply_plt_anim_ctrl_gc;
 
     if ((u32) plyplt_anim_ctrl_instance == 0U) {
-        ad_ply_plt_anim_ctrl_gc = (uaddr)new TAdPlyPltAnimCtrlGC((TObject *)arg0);
+        ad_ply_plt_anim_ctrl_gc = (uaddr)new TAdPlyPltAnimCtrlGC((TObject *)parent);
         plyplt_anim_ctrl_instance = ad_ply_plt_anim_ctrl_gc;
     }
     return plyplt_anim_ctrl_instance;
@@ -111,11 +111,11 @@ void TAdPlyPltAnimCtrlGC::run_task() {
 
 void TAdPlyPltAnimCtrlGC::init(void* a1) { TAdPlyPltAnimCtrlGC__sub_80355168((u8 *)this); copy_vec2(((char*)this + 0x24), a1); this->m_1c = 1; }
 
-void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0) {
+void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *anim) {
     s32 i;
     i = 0;
-    *(s32 *)((s8 *)arg0 + 0x1C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x20) = -1;
+    *(s32 *)((s8 *)anim + 0x1C) = 0;
+    *(s32 *)((s8 *)anim + 0x20) = -1;
     do {
         TAdPlyPltAnimGC *anim = TAdPlyPltAnimCtrlGC::get_table_value(i);
         if (anim != NULL) {

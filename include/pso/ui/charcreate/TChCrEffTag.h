@@ -20,7 +20,7 @@ public:
 public:
     void refresh_label();
     static void set_eff_tag(int a0);
-    static void *create_str(void *arg0, void *arg1, void *arg2);
+    static void *create_str(void *parent, void *sprite, void *position);
 };
 
 LAYOUT_ASSERT(TChCrEffTag_size, sizeof(TChCrEffTag) == 0x2C);
