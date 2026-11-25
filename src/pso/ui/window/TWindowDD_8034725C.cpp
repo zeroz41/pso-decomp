@@ -13,8 +13,6 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowWordSelectMode.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
-#include "pso/ui/window/TWindowDD_80341A08.h"
-#include "pso/ui/window/TWindowDD_80341334.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80228E98.h"
 #include <string.h>
@@ -301,7 +299,7 @@ TWindowDD_WS_Word *TWindowDD__sub_80347980(TWindowDD *self) {
         child = self->pages[self->depth - 1];
         if (child != NULL) {
             self->update(child);
-            self->list_ids[0] = TWindowDD__sub_8034214C(child);
+            self->list_ids[0] = child->get_element_list_id();
         }
     }
     return child;
@@ -327,7 +325,7 @@ extern "C" {
 
 void TWindowDD__sub_80347A4C(TWindowDD *window_dd, TWindowDD_WS_Word *page) {
     s32 id;
-    id = get_word_select_selected_id(page);
+    id = page->get_selected_id();
     if (TWindowDD::is_state_zero_unless_0x2C8(id) != 0) {
         TWindowDD__sub_80348DD8(&window_dd->message, id);
         TWindowDD__sub_80347CC8(window_dd, &window_dd->message);
@@ -350,7 +348,7 @@ TWindowDD_WS_Word *TWindowDD__sub_80347AD4(TWindowDD *self, s32 offset, s32 id) 
     }
     win = self->pages[i];
     if (win == NULL) {
-        win = TWindowDD__sub_80342384(id, (s32)lbl_805DFB54);
+        win = TWindowDD_WS_Word::create(id, (s32)lbl_805DFB54);
         TWindowDD::set_default_coords(self, win);
         self->pages[self->depth + offset] = win;
     }
@@ -362,7 +360,7 @@ TWindowDD_WS_Word *TWindowDD__sub_80347AD4(TWindowDD *self, s32 offset, s32 id) 
 
 void TWindowDD::update_selection_state() {
     s32 v;
-    v = get_word_select_selected_id(pages[depth]);
+    v = pages[depth]->get_selected_id();
     if ((s16)v != last_selected_id) {
         switch (word_appended) {
         case 0:
@@ -436,7 +434,7 @@ s32 TWindowDD::setup_entry(s16 id) {
     text = strings[2];
     if ((text != NULL) && ((str = get_word_select_token_text(id)) != 0)) {
         text->set_first_entry_text(str);
-        TWindowDD__sub_803412A0(text);
+        text->fit_width_to_text();
         text->init_and_set_field50((void *)TWindowDD__data_805DFB50);
         shown = 1;
     }
@@ -461,10 +459,10 @@ void TWindowDD__sub_80347E04(TWindowDD *window_dd, s32 index) {
         }
         b.x = lbl_805DFB60;
         b.y = a.y;
-        o = create_word_select_string(lbl_805DFBE4, (f32 *)&a, (f32 *)&b, (u32)r, 1);
+        o = TWindowDD_WS_String::create(lbl_805DFBE4, (f32 *)&a, (f32 *)&b, (u32)r, 1);
         if (o != NULL) {
             o->set_depth(lbl_805DFC28);
-            TWindowDD__sub_803412A0(o);
+            o->fit_width_to_text();
             copy_vec2(o->frame_position, &v);
             o->init_and_set_field50((void *)TWindowDD__data_805DFB50);
             window_dd->strings[index + 4] = o;
@@ -477,7 +475,7 @@ s32 TWindowDD::get_current_child_index() {
     TWindowDD_WS_Word *page;
     page = pages[depth];
     if (page != NULL) {
-        return get_word_select_selected_id(page);
+        return page->get_selected_id();
     }
     return -1;
 }
@@ -515,29 +513,29 @@ void update_word_select_child_position(TWindowDD *window_dd, s32 index) {
 
 void TWindowDD::refresh_sub(void* p, void* a1) {
     TWindowDD_WS_Word *page = static_cast<TWindowDD_WS_Word *>(a1);
-    TWindowDD__sub_80341AE0(page);
+    page->disable_input();
     page->set_mode_2();
 }
 
 void TWindowDD::apply_input(void* p, void* a1) {
     TWindowDD_WS_Word *page = static_cast<TWindowDD_WS_Word *>(a1);
-    TWindowDD__sub_80341AE0(page);
+    page->disable_input();
     page->reset_cursor();
 }
 
 void TWindowDD::update(void* p, void* child) {
     TWindowDD_WS_Word *page = static_cast<TWindowDD_WS_Word *>(child);
-    TWindowDD__sub_80341AE0(page);
+    page->disable_input();
     page->set_mode_2();
 }
 
 
 void TWindowDD::update(TWindowDD_WS_Word *window_dd) {
-    TWindowDD__sub_80341AF8(window_dd);
+    window_dd->enable_input();
     window_dd->reset_cursor();
     if (scroll_bar != NULL) {
         scroll_bar->set_scale(window_dd->get_field_0x74(), (s32) lbl_805DFB54);
-        scroll_bar->set_value_f32(TWindowDD__sub_8034217C(window_dd));
+        scroll_bar->set_value_f32(window_dd->get_scroll_top());
     }
 }
 

@@ -1,10 +1,8 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowDD_803411E8.h"
-#include "pso/ui/window/TWindowDD_80341334.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -65,12 +63,12 @@ void TWindowDD_WS_String::update_position(s32 ticks) {
     }
 }
 
-void TWindowDD__sub_803412A0(TWindowDD_WS_String *self) {
+void TWindowDD_WS_String::fit_width_to_text() {
     u8 *entry;
-    entry = (u8 *)self->get_array_entry(0);
+    entry = (u8 *)get_array_entry(0);
     if (entry != NULL) {
         measure_message_text_width_default(entry);
-        self->target_size[0] = (2.0f * TWindowDD__data_805DFB58) + *(f32 *)((s8 *)entry + 0x10);
+        target_size[0] = (2.0f * TWindowDD__data_805DFB58) + *(f32 *)((s8 *)entry + 0x10);
     }
 }
 
@@ -101,7 +99,7 @@ TWindowDD_WS_StringLayout lbl_804EFC00 = {
     {3, {0.0f, 0.0f}, 0.2f, TWindowDD__data_805DFC14, 0x40, NULL},
 };
 
-// Size is written by create_word_select_string before each window is built.
+// Size is written by TWindowDD_WS_String::create before each window is built.
 WindowDescriptor TWindowDD__data_804EFC24 = {
     {0.0f, 0.0f}, lbl_805DFC20, &lbl_804EFC00, 3,
 };
@@ -129,7 +127,7 @@ TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style
     open_tick = 0x01000000;
 }
 
-TWindowDD_WS_String *create_word_select_string(f32 width, f32 *pos, f32 *size, u32 str, s32 style) {
+TWindowDD_WS_String *TWindowDD_WS_String::create(f32 width, f32 *pos, f32 *size, u32 str, s32 style) {
     TWindowDD__data_804EFC24.size[0] = width;
     TWindowDD__data_804EFC24.size[1] = TWindowDD__data_805DFB20;
     return new TWindowDD_WS_String(pos, size, str, style);

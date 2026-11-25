@@ -10,7 +10,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/ui/window/TWindowDD_803488A8.h"
-#include "pso/ui/window/TWindowDD_80341A08.h"
 #include "pso/ui/window/TWindowBase.h"
 
 #include "pso/ui/window/TWindowDD.h"
@@ -37,7 +36,7 @@ extern const f32 lbl_805DFB44;
 #include "pso/unk/WindowLayoutRecord.h"
 
 // Entry layout table of the window: one column, one text record (type 3); the row count is
-// written before each build (init_layout_entries, TWindowDD__sub_80342384).
+// written before each build (init_layout_entries, TWindowDD_WS_Word::create).
 struct TWindowDD_WS_WordLayout {
     u32 cols;
     u32 rows;
@@ -67,7 +66,7 @@ struct Elem_80341FFC {
 
 extern s32 TWindowDD__data_805DFB50;
 
-TWindowDD_WS_Word *TWindowDD__sub_80342384(s32 element_list, s32 rows) {
+TWindowDD_WS_Word *TWindowDD_WS_Word::create(s32 element_list, s32 rows) {
     TWindowDD__data_804EFC50.rows = rows;
     return new TWindowDD_WS_Word(element_list, rows);
 }
@@ -105,7 +104,7 @@ s32 TWindowDD_WS_Word::sub_80342254() {
 
 void TWindowDD_WS_Word::add_scroll_offset(int offset) {
     selected_token_index += offset;
-    m_8c = 1;
+    layout_dirty = 1;
     TWindowDD::spawn_window();
 }
 
@@ -126,19 +125,19 @@ s32 TWindowDD_WS_Word::update_if_field28_set() {
 
 s32 TWindowDD_WS_Word::get_cursor_index() { return selected_row; }
 
-s32 TWindowDD__sub_8034217C(const TWindowDD_WS_Word *page) {
-    return page->selected_token_index - page->selected_row;
+s32 TWindowDD_WS_Word::get_scroll_top() const {
+    return selected_token_index - selected_row;
 }
 
-int get_word_select_selected_id(const TWindowDD_WS_Word *page) {
-    if (page->token_ids != NULL) {
-        return page->token_ids[page->selected_token_index];
+int TWindowDD_WS_Word::get_selected_id() const {
+    if (token_ids != NULL) {
+        return token_ids[selected_token_index];
     }
     return 0x685;
 }
 
-s16 TWindowDD__sub_8034214C(const TWindowDD_WS_Word *page) {
-    return static_cast<s16>(page->element_list_id);
+s16 TWindowDD_WS_Word::get_element_list_id() const {
+    return static_cast<s16>(element_list_id);
 }
 
 s32 TWindowDD_WS_Word::get_field_0x74() { return token_count; }
@@ -182,7 +181,7 @@ void TWindowDD_WS_Word::reset_fields() {
     pad_84 = 0.0f;
     selected_token_index = 0;
     selected_row = 0;
-    m_8c = 1;
+    layout_dirty = 1;
 }
 
 void TWindowDD_WS_Word::init_layout_entries() {
@@ -196,7 +195,7 @@ void TWindowDD_WS_Word::init_child(s32 list_id) {
     init_layout_entries();
     load_element_list();
     reset_fields();
-    m_8c = 1;
+    layout_dirty = 1;
 }
 
 void TWindowDD_WS_Word::free_child() {
@@ -212,7 +211,7 @@ void TWindowDD_WS_Word::free_child() {
 void TWindowDD_WS_Word::init_and_mark_field8C() {
     init_layout_entries();
     load_element_list();
-    m_8c = 1;
+    layout_dirty = 1;
 }
 
 #pragma push
@@ -312,14 +311,14 @@ void TWindowDD_WS_Word::reset_cursor() { point_table_index = 0; }
 
 void TWindowDD_WS_Word::set_mode_2() { point_table_index = 2; }
 
-void TWindowDD__sub_80341AF8(TWindowDD_WS_Word *page) {
-    page->state_flags &= ~1;
-    page->m_8c = 1;
+void TWindowDD_WS_Word::enable_input() {
+    state_flags &= ~1;
+    layout_dirty = 1;
 }
 
-void TWindowDD__sub_80341AE0(TWindowDD_WS_Word *page) {
-    page->state_flags |= 1;
-    page->m_8c = 1;
+void TWindowDD_WS_Word::disable_input() {
+    state_flags |= 1;
+    layout_dirty = 1;
 }
 
 s32 TWindowDD_WS_Word::sub_80341AC0() {
@@ -478,8 +477,8 @@ void TWindowDD_WS_Word::render() {
     entry = self->draw_default_entry();
     self->calc_inner_rect(entry);
     TWindowDD__sub_80341674(self, entry);
-    if (self->m_8c != 0) {
-        self->m_8c = 0;
+    if (self->layout_dirty != 0) {
+        self->layout_dirty = 0;
         idx = self->selected_token_index - self->selected_row;
         for (i = 0; i < self->visible_entry_count; i++, idx++) {
             item = (WindowTextEntry *)self->get_array_entry(i);

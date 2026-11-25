@@ -9,6 +9,12 @@ class TWindowDD_WS_Word : public TWindowBase {
 public:
     TWindowDD_WS_Word(s32 list_id, s32 visible_count);
     virtual ~TWindowDD_WS_Word();
+    static TWindowDD_WS_Word *create(s32 element_list, s32 rows);
+    void disable_input(); // inferred: sets state_flags bit 0
+    void enable_input();  // inferred: clears state_flags bit 0
+    s16 get_element_list_id() const;
+    s32 get_scroll_top() const; // inferred: first visible token (selected token minus its row)
+    int get_selected_id() const;
     virtual void render();
     virtual void run_task();
     void add_scroll_offset(int offset);
@@ -41,7 +47,7 @@ public:
     s16 *token_ids;
     f32 pad_84;
     f32 scroll_offset; // (fraction of a 20-unit row drawn as partial strips)
-    s32 m_8c;
+    s32 layout_dirty; // inferred: set on every change, cleared when run_task relayouts
 };
 struct WindowDrawContext;
 

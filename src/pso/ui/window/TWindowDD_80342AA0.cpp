@@ -1,7 +1,6 @@
-#include "pso/ui/window/TWindowDD_80341A08.h"
+#include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/window/TWindowDD_80341A08.h"
 
 extern "C" {
 s32 update_numeric_parameter_input__9TWindowDDFPv();
@@ -40,7 +39,7 @@ void TWindowDD__sub_80342B5C(TWindowDD *window_dd) {
     window_dd->selected_word = 0x37;
     page = window_dd->pages[window_dd->depth];
     if (page != NULL) {
-        window_dd->selected_word = get_word_select_selected_id(page);
+        window_dd->selected_word = page->get_selected_id();
     }
 }
 

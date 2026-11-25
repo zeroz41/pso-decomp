@@ -1,4 +1,4 @@
-#include "pso/ui/window/TWindowDD_80341A08.h"
+#include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_80342E40.h"
@@ -46,7 +46,7 @@ void TWindowDD::handle_confirm_input() {
     refresh_word_select_child_list();
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        id = get_word_select_selected_id(pages[depth]);
+        id = pages[depth]->get_selected_id();
         message.type = TWindowDD__sub_80348448(this, id);
         next_state = TWindowDD__sub_80348424(this, id);
         push_recent_id(id);
@@ -88,7 +88,7 @@ u8 update_numeric_parameter_input__9TWindowDDFPv(TWindowDD *window_dd) {
         result = 2;
     }
     if (result != 0) {
-        TWindowDD__sub_80341AF8(window_dd->pages[window_dd->depth]);
+        window_dd->pages[window_dd->depth]->enable_input();
         window_dd->number_window = NULL;
         window_dd->numeric_input_active = 0;
     }

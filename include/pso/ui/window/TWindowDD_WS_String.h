@@ -7,6 +7,8 @@ class TWindowDD_WS_String : public TWindowBase {
 public:
     TWindowDD_WS_String(f32 *position, f32 *size, u32 text, s32 style);
     virtual ~TWindowDD_WS_String();
+    static TWindowDD_WS_String *create(f32 width, f32 *pos, f32 *size, u32 str, s32 style);
+    void fit_width_to_text(); // inferred: widens target_size[0] to the first entry's text
     virtual void run_task();
     virtual void render();
     void draw(saddr, s32, f32);

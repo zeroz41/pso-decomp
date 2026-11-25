@@ -1776,11 +1776,11 @@ force_active:
   - TWindowCtrlSub__name
   - update_countdown__17TWindowCtrlPlayerFv
   - TWindowCtrl__sub_8026D4E8
-  - __sinit_TWindowDD_80340A78_cpp
+  - __sinit_TWindowDD_WS_ScrollBar_cpp
   - __ct__19TWindowDD_WS_StringFPfPfUll
-  - __sinit_TWindowDD_80341334_cpp
+  - __sinit_TWindowDD_WS_String_cpp
   - __ct__17TWindowDD_WS_WordFll
-  - __sinit_TWindowDD_80341A08_cpp
+  - __sinit_TWindowDD_WS_Word_cpp
   - TWindowDD__sub_80346F30
   - TWindowDD__sub_80346FC0
   - layout_entries__17TWindowDuelResult

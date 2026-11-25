@@ -7,6 +7,7 @@ class TWindowDD_WS_ScrollBar : public TWindowBase {
 public:
     virtual ~TWindowDD_WS_ScrollBar();
     TWindowDD_WS_ScrollBar();
+    static TWindowDD_WS_ScrollBar *create();
     virtual void run_task();
     virtual void render();
     void set_scale(s32 total, s32 visible);

@@ -1,4 +1,4 @@
-#include "pso/ui/window/TWindowDD_80341A08.h"
+#include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDD_80342428.h"
 #include "pso/ui/window/TWindowDD.h"
@@ -17,7 +17,7 @@ void TWindowDD__sub_80342428(TWindowDD *window_dd) {
     TWindowDD::play_sound();
     if (window_dd->state == 0xA)
     {
-      if (static_cast<s16>(get_word_select_selected_id(window_dd->pages[window_dd->depth])) == 0x685)
+      if (static_cast<s16>(window_dd->pages[window_dd->depth]->get_selected_id()) == 0x685)
       {
         window_dd->next_state = 0x14;
         window_dd->list_ids[1] = -0x3C;

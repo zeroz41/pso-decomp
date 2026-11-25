@@ -8751,13 +8751,13 @@ pso/ui/window/TWindowDD.cpp:
 	.text       start:0x803403F8 end:0x8034055C
 	.sdata2     start:0x805DFB18 end:0x805DFC40
 
-pso/ui/window/TWindowDD_8034055C.cpp:
+pso/ui/window/TWindowWordSelectMode.cpp:
 	.text       start:0x8034055C end:0x80340A78
 	.ctors      start:0x80434000 end:0x80434004
 	.data       start:0x804EFB90 end:0x804EFBC8
 	.sdata2     start:0x805DFC40 end:0x805DFC50
 
-pso/ui/window/TWindowDD_80340A78.cpp:
+pso/ui/window/TWindowDD_WS_ScrollBar.cpp:
 	.text       start:0x80340A78 end:0x80341108
 	.ctors      start:0x80434004 end:0x80434008
 	.rodata     start:0x80478568 end:0x804785E0
@@ -8766,7 +8766,7 @@ pso/ui/window/TWindowDD_80340A78.cpp:
 	.sbss       start:0x805D6DC0 end:0x805D6E08
 	.sdata2     start:0x805DFC50 end:0x805DFC90
 
-pso/ui/window/TWindowDD_80341334.cpp:
+pso/ui/window/TWindowDD_WS_String.cpp:
 	.text       start:0x80341108 end:0x80341500
 	.ctors      start:0x80434008 end:0x8043400C
 	.rodata     start:0x804785E0 end:0x804785F8
@@ -8774,7 +8774,7 @@ pso/ui/window/TWindowDD_80341334.cpp:
 	.sdata      start:0x805D42D8 end:0x805D42E0
 	.sdata2     start:0x805DFC90 end:0x805DFCA0
 
-pso/ui/window/TWindowDD_80341A08.cpp:
+pso/ui/window/TWindowDD_WS_Word.cpp:
 	.text       start:0x80341500 end:0x80342428
 	.ctors      start:0x8043400C end:0x80434010
 	.rodata     start:0x804785F8 end:0x80478618

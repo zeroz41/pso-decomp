@@ -1,4 +1,4 @@
-#include "pso/ui/window/TWindowDD_80341A08.h"
+#include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "types.h"
 #include "pso/ui/window/TWindowDD.h"
 
@@ -54,7 +54,7 @@ void TWindowDD__sub_80342800(TWindowDD *window_dd) {
     window_dd->update_selection_state();
     if (window_dd->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        if (static_cast<s16>(get_word_select_selected_id(window_dd->pages[window_dd->depth])) == 0x2C8) {
+        if (static_cast<s16>(window_dd->pages[window_dd->depth]->get_selected_id()) == 0x2C8) {
             window_dd->next_state = 0x11;
             window_dd->message.type = 5;
             window_dd->message.count = 0;
@@ -78,7 +78,7 @@ void TWindowDD__sub_803428C4(TWindowDD *window_dd) {
     window_dd->selected_word = 0x37;
     page = window_dd->pages[window_dd->depth];
     if (page != NULL) {
-        window_dd->selected_word = get_word_select_selected_id(page);
+        window_dd->selected_word = page->get_selected_id();
         if (window_dd->selected_word == 0x43) {
             window_dd->next_state = 0x11;
             window_dd->message.type = 5;
@@ -119,7 +119,7 @@ void TWindowDD__sub_803429B0(TWindowDD *window_dd) {
         break;
     }
     if (confirmed != 0) {
-        if (TWindowDD_is_id_in_range_5AC_5F9(get_word_select_selected_id(window_dd->pages[window_dd->depth])) != 0) {
+        if (TWindowDD_is_id_in_range_5AC_5F9(window_dd->pages[window_dd->depth]->get_selected_id()) != 0) {
             window_dd->next_state = 0xA;
         } else {
             window_dd->next_state = 0xB;

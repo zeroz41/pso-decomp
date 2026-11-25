@@ -19,9 +19,6 @@
 #include "pso/ui/window/TWindowDD_80342428.h"
 #include "pso/ui/window/TWindowDD_80347F34.h"
 #include "pso/unk/text_8020C354.h"
-#include "pso/ui/window/TWindowDD_80340EA8.h"
-#include "pso/ui/window/TWindowDD_80341334.h"
-#include "pso/ui/window/TWindowDD_80341A08.h"
 #include "pso/network/client_id.h"
 
 struct R_80343BC0 { s16 a; s16 b; u32 w[6]; };
@@ -345,7 +342,7 @@ TWindowDD::TWindowDD(TObject *parent, void *out_message) : TObject(parent) {
   result = static_cast<WordSelectMessage *>(out_message);
   message.init_item_slots();
   saved_message.init_item_slots();
-  scroll_bar = TWindowDD__sub_80340F70();
+  scroll_bar = TWindowDD_WS_ScrollBar::create();
   {
     s32 i;
     for (i = 0; i < 8; i++)
@@ -359,7 +356,7 @@ TWindowDD::TWindowDD(TObject *parent, void *out_message) : TObject(parent) {
   list_ids[1] = -1;
   list_ids[2] = -1;
   {
-    TWindowDD_WS_Word *first = TWindowDD__sub_80342384(list_ids[0], (s32) lbl_805DFB54);
+    TWindowDD_WS_Word *first = TWindowDD_WS_Word::create(list_ids[0], (s32) lbl_805DFB54);
     if (first != 0)
     {
       set_default_positions(first);
@@ -367,7 +364,7 @@ TWindowDD::TWindowDD(TObject *parent, void *out_message) : TObject(parent) {
     }
   }
   state_stack[0] = 0;
-  page = TWindowDD__sub_80342384(list_ids[1], (s32) lbl_805DFB54);
+  page = TWindowDD_WS_Word::create(list_ids[1], (s32) lbl_805DFB54);
   if (page != 0)
   {
     init_layout(this, page);
@@ -395,25 +392,25 @@ TWindowDD::TWindowDD(TObject *parent, void *out_message) : TObject(parent) {
     a.y = lbl_805DFBA8;
     b.x = lbl_805DFB60;
     b.y = lbl_805DFBA8;
-    strings[0] = create_word_select_string(lbl_805DFBAC, &a.x, &b.x, (uaddr) lbl_805D6E64, 4);
+    strings[0] = TWindowDD_WS_String::create(lbl_805DFBAC, &a.x, &b.x, (uaddr) lbl_805D6E64, 4);
   }
   {
     a.x = lbl_805DFBB0;
     a.y = lbl_805DFBB4;
     b.x = lbl_805DFB64;
     b.y = lbl_805DFBB4;
-    strings[1] = create_word_select_string(lbl_805DFBB8, &a.x, &b.x, (uaddr) lbl_805D6E6C, 4);
+    strings[1] = TWindowDD_WS_String::create(lbl_805DFBB8, &a.x, &b.x, (uaddr) lbl_805D6E6C, 4);
   }
   {
     a.x = lbl_805DFBD0;
     a.y = lbl_805DFBD4;
     b.x = lbl_805DFBD0;
     b.y = lbl_805DFB68;
-    TWindowDD_WS_String *prompt = create_word_select_string(lbl_805DFBD8, &a.x, &b.x, get_word_select_token_text(0x687), 5);
+    TWindowDD_WS_String *prompt = TWindowDD_WS_String::create(lbl_805DFBD8, &a.x, &b.x, get_word_select_token_text(0x687), 5);
     strings[2] = prompt;
     if (prompt != 0)
     {
-      TWindowDD__sub_803412A0(prompt);
+      prompt->fit_width_to_text();
     }
   }
   TWindowDD::format_message(&message, reinterpret_cast<char *>(TWindowDD::work_buffer), local_client_id);
@@ -422,11 +419,11 @@ TWindowDD::TWindowDD(TObject *parent, void *out_message) : TObject(parent) {
     a.y = lbl_805DFBF4;
     b.x = lbl_805DFB60;
     b.y = lbl_805DFBF4;
-    text = create_word_select_string(lbl_805DFBF8, &a.x, &b.x, TWindowDD::work_buffer, 0);
+    text = TWindowDD_WS_String::create(lbl_805DFBF8, &a.x, &b.x, TWindowDD::work_buffer, 0);
     strings[3] = text;
     if (text != 0)
     {
-      TWindowDD__sub_803412A0(text);
+      text->fit_width_to_text();
       text->update_position(0);
       text->target_position[0] = lbl_805DFB60;
       text->frame_position[0] = lbl_805DFB60;
@@ -490,7 +487,7 @@ void TWindowDD::run_task() {
     }
     cur = pages[depth];
     if (scroll_bar != 0 && cur != NULL) {
-        scroll_bar->set_value_f32(TWindowDD__sub_8034217C(cur));
+        scroll_bar->set_value_f32(cur->get_scroll_top());
     }
     switch (status) {
     case 2:
@@ -528,7 +525,7 @@ void TWindowDD::run_task() {
         if (done != 0) {
             status = 0;
             mode_window->hide_selection();
-            TWindowDD__sub_80341AF8(cur);
+            cur->enable_input();
             if (message.count > 0) {
                 TWindowDD__sub_80347CC8(this, &message);
             }
@@ -541,7 +538,7 @@ void TWindowDD::run_task() {
                 TWindowDD::spawn_window();
                 status = 1;
                 mode_window->set_clamped_selection(pages[depth]->get_cursor_index());
-                TWindowDD__sub_80341AE0(cur);
+                cur->disable_input();
                 copy_chat_entry__9TWindowDDFPvPv((R_80343BC0 *)&saved_message, (R_80343BC0 *)&message);
                 if (saved_message.count > 0) {
                     saved_message.count--;
@@ -796,7 +793,7 @@ void pop_menu_level__9TWindowDDFPv(TWindowDD *window) {
     }
     window->list_ids[2] = window->list_ids[1];
     window->list_ids[1] = window->list_ids[0];
-    window->list_ids[0] = TWindowDD__sub_8034214C(window->pages[window->depth]);
+    window->list_ids[0] = window->pages[window->depth]->get_element_list_id();
     window->state = window->state_stack[window->depth];
     if (window->state == 0xD) {
         window->message.type = 4;
@@ -811,7 +808,7 @@ void open_numeric_parameter_input__9TWindowDDFPviii(TWindowDD *self, s32 minimum
     if (self->number_window) {
         self->number_window->set_depth(lbl_805DFC28);
         ((TWindowSubItem *)(self->number_window))->set_flag60_bit10();
-        TWindowDD__sub_80341AE0(self->pages[self->depth]);
+        self->pages[self->depth]->disable_input();
     }
 }
 

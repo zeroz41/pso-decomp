@@ -10,7 +10,6 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/ui/window/TWindowDD_80340EA8.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
 
 #pragma readonly_strings on
@@ -202,7 +201,7 @@ void TWindowDD_WS_ScrollBar::render() {
 // Defer the remaining functions to preserve the original vtable and constructor layout.
 #pragma defer_codegen on
 
-void __sinit_TWindowDD_80340A78_cpp(void) {
+void __sinit_TWindowDD_WS_ScrollBar_cpp(void) {
     lbl_805D6DC0 = 17.0f + lbl_805DFBCC;
     lbl_805D6DC4 = 14.0f + (17.0f + lbl_805DFBCC);
     lbl_805D6DC8 = TWindowDD__data_805DFB18;
@@ -227,9 +226,9 @@ void __sinit_TWindowDD_80340A78_cpp(void) {
     ((f32 *)lbl_804EFBD0)[2] = lbl_805DFC24;
 }
 
-__declspec(section ".ctors") static void *const __sinit_TWindowDD_80340A78_cpp_ref = (void *)__sinit_TWindowDD_80340A78_cpp;
+__declspec(section ".ctors") static void *const __sinit_TWindowDD_WS_ScrollBar_cpp_ref = (void *)__sinit_TWindowDD_WS_ScrollBar_cpp;
 
-TWindowDD_WS_ScrollBar *TWindowDD__sub_80340F70(void) { return new TWindowDD_WS_ScrollBar; }
+TWindowDD_WS_ScrollBar *TWindowDD_WS_ScrollBar::create() { return new TWindowDD_WS_ScrollBar; }
 
 TWindowDD_WS_ScrollBar::TWindowDD_WS_ScrollBar()
     : TWindowBase((u8 *)lbl_804EFBD0, 4, (u8 *)lbl_804EFBC8) {
