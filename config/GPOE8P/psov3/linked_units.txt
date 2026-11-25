@@ -1210,7 +1210,6 @@ pso/ui/window/TWindowSubCustomSelect_80275D84.cpp
 pso/ui/window/TWindowSubEquip.cpp
 pso/ui/window/TWindowSubEquipKind.cpp
 pso/ui/window/TWindowSubEquipList.cpp
-pso/ui/window/TWindowSubEquip_80277DF8.cpp
 pso/ui/window/TWindowSubEquip_80279044.cpp
 pso/ui/window/TWindowSubGameEnd.cpp
 pso/ui/window/TWindowSubInformationBoard.cpp

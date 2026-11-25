@@ -485,7 +485,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .data holds the vtable (0x804DE8C8) ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowSubTrade.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # .data holds the vtable (0x804D1568) ahead of the switch table: deferred generation of the last-to-first source.
-    "pso/ui/window/TWindowSubEquip_80277DF8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/ui/window/TWindowSubEquip.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # both class names (TODummyKeyCave01, TODummyKeyCave01Sound) sit in .rodata: readonly strings. .data holds
     # TODummyKeyCave01Sound's vtable, then sub_80165940's jump table, then TODummyKeyCave01's vtable: only
     # deferred code generation of the last-to-first source emits them in that order.

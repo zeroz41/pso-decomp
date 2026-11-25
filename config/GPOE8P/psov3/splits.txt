@@ -6505,10 +6505,7 @@ pso/ui/window/TWindowSubCustomSelect.cpp:
 	.sdata2     start:0x805DD5A8 end:0x805DD5F0
 
 pso/ui/window/TWindowSubEquip.cpp:
-	.text       start:0x80277C70 end:0x80277DF8
-
-pso/ui/window/TWindowSubEquip_80277DF8.cpp:
-	.text       start:0x80277DF8 end:0x80278300
+	.text       start:0x80277C70 end:0x80278300
 	.rodata     start:0x8044F908 end:0x8044F928
 	.data       start:0x804D1568 end:0x804D15B4
 	.sdata      start:0x805D3A30 end:0x805D3A38
