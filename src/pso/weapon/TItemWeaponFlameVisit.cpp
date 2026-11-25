@@ -7,16 +7,16 @@
 void TItemWeaponFlameVisit::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->particle = 0x1BB;
     desc->hit_effect = (void *)spawn_flame_effect;
-    desc->hits = unk_1f8;
+    desc->hits = hits;
 }
 
 TItemWeaponFlameVisit::TItemWeaponFlameVisit(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(0x8000);
     shot_speed = 5.0f;
     if (get_item_index() == 1) {
-        unk_1f8 = 10;
+        hits = 10;
     } else {
-        unk_1f8 = 1;
+        hits = 1;
     }
 }
 

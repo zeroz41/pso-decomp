@@ -58,7 +58,7 @@ TItemEffPG::TItemEffPG(TObject *parent, ItemEffPGParams *params) : TUnk_804E355C
     }
     radius_step = params->radius_step;
     required_charge = params->required_charge;
-    pad_B0 *= 3.0f;
+    accuracy *= 3.0f;
     visual = new TItemEffPGModel(this, params);
 }
 

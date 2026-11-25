@@ -13,9 +13,9 @@ struct S_802E451C {
     u16 client_id;   // the attacking player's
     s16 room;
     s32 item_id;     // the weapon's, for find_item_by_id
-    f32 pad_1C;
-    f32 pad_20;
-    s32 pad_24;
+    f32 accuracy;      // get_attack_accuracy_scale of the attacker
+    f32 damage_scale;  // the attacker's damage multiplier
+    s32 attack_kind;   // TItemWeapon::deliver_hit's attack_kind
 };
 
 // Fills in an S_802E451C's defaults: no position, radius 5, one hit, no owner, room or weapon.
@@ -27,7 +27,7 @@ public:
     virtual ~TUnk_804E355C();
     void check_hits();
     s32 try_add_hit_target(const ActorBodyHit *hit);
-    virtual void vfunc_6(ActorBodyHit *hit);
+    virtual void on_hit(ActorBodyHit *hit);
     s32 has_game_join_id();
     s32 resolve_attack_col_hit(ActorBodyHit *hit);
     CollisionBody *bodies;  // its one body below
@@ -41,11 +41,11 @@ public:
     u16 client_id; // compared with get_entity_id() and passed to get_player_by_client_id()
     s16 room;      // compared with the target's get_room()
     s32 item_id;
-    f32 pad_B0;
-    f32 pad_B4;
-    s32 pad_B8;
-    s32 pad_BC;
-    s32 pad_C0;
+    f32 accuracy;       // the attacker's accuracy scale
+    f32 damage_scale;   // TItemWeapon::deliver_hit's scale
+    s32 attack_kind;    // TItemWeapon::deliver_hit's attack_kind
+    s32 hits_players;   // 1 when the owner is in a player-vs-player state
+    s32 hits_objects;   // 1: also hits objects, not only enemies
 };
 
 #endif

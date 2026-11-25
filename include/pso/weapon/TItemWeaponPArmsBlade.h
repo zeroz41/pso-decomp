@@ -11,8 +11,8 @@ public:
     virtual void draw_held_model();
     TItemWeaponPArmsBlade(TObject *parent, u8 *item);
     static TItem *create(u8 *item);
-    s16 sub_8012B1F8();
-    void sub_8012B1F0(s16);
+    s16 get_photon_color_id();
+    void set_photon_color_id(s16);
 };
 
 #endif

@@ -13,7 +13,7 @@ public:
     virtual ~TItemWeaponFlameVisit();
     virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
 
-    s32 unk_1f8; // 10 for item index 1, else 1; copied to the descriptor's +0x10
+    s32 hits; // 10 for item index 1, else 1; copied to the descriptor's +0x10
 };
 
 extern "C" TItem *TItemWeaponFlameVisit::create(u8 *item);

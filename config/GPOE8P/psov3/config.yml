@@ -16208,8 +16208,8 @@ force_active:
   - lerp_color__17TColorOverlayFadeFf
   - sub_800FEC40__17TObjEZBoneRotBaseFPUc
   - sub_800FED0C__17TObjEZBoneRotBaseFv
-  - sub_8012B1F0__21TItemWeaponPArmsBladeFs
-  - sub_8012B1F8__21TItemWeaponPArmsBladeFv
+  - set_photon_color_id__21TItemWeaponPArmsBladeFs
+  - get_photon_color_id__21TItemWeaponPArmsBladeFv
   - sub_80140F44__11TMapCsnCtrlFv
   - set_object_number__11TObjNpcBaseFl
   - set_message_label__11TObjNpcBaseFl

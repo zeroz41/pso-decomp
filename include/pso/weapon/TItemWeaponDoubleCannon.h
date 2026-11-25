@@ -9,7 +9,7 @@ public:
     static TItem *create(u8 *item);
     virtual ~TItemWeaponDoubleCannon();
     virtual void transform_model_node();
-    void sub_80124C90();
+    void fire_special_shots();
     virtual void update_weapon();
     virtual void emit_marker_effects();
     s32 rotation_z; // rotate_matrix_z angle, advanced by update_weapon

@@ -227,7 +227,7 @@ TItemEffOrgaFlowShot::~TItemEffOrgaFlowShot() {}
 
 TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, OrgaFlowShotParams *params) : TUnk_804E355C(parent, params) {
     m_name = class_name;
-    pad_C0 = 0;
+    hits_objects = 0;
     body.shape = 1;
     body.half_width = 10.0f;
     rotation_y = params->rotation_y;

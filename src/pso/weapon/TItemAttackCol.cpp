@@ -190,19 +190,19 @@ TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(pare
     client_id = params->client_id;
     room = params->room;
     item_id = params->item_id;
-    pad_B0 = params->pad_1C;
-    pad_B4 = params->pad_20;
-    pad_B8 = params->pad_24;
-    pad_C0 = 1;
+    accuracy = params->accuracy;
+    damage_scale = params->damage_scale;
+    attack_kind = params->attack_kind;
+    hits_objects = 1;
     player = get_player_by_client_id(params->client_id);
     if (player != NULL) {
         if (player->pk_state.is_enabled() != 0) {
-            pad_BC = 1;
+            hits_players = 1;
         } else {
-            pad_BC = 0;
+            hits_players = 0;
         }
     } else {
-        pad_BC = 0;
+        hits_players = 0;
     }
 }
 
@@ -213,16 +213,16 @@ void TUnk_804E355C::check_hits() {
     ActorBodyHit *hit;
     reset_global_table();
     collect_enemy_body_contacts((CollisionBodySet *)&bodies);
-    if (pad_C0 != 0) {
+    if (hits_objects != 0) {
         collect_object_body_contacts((CollisionBodySet *)&bodies);
     }
-    if (pad_BC != 0) {
+    if (hits_players != 0) {
         collect_player_body_contacts((CollisionBodySet *)&bodies);
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
         if (try_add_hit_target(hit) != 0) {
-            vfunc_6(hit);
+            on_hit(hit);
             hits_left -= 1;
             if (hits_left == 0) {
                 queue_destruction();
@@ -279,7 +279,7 @@ s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
     return 0;
 }
 
-void TUnk_804E355C::vfunc_6(ActorBodyHit *hit) { resolve_attack_col_hit(hit); }
+void TUnk_804E355C::on_hit(ActorBodyHit *hit) { resolve_attack_col_hit(hit); }
 
 s32 TUnk_804E355C::has_game_join_id() {
     return find_equipped_item(item_id) != 0;
@@ -287,7 +287,6 @@ s32 TUnk_804E355C::has_game_join_id() {
 
 s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
     u8 *arg1 = (u8 *)hit;
-    u8 *arg0 = (u8 *)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E456C, sp8) == 0x0);
     LAYOUT_ASSERT(sp9_offset, offsetof(Stack_802E456C, sp9) == 0x1);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E456C, spC) == 0x4);
@@ -305,15 +304,15 @@ s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
     player = (u8 *)(get_player_by_client_id(this->client_id));
     item = (uaddr)find_item_by_id((this->item_id));
     temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C);
-    if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(target))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {
-        temp_r0 = *(s32 *)((s8 *)arg0 + 0xB8);
+    if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(target))->m19(player, temp_r31, 0, this->accuracy) != 0)) {
+        temp_r0 = this->attack_kind;
         var_f31 = 0.0f;
         switch (temp_r0) {
         case 0:
-            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->pad_B4);
+            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->damage_scale);
             break;
         case 1:
-            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->pad_B4);
+            var_f31 = ((VObj_18_f2ea1e *)(target))->m20(player, this->damage_scale);
             ((VObj_18_f2ea1e *)(target))->m23(player, 0.1f * var_f31);
             break;
         case 2:
@@ -345,9 +344,9 @@ void reset_attack_params(S_802E451C *s_802_e451_c) {
     s_802_e451_c->client_id = 0xFFFF;
     s_802_e451_c->room = -1;
     s_802_e451_c->item_id = -1;
-    s_802_e451_c->pad_1C = 0.0f;
-    s_802_e451_c->pad_20 = 1.0f;
-    s_802_e451_c->pad_24 = 0;
+    s_802_e451_c->accuracy = 0.0f;
+    s_802_e451_c->damage_scale = 1.0f;
+    s_802_e451_c->attack_kind = 0;
 }
 
 WeaponEffectDescriptor *TObjPlayer__sub_802E449C(WeaponEffectDescriptor *params) {
@@ -403,12 +402,12 @@ TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) 
     scale.y = params->scale;
     scale.z = params->scale;
     copy_xyz(spin, params->spin);
-    pad_114[0] = 0;
-    pad_114[1] = 0;
-    pad_114[2] = 0;
-    pad_120[0] = 1.0f;
-    pad_120[1] = 1.0f;
-    pad_120[2] = 1.0f;
+    extra_rotation[0] = 0;
+    extra_rotation[1] = 0;
+    extra_rotation[2] = 0;
+    extra_scale[0] = 1.0f;
+    extra_scale[1] = 1.0f;
+    extra_scale[2] = 1.0f;
     hit_wall_flags.reset();
     if (params->flags & 2) {
         const StarLightParameters star = {
@@ -492,7 +491,7 @@ void TItemAttackCol::run_task() {
     if (flags & 0x20) {
         spin[1] += 0x888;
     }
-    this->vfunc_7();
+    this->move_by_velocity();
     if (star_light != NULL) {
         star_light->copy_position(&position);
     }
@@ -550,7 +549,7 @@ void TItemAttackCol::move_with_collision(void *to) {
     }
 }
 
-void TItemAttackCol::vfunc_7() {
+void TItemAttackCol::move_by_velocity() {
     Vec next;
 
     VecCopy(&next, &velocity);
@@ -558,14 +557,14 @@ void TItemAttackCol::vfunc_7() {
     move_with_collision(&next);
 }
 
-void TItemAttackCol::vfunc_6(ActorBodyHit *hit) {
+void TItemAttackCol::on_hit(ActorBodyHit *hit) {
     if (!(flags & 0x80)) {
         if (resolve_attack_col_hit(hit) != 0) {
             if (hit_object != NULL) {
                 hit_object(item_id, (s32 *)hit, &velocity);
             }
             if (flags & 0x100) {
-                pad_B4 *= 0.75f;
+                damage_scale *= 0.75f;
             }
         }
     } else {
@@ -576,7 +575,7 @@ void TItemAttackCol::vfunc_6(ActorBodyHit *hit) {
             VObj_802E3C4C *p = (VObj_802E3C4C *)find_item_by_id(item_id);
             u8 *b = (u8 *)get_player_by_client_id(client_id);
             if (p != NULL) {
-                p->m59(b, (saddr)hit->target, pad_B8, pad_B4, hit->body);
+                p->m59(b, (saddr)hit->target, attack_kind, damage_scale, hit->body);
             }
         }
     }
@@ -584,7 +583,7 @@ void TItemAttackCol::vfunc_6(ActorBodyHit *hit) {
 
 void TItemAttackCol::shift_collision_bounds() {
     spin[2] += 0xCCC;
-    pad_114[2] -= 0xCCC;
+    extra_rotation[2] -= 0xCCC;
 }
 
 void TItemAttackCol::add_to_active_list(void* node) { fn_802E3BA8(attack_collider_render_owner, node); attack_collider_active_count = (attack_collider_active_count + 0x1); }
@@ -593,8 +592,8 @@ void TItemAttackCol::add_to_active_list(void* node) { fn_802E3BA8(attack_collide
 // with flag 8 the second node drawn gets the collider's extra rotation and scale.
 void fn_802E3BA8(TItemAttackCol *col, void *node) {
     if ((col->flags & 8) && attack_collider_active_count == 1) {
-        rotate_matrix_by_node_angles(col->pad_114, 1);
-        scale_current_matrix(col->pad_120);
+        rotate_matrix_by_node_angles(col->extra_rotation, 1);
+        scale_current_matrix(col->extra_scale);
     }
 }
 
@@ -606,7 +605,7 @@ void TItemAttackCol::check_object_hits() {
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
         if (try_add_hit_target(hit) != 0) {
-            this->vfunc_6(hit);
+            this->on_hit(hit);
             this->hits_left -= 1;
             if (this->hits_left == 0) {
                 queue_destruction();

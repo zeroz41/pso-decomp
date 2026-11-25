@@ -19,9 +19,9 @@ typedef void (*TItemAttackColHitObject)(s32 item_id, s32 *hit, Vec *velocity);
 struct TItemAttackCol : public TUnk_804E355C {
     TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params);
     virtual ~TItemAttackCol();
-    virtual void vfunc_7();
+    virtual void move_by_velocity();
     void check_object_hits();
-    virtual void vfunc_6(ActorBodyHit *hit);
+    virtual void on_hit(ActorBodyHit *hit);
     Vec start_position;
     Vec velocity;
     f32 range_sq;
@@ -32,8 +32,8 @@ struct TItemAttackCol : public TUnk_804E355C {
     s32 rotation[3];    // heading the model is drawn at
     s32 spin[3];        // run_task turns spin[1] 0x888 a frame with flag 0x20
     Vec scale;
-    s32 pad_114[3];
-    f32 pad_120[3];
+    s32 extra_rotation[3];
+    f32 extra_scale[3];
     TEffStarLight2D *star_light;
     TParticleCtrl *particle;
     TParticleCtrl *trail_particle;

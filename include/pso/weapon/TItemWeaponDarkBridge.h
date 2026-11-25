@@ -14,7 +14,7 @@ public:
     virtual void update_weapon();
     virtual void on_equipped();
     virtual void on_unequipped();
-    s32 pad_1f8;
+    s32 update_count;
     s16 owner_tp;  // the owner's TP last frame (get_actor_tp)
     u8 pad_1fe[0x2];
 };

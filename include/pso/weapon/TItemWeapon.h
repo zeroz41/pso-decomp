@@ -107,7 +107,7 @@ struct TItemWeapon : public TItemEquipBase {
     void set_weapon_flags(u32 mask);
     void clear_weapon_flags(u32 mask);
     void set_flag_8();
-    void sub_80121208(s32);
+    void set_model_node_callback(s32);
     void advance_weapon_photon_phase();
     s32 is_active_in_game();
     void roll_technique();

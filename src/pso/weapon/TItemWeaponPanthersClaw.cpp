@@ -32,16 +32,16 @@ void TItemWeaponPanthersClaw::update_attack() {
 
 
 void TItemWeaponPanthersClaw::draw_held_model() {
-  s32 temp_r31;
+  NJS_OBJECT *saved_model;
   saddr new_var;
-  temp_r31 = *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4));
+  saved_model = item_model;
   new_var = (saddr) this;
   draw_weapon_at_joint(new_var, 0x2F);
   update_trail_slot(0);
   update_trail_slot(1);
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4)) = (saddr)this->second_model;
+  item_model = second_model;
   draw_weapon_at_joint(new_var, 0x22);
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4)) = temp_r31;
+  item_model = saved_model;
 }
 
 TItemWeaponPanthersClaw::~TItemWeaponPanthersClaw() {}

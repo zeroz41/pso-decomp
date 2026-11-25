@@ -365,8 +365,8 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
                 }
             }
         }
-        if (atk.pad_24 == 2 && this->is_identified() == 0) {
-            atk.pad_1C *= lbl_805DAC94;
+        if (atk.attack_kind == 2 && this->is_identified() == 0) {
+            atk.accuracy *= lbl_805DAC94;
         }
         TItemAttackCol::create((TObject *)tl_05, &atk);
         this->restore_action_type();
@@ -378,9 +378,9 @@ void TItemWeapon::fill_status_info(S_802E451C *params) {
     params->client_id = static_cast<s16>(owner->get_entity_id());
     params->room = owner->get_room();
     params->item_id = ((TItem *)this)->get_item_id();
-    params->pad_1C = owner->attack_state.get_attack_accuracy_scale();
-    params->pad_24 = (s32) owner->is_status_subsystem_ready();
-    params->pad_20 = owner->query_extended_state();
+    params->accuracy = owner->attack_state.get_attack_accuracy_scale();
+    params->attack_kind = (s32) owner->is_status_subsystem_ready();
+    params->damage_scale = owner->query_extended_state();
     ((TItemWeapon *)this)->restore_action_type();
 }
 

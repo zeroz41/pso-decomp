@@ -61,7 +61,7 @@ void TItemWeapon::draw_weapon_model() {
             TObjPlayer__weapon_node_ids[1] = parameters->effect_nodes[1];
             TObjPlayer__weapon_node_ids[2] = parameters->effect_nodes[2];
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
-                this->sub_80121208((saddr)apply_weapon_node_material);
+                this->set_model_node_callback((saddr)apply_weapon_node_material);
             } else {
                 set_chunk_model_node_callback(apply_weapon_node_material);
             }
@@ -104,7 +104,7 @@ void TItemWeapon::draw_weapon_model() {
             TEquippedWeaponDrawTask::end_fade();
             TEquippedWeaponDrawTask::restore_model_render_state();
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
-                this->sub_80121208(NULL);
+                this->set_model_node_callback(NULL);
             } else {
                 set_chunk_model_node_callback(NULL);
             }
@@ -334,7 +334,7 @@ void increment_model_node_counter(void) {
 
 int TObjPlayer::get_player_list() {  return model_node_counter; }
 
-void TItemWeapon::sub_80121208(s32 v) { *(s32*)((char*)this + 0xe0) = v; }
+void TItemWeapon::set_model_node_callback(s32 v) { *(s32*)((char*)this + 0xe0) = v; }
 
 void reset_model_node_counter(void) { model_node_counter = 0; }
 

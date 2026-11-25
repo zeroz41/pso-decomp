@@ -106,10 +106,10 @@ void TItemWeaponFrozenShooter::init_weapon_effect_descriptor(WeaponEffectDescrip
     if (skip_freeze == 0) {
         desc->hit_effect = (void *)frozen_shooter_freeze_hit;
     }
-    desc->hits = unk_1f8;
+    desc->hits = hits;
     desc->spin[0] = 0x4000;
     desc->scale = 2.0f;
-    desc->particle = unk_200;
+    desc->particle = particle;
 }
 
 void TItemWeaponFrozenShooter::emit_marker_effects() {
@@ -141,11 +141,11 @@ TItemWeaponFrozenShooter::~TItemWeaponFrozenShooter() {}
 TItemWeaponFrozenShooter::TItemWeaponFrozenShooter(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(0x22);
     if (get_item_index() == 1) {
-        unk_1f8 = 10;
-        unk_200 = 0x1F5;
+        hits = 10;
+        particle = 0x1F5;
     } else {
-        unk_1f8 = 1;
-        unk_200 = 0x95;
+        hits = 1;
+        particle = 0x95;
     }
     skip_freeze = 0;
 }

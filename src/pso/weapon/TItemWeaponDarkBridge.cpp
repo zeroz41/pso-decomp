@@ -29,18 +29,18 @@ void TItemWeaponDarkBridge::update_weapon() {
             add_actor_tp((TObjChara *)owner, (s16)half);
         }
     }
-    pad_1f8 = pad_1f8 + 1;
+    update_count = update_count + 1;
 }
 
 void TItemWeaponDarkBridge::on_unequipped() {
     owner_tp = -1;
-    pad_1f8 = 0;
+    update_count = 0;
 }
 
 // Starts the freeze, confusion and paralysis curse timers (was dark_bridge_start_timers).
 void TItemWeaponDarkBridge::on_equipped() {
     owner_tp = get_actor_tp(owner);
-    pad_1f8 = 0;
+    update_count = 0;
     if (effect_objects != NULL) {
         new TUnk_804A05E8(effect_objects, get_owner_client(), 9000, 0.5f);
         new TUnk_804A0588(effect_objects, get_owner_client(), 9000, 0.5f);
@@ -52,7 +52,7 @@ TItemWeaponDarkBridge::~TItemWeaponDarkBridge() {}
 
 TItemWeaponDarkBridge::TItemWeaponDarkBridge(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     owner_tp = -1;
-    pad_1f8 = 0;
+    update_count = 0;
 }
 
 TItem *TItemWeaponDarkBridge::create(u8 *item) {

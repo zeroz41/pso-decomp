@@ -22,7 +22,7 @@
 
 extern "C" f32 *get_weapon_range_record(void *, s32);
 
-void TItemWeaponDoubleCannon::sub_80124C90() {
+void TItemWeaponDoubleCannon::fire_special_shots() {
     CapturedTargetList *ext;
     Vec *pos;
     CapturedTarget *e;
@@ -105,7 +105,7 @@ void TItemWeaponDoubleCannon::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (((TObjPlayer *)&owner->attack_state)->get_stage_strike_count() == 0) {
             drain_owner_hp_fraction(0.05f);
-            sub_80124C90();
+            fire_special_shots();
         }
     } else {
         update_active_game_effect();

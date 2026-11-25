@@ -13,14 +13,14 @@ s32 draw_weapon_at_joint(void *, int);
 
 
 void TItemWeaponHeartOfPoumn::draw_held_model() {
-    s32 temp_r31;
+    NJS_OBJECT *saved_model;
     draw_weapon_at_joint(this, 0x31);
     update_trail_slot(0);
     update_trail_slot(1);
-    temp_r31 = *(s32 *)((s8 *)((u8 *)this) + 0xF4);
-    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = (saddr) this->second_model;
+    saved_model = item_model;
+    item_model = second_model;
     draw_weapon_at_joint(this, 0x24);
-    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = temp_r31;
+    item_model = saved_model;
     update_trail_slot(2);
     update_trail_slot(3);
 }

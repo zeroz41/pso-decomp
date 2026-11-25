@@ -9,34 +9,34 @@
 void TItemWeaponDemolitionComet::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 2: {
-        NJS_ARGB color = { pad_1fc, 0.0f, 0.0f, 0.0f };
+        NJS_ARGB color = { alpha_offset, 0.0f, 0.0f, 0.0f };
         TItem::begin_offset_material_color(&color);
         break;
     }
     case 3:
-        translate_matrix(0, 0.0f, 0.0f, -pad_1f8);
+        translate_matrix(0, 0.0f, 0.0f, -z_offset);
         break;
     case 4:
-        translate_matrix(0, 0.0f, 0.0f, pad_1f8);
+        translate_matrix(0, 0.0f, 0.0f, z_offset);
         break;
     }
 }
 
 void TItemWeaponDemolitionComet::update_idle() {
-    ::approach_value(&pad_1f8, 0.5f, 5.0f);
-    ::approach_value(&pad_1fc, -0.1f, -1.0f);
+    ::approach_value(&z_offset, 0.5f, 5.0f);
+    ::approach_value(&alpha_offset, -0.1f, -1.0f);
 }
 
 void TItemWeaponDemolitionComet::update_attack() {
-    ::approach_value(&pad_1f8, -1.0f, 0.0f);
-    ::approach_value(&pad_1fc, 0.2f, 0.0f);
+    ::approach_value(&z_offset, -1.0f, 0.0f);
+    ::approach_value(&alpha_offset, 0.2f, 0.0f);
 }
 
 TItemWeaponDemolitionComet::~TItemWeaponDemolitionComet() {}
 
 TItemWeaponDemolitionComet::TItemWeaponDemolitionComet(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    pad_1f8 = 0.0f;
-    pad_1fc = 1.0f;
+    z_offset = 0.0f;
+    alpha_offset = 1.0f;
 }
 
 TItem *TItemWeaponDemolitionComet::create(u8 *item) {

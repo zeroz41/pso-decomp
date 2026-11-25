@@ -17,29 +17,29 @@ s32 TObjPlayer::is_rand_below_threshold() {
 void TItemWeaponPArmsBlade::draw_held_model() {
     s32 saved;
     NJS_OBJECT *saved_model;
-    saved = sub_8012B1F8();
+    saved = get_photon_color_id();
     saved_model = item_model;
     if (((TObjPlayer *)this)->is_rand_below_threshold() == 0) {
-        sub_8012B1F0(8);
+        set_photon_color_id(8);
         item_render_state.set(4);
     }
     draw_weapon_model();
-    if (sub_8012B1F8() != 8) {
+    if (get_photon_color_id() != 8) {
         update_trail_slot(0);
     }
     item_model = second_model;
     if (((TObjPlayer *)this)->is_rand_below_threshold() == 0) {
-        sub_8012B1F0(8);
+        set_photon_color_id(8);
         item_render_state.set(4);
     } else {
-        sub_8012B1F0(saved);
+        set_photon_color_id(saved);
     }
     draw_weapon_at_joint((saddr)this, 0x23);
-    if (sub_8012B1F8() != 8) {
+    if (get_photon_color_id() != 8) {
         update_trail_slot(1);
     }
     item_model = saved_model;
-    sub_8012B1F0(saved);
+    set_photon_color_id(saved);
 }
 
 
@@ -56,5 +56,5 @@ TItem *TItemWeaponPArmsBlade::create(u8 *item) {
 
 TItemWeaponPArmsBlade::~TItemWeaponPArmsBlade() {}
 
-void TItemWeaponPArmsBlade::sub_8012B1F0(s16 v) { this->photon_color_id = v; }
-s16 TItemWeaponPArmsBlade::sub_8012B1F8() { return this->photon_color_id; }
+void TItemWeaponPArmsBlade::set_photon_color_id(s16 v) { this->photon_color_id = v; }
+s16 TItemWeaponPArmsBlade::get_photon_color_id() { return this->photon_color_id; }
