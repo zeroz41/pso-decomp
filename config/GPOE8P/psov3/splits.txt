@@ -9176,15 +9176,12 @@ pso/ui/frontend/TAdLoadQuestCellGC.cpp:
 	.text       start:0x8034999C end:0x80349B8C
 	.data       start:0x804EFF38 end:0x804EFF60
 
-pso/unk/text_80349B8C.cpp:
-	.text       start:0x80349B8C end:0x80349EB0
-	.rodata     start:0x80478778 end:0x8047898C
-	.sdata2     start:0x805DFD18 end:0x805DFD1C
-
 pso/ui/frontend/TAdLoadQuestLineGC.cpp:
-	.text       start:0x80349EB0 end:0x8034A08C
+	.text       start:0x80349B8C end:0x8034A08C
+	.rodata     start:0x80478778 end:0x8047898C
 	.data       start:0x804EFF60 end:0x804EFF80
 	.sdata      start:0x805D4300 end:0x805D4308
+	.sdata2     start:0x805DFD18 end:0x805DFD1C
 
 pso/ui/frontend/TAdLoadQuestPrtTxtGC.cpp:
 	.text       start:0x8034A08C end:0x8034A63C

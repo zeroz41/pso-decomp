@@ -1910,7 +1910,6 @@ pso/unk/text_803279CC.cpp
 pso/ui/window/WindowLayoutCamera2Data.cpp
 pso/unk/text_8033F314.cpp
 pso/unk/text_8034960C.cpp
-pso/unk/text_80349B8C.cpp
 pso/unk/text_8034D3D0.cpp
 pso/item/TUnk_804F112C.cpp
 pso/unk/text_80357058.cpp

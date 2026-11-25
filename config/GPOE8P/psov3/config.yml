@@ -5807,7 +5807,7 @@ force_active:
   - draw_closed_glow__8TObjDoorFv
   - draw_closing__8TObjDoorFv
   - draw_color_palette__24TWindowSubSymbolChatHelpFPv
-  - draw_color_quad_2d__FPvPvi
+  - draw_color_quad__18TAdLoadQuestLineGCFPfl
   - draw_current_pic__10TEndingPicFv
   - draw_cursor__19TWindowSubMagPhotonFP17WindowDrawContext
   - draw_cursor__22TWindowSubCustomSelectFP17WindowDrawContext
@@ -5828,7 +5828,7 @@ force_active:
   - draw_fading_model__11TObjDFDemo1Fv
   - draw_fading_model_pair__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_fading_motion__11TObjDFDemo5Fv
-  - draw_filled_rects_2d__FPvPvi
+  - draw_rects__18TAdLoadQuestLineGCFP13QuestLineRectl
   - draw_frame__20TWindowActionPaletteFl
   - draw_fullscreen_texture_quad__6TLobbyFv
   - draw_ginja_motion_node_tree__FP10NJS_OBJECT
