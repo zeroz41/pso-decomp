@@ -70,7 +70,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void select_sequence(int secondary);
     void restart_primary_sequence();
     static void clearControlOverride();
-    static void setControlOverride(s16 controlId);
+    static void setControlOverride(u16 controlId);
     static void requestActionRefresh();
     u32 flags;
     TObject sub_tasks;

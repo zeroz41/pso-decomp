@@ -930,7 +930,6 @@ s32 TLobby__sub_8029299C();
 s32 TLobby__sub_80292A34();
 s32 TLobby__sub_8032CDEC();
 int update_alloc_size__6TLobbyFv(void*);
-s32 setControlOverride__12TBoss1DragonFs(int, void *);
 void TObjPlayer__sub_80354CCC(u16 client_index);
 void TObjPlayer__sub_80354D14(u16 client_index);
 void TObjPlayer__sub_80354DAC(u16 client_index);
@@ -3349,7 +3348,7 @@ void qst_op_go_floor(s32 a, s32 b) {
 void qst_op_release_dragon(void* p) { TBoss1Dragon::clearControlOverride(); }
 
 void qst_op_control_dragon(s32 reg) {
-    setControlOverride__12TBoss1DragonFs((int) ((u16) qst_registers[(u8)reg]), qst_registers);
+    TBoss1Dragon::setControlOverride(qst_registers[(u8)reg]);
 }
 
 void qst_op_cmode_check_any_player_dead(s32 reg) {

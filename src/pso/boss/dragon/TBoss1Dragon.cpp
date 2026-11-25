@@ -685,7 +685,7 @@ void TBoss1Dragon::requestActionRefresh() {
     boss1_dragon_hold_mode = 1;
 }
 
-void TBoss1Dragon::setControlOverride(s16 controlId) {
+void TBoss1Dragon::setControlOverride(u16 controlId) {
     if (enable_v2_features != 0) {
         boss1_dragon_control_client_id = controlId;
         boss1_dragon_player_control = 1;
