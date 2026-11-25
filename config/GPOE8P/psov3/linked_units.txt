@@ -1904,7 +1904,6 @@ pso/unk/text_802FE908.cpp
 pso/unk/text_802FE9E0.cpp
 pso/unk/text_802FF760.cpp
 pso/unk/text_80307BE8.cpp
-pso/unk/text_80308294.cpp
 pso/unk/text_80309890.cpp
 pso/unk/text_803098DC.cpp
 pso/unk/text_80320358.cpp

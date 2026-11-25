@@ -1,13 +1,39 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponNug2000Bazooka.h"
-#include "pso/ui/frontend/TAdVIConfigGC_80308200.h"
-#include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/item/TItem.h"
+#include "pso/object/base/TObjCollidable.h"
+#include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/technique/TFireExplosion.h"
+#include "pso/weapon/TExplosionCollider.h"
+
+void spawn_nug2000_wall_explosion(s32 item_id, const Vec *pos) {
+    TItemWeapon *weapon = static_cast<TItemWeapon *>(find_item_by_id(item_id));
+    if (weapon != NULL) {
+        spawn_fire_explosion_at(weapon, pos);
+    }
+}
+
+void spawn_nug2000_hit_explosion(s32 item_id, ActorBodyHit *hit) {
+    TItemWeapon *weapon = static_cast<TItemWeapon *>(find_item_by_id(item_id));
+    if (weapon != NULL) {
+        spawn_fire_explosion_at(weapon, &hit->target->bodies[hit->body].center);
+    }
+}
+
+void spawn_fire_explosion_at(TItemWeapon *weapon, const Vec *pos) {
+    WeaponEffectDescriptor info;
+    reset_weapon_effect_descriptor(&info);
+    weapon->fill_status_info(&info);
+    VecCopy(&info.position, pos);
+    info.hits = 10;
+    new TExplosionCollider(tl_05, &info);
+    new TFireExplosion(10.0f, &info.position, 0, tl_particle);
+}
 
 void TItemWeaponNug2000Bazooka::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->hit_effect = (void *)spawn_nug2000_hit_explosion;
-    desc->wall_effect = (void *)TAdVIConfigGC::apply_config_if_valid;
+    desc->wall_effect = (void *)spawn_nug2000_wall_explosion;
     desc->spin[0] = -0x4000;
     desc->particle = 0x1bb;
     desc->trail_particle = 0x1bc;

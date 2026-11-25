@@ -8328,15 +8328,12 @@ pso/ui/TLogo_8030818C.cpp:
 	.text       start:0x8030818C end:0x80308200
 
 pso/ui/frontend/TAdVIConfigGC_80308200.cpp:
-	.text       start:0x80308200 end:0x80308294
-
-pso/unk/text_80308294.cpp:
-	.text       start:0x80308294 end:0x80308328
-	.sdata2     start:0x805DF0B8 end:0x805DF0BC
+	.text       start:0x80308200 end:0x80308208
 
 pso/weapon/TItemWeaponNug2000Bazooka.cpp:
-	.text       start:0x80308328 end:0x803084A8
+	.text       start:0x80308208 end:0x803084A8
 	.data       start:0x804E71F8 end:0x804E72F0
+	.sdata2     start:0x805DF0B8 end:0x805DF0BC
 
 pso/ui/frontend/TAdLoadNetworkGC.cpp:
 	.text       start:0x803084A8 end:0x80308688
