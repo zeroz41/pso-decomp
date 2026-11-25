@@ -193,7 +193,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {init_game_player_actions, release_game_player_actions},
     {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
     {fn_803000C8, TLobby__sub_803000A0},
-    {prepare_adventure_maps, TLobby__sub_802075F4},
+    {prepare_adventure_maps, release_adventure_maps},
     {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
     {start_challenge_mode, NULL},
     {load_tombstone_resources, TLobby::destroy_tombstone},
