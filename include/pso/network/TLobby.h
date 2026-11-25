@@ -600,8 +600,8 @@ struct TLobby : public TObject {
     static s32 write_zero_padded_block(void *arg0p);
     void apply_sync_item_state();
     void assign_object_ids(s32 count, void *area);
-    static s32 init_floor_enemy_count(s32 floor, u8 *source, u32 size);
-    static s32 load_object_set_entries(s32 floor, u8 *rows, u32 byte_size);
+    static s32 init_floor_enemy_count(s32 floor, u8 *source, s32 size);
+    static s32 load_object_set_entries(s32 floor, u8 *rows, s32 byte_size);
     s32 copy_current_entry_name(s32 len);
     void capture_chat_sensor();
     static void parse_message_tag();
@@ -758,7 +758,7 @@ struct TLobby : public TObject {
     static void open_ship_block_select_menu(int, void *, void *);
     static void open_warp_menu();
     static char *parse_csv_token(void *, void *);
-    static s32 pick_random_slot(void *);
+    static s32 pick_random_slot(s16 *slot);
     static void play_all_players_effect(void*);
     static void play_effect_all_players(void*);
     void play_player_default_effect();

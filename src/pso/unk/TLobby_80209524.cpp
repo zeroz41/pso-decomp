@@ -19,7 +19,6 @@
 #include "pso/unk/TLobby_8020A350.h"
 #include "pso/unk/TLobby_8020A568.h"
 #include "pso/system/EventShuffleTable.h"
-#include "pso/unk/TLobby_80209BD8.h"
 #include "string.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -196,7 +195,6 @@ void init_event_shuffle_table(EventShuffleTable *table, s32 count);
 s32 next_event_shuffle_entry(EventShuffleTable *s);
 extern "C" {
 void TLobby__sub_802099FC(Out_802099FC *arg0, s32 arg1);
-Rec_802099FC *bsearch_record__6TLobbyFPvii(void *arg0, s32 n, s32 key);
 
 void TLobby__sub_802097B0(s16 id) {
     Ent_802097B0 e;
@@ -241,7 +239,7 @@ void TLobby::pick_random_entry() {
     out->f = e.f;
 }
 
-Rec_802099FC *bsearch_record__6TLobbyFPvii(void *arg0, s32 n, s32 key) {
+void *TLobby::bsearch_record(void *arg0, int n, int key) {
     u8 *arr = (u8 *)arg0;
     u8 *e;
     Tmp_8020994C t;
@@ -326,15 +324,15 @@ extern const s32 lobby_random_slot_id_table[42] = {
     214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 224, 225, 0,
 };
 
-s32 pick_random_slot__6TLobbyFPv(s16 *arg0) {
+s32 TLobby::pick_random_slot(s16 *slot) {
     s32 key;
     s32 sp8;
 
     TLobby::pick_weighted_entry(&key, &sp8);
     if ((key != -1) && (sp8 != -1)) {
-        *arg0 = (s16) lobby_random_slot_id_table[sp8];
-        TLobby__sub_802099FC((Out_802099FC *)arg0, key);
-        ((TLobby *)arg0)->pick_random_entry();
+        *slot = (s16) lobby_random_slot_id_table[sp8];
+        TLobby__sub_802099FC((Out_802099FC *)slot, key);
+        ((TLobby *)slot)->pick_random_entry();
         return 0;
     }
     return 1;
@@ -397,7 +395,6 @@ struct SpawnRecord_8020A9C4 {
 
 extern "C" {
 void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *slots, s32 count, s32 floor);
-s32 init_floor_enemy_count__6TLobbyFlPUcUl(s32 floor, u8 *slots, s32 size);
 }
 
 #pragma push
@@ -700,10 +697,6 @@ struct Ent_8020A834 { s16 a; s16 b; u8 pad[0x44 - 4]; };
 
 struct Name_8020A834 { char s[0x20]; };
 
-extern "C" {
-// The callers pass the signed file size as the count.
-s32 load_object_set_entries__6TLobbyFlPUcUl(s32, u8 *, s32);
-}
 s32 load_enemy_set_file(s32 idx, const char *filename) {
     Name_8020A768 name;
     s32 size;
@@ -727,7 +720,7 @@ s32 load_enemy_set_file(s32 idx, const char *filename) {
     }
     floor = get_floor_area(idx);
     reserve_enemy_set_actor_ids((struct SpawnRecord_8020A9C4 *)map_set_file_buffer, n, floor);
-    init_floor_enemy_count__6TLobbyFlPUcUl(idx, map_set_file_buffer, size);
+    TLobby::init_floor_enemy_count(idx, map_set_file_buffer, size);
     return 1;
 }
 s32 load_object_set_file(s32 idx, const char *filename) {
@@ -753,7 +746,7 @@ s32 load_object_set_file(s32 idx, const char *filename) {
     }
     floor = get_floor_area(idx);
     ((TLobby *)map_set_file_buffer)->assign_object_ids(n, (void *)floor);
-    load_object_set_entries__6TLobbyFlPUcUl(idx, map_set_file_buffer, size);
+    TLobby::load_object_set_entries(idx, map_set_file_buffer, size);
     return 1;
 }
 
@@ -883,7 +876,7 @@ s32 load_area_enemy_set(s32 floor, s32 area, s32 terrain, s32 entities) {
         *(s16 *)(p + 2) = 0;
     }
     reserve_enemy_set_actor_ids((SpawnRecord_8020A9C4 *)map_set_file_buffer, count, area);
-    init_floor_enemy_count__6TLobbyFlPUcUl(floor, map_set_file_buffer, size);
+    TLobby::init_floor_enemy_count(floor, map_set_file_buffer, size);
     return 1;
 }
 
@@ -949,7 +942,7 @@ s32 load_area_object_set(s32 arg0, saddr lobby, s32 terrain, s32 entities) {
         r->f2 = 0;
     }
     ((TLobby *)map_set_file_buffer)->assign_object_ids((s32)n, (void *)lobby);
-    load_object_set_entries__6TLobbyFlPUcUl(arg0, map_set_file_buffer, len);
+    TLobby::load_object_set_entries(arg0, map_set_file_buffer, len);
     return 1;
 }
 
@@ -1127,7 +1120,7 @@ EnemySetRecord *get_active_floor_enemy_rows(s32) { return get_loaded_enemy_set_r
 FloorObjectSetRow *get_active_floor_object_rows(s32) { return get_loaded_object_set_rows(); }
 
 // ---- pso/unk/text_8020B374
-s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, u32 size) {
+s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, s32 size) {
     if (init_quest_floor_enemies(floor, (EnemySetRecord *)source, size) == 1) {
         floor_enemy_set_counts[floor] = size / 72U;
         return 1;
@@ -1136,7 +1129,7 @@ s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, u32 size) {
     return 0;
 }
 
-s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, u32 byte_size) {
+s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, s32 byte_size) {
     if (TLobby::load_floor_enemy_group_entries(floor, (FloorObjectSetRow *)rows, byte_size) == 1) {
         floor_object_set_counts[floor] = byte_size / 68U;
         return 1;
