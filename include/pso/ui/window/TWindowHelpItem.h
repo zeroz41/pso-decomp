@@ -25,6 +25,8 @@ struct TWindowHelpItem : public TWindowBase
     virtual void run_task();
     void show_item_description();
     void update_tech_disk_details();
+    void update_tech_disk_stats();
+    void idle_update();
     void init_text(void *);
     void unlock_page_flip();
     void lock_page_flip();

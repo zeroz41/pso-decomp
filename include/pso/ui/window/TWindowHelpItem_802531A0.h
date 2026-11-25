@@ -16,9 +16,4 @@ struct HelpItemLevelEntry {
     s32 value;
 };
 
-extern "C" {
-void TWindowHelpItem__sub_802531A0(void);
-void TWindowHelpItem__sub_80253268(u8 *window_base);
-}
-
 #endif
