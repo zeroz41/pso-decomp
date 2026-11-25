@@ -30,6 +30,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #include "pso/network/protocol/cast_packets.h"
+#include "pso/player/CapturedTargetList.h"
 #include "pso/quest/challenge/ChallengeRecord.h"
 
 struct G_6x70_Base_DCNTE {
@@ -119,9 +120,20 @@ struct G_AddOrRemoveStatusEffect_6x0C_6x0D {
  f32 amount;
 };
 
-struct G_AttackFinished_Header_6x46 {
- struct G_ClientIDHeader header;
- u32 target_count;
+// 6x46: a player's attack ends; the lock-on targets it hit follow the header.
+struct G_AttackFinished_6x46 {
+    G_AttackFinished_6x46();
+    G_AttackFinished_6x46 &operator=(G_AttackFinished_6x46 &src);
+    // (name inferred) the receive-side swap, as G_ExecutePhotonBlast_6x49::bswap_received.
+    void bswap_received();
+    // Bytes actually sent: the header, the count and count targets.
+    u8 get_size();
+    void bswap();
+    // Sets the header size, byte-swaps and sends the packet.
+    void send();
+
+    G_ClientIDHeader header;
+    CapturedTargetList targets;
 };
 
 struct G_Attack_6x43_6x44_6x45 {

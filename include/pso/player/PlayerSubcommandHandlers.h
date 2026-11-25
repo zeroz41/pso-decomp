@@ -5,7 +5,7 @@
 
 struct G_AddBattleDamageScores_6x8F;
 struct G_AddOrRemoveStatusEffect_6x0C_6x0D;
-struct G_AttackFinished_Header_6x46;
+struct G_AttackFinished_6x46;
 struct G_Attack_6x43;
 struct G_Attack_6x44;
 struct G_Attack_6x45;
@@ -100,7 +100,7 @@ void handle_6x42_move_to_position(G_MoveToPosition_6x41_6x42 *command);
 void handle_6x43_attack(G_Attack_6x43 *command);
 void handle_6x44_attack(G_Attack_6x44 *command);
 void handle_6x45_attack(G_Attack_6x45 *command);
-void handle_6x46_attack_finished(G_AttackFinished_Header_6x46 *command);
+void handle_6x46_attack_finished(G_AttackFinished_6x46 *command);
 void handle_6x47_cast_technique(G_CastTechnique_6x47 *command);
 void handle_6x48_cast_technique_complete(G_CastTechniqueComplete_6x48 *command);
 void handle_6x49_execute_photon_blast(G_ExecutePhotonBlast_Header_6x49 *command);

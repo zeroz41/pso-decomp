@@ -104,25 +104,20 @@ struct Vec_801D24F4 { u8 bytes[0xC]; };
 struct Pkt_801D24F4 { u8 hdr[4]; Vec_801D24F4 pos; };
 
 
-struct ByteBlock_2C { u8 bytes[0x2C]; };
 
 
 struct Pos_801D2964 { u8 bytes[0x8]; };
 
 struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
 
-struct E_801D2B2C { u8 d[4]; };
 
-struct Obj_801D2B2C { s32 n; E_801D2B2C e[1]; };
 
-struct E_801D2C18 { u8 d[4]; };
 
-struct Obj_801D2C18 { s32 n; E_801D2C18 e[1]; };
 
 
 extern "C" {
 
-s32 copy_attack_targets(void *, void *);
+s32 copy_attack_targets(void *dst, void *src);
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s32 draw_player_status(void *, void *, const char *);
 u16 get_action_palette_mode(void *, s32);
@@ -130,14 +125,10 @@ u16 get_action_palette_mode(void *, s32);
 s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
-void TObjPlayer__sub_801D2448(void* p);
-u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1);
 u8 get_cast_technique_level(void *techs, s16 tech);
 }
 int is_android_player(void* p);
 void remove_photon_blast_participant(s32 id);
-void send_6x46_attack_finished(u8 *arg0);
-u8 get_6x46_strike_packet_size(saddr arg0);
 void emit_heavy_attack_particles(saddr owner, u16 target_id);
 extern "C" {
 s32 dispatch_weapon_special_effect(void *, int, int, int);
@@ -3538,16 +3529,15 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
 }
 
 }
-void handle_6x46_attack_finished(G_AttackFinished_Header_6x46 *command) {
-    u16 packet[0x18];
+void handle_6x46_attack_finished(G_AttackFinished_6x46 *command) {
+    G_AttackFinished_6x46 packet;
     TObjPlayer *pl;
     TItem *it;
-    ((TObjPlayer *)packet)->build_packet_header();
-    TObjPlayer__sub_801D2BB8((u8 *)packet, (u8 *)command);
-    ((TObjPlayer *)packet)->bswap_field4_sub();
-    if (validate_6x46_attack_finished((G_ClientIDHeader *)packet) != 0 && (pl = get_player_by_client_id((u16)packet[1])) != NULL) {
+    packet = *command;
+    packet.bswap_received();
+    if (validate_6x46_attack_finished(&packet.header) != 0 && (pl = get_player_by_client_id(packet.header.client_id)) != NULL) {
         if (pl->is_in_tl03_state() != 0 && pl->reset_volopt_state() != 0) {
-            pl->attack_state.set_lockon_targets(&packet[2]);
+            pl->attack_state.set_lockon_targets(&packet.targets);
             it = TObjPlayer::get_equipped_weapon(pl);
             if (it != NULL) {
                 it->perform_action();
@@ -3562,12 +3552,11 @@ void handle_6x46_attack_finished(G_AttackFinished_Header_6x46 *command) {
 extern "C" {
 
 void TObjPlayer::send_attack_target_packet() {
-    s16 packet[0x14];
     if (((this->obj_isState2_324() == 0) || (this->reset_volopt_state() != 0)) && ((this->obj_isState3_324() != 0) || (this->attack_state.capture_lockon_targets(this) != 0)) && (this->is_body_collision_inactive() == 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
-        ((TObjPlayer *)packet)->build_packet_header();
-        packet[1] = this->get_entity_id();
-        copy_attack_targets((void *) (&packet[2]), (void *) (this->attack_state.get_lockon_targets()));
-        ((s32 (*)(void *))send_6x46_attack_finished)((void *) (packet));
+        G_AttackFinished_6x46 packet;
+        packet.header.client_id = this->get_entity_id();
+        copy_attack_targets(&packet.targets, this->attack_state.get_lockon_targets());
+        packet.send();
     }
 }
 
@@ -5222,22 +5211,32 @@ G_Attack_6x44 &G_Attack_6x44::operator=(G_Attack_6x44 &src) {
     return *this;
 }
 
-void TObjPlayer::bswap_field4_sub() { ((G_ClientIDHeader *)this)->bswap(); ((TObjPlayer *)((char*)this + 0x4))->bswap_u16_pair_list(); }
-
-void*TObjPlayer::build_packet_header() { TObjPlayer__sub_8012AF00((CapturedTargetList *)((char*)this + 0x4)); *(unsigned char*)(this) = 70; *(unsigned char*)((char*)this + 0x1) = 12; return this; }
-
-void send_6x46_attack_finished(u8 *arg0) {
-    *(s8 *)((s8 *)arg0 + 1) = (s8) ((((u32 (*)(void))get_6x46_strike_packet_size)() >> 2U) & 0x3F);
-    TObjPlayer__sub_801D2448((void*)((void *) (arg0)));
-    send_subcommand((void*)((void *) (arg0)));
+void G_AttackFinished_6x46::bswap_received() {
+    header.bswap();
+    targets.bswap_received();
 }
 
-void TObjPlayer__sub_801D2448(void* p) { ((G_ClientIDHeader *)p)->bswap(); ((TObjPlayer *)((char*)p + 0x4))->bswap_entry_list(); }
+G_AttackFinished_6x46::G_AttackFinished_6x46() {
+    TObjPlayer__sub_8012AF00(&targets);
+    header.subcommand = 0x46;
+    header.size = sizeof(G_AttackFinished_6x46) / 4;
+}
+
+void G_AttackFinished_6x46::send() {
+    header.size = (get_size() >> 2) & 0x3F;
+    bswap();
+    send_subcommand(this);
+}
+
+void G_AttackFinished_6x46::bswap() {
+    header.bswap();
+    targets.bswap();
+}
 
 #pragma push
 #pragma dont_inline off
-u8 get_6x46_strike_packet_size(saddr arg0) {
-    return (u8) (0x30 - ((0xA - ((CapturedTargetList *)(arg0 + 4))->get_captured_target_count()) * 4));
+u8 G_AttackFinished_6x46::get_size() {
+    return sizeof(G_AttackFinished_6x46) - (10 - targets.get_captured_target_count()) * sizeof(CapturedTarget);
 }
 #pragma pop
 
@@ -5619,12 +5618,11 @@ PhotonBlastRequest *PhotonBlastRegistry::get_element(s32 index) { return &slots[
 
 int TPlyDispConfig::is_secondary_bank_empty(s32 bank) { return m_smth1.is_bank_empty(bank); }
 
-void TObjPlayer::bswap_u16_pair_list() {
-    Obj_801D2B2C *arg0 = (Obj_801D2B2C *)this;
+void CapturedTargetList::bswap_received() {
     s32 i;
-    bswap_32((u32 *)arg0);
-    for (i = 0; i < arg0->n; i++) {
-        ((TObjPlayer *)(&arg0->e[i]))->bswap_u16_pair();
+    bswap_32((u32 *)&count);
+    for (i = 0; i < count; i++) {
+        entries[i].bswap();
     }
 }
 
@@ -5632,29 +5630,32 @@ void TObjPlayer::bswap_u16_pair_list() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TObjPlayer::bswap_u16_pair() { bswap_16((u16 *)this); bswap_16((u16 *)((char*)this + 0x2)); }
+void CapturedTarget::bswap() {
+    bswap_16(&uid);
+    bswap_16((u16 *)&collider_index);
+}
 #pragma pop
 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
 #pragma fp_contract on
-u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1) {
-    copy_subcommand_header(arg0, arg1);
-    *(ByteBlock_2C *)(arg0 + 4) = *(const ByteBlock_2C *)(arg1 + 4);
-    return arg0;
+G_AttackFinished_6x46 &G_AttackFinished_6x46::operator=(G_AttackFinished_6x46 &src) {
+    copy_subcommand_header(this, &src);
+    __memcpy(&targets, &src.targets, sizeof(targets));
+    return *this;
 }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-void TObjPlayer::bswap_entry_list() {
+void CapturedTargetList::bswap() {
     s32 i;
-    for (i = 0; i < ((Obj_801D2C18 *)this)->n; i++) {
-        ((TObjPlayer *)(&((Obj_801D2C18 *)this)->e[i]))->bswap_u16_pair();
+    for (i = 0; i < count; i++) {
+        entries[i].bswap();
     }
-    bswap_32((u32 *)this);
+    bswap_32((u32 *)&count);
 }
 #pragma pop
 

@@ -701,16 +701,12 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_200();
     void set_flag_200();
     void set_float_param(s16 value);
-    void bswap_field4_sub();
-    void*build_packet_header();
     void *copy_6x40_walk_to_position_packet(void *pkt);
     // The speed of the requested action in the action table.
     f32 get_action_rate_entry();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
     void *copy_packet_pos_6x42(void *pkt);
-    void bswap_u16_pair_list();
-    void bswap_u16_pair();
     void request_heavy_attack_particles();
     void set_action_palette_state_mode(u8 mode);
     void clear_flag_128();
@@ -1003,7 +999,6 @@ struct TObjPlayer : public TObjChara {
     void swap_inventory_items(s32 first_id, s32 second_id);
     void update_warp_relocation();
     s32 try_camera_action(s32 tech);
-    void bswap_entry_list();
     static void update_party_cursors(saddr cursors, saddr player);
     s32 can_use_palette_action_for_entry(TObjPlayer *player);
     s32 is_palette_entry_displayable(u8 kind, u8 sub);
