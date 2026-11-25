@@ -6,22 +6,22 @@
 class TPlyDispConfig;
 
 extern "C" {
-int ret_801D78E4(void);
-int ret_801D78EC(void);
-int ret_801D78F4(void);
-int ret_801D78FC(void);
-int ret_801D7904(void);
-int ret_801D790C(void);
-int ret_801D7914(void);
-int ret_801D791C(void);
-int ret_801D7924(void);
-int ret_801D792C(void);
-int ret_801D7934(void);
-int ret_801D793C(void);
-int ret_801D7944(void);
-int ret_801D794C(void);
-int ret_801D7954(void);
-int ret_801D795C(void);
+u8 ret_801D78E4(void *rules);
+u8 ret_801D78EC(void *rules);
+u8 ret_801D78F4(void *rules);
+u8 ret_801D78FC(void *rules);
+u8 ret_801D7904(void *rules);
+u8 ret_801D790C(void *rules);
+u8 ret_801D7914(void *rules);
+u8 ret_801D791C(void *rules);
+u8 ret_801D7924(void *rules);
+u8 ret_801D792C(void *rules);
+u8 ret_801D7934(void *rules);
+u8 ret_801D793C(void *rules);
+u8 ret_801D7944(void *rules);
+u8 ret_801D794C(void *rules);
+u8 ret_801D7954(void *rules);
+u8 ret_801D795C(void *rules);
 }
 
 // Resets a player's action palettes to the default photon blast slots.

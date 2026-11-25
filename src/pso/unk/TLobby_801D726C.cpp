@@ -1,243 +1,158 @@
 #include "types.h"
 #include "pso/unk/TLobby_801D726C.h"
 #include "pso/network/TLobby.h"
+#include "pso/system/data/pso_const_ids4.h"
+#include "pso/item/drop/TItemDrop.h"
 
 extern "C" {
 
-u8 ret_801D78E4();
-
-void fn_801D726C(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 0x1EU) {
-        var_r4 = ret_801D78E4();
+void fn_801D726C(void *rules, u8 value) {
+    if (value >= 0x1E) {
+        value = ret_801D78E4(rules);
     }
-    *(s16 *)((s8 *)arg0 + 0x18) = (s16) var_r4;
+    *(s16 *)((s8 *)rules + 0x18) = value;
 }
 
-u8 ret_801D78EC();
-
-void fn_801D72B0(void *arg0, s16 arg1) {
-    s16 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 0xC8) {
-        var_r4 = (s16) ret_801D78EC();
+void fn_801D72B0(void *rules, s16 value) {
+    if (value >= 0xC8) {
+        value = ret_801D78EC(rules);
     }
-    *(s16 *)((s8 *)arg0 + 0x16) = var_r4;
+    *(s16 *)((s8 *)rules + 0x16) = value;
 }
 
-u8 ret_801D78F4();
-
-void set_field_0xE__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = ret_801D78F4();
-    }
-    *(u8 *)((s8 *)arg0 + 0xE) = var_r4;
 }
 
-u8 ret_801D78FC();
-
-void set_field_d__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = ret_801D78FC();
+void TLobby::set_field_0xE(void *rules, u8 value) {
+    if (value >= 2) {
+        value = ret_801D78F4(rules);
     }
-    *(u8 *)((s8 *)arg0 + 0xD) = var_r4;
+    *(u8 *)((s8 *)rules + 0xE) = value;
 }
 
-u8 ret_801D7904();
-
-void set_clamped_field_c__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 3U) {
-        var_r4 = ret_801D7904();
+void TLobby::set_field_d(void *rules, u8 value) {
+    if (value >= 2) {
+        value = ret_801D78FC(rules);
     }
-    *(u8 *)((s8 *)arg0 + 0xC) = var_r4;
+    *(u8 *)((s8 *)rules + 0xD) = value;
 }
 
-u8 ret_801D790C();
-
-void set_field_b__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = ret_801D790C();
+void TLobby::set_clamped_field_c(void *rules, u8 value) {
+    if (value >= 3) {
+        value = ret_801D7904(rules);
     }
-    *(u8 *)((s8 *)arg0 + 0xB) = var_r4;
+    *(u8 *)((s8 *)rules + 0xC) = value;
 }
 
-u8 ret_801D7914();
-
-void set_field_a__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = ret_801D7914();
+void TLobby::set_field_b(void *rules, u8 value) {
+    if (value >= 2) {
+        value = ret_801D790C(rules);
     }
-    *(u8 *)((s8 *)arg0 + 0xA) = var_r4;
+    *(u8 *)((s8 *)rules + 0xB) = value;
 }
 
-u8 ret_801D791C();
-
-void set_byte9_clamped__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = ret_801D791C();
+void TLobby::set_field_a(void *rules, u8 value) {
+    if (value >= 2) {
+        value = ret_801D7914(rules);
     }
-    *(u8 *)((s8 *)arg0 + 9) = var_r4;
+    *(u8 *)((s8 *)rules + 0xA) = value;
 }
 
-u8 ret_801D7924();
-
-void set_difficulty__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = ret_801D7924();
+void TLobby::set_byte9_clamped(void *rules, u8 value) {
+    if (value >= 2) {
+        value = ret_801D791C(rules);
     }
-    *(u8 *)((s8 *)arg0 + 8) = var_r4;
+    *(u8 *)((s8 *)rules + 9) = value;
 }
 
-u8 ret_801D792C();
-
-void set_field7_clamped__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 3U) {
-        var_r4 = ret_801D792C();
+void TLobby::set_difficulty(void *rules, u8 value) {
+    if (value >= 2) {
+        value = ret_801D7924(rules);
     }
-    *(u8 *)((s8 *)arg0 + 7) = var_r4;
+    *(u8 *)((s8 *)rules + 8) = value;
 }
 
-u8 ret_801D7934();
-
-void set_field_0x6__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = ret_801D7934();
+void TLobby::set_field7_clamped(void *rules, u8 value) {
+    if (value >= 3) {
+        value = ret_801D792C(rules);
     }
-    *(u8 *)((s8 *)arg0 + 6) = var_r4;
+    *(u8 *)((s8 *)rules + 7) = value;
 }
 
-u8 ret_801D793C();
-
-void set_field_5__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = ret_801D793C();
+void TLobby::set_field_0x6(void *rules, u8 value) {
+    if (value >= 2) {
+        value = ret_801D7934(rules);
     }
-    *(u8 *)((s8 *)arg0 + 5) = var_r4;
+    *(u8 *)((s8 *)rules + 6) = value;
 }
 
-u8 ret_801D7944();
-
-void set_clamped_field_4__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 3U) {
-        var_r4 = ret_801D7944();
+void TLobby::set_field_5(void *rules, u8 value) {
+    if (value >= 2) {
+        value = ret_801D793C(rules);
     }
-    *(u8 *)((s8 *)arg0 + 4) = var_r4;
+    *(u8 *)((s8 *)rules + 5) = value;
 }
 
-u8 ret_801D794C();
-
-void set_field_3__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = ret_801D794C();
+void TLobby::set_clamped_field_4(void *rules, u8 value) {
+    if (value >= 3) {
+        value = ret_801D7944(rules);
     }
-    *(u8 *)((s8 *)arg0 + 3) = var_r4;
+    *(u8 *)((s8 *)rules + 4) = value;
 }
 
-u8 ret_801D7954();
-
-void set_field_2__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 4U) {
-        var_r4 = ret_801D7954();
+void TLobby::set_field_3(void *rules, u8 value) {
+    if (value >= 2) {
+        value = ret_801D794C(rules);
     }
-    *(u8 *)((s8 *)arg0 + 2) = var_r4;
+    *(u8 *)((s8 *)rules + 3) = value;
 }
 
-u8 ret_801D795C();
-
-void set_validated_field_0x1__6TLobbyFPvUc(void *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 3U) {
-        var_r4 = ret_801D795C();
+void TLobby::set_field_2(void *rules, u8 value) {
+    if (value >= 4) {
+        value = ret_801D7954(rules);
     }
-    *(u8 *)((s8 *)arg0 + 1) = var_r4;
+    *(u8 *)((s8 *)rules + 2) = value;
 }
 
-u8 TItemDrop__sub_80107B04();
-
-void set_section_id__6TLobbyFPvUc(u8 *arg0, u8 arg1) {
-    u8 var_r4;
-
-    var_r4 = arg1;
-    if (var_r4 >= 2U) {
-        var_r4 = TItemDrop__sub_80107B04();
+void TLobby::set_validated_field_0x1(void *rules, u8 value) {
+    if (value >= 3) {
+        value = ret_801D795C(rules);
     }
-    *arg0 = var_r4;
+    *(u8 *)((s8 *)rules + 1) = value;
+}
+
+void TLobby::set_section_id(void *rules, u8 value) {
+    if (value >= 2) {
+        value = TItemDrop__sub_80107B04(rules);
+    }
+    *(u8 *)rules = value;
 }
 
 void TLobby::reset_settings_to_default() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
-    s32 var_ctr;
+    u8 *rules = (u8 *)this;
     s32 k;
 
-    ((s32 (*)(void *, s32)) set_section_id__6TLobbyFPvUc)(arg0, ((s32 (*)()) TItemDrop__sub_80107B04)());
-    ((s32 (*)(void *, s32)) set_validated_field_0x1__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D795C)(arg0));
-    ((s32 (*)(void *, s32)) set_field_2__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D7954)(arg0));
-    ((s32 (*)(void *, s32)) set_field_3__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D794C)(arg0));
-    ((s32 (*)(void *, s32)) set_clamped_field_4__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D7944)(arg0));
-    ((s32 (*)(void *, s32)) set_field_5__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D793C)(arg0));
-    ((s32 (*)(void *, s32)) set_field_0x6__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D7934)(arg0));
-    ((s32 (*)(void *, s32)) set_field7_clamped__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D792C)(arg0));
-    ((s32 (*)(void *, s32)) set_difficulty__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D7924)(arg0));
-    ((s32 (*)(void *, s32)) set_byte9_clamped__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D791C)(arg0));
-    ((s32 (*)(void *, s32)) set_field_a__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D7914)(arg0));
-    ((s32 (*)(void *, s32)) set_field_b__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D790C)(arg0));
-    ((s32 (*)(void *, s32)) set_clamped_field_c__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D7904)(arg0));
-    ((s32 (*)(void *, s32)) set_field_d__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D78FC)(arg0));
-    ((s32 (*)(void *, s32)) set_field_0xE__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D78F4)(arg0));
+    set_section_id(this, TItemDrop__sub_80107B04(this));
+    set_validated_field_0x1(this, ret_801D795C(this));
+    set_field_2(this, ret_801D7954(this));
+    set_field_3(this, ret_801D794C(this));
+    set_clamped_field_4(this, ret_801D7944(this));
+    set_field_5(this, ret_801D793C(this));
+    set_field_0x6(this, ret_801D7934(this));
+    set_field7_clamped(this, ret_801D792C(this));
+    set_difficulty(this, ret_801D7924(this));
+    set_byte9_clamped(this, ret_801D791C(this));
+    set_field_a(this, ret_801D7914(this));
+    set_field_b(this, ret_801D790C(this));
+    set_clamped_field_c(this, ret_801D7904(this));
+    set_field_d(this, ret_801D78FC(this));
+    set_field_0xE(this, ret_801D78F4(this));
     this->set_volume(0);
     this->set_max_tech_level(0xFF);
     this->set_clamped_index(0);
     this->set_clamped_value_1c(0xA);
-    *(s8 *)((s8 *)arg0 + 0x12) = 0;
+    *(s8 *)(rules + 0x12) = 0;
     for (k = 0; k < 4; k++) {
-        *(arg0 + k + 0x20) = 0x14;
+        *(rules + k + 0x20) = 0x14;
     }
-    *(s8 *)((s8 *)arg0 + 0xF) = 0;
-}
-
+    *(s8 *)(rules + 0xF) = 0;
 }
