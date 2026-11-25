@@ -38,15 +38,6 @@
 
 
 
-// One vertex of the chunk vertex cache: transformed position and normal, then
-// the vertex colour and a pad word to 32 bytes.
-struct ChunkCachedVertex {
-    Vec pos;
-    Vec normal;
-    u32 color;
-    u32 pad;
-};
-
 extern "C" {
 void transform_chunk_object_tree(void *object, s32 (*draw)(void *model));
 void draw_strip_list_pos_nrm(s16 *list, ChunkCachedVertex *verts, u32 info);
@@ -54,10 +45,6 @@ void draw_strip_pos_normal(s16 *list, ChunkCachedVertex *verts, u32 info);
 void draw_triangle_strips(s16 *list, ChunkCachedVertex *verts, u32 info);
 void draw_chunk_textured_strips(s16 *list, ChunkCachedVertex *verts, u32 info, s32 large);
 }
-
-// One recorded chunk vertex cache: the transformed vertices of one model draw.
-struct ChunkCacheBuffer { void *vertices; s32 bytes; };
-struct ChunkCacheRecording { ChunkCacheBuffer buffers[32]; s32 index; };
 
 char chunk_memory_assert_message[19] = "CHNK MEMORY ASSERT";
 GC_Mtx chunk_object_current_matrix;
@@ -144,30 +131,6 @@ void transform_chunk_object_tree(void *object, s32 (*draw)(void *model)) {
 }
 #undef node
 }
-
-struct ChunkPairedMatrix {
-    f32 m00, m10;
-    f32 m20, m01;
-    f32 m11, m21;
-    f32 m02, m12;
-    f32 m22, m03;
-    f32 m13, m23;
-};
-// A chunk vertex stream entry: position then normal, untransformed.
-struct ChunkVertexPosNormal {
-    Vec pos;
-    Vec normal;
-};
-LAYOUT_ASSERT(ChunkPairedMatrix_size, sizeof(ChunkPairedMatrix) == 0x30);
-LAYOUT_ASSERT(ChunkVertexPosNormal_size, sizeof(ChunkVertexPosNormal) == 0x18);
-LAYOUT_ASSERT(ChunkCachedVertex_size, sizeof(ChunkCachedVertex) == 0x20);
-
-struct WeightedChunkVertex {
-    ChunkVertexPosNormal vertex;
-    s16 weight;
-    u16 index;
-};
-LAYOUT_ASSERT(WeightedChunkVertex_size, sizeof(WeightedChunkVertex) == 0x1C);
 
 extern "C" {
 // One store loop writes the current 3x4 as these pairs: reorder_current_matrix_ps
@@ -312,13 +275,6 @@ void transform_chunk_vertices_pos_normal(ChunkVertexJob *job, ChunkPairedMatrix 
     }
 }
 #endif
-
-// NJD_CV_VN_D8 records: position, normal and a diffuse colour.
-struct ChunkVertexNormalColor {
-    Vec pos;
-    Vec normal;
-    f32 color;
-};
 
 void transform_chunk_vertices_pos_normal_color(ChunkVertexJob *job, GC_Mtx *matrix) {
     s32 n = job->count;

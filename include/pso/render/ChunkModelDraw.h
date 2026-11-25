@@ -3,6 +3,60 @@
 
 #include "types.h"
 #include "pso/system/ModelDrawCallback.h"
+#include <dolphin/mtx/GeoTypes.h>
+
+// One vertex of the chunk vertex cache: transformed position and normal, then
+// the vertex colour and a pad word to 32 bytes.
+struct ChunkCachedVertex {
+    Vec pos;
+    Vec normal;
+    u32 color;
+    u32 pad;
+};
+LAYOUT_ASSERT(ChunkCachedVertex_size, sizeof(ChunkCachedVertex) == 0x20);
+
+// One recorded chunk vertex cache: the transformed vertices of one model draw.
+struct ChunkCacheBuffer {
+    void *vertices;
+    s32 bytes;
+};
+struct ChunkCacheRecording {
+    ChunkCacheBuffer buffers[32];
+    s32 index;
+};
+
+// The current 3x4 matrix as the weighted-vertex transform stores it, in
+// paired-single order.
+struct ChunkPairedMatrix {
+    f32 m00, m10;
+    f32 m20, m01;
+    f32 m11, m21;
+    f32 m02, m12;
+    f32 m22, m03;
+    f32 m13, m23;
+};
+LAYOUT_ASSERT(ChunkPairedMatrix_size, sizeof(ChunkPairedMatrix) == 0x30);
+
+// A chunk vertex stream entry: position then normal, untransformed.
+struct ChunkVertexPosNormal {
+    Vec pos;
+    Vec normal;
+};
+LAYOUT_ASSERT(ChunkVertexPosNormal_size, sizeof(ChunkVertexPosNormal) == 0x18);
+
+struct WeightedChunkVertex {
+    ChunkVertexPosNormal vertex;
+    s16 weight;
+    u16 index;
+};
+LAYOUT_ASSERT(WeightedChunkVertex_size, sizeof(WeightedChunkVertex) == 0x1C);
+
+// NJD_CV_VN_D8 records: position, normal and a diffuse colour.
+struct ChunkVertexNormalColor {
+    Vec pos;
+    Vec normal;
+    f32 color;
+};
 
 struct NJS_OBJECT;
 struct NJS_MOTION;
