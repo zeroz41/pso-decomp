@@ -9254,13 +9254,13 @@ pso/ui/frontend/TAdGameStartShineGC.cpp:
 	.sdata2     start:0x805DFD60 end:0x805DFD78
 
 pso/ui/frontend/TAdFloorLoadGC.cpp:
-	.text       start:0x8034AC4C end:0x8034AD28
+	.text       start:0x8034AC4C end:0x8034AD30
 	.rodata     start:0x80478A18 end:0x80478A28
 	.data       start:0x804F0010 end:0x804F0028
 	.sdata      start:0x805D4328 end:0x805D4330
 
 pso/ui/frontend/TAdFloorLoadPrtGC.cpp:
-	.text       start:0x8034AD28 end:0x8034AED4
+	.text       start:0x8034AD30 end:0x8034AED4
 	.rodata     start:0x80478A28 end:0x80478B78
 	.data       start:0x804F0028 end:0x804F0040
 	.sdata      start:0x805D4330 end:0x805D4338

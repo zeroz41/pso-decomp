@@ -9,7 +9,9 @@ public:
     virtual ~TAdFloorLoadGC();
     virtual void run_task();
     virtual void render();
-public:
+    // Called by TLoadCtrl when a floor-entrance load ends / starts.
+    static void cleanup();
+    static void setup();
 };
 
 #endif

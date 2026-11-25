@@ -31,12 +31,10 @@ struct Obj_8001C620 { u8 pad[0x1C]; s32 f1c; s32 f20; };
 extern "C" {
 s32 TLoadCtrl__loading_mode;
 saddr load_ctrl_fade_task;
-void TNowLoading__sub_8001D4D4(void);
 void TLoadCtrl__sub_80226DA0(s32 index);
 }
 void update_sound_request_slots(void);
 extern "C" {
-void TNowLoading__sub_8001D4D0(void);
 
 BOOL TLoadCtrl::is_loading() {
     return TLoadCtrl__instance ? TRUE : FALSE;
@@ -116,7 +114,7 @@ void TLoadCtrl::cleanup_scene() {
     switch (TLoadCtrl__loading_mode) {
     case 0:
         TLobby::release_bgm_resource();
-        TNowLoading__sub_8001D4D0();
+        TNowLoading::cleanup();
         break;
     case 1:
         TLobby::release_bgm_resource();
@@ -125,7 +123,7 @@ void TLoadCtrl::cleanup_scene() {
     case 3:
     case 4:
         TLobby::release_bgm_resource();
-        fn_8034AD28();
+        TAdFloorLoadGC::cleanup();
         break;
     }
     TCameraCtrl::reset_default_view();
@@ -158,14 +156,14 @@ void TLoadCtrl::start_loading(u32 arg0) {
     }
     switch ((s32) var_r31) {
     case 0:
-        TNowLoading__sub_8001D4D4();
+        TNowLoading::setup();
         break;
     case 1:
         TAdLoadQuestGC::setup();
         break;
     case 3:
     case 4:
-        fn_8034AD2C();
+        TAdFloorLoadGC::setup();
         break;
     }
     TLoadCtrl__loading_mode = (s32) var_r31;
