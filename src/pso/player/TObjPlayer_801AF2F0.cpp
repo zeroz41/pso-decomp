@@ -519,7 +519,6 @@ extern const f32 player_front_distance;
 extern Vec scratch_vec5;
 extern Color_801B6964 player_feedback_light_color[];
 extern TObjPlayer *player_slot_table[];
-const char *TObjPlayer_name = "TObjPlayer";
 extern s32 lbl_805D55C0;
 extern PlayerCharDataEntry *lobby_char_slot_array;
 extern const char status_line_break[];
@@ -539,6 +538,7 @@ extern const f32 player_view_detail_near;
 extern const f32 player_view_detail_far;
 extern const f32 player_shadow_range;
 }
+const char *TObjPlayer_name = "TObjPlayer";
 
 
 s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23, 0x30, 0x0A, 0x13, 0x00};
