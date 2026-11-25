@@ -28,7 +28,7 @@
 #pragma defer_codegen on
 
 
-const char *TObjDFDemo5__name = "TObjDFDemo5";
+const char *TObjDFDemo5::name = "TObjDFDemo5";
 ModelNodePositionEntry df_demo5_emitter_node_entries[3] = {{0x38}, {0x39}, {-1}};
 ModelNodePositionEntry df_demo5_tail_node_entries[2] = {{0}, {-1}};
 // The motions of the three body models.
@@ -42,7 +42,7 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     BmlResource *res;
     int id;
     s32 i;
-    m_name = TObjDFDemo5__name;
+    m_name = TObjDFDemo5::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
     res = TBoss4Uro::get_instance_count();

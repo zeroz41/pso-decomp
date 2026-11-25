@@ -51,7 +51,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
 
-#include "pso/object/TBoss7PointTrail.h"
+#include "pso/boss/barbaray/TBoss7DeRolLeCLaserTrail.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
@@ -365,7 +365,7 @@ extern const char bm_boss7_de_rol_le_c_bml_filename[] = "bm_boss7_de_rol_le_c.bm
 
 extern const char TBoss7DeRolLeC__class_name_string[] = "TBoss7DeRolLeC";
 
-const char *TBoss7DeRolLeC__class_name = TBoss7DeRolLeC__class_name_string;
+const char *TBoss7DeRolLeC::class_name = TBoss7DeRolLeC__class_name_string;
 
 extern const Vec boss7_derolle_c_joint_start_position = {10000.0f, 10000.0f, 10000.0f};
 
@@ -591,7 +591,7 @@ void TBoss7DeRolLeC::run_exit_callbacks() {
 TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), part_group(NULL) {
     u32 state[3];
 
-    m_name = TBoss7DeRolLeC__class_name;
+    m_name = TBoss7DeRolLeC::class_name;
     if (boss7_joint_state == NULL) {
         boss7_joint_state = this;
     }
@@ -3102,12 +3102,12 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             if (hit != NULL) {
                 VecCopy(beam_end, &hit->contact->point);
                 if (hit_trail == NULL) {
-                    hit_trail = new TBoss7PointTrail(this, 6, 0x208);
+                    hit_trail = new TBoss7DeRolLeCLaserTrail(this, 6, 0x208);
                 } else {
                     hit_trail->push_ring_point(beam_end);
                 }
                 if (hit_trail_long == NULL) {
-                    hit_trail_long = new TBoss7PointTrail(this, 0xF, 0x209);
+                    hit_trail_long = new TBoss7DeRolLeCLaserTrail(this, 0xF, 0x209);
                 } else {
                     hit_trail_long->push_ring_point(beam_end);
                 }

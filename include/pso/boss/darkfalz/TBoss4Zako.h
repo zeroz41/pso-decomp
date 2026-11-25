@@ -61,6 +61,7 @@ struct TBoss4Zako : public TObjEnemy {
     s32 frame_count;
     s32 bob_angle;
     s32 bob_angle_step;
+    static const char *name;
 };
 LAYOUT_ASSERT(TBoss4ZakoSetData_position, offsetof(TBoss4ZakoSetData, position) == 0x14);
 LAYOUT_ASSERT(TBoss4ZakoSetData_size, sizeof(TBoss4ZakoSetData) == 0x48);

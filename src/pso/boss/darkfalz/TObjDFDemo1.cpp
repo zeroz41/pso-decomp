@@ -52,7 +52,7 @@ extern s32 boss4_zanzo_bml_index_table[];
 // Defined after the constructor: it follows the constructor's angle template in .rodata.
 extern const ModelNodeSpec df_demo1_strip_specs[6];
 
-const char *TObjDFDemo1__name = "TObjDFDemo1";
+const char *TObjDFDemo1::name = "TObjDFDemo1";
 DFDemo1Emitter df_demo1_emitters[4] = {
     {0x144, 0x2C, 0x7C, {130.0f, 10.0f, 0.0f}},
     {0x144, 0x2C, 0x7C, {0.0f, 10.0f, 130.0f}},
@@ -71,7 +71,7 @@ TObjDFDemo1 *TObjDFDemo1::create(TObject *parent, const Vec *pos, s32 angle) {
 TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(parent) {
     BmlResource *res;
     s32 i;
-    m_name = TObjDFDemo1__name;
+    m_name = TObjDFDemo1::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
     res = TBoss4Uro::get_instance_count();

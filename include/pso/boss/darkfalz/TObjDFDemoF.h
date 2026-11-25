@@ -20,6 +20,7 @@ struct TObjDFDemoF : public TObjBase {
     NJS_TEXLIST *textures[3];
     AnimationMotion *motions[3];
     f32 frame;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjDFDemoF_size, sizeof(TObjDFDemoF) == 0xBC);

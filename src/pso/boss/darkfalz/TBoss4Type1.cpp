@@ -161,7 +161,7 @@ extern const ModelNodeSpec boss4_type1_model_node_table[7] = {
     { 9, 1, 0 }, { 7, 1, 0 }, { 5, 2, 0 }, { 4, 2, 0 }, { 6, 2, 0 }, { 3, 5, 0 }, { 3, 0x5E, 0 },
 };
 
-Vec TBoss4Type2__tenchu_furu_array[64];
+Vec TBoss4Type2::tenchu_furu_array[64];
 
 extern "C" {
 void pick_tenchu_furu_spots() { pick_tenchu_furu_spots_around(NULL, 0.0f); }
@@ -179,14 +179,14 @@ void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist) {
   f32 ring;
   Vec w;
   Vec v;
-  out = TBoss4Type2__tenchu_furu_array;
+  out = TBoss4Type2::tenchu_furu_array;
   for (total = 0; total < 0x40; total++, out++)
   {
     VecCopy(out, (const Vec *)lbl_80485AE0);
   }
 
   total = 0;
-  out = TBoss4Type2__tenchu_furu_array;
+  out = TBoss4Type2::tenchu_furu_array;
   cnt = 0;
   if (is_split_screen())
   {
@@ -254,7 +254,7 @@ void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist) {
     s32 found;
     s32 m;
     found = 0;
-    p = TBoss4Type2__tenchu_furu_array;
+    p = TBoss4Type2::tenchu_furu_array;
     for (m = 0; m < total; m++)
     {
       if (xyz_distance(&w, p) <= 12.5f)
@@ -278,7 +278,7 @@ void pick_tenchu_furu_spots_around(const Vec *center, f32 min_dist) {
 }
 
 void spawn_tenchu_furu(TObject *parent) {
-    Vec *spot = TBoss4Type2__tenchu_furu_array;
+    Vec *spot = TBoss4Type2::tenchu_furu_array;
     s32 i = 0;
     do {
         TObjDFTenchuFuru::create(parent, spot);
@@ -300,7 +300,7 @@ void apply_tenchu_hits(TObject *source) {
     Vec pos;
 
     power = (f32)((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->power;
-    spot = TBoss4Type2__tenchu_furu_array;
+    spot = TBoss4Type2::tenchu_furu_array;
     for (i = 0; i < 0x40; i++) {
         TParticleCtrl *effect = spawn_particle_effect(spot, boss4_type1_tenchu_hit_effect_ids[i & 1]);
         if (effect != NULL) {
@@ -318,7 +318,7 @@ void apply_tenchu_hits(TObject *source) {
         if (is_player_in_boss_area(player->get_entity_id()) == 0) {
             continue;
         }
-        target = TBoss4Type2__tenchu_furu_array;
+        target = TBoss4Type2::tenchu_furu_array;
         VecCopy(&pos, player->get_position_ptr());
         pos.y = 0.0f;
         for (j = 0; j < 0x40; j++) {

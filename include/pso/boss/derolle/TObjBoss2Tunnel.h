@@ -2,6 +2,7 @@
 #define PSO_BOSS_DEROLLE_TOBJBOSS2TUNNEL_H
 
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/task/TObject.h"
 
 class TParticleCtrl;
@@ -142,6 +143,7 @@ struct TObjBoss2Tunnel : public TObject {
     // Loads the screen-space matrix and the colour vertex state for draw_projected_quads,
     // blended when mode != 0.
     static void setup_projected_color_draw(s32 mode);
+    static const Vec raft_splash_offset_table[2];
 };
 
 LAYOUT_ASSERT(TObjBoss2Tunnel_size, sizeof(TObjBoss2Tunnel) == 0xDC);

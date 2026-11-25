@@ -352,7 +352,7 @@ force_active:
   - __ct__11TBoss4BishiFP7TObjectP17TBoss4ZakoSetData
   - TBoss4Bishi_spawn_offsets
   - __ct__14TBoss4DarkFalzFP7TObjectP22TBoss4DarkFalzSetEntry
-  - TBoss4DarkFalz__name
+  - name__14TBoss4DarkFalz
   - spawn_defeat_effects__14TBoss4DarkFalzFv
   - TBoss4DarkFalz__sub_801D94C0
   - clear_particle_emitters__12TBoss4ThanksFv
@@ -376,7 +376,7 @@ force_active:
   - TBoss4Zako_collision_body_parts
   - TBoss4Zako_movement_speed_step
   - TBoss4Zako_one_third
-  - TBoss4Zanzo__name
+  - name__11TBoss4Zanzo
   - disable__20TBoss5GryphonColli_CFv
   - TBoss5GryphonDemo__sub_800663DC
   - TBoss5GryphonSnarl__effect_table
@@ -436,11 +436,11 @@ force_active:
   - apply_direction_sign__9TBoss6MagFl
   - copy_mag_ramp__FP13TBoss6MagRampP13TBoss6MagRamp
   - init_motion_state__9TBoss6MagFv
-  - TBoss7Crawfish__shared_resource
+  - shared_resource__14TBoss7Crawfish
   - TBoss7LaserLight_name
   - __ct__18TBoss7PhotonBulletFP7TObjectP8TObjBasePC3VecPC3Vecf
-  - TBoss7Tentacle__needle_offsets
-  - TBoss7Tentacle__segment_offsets
+  - needle_offsets__14TBoss7Tentacle
+  - segment_offsets__14TBoss7Tentacle
   - fire_horn_lightning__13TBoss5GryphonFll
   - blocks_camera_view__13TBoss5GryphonFv
   - TBoss8Dragon__sub_8005DF60
@@ -930,10 +930,10 @@ force_active:
   - __ct__19TObjBoss5PillarDemoFP7TObjectP3Vec
   - place_pillar_smoke_at_node
   - __ct__17TObjBoss7DustCtrlFP7TObject
-  - TObjBoss7DustCtrl__helix_points
-  - TObjBoss7DustCtrl__rotation_pairs
-  - TObjBoss7DustCtrl__transformed_vertices
-  - TObjBoss7DustCtrl__vertical_phase_angles
+  - helix_points__17TObjBoss7DustCtrl
+  - rotation_pairs__17TObjBoss7DustCtrl
+  - transformed_vertices__17TObjBoss7DustCtrl
+  - vertical_phase_angles__17TObjBoss7DustCtrl
   - __ct__18TObjBoss7TunnelColFP7TObject
   - TObjBoss8PillerCtrl__class_name
   - TObjBoss8PillerCtrl__sub_8035C034
@@ -1006,22 +1006,22 @@ force_active:
   - TObjContainerNoItem__ct
   - container_no_item_name
   - TObjDFBeamCursor__ct
-  - TObjDFBeamCursor__name
+  - name__16TObjDFBeamCursor
   - __ct__11TObjDFDemo0FP7TObject
   - TObjDFDemo0__entry_table
   - __ct__11TObjDFDemo2FP7TObjectPC3Vecll
   - TObjDFDemo2__motion_index_table
-  - TObjDFDemo2__name
+  - name__11TObjDFDemo2
   - __ct__11TObjDFDemo3FP7TObjectPC3Vecl
-  - TObjDFDemo3__name
+  - name__11TObjDFDemo3
   - TObjDFDemoF__bml_model_id_table
   - TObjDFHorming__ct
-  - TObjDFHorming__name
+  - name__13TObjDFHorming
   - TObjDFJisin__ct
-  - TObjDFJisin__name
+  - name__11TObjDFJisin
   - TObjDFRecBall__ct
-  - TObjDFRecBall__name
-  - TObjDFRecover__name
+  - name__13TObjDFRecBall
+  - name__13TObjDFRecover
   - TObjDFTenchuFuru__ct
   - TObjDFUsoTower__ct
   - TObjDeadListWin_class_name
@@ -2493,7 +2493,7 @@ force_active:
   - __dt__13TUnk_804DCB64Fv
   - __dt__12TEffIndirectFv
   - __dt__13TBoss7BreakUpFv
-  - __dt__16TBoss7PointTrailFv
+  - __dt__24TBoss7DeRolLeCLaserTrailFv
   - __dt__22TBoss8DragonLeaderPartFv
   - __dt__16TItemToolAddSlotFv
   - __dt__12TEndingMovieFv
@@ -3264,7 +3264,7 @@ force_active:
   - __vt__13TUnk_804DCB64
   - __vt__12TEffIndirect
   - __vt__13TBoss7BreakUp
-  - __vt__16TBoss7PointTrail
+  - __vt__24TBoss7DeRolLeCLaserTrail
   - __vt__22TBoss8DragonLeaderPart
   - __vt__16TItemToolAddSlot
   - __vt__15TTelepipeMarker
@@ -8253,11 +8253,11 @@ force_active:
   - vj_new_seq
   - exi_send_queue
   - transport_message_queue
-  - TObjDFDemo1__name
-  - TObjDFDemo5__name
-  - TBoss4Zako__name
-  - TBoss4Uro__name
-  - TBoss4Bishi__name
+  - name__11TObjDFDemo1
+  - name__11TObjDFDemo5
+  - name__10TBoss4Zako
+  - name__9TBoss4Uro
+  - name__11TBoss4Bishi
   - TBoss5GryphonColli_C__name
   - TBoss5GryphonColli__name
   - TBoss5GryphonDemo__name
@@ -14873,7 +14873,7 @@ force_active:
   - run_task__18TTecZondeHitEffectFv
   - run_task__22TWindowComCardFollowerFv
   - run_task__13TUnk_804DCB64Fv
-  - run_task__16TBoss7PointTrailFv
+  - run_task__24TBoss7DeRolLeCLaserTrailFv
   - run_task__22TBoss8DragonLeaderPartFv
   - run_task__12TEndingMovieFv
   - run_task__15TTelepipeMarkerFv

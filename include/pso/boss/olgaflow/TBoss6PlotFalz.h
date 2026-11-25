@@ -154,11 +154,11 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void init_proto1_adx();
     void enter_fall_elev();
     static void update_active_flag();
+    static TBoss6Type1 *type1_instance;
+    static TBoss6Type2 *type2_instance;
 };
 
 // The two Olga Flow bodies of the running fight, NULL when there is none.
-extern TBoss6Type1 *TBoss6PlotFalz__type1_instance;
-extern TBoss6Type2 *TBoss6PlotFalz__type2_instance;
 // The running TBoss6PlotFalz (set by its constructor, cleared by its destructor).
 extern saddr TBoss6PlotFalz__instance;
 // Client ids in descending hp order (sort_active_players, get_sorted_player).

@@ -40,6 +40,7 @@ struct TBoss4Thanks : public TObject {
     static void *create();
     static s32 is_door_open_and_ready();
     static s32 check_ready();
+    static const char *class_name;
 };
 
 #include <stddef.h>

@@ -35,6 +35,7 @@ struct TBoss7Joint : public TObjEneDD {
     s32 init_params();
     static TBoss7DeRolLeC *get_state();
     int is_part_active();
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss7Joint_collision_body, offsetof(TBoss7Joint, collision_body) == 0x38C);

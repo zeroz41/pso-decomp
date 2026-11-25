@@ -143,6 +143,7 @@ public:
     TParticleCtrl *parts[8];         // particle emitters, released by the dt
     ModelNodePositionCapture *node_capture;
     Vec node_positions[3];           // node_capture's captured node positions
+    static Vec tenchu_furu_array[64];
 };
 
 LAYOUT_ASSERT(Type2NodeTablesOffset, offsetof(TBoss4Type2, node_tables) == 0x378);

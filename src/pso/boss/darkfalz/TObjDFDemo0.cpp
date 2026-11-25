@@ -31,7 +31,7 @@
 
 #pragma defer_codegen on
 
-const char *TObjDFDemo0__name = "TObjDFDemo0";
+const char *TObjDFDemo0::name = "TObjDFDemo0";
 const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
     {9, 1, 0}, {7, 1, 0}, {5, 2, 0}, {4, 2, 0}, {6, 2, 0}, {3, 5, 0}, {3, 0x5E, 0},
 };
@@ -74,7 +74,7 @@ TObjDFDemo0::TObjDFDemo0(TObject *parent) : TObjBase(parent) {
     s32 i;
     s32 j;
 
-    m_name = TObjDFDemo0__name;
+    m_name = TObjDFDemo0::name;
     h = TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         {

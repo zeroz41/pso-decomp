@@ -24,13 +24,13 @@
 // function back: Dust's code comes first in .text, yet DustCtrl's class name precedes Dust's in .sdata
 // and .rodata, and Dust's vtable precedes DustCtrl's in .data (reverse key-function order).
 
-Vec TObjBoss7DustCtrl__helix_points[6];
-s32 TObjBoss7DustCtrl__rotation_pairs[20];
-TrailStripVertex TObjBoss7DustCtrl__transformed_vertices[60];
-s32 TObjBoss7DustCtrl__vertical_phase_angles[10];
+Vec TObjBoss7DustCtrl::helix_points[6];
+s32 TObjBoss7DustCtrl::rotation_pairs[20];
+TrailStripVertex TObjBoss7DustCtrl::transformed_vertices[60];
+s32 TObjBoss7DustCtrl::vertical_phase_angles[10];
 
-const char *TObjBoss7DustCtrl__name = "TObjBoss7DustCtrl";
-const char *TObjBoss7Dust__name = "TObjBoss7Dust";
+const char *TObjBoss7DustCtrl::name = "TObjBoss7DustCtrl";
+const char *TObjBoss7Dust::name = "TObjBoss7Dust";
 
 s32 TObjBoss7DustCtrl_dust_counter;
 
@@ -41,18 +41,18 @@ void TObjBoss7DustCtrl::init_strips() {
     for (i = 0; i < 6; i++) {
         int a = (int)(10922.667f * (f32)i);
         f32 sine = sin_table_lookup(a);
-        TObjBoss7DustCtrl__helix_points[i].x = 0.7f * sine;
-        TObjBoss7DustCtrl__helix_points[i].y = 0.083333336f * (f32)i;
-        TObjBoss7DustCtrl__helix_points[i].z = 0.7f * cos_table_lookup(a);
+        TObjBoss7DustCtrl::helix_points[i].x = 0.7f * sine;
+        TObjBoss7DustCtrl::helix_points[i].y = 0.083333336f * (f32)i;
+        TObjBoss7DustCtrl::helix_points[i].z = 0.7f * cos_table_lookup(a);
     }
     {
-        s32 *p = TObjBoss7DustCtrl__rotation_pairs;
+        s32 *p = TObjBoss7DustCtrl::rotation_pairs;
         for (i = 0; i < 20; i++) {
             *p++ = random_angle();
         }
     }
     {
-        TrailStripVertex *o = TObjBoss7DustCtrl__transformed_vertices;
+        TrailStripVertex *o = TObjBoss7DustCtrl::transformed_vertices;
         for (i = 0; i < 60; i++) {
             o->x = 0.0f;
             o->y = 0.0f;
@@ -62,7 +62,7 @@ void TObjBoss7DustCtrl::init_strips() {
         }
     }
     for (j = 0; j < 10; j++) {
-        TObjBoss7DustCtrl__vertical_phase_angles[j] = random_angle();
+        TObjBoss7DustCtrl::vertical_phase_angles[j] = random_angle();
     }
     TObjBoss7DustCtrl_dust_counter = 0;
 }
@@ -74,7 +74,7 @@ void TObjBoss7DustCtrl::create() {
 }
 
 TObjBoss7DustCtrl::TObjBoss7DustCtrl(TObject *parent) : TObject(parent) {
-    m_name = TObjBoss7DustCtrl__name;
+    m_name = TObjBoss7DustCtrl::name;
 }
 
 TObjBoss7DustCtrl::~TObjBoss7DustCtrl() {}
@@ -88,10 +88,10 @@ void TObjBoss7DustCtrl::run_task() {
     s32 i;
     s32 j;
 
-    rot = TObjBoss7DustCtrl__rotation_pairs;
-    out = TObjBoss7DustCtrl__transformed_vertices;
+    rot = TObjBoss7DustCtrl::rotation_pairs;
+    out = TObjBoss7DustCtrl::transformed_vertices;
     push_matrix();
-    ang = TObjBoss7DustCtrl__vertical_phase_angles;
+    ang = TObjBoss7DustCtrl::vertical_phase_angles;
     for (i = 0; i < 10; i++) {
         set_matrix_identity(0);
         translate_matrix(0, 0.0f, 6.0f * sin_table_lookup(ang[i]), 0.0f);
@@ -106,7 +106,7 @@ void TObjBoss7DustCtrl::run_task() {
         *rot += 0x555;
         rotate_matrix_x(0, *rot++);
         for (j = 0; j < 6; j++) {
-            matrix_mult_vec(NULL, &TObjBoss7DustCtrl__helix_points[j], (Vec *)out++);
+            matrix_mult_vec(NULL, &TObjBoss7DustCtrl::helix_points[j], (Vec *)out++);
         }
     }
     pop_matrix();
@@ -127,12 +127,12 @@ void boss7_dust_draw_at(const Vec *position, s32 slot) {
     TParticleCtrl::end_effect_render();
     push_matrix();
     post_translate_matrix(&position->x);
-    draw_trail_strip(&TObjBoss7DustCtrl__transformed_vertices[slot * 6], 6, 0);
+    draw_trail_strip(&TObjBoss7DustCtrl::transformed_vertices[slot * 6], 6, 0);
     pop_matrix();
 }
 
 TObjBoss7Dust::TObjBoss7Dust(TObject *parent, const Vec *position) : TObject(parent) {
-    m_name = TObjBoss7Dust__name;
+    m_name = TObjBoss7Dust::name;
     VecCopy(&this->position, position);
     ticks = 0;
     strip_slot = TObjBoss7DustCtrl::next_strip_slot();

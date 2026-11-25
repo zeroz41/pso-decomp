@@ -14,6 +14,7 @@ public:
 
     s32 timer;    // spawns its particle effect at position when it runs out
     Vec position;
+    static const char *name;
 };
 class TObjDFRecBall : public TObject {
 public:
@@ -28,6 +29,7 @@ public:
     f32 speed;
     void *model; // its particle emitter
     s32 timer;
+    static const char *name;
 };
 
 // The Jisin: a ring of fire that grows by 25 a frame around its centre (TBoss4Type2::create_jisin).
@@ -41,6 +43,7 @@ public:
 
     Vec center;
     f32 radius;
+    static const char *name;
 };
 
 

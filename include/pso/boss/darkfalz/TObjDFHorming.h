@@ -33,6 +33,7 @@ struct TObjDFHorming : public TObjChara {
     Vec target_position;       // the target's body_center, refreshed each frame
     f32 lock_distance;         // steering locks on once target_distance is inside it
     f32 target_distance;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjDFHorming_velocity_offset, offsetof(TObjDFHorming, velocity) == 0x348);

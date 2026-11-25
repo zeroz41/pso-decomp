@@ -142,7 +142,7 @@ static const ModelNodeSpec boss4_type2_model_node_table[6] = {
 };
 static const Vec boss4_type2_follow_camera_offset_a = {0.0f, 19.8f, -5.0f};
 static const Vec boss4_type2_follow_camera_offset_b = {0.0f, 15.43f, 55.42f};
-const char *TBoss4Zanzo__name = "TBoss4Zanzo";
+const char *TBoss4Zanzo::name = "TBoss4Zanzo";
 
 
 TBoss4Type2 *TBoss4Type2::create(TBoss4FormSetData *set_data) {
@@ -1082,7 +1082,7 @@ void copy_zanzo_params(TBoss4ZanzoParams *dst, TBoss4ZanzoParams *src) {
 }
 
 TBoss4Zanzo::TBoss4Zanzo(TObject *parent, TBoss4ZanzoParams *params) : TObject(parent) {
-    m_name = TBoss4Zanzo__name;
+    m_name = TBoss4Zanzo::name;
     copy_zanzo_params(&this->params, params);
     age = 0;
 }

@@ -19,7 +19,7 @@ class TBoss7LaserLight;
 class AreaAttackHistory;
 class TNodeMatrixRecorder;
 class TParticleCtrl;
-class TBoss7PointTrail;
+class TBoss7DeRolLeCLaserTrail;
 struct G_BarbaRayBossActions_6xA9;
 struct G_BarbaRayBossActions_6xAA;
 struct TBoss7LaserPtcl;
@@ -177,8 +177,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TBoss7LaserLight *laser_light;
     Vec laser_light_pos;          // the position the laser light follows
     AreaAttackHistory *attack_history;
-    TBoss7PointTrail *hit_trail;     // ring trail of the laser's hit point (limit 6, effect 0x208)
-    TBoss7PointTrail *hit_trail_long; // the same with limit 15, effect 0x209
+    TBoss7DeRolLeCLaserTrail *hit_trail;     // ring trail of the laser's hit point (limit 6, effect 0x208)
+    TBoss7DeRolLeCLaserTrail *hit_trail_long; // the same with limit 15, effect 0x209
     s32 laser_shot_count;         // laser shots since the state that clears it
     s32 state_step;               // the running state's step (every state handler switches on it)
     s32 state_ints[6];            // per-state scratch: each state handler gives them its own meaning
@@ -196,6 +196,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     static void load_resources();
     static void run_exit_callbacks();
     static void *create(void *set_data);
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TBoss7DeRolLeCCollisionBody, offsetof(TBoss7DeRolLeC, collision_body) == 0x3C0);

@@ -16,7 +16,7 @@
 extern "C" {
 }
 
-const char *TObjBoss7RaftSplash__name = "TObjBoss7RaftSplash";
+const char *TObjBoss7RaftSplash::name = "TObjBoss7RaftSplash";
 
 
 void TObjBoss7RaftSplash::run_task() {
@@ -37,7 +37,7 @@ void TObjBoss7RaftSplash::run_task() {
 TObjBoss7RaftSplash::~TObjBoss7RaftSplash() {}
 TObjBoss7RaftSplash::TObjBoss7RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed)
     : TObject(parent) {
-    m_name = TObjBoss7RaftSplash__name;
+    m_name = TObjBoss7RaftSplash::name;
     interval = boss7_tunnel_max_scroll_speed * (3.0f + rand_signed_unit());
     elapsed = interval * (3.0517578e-05f * (f32)rand());
     VecCopy(&this->position, position);

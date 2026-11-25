@@ -37,6 +37,7 @@ public:
     f32 loop_frame;   // motion frame of models 0 and 1, wraps at 30
     f32 motion_frame; // motion frame of the other models, stops at 139
     f32 fade;         // 0 hidden .. 1 opaque
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjDFDemo0_size, sizeof(TObjDFDemo0) == 0x110);

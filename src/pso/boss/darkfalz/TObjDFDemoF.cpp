@@ -21,7 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 
-const char *TObjDFDemoF__name = "TObjDFDemoF";
+const char *TObjDFDemoF::name = "TObjDFDemoF";
 
 s32 TObjDFDemoF__bml_model_id_table[3] = {0x0, 0x10, 0x11};
 s32 df_demof_motion_ids[3] = {-1, 0x26, 0x27};
@@ -46,7 +46,7 @@ TObjDFDemoF::TObjDFDemoF(TObject *parent) : TObjBase(parent) {
     saddr i;
 
     self = this;
-    self->m_name = TObjDFDemoF__name;
+    self->m_name = TObjDFDemoF::name;
     archive = TBoss4Uro::get_instance_count();
     for (i = 0; i < 3; i++) {
         s32 model_index = TObjDFDemoF__bml_model_id_table[i];

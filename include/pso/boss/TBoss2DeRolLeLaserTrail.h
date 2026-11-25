@@ -7,7 +7,7 @@
 class TParticleCtrl;
 
 // De Rol Le's laser trail: a ring of the last 20 points fed by push_ring_point, replayed through a
-// continuous particle effect once m_limit points have been pushed (the Barba Ray twin is TBoss7PointTrail).
+// continuous particle effect once m_limit points have been pushed (the Barba Ray twin is TBoss7DeRolLeCLaserTrail).
 class TBoss2DeRolLeLaserTrail : public TObject {
 public:
     enum { NUM_POINTS = 20 };

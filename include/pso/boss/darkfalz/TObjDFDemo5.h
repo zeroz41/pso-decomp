@@ -31,6 +31,7 @@ struct TObjDFDemo5 : public TObjBase {
     Vec emitter_positions[2];
     ModelNodePositionCapture *node_list1;     // tracks tail_position
     Vec tail_position;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TObjDFDemo5_size, sizeof(TObjDFDemo5) == 0x118);

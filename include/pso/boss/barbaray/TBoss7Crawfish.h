@@ -7,6 +7,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 class TParticleCtrl;
+struct BmlResource;
 
 // The tuning record TLobby::dispatch_shared_handler_a hands the crawfish.
 struct Boss7CrawfishParams {
@@ -56,6 +57,8 @@ struct TBoss7Crawfish : public TObjEnemy {
     f32 get_health();
     void set_anim_timer(s16 v);
     void register_attack_hits();
+    static BmlResource *shared_resource;
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TBoss7Crawfish_collision_body, offsetof(TBoss7Crawfish, collision_body) == 0x374);

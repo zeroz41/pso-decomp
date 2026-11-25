@@ -21,6 +21,7 @@ struct TBoss4Uro : public TBoss4Zako {
     static BmlResource *get_instance_count();
 
     Vec orbit_center;
+    static const char *name;
 };
 LAYOUT_ASSERT(TBoss4Uro_size, sizeof(TBoss4Uro) == 0x3D0);
 

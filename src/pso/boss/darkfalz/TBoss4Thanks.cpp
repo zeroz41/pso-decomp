@@ -54,7 +54,7 @@ struct Thanks_8035C6FC
 
 
 extern "C" {
-const char *TBoss4Thanks__class_name = "TBoss4Thanks";
+const char *TBoss4Thanks::class_name = "TBoss4Thanks";
 // Position of the emitters and of the proximity check (x, y, z).
 extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
 // Equipment any_player_has_listed_item() (text_8035C9E8, this TU's code) looks for: {type, group, index}.
@@ -217,7 +217,7 @@ TBoss4Thanks::~TBoss4Thanks() {
 
 TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     BmlResource *archive;
-    m_name = TBoss4Thanks__class_name;
+    m_name = TBoss4Thanks::class_name;
     archive = TBoss4Uro::get_instance_count();
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(archive, 1));
     this->texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(archive, 1));

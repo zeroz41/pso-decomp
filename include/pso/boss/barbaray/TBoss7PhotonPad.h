@@ -16,6 +16,7 @@ public:
     s32 level;
     s32 shots;
     s32 timer;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss7PhotonPad_size, sizeof(TBoss7PhotonPad) == 0x38);

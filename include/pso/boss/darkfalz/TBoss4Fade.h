@@ -22,6 +22,8 @@ public:
 
     s32 write_index;
     FadeFrame frames[2];
+    static f32 fullscreen_vertices[4][2];
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TBoss4Fade_size, sizeof(TBoss4Fade) == 0x38);

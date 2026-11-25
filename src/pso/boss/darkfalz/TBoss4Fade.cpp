@@ -21,7 +21,7 @@ typedef struct Quad_803594EC
 } Quad_803594EC;
 
 // The 640x480 screen corners the fade quad is drawn over.
-f32 TBoss4Fade__fullscreen_vertices[4][2] = {
+f32 TBoss4Fade::fullscreen_vertices[4][2] = {
     {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
 };
 
@@ -42,7 +42,7 @@ void TBoss4Fade::render() {
     q.col[new_var] = c;
     q.a = new_var;
     q.b = 4;
-    q.tex = TBoss4Fade__fullscreen_vertices;
+    q.tex = TBoss4Fade::fullscreen_vertices;
     set_depth_buffer_settings_1();
     reinterpret_cast<ColorLineList *>(&q)->draw_strip_swap_color(4, 6, -1.0f);
     restore_saved_depth_alpha_state();
@@ -59,10 +59,10 @@ TBoss4Fade::~TBoss4Fade() {}
 
 #pragma readonly_strings on
 
-const char *TBoss4Fade__name = "TBoss4Fade";
+const char *TBoss4Fade::name = "TBoss4Fade";
 
 TBoss4Fade::TBoss4Fade(TObject *parent) : TObject(parent) {
-    m_name = TBoss4Fade__name;
+    m_name = TBoss4Fade::name;
     frames[0].active = 0;
     frames[1].active = 0;
     write_index = 0;

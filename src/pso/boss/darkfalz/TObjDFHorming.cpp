@@ -177,7 +177,7 @@ BmlResourceDescriptor darkfalz_dat_resource_descriptor = {
     "darkfalz_dat.bml", darkfalz_dat_model_names, darkfalz_dat_motion_names, 19, 90,
 };
 
-const char *TBoss4DarkFalz__name = "TBoss4DarkFalz";
+const char *TBoss4DarkFalz::name = "TBoss4DarkFalz";
 
 // Read-only start positions (.rodata) of sub_8004B8F8 and sub_8004B7DC. Declared const, the visible
 // definition lets CodeWarrior hoist the copy above the stmw in both users, so they are placed explicitly.
@@ -732,9 +732,9 @@ void TBoss4DarkFalz::run_task() {
 void TBoss4DarkFalz::run_death_reaction() {  }
 void init_music_sequencer(s32 program);
 BmlResource *darkfalz_dat_resource;
-TBoss4Type1 *TBoss4DarkFalz__type1_instance;
-TBoss4Type2 *TBoss4DarkFalz__type2_instance;
-TBoss4Type3 *TBoss4DarkFalz__type3_instance;
+TBoss4Type1 *TBoss4DarkFalz::type1_instance;
+TBoss4Type2 *TBoss4DarkFalz::type2_instance;
+TBoss4Type3 *TBoss4DarkFalz::type3_instance;
 s32 dark_falz_form_index;
 s32 boss4_type2_rafoie_level;
 s32 boss4_type2_rabarta_level;
@@ -758,24 +758,24 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
         object->queue_destruction();
         fade = NULL;
     }
-    if (TBoss4DarkFalz__type1_instance != NULL) {
-        TBoss4DarkFalz__type1_instance->queue_destruction();
-        TBoss4DarkFalz__type1_instance = NULL;
+    if (TBoss4DarkFalz::type1_instance != NULL) {
+        TBoss4DarkFalz::type1_instance->queue_destruction();
+        TBoss4DarkFalz::type1_instance = NULL;
     }
-    if (TBoss4DarkFalz__type2_instance != NULL) {
-        TBoss4DarkFalz__type2_instance->queue_destruction();
-        TBoss4DarkFalz__type2_instance = NULL;
+    if (TBoss4DarkFalz::type2_instance != NULL) {
+        TBoss4DarkFalz::type2_instance->queue_destruction();
+        TBoss4DarkFalz::type2_instance = NULL;
     }
-    if (TBoss4DarkFalz__type3_instance != NULL) {
-        TBoss4DarkFalz__type3_instance->queue_destruction();
-        TBoss4DarkFalz__type3_instance = NULL;
+    if (TBoss4DarkFalz::type3_instance != NULL) {
+        TBoss4DarkFalz::type3_instance->queue_destruction();
+        TBoss4DarkFalz::type3_instance = NULL;
     }
     dark_falz_controller_instance = 0;
 }
 
 
 TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data) : TObjEnemy(parent) {
-    m_name = TBoss4DarkFalz__name;
+    m_name = TBoss4DarkFalz::name;
     reset_child_ids();
     if (set_data->kind != 0x200) {
         return;
@@ -798,9 +798,9 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     actorFlags |= 0x02000000;
     update_visible_flag();
     active_player_count = count_active_players();
-    TBoss4DarkFalz__type1_instance = 0;
-    TBoss4DarkFalz__type2_instance = 0;
-    TBoss4DarkFalz__type3_instance = 0;
+    TBoss4DarkFalz::type1_instance = 0;
+    TBoss4DarkFalz::type2_instance = 0;
+    TBoss4DarkFalz::type3_instance = 0;
     intro_tower = NULL;
     fade = create_boss4_fade();
     minions_spawned = 0;
@@ -841,22 +841,22 @@ void handle_6x19_dark_falz_actions(G_DarkFalzActions_6x19 *cmd) {
     switch (boss->get_phase()) {
     case 5:
     case 6:
-        if (TBoss4DarkFalz__type1_instance != NULL) {
-            TBoss4DarkFalz__type1_instance->apply_packed_state(arg);
+        if (TBoss4DarkFalz::type1_instance != NULL) {
+            TBoss4DarkFalz::type1_instance->apply_packed_state(arg);
         }
         break;
     case 7:
     case 8:
     case 9:
-        if (TBoss4DarkFalz__type2_instance != NULL) {
-            TBoss4DarkFalz__type2_instance->apply_packed_state(arg);
+        if (TBoss4DarkFalz::type2_instance != NULL) {
+            TBoss4DarkFalz::type2_instance->apply_packed_state(arg);
         }
         break;
     case 12:
     case 13:
     case 14:
-        if (TBoss4DarkFalz__type3_instance != NULL) {
-            TBoss4DarkFalz__type3_instance->apply_packed_state(arg);
+        if (TBoss4DarkFalz::type3_instance != NULL) {
+            TBoss4DarkFalz::type3_instance->apply_packed_state(arg);
         }
         break;
     }

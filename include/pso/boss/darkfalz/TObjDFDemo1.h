@@ -29,6 +29,7 @@ public:
     f32 frame;
     f32 scroll;  // 0..1, advanced by 1/45 a frame
     ModelNodeTables strips;
+    static const char *name;
 };
 LAYOUT_ASSERT(TObjDFDemo1_size, sizeof(TObjDFDemo1) == 0x130);
 

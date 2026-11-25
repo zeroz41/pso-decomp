@@ -60,15 +60,15 @@ extern "C" {
 extern Vec dark_falz_demo5_position;
     extern int dark_falz_form_index;
 
-TBoss4Type3 *TBoss4DarkFalz::get_type3_instance() { return TBoss4DarkFalz__type3_instance; }
+TBoss4Type3 *TBoss4DarkFalz::get_type3_instance() { return TBoss4DarkFalz::type3_instance; }
 
 TBoss4Type2 *TBoss4DarkFalz::get_type2_instance() {
-    return TBoss4DarkFalz__type2_instance;
+    return TBoss4DarkFalz::type2_instance;
 }
 
 
 TBoss4Type1 *TBoss4DarkFalz::get_instance() {
-    return TBoss4DarkFalz__type1_instance;
+    return TBoss4DarkFalz::type1_instance;
 }
 
 int TBoss4DarkFalz::is_floor_leader() { return this->not_floor_leader == 0; }
@@ -140,16 +140,16 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
     TLobby::stop_audio_streams();
     set_story_flag_or_send_quest_flag(0x37);
     TBoss4Thanks::check_ready();
-    if (TBoss4DarkFalz__type3_instance != NULL) {
-        TObjChara *form = TBoss4DarkFalz__type3_instance;
+    if (TBoss4DarkFalz::type3_instance != NULL) {
+        TObjChara *form = TBoss4DarkFalz::type3_instance;
         TObjDFDemo5::create(this, &form->position, form->rotation_y);
     } else {
         TObjDFDemo5::create(this, &dark_falz_demo5_position, 0);
     }
-    if (TBoss4DarkFalz__type3_instance != NULL) {
-        TBoss4DarkFalz__type3_instance->get_defeat_params(&local_attacker_id, &attacker_id, sp8);
-        TBoss4DarkFalz__type3_instance->queue_destruction();
-        TBoss4DarkFalz__type3_instance = NULL;
+    if (TBoss4DarkFalz::type3_instance != NULL) {
+        TBoss4DarkFalz::type3_instance->get_defeat_params(&local_attacker_id, &attacker_id, sp8);
+        TBoss4DarkFalz::type3_instance->queue_destruction();
+        TBoss4DarkFalz::type3_instance = NULL;
         i = 0;
         do {
             obj_setArrS16_FC(this, i, sp8[i]);
@@ -160,7 +160,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
 }
 void TBoss4DarkFalz::update_type3() {  }
 void TBoss4DarkFalz::request_action_e() {
-    if ((TBoss4DarkFalz__type3_instance == NULL) || (TBoss4DarkFalz__type3_instance->get_action_state() == 3) || (TBoss4DarkFalz__type3_instance->get_action_state() == 2) || (sub_8004B07C() != 0)) {
+    if ((TBoss4DarkFalz::type3_instance == NULL) || (TBoss4DarkFalz::type3_instance->get_action_state() == 3) || (TBoss4DarkFalz::type3_instance->get_action_state() == 2) || (sub_8004B07C() != 0)) {
         send_action_packet(0xE);
     }
 }
@@ -183,7 +183,7 @@ void TBoss4DarkFalz::update_demo_warp3() {
         set_data.entry.room = 2;
         set_data.entry.set_index = set_index + 0x1FE;
         set_data.entry.entity_id = entity_id + 0x1FE;
-        TBoss4DarkFalz__type3_instance = TBoss4Type3::create(&set_data);
+        TBoss4DarkFalz::type3_instance = TBoss4Type3::create(&set_data);
         change_state(0xD);
     }
 }
@@ -268,14 +268,14 @@ void TBoss4DarkFalz::enter_demo2_phase() {
     s32 i;
     freeze_all_players();
     TLobby::stop_audio_streams();
-    if (TBoss4DarkFalz__type2_instance != NULL) {
-        VecCopy(&v, VecCopy(&cinematic_position, &TBoss4DarkFalz__type2_instance->position));
+    if (TBoss4DarkFalz::type2_instance != NULL) {
+        VecCopy(&v, VecCopy(&cinematic_position, &TBoss4DarkFalz::type2_instance->position));
         v.y = 0.0f;
         normalize_vector(&v);
         cinematic_position.x -= 75.0f * v.x;
         cinematic_position.z -= 75.0f * v.z;
         cinematic_position.y = 0.0f;
-        cinematic_angle = TBoss4DarkFalz__type2_instance->rotation_y;
+        cinematic_angle = TBoss4DarkFalz::type2_instance->rotation_y;
     } else {
         cinematic_position.x = cinematic_position.y = cinematic_position.z = 0.0f;
         cinematic_angle = 0;
@@ -286,10 +286,10 @@ void TBoss4DarkFalz::enter_demo2_phase() {
     }
     TObjDFDemo2::create(this, &cinematic_position, cinematic_angle, flag);
     set_story_flag_or_send_quest_flag(0x35);
-    if (TBoss4DarkFalz__type2_instance != NULL) {
-        TBoss4DarkFalz__type2_instance->get_demo2_params(&local_attacker_id, &attacker_id, arr);
-        TBoss4DarkFalz__type2_instance->queue_destruction();
-        TBoss4DarkFalz__type2_instance = NULL;
+    if (TBoss4DarkFalz::type2_instance != NULL) {
+        TBoss4DarkFalz::type2_instance->get_demo2_params(&local_attacker_id, &attacker_id, arr);
+        TBoss4DarkFalz::type2_instance->queue_destruction();
+        TBoss4DarkFalz::type2_instance = NULL;
         for (i = 0; i < 4; i++) {
             obj_setArrS16_FC(this, i, arr[i]);
         }
@@ -300,7 +300,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
 void TBoss4DarkFalz::update_type2() {  }
 
 void TBoss4DarkFalz::request_action_9() {
-    if ((TBoss4DarkFalz__type2_instance == NULL) || (TBoss4DarkFalz__type2_instance->get_phase() == 3) || (TBoss4DarkFalz__type2_instance->get_phase() == 2) || (sub_8004B07C() != 0)) {
+    if ((TBoss4DarkFalz::type2_instance == NULL) || (TBoss4DarkFalz::type2_instance->get_phase() == 3) || (TBoss4DarkFalz::type2_instance->get_phase() == 2) || (sub_8004B07C() != 0)) {
         send_action_packet(9);
     }
 }
@@ -316,7 +316,7 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
         set_data.entry.room = 1;
         set_data.entry.set_index = set_index + 0x1FF;
         set_data.entry.entity_id = entity_id + 0x1FF;
-        TBoss4DarkFalz__type2_instance = TBoss4Type2::create(&set_data);
+        TBoss4DarkFalz::type2_instance = TBoss4Type2::create(&set_data);
         set_story_flag_or_send_quest_flag(0x34);
         change_state(8);
     }
@@ -326,16 +326,16 @@ void TBoss4DarkFalz::update_leader_app_type2() {  }
 
 void TBoss4DarkFalz::start_demo1() {
     freeze_all_players();
-    if (TBoss4DarkFalz__type1_instance != NULL) {
-        TObjChara *form = TBoss4DarkFalz__type1_instance;
+    if (TBoss4DarkFalz::type1_instance != NULL) {
+        TObjChara *form = TBoss4DarkFalz::type1_instance;
         TObjDFDemo1::create(this, &form->position, form->rotation_y);
     } else {
         TObjDFDemo1::create(this, &dark_falz_demo1_position, 0);
     }
     set_story_flag_or_send_quest_flag(0x33U);
-    if (TBoss4DarkFalz__type1_instance != NULL) {
-        TBoss4DarkFalz__type1_instance->queue_destruction();
-        TBoss4DarkFalz__type1_instance = NULL;
+    if (TBoss4DarkFalz::type1_instance != NULL) {
+        TBoss4DarkFalz::type1_instance->queue_destruction();
+        TBoss4DarkFalz::type1_instance = NULL;
     }
     state_timer = 0x12C;
 }
@@ -347,7 +347,7 @@ void TBoss4DarkFalz::spawn_ancient_trap() {
 }
 
 void TBoss4DarkFalz::request_action_7() {
-    if ((TBoss4DarkFalz__type1_instance == NULL) || (TBoss4DarkFalz__type1_instance->get_state() == 3) || (TBoss4DarkFalz__type1_instance->get_state() == 4) || (sub_8004B07C() != 0)) {
+    if ((TBoss4DarkFalz::type1_instance == NULL) || (TBoss4DarkFalz::type1_instance->get_state() == 3) || (TBoss4DarkFalz::type1_instance->get_state() == 4) || (sub_8004B07C() != 0)) {
         send_action_packet(7);
     }
 }
@@ -359,7 +359,7 @@ void TBoss4DarkFalz::spawn_type1() {
     set_data.entry.room = 1;
     set_data.entry.set_index = set_index + 0x200;
     set_data.entry.entity_id = entity_id + 0x200;
-    TBoss4DarkFalz__type1_instance = TBoss4Type1::create(&set_data);
+    TBoss4DarkFalz::type1_instance = TBoss4Type1::create(&set_data);
     state_timer = 0;
     end_player_camera_pans();
     refresh_player_equipment();

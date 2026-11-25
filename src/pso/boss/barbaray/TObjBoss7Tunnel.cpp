@@ -47,8 +47,8 @@ const s32 boss7_tunnel_kind2_model_indices[3] = {7, 8, 9};
 const s32 boss7_tunnel_kind3_model_indices[3] = {10, 11, 12};
 const s32 boss7_tunnel_kind4_model_indices[4] = {13, 14, 15, 16};
 // where TObjBoss2Tunnel__sub_802F2A2C places its two TObjBoss7RaftSplash
-const Vec TObjBoss2Tunnel__raft_splash_offset_table[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
-const char *TObjBoss7TunnelCol__name = "TObjBoss7TunnelCol";
+const Vec TObjBoss2Tunnel::raft_splash_offset_table[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
+const char *TObjBoss7TunnelCol::name = "TObjBoss7TunnelCol";
 const CollisionBody TObjBoss7TunnelCol__col_desc = {{0.0f, 0.0f, 0.0f}, 100.0f, 9.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 Boss2TunnelEffectEntry boss2_tunnel_effect_name_table[5] = {
     {3, boss7_tunnel_kind0_model_indices},
@@ -121,7 +121,7 @@ TObjBoss7Tunnel::TObjBoss7Tunnel(TObject *parent) : TObject(parent) {
     kind4_position.z = 0.0f;
     dust_timer = 30;
     for (i = 0; i < 2; i++) {
-        new TObjBoss7RaftSplash((TObject *)this, (const Vec *)&boss7_tunnel_raft_splash_positions[i], &TObjBoss2Tunnel__raft_splash_offset_table[i], &scroll_speed);
+        new TObjBoss7RaftSplash((TObject *)this, (const Vec *)&boss7_tunnel_raft_splash_positions[i], &TObjBoss2Tunnel::raft_splash_offset_table[i], &scroll_speed);
     }
     new TObjBoss7TunnelNode(render_nodes, 0);
     new TObjBoss7TunnelNode(render_nodes, 1);
@@ -494,7 +494,7 @@ void TObjBoss7TunnelSegment::update_collision() {
 }
 
 TObjBoss7TunnelCol::TObjBoss7TunnelCol(TObject *parent) : TObjCollidable(parent) {
-    m_name = TObjBoss7TunnelCol__name;
+    m_name = TObjBoss7TunnelCol::name;
     copy_collision_body(&collision_body, &TObjBoss7TunnelCol__col_desc);
     position.x = 85.0f;
     position.y = 0.0f;

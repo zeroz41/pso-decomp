@@ -12,7 +12,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/ambient/PointLight.h"
 
-#include "pso/object/TBoss7PointTrail.h"
+#include "pso/boss/barbaray/TBoss7DeRolLeCLaserTrail.h"
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
 
 const char *TBoss7LaserLight_name = "TBoss7LaserLight";
@@ -106,7 +106,7 @@ void TBoss7LaserLight::run_task() {
 
 void TBoss7LaserLight::render() {}
 
-TBoss7PointTrail::TBoss7PointTrail(TObject *parent, s32 limit, s32 effect_id) : TObject(parent) {
+TBoss7DeRolLeCLaserTrail::TBoss7DeRolLeCLaserTrail(TObject *parent, s32 limit, s32 effect_id) : TObject(parent) {
     s32 i;
     for (i = 0; i < NUM_POINTS; i++) {
         m_points[i].x = 0.0f;
@@ -121,14 +121,14 @@ TBoss7PointTrail::TBoss7PointTrail(TObject *parent, s32 limit, s32 effect_id) : 
     m_state = 0;
 }
 
-TBoss7PointTrail::~TBoss7PointTrail() {
+TBoss7DeRolLeCLaserTrail::~TBoss7DeRolLeCLaserTrail() {
     if (m_particle != NULL) {
         m_particle->queue_destruction();
         m_particle = NULL;
     }
 }
 
-void TBoss7PointTrail::push_ring_point(const Vec *pos) {
+void TBoss7DeRolLeCLaserTrail::push_ring_point(const Vec *pos) {
     VecCopy(&m_points[m_head], pos);
     m_points[m_head].y += 5.0f;
     m_head++;
@@ -137,7 +137,7 @@ void TBoss7PointTrail::push_ring_point(const Vec *pos) {
     }
 }
 
-void TBoss7PointTrail::run_task() {
+void TBoss7DeRolLeCLaserTrail::run_task() {
     if (m_particle == NULL) {
         m_particle = (TParticleCtrl *)spawn_continuous_particle_effect_with_flags(m_points, m_effect_id, 0x40);
         if (m_particle != NULL) {

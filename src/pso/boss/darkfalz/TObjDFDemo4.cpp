@@ -27,7 +27,7 @@
 // Dark Falz's afterimage (zanzo) models.
 extern s32 boss4_zanzo_bml_index_table[2];
 
-const char *TObjDFDemo4__name = "TObjDFDemo4";
+const char *TObjDFDemo4::name = "TObjDFDemo4";
 // The motions of the afterimage and body models.
 s32 df_demo4_zanzo_motion_ids[2] = {0x12, 0x11};
 s32 df_demo4_body_motion_ids[3] = {0x20, 0x21, 0x22};
@@ -55,7 +55,7 @@ inline const CameraAngles *intro_camera_angles() {
 TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(parent) {
     BmlResource *res;
     s32 i;
-    m_name = TObjDFDemo4__name;
+    m_name = TObjDFDemo4::name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
     res = TBoss4Uro::get_instance_count();

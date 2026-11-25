@@ -29,6 +29,7 @@ struct TBoss7LaserPtcl : public TObject {
     void calc_position(u8 *origin, u8 *direction);
     void destroy_particles();
     virtual void render();
+    static const char *class_name;
 };
 
 void calc_laser_ray_hit_point(u8 *laser, u8 *out);

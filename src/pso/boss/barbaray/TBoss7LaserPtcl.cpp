@@ -40,7 +40,7 @@ struct Boss7LaserAngles { s32 x, y, z; };
 
 // Defined without a shared declaration in their owners' headers.
 
-const char *TBoss7LaserPtcl__class_name = "TBoss7LaserPtcl";
+const char *TBoss7LaserPtcl::class_name = "TBoss7LaserPtcl";
 
 #pragma defer_codegen on
 
@@ -66,7 +66,7 @@ void TBoss7LaserImpact::run_task() {
 void TBoss7LaserImpact::render() {  }
 
 TBoss7LaserPtcl::TBoss7LaserPtcl(TObject *parent, TBoss7LaserPtclVector *origin, TBoss7LaserPtclVector *target) : TObject(parent) {
-    m_name = TBoss7LaserPtcl__class_name;
+    m_name = TBoss7LaserPtcl::class_name;
     travel_distance = (f32) 8e+01f;
     yaw = 0;
     state = 0;
