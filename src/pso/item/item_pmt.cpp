@@ -24,7 +24,7 @@
 
 void *item_pmt;
 
-void *item_pmt_tbl;
+ItemPmt *item_pmt_tbl;
 TItemDrop *item_mgr;
 
 const char *item_pmt_filename_descriptor = "ItemPMT.prs";
@@ -32,17 +32,13 @@ const char *item_pmt_filename_descriptor = "ItemPMT.prs";
 // Channel count per weapon star class, rolled by roll_weapon_special_for_stars.
 const s32 weapon_special_roll_channel_table[4] = {8, 10, 11, 11};
 
-struct Tbl_8011C914 { u8 pad[0x2c]; u8 *p; };
+// play_shield_sound_cue's view of the ItemPmt root: armors[1].count and
+// shield_sounds through ItemPmt give the same code with r5/r6 swapped.
+typedef struct Sub_8011C59C { u8 pad[8]; s32 count; } Sub_8011C59C;
 
-struct Rule_8011CB18 { u8 type; u8 slots; u8 idx; u8 mode; };
+typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
 
-struct RuleTbl_8011CB18 { s32 count; Rule_8011CB18 *rules; };
-
-struct Entry_8011CB18 { u8 data[0x14]; };
-
-struct Entries_8011CB18 { Entry_8011CB18 a[0xAA]; Entry_8011CB18 b[1]; };
-
-struct Pmt_8011CB18 { u8 pad[0x1C]; Entry_8011CB18 *entries; u8 pad2[0x58 - 0x20]; RuleTbl_8011CB18 *rules; };
+typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
 
 struct Base_8011CB18 { u8 pad[0x18]; };
 
@@ -60,68 +56,29 @@ struct Item_8011CB18 : Base_8011CB18 {
     virtual void m40(); virtual u8 m41();
 };
 
-struct Entry_8011C030 { u8 id[3]; u8 pad; };
-
-struct List_8011C030 { s32 count; Entry_8011C030 *entries; };
-
-struct Tbl_8011C030 { u8 pad[0x54]; List_8011C030 *list; };
-
-struct Pair_8011C8BC { s16 a; s16 b; };
-
-struct Tbl_8011C8BC { u8 pad[0x30]; Pair_8011C8BC *pairs; };
-
-struct Cue_8011C7C8 { s32 key; s32 pitch; };
-
-struct WeaponSounds_8011C7C8 { Cue_8011C7C8 owner[2]; Cue_8011C7C8 target[2]; };
-
-struct SoundRemap_8011C620 { s32 key; s32 *by_target_type; s32 *by_class; };
-
-struct SoundRemapTable_8011C620 { s32 count; SoundRemap_8011C620 *entries; };
-
-struct Pmt_8011C7C8 { u8 pad[0x34]; WeaponSounds_8011C7C8 *weapons; u8 pad38[0x48 - 0x38]; SoundRemapTable_8011C620 *remaps; };
-
-typedef struct Pmt_8011CA10 { u8 pad[0x20]; f32 *t20; f32 *t24; } Pmt_8011CA10;
-
-struct RuleTbl_8011C0B8 { s32 count; ItemCombination *rules; };
-
-struct Pmt_8011C0B8 { u8 pad[0x44]; RuleTbl_8011C0B8 *tbl; };
-
-typedef struct Sub_8011C59C { u8 pad[8]; s32 count; } Sub_8011C59C;
-
-typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
-
-typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
-
-typedef struct PmtEnt_8011C234 { s32 id; u8 pad[0x10]; } PmtEnt_8011C234;
-
-typedef struct PmtRow_8011C234 { s32 count; PmtEnt_8011C234 *ents; } PmtRow_8011C234;
-
-typedef struct Pmt_8011C234 { u8 pad[0xC]; PmtRow_8011C234 *rows; } Pmt_8011C234;
-
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 s32 get_item_star_count(s32 id);
-Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
+WeaponRangeRecord *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
 void play_weapon_owner_sounds(ItemSoundRequest *c);
 void play_weapon_hit_sound(ItemSoundRequest *c);
 }
 
 saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
-    void *temp_r5;
+    ItemChoiceListTable *table = item_pmt_tbl->random_items;
 
-    temp_r5 = *(void **)((s8 *)item_pmt_tbl + 0x50);
-    if ((s32) *(s32 *)((s8 *)temp_r5 + 0) > (s32) arg0) {
-        return *(s32 *)((s8 *)temp_r5 + 4) + ((arg0 * 8) & 0x7F8);
+    if (table->count > arg0) {
+        return (saddr)&table->lists[arg0];
     }
     return 0;
 }
 s32 is_unsealable_item(u8 *id) {
-    List_8011C030 *l = ((Tbl_8011C030 *)item_pmt_tbl)->list;
+    ItemPmtCodeList *l = item_pmt_tbl->unsealable_items;
     s32 n = l->count;
-    Entry_8011C030 *e = l->entries;
+    ItemPmtCode *e = l->codes;
     s32 i;
     for (i = 0; i != n; i++) {
-        if (id[0] == e->id[0] && id[1] == e->id[1] && id[2] == e->id[2]) {
+        if (id[0] == e->code[0] && id[1] == e->code[1] && id[2] == e->code[2]) {
             return 1;
         }
         e++;
@@ -133,16 +90,16 @@ saddr TObjPlayer::get_shield_pmt_entry(u8 arg0) {
     if (arg0 == 0) {
         return 0;
     }
-    return *(s32 *)((s8 *)item_pmt_tbl + 0x4C) + (arg0 * 0x18);
+    return (saddr)&item_pmt_tbl->technique_boosts[arg0 * 0x18];
 }
 
 ItemCombination *find_item_combination_recipe(u8 *id, void *item) {
     ItemCombination *r;
     s32 n;
-    RuleTbl_8011C0B8 *t;
+    ItemCombinationList *t;
     if (id != NULL && item != NULL) {
-        t = ((Pmt_8011C0B8 *)item_pmt_tbl)->tbl;
-        r = t->rules;
+        t = item_pmt_tbl->combinations;
+        r = t->recipes;
         n = t->count;
         while (n != 0) {
             if ((id[0] == r->use_item[0] || r->use_item[0] == 0xFF) &&
@@ -161,7 +118,7 @@ ItemCombination *find_item_combination_recipe(u8 *id, void *item) {
 }
 
 u8 get_technique_learn_limit(u8 char_class, u8 technique) {
-    return (*(u8 (**)[12])((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x40))[technique][(s8)char_class];
+    return item_pmt_tbl->technique_limits[technique][(s8)char_class];
 }
 
 void TItemData::register_item_drop(TItemData *item) {
@@ -170,7 +127,6 @@ void TItemData::register_item_drop(TItemData *item) {
     }
 }
 
-#define PMT_8011C234 ((Pmt_8011C234 *)item_pmt_tbl)
 void find_tool_pmt_base_id(s32 tool_id, u8 *item) {
     s32 found;
     u8 i;
@@ -180,8 +136,8 @@ void find_tool_pmt_base_id(s32 tool_id, u8 *item) {
     }
     found = 0;
     for (i = 0; i != 0x18 && found != 1; i++) {
-        for (j = 0; j != PMT_8011C234->rows[i].count && found != 1; j++) {
-            PmtEnt_8011C234 *e = &PMT_8011C234->rows[i].ents[j];
+        for (j = 0; j != item_pmt_tbl->tools[i].count && found != 1; j++) {
+            ItemPmtTool *e = &item_pmt_tbl->tools[i].records[j];
             if (e->id == tool_id) {
                 item[0] = 3;
                 found = 1;
@@ -265,9 +221,9 @@ saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id) {
         break;
     }
     if (idx > 0) {
-        return *(s32 *)((s8 *)item_pmt_tbl + 0x38) + (idx * 6);
+        return (saddr)&item_pmt_tbl->stat_boosts[idx * 6];
     }
-    return *(s32 *)((s8 *)item_pmt_tbl + 0x38);
+    return (saddr)item_pmt_tbl->stat_boosts;
 }
 
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags) {
@@ -316,10 +272,10 @@ void play_weapon_hit_sound(ItemSoundRequest *c) {
     }
     if (group < 0xAA) {
         target = (u8 *)c->target;
-        key[0] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[0].key;
-        pitch[0] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[0].pitch;
-        key[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].key;
-        pitch[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].pitch;
+        key[0] = item_pmt_tbl->weapon_sounds[group].target[0].key;
+        pitch[0] = item_pmt_tbl->weapon_sounds[group].target[0].pitch;
+        key[1] = item_pmt_tbl->weapon_sounds[group].target[1].key;
+        pitch[1] = item_pmt_tbl->weapon_sounds[group].target[1].pitch;
         pos = (u8 *)((TObjCollidable *)target)->bodies + c->collider * 0x2C + 0x1C;
         type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
@@ -336,9 +292,9 @@ void play_weapon_hit_sound(ItemSoundRequest *c) {
             s32 k = key[i];
             s32 p = pitch[i];
             if (mode & 1) {
-                SoundRemapTable_8011C620 *remaps = ((Pmt_8011C7C8 *)item_pmt_tbl)->remaps;
+                ItemSoundRemapList *remaps = item_pmt_tbl->sound_remaps;
                 s32 n = remaps->count;
-                SoundRemap_8011C620 *e = remaps->entries;
+                ItemSoundRemap *e = remaps->entries;
                 for (; n != 0; n--, e++) {
                     if (k == e->key) {
                         if (mode & 2) {
@@ -373,10 +329,10 @@ void play_weapon_owner_sounds(ItemSoundRequest *c) {
     }
     if (group < 0xAA) {
         pos = &c->player->position;
-        key[0] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].owner[0].key;
-        pitch[0] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].owner[0].pitch;
-        key[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].owner[1].key;
-        pitch[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].owner[1].pitch;
+        key[0] = item_pmt_tbl->weapon_sounds[group].owner[0].key;
+        pitch[0] = item_pmt_tbl->weapon_sounds[group].owner[0].pitch;
+        key[1] = item_pmt_tbl->weapon_sounds[group].owner[1].key;
+        pitch[1] = item_pmt_tbl->weapon_sounds[group].owner[1].pitch;
         for (i = 0; i != 2; i++) {
             s32 k = key[i];
             s32 p = pitch[i];
@@ -393,8 +349,8 @@ void play_weapon_owner_sounds(ItemSoundRequest *c) {
 void get_weapon_special_type_amount(u8 x, s16 *a, s16 *b) {
     u8 idx = x & 0x3f;
     if (idx < 0x29 && a != 0 && b != 0) {
-        *a = ((Tbl_8011C8BC *)item_pmt_tbl)->pairs[idx].a;
-        *b = ((Tbl_8011C8BC *)item_pmt_tbl)->pairs[idx].b;
+        *a = item_pmt_tbl->weapon_specials[idx].type;
+        *b = item_pmt_tbl->weapon_specials[idx].amount;
         return;
     }
     *a = -1;
@@ -403,14 +359,14 @@ void get_weapon_special_type_amount(u8 x, s16 *a, s16 *b) {
 
 s32 get_item_star_count(s32 id) {
     if (id >= 0x94 && id < 0x2f7) {
-        return ((Tbl_8011C914 *)item_pmt_tbl)->p[id - 0x94];
+        return item_pmt_tbl->star_counts[id - 0x94];
     }
     return 0;
 }
 
 saddr get_mag_feed_result(s32 feed_table, s32 food_id) {
     if ((feed_table >= 0) && (feed_table < 8)) {
-        return *(s32 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x28)) + (feed_table * 4)) + (food_id * 8);
+        return (saddr)&item_pmt_tbl->mag_feed_tables[feed_table][food_id * 8];
     }
     return 0;
 }
@@ -445,23 +401,23 @@ f32 get_item_price_coefficient(u8 type, u8 sub) {
     switch (type) {
     case 0:
         if (sub < 0xAA) {
-            return ((Pmt_8011CA10 *)item_pmt_tbl)->t20[sub];
+            return item_pmt_tbl->weapon_price_coefficients[sub];
         }
         break;
     case 1:
         if (sub != 0 && sub < 4) {
-            return ((Pmt_8011CA10 *)item_pmt_tbl)->t24[sub - 1];
+            return item_pmt_tbl->price_coefficients[sub - 1];
         }
         break;
     case 2:
-        return ((Pmt_8011CA10 *)item_pmt_tbl)->t24[3];
+        return item_pmt_tbl->price_coefficients[3];
     }
     return 0.0f;
 }
 
 u8 get_weapon_class_motion_type(u8 group) {
     if (group < 0xAAU) {
-        return *(u8 *)((s8 *)(*(saddr *)((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x14) + group) + 0);
+        return item_pmt_tbl->weapon_motion_types[group];
     }
     return 0U;
 }
@@ -479,37 +435,31 @@ saddr TObjPlayer::get_item_by_slot_flag(u8 flags) {
 block_6:
     return (saddr)lbl_805D2B10;
 }
-Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode) {
+WeaponRangeRecord *get_weapon_range_record(Item_8011CB18 *item, s16 mode) {
     if (item != 0) {
         u8 id = ((TItem *)item)->get_item_group();
         if (id < 0xAA) {
             u8 slots = ((TItem *)item)->get_item_index();
-            Rule_8011CB18 *r = ((Pmt_8011CB18 *)item_pmt_tbl)->rules->rules;
+            WeaponRangeRule *r = item_pmt_tbl->weapon_range_rules->rules;
             s32 v = item->m33();
             s32 i;
-            for (i = 0; i != ((Pmt_8011CB18 *)item_pmt_tbl)->rules->count; i++) {
-                if (r->type == id && (r->slots == 0xFF || r->slots == slots) &&
+            for (i = 0; i != item_pmt_tbl->weapon_range_rules->count; i++) {
+                if (r->group == id && (r->index == 0xFF || r->index == slots) &&
                     (r->mode == 1 || (r->mode == 0 && mode == 2 && v == 1))) {
-                    return &((Entries_8011CB18 *)((Pmt_8011CB18 *)item_pmt_tbl)->entries)->b[r->idx];
+                    return &item_pmt_tbl->weapon_ranges->specials[r->record];
                 }
                 r++;
             }
-            return &((Pmt_8011CB18 *)item_pmt_tbl)->entries[id];
+            return &item_pmt_tbl->weapon_ranges->groups[id];
         }
-        return &((Pmt_8011CB18 *)item_pmt_tbl)->entries[item->m41()];
+        return &item_pmt_tbl->weapon_ranges->groups[item->m41()];
     }
-    return ((Pmt_8011CB18 *)item_pmt_tbl)->entries;
+    return item_pmt_tbl->weapon_ranges->groups;
 }
 
 
-struct PmtSub {
-    s32   count;
-    char* records;
-};
-
-
 void*TObjPlayer::get_pmt_record(int i) {
-    PmtSub* c = *(PmtSub**)((char*)item_pmt_tbl + 0x10);
+    ItemPmtList *c = item_pmt_tbl->mags;
     if (i < c->count) {
         return &c->records[i * 24];
     }
@@ -518,31 +468,31 @@ void*TObjPlayer::get_pmt_record(int i) {
 
 void*TObjPlayer::get_item_pmt_record(int type, int id) {
     if (type > 0) {
-        char* cat = *(char**)((char*)item_pmt_tbl + 0x00);
+        ItemPmtList *lists = item_pmt_tbl->weapons;
         if (type < 170) {
-            PmtSub* s = (PmtSub*)(cat + type * 8);
+            ItemPmtList *s = &lists[type];
             if (id < s->count) {
                 return &s->records[id * 40];
             }
         }
-        return *(void**)(cat + 1364);
+        return lists[170].records;
     }
     return NULL;
 }
 
 void*TObjPlayer::get_pmt_record_by_type_id(int type, int id) {
-    char* cat = *(char**)((char*)item_pmt_tbl + 0x0C);
+    ItemPmtToolList *lists = item_pmt_tbl->tools;
     if (type < 24) {
-        PmtSub* s = (PmtSub*)(cat + type * 8);
+        ItemPmtToolList *s = &lists[type];
         if (id < s->count) {
-            return &s->records[id * 20];
+            return &s->records[id];
         }
     }
-    return *(void**)(cat + 196);
+    return lists[24].records;
 }
 
 void*TObjPlayer::get_pmt_record_by_index(int i) {
-    PmtSub* c = *(PmtSub**)((char*)item_pmt_tbl + 0x08);
+    ItemPmtList *c = item_pmt_tbl->units;
     if (i < c->count) {
         return &c->records[i * 0x10];
     }
@@ -551,7 +501,7 @@ void*TObjPlayer::get_pmt_record_by_index(int i) {
 
 void* get_armor_pmt_record(int type, int id) {
     if (type > 0 && type < 3) {
-        PmtSub* s = (PmtSub*)(*(char**)((char*)item_pmt_tbl + 0x04) + (type - 1) * 8);
+        ItemPmtList *s = &item_pmt_tbl->armors[type - 1];
         if (id < s->count) {
             return &s->records[id * 28];
         }
@@ -562,7 +512,7 @@ void* get_armor_pmt_record(int type, int id) {
 
 void* get_photon_color_record(int i) {
     if (i < 32) {
-        return *(char**)((char*)item_pmt_tbl + 0x18) + i * 36;
+        return &item_pmt_tbl->photon_colors[i * 36];
     }
     return NULL;
 }
@@ -584,7 +534,7 @@ void load_item_pmt() {
     RelocatedFile *p = new RelocatedFile(item_pmt_filename_descriptor, 0x10000);
     item_pmt = p;
     if (p != NULL) {
-        item_pmt_tbl = (p)->get_root();
+        item_pmt_tbl = (ItemPmt *)p->get_root();
     }
 }
 
