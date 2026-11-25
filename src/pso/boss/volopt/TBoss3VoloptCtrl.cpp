@@ -3,7 +3,7 @@
 #include "pso/unk/text_8020BFE4.h"
 #include "pso/unk/text_8020C9C8.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/TUnk_80483B88.h"
+#include "pso/boss/TBoss3VoloptMusicTrigger.h"
 #include "pso/boss/volopt/TBoss3VoloptCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
@@ -60,7 +60,7 @@ void TBoss3VoloptCtrl::run_task() {
                     unhide_room_set_objects(get_current_floor(), 0, 1);
                 }
                 unhide_room_set_objects(get_current_floor(), 0, 3);
-                new TUnk_80483B88;
+                new TBoss3VoloptMusicTrigger;
                 phase = 2;
                 break;
             }
@@ -103,13 +103,13 @@ void TBoss3VoloptCtrl::dispatch_state(s32 state) {
     }
 }
 
-TUnk_80483B88::TUnk_80483B88() : TObject(tl_02) {
+TBoss3VoloptMusicTrigger::TBoss3VoloptMusicTrigger() : TObject(tl_02) {
     disallow_rendering();
 }
 
-TUnk_80483B88::~TUnk_80483B88() {}
+TBoss3VoloptMusicTrigger::~TBoss3VoloptMusicTrigger() {}
 
-void TUnk_80483B88::run_task() {
+void TBoss3VoloptMusicTrigger::run_task() {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL && player->position.z >= 4000.0f) {
         init_music_sequencer(3);

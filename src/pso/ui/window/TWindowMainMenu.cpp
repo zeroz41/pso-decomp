@@ -30,7 +30,7 @@ struct TWindowSubItem;
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
-#include "pso/unk/TUnk_804D1AD0.h"
+#include "pso/unk/TWindowStatusCategoryMenu.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80263A20.h"
@@ -75,7 +75,7 @@ s32 __ct__17TWindowSubComCardFP7TObjectPv(int, void *, int);
 s32 __ct__13TWindowSubLogFP7TObjectPv(int, void *, int);
 s32 __ct__18TWindowSubShortCutFP7TObjectPv(int, void *, int);
 s32 __ct__26TWindowSubInformationBoardFP7TObjectPv(int, void *, int);
-void *__ct__13TUnk_804E0B28FP7TObjectl(void *, void *, void *);
+void *__ct__32TAdMultiPlyChrSelectTransitionGCFP7TObjectl(void *, void *, void *);
 }
 
 
@@ -261,7 +261,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
     set_scale_f();
     switch (id) {
     case 25:
-        this->m_20 = (saddr)new TUnk_804D1AD0(this, this->client_index);
+        this->m_20 = (saddr)new TWindowStatusCategoryMenu(this, this->client_index);
         return;
     case 0:
     case 1:
@@ -362,7 +362,7 @@ void TWindowMainMenu1P::create_char_select_slot() {
     set_scale_f();
     o = TObject::operator new(0x50);
     if (o != NULL) {
-        o = __ct__13TUnk_804E0B28FP7TObjectl(o, this, reinterpret_cast<void *>(client_index));
+        o = __ct__32TAdMultiPlyChrSelectTransitionGCFP7TObjectl(o, this, reinterpret_cast<void *>(client_index));
     }
     *(void * *)&this->m_20 = o;
 }

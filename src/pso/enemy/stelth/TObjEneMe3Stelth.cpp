@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
-#include "pso/unk/TUnk_804EDAC0.h"
+#include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/item/TItem.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
@@ -83,7 +83,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/unk/TUnk_804EDAC0.h"
+#include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 
@@ -1594,7 +1594,7 @@ void TObjEneMe3Stelth::render() {
     } else {
         mode = 0;
     }
-    if (stealthed != 0 && is_split_screen() == 0 && TUnk_804EDAC0::dispatch_input_to_instance(this) != 0) {
+    if (stealthed != 0 && is_split_screen() == 0 && TDeferredRenderQueue::enqueue_in_instance(this) != 0) {
         return;
     }
     if (mode != 0) {

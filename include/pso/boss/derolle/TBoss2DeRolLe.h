@@ -7,7 +7,7 @@ struct NJS_OBJECT;
 struct BmlResource;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/derolle/TUnk_80036250.h"
+#include "pso/boss/derolle/TBoss2MotionProfile.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx.h>
@@ -19,9 +19,9 @@ class TBoss2Fin;
 class TObjChara;
 class TParticleCtrl;
 struct TBoss2LaserLight;
-class TUnk_80482EC0;
-class TUnk_80482D04;
-class TUnk_80482C58;
+class TBoss2FloorMine;
+class TBoss2TargetMine;
+class TBoss2DeRolLeLaserTrail;
 class AreaAttackHistory;
 
 // The boss's models and motions, loaded from bm_boss2_de_rol_le(_a).bml by load_resources.
@@ -177,15 +177,15 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     GC_Mtx *node_matrices;             // 12 matrices of nodes 0x4D-0x58, recorded while the body draws
     GC_Mtx *tentacle_matrices;         // one per tentacle root
     TBoss2Tentacle *tentacles[4];
-    TUnk_80482EC0 *mines[5];
-    TUnk_80482D04 *target_mines[3];  // launched at the target (init_launch)
+    TBoss2FloorMine *mines[5];
+    TBoss2TargetMine *target_mines[3];  // launched at the target (init_launch)
     TBoss2Fin *fin;
     s32 position_index;
     s32 next_position_index;           // where the running move ends; it becomes position_index
     s32 travel_step_zx;                // step of the moves that run motion_z, then motion_x (update_phase_is_done)
     s32 travel_step_xz;                // step of the moves that run motion_x, then motion_z
-    TUnk_80036250 motion_x;            // drives position.x (TBoss7DeRolLeC's motion_x)
-    TUnk_80036250 motion_z;            // drives position.z
+    TBoss2MotionProfile motion_x;            // drives position.x (TBoss7DeRolLeC's motion_x)
+    TBoss2MotionProfile motion_z;            // drives position.z
     f32 height_offset;                 // body height the render matrix is translated by (render)
     s32 body_max_hp;                   // derolle_params[0]->body_hp
     s32 body_hp;                       // drained by hits once the shell is broken; at 0 is_ready turns true
@@ -194,8 +194,8 @@ struct TBoss2DeRolLe : public TObjEneDD_ST {
     TBoss2LaserLight *laser_light;
     Vec laser_light_pos;               // the position the laser light follows
     AreaAttackHistory *attack_history;
-    TUnk_80482C58 *hit_trail;          // ring trail of the laser's hit point (limit 6, effect 0x124)
-    TUnk_80482C58 *hit_trail_long;     // the same with limit 15, effect 0x125
+    TBoss2DeRolLeLaserTrail *hit_trail;          // ring trail of the laser's hit point (limit 6, effect 0x124)
+    TBoss2DeRolLeLaserTrail *hit_trail_long;     // the same with limit 15, effect 0x125
     f32 pulse_phase;                   // 0..2, advanced by pulse_speed (advance_phase_wrap)
     f32 pulse_speed;
     s32 laser_shot_count;              // laser shots since the state that clears it; 4 ends the laser runs

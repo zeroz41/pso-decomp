@@ -148,7 +148,7 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     s16 sub;
     WindowSpritePart *icon;
     WindowSpritePart *background;
-    TUnk_804CF9C8 *label;
+    TWindowLayoutNumber *label;
     f32 y;
     f32 fx;
     f32 fy;
@@ -169,7 +169,7 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
         }
         icon = static_cast<WindowSpritePart *>(get_array_entry(1));
         background = static_cast<WindowSpritePart *>(get_array_entry(0));
-        label = static_cast<TUnk_804CF9C8 *>(get_array_entry(2));
+        label = static_cast<TWindowLayoutNumber *>(get_array_entry(2));
         icon->x = 12.0f + fx;
         icon->y = 10.0f + fy;
         background->x = 9.0f + fx;

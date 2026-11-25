@@ -1,6 +1,6 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"

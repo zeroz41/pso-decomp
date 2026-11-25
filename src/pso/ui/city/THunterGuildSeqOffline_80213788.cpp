@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TScreenFadeOut.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"

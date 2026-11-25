@@ -16,7 +16,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TUnk_804835D8.h"
+#include "pso/boss/TObjBoss2TunnelSlide.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/SoundEffect.h"
@@ -29,7 +29,7 @@
 #pragma defer_codegen on
 
 u32 TObjBoss2Tunnel__global_flags;
-// Two sibling nodes of common model 10 (clear_target_flags); TUnk_804835D8 slides them apart
+// Two sibling nodes of common model 10 (clear_target_flags); TObjBoss2TunnelSlide slides them apart
 // along x after 30 frames, a to +70 and b to -70.
 NJS_OBJECT *boss2_tunnel_slide_node_b;
 NJS_OBJECT *boss2_tunnel_slide_node_a;
@@ -91,16 +91,16 @@ static Vec boss2_tunnel_particle_pos_table[4] = {
     {-26.0f, -19.0f, 0.0f},
 };
 
-TUnk_804835D8::TUnk_804835D8(TObject *parent) : TObject(parent) {
+TObjBoss2TunnelSlide::TObjBoss2TunnelSlide(TObject *parent) : TObject(parent) {
     frame = 0;
     slide = 0.0f;
 }
 
-TUnk_804835D8::~TUnk_804835D8() {}
+TObjBoss2TunnelSlide::~TObjBoss2TunnelSlide() {}
 
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804835D8::run_task() {
+void TObjBoss2TunnelSlide::run_task() {
     f32 offset;
     frame = frame + 1;
     if (frame > 30) {
@@ -416,7 +416,7 @@ void TObjBoss2Tunnel::run_task() {
             brake_pos = segment_pos;
             brake_speed = scroll_speed;
             brake_frame = 0;
-            new TUnk_804835D8(this);
+            new TObjBoss2TunnelSlide(this);
         }
         dust_timer--;
         if (dust_timer <= 0) {

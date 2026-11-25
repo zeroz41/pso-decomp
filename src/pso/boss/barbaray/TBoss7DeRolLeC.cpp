@@ -44,7 +44,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/boss/TUnk_804F1C88.h"
+#include "pso/boss/TBoss7LaserImpact.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/barbaray/TBoss7TentacleNeedle.h"
@@ -399,7 +399,7 @@ Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7BodyBreakUp::load_static_resource, TBoss7BodyBreakUp::destroy_instance},
     {TBoss7Crawfish::load_static_resource, TBoss7Crawfish::destroy_instance},
     {TBoss7TentacleNeedle::load_static_resource, TBoss7TentacleNeedle::destroy_instance},
-    {TUnk_804F1C88::load_static_resource, TUnk_804F1C88::destroy_instance},
+    {TBoss7LaserImpact::load_static_resource, TBoss7LaserImpact::destroy_instance},
 };
 
 TBoss7DeRolLeCMovement boss7_derolle_c_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
@@ -1935,7 +1935,7 @@ void TBoss7DeRolLeC::handle_debug_pad_input(u32 event) {
 #pragma push
 #pragma fp_contract on
 // Moves the body from point position_slot of boss7_derolle_c_position_points to point next_position_slot (states 3, 5,
-// 6, 8, 9, 0xB, 0xC, 0xE, 0x28, 0x29 of dispatch_action): one TUnk_80036250 profile
+// 6, 8, 9, 0xB, 0xC, 0xE, 0x28, 0x29 of dispatch_action): one TBoss2MotionProfile profile
 // per axis, state_floats[2]/state_floats[5]/state_floats[3] the x/y/z direction signs, state_floats[0]/state_floats[4]/state_floats[1]
 // the start position.
 void TBoss7DeRolLeC::handle_position_travel_state(u32 event, s32 mode, s32 next_mode) {
@@ -2616,7 +2616,7 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
                     TObjBoss7Tunnel::start_sway_positive_x();
                 }
                 play_sound_at(0x3A107, &sound_origins[0]);
-                new TUnk_804F1C88(this, &part_points[0]);
+                new TBoss7LaserImpact(this, &part_points[0]);
                 state_flags |= 0x200;
                 for (i = 0; i < 4; i++) {
                     tentacles[i]->raise();

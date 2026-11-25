@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TUnk_804CF998.h"
+#include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B4A0.h"
 #include "pso/system/memory.h"
@@ -90,7 +90,7 @@ void *TWindowSubStatusDisp::destroy_free_buffers(void *window_sub_status_disp, s
         *(void ***)((s8 *)window_sub_status_disp + 4) = window_label_value_part_vtable;
         mem_free((void *)(*(saddr *)((s8 *)window_sub_status_disp + 0x20)));
         mem_free((void *)(*(saddr *)((s8 *)window_sub_status_disp + 0x1C)));
-        __dt__13TUnk_804CF998Fv(window_sub_status_disp, 0);
+        __dt__17TWindowLayoutRectFv(window_sub_status_disp, 0);
         if (arg1 > 0) {
             ::operator delete(window_sub_status_disp);
         }
@@ -98,7 +98,7 @@ void *TWindowSubStatusDisp::destroy_free_buffers(void *window_sub_status_disp, s
     return window_sub_status_disp;
 }
 
-void*TWindowSubComCard::init_fields(int rec, int client) { __ct__13TUnk_804CF998Fl(this, client); *(int*)((char*)this + 0x4) = (saddr)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->client_id = 0; *(int*)((char*)this + 0x18) = 0; return this; }
+void*TWindowSubComCard::init_fields(int rec, int client) { __ct__17TWindowLayoutRectFl(this, client); *(int*)((char*)this + 0x4) = (saddr)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->client_id = 0; *(int*)((char*)this + 0x18) = 0; return this; }
 
 int TWindowSubComCard::is_flag_4_set() { return *(u16*)((char*)this + 0x0) & 0x4; }
 

@@ -14,10 +14,10 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
-#include "pso/boss/TUnk_80484A94.h"
-#include "pso/boss/TUnk_80484AFC.h"
-#include "pso/boss/TUnk_80484840.h"
-#include "pso/boss/TUnk_80484870.h"
+#include "pso/boss/TBoss3VoloptCageShot.h"
+#include "pso/boss/TBoss3VoloptMissile.h"
+#include "pso/boss/TBoss3VoloptSweepLine.h"
+#include "pso/boss/TBoss3VoloptLine.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/math/AngleLookup.h"
@@ -712,7 +712,7 @@ void TBoss3VoloptP02::update_front_attack() {
                 emitter->queue_destruction();
                 emitter = NULL;
             }
-            new TUnk_80484A94(this, &v, targetId);
+            new TBoss3VoloptCageShot(this, &v, targetId);
             behavior_flags |= 0x100000;
             this->requested_action = 6;
             state = 3;
@@ -788,7 +788,7 @@ void TBoss3VoloptP02::update_front_attack() {
                 for (i = 0; i < 10; i++) {
                     s32 dir = i < 5 ? 1 : -1;
                     get_anim_node_position(chain_node_ids[i], &chain_positions[i]);
-                    new TUnk_80484840(&chain_positions[i], &cage->body_center, dir, timer);
+                    new TBoss3VoloptSweepLine(&chain_positions[i], &cage->body_center, dir, timer);
                 }
                 play_sound_effect(0x4003B20D, &position, -10, 0);
             } else {
@@ -879,7 +879,7 @@ void TBoss3VoloptP02::update_back_attack() {
         collect_targets_in_front();
         for (i = 0; i < (count = front_target_count); i++) {
             get_anim_node_position(volley_node_ids[i], &pos);
-            new TUnk_80484AFC(this, &pos, rotation_y + 0x8000, front_target_ids[i]);
+            new TBoss3VoloptMissile(this, &pos, rotation_y + 0x8000, front_target_ids[i]);
         }
         if (count > 0) {
             play_sound_effect(0x4003AD13, &position, 0, 0);
@@ -1406,7 +1406,7 @@ void TBoss3VoloptP02::rebuild_parts() {
         if (arc_lines[i] != 0) {
             arc_lines[i]->queue_destruction();
         }
-        arc_lines[i] = new TUnk_80484870(&line_origin, &arc_target_positions[i]);
+        arc_lines[i] = new TBoss3VoloptLine(&line_origin, &arc_target_positions[i]);
     }
     for (; i < 4; i++) {
         if (arc_lines[i] != 0) {
@@ -1679,7 +1679,7 @@ void TBoss3VoloptP02::spawn_sub_objects() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (ring_lines[i] == 0) {
-            ring_lines[i] = new TUnk_80484870(&line_origin, &ring_positions[i]);
+            ring_lines[i] = new TBoss3VoloptLine(&line_origin, &ring_positions[i]);
         }
     }
 }

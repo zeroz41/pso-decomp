@@ -100,7 +100,7 @@ TGameListRow::~TGameListRow() {
     }
 }
 
-TGameListRow::TGameListRow(u8 *rec, s32 client) : TUnk_804CF998(client) {
+TGameListRow::TGameListRow(u8 *rec, s32 client) : TWindowLayoutRect(client) {
     this->height = 18.0f;
     this->icon = 51;
     this->level = -1;

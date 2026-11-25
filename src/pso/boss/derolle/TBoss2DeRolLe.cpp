@@ -48,7 +48,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 
-#include "pso/boss/derolle/TUnk_80036250.h"
+#include "pso/boss/derolle/TBoss2MotionProfile.h"
 
 #include "pso/unk/text_803D8F74.h"
 
@@ -73,7 +73,7 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TBoss2PhotonPad.h"
 #include "pso/boss/derolle/TBoss2LaserLight.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/boss/TUnk_80482C58.h"
+#include "pso/boss/TBoss2DeRolLeLaserTrail.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TBoss2BreakUp.h"
@@ -87,9 +87,9 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TBoss2Mine.h"
 #include "pso/system/ControllerInput.h"
 
-#include "pso/boss/derolle/TUnk_80482D04.h"
+#include "pso/boss/derolle/TBoss2TargetMine.h"
 
-#include "pso/boss/derolle/TUnk_80482EC0.h"
+#include "pso/boss/derolle/TBoss2FloorMine.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
@@ -357,13 +357,13 @@ TBoss2DeRolLe *TBoss2DeRolLe::get_instance() {
     return (TBoss2DeRolLe *)TBoss2DeRolLe__instance;
 }
 
-TUnk_80036250::TUnk_80036250() {
+TBoss2MotionProfile::TBoss2MotionProfile() {
     init_float_block();
 }
 
-TUnk_80036250::~TUnk_80036250() {}
+TBoss2MotionProfile::~TBoss2MotionProfile() {}
 
-void TUnk_80036250::init_float_block() {
+void TBoss2MotionProfile::init_float_block() {
     state = 0;
     accel = 0.0f;
     decel = 0.0f;
@@ -374,7 +374,7 @@ void TUnk_80036250::init_float_block() {
     brake_point = 0.0f;
 }
 
-void TUnk_80036250::init_params(f32 max_speed, f32 distance, f32 accel) {
+void TBoss2MotionProfile::init_params(f32 max_speed, f32 distance, f32 accel) {
     state = 0;
     this->accel = accel;
     decel = accel;
@@ -385,7 +385,7 @@ void TUnk_80036250::init_params(f32 max_speed, f32 distance, f32 accel) {
     plan_profile();
 }
 
-void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 decel) {
+void TBoss2MotionProfile::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 decel) {
     state = 0;
     this->accel = accel;
     this->decel = decel;
@@ -398,7 +398,7 @@ void TUnk_80036250::set_move_params(f32 max_speed, f32 distance, f32 accel, f32 
 
 extern "C" {
 
-void TUnk_80036250::plan_profile() {
+void TBoss2MotionProfile::plan_profile() {
     f32 cur_speed = speed;
     f32 neg_decel = -decel;
     f32 speed_sq = cur_speed * cur_speed;
@@ -412,7 +412,7 @@ void TUnk_80036250::plan_profile() {
     brake_point = distance + (0.5f * (top * top)) / neg_decel;
 }
 
-s32 TUnk_80036250::advance() {
+s32 TBoss2MotionProfile::advance() {
     switch (state) {
     case 0:
         speed = speed + accel;
@@ -621,10 +621,10 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
         joints[j] = new TBoss2Joint(this, id++, set++, &joint_positions[j], derolle_segment_joint_node_offsets[j], (saddr)boss2_derolle_segment_color_targets[j]);
     }
     for (i = 0; i < 5; i++) {
-        mines[i] = new TUnk_80482EC0(&part_group, id++, set++);
+        mines[i] = new TBoss2FloorMine(&part_group, id++, set++);
     }
     for (i = 0; i < 3; i++) {
-        target_mines[i] = new TUnk_80482D04(&part_group, id++, set++);
+        target_mines[i] = new TBoss2TargetMine(&part_group, id++, set++);
     }
     fin = new TBoss2Fin(&part_group, &node_positions[1], &node_positions[10]);
     position_index = 0;
@@ -3387,12 +3387,12 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
                 if (col != NULL) {
                     VecCopy(hit, &col->contact->point);
                     if (hit_trail == NULL) {
-                        hit_trail = new TUnk_80482C58(this, 6, 0x124);
+                        hit_trail = new TBoss2DeRolLeLaserTrail(this, 6, 0x124);
                     } else {
                         hit_trail->push_ring_point(hit);
                     }
                     if (hit_trail_long == NULL) {
-                        hit_trail_long = new TUnk_80482C58(this, 0xF, 0x125);
+                        hit_trail_long = new TBoss2DeRolLeLaserTrail(this, 0xF, 0x125);
                     } else {
                         hit_trail_long->push_ring_point(hit);
                     }

@@ -2,7 +2,7 @@
 #include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/boss/derolle/TBoss2Joint.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/boss/TUnk_80482C58.h"
+#include "pso/boss/TBoss2DeRolLeLaserTrail.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
@@ -240,7 +240,7 @@ void TBoss2Joint::apply_movement_ailment(s32) {}
 void TBoss2Joint::apply_shock_status() {}
 void TBoss2Joint::clear_harmful_statuses() {}
 
-void TUnk_80482C58::run_task() {
+void TBoss2DeRolLeLaserTrail::run_task() {
     if (m_particle == NULL) {
         m_particle = spawn_continuous_particle_effect_with_flags(m_points, m_effect_id, 0x40);
         if (m_particle != NULL) {

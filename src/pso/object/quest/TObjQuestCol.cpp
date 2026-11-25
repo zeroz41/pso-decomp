@@ -2,7 +2,7 @@
 // One TU: the class names in .rodata/.sdata run ColBase..Col2 in this source order, while the text runs Col2..ColBase
 // and the vtables Col2..ColBase (reverse key-function order): built -inline off,deferred (configure.py).
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"

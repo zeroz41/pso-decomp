@@ -4,7 +4,7 @@
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/protocol/packet_classes.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"

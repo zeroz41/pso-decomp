@@ -418,25 +418,25 @@ pso/boss/volopt/TBoss3VoloptP02.cpp:
 	.sbss       start:0x805D4CD0 end:0x805D4D0C
 	.sdata2     start:0x805D87A0 end:0x805D8824
 
-pso/boss/TUnk_80484840.cpp:
+pso/boss/TBoss3VoloptSweepLine.cpp:
 	.text       start:0x80048260 end:0x80048560
 	.rodata     start:0x804366B8 end:0x804366D0
 	.data       start:0x80484828 end:0x80484858
 	.bss        start:0x804FF1B8 end:0x804FF1D0
 	.sdata2     start:0x805D8828 end:0x805D8838
 
-pso/boss/TUnk_80484870.cpp:
+pso/boss/TBoss3VoloptLine.cpp:
 	.text       start:0x80048560 end:0x80048674
 	.data       start:0x80484858 end:0x80484888
 	.bss        start:0x804FF1D0 end:0x804FF1E8
 
-pso/boss/TUnk_80484888.cpp:
+pso/boss/TBoss3VoloptParticleSpray.cpp:
 	.text       start:0x80048674 end:0x80048920
 	.rodata     start:0x804366D0 end:0x804366D8
 	.data       start:0x80484888 end:0x804848A0
 	.sdata2     start:0x805D8838 end:0x805D884C
 
-pso/boss/TUnk_804848A0.cpp:
+pso/boss/TBoss3VoloptFadeIn.cpp:
 	.text       start:0x80048920 end:0x80048C04
 	.data       start:0x804848A0 end:0x804848D0
 	.sbss       start:0x805D4D10 end:0x805D4D18
@@ -450,13 +450,13 @@ pso/boss/volopt/TObjVoloptCage.cpp:
 	.sbss       start:0x805D4D18 end:0x805D4D2C
 	.sdata2     start:0x805D8860 end:0x805D888C
 
-pso/boss/TUnk_80484A94.cpp:
+pso/boss/TBoss3VoloptCageShot.cpp:
 	.text       start:0x800495F8 end:0x80049A1C
 	.rodata     start:0x804366F8 end:0x8043670C
 	.data       start:0x80484A68 end:0x80484AD0
 	.sdata2     start:0x805D8890 end:0x805D8894
 
-pso/boss/TUnk_80484AFC.cpp:
+pso/boss/TBoss3VoloptMissile.cpp:
 	.text       start:0x80049A1C end:0x80049FD8
 	.rodata     start:0x80436710 end:0x80436720
 	.data       start:0x80484AD0 end:0x80484B38
@@ -1097,7 +1097,7 @@ pso/effect/TEF_PvrWave.cpp:
 	.data       start:0x8048E168 end:0x8048E180
 	.sdata      start:0x805D28F8 end:0x805D28FC
 
-pso/unk/TUnk_8048E1A4.cpp:
+pso/unk/TObjFreezeShell.cpp:
 	.text       start:0x80081B2C end:0x80082308
 	.rodata     start:0x80438E60 end:0x80438EA8
 	.data       start:0x8048E180 end:0x8048E2E0
@@ -4599,7 +4599,7 @@ pso/ui/frontend/TAdDialingGC_801A4C90.cpp:
 	.text       start:0x801A4C90 end:0x801A4D30
 	.data       start:0x804C2298 end:0x804C22B0
 
-pso/unk/TUnk_804C2298.cpp:
+pso/unk/TAdDialingSelectGC.cpp:
 	.text       start:0x801A4D30 end:0x801A529C
 	.rodata     start:0x80446940 end:0x80446998
 	.data       start:0x804C22B0 end:0x804C22D8
@@ -6072,7 +6072,7 @@ pso/ui/chat/TWindowChatSymbol.cpp:
 	.sdata      start:0x805D38A8 end:0x805D38B0
 	.sdata2     start:0x805DCB78 end:0x805DCBA0
 
-pso/ui/chat/TUnk_804CE7D0.cpp:
+pso/ui/chat/TSymbolChatMenu.cpp:
 	.text       start:0x80248774 end:0x80248940
 	.rodata     start:0x8044EAC0 end:0x8044EAD8
 	.data       start:0x804CE7D0 end:0x804CE7E8
@@ -6298,7 +6298,7 @@ pso/ui/window/TWindowSubStatusDisp_80257BC0.cpp:
 pso/ui/window/WindowSubStatusDispSdata2.cpp:
 	.sdata2     start:0x805DCEF8 end:0x805DCF30
 
-pso/unk/TUnk_804CF998.cpp:
+pso/unk/TWindowLayoutRect.cpp:
 	.text       start:0x80258050 end:0x80258164
 	.data       start:0x804CF998 end:0x804CF9B0
 
@@ -6833,7 +6833,7 @@ pso/ui/chat/TWindowSubShortMail.cpp:
 	.sdata      start:0x805D3A98 end:0x805D3AA0
 	.sdata2     start:0x805DD6C8 end:0x805DD6D8
 
-pso/unk/TUnk_804D1AD0.cpp:
+pso/unk/TWindowStatusCategoryMenu.cpp:
 	.text       start:0x8027FB00 end:0x8027FD88
 	.data       start:0x804D1AD0 end:0x804D1AE8
 	.sdata2     start:0x805DD6D8 end:0x805DD6E0
@@ -8815,7 +8815,7 @@ pso/ui/frontend/TAdEnterPasswordGC.cpp:
 	.sbss       start:0x805D6CB0 end:0x805D6CB8
 	.sdata2     start:0x805DF780 end:0x805DF788
 
-pso/unk/TUnk_804EDAC0.cpp:
+pso/unk/TDeferredRenderQueue.cpp:
 	.text       start:0x8032BBF0 end:0x8032BE50
 	.data       start:0x804EDAC0 end:0x804EDAD8
 	.sbss       start:0x805D6CB8 end:0x805D6CBC
@@ -8922,7 +8922,7 @@ pso/ui/frontend/TAdTrialAgreementGC.cpp:
 	.data       start:0x804EE420 end:0x804EE458
 	.sdata      start:0x805D4248 end:0x805D4250
 
-pso/ui/TUnk_804EE458.cpp:
+pso/ui/TTitleMenu.cpp:
 	.text       start:0x80335918 end:0x80335E7C
 	.rodata     start:0x80477660 end:0x80477668
 	.data       start:0x804EE458 end:0x804EE470

@@ -1,0 +1,32 @@
+#ifndef PSO_UNK_TOBJFREEZESHELL_H
+#define PSO_UNK_TOBJFREEZESHELL_H
+#include "types.h"
+#include "pso/object/base/TObjChara.h"
+
+class TObjFreezeShell : public TObjChara {
+public:
+    TObjFreezeShell(u8 *arg1, u8 *arg2);
+    virtual ~TObjFreezeShell();
+    void freeze_shell_grow();
+    void freeze_shell_hold();
+    void update_freeze_shell_timer();
+    virtual void apply_knockback_from_attacker(u8 *, f32);
+    virtual f32 receive_weapon_special_attack(void *, void *);
+    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
+    virtual f32 receive_physical_attack(void *, f32);
+    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
+    virtual s32 select_melee_contact_body(void *, f32);
+    virtual void render();
+    virtual void run_task();
+    u8 unk_334[0x4];
+    f32 m_338;
+    u8 unk_33C[0x4];
+    f32 color;
+    u8 unk_344[0xC];
+    void * emitter;
+    s32 m_354;
+    u8 unk_358[0x10];
+};
+LAYOUT_ASSERT(TObjFreezeShell_size, sizeof(TObjFreezeShell) == 0x368);
+
+#endif

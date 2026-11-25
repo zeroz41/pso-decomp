@@ -1,6 +1,6 @@
 #include <string.h>
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/TWindowMessageQuest.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowBase.h"

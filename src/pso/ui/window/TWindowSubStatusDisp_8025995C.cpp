@@ -1,7 +1,7 @@
 #include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
-#include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025995C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
@@ -18,7 +18,7 @@ s32 draw_textured_quad_at_depth(TexturedQuad *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
 
 void draw_right_aligned_number(void *arg0) {
-    TUnk_804CF9C8 *digit = static_cast<TUnk_804CF9C8 *>(arg0);
+    TWindowLayoutNumber *digit = static_cast<TWindowLayoutNumber *>(arg0);
     s32 n;
     n = digit->value;
     if (digit->flags & 4) {
@@ -46,7 +46,7 @@ void draw_right_aligned_number(void *arg0) {
 }
 
 #pragma fp_contract on
-void TUnk_804CF9C8::render(WindowDrawContext *context) {
+void TWindowLayoutNumber::render(WindowDrawContext *context) {
   f32 t;
   TexturedQuad pos;
   f32 x;
@@ -129,11 +129,11 @@ void TUnk_804CF9C8::render(WindowDrawContext *context) {
   }
 }
 
-void TUnk_804CF9C8::update() {}
+void TWindowLayoutNumber::update() {}
 
-TUnk_804CF9C8::~TUnk_804CF9C8() {}
+TWindowLayoutNumber::~TWindowLayoutNumber() {}
 
-TUnk_804CF9C8::TUnk_804CF9C8(u8 *rec, s32 m_2) : TUnk_804CF998(m_2) {
+TWindowLayoutNumber::TWindowLayoutNumber(u8 *rec, s32 m_2) : TWindowLayoutRect(m_2) {
     this->x = *(f32 *)(rec + 4);
     this->y = *(f32 *)(rec + 8);
     this->depth = *(f32 *)(rec + 0xC);

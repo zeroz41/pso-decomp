@@ -1,7 +1,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -155,12 +155,12 @@ void TWindowInputNumber::align_digits() {
     pos = scale * (target_size[0] - 8.0f) + scale * (f32)(digitCount * 12);
     pos -= 6.0f;
     for (; i < digitCount; i++) {
-        TUnk_804CF9C8 *d = static_cast<TUnk_804CF9C8 *>(get_array_entry(i));
+        TWindowLayoutNumber *d = static_cast<TWindowLayoutNumber *>(get_array_entry(i));
         d->x = scale * d->width + pos;
         pos -= step;
     }
     for (; i < 6; i++) {
-        TUnk_804CF9C8 *d = static_cast<TUnk_804CF9C8 *>(get_array_entry(i));
+        TWindowLayoutNumber *d = static_cast<TWindowLayoutNumber *>(get_array_entry(i));
         d->flags |= 2;
     }
 }
@@ -198,7 +198,7 @@ void TWindowInputNumber::calc_digit_count() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TUnk_804CF9C8 *digit, int confirmed) {
+void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TWindowLayoutNumber *digit, int confirmed) {
     ArrowUVs uvs = arrow_uvs;
     UV_802563A0 *uv;
     TexturedQuad q;
@@ -257,7 +257,7 @@ void TWindowInputNumber::render() {
     WindowDrawContext *context = setup_window_draw_context(&scaleX);
     draw_window_frame(context);
     draw_visible_window_entries(this, &entry_list, context);
-    draw_arrows(context, static_cast<TUnk_804CF9C8 *>(get_array_entry(selectedDigit)), is_confirmed());
+    draw_arrows(context, static_cast<TWindowLayoutNumber *>(get_array_entry(selectedDigit)), is_confirmed());
     void *heading = reinterpret_cast<void *>(unknown70);
     if (heading != NULL) {
         static_cast<TWindowSubStatusDisp *>(heading)->forward_render(context);

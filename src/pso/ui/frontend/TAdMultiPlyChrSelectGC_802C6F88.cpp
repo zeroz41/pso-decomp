@@ -3,7 +3,7 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
-#include "pso/ui/TUnk_804E0B28.h"
+#include "pso/ui/TAdMultiPlyChrSelectTransitionGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -28,7 +28,7 @@ int TAdMultiPlyChrSelectGC__sub_802C6FA8(void) {  return lbl_805D6668; }
 
 }
 
-TUnk_804E0B28 *lbl_805D67E8;
+TAdMultiPlyChrSelectTransitionGC *lbl_805D67E8;
 
 extern "C" void update_transition_anim_if_active(void *, void *) {
     if (lbl_805D67E8 != NULL) {
@@ -36,7 +36,7 @@ extern "C" void update_transition_anim_if_active(void *, void *) {
     }
 }
 
-void TUnk_804E0B28::update_transition_anim() {
+void TAdMultiPlyChrSelectTransitionGC::update_transition_anim() {
     f32 var_f31;
     f32 var_f4;
     s32 timer;
@@ -55,12 +55,12 @@ void TUnk_804E0B28::update_transition_anim() {
     TLobby__sub_8001E998(this->position1X, this->position1Y, -1.5f, var_f31);
 }
 
-void TUnk_804E0B28::render() {  }
+void TAdMultiPlyChrSelectTransitionGC::render() {  }
 
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-void TUnk_804E0B28::run_task() {
+void TAdMultiPlyChrSelectTransitionGC::run_task() {
     this->position0X = 0.1f * (this->target0X - this->position0X) + this->position0X;
     this->position0Y = 0.1f * (this->target0Y - this->position0Y) + this->position0Y;
     this->position1X = 0.1f * (this->target1X - this->position1X) + this->position1X;
@@ -86,7 +86,7 @@ void TUnk_804E0B28::run_task() {
 }
 #pragma pop
 
-TUnk_804E0B28::~TUnk_804E0B28() {
+TAdMultiPlyChrSelectTransitionGC::~TAdMultiPlyChrSelectTransitionGC() {
     if (this->callback != NULL) {
         this->callback->close();
         this->callback = NULL;
@@ -98,7 +98,7 @@ TUnk_804E0B28::~TUnk_804E0B28() {
     lbl_805D67E8 = NULL;
 }
 
-TUnk_804E0B28::TUnk_804E0B28(TObject *parent, s32 client) : TObject(parent) {
+TAdMultiPlyChrSelectTransitionGC::TAdMultiPlyChrSelectTransitionGC(TObject *parent, s32 client) : TObject(parent) {
     this->parent = parent;
     this->position0X = 650.0f;
     this->position0Y = 425.0f;

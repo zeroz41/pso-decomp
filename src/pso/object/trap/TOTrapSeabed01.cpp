@@ -23,7 +23,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/unk/TUnk_804EDAC0.h"
+#include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D853C.h"
@@ -207,7 +207,7 @@ void TOTrapSeabed01::vfunc_84() {}
 
 void TOTrapSeabed01::render() {
     if (TMainTask::get_render_pass() != 1 &&
-        (projected == 0 || is_split_screen() != 0 || TUnk_804EDAC0::dispatch_input_to_instance(this) == 0) &&
+        (projected == 0 || is_split_screen() != 0 || TDeferredRenderQueue::enqueue_in_instance(this) == 0) &&
         m_340 == 1) {
         switch (mode) {
         case 0:

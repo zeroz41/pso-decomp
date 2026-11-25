@@ -336,12 +336,12 @@ pso/boss/barbaray/TObjBoss7RaftSplash.cpp
 pso/boss/goldragon/TObjBoss8DemoRoom.cpp
 pso/boss/goldragon/TObjBoss8Piller.cpp
 pso/boss/goldragon/TObjBoss8PillerCtrl.cpp
-pso/boss/TUnk_80484840.cpp
-pso/boss/TUnk_80484870.cpp
-pso/boss/TUnk_80484888.cpp
-pso/boss/TUnk_804848A0.cpp
-pso/boss/TUnk_80484A94.cpp
-pso/boss/TUnk_80484AFC.cpp
+pso/boss/TBoss3VoloptSweepLine.cpp
+pso/boss/TBoss3VoloptLine.cpp
+pso/boss/TBoss3VoloptParticleSpray.cpp
+pso/boss/TBoss3VoloptFadeIn.cpp
+pso/boss/TBoss3VoloptCageShot.cpp
+pso/boss/TBoss3VoloptMissile.cpp
 pso/camera/CreationCamera.cpp
 pso/effect/TEF_PvrWave.cpp
 pso/effect/TEffClitical.cpp
@@ -445,7 +445,7 @@ pso/enemy/TUnk_804909C4.cpp
 pso/quest/challenge/ChallengeForceLoadouts.cpp
 pso/quest/challenge/ChallengeHunterLoadouts.cpp
 pso/quest/challenge/ChallengeRangerLoadouts.cpp
-pso/unk/TUnk_804D1AD0.cpp
+pso/unk/TWindowStatusCategoryMenu.cpp
 pso/weapon/TItemWeaponSRankJCutter.cpp
 pso/weapon/TItemWeaponSRankSlicer.cpp
 pso/item/TItemFollowStarLight.cpp
@@ -742,7 +742,7 @@ pso/unk/TLobby_8007340C.cpp
 pso/unk/TLobby_80073DAC.cpp
 pso/unk/TLobby_8007B858.cpp
 pso/unk/TLobby_8007C550.cpp
-pso/unk/TUnk_8048E1A4.cpp
+pso/unk/TObjFreezeShell.cpp
 pso/unk/TLobby_800F5CF0.cpp
 pso/unk/TLobby_800F795C.cpp
 pso/unk/TLobby_800F8AA8.cpp
@@ -1118,7 +1118,7 @@ pso/ui/window/TWindowCallBack.cpp
 pso/ui/window/TWindowChallengeResult.cpp
 pso/ui/chat/TWindowChat.cpp
 pso/ui/chat/TWindowChatSymbol.cpp
-pso/ui/chat/TUnk_804CE7D0.cpp
+pso/ui/chat/TSymbolChatMenu.cpp
 pso/ui/chat/TWindowChat_8025CB10.cpp
 pso/ui/window/TWindowCheckBox.cpp
 pso/ui/window/TWindowChoiceSetting.cpp
@@ -1297,7 +1297,7 @@ pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp
 pso/ui/window/TWindowSubStatusDisp_80256B94.cpp
 pso/ui/window/TWindowSubStatusDisp_8025737C.cpp
 pso/ui/window/TWindowSubStatusDisp_80257BC0.cpp
-pso/unk/TUnk_804CF998.cpp
+pso/unk/TWindowLayoutRect.cpp
 pso/ui/window/TWindowSubStatusDisp_80258164.cpp
 pso/ui/window/WindowSubStatusDispSdata2.cpp
 pso/ui/window/TWindowSubStatusDisp_8025995C.cpp
@@ -1743,7 +1743,7 @@ pso/ui/frontend/TAdSubPlyItemGC.cpp
 pso/ui/frontend/TAdSubPlyItemGC_802D6BEC.cpp
 pso/ui/frontend/TAdTitleGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC.cpp
-pso/ui/TUnk_804EE458.cpp
+pso/ui/TTitleMenu.cpp
 pso/ui/frontend/TAdTrialModemChkGC.cpp
 pso/ui/frontend/TAdTrialModemChkGC_8042E9FC.cpp
 pso/ui/frontend/TAdVIConfigGC.cpp
@@ -1815,7 +1815,7 @@ pso/unk/text_8017866C.cpp
 pso/unk/text_8018E258.cpp
 pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp
-pso/unk/TUnk_804C2298.cpp
+pso/unk/TAdDialingSelectGC.cpp
 pso/ui/frontend/TAdDialingGC_801A4C90.cpp
 pso/unk/text_801A5778.cpp
 pso/unk/text_801D34E0.cpp
@@ -2094,7 +2094,7 @@ pso/network/NetIpv4.c
 pso/network/NetDns.c
 pso/unk/TUnk_804D1160.cpp
 pso/render/MotionDrawState.cpp
-pso/unk/TUnk_804EDAC0.cpp
+pso/unk/TDeferredRenderQueue.cpp
 pso/map/area/AreaAncient01.cpp
 pso/map/area/AreaAncient02.cpp
 pso/map/area/AreaAncient03.cpp

@@ -9,7 +9,7 @@
 #include "pso/object/cave/TOHangceilingCave01KeyQuick.h"
 #include "pso/object/cave/TOHangceilingCave01Key.h"
 #include "pso/object/cave/TOHangceilingCave01Normal.h"
-#include "pso/unk/TUnk_804B2578.h"
+#include "pso/unk/TOHangceilingCaveBase.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -76,22 +76,22 @@ const char *TOHangceilingCave01KeyQuick__class_name = TOHangceilingCave01KeyQuic
 
 static const s32 hang_flag_8 = 8;
 
-void TUnk_804B2578::set_scale(f32 v) {
+void TOHangceilingCaveBase::set_scale(f32 v) {
     m_338 = v;
 }
 
-void TUnk_804B2578::apply_knockback_from_attacker(u8 *, f32) {
+void TOHangceilingCaveBase::apply_knockback_from_attacker(u8 *, f32) {
 }
 
-f32 TUnk_804B2578::receive_physical_attack(void *, f32) {
+f32 TOHangceilingCaveBase::receive_physical_attack(void *, f32) {
     return 0.0f;
 }
 
-s32 TUnk_804B2578::select_melee_contact_body(void *, f32) {
+s32 TOHangceilingCaveBase::select_melee_contact_body(void *, f32) {
     return 1;
 }
 
-TUnk_804B2578::TUnk_804B2578(TObject *parent, void *set_data) : TObjChara(parent) {
+TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, void *set_data) : TObjChara(parent) {
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((BmlResource *)TOHangceilingCave01__model_archive, turiten_singo_key_model_index);
     current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
@@ -102,7 +102,7 @@ TUnk_804B2578::TUnk_804B2578(TObject *parent, void *set_data) : TObjChara(parent
     bodies->flags |= 0x1080;
 }
 
-TUnk_804B2578::~TUnk_804B2578() {
+TOHangceilingCaveBase::~TOHangceilingCaveBase() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
@@ -169,7 +169,7 @@ void *TOHangceilingCave01::create(void *set_data) {
     return NULL;
 }
 
-s32 TUnk_804B2578::sub_801688C0() {
+s32 TOHangceilingCaveBase::sub_801688C0() {
     Vec view;
 
     if (xz_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 2500.0f) {
@@ -186,7 +186,7 @@ s32 TUnk_804B2578::sub_801688C0() {
     return 1;
 }
 
-void TUnk_804B2578::run_task() {
+void TOHangceilingCaveBase::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {
         vfunc_80();
         sub_80168398();
@@ -196,7 +196,7 @@ void TUnk_804B2578::run_task() {
     }
 }
 
-void TUnk_804B2578::render() {
+void TOHangceilingCaveBase::render() {
     f32 step;
     f32 level;
     s32 lit0;
@@ -253,25 +253,25 @@ void TUnk_804B2578::render() {
     }
 }
 
-void TUnk_804B2578::vfunc_79() {
+void TOHangceilingCaveBase::vfunc_79() {
 }
 
-void TUnk_804B2578::vfunc_80() {
+void TOHangceilingCaveBase::vfunc_80() {
 }
 
-f32 TUnk_804B2578::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
+f32 TOHangceilingCaveBase::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
     return 0.0f;
 }
 
-f32 TUnk_804B2578::receive_weapon_special_attack(void *, void *) {
+f32 TOHangceilingCaveBase::receive_weapon_special_attack(void *, void *) {
     return 0.0f;
 }
 
-int TUnk_804B2578::calc_distance_accuracy_penalty(void *, void *, void *, float) {
+int TOHangceilingCaveBase::calc_distance_accuracy_penalty(void *, void *, void *, float) {
     return 1;
 }
 
-void TUnk_804B2578::init_geometry() {
+void TOHangceilingCaveBase::init_geometry() {
     f32 size;
 
     switch_id = set_params[0];
@@ -286,7 +286,7 @@ void TUnk_804B2578::init_geometry() {
     m_354 = 1.0f - scale.y;
 }
 
-void TUnk_804B2578::sub_80168488() {
+void TOHangceilingCaveBase::sub_80168488() {
     s32 i = 0;
     TObjPlayer *player;
 
@@ -306,7 +306,7 @@ void TUnk_804B2578::sub_80168488() {
     } while (i != 12);
 }
 
-void TUnk_804B2578::sub_80168398() {
+void TOHangceilingCaveBase::sub_80168398() {
     s32 area = get_current_floor_area();
     s32 id = 0;
 
@@ -347,7 +347,7 @@ void TUnk_804B2578::sub_80168398() {
     }
 }
 
-void TUnk_804B2578::sub_801682E4(s32 new_mode) {
+void TOHangceilingCaveBase::sub_801682E4(s32 new_mode) {
     s16 saved;
 
     if (new_mode != mode) {
@@ -369,18 +369,18 @@ void TUnk_804B2578::sub_801682E4(s32 new_mode) {
     }
 }
 
-void TUnk_804B2578::reset_state() {
+void TOHangceilingCaveBase::reset_state() {
     memset(hit_players, 0, sizeof(hit_players));
     hit_player_count = 0;
 }
 
-void TUnk_804B2578::sub_80168280(uaddr player) {
+void TOHangceilingCaveBase::sub_80168280(uaddr player) {
     if (hit_player_count < 4) {
         hit_players[hit_player_count++] = player;
     }
 }
 
-s32 TUnk_804B2578::sub_80168244(uaddr player) {
+s32 TOHangceilingCaveBase::sub_80168244(uaddr player) {
     s32 i;
 
     for (i = 0; i != hit_player_count; i++) {
@@ -391,20 +391,20 @@ s32 TUnk_804B2578::sub_80168244(uaddr player) {
     return 0;
 }
 
-void TUnk_804B2578::advance_wrap_offset() {
+void TOHangceilingCaveBase::advance_wrap_offset() {
     frame = frame + play_speed;
     if (frame_count < frame) {
         frame = 0.0f;
     }
 }
 
-f32 TUnk_804B2578::vfunc_81(f32 power) {
+f32 TOHangceilingCaveBase::vfunc_81(f32 power) {
     Q_801681D0 q = hang_ceiling_cave_scale_params;
     return power * q.w[game_difficulty_selection];
 }
 
 TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, void *set_data)
-    : TUnk_804B2578(parent, set_data) {
+    : TOHangceilingCaveBase(parent, set_data) {
     m_name = TOHangceilingCave01Normal__class_name;
     init_geometry();
 }
@@ -458,7 +458,7 @@ void TOHangceilingCave01Normal::vfunc_79() {
 }
 
 TOHangceilingCave01Key::TOHangceilingCave01Key(TObject *parent, void *set_data)
-    : TUnk_804B2578(parent, set_data) {
+    : TOHangceilingCaveBase(parent, set_data) {
     m_name = TOHangceilingCave01Key__class_name;
     init_geometry();
 }
@@ -508,7 +508,7 @@ void TOHangceilingCave01Key::vfunc_79() {
 }
 
 TOHangceilingCave01KeyQuick::TOHangceilingCave01KeyQuick(TObject *parent, void *set_data)
-    : TUnk_804B2578(parent, set_data) {
+    : TOHangceilingCaveBase(parent, set_data) {
     m_name = TOHangceilingCave01KeyQuick__class_name;
     init_geometry();
     set_scale(100.0f + scale.z);

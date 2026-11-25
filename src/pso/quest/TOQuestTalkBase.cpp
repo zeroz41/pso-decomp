@@ -5,7 +5,7 @@
 #include "pso/camera/TCameraFollow.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/network/client_id.h"
 #include "pso/object/CursorAction.h"
 #include "pso/object/ambient/TObjFish.h"

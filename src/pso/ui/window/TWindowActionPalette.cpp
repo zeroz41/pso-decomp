@@ -4,7 +4,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -306,7 +306,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
         } else {
             help->color = 0xFF404040;
         }
-        update_palette_item_count_label(static_cast<TUnk_804CF9C8 *>(get_array_entry(lbl_805DCA18[idx])), help, mode, slot, client_index);
+        update_palette_item_count_label(static_cast<TWindowLayoutNumber *>(get_array_entry(lbl_805DCA18[idx])), help, mode, slot, client_index);
         cursor = &resources[idx];
         if (mode != get_action_palette_tag_mode(cursor) || get_action_palette_tag_slot(cursor) != slot) {
             set_action_palette_tag_mode(cursor, mode);
@@ -441,7 +441,7 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
 
 #pragma push
 #pragma fp_contract on
-void update_palette_item_count_label(TUnk_804CF9C8 *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id) {
+void update_palette_item_count_label(TWindowLayoutNumber *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id) {
     s32 v;
     TObjPlayer *p;
     if (group != 4) {

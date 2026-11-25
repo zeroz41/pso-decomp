@@ -5,14 +5,14 @@
 #include "pso/system/task/TObject.h"
 #include "pso/quest/QuestVm.h"
 
-class TUnk_804C8678;
+class TQuestManager;
 
 class TQuestThread : public TObject {
 public:
     QuestVmContext ctx;
     quest_suspend_reason state;
 
-    TQuestThread(TUnk_804C8678 *root, s32 label);
+    TQuestThread(TQuestManager *root, s32 label);
     virtual void render();
     virtual ~TQuestThread();
     virtual void run_task();
@@ -23,13 +23,13 @@ public:
     static void set_floor_handler(s32 floor, s32 label);
     static void clear_floor_handler(s32 floor);
     static void clear_all_floor_handlers();
-    static TUnk_804C8678 *create_by_mode();
+    static TQuestManager *create_by_mode();
     static void destroy_quest_obj();
     static void destroy_all_in(TObject *parent);
-    static void clear_buffer(TUnk_804C8678 *root);
+    static void clear_buffer(TQuestManager *root);
     static void clear_thread_state();
     static char *get_quest_name();
-    static s32 get_register(const TUnk_804C8678 *root, int index);
+    static s32 get_register(const TQuestManager *root, int index);
     static void queue_destruction(void *obj);
     static void set_status_flag_80(void *window);
 };
@@ -39,7 +39,7 @@ public:
     QuestVmContext ctx;
     quest_suspend_reason state;
 
-    TQuestThreadBoard(TUnk_804C8678 *root, s32 label);
+    TQuestThreadBoard(TQuestManager *root, s32 label);
     virtual void render();
     virtual ~TQuestThreadBoard();
     virtual void run_task();

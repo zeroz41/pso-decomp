@@ -21,7 +21,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/player/PlayerSlots.h"
@@ -166,11 +166,11 @@ void TWindowSubCustomEquip::draw_cursor(WindowDrawContext *context) {
 void TWindowSubCustomEquip::update_palette_slot(s32 arg1, u16 kind, u16 index) {
     TObjPlayer *pl;
     WindowSpritePart *icon;
-    TUnk_804CF9C8 *label;
+    TWindowLayoutNumber *label;
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
         icon = static_cast<WindowSpritePart *>(get_array_entry(lbl_8044F738[arg1]));
-        label = static_cast<TUnk_804CF9C8 *>(get_array_entry(lbl_8044F740[arg1]));
+        label = static_cast<TWindowLayoutNumber *>(get_array_entry(lbl_8044F740[arg1]));
         if (pl->can_use_palette_action(kind, index) != 0) {
             icon->color = -1;
         } else {

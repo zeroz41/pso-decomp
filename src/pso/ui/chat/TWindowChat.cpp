@@ -25,7 +25,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubShortCut.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/unk/TUnk_804CE7D0.h"
+#include "pso/unk/TSymbolChatMenu.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
 
@@ -349,7 +349,7 @@ void TWindowChat::open_next_input_window() {
     case 2:
         composer->reset_input();
         *static_cast<s32 *>(result) = 3;
-        symbolChatWindow = new TUnk_804CE7D0(this);
+        symbolChatWindow = new TSymbolChatMenu(this);
         hardKeyboard->sub_8025EC04();
         return;
     }

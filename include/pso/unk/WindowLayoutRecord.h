@@ -43,7 +43,7 @@ struct TextLayoutRecord {
     const char *text;
 };
 
-// Types 4 and 5 (0x1C bytes), read by the TUnk_804CF9C8 and TUnk_804CF9E0
+// Types 4 and 5 (0x1C bytes), read by the TWindowLayoutNumber and TWindowLayoutCountingNumber
 // constructors.
 struct ValueLayoutRecord {
     s32 type;

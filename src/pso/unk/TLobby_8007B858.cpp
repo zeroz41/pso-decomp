@@ -37,7 +37,7 @@
 #include "pso/render/CameraCapture.h"
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/unk/TLobby_802D3970.h"
-#include "pso/unk/TUnk_804EDAC0.h"
+#include "pso/unk/TDeferredRenderQueue.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/window/TWindowSubGameEnd.h"
@@ -118,7 +118,7 @@ void TLobby::create_tasks() {
     if (is_split_screen() == 0) {
         new TCameraCapturePass(tl_particlemodel, 1);
         new TCameraCapturePass(tl_particlemodel, 0);
-        new TUnk_804EDAC0(tl_particlemodel);
+        new TDeferredRenderQueue(tl_particlemodel);
         new TIndirectEffectDrawTask(tl_particlemodel);
     }
     cleanup_game_objects__9TMainTaskFv();

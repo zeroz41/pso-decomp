@@ -6,7 +6,7 @@
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/derolle/TUnk_80036250.h"
+#include "pso/boss/derolle/TBoss2MotionProfile.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/ControllerInputState.h"
 #include <dolphin/mtx.h>
@@ -152,9 +152,9 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     ControllerInputContext *debug_pad; // controller_input_state.controllers[1], read by handle_debug_pad_input
     s32 state_flags;              // 0x4, 0x8 shell broken, 0x40/0x80 breakup pieces, 0x8000 already beaten
     s32 stat_phase;               // the stat phase reload_stats_for_phase restores after a hit
-    TUnk_80036250 motion_x;       // drives position.x (handle_position_travel_state)
-    TUnk_80036250 motion_y;       // drives position.y
-    TUnk_80036250 motion_z;       // drives position.z
+    TBoss2MotionProfile motion_x;       // drives position.x (handle_position_travel_state)
+    TBoss2MotionProfile motion_y;       // drives position.y
+    TBoss2MotionProfile motion_z;       // drives position.z
     TObject part_group;           // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
     s32 debug_pad_active;         // run_task steps run_mode from debug_pad when set
     s32 pad_6B0;

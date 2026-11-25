@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/scene/OfflineGameScene.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_800FD78C.h"

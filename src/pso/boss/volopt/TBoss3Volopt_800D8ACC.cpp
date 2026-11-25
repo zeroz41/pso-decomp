@@ -11,7 +11,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TDeadSpot.h"
-#include "pso/unk/TUnk_804949D8.h"
+#include "pso/unk/TDeadSpotGroundEmitter.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -186,7 +186,7 @@ void spawn_particles_at__12TBoss3VoloptFi(saddr position) {
 }
 
 void create_dead_spot(Vec *pos, s32 duration, f32 radius) {
-    new TUnk_804949F4((TObject *)tl_05, pos, create_timed_particle_emitter(pos, 0xF8, 0, duration), radius);
+    new TDeadSpotEmitter((TObject *)tl_05, pos, create_timed_particle_emitter(pos, 0xF8, 0, duration), radius);
 }
 
 void spawn_effect_f8(Vec *pos, s32 duration) {
@@ -198,7 +198,7 @@ void create_dead_spot_e4(Vec *pos, s32 duration, f32 radius) {
 }
 
 void create_dead_spot(Vec *pos, s32 particle, s32 duration, f32 radius) {
-    new TUnk_804949D8((TObject *)tl_05, pos, create_timed_particle_emitter(pos, particle, 0, duration), radius);
+    new TDeadSpotGroundEmitter((TObject *)tl_05, pos, create_timed_particle_emitter(pos, particle, 0, duration), radius);
 }
 
 extern "C" {

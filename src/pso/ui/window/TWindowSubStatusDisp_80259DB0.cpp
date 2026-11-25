@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TUnk_804CF9C8.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80259DB0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -68,7 +68,7 @@ void set_status_entry_target(void *arg0, s32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TUnk_804CF9E0::update() {
+void TWindowLayoutCountingNumber::update() {
     f32 target;
     f32 temp_f30;
     if (this->target != this->current) {
@@ -87,9 +87,9 @@ void TUnk_804CF9E0::update() {
 }
 #pragma pop
 
-TUnk_804CF9E0::~TUnk_804CF9E0() {}
+TWindowLayoutCountingNumber::~TWindowLayoutCountingNumber() {}
 
-TUnk_804CF9E0::TUnk_804CF9E0(u8 *rec, s32 m_2) : TUnk_804CF9C8(rec, m_2) {
+TWindowLayoutCountingNumber::TWindowLayoutCountingNumber(u8 *rec, s32 m_2) : TWindowLayoutNumber(rec, m_2) {
     this->target = this->value;
     this->current = this->value;
     this->step = 0.0f;

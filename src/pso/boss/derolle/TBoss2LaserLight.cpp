@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/derolle/TBoss2LaserLight.h"
-#include "pso/boss/TUnk_80482C58.h"
+#include "pso/boss/TBoss2DeRolLeLaserTrail.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/PointLight.h"
@@ -99,7 +99,7 @@ void TBoss2LaserLight::run_task() {
 
 void TBoss2LaserLight::render() {}
 
-TUnk_80482C58::TUnk_80482C58(TObject *parent, s32 limit, s32 effect_id) : TObject(parent) {
+TBoss2DeRolLeLaserTrail::TBoss2DeRolLeLaserTrail(TObject *parent, s32 limit, s32 effect_id) : TObject(parent) {
     s32 i;
     for (i = 0; i < NUM_POINTS; i++) {
         m_points[i].x = 0.0f;
@@ -114,7 +114,7 @@ TUnk_80482C58::TUnk_80482C58(TObject *parent, s32 limit, s32 effect_id) : TObjec
     m_state = 0;
 }
 
-TUnk_80482C58::~TUnk_80482C58() {
+TBoss2DeRolLeLaserTrail::~TBoss2DeRolLeLaserTrail() {
     if (m_particle != NULL) {
         // Called out of line: the inline copy this file emits belongs at its end, after the constructors.
         queue_destruction__7TObjectFv(m_particle);
@@ -123,7 +123,7 @@ TUnk_80482C58::~TUnk_80482C58() {
 }
 
 // Its 5.0f opens this file's .sdata2 pool, so it is this translation unit's first function.
-void TUnk_80482C58::push_ring_point(const Vec *pos) {
+void TBoss2DeRolLeLaserTrail::push_ring_point(const Vec *pos) {
     VecCopy(&m_points[m_head], pos);
     m_points[m_head].y += 5.0f;
     m_head++;

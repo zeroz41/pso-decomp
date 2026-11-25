@@ -1,4 +1,4 @@
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/quest/TQuestBgmCtrl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/quest/TQuestThread.h"

@@ -7,7 +7,7 @@ struct TObjMapCsn;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 
-class TUnk_804F1280;
+class TBoss6RockMarker;
 struct BmlResource;
 struct NJS_TEXLIST;
 struct TBoss6Type2;
@@ -44,9 +44,9 @@ struct TBoss6Rock : public TObjCollidable {
     s32 spin_speed;                  // y spin per frame
     Vec rock_point;                  // its point
     s32 push_timer;                  // frame counter of the landed push-out
-    TUnk_804F1280 *marker;           // the marker object
+    TBoss6RockMarker *marker;           // the marker object
     static const char *class_name;
-    static TUnk_804F1280 *create();
+    static TBoss6RockMarker *create();
     static TBoss6Rock *create(s32 index);
     static s32 is_rock_valid(s32 arg0);
     static s32 is_rock_state_2(int i);

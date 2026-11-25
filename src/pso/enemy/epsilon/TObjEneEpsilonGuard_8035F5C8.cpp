@@ -27,7 +27,7 @@ struct NJS_OBJECT;
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/boss/TUnk_80484840.h"
+#include "pso/boss/TBoss3VoloptSweepLine.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"

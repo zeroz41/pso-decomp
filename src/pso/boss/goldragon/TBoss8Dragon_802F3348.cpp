@@ -1,6 +1,6 @@
 #include "pso/system/SubtractiveRng.h"
 #include "types.h"
-#include "pso/boss/TUnk_804E4BF0.h"
+#include "pso/boss/TBoss8DragonLeaderPart.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80359A7C.h"
@@ -18,7 +18,7 @@ extern "C" {
 BOOL is_split_screen(void);
 }
 
-TUnk_804E4BF0 *boss8_dragon_leader_part;
+TBoss8DragonLeaderPart *boss8_dragon_leader_part;
 
 TBoss8Dragon *TBoss8Dragon::get_part(s32 index) {
     if (boss8_dragon_leader_part == NULL) {
@@ -225,15 +225,15 @@ s32 TBoss8Dragon::is_near_other_part() {
     return 0;
 }
 
-s32 TUnk_804E4BF0::spawn_attack_object(Vec *pos, s32 angle, s32 hp, s32 index) {
-    TUnk_804E4BF0SetEntry entry;
+s32 TBoss8DragonLeaderPart::spawn_attack_object(Vec *pos, s32 angle, s32 hp, s32 index) {
+    TBoss8DragonLeaderPartSetEntry entry;
     if (this->setup_attack_slot(pos, angle, index, &entry) != 0) {
         return (saddr)new TUnk_804F1A78(tl_04, &entry, hp);
     }
     return 0;
 }
 
-s32 TUnk_804E4BF0::setup_attack_slot(Vec *pos, s32 angle, s32 index, TUnk_804E4BF0SetEntry *dst) {
+s32 TBoss8DragonLeaderPart::setup_attack_slot(Vec *pos, s32 angle, s32 index, TBoss8DragonLeaderPartSetEntry *dst) {
     if ((index < 0) || (index > 5)) {
         return 0;
     }
@@ -248,35 +248,35 @@ s32 TUnk_804E4BF0::setup_attack_slot(Vec *pos, s32 angle, s32 index, TUnk_804E4B
     return 1;
 }
 
-void TUnk_804E4BF0::render() {  }
+void TBoss8DragonLeaderPart::render() {  }
 
-void TUnk_804E4BF0::run_task() {  }
+void TBoss8DragonLeaderPart::run_task() {  }
 
-TUnk_804E4BF0::~TUnk_804E4BF0() {
+TBoss8DragonLeaderPart::~TBoss8DragonLeaderPart() {
     if (boss8_dragon_leader_part == this) {
         boss8_dragon_leader_part = NULL;
     }
 }
 
-TUnk_804E4BF0::TUnk_804E4BF0(TObject *object, void *arg1p) : TObject(object) {
+TBoss8DragonLeaderPart::TBoss8DragonLeaderPart(TObject *object, void *arg1p) : TObject(object) {
     if (boss8_dragon_leader_part == NULL) {
         boss8_dragon_leader_part = this;
     }
     copy_set_entry(&this->set_entry, arg1p);
 }
 
-TUnk_804E4BF0 *create_boss8_dragon_leader_part(TObject *parent, void *set_data) {
-    return new TUnk_804E4BF0(parent, set_data);
+TBoss8DragonLeaderPart *create_boss8_dragon_leader_part(TObject *parent, void *set_data) {
+    return new TBoss8DragonLeaderPart(parent, set_data);
 }
 
 void release_boss8_dragon_leader_part(void) {  }
 
 void clear_boss8_dragon_leader_part(void) { boss8_dragon_leader_part = 0; }
 
-u16 TUnk_804E4BF0::get_part_entity_id(s32 index) {
+u16 TBoss8DragonLeaderPart::get_part_entity_id(s32 index) {
     return this->set_entry.entity_id + index;
 }
 
-s32 TUnk_804E4BF0::get_part_set_index(s32 index) {
+s32 TBoss8DragonLeaderPart::get_part_set_index(s32 index) {
     return this->set_entry.set_index + index;
 }

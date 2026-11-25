@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TUnk_804C3E88.h"
+#include "pso/unk/TDelayedAreaMusic.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/network/TLobby.h"
@@ -1240,14 +1240,14 @@ s32 TLobby::assign_player_id(void *) {
     return score;
 }
 
-TUnk_804C3E88::TUnk_804C3E88(TObject *parent, const char *name, s32 delay) : TObject(parent) {
+TDelayedAreaMusic::TDelayedAreaMusic(TObject *parent, const char *name, s32 delay) : TObject(parent) {
     delay_frames = delay;
     strncpy(music_name, name, 32);
 }
 
-TUnk_804C3E88::~TUnk_804C3E88() {}
+TDelayedAreaMusic::~TDelayedAreaMusic() {}
 
-void TUnk_804C3E88::run_task() {
+void TDelayedAreaMusic::run_task() {
     if (--delay_frames <= 0) {
         play_area_music(music_name);
         queue_destruction();
@@ -1309,7 +1309,7 @@ void TLobby::start_duel_battle() {
     TLobby::clear_counter(this);
     area = get_current_floor_area();
     name = (area == AREA_BATTLE1) ? "duel1.adx" : "duel2.adx";
-    new TUnk_804C3E88(this, name, 0x2D);
+    new TDelayedAreaMusic(this, name, 0x2D);
     for (i = 0; i < 8; i++) {
         ((Lobby_801C2F40 *)this)->pending[i] = 1;
         if (battle_event_second_table[i] == 0) {

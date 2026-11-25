@@ -4,7 +4,7 @@
 #include "pso/unk/TUnk_804EE470.h"
 #include "pso/unk/TTitleScene.h"
 
-#include "pso/ui/TUnk_804EE458.h"
+#include "pso/ui/TTitleMenu.h"
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
@@ -86,5 +86,5 @@ void bind_title_texture_list(void) {
 }
 
 int TLobby__sub_80336030(TTitleScene *scene) {
-    return scene->transition_controller->sub_8033596C();
+    return scene->transition_controller->get_cursor();
 }

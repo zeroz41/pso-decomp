@@ -4,7 +4,7 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TWindowStatusGauge.h"
-#include "pso/unk/TUnk_804CF998.h"
+#include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80256B94.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/system/memory.h"
@@ -775,7 +775,7 @@ ItemListRow::~ItemListRow() {
     }
 }
 
-ItemListRow::ItemListRow(u8 *rec, s32 client) : TUnk_804CF998(client) {
+ItemListRow::ItemListRow(u8 *rec, s32 client) : TWindowLayoutRect(client) {
     this->height = lbl_805DCF14;
     this->status_icon = 51;
     this->category_icon = 51;

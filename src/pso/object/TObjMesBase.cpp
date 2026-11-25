@@ -1,4 +1,4 @@
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
 #include "pso/object/TMotorcycle.h"
@@ -36,7 +36,7 @@ void TObjMesBase::debug_draw_label() {
 void TObjMesBase::interact(u16) {
     s32 label = messageLabel;
     if (label != 0) {
-        TUnk_804C8678 *root = NULL;
+        TQuestManager *root = NULL;
         switch (messageBank) {
         case 0: root = quest_mission_manager; break;
         case 1: root = quest_area_manager; break;

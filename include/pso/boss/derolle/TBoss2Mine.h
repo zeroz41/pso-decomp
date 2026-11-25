@@ -7,7 +7,7 @@
 
 struct TBoss2Mine : public TObjEneDD {
     // variant picks the row of the stat tables: 0 for the floor mines
-    // (TUnk_80482EC0), 1 for the launched ones (TUnk_80482D04); inferred.
+    // (TBoss2FloorMine), 1 for the launched ones (TBoss2TargetMine); inferred.
     TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 variant);
     virtual ~TBoss2Mine();
     virtual void dispatch_action(u32 state, s32 reason);
@@ -65,8 +65,8 @@ struct TBoss2Mine : public TObjEneDD {
     u8 unk_3D4[0x4];
     s32 tilt;
     union {
-        f32 throw_distance;    // the floor mine (TUnk_80482EC0)
-        f32 launch_speed;      // the launched mine (TUnk_80482D04)
+        f32 throw_distance;    // the floor mine (TBoss2FloorMine)
+        f32 launch_speed;      // the launched mine (TBoss2TargetMine)
     };
     union {
         f32 throw_distance_left;

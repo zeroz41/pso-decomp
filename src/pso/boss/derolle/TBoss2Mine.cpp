@@ -3,8 +3,8 @@
 #include "pso/system/vector.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/boss/derolle/TUnk_80482EC0.h"
-#include "pso/boss/derolle/TUnk_80482D04.h"
+#include "pso/boss/derolle/TBoss2FloorMine.h"
+#include "pso/boss/derolle/TBoss2TargetMine.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -419,12 +419,12 @@ void TBoss2Mine::run_demo_task() {  }
 
 void TBoss2Mine::render_demo() {  }
 
-TUnk_80482EC0::TUnk_80482EC0(TObject *parent, u16 entity_id, s32 set_index)
+TBoss2FloorMine::TBoss2FloorMine(TObject *parent, u16 entity_id, s32 set_index)
     : TBoss2Mine(parent, entity_id, set_index, 0) {}
 
-TUnk_80482EC0::~TUnk_80482EC0() {}
+TBoss2FloorMine::~TBoss2FloorMine() {}
 
-void TUnk_80482EC0::update_body_colliders() {
+void TBoss2FloorMine::update_body_colliders() {
     bodies->offset.y = 5.0f + (body_center.y - position.y);
 }
 
@@ -441,7 +441,7 @@ void TBoss2Mine::set_launch_position_velocity(const Vec *start, const Vec *targe
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482EC0::state_launch(s32 reason) {
+void TBoss2FloorMine::state_launch(s32 reason) {
     f32 fall_time;
     f32 y;
     s32 angle;
@@ -495,7 +495,7 @@ void TUnk_80482EC0::state_launch(s32 reason) {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482EC0::state_armed(s32 reason) {
+void TBoss2FloorMine::state_armed(s32 reason) {
     u32 flags;
     s32 extra;
     switch (reason) {
@@ -547,7 +547,7 @@ void TUnk_80482EC0::state_armed(s32 reason) {
 }
 #pragma pop
 
-TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
+TBoss2TargetMine::TBoss2TargetMine(TObject *parent, u16 entity_id, s32 set_index)
     : TBoss2Mine(parent, entity_id, set_index, 1) {
     owner = NULL;
     slot = 0;
@@ -559,13 +559,13 @@ TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
     direction.z = 0.0f;
 }
 
-TUnk_80482D04::~TUnk_80482D04() {}
+TBoss2TargetMine::~TBoss2TargetMine() {}
 
-void TUnk_80482D04::update_body_colliders() {
+void TBoss2TargetMine::update_body_colliders() {
     bodies->offset.y = 1.0f + (body_center.y - position.y);
 }
 
-void TUnk_80482D04::move_mine() {
+void TBoss2TargetMine::move_mine() {
     if (owner->is_alive() != 0) {
         VecCopy(&target_pos, &owner->position);
         vec3_add_to(&target_pos, &owner_offset);
@@ -573,7 +573,7 @@ void TUnk_80482D04::move_mine() {
     }
 }
 
-void TUnk_80482D04::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
+void TBoss2TargetMine::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
     s32 angle;
     s32 heading;
     this->mine_flags |= 0x100;
@@ -608,7 +608,7 @@ void TUnk_80482D04::init_launch(Vec *pos, TObjBase *owner, s32 slot) {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482D04::state_launch(s32 reason) {
+void TBoss2TargetMine::state_launch(s32 reason) {
     Vec to_target;
     f32 t;
     switch (reason) {
@@ -688,7 +688,7 @@ void TUnk_80482D04::state_launch(s32 reason) {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80482D04::state_armed(s32 reason) {
+void TBoss2TargetMine::state_armed(s32 reason) {
     Vec to_target;
     f32 s;
     switch (reason) {

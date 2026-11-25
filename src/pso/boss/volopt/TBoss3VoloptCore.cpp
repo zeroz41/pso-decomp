@@ -4,7 +4,7 @@
 #include "pso/boss/volopt/TBoss3VoloptCore.h"
 #include "pso/boss/volopt/TBoss3VoloptMonitor.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/TUnk_80484888.h"
+#include "pso/boss/TBoss3VoloptParticleSpray.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
@@ -291,7 +291,7 @@ void TBoss3VoloptCore::update_charge_state() {
             angles[1] = facing_angle;
             angles[0] = 0;
             angles[2] = 0x4000;
-            new TUnk_80484888(&volopt_slot_positions[slot_index], 0x11B, 8, angles, 0.5f, 0.0f);
+            new TBoss3VoloptParticleSpray(&volopt_slot_positions[slot_index], 0x11B, 8, angles, 0.5f, 0.0f);
         }
         break;
     case 2:

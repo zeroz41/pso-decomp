@@ -21,8 +21,8 @@
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/boss/TUnk_80483B88.h"
-#include "pso/boss/TUnk_804848A0.h"
+#include "pso/boss/TBoss3VoloptMusicTrigger.h"
+#include "pso/boss/TBoss3VoloptFadeIn.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/camera/CameraHelpers.h"
@@ -1061,7 +1061,7 @@ void TBoss3Volopt::update_phase1() {
         play_persistent_sound(0x4003AD21, this, NULL, 0, 0);
         break;
     case 4:
-        new TUnk_804848B8(this, NULL);
+        new TBoss3VoloptFadeOut(this, NULL);
         stop_rumble();
         state = 5;
         break;
@@ -1071,7 +1071,7 @@ void TBoss3Volopt::update_phase1() {
         }
         break;
     case -1:
-        new TUnk_804848A0(this, NULL);
+        new TBoss3VoloptFadeIn(this, NULL);
         break;
     }
 }
@@ -1155,7 +1155,7 @@ void TBoss3Volopt::update_phase2() {
             set_actor_flags(0x800);
             sync_enemy_state(0);
             next_action = 5;
-            new TUnk_80483B88;
+            new TBoss3VoloptMusicTrigger;
         }
         play_persistent_sound(0x4003C601, this, NULL, 0, 0);
         break;

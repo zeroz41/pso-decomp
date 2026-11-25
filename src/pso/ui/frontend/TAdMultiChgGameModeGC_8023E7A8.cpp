@@ -39,7 +39,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/unk/TUnk_804C2298.h"
+#include "pso/unk/TAdDialingSelectGC.h"
 #include "pso/ui/frontend/DrawLineResource.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
@@ -74,7 +74,7 @@
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/ui/frontend/TAdSnAkPassConfirmGC.h"
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
-#include "pso/ui/TUnk_804F3A20.h"
+#include "pso/ui/TAdSystemFileCheckGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
@@ -410,7 +410,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdPsoPassSaveGC(tl_01);
         break;
     case 27:
-        game_mode_scene_instance = new TUnk_804F3A20(tl_01);
+        game_mode_scene_instance = new TAdSystemFileCheckGC(tl_01);
         break;
     case 28:
         game_mode_scene_instance = new TAdEp3Exist(tl_01);
@@ -419,7 +419,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TLevelSelect();
         break;
     case 3:
-        game_mode_scene_instance = new TUnk_804C2298();
+        game_mode_scene_instance = new TAdDialingSelectGC();
         break;
     case 29:
         break;

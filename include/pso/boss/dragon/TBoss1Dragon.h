@@ -13,7 +13,7 @@ class TParticleCtrl;
 class AreaAttackHistory;
 class TObject;
 class TBoss1DragonColli;
-class TUnk_80481B34;
+class TBoss1DragonAttackCollider;
 class TObjBoss1MokoHill_SoloM;
 class TObjChara;
 struct TObjPlayer;
@@ -128,7 +128,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 controlTimer;
     s32 facingAngle;
     s32 attack_kind;  // the fire attacks' DragonAttackParams kind: 1, 0x13 in V2
-    TUnk_80481B34 *attack_collider;  // the V2 attacks place this sphere instead of TObjEneDD's effects
+    TBoss1DragonAttackCollider *attack_collider;  // the V2 attacks place this sphere instead of TObjEneDD's effects
     DragonEffectResource* effectResource;
     u32 randomState[58];
     s32 stateStep;

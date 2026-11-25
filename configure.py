@@ -584,7 +584,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # __vt__18TWindowSubShortCut (804D19D8) comes out before the run_task jump
     # table (804D19F0): written last to first, deferred.
     "pso/ui/window/TWindowSubShortCut.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
-    # vtables come out KeyQuick, Key, Normal then TUnk_804B2578: written last to first, deferred.
+    # vtables come out KeyQuick, Key, Normal then TOHangceilingCaveBase: written last to first, deferred.
     "pso/object/cave/TOHangceilingCave01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TUnk_804A6F78, F90, FA8 then FC0 (text order of their key functions): written last to
     # first, deferred.
@@ -677,7 +677,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/gibon/TObjEneBm5GibonU.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/shinowa/TObjEneMe3Shinowa.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/derolle/TObjBoss2Tunnel.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-opt nopropagation", "-pool off", "-sdata 4")},
-    # Its three vtables sit in .data as TUnk_80482D04, TUnk_80482EC0, TBoss2Mine: key-function text order, so deferred with the source written backwards.
+    # Its three vtables sit in .data as TBoss2TargetMine, TBoss2FloorMine, TBoss2Mine: key-function text order, so deferred with the source written backwards.
     "pso/boss/derolle/TBoss2Mine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # The resource file names and the class name of TObjEneBm9Mericarol sit in .rodata: readonly strings.
@@ -748,7 +748,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .data holds lbl_804D2B48 and the vtable ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/chat/TWindowSubSymbolChat.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # .data holds only the vtable; text runs create_status_category_menu..ctor: deferred generation of ctor-first source.
-    "pso/unk/TUnk_804D1AD0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/unk/TWindowStatusCategoryMenu.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # its class-name string sits in .rodata ahead of the list/window size pairs: readonly strings.
     "pso/ui/chat/TWindowSubShortMail.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its class-name string sits in .rodata and its short layout strings ("Lv", ":", "pt") in .sdata2: readonly strings.
@@ -820,7 +820,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/npc/TObjNpcNFM01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcNFM00.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/system/movie/TMovie.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/unk/TObjFreezeShell.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte texture lists (lbl_804CC868, technique_ringwave_texture_list) are outside small data.
     "pso/technique/TTecGrants.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
@@ -936,7 +936,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/system/scene/OfflineGameScene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_801A3C48.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # run_task reaches each of its four .rodata initialiser templates with its own lis/addi: -pool off.
-    "pso/unk/TUnk_804C2298.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    "pso/unk/TAdDialingSelectGC.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # prepare_offline_quest_filenames reaches each language suffix string with its own lis/addi: -pool off.
     "pso/unk/text_801F3774.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     "pso/object/warp/TObjWarpBossMulti.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -995,7 +995,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/npc/TObjNpcFemaleOld.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcFemaleTall.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -inline auto,deferred: .data holds the TBoss1Dragon vtable ahead of the jump tables and the
-    # TUnk_80481B34 vtable after them, so the source runs last function to first.
+    # TBoss1DragonAttackCollider vtable after them, so the source runs last function to first.
     "pso/boss/dragon/TBoss1Dragon.cpp": {"cflags": _switch(cflags_pso, "-inline auto,deferred", "-str reuse,readonly")},
     "pso/technique/TTecBarta.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # consume_telepipe_arrival reaches each .rodata object with its own lis/addi (no shared base): -pool off.
@@ -1018,7 +1018,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/container/TObjContainerIdo_8018BEE4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/player/TPlyPhotonChair.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/player/TPlayerBattleCtrl4P.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # .data opens with the rank table, then TUnk_804C3E88's vtable ahead of handle_6x7D_set_battle_mode_data's jump
+    # .data opens with the rank table, then TDelayedAreaMusic's vtable ahead of handle_6x7D_set_battle_mode_data's jump
     # table: deferred generation of the last-to-first source; .rodata then runs local initialisers backwards and the code
     # strings and int-to-float constant in .text order. Each string is reached by its own lis/addi: -pool off.
     # -sdata 4: the 8-byte battle_mode_data_table sits in .bss, not .sbss.
@@ -1220,7 +1220,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The Vol Opt fade tasks: deferred like the units above, but nothing is
     # inlined (the inline TUnk_804999E8 destructor and TObject::queue_destruction
     # stay calls).
-    "pso/boss/TUnk_804848A0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/boss/TBoss3VoloptFadeIn.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TItem.cpp is written from its last function back (deferred code
     # generation; the data keeps source order) and built with GC/2.0, like the
     # struct-copy units above.
@@ -1457,8 +1457,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TLobby_801F3A24.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # TWindowChatSymbol.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/ui/chat/TWindowChatSymbol.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
-    # TUnk_804CE7D0.cpp's ctor reaches each .rodata point with its own lis/addi: -pool off.
-    "pso/ui/chat/TUnk_804CE7D0.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    # TSymbolChatMenu.cpp's ctor reaches each .rodata point with its own lis/addi: -pool off.
+    "pso/ui/chat/TSymbolChatMenu.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     "pso/player/PhotonBlastResults.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte model name table sits in .data and the 8-byte 0x805007D4 in .bss, next to the 4-byte .sdata name pointer.
     "pso/enemy/berura/TObjEneRe7Berura.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},

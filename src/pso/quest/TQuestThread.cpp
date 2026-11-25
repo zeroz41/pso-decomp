@@ -25,7 +25,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -112,8 +112,8 @@ void *__vt__16TObjItemOKWindow[] = {
     (void *)render_shadows__7TObjectFv,
 };
 
-TUnk_804C8678 *quest_mission_manager;
-TUnk_804C8678 *quest_area_manager;
+TQuestManager *quest_mission_manager;
+TQuestManager *quest_area_manager;
 TQuestThreadBoard *quest_thread_board;
 int item_name_selection_index;
 ItemNameEntry *item_name_selection_table;
@@ -427,7 +427,7 @@ TQuestThreadBoard::~TQuestThreadBoard() {
     quest_thread_board = NULL;
 }
 
-TQuestThreadBoard::TQuestThreadBoard(TUnk_804C8678 *root, s32 label) : TObject(NULL) {
+TQuestThreadBoard::TQuestThreadBoard(TQuestManager *root, s32 label) : TObject(NULL) {
     m_name = TQuestThreadBoard__class_name;
     ctx.copy(&root->ctx);
     ctx.pc = ctx.function_table[label];
@@ -623,7 +623,7 @@ TQuestThread *TQuestThread::create_in_root(s32 label) {
     return NULL;
 }
 
-TQuestThread::TQuestThread(TUnk_804C8678 *root, s32 label) : TObject(root) {
+TQuestThread::TQuestThread(TQuestManager *root, s32 label) : TObject(root) {
     m_name = TQuestThread__class_name;
     ctx.copy(&root->ctx);
     ctx.pc = ctx.function_table[label];
@@ -656,14 +656,14 @@ void TQuestThread::clear_all_floor_handlers() {
     }
 }
 
-void TQuestThread::clear_buffer(TUnk_804C8678 *root) {
+void TQuestThread::clear_buffer(TQuestManager *root) {
     if (root->ctx.registers != NULL) {
         memset(root->ctx.registers, 0, 1024);
     }
 }
 
 void handle_6x77_sync_quest_register(u8 *packet) {
-    TUnk_804C8678 *root;
+    TQuestManager *root;
     s32 *registers;
     u16 index;
     TLobby::bswap_header(packet);
@@ -696,16 +696,16 @@ void TQuestThread::clear_thread_state() {
     memset(quest_board_handlers, 0, 0xD8);
 }
 
-s32 TQuestThread::get_register(const TUnk_804C8678 *root, int index) {
+s32 TQuestThread::get_register(const TQuestManager *root, int index) {
     if (root != NULL) {
         return root->ctx.registers[index];
     }
     return 0;
 }
 
-void TUnk_804C8678::run_task() {}
+void TQuestManager::run_task() {}
 
-TUnk_804C8678::~TUnk_804C8678() {
+TQuestManager::~TQuestManager() {
     if (kind == 0) {
         quest_mission_manager = NULL;
         TQuestThread::clear_thread_state();
@@ -739,33 +739,33 @@ void load_area_dialogue_script() {
     default: return;
     }
     if (enable_v2_features == 1 && game_difficulty_selection == 3) {
-        new TUnk_804C8678(tl_04, area_dialogue_ultimate_script_files[current_language][bank], 1);
+        new TQuestManager(tl_04, area_dialogue_ultimate_script_files[current_language][bank], 1);
     } else {
-        new TUnk_804C8678(tl_04, area_dialogue_script_files[current_language][bank], 1);
+        new TQuestManager(tl_04, area_dialogue_script_files[current_language][bank], 1);
     }
 }
 
-TUnk_804C8678 *TQuestThread::create_by_mode() {
+TQuestManager *TQuestThread::create_by_mode() {
     switch (evt2_random_enemies_mode) {
     case 1:
-        return new TUnk_804C8678(tl_su, get_offline_quest_filename());
+        return new TQuestManager(tl_su, get_offline_quest_filename());
     case 2:
-        return new TUnk_804C8678(tl_su, TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
+        return new TQuestManager(tl_su, TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
     case 3: {
-        TUnk_804C8678 *root = new TUnk_804C8678(tl_su, TQuestListVM::get_quest_bin(), TQuestListVM::get_quest_size());
+        TQuestManager *root = new TQuestManager(tl_su, TQuestListVM::get_quest_bin(), TQuestListVM::get_quest_size());
         TQuestListVM::reset();
         return root;
     }
     case 4:
-        return new TUnk_804C8678(tl_su, TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
+        return new TQuestManager(tl_su, TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
     case 5:
-        return new TUnk_804C8678(tl_su, get_offline_quest_filename());
+        return new TQuestManager(tl_su, get_offline_quest_filename());
     default:
         return NULL;
     }
 }
 
-TUnk_804C8678::TUnk_804C8678(TObject *parent, void *data, s32 size) : TObject(parent) {
+TQuestManager::TQuestManager(TObject *parent, void *data, s32 size) : TObject(parent) {
     s32 alloc_size;
     if (size < 0) {
         queue_destruction();
@@ -780,7 +780,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, void *data, s32 size) : TObject(pa
     TQuestThread::clear_thread_state();
 }
 
-TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : TObject(parent) {
+TQuestManager::TQuestManager(TObject *parent, const char *filename, s32 kind) : TObject(parent) {
     s32 size;
     this->kind = kind;
     script = NULL;
@@ -817,7 +817,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
     }
 }
 
-TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename) : TObject(parent) {
+TQuestManager::TQuestManager(TObject *parent, const char *filename) : TObject(parent) {
     s32 size;
     copy_name("QUEST");
     size = get_resource_file_size((const char *)filename);

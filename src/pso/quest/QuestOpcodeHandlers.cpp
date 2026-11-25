@@ -12,7 +12,7 @@
 #include "pso/network/FloorEventCommand.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/TLobby_800FD78C.h"

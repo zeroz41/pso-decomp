@@ -10,7 +10,7 @@
 #include "pso/camera/CameraViewParams.h"
 #include "pso/unk/TLobby_803360CC.h"
 #include "pso/unk/TUnk_804EE470.h"
-#include "pso/ui/TUnk_804EE458.h"
+#include "pso/ui/TTitleMenu.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -363,7 +363,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
         m_38 = 0x320;
     }
     title_layer = new TTitleBackground(this);
-    transition_controller = new TUnk_804EE458(this);
+    transition_controller = new TTitleMenu(this);
     overlay_layer = new TUnk_804EE470(tl_clipout);
     m_28 = 0;
     if (transition_controller != NULL) {

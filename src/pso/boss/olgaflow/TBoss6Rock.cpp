@@ -4,7 +4,7 @@
 #include "pso/system/BmlAccessors.h"
 // Compiled -inline off,deferred: the functions are written from the last
 // (0x80354B18 load_resources) back to the first (0x803537D4), so CodeWarrior
-// emits them in address order and the TUnk_804F1280 vtable before TBoss6Rock's.
+// emits them in address order and the TBoss6RockMarker vtable before TBoss6Rock's.
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include <stdlib.h>
@@ -13,7 +13,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
-#include "pso/boss/TUnk_804F1280.h"
+#include "pso/boss/TBoss6RockMarker.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -522,25 +522,25 @@ NJS_TEXLIST *TBoss6Rock::get_texture_list() {
     return boss6_rock_texture_list;
 }
 
-TUnk_804F1280 *TBoss6Rock::create() {
-    return new TUnk_804F1280(tl_06);
+TBoss6RockMarker *TBoss6Rock::create() {
+    return new TBoss6RockMarker(tl_06);
 }
 
-TUnk_804F1280::TUnk_804F1280(TObject *parent) : TObject(parent) {
+TBoss6RockMarker::TBoss6RockMarker(TObject *parent) : TObject(parent) {
     enabled = 0;
 }
 
-TUnk_804F1280::~TUnk_804F1280() {
+TBoss6RockMarker::~TBoss6RockMarker() {
 }
 
-void TUnk_804F1280::run_task() {
+void TBoss6RockMarker::run_task() {
     if (TBoss6Rock::is_active() == 0) {
         enabled = 0;
         queue_destruction();
     }
 }
 
-void TUnk_804F1280::render() {
+void TBoss6RockMarker::render() {
     if (enabled != 0 && TBoss6PlotFalz__sub_802AB6CC(&position, radius - 3.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
@@ -555,7 +555,7 @@ void TUnk_804F1280::render() {
     }
 }
 
-void TUnk_804F1280::set_target(s32 enabled, Vec *position, s32 *rotation, s32 texlist, s32 model, f32 radius) {
+void TBoss6RockMarker::set_target(s32 enabled, Vec *position, s32 *rotation, s32 texlist, s32 model, f32 radius) {
     this->enabled = enabled;
     if (this->enabled != 0) {
         VecCopy(&this->position, position);

@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/ProgressMessageWindow.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/TUnk_804F3A20.h"
+#include "pso/ui/TAdSystemFileCheckGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC_8036DE10.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
@@ -519,7 +519,7 @@ void TAdMultiChgGameModeGC::confirm_mode_selection() { if (((int)handle_mode_sel
 void TAdMultiChgGameModeGC::sub_8036E9EC() { close_window_30(); TAdMultiChgGameModeGC__sub_8036E19C((u8 *)this, 4); }
 
 LAYOUT_ASSERT(MemberActionStorage_8036EA24_size, sizeof(MemberActionStorage_8036EA24) == 12);
-void TUnk_804F3A20::run_task() {
+void TAdSystemFileCheckGC::run_task() {
     u8 *arg0 = (u8 *)this;
     MemberActionStorage_8036EA24 member_action;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036EA24, sp8) == 0x0);
@@ -540,12 +540,12 @@ void TUnk_804F3A20::run_task() {
     }
 }
 
-TUnk_804F3A20::~TUnk_804F3A20() {
+TAdSystemFileCheckGC::~TAdSystemFileCheckGC() {
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction(); this->m_30 = 0; }
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction(); *(s32 *)((s8 *)this + 0x34) = 0; }
 }
 
-TUnk_804F3A20::TUnk_804F3A20(TObject *object) : TObject(object) {
+TAdSystemFileCheckGC::TAdSystemFileCheckGC(TObject *object) : TObject(object) {
     *(s32 *)((s8 *)this + 0x1C) = -1;
     this->m_20 = 1;
     *(s32 *)((s8 *)this + 0x24) = current_language;

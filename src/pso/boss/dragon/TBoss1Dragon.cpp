@@ -16,7 +16,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
-#include "pso/boss/TUnk_80481B34.h"
+#include "pso/boss/TBoss1DragonAttackCollider.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -454,10 +454,10 @@ NJS_OBJECT* TBoss1Dragon::cloneModelHierarchy(NJS_OBJECT* source, NJS_OBJECT* ou
     return output;
 }
 
-TUnk_80481B34::TUnk_80481B34(TObject *parent, TObjBase *owner) : TAttackCollider(parent, owner) {
+TBoss1DragonAttackCollider::TBoss1DragonAttackCollider(TObject *parent, TObjBase *owner) : TAttackCollider(parent, owner) {
 }
 
-TUnk_80481B34::~TUnk_80481B34() {
+TBoss1DragonAttackCollider::~TBoss1DragonAttackCollider() {
 
 }
 
@@ -467,7 +467,7 @@ void apply_dragon_hit_ailment(TObjChara *target) {
     }
 }
 
-void TUnk_80481B34::area_attack_receive_direct(TObjChara *chara, const f32 *, DirectAttackPayload *payload) {
+void TBoss1DragonAttackCollider::area_attack_receive_direct(TObjChara *chara, const f32 *, DirectAttackPayload *payload) {
     s32 i;
     CollisionBody *e;
 
@@ -482,7 +482,7 @@ void TUnk_80481B34::area_attack_receive_direct(TObjChara *chara, const f32 *, Di
     }
 }
 
-void TUnk_80481B34::apply_hit_if_active(TObjChara *target, const f32 *) {
+void TBoss1DragonAttackCollider::apply_hit_if_active(TObjChara *target, const f32 *) {
     target->receive_physical_attack((void *)this->owner, 1.0f);
     apply_dragon_hit_ailment(target);
 }
@@ -801,7 +801,7 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
         this->effectResource = (DragonEffectResource *)boss1_dragon_normal_particle_table;
         break;
     }
-    this->attack_collider = new TUnk_80481B34(NULL, this);
+    this->attack_collider = new TBoss1DragonAttackCollider(NULL, this);
     this->stateStep = 0;
     this->impactAge = 0;
     this->action_frames = 0;

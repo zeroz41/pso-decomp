@@ -11,8 +11,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804949D8.h"
-#include "pso/unk/TUnk_804949F4.h"
+#include "pso/unk/TDeadSpotGroundEmitter.h"
+#include "pso/unk/TDeadSpotEmitter.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
@@ -274,7 +274,7 @@ void TUnk_80494A10::run_task() {
 }
 #pragma push
 #pragma fp_contract on
-TUnk_804949F4::TUnk_804949F4(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius) : TObject(parent) {
+TDeadSpotEmitter::TDeadSpotEmitter(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius) : TObject(parent) {
     VecCopy(&this->position, position);
     this->radius = radius;
     timer = 0;
@@ -282,9 +282,9 @@ TUnk_804949F4::TUnk_804949F4(TObject *parent, Vec *position, TParticleCtrl *emit
     this->emitter = emitter;
 }
 #pragma pop
-TUnk_804949F4::~TUnk_804949F4() {}
+TDeadSpotEmitter::~TDeadSpotEmitter() {}
 
-void TUnk_804949F4::vfunc_6() {
+void TDeadSpotEmitter::vfunc_6() {
   Vec stack;
   f32 x;
   s32 angle;
@@ -297,7 +297,7 @@ void TUnk_804949F4::vfunc_6() {
   emitter->set_position(&stack.x);
 }
 
-void TUnk_804949F4::run_task() {
+void TDeadSpotEmitter::run_task() {
     if (emitter == NULL || emitter->all_parents_unqueued_for_destruction() == 0) {
         queue_destruction();
         return;
@@ -309,14 +309,14 @@ void TUnk_804949F4::run_task() {
     }
 }
 
-TUnk_804949D8::TUnk_804949D8(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius) : TUnk_804949F4(parent, position, emitter, radius) {
+TDeadSpotGroundEmitter::TDeadSpotGroundEmitter(TObject *parent, Vec *position, TParticleCtrl *emitter, f32 radius) : TDeadSpotEmitter(parent, position, emitter, radius) {
     interval = 8;
 }
 
-TUnk_804949D8::~TUnk_804949D8() {}
+TDeadSpotGroundEmitter::~TDeadSpotGroundEmitter() {}
 #pragma push
 #pragma opt_common_subs off
-void TUnk_804949D8::vfunc_6() {
+void TDeadSpotGroundEmitter::vfunc_6() {
     Vec stack;
     f32 x;
     s32 angle;

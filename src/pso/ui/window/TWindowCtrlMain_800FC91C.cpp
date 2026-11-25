@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/ui/font/TUnk_8049CA54.h"
+#include "pso/ui/font/TFontPlayerStatusHelp.h"
 #include "pso/ui/window/TWindowCtrlMain_800FC91C.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/unk/text_800FCC78.h"
@@ -123,7 +123,7 @@ void *TFontSmallLobby::create(s32 id) {
     return o;
 }
 
-void TUnk_8049CA54::run_task() {
+void TFontPlayerStatusHelp::run_task() {
     s32 status_bits;
     s32 temp_r4;
     uaddr text_source;
@@ -153,7 +153,7 @@ void TUnk_8049CA54::run_task() {
 
 
 }
-TUnk_8049CA54::~TUnk_8049CA54() {
+TFontPlayerStatusHelp::~TFontPlayerStatusHelp() {
 
 }
 
@@ -166,10 +166,10 @@ LAYOUT_ASSERT(RecoveredGlobal_800FCC78_lbl_8049CA54_size, sizeof(RecoveredGlobal
 
 extern "C" {
 u8 * __ct__14TFontSmallHelpFUlUllUl(void *, s32, s32, s32, s32);
-extern RecoveredGlobal_800FCC78_lbl_8049CA54 __vt__13TUnk_8049CA54;
+extern RecoveredGlobal_800FCC78_lbl_8049CA54 __vt__21TFontPlayerStatusHelp;
 u8 *fn_800FCC78(u8 *arg0, s32 id) {
     __ct__14TFontSmallHelpFUlUllUl(arg0, id, -1, -1, 0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_8049CA54.value;
+    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__21TFontPlayerStatusHelp.value;
     *(s32 *)((s8 *)arg0 + 0x60) = 5;
     return arg0;
 }

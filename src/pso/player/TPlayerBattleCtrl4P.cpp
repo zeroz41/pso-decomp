@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/effect/TDuelEffectCtrl.h"
-#include "pso/unk/TUnk_804C8678.h"
+#include "pso/unk/TQuestManager.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/map/TSetEvtDestroy.h"
@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TUnk_804C3E88.h"
+#include "pso/unk/TDelayedAreaMusic.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -570,7 +570,7 @@ void TPlayerBattleCtrl4P::start_duel() {
     }
     this->reset_score_counters();
     name = get_current_floor_area() == AREA_BATTLE1 ? "duel1.adx" : "duel2.adx";
-    new TUnk_804C3E88(this, name, 0x2D);
+    new TDelayedAreaMusic(this, name, 0x2D);
     for (j = 0; j < 8; j++) {
         timed_event_flags[j] = 1;
         if (battle_event_second_table[j] == 0) {

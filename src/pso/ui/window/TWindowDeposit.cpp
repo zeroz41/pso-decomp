@@ -13,7 +13,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/TUnk_804CF998.h"
+#include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/WindowLayout.h"
 
 // inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
@@ -57,7 +57,7 @@ TWindowDeposit::~TWindowDeposit() {}
 TWindowDeposit::TWindowDeposit(s16 client)
     : TWindowBase((u8 *)&window_deposit_layout, client, (u8 *)get_window_layout_position(0x29)) {
     u8 *label;
-    TUnk_804CF998 *amount;
+    TWindowLayoutRect *amount;
     f32 text_width;
     saddr text;
 
@@ -66,7 +66,7 @@ TWindowDeposit::TWindowDeposit(s16 client)
     text_width = (f32)calc_text_width((char *)text);
     width = TWindowSubStatusDisp__sub_802877A4(96.0f + (12.0f + text_width));
     label = (u8 *)get_array_entry(0);
-    amount = (TUnk_804CF998 *)get_array_entry(1);
+    amount = (TWindowLayoutRect *)get_array_entry(1);
     set_text_entry_string(label, text, 0);
     amount->x = 96.0f + (12.0f + (8.0f + text_width));
     target_size[0] = TWindowSubStatusDisp::get_base_y(width);

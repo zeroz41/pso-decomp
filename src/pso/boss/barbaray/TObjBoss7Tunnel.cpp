@@ -5,7 +5,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/TUnk_804E4B24.h"
+#include "pso/unk/TObjBoss7TunnelSegment.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/barbaray/TObjBoss7TunnelCol.h"
 #include "pso/boss/barbaray/TObjBoss7RaftSplash.h"
@@ -20,7 +20,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/boss/TUnk_804E4AD4.h"
+#include "pso/boss/TObjBoss7TunnelNode.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
@@ -36,7 +36,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/barbaray/TBoss7BreakUp.h"
 
-// count + index list; the TUnk_804E4B24 constructor copies both into the segment it builds
+// count + index list; the TObjBoss7TunnelSegment constructor copies both into the segment it builds
 struct Boss2TunnelEffectEntry {
     s32 count;
     const s32 *indices;
@@ -123,9 +123,9 @@ TObjBoss7Tunnel::TObjBoss7Tunnel(TObject *parent) : TObject(parent) {
     for (i = 0; i < 2; i++) {
         new TObjBoss7RaftSplash((TObject *)this, (const Vec *)&boss7_tunnel_raft_splash_positions[i], &TObjBoss2Tunnel__raft_splash_offset_table[i], &scroll_speed);
     }
-    new TUnk_804E4AD4(render_nodes, 0);
-    new TUnk_804E4AD4(render_nodes, 1);
-    new TUnk_804E4AD4(render_nodes, 2);
+    new TObjBoss7TunnelNode(render_nodes, 0);
+    new TObjBoss7TunnelNode(render_nodes, 1);
+    new TObjBoss7TunnelNode(render_nodes, 2);
     if (lbl_805D6970 == 0) {
         lbl_805D696C = 1;
         lbl_805D6970 = 1;
@@ -321,16 +321,16 @@ void TObjBoss7Tunnel::render() {
     TObject *child;
     if (TObjEneDD::query_teammate_state() == 0) {
         for (child = render_nodes->m_down; child != NULL; child = child->m_next) {
-            ((TUnk_804E4AD4 *)child)->draw_particle_effect();
+            ((TObjBoss7TunnelNode *)child)->draw_particle_effect();
         }
         for (child = effect_nodes->m_down; child != NULL; child = child->m_next) {
-            ((TUnk_804E4B24 *)child)->draw_opaque_model();
+            ((TObjBoss7TunnelSegment *)child)->draw_opaque_model();
         }
         for (child = effect_nodes->m_down; child != NULL; child = child->m_next) {
-            ((TUnk_804E4B24 *)child)->draw_translucent_models();
+            ((TObjBoss7TunnelSegment *)child)->draw_translucent_models();
         }
         for (child = effect_nodes->m_down; child != NULL; child = child->m_next) {
-            ((TUnk_804E4B24 *)child)->draw_tunnel_segment();
+            ((TObjBoss7TunnelSegment *)child)->draw_tunnel_segment();
         }
     }
 }
@@ -369,7 +369,7 @@ void TObjBoss7Tunnel::set_flag_0x200() {
 void TObjBoss7Tunnel::set_flag_0x8() { boss2_tunnel_state_flags |= 0x8; }
 
 void TObjBoss7Tunnel::spawn(s32 kind, Vec *position) {
-    new TUnk_804E4B24(effect_nodes, kind, position, half_length);
+    new TObjBoss7TunnelSegment(effect_nodes, kind, position, half_length);
 }
 
 void TObjBoss7Tunnel::spawn_segment_row_b() {
@@ -402,7 +402,7 @@ s32 TObjBoss7Tunnel::has_stopped() {
     return (boss2_tunnel_state_flags >> 15) & 1;
 }
 
-TUnk_804E4B24::TUnk_804E4B24(TObject *parent, s32 kind, Vec *pos, f32 half_length) : TObject(parent) {
+TObjBoss7TunnelSegment::TObjBoss7TunnelSegment(TObject *parent, s32 kind, Vec *pos, f32 half_length) : TObject(parent) {
     Boss2TunnelEffectEntry *entry;
     controller = (TObjBoss7Tunnel *)parent->m_up;
     entry = &boss2_tunnel_effect_name_table[kind];
@@ -421,9 +421,9 @@ TUnk_804E4B24::TUnk_804E4B24(TObject *parent, s32 kind, Vec *pos, f32 half_lengt
     update_collision();
 }
 
-TUnk_804E4B24::~TUnk_804E4B24() {}
+TObjBoss7TunnelSegment::~TObjBoss7TunnelSegment() {}
 
-void TUnk_804E4B24::run_task() {
+void TObjBoss7TunnelSegment::run_task() {
     position.x = controller->get_segment_x();
     position.z = position.z - controller->get_scroll_speed();
     if (kind == 4) {
@@ -435,7 +435,7 @@ void TUnk_804E4B24::run_task() {
     update_collision();
 }
 
-void TUnk_804E4B24::draw_opaque_model() {
+void TObjBoss7TunnelSegment::draw_opaque_model() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(1);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
@@ -447,7 +447,7 @@ void TUnk_804E4B24::draw_opaque_model() {
     }
 }
 
-void TUnk_804E4B24::draw_translucent_models() {
+void TObjBoss7TunnelSegment::draw_translucent_models() {
     if (is_in_camera_range() != 0) {
         set_draw_list_mask(2);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
@@ -462,7 +462,7 @@ void TUnk_804E4B24::draw_translucent_models() {
     }
 }
 
-void TUnk_804E4B24::draw_tunnel_segment() {
+void TObjBoss7TunnelSegment::draw_tunnel_segment() {
     s32 model_index;
     if (is_in_camera_range() != 0) {
         model_index = model_indices[model_count - 1];
@@ -478,7 +478,7 @@ void TUnk_804E4B24::draw_tunnel_segment() {
     }
 }
 
-s32 TUnk_804E4B24::is_in_camera_range() {
+s32 TObjBoss7TunnelSegment::is_in_camera_range() {
     if ((s32)main_task.get_task_flags() & 0x20) {
         if (position.z < -300.0f && 300.0f < position.z) {
             return 0;
@@ -487,7 +487,7 @@ s32 TUnk_804E4B24::is_in_camera_range() {
     return 1;
 }
 
-void TUnk_804E4B24::update_collision() {
+void TObjBoss7TunnelSegment::update_collision() {
     set_matrix_identity((u8 *)matrix);
     translate_matrix_vec3((u8 *)matrix, (u8 *)&position);
     rotate_matrix_yxz(matrix, rotation_x, rotation_y, rotation_z);
@@ -512,16 +512,16 @@ void TObjBoss7TunnelCol::run_task() {  }
 
 void TObjBoss7TunnelCol::render() {  }
 
-TUnk_804E4AD4::TUnk_804E4AD4(TObject *parent, s32 kind) : TObject(parent) {
+TObjBoss7TunnelNode::TObjBoss7TunnelNode(TObject *parent, s32 kind) : TObject(parent) {
     model = get_bml_model(boss7_common_bml_resource, kind + 0x11);
     motion = get_bml_motion(boss7_common_bml_resource, kind);
     last_frame = (f32)motion->frameCount - 1.0f;
     frame = 0.0f;
 }
 
-TUnk_804E4AD4::~TUnk_804E4AD4() {}
+TObjBoss7TunnelNode::~TObjBoss7TunnelNode() {}
 
-void TUnk_804E4AD4::run_task() {
+void TObjBoss7TunnelNode::run_task() {
     frame += 1.0f;
     if (last_frame <= frame) {
         frame -= last_frame;
