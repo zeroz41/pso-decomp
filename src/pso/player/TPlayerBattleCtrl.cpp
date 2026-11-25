@@ -93,6 +93,7 @@ extern u8 player_battle_ctrl_text_english[];
 struct SendBattleModeDataS801C295C { s32 f0; s8 f4; s8 pad[0x13]; };
 
 void build_6x7D_set_battle_mode_data(void *p);
+}
 
 // "TPlayerBattleCtrl" opens the unit's .rodata, ahead of the pairs below.
 f32 battle_player_give_damage_score = 0.05f;
@@ -117,7 +118,6 @@ __declspec(section ".rodata") u32 lbl_80446FBC[2] = { 0, 0 };
 #define lbl_80446FB4 ((TLobbyPair *)lbl_80446FB4)
 #define lbl_80446FBC ((CalcPlayerRankingsTeam *)lbl_80446FBC)
 
-}
 
 typedef struct SendBattleModeStateMsg {
     u8 pad0[4];
