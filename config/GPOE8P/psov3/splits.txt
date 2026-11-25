@@ -5908,17 +5908,14 @@ pso/unk/TLobby_80243370.cpp:
 	.sbss       start:0x805D63E0 end:0x805D63E8
 
 pso/ui/window/TWindowActionPalette.cpp:
-	.text       start:0x80243408 end:0x8024420C
+	.text       start:0x80243408 end:0x8024422C
 	.rodata     start:0x8044E5D0 end:0x8044E628
 	.data       start:0x804CDCA8 end:0x804CDFE8
 	.sdata      start:0x805D3870 end:0x805D3878
 	.sdata2     start:0x805DCA10 end:0x805DCAA8
 
-pso/ui/window/TWindowHelpItem.cpp:
-	.text       start:0x8024420C end:0x80244238
-
 pso/ui/window/TWindowAddition_80244238.cpp:
-	.text       start:0x80244238 end:0x802443F0
+	.text       start:0x8024422C end:0x802443F0
 	.rodata     start:0x8044E628 end:0x8044E640
 	.sdata      start:0x805D3878 end:0x805D3880
 	.sdata2     start:0x805DCAA8 end:0x805DCAB4

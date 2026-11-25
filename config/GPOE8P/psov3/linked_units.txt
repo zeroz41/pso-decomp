@@ -1138,7 +1138,6 @@ pso/ui/window/TWindowEffectLight.cpp
 pso/ui/window/TWindowEffectParty.cpp
 pso/ui/window/TWindowFukidasi.cpp
 pso/ui/window/TWindowGetComCard.cpp
-pso/ui/window/TWindowHelpItem.cpp
 pso/ui/window/TWindowHelpItem_8025A12C.cpp
 pso/ui/window/TWindowHelpItem_8025A60C.cpp
 pso/ui/window/WindowHelpItemTextB.cpp

@@ -5,9 +5,10 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-s32 set_position_xy__15TWindowAdditionFff(f32, f32);
 const char *TWindowAddition__name = "TWindowAddition";
+
+void TWindowAddition::set_position_xy(f32 a, f32 b) { this->content_scale[0] = a; this->content_scale[1] = b; }
+
 #pragma push
 #pragma fp_contract on
 void TWindowAddition::step_window_tween() {
@@ -39,7 +40,5 @@ void TWindowAddition::sub_802443B4(u8 *) {
     m_name = TWindowAddition__name;
     scroll_offset[0] = 0.0f;
     scroll_offset[1] = 0.0f;
-    set_position_xy__15TWindowAdditionFff(1.0f, 1.0f);
-}
-
+    set_position_xy(1.0f, 1.0f);
 }

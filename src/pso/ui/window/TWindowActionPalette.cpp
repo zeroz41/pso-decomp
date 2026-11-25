@@ -52,6 +52,10 @@ struct PaletteItemKind { u8 group; u8 index; };
 
 struct Ctx_80243B6C { f32 x; f32 y; u8 pad8[0x34 - 0x8]; s32 tex; };
 
+// update_palette_item_count_label is the first caller of these two: their copies close the TU.
+void TWindowHelpItem::set_flag0_bit2() { *(u16*)(this + 0x0) |= 0x2; }
+void TWindowSubStatusDisp::clear_visible_flag() { *(u16 *)&this->m_name &= 0xfffffffd; }
+
 extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 s32 is_palettex_activated(u16 client_index);
