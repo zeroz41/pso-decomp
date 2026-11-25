@@ -345,11 +345,11 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     ((TAdSinglePlyChrSelectGC *)(&quest_download_cipher_state))->apply_rng_cipher(((u32 *)this), size & ~3);
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((void *)(src), (const void *)((const void *)this), (u32)size);
+    move_data((src), (const void *)((const void *)this), (u32)size);
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle((s32 *)&quest_download_cipher_state);
     TAdSinglePlyChrSelectGC::permute_save_blocks(&quest_download_cipher_state, (const u8*)src, (u8*)dst, (u32)size);
-    move_data((void *)(this), (const void *)(dst), (u32)size);
+    move_data((void *)(this), (dst), (u32)size);
     safe_free(dst);
     safe_free(src);
 }
@@ -358,11 +358,11 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     void *dst;
     src = TQuestVmDownLoadServer::alloc(size);
     dst = TQuestVmDownLoadServer::alloc(size);
-    move_data((void *)(src), (const void *)((const void *)((u32 *)data)), (u32)size);
+    move_data((src), (const void *)((const void *)((u32 *)data)), (u32)size);
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle((s32 *)&quest_download_cipher_state);
     subtractive_rng_unshuffle((void *)&quest_download_cipher_state, (const u8 *)src, (u8 *)dst, (u32)size);
-    move_data((void *)(((u32 *)data)), (const void *)(dst), (u32)size);
+    move_data((void *)(((u32 *)data)), (dst), (u32)size);
     safe_free(dst);
     safe_free(src);
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[0]);

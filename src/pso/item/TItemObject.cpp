@@ -156,7 +156,7 @@ void send_star_atomizer_targets(TObjPlayer *player) {
     G_UseStarAtomizer_6x66 cmd;
     LockOnActionSlot *slot;
     s32 i;
-    if (player != NULL && ((TObjPlayer *)player)->sub_801A1DDC() != 0 && player->lock_on_cursor != NULL) {
+    if (player != NULL && player->sub_801A1DDC() != 0 && player->lock_on_cursor != NULL) {
         slot = player->lock_on_cursor->find_by_pos(4, 0xA);
         if (slot != NULL) {
             cmd.init_header();
@@ -174,7 +174,7 @@ void send_nearby_player_ids(TObjPlayer *self, f32 range) {
     s32 j;
     u16 i;
     TObjPlayer *player;
-    if (self != NULL && ((TObjPlayer *)self)->sub_801A1DDC() != 0) {
+    if (self != NULL && self->sub_801A1DDC() != 0) {
         cmd.init_header();
         j = 0;
         for (i = 0; i != 4; i++) {

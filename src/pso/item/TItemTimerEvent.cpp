@@ -53,18 +53,18 @@ void TObjPlayer::set_flag_10000() {
 extern "C" {
 TItemLockCountCtrl * item_timer_event_instance;
 
-void TObjPlayer::clear_state_flags(s32 arg1) {
+void TObjPlayer::clear_state_flags(s32 mask) {
   s32 *new_var;
   int new_var2;
     TObjPlayer *arg0 = (TObjPlayer *)this;
-  new_var2 = ~arg1;
+  new_var2 = ~mask;
   new_var = (s32 *) (((s8 *) arg0) + 0x334);
   *new_var = (s32) ((arg0->state_flags) & new_var2);
 }
 
 void fn_8011E1D4(TObjPlayer *player) {
     if (!(player->class_flags & CLASS_FLAG_ANDROID)) {
-        ((TObjPlayer *)player)->clear_state_flags(0x10000);
+        player->clear_state_flags(0x10000);
     }
 }
 
@@ -125,82 +125,82 @@ TItemTimerEventParalysisCurse::~TItemTimerEventParalysisCurse() {}
 
 TItemTimerEvent::TItemTimerEvent(TItemHeapObject *parent, u16 client, s32 period) : TItemHeapObject(parent) {
     m_name = TItemTimerEvent__class_name;
-    m_1c = client;
-    m_28 = 0;
-    m_20 = period;
-    m_24 = 0;
+    client_id = client;
+    player = 0;
+    interval = period;
+    elapsed = 0;
     disallow_rendering();
 }
 
 TItemTimerEvent::~TItemTimerEvent() {}
 
 void TItemTimerEvent::run_task() {
-    this->m_28 = (uaddr)get_player_by_client_id((u16)this->m_1c);
-    if ((u32) this->m_28 == 0U) {
+    this->player = (uaddr)get_player_by_client_id((u16)this->client_id);
+    if ((u32) this->player == 0U) {
         queue_destruction();
         return;
     }
-    if ((s32) this->m_24 == (s32) this->m_20) {
+    if ((s32) this->elapsed == (s32) this->interval) {
         this->vfunc_6();
-        this->m_24 = 0;
+        this->elapsed = 0;
         return;
     }
     this->vfunc_7();
 }
 
 void TItemTimerEvent::vfunc_7() {
-    this->m_24 = (this->m_24 + 1);
+    this->elapsed = (this->elapsed + 1);
 }
 
 void TItemTimerEventHpDrain::vfunc_7() {
-    if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
-        this->m_24 = (this->m_24 + 1);
+    if (((TObjPlayer *)this->player)->test_action_mask(0x1C) != 0) {
+        this->elapsed = (this->elapsed + 1);
     }
 }
 
 void TItemTimerEventHpDrain::vfunc_6() {
-        if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0)) {
-        TObjectV8047c128_subtract_hp((u8 *)this->m_28, 1);
+        if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjChara *)this->player)->obj_isState3_324() == 0) && (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0)) {
+        TObjectV8047c128_subtract_hp((u8 *)this->player, 1);
     }
 }
 
 void TItemTimerEventTpDrain::vfunc_7() {
-    if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
-        this->m_24 = (this->m_24 + 1);
+    if (((TObjPlayer *)this->player)->test_action_mask(0x1C) != 0) {
+        this->elapsed = (this->elapsed + 1);
     }
 }
 
 void TItemTimerEventTpDrain::vfunc_6() {
-        if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0)) {
-        ((TObjChara *)(this->m_28))->subtract_actor_tp(1);
+        if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjChara *)this->player)->obj_isState3_324() == 0) && (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0)) {
+        ((TObjChara *)(this->player))->subtract_actor_tp(1);
     }
 }
 
 void TItemTimerEventHpRegen::vfunc_6() {
-    if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
-        add_actor_hp((TObjChara *)this->m_28, 1);
+    if (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0) {
+        add_actor_hp((TObjChara *)this->player, 1);
     }
 }
 
 void TItemTimerEventTpRegen::vfunc_6() {
-    if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
-        add_actor_tp((TObjChara *)this->m_28, 1);
+    if (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0) {
+        add_actor_tp((TObjChara *)this->player, 1);
     }
 }
 
 void TItemTimerEventPbCharge::vfunc_6() {
-    if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
-        ((TObjChara *)this->m_28)->gain_photon_blast_charge(1.0f);
+    if (((TObjCollidable *)this->player)->test_actor_flags(0x800) == 0) {
+        ((TObjChara *)this->player)->gain_photon_blast_charge(1.0f);
     }
 }
 
 void TItemTimerEventFreezeCurse::vfunc_6() {
 
-    if (((TObjChara *)(this->m_28))->obj_isState2_324() == 0) {
-        if (((TObjPlayer *)this->m_28)->has_flag_0x800() == 0) {
-                        if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && ((3.0517578e-05f * (f32) rand()) < this->unk_2C)) {
-                ((TObjPlayer *)this->m_28)->apply_movement_ailment(0);
-                ((TObjPlayer *)this->m_28)->sync_enemy_state(0);
+    if (((TObjChara *)(this->player))->obj_isState2_324() == 0) {
+        if (((TObjPlayer *)this->player)->has_flag_0x800() == 0) {
+                        if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && ((3.0517578e-05f * (f32) rand()) < this->unk_2C)) {
+                ((TObjPlayer *)this->player)->apply_movement_ailment(0);
+                ((TObjPlayer *)this->player)->sync_enemy_state(0);
             }
         }
     }
@@ -209,49 +209,49 @@ void TItemTimerEventFreezeCurse::vfunc_6() {
 void TItemTimerEventArmorParticle::vfunc_6() {
     TParticleCtrl *particle;
 
-    if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->m_28))->is_flag_20000_set() == 0)) {
-                if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjCollidable *)((void *)this->m_28))->test_actor_flags(0x800) == 0)) {
-            particle = spawn_particle_effect_with_flags((const Vec *)(*(saddr *)&this->m_28 + 0x2FC), this->unk_2C, 0x10);
+    if ((((TObjPlayer *)this->player)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->player))->is_flag_20000_set() == 0)) {
+                if ((is_item_area_enabled(((TObjPlayer *)(this->player))->get_area()) == 1) && (((TObjCollidable *)((void *)this->player))->test_actor_flags(0x800) == 0)) {
+            particle = spawn_particle_effect_with_flags((const Vec *)(*(saddr *)&this->player + 0x2FC), this->unk_2C, 0x10);
             if (particle != 0) {
-                particle->set_owner_id(((TObjBase *)this->m_28)->get_entity_id());
+                particle->set_owner_id(((TObjBase *)this->player)->get_entity_id());
             }
         }
     }
 }
 
 void TItemTimerEventSlowCurse::vfunc_6() {
-    Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
+    Timer_8011D5B4 *timer = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
-        if (is_item_area_enabled(((TObjPlayer *)(arg0->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
+        if (is_item_area_enabled(((TObjPlayer *)(timer->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < timer->f2c) {
         a.k1 = 0x11;
         a.v2 = 0.0f;
         a.k2 = 0x11;
         a.v1 = *(s32 *)&a.v2;
-        arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
+        timer->obj->m21(timer->obj, &a, 0, -1, -1);
     }
 }
 
 void TItemTimerEventConfusionCurse::vfunc_6() {
-    Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
+    Timer_8011D5B4 *timer = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
-        if (is_item_area_enabled(((TObjPlayer *)(arg0->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
+        if (is_item_area_enabled(((TObjPlayer *)(timer->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < timer->f2c) {
         a.k1 = 0x12;
         a.v2 = 0.0f;
         a.k2 = 0x12;
         a.v1 = *(s32 *)&a.v2;
-        arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
+        timer->obj->m21(timer->obj, &a, 0, -1, -1);
     }
 }
 
 void TItemTimerEventParalysisCurse::vfunc_6() {
-    Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
+    Timer_8011D5B4 *timer = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
-        if (is_item_area_enabled(((TObjPlayer *)(arg0->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
+        if (is_item_area_enabled(((TObjPlayer *)(timer->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < timer->f2c) {
         a.k1 = 0x10;
         a.v2 = 0.0f;
         a.k2 = 0x10;
         a.v1 = *(s32 *)&a.v2;
-        arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
+        timer->obj->m21(timer->obj, &a, 0, -1, -1);
     }
 }
 

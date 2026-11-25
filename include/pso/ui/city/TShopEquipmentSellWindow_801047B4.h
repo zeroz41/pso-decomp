@@ -6,13 +6,13 @@
 extern "C" {
 s32 TObjPlayer__sub_80104840(s32 arg0);
 }
-s32 is_valid_drop_floor(s32 arg0);
+s32 is_valid_drop_floor(s32 floor);
 
 // --- C functions defined in TShopEquipmentSellWindow_801047B4.cpp ---
 extern "C" {
 s32 TObjPlayer__sub_80104840(s32 arg0);
 }
-s32 is_valid_drop_floor(s32 arg0);
+s32 is_valid_drop_floor(s32 floor);
 // --- end of C functions
 
 #endif
