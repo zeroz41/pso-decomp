@@ -75,9 +75,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_all_values(s32 meseta);
     void set_animated_target(s32 meseta, f32 farg0);
     static void update_palette_sprite();
-    void set_string(uaddr string);
-    void set_text(uaddr arg1, s32 string, s32 arg3);
-    void set_text(uaddr arg1, s32 arg2);
     void init_scroll_pos();
     void add_text_entry(s32 arg1, s32 arg2);
     static f32 get_base_y(f32 width);
@@ -106,7 +103,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void update_entry_visibility();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);
-    static void *destroy_free_buffers(void *window_sub_status_disp, s16 arg1);
 };
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);

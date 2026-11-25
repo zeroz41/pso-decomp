@@ -76,12 +76,9 @@ struct TWindowSubComCard : public TObject {
     static void mask_profanity_words(char *src, char *dst);
     uaddr get_field_20();
     void set_entry_value_clear_flag(s32 idx, s32 val);
-    s32 get_entry_id();
     static s32 create_card_list(saddr parent, saddr card_slot, s32 count, s32 empty_message);
     // Opens the list over every stored guild card (create_card_list's all-cards form).
     static u8 *sub_802754EC(saddr parent);
-    void*init_fields(int rec, int client);
-    int is_flag_4_set();
     static f32 trunc_float(f32 value);
     void set_card_text(saddr src);
     u8 *get_card_entry_data();

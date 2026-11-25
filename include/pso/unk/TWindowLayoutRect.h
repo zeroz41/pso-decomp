@@ -31,9 +31,7 @@ LAYOUT_ASSERT(TWindowLayoutRect_size, sizeof(TWindowLayoutRect) == 0x18);
 
 extern "C" {
 // The constructors and destructor, called by the parts that are still written by hand.
-void *__ct__17TWindowLayoutRectFl(void *p, s32 client);
 void *__ct__17TWindowLayoutRectFPUcl(void *p, u8 *rec, s32 client);
-void *__dt__17TWindowLayoutRectFv(void *p, s16 flags);
 }
 
 #endif

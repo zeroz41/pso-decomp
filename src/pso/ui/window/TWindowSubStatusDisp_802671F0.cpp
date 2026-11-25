@@ -46,6 +46,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
+#include "pso/ui/window/LabelValueRow.h"
 
 const char *TWindowMenuIconLine__name = "TWindowMenuIconLine";
 
@@ -718,71 +719,62 @@ void TWindowMenuIconLine::clear_close_flag() { state_flags &= ~0x80; }
 
 int TWindowLayoutEntry::is_flag80_set() const { return flags & 0x80; }
 
-extern "C" {
-
-// Keep the label pointer in its original register across the entry scan.
-void set_string__20TWindowSubStatusDispFUl(TWindowSubStatusDisp *, void *);
-
-struct Ent_802684BC { u8 p0[0x1C]; s32 f1C; };
-
 s32 TWindowMenuInfomation::update_selected_entry() {
-    return ((TWindowSubComCard *)get_array_entry(index))->get_entry_id();
+    return ((LabelValueRow *)get_array_entry(index))->get_entry_id();
 }
 
-s32 TWindowMenuInfomation::find_entry_value_by_id(s32 key) {
+char *TWindowMenuInfomation::find_entry_value_by_id(s32 key) {
     s32 i;
-    Ent_802684BC *e;
+    LabelValueRow *e;
     for (i = 0; i < entry_capacity; i++) {
-        e = (Ent_802684BC *)get_array_entry(i);
-        if (e != NULL && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && key == ((TWindowSubComCard *)e)->get_entry_id()) {
-            return e->f1C;
+        e = (LabelValueRow *)get_array_entry(i);
+        if (e != NULL && e->is_flag_4_set() != 0 && key == e->get_entry_id()) {
+            return e->label;
         }
     }
     return 0;
 }
 void TWindowMenuInfomation::mark_entry_by_id(s32 entry_id) {
     s32 i;
-    u8 *e;
+    LabelValueRow *e;
     for (i = 0; i < entry_capacity; i++) {
-        e = (u8 *)get_array_entry(i);
-        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && entry_id == ((TWindowSubComCard *)e)->get_entry_id()) {
-            *(u16 *)e |= 1;
-            ((WindowTextEntry *)e)->color = -1;
+        e = (LabelValueRow *)get_array_entry(i);
+        if (e != 0 && e->is_flag_4_set() != 0 && entry_id == e->get_entry_id()) {
+            e->flags |= 1;
+            e->color = -1;
         }
     }
 }
 void TWindowMenuInfomation::disable_entry_by_id(s32 id) {
     s32 i;
-    u8 *e;
+    LabelValueRow *e;
     for (i = 0; i < entry_capacity; i++) {
-        e = (u8 *)get_array_entry(i);
-        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && id == ((TWindowSubComCard *)e)->get_entry_id()) {
-            *(u16 *)e &= 0xFFFE;
-            ((WindowTextEntry *)e)->color = 0xFF909090;
+        e = (LabelValueRow *)get_array_entry(i);
+        if (e != 0 && e->is_flag_4_set() != 0 && id == e->get_entry_id()) {
+            e->flags &= 0xFFFE;
+            e->color = 0xFF909090;
         }
     }
 }
-void TWindowMenuInfomation::set_entry_string_by_id(void *id, s32 entry_id) {
+void TWindowMenuInfomation::set_entry_string_by_id(void *string, s32 entry_id) {
     s32 i;
-    u8 *e;
+    LabelValueRow *e;
     for (i = 0; i < entry_capacity; i++) {
-        e = (u8 *)get_array_entry(i);
-        if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && entry_id == ((TWindowSubComCard *)e)->get_entry_id()) {
-            set_string__20TWindowSubStatusDispFUl((TWindowSubStatusDisp *)e, id);
+        e = (LabelValueRow *)get_array_entry(i);
+        if (e != 0 && e->is_flag_4_set() != 0 && entry_id == e->get_entry_id()) {
+            e->set_string(string);
         }
     }
 }
 
-void TWindowMenuInfomation::update_next_entry(s32 position, s32 string, s32 arg3) {
+void TWindowMenuInfomation::update_next_entry(void *label, void *string, s32 id) {
     s16 next_row;
 
     next_row = next_entry;
     if (next_row < entry_capacity) {
-        ((TWindowSubStatusDisp *)(get_array_entry(next_row)))->set_text(position, string, arg3);
+        ((LabelValueRow *)(get_array_entry(next_row)))->set_text(label, string, id);
         ++next_entry;
     }
-}
-
 }
 
 void TWindowSubStatusDisp::add_text_entry(s32 arg1, s32 arg2) {
@@ -790,7 +782,7 @@ void TWindowSubStatusDisp::add_text_entry(s32 arg1, s32 arg2) {
 
     temp_r4 = *(s16 *)((s8 *)this + 0x72);
     if (temp_r4 < (s16) *(s16 *)((s8 *)this + 0x76)) {
-        ((TWindowSubStatusDisp *)(get_array_entry(temp_r4)))->set_text(arg1, arg2);
+        ((LabelValueRow *)(get_array_entry(temp_r4)))->set_text(arg1, arg2);
         *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
     }
 }

@@ -27,6 +27,7 @@
 #include "pso/ui/ItemListRow.h"
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/LabelValueRow.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/HelpItemRarityStarRow.h"
@@ -177,7 +178,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 9:
                 o = ::operator new(0x28);
                 if (o != NULL) {
-                    o = ((TWindowSubComCard *)o)->init_fields((saddr)rec, (int)client);
+                    o = __ct__13LabelValueRowFPUcl(o, (u8 *)rec, client);
                 }
                 *out = o;
                 rec += 1;

@@ -5,8 +5,9 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/LabelValueRow.h"
 
-s32 TWindowSubComCard::get_entry_id() { return *(s32*)((char*)this + 0x18); }
+s32 LabelValueRow::get_entry_id() { return id; }
 
 int TWindowSubComCard__sub_8026906C(void* p) { return *(u16*)((char*)p + 0x0) & 0x80; }
 void TWindowMeseta::set_value(s32 value) {

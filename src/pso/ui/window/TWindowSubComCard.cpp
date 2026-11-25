@@ -1353,7 +1353,7 @@ u32 TWindowSubComCard::sub_80272DE0() {
     e = l->ents;
     for (i = 0; i < count; i++, e++) {
         if (e->type == 0) {
-            ((TWindowMenuInfomation *)w)->update_next_entry((saddr)e->name, (saddr)this->find_entry_rest(choice_selections, idx), (s32)e->id);
+            ((TWindowMenuInfomation *)w)->update_next_entry(e->name, this->find_entry_rest(choice_selections, idx), e->id);
             idx++;
         }
     }
@@ -1377,7 +1377,7 @@ s32 TWindowSubComCard::create_entry_list_window() {
     hard = TLobby::open_hard_keyboard(client_id);
     w = (saddr)TWindowChoiceSetting::create_choice_setting_window((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_entry_list_size, 6);
     ((TWindowMenuInfomation *)w)->create_sub_window((const char *)TWindowSubStatusDisp::get_message_10(0x6D));
-    ((TWindowMenuInfomation *)w)->update_next_entry((saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)), (saddr)this->get_message_10(hard), 0);
+    ((TWindowMenuInfomation *)w)->update_next_entry(TWindowSubStatusDisp::get_message_10(0x6D), this->get_message_10(hard), 0);
     l = *(List_80272CB0 **)(((u8 *)this) + 0x58);
     idx = -1;
     n = l->count;
@@ -1386,7 +1386,7 @@ s32 TWindowSubComCard::create_entry_list_window() {
         if (e->type == 0) {
             idx++;
             if (e->id >= 500) {
-                ((TWindowMenuInfomation *)w)->update_next_entry((saddr)e->name, (saddr)(this->find_entry_rest(card + 0x22EC, idx)), (s32)e->id);
+                ((TWindowMenuInfomation *)w)->update_next_entry(e->name, this->find_entry_rest(card + 0x22EC, idx), e->id);
                 if (hard != 0) {
                     ((TWindowMenuInfomation *)w)->disable_entry_by_id(e->id);
                 }

@@ -1850,7 +1850,7 @@ force_active:
   - set_replied__14ShortMailEntryFv
   - __dt__15WindowTextEntryFv
   - TWindowSubStatusDisp__sub_8025B2DC
-  - TWindowSubStatusDisp__sub_8025B760
+  - update__13LabelValueRowFv
   - draw_composition_background__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUl
   - layout_wrapped_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUll
   - TWindowSubStatusDisp__sub_80271A6C
@@ -5647,7 +5647,7 @@ force_active:
   - destroy_effect_objects__10TObjPlayerFv
   - destroy_effects__12TBoss4ThanksFv
   - destroy_effects__12TBoss6ThanksFv
-  - destroy_free_buffers__20TWindowSubStatusDispFPvs
+  - __dt__13LabelValueRowFv
   - destroy_if_keyboard_idle__9TSaveChCrFv
   - __dt__17TItemFollowEffectFv
   - destroy_join_entries__6TLobbyFv
@@ -5838,7 +5838,7 @@ force_active:
   - draw_if_visible__15TObjEneDelDepthFv
   - draw_inactive_badge__11TObjDoorKeyFv
   - draw_label__16TAdGuideButtonGCFiPCc
-  - draw_label_value__20TWindowSubStatusDispFPvPv
+  - render__13LabelValueRowFP17WindowDrawContext
   - draw_laser_beam__13TLazerFenceSwFv
   - draw_light__12TODoorCave02FP10NJS_OBJECT
   - draw_lights__20TODoorFourLightSpaceFv
@@ -17730,7 +17730,7 @@ force_active:
   - window_chat_type_name_pointer
   - window_dd_element_count
   - window_duel_result_class_name
-  - window_label_value_part_vtable
+  - __vt__13LabelValueRow
   - window_sub_game_end_active_flag
   - window_uv_sprite_part_vtable
   - wolf_stat_handle_a_table
