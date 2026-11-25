@@ -691,13 +691,6 @@ pso/player/PhotonBlastGauge.cpp
 pso/ui/city/THunterGuildSeqOffline.cpp
 pso/ui/city/THunterGuildSeqOffline_801F3718.cpp
 pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp
-pso/ui/city/THunterGuildSeqOffline_8021250C.cpp
-pso/ui/city/THunterGuildSeqOffline_80212564.cpp
-pso/ui/city/THunterGuildSeqOffline_80212644.cpp
-pso/ui/city/THunterGuildSeqOffline_8021269C.cpp
-pso/ui/city/THunterGuildSeqOffline_802126C4.cpp
-pso/ui/city/THunterGuildSeqOffline_8021277C.cpp
-pso/ui/city/THunterGuildSeqOffline_8021282C.cpp
 pso/ui/city/THunterGuildSeqOffline_80213788.cpp
 pso/ui/city/THunterGuildWarning.cpp
 pso/ui/city/TJudgmentSequence.cpp

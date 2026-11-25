@@ -5296,29 +5296,8 @@ pso/system/TMemberCheck.cpp:
 	.sdata      start:0x805D3650 end:0x805D3658
 	.sbss       start:0x805D6180 end:0x805D6188
 
-pso/ui/city/THunterGuildSeqOffline_8021250C.cpp:
-	.text       start:0x8021250C end:0x80212564
-
-pso/ui/city/THunterGuildSeqOffline_80212564.cpp:
-	.text       start:0x80212564 end:0x80212644
-
-pso/ui/city/THunterGuildSeqOffline_80212644.cpp:
-	.text       start:0x80212644 end:0x8021269C
-
-pso/ui/city/THunterGuildSeqOffline_8021269C.cpp:
-	.text       start:0x8021269C end:0x802126C4
-
-pso/ui/city/THunterGuildSeqOffline_802126C4.cpp:
-	.text       start:0x802126C4 end:0x8021277C
-
-pso/ui/city/THunterGuildSeqOffline_8021277C.cpp:
-	.text       start:0x8021277C end:0x8021282C
-
-pso/ui/city/THunterGuildSeqOffline_8021282C.cpp:
-	.text       start:0x8021282C end:0x80212D9C
-
 pso/ui/city/THunterGuildSeqOffline.cpp:
-	.text       start:0x80212D9C end:0x80213788
+	.text       start:0x8021250C end:0x80213788
 	.rodata     start:0x8044BCA0 end:0x8044BCB8
 	.data       start:0x804C96D8 end:0x804C9740
 	.bss        start:0x80513DC8 end:0x80513DE8

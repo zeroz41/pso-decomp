@@ -1,33 +1,267 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "types.h"
+#include "pso/ui/city/TShopWindowBase.h"
+#include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/quest/TQuestListVM.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TScreenFadeOut.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/quest/TQuestListChallenge.h"
+#include "pso/quest/TQuestListOffline.h"
+#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/city/THunterGuildWarning.h"
+#include "pso/item/shop/TShopGenerator.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/quest/TQuestThread.h"
+#include "pso/ui/city/TShopSequence.h"
+#include "pso/object/base/TObjBase.h"
 #include "pso/unk/TQuestManager.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "types.h"
-#include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/city/TShopWindowBase.h"
-#include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
-#include "pso/item/shop/TShopGenerator.h"
-#include "pso/ui/window/TWindowMenu.h"
-#include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjBase.h"
-#include "pso/system/task/TMainTask.h"
+#include <stddef.h>
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/text_8022350C.h"
+#include "pso/ui/window/WindowLayout.h"
+
+// The quest-list callbacks before the guild sequence proper are built in source order;
+// the rest of the file uses deferred code generation (reverse order in .text).
+#pragma defer_codegen off
+
+void THunterGuildSeqOffline::set_state_close(TShopWindowBase *) {
+    if (THunterGuildSeqOffline::active_instance != NULL) {
+        THunterGuildSeqOffline::active_instance->display_guild_message(0xC, 1);
+        THunterGuildSeqOffline::active_instance->unk_38 = 0;
+        THunterGuildSeqOffline::active_instance->set_state(5);
+    }
+}
+
+struct Base_802125BC_80212564 { char pad[0x18]; };
+struct VObj_802125BC_80212564 : Base_802125BC_80212564 {
+    virtual int m0();
+    virtual int m1();
+    virtual int m2();
+    virtual int m3();
+    virtual int m4();
+    virtual int m5();
+    virtual int m6();
+    virtual int m7(int, int);
+    virtual int m8();
+};
+
+void THunterGuildSeqOffline::set_state_4(TShopWindowBase *) {
+    if (THunterGuildSeqOffline::active_instance != NULL) {
+        THunterGuildSeqOffline::active_instance->display_guild_message(6, 1);
+        THunterGuildSeqOffline::active_instance->unk_38 = 4;
+        THunterGuildSeqOffline::active_instance->set_state(5);
+    }
+}
+
+void THunterGuildSeqOffline::handle_click() {
+    VObj_802125BC_80212564 *o = (VObj_802125BC_80212564 *)this;
+    if (o->m8() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
+        o->m7(0x19, 1);
+        set_state(4);
+    }
+}
+
+void THunterGuildSeqOffline::set_state_3() {
+    if (THunterGuildSeqOffline::active_instance != NULL) {
+        THunterGuildSeqOffline::active_instance->display_guild_message(6, 1);
+        THunterGuildSeqOffline::active_instance->unk_38 = 3;
+        THunterGuildSeqOffline::active_instance->set_state(5);
+    }
+}
+
+void THunterGuildSeqOffline::init_quest_list() {
+    THunterGuildSeqOffline::active_instance->set_state(9);
+}
+
+void THunterGuildSeqOffline::notify_close() {
+    if (THunterGuildSeqOffline::active_instance != NULL) {
+        THunterGuildSeqOffline::active_instance->display_guild_message(0x19, 1);
+        THunterGuildSeqOffline::active_instance->set_state(4);
+    }
+}
+
+void THunterGuildSeqOffline::create_quest_list_vm(TShopWindowBase *) {
+    TQuestListVM *vm = new TQuestListVM(tl_05, THunterGuildSeqOffline::active_instance,
+                                        THunterGuildSeqOffline::active_instance->player);
+    if (vm != NULL) {
+        vm->on_close = notify_close;
+        vm->on_error = init_quest_list;
+        vm->on_finish = set_state_3;
+    }
+}
+
+void THunterGuildSeqOffline::set_state_close2(TShopWindowBase *) {
+    if (THunterGuildSeqOffline::active_instance != NULL) {
+        THunterGuildSeqOffline::active_instance->display_guild_message(0xC, 1);
+        THunterGuildSeqOffline::active_instance->unk_38 = 0;
+        THunterGuildSeqOffline::active_instance->set_state(5);
+    }
+}
+
+void THunterGuildSeqOffline::set_enemy_mode_5(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 5; TKeyBoardControl__sub_8000F950(); }
+
+void THunterGuildSeqOffline::set_enemy_mode_1(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 1; TKeyBoardControl__sub_8000F950(); }
+
+extern "C" void fn_802233F8(void *);
+
+void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
+
+void THunterGuildSeqOffline::request_close(TShopWindowBase *) {
+    if (THunterGuildSeqOffline::active_instance != NULL) {
+        THunterGuildSeqOffline::active_instance->display_guild_message(6, 1);
+        THunterGuildSeqOffline::active_instance->unk_38 = 2;
+        THunterGuildSeqOffline::active_instance->set_state(5);
+    }
+}
+
+void THunterGuildSeqOffline::handle_cancel_choice() {
+    s32 selected_menu_value;
+    TWindowMenu *window_menu = choice_menu;
+    if (window_menu != NULL) {
+        if (window_menu->is_decided() != 0) {
+            selected_menu_value = choice_menu->get_selected_value();
+            if (selected_menu_value == 0) {
+                choice_menu->close();
+                this->choice_menu = NULL;
+                this->display_guild_message(9, 1);
+                *(s32 *)&this->unk_38 = 1;
+                if (quest_result_callbacks[2] != -1) {
+                    quest_thread = TQuestThread::create_in_root(quest_result_callbacks[2]);
+                }
+                this->set_state(5);
+                return;
+            }
+            if (selected_menu_value == 1) {
+                choice_menu->close();
+                this->choice_menu = NULL;
+                this->display_guild_message(0xA, 1);
+                *(s32 *)&this->unk_38 = 0;
+                this->set_state(5);
+                return;
+            }
+            goto block_8;
+        }
+block_8:
+        if (choice_menu->is_cancelled() != 0) {
+            choice_menu->close();
+            this->choice_menu = NULL;
+            this->display_guild_message(0xA, 1);
+            *(s32 *)&this->unk_38 = 0;
+            this->set_state(5);
+        }
+    }
+}
+
+void THunterGuildSeqOffline::close_window() {
+    if (quest_thread != 0) {
+        if (((TObject *)quest_thread)->all_parents_unqueued_for_destruction() == 1) {
+            return;
+        }
+        quest_thread = 0;
+    }
+    if (is_message_ready() == 0) {
+        return;
+    }
+    if (is_decide_pressed() == 0 && is_cancel_pressed() == 0) {
+        return;
+    }
+    switch (unk_38) {
+    case 0:
+        break;
+    case 1:
+        new TScreenFadeOut(tl_00, THunterGuildSeqOffline::set_enemy_mode_0);
+        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        break;
+    case 2:
+        new TScreenFadeOut(tl_00, THunterGuildSeqOffline::set_enemy_mode_1);
+        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        break;
+    case 3:
+        new TScreenFadeOut(tl_00, TQuestListVM::set_enemy_mode_3);
+        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        break;
+    case 4:
+        new TScreenFadeOut(tl_00, THunterGuildSeqOffline::set_enemy_mode_5);
+        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        break;
+    }
+    TShopSequence::close_window();
+    fn_802233F8(this);
+    THunterGuildWarning::queue_destruction();
+    queue_destruction();
+}
+
+void THunterGuildSeqOffline::open_quest_list() {
+    TQuestListChallenge *challenge;
+    TQuestListOffline *offline;
+    if (is_message_ready() == 0) return;
+    switch (get_game_play_mode()) {
+    case 2:
+        challenge = new TQuestListChallenge(tl_05, this, player);
+        if (challenge != NULL) {
+            challenge->on_accept = THunterGuildSeqOffline::request_close;
+            challenge->on_cancel = THunterGuildSeqOffline::set_state_close2;
+            set_state(10);
+        }
+        break;
+    case 1:
+        challenge = new TQuestListChallenge(tl_05, this, player);
+        if (challenge != NULL) {
+            challenge->on_accept = THunterGuildSeqOffline::set_state_4;
+            challenge->on_cancel = THunterGuildSeqOffline::set_state_close;
+            set_state(10);
+        }
+        break;
+    case 0:
+    default:
+        offline = new TQuestListOffline(tl_05, this, player);
+        if (offline != NULL) {
+            offline->on_accept = THunterGuildSeqOffline::request_close;
+            offline->on_cancel = THunterGuildSeqOffline::set_state_close2;
+            offline->on_download = THunterGuildSeqOffline::create_quest_list_vm;
+            set_state(10);
+        }
+        break;
+    }
+}
+
+void THunterGuildSeqOffline::handle_window_input() {
+    TQuestThread *object = quest_thread;
+
+    if (object != NULL) {
+        if (object->all_parents_unqueued_for_destruction() != 1) {
+            quest_thread = NULL;
+            goto block_3;
+        }
+    } else {
+block_3:
+        if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
+            this->display_guild_message(0xC, 1);
+            *(s32 *)&this->unk_38 = 1;
+            set_state(5);
+        }
+    }
+}
+
+
+#pragma defer_codegen on
 
 struct Base_802133C4_80212D9C { char pad[0x18]; };
 struct VObj_802133C4_80212D9C : Base_802133C4_80212D9C {
     virtual void m0(); virtual void m1();
 };
-#include <stddef.h>
-#include "pso/ui/city/THunterGuildWarning.h"
-
-#include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/text_8022350C.h"
-#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 struct Stack_802130AC {
