@@ -602,7 +602,6 @@ pso/math/MatrixTransforms.cpp
 pso/math/MatrixVector.cpp
 pso/ui/frontend/TAdEndText.cpp
 pso/ui/frontend/TAdGuideTxtGC.cpp
-pso/ui/frontend/TAdGuideTxtGC_802B17D4.cpp
 pso/ui/frontend/TAdMultiOkGC.cpp
 pso/system/save/McFsGc.cpp
 pso/ui/frontend/TAdPlyChrSelPlateGC.cpp
@@ -1204,7 +1203,6 @@ pso/ui/window/TWindowSubComCard_8007341C.cpp
 pso/ui/window/TWindowSubComCard_80073DB8.cpp
 pso/ui/window/TWindowSubComCard_8007A810.cpp
 pso/ui/window/TWindowSubComCard_8007BD24.cpp
-pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp
 pso/ui/window/TWindowSubComCard_80225E0C.cpp
 pso/ui/window/TWindowBase.cpp
 pso/ui/window/TWindowSubComCard_802495FC.cpp
@@ -1378,9 +1376,7 @@ pso/ui/window/TObjCHTimeWin.cpp
 pso/ui/window/TObjCHTimeWin_80074C94.cpp
 pso/ui/charcreate/TObjCMIcon.cpp
 pso/ui/charcreate/TObjCMIcon_80299488.cpp
-pso/ui/charcreate/TObjCMMainMenu_8028D9A8.cpp
 pso/ui/charcreate/TObjCMMainMenu_8028EA88.cpp
-pso/ui/charcreate/TObjCMMainMenu_8029427C.cpp
 pso/camera/TObjCamera.cpp
 pso/object/TObjChip.cpp
 pso/object/warp/TObjCityMainWarpChallenge.cpp
@@ -1645,16 +1641,11 @@ pso/ui/frontend/TAdMultiConfirmGC_802E03D0.cpp
 pso/ui/frontend/TAdMultiPlayerNoGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGCTables.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802B1850.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802E011C.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.cpp
-pso/ui/frontend/TAdMultiPlyChrSelectGC_803495B4.cpp
 pso/ui/frontend/TAdMultiSaveGC.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp
-pso/ui/frontend/TAdMultiSelGameModeGC_802D5098.cpp
 pso/ui/frontend/TAdPlayerLoadGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_80076BBC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp

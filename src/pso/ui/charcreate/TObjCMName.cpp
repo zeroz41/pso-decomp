@@ -15,7 +15,6 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/ui/charcreate/TObjCMAssignMenu.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
-#include "pso/ui/charcreate/TObjCMMainMenu_8028D9A8.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/ui/charcreate/TObjCMAutoMkData.h"
@@ -1946,7 +1945,7 @@ void TObjCMName::run_task() {
                 strncpy(name, (char *)appearance->name, 12);
                 name[12] = 0;
             }
-            ((TObjCMMainMenu *)name)->copy_char_name();
+            copy_char_name(name);
             strncpy((char *)appearance->name, name, 12);
             appearance->name[12] = 0;
             mem_free(buf);

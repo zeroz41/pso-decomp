@@ -23,4 +23,6 @@ public:
 
 LAYOUT_ASSERT(TChCrEffFade_size, sizeof(TChCrEffFade) == 0x30);
 
+void *create_fade_effect(void *duration, void *mode);
+
 #endif

@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/network/TLobby.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/system/memory.h"
 
 void TKeyBoardControl::hide() {
     u16 cur_flags;
@@ -72,3 +73,14 @@ void TKeyBoardControl::set_sub_position(u8 *pos) {
 void TKeyBoardControl::set_text(char *s) {
     m_base->set_text(s);
 }
+
+char *TKeyBoardControl::realloc_buffer() {
+    char *out;
+
+    out = (char *)mem_alloc(m_base->measure_text_overflow());
+    m_base->export_text(out);
+    return out;
+}
+
+int TKeyBoardControl::is_cancelled() { return m_base->is_cancelled(); }
+int TKeyBoardControl::is_confirmed() { return m_base->is_confirmed(); }

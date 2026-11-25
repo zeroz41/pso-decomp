@@ -1,9 +1,30 @@
+#include "pso/ui/frontend/TAdGuideTxtGC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/MenuText.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
+
+void TAdGuideTxtGC::render() {
+    if (TMainTask::get_render_pass() != 1) {
+        u32 i = 0;
+        do {
+            u32 color = (alpha[i] << 24) | 0xFFFFFF;
+            draw_menu_text(position[i].x, position[i].y, text[i], color);
+            i++;
+        } while (i < 2);
+    }
+}
+
+void TAdGuideTxtGC::set_line(s32 index, const char *line) {
+    if (previous_text[index] != line) {
+        text[index] = line;
+        alpha[index] = 0;
+    }
+    previous_text[index] = line;
+}
 
 struct Base_802b1a70_802B1990 { char pad[0x18]; };
 struct VObj_802b1a70_802B1990 : Base_802b1a70_802B1990 {
@@ -19,7 +40,6 @@ struct VObj_802b1a70_802B1990 : Base_802b1a70_802B1990 {
 
 #pragma readonly_strings on
 const char *TAdGuideTxtGC__class_name = "TAdGuideTxtGC";
-
 
 #pragma push
 #pragma fp_contract on

@@ -60,14 +60,10 @@ public:
     TObject* nodes;
     f32 preview;
 public:
-    void copy_char_name();
-    static void select_char_menu();
     static s32 validate_character_name(s8 *arg0);
-    static s32 get_current_char_flag();
     s32 is_state_4();
     s32 is_state_3();
-    static void *create_fade(void *arg0, void *arg1);
-    static void *create_fade_effect(void *arg0, void *arg1);
+    static void *create_fade(void *duration, void *mode);
     static s32 try_pay_fee();
     void confirm_selection();
     void open_name_menu();

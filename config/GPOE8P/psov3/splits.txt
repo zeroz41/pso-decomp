@@ -2830,11 +2830,8 @@ pso/unk/TLobby_80131794.cpp:
 	.sdata2     start:0x805DB070 end:0x805DB078
 
 pso/ui/keyboard/TKeyBoardControlLayout.cpp:
-	.text       start:0x80131998 end:0x80131BC4
+	.text       start:0x80131998 end:0x80131C58
 	.sdata2     start:0x805DB078 end:0x805DB080
-
-pso/ui/keyboard/TKeyBoardControl_80131BC4.cpp:
-	.text       start:0x80131BC4 end:0x80131C58
 
 pso/ui/keyboard/KeyboardControlTask.cpp:
 	.text       start:0x80131C58 end:0x80131F5C
@@ -6948,11 +6945,8 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.cpp:
 	.bss        start:0x80518850 end:0x80518880
 	.sbss       start:0x805D6518 end:0x805D6520
 
-pso/ui/charcreate/TObjCMMainMenu_8028D9A8.cpp:
-	.text       start:0x8028D9A8 end:0x8028DC40
-
 pso/ui/charcreate/TCharaMaking.cpp:
-	.text       start:0x8028DC40 end:0x8028EA28
+	.text       start:0x8028D9A8 end:0x8028EA28
 	.rodata     start:0x80450D70 end:0x80451290
 	.data       start:0x804D3838 end:0x804D3A04
 	.bss        start:0x80518880 end:0x8051C070
@@ -7038,14 +7032,11 @@ pso/ui/charcreate/TChCrCharSelect.cpp:
 	.sdata2     start:0x805DD9D8 end:0x805DD9DC
 
 pso/ui/charcreate/TChCrEffFade.cpp:
-	.text       start:0x80293D84 end:0x8029427C
+	.text       start:0x80293D84 end:0x80294324
 	.rodata     start:0x80464EC8 end:0x80464F28
 	.data       start:0x804DB900 end:0x804DB938
 	.sdata      start:0x805D3CC0 end:0x805D3CC8
 	.sdata2     start:0x805DD9E0 end:0x805DD9FC
-
-pso/ui/charcreate/TObjCMMainMenu_8029427C.cpp:
-	.text       start:0x8029427C end:0x80294324
 
 pso/ui/charcreate/TObjCMHexTile.cpp:
 	.text       start:0x80294324 end:0x802948A8
@@ -7548,14 +7539,8 @@ pso/boss/olgaflow/TBoss6Tube.cpp:
 	.sbss       start:0x805D6718 end:0x805D6728
 	.sdata2     start:0x805DE230 end:0x805DE280
 
-pso/ui/frontend/TAdGuideTxtGC_802B17D4.cpp:
-	.text       start:0x802B17D4 end:0x802B1850
-
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802B1850.cpp:
-	.text       start:0x802B1850 end:0x802B1878
-
 pso/ui/frontend/TAdGuideTxtGC.cpp:
-	.text       start:0x802B1878 end:0x802B1AB4
+	.text       start:0x802B17D4 end:0x802B1AB4
 	.rodata     start:0x80470A80 end:0x80470A98
 	.data       start:0x804DE8B0 end:0x804DE8C8
 	.sdata      start:0x805D3EA0 end:0x805D3EA8
@@ -7778,18 +7763,12 @@ pso/unk/TLobby_802D3970.cpp:
 	.text       start:0x802D3970 end:0x802D3AB8
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp:
-	.text       start:0x802D3AB8 end:0x802D5098
+	.text       start:0x802D3AB8 end:0x802D5108
 	.rodata     start:0x80472510 end:0x80472590
 	.data       start:0x804E1A60 end:0x804E1BB0
 	.sdata      start:0x805D3F40 end:0x805D3F48
 	.sbss       start:0x805D68A0 end:0x805D68A8
 	.sdata2     start:0x805DE780 end:0x805DE788
-
-pso/ui/frontend/TAdMultiSelGameModeGC_802D5098.cpp:
-	.text       start:0x802D5098 end:0x802D50A0
-
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.cpp:
-	.text       start:0x802D50A0 end:0x802D5108
 
 pso/weapon/TItemWeaponMusashi.cpp:
 	.text       start:0x802D5108 end:0x802D526C
@@ -7878,11 +7857,8 @@ pso/ui/frontend/TAdMultiConfirmGC_802E03D0.cpp:
 	.sdata2     start:0x805DE8A8 end:0x805DE8E8
 
 pso/ui/frontend/TAdChrSelPlayerGC.cpp:
-	.text       start:0x802E0F58 end:0x802E0FC8
+	.text       start:0x802E0F58 end:0x802E10D8
 	.sdata      start:0x805D3F78 end:0x805D3F80
-
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.cpp:
-	.text       start:0x802E0FC8 end:0x802E10D8
 
 pso/unk/text_802E10D8.cpp:
 	.text       start:0x802E10D8 end:0x802E1128
@@ -9069,15 +9045,12 @@ pso/ui/window/TWindowDD_80348C54.cpp:
 	.text       start:0x80348C54 end:0x80348E34
 
 pso/ui/frontend/TAdChrMoveEffectGC.cpp:
-	.text       start:0x80348E34 end:0x803495B4
+	.text       start:0x80348E34 end:0x8034960C
 	.rodata     start:0x804786B0 end:0x80478718
 	.data       start:0x804EFF20 end:0x804EFF38
 	.sdata      start:0x805D42F0 end:0x805D42F8
 	.sbss       start:0x805D6E78 end:0x805D6E7C
 	.sdata2     start:0x805DFCE8 end:0x805DFCFC
-
-pso/ui/frontend/TAdMultiPlyChrSelectGC_803495B4.cpp:
-	.text       start:0x803495B4 end:0x8034960C
 
 pso/unk/text_8034960C.cpp:
 	.text       start:0x8034960C end:0x8034999C

@@ -28,9 +28,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/task/TObject.h"
@@ -38,6 +36,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 
 const vec2f single_chr_select_item_rect_table[4] = {
     { 131.0f, 182.0f }, { 131.0f, 225.0f }, { 131.0f, 268.0f }, { 131.0f, 311.0f },
@@ -246,7 +245,6 @@ void TAdSinglePlyChrSelectGC::update() {
     }
 }
 
-
 void TAdSinglePlyChrSelectGC::handle_menu_selection() {
     if (this->slot_window->get_state() == 1) {
         this->state = 0;
@@ -454,9 +452,7 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
     }
 }
 
-
 typedef void (TAdSinglePlyChrSelectGC::*Act_802D4B6C)();
-
 
 void TAdSinglePlyChrSelectGC::cleanup() {
     this->cursor->reset_entries();
@@ -586,3 +582,22 @@ TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(pare
     fn_802D50B8(title_tex, &t.p[0], &t.p[1], &t.p[2]);
 }
 #pragma pool_data reset
+
+void TAdSelectCurGC::set_selection_state(s32 v) { pending_command = v; }
+
+extern "C" {
+s32 TAdChrSelASlotGC::get_state() { return state; }
+void TAdChrSelASlotGC::set_state(s32 value) { state = value; }
+
+void TAdChrSelPlayerGC::set_field_100(s32 value) {
+    pending_state = value;
+}
+
+void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
+
+void fn_802D50B8(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third) {
+    copy_vec2__FPvPv(&title->rest_pos[0], first);
+    copy_vec2__FPvPv(&title->rest_pos[1], second);
+    copy_vec2__FPvPv(&title->rest_pos[2], third);
+}
+}

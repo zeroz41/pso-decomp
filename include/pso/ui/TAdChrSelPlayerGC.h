@@ -45,4 +45,7 @@ LAYOUT_ASSERT(TAdChrSelPlayerGC_pending_state_offset, offsetof(TAdChrSelPlayerGC
 LAYOUT_ASSERT(TAdChrSelPlayerGC_layout_mode_offset, offsetof(TAdChrSelPlayerGC, layout_mode) == 0x104);
 LAYOUT_ASSERT(TAdChrSelPlayerGC_status_index_offset, offsetof(TAdChrSelPlayerGC, status_index) == 0x110);
 
+extern "C" {
+void TAdChrSelPlayerGC__sub_802E10A0(void);
+}
 #endif

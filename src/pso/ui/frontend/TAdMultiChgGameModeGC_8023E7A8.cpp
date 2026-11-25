@@ -52,7 +52,7 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC.h"
 #include "pso/ui/frontend/TAdMultiOkGC.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.h"
+#include "pso/ui/TAdChrSelPlayerGC.h"
 #include "pso/ui/frontend/TAdMultiSaveGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlyPltAnimGC.h"

@@ -1,6 +1,11 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/player/TPlyCharData.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include <string.h>
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdEndText.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/render/render_util.h"
@@ -19,16 +24,103 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/camera/CreationCamera.h"
-#include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/save/TSaveChCr.h"
 #include "pso/math/AngleLookup.h"
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
-#include <string.h>
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/camera/TCameraCtrl.h"
+
+extern "C" {
+u8 * copy_player_visual_record(void *, void *);
+extern CharacterAppearanceFields character_creation_visual_record;
+}
+extern char character_creation_name_buffer[0x18];
+CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
+
+CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void) {
+    return &character_creation_visual_record;
+}
+
+void TObjCMMainMenu__sub_8028D9B4(CharacterAppearanceFields *record) {
+    if (record->flags & 0xA) {
+        TObjCMMainMenu__sub_8028D9F8();
+        return;
+    }
+    copy_player_visual_record(&character_creation_visual_record, record);
+}
+
+void TObjCMMainMenu__sub_8028D9F8(void) {
+    character_creation_visual_record.classId = -1;
+}
+
+void copy_char_name(const char *name) {
+    strncpy(character_creation_name_buffer, name, 0xC);
+    character_creation_name_buffer[0xC] = 0;
+}
+
+void select_char_menu() {
+    copy_char_name(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.name);
+}
+
+s32 TObjCMMainMenu::validate_character_name(s8 *arg0) {
+    s8 buf[13];
+    s8 out[16];
+    s32 found;
+    s8 *p;
+    s8 *q;
+    strncpy((char *)buf, (const char *)arg0, 0xC);
+    buf[12] = 0;
+    found = 0;
+    p = buf;
+    while (*p != 0) {
+        if (*p != 0x20) {
+            found = 1;
+            break;
+        }
+        p++;
+    }
+    if (found == 0) {
+        *arg0 = 0;
+        return 0;
+    }
+    if (TWindowSubComCard::contains_profanity((char *)buf) != 0) {
+        *arg0 = 0;
+        return 0;
+    }
+    p = buf;
+    q = out;
+    while (*p != 0) {
+        if (is_alnum(*p) != 0) {
+            *q = *p;
+            q++;
+        }
+        p++;
+    }
+    *q = 0;
+    if (TWindowSubComCard::contains_profanity((char *)out) != 0) {
+        *arg0 = 0;
+        return 0;
+    }
+    return 1;
+}
+
+s32 get_current_char_flag() {
+    s32 x = (s8)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2.section_id;
+    return (u32) __cntlzw(-1 - x) >> 5;
+}
+void fn_8028DBC4(s32 _w0) {
+    CharacterAppearanceFields *character_appearance_fields;
+    character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
+    copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(0));
+    character_appearance_fields->section = -1;
+}
+int TAdSinglePlyChrSelectGC__sub_8028DC14(void) { return 1; }
+int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { fn_8028DBC4((saddr)p); return 1; }
+
+#define TOBJECT_OUT_OF_LINE_HELPERS
 
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
@@ -72,7 +164,6 @@ const s32 lbl_8045122C[19] = {
 };
 
 struct P_8028DCCC { f32 a; f32 b; };
-
 
 u8 lbl_80518880[0x228];
 u8 lbl_80518AA8[0x384];
@@ -124,7 +215,6 @@ TObjCMMainMenu *creation_main_menu_obj;
 extern "C" {
 s32 release_texture_list(void *);
 }
-
 
 s32 TCharaMaking::query_state() {
     if (creation_main_menu_obj == NULL) {
@@ -499,7 +589,6 @@ void request_chara_making_archives(void) {
         }
     }
 }
-
 
 void TCharaMaking__sub_8028E790(void) {  }
 

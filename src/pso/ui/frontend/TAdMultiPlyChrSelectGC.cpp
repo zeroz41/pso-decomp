@@ -34,8 +34,6 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInputState.h"

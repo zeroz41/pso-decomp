@@ -5,7 +5,6 @@
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/unk/TLobby_80227A2C.h"
-#include "pso/ui/charcreate/TObjCMMainMenu_8028D9A8.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -16,6 +15,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/ui/charcreate/TChCrEffFade.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/network/TLobby.h"
@@ -56,18 +56,18 @@ void init_creation_menu_scene(void) {
         fn_8028D940();
         load_floor_sound_bank(0);
         play_area_music("CHARA.adx");
-        if (TObjCMMainMenu::get_current_char_flag() != 0) {
+        if (get_current_char_flag() != 0) {
             TObjCMMainMenu__sub_8028EC34();
             TObjCMMainMenu__sub_8028EC24();
             TObjCMMainMenu__sub_8028D9F8();
             TChCrCharSelect::init_and_create(tl_03);
-            TObjCMMainMenu::create_fade_effect((void *)0xF, (void *)1);
+            create_fade_effect((void *)0xF, (void *)1);
         } else {
             TObjCMMainMenu__sub_8028EC18();
-            TObjCMMainMenu::select_char_menu();
+            select_char_menu();
             TObjCMMainMenu__sub_8028D9F8();
             TCharaMaking::create(tl_03, (void *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
-            TObjCMMainMenu::create_fade_effect((void *)0xF, (void *)1);
+            create_fade_effect((void *)0xF, (void *)1);
         }
     }
 }

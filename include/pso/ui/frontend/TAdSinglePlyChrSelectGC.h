@@ -272,4 +272,8 @@ s32 check_slot_a_card_save(void);
 s32 check_slot_b_card_save(void);
 extern s32 chr_select_game_mode;
 extern s32 chr_select_save_slot;
+
+class TAdTitleTexGC;
+struct NJS_POINT2;
+extern "C" void fn_802D50B8(TAdTitleTexGC *title, const NJS_POINT2 *first, const NJS_POINT2 *second, const NJS_POINT2 *third);
 #endif
