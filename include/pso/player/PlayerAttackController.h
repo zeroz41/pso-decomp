@@ -92,14 +92,11 @@ extern f32 attack_combo_accuracy_multipliers[4];
 s32 is_valid_attack_stage(s16 stage);
 s32 is_valid_attack_kind(s16 kind);
 
-extern "C" {
-
 // --- functions defined in PlayerAttackController.cpp ---
 void handle_6x54(void);
 void handle_6x8C(void);
 void handle_6x65(void);
 void handle_6x8B(void);
 void handle_6x64(void);
-}
 
 #endif

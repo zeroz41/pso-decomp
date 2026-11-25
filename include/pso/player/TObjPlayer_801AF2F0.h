@@ -27,4 +27,10 @@ void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
 void mark_player_killed(TObjPlayer *player);
 void queue_player_kill(TObjPlayer *player);
 
+void handle_6x32_medical_center_revive_all_players(void);
+void handle_6x34(void);
+void handle_6x8E(void);
+void handle_6x98(void);
+void handle_6x99(void);
+
 #endif

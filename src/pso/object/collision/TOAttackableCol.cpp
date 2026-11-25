@@ -39,10 +39,13 @@ s32 init_collision_body_parts(void *, void *, int);
 s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
-s32 free_collision_body_parts(void *);
+}
+void free_collision_body_parts(TObjCollidable *actor);
 extern SetEntry_80157454 *quest_object_entries;
+extern "C" {
 
 void TOAttackableCol__sub_80157310(void * _w0) {  }
+}
 
 void TOAttackableCol::init_params() {
     s32 hits;
@@ -83,8 +86,6 @@ void TOAttackableCol::init_params() {
     } else {
         this->done_switch = -1;
     }
-}
-
 }
 
 void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *command) {

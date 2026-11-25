@@ -16,4 +16,12 @@ void freeze_players_for_photon_blast(s16 arg0, u16 *arg1);
 void init_subobject(TObjPlayer *player);
 void queue_player_injured_pose(TObjPlayer *player);
 
+struct G_Unknown_6x57;
+
+void handle_6x36(void);
+void handle_6x41_move_to_position(void);
+void handle_6x57(G_Unknown_6x57 *command);
+void handle_6xB1(void);
+void release_all_players_control_lock(void);
+
 #endif

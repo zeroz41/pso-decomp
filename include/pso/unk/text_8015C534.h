@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void free_ancient_container_resources(void);
-}
 
 #endif

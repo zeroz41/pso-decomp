@@ -1,4 +1,5 @@
 #include "pso/system/SoundEffect.h"
+#include "pso/object/trap/TOMine.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 struct game_command_header;
@@ -111,7 +112,6 @@ s32 is_split_screen();
 }
 void text_builder_reset(void);
 extern "C" {
-void handle_6x80_trigger_trap(game_command_header *command);
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
 s32 get_current_floor(void);
 }
@@ -128,7 +128,6 @@ extern const char *mine_icon04_name;
 extern "C" {
 int submit_target_to_player_cursor(void*);
 // ---- declarations carried over from the fragment TOMineTrap.cpp
-void set_mine_trap_damage(f32 farg0);
 // ---- functions, last address first (deferred codegen emits them in reverse)
 void G_TriggerTrap_6x80::init() {
     header.subcommand = 0x80;

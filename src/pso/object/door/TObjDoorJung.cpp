@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaTexture.h"
@@ -50,8 +51,8 @@ struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
+}
 
-s32 free_collision_body_parts(void *);
 
 void TObjDoorJung::free_buffers() {
     if (door_jung_door_scene_buffer != NULL) {
@@ -184,8 +185,6 @@ void TObjDoorJung::run_task() {
         return;
     }
     minimap_render_gate(&this->position, 0xFFFF0000, (u16) this->rotation_y, 0, 0);
-}
-
 }
 TObjDoorJung::~TObjDoorJung() {
     this->unregister_object_by_id();

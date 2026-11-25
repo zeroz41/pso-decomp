@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/object/fence/TObjLazerFenceNorm.h"
 #include "types.h"
@@ -175,14 +176,12 @@ void TObjLazerFence4::run_task() {
 extern "C" {
 
 s32 init_collision_body_parts(void *, void *, int);
+}
 
 
-void free_collision_body_parts(void *);
 
 void *TObjLazerFence4::create(void *set_data) {
     return new TObjLazerFence4((TObject *)tl_05, set_data);
-}
-
 }
 TObjLazerFence4::~TObjLazerFence4() {
     this->unregister_object_by_id();

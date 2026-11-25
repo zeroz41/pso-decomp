@@ -74,4 +74,9 @@ struct BmlResource;
 extern BmlResource *mine_model_archive;
 // The one collision sphere TOMineTrap and the four TOMineIcon constructors install.
 extern CollisionBody mine_collision_body_parts[1];
+struct game_command_header;
+
+void handle_6x80_trigger_trap(game_command_header *command);
+void set_mine_trap_damage(f32 farg0);
+
 #endif

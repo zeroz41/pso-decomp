@@ -365,11 +365,7 @@ u16 TObjPlayer__sub_801B5AF8(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
-void handle_6xB1(void);
 void TObjPlayer__deactivate_off_floor_body(void* p);
-void handle_6x57(G_Unknown_6x57 *command);
-void release_all_players_control_lock(void);
-void handle_6x36(void);
 s32 TObjPlayer__sub_801CFBFC(u8 *arg0);
 void TObjPlayer__sub_801D0E74(void* p);
 G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
@@ -501,8 +497,6 @@ void handle_6xAB(G_CreateLobbyChair_6xAB *command) {
         }
     }
 }
-extern "C" {
-
 void TObjPlayer::send_state_sync() {
     G_CreateLobbyChair_6xAB pkt;
 
@@ -787,8 +781,6 @@ void TObjPlayer::do_action() {
         set_frame(this->lobby_animation_frame);
     }
 }
-
-}
 void handle_6x58_lobby_animation(G_LobbyAnimation_6x58 *command) {
     G_LobbyAnimation_6x58 m;
     TObjPlayer *p;
@@ -806,8 +798,6 @@ void handle_6x58_lobby_animation(G_LobbyAnimation_6x58 *command) {
         }
     }
 }
-extern "C" {
-
 void TObjPlayer::send_6x58_lobby_animation() {
     G_LobbyAnimation_6x58 pkt;
     if (this == NULL || obj_isState2_324() == 0) {
@@ -866,8 +856,10 @@ void TObjPlayer::run_lobby_animation_state_phase(s16 phase) {
 }
 
 void TObjPlayer::init_effects() { clear_flag_20000(); clear_state_flags((s32)(5)); activate_body_collision(); set_indexed_flags((saddr)((void*)0), (saddr)((void*)1)); render_material_state.reset_opacity(); }
+extern "C" {
 
 void TObjPlayer__deactivate_off_floor_body(void* p) { ((TObjPlayer *)p)->deactivate_body_collision(); }
+}
 
 void TObjPlayer::enter_off_floor_state() {
     this->movement_hold.reset();
@@ -1037,7 +1029,6 @@ void TObjPlayer::start_action_21() {
 
 #undef CAT2
 #undef CAT
-}
 void handle_6x56_set_player_position_and_angle(G_SetPlayerPositionAndAngle_6x56 *command) {
     G_SetPlayerPositionAndAngle_6x56 m;
     TObjPlayer *p;
@@ -2693,11 +2684,7 @@ void freeze_players_for_photon_blast(s16 arg0, u16 *arg1) {
         tbl++;
     } while (i < 4);
 }
-extern "C" {
-
 void handle_6x36(void) {  }
-
-}
 void handle_6x37_photon_blast(G_PhotonBlast_6x37 *command) {
     G_PhotonBlast_6x37 pkt;
     TObjPlayer *player;
@@ -4222,8 +4209,6 @@ void handle_6x42_move_to_position(G_MoveToPosition_6x41_6x42 *command) {
         }
     }
 }
-extern "C" {
-
 void TObjPlayer::send_6x42_run_to_position() {
     Npc_801CF824 *arg0 = (Npc_801CF824 *)this;
     Msg_801CF824 m;
@@ -4376,6 +4361,7 @@ void TObjPlayer::run_action3_phase(s16 phase) {
 
 #pragma push
 #pragma opt_lifetimes off
+extern "C" {
 s32 TObjPlayer__sub_801CFBFC(u8 *arg0) {
   s16 (*var_r12)(void *);
   s32 var_r4;
@@ -4395,6 +4381,7 @@ s32 TObjPlayer__sub_801CFBFC(u8 *arg0) {
   var_r12 = *((s16 (**)(void *)) (((s8 *) var_r3) + 8));
   var_r12 = *((s16 (**)(void *)) (((s8 *) var_r12) + 0x58));
   return var_r12(var_r3);
+}
 }
 #pragma pop
 
@@ -4474,8 +4461,6 @@ void TObjPlayer::set_attack_state() {
     unscaled_speed = move_speed.get_unscaled_speed();
     rate = ((f32 (*)(void *))get_action_rate_entry)(this);
     set_override_speed(rate * unscaled_speed);
-}
-
 }
 void handle_6x40_walk_to_position(G_WalkToPosition_6x40 *command) {
     Cmd_801D0000 cmd;

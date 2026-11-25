@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/object/collision/TObjCollision.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -12,8 +13,8 @@
 
 extern "C" {
 u32 init_collision_body_parts(void *, saddr, s32);
+}
 const char *lbl_805D2830 = "TObjCollision";
-void free_collision_body_parts(void *);
 
 void TObjCollision::render() {  }
 void TObjCollision::run_task() {  }
@@ -21,8 +22,6 @@ void TObjCollision::run_task() {  }
 
 void *TObjCollision::create(void *arg0) {
     return new TObjCollision(tl_06, arg0);
-}
-
 }
 TObjCollision::~TObjCollision() {
     free_collision_body_parts(this);

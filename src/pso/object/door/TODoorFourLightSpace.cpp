@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/object/door/TODoorFourLightRuins.h"
 #include "pso/object/door/TODoorFourLightSpace.h"
 #include "pso/render/NinjaUtil.h"
@@ -46,8 +47,6 @@ s32 init_collision_body_parts(void *, void *, int);
 u8 is_current_floor_switch_set(u16);
 void fn_802898E8(void);
 void fn_802898EC(void);
-void free_collision_body_parts(void *);
-
 }
 
 

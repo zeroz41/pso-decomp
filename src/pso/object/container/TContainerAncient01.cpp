@@ -77,8 +77,9 @@ BmlResource *TContainerAncient01__sub_8018BE90(void);
 void TContainerAncient01__sub_8018B180(TContainerAncient01 *self, f32 range);
 
 void TContainerAncient01R__sub_8018AF74(void);
+}
 
-s32 free_collision_body_parts(void *);
+void free_collision_body_parts(TObjCollidable *actor);
 
 
 const char *fe_obj_h_s_konte_model_names[3] = { "fe_obj_h_s_konte.gj", "fe_obj_h_s_konte2.gj", NULL };
@@ -118,8 +119,6 @@ static const NpcAnimationBinding container_ancient_anim_binding = {
 };
 
 const char *container_ancient01_r_name = "TContainerAncient01R";
-
-}
 
 #include "pso/system/task/TObject_80019A50.h"
 

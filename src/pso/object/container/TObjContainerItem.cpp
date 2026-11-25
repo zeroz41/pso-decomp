@@ -148,11 +148,11 @@ TObjChipParams *forest_box_debris_primary;
 TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
 NJS_TEXLIST *container_breakup_textures;
-extern "C" {
 extern const f32 lbl_805DBCF8;
+extern "C" {
 u32 init_collision_body_parts(void *, void *, s32);
-s32 free_collision_body_parts(void *);
 }
+void free_collision_body_parts(TObjCollidable *actor);
 extern s32 local_client_id;
 NJS_OBJECT *get_container_breakup_model(s32 index);
 extern const f32 lbl_805DBCF4;

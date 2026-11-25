@@ -7,17 +7,23 @@
 extern "C" {
 // Starts the quest label set by set_palettex_callback.
 void run_palettex_callback(u16 client_index);
+}
 void set_palettex_callback(u16 client_index, s32 label);
+extern "C" {
 // is_palettex_enabled.
 s32 is_palettex_enabled(u16 client_index);
+}
 // disable_palettex.
 void disable_palettex(u16 client_index);
 // enable_palettex.
 void enable_palettex(u16 client_index);
+extern "C" {
 s32 is_palettex_activated(u16 client_index);
+}
 // restore_palettex.
 void restore_palettex(u16 client_index);
 void activate_palettex(u16 client_index);
+extern "C" {
 // 1 when client_index is a player controlled on this console.
 s32 is_local_client(u16 client_index);
 // Clears the palettex state of every client.

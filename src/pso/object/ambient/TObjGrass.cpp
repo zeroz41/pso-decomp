@@ -97,7 +97,9 @@ struct E2C_800BF924 { u8 pad[0x2C]; };
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 void TObjGrass__sub_800BFB68(O_800BFB68 *self);
-s32 free_collision_body_parts(void *);
+}
+void free_collision_body_parts(TObjCollidable *actor);
+extern "C" {
 f32 step_toward_destination(void *, Vec, f32);
 void TObjGrass__sub_800BCA2C(void *);
 f32 enemy_move_toward(void *, s32, void *, s32, f32);

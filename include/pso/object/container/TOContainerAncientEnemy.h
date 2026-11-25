@@ -16,4 +16,6 @@ struct TOContainerAncientEnemy : public TObjContainerCommon {
 };
 
 LAYOUT_ASSERT(TOContainerAncientEnemy_size, sizeof(TOContainerAncientEnemy) == 0x368);
+void free_ancient_container_resources(void);
+
 #endif

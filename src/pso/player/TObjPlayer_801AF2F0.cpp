@@ -1,4 +1,5 @@
 #include "pso/system/save/CardFileInfo.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/object/TObjRoomId.h"
 #include "pso/player/TPlyInventory.h"
@@ -451,23 +452,29 @@ bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 s8 TObjPlayer__sub_801AFDBC(s8 cls);
+}
 void handle_6x8E(void);
+extern "C" {
 void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damage);
 void draw_player_status(saddr window, void *player, saddr str);
 void show_sub_status_window(void *window, s32 *str, s32 *name);
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
 void TLobby__sub_801B09A4(void);
 
+}
 void handle_6x34(void);
 void handle_6x32_medical_center_revive_all_players(void);
+extern "C" {
 void submit_target_to_player_cursor(void *target, s32 id);
 void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst);
 Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
 void TObjPlayer__sub_801B5A44(saddr player, s32 secondary, s32 i, s32 action, s32 param);
 void TObjPlayer__sub_801B5AF8(saddr player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
+}
 void handle_6x99(void);
 void handle_6x98(void);
+extern "C" {
 s32 fn_801B7CEC(u8 *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(void *chara, s32 mag_id, s32 fed_item_id);
 s32 try_send_6x27_use_item(void *player, s32 key);
@@ -480,7 +487,6 @@ void TObjPlayer__sub_801BEF30(void *, void *);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
 void set_equip_slot_entry(saddr, s32, s32);
 void *__ct__12StatusEffectFv(void *);
-void release_all_players_control_lock(void);
 s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
 
 
@@ -506,6 +512,7 @@ void reset_client_quest_slot_table(void);
 s32 fn_8036B748(void *);
 s32 fn_8036B770(void *);
 void *__construct_array(void *, void *, void *, u32, u32);
+}
 
 extern const char *TOMineTrap__data_805D3080;
 extern const char *TObjPlayer__player_set_class_name;
@@ -531,7 +538,6 @@ extern const f32 player_shadow_lift;
 extern const f32 player_view_detail_near;
 extern const f32 player_view_detail_far;
 extern const f32 player_shadow_range;
-}
 const char *TObjPlayer_name = "TObjPlayer";
 
 
@@ -5517,9 +5523,8 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
         TMainCursor__sub_80154098((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
     }
 }
-extern "C" {
-
 int TObjPlayer::get_pk_team() { return pk_state.get_team(); }
+extern "C" {
 
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value) {
     text_builder_reset();
@@ -5607,6 +5612,7 @@ void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damag
     }
   }
 }
+}
 
 void handle_6x8E(void) {  }
 
@@ -5614,8 +5620,6 @@ void TObjPlayer::apply_camera_shake(TObjCollidable *target, s32 damage) {
     if ((TTecCtrl::is_technique_ready() != 0) && (target->test_actor_flags(0x10000000) == 0) && (is_locally_controlled() != 0)) {
         accumulate_damage_stats(&battle_score.damage_stats[3], target, damage);
     }
-}
-
 }
 void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command) {
     Pkt_801B01AC pkt;

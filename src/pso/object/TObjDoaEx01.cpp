@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
@@ -38,9 +39,6 @@ const char *doa_ex01_name = "TObjDoaEx01";
 BmlResource *doa_ex01_resource_bundle;
 u8 *doa_ex01_alpha_model_node;
 u8 *doa_ex01_alpha_model_sibling;
-
-
-extern "C" {
 
 
 #pragma push
@@ -215,12 +213,11 @@ void TObjDoaEx01::render() {
     }
     try_open();
 }
+extern "C" {
 
 s32 init_collision_body_parts(void *, void *, int);
-
-s32 free_collision_body_parts(void *);
-
 }
+
 TObjDoaEx01::~TObjDoaEx01() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);

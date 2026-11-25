@@ -87,4 +87,6 @@ void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
 struct G_UpdateObjectState_6x0B;
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 
+void free_collision_body_parts(TObjCollidable *actor);
+
 #endif

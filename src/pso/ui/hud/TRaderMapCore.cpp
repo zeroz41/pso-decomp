@@ -1,4 +1,5 @@
 #include "pso/unk/text_803D853C.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/memory.h"
 #include "pso/camera/RadarMapViewState.h"
 #include "pso/system/BmlAccessors.h"
@@ -274,9 +275,6 @@ s16 *TRaderMapCore::floor_discovery_table[18];
 
 
 struct Ent_801FB798 { s32 a; char *name; };
-extern "C" {
-void bind_gvm_texture_list(char *, u8 *);
-}
 extern s32 memcard_access_active;
 
 
@@ -329,7 +327,7 @@ void TRaderMapCore::load_map_resources() {
     TRaderMapCore::floor_map_resource = static_cast<u8 *>(create_named_object(buf));
     if (TRaderMapCore::floor_map_resource != NULL && *(u32 *)(TRaderMapCore::floor_map_resource + 4) != 0) {
         TLobby::replace_file_extension((char *)buf, (char *)e[status].name, "r");
-        bind_gvm_texture_list(buf, *(u8 **)(TRaderMapCore::floor_map_resource + 4));
+        bind_gvm_texture_list((const char *)buf, (NJS_TEXLIST *)(*(u8 **)(TRaderMapCore::floor_map_resource + 4)));
     }
     copy_name("..");
     memcard_access_active = 0;
