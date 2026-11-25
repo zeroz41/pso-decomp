@@ -303,7 +303,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
 
 #pragma push
 #pragma fp_contract on
-void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
+void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *njs_point2, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
     NJS_POINT2 verts[3];
     NJS_POINT2COL prim;
     NJS_COLOR colors[3];
@@ -321,8 +321,8 @@ void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_
     prim.tex = NULL;
     prim.num = 1;
     colors[2].color = colors[1].color = colors[0].color = (arg3 << 8) | (arg3 >> 24);
-    verts[0].x = arg2->f20 + arg2->f28 * (arg1->x - arg2->f20);
-    verts[0].y = arg2->f24 + arg2->f2c * (arg1->y - arg2->f24);
+    verts[0].x = arg2->f20 + arg2->f28 * (njs_point2->x - arg2->f20);
+    verts[0].y = arg2->f24 + arg2->f2c * (njs_point2->y - arg2->f24);
     verts[2].x = amp_x * cos_table_lookup(angle) + verts[0].x;
     verts[2].y = amp_y * sin_table_lookup(angle) + verts[0].y;
     while (angle < end) {
@@ -400,10 +400,10 @@ void TWindowLockOn::update_for_player_index(s32 id) {
     *(s32 *)&this->entry_list = (s32) *(s32 *)((s8 *)temp_r29 + 0x18);
 }
 
-void update_lockon_window(u8 *arg0) {
+void update_lockon_window(u8 *window_simple_status) {
     saddr temp_r31;
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(1));
-    ((TWindowLockOn *)temp_r31)->update_for_player_index(((TWindowSimpleStatus *)arg0)->get_width());
+    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_simple_status)->get_array_entry(1));
+    ((TWindowLockOn *)temp_r31)->update_for_player_index(((TWindowSimpleStatus *)window_simple_status)->get_width());
 }
 
 void update_photon_blast_player_marker(saddr help, s32 arg1) {

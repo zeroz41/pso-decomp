@@ -278,7 +278,7 @@ void TWindowMenuIconLine::add_status_entry(s8 flags, s32 src, s32 item) {
     }
 }
 
-void TWindowSubStatusDisp::append_entry(s32 flag, s32 arg2, s32 item, s32 arg4, s32 arg5) {
+void TWindowSubStatusDisp::append_entry(s32 flag, s32 src, s32 item, s32 arg4, s32 arg5) {
     ItemListRow *row;
     s32 i;
     f32 k;
@@ -286,7 +286,7 @@ void TWindowSubStatusDisp::append_entry(s32 flag, s32 arg2, s32 item, s32 arg4, 
 
     if (*(s16 *)(((u8 *)this) + 0x72) < *(s16 *)(((u8 *)this) + 0x76)) {
         row = (ItemListRow *)get_array_entry(*(s16 *)(((u8 *)this) + 0x72));
-        row->init_status_entry_by_flag(flag, arg2, item);
+        row->init_status_entry_by_flag(flag, src, item);
         if (arg4 != 0) {
             row->flags |= 0x400;
         }
@@ -643,7 +643,7 @@ void TWindowMenuIconLine::render() {
 void TWindowMenuIconLine::run_task() {
     s32 temp_r31;
     uaddr temp_r3;
-    WindowScrollBar *temp_r3_2;
+    WindowScrollBar *window_scroll_bar;
     ControllerInputContext *input;
     ControllerInputContext *temp_r29_2;
     ControllerInputContext *context;
@@ -679,9 +679,9 @@ void TWindowMenuIconLine::run_task() {
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
         }
-        temp_r3_2 = scroll_bar;
-        if (temp_r3_2 != NULL) {
-            temp_r3_2->increment_counter();
+        window_scroll_bar = scroll_bar;
+        if (window_scroll_bar != NULL) {
+            window_scroll_bar->increment_counter();
         }
     }
     update_window();

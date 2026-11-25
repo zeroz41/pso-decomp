@@ -101,8 +101,8 @@ void TWindowSubQuestBoard::render() {  }
 int TWindowSubQuestBoard::set_card_flags_direct(int card_flags_direct) { return set_card_window_flags__19TWindowKeyBoardHardFPvll(this, card_flags_direct, -2); }
 
 void TWindowSubQuestBoard::set_card_flags_scaled(s32 value) {
-    saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value * 2, -3);
+    saddr client_id = (saddr)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 2, -3);
 }
 
 void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value) {
@@ -110,18 +110,18 @@ void TWindowSubQuestBoard__sub_8027CF50(saddr client_id, s32 value) {
 }
 
 void TWindowSubQuestBoard::clear_card_window_flags(s32 value) {
-    saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value * 8, -9);
+    saddr client_id = (saddr)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value * 8, -9);
 }
 
 void TWindowSubQuestBoard::set_card_window_flags(s32 value) {
-    saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value << 8, -0x301);
+    saddr client_id = (saddr)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 8, -0x301);
 }
 
 void TWindowSubQuestBoard::set_board_flags(s32 value) {
-    saddr arg0 = (saddr)this;
-    TWindowKeyBoardHard::set_card_window_flags((void*)arg0, value << 0xA, -0x1C01);
+    saddr client_id = (saddr)this;
+    TWindowKeyBoardHard::set_card_window_flags((void*)client_id, value << 0xA, -0x1C01);
 }
 
 TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObject(parent) {

@@ -230,12 +230,12 @@ void chat_log_add_line(const char *text) {
 
 void append_text_space(void);
 
-void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
+void post_chat_log_message(u16 id, s32 *shared_text_buffer) {
     char *str;
-    if ((s32) arg0 == (s32) local_client_id) {
+    if ((s32) id == (s32) local_client_id) {
         cache_last_chat_line((uaddr)shared_text_buffer);
     }
-    str = TWindowMessageLog::get_active_photon_object(arg0);
+    str = TWindowMessageLog::get_active_photon_object(id);
     text_builder_reset();
     if (str != NULL) {
         text_builder_append((u8 *)str);

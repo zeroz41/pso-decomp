@@ -68,14 +68,14 @@ const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 
 
 
-void fn_80271848(s32 arg0, u8 *arg1) {
+void fn_80271848(s32 arg0, u8 *window_draw_context) {
     TexturedQuad r;
     s32 color;
     f32 scale;
 
-    scale = (-1.0f) / (0.1794f + *(f32 *)(arg1 + 0x38));
-    if (*(s32 *)(arg1 + 0x30) < 6) {
-        color = ((s32)(0.16666667f * (f32)(*(s32 *)(arg1 + 0x30) * 0xFF)) << 24) | 0xFFFFFF;
+    scale = (-1.0f) / (0.1794f + *(f32 *)(window_draw_context + 0x38));
+    if (*(s32 *)(window_draw_context + 0x30) < 6) {
+        color = ((s32)(0.16666667f * (f32)(*(s32 *)(window_draw_context + 0x30) * 0xFF)) << 24) | 0xFFFFFF;
     } else {
         color = -1;
     }
@@ -90,7 +90,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.v0 = 0.1640625f;
     r.u1 = 0.91796875f;
     r.v1 = 0.21875f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)window_draw_context)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     r.x0 = 484.0f;
     r.y0 = 346.0f;
@@ -98,7 +98,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.y1 = 14.0f + r.y0;
     r.u0 = 0.9296875f;
     r.u1 = 0.9765625f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)window_draw_context)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     r.x0 = 249.0f;
     r.y0 = 272.0f;
@@ -108,7 +108,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.v0 = 0.0f;
     r.u1 = 0.9921875f;
     r.v1 = 0.046875f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)window_draw_context)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     r.x0 = 249.0f;
     r.y0 = 4.2e+02f;
@@ -116,7 +116,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.y1 = 12.0f + r.y0;
     r.v0 = 0.109375f;
     r.v1 = 0.15625f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)window_draw_context)->transform_quad((TexturedQuad *)&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     TWindowSubStatusDisp::get_player();
 }

@@ -76,7 +76,7 @@ TWindowSubInformationBoard::~TWindowSubInformationBoard() {
 
 
 void TWindowSubInformationBoard::run_task() {
-    saddr temp_r30;
+    saddr text;
     u8 temp_r0;
     switch (this->m_1c) {
     case 0:
@@ -156,10 +156,10 @@ void TWindowSubInformationBoard::run_task() {
             break;
         }
         if (this->keyboard->is_confirmed() != 0) {
-            temp_r30 = (saddr)this->keyboard->realloc_buffer();
-            TLobby::set_info_board_text((char *)temp_r30);
+            text = (saddr)this->keyboard->realloc_buffer();
+            TLobby::set_info_board_text((char *)text);
             TLobby::flush_pending_send();
-            mem_free((void *)temp_r30);
+            mem_free((void *)text);
             this->m_1c = 0xBU;
             break;
         }

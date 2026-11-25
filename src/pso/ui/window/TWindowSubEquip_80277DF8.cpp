@@ -159,7 +159,7 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
 }
 
 void TWindowSubEquip::apply_slot_selection() {
-    s32 temp_r31;
-    temp_r31 = ((TWindowMenuIconLine *)this->equip_list)->get_cursor_value();
-    TWindowShortListCtrl::assign_shortcut(temp_r31, (int) (((TWindowMenuIconLine *)this->equip_kind_list)->get_cursor_value()), this->client_id);
+    s32 slot;
+    slot = ((TWindowMenuIconLine *)this->equip_list)->get_cursor_value();
+    TWindowShortListCtrl::assign_shortcut(slot, (int) (((TWindowMenuIconLine *)this->equip_kind_list)->get_cursor_value()), this->client_id);
 }

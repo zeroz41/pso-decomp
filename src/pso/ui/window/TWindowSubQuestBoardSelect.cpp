@@ -81,12 +81,12 @@ extern u8 quest_board_handlers[];
 
 void TWindowSubQuestBoardSelect::sub_8027D230() {
     u8 *str;
-    u8 *temp_r3;
+    u8 *array_entry;
     str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
-    temp_r3 = (u8 *)(this->get_array_entry(1));
-    set_text_entry_string((u8 *)temp_r3, (uaddr)str, 0);
-    measure_message_text_width(temp_r3, 100000.0f);
-    *(f32 *)((s8 *)temp_r3 + 8) = (f32) (385.0f - *(f32 *)((s8 *)temp_r3 + 0x10));
+    array_entry = (u8 *)(this->get_array_entry(1));
+    set_text_entry_string((u8 *)array_entry, (uaddr)str, 0);
+    measure_message_text_width(array_entry, 100000.0f);
+    *(f32 *)((s8 *)array_entry + 8) = (f32) (385.0f - *(f32 *)((s8 *)array_entry + 0x10));
 }
 
 

@@ -65,12 +65,12 @@ void TWindowMenuInfomation::set_entry_string_by_id(void *id, s32 entry_id) {
     }
 }
 
-void TWindowMenuInfomation::update_next_entry(s32 arg1, s32 string, s32 arg3) {
+void TWindowMenuInfomation::update_next_entry(s32 position, s32 string, s32 arg3) {
     s16 next_row;
 
     next_row = next_entry;
     if (next_row < entry_capacity) {
-        ((TWindowSubStatusDisp *)(get_array_entry(next_row)))->set_text(arg1, string, arg3);
+        ((TWindowSubStatusDisp *)(get_array_entry(next_row)))->set_text(position, string, arg3);
         ++next_entry;
     }
 }
