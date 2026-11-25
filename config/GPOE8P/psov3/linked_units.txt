@@ -1046,9 +1046,6 @@ pso/ui/city/TShopEquipmentSequence.cpp
 pso/ui/city/TShopEquipmentSequence_8021E2E4.cpp
 pso/item/shop/TShopGenerator.cpp
 pso/ui/city/TShopGetItemWindow.cpp
-pso/ui/city/TShopGetItemWindow_8021EEE4.cpp
-pso/ui/city/TShopGetItemWindow_8021F074.cpp
-pso/ui/city/TShopGetItemWindow_8021F0A4.cpp
 pso/ui/city/TShopItemTecSequence.cpp
 pso/ui/city/TShopJudgmentItemWindow.cpp
 pso/ui/city/TShopKeepItemWindow.cpp

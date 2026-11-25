@@ -16,7 +16,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
-#include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
+#include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_8006EBC4.h"

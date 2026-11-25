@@ -1,11 +1,20 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "types.h"
+#include "pso/item/shop/ShopWeaponStock.h"
+#include "pso/unk/text_8020E700.h"
+#include "pso/unk/text_80223B98.h"
+#include "pso/ui/font/TFontSmallTask.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/ui/city/TShopGetItemWindow.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/TWindowAddition.h"
@@ -19,11 +28,106 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/WindowLayout.h"
+
+s32 shop_section_id;
+s32 shop_world_player_level;
+s32 shop_difficulty_tier;
+s32 lbl_805D6244;
+
+void reset_shop_stock_and_params(void) {
+    s32 section_id;
+
+    clear_shop_weapon_flags();
+    clear_shop_armor_flags();
+    clear_shop_tool_flags();
+    lbl_805D6244 = 0;
+    section_id = leader_selection.get_section_id();
+    shop_section_id = section_id;
+    if (section_id < 0) {
+        shop_section_id = 0;
+    }
+    if (shop_section_id > 9) {
+        shop_section_id = 9;
+    }
+    shop_difficulty_tier = game_difficulty_selection;
+    if (game_difficulty_selection < 0) {
+        shop_difficulty_tier = 0;
+    }
+    if (shop_difficulty_tier > 3) {
+        shop_difficulty_tier = 3;
+    }
+}
+
+void clear_all_shop_stock(void) { clear_shop_weapon_flags(); clear_shop_armor_flags(); clear_shop_tool_flags(); lbl_805D6244 = 0; }
+
+#pragma push
+#pragma opt_dead_code off
+void init_shop_world_context(void) {
+    s32 temp_r3_2;
+    s32 section_id;
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        shop_world_player_level = player->get_actor_level_index();
+        shop_world_player_level++;
+    } else {
+        shop_world_player_level = 1;
+    }
+    if (shop_world_player_level < 1) {
+        shop_world_player_level = 1;
+    }
+    if (shop_world_player_level > 0xC7) {
+        shop_world_player_level = 0xC7;
+    }
+    section_id = leader_selection.get_section_id();
+    shop_section_id = section_id;
+    if (section_id < 0) {
+        shop_section_id = 0;
+    }
+    if (shop_section_id > 9) {
+        shop_section_id = 9;
+    }
+    shop_difficulty_tier = game_difficulty_selection;
+    if (game_difficulty_selection < 0) {
+        shop_difficulty_tier = 0;
+    }
+    if (shop_difficulty_tier > 3) {
+        shop_difficulty_tier = 3;
+    }
+    clear_shop_weapon_flags();
+    clear_shop_armor_flags();
+    clear_shop_tool_flags();
+    lbl_805D6244 = 0;
+}
+#pragma pop
+
+void calc_item_count(TObjPlayer *player, s32 *count) {
+    s32 level;
+    TObjPlayer *local_player;
+
+    level = 1;
+    if (TRaderMapCore::is_not_split_screen() == 1) {
+        level = player->get_actor_level_index() + 1;
+    } else {
+        local_player = get_player_by_client_id(local_client_id);
+        if (local_player != NULL) {
+            level = local_player->get_actor_level_index() + 1;
+        }
+    }
+    if (level < 1) {
+        level = 1;
+    }
+    if (level > 0xC7) {
+        level = 0xC7;
+    }
+    *count = level;
+}
+
+s16 TWindowMenuIconLine::get_cursor_index() { return cursor; }
 
 extern "C" {
 // Called by its mangled name: a new-expression allocates the entity id in a different register.

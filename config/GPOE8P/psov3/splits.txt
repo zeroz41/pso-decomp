@@ -5431,21 +5431,12 @@ pso/ui/city/TJudgmentSequence_8021E4C4.cpp:
 	.text       start:0x8021E4C4 end:0x8021E524
 
 pso/ui/city/TShopGetItemWindow.cpp:
-	.text       start:0x8021E524 end:0x8021EEE4
+	.text       start:0x8021E524 end:0x8021F134
 	.rodata     start:0x8044C150 end:0x8044C168
 	.data       start:0x804CA068 end:0x804CA0B8
 	.sdata      start:0x805D36C8 end:0x805D36D0
-	.sdata2     start:0x805DC6F0 end:0x805DC6F4
-
-pso/ui/city/TShopGetItemWindow_8021EEE4.cpp:
-	.text       start:0x8021EEE4 end:0x8021F074
 	.sbss       start:0x805D6238 end:0x805D6248
-
-pso/ui/city/TShopGetItemWindow_8021F074.cpp:
-	.text       start:0x8021F074 end:0x8021F0A4
-
-pso/ui/city/TShopGetItemWindow_8021F0A4.cpp:
-	.text       start:0x8021F0A4 end:0x8021F134
+	.sdata2     start:0x805DC6F0 end:0x805DC6F4
 
 pso/ui/city/TShopItemListWindow.cpp:
 	.text       start:0x8021F134 end:0x8021FE6C

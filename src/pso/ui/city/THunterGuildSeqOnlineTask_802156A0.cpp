@@ -3,7 +3,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/item/TItemData.h"
-#include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
+#include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/city/TShopItemListWindow.h"
 
 struct AppraisalScoreEntry {
