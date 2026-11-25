@@ -3,7 +3,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/weapon/shoot/TUnk_804A69C0.h"
+#include "pso/weapon/shoot/TItemShootWindmill.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/item/TItem.h"
@@ -23,7 +23,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/MatrixStack.h"
 
-void TUnk_804A69C0::render() {
+void TItemShootWindmill::render() {
     if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
         set_texlist(this->texture_list);
@@ -35,19 +35,19 @@ void TUnk_804A69C0::render() {
     }
 }
 
-void TUnk_804A69C0::hook() {
+void TItemShootWindmill::hook() {
     this->m_28 = (this->m_28 + 0xCCC);
 }
 
-TUnk_804A69C0::TUnk_804A69C0(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootWindmill::TItemShootWindmill(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
     m_28 = 0;
 }
 
 saddr create_shoot_model(saddr owner, saddr pos, saddr dir, f32 life) {
-    TUnk_804A69C0 *shot = NULL;
+    TItemShootWindmill *shot = NULL;
     if (owner != 0) {
-        shot = new TUnk_804A69C0((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
+        shot = new TItemShootWindmill((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
     }
     return (saddr)shot;
 }
@@ -141,7 +141,7 @@ TItem *TItemWeaponWindmill::create(u8 *item) {
     return NULL;
 }
 
-TUnk_804A69C0::~TUnk_804A69C0() {
+TItemShootWindmill::~TItemShootWindmill() {
 
 }
 

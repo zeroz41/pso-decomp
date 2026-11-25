@@ -2,16 +2,16 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/item/TItemTimerEvent.h"
-#include "pso/item/TUnk_804A0568.h"
-#include "pso/item/TUnk_804A0588.h"
-#include "pso/item/TUnk_804A05A8.h"
-#include "pso/item/TUnk_804A05C8.h"
-#include "pso/item/TUnk_804A05E8.h"
+#include "pso/item/TItemTimerEventParalysisCurse.h"
+#include "pso/item/TItemTimerEventConfusionCurse.h"
+#include "pso/item/TItemTimerEventSlowCurse.h"
+#include "pso/item/TItemTimerEventArmorParticle.h"
+#include "pso/item/TItemTimerEventFreezeCurse.h"
 #include "pso/item/TUnk_804A0608.h"
-#include "pso/item/TUnk_804A0628.h"
-#include "pso/item/TUnk_804A0648.h"
-#include "pso/item/TUnk_804A0668.h"
-#include "pso/item/TUnk_804A0688.h"
+#include "pso/item/TItemTimerEventTpRegen.h"
+#include "pso/item/TItemTimerEventHpRegen.h"
+#include "pso/item/TItemTimerEventTpDrain.h"
+#include "pso/item/TItemTimerEventHpDrain.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
@@ -125,25 +125,25 @@ void TItemTimerEvent::clear_timer_slot(u16 client_id) {
     }
 }
 
-TUnk_804A0688::~TUnk_804A0688() {}
+TItemTimerEventHpDrain::~TItemTimerEventHpDrain() {}
 
-TUnk_804A0668::~TUnk_804A0668() {}
+TItemTimerEventTpDrain::~TItemTimerEventTpDrain() {}
 
-TUnk_804A0648::~TUnk_804A0648() {}
+TItemTimerEventHpRegen::~TItemTimerEventHpRegen() {}
 
-TUnk_804A0628::~TUnk_804A0628() {}
+TItemTimerEventTpRegen::~TItemTimerEventTpRegen() {}
 
 TUnk_804A0608::~TUnk_804A0608() {}
 
-TUnk_804A05E8::~TUnk_804A05E8() {}
+TItemTimerEventFreezeCurse::~TItemTimerEventFreezeCurse() {}
 
-TUnk_804A05C8::~TUnk_804A05C8() {}
+TItemTimerEventArmorParticle::~TItemTimerEventArmorParticle() {}
 
-TUnk_804A05A8::~TUnk_804A05A8() {}
+TItemTimerEventSlowCurse::~TItemTimerEventSlowCurse() {}
 
-TUnk_804A0588::~TUnk_804A0588() {}
+TItemTimerEventConfusionCurse::~TItemTimerEventConfusionCurse() {}
 
-TUnk_804A0568::~TUnk_804A0568() {}
+TItemTimerEventParalysisCurse::~TItemTimerEventParalysisCurse() {}
 
 TItemTimerEvent::TItemTimerEvent(TItemHeapObject *parent, u16 client, s32 period) : TItemHeapObject(parent) {
     m_name = TItemTimerEvent__class_name;
@@ -174,37 +174,37 @@ void TItemTimerEvent::vfunc_7() {
     this->m_24 = (this->m_24 + 1);
 }
 
-void TUnk_804A0688::vfunc_7() {
+void TItemTimerEventHpDrain::vfunc_7() {
     if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
         this->m_24 = (this->m_24 + 1);
     }
 }
 
-void TUnk_804A0688::vfunc_6() {
+void TItemTimerEventHpDrain::vfunc_6() {
         if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0)) {
         TObjectV8047c128_subtract_hp((u8 *)this->m_28, 1);
     }
 }
 
-void TUnk_804A0668::vfunc_7() {
+void TItemTimerEventTpDrain::vfunc_7() {
     if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
         this->m_24 = (this->m_24 + 1);
     }
 }
 
-void TUnk_804A0668::vfunc_6() {
+void TItemTimerEventTpDrain::vfunc_6() {
         if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0)) {
         ((TObjChara *)(this->m_28))->subtract_actor_tp(1);
     }
 }
 
-void TUnk_804A0648::vfunc_6() {
+void TItemTimerEventHpRegen::vfunc_6() {
     if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
         add_actor_hp((TObjChara *)this->m_28, 1);
     }
 }
 
-void TUnk_804A0628::vfunc_6() {
+void TItemTimerEventTpRegen::vfunc_6() {
     if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
         add_actor_tp((TObjChara *)this->m_28, 1);
     }
@@ -219,7 +219,7 @@ void TUnk_804A0608::vfunc_6() {
     }
 }
 
-void TUnk_804A05E8::vfunc_6() {
+void TItemTimerEventFreezeCurse::vfunc_6() {
 
     if (((TObjChara *)(this->m_28))->obj_isState2_324() == 0) {
         if (((TObjPlayer *)this->m_28)->has_flag_0x800() == 0) {
@@ -231,7 +231,7 @@ void TUnk_804A05E8::vfunc_6() {
     }
 }
 
-void TUnk_804A05C8::vfunc_6() {
+void TItemTimerEventArmorParticle::vfunc_6() {
     TParticleCtrl *particle;
 
     if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (((TObjPlayer *)(this->m_28))->is_flag_20000_set() == 0)) {
@@ -244,7 +244,7 @@ void TUnk_804A05C8::vfunc_6() {
     }
 }
 
-void TUnk_804A05A8::vfunc_6() {
+void TItemTimerEventSlowCurse::vfunc_6() {
     Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
         if (is_item_area_enabled(((TObjPlayer *)(arg0->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
@@ -256,7 +256,7 @@ void TUnk_804A05A8::vfunc_6() {
     }
 }
 
-void TUnk_804A0588::vfunc_6() {
+void TItemTimerEventConfusionCurse::vfunc_6() {
     Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
         if (is_item_area_enabled(((TObjPlayer *)(arg0->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
@@ -268,7 +268,7 @@ void TUnk_804A0588::vfunc_6() {
     }
 }
 
-void TUnk_804A0568::vfunc_6() {
+void TItemTimerEventParalysisCurse::vfunc_6() {
     Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
         if (is_item_area_enabled(((TObjPlayer *)(arg0->obj))->get_area()) == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {

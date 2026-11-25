@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/weapon/TItemWeaponSRankPunch.h"
-#include "pso/weapon/shoot/TUnk_804A4020.h"
+#include "pso/weapon/shoot/TItemShootSRankPunch.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/render/GinjaMaterial.h"
@@ -51,7 +51,7 @@ void TObjPlayer::notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr pos) 
     }
 }
 
-void TUnk_804A4020::render() {
+void TItemShootSRankPunch::render() {
     if ((is_owner_alive() != 0) && ((uaddr)model != 0U) && ((uaddr)texture_list != 0U)) {
         push_matrix();
         set_texlist(texture_list);
@@ -63,18 +63,18 @@ void TUnk_804A4020::render() {
     }
 }
 
-void TUnk_804A4020::hook() {  }
+void TItemShootSRankPunch::hook() {  }
 
-TUnk_804A4020::TUnk_804A4020(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootSRankPunch::TItemShootSRankPunch(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
     set_render_model(TObjPlayer__sub_801290D0((u8 *)owner), (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist());
 }
 
 u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames) {
-    TUnk_804A4020 *model = NULL;
+    TItemShootSRankPunch *model = NULL;
     TItemShootParticle *particle;
     if (owner != 0) {
-        model = new TUnk_804A4020((void *)owner, (const Vec *)origin, (const Vec *)end, frames);
+        model = new TItemShootSRankPunch((void *)owner, (const Vec *)origin, (const Vec *)end, frames);
         particle = (TItemShootParticle *)spawn_shoot_particle(owner, origin, end, frames);
         if ((model != NULL) && (particle != NULL)) {
             particle->spawn_slot_emitter(0x1BB, 0);
@@ -170,7 +170,7 @@ TItem *TItemWeaponSRankPunch::create(u8 *item) {
     return NULL;
 }
 
-TUnk_804A4020::~TUnk_804A4020() {
+TItemShootSRankPunch::~TItemShootSRankPunch() {
 
 }
 

@@ -18,23 +18,23 @@
 #include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TUnk_8049F770.h"
-#include "pso/item/TUnk_8049FE00.h"
-#include "pso/item/TUnk_8049FC90.h"
-#include "pso/item/TUnk_8049FA50.h"
-#include "pso/item/TUnk_8049F8E0.h"
-#include "pso/item/TUnk_8049FB08.h"
-#include "pso/item/TUnk_8049F998.h"
-#include "pso/item/TUnk_8049FD48.h"
-#include "pso/item/TUnk_8049FED0.h"
-#include "pso/item/TUnk_8049FF88.h"
-#include "pso/item/TUnk_8049FBC0.h"
-#include "pso/item/TUnk_8049F828.h"
-#include "pso/item/TUnk_804E6FA8.h"
+#include "pso/item/TItemToolMate.h"
+#include "pso/item/TItemToolFluid.h"
+#include "pso/item/TItemToolTechniqueDisk.h"
+#include "pso/item/TItemToolSolAtomizer.h"
+#include "pso/item/TItemToolMoonAtomizer.h"
+#include "pso/item/TItemToolStarAtomizer.h"
+#include "pso/item/TItemToolStatusCure.h"
+#include "pso/item/TItemToolTelepipe.h"
+#include "pso/item/TItemToolTrapVision.h"
+#include "pso/item/TItemToolGrinder.h"
+#include "pso/item/TItemToolMaterial.h"
+#include "pso/item/TItemToolMagCell.h"
+#include "pso/item/TItemToolAddSlot.h"
 #include "pso/item/TUnk_804F112C.h"
-#include "pso/item/TUnk_804F0C48.h"
-#include "pso/item/TUnk_804F0D34.h"
-#include "pso/item/TUnk_804F0FF0.h"
+#include "pso/item/TItemToolRandomItem.h"
+#include "pso/item/TItemToolQuestBgm.h"
+#include "pso/item/TItemToolKillCounter.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/system/task/TObject.h"
@@ -409,30 +409,30 @@ ItemCreateFunction weapon_factory_table[170] = {
 };
 // Tool item factories, indexed by the tool type byte (TLobby__sub_8010440C).
 ItemCreateFunction item_tool_factory_table[24] = {
-    TUnk_8049F770::create,
-    TUnk_8049FE00::create,
-    create_technique_disk_item,
-    create_sol_atomizer_item,
-    create_moon_atomizer_item,
-    create_star_atomizer_item,
-    create_status_cure_item,
-    create_telepipe_item,
-    TUnk_8049FED0::create,
+    TItemToolMate::create,
+    TItemToolFluid::create,
+    TItemToolTechniqueDisk::create,
+    TItemToolSolAtomizer::create,
+    TItemToolMoonAtomizer::create,
+    TItemToolStarAtomizer::create,
+    TItemToolStatusCure::create,
+    TItemToolTelepipe::create,
+    TItemToolTrapVision::create,
     TItemObject::create,
-    create_item_grinder,
-    create_material_item,
-    TUnk_8049F828::create,
+    TItemToolGrinder::create,
+    TItemToolMaterial::create,
+    TItemToolMagCell::create,
     TItemObject::create,
     TItemObject::create,
-    create_add_slot_item,
+    TItemToolAddSlot::create,
     TItemObject::create,
     TItemObject::create,
     TItemObject::create,
     TItemObject::create,
     TUnk_804F112C::create,
-    TUnk_804F0C48::create,
-    TUnk_804F0D34::create,
-    TUnk_804F0FF0::create,
+    TItemToolRandomItem::create,
+    TItemToolQuestBgm::create,
+    TItemToolKillCounter::create,
 };
 
 void normalize_drop_area(s32 *p);

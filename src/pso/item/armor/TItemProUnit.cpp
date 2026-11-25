@@ -6,8 +6,8 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TUnk_804A0608.h"
-#include "pso/item/TUnk_804A0628.h"
-#include "pso/item/TUnk_804A0648.h"
+#include "pso/item/TItemTimerEventTpRegen.h"
+#include "pso/item/TItemTimerEventHpRegen.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/item_pmt.h"
@@ -110,12 +110,12 @@ void TItemProUnit::on_equip() {
     switch (effect_type) {
     case 15:
         if (effect_objects != NULL) {
-            new TUnk_804A0648(effect_objects, get_owner_client(), (s32)(30.0f * effect_amount));
+            new TItemTimerEventHpRegen(effect_objects, get_owner_client(), (s32)(30.0f * effect_amount));
         }
         break;
     case 16:
         if (effect_objects != NULL) {
-            new TUnk_804A0628(effect_objects, get_owner_client(), (s32)(30.0f * effect_amount));
+            new TItemTimerEventTpRegen(effect_objects, get_owner_client(), (s32)(30.0f * effect_amount));
         }
         break;
     case 17:

@@ -2229,51 +2229,51 @@ pso/item/TItemObject.cpp:
 	.data       start:0x8049F698 end:0x8049F770
 	.sdata      start:0x805D2C28 end:0x805D2C30
 
-pso/item/TUnk_8049F770.cpp:
+pso/item/TItemToolMate.cpp:
 	.text       start:0x80116634 end:0x8011679C
 	.data       start:0x8049F770 end:0x8049F824
 
-pso/item/TUnk_8049F828.cpp:
+pso/item/TItemToolMagCell.cpp:
 	.text       start:0x8011679C end:0x801168D4
 	.data       start:0x8049F828 end:0x8049F8DC
 
-pso/item/TUnk_8049F8E0.cpp:
+pso/item/TItemToolMoonAtomizer.cpp:
 	.text       start:0x801168D4 end:0x80116A5C
 	.data       start:0x8049F8E0 end:0x8049F994
 
-pso/item/TUnk_8049F998.cpp:
+pso/item/TItemToolStatusCure.cpp:
 	.text       start:0x80116A5C end:0x80116BBC
 	.data       start:0x8049F998 end:0x8049FA4C
 
-pso/item/TUnk_8049FA50.cpp:
+pso/item/TItemToolSolAtomizer.cpp:
 	.text       start:0x80116BBC end:0x80116CD8
 	.data       start:0x8049FA50 end:0x8049FB04
 
-pso/item/TUnk_8049FB08.cpp:
+pso/item/TItemToolStarAtomizer.cpp:
 	.text       start:0x80116CD8 end:0x80116DE8
 	.data       start:0x8049FB08 end:0x8049FBBC
 
-pso/item/TUnk_8049FBC0.cpp:
+pso/item/TItemToolMaterial.cpp:
 	.text       start:0x80116DE8 end:0x80116FFC
 	.data       start:0x8049FBC0 end:0x8049FC90
 
-pso/item/TUnk_8049FC90.cpp:
+pso/item/TItemToolTechniqueDisk.cpp:
 	.text       start:0x80116FFC end:0x80117130
 	.data       start:0x8049FC90 end:0x8049FD44
 
-pso/item/TUnk_8049FD48.cpp:
+pso/item/TItemToolTelepipe.cpp:
 	.text       start:0x80117130 end:0x8011724C
 	.data       start:0x8049FD48 end:0x8049FDFC
 
-pso/item/TUnk_8049FE00.cpp:
+pso/item/TItemToolFluid.cpp:
 	.text       start:0x8011724C end:0x80117454
 	.data       start:0x8049FE00 end:0x8049FEB4
 
-pso/item/TUnk_8049FED0.cpp:
+pso/item/TItemToolTrapVision.cpp:
 	.text       start:0x80117454 end:0x801176E4
 	.data       start:0x8049FEB8 end:0x8049FF84
 
-pso/item/TUnk_8049FF88.cpp:
+pso/item/TItemToolGrinder.cpp:
 	.text       start:0x801176E4 end:0x8011781C
 	.data       start:0x8049FF88 end:0x804A003C
 
@@ -8327,7 +8327,7 @@ pso/enemy/dellbiter/TObjEneDellBiter.cpp:
 	.sbss       start:0x805D6A20 end:0x805D6A48
 	.sdata2     start:0x805DEFB8 end:0x805DF040
 
-pso/item/TUnk_804E6FA8.cpp:
+pso/item/TItemToolAddSlot.cpp:
 	.text       start:0x80306994 end:0x80306ABC
 	.data       start:0x804E6FA8 end:0x804E705C
 
@@ -9357,13 +9357,13 @@ pso/effect/item/TItemEffPG.cpp:
 	.sdata      start:0x805D4350 end:0x805D4358
 	.sdata2     start:0x805DFE08 end:0x805DFE24
 
-pso/item/TUnk_804F0C48.cpp:
+pso/item/TItemToolRandomItem.cpp:
 	.text       start:0x803501BC end:0x80350394
 	.rodata     start:0x80478CD0 end:0x80478CD8
 	.data       start:0x804F0C48 end:0x804F0CFC
 	.sdata2     start:0x805DFE28 end:0x805DFE30
 
-pso/item/TUnk_804F0D34.cpp:
+pso/item/TItemToolQuestBgm.cpp:
 	.text       start:0x80350394 end:0x8035061C
 	.rodata     start:0x80478CD8 end:0x80478D38
 	.data       start:0x804F0D00 end:0x804F0DE8
@@ -9410,7 +9410,7 @@ pso/object/lobby/TObjLobbyMain.cpp:
 	.sbss       start:0x805D6EC8 end:0x805D6EE0
 	.sdata2     start:0x805DFEE0 end:0x805DFEF0
 
-pso/item/TUnk_804F0FF0.cpp:
+pso/item/TItemToolKillCounter.cpp:
 	.text       start:0x80352A54 end:0x80352BB8
 	.data       start:0x804F0FF0 end:0x804F10A4
 

@@ -7,10 +7,10 @@
 #include "pso/item/TItemHeapObject.h"
 #include "pso/effect/item/TItemEffArmor.h"
 #include "pso/item/TItemTimerEvent.h"
-#include "pso/item/TUnk_804A0668.h"
-#include "pso/item/TUnk_804A0688.h"
-#include "pso/item/TUnk_804A0628.h"
-#include "pso/item/TUnk_804A0648.h"
+#include "pso/item/TItemTimerEventTpDrain.h"
+#include "pso/item/TItemTimerEventHpDrain.h"
+#include "pso/item/TItemTimerEventTpRegen.h"
+#include "pso/item/TItemTimerEventHpRegen.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/data/FlagWord.h"
@@ -28,13 +28,13 @@ const char *item_pro_armor_class_name = "TItemProArmor";
 // constructors at the end are this object's copies of the ones on_equip
 // calls (TItemProShield and TItemProUnit call two of them too).
 
-TUnk_804A0648::TUnk_804A0648(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
+TItemTimerEventHpRegen::TItemTimerEventHpRegen(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
-TUnk_804A0628::TUnk_804A0628(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
+TItemTimerEventTpRegen::TItemTimerEventTpRegen(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
-TUnk_804A0688::TUnk_804A0688(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
+TItemTimerEventHpDrain::TItemTimerEventHpDrain(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
-TUnk_804A0668::TUnk_804A0668(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
+TItemTimerEventTpDrain::TItemTimerEventTpDrain(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
 TItemProArmor::~TItemProArmor() {}
 
@@ -89,25 +89,25 @@ void TItemProArmor::on_equip() {
     }
     switch (get_item_index()) {
     case 27:
-        new TUnk_804A0648(effect_objects, get_owner_client(), 150);
+        new TItemTimerEventHpRegen(effect_objects, get_owner_client(), 150);
         break;
     case 28:
-        new TUnk_804A0628(effect_objects, get_owner_client(), 300);
+        new TItemTimerEventTpRegen(effect_objects, get_owner_client(), 300);
         break;
     case 32:
-        new TUnk_804A0688(effect_objects, get_owner_client(), 300);
+        new TItemTimerEventHpDrain(effect_objects, get_owner_client(), 300);
         break;
     case 33:
-        new TUnk_804A0688(effect_objects, get_owner_client(), 240);
+        new TItemTimerEventHpDrain(effect_objects, get_owner_client(), 240);
         break;
     case 34:
-        new TUnk_804A0688(effect_objects, get_owner_client(), 210);
+        new TItemTimerEventHpDrain(effect_objects, get_owner_client(), 210);
         break;
     case 43:
-        new TUnk_804A0688(effect_objects, get_owner_client(), 150);
+        new TItemTimerEventHpDrain(effect_objects, get_owner_client(), 150);
         break;
     case 49:
-        new TUnk_804A0668(effect_objects, get_owner_client(), 150);
+        new TItemTimerEventTpDrain(effect_objects, get_owner_client(), 150);
         break;
     case 45:
         new TItemEffArmorPulse(effect_objects, get_owner_client());

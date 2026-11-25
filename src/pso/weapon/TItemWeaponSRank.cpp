@@ -7,8 +7,8 @@
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/item/armor/TItemProShield.h"
-#include "pso/item/TUnk_804A0628.h"
-#include "pso/item/TUnk_804A0648.h"
+#include "pso/item/TItemTimerEventTpRegen.h"
+#include "pso/item/TItemTimerEventHpRegen.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/CapturedTargetList.h"
 
@@ -119,10 +119,10 @@ TItemWeaponSRank::~TItemWeaponSRank() {}
 void TItemWeaponSRank::on_equipped() {
     switch (kind) {
     case 3:
-        new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
+        new TItemTimerEventHpRegen(effect_objects, get_owner_client(), 0x5A);
         return;
     case 4:
-        new TUnk_804A0628(effect_objects, get_owner_client(), 0x5A);
+        new TItemTimerEventTpRegen(effect_objects, get_owner_client(), 0x5A);
         break;
     }
 }

@@ -568,7 +568,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # vtables come out TUnk_804E70A8 then TUnk_804E71A0: written last to first, deferred.
     # -sdata 4: the 8-byte shared_capture_texture_list is addressed outside small data.
     "pso/ui/frontend/EndingSequence.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
-    # vtables come out TUnk_804A0568..0688 (text order of their vfunc_6) then
+    # vtables come out TItemTimerEventParalysisCurse..0688 (text order of their vfunc_6) then
     # TItemTimerEvent: written last to first, deferred.
     "pso/item/TItemTimerEvent.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out 0810, 0908, 0A00, 0AF8 then 0BF0: written last to first, deferred.
@@ -1314,10 +1314,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # from its last function back.
     "pso/item/TItemObject.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Two tool classes built the same way: the material's vtable precedes its
-    # switch table, and TUnk_8049FED0's TU emits its helper task's vtable first.
-    "pso/item/TUnk_8049FBC0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/item/TUnk_8049FED0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/item/TUnk_804F0D34.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # switch table, and TItemToolTrapVision's TU emits its helper task's vtable first.
+    "pso/item/TItemToolMaterial.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/item/TItemToolTrapVision.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/item/TItemToolQuestBgm.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Its ctor's switch table follows the vtable in .data.
     "pso/weapon/TItemWeaponSRank.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/effect/item/TItemWpnCardEffect.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

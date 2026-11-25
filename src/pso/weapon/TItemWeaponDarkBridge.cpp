@@ -3,9 +3,9 @@
 #include <stddef.h>
 #include "pso/weapon/TItemWeaponDarkBridge.h"
 #include "pso/weapon/TItemWeaponFrozenShooter.h"
-#include "pso/item/TUnk_804A0568.h"
-#include "pso/item/TUnk_804A0588.h"
-#include "pso/item/TUnk_804A05E8.h"
+#include "pso/item/TItemTimerEventParalysisCurse.h"
+#include "pso/item/TItemTimerEventConfusionCurse.h"
+#include "pso/item/TItemTimerEventFreezeCurse.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -42,9 +42,9 @@ void TItemWeaponDarkBridge::on_equipped() {
     owner_tp = get_actor_tp(owner);
     update_count = 0;
     if (effect_objects != NULL) {
-        new TUnk_804A05E8(effect_objects, get_owner_client(), 9000, 0.5f);
-        new TUnk_804A0588(effect_objects, get_owner_client(), 9000, 0.5f);
-        new TUnk_804A0568(effect_objects, get_owner_client(), 9000, 0.5f);
+        new TItemTimerEventFreezeCurse(effect_objects, get_owner_client(), 9000, 0.5f);
+        new TItemTimerEventConfusionCurse(effect_objects, get_owner_client(), 9000, 0.5f);
+        new TItemTimerEventParalysisCurse(effect_objects, get_owner_client(), 9000, 0.5f);
     }
 }
 
@@ -64,7 +64,7 @@ TItem *TItemWeaponDarkBridge::create(u8 *item) {
 
 // This object's copy of the paralysis curse timer's constructor (on_equipped
 // calls it first).
-TUnk_804A0568::TUnk_804A0568(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
+TItemTimerEventParalysisCurse::TItemTimerEventParalysisCurse(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
     : TItemTimerEvent(parent, client, period) {
     unk_2C = rate;
 }

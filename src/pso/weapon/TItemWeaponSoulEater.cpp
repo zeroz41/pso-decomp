@@ -3,7 +3,7 @@
 #include "pso/weapon/TItemWeaponSoulEater.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/item/TUnk_804A0688.h"
+#include "pso/item/TItemTimerEventHpDrain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/system/MatrixOps.h"
@@ -73,9 +73,9 @@ void TItemWeaponSoulEater::update_attack() {
 void TItemWeaponSoulEater::on_equipped() {
     if (effect_objects != NULL) {
         if (get_item_index() == 0) {
-            new TUnk_804A0688(effect_objects, get_owner_client(), 0x96);
+            new TItemTimerEventHpDrain(effect_objects, get_owner_client(), 0x96);
         } else {
-            new TUnk_804A0688(effect_objects, get_owner_client(), 0x5A);
+            new TItemTimerEventHpDrain(effect_objects, get_owner_client(), 0x5A);
         }
     }
 }

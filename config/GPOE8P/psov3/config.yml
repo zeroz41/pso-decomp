@@ -1994,19 +1994,19 @@ force_active:
   - __ct__15TCameraScriptedFv
   - __ct__13TUnk_8048DF58Fv
   - __ct__19TItemEffEquipAnchorFP7TObjectUsl
-  - __ct__13TUnk_8049F770FP7TObjectPUc
-  - __ct__13TUnk_8049F828FP7TObjectPUc
-  - __ct__13TUnk_8049F8E0FP7TObjectPUc
-  - __ct__13TUnk_8049F998FP7TObjectPUc
-  - __ct__13TUnk_8049FA50FP7TObjectPUc
-  - __ct__13TUnk_8049FB08FP7TObjectPUc
-  - __ct__13TUnk_8049FBC0FP7TObjectPUc
-  - __ct__13TUnk_8049FC90FP7TObjectPUc
-  - __ct__13TUnk_8049FD48FP7TObjectPUc
-  - __ct__13TUnk_8049FE00FP7TObjectPUc
-  - __ct__13TUnk_8049FEB8FP7TObjectP10TObjPlayer
-  - __ct__13TUnk_8049FED0FP7TObjectPUc
-  - __ct__13TUnk_8049FF88FP7TObjectPUc
+  - __ct__13TItemToolMateFP7TObjectPUc
+  - __ct__16TItemToolMagCellFP7TObjectPUc
+  - __ct__21TItemToolMoonAtomizerFP7TObjectPUc
+  - __ct__19TItemToolStatusCureFP7TObjectPUc
+  - __ct__20TItemToolSolAtomizerFP7TObjectPUc
+  - __ct__21TItemToolStarAtomizerFP7TObjectPUc
+  - __ct__17TItemToolMaterialFP7TObjectPUc
+  - __ct__22TItemToolTechniqueDiskFP7TObjectPUc
+  - __ct__17TItemToolTelepipeFP7TObjectPUc
+  - __ct__14TItemToolFluidFP7TObjectPUc
+  - __ct__19TItemTrapVisionTaskFP7TObjectP10TObjPlayer
+  - __ct__19TItemToolTrapVisionFP7TObjectPUc
+  - __ct__16TItemToolGrinderFP7TObjectPUc
   - __ct__20TItemFollowStarLightFP7TObjectll
   - __ct__18TItemWeaponMechgunFP7TObjectPUc
   - __ct__25TItemWeaponYasminkov7000VFP7TObjectPUc
@@ -2015,11 +2015,11 @@ force_active:
   - __ct__13TUnk_804C8678FP7TObjectPvl
   - __ct__13TUnk_804DCB64Fv
   - __ct__13TUnk_804E4BF0FP7TObjectPv
-  - __ct__13TUnk_804E6FA8FP7TObjectPUc
-  - __ct__13TUnk_804F0C48FP7TObjectPUc
-  - __ct__13TUnk_804F0D1CFP7TObjectUl
-  - __ct__13TUnk_804F0D34FP7TObjectPUc
-  - __ct__13TUnk_804F0FF0FP7TObjectPUc
+  - __ct__16TItemToolAddSlotFP7TObjectPUc
+  - __ct__19TItemToolRandomItemFP7TObjectPUc
+  - __ct__17TItemQuestBgmTaskFP7TObjectUl
+  - __ct__17TItemToolQuestBgmFP7TObjectPUc
+  - __ct__20TItemToolKillCounterFP7TObjectPUc
   - __ct__13TUnk_804F1280FP7TObject
   - __ct__14CreationCameraFv
   - __ct__14LobbyListEntryFv
@@ -2396,22 +2396,22 @@ force_active:
   - __dt__19TItemEffEquipAnchorFv
   - __dt__19TItemEffShieldPulseFv
   - __dt__18TItemEffShieldAuraFv
-  - __dt__13TUnk_8049F770Fv
-  - __dt__13TUnk_8049F828Fv
-  - __dt__13TUnk_8049F8E0Fv
-  - __dt__13TUnk_8049F998Fv
-  - __dt__13TUnk_8049FA50Fv
-  - __dt__13TUnk_8049FB08Fv
-  - __dt__13TUnk_8049FBC0Fv
-  - __dt__13TUnk_8049FC90Fv
-  - __dt__13TUnk_8049FD48Fv
-  - __dt__13TUnk_8049FE00Fv
-  - __dt__13TUnk_8049FEB8Fv
-  - __dt__13TUnk_8049FED0Fv
-  - __dt__13TUnk_8049FF88Fv
+  - __dt__13TItemToolMateFv
+  - __dt__16TItemToolMagCellFv
+  - __dt__21TItemToolMoonAtomizerFv
+  - __dt__19TItemToolStatusCureFv
+  - __dt__20TItemToolSolAtomizerFv
+  - __dt__21TItemToolStarAtomizerFv
+  - __dt__17TItemToolMaterialFv
+  - __dt__22TItemToolTechniqueDiskFv
+  - __dt__17TItemToolTelepipeFv
+  - __dt__14TItemToolFluidFv
+  - __dt__19TItemTrapVisionTaskFv
+  - __dt__19TItemToolTrapVisionFv
+  - __dt__16TItemToolGrinderFv
   - __dt__21TItemWeaponSpecialGunFv
   - __dt__22TItemWeaponPlantainFanFv
-  - __dt__13TUnk_804A0AA8Fv
+  - __dt__25TItemShootPlantainHugeFanFv
   - __dt__25TItemWeaponHildebearsCaneFv
   - __dt__22TItemWeaponBelraCannonFv
   - __dt__24TItemWeaponHugeBattleFanFv
@@ -2432,7 +2432,7 @@ force_active:
   - __dt__24TItemWeaponSorcerersCaneFv
   - __dt__26TItemWeaponDelsabersBusterFv
   - __dt__20TItemWeaponEvilCurstFv
-  - __dt__13TUnk_804A2148Fv
+  - __dt__23TItemShootDrillLauncherFv
   - __dt__24TItemWeaponDrillLauncherFv
   - __dt__23TItemWeaponDoubleCannonFv
   - __dt__22TItemWeaponDragonsClawFv
@@ -2449,7 +2449,7 @@ force_active:
   - __dt__20TItemWeaponMaserBeamFv
   - __dt__23TItemWeaponHeartOfPoumnFv
   - __dt__24TItemWeaponMonkeyKingBarFv
-  - __dt__13TUnk_804A4020Fv
+  - __dt__20TItemShootSRankPunchFv
   - __dt__23TItemWeaponSRankJCutterFv
   - __dt__22TItemWeaponSRankSlicerFv
   - __dt__22TItemWeaponLavisCannonFv
@@ -2474,7 +2474,7 @@ force_active:
   - __dt__24TItemWeaponTheSighOfAGodFv
   - __dt__24TItemWeaponTwinPsychogunFv
   - __dt__15TItemWeaponCaneFv
-  - __dt__13TUnk_804A69C0Fv
+  - __dt__18TItemShootWindmillFv
   - __dt__25TItemWeaponYasminkov7000VFv
   - __dt__29TObjFogCollisionPoison_TickerFv
   - __dt__17TNpcPlayerSpawnerFv
@@ -2495,7 +2495,7 @@ force_active:
   - __dt__13TBoss7BreakUpFv
   - __dt__13TUnk_804E4788Fv
   - __dt__13TUnk_804E4BF0Fv
-  - __dt__13TUnk_804E6FA8Fv
+  - __dt__16TItemToolAddSlotFv
   - __dt__12TEndingMovieFv
   - __dt__23TItemWeaponRainbowBatonFv
   - __dt__15TTelepipeMarkerFv
@@ -2505,10 +2505,10 @@ force_active:
   - __dt__16TTitleBackgroundFv
   - __dt__23TIndirectEffectDrawTaskFv
   - __dt__15TItemEffPGModelFv
-  - __dt__13TUnk_804F0C48Fv
-  - __dt__13TUnk_804F0D1CFv
-  - __dt__13TUnk_804F0D34Fv
-  - __dt__13TUnk_804F0FF0Fv
+  - __dt__19TItemToolRandomItemFv
+  - __dt__17TItemQuestBgmTaskFv
+  - __dt__17TItemToolQuestBgmFv
+  - __dt__20TItemToolKillCounterFv
   - __dt__13TUnk_804F1280Fv
   - __dt__20TItemWeaponTsumikiriFv
   - __dt__13TUnk_804F1C88Fv
@@ -3200,25 +3200,25 @@ force_active:
   - __vt__19TItemEffEquipAnchor
   - __vt__19TItemEffShieldPulse
   - __vt__18TItemEffShieldAura
-  - __vt__13TUnk_8049F770
-  - __vt__13TUnk_8049F828
-  - __vt__13TUnk_8049F8E0
-  - __vt__13TUnk_8049F998
-  - __vt__13TUnk_8049FA50
-  - __vt__13TUnk_8049FB08
-  - __vt__13TUnk_8049FBC0
-  - __vt__13TUnk_8049FC90
-  - __vt__13TUnk_8049FD48
-  - __vt__13TUnk_8049FE00
-  - __vt__13TUnk_8049FEB8
-  - __vt__13TUnk_8049FED0
-  - __vt__13TUnk_8049FF88
+  - __vt__13TItemToolMate
+  - __vt__16TItemToolMagCell
+  - __vt__21TItemToolMoonAtomizer
+  - __vt__19TItemToolStatusCure
+  - __vt__20TItemToolSolAtomizer
+  - __vt__21TItemToolStarAtomizer
+  - __vt__17TItemToolMaterial
+  - __vt__22TItemToolTechniqueDisk
+  - __vt__17TItemToolTelepipe
+  - __vt__14TItemToolFluid
+  - __vt__19TItemTrapVisionTask
+  - __vt__19TItemToolTrapVision
+  - __vt__16TItemToolGrinder
   - __vt__24TItemWeaponHugeBattleFan
   - __vt__23TItemWeaponPanthersClaw
   - __vt__23TItemWeaponMeteorCudgel
   - __vt__20TItemFollowStarLight
   - __vt__20TItemWeaponEvilCurst
-  - __vt__13TUnk_804A2148
+  - __vt__23TItemShootDrillLauncher
   - __vt__24TItemWeaponDrillLauncher
   - __vt__26TItemWeaponChameleonScythe
   - __vt__24TItemWeaponMonkeyKingBar
@@ -3266,17 +3266,17 @@ force_active:
   - __vt__13TBoss7BreakUp
   - __vt__13TUnk_804E4788
   - __vt__13TUnk_804E4BF0
-  - __vt__13TUnk_804E6FA8
+  - __vt__16TItemToolAddSlot
   - __vt__15TTelepipeMarker
   - __vt__19TEffIndirectSampler
   - __vt__18TGbaAramUploadTask
   - __vt__13TUnk_804EE470
   - __vt__23TIndirectEffectDrawTask
   - __vt__15TItemEffPGModel
-  - __vt__13TUnk_804F0C48
-  - __vt__13TUnk_804F0D1C
-  - __vt__13TUnk_804F0D34
-  - __vt__13TUnk_804F0FF0
+  - __vt__19TItemToolRandomItem
+  - __vt__17TItemQuestBgmTask
+  - __vt__17TItemToolQuestBgm
+  - __vt__20TItemToolKillCounter
   - __vt__13TUnk_804F1280
   - __vt__20TItemWeaponTsumikiri
   - __vt__21TEquippedItemDrawTask
@@ -3983,22 +3983,22 @@ force_active:
   - add_poison_immunity__18TItemLockCountCtrlFi
   - apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
   - apply_use_effect__11TItemObjectFv
-  - apply_use_effect__13TUnk_8049F770Fv
-  - apply_use_effect__13TUnk_8049F828Fv
-  - apply_use_effect__13TUnk_8049F8E0Fv
-  - apply_use_effect__13TUnk_8049F998Fv
-  - apply_use_effect__13TUnk_8049FA50Fv
-  - apply_use_effect__13TUnk_8049FB08Fv
-  - apply_use_effect__13TUnk_8049FBC0Fv
-  - apply_use_effect__13TUnk_8049FC90Fv
-  - apply_use_effect__13TUnk_8049FD48Fv
-  - apply_use_effect__13TUnk_8049FE00Fv
-  - apply_use_effect__13TUnk_8049FED0Fv
-  - apply_use_effect__13TUnk_8049FF88Fv
-  - apply_use_effect__13TUnk_804E6FA8Fv
-  - apply_use_effect__13TUnk_804F0C48Fv
-  - apply_use_effect__13TUnk_804F0D34Fv
-  - apply_use_effect__13TUnk_804F0FF0Fv
+  - apply_use_effect__13TItemToolMateFv
+  - apply_use_effect__16TItemToolMagCellFv
+  - apply_use_effect__21TItemToolMoonAtomizerFv
+  - apply_use_effect__19TItemToolStatusCureFv
+  - apply_use_effect__20TItemToolSolAtomizerFv
+  - apply_use_effect__21TItemToolStarAtomizerFv
+  - apply_use_effect__17TItemToolMaterialFv
+  - apply_use_effect__22TItemToolTechniqueDiskFv
+  - apply_use_effect__17TItemToolTelepipeFv
+  - apply_use_effect__14TItemToolFluidFv
+  - apply_use_effect__19TItemToolTrapVisionFv
+  - apply_use_effect__16TItemToolGrinderFv
+  - apply_use_effect__16TItemToolAddSlotFv
+  - apply_use_effect__19TItemToolRandomItemFv
+  - apply_use_effect__17TItemToolQuestBgmFv
+  - apply_use_effect__20TItemToolKillCounterFv
   - apply_uv_offset__6TSceneFss
   - apply_variant_speeds__12TObjEneLappyFv
   - apply_velocity__13TBoss5GryphonFv
@@ -4776,7 +4776,7 @@ force_active:
   - calc_hit_zone_index__16TBoss3VoloptCoreFv
   - calc_i8_tiled_texel_offset__FUcUcUl
   - gba_calc_joyboot_checksum__Fv
-  - calc_large_tp__13TUnk_8049FE00Fv
+  - calc_large_tp__14TItemToolFluidFv
   - calc_lightning_scatter_direction__12TTecZondeEffFlP3Vec
   - calc_loading_cursor_pos
   - calc_lunge_aim__14TObjEneBm5WolfFPv
@@ -4806,7 +4806,7 @@ force_active:
   - calc_shock_chance__FP10TObjPlayerP10TObjPlayerP10TObjPlayer
   - calc_slot_offset_position__18TObjEneBalClawBodyFlP3VecPl
   - calc_font_scale__14TFontSmallTaskFv
-  - calc_small_tp__13TUnk_8049FE00Fv
+  - calc_small_tp__14TItemToolFluidFv
   - calc_spherical_camera_position__14CreationCameraFv
   - calc_spin_value__16TBoss3VoloptCoreFv
   - calc_target_vector__12TBoss1DragonFPv
@@ -5438,7 +5438,7 @@ force_active:
   - create__13TObjDFRecBallFP7TObjectPC3VecPC3Vec
   - create__13TObjEneMe1GeeFP13TObjEneMe1GeeP3VecUsl
   - create__13TObjEneRe4BitFPvPvPvPvPv
-  - create__13TUnk_8049FEB8FP7TObjectP10TObjPlayer
+  - create__19TItemTrapVisionTaskFP7TObjectP10TObjPlayer
   - create__13TWindowSubMagFv
   - create__14TChCrTagPlBackFl
   - create__15TObjEneSlimeOneFll
@@ -5538,7 +5538,7 @@ force_active:
   - creation_stick_zero
   - cri_copyright_string
   - __ct__15TPositionSearchFP7TObjectP22PositionPlacementQueueP8TObjBasePC3Vecl
-  - __ct__13TUnk_804A2148FPvPC3VecPC3Vecf
+  - __ct__23TItemShootDrillLauncherFPvPC3VecPC3Vecf
   - __ct__21TItemWeaponRabbitWandFP7TObjectPUc
   - cull_sections__6TSceneFv
   - current_floor_area_type
@@ -6661,7 +6661,7 @@ force_active:
   - get_material_index__18TPlayerLobbyMarkerFv
   - get_material_limit_for_class__Fl
   - get_max_difficulty_for_party_level__21TAdMultiSelGameModeGCFv
-  - get_max_tp__13TUnk_8049FE00Fv
+  - get_max_tp__14TItemToolFluidFv
   - get_message_10__17TWindowSubComCardFl
   - get_model__14TDrawableModelFv
   - get_model__15TORockJungleS01Fl
@@ -6939,7 +6939,7 @@ force_active:
   - hit_target_in_range__13TUnk_804EF130FP9TObjCharaP14TObjCollidable
   - hold_captured_player__12TBoss1DragonFv
   - hook__13TItemEffLavisFv
-  - hook__13TUnk_804A2148Fv
+  - hook__23TItemShootDrillLauncherFv
   - hook__21TItemShootRocketPunchFv
   - hook__15TItemEffBringerFv
   - hospital_position_table_by_episode
@@ -7214,7 +7214,7 @@ force_active:
   - init_with_global_table__9TBoss6MagFv
   - init_work__11TBoss6Type1Fv
   - __ct__13TBoss7BreakUpFP7TObject
-  - initialize__13TUnk_804A05C8FP15TItemHeapObjectUsll
+  - initialize__28TItemTimerEventArmorParticleFP15TItemHeapObjectUsll
   - __ct__16TItemWeaponRifleFP7TObjectPUc
   - initialize_battle__19TPlayerBattleCtrl4PFv
   - initialize_boss6_type2_appear_particle_origin__Fv
@@ -14165,7 +14165,7 @@ force_active:
   - render__13TUnk_80484AFCFv
   - render__17TLightGlareSwitchFv
   - render__11TLightGlareFv
-  - render__13TUnk_804A2148Fv
+  - render__23TItemShootDrillLauncherFv
   - render__21TItemShootRocketPunchFv
   - render__13TWeaponCasingFv
   - render__13TUnk_804B5C08Fv
@@ -14853,7 +14853,7 @@ force_active:
   - run_task__18TItemEffArmorPulseFv
   - run_task__19TItemEffEquipAnchorFv
   - run_task__19TItemEffShieldPulseFv
-  - run_task__13TUnk_8049FEB8Fv
+  - run_task__19TItemTrapVisionTaskFv
   - run_task__20TItemFollowStarLightFv
   - run_task__17TItemFollowEffectFv
   - run_task__13TWeaponCasingFv
@@ -14881,7 +14881,7 @@ force_active:
   - run_task__13TUnk_804EE470Fv
   - run_task__16TTitleBackgroundFv
   - run_task__15TItemEffPGModelFv
-  - run_task__13TUnk_804F0D1CFv
+  - run_task__17TItemQuestBgmTaskFv
   - run_task__13TUnk_804F1280Fv
   - run_task__13TUnk_804F1C88Fv
   - run_task__21TEquippedItemDrawTaskFv

@@ -5,7 +5,7 @@
 
 // A spinning cane-type weapon class (vtable 0x804A69DC; old name
 // init_state_35): spins faster while attacking and, once fast enough,
-// releases a charged shot (TUnk_804A69C0 shoot models via
+// releases a charged shot (TItemShootWindmill shoot models via
 // create_shoot_model). Made by TItemWeaponWindmill::create.
 class TItemWeaponWindmill : public TItemWeapon {
 public:
@@ -28,7 +28,7 @@ public:
     Vec gun_point; // 0x208: get_gun_point, where shots start
 };
 
-// The TItemWeaponWindmill shot callback: a TUnk_804A69C0 from owner.
+// The TItemWeaponWindmill shot callback: a TItemShootWindmill from owner.
 saddr create_shoot_model(saddr owner, saddr pos, saddr dir, f32 life);
 // Item timer: sets charge_ready again 30 frames after a charged release.
 void charge_ready_timer(void *weapon);

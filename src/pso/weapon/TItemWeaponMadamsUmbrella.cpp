@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponMadamsUmbrella.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/item/TUnk_804A0628.h"
+#include "pso/item/TItemTimerEventTpRegen.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
@@ -17,7 +17,7 @@ void TItemWeaponMadamsUmbrella::transform_model_node() {
 // madam_umbrella_start_regen before; vtable slot 57).
 void TItemWeaponMadamsUmbrella::on_equipped() {
     if (effect_objects != NULL) {
-        new TUnk_804A0628(effect_objects, get_owner_client(), 0x5A);
+        new TItemTimerEventTpRegen(effect_objects, get_owner_client(), 0x5A);
     }
 }
 

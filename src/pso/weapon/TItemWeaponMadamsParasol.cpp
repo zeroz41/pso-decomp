@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponMadamsParasol.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/item/TUnk_804A0648.h"
+#include "pso/item/TItemTimerEventHpRegen.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
@@ -17,7 +17,7 @@ void TItemWeaponMadamsParasol::transform_model_node() {
 // madam_parasol_start_regen before; vtable slot 57).
 void TItemWeaponMadamsParasol::on_equipped() {
     if (effect_objects != NULL) {
-        new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
+        new TItemTimerEventHpRegen(effect_objects, get_owner_client(), 0x5A);
     }
 }
 

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponPlantainHugeFan.h"
-#include "pso/weapon/shoot/TUnk_804A0AA8.h"
+#include "pso/weapon/shoot/TItemShootPlantainHugeFan.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/GinjaMaterial.h"
@@ -9,7 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A0AA8::render() {
+void TItemShootPlantainHugeFan::render() {
     if ((is_owner_alive() != 0) && ((uaddr)model != 0U) && ((uaddr)texture_list != 0U)) {
         push_matrix();
         TParticleCtrl::begin_effect_render();
@@ -22,19 +22,19 @@ void TUnk_804A0AA8::render() {
     }
 }
 
-void TUnk_804A0AA8::hook() {
+void TItemShootPlantainHugeFan::hook() {
     rot_b = rot_b + 0x3333;
 }
 
-TUnk_804A0AA8::TUnk_804A0AA8(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootPlantainHugeFan::TItemShootPlantainHugeFan(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
     rot_b = 0;
 }
 
 saddr TObjPlayer::create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames) {
-    TUnk_804A0AA8 *model = NULL;
+    TItemShootPlantainHugeFan *model = NULL;
     if (weapon != NULL) {
-        model = new TUnk_804A0AA8(weapon, origin, end, frames);
+        model = new TItemShootPlantainHugeFan(weapon, origin, end, frames);
     }
     return (saddr)model;
 }
@@ -62,4 +62,4 @@ TItem *TItemWeaponPlantainHugeFan::create(u8 *item) {
     return NULL;
 }
 
-TUnk_804A0AA8::~TUnk_804A0AA8() {}
+TItemShootPlantainHugeFan::~TItemShootPlantainHugeFan() {}

@@ -6,8 +6,8 @@
 #include "pso/technique/TTecMegid.h"
 #include "pso/weapon/TItemWeaponEvilCurst.h"
 #include "pso/item/TItemFollowStarLight.h"
-#include "pso/item/TUnk_804A0668.h"
-#include "pso/weapon/shoot/TUnk_804A2148.h"
+#include "pso/item/TItemTimerEventTpDrain.h"
+#include "pso/weapon/shoot/TItemShootDrillLauncher.h"
 #include "pso/weapon/TItemWeaponDrillLauncher.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
@@ -155,7 +155,7 @@ void TItemWeaponEvilCurst::draw_held_model() {
 void TItemWeaponEvilCurst::on_equipped() {
     floor_area = -1;
     if (effect_objects != NULL) {
-        new TUnk_804A0668(effect_objects, get_owner_client(), 0x5A);
+        new TItemTimerEventTpDrain(effect_objects, get_owner_client(), 0x5A);
     }
     roll_technique();
     roll_technique();

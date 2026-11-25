@@ -3,7 +3,7 @@
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80126104.h"
 #include "pso/weapon/TItemWeaponFrozenShooter.h"
-#include "pso/item/TUnk_804A05E8.h"
+#include "pso/item/TItemTimerEventFreezeCurse.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProArmor.h"
@@ -131,7 +131,7 @@ void TItemWeaponFrozenShooter::emit_marker_effects() {
 // Starts the freeze curse timer on the equip effect objects.
 void TItemWeaponFrozenShooter::on_equipped() {
     if (effect_objects != NULL) {
-        new TUnk_804A05E8(effect_objects, get_owner_client(), 0xE10, 0.25f);
+        new TItemTimerEventFreezeCurse(effect_objects, get_owner_client(), 0xE10, 0.25f);
     }
 }
 
@@ -159,7 +159,7 @@ TItem *TItemWeaponFrozenShooter::create(u8 *item) {
 
 // This object's copy of the freeze curse timer's constructor (on_equipped
 // calls it first).
-TUnk_804A05E8::TUnk_804A05E8(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
+TItemTimerEventFreezeCurse::TItemTimerEventFreezeCurse(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
     : TItemTimerEvent(parent, client, period) {
     unk_2C = rate;
 }

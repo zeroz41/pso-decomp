@@ -1,7 +1,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeaponSealedJSword.h"
-#include "pso/item/TUnk_804A05A8.h"
+#include "pso/item/TItemTimerEventSlowCurse.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
@@ -35,7 +35,7 @@ void TItemWeaponSealedJSword::update_weapon() {
 
 void TItemWeaponSealedJSword::on_equipped() {
     if (effect_objects != NULL) {
-        new TUnk_804A05A8(effect_objects, get_owner_client(), 0xE10, 0.25f);
+        new TItemTimerEventSlowCurse(effect_objects, get_owner_client(), 0xE10, 0.25f);
     }
     kill_count_seen = owner->get_kill_count();
 }
@@ -56,7 +56,7 @@ s16 TObjPlayer::get_kill_count() { return this->m_11a; }
 
 // This object's copy of the slow curse timer's constructor (on_equipped calls
 // it first).
-TUnk_804A05A8::TUnk_804A05A8(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
+TItemTimerEventSlowCurse::TItemTimerEventSlowCurse(TItemHeapObject *parent, u16 client, s32 period, f32 rate)
     : TItemTimerEvent(parent, client, period) {
     unk_2C = rate;
 }

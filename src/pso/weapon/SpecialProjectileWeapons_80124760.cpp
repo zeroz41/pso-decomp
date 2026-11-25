@@ -1,7 +1,7 @@
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/SpecialProjectileWeapons_80124760.h"
 #include "pso/weapon/TItemWeaponEvilCurst.h"
-#include "pso/weapon/shoot/TUnk_804A2148.h"
+#include "pso/weapon/shoot/TItemShootDrillLauncher.h"
 #include "pso/weapon/TItemWeaponDrillLauncher.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
@@ -37,7 +37,7 @@ TItem *TItemWeaponDrillLauncher::create(u8 *item);
 void drill_launcher_return_timer(void *weapon);
 
 
-void TUnk_804A2148::render() {
+void TItemShootDrillLauncher::render() {
     u8 *render_node;
     u8 *object;
 
@@ -59,17 +59,17 @@ void TUnk_804A2148::render() {
     }
 }
 
-void TUnk_804A2148::hook() {  }
+void TItemShootDrillLauncher::hook() {  }
 
-TUnk_804A2148::TUnk_804A2148(void *owner, const Vec *pos, const Vec *dir, f32 life)
+TItemShootDrillLauncher::TItemShootDrillLauncher(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {}
 
 saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life) {
-    TUnk_804A2148 *shot = NULL;
+    TItemShootDrillLauncher *shot = NULL;
     TItemShootParticle *particle;
 
     if (owner != 0) {
-        shot = new TUnk_804A2148((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
+        shot = new TItemShootDrillLauncher((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
     }
     particle = (TItemShootParticle *)TObjPlayer::spawn_shoot_particle(owner, pos, dir, life);
     if (particle != NULL) {
@@ -168,7 +168,7 @@ TItem *TItemWeaponDrillLauncher::create(u8 *item) {
     return NULL;
 }
 
-TUnk_804A2148::~TUnk_804A2148() {
+TItemShootDrillLauncher::~TItemShootDrillLauncher() {
 
 }
 void drill_launcher_return_timer(void *weapon) {

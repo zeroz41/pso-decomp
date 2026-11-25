@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponMarinasBag.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/item/TUnk_804A0648.h"
+#include "pso/item/TItemTimerEventHpRegen.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -19,7 +19,7 @@ void TItemWeaponMarinasBag::emit_marker_effects() {
 // marina_bag_start_regen before; vtable slot 57).
 void TItemWeaponMarinasBag::on_equipped() {
     if (effect_objects != NULL) {
-        new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
+        new TItemTimerEventHpRegen(effect_objects, get_owner_client(), 0x5A);
     }
 }
 

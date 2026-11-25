@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/weapon/TItemWeaponTwinBlaze.h"
-#include "pso/item/TUnk_804A0688.h"
+#include "pso/item/TItemTimerEventHpDrain.h"
 #include "pso/system/task/TObject.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItemEquipBase.h"
@@ -36,7 +36,7 @@ void TItemWeaponTwinBlaze::on_unequipped() { floor_area = -1; }
 void TItemWeaponTwinBlaze::on_equipped() {
     floor_area = -1;
     if (effect_objects != NULL) {
-        new TUnk_804A0688(effect_objects, get_owner_client(), 0x5A);
+        new TItemTimerEventHpDrain(effect_objects, get_owner_client(), 0x5A);
     }
     this->roll_technique();
     this->roll_technique();
