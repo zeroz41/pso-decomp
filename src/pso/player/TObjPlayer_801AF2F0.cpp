@@ -1371,30 +1371,30 @@ void release_players_from_cutscene(void) {
     release_all_players_control_lock();
 }
 
-s32 TObjPlayer::try_apply_status_action(TObjPlayer *player) {
-    if (player->check_flag30_bit20() != 0) {
-        player->run_action_state_phase(0x13, 5);
+s32 TObjPlayer::try_status_action() {
+    if (check_flag30_bit20() != 0) {
+        run_action_state_phase(0x13, 5);
         return 1;
     }
-    if (player->is_status_flag_200() != 0) {
-        if (player->test_actor_flags(0x400) != 0) {
-            player->run_action_state_phase(0xE, 5);
+    if (is_status_flag_200() != 0) {
+        if (test_actor_flags(0x400) != 0) {
+            run_action_state_phase(0xE, 5);
         } else {
-            player->run_action_state_phase(0xD, 5);
+            run_action_state_phase(0xD, 5);
         }
         return 1;
     }
-    if (player->can_guard() != 0) {
-        player->run_action_state_phase(0xA, 5);
+    if (can_guard() != 0) {
+        run_action_state_phase(0xA, 5);
         return 1;
     }
-    if (player->is_status_locked() != 0) {
-        if (player->anim_state.get_action_id() == 0x10) {
-            player->run_action_state_phase(0x10, 5);
+    if (is_status_locked() != 0) {
+        if (anim_state.get_action_id() == 0x10) {
+            run_action_state_phase(0x10, 5);
         } else {
-            player->clear_actor_flags((u32)0x10000);
-            player->run_action_state_phase(player->anim_state.get_action_id(), 5);
-            player->anim_state.set_action_id(0);
+            clear_actor_flags((u32)0x10000);
+            run_action_state_phase(anim_state.get_action_id(), 5);
+            anim_state.set_action_id(0);
         }
         return 1;
     }

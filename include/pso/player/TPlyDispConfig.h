@@ -64,6 +64,7 @@ public:
     void clear_secondary_bank();
     void set_primary_bank();
     void set_secondary_bank();
+    int is_secondary_bank_empty(s32 bank);
 };
 
 #endif

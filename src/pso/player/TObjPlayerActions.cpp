@@ -88,10 +88,6 @@
 
 
 
-struct Player_801C7874 {
-    u8 pad0[0x328];
-    s16 f328;
-};
 
 
 
@@ -361,17 +357,15 @@ typedef struct Player_801CB1B0 {
 } Player_801CB1B0;
 extern "C" {
 
-void set_technique_id__20PlayerTechniqueStateFs(void *, s32);
 s32 copy_attack_targets(void *, void *);
-s32 play_weapon_hit_sound(void *);
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
+s32 play_weapon_hit_sound(void *);
 s32 draw_player_status(void *, void *, const char *);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 s32 is_action_id_none(int);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
-void TObjPlayer__sub_801C7874(TObjPlayer *player);
 void handle_6xB1(void);
 void TObjPlayer__deactivate_off_floor_body(void* p);
 void handle_6x57(G_Unknown_6x57 *command);
@@ -381,7 +375,6 @@ s32 TObjPlayer__sub_801CFBFC(u8 *arg0);
 void TObjPlayer__sub_801D0E74(void* p);
 G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
 void TObjPlayer__sub_801D0F70(void* p);
-void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *player, u8 level, s32 i);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 s32 copy_photon_blast_data__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
 u8 TObjPlayer__sub_801D2004(u8 *arg0);
@@ -390,7 +383,6 @@ void TObjPlayer__sub_801D2448(void* p);
 u8 * TObjPlayer__sub_801D2540(u8 *arg0, u8 *arg1);
 u8 * TObjPlayer__sub_801D25AC(u8 *arg0, u8 *arg1);
 f32 get_action_rate_entry(Obj_801D2640 *p);
-int is_alt_photon_blast_bank_empty__10TObjPlayerFPv(TPlyDispConfig *palettes, s32 bank);
 u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1);
 u8 get_cast_technique_level(void *techs, s16 tech);
 }
@@ -401,7 +393,6 @@ void send_6x46_attack_finished(u8 *arg0);
 u8 get_6x46_strike_packet_size(saddr arg0);
 void emit_heavy_attack_particles(saddr owner, u16 target_id);
 extern "C" {
-s32 is_palettex_activated(u16);
 s32 dispatch_weapon_special_effect(void *, int, int, int);
 s32 fn_8036B798(void *);
 s32 fn_8036B7C0(void *);
@@ -538,58 +529,58 @@ void TObjPlayer::finish_chair_sit_down() {
     }
 }
 
-void TObjPlayer__sub_801C7874(TObjPlayer *player) {
+void TObjPlayer::update_lobby_chair_controls() {
     G_MoveLobbyChair_6xB0 a;
     G_TurnLobbyChair_6xAF b;
     s32 target;
     f32 amount;
-    if (player->is_controls_locked() == 0 && ((Player_801C7874 *)player)->f328 != 0 &&
-        (player->pad_binding.is_button_pressed(2) != 0 ||
-         (player->is_action_flag_28() == 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x24) != 0) ||
-         (player->is_action_flag_28() != 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x18) != 0))) {
-        player->run_action_state_phase(1, 5);
+    if (this->is_controls_locked() == 0 && this->phase != 0 &&
+        (this->pad_binding.is_button_pressed(2) != 0 ||
+         (this->is_action_flag_28() == 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x24) != 0) ||
+         (this->is_action_flag_28() != 0 && TKeyBoardControl__sub_801A58B0() != 0 && TKeyBoardControl::is_key_down(0x18) != 0))) {
+        this->run_action_state_phase(1, 5);
         return;
     }
-    target = player->pad_binding.get_stick_angle();
-    amount = player->pad_binding.get_stick_magnitude();
-    if (player->chair_seat.is_delay_6xB0_over() == 0) {
-        player->chair_seat.tick_delay_6xB0();
+    target = this->pad_binding.get_stick_angle();
+    amount = this->pad_binding.get_stick_magnitude();
+    if (this->chair_seat.is_delay_6xB0_over() == 0) {
+        this->chair_seat.tick_delay_6xB0();
         return;
     }
-    if (player->is_controls_locked() == 0 && player->pad_binding.is_button_pressed(4) != 0) {
-        if (player == NULL || player->obj_isState2_324() == 0) {
-            player->chair_seat.start_delay_6xB0();
+    if (this->is_controls_locked() == 0 && this->pad_binding.is_button_pressed(4) != 0) {
+        if (this == NULL || this->obj_isState2_324() == 0) {
+            this->chair_seat.start_delay_6xB0();
             a.init();
-            a.header.client_id = player->get_entity_id();
+            a.header.client_id = this->get_entity_id();
             a.angle = target;
             a.send();
         }
     } else {
-        if (player->chair_seat.is_delay_6xAF_over() == 0) {
-            player->chair_seat.tick_delay_6xAF();
+        if (this->chair_seat.is_delay_6xAF_over() == 0) {
+            this->chair_seat.tick_delay_6xAF();
             return;
         }
-        if (amount >= 0.1f && (player == NULL || player->obj_isState2_324() == 0)) {
-            player->chair_seat.start_delay_6xAF();
+        if (amount >= 0.1f && (this == NULL || this->obj_isState2_324() == 0)) {
+            this->chair_seat.start_delay_6xAF();
             b.init();
-            b.header.client_id = player->get_entity_id();
+            b.header.client_id = this->get_entity_id();
             b.angle = target;
             b.send();
         }
     }
 }
 
-int TObjPlayer::try_change_action(void* p) { return ((TObjPlayer *)p)->try_change_action(); }
+int TObjPlayer::try_lobby_chair_change_action() { return try_change_action(); }
 
 void TObjPlayer::run_lobby_chair_state_phase(s16 phase) {
   {
     switch (phase)
     {
       case 7:
-        TObjPlayer::try_change_action(this);
+        try_lobby_chair_change_action();
         return;
       case 2:
-        ((s32 (*)(void))TObjPlayer__sub_801C7874)();
+        update_lobby_chair_controls();
         return;
       case 3:
         finish_chair_sit_down();
@@ -842,14 +833,14 @@ void TObjPlayer::update_if_flagged() {
 
 void TObjPlayer::lobby_animation_phase2_nop() {  }
 
-int TObjPlayer::try_change_action_wrapper(void* p) { return ((TObjPlayer *)p)->try_change_action(); }
+int TObjPlayer::try_lobby_animation_change_action() { return try_change_action(); }
 
 void TObjPlayer::run_lobby_animation_state_phase(s16 phase) {
   {
     switch (phase)
     {
       case 7:
-        TObjPlayer::try_change_action_wrapper(this);
+        try_lobby_animation_change_action();
         return;
       case 2:
         lobby_animation_phase2_nop();
@@ -2328,7 +2319,7 @@ void TObjPlayer::run_if_flag_10() {
 
 void TObjPlayer::action11_phase2_nop() {  }
 
-int TObjPlayer::try_apply_status_action() { return TObjPlayer::try_apply_status_action(this); }
+int TObjPlayer::try_apply_status_action() { return try_status_action(); }
 
 void TObjPlayer::run_action11_phase(s16 phase) {
     saddr arg0 = (saddr)this;
@@ -2420,7 +2411,7 @@ void TObjPlayer::update_if_flag_set() {
 
 void TObjPlayer::switch_interaction_phase2_nop() {  }
 
-int TObjPlayer::try_switch_interaction_status_action() { return TObjPlayer::try_apply_status_action((TObjPlayer *)this); }
+int TObjPlayer::try_switch_interaction_status_action() { return try_status_action(); }
 
 void TObjPlayer::run_switch_interaction_phase(s16 phase) {
     saddr arg0 = (saddr)this;
@@ -2462,7 +2453,7 @@ s32 TObjPlayer::can_guard() {
     return 0;
 }
 
-void TObjPlayer::set_flag_0x100000(void* p) { ((TObjChara *)p)->clear_velocity(); ((TObjBase *)p)->set_actor_flags(0x100000); }
+void TObjPlayer::set_flag_0x100000() { clear_velocity(); set_actor_flags(0x100000); }
 
 void TObjPlayer::apply_velocity_if_free(saddr arg0) {
     TObjPlayer *p = (TObjPlayer *)arg0;
@@ -2579,7 +2570,7 @@ void TObjPlayer::run_guard_reaction_phase(s16 phase) {
         TObjPlayer::apply_velocity_if_free(arg0);
         return;
       case 6:
-        TObjPlayer::set_flag_0x100000(this);
+        set_flag_0x100000();
         break;
     }
   }
@@ -2644,9 +2635,8 @@ void TObjPlayer::update_active_instance(int index) {
 }
 
 void TObjPlayer::gain_photon_blast_charge(f32 amount) {
-    saddr arg0 = (saddr)this;
     if (this->is_locally_controlled() == 0 || this->test_actor_flags(0x800) != 0 ||
-        (u32)this->activate_d04_slot() == 0 || ((s32 (*)(s32, s32))is_alt_photon_blast_bank_empty__10TObjPlayerFPv)(arg0 + 0x500, 1) != 0 ||
+        (u32)this->activate_d04_slot() == 0 || this->action_palettes.is_secondary_bank_empty(1) != 0 ||
         is_current_area_item_enabled() == 0) {
         return;
     }
@@ -2947,7 +2937,7 @@ void TObjPlayer::update_target_approach() {
 
 void TObjPlayer::photon_blast_phase2_nop() {  }
 
-int TObjPlayer::try_apply_status_action_default() { return TObjPlayer::try_apply_status_action(this); }
+int TObjPlayer::try_apply_status_action_default() { return try_status_action(); }
 
 void TObjPlayer::dispatch_photon_blast_action(s16 phase) {
   {
@@ -3386,7 +3376,7 @@ void TObjPlayer::update_state5_action() {
 
 void TObjPlayer::technique_cast_phase2_nop() {  }
 
-int TObjPlayer::apply_status_action_a() { return TObjPlayer::try_apply_status_action(this); }
+int TObjPlayer::apply_status_action_a() { return try_status_action(); }
 
 void TObjPlayer::dispatch_technique_cast_state(s16 phase) {
   {
@@ -3510,7 +3500,7 @@ void TObjPlayer::finish_attack_stage3() {
 
 void TObjPlayer::check_attack_stage3_input() {  }
 
-int TObjPlayer::try_apply_status_action_1() { return TObjPlayer::try_apply_status_action(this); }
+int TObjPlayer::try_apply_status_action_1() { return try_status_action(); }
 
 void TObjPlayer::run_attack_stage3_phase(s16 phase) {
   {
@@ -3647,7 +3637,7 @@ void TObjPlayer::check_attack_stage2_input() {
     }
 }
 
-int TObjPlayer::apply_status_action() { return TObjPlayer::try_apply_status_action(this); }
+int TObjPlayer::apply_status_action() { return try_status_action(); }
 
 void TObjPlayer::run_attack_stage2_phase(s16 phase) {
     switch (phase) {
@@ -4115,7 +4105,7 @@ void TObjPlayer::update_active_item() {
     }
 }
 
-int TObjPlayer::try_attack_stage1_status_action() { return TObjPlayer::try_apply_status_action((TObjPlayer *)this); }
+int TObjPlayer::try_attack_stage1_status_action() { return try_status_action(); }
 
 void TObjPlayer::run_attack_stage1_phase(s16 phase) {
   {
@@ -4297,7 +4287,7 @@ void TObjPlayer::select_run_request() {
     }
 }
 
-int TObjPlayer::try_run_status_action() { return TObjPlayer::try_apply_status_action((TObjPlayer *)this); }
+int TObjPlayer::try_run_status_action() { return try_status_action(); }
 
 void TObjPlayer::dispatch_run_state(s16 phase) {
   {
@@ -4349,7 +4339,7 @@ void TObjPlayer::action3_phase3_nop() {  }
 
 void TObjPlayer::action3_phase2_nop() {  }
 
-int TObjPlayer::apply_status_action_b() { return TObjPlayer::try_apply_status_action(this); }
+int TObjPlayer::apply_status_action_b() { return try_status_action(); }
 
 #pragma push
 #pragma opt_lifetimes off
@@ -4578,7 +4568,7 @@ void TObjPlayer::select_walk_request() {
     }
 }
 
-int TObjPlayer::try_walk_status_action() { return TObjPlayer::try_apply_status_action((TObjPlayer *)this); }
+int TObjPlayer::try_walk_status_action() { return try_status_action(); }
 
 void TObjPlayer::run_walk_state_phase(s16 phase) {
   int new_var;
@@ -4781,7 +4771,7 @@ void TObjPlayer::check_idle_movement_request() {
     }
 }
 
-int TObjPlayer::try_apply_status_action_2() { return TObjPlayer::try_apply_status_action(this); }
+int TObjPlayer::try_apply_status_action_2() { return try_status_action(); }
 
 void TObjPlayer::run_idle_state_phase(s16 phase) {
   {
@@ -5976,7 +5966,7 @@ f32 PhotonBlastGauge::get_dist() { return complete_threshold; }
 
 PhotonBlastRequest *PhotonBlastRegistry::get_element(s32 index) { return &slots[index]; }
 
-int is_alt_photon_blast_bank_empty__10TObjPlayerFPv(TPlyDispConfig *palettes, s32 bank) { return palettes->m_smth1.is_bank_empty(bank); }
+int TPlyDispConfig::is_secondary_bank_empty(s32 bank) { return m_smth1.is_bank_empty(bank); }
 
 void TObjPlayer::bswap_u16_pair_list() {
     Obj_801D2B2C *arg0 = (Obj_801D2B2C *)this;

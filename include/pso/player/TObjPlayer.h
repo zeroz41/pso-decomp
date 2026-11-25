@@ -534,12 +534,13 @@ struct TObjPlayer : public TObjChara {
     void start_action();
     void set_attack_state();
     void send_state_sync();
-    static int try_change_action(void* p);
+    int try_lobby_chair_change_action();
+    void update_lobby_chair_controls();
     s16 select_idle_action();
     void update_dispatch_v76();
     void do_action();
     void update_if_flagged();
-    static int try_change_action_wrapper(void* p);
+    int try_lobby_animation_change_action();
     void init_effects();
     void start_action_21();
     void send_position_update();
@@ -592,7 +593,7 @@ struct TObjPlayer : public TObjChara {
     void begin_action_0xB();
     void run_if_flag_10();
     int try_apply_status_action();
-    static s32 try_apply_status_action(TObjPlayer *player);
+    s32 try_status_action();
     s32 check_flag30_bit20();
     // Action state machine: run_action_state_phase dispatches a state's phase to its handler.
     void run_action_state_phase(s16 state, s16 phase);
@@ -623,7 +624,7 @@ struct TObjPlayer : public TObjChara {
     void start_action_c();
     void send_6x50_switch_interaction();
     void update_if_flag_set();
-    static void set_flag_0x100000(void* p);
+    void set_flag_0x100000();
     static void apply_velocity_if_free(saddr player);
     static void apply_velocity_if_free(void *player);
     void complete_guard_reaction();
