@@ -74,9 +74,8 @@ void TWindowHelpItem::init_text(void *str) {
 }
 
 void TWindowHelpItem::update_displayed_item() {
-    saddr arg0 = (saddr)this;
-    ((TWindowHelpItem *)arg0)->format_description_with_price();
-    ((TWindowHelpItem *)arg0)->init_text((void *)(get_shared_text_buffer()));
+    this->format_description_with_price();
+    this->init_text((void *)(get_shared_text_buffer()));
 }
 void TWindowHelpItem__sub_80253268(u8 *window_base) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80253268, sp8) == 0x0);
@@ -102,12 +101,12 @@ void TWindowHelpItem::update_tech_disk_details() {
     s32 requirement;
     saddr player;
     u8 *e0;
-    u8 *e1;
-    u8 *e2;
+    WindowSpritePart *e1;
+    TWindowHelpItem *e2;
     u8 *e3;
-    u8 *e4;
-    u8 *e5;
-    u8 *e6;
+    TWindowHelpItem *e4;
+    TWindowHelpItem *e5;
+    TWindowHelpItem *e6;
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
         init_window_layout_entries(
@@ -125,33 +124,33 @@ void TWindowHelpItem::update_tech_disk_details() {
         }
         set_text_entry_string(e0, (uaddr)((void *)get_shared_text_buffer()), 0x20);
         ((TWindowHelpItem *)e0)->reset_float_field();
-        e1 = (u8 *)this->get_array_entry(1);
-        e2 = (u8 *)this->get_array_entry(2);
+        e1 = (WindowSpritePart *)this->get_array_entry(1);
+        e2 = (TWindowHelpItem *)this->get_array_entry(2);
         e3 = (u8 *)this->get_array_entry(3);
-        e4 = (u8 *)this->get_array_entry(4);
-        e5 = (u8 *)this->get_array_entry(5);
-        e6 = (u8 *)this->get_array_entry(6);
+        e4 = (TWindowHelpItem *)this->get_array_entry(4);
+        e5 = (TWindowHelpItem *)this->get_array_entry(5);
+        e6 = (TWindowHelpItem *)this->get_array_entry(6);
         check_equip_requirements((void *)player, (TItemData *)(*(void **)(((u8 *)this) + 0x68)), &requirement);
         if (requirement & 1) {
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e1), TWindowHelpItem__data_805DCDE4, 152.0f);
-            ((TWindowHelpItem *)e2)->set_flag0_bit2();
+            set_sprite_uv_from_pixels(e1, TWindowHelpItem__data_805DCDE4, 152.0f);
+            e2->set_flag0_bit2();
             ((TWindowHelpItem *)e3)->set_flag0_bit2();
-            ((TWindowHelpItem *)e4)->set_flag0_bit2();
-            ((TWindowHelpItem *)e5)->set_flag0_bit2();
-            ((TWindowHelpItem *)e6)->set_flag0_bit2();
+            e4->set_flag0_bit2();
+            e5->set_flag0_bit2();
+            e6->set_flag0_bit2();
             return;
         }
-        set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e1), TWindowHelpItem__data_805DCDE4, lbl_805DCDEC);
-        ((TWindowHelpItem *)e2)->reset_float_field();
-        ((TWindowHelpItem *)e4)->reset_float_field();
-        ((TWindowHelpItem *)e6)->reset_float_field();
+        set_sprite_uv_from_pixels(e1, TWindowHelpItem__data_805DCDE4, lbl_805DCDEC);
+        e2->reset_float_field();
+        e4->reset_float_field();
+        e6->reset_float_field();
         ((HelpItemLevelEntry *)e3)->value = ((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->get_technique_level();
     }
 }
 
 void TWindowHelpItem::sub_802534B0() {
     u8 *e;
-    u8 *e2;
+    HelpItemStarRowEntry *e2;
     init_window_layout_entries(
         &this->entry_list,
         reinterpret_cast<const void *>(window_help_item_layout_entries),
@@ -161,8 +160,8 @@ void TWindowHelpItem::sub_802534B0() {
     this->format_description_with_price();
     set_text_entry_string((e), (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
-    e2 = (u8 *)this->get_array_entry(1);
-    ((HelpItemStarRowEntry *)e2)->stars = (u8)((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->calc_display_grade();
+    e2 = (HelpItemStarRowEntry *)this->get_array_entry(1);
+    e2->stars = (u8)((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->calc_display_grade();
 }
 
 void TWindowHelpItem__vt11(u8 *window) {

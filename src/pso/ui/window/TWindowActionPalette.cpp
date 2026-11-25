@@ -333,8 +333,8 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
 }
 
 void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
-    u8 *sprite = (u8 *)get_array_entry(1);
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(sprite), TWindowActionPalette::bank_panel_uv_origins[state][0], TWindowActionPalette::bank_panel_uv_origins[state][1]);
+    WindowSpritePart *sprite = (WindowSpritePart *)get_array_entry(1);
+    set_sprite_uv_from_pixels(sprite, TWindowActionPalette::bank_panel_uv_origins[state][0], TWindowActionPalette::bank_panel_uv_origins[state][1]);
 }
 
 #pragma push

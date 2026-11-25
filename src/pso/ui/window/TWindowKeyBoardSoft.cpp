@@ -841,11 +841,11 @@ void TWindowKeyBoardSoft::sub_8026227C(WindowDrawContext *ctx) {
 #pragma pop
 
 void TWindowKeyBoardSoft::render() {
-    saddr ctx;
-    ctx = reinterpret_cast<saddr>(draw_default_entry());
-    sub_8026227C((WindowDrawContext *)ctx);
-    sub_80261DD8((WindowDrawContext *)ctx);
-    sub_802616BC((WindowDrawContext *)ctx);
+    WindowDrawContext *ctx;
+    ctx = (WindowDrawContext *)(draw_default_entry());
+    sub_8026227C(ctx);
+    sub_80261DD8(ctx);
+    sub_802616BC(ctx);
 }
 
 #pragma push

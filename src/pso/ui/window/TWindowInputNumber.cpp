@@ -130,8 +130,8 @@ void TWindowInputNumber::create(s32 title) {
     if ((u32) this->unknown70 == 0U) {
         var_r0 = (saddr)::operator new(0x24);
         if (var_r0 != 0U) {
-            uaddr saved = var_r0;
-            var_r0 = (uaddr)((TWindowSubStatusDisp *)saved)->construct_type1_heading(title, this->client_index);
+            TWindowSubStatusDisp *saved = (TWindowSubStatusDisp *)var_r0;
+            var_r0 = (uaddr)(saved)->construct_type1_heading(title, this->client_index);
         }
         this->unknown70 = var_r0;
         this->window_flags = (s32) (this->window_flags | 0x40);

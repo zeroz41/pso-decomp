@@ -948,15 +948,14 @@ void TWindowSubStatusDisp::update_entry_visibility() {
     uaddr entry2;
     uaddr entry1;
     uaddr entry0;
-    saddr arg0 = (saddr)this;
-    entry7 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(7));
-    entry6 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(6));
-    entry5 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(5));
-    entry4 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(4));
-    entry3 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(3));
-    entry2 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(2));
-    entry1 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(1));
-    entry0 = reinterpret_cast<uaddr>(((TWindowBase *)arg0)->get_array_entry(0));
+    entry7 = reinterpret_cast<uaddr>(this->get_array_entry(7));
+    entry6 = reinterpret_cast<uaddr>(this->get_array_entry(6));
+    entry5 = reinterpret_cast<uaddr>(this->get_array_entry(5));
+    entry4 = reinterpret_cast<uaddr>(this->get_array_entry(4));
+    entry3 = reinterpret_cast<uaddr>(this->get_array_entry(3));
+    entry2 = reinterpret_cast<uaddr>(this->get_array_entry(2));
+    entry1 = reinterpret_cast<uaddr>(this->get_array_entry(1));
+    entry0 = reinterpret_cast<uaddr>(this->get_array_entry(0));
     if (is_guild_card_receive_active() != 0) {
         if (entry7 != 0U) {
             ((TWindowSubStatusDisp *)entry7)->clear_visible_flag();

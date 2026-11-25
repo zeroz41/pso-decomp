@@ -65,24 +65,23 @@ TWindowArea *create_area_window(void *text) {
 void fn_8024450C(s32 arg0) {
     s32 var_r30;
     s32 var_r31;
-    saddr var_r3;
+    TWindowSubStatusDisp *var_r3;
     s32 var_r5;
     var_r30 = arg0;
     var_r31 = TObjNewFloorWin__sub_8007410C();
-    var_r3 = var_r30;
+    var_r3 = (TWindowSubStatusDisp *)var_r30;
     var_r5 = get_area_total();
-    ((TWindowSubStatusDisp *)var_r3)->set_count_ratio_text(var_r31, var_r5);
+    var_r3->set_count_ratio_text(var_r31, var_r5);
 }
 
 void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
-    saddr arg0 = (saddr)this;
     text_builder_reset();
     text_builder_append((u8 *)(get_message_text(0x67)));
     append_text_space();
     append_padded_number((arg1), (2U));
     text_builder_append((u8 *)"/");
     append_padded_number((arg2), (2U));
-    ((TWindowSubStatusDisp *)arg0)->set_entry_display_value((saddr) (get_shared_text_buffer()));
+    this->set_entry_display_value((saddr) (get_shared_text_buffer()));
     TWindowSubStatusDisp__count_ratio_value = arg1;
 }
 
