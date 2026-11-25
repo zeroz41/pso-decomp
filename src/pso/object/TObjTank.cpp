@@ -43,7 +43,7 @@ void TObjTank::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)tank_bml_resource, 0)));
+        draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model(tank_bml_resource, 0)));
         pop_matrix();
     }
 }
@@ -78,12 +78,12 @@ void TObjTank::free_globals() {
         tank_texture_list = NULL;
     }
     if (tank_bml_resource != NULL) {
-        delete (BmlResource *)tank_bml_resource;
+        delete tank_bml_resource;
         tank_bml_resource = NULL;
     }
 }
 void TObjTank::load_globals() {
-    BmlResource *storage = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tank_resource_descriptor, 0, 0, NULL);
+    BmlResource *storage = new BmlResource(5, &fs_obj_tank_resource_descriptor, 0, 0, NULL);
     tank_bml_resource = storage;
     tank_texture_list = LoadPvmFileTls("fs_obj_tank.GVM");
 }

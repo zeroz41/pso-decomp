@@ -325,8 +325,8 @@ TOKurage::~TOKurage() {}
 TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = kurage_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)kurage_bml_resource, 0);
-    texlist = get_bml_texlist((BmlResource *)kurage_bml_resource, 0);
+    model = (void *)get_bml_model(kurage_bml_resource, 0);
+    texlist = get_bml_texlist(kurage_bml_resource, 0);
     motion = get_bml_motion(kurage_bml_resource, 0);
     motion2 = get_bml_motion(kurage_bml_resource, 1);
     animation_step = 0.5f;

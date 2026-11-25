@@ -215,9 +215,9 @@ void TObjLobbyMain::render() {
         index = model_index;
         motion = lobby_main_model_motions[index];
         if (motion != 5) {
-            draw_ginja_model_with_motion((void *)(get_bml_model((BmlResource *)model_resource, model_index)), (void *)(get_bml_motion(model_resource, motion)), (f32)animation_frame);
+            draw_ginja_model_with_motion(get_bml_model((BmlResource *)model_resource, model_index), get_bml_motion(model_resource, motion), (f32)animation_frame);
         } else {
-            draw_ginja_object((void *)get_bml_model((BmlResource *)model_resource, index));
+            draw_ginja_object(get_bml_model((BmlResource *)model_resource, index));
         }
         pop_matrix();
     }

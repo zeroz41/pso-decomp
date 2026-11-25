@@ -193,7 +193,7 @@ TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObj
     this->set_animation((this->requested_action));
     this->set_requested_action((int) (this->requested_action));
     this->actorFlags = (s32) (this->actorFlags | 0x60000000);
-    init_collision_body_parts(this, (void *)&container_ancient01_collision_body_parts, 1);
+    init_collision_body_parts(this, &container_ancient01_collision_body_parts, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     center.y = (f32) ((*(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4) / 2.0f) + center.y);
@@ -496,7 +496,7 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
     set_animation(requested_action);
     set_requested_action(requested_action);
     actorFlags |= 0x60000000;
-    init_collision_body_parts(this, (void *)&container_ancient01_collision_body_parts, 1);
+    init_collision_body_parts(this, &container_ancient01_collision_body_parts, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     c = (NJS_POINT2 *)&container_ancient01_collision_body_parts;

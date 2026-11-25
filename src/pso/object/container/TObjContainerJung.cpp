@@ -139,7 +139,7 @@ NJS_OBJECT *TObjContainerJungEx::get_model(s32 index) {
 
 NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     if (jungle_container_ex_archive != NULL) {
-        return get_bml_texlist((BmlResource *)jungle_container_ex_archive, index);
+        return get_bml_texlist(jungle_container_ex_archive, index);
     }
     return 0;
 }
@@ -181,9 +181,9 @@ void TObjContainerJung::draw_model() {
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             scale_matrix(0, 0.85f, 0.85f, 0.85f);
-            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 0));
+            draw_ginja_object(get_bml_model(jungle_container_archive, 0));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 3));
+            draw_ginja_object(get_bml_model(jungle_container_archive, 3));
             TParticleCtrl::end_effect_render();
             pop_matrix();
             break;
@@ -253,7 +253,7 @@ void TObjContainerJung::spawn_break_effects() const {
 void TObjContainerJung::load_resources() {
     BmlResource *archive = new BmlResource(5, &container_jung_resource_descriptor, 0, 0, NULL);
     jungle_container_archive = archive;
-    jungle_container_textures = get_bml_texlist((BmlResource *)archive, 0);
+    jungle_container_textures = get_bml_texlist(archive, 0);
 }
 
 void TObjContainerJung::release() {
@@ -314,9 +314,9 @@ void TObjContainerJungEx::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
-        draw_ginja_object((void *)TObjContainerJungEx::get_model(0));
+        draw_ginja_object(TObjContainerJungEx::get_model(0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object((void *)TObjContainerJungEx::get_model(3));
+        draw_ginja_object(TObjContainerJungEx::get_model(3));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     case 1:

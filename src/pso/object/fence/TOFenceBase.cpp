@@ -96,7 +96,7 @@ void TOFenceBase::render() {
             rotate_matrix_x(NULL, node->ang[0]);
             rotate_matrix_y(NULL, node->ang[1]);
             scale_current_matrix(node->scl);
-            draw_ginja_model((void *)node->model);
+            draw_ginja_model(node->model);
             pop_matrix();
         }
         pop_matrix();

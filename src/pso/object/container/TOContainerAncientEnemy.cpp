@@ -236,8 +236,8 @@ TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TObjContainerCommon(tl_05, set_da
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
-    texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
+    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
 TUnk_804B08BC::~TUnk_804B08BC() {
@@ -269,17 +269,17 @@ void TUnk_804B08BC::draw_model() {
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
-            draw_ginja_model((void *)obj->model);
+            draw_ginja_model(obj->model);
             child = obj->child;
             push_matrix();
             post_translate_matrix(child->pos);
-            draw_ginja_model((void *)child->model);
+            draw_ginja_model(child->model);
             pop_matrix();
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model((void *)sibling->model);
+            draw_ginja_model(sibling->model);
             TParticleCtrl::end_effect_render();
             pop_matrix();
             pop_matrix();
@@ -395,8 +395,8 @@ TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainer
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
     center.y += container_ancient_enemy_collision_body_params.offset.y;
-    model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
-    texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
+    model = (void *)get_bml_model(ancient_container_resource_bundle, 0);
+    texlist = get_bml_texlist(ancient_container_resource_bundle, 0);
 }
 
 TOContainerAncientEnemy::~TOContainerAncientEnemy() {
@@ -428,17 +428,17 @@ void TOContainerAncientEnemy::draw_model() {
             obj = (NJS_OBJECT *)this->model;
             push_matrix();
             post_translate_matrix(obj->pos);
-            draw_ginja_model((void *)obj->model);
+            draw_ginja_model(obj->model);
             child = obj->child;
             push_matrix();
             post_translate_matrix(child->pos);
-            draw_ginja_model((void *)child->model);
+            draw_ginja_model(child->model);
             pop_matrix();
             sibling = child->sibling;
             push_matrix();
             post_translate_matrix(sibling->pos);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model((void *)sibling->model);
+            draw_ginja_model(sibling->model);
             TParticleCtrl::end_effect_render();
             pop_matrix();
             pop_matrix();

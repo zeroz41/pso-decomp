@@ -108,10 +108,10 @@ TSwitch::TSwitch(TObject *parent) : TObject(parent) {
     m_24 = 0;
 }
 void clear_switch_table(void) {
-    memset((void *) TSwitch__floor_switch_table, 0, 0x240);
+    memset(TSwitch__floor_switch_table, 0, 0x240);
 }
 void init_switch_table(void) {
-    memset((void *) TSwitch__floor_switch_table, 0, 0x240);
+    memset(TSwitch__floor_switch_table, 0, 0x240);
 }
 
 TSwitch::~TSwitch() {}

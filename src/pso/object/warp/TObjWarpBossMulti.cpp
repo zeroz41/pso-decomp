@@ -135,7 +135,7 @@ void load_boss_warp_resources() {
     if (area >= 8 && area <= 0xA) {
         resource = new BmlResource(5, &lbl_804B94D8, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
         boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 2);
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
@@ -147,7 +147,7 @@ void load_boss_warp_resources() {
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         resource = new BmlResource(5, &lbl_804B94FC, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
-        boss_warp_base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+        boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
         boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
@@ -158,7 +158,7 @@ void load_boss_warp_resources() {
     }
     resource = new BmlResource(5, &lbl_804B94AC, 0, 0, NULL);
     boss_warp_resource_bundle = resource;
-    boss_warp_base_model = (NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0);
+    boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
     boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 2);
     warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
@@ -348,14 +348,14 @@ void TObjWarpBoss::update_warp_dialogs() {
   {
     pos[0] = 229.0f;
     pos[1] = 104.0f;
-    player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), (const void *)pos);
+    player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), pos);
     if (player_list_window != 0)
     {
       player_list_window->set_flag_40();
       player_list_window->set_close_flag();
       for (i = 0; i < player_count; i++)
       {
-        player_list_window->dispatch_without_flags((saddr)player_names[i], (s32)i);
+        player_list_window->dispatch_without_flags((saddr)player_names[i], i);
       }
     }
     request_active_window_close();

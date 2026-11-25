@@ -45,7 +45,7 @@ TObjChipSpawnParams *TObjChip::copy_transform(TObjChipSpawnParams *spawn, TObjCh
     dst.gravity = src->gravity;
     VecCopy(&spawn->chip.pos, &params->pos);
     VecCopy(&spawn->chip.velocity_range, &params->velocity_range);
-    copy_xyz(spawn->chip.spin_range, (void *)params->spin_range);
+    copy_xyz(spawn->chip.spin_range, params->spin_range);
     dst.count = src->count;
     dst.life = src->life;
     dst.floor_y = src->floor_y;

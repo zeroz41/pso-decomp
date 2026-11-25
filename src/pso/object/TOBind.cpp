@@ -95,7 +95,7 @@ void TOBind::free_static_model() {
 }
 
 void TOBind::load_static_resource() {
-    BmlResource *storage = new BmlResource(1, (BmlResourceDescriptor *)&bm_o_bind_resource_descriptor, 0, 0, NULL);
+    BmlResource *storage = new BmlResource(1, &bm_o_bind_resource_descriptor, 0, 0, NULL);
     static_model_resource = storage;
 }
 

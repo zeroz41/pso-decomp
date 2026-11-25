@@ -164,7 +164,7 @@ void TObjFogCollision::draw_volume() {
         s = 0.5f * this->scale.x;
         post_translate_matrix(&this->position.x);
         scale_matrix(0, s, 3.0f, s);
-        draw_chunk_object((void *)debug_cylinder_object);
+        draw_chunk_object(debug_cylinder_object);
         pop_matrix();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -242,10 +242,10 @@ TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjF
     init_params();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
-            new TObjFogCollisionPoison_Ticker((TObject *)parent, i);
+            new TObjFogCollisionPoison_Ticker(parent, i);
         }
     } else {
-        new TObjFogCollisionPoison_Ticker((TObject *)parent, local_client_id);
+        new TObjFogCollisionPoison_Ticker(parent, local_client_id);
     }
 }
 

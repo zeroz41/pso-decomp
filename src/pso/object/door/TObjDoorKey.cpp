@@ -251,13 +251,13 @@ TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
 
 
 void *TObjDoorKey::create(void *set_entry) {
-    void *o = (void *)new TObjDoorKey((TObject *)tl_05, (void *)set_entry);
+    void *o = (void *)new TObjDoorKey((TObject *)tl_05, set_entry);
     return o;
 }
 
 void TObjDoorKey::free_key() {
     if (door_key_resource_handle != NULL) {
-        delete (BmlResource *)door_key_resource_handle;
+        delete door_key_resource_handle;
         door_key_resource_handle = NULL;
     }
     TObjPlayer::free_if_valid((saddr)door_key_texture_handle);
@@ -269,9 +269,9 @@ void TObjDoorKey::load_resources() {
     saddr r = (saddr)new BmlResource(5, &door_key_resource_descriptor, 0, 0, NULL);
     door_key_resource_handle = (BmlResource *)r;
     door_key_texture_handle = LoadPvmFileTls("fe_obj_switch.gvm");
-    door_key_ginja_model_table[0] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 1);
-    door_key_ginja_model_table[1] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 2);
-    s32 t = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 0);
+    door_key_ginja_model_table[0] = (saddr)get_bml_model(door_key_resource_handle, 1);
+    door_key_ginja_model_table[1] = (saddr)get_bml_model(door_key_resource_handle, 2);
+    s32 t = (saddr)get_bml_model(door_key_resource_handle, 0);
     door_key_id_counter = 0;
     door_key_ginja_model_table[2] = t;
     TObjDoorKey__data_805D5C04 = 0;

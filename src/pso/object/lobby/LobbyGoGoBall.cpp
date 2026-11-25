@@ -247,7 +247,7 @@ void TObjGoGoBall::update_goal_checks(u16 id) {
         actorFlags = 1;
         ang = 10430.38043493439 * atan2_float(position.x - p->position.x, position.z - p->position.z);
         if ((0.0f) == len) {
-            throw_gogo_ball(&position, (s32)ang, (s32)time);
+            throw_gogo_ball(&position, ang, (s32)time);
             send_local_player_walk();
         }
     }
@@ -514,7 +514,7 @@ void TObjGoGoBall::draw_shadow_on_ground() {
         if (k >= 1.0f) {
             k = 1.0f;
         }
-        draw_shadow_quads(&ground.point, &ground.normal, 0, &scale, (f32)k);
+        draw_shadow_quads(&ground.point, &ground.normal, 0, &scale, k);
         copy_argb(&model_material_color, &saved_model_draw_color);
     }
 }
@@ -654,7 +654,7 @@ void load_lobby_textures() {
     sync->mode = 0;
     scores[0] = 0;
     scores[1] = 0;
-    obj = new BmlResource(5, (BmlResourceDescriptor *)&language_lobby_texture_descriptor, 0, 0, NULL);
+    obj = new BmlResource(5, &language_lobby_texture_descriptor, 0, 0, NULL);
     gogo_ball_bml_resource = obj;
     lobby_gvm_texture_handles[0] = LoadPvmFileTls("robby_chu.gvm");
     lobby_gvm_texture_handles[1] = LoadPvmFileTls("biri_ball.gvm");
@@ -677,7 +677,7 @@ void free_lobby_textures() {
     gogo_ball_sync_state.position.y = 0.0f;
     gogo_ball_sync_state.position.z = 63.0f;
     gogo_ball_sync_state.angle = 0;
-    delete (BmlResource *)gogo_ball_bml_resource;
+    delete gogo_ball_bml_resource;
     gogo_ball_bml_resource = NULL;
     for (i = 0; i < 9; i++) {
         TObjPlayer::free_if_valid((saddr)lobby_gvm_texture_handles[i]);

@@ -655,7 +655,7 @@ void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(TObjWaitEntryHairMoveSim
             if (e->p4 != NULL) {
                 TObjEZBoneRotPlayer::create(self->pl, (void *)v, e->p4);
             } else if (e->p8 != NULL) {
-                ((TObjPlayer *)(self->pl))->create_hairmove((void *)e->p8, (void *)e->pc);
+                ((TObjPlayer *)(self->pl))->create_hairmove(e->p8, (void *)e->pc);
             }
         }
     }
@@ -700,7 +700,7 @@ void TObjWaitEntryHairMoveSim__sub_800FE3BC(int bone) {  }
 void T_OWEHMS_Exp::start_bone_rotation() {
     saddr bone = (saddr)player->hair_model;
     TObjWaitEntryHairMoveSim__sub_800FE3BC(bone);
-    TObjEZBoneRotPlayer::create((void *)player, (void *)bone, &hair_bone_rotation_descriptor[descriptor_index]);
+    TObjEZBoneRotPlayer::create(player, (void *)bone, &hair_bone_rotation_descriptor[descriptor_index]);
 }
 
 s32 get_move_done_result__24TObjWaitEntryHairMoveSimFPv(H_800FE32C *h) {

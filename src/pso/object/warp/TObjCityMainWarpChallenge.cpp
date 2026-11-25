@@ -126,9 +126,9 @@ block_4:
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((void *)city_common_model_archive->models[12].model);
+        draw_ginja_object(city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)city_common_model_archive->models[0].model, (void *)city_common_model_archive->motions[5].motion, (f32)frame);
+        draw_ginja_model_with_motion(city_common_model_archive->models[0].model, city_common_model_archive->motions[5].motion, (f32)frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -202,7 +202,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
     if (this->player_list_window == 0) {
         pos[0] = 229.0f;
         pos[1] = 104.0f;
-        this->player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), (const void *)pos);
+        this->player_list_window = create_check_box_window_for_local_client(get_window_layout_position(0x34), pos);
         if (this->player_list_window != 0) {
             this->player_list_window->set_flag_40();
             this->player_list_window->set_close_flag();
@@ -217,7 +217,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
             this->player_list_window->advance_matching_entries(this->player_in_range[j] != 0, j);
             color = 0xF0F0F0FF;
             if (this->state == 1 && (player = get_player_by_client_id(j)) != NULL &&
-                ((TObjPlayer *)player)->check_player_flag1() != 0) {
+                (player)->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
             this->player_list_window->sub_80248994(color, j);

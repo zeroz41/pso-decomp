@@ -47,7 +47,7 @@ void TOKeyAncient01::render() {
             rotate_matrix_z(NULL, ((NJS_OBJECT *)model)->ang[2]);
             rotate_matrix_x(NULL, ((NJS_OBJECT *)model)->ang[0]);
             rotate_matrix_y(NULL, ((NJS_OBJECT *)model)->ang[1]);
-            draw_ginja_model((void *)((NJS_OBJECT *)model)->model);
+            draw_ginja_model(((NJS_OBJECT *)model)->model);
             pop_matrix();
         }
         pop_matrix();

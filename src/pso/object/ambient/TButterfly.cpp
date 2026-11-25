@@ -52,7 +52,7 @@ void TButterfly::draw_model() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     rotate_matrix_x(0, -0x2000);
-    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
+    draw_ginja_model_with_motion(get_bml_model((BmlResource *)butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
     pop_matrix();
 }
 
@@ -222,14 +222,14 @@ TButterfly::~TButterfly() {
 TButterfly::TButterfly(TObject *parent, void *arg2) : TObjBase(parent) {
     this->m_name = butterfly_name;
     VecCopy(&this->position, (const Vec *)((char *)arg2 + 12));
-    copy_xyz((char *)this + 92, (void *)((char *)arg2 + 24));
+    copy_xyz((char *)this + 92, (char *)arg2 + 24);
     VecCopy(&this->scale, (const Vec *)((char *)arg2 + 36));
     this->init_motion();
 }
 
 
 void *TButterfly::create(void *set_data) {
-    void *o = (void *)new TButterfly(tl_05, (void *)set_data);
+    void *o = (void *)new TButterfly(tl_05, set_data);
     return o;
 }
 

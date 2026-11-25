@@ -377,7 +377,7 @@ void TOKey::interact(u16 client) {
     TObjPlayer *player;
 
     if (m != KEY_MODE_NONE && (m != KEY_MODE_ONCE || is_on != 1)) {
-        player = get_player_by_client_id((u16)client);
+        player = get_player_by_client_id(client);
         if (player != NULL) {
             player->start_camera_pan(0xC, calc_angle_to(&player->position, &position));
             press_timer = press_delay;

@@ -104,7 +104,7 @@ void TODoorCave03::render() {
         rotate_matrix_y(NULL, rotation_y);
         node = (NJS_OBJECT *)model;
         post_translate_matrix(node->pos);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x10;
@@ -115,10 +115,10 @@ void TODoorCave03::render() {
             node = ((NJS_OBJECT *)model)->child;
         }
         post_translate_matrix(node->pos);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         node = node->child;
         post_translate_matrix(node->pos);
-        draw_ginja_model((void *)node->model);
+        draw_ginja_model(node->model);
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();

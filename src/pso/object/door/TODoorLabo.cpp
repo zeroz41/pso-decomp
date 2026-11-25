@@ -102,7 +102,7 @@ void TODoorFourLightBase::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_frame);
+        draw_ginja_model_with_motion(model, motion, (f32)animation_frame);
         pop_matrix();
         break;
     case 2:
@@ -110,7 +110,7 @@ void TODoorFourLightBase::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_end_frame);
+        draw_ginja_model_with_motion(model, motion, (f32)animation_end_frame);
         pop_matrix();
         break;
     case 0:
@@ -122,7 +122,7 @@ void TODoorFourLightBase::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_object((void *)model);
+        draw_ginja_object(model);
         pop_matrix();
         break;
     }
@@ -332,7 +332,7 @@ void free_seabed_four_light_door_resources() {
         seabed_door_lit_textures = NULL;
     }
     if (door_labo_bml_resource != NULL) {
-        delete (BmlResource *)door_labo_bml_resource;
+        delete door_labo_bml_resource;
         door_labo_bml_resource = NULL;
     }
 }
@@ -405,7 +405,7 @@ void free_seabed_u_four_light_door_resources() {
         seabed_four_light_door_textures = NULL;
     }
     if (seabed_four_light_door_bml_resource != NULL) {
-        delete (BmlResource *)seabed_four_light_door_bml_resource;
+        delete seabed_four_light_door_bml_resource;
         seabed_four_light_door_bml_resource = NULL;
     }
 }
@@ -469,7 +469,7 @@ void TAdSinglePlyChrSelectGC::free_all_resources() {
         door_labo_green_texture_list = NULL;
     }
     if (TODoorLabo__bml_resource != NULL) {
-        delete (BmlResource *)TODoorLabo__bml_resource;
+        delete TODoorLabo__bml_resource;
         TODoorLabo__bml_resource = NULL;
     }
 }
@@ -539,7 +539,7 @@ void TODoorLabo::free_resources() {
         door_labo_normal_green_texture_list = NULL;
     }
     if (door_labo_model_archive != NULL) {
-        delete (BmlResource *)door_labo_model_archive;
+        delete door_labo_model_archive;
         door_labo_model_archive = NULL;
     }
 }
