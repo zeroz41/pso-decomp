@@ -459,7 +459,7 @@ void UnitScale::reset() {
 
 void BattleMusicState::reset_counter_field4() {
     timer = 0;
-    ((FlagWord *)&flags)->reset();
+    flags.reset();
 }
 
 void PlayerActionPaletteState::init_tag() {
@@ -609,9 +609,9 @@ s32 ContactSurfaceState::is_timer_running() {
     return (u8)(timer != -1);
 }
 
-void BattleMusicState::set_flag_2() { ((FlagWord *)&flags)->set(2); }
+void BattleMusicState::set_flag_2() { flags.set(2); }
 
-void BattleMusicState::clear_flag0_bit1() { ((FlagWord *)&flags)->clear(2); }
+void BattleMusicState::clear_flag0_bit1() { flags.clear(2); }
 
 void set_player_action_palette_mode(PlayerActionPaletteState *state, u8 mode) {
     set_action_palette_tag_mode(&state->tag, mode);
@@ -874,7 +874,7 @@ PlayerIntraMapWarp::PlayerIntraMapWarp() {
 
 ProtectionTimer::ProtectionTimer() { reset_type(); }
 
-BattleMusicState::BattleMusicState() { __ct__8FlagWordFv(&flags); reset_counter_field4(); }
+BattleMusicState::BattleMusicState() { reset_counter_field4(); }
 PlayerAppearFade::PlayerAppearFade() { reset(); }
 
 void PlayerAppearFade::reset() {

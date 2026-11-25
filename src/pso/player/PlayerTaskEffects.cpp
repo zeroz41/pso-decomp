@@ -166,13 +166,13 @@ void TPlayerSoul::set_player_id(u16 value) { player_id = value; }
 void TPlayerSoul::set_particle(TParticleCtrl*value) { particle = value; }
 
 
-int BattleMusicState::is_quest_held() { return test_flags_any(&flags, 2); }
+int BattleMusicState::is_quest_held() { return test_flags_any(&flags.bits, 2); }
 
 
-int BattleMusicState::set_lock_flag() { return test_flags_any(&flags, 1); }
+int BattleMusicState::set_lock_flag() { return test_flags_any(&flags.bits, 1); }
 
 
-void BattleMusicState::clear_target_lock_flag() { ((FlagWord *)&flags)->clear(1); }
+void BattleMusicState::clear_target_lock_flag() { flags.clear(1); }
 
 
 void BattleMusicState::set_lock_timer(s32 v) { timer = v; }
@@ -627,9 +627,9 @@ s32 BattleMusicState::tick_battle_music_timer() {
     return --timer < 0 ? 0 : 1;
 }
 
-void BattleMusicState::clear_target_lock() { ((FlagWord *)&flags)->set(1); TLobby::set_target_id(1); }
+void BattleMusicState::clear_target_lock() { flags.set(1); TLobby::set_target_id(1); }
 
-void BattleMusicState::reset_ring() { ((FlagWord *)&flags)->clear(1); set_lock_timer(-1); TLobby::set_target_id(0); }
+void BattleMusicState::reset_ring() { flags.clear(1); set_lock_timer(-1); TLobby::set_target_id(0); }
 
 void RenderMaterialState::reset_fade_color() {
     fade_color.a = 1.0f;
