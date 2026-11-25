@@ -141,6 +141,8 @@ s32 find_section_at_position(Vec *pos);
 
 extern s32 scene_resource_index;
 extern s32 lobby_online_ready_flag;
+extern s32 current_lobby_id;
+extern s32 area_total;
 extern s8 floor_scene_ready_flag;
 extern s32 reflection_pass_active;
 extern f32 visibility_radius_margin;

@@ -5,6 +5,9 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/render/CameraCapture.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
@@ -840,15 +843,7 @@ extern VaCallPair lbl_80449A38[];
 struct QuestNpcVisualRecord { s32 value; u8 remaining[0x4C]; };
 extern QuestNpcVisualRecord quest_npc_visual_record;
 extern s32 symbolchat_colli_param_table[];
-extern s16 battle_event_second_table[];
 extern u8 quest_board_handlers[];
-extern f32 battle_player_give_damage_score;
-extern f32 battle_player_take_damage_score;
-extern f32 battle_player_kill_score;
-extern f32 battle_player_death_score;
-extern f32 battle_enemy_give_damage_score;
-extern s32 game_difficulty_selection;
-extern f32 battle_enemy_take_damage_score;
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -3008,7 +3003,6 @@ void qst_op_ba_set_trap_count(s32 reg) {
     }
 }
 
-extern f32 battle_meseta_score;
 void qst_op_ba_meseta_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
@@ -3016,7 +3010,6 @@ void qst_op_ba_meseta_score(s32 a) {
     battle_meseta_score = v;
 }
 
-extern f32 battle_enemy_death_score;
 void qst_op_ba_enemy_death_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
@@ -3024,7 +3017,6 @@ void qst_op_ba_enemy_death_score(s32 a) {
     battle_enemy_death_score = v;
 }
 
-extern f32 battle_enemy_kill_score;
 void qst_op_ba_enemy_kill_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
@@ -5592,11 +5584,8 @@ void TObject::toggle_pause() { m_flags ^= PAUSE_UPDATE; }
 
 void TLobby::set_floor(s16 v) { *(s16*)((char*)this + 0x11a) = v; }
 
-    extern unsigned char gba_identifier_value;
-    extern short gba_identifier_slot_plus_1;
 void gba_set_identifiers(int a0, int a1) { gba_identifier_value = a1; gba_identifier_slot_plus_1 = (a0 + 0x1); }
 
-    extern int gba_download_state;
 int get_gba_download_state(void) {  return gba_download_state; }
 
 Vec *set_quest_col_warp_position(TObjQuestColApcINW *trigger, const Vec *position) {
@@ -5609,7 +5598,6 @@ void CurvePathPoint::bswap() {
     bswap_32((u32 *)&length);
 }
 
-    extern unsigned char camera_capture_flags;
 void set_screen_bw(void) { camera_capture_flags = (camera_capture_flags | 0x10); }
 
 void G_SyncQuestRegister_6x77::send() {
@@ -5650,13 +5638,10 @@ void BattleMovementParams::bswap() {
 
 void PlayerTechniqueState::disable_techniques() { flags.set(2); }
 
-    extern int lobby_online_ready_flag;
 void set_ult_map(void) { lobby_online_ready_flag = 1; }
 
-    extern int current_lobby_id;
 void TLobby::set_lobby_id(int a0) { current_lobby_id = a0; }
 
-    extern int area_total;
 void TLobby::set_area_total(int a0) { area_total = a0; }
 
 void override_warp_dest_floor(void) { lobby_quest_progress_flag = 1; }
