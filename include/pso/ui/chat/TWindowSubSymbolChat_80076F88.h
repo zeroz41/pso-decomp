@@ -5,4 +5,7 @@
 
 void clear_received_symbol_chat(void);
 
+extern "C" {
+void TLobby__sub_80077608(void);
+}
 #endif

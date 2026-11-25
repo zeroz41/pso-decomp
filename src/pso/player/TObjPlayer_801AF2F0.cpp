@@ -82,7 +82,6 @@
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/technique/TTecLuker.h"
-#include "pso/ui/hud/TMainCursor_8013BEB8.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"

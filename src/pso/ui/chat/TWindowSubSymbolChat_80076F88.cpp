@@ -12,7 +12,6 @@
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/network/TLobby.h"
-#include "pso/ui/chat/TWindowChat_800774C0.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

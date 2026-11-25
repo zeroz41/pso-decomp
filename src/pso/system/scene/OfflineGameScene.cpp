@@ -61,7 +61,6 @@
 #include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_8023F734.h"
-#include "pso/ui/chat/TWindowChat_800774C0.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/object/key/TOKeyJungleMain.h"

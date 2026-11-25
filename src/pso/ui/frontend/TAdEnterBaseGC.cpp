@@ -22,7 +22,6 @@
 
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 
-#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 

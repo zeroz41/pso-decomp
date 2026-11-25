@@ -11,7 +11,6 @@
 #include "pso/unk/TLobby_803360CC.h"
 #include "pso/unk/TUnk_804EE470.h"
 #include "pso/ui/TTitleMenu.h"
-#include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/map/FloorArea.h"

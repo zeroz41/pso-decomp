@@ -10,8 +10,6 @@
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80281814.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_8028239C.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowSubComCardList.h"

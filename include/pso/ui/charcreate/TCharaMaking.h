@@ -41,4 +41,6 @@ struct TCharaMaking : public TObject {
 };
 
 LAYOUT_ASSERT(TCharaMaking_size, sizeof(TCharaMaking) == 0x24);
+
+void request_chara_making_archives(void);
 #endif

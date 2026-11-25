@@ -97,7 +97,6 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/effect/TEffect.h"
-#include "pso/ui/hud/TMainCursor_8013DF5C.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 

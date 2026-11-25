@@ -13,7 +13,6 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC_8033573C.h"
-#include "pso/ui/frontend/TAdTrialAgreementGC_80335958.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"

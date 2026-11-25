@@ -26,7 +26,6 @@ struct TWindowSubItem;
 #include "pso/ui/window/TWindowSubGameEnd.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/TWindowSubOption.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_8028239C.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"

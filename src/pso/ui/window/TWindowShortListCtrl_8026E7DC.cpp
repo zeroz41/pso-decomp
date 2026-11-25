@@ -31,7 +31,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/hud/TMainCursor_8013DF5C.h"
+#include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"

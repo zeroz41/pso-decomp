@@ -6,7 +6,6 @@
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/chat/TWindowSubSymbolChatFaceType_80283A70.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80283954.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"

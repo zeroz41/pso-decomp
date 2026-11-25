@@ -97,7 +97,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
+#include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/unk/TLobby_801A3C48.h"
 #include "pso/unk/text_801F43B4.h"

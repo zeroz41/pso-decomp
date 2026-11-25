@@ -116,4 +116,39 @@ LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);
 
 s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
 s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
+
+void set_cursor_action_palette_mode(TMainCursor *cursor, u8 mode);
+void set_cursor_palette_slot(ActionPaletteTag *tag, u8 slot);
+void set_cursor_palette_mode(ActionPaletteTag *tag, u8 mode);
+u8 get_cursor_palette_mode(void *p);
+s16 get_action_entry_index(void *p);
+void set_action_entry_index(void *p, s16 v);
+void set_action_entry_priority(void *p, s16 v);
+void set_target_part(u8 *arg0, u16 arg1, s32 arg2, s32 arg3);
+void set_cursor_slot(void *p, u8 v);
+void set_cursor_mode(void *p, u8 v);
+void load_target_cursor_models(void);
+extern "C" {
+void render__11TMainCursorFPv(TMainCursor *main_cursor);
+void init_target_vector__11TMainCursorFiii(s32 arg0, saddr to, saddr from);
+s32 try_move__11TMainCursorFiii(saddr cursor, u8 type, u8 enabled);
+void TObjPlayer__sub_8013DEF8(u8 *arg0);
+void TMainCursor__sub_8013DFC4(u8 *arg0);
+s16 TMainCursor__sub_8013E298(void *p);
+s32 TMainCursor__sub_8013E2A0(void *p);
+int TMainCursor__get_lock_on_cursor_model(void);
+void TMainCursor__sub_8013E310(void *p);
+u8 TMainCursor__sub_8013E338(void *p);
+u8 TMainCursor__sub_8013E358(void *p);
+s16 TMainCursor__sub_8013E570(void *p);
+void TMainCursor__sub_8013E8A0(void *p);
+void TMainCursor__sub_8013E9A0(void *p);
+void TMainCursor__sub_8013F104(void *p, s32 v);
+void TMainCursor__sub_8013F10C(void *p, s32 v);
+void TMainCursor__sub_8013F22C(void *a0);
+int TMainCursor__sub_8013F244(void);
+int TLockOnCursor__sub_8013EB34(void);
+void TLockOnCursor__sub_8013EB80(void *p);
+void TLockOnCursor__sub_8013EB8C(void *p);
+}
 #endif

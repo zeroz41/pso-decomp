@@ -14,7 +14,6 @@
 #include "pso/object/TCMCharacter.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject_80019A50.h"

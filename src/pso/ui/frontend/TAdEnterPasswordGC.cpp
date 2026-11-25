@@ -21,7 +21,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include <string.h>
-#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 
 
 static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}};

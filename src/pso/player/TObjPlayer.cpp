@@ -14,7 +14,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
-#include "pso/ui/hud/TLockOnCursor_8013D91C.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/player/Palettex.h"
 #include "pso/player/TPlayerFootStamp.h"

@@ -45,7 +45,6 @@
 #include "pso/ui/TCharSaveSequence.h"
 #include "pso/ui/TLogo.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
-#include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/ui/frontend/TAdEndText_80307A34.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
