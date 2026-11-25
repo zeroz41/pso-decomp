@@ -6,6 +6,8 @@
 #include "pso/system/ChoiceSearchSelection.h"
 
 struct GuildCardSlot;
+struct NJS_POINT2;
+struct TWindowComCard;
 
 struct TWindowSubComCard : public TObject {
     static void update_display_value(uaddr list_window, uaddr card_window, s32 *last_selected);
@@ -105,7 +107,7 @@ struct TWindowSubComCard : public TObject {
     static void set_com_param(saddr client_id, s32 com_param);
     void set_page(s16 v);
     void set_display_page();
-    static s32 create_com_card_window(s32 parent);
+    static TWindowComCard *create_com_card_window(const NJS_POINT2 *position);
     static s32 create_menu();
     static s32 create_single_entry_window();
     static s32 open_menu();
