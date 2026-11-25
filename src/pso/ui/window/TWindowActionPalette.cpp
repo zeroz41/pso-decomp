@@ -50,7 +50,6 @@ const char *TWindowActionPalette__name = "TWindowActionPalette";
 struct PaletteItemKind { u8 group; u8 index; };
 
 
-struct Ctx_80243B6C { f32 x; f32 y; u8 pad8[0x34 - 0x8]; s32 tex; };
 
 // update_palette_item_count_label is the first caller of these two: their copies close the TU.
 void TWindowHelpItem::set_flag0_bit2() { *(u16*)(this + 0x0) |= 0x2; }
@@ -60,9 +59,6 @@ extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 s32 is_palettex_activated(u16 client_index);
 s32 is_palettex_enabled(u16);
-s32 end_window_sweep_draw(int);
-s32 draw_window_sweep_strip(void *, void *);
-s32 begin_window_sweep_draw(int);
 }
 
 const PaletteItemKind lbl_8044E5E8[13] = {
@@ -238,14 +234,14 @@ void TWindowActionPalette::draw_frame(saddr arg1) {
     TexturedQuad r2;
     TexturedQuad r4;
     TexturedQuad r3;
-    Ctx_80243B6C *ctx = (Ctx_80243B6C *)arg1;
+    WindowDrawContext *ctx = (WindowDrawContext *)arg1;
     f32 scale;
     f32 depth;
     scale = get_transition_progress();
     depth = (-1.0f) / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
-    set_draw_texture_and_color(2, ctx->tex);
+    set_draw_texture_and_color(2, ctx->color);
     if (is_split_screen() == 0) {
         r1.x0 = 640.0f - 71.0f * scale;
         r1.y0 = 480.0f - 76.0f * scale;
@@ -265,7 +261,7 @@ void TWindowActionPalette::draw_frame(saddr arg1) {
     r2.v0 = 0.421875f;
     r2.u1 = 0.35546875f;
     r2.v1 = 0.6328125f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&r2);
+    ctx->transform_quad(&r2);
     draw_textured_quad_at_depth((f32 *)&r2, depth);
     r3.x0 = 45.0f + ctx->x;
     r3.y0 = 53.0f + ctx->y;
@@ -275,7 +271,7 @@ void TWindowActionPalette::draw_frame(saddr arg1) {
     r3.v0 = 0.421875f;
     r3.u1 = 0.71875f;
     r3.v1 = 0.6328125f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&r3);
+    ctx->transform_quad(&r3);
     draw_textured_quad_at_depth((f32 *)&r3, depth);
     r4.x0 = ctx->x;
     r4.y0 = ctx->y;
@@ -284,10 +280,10 @@ void TWindowActionPalette::draw_frame(saddr arg1) {
     r4.v0 = r4.u0 = 0.0f;
     r4.u1 = 0.5859375f;
     r4.v1 = 0.41796875f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&r4);
+    ctx->transform_quad(&r4);
     draw_textured_quad_at_depth((f32 *)&r4, depth);
     TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(ctx, (u8 *)ctx + 0x10, (u8 *)ctx + 0x18) != 0) {
+    if (TWindowSubComCard__sub_80245558(ctx, &ctx->inner_x, &ctx->inner_w) != 0) {
         begin_window_sweep_draw(2);
         draw_window_sweep_strip(&r4, ctx);
         end_window_sweep_draw(2);

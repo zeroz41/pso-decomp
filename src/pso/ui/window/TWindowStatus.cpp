@@ -27,13 +27,7 @@ const char *TWindowStatus__name = "TWindowStatus";
 
 
 extern "C" {
-
-s32 end_window_sweep_draw(int);
-s32 draw_window_sweep_strip(void *, void *);
-s32 begin_window_sweep_draw(int);
-
 s32 draw_right_aligned_number(void *);
-
 }
 void set_status_entry_target(void *arg0, s32 arg1);
 #pragma readonly_strings on
@@ -182,14 +176,13 @@ void TWindowStatus::render() {
 }
 
 void TWindowStatus::run_task() {
-    saddr arg0 = (saddr)this;
     update_hp_tp_values();
-    update_lockon_window((u8 *)arg0);
-    update_status_help_item(arg0);
-    ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
-    ((TWindowBase *)arg0)->update_window();
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
+    update_lockon_window((u8 *)this);
+    update_status_help_item((saddr)this);
+    update_status_icons((void *)(get_window_layout_position(0x1D)));
+    update_window();
+    update_fade();
+    update_window_entry_list(&entry_list);
 }
 
 

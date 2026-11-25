@@ -5792,7 +5792,7 @@ force_active:
   - draw_at_joint__14TItemProShieldFl
   - draw_background__13TWindowStatusFPUc
   - draw_background__17TAdGameStartSubGCFv
-  - draw_background__18TWindowPartyStatusFPUc
+  - draw_background__18TWindowPartyStatusFP17WindowDrawContext
   - draw_blend_motion_tree__FP10NJS_OBJECTP15NJS_MOTION_LINKfPFPv_l
   - draw_blob_shadows__22TObjEneSlimeTailAttackFv
   - draw_body__13TBoss5GryphonFv

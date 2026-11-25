@@ -361,7 +361,6 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     set_default_alpha_blend();
 }
 
-extern "C" {
 void end_window_sweep_draw(s32 texture) {
     switch (window_ui_theme_index) {
     case 0:
@@ -373,12 +372,10 @@ void end_window_sweep_draw(s32 texture) {
     init_tev_swap();
 }
 
-}
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
-void draw_window_sweep_strip(TexturedQuad *q, WindowDrawContext *r) {
+void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context) {
     ProjectedStripVertex v[6];
     f32 z;
     f32 t;
@@ -391,51 +388,51 @@ void draw_window_sweep_strip(TexturedQuad *q, WindowDrawContext *r) {
     case 1:
         return;
     }
-    z = -1.0f / r->depth;
-    t = ((5.0f * lbl_805D63F6 - 100.0f) - r->x) / r->w;
-    mx = t * (q->x1 - q->x0) + q->x0;
-    mu = t * (q->u1 - q->u0) + q->u0;
+    z = -1.0f / context->depth;
+    t = ((5.0f * lbl_805D63F6 - 100.0f) - context->x) / context->w;
+    mx = t * (quad->x1 - quad->x0) + quad->x0;
+    mu = t * (quad->u1 - quad->u0) + quad->u0;
     if (t > 0.5f) {
         alpha = 2.0f * (160.0f * (1.0f - t));
     } else {
         alpha = 160.0f * (2.0f * t);
     }
     color = ((u8)alpha << 24) | 0xFFFFFF;
-    v[0].x = q->x0;
-    v[0].y = q->y0;
+    v[0].x = quad->x0;
+    v[0].y = quad->y0;
     v[0].w = z;
-    v[0].u = q->u0;
-    v[0].v = q->v0;
+    v[0].u = quad->u0;
+    v[0].v = quad->v0;
     v[0].color = 0xFFFFFF;
-    v[1].x = q->x0;
-    v[1].y = q->y1;
+    v[1].x = quad->x0;
+    v[1].y = quad->y1;
     v[1].w = z;
-    v[1].u = q->u0;
-    v[1].v = q->v1;
+    v[1].u = quad->u0;
+    v[1].v = quad->v1;
     v[1].color = 0xFFFFFF;
     v[2].x = mx;
-    v[2].y = q->y0;
+    v[2].y = quad->y0;
     v[2].w = z;
     v[2].u = mu;
-    v[2].v = q->v0;
+    v[2].v = quad->v0;
     v[2].color = color;
     v[3].x = mx;
-    v[3].y = q->y1;
+    v[3].y = quad->y1;
     v[3].w = z;
     v[3].u = mu;
-    v[3].v = q->v1;
+    v[3].v = quad->v1;
     v[3].color = color;
-    v[4].x = q->x1;
-    v[4].y = q->y0;
+    v[4].x = quad->x1;
+    v[4].y = quad->y0;
     v[4].w = z;
-    v[4].u = q->u1;
-    v[4].v = q->v0;
+    v[4].u = quad->u1;
+    v[4].v = quad->v0;
     v[4].color = 0xFFFFFF;
-    v[5].x = q->x1;
-    v[5].y = q->y1;
+    v[5].x = quad->x1;
+    v[5].y = quad->y1;
     v[5].w = z;
-    v[5].u = q->u1;
-    v[5].v = q->v1;
+    v[5].u = quad->u1;
+    v[5].v = quad->v1;
     v[5].color = 0xFFFFFF;
     draw_projected_textured_strip(v, 6);
 }
@@ -569,7 +566,6 @@ void TWindowBase::draw_quest_message_frame(void *context) {
     q.y0 += step;
   }
   TWindowSubStatusDisp::get_player();
-}
 }
 
 #pragma push

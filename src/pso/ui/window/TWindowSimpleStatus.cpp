@@ -83,11 +83,6 @@ WindowDescriptor simple_status_window_layout = {
     {153.0f, 50.0f}, 50100.0f, &simple_status_window_layout_entries, 0xB28,
 };
 
-extern "C" {
-s32 end_window_sweep_draw(s32);
-s32 draw_window_sweep_strip(TexturedQuad *, WindowDrawContext *);
-s32 begin_window_sweep_draw(s32);
-}
 
 void TWindowSimpleStatus::start_hp_text_color_transition() {
     TWindowStatusGaugeFeedback *gauge = (TWindowStatusGaugeFeedback *)get_array_entry(4);

@@ -17,6 +17,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 
 
 #pragma readonly_strings on
@@ -24,25 +25,7 @@
 
 const char *TWindowPartyStatus__name = "TWindowPartyStatus";
 
-struct Stack_8030C0C4 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    f32 sp1C;
-    f32 sp20;
-    f32 sp24;
-};
 
-extern "C" {
-s32 end_window_sweep_draw(int);
-s32 draw_window_sweep_strip(void *, void *);
-s32 begin_window_sweep_draw(int);
-extern s32 __vt__18TWindowPartyStatus[];
-s32 update_lockon_window();
-}
-void update_status_help_item(saddr arg0);
 
 struct PartyStatusWindowLayout {
     u32 cols;
@@ -69,63 +52,47 @@ WindowDescriptor party_status_window_params = {
 
 void TWindowPartyStatus::draw() { update_hp_entry(); update_status_entry(); }
 
-void TWindowPartyStatus::draw_background(u8 *ctx) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8030C0C4, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8030C0C4, spC) == 0x4);
-    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8030C0C4, sp10) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8030C0C4, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8030C0C4, sp18) == 0x10);
-    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_8030C0C4, sp1C) == 0x14);
-    LAYOUT_ASSERT(sp20_offset, offsetof(Stack_8030C0C4, sp20) == 0x18);
-    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_8030C0C4, sp24) == 0x1C);
-    Stack_8030C0C4 stack;
-    f32 temp_f2;
+void TWindowPartyStatus::draw_background(WindowDrawContext *ctx) {
+    TexturedQuad q;
     f32 depth;
-    f32 temp_f6;
     depth = -1.0f / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
-    set_draw_texture_and_color(0xB, (*(s32 *)((s8 *)ctx + 0x34)));
-    temp_f2 = *(f32 *)((s8 *)ctx + 0x10);
-    stack.sp8 = temp_f2;
-    temp_f6 = *(f32 *)((s8 *)ctx + 0x14);
-    stack.spC = temp_f6;
-    stack.sp10 = 114.0f + temp_f2;
-    stack.sp14 = 46.0f + temp_f6;
-    stack.sp18 = 0.0f;
-    stack.sp1C = 0.703125f;
-    stack.sp20 = 0.4453125f;
-    stack.sp24 = 0.8828125f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&stack.sp8);
-    draw_textured_quad_at_depth((&stack.sp8), depth);
+    set_draw_texture_and_color(0xB, ctx->color);
+    q.x0 = ctx->inner_x;
+    q.y0 = ctx->inner_y;
+    q.x1 = 114.0f + q.x0;
+    q.y1 = 46.0f + q.y0;
+    q.u0 = 0.0f;
+    q.v0 = 0.703125f;
+    q.u1 = 0.4453125f;
+    q.v1 = 0.8828125f;
+    ctx->transform_quad(&q);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {
+    if (TWindowSubComCard__sub_80245558(ctx, &ctx->inner_x, &ctx->inner_w) != 0) {
         begin_window_sweep_draw(0xB);
-        draw_window_sweep_strip(&stack.sp8, ctx);
+        draw_window_sweep_strip(&q, ctx);
         end_window_sweep_draw(0xB);
     }
 }
 
 void TWindowPartyStatus::render() {
-    saddr ctx;
-    ctx = reinterpret_cast<saddr>(draw_default_entry());
-    draw_background((u8 *)ctx);
-    draw_visible_window_entries(
-        this,
-        &this->entry_list,
-        reinterpret_cast<WindowDrawContext *>(ctx));
+    WindowDrawContext *ctx;
+    ctx = draw_default_entry();
+    draw_background(ctx);
+    draw_visible_window_entries(this, &this->entry_list, ctx);
 }
 
 void TWindowPartyStatus::run_task() {
-    saddr arg0 = (saddr)this;
-    update_lockon_window();
+    update_lockon_window((u8 *)this);
     draw();
-    update_status_help_item((arg0));
-    ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0xAC)));
-    ((TWindowBase *)arg0)->update_window();
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
-    ((TWindowSimpleStatus *)arg0)->apply_random_shake();
+    update_status_help_item((saddr)this);
+    update_status_icons((void *)(get_window_layout_position(0xAC)));
+    update_window();
+    update_fade();
+    update_window_entry_list(&entry_list);
+    apply_random_shake();
 }
 TWindowPartyStatus::~TWindowPartyStatus() {
 
