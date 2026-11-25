@@ -148,10 +148,10 @@ WindowDescriptor window_help_item_layout = {
 };
 
 void TWindowHelpItem::unlock_page_flip() {
-    u8 temp_r4;
-    temp_r4 = this->help_flags;
-    if (temp_r4 & 2) {
-        this->help_flags = (u8) (temp_r4 & 0xFFFFFFFB);
+    u8 flags;
+    flags = this->help_flags;
+    if (flags & 2) {
+        this->help_flags = (u8) (flags & 0xFFFFFFFB);
     }
 }
 
@@ -220,7 +220,7 @@ void TWindowHelpItem::run_task() {
 
 void TWindowHelpItem::render() {
     saddr context;
-    u8 temp_r3_2;
+    u8 flags;
 
     context = reinterpret_cast<saddr>(this->setup_window_draw_context(&scale_x));
     this->draw_window_frame((void *)context);
@@ -228,8 +228,8 @@ void TWindowHelpItem::render() {
         this,
         &entry_list,
         reinterpret_cast<WindowDrawContext *>(context));
-    temp_r3_2 = this->help_flags;
-    if ((temp_r3_2 & 1) && (temp_r3_2 & 2)) {
+    flags = this->help_flags;
+    if ((flags & 1) && (flags & 2)) {
         draw_list_page_indicator(page_indicator, reinterpret_cast<WindowDrawContext *>(context));
     }
 }
@@ -270,12 +270,12 @@ void TWindowHelpItem::set_items_and_refresh(void* a1, void* a2) { *(void* *)&thi
 void TWindowHelpItem::set_displayed_item_data(void* a1, void* a2) { *(void* *)&this->displayed_item_id = a2; *(void* *)&this->displayed_item_data = a1; update_cursor_selection(); dispatch_item_help(); }
 
 void TWindowHelpItem::set_displayed_item_colored(uaddr displayed_item_colored) {
-    saddr var_r5;
-    var_r5 = -0x100;
+    saddr id;
+    id = -0x100;
     if (displayed_item_colored == 0U) {
-        var_r5 = -1;
+        id = -1;
     }
-    set_displayed_item_data((void*)displayed_item_colored, (void*)var_r5);
+    set_displayed_item_data((void*)displayed_item_colored, (void*)id);
 }
 
 void TWindowHelpItem::show_item_by_id(saddr id) {
@@ -535,29 +535,29 @@ void TWindowHelpItem::show_mag_stats() {
 }
 
 void TWindowHelpItem::init_help_texts() {
-    TUnk_804CF9F8 *temp_r31;
-    TUnk_804CF9F8 *temp_r30;
-    TUnk_804CF9F8 *temp_r29;
-    TUnk_804CF9F8 *temp_r28;
-    TUnk_804CF9F8 *temp_r27;
-    TUnk_804CF9F8 *temp_r26;
+    TUnk_804CF9F8 *atp_row;
+    TUnk_804CF9F8 *dfp_row;
+    TUnk_804CF9F8 *mst_row;
+    TUnk_804CF9F8 *ata_row;
+    TUnk_804CF9F8 *evp_row;
+    TUnk_804CF9F8 *lck_row;
 
     init_window_layout_entries(
         &entry_list,
         &TWindowHelpItem::item_layout_entries,
         this->client_index);
-    temp_r31 = (TUnk_804CF9F8 *)(this->get_array_entry(0));
-    temp_r30 = (TUnk_804CF9F8 *)(this->get_array_entry(1));
-    temp_r29 = (TUnk_804CF9F8 *)(this->get_array_entry(2));
-    temp_r28 = (TUnk_804CF9F8 *)(this->get_array_entry(3));
-    temp_r27 = (TUnk_804CF9F8 *)(this->get_array_entry(4));
-    temp_r26 = (TUnk_804CF9F8 *)(this->get_array_entry(5));
-    temp_r31->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x83)));
-    temp_r30->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x84)));
-    temp_r29->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x85)));
-    temp_r28->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x86)));
-    temp_r27->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x87)));
-    temp_r26->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x88)));
+    atp_row = (TUnk_804CF9F8 *)(this->get_array_entry(0));
+    dfp_row = (TUnk_804CF9F8 *)(this->get_array_entry(1));
+    mst_row = (TUnk_804CF9F8 *)(this->get_array_entry(2));
+    ata_row = (TUnk_804CF9F8 *)(this->get_array_entry(3));
+    evp_row = (TUnk_804CF9F8 *)(this->get_array_entry(4));
+    lck_row = (TUnk_804CF9F8 *)(this->get_array_entry(5));
+    atp_row->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x83)));
+    dfp_row->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x84)));
+    mst_row->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x85)));
+    ata_row->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x86)));
+    evp_row->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x87)));
+    lck_row->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x88)));
 }
 
 void TWindowHelpItem::update_requirements() {
@@ -594,14 +594,14 @@ void TWindowHelpItem::update_requirements() {
 
 void TWindowHelpItem::update_level_requirement() {
     s32 requirement;
-    u8 *temp_r30;
+    u8 *level_value;
     u8 *item_pmt_record;
     u8 *player;
     player = (u8 *)(((u8 *)get_player_by_client_id(client_index)));
     if (player != NULL) {
         if (((TObjPlayer *)player)->get_stats() != 0U) {
             update_stat_comparison();
-            temp_r30 = (u8 *)(((u8 *)get_array_entry(0xA)));
+            level_value = (u8 *)(((u8 *)get_array_entry(0xA)));
             item_pmt_record = (u8 *)(lookup_item_pmt_record((u8 *)active_item));
             if (check_equip_requirements(player, active_item, &requirement) == 0) {
                 if (!(requirement & 1)) {
@@ -610,7 +610,7 @@ void TWindowHelpItem::update_level_requirement() {
             } else {
 block_4:
                 if ((u8) *(u8 *)((s8 *)item_pmt_record + 0x10) != 0) {
-                    ((TWindowLayoutNumber *)temp_r30)->value = (s32) (((TObjPlayer *)(player))->get_actor_level_index() + 1);
+                    ((TWindowLayoutNumber *)level_value)->value = (s32) (((TObjPlayer *)(player))->get_actor_level_index() + 1);
                 }
             }
         }
@@ -724,28 +724,28 @@ void TWindowHelpItem::show_weapon_attributes() {
 
 void TWindowHelpItem::update_stat_disp2() {
     s32 requirement;
-    saddr temp_r31;
-    saddr temp_r30;
-    saddr temp_r29;
-    saddr temp_r28;
-    saddr temp_r27;
+    saddr native_row;
+    saddr abeast_row;
+    saddr machine_row;
+    saddr dark_row;
+    saddr hit_row;
     saddr player;
     uaddr item;
     player = (saddr)get_player_by_client_id(client_index);
-    if ((player != 0) && (temp_r31 = reinterpret_cast<saddr>(get_array_entry(0)), temp_r30 = reinterpret_cast<saddr>(get_array_entry(1)), temp_r29 = reinterpret_cast<saddr>(get_array_entry(2)), temp_r28 = reinterpret_cast<saddr>(get_array_entry(3)), temp_r27 = reinterpret_cast<saddr>(get_array_entry(4)), (item = displayed_item_data, (item == 0U) == 0))) {
+    if ((player != 0) && (native_row = reinterpret_cast<saddr>(get_array_entry(0)), abeast_row = reinterpret_cast<saddr>(get_array_entry(1)), machine_row = reinterpret_cast<saddr>(get_array_entry(2)), dark_row = reinterpret_cast<saddr>(get_array_entry(3)), hit_row = reinterpret_cast<saddr>(get_array_entry(4)), (item = displayed_item_data, (item == 0U) == 0))) {
         if (check_equip_requirements((void *)player, (TItemData *)item, &requirement) != 0) {
-            ((TUnk_804CF9F8 *)temp_r31)->set_flag_0x10(1);
-            ((TUnk_804CF9F8 *)temp_r30)->set_flag_0x10(1);
-            ((TUnk_804CF9F8 *)temp_r29)->set_flag_0x10(1);
-            ((TUnk_804CF9F8 *)temp_r28)->set_flag_0x10(1);
-            ((TUnk_804CF9F8 *)temp_r27)->set_flag_0x10(1);
+            ((TUnk_804CF9F8 *)native_row)->set_flag_0x10(1);
+            ((TUnk_804CF9F8 *)abeast_row)->set_flag_0x10(1);
+            ((TUnk_804CF9F8 *)machine_row)->set_flag_0x10(1);
+            ((TUnk_804CF9F8 *)dark_row)->set_flag_0x10(1);
+            ((TUnk_804CF9F8 *)hit_row)->set_flag_0x10(1);
             return;
         }
-        ((TUnk_804CF9F8 *)temp_r31)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)temp_r30)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)temp_r29)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)temp_r28)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)temp_r27)->set_flag_0x10(0);
+        ((TUnk_804CF9F8 *)native_row)->set_flag_0x10(0);
+        ((TUnk_804CF9F8 *)abeast_row)->set_flag_0x10(0);
+        ((TUnk_804CF9F8 *)machine_row)->set_flag_0x10(0);
+        ((TUnk_804CF9F8 *)dark_row)->set_flag_0x10(0);
+        ((TUnk_804CF9F8 *)hit_row)->set_flag_0x10(0);
     }
 }
 
@@ -790,24 +790,24 @@ void TWindowHelpItem::set_percentage_rows(WeaponAttribute *attributes, void (TUn
 }
 
 void TWindowHelpItem::show_armor_resistances() {
-    void *temp_r30;
-    void *temp_r31;
+    void *label;
+    void *value_entry;
     update_resistance_rows();
-    temp_r30 = (get_array_entry(5));
-    temp_r31 = (get_array_entry(6));
-    TWindowDuelResult::set_default_status(temp_r30, (saddr)TWindowSubStatusDisp::get_message_10(0xA1));
-    ((TWindowHelpItem *)temp_r30)->reset_float_field();
-    ((TWindowLayoutNumber *)temp_r31)->value = active_item->data1.data_u8[5];
+    label = (get_array_entry(5));
+    value_entry = (get_array_entry(6));
+    TWindowDuelResult::set_default_status(label, (saddr)TWindowSubStatusDisp::get_message_10(0xA1));
+    ((TWindowHelpItem *)label)->reset_float_field();
+    ((TWindowLayoutNumber *)value_entry)->value = active_item->data1.data_u8[5];
 }
 
 void TWindowHelpItem::show_shield_resistances() {
-    TWindowHelpItem *temp_r31;
-    TWindowHelpItem *temp_r31_2;
+    TWindowHelpItem *label;
+    TWindowHelpItem *value_entry;
     update_resistance_rows();
-    temp_r31 = (TWindowHelpItem *)(get_array_entry(5));
-    temp_r31_2 = (TWindowHelpItem *)(get_array_entry(6));
-    temp_r31->set_flag0_bit2();
-    temp_r31_2->set_flag0_bit2();
+    label = (TWindowHelpItem *)(get_array_entry(5));
+    value_entry = (TWindowHelpItem *)(get_array_entry(6));
+    label->set_flag0_bit2();
+    value_entry->set_flag0_bit2();
 }
 
 void TWindowHelpItem::update_resistance_rows() {
@@ -959,9 +959,9 @@ s32 TWindowHelpItem::update_mag_status_gauges() {
     saddr b;
     saddr c;
     saddr d;
-    s32 var_r31;
+    s32 changed;
     mag.init();
-    var_r31 = 0;
+    changed = 0;
     TItemData::deserialize_mag(active_item, &mag);
     a = reinterpret_cast<saddr>(get_array_entry(0));
     b = reinterpret_cast<saddr>(get_array_entry(1));
@@ -974,48 +974,48 @@ s32 TWindowHelpItem::update_mag_status_gauges() {
     b = reinterpret_cast<saddr>(get_array_entry(4));
     a = reinterpret_cast<saddr>(get_array_entry(5));
     if (((TWindowLayoutNumber *)b)->value < mag.get_def_level()) {
-        var_r31 = 1;
+        changed = 1;
         ((TWindowStatusGaugeFeedback *)a)->target = 100.0f;
     } else {
         if (((TWindowStatusGaugeFeedback *)a)->target != (f32) mag.get_def_progress()) {
-            var_r31 = 1;
+            changed = 1;
         }
         ((TWindowStatusGaugeFeedback *)a)->target = (f32) mag.get_def_progress();
     }
     b = reinterpret_cast<saddr>(get_array_entry(7));
     a = reinterpret_cast<saddr>(get_array_entry(8));
     if (((TWindowLayoutNumber *)b)->value < mag.get_pow_level()) {
-        var_r31 = 1;
+        changed = 1;
         ((TWindowStatusGaugeFeedback *)a)->target = 100.0f;
     } else {
         if (((TWindowStatusGaugeFeedback *)a)->target != (f32) mag.get_pow_progress()) {
-            var_r31 = 1;
+            changed = 1;
         }
         ((TWindowStatusGaugeFeedback *)a)->target = (f32) mag.get_pow_progress();
     }
     a = reinterpret_cast<saddr>(get_array_entry(0xA));
     b = reinterpret_cast<saddr>(get_array_entry(0xB));
     if (((TWindowLayoutNumber *)a)->value < mag.get_dex_level()) {
-        var_r31 = 1;
+        changed = 1;
         ((TWindowStatusGaugeFeedback *)b)->target = 100.0f;
     } else {
         if (((TWindowStatusGaugeFeedback *)b)->target != (f32) mag.get_dex_progress()) {
-            var_r31 = 1;
+            changed = 1;
         }
         ((TWindowStatusGaugeFeedback *)b)->target = (f32) mag.get_dex_progress();
     }
     b = reinterpret_cast<saddr>(get_array_entry(0xD));
     a = reinterpret_cast<saddr>(get_array_entry(0xE));
     if (((TWindowLayoutNumber *)b)->value < mag.get_mind_level()) {
-        var_r31 = 1;
+        changed = 1;
         ((TWindowStatusGaugeFeedback *)a)->target = 100.0f;
     } else {
         if (((TWindowStatusGaugeFeedback *)a)->target != (f32) mag.get_mind_progress()) {
-            var_r31 = 1;
+            changed = 1;
         }
         ((TWindowStatusGaugeFeedback *)a)->target = (f32) mag.get_mind_progress();
     }
-    return var_r31;
+    return changed;
 }
 
 s32 fn_8025373C(TWindowHelpItem *self) {
@@ -1112,22 +1112,22 @@ s32 are_status_entries_ready__13TWindowSubMagFi(saddr help) {
 #pragma pop
 
 void TWindowHelpItem::refresh_copied_items() {
-    s32 temp_r3;
-    s32 temp_r3_3;
+    s32 id;
+    s32 displayed_id;
     u8 *item;
-    u8 *temp_r3_4;
-    temp_r3 = this->item_id;
-    if (temp_r3 != -1) {
-        item = (u8 *)(find_item_by_id(temp_r3));
+    u8 *displayed;
+    id = this->item_id;
+    if (id != -1) {
+        item = (u8 *)(find_item_by_id(id));
         if (item != NULL) {
             ((TItem *)item)->copy_to_item_data(&this->item_copy);
         }
     }
-    temp_r3_3 = this->displayed_item_id;
-    if (temp_r3_3 != -1) {
-        temp_r3_4 = (u8 *)(find_item_by_id(temp_r3_3));
-        if (temp_r3_4 != NULL) {
-            ((TItem *)temp_r3_4)->copy_to_item_data(&this->displayed_item);
+    displayed_id = this->displayed_item_id;
+    if (displayed_id != -1) {
+        displayed = (u8 *)(find_item_by_id(displayed_id));
+        if (displayed != NULL) {
+            ((TItem *)displayed)->copy_to_item_data(&this->displayed_item);
         }
     }
 }
