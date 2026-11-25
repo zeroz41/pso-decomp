@@ -641,6 +641,7 @@ struct G_IntraMapWarp_6x55 {
  void init();
  void bswap();
  void send();
+ G_IntraMapWarp_6x55 &operator=(G_IntraMapWarp_6x55 &src);
 };
 
 LAYOUT_ASSERT(G_IntraMapWarp_6x55_size, sizeof(G_IntraMapWarp_6x55) == 0x20);
@@ -1063,13 +1064,14 @@ struct G_SetPosition_6x20 {
 struct G_SetPosition_6x3F {
  struct G_ClientIDHeader header;
  s16 is_near_enemy;
- u16 angle;
+ s16 angle;
  s16 floor;
  s16 room;
  Vec pos;
  void send();
  void bswap();
  void init();
+ G_SetPosition_6x3F &operator=(G_SetPosition_6x3F &src);
 };
 
 struct G_SetQuestFlags_V2_V3_6x6F {
@@ -1150,13 +1152,14 @@ struct G_SpecializableItemDropRequest_6xA2 {
 struct G_StopAtPosition_6x3E {
  struct G_ClientIDHeader header;
  s16 is_near_enemy;
- u16 angle;
+ s16 angle;
  s16 floor;
  s16 room;
  Vec pos;
  void init();
  void bswap();
  void send();
+ G_StopAtPosition_6x3E &operator=(G_StopAtPosition_6x3E &src);
 };
 
 struct G_SwitchInteraction_6x50 {

@@ -81,15 +81,6 @@
 #pragma readonly_strings on
 
 
-typedef struct Msg_801D0634 {
-    u8 pad0[2];
-    u16 id;
-    s16 flag;
-    s16 ang;
-    s16 floor;
-    s16 room;
-    u8 vec[12];
-} Msg_801D0634;
 
 
 #pragma push
@@ -157,14 +148,10 @@ u16 get_action_palette_mode(void *, s32);
 s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 s32 TObjPlayer__sub_801CFBFC(u8 *arg0);
-G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 s32 copy_photon_blast_data__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
 u8 TObjPlayer__sub_801D2004(u8 *arg0);
-u8 * TObjPlayer__sub_801D21CC(u8 *arg0, u8 *arg1);
 void TObjPlayer__sub_801D2448(void* p);
-u8 * TObjPlayer__sub_801D2540(u8 *arg0, u8 *arg1);
-u8 * TObjPlayer__sub_801D25AC(u8 *arg0, u8 *arg1);
 u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1);
 u8 get_cast_technique_level(void *techs, s16 tech);
 }
@@ -955,7 +942,7 @@ void TObjPlayer::set_dead_state() {
 void handle_6x55_intra_map_warp(game_command_header *command) {
     G_IntraMapWarp_6x55 packet;
     packet.init();
-    TObjPlayer__sub_801D0EA0(&packet, reinterpret_cast<G_IntraMapWarp_6x55 *>(command));
+    packet = *reinterpret_cast<G_IntraMapWarp_6x55 *>(command);
     packet.bswap();
     if (validate_6x55_intra_map_warp(&packet) != 0) {
         TObjPlayer *player = get_player_by_client_id(packet.header.client_id);
@@ -3010,7 +2997,7 @@ void handle_6x47_cast_technique(G_CastTechnique_6x47 *command) {
     s16 c;
     s8 e;
 
-    TObjPlayer__sub_801D21CC((u8 *)&cmd, (u8 *)command);
+    cmd = *command;
     cmd.bswap();
     if (validate_6x47_cast_technique(&cmd) == 0) {
         return;
@@ -4359,15 +4346,15 @@ void TObjPlayer::start_animation() {
 }
 }
 void handle_6x3F_set_position(G_SetPosition_6x3F *command) {
-    Msg_801D0634 m;
+    G_SetPosition_6x3F m;
     TObjPlayer *p;
-    ((G_SetPosition_6x3F *)&m)->init();
-    ((void (*)(void *, void *))TObjPlayer__sub_801D2540)(&m, command);
-    ((G_SetPosition_6x3F *)&m)->bswap();
-    if (validate_6x3F_set_position((G_SetPosition_6x3F *)&m) != 0) {
-        p = get_player_by_client_id(m.id);
+    m.init();
+    m = *command;
+    m.bswap();
+    if (validate_6x3F_set_position(&m) != 0) {
+        p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
-            p->set_position_from(m.vec);
+            p->set_position_from(&m.pos);
             ::set_flag_400000(p);
             if (m.floor >= 0) {
                 p->set_floor(m.floor);
@@ -4376,8 +4363,8 @@ void handle_6x3F_set_position(G_SetPosition_6x3F *command) {
             if (m.room >= 0) {
                 p->set_room(m.room);
             }
-            p->rotation_y = m.ang;
-            if (m.flag != 1) {
+            p->rotation_y = m.angle;
+            if (m.is_near_enemy != 1) {
                 p->clear_actor_flags((u32)0x100000);
             } else {
                 p->set_actor_flags(0x100000);
@@ -4388,24 +4375,24 @@ void handle_6x3F_set_position(G_SetPosition_6x3F *command) {
 }
 
 void handle_6x3E_stop_at_position(G_StopAtPosition_6x3E *command) {
-    Msg_801D0634 m;
+    G_StopAtPosition_6x3E m;
     TObjPlayer *p;
-    ((G_StopAtPosition_6x3E *)(&m))->init();
-    ((void (*)(void *, void *))TObjPlayer__sub_801D25AC)(&m, command);
-    ((G_StopAtPosition_6x3E *)(&m))->bswap();
-    if (validate_6x3E_stop_at_position((G_StopAtPosition_6x3E *)&m) == 0) {
+    m.init();
+    m = *command;
+    m.bswap();
+    if (validate_6x3E_stop_at_position(&m) == 0) {
         return;
     }
-    p = get_player_by_client_id(m.id);
+    p = get_player_by_client_id(m.header.client_id);
     if (p == NULL) {
         return;
     }
-    p->set_position_from(m.vec);
+    p->set_position_from(&m.pos);
     if (m.floor >= 0) {
         p->set_floor(m.floor);
         p->set_floor_index(get_floor_area(m.floor));
     }
-    p->rotation_y = m.ang;
+    p->rotation_y = m.angle;
     if (p->is_in_tl03_state() == 0 || p->test_action_mask(0x8100) != 0 ||
         (p->test_action_mask(0x200) != 0 && p->phase <= 2) ||
         (p->test_action_mask(0x4000) != 0 && p->phase == 0)) {
@@ -4414,7 +4401,7 @@ void handle_6x3E_stop_at_position(G_StopAtPosition_6x3E *command) {
     if (m.room >= 0) {
         p->set_room(m.room);
     }
-    switch (m.flag) {
+    switch (m.is_near_enemy) {
     case 0:
         p->clear_actor_flags((u32)0x100000);
         break;
@@ -4634,12 +4621,12 @@ int TObjPlayer::get_flag() { return (this->state_flags >> 29) & 0x1; }
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source) {
-    reinterpret_cast<void *(*)(void *, void *)>(copy_subcommand_header)(&destination->header, &source->header);
-    destination->angle_y = source->angle_y;
-    __memcpy(&destination->from_pos, &source->from_pos, sizeof(Vec));
-    __memcpy(&destination->pos, &source->pos, sizeof(Vec));
-    return destination;
+G_IntraMapWarp_6x55 &G_IntraMapWarp_6x55::operator=(G_IntraMapWarp_6x55 &src) {
+    copy_subcommand_header(this, &src);
+    angle_y = src.angle_y;
+    __memcpy(&from_pos, &src.from_pos, sizeof(Vec));
+    __memcpy(&pos, &src.pos, sizeof(Vec));
+    return *this;
 }
 #pragma pop
 
@@ -5241,11 +5228,11 @@ void G_CastTechniqueComplete_6x48::send() {
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-u8 *TObjPlayer__sub_801D21CC(u8 *buf, u8 *arg1) {
-    copy_subcommand_header(buf, arg1);
-    *(s32 *)((s8 *)buf + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(ByteBlock_28 *)(buf + 4 + 4) = *(const ByteBlock_28 *)((saddr) (arg1 + 4) + 4);
-    return buf;
+G_CastTechnique_6x47 &G_CastTechnique_6x47::operator=(G_CastTechnique_6x47 &src) {
+    copy_subcommand_header(this, &src);
+    __memcpy(&params, &src.params, sizeof(params));
+    __memcpy(targets, src.targets, sizeof(targets));
+    return *this;
 }
 #pragma pop
 
@@ -5332,28 +5319,28 @@ void *TObjPlayer::copy_6x40_walk_to_position_packet(void *pkt) {
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-u8 *TObjPlayer__sub_801D2540(u8 *arg0, u8 *arg1) {
-    copy_subcommand_header(arg0, arg1);
-    *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(s16 *)((s8 *)arg0 + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
-    *(s16 *)((s8 *)arg0 + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
-    *(ByteBlock_C *)((saddr) arg0 + 0xC) = *(const ByteBlock_C *)((saddr) arg1 + 0xC);
-    return arg0;
+G_SetPosition_6x3F &G_SetPosition_6x3F::operator=(G_SetPosition_6x3F &src) {
+    copy_subcommand_header(this, &src);
+    is_near_enemy = src.is_near_enemy;
+    angle = src.angle;
+    floor = src.floor;
+    room = src.room;
+    __memcpy(&pos, &src.pos, sizeof(Vec));
+    return *this;
 }
 #pragma pop
 
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-u8 *TObjPlayer__sub_801D25AC(u8 *arg0, u8 *arg1) {
-    copy_subcommand_header(arg0, arg1);
-    *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(s16 *)((s8 *)arg0 + 8) = (s16) *(s16 *)((s8 *)arg1 + 8);
-    *(s16 *)((s8 *)arg0 + 0xA) = (s16) *(s16 *)((s8 *)arg1 + 0xA);
-    *(ByteBlock_C *)((saddr) arg0 + 0xC) = *(const ByteBlock_C *)((saddr) arg1 + 0xC);
-    return arg0;
+G_StopAtPosition_6x3E &G_StopAtPosition_6x3E::operator=(G_StopAtPosition_6x3E &src) {
+    copy_subcommand_header(this, &src);
+    is_near_enemy = src.is_near_enemy;
+    angle = src.angle;
+    floor = src.floor;
+    room = src.room;
+    __memcpy(&pos, &src.pos, sizeof(Vec));
+    return *this;
 }
 #pragma pop
 

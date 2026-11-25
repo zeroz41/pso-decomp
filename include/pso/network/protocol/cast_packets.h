@@ -25,6 +25,7 @@ struct G_CastTechnique_6x47 {
     void bswap();
     // Sets the header size, byte-swaps and sends the packet.
     void send();
+    G_CastTechnique_6x47 &operator=(G_CastTechnique_6x47 &src);
 
     G_ClientIDHeader header;
     G_CastTechniqueParams_6x47 params;

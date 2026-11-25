@@ -1521,7 +1521,7 @@ void G_SetPosition_6x3F::send() { bswap(); send_subcommand(this); }
 void G_SetPosition_6x3F::bswap() {
     header.bswap();
     bswap_16((u16 *)&is_near_enemy);
-    bswap_16(&angle);
+    bswap_16((u16 *)&angle);
     bswap_16((u16 *)&floor);
     bswap_16((u16 *)&room);
     bswap_32((u32 *)&pos.x);
