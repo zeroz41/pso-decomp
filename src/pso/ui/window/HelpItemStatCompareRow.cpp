@@ -2,7 +2,7 @@
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
-#include "pso/ui/window/TWindowHelpItem_8025A12C.h"
+#include "pso/ui/window/HelpItemStatCompareRow.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
@@ -17,7 +17,7 @@
 #include <string.h>
 #pragma readonly_strings on
 
-void TUnk_804CF9F8::update_visible_flags() {
+void HelpItemStatCompareRow::update_visible_flags() {
     if ((flags & 4) || (flags & 8)) {
         if (!(flags & 4)) {
             set_value(0);
@@ -28,7 +28,7 @@ void TUnk_804CF9F8::update_visible_flags() {
     }
 }
 
-void TUnk_804CF9F8::draw_number_value(f32 *pos, s32 value, s32 color, s32 percent) {
+void HelpItemStatCompareRow::draw_number_value(f32 *pos, s32 value, s32 color, s32 percent) {
     f32 xy[2];
 
     text_builder_reset();
@@ -41,7 +41,7 @@ void TUnk_804CF9F8::draw_number_value(f32 *pos, s32 value, s32 color, s32 percen
     draw_window_text(xy, (const char *)get_shared_text_buffer(), color, 0, 1000000.0f);
 }
 
-void TUnk_804CF9F8::set_flag_0x10(s32 enable) {
+void HelpItemStatCompareRow::set_flag_0x10(s32 enable) {
     if (enable != 0) {
         flags |= 0x10;
         return;
@@ -49,12 +49,12 @@ void TUnk_804CF9F8::set_flag_0x10(s32 enable) {
     flags &= ~0x10;
 }
 
-void TUnk_804CF9F8::set_compare_value(s32 value) {
+void HelpItemStatCompareRow::set_compare_value(s32 value) {
     flags |= 8;
     compare_value = value;
 }
 
-void TUnk_804CF9F8::set_compare_color(s32 new_value) {
+void HelpItemStatCompareRow::set_compare_color(s32 new_value) {
     if (value == new_value) {
         value_color = -1;
         return;
@@ -68,12 +68,12 @@ void TUnk_804CF9F8::set_compare_color(s32 new_value) {
     set_value(new_value);
 }
 
-void TUnk_804CF9F8::set_value(s32 value) {
+void HelpItemStatCompareRow::set_value(s32 value) {
     flags |= 4;
     this->value = value;
 }
 
-void TUnk_804CF9F8::set_help_text(uaddr str) {
+void HelpItemStatCompareRow::set_help_text(uaddr str) {
     s32 len;
 
     mem_free(label);
@@ -85,7 +85,7 @@ void TUnk_804CF9F8::set_help_text(uaddr str) {
     }
 }
 
-void TUnk_804CF9F8::render(WindowDrawContext *context) {
+void HelpItemStatCompareRow::render(WindowDrawContext *context) {
     NJS_POINT2 text_pos;
     s32 color;
 
@@ -121,7 +121,7 @@ void TUnk_804CF9F8::render(WindowDrawContext *context) {
     }
 }
 
-void TUnk_804CF9F8::update() {
+void HelpItemStatCompareRow::update() {
     if (flash_timer > 0) {
         flash_timer--;
         if (flash_timer <= 0) {
@@ -130,11 +130,11 @@ void TUnk_804CF9F8::update() {
     }
 }
 
-TUnk_804CF9F8::~TUnk_804CF9F8() {
+HelpItemStatCompareRow::~HelpItemStatCompareRow() {
     mem_free(label);
 }
 
-TUnk_804CF9F8::TUnk_804CF9F8(PointLayoutRecord *rec, s32 client) : TWindowLayoutEntry(client) {
+HelpItemStatCompareRow::HelpItemStatCompareRow(PointLayoutRecord *rec, s32 client) : TWindowLayoutEntry(client) {
     copy_vec2(pos, rec->pos);
     value_color = -1;
     flash_timer = 0;
@@ -143,6 +143,6 @@ TUnk_804CF9F8::TUnk_804CF9F8(PointLayoutRecord *rec, s32 client) : TWindowLayout
     compare_value = 0;
 }
 
-int TUnk_804CF9F8::is_flag20_set() {
+int HelpItemStatCompareRow::is_flag20_set() {
     return flags & 0x20;
 }

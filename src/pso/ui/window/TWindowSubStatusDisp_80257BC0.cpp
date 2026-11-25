@@ -28,8 +28,8 @@
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
-#include "pso/ui/window/TWindowHelpItem_8025A12C.h"
-#include "pso/ui/window/TWindowHelpItem_8025A60C.h"
+#include "pso/ui/window/HelpItemStatCompareRow.h"
+#include "pso/ui/window/HelpItemRarityStarRow.h"
 
 struct Desc_80257D44 {
     u32 cols;
@@ -185,7 +185,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 10:
                 o = ::operator new(0x14);
                 if (o != NULL) {
-                    o = __ct__13TUnk_804CFA10FP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
+                    o = __ct__21HelpItemRarityStarRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0xC / 4;
@@ -193,7 +193,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 11:
                 o = ::operator new(0x24);
                 if (o != NULL) {
-                    o = __ct__13TUnk_804CF9F8FP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
+                    o = __ct__22HelpItemStatCompareRowFP17PointLayoutRecordl(o, reinterpret_cast<PointLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0xC / 4;

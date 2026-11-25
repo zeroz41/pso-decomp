@@ -1,5 +1,5 @@
-#ifndef PSO_UI_WINDOW_TWINDOWHELPITEM_8025A12C_H
-#define PSO_UI_WINDOW_TWINDOWHELPITEM_8025A12C_H
+#ifndef PSO_UI_WINDOW_HELPITEMSTATCOMPAREROW_H
+#define PSO_UI_WINDOW_HELPITEMSTATCOMPAREROW_H
 
 #include "types.h"
 #include "pso/unk/TWindowLayoutEntry.h"
@@ -8,8 +8,8 @@
 // A stat line of the help item window: its label, ":", the value and, once a compare value is
 // set, an arrow and the value the item on show would give (case 11 of init_window_layout_entries).
 // Flag 4: value set, 8: compare value set, 0x10: compare enabled, 0x20: draw as a percentage.
-// Inferred name: help item stat compare row.
-class TUnk_804CF9F8 : public TWindowLayoutEntry {
+// inferred: help item stat compare row (class name from the window it serves).
+class HelpItemStatCompareRow : public TWindowLayoutEntry {
 public:
     f32 pos[2];
     s32 value_color;  // -1, or the colour of the last change while flash_timer runs
@@ -18,8 +18,8 @@ public:
     s32 value;
     s32 compare_value;
 
-    TUnk_804CF9F8(PointLayoutRecord *rec, s32 client);
-    virtual ~TUnk_804CF9F8();
+    HelpItemStatCompareRow(PointLayoutRecord *rec, s32 client);
+    virtual ~HelpItemStatCompareRow();
     virtual void update();
     virtual void render(WindowDrawContext *context);
     void update_visible_flags();
@@ -34,11 +34,12 @@ public:
     s32 get_value();
 };
 
-LAYOUT_ASSERT(TUnk_804CF9F8_size, sizeof(TUnk_804CF9F8) == 0x24);
+LAYOUT_ASSERT(HelpItemStatCompareRow_size, sizeof(HelpItemStatCompareRow) == 0x24);
 
 extern "C" {
-// TUnk_804CF9F8::TUnk_804CF9F8(PointLayoutRecord *, s32), called by init_window_layout_entries.
-void *__ct__13TUnk_804CF9F8FP17PointLayoutRecordl(void *p, PointLayoutRecord *rec, s32 client);
+// HelpItemStatCompareRow::HelpItemStatCompareRow(PointLayoutRecord *, s32). init_window_layout_entries cannot use new: calc_bar_width
+// stays pure (slot 0 of the vtable), so the class is abstract.
+void *__ct__22HelpItemStatCompareRowFP17PointLayoutRecordl(void *p, PointLayoutRecord *rec, s32 client);
 }
 
 #endif

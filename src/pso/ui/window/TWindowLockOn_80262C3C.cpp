@@ -4,7 +4,7 @@
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/item/TItem.h"
-#include "pso/ui/window/TWindowHelpItem_8025A60C.h"
+#include "pso/ui/window/HelpItemRarityStarRow.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowLockOn_80262C3C.h"
@@ -268,7 +268,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
 #pragma fp_contract on
 void TWindowLockOn::update_for_item(TItem *item) {
     LockOnEntry *e;
-    TUnk_804CFA10 *e2;
+    HelpItemRarityStarRow *e2;
     f32 r;
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lockon_window_layout_entries, client_index);
     m_70 = &TWindowLockOn::refresh_ground_item;
@@ -281,7 +281,7 @@ void TWindowLockOn::update_for_item(TItem *item) {
     }
     target_size[0] = e->w;
     target_size[1] = 38.0f;
-    e2 = (TUnk_804CFA10 *)get_array_entry(1);
+    e2 = (HelpItemRarityStarRow *)get_array_entry(1);
     if (item->get_item_type() == 0 || item->get_item_type() == 1) {
         e2->stars = (u8)item->calc_display_grade();
         target_size[1] += 20.0f;

@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TWindowLayoutEntry.h"
-#include "pso/ui/window/TWindowHelpItem_8025A60C.h"
+#include "pso/ui/window/HelpItemRarityStarRow.h"
 #include "pso/system/memory.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -20,7 +20,7 @@ extern const UV_8025A650 item_rarity_star_uv_table[4] = {
     { 0.0f, 239.0f }, { 17.0f, 239.0f }, { 34.0f, 239.0f }, { 51.0f, 239.0f },
 };
 
-f32 TUnk_804CFA10::get_item_star_row_width() {
+f32 HelpItemRarityStarRow::get_item_star_row_width() {
     s32 slots;
 
     slots = stars;
@@ -30,7 +30,7 @@ f32 TUnk_804CFA10::get_item_star_row_width() {
     return 17.0f * (f32)slots;
 }
 
-void TUnk_804CFA10::render(WindowDrawContext *context) {
+void HelpItemRarityStarRow::render(WindowDrawContext *context) {
     TexturedQuad q;
     f32 depth2;
     f32 x;
@@ -94,11 +94,11 @@ void TUnk_804CFA10::render(WindowDrawContext *context) {
     set_default_alpha_blend();
 }
 
-void TUnk_804CFA10::update() {}
+void HelpItemRarityStarRow::update() {}
 
-TUnk_804CFA10::~TUnk_804CFA10() {}
+HelpItemRarityStarRow::~HelpItemRarityStarRow() {}
 
-TUnk_804CFA10::TUnk_804CFA10(PointLayoutRecord *rec, s32 client) : TWindowLayoutEntry(client) {
+HelpItemRarityStarRow::HelpItemRarityStarRow(PointLayoutRecord *rec, s32 client) : TWindowLayoutEntry(client) {
     copy_vec2(pos, rec->pos);
     stars = 0;
 }

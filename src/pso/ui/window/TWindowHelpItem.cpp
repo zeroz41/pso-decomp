@@ -21,8 +21,8 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/ui/window/TWindowHelpItem_8025A12C.h"
-#include "pso/ui/window/TWindowHelpItem_8025A60C.h"
+#include "pso/ui/window/HelpItemStatCompareRow.h"
+#include "pso/ui/window/HelpItemRarityStarRow.h"
 #include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
@@ -166,9 +166,9 @@ s16 TWindowSubStatusDisp::get_field_2F8() { return *(s16*)((char*)this + 0x2f8);
 
 s16 TWindowSubStatusDisp::get_item_type() { return *(s16*)((char*)this + 0x2fa); }
 
-void TUnk_804CF9F8::set_flag0_bit20() { flags |= 0x20; }
+void HelpItemStatCompareRow::set_flag0_bit20() { flags |= 0x20; }
 
-s32 TUnk_804CF9F8::get_value() { return value; }
+s32 HelpItemStatCompareRow::get_value() { return value; }
 
 saddr get_help_text_string(s32 id) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x18)) + (id * 4));
@@ -536,23 +536,23 @@ void TWindowHelpItem::show_mag_stats() {
 }
 
 void TWindowHelpItem::init_help_texts() {
-    TUnk_804CF9F8 *atp_row;
-    TUnk_804CF9F8 *dfp_row;
-    TUnk_804CF9F8 *mst_row;
-    TUnk_804CF9F8 *ata_row;
-    TUnk_804CF9F8 *evp_row;
-    TUnk_804CF9F8 *lck_row;
+    HelpItemStatCompareRow *atp_row;
+    HelpItemStatCompareRow *dfp_row;
+    HelpItemStatCompareRow *mst_row;
+    HelpItemStatCompareRow *ata_row;
+    HelpItemStatCompareRow *evp_row;
+    HelpItemStatCompareRow *lck_row;
 
     init_window_layout_entries(
         &entry_list,
         &TWindowHelpItem::item_layout_entries,
         this->client_index);
-    atp_row = (TUnk_804CF9F8 *)(this->get_array_entry(0));
-    dfp_row = (TUnk_804CF9F8 *)(this->get_array_entry(1));
-    mst_row = (TUnk_804CF9F8 *)(this->get_array_entry(2));
-    ata_row = (TUnk_804CF9F8 *)(this->get_array_entry(3));
-    evp_row = (TUnk_804CF9F8 *)(this->get_array_entry(4));
-    lck_row = (TUnk_804CF9F8 *)(this->get_array_entry(5));
+    atp_row = (HelpItemStatCompareRow *)(this->get_array_entry(0));
+    dfp_row = (HelpItemStatCompareRow *)(this->get_array_entry(1));
+    mst_row = (HelpItemStatCompareRow *)(this->get_array_entry(2));
+    ata_row = (HelpItemStatCompareRow *)(this->get_array_entry(3));
+    evp_row = (HelpItemStatCompareRow *)(this->get_array_entry(4));
+    lck_row = (HelpItemStatCompareRow *)(this->get_array_entry(5));
     atp_row->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x83)));
     dfp_row->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x84)));
     mst_row->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x85)));
@@ -621,12 +621,12 @@ block_4:
 void TWindowHelpItem::update_stat_comparison() {
     s32 flags;
     PlayerRequirementStats st;
-    TUnk_804CF9F8 *e0;
-    TUnk_804CF9F8 *e3;
-    TUnk_804CF9F8 *e1;
-    TUnk_804CF9F8 *e4;
-    TUnk_804CF9F8 *e2;
-    TUnk_804CF9F8 *e5;
+    HelpItemStatCompareRow *e0;
+    HelpItemStatCompareRow *e3;
+    HelpItemStatCompareRow *e1;
+    HelpItemStatCompareRow *e4;
+    HelpItemStatCompareRow *e2;
+    HelpItemStatCompareRow *e5;
     Quest_802549B0 *q;
     TObjPlayer *pl;
     st.clear_fields();
@@ -638,12 +638,12 @@ void TWindowHelpItem::update_stat_comparison() {
     if (q == NULL) {
         return;
     }
-    e0 = (TUnk_804CF9F8 *)get_array_entry(0);
-    e3 = (TUnk_804CF9F8 *)get_array_entry(3);
-    e1 = (TUnk_804CF9F8 *)get_array_entry(1);
-    e4 = (TUnk_804CF9F8 *)get_array_entry(4);
-    e2 = (TUnk_804CF9F8 *)get_array_entry(2);
-    e5 = (TUnk_804CF9F8 *)get_array_entry(5);
+    e0 = (HelpItemStatCompareRow *)get_array_entry(0);
+    e3 = (HelpItemStatCompareRow *)get_array_entry(3);
+    e1 = (HelpItemStatCompareRow *)get_array_entry(1);
+    e4 = (HelpItemStatCompareRow *)get_array_entry(4);
+    e2 = (HelpItemStatCompareRow *)get_array_entry(2);
+    e5 = (HelpItemStatCompareRow *)get_array_entry(5);
     e0->set_value(pl->get_atp() + pl->get_actor_attack_params_atp_min() + pl->get_atp_range());
     e3->set_value(pl->get_ata());
     e1->set_value(pl->get_dfp());
@@ -683,11 +683,11 @@ void TWindowHelpItem::update_stat_comparison() {
 
 void TWindowHelpItem::show_weapon_attributes() {
     saddr player;
-    TUnk_804CF9F8 *a;
-    TUnk_804CF9F8 *b;
-    TUnk_804CF9F8 *c;
-    TUnk_804CF9F8 *d;
-    TUnk_804CF9F8 *e;
+    HelpItemStatCompareRow *a;
+    HelpItemStatCompareRow *b;
+    HelpItemStatCompareRow *c;
+    HelpItemStatCompareRow *d;
+    HelpItemStatCompareRow *e;
 
     player = (saddr)get_player_by_client_id(client_index);
     if (player != 0) {
@@ -696,11 +696,11 @@ void TWindowHelpItem::show_weapon_attributes() {
             &lbl_804CF24C,
             client_index);
         m_callback = &TWindowHelpItem::update_stat_disp2;
-        a = (TUnk_804CF9F8 *)(get_array_entry(0));
-        b = (TUnk_804CF9F8 *)(get_array_entry(1));
-        c = (TUnk_804CF9F8 *)(get_array_entry(2));
-        d = (TUnk_804CF9F8 *)(get_array_entry(3));
-        e = (TUnk_804CF9F8 *)(get_array_entry(4));
+        a = (HelpItemStatCompareRow *)(get_array_entry(0));
+        b = (HelpItemStatCompareRow *)(get_array_entry(1));
+        c = (HelpItemStatCompareRow *)(get_array_entry(2));
+        d = (HelpItemStatCompareRow *)(get_array_entry(3));
+        e = (HelpItemStatCompareRow *)(get_array_entry(4));
         a->set_help_text((saddr)native_attribute_label);
         b->set_help_text((saddr)abeast_attribute_label);
         c->set_help_text((saddr)machine_attribute_label);
@@ -711,12 +711,12 @@ void TWindowHelpItem::show_weapon_attributes() {
         c->set_flag0_bit20();
         d->set_flag0_bit20();
         e->set_flag0_bit20();
-        set_percentage_rows((WeaponAttribute *)((TObjPlayer *)player)->get_attribute_entry(0), &TUnk_804CF9F8::set_value);
+        set_percentage_rows((WeaponAttribute *)((TObjPlayer *)player)->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
         if (displayed_item_data != 0) {
             if (is_item_already_equipped() != 0) {
-                set_percentage_rows(NULL, &TUnk_804CF9F8::set_compare_value);
+                set_percentage_rows(NULL, &HelpItemStatCompareRow::set_compare_value);
             } else {
-                set_percentage_rows((WeaponAttribute *)(displayed_item_data + 6), &TUnk_804CF9F8::set_compare_value);
+                set_percentage_rows((WeaponAttribute *)(displayed_item_data + 6), &HelpItemStatCompareRow::set_compare_value);
             }
             e->update_visible_flags();
         }
@@ -725,15 +725,15 @@ void TWindowHelpItem::show_weapon_attributes() {
 
 void TWindowHelpItem::update_stat_disp2() {
     s32 requirement;
-    TUnk_804CF9F8 *native_row;
-    TUnk_804CF9F8 *abeast_row;
-    TUnk_804CF9F8 *machine_row;
-    TUnk_804CF9F8 *dark_row;
-    TUnk_804CF9F8 *hit_row;
+    HelpItemStatCompareRow *native_row;
+    HelpItemStatCompareRow *abeast_row;
+    HelpItemStatCompareRow *machine_row;
+    HelpItemStatCompareRow *dark_row;
+    HelpItemStatCompareRow *hit_row;
     saddr player;
     uaddr item;
     player = (saddr)get_player_by_client_id(client_index);
-    if ((player != 0) && (native_row = (TUnk_804CF9F8 *)get_array_entry(0), abeast_row = (TUnk_804CF9F8 *)get_array_entry(1), machine_row = (TUnk_804CF9F8 *)get_array_entry(2), dark_row = (TUnk_804CF9F8 *)get_array_entry(3), hit_row = (TUnk_804CF9F8 *)get_array_entry(4), (item = displayed_item_data, (item == 0U) == 0))) {
+    if ((player != 0) && (native_row = (HelpItemStatCompareRow *)get_array_entry(0), abeast_row = (HelpItemStatCompareRow *)get_array_entry(1), machine_row = (HelpItemStatCompareRow *)get_array_entry(2), dark_row = (HelpItemStatCompareRow *)get_array_entry(3), hit_row = (HelpItemStatCompareRow *)get_array_entry(4), (item = displayed_item_data, (item == 0U) == 0))) {
         if (check_equip_requirements((void *)player, (TItemData *)item, &requirement) != 0) {
             native_row->set_flag_0x10(1);
             abeast_row->set_flag_0x10(1);
@@ -750,19 +750,19 @@ void TWindowHelpItem::update_stat_disp2() {
     }
 }
 
-void TWindowHelpItem::set_percentage_rows(WeaponAttribute *attributes, void (TUnk_804CF9F8::*set)(s32)) {
+void TWindowHelpItem::set_percentage_rows(WeaponAttribute *attributes, void (HelpItemStatCompareRow::*set)(s32)) {
     u32 i;
-    TUnk_804CF9F8 *e0;
-    TUnk_804CF9F8 *e1;
-    TUnk_804CF9F8 *e2;
-    TUnk_804CF9F8 *e3;
-    TUnk_804CF9F8 *e4;
+    HelpItemStatCompareRow *e0;
+    HelpItemStatCompareRow *e1;
+    HelpItemStatCompareRow *e2;
+    HelpItemStatCompareRow *e3;
+    HelpItemStatCompareRow *e4;
 
-    e0 = (TUnk_804CF9F8 *)get_array_entry(0);
-    e1 = (TUnk_804CF9F8 *)get_array_entry(1);
-    e2 = (TUnk_804CF9F8 *)get_array_entry(2);
-    e3 = (TUnk_804CF9F8 *)get_array_entry(3);
-    e4 = (TUnk_804CF9F8 *)get_array_entry(4);
+    e0 = (HelpItemStatCompareRow *)get_array_entry(0);
+    e1 = (HelpItemStatCompareRow *)get_array_entry(1);
+    e2 = (HelpItemStatCompareRow *)get_array_entry(2);
+    e3 = (HelpItemStatCompareRow *)get_array_entry(3);
+    e4 = (HelpItemStatCompareRow *)get_array_entry(4);
     (e0->*set)(0);
     (e1->*set)(0);
     (e2->*set)(0);
@@ -813,11 +813,11 @@ void TWindowHelpItem::show_shield_resistances() {
 
 void TWindowHelpItem::update_resistance_rows() {
     PlayerRequirementStats st;
-    TUnk_804CF9F8 *a;
-    TUnk_804CF9F8 *b;
-    TUnk_804CF9F8 *c;
-    TUnk_804CF9F8 *d;
-    TUnk_804CF9F8 *e;
+    HelpItemStatCompareRow *a;
+    HelpItemStatCompareRow *b;
+    HelpItemStatCompareRow *c;
+    HelpItemStatCompareRow *d;
+    HelpItemStatCompareRow *e;
     TObjPlayer *pl;
     st.clear_fields();
     pl = get_player_by_client_id(client_index);
@@ -827,11 +827,11 @@ void TWindowHelpItem::update_resistance_rows() {
             &TWindowHelpItem::resistance_layout_entries,
             client_index);
         m_callback = &TWindowHelpItem::update_stat_disp;
-        a = (TUnk_804CF9F8 *)(get_array_entry(0));
-        b = (TUnk_804CF9F8 *)(get_array_entry(1));
-        c = (TUnk_804CF9F8 *)(get_array_entry(2));
-        d = (TUnk_804CF9F8 *)(get_array_entry(3));
-        e = (TUnk_804CF9F8 *)(get_array_entry(4));
+        a = (HelpItemStatCompareRow *)(get_array_entry(0));
+        b = (HelpItemStatCompareRow *)(get_array_entry(1));
+        c = (HelpItemStatCompareRow *)(get_array_entry(2));
+        d = (HelpItemStatCompareRow *)(get_array_entry(3));
+        e = (HelpItemStatCompareRow *)(get_array_entry(4));
         a->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x89));
         b->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8A));
         c->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0x8B));
@@ -859,20 +859,20 @@ void TWindowHelpItem::update_resistance_rows() {
 
 void TWindowHelpItem::update_stat_disp() {
     s32 requirement;
-    TUnk_804CF9F8 *a;
-    TUnk_804CF9F8 *b;
-    TUnk_804CF9F8 *c;
-    TUnk_804CF9F8 *d;
-    TUnk_804CF9F8 *e;
+    HelpItemStatCompareRow *a;
+    HelpItemStatCompareRow *b;
+    HelpItemStatCompareRow *c;
+    HelpItemStatCompareRow *d;
+    HelpItemStatCompareRow *e;
     saddr player;
 
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
-        a = (TUnk_804CF9F8 *)this->get_array_entry(0);
-        b = (TUnk_804CF9F8 *)this->get_array_entry(1);
-        c = (TUnk_804CF9F8 *)this->get_array_entry(2);
-        d = (TUnk_804CF9F8 *)this->get_array_entry(3);
-        e = (TUnk_804CF9F8 *)this->get_array_entry(4);
+        a = (HelpItemStatCompareRow *)this->get_array_entry(0);
+        b = (HelpItemStatCompareRow *)this->get_array_entry(1);
+        c = (HelpItemStatCompareRow *)this->get_array_entry(2);
+        d = (HelpItemStatCompareRow *)this->get_array_entry(3);
+        e = (HelpItemStatCompareRow *)this->get_array_entry(4);
         if (this->displayed_item_data != 0) {
             if (check_equip_requirements((void *)player, (TItemData *)this->displayed_item_data, &requirement) != 0) {
                 a->set_flag_0x10(1);
@@ -898,9 +898,9 @@ void TWindowHelpItem::show_mag_growth() {
     saddr a;
     saddr b;
     saddr c;
-    TUnk_804CF9F8 *lv;
-    TUnk_804CF9F8 *sy;
-    TUnk_804CF9F8 *iq;
+    HelpItemStatCompareRow *lv;
+    HelpItemStatCompareRow *sy;
+    HelpItemStatCompareRow *iq;
     saddr up;
     ((MagStats *)mag)->init();
     init_window_layout_entries(
@@ -909,9 +909,9 @@ void TWindowHelpItem::show_mag_growth() {
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
     TItemData::deserialize_mag(active_item, (void *)mag);
-    lv = (TUnk_804CF9F8 *)get_array_entry(0);
-    sy = (TUnk_804CF9F8 *)get_array_entry(1);
-    iq = (TUnk_804CF9F8 *)get_array_entry(2);
+    lv = (HelpItemStatCompareRow *)get_array_entry(0);
+    sy = (HelpItemStatCompareRow *)get_array_entry(1);
+    iq = (HelpItemStatCompareRow *)get_array_entry(2);
     up = reinterpret_cast<saddr>(get_array_entry(0xF));
     lv->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA2));
     sy->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA3));
@@ -970,8 +970,8 @@ s32 TWindowHelpItem::update_mag_status_gauges() {
     d = reinterpret_cast<saddr>(get_array_entry(0xF));
     ((TWindowSubStatusDisp *)a)->clear_visible_flag();
     ((TWindowHelpItem *)d)->set_flag0_bit2();
-    ((TUnk_804CF9F8 *)b)->set_compare_color((s32) mag.get_synchro());
-    ((TUnk_804CF9F8 *)c)->set_compare_color((s32) mag.get_iq());
+    ((HelpItemStatCompareRow *)b)->set_compare_color((s32) mag.get_synchro());
+    ((HelpItemStatCompareRow *)c)->set_compare_color((s32) mag.get_iq());
     b = reinterpret_cast<saddr>(get_array_entry(4));
     a = reinterpret_cast<saddr>(get_array_entry(5));
     if (((TWindowLayoutNumber *)b)->value < mag.get_def_level()) {
@@ -1021,14 +1021,14 @@ s32 TWindowHelpItem::update_mag_status_gauges() {
 
 s32 fn_8025373C(TWindowHelpItem *self) {
     MagStats mag;
-    TUnk_804CF9F8 *help;
+    HelpItemStatCompareRow *help;
     TWindowLayoutEntry *panel;
     TWindowStatusGaugeFeedback *bar;
     TWindowLayoutNumber *num;
     s32 count;
     mag.init();
     TItemData::deserialize_mag(self->active_item, &mag);
-    help = (TUnk_804CF9F8 *)self->get_array_entry(0);
+    help = (HelpItemStatCompareRow *)self->get_array_entry(0);
     panel = (TWindowLayoutEntry *)self->get_array_entry(0xF);
     count = help->get_value();
     num = (TWindowLayoutNumber *)self->get_array_entry(4);
@@ -1156,7 +1156,7 @@ void TWindowHelpItem::show_mag_photon_blasts() {
 
 void TWindowHelpItem::show_item_description() {
     WindowTextEntry *e;
-    TUnk_804CFA10 *e2;
+    HelpItemRarityStarRow *e2;
     init_window_layout_entries(
         &this->entry_list,
         &window_help_item_layout_entries,
@@ -1166,7 +1166,7 @@ void TWindowHelpItem::show_item_description() {
     this->format_description_with_price();
     set_text_entry_string((e), (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
-    e2 = (TUnk_804CFA10 *)this->get_array_entry(1);
+    e2 = (HelpItemRarityStarRow *)this->get_array_entry(1);
     e2->stars = (u8)(active_item)->calc_display_grade();
 }
 

@@ -8,7 +8,7 @@
 #include <stddef.h>
 
 struct PageIndicator;
-class TUnk_804CF9F8;
+class HelpItemStatCompareRow;
 
 // One of a weapon's three attribute slots: the area it boosts (1-5) and the
 // percentage.
@@ -157,7 +157,7 @@ struct TWindowHelpItem : public TWindowBase
     void update_requirements();
     void update_level_requirement();
     void update_stat_comparison();
-    void set_percentage_rows(WeaponAttribute *attributes, void (TUnk_804CF9F8::*set)(s32));
+    void set_percentage_rows(WeaponAttribute *attributes, void (HelpItemStatCompareRow::*set)(s32));
     void init_help_texts();
     void invoke_callback_pmf();
     void dispatch_item_help();

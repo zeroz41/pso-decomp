@@ -6127,13 +6127,13 @@ pso/ui/window/TWindowSubStatusDisp_80259DB0.cpp:
 	.data       start:0x804CF9E0 end:0x804CF9F8
 	.sdata2     start:0x805DCF58 end:0x805DCF68
 
-pso/ui/window/TWindowHelpItem_8025A12C.cpp:
+pso/ui/window/HelpItemStatCompareRow.cpp:
 	.text       start:0x8025A12C end:0x8025A60C
 	.rodata     start:0x8044F018 end:0x8044F025
 	.data       start:0x804CF9F8 end:0x804CFA10
 	.sdata2     start:0x805DCF68 end:0x805DCF8C
 
-pso/ui/window/TWindowHelpItem_8025A60C.cpp:
+pso/ui/window/HelpItemRarityStarRow.cpp:
 	.text       start:0x8025A60C end:0x8025A9B4
 	.rodata     start:0x8044F028 end:0x8044F050
 	.data       start:0x804CFA10 end:0x804CFA28
