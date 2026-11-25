@@ -9,7 +9,6 @@
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CreationInput.h"
-#include "pso/ui/charcreate/TObjCMIcon_80299488.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/ui/charcreate/TChCrTagName.h"
 #include "pso/ui/charcreate/TChCrTagOccHeader.h"
@@ -134,10 +133,10 @@ void TChCrCharSelect::run_task() {
     (this->*tbl[TChCrCharSelect__input_mode])();
     switch (TChCrCharSelect__input_mode) {
     case 0:
-        TObjCMIcon__sub_802994C8(1, lbl_805DD9D8);
+        TObjCMIcon::show_icons(1, lbl_805DD9D8);
         return;
     case 1:
-        TObjCMIcon__sub_802994C8(2, lbl_80464E90);
+        TObjCMIcon::show_icons(2, lbl_80464E90);
         return;
     case 2:
     default:
@@ -162,6 +161,6 @@ TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     } else {
         TChCrCharSelect__input_mode = 1;
     }
-    fn_8029945C(&lbl_80464E88);
+    TObjCMIcon::set_screen_position(&lbl_80464E88);
     init_widgets();
 }

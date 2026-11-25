@@ -1,22 +1,19 @@
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/UISprite.h"
-#include "pso/ui/charcreate/TObjCMIcon_80299488.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/vector.h"
 
-void fn_8029945C(const vec2f *pos) {
+void TObjCMIcon::set_screen_position(const vec2f *pos) {
     copy_vec2(&cm_icon_screen_position, (void *)pos);
 }
 
 #pragma common off
 CreationIconState creation_icon_states[7];
-f32 TObjCMIcon__horizontal_scroll_offset;
+f32 TObjCMIcon::horizontal_scroll_offset;
 #pragma common reset
-
-extern "C" {
 
 void TObjCMIcon::reset_icon_flags() {
     s32 i;
@@ -27,15 +24,15 @@ void TObjCMIcon::reset_icon_flags() {
     }
 }
 
-void TObjCMIcon__sub_802994B0(s32 arg0) {
-    creation_icon_states[arg0].hidden = 0;
+void TObjCMIcon::show_icon(s32 index) {
+    creation_icon_states[index].hidden = 0;
 }
 
-void TObjCMIcon__sub_802994C8(s32 arg0, const s32 *arg1) {
+void TObjCMIcon::show_icons(s32 count, const s32 *ids) {
     s32 i;
-    TObjCMIcon::reset_icon_flags();
-    for (i = 0; i < arg0; i++) {
-        TObjCMIcon__sub_802994B0(arg1[i]);
+    reset_icon_flags();
+    for (i = 0; i < count; i++) {
+        show_icon(ids[i]);
     }
 }
 
@@ -47,22 +44,22 @@ void TObjCMIcon::init_icon_table() {
     i = 0;
     entry = creation_icon_states;
     do {
-        TObjCMIcon__sub_8029957C(entry, &creation_initial_icon_state);
+        copy_icon_state(entry, &creation_initial_icon_state);
         i += 1;
         entry++;
     } while (i < 7);
-    TObjCMIcon__horizontal_scroll_offset = 0.0f;
+    horizontal_scroll_offset = 0.0f;
 }
 
-void TObjCMIcon__sub_8029957C(CreationIconState *p, CreationIconState *q) {
-    p->hidden = q->hidden;
-    p->fade = q->fade;
-    p->x = q->x;
+void TObjCMIcon::copy_icon_state(CreationIconState *dst, CreationIconState *src) {
+    dst->hidden = src->hidden;
+    dst->fade = src->fade;
+    dst->x = src->x;
 }
-s32 TObjCMIcon__sub_80299598(s32 arg0, s32 arg1) {
-    return arg1;
+s32 TObjCMIcon::get_sprite_id(s32 sprite_id) {
+    return sprite_id;
 }
-void render__10TObjCMIconFv(s32 self) {
+void TObjCMIcon::render() {
     s32 idx[7];
     f32 keys[7];
     vec2f pos;
@@ -98,16 +95,16 @@ void render__10TObjCMIconFv(s32 self) {
     }
     set_depth_buffer_settings_1();
     set_draw_list_mask(2);
-    x0 = cm_icon_screen_position.x - TObjCMIcon__horizontal_scroll_offset;
+    x0 = cm_icon_screen_position.x - horizontal_scroll_offset;
     for (i = 0; i < 7; i++) {
         id = idx[i];
         depth = keys[i];
-        g = &TObjCMIcon__icon_group_table[id];
+        g = &icon_group_table[id];
         pos.x = x0 + (creation_icon_states)[id].x;
         pos.y = cm_icon_screen_position.y * TObjCMMainMenu::get_scale();
         z = (-2.0f) - (1.0f - (f32)(i / 7));
         for (n = 0; n < g->count; n++) {
-            s = TObjCMIcon__sub_80299598(self, g->sprite_ids[n]);
+            s = get_sprite_id(g->sprite_ids[n]);
             draw_ui_sprite(s, &pos, z, depth);
             pos.x += (f32)(TObjCMMainMenu::get_creation_sprite_id(s) + 4);
         }
@@ -116,7 +113,7 @@ void render__10TObjCMIconFv(s32 self) {
 }
 #pragma push
 #pragma fp_contract on
-void run_task__10TObjCMIconFv(s32 arg0) {
+void TObjCMIcon::run_task() {
     CreationIconState *p;
     CreationIconGroup *g;
     s32 i;
@@ -135,7 +132,7 @@ void run_task__10TObjCMIconFv(s32 arg0) {
         }
     }
     x = 0.0f;
-    g = TObjCMIcon__icon_group_table;
+    g = icon_group_table;
     p = creation_icon_states;
     {
     s32 k;
@@ -150,14 +147,12 @@ void run_task__10TObjCMIconFv(s32 arg0) {
             s32 j;
             p->x += 0.05f * (x - p->x);
             for (j = 0; j < g->count; j++) {
-                x += (f32)(TObjCMMainMenu::get_creation_sprite_id(TObjCMIcon__sub_80299598(arg0, g->sprite_ids[j])) + 4);
+                x += (f32)(TObjCMMainMenu::get_creation_sprite_id(get_sprite_id(g->sprite_ids[j])) + 4);
             }
             x += 8.0f;
         }
     }
     }
-    TObjCMIcon__horizontal_scroll_offset += 0.15f * (x - TObjCMIcon__horizontal_scroll_offset);
+    horizontal_scroll_offset += 0.15f * (x - horizontal_scroll_offset);
 }
 #pragma pop
-
-}

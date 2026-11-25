@@ -941,10 +941,10 @@ force_active:
   - TObjBs4CutAtk_type_name
   - __ct__18TObjButterflyLobbyFP7TObjectP13ObjectSetData
   - TObjCGrass_bml_resource
-  - TObjCMIcon__horizontal_scroll_offset
-  - TObjCMIcon__sub_802994B0
-  - TObjCMIcon__sub_8029957C
-  - TObjCMIcon__sub_80299598
+  - horizontal_scroll_offset__10TObjCMIcon
+  - show_icon__10TObjCMIconFl
+  - copy_icon_state__10TObjCMIconFP17CreationIconStateP17CreationIconState
+  - get_sprite_id__10TObjCMIconFl
   - TObjCMMainMenu__sub_8028EC18
   - TObjCMMainMenu__sub_8028EC24
   - TObjCMMainMenu__sub_8028EC34

@@ -25,7 +25,6 @@
 #include "pso/ui/charcreate/TChCrEffCtrlPl.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
 #include "pso/ui/charcreate/TObjCMIcon.h"
-#include "pso/ui/charcreate/TObjCMIcon_80299488.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
@@ -209,7 +208,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     set_speed(30.0f);
     nodes = new TObject(NULL);
     fn_802947A8();
-    fn_8029945C(&main_menu_icon_position);
+    TObjCMIcon::set_screen_position(&main_menu_icon_position);
     after_construct();
 }
 
@@ -611,13 +610,13 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
         if (TAdSinglePlyChrSelectGC::is_active() != 0) {
             if (entries[selected_entry] == 9 && TObjCMMainMenu::validate_character_name((s8 *)character->name) == 0) {
                 s32 icon_ids[] = {1};
-                TObjCMIcon__sub_802994C8(1, icon_ids);
+                TObjCMIcon::show_icons(1, icon_ids);
             } else if (character->section == -1) {
                 s32 icon_ids[] = {1, 4};
-                TObjCMIcon__sub_802994C8(2, icon_ids);
+                TObjCMIcon::show_icons(2, icon_ids);
             } else {
                 s32 icon_ids[] = {4};
-                TObjCMIcon__sub_802994C8(1, icon_ids);
+                TObjCMIcon::show_icons(1, icon_ids);
             }
         } else {
             TObjCMIcon::reset_icon_flags();
@@ -632,14 +631,14 @@ void TObjCMMainMenu::draw_name_warning_and_icons() {
             break;
         default:
             s32 icon_ids[] = {3};
-            TObjCMIcon__sub_802994C8(1, icon_ids);
+            TObjCMIcon::show_icons(1, icon_ids);
             break;
         }
         break;
     case 2:
         if (delay == 0 || creation_resource_ready_state == 2) {
             s32 icon_ids[] = {6};
-            TObjCMIcon__sub_802994C8(1, icon_ids);
+            TObjCMIcon::show_icons(1, icon_ids);
         } else {
             TObjCMIcon::reset_icon_flags();
         }
@@ -1651,7 +1650,7 @@ void TObjCMAutoMkData::run_task() {
     case 1:
     {
       s32 icon_ids[] = {2, 5};
-      TObjCMIcon__sub_802994C8(2, icon_ids);
+      TObjCMIcon::show_icons(2, icon_ids);
       break;
     }
     case 2:

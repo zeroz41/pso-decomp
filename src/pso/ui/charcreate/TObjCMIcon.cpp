@@ -9,7 +9,7 @@ void *TObjCMIcon::create(void *object) {
     return new TObjCMIcon((TObject *)object);
 }
 
-CreationIconGroup TObjCMIcon__icon_group_table[7] = {
+CreationIconGroup TObjCMIcon::icon_group_table[7] = {
     {2, {0x38, 0xA8, 0, 0}},
     {2, {0x38, 0xA9, 0, 0}},
     {2, {0x38, 0xAA, 0, 0}},
