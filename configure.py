@@ -1558,12 +1558,10 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     # CRI ADX, LSC, SJ, MFCI and GCRNA ("Build:Jun 13 2002").
     ("cri", 0x803BFE50, "GC/2.6", cflags_cri, {
         # These files pool their string literals (-str reuse,readonly).
-        "pso/unk/text_803CC294.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
-        "pso/unk/text_803CE568.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/Adxf.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/system/CvFs.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/system/movie/Gcci.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/audio/CriSvm.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
-        # -str reuse,readonly: its chunk tags "fmt ", "data", "RIFF", "WAVE" sit in .sdata2 0x805E0CA0-0x805E0CC0.
-        "pso/unk/TLobby_803BFE50.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         # -str reuse,readonly: the TU's 17 string literals sit in .rodata 0x8047DF90-0x8047E220.
         "pso/system/movie/Mfci.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/audio/LscInit.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},

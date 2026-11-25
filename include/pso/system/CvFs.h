@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TEXT_803CE568_H
-#define PSO_UNK_TEXT_803CE568_H
+#ifndef PSO_SYSTEM_CVFS_H
+#define PSO_SYSTEM_CVFS_H
 
 #include "types.h"
 #include "pso/system/CvFsStreamHandle.h"

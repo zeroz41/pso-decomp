@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/system/CvFsStreamHandle.h"
-#include "pso/unk/text_803CE568.h"
+#include "pso/system/CvFs.h"
 #include "pso/network/TLobby.h"
 
 

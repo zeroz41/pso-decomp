@@ -860,6 +860,7 @@ pso/audio/AdxRnaStreamId.cpp
 pso/audio/GcrnaBridgeStatus.cpp
 pso/audio/GcrnaBridgePanId.cpp
 pso/audio/GcrnaBridgeReady.cpp
+pso/system/CvFs.cpp
 pso/system/movie/CvFsErrorBridge.cpp
 pso/audio/LscLog.cpp
 pso/audio/CriSvm.cpp
@@ -1897,8 +1898,7 @@ pso/unk/text_8036B748.cpp
 pso/unk/text_8036BDA0.cpp
 pso/unk/text_8036BF10.cpp
 PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Src/GCN_Mem_Alloc.c
-pso/unk/text_803CC294.cpp
-pso/unk/text_803CE568.cpp
+pso/audio/Adxf.cpp
 pso/system/movie/Gcci.cpp
 pso/unk/text_803D619C.cpp
 pso/ui/window/TWindowSubComCard_803D6438.cpp

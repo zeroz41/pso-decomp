@@ -10746,7 +10746,7 @@ pso/audio/AdxfInit.cpp:
 	.sbss       start:0x805D75D0 end:0x805D75E8
 	.sdata2     start:0x805E0D80 end:0x805E0D84
 
-pso/unk/text_803CC294.cpp:
+pso/audio/Adxf.cpp:
 	.text       start:0x803CC294 end:0x803CD99C
 	.rodata     start:0x8047C818 end:0x8047CF30
 	.bss        start:0x8057DF50 end:0x8057FFD0
@@ -10764,7 +10764,7 @@ pso/audio/AixPlayer.cpp:
 	.bss        start:0x80581330 end:0x80581A30
 	.sbss       start:0x805D75F8 end:0x805D7600
 
-pso/unk/text_803CE568.cpp:
+pso/system/CvFs.cpp:
 	.text       start:0x803CE568 end:0x803CFE68
 	.rodata     start:0x8047CF30 end:0x8047DAB8
 	.bss        start:0x80581A30 end:0x80581EA8

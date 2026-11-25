@@ -8,7 +8,6 @@
 #include "types.h"
 #include "pso/audio/AdxfInternal.h"
 #include "pso/audio/AdxStreamRuntime.h"
-#include "pso/unk/text_803CC294.h"
 #include "pso/network/TLobby.h"
 #include "pso/audio/SjRingBuffer.h"
 

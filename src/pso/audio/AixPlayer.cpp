@@ -6,7 +6,7 @@
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxStreamLock.h"
-#include "pso/unk/text_803CE568.h"
+#include "pso/system/CvFs.h"
 
 extern "C" {
 void TLobby__sub_803C9E38(AdxtPlayer *player, SjRingBuffer *sj);
