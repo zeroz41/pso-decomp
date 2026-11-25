@@ -141,7 +141,6 @@ extern "C" {
 
 void build_6x7D_set_battle_mode_data(void *);
 
-struct UpdateTimedWaitLobby;
 
 }
 
@@ -220,20 +219,6 @@ struct Handle6x7DSetBattleModeDataLobby {
     u8 pad28[0x30];
     s32 a;
     s32 b;
-};
-
-struct UpdateTimedWaitLobby {
-    u8 pad0[0x20];
-    s32 state;
-    s32 result;
-    u8 pad28[8];
-    s64 start;
-    s32 remain;
-    s32 limit;
-    u8 pad40[8];
-    s32 timer48;
-    u8 pad4c[0x14];
-    s32 timer60;
 };
 
 struct Cfg_801C3D50 {
@@ -526,36 +511,36 @@ void TPlayerBattleCtrl::update_battle_intro() {
 void TPlayerBattleCtrl::update_timed_wait() {
     s32 secs;
     s32 rem;
-    switch (((UpdateTimedWaitLobby *)this)->state) {
+    switch (state_20) {
     case 0:
         start_duel_battle();
-        ((UpdateTimedWaitLobby *)this)->state = 1;
+        state_20 = 1;
     case 1:
         if (check_team_balance(1) != 0) {
             send_battle_mode_params(5, 0, 0);
             return;
         }
-        secs = (OSGetTime() - ((UpdateTimedWaitLobby *)this)->start) / (*(u32 *)0x800000F8 / 4);
-        rem = ((UpdateTimedWaitLobby *)this)->limit - secs;
-        ((UpdateTimedWaitLobby *)this)->remain = rem > 0 ? rem : 0;
-        TWindowCtrl::set_timer_window_time(((UpdateTimedWaitLobby *)this)->remain);
-        if (((UpdateTimedWaitLobby *)this)->remain == 0) {
-            ((UpdateTimedWaitLobby *)this)->result = 3;
+        secs = (OSGetTime() - start_time) / (*(u32 *)0x800000F8 / 4);
+        rem = time_limit - secs;
+        time_left = rem > 0 ? rem : 0;
+        TWindowCtrl::set_timer_window_time(time_left);
+        if (time_left == 0) {
+            state_24 = 3;
             send_battle_mode_params(3, 0, 0);
             return;
         }
         if (check_battle_end() != 0) {
-            if (--((UpdateTimedWaitLobby *)this)->timer48 <= 0) {
-                ((UpdateTimedWaitLobby *)this)->result = 3;
+            if (--end_wait <= 0) {
+                state_24 = 3;
                 send_battle_mode_params(3, 0, 0);
             }
         } else {
-            ((UpdateTimedWaitLobby *)this)->timer48 = 300;
+            end_wait = 300;
         }
         update_battle_sync(secs);
-        if (--((UpdateTimedWaitLobby *)this)->timer60 <= 0) {
+        if (--state_send_wait <= 0) {
             send_battle_mode_state();
-            ((UpdateTimedWaitLobby *)this)->timer60 = 90;
+            state_send_wait = 90;
         }
         calc_player_rankings();
         break;
@@ -1235,9 +1220,9 @@ void TPlayerBattleCtrl::init_battle_round() {
   s32 var_ctr;
   s32 var_r3;
   s32 i;
-  this->m_3c = get_battle_time_limit_frames();
+  time_limit = get_battle_time_limit_frames();
   TWindowCtrl::create_alt_timer();
-  TWindowCtrl::set_timer_window_time(this->m_3c);
+  TWindowCtrl::set_timer_window_time(time_limit);
   TOMineTrap::destroy_matching_traps();
   char_select_slot = TAdSinglePlyChrSelectGC::get_char_select_slot();
   char_select_slot = char_select_slot + 1;
@@ -1276,7 +1261,7 @@ void TPlayerBattleCtrl::start_duel_battle() {
     s32 i;
     TObjEneRe4Sorcerer__sub_801E3F14(4);
     TObjEneRe4Sorcerer__sub_801E3F18();
-    ((StartDuelBattleLobby *)this)->time = OSGetTime();
+    start_time = OSGetTime();
     TLobby::handle_battle_result((u16)local_client_id, 1);
     if ((p = (saddr)get_local_player()) != 0) {
         obj_clear_flag30_20000((void *)p);
