@@ -1,8 +1,10 @@
 #include "pso/ui/chat/SymbolChatPreset.h"
+#include "pso/ui/chat/SymbolChatSprite.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/ui/window/TWindowBase.h"
 
@@ -38,16 +40,16 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *selection, s32 *
     instance = reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance());
     data_ptr = instance->get_data_ptr();
     free_slots = TWindowSubSymbolChat::calc_remaining_slots();
-    part_index = *(s16 *)((s8 *)(this) + 0x6E);
+    part_index = part_id;
     if (free_slots > part_index) {
         scale = 2.0f;
         part = &data_ptr->parts[part_index];
-        first_part_index = (s32) *(s16 *)((s8 *)(this) + 0x6E);
+        first_part_index = (s32) part_id;
         second_part_index = instance->find_free_entry(0);
         i = 0;
-        *(s16 *)((s8 *)(this) + 0x6E) = (s16) part->id;
-        *(s16 *)((s8 *)(this) + 0x6A) = (s16) part->x;
-        *(s16 *)((s8 *)(this) + 0x6C) = (s16) part->y;
+        part_id = (s16) part->id;
+        cursor_x = (s16) part->x;
+        cursor_y = (s16) part->y;
         *first_flag_out = part->flags & 1;
         *second_flag_out = ((u8) part->flags >> 1U) & 1;
         do {
@@ -65,7 +67,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *selection, s32 *
     selection_out = selection;
     i = 0;
     selection_mode = 3;
-    skip = *(s16 *)((s8 *)(this) + 0x6E) - free_slots;
+    skip = part_id - free_slots;
     for (; i < 4; i++) {
         if (is_facial_part_set(instance, i) != 0) {
             if (skip-- <= 0) {
@@ -73,9 +75,9 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *selection, s32 *
                 facial = data_ptr->facial_parts[i];
                 first_part_index = i;
                 second_part_index = i;
-                *(s16 *)((s8 *)(this) + 0x6A) = (s16) (((i & 1) ^ sign) - sign);
-                *(s16 *)((s8 *)(this) + 0x6C) = (s16) (i / 2);
-                *(s16 *)((s8 *)(this) + 0x6E) = (s16) (u8) facial;
+                cursor_x = (s16) (((i & 1) ^ sign) - sign);
+                cursor_y = (s16) (i / 2);
+                part_id = (s16) (u8) facial;
                 *selection_out = (facial >> 8U) & 7;
                 *first_flag_out = (facial >> 0xBU) & 1;
                 *second_flag_out = (facial >> 0xCU) & 1;
@@ -135,8 +137,6 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *result) {
 const char *window_sub_symbol_chat_parts_set_name = "TWindowSubSymbolChatPartsSet";
 static const NJS_POINT2 parts_set_window_size = {178.0f, 188.0f};
 
-struct PartSpriteView { u8 pad[8]; f32 f8; f32 fc; };
-
 extern "C" {
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
 void draw_selection_corners(void *, void *, f32, f32);
@@ -144,13 +144,13 @@ void draw_selection_corners(void *, void *, f32, f32);
 
 void TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(void *ctx) {
     NJS_POINT2 corner;
-    PartSpriteView *e;
+    SymbolChatSprite *e;
     switch (selection_mode) {
     case 1:
     case 3:
-        e = (PartSpriteView *)TWindowSubSymbolChatPartsSet::get_parts_entry(this, first_part_index);
-        corner.x = e->f8 - 3.0f;
-        corner.y = e->fc - 3.0f;
+        e = (SymbolChatSprite *)TWindowSubSymbolChatPartsSet::get_parts_entry(this, first_part_index);
+        corner.x = e->x - 3.0f;
+        corner.y = e->y - 3.0f;
         draw_selection_corners(ctx, &corner, 38.0f, 0.1f);
         break;
     case 0:
@@ -287,28 +287,28 @@ void TWindowSubSymbolChatPartsSet::render() {
     NJS_POINT2 saved_pos;
     NJS_POINT2 saved_scale;
     f32 ctx;
-    u8 *c_arg;
+    WindowDrawContext *c_arg;
 
-    c_arg = reinterpret_cast<u8 *>(draw_default_entry());
-    copy_vec2((&saved_pos), c_arg + 0x10);
-    copy_vec2((&saved_scale), c_arg + 0x28);
-    if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
-        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) this->open_tick / 7.5f);
-        *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
+    c_arg = reinterpret_cast<WindowDrawContext *>(draw_default_entry());
+    copy_vec2((&saved_pos), &c_arg->inner_x);
+    copy_vec2((&saved_scale), c_arg->scale);
+    if (c_arg->open_tick < 0) {
+        c_arg->scale[0] = (f32) ((f32) this->open_tick / 7.5f);
+        c_arg->scale[1] = c_arg->scale[0];
     }
     draw_quest_message_frame((void *)c_arg);
-    *(f32 *)((s8 *)c_arg + 0x10) = (f32) (*(f32 *)((s8 *)c_arg + 0x10) + *(f32 *)((s8 *)this + 0x8C));
-    *(f32 *)((s8 *)c_arg + 0x14) = (f32) (*(f32 *)((s8 *)c_arg + 0x14) + this->offset_y);
-    *(f32 *)((s8 *)c_arg + 0x28) = (f32) (*(f32 *)((s8 *)c_arg + 0x28) * *(f32 *)((s8 *)this + 0x94));
-    ctx = *(f32 *)((s8 *)c_arg + 0x2C);
-    *(f32 *)((s8 *)c_arg + 0x2C) = (f32) (ctx * *(f32 *)((s8 *)this + 0x94));
+    c_arg->inner_x = (f32) (c_arg->inner_x + this->offset_x);
+    c_arg->inner_y = (f32) (c_arg->inner_y + this->offset_y);
+    c_arg->scale[0] = (f32) (c_arg->scale[0] * this->scale);
+    ctx = c_arg->scale[1];
+    c_arg->scale[1] = (f32) (ctx * this->scale);
     draw_visible_window_entries(
         this,
         &this->entry_list,
-        reinterpret_cast<WindowDrawContext *>(c_arg));
+        c_arg);
     this->draw_selected_part_cursor(c_arg);
-    copy_vec2((c_arg + 0x10), &saved_pos);
-    copy_vec2((c_arg + 0x28), &saved_scale);
+    copy_vec2((&c_arg->inner_x), &saved_pos);
+    copy_vec2((c_arg->scale), &saved_scale);
     this->heading_display->forward_render(c_arg);
 }
 

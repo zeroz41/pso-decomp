@@ -198,7 +198,7 @@ void RadarPlayerMarker::reset() {
     x = 0.0f;
     rot_y = 0;
     scale = 1.0f;
-    *(s16 *)pad_14 = 0;
+    unused_14 = 0;
     id = -1;
     color.b = 1.0f;
     color.g = 1.0f;

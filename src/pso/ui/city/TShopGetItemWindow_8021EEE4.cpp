@@ -6,11 +6,10 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-
-void clear_shop_armor_flags(void);
-void clear_shop_tool_flags(void);
-void clear_shop_weapon_flags(void);
-extern s32 local_client_id;
+#include "pso/network/client_id.h"
+#include "pso/unk/text_8020E700.h"
+#include "pso/unk/text_80223B98.h"
+#include "pso/item/shop/ShopWeaponStock.h"
 extern s32 game_difficulty_selection;
 s32 shop_section_id;
 s32 shop_world_player_level;

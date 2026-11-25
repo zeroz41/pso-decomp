@@ -43,7 +43,7 @@ const char *shop_keep_item_window_class_name = "TShopKeepItemWindow";
 
 TShopKeepItemWindow::TShopKeepItemWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     m_name = shop_keep_item_window_class_name;
-    this->pad_370 = 0;
+    this->unused_370 = 0;
     this->entry_count = 0;
     this->deposit_count = 1;
     this->help_item_index = 0;

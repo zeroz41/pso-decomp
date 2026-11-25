@@ -28,7 +28,7 @@ struct TShopKeepItemWindow : public TShopWindowBase {
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
     TShopKeepItemEntry entries[30];
-    u32 pad_370;
+    u32 unused_370;
     s32 entry_count;          // rows filled in entries
     s32 deposit_count;        // how many to deposit
     s32 help_item_index;      // row the help window shows

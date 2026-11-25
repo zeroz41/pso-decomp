@@ -26,7 +26,7 @@ struct RadarPlayerMarker {
     f32 z;
     s32 rot_y;
     f32 scale;
-    u8 pad_14[2];
+    s16 unused_14;
     s16 id;
     NJS_ARGB color;
 

@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/chat/SymbolChatSprite.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -23,16 +24,6 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/system/task/TObject.h"
 
-struct PartSpriteWindow {
-    u8 pad0[8];
-    f32 x;
-    f32 y;
-    u8 pad10[0x1C];
-    s32 entry;
-    u8 pad30[4];
-    s32 kind;
-};
-
 struct PartUv {
     f32 u;
     f32 v;
@@ -41,16 +32,6 @@ struct PartUv {
 typedef struct PartWindowTable { u8 pad[0x34]; void *win[1]; } PartWindowTable;
 
 typedef struct PartWindowSet { u8 pad[4]; PartWindowTable *tbl; } PartWindowSet;
-
-typedef struct SpriteWindowView {
-    u8 pad0[8];
-    f32 x;
-    f32 y;
-    f32 w;
-    f32 h;
-} SpriteWindowView;
-
-struct FaceWindowView { u8 pad[0x2C]; int parts_entry; };
 
 extern "C" {
 
@@ -154,7 +135,7 @@ void TWindowSubSymbolChatPartsSet::set_pos(s16 prev, s16 next) {
 
 #pragma push
 #pragma fp_contract on
-#define o ((SpriteWindowView *)sprite)
+#define o ((SymbolChatSprite *)sprite)
 void TWindowSubSymbolChatPartsSet::set_part_sprite(void *sprite, s16 id, s32 a, s32 b) {
     const NJS_POINT2 *e;
     const NJS_POINT2 *size;
@@ -201,7 +182,7 @@ void TWindowSubSymbolChatPartsSet::apply_part_to_window(void *window_set_ptr, vo
     TWindowSubSymbolChatPartsSet::set_part_sprite(w, part->id, (s32)(f & 1), (s32)((f >> 1) & 1));
 }
 
-void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(PartSpriteWindow *help, PartSpriteWindow *extra_icon, PartSpriteWindow *shortcut_icon, u16 packed, s32 sel, s32 flip_u, s32 flip_v, s32 slot) {
+void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(SymbolChatSprite *help, SymbolChatSprite *extra_icon, SymbolChatSprite *shortcut_icon, u16 packed, s32 sel, s32 flip_u, s32 flip_v, s32 slot) {
     f32 u;
     f32 v;
     const PartUv *uv;
@@ -254,17 +235,17 @@ u16 *TWindowSubSymbolChatPartsSet::get_parts_entry(void *window, int sel) {
 }
 
 void fn_80248324(WindowLayoutEntries *entries, s32 packed, s32 cur) {
-    PartSpriteWindow **p = (PartSpriteWindow **)entries->items + cur;
+    SymbolChatSprite **p = (SymbolChatSprite **)entries->items + cur;
     setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(p[5], p[9], p[1], (u16)((u8)packed), (s32)((packed >> 8) & 7), (s32)((packed >> 11) & 1), (s32)((packed >> 12) & 1), cur);
 }
 }
 
-#define w ((FaceWindowView *)sprite)
+#define w ((SymbolChatSprite *)sprite)
 int set_symbol_chat_face_sprite(void *sprite, u8 b) {
     const NJS_POINT2 *e;
     e = &symbol_chat_face_uv_table[b & 3];
     set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(w), (f32)e->x, (f32)e->y);
-    return w->parts_entry = TWindowSubSymbolChatPartsSet::get_parts_entry((b >> 2) & 7);
+    return w->entry = TWindowSubSymbolChatPartsSet::get_parts_entry((b >> 2) & 7);
 }
 #undef w
 

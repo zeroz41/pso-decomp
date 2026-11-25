@@ -57,7 +57,7 @@ TShopArmorListWindow::TShopArmorListWindow(TObject *parent, TShopWindowBase *seq
     this->help_window = NULL;
     this->extra_window = NULL;
     this->cost_window = NULL;
-    this->pad_40 = 0;
+    this->unused_40 = 0;
     this->state = 0;
     this->last_cursor = 0;
     this->on_close = 0;

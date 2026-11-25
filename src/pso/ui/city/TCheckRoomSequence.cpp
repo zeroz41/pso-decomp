@@ -68,7 +68,7 @@ extern "C" {
 void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 n);
 void __ct__14BankItemRecordFv();
 s32 get_max_stack_size__9TItemDataFv(void *);
-s32 TCheckRoomSequence__sub_80210B34(TItemData *item, s32 amount, s32 slot);
+s32 add_to_bank_stack(TItemData *item, s32 amount, s32 slot);
 
 BankItemRecord *bank_item_records_by_slot[4];
 s32 bank_item_count_by_slot[4];
@@ -537,9 +537,9 @@ TCheckRoomSequence::~TCheckRoomSequence() {
     }
     close_extra_window();
     TCheckRoomSequence::slot_active_flags[get_split_screen_slot()] = 0;
-    if (pad_30 != 0) {
-        safe_free(reinterpret_cast<void *>(pad_30));
-        pad_30 = 0;
+    if (scratch_buffer != NULL) {
+        safe_free(scratch_buffer);
+        scratch_buffer = NULL;
     }
 }
 #pragma pop
@@ -557,7 +557,7 @@ TCheckRoomSequence::TCheckRoomSequence(TObject *parent, TObjPlayer *player) : TS
     menu_step = 0;
     set_state(0);
     TCheckRoomSequence::active_instance = (saddr)this;
-    pad_30 = 0;
+    scratch_buffer = NULL;
     TCheckRoomSequence::slot_active_flags[get_split_screen_slot()] = 1;
 }
 
@@ -655,7 +655,7 @@ s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot) {
 
 #pragma push
 #pragma optimization_level 1
-s32 TCheckRoomSequence__sub_80210B34(TItemData *item, s32 amount, s32 slot) {
+s32 add_to_bank_stack(TItemData *item, s32 amount, s32 slot) {
     BankItemRecord *recs = bank_item_records_by_slot[slot];
     s32 i;
     if (item->data1.data_u8[0] != 3) {
@@ -806,7 +806,7 @@ s32 TCheckRoomSequence::copy_item_record(int idx, void *data, int slot) {
 s32 store_item_in_bank(TItemData *item, s32 amount, s32 slot) {
     BankItemRecord *recs = bank_item_records_by_slot[slot];
     s32 i;
-    if (TCheckRoomSequence__sub_80210B34(item, amount, slot) != 0) {
+    if (add_to_bank_stack(item, amount, slot) != 0) {
         return 1;
     }
     if (bank_has_free_row(slot) == 0) {

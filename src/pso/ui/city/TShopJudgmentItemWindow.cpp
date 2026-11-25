@@ -46,9 +46,9 @@ const char *shop_judgment_item_window_class_name = "TShopJudgmentItemWindow";
 
 TShopJudgmentItemWindow::TShopJudgmentItemWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     m_name = shop_judgment_item_window_class_name;
-    this->pad_144 = 0;
+    this->unused_144 = 0;
     this->item_count = 0;
-    this->pad_150 = 0;
+    this->unused_150 = 0;
     this->player = player;
     this->item_list = NULL;
     this->yes_no_menu = NULL;

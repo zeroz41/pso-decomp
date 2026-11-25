@@ -31,7 +31,7 @@ void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter
 void THunterGuildSeqOffline::request_close(TShopWindowBase *) {
     if (THunterGuildSeqOffline::active_instance != NULL) {
         THunterGuildSeqOffline::active_instance->display_guild_message(6, 1);
-        THunterGuildSeqOffline::active_instance->unk_38 = 2;
+        THunterGuildSeqOffline::active_instance->exit_action = 2;
         THunterGuildSeqOffline::active_instance->set_state(5);
     }
 }
@@ -46,7 +46,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 choice_menu->close();
                 this->choice_menu = NULL;
                 this->display_guild_message(9, 1);
-                *(s32 *)&this->unk_38 = 1;
+                this->exit_action = 1;
                 if (quest_result_callbacks[2] != -1) {
                     quest_thread = TQuestThread::create_in_root(quest_result_callbacks[2]);
                 }
@@ -57,7 +57,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 choice_menu->close();
                 this->choice_menu = NULL;
                 this->display_guild_message(0xA, 1);
-                *(s32 *)&this->unk_38 = 0;
+                this->exit_action = 0;
                 this->set_state(5);
                 return;
             }
@@ -66,7 +66,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
             choice_menu->close();
             this->choice_menu = NULL;
             this->display_guild_message(0xA, 1);
-            *(s32 *)&this->unk_38 = 0;
+            this->exit_action = 0;
             this->set_state(5);
         }
     }
@@ -85,7 +85,7 @@ void THunterGuildSeqOffline::close_window() {
     if (is_decide_pressed() == 0 && is_cancel_pressed() == 0) {
         return;
     }
-    switch (unk_38) {
+    switch (exit_action) {
     case 0:
         break;
     case 1:
@@ -156,7 +156,7 @@ void THunterGuildSeqOffline::handle_window_input() {
     }
     if ((this->is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         this->display_guild_message(0xC, 1);
-        *(s32 *)&this->unk_38 = 1;
+        this->exit_action = 1;
         set_state(5);
     }
 }

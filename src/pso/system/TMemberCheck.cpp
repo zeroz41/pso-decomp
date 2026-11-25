@@ -22,15 +22,15 @@ void TMemberCheck::run_task() {
 }
 
 TMemberCheck::~TMemberCheck() {
-    if (m_1C != 0) {
-        ((TWindowBase *)m_1C)->close();
-        m_1C = 0;
+    if (member_window != 0) {
+        ((TWindowBase *)member_window)->close();
+        member_window = 0;
     }
 }
 TMemberCheck::TMemberCheck(TObject* parent) : TObject(parent) {
     m_name = member_check_name_ptr;
-    m_1C = 0;
-    memset(m_20, 0, 0x60);
+    member_window = 0;
+    memset(names, 0, 0x60);
     TMemberCheck__previous_member_count = TLobby::count_members();
     open_member_name_window();
 }

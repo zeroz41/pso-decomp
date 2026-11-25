@@ -25,7 +25,7 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     TWindowInputNumber *number_input;   // how many of a stacked tool to delete
     TWindowHelpItem *help_window;
     TItemData displayed_item_colored;   // the selected item
-    u8 pad_54;
+    u8 unused_54;
     u8 _pad55[0x3];
     s32 room_table_entry;
     s32 delete_count;

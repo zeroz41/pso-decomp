@@ -26,7 +26,7 @@ struct TWindowSubSymbolChat : public TObject {
     u8 selected_value;
     u8 _pad1D[0x1];
     s16 symbol_index;
-    uaddr m_20;
+    uaddr selected_list_index;
     u32 client_id;
     SymbolChatPreset *selected_preset;
     TWindowMainMenu *parent_menu;
@@ -49,7 +49,7 @@ struct TWindowSubSymbolChat : public TObject {
     static void send_selected_symbol_chat(s32 *preset_index);
     static s32 count_instance_empty_slots();
     void update_layout();
-    void update_symbol_chat_result();
+    static void update_symbol_chat_result(s32 index);
     static void play_symbol_sound(s32 sound_index);
     u8 *get_symbol_chat_data();
     void bswap_symbol_chat_packet();

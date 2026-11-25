@@ -35,16 +35,14 @@ public:
     TWindowKeyBoardBase *composer;
     TWindowKeyBoardSoft *softKeyboard;
     TWindowKeyBoardHard *hardKeyboard;
-    void* auxiliaryWindow;
-    void* symbolChatWindow;
-    void* wordSelectWindow;
+    class TWindowBase *auxiliaryWindow;
+    class TSymbolChatMenu *symbolChatWindow;
+    class TWindowDD *wordSelectWindow;
     void* result;
 public:
     void update();
     void handle_input();
     void handle_chat_input();
-    int forward_card_at_1c();
-    int get_subcard_field1c();
     void set_active_flag();
     void set_input_active();
     int is_mode_bit6();

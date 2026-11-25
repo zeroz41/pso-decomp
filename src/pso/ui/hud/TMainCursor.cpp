@@ -99,8 +99,6 @@ extern "C" {
 
 void draw_chunk_object(void);
 
-struct MarkerDrawStateView { char pad_0[0x4C]; char f_4C[1]; };
-
 s32 rotate_matrix_y(s32, s32);
 
 u8 get_cast_technique_level(void *, s32);
@@ -149,13 +147,6 @@ s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
 
 }
 
-struct ActionCursorView {
-    u8 pad0[0x24];
-    TMainCursor actions;
-    u8 pad8C[0x520 - 0x24 - sizeof(TMainCursor)];
-    ActionPaletteTag channel;
-};
-
 struct TLockOnCursor;
 
 struct TechniqueCursorParams { u8 pad0[8]; f32 reach; f32 apex_offset; u8 pad10[0x18 - 0x10]; s32 horizontal_angle; s32 vertical_angle; u8 pad20[2]; s8 cursor_type; };
@@ -165,7 +156,6 @@ struct WeaponRangeRecord { f32 reach; f32 apex_offset; s32 horizontal_angle; s32
 extern "C" {
 WeaponRangeRecord *get_weapon_range_record(void *, s32);
 extern f32 scratch_vec5[3];
-#define ACTION_CHANNEL_ADDR ((saddr)cur)
 #define APPLY_TECH_RANGE(t)                                          \
     cur->cone_apex_offset = (t)->apex_offset;                                           \
     cur->lock_range = (t)->reach + cur->cone_apex_offset;                                \
@@ -327,12 +317,11 @@ void TLockOnCursor::reset_and_spawn_cursors() {
 }
 
 void TLockOnCursor::run_task() {
-    saddr base = (saddr)this;
-    if (((TMainCursor *)(base + 0x520))->is_channel_active() != 0) {
-        TLockOnCursor__sub_8013EB8C((void *)(base + 0x520));
+    if (((TMainCursor *)&palette_override)->is_channel_active() != 0) {
+        TLockOnCursor__sub_8013EB8C(&palette_override);
         return;
     }
-    TLockOnCursor__sub_8013EB80((void *)(base + 0x520));
+    TLockOnCursor__sub_8013EB80(&palette_override);
 }
 
 #pragma push
@@ -376,7 +365,6 @@ void TLockOnCursor::render() {
 #pragma pop
 
 void TLockOnCursor::renderSecondaryCursor(u8 *body, s16 type, s32 action) {
-    const saddr base = (saddr)this;
     f32 offset[3];
     f32 y;
     s32 color_index;
@@ -395,14 +383,14 @@ void TLockOnCursor::renderSecondaryCursor(u8 *body, s16 type, s32 action) {
                 TParticleCtrl::begin_effect_render();
                 push_matrix();
                 translate_matrix(0, cursor_float_zero, y, cursor_float_zero);
-                save_model_draw_state((void *)(base + 0x48));
-                begin_constant_color_draw((void *)(base + 0x48), &target_cursor_color_table[5]);
+                save_model_draw_state(&marker);
+                begin_constant_color_draw(&marker, &target_cursor_color_table[5]);
                 TMainCursor::get_cursor_model();
                 draw_chunk_object();
-                begin_constant_color_draw((void *)(base + 0x48), &target_cursor_color_table[color_index]);
+                begin_constant_color_draw(&marker, &target_cursor_color_table[color_index]);
                 get_target_cursor_model();
                 draw_chunk_object();
-                restore_model_draw_state((void *)(base + 0x48));
+                restore_model_draw_state(&marker);
                 pop_matrix();
                 TParticleCtrl::end_effect_render();
                 pop_matrix();
@@ -551,7 +539,7 @@ void TLockOnCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id)
             APPLY_TECH_RANGE(tech)
             cur->set_max_targets(tech->cursor_type);
             VecCopy(&cur->origin, (const Vec *)(player + 0x2FC));
-            TMainCursor::set_display_flags((saddr)this, (saddr)player, ACTION_CHANNEL_ADDR);
+            TMainCursor::set_display_flags((saddr)this, (saddr)player, cur);
             break;
         case 9:
             tech = (TechniqueCursorParams *)calc_technique_parameters(0x11, 0xE, ((TObjBase *)player)->get_entity_id());
@@ -559,14 +547,14 @@ void TLockOnCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id)
             APPLY_TECH_RANGE(tech)
             cur->set_max_targets(tech->cursor_type);
             VecCopy(&cur->origin, (const Vec *)(player + 0x2FC));
-            TMainCursor::setup_flags((saddr)this, (saddr)player, ACTION_CHANNEL_ADDR);
+            TMainCursor::setup_flags((saddr)this, (saddr)player, cur);
             break;
         }
         break;
     case 2:
         wpn = get_weapon_range_record(TObjPlayer::get_equipped_weapon(player), id);
         activate_action_channel(cur);
-        TMainCursor::set_cursor_color((saddr)this, (saddr)player, ACTION_CHANNEL_ADDR);
+        TMainCursor::set_cursor_color((saddr)this, (saddr)player, cur);
         cur->set_body_exclude_mask(0);
         cur->set_actor_exclude_mask(0x40800);
         VecCopy(&cur->origin, (const Vec *)(player + 0x2FC));
@@ -598,7 +586,7 @@ void TLockOnCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id)
         case 8:
         case 9:
         case 18:
-            TMainCursor::set_cursor_color((saddr)this, (saddr)player, ACTION_CHANNEL_ADDR);
+            TMainCursor::set_cursor_color((saddr)this, (saddr)player, cur);
             cur->set_body_exclude_mask(0);
             cur->set_actor_exclude_mask(0x40800);
             VecCopy(&cur->origin, (const Vec *)(player + 0x2FC));
@@ -618,7 +606,7 @@ void TLockOnCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id)
         case 15:
         case 16:
             VecCopy(&cur->origin, (const Vec *)(player + 0x2FC));
-            TMainCursor::set_display_flags((saddr)this, (saddr)player, ACTION_CHANNEL_ADDR);
+            TMainCursor::set_display_flags((saddr)this, (saddr)player, cur);
             break;
         case 11:
         case 12:
@@ -635,7 +623,7 @@ void TLockOnCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id)
             break;
         case 17:
             VecCopy(&cur->origin, (const Vec *)(player + 0x2FC));
-            TMainCursor::setup_flags((saddr)this, (saddr)player, ACTION_CHANNEL_ADDR);
+            TMainCursor::setup_flags((saddr)this, (saddr)player, cur);
             break;
         }
         break;
@@ -671,36 +659,36 @@ void TLockOnCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id)
 }
 #pragma pop
 
-void TMainCursor::setup_flags(s32 unused, s32 player, saddr main_cursor) {
-    ((LockOnActionSlot *)main_cursor)->set_body_include_mask(0x2000);
-    ((LockOnActionSlot *)main_cursor)->set_body_exclude_mask(0x3C000);
-    ((LockOnActionSlot *)main_cursor)->set_actor_include_mask(0x800);
-    ((LockOnActionSlot *)main_cursor)->set_actor_exclude_mask(0xE0000000);
+void TMainCursor::setup_flags(s32 unused, s32 player, LockOnActionSlot *main_cursor) {
+    main_cursor->set_body_include_mask(0x2000);
+    main_cursor->set_body_exclude_mask(0x3C000);
+    main_cursor->set_actor_include_mask(0x800);
+    main_cursor->set_actor_exclude_mask(0xE0000000);
 }
 
-void TMainCursor::set_display_flags(s32 unused, saddr player, saddr main_cursor) {
-    ((LockOnActionSlot *)main_cursor)->set_body_include_mask(0x2000);
-    ((LockOnActionSlot *)main_cursor)->set_actor_include_mask(0x10000000);
-    ((LockOnActionSlot *)main_cursor)->set_actor_exclude_mask(0xE0000800);
+void TMainCursor::set_display_flags(s32 unused, saddr player, LockOnActionSlot *main_cursor) {
+    main_cursor->set_body_include_mask(0x2000);
+    main_cursor->set_actor_include_mask(0x10000000);
+    main_cursor->set_actor_exclude_mask(0xE0000800);
     if (TTecCtrl::is_technique_ready() == 0) {
-        ((LockOnActionSlot *)main_cursor)->set_body_exclude_mask(0x30000);
+        main_cursor->set_body_exclude_mask(0x30000);
         return;
     }
     if (((TObjPlayer *)player)->get_pk_team() == 1) {
-        ((LockOnActionSlot *)main_cursor)->set_body_exclude_mask(0x40030000);
+        main_cursor->set_body_exclude_mask(0x40030000);
         return;
     }
-    ((LockOnActionSlot *)main_cursor)->set_body_exclude_mask(0x40030000);
+    main_cursor->set_body_exclude_mask(0x40030000);
 }
 
-void TMainCursor::set_cursor_color(s32 unused, saddr player, saddr main_cursor) {
+void TMainCursor::set_cursor_color(s32 unused, saddr player, LockOnActionSlot *main_cursor) {
     if (((TObjPlayer *)player)->pk_state.is_enabled() != 0) {
-        ((LockOnActionSlot *)main_cursor)->set_body_include_mask(0xA000);
-        ((LockOnActionSlot *)main_cursor)->set_actor_include_mask(0x70000000);
+        main_cursor->set_body_include_mask(0xA000);
+        main_cursor->set_actor_include_mask(0x70000000);
         return;
     }
-    ((LockOnActionSlot *)main_cursor)->set_body_include_mask(0x8000);
-    ((LockOnActionSlot *)main_cursor)->set_actor_include_mask(0x60000000);
+    main_cursor->set_body_include_mask(0x8000);
+    main_cursor->set_actor_include_mask(0x60000000);
 }
 
 s32 TMainCursor::get_action_cursor_priority(void *unused, saddr player, s32 index) {
@@ -743,7 +731,6 @@ void TLockOnCursor::set_cursor_pos(u16 part, s32 index) {
 }
 
 void TLockOnCursor::bind_action_channels() {
-    ActionCursorView *cursor = (ActionCursorView *)this;
     s32 i;
     saddr player;
     u8 type;
@@ -762,9 +749,9 @@ void TLockOnCursor::bind_action_channels() {
     if (player == 0) {
         return;
     }
-    if (((TObjPlayer *)player)->is_controls_locked() != 0 && ((TMainCursor *)(&cursor->channel))->is_channel_active() != 0) {
-        type = get_action_palette_tag_mode(&cursor->channel);
-        enabled = get_action_palette_tag_slot(&cursor->channel);
+    if (((TObjPlayer *)player)->is_controls_locked() != 0 && ((TMainCursor *)&palette_override)->is_channel_active() != 0) {
+        type = get_action_palette_tag_mode(&palette_override);
+        enabled = get_action_palette_tag_slot(&palette_override);
         if (is_current_area_item_enabled() == 0) {
             if (TObjPlayer::is_key_machine_ready() == 0) {
                 return;
@@ -814,20 +801,24 @@ LockOnActionSlot *TLockOnCursor::find_by_pos(s16 mode, s16 kind) {
     return NULL;
 }
 
-void TLockOnCursor::init_slots() { { saddr i; for (i = 0; i < 4; i++) { init_slot((saddr)((void*)i)); } } }
+void TLockOnCursor::init_slots() {
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        init_slot(i);
+    }
+}
 
 void TLockOnCursor::reset_slots() {
-    s32 base_addr = (saddr)this;
     s32 i;
-    saddr slot_base;
+    LockOnActionSlot *slot;
 
-    slot_base = base_addr + 0x5C;
+    slot = action_slots;
     i = 0;
     do {
-        clear_target_cursor_list(&((LockOnActionSlot *)slot_base)->target_list);
-        ((LockOnActionSlot *)slot_base)->target_records.clear();
+        clear_target_cursor_list(&slot->target_list);
+        slot->target_records.clear();
         i += 1;
-        slot_base += 0x124;
+        slot++;
     } while (i < 4);
 }
 
@@ -943,7 +934,7 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
             }
         }
         if (TTecCtrl::is_technique_ready() != 0 && (c->flags & 0xA000) &&
-            ((u32 (*)(u8 *, void *, void *))init_target_vector__11TMainCursorFiii)((u8 *)entry, &c->center, &owner->bodies->center) != 0) {
+            is_target_obstructed(entry, &c->center, &owner->bodies->center) != NULL) {
             continue;
         }
         if (target_in_xz_cone(&entry->origin, &c->center, &owner->position, yaw,
@@ -979,8 +970,8 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
 
 extern "C" {
 
-void init_target_vector__11TMainCursorFiii(s32 unused, saddr to, saddr from) {
-    csnVector((const Vec *)from, (const Vec *)to, 0x28A0);
+CsnHit *is_target_obstructed(LockOnActionSlot *unused, const Vec *to, const Vec *from) {
+    return csnVector(from, to, 0x28A0);
 }
 
 }
@@ -1070,7 +1061,7 @@ s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
 #pragma pop
 
 
-s32 try_move__11TMainCursorFiii(saddr cursor, u8 type, u8 enabled) {
+s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled) {
     if (((TMainCursor *)cursor)->is_channel_active() != 0) {
         return matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(cursor), type, enabled);
     }
@@ -1201,7 +1192,7 @@ void TMainCursor::render() {
         return;
     }
     TObjFish::set_global_param(&shared_effect_texture_list);
-    render__11TMainCursorFPv(this);
+    render_marker(this);
 }
 
 #pragma push
@@ -1305,7 +1296,7 @@ s32 TMainCursor::check_can_pickup() {
 }
 
 
-void render__11TMainCursorFPv(TMainCursor *main_cursor) {
+void render_marker(TMainCursor *main_cursor) {
     s32 offset;
     f32 y;
 
@@ -1339,22 +1330,20 @@ void render__11TMainCursorFPv(TMainCursor *main_cursor) {
 
 
 void TMainCursor::update_chair() {
-    struct MarkerDrawStateView *cursor = (struct MarkerDrawStateView *)this;
-    save_model_draw_state(cursor->f_4C);
-    begin_constant_color_draw_self((NJS_ARGB *)(cursor->f_4C));
+    save_model_draw_state(&marker);
+    begin_constant_color_draw_self((NJS_ARGB *)&marker);
     get_lock_on_cursor_model();
     draw_chunk_object();
-    restore_model_draw_state(cursor->f_4C);
+    restore_model_draw_state(&marker);
 }
 
 void TMainCursor::update_photon_chair() {
-    saddr cursor = (saddr)this;
     if (marker.get_alpha() > 0.99999f) {
-        save_model_draw_state((void*)(cursor + 0x4C));
-        begin_constant_color_draw_argb((void *)(cursor + 0x4C), 1.0f, cursor_float_zero, cursor_float_zero, cursor_float_zero);
+        save_model_draw_state(&marker);
+        begin_constant_color_draw_argb(&marker, 1.0f, cursor_float_zero, cursor_float_zero, cursor_float_zero);
         TMainCursor::get_cursor_model();
         draw_chunk_object();
-        restore_model_draw_state((void*)(cursor + 0x4C));
+        restore_model_draw_state(&marker);
     }
 }
 

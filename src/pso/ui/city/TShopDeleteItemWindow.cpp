@@ -41,7 +41,7 @@ TShopDeleteItemWindow::TShopDeleteItemWindow(TObject *parent, TShopWindowBase *o
     state = 0;
     this->player = player;
     delete_count = 1;
-    pad_54 = 0;
+    unused_54 = 0;
     last_cursor = 0;
     on_close = 0;
     on_empty = 0;

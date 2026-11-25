@@ -38,7 +38,7 @@ TShopGetItemWindow::TShopGetItemWindow(TObject *parent, TShopWindowBase *owner, 
     state = 0;
     this->player = player;
     withdraw_count = 1;
-    pad_4C = 0;
+    unused_4C = 0;
     last_cursor = 0;
     on_close = 0;
     on_empty = 0;

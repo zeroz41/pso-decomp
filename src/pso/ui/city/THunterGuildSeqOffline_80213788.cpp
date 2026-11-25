@@ -34,10 +34,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_8022350C.h"
 
-#define CAT2(a,b) a##b
-#define CAT(a,b) CAT2(a,b)
-#define PADV virtual void CAT(f,__LINE__)();
-
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState quest_list_online_dat_download_state;
 OnlineQuestDownloadState quest_list_online_bin_download_state;
@@ -71,7 +67,7 @@ THunterGuildSeqOnline_Server::THunterGuildSeqOnline_Server(TObject *parent, TObj
     exit_action = 0;
     choice_menu = NULL;
     quest_thread = NULL;
-    pad_40 = 1;
+    message_pending = 1;
     hunter_guild_online_server_instance_table[get_split_screen_slot()] = 1;
     hunter_guild_seq_online_server_instance = this;
 }
@@ -108,12 +104,12 @@ void THunterGuildSeqOnline_Server::update_state() {
     switch (state) {
     case 0: restore_player_state(); break;
     case 1: init_window(); break;
-    case 3: sub_802145F8(); break;
-    case 8: sub_80214058(); break;
+    case 3: handle_party_check(); break;
+    case 8: open_quest_list(); break;
     case 4: update_confirm_input(); break;
     case 5: update(); break;
     case 6: create_judgment_item_window(); break;
-    case 7: sub_80214254(); break;
+    case 7: handle_judgment_choice(); break;
     case 9: set_state(0xC); break;
     case 10: set_state(0xC); break;
     case 12: close_window(); break;
@@ -137,41 +133,41 @@ void THunterGuildSeqOnline_Server::init_window() {
         new TMemberCheck(this);
     }
     display_guild_message(1, 1);
-    pad_30 = 0;
+    check_step = 0;
     set_state(3);
 }
 
-void THunterGuildSeqOnline_Server::sub_802145F8() {
+void THunterGuildSeqOnline_Server::handle_party_check() {
     if (is_message_ready() != 0) {
         if (is_decide_pressed() != 0) {
-            pad_40 = 0;
+            message_pending = 0;
         }
-        if (pad_40 == 0) {
-            switch (pad_30) {
+        if (message_pending == 0) {
+            switch (check_step) {
             case 3:
                 break;
             case 0:
                 if (is_quest_active() != 0) {
-                    pad_30 = 2;
+                    check_step = 2;
                     return;
                 }
                 switch (THunterGuildSeqOffline::check_party_gathered()) {
                 case 1:
-                    pad_30 = 2;
+                    check_step = 2;
                     return;
                 case 0:
                     display_guild_message(0x11, 1);
-                    pad_30 = 1;
+                    check_step = 1;
                     return;
                 case 2:
                     display_guild_message(0xD, 1);
-                    pad_30 = 1;
+                    check_step = 1;
                     return;
                 }
                 break;
             case 1:
                 if (THunterGuildSeqOffline::check_party_gathered() == 1) {
-                    pad_30 = 2;
+                    check_step = 2;
                 }
                 if (is_cancel_pressed() != 0) {
                     display_guild_message(0x10, 1);
@@ -202,7 +198,7 @@ void THunterGuildSeqOnline_Server::sub_802145F8() {
                     return;
                 }
                 display_guild_message(4, 1);
-                pad_30 = 0;
+                check_step = 0;
                 set_state(8);
                 break;
             }
@@ -248,7 +244,7 @@ void THunterGuildSeqOnline_Server::create_judgment_item_window() {
     }
 }
 
-void THunterGuildSeqOnline_Server::sub_80214254() {
+void THunterGuildSeqOnline_Server::handle_judgment_choice() {
     if ((choice_menu != NULL) && (choice_menu->is_decided() != 0)) {
         switch (choice_menu->get_selected_value()) {
         case 0:
@@ -309,7 +305,7 @@ void THunterGuildSeqOnline_Server::close_window() {
     }
 }
 
-void THunterGuildSeqOnline_Server::sub_80214058() {
+void THunterGuildSeqOnline_Server::open_quest_list() {
     TQuestListOnline *l;
     l = static_cast<TQuestListOnline *>(TObject::operator new(sizeof(TQuestListOnline)));
     if (l != 0) {
@@ -375,7 +371,7 @@ THunterGuildSeqOnline_Client::THunterGuildSeqOnline_Client(TObject *parent, TObj
     state = 0;
     this->player = player;
     counter_camera = NULL;
-    pad_30 = 0;
+    check_step = 0;
     exit_action = 0;
     choice_menu = NULL;
     quest_thread = NULL;
@@ -412,8 +408,8 @@ void THunterGuildSeqOffline::clear_slots() {
 void THunterGuildSeqOnline_Client::update_state() {
     switch (state) {
     case 0: restore_player_state(); break;
-    case 1: sub_80213B18(); break;
-    case 2: sub_80213980(); break;
+    case 1: open_greeting(); break;
+    case 2: resolve_active_quest_result(); break;
     case 11: handle_close(); break;
     case 4: update_close_shop(); break;
     case 5: update_shop_close(); break;
@@ -430,21 +426,21 @@ void THunterGuildSeqOnline_Client::restore_player_state() {
     set_state(1);
 }
 
-void THunterGuildSeqOnline_Client::sub_80213B18() {
+void THunterGuildSeqOnline_Client::open_greeting() {
     NJS_POINT2 window_size;
     window_size.x = 332.0f;
     window_size.y = 80.0f;
     create_message_window(get_window_layout_position(0x2C), (saddr)&window_size);
     display_guild_message(1, 1);
-    pad_30 = 0;
+    check_step = 0;
     set_state(2);
 }
 
-void THunterGuildSeqOnline_Client::sub_80213980() {
+void THunterGuildSeqOnline_Client::resolve_active_quest_result() {
     if (is_message_ready() == 0) {
         return;
     }
-    switch (pad_30) {
+    switch (check_step) {
     case 1:
         return;
     case 0:

@@ -45,7 +45,7 @@ const char *shop_equipment_sell_window_class_name = "TShopEquipmentSellWindow";
 
 TShopEquipmentSellWindow::TShopEquipmentSellWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player, s32 title_text) : TShopWindowBase(parent) {
     this->m_name = shop_equipment_sell_window_class_name;
-    this->pad_370 = 0;
+    this->unused_370 = 0;
     this->entry_count = 0;
     this->title_text = title_text;
     this->state = 0;

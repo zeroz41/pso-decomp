@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/chat/SymbolChatSprite.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/SoundEffect.h"
@@ -49,8 +50,6 @@ struct FaceCursorContext {
 
 struct FaceCursorQuad { f32 x, y, x2, y2, u, v, u2, v2; };
 
-
-struct FacePartEntry { u8 pad[0x2c]; s32 parts_entry; };
 
 extern "C" {
 
@@ -170,8 +169,8 @@ void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *window_base, u8 *ctx) {
 void TWindowSubSymbolChatFaceType::update_parts_entries() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        FacePartEntry *e = (FacePartEntry *)get_array_entry(i);
-        e->parts_entry = TWindowSubSymbolChatPartsSet::get_parts_entry(*selection);
+        SymbolChatSprite *e = (SymbolChatSprite *)get_array_entry(i);
+        e->entry = TWindowSubSymbolChatPartsSet::get_parts_entry(*selection);
     }
 }
 

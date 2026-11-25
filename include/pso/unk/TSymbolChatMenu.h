@@ -12,6 +12,9 @@ public:
     virtual ~TSymbolChatMenu();
     virtual void render();
     virtual void run_task();
+    int get_selected_index();
+    int is_decided();
+    int is_cancelled();
     TWindowSubComCardList *preset_list;  // the 12 symbol chat presets (inferred)
     TWindowChatSymbol *chat_symbol;  // the symbol chat editor it opens (inferred)
 };

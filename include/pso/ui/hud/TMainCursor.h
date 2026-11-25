@@ -43,6 +43,8 @@ public:
     int is_same_target(CursorTarget *other);
 };
 
+class LockOnActionSlot;
+
 struct TMainCursor : public TObject {
     TMainCursor(TObject *parent, u16 entity_id, s32 target_id, s32 action_palette, s32 active, u16 client_id, f32 size);
     virtual ~TMainCursor();
@@ -67,9 +69,9 @@ struct TMainCursor : public TObject {
     virtual void render();
     virtual void run_task();
     static s32 get_action_cursor_priority(void *unused, saddr player, s32 index);
-    static void set_cursor_color(s32 unused, saddr player, saddr main_cursor);
-    static void set_display_flags(s32 unused, saddr player, saddr main_cursor);
-    static void setup_flags(s32 unused, s32 player, saddr main_cursor);
+    static void set_cursor_color(s32 unused, saddr player, LockOnActionSlot *main_cursor);
+    static void set_display_flags(s32 unused, saddr player, LockOnActionSlot *main_cursor);
+    static void setup_flags(s32 unused, s32 player, LockOnActionSlot *main_cursor);
     s32 is_channel_active();
     static s32 check_visible(TPlyDispConfigSmth *palette, TObjPlayer *player, s16 type, s32 enabled);
     static NJS_OBJECT *get_cursor_model();

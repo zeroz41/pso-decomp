@@ -64,9 +64,9 @@ TShopEquipmentListWindow::TShopEquipmentListWindow(TObject *parent, TShopWindowB
     this->confirm_menu = NULL;
     this->item_list = NULL;
     this->help_window = NULL;
-    this->pad_38 = NULL;
+    this->unused_window = NULL;
     this->cost_window = NULL;
-    this->pad_40 = 0;
+    this->unused_40 = 0;
     this->last_cursor = 0;
     this->can_equip = 0;
     this->state = 0;
@@ -79,7 +79,7 @@ TShopEquipmentListWindow::~TShopEquipmentListWindow() {
     if (item_list != NULL) { item_list->close(); item_list = NULL; }
     if (confirm_menu != NULL) { confirm_menu->close(); confirm_menu = NULL; }
     if (help_window != NULL) { help_window->close(); help_window = NULL; }
-    if (pad_38 != NULL) { pad_38->close(); pad_38 = NULL; }
+    if (unused_window != NULL) { unused_window->close(); unused_window = NULL; }
     if (cost_window != NULL) { cost_window->close(); cost_window = NULL; }
 }
 

@@ -39,12 +39,12 @@ int TWindowSubSymbolChatHelp__sub_80247EE8(int);
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChatHelp::draw_color_palette(void *context) {
+void TWindowSubSymbolChatHelp::draw_color_palette(WindowDrawContext *context) {
     TexturedQuad q;
     f32 scale;
     s32 i;
     s32 t;
-    scale = (-1.0f) / ((0.1794f) + ((WindowDrawContext *)context)->depth);
+    scale = (-1.0f) / ((0.1794f) + context->depth);
     q.u0 = (0.9375f);
     q.v0 = (0.15234375f);
     q.u1 = (0.9921875f);
@@ -56,11 +56,11 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *context) {
             t = TWindowSubSymbolChatHelp__sub_80247EE8(i);
         }
         set_constant_material_color(t);
-        q.x0 = (112.0f + ((WindowDrawContext *)context)->inner_x) + 12.0f * (f32)i;
-        q.y0 = 50.0f + ((WindowDrawContext *)context)->inner_y;
+        q.x0 = (112.0f + context->inner_x) + 12.0f * (f32)i;
+        q.y0 = 50.0f + context->inner_y;
         q.x1 = 14.0f + q.x0;
         q.y1 = 14.0f + q.y0;
-        ((WindowDrawContext *)context)->transform_quad((TexturedQuad *)&q);
+        context->transform_quad((TexturedQuad *)&q);
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
     if (feature_flags & 2) {
@@ -68,22 +68,22 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *context) {
     } else {
         set_constant_material_color(0xFF808080);
     }
-    q.x0 = 12.0f * (f32)*color_selection + (112.0f + ((WindowDrawContext *)context)->inner_x);
-    q.y0 = 50.0f + ((WindowDrawContext *)context)->inner_y;
+    q.x0 = 12.0f * (f32)*color_selection + (112.0f + context->inner_x);
+    q.y0 = 50.0f + context->inner_y;
     q.x1 = 14.0f + q.x0;
     q.y1 = 14.0f + q.y0;
     q.u0 = (0.87109375f);
     q.v0 = (0.15234375f);
     q.u1 = (0.92578125f);
     q.v1 = (0.20703125f);
-    ((WindowDrawContext *)context)->transform_quad((TexturedQuad *)&q);
+    context->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubSymbolChatHelp::draw_help_entry(void *context, s32 row, s32 color) {
+void TWindowSubSymbolChatHelp::draw_help_entry(WindowDrawContext *context, s32 row, s32 color) {
     TexturedQuad q;
     const HelpEntryUv *uv;
     f32 scale;
@@ -93,17 +93,17 @@ void TWindowSubSymbolChatHelp::draw_help_entry(void *context, s32 row, s32 color
         idx = 6;
     }
     uv = &symbol_chat_help_entry_uv_table[idx];
-    scale = (-1.0f) / ((0.1794f) + ((WindowDrawContext *)context)->depth);
+    scale = (-1.0f) / ((0.1794f) + context->depth);
     set_constant_material_color(color);
-    q.x0 = (16.0f) + ((WindowDrawContext *)context)->inner_x;
-    q.y0 = (16.0f) * (f32)row + ((WindowDrawContext *)context)->inner_y;
+    q.x0 = (16.0f) + context->inner_x;
+    q.y0 = (16.0f) * (f32)row + context->inner_y;
     q.x1 = 231.0f + q.x0;
     q.y1 = (16.0f) + q.y0;
     q.u0 = uv->u / 256.0f;
     q.v0 = uv->v / 256.0f;
     q.u1 = (231.0f + uv->u) / 256.0f;
     q.v1 = ((16.0f) + uv->v) / 256.0f;
-    ((WindowDrawContext *)context)->transform_quad((TexturedQuad *)&q);
+    context->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop
@@ -125,58 +125,58 @@ void TWindowSubSymbolChatHelp::draw_help_icon(WindowDrawContext *context, s32 ro
     q.v0 = uv->v / 256.0f;
     q.u1 = ((16.0f) + uv->u) / 256.0f;
     q.v1 = ((16.0f) + uv->v) / 256.0f;
-    ((WindowDrawContext *)context)->transform_quad((TexturedQuad *)&q);
+    context->transform_quad((TexturedQuad *)&q);
     draw_textured_quad_at_depth((f32 *)&q, scale);
 }
 #pragma pop
 
-void TWindowSubSymbolChatHelp::draw_help_entries(void *context) {
-    if ((s32) *(s32 *)((s8 *)context + 0x30) >= 0) {
+void TWindowSubSymbolChatHelp::draw_help_entries(WindowDrawContext *context) {
+    if (context->open_tick >= 0) {
         begin_screen_draw(1);
         TObjFish::set_global_param(hud_texlist);
         set_draw_texture_and_color(2, -1);
-        draw_help_icon((WindowDrawContext *)(context), 0, -1);
-        draw_help_icon((WindowDrawContext *)(context), 1, -1);
+        draw_help_icon(context, 0, -1);
+        draw_help_icon(context, 1, -1);
         if (this->feature_flags & 1) {
-            draw_help_icon((WindowDrawContext *)(context), 2, -1);
+            draw_help_icon(context, 2, -1);
         } else {
-            draw_help_icon((WindowDrawContext *)(context), 2, (s32)(0xFF808080));
+            draw_help_icon(context, 2, (s32)(0xFF808080));
         }
         if (this->feature_flags & 2) {
-            draw_help_icon((WindowDrawContext *)(context), 3, -1);
+            draw_help_icon(context, 3, -1);
         } else {
-            draw_help_icon((WindowDrawContext *)(context), 3, (s32)(0xFF808080));
+            draw_help_icon(context, 3, (s32)(0xFF808080));
         }
         if (this->feature_flags & 4) {
-            draw_help_icon((WindowDrawContext *)(context), 4, -1);
-            draw_help_icon((WindowDrawContext *)(context), 5, -1);
+            draw_help_icon(context, 4, -1);
+            draw_help_icon(context, 5, -1);
         } else {
-            draw_help_icon((WindowDrawContext *)(context), 4, (s32)(0xFF808080));
-            draw_help_icon((WindowDrawContext *)(context), 5, (s32)(0xFF808080));
+            draw_help_icon(context, 4, (s32)(0xFF808080));
+            draw_help_icon(context, 5, (s32)(0xFF808080));
         }
-        draw_color_palette((WindowDrawContext *)(context));
+        draw_color_palette(context);
         TWindowSubStatusDisp::get_player();
         begin_screen_draw(1);
         TWindowSubStatusDisp::begin_render();
         set_draw_texture_and_color(1, -1);
-        draw_help_entry((WindowDrawContext *)(context), 0, -1);
-        draw_help_entry((WindowDrawContext *)(context), 1, -1);
+        draw_help_entry(context, 0, -1);
+        draw_help_entry(context, 1, -1);
         if (this->feature_flags & 1) {
-            draw_help_entry((WindowDrawContext *)(context), 2, -1);
+            draw_help_entry(context, 2, -1);
         } else {
-            draw_help_entry((WindowDrawContext *)(context), 2, (s32)(0xFF808080));
+            draw_help_entry(context, 2, (s32)(0xFF808080));
         }
         if (this->feature_flags & 2) {
-            draw_help_entry((WindowDrawContext *)(context), 3, -1);
+            draw_help_entry(context, 3, -1);
         } else {
-            draw_help_entry((WindowDrawContext *)(context), 3, (s32)(0xFF808080));
+            draw_help_entry(context, 3, (s32)(0xFF808080));
         }
         if (this->feature_flags & 4) {
-            draw_help_entry((WindowDrawContext *)(context), 4, -1);
-            draw_help_entry((WindowDrawContext *)(context), 5, -1);
+            draw_help_entry(context, 4, -1);
+            draw_help_entry(context, 5, -1);
         } else {
-            draw_help_entry((WindowDrawContext *)(context), 4, (s32)(0xFF808080));
-            draw_help_entry((WindowDrawContext *)(context), 5, (s32)(0xFF808080));
+            draw_help_entry(context, 4, (s32)(0xFF808080));
+            draw_help_entry(context, 5, (s32)(0xFF808080));
         }
         TWindowSubStatusDisp::get_player();
     }
@@ -223,7 +223,7 @@ void TWindowSubSymbolChatHelp::render() {
     saddr entry;
     entry = reinterpret_cast<saddr>(draw_default_entry());
     ((TWindowBase *)self_addr)->draw_window_frame((void *)entry);
-    draw_help_entries((void *)entry);
+    draw_help_entries((WindowDrawContext *)entry);
 }
 
 void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); update_window(); }

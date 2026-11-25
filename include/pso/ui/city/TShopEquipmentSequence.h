@@ -24,6 +24,8 @@ struct TShopEquipmentSequence : public TShopSequence {
     TObject *counter_camera; // 0x34: set_service_counter_camera
     void open_sell_window();
     void open_buy_window();
+    static void exit(TShopWindowBase *window);
+    static void init_window(TShopWindowBase *window);
 };
 
 LAYOUT_ASSERT(TShopEquipmentSequence_size, sizeof(TShopEquipmentSequence) == 0x38);
@@ -34,8 +36,6 @@ extern "C" {
 void TShopEquipmentSequence__sub_8021D65C(void);
 void TShopEquipmentSequence__sub_8021DBE0(void);
 void TShopEquipmentSequence__sub_8021DC08(void);
-void exit__22TShopEquipmentSequenceFPv(TShopWindowBase *window);
-void init_window__22TShopEquipmentSequenceFPv(TShopWindowBase *window);
 }
 
 #endif

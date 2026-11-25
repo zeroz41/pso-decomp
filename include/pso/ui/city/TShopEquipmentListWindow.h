@@ -22,9 +22,9 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     TWindowMenu *confirm_menu;          // buy / cancel, then the equip yes / no
     TWindowMenuIconLine *item_list;     // the shop's stock
     TWindowHelpItem *help_window;       // describes the item under the cursor
-    TWindowBase *pad_38;
+    TWindowBase *unused_window;
     TWindowCost *cost_window;           // the price of the item under the cursor
-    u32 pad_40;
+    u32 unused_40;
     s32 item_count;
     s32 last_cursor;                    // the cursor the help and cost windows show
     s32 can_equip;                      // check_purchase_eligibility: the player can equip it

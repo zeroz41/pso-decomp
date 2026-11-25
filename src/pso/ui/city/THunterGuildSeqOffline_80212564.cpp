@@ -2,34 +2,17 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 
-struct GuildSeqCallbackBase { char pad[0x18]; };
-struct GuildSeqCallbackView : GuildSeqCallbackBase {
-    virtual int m0();
-    virtual int m1();
-    virtual int m2();
-    virtual int m3();
-    virtual int m4();
-    virtual int m5();
-    virtual int m6();
-    virtual int m7(int, int);
-    virtual int m8();
-};
-
-
-
-
 void THunterGuildSeqOffline::set_state_4(TShopWindowBase *) {
     if (THunterGuildSeqOffline::active_instance != NULL) {
         THunterGuildSeqOffline::active_instance->display_guild_message(6, 1);
-        THunterGuildSeqOffline::active_instance->unk_38 = 4;
+        THunterGuildSeqOffline::active_instance->exit_action = 4;
         THunterGuildSeqOffline::active_instance->set_state(5);
     }
 }
 
 void THunterGuildSeqOffline::handle_click() {
-    GuildSeqCallbackView *o = (GuildSeqCallbackView *)this;
-    if (o->m8() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
-        o->m7(0x19, 1);
+    if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
+        display_guild_message(0x19, 1);
         set_state(4);
     }
 }

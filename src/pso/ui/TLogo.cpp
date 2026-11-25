@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/system/task/TObject.h"
@@ -29,13 +31,11 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/unk/text_800FA464.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 
 extern "C" {
-s32 set_fallback_main_phase(int);
-void request_main_phase(s32 phase);
-s32 switch_to_fallback_main_phase();
-s8 func_801A5E54__Fv();
 
 const char *logo_class_name = "TLogo";
 
@@ -52,15 +52,13 @@ void (*logo_load_callback_table[18])(void) = {
     load_adx_logo_texture, free_adx_logo_texture,
 };
 }
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
 extern int sega_logo_done_flag;
 
 // This unit was built with deferred inlining (-inline off,deferred): the compiler emits
 // function bodies in reverse source order, so the functions below are listed from the
 // highest address down to the lowest.
 
-int TLogo__sub_8013F808(void) {  return logo_clear_flag; }
+int is_logo_clear_flag_set(void) {  return logo_clear_flag; }
 
 s32 TLogo__sub_8013F800(void* p) { return *(s32*)((char*)p + 0x48); }
 
@@ -68,7 +66,7 @@ int is_sega_logo_done(TAdSEGAlogo *logo) {  return sega_logo_done_flag; }
 
 int is_logo_exit_requested(TAdSoniclogo *logo) {  return TLogo::exit_requested_flag; }
 
-int TLogo__sub_8013F7E8(TAdADXlogo *logo) {  return TAdADXlogo::done; }
+int is_adx_logo_done(TAdADXlogo *logo) {  return TAdADXlogo::done; }
 
 void TLogo::init_logo_scene() {
     s32 i;
@@ -143,7 +141,7 @@ void TLogo::run_task() {
     switch (state) {
     case 0:
         if (TLogo::check_progressive_ready() != 0) {
-            if (((s32)TLogo__sub_8013F808()) != 0) {
+            if (((s32)is_logo_clear_flag_set()) != 0) {
                 vi_config = new TAdVIConfigGC(this);
                 state = 1U;
                 return;
@@ -190,7 +188,7 @@ void TLogo::run_task() {
         }
         break;
     case 6:
-        if (TLogo__sub_8013F7E8(adx_logo) != 0) {
+        if (is_adx_logo_done(adx_logo) != 0) {
             adx_logo->queue_destruction();
             adx_logo = NULL;
             state = 7U;

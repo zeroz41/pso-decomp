@@ -67,7 +67,7 @@ struct TCheckRoomSequence : public TShopSequence {
     static s32 copy_item_record(int index, void *data, int slot);
 
     s32 menu_step;                  // 0x2C: 0 builds the choice menu, 1 waits on it
-    u32 pad_30;                     // 0x30: freed with safe_free
+    void *scratch_buffer;           // 0x30: freed with safe_free
     TWindowInputNumber *number_input; // 0x34: the meseta amount input
     TWindowBase *meseta_window;     // 0x38: create_meseta_window
     TWindowMenu *choice_menu;       // 0x3C: the room menu

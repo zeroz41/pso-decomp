@@ -3350,7 +3350,7 @@ LockOnActionSlot *TObjPlayer::find_palette_lockon_slot() {
     }
     cursor = (saddr)lock_on_cursor->action_slots;
     for (i = 0; i < 4; i++) {
-        if (try_move__11TMainCursorFiii(cursor, get_player_action_palette_mode(&action_palette_state),
+        if (is_active_channel_matching(cursor, get_player_action_palette_mode(&action_palette_state),
                 get_player_action_palette_slot(&action_palette_state)) != 0) {
             return (LockOnActionSlot *)cursor;
         }

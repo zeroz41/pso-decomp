@@ -70,7 +70,7 @@ TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *seque
     this->help_window = 0;
     this->status_window = 0;
     this->cost_window = 0;
-    this->pad_44 = 0;
+    this->unused_44 = 0;
     this->purchase_count = 0;
     this->state = 0;
     this->on_close = 0;

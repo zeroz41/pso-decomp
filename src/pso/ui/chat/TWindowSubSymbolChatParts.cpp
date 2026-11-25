@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/ui/chat/SymbolChatSprite.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/window/WindowScrollBar.h"
@@ -50,19 +51,6 @@ WindowDescriptor symbol_chat_parts_window_layout = {
 };
 
 
-
-struct SymbolChatSprite {
-    u8 pad0[0x8];
-    f32 x;
-    f32 y;
-    f32 w;
-    f32 h;
-    f32 f18;
-    u8 pad1c[0x2C - 0x1C];
-    s32 f2C;
-    u8 pad30[0x34 - 0x30];
-    s32 f34;
-};
 
 extern "C" {
 void draw_selection_corners(void *, void *, f32, f32);
@@ -174,39 +162,39 @@ void TWindowSubSymbolChatParts::sub_80285054() {
     u8 col_now;
     u8 row;
     u8 row_now;
-    u8 row_count;
+    u8 rows;
     ControllerInputContext *input;
     input = &controller_input_state.controllers[0];
     if ((test_buttons_press_or_repeat(input, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x54100, 0U, 0, 0);
         if ((test_buttons_press_or_repeat(input, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
-            *(u8 *)((s8 *)(this) + 0x72) = (u8) (*(u8 *)((s8 *)(this) + 0x72) + 1);
+            cursor_col = (u8) (cursor_col + 1);
         }
         if ((test_buttons_press_or_repeat(input, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
-            *(u8 *)((s8 *)(this) + 0x72) = (u8) (*(u8 *)((s8 *)(this) + 0x72) - 1);
+            cursor_col = (u8) (cursor_col - 1);
         }
-        col = *(u8 *)((s8 *)(this) + 0x72);
+        col = cursor_col;
         if ((s8) col < 0) {
-            *(u8 *)((s8 *)(this) + 0x72) = (col + 4);
+            cursor_col = (col + 4);
         }
-        col_now = *(u8 *)((s8 *)(this) + 0x72);
+        col_now = cursor_col;
         if ((s8) col_now >= 4) {
-            *(u8 *)((s8 *)(this) + 0x72) = (col_now - 4);
+            cursor_col = (col_now - 4);
         }
         if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-            *(u8 *)((s8 *)(this) + 0x73) = (u8) (*(u8 *)((s8 *)(this) + 0x73) - 1);
+            cursor_row = (u8) (cursor_row - 1);
         }
         if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-            *(u8 *)((s8 *)(this) + 0x73) = (u8) (*(u8 *)((s8 *)(this) + 0x73) + 1);
+            cursor_row = (u8) (cursor_row + 1);
         }
-        row = *(u8 *)((s8 *)(this) + 0x73);
+        row = cursor_row;
         if ((s8) row < 0) {
-            *(u8 *)((s8 *)(this) + 0x73) = (u8) (row + *(u8 *)((s8 *)(this) + 0x74));
+            cursor_row = (u8) (row + *(u8 *)&row_count);
         }
-        row_now = *(u8 *)((s8 *)(this) + 0x73);
-        row_count = *(u8 *)((s8 *)(this) + 0x74);
-        if ((s8) row_now >= (s8) row_count) {
-            *(u8 *)((s8 *)(this) + 0x73) = (u8) (row_now - row_count);
+        row_now = cursor_row;
+        rows = *(u8 *)&row_count;
+        if ((s8) row_now >= (s8) rows) {
+            cursor_row = (u8) (row_now - rows);
         }
     }
 }
@@ -242,14 +230,14 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     e1 = (SymbolChatSprite *)get_array_entry(1);
     e2 = (SymbolChatSprite *)get_array_entry(2);
     e0 = (SymbolChatSprite *)get_array_entry(0);
-    e1->f34 = 10;
-    e1->f2C = -1;
-    e0->f2C = -1;
+    e1->kind = 10;
+    e1->entry = -1;
+    e0->entry = -1;
     e0->w = 32.0f;
     e0->h = 32.0f;
     set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e0), 185.0f, 22.0f);
-    e0->f34 = 0;
-    e0->f18 = 0.5f;
+    e0->kind = 0;
+    e0->unk_18 = 0.5f;
     ((TWindowSubStatusDisp *)e0)->clear_visible_flag();
     slot = chat->parts;
     n = TWindowSubSymbolChat::calc_remaining_slots();
@@ -268,7 +256,7 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
         }
     }
     i -= n;
-    e0->f34 = 10;
+    e0->kind = 10;
     for (; i < 4; i++) {
         v = chat->facial_parts[i];
         if ((u8)v != 0xFF) {
@@ -396,7 +384,7 @@ void TWindowSubSymbolChatParts::init_help(s32 *help_value) {
     *(u16 *)e2 |= 2;
     set_sprite_dimensions(reinterpret_cast<WindowSpritePart *>(e0), 32.0f, 32.0f);
     set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e0), 185.0f, 22.0f);
-    e0->f34 = 0;
+    e0->kind = 0;
     item_count = 0x44;
     update_row_count();
     view_mode = 0;
@@ -424,14 +412,14 @@ void TWindowSubSymbolChatParts::render() {
 }
 
 void TWindowSubSymbolChatParts::run_task() {
-    u8 *pad;
+    ControllerInputContext *pad;
 
     if (!(window_flags & 2)) {
         open_tick = 0x01000000;
     }
     if (sub_80283974() == 0) {
         sub_80285054();
-        pad = ((u8 *)&controller_input_state) + 0x20;
+        pad = &controller_input_state.controllers[0];
         if (test_pressed_buttons_packed(pad, 4) != 0 || (s32)test_controller_flag_4c_color(&(&controller_input_state)->keyboard, 4) != 0) {
             handle_add();
         }

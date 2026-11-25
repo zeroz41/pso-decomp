@@ -57,7 +57,7 @@ void THunterGuildWarning::close_windows() {
 }
 
 // Opens the warning message windows for the local or remote players.
-void THunterGuildWarning::sub_80211774(void *) {
+void THunterGuildWarning::open_warning_windows(void *) {
     f32 size[2] = {322.0f, 120.0f};
     f32 scale[2] = {1.0f, 1.0f};
     int text;
@@ -110,7 +110,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     }
 }
 
-void THunterGuildWarning__sub_802119CC(THunterGuildWarning *warning) {
+void clear_windows(THunterGuildWarning *warning) {
     s32 i;
     for (i = 0; i < 4; i++) warning->windows[i] = NULL;
 }
@@ -137,8 +137,8 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *initial_mode) : 
     m_name = hunter_guild_warning_name;
     mode = (saddr)initial_mode;
     timer = 90;
-    THunterGuildWarning__sub_802119CC(this);
-    sub_80211774((void *)mode);
+    clear_windows(this);
+    open_warning_windows((void *)mode);
     THunterGuildWarning::instance = this;
 }
 
@@ -265,7 +265,7 @@ s32 get_online_client_instance(s32);
 s32 get_online_server_instance(s32);
 s32 get_offline_instance(s32);
 extern s32 lbl_805D55C0;
-s32 TLobby__sub_80211D58(s32 client_id) {
+s32 is_in_hunter_guild(s32 client_id) {
     s32 kind;
     s32 player;
     if (get_main_phase() == 14) {

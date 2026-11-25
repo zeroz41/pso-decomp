@@ -5,7 +5,7 @@
 
 struct TMainCursor;
 extern "C" {
-void render__11TMainCursorFPv(TMainCursor *main_cursor);
+void render_marker(TMainCursor *main_cursor);
 }
 
 

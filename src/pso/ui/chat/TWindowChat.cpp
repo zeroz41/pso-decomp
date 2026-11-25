@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowSubShortCut.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/TSymbolChatMenu.h"
+#include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
 
@@ -37,7 +38,6 @@ int get_chat_shortcut(s32 index);
 saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
-int TWindowChat__sub_80247DAC(void* p);
     extern int chat_help_color_table[];
 int TWindowSubSymbolChatHelp__sub_80247EE8(int a0);
 s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
@@ -52,21 +52,19 @@ s32 TWindowCtrl__sub_8024701C(TWindowChat *w) {
 
 s32 TWindowChat::sub_80247080() {
     s32 *preset_index;
-    u8 *symbolChatWindow;
-    symbolChatWindow = (u8 *)this->symbolChatWindow;
-    if (symbolChatWindow == NULL) {
+    if (this->symbolChatWindow == NULL) {
         return 0;
     }
-    if (TWindowChat__sub_80247DAC(symbolChatWindow) != 0) {
+    if (this->symbolChatWindow->is_cancelled() != 0) {
         this->set_input_active();
         return 1;
     }
-    if (((TWindowChat *)(this->symbolChatWindow))->get_subcard_field1c() == 0) {
+    if (this->symbolChatWindow->is_decided() == 0) {
         return 0;
     }
     this->set_active_flag();
     preset_index = (s32 *)((saddr)this->result + 4);
-    *preset_index = ((TWindowChat *)(this->symbolChatWindow))->forward_card_at_1c();
+    *preset_index = this->symbolChatWindow->get_selected_index();
     if (this->flags & 0x80) {
         TWindowChat::open_symbol_chat((s32 *)preset_index)->update_selected_symbol();
     }
@@ -75,12 +73,12 @@ s32 TWindowChat::sub_80247080() {
 
 s32 TWindowChat::sub_80247128() {
     s32 mode_code;
-    uaddr word_window;
-    word_window = (uaddr)this->wordSelectWindow;
-    if (word_window == 0U) {
+    TWindowDD *word_window;
+    word_window = this->wordSelectWindow;
+    if (word_window == NULL) {
         return 0;
     }
-    mode_code = ((TWindowDD *)word_window)->get_mode_code();
+    mode_code = word_window->get_mode_code();
     if (mode_code == 0) {
         return 0;
     }
@@ -201,15 +199,15 @@ void TWindowChat::handle_dpad_shortcuts() {
 void TWindowChat::close_all_children() {
     hardKeyboard->sub_8025EC04();
     if (symbolChatWindow != NULL) {
-        static_cast<TObject *>(symbolChatWindow)->queue_destruction();
+        symbolChatWindow->queue_destruction();
         symbolChatWindow = NULL;
     }
     if (wordSelectWindow != NULL) {
-        static_cast<TObject *>(wordSelectWindow)->queue_destruction();
+        wordSelectWindow->queue_destruction();
         wordSelectWindow = NULL;
     }
     if (auxiliaryWindow != NULL) {
-        static_cast<TWindowBase *>(auxiliaryWindow)->close();
+        auxiliaryWindow->close();
         auxiliaryWindow = NULL;
     }
     if (softKeyboard != NULL) {
@@ -377,15 +375,15 @@ TWindowChat::~TWindowChat() {
         }
     }
     if ((u32)symbolChatWindow != 0U) {
-        ((TObject *)this->symbolChatWindow)->queue_destruction();
+        this->symbolChatWindow->queue_destruction();
         symbolChatWindow = NULL;
     }
-    if ((u32)wordSelectWindow != 0U) {
-        ((TObject *)this->wordSelectWindow)->queue_destruction();
+    if (wordSelectWindow != NULL) {
+        this->wordSelectWindow->queue_destruction();
         wordSelectWindow = NULL;
     }
-    if ((u32)auxiliaryWindow != 0U) {
-        ((TWindowBase *)this->auxiliaryWindow)->close();
+    if (auxiliaryWindow != NULL) {
+        this->auxiliaryWindow->close();
         auxiliaryWindow = NULL;
     }
     if ((u32)softKeyboard != 0U) {
@@ -426,11 +424,11 @@ s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard) {
     return static_cast<s32>(keyboard->m_68) > 0;
 }
 
-int TWindowChat::forward_card_at_1c() { return ((TWindowMenu *)(*(void**)((char*)this + 0x1c)))->get_selected_value(); }
+int TSymbolChatMenu::get_selected_index() { return preset_list->get_selected_value(); }
 
-int TWindowChat::get_subcard_field1c() { return ((TWindowMenu *)(*(void**)((char*)this + 0x1c)))->is_decided(); }
+int TSymbolChatMenu::is_decided() { return preset_list->is_decided(); }
 
-int TWindowChat__sub_80247DAC(void* p) { return ((TWindowMenu *)(*(void**)((char*)p + 0x1c)))->is_cancelled(); }
+int TSymbolChatMenu::is_cancelled() { return preset_list->is_cancelled(); }
 
 void TWindowChat::set_active_flag() { this->flags |= 0x10; }
 

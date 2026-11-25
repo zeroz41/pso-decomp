@@ -57,10 +57,10 @@ ShopService TShopGenerator__service_dispatch_table[7] = {
      TShopEquipmentGearSequence::create_instance, get_equipment_gear_shop_window_slot},
     {"ITEM STORE", TShopItemTecSequence__sub_80220560, TShopItemTecSequence__sub_80220538,
      create_shop_item_tec_sequence, get_item_technique_shop_slot},
-    // TLobby::handle_main_phase and TLobby__sub_80211D58 still carry recovered s32 prototypes; the table
+    // TLobby::handle_main_phase and is_in_hunter_guild still carry recovered s32 prototypes; the table
     // proves create(void *) / int(int) (follow-up: retype them with their callers).
     {"HUNTER GUILD", TLobby::update_guild_or_quest_phase, update_hunter_guild_phase,
-     (void *(*)(void *))TLobby::handle_main_phase, (int (*)(int))TLobby__sub_80211D58},
+     (void *(*)(void *))TLobby::handle_main_phase, (int (*)(int))is_in_hunter_guild},
     {"CHECK ROOM", TCheckRoomSequence::reset_slots, TCheckRoomSequence::reset_slot_state,
      TCheckRoomSequence::create, get_check_room_slot_active_flag},
     {"JUDGMENT", TJudgmentSequence__sub_80216058, TJudgmentSequence__sub_80216030,

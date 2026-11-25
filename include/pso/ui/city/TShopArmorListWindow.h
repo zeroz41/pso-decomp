@@ -25,7 +25,7 @@ struct TShopArmorListWindow : public TShopWindowBase {
     TWindowHelpItem *help_window;
     TWindowBase *extra_window;  // never opened here; the destructor closes it
     TWindowCost *cost_window;   // price of the selected item
-    u32 pad_40;
+    u32 unused_40;
     s32 item_count;           // rows of stock in use
     s32 last_cursor;          // the row the help window shows
     TItemData stock[16];      // the counter's items; data2 holds the price

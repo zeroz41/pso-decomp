@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
+#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/unk/text_800FA464.h"
+#include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/unk/TScreenFadeOut.h"
@@ -72,15 +75,9 @@ extern "C" {
 extern void *character_select_scene_resource_callbacks[];
 
 s32 start_memcard_read(s32, void *, u32, s32);
-
-
-s8 func_801A5E54__Fv();
 }
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
 extern "C" {
 s32 run_load_callback_table(void *, int);
-s32 reset_controller_input_state();
 s32 __ct__15TWindowCtrlMainFv(u32);
 
 extern u8 lobby_rule_settings[];
@@ -442,7 +439,7 @@ void TCharSaveSequence::init_warps() {
     menu->update_layout_height(289.0f);
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_8033B264_lbl_804EF728_size, sizeof(CharacterSelectCallbackTable) == 0x198);
+LAYOUT_ASSERT(CharacterSelectCallbackTable_size, sizeof(CharacterSelectCallbackTable) == 0x198);
 
 #pragma pop
 
@@ -452,10 +449,13 @@ LAYOUT_ASSERT(RecoveredGlobal_8033B264_lbl_804EF728_size, sizeof(CharacterSelect
 
 typedef void (TCharSaveSequence::*Handler)();
 
+// The two serial number generator seeds; the rest of the 0x10 bytes is not used here.
 struct ChrSelectSerialSeeds {
-    s32 value;
-    u8 remaining[0xC];
+    s32 seed_a;
+    s32 seed_b;
+    u8 remaining[0x8];
 };
+LAYOUT_ASSERT(ChrSelectSerialSeeds_size, sizeof(ChrSelectSerialSeeds) == 0x10);
 
 
 extern ChrSelectSerialSeeds chr_select_serial_seeds;
@@ -520,10 +520,9 @@ TCharSaveSequence::TCharSaveSequence() : TObject(tl_01) {
     stop_pad_rumble();
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_8033B9C4_lbl_80513910_size, sizeof(ChrSelectSerialSeeds) == 0x10);
 void seed_character_select_serial_rng(s32 seed) {
-    *(s32 *)((s8 *)&chr_select_serial_seeds.value + 4) = seed;
-    *(s32 *)((s8 *)&chr_select_serial_seeds.value + 0) = seed;
+    chr_select_serial_seeds.seed_b = seed;
+    chr_select_serial_seeds.seed_a = seed;
 }
 
 #pragma pop
