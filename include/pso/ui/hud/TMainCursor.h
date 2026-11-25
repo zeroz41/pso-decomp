@@ -10,6 +10,7 @@
 struct NJS_OBJECT;
 class LockOnActionSlot;
 struct TObjPlayer;
+class TPlyDispConfigSmth;
 class LockOnNearestTarget;
 
 // TMainCursor +0x24: the client id of the player whose lock-on cursor made the cursor.
@@ -21,6 +22,7 @@ public:
     ~CursorOwner();
     void set_client_id(u16 id);
     u16 get_client_id();
+    TObjPlayer *get_player();
 };
 
 // TMainCursor +0x60; LockOnSelection holds two.
@@ -73,11 +75,11 @@ struct TMainCursor : public TObject {
     static void set_display_flags(s32 arg0, saddr player, saddr main_cursor);
     static void setup_flags(s32 arg0, s32 player, saddr main_cursor);
     s32 is_channel_active();
-    static s32 check_visible(void *slots, void *player, s16 type, s32 enabled);
+    static s32 check_visible(TPlyDispConfigSmth *palette, TObjPlayer *player, s16 type, s32 enabled);
     saddr get_index();
     void set_type(s32 v);
     static NJS_OBJECT *get_cursor_model();
-    saddr check_field_24();
+    TObjPlayer *get_owner_player();
     void update_target_sub();
     u16 get_client_id();
     int test_flag_2_at_20();
@@ -97,7 +99,6 @@ struct TMainCursor : public TObject {
     void set_color(s32 v);
     void set_field_0c(s32 v);
     void set_flags(s32 v);
-    static s32 find_action_slot_for_target(void *slots, void *player, s16 type, s32 enabled);
     void refresh_target_marker();
     void update_chair();
     void validate_target();
@@ -108,7 +109,6 @@ struct TMainCursor : public TObject {
     void update_cursor_pair();
     s32 test_button(s32 arg1, u16 arg2);
     void set_flag_bit(s32 arg1, u16 arg2);
-    static s32 find_action_slot(saddr arg0, void *arg1, s16 type, s32 enabled, s32 arg4);
     s32 check_can_pickup();
     void setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id);
     static s32 try_add_target_candidate(LockOnActionSlot *entry, void *candidate, TObjPlayer *owner, LockOnNearestTarget *best);

@@ -1,56 +1,39 @@
 #include "types.h"
-#include "pso/ui/hud/TMainCursor_8013DF5C.h"
-#include "pso/player/TObjPlayer_801D84A8.h"
-#include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TPlyDispConfig.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801D84A8.h"
+#include "pso/ui/hud/TLockOnCursor.h"
+#include "pso/ui/window/ActionPaletteTag.h"
 
-extern "C" {
-
-
-s32 TMainCursor::find_action_slot(saddr arg0, void *arg1, s16 type, s32 enabled, s32 arg4) {
-    saddr first_tag;
+s32 TPlyDispConfigSmth::find_action_slot(TObjPlayer *player, s16 type, s32 enabled, s32 row) {
+    ActionPaletteTag *forced;
     s32 slot;
-    saddr tag;
-    u32 bank_base;
+    ActionPaletteTag *tag;
 
-    if (arg1 != NULL) {
-        bank_base = *(u32 *)((s8 *)arg1 + 0x424);
-        if (bank_base != 0U) {
-            first_tag = bank_base + 0x520;
-            if (TObjPlayer__sub_801D84F0((void *)first_tag) != 0) {
-                if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(first_tag)) == 1) {
-                    if (type == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(first_tag))) {
-                        return 0;
-                    }
-                    goto block_8;
-                }
-                if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(first_tag), (u8) type, (u8) enabled) != 0) {
+    if (player != NULL && player->lock_on_cursor != NULL) {
+        forced = &player->lock_on_cursor->palette_override;
+        if (TObjPlayer__sub_801D84F0(forced) != 0) {
+            if (get_action_palette_tag_mode(forced) == 1) {
+                if (type == get_action_palette_tag_mode(forced)) {
                     return 0;
                 }
-                goto block_8;
+            } else if (matches_type_and_enabled(forced, type, enabled) != 0) {
+                return 0;
             }
         }
     }
-block_8:
-    tag = (saddr)((TPlyDispConfigSmth *)arg0)->get_row(arg4);
+    tag = get_row(row);
     slot = 0;
-loop_9:
-    if (get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(tag)) == 1) {
-        if (type == (s32) get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(tag))) {
+    do {
+        if (get_action_palette_tag_mode(tag) == 1) {
+            if (type == get_action_palette_tag_mode(tag)) {
+                return slot;
+            }
+        } else if (matches_type_and_enabled(tag, type, enabled) != 0) {
             return slot;
         }
-        goto block_14;
-    }
-    if (matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(tag), (u8) type, (u8) enabled) != 0) {
-        return slot;
-    }
-block_14:
-    slot += 1;
-    tag += 4;
-    if (slot >= 4) {
-        return -1;
-    }
-    goto loop_9;
-}
-
+        slot++;
+        tag++;
+    } while (slot < 4);
+    return -1;
 }

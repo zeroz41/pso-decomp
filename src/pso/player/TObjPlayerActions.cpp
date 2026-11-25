@@ -463,9 +463,8 @@ f32 get_action_rate_entry(Obj_801D2640 *p);
 void* TObjPlayer__sub_801D28A0(void* p, void* a1);
 void TObjPlayer__sub_801D28DC(void* p);
 u8 * copy_6x4c_hit_by_enemy_packet__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
-int is_alt_photon_blast_bank_empty__10TObjPlayerFPv(void* p);
+int is_alt_photon_blast_bank_empty__10TObjPlayerFPv(TPlyDispConfig *palettes, s32 bank);
 u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1);
-int is_pb_palette_bank_empty(void*);
 u8 get_cast_technique_level(void *techs, s16 tech);
 s32 set_technique_level_entry(void *, s32, u8);
 }
@@ -6174,7 +6173,7 @@ f32 PhotonBlastGauge::get_dist() { return complete_threshold; }
 
 PhotonBlastRequest *PhotonBlastRegistry::get_element(s32 index) { return &slots[index]; }
 
-int is_alt_photon_blast_bank_empty__10TObjPlayerFPv(void* p) { return is_pb_palette_bank_empty((char*)p + 0x24); }
+int is_alt_photon_blast_bank_empty__10TObjPlayerFPv(TPlyDispConfig *palettes, s32 bank) { return palettes->m_smth1.is_bank_empty(bank); }
 
 void TObjPlayer::bswap_u16_pair_list() {
     Obj_801D2B2C *arg0 = (Obj_801D2B2C *)this;

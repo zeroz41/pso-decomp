@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/player/TPlyGuildCardTag.h"
 
+class TObjPlayer;
+
 // One action palette: the bank it shows and the guild-card tags of its two
 // rows of slots.
 class TPlyDispConfigSmth {
@@ -27,6 +29,14 @@ public:
     u16 get_current_tag_slot(s32 index);
     u16 get_tag_mode(s32 row, s32 index);
     u16 get_current_tag_mode(s32 index);
+    // The slot (0-3) of the given row whose tag shows the action `type` (mode 1 tags match their mode,
+    // the others their type and enabled flag), or -1; the player's lock-on palette override, when
+    // active, is checked first and counts as slot 0.
+    s32 find_action_slot(TObjPlayer *player, s16 type, s32 enabled, s32 row);
+    // find_action_slot on the row of the bank shown.
+    s32 find_action_slot_for_target(TObjPlayer *player, s16 type, s32 enabled);
+    // Whether every tag of the given row (bank) is mode 0.
+    int is_bank_empty(s32 bank);
 public:
     u32 bank;  // the bank shown: 0 or 1
     gc_tag m_tags[4];
