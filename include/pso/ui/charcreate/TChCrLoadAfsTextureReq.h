@@ -18,7 +18,7 @@ LAYOUT_ASSERT(TChCrLoadAfsTextureReqArgs_size, sizeof(TChCrLoadAfsTextureReqArgs
 struct TChCrLoadAfsTextureReq : public TObject {
     static const char *name;
     static s32 active_load_count;
-    TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *textures, s32 *arg3, s32 arg4);
+    TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *textures, s32 *completion_flags, s32 display_index);
     TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsTextureReqArgs *args);
     virtual ~TChCrLoadAfsTextureReq();
     virtual void run_task();
@@ -36,14 +36,14 @@ struct TChCrLoadAfsTextureReq : public TObject {
     s32 m_28;
     s32 state;
     NJS_TEXLIST *textures;
-    s32 *m_34;
+    s32 *completion_flags;
     uaddr buffers[8];
     s32 count;
     s32 index;
     AdxfHandle *load_handle;
-    s32 m_64;
-    s32 m_68;
-    s32 m_6c;
+    s32 lifetime_remaining;
+    s32 slot_claimed;
+    s32 completion_mask;
     s32 m_70;
     u8 m_74[8][0x24];
 };
