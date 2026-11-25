@@ -81,7 +81,9 @@ extern "C" {
 QuestDownloadItemNode *build_item_list__22TQuestVmDownLoadServerFlP12Hdr_803EA384(s32 arg0, Hdr_803EA384 *arg1);
 void TQuestVmDownLoadServer__sub_803EADD4(QuestDownloadSlot *slot, s32 mode);
 s32 convert_quest_text_u8_to_u16(u16 *, const u8 *, int);
+}
 s32 write_entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u16 *arg3);
+extern "C" {
 s32 store_name_record(char *, QuestDownloadRequest *, s32);
 extern s32 lbl_805D7900;
 s32 TQuestVmDownLoadServer__sub_803EEF2C(QuestDownloadRequest *req);
@@ -138,7 +140,9 @@ s32 TQuestVmDownLoadServer__sub_803EED9C(u32 index);
 s32 TQuestVmDownLoadServer__sub_803F06B8(const char *name, s16 len, QuestDownloadQueryResult *out);
 void set_quest_text_run_attr(u16 *arg0, s32 arg1, s32 arg2);
 QuestDownloadSegment *TQuestVmDownLoadServer__sub_803E9A74(s32, s32, u8, u8);
+}
 QuestDownloadEntryNode *alloc_quest_entry_node(void);
+extern "C" {
 QuestDownloadEntryNode *TQuestVmDownLoadServer__sub_803E9FFC(s32 start, s32 end, const QuestDownloadItemNode *t);
 }
 QuestDownloadTextNode *alloc_quest_text_node(void);

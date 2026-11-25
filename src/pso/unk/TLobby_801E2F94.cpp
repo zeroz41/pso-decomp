@@ -144,12 +144,9 @@ void set_screen_center(f32 x, f32 y) {
     camera_viewport_center_y = y;
 }
 
-extern "C" {
 void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
 void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { select_texture_by_surface_id(id); draw_screen_textured_strip((ScreenTexturedVertex *)this, a1, a3); }
-
-}
 
 struct Ctrl_801E352C {
     u8 pad[4];
@@ -355,9 +352,9 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
 
     pos = 0;
     p = (u8 *)(file + *offset);
-    move_data((void *)((&tag)), (const void *)(p), 4);
+    move_data(((&tag)), (const void *)(p), 4);
     TLobby__sub_801E3CF0((u32 *)&tag);
-    move_data((void *)((&size)), (const void *)(p + 4), 4);
+    move_data(((&size)), (const void *)(p + 4), 4);
     TLobby__sub_801E3CF0(&size);
     p += 8;
     *offset += 8;
@@ -411,7 +408,7 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
     if (size_out != 0) {
         *size_out = size;
     }
-    move_data((void *)(buf), (const void *)(p), size);
+    move_data((buf), (const void *)(p), size);
     DCFlushRange(buf, size);
     p += size;
     *offset += size;
@@ -420,17 +417,17 @@ bad:
     *type = 0x2A2A2A2A;
     return 0;
 next:
-    move_data((void *)((&tag)), (const void *)(p), 4);
+    move_data(((&tag)), (const void *)(p), 4);
     TLobby__sub_801E3CF0((u32 *)&tag);
     *offset += 4;
     tag = bswap32_value(tag);
     if (tag == 0x504F4630) {
-        move_data((void *)((&size)), (const void *)(p + 4), 4);
+        move_data(((&size)), (const void *)(p + 4), 4);
         TLobby__sub_801E3CF0(&size);
         p += 8;
         *offset += 4;
         while (size != 0) {
-            move_data((void *)((&b0)), (const void *)(p), 1);
+            move_data(((&b0)), (const void *)(p), 1);
             p++;
             *offset += 1;
             size--;
@@ -441,18 +438,18 @@ next:
                 off = b0 & 0x3F;
                 break;
             case 0x80:
-                move_data((void *)((&b1)), (const void *)(p), 1);
+                move_data(((&b1)), (const void *)(p), 1);
                 p++;
                 size--;
                 *offset += 1;
                 off = ((b0 << 8) & 0x3F00) | b1;
                 break;
             case 0xC0:
-                move_data((void *)((&b1)), (const void *)(p), 1);
+                move_data(((&b1)), (const void *)(p), 1);
                 size--;
-                move_data((void *)((&b2)), (const void *)(p + 1), 1);
+                move_data(((&b2)), (const void *)(p + 1), 1);
                 size--;
-                move_data((void *)((&b3)), (const void *)(p + 2), 1);
+                move_data(((&b3)), (const void *)(p + 2), 1);
                 p += 3;
                 size--;
                 *offset += 3;

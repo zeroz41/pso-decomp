@@ -15,11 +15,9 @@ struct DebugTextRecord {
     char *text;
 };
 
-extern "C" {
 // Sets up the debug text buffer: record_count records at records, the text pool of pool_size bytes after them;
 // 16-pixel glyphs, white text.
 void init_debug_text_buffer(DebugTextRecord *records, s32 record_count, s32 pool_size);
-}
 
 // Queues text for render_debug_text at position (x << 16 | y in glyph cells, see pack_debug_text_position),
 // copying it into the text pool.
@@ -48,10 +46,8 @@ f32 vec3_dot(const struct Vec *a, const struct Vec *b);
 f32 vec3_cross(const struct Vec *a, const struct Vec *b, struct Vec *out);
 }
 void rotate_matrix_zyx(MtxP matrix, s32 x, s32 y, s32 z);
-extern "C" {
 // Inverts matrix in place; NULL inverts the current matrix.
 void invert_matrix_in_place(MtxP matrix);
-}
 extern "C" {
 // vsprintf into a 128-byte buffer queued as debug text at pos.
 void debug_printf_at(s32 pos, const char *format, ...);

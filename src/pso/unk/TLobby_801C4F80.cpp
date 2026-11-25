@@ -16,11 +16,7 @@ s32 PlayerSubObjectSlots::get_score() { return score; }
 void DamageStatSlot::set_normal_weight(f32 v) { normal_weight = v; }
 void DamageStatSlot::set_bonus_weight(f32 v) { bonus_weight = v; }
 
-extern "C" {
-
 void TLobby::send_set_battle_mode_data() { bswap_set_battle_mode_data(); send_subcommand((u8 *)this); }
 void TLobby::bswap_set_battle_mode_data() { ((G_ClientIDHeader *)this)->bswap(); { int i; for (i = 0; i < 4; i++) { bswap_32((u32 *)((char*)this + 0x8 + i * 4)); } } }
 void build_6x7D_set_battle_mode_data(void* p) { *(u8*)((char*)p + 0x0) = 125; *(u8*)((char*)p + 0x1) = 6; }
 void TLobby::send_6x7D_set_battle_mode_data() { bswap_set_battle_mode_data(); send_subcommand_to_leader(this); }
-
-}

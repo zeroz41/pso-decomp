@@ -42,8 +42,8 @@ static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3
 ItemAppraisalRules *item_appraisal_rules;
 s32 item_appraisal_favored_weapon;
 s32 item_appraisal_score;
-extern "C" {
 void shuffle_shop_pool_n_times(void *, s32);
+extern "C" {
 void push_shop_pool_entry(void *, u8);
 
 u8 TLobby::lookup_table_value(s8 x) {

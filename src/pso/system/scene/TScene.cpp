@@ -156,10 +156,7 @@ extern u8 lbl_8044A80C[];
 
 
 
-extern "C" {
-
-saddr get_player_name_copy_buffer();
-}
+s32 *get_player_name_copy_buffer(void);
 
 
 extern CsnGroup **scene_collision_data;

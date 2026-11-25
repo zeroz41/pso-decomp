@@ -834,7 +834,7 @@ void copy_bank_to_card_window(s32 slot) {
         if (w != 0) {
             w->meseta = bank_meseta_by_slot[slot];
             w->count = bank_item_count_by_slot[slot];
-            move_data((void *)((w->items)), (const void *)(bank_item_records_by_slot[slot]), 0x12C0);
+            move_data(((w->items)), (const void *)(bank_item_records_by_slot[slot]), 0x12C0);
         }
     }
 }
@@ -847,7 +847,7 @@ void copy_bank_from_card_window(s32 slot) {
     if (w != 0) {
         bank_meseta_by_slot[slot] = w->meseta;
         bank_item_count_by_slot[slot] = w->count;
-        move_data((void *)((bank_item_records_by_slot[slot])), (const void *)(w->items), 0x12C0);
+        move_data(((bank_item_records_by_slot[slot])), (const void *)(w->items), 0x12C0);
     }
 }
 #pragma pop

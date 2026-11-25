@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
 void mark_unequippable_items(TWindowSubEquipKind *window);
 void mark_unequippable_items(TWindowSubEquipKind *window) {
     u8 sp8[8];
@@ -41,6 +40,4 @@ void disable_pack_item_rows(void *qst_pack_select_window, s32 arg1) {
             *(u16 *)((s8 *)temp_r30 + 0) = (u16) (*(u16 *)((s8 *)temp_r30 + 0) | 0x80);
         }
     }
-}
-
 }

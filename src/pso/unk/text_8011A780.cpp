@@ -57,8 +57,8 @@ s32 *item_id_counter_table;
 void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request);
 extern "C" {
 s32 spawn_dropped_item_from_msg(void *, int);
-void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 }
+void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 
 u32 build_item_id(u16 drop_id_base) {
     u32 id;

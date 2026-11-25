@@ -99,6 +99,7 @@ extern "C" {
 asm void transform_point_by_current_matrix(const f32 *src, Vec *dst) {
 #include "orig_asm/pso/unk/text_803D96A8/transform_point_by_current_matrix.inc"
 }
+}
 
 void concat_quaternion_rotation(const f32 *quat) {
     Mtx34 mtx;
@@ -109,7 +110,6 @@ void concat_quaternion_rotation(const f32 *quat) {
     q.z = quat[3];
     PSMTXQuat(mtx, (const PSQuaternion *)&q);
     PSMTXConcat(*current_matrix, mtx, *current_matrix);
-}
 }
 
 void apply_quat_rotation(f32 farg0, f32 *xyz) {
@@ -123,11 +123,10 @@ void apply_quat_rotation(f32 farg0, f32 *xyz) {
     PSMTXConcat(*current_matrix, mtx, *current_matrix);
 }
 
-extern "C" {
-
 // {0.0f, 0.0f}: rotate_vector_by_current_matrix pairs the first with z so the translation column drops out
 // (name inferred). The original keeps these zeros in .sdata, which only an aggregate gets: a scalar zero goes to .sbss.
 static f32 rotation_zero[2] = {0.0f, 0.0f};
+extern "C" {
 
 asm void rotate_vector_by_current_matrix(const Vec *src, Vec *dst) {
 #include "orig_asm/pso/unk/text_803D96A8/rotate_vector_by_current_matrix.inc"
@@ -158,11 +157,11 @@ asm void scale_current_matrix(const f32 *v) {
 asm void post_translate_matrix(const f32 *v) {
 #include "orig_asm/pso/unk/text_803D96A8/post_translate_matrix.inc"
 }
+}
 
 void swap_gvrt_word(u32 *p) {
     u32 v = *p;
     *p = ((v & 0xFF000000) >> 24) | ((v & 0xFF0000) >> 8) | ((v & 0xFF00) << 8) | ((v & 0xFF) << 24);
-}
 }
 
 u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {

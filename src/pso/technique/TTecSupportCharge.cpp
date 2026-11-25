@@ -10,8 +10,8 @@
 #include "pso/system/task/TObject.h"
 extern "C" {
 __declspec(section ".data") u32 TObjLight__support_charge_effect_ids[2] = {0x1F4, 0x1F5};
-void stop_sound_request(s32 idx);
 }
+void stop_sound_request(s32 idx);
 
 void TTecSupportCharge::run_task() {
     ++age;

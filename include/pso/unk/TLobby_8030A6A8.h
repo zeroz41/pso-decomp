@@ -5,7 +5,7 @@
 
 extern "C" {
 s32 TLobby__sub_8030A770(void);
-s32 get_game_play_mode(void);
 }
+s32 get_game_play_mode(void);
 
 #endif

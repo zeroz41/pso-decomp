@@ -73,10 +73,10 @@ void process_async_file_reads(void) {
                 move_words(dst, async_file_read_sector_buffer, n / 4);
                 break;
             case 2:
-                copy_u16_array((u16 *)dst, (u16 *)async_file_read_sector_buffer, (s32)(n / 2));
+                copy_u16_array((u16 *)dst, (u16 *)async_file_read_sector_buffer, (n / 2));
                 break;
             default:
-                move_data(dst, async_file_read_sector_buffer, (u32)n);
+                move_data(dst, async_file_read_sector_buffer, n);
                 break;
             }
             TLobby::destroy_instance();

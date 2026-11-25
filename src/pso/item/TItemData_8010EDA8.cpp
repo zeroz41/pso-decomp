@@ -42,11 +42,8 @@ void TItemData::add_bonus(s16 amount) {
 void subtract_dfp(void *arg0, s16 arg1) {
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32) (*(s32 *)((s8 *)arg0 + 0x1C) - arg1);
 }
-extern "C" {
-
 void subtract_stat_ptr(s16 *arg0, s32 arg1) {
     *arg0 -= arg1;
-}
 }
 
 s16 MagStats::get_mind_level() {

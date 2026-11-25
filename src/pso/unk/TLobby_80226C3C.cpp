@@ -101,8 +101,6 @@ void set_music_streams_volume(s32 total) {
     }
     set_field_40_and_notify(adxt_players[1], var_r31);
 }
-extern "C" {
-
 void TLobby::release_bgm_resource() {
     if ((s32) bgm_stream_active != 0) {
         stop_audio_stream(adxt_players[1]);
@@ -110,10 +108,13 @@ void TLobby::release_bgm_resource() {
         TLobby::init_layout_positions();
     }
 }
+extern "C" {
 
 extern void *bgm_stream_buffers[];
 extern const char *bgm_stream_files[];
+}
 int get_music_base_gain(void);
+extern "C" {
 
 void TLoadCtrl__sub_80226DA0(s32 index) {
     if (index < 0 || index >= 4) {

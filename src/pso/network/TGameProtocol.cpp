@@ -71,7 +71,7 @@ extern "C" void handle_6x18_vol_opt2_boss_actions();
 void handle_6x32_medical_center_revive_all_players();
 void handle_6x34();
 void handle_6x54();
-extern "C" void handle_6x5F_drop_item();
+void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 void handle_6x64();
 void handle_6x65();
 void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);

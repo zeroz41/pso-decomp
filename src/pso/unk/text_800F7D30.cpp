@@ -3,8 +3,6 @@
 #include "pso/system/memory.h"
 #include "pso/system/prs.h"
 
-extern "C" {
-
 s32 prs_decompress_alloc(const void *src, void *dst, s32 size_limit) {
     s32 size;
     PrsDecoder *prs = new PrsDecoder;
@@ -15,6 +13,4 @@ s32 prs_decompress_alloc(const void *src, void *dst, s32 size_limit) {
         delete prs;
     }
     return size;
-}
-
 }

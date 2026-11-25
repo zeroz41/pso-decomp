@@ -34,8 +34,8 @@ static const NJS_POINT2 equip_list_window_size = {308.0f, 184.0f};
 static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 
 
+void mark_unequippable_items(TWindowSubEquipKind *window);
 extern "C" {
-s32 mark_unequippable_items(int);
 void fn_80255A38(TWindowHelpItem *item);
 }
 
@@ -155,7 +155,7 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
         ((TWindowMenuIconLine *)equip_kind_window)->refresh_mag_item_list(2);
         break;
     }
-    mark_unequippable_items(equip_kind_window);
+    mark_unequippable_items((TWindowSubEquipKind *)equip_kind_window);
     return equip_kind_window;
 }
 

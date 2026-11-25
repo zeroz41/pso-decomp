@@ -305,11 +305,13 @@ extern const GetBossWarpDestinationTable boss_warp_destination_table_b = { {
 s32 set_floor_map_selection(s32 floor, s32 area, s32 terrain, s32 entities);
 extern "C" {
 int selected_episode;
+}
 void randomize_adventure_maps(void);
+extern "C" {
 void TLobby__sub_80207BB0(void);
+}
 s32 get_game_play_mode();
 s32 get_floor_map_terrain(s32 floor);
-}
 s32 get_boss_warp_destination(void);
 saddr story_select_pending_state = -1;
 int story_select_current = -1;

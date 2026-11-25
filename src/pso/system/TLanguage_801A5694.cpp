@@ -8,7 +8,8 @@
 extern "C" {
 
 s32 draw_string__9TLanguageFPvPvl();
-s32 init_and_load_tlut(s32, u16, s16, u16 *);
+}
+void init_and_load_tlut(s32 tlut_name, s32 format, s32 entry_count, void *entries);
 
 void TLanguage::decode_font_data(void *arg0, void *arg1, s32 arg2, s32 tlut_name) {
     s32 n;
@@ -32,6 +33,4 @@ void TLanguage::decode_font_data(void *arg0, void *arg1, s32 arg2, s32 tlut_name
     DCStoreRange(*(u16 **)((s8 *)arg1 + 0), 0x40000);
     init_and_load_tlut(tlut_name, *(u16 *)((s8 *)arg1 + 4), *(s16 *)((s8 *)arg1 + 0xA), *(u16 **)((s8 *)arg1 + 0));
     GXDrawDone();
-}
-
 }

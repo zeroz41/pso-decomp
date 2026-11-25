@@ -2,11 +2,12 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDD_80346A84.h"
 
-extern "C" {
 void *load_encrypted_archive_data(const char *);
+extern "C" {
 
 extern s32 TWindowDD__word_select_lists;
 s32 window_dd_element_count;
+}
 
 saddr TWindowDD::get_element_ptr(s32 index) {
     if (index == -1) {
@@ -46,7 +47,6 @@ saddr TWindowDD::get_element_ptr(s32 index) {
             return TWindowDD__word_select_lists + 0x28;
         }
     }
-}
 }
 
 extern s32 TWindowDD__data_805D6E28;

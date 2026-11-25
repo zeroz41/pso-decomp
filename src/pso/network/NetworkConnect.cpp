@@ -139,10 +139,14 @@ struct LoadNetworkConfigsInfo {
 extern "C" {
 void set_keyboard_buffer_cursor(int a0);
 s16 DHCP_init(s16);
+}
 int is_network_info_loaded(void);
+extern "C" {
 int TLobby__sub_80146724(void);
 int TLobby__sub_8014677C(void);
+}
 s32 load_network_info(void);
+extern "C" {
 s32 TLobby__sub_80145DB4(s32 arg0);
 s32 TLobby__sub_80147284();
 s32 route4_del(saddr, saddr, saddr);

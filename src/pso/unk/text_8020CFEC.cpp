@@ -7,7 +7,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 
 
-extern "C" {
 typedef ObjectFactoryFunction Fn_8020CFEC;
 typedef ObjectFactoryEntry Ent_8020CFEC;
 TObjBase *call_area_set_factory(TSetManager *, FloorObjectSetRow *row) {
@@ -21,6 +20,7 @@ TObjBase *call_area_set_factory(TSetManager *, FloorObjectSetRow *row) {
 typedef s32 (*Fn_8020D054)(void *);
 struct CreateSetObjectFromRowOut { s32 a; Fn_8020D054 fn; };
 struct CreateSetObjectFromRowMsg { s16 id; s16 pad; u8 data[1]; };
+extern "C" {
 s32 find_set_factory_index(void *, void *);
 s32 create_set_object_from_row(CreateSetObjectFromRowMsg *row) {
     CreateSetObjectFromRowOut o;
@@ -29,5 +29,4 @@ s32 create_set_object_from_row(CreateSetObjectFromRowMsg *row) {
     }
     return 0;
 }
-
 }

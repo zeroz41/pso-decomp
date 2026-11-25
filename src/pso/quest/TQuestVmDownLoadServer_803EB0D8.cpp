@@ -242,6 +242,7 @@ inline s32 group_name_text(QuestDownloadTextNode *p, u16 *buf) {
     }
     return n;
 }
+}
 s32 write_entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u16 *buf) {
     s32 n;
     if (node == NULL || (node->flags & 0x80)) {
@@ -256,6 +257,7 @@ s32 write_entry_group_text(s32 start, s32 count, QuestDownloadTextNode *node, u1
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
+extern "C" {
 inline s32 count_entry_groups(QuestDownloadTextNode *p) {
     s32 n = 0;
     while (p != NULL) {
@@ -1369,8 +1371,6 @@ QuestDownloadSegment *alloc_quest_segment(void) {
     new (&cell->segment, quest_download_pool_storage) QuestDownloadSegment;
     return reinterpret_cast<QuestDownloadSegment *>(p);
 }
-extern "C" {
-
 QuestDownloadEntryNode *alloc_quest_entry_node(void) {
     QuestDownloadFreeLink *p = pop_free_block();
     if (p == NULL) {
@@ -1379,7 +1379,6 @@ QuestDownloadEntryNode *alloc_quest_entry_node(void) {
     QuestDownloadPoolCell *cell = reinterpret_cast<QuestDownloadPoolCell *>(p);
     new (&cell->entry, quest_download_pool_storage) QuestDownloadEntryNode;
     return reinterpret_cast<QuestDownloadEntryNode *>(p);
-}
 }
 
 QuestDownloadItemNode *alloc_quest_item_node(void) {

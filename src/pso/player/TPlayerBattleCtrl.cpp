@@ -89,10 +89,7 @@ s32 TLobby__sub_801C2678(void);
 u8 TLobby__sub_801D7100(void *);
 }
 struct SendBattleModeDataS801C295C { s32 f0; s8 f4; s8 pad[0x13]; };
-extern "C" {
-
 void build_6x7D_set_battle_mode_data(void *p);
-}
 
 // "TPlayerBattleCtrl" opens the unit's .rodata, ahead of the pairs below.
 f32 battle_player_give_damage_score = 0.05f;
@@ -136,12 +133,7 @@ typedef struct SendBattleModeStatePlayer {
 } SendBattleModeStatePlayer;
 
 
-extern "C" {
-
 void build_6x7D_set_battle_mode_data(void *);
-
-
-}
 
 struct TLobbyStack {
     s32 sp8;
@@ -288,10 +280,8 @@ s32 fn_801D72B0(void *, int);
 extern s32 battle_intro_value_table[];
 
 extern char battle_intro_message_buffer[];
-extern "C" {
-
-
 void reset_map(void);
+extern "C" {
 void TLobby__sub_8020BC50(void);
 }
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);

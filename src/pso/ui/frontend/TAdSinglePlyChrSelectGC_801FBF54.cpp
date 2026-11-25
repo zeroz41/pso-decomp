@@ -151,8 +151,8 @@ u8 TAdSinglePlyChrSelectGC__sub_80202B30();
 void TAdSinglePlyChrSelectGC__sub_80203210(void *p);
 int fn_8020325C(void *arg0);
 s32 TLobby__sub_8030A770();
-s32 get_game_play_mode();
 }
+s32 get_game_play_mode();
 
 
 void TAdSinglePlyChrSelectGC::copy_name(s32 arg0) {
@@ -1942,8 +1942,8 @@ struct ByteBlock_C0
 
 extern "C" {
 s32 __as__13GuildCardSlotFRC13GuildCardSlot(saddr arg0, u8 *arg1);
-s32 copy_card_window_data();
 }
+void copy_card_window_data(void);
 
 
 s32 TAdSinglePlyChrSelectGC::init(void) {
@@ -2261,7 +2261,9 @@ struct Save_80200690 {
 
 extern "C" {
 s32 __ct__13GuildCardSlotFv(s32 object);
+}
 void init_class_starting_inventory(void *arg0);
+extern "C" {
 void TLobby__sub_801F494C(u16 client);
 s32 __ct__14GuildCardEntryFv(s32 ply_guild_card_tag);
 
@@ -2624,7 +2626,7 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
             var_r30 += 0x1C;
         } while (i < 0x1E);
         *(s8 *)((s8 *)selected_character_data + 0) = 0;
-        init_class_starting_inventory((void *)selected_character_data);
+        init_class_starting_inventory(selected_character_data);
         TPlyCharData *character = (TPlyCharData *)selected_character_data;
         init_character_stats_for_level(character->m_disp_part2.char_class, character, character->m_stats.level);
         selected_character_data->reset_technique_levels();

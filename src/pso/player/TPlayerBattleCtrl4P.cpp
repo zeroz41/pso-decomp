@@ -79,9 +79,7 @@ void request_active_window_close(void);
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
-extern "C" {
 void reset_map();
-}
 char team_matchup_message_buffer[256];
 typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 s32 lbl_805D6AB0;

@@ -31,7 +31,9 @@ extern const char *TShopItemTecSequence__class_name;
 s32 shop_tec_pending_message;
 s32 shop_tec_pending_state;
 TShopItemTecSequence *item_tec_sequence_instance;
+}
 s32 get_shop_text(s32 index);
+extern "C" {
 
 
 extern int shop_tool_stock_counts[];

@@ -38,9 +38,7 @@ extern "C" {
 void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0);
 }
 s32 run_floor_initialize_callbacks(s32 floor);
-extern "C" {
 s32 run_wave_event_actions(void);
-}
 void send_6x05_wave_clear_switch(s32 arg0);
 void send_6x05_wave_set_switch(s16 arg0);
 void send_6x67_wave_trigger_event(s32 arg0);

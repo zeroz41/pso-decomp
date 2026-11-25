@@ -28,8 +28,8 @@ s32 shop_gear_pending_state;
 
 extern "C" {
 extern const char *TShopEquipmentGearSequence__class_name;
-s32 get_shop_text(s32);
 }
+s32 get_shop_text(s32);
 
 #pragma readonly_strings on
 s32 TShopEquipmentGearSequence::window_slot_table[4];

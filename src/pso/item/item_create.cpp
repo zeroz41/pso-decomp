@@ -746,12 +746,7 @@ s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2) {
 
 // ---- TMainTask_80104C40.cpp
 
-extern "C" {
-
 s32 get_game_play_mode();
-
-
-}
 
 void TMainTask::cleanup_game_objects() {
     s32 floor;

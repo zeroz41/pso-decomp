@@ -869,7 +869,7 @@ s32 take_snapshot(void) {
         frame->snapshot.width = 0x100;
         frame->snapshot.height = 0xC0;
         p += 8;
-        move_data((void *)(p), get_capture_texture_pixels(), sizeof(snap->pixels));
+        move_data((p), get_capture_texture_pixels(), sizeof(snap->pixels));
         p += sizeof(snap->pixels);
         *p++ = 0x18;
         *p++ = 2;

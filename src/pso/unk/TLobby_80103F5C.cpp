@@ -77,7 +77,9 @@ u16 *floor_item_next_sort_keys;
 FlagWord lbl_805D5430;
 void *__construct_new_array(void *block, void *ctor, void *dtor, size_t size, size_t n);
 void __ct__9FloorItemFv(FloorItem *item, s32 mode);
+}
 void build_6x63_packet(void *arg0);
+extern "C" {
 void TLobby__sub_801041D8(void);
 }
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
@@ -87,10 +89,13 @@ extern s32 local_client_id;
 #pragma dont_inline off
 extern "C" {
 extern void *tl_05;
+}
 void reset_map(void);
+extern "C" {
 s32 test_flags_any(s32 *flags, s32 mask);
 extern s32 lbl_805D5440;
 void spawn_dropped_item_from_msg(void *, s32);
+}
 
 void reset_map(void) {
     s32 i;
@@ -102,7 +107,6 @@ void reset_map(void) {
         }
     }
     TLobby::reset_floor_items();
-}
 }
 void evict_lowest_key_floor_item(s32 n);
 void handle_6x63_destroy_floor_item(void *command) {

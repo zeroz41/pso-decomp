@@ -5,9 +5,7 @@
 
 struct GvplPalette;
 
-extern "C" {
 // Loads a GVPL palette file into `palette`.
 void load_gvpl_palette_file(const char *filename, GvplPalette *palette);
-}
 
 #endif

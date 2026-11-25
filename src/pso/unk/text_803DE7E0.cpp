@@ -77,7 +77,7 @@ void *sys_calloc(s32 arg0, s32 arg1) {
 // Allocates size bytes, copies size bytes of ptr into them and frees ptr (a realloc; name inferred).
 void *fn_803DE960(void *ptr, u32 size) {
     void *p = OSAllocFromHeap(sys_heap_handle, size);
-    move_data((void *)(p), (const void *)(ptr), size);
+    move_data((p), (const void *)(ptr), size);
     OSFreeToHeap(sys_heap_handle, ptr);
     return p;
 }

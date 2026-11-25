@@ -63,6 +63,7 @@ GinjaModel *warp_jung_beam_models[6];
 extern "C" {
 saddr get_localized_text_entry(s32, s32);
 void request_active_window_close(void);
+}
 
 s32 get_game_play_mode(void);
 
@@ -223,8 +224,6 @@ TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(paren
     } else {
         vi_config = NULL;
     }
-}
-
 }
 
 f32 TObjWarpJung::get_static_field4_as_float() {

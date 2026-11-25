@@ -11,8 +11,6 @@
 
 u8 quest_story_flags_by_difficulty[4][128];
 
-extern "C" {
-
 void copy_card_window_data(void) {
     uaddr character_save_record;
 
@@ -43,7 +41,6 @@ s32 TLevelSelect::get_difficulty_flag_bit(s32 n, s32 flag) {
         return (quest_story_flags_by_difficulty[n][byteIdx] & (1 << shift)) >> shift;
     }
     return quest_story_flags_by_difficulty[n][byteIdx - 1] & 1;
-}
 }
 
 s32 get_story_flag(s32 flag) {

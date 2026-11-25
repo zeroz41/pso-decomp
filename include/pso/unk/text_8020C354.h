@@ -3,14 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
-}
 
 // --- C functions defined in text_8020C354.cpp ---
-extern "C" {
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
-}
 // --- end of C functions
 
 #endif

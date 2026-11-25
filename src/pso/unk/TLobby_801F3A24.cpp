@@ -34,10 +34,11 @@ struct BswapEnemySetRowsEntry {
     u8 rest[0x44];
 };
 
-extern "C" {
 void convert_quest_object_rows(struct ConvertQuestObjectRowsQuestObjRow *rows, u32 byte_size);
+extern "C" {
 extern s16 quest_floor_designations[];
 u8 *TLobby__data_805D5EE0;
+}
 
 void TLobby::refresh_quest_list(const char *path) {
     u8 *quest;
@@ -110,8 +111,6 @@ void TLobby::handle_msg_type1_for_idle_slots() {
             break;
         }
     }
-}
-
 }
 
 

@@ -42,9 +42,6 @@
 
 // ---- pso/unk/TLobby_80209524
 
-extern "C" {
-
-
 EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 delete_storage) {
     if (table != NULL) {
         mem_free(table->entries);
@@ -56,8 +53,6 @@ EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 del
         }
     }
     return table;
-}
-
 }
 
 struct DestroyEventShuffleTableEntry;
@@ -138,7 +133,7 @@ void TLobby::append_swapped_u32(s32 *value) {
     if (challenge_action_buffer != NULL) {
         src = *value;
         bswap_32((u32 *)&src);
-        move_data((void *)(challenge_action_buffer + challenge_action_size), &src, 4);
+        move_data((challenge_action_buffer + challenge_action_size), &src, 4);
         challenge_action_size += 4;
     }
 }
@@ -182,8 +177,6 @@ struct TLobbyEntry { s16 id; s16 count; s32 offset; };
 void init_event_shuffle_table(EventShuffleTable *table, s32 count);
 
 s32 next_event_shuffle_entry(EventShuffleTable *s);
-extern "C" {
-
 void select_event_shuffle_table(s16 id) {
     TLobbyEntry e;
     TLobbyHdr2 hdr = *(TLobbyHdr2 *)lbl_805D60AC;
@@ -272,7 +265,6 @@ void lookup_item_data_record(AppendOut *arg0, s32 key) {
         arg0->f42 = r.h[0];
         arg0->f6 = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
     }
-}
 }
 void TLobby::pick_weighted_entry(s32 *key, s32 *slot) {
     PickWeightedEntryHdr hdr = *(PickWeightedEntryHdr *)item_data_table_buffer;
@@ -1095,6 +1087,7 @@ extern "C" {
 
 EnemySetRecord *get_loaded_enemy_set_rows();
 FloorObjectSetRow *get_loaded_object_set_rows();
+}
 
 EnemySetRecord *get_active_floor_enemy_rows(s32) { return get_loaded_enemy_set_rows(); }
 FloorObjectSetRow *get_active_floor_object_rows(s32) { return get_loaded_object_set_rows(); }
@@ -1121,6 +1114,7 @@ s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, s32 byte_size) {
 int TLobby::get_object_type(int a0) {  return floor_enemy_set_counts[a0]; }
 
 int TLobby::get_obj_table_entry(int a0) {  return floor_object_set_counts[a0]; }
+extern "C" {
 
 // ---- pso/unk/text_8020B47C
 // Copies the received object and enemy set flags of every floor into the floor tables.

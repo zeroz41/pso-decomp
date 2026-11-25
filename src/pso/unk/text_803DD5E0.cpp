@@ -489,9 +489,9 @@ void *load_nj_chunk_model_resource(u8 *base, u32 *off, u32 *out) {
     u32 v;
     pos = 0;
     src = base + *off;
-    move_data((void *)((&magic)), (const void *)(src), 4);
+    move_data(((&magic)), (const void *)(src), 4);
     bswap_u32(&magic);
-    move_data((void *)((&size)), (const void *)(src + 4), 4);
+    move_data(((&size)), (const void *)(src + 4), 4);
     bswap_u32(&size);
     src += 8;
     *off += 8;
@@ -538,7 +538,7 @@ void *load_nj_chunk_model_resource(u8 *base, u32 *off, u32 *out) {
     if (buf == NULL) {
         return NULL;
     }
-    move_data((void *)(buf), (const void *)(src), size);
+    move_data((buf), (const void *)(src), size);
     DCFlushRange(buf, size);
     src += size;
     *off += size;
@@ -547,17 +547,17 @@ unknown:
     *out = 0x2A2A2A2A;
     return NULL;
 relocate:
-    move_data((void *)((&magic)), (const void *)(src), 4);
+    move_data(((&magic)), (const void *)(src), 4);
     bswap_u32(&magic);
     *off += 4;
     magic = bswap32_value(magic);
     if (magic == 0x504F4630) {
-        move_data((void *)((&size)), (const void *)(src + 4), 4);
+        move_data(((&size)), (const void *)(src + 4), 4);
         bswap_u32(&size);
         src += 8;
         *off += 4;
         while (size != 0) {
-            move_data((void *)((&b0)), (const void *)(src), 1);
+            move_data(((&b0)), (const void *)(src), 1);
             src++;
             (*off)++;
             size--;
@@ -566,18 +566,18 @@ relocate:
                 v = b0 & 0x3F;
                 break;
             case 0x80:
-                move_data((void *)((&b1)), (const void *)(src), 1);
+                move_data(((&b1)), (const void *)(src), 1);
                 src++;
                 size--;
                 (*off)++;
                 v = ((b0 & 0x3F) << 8) | b1;
                 break;
             case 0xC0:
-                move_data((void *)((&b1)), (const void *)(src), 1);
+                move_data(((&b1)), (const void *)(src), 1);
                 size--;
-                move_data((void *)((&b2)), (const void *)(src + 1), 1);
+                move_data(((&b2)), (const void *)(src + 1), 1);
                 size--;
-                move_data((void *)((&b3)), (const void *)(src + 2), 1);
+                move_data(((&b3)), (const void *)(src + 2), 1);
                 src += 3;
                 size--;
                 *off += 3;

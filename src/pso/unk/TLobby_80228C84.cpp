@@ -21,6 +21,7 @@ struct VObj_80228C84 : Base_80228C84 {
 extern "C" {
 
 s32 text_builder_append();
+}
 
 void refresh_player_status(s32 client_id) {
     struct VObj_80228C84 *o = (struct VObj_80228C84 *)get_player_by_client_id(client_id);
@@ -28,6 +29,4 @@ void refresh_player_status(s32 client_id) {
         o->m10();
         text_builder_append();
     }
-}
-
 }

@@ -812,7 +812,9 @@ f64 atan2_float(void *, f32, f32);
 int set_camera_capture_overlay_alpha(void*);
 s32 copy_player_visual_record(void *, int);
 s32 __ct__16TPlyGuildCardTagFv(s32);
-s32 reset_map();
+}
+void reset_map(void);
+extern "C" {
 s32 advance_item_id_counter(u16);
 }
 void set_mine_trap_damage(f32);
@@ -844,15 +846,19 @@ s32 get_story_flag(s32 flag);
 void clear_story_flag(s32 flag);
 extern "C" {
 saddr create_equip_kind_window(saddr, const f32 *, s32);
-s32 challenge_set_min_clear_time(int);
-s32 challenge_set_boss_warp_disabled(s32);
+}
+void challenge_set_min_clear_time(s32 v);
+void challenge_set_boss_warp_disabled(s32 arg0);
 s32 challenge_get_time_record();
-s32 challenge_set_time_record(int);
+void challenge_set_time_record(s32 seed);
+extern "C" {
 void challenge_set_rank_override(void *, void *, s32);
+}
 s32 challenge_check_rank_time(s32, s32);
 s32 challenge_create_reward_item(TItemData *, u16);
 s32 challenge_check_any_player_dead();
 s32 challenge_check_all_players_dead();
+extern "C" {
 int update_alloc_size__6TLobbyFv(void*);
 }
 void disable_palettex(u16 client_index);
@@ -1940,7 +1946,7 @@ void qst_op_disable_retry_menu() {
 
 void qst_op_chl_set_min_time_online(s32 reg) {
     if (is_split_screen() == 1) {
-        challenge_set_min_clear_time((int) (qst_registers[(u8)reg]));
+        challenge_set_min_clear_time((qst_registers[(u8)reg]));
         return;
     }
     set_challenge_min_clear_time((int) (qst_registers[(u8)reg]));
@@ -2109,7 +2115,7 @@ void qst_op_write_flag_buf_to_event_flags(u8 reg) {
     s32 idx = qst_registers[reg];
     QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && idx >= 0 && idx < 0xFD) {
-        move_data((void *)((&w->event_flags[idx])), (const void *)(&qst_flag_buf), 4);
+        move_data(((&w->event_flags[idx])), (const void *)(&qst_flag_buf), 4);
     }
 }
 
@@ -2388,7 +2394,7 @@ void qst_op_chl_get_timerecord(s32 reg) {
 
 void qst_op_chl_set_timerecord(s32 reg) {
     if (is_split_screen() == 1) {
-        challenge_set_time_record((int) (qst_registers[(u8)reg]));
+        challenge_set_time_record((qst_registers[(u8)reg]));
         return;
     }
     set_challenge_time_record((int) (qst_registers[(u8)reg]));
@@ -2505,7 +2511,7 @@ void qst_op_set_eventflag32() {
     s32 v = qst_args[1];
     QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFD) {
-        move_data((void *)((&w->event_flags[i])), (const void *)(&v), 4);
+        move_data(((&w->event_flags[i])), (const void *)(&v), 4);
     }
 }
 
@@ -2539,7 +2545,7 @@ void qst_op_set_eventflag16() {
     s16 v = qst_args[1];
     QuestEventFlagRecord *w = (QuestEventFlagRecord *)TAdSinglePlyChrSelectGC::get_global_state();
     if (w != NULL && i < 0xFF) {
-        move_data((void *)((&w->event_flags[i])), (const void *)(&v), 2);
+        move_data(((&w->event_flags[i])), (const void *)(&v), 2);
     }
 }
 
@@ -2819,10 +2825,7 @@ void qst_op_get_player_proximity(u8 regs, u8 dst) {
         }
     }
 }
-extern "C" {
-
 s32 challenge_set_rank_threshold(s32, s32, s32);
-}
 void qst_op_set_cmode_rank_threshold(u8 regs, u8 dst) {
     s32 a = qst_registers[(u8)regs++];
     s32 b = qst_registers[(u8)regs++];

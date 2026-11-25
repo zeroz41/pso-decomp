@@ -74,10 +74,12 @@ s32 get_current_floor();
 
 
 s32 get_attack_credit_slot_count(void *);
+}
 
 f32 get_challenge4p_exp_multiplier();
 
 f32 get_challenge_exp_multiplier();
+extern "C" {
 
 s32 create_font_small_task(void *, s32, s32, s32, const char *, s32, u16);
 

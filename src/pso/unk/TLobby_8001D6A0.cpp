@@ -78,7 +78,7 @@ void load_battle_param_entry(void) {
     read_disc_file(name, file);
     idx = battle_parameter_difficulty;
     new_var = (dst = battle_parameter_buffer);
-    move_data((void *)((dst->stats)), (const void *)(file->stats[idx]), sizeof(dst->stats));
+    move_data(((dst->stats)), (const void *)(file->stats[idx]), sizeof(dst->stats));
     {
       player_stats *p = ((0, dst))->stats;
       s32 i;
@@ -89,7 +89,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->attacks)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, attacks)) + (idx * (saddr)sizeof(dst->attacks)))), sizeof(dst->attacks));
+    move_data(((new_var->attacks)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, attacks)) + (idx * (saddr)sizeof(dst->attacks)))), sizeof(dst->attacks));
     {
       AttackParams *p = new_var->attacks;
       s32 i;
@@ -100,7 +100,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->resistances)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, resistances)) + (idx * (saddr)sizeof(dst->resistances)))), sizeof(dst->resistances));
+    move_data(((new_var->resistances)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, resistances)) + (idx * (saddr)sizeof(dst->resistances)))), sizeof(dst->resistances));
     {
       s32 i;
       ActorParamBlock *p = new_var->resistances;
@@ -111,7 +111,7 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->movement)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, movement)) + ((saddr)sizeof(dst->movement) * idx))), sizeof(dst->movement));
+    move_data(((new_var->movement)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, movement)) + ((saddr)sizeof(dst->movement) * idx))), sizeof(dst->movement));
     {
       s32 i;
       BattleMovementParams *p = new_var->movement;
@@ -148,11 +148,10 @@ struct CopyDataBlk { s32 w[6]; };
 
 struct CopyDataObject { CopyDataBlk a; CopyDataBlk b; };
 
-extern "C" {
-
 void set_lobby_instance(s32 arg0) {
     lobby_instance = arg0;
 }
+extern "C" {
 
 void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
     s32 i;
@@ -267,6 +266,7 @@ u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
     }
     return (u8)var_r0;
 }
+}
 
 BattleMovementParams *TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
 
@@ -283,9 +283,11 @@ AttackParams *get_battle_param_attack(int a0, int a1) {  return &battle_param_at
 player_stats *TLobby::register_boss(s32 index) { return get_battle_param_stats(battle_parameter_difficulty, index); }
 
 player_stats *get_battle_param_stats(int a0, int a1) {  return &battle_param_stats[a1]; }
+extern "C" {
 
 void set_difficulty__6TLobbyFi(s32 arg0) {
     battle_param_lab_variant = arg0;
+}
 }
 
 
@@ -328,7 +330,6 @@ void TLobby::free_boss4_rock() {
     battle_param_attacks = NULL;
     battle_param_resistances = NULL;
     battle_param_movement = NULL;
-}
 }
 
 void alloc_battle_param_tables(void) {
@@ -427,6 +428,7 @@ void set_clock_offset_from_server_time(TLobby *packet) {
         *(s32 *)(save + 8) = offset;
     }
 }
+}
 
 s32 TLobby::calc_time_from_hms() {
     saddr arg0 = (saddr)this;
@@ -446,6 +448,7 @@ s32 parse_two_digit_number(void *arg0) {
     v += s[1] - '0';
     return v;
 }
+extern "C" {
 
 s32 __cvt_fp2unsigned(f32);
 }

@@ -63,10 +63,12 @@ char player_name_copy_buffer[16];
 
 extern "C" {
 const char *disc_read_filename = lbl_805D2B10;
+}
 
 s32 *get_player_name_copy_buffer(void) {
     return (s32 *)player_name_copy_buffer;
 }
+extern "C" {
 
 void copy_name(char *name) {
     strncpy(player_name_copy_buffer, name, 0x10);
@@ -860,6 +862,7 @@ void apply_phase_keyboard_mode() {
 
 extern "C" {
 void TLobby__sub_800F8BD8(void) { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); }
+}
 
 void TLobby::invoke_callback() {
     if (((s32 (*)()) main_phase_deferred_callback) != NULL) {
@@ -964,6 +967,7 @@ void TLobby::load_font_texture() {
         }
     }
 }
+extern "C" {
 
 void TLobby__sub_800F8F34(void) { lobby_state_byte_flag = 1; }
 

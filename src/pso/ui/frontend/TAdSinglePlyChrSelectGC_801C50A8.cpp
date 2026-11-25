@@ -89,7 +89,7 @@ void TBattleProximitySound::run_task() {
             f = newton_sqrtf(min) > 200.0f ? newton_sqrtf(min) : 200.0f;
             f -= 200.0f;
             min = 1.0f - 0.00076923077f * f;
-            set_sound_pitch_request((saddr)play_sound_effect(0x23230, 0, 0, 0, f), (s32)(256.0f * min), 0);
+            set_sound_pitch_request((saddr)play_sound_effect(0x23230, 0, 0, 0, f), (256.0f * min), 0);
             self->timer = (s32)(-53.0f * min) + 0x3C;
         }
     }

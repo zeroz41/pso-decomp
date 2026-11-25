@@ -14,10 +14,8 @@ struct RelModuleBuffer {
 LAYOUT_ASSERT(RelModuleBuffer_size, sizeof(RelModuleBuffer) == 8);
 LAYOUT_ASSERT(RelModuleBuffer_image_offset, offsetof(RelModuleBuffer, image) == 4);
 
-extern "C" {
 RelModuleBuffer *load_rel_module(RelModuleBuffer *module, const char *filename);
 OSModuleHeader *get_rel_module_image(RelModuleBuffer *module);
 RelModuleBuffer *destroy_rel_module(RelModuleBuffer *module, s16 should_delete);
-}
 
 #endif

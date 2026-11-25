@@ -3,9 +3,9 @@
 
 #include "types.h"
 
-extern "C" {
 f32 get_challenge4p_exp_multiplier(void);
 f32 get_challenge_exp_multiplier(void);
+extern "C" {
 int get_attack_credit_slot_count(void);
 }
 void init_6x0A_enemy_state_packet(void *p);
@@ -17,9 +17,9 @@ void unload_current_floor_resources(void);
 void unload_floor_resources(s32 selector);
 
 // --- C functions defined in TLobby_800F795C.cpp ---
-extern "C" {
 f32 get_challenge4p_exp_multiplier(void);
 f32 get_challenge_exp_multiplier(void);
+extern "C" {
 int get_attack_credit_slot_count(void);
 }
 // --- end of C functions

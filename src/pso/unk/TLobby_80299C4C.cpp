@@ -182,6 +182,7 @@ void send_giveup_to_all_players__6TLobbyFv(void) {
         TWindowCtrl::enable_client_main_menu(client);
     }
 }
+}
 
 void TLobby::close_giveup_window(void *a0) { TWindowCtrl::suppress_slot(local_client_id); TLobby::play_effect_all_players(a0); }
 
@@ -222,6 +223,7 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
         queue_destruction();
     }
 }
+extern "C" {
 
 void TKeyBoardControl__sub_8000F950(void);
 s32 TLobby__sub_80291F9C();

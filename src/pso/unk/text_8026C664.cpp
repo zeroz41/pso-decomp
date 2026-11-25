@@ -130,8 +130,6 @@ void decay_page_arrow_offset(PageIndicator *o) {
 #pragma pop
 
 
-extern "C" {
-
 s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
     void *pad;
     s8 cur;
@@ -164,8 +162,6 @@ s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
         page_indicator->arrow_offset = (-1e+01f);
     }
     return 1;
-}
-
 }
 
 void *delete_if_allocated(void *storage, s16 release) {

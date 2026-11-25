@@ -3,8 +3,6 @@
 #include "types.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/TLobby.h"
-extern "C" {
-
 void copy_entries(s32 count, const TPlyInventoryItem *source, TPlyInventoryItem *destination) {
     s32 i;
     for (i = 0; i < count; i++) {
@@ -24,6 +22,4 @@ void copy_item_entry_array(s32 n, const TPlyInventoryItem *src, TPlyInventoryIte
         dst++;
         src++;
     }
-}
-
 }

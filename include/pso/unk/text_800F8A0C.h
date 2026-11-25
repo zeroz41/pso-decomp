@@ -3,14 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
 s32 *get_player_name_copy_buffer(void);
-}
 
 // --- C functions defined in text_800F8A0C.cpp ---
-extern "C" {
 s32 *get_player_name_copy_buffer(void);
-}
 // --- end of C functions
 
 #endif

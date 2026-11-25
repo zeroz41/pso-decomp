@@ -232,10 +232,12 @@ void load_floor_sound_bank(s32 arg0) {
 void TLobby__sub_8022804C(void) {
     TLobby__sub_802401C8(&sound_control_state);
 }
+}
 
 void update_global_sound_frame(void) {
     update_sound_frame(&sound_control_state);
 }
+extern "C" {
 
 void TLobby__sub_8022809C(void) {
     ((TLobby *)&sound_control_state)->reset_sound_state();

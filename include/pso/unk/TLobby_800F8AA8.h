@@ -17,11 +17,14 @@ extern const char *lbl_805D2B10;
 
 void TLobby__sub_800F8AD0(void);
 void TLobby__sub_800F8BD8(void);
+}
 void request_pending_file_read_flush(void);
+extern "C" {
 void TLobby__sub_800F8F34(void);
 
 // The GSL archive close hook: hands the archive's entries to fn_800FFE14.
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count);
+}
 // Reads and decrypts an encrypted archive; size receives its decompressed size.
 void *load_encrypted_text_archive(char *name, s32 *size);
 // Loads name.pr2 and its relocations name.pr3 as one named resource file; returns its root.
@@ -29,11 +32,12 @@ saddr load_text_resource_pair(saddr name);
 // The named resource files: load, relocate and register under resource_load_task_root.
 void *load_encrypted_archive_data(const char *name);
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs);
+extern "C" {
 void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size);
+}
 void *apply_pointer_relocations(TRelDataFile *file, RelFileTrailer *relocs);
 void *apply_rel_relocations(TRelDataFile *file);
 TObject *get_load_fade_task(void);
-}
 
 // Sets the keyboard callback that belongs to the current main phase.
 void apply_phase_keyboard_mode();

@@ -633,11 +633,11 @@ force_active:
   - player_setup_pending__6TLobby
   - state_handler_pmf_table
   - clear__9AramBlockFv
-  - reset_auto_reply_flags
+  - reset_auto_reply_flags__Fl
   - TLobby__sub_8001DF58
-  - get_battle_param_attack
-  - get_battle_param_stats
-  - parse_two_digit_number
+  - get_battle_param_attack__Fii
+  - get_battle_param_stats__Fii
+  - parse_two_digit_number__FPv
   - add_resource_handle
   - challenge_rank_for_total__Fl
   - apply_challenge_rank_title__Fv
@@ -649,7 +649,7 @@ force_active:
   - __dt__10TChallengeFv
   - TLobby__sub_80072AB8
   - TLobby__sub_800F8BD8
-  - request_pending_file_read_flush
+  - request_pending_file_read_flush__Fv
   - __sinit_TLobby_800F8AA8_cpp
   - __sinit_TLobby_80103F5C_cpp
   - init_idle_timeout_timer__FPUcP7TObject
@@ -696,7 +696,7 @@ force_active:
   - TLobby__sub_80293218
   - refresh_challenge_windows__12TChallenge4PFv
   - __dt__12TChallenge4PFv
-  - is_designated_client
+  - is_designated_client__Fv
   - free_game_action_motion_buffer__Fv
   - clear__21PlayerMotionAramEntryFv
   - stamp_joyboot_image__Fll
@@ -1604,7 +1604,7 @@ force_active:
   - sample_motion_value_channel__FPv
   - sample_absent_vector_channel__FPv
   - sample_absent_angle_channel__FPv
-  - swap_gvrt_word
+  - swap_gvrt_word__FPUl
   - copy_texture_data_and_flush
   - copy_texture_pixel_range
   - copy_texture_pixels
@@ -3957,8 +3957,8 @@ force_active:
   - apply_resta_heal__11TBoss4Type2Fv
   - apply_rock_hits_to_players__11TBoss6Type2Fv
   - apply_room_transform__FlPUcPUc
-  - apply_room_transform_to_enemy_rows
-  - apply_room_transform_to_object_rows
+  - apply_room_transform_to_enemy_rows__FP40ApplyRoomTransformToEnemyRowsSpawnRecordl
+  - apply_room_transform_to_object_rows__FP17FloorObjectSetRowl
   - apply_rule_configuration__19TPlayerBattleCtrl4PFl
   - apply_selection__17TWindowSubComCardFl
   - apply_settings__12TAdTimeSetGCFv
@@ -4173,8 +4173,8 @@ force_active:
   - bg_lightning_texture_handle
   - bgm_adx_filename_table
   - collision_parts__14TObjBigTuitate
-  - LoadBinModelSub
-  - LoadBinMotionSub
+  - LoadBinModelSub__FP11BmlResourceUllPUc
+  - LoadBinMotionSub__FP11BmlResourcelPUc
   - bind_collision_body_parts
   - bind_controller_devices
   - bind_motion_channel_samplers__FPC10NJS_MOTIONf
@@ -5324,7 +5324,7 @@ force_active:
   - controller_default_pad_state
   - controller_device_id_table
   - is_side_obstructed__13TCameraFollowFl
-  - convert_quest_object_rows
+  - convert_quest_object_rows__FP33ConvertQuestObjectRowsQuestObjRowUl
   - convert_serial_hex_to_decimal__22TAdEnterSerialAccessGCFPCc
   - copySavedX__12TBoss1DragonFPi
   - copy_4word_struct
@@ -5409,7 +5409,7 @@ force_active:
   - countModelNodes__12TBoss1DragonFP10NJS_OBJECT
   - count_active_players__14TBoss4DarkFalzFv
   - count_balloon_slots__11TWindowCtrlFv
-  - count_card_layout_entries
+  - count_card_layout_entries__Fl
   - count_empty_slots__20TWindowSubSymbolChatFv
   - count_flags__12TAdTimeSetGCFv
   - count_if_within_range__10TTecCircleFv
@@ -6351,8 +6351,8 @@ force_active:
   - check_radius_collisions__22TObjEnePanarmsAtkColliFv
   - update_trail_position__15TObjEneSlimeOneFv
   - release_child_slot__12TObjEneSlimeFl
-  - load_unload_set_shuffle_order
-  - load_unload_set_init_order
+  - load_unload_set_shuffle_order__FP27LoadUnloadSetShuffleOrderO2
+  - load_unload_set_init_order__FP26LoadUnloadSetShuffleOrderO
   - remove_poison_immunity__Fi
   - init_6x91_subcommand__FP31G_UpdateAttackableColState_6x91
   - fn_801811FC
@@ -6434,9 +6434,9 @@ force_active:
   - is_pressed__22ControllerInputContextFl
   - __ct__21TItemWeaponRubyBulletFP7TObjectPUc
   - get_flag_word_mask__FlPUl
-  - get_texture_buffer_size
+  - get_texture_buffer_size__FP18GinjaTextureHeader
   - fn_803DD3C8
-  - call_si_polling_callback
+  - call_si_polling_callback__FlPv
   - update_crc32__FUlPUcl
   - spawn_particle_f3__11TObjDFJisinFPC3Vec
   - forest_box_collision_body_parts
@@ -6698,7 +6698,7 @@ force_active:
   - get_random_scaled__11TBoss4Type3Fv
   - get_random_sign__13TBoss5GryphonFP22Boss5GryphonActionStepl
   - get_registered_object_count__Fv
-  - get_rel_module_image
+  - get_rel_module_image__FP15RelModuleBuffer
   - get_render_mode_for_tv_format
   - get_result__16TObjItemOKWindowFv
   - get_result__18TObjItemNameSelectFv
@@ -7269,8 +7269,8 @@ force_active:
   - is_destination_ahead__12TBoss1DragonFv
   - is_done__16TObjItemOKWindowFv
   - is_downloadable_new_entry__12TQuestListVMFP14QuestBinHeader
-  - is_duplicate_shop_armor
-  - is_duplicate_shop_shield_or_unit
+  - is_duplicate_shop_armor__FP26IsDuplicateShopArmorRecordl
+  - is_duplicate_shop_shield_or_unit__FP31IsDuplicateShopShieldOrUnitIteml
   - is_duplicate_shop_weapon
   - is_enabled__9TItemDropFv
   - is_end__12TCharaMakingFv
