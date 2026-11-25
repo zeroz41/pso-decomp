@@ -47,7 +47,6 @@ struct Stack_802202BC
   f32 sp8;
   f32 spC;
 };
-struct W_802200A8 { u8 pad[0x1c0]; void *cb0; };
 typedef struct Stack_802202BC Stack_802202BC;
 typedef struct VBase_18_a93f07 VBase_18_a93f07;
 const char *TShopItemTecSequence__class_name = "TShopItemTecSequence";
@@ -179,16 +178,16 @@ void TShopItemTecSequence::update_buy_sell_choice() {
 }
 
 void TShopItemTecSequence::open_item_list_window() {
-    W_802200A8 *o = (W_802200A8 *)new TShopItemListWindow(tl_05, this, player);
-    o->cb0 = (void *)close__20TShopItemTecSequenceFPv;
+    TShopItemListWindow *o = new TShopItemListWindow(tl_05, this, player);
+    o->on_close = close;
     reset_controller_input_state();
     this->set_state(5);
 }
 
 void TShopItemTecSequence::open_sell_window() {
     TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, 0x2d);
-    o->on_close = close__20TShopItemTecSequenceFPv;
-    o->on_empty = select_and_advance__20TShopItemTecSequenceFPv;
+    o->on_close = close;
+    o->on_empty = select_and_advance;
     reset_controller_input_state();
     set_state(5);
 }
@@ -208,14 +207,14 @@ void TShopItemTecSequence::handle_select() {
     }
 }
 
-void close__20TShopItemTecSequenceFPv(TShopWindowBase *window) {
+void TShopItemTecSequence::close(TShopWindowBase *window) {
     if (window != NULL) {
         window->display_shop_message(0x1A, 1);
         window->set_state(2);
     }
 }
 
-void select_and_advance__20TShopItemTecSequenceFPv(TShopWindowBase *window) {
+void TShopItemTecSequence::select_and_advance(TShopWindowBase *window) {
     if (window != NULL) {
         window->display_shop_message(0x1B, 1);
         window->set_state(6);

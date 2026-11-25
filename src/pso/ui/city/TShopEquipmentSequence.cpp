@@ -161,15 +161,15 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
 
 void TShopEquipmentSequence::open_buy_window() {
     TShopEquipmentListWindow *o = new TShopEquipmentListWindow(tl_05, this, player);
-    o->on_close = exit__22TShopEquipmentSequenceFPv;
+    o->on_close = exit;
     reset_controller_input_state();
     set_state(7);
 }
 
 void TShopEquipmentSequence::open_sell_window() {
     TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, 0x26);
-    o->on_close = exit__22TShopEquipmentSequenceFPv;
-    o->on_empty = init_window__22TShopEquipmentSequenceFPv;
+    o->on_close = exit;
+    o->on_empty = init_window;
     reset_controller_input_state();
     set_state(7);
 }
@@ -191,14 +191,14 @@ void TShopEquipmentSequence::handle_confirm() {
     }
 }
 
-void exit__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
+void TShopEquipmentSequence::exit(TShopWindowBase *window) {
     if (window != NULL) {
         window->display_shop_message(0x1A, 1);
         window->set_state(2);
     }
 }
 
-void init_window__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
+void TShopEquipmentSequence::init_window(TShopWindowBase *window) {
     if (window != NULL) {
         window->display_shop_message(0x1B, 1);
         window->set_state(8);

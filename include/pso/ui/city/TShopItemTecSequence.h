@@ -10,6 +10,7 @@ class TWindowBase;
 struct TWindowMenu;
 struct TShopJudgmentItemWindow;
 struct TItemData;
+class TShopWindowBase;
 
 struct TShopItemTecSequence : public TShopSequence {
     static s32 slot_table[4];
@@ -25,6 +26,9 @@ struct TShopItemTecSequence : public TShopSequence {
     void open_item_list_window();
     void update_buy_sell_choice();
     void open_greeting();
+    // Window callbacks: the player left the window / has nothing the shop buys.
+    static void close(TShopWindowBase *window);
+    static void select_and_advance(TShopWindowBase *window);
 };
 
 LAYOUT_ASSERT(TShopItemTecSequence_size, sizeof(TShopItemTecSequence) == 0x38);
@@ -34,8 +38,6 @@ extern "C" {
 int TShopItemTecSequence__sub_8021FE6C(int a0);
 void TShopItemTecSequence__sub_80220538(void);
 void TShopItemTecSequence__sub_80220560(void);
-void close__20TShopItemTecSequenceFPv(TShopWindowBase *window);
-void select_and_advance__20TShopItemTecSequenceFPv(TShopWindowBase *window);
 }
 void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item);
 
