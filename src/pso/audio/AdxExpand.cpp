@@ -12,96 +12,40 @@
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
 
-static inline void adx_expand_update_impl(void *ptr) {
-    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
-    u32 decoded_blocks;
-    u32 sign_bit;
-
-    if (ch->state == 1) {
-        ch->state = 2;
-    }
-    if (ch->state == 2) {
-        if (ch->decode_mode == 1) {
-            ch->decoded_count = decode_adx_mono_blocks(ch->src, ch->nblk, ch->out_buf, ch->delay_samples,
-                                                       ch->coef_k0, ch->coef_k1);
-        } else {
-            ch->decoded_count = adx_decode_stereo_blocks(ch->src, ch->nblk, ch->out_buf, ch->delay_samples, ch->out_right_buf,
-                                                      &ch->delay_samples[2], ch->coef_k0, ch->coef_k1);
-            decoded_blocks = (u32)ch->decoded_count;
-            sign_bit = decoded_blocks >> 0x1FU;
-            if ((s32)(((decoded_blocks & 1) ^ sign_bit) - sign_bit) == 1) {
-                adx_expand_odd_result_flag = 1;
-            }
-        }
-        ch->state = 3;
-    }
-}
-
-static inline s32 adx_expand_get_size_impl(const void *ptr) {
-    return ((const AdxDecoderChannel *)ptr)->decoded_count;
-}
-
-static inline void adx_expand_reset_state_impl(void *ptr) {
-    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
-    if (ch->state == 3) {
-        ch->state = 0;
-    }
-}
-
-static inline void adx_expand_reset_client_impl(void *ptr) {
-    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
-    ch->state = 0;
-    memset(ch->delay_samples, 0, sizeof(ch->delay_samples));
-}
-
-static inline s32 adx_expand_is_idle_impl(const void *ptr) {
-    return ((const AdxDecoderChannel *)ptr)->state == 0;
-}
-
-static inline void adx_expand_set_stereo_impl(void *ptr, s8 *src, s32 nblk, s16 *out_left, s16 *out_right) {
-    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
-    ch->decode_mode = 2;
-    ch->src = src;
-    ch->nblk = nblk;
-    ch->out_buf = out_left;
-    ch->out_right_buf = out_right;
-}
-
-static inline void adx_expand_set_mono_impl(void *ptr, s8 *src, s32 nblk, s16 *out_buf) {
-    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
-    ch->decode_mode = 1;
-    ch->src = src;
-    ch->nblk = nblk;
-    ch->out_buf = out_buf;
-    ch->out_right_buf = NULL;
-}
-
-static inline s32 adx_expand_get_state_impl(const void *ptr) {
-    return ((const AdxDecoderChannel *)ptr)->state;
-}
-
-static inline void adx_expand_calc_coeffs_impl(void *ptr, s32 rate, s32 cutoff) {
-    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
-    calc_adx_predictor_coeffs(cutoff, rate, &ch->coef_k0, &ch->coef_k1);
-}
-
 extern "C" {
 s32 adx_expand_odd_result_flag;
 
 void AdxDecoderChannel::update_receive_check() {
-    adx_expand_update_impl(this);
+    if (state == 1) {
+        state = 2;
+    }
+    if (state == 2) {
+        if (decode_mode == 1) {
+            decoded_count = decode_adx_mono_blocks(src, nblk, out_buf, delay_samples, coef_k0, coef_k1);
+        } else {
+            decoded_count = adx_decode_stereo_blocks(src, nblk, out_buf, delay_samples, out_right_buf,
+                                                     &delay_samples[2], coef_k0, coef_k1);
+            if (decoded_count % 2 == 1) {
+                adx_expand_odd_result_flag = 1;
+            }
+        }
+        state = 3;
+    }
 }
 
 s32 AdxDecoderChannel::get_decoded_count() {
-    return adx_expand_get_size_impl(this);
+    return decoded_count;
 }
 
 void AdxDecoderChannel::clear_done_state() {
-    adx_expand_reset_state_impl(this);
+    if (state == 3) {
+        state = 0;
+    }
 }
 
 void AdxDecoderChannel::reset_client_state() {
-    adx_expand_reset_client_impl(this);
+    state = 0;
+    memset(delay_samples, 0, sizeof(delay_samples));
 }
 
 void TLobby__sub_803CB4A4(AdxDecoderChannel *channel) {
@@ -112,23 +56,31 @@ void TLobby__sub_803CB4A4(AdxDecoderChannel *channel) {
 }
 
 s32 AdxDecoderChannel::post_request(s8 *src, s32 nblk, s16 *out_left, s16 *out_right) {
-    if (adx_expand_is_idle_impl(this)) {
-        adx_expand_set_stereo_impl(this, src, nblk, out_left, out_right);
+    if (state == 0) {
+        decode_mode = 2;
+        this->src = src;
+        this->nblk = nblk;
+        out_buf = out_left;
+        out_right_buf = out_right;
         return 1;
     }
     return 0;
 }
 
 s32 AdxDecoderChannel::try_post_command(s8 *src, s32 nblk, s16 *out_buf) {
-    if (adx_expand_is_idle_impl(this)) {
-        adx_expand_set_mono_impl(this, src, nblk, out_buf);
+    if (state == 0) {
+        decode_mode = 1;
+        this->src = src;
+        this->nblk = nblk;
+        this->out_buf = out_buf;
+        out_right_buf = NULL;
         return 1;
     }
     return 0;
 }
 
 s32 AdxDecoderChannel::get_state() {
-    return adx_expand_get_state_impl(this);
+    return state;
 }
 
 void AdxDecoderChannel::clear_record_data() {
@@ -149,7 +101,7 @@ void TLobby__sub_803CB570(AdxDecoderChannel *channel, u8 *header, s16 *out_coefs
 #pragma push
 #pragma fp_contract on
 void AdxDecoderChannel::calc_adx_coeffs_at_offset(s32 rate, s32 cutoff) {
-    adx_expand_calc_coeffs_impl(this, rate, cutoff);
+    calc_adx_predictor_coeffs(cutoff, rate, &coef_k0, &coef_k1);
 }
 #pragma pop
 
