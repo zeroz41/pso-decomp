@@ -1633,11 +1633,8 @@ pso/unk/SampledMotionPoints.cpp:
 	.sbss       start:0x805D5230 end:0x805D5248
 	.sdata2     start:0x805DA3E8 end:0x805DA3F8
 
-pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp:
-	.text       start:0x800D9BBC end:0x800D9C34
-
 pso/enemy/nanodrago/TObjEneNanoDrago.cpp:
-	.text       start:0x800D9C34 end:0x800DC420
+	.text       start:0x800D9BBC end:0x800DC420
 	.rodata     start:0x8043C760 end:0x8043C908
 	.data       start:0x80494B10 end:0x80494E10
 	.sdata      start:0x805D2AA8 end:0x805D2AB0
@@ -1656,7 +1653,7 @@ pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.cpp:
 	.data       start:0x80494E48 end:0x80494E80
 	.sdata2     start:0x805DA480 end:0x805DA48C
 
-pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp:
+pso/enemy/panarms/TObjEnePanarms.cpp:
 	.text       start:0x800DCEB8 end:0x800DFBD0
 	.ctors      start:0x80433F60 end:0x80433F64
 	.rodata     start:0x8043C948 end:0x8043CD28
@@ -1665,7 +1662,7 @@ pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp:
 	.sbss       start:0x805D5278 end:0x805D5288
 	.sdata2     start:0x805DA490 end:0x805DA520
 
-pso/enemy/panarms/TObjEnePanarms.cpp:
+pso/enemy/panarms/TObjEnePanBARA.cpp:
 	.text       start:0x800DFBD0 end:0x800E2FFC
 	.ctors      start:0x80433F64 end:0x80433F68
 	.rodata     start:0x8043CD28 end:0x8043CDD8
@@ -7795,11 +7792,8 @@ pso/boss/barbaray/TBoss7DeRolLeC.cpp:
 	.sbss       start:0x805D6918 end:0x805D6948
 	.sdata2     start:0x805DEA10 end:0x805DEBA4
 
-pso/boss/barbaray/TBoss7Joint_802EE704.cpp:
-	.text       start:0x802EE704 end:0x802EE814
-
 pso/boss/barbaray/TBoss7Joint.cpp:
-	.text       start:0x802EE814 end:0x802EED20
+	.text       start:0x802EE704 end:0x802EED20
 	.rodata     start:0x80473FB8 end:0x80473FF0
 	.data       start:0x804E45C8 end:0x804E4784
 	.sdata      start:0x805D3FC0 end:0x805D3FC4

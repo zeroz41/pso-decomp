@@ -602,9 +602,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/gigue/TObjEneMe1GiGue.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-fp_contract on")},
     "pso/enemy/canadin/TObjEneMe1Canadin.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/enemy/deldepth/TObjEneDelDepth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/enemy/panarms/TObjEnePanarms.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -sdata 4: the four 8-byte tables 0x80495914-0x80495934 sit in .data, not .sdata.
-    "pso/enemy/panarms/TObjEnePanarms.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4")},
+    "pso/enemy/panarms/TObjEnePanBARA.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4")},
     "pso/enemy/moja/TObjEneMoja.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -inline off,deferred: the constructor reaches __vt__16TObjEneRe2Flower through the .data anchor
     # (setup_data + 388) and the vtable sits before dispatch_action's jump table.

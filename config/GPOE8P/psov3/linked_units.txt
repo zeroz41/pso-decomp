@@ -417,7 +417,7 @@ pso/enemy/morfos/TObjEneMorfosArm.cpp
 pso/enemy/morfos/TObjEneMorfosGroundShot.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago.cpp
 pso/enemy/panarms/TObjEnePanarmsAtkColli.cpp
-pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp
+pso/enemy/panarms/TObjEnePanarms.cpp
 pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp
 pso/enemy/flower/FlowerRe2Data.cpp
 pso/enemy/flower/TObjEneRe2Flower.cpp
@@ -1701,7 +1701,6 @@ pso/effect/TDuelEffectCtrl.cpp
 pso/enemy/flower/TObjEneRe2FlowerStates.cpp
 pso/enemy/TObjEneBeastBase_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
-pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp
 pso/enemy/nanodrago/TObjNanoDragoSingleBeam.cpp
 pso/unk/text_800F7D30.cpp
 pso/unk/text_800F7DAC.cpp
@@ -1937,7 +1936,7 @@ pso/audio/AdxtServer.cpp
 pso/network/PppIpcp.c
 pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/technique/TTecGiFoie.cpp
-pso/enemy/panarms/TObjEnePanarms.cpp
+pso/enemy/panarms/TObjEnePanBARA.cpp
 pso/ui/charcreate/TObjCMName.cpp
 pso/technique/TechniqueRingwaveList.cpp
 pso/technique/TTecIceCharge.cpp
@@ -1945,7 +1944,6 @@ pso/technique/TTecLightCharge.cpp
 pso/weapon/TItemAttackCol.cpp
 pso/unk/text_8020B5CC.cpp
 pso/player/PlayerActionProvider.cpp
-pso/boss/barbaray/TBoss7Joint_802EE704.cpp
 pso/network/NetworkInfoRequests.cpp
 pso/unk/text_803F3BF8.cpp
 pso/audio/AdxBsc.cpp
