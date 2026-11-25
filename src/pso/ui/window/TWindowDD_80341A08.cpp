@@ -80,12 +80,12 @@ saddr TWindowDD__sub_80342384(s32 element_list, s32 rows) {
 TWindowDD_WS_Word::TWindowDD_WS_Word(s32 list_id, s32 visible_count)
     : TWindowBase((u8 *)&lbl_804EFC7C, 4, (u8 *)lbl_804EFC74) {
     m_name = lbl_805D42E0;
-    pad_78 = visible_count;
-    pad_64 = 0;
-    pad_88 = 0.0f;
+    visible_row_count = visible_count;
+    point_table_index = 0;
+    scroll_offset = 0.0f;
     pad_84 = 0.0f;
-    m_60 = 0;
-    pad_70 = list_id;
+    state_flags = 0;
+    element_list_id = list_id;
     reset_fields();
     load_element_list();
     open_tick = 0x01000000;
@@ -100,12 +100,12 @@ TWindowDD_WS_Word::~TWindowDD_WS_Word() {
 
 s32 TWindowDD_WS_Word::sub_80342268() {
     TWindowDD_WS_Word *self = this;
-    return !(self->m_60 & 1);
+    return !(self->state_flags & 1);
 }
 
 s32 TWindowDD_WS_Word::sub_80342254() {
     TWindowDD_WS_Word *self = this;
-    return !(self->m_60 & 1);
+    return !(self->state_flags & 1);
 }
 
 void TWindowDD_WS_Word::add_scroll_offset(int offset) {
@@ -145,7 +145,7 @@ int get_word_select_selected_id(const TWindowDD_WS_Word *page) {
 
 s16 TWindowDD__sub_8034214C(u8 *value) {
     const TWindowDD_WS_Word *page = reinterpret_cast<const TWindowDD_WS_Word *>(value);
-    return static_cast<s16>(page->pad_70);
+    return static_cast<s16>(page->element_list_id);
 }
 
 s32 TWindowDD_WS_Word::get_field_0x74() { return token_count; }
@@ -160,7 +160,7 @@ void TWindowDD_WS_Word::load_element_list() {
     s32 i;
     s32 n;
     Entry_80341FFC *ent;
-    e = (Elem_80341FFC *)TWindowDD::get_element_ptr(pad_70);
+    e = (Elem_80341FFC *)TWindowDD::get_element_ptr(element_list_id);
     if (e != NULL) {
         token_count = e->count;
         token_ids = (s16 *)mem_alloc(token_count * 2);
@@ -172,8 +172,8 @@ void TWindowDD_WS_Word::load_element_list() {
         token_ids = NULL;
     }
     n = token_count;
-    if (pad_78 < n) {
-        n = pad_78;
+    if (visible_row_count < n) {
+        n = visible_row_count;
     }
     visible_entry_count = n;
     for (i = 0; i < visible_entry_count; i++) {
@@ -185,7 +185,7 @@ void TWindowDD_WS_Word::load_element_list() {
 }
 
 void TWindowDD_WS_Word::reset_fields() {
-    pad_88 = 0.0f;
+    scroll_offset = 0.0f;
     pad_84 = 0.0f;
     selected_token_index = 0;
     selected_row = 0;
@@ -193,13 +193,13 @@ void TWindowDD_WS_Word::reset_fields() {
 }
 
 void TWindowDD_WS_Word::init_layout_entries() {
-    TWindowDD__data_804EFC50.rows = pad_78;
+    TWindowDD__data_804EFC50.rows = visible_row_count;
     init_window_layout_entries(&entry_list, &TWindowDD__data_804EFC50, client_index);
 }
 
 void TWindowDD_WS_Word::init_child(s32 list_id) {
     free_child();
-    pad_70 = list_id;
+    element_list_id = list_id;
     init_layout_entries();
     load_element_list();
     reset_fields();
@@ -234,7 +234,7 @@ void TWindowDD_WS_Word::run_task() {
     s32 var_r30;
     s32 var_r30_2;
     if (sub_80342268() != 0) {
-        if (TWindowDD::apply_both_choices((saddr)&m_60, 0x20) != 0) {
+        if (TWindowDD::apply_both_choices(&state_flags, 0x20) != 0) {
             temp_r4 = selected_token_index;
             if (temp_r4 < (s32) (token_count - 1)) {
                 switch (can_scroll(1)) {
@@ -242,34 +242,34 @@ void TWindowDD_WS_Word::run_task() {
                     selected_row = (s32) (selected_row + 1);
                     break;
                 case 1:
-                    pad_88 = (f32) (pad_88 + TWindowDD__data_805DFB20);
+                    scroll_offset = (f32) (scroll_offset + TWindowDD__data_805DFB20);
                     break;
                 }
                 add_scroll_offset(1);
             } else {
                 add_scroll_offset((int)(-temp_r4));
                 selected_row = 0;
-                pad_88 = 0.0f;
+                scroll_offset = 0.0f;
             }
-        } else if (TWindowDD::apply_both_choices((saddr)&m_60, 0x10) != 0) {
+        } else if (TWindowDD::apply_both_choices(&state_flags, 0x10) != 0) {
             if ((s32) selected_token_index > 0) {
                 switch (can_scroll(-1)) {
                 case 0:
                     selected_row = (s32) (selected_row - 1);
                     break;
                 case 1:
-                    pad_88 = (f32) (pad_88 - TWindowDD__data_805DFB20);
+                    scroll_offset = (f32) (scroll_offset - TWindowDD__data_805DFB20);
                     break;
                 }
                 add_scroll_offset(-1);
             } else {
                 selected_row = (s32) (visible_entry_count - 1);
                 add_scroll_offset((int)((token_count - selected_token_index) - 1));
-                pad_88 = (f32) (TWindowDD__data_805DFB20 * (f32) -(selected_token_index - selected_row));
+                scroll_offset = (f32) (TWindowDD__data_805DFB20 * (f32) -(selected_token_index - selected_row));
             }
-        } else if ((TWindowDD::apply_both_choices((saddr)&m_60, 0x10000) != 0) && ((s32) selected_token_index < (s32) (token_count - 1))) {
+        } else if ((TWindowDD::apply_both_choices(&state_flags, 0x10000) != 0) && ((s32) selected_token_index < (s32) (token_count - 1))) {
             if (sub_80341AC0() != 0) {
-                temp_r4_2 = pad_78;
+                temp_r4_2 = visible_row_count;
                 temp_r4_3 = temp_r4_2 - 1;
                 temp_r5 = selected_token_index + (temp_r4_2 - (selected_row + 1));
                 temp_r3_3 = token_count;
@@ -282,15 +282,15 @@ void TWindowDD_WS_Word::run_task() {
                     add_scroll_offset((int)((token_count - 1) - selected_token_index));
                 } else {
                     add_scroll_offset(var_r30);
-                    pad_88 = (f32) (((f32) var_r30 * TWindowDD__data_805DFB20) + pad_88);
+                    scroll_offset = (f32) (((f32) var_r30 * TWindowDD__data_805DFB20) + scroll_offset);
                 }
             } else {
                 selected_row = (s32) (token_count - 1);
                 add_scroll_offset((int)((token_count - 1) - selected_token_index));
             }
-        } else if ((TWindowDD::apply_both_choices((saddr)&m_60, 0x20000) != 0) && ((s32) selected_token_index > 0)) {
+        } else if ((TWindowDD::apply_both_choices(&state_flags, 0x20000) != 0) && ((s32) selected_token_index > 0)) {
             if (sub_80341AC0() != 0) {
-                var_r30_2 = pad_78 - 1;
+                var_r30_2 = visible_row_count - 1;
                 temp_r3_4 = selected_token_index - selected_row;
                 if ((temp_r3_4 - var_r30_2) < 0) {
                     var_r30_2 = temp_r3_4;
@@ -300,7 +300,7 @@ void TWindowDD_WS_Word::run_task() {
                     add_scroll_offset((int)(-selected_token_index));
                 } else {
                     add_scroll_offset((int)(-var_r30_2));
-                    pad_88 = (f32) -(((f32) var_r30_2 * TWindowDD__data_805DFB20) - pad_88);
+                    scroll_offset = (f32) -(((f32) var_r30_2 * TWindowDD__data_805DFB20) - scroll_offset);
                 }
             } else {
                 selected_row = 0;
@@ -315,24 +315,24 @@ void TWindowDD_WS_Word::run_task() {
 
 #pragma pop
 
-void TWindowDD_WS_Word::reset_cursor() { pad_64 = 0; }
+void TWindowDD_WS_Word::reset_cursor() { point_table_index = 0; }
 
-void TWindowDD_WS_Word::set_mode_2() { pad_64 = 2; }
+void TWindowDD_WS_Word::set_mode_2() { point_table_index = 2; }
 
 void TWindowDD__sub_80341AF8(u8 *value) {
     TWindowDD_WS_Word *page = reinterpret_cast<TWindowDD_WS_Word *>(value);
-    page->m_60 &= ~1;
+    page->state_flags &= ~1;
     page->m_8c = 1;
 }
 
 void TWindowDD__sub_80341AE0(u8 *value) {
     TWindowDD_WS_Word *page = reinterpret_cast<TWindowDD_WS_Word *>(value);
-    page->m_60 |= 1;
+    page->state_flags |= 1;
     page->m_8c = 1;
 }
 
 s32 TWindowDD_WS_Word::sub_80341AC0() {
-    return this->token_count > this->pad_78;
+    return this->token_count > this->visible_row_count;
 }
 
 s32 TWindowDD_WS_Word::can_scroll(s32 arg1) {
@@ -344,7 +344,7 @@ s32 TWindowDD_WS_Word::can_scroll(s32 arg1) {
     if (sub_80341AC0() == 0) {
         return 0;
     }
-    temp_r4 = this->pad_78;
+    temp_r4 = this->visible_row_count;
     temp_r5 = temp_r4 / 2;
     if (arg1 > 0) {
         selected_row = this->selected_row;
@@ -386,15 +386,15 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     c = 0.5f * self->frame_size[1] + self->frame_position[1];
     f32 depth = word_select_inverse_depth(self->draw_depth, 0.0f);
     ((TWindowDD *)verts)->reset_entries(depth, -1);
-    ((TWindowDD *)verts)->copy_point_table(self->pad_64);
+    ((TWindowDD *)verts)->copy_point_table(self->point_table_index);
     TWindowDD__sub_80348A2C(rect, verts);
     s = rect->scale[1];
-    count = self->pad_78;
+    count = self->visible_row_count;
     top = -(0.5f * self->frame_size[1]);
     y0 = top * s + c;
     bottom = top + TWindowDD__data_805DFB20;
     y1 = bottom * s + c;
-    if (self->pad_64 == 0) {
+    if (self->point_table_index == 0) {
         v0 = lbl_805DFB40;
         v1 = v0 + TWindowDD__data_805DFB20;
     } else {
@@ -403,9 +403,9 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     }
     v0 *= TWindowDD__data_805DFB18;
     v1 *= TWindowDD__data_805DFB18;
-    frac = TWindowDD__data_805DFB20 * fn_803D6308(-self->pad_88 / TWindowDD__data_805DFB20);
+    frac = TWindowDD__data_805DFB20 * fn_803D6308(-self->scroll_offset / TWindowDD__data_805DFB20);
     if (0.0f != frac) {
-        count = self->pad_78 - 1;
+        count = self->visible_row_count - 1;
         if (frac < 0.0f) {
             part = frac + TWindowDD__data_805DFB20;
         } else {

@@ -516,22 +516,22 @@ void TWindowSubStatusDisp::vt12() {
     PlayerRequirementStats cur;
     PlayerRequirementStats req;
     Entry_80280B1C *e2;
-    saddr pl;
+    TObjPlayer *pl;
     Entry_80280B1C *e;
     player_stats *q;
     cur.clear_fields();
     req.clear_fields();
-    pl = (saddr)get_player_by_client_id(this->client_index);
-    if (pl != 0) {
+    pl = get_player_by_client_id(this->client_index);
+    if (pl != NULL) {
         e2 = (Entry_80280B1C *)(void *)get_array_entry(2);
-        e2->value = ((TObjPlayer *)pl)->get_atp_range() + (((TObjPlayer *)pl)->get_atp() + ((TObjPlayer *)pl)->get_actor_attack_params_atp_min());
+        e2->value = pl->get_atp_range() + (pl->get_atp() + pl->get_actor_attack_params_atp_min());
         e = (Entry_80280B1C *)(void *)get_array_entry(8);
-        e->value = ((TWindowSubStatusDisp *)pl)->get_value();
+        e->value = pl->get_dfp();
         e = (Entry_80280B1C *)(void *)get_array_entry(0x14);
-        e->value = ((TObjPlayer *)pl)->get_ata();
+        e->value = pl->get_ata();
         e = (Entry_80280B1C *)(void *)get_array_entry(0x1A);
-        e->value = ((TObjPlayer *)pl)->get_evp();
-        q = ((TObjPlayer *)pl)->get_stats();
+        e->value = pl->get_evp();
+        q = pl->get_stats();
         if (q != NULL) {
             e = (Entry_80280B1C *)(void *)get_array_entry(0xE);
             e->value = q->stats.mst;
@@ -539,8 +539,8 @@ void TWindowSubStatusDisp::vt12() {
             e->value = q->stats.lck;
         }
     }
-    if (build_player_equipment_requirement_stats((TObjPlayer *)pl, &cur) != 0) {
-        build_player_class_stat_template((TObjPlayer *)pl, &req);
+    if (build_player_equipment_requirement_stats(pl, &cur) != 0) {
+        build_player_class_stat_template(pl, &req);
 #define ROW(idx, k) \
         e = (Entry_80280B1C *)(void *)get_array_entry(idx); \
         e->value = cur.k; \

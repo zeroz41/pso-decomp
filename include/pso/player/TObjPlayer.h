@@ -192,6 +192,7 @@ struct TObjPlayer : public TObjChara {
     void update_rotation();
     void load_action_motions(u16 entity_id);
     s16 get_ata();
+    s16 get_dfp();
     s16 obj_getS16_116();
     void sub_801BEE2C(s16);
     void sub_801BEE24(s16);

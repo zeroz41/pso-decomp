@@ -176,7 +176,7 @@ void TWindowHelpItem::unlock_page_flip() {
 
 void TWindowHelpItem::lock_page_flip() { this->help_flags |= 0x4; }
 
-s16 TWindowSubStatusDisp::get_value() { return *(s16*)((char*)this + 0x2ce); }
+s16 TObjPlayer::get_dfp() { return dfp; }
 
 s16 TWindowSubStatusDisp::get_stat() { return *(s16*)((char*)this + 0x2f2); }
 
@@ -664,7 +664,7 @@ void TWindowHelpItem::update_stat_comparison() {
     e5 = reinterpret_cast<saddr>(get_array_entry(5));
     ((TWindowHelpItem *)e0)->set_value(pl->get_atp() + pl->get_actor_attack_params_atp_min() + pl->get_atp_range());
     ((TWindowHelpItem *)e3)->set_value(pl->get_ata());
-    ((TWindowHelpItem *)e1)->set_value(((TWindowSubStatusDisp *)pl)->get_value());
+    ((TWindowHelpItem *)e1)->set_value(pl->get_dfp());
     ((TWindowHelpItem *)e4)->set_value(pl->get_evp());
     ((TWindowHelpItem *)e2)->set_value(q->f2);
     ((TWindowHelpItem *)e5)->set_value(q->fc);

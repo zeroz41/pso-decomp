@@ -350,21 +350,21 @@ TWindowDD *TWindowDD__sub_80347980(TWindowDD *self) {
 }
 }
 
-u8 *TWindowDD::init_last_child() {
+TWindowDD_WS_Word *TWindowDD::init_last_child() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    u8 *var_r31;
-    var_r31 = NULL;
+    TWindowDD_WS_Word *child;
+    child = NULL;
     temp_r0 = *(s32 *)((s8 *)arg0 + 0x20);
     if (temp_r0 > 0) {
-        var_r31 = ((u8 **)(arg0 + 0x24))[temp_r0 - 1];
-        if (var_r31 != NULL) {
-            reinterpret_cast<TWindowDD_WS_Word *>(var_r31)->init_and_mark_field8C();
-            reinterpret_cast<TWindowDD_WS_Word *>(var_r31)->set_pos_and_data(TWindowDD__data_805DFB6C);
-            *(f32 *)((s8 *)var_r31 + 0x38) = (f32) TWindowDD__data_805DFB74;
+        child = ((TWindowDD_WS_Word **)(arg0 + 0x24))[temp_r0 - 1];
+        if (child != NULL) {
+            child->init_and_mark_field8C();
+            child->set_pos_and_data(TWindowDD__data_805DFB6C);
+            child->target_size[0] = TWindowDD__data_805DFB74;
         }
     }
-    return var_r31;
+    return child;
 }
 extern "C" {
 

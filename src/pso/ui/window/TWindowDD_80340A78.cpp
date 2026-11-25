@@ -182,16 +182,16 @@ void TWindowDD_WS_ScrollBar::render() {
     bot = hi - lbl_805D6DC4 * s;
     quad[5] = lbl_805D6DFC;
     quad[7] = lbl_805D6E00;
-    if (self->pad_64 <= self->pad_68) {
+    if (self->total_rows <= self->visible_rows) {
         quad[1] = top;
         quad[3] = bot;
     } else {
-        range = self->pad_60 * (bot - top);
-        len = range * self->pad_68;
+        range = self->inv_total_rows * (bot - top);
+        len = range * self->visible_rows;
         if (len < 2.0f) {
             len = 2.0f;
         }
-        quad[1] = range * self->pad_6C + top;
+        quad[1] = range * self->scroll_row + top;
         quad[3] = quad[1] + len;
     }
     draw_textured_quad_at_depth(quad, z);
@@ -234,22 +234,22 @@ void *TWindowDD__sub_80340F70(void) { return new TWindowDD_WS_ScrollBar; }
 TWindowDD_WS_ScrollBar::TWindowDD_WS_ScrollBar()
     : TWindowBase((u8 *)lbl_804EFBD0, 4, (u8 *)lbl_804EFBC8) {
     m_name = TWindowDD_WS_ScrollBar__class_name;
-    pad_64 = 6.0f;
-    pad_68 = 6.0f;
-    pad_6C = 0.0f;
+    total_rows = 6.0f;
+    visible_rows = 6.0f;
+    scroll_row = 0.0f;
     open_tick = 0x01000000;
 }
 
 TWindowDD_WS_ScrollBar::~TWindowDD_WS_ScrollBar() {}
 
-void TWindowDD_WS_ScrollBar::set_scale(s32 arg1, s32 arg2) {
-    pad_64 = arg1;
-    pad_68 = arg2;
-    pad_60 = 1.0f / pad_64;
+void TWindowDD_WS_ScrollBar::set_scale(s32 total, s32 visible) {
+    total_rows = total;
+    visible_rows = visible;
+    inv_total_rows = 1.0f / total_rows;
 }
 
-void TWindowDD_WS_ScrollBar::set_value_f32(s32 arg1) {
-    pad_6C = arg1;
+void TWindowDD_WS_ScrollBar::set_value_f32(s32 row) {
+    scroll_row = row;
 }
 
 void TWindowDD_WS_ScrollBar::run_task() {

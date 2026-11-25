@@ -303,11 +303,11 @@ void free_ply_level_tbl() { TLobby::free_nodes_with_id((uaddr)ply_level_table); 
 void load_ply_level_tbl(void) { ply_level_table = (PlayerLevelTableRow ***)load_encrypted_archive_data("PlyLevelTbl.cpt"); }
 
 
-extern "C" AttackParams *get_class_attack_template(TObjPlayer *player) {
+AttackParams *get_class_attack_template(TObjPlayer *player) {
     return &((AttackParams *)class_attack_template_table)[static_cast<s8>(player->get_class_index())];
 }
 
-extern "C" ActorParamBlock *get_class_defense_template(TObjPlayer *player) {
+ActorParamBlock *get_class_defense_template(TObjPlayer *player) {
     return &((ActorParamBlock *)class_defense_template_table)[static_cast<s8>(player->get_class_index())];
 }
 

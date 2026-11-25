@@ -59,7 +59,7 @@ struct TWindowDD : public TObject
     void draw_transformed_primitive(s32 a1, u32 id, s32 a3);
     void reset_entries(f32 z, s32 color);
     void set_quad_corners_scaled(f32 x, f32 y, f32 farg2);
-    static s32 apply_both_choices(s32 arg0, saddr buttons);
+    static s32 apply_both_choices(void *input_context, saddr buttons);
     static s32 check_all_ready(s32 floor);
     void update_com_card();
     void enter_state_19();
@@ -83,7 +83,7 @@ struct TWindowDD : public TObject
     static s32 is_state_zero_unless_0x2C8(s32 arg0);
     void destroy_menu_entry(s32 arg1);
     void set_item_pos(s32 i);
-    u8 *init_last_child();
+    TWindowDD_WS_Word *init_last_child();
     s32 setup_entry(s16 id);
     s32 get_current_child_index();
     static void *get_entry(void *window, int index);

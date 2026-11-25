@@ -139,7 +139,7 @@ void TWindowDD::set_quad_corners_scaled(f32 x, f32 y, f32 farg2) {
 
 #pragma push
 #pragma opt_dead_assignments off
-s32 TWindowDD::apply_both_choices(s32 arg0, saddr buttons) {
+s32 TWindowDD::apply_both_choices(void *input_context, saddr buttons) {
   return test_buttons_press_or_repeat(&controller_input_state.controllers[0], buttons, 6, 1) | test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
 }
 #pragma pop

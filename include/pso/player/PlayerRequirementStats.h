@@ -35,11 +35,9 @@ struct PlayerLevelStats : public PlayerRequirementStats {
     void calc_delta(PlayerLevelStats *after, PlayerLevelStats *delta);
 };
 
-extern "C" {
 AttackParams *get_class_attack_template(TObjPlayer *player);
 ActorParamBlock *get_class_defense_template(TObjPlayer *player);
-}
 
-extern "C" s32 build_player_equipment_requirement_stats(TObjPlayer *, PlayerRequirementStats *);
-extern "C" s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out);
+s32 build_player_equipment_requirement_stats(TObjPlayer *player, PlayerRequirementStats *out);
+s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out);
 #endif

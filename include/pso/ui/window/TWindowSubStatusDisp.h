@@ -72,7 +72,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s16 get_item_type();
     s16 get_field_2F8();
     s16 get_stat();
-    s16 get_value();
     void set_all_values(s32 meseta);
     void set_animated_target(s32 meseta, f32 farg0);
     static void update_palette_sprite();

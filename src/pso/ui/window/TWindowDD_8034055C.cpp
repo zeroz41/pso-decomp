@@ -55,13 +55,13 @@ void TWindowWordSelectMode::hide_selection() { highlight_hidden = 1; }
 #pragma opt_common_subs off
 void TWindowWordSelectMode::handle_input() {
     s32 prev_row = selected_row;
-    if (TWindowDD::apply_both_choices((saddr)&highlight_hidden, 0x10) != 0) {
+    if (TWindowDD::apply_both_choices(&highlight_hidden, 0x10) != 0) {
         selected_row--;
-    } else if (TWindowDD::apply_both_choices((saddr)&highlight_hidden, 0x20) != 0) {
+    } else if (TWindowDD::apply_both_choices(&highlight_hidden, 0x20) != 0) {
         selected_row++;
-    } else if (TWindowDD::apply_both_choices((saddr)&highlight_hidden, 0x20000) != 0) {
+    } else if (TWindowDD::apply_both_choices(&highlight_hidden, 0x20000) != 0) {
         selected_row = 0;
-    } else if (TWindowDD::apply_both_choices((saddr)&highlight_hidden, 0x10000) != 0) {
+    } else if (TWindowDD::apply_both_choices(&highlight_hidden, 0x10000) != 0) {
         selected_row = 2;
     }
     s32 row = selected_row;
