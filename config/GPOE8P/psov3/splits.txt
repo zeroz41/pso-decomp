@@ -86,16 +86,12 @@ pso/system/data/FlagWord.cpp:
 	.text       start:0x8001BED8 end:0x8001BF4C
 
 pso/ui/frontend/TAdSEGAlogo.cpp:
-	.text       start:0x8001BF4C end:0x8001C134
-	.rodata     start:0x80434848 end:0x804349A0
+	.text       start:0x8001BF4C end:0x8001C1C4
+	.rodata     start:0x80434848 end:0x804349A8
 	.data       start:0x80480A70 end:0x80480BB0
 	.sdata      start:0x805D2620 end:0x805D2628
 	.sbss       start:0x805D4A38 end:0x805D4A44
 	.sdata2     start:0x805D7E70 end:0x805D7E78
-
-pso/ui/TLogo_8001C134.cpp:
-	.text       start:0x8001C134 end:0x8001C1C4
-	.rodata     start:0x804349A0 end:0x804349A8
 
 pso/ui/frontend/TAdSoniclogo.cpp:
 	.text       start:0x8001C1C4 end:0x8001C388

@@ -769,7 +769,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The TLevelSelect ctor reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/ui/TLevelSelect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # -sdata 4: the 8-byte texture_logo_e_descriptor is addressed outside small data.
-    "pso/ui/TLogo_8001C134.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/ui/window/TObjNewFloorWin.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # Its ctor reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/ui/frontend/TAdMultiChgGameModeGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
