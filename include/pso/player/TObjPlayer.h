@@ -701,12 +701,10 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_200();
     void set_flag_200();
     void set_float_param(s16 value);
-    void *copy_6x40_walk_to_position_packet(void *pkt);
     // The speed of the requested action in the action table.
     f32 get_action_rate_entry();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
-    void *copy_packet_pos_6x42(void *pkt);
     void request_heavy_attack_particles();
     void set_action_palette_state_mode(u8 mode);
     void clear_flag_128();

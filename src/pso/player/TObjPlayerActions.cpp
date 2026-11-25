@@ -99,16 +99,10 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 
 
 
-struct Vec_801D24F4 { u8 bytes[0xC]; };
-
-struct Pkt_801D24F4 { u8 hdr[4]; Vec_801D24F4 pos; };
 
 
 
 
-struct Pos_801D2964 { u8 bytes[0x8]; };
-
-struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
 
 
 
@@ -3891,7 +3885,7 @@ void handle_6x42_move_to_position(G_MoveToPosition_6x41_6x42 *command) {
     G_MoveToPosition_6x41_6x42 cmd;
     TObjPlayer *p;
     cmd.init();
-    ((TObjPlayer *)(&cmd))->copy_packet_pos_6x42(command);
+    cmd = *command;
     cmd.bswap();
     if (validate_6x42_move_to_position(&cmd) != 0) {
         p = get_player_by_client_id(cmd.header.client_id);
@@ -4142,7 +4136,7 @@ void handle_6x40_walk_to_position(G_WalkToPosition_6x40 *command) {
     G_WalkToPosition_6x40 cmd;
     TObjPlayer *p;
     cmd.init();
-    ((TObjPlayer *)(&cmd))->copy_6x40_walk_to_position_packet(command);
+    cmd = *command;
     cmd.bswap();
     if (validate_6x40_walk_to_position(&cmd) != 0) {
         p = get_player_by_client_id(cmd.header.client_id);
@@ -5254,10 +5248,11 @@ G_Attack_6x43 &G_Attack_6x43::operator=(G_Attack_6x43 &src) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
-void *TObjPlayer::copy_6x40_walk_to_position_packet(void *pkt) {
-    copy_subcommand_header(this, pkt);
-    ((Pkt_801D24F4 *)this)->pos = ((Pkt_801D24F4 *)pkt)->pos;
-    return this;
+G_WalkToPosition_6x40 &G_WalkToPosition_6x40::operator=(G_WalkToPosition_6x40 &src) {
+    copy_subcommand_header(this, &src);
+    __memcpy(&pos, &src.pos, sizeof(pos));
+    flags = src.flags;
+    return *this;
 }
 #pragma pop
 
@@ -5500,10 +5495,10 @@ G_HitByEnemy_6x4C &G_HitByEnemy_6x4C::operator=(G_HitByEnemy_6x4C &src) {
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-void *TObjPlayer::copy_packet_pos_6x42(void *pkt) {
-    copy_subcommand_header(this, pkt);
-    ((Pkt_801D2964 *)this)->pos = ((Pkt_801D2964 *)pkt)->pos;
-    return this;
+G_MoveToPosition_6x41_6x42 &G_MoveToPosition_6x41_6x42::operator=(G_MoveToPosition_6x41_6x42 &src) {
+    copy_subcommand_header(this, &src);
+    __memcpy(&pos, &src.pos, sizeof(pos));
+    return *this;
 }
 #pragma pop
 

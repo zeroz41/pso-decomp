@@ -727,6 +727,7 @@ struct G_MoveToPosition_6x41_6x42 {
  struct VectorXZF pos;
  // Clears the position and sets the 6x42 header.
  void init();
+ G_MoveToPosition_6x41_6x42 &operator=(G_MoveToPosition_6x41_6x42 &src);
  void bswap();
  void send();
 };
@@ -1456,6 +1457,7 @@ struct G_WalkToPosition_6x40 {
  u32 flags;
  // Clears the packet and sets its header (subcommand 0x40, size 4).
  void init();
+ G_WalkToPosition_6x40 &operator=(G_WalkToPosition_6x40 &src);
  void bswap();
  void send();
 };
