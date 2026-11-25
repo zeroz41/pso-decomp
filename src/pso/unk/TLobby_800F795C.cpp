@@ -129,10 +129,10 @@ void TLobby::bswap_field() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 
 void TLobby::broadcast_state() { bswap_field(); send_subcommand((u8 *)this); }
 }
 
-void init_6x9C_enemy_low_game_flags_packet(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = 0;
-    *(u8 *)((s8 *)arg0 + 0) = 0x9C;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void init_6x9C_enemy_low_game_flags_packet(u8 *packet) {
+    *(s32 *)((s8 *)packet + 4) = 0;
+    *(u8 *)((s8 *)packet + 0) = 0x9C;
+    *(s8 *)((s8 *)packet + 1) = 2;
 }
 
 void TLobby::bswap_enemy_state() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
