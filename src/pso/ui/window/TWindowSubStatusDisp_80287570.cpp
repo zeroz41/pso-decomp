@@ -147,7 +147,7 @@ void TWindowSubStatusDisp__sub_802878B8(u8 *arg0, u8 *arg1) {
   }
 }
 
-void TWindowSubStatusDisp::update(void* a1) { draw_entry_tab((void *)a1); TWindowSubStatusDisp__sub_802878B8((u8 *)this, (u8 *)a1); }
+void TWindowSubStatusDisp::update(void* a1) { draw_entry_tab(a1); TWindowSubStatusDisp__sub_802878B8((u8 *)this, (u8 *)a1); }
 
 void TWindowSubStatusDisp__sub_802879B0(void *arg0) {
     *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (*(f32 *)((s8 *)arg0 + 0x1C) + *(f32 *)((s8 *)arg0 + 0x20));

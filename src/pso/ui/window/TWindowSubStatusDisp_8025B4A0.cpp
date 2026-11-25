@@ -23,27 +23,27 @@ void *window_label_value_part_vtable[6] = {
 };
 
 void TWindowSubStatusDisp::set_string(uaddr string) {
-    s32 temp_r3;
+    s32 title_len;
 
     mem_free((void *)(*(saddr *)((s8 *)this + 0x20)));
     *(s32 *)((s8 *)this + 0x20) = 0;
     if (string != 0U) {
         *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
-        temp_r3 = (s32)measure_string_len((const char *)(string));
-        *(s32 *)((s8 *)this + 0x20) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(saddr *)((s8 *)this + 0x20)), (const char *)string, (u32)temp_r3 + 1);
+        title_len = (s32)measure_string_len((const char *)(string));
+        *(s32 *)((s8 *)this + 0x20) = (saddr)mem_alloc(title_len + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x20)), (const char *)string, (u32)title_len + 1);
     }
 }
 
 void TWindowSubStatusDisp::set_text(uaddr arg1, s32 string, s32 arg3) {
-    s32 temp_r3;
+    s32 title_len;
 
     mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
     *(s32 *)((s8 *)this + 0x1C) = 0;
     if (arg1 != 0U) {
-        temp_r3 = (s32)measure_string_len((const char *)(arg1));
-        *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
+        title_len = (s32)measure_string_len((const char *)(arg1));
+        *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(title_len + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)title_len + 1);
     }
     *(s32 *)((s8 *)this + 0x18) = arg3;
     *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
@@ -52,15 +52,15 @@ void TWindowSubStatusDisp::set_text(uaddr arg1, s32 string, s32 arg3) {
 }
 
 void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2) {
-    s32 temp_r3;
+    s32 title_len;
     f64 tmp;
 
     mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
     *(s32 *)((s8 *)this + 0x1C) = 0;
     if (arg1 != 0U) {
-        temp_r3 = (s32)measure_string_len((const char *)(arg1));
-        *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
+        title_len = (s32)measure_string_len((const char *)(arg1));
+        *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(title_len + 1);
+        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)title_len + 1);
     }
     *(s32 *)((s8 *)this + 0x18) = arg2;
     *(u16 *)(this + 0) = (u16) (*(u16 *)(this + 0) | 0x15);

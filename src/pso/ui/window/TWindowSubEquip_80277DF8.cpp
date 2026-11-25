@@ -62,8 +62,8 @@ TWindowSubEquip::~TWindowSubEquip() {
 }
 
 void TWindowSubEquip::run_task() {
-    s32 temp_r3;
-    temp_r3 = is_player_input_active(this->client_id);
+    s32 controller_index;
+    controller_index = is_player_input_active(this->client_id);
     switch ((s32) this->m_1c) {
     case 0:
     case 1:
@@ -109,7 +109,7 @@ void TWindowSubEquip::run_task() {
         }
         break;
     case 5:
-        if ((test_pressed_buttons_packed(&controller_input_state.controllers[temp_r3], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[controller_index], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->m_1c = 3U;
             return;
@@ -159,7 +159,7 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
 }
 
 void TWindowSubEquip::apply_slot_selection() {
-    s32 temp_r31;
-    temp_r31 = ((TWindowMenuIconLine *)this->equip_list)->get_cursor_value();
-    TWindowShortListCtrl::assign_shortcut(temp_r31, (int) (((TWindowMenuIconLine *)this->equip_kind_list)->get_cursor_value()), this->client_id);
+    s32 cursor_value;
+    cursor_value = ((TWindowMenuIconLine *)this->equip_list)->get_cursor_value();
+    TWindowShortListCtrl::assign_shortcut(cursor_value, (int) (((TWindowMenuIconLine *)this->equip_kind_list)->get_cursor_value()), this->client_id);
 }

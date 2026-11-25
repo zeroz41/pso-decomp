@@ -489,7 +489,7 @@ void TWindowMainMenu::try_open_battle_menu(s16 key) {
         *(s32 *)((s8 *)this + 0x5C) = 0;
         open_menu_with_entry(id);
         this->create_submenu(id);
-        ((TObjPlayer *)player)->reset_equip_slots();
+        player->reset_equip_slots();
         this->on_menu_opened();
     }
 }

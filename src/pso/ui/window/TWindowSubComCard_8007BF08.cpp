@@ -4,11 +4,11 @@
 
 
 void TWindowSubComCard::update_press() {
-    s32 temp_r31;
+    s32 card_entry;
 
-    temp_r31 = reinterpret_cast<saddr>(TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(this))));
-    if (TWindowSubComCard::scroll_list(temp_r31) == 0) {
-        TWindowSubComCard::select_card_entry(temp_r31);
+    card_entry = reinterpret_cast<saddr>(TWindowSubComCard::get_card_entry(static_cast<s32>(reinterpret_cast<saddr>(this))));
+    if (TWindowSubComCard::scroll_list(card_entry) == 0) {
+        TWindowSubComCard::select_card_entry(card_entry);
     }
 }
 

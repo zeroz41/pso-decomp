@@ -158,8 +158,8 @@ extern const f32 lbl_805DCF08;
 
 void ItemListRow::update_item_icon_colors(void *item) {
     s16 sp8;
-    s32 temp_r26;
-    s32 temp_r27;
+    s32 item_flags;
+    s32 equip_requirements;
     s32 usable_action_flags;
     s32 temp_r28_2;
     saddr player;
@@ -170,17 +170,17 @@ void ItemListRow::update_item_icon_colors(void *item) {
     }
     player = (saddr)get_player_by_client_id(this->client);
     if (player != 0) {
-        temp_r26 = ((TItem *)item)->test_item_flags(8);
+        item_flags = ((TItem *)item)->test_item_flags(8);
         usable_action_flags = ((TItem *)item)->get_usable_action_flags(0x10, (TObjPlayer *)player);
-        temp_r27 = ((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8));
+        equip_requirements = ((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (&sp8));
         temp_r28_2 = ((VObj18B_802582c4_80257784 *) item)->vm8C();
         if (usable_action_flags != 0) {
-            if (temp_r26 != 0) {
+            if (item_flags != 0) {
                 this->status_icon = 0x30;
             } else {
                 this->status_icon = 0x2F;
             }
-        } else if (temp_r26 != 0) {
+        } else if (item_flags != 0) {
             this->status_icon = 0xC;
         } else {
             if ((temp_r28_2 == 0) && (((TItem *)item)->is_rare_item() != 0)) {
@@ -197,7 +197,7 @@ void ItemListRow::update_item_icon_colors(void *item) {
             this->style = 0xFF00FFFC;
             return;
         }
-        if (temp_r27 != 0) {
+        if (equip_requirements != 0) {
             this->category_style = -1;
             if (((TItem *)item)->is_custom_name_srank() != 0) {
                 this->style = 0xFFFE3C28;
@@ -234,8 +234,8 @@ void ItemListRow::update_item_icon_colors(void *item) {
 
 void ItemListRow::update_item_colors(saddr item) {
     s32 requirement;
-    s32 temp_r29;
-    s32 temp_r30;
+    s32 equip_requirements;
+    s32 item_flags;
     saddr player;
 
     if (TItemData::is_wrapped((void *)item) != 0) {
@@ -244,22 +244,22 @@ void ItemListRow::update_item_colors(saddr item) {
     }
     player = (saddr)get_player_by_client_id(this->client);
     if (player != 0) {
-        temp_r29 = check_equip_requirements((void *)player, (TItemData *)item, &requirement);
-        temp_r30 = ((TItemData *)item)->check_item_flags();
+        equip_requirements = check_equip_requirements((void *)player, (TItemData *)item, &requirement);
+        item_flags = ((TItemData *)item)->check_item_flags();
         if ((u8) this->status_icon == 0x33) {
-            if ((temp_r30 == 0) && (TItemData::is_rare_item((u8 *)item) != 0)) {
+            if ((item_flags == 0) && (TItemData::is_rare_item((u8 *)item) != 0)) {
                 this->status_icon = 0x19U;
             } else if (requirement & 1) {
                 this->status_icon = 0x13U;
             }
             this->status_style = -1;
         }
-        if (temp_r30 == 0) {
+        if (item_flags == 0) {
             this->category_style = -1;
             this->style = 0xFF00FFFC;
             return;
         }
-        if (temp_r29 != 0) {
+        if (equip_requirements != 0) {
             this->category_style = -1;
             if (TItemData::is_custom_name_srank((u8 *)item) != 0) {
                 this->style = 0xFFFE3C28;
@@ -532,13 +532,13 @@ void ItemListRow::init_item_row(TItem *item, s32 arg2) {
 
 void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
     saddr item_data;
-    saddr temp_r3;
+    saddr wrapped;
 
     this->x = lbl_805DCF08;
     this->status_icon = 51;
     item_data = get_item_data((uaddr)a1);
-    temp_r3 = TItemData::is_wrapped(a1);
-    select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), temp_r3);
+    wrapped = TItemData::is_wrapped(a1);
+    select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), wrapped);
     forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     update_stat_line_if_positive(count);
@@ -710,11 +710,11 @@ void ItemListRow::render(WindowDrawContext *context) {
       }
       if (this->flags & 0x1000)
       {
-        set_text_draw_params(win, 1, 0, (f32)depth, (f32)win->clip_x1);
+        set_text_draw_params(win, 1, 0, depth, (f32)win->clip_x1);
       }
       else
       {
-        set_text_draw_params(win, 1, 1, (f32)depth, (f32)lbl_805DCF28);
+        set_text_draw_params(win, 1, 1, depth, (f32)lbl_805DCF28);
       }
       if (this->flags & 0x400)
       {

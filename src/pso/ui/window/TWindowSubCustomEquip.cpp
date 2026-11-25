@@ -424,26 +424,26 @@ void TWindowSubCustomEquip::handle_decide() {
 }
 
 void TWindowSubCustomEquip::handle_cursor_input() {
-    s32 temp_r29;
+    s32 controller_index;
     u8 temp_r3_2;
     u8 temp_r3_3;
     u8 temp_r4;
-    u8 *temp_r31;
+    u8 *entry_10;
     ControllerInputContext *window_choice_setting;
     u8 *array_entry;
-    temp_r29 = is_player_input_active((this->client_index));
-    temp_r31 = (u8 *)(((u8 *)get_array_entry(0x10)));
+    controller_index = is_player_input_active((this->client_index));
+    entry_10 = (u8 *)(((u8 *)get_array_entry(0x10)));
     array_entry = (u8 *)(((u8 *)get_array_entry(7)));
     temp_r4 = this->m_63;
     if ((s8) temp_r4 > 0) {
         this->m_63 = (temp_r4 - 1);
-        *(s32 *)((s8 *)temp_r31 + 0x2C) = -1;
+        *(s32 *)((s8 *)entry_10 + 0x2C) = -1;
         *(s32 *)((s8 *)array_entry + 0x2C) = -1;
     } else {
-        *(s32 *)((s8 *)temp_r31 + 0x2C) = 0xFF666666;
+        *(s32 *)((s8 *)entry_10 + 0x2C) = 0xFF666666;
         *(s32 *)((s8 *)array_entry + 0x2C) = 0xFF666666;
     }
-    window_choice_setting = &controller_input_state.controllers[temp_r29];
+    window_choice_setting = &controller_input_state.controllers[controller_index];
     if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
         if (test_pressed_buttons_packed(window_choice_setting, (int) (fn_8002AE08((int)this->client_index))) != 0) {
@@ -482,12 +482,12 @@ void TWindowSubCustomEquip::render() {
 }
 
 void TWindowSubCustomEquip::run_task() {
-    s32 temp_r30;
+    s32 controller_index;
     ControllerInputContext *context;
-    temp_r30 = is_player_input_active(((s32) this->client_index));
+    controller_index = is_player_input_active(((s32) this->client_index));
     if (this->is_selected() == 0) {
         this->handle_cursor_input();
-        context = &controller_input_state.controllers[temp_r30];
+        context = &controller_input_state.controllers[controller_index];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             handle_decide();
         }

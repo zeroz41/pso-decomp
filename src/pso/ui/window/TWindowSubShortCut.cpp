@@ -157,7 +157,7 @@ void TWindowSubShortCut::run_task() {
             this->chat_window = 0U;
         }
         if ((u32) this->m_3c == 0U) {
-            *(void * *)&this->m_3c = (void *)new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->m_24, (s32 *)((u8 *)arg0 + 0x40));
+            *(void * *)&this->m_3c = (void *)new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->m_24, (s32 *)(arg0 + 0x40));
         }
         if ((u32) this->confirm_window == 0U) {
             this->confirm_window = open_confirm_prompt();

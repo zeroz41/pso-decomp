@@ -171,13 +171,13 @@ void TWindowSubStatusDisp::init_gauge_entry() {
 
 void TWindowSubStatusDisp::update_status_entry() {
     saddr arg0 = (saddr)this;
-    void *temp_r31;
+    void *entry_2;
     VObj_8026F77C_more_8026f8cc_0 *player;
 
     player = (VObj_8026F77C_more_8026f8cc_0 *) get_player_by_client_id(((TWindowSimpleStatus *)this)->get_width());
     if (player != NULL) {
-        temp_r31 = (void *)((TWindowBase *)arg0)->get_array_entry(2);
-        *(s32 *)((s8 *)temp_r31 + 0x20) = player->m14() + 1;
+        entry_2 = (void *)((TWindowBase *)arg0)->get_array_entry(2);
+        *(s32 *)((s8 *)entry_2 + 0x20) = player->m14() + 1;
     }
 }
 
@@ -356,12 +356,12 @@ void TWindowSimpleStatus::apply_random_shake() {
 #pragma pop
 
 void TWindowSubStatusDisp::update_hp_tp_level() {
-    saddr temp_r31;
-    saddr temp_r31_2;
-    temp_r31 = reinterpret_cast<saddr>(this->get_array_entry(6));
-    *(s32 *)((s8 *)temp_r31 + 0x2C) = this->update_hp_entry();
-    temp_r31_2 = reinterpret_cast<saddr>(this->get_array_entry(7));
-    *(s32 *)((s8 *)temp_r31_2 + 0x2C) = this->update_hp_gauge();
+    saddr entry_6;
+    saddr entry_7;
+    entry_6 = reinterpret_cast<saddr>(this->get_array_entry(6));
+    *(s32 *)((s8 *)entry_6 + 0x2C) = this->update_hp_entry();
+    entry_7 = reinterpret_cast<saddr>(this->get_array_entry(7));
+    *(s32 *)((s8 *)entry_7 + 0x2C) = this->update_hp_gauge();
     update_status_entry();
 }
 
@@ -401,9 +401,9 @@ void TWindowLockOn::update_for_player_index(s32 id) {
 }
 
 void update_lockon_window(u8 *arg0) {
-    saddr temp_r31;
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(1));
-    ((TWindowLockOn *)temp_r31)->update_for_player_index(((TWindowSimpleStatus *)arg0)->get_width());
+    saddr entry_1;
+    entry_1 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(1));
+    ((TWindowLockOn *)entry_1)->update_for_player_index(((TWindowSimpleStatus *)arg0)->get_width());
 }
 
 void update_photon_blast_player_marker(saddr help, s32 arg1) {

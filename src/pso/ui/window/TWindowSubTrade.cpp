@@ -76,8 +76,8 @@ TWindowSubTrade::~TWindowSubTrade() {
 }
 
 void TWindowSubTrade::run_task() {
-    s32 temp_r30;
-    temp_r30 = is_player_input_active((this->m_20));
+    s32 controller_index;
+    controller_index = is_player_input_active((this->m_20));
     switch (this->m_1c) {
     case 0:
     case 1:
@@ -132,7 +132,7 @@ void TWindowSubTrade::run_task() {
         send_6xA6_modify_trade_proposal((this->m_24));
         this->m_1c = 6U;
     case 6:
-        if ((test_pressed_buttons_packed(&controller_input_state.controllers[temp_r30], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[controller_index], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TLobby::cancel_trade();
             this->m_1c = 1U;

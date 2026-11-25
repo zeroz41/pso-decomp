@@ -556,11 +556,11 @@ void TWindowOptionCtrl::apply_and_close(s32 arg1) {
 }
 
 void TWindowOptionCtrl::init_selection_indices() {
-    s16 temp_r3;
+    s16 current_sound_mode;
 
-    temp_r3 = TLobby::init_sound_mode();
-    saved_sound_mode = temp_r3;
-    sound_mode = temp_r3;
+    current_sound_mode = TLobby::init_sound_mode();
+    saved_sound_mode = current_sound_mode;
+    sound_mode = current_sound_mode;
 }
 
 void TWindowOptionCtrl::apply_selection_change() {

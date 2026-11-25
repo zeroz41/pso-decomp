@@ -41,12 +41,12 @@ struct TWindowSubComCard : public TObject {
     uaddr chr_select;
     u32 m_5c;
     uaddr menu_window;
-    uaddr m_64;
-    uaddr m_68;
+    uaddr com_card_menu;
+    uaddr sub_menu;
     uaddr message_window;
     uaddr confirm_window;
     uaddr com_card_window;
-    uaddr m_78;
+    uaddr user_sort_window;
     uaddr entry_list_window;
     uaddr keyboard;
     uaddr card_list;

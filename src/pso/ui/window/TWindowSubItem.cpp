@@ -78,7 +78,7 @@ void TWindowSubItemList::build_item_list() {
 
     pl = get_player_by_client_id(client_index);
     if (pl != NULL) {
-        item_count = pl->inventory_objects->run_and_get_result((s32 *)ids);
+        item_count = pl->inventory_objects->run_and_get_result(ids);
         for (i = 0; i < item_count; i++) {
             it = find_item_by_id(ids[i]);
             if (it != NULL) {
@@ -115,7 +115,7 @@ void TWindowSubItemList::gray_out_battle_item_entries() {
 
     for (i = 0; i < entry_capacity; i++) {
         e = (ItemListRow *)get_array_entry(i);
-        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && (((ItemListRow *)e)->get_item() & -0x10) == -0x10) {
+        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && (e->get_item() & -0x10) == -0x10) {
             e->category_style = 0xFFAAAAAA;
             e->style = 0xFF909090;
             e->suffix_style = 0xFF909090;
@@ -131,7 +131,7 @@ void TWindowSubItemList::gray_out_unusable_entries() {
 
     for (i = 0; i < entry_capacity; i++) {
         e = (ItemListRow *)get_array_entry(i);
-        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && ((ItemListRow *)e)->get_item() == -0xFF) {
+        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && e->get_item() == -0xFF) {
             e->category_style = 0xFFAAAAAA;
             e->suffix_style = 0xFF909090;
             e->flags |= 0x80;

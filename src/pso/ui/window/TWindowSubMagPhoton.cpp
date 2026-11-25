@@ -150,12 +150,12 @@ void TWindowSubMagPhoton::render() {
 }
 
 void TWindowSubMagPhoton::run_task() {
-    s32 temp_r31;
+    s32 controller_index;
     ControllerInputContext *context;
-    temp_r31 = is_player_input_active(((s32) this->client_index));
+    controller_index = is_player_input_active(((s32) this->client_index));
     if (this->get_active_flag() == 0) {
         update_selection_input();
-        context = &controller_input_state.controllers[temp_r31];
+        context = &controller_input_state.controllers[controller_index];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             play_open_sound();
         }

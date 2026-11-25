@@ -641,16 +641,16 @@ void TWindowMenuIconLine::render() {
 }
 
 void TWindowMenuIconLine::run_task() {
-    s32 temp_r31;
+    s32 controller_index;
     uaddr temp_r3;
     WindowScrollBar *temp_r3_2;
     ControllerInputContext *input;
     ControllerInputContext *temp_r29_2;
     ControllerInputContext *context;
-    temp_r31 = is_player_input_active(((s32) this->client_index));
+    controller_index = is_player_input_active(((s32) this->client_index));
     if ((this->get_flag() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
         if (this->state_flags & 0x10) {
-            input = &controller_input_state.controllers[temp_r31];
+            input = &controller_input_state.controllers[controller_index];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor();
             }
@@ -658,7 +658,7 @@ void TWindowMenuIconLine::run_task() {
                 this->move_cursor_next();
             }
         } else {
-            temp_r29_2 = &controller_input_state.controllers[temp_r31];
+            temp_r29_2 = &controller_input_state.controllers[controller_index];
             if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor();
             }
@@ -666,7 +666,7 @@ void TWindowMenuIconLine::run_task() {
                 this->move_cursor_next();
             }
         }
-        context = &controller_input_state.controllers[temp_r31];
+        context = &controller_input_state.controllers[controller_index];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             this->handle_open();
         }

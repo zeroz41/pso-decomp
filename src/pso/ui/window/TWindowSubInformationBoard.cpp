@@ -76,7 +76,7 @@ TWindowSubInformationBoard::~TWindowSubInformationBoard() {
 
 
 void TWindowSubInformationBoard::run_task() {
-    saddr temp_r30;
+    saddr info_text;
     u8 temp_r0;
     switch (this->m_1c) {
     case 0:
@@ -156,10 +156,10 @@ void TWindowSubInformationBoard::run_task() {
             break;
         }
         if (this->keyboard->is_confirmed() != 0) {
-            temp_r30 = (saddr)this->keyboard->realloc_buffer();
-            TLobby::set_info_board_text((char *)temp_r30);
+            info_text = (saddr)this->keyboard->realloc_buffer();
+            TLobby::set_info_board_text((char *)info_text);
             TLobby::flush_pending_send();
-            mem_free((void *)temp_r30);
+            mem_free((void *)info_text);
             this->m_1c = 0xBU;
             break;
         }
@@ -226,7 +226,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
 u32 TWindowSubInformationBoard::open_card_info_window() {
     static const f32 size[2] = {188.0f, 160.0f};
     u8 *window;
-    window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA5), (const f32 *)size, 1);
+    window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA5), size, 1);
     this->shown_index = -1;
     return (uaddr)window;
 }
@@ -234,7 +234,7 @@ u32 TWindowSubInformationBoard::open_card_info_window() {
 u32 TWindowSubInformationBoard::show_card_a7() {
     static const f32 size[2] = {206.0f, 180.0f};
     u8 *window;
-    window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA7), (const f32 *)size, 1);
+    window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA7), size, 1);
     this->shown_index = -1;
     return (uaddr)window;
 }

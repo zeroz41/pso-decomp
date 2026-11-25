@@ -164,7 +164,7 @@ void TWindowStatus::draw_background(u8 *ctx) {
     q.v0 = 0.0f;
     q.u1 = 0.890625f;
     q.v1 = 0.296875f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
+    ((WindowDrawContext *)ctx)->transform_quad(&q);
     draw_textured_quad_at_depth(&q, s);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {

@@ -196,15 +196,15 @@ void TWindowSubCustomSelect::render() {
 }
 
 void TWindowSubCustomSelect::run_task() {
-    s32 temp_r30;
+    s32 controller_index;
     ControllerInputContext *context;
-    temp_r30 = is_player_input_active(((s32) this->client_index));
+    controller_index = is_player_input_active(((s32) this->client_index));
     if (!(*(s32 *)&this->window_flags & 2)) {
         *(s32 *)&this->open_tick = 0x01000000;
     }
     if (this->is_active() == 0) {
         handle_grid_navigation();
-        context = &controller_input_state.controllers[temp_r30];
+        context = &controller_input_state.controllers[controller_index];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             handle_decide();
         }

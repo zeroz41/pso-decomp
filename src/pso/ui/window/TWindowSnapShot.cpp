@@ -129,14 +129,14 @@ void TWindowSnapShot::run_task() {
 
 TWindowSnapShot::~TWindowSnapShot() {}
 TWindowSnapShot::TWindowSnapShot(saddr arg1) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1) {
-    saddr temp_r31;
+    saddr entry_1;
     m_name = TWindowSnapShot__name;
     this->m_60 = 0U;
     if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
         this->m_60 = (u8) (this->m_60 | 2);
     }
-    temp_r31 = reinterpret_cast<saddr>(this->get_array_entry(1));
-    TWindowDuelResult::set_default_status((void *) temp_r31, get_localized_text_entry(0xF, 0x13));
+    entry_1 = reinterpret_cast<saddr>(this->get_array_entry(1));
+    TWindowDuelResult::set_default_status((void *) entry_1, get_localized_text_entry(0xF, 0x13));
 }
 
 RlcArchive *player_motion_archive;

@@ -90,7 +90,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.v0 = 0.1640625f;
     r.u1 = 0.91796875f;
     r.v1 = 0.21875f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)arg1)->transform_quad(&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     r.x0 = 484.0f;
     r.y0 = 346.0f;
@@ -98,7 +98,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.y1 = 14.0f + r.y0;
     r.u0 = 0.9296875f;
     r.u1 = 0.9765625f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)arg1)->transform_quad(&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     r.x0 = 249.0f;
     r.y0 = 272.0f;
@@ -108,7 +108,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.v0 = 0.0f;
     r.u1 = 0.9921875f;
     r.v1 = 0.046875f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)arg1)->transform_quad(&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     r.x0 = 249.0f;
     r.y0 = 4.2e+02f;
@@ -116,7 +116,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
     r.y1 = 12.0f + r.y0;
     r.v0 = 0.109375f;
     r.v1 = 0.15625f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)arg1)->transform_quad(&r);
     draw_textured_quad_at_depth((f32 *)&r, scale);
     TWindowSubStatusDisp::get_player();
 }
@@ -132,7 +132,7 @@ void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
     } else {
         color = -1;
     }
-    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 0, (f32)scale, (f32)1e+05f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 0, scale, (f32)1e+05f);
     pos.x = 487.0f + *(f32 *)(arg1 + 0x3C);
     pos.y = 41.0f + *(f32 *)(arg1 + 0x40);
     draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_message_10(0x11B)), color, 0, (f32)1e+06f);
@@ -171,7 +171,7 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
 }
 LAYOUT_ASSERT(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C);
 TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
-    s32 temp_r3;
+    s32 title_len;
     TWindowSubStatusDisp *display;
     u8 *str;
 
@@ -185,9 +185,9 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     } else {
         str = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
-    temp_r3 = (s32)measure_string_len((const char *)str);
-    title = static_cast<char *>(mem_alloc(temp_r3 + 1));
-    strncpy(title, (const char *)str, (u32)temp_r3 + 1);
+    title_len = (s32)measure_string_len((const char *)str);
+    title = static_cast<char *>(mem_alloc(title_len + 1));
+    strncpy(title, (const char *)str, (u32)title_len + 1);
     display = static_cast<TWindowSubStatusDisp *>(::operator new(0x24));
     if (display != NULL) {
         display = reinterpret_cast<TWindowSubStatusDisp *>(

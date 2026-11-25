@@ -473,12 +473,12 @@ loop_1:
 }
 
 void TWindowSubMag::update_displayed_item() {
-    s32 temp_r3;
+    s32 cursor_value;
 
-    temp_r3 = ((TWindowMenuIconLine *)this->list)->get_cursor_value();
-    if (temp_r3 != (s32) this->displayed_item) {
-        this->displayed_item = temp_r3;
-        help->set_displayed_item_by_id(temp_r3);
+    cursor_value = ((TWindowMenuIconLine *)this->list)->get_cursor_value();
+    if (cursor_value != (s32) this->displayed_item) {
+        this->displayed_item = cursor_value;
+        help->set_displayed_item_by_id(cursor_value);
     }
 }
 

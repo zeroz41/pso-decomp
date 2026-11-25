@@ -171,7 +171,7 @@ s32 chat_text_lacks_language_tag(const char *text) {
 }
 
 void cache_last_chat_line(uaddr text) {
-    s32 temp_r31;
+    s32 lacks_language_tag;
     s32 size;
     u8 *dest;
     if ((void *) chat_last_line_buffer != NULL) {
@@ -179,9 +179,9 @@ void cache_last_chat_line(uaddr text) {
         chat_last_line_buffer = NULL;
     }
     if (text != 0U) {
-        temp_r31 = chat_text_lacks_language_tag((const char *)(text));
+        lacks_language_tag = chat_text_lacks_language_tag((const char *)(text));
         size = (s32)measure_string_len((const char *)((void *)text)) + 1;
-        if (temp_r31 != 0) {
+        if (lacks_language_tag != 0) {
             size += 2;
         }
         dest = (u8 *)((THeap *)scroll_win_chat_log_heap)->heap_alloc(size);
@@ -192,7 +192,7 @@ void cache_last_chat_line(uaddr text) {
             } while (dest == NULL);
         }
         chat_last_line_buffer = dest;
-        if (temp_r31 != 0) {
+        if (lacks_language_tag != 0) {
             *(s8 *)((s8 *)dest + 0) = 9;
             if (current_language == LANGUAGE_JAPANESE) {
                 *(s8 *)((s8 *)dest + 1) = 0x4A;

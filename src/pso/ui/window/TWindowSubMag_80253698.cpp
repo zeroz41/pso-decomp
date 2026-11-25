@@ -9,7 +9,7 @@ s32 are_status_entries_ready__13TWindowSubMagFi(saddr help) {
     s32 var_r28;
     saddr var_r3;
     s32 var_r4;
-    u16 *temp_r3;
+    u16 *entry_e;
     u16 *var_r29;
     u16 *var_r30;
     u16 *var_r31;
@@ -24,7 +24,7 @@ s32 are_status_entries_ready__13TWindowSubMagFi(saddr help) {
     var_r31 = (u16 *)(((TWindowBase *)var_r3)->get_array_entry(0xB));
     var_r3 = var_r28;
     var_r4 = 0xE;
-    temp_r3 = (u16 *)(((TWindowBase *)var_r3)->get_array_entry(0xE));
+    entry_e = (u16 *)(((TWindowBase *)var_r3)->get_array_entry(0xE));
     if (!(*var_r29 & 4)) {
         var_r3 = 0;
         return 0;
@@ -37,7 +37,7 @@ s32 are_status_entries_ready__13TWindowSubMagFi(saddr help) {
         var_r3 = 0;
         return 0;
     }
-    var_r3 = ((u16) *temp_r3 >> 2U) & 1;
+    var_r3 = ((u16) *entry_e >> 2U) & 1;
     return var_r3;
 }
 #pragma pop

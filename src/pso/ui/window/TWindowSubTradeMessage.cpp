@@ -24,7 +24,7 @@ void TWindowSubTradeMessage::show_message(const char* text) {
 TWindowMessage* TWindowSubTradeMessage::create_message_window(const char* text) {
     TWindowMessage* window;
     window=(TWindowMessage*)TWindowMessage::create(get_window_layout_position(0x5B),trade_message_window_dimensions,1,playerIndex);
-    ((TWindowMessage *)window)->append_line((saddr)text, (int)0x82);
+    window->append_line((saddr)text, (int)0x82);
     return window;
 }
 

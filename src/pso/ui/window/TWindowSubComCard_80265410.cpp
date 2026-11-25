@@ -769,7 +769,7 @@ s32 TWindowMenu::is_locked(s32 buttons) {
     if (this->m_70 & 0x200) {
         return 0;
     }
-    return test_buttons_press_or_repeat(&controller_input_state.keyboard, (s32)buttons, 6, 1);
+    return test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
 }
 
 int TWindowMenu::sub_80266BB8() { return (this->m_70 >> 6) & 0x1; }

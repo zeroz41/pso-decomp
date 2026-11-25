@@ -110,7 +110,7 @@ u8 *TLobby::create_new_floor_windows() {
   if (is_split_screen() == 0)
   {
     temp_r3 = (u8 *) TObject::operator new(0x50);
-    var_r0 = (u8 *) temp_r3;
+    var_r0 = temp_r3;
     if (var_r0 != 0)
     {
       var_r0 = (u8 *) ((u8 *)__ct__15TObjNewFloorWinFP7TObjectPv((void *)temp_r3, (void *)arg0, (void *)(-1)));
@@ -124,13 +124,13 @@ u8 *TLobby::create_new_floor_windows() {
     if (get_player_by_client_id(i) != NULL)
     {
       temp_r3_2 = (u8 *) TObject::operator new(0x50);
-      var_r0_2 = (u8 *) temp_r3_2;
+      var_r0_2 = temp_r3_2;
       if (var_r0_2 != 0)
       {
         var_r31 = ((u8 *)__ct__15TObjNewFloorWinFP7TObjectPv((void *)temp_r3_2, (void *)arg0, (void *)((saddr) i)));
-        var_r0_2 = (u8 *) var_r31;
+        var_r0_2 = var_r31;
       }
-      var_r31 = (u8 *) var_r0_2;
+      var_r31 = var_r0_2;
     }
     i += 1;
   }

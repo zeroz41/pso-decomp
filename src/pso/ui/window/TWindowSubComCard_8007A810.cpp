@@ -114,7 +114,7 @@ extern "C" {
 int copy_struct__17TWindowSubComCardFPvPv(S_8007AA70 *, S_8007AA70 *);
 
 s32 forward_return_arg__17TWindowSubComCardFi(saddr dest, S_8007AA70 * _w1) {
-    copy_struct__17TWindowSubComCardFPvPv((S_8007AA70 *)(dest), (S_8007AA70 *)(_w1));
+    copy_struct__17TWindowSubComCardFPvPv((S_8007AA70 *)(dest), (_w1));
     return dest;
 }
 int copy_struct__17TWindowSubComCardFPvPv(S_8007AA70 *dst, S_8007AA70 *src) {

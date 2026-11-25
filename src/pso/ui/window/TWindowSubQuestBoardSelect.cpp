@@ -81,12 +81,12 @@ extern u8 quest_board_handlers[];
 
 void TWindowSubQuestBoardSelect::sub_8027D230() {
     u8 *str;
-    u8 *temp_r3;
+    u8 *entry_1;
     str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
-    temp_r3 = (u8 *)(this->get_array_entry(1));
-    set_text_entry_string((u8 *)temp_r3, (uaddr)str, 0);
-    measure_message_text_width(temp_r3, 100000.0f);
-    *(f32 *)((s8 *)temp_r3 + 8) = (f32) (385.0f - *(f32 *)((s8 *)temp_r3 + 0x10));
+    entry_1 = (u8 *)(this->get_array_entry(1));
+    set_text_entry_string(entry_1, (uaddr)str, 0);
+    measure_message_text_width(entry_1, 100000.0f);
+    *(f32 *)((s8 *)entry_1 + 8) = (f32) (385.0f - *(f32 *)((s8 *)entry_1 + 0x10));
 }
 
 
@@ -281,7 +281,7 @@ s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
 #pragma fp_contract on
 TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70))) {
     f32 temp_f2;
-    saddr temp_r30;
+    saddr entry_0;
     saddr var_r30;
     m_name = TWindowSubQuestBoardSelect__class_name;
     var_r30 = (saddr)::operator new(0x24);
@@ -290,11 +290,11 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     }
     this->status_disp = (TWindowSubStatusDisp *)var_r30;
     *(s8 *)&this->m_60 = 0;
-    temp_r30 = reinterpret_cast<saddr>(this->get_array_entry(0));
-    set_text_entry_string((u8 *)temp_r30, (uaddr)(TQuestThread::get_quest_name()), 0);
-    ((TWindowSubComCard *)temp_r30)->get_field_20();
+    entry_0 = reinterpret_cast<saddr>(this->get_array_entry(0));
+    set_text_entry_string((u8 *)entry_0, (uaddr)(TQuestThread::get_quest_name()), 0);
+    ((TWindowSubComCard *)entry_0)->get_field_20();
     temp_f2 = (f32) calc_text_width();
-    *(f32 *)((s8 *)temp_r30 + 8) = 210.0f - 0.5f * temp_f2;
+    *(f32 *)((s8 *)entry_0 + 8) = 210.0f - 0.5f * temp_f2;
     *(s8 *)&this->slot = -1;
     update_slot_display_flags__26TWindowSubQuestBoardSelectFv(this, 0.5f, temp_f2);
     this->select_next();
