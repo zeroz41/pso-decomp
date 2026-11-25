@@ -3,7 +3,6 @@
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/network/protocol/subcmd_6x.h"
 
-extern "C" s32 is_action_id_none(s16);
 extern "C" s32 fn_800FD7C0(f32 *xz);
 
 s32 validate_6xAB(G_CreateLobbyChair_6xAB *packet) {

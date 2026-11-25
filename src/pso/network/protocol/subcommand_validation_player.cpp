@@ -319,8 +319,6 @@ s32 validate_6x22_set_player_invisible(G_ClientIDHeader *packet) {
 struct LobbyAnimationState { G_ClientIDHeader header; s16 animation_number; u16 unused; u32 player_flags; f32 animation_timer; };
 
 extern "C" {
-s32 is_action_id_none(s16);
-
 s32 validate_6xAE_set_animation_state(LobbyAnimationState *arg0);
 s32 validate_6xAE_set_animation_state(LobbyAnimationState *arg0) {
     saddr player;
