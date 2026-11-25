@@ -6,7 +6,7 @@
 class ItemListRow;
 
 extern "C" {
-void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 arg1, s32 arg2);
+void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 value, s32 index);
 }
 
 #endif
