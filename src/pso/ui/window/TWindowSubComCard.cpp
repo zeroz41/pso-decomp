@@ -49,7 +49,6 @@ class TChCrTagPlBack;
 #include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
-#include "pso/unk/text_802754EC.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
@@ -1679,7 +1678,7 @@ void TWindowSubComCard::cleanup(void *p) {
     const GuildCardSlot *slot = TWindowSubComCard::get_card_entry(menu->get_selected_value());
     TLobby::send_find_user_self_tag(slot->entry.get_card_id());
 }
-u8 *TWindowSubComCard::send_cmd_133() { return fn_802754EC((saddr)get_window_layout_position(133)); }
+u8 *TWindowSubComCard::send_cmd_133() { return sub_802754EC((saddr)get_window_layout_position(133)); }
 void TWindowSubComCard::init_layout(void) {
     s32 card_slot;
 

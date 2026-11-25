@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/ChoiceSearchSelection.h"
 
+struct GuildCardEntry;
 struct GuildCardSlot;
 struct NJS_POINT2;
 struct TWindowComCard;
@@ -77,6 +78,8 @@ struct TWindowSubComCard : public TObject {
     void set_entry_value_clear_flag(s32 idx, s32 val);
     s32 get_entry_id();
     static s32 create_card_list(saddr parent, s32 card_slot, s32 count, s32 empty_message);
+    // Opens the list over every stored guild card (create_card_list's all-cards form).
+    static u8 *sub_802754EC(saddr parent);
     void free_windows();
     void update_card_slot();
     void notify_trade_main();
@@ -92,6 +95,7 @@ struct TWindowSubComCard : public TObject {
     s32 send_guild_card();
     static void start_player_data_load(s32 ply_guild_card_tag);
     static s32 count_active_cards();
+    static s32 count_leading_active(GuildCardEntry *cards, s32 count);
     void set_text(void *text);
     static void handle_press_a(saddr ply_guild_card_tag, s32 id);
     static void handle_press_b(saddr ply_guild_card_tag, s32 client_id);

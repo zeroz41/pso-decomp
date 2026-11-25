@@ -26,7 +26,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/text_802754EC.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) {
@@ -89,7 +88,7 @@ s32 TWindowSubComCard::create_card_list(saddr parent, s32 card_slot, s32 count, 
     return (saddr)new TWindowSubComCardList((const NJS_POINT2 *)parent, card_slot, count, empty_message);
 }
 
-u8 *fn_802754EC(saddr parent) {
+u8 *TWindowSubComCard::sub_802754EC(saddr parent) {
     fn_80266378(7);
     return (u8 *)new TWindowSubComCardList((const NJS_POINT2 *)parent);
 }
@@ -98,9 +97,6 @@ u8 *fn_802754EC(saddr parent) {
 #pragma readonly_strings on
 
 const char *TWindowSubComCardList::class_name = "TWindowSubComCardList";
-
-extern "C" {
-s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
 
 void TWindowSubComCardList::render() {
     WindowDrawContext *ctx;
@@ -155,7 +151,7 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position) : TWind
 TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, s32 card_slot, s32 arg3, s32 arg4) : TWindowMenu(7, 4, position) {
     s32 n;
     m_name = class_name;
-    n = TWindowSubStatusDisp::round_away_from_zero((f32)count_leading_active__17TWindowSubComCardFPvi(card_slot, arg3) / 7.0f);
+    n = TWindowSubStatusDisp::round_away_from_zero((f32)TWindowSubComCard::count_leading_active((GuildCardEntry *)card_slot, arg3) / 7.0f);
     if (n <= 0) {
         n = 1;
     }
@@ -169,5 +165,4 @@ TWindowSubComCardList::TWindowSubComCardList(const NJS_POINT2 *position, s32 car
     sub_80275360();
     set_flag70_bit10();
     set_scroll_target(223.0f, 184.0f);
-}
 }

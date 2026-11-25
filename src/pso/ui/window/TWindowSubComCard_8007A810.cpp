@@ -252,8 +252,6 @@ void handle_6x06_send_guild_card(s32 packet) {
 
 typedef struct Big { u8 b[144]; } Big;
 
-struct Card_8007AF60 { u8 body[0x90]; };
-
 struct Card_8007B010 { u8 body[0x90]; };
 
 struct Card_8007AFB8 { u8 body[0x100]; };
@@ -274,10 +272,10 @@ void TWindowSubComCard__sub_8007AF10(saddr client_id) {
 }
 #pragma pop
 
-s32 count_leading_active__17TWindowSubComCardFPvi(Card_8007AF60 *p, s32 n) {
+s32 TWindowSubComCard::count_leading_active(GuildCardEntry *cards, s32 count) {
     s32 i;
-    for (i = 0; i < n; i++, p++) {
-        if (reinterpret_cast<const GuildCardEntry *>(p)->is_active() == 0) {
+    for (i = 0; i < count; i++, cards++) {
+        if (cards->is_active() == 0) {
             break;
         }
     }
