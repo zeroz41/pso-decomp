@@ -24,24 +24,24 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-s32 find_entity_by_id();
-
-s32 TWindowMessageLog::get_active_photon_object() {
+char *TWindowMessageLog::get_active_photon_object(u16 id) {
     TObjPlayer *entity;
-    s32 var_r3;
+    char *var_r3;
 
-    entity = (TObjPlayer *)find_entity_by_id();
+    entity = (TObjPlayer *)find_entity_by_id(id);
     if (entity == NULL) {
         return 0;
     }
     if ((entity->obj_isState2_324() == 0) && (entity->is_locally_controlled() == 0)) {
         return 0;
     }
-    var_r3 = (saddr)entity->name;
+    var_r3 = entity->name;
     if (var_r3 == 0) {
         var_r3 = 0;
     }
@@ -228,21 +228,16 @@ void chat_log_add_line(const char *text) {
     *(s8 *)((s8 *)(num + *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0)) + 0) = 0;
 }
 
-extern "C" {
-s32 *get_active_photon_object__17TWindowMessageLogFv(u16);
-}
 void append_text_space(void);
 void text_builder_reset(void);
 void cache_last_chat_line(uaddr text);
 
-extern s32 local_client_id;
-
 void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
-    s32 *str;
+    char *str;
     if ((s32) arg0 == (s32) local_client_id) {
         cache_last_chat_line((uaddr)shared_text_buffer);
     }
-    str = get_active_photon_object__17TWindowMessageLogFv(arg0);
+    str = TWindowMessageLog::get_active_photon_object(arg0);
     text_builder_reset();
     if (str != NULL) {
         text_builder_append((u8 *)str);
