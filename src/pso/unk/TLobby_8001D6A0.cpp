@@ -606,7 +606,7 @@ void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3) {
         temp_r31 = TLobby::calc_alpha_shifted(var_f4);
         if (get_main_phase() == 0xF) {
             TLobby::close_result_windows();
-            draw_small_font_text((void *)(temp_r31 | 0xFF0000 | 0xFFFF), (const char *)(((u8* (*)(void))get_shared_text_buffer)()), (f32)x, (f32)(-1.0f + position1Y), (f32)scale);
+            draw_small_font_text(temp_r31 | 0xFF0000 | 0xFFFF, (const char *)(((u8* (*)(void))get_shared_text_buffer)()), (f32)x, (f32)(-1.0f + position1Y), (f32)scale);
         }
     }
 }
@@ -650,7 +650,7 @@ void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha) {
                 append_padded_number((elapsed / 60) % 60, 2);
                 text_builder_append((u8 *)"/");
             }
-            draw_small_font_text((void *)(color | 0xFF0000 | 0xFFFF), (const char *)get_shared_text_buffer(), x,
+            draw_small_font_text(color | 0xFF0000 | 0xFFFF, (const char *)get_shared_text_buffer(), x,
                                  -1.0f + y, scale);
             x += 57.0f;
         }
