@@ -52,7 +52,7 @@ inline void prep_803CA8B4(AdxtPlayer *self) {
             }
         }
         if (i == n) {
-            TLobby::dispatch_packet(self->rna_handle, 0);
+            gcrna_bridge_set_trans_sw(self->rna_handle, 0);
             self->stat = 4;
         }
     }
@@ -217,7 +217,7 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
             u8 *header = input_state->get_offset_58();
             run_step_4430(self->rna_handle, header);
         }
-        TLobby::dispatch_packet(self->rna_handle, 1);
+        gcrna_bridge_set_trans_sw(self->rna_handle, 1);
         self->stat = 2;
     }
 }

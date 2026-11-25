@@ -389,11 +389,6 @@ struct TLobby : public TObject {
     static void release_bg_multi_textures();
     static void clear_session_buffer();
     static void reset_sound_buffers();
-    static void run_sequence();
-    static void dispatch_packet(struct GcrnaStream *stream, s32 enabled);
-    static GcrnaStream *run_step_5210(SjRingBuffer **inputs, s32 channels);
-    static void flush_update(GcrnaErrorCallback callback, void *context);
-    static void shutdown_cleanup();
     s32 get_scroll_offset();
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);

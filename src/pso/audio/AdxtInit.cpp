@@ -35,7 +35,7 @@ void adxt_finish() {
     temp_r0 = TLobby_init_ref_count - 1;
     TLobby_init_ref_count = temp_r0;
     if (temp_r0 == 0) {
-        TLobby::shutdown_cleanup();
+        gcrna_bridge_shutdown();
         adxf_finish();
         adxstm_finish_fs();
         lsc_shutdown();
@@ -67,7 +67,7 @@ void adxt_init() {
         TLobby::reset_sound_buffers();
         adxf_init();
         TLobby__sub_803CC114();
-        TLobby::flush_update(adxt_error_callback, NULL);
+        gcrna_bridge_set_error_callback(adxt_error_callback, NULL);
         memset(adx_stream_player_pool, 0, 0xA80);
         lsc_init();
         if (lbl_805D4658 == 1) {

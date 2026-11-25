@@ -30,7 +30,7 @@ void TLobby__sub_803CBFB0(GcrnaStream *stream, s32 stream_count) {
     TLobby__sub_803D4704(stream, stream_count);
 }
 
-void TLobby::run_sequence() {
+void gcrna_bridge_update_streams(void) {
     update_active_streams();
 }
 
@@ -46,7 +46,7 @@ void TLobby__sub_803CC030(GcrnaStream *stream, s32 enabled) {
     GCRNA_SetPlaySw(stream, enabled);
 }
 
-void TLobby::dispatch_packet(GcrnaStream *stream, s32 enabled) {
+void gcrna_bridge_set_trans_sw(GcrnaStream *stream, s32 enabled) {
     GCRNA_SetTransSw(stream, enabled);
 }
 
@@ -58,15 +58,15 @@ void unregister_si_polling(GcrnaStream *stream) {
     gcrna_destroy_stream(stream);
 }
 
-GcrnaStream *TLobby::run_step_5210(SjRingBuffer **inputs, s32 channels) {
+GcrnaStream *gcrna_bridge_create(SjRingBuffer **inputs, s32 channels) {
     return GCRNA_Create(inputs, channels);
 }
 
-void TLobby::flush_update(GcrnaErrorCallback callback, void *context) {
+void gcrna_bridge_set_error_callback(GcrnaErrorCallback callback, void *context) {
     gcrna_set_error_callback(callback, context);
 }
 
-void TLobby::shutdown_cleanup() {
+void gcrna_bridge_shutdown(void) {
     gcrna_shutdown();
 }
 
