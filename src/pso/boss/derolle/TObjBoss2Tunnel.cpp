@@ -186,7 +186,6 @@ NJS_OBJECT *debug_cylinder_object = &debug_chunk_a_object;
 LAYOUT_ASSERT(ScreenSnapshot_size, sizeof(ScreenSnapshot) == 0x1818C);
 extern "C" {
 extern s32 memcard_access_active;
-s8 func_801A5E54__Fv(void);
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);

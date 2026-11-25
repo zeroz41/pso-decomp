@@ -1006,7 +1006,6 @@ typedef struct {
     s32 n;
 } Desc_800F8FB8;
 
-s8 func_801A5E54__Fv(void);
 
 #define disk_error_msg_last ((Msg_800F8FB8 *)disk_error_msg_last)
 #define show_disk_error_msg(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)

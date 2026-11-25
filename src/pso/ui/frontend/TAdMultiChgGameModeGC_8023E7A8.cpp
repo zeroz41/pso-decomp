@@ -4,6 +4,7 @@
 // (.sdata) are read and written by every part.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include <string.h>
@@ -519,7 +520,7 @@ void run_game_mode_select_frame(void) {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     if (TAdPlayerLoadGC::get_instance() == 0) {
-        if (func_801A5E54__Fv() != 0) {
+        if (static_cast<s8>(func_801A5E54()) != 0) {
             switch_to_fallback_main_phase();
         }
         if (TQuestVmDownLoadServer::is_ready() != 0) {

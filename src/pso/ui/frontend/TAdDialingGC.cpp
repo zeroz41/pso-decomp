@@ -45,7 +45,6 @@ void TAdDialingGC::create() {
 
 TAdDialingGC *TAdDialingGC::instance;
 extern "C" {
-s8 func_801A5E54__Fv();
 BOOL fn_80145A44(char *dst);
 }
 
@@ -407,7 +406,7 @@ void TAdDialingGC::update_idle_dial_state() {
         }
         return;
     case 2:
-        if (func_801A5E54__Fv() != 0) {
+        if (static_cast<s8>(func_801A5E54()) != 0) {
             this->dial_step = 3;
             return;
         }
