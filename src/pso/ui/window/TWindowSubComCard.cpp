@@ -809,7 +809,7 @@ void TWindowSubComCard::run_task() {
             return;
         }
         if (((TWindowMenu *)(this->m_64))->is_decided() != 0) {
-            ((TWindowSubComCard *)this)->sub_80271F04(choice_selections, (int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry()), (int) (((TWindowMenu *)this->m_64)->get_selected_value()));
+            ((TWindowSubComCard *)this)->set_choice_search_option(choice_selections, (int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry()), (int) (((TWindowMenu *)this->m_64)->get_selected_value()));
             this->state = 0x29U;
             return;
         }
@@ -912,7 +912,7 @@ void TWindowSubComCard::run_task() {
         }
         if (((TWindowMenu *)(this->m_64))->is_decided() != 0) {
             chosen_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-            ((TWindowSubComCard *)this)->sub_80271F04(chosen_record->choice_search, (int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry()), (int) (((TWindowMenu *)this->m_64)->get_selected_value()));
+            ((TWindowSubComCard *)this)->set_choice_search_option(chosen_record->choice_search, (int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry()), (int) (((TWindowMenu *)this->m_64)->get_selected_value()));
             this->state = 0x35U;
             return;
         }
@@ -1747,7 +1747,7 @@ u8 *TWindowSubComCard::find_entry_rest(void *arg1_arg, s32 idx) {
     }
     return 0;
 }
-void TWindowSubComCard::sub_80271F04(ChoiceSearchSelection *selections, s32 key, saddr val) {
+void TWindowSubComCard::set_choice_search_option(ChoiceSearchSelection *selections, s32 key, saddr val) {
     s32 i;
     if (key == 0) {
         if (val != TLobby::open_hard_keyboard(client_id)) {

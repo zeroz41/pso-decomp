@@ -16269,7 +16269,7 @@ force_active:
   - sub_8026556C__21TWindowSubComCardListFv
   - sub_80266BB8__11TWindowMenuFv
   - sub_8027095C__19TWindowSoundBalanceFv
-  - sub_80271F04__17TWindowSubComCardFP21ChoiceSearchSelectionll
+  - set_choice_search_option__17TWindowSubComCardFP21ChoiceSearchSelectionll
   - sub_802721D8__17TWindowSubComCardFv
   - sub_802730E0__17TWindowSubComCardFv
   - get_cursor_origin__21TWindowSubCustomEquipFP10NJS_POINT2

@@ -15,7 +15,8 @@ struct TWindowSubComCard : public TObject {
     void rebuild_com_card_list(saddr list_window);
     static const char *class_name;
     u32 sub_80272DE0();
-    void sub_80271F04(ChoiceSearchSelection *selections, s32 key, saddr val);
+    // Stores the option `val` picked for the category `key` (0 is the com param) and updates the menus.
+    void set_choice_search_option(ChoiceSearchSelection *selections, s32 key, saddr val);
     s32 reinit(int);
     s32 init_guild_card_tag(int);
     s32 sub_802730E0();
