@@ -1,5 +1,5 @@
-// One original TU runs from calc_triangle_normal (0x801412D0) to the weak inline copies at
-// 0x80142624-0x80142770, but its out-of-line copy of sqrt_double sits at the TU end while the
+// One original TU runs from calc_triangle_normal to the weak inline copies at its end, but its
+// out-of-line copy of sqrt_double sits at the TU end while the
 // copy's constants sit between the tev tables and the pulse constants. No compiler here emits
 // that (a copy follows its first caller, its constants with it), so the TU is built as two
 // units: render_util_head.cpp and this one (set_cull_none to the weak copies at the end).
