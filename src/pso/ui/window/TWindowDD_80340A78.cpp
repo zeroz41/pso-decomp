@@ -229,7 +229,7 @@ void __sinit_TWindowDD_80340A78_cpp(void) {
 
 __declspec(section ".ctors") static void *const __sinit_TWindowDD_80340A78_cpp_ref = (void *)__sinit_TWindowDD_80340A78_cpp;
 
-void *TWindowDD__sub_80340F70(void) { return new TWindowDD_WS_ScrollBar; }
+TWindowDD_WS_ScrollBar *TWindowDD__sub_80340F70(void) { return new TWindowDD_WS_ScrollBar; }
 
 TWindowDD_WS_ScrollBar::TWindowDD_WS_ScrollBar()
     : TWindowBase((u8 *)lbl_804EFBD0, 4, (u8 *)lbl_804EFBC8) {

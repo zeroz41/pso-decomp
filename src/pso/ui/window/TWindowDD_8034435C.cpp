@@ -327,9 +327,9 @@ s32 format_message_text__9TWindowDDFPvPvUs(WordSelectMessage *src, char *window_
         break;
     case 3:
         if (n > 1) {
-            struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
-            TWindowDD__sub_80347758(src, &tmp.dd);
-            pos = format_message_text__9TWindowDDFPvPvUs(&tmp.dd, window_dd, player);
+            WordSelectMessage copy;
+            TWindowDD__sub_80347758(src, &copy);
+            pos = format_message_text__9TWindowDDFPvPvUs(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -515,9 +515,9 @@ s32 format_german_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *windo
         break;
     case 3:
         if (n > 1) {
-            struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
-            TWindowDD__sub_80347758(src, &tmp.dd);
-            pos = format_german_message__9TWindowDDFPvPvUs(&tmp.dd, window_dd, player);
+            WordSelectMessage copy;
+            TWindowDD__sub_80347758(src, &copy);
+            pos = format_german_message__9TWindowDDFPvPvUs(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -766,9 +766,9 @@ s32 TWindowDD__sub_80345608(WordSelectMessage *src, char *window_dd, u16 player)
         break;
     case 3:
         if (n > 1) {
-            struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
-            TWindowDD__sub_80347758(src, &tmp.dd);
-            pos = TWindowDD__sub_80345608(&tmp.dd, window_dd, player);
+            WordSelectMessage copy;
+            TWindowDD__sub_80347758(src, &copy);
+            pos = TWindowDD__sub_80345608(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }
@@ -973,9 +973,9 @@ s32 format_english_message__9TWindowDDFPvPvUs(WordSelectMessage *src, char *wind
         break;
     case 3:
         if (n > 1) {
-            struct { WordSelectMessage dd; u8 pad[0x10]; } tmp;
-            TWindowDD__sub_80347758(src, &tmp.dd);
-            pos = format_english_message__9TWindowDDFPvPvUs(&tmp.dd, window_dd, player);
+            WordSelectMessage copy;
+            TWindowDD__sub_80347758(src, &copy);
+            pos = format_english_message__9TWindowDDFPvPvUs(&copy, window_dd, player);
         } else {
             append_word_select_token(src->ids[0], window_dd, &pos);
         }

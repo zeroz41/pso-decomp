@@ -128,7 +128,7 @@ TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style
     open_tick = 0x01000000;
 }
 
-TWindowDD_WS_String *create_word_select_string(f32 *pos, f32 *size, u32 str, s32 style, f32 width) {
+TWindowDD_WS_String *create_word_select_string(f32 width, f32 *pos, f32 *size, u32 str, s32 style) {
     TWindowDD__data_804EFC24.size[0] = width;
     TWindowDD__data_804EFC24.size[1] = TWindowDD__data_805DFB20;
     return new TWindowDD_WS_String(pos, size, str, style);

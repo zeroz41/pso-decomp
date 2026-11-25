@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/window/TWindowDD_80348D0C.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/client_id.h"
@@ -26,11 +27,7 @@ void TWindowDD::init_header() { *(u8*)((char*)this + 0x0) = 116; *(u8*)((char*)t
 
 }
 
-struct S_80348DAC { s16 count; s16 unk2; s16 items[8]; };
-
 struct S_80348D90 { s16 count; s16 unk2; s16 items[8]; };
-
-struct S_80348DFC { s16 count; s16 unk2; s16 items[8]; s32 a; s32 b; };
 
 struct S_80348DD8 { s16 count; s16 unk2; s16 items[8]; };
 
@@ -50,8 +47,8 @@ void TWindowDD::bswap_word_select() {
     bswap_32(&msg->e);
 }
 
-void TWindowDD::reset_index() { *(s32*)((char*)this + 0x14) = 0; }
-void TWindowDD::set_field14(s32 v) { *(s32*)((char*)this + 0x14) = v; }
+void WordSelectMessage::reset_index() { numeric_value = 0; }
+void WordSelectMessage::set_field14(s32 v) { numeric_value = v; }
 saddr TWindowDD__sub_80348D88(void* p) { return *(s32*)((char*)p + 0x14); }
 
 void TWindowDD__sub_80348D90(S_80348D90 *self, s16 v) {
@@ -60,10 +57,9 @@ void TWindowDD__sub_80348D90(S_80348D90 *self, s16 v) {
     }
 }
 
-void TWindowDD::pop_entry() {
-    S_80348DAC *self = (S_80348DAC *)this;
-    if (self->count > 0) {
-        self->items[--self->count] = -1;
+void WordSelectMessage::pop_entry() {
+    if (count > 0) {
+        ids[--count] = -1;
     }
 }
 
@@ -73,16 +69,15 @@ void TWindowDD__sub_80348DD8(S_80348DD8 *self, s16 v) {
     }
 }
 
-void TWindowDD::init_item_slots() {
-    S_80348DFC *self = (S_80348DFC *)this;
+void WordSelectMessage::init_item_slots() {
     s32 i;
-    self->unk2 = 0;
-    self->count = 0;
+    type = 0;
+    count = 0;
     for (i = 0; i < 8; i++) {
-        self->items[i] = -1;
+        ids[i] = -1;
     }
-    self->a = 0;
-    self->b = 0;
+    numeric_value = 0;
+    pad_18 = 0;
 }
 
 }

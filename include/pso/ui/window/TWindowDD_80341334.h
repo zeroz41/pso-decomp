@@ -8,7 +8,7 @@ class TWindowDD_WS_String;
 // --- C functions defined in TWindowDD_80341334.cpp ---
 extern "C" {
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
-TWindowDD_WS_String *create_word_select_string(f32 *pos, f32 *size, u32 str, s32 style, f32 width);
+TWindowDD_WS_String *create_word_select_string(f32 width, f32 *pos, f32 *size, u32 str, s32 style);
 }
 // --- end of C functions
 

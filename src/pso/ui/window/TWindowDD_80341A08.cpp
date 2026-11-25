@@ -72,9 +72,9 @@ struct Entry_80341FFC {
 
 extern s32 TWindowDD__data_805DFB50;
 
-saddr TWindowDD__sub_80342384(s32 element_list, s32 rows) {
+TWindowDD_WS_Word *TWindowDD__sub_80342384(s32 element_list, s32 rows) {
     TWindowDD__data_804EFC50.rows = rows;
-    return (saddr)new TWindowDD_WS_Word(element_list, rows);
+    return new TWindowDD_WS_Word(element_list, rows);
 }
 
 TWindowDD_WS_Word::TWindowDD_WS_Word(s32 list_id, s32 visible_count)
@@ -131,8 +131,7 @@ s32 TWindowDD_WS_Word::update_if_field28_set() {
 
 s32 TWindowDD_WS_Word::get_cursor_index() { return selected_row; }
 
-s32 TWindowDD__sub_8034217C(u8 *value) {
-    const TWindowDD_WS_Word *page = reinterpret_cast<const TWindowDD_WS_Word *>(value);
+s32 TWindowDD__sub_8034217C(const TWindowDD_WS_Word *page) {
     return page->selected_token_index - page->selected_row;
 }
 
@@ -143,8 +142,7 @@ int get_word_select_selected_id(const TWindowDD_WS_Word *page) {
     return 0x685;
 }
 
-s16 TWindowDD__sub_8034214C(u8 *value) {
-    const TWindowDD_WS_Word *page = reinterpret_cast<const TWindowDD_WS_Word *>(value);
+s16 TWindowDD__sub_8034214C(const TWindowDD_WS_Word *page) {
     return static_cast<s16>(page->element_list_id);
 }
 
@@ -319,14 +317,12 @@ void TWindowDD_WS_Word::reset_cursor() { point_table_index = 0; }
 
 void TWindowDD_WS_Word::set_mode_2() { point_table_index = 2; }
 
-void TWindowDD__sub_80341AF8(u8 *value) {
-    TWindowDD_WS_Word *page = reinterpret_cast<TWindowDD_WS_Word *>(value);
+void TWindowDD__sub_80341AF8(TWindowDD_WS_Word *page) {
     page->state_flags &= ~1;
     page->m_8c = 1;
 }
 
-void TWindowDD__sub_80341AE0(u8 *value) {
-    TWindowDD_WS_Word *page = reinterpret_cast<TWindowDD_WS_Word *>(value);
+void TWindowDD__sub_80341AE0(TWindowDD_WS_Word *page) {
     page->state_flags |= 1;
     page->m_8c = 1;
 }

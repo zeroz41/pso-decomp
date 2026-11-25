@@ -3,14 +3,22 @@
 
 #include "types.h"
 
-// Compact word-select payload, independent of the window displaying it.
+// Word-select payload, independent of the window displaying it. The chat packet
+// carries all 0x1C bytes.
 struct WordSelectMessage {
     s16 count;
     s16 type;
-    s16 ids[4];
+    s16 ids[8];
+    s32 numeric_value;
+    s32 pad_18;
+
+    void reset_index();
+    void set_field14(s32 v);
+    void pop_entry();
+    void init_item_slots();
 };
 
-LAYOUT_ASSERT(WordSelectMessage_size, sizeof(WordSelectMessage) == 12);
+LAYOUT_ASSERT(WordSelectMessage_size, sizeof(WordSelectMessage) == 0x1C);
 
 // The dispatcher and language formatters share the 16-bit speaker entity ID.
 extern "C" {

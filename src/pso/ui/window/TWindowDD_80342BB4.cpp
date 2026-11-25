@@ -3,23 +3,22 @@
 
 extern "C" {
 
-s32 TWindowDD__sub_80342B5C(s32);
+void TWindowDD__sub_80342B5C(TWindowDD *window_dd);
 s32 TWindowDD__sub_803435A0(void *);
 s32 refresh_word_select_child_list();
 s32 is_word_select_cancel_input(void *);
 
 void TWindowDD::update_dispatch() {
-    saddr arg0 = (saddr)this;
     refresh_word_select_child_list();
-    if (((TWindowDD *)arg0)->test_input_flag_4() != 0) {
+    if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        TWindowDD__sub_80342B5C(arg0);
-        TWindowDD__sub_803435A0((void *)arg0);
+        TWindowDD__sub_80342B5C(this);
+        TWindowDD__sub_803435A0(this);
         return;
     }
-    if (is_word_select_cancel_input((void *)arg0) != 0) {
+    if (is_word_select_cancel_input(this) != 0) {
         TWindowDD::play_sound();
-        TWindowDD::apply_entry_layout((void *)arg0);
+        TWindowDD::apply_entry_layout(this);
     }
 }
 
@@ -27,8 +26,8 @@ void TWindowDD::update_layout() {
     this->update_selection_state();
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        *(s32 *)((s8 *)this + 0xB4) = 0x14;
-        this->m_8c = -0x3C;
+        next_state = 0x14;
+        list_ids[1] = -0x3C;
         TWindowDD__sub_803435A0(this);
         return;
     }

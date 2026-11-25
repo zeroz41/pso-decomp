@@ -3,18 +3,31 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/WordSelectMessage.h"
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value);
 
 class TWindowDD_WS_Word;
+class TWindowDD_WS_String;
+class TWindowDD_WS_ScrollBar;
+class TWindowWordSelectMode;
+struct TWindowInputNumber;
 struct NJS_TEXLIST;
-struct WordSelectMessage;
 
 struct TWindowDDValueList {
     s16 *values;
     s32 count;
 };
+
+// One row of the word select state table, indexed by TWindowDD::state.
+struct TWindowDDStateEntry {
+    u32 flags;     // 2: leaving the state drops the last word; 4: it adds a string to strings[4..]
+    s16 prompt_id; // word shown in strings[2] while the state is open, -1 for none
+    u8 pad_6[0x2];
+};
+
+extern TWindowDDStateEntry word_select_state_table[21];
 
 struct TWindowDD : public TObject
 {
@@ -26,36 +39,34 @@ struct TWindowDD : public TObject
     TWindowDD(TObject *parent, void *arg2);
     virtual ~TWindowDD();
     virtual void run_task();
-    s16 menu_index;
-    u8 _pad1E[0x2];
-    s32 m_20;
-    u32 m_24[8];
-    u32 m_44[8];
-    u32 m_64[6];
-    uaddr m_7c;
-    u32 m_80;
-    uaddr m_84;
-    u32 m_88;
-    u32 m_8c;
-    u32 m_90;
-    u32 m_94;
-    u32 m_98;
-    u32 m_9c;
-    u32 m_a0;
-    u32 m_a4;
-    u32 m_a8;
-    u32 m_ac;
-    u32 m_b0;
-    u32 m_b4;
-    u32 m_b8;
-    u32 m_bc;
-    u32 m_c0;
-    u8 m_c4[0x1C];
-    u8 m_e0[0x1C];
+    s16 menu_index;                     // Its address is the input context of the button tests.
+    u8 pad_1e[0x2];
+    s32 depth;                          // Index of the active word page.
+    TWindowDD_WS_Word *pages[8];
+    s32 state_stack[8];                 // state to return to from each page level
+    TWindowDD_WS_String *strings[6];    // [3] shows the message being composed
+    TWindowDD_WS_ScrollBar *scroll_bar;
+    TWindowWordSelectMode *mode_window;
+    TWindowInputNumber *number_window;
+    s32 list_ids[3];                    // element lists of pages depth .. depth + 2
+    s32 close_flags;
+    s32 word_appended;
+    s32 last_selected_id;
+    s32 enemies_present;
+    s32 selection_confirmed;
+    s32 status;                         // 1 mode menu, 2 sent, 3 cancelled
+    s32 transition;                     // 1 opening the next page, 2 closing this one
+    s32 state;
+    s32 next_state;
+    s32 numeric_input_active;
+    s32 extra_string_count;
+    WordSelectMessage *result;
+    WordSelectMessage message;
+    WordSelectMessage saved_message;
     s16 selected_word;
-    u8 _padFE[0x2];
-    u32 m_100;
-    u32 m_104;
+    u8 pad_fe[0x2];
+    s32 pad_100;
+    s32 pad_104;
     void draw_transformed_primitive(s32 a1, u32 id, s32 a3);
     void reset_entries(f32 z, s32 color);
     void set_quad_corners_scaled(f32 x, f32 y, f32 farg2);
@@ -86,7 +97,7 @@ struct TWindowDD : public TObject
     TWindowDD_WS_Word *init_last_child();
     s32 setup_entry(s16 id);
     s32 get_current_child_index();
-    static void *get_entry(void *window, int index);
+    static TWindowDDStateEntry *get_entry(void *window, int index);
     void init_entry_field_64(s32 arg1);
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
@@ -128,10 +139,6 @@ struct TWindowDD : public TObject
     void update_and_send_lobby();
     void init_header();
     void bswap_word_select();
-    void reset_index();
-    void set_field14(s32 v);
-    void pop_entry();
-    void init_item_slots();
     static void init_ws_data_tables();
     static s32 lookup_item_category(s32 arg0);
     void handle_confirm_input();

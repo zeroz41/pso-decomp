@@ -8,17 +8,6 @@
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 
-struct W_80342ED0 {
-    u8 pad0[0x20];
-    s32 idx;
-    s32 ids[(0xB4 - 0x24) / 4];
-    s32 fb4;
-    u8 padb8[0xC6 - 0xB8];
-    s16 fc6;
-    u8 padc8[0x104 - 0xC8];
-    s32 f104;
-};
-
 const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
 
 extern "C" {
@@ -37,9 +26,9 @@ void TWindowDD::update() {
     this->update_selection_state();
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        if ((s32) *(s32 *)((s8 *)this + 0xB0) == 1) {
-            *(s32 *)((s8 *)this + 0xB4) = 0x14;
-            this->m_8c = -0x3C;
+        if (state == 1) {
+            next_state = 0x14;
+            list_ids[1] = -0x3C;
             TWindowDD__sub_803435A0(this);
             return;
         }
@@ -54,60 +43,56 @@ void TWindowDD::update() {
 
 void TWindowDD::handle_confirm_input() {
     s32 id;
-    W_80342ED0 *arg0 = (W_80342ED0 *)this;
     refresh_word_select_child_list();
-    if (((TWindowDD *)arg0)->test_input_flag_4() != 0) {
+    if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        id = get_word_select_selected_id(reinterpret_cast<TWindowDD_WS_Word *>(arg0->ids[arg0->idx]));
-        arg0->fc6 = TWindowDD__sub_80348448(arg0, id);
-        arg0->fb4 = TWindowDD__sub_80348424(arg0, id);
+        id = get_word_select_selected_id(pages[depth]);
+        message.type = TWindowDD__sub_80348448(this, id);
+        next_state = TWindowDD__sub_80348424(this, id);
         push_recent_id(id);
-        arg0->f104 = 0;
-        TWindowDD__sub_803435A0(arg0);
+        pad_104 = 0;
+        TWindowDD__sub_803435A0(this);
         return;
     }
-    if (is_word_select_cancel_input(arg0) != 0) {
+    if (is_word_select_cancel_input(this) != 0) {
         TWindowDD::play_se();
-        ((TWindowDD *)arg0)->set_state();
+        set_state();
     }
 }
 
-u8 update_numeric_parameter_input__9TWindowDDFPv(u8 *arg0) {
-    s32 temp_r3;
-    s32 var_r31;
-    u8 *var_r3;
-    var_r31 = 0;
-    if ((u32) ((TWindowDD *)arg0)->m_84 == 0U) {
-        ((TWindowDD *)arg0)->get_current_child_index();
-        temp_r3 = classify_id__9TWindowDDFs();
-        if (temp_r3 != 7) {
-            open_numeric_parameter_input__9TWindowDDFPviii(arg0, 0, word_select_numeric_limits[temp_r3], (void *) (TWindowDD__sub_80348D88(arg0 + 0xC4)));
+u8 update_numeric_parameter_input__9TWindowDDFPv(TWindowDD *window_dd) {
+    s32 kind;
+    s32 result;
+    result = 0;
+    if (window_dd->number_window == NULL) {
+        window_dd->get_current_child_index();
+        kind = classify_id__9TWindowDDFs();
+        if (kind != 7) {
+            open_numeric_parameter_input__9TWindowDDFPviii(window_dd, 0, word_select_numeric_limits[kind], (void *) (TWindowDD__sub_80348D88(&window_dd->message)));
             return 0U;
         }
         return 1U;
     }
-    TWindowDD__sub_80347CC8(arg0, arg0 + 0xC4);
-    if (((u32) ((TWindowDD *)arg0)->m_84 != 0U) || (((TObject *)(*(void **)((s8 *)arg0 + 0x84)))->all_parents_unqueued_for_destruction() != 0)) {
-        ((TWindowDD *)(arg0 + 0xC4))->set_field14((int) (((TWindowInputNumber *)(((TWindowDD *)arg0)->m_84))->get_value()));
-        if (((TWindowInputNumber *)(((TWindowDD *)arg0)->m_84))->is_cancelled() != 0) {
-            var_r31 = 2;
-            ((TWindowDD *)(arg0 + 0xC4))->reset_index();
-            ((TWindowBase *)(((TWindowDD *)arg0)->m_84))->close();
-        } else if (((TWindowInputNumber *)(((TWindowDD *)arg0)->m_84))->is_confirmed() != 0) {
-            var_r31 = 1;
-            ((TWindowBase *)(((TWindowDD *)arg0)->m_84))->close();
+    TWindowDD__sub_80347CC8(window_dd, &window_dd->message);
+    if (window_dd->number_window != NULL || window_dd->number_window->all_parents_unqueued_for_destruction() != 0) {
+        window_dd->message.set_field14(window_dd->number_window->get_value());
+        if (window_dd->number_window->is_cancelled() != 0) {
+            result = 2;
+            window_dd->message.reset_index();
+            window_dd->number_window->close();
+        } else if (window_dd->number_window->is_confirmed() != 0) {
+            result = 1;
+            window_dd->number_window->close();
         }
     } else {
-        var_r31 = 2;
+        result = 2;
     }
-    if (var_r31 != 0) {
-        var_r3 = (u8 *)(arg0 + (*(s32 *)((s8 *)arg0 + 0x20) * 4));
-        var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
-        TWindowDD__sub_80341AF8((var_r3));
-        ((TWindowDD *)arg0)->m_84 = 0U;
-        *(s32 *)((s8 *)arg0 + 0xB8) = 0;
+    if (result != 0) {
+        TWindowDD__sub_80341AF8(window_dd->pages[window_dd->depth]);
+        window_dd->number_window = NULL;
+        window_dd->numeric_input_active = 0;
     }
-    return (u8) (var_r31 == 1);
+    return (u8) (result == 1);
 }
 
 }
