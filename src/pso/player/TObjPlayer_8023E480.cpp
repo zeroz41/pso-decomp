@@ -33,7 +33,7 @@ s32 set_texlist(NJS_TEXLIST *texlist) {
 }
 
 
-s32 load_streamed_prs_texture(saddr name, saddr texlist) {
+s32 load_streamed_prs_texture(const char *name, NJS_TEXLIST *texlist) {
     void *h;
     void *buf;
     sprintf(texture_prs_stream_filename_buffer, "%s.prs", name);
@@ -44,13 +44,13 @@ s32 load_streamed_prs_texture(saddr name, saddr texlist) {
     }
     buf = TQuestVmDownLoadServer::alloc(0x100000);
     prs_decompress_buffer(h, buf);
-    load_gvm_texture_archive(buf, (NJS_TEXLIST *)texlist);
+    load_gvm_texture_archive(buf, texlist);
     safe_free(buf);
     safe_free(h);
     return 1;
 }
 
-s32 load_disc_prs_texture(saddr name, saddr texlist) {
+s32 load_disc_prs_texture(const char *name, NJS_TEXLIST *texlist) {
     AdxfHandle *file;
     s32 sectors;
     void *c;
@@ -64,7 +64,7 @@ s32 load_disc_prs_texture(saddr name, saddr texlist) {
         if (read_disc_file(texture_prs_disc_filename_buffer, b) != -1) {
             c = xmalloc(0x200000);
             prs_decompress_buffer(b, c);
-            load_gvm_texture_archive(c, (NJS_TEXLIST *)texlist);
+            load_gvm_texture_archive(c, texlist);
             xfree(c);
         }
         xfree(b);
