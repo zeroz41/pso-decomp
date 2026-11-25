@@ -577,7 +577,7 @@ void TWindowKeyBoardBase::convert_input_text() {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025DBDC(s32 arg1) {
+void TWindowKeyBoardBase::sub_8025DBDC(s32 force) {
     u16 *p;
     s32 lim; u32 n; s32 j; s32 rb; s32 ret; s8 c; s8 *q;
     u32 cnt;
@@ -596,7 +596,7 @@ void TWindowKeyBoardBase::sub_8025DBDC(s32 arg1) {
     for (;;) {
         rb = n * 2;
         if (n == 0) break;
-        if (arg1 == 0 && n == 1) { c = *q; if (c == 'n' || c == 'N') return; }
+        if (force == 0 && n == 1) { c = *q; if (c == 'n' || c == 'N') return; }
         if (composition_flags & 8) { ret = dispatch_request_0f__19TWindowKeyBoardSoftFll(q, scratch); } else { ret = dispatch_request_0x10__19TWindowKeyBoardSoftFll(q, scratch); }
         if (ret != 0 && n > 1 && q[0] == q[1]) {
             if (composition_flags & 8) {

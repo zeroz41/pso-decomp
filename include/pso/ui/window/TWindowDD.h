@@ -69,7 +69,7 @@ struct TWindowDD : public TObject
     s32 pad_104;
     void draw_transformed_primitive(s32 a1, u32 id, s32 a3);
     void reset_entries(f32 z, s32 color);
-    void set_quad_corners_scaled(f32 x, f32 y, f32 farg2);
+    void set_quad_corners_scaled(f32 x, f32 y, f32 scale);
     static s32 apply_both_choices(void *input_context, saddr buttons);
     static s32 check_all_ready(s32 floor);
     void update_com_card();

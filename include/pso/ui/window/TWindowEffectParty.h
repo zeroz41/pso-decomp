@@ -21,8 +21,8 @@ struct TWindowEffectParty : public TObject {
     virtual void render();
     virtual void run_task();
     s32 step_toward_target(f32 target_x, f32 target_y);
-    void calc_effect_position(void *arg1);
-    static void set_slot_position(s32 arg0, s32 slot, void *window_sub_symbol_chat_parts_set);
+    void calc_effect_position(void *position);
+    void set_slot_position(s32 slot, f32 *pos);
     static void *create(void *owner, u16 from, u16 to, u32 kind);
 };
 

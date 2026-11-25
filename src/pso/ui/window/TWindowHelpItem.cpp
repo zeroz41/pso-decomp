@@ -88,7 +88,7 @@ void fn_80255A38(TWindowHelpItem *item);
 }
 extern u8 *text_language_group_table;
 saddr format_item_description(u8 *item);
-void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 
 const char *window_help_item_class_name = "TWindowHelpItem";
 

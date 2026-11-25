@@ -15,12 +15,11 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/NinjaTypes.h"
 #include <string.h>
 
 extern "C" {
-f32 rotate_matrix_by_node_angles(void *, void *);
-s32 scale_current_matrix(void *);
-f32 post_translate_matrix(void *);
 void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern SubtractiveRng chr_select_rng_state;
 extern s32 chr_select_serial_seeds[];
@@ -28,40 +27,38 @@ extern char memory_card_character_dir_name[];
 extern s32 memcard_access_active;
 }
 int TWindowKeyBoardHard::is_card_flag_set() { return TWindowKeyBoardHard::test_card_flag((saddr)this, 1); }
-void draw_ginja_box_tree(u8 *arg0) {
-    saddr temp_r31;
-    u8 *temp_r3;
-    u8 *var_r30;
-    var_r30 = arg0;
+void draw_ginja_box_tree(NJS_OBJECT *node) {
+    u32 flags;
+    NJS_OBJECT *child;
     do {
-        temp_r31 = *(s32 *)((s8 *)var_r30 + 0);
+        flags = node->evalflags;
         push_matrix();
-        if (!(temp_r31 & 1)) {
-            post_translate_matrix(var_r30 + 8);
+        if (!(flags & 1)) {
+            post_translate_matrix(node->pos);
         }
-        if (!(temp_r31 & 2)) {
-            rotate_matrix_by_node_angles(var_r30 + 0x14, (void *) (temp_r31 & 0x20));
+        if (!(flags & 2)) {
+            rotate_matrix_by_node_angles(node->ang, flags & 0x20);
         }
-        if (!(temp_r31 & 4)) {
-            scale_current_matrix(var_r30 + 0x20);
+        if (!(flags & 4)) {
+            scale_current_matrix(node->scl);
         }
-        if (!(temp_r31 & 0x100000)) {
+        if (!(flags & 0x100000)) {
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
         }
-        if (!(temp_r31 & 8)) {
-            draw_ginja_model(*(void **)((s8 *)var_r30 + 4));
+        if (!(flags & 8)) {
+            draw_ginja_model(node->model);
         }
-        if (!(temp_r31 & 0x10)) {
-            temp_r3 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x2C));
-            if (temp_r3 != NULL) {
-                draw_ginja_box_tree(temp_r3);
+        if (!(flags & 0x10)) {
+            child = node->child;
+            if (child != NULL) {
+                draw_ginja_box_tree(child);
             }
         }
         pop_matrix();
-        var_r30 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x30));
-    } while (var_r30 != NULL);
+        node = node->sibling;
+    } while (node != NULL);
 }
 
 void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {

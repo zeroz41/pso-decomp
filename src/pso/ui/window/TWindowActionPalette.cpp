@@ -229,12 +229,12 @@ void TWindowActionPalette::render() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowActionPalette::draw_frame(saddr arg1) {
+void TWindowActionPalette::draw_frame(saddr context) {
     TexturedQuad r1;
     TexturedQuad r2;
     TexturedQuad r4;
     TexturedQuad r3;
-    WindowDrawContext *ctx = (WindowDrawContext *)arg1;
+    WindowDrawContext *ctx = (WindowDrawContext *)context;
     f32 scale;
     f32 depth;
     scale = get_transition_progress();

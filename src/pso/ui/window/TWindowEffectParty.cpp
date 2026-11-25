@@ -36,9 +36,9 @@ TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source_slot, s8 targe
     Pos_8024FAD8 p;
     *(s32 *)this = ((saddr)TWindowEffectParty__name);
     this->source_slot = source_slot;
-    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->source_slot, &this->pos_x);
+    set_slot_position(this->source_slot, &this->pos_x);
     this->target_slot = target_slot;
-    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->target_slot, &this->target_x);
+    set_slot_position(this->target_slot, &this->target_x);
     this->calc_effect_position(&p);
     this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)idx, (s32)(0xC0));
     this->state = 0;
@@ -143,25 +143,24 @@ void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     return w;
 }
 
-void TWindowEffectParty::set_slot_position(s32 arg0, s32 slot, void *window_sub_symbol_chat_parts_set) {
-    void *temp_r3;
-    (void)arg0;
+void TWindowEffectParty::set_slot_position(s32 slot, f32 *pos) {
+    void *window;
 
     if (slot <= 0) {
-        copy_vec2(window_sub_symbol_chat_parts_set, (void*)(get_window_layout_position(0x1C)));
-        *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0) += 228.0f;
-        *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 4) += 32.0f;
+        copy_vec2(pos, (void*)(get_window_layout_position(0x1C)));
+        pos[0] += 228.0f;
+        pos[1] += 32.0f;
         return;
     }
-    temp_r3 = TWindowCtrl__sub_8024FB80(slot - 1);
-    if (temp_r3 != NULL) {
-        *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 0) = (f32) (111.0f + *(f32 *)((s8 *)temp_r3 + 0x30));
-        *(f32 *)((s8 *)window_sub_symbol_chat_parts_set + 4) = (f32) (19.0f + *(f32 *)((s8 *)temp_r3 + 0x34));
+    window = TWindowCtrl__sub_8024FB80(slot - 1);
+    if (window != NULL) {
+        pos[0] = (f32) (111.0f + *(f32 *)((s8 *)window + 0x30));
+        pos[1] = (f32) (19.0f + *(f32 *)((s8 *)window + 0x34));
     }
 }
 
-void TWindowEffectParty::calc_effect_position(void *arg1) {
-    f32 *out = (f32 *)arg1;
+void TWindowEffectParty::calc_effect_position(void *position) {
+    f32 *out = (f32 *)position;
     out[0] = this->pos_x;
     out[1] = this->pos_y;
     out[2] = (f32)(-1.0f / get_scale__15TWindowCtrlMainFv(local_client_id));

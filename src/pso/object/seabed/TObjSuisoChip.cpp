@@ -340,7 +340,7 @@ void TObjSeabedSuiso_CH::render() {
         if (motion != NULL) {
             draw_ginja_model_with_motion(kind_model, motion, animation_frame);
         } else {
-            draw_ginja_box_tree((u8 *)kind_model);
+            draw_ginja_box_tree((NJS_OBJECT *)kind_model);
         }
         pop_matrix();
         set_model_node_callback(0);

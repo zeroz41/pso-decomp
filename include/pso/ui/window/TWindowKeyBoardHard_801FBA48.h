@@ -8,6 +8,8 @@ void TAdSinglePlyChrSelectGC__sub_801FBB1C(void);
 void TAdSinglePlyChrSelectGC__sub_801FBB7C(void);
 void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *save_data);
 }
-void draw_ginja_box_tree(u8 *arg0);
+struct NJS_OBJECT;
+
+void draw_ginja_box_tree(NJS_OBJECT *node);
 
 #endif

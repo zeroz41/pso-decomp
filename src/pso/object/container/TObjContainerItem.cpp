@@ -458,7 +458,7 @@ void TObjContainerItem::draw_model() {
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
-            draw_ginja_box_tree((u8 *)model);
+            draw_ginja_box_tree((NJS_OBJECT *)model);
             pop_matrix();
             break;
         case 1:
@@ -550,7 +550,7 @@ void TObjContainerEnemy::draw_model() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
-        draw_ginja_box_tree((u8 *)model);
+        draw_ginja_box_tree((NJS_OBJECT *)model);
         pop_matrix();
         break;
     case 1:
@@ -665,7 +665,7 @@ void TObjContainerNoItem::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
-        draw_ginja_box_tree((u8 *)(*(saddr *)((s8 *)arg0 + 0x34)));
+        draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)arg0 + 0x34)));
         pop_matrix();
             break;
         }
@@ -757,7 +757,7 @@ void TObjContainerBase::draw_model() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_box_tree((u8 *)get_container_breakup_model(2));
+            draw_ginja_box_tree(get_container_breakup_model(2));
             pop_matrix();
             break;
         case 1:
@@ -861,7 +861,7 @@ void TObjContainerAbeEnemy::draw_model() {
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_box_tree((u8 *)get_container_breakup_model(2));
+            draw_ginja_box_tree(get_container_breakup_model(2));
             pop_matrix();
             break;
         case 1:
