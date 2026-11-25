@@ -276,7 +276,6 @@ struct TLobby : public TObject {
     static void append_swapped_u32(s32 *value);
     static u32 clamp_min_drop(u32 min, u32 max);
     static void free_boss4rock();
-    void bswap_quad_word();
     void bswap_vec3();
     void swap_header_endian();
     static void init_sub_objects();
@@ -599,7 +598,6 @@ struct TLobby : public TObject {
     static void send_trade_proposal_result(s8 what, s8 result);
     static s32 write_zero_padded_block(void *arg0p);
     void apply_sync_item_state();
-    void assign_object_ids(s32 count, void *area);
     static s32 init_floor_enemy_count(s32 floor, u8 *source, s32 size);
     static s32 load_object_set_entries(s32 floor, u8 *rows, s32 byte_size);
     s32 copy_current_entry_name(s32 len);
@@ -711,9 +709,6 @@ struct TLobby : public TObject {
     static void destroy_join_entries();
     static void destroy_lobby_ui();
     static void disable_window_flags(void*);
-    static void *find_chunk_by_id(void *, int);
-    static void *find_header_by_id(void *, int);
-    static void *find_type5_header(void *, int);
     static saddr get_card_window_area();
     static ActorParamBlock *get_entry(int, int);
     static int get_flag_bit0();

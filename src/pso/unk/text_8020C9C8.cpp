@@ -29,10 +29,9 @@ struct Obj_8020C9C8 : ObjBase_8020C9C8 {
 };
 
 extern "C" {
-s32 set_room_group_flags__6TLobbyFlssl(s32, s32, s32, s32);
 Obj_8020C9C8 *create_set_object_from_row(Set_8020C9C8 *);
 extern u8 *quest_object_entries;
-s32 unhide_room_set_objects(saddr floor, s32 arg1, s32 arg2) {
+s32 unhide_room_set_objects(s32 floor, s16 room, s16 group) {
     s32 n;
     s32 count;
     s32 local;
@@ -45,7 +44,7 @@ s32 unhide_room_set_objects(saddr floor, s32 arg1, s32 arg2) {
         local = 1;
     }
     if (local == 0) {
-        return set_room_group_flags__6TLobbyFlssl(floor, arg1, arg2, 1);
+        return TLobby::set_room_group_flags(floor, room, group, 1);
     }
     set = reinterpret_cast<Set_8020C9C8 *>(get_active_floor_object_rows(floor));
     n = TLobby::get_obj_table_entry(floor);
@@ -53,8 +52,8 @@ s32 unhide_room_set_objects(saddr floor, s32 arg1, s32 arg2) {
         if (set->flags & 8) continue;
         if (set->flags & 2) continue;
         if (set->flags & 1) continue;
-        if (set->x != (s16)arg1) continue;
-        if (set->z != (s16)arg2) continue;
+        if (set->x != room) continue;
+        if (set->z != group) continue;
         if (local != 0) {
             obj = create_set_object_from_row(set);
             if (obj != NULL) {
