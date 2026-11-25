@@ -5,9 +5,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/scene/TScene.h"
 
 
-    extern int lobby_online_ready_flag;
 int TLobby::get_online_ready_flag() {  return lobby_online_ready_flag; }
 
 void *create_boss4_zako_draw(void *parent) {

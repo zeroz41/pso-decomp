@@ -7,11 +7,11 @@
 #include "pso/network/TLobby.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/unk/text_801F43B4.h"
 
 extern "C" {
 __declspec(section ".rodata") s32 lobby_story_flag_clear_list[6] = { 151, 152, 153, 154, -1, 0 };
 extern s32 lobby_story_flag_clear_list[6];
-extern u8 quest_story_flags_by_difficulty[0x200];
 
 void reset_camera_if_fullscreen__6TLobbyFPv(void* p) { if (TRaderMapCore::is_not_split_screen() == 1) { TCameraCtrl::get_nth_view_player_id((saddr)((void*)0)); ((int (*)(void))TLobby__sub_801F494C)(); } }
 

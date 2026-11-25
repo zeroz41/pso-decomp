@@ -41,6 +41,7 @@
 #include "pso/network/client_id.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
@@ -227,7 +228,6 @@ extern "C" {
 s32 TLobby__sub_80291F9C();
 }
 
-extern s32 evt2_random_enemies_mode;
 
 void giveup_window_handle_select(void *retry) {
 

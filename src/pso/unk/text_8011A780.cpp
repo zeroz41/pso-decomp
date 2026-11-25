@@ -26,6 +26,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 #include "pso/item/item_create.h"
+#include "pso/unk/text_801057A8.h"
 
 
 // FloorItem::FloorItem() on a record built here.
@@ -55,9 +56,6 @@ s32 build_item_id_mode;
 s32 *item_sync_counter_table;
 s32 *item_id_counter_table;
 void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request);
-extern "C" {
-s32 spawn_dropped_item_from_msg(void *, int);
-}
 void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 
 u32 build_item_id(u16 drop_id_base) {

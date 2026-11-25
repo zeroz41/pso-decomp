@@ -20,6 +20,8 @@
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/unk/text_803DD5E0.h"
 
 
 struct BmlModelLoadRequest {
@@ -88,12 +90,10 @@ u8 * lobby_bml_read_buffer;
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes);
 extern "C" {
 s32 TLobby__sub_800F9FF4(saddr);
-s32 release_texture_list(void *);
 
 }
 s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
 extern "C" {
-void *load_nj_chunk_model_resource(u8 *, u32 *, u32 *);
 
 
 // ---- 0x8001ED90-0x8001EF5C (was TObjFish_8001ED90) ----

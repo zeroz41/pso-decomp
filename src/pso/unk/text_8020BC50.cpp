@@ -5,8 +5,8 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 extern "C" {
-s32 get_current_floor();
 extern TObject *tl_02;
 extern TObject *tl_05;
 extern TObject *tl_06;

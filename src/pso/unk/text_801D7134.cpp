@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/data/pso_const_ids4.h"
 
 struct LobbyRuleBytes {
     u8 m_0;
@@ -10,11 +11,6 @@ struct LobbyRuleBytes {
 };
 
 extern "C" {
-u8 default_setting_05(LobbyRuleBytes *p);
-u8 default_setting_04(LobbyRuleBytes *p);
-u8 default_setting_03(LobbyRuleBytes *p);
-u8 default_setting_02(LobbyRuleBytes *p);
-u8 default_setting_01(LobbyRuleBytes *p);
 
 u8 fn_801D7134(LobbyRuleBytes *p) {
     if (p->m_5 >= 2) {

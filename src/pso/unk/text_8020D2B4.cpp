@@ -14,6 +14,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 struct RecoveredGlobal_8020D2B4_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
@@ -43,7 +44,6 @@ typedef ObjectFactoryEntry Ent_8020D5AC;
 
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
-s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
 void *find_scene_room_by_id(s32 room);

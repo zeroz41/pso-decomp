@@ -67,7 +67,6 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
   draw_textured_quad_at_depth(&stack.sp8, depth);
 }
 
-void text_builder_append_int(s32);
 }
 
 

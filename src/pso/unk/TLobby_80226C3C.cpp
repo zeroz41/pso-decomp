@@ -18,6 +18,8 @@
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/audio/AdxManager.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
+#include "dolphin/ar.h"
+#include "dolphin/ai.h"
 
 struct UpdateMusicSequencerPassage { s16 first, repeat, count, transition, next; };
 
@@ -294,11 +296,7 @@ struct SndHooks {
 };
 void TLobby__sub_803CBE20(void *work, s32 size, s32 count);
 void init_runtime_threads(s32 *cfg);
-u32 ARInit(u32 *stack_index_addr, u32 num_entries);
-void ARQInit(void);
-void AIInit(u8 *stack);
 s32 VISetPostRetraceCallback(int (*callback)(void *));
-u32 ARAlloc(u32 length);
 void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }

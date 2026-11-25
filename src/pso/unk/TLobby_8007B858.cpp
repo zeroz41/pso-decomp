@@ -65,6 +65,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/memory.h"
 #include "pso/network/protocol/SendGuildCardPacket.h"
+#include "pso/unk/TLobby_80207DA8.h"
 
 // The tail of the guild card code: it follows TWindowSubComCard_8007A810.cpp's static
 // initialiser, which CW emits last in its file, so it opens this file.
@@ -128,7 +129,6 @@ extern "C" {
 void TSceneSora__sub_80207430(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
-s32 activate_triggered_floor_events();
 s32 restore_floor_telepipes();
 
 

@@ -25,10 +25,10 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/unk/text_803DD5E0.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 
 extern "C" {
 s32 append_command_to_batch_buffer(void *, void *);
-u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 s32 distort_texture_wave_image(void *);
 }
 
