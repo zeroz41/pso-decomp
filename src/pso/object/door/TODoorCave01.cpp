@@ -76,7 +76,7 @@ void TODoorCave01::send_state(void *src_arg) {
     }
 }
 
-void TODoorCave01::vfunc_6(s16 *state, s32) {
+void TODoorCave01::apply_saved_state(s16 *state, s32) {
     if (*state == 1) {
         door_flags |= LIGHT_LIT_MASK | 1;
     }

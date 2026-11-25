@@ -242,7 +242,7 @@ void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
         object->access_object_saved_state(&state, 1);
         state.flags = packet->flags;
         object->access_object_saved_state(&state, 0);
-        object->vfunc_6(&state.flags, 1);
+        object->apply_saved_state(&state.flags, 1);
     } else {
         QuestObjectEntry fallback = quest_object_entries[packet->object_index];
         fallback.flags = packet->flags;

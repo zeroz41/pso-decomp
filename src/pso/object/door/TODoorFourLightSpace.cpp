@@ -236,7 +236,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightRuins::vfunc_6(s16 *state, s32) {
+void TODoorFourLightRuins::apply_saved_state(s16 *state, s32) {
     if ((s16) *state == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
@@ -445,7 +445,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightSpace::vfunc_6(s16 *state, s32) {
+void TODoorFourLightSpace::apply_saved_state(s16 *state, s32) {
     if ((s16) *state == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }

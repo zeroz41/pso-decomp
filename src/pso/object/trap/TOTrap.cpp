@@ -114,9 +114,9 @@ void TOTrap::play_sounds() {
     spawn_particle_effect(&body_center, 0x46);
 }
 
-void TOTrap::vfunc_6(s16 *state, s32 notify) {
+void TOTrap::apply_saved_state(s16 *state, s32 live) {
     if ((s16) *state == 4) {
-        if (notify == 1) {
+        if (live == 1) {
             play_sounds();
         }
         set_flag8();

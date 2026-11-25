@@ -19,7 +19,7 @@ struct TOTrap : public TObjChara {
     virtual void vfunc_88();
     virtual void vfunc_89();
     virtual f32 receive_physical_attack(void *, f32);
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual void run_task();
     virtual void render();
     // Attacks from anyone but the held player count as a plain physical hit.

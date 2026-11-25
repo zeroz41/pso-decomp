@@ -33,7 +33,7 @@ struct TOMine : public TObjChara {
     virtual void vfunc_85();
     virtual void set_armed();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual f32 receive_physical_attack(void *, f32);
     virtual s32 select_melee_contact_body(void *, f32);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);

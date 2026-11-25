@@ -137,7 +137,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
         o->access_object_saved_state(&spC, 1);
         spC.a = o->mode;
         o->access_object_saved_state(&spC, 0);
-        o->vfunc_6(&spC.a, 0);
+        o->apply_saved_state(&spC.a, 0);
     } else {
         *(s32 *)&sp8 = *(s32 *)&quest_object_entries[wall_hit_packet->object_index];
         if (sp8.a != 1) {
@@ -169,17 +169,17 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
     }
 }
 
-// ---- TOVS2Wall01 (vfunc_6, spawn_debris)
+// ---- TOVS2Wall01 (apply_saved_state, spawn_debris)
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
+void TOVS2Wall01::apply_saved_state(s16 *state, s32 live) {
     s32 mode;
 
-    if (arg1 != NULL) {
-        this->mode = (s16) *arg1;
+    if (state != NULL) {
+        this->mode = (s16) *state;
     }
     mode = this->mode;
     if (mode != 1) {
@@ -188,7 +188,7 @@ void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
         }
     } else {
         this->hits_left = 0;
-        if (arg2 != 0) {
+        if (live != 0) {
             break_wall();
         }
     }

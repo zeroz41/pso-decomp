@@ -7,7 +7,7 @@
 struct TOAttackableCol : public TObjChara {
     TOAttackableCol(saddr);
     virtual ~TOAttackableCol();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual s32 try_start_action(void *, s32, f32);
     virtual void apply_knockback_from_attacker(u8 *, f32);

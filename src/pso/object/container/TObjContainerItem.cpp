@@ -486,8 +486,8 @@ void TObjContainerItem::spawn_break_effects() const {
     }
 }
 
-void TObjContainerItem::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerItem::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
@@ -600,8 +600,8 @@ void TObjContainerEnemy::spawn_break_effects() const {
     }
 }
 
-void TObjContainerEnemy::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerEnemy::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             this->clear_player_status_flag(0, 1);
@@ -698,8 +698,8 @@ void TObjContainerNoItem::spawn_break_effects() const {
     }
 }
 
-void TObjContainerNoItem::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerNoItem::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             this->clear_player_status_flag(0, 1);
@@ -798,8 +798,8 @@ void TObjContainerBase::spawn_break_effects() const {
 
 #pragma pop
 
-void TObjContainerBase::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerBase::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
@@ -927,8 +927,8 @@ void TObjContainerAbeEnemy::spawn_break_effects() const {
 
 #pragma pop
 
-void TObjContainerAbeEnemy::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerAbeEnemy::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             this->set_flag8();

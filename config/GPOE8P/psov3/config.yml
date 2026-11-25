@@ -17575,29 +17575,29 @@ force_active:
   - apply_to_target__11TTecRaBartaFP9TObjChara
   - apply_to_target__11TTecRaZondeFP9TObjChara
   - on_wall_hit__12TNeedleShootFv
-  - vfunc_6__12TODoorCave01FPsl
+  - apply_saved_state__12TODoorCave01FPsl
   - display_shop_message__12TQuestListVMFll
   - vfunc_6__13TAdVIConfigGCFv
   - apply_camera_params__18TCameraWatchPlayerFl
-  - vfunc_6__14TOTrapSeabed01FPsl
-  - vfunc_6__15TOAttackableColFPsl
-  - vfunc_6__15TODoorAncient08FPsl
-  - vfunc_6__15TODoorAncient09FPsl
+  - apply_saved_state__14TOTrapSeabed01FPsl
+  - apply_saved_state__15TOAttackableColFPsl
+  - apply_saved_state__15TODoorAncient08FPsl
+  - apply_saved_state__15TODoorAncient09FPsl
   - vfunc_6__16TAdPsoPassSaveGCFv
-  - vfunc_6__16TODoorJungleMainFPsl
+  - apply_saved_state__16TODoorJungleMainFPsl
   - vfunc_6__17TAdExNetConfirmGCFv
   - vfunc_6__17TAdLicAgreementGCFv
   - open_main_menu__17TWindowMainMenu4PFv
   - vfunc_6__18TAdAgreementBaseGCFv
   - vfunc_6__18TAdTrialModemChkGCFv
-  - vfunc_6__19TContainerAncient01FPsl
-  - vfunc_6__19TOMonumentAncient02FPsl
+  - apply_saved_state__19TContainerAncient01FPsl
+  - apply_saved_state__19TOMonumentAncient02FPsl
   - vfunc_6__20TAdSnAkPassConfirmGCFv
-  - vfunc_6__20TContainerAncient01RFPsl
-  - vfunc_6__20TODoorFourLightRuinsFPsl
-  - vfunc_6__20TODoorFourLightSpaceFPsl
+  - apply_saved_state__20TContainerAncient01RFPsl
+  - apply_saved_state__20TODoorFourLightRuinsFPsl
+  - apply_saved_state__20TODoorFourLightSpaceFPsl
   - on_wall_hit__20TObjEneMe1Gee_NEEDLEFv
-  - vfunc_6__21TObjContainerAbeEnemyFPsl
+  - apply_saved_state__21TObjContainerAbeEnemyFPsl
   - on_wall_hit__22TObjEneMe1GiGueMissileFv
   - apply_to_target__9TTecJelinFP9TObjChara
   - apply_to_target__9TTecZaruaFP9TObjChara

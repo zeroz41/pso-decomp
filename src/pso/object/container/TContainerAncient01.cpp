@@ -347,8 +347,8 @@ void TContainerAncient01::sub_8018B700() {
     }
 }
 
-void TContainerAncient01::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TContainerAncient01::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             sub_8018B700();
             this->opened = 1;
@@ -629,9 +629,9 @@ void TContainerAncient01R::open_container() {
     }
 }
 
-void TContainerAncient01R::vfunc_6(s16 *state, s32 notify) {
+void TContainerAncient01R::apply_saved_state(s16 *state, s32 live) {
     this->m_338 = (s16) *state;
-    if (notify != 0) {
+    if (live != 0) {
         if ((this->hp - this->m_338) <= 0) {
             this->reset_hp();
             this->open_container();

@@ -8,7 +8,7 @@
 struct TOVS2Wall01 : public TObjChara {
     TOVS2Wall01(void *set_data);
     virtual ~TOVS2Wall01();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     f32 view_range;
     f32 model_radius;
     u32 hits_left;

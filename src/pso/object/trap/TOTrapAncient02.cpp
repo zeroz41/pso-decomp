@@ -542,7 +542,7 @@ f32 TOTrapAncient02R::receive_physical_attack(void *, f32) {
                 state = mode;
                 send_object_state_update(&state);
                 access_object_saved_state(&state, 0);
-                vfunc_6(&state, 1);
+                apply_saved_state(&state, 1);
             }
         }
     }

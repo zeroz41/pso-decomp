@@ -11,7 +11,7 @@ struct TObjContainerAbeEnemy : public TObjContainerCommon {
     virtual void draw_model();
     virtual void debug_print_item_box_info();
     virtual void update_state();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual f32 receive_physical_attack(void *, f32);
     static void *create(void *set_data);
 };

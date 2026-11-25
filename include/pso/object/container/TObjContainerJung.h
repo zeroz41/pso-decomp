@@ -13,7 +13,7 @@ struct TObjContainerJung : public TObjContainerCommon {
     virtual void spawn_break_effects() const;
     virtual void update_state();
     virtual void draw_model();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     static NJS_OBJECT *get_model_by_index(s32 index);
     static void *create(void *set_data);
     static NJS_TEXLIST *get_textures(s32);

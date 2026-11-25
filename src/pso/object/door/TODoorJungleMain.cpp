@@ -302,10 +302,10 @@ s32 is_any_player_near(saddr arg0) {
 }
 
 
-void TODoorJungleMain::vfunc_6(s16 *state, s32 notify) {
+void TODoorJungleMain::apply_saved_state(s16 *state, s32 live) {
     if ((state != NULL) && ((s16) *state == 1)) {
         this->door_flags = (s32) (this->door_flags | 1);
-        if (notify == 0) {
+        if (live == 0) {
             this->animation_end_frame = (f32) (this->motion->frameCount - 1);
             set_indexed_flags(0, 8);
             if (map_csn != NULL) {

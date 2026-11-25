@@ -12,7 +12,7 @@ struct TObjEnemy;
 class TObjBase;
 class TObjChara;
 
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 hover_height);
+void apply_actor_gravity(TObjEnemy *enemy, s32 *ground_position, f32 hover_height);
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 }
@@ -24,7 +24,7 @@ BOOL is_split_screen(void);
 void main(void);
 f32 newton_sqrtf(f32 x);
 }
-void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
+void show_meseta_label(saddr player, u32 pos, s32 delay, s32 value);
 
 // 1 when csnLookAt finds a wall between the body centre and `target` (a far target is
 // pulled in to 300 units along the same heading), else 0.

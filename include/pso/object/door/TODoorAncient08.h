@@ -20,7 +20,7 @@ struct TODoorAncient08 : public TODoorBase {
     virtual void update_open();
     virtual void update_closed();
     virtual void update_door_switch_state();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     void play_open_sound();
     void draw_switch_lights();
     virtual void render();

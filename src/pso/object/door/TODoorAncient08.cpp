@@ -338,7 +338,7 @@ s32 TODoorAncient08::init_door_switch_binding() {
     return switch_id;
 }
 
-void TODoorAncient08::vfunc_6(s16 *state, s32) {
+void TODoorAncient08::apply_saved_state(s16 *state, s32) {
     if (*state == 1) {
         door_flags |= 1;
     }

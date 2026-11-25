@@ -14,7 +14,7 @@ struct TOTrapAncient01 : public TOTrap {
     virtual void play_sounds();
     virtual void vfunc_88();
     virtual void vfunc_86();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual f32 receive_physical_attack(void *, f32);
     virtual void render();
     DirectAttackPayload payload; // name inferred: sent to every player in reach by vfunc_82

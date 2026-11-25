@@ -262,7 +262,7 @@ void TODoorFourLightBase::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightBase::vfunc_6(s16 *state, s32) {
+void TODoorFourLightBase::apply_saved_state(s16 *state, s32) {
     if ((s16) *state == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }

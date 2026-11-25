@@ -12,7 +12,7 @@ struct TObjContainerJungEnemy : public TObjContainerCommon {
     virtual void spawn_break_effects() const;
     virtual void draw_model();
     virtual void debug_print_item_box_info();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual void update_state();
     virtual f32 receive_physical_attack(void *, f32);
     NJS_OBJECT *body_model;

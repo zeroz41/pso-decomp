@@ -12,7 +12,7 @@ class TObjBase : public TObject {
 public:
     TObjBase(TObject *parent);
     virtual ~TObjBase();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *state, s32 live);
     virtual void apply_object_set_data(void *);
     virtual void reset_motion_fields();
     virtual void *get_center();

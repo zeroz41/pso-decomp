@@ -7,7 +7,7 @@
 struct TOTrapSeabed01 : public TOTrap {
     TOTrapSeabed01(TObject *parent, void *set_data);
     virtual ~TOTrapSeabed01();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual void render();
     virtual f32 receive_physical_attack(void *, f32);
     virtual int deliver_attack_hits(f32 damage_scale);
@@ -30,7 +30,7 @@ struct TOTrapSeabed01 : public TOTrap {
     s32 strike_timer; // name inferred: 30 frames per set param 1; vfunc_82 strikes when it runs out
     s32 projected; // name inferred: set param 2 != 0; draws with the particle TEV and the projection texture
     DirectAttackPayload payload; // name inferred: sent to every player in reach by vfunc_67
-    s32 sound_handle; // name inferred: play_sound_effect's result, stopped by vfunc_6
+    s32 sound_handle; // name inferred: play_sound_effect's result, stopped by apply_saved_state
 };
 
 LAYOUT_ASSERT(TOTrapSeabed01_size, sizeof(TOTrapSeabed01) == 0x35C);

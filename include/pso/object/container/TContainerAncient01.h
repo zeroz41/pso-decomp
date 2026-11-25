@@ -16,7 +16,7 @@ struct TContainerAncient01 : public TObjChara {
     void sub_8018B700();
     void sub_8018B48C();
     void sub_8018B284();
-    virtual void vfunc_6(s16 *, s32);
+    virtual void apply_saved_state(s16 *, s32);
     virtual s32 try_start_action(void *, s32, f32);
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);

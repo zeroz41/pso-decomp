@@ -193,8 +193,8 @@ void TObjContainerJung::draw_model() {
     }
 }
 
-void TObjContainerJung::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerJung::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
@@ -324,8 +324,8 @@ void TObjContainerJungEx::draw_model() {
     }
 }
 
-void TObjContainerJungEx::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerJungEx::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
@@ -528,8 +528,8 @@ void TObjContainerJungEnemy::spawn_break_effects() const {
 }
 #pragma pop
 
-void TObjContainerJungEnemy::vfunc_6(s16 *state, s32 notify) {
-    if (notify != 0) {
+void TObjContainerJungEnemy::apply_saved_state(s16 *state, s32 live) {
+    if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
             this->clear_player_status_flag(0, 1);

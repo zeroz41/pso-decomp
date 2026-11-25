@@ -448,16 +448,16 @@ f32 TOMine::receive_physical_attack(void *, f32) {
     }
     return 0.0f;
 }
-void TOMine::vfunc_6(s16 *lobby, s32 arg2) {
+void TOMine::apply_saved_state(s16 *state, s32 live) {
     s16 mode;
-    mode = *(s16 *)((s8 *)lobby + 0);
+    mode = *state;
     if (mode == 5) {
-        if (arg2 == 1) {
+        if (live == 1) {
             play_trigger_effects();
         }
         set_flag8();
         queue_destruction();
-        access_object_saved_state(lobby, 0);
+        access_object_saved_state(state, 0);
         return;
     }
     if (mode == 3) {
@@ -467,7 +467,7 @@ void TOMine::vfunc_6(s16 *lobby, s32 arg2) {
         this->calc_attach_pos();
         refresh_collision_body_centers();
         this->play_effect_sound();
-        access_object_saved_state(lobby, 0);
+        access_object_saved_state(state, 0);
         this->queue_destruction_for_each_node();
     }
 }

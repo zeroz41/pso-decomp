@@ -113,7 +113,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
                         break;
                     }
                     saved.flags = col->mode;
-                    col->vfunc_6(&saved.flags, 0);
+                    col->apply_saved_state(&saved.flags, 0);
                 }
             } else {
                 QuestObjectEntry entry = quest_object_entries[command->object_index];
@@ -155,7 +155,7 @@ void TOAttackableCol::send_state_change(u16 state) {
     }
 }
 
-void TOAttackableCol::vfunc_6(s16 *state, s32 notify) {
+void TOAttackableCol::apply_saved_state(s16 *state, s32 live) {
     s16 mode;
     s32 mode_value;
     if (state != NULL) {
@@ -168,7 +168,7 @@ void TOAttackableCol::vfunc_6(s16 *state, s32 notify) {
         }
     } else {
         this->hits_left = 0;
-        if (notify != 0) {
+        if (live != 0) {
             handle_6x91_update_state();
         }
     }
