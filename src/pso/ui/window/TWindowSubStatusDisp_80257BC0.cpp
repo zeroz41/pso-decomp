@@ -26,6 +26,8 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/ItemListRow.h"
 #include "pso/unk/TWindowLayoutEntry.h"
+#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 
 
 extern "C" {
@@ -40,7 +42,6 @@ struct Desc_80257D44 {
 void * TWindowHelpItem__sub_8025A594(void *, void *, s32);
 void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
 }
-u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2);
 
 __declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
 
@@ -134,7 +135,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 3:
                 o = ::operator new(0x2C);
                 if (o != NULL) {
-                    o = construct_text_entry((u8 *)o, (u8 *)rec, client);
+                    o = construct_text_entry(static_cast<WindowTextEntry *>(o), reinterpret_cast<TextLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0x1C / 4;

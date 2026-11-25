@@ -3829,7 +3829,7 @@ force_active:
   - advance_state_4_to_5__17TObjEneMe1CanadinFv
   - advance_state_5_to_4__17TObjEneMe1CanadinFv
   - advance_state__16TObjEneRe7BeruraFP10NJS_OBJECT
-  - advance_text_entry_reveal__FPUc
+  - advance_text_entry_reveal__FP15WindowTextEntry
   - advance_thanks_state__12TBoss4ThanksFv
   - advance_thanks_state__12TBoss6ThanksFv
   - advance_timer__14TBoss6PlotFalzFv

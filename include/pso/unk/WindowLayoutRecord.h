@@ -37,9 +37,9 @@ LAYOUT_ASSERT(LayoutEntryCopyRecord_size, sizeof(LayoutEntryCopyRecord) == 0x2C)
 struct TextLayoutRecord {
     s32 type;
     f32 pos[2];
-    f32 pad_0C;
-    u32 pad_10;
-    s32 pad_14;
+    f32 depth;
+    u32 color;
+    s32 flags;
     const char *text;
 };
 
