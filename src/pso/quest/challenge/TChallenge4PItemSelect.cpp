@@ -206,7 +206,7 @@ void TChallenge4PResult::handle_third_reward() {
     TChallenge4PItemSelect *selector;
     if (reward_available[2] != 0) {
         show_message(get_localized_text_entry(0x2B, 0));
-        TLobby__sub_802924B4((saddr)&reward_items[2], slot_index);
+        TLobby__sub_802924B4(&reward_items[2], slot_index);
         wait_frames = 90;
         state_1c = 5;
         return;
@@ -220,13 +220,13 @@ void TChallenge4PResult::handle_third_reward() {
 
 void TChallenge4PResult::sub_8034B918() {
     this->show_message((s32)((s32)((int) (get_localized_text_entry(0x2B, 2)))));
-    TLobby__sub_802924B4((saddr)(((u8 *)this) + 0x48), (this->slot_index));
+    TLobby__sub_802924B4(&reward_items[1], slot_index);
     this->wait_frames = 0x5A;
     this->state_1c = 5;
 }
 void TChallenge4PResult::sub_8034B8BC() {
     this->show_message((s32)((s32)((int) (get_localized_text_entry(0x2B, 1)))));
-    TLobby__sub_802924B4((saddr)(((u8 *)this) + 0x34), (this->slot_index));
+    TLobby__sub_802924B4(&reward_items[0], slot_index);
     this->wait_frames = 0x5A;
     this->state_1c = 5;
 }

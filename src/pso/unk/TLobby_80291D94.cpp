@@ -31,6 +31,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/TLobby_80291D94.h"
 
 ChallengeModeState challenge_default_settings = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
@@ -95,7 +96,6 @@ void TLobby__sub_80292200(s32 arg0);
 }
 void set_challenge_time_window_timer(int);
 extern "C" {
-s32 TLobby__sub_802924B4(s32 arg0, u16 arg1);
 s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg);
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
 #define TLobby__sub_80292DA0 ((s32 (*)(s32, s32))TLobby__sub_80292DA0)
@@ -275,7 +275,7 @@ s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg) {
     return 1;
 }
 
-s32 TLobby__sub_802924B4(s32 item, u16 slot_index) {
+s32 TLobby__sub_802924B4(TItemData *item, u16 slot_index) {
     CharacterSaveRecord *record;
     ChallengeRankThreshold *threshold;
     s32 set;
@@ -286,7 +286,7 @@ s32 TLobby__sub_802924B4(s32 item, u16 slot_index) {
     if (record == NULL) {
         return 0;
     }
-    if (record->register_in_free_room_slot((TItemData *)item) != 0) {
+    if (record->register_in_free_room_slot(item) != 0) {
         threshold = &challenge4p_mode_state.rank_thresholds[challenge4p_mode_state.result_rank];
         set = resolve_challenge_record_set(-1);
         challenge_set_rank(&record->challenge, set)->award_flags |= threshold->award_flags;

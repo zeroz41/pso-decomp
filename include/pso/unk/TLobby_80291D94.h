@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct TLobby;
+struct TItemData;
 extern "C" {
 void TLobby__sub_80291DF8(s32 v);
 void TLobby__sub_80291EAC(s32 arg0);
@@ -13,7 +14,7 @@ void TLobby__sub_80292200(s32 seed);
 int TLobby__sub_80292268(void);
 s32 TLobby__sub_80292270(s32 seed, s32 card);
 s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg);
-s32 TLobby__sub_802924B4(s32 arg0, u16 slot_index);
+s32 TLobby__sub_802924B4(TItemData *item, u16 slot_index);
 s32 TLobby__sub_8029299C(void);
 s32 TLobby__sub_80292A34(void);
 s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
