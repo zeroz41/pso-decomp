@@ -49,12 +49,12 @@ void init_technique_levels(s32 flags, u8 *counts) {
     }
 }
 
-void TObjPlayer::setup_effect_slots(s32 arg0, TPlyDispConfigSmth *palette) {
+void TObjPlayer::setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette) {
     palette->sub_802C46E0(0, 0, 1, 0);
     palette->sub_802C46E0(1, 0, 1, 0);
     palette->sub_802C46E0(0, 1, 2, 0);
     palette->sub_802C46E0(0, 2, 2, 1);
-    if (arg0 & 0x60) {
+    if (v1_flags & 0x60) {
         palette->sub_802C46E0(0, 3, 4, 0);
         return;
     }

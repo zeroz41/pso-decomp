@@ -739,7 +739,7 @@ void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     }
     this->set_language((int) (*(u8 *)((s8 *)char_data + 3)));
     scale_state.set_actor_id(this->get_entity_id());
-    TObjPlayer::disable_drop_weapon_on_death(this);
+    this->disable_drop_weapon_on_death();
     TPlyCharData *record = reinterpret_cast<TPlyCharData *>(char_data);
     *(s8 *)&this->unk_338 = record->get_class_flag_0();
     this->m_339 = record->get_class_flag_1();
@@ -827,8 +827,6 @@ void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record) {
 }
 
 void TObjPlayer::reset_motion_fields() {
-    s32 temp_r30;
-    s32 temp_r31;
     s32 anim_id;
     TObjBase::reset_motion_fields();
     this->TObjCollidable::reset_motion_fields();
@@ -2092,7 +2090,7 @@ void TObjPlayer::drop_items_on_death() {
     PendingItemDrop records[9];
     count=0;
     if (TTecCtrl::is_technique_ready()!=0) {
-        if (TObjPlayer::check_flag_01000000(this) == 0) {
+        if (this->is_drop_weapon_on_death_disabled() == 0) {
             count=this->inventory_objects->set_globals_and_notify(this, records);
         }
         if (get_actor_meseta()!=0) {
@@ -2103,7 +2101,7 @@ void TObjPlayer::drop_items_on_death() {
             count+=1;
             item->id=-1;
         }
-    } else if (TObjPlayer::check_flag_01000000(this) == 0) {
+    } else if (this->is_drop_weapon_on_death_disabled() == 0) {
         count=this->inventory_objects->set_globals_and_notify(this, records);
     } else {
         equipped = get_equipped_weapon(this);
@@ -3237,8 +3235,8 @@ u16 TObjPlayer::get_action_palette_entry(s32 index) {
 
 #pragma push
 #pragma scheduling off
-u16 TObjPlayer::select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3) {
-    return this->select_action_palette(secondary)->get_tag_slot(arg2, arg3);
+u16 TObjPlayer::select_action_palette_and_apply(s32 secondary, s32 row, s32 index) {
+    return this->select_action_palette(secondary)->get_tag_slot(row, index);
 }
 #pragma pop
 
@@ -3898,16 +3896,16 @@ void TObjPlayer::update_rotation() {
     set_tp(this->tpmax);
 }
 
-void TObjPlayer::play_footstep_sound(f32 at_frame, f32 farg1) {
-    if (test_ordered_anim_markers(this, at_frame, farg1) != 0) {
+void TObjPlayer::play_footstep_sound(f32 first_frame, f32 second_frame) {
+    if (test_ordered_anim_markers(first_frame, second_frame) != 0) {
         this->play_sound_if_on_floor(this->get_footstep_floor_index());
     }
 }
 
-void TObjPlayer::emit_footstep_effect(f32 at_frame, f32 farg1) {
+void TObjPlayer::emit_footstep_effect(f32 first_frame, f32 second_frame) {
     s32 marker;
     s32 contact_surface_type;
-    if ((this->is_body_collision_inactive() == 0) && (marker = ((s32)test_ordered_anim_markers(this, at_frame, farg1)), ((marker == 0) == 0))) {
+    if ((this->is_body_collision_inactive() == 0) && (marker = ((s32)test_ordered_anim_markers(first_frame, second_frame)), ((marker == 0) == 0))) {
         contact_surface_type = this->contact_surface.get_contact_surface_type();
         switch (contact_surface_type) {
         case 1:
@@ -3931,13 +3929,12 @@ void TObjPlayer::emit_footstep_effect(f32 at_frame, f32 farg1) {
     }
 }
 
-s32 TObjPlayer::test_ordered_anim_markers(void *motion, f32 at_frame, f32 farg1) {
-    u8 *raw = (u8 *)motion;
-    TObjMotion *m = (TObjMotion *)raw;
-    if (m->is_passing_frame((f32)at_frame) != 0) {
+// 1 when the motion passes first_frame, 2 when it passes second_frame.
+s32 TObjPlayer::test_ordered_anim_markers(f32 first_frame, f32 second_frame) {
+    if (is_passing_frame(first_frame) != 0) {
         return 1;
     }
-    return (m->is_passing_frame((f32)farg1) != 0) ? 2 : 0;
+    return (is_passing_frame(second_frame) != 0) ? 2 : 0;
 }
 
 void TObjPlayer::update_foot_stamp(int marker) {
@@ -5330,7 +5327,7 @@ void apply_battle_rules_to_players() {
         p->set_flag_drop_weapon_on_death();
         switch (((TLobby *)q)->normalize_battle_rule_value_b()) {
         case 1:
-            TObjPlayer::disable_drop_weapon_on_death(p);
+            p->disable_drop_weapon_on_death();
             break;
         }
         if (((TLobby *)q)->normalize_battle_rule_value() == 1 && ((TObjChara *)p)->is_locally_controlled() != 0) {
@@ -5447,16 +5444,16 @@ void handle_6x81_disable_drop_weapon_on_death(G_DisableDropWeaponOnDeath_6x81 *c
     pkt = *command;
     bswap_g_client_id_header(&pkt);
     if (validate_6x81_disable_drop_weapon_on_death(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
-            TObjPlayer::disable_drop_weapon_on_death(p);
+            p->disable_drop_weapon_on_death();
         }
     }
 }
 
 
-void TObjPlayer::disable_drop_weapon_on_death(void *player) {
-    ((TObjPlayer *)player)->set_state_flags(0x01000000);
+void TObjPlayer::disable_drop_weapon_on_death() {
+    set_state_flags(0x01000000);
 }
 
 void TObjPlayer::send_enable_drop_weapon_on_death() {
@@ -5491,8 +5488,8 @@ void TObjPlayer::set_flag_drop_weapon_on_death() {
     clear_state_flags(0x01000000);
 }
 
-s32 TObjPlayer::check_flag_01000000(void *player) {
-    return static_cast<TObjPlayer *>(player)->check_flag(0x01000000);
+s32 TObjPlayer::is_drop_weapon_on_death_disabled() {
+    return check_flag(0x01000000);
 }
 
 void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {

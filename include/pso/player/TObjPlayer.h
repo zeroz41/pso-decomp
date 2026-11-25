@@ -381,7 +381,7 @@ struct TObjPlayer : public TObjChara {
     s32 check_flag(s32 flag);
     // Set while a menu window holds the player's input, with the action buttons masked.
     s32 is_controls_locked();
-    static s32 check_flag_01000000(void *player);
+    s32 is_drop_weapon_on_death_disabled();
     Vec *get_position_ptr();
     // Where the player stood before this frame's move.
     Vec *get_prev_position_ptr();
@@ -663,7 +663,7 @@ struct TObjPlayer : public TObjChara {
     void start_attack_preparation();
     void setup_attack_stage();
     void send_attack_target_packet();
-    s32 check_mode_action(s32 arg1);
+    s32 check_mode_action(s32 action);
     s32 can_perform_physical_action();
     void update_by_state();
     void apply_movement_if_ready();
@@ -760,7 +760,7 @@ struct TObjPlayer : public TObjChara {
     void initialize_player_data();
     void init_item_counts_max();
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
-    static void setup_effect_slots(s32 arg0, TPlyDispConfigSmth *palette);
+    static void setup_effect_slots(s32 v1_flags, TPlyDispConfigSmth *palette);
     static void begin_action_from_char_select();
     void export_character_data(TPlyCharData *character);
     void export_state_to_record(TPlyCharData *record);
@@ -849,7 +849,7 @@ struct TObjPlayer : public TObjChara {
     void sync_current_area();
     static int get_key_machine_global_state(void* p);
     void set_flag_drop_weapon_on_death();
-    static void disable_drop_weapon_on_death(void *player);
+    void disable_drop_weapon_on_death();
     static void update_photon_chair(TObjPlayer *player);
     void refresh_equipment_slot();
     void clear_stealth_suit_flags();
@@ -903,7 +903,7 @@ struct TObjPlayer : public TObjChara {
     void stop_battle_music();
     s32 classify_action_state();
     void update_foot_stamp(int marker);
-    void play_footstep_sound(f32 at_frame, f32 farg1);
+    void play_footstep_sound(f32 first_frame, f32 second_frame);
     void revive();
     s32 get_recovery_need_flags();
     s32 can_use_action();
@@ -930,7 +930,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_effect_channel_active(saddr player, s32 index);
     static void refresh_party_cursors(saddr player);
     void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 mode, u16 slot);
-    u16 select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3);
+    u16 select_action_palette_and_apply(s32 secondary, s32 row, s32 index);
     saddr refresh_effect();
     void update_ground_contact();
     s32 check_actor_blocking_move();
@@ -1057,7 +1057,7 @@ struct TObjPlayer : public TObjChara {
     void add_tp_material(u8 amount);
     void add_hp_material(u8 amount);
     s32 try_pickup_item();
-    void emit_footstep_effect(f32 at_frame, f32 farg1);
+    void emit_footstep_effect(f32 first_frame, f32 second_frame);
     void update_target();
     void check_level_up();
     // The stats shown with `incoming` equipped in place of what its slot holds
@@ -1066,7 +1066,7 @@ struct TObjPlayer : public TObjChara {
     s32 preview_unequip_stats(PlayerRequirementStats *out, s32 key);
     void send_unequip_held_item();
     void restart_death_pose();
-    static PhotonBlastRequest *get_photon_blast_element(s32 arg0);
+    static PhotonBlastRequest *get_photon_blast_element(s32 index);
     void enter_photon_blast_action();
     void prepare_photon_blast_action();
     void enter_technique_cast();
@@ -1102,7 +1102,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_key_machine_ready();
     void recover_full();
     void apply_speed_scale(f32 speed);
-    static s32 test_ordered_anim_markers(void *, f32, f32);
+    s32 test_ordered_anim_markers(f32 first_frame, f32 second_frame);
     void remove_status_effect(StatStatusReceipt effect);
     void send_status_effect_remove(StatStatusReceipt effect);
     void dispatch_status_effect_msg(StatStatusReceipt effect);

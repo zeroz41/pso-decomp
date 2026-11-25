@@ -937,36 +937,23 @@ void TObjPlayer::update_off_floor_state() {
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 void TObjPlayer::fade_out_off_floor() {
-  f32 var_f0;
-  f32 var_f1;
-  f32 var_f2;
-  s32 var_r4;
-  u8 *var_r31;
-  u8 *var_r3;
-  var_r31 = (u8 *) this;
+  f32 alpha;
   if (is_on_current_floor() != 0)
   {
-    var_r3 = (u8 *) var_r31;
-    var_r4 = 4;
-    ((TObjPlayer *)var_r3)->clear_state_flags(4);
+    clear_state_flags(4);
     return;
   }
-  switch (*((s16 *) (((s8 *) var_r31) + 0x328)))
+  switch (phase)
   {
     case 0:
-      var_f2 = *((f32 *) (((s8 *) var_r31) + 0x624));
-      var_f1 = 0.1f;
-      var_f0 = 0.0f;
-      if (((!var_f0) && (!var_f0)) && (!var_f0))
+      alpha = render_material_state.fade_color.a;
+      alpha -= 0.1f;
+      if (alpha < 0.0f)
     {
+      alpha = 0.0f;
+      phase = 1;
     }
-      var_f2 -= var_f1;
-      if (var_f2 < var_f0)
-    {
-      var_f2 = var_f0;
-      *((s16 *) (((s8 *) var_r31) + 0x328)) = 1;
-    }
-      *((f32 *) (((s8 *) var_r31) + 0x624)) = var_f2;
+      render_material_state.fade_color.a = alpha;
     case 1:
       return;
   }
@@ -1326,12 +1313,12 @@ void TObjPlayer::return_to_idle_when_unfrozen() {
 }
 
 void TObjPlayer::update_gated_action() {
-    u16 temp_r31;
+    u16 client_id;
 
     if (this->phase == 0) {
         if (((TObjPlayer *)this)->is_status_flag_200() != 0) {
-            temp_r31 = this->get_entity_id();
-            send_6x2F_change_player_hp(temp_r31, temp_r31, get_actor_hp());
+            client_id = this->get_entity_id();
+            send_6x2F_change_player_hp(client_id, client_id, get_actor_hp());
             clear_actor_flags((u32)0x200);
             return;
         }
@@ -1344,7 +1331,6 @@ void TObjPlayer::update_gated_action() {
 void TObjPlayer::freeze_phase2_nop() {  }
 
 void TObjPlayer::update_frozen_release() {
-  s16 temp_r0;
   if (this->test_actor_flags(0x800) != 0)
   {
     ((FlagWord *)&this->death_flags)->clear(1);
@@ -1604,14 +1590,13 @@ void TObjPlayer::send_6x4F_revived() {
 }
 
 void TObjPlayer::update_timer_state() {
-    f32 temp_f1;
-    f32 temp_f1_2;
+    f32 timer;
 
     switch (this->phase) {
     case 0:
-        temp_f1 = this->frame_timer - 1.0f;
-        this->frame_timer = temp_f1;
-        if (temp_f1 < 0.0f) {
+        timer = this->frame_timer - 1.0f;
+        this->frame_timer = timer;
+        if (timer < 0.0f) {
             this->phase = 1;
             this->TObjMotion::init(this->get_idle_animation());
             this->pause_motion();
@@ -1619,9 +1604,9 @@ void TObjPlayer::update_timer_state() {
         }
         break;
     case 1:
-        temp_f1_2 = this->frame_timer - 1.0f;
-        this->frame_timer = temp_f1_2;
-        if (temp_f1_2 < 0.0f) {
+        timer = this->frame_timer - 1.0f;
+        this->frame_timer = timer;
+        if (timer < 0.0f) {
             this->resume_motion();
             this->run_action_state_phase(1, 0);
         }
@@ -1630,14 +1615,13 @@ void TObjPlayer::update_timer_state() {
 }
 
 void TObjPlayer::update_timer_action() {
-    f32 frame_timer;
-    f32 temp_f1_2;
+    f32 timer;
 
     switch (this->phase) {
     case 0:
-        frame_timer = this->frame_timer - 1.0f;
-        this->frame_timer = frame_timer;
-        if (frame_timer < 0.0f) {
+        timer = this->frame_timer - 1.0f;
+        this->frame_timer = timer;
+        if (timer < 0.0f) {
             this->phase = 1;
             TObjMotion::init(this->get_idle_animation());
             pause_motion();
@@ -1645,9 +1629,9 @@ void TObjPlayer::update_timer_action() {
         }
         break;
     case 1:
-        temp_f1_2 = this->frame_timer - 1.0f;
-        this->frame_timer = temp_f1_2;
-        if (temp_f1_2 < 0.0f) {
+        timer = this->frame_timer - 1.0f;
+        this->frame_timer = timer;
+        if (timer < 0.0f) {
             this->resume_motion();
             this->protection.set_frames((saddr)this->get_getup_protection_ticks());
             this->update_position_from_target();
@@ -1831,7 +1815,7 @@ void TObjPlayer::enter_death_state() {
     u16 killer;
     TObjCollidable *culprit;
     u8 *character_save_record;
-    u8 *temp_r3_3;
+    u8 *save_record;
     this->action_state = 0xF;
     run_action_state_phase(this->mode, 6);
     reset_on_death();
@@ -1875,8 +1859,8 @@ void TObjPlayer::enter_death_state() {
             *(s32 *)((s8 *)character_save_record + 0x244) = (s32) (*(s32 *)((s8 *)character_save_record + 0x244) + 1);
             return;
         }
-        temp_r3_3 = ((u8 *)get_character_save_record((u16)(0xFFFFU)));
-        *(s32 *)((s8 *)temp_r3_3 + 0x244) = (s32) (*(s32 *)((s8 *)temp_r3_3 + 0x244) + 1);
+        save_record = ((u8 *)get_character_save_record((u16)(0xFFFFU)));
+        *(s32 *)((s8 *)save_record + 0x244) = (s32) (*(s32 *)((s8 *)save_record + 0x244) + 1);
     }
 }
 
@@ -2310,8 +2294,6 @@ void TObjPlayer::action11_phase2_nop() {  }
 int TObjPlayer::try_apply_status_action() { return try_status_action(); }
 
 void TObjPlayer::run_action11_phase(s16 phase) {
-    saddr arg0 = (saddr)this;
-  void *new_var;
   {
     switch (phase)
     {
@@ -2328,14 +2310,12 @@ void TObjPlayer::run_action11_phase(s16 phase) {
         action11_phase8_nop();
         return;
       case 5:
-        new_var = this;
-        ((TObjPlayer *)new_var)->send_6x51_set_player_angle();
+        this->send_6x51_set_player_angle();
         return;
       case 0:
         this->begin_action_0xB();
         return;
       case 1:
-        arg0 = arg0;
         update_action11_movement();
         return;
       case 6:
@@ -2550,9 +2530,6 @@ void TObjPlayer::run_guard_reaction_phase(s16 phase) {
         return;
       case 0:
         this->start_use_item_action();
-        if (arg0 && arg0)
-      {
-      }
         return;
       case 1:
         TObjPlayer::apply_velocity_if_free(arg0);
@@ -2597,9 +2574,9 @@ void TObjPlayer::update_photon_blast_state() {
     }
 }
 
-PhotonBlastRequest *TObjPlayer::get_photon_blast_element(s32 arg0) {
+PhotonBlastRequest *TObjPlayer::get_photon_blast_element(s32 index) {
     if (TObjPlayer__shared_photon_blast_state != NULL) {
-        return TObjPlayer__shared_photon_blast_state->get_element(arg0);
+        return TObjPlayer__shared_photon_blast_state->get_element(index);
     }
     return NULL;
 }
@@ -2661,7 +2638,7 @@ void release_photon_blast_player_holds(u16 *p) {
     }
 }
 
-void freeze_players_for_photon_blast(s16 arg0, u16 *arg1) {
+void freeze_players_for_photon_blast(s16 room, u16 *frozen_ids) {
     s32 i;
     TObjPlayer *obj;
     TObjPlayer **tbl;
@@ -2671,11 +2648,11 @@ void freeze_players_for_photon_blast(s16 arg0, u16 *arg1) {
         obj = *tbl;
         if (obj != NULL && obj->is_on_current_floor() != 0 && obj->test_action_mask(0x8000) == 0 &&
             (TObjPlayer::is_single_screen() != 0 ||
-             (TObjPlayer::is_single_screen() == 0 && arg0 == obj->get_room()))) {
+             (TObjPlayer::is_single_screen() == 0 && room == obj->get_room()))) {
             TObjPlayer__sub_801D0F70(obj);
-            if (arg1 != NULL) {
-                *arg1 = obj->get_entity_id();
-                arg1++;
+            if (frozen_ids != NULL) {
+                *frozen_ids = obj->get_entity_id();
+                frozen_ids++;
             }
             obj->run_action_state_phase(0x13, 0);
         }
@@ -2739,8 +2716,7 @@ void TObjPlayer::exit_photon_blast_action() {
 }
 
 void TObjPlayer::update_photon_blast_action() {
-    u8 *arg0 = (u8 *)this;
-  this->rotation_y = lerp_angle_half((int) (this->rotation_y), (int) (*((s32 *) (((s8 *) arg0) + 0x3F0))));
+  this->rotation_y = lerp_angle_half((int) (this->rotation_y), (int) (this->target_heading));
   switch (this->phase)
   {
     case 2:
@@ -3154,11 +3130,9 @@ void TObjPlayer::exit_technique_cast() {
 
 void TObjPlayer::update_technique_cast() {
     s16 phase;
-    s32 temp_r30;
-    u8 temp_r31;
-    u8 *temp_r3;
+    u8 *cast_record;
     this->rotation_y = lerp_angle_half((int) (this->rotation_y), (int) (this->target_heading));
-    temp_r3 = get_cast_motion_record();
+    cast_record = get_cast_motion_record();
     phase = this->phase;
     switch (phase) {
     case 3:
@@ -3190,7 +3164,7 @@ void TObjPlayer::update_technique_cast() {
         }
         break;
     case 2:
-        if (this->is_passing_frame((f32) (*(f32 *)((s8 *)temp_r3 + 0xC))) != 0) {
+        if (this->is_passing_frame((f32) (*(f32 *)((s8 *)cast_record + 0xC))) != 0) {
             this->phase = 3;
             this->clear_state_flags(0x80);
             pause_motion();
@@ -3468,7 +3442,6 @@ void TObjPlayer::send_attack_stage3_request() {
 void TObjPlayer::attack_stage3_phase8_nop() {  }
 
 void TObjPlayer::finish_attack_stage3() {
-    u8 *arg0 = (u8 *)this;
     if ((s16) this->phase == 4) {
         if (this->is_anim_finished() != 0) {
             run_action_state_phase(1, 5);
@@ -3653,7 +3626,6 @@ void TObjPlayer::run_attack_stage2_phase(s16 phase) {
 }
 
 void TObjPlayer::start_attack_preparation() {
-    u8 *arg0 = (u8 *)this;
     switch (this->attack_state.get_validated_attack_kind()) {
     case 0:
         this->phase = 3;
@@ -3686,7 +3658,6 @@ void TObjPlayer::start_attack_preparation() {
 }
 
 void TObjPlayer::setup_attack_stage() {
-    u8 *arg0 = (u8 *)this;
     this->phase = 0;
     switch (this->attack_state.get_validated_attack_kind()) {
     case 0:
@@ -3878,8 +3849,8 @@ s32 TObjPlayer::select_attack_palette_slot() {
     return this->check_mode_action((u16)this->get_action_palette_entry(r)) != 0 ? r : -1;
 }
 
-s32 TObjPlayer::check_mode_action(s32 arg1) {
-    if (arg1 == 2) {
+s32 TObjPlayer::check_mode_action(s32 action) {
+    if (action == 2) {
         TItem *weapon = get_equipped_weapon(this);
         if (weapon != NULL) {
             if (weapon_has_extra_attack((TItemWeapon *)weapon) == 0) {
@@ -3937,7 +3908,6 @@ void TObjPlayer::apply_movement_if_ready() {
 }
 
 void TObjPlayer::update_anim_action() {
-    u8 *arg0 = (u8 *)this;
     get_equipped_weapon(this);
     if (this->get_handle_value() != 8) {
         if (is_passing_frame(select_normal_attack_marker()) != 0) {
@@ -4080,7 +4050,6 @@ void TObjPlayer::finish_attack_stage1() {
 }
 
 void TObjPlayer::update_active_item() {
-    s32 arg0 = (saddr)this;
     s32 slot;
 
     slot = select_attack_palette_slot();
@@ -4553,8 +4522,6 @@ void TObjPlayer::select_walk_request() {
 int TObjPlayer::try_walk_status_action() { return try_status_action(); }
 
 void TObjPlayer::run_walk_state_phase(s16 phase) {
-  int new_var;
-  new_var = ((u32) phase) <= 8U;
   {
     switch (phase)
     {
@@ -4598,13 +4565,13 @@ void TObjPlayer::cleanup_idle_entry() { clear_actor_flags((uaddr)((void*)3840));
 void TObjPlayer::exit_idle_state() {  }
 
 void TObjPlayer::update_action(saddr owner) {
-    u32 temp_r3;
+    u32 collision;
     TObjPlayer *p = (TObjPlayer *)owner;
 
-    temp_r3 = p->resolve_move_collision();
-    if (temp_r3 == 0U) {
+    collision = p->resolve_move_collision();
+    if (collision == 0U) {
         p->apply_velocity();
-    } else if (temp_r3 == 1U) {
+    } else if (collision == 1U) {
         p->rewind_position_history();
     }
     if ((p->is_newman() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0) && (p->tick_regen_timer() != 0)) {

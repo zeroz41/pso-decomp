@@ -1195,7 +1195,6 @@ void TDelayedAreaMusic::run_task() {
 void TPlayerBattleCtrl::init_battle_round() {
   s32 char_select_slot;
   TObjPlayer *player;
-  s32 var_ctr;
   s32 var_r3;
   s32 i;
   time_limit = get_battle_time_limit_frames();
