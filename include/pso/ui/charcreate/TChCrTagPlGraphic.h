@@ -4,6 +4,14 @@
 #include "pso/math/TMath.h"
 #include "types.h"
 
+// One row of the class illustration layout table.
+struct TChCrTagPlGraphicLayout {
+    f32 scale;
+    f32 depth;
+    vec2f pos;
+    vec2f selected_pos;
+};
+
 class TChCrTagPlGraphic : public TChCrTag {
 public:
     TChCrTagPlGraphic(TObject *parent, s32 index);

@@ -31,13 +31,6 @@ void TChCrTagPlGraphic::draw_class_illustration() {
 
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
-struct TChCrTagPlGraphicLayout {
-    f32 scale;
-    f32 depth;
-    vec2f pos;
-    vec2f selected_pos;
-};
-
 
 void TChCrTagPlGraphic::render() {
     set_depth_buffer_settings_1();
