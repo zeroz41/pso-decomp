@@ -1375,7 +1375,6 @@ pso/object/ambient/TObjCGrass.cpp
 pso/ui/window/TObjCHTimeWin.cpp
 pso/ui/window/TObjCHTimeWin_80074C94.cpp
 pso/ui/charcreate/TObjCMIcon.cpp
-pso/ui/charcreate/TObjCMIcon_80299488.cpp
 pso/ui/charcreate/TObjCMMainMenu_8028EA88.cpp
 pso/camera/TObjCamera.cpp
 pso/object/TObjChip.cpp

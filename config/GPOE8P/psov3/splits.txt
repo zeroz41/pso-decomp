@@ -7071,17 +7071,14 @@ pso/ui/charcreate/TObjCMProportion.cpp:
 pso/unk/text_80299420.cpp:
 	.text       start:0x80299420 end:0x8029945C
 
-pso/ui/charcreate/TObjCMIcon_80299488.cpp:
-	.text       start:0x8029945C end:0x8029997C
+pso/ui/charcreate/TObjCMIcon.cpp:
+	.text       start:0x8029945C end:0x80299A60
 	.rodata     start:0x80465180 end:0x804651A0
+	.data       start:0x804DBDE0 end:0x804DBE90
 	.bss        start:0x805409E0 end:0x80540A34
+	.sdata      start:0x805D3CF0 end:0x805D3CF8
 	.sbss       start:0x805D65A8 end:0x805D65AC
 	.sdata2     start:0x805DDC38 end:0x805DDC58
-
-pso/ui/charcreate/TObjCMIcon.cpp:
-	.text       start:0x8029997C end:0x80299A60
-	.data       start:0x804DBDE0 end:0x804DBE90
-	.sdata      start:0x805D3CF0 end:0x805D3CF8
 
 pso/unk/TLobby_80299A60.cpp:
 	.text       start:0x80299A60 end:0x80299B90
