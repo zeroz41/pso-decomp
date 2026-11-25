@@ -4141,7 +4141,7 @@ force_active:
   - attack_target__15TObjIllGillKageFv
   - attack_target_history_contains__FPvPv
   - attack_visible_players__17TObjEneDf2BringerFv
-  - award_enemy_experience__9TObjEnemyFl
+  - award_enemy_experience__9TObjEnemyFUs
   - b256_menutext01_e_gvp
   - b256_menutext01_j_gvp
   - bank_credit_meseta__Fll

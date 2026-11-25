@@ -24,7 +24,7 @@ struct TObjEnemy : public TObjChara {
     void update_prev_position();
     void register_by_id();
     s32 turn_toward_direction(s32 max_step, Vec *direction);
-    void award_enemy_experience(s32);
+    void award_enemy_experience(u16 client);
     void distribute_experience();
     // send_6x60_standard_drop_item_request for this enemy.
     int query_lobby_state();
