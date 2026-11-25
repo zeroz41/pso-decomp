@@ -30,7 +30,7 @@ TItemWeaponSpreadNeedle::TItemWeaponSpreadNeedle(TObject *parent, u8 *item) : TI
     shot_callback = (WeaponShotCallback)TObjPlayer::create_shoot_model;
 }
 
-TItem *TObjPlayer::create_init_state_2(u8 *item) {
+TItem *TItemWeaponSpreadNeedle::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSpreadNeedle(tl_05, item);
     }

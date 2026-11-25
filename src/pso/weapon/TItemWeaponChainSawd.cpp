@@ -25,7 +25,7 @@ TItemWeaponChainSawd::TItemWeaponChainSawd(TObject *parent, u8 *item) : TItemWea
     uv_scroll = 35;
 }
 
-TItem *TObjPlayer::create_state_35(u8 *item) {
+TItem *TItemWeaponChainSawd::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponChainSawd(tl_05, item);
     }

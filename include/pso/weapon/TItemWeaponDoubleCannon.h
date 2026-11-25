@@ -6,6 +6,7 @@
 class TItemWeaponDoubleCannon : public TItemWeapon {
 public:
     TItemWeaponDoubleCannon(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponDoubleCannon();
     virtual void transform_model_node();
     void sub_80124C90();

@@ -120,7 +120,7 @@ TItemWeaponSlicer::TItemWeaponSlicer(TObject *parent, u8 *item) : TItemWeapon(pa
     }
 }
 
-TItem *create_slicer_weapon(u8 *item) {
+TItem *TItemWeaponSlicer::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSlicer(tl_05, item);
     }

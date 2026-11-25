@@ -53,7 +53,7 @@ void *find_entity_by_id(s32);
 // 2.0f literal at 0x805DFDF8 is followed by a 4-byte pad before the next pool.
 // Built with -inline off,deferred like TItemEffPG.cpp: functions are written last to first.
 
-TItem *TObjPlayer::create_rappys_fan(u8 *item) {
+TItem *TItemWeaponRappysFan::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponRappysFan(tl_05, item);
     }

@@ -27,7 +27,7 @@ TItemWeaponHarisenBattleFan::TItemWeaponHarisenBattleFan(TObject *parent, u8 *it
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer::create_shot_effect_state(u8 *item) {
+TItem *TItemWeaponHarisenBattleFan::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponHarisenBattleFan(tl_05, item);
     }

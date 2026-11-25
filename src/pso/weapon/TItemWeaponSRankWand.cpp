@@ -16,7 +16,7 @@ void TItemWeaponSRankWand::vfunc_62() {
 TItemWeaponSRankWand::TItemWeaponSRankWand(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {}
 
 
-TItem *TObjPlayer__sub_80128440(u8 *item) {
+TItem *TItemWeaponSRankWand::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankWand(tl_05, item);
     }

@@ -24,7 +24,7 @@ TItemWeaponSRankMechgun::TItemWeaponSRankMechgun(TObject *parent, u8 *item) : TU
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 
-TItem *TObjPlayer::create_variant(u8 *item) {
+TItem *TItemWeaponSRankMechgun::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankMechgun(tl_05, item);
     }

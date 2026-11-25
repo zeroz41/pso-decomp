@@ -20,7 +20,7 @@ TItemWeaponFlameVisit::TItemWeaponFlameVisit(TObject *parent, u8 *item) : TItemW
     }
 }
 
-TItem *TObjPlayer__sub_80126054(u8 *item) {
+TItem *TItemWeaponFlameVisit::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponFlameVisit(tl_05, item);
     }

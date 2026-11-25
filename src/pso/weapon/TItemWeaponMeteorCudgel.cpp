@@ -38,7 +38,7 @@ TItemWeaponMeteorCudgel::TItemWeaponMeteorCudgel(TObject *parent, u8 *item) : TI
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer::create_state(u8 *item) {
+TItem *TItemWeaponMeteorCudgel::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponMeteorCudgel(tl_05, item);
     }

@@ -32,7 +32,7 @@ TItemWeaponSRankNeedle::TItemWeaponSRankNeedle(TObject *parent, u8 *item) : TUnk
     shot_callback = (WeaponShotCallback)TObjPlayer::create_shoot_model;
 }
 
-TItem *TObjPlayer::create_state_2(u8 *item) {
+TItem *TItemWeaponSRankNeedle::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankNeedle(tl_05, item);
     }

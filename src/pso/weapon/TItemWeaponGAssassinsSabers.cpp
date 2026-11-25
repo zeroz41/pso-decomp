@@ -39,7 +39,7 @@ TItemWeaponGAssassinsSabers::TItemWeaponGAssassinsSabers(TObject *parent, u8 *it
     pad_1fc = 0;
 }
 
-TItem *TObjPlayer::create_state_1536(u8 *item) {
+TItem *TItemWeaponGAssassinsSabers::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponGAssassinsSabers(tl_05, item);
     }

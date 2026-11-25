@@ -14,9 +14,10 @@ public:
     virtual void update_attack();
     virtual ~TItemWeaponMadamsParasol();
     TItemWeaponMadamsParasol(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     WeaponCanopyScale scale;  // canopy scale (scale_current_matrix)
 };
 
-extern "C" TItem *TObjPlayer__sub_8012F298(u8 *item);
+extern "C" TItem *TItemWeaponMadamsParasol::create(u8 *item);
 
 #endif

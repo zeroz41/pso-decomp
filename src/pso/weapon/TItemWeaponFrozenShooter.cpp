@@ -150,7 +150,7 @@ TItemWeaponFrozenShooter::TItemWeaponFrozenShooter(TObject *parent, u8 *item) : 
     skip_freeze = 0;
 }
 
-TItem *frozen_shooter_create(u8 *item) {
+TItem *TItemWeaponFrozenShooter::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponFrozenShooter(tl_05, item);
     }

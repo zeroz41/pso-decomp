@@ -106,7 +106,7 @@ TItemWeaponPartisan::TItemWeaponPartisan(TObject *parent, u8 *item) : TItemWeapo
     }
 }
 
-TItem *create_partisan_weapon(u8 *item) {
+TItem *TItemWeaponPartisan::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponPartisan(tl_05, item);
     }

@@ -9,10 +9,11 @@
 // psycho_wand_equip/unequip, psycho_wand_node_callback): refunds spent TP
 // out of the owner's HP, and its extra technique roll casts Zonde, Foie or
 // Barta from joint 4 at the owner's first locked target. Made by
-// create_psycho_wand.
+// TItemWeaponPsychoWand::create.
 class TItemWeaponPsychoWand : public TItemWeapon {
 public:
     TItemWeaponPsychoWand(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponPsychoWand();
     virtual void activate_effect(s32);
     virtual void update_idle();
@@ -32,7 +33,5 @@ public:
     f32 extension;            // 0x274: model node 1 offset (inferred name)
     s32 rotation_z;           // 0x278: rotate_matrix_z angle of the model hook
 };
-
-TItem *create_psycho_wand(u8 *item);
 
 #endif

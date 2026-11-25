@@ -29,7 +29,7 @@ TItemWeaponStingTip::TItemWeaponStingTip(TObject *parent, u8 *item) : TItemWeapo
 }
 
 
-TItem *TObjPlayer__sub_8012EFAC(u8 *item) {
+TItem *TItemWeaponStingTip::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponStingTip(tl_05, item);
     }

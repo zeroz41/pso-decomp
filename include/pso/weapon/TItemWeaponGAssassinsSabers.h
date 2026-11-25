@@ -6,6 +6,7 @@
 class TItemWeaponGAssassinsSabers : public TItemWeapon {
 public:
     TItemWeaponGAssassinsSabers(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponGAssassinsSabers();
     virtual void update_attack();
     virtual void update_idle();

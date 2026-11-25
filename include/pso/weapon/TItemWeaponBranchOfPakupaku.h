@@ -8,6 +8,7 @@ public:
     virtual ~TItemWeaponBranchOfPakupaku();
     virtual void emit_marker_effects();
     TItemWeaponBranchOfPakupaku(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
 };
 
 #endif

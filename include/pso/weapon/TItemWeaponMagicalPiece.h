@@ -4,14 +4,15 @@
 #include "pso/weapon/TItemWeapon.h"
 
 // Weapon class (old ctor name init_variant_34), made by
-// TObjPlayer__sub_801277EC.
+// TItemWeaponMagicalPiece::create.
 class TItemWeaponMagicalPiece : public TItemWeapon {
 public:
     virtual ~TItemWeaponMagicalPiece();
     virtual void emit_marker_effects();
     TItemWeaponMagicalPiece(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
 };
 
-extern "C" TItem *TObjPlayer__sub_801277EC(u8 *item);
+extern "C" TItem *TItemWeaponMagicalPiece::create(u8 *item);
 
 #endif

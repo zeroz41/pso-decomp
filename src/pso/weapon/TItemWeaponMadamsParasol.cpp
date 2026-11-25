@@ -41,7 +41,7 @@ TItemWeaponMadamsParasol::TItemWeaponMadamsParasol(TObject *parent, u8 *item) : 
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer__sub_8012F298(u8 *item) {
+TItem *TItemWeaponMadamsParasol::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponMadamsParasol(tl_05, item);
     }

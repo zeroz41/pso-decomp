@@ -134,7 +134,7 @@ TItemWeaponWindmill::TItemWeaponWindmill(TObject *parent, u8 *item) : TItemWeapo
     charge_ready = 1;
 }
 
-TItem *TObjPlayer::create_state_35_alt(u8 *item) {
+TItem *TItemWeaponWindmill::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponWindmill(tl_05, item);
     }

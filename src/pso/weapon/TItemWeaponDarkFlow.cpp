@@ -45,7 +45,7 @@ TItemWeaponDarkFlow::TItemWeaponDarkFlow(TObject *parent, u8 *item) : TItemWeapo
     set_weapon_flags(34);
 }
 
-TItem *create_dark_flow(u8 *item) {
+TItem *TItemWeaponDarkFlow::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponDarkFlow(tl_05, item);
     }

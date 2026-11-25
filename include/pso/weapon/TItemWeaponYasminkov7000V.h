@@ -6,6 +6,7 @@
 class TItemWeaponYasminkov7000V : public TItemWeapon {
 public:
     TItemWeaponYasminkov7000V(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponYasminkov7000V();
     virtual void update_weapon();
     virtual void emit_marker_effects();
@@ -15,7 +16,5 @@ public:
     f32 m_200;
     u8 unk_204[0x4];
 };
-
-TItem *create_yasminkov_7000v(u8 *item);
 
 #endif

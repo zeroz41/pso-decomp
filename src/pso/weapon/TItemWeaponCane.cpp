@@ -60,7 +60,7 @@ TItemWeaponCane::TItemWeaponCane(TObject *parent, u8 *item) : TItemWeapon(parent
     }
 }
 
-TItem *create_cane_weapon(u8 *item) {
+TItem *TItemWeaponCane::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponCane(tl_05, item);
     }

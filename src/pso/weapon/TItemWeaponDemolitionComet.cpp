@@ -39,7 +39,7 @@ TItemWeaponDemolitionComet::TItemWeaponDemolitionComet(TObject *parent, u8 *item
     pad_1fc = 1.0f;
 }
 
-TItem *TObjPlayer::create_mode_floats_state(u8 *item) {
+TItem *TItemWeaponDemolitionComet::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponDemolitionComet(tl_05, item);
     }

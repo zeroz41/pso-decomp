@@ -67,7 +67,7 @@ TItemWeaponSRankWindmill::TItemWeaponSRankWindmill(TObject *parent, u8 *item) : 
     blend_off = 1;
 }
 
-TItem *TObjPlayer::create_state_8012a418(u8 *item) {
+TItem *TItemWeaponSRankWindmill::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankWindmill(tl_05, item);
     }

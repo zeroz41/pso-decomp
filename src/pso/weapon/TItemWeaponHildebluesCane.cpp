@@ -80,7 +80,7 @@ TItemWeaponHildebluesCane::TItemWeaponHildebluesCane(TObject *parent, u8 *item) 
     set_technique_roll_range(10);
 }
 
-TItem *TObjPlayer__sub_801228CC(u8 *item) {
+TItem *TItemWeaponHildebluesCane::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponHildebluesCane(tl_05, item);
     }

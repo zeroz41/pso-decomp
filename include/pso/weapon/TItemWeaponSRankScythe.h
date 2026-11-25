@@ -6,6 +6,7 @@
 class TItemWeaponSRankScythe : public TUnk_804A4948 {
 public:
     TItemWeaponSRankScythe(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponSRankScythe();
     virtual void transform_model_node();
     virtual void update_idle();

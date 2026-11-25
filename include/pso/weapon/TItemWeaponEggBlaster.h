@@ -7,6 +7,7 @@ class TItemWeaponEggBlaster : public TItemWeapon {
 public:
     virtual ~TItemWeaponEggBlaster();
     TItemWeaponEggBlaster(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
 };
 
 #endif

@@ -28,7 +28,7 @@ TItemWeaponLavisBlade::TItemWeaponLavisBlade(TObject *parent, u8 *item) : TItemW
 }
 
 
-TItem *TObjPlayer__sub_80127314(u8 *item) {
+TItem *TItemWeaponLavisBlade::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponLavisBlade(tl_05, item);
     }

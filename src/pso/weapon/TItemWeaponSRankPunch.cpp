@@ -163,7 +163,7 @@ TItemWeaponSRankPunch::TItemWeaponSRankPunch(TObject *parent, u8 *item) : TUnk_8
     flags.reset();
 }
 
-TItem *TObjPlayer::create_event_callbacks_state(u8 *item) {
+TItem *TItemWeaponSRankPunch::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankPunch(tl_05, item);
     }

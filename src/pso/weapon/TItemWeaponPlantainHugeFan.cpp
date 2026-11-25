@@ -55,7 +55,7 @@ TItemWeaponPlantainHugeFan::TItemWeaponPlantainHugeFan(TObject *parent, u8 *item
     shot_speed = 10.0f;
 }
 
-TItem *TObjPlayer::create_state_34(u8 *item) {
+TItem *TItemWeaponPlantainHugeFan::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponPlantainHugeFan(tl_05, item);
     }

@@ -26,7 +26,7 @@ TItemWeaponCaduceus::TItemWeaponCaduceus(TObject *parent, u8 *item) : TItemWeapo
     set_weapon_flags(34);
 }
 
-TItem *TObjPlayer::create_obj_80122C2C(u8 *item) {
+TItem *TItemWeaponCaduceus::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponCaduceus(tl_05, item);
     }

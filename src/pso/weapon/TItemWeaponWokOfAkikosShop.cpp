@@ -20,7 +20,7 @@ TItemWeaponWokOfAkikosShop::TItemWeaponWokOfAkikosShop(TObject *parent, u8 *item
     set_weapon_flags(0x800201);
 }
 
-TItem *TObjPlayer__sub_80123950(u8 *item) {
+TItem *TItemWeaponWokOfAkikosShop::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponWokOfAkikosShop(tl_05, item);
     }

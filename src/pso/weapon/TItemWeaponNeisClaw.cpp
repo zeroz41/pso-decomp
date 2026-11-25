@@ -79,7 +79,7 @@ void TItemWeaponNeisClaw::transform_model_node() {
     }
 }
 
-TItem *TObjPlayer::create_gi_gue_bazooka(u8 *item) {
+TItem *TItemWeaponGiGueBazooka::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponGiGueBazooka(tl_05, item);
     }

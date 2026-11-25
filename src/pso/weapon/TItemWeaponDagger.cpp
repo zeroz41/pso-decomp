@@ -41,7 +41,7 @@ TItemWeaponDagger::TItemWeaponDagger(TObject *parent, u8 *item) : TItemWeapon(pa
     }
 }
 
-TItem *create_dagger_weapon(u8 *item) {
+TItem *TItemWeaponDagger::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponDagger(tl_05, item);
     }

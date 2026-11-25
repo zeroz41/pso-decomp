@@ -24,7 +24,7 @@ TItemWeaponRod::TItemWeaponRod(TObject *parent, u8 *item) : TItemWeapon(parent, 
     }
 }
 
-TItem *create_rod_weapon(u8 *item) {
+TItem *TItemWeaponRod::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponRod(tl_05, item);
     }

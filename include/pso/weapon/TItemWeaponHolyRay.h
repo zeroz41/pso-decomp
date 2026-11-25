@@ -10,6 +10,7 @@ public:
     virtual void update_idle();
     virtual void update_attack();
     TItemWeaponHolyRay(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     s32 rotation_x;  // rotate_matrix_x in transform_model_node
     s32 rotation_z;  // rotate_matrix_z in transform_model_node
 };

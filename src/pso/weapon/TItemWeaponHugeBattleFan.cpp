@@ -38,7 +38,7 @@ TItemWeaponHugeBattleFan::TItemWeaponHugeBattleFan(TObject *parent, u8 *item) : 
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer::create_state_vector_state(u8 *item) {
+TItem *TItemWeaponHugeBattleFan::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponHugeBattleFan(tl_05, item);
     }

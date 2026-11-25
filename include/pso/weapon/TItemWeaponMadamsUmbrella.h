@@ -14,6 +14,7 @@ public:
     virtual void update_attack();
     virtual ~TItemWeaponMadamsUmbrella();
     TItemWeaponMadamsUmbrella(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     WeaponCanopyScale scale;  // canopy scale (scale_current_matrix)
 };
 

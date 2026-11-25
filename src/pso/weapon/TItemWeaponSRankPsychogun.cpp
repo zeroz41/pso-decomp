@@ -28,7 +28,7 @@ TItemWeaponSRankPsychogun::TItemWeaponSRankPsychogun(TObject *parent, u8 *item) 
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 
-TItem *TObjPlayer::create_action(u8 *item) {
+TItem *TItemWeaponSRankPsychogun::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankPsychogun(tl_05, item);
     }

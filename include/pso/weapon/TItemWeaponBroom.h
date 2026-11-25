@@ -7,6 +7,7 @@ class TItemWeaponBroom : public TItemWeapon {
 public:
     virtual ~TItemWeaponBroom();
     TItemWeaponBroom(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual void emit_marker_effects();
 };
 

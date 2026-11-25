@@ -76,7 +76,7 @@ TItemWeaponImperialPick::TItemWeaponImperialPick(TObject *parent, u8 *item) : TI
     rotation_z = 0;
 }
 
-TItem *TObjPlayer::create_vtable_clear_field1f8(u8 *item) {
+TItem *TItemWeaponImperialPick::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponImperialPick(tl_05, item);
     }

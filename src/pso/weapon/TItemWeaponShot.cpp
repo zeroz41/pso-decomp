@@ -121,7 +121,7 @@ TItemWeaponShot::TItemWeaponShot(TObject *parent, u8 *item) : TItemWeapon(parent
     }
 }
 
-TItem *create_shot_weapon(u8 *item) {
+TItem *TItemWeaponShot::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponShot(tl_05, item);
     }

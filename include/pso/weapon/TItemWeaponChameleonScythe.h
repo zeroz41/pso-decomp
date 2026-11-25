@@ -5,7 +5,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 // Weapon class (old ctor name setup_effect), made by
-// TObjPlayer::create_effect_state.
+// TItemWeaponChameleonScythe::create.
 class TItemWeaponChameleonScythe : public TItemWeapon {
 public:
     virtual ~TItemWeaponChameleonScythe();
@@ -14,6 +14,7 @@ public:
     virtual void update_idle();
     virtual void update_attack();
     TItemWeaponChameleonScythe(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     Vec scale;  // scale_current_matrix of model 2; z eases to 4 attacking, 1 idle
 };
 

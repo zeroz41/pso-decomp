@@ -10,6 +10,7 @@ public:
     virtual void transform_model_node();
     virtual void update_weapon();
     TItemWeaponSRankBazooka(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual void vfunc_62();
     virtual ~TItemWeaponSRankBazooka();
     f32 barrel_offset;  // translate_matrix y offset in transform_model_node, 0 to -2

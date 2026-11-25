@@ -22,7 +22,7 @@ TItemWeaponMorningGlory::TItemWeaponMorningGlory(TObject *parent, u8 *item) : TI
     set_weapon_flags(1);
 }
 
-TItem *create_morning_glory(u8 *item) {
+TItem *TItemWeaponMorningGlory::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponMorningGlory(tl_05, item);
     }

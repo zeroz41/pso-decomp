@@ -51,7 +51,7 @@ TItemWeaponPanthersClaw::TItemWeaponPanthersClaw(TObject *parent, u8 *item) : TI
     scale.x = scale.y = scale.z = 0.0f;
 }
 
-TItem *TObjPlayer::create_state_513(u8 *item) {
+TItem *TItemWeaponPanthersClaw::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponPanthersClaw(tl_05, item);
     }

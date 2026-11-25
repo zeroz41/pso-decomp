@@ -87,7 +87,7 @@ TItemWeaponYasminkov2000H::TItemWeaponYasminkov2000H(TObject *parent, u8 *item) 
     slide.x = slide.y = slide.z = 0.0f;
 }
 
-TItem *create_yasminkov_2000h(u8 *item) {
+TItem *TItemWeaponYasminkov2000H::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponYasminkov2000H(tl_05, item);
     }

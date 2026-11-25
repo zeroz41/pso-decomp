@@ -28,7 +28,7 @@ TItemWeaponChameleonScythe::TItemWeaponChameleonScythe(TObject *parent, u8 *item
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer::create_effect_state(u8 *item) {
+TItem *TItemWeaponChameleonScythe::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponChameleonScythe(tl_05, item);
     }

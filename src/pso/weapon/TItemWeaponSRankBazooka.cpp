@@ -54,7 +54,7 @@ TItemWeaponSRankBazooka::TItemWeaponSRankBazooka(TObject *parent, u8 *item) : TU
     shot_speed = 15.0f;
 }
 
-TItem *create_s_rank_bazooka(u8 *item) {
+TItem *TItemWeaponSRankBazooka::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankBazooka(tl_05, item);
     }

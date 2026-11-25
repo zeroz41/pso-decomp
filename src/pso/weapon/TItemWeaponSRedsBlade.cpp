@@ -47,7 +47,7 @@ TItemWeaponSRedsBlade::TItemWeaponSRedsBlade(TObject *parent, u8 *item) : TItemW
     set_technique_roll_range(2);
 }
 
-TItem *TObjPlayer::create_state_variant_a(u8 *item) {
+TItem *TItemWeaponSRedsBlade::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRedsBlade(tl_05, item);
     }

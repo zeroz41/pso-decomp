@@ -63,7 +63,7 @@ TItemWeaponTheSighOfAGod::TItemWeaponTheSighOfAGod(TObject *parent, u8 *item) : 
     set_technique_roll_range(5);
 }
 
-TItem *TObjPlayer::create_effect_object(u8 *item) {
+TItem *TItemWeaponTheSighOfAGod::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponTheSighOfAGod(tl_05, item);
     }

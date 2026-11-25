@@ -27,7 +27,7 @@ TItemWeaponMarinasBag::~TItemWeaponMarinasBag() {}
 
 TItemWeaponMarinasBag::TItemWeaponMarinasBag(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-TItem *TObjPlayer::create_vtable_804A08B8(u8 *item) {
+TItem *TItemWeaponMarinasBag::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponMarinasBag(tl_05, item);
     }

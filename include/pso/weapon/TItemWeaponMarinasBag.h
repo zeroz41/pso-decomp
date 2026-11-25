@@ -9,6 +9,7 @@ public:
     virtual void emit_marker_effects();
     virtual void on_equipped();
     TItemWeaponMarinasBag(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
 };
 
 #endif

@@ -103,7 +103,7 @@ TItemWeaponSoulEater::TItemWeaponSoulEater(TObject *parent, u8 *item) : TItemWea
     }
 }
 
-TItem *create_soul_eater_weapon(u8 *item) {
+TItem *TItemWeaponSoulEater::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSoulEater(tl_05, item);
     }

@@ -43,7 +43,7 @@ TItemWeaponGuldMilla::TItemWeaponGuldMilla(TObject *parent, u8 *item) : TItemWea
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 
-TItem *create_guld_milla(u8 *item) {
+TItem *TItemWeaponGuldMilla::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponGuldMilla(tl_05, item);
     }

@@ -69,7 +69,7 @@ TItemWeaponYasminkov3000R::TItemWeaponYasminkov3000R(TObject *parent, u8 *item) 
     slide_state = 0;
 }
 
-TItem *create_yasminkov_3000r(u8 *item) {
+TItem *TItemWeaponYasminkov3000R::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponYasminkov3000R(tl_05, item);
     }

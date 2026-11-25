@@ -6,13 +6,14 @@
 
 // Weapon class (old ctor name TObjPlayer::initialize_effect_object):
 // its special casts Gizonde from joint 0 at the owner's captured targets. Made by
-// TObjPlayer::create_effect_object.
+// TItemWeaponTheSighOfAGod::create.
 class TItemWeaponTheSighOfAGod : public TItemWeapon {
 public:
     virtual ~TItemWeaponTheSighOfAGod();
     virtual void on_equipped();
     virtual void emit_marker_effects();
     TItemWeaponTheSighOfAGod(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     WeaponVector cast_point;   // 0x1F8: joint 0, where Gizonde starts (inferred name)
     TargetCursorList targets;  // 0x204: Gizonde's targets
 };

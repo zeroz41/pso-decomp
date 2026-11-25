@@ -7,6 +7,7 @@
 class TItemWeaponSRankPunch : public TUnk_804A4948 {
 public:
     TItemWeaponSRankPunch(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponSRankPunch();
     virtual void transform_model_node();
     virtual void draw_held_model();

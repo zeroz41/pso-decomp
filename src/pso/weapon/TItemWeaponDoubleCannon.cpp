@@ -142,7 +142,7 @@ TItemWeaponDoubleCannon::TItemWeaponDoubleCannon(TObject *parent, u8 *item) : TI
     rotation_z = 0;
 }
 
-TItem *TObjPlayer::create_state_80125154(u8 *item) {
+TItem *TItemWeaponDoubleCannon::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponDoubleCannon(tl_05, item);
     }

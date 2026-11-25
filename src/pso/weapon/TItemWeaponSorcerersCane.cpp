@@ -130,7 +130,7 @@ TItemWeaponSorcerersCane::TItemWeaponSorcerersCane(TObject *parent, u8 *item) : 
     cached_tp = -1;
 }
 
-TItem *create_sorcerers_cane(u8 *item) {
+TItem *TItemWeaponSorcerersCane::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSorcerersCane(tl_05, item);
     }

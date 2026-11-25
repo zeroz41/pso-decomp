@@ -14,7 +14,7 @@ TItemWeaponEggBlaster::TItemWeaponEggBlaster(TObject *parent, u8 *item) : TItemW
 }
 
 
-TItem *TObjPlayer__sub_80125428(u8 *item) {
+TItem *TItemWeaponEggBlaster::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponEggBlaster(tl_05, item);
     }

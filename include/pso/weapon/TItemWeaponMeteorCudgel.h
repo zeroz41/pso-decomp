@@ -5,7 +5,7 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 // Weapon class (old ctor name TObjPlayer::init_state()), made by
-// TObjPlayer::create_state.
+// TItemWeaponMeteorCudgel::create.
 class TItemWeaponMeteorCudgel : public TItemWeapon {
 public:
     virtual ~TItemWeaponMeteorCudgel();
@@ -13,6 +13,7 @@ public:
     virtual void update_idle();
     virtual void update_attack();
     TItemWeaponMeteorCudgel(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     Vec scale;  // scale_current_matrix of model 0; update_idle/update_attack ease z
 };
 

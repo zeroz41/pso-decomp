@@ -78,7 +78,7 @@ TItemWeaponYasminkov7000V::TItemWeaponYasminkov7000V(TObject *parent, u8 *item) 
     m_1fc = 0.0f;
 }
 
-TItem *create_yasminkov_7000v(u8 *item) {
+TItem *TItemWeaponYasminkov7000V::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponYasminkov7000V(tl_05, item);
     }

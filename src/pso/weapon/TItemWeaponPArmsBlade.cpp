@@ -47,7 +47,7 @@ TItemWeaponPArmsBlade::TItemWeaponPArmsBlade(TObject *parent, u8 *item) : TItemW
     set_weapon_flags(513);
 }
 
-TItem *TObjPlayer::create_obj_8012B140(u8 *item) {
+TItem *TItemWeaponPArmsBlade::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponPArmsBlade(tl_05, item);
     }

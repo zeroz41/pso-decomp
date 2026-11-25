@@ -30,7 +30,7 @@ TItemWeaponTechnicalCrozier::TItemWeaponTechnicalCrozier(TObject *parent, u8 *it
 }
 
 
-TItem *TObjPlayer::create_vtable_804A63F0(u8 *item) {
+TItem *TItemWeaponTechnicalCrozier::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponTechnicalCrozier(tl_05, item);
     }

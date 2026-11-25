@@ -25,7 +25,7 @@ TItemWeaponElysion::TItemWeaponElysion(TObject *parent, u8 *item) : TItemWeapon(
     set_weapon_flags(34);
 }
 
-TItem *TObjPlayer::create_vtable_804A3548(u8 *item) {
+TItem *TItemWeaponElysion::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponElysion(tl_05, item);
     }

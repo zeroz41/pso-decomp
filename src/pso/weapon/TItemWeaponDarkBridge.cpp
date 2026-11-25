@@ -55,7 +55,7 @@ TItemWeaponDarkBridge::TItemWeaponDarkBridge(TObject *parent, u8 *item) : TItemW
     pad_1f8 = 0;
 }
 
-TItem *dark_bridge_create(u8 *item) {
+TItem *TItemWeaponDarkBridge::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponDarkBridge(tl_05, item);
     }

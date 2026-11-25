@@ -86,7 +86,7 @@ TItemWeaponHildebearsCane::TItemWeaponHildebearsCane(TObject *parent, u8 *item) 
     set_technique_roll_range(10);
 }
 
-TItem *TObjPlayer::create_enter_state_804A0BC0(u8 *item) {
+TItem *TItemWeaponHildebearsCane::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponHildebearsCane(tl_05, item);
     }

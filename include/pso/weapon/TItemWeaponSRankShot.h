@@ -6,6 +6,7 @@
 class TItemWeaponSRankShot : public TUnk_804A4948 {
 public:
     TItemWeaponSRankShot(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponSRankShot();
     virtual void transform_model_node();
     virtual void update_idle();

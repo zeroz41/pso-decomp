@@ -6,6 +6,7 @@
 class TItemWeaponSRankWand : public TUnk_804A4948 {
 public:
     TItemWeaponSRankWand(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponSRankWand();
     virtual void vfunc_62();
 };

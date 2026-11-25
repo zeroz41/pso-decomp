@@ -6,6 +6,7 @@
 class TItemWeaponDemolitionComet : public TItemWeapon {
 public:
     TItemWeaponDemolitionComet(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponDemolitionComet();
     virtual void update_attack();
     virtual void update_idle();

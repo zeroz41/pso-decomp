@@ -64,7 +64,7 @@ TItemWeaponFlightFan::TItemWeaponFlightFan(TObject *parent, u8 *item) : TItemWea
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer::create_position_state(u8 *item) {
+TItem *TItemWeaponFlightFan::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponFlightFan(tl_05, item);
     }

@@ -26,7 +26,7 @@ TItemWeaponSambaMaracas::TItemWeaponSambaMaracas(TObject *parent, u8 *item) : TI
 }
 
 
-TItem *TObjPlayer__sub_8012CE44(u8 *item) {
+TItem *TItemWeaponSambaMaracas::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSambaMaracas(tl_05, item);
     }

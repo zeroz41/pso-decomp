@@ -19,7 +19,7 @@ TItemWeaponFlowerCane::~TItemWeaponFlowerCane() {}
 
 TItemWeaponFlowerCane::TItemWeaponFlowerCane(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-TItem *TObjPlayer::create_obj_80125F60(u8 *item) {
+TItem *TItemWeaponFlowerCane::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponFlowerCane(tl_05, item);
     }

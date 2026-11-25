@@ -27,7 +27,7 @@ TItemWeaponAgito::~TItemWeaponAgito() {
 
 }
 
-// Agito (inferred from create_agito_weapon)
+// Agito (inferred from TItemWeaponAgito::create)
 TItemWeaponAgito::TItemWeaponAgito(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
     if (get_item_index() == 0) {
@@ -37,7 +37,7 @@ TItemWeaponAgito::TItemWeaponAgito(TObject *parent, u8 *item) : TItemWeapon(pare
     }
 }
 
-TItem *create_agito_weapon(u8 *item) {
+TItem *TItemWeaponAgito::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponAgito(tl_05, item);
     }

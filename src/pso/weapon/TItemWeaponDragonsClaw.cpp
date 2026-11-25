@@ -37,7 +37,7 @@ TItemWeaponDragonsClaw::TItemWeaponDragonsClaw(TObject *parent, u8 *item) : TIte
     set_technique_roll_range(13);
 }
 
-TItem *TObjPlayer::create_configured_state(u8 *item) {
+TItem *TItemWeaponDragonsClaw::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponDragonsClaw(tl_05, item);
     }

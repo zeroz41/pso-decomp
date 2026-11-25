@@ -12,7 +12,7 @@ TItemWeaponSRankClaw::TItemWeaponSRankClaw(TObject *parent, u8 *item) : TUnk_804
     set_weapon_flags(1);
 }
 
-TItem *TObjPlayer::create_obj_80128580(u8 *item) {
+TItem *TItemWeaponSRankClaw::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankClaw(tl_05, item);
     }

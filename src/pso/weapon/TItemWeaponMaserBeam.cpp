@@ -58,7 +58,7 @@ TItemWeaponMaserBeam::TItemWeaponMaserBeam(TObject *parent, u8 *item) : TItemWea
     set_weapon_flags(2);
 }
 
-TItem *TObjPlayer::create_with_id_2(u8 *item) {
+TItem *TItemWeaponMaserBeam::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponMaserBeam(tl_05, item);
     }

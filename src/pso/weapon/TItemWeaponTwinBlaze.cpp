@@ -63,7 +63,7 @@ TItemWeaponTwinBlaze::TItemWeaponTwinBlaze(TObject *parent, u8 *item) : TItemWea
     floor_area = -1;
 }
 
-TItem *TObjPlayer::create_state_vt2678(u8 *item) {
+TItem *TItemWeaponTwinBlaze::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponTwinBlaze(tl_05, item);
     }

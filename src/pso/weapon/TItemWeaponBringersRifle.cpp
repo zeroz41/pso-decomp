@@ -18,7 +18,7 @@ TItemWeaponBringersRifle::TItemWeaponBringersRifle(TObject *parent, u8 *item) : 
     shot_callback = (WeaponShotCallback)TItemEffBringer::create;
 }
 
-TItem *TObjPlayer::create_bringer_effect(u8 *item) {
+TItem *TItemWeaponBringersRifle::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponBringersRifle(tl_05, item);
     }

@@ -35,7 +35,7 @@ void expire_weapon_casing(void *p) { ((TObject *)p)->queue_destruction(); }
 
 TWeaponCasing::~TWeaponCasing() {}
 
-TItem *TObjPlayer::create_inferno_bazooka(u8 *item) {
+TItem *TItemWeaponInfernoBazooka::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponInfernoBazooka(tl_05, item);
     }

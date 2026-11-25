@@ -22,7 +22,7 @@ TItemWeaponSBeatsBlade::TItemWeaponSBeatsBlade(TObject *parent, u8 *item) : TIte
 }
 
 
-TItem *TObjPlayer__sub_8012CF84(u8 *item) {
+TItem *TItemWeaponSBeatsBlade::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSBeatsBlade(tl_05, item);
     }

@@ -8,11 +8,7 @@ public:
     virtual ~TItemWeaponFlowerBouquet();
     virtual void emit_marker_effects();
     TItemWeaponFlowerBouquet(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
 };
-
-// Factory
-extern "C" {
-TItem *TObjPlayer__sub_801229EC(u8 *item);
-}
 
 #endif

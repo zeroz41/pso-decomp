@@ -11,7 +11,7 @@ TItemWeaponAngelHarp::TItemWeaponAngelHarp(TObject *parent, u8 *item) : TItemWea
     shot_callback = (WeaponShotCallback)TItemShootGun::create;
 }
 
-TItem *TObjPlayer::create_vtable_variant(u8 *item) {
+TItem *TItemWeaponAngelHarp::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponAngelHarp(tl_05, item);
     }

@@ -84,7 +84,7 @@ TItemWeaponStrikerOfChao::TItemWeaponStrikerOfChao(TObject *parent, u8 *item) : 
 }
 
 
-TItem *TObjPlayer__sub_8012380C(u8 *item) {
+TItem *TItemWeaponStrikerOfChao::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponStrikerOfChao(tl_05, item);
     }

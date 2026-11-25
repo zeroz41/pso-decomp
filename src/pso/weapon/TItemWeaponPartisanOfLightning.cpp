@@ -30,7 +30,7 @@ TItemWeaponPartisanOfLightning::TItemWeaponPartisanOfLightning(TObject *parent, 
     pad_1f8 = 1.0f;
 }
 
-TItem *TObjPlayer::create_vtable_1f8_state(u8 *item) {
+TItem *TItemWeaponPartisanOfLightning::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponPartisanOfLightning(tl_05, item);
     }

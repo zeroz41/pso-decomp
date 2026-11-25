@@ -11,6 +11,7 @@ public:
     virtual void update_attack();
     virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     TItemWeaponGiGueBazooka(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     s32 spin_angle;  // each turned toward a target angle by update_idle/update_attack
     s32 second_spin_angle;
     s32 third_spin_angle;

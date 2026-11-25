@@ -16,7 +16,7 @@ void TItemWeaponBroom::emit_marker_effects() {
 TItemWeaponBroom::~TItemWeaponBroom() {}
 TItemWeaponBroom::TItemWeaponBroom(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-TItem *TObjPlayer::create_vtable_804a1288(u8 *item) {
+TItem *TItemWeaponBroom::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponBroom(tl_05, item);
     }

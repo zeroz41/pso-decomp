@@ -6,6 +6,7 @@
 class TItemWeaponSRankMechgun : public TUnk_804A4948 {
 public:
     TItemWeaponSRankMechgun(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponSRankMechgun();
     virtual void draw_held_model();
     virtual void emit_marker_effects();

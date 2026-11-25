@@ -41,7 +41,7 @@ TItemWeaponMadamsUmbrella::TItemWeaponMadamsUmbrella(TObject *parent, u8 *item) 
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer::create_fields_state(u8 *item) {
+TItem *TItemWeaponMadamsUmbrella::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponMadamsUmbrella(tl_05, item);
     }

@@ -8,7 +8,7 @@
 // s_red_blade_turn_node, TObjPlayer::init_variant_a): emit_marker_effects
 // casts Deband or Shifta on the owner, update_idle/update_attack swing
 // rotation_x, the model hook (slot 60) turns model node 1 by it. Made by
-// TObjPlayer::create_state_variant_a.
+// TItemWeaponSRedsBlade::create.
 class TItemWeaponSRedsBlade : public TItemWeapon {
 public:
     virtual void emit_marker_effects();
@@ -17,6 +17,7 @@ public:
     virtual void on_equipped();
     virtual void transform_model_node();
     TItemWeaponSRedsBlade(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponSRedsBlade();
     s32 rotation_x;  // rotate_matrix_x angle of the model hook
 };

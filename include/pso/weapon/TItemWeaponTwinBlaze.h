@@ -6,6 +6,7 @@
 class TItemWeaponTwinBlaze : public TItemWeapon {
 public:
     TItemWeaponTwinBlaze(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponTwinBlaze();
     virtual void on_equipped();
     virtual void on_unequipped();

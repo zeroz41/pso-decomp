@@ -9,7 +9,7 @@
 // joint; update_idle/update_attack open and close barrel_angle and
 // slide_offset, which the model hook (slot 60) applies to the barrel and
 // slide nodes. The joint and node numbers depend on item code byte 2 (5, 6,
-// 7, other). Made by create_shot_weapon.
+// 7, other). Made by TItemWeaponShot::create.
 class TItemWeaponShot : public TItemWeapon {
 public:
     virtual void transform_model_node();
@@ -17,6 +17,7 @@ public:
     virtual void update_idle();
     virtual void update_attack();
     TItemWeaponShot(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponShot();
     s32 muzzle_joints[5];  // 0x1F8: get_joint_position joints of the shots (inferred name)
     s32 barrel_nodes[4];   // 0x20C: rotated by +/-barrel_angle in transform_model_node (inferred name)
@@ -25,7 +26,5 @@ public:
     f32 slide_offset;      // 0x224 (inferred name)
     u8 pad_228[4];
 };
-
-TItem *create_shot_weapon(u8 *item);
 
 #endif

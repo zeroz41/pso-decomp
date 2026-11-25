@@ -32,7 +32,7 @@ TItemWeaponLavisCannon::TItemWeaponLavisCannon(TObject *parent, u8 *item) : TIte
 }
 
 
-TItem *TObjPlayer__sub_8012AB1C(u8 *item) {
+TItem *TItemWeaponLavisCannon::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponLavisCannon(tl_05, item);
     }

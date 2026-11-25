@@ -11,6 +11,7 @@ public:
     virtual void update_attack();
     virtual void draw_held_model();
     TItemWeaponPanthersClaw(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     WeaponVector scale;  // model scale (scale_current_matrix); x and y follow z
 };
 

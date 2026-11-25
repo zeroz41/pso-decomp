@@ -10,6 +10,7 @@ public:
     virtual void update_idle();
     virtual void update_attack();
     TItemWeaponImperialPick(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     s32 rotation_z;  // rotate_matrix_z in transform_model_node
 };
 

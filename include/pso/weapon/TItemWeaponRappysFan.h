@@ -8,6 +8,7 @@ public:
     virtual ~TItemWeaponRappysFan();
     virtual void emit_marker_effects();
     TItemWeaponRappysFan(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
 };
 
 #endif

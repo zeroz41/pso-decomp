@@ -3,10 +3,11 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Made by create_rifle_weapon.
+// Made by TItemWeaponRifle::create.
 class TItemWeaponRifle : public TItemWeapon {
 public:
     TItemWeaponRifle(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponRifle();
     virtual void transform_model_node();
     virtual void update_idle();

@@ -36,7 +36,7 @@ TItemWeaponMonkeyKingBar::TItemWeaponMonkeyKingBar(TObject *parent, u8 *item) : 
     scale.x = scale.y = scale.z = 1.0f;
 }
 
-TItem *TObjPlayer::create_shot_params_state(u8 *item) {
+TItem *TItemWeaponMonkeyKingBar::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponMonkeyKingBar(tl_05, item);
     }

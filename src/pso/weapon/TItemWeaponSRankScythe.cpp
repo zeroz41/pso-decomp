@@ -66,7 +66,7 @@ TItemWeaponSRankScythe::TItemWeaponSRankScythe(TObject *parent, u8 *item) : TUnk
     rotation = 0;
 }
 
-TItem *TObjPlayer::create_state_8012934c(u8 *item) {
+TItem *TItemWeaponSRankScythe::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankScythe(tl_05, item);
     }

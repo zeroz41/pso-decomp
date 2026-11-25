@@ -35,7 +35,7 @@ TItemWeaponProphetsOfMotav::TItemWeaponProphetsOfMotav(TObject *parent, u8 *item
     set_technique_roll_range(2);
 }
 
-TItem *TObjPlayer::create_substate_b(u8 *item) {
+TItem *TItemWeaponProphetsOfMotav::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponProphetsOfMotav(tl_05, item);
     }

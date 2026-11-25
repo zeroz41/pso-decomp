@@ -6,7 +6,7 @@
 // A spinning cane-type weapon class (vtable 0x804A69DC; old name
 // init_state_35): spins faster while attacking and, once fast enough,
 // releases a charged shot (TUnk_804A69C0 shoot models via
-// create_shoot_model). Made by TObjPlayer::create_state_35_alt.
+// create_shoot_model). Made by TItemWeaponWindmill::create.
 class TItemWeaponWindmill : public TItemWeapon {
 public:
     virtual void activate_effect(s32 effect);
@@ -18,6 +18,7 @@ public:
     virtual void update_weapon();
     virtual ~TItemWeaponWindmill();
     TItemWeaponWindmill(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     void for_each_target_in_range(f32);
 
     s32 rotation;           // 0x1F8: spin angle (rotate_matrix_x)

@@ -49,7 +49,7 @@ TItemWeaponMagicalPiece::TItemWeaponMagicalPiece(TObject *parent, u8 *item) : TI
 }
 
 
-TItem *TObjPlayer__sub_801277EC(u8 *item) {
+TItem *TItemWeaponMagicalPiece::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponMagicalPiece(tl_05, item);
     }

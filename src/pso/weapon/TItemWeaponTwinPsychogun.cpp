@@ -41,7 +41,7 @@ TItemWeaponTwinPsychogun::TItemWeaponTwinPsychogun(TObject *parent, u8 *item) : 
     set_weapon_flags(547);
 }
 
-TItem *create_twin_psychogun(u8 *item) {
+TItem *TItemWeaponTwinPsychogun::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponTwinPsychogun(tl_05, item);
     }

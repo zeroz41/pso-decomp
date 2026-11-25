@@ -37,7 +37,7 @@ TItemWeaponRainbowBaton::TItemWeaponRainbowBaton(TObject *parent, u8 *item) : TI
     set_weapon_flags(2);
 }
 
-TItem *TObjPlayer__sub_803265C0(u8 *item) {
+TItem *TItemWeaponRainbowBaton::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponRainbowBaton(tl_05, item);
     }

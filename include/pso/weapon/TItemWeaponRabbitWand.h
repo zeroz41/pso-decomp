@@ -8,6 +8,7 @@ public:
     virtual ~TItemWeaponRabbitWand();
     virtual void transform_model_node();
     TItemWeaponRabbitWand(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
 };
 
 #endif

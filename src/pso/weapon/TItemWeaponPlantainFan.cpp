@@ -23,7 +23,7 @@ TItemWeaponPlantainFan::TItemWeaponPlantainFan(TObject *parent, u8 *item) : TIte
     shot_speed = 10.0f;
 }
 
-TItem *TObjPlayer::create_substate(u8 *item) {
+TItem *TItemWeaponPlantainFan::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponPlantainFan(tl_05, item);
     }

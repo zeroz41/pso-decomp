@@ -6,12 +6,10 @@
 struct TItem;
 
 extern "C" {
-TItem *TObjPlayer__sub_80125428(u8 *arg0);
 }
 
 // --- C functions defined in text_80125428.cpp ---
 extern "C" {
-TItem *TObjPlayer__sub_80125428(u8 *arg0);
 }
 // --- end of C functions
 

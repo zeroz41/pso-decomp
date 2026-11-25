@@ -41,7 +41,7 @@ TItemWeaponHolyRay::TItemWeaponHolyRay(TObject *parent, u8 *item) : TItemWeapon(
 }
 
 
-TItem *TObjPlayer::create_handlers_state(u8 *item) {
+TItem *TItemWeaponHolyRay::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponHolyRay(tl_05, item);
     }

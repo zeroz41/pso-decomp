@@ -33,7 +33,7 @@ TItemWeaponHeartOfPoumn::TItemWeaponHeartOfPoumn(TObject *parent, u8 *item) : TI
     set_weapon_flags(513);
 }
 
-TItem *TObjPlayer::create_state_variant(u8 *item) {
+TItem *TItemWeaponHeartOfPoumn::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponHeartOfPoumn(tl_05, item);
     }

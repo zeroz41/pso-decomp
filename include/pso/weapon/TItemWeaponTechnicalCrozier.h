@@ -8,6 +8,7 @@ public:
     virtual ~TItemWeaponTechnicalCrozier();
     virtual void emit_marker_effects();
     TItemWeaponTechnicalCrozier(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
 };
 
 #endif

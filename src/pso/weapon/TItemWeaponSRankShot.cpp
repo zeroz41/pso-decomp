@@ -58,7 +58,7 @@ TItemWeaponSRankShot::TItemWeaponSRankShot(TObject *parent, u8 *item) : TUnk_804
     shot_speed = 15.0f;
 }
 
-TItem *create_s_rank_shot(u8 *item) {
+TItem *TItemWeaponSRankShot::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponSRankShot(tl_05, item);
     }

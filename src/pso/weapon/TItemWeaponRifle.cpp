@@ -40,7 +40,7 @@ TItemWeaponRifle::TItemWeaponRifle(TObject *parent, u8 *item) : TItemWeapon(pare
     }
 }
 
-TItem *create_rifle_weapon(u8 *item) {
+TItem *TItemWeaponRifle::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponRifle(tl_05, item);
     }

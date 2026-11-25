@@ -6,6 +6,7 @@
 class TItemWeaponPartisanOfLightning : public TItemWeapon {
 public:
     TItemWeaponPartisanOfLightning(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponPartisanOfLightning();
     virtual void update_attack();
     virtual void update_idle();

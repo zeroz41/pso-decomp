@@ -6,10 +6,9 @@
 class TItemWeaponAgito : public TItemWeapon {
 public:
     TItemWeaponAgito(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual ~TItemWeaponAgito();
     virtual void emit_marker_effects();
 };
-
-TItem *create_agito_weapon(u8 *item);
 
 #endif

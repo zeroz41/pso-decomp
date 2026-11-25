@@ -8,6 +8,7 @@ class TItemWeaponCaduceus : public TItemWeapon {
 public:
     virtual ~TItemWeaponCaduceus();
     TItemWeaponCaduceus(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
     virtual void emit_marker_effects();
 };
 

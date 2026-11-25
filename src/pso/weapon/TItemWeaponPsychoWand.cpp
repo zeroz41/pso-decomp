@@ -128,7 +128,7 @@ TItemWeaponPsychoWand::TItemWeaponPsychoWand(TObject *parent, u8 *item) : TItemW
     targets.count = 0;
 }
 
-TItem *create_psycho_wand(u8 *item) {
+TItem *TItemWeaponPsychoWand::create(u8 *item) {
     if (item != NULL) {
         return new TItemWeaponPsychoWand(tl_05, item);
     }
