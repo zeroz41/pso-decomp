@@ -3366,7 +3366,7 @@ void TObjPlayer::release_attached_resource() { void* m = this->lock_on_cursor; i
 s32 TObjPlayer::get_camera_field() {
     void *p = this->lock_on_cursor;
     if (p != 0) {
-        return ((TMainCursor *)p)->is_cursor_clear();
+        return ((TLockOnCursor *)p)->is_cursor_clear();
     }
     return 0;
 }
@@ -3690,7 +3690,7 @@ void TObjPlayer::update_facing_vector() {
     this->m_40c = cos_table_lookup(this->rotation_y);
     update_ground_contact();
     if (this->lock_on_cursor != NULL) {
-        ((TMainCursor *)this->lock_on_cursor)->reset_slots();
+        this->lock_on_cursor->reset_slots();
     }
     this->contact_surface.check_surface_exit();
 }
@@ -3769,7 +3769,7 @@ s32 TObjPlayer::is_target_valid() {
     if (this->lock_on_cursor == NULL) {
         return 0;
     }
-    if (((u16) this->interactor != 0xFFFF) || (is_controls_locked() != 0) || (((TMainCursor *)this->lock_on_cursor)->is_cursor_clear() == 0) || (this->check_flag_0x40000000() != 0) || (test_action_mask(0x1E) == 0)) {
+    if (((u16) this->interactor != 0xFFFF) || (is_controls_locked() != 0) || (this->lock_on_cursor->is_cursor_clear() == 0) || (this->check_flag_0x40000000() != 0) || (test_action_mask(0x1E) == 0)) {
         return 0;
     }
     return 1;

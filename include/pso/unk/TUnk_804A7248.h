@@ -5,14 +5,14 @@
 #include "pso/player/TPlyGuildCardTag.h"
 
 // Vtable 0x804A7248 {0, 0, dtor}. TLockOnCursor builds one at +0x520.
-class TUnk_804A7248 : public gc_tag {
+class LockOnPaletteOverride : public gc_tag {
 public:
     s32 unk_4;
 
-    TUnk_804A7248();
-    virtual ~TUnk_804A7248();
+    LockOnPaletteOverride();
+    virtual ~LockOnPaletteOverride();
 };
 
-LAYOUT_ASSERT(TUnk_804A7248_size, sizeof(TUnk_804A7248) == 0xC);
+LAYOUT_ASSERT(LockOnPaletteOverride_size, sizeof(LockOnPaletteOverride) == 0xC);
 
 #endif

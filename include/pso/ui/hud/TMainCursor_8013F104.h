@@ -4,8 +4,6 @@
 #include "types.h"
 
 extern "C" {
-void TMainCursor__sub_8013F104(void *p, s32 v);
-void TMainCursor__sub_8013F10C(void *p, s32 v);
 void TMainCursor__sub_8013F22C(void *a0);
 int TMainCursor__sub_8013F244(void);
 }

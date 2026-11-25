@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/unk/TUnk_804A7260.h"
 
-class TLOC_End : public TUnk_804A7260 {
+class TLOC_End : public LockOnTask {
 public:
     TLOC_End(TObject *parent, u16 id);
     virtual ~TLOC_End();

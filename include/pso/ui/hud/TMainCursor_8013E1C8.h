@@ -4,8 +4,6 @@
 #include "types.h"
 
 extern "C" {
-s16 TMainCursor__sub_8013E298(void *p);
-s32 TMainCursor__sub_8013E2A0(void *p);
 int get_lock_on_cursor_model(void);
 }
 

@@ -1944,7 +1944,7 @@ void TObjPlayer::prepare_death() {
     if (is_flag_400_set__10TObjPlayerFPv(this) != 0) {
         enable_action_input__10TObjPlayerFPv(this);
     }
-    if (this->lock_on_cursor != NULL && ((TMainCursor *)this->lock_on_cursor)->is_cursor_clear() == 0) {
+    if (this->lock_on_cursor != NULL && this->lock_on_cursor->is_cursor_clear() == 0) {
         ((TObjPlayer *)this->lock_on_cursor)->clear_flag_1_at_1c();
     }
     if (this == NULL || this->obj_isState2_324() == 0) {
@@ -2911,7 +2911,7 @@ void TObjPlayer::prepare_photon_blast_action() {
         capture_technique_targets(this->photon_blast_gauge.get_valid_index(), this);
         if (this->lock_on_cursor != NULL) {
             PhotonBlastTarget *e = this->photon_blast_gauge.get_target(0);
-            ((TMainCursor *)this->lock_on_cursor)->set_cursor_pos(e->entity_id, e->index);
+            this->lock_on_cursor->set_cursor_pos(e->entity_id, e->index);
         }
         if (this == NULL || this->obj_isState2_324() == 0) {
             G_ExecutePhotonBlast_6x49 cmd;
@@ -3355,7 +3355,7 @@ void TObjPlayer::request_technique_cast() {
     capture_technique_targets(((PlayerTechniqueState *)(self->techs))->get_or_init_field_4(), this);
     if (self->cursor != NULL) {
         td = ((PlayerTechniqueState *)self->techs)->get_technique_data();
-        ((TMainCursor *)(self->cursor))->set_cursor_pos(td->entity_id, td->index);
+        ((TLockOnCursor *)(self->cursor))->set_cursor_pos(td->entity_id, td->index);
     }
     tech = ((PlayerTechniqueState *)(self->techs))->get_or_init_field_4();
     TObjPlayer::split_capped_value(get_cast_technique_level(self->techs, tech), &hi, &lo);

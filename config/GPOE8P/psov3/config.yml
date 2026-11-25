@@ -723,9 +723,9 @@ force_active:
   - open_bba_receive_filter
   - alloc_receive_frame
   - TLobby_warp_menu_window
-  - get_list_clear_task__13TUnk_8013F08CFv
-  - get_end_task__13TUnk_8013F08CFv
-  - get_start_task__13TUnk_8013F08CFv
+  - get_list_clear_task__11LockOnTasksFv
+  - get_end_task__11LockOnTasksFv
+  - get_start_task__11LockOnTasksFv
   - __dt__22LockOnTargetRecordListFv
   - __ct__22LockOnTargetRecordListFv
   - TLogo__sub_8013F7E8
@@ -737,8 +737,8 @@ force_active:
   - get_candidate_target_dist__19LockOnNearestTargetFv
   - set_published_target_id__19LockOnNearestTargetFUs
   - get_candidate_target_id__19LockOnNearestTargetFv
-  - set_end_task__13TUnk_8013F08CFP7TObject
-  - set_start_task__13TUnk_8013F08CFP7TObject
+  - set_end_task__11LockOnTasksFP7TObject
+  - set_start_task__11LockOnTasksFP7TObject
   - matches_id__12CursorTargetFUs
   - get_client_id__11CursorOwnerFv
   - TMainCursor__sub_8013E570

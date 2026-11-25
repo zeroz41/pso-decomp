@@ -6,12 +6,12 @@
 
 // Base of the lock-on cursor tasks TLOC_Start, TLOC_End and TLOC_ListClear (vtable 0x804A7260). Its ctor
 // (0x8013E0D8) takes the parent task and the lock-on target id, which goes into the target record.
-class TUnk_804A7260 : public TObject {
+class LockOnTask : public TObject {
 public:
-    TUnk_804A7260(TObject *parent, u16 id);
-    virtual ~TUnk_804A7260();
+    LockOnTask(TObject *parent, u16 id);
+    virtual ~LockOnTask();
     PlayerRef m_target;
 };
-LAYOUT_ASSERT(TUnk_804A7260_size, sizeof(TUnk_804A7260) == 0x24);
+LAYOUT_ASSERT(LockOnTask_size, sizeof(LockOnTask) == 0x24);
 
 #endif
