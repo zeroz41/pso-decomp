@@ -265,8 +265,6 @@ extern "C" {
 int submit_cursor_candidate(void*, int);
 // ---- TOVS2Wall01_8017C7A4
 #pragma defer_codegen on
-// The shared byte-swap entry operates on the first three packet words.
-void bswap_header__6TLobbyFv(WallHitPacket *packet);
 
 WallHitPacket *WallHitPacket::init() {
     init_collision_subcommand_header(this);
@@ -283,7 +281,7 @@ void WallHitPacket::send() {
 }
 
 void WallHitPacket::byteswap() {
-    bswap_header__6TLobbyFv(this);
+    ((TLobby *)this)->bswap_header();
     bswap_16(&update_reason);
     bswap_16(&remaining_hits);
 }

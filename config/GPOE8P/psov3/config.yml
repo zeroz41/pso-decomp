@@ -1579,7 +1579,7 @@ force_active:
   - TObjPlayer__sub_801D8A38
   - TObjPlayer__sub_801D9C34
   - TObjPlayer__sub_8023E034
-  - TObjPlayer__sub_802A1588
+  - init__14TPlyDispConfigFv
   - clear_indirect_effect_ctrl_table__Fv
   - reset_indirect_effect_ctrl_table__Fv
   - __ct__16TObjJungleKamomeFP7TObjectPv

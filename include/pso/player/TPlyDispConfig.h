@@ -9,6 +9,8 @@
 class TPlyDispConfigSmth {
 public:
     TPlyDispConfigSmth() { bank = 0; };
+    // Shows bank 0 and clears every tag.
+    void init();
     void bswap();
     TPlyDispConfigSmth *copy(TPlyDispConfigSmth *src);
     int is_first_bank();
@@ -42,6 +44,8 @@ public:
     TPlyDispConfigSmth m_smth1;
 public:
     TPlyDispConfig *copy_full(TPlyDispConfig *src);
+    // Initialises both palettes.
+    void init();
     TPlyDispConfigSmth *ref_primary_palette();
     TPlyDispConfigSmth *ref_secondary_palette();
     int is_primary_first_bank();

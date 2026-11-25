@@ -110,7 +110,6 @@ Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
 void play_shield_sound_cue(Obj_8011C59C *cue);
-typedef struct Thing__8011c1e8_8011C000 { u8 a; u8 b; } Thing;
 
 saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
     void *temp_r5;
@@ -173,11 +172,9 @@ u8 get_technique_learn_limit(u8 char_class, u8 technique) {
     return (*(u8 (**)[12])((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x40))[technique][(s8)char_class];
 }
 
-void TObjPlayer::register_item_drop() {
-    Thing *p = (Thing *) this;
-
-    if (p != 0 && item_mgr != 0 && p->a == 1 && p->b == 1) {
-        item_mgr->set_drop_index((TItemData *)p);
+void TItemData::register_item_drop(TItemData *item) {
+    if (item != NULL && item_mgr != NULL && item->data1.data_u8[0] == 1 && item->data1.data_u8[1] == 1) {
+        item_mgr->set_drop_index(item);
     }
 }
 

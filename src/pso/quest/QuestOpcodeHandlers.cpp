@@ -868,7 +868,6 @@ int set_hashi_versus2_flag(void*);
 int clear_hashi_versus2_flag(void*);
 s32 foreach_player__10TObjPlayerFv(s32 *);
 s32 prepare_guild_return__10TObjPlayerFPv(void *player, s32);
-s32 player_flag_1__6TLobbyFv();
 s32 enable_action_input__10TObjPlayerFPv();
 }
 void play_cue_stream_file(const char *name);
@@ -885,7 +884,6 @@ void TLobby__sub_801F34E8(int a0, int a1);
 int TLobby__sub_801F34F8(void);
 int TLobby__sub_801F3568(void*);
 s32 TLobby__sub_801F3614();
-void copy_position__6TLobbyFv(void *, Vec *);
 void TLobby__sub_801F3694(void *p);
 int TLobby__sub_801F36BC(void*);
 int TLobby__sub_801F36D8(void*);
@@ -920,8 +918,6 @@ void set_current_floor_switch(s32 id);
 void init_switch_table(void);
 extern "C" {
 saddr create_equip_kind_window(saddr, const f32 *, s32);
-s32 update_screen__6TLobbyFv();
-s32 set_challenge_split_flag__6TLobbyFv();
 s32 TLobby__sub_80291DF8(int);
 s32 TLobby__sub_80291EAC(s32);
 s32 TLobby__sub_8029204C();
@@ -1454,10 +1450,6 @@ void qst_op_toggle_freeze_and_hide_equip() {
         ((TObject *)temp)->toggle_pause();
     }
 }
-extern "C" {
-
-s32 count_items_of_type__10TObjPlayerFScScSc(void *player, u8, u8, u8);
-}
 void qst_op_get_stackable_item_count(s32 i, s32 dst) {
     u16 a = qst_registers[(u8)i++];
     u8 b = qst_registers[(u8)i++];
@@ -1465,7 +1457,7 @@ void qst_op_get_stackable_item_count(s32 i, s32 dst) {
     u8 d = qst_registers[(u8)i];
     TObjPlayer *player = get_player_by_client_id(a);
     if (player != NULL) {
-        qst_registers[(u8)dst] = count_items_of_type__10TObjPlayerFScScSc(player, b, c, d);
+        qst_registers[(u8)dst] = player->count_items_of_type(b, c, d);
     }
 }
 
@@ -2011,7 +2003,7 @@ void qst_op_load_guild_card_file_creation_time_to_flag_buf() {
 
 void qst_op_chl_show_dead_player_list() {
     if (is_split_screen() == 1) {
-        update_screen__6TLobbyFv();
+        TLobby::update_screen();
         return;
     }
     show_challenge_dead_player_list();
@@ -2019,7 +2011,7 @@ void qst_op_chl_show_dead_player_list() {
 
 void qst_op_disable_retry_menu() {
     if (is_split_screen() == 1) {
-        set_challenge_split_flag__6TLobbyFv();
+        TLobby::set_challenge_split_flag();
         return;
     }
     disable_challenge_retry_menu();
@@ -3238,7 +3230,7 @@ void qst_op_set_shrink_cam2(u8 regs) {
             pos.x = cur->x + (f32)qst_registers[regs++];
             pos.y = cur->y + (f32)qst_registers[regs++];
             pos.z = cur->z + (f32)qst_registers[regs];
-            copy_position__6TLobbyFv(&player->scale_state.camera.target, &pos);
+            copy_position(&player->scale_state.camera.target, &pos);
         }
     }
 }
@@ -3254,7 +3246,7 @@ void qst_op_set_shrink_cam1(u8 regs) {
             pos.x = cur->x + (f32)qst_registers[regs++];
             pos.y = cur->y + (f32)qst_registers[regs++];
             pos.z = cur->z + (f32)qst_registers[regs];
-            copy_position__6TLobbyFv(&player->scale_state.camera.position, &pos);
+            copy_position(&player->scale_state.camera.position, &pos);
         }
     }
 }
@@ -3682,8 +3674,9 @@ void qst_op_set_returncity() {
 }
 
 void qst_op_set_returnhunter() {
-    if (get_player_by_client_id(local_client_id) != NULL) {
-        player_flag_1__6TLobbyFv();
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        player->set_return_hunter();
     }
 }
 

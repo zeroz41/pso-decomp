@@ -94,7 +94,6 @@ void TLobby::init_layout_positions() {
 void stop_sound_request(s32 idx);
 int TLobby__sub_80227D38(void);
 void TLobby__sub_8022644C(void);
-void set_menu_index_main__6TLobbyFPUc(void);
 int TLobby__sub_80226308(void);
 void TTecRaFoie__sub_80226254(void);
 }
@@ -103,7 +102,7 @@ int TLobby::get_lobby_data() {  return lbl_805D6280; }
 extern "C" {
 
 void TLobby__sub_8022614C(s32 gain) {
-    set_menu_index_main__6TLobbyFPUc();
+    TLobby::set_menu_index_main(gain);
     lbl_805D6294 = gain;
     lbl_805D629C = lbl_805D6290 + lbl_805D6294 + lobby_layout_offset_c;
     lbl_805D62A0 = lbl_805D6290 + lobby_layout_offset_c;

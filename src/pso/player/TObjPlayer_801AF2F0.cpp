@@ -2018,7 +2018,7 @@ void TObjPlayer::delete_multiple_inventory_items(s32 *item_ids, s32 count) {
     this->inventory_objects->remove_items(this, item_ids, count);
 }
 
-s32 TObjPlayer::count_items_of_type(s8 kind, s8 group, s8 subgroup) {
+s32 TObjPlayer::count_items_of_type(u8 kind, u8 group, u8 subgroup) {
     TItemData item_data;
     if (this->inventory_objects == NULL) {
         return 0;
@@ -2699,8 +2699,8 @@ CsnHit *TObjPlayer::apply_wall_response() {
     return reinterpret_cast<CsnHit *>(blocked);
 }
 
-void TObjPlayer::get_hand_joint_position(saddr out_pos) {
-    this->get_anim_node_position(*(s32 *)(get_cast_motion_record() + 0x10), (Vec *)out_pos);
+void TObjPlayer::get_hand_joint_position(Vec *out_pos) {
+    this->get_anim_node_position(*(s32 *)(get_cast_motion_record() + 0x10), out_pos);
 }
 
 void TObjPlayer::init_effect_5f0() {
@@ -4393,7 +4393,7 @@ void handle_6x34(void) {  }
 
 int TObjPlayer::check_player_state_flag_2() { return test_flags_any((s32 *)((char*)this + 0x858), 2); }
 
-void TLobby::player_flag_1() { ((TObjPlayer *)this)->set_battle_flag(1); }
+void TObjPlayer::set_return_hunter() { set_battle_flag(1); }
 
 #pragma push
 #pragma scheduling off

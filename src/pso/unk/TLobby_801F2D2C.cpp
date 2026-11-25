@@ -33,7 +33,6 @@ extern u16 TLobby__data_805D5EAC;
 struct EnteredItemName { s32 value; u8 remaining[0xC]; };
 extern EnteredItemName entered_item_name;
 int bswap_16__FPUs(void*);
-int VecCopy__FP3VecPC3Vec(void*);
 
 unsigned char TLobby::read_packet_byte() { return qst_code[qst_pc++]; }
 
@@ -280,7 +279,7 @@ int TLobby::get_lobby_count() {  return lobby_count_value; }
 
 void TLobby__sub_801F3614(void) { lobby_count_value = 0; }
 
-int TLobby::copy_position() { return VecCopy__FP3VecPC3Vec(this); }
+Vec *copy_position(Vec *dst, const Vec *src) { return VecCopy(dst, src); }
 
 #pragma push
 #pragma fp_contract on

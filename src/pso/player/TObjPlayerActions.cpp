@@ -3194,7 +3194,7 @@ void handle_6x48_cast_technique_complete(void *arg) {
     }
     ul = lvl;
     ((PlayerTechniqueState *)(p->techs))->set_level(ul);
-    ((void (*)(void *, u8, s16))TObjPlayer::set_technique_level_clamped)(p, ul, tech);
+    TObjPlayer::set_technique_level_clamped((TObjPlayer *)p, ul, tech);
     tail_801CCD38(p, tech, lvl);
 }
 extern int fold_flush_4;

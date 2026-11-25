@@ -34,7 +34,7 @@ void TObjPlayer__sub_80128A70(void) {  }
 
 void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
     Obj_80128A74 *o;
-    ((TObjPlayer *)b)->clear_rico_ring_flag();
+    TUnk_804A403C::clear_rico_ring_flag((TObject *)b);
     o = find_entity_by_id(c);
     if (o != 0 && o->elems != 0 && d < o->count) {
         spawn_particle_effect((const Vec *)o->elems[d].position, 0x45);
@@ -45,7 +45,7 @@ void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
 
 void TObjPlayer::notify_hit_target(u32 arg0, uaddr player, u32 arg2, uaddr pos) {
     if ((player != 0U) && (pos != 0U)) {
-        ((TObjPlayer *)player)->clear_rico_ring_flag();
+        TUnk_804A403C::clear_rico_ring_flag((TObject *)player);
         spawn_particle_effect((const Vec *)pos, 0x45);
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
@@ -85,7 +85,6 @@ u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 fram
 }
 
 extern "C" {
-void clear_rico_ring_flag__10TObjPlayerFv(u32);
 
 void TUnk_804A403C::emit_marker_effects() {
     saddr temp_r31;
@@ -103,7 +102,7 @@ void TUnk_804A403C::emit_marker_effects() {
             i += 1;
         } while (i != 2);
         this->flags.set(2);
-        TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)clear_rico_ring_flag__10TObjPlayerFv, 0x3C);
+        TItemAttacker::spawn_item_timer((TObject *)arg0, clear_rico_ring_flag, 0x3C);
         this->flags.set(4);
         if (launch_shot(arg0 + 0x200, 0, 0, 1) == 1) {
             this->flags.clear(4);
@@ -174,10 +173,10 @@ TUnk_804A4020::~TUnk_804A4020() {
 
 }
 
-void TObjPlayer::clear_rico_ring_flag() {
-    uaddr arg0 = (uaddr)this;
-    if (arg0 != 0U) {
-        ((FlagWord *)(arg0 + 0x1FC))->clear(2);
+void TUnk_804A403C::clear_rico_ring_flag(TObject *object) {
+    TUnk_804A403C *weapon = (TUnk_804A403C *)object;
+    if (weapon != NULL) {
+        weapon->flags.clear(2);
     }
 }
 

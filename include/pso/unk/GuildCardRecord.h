@@ -4,8 +4,8 @@
 #include "types.h"
 #include "pso/network/TPlyMeetUserExtension.h"
 
-// inferred: one com-card list record (0xBC bytes). TLobby keeps the selected card and an
-// 8-entry list; serial comes from a running counter (init_player_entry__6TLobbyFPvPv).
+// One com-card list record (0xBC bytes). TLobby keeps the selected card and an
+// 8-entry list; serial comes from a running counter (TLobby::init_player_entry).
 struct GuildCardRecord {
     s32 id;
     s32 serial;

@@ -21,16 +21,13 @@ s32 TObjPlayer__sub_801AF694(void *, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
 s32 TMainCursor__sub_8013F244(void *);
 s32 fn_8013F24C(void *, s32);
-// Works on a TPlyDispConfigSmth (its layout, and it sits right after
-// TPlyDispConfigSmth::bswap at 0x801D7CF4); owner inferred, not yet moved.
-void TObjPlayer::init_action_config() {
-    TPlyDispConfigSmth *smth = (TPlyDispConfigSmth *)this;
+void TPlyDispConfigSmth::init() {
     s32 i;
     i = 0;
-    smth->bank = 0;
+    bank = 0;
     do {
-        smth->m_tags[i].init();
-        smth->m_tags1[i].init();
+        m_tags[i].init();
+        m_tags1[i].init();
         i++;
     } while (i < 4);
 }

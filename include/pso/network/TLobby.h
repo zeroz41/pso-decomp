@@ -7,6 +7,8 @@ struct NJS_SPRITE;
 struct BmlResource;
 struct AsyncFileReadRequest;
 struct EnemySetRecord;
+struct FloorObjectSetRow;
+struct GuildCardRecord;
 
 struct ShortMailEntry;
 struct player_stats;
@@ -322,7 +324,7 @@ struct TLobby : public TObject {
     static s32 is_camera_state_active();
     static void set_mode(s32 mode);
     static int init_sound_mode();
-    static void set_menu_index_main(u8 *index);
+    static void set_menu_index_main(s32 index);
     static void refresh_render_state();
     static void wait_for_sound_init();
     s32 get_id();
@@ -336,8 +338,8 @@ struct TLobby : public TObject {
     static void alloc_download_server();
     static void free_chr_select_singleton();
     static void free_all_resources();
-    void update_screen();
-    void set_challenge_split_flag();
+    static void update_screen();
+    static void set_challenge_split_flag();
     static s32 get_normalized_mode();
     static void draw_if_ready2();
     static s32 check_ready_status();
@@ -386,7 +388,7 @@ struct TLobby : public TObject {
     static void init_once_data(u32 buffer);
     static void flush_pending_send();
     static saddr get_card_window_field();
-    void set_info_board_text();
+    static void set_info_board_text(char *text);
     static void reset_info_board();
     static void *create_dialing_message_window(const char *message, u32 delay);
     static void release_bg_multi_textures();
@@ -514,7 +516,7 @@ struct TLobby : public TObject {
     static void set_default_gateway(s32 gateway);
     static s32 query_task_active();
     static int get_link_status_value();
-    void cleanup();
+    static void cleanup();
     static void flush_pending_flags();
     static s32 run_connect_sequence();
     static char *get_dialing_phone_number();
@@ -535,7 +537,6 @@ struct TLobby : public TObject {
     void sync_quest_register_and_send();
     static int get_field_6CE8();
     static int get_lobby_count();
-    int copy_position();
     static void bswap_entry_words(s32 entry);
     static void set_lobby_id(int a0);
     static void set_global_805D3614(int a0);
@@ -588,7 +589,6 @@ struct TLobby : public TObject {
     static void free_map_resources();
     static s32 count_members();
     static void apply_battle_rules_to_players();
-    void player_flag_1();
     static void handle_reset_choice(s32 choice);
     static void clear_flag400();
     static void check_flags_and_proceed();
@@ -707,7 +707,7 @@ struct TLobby : public TObject {
     static void *create_quest_col_apc_inw(void *, void *);
     static void create_warp_menu();
     static void destroy_all_objects();
-    static void destroy_child_recursive(void *, void *);
+    static void destroy_child_recursive(TObject *task, TObject *object);
     static void destroy_join_entries();
     static void destroy_lobby_ui();
     static void disable_window_flags(void*);
@@ -739,11 +739,11 @@ struct TLobby : public TObject {
     static void increment_ref_and_set_flag(void *);
     static void init(void *);
     static void init_buffers(int floor, u8 *quest);
-    static void init_player_entry(void *, void *);
+    static void init_player_entry(GuildCardRecord *entry, u8 *response);
     static void init_player_window_effect();
     static u8 is_challenge_lobby();
     static u8 is_valid_player_index(int);
-    static s32 load_floor_enemy_group_entries(int, void *, unsigned int);
+    static s32 load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 size);
     static u8 lookup_key_value(char);
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
     static void open_city_warp_menu();
@@ -757,7 +757,7 @@ struct TLobby : public TObject {
     static void open_session(const char *path);
     static void open_ship_block_select_menu(int, void *, void *);
     static void open_warp_menu();
-    static char *parse_csv_token(void *, void *);
+    static char *parse_csv_token(char *src, char *dst);
     static s32 pick_random_slot(s16 *slot);
     static void play_all_players_effect(void*);
     static void play_effect_all_players(void*);

@@ -615,7 +615,6 @@ s32 get_item_icon_index(const u8 *q) {
 #define lookup_item_pmt_record ((void * (*)())lookup_item_pmt_record)
 void TItemData__sub_8010CA08(TItemData *arg0, uaddr arg1, u8 arg2);
 s32 TItemData__sub_8010CAB0(s32 arg0, s8 arg1);
-int register_item_drop__10TObjPlayerFv(void*);
 
 }
 int TItemData::isValidGroundDrop() {
@@ -738,7 +737,7 @@ u8 TItemData::get_entry_field16() {
     }
     return 0U;
 }
-int TItemData::register_drop() { return register_item_drop__10TObjPlayerFv(this); }
+void TItemData::register_drop() { register_item_drop(this); }
 
 s32 TItemData::get_max_stack_size() {
     if (TItemData::lookup_item_def(this) != 0) {

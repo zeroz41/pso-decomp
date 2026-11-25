@@ -27,7 +27,7 @@ s32 begin_action_state__10TObjPlayerFPv(u8 *player) {
     copy_entries(5, get_class_starting_inventory(class_index), character->m_inventory.get_items());
     character->set_mag_level(1);
     init_new_character_stats(character);
-    TObjPlayer::setup_effect_slots((s32)(*(s32 *)((s8 *)player + 0x3A4)), (saddr)(player + 0x3C0));
+    TObjPlayer::setup_effect_slots((s32)(*(s32 *)((s8 *)player + 0x3A4)), &character->m_config.m_smth);
     init_technique_levels(*(s32 *)((s8 *)player + 0x3A4), character->get_technique_levels());
     character->m_inventory.m_language = current_language;
     return 1;

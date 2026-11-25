@@ -124,7 +124,6 @@ s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
 int request_main_phase(int);
 
-s32 cleanup__6TLobbyFv();
 s32 PPCSync();
 extern s32 lbl_805D5718;
 s32 unlock_main_warp_destination();
@@ -570,7 +569,7 @@ void cleanup_online_lobby_scene(void) {
         render_tick();
         i += 1;
     } while (i < 0x1E);
-    cleanup__6TLobbyFv();
+    TLobby::cleanup();
     if ((s32) online_lobby_scene_handle == 0) {
         var_r3 = (s32 *)&floor_transition_state;
         var_r3 = (s32 *)&floor_transition_state;

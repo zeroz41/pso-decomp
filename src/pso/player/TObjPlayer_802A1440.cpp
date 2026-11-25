@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/player/TObjPlayer_802A1440.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TLobby.h"
@@ -22,7 +21,7 @@ void TObjPlayer::copy_lobby_header(saddr player) {
     reinterpret_cast<TObjPlayer *>(player)->export_character_data(reinterpret_cast<TPlyCharData *>(reinterpret_cast<u8 *>(arg0) + 0xC));
 }
 
-void TObjPlayer::initialize_player_data() { *(unsigned char*)((char*)this + 0x3) = 0; *(unsigned char*)((char*)this + 0x2) = 0; *(unsigned char*)((char*)this + 0x1) = 0; *(unsigned char*)(this) = 0; ((TPlyCharData *)this)->init_inventory_items(); ((TAdSelectTxtGC *)((char*)this + 0x34c))->reset_state(); clear_player_data_block((char*)this + 0x370); TObjPlayer__sub_802A1588((void*)((char*)this + 0x3c0)); init_item_counts_max(); }
+void TObjPlayer::initialize_player_data() { *(unsigned char*)((char*)this + 0x3) = 0; *(unsigned char*)((char*)this + 0x2) = 0; *(unsigned char*)((char*)this + 0x1) = 0; *(unsigned char*)(this) = 0; ((TPlyCharData *)this)->init_inventory_items(); ((TAdSelectTxtGC *)((char*)this + 0x34c))->reset_state(); clear_player_data_block((char*)this + 0x370); ((TPlyDispConfig *)((char*)this + 0x3c0))->init(); init_item_counts_max(); }
 
 void TObjPlayer::init_item_counts_max() {
     P_802A1544 *arg0 = (P_802A1544 *)this;
@@ -32,6 +31,6 @@ void TObjPlayer::init_item_counts_max() {
     }
 }
 
-void TObjPlayer__sub_802A1588(void* p) { ((TObjPlayer *)p)->init_action_config(); ((TObjPlayer *)((char*)p + 0x24))->init_action_config(); }
+void TPlyDispConfig::init() { m_smth.init(); m_smth1.init(); }
 
 }

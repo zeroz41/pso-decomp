@@ -12,7 +12,7 @@ int TLobby__sub_80146724(void);
 void TLobby__sub_8014672C(s32 *arg0);
 int TLobby__sub_8014677C(void);
 s32 TLobby__sub_80146908(void);
-void TLobby__sub_801469B8(void *p);
+void TLobby__sub_801469B8(void);
 u8 *TLobby__sub_80146D14(void);
 char *TLobby__sub_80146D44(void);
 char *TLobby__sub_80146D50(s32 idx);

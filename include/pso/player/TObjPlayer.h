@@ -437,7 +437,6 @@ struct TObjPlayer : public TObjChara {
     static saddr create_shoot_model(uaddr owner, saddr pos, saddr dir, f32 life);
     static saddr get_item_pmt_entry(u8 arg0);
     static saddr get_shield_pmt_entry(u8 arg0);
-    void register_item_drop();
     static f32 get_drop_random_float(u32 arg0);
     static void drop_item_from_slot(s32 area, s32 slot, saddr item);
     static void drop_item(s32 slot, saddr item);
@@ -515,6 +514,8 @@ struct TObjPlayer : public TObjChara {
     void set_flag_4000();
     s32 is_flag_4000_set();
     void set_battle_flag(s32 v);
+    // Quest opcode set_returnhunter: battle flag 1.
+    void set_return_hunter();
     s32 get_anim_id();
     int check_flag_0x40000000();
     void clear_flag_0x2();
@@ -795,7 +796,7 @@ struct TObjPlayer : public TObjChara {
     void initialize_player_data();
     void init_item_counts_max();
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
-    static void setup_effect_slots(s32 arg0, saddr arg1);
+    static void setup_effect_slots(s32 arg0, TPlyDispConfigSmth *palette);
     static void begin_action_from_char_select();
     void export_character_data(TPlyCharData *character);
     void export_state_to_record(TPlyCharData *record);
@@ -803,7 +804,7 @@ struct TObjPlayer : public TObjChara {
     void copy_byte_339_to_record(u8 *player);
     void copy_mag_level_to_record(u8 *player);
     void apply_pending_action(saddr arg1);
-    static void sync_char_select_state();
+    static s32 sync_char_select_state();
     static void init_battle_selection();
     void set_action_state(s16 state, s16 value);
     void clear_flag_80000();
@@ -895,7 +896,6 @@ struct TObjPlayer : public TObjChara {
     static void new_child_object(u16 player_id);
     int is_flag_b0_4();
     static u32 spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames);
-    void clear_rico_ring_flag();
     static void start_photon_blast(s32 kind, s32 client_id);
     s32 get_card_window_field_244();
     void init_local_pad_binding();
@@ -1020,7 +1020,7 @@ struct TObjPlayer : public TObjChara {
     void update_position_history();
     static void clear_lobby_flag(void *base);
     void init_effect_5f0();
-    void get_hand_joint_position(saddr out_pos);
+    void get_hand_joint_position(Vec *out_pos);
     void close_sub_window();
     s32 find_inventory_item_id(s8 kind, s8 group);
     s32 try_add_sale_meseta(s32 item_id, s32 amount, s32 count);
@@ -1029,7 +1029,7 @@ struct TObjPlayer : public TObjChara {
     s32 send_trap_packet(int kind);
     void request_meseta_drop(s32 amount);
     void request_item_drop(s32 key, s32 count);
-    s32 count_items_of_type(s8 kind, s8 group, s8 subgroup);
+    s32 count_items_of_type(u8 kind, u8 group, u8 subgroup);
     void dispatch_action(s32 key, s32 amount);
     s32 can_inventory_accept_item(u8 *item);
     s32 update_target_lock();
@@ -1073,7 +1073,6 @@ struct TObjPlayer : public TObjChara {
     s32 try_camera_action(s32 tech);
     void bswap_entry_list();
     static void update_party_cursors(saddr cursors, s32 result);
-    void init_action_config();
     s32 can_use_palette_action_for_entry(TObjPlayer *player);
     s32 is_palette_entry_displayable(u8 kind, u8 sub);
     s32 can_use_palette_action(u8 kind, u8 arg);

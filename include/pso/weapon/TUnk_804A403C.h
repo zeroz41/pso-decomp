@@ -11,6 +11,8 @@ public:
     virtual void transform_model_node();
     virtual void draw_held_model();
     virtual void emit_marker_effects();
+    // Item timer callback: the ring is no longer out.
+    static void clear_rico_ring_flag(TObject *object);
     FlagWord flags;                 // 1: drawing the second barrel, 2: ring out, 4: firing
     WeaponVector shot_origins[2];   // get_joint_position(1) per barrel, launch_shot origins
 };
