@@ -125,7 +125,24 @@ block_14:
     return 1;
 }
 void TObjPlayer::release_area_placement() {  }
-void TObjPlayer::init_from_data(void* a1) { init_action_provider(); *(short *)&this->entity_id = *(unsigned short*)(a1); *(short*)((char*)this + 0x2e) = *(short*)((char*)a1 + 0x2); *(void* *)&this->actorFlags = *(void**)((char*)a1 + 0x4); copy_xyz((char*)this + 0x5c, (char*)a1 + 0x14); *(short *)&this->mode = *(short*)((char*)a1 + 0x20); *(short *)&this->hp = *(short*)((char*)a1 + 0x22); ((TLobby *)((char*)this + 0xdac))->copy_header_struct((char*)a1 + 0x68); TObjPlayer__sub_801BEF30((void *)((char*)this + 0x828), (void *)((char*)a1 + 0x70)); ((TObjPlayer *)((char*)this + 0x830))->copy_player_record_header((u8 *)((char*)a1 + 0x78)); TObjPlayer__sub_801BEEE0((void *)((char*)this + 0x858), (void *)((char*)a1 + 0x94)); TObjPlayer__sub_801BEEAC(&movement_hold, (MovementHold *)((char*)a1 + 0x98)); set_floor_index((saddr)(*(void**)((char*)a1 + 0xac))); set_floor((saddr)(*(void**)((char*)a1 + 0x488))); *(void* *)&this->state_flags = *(void**)((char*)a1 + 0xb0); set_language((saddr)(*(void**)((char*)a1 + 0x64))); }
+void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
+    init_action_provider();
+    entity_id = record->client_id;
+    alt_room = record->room_id;
+    actorFlags = record->game_flags;
+    copy_xyz(&rotation_x, record->angle);
+    mode = record->phase;
+    hp = record->current_hp;
+    ((TLobby *)&m_dac)->copy_header_struct(&record->player_tag);
+    TObjPlayer__sub_801BEF30(&pk_state, &record->unknown_a6);
+    ((TObjPlayer *)&telepipe)->copy_player_record_header((u8 *)&record->telepipe);
+    TObjPlayer__sub_801BEEE0(&death_flags, &record->death_flags);
+    TObjPlayer__sub_801BEEAC(&movement_hold, (MovementHold *)&record->hold_state);
+    set_floor_index(record->area);
+    set_floor(record->floor);
+    state_flags = record->player_flags;
+    set_language(record->language);
+}
 
 }
 

@@ -468,7 +468,7 @@ struct TObjPlayer : public TObjChara {
     static int get_max_level();
     void update_position(PlayerSyncRecord *record);
     s32 has_active_camera_event();
-    void init_from_data(void* a1);
+    void init_from_data(PlayerSyncRecord *record);
     void reset_state();
     void update_state();
     void update_if_active();
