@@ -433,7 +433,7 @@ void TObjEneDarkGunner::run_task() {
         return;
     }
     update_flag30_timer();
-    if (has_flag_0x800() != 0) {
+    if (is_actor_dead() != 0) {
         run_death_reaction();
     } else if (test_flag30_512() != 0) {
         run_hit_reaction();

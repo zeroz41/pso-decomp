@@ -275,7 +275,7 @@ s32 TObjWarpBase::is_warp_enabled() {
     if (lbl_805D55C0 != 0) {
         return 0;
     }
-    if ((player != NULL) && (player->has_flag_0x800() != 0)) {
+    if ((player != NULL) && (player->is_actor_dead() != 0)) {
         return 0;
     }
     if (player != NULL) {
@@ -357,7 +357,7 @@ s32 TObjMapWarp::can_warp(u16 client_id) {
     if (lbl_805D55C0 != 0) {
         return 0;
     }
-    if ((player != NULL) && (player->has_flag_0x800() != 0)) {
+    if ((player != NULL) && (player->is_actor_dead() != 0)) {
         return 0;
     }
     if (player != NULL) {

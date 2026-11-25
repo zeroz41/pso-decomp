@@ -520,7 +520,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
                 }
                 if (obj_is_hit_receivable(p) != 0) {
                     body = (uaddr)find_entity_by_id(body_id);
-                    if (body != 0 && p->has_flag_0x800() == 0) {
+                    if (body != 0 && p->is_actor_dead() == 0) {
                         DirectAttackPayload attack;
                         f32 damage;
                         attack.kind = ((TObjEneEpsilonBody *)body)->get_table_value_by_index();

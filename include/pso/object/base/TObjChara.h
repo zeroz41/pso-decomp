@@ -141,7 +141,7 @@ public:
     virtual s32 is_target_in_attack_range();
     virtual int test_flag_256();
     virtual int test_flag30_512();
-    virtual int has_flag_0x800();
+    virtual int is_actor_dead(); // actor flag 0x800, set just before run_death_reaction
     virtual int test_flag_1000();
     virtual s32 update_poison_status();
     virtual s32 update_action_hold_status();

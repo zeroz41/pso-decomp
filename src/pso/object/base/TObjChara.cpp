@@ -3807,7 +3807,7 @@ int TObjChara::test_flag_256() { return this->test_actor_flags(256); }
 
 int TObjChara::test_flag30_512() { return this->test_actor_flags(512); }
 
-int TObjChara::has_flag_0x800() { return this->test_actor_flags(2048); }
+int TObjChara::is_actor_dead() { return this->test_actor_flags(2048); }
 
 int TObjChara::test_flag_1000() { return this->test_actor_flags(4096); }
 

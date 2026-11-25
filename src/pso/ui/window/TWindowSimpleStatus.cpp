@@ -80,44 +80,6 @@ WindowDescriptor simple_status_window_layout = {
     {153.0f, 50.0f}, 50100.0f, &simple_status_window_layout_entries, 0xB28,
 };
 
-struct VObj_8026ff0c;
-
-struct VObj_8026ff0c {
-    char pad[0x18];
-    virtual s32 m0();
-    virtual s32 m1();
-    virtual s32 m2();
-    virtual s32 m3();
-    virtual s32 m4();
-    virtual s32 m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-    virtual s32 m9();
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13();
-    virtual s32 m14();
-    virtual s32 m15();
-    virtual s32 m16();
-    virtual s32 m17();
-    virtual s32 m18();
-    virtual s32 m19();
-    virtual s32 m20();
-    virtual s32 m21();
-    virtual s32 m22();
-    virtual s32 m23();
-    virtual s32 m24();
-    virtual s32 m25();
-    virtual s32 m26();
-    virtual s32 m27();
-    virtual s32 m28();
-    virtual s32 m29();
-    virtual s32 m30();
-    virtual s32 m31();
-};
-
 struct Slots_80270060 { s32 type[4]; u32 id[4]; };
 
 
@@ -343,25 +305,25 @@ void TWindowSimpleStatus::update_hp_tp_level() {
 
 void TWindowLockOn::update_for_player_index(s32 id) {
     saddr str;
-    struct VObj_8026ff0c *player;
+    TObjPlayer *player;
     u8 *temp_r29;
 
-    player = (VObj_8026ff0c *)get_player_by_client_id(id);
+    player = get_player_by_client_id(id);
     if (player == NULL) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
-    temp_r29 = (u8 *)player + 0x85C;
+    temp_r29 = (u8 *)player->name;
     if (temp_r29 == NULL) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
-    str = player->m10();
+    str = (saddr)player->get_name();
     if (str == 0) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
-    if (((TObjPlayer *)player)->is_inactive() == 0) {
+    if (player->is_inactive() == 0) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
@@ -369,7 +331,7 @@ void TWindowLockOn::update_for_player_index(s32 id) {
     if ((((TWindowSubComCard *)(this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)(this))->get_field_20(), (const char *)str) != 0)) {
         set_text_entry_string(((u8 *)this), str, 0x20);
     }
-    if (player->m31() != 0) {
+    if (player->is_actor_dead() != 0) {
         *(s32 *)&this->entry_list = 0xFFFF0000;
         return;
     }

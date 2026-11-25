@@ -757,7 +757,7 @@ void TObjWarpBoss::update_warp_boss_visibility() {
 
     player = get_player_by_client_id(local_client_id);
     var_r30 = 1;
-    if ((player != NULL) && (player->has_flag_0x800() != 0)) {
+    if ((player != NULL) && (player->is_actor_dead() != 0)) {
         var_r30 = 0;
     }
     if ((player != NULL) && (player->is_controls_locked() != 0)) {

@@ -444,7 +444,7 @@ void TWindowLockOn::validate_target() {
             }
         } else if (target->test_actor_flags(0x10000000) == 0) {
             if (target->test_actor_flags(0x20000000) != 0) {
-                if (((TObjChara *)target)->has_flag_0x800() != 0) {
+                if (((TObjChara *)target)->is_actor_dead() != 0) {
                     m_60 = 0xFFFF;
                     if ((f32)m_64 > 15.0f) {
                         m_64 = 0xF;

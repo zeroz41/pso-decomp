@@ -831,7 +831,7 @@ void TObjControl::run_task() {
         return;
     }
     if (TObjPlayer::check_demo_mode() == 0) {
-        if (enemy->has_flag_0x800() != 0) {
+        if (enemy->is_actor_dead() != 0) {
             enemy->resume_update();
             enemy->run_death_reaction();
             return;

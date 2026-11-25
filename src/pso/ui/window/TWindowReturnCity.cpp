@@ -51,7 +51,7 @@ s32 TWindowReturnCity::query_battle_state() {
     if (player == NULL) {
         return 0;
     }
-    return player->has_flag_0x800();
+    return player->is_actor_dead();
 }
 
 void TWindowReturnCity::render() {  }

@@ -204,7 +204,7 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
         i = 0;
         do {
             target = get_player_by_client_id(cmd->target_client_ids[i]);
-            if (target != NULL && target->has_flag_0x800() == 0) {
+            if (target != NULL && target->is_actor_dead() == 0) {
                 if (user->get_floor() == target->get_floor()) {
                     target->set_hp_clamped(target->get_hpmax());
                     if (is_current_area_item_enabled() != 0) {

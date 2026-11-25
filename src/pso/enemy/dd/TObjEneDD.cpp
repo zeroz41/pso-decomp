@@ -177,7 +177,7 @@ void TObjEneDD::init_position_vectors() {
 }
 
 s32 TObjEneDD::update_status_effects() {
-    if (this->has_flag_0x800() != 0) {
+    if (this->is_actor_dead() != 0) {
         this->run_death_reaction();
         return 1;
     }
