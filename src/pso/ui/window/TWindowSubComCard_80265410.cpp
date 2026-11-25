@@ -34,11 +34,6 @@
 
 #pragma readonly_strings on
 
-struct Rec_802656D8 { u32 flags; s32 b; };
-
-struct Ent_802656D8 { u8 p0[0x24]; s32 f24; };
-
-struct Win_802656D8 { u8 p0[0x80]; Rec_802656D8 *f80; };
 
 
 
@@ -47,9 +42,6 @@ struct Win_802656D8 { u8 p0[0x80]; Rec_802656D8 *f80; };
 extern "C" {
 
 void measure_message_text_width(WindowTextEntry *e, f32 x);
-void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
-s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row);
-void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
 void fn_80266378(s32 rows);
 }
 
@@ -92,17 +84,17 @@ void TWindowSubComCardList::update_scroll_target_position() {
     }
 }
 
-void TWindowSubComCard__sub_80265500(TWindowMenu *menu) {
+void TWindowMenu::clamp_scroll_offset() {
     NJS_POINT2 scroll_range;
     f32 max_scroll_y;
-    if (menu->scroll_bar != NULL) {
+    if (scroll_bar != NULL) {
         scroll_range.x = 0.0f;
-        max_scroll_y = menu->frame_size[1] - 20.0f;
+        max_scroll_y = frame_size[1] - 20.0f;
         scroll_range.y = max_scroll_y;
-        if (menu->heading != NULL) {
+        if (heading != NULL) {
             scroll_range.y = max_scroll_y - 6.0f;
         }
-        menu->scroll_bar->clamp_offset(menu->scroll_offset, &scroll_range);
+        scroll_bar->clamp_offset(scroll_offset, &scroll_range);
     }
 }
 
@@ -134,24 +126,25 @@ void TWindowSubComCardList::reset_entries() {
     }
 }
 
-s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row) {
-    if (menu->rows[row].flags & 0x10) return 0;
+s32 TWindowMenu::is_row_enabled(s16 row) {
+    if (rows[row].flags & 0x10) return 0;
     return 1;
 }
 
-void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row) {
-    WindowTextEntry *entry = static_cast<WindowTextEntry *>(menu->get_array_entry(row));
-    TWindowMenuRow *state = &menu->rows[row];
+// Greys the row out and marks it disabled.
+void TWindowMenu::disable_row(s16 row) {
+    WindowTextEntry *entry = static_cast<WindowTextEntry *>(get_array_entry(row));
+    TWindowMenuRow *state = &rows[row];
     entry->color = 0xFF909090;
     state->flags |= 0x10;
 }
 
-void TWindowSubComCard::set_entry_value_clear_flag(s32 idx, s32 val) {
-    Win_802656D8 *w = (Win_802656D8 *)this;
-    Ent_802656D8 *e = (Ent_802656D8 *)((TWindowBase *)w)->get_array_entry((s16)idx);
-    Rec_802656D8 *r = w->f80;
-    e->f24 = val;
-    r[(s16)idx].flags &= ~0x10;
+// Gives the row its text colour back and enables it.
+void TWindowMenu::enable_row(s16 row, s32 color) {
+    WindowTextEntry *entry = static_cast<WindowTextEntry *>(get_array_entry(row));
+    TWindowMenuRow *state = rows;
+    entry->color = color;
+    state[row].flags &= ~0x10;
 }
 
 void *TWindowMenu::get_selected_entry() {

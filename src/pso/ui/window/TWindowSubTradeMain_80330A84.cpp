@@ -389,9 +389,9 @@ void TWindowSubTradeMain::run_task() {
         this->state = 0x15;
     case 21:
         if (are_both_trade_offers_confirmed() != 0) {
-            ((TWindowSubComCard *)(this->confirm))->set_entry_value_clear_flag(2, 0xFFEE946E);
+            this->confirm->enable_row(2, 0xFFEE946E);
         } else {
-            TWindowSubComCard__sub_80265680((TWindowMenu *)this->confirm, 2);
+            this->confirm->disable_row(2);
         }
         if (this->confirm->is_cancelled() != 0) {
             this->state = 0x16;

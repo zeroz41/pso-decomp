@@ -62,6 +62,11 @@ struct TWindowMenu : public TWindowAddition {
     virtual void run_task();
 
     s32 is_locked(s32 buttons);
+    void clamp_scroll_offset();
+    // Row flag 0x10 marks a disabled row: confirming it plays the error sound.
+    s32 is_row_enabled(s16 row);
+    void disable_row(s16 row);
+    void enable_row(s16 row, s32 color);
 };
 
 LAYOUT_ASSERT(TWindowMenu_size, sizeof(TWindowMenu) == 0x8C);

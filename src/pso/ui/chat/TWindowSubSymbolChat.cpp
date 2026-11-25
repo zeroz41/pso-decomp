@@ -827,7 +827,7 @@ TWindowMenu *TWindowSubSymbolChat::create_symbol_list_card() {
 }
 
 void TWindowSubSymbolChat::apply_symbol() {
-    TWindowSubComCard__sub_80265680((TWindowMenu *)this->symbol_list, (s16) this->selected_list_index);
+    this->symbol_list->disable_row((s16) this->selected_list_index);
 }
 
 TWindowMenu *TWindowSubSymbolChat::open_main_menu(void * _w0) {
@@ -1082,7 +1082,7 @@ s32 TWindowSubSymbolChat::is_card_confirmed() {
         return 0;
     }
     s16 row = ((TWindowShortListCtrl *)this->symbol_list)->get_cursor_pos();
-    return TWindowSubComCard__sub_80265660(this->symbol_list, row) ? 1 : 0;
+    return this->symbol_list->is_row_enabled(row) ? 1 : 0;
 }
 
 void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window) {

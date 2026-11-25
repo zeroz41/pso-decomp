@@ -220,7 +220,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
         ((TWindowMenu *)selection_menu)->add_text_entry(get_text_collection(item_name_selection_table[i].text_id), 6, i);
     }
     ((TWindowSubComCardList *)selection_menu)->set_scroll_target(216.0f, 144.0f);
-    TWindowSubComCard__sub_80265500((TWindowMenu *)selection_menu);
+    ((TWindowMenu *)selection_menu)->clamp_scroll_offset();
     ((TWindowBase *)selection_menu)->set_depth(39000.0f);
     pos.x = 332.0f;
     pos.y = 80.0f;

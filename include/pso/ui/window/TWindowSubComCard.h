@@ -85,7 +85,6 @@ struct TWindowSubComCard : public TObject {
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
     uaddr get_field_20();
-    void set_entry_value_clear_flag(s32 idx, s32 val);
     static TWindowSubComCardList *create_card_list(const NJS_POINT2 *position, s32 card_slot, s32 count, s32 empty_message);
     // Opens the list over every stored guild card (create_card_list's all-cards form).
     static TWindowSubComCardList *sub_802754EC(const NJS_POINT2 *position);

@@ -48,7 +48,6 @@ struct Challenge4PItemCode {
 
 extern "C" {
 
-s32 TWindowSubComCard__sub_80265500(u32);
 s32 fn_8034BE30(TChallenge4PResult *);
 
 }
@@ -385,7 +384,7 @@ void TChallenge4PItemSelect::open_menu() {
                 i += 1;
             } while (i < 8);
             ((TWindowSubComCardList *)menu_window)->set_scroll_target(252.0f, 1.4e+02f);
-            TWindowSubComCard__sub_80265500((u32 &)menu_window);
+            ((TWindowMenu *)menu_window)->clamp_scroll_offset();
             ((TWindowBase *)menu_window)->set_depth(3.9e+04f);
             if (TCameraCtrl::get_view_count() > 2) {
                 ((TWindowAddition *)menu_window)->set_position_xy(0.9f, 0.9f);
