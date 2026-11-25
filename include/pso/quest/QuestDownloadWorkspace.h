@@ -17,7 +17,7 @@ struct QuestDownloadQueryEntry {
 };
 
 // The original query appends six-byte entries and stops at 32.
-struct Hdr_803EA384 {
+struct QuestDownloadQueryResult {
     s16 len;
     u32 x4;
     s16 len2;
@@ -25,7 +25,6 @@ struct Hdr_803EA384 {
     s16 count;
     QuestDownloadQueryEntry entries[32];
 };
-typedef Hdr_803EA384 QuestDownloadQueryResult;
 
 struct QuestDownloadWorkspace {
     u8 reserved[0x8C0];

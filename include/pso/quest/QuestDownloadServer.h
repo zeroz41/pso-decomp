@@ -78,7 +78,6 @@ extern s32 quest_download_name_search_lo;
 extern s32 quest_download_name_search_hi;
 QuestDownloadItemNode *alloc_quest_item_node(void);
 extern "C" {
-QuestDownloadItemNode *build_item_list__22TQuestVmDownLoadServerFlP12Hdr_803EA384(s32 arg0, Hdr_803EA384 *arg1);
 void TQuestVmDownLoadServer__sub_803EADD4(QuestDownloadSlot *slot, s32 mode);
 s32 convert_quest_text_u8_to_u16(u16 *, const u8 *, int);
 }

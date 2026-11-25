@@ -8,7 +8,7 @@
 class TMCFormatSequence;
 class TRecvDownload;
 class TRecvDownloadHead;
-struct Hdr_803EA384;
+struct QuestDownloadQueryResult;
 struct QuestSymbolLookupResult;
 struct QuestDownloadItemNode;
 struct QuestDownloadMatchToken;
@@ -126,14 +126,14 @@ public:
                                                          QuestDownloadTextNode **head, QuestDownloadTextNode **tail);
     static u16 jis_to_sjis(u16 jis);
     static s32 is_valid_sjis_code(u16 ch);
-    static s32 is_download_command(u16 ch, s32 arg1);
+    static s32 is_download_command(u16 ch, s32 allow_long_vowel_mark);
     static s32 encode_char_with_attr(u16 *out, u16 ch, s32 attr);
     static s32 is_sjis_lead_byte(u8 c);
     static void push_download_entry(void *storage);
     static void init_block_free_list();
     static s32 calc_item_cost_bonus(u8 kind, u8 v, u8 w, s32 base, s32 add);
-    static s32 calc_pair_cost_bonus(u8 arg0, u8 bk, s32 extra);
-    static s32 calc_item_entry_cost_extra(u8 arg0, u8 arg1, u8 bk, s32 extra);
+    static s32 calc_pair_cost_bonus(u8 kind, u8 bk, s32 extra);
+    static s32 calc_item_entry_cost_extra(u8 kind, u8 subkind, u8 bk, s32 extra);
     static void reset_slot_chain_timers(s32 pos);
     static s32 select_best_slot_entry(s32 idx, s32 max, s32 want);
     static s32 sum_entry_sizes(s32 start, s32 n);
@@ -152,7 +152,7 @@ public:
     static void append_message_text(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr);
     static void build_message_packet(u8 *record, s32 size, QuestDownloadRequest *msg, u8 attr);
     static const QuestDownloadMatchToken *find_longest_match_entry(u8 *text, s32 remaining, s32 *length);
-    static QuestDownloadItemNode *build_item_list(s32 start, Hdr_803EA384 *arg1);
+    static QuestDownloadItemNode *build_item_list(s32 start, QuestDownloadQueryResult *query);
     static s32 count_fitting_entries(QuestDownloadTextNode *arg0);
     static s32 find_symbol_entry(const char *name, s16 len, QuestSymbolLookupResult *out);
 };

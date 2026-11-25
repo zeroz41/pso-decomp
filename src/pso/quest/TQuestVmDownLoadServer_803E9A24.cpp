@@ -917,7 +917,7 @@ s32 TQuestVmDownLoadServer__sub_803EA1A8(s32 start, s32 end) {
 }
 #pragma pop
 
-QuestDownloadItemNode *TQuestVmDownLoadServer::build_item_list(s32 start, Hdr_803EA384 *hdr_803_ea384) {
+QuestDownloadItemNode *TQuestVmDownLoadServer::build_item_list(s32 start, QuestDownloadQueryResult *query) {
     s16 id;
     s32 x4;
     s32 n;
@@ -926,12 +926,12 @@ QuestDownloadItemNode *TQuestVmDownLoadServer::build_item_list(s32 start, Hdr_80
     QuestDownloadItemNode *prev;
     QuestDownloadItemNode *node;
     u8 unused[8];
-    it = hdr_803_ea384->entries;
+    it = query->entries;
     head = NULL;
     prev = NULL;
-    id = hdr_803_ea384->len;
-    x4 = hdr_803_ea384->x4;
-    n = hdr_803_ea384->count;
+    id = query->len;
+    x4 = query->x4;
+    n = query->count;
     while (n-- != 0) {
         node = alloc_quest_item_node();
         if (node == NULL) {

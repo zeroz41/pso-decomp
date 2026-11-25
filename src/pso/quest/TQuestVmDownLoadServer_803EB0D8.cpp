@@ -1054,8 +1054,9 @@ s32 is_jis_kanji_code(u16 ch) {
     return 0;
 }
 
-s32 TQuestVmDownLoadServer::is_download_command(u16 ch, s32 arg1) {
-    if ((arg1 != 0) && (ch == 0x213C)) {
+// 0x213C is the JIS long vowel mark; it counts only when allow_long_vowel_mark is set.
+s32 TQuestVmDownLoadServer::is_download_command(u16 ch, s32 allow_long_vowel_mark) {
+    if ((allow_long_vowel_mark != 0) && (ch == 0x213C)) {
         return 1;
     }
     if ((s32) (ch & 0xFF00) == 0x2500) {
@@ -1560,45 +1561,45 @@ s32 calc_quest_download_item_cost(const QuestDownloadEntryNode *entry, u8 k, u8 
 #pragma pop
 
 
-s32 TQuestVmDownLoadServer::calc_pair_cost_bonus(u8 arg0, u8 bk, s32 extra) {
-    if (arg0 >= 0x14 && arg0 <= 0x18) {
+s32 TQuestVmDownLoadServer::calc_pair_cost_bonus(u8 kind, u8 bk, s32 extra) {
+    if (kind >= 0x14 && kind <= 0x18) {
         if (bk >= 0x14 && bk <= 0x18) {
             return extra + 3;
         }
         return extra;
     }
-    if (arg0 == 0x1F && bk == 0x1F) {
+    if (kind == 0x1F && bk == 0x1F) {
         return extra + 0xF;
     }
-    if (arg0 == 0x21 || arg0 == 0x26 || arg0 == 0x27) {
+    if (kind == 0x21 || kind == 0x26 || kind == 0x27) {
         return extra + 0x14;
     }
-    if (arg0 == 0x20 || arg0 == 0x22) {
+    if (kind == 0x20 || kind == 0x22) {
         return extra + 0xF;
     }
-    if (arg0 == 0x1B && bk == 0x1C) {
+    if (kind == 0x1B && bk == 0x1C) {
         return extra + 0x14;
     }
-    if (arg0 == 0x1A && bk == 0x1A) {
+    if (kind == 0x1A && bk == 0x1A) {
         return extra + 5;
     }
     return extra;
 }
 
-s32 TQuestVmDownLoadServer::calc_item_entry_cost_extra(u8 arg0, u8 arg1, u8 bk, s32 extra) {
-    if ((arg0 == 0xD) && (arg1 == 0)) {
+s32 TQuestVmDownLoadServer::calc_item_entry_cost_extra(u8 kind, u8 subkind, u8 bk, s32 extra) {
+    if ((kind == 0xD) && (subkind == 0)) {
         if ((bk >= 1U) && (bk <= 0x17U)) {
             return extra + 3;
         }
-    } else if ((arg1 >= 4U) && (arg1 <= 6U) && (bk >= 1U) && (bk <= 0x17U)) {
-        if ((arg0 == 0x8D) || ((arg0 == 0x8E) && (arg1 == 6))) {
+    } else if ((subkind >= 4U) && (subkind <= 6U) && (bk >= 1U) && (bk <= 0x17U)) {
+        if ((kind == 0x8D) || ((kind == 0x8E) && (subkind == 6))) {
             return extra + 0xA;
         }
-        if (arg0 <= 0x8CU) {
+        if (kind <= 0x8CU) {
             return extra + 3;
         }
-    } else if ((arg1 == 8) && (bk >= 0x14U) && (bk <= 0x18U)) {
-        if (((arg0 >= 0x80U) && (arg0 <= 0x8EU)) || (arg0 == 0x92) || (arg0 == 0x94) || (arg0 == 0xA0) || (arg0 == 0xA2) || ((u8)(arg0 - 0xAE) <= 1U) || (arg0 == 0xB1) || (arg0 == 1) || ((arg0 >= 0xAU) && (arg0 <= 0xCU))) {
+    } else if ((subkind == 8) && (bk >= 0x14U) && (bk <= 0x18U)) {
+        if (((kind >= 0x80U) && (kind <= 0x8EU)) || (kind == 0x92) || (kind == 0x94) || (kind == 0xA0) || (kind == 0xA2) || ((u8)(kind - 0xAE) <= 1U) || (kind == 0xB1) || (kind == 1) || ((kind >= 0xAU) && (kind <= 0xCU))) {
             return extra + 0xF;
         }
         return extra + 3;
