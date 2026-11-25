@@ -56,6 +56,7 @@ class LockOnActionSlot;
 struct TMovie;
 struct CapturedTargetList;
 class TPlayerLobbyMarker;
+struct PlayerRequirementStats;
 
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
@@ -1059,6 +1060,10 @@ struct TObjPlayer : public TObjChara {
     void emit_footstep_effect(f32 at_frame, f32 farg1);
     void update_target();
     void check_level_up();
+    // The stats shown with `incoming` equipped in place of what its slot holds
+    // (1 when filled), and with the item `key` taken off (2 when filled).
+    s32 preview_equip_stats(PlayerRequirementStats *out, u8 *incoming);
+    s32 preview_unequip_stats(PlayerRequirementStats *out, s32 key);
     void send_unequip_held_item();
     void restart_death_pose();
     static PhotonBlastRequest *get_photon_blast_element(s32 arg0);
