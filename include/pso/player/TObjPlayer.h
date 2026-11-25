@@ -514,7 +514,6 @@ struct TObjPlayer : public TObjChara {
     void set_evade_materials_used(u8 v);
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
-    void*reset_sub_status_disp();
     static s32 reset_and_return(saddr p);
     void clear_base();
     int sub_802a7290_fwd();

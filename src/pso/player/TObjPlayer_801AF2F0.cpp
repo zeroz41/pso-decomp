@@ -458,7 +458,6 @@ void show_sub_status_window(void *window, s32 *str, s32 *name);
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
 void TLobby__sub_801B09A4(void);
 
-s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out);
 void handle_6x34(void);
 void handle_6x32_medical_center_revive_all_players(void);
 void submit_target_to_player_cursor(void *target, s32 id);
@@ -2711,9 +2710,6 @@ void TObjPlayer::update_status_effects() {
 }
 
 void TObjPlayer::check_level_up() {
-    PlayerLevelStats before;
-    PlayerLevelStats after;
-    PlayerLevelStats gain;
     s32 i;
     u8 *removed_item;
     s32 j;
@@ -2723,9 +2719,9 @@ void TObjPlayer::check_level_up() {
         lvl = this->clamp_nested_index() + 1;
         if (lvl <= TObjPlayer::get_max_level()) {
             if (TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), lvl) <= (s32) this->stat_block->exp) {
-                ((TObjPlayer *)(&before))->reset_sub_status_disp();
-                ((TObjPlayer *)(&after))->reset_sub_status_disp();
-                ((TObjPlayer *)(&gain))->reset_sub_status_disp();
+                PlayerLevelStats before;
+                PlayerLevelStats after;
+                PlayerLevelStats gain;
                 j = 0;
                 do {
                     removed_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items, j);

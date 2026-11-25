@@ -2,6 +2,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/player/PlayerState.h"
+#include "pso/player/PlayerRequirementStats.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "types.h"
 #include "pso/item/TItem.h"
@@ -513,7 +514,10 @@ s32 ContactSurfaceState::update_timer() {
     return timer;
 }
 
-void*TObjPlayer::reset_sub_status_disp() { ((TWindowSubStatusDisp *)this)->clear_fields(); *(short*)((char*)this + 0x18) = 0; *(short*)((char*)this + 0x16) = 0; return this; }
+PlayerLevelStats::PlayerLevelStats() {
+    clear_fields();
+    hp_max = tp_max = 0;
+}
 
 u8 PlayerActionPaletteState::get_mode() const {
     return get_action_palette_tag_mode(&tag);

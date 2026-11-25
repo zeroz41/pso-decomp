@@ -959,14 +959,7 @@ extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   void *new_var;
   s32 flags;
-  struct
-  {
-    s16 a;
-    s16 x2;
-    s16 b;
-    s16 c;
-    s32 r[2];
-  } st;
+  PlayerRequirementStats st;
   u32 k;
   int new_var3;
   s32 r;
@@ -1037,17 +1030,17 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
       {
         flags |= 1;
       }
-      ((TWindowSubStatusDisp *)(&st))->clear_fields();
-      build_player_equipment_requirement_stats((TObjPlayer *) new_var, (PlayerRequirementStats *) (&st));
-      if (st.a < (*((u16 *) ((u8 *) p + 0xe))))
+      st.clear_fields();
+      build_player_equipment_requirement_stats((TObjPlayer *) new_var, &st);
+      if (st.atp < (*((u16 *) ((u8 *) p + 0xe))))
       {
         flags |= 2;
       }
-      if (st.c < (*((u16 *) ((u8 *) p + 0x12))))
+      if (st.ata < (*((u16 *) ((u8 *) p + 0x12))))
       {
         flags |= 4;
       }
-      if (st.b < (*((u16 *) ((u8 *) p + 0x10))))
+      if (st.mst < (*((u16 *) ((u8 *) p + 0x10))))
       {
         flags |= 8;
       }
@@ -1386,7 +1379,10 @@ saddr TItemData::get_item_field_2() { return TObjPlayer::get_slot_value((s32 *)(
 
 MagStats *MagStats::init() { clear(); return this; }
 
-void TWindowSubStatusDisp::clear_fields() { *(s16*)((char*)this + 0xa) = 0; *(s16 *)&this->m_prev = 0; *(s16 *)&this->m_id = 0; *(s16 *)&this->m_flags = 0; *(s16*)((char*)this + 0x2) = 0; *(s16 *)&this->m_name = 0; *(s16 *)&this->m_down = 0; *(s16*)((char*)this + 0x12) = 0; *(s16 *)&this->m_up = 0; *(s16*)((char*)this + 0xe) = 0; *(s16 *)&this->m_next = 0; }
+void PlayerRequirementStats::clear_fields() {
+    atp = dfp = mst = ata = evp = lck = 0;
+    resist[0] = resist[1] = resist[2] = resist[3] = resist[4] = 0;
+}
 
 extern "C" {
 

@@ -585,7 +585,7 @@ void TWindowHelpItem::update_requirements() {
     TObjPlayer *pl;
     u8 *entry;
     Pmt_80254CE4 *pmt;
-    ((TWindowSubStatusDisp *)&st)->clear_fields();
+    st.clear_fields();
     pl = get_player_by_client_id(client_index);
     if (pl == NULL) {
         return;
@@ -647,7 +647,7 @@ void TWindowHelpItem::update_stat_comparison() {
     saddr e5;
     Quest_802549B0 *q;
     TObjPlayer *pl;
-    ((TWindowSubStatusDisp *)&st)->clear_fields();
+    st.clear_fields();
     pl = get_player_by_client_id(client_index);
     if (pl == NULL) {
         return;
@@ -837,7 +837,7 @@ void TWindowHelpItem::update_resistance_rows() {
     TWindowHelpItem *d;
     TWindowHelpItem *e;
     TObjPlayer *pl;
-    ((TWindowSubStatusDisp *)(&st))->clear_fields();
+    st.clear_fields();
     pl = get_player_by_client_id(client_index);
     if (pl != NULL) {
         init_window_layout_entries(
@@ -1244,7 +1244,7 @@ void TWindowHelpItem::update_tech_disk_stats() {
     TObjPlayer *player;
     CharacterAppearanceFields *appearance;
     HelpItemLevelEntry *mst_entry;
-    ((TWindowSubStatusDisp *)&stats)->clear_fields();
+    stats.clear_fields();
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
         appearance = (CharacterAppearanceFields *)((u8 *)player + 0x85C);

@@ -308,10 +308,6 @@ struct VObj_80280FD0 : VBase_80280FD0 {
     virtual s32 m10();
 };
 
-typedef struct Stats_80280B1C {
-    s16 v[12];
-} Stats_80280B1C;
-
 typedef struct Entry_80280B1C {
     u8 pad0[0x1C];
     s32 color;
@@ -323,7 +319,6 @@ s32 is_battle_mode_running();
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 s32 get_class_name_text(s32);
 extern "C" {
-s32 build_player_class_stat_template(saddr player, saddr out);
 s32 get_shared_text_buffer();
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }
@@ -518,14 +513,14 @@ void TWindowSubStatusDisp::vt1() {
 }
 
 void TWindowSubStatusDisp::vt12() {
-    Stats_80280B1C cur;
-    Stats_80280B1C req;
+    PlayerRequirementStats cur;
+    PlayerRequirementStats req;
     Entry_80280B1C *e2;
     saddr pl;
     Entry_80280B1C *e;
     player_stats *q;
-    ((TWindowSubStatusDisp *)(&cur))->clear_fields();
-    ((TWindowSubStatusDisp *)(&req))->clear_fields();
+    cur.clear_fields();
+    req.clear_fields();
     pl = (saddr)get_player_by_client_id(this->client_index);
     if (pl != 0) {
         e2 = (Entry_80280B1C *)(void *)get_array_entry(2);
@@ -544,18 +539,18 @@ void TWindowSubStatusDisp::vt12() {
             e->value = q->stats.lck;
         }
     }
-    if (build_player_equipment_requirement_stats((TObjPlayer *)pl, (PlayerRequirementStats *)&cur) != 0) {
-        build_player_class_stat_template(pl, (saddr)&req);
+    if (build_player_equipment_requirement_stats((TObjPlayer *)pl, &cur) != 0) {
+        build_player_class_stat_template((TObjPlayer *)pl, &req);
 #define ROW(idx, k) \
         e = (Entry_80280B1C *)(void *)get_array_entry(idx); \
-        e->value = cur.v[k]; \
-        if (req.v[k] <= cur.v[k]) { e->color = -0x100; } else { e->color = -1; }
-        ROW(4, 0)
-        ROW(0xA, 1)
-        ROW(0x16, 3)
-        ROW(0x1C, 4)
-        ROW(0x10, 2)
-        ROW(0x22, 5)
+        e->value = cur.k; \
+        if (req.k <= cur.k) { e->color = -0x100; } else { e->color = -1; }
+        ROW(4, atp)
+        ROW(0xA, dfp)
+        ROW(0x16, ata)
+        ROW(0x1C, evp)
+        ROW(0x10, mst)
+        ROW(0x22, lck)
 #undef ROW
     }
 }

@@ -18,6 +18,7 @@ struct PlayerRequirementStats {
     s16 lck;
     s16 resist[5];
 
+    void clear_fields();
     void set(TObjPlayer *player, player_stats *base_stats, AttackParams *attack_stats,
              ActorParamBlock *resistance_stats);
 };
@@ -27,6 +28,8 @@ struct PlayerLevelStats : public PlayerRequirementStats {
     s16 hp_max;
     s16 tp_max;
 
+    PlayerLevelStats();
+    void copy_stat_block(const PlayerLevelStats *src);
     void set(TObjPlayer *player, player_stats *base_stats, AttackParams *attack_stats,
              ActorParamBlock *resistance_stats);
     void calc_delta(PlayerLevelStats *after, PlayerLevelStats *delta);
@@ -38,4 +41,5 @@ ActorParamBlock *get_class_defense_template(TObjPlayer *player);
 }
 
 extern "C" s32 build_player_equipment_requirement_stats(TObjPlayer *, PlayerRequirementStats *);
+extern "C" s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out);
 #endif
