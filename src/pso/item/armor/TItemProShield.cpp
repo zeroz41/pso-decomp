@@ -26,9 +26,7 @@
 
 extern "C" {
 // The item file helpers (TItemDrop_800F93F0.cpp).
-// The class name and the effect table's file name. This object starts at
-// 0x80117E50 with the nearby player checks (the last two functions below),
-// whose doubles follow these strings in .rodata.
+// The class name and the effect table's file name.
 const char *TItemProShield::name = "TItemProShield";
 const char *lbl_805D2C3C = "ItemShieldEntry.dat";
 // Called with the item index widened to int.

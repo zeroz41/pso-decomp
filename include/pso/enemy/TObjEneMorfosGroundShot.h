@@ -8,7 +8,7 @@ class TObjChara;
 class TObjEneMorfos;
 
 // Morfos's ground shot: flies straight from start along angle (particle 0x213), hits players it passes and
-// dies after 500 units or on a wall (made by TObjEneMorfos; the vtable at 0x804EF130 overrides the dtor and run_task).
+// dies after 500 units or on a wall (made by TObjEneMorfos; it overrides the dtor and run_task).
 class TObjEneMorfosGroundShot : public TObjCollidable {
 public:
     TObjEneMorfosGroundShot(const Vec *start, s32 angle, TObjChara *owner);

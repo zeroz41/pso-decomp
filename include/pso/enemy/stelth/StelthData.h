@@ -6,8 +6,7 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 
-// .rodata 0x8043D450-0x8043D750, defined by StelthData.cpp (the SinowZoaData.cpp shape):
-// TObjEneMe3Stelth.cpp addresses each object on its own.
+// The Stelth code's constant objects, defined by StelthData.cpp.
 extern "C" {
 // TObjEneMe3Stelth.cpp .data; both attack bindings point at it.
 extern TObjMotionAction me3_stelth_animation_descriptors[13];

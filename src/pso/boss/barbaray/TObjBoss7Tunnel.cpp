@@ -41,7 +41,7 @@ const s32 boss7_tunnel_kind1_model_indices[4] = {3, 4, 5, 6};
 const s32 boss7_tunnel_kind2_model_indices[3] = {7, 8, 9};
 const s32 boss7_tunnel_kind3_model_indices[3] = {10, 11, 12};
 const s32 boss7_tunnel_kind4_model_indices[4] = {13, 14, 15, 16};
-// where TObjBoss2Tunnel__sub_802F2A2C places its two TObjBoss7RaftSplash
+// Where the tunnel places its two TObjBoss7RaftSplash.
 const Vec TObjBoss2Tunnel::raft_splash_offset_table[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *TObjBoss7TunnelCol::name = "TObjBoss7TunnelCol";
 const CollisionBody TObjBoss7TunnelCol::col_desc = {{0.0f, 0.0f, 0.0f}, 100.0f, 9.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};

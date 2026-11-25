@@ -236,9 +236,7 @@ void TObjEneBm5Wolf::load_resources() {
     }
 }
 
-// dead-stripped: only its literals survive. The int-to-float double (.rodata 0x8043B5B8) is pooled before
-// load_resources' file name, but its only live user actor_rand_int is compiled after load_resources
-// (defer_codegen runs this file bottom-up). Minimal body after actor_rand_int's conversion; name inferred.
+// A random float below range. Dead-stripped from the game: only its literal remains.
 static f32 actor_rand_float(saddr actor, s32 range) {
     return (f32)range * ((TObjChara *)actor)->random_ratio();
 }

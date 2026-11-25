@@ -404,7 +404,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponSRankKnuckle::create,
     TItemWeaponSRank::create,
 };
-// Tool item factories, indexed by the tool type byte (TLobby__sub_8010440C).
+// Tool item factories, indexed by the tool type byte.
 ItemCreateFunction item_tool_factory_table[24] = {
     TItemToolMate::create,
     TItemToolFluid::create,
@@ -1201,9 +1201,7 @@ TItem *TLobby__sub_801054E0(u8 *item) {
     return 0;
 }
 
-// Dead-stripped by the linker: its 0.0f is the only trace left. The DOL pools 0.0f (0x805DAAB0)
-// ahead of send_6x60_standard_drop_item_request's 100.0f, so a 0.0f user came first in this TU.
-// inferred: minimal body, the real function is unknown.
+// Clears a drop request's position. Dead-stripped from the game: only its 0.0f literal remains.
 void clear_drop_request_position(Vec *v) {
     v->x = 0.0f;
     v->y = 0.0f;

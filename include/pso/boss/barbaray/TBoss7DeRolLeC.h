@@ -208,7 +208,7 @@ LAYOUT_ASSERT(TBoss7DeRolLeCTentacles, offsetof(TBoss7DeRolLeC, tentacles) == 0x
 LAYOUT_ASSERT(TBoss7DeRolLeCNodeRecorder, offsetof(TBoss7DeRolLeC, node_recorder) == 0x7AC);
 LAYOUT_ASSERT(TBoss7DeRolLeC_size, sizeof(TBoss7DeRolLeC) == 0x7D4);
 
-// Globals of the De Rol Le C translation unit (802E7888-802EE814; .sbss/.bss).
+// Globals of the De Rol Le C translation unit.
 extern "C" {
 // 11 empty nodes chained through child (evalflags 0xF, the last 0x1F); render hangs
 // them under model node 0x4D in place of its own child while state_flags & 0x40.

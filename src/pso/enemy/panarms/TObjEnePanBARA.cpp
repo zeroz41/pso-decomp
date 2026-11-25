@@ -260,7 +260,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 ind
     m_name = pan_bara_name;
     add_flags_2e4(2);
     apply_set_data(setData);
-    // Same statements as TObjEnemy::clear_lobby_object_state (0x800F5D80); the original expands them here.
+    // The statements of TObjEnemy::clear_lobby_object_state, expanded here.
     PanBARAObjectState objectState;
     if (this->exchange_object_state(&objectState, 1) != 0) {
         objectState.unk_0 = 0;

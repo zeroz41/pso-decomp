@@ -137,9 +137,9 @@ TObjMotionAction shinowa_mirage_motion_param_table[11] = {
 
 const char *me3_shinowa_name = "TObjEneMe3Shinowa";
 const char *TObjEneMe3ShinowaReal_class_name = "TObjEneMe3ShinowaReal";
-// inferred: TObjEneMe3ShinowaMirage::class_name (was lbl_805D2AD0; the mirage ctor stores it to m_name)
+// The mirage's name; its constructor stores it to m_name.
 const char *TObjEneMe3ShinowaMirage::class_name = "TObjEneMe3ShinowaMirage";
-// inferred: motion binding load_shinowa_mirage_resources hands to TLobby::spawn_npc_enemy
+// The motion binding load_shinowa_mirage_resources hands to TLobby::spawn_npc_enemy.
 const NpcAnimationBinding shinowa_mirage_spawn_binding = { NULL, shinowa_mirage_motion_param_table, 8, 9, 11 };
 // inferred: shadow scale handed to draw_ground_shadow by update_player_state_default
 const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };

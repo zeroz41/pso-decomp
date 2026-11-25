@@ -142,10 +142,7 @@ void TObjPlayer::draw_area_chunk_objects() {
     end_alpha_blend();
 }
 
-// File-scope constants of the zako draw: .sdata2 objects in this order, defined after their
-// users: defined before TObjPlayer__sub_8030A9B0, 1.0f is scheduled after push_matrix;
-// defined before draw_area_chunk_objects, its 1.0f becomes a new pooled literal.
-// Names inferred from the uses.
+// File-scope constants of the zako draw.
 __declspec(section ".sdata2") const u32 zako_model_render_flags = 0x82C;
 __declspec(section ".sdata2") const f32 zako_draw_height = 0.5f;
 __declspec(section ".sdata2") const f32 zako_min_height = -9.5f;

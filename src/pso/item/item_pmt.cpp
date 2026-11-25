@@ -1,7 +1,5 @@
 // The item parameter table (ItemPMT.prs): its loader, the record lookups and
-// the item drop rolls that read it. One TU: the "ItemPMT.prs" string, the
-// weapon-special roll table and the int-to-float doubles are one .rodata block
-// 0x8043E7A8-0x8043E7D8 in first-use order.
+// the item drop rolls that read it.
 #pragma readonly_strings on
 #include "types.h"
 #include <stdlib.h>

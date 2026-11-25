@@ -7,7 +7,7 @@
 struct Vec;
 
 // A chunk mesh built at run time: `width` x (`strips` + 1) vertices joined by `strips` triangle strips,
-// drawn through its own NJS_CNK_MODEL and NJS_OBJECT (0x68 bytes; constructor 0x8002DB7C, no vtable).
+// drawn through its own NJS_CNK_MODEL and NJS_OBJECT (0x68 bytes, no vtable).
 // Polygon list: the copied material words, a strip chunk head (0x242), its size, the strip count, then
 // per strip its index count and (index, u, v) triples. Vertex list: head word, count word, vertices.
 class ChunkStripGrid {

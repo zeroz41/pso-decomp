@@ -61,7 +61,7 @@ TObjMotionAction balclaw_body_actions[12] = {
     {2, 5, 1, 0.6f, 1},
 };
 
-// Movement rows; TObjPlayer__sub_8008E934 points TObjEnemy::movementParameters at one.
+// Movement rows; TObjEnemy::movementParameters points at one.
 BalClawMovement balclaw_body_movement[2] = {
     {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},
     {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0},

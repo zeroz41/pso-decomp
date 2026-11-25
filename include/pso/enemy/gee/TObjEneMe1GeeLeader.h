@@ -3,9 +3,8 @@
 #include "types.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 
-// The Gee formation leader (vtable 0x8049387C). Name inferred: no class string (its ctor installs the
-// "TObjEneMe1Gee" name), but its table is TObjEneMe1CanadinLeader's slot for slot (same size, the same 13
-// leader overrides: dtor, run_task, spawn_members, remove_member, select_model, ... in the same slots).
+// The Gee formation leader. Its constructor installs the "TObjEneMe1Gee" name; it overrides the same
+// leader slots as TObjEneMe1CanadinLeader: dtor, run_task, spawn_members, remove_member, select_model, ...
 class TObjEneMe1GeeLeader : public TObjEneMe1Gee {
 public:
     virtual ~TObjEneMe1GeeLeader();

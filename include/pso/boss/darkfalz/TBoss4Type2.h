@@ -28,10 +28,9 @@ struct TBoss4Type2Params
     s32 power;
 };
 
-// Dark Falz's second form. Its vtable is at 0x80486924 (emitted by TBoss4Zanzo.cpp), its ctor
-// names it "TBoss4Type2" and create builds it with new(0x474). It circles the arena centre and
-// relays every action it picks through its owner (send_code_25_4), so all clients run the same
-// one. Field names inferred from their uses in TBoss4Zanzo.cpp.
+// Dark Falz's second form. Its ctor names it "TBoss4Type2" and create builds it with new(0x474).
+// It circles the arena centre and relays every action it picks through its owner (send_code_25_4),
+// so all clients run the same one.
 // A row of attack_pattern_table: how the animation ends (0 loops, 1 holds its
 // last frame, 2 goes on to next) and the motion of each of the two models.
 struct TBoss4Type2Motion { s32 kind, next, motions[2]; };

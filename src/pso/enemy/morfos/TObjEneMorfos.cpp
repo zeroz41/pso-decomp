@@ -59,8 +59,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
-// .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
-// reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
+// Written last function first: the unit is built with deferred code generation.
 #pragma defer_codegen on
 
 
@@ -71,7 +70,7 @@
 
 
 
-// inferred: the boss, object and handler-a ids 803350AC registers; one each
+// The boss, object and handler ids the Morfos registers, one each.
 static const s32 morfos_boss_ids[1] = { 0x40 };
 static const s32 morfos_object_ids[1] = { 0x40 };
 static const s32 morfos_handler_a_ids[1] = { 0x40 };

@@ -1893,9 +1893,8 @@ void TObjEneMe1GeeLeader::select_next_attack_state() {
     }
 }
 
-// dead-stripped: only its literals survive. 10.0f (.sdata2 0x805DA0B8) is pooled after spawn_members'
-// 0.0f and before render_demo's 400.0f, ahead of its first live user state_melee_attack (deferred codegen
-// runs this file bottom-up). Minimal body after state_melee_attack's frame-10 hit check; name inferred.
+// Whether the Gee is on the hit frame of its melee attack. Dead-stripped from the game: only its
+// 10.0f literal remains.
 static s32 is_hit_frame(TObjEneMe1GeeLeader *gee) {
     return gee->is_passing_frame(10.0f);
 }

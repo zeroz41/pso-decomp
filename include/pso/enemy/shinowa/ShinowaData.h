@@ -3,8 +3,7 @@
 #include "types.h"
 #include "pso/effect/TBreakUpMdl.h"
 
-// .rodata 0x8043CE00-0x8043CF40, defined by ShinowaData.cpp (the StelthData.cpp shape):
-// TObjEneMe3Shinowa.cpp addresses each object on its own.
+// The Shinowa code's constant objects, defined by ShinowaData.cpp.
 // What state_break_apart hands to TBoss3Volopt::create_breakup_mdl.
 extern const BreakUpParamRow shinowa_mirage_breakup_params;
 // TLobby kind ids, one list per TLobby table load_shinowa_mirage_resources registers them with

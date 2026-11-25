@@ -138,8 +138,7 @@ extern const s32 panarms_beam_down_charge_points[3] = { 3, 4, 0 };
 typedef void (TObjEnePanarms::*PanarmsStateFn)();
 struct PanarmsState { PanarmsStateFn enter; PanarmsStateFn update; };
 extern PanarmsState panarms_state_table[14];
-// The original's static initializer sits before the weak copies of the inline accessors this unit
-// emits (0x800DFB00-0x800DFBD0), which no compiler-generated __sinit reproduces, so it is spelled out.
+// The unit's static initializer comes before the weak copies of the inline accessors it emits.
 extern "C" {
 static void __sinit_TObjEnePanarms_cpp();
 }
