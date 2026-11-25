@@ -105,7 +105,7 @@ saddr fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, Net
     return ret;
 }
 
-inline NetFragment *frag_pool_take_entry(NetFragment **pb, s16 *pn) {
+static inline NetFragment *frag_pool_take_entry(NetFragment **pb, s16 *pn) {
     s16 n;
     s16 i;
     NetFragment *ent;
@@ -123,7 +123,7 @@ inline NetFragment *frag_pool_take_entry(NetFragment **pb, s16 *pn) {
     }
     return 0;
 }
-inline s16 frag_chain_contig_check(NetFragPacket *node, s16 *pn, NetFragPool *g) {
+static inline s16 frag_chain_contig_check(NetFragPacket *node, s16 *pn, NetFragPool *g) {
     s16 lim;
     NetFragment *f;
     u32 acc;

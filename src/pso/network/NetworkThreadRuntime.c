@@ -463,7 +463,7 @@ s16 recv_ipv6cp_config_nak(PppFsm *self, PppHeader *src, PppFrame *h) {
 #pragma opt_dead_assignments off
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline PppFrame *build_requested_options(Ipv6cpOptions *opts) {
+static inline PppFrame *build_requested_options(Ipv6cpOptions *opts) {
     PppFrame *t;
     PppFrame *v = NULL;
     t = v;
@@ -476,7 +476,7 @@ inline PppFrame *build_requested_options(Ipv6cpOptions *opts) {
     return v;
 }
 
-inline s32 read_option_byte(PppFrame **p) {
+static inline s32 read_option_byte(PppFrame **p) {
     if (ppp_buffer_read(p, ppp_option_byte_buf, 1) != 1) {
         return -1;
     }
@@ -687,7 +687,7 @@ done:
     return obj;
 }
 
-inline s32 ppp_option_type(s32 bit) {
+static inline s32 ppp_option_type(s32 bit) {
     if (bit < 8) {
         return bit;
     }

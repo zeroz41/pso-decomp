@@ -835,7 +835,7 @@ extern s32 tcp_dooptions(TcpTcb *self, u8 *data, s16 total, TcpHdr *th);
 #pragma push
 #pragma opt_propagation off
 #pragma opt_common_subs on
-inline s32 imax(s32 a, s32 b) { return a > b ? a : b; }
+static inline s32 imax(s32 a, s32 b) { return a > b ? a : b; }
 s16 tcp_input(NetPacket *pkt, NetworkAddress *remote, NetworkAddress *local) {
     s32 changed = 0;
     u32 flag = 0;
@@ -1758,7 +1758,7 @@ s16 tcp_sack_rexmit_before(TcpTcb *tcb, s32 x) {
     return 0;
 }
 
-inline void scoreboard_remove(TcpTcb *tcb, s16 idx) {
+static inline void scoreboard_remove(TcpTcb *tcb, s16 idx) {
     s16 n = tcb->seg_top;
     s16 i;
     if (n >= 0 && idx >= 0 && idx <= n) {

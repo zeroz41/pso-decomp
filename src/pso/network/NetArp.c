@@ -151,7 +151,7 @@ s32 arp_init(void)
 }
 
 s16 arp_match_own_address(ArpIface *iface, ArpFields *f, void *haddr);
-inline ArpIface *find_arp_iface(ArpState *t, s16 b, s16 c) {
+static inline ArpIface *find_arp_iface(ArpState *t, s16 b, s16 c) {
     ArpIface *hit;
     s16 i;
     s16 n;
@@ -168,7 +168,7 @@ inline ArpIface *find_arp_iface(ArpState *t, s16 b, s16 c) {
     return NULL;
 }
 
-inline s16 arp_header_valid(ArpHeader *pkt, ArpIface *hit) {
+static inline s16 arp_header_valid(ArpHeader *pkt, ArpIface *hit) {
     if (NetMemcmp(pkt, &hit->htype, 6) == 0) {
         if (pkt->op == 1 || pkt->op == 2) {
             return 1;
@@ -177,7 +177,7 @@ inline s16 arp_header_valid(ArpHeader *pkt, ArpIface *hit) {
     return -1;
 }
 
-inline ArpEntry *scan_arp_entries(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
+static inline ArpEntry *scan_arp_entries(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
     for (; n > 0; n--, peer++) {
         if (peer->plen == ff && peer->state != 0 && NetMemcmp(peer->paddr, p2, peer->plen) == 0) {
             return peer;
@@ -271,7 +271,7 @@ void age_arp_cache(void) {
 
 void arp_hold_packet(ArpEntry *entry, NetPacket *pkt);
 
-inline ArpIface *arp_iface_at(ArpState *t, s16 idx) {
+static inline ArpIface *arp_iface_at(ArpState *t, s16 idx) {
     ArpIface *list = t->ifaces;
     s16 ok;
     if (idx >= 0 && idx < t->nifaces) {
@@ -285,7 +285,7 @@ inline ArpIface *arp_iface_at(ArpState *t, s16 idx) {
     return NULL;
 }
 
-inline ArpEntry *find_arp_entry(ArpState *t, u8 k, void *name) {
+static inline ArpEntry *find_arp_entry(ArpState *t, u8 k, void *name) {
     s16 n = t->nentries;
     ArpEntry *p = t->entries;
     for (; n > 0; n--, p++) {
@@ -296,7 +296,7 @@ inline ArpEntry *find_arp_entry(ArpState *t, u8 k, void *name) {
     return NULL;
 }
 
-inline void release_hold(ArpEntry *p) {
+static inline void release_hold(ArpEntry *p) {
     if (p->hold != NULL) {
         p->hold->entry = NULL;
         p->hold->len = 0;
@@ -304,7 +304,7 @@ inline void release_hold(ArpEntry *p) {
     }
 }
 
-inline void send_arp_request(ArpIface *e, void *name) {
+static inline void send_arp_request(ArpIface *e, void *name) {
     ArpFields o;
     NetPacket *r = alloc_packet_with_header(&o, e);
     if (r != NULL) {
@@ -408,7 +408,7 @@ s32 arp_remove_alias(s16 id, u8 *key) {
     return -1;
 }
 
-inline ArpAlias *alloc_arp_alias(ArpState *t, s16 *count) {
+static inline ArpAlias *alloc_arp_alias(ArpState *t, s16 *count) {
     ArpAlias *p = t->aliases;
     s16 n = *count;
     for (; n > 0; n--, p++) {
@@ -463,7 +463,7 @@ s32 arp_add_alias(s16 id, u8 *pkey) {
     return 0;
 }
 
-inline ArpIface *find_free_arp_iface(ArpIface *base) {
+static inline ArpIface *find_free_arp_iface(ArpIface *base) {
     ArpIface *p;
     s16 i;
     p = base;
@@ -665,7 +665,7 @@ s32 arp_free_interface(s16 id) {
     return -1;
 }
 
-inline void detach_hold(ArpEntry *e) {
+static inline void detach_hold(ArpEntry *e) {
     if (e->hold != NULL) {
         e->hold->entry = NULL;
         e->hold->len = 0;

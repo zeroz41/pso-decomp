@@ -59,7 +59,7 @@ s16 NetIPv6Init(void) {
     return 0;
 }
 
-inline s16 process_options_header(u8 *ext, s16 rem, u8 *ip, s16 len, s16 iface) {
+static inline s16 process_options_header(u8 *ext, s16 rem, u8 *ip, s16 len, s16 iface) {
     s32 options_len;
     u8 *options;
     options = ext + 2;
@@ -73,7 +73,7 @@ inline s16 process_options_header(u8 *ext, s16 rem, u8 *ip, s16 len, s16 iface) 
     return 0;
 }
 
-inline NetPacket *input_fragment_header(u8 *ip, Ipv6FragmentHeader *frag, s32 remaining, s16 total_len, s16 iface, NetworkAddress *src, NetIcmpv6Header *error) {
+static inline NetPacket *input_fragment_header(u8 *ip, Ipv6FragmentHeader *frag, s32 remaining, s16 total_len, s16 iface, NetworkAddress *src, NetIcmpv6Header *error) {
     u32 offset_flags;
     u32 more;
     u32 offset;
@@ -91,14 +91,14 @@ inline NetPacket *input_fragment_header(u8 *ip, Ipv6FragmentHeader *frag, s32 re
     }
     return (NetPacket *) fragment_input(ip, total_len - (remaining - sizeof(Ipv6FragmentHeader)), remaining - sizeof(Ipv6FragmentHeader), IPV6_REASSEMBLY_TIMEOUT, frag->ident, src, offset, more, iface);
 }
-inline s32 min_s32(s32 a, s32 b) {
+static inline s32 min_s32(s32 a, s32 b) {
     if (a < b) {
         return a;
     }
     return b;
 }
 
-inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payload_len) {
+static inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payload_len) {
     NetPacket *pkt = alloc_free_entry();
     if (pkt == 0) {
         return 0;

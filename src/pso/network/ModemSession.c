@@ -242,7 +242,7 @@ s16 wait_timeout_loop(ModemRequest *request) {
 }
 
 
-inline s16 modem_wait_for_string(u8 *s, s16 n, s16 timeout) {
+static inline s16 modem_wait_for_string(u8 *s, s16 n, s16 timeout) {
     get_time_ms((s32 *)&lobby_modem_wait_start_ms);
     lobby_modem_wait_timeout_ms = timeout * 1000;
     if (n > lobby_net_session_state.window_len) {

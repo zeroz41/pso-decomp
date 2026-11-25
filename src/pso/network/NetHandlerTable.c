@@ -47,7 +47,7 @@ void link_input(u8 *msg, s16 len, s16 idx, s16 second, u16 type) {
     }
 }
 
-inline s16 packet_length(NetPacket *pkt) {
+static inline s16 packet_length(NetPacket *pkt) {
     NetPacketFragment *f;
     s16 n;
     s16 total = 0;
@@ -66,7 +66,7 @@ s16 link_packet_length(void *pkt) {
     return packet_length(pkt);
 }
 
-inline s32 copy_packet_out(void *self, NetPacket *pkt) {
+static inline s32 copy_packet_out(void *self, NetPacket *pkt) {
     u8 tmp[0x10];
     NetPacketFragment *p;
     u8 *acc;
