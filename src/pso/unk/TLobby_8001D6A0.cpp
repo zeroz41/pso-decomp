@@ -5,7 +5,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/unk/TLobbyBattleParamData.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -27,73 +27,18 @@
 #pragma readonly_strings on
 
 
-extern "C" {
-extern s32 auto_reply_flags;
-
-void TLobby::sync_auto_reply_state() {
-    if ((auto_reply_flags & 4) || (auto_reply_flags & 1) != ((auto_reply_flags >> 1) & 1)) {
-        if (TLobby::get_flag_bit0() != 0) {
-            protocol_instance->send_text_packet_c7((char *)(TLobby::get_card_window_area()));
-        } else {
-            protocol_instance->send_disable_auto_reply();
-        }
-        auto_reply_flags &= ~4;
-        auto_reply_flags = TLobby::get_flag_bit0() != 0 ? (auto_reply_flags | 2) : (auto_reply_flags & ~2);
-    }
-}
-
-saddr TLobby::get_card_window_area() {
-    return get_character_save_record(0xFFFF) + 0x2050;
-}
-void TLobby::set_short_mail_text() {
-    saddr arg0 = (saddr)this;
-    u8 *temp_r31;
-    temp_r31 = (u8 *)(get_character_save_record((0xFFFFU)) + 0x2050);
-    TWindowSubComCard::mask_profanity_words((char *)arg0, (char *)get_shared_text_buffer());
-    strncpy((char *)temp_r31, (char *)(((saddr (*)(void))get_shared_text_buffer)()), 0xAB);
-    *(s8 *)((s8 *)temp_r31 + 0xAB) = 0;
-    auto_reply_flags |= 4;
-    if (TLobby::is_active() != 0) {
-        TLobby::set_flag_bit0(1);
-        return;
-    }
-    TLobby::set_flag_bit0(0);
-}
-
-int TLobby::get_flag_bit0() { return (auto_reply_flags & 0x1); }
-
-s32 TLobby::set_flag_bit0(s32 enabled) {
-    s32 var_r3;
-    s32 ret;
-
-    ret = TLobby::get_flag_bit0();
-    if (ret == enabled) {
-        return 0;
-    }
-    var_r3 = auto_reply_flags & 0xFFFFFFFE;
-    if (enabled != 0) {
-        var_r3 = auto_reply_flags | 1;
-    }
-    auto_reply_flags = var_r3;
-    return 1;
-}
-
-}
+BattleParameterBank *battle_parameter_buffer;
+player_stats *battle_param_stats;
+AttackParams *battle_param_attacks;
+ActorParamBlock *battle_param_resistances;
+BattleMovementParams *battle_param_movement;
+s32 battle_parameter_difficulty;
+s32 battle_param_lab_variant;
+saddr lobby_instance;
 
 struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
 extern TextBuilderBuffer text_builder_buffer;
 
-
-s32 TLobby::is_active() {
-    return *(s8 *)TLobby::get_card_window_area() == 0 ? 0 : 1;
-}
-
-void reset_auto_reply_flags(s32 _w0) {
-    auto_reply_flags = 0;
-}
-
-void TLobby::clear_auto_reply_flags(void* p) { reset_auto_reply_flags((saddr)p); }
-void TLobby__sub_8001DC04(void* p) { reset_auto_reply_flags((saddr)p); }
 
 
 s32 *get_shared_text_buffer(void) {

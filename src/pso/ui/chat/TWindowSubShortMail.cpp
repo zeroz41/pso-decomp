@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/network/TLobby.h"
+#include "pso/unk/TLobbyAutoReply.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -119,7 +120,7 @@ TWindowSubShortMail::~TWindowSubShortMail() {
         main_menu = NULL;
     }
     TLobby__sub_802258C8();
-    TLobby::sync_auto_reply_state();
+    sync_auto_reply_state();
 }
 
 void TWindowSubShortMail::run_task() {
@@ -282,7 +283,7 @@ void TWindowSubShortMail::run_task() {
         }
         break;
     case 19:
-        if (TLobby::is_active() != 0) {
+        if (::is_active() != 0) {
             state = 0x14;
         } else {
             state = 0x18;
@@ -314,7 +315,7 @@ void TWindowSubShortMail::run_task() {
         if (((TWindowMenu *)auto_reply_menu)->is_cancelled() != 0) {
             state = 0x14;
         } else if (((TWindowMenu *)auto_reply_menu)->is_decided() != 0) {
-            if (TLobby::set_flag_bit0(((TWindowMenu *)auto_reply_menu)->get_selected_value()) != 0) {
+            if (set_flag_bit0(((TWindowMenu *)auto_reply_menu)->get_selected_value()) != 0) {
                 if (auto_reply_window != NULL) { ((TWindowBase *)auto_reply_window)->close(); auto_reply_window = NULL; }
             }
             state = 0x14;
@@ -327,7 +328,7 @@ void TWindowSubShortMail::run_task() {
         if (main_menu != NULL) { ((TWindowBase *)main_menu)->close(); main_menu = NULL; }
         if (keyboard == NULL) {
             keyboard = create_keyboard();
-            keyboard->set_text(reinterpret_cast<char *>(TLobby::get_card_window_area()));
+            keyboard->set_text(reinterpret_cast<char *>(get_card_window_area()));
         }
         keyboard->set_position(const_cast<NJS_POINT2 *>(get_window_layout_position(0xBB)));
         keyboard->clear_keyboard_flag60_bit1();
@@ -353,7 +354,7 @@ void TWindowSubShortMail::run_task() {
         } else if (((TWindowMessageYesNo *)confirm_window)->is_child_visible() != 0) {
             if (((TWindowMessageYesNo *)confirm_window)->get_selected_value() == 0) {
                 void *b = keyboard->realloc_buffer();
-                ((TLobby *)b)->set_short_mail_text();
+                set_short_mail_text((char *)b);
                 mem_free(b);
                 state = 1;
             } else {
@@ -499,12 +500,12 @@ saddr TWindowSubShortMail::create_window(void) {
 
     window_layout_position = get_window_layout_position(0xA1);
     list = create_window_menu_default(window_layout_position, 2);
-    if (TLobby::get_flag_bit0() != 0) {
+    if (get_flag_bit0() != 0) {
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 0, 0);
-        list->add_text_entry(TLobby::get_card_window_area(), 0, 0);
+        list->add_text_entry(get_card_window_area(), 0, 0);
     } else {
         list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 0, 0);
-        add_gray_text_entry(list, (const char *)(TLobby::get_card_window_area()), 0, 0);
+        add_gray_text_entry(list, (const char *)(get_card_window_area()), 0, 0);
     }
     list->set_flag_40();
     TQuestThread::set_status_flag_80((void *)list);
@@ -520,7 +521,7 @@ saddr TWindowSubShortMail::open_menu(void) {
     menu = create_window_menu_default(window_layout_position, 2);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 6, 1);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 6, 0);
-    if (TLobby::get_flag_bit0() == 0) {
+    if (get_flag_bit0() == 0) {
         ((TWindowSubComCardList *)menu)->set_selected_index(1);
     }
     menu->set_flag70_bit10();

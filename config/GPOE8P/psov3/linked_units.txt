@@ -716,7 +716,7 @@ pso/unk/TLobby_80228818.cpp
 pso/ui/hud/TLoadingCur.cpp
 pso/network/TLobby.cpp
 pso/unk/TLobbyEventTheme.cpp
-pso/unk/TLobbyBattleParamData.cpp
+pso/unk/TLobbyAutoReply.cpp
 pso/unk/TLobby_8001D6A0.cpp
 pso/unk/TLobby_8001EF5C.cpp
 pso/unk/TLobby_8002C140.cpp

@@ -1449,6 +1449,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # by one (no shared .rodata base), and its strings are read-only.
     "pso/quest/TQuestListVM.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-pool off", "-str reuse,readonly")},
     # load_battle_param_entry reaches each .rodata object with its own lis/addi: -pool off.
+    "pso/unk/TLobbyAutoReply.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     "pso/unk/TLobby_8001D6A0.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # TItemData.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/item/TItemData.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},

@@ -92,11 +92,6 @@ struct TLobby : public TObject {
     void apply_lobby_markers();
     static s32 get_option_state();
     static void install_game_join_handlers();
-    static void sync_auto_reply_state();
-    void set_short_mail_text();
-    static s32 set_flag_bit0(s32 enabled);
-    static s32 is_active();
-    static void clear_auto_reply_flags(void* p);
     static void broadcast(void* a0);
     static void copy_all_entries(void* a0);
     static void copy_data(void* a0);
@@ -645,9 +640,7 @@ struct TLobby : public TObject {
     static void destroy_join_entries();
     static void destroy_lobby_ui();
     static void disable_window_flags(void*);
-    static saddr get_card_window_area();
     static ActorParamBlock *get_entry(int, int);
-    static int get_flag_bit0();
     static void get_menu_field_280();
     static BattleMovementParams *get_player_entry(int, int);
     static s32 get_progress_info(void *, void *, void *, void *);

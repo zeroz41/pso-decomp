@@ -141,13 +141,14 @@ pso/system/AramPool.cpp:
 	.text       start:0x8001D4D8 end:0x8001DA00
 	.sbss       start:0x805D4A90 end:0x805D4A98
 
-pso/unk/TLobbyBattleParamData.cpp:
-	.sbss       start:0x805D4A98 end:0x805D4AC0
+pso/unk/TLobbyAutoReply.cpp:
+	.text       start:0x8001DA00 end:0x8001DC24
+	.sbss       start:0x805D4A98 end:0x805D4AA0
 
 pso/unk/TLobby_8001D6A0.cpp:
-	.text       start:0x8001DA00 end:0x8001ED80
+	.text       start:0x8001DC24 end:0x8001ED80
 	.rodata     start:0x80434A20 end:0x80434AA0
-	.sbss       start:0x805D4AC0 end:0x805D4AC8
+	.sbss       start:0x805D4AA0 end:0x805D4AC8
 	.sdata2     start:0x805D7EC8 end:0x805D7F10
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp:

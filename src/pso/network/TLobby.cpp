@@ -28,6 +28,7 @@
 #include "pso/network/TPacket.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/TLobby.h"
+#include "pso/unk/TLobbyAutoReply.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/TLobby_8020BFC4.h"
 #include "pso/unk/text_8020B5CC.h"
@@ -423,9 +424,9 @@ void TLobby::send_game_character() {
     memset(&blocked_senders, 0, sizeof(blocked_senders));
     ((TLobby *)&blocked_senders)->collect_active_card_ids();
     memset(&auto_reply, 0, sizeof(auto_reply));
-    if (TLobby::get_flag_bit0() != 0) {
+    if (get_flag_bit0() != 0) {
         auto_reply.header.flags = 1;
-        strncpy(auto_reply.text, (char *)TLobby::get_card_window_area(), 0x200);
+        strncpy(auto_reply.text, (char *)get_card_window_area(), 0x200);
     }
     memset(&challenge, 0, sizeof(challenge));
     challenge.challenge = card->challenge;
@@ -2035,9 +2036,9 @@ void TLobby::send_selected_character() {
     memset(&blocked_senders, 0, sizeof(blocked_senders));
     ((TLobby *)&blocked_senders)->collect_active_card_ids();
     memset(&auto_reply, 0, sizeof(auto_reply));
-    if (TLobby::get_flag_bit0() != 0) {
+    if (get_flag_bit0() != 0) {
         auto_reply.header.flags = 1;
-        strncpy(auto_reply.text, (char *)TLobby::get_card_window_area(), 0x200);
+        strncpy(auto_reply.text, (char *)get_card_window_area(), 0x200);
     }
     memset(&challenge, 0, sizeof(challenge));
     challenge.challenge = card->challenge;

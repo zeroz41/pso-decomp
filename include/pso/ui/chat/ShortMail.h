@@ -39,7 +39,6 @@ LAYOUT_ASSERT(ShortMailEntryFlagsOffset, offsetof(ShortMailEntry, flags) == 0xCC
 
 ShortMailEntry *get_short_mail_entry(int index);
 void remove_short_mail_by_id(u32 id);
-void set_short_mail_text(char *message);
 
 extern "C" {
 void TLobby__sub_802258C8(void);

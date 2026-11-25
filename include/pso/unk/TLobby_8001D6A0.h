@@ -9,8 +9,6 @@ struct ActorParamBlock;
 union BattleMovementParams;
 
 extern "C" {
-void reset_auto_reply_flags(s32 _w0);
-void TLobby__sub_8001DC04(void *p);
 void TLobby__sub_8001DE30(void *a0);
 void set_lobby_instance(s32 arg0);
 void TLobby__sub_8001DF58(s32 arg0, saddr ent);
