@@ -1062,7 +1062,6 @@ pso/ui/city/TShopEquipmentListWindow.cpp
 pso/ui/city/TShopEquipmentListWindow_8010ED54.cpp
 pso/ui/city/TShopEquipmentSellWindow.cpp
 pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp
-pso/ui/city/TShopEquipmentSellWindow_803094E8.cpp
 pso/ui/city/TShopEquipmentSequence.cpp
 pso/ui/city/TShopEquipmentSequence_8021E2E4.cpp
 pso/item/shop/TShopGenerator.cpp

@@ -8370,11 +8370,8 @@ pso/boss/barbaray/TBoss7Crawfish.cpp:
 	.sbss       start:0x805D6A60 end:0x805D6A68
 	.sdata2     start:0x805DF0C8 end:0x805DF104
 
-pso/ui/city/TShopEquipmentSellWindow_803094E8.cpp:
-	.text       start:0x803094E8 end:0x80309540
-
 pso/ui/window/TWindowCost.cpp:
-	.text       start:0x80309540 end:0x803095E8
+	.text       start:0x803094E8 end:0x803095E8
 	.rodata     start:0x804755B8 end:0x804755C8
 	.data       start:0x804E7530 end:0x804E7548
 	.sdata      start:0x805D40A8 end:0x805D40B0
