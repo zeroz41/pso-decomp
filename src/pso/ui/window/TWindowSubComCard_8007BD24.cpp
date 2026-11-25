@@ -33,7 +33,7 @@ void TWindowSubComCard::handle_press_a(saddr ply_guild_card_tag, s32 id) {
 void TWindowSubComCard::init_and_press_a(s32 id) {
     u8 ply_guild_card_tag[0x84];
 
-    init_guild_card_tag__17TWindowSubComCardFi((saddr)ply_guild_card_tag);
+    init_guild_card_tag__17TWindowSubComCardFi(ply_guild_card_tag);
     TWindowSubComCard::handle_press_a((saddr)((s32 *)ply_guild_card_tag), id);
 }
 
@@ -47,7 +47,7 @@ void TWindowSubComCard::handle_press_b(saddr ply_guild_card_tag, s32 client_id) 
 void TWindowSubComCard::init_and_press_b(s32 client_id) {
     u8 ply_guild_card_tag[0x84];
 
-    init_guild_card_tag__17TWindowSubComCardFi((saddr)ply_guild_card_tag);
+    init_guild_card_tag__17TWindowSubComCardFi(ply_guild_card_tag);
     TWindowSubComCard::handle_press_b((saddr)((s32 *)ply_guild_card_tag), client_id);
 }
 

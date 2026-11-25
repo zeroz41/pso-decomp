@@ -148,9 +148,9 @@ s8 TWindowSubComCard__sub_8007B6EC(void *p);
 s32 TWindowSubComCard__sub_8007B6F4(void *self);
 int __ct__16TPlyGuildCardTagFv();
 
-s32 init_guild_card_tag__17TWindowSubComCardFi(s32 ply_guild_card_tag) {
+s32 init_guild_card_tag__17TWindowSubComCardFi(void *ply_guild_card_tag) {
     __ct__16TPlyGuildCardTagFv();
-    return ply_guild_card_tag;
+    return (saddr)ply_guild_card_tag;
 }
 
 s32 has_inactive_card__17TWindowSubComCardFPvi(GuildCardSlot *cards, s32 n) {
@@ -540,7 +540,7 @@ void TWindowSubComCard::init_card(void* client_id) { bswap_guild_card(); ((game_
 int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
 
 void *TWindowSubComCard::init_guild_card() {
-    init_guild_card_tag__17TWindowSubComCardFi((saddr)((char *)this + 4));
+    init_guild_card_tag__17TWindowSubComCardFi((char *)this + 4);
     *(u8 *)&this->m_name = 6;
     *(u8 *)((s8 *)this + 0x1) = 37;
     return this;

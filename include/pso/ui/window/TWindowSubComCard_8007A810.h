@@ -13,7 +13,7 @@ s32 copy_card__17TWindowSubComCardFiPv(saddr dest, u8 *src);
 s32 fn_8007B2E0(u8 *ply_guild_card_tag, s32 id);
 void forward_to_matching_card__17TWindowSubComCardFPvPvi(void *card, u8 *slots, s32 count);
 s32 init__17TWindowSubComCardFi(s32 object);
-s32 init_guild_card_tag__17TWindowSubComCardFi(s32 ply_guild_card_tag);
+s32 init_guild_card_tag__17TWindowSubComCardFi(void *ply_guild_card_tag);
 s32 reinit__17TWindowSubComCardFi(s32 object);
 }
 
