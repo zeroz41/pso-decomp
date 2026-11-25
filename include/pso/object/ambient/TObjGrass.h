@@ -28,14 +28,15 @@ struct TObjGrass : public TObjEnemy {
     void sub_800BDD70();
     void sub_800BD4D8();
     void sub_800BCE44();
+    void sub_800BCA2C();  // empty; run_task calls it in demo mode
     Vec camera_vec;
     Vec render_vec;
     Vec origin_vec;
-    f32 m_398;
-    s16 m_39c;
-    s16 m_39e;
-    u32 m_3a0;
-    s32 m_3a4;
+    f32 charge_distance;     // how far the charge attack runs (target distance + 30, at least 100)
+    s16 move_mode;           // 1 wander near home, 2 chase (parameters[1] > 0), 0 target lost
+    s16 attack_kind;         // row of grass_bml_resource bound as attack stats; picks run_attack_action's mode
+    s32 particle_timer;      // update_dying spawns a particle every 4 frames
+    s32 lost_target_frames;  // frames moved without a target; the move ends past 150
     s32 view_detail;
     s32 fading_in;
     TObjEnemyColorFade fade;

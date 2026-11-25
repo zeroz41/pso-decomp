@@ -11,11 +11,13 @@ struct TObjGrassWeb : public TObjBase {
     virtual ~TObjGrassWeb();
     virtual void run_task();
     virtual void render();
-    u32 m_90;
+    u32 state;  // 0 apply the web to the player, 1 hold, 2 done
     u8 _pad94[0x10];
-    u16 m_a4;
+    u16 target_id;  // entity id of the player it holds
     void queue_destruction();
     void apply_to_player();
+    // Plays the area's web sound and counts set_params[0] down to the end of the hold.
+    void update_hold();
     u8 unk_A6[0x2];
 };
 

@@ -1375,14 +1375,14 @@ force_active:
   - __ct__22TObjFogCollisionSwitchFP7TObjectPv
   - debug_draw_enabled__16TObjFogCollisionFv
   - debug_text_enabled__16TObjFogCollisionFv
-  - TObjGrassWeb__sub_800BC798
+  - update_hold__12TObjGrassWebFv
   - grass_bml_resource
   - grass_class_name
   - __ct__9TObjGrassFP7TObjectPv
   - grass_grass_type_param_table
   - grass_render_node_index
   - grass_resource_bundle
-  - TObjGrass__sub_800BCA2C
+  - sub_800BCA2C__9TObjGrassFv
   - clear_hit_targets__9TObjGrassFv
   - __ct__21TObjHMS_EZRope_PlayerFP7TObjectP15TObjHMSRopeSpecP19TObjHMSColliderSpec
   - obj_item_name_entry_class_name
