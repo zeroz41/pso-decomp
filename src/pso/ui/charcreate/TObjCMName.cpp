@@ -48,7 +48,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
-#include "pso/unk/text_802993F0.h"
 #include "pso/object/TCMCharacter.h"
 
 
@@ -201,7 +200,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     state = 0;
     selected_entry = 0;
     creation_menu_selected_entry = entries[selected_entry];
-    fn_802993F0();
+    reset_creation_input_state();
     reveal = 0.0f;
     submenu_fade = 0.0f;
     slide_offset = 0.0f;
