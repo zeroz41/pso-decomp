@@ -61,8 +61,8 @@ CollisionBody labo_door_collision_body_parts[] = {
 // The BML archives and texture lists the door classes load and free (TODoorFourLightSeabed,
 // TODoorFourLightSeabedU, TODoorLabo, TODoorLaboNormal), in address order.
 BmlResource *door_labo_bml_resource;
-NJS_TEXLIST *lbl_805D6604;
-NJS_TEXLIST *lbl_805D6608;
+NJS_TEXLIST *seabed_door_lit_textures;
+NJS_TEXLIST *seabed_door_unlit_textures;
 BmlResource *seabed_four_light_door_bml_resource;
 NJS_TEXLIST *seabed_four_light_door_textures;
 NJS_TEXLIST *TODoorFourLightSeabedU__texture_list;
@@ -72,20 +72,6 @@ NJS_TEXLIST *labo_door_red_textures;
 BmlResource *TODoorLabo__model_archive;
 NJS_TEXLIST *TODoorLaboNormal__green_texture_list;
 NJS_TEXLIST *TODoorLaboNormal__red_texture_list;
-struct Door_802A0670 {
-    u8 pad0[0x38];
-    f32 f38[3];
-    u8 pad44[0x60 - 0x44];
-    s32 angle;
-    u8 pad64[0xC8 - 0x64];
-    s32 fC8;
-    u8 padCC[0xD0 - 0xCC];
-    s32 fD0;
-    u8 *fD4;
-    u32 *a[4];
-    u32 *b[4];
-    s32 fF8;
-};
 
 const char *TODoorFourLightBase__class_name = "TODoorFourLightBase";
 
@@ -144,41 +130,40 @@ void TODoorFourLightBase::render() {
 }
 
 void TODoorFourLightBase::render_lights() {
-    Door_802A0670 *self = (Door_802A0670 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (self->a[i] != NULL) {
-            *self->a[i] |= 0x100000;
-            *self->a[i] |= 0x200000;
+        if (light_nodes[i] != NULL) {
+            light_nodes[i]->evalflags |= 0x100000;
+            light_nodes[i]->evalflags |= 0x200000;
         }
-        if (self->b[i] != NULL) {
-            *self->b[i] |= 0x100000;
-            *self->a[i] |= 0x200000;
+        if (light_nodes[4 + i] != NULL) {
+            light_nodes[4 + i]->evalflags |= 0x100000;
+            light_nodes[i]->evalflags |= 0x200000;
         }
     }
-    if (!(self->fD0 & 1)) {
-        for (i = 0; i < self->fF8; i++) {
-            if (is_current_floor_switch_set((u16)(self->fC8 + i)) == 1) {
-                if (self->a[i] != NULL) {
-                    *self->a[i] |= 0x100000;
+    if (!(door_flags & 1)) {
+        for (i = 0; i < light_count; i++) {
+            if (is_current_floor_switch_set((u16)(switch_id + i)) == 1) {
+                if (light_nodes[i] != NULL) {
+                    light_nodes[i]->evalflags |= 0x100000;
                 }
-                if (self->b[i] != NULL) {
-                    *self->b[i] |= 0x100000;
+                if (light_nodes[4 + i] != NULL) {
+                    light_nodes[4 + i]->evalflags |= 0x100000;
                 }
             } else {
-                if (self->a[i] != NULL) {
-                    *self->a[i] &= ~0x100000;
+                if (light_nodes[i] != NULL) {
+                    light_nodes[i]->evalflags &= ~0x100000;
                 }
-                if (self->b[i] != NULL) {
-                    *self->b[i] &= ~0x100000;
+                if (light_nodes[4 + i] != NULL) {
+                    light_nodes[4 + i]->evalflags &= ~0x100000;
                 }
             }
         }
     }
     push_matrix();
-    post_translate_matrix(self->f38);
-    rotate_matrix_y(0, self->angle);
-    ((TODoorFourLightBase *)self)->draw_node_tree(self->fD4);
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(0, rotation_y);
+    draw_node_tree((u8 *)model);
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }
@@ -316,7 +301,7 @@ void TODoorFourLightBase::clamp_light_index() {
     light_count = this->set_params[1];
 }
 
-void TLanguage__sub_802A0204(void) {
+void load_seabed_four_light_door_resources(void) {
     s32 area;
     saddr var_r0;
     saddr var_r0_2;
@@ -325,28 +310,28 @@ void TLanguage__sub_802A0204(void) {
     case AREA_SEABED_UPPER:
         var_r0 = (saddr)new BmlResource(5, &bm_o_door_seabed01_resource_descriptor, 0, 0, NULL);
         door_labo_bml_resource = (BmlResource *)var_r0;
-        lbl_805D6604 = LoadPvmFileTls("fs_obj_doorx4_atui_green.GVM");
-        lbl_805D6608 = LoadPvmFileTls("fs_obj_doorx4_atui.GVM");
+        seabed_door_lit_textures = LoadPvmFileTls("fs_obj_doorx4_atui_green.GVM");
+        seabed_door_unlit_textures = LoadPvmFileTls("fs_obj_doorx4_atui.GVM");
         return;
     case AREA_SEABED_LOWER:
         var_r0_2 = (saddr)new BmlResource(5, &bm_o_door_seabed01_resource_descriptor, 0, 0, NULL);
         door_labo_bml_resource = (BmlResource *)var_r0_2;
-        lbl_805D6604 = LoadPvmFileTls("fs_obj_doorx4_atui_green_02.GVM");
-        lbl_805D6608 = LoadPvmFileTls("fs_obj_doorx4_atui_02.GVM");
+        seabed_door_lit_textures = LoadPvmFileTls("fs_obj_doorx4_atui_green_02.GVM");
+        seabed_door_unlit_textures = LoadPvmFileTls("fs_obj_doorx4_atui_02.GVM");
         return;
     }
 }
 
-void TLobby::free_chr_select_slots() {
-    if (lbl_805D6608 != NULL) {
-        release_texture_list(lbl_805D6608);
-        safe_free(lbl_805D6608);
-        lbl_805D6608 = NULL;
+void free_seabed_four_light_door_resources() {
+    if (seabed_door_unlit_textures != NULL) {
+        release_texture_list(seabed_door_unlit_textures);
+        safe_free(seabed_door_unlit_textures);
+        seabed_door_unlit_textures = NULL;
     }
-    if (lbl_805D6604 != NULL) {
-        release_texture_list(lbl_805D6604);
-        safe_free(lbl_805D6604);
-        lbl_805D6604 = NULL;
+    if (seabed_door_lit_textures != NULL) {
+        release_texture_list(seabed_door_lit_textures);
+        safe_free(seabed_door_lit_textures);
+        seabed_door_lit_textures = NULL;
     }
     if (door_labo_bml_resource != NULL) {
         delete (BmlResource *)door_labo_bml_resource;
@@ -384,14 +369,14 @@ TODoorFourLightSeabed::~TODoorFourLightSeabed() {
 }
 
 s32 TODoorFourLightSeabed::get_unlit_textures() {
-    return (saddr)lbl_805D6608;
+    return (saddr)seabed_door_unlit_textures;
 }
 
 s32 TODoorFourLightSeabed::get_lit_textures() {
-    return (saddr)lbl_805D6604;
+    return (saddr)seabed_door_lit_textures;
 }
 
-void TLanguage__sub_8029FF0C(void) {
+void load_seabed_u_four_light_door_resources(void) {
     s32 area;
     saddr var_r0;
     saddr var_r0_2;
@@ -412,7 +397,7 @@ void TLanguage__sub_8029FF0C(void) {
     }
 }
 
-void TLobby::free_global_buffers() {
+void free_seabed_u_four_light_door_resources() {
     if (TODoorFourLightSeabedU__texture_list != NULL) {
         release_texture_list(TODoorFourLightSeabedU__texture_list);
         safe_free(TODoorFourLightSeabedU__texture_list);

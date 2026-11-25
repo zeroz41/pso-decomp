@@ -39,7 +39,6 @@ CollisionBody TODoorFourLight__collision_body_params = {{0.0f, 20.0f, 0.0f}, 10.
 
 struct Tbl_80289EE0 { s32 v[8]; };
 
-struct Door_80289EE0 { u8 pad[0xD8]; saddr sw[8]; };
 
 
 extern "C" {
@@ -66,21 +65,21 @@ const Tbl_80289EE0 door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11
 #pragma dont_inline off
 TODoorFourLightRuins::TODoorFourLightRuins(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
     s32 i;
-    *(saddr *)((s8 *)this + 0) = (saddr) TODoorFourLightRuins__class_name;
-    ((TODoorFourLightRuins *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
-    ((TODoorFourLightRuins *)(((u8 *)this)))->init_door_switch_binding();
-    init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);
-    ((TObjCollidable *)this)->refresh_collision_body_centers();
-    ((TObjPlayer *)this)->register_object_by_id();
-    this->m_d4 = (saddr)fn_8028A78C(0);
+    m_name = TODoorFourLightRuins__class_name;
+    apply_object_set_data((void *)set_data);
+    init_door_switch_binding();
+    init_collision_body_parts(this, &TODoorFourLight__collision_body_params, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    this->model_tree = (saddr)fn_8028A78C(0);
     this->texlist = fn_8028A750(0);
-    *(u8 **)((s8 *)this + 0xBC) = fn_8028A714(0);
-    this->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1.0f);
+    motion = (AnimationMotion *)fn_8028A714(0);
+    this->animation_end_frame = (f32)motion->frameCount - 1.0f;
     this->animation_step = 0.5f;
     {
         Tbl_8028A5C4 t = door_four_light_ruins_index_table;
         for (i = 0; i < 8; i++) {
-            this->light_nodes[i] = find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
+            this->light_nodes[i] = find_object_node((NJS_OBJECT *)(this->model_tree), t.v[i]);
         }
     }
 }
@@ -104,7 +103,7 @@ void TODoorFourLightRuins::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->m_d4, (void *)this->motion, this->animation_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -112,7 +111,7 @@ void TODoorFourLightRuins::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->m_d4, (void *)this->motion, this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_end_frame);
             pop_matrix();
             return;
         case 0:
@@ -125,7 +124,7 @@ void TODoorFourLightRuins::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_object((void *)this->m_d4);
+            draw_ginja_object((void *)this->model_tree);
             pop_matrix();
             break;
         }
@@ -152,7 +151,7 @@ void TODoorFourLightRuins::draw_model_and_lights() {
     lamp = &this->light_nodes[0];
     glow = &this->light_nodes[4];
     {
-    NJS_OBJECT *body = (NJS_OBJECT *)this->m_d4;
+    NJS_OBJECT *body = (NJS_OBJECT *)this->model_tree;
     push_matrix();
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     post_translate_matrix(&this->position.x);
@@ -270,21 +269,21 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
 
 TODoorFourLightSpace::TODoorFourLightSpace(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
     s32 i;
-    *(saddr *)((s8 *)this + 0) = (saddr) TODoorFourLightSpace__class_name;
-    ((TODoorFourLightSpace *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
-    ((TODoorFourLightSpace *)(((u8 *)this)))->init_door_switch_binding();
-    init_collision_body_parts(((u8 *)this), &TODoorFourLight__collision_body_params, 1);
-    ((TObjCollidable *)this)->refresh_collision_body_centers();
-    ((TObjPlayer *)this)->register_object_by_id();
-    this->m_d4 = (saddr)fn_8028A78C(0);
+    m_name = TODoorFourLightSpace__class_name;
+    apply_object_set_data((void *)set_data);
+    init_door_switch_binding();
+    init_collision_body_parts(this, &TODoorFourLight__collision_body_params, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    this->model_tree = (saddr)fn_8028A78C(0);
     this->texlist = fn_8028A750(0);
-    *(u8 **)((s8 *)this + 0xBC) = fn_8028A714(0);
-    this->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0xBC)) + 4) - 1.0f);
+    motion = (AnimationMotion *)fn_8028A714(0);
+    this->animation_end_frame = (f32)motion->frameCount - 1.0f;
     this->animation_step = 0.5f;
     {
         Tbl_80289EE0 t = door_four_light_space_index_table;
         for (i = 0; i < 8; i++) {
-            ((Door_80289EE0 *)this)->sw[i] = (saddr)find_object_node((NJS_OBJECT *)(this->m_d4), t.v[i]);
+            light_nodes[i] = find_object_node((NJS_OBJECT *)(this->model_tree), t.v[i]);
         }
     }
 }
@@ -306,7 +305,7 @@ void TODoorFourLightSpace::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->m_d4, (void *)this->motion, this->animation_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -314,7 +313,7 @@ void TODoorFourLightSpace::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion((void *)this->m_d4, (void *)this->motion, this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)this->model_tree, (void *)this->motion, this->animation_end_frame);
             pop_matrix();
             return;
         case 0:
@@ -327,7 +326,7 @@ void TODoorFourLightSpace::render() {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)get_green_door_textures()));
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_object((void *)this->m_d4);
+            draw_ginja_object((void *)this->model_tree);
             pop_matrix();
             break;
         }
@@ -335,12 +334,11 @@ void TODoorFourLightSpace::render() {
 }
 
 void TODoorFourLightSpace::draw_lights() {
-    u8 *self = (u8 *)this;
     s32 flags[4];
     s32 i;
-    u8 *mdl;
-    u8 **pa;
-    u8 **pb;
+    NJS_OBJECT *mdl;
+    NJS_OBJECT **pa;
+    NJS_OBJECT **pb;
     for (i = 0; i < 4; i++) {
         flags[i] = 1;
     }
@@ -354,22 +352,22 @@ void TODoorFourLightSpace::draw_lights() {
             }
         }
     }
-    mdl = *(u8 * *)&this->m_d4;
-    pa = (u8 **)(self + 0xD8);
-    pb = (u8 **)(self + 0xE8);
+    mdl = (NJS_OBJECT *)model_tree;
+    pa = &light_nodes[0];
+    pb = &light_nodes[4];
     push_matrix();
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    post_translate_matrix((const f32 *)(mdl + 8));
+    post_translate_matrix(mdl->pos);
     push_matrix();
-    post_translate_matrix((const f32 *)(*(u8 **)((s8 *)mdl + 0x2C) + 8));
-    draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 4));
+    post_translate_matrix(mdl->child->pos);
+    draw_ginja_model(mdl->child->model);
     pop_matrix();
-    post_translate_matrix((const f32 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30) + 8));
-    draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30)) + 4));
-    post_translate_matrix((const f32 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30)) + 0x2C) + 8));
-    draw_ginja_model(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)mdl + 0x2C)) + 0x30)) + 0x2C)) + 4));
+    post_translate_matrix(mdl->child->sibling->pos);
+    draw_ginja_model(mdl->child->sibling->model);
+    post_translate_matrix(mdl->child->sibling->child->pos);
+    draw_ginja_model(mdl->child->sibling->child->model);
     TParticleCtrl::begin_effect_render();
     i = 0;
     do {
@@ -380,14 +378,14 @@ void TODoorFourLightSpace::draw_lights() {
         }
         if (*pa != NULL) {
             push_matrix();
-            post_translate_matrix((const f32 *)(*pa + 8));
-            draw_ginja_model(*(void **)((s8 *)(*pa) + 4));
+            post_translate_matrix((*pa)->pos);
+            draw_ginja_model((*pa)->model);
             pop_matrix();
         }
         if (*pb != NULL) {
             push_matrix();
-            post_translate_matrix((const f32 *)(*pb + 8));
-            draw_ginja_model(*(void **)((s8 *)(*pb) + 4));
+            post_translate_matrix((*pb)->pos);
+            draw_ginja_model((*pb)->model);
             pop_matrix();
         }
         i++;

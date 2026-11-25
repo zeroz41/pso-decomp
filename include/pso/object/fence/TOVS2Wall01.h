@@ -10,10 +10,10 @@ struct TOVS2Wall01 : public TObjChara {
     virtual ~TOVS2Wall01();
     virtual void vfunc_6(s16 *, s32);
     f32 view_range;
-    f32 m_338;
-    u32 m_33c;
-    RenderFadeState m_340;
-    u32 m_35c;
+    f32 model_radius;
+    u32 hits_left;
+    RenderFadeState fade;
+    u32 in_view;
     void spawn_debris(s32 index);
     void release();
     int interact_player_neg1();
@@ -37,6 +37,6 @@ struct TOVS2Wall01 : public TObjChara {
     void save_and_send_state(u16 arg1);
 };
 
-LAYOUT_ASSERT(TOVS2Wall01FadeOffset, offsetof(TOVS2Wall01, m_340) == 0x340);
+LAYOUT_ASSERT(TOVS2Wall01FadeOffset, offsetof(TOVS2Wall01, fade) == 0x340);
 LAYOUT_ASSERT(TOVS2Wall01_size, sizeof(TOVS2Wall01) == 0x360);
 #endif

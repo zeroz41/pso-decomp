@@ -79,8 +79,8 @@ CollisionBody mine_collision_body_parts[1] = {
 };
 const char *TOMine__name = "TOMine";
 int mine_trap_instance_id = 1;
-f32 lbl_805D307C = 700.0f; // the attack power a TOMineTrap is built with
-// Per floor area: the sound effects TOMine::vfunc_80 and vfunc_81 play (-1 = none),
+f32 mine_trap_attack_power = 700.0f; // the attack power a TOMineTrap is built with
+// Per floor area: the sound effects TOMine::play_trigger_sound and play_effect_sound play (-1 = none),
 // and the area scale the TOMineTrap constructor reads.
 const s32 mine_trap_keymachine_table[36] = {
     -1,         0x4bc12,    0x4bc12,    0x43c11,    0x43c11,    0x43c11,    0x4004bc0b, 0x4004bc0b, 0x4004bc12,
@@ -94,7 +94,7 @@ const s32 mine_trap_effect_table[36] = {
     -1,         0x4b908,    0x4b908,    0x4004b908, 0x4004b908, 0x4b91a,    0x4b91a,    0x4b91a,    0x4b91a,
     0x4b91a,    0x4004b91a, 0x4004b91a, -1,         -1,         -1,         -1,         0x4004b91a, 0x4004b91a,
 };
-const f32 lbl_80442138[36] = {
+const f32 mine_trap_area_scale_table[36] = {
     0.0f,  1.0f,  1.0f,  1.15f, 1.15f, 1.15f, 1.3f,  1.3f,  1.45f, 1.45f, 1.45f, 0.0f,
     0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  1.0f,  1.0f,  1.15f, 1.15f, 1.3f,
     1.3f,  1.3f,  1.3f,  1.3f,  1.45f, 1.45f, 0.0f,  0.0f,  0.0f,  0.0f,  1.45f, 1.45f,
@@ -102,7 +102,7 @@ const f32 lbl_80442138[36] = {
 const char *TOMineTrap__data_805D3080 = "TOMineTrap";
 const char *TOMineDisp__name = "TOMineDisp";
 const char *TOMineTrapDisp__name = "TOMineTrapDisp";
-BmlResource *lbl_805D5A50; // bm_o_mine.bml, loaded by TOMine::load_static_resource
+BmlResource *mine_model_archive; // bm_o_mine.bml, loaded by TOMine::load_static_resource
 int mine_trap_count;
 
 extern "C" {
@@ -110,7 +110,6 @@ extern "C" {
 s32 is_split_screen();
 }
 void text_builder_reset(void);
-struct Obj_8016F64C { u8 pad0[0x2FC]; u8 sub[0x58]; s32 state; };
 extern "C" {
 s16 TOMineTrap__sub_80171340(TOMineTrap *p);
 u16 TOMineTrap__sub_80171358(TOMineTrap *p);
@@ -119,61 +118,6 @@ void handle_6x80_trigger_trap(game_command_header *command);
 s32 get_current_floor(void);
 }
 
-struct VBase_18_33b813
-{
-  char pad[0x18];
-};
-struct VObj_18_33b813 : VBase_18_33b813 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual s32 m20(s32, f32);
-};
-struct Node_801702C8 { u8 pad[0xC]; Node_801702C8 *next; };
-struct VBase_18_1da615 { char pad[0x18]; };
-struct VObj_18_1da615 : VBase_18_1da615 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual s32 m20(s32, f32);
-    virtual f32 m21(void *, void *, s32, s32, s32);
-    virtual void m22();
-    virtual s32 m23(void *, f32);
-};
 extern "C" {
 void TOMineTrap__sub_80170CD4(void* p);
 f32 atan2_float(f32 y, f32 x);
@@ -181,35 +125,11 @@ extern const char *TOMineIcon01__name;
 extern const char *TOMineIcon02__name;
 extern const char *TOMineIcon03__name;
 extern const char *TOMineIcon04__name;
-typedef struct VBase_18_33b813 VBase_18_33b813;
-typedef struct VObj_18_33b813 VObj_18_33b813;
 }
 
 // ---- declarations carried over from the fragment TOMine.cpp
-struct RecoveredFields_80170F0C_arg0
-{
-  u8 unknown_0[0x2A8];
-  saddr player_by_client_id;
-  u8 unknown_2AC[0xA0];
-  f32 field_34C;
-  u8 unknown_350[0xC];
-  u16 field_35C;
-};
-struct VBase_801710E4 { char pad[0x18]; };
-struct VObj_801710E4 : VBase_801710E4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 extern "C" {
 int submit_target_to_player_cursor(void*);
-typedef struct RecoveredFields_80170F0C_arg0 RecoveredFields_80170F0C_arg0;
 // ---- declarations carried over from the fragment TOMineTrap.cpp
 void TOMineTrap__sub_80171368(f32 farg0);
 int TOMineTrap__sub_80171350(void);
@@ -250,7 +170,7 @@ void TOMine::vfunc_84() {  }
 int TOMineTrap::set_trap_count(int trap_count) { mine_trap_count = trap_count; return trap_count; }
 int TOMineTrap::set_instance(int instance) { mine_trap_instance_id = instance; return instance; }
 void TOMineTrap__sub_80171368(f32 farg0) {
-    lbl_805D307C = farg0;
+    mine_trap_attack_power = farg0;
 }
 int TOMineTrap::get_trap_count() {  return mine_trap_count; }
 u16 TOMineTrap__sub_80171358(TOMineTrap *p) { return p->m_37e; }
@@ -262,17 +182,17 @@ s32 fn_80171314(TObjPlayer *player) { return player->check_flag(0x10000); }
 TOMine::TOMine(TObject *parent) : TObjChara(parent) {
     m_name = TOMine__name;
     phase = 0;
-    m_350 = 0.0f;
-    pad_34C = 0.0f;
+    trigger_radius = 0.0f;
+    detect_radius = 0.0f;
     attack.power = 0.0f;
     attack.kind = 0;
-    m_35c = 0xFFFF;
+    target_id = 0xFFFF;
     color.a = 0.0f;
     color.r = 0.0f;
     color.g = 0.0f;
     color.b = 0.0f;
-    m_340 = 0;
-    m_370 = 0;
+    float_flags = 0;
+    facing = 0;
     set_actor_flags(0x60000000);
     actorFlags &= ~0x40000;
 }
@@ -281,27 +201,26 @@ TOMine::~TOMine() {}
 
 
 void TOMine::load_static_resource() {
-    lbl_805D5A50 = new BmlResource(1, &mine_resource_desc, NULL, NULL, NULL);
+    mine_model_archive = new BmlResource(1, &mine_resource_desc, NULL, NULL, NULL);
 }
 void TOMine::free_instance() {
-    if (lbl_805D5A50 != NULL) {
-        delete lbl_805D5A50;
-        lbl_805D5A50 = NULL;
+    if (mine_model_archive != NULL) {
+        delete mine_model_archive;
+        mine_model_archive = NULL;
     }
 }
 void TOMine::render() {
-    VObj_801710E4 *arg0 = (VObj_801710E4 *)this;
     s32 t;
-    if (*(s16 *)((s8 *)arg0 + 0x326) == 3 && arg0->m8(400.0f, 20.0f) != 0) {
+    if (mode == 3 && update_object_view_visibility(400.0f, 20.0f) != 0) {
         push_matrix();
         post_translate_matrix(&this->position.x);
-        rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x370));
+        rotate_matrix_y(0, facing);
         free_parts();
         TParticleCtrl::begin_effect_render();
         t = model_render_flags;
         saved_model_render_flags = t;
         model_render_flags = t | 0x20;
-        ((void (*)(void *, s32)) set_constant_material)((u8 *) arg0 + 0x360, t);
+        ((void (*)(void *, s32)) set_constant_material)(&color, t);
         free_sub_objects();
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
@@ -315,18 +234,17 @@ void TOMine::free_sub_objects() {
     draw_ginja_object(light_model);
 }
 void TOMine::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r3;
 
     if (TObjPlayer::check_demo_mode() != 1) {
         this->vfunc_79();
-        ((TOMine *)arg0)->update_float_height();
+        update_float_height();
         switch (this->mode) {
         case 2:
         case 0:
             find_target_player();
-            VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x334));
-            VecCopy((Vec *)(*(saddr *)&this->bodies + 0x1C), (const Vec *)(arg0 + 0x334));
+            VecCopy(&body_center, &float_position);
+            VecCopy(&bodies->center, &float_position);
             return;
         case 3:
             temp_r3 = this->set_params[2];
@@ -334,57 +252,56 @@ void TOMine::run_task() {
             if (temp_r3 < 0) {
                 this->mode = 4;
             }
-            switch (this->m_344) {
+            switch (this->behavior) {
             default:
-                TOMineTrap__sub_80170CD4((arg0));
+                TOMineTrap__sub_80170CD4(this);
                 break;
             case 1:
-                ((TOMine *)arg0)->sub_80170BEC();
+                trigger_group();
                 break;
             case 2:
-                ((TOMine *)arg0)->follow_target();
+                follow_target();
                 break;
             }
-            submit_cursor_candidate(arg0, -1);
+            submit_cursor_candidate(this, -1);
             return;
         case 4:
-            ((TOMine *)arg0)->detonate();
+            detonate();
             break;
         }
     }
 }
 int TOMine::find_target_player() {
-    u8 *arg0 = (u8 *)this;
   u16 client;
   unsigned short new_var;
-  ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C = find_nearest_visible_player((TObjChara *)arg0, NULL, (f32) ((RecoveredFields_80170F0C_arg0 *) arg0)->field_34C);
-  client = ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C;
+  target_id = find_nearest_visible_player(this, NULL, detect_radius);
+  client = target_id;
   new_var = -1;
   if (client != new_var)
   {
-    ((RecoveredFields_80170F0C_arg0 *) arg0)->player_by_client_id = (saddr)get_player_by_client_id(client);
-    ((TOMine *)arg0)->update_trigger();
+    target = get_player_by_client_id(client);
+    update_trigger();
   }
-  return ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C;
+  return target_id;
 }
 int TOMine::get_player_state() { return submit_target_to_player_cursor(this); }
 #pragma push
 #pragma fp_contract on
 void TOMine::detonate() {
     s32 i;
-    u8 *obj;
+    TObjChara *obj;
     set_indexed_flags(0, 2);
-    *(f32 *)(*(u8 * *)&this->bodies + 0xC) = this->m_350;
+    bodies->radius = this->trigger_radius;
     clear_battle_param_slots();
     this->check_object_collisions();
     check_enemy_body_collisions(this);
     for (i = 0; i < 0x10; i++) {
-        obj = (u8 *)TObjPlayer::get_battle_param(i);
+        obj = (TObjChara *)TObjPlayer::get_battle_param(i);
         if (TObjPlayer::is_valid_and_active((uaddr)obj) != 0) {
             DirectAttackPayload pair = attack;
-            f32 r = ((VObj_18_1da615 *)obj)->m21(this, &pair, 0, -1, -1);
+            f32 r = obj->receive_direct_attack(this, pair, NULL, -1, -1);
             if (attack.kind < 5) {
-                ((VObj_18_1da615 *)obj)->m23(this, 0.1f * r);
+                obj->apply_knockback_from_attacker((u8 *)this, 0.1f * r);
             }
         }
     }
@@ -396,13 +313,13 @@ void TOMineTrap::sync_position() { VecCopy(&position, &float_position); refresh_
 void TOMine::update_float_height() {
     f32 y;
     f32 temp_f4;
-    if (!(this->m_340 & 2)) {
+    if (!(this->float_flags & 2)) {
         temp_f4 = float_position.y;
         float_position.y = (f32) (temp_f4 + ((0.5f * ((25.0f + this->home_position.y) - temp_f4)) + 1.0f));
         y = 25.0f + this->home_position.y;
         if (y <= float_position.y) {
             float_position.y = y;
-            this->m_340 = (s32) (this->m_340 | 2);
+            this->float_flags = (s32) (this->float_flags | 2);
         }
     } else {
         this->rotation_x = (this->rotation_x + 0x800);
@@ -410,7 +327,7 @@ void TOMine::update_float_height() {
     }
 }
 void TOMineTrap__sub_80170CD4(void* p) { ((TOMineTrap *)p)->sync_position(); }
-void TOMine::sub_80170BEC() {
+void TOMine::trigger_group() {
     u8 *p;
     s32 i;
     switch (this->phase) {
@@ -423,7 +340,7 @@ void TOMine::sub_80170BEC() {
                  reinterpret_cast<TObject *>(p)->check_value_equals(TOMineIcon02__name) != 0 ||
                  reinterpret_cast<TObject *>(p)->check_value_equals(TOMineIcon03__name) != 0 ||
                  reinterpret_cast<TObject *>(p)->check_value_equals(TOMineIcon04__name) != 0) &&
-                *(s32 *)(p + 0x344) == 1 && *(s32 *)(p + 0x348) == *(s32 *)(((u8 *)this) + 0x348)) {
+                ((TOMine *)p)->behavior == 1 && ((TOMine *)p)->group_id == group_id) {
                 ((TOMine *)p)->update_trigger();
             }
         }
@@ -432,19 +349,18 @@ void TOMine::sub_80170BEC() {
     ((TOMineTrap *)((u8 *)this))->sync_position();
 }
 void TOMine::follow_target() {
-    u8 *arg0 = (u8 *)this;
   unsigned short new_var;
   Vec stack;
   f32 temp_f2;
   new_var = -1U;
-  if (((this->m_35c) == new_var) || ((this->target) == 0))
+  if (((this->target_id) == new_var) || ((this->target) == 0))
   {
     this->mode = 2;
     return;
   }
-  VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
+  VecCopy(&prev_position, &position);
   VecCopy((Vec *)(&stack.x), &this->target->position);
-  stack.y = *((f32 *) (((s8 *) arg0) + 0x3C));
+  stack.y = position.y;
   subtract_vector(&stack, &this->position);
   if (2.0f < vec_squared_length(&stack))
   {
@@ -454,21 +370,20 @@ void TOMine::follow_target() {
   }
   vec3_add_to(&this->position, &stack);
   update_enemy_collision_flags();
-  temp_f2 = *((f32 *) (((s8 *) arg0) + 0x48));
-  *((f32 *) (((s8 *) arg0) + 0x3C)) = (f32) ((0.5f * ((25.0f + this->target->position.y) - temp_f2)) + temp_f2);
-  ((TObjChara *)arg0)->calc_attach_pos();
+  temp_f2 = prev_position.y;
+  position.y = (f32) ((0.5f * ((25.0f + this->target->position.y) - temp_f2)) + temp_f2);
+  calc_attach_pos();
   this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) stack.x, (f64) stack.z));
-  ((TObjCollidable *)arg0)->refresh_collision_body_centers();
+  refresh_collision_body_centers();
 }
 #pragma pop
-void TOMine::vfunc_86() {
-    u8 *arg0 = (u8 *)this;
+void TOMine::set_armed() {
     this->mode = 2;
-    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
+    set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
-    ((TObjChara *)arg0)->calc_attach_pos();
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TOMine *)(arg0))->vfunc_81();
+    calc_attach_pos();
+    refresh_collision_body_centers();
+    play_effect_sound();
 }
 void TOMine::update_trigger() {
     s16 mode;
@@ -544,7 +459,7 @@ void TOMine::vfunc_6(s16 *lobby, s32 arg2) {
     mode = *(s16 *)((s8 *)lobby + 0);
     if (mode == 5) {
         if (arg2 == 1) {
-            sub_8017070C();
+            play_trigger_effects();
         }
         set_flag8();
         queue_destruction();
@@ -557,18 +472,18 @@ void TOMine::vfunc_6(s16 *lobby, s32 arg2) {
         this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
         this->calc_attach_pos();
         refresh_collision_body_centers();
-        this->vfunc_81();
+        this->play_effect_sound();
         access_object_saved_state(lobby, 0);
         this->queue_destruction_for_each_node();
     }
 }
-void TOMine::sub_8017070C() {
+void TOMine::play_trigger_effects() {
     spawn_particle_effect((const Vec *)(((u8 *)this) + 0x2FC), 0x47);
-    this->vfunc_82();
-    this->vfunc_80();
+    this->spawn_blast_particle();
+    this->play_trigger_sound();
 }
 // Slot 82: the detonation particle (inferred; was named detonate_if_triggered on TOMineTrap).
-void TOMine::vfunc_82() {
+void TOMine::spawn_blast_particle() {
     saddr arg0 = (saddr)this;
     {
         TParticleCtrl *particle = spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x45);
@@ -578,7 +493,7 @@ void TOMine::vfunc_82() {
     }
 }
 // Slot 80: plays the floor area's mine_trap_keymachine_table sound (was named attach_to_keymachine on TOMineTrap).
-void TOMine::vfunc_80() {
+void TOMine::play_trigger_sound() {
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_keymachine_table[area];
     if (elem != -1) {
@@ -586,7 +501,7 @@ void TOMine::vfunc_80() {
     }
 }
 // Slot 81: plays the floor area's mine_trap_effect_table sound (was named spawn_effect on TOMineTrap).
-void TOMine::vfunc_81() {
+void TOMine::play_effect_sound() {
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_effect_table[area];
     if (elem != -1) {
@@ -595,22 +510,22 @@ void TOMine::vfunc_81() {
 }
 void TOMine::update_state() {
     s32 temp_r0;
-    *(s32 *)((s8 *)this + 0x348) = (s32) this->scale.z;
-    temp_r0 = *(s32 *)((s8 *)this + 0x348);
+    group_id = (s32) this->scale.z;
+    temp_r0 = group_id;
     if (temp_r0 < 0) {
-        this->m_344 = 0;
+        this->behavior = 0;
         return;
     }
     if (temp_r0 > 0) {
-        this->m_344 = 1;
+        this->behavior = 1;
         return;
     }
     if (get_main_phase() == 0xE) {
-        this->m_344 = 0;
+        this->behavior = 0;
         this->set_params[2] = 0x1E;
         return;
     }
-    this->m_344 = 2;
+    this->behavior = 2;
 }
 const char *TOMine::get_name() { return (const char *)get_localized_text_entry(16, 16); }
 void TOMine::vfunc_85() {  }
@@ -643,7 +558,7 @@ s32 TOMine::select_melee_contact_body(void *attacker, f32) {
     if (is_target_in_list(attacker) == 1) {
         return 0;
     }
-    if (((s32) this->m_344 == 2) && (attacker == this->target)) {
+    if (((s32) this->behavior == 2) && (attacker == this->target)) {
         return 0;
     }
     if (((TObjChara *)attacker)->is_locally_controlled() != 0) {
@@ -656,7 +571,7 @@ int TOMine::calc_distance_accuracy_penalty(void *attacker, void *, void *, float
     if (is_target_in_list(attacker) == 1) {
         return 0;
     }
-    if (((s32) this->m_344 == 2) && (attacker == this->target)) {
+    if (((s32) this->behavior == 2) && (attacker == this->target)) {
         return 0;
     }
     if (((TObjChara *)attacker)->is_locally_controlled() != 0) {
@@ -671,12 +586,11 @@ void TOMine::apply_knockback_from_attacker(u8 *, f32) {  }
 s32 TOMine::try_start_action(s32, s32) { return 1; }
 s32 TOMine::roll_physical_accuracy(void *, s32, f32) { return 1; }
 s32 TOMine::is_target_in_list(void *obj) {
-    TOMine *self = this;
     if (obj != 0) {
         u32 id = ((TObjBase *)(obj))->get_entity_id();
         if (id < 4) {
-            Node_801702C8 *n;
-            for (n = *(Node_801702C8 * *)&self->m_down; n != 0; n = n->next) {
+            TObject *n;
+            for (n = m_down; n != 0; n = n->m_next) {
                 if (((TOMineTrap *)n)->matches_id(id) != 0) {
                     return 1;
                 }
@@ -713,9 +627,9 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 0:
             attack.kind = 1;
             if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
-                attack.power = lbl_805D307C;
+                attack.power = mine_trap_attack_power;
             } else {
-                area_scale = lbl_80442138[get_current_floor_area()];
+                area_scale = mine_trap_area_scale_table[get_current_floor_area()];
                 attack.power = 700.0f * area_scale *
                                (2.0f * (0.01f * (f32)player->get_actor_level_index() + 0.1f));
             }
@@ -741,7 +655,7 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         init_position_vectors();
         calc_attach_pos();
         spawn_disp_objects();
-        m_370 = owner->rotation_y;
+        facing = owner->rotation_y;
         alt_room = owner->alt_room;
         room = owner->room;
         switch (attack.kind) {
@@ -754,34 +668,34 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         case 4:
         case 5:
         case 19:
-            model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 4);
-            texlist = get_bml_texlist((BmlResource *)lbl_805D5A50, 4);
-            light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 1);
-            light_textures = get_bml_texlist((BmlResource *)lbl_805D5A50, 1);
+            model = (void *)get_bml_model((BmlResource *)mine_model_archive, 4);
+            texlist = get_bml_texlist((BmlResource *)mine_model_archive, 4);
+            light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)mine_model_archive, 1);
+            light_textures = get_bml_texlist((BmlResource *)mine_model_archive, 1);
             break;
         case 15:
         case 16:
         case 17:
         case 18:
-            model = (void *)get_bml_model((BmlResource *)lbl_805D5A50, 5);
-            texlist = get_bml_texlist((BmlResource *)lbl_805D5A50, 5);
-            light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lbl_805D5A50, 0);
-            light_textures = get_bml_texlist((BmlResource *)lbl_805D5A50, 0);
+            model = (void *)get_bml_model((BmlResource *)mine_model_archive, 5);
+            texlist = get_bml_texlist((BmlResource *)mine_model_archive, 5);
+            light_model = (NJS_OBJECT *)get_bml_model((BmlResource *)mine_model_archive, 0);
+            light_textures = get_bml_texlist((BmlResource *)mine_model_archive, 0);
             break;
         }
         mode = 0;
-        pad_34C = 50.0f;
-        m_350 = 50.0f;
+        detect_radius = 50.0f;
+        trigger_radius = 50.0f;
         set_params[0] = 150;
         set_params[1] = 30;
         if (game_difficulty_selection == 3 && ((TLobby *)lobby_rule_settings)->get_rule_field_0() == 0) {
             set_params[0] = 60;
-            m_350 = 80.0f;
+            trigger_radius = 80.0f;
             set_trap_count(0);
             set_instance(1);
         }
-        m_344 = 0;
-        m_35c = 0xFFFF;
+        behavior = 0;
+        target_id = 0xFFFF;
         actorFlags |= 0x60000000;
         init_collision_body_parts(this, mine_collision_body_parts, 1);
         register_object_by_id();
@@ -870,7 +784,7 @@ void TOMineTrap::run_task() {
             if (id < 0x1000) {
                 TObjChara *chara = p;
                 if (TObjPlayer::get_player_count() == 1 && p->get_floor() == get_current_floor() &&
-                    horizontal_distance_squared(&position, &chara->position) < m_350 * m_350) {
+                    horizontal_distance_squared(&position, &chara->position) < trigger_radius * trigger_radius) {
                     if (chara->obj_isState2_324() == 0) {
                         target = chara;
                         switch (attack.kind) {
@@ -888,7 +802,7 @@ void TOMineTrap::run_task() {
                     }
                 }
             } else if (id < 0x4000) {
-                if (horizontal_distance_squared(&position, &p->position) < m_350 * m_350) {
+                if (horizontal_distance_squared(&position, &p->position) < trigger_radius * trigger_radius) {
                     target = p;
                     switch (attack.kind) {
                     case 2:
@@ -902,7 +816,7 @@ void TOMineTrap::run_task() {
                     ((TObjChara *)target)->record_attack_source(get_trap_type());
                 }
             } else if (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap__data_805D3080) != 0) {
-                if (horizontal_distance_squared(&position, &p->position) < m_350 * m_350) {
+                if (horizontal_distance_squared(&position, &p->position) < trigger_radius * trigger_radius) {
                     target = p;
                     ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
                 }
@@ -910,12 +824,12 @@ void TOMineTrap::run_task() {
         }
         mode = 5;
         clear_player_status_flag(0, 1);
-        sub_8017070C();
+        play_trigger_effects();
         queue_destruction();
         break;
     }
 }
-void TOMineTrap::vfunc_86() {
+void TOMineTrap::set_armed() {
     u8 *arg0 = (u8 *)this;
     this->mode = 2;
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
@@ -932,7 +846,7 @@ s32 TOMineTrap::find_target_in_range() {
     s32 i;
     u16 id;
 
-    m_35c = 0xFFFF;
+    target_id = 0xFFFF;
     target = 0;
     if (set_params[0] > 0) {
         set_params[0]--;
@@ -955,14 +869,14 @@ s32 TOMineTrap::find_target_in_range() {
             if (((TObjPlayer *)actor)->get_floor() != get_current_floor()) {
                 continue;
             }
-            if (horizontal_distance_squared(&position, &actor->position) < pad_34C * pad_34C) {
-                m_35c = id;
+            if (horizontal_distance_squared(&position, &actor->position) < detect_radius * detect_radius) {
+                target_id = id;
                 target = actor;
                 return 1;
             }
         } else if (id < 0x4000) {
-            if (horizontal_distance_squared(&position, &actor->position) < pad_34C * pad_34C) {
-                m_35c = id;
+            if (horizontal_distance_squared(&position, &actor->position) < detect_radius * detect_radius) {
+                target_id = id;
                 target = actor;
                 return 1;
             }
@@ -971,27 +885,26 @@ s32 TOMineTrap::find_target_in_range() {
     return 0;
 }
 void TOMineTrap::set_state() { this->mode = 4; }
-void TOMineTrap::vfunc_82() {
-    Obj_8016F64C *arg0 = (Obj_8016F64C *)this;
-    uaddr r;
+void TOMineTrap::spawn_blast_particle() {
+    TParticleCtrl *r;
     switch (this->attack.kind) {
     default:
-        r = (uaddr)spawn_particle_effect((const Vec *)arg0->sub, 0x45);
-        if (r != 0U) {
-            ((TParticleCtrl *)r)->set_scale(1.25f, 1.25f);
+        r = spawn_particle_effect(&body_center, 0x45);
+        if (r != NULL) {
+            r->set_scale(1.25f, 1.25f);
         }
         break;
     case 15:
     case 16:
     case 17:
     case 18:
-        spawn_particle_effect((const Vec *)arg0->sub, 0x8E);
-        spawn_particle_effect((const Vec *)arg0->sub, 0x8E);
+        spawn_particle_effect(&body_center, 0x8E);
+        spawn_particle_effect(&body_center, 0x8E);
         break;
     case 6:
     case 7:
-        spawn_particle_effect((const Vec *)arg0->sub, 0x8D);
-        spawn_particle_effect((const Vec *)arg0->sub, 0x8D);
+        spawn_particle_effect(&body_center, 0x8D);
+        spawn_particle_effect(&body_center, 0x8D);
         break;
     }
 }
@@ -1052,7 +965,7 @@ void handle_6x80_trigger_trap(game_command_header *command) {
             switch (TOMineTrap__sub_80171340(p)) {
             case 0:
             case 1:
-                p->vfunc_86();
+                p->set_armed();
                 break;
             }
             break;

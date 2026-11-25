@@ -2291,7 +2291,7 @@ void TObjChara::clear_harmful_statuses() {
         break;
     }
     this->actorFlags = (s32) (this->actorFlags & 0xFFFFFFC0);
-    *(s32 *)&this->unk_330 = (s32) (*(s32 *)&this->actorFlags & 0x3F);
+    this->low_game_flags = this->actorFlags & 0x3F;
     this->status_effects[0].clear();
     this->status_effects[1].clear();
     switch (this->get_status_effect_type(2)) {

@@ -13,8 +13,8 @@ struct TOMineTrap : public TOMine {
     TOMineTrap(TObjBase *owner, s16 kind, s16 slot);
     virtual ~TOMineTrap();
     virtual void spawn_disp_objects();
-    virtual void vfunc_86();
-    virtual void vfunc_82();
+    virtual void set_armed();
+    virtual void spawn_blast_particle();
     void sub_80171348(u16);
     virtual const char *get_name();
     virtual void run_task();

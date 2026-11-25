@@ -13,234 +13,160 @@
 
 #pragma readonly_strings on
 
-struct EZBoneRotKey {
-    s32 bone;
-    f32 axis[3];
-};
-
-struct EZBoneRotDesc {
-    s32 period;
-    u8 unk_04[0x4];
-    s32 phase_step;
-    f32 amplitude_scale;
-    EZBoneRotKey *keys;
-};
-
-struct EZBoneRotState {
-    u8 pad0[0x18];
-    void **vtable;
-    void *root;
-    EZBoneRotDesc *desc;
-    u8 pad24[0x84 - 0x24];
-    s32 phase;
-    u8 pad88[0x94 - 0x88];
-    f32 scale;
-};
-
-
 const char *TObjEZBoneRotBase__name = "TObjEZBoneRotBase";
 const char *TObjEZBoneRotPlayer__name = "TObjEZBoneRotPlayer";
 
 void TObjEZBoneRotPlayer::run_task() {
     f32 temp_f1;
     s32 temp_r4;
-    void *temp_r6;
+    TObjPlayer *p;
 
-    temp_r6 = *(void **)((s8 *)this + 0x98);
-    temp_r4 = *(s32 *)((s8 *)temp_r6 + 0x320) & 0xDF7FF;
+    p = player;
+    temp_r4 = *(s32 *)((s8 *)p + 0x320) & 0xDF7FF;
     if (temp_r4 & 0x99003) {
-        *(f32 *)((s8 *)this + 0x94) += -0.016666668f;
-    } else if ((temp_r4 & 0x1E0) || ((s32) *(s32 *)((s8 *)this + 0x9C) != (s32) *(s32 *)((s8 *)temp_r6 + 0x60))) {
-        *(f32 *)((s8 *)this + 0x94) += 0.13333334f;
+        scale += -0.016666668f;
+    } else if ((temp_r4 & 0x1E0) || (last_rotation_y != p->rotation_y)) {
+        scale += 0.13333334f;
     } else if (temp_r4 & 0x4661C) {
-        *(f32 *)((s8 *)this + 0x94) += 0.016666668f;
+        scale += 0.016666668f;
     } else {
-        *(f32 *)((s8 *)this + 0x94) += -0.016666668f;
+        scale += -0.016666668f;
     }
-    temp_f1 = *(f32 *)((s8 *)this + 0x94);
+    temp_f1 = scale;
     if (temp_f1 < 0.0f) {
-        *(f32 *)((s8 *)this + 0x94) = 0.0f;
+        scale = 0.0f;
     } else if (temp_f1 > 1.0f) {
-        *(f32 *)((s8 *)this + 0x94) = 1.0f;
+        scale = 1.0f;
     }
     advance_bone_rotation();
-    *(s32 *)((s8 *)this + 0x9C) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)this + 0x98)) + 0x60);
+    last_rotation_y = player->rotation_y;
 }
-#define arg0 ((u8 *)this)
+
 TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObject *parent, u8 *root, void *desc) : TObjEZBoneRotBase(parent, root, (EZBoneRotDesc *)desc) {
-    ((TObjEZBoneRotPlayer *)arg0)->m_name = TObjEZBoneRotPlayer__name;
-    *(s32 *)((s8 *)arg0 + 0x98) = (saddr)parent;
-    *(s32 *)((s8 *)arg0 + 0x9C) = (s32) *(s32 *)((s8 *)(*(saddr *)((s8 *)arg0 + 0x98)) + 0x60);
+    m_name = TObjEZBoneRotPlayer__name;
+    player = (TObjPlayer *)parent;
+    last_rotation_y = player->rotation_y;
 }
-#undef arg0
+
 void *TObjEZBoneRotPlayer::create(void *parent, void *root, void *desc) {
     return new TObjEZBoneRotPlayer((TObject *)parent, (u8 *)root, desc);
 }
+
 void TObjEZBoneRotPlayer::advance_bone_rotation() {
-    start_bone_rotation_sequence(*(s32 *)((s8 *)this + 0x84));
-    if (*(f32 *)((s8 *)this + 0x94) > 0.0f) {
-        *(s32 *)((s8 *)this + 0x84) = (s32) (*(s32 *)((s8 *)this + 0x84) + *(s32 *)((s8 *)(*(void **)((s8 *)this + 0x20)) + 4));
+    start_bone_rotation_sequence(phase);
+    if (scale > 0.0f) {
+        phase = phase + desc->phase_step;
     }
 }
 
-void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 angle, s32 arg3) {
+void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(NJS_OBJECT *bone, s32 angle, s32 amplitude) {
     s32 k;
     f32 t;
     do {
-        k = *(s32 *)((s8 *)(*(s32 **)((s8 *)this + 0x8C)) + 0);
+        k = key->bone;
         if (k < 0) {
             return;
         }
-        if (k == *(s32 *)((s8 *)this + 0x88)) {
-            t = (f32) arg3 * sin_table_lookup(angle);
-            *(s32 *)((s8 *)arg1 + 0x14) = *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x90)) + 0) + (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x8C)) + 4) * t);
-            *(s32 *)((s8 *)arg1 + 0x18) = *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x90)) + 4) + (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x8C)) + 8) * t);
-            *(s32 *)((s8 *)arg1 + 0x1C) = *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x90)) + 8) + (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x8C)) + 0xC) * t);
-            *(u8 **)((s8 *)this + 0x90) = *(u8 **)((s8 *)this + 0x90) + 0xC;
-            *(u8 **)((s8 *)this + 0x8C) = *(u8 **)((s8 *)this + 0x8C) + 0x10;
-            if (*(s32 *)((s8 *)(*(s32 **)((s8 *)this + 0x8C)) + 0) < 0) {
+        if (k == bone_index) {
+            t = (f32) amplitude * sin_table_lookup(angle);
+            bone->ang[0] = (*saved_cursor)[0] + (s32) (key->axis[0] * t);
+            bone->ang[1] = (*saved_cursor)[1] + (s32) (key->axis[1] * t);
+            bone->ang[2] = (*saved_cursor)[2] + (s32) (key->axis[2] * t);
+            saved_cursor++;
+            key++;
+            if (key->bone < 0) {
                 return;
             }
         }
-        *(s32 *)((s8 *)this + 0x88) = *(s32 *)((s8 *)this + 0x88) + 1;
-        if (*(void **)((s8 *)arg1 + 0x2C) != NULL) {
-            calc_bone_offsets_recursive(*(void **)((s8 *)arg1 + 0x2C), angle + *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 8), (s32) (*(f32 *)((s8 *)(*(u8 **)((s8 *)this + 0x20)) + 0xC) * (f32) arg3));
+        bone_index = bone_index + 1;
+        if (bone->child != NULL) {
+            calc_bone_offsets_recursive(bone->child, angle + desc->child_phase_offset, (s32) (desc->child_amplitude_scale * (f32) amplitude));
         }
-        arg1 = *(void **)((s8 *)arg1 + 0x30);
-    } while (arg1 != NULL);
+        bone = bone->sibling;
+    } while (bone != NULL);
 }
 
 void TObjEZBoneRotPlayer::start_bone_rotation_sequence(s32 angle) {
-    *(s32 *)((s8 *)((u8 *)this) + 0x88) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x8C) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0x10);
-    *(saddr *)((s8 *)((u8 *)this) + 0x90) = (saddr) (((u8 *)this) + 0x24);
-    calc_bone_offsets_recursive((void *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)), angle, (s32)((s32) ((f32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0) * *(f32 *)((s8 *)((u8 *)this) + 0x94))));
+    bone_index = 0;
+    key = desc->keys;
+    saved_cursor = saved_angles;
+    calc_bone_offsets_recursive(root, angle, (s32)((f32) desc->amplitude * scale));
 }
 
-void TObjEZBoneRotBase::sub_800FEC40(u8 *arg1) {
-    s32 temp_r3;
-    u8 *temp_r4;
-    u8 *var_r31;
-    var_r31 = arg1;
+void TObjEZBoneRotBase::save_bone_angles_recursive(NJS_OBJECT *bone) {
+    s32 k;
 loop_1:
-    temp_r3 = *(s32 *)((s8 *)(*(s32 **)((s8 *)((u8 *)this) + 0x8C)) + 0);
-    if (temp_r3 >= 0) {
-        if (temp_r3 == (s32) *(s32 *)((s8 *)((u8 *)this) + 0x88)) {
-            *(s32 *)((s8 *)var_r31 + 0) = (s32) (*(s32 *)((s8 *)var_r31 + 0) & 0xFFFFFFFD);
-            *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x90)) + 0) = (s32) *(s32 *)((s8 *)var_r31 + 0x14);
-            *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x90)) + 4) = (s32) *(s32 *)((s8 *)var_r31 + 0x18);
-            *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x90)) + 8) = (s32) *(s32 *)((s8 *)var_r31 + 0x1C);
-            *(u8 **)((s8 *)((u8 *)this) + 0x90) = (unsigned char *) ((void *) ((u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x90)) + 0xC));
-            *(s32 **)((s8 *)((u8 *)this) + 0x8C) = (s32 *) ((u8 *)(*(s32 **)((s8 *)((u8 *)this) + 0x8C)) + 0x10);
-            if ((s32) *(s32 *)((s8 *)(*(s32 **)((s8 *)((u8 *)this) + 0x8C)) + 0) >= 0) {
-                goto block_4;
+    k = key->bone;
+    if (k >= 0) {
+        if (k == bone_index) {
+            bone->evalflags = bone->evalflags & 0xFFFFFFFD;
+            (*saved_cursor)[0] = bone->ang[0];
+            (*saved_cursor)[1] = bone->ang[1];
+            (*saved_cursor)[2] = bone->ang[2];
+            saved_cursor++;
+            key++;
+            if (key->bone >= 0) {
+                goto next_bone;
             }
         } else {
-block_4:
-            *(s32 *)((s8 *)((u8 *)this) + 0x88) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x88) + 1);
-            temp_r4 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0x2C));
-            if (temp_r4 != NULL) {
-                sub_800FEC40(temp_r4);
+next_bone:
+            bone_index = bone_index + 1;
+            if (bone->child != NULL) {
+                save_bone_angles_recursive(bone->child);
             }
-            var_r31 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0x30));
-            if (var_r31 != NULL) {
+            bone = bone->sibling;
+            if (bone != NULL) {
                 goto loop_1;
             }
         }
     }
 }
 
-void TObjEZBoneRotBase::sub_800FED0C() {
-    *(s32 *)((s8 *)((u8 *)this) + 0x88) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x8C) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x20)) + 0x10);
-    *(saddr *)((s8 *)((u8 *)this) + 0x90) = (saddr) (((u8 *)this) + 0x24);
-    sub_800FEC40((u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x1C)));
+void TObjEZBoneRotBase::save_bone_angles() {
+    bone_index = 0;
+    key = desc->keys;
+    saved_cursor = saved_angles;
+    save_bone_angles_recursive(root);
 }
-
 
 TObjEZBoneRotBase::~TObjEZBoneRotBase() {}
 
 
-#define self this
 TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, void *root, EZBoneRotDesc *desc) : TObject(parent) {
-    EZBoneRotState *state = (EZBoneRotState *)self;
-    TObjEZBoneRotBase *base;
-    EZBoneRotKey *key;
+    EZBoneRotKey *k;
 
-    base = (TObjEZBoneRotBase *)(TObject *)self;
-    self->m_name = TObjEZBoneRotBase__name;
-    state->root = root;
-    state->desc = desc;
-    key = state->desc->keys;
-    while (key->bone >= 0) {
-        key++;
+    m_name = TObjEZBoneRotBase__name;
+    this->root = (NJS_OBJECT *)root;
+    this->desc = desc;
+    k = this->desc->keys;
+    while (k->bone >= 0) {
+        k++;
     }
-    base->sub_800FED0C();
-    state->phase = 0;
-    state->scale = 0.0f;
+    save_bone_angles();
+    phase = 0;
+    scale = 0.0f;
 }
-#undef self
 TObjEZBoneRotPlayer::~TObjEZBoneRotPlayer() {}
-
-struct RotSrc_800FEEA4 {
-    s8 bone;
-    u8 pad[3];
-    f32 angle;
-    Vec data;
-};
-
-struct PosSrc_800FEEA4 {
-    s8 bone;
-    u8 pad[3];
-    s32 ofs;
-    Vec data;
-    u8 pad_14[4];
-};
-
-struct RotDst_800FEEA4 {
-    f32 angle;
-    Vec data;
-};
-
-struct PosDst_800FEEA4 {
-    s32 val;
-    Vec data;
-};
-
-struct Model_800FEEA4 {
-    u8 pad[0x60];
-    s32 base;
-};
-
-struct Self_800FEEA4 {
-    u8 pad[0x30];
-    Model_800FEEA4 *model;
-    PosSrc_800FEEA4 *pos_src;
-    RotSrc_800FEEA4 *rot_src;
-    u8 pad3C[4];
-    PosDst_800FEEA4 *pos_dst;
-    RotDst_800FEEA4 *rot_dst;
-};
 
 extern "C" {
 extern Vec TObjEZBoneRotPlayer__chain_gravity;
 
 void TObjHMS_EZRope_Player::render() { sub_800FF2D0(); }
 void TObjHMS_EZRope_Player::run_task() {
-    RotSrc_800FEEA4 *rs;
-    RotDst_800FEEA4 *rd;
-    PosSrc_800FEEA4 *ps;
-    PosDst_800FEEA4 *pd;
-    if (((Self_800FEEA4 *)this)->rot_dst != NULL) {
+    TObjHMSColliderSpec *rs;
+    TObjEZRopeCollider *rd;
+    TObjHMSRopeSpec *ps;
+    TObjEZRopeEnd *pd;
+    if (collider_buffer != NULL) {
         push_matrix();
         invert_matrix_in_place(0);
-        rs = ((Self_800FEEA4 *)this)->rot_src;
-        rd = ((Self_800FEEA4 *)this)->rot_dst;
+        rs = collider_specs;
+        rd = collider_buffer;
         while (rs->bone >= 0) {
-            rd->angle = rs->angle;
+            rd->radius = rs->radius;
             push_matrix();
-            concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(((TObjMotion *)(((Self_800FEEA4 *)this)->model))->get_joint_matrix(rs->bone)));
-            matrix_mult_vec(NULL, &rs->data, &rd->data);
+            concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(((TObjMotion *)owner)->get_joint_matrix(rs->bone)));
+            matrix_mult_vec(NULL, &rs->center, &rd->center);
             pop_matrix();
             rs++;
             rd++;
@@ -249,19 +175,19 @@ void TObjHMS_EZRope_Player::run_task() {
     }
     push_matrix();
     invert_matrix_in_place(0);
-    ps = ((Self_800FEEA4 *)this)->pos_src;
-    pd = ((Self_800FEEA4 *)this)->pos_dst;
+    ps = rope_specs;
+    pd = end_buffer;
     while (ps->bone >= 0) {
-        pd->val = ((Self_800FEEA4 *)this)->model->base + ps->ofs;
+        pd->twist = ((TObjBase *)owner)->rotation_y + ps->twist_offset;
         push_matrix();
-        concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(((TObjMotion *)(((Self_800FEEA4 *)this)->model))->get_joint_matrix(ps->bone)));
-        matrix_mult_vec(NULL, &ps->data, &pd->data);
+        concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(((TObjMotion *)owner)->get_joint_matrix(ps->bone)));
+        matrix_mult_vec(NULL, &ps->pos, &pd->pos);
         pop_matrix();
         ps++;
         pd++;
     }
     pop_matrix();
-    ((TObjEZRopeBase *)((Self_800FEEA4 *)this))->update_ropes(&TObjEZBoneRotPlayer__chain_gravity);
+    update_ropes(&TObjEZBoneRotPlayer__chain_gravity);
 }
 
 }

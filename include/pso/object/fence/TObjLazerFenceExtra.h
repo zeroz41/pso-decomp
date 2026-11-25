@@ -20,7 +20,7 @@ struct TObjLazerFenceExtra : public TObjCollidable {
     s32 scale_level;  // scale.x clamped to 0..3
     s16 switch_id;  // the floor switch that opens the fence (set_params[0])
     u8 _padB2[0x2];
-    s32 m_b4;
+    s32 state;  // 0 closed (beam drawn), 1 open (switch set)
     f32 frame;  // the beam motion's frame
     NJS_OBJECT *base_model;  // the fence size's "_moto" model, drawn without motion
     NJS_OBJECT *beam_model;  // the model beam_motion animates

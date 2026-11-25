@@ -76,8 +76,8 @@ const char *TOHangceilingCave01KeyQuick__class_name = TOHangceilingCave01KeyQuic
 
 static const s32 hang_flag_8 = 8;
 
-void TOHangceilingCaveBase::set_scale(f32 v) {
-    m_338 = v;
+void TOHangceilingCaveBase::set_damage(f32 v) {
+    damage = v;
 }
 
 void TOHangceilingCaveBase::apply_knockback_from_attacker(u8 *, f32) {
@@ -98,7 +98,7 @@ TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, void *set_data) : 
     init_collision_body_parts(this, &lbl_804B2174, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    reset_state();
+    clear_hit_players();
     bodies->flags |= 0x1080;
 }
 
@@ -169,7 +169,7 @@ void *TOHangceilingCave01::create(void *set_data) {
     return NULL;
 }
 
-s32 TOHangceilingCaveBase::sub_801688C0() {
+s32 TOHangceilingCaveBase::is_in_view() {
     Vec view;
 
     if (xz_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos.x) < 2500.0f) {
@@ -188,9 +188,9 @@ s32 TOHangceilingCaveBase::sub_801688C0() {
 
 void TOHangceilingCaveBase::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {
-        vfunc_80();
-        sub_80168398();
-        if (sub_801688C0() != 0 && mode != 3 && is_passing_frame(8.0f) != 0) {
+        update_state();
+        play_mode_sound();
+        if (is_in_view() != 0 && mode != 3 && is_passing_frame(8.0f) != 0) {
             spawn_particle_effect(&position, 0x64);
         }
     }
@@ -203,7 +203,7 @@ void TOHangceilingCaveBase::render() {
     s32 lit1;
     s32 lit2;
 
-    if (sub_801688C0() != 0 || TObjPlayer::check_demo_mode() == 1) {
+    if (is_in_view() != 0 || TObjPlayer::check_demo_mode() == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -213,9 +213,9 @@ void TOHangceilingCaveBase::render() {
         }
         if (TOHangceilingCave01__model_root != NULL) {
             TParticleCtrl::begin_effect_render();
-            if (m_358 == 0) {
-                level = m_354;
-                step = m_350;
+            if (display_mode == 0) {
+                level = wait_timer;
+                step = wait_interval;
                 lit0 = level <= step;
                 lit1 = level <= 2.0f * step;
                 lit2 = level <= 3.0f * step;
@@ -253,10 +253,10 @@ void TOHangceilingCaveBase::render() {
     }
 }
 
-void TOHangceilingCaveBase::vfunc_79() {
+void TOHangceilingCaveBase::begin_wait() {
 }
 
-void TOHangceilingCaveBase::vfunc_80() {
+void TOHangceilingCaveBase::update_state() {
 }
 
 f32 TOHangceilingCaveBase::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
@@ -275,38 +275,38 @@ void TOHangceilingCaveBase::init_geometry() {
     f32 size;
 
     switch_id = set_params[0];
-    m_358 = set_params[2];
-    if (m_358 >= 3) {
-        m_358 = 2;
+    display_mode = set_params[2];
+    if (display_mode >= 3) {
+        display_mode = 2;
     }
     size = 30.0f + scale.x;
-    m_350 = size - 1.0f;
-    set_scale(100.0f + scale.z);
-    vfunc_79();
-    m_354 = 1.0f - scale.y;
+    wait_interval = size - 1.0f;
+    set_damage(100.0f + scale.z);
+    begin_wait();
+    wait_timer = 1.0f - scale.y;
 }
 
-void TOHangceilingCaveBase::sub_80168488() {
+void TOHangceilingCaveBase::hit_touching_players() {
     s32 i = 0;
     TObjPlayer *player;
 
     do {
         player = get_player_by_client_id(i);
-        if (player != NULL && sub_80168244((uaddr)player) == 0) {
+        if (player != NULL && has_hit_player((uaddr)player) == 0) {
             if (player->get_floor() == get_current_floor() && check_actor_body_contact(player, 100.0f) != 0) {
                 DirectAttackPayload attack;
                 attack.kind = 0;
-                attack.power = vfunc_81(m_338);
+                attack.power = calc_damage(damage);
                 player->receive_direct_attack(this, attack, NULL, -1, -1);
                 player->set_actor_flags(0x400);
-                sub_80168280((uaddr)player);
+                add_hit_player((uaddr)player);
             }
         }
         i++;
     } while (i != 12);
 }
 
-void TOHangceilingCaveBase::sub_80168398() {
+void TOHangceilingCaveBase::play_mode_sound() {
     s32 area = get_current_floor_area();
     s32 id = 0;
 
@@ -347,7 +347,7 @@ void TOHangceilingCaveBase::sub_80168398() {
     }
 }
 
-void TOHangceilingCaveBase::sub_801682E4(s32 new_mode) {
+void TOHangceilingCaveBase::set_mode(s32 new_mode) {
     s16 saved;
 
     if (new_mode != mode) {
@@ -369,18 +369,18 @@ void TOHangceilingCaveBase::sub_801682E4(s32 new_mode) {
     }
 }
 
-void TOHangceilingCaveBase::reset_state() {
+void TOHangceilingCaveBase::clear_hit_players() {
     memset(hit_players, 0, sizeof(hit_players));
     hit_player_count = 0;
 }
 
-void TOHangceilingCaveBase::sub_80168280(uaddr player) {
+void TOHangceilingCaveBase::add_hit_player(uaddr player) {
     if (hit_player_count < 4) {
         hit_players[hit_player_count++] = player;
     }
 }
 
-s32 TOHangceilingCaveBase::sub_80168244(uaddr player) {
+s32 TOHangceilingCaveBase::has_hit_player(uaddr player) {
     s32 i;
 
     for (i = 0; i != hit_player_count; i++) {
@@ -391,14 +391,14 @@ s32 TOHangceilingCaveBase::sub_80168244(uaddr player) {
     return 0;
 }
 
-void TOHangceilingCaveBase::advance_wrap_offset() {
+void TOHangceilingCaveBase::advance_frame() {
     frame = frame + play_speed;
     if (frame_count < frame) {
         frame = 0.0f;
     }
 }
 
-f32 TOHangceilingCaveBase::vfunc_81(f32 power) {
+f32 TOHangceilingCaveBase::calc_damage(f32 power) {
     Q_801681D0 q = hang_ceiling_cave_scale_params;
     return power * q.w[game_difficulty_selection];
 }
@@ -412,45 +412,45 @@ TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, void *set_
 TOHangceilingCave01Normal::~TOHangceilingCave01Normal() {
 }
 
-void TOHangceilingCave01Normal::vfunc_80() {
+void TOHangceilingCave01Normal::update_state() {
     switch (mode) {
     case 0:
-        if (0.0f < m_354) {
-            m_354 = m_354 - 1.0f;
+        if (0.0f < wait_timer) {
+            wait_timer = wait_timer - 1.0f;
             return;
         }
-        sub_801682E4(1);
-        reset_state();
+        set_mode(1);
+        clear_hit_players();
         return;
     case 1:
-        advance_wrap_offset();
-        sub_80168488();
+        advance_frame();
+        hit_touching_players();
         if (4.0f == frame) {
             bodies->flags &= ~8;
             return;
         }
         if (23.0f == frame) {
-            sub_801682E4(2);
+            set_mode(2);
         }
         return;
     case 2:
-        advance_wrap_offset();
+        advance_frame();
         if (50.0f == frame) {
             bodies->flags |= hang_flag_8;
             return;
         }
         if (frame == frame_count) {
-            vfunc_79();
+            begin_wait();
         }
         break;
     }
 }
 
-void TOHangceilingCave01Normal::vfunc_79() {
+void TOHangceilingCave01Normal::begin_wait() {
     current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
     texlist = turiten_singo_texture_lists[0];
-    m_354 = 4.0f * m_350;
-    sub_801682E4(0);
+    wait_timer = 4.0f * wait_interval;
+    set_mode(0);
     bodies->flags |= hang_flag_8;
     frame = 0.0f;
     play_speed = 1.0f;
@@ -466,79 +466,79 @@ TOHangceilingCave01Key::TOHangceilingCave01Key(TObject *parent, void *set_data)
 TOHangceilingCave01Key::~TOHangceilingCave01Key() {
 }
 
-void TOHangceilingCave01Key::vfunc_80() {
+void TOHangceilingCave01Key::update_state() {
     switch (mode) {
     case 3:
         if (is_current_floor_switch_set((u16)switch_id) == 1 && frame <= frame_count) {
-            sub_801682E4(2);
+            set_mode(2);
         }
-        advance_wrap_offset();
+        advance_frame();
         break;
     case 1:
-        advance_wrap_offset();
-        sub_80168488();
+        advance_frame();
+        hit_touching_players();
         if (4.0f == frame) {
             bodies->flags &= ~8;
         } else if (23.0f == frame) {
-            vfunc_79();
+            begin_wait();
             clear_current_floor_switch((u16)switch_id);
         }
         break;
     case 2:
-        advance_wrap_offset();
+        advance_frame();
         if (50.0f == frame) {
             bodies->flags |= hang_flag_8;
         } else if (frame == frame_count) {
-            sub_801682E4(1);
+            set_mode(1);
         }
         break;
     }
 }
 
-void TOHangceilingCave01Key::vfunc_79() {
+void TOHangceilingCave01Key::begin_wait() {
     texlist = turiten_singo_texture_lists[1];
     current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, 1);
-    m_354 = 0.0f;
-    sub_801682E4(3);
+    wait_timer = 0.0f;
+    set_mode(3);
     bodies->flags &= ~8;
     frame = 0.0f;
     play_speed = 1.0f;
     frame_count = (f32)current_motion->nbFrame - 1.0f;
-    reset_state();
+    clear_hit_players();
 }
 
 TOHangceilingCave01KeyQuick::TOHangceilingCave01KeyQuick(TObject *parent, void *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
     m_name = TOHangceilingCave01KeyQuick__class_name;
     init_geometry();
-    set_scale(100.0f + scale.z);
+    set_damage(100.0f + scale.z);
 }
 
 TOHangceilingCave01KeyQuick::~TOHangceilingCave01KeyQuick() {
 }
 
-void TOHangceilingCave01KeyQuick::vfunc_80() {
+void TOHangceilingCave01KeyQuick::update_state() {
     switch (mode) {
     case 3:
         if (is_current_floor_switch_set((u16)switch_id) == 1 && frame <= frame_count) {
-            sub_801682E4(2);
+            set_mode(2);
         }
-        advance_wrap_offset();
+        advance_frame();
         return;
     case 1:
-        advance_wrap_offset();
-        sub_80168488();
+        advance_frame();
+        hit_touching_players();
         if (4.0f < frame) {
             bodies->flags &= ~8;
         }
         if (23.0f == frame) {
-            vfunc_79();
+            begin_wait();
         }
         break;
     case 2:
         if (is_current_floor_switch_set((u16)switch_id) == 1) {
             if (0.0f != frame) {
-                advance_wrap_offset();
+                advance_frame();
             }
             if (50.0f == frame) {
                 bodies->flags |= hang_flag_8;
@@ -558,20 +558,20 @@ void TOHangceilingCave01KeyQuick::vfunc_80() {
             } else {
                 frame = 5.0f;
             }
-            sub_801682E4(1);
+            set_mode(1);
         }
         break;
     }
 }
 
-void TOHangceilingCave01KeyQuick::vfunc_79() {
+void TOHangceilingCave01KeyQuick::begin_wait() {
     texlist = turiten_singo_texture_lists[1];
     current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, 1);
-    m_354 = 0.0f;
-    sub_801682E4(3);
+    wait_timer = 0.0f;
+    set_mode(3);
     bodies->flags &= ~8;
     frame = 0.0f;
     play_speed = 1.0f;
     frame_count = (f32)current_motion->nbFrame - 1.0f;
-    reset_state();
+    clear_hit_players();
 }

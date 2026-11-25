@@ -10,12 +10,12 @@ struct TObjMapCsn;
 struct TORockJungleM01 : public TORockCaveBrakable {
     TORockJungleM01(void *set_data);
     virtual ~TORockJungleM01();
-    virtual void vfunc_16();
-    virtual void vfunc_15();
-    virtual void vfunc_14();
-    virtual void vfunc_18();
+    virtual void throw_debris();
+    virtual void post_draw();
+    virtual void pre_draw();
+    virtual void play_break_sound();
     RenderFadeState fade;
-    s32 fade_active;         // fade.isFading() of the last vfunc_14, 0 in split screen
+    s32 fade_active;         // fade.isFading() of the last pre_draw, 0 in split screen
     TObjMapCsn *map_csn;     // the rock's map collision
     virtual void run_task();
     static void *create(void *set_data);

@@ -445,9 +445,9 @@ TObjSeabedSuisoBrakable::TObjSeabedSuisoBrakable(void *set_data) {
         kind = 2;
     }
     init_model();
-    m_b8 = set_params[0];
-    if ((s32)m_b8 < 0 || (s32)m_b8 >= 0x100) {
-        m_b8 = -1;
+    switch_id = set_params[0];
+    if ((s32)switch_id < 0 || (s32)switch_id >= 0x100) {
+        switch_id = -1;
     }
     init_collision_body_parts(this, &seabed_suiso_brakable_collision_bodies[kind], 1);
     register_object_by_id();
@@ -464,7 +464,7 @@ void *TObjSeabedSuisoBrakable::create_instance(void *set_data) {
 
 void TObjSeabedSuisoBrakable::spawn_break_effect() {}
 
-void TObjSeabedSuisoBrakable::vfunc_16() {
+void TObjSeabedSuisoBrakable::throw_debris() {
     TObjChipParams params;
     SeabedSuisoPiece *piece;
     s32 i;
@@ -501,15 +501,15 @@ void TObjSeabedSuisoBrakable::vfunc_16() {
 void TObjSeabedSuisoBrakable::init_model() {
     model = get_model(seabed_suiso_break_sets[kind].whole.model);
     texlist = get_texlist(0);
-    m_b0 = 40.0f;
+    view_radius = 40.0f;
 }
 
 void TObjSeabedSuisoBrakable::render() {
-    vfunc_14();
+    pre_draw();
     TORockCave::render();
 }
 
-void TObjSeabedSuisoBrakable::vfunc_14() {
+void TObjSeabedSuisoBrakable::pre_draw() {
     NJS_OBJECT *node;
     s32 entry;
 

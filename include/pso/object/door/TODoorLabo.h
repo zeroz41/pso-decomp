@@ -18,7 +18,10 @@ struct TODoorLabo : public TODoorFourLightBase {
 LAYOUT_ASSERT(TODoorLabo_size, sizeof(TODoorLabo) == 0xFC);
 
 extern "C" {
-void TLanguage__sub_8029FF0C(void);
+void load_seabed_u_four_light_door_resources(void);
+void load_seabed_four_light_door_resources(void);
+void free_seabed_four_light_door_resources(void);
+void free_seabed_u_four_light_door_resources(void);
 }
 void load_labo_door_resources(void);
 

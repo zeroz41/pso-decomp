@@ -16,26 +16,26 @@ public:
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     virtual void apply_knockback_from_attacker(u8 *, f32);
-    virtual void vfunc_79();
-    virtual void vfunc_80();
-    virtual f32 vfunc_81(f32);
-    s32 sub_801688C0();
-    void sub_80168280(uaddr);
+    virtual void begin_wait();
+    virtual void update_state();
+    virtual f32 calc_damage(f32);
+    s32 is_in_view();
+    void add_hit_player(uaddr);
     void init_geometry();
-    void sub_80168488();
-    void sub_80168398();
-    void sub_801682E4(s32);
-    s32 sub_80168244(uaddr);
-    void advance_wrap_offset();
-    void reset_state();
-    void set_scale(f32);
+    void hit_touching_players();
+    void play_mode_sound();
+    void set_mode(s32);
+    s32 has_hit_player(uaddr);
+    void advance_frame();
+    void clear_hit_players();
+    void set_damage(f32);
     u8 unk_334[0x4];
-    f32 m_338;
-    u32 hit_players[4];  // 0x33C: players sub_80168488 already hit (inferred name)
+    f32 damage;  // the base hit power; calc_damage scales it by the difficulty
+    u32 hit_players[4];  // 0x33C: players hit_touching_players already hit (inferred name)
     s32 hit_player_count; // 0x34C: entries used in hit_players (inferred name)
-    f32 m_350;
-    f32 m_354;
-    u32 m_358;
+    f32 wait_interval;  // frames of one wait step (the lights show one step each)
+    f32 wait_timer;     // frames left before it drops; the indicator lights follow it
+    u32 display_mode;   // set_params[2]: 0 lights follow the timer, else the switch colours the model
     s32 switch_id;  // 0x35C: set_params[0], the floor switch it waits on (inferred name)
 };
 

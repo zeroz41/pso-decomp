@@ -54,7 +54,7 @@ const char *TOChatSensorCapture__class_name = "TOChatSensorCapture";
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 
-// ChatSensor.prs: how many trigger texts there are and the texts (a sensor's m_cc picks one, from 1).
+// ChatSensor.prs: how many trigger texts there are and the texts (a sensor's text_index picks one, from 1).
 struct ChatSensorTable {
     s32 count;
     char **texts;
@@ -73,7 +73,6 @@ s32 find_chat_keyword(char *, char (*)[0x20], s32);
 }
 
 
-struct C_8015ACE4 { u8 pad0[0xA4]; s8 buf[0x20]; };
 
 struct Packet_8015AD54 {
     u32 hdr;
@@ -127,10 +126,10 @@ TOChatSensor::TOChatSensor(TObject *parent, void *arg2) : TObjBase(parent) {
     char **t;
     m_name = TOChatSensor__name;
     apply_object_set_data(arg2);
-    m_c4 = 0;
-    m_a0 = 0;
+    script_thread = 0;
+    player_inside = 0;
     init_params();
-    n = m_cc;
+    n = text_index;
     if (n > 0) {
         t = chat_sensor_table->texts;
         t += n;
@@ -143,15 +142,15 @@ TOChatSensor::~TOChatSensor() {
 }
 
 void TOChatSensor::run_task() {
-    if ((u32) this->m_90 == 0U) {
-        switch (this->m_c8) {
+    if ((u32) this->kind == 0U) {
+        switch (this->state) {
         case 0:
             check_player_proximity();
             return;
         case 1:
-            if (((u32) this->m_c4 != 0U) && (((TObject *)(this->m_c4))->all_parents_unqueued_for_destruction() == 0)) {
-                this->m_c4 = 0U;
-                this->m_c8 = 0;
+            if (((u32) this->script_thread != 0U) && (((TObject *)(this->script_thread))->all_parents_unqueued_for_destruction() == 0)) {
+                this->script_thread = 0U;
+                this->state = 0;
                 return;
             }
             break;
@@ -161,18 +160,17 @@ void TOChatSensor::run_task() {
             check_player_proximity();
             return;
         }
-        this->m_a0 = 0;
+        this->player_inside = 0;
     }
 }
 
 void TOChatSensor::render() {
-    u8 *arg0 = (u8 *)this;
     if (TObjPlayer::check_demo_mode() == 1) {
         NJS_ARGB color;
         color.a = 0.3f;
         color.r = 0.3f;
         color.b = color.g = 0.8f;
-        debug_draw_sphere(&position, &color, newton_sqrtf(*(f32 *)(arg0 + 0x9C)));
+        debug_draw_sphere(&position, &color, newton_sqrtf(range_squared));
     }
 }
 
@@ -180,17 +178,17 @@ void TOChatSensor::init_params() {
     f32 x;
     s32 temp_r5;
 
-    this->m_90 = (u32) *(u32 *)&this->rotation_x;
-    if ((u32) this->m_90 >= 2U) {
-        this->m_90 = 0U;
+    this->kind = (u32) *(u32 *)&this->rotation_x;
+    if ((u32) this->kind >= 2U) {
+        this->kind = 0U;
     }
-    this->m_98 = (u32) *(u32 *)&this->rotation_y;
-    if ((u32) this->m_98 >= 2U) {
-        this->m_90 = 0U;
+    this->match_mode = (u32) *(u32 *)&this->rotation_y;
+    if ((u32) this->match_mode >= 2U) {
+        this->kind = 0U;
     }
     x = this->scale.x;
-    *(f32 *)&this->unk_9C = (f32) (x * x);
-    if ((u32) this->m_90 == 0U) {
+    this->range_squared = (f32) (x * x);
+    if ((u32) this->kind == 0U) {
         *(s32 *)&this->id = (s32) this->set_params[0];
     } else {
         this->id = (u16) this->set_params[0];
@@ -198,37 +196,36 @@ void TOChatSensor::init_params() {
             this->id = 0xFFFF;
         }
     }
-    *(s32 *)&this->m_cc = (s32) *(s32 *)&this->set_params[1];
-    temp_r5 = *(s32 *)&this->m_cc;
+    *(s32 *)&this->text_index = (s32) *(s32 *)&this->set_params[1];
+    temp_r5 = *(s32 *)&this->text_index;
     if ((temp_r5 != 0) && ((temp_r5 < 0) || (chat_sensor_table->count <= temp_r5))) {
-        *(s32 *)&this->m_cc = 0;
+        *(s32 *)&this->text_index = 0;
     }
-    *(s32 *)&this->m_c8 = 0;
+    *(s32 *)&this->state = 0;
 }
 
 void TOChatSensor::handle_chat_message(void *arg1) {
-    u8 *arg0 = (u8 *)this;
     Packet_8015AD54 pkt;
     s32 r;
     u32 mode;
     void *o;
-    if (arg1 != NULL && *(s32 *)(arg0 + 0xA0) == 1) {
-        mode = *(u32 *)(arg0 + 0x98);
+    if (arg1 != NULL && player_inside == 1) {
+        mode = match_mode;
         r = -1;
         if (mode == 0) {
-            r = find_chat_keyword((char *)arg1, (char (*)[0x20])&this->unk_A4, current_language);
+            r = find_chat_keyword((char *)arg1, (char (*)[0x20])trigger_text, current_language);
         } else if (mode == 1) {
             r = 0;
         }
         if (r > -1) {
-            if (*(u32 *)(arg0 + 0x90) == 0) {
+            if (kind == 0) {
                 if (quest_mission_manager != NULL) {
-                    o = new TQuestThread(quest_mission_manager, *(u32 *)(arg0 + 0x94));
-                    *(void **)(arg0 + 0xC4) = o;
-                    if (*(void **)(arg0 + 0xC4) != NULL) {
-                        ((TObject *)(*(void **)(arg0 + 0xC4)))->set_parent(tl_00);
+                    o = new TQuestThread(quest_mission_manager, *(u32 *)&id);
+                    script_thread = (uaddr)o;
+                    if (script_thread != 0) {
+                        ((TObject *)script_thread)->set_parent(tl_00);
                     }
-                    *(s32 *)(arg0 + 0xC8) = 1;
+                    state = 1;
                 }
             } else if (this->id < 0x100) {
                 ((TOChatSensor *)(&pkt))->init_packet_type();
@@ -242,30 +239,28 @@ void TOChatSensor::handle_chat_message(void *arg1) {
 }
 
 void TOChatSensor::set_trigger_text(void *trigger_text) {
-    C_8015ACE4 *arg0 = (C_8015ACE4 *)this;
     s32 i;
     if (trigger_text != 0) {
-        strncpy((char *)arg0->buf, (const char *)trigger_text, 0x1F);
-        arg0->buf[0x1F] = 0;
+        strncpy(this->trigger_text, (const char *)trigger_text, 0x1F);
+        this->trigger_text[0x1F] = 0;
         for (i = 0; i < 0x20; i++) {
-            if (arg0->buf[i] == 0xA) {
-                arg0->buf[i] = 0;
+            if (this->trigger_text[i] == 0xA) {
+                this->trigger_text[i] = 0;
             }
         }
     }
 }
 
 void TOChatSensor::check_player_proximity() {
-    u8 *arg0 = (u8 *)this;
-    uaddr player;
+    TObjPlayer *player;
 
-    player = (uaddr)get_player_by_client_id((local_client_id));
-    if (player != 0U) {
-        if (horizontal_distance_squared((const Vec *)(player + 0x38), (const Vec *)(arg0 + 0x38)) < *(f32 *)&this->unk_9C) {
-            this->m_a0 = 1;
+    player = get_player_by_client_id((local_client_id));
+    if (player != NULL) {
+        if (horizontal_distance_squared(&player->position, &position) < this->range_squared) {
+            this->player_inside = 1;
             return;
         }
-        this->m_a0 = 0;
+        this->player_inside = 0;
     }
 }
 

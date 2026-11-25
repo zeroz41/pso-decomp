@@ -121,13 +121,13 @@ TORockJungleS01::TORockJungleS01(void *set_data) {
     apply_object_set_data(set_data);
     model = get_model(0);
     texlist = get_jungle_rock_texture_resource(0);
-    m_b0 = 50.0f + ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
+    view_radius = 50.0f + ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[0], 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    m_b8 = set_params[0];
-    if (m_b8 < 0 || m_b8 >= 0x100) {
-        m_b8 = -1;
+    switch_id = set_params[0];
+    if (switch_id < 0 || switch_id >= 0x100) {
+        switch_id = -1;
     }
     ObjectSetData csn_data = *(ObjectSetData *)set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
@@ -148,7 +148,7 @@ void *TORockJungleS01::create(void *set_data) {
 }
 
 // Throws the rock's one debris piece.
-void TORockJungleS01::vfunc_16() {
+void TORockJungleS01::throw_debris() {
     Vec offsets[1] = { { 0.0f, 0.0f, 0.0f } };
     TObjChipParams params = {
         0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
@@ -175,14 +175,14 @@ void TORockJungleS01::vfunc_16() {
     }
 }
 
-void TORockJungleS01::vfunc_18() {
+void TORockJungleS01::play_break_sound() {
     play_sound_effect(310297, &position, 0, 0);
 }
 
 const char *TORockJungleM01_name_ref = "TORockJungleM01";
 
 // Fades the rock out while the camera is close to it (not in split screen).
-void TORockJungleM01::vfunc_14() {
+void TORockJungleM01::pre_draw() {
     Vec view;
 
     set_cull_back();
@@ -202,7 +202,7 @@ void TORockJungleM01::vfunc_14() {
     }
 }
 
-void TORockJungleM01::vfunc_15() {
+void TORockJungleM01::post_draw() {
     if (fade_active != 0) {
         fade.clear_flag_and_notify();
     }
@@ -214,13 +214,13 @@ TORockJungleM01::TORockJungleM01(void *set_data) {
     apply_object_set_data(set_data);
     model = TORockJungleS01::get_model(2);
     texlist = get_jungle_rock_texture_resource(2);
-    m_b0 = 50.0f + ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
+    view_radius = 50.0f + ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[1], 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    m_b8 = set_params[0];
-    if (m_b8 < 0 || m_b8 >= 0x100) {
-        m_b8 = -1;
+    switch_id = set_params[0];
+    if (switch_id < 0 || switch_id >= 0x100) {
+        switch_id = -1;
     }
     ObjectSetData csn_data = *(ObjectSetData *)set_data;
     VecCopy(&csn_data.scale, &rock_jungle_vec3_table[0]);
@@ -242,7 +242,7 @@ void *TORockJungleM01::create(void *set_data) {
 }
 
 // Throws the rock's one debris piece.
-void TORockJungleM01::vfunc_16() {
+void TORockJungleM01::throw_debris() {
     Vec offsets[1] = { { 0.0f, 0.0f, 0.0f } };
     TObjChipParams params = {
         0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
@@ -269,7 +269,7 @@ void TORockJungleM01::vfunc_16() {
     }
 }
 
-void TORockJungleM01::vfunc_18() {
+void TORockJungleM01::play_break_sound() {
     play_sound_effect(310297, &position, 0, 0);
 }
 
@@ -285,7 +285,7 @@ TORockJungleL01::TORockJungleL01(void *set_data) {
     apply_object_set_data(set_data);
     model = TORockJungleS01::get_model(4);
     texlist = get_jungle_rock_texture_resource(4);
-    m_b0 = 50.0f + ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
+    view_radius = 50.0f + ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[2], 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -309,7 +309,7 @@ void *TORockJungleL01::create(void *set_data) {
 }
 
 // Fades the rock out while the camera is close to it (not in split screen).
-void TORockJungleL01::vfunc_14() {
+void TORockJungleL01::pre_draw() {
     Vec view;
 
     set_cull_back();
@@ -329,7 +329,7 @@ void TORockJungleL01::vfunc_14() {
     }
 }
 
-void TORockJungleL01::vfunc_15() {
+void TORockJungleL01::post_draw() {
     if (fade_active != 0) {
         fade.clear_flag_and_notify();
     }

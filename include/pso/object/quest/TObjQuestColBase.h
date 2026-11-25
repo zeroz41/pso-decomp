@@ -11,15 +11,15 @@ class TQuestThread;
 struct TObjQuestColBase : public TObjCollidable {
     TObjQuestColBase(TObject *parent, void *set_data);
     virtual ~TObjQuestColBase();
-    virtual void update_room_id_check();
-    virtual int vfunc_15();
-    virtual TQuestThread *vfunc_16();
+    virtual void draw_debug_bounds();
+    virtual int is_triggered();
+    virtual TQuestThread *start_quest_thread();
     s32 update_trigger_state(f32);
     virtual void render();
     f32 radius;  // scale.x; is_within_range tests radius squared (inferred name)
     u32 label;
-    u32 m_b4;
-    TQuestThread *m_b8;  // the quest thread run_task started, until it is queued for destruction
+    u32 outside;  // 1 while the local player is out of range (update_trigger_state)
+    TQuestThread *quest_thread;  // the quest thread run_task started, until it is queued for destruction
     s32 is_within_range(f32 range_sq);
     virtual void run_task();
 };

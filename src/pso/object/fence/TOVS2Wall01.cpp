@@ -163,7 +163,7 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
         pkt.state = state;
         pkt.set_entry_index = entry->m_4;
         pkt.update_reason = arg1;
-        pkt.remaining_hits = m_33c;
+        pkt.remaining_hits = hits_left;
         pkt.send();
     }
 }
@@ -188,7 +188,7 @@ void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
             this->mode = 0;
         }
     } else {
-        this->m_33c = 0;
+        this->hits_left = 0;
         if (arg2 != 0) {
             break_wall();
         }
@@ -235,9 +235,9 @@ f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
         player = (TObjPlayer *)attacker;
     }
     if ((player != NULL) && (player->is_locally_controlled() == 1)) {
-        m_33c--;
-        if ((s32)m_33c <= 0) {
-            m_33c = 0;
+        hits_left--;
+        if ((s32)hits_left <= 0) {
+            hits_left = 0;
             save_and_send_state(1);
         } else {
             save_and_send_state(0);
@@ -288,8 +288,8 @@ void WallHitPacket::byteswap() {
     bswap_16(&remaining_hits);
 }
 
-s32 TOVS2Wall01::remaining_hits() { return (s32)m_33c; }
-void TOVS2Wall01::set_remaining_hits(s32 count) { m_33c = count; }
+s32 TOVS2Wall01::remaining_hits() { return (s32)hits_left; }
+void TOVS2Wall01::set_remaining_hits(s32 count) { hits_left = count; }
 }
 void TOVS2Wall01::apply_knockback_from_attacker(u8 *, f32) {  }
 f32 TOVS2Wall01::receive_weapon_special_attack(void *attacker, void *) { return take_hit((TObjBase *)attacker); }
@@ -413,11 +413,11 @@ TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     register_object_by_id();
     mode = 0;
     view_range = 800.0f;
-    m_338 = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
+    model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
     initial_hits = set_params[0];
-    m_33c = initial_hits + 0x100;
-    m_340.activate_and_dispatch();
-    m_35c = 1;
+    hits_left = initial_hits + 0x100;
+    fade.activate_and_dispatch();
+    in_view = 1;
 }
 #pragma pop
 TOVS2Wall01::~TOVS2Wall01() {
@@ -431,13 +431,13 @@ void *TOVS2Wall01::create(void *set_data) {
 void TOVS2Wall01::render() {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
-    m_340.update();
-    *(s32 *)&this->m_35c = this->update_object_view_visibility(view_range, m_338);
-    if ((s32) this->m_35c == 1) {
+    fade.update();
+    this->in_view = this->update_object_view_visibility(view_range, model_radius);
+    if ((s32) this->in_view == 1) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             var_r31 = 0;
         } else {
-            var_r31 = m_340.updateFromCamera(&position);
+            var_r31 = fade.updateFromCamera(&position);
         }
         if (var_r31 != 0) {
             saved_model_render_flags = model_render_flags;

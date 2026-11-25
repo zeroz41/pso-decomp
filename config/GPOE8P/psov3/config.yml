@@ -3841,7 +3841,7 @@ force_active:
   - advance_toward_max__17MaterialShadeFadeFv
   - advance_toward_max__18TObjEnemyColorFadeFv
   - advance_wait_next__11TBoss4Type3Fv
-  - advance_wrap_offset__21TOHangceilingCaveBaseFv
+  - advance_frame__21TOHangceilingCaveBaseFv
   - adventure_map_variation_count_table
   - adx_error_message_buffer
   - adxf_open_file_buffer
@@ -4741,7 +4741,7 @@ force_active:
   - calc_area_parameters__10TTecRaFoieFv
   - calc_attack_params__13TBoss5GryphonFP23Boss5GryphonMotionEntryP22Boss5GryphonActionStep
   - calc_battle_score__19TPlayerBattleCtrl4PFP10TObjPlayer
-  - calc_bone_offsets_recursive__19TObjEZBoneRotPlayerFPvll
+  - calc_bone_offsets_recursive__19TObjEZBoneRotPlayerFP10NJS_OBJECTll
   - calc_box_escape_axis__10TNpcPlayerFP3VecP3VecP3VecP3VecP3VecP3VecPf
   - calc_burrow_speed__12TBoss1DragonFPv
   - calc_ci4_tile_offset__FUlUl
@@ -4970,7 +4970,7 @@ force_active:
   - check_and_advance_state__14TBoss6PlotFalzFv
   - check_and_notify__15TBoss3VoloptP02Fv
   - scan_targets__13NpcPlayerViewFf
-  - check_any_player_in_range__12TObjRaderColFPv
+  - check_any_player_in_range__12TObjRaderColFv
   - check_attack_hits__19TObjEneBm9MericarolFv
   - check_attack_ready__12TBoss1DragonFv
   - check_battle_end__6TLobbyFv
@@ -5003,7 +5003,7 @@ force_active:
   - check_hit_sphere__16TObjEneBm5GibonUFif
   - check_hold_player__14TOTrapSeabed01FPv
   - check_load_state__16TAdChrSelASlotGCFv
-  - check_local_player_in_range__12TObjRaderColFPv
+  - check_local_player_in_range__12TObjRaderColFv
   - check_low_hp_transition__16TObjEneDellBiterFv
   - check_low_hp_trigger__13TObjEneMorfosFv
   - check_memcard_slot__22TQuestVmDownLoadServerFv
@@ -5245,7 +5245,7 @@ force_active:
   - close_windows__16TAdChrSelBSlotGCFv
   - close_windows__19TQuestListChallengeFv
   - close_windows__12TAdTimeSetGCFv
-  - close_windows__9TObjLukerFPv
+  - close_windows__9TObjLukerFv
   - close_windows_and_advance__17TAdEnterPPPPassGCFPv
   - close_windows_and_cleanup__21TAdMultiChgGameModeGCFv
   - close_windows_and_reopen__21TAdMultiChgGameModeGCFv
@@ -7325,7 +7325,7 @@ force_active:
   - is_player_in_range__10TObjRoomIdFUsf
   - is_player_in_range__13TBoss6MagMineFv
   - is_player_in_range__15TORainbowCave01Ff
-  - is_player_in_range__9TObjLukerFv
+  - is_player_in_range__9TObjLukerFf
   - is_player_in_rock_area__11TBoss6Type2FUs
   - is_player_in_service_range__14TShopGeneratorFPUcf
   - is_player_near__12TBoss6ThanksFPv
@@ -15555,7 +15555,7 @@ force_active:
   - set_rate_from_divisor__17MaterialShadeFadeFl
   - set_rate_from_divisor__18TObjEnemyColorFadeFl
   - set_air_turn_direction__12TBoss1DragonFll
-  - set_scale__21TOHangceilingCaveBaseFf
+  - set_damage__21TOHangceilingCaveBaseFf
   - set_scene_light_diffuse__22TSceneDirectionalLightFv
   - set_screen_pos__11TBoss6Type2Fv
   - set_script_id__15TOQuestTalkBaseFl
@@ -16206,8 +16206,8 @@ force_active:
   - is_alternate_variant__16TObjEneMe3StelthFv
   - starts_stealthed__16TObjEneMe3StelthFv
   - lerp_color__17TColorOverlayFadeFf
-  - sub_800FEC40__17TObjEZBoneRotBaseFPUc
-  - sub_800FED0C__17TObjEZBoneRotBaseFv
+  - save_bone_angles_recursive__17TObjEZBoneRotBaseFP10NJS_OBJECT
+  - save_bone_angles__17TObjEZBoneRotBaseFv
   - set_photon_color_id__21TItemWeaponPArmsBladeFs
   - get_photon_color_id__21TItemWeaponPArmsBladeFv
   - sub_80140F44__11TMapCsnCtrlFv
@@ -16219,12 +16219,12 @@ force_active:
   - kill_room_dubchiks__13TOCtrlDubchikFv
   - update_effect_grow__13TOCtrlDubchikFv
   - update_waiting__13TOCtrlDubchikFv
-  - sub_80168244__21TOHangceilingCaveBaseFUl
-  - sub_80168280__21TOHangceilingCaveBaseFUl
-  - sub_801682E4__21TOHangceilingCaveBaseFl
-  - sub_80168398__21TOHangceilingCaveBaseFv
-  - sub_80168488__21TOHangceilingCaveBaseFv
-  - sub_801688C0__21TOHangceilingCaveBaseFv
+  - has_hit_player__21TOHangceilingCaveBaseFUl
+  - add_hit_player__21TOHangceilingCaveBaseFUl
+  - set_mode__21TOHangceilingCaveBaseFl
+  - play_mode_sound__21TOHangceilingCaveBaseFv
+  - hit_touching_players__21TOHangceilingCaveBaseFv
+  - is_in_view__21TOHangceilingCaveBaseFv
   - sub_8018355C__28TObjCity_Season_FireWorkCtrlFv
   - sub_80183C38__25TObjCity_Season_SonicAdv2Fv
   - sub_8018A688__20TContainerAncient01RFv
@@ -17396,26 +17396,26 @@ force_active:
   - update_state__17TQuestListOfflineFv
   - vfunc_12__8TObjChipFv
   - vfunc_13__21TObjCityVerticalModelFl
-  - vfunc_13__22TObjFogCollisionPoisonFl
-  - vfunc_13__22TObjFogCollisionSwitchFl
+  - init_params__22TObjFogCollisionPoisonFl
+  - init_params__22TObjFogCollisionSwitchFl
   - vfunc_14__12TObjComputerFv
   - vfunc_14__13TObjGbAdvanceFv
   - vfunc_14__14TOTrapChainSawFv
-  - vfunc_14__15TORockJungleL01Fv
-  - vfunc_14__15TORockJungleM01Fv
+  - pre_draw__15TORockJungleL01Fv
+  - pre_draw__15TORockJungleM01Fv
   - vfunc_14__17TOTrapChainSawKeyFv
   - vfunc_14__20TOTrapChainSawDamageFv
-  - vfunc_14__23TObjSeabedSuisoBrakableFv
-  - vfunc_15__15TORockJungleL01Fv
-  - vfunc_15__15TORockJungleM01Fv
+  - pre_draw__23TObjSeabedSuisoBrakableFv
+  - post_draw__15TORockJungleL01Fv
+  - post_draw__15TORockJungleM01Fv
   - vfunc_16__14TOTrapChainSawFv
-  - vfunc_16__15TORockJungleM01Fv
+  - throw_debris__15TORockJungleM01Fv
   - vfunc_16__17TOTrapChainSawKeyFv
-  - vfunc_16__18TORockCaveBrakableFv
+  - throw_debris__18TORockCaveBrakableFv
   - vfunc_16__18TOTrapChainSawEdgeFv
-  - vfunc_16__23TObjSeabedSuisoBrakableFv
+  - throw_debris__23TObjSeabedSuisoBrakableFv
   - vfunc_18__14TOTrapChainSawFP10TObjPlayer
-  - vfunc_18__15TORockJungleM01Fv
+  - play_break_sound__15TORockJungleM01Fv
   - vfunc_18__17TOTrapChainSawKeyFP10TObjPlayer
   - vfunc_22__16TObjCityDoorBaseFv
   - vfunc_25__11TOKeyCave01Fv
@@ -17624,11 +17624,11 @@ force_active:
   - apply_to_player__8TTecAntiFP10TObjPlayer
   - apply_to_player__9TTecRestaFP10TObjPlayer
   - apply_to_player__9TTecSiftaFP10TObjPlayer
-  - vfunc_80__12TOMineIcon04Fv
+  - play_trigger_sound__12TOMineIcon04Fv
   - vfunc_80__21TObjContainerAbeEnemyFv
   - vfunc_81__14TOTrapSeabed01Fv
   - vfunc_81__21TObjContainerAbeEnemyFv
-  - vfunc_82__12TOMineIcon04Fv
+  - spawn_blast_particle__12TOMineIcon04Fv
   - vfunc_82__14TOTrapSeabed01Fv
   - vfunc_82__16TOTrapAncient02RFv
   - beast_update_appear__12TObjEneBeastFv
@@ -17815,7 +17815,7 @@ force_active:
   - __ct__10TOMineTrapFP8TObjBasess
   - find_target_in_range__10TOMineTrapFv
   - is_target_in_list__6TOMineFPv
-  - sub_8017070C__6TOMineFv
+  - play_trigger_effects__6TOMineFv
   - sync_position__10TOMineTrapFv
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data

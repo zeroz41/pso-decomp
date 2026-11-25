@@ -18,7 +18,7 @@ const char *TOMineIcon02__name = "TOMineIcon02";
 
 void TOMineIcon02::vfunc_84() {  }
 
-void TOMineIcon02::vfunc_82() {
+void TOMineIcon02::spawn_blast_particle() {
     saddr arg0 = (saddr)this;
     spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8E);
     spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x8E);
@@ -40,10 +40,10 @@ TOMineIcon02::TOMineIcon02(TObject *parent, void *set_data) : TOMine(parent) {
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();
-    model = get_bml_model(lbl_805D5A50, 5);
-    texlist = get_bml_texlist(lbl_805D5A50, 5);
-    light_model = get_bml_model(lbl_805D5A50, 0);
-    light_textures = get_bml_texlist(lbl_805D5A50, 0);
+    model = get_bml_model(mine_model_archive, 5);
+    texlist = get_bml_texlist(mine_model_archive, 5);
+    light_model = get_bml_model(mine_model_archive, 0);
+    light_textures = get_bml_texlist(mine_model_archive, 0);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;
@@ -61,10 +61,10 @@ TOMineIcon02::TOMineIcon02(TObject *parent, void *set_data) : TOMine(parent) {
         attack.power *= 2.0f;
     }
     attack.kind = set_params[1];
-    pad_34C = 0.5f * scale.x + 30.0f;
-    m_350 = 0.5f * scale.y + 60.0f;
+    detect_radius = 0.5f * scale.x + 30.0f;
+    trigger_radius = 0.5f * scale.y + 60.0f;
     update_state();
-    m_35c = 0xFFFF;
+    target_id = 0xFFFF;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, mine_collision_body_parts, 1);
     refresh_collision_body_centers();

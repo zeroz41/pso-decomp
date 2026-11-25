@@ -7,10 +7,10 @@
 struct TObjFogCollisionPoison : public TObjFogCollisionSwitch {
     TObjFogCollisionPoison(TObject *parent, void *set);
     virtual ~TObjFogCollisionPoison();
-    virtual void vfunc_14();
-    virtual void vfunc_13(s32);
+    virtual void draw_debug_text();
+    virtual void init_params(s32);
     virtual void run_task();
-    u32 m_98;
+    s32 poison_damage;  // damage per hit: the floor of scale.y times the difficulty factor
     static void create();
     static void *create(void *set_data);
     static void clear_state_array();

@@ -8,8 +8,8 @@ class TOHangceilingCave01Normal : public TOHangceilingCaveBase {
 public:
     TOHangceilingCave01Normal(TObject *parent, void *set_data);
     virtual ~TOHangceilingCave01Normal();
-    virtual void vfunc_79();
-    virtual void vfunc_80();
+    virtual void begin_wait();
+    virtual void update_state();
 };
 
 LAYOUT_ASSERT(TOHangceilingCave01Normal_size, sizeof(TOHangceilingCave01Normal) == 0x360);
