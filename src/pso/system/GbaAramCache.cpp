@@ -34,7 +34,7 @@ void TGbaAramUploadTask::request_aram_load_state() {
         s32 size = file->size;
         if (size > 0) {
             u8 *data = file->data;
-            if (data != NULL && TAdWarningBaseGC::post_aram_request((int)data, size) != 0) {
+            if (data != NULL && TAdWarningBaseGC::post_aram_request(data, size) != 0) {
                 state = 2;
                 return;
             }
@@ -55,22 +55,22 @@ void TGbaAramUploadTask::run_task() {
     (this->*tbl[state])();
 }
 
-s32 TAdWarningBaseGC::load_from_aram_sync(int buf) {
+s32 TAdWarningBaseGC::load_from_aram_sync(void *buf) {
     u32 size;
     if (warning_aram_load_done_flag == 0) {
         return 0;
     }
     size = (TAdWarningBaseGC__aram_alloc_size + 0x1F) & ~0x1F;
-    DCInvalidateRange((void *)buf, size);
+    DCInvalidateRange(buf, size);
     aram_request_busy_flag = 1;
-    ARQPostRequest(&ad_warning_arq_request, 4, 1, 1, ad_warning_aram_base, buf, size, clear_aram_request_busy);
+    ARQPostRequest(&ad_warning_arq_request, 4, 1, 1, ad_warning_aram_base, reinterpret_cast<uaddr>(buf), size, clear_aram_request_busy);
     for (;;) {
         if (aram_request_busy_flag == 0) {
             break;
         }
         TLobby::run_frame();
     }
-    DCInvalidateRange((void *)buf, size);
+    DCInvalidateRange(buf, size);
     return 1;
 }
 
@@ -78,15 +78,15 @@ int TAdWarningBaseGC::get_alloc_size() { return TAdWarningBaseGC__aram_alloc_siz
 
 int TAdWarningBaseGC__sub_8032D020(void) { return (TAdWarningBaseGC__aram_alloc_size + 0x1F) & ~0x1F; }
 
-s32 TAdWarningBaseGC::post_aram_request(int buf, int size) {
+s32 TAdWarningBaseGC::post_aram_request(void *buf, int size) {
     u32 aligned = (size + 0x1F) & ~0x1F;
     TAdWarningBaseGC__aram_alloc_size = size;
     if (aligned > TAdWarningBaseGC__aram_capacity) {
         return 0;
     }
-    DCFlushRange((void *)buf, aligned);
+    DCFlushRange(buf, aligned);
     aram_request_busy_flag = 1;
-    ARQPostRequest(&ad_warning_arq_request, 4, 0, 1, buf, ad_warning_aram_base, aligned, clear_aram_request_busy);
+    ARQPostRequest(&ad_warning_arq_request, 4, 0, 1, reinterpret_cast<uaddr>(buf), ad_warning_aram_base, aligned, clear_aram_request_busy);
     return 1;
 }
 

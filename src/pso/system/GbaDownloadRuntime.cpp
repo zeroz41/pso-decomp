@@ -115,7 +115,7 @@ void TLobby::update_alloc_size() {
         return;
     }
     if (gba_download_data_buffer != NULL) {
-        TAdWarningBaseGC::load_from_aram_sync(reinterpret_cast<saddr>(gba_download_data_buffer));
+        TAdWarningBaseGC::load_from_aram_sync(gba_download_data_buffer);
         gba_download_data_size = TAdWarningBaseGC::get_alloc_size();
         return;
     }
