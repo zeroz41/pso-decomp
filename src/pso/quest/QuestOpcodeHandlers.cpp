@@ -200,9 +200,6 @@ namespace pf2_p0 { extern "C" { s32 parse_r_index(const char *); } }
 namespace pf2_p0 { extern "C" { int strcmp(const char *, const char *); } }
 #define strcmp pf2_p0::strcmp
 void append_team_name(void);
-extern "C" {
-s32 dispatch_chat_message_to_children__12TOChatSensorFl();
-}
 void append_episode_progress_string(void);
 void append_entered_item_name_pair(void);
 void append_challenge_title(void);
@@ -264,7 +261,7 @@ const CmdTable_801E6604 message_substitution_handlers = { {
 
 void TLobby::capture_chat_sensor() {
     saddr message = (saddr)this;
-    dispatch_chat_message_to_children__12TOChatSensorFl();
+    TOChatSensor::dispatch_chat_message_to_children(message);
     TOChatSensorCapture::capture_message((u16)((u16) local_client_id), (const char *)message);
 }
 
@@ -855,7 +852,6 @@ s16 obj_getS16_2BA(u8 *);
 s32 get_current_floor();
 f64 atan2_float(void *, f32, f32);
 void TLobby__sub_8001DE30(void *);
-s32 setControlOverride__12TBoss1DragonFs(int, void *);
 int set_camera_capture_overlay_alpha(void*);
 s32 copy_player_visual_record(void *, int);
 s32 fn_80077788(void);
@@ -937,6 +933,7 @@ s32 TLobby__sub_8029299C();
 s32 TLobby__sub_80292A34();
 s32 TLobby__sub_8032CDEC();
 int update_alloc_size__6TLobbyFv(void*);
+s32 setControlOverride__12TBoss1DragonFs(int, void *);
 void TObjPlayer__sub_80354CCC(u16 client_index);
 void TObjPlayer__sub_80354D14(u16 client_index);
 void TObjPlayer__sub_80354DAC(u16 client_index);
