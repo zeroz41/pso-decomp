@@ -5710,11 +5710,8 @@ pso/technique/TTecCtrl.cpp:
 	.sbss       start:0x805D63A8 end:0x805D63B4
 	.sdata2     start:0x805DC7D0 end:0x805DC7EC
 
-pso/item/TItemEquipBase_8022F1C0.cpp:
-	.text       start:0x8022F1C0 end:0x8022F258
-
-pso/unk/text_8022F258.cpp:
-	.text       start:0x8022F258 end:0x8022F4EC
+pso/technique/TTecMegidCharge.cpp:
+	.text       start:0x8022F1C0 end:0x8022F4EC
 	.data       start:0x804CC740 end:0x804CC764
 
 pso/technique/TTecDeband.cpp:

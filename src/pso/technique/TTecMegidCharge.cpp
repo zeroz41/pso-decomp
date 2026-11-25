@@ -11,6 +11,26 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/system/SoundEffect.h"
+
+void TechniqueBoostTable::set(s32 index, TechniqueBoost *boost) {
+    if (index < 6) {
+        boosts[index].copy_from(boost);
+    }
+}
+
+void TechniqueBoost::copy_from(TechniqueBoost *src) {
+    technique = src->technique;
+    flags = src->flags;
+    amount = src->amount;
+}
+
+void TechniqueBoostTable::clear() {
+    int i;
+    for (i = 0; i < 6; i++) {
+        boosts[i].clear();
+    }
+}
+
 u32 dark_technique_charge_effect_ids[3] = {0x1E7, 0x1E8, 0x1EF};
 TechniqueBoostTable::TechniqueBoostTable() {
     clear();

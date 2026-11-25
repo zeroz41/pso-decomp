@@ -350,6 +350,7 @@ pso/effect/TEffHit.cpp
 pso/effect/TEffIndirectCtrl.cpp
 pso/effect/TEffStarLight2D_Base.cpp
 pso/effect/TEffect.cpp
+pso/technique/TTecMegidCharge.cpp
 pso/technique/TTecShot.cpp
 pso/network/NetDispatcher.c
 pso/network/PSOV3Encryption.cpp
@@ -474,7 +475,6 @@ pso/effect/item/TItemEffPG.cpp
 pso/effect/item/TItemEffShield.cpp
 pso/effect/item/TItemEffectWeapon.cpp
 pso/item/TItemEquipBase.cpp
-pso/item/TItemEquipBase_8022F1C0.cpp
 pso/item/TItemHeapObject.cpp
 pso/item/TItemLoad.cpp
 pso/item/TItemLockCountCtrl.cpp
@@ -1843,7 +1843,6 @@ pso/unk/text_802233F8.cpp
 pso/unk/text_80225CD8.cpp
 pso/unk/text_80228C54.cpp
 pso/technique/TTecCircle.cpp
-pso/unk/text_8022F258.cpp
 pso/unk/text_8023DCB8.cpp
 pso/unk/text_8023F660.cpp
 pso/unk/text_802432F0.cpp
