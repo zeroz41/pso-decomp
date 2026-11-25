@@ -1005,7 +1005,7 @@ void load_hud_palette_textures(void) {
     TLanguage::draw_string((void *)lbl_8044E734, (void *)palette, 0x4A);
     TLanguage::draw_string((void *)lbl_8044E748, (void *)palette, 0x43);
     TLobby::tmp_buf_release("TWindowBase");
-    load_disc_prs_texture((saddr)lbl_8044E758, reinterpret_cast<saddr>(&f256_hyouji_texlist));
+    load_disc_prs_texture(lbl_8044E758, &f256_hyouji_texlist);
     hud_texlist = &f256_hyouji_texlist;
     TObjFish::set_global_param(&f256_hyouji_texlist);
     TLanguage::set_entry_index(0, 0x40);

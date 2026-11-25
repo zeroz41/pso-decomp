@@ -125,5 +125,5 @@ void TAdPlyPltAnimGC__sub_8035615C(void) {
 
 void register_player_prate(void) {
     player_prate_texture_list_ptr = &player_prate_texture_list;
-    load_streamed_prs_texture((saddr)"f256_player_prate", (saddr)&player_prate_texture_list);
+    load_streamed_prs_texture("f256_player_prate", &player_prate_texture_list);
 }

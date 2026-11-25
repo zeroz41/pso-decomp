@@ -149,7 +149,7 @@ void TAdMcSelectCursorGC::release_cursor_entry() {
     }
 }
 
-void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = &mc_select_cursor_texture_list; load_streamed_prs_texture((s32)"f256_memorycard_select", (s32)&mc_select_cursor_texture_list); }
+void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = &mc_select_cursor_texture_list; load_streamed_prs_texture("f256_memorycard_select", &mc_select_cursor_texture_list); }
 
 s32 TAdMcCheckGC::get_check_step() { return check_step; }
 

@@ -8,9 +8,8 @@
 #include "pso/system/SoundEffect.h"
 extern "C" {
 const char multi_confirm_texture_archive_name[] = "f064_multiconfirm";
-void *multi_confirm_texture_entries[3] = { (void *)multi_confirm_texture_archive_name, 0, 0 };
-struct MultiConfirmTextureList { void *entries; u32 count; };
-__declspec(section ".data") MultiConfirmTextureList multi_confirm_texture_descriptor = { multi_confirm_texture_entries, 1 };
+NJS_TEXNAME multi_confirm_texture_entries[1] = {{(char *)multi_confirm_texture_archive_name, 0, {0}}};
+__declspec(section ".data") NJS_TEXLIST multi_confirm_texture_descriptor = { multi_confirm_texture_entries, 1 };
 }
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -18,18 +17,18 @@ __declspec(section ".data") MultiConfirmTextureList multi_confirm_texture_descri
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 extern "C" {
-saddr multi_confirm_texture_list;
+NJS_TEXLIST *multi_confirm_texture_list;
 }
 
 const char *TAdMultiOkGC__name = "TAdMultiOkGC";
 // The unit was built with -inline off,deferred: the functions are written
 // last-to-first, which gives the original address order.
-void load_multi_confirm_textures(void) { multi_confirm_texture_list = (saddr)&multi_confirm_texture_descriptor; load_streamed_prs_texture((saddr)multi_confirm_texture_archive_name, (saddr)&multi_confirm_texture_descriptor); }
+void load_multi_confirm_textures(void) { multi_confirm_texture_list = &multi_confirm_texture_descriptor; load_streamed_prs_texture(multi_confirm_texture_archive_name, &multi_confirm_texture_descriptor); }
 
 void free_multi_confirm_textures(void) {
-    if ((u32) multi_confirm_texture_list != 0U) {
-        release_texture_list((NJS_TEXLIST *)multi_confirm_texture_list);
-        multi_confirm_texture_list = 0U;
+    if (multi_confirm_texture_list != NULL) {
+        release_texture_list(multi_confirm_texture_list);
+        multi_confirm_texture_list = NULL;
     }
 }
 
@@ -173,7 +172,7 @@ void TAdMultiOkGC::draw_entry(int index) {
     f32 base;
     if (m_entries[index].flags & 2) {
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(multi_confirm_texture_list));
+        TObjFish::set_global_param(multi_confirm_texture_list);
         base = 0.0050000004f * (f32)index;
         for (i = 0; i < 5; i++) {
             set_draw_texture_and_color(0, m_entries[index].colors[i]);

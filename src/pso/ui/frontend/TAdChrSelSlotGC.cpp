@@ -34,7 +34,7 @@ NJS_TEXLIST *const lbl_80471D50[6] = { &lbl_804E0B60, &lbl_804E0B4C, &lbl_804E0B
 #include "pso/render/GinjaTexture.h"
 
 extern "C" {
-uaddr lbl_805D67F0;
+NJS_TEXLIST *lbl_805D67F0;
 f32 char_select_slot_quad_width, char_select_slot_quad_height;
 extern const s32 current_language;
 
@@ -45,7 +45,7 @@ void TAdChrSelSlotGC::draw_slot_icons() {
     for (i = 0; i < 5; i++) {
         if (visible[i] != 0) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)lbl_805D67F0));
+            TObjFish::set_global_param(lbl_805D67F0);
             set_draw_texture_and_color(0, colors[i]);
             draw_textured_quad_at_depth((f32 *)&quads[i], 0.1f);
             TWindowSubStatusDisp::get_player();
@@ -171,18 +171,19 @@ TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((TObject*)(object)) {
 #pragma pop
 
 void TLobby__sub_802C78EC(void) {
-    if ((u32) lbl_805D67F0 != 0U) {
-        release_texture_list((NJS_TEXLIST *)lbl_805D67F0);
-        lbl_805D67F0 = 0U;
+    if (lbl_805D67F0 != NULL) {
+        release_texture_list(lbl_805D67F0);
+        lbl_805D67F0 = NULL;
     }
 }
-struct ByteBlock_14 { s32 v[5]; };
+struct TextureNames { const char *v[5]; };
+struct TextureLists { NJS_TEXLIST *v[5]; };
 
 void TLobby__sub_802C7920(void) {
     TLobby::update_menu_cursor();
-    ByteBlock_14 a = *(const ByteBlock_14 *)chr_sel_slot_resource_name_table;
-    ByteBlock_14 b = *(const ByteBlock_14 *)lbl_80471D50;
-    s32 r4 = b.v[current_language];
-    lbl_805D67F0 = r4;
-    load_streamed_prs_texture(a.v[current_language], r4);
+    TextureNames names = *(const TextureNames *)chr_sel_slot_resource_name_table;
+    TextureLists lists = *(const TextureLists *)lbl_80471D50;
+    NJS_TEXLIST *list = lists.v[current_language];
+    lbl_805D67F0 = list;
+    load_streamed_prs_texture(names.v[current_language], list);
 }

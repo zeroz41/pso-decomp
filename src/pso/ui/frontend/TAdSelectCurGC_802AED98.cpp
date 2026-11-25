@@ -139,7 +139,7 @@ void TLobby::apply_menu_cursor_selection() {
     };
     NJS_TEXLIST *list = lists[current_language];
     menu_selection_cursor_texture_list = list;
-    load_streamed_prs_texture((saddr)names[current_language], (saddr)list);
+    load_streamed_prs_texture(names[current_language], list);
 }
 
 void TAdSelectCurGC::set_draw_depth(f32 depth) { draw_depth = depth; }

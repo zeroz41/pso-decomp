@@ -12,6 +12,7 @@
 #include "pso/ui/charcreate/TObjCMAssignMenu.h"
 #include "pso/network/TLobby.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 // Built with -inline off,deferred: .text comes out last function first, so the functions are written
 // in reverse address order; the data below stays in source order.
@@ -38,8 +39,6 @@ extern "C" {
 
 extern const s32 current_language;
 
-s32 load_streamed_prs_texture(s32 name, s32 texlist);
-
 void TLobby__sub_802A5154(void) {
     if (lbl_805D6668 != 0U) {
         return;
@@ -52,9 +51,9 @@ void TLobby__sub_802A5154(void) {
     const char *files[5] = {
         "f256_player_tex", "f256_player_tex_eng", "f256_player_tex_eng", "f256_player_tex_eng", "f256_player_tex_eng",
     };
-    s32 list = (saddr)lists[current_language];
-    lbl_805D6668 = list;
-    load_streamed_prs_texture((saddr)files[current_language], list);
+    NJS_TEXLIST *list = lists[current_language];
+    lbl_805D6668 = (saddr)list;
+    load_streamed_prs_texture(files[current_language], list);
 }
 
 void TLobby::free_dialing_gc() {

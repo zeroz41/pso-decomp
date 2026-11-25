@@ -224,7 +224,7 @@ extern "C" {
 
 
 TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
-    TWindowSubStatusDisp::destroy_status_display((s32)m_68, 1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)m_68, 1);
 }
 
 }
