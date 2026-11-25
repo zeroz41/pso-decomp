@@ -1453,7 +1453,7 @@ void TBoss4Type2::clear_harmful_statuses() {  }
 
 void TBoss4Type2::apply_shock_status() {  }
 
-void TBoss4Type2::apply_movement_ailment(s32) {  }
+void TBoss4Type2::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss4Type2::apply_confusion_status() {  }
 

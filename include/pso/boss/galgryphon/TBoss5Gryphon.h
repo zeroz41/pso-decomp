@@ -109,7 +109,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual void render_demo();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
-    virtual void apply_movement_ailment(s32);
+    virtual void apply_movement_ailment(CollisionBody *);
     virtual void apply_confusion_status();
     virtual void apply_slow_status();
     virtual void apply_paralysis();

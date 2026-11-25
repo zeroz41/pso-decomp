@@ -174,6 +174,6 @@ void TBoss7Joint::apply_poison_status() {  }
 void TBoss7Joint::apply_paralysis() {  }
 void TBoss7Joint::apply_slow_status() {  }
 void TBoss7Joint::apply_confusion_status() {  }
-void TBoss7Joint::apply_movement_ailment(s32) {  }
+void TBoss7Joint::apply_movement_ailment(CollisionBody *) {  }
 void TBoss7Joint::apply_shock_status() {  }
 void TBoss7Joint::clear_harmful_statuses() {  }

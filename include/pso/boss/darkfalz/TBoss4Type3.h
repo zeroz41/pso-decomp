@@ -41,7 +41,7 @@ struct TBoss4Type3 : public TObjEnemy {
     void request_follow_camera_default_offsets();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
-    virtual void apply_movement_ailment(s32);
+    virtual void apply_movement_ailment(CollisionBody *);
     virtual void apply_confusion_status();
     virtual void apply_slow_status();
     virtual void apply_paralysis();

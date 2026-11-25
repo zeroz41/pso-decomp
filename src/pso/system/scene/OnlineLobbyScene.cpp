@@ -85,6 +85,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
+#include "pso/unk/TObjFreezeShell.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -186,7 +187,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TRaderMapCore__sub_801F95CC, TRaderMapCore::free_heap},
     {alloc_work_buffer, TLobby__sub_801A5478},
     {init_switch_table, clear_switch_table},
-    {TLobby::load_freeze_ice_resource, TLobby::destroy_global_singleton},
+    {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
     {reset_shop_stock_and_params, clear_all_shop_stock},
     {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
     {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},

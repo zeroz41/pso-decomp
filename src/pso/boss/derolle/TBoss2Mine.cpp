@@ -62,7 +62,7 @@ void TBoss2Mine::clear_harmful_statuses() {  }
 
 void TBoss2Mine::apply_shock_status() {  }
 
-void TBoss2Mine::apply_movement_ailment(s32) {  }
+void TBoss2Mine::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss2Mine::apply_confusion_status() {  }
 

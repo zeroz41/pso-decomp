@@ -216,7 +216,7 @@ int TBoss6PlotFalz::is_idle() { return not_floor_leader == 0; }
 TBoss6PlotFalzSetEntry *TBoss6PlotFalz::get_set_entry() { return &set_entry; }
 void TBoss6Type1::clear_harmful_statuses() {  }
 void TBoss6Type1::apply_shock_status() {  }
-void TBoss6Type1::apply_movement_ailment(s32) {  }
+void TBoss6Type1::apply_movement_ailment(CollisionBody *) {  }
 void TBoss6Type1::apply_confusion_status() {  }
 void TBoss6Type1::apply_slow_status() {  }
 void TBoss6Type1::apply_paralysis() {  }

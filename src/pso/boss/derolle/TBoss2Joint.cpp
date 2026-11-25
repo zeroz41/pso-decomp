@@ -223,7 +223,7 @@ void TBoss2Joint::apply_poison_status() {}
 void TBoss2Joint::apply_paralysis() {}
 void TBoss2Joint::apply_slow_status() {}
 void TBoss2Joint::apply_confusion_status() {}
-void TBoss2Joint::apply_movement_ailment(s32) {}
+void TBoss2Joint::apply_movement_ailment(CollisionBody *) {}
 void TBoss2Joint::apply_shock_status() {}
 void TBoss2Joint::clear_harmful_statuses() {}
 

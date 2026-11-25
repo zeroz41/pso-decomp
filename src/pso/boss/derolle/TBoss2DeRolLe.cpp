@@ -338,7 +338,7 @@ void TBoss2DeRolLe::clear_harmful_statuses() {  }
 
 void TBoss2DeRolLe::apply_shock_status() {  }
 
-void TBoss2DeRolLe::apply_movement_ailment(s32) {  }
+void TBoss2DeRolLe::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss2DeRolLe::apply_confusion_status() {  }
 

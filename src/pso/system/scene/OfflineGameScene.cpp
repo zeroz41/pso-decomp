@@ -99,6 +99,7 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerActionProvider.h"
+#include "pso/unk/TObjFreezeShell.h"
 
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
@@ -215,7 +216,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby::load_set_gsl_files, clear_map_set_data},
     {TLobby::load_set_event_gsl, (FloorResourceCallback)TLobby::get_team_state},
     {alloc_work_buffer, TLobby__sub_801A5478},
-    {TLobby::load_freeze_ice_resource, TLobby::destroy_global_singleton},
+    {TObjFreezeShell::load_freeze_ice_resource, TObjFreezeShell::free_freeze_ice_resource},
     {TWindowDD__sub_80344114, TWindowDD::free_buffers},
     {init_switch_table, clear_switch_table},
     {reset_shop_stock_and_params, clear_all_shop_stock},

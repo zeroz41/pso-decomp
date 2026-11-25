@@ -414,7 +414,7 @@ void TBoss5Gryphon::clear_harmful_statuses() {  }
 
 void TBoss5Gryphon::apply_shock_status() {  }
 
-void TBoss5Gryphon::apply_movement_ailment(s32) {  }
+void TBoss5Gryphon::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss5Gryphon::apply_confusion_status() {  }
 

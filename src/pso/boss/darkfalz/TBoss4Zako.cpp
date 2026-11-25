@@ -707,7 +707,7 @@ void TBoss4Bishi::update_sink_state() {
 
 void TBoss4Type3::clear_harmful_statuses() {}
 void TBoss4Type3::apply_shock_status() {}
-void TBoss4Type3::apply_movement_ailment(s32) {}
+void TBoss4Type3::apply_movement_ailment(CollisionBody *) {}
 void TBoss4Type3::apply_confusion_status() {}
 void TBoss4Type3::apply_slow_status() {}
 void TBoss4Type3::apply_paralysis() {}

@@ -120,7 +120,7 @@ public:
     void spawn_confusion_feedback_effect(s32 play_sound);
     void play_shock_feedback(s32 play_sound);
     s16 clamp_hp();
-    void spawn_freeze_shell_effect(u32, s32);
+    void spawn_freeze_shell_effect(CollisionBody *body, s32 play_sound);
     s32 check_heavy_damage_flag(f32);
     virtual s32 add_actor_exp(s32);
     virtual s32 consume_timer_field(s32);
@@ -156,7 +156,7 @@ public:
     virtual void apply_paralysis();
     virtual void apply_slow_status();
     virtual void apply_confusion_status();
-    virtual void apply_movement_ailment(s32);
+    virtual void apply_movement_ailment(CollisionBody *body);
     virtual void apply_shock_status();
     virtual void clear_harmful_statuses();
     virtual void apply_attack_stat_status(void *);

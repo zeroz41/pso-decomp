@@ -115,6 +115,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/unk/TObjFreezeShell.h"
 
 
 struct ObjFlags;
@@ -263,7 +264,6 @@ s32 get_current_floor(void);
 f32 fabs_float(f32 x);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32 x);
-void create__10TObjPlayerFUiii(uaddr, s32, s32);
 s32 create_font_small_task(u32, s32, s32, s32, s32 *, s16, u16);
 s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
@@ -1765,10 +1765,10 @@ void TObjChara::apply_confusion_status() {
     }
 }
 
-void TObjChara::apply_movement_ailment(s32 arg1) {
+void TObjChara::apply_movement_ailment(CollisionBody *body) {
 
     if ((this->test_actor_flags(0x8000U) == 0) && (this->test_actor_flags(0x01000000U) == 0) && (this->test_immunity_flags(0x20) == 0) && ((this->test_actor_flags(0x20U) == 0) || (this->get_status_effect_timer(1) <= 0))) {
-        spawn_freeze_shell_effect(arg1, 1);
+        spawn_freeze_shell_effect(body, 1);
         switch (this->get_status_effect_type(1)) {
         case 2:
         case 3:
@@ -2294,7 +2294,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
                     f = 0.0f;
                 }
                 if (((s32 (*)(TObjChara *, TObjChara *, TObjChara *, f32))calc_freeze_chance)(this, ((TObjChara *)att), this, (0.025f) * ((0.025f) * f + (5.0f))) != 0) {
-                    this->apply_movement_ailment((saddr)coll);
+                    this->apply_movement_ailment((CollisionBody *)coll);
                 }
             }
             if (test_actor_flags(0x02000000) == 0) {
@@ -3758,18 +3758,14 @@ void TObjChara::play_shock_feedback(s32 play_sound) {
     }
 }
 
-void TObjChara::spawn_freeze_shell_effect(u32 arg1, s32 arg2) {
-    u32 temp_r4;
-    if (((s32)this->test_actor_flags(0x02000000)) == 0) {
-        if (arg1 != 0U) {
-            create__10TObjPlayerFUiii((uaddr) this, (s32) arg1, 0x96);
-        } else {
-            temp_r4 = *(u32 *)&this->bodies;
-            if (temp_r4 != 0U) {
-                create__10TObjPlayerFUiii((uaddr) this, (s32) temp_r4, 0x96);
-            }
+void TObjChara::spawn_freeze_shell_effect(CollisionBody *body, s32 play_sound) {
+    if (this->test_actor_flags(0x02000000) == 0) {
+        if (body != NULL) {
+            TObjFreezeShell::create(this, body, 0x96);
+        } else if (this->bodies != NULL) {
+            TObjFreezeShell::create(this, this->bodies, 0x96);
         }
-        if (arg2 != 0) {
+        if (play_sound != 0) {
             play_sound_effect(0xB20F, &position, 0, 0);
         }
     }

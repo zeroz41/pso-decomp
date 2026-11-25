@@ -43,7 +43,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void run_miss_reaction();
     void clear_harmful_statuses();
     void apply_shock_status();
-    void apply_movement_ailment(s32);
+    void apply_movement_ailment(CollisionBody *);
     void apply_confusion_status();
     void apply_slow_status();
     void apply_paralysis();

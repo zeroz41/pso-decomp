@@ -48,7 +48,7 @@ void TObjEneRe4Bit::clear_harmful_statuses() {  }
 
 void TObjEneRe4Bit::apply_shock_status() {  }
 
-void TObjEneRe4Bit::apply_movement_ailment(s32) {  }
+void TObjEneRe4Bit::apply_movement_ailment(CollisionBody *) {  }
 
 void TObjEneRe4Bit::apply_confusion_status() {  }
 

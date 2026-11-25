@@ -128,8 +128,6 @@ struct TLobby : public TObject {
     static TObjTombstone *create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot);
     void collect_active_card_ids();
     static void send_status_packet();
-    static void destroy_global_singleton();
-    static void load_freeze_ice_resource();
     static void clear_flag_on_phase_e();
     void bswap_field();
     void broadcast_state();

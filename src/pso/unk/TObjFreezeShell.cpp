@@ -187,8 +187,7 @@ void TObjFreezeShell::render() {
     }
 }
 
-extern "C" {
-void create__10TObjPlayerFUiii(TObjChara *chara, CollisionBody *body, s32 duration) {
+void TObjFreezeShell::create(TObjChara *chara, CollisionBody *body, s32 duration) {
     u16 entity_id;
 
     if ((is_current_area_item_enabled() != 0) && (chara != NULL)) {
@@ -198,16 +197,15 @@ void create__10TObjPlayerFUiii(TObjChara *chara, CollisionBody *body, s32 durati
         }
     }
 }
-}
 
-void TLobby::destroy_global_singleton() {
+void TObjFreezeShell::free_freeze_ice_resource() {
     if (freeze_shell_bml_resource != NULL) {
         delete freeze_shell_bml_resource;
         freeze_shell_bml_resource = NULL;
     }
 }
 
-void TLobby::load_freeze_ice_resource() {
+void TObjFreezeShell::load_freeze_ice_resource() {
     freeze_shell_bml_resource = new BmlResource(5, &enemy_freeze_ice_resource_descriptor, 0, 0, NULL);
 }
 

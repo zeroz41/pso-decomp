@@ -517,7 +517,7 @@ void TBoss7DeRolLeC::clear_harmful_statuses() {  }
 
 void TBoss7DeRolLeC::apply_shock_status() {  }
 
-void TBoss7DeRolLeC::apply_movement_ailment(s32) {  }
+void TBoss7DeRolLeC::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss7DeRolLeC::apply_confusion_status() {  }
 

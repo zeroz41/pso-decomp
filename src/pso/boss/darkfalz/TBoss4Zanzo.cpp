@@ -1117,7 +1117,7 @@ Vec *TObjPlayer::get_position_ptr() { return &this->position; }
 // Dark Falz's first form ignores every status ailment.
 void TBoss4Type1::clear_harmful_statuses() {}
 void TBoss4Type1::apply_shock_status() {}
-void TBoss4Type1::apply_movement_ailment(s32) {}
+void TBoss4Type1::apply_movement_ailment(CollisionBody *) {}
 void TBoss4Type1::apply_confusion_status() {}
 void TBoss4Type1::apply_slow_status() {}
 void TBoss4Type1::apply_paralysis() {}

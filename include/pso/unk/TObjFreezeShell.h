@@ -10,6 +10,10 @@ struct CollisionBody;
 class TObjFreezeShell : public TObjChara {
 public:
     TObjFreezeShell(TObjChara *chara, CollisionBody *body, s32 duration);
+    // Puts a shell around chara (at body when given) unless items are off in this area.
+    static void create(TObjChara *chara, CollisionBody *body, s32 duration);
+    static void free_freeze_ice_resource();
+    static void load_freeze_ice_resource();
     virtual ~TObjFreezeShell();
     void freeze_shell_grow();
     void freeze_shell_hold();

@@ -316,7 +316,7 @@ void TBoss8Dragon::clear_harmful_statuses() {  }
 
 void TBoss8Dragon::apply_shock_status() {  }
 
-void TBoss8Dragon::apply_movement_ailment(s32) {  }
+void TBoss8Dragon::apply_movement_ailment(CollisionBody *) {  }
 
 void TBoss8Dragon::apply_confusion_status() {  }
 

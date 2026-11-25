@@ -147,7 +147,7 @@ void TBoss6Type2::clear_harmful_statuses() {}
 
 void TBoss6Type2::apply_shock_status() {}
 
-void TBoss6Type2::apply_movement_ailment(s32) {}
+void TBoss6Type2::apply_movement_ailment(CollisionBody *) {}
 
 void TBoss6Type2::apply_confusion_status() {}
 
