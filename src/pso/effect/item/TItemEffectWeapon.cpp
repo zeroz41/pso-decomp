@@ -143,10 +143,10 @@ TItemEffectWeapon::~TItemEffectWeapon() {
     release_trail_buffer(vertices);
 }
 
-TItemEffectWeapon::TItemEffectWeapon(saddr parent, s32 param) : TItemHeapObject((TObject*)parent) {
+TItemEffectWeapon::TItemEffectWeapon(TObject *parent, u32 color) : TItemHeapObject(parent) {
     m_name = class_name;
     vertices = allocate_trail_buffer();
-    this->color = param;
+    this->color = color;
     this->vertex_count = 0;
     this->flags = 0;
 }

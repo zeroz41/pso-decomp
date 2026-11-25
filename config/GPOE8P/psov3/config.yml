@@ -604,7 +604,7 @@ force_active:
   - komorebi_resource_descriptor
   - TLanguage__class_name
   - TLanguage__read_cursor
-  - TLazerFenceSw__class_name
+  - class_name__13TLazerFenceSw
   - TLoadCtrl__ct
   - battle_team_table
   - card_list_selected_index__6TLobby

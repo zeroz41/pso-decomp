@@ -140,7 +140,6 @@ void TMainCursor__sub_80154094();
 void free_ancient_container_resources();
 void TContainerAncient01R__sub_8018AF74();
 void load_door_jung_resources();
-void free_lazer_fence_switch_resources();
 void load_bigtuitate_bml_resource();
 void release_boss_warp_resources();
 void TLanguage__sub_802A0204();

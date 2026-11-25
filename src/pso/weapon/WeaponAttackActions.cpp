@@ -84,14 +84,6 @@ struct Stack_8011E56C {
     f32 spC;
 };
 
-struct Pl_8011E950 {
-    u8 pad0[0x174];
-    u32 x174;
-    u8 pad178[0x18C - 0x178];
-    void *eff[4];
-    s8 kind[4];
-};
-
 
 struct ShotVector { f32 x,y,z; };
 
@@ -120,7 +112,6 @@ struct Self_8011EDFC {
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 TObjChara *resolve_hittable_target(s32, s32);
-void * __ct__17TItemEffectWeaponFll(void *, u32, u32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
 
@@ -283,17 +274,13 @@ void TItemWeapon::create_weapon_trail_effects() {
     u32 flags;
     s32 i;
     flags = pack_weapon_trail_color(this) & 0x8FFFFFFF;
-    if (((Pl_8011E950 *)this)->x174 != 0U) {
+    if (effect_objects != NULL) {
         for (i = 0; i != 4; i++) {
-            if (((Pl_8011E950 *)this)->kind[i] != -1) {
-                void *p = TItemHeapObject::operator new(0x2C);
-                if (p != NULL) {
-                    p = __ct__17TItemEffectWeaponFll(p, ((Pl_8011E950 *)this)->x174, flags);
-                }
-                ((Pl_8011E950 *)this)->eff[i] = p;
+            if (trail_start_joints[i] != -1) {
+                trails[i] = new TItemEffectWeapon(effect_objects, flags);
             }
-            if (((Pl_8011E950 *)this)->eff[i] != NULL && ((TObjCollidable *)((Pl_8011E950 *)this))->test_actor_flags(0x2000) != 0) {
-                ((TItemEffectWeapon *)((Pl_8011E950 *)this)->eff[i])->set_flags(1);
+            if (trails[i] != NULL && test_actor_flags(0x2000) != 0) {
+                trails[i]->set_flags(1);
             }
         }
     }
