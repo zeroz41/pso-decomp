@@ -482,11 +482,8 @@ pso/boss/volopt/TObjVoloptShutter.cpp:
 pso/unk/TLobby_8004A90C.cpp:
 	.text       start:0x8004A90C end:0x8004A978
 
-pso/boss/darkfalz/TBoss4Type2_8004A978.cpp:
-	.text       start:0x8004A978 end:0x8004AA04
-
-pso/unk/text_8004AA04.cpp:
-	.text       start:0x8004AA04 end:0x8004AB90
+pso/boss/darkfalz/ModelNodeTables.cpp:
+	.text       start:0x8004A978 end:0x8004AB90
 
 pso/boss/darkfalz/TObjDFHorming.cpp:
 	.text       start:0x8004AB90 end:0x8004C1AC

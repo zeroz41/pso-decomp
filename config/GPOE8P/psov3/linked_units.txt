@@ -232,13 +232,13 @@ pso/boss/volopt/TBoss3Volopt_800D8ACC.cpp
 pso/render/reflection.cpp
 pso/render/MaterialColorFade.cpp
 pso/unk/SampledMotionPoints.cpp
+pso/boss/darkfalz/ModelNodeTables.cpp
 pso/boss/darkfalz/TBoss4CheckEmpty.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004D8C8.cpp
 pso/boss/darkfalz/TBoss4Fade.cpp
 pso/boss/darkfalz/TBoss4Thanks.cpp
 pso/boss/darkfalz/TBoss4Type1.cpp
-pso/boss/darkfalz/TBoss4Type2_8004A978.cpp
 pso/effect/GroundContactSound.cpp
 pso/effect/particle/ParticleStrip.cpp
 pso/effect/particle/ParticleResources.cpp
@@ -1762,7 +1762,6 @@ pso/weapon/TItemWeaponYasminkov2000H.cpp
 pso/unk/text_8000F740.cpp
 pso/ui/frontend/DrawLine.cpp
 pso/ui/frontend/TitleBackground.cpp
-pso/unk/text_8004AA04.cpp
 pso/boss/darkfalz/TObjDFDemo0.cpp
 pso/unk/text_80052420.cpp
 pso/unk/text_80066F10.cpp
