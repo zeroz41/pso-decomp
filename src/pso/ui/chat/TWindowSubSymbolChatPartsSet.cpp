@@ -1,6 +1,7 @@
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
@@ -169,7 +170,6 @@ struct Pt_80286120 { u8 pad[8]; f32 f8; f32 fc; };
 struct Ps_80286120 { u8 pad[0x69]; s8 f69; u8 pad6a[0xA]; s32 index; };
 
 extern "C" {
-void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
 
 
@@ -208,12 +208,12 @@ void TWindowSubSymbolChatPartsSet::handle_decide() {
 void TWindowSubSymbolChatPartsSet::sub_8028625C() {
     Set_8028625C *arg0 = (Set_8028625C *)this;
     u16 *e2;
-    void *b3;
-    void *a1;
-    void *a3;
-    void *b1;
+    WindowSpritePart *b3;
+    WindowSpritePart *a1;
+    WindowSpritePart *a3;
+    WindowSpritePart *b1;
     u16 *e;
-    void *c;
+    WindowSpritePart *c;
     switch (arg0->mode) {
     case 0:
     case 2:
@@ -230,15 +230,15 @@ void TWindowSubSymbolChatPartsSet::sub_8028625C() {
         }
         break;
     case 3:
-        a3 = get_parts_entry(this, arg0->sel);
-        b3 = get_parts_entry((saddr)arg0->sel);
-        c = TWindowSubSymbolChatPartsSet__sub_802482B8(this, arg0->sel);
-        setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a3, b3, c, 0xFF, 0, 0, 0, 0);
+        a3 = (WindowSpritePart *)get_parts_entry(this, arg0->sel);
+        b3 = (WindowSpritePart *)get_parts_entry((saddr)arg0->sel);
+        c = (WindowSpritePart *)TWindowSubSymbolChatPartsSet__sub_802482B8(this, arg0->sel);
+        setup_part_sprites(a3, b3, c, 0xFF, 0, 0, 0, 0);
     case 1:
-        a1 = get_parts_entry(this, arg0->cur);
-        b1 = get_parts_entry((saddr)arg0->cur);
-        c = TWindowSubSymbolChatPartsSet__sub_802482B8(this, arg0->cur);
-        setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a1, b1, c, arg0->color, *arg0->p70, *arg0->p7C, *arg0->p80, arg0->cur);
+        a1 = (WindowSpritePart *)get_parts_entry(this, arg0->cur);
+        b1 = (WindowSpritePart *)get_parts_entry((saddr)arg0->cur);
+        c = (WindowSpritePart *)TWindowSubSymbolChatPartsSet__sub_802482B8(this, arg0->cur);
+        setup_part_sprites(a1, b1, c, arg0->color, *arg0->p70, *arg0->p7C, *arg0->p80, arg0->cur);
         break;
     }
 }

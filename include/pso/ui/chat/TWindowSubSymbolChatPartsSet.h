@@ -6,6 +6,7 @@
 #include "pso/ui/chat/TWindowChatSymbol.h"
 
 struct TWindowSubStatusDisp;
+struct SymbolChatPart;
 
 struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second);
@@ -40,12 +41,15 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     f32 m_8c;
     f32 m_90;
     f32 m_94;
-    static int get_parts_entry(int a0);
+    // Reads symbol_chat_parts_color_table.
+    static int get_parts_color(int index);
     void set_pos(s16 arg1, s16 next);
     static void set_part_sprite(void *arg0, s16 id, s32 a, s32 b);
     u16 *get_entry_offset_d(s32 sel);
     u16 *get_parts_entry(saddr index);
     static u16 *get_parts_entry(void *window, int index);
+    static void apply_part_to_window(WindowLayoutEntries *entries, SymbolChatPart *part, s32 index);
+    static void setup_part_sprites(WindowSpritePart *help, WindowSpritePart *alternate, WindowSpritePart *shortcut_icon, u16 code, s32 color, s32 flip_u, s32 flip_v, s32 uv_index);
 };
 
 extern "C" u16 *TWindowSubSymbolChatPartsSet__sub_802482B8(void *window, s32 index);

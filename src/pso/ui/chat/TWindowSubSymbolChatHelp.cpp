@@ -51,7 +51,7 @@ void TWindowSubSymbolChatHelp::draw_color_palette(void *window_draw_context) {
     q.v1 = (0.20703125f);
     for (i = 0; i < 8; i++) {
         if (flags & 2) {
-            t = TWindowSubSymbolChatPartsSet::get_parts_entry(i);
+            t = TWindowSubSymbolChatPartsSet::get_parts_color(i);
         } else {
             t = TWindowSubSymbolChatHelp__sub_80247EE8(i);
         }

@@ -173,7 +173,7 @@ void TWindowSubSymbolChatFaceType::update_parts_entries() {
     s32 i;
     for (i = 0; i < 4; i++) {
         Ent_80283FA8 *e = (Ent_80283FA8 *)get_array_entry(i);
-        e->parts_entry = TWindowSubSymbolChatPartsSet::get_parts_entry(*m_64);
+        e->parts_entry = TWindowSubSymbolChatPartsSet::get_parts_color(*m_64);
     }
 }
 
