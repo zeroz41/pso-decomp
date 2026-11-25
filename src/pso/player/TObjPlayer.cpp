@@ -1067,7 +1067,7 @@ void G_LevelUpAllTechniques_6x9B::init() {
     header.size = 2;
 }
 
-void G_LevelUpAllTechniques_6x9B::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_LevelUpAllTechniques_6x9B::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 
 void G_AddBattleDamageScores_6x8F::bswap() { header.bswap(); bswap_16(&target_entity_id); bswap_16((u16 *)&amount); }
 
@@ -1103,35 +1103,35 @@ void G_SetPlayerBattleTeam_6x90::init() {
 
 void G_EnableDropWeaponOnDeath_6x82::init() { header.subcommand = 0x82; header.size = 1; }
 
-void G_EnableDropWeaponOnDeath_6x82::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_EnableDropWeaponOnDeath_6x82::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 
 void G_DisableDropWeaponOnDeath_6x81::init() { header.subcommand = 0x81; header.size = 1; }
 
-void G_DisableDropWeaponOnDeath_6x81::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_DisableDropWeaponOnDeath_6x81::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 
 void G_DisableStealthSuitEffect_6x7B::init() { header.subcommand = 0x7B; header.size = 1; }
 
-void G_DisableStealthSuitEffect_6x7B::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_DisableStealthSuitEffect_6x7B::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 
 void G_EnableStealthSuitEffect_6x7A::init() { header.subcommand = 0x7A; header.size = 1; }
 
-void G_EnableStealthSuitEffect_6x7A::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_EnableStealthSuitEffect_6x7A::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 
 void G_DisablePKModeForPlayer_6x1C::init() { header.subcommand = 0x1C; header.size = 1; }
 
-void G_DisablePKModeForPlayer_6x1C::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_DisablePKModeForPlayer_6x1C::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 
 void G_EnablePKModeForPlayer_6x1B::init() { header.subcommand = 0x1B; header.size = 1; }
 
-void G_EnablePKModeForPlayer_6x1B::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_EnablePKModeForPlayer_6x1B::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 
 void G_SetPlayerVisible_6x23::init() { header.subcommand = 0x23; header.size = 1; }
 
-void G_SetPlayerVisible_6x23::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_SetPlayerVisible_6x23::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 
 void G_SetPlayerInvisible_6x22::init() { header.subcommand = 0x22; header.size = 1; }
 
-void G_SetPlayerInvisible_6x22::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_SetPlayerInvisible_6x22::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 
 void G_ChangePlayerHP_6x2F::bswap() {
     header.bswap();
@@ -1206,13 +1206,13 @@ G_AddStatusEffect_6x0C &G_AddStatusEffect_6x0C::operator=(G_AddStatusEffect_6x0C
 void G_AddStatusEffect_6x0C::init() { header.subcommand = 0x0C; header.size = 3; }
 void G_AddStatusEffect_6x0C::send() { bswap(); send_subcommand(this); }
 void G_RevivePlayer_V3_BB_6xA1::init() { header.subcommand = 0xA1; header.size = 1; }
-void G_RevivePlayer_V3_BB_6xA1::send() { bswap_g_client_id_header(this); send_subcommand(this); }
-void G_MedicalCenterReviveAllPlayers_6x32::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_RevivePlayer_V3_BB_6xA1::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
+void G_MedicalCenterReviveAllPlayers_6x32::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 void G_MedicalCenterReviveAllPlayers_6x32::init() { header.subcommand = 0x32; header.size = 1; }
 void G_UseMedicalCenter_6x31::init() { header.subcommand = 0x31; header.size = 1; }
-void G_UseMedicalCenter_6x31::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_UseMedicalCenter_6x31::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 void G_ReleaseHold_6x2D::init() { header.subcommand = 0x2D; header.size = 1; }
-void G_ReleaseHold_6x2D::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_ReleaseHold_6x2D::send() { bswap_g_client_id_header(&header); send_subcommand(this); }
 void G_ImposeHold_6x2C::bswap() { header.bswap(); bswap_16(&unknown_a1); bswap_16(&unknown_a2); bswap_32((u32 *)&trigger_radius2); pos.bswap(); }
 void G_ImposeHold_6x2C::init() {
     unknown_a1 = 0;
