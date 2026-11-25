@@ -664,19 +664,19 @@ void TWindowHelpItem::update_stat_comparison() {
     e2->set_compare_value(st.mst);
     e5->set_compare_value(st.lck);
     if (check_equip_requirements(pl, (TItemData *)displayed_item_data, &flags) != 0) {
-        e0->set_flag_0x10(1);
-        e3->set_flag_0x10(1);
-        e1->set_flag_0x10(1);
-        e4->set_flag_0x10(1);
-        e2->set_flag_0x10(1);
-        e5->set_flag_0x10(1);
+        e0->set_compare_enabled(1);
+        e3->set_compare_enabled(1);
+        e1->set_compare_enabled(1);
+        e4->set_compare_enabled(1);
+        e2->set_compare_enabled(1);
+        e5->set_compare_enabled(1);
     } else {
-        e0->set_flag_0x10(0);
-        e3->set_flag_0x10(0);
-        e1->set_flag_0x10(0);
-        e4->set_flag_0x10(0);
-        e2->set_flag_0x10(0);
-        e5->set_flag_0x10(0);
+        e0->set_compare_enabled(0);
+        e3->set_compare_enabled(0);
+        e1->set_compare_enabled(0);
+        e4->set_compare_enabled(0);
+        e2->set_compare_enabled(0);
+        e5->set_compare_enabled(0);
     }
 }
 
@@ -734,18 +734,18 @@ void TWindowHelpItem::update_stat_disp2() {
     player = (saddr)get_player_by_client_id(client_index);
     if ((player != 0) && (native_row = (HelpItemStatCompareRow *)get_array_entry(0), abeast_row = (HelpItemStatCompareRow *)get_array_entry(1), machine_row = (HelpItemStatCompareRow *)get_array_entry(2), dark_row = (HelpItemStatCompareRow *)get_array_entry(3), hit_row = (HelpItemStatCompareRow *)get_array_entry(4), (item = displayed_item_data, (item == 0U) == 0))) {
         if (check_equip_requirements((void *)player, (TItemData *)item, &requirement) != 0) {
-            native_row->set_flag_0x10(1);
-            abeast_row->set_flag_0x10(1);
-            machine_row->set_flag_0x10(1);
-            dark_row->set_flag_0x10(1);
-            hit_row->set_flag_0x10(1);
+            native_row->set_compare_enabled(1);
+            abeast_row->set_compare_enabled(1);
+            machine_row->set_compare_enabled(1);
+            dark_row->set_compare_enabled(1);
+            hit_row->set_compare_enabled(1);
             return;
         }
-        native_row->set_flag_0x10(0);
-        abeast_row->set_flag_0x10(0);
-        machine_row->set_flag_0x10(0);
-        dark_row->set_flag_0x10(0);
-        hit_row->set_flag_0x10(0);
+        native_row->set_compare_enabled(0);
+        abeast_row->set_compare_enabled(0);
+        machine_row->set_compare_enabled(0);
+        dark_row->set_compare_enabled(0);
+        hit_row->set_compare_enabled(0);
     }
 }
 
@@ -874,18 +874,18 @@ void TWindowHelpItem::update_stat_disp() {
         e = (HelpItemStatCompareRow *)this->get_array_entry(4);
         if (this->displayed_item_data != 0) {
             if (check_equip_requirements((void *)player, (TItemData *)this->displayed_item_data, &requirement) != 0) {
-                a->set_flag_0x10(1);
-                b->set_flag_0x10(1);
-                c->set_flag_0x10(1);
-                d->set_flag_0x10(1);
-                e->set_flag_0x10(1);
+                a->set_compare_enabled(1);
+                b->set_compare_enabled(1);
+                c->set_compare_enabled(1);
+                d->set_compare_enabled(1);
+                e->set_compare_enabled(1);
                 return;
             }
-            a->set_flag_0x10(0);
-            b->set_flag_0x10(0);
-            c->set_flag_0x10(0);
-            d->set_flag_0x10(0);
-            e->set_flag_0x10(0);
+            a->set_compare_enabled(0);
+            b->set_compare_enabled(0);
+            c->set_compare_enabled(0);
+            d->set_compare_enabled(0);
+            e->set_compare_enabled(0);
         }
     }
 }

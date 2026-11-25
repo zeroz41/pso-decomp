@@ -41,7 +41,7 @@ void HelpItemStatCompareRow::draw_number_value(f32 *pos, s32 value, s32 color, s
     draw_window_text(xy, (const char *)get_shared_text_buffer(), color, 0, 1000000.0f);
 }
 
-void HelpItemStatCompareRow::set_flag_0x10(s32 enable) {
+void HelpItemStatCompareRow::set_compare_enabled(s32 enable) {
     if (enable != 0) {
         flags |= 0x10;
         return;

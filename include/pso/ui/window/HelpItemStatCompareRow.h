@@ -24,7 +24,7 @@ public:
     virtual void render(WindowDrawContext *context);
     void update_visible_flags();
     void draw_number_value(f32 *pos, s32 value, s32 color, s32 percent);
-    void set_flag_0x10(s32 enable);
+    void set_compare_enabled(s32 enable);
     void set_compare_value(s32 value);
     void set_compare_color(s32 count);
     void set_value(s32 value);
