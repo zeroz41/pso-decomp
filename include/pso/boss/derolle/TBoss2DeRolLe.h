@@ -212,8 +212,8 @@ LAYOUT_ASSERT(TBoss2DeRolLe_size, sizeof(TBoss2DeRolLe) == 0x75C);
 extern "C" {
 void derolle_capture_node_points(NJS_OBJECT *);
 void derolle_begin_node_capture(TBoss2DeRolLe *boss);
-void handle_6x13_de_rol_le_boss_actions(void *arg0);
-void handle_6x14_de_rol_le_boss_actions_with_target(void *arg0);
+void handle_6x13_de_rol_le_boss_actions(DeRolLeActionPacket *packet);
+void handle_6x14_de_rol_le_boss_actions_with_target(DeRolLeActionTargetPacket *packet);
 s32 play_sound(s32 id, Vec *position);
 }
 

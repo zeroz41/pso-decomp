@@ -274,7 +274,7 @@ extern f32 boss8_dragon_fall_accel;
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *rng);
 }
-void handle_6xA8_gol_dragon_boss_actions(void *data);
+void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *cmd);
 
 extern "C" {
 extern const f32 lbl_805D9E80;
@@ -1161,8 +1161,7 @@ void TBoss8Dragon::reload_impact_stats() {
     this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[3]], TLobby::register_object(0x12));
 }
 
-void handle_6xA8_gol_dragon_boss_actions(void *data) {
-    G_GolDragonBossActions_6xA8 *cmd = (G_GolDragonBossActions_6xA8 *)data;
+void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *cmd) {
     TBoss8Dragon *boss;
     cmd->bswap();
     boss = (TBoss8Dragon *)get_enemy_entity(cmd->header.client_id);

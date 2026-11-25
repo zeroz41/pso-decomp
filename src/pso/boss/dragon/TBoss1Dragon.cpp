@@ -254,9 +254,9 @@ static Vec boss1_dragon_held_camera_eye_offsets[4] = {
 };
 f32 atan2_float(f32 y, f32 x);
 }
-void handle_6x12_dragon_boss_actions(TObjPlayer *packet);
-void handle_6x11_dragon_boss_actions(void *packet);
-void handle_6x10_dragon_boss_actions(void *packet);
+void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet);
+void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
+void handle_6x10_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
 extern s32 enable_v2_features;
 static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -334,13 +334,13 @@ s32 TObjEnemy::exchange_object_state(void *record, s16 mode) {
     return 1;
 }
 
-void G_DragonBossActions_6x10_6x11::bswap_6x10() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_DragonBossActions_6x10_6x11::bswap_6x10() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)&state); bswap_16((u16 *)&action_index); bswap_32(&target_id); }
 
-void G_DragonBossActions_6x10_6x11::bswap_6x11() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_DragonBossActions_6x10_6x11::bswap_6x11() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)&state); bswap_16((u16 *)&action_index); bswap_32(&target_id); }
 
-void G_DragonBossActions_6x12::init() { *(u8*)((char*)this + 0x0) = 18; *(u8*)((char*)this + 0x1) = 5; }
+void G_DragonBossActions_6x12::init() { action.header.subcommand = 18; action.header.size = 5; }
 
-void G_DragonBossActions_6x12::bswap() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_DragonBossActions_6x12::bswap() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)&action.state); bswap_16((u16 *)&action.action_index); bswap_32(&action.target_id); }
 
 void G_DragonBossActions_6x12::send() { bswap(); send_subcommand((u8 *)this); }
 
@@ -1408,33 +1408,31 @@ void TBoss1Dragon::reload_impact_stats() {
     this->reload_stats_keep_hp_tp(boss1_dragon_base_params[boss1_dragon_base_stat_indices[3]], boss1_dragon_part_hp_stats[boss1_dragon_attack_stat_indices[3]], boss1_dragon_resistance_params[boss1_dragon_resistance_stat_indices[3]]);
 }
 
-void handle_6x10_dragon_boss_actions(void *packet) {
+void handle_6x10_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet) {
     void *x;
-    static_cast<G_DragonBossActions_6x10_6x11 *>(packet)->bswap_6x10();
-    x = get_enemy_entity(static_cast<const G_DragonBossActions_6x10_6x11 *>(packet)->header.entity_id);
+    packet->bswap_6x10();
+    x = get_enemy_entity(packet->header.entity_id);
     if (x != NULL) {
         ((TBoss1Dragon *)x)->copy_params(packet);
     }
 }
 
-void TBoss1Dragon::copy_params(void *packet) {
-    const G_DragonBossActions_6x10_6x11 *action = static_cast<const G_DragonBossActions_6x10_6x11 *>(packet);
+void TBoss1Dragon::copy_params(G_DragonBossActions_6x10_6x11 *action) {
     enemy_set_target_id(this, (u16)action->target_id);
     this->sequenceCursor = action->action_index;
     transition_enemy_state(action->state);
 }
 
-void handle_6x11_dragon_boss_actions(void *packet) {
+void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet) {
     void *x;
-    static_cast<G_DragonBossActions_6x10_6x11 *>(packet)->bswap_6x11();
-    x = get_enemy_entity(static_cast<const G_DragonBossActions_6x10_6x11 *>(packet)->header.entity_id);
+    packet->bswap_6x11();
+    x = get_enemy_entity(packet->header.entity_id);
     if (x != NULL) {
         ((TBoss1Dragon *)x)->set_params(packet);
     }
 }
 
-void TBoss1Dragon::set_params(void *packet) {
-    const G_DragonBossActions_6x10_6x11 *action = static_cast<const G_DragonBossActions_6x10_6x11 *>(packet);
+void TBoss1Dragon::set_params(G_DragonBossActions_6x10_6x11 *action) {
     enemy_set_target_id(this, (u16)action->target_id);
     this->sequenceCursor = action->action_index;
     if ((s16) this->mode != (s16) action->state) {
@@ -1442,17 +1440,16 @@ void TBoss1Dragon::set_params(void *packet) {
     }
 }
 
-void handle_6x12_dragon_boss_actions(TObjPlayer *packet) {
+void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet) {
     void *x;
-    reinterpret_cast<G_DragonBossActions_6x12 *>(packet)->bswap();
-    x = get_enemy_entity(reinterpret_cast<const G_DragonBossActions_6x12 *>(packet)->action.header.entity_id);
+    packet->bswap();
+    x = get_enemy_entity(packet->action.header.entity_id);
     if (x != NULL) {
-        ((TBoss1Dragon *)x)->receive_state_request((u8 *)packet);
+        ((TBoss1Dragon *)x)->receive_state_request(packet);
     }
 }
 
-void TBoss1Dragon::receive_state_request(u8 *packet) {
-    const G_DragonBossActions_6x12 *sync = reinterpret_cast<const G_DragonBossActions_6x12 *>(packet);
+void TBoss1Dragon::receive_state_request(G_DragonBossActions_6x12 *sync) {
     const G_DragonBossActions_6x10_6x11 *action = &sync->action;
     s32 state;
     enemy_set_target_id(this, (u16)action->target_id);

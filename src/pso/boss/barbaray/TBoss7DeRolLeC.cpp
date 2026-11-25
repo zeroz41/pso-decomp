@@ -1310,8 +1310,7 @@ void TBoss7DeRolLeC::start_death_sequence() {
     }
 }
 
-void handle_6xA9_barba_ray_boss_actions(void *data) {
-    G_BarbaRayBossActions_6xA9 *cmd = (G_BarbaRayBossActions_6xA9 *)data;
+void handle_6xA9_barba_ray_boss_actions(G_BarbaRayBossActions_6xA9 *cmd) {
     TBoss7DeRolLeC *boss;
     cmd->bswap();
     boss = (TBoss7DeRolLeC *)get_enemy_entity(cmd->header.client_id);
@@ -1320,8 +1319,7 @@ void handle_6xA9_barba_ray_boss_actions(void *data) {
     }
 }
 
-void handle_6xAA_barba_ray_boss_actions(void *data) {
-    G_BarbaRayBossActions_6xAA *cmd = (G_BarbaRayBossActions_6xAA *)data;
+void handle_6xAA_barba_ray_boss_actions(G_BarbaRayBossActions_6xAA *cmd) {
     TBoss7DeRolLeC *boss;
     cmd->bswap();
     boss = (TBoss7DeRolLeC *)get_enemy_entity(cmd->header.client_id);

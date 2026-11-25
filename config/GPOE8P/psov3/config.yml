@@ -5374,7 +5374,7 @@ force_active:
   - copy_pair__11TBoss4Type3FPv
   - copy_pair__18TObjEnvSoundGlobalFPvPv
   - copy_pair__6TLobbyFPvPv
-  - copy_params__12TBoss1DragonFPv
+  - copy_params__12TBoss1DragonFP29G_DragonBossActions_6x10_6x11
   - copy_pos__10TBoss6MineFv
   - copy_pos__13TBoss6MagMineFv
   - copy_pos__13TObjEneMe1GeeFv
@@ -13953,7 +13953,7 @@ force_active:
   - receive_physical_attack__20TContainerAncient01RFPvf
   - receive_physical_attack__21TObjContainerAbeEnemyFPvf
   - receive_physical_attack__9TBoss6MagFPvf
-  - receive_state_request__12TBoss1DragonFPUc
+  - receive_state_request__12TBoss1DragonFP24G_DragonBossActions_6x12
   - receive_weapon_special_attack__11TOVS2Wall01FPvPv
   - receive_weapon_special_attack__15TObjFreezeShellFPvPv
   - receive_weapon_special_attack__15TOAttackableColFPvPv
@@ -15528,7 +15528,7 @@ force_active:
   - set_orbit_destination__19TObjEneEpsilonGuardFl
   - set_owner_flag_bit0__11TBoss6Type2Fv
   - set_page__17TWindowSubComCardFs
-  - set_params__12TBoss1DragonFPv
+  - set_params__12TBoss1DragonFP29G_DragonBossActions_6x10_6x11
   - set_particle__11TPlayerSoulFP13TParticleCtrl
   - set_draw_scale__9TParticleFff
   - set_tint_color__9TParticleFP8NJS_ARGB

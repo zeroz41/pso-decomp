@@ -888,8 +888,7 @@ void TBoss5Gryphon::reload_stats_for_phase(void *) {
     this->reload_stats_keep_hp_tp(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[2]], boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[2]], boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[2]]);
 }
 
-void handle_6x9F_gal_gryphon_boss_actions(void *data) {
-    G_GalGryphonBossActions_6x9F *cmd = (G_GalGryphonBossActions_6x9F *)data;
+void handle_6x9F_gal_gryphon_boss_actions(G_GalGryphonBossActions_6x9F *cmd) {
     TBoss5Gryphon *boss;
     cmd->bswap();
     boss = (TBoss5Gryphon *)get_enemy_entity(cmd->header.client_id);
@@ -904,8 +903,7 @@ void TBoss5Gryphon::set_target_from_action(G_GalGryphonBossActions_6x9F *packet)
     this->destination.z = packet->z;
 }
 
-void handle_6xA0_gal_gryphon_boss_actions(void *data) {
-    G_GalGryphonBossActions_6xA0 *cmd = (G_GalGryphonBossActions_6xA0 *)data;
+void handle_6xA0_gal_gryphon_boss_actions(G_GalGryphonBossActions_6xA0 *cmd) {
     TBoss5Gryphon *boss;
     cmd->bswap();
     boss = (TBoss5Gryphon *)get_enemy_entity(cmd->header.client_id);

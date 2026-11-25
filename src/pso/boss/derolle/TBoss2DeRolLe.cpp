@@ -1363,8 +1363,7 @@ void TBoss2DeRolLe::start_death_sequence() {
 
 extern "C" {
 
-void handle_6x13_de_rol_le_boss_actions(void *data) {
-    DeRolLeActionPacket *packet = (DeRolLeActionPacket *)data;
+void handle_6x13_de_rol_le_boss_actions(DeRolLeActionPacket *packet) {
     TBoss2DeRolLe *boss;
     TBoss2DeRolLe::swap_6x13_fields(packet);
     boss = (TBoss2DeRolLe *)get_enemy_entity(packet->header.client_id);
@@ -1373,8 +1372,7 @@ void handle_6x13_de_rol_le_boss_actions(void *data) {
     }
 }
 
-void handle_6x14_de_rol_le_boss_actions_with_target(void *data) {
-    DeRolLeActionTargetPacket *packet = (DeRolLeActionTargetPacket *)data;
+void handle_6x14_de_rol_le_boss_actions_with_target(DeRolLeActionTargetPacket *packet) {
     TBoss2DeRolLe *boss;
     TBoss2DeRolLe::swap_endian(packet);
     boss = (TBoss2DeRolLe *)get_enemy_entity(packet->header.client_id);

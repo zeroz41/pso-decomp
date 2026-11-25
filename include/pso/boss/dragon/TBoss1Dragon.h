@@ -2,6 +2,8 @@
 #define PSO_BOSS_DRAGON_TBOSS1DRAGON_H
 
 #include "types.h"
+struct G_DragonBossActions_6x10_6x11;
+struct G_DragonBossActions_6x12;
 
 struct NJS_TEXLIST;
 #include "pso/render/RenderFadeState.h"
@@ -174,8 +176,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void spawn_impact_crater(Vec *pos);
     s32 check_phase_advance();
     s32 update_max_hp_phase();
-    void set_params(void *packet);
-    void copy_params(void *packet);
+    void set_params(G_DragonBossActions_6x10_6x11 *packet);
+    void copy_params(G_DragonBossActions_6x10_6x11 *packet);
     void reload_impact_stats();
     void reload_stats_for_phase(int);
     void reset_tail_hp();
@@ -205,7 +207,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void sweep_death_body_attack();
     void apply_foot_step_attack(int side);
     void next_sequence_action();
-    void receive_state_request(u8 *packet);
+    void receive_state_request(G_DragonBossActions_6x12 *packet);
     void update_air_fire_state(u32 reason);
     void remap_sequence_after_recovery();
     void update_emergence_state(u32 reason);
@@ -253,9 +255,9 @@ void get_dragon_follow_camera_offsets(Vec *target_offset, Vec *eye_offset);
 // The movement ailment (kind 0) the Dragon's hit boxes, tail and craters give a target not in state 2.
 void apply_dragon_hit_ailment(TObjChara *target);
 
-void handle_6x10_dragon_boss_actions(void *packet);
-void handle_6x11_dragon_boss_actions(void *packet);
-void handle_6x12_dragon_boss_actions(TObjPlayer *packet);
+void handle_6x10_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
+void handle_6x11_dragon_boss_actions(G_DragonBossActions_6x10_6x11 *packet);
+void handle_6x12_dragon_boss_actions(G_DragonBossActions_6x12 *packet);
 
 #include <stddef.h>
 #define DRAGON_OFFSET(member, offset) \
