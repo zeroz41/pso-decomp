@@ -218,14 +218,8 @@ struct TLobby : public TObject {
     static void set_cleanup_flag();
     static void reset_door_state();
     static void set_flag_and_update();
-    static void init_chr_select();
-    static void reset_to_chr_select();
     void bswap_udp_test_header();
-    static void reload_floor_scene();
     static void free_objects();
-    static void run_lobby_frame();
-    static void run_main_frame();
-    static void update_periodic_tick();
     static void reset_counter();
     void send_set_battle_mode_data();
     void bswap_set_battle_mode_data();

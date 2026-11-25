@@ -35,6 +35,7 @@
 #include "pso/system/TGStream.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/scene/TScene.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_800F9B84.h"
@@ -835,9 +836,9 @@ void apply_phase_keyboard_mode() {
     switch (get_main_phase()) {
     case 15:
         if (is_quest_active() != 0) {
-            TLobby::set_keyboard_mode((saddr)(TLobby::init_chr_select));
+            TLobby::set_keyboard_mode((saddr)(init_chr_select));
         } else {
-            TLobby::set_keyboard_mode((saddr)(TLobby::reset_to_chr_select));
+            TLobby::set_keyboard_mode((saddr)(reset_to_chr_select));
         }
         break;
     case 14:

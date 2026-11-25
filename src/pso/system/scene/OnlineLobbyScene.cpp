@@ -246,8 +246,8 @@ void init_area_lights(void);
 void load_floor_scene(void);
 void TLobby::set_flag_and_update() { new_game_setup_flags = (new_game_setup_flags | 0x1); set_floor_transition_ready(&floor_transition_state); }
 
-void TLobby::init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
-void TLobby::reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
+void init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
+void reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void TLobby__sub_801A3CF8(void) {  }
 
 void start_udp_test_game() {
@@ -357,7 +357,7 @@ void blocking_vsync() {
     render_tick();
 }
 
-void TLobby::reload_floor_scene() {
+void reload_floor_scene() {
     s32 i;
     Pl_801A40D8 *p;
     s32 j;
@@ -593,7 +593,7 @@ void cleanup_online_lobby_scene(void) {
     render_tick();
 }
 
-void TLobby::run_lobby_frame() {
+void run_lobby_frame() {
     s32 temp_r0;
     begin_gx_frame();
     controller_stuff();
@@ -619,9 +619,9 @@ void TLobby::run_lobby_frame() {
             }
         }
     }
-    TLobby::update_periodic_tick();
-    if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) idle_timeout_active == 1)) {
-        TLobby::reset_to_chr_select();
+    update_periodic_tick();
+    if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) TLobby::idle_timeout_active == 1)) {
+        reset_to_chr_select();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         TLobby::send_logout();
@@ -632,7 +632,7 @@ void TLobby::run_lobby_frame() {
         clear_keyboard_key_state();
     }
     if (is_keyboard_active() != 0) {
-        TLobby::reload_floor_scene();
+        reload_floor_scene();
         deactivate_keyboard();
     }
     if (TKeyBoardControl::get_input() != 0) {
@@ -642,7 +642,7 @@ void TLobby::run_lobby_frame() {
     render_tick();
 }
 
-void TLobby::run_main_frame() {
+void run_main_frame() {
     s32 temp_r0;
     begin_gx_frame();
     controller_stuff();
@@ -669,7 +669,7 @@ void TLobby::run_main_frame() {
             }
         }
     }
-    TLobby::update_periodic_tick();
+    update_periodic_tick();
     if (TKeyBoardControl::get_input() != 0) {
         start_quest_mission();
         TKeyBoardControl__sub_8000F95C();
@@ -679,14 +679,14 @@ void TLobby::run_main_frame() {
         clear_keyboard_key_state();
     }
     if (is_keyboard_active() != 0) {
-        TLobby::reload_floor_scene();
+        reload_floor_scene();
         deactivate_keyboard();
     }
     if (lobby_floor_reload_pending == 1) {
         reload_lobby_floor_scene();
     }
-    if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) idle_timeout_active == 1)) {
-        TLobby::init_chr_select();
+    if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) TLobby::idle_timeout_active == 1)) {
+        init_chr_select();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         TLobby::send_logout();
@@ -697,10 +697,10 @@ void TLobby::run_main_frame() {
 
 void update_camera_state() {
     if (is_quest_active() != 0) {
-        TLobby::run_lobby_frame();
+        run_lobby_frame();
         return;
     }
-    TLobby::run_main_frame();
+    run_main_frame();
 }
 
 void run_online_lobby_scene(void) {
@@ -791,9 +791,9 @@ void run_online_lobby_scene(void) {
     render_tick();
 }
 
-void TLobby::update_periodic_tick() {
-    if ((lobby_state_flags & 1) && ((actor_frame_tick % 900) == 0) && (protocol_instance != NULL)) {
-        protocol_instance->send_keepalive();
+void update_periodic_tick() {
+    if ((lobby_state_flags & 1) && ((actor_frame_tick % 900) == 0) && (TLobby::protocol_instance != NULL)) {
+        TLobby::protocol_instance->send_keepalive();
     }
 }
 void set_floor_transition_ready(FloorTransition *transition) { transition->state_flags |= 1; }

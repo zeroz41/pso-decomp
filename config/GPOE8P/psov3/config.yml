@@ -14032,7 +14032,7 @@ force_active:
   - release_split_slimes__12TObjEneSlimeFv
   - release_subobjects__11TObjDFDemo5Fv
   - release_trail_buffer__17TItemEffectWeaponFPv
-  - reload_floor_scene__6TLobbyFv
+  - reload_floor_scene__Fv
   - reload_impact_stats__12TBoss1DragonFv
   - reload_lobby_floor_scene__Fv
   - reload_offline_area__6TLobbyFv
@@ -14685,9 +14685,9 @@ force_active:
   - run_floor_initialize_callbacks__Fl
   - run_freeze_state__16TBoss3VoloptCoreFv
   - run_idle_state__16TObjEneBm5GibonUFl
-  - run_lobby_frame__6TLobbyFv
+  - run_lobby_frame__Fv
   - run_lobby_load_tables__6TLobbyFv
-  - run_main_frame__6TLobbyFv
+  - run_main_frame__Fv
   - run_offline_area_transfer__Fv
   - run_offline_game_frame__Fv
   - run_offline_transfer_frame__Fv
@@ -17071,7 +17071,7 @@ force_active:
   - update_path_follow_rotation__13TObjJungleEbiFPvf
   - update_path_motion__18TObjCityAirCar_CarFv
   - update_path_steering__16TObjJungleKamomeFv
-  - update_periodic_tick__6TLobbyFv
+  - update_periodic_tick__Fv
   - update_phase1__12TBoss3VoloptFv
   - update_phase2__12TBoss3VoloptFv
   - update_phase2_intro__12TBoss3VoloptFv
