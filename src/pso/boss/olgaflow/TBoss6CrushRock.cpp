@@ -26,7 +26,7 @@ const char TBoss6CrushPtcl::class_name_string[] = "TBoss6CrushPtcl";
 const char *TBoss6CrushRock::name = TBoss6CrushRock::class_name_string;
 const char *TBoss6CrushPtcl::name = TBoss6CrushPtcl::class_name_string;
 
-s32 TBoss6PlotFalz::get_hp() {
+TBoss6PlotFalz *TBoss6PlotFalz::get_instance() {
     return TBoss6PlotFalz::instance;
 }
 
@@ -44,7 +44,7 @@ void TBoss6Rock::spawn_crush_rocks(Vec *point, s32 kind) {
     radius = 7.5f;
     base = 5;
     n = 2;
-    if ((u32)TBoss6PlotFalz::get_hp() == 0) {
+    if (TBoss6PlotFalz::get_instance() == NULL) {
         return;
     }
     switch (kind) {
@@ -124,7 +124,7 @@ void TBoss6CrushRock::render() {
 }
 
 s32 TBoss6CrushRock::is_falz_alive() {
-    return TBoss6PlotFalz::get_hp() ? 1 : 0;
+    return TBoss6PlotFalz::get_instance() ? 1 : 0;
 }
 
 TBoss6CrushPtcl *TBoss6CrushPtcl::create(Vec *point) {

@@ -80,7 +80,7 @@ struct TObjEneDD : public TObjEnemy {
     s32 is_valid_target();
     void transform_part_positions();
     void init_model(CollisionBody *bodies, s32 count);
-    void clear_field_388();
+    void clear_active_flags();
     int has_move_failures(s32 limit);
     CsnHit *enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist);
     void calc_shot_position(Vec *, f32, f32, f32);

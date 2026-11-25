@@ -1101,7 +1101,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
         this->body_y = this->position.y;
         this->body_offset_y = 0.0f;
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1251,7 +1251,7 @@ void TObjEneMe3Stelth::state_backstep(s32 reason) {
         break;
     case 5:
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1408,7 +1408,7 @@ void TObjEneMe3Stelth::state_knockback(s32 reason) {
         break;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }

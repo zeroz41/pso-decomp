@@ -1083,7 +1083,7 @@ void TObjEneMorfos::state_damage(s32 ev) {
         return;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }

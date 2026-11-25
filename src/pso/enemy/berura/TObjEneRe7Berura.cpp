@@ -1273,7 +1273,7 @@ void TObjEneRe7Berura::update_damage_state(s32 reason) {
         break;
     case 5:
         clear_attack_receipts();
-        clear_field_388();
+        clear_active_flags();
         break;
     }
 }

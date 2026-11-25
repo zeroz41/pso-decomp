@@ -754,7 +754,7 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
         }
         break;
     case 5:
-        this->clear_field_388();
+        this->clear_active_flags();
         return;
     }
 }
@@ -813,7 +813,7 @@ void TObjEneBm5GibonU::hurt_state(s32 msg) {
         break;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1257,7 +1257,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
           }
           else
           {
-            clear_field_388();
+            clear_active_flags();
           }
           move_with_wall_slide_on_ground(fx, fz, current_speed);
           if (has_move_failures(10) != 0)
@@ -1290,7 +1290,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
           }
           else
           {
-            clear_field_388();
+            clear_active_flags();
           }
           move_with_wall_slide_on_ground(fz, fx, current_speed);
           if (state_timer >= 0x50)
@@ -1316,7 +1316,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 msg) {
       break;
 
     case 5:
-      clear_field_388();
+      clear_active_flags();
       break;
 
   }

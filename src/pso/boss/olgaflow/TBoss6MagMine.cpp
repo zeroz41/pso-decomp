@@ -86,7 +86,7 @@ void TBoss6MagMine::damage_player(TObjPlayer *player) {
     s32 status;
     TBoss6Type2 *type2;
     status = 0;
-    if ((status_count < status_chance) && (TBoss6PlotFalz::get_hp() != 0U) && ((type2 = TBoss6PlotFalz::get_type2()) != NULL)) {
+    if ((status_count < status_chance) && (TBoss6PlotFalz::get_instance() != NULL) && ((type2 = TBoss6PlotFalz::get_type2()) != NULL)) {
         variant = type2->get_variant();
         switch (variant) {
         case 2:
@@ -329,17 +329,17 @@ TBoss6MagMine *TBoss6MagMine::create(Boss6MagMineSetData *set_data) {
 
 void TBoss6MagMine::spawn_mag_mine_at(const Vec *origin, const Vec *destination) {
     Boss6MagMineSetData set_data;
-    uaddr boss;
-    boss = TBoss6PlotFalz::get_hp();
-    if (boss == 0 || ((TBoss6PlotFalz *)boss)->get_scene_state() != 6) {
+    TBoss6PlotFalz *boss;
+    boss = TBoss6PlotFalz::get_instance();
+    if (boss == NULL || boss->get_scene_state() != 6) {
         return;
     }
-    copy_set_entry(&set_data, ((TBoss6PlotFalz *)boss)->get_set_entry());
+    copy_set_entry(&set_data, boss->get_set_entry());
     VecCopy(&set_data.origin, origin);
     VecCopy(&set_data.destination, destination);
     set_data.flags = 1;
     VecCopy(&set_data.position, &set_data.origin);
-    if (((TBoss6PlotFalz *)boss)->get_next_point(&set_data.set_index, &set_data.entity_id) != 0) {
+    if (boss->get_next_point(&set_data.set_index, &set_data.entity_id) != 0) {
         create(&set_data);
     }
 }

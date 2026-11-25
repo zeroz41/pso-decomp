@@ -79,11 +79,11 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 
 
 s32 TBoss6PlotFalz::is_phase_reached() {
-    u32 p = TBoss6PlotFalz::instance;
+    TBoss6PlotFalz *p = TBoss6PlotFalz::instance;
     if (!p) {
         return 0;
     }
-    return ((TBoss6PlotFalz *)TBoss6PlotFalz::instance)->get_scene_state() >= 7 ? 1 : 0;
+    return TBoss6PlotFalz::instance->get_scene_state() >= 7 ? 1 : 0;
 }
 
 s32 TBoss6PlotFalz::is_flag_set() {
@@ -925,7 +925,7 @@ void handle_6xA3_olga_flow_boss_actions(game_command_header *command) {
     s8 mode;
     message->swap_entity_id();
     boss = (TBoss6PlotFalz *)get_enemy_entity(message->header.client_id);
-    if (boss != NULL && boss == reinterpret_cast<TBoss6PlotFalz *>(TBoss6PlotFalz::instance)) {
+    if (boss != NULL && boss == TBoss6PlotFalz::instance) {
         phase = message->phase;
         if (phase >= 0 && phase < 9 && phase != boss->get_scene_state()) {
             boss->set_state(phase);
@@ -976,7 +976,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
     restore_player_cameras();
     TBoss6PlotFalz::queue_instance_destruction();
     TBoss6PlotFalz::destroy_static_instance();
-    TBoss6PlotFalz::instance = 0;
+    TBoss6PlotFalz::instance = NULL;
     TBoss6PlotFalz::fade_amount = -1.0f;
 }
 
@@ -990,7 +990,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
 
     m_name = TBoss6PlotFalz::name;
     reset_child_ids();
-    TBoss6PlotFalz::instance = (saddr)this;
+    TBoss6PlotFalz::instance = this;
     apply_set_data(set_data);
     copy_set_entry(&set_entry, set_data);
     set_entry.kind = 0;
@@ -1053,7 +1053,7 @@ s32 TBoss6PlotFalz::get_scene_state() { return state_index; }
 BmlResource *TBoss6PlotFalz::get_scene_archive() { return boss6_scene_archive; }
 
 u16 boss6_plot_falz_player_order_table[4];
-saddr TBoss6PlotFalz::instance;
+TBoss6PlotFalz *TBoss6PlotFalz::instance;
 TBoss6Type1 *TBoss6PlotFalz::type1_instance;
 TBoss6Type2 *TBoss6PlotFalz::type2_instance;
 s32 plot_falz_phase;

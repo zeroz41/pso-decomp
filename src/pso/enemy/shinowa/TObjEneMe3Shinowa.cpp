@@ -1020,7 +1020,7 @@ void TObjEneMe3Shinowa::state_f_attack(s32 reason) {
         this->body_y = this->position.y;
         this->body_offset_y = 0.0f;
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1162,7 +1162,7 @@ void TObjEneMe3Shinowa::state_backstep(s32 reason) {
         break;
     case 5:
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1288,7 +1288,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
             this->particle_emitters[1]->queue_destruction();
             this->particle_emitters[1] = NULL;
         }
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1437,7 +1437,7 @@ void TObjEneMe3Shinowa::state_damage(s32 reason) {
         break;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }

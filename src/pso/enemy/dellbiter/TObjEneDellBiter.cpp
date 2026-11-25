@@ -860,7 +860,7 @@ void TObjEneDellBiter::update_emerge_run_state(s32 reason) {
     case 5:
         flags &= ~4;
         bodies->flags &= ~0x700;
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1065,7 +1065,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
     case 5:
         flags &= ~4;
         bodies->flags &= ~0x700;
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1345,7 +1345,7 @@ void TObjEneDellBiter::update_damage_state(s32 reason) {
         break;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }

@@ -68,7 +68,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     s32 shake_timer;
     s32 shake_preset;
     TBoss6Demo15_TYPE2_WAIT *wait_demo;  // the DEMO_WAIT_T2 scene object
-    static s32 get_hp();
+    static TBoss6PlotFalz *get_instance();
     static TBoss6Type2 *get_type2();
     static s32 damage_player_hp(s32 client, u32 damage);
     static s32 sort_active_players();
@@ -158,7 +158,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     static TBoss6Type2 *type2_instance;
     static const char *name;
     static f32 fade_amount;
-    static saddr instance;
+    static TBoss6PlotFalz *instance;
 };
 
 // The two Olga Flow bodies of the running fight, NULL when there is none.

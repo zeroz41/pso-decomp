@@ -1336,7 +1336,7 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                 if (this->has_move_failures(1) != 0) {
                     this->set_active();
                 } else {
-                    this->clear_field_388();
+                    this->clear_active_flags();
                 }
                 this->move_with_wall_slide_on_ground(vx, vz, this->current_speed);
                 if (this->has_move_failures(10) != 0) {
@@ -1363,7 +1363,7 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
                     this->state_timer = 0;
                     this->set_active();
                 } else {
-                    this->clear_field_388();
+                    this->clear_active_flags();
                 }
                 this->move_with_wall_slide_on_ground(sx, cz, this->current_speed);
                 if (this->state_timer >= 80) {
@@ -1385,7 +1385,7 @@ void TObjEneBm5Wolf::circling_state(s32 event) {
         }
         break;
     case 5:
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1727,7 +1727,7 @@ void TObjEneBm5Wolf::hurt_state(s32 event) {
     }
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1819,7 +1819,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
         }
         break;
     case 5:
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }

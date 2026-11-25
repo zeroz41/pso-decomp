@@ -1155,7 +1155,7 @@ void TObjEneMe3SinowZoa::state_f_attack(s32 mode) {
         this->body_y = this->position.y;
         this->body_offset_y = 0.0f;
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1331,7 +1331,7 @@ void TObjEneMe3SinowZoa::state_backstep(s32 mode) {
         break;
     case 5:
         this->clear_invulnerable();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }
@@ -1512,7 +1512,7 @@ void TObjEneMe3SinowZoa::state_knockback(s32 mode) {
         break;
     case 5:
         this->clear_attack_receipts();
-        this->clear_field_388();
+        this->clear_active_flags();
         break;
     }
 }

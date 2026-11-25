@@ -839,7 +839,7 @@ void TObjEneBm9Mericarol::state_rush(s32 reason) {
     case 5:
         flags &= ~0x20;
         bodies->flags &= ~0x700;
-        clear_field_388();
+        clear_active_flags();
         break;
     }
 }

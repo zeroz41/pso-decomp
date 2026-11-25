@@ -645,7 +645,7 @@ int TObjEneDD::has_move_failures(s32 limit) {
 
 void TObjEneDD_ST::set_active() { active_flags = 1; }
 
-void TObjEneDD::clear_field_388() { active_flags = 0; }
+void TObjEneDD::clear_active_flags() { active_flags = 0; }
 
 void TObjEneDD::init_model(CollisionBody *bodies, s32 count) {
     init_collision_body_parts(this, bodies, count);
