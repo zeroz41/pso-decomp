@@ -484,8 +484,6 @@ pso/item/mag/TItemMag.cpp
 pso/item/mag/TItemMagSub.cpp
 pso/item/mag/TItemMag_8001A468.cpp
 pso/item/TItemMenuCtrl.cpp
-pso/item/TItemMenuCtrl_80115A78.cpp
-pso/item/TItemMenuCtrl_80115AF0.cpp
 pso/item/TItemMoney.cpp
 pso/item/TItemObject.cpp
 pso/item/armor/TItemProArmor.cpp
@@ -740,9 +738,7 @@ pso/unk/TLobby_800726F0.cpp
 pso/unk/TLobby_8007340C.cpp
 pso/unk/TLobby_80073DAC.cpp
 pso/unk/TLobby_8007B858.cpp
-pso/unk/TLobby_8007C550.cpp
 pso/unk/TObjFreezeShell.cpp
-pso/unk/TLobby_800F5CF0.cpp
 pso/unk/TLobby_800F795C.cpp
 pso/unk/TLobby_800F8AA8.cpp
 pso/unk/TLobby_800F9F4C.cpp
@@ -786,7 +782,6 @@ pso/unk/TLobby_80209524.cpp
 pso/unk/TLobby_8020BC08.cpp
 pso/unk/TLobby_8020BF68.cpp
 pso/unk/TLobby_8020BFC4.cpp
-pso/unk/TLobby_8020C608.cpp
 pso/unk/TLobby_8020C8A4.cpp
 pso/unk/TLobby_8020CB34.cpp
 pso/unk/TLobby_8020CCD0.cpp
@@ -1790,7 +1785,6 @@ pso/enemy/TObjEneBeastBase_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp
 pso/enemy/nanodrago/TObjNanoDragoSingleBeam.cpp
-pso/unk/text_800F5BC0.cpp
 pso/unk/text_800F7D30.cpp
 pso/unk/text_800F7DAC.cpp
 pso/unk/text_800F9FD0.cpp

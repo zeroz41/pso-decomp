@@ -24,7 +24,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemLoad.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/door/TObjDoorJung.h"

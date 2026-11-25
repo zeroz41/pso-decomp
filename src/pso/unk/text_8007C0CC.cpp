@@ -1,6 +1,5 @@
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_8007C0CC.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -12,6 +11,7 @@ struct SubtractiveRngSeedR { s32 f0; s32 tbl[55]; s32 fe0; s32 fe4; };
 extern "C" {
 void subtractive_rng_refill(SubtractiveRngNextCrypt *c);
 void subtractive_rng_seed(SubtractiveRngSeedR *rng, s32 arg1);
+u16 subtractive_rng_range(void *self, u16 x);
 u8 save_block_shuffle_permutation[256];
 u8 save_block_unshuffle_permutation[256];
 

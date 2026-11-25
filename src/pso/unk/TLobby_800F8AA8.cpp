@@ -37,7 +37,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_8007C0CC.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_800FFE04.h"

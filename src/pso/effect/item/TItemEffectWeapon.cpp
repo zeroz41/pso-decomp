@@ -14,7 +14,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/model_render_state.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "pso/render/GinjaDrawUtil.h"
 
 

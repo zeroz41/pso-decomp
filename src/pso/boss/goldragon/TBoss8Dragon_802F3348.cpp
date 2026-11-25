@@ -6,7 +6,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80359A7C.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/object/TObjControl.h"
-#include "pso/unk/TLobby_8007C550.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"

@@ -10,7 +10,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/network/TLobby.h"
 #include "pso/map/TSetManager.h"
-#include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_80209584.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_802097B0.h"

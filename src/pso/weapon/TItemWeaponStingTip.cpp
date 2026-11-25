@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeaponStingTip.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"

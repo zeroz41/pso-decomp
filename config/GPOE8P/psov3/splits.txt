@@ -1015,10 +1015,7 @@ pso/unk/text_8007C0CC.cpp:
 	.bss        start:0x80500398 end:0x80500598
 
 pso/item/drop/TItemDrop.cpp:
-	.text       start:0x8007C520 end:0x8007C550
-
-pso/unk/TLobby_8007C550.cpp:
-	.text       start:0x8007C550 end:0x8007C5C0
+	.text       start:0x8007C520 end:0x8007C5C0
 
 pso/boss/derolle/TObjBoss2Tunnel.cpp:
 	.text       start:0x8007C5C0 end:0x8007EAF8
@@ -1805,14 +1802,8 @@ pso/enemy/stelth/TObjEneMe3Stelth.cpp:
 	.sdata2     start:0x805DA808 end:0x805DA8C0
 
 pso/render/ChunkTextureStripCollector.cpp:
-	.text       start:0x800F58A4 end:0x800F5BC0
+	.text       start:0x800F58A4 end:0x800F5DD8
 	.sbss       start:0x805D5318 end:0x805D5324
-
-pso/unk/text_800F5BC0.cpp:
-	.text       start:0x800F5BC0 end:0x800F5CF0
-
-pso/unk/TLobby_800F5CF0.cpp:
-	.text       start:0x800F5CF0 end:0x800F5DD8
 
 pso/ui/window/TWindowLockOn_800F5DD8.cpp:
 	.text       start:0x800F5DD8 end:0x800F5DE0
@@ -2201,17 +2192,11 @@ pso/item/mag/TItemMagSub.cpp:
 	.sdata2     start:0x805DABC0 end:0x805DABE8
 
 pso/item/TItemMenuCtrl.cpp:
-	.text       start:0x801159C8 end:0x80115A78
+	.text       start:0x801159C8 end:0x80115C44
 	.rodata     start:0x8043E5E0 end:0x8043E5F0
 	.data       start:0x8049F5D0 end:0x8049F5E8
 	.sdata      start:0x805D2C18 end:0x805D2C20
 	.sbss       start:0x805D54C0 end:0x805D54C4
-
-pso/item/TItemMenuCtrl_80115A78.cpp:
-	.text       start:0x80115A78 end:0x80115AF0
-
-pso/item/TItemMenuCtrl_80115AF0.cpp:
-	.text       start:0x80115AF0 end:0x80115C44
 	.sdata2     start:0x805DABE8 end:0x805DABEC
 
 pso/item/TItemMoney.cpp:
@@ -5247,10 +5232,7 @@ pso/unk/text_8020C354.cpp:
 	.text       start:0x8020C354 end:0x8020C3E0
 
 pso/enemy/TObjEnemy_8020C3E0.cpp:
-	.text       start:0x8020C3E0 end:0x8020C5A4
-
-pso/unk/TLobby_8020C608.cpp:
-	.text       start:0x8020C5A4 end:0x8020C73C
+	.text       start:0x8020C3E0 end:0x8020C73C
 
 pso/unk/text_8020C73C.cpp:
 	.text       start:0x8020C73C end:0x8020C8A4

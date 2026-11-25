@@ -4,7 +4,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TItemWeaponPartisan.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TPlyDispData.h"
