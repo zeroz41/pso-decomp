@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 void show_duel_result_window(saddr gain, saddr duration);
-}
 
 #endif
