@@ -246,9 +246,9 @@ void TChallenge4PResult::show_message(saddr text_handle) {
         message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), (saddr)pos, 1, slot_index);
     }
     if (message_window != NULL) {
-        ((TWindowMessagePage *)message_window)->set_message((void *)text_handle, 0x81);
+        message_window->set_message((void *)text_handle, 0x81);
         if (TCameraCtrl::get_view_count() > 2) {
-            ((TWindowAddition *)message_window)->set_position_xy(0.9f, 0.9f);
+            message_window->set_position_xy(0.9f, 0.9f);
         }
     }
 }

@@ -1832,7 +1832,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
     menu->add_text_entry(get_localized_text_entry(0x1F, 4), 6, 2);
     menu->add_text_entry(get_localized_text_entry(0x1F, 5), 6, 3);
     menu->update_layout_height(224.0f);
-    ((TWindowMenu *)menu)->set_selected_index(0);
+    menu->set_selected_index(0);
     align_menu_entry_positions(menu);
     return menu;
 }
@@ -1840,7 +1840,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_choice_menu() {
 TWindowMenu *TAdMultiPlyChrSelectGC::create_moving_notice(const NJS_POINT2 *desc) {
     TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 6), 0x21, 0);
-    ((TWindowMenu *)menu)->set_flag_40();
+    menu->set_flag_40();
     TQuestThread::set_status_flag_80(menu);
     menu->calc_layout_height(190.0f);
     return menu;
@@ -1849,7 +1849,7 @@ TWindowMenu *TAdMultiPlyChrSelectGC::create_moving_notice(const NJS_POINT2 *desc
 TWindowMenu *TAdMultiPlyChrSelectGC::create_full_notice(const NJS_POINT2 *desc) {
     TWindowMenu *menu = create_window_menu_default(desc, 1);
     menu->add_text_entry(get_localized_text_entry(0x1F, 7), 0x21, 0);
-    ((TWindowMenu *)menu)->set_flag_40();
+    menu->set_flag_40();
     TQuestThread::set_status_flag_80(menu);
     menu->calc_layout_height(190.0f);
     return menu;

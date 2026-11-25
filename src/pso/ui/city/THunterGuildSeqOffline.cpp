@@ -150,7 +150,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
 
 void THunterGuildSeqOffline::close_window() {
     if (quest_thread != 0) {
-        if (((TObject *)quest_thread)->all_parents_unqueued_for_destruction() == 1) {
+        if (quest_thread->all_parents_unqueued_for_destruction() == 1) {
             return;
         }
         quest_thread = 0;
@@ -260,8 +260,8 @@ int fn_80223480(void*);
 void THunterGuildSeqOnline_Client::open_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         choice_menu = create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)player))->get_entity_id(), NULL, NULL);
-        ((TWindowMenu *)choice_menu)->set_selected_index(1);
-        ((TWindowAddition *)choice_menu)->set_position_xy(get_scale(), get_scale());
+        choice_menu->set_selected_index(1);
+        choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
         set_state(7);
     }
@@ -375,7 +375,7 @@ THunterGuildSeqOffline::~THunterGuildSeqOffline() {
     }
     close_message_window();
     if (choice_menu != NULL) {
-        ((TWindowBase *)choice_menu)->close();
+        choice_menu->close();
         choice_menu = NULL;
     }
     if (quest_thread != 0) {
@@ -447,8 +447,8 @@ void THunterGuildSeqOffline::open_judgment_window() {
     if ((this->is_message_ready() != 0)
         && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
         this->choice_menu = (TWindowMenu *)create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)this->player))->get_entity_id(), NULL, NULL);
-        ((TWindowMenu *)this->choice_menu)->set_selected_index(1);
-        ((TWindowAddition *)(this->choice_menu))->set_position_xy(get_scale(), get_scale());
+        this->choice_menu->set_selected_index(1);
+        this->choice_menu->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);
         set_state((saddr)((void*)(6)));
     }
@@ -457,7 +457,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
 void THunterGuildSeqOffline::handle_select() {
     TQuestThread *p = this->quest_thread;
     if (p != NULL) {
-        if (((TObject *)p)->all_parents_unqueued_for_destruction() == 1) {
+        if (p->all_parents_unqueued_for_destruction() == 1) {
             return;
         }
         this->quest_thread = 0U;

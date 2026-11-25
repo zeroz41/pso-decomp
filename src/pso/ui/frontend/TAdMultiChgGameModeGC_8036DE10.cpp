@@ -308,15 +308,15 @@ void TAdSystemFileCheckGC::setup_mode_menu(s32 mode) {
     d = TAdMultiChgGameModeGC__sub_8036DE10(this, 5, this->language);
     if (this->menu_window != 0) {
         if (mode == 0) {
-            ((TWindowMenu *)this->menu_window)->add_text_entry(a, 5, 0);
-            ((TWindowMenu *)this->menu_window)->add_text_entry(b, 5, 1);
-            ((TWindowMenu *)(this->menu_window))->set_selected_index(1);
+            this->menu_window->add_text_entry(a, 5, 0);
+            this->menu_window->add_text_entry(b, 5, 1);
+            this->menu_window->set_selected_index(1);
         } else {
-            ((TWindowMenu *)this->menu_window)->add_text_entry(c, 5, 0);
-            ((TWindowMenu *)this->menu_window)->add_text_entry(d, 5, 1);
-            ((TWindowMenu *)(this->menu_window))->set_selected_index(0);
+            this->menu_window->add_text_entry(c, 5, 0);
+            this->menu_window->add_text_entry(d, 5, 1);
+            this->menu_window->set_selected_index(0);
         }
-        ((TWindowMenu *)(this->menu_window))->update_layout_height(lbl_805D7020);
+        this->menu_window->update_layout_height(lbl_805D7020);
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
     }
 }
@@ -513,8 +513,8 @@ void TAdSystemFileCheckGC::run_task() {
 }
 
 TAdSystemFileCheckGC::~TAdSystemFileCheckGC() {
-    if (message_window != NULL) { ((TObject *)(message_window))->queue_destruction(); message_window = 0; }
-    if (menu_window != NULL) { ((TObject *)(menu_window))->queue_destruction(); menu_window = 0; }
+    if (message_window != NULL) { message_window->queue_destruction(); message_window = 0; }
+    if (menu_window != NULL) { menu_window->queue_destruction(); menu_window = 0; }
 }
 
 TAdSystemFileCheckGC::TAdSystemFileCheckGC(TObject *object) : TObject(object) {

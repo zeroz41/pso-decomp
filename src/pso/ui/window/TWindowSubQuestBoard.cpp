@@ -130,8 +130,8 @@ TWindowSubOption::TWindowSubOption(TWindowMainMenu *parent, s32 client) : TObjec
 }
 
 TWindowSubOption::~TWindowSubOption() {
-    if (value_window != 0) { ((TWindowBase *)value_window)->close(); value_window = 0; }
-    if (menu != NULL) { ((TWindowBase *)menu)->close(); menu = NULL; }
+    if (value_window != 0) { value_window->close(); value_window = 0; }
+    if (menu != NULL) { menu->close(); menu = NULL; }
 }
 
 void TWindowSubOption::run_task() {
@@ -140,10 +140,10 @@ void TWindowSubOption::run_task() {
     case 0:
     case 1:
         if (value_window != 0U) {
-            ((TWindowBase *)value_window)->close();
+            value_window->close();
             value_window = 0U;
         }
-        ((TWindowMenu *)menu)->clear_flag_and_release();
+        menu->clear_flag_and_release();
         state = 2;
     case 2:
         if (menu->is_cancelled() != 0) {
@@ -162,7 +162,7 @@ void TWindowSubOption::run_task() {
     case 4:
         this->update_photon_selection();
         update_quest_board_card_flags();
-        if (((TWindowMenuIconLine *)(value_window))->is_cancelled() != 0) {
+        if (value_window->is_cancelled() != 0) {
             state = 1;
         }
         break;
@@ -242,7 +242,7 @@ TWindowCheckBox *TWindowSubOption::create_option_value_window(s32 option) {
         break;
     }
     window->set_selected_index(value);
-    ((TWindowSubShortCutList *)window)->set_flag70_bit10();
+    window->set_flag70_bit10();
     window->set_depth(get_main_menu_layer_depth((u8 *)parent, 1));
     return window;
 }

@@ -182,15 +182,15 @@ TWindowSubComCard::~TWindowSubComCard() {
         entry_list_window = NULL;
     }
     if (confirm_window != 0U) {
-        ((TWindowMessageYesNo *)confirm_window)->close();
+        confirm_window->close();
         confirm_window = NULL;
     }
     if (card_list != 0U) {
-        ((TWindowBase *)card_list)->close();
+        card_list->close();
         card_list = 0U;
     }
     if (keyboard != 0U) {
-        ((TObject *)keyboard)->queue_destruction();
+        keyboard->queue_destruction();
         keyboard = 0U;
     }
     if (sub_menu != 0U) {
@@ -233,7 +233,7 @@ void TWindowSubComCard::run_task() {
     case 0x1:
         this->send_state_if_dirty();
         if ((u32) this->keyboard != 0U) {
-            ((TObject *)this->keyboard)->queue_destruction();
+            this->keyboard->queue_destruction();
             this->keyboard = 0U;
         }
         if (this->entry_list_window != NULL) {
@@ -278,7 +278,7 @@ void TWindowSubComCard::run_task() {
         this->menu_window->clear_flag_and_release();
         this->state = 2U;
     case 0x2:
-        this->set_help_message((int) (((TWindowMenu *)(this->menu_window))->get_cursor_pos()));
+        this->set_help_message((int) (this->menu_window->get_cursor_pos()));
         if (this->menu_window->is_cancelled() != 0) {
             this->parent_menu->on_submenu_closed();
             this->state = 0x4FU;
@@ -397,7 +397,7 @@ void TWindowSubComCard::run_task() {
             this->com_card_window = send_command(this->selected_card);
         }
         this->message_window->snap_to((f32 *)get_window_layout_position(0x99));
-        ((TWindowLockOn *)(this->message_window))->request_close();
+        this->message_window->request_close();
         this->card_list->clear_flag_and_release();
         this->state = 0xCU;
     case 0xC:
@@ -405,7 +405,7 @@ void TWindowSubComCard::run_task() {
         this->set_card_index((int) (this->card_list->get_selected_value()));
         if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) {
             if (this->message_window->is_open_and_unblocked() != 0) {
-                ((TWindowLockOn *)(this->message_window))->request_close();
+                this->message_window->request_close();
             } else {
                 window_request_show(this->message_window);
             }
@@ -1196,11 +1196,11 @@ TWindowMenu *TWindowSubComCard::sub_8027337C() {
         }
         i++;
     } while (i < 0xC);
-    if (((TWindowMenu *)w)->get_entry_count() <= 0) {
+    if (w->get_entry_count() <= 0) {
         add_gray_text_entry(w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
     }
     w->set_flag70_bit10();
-    ((TWindowMenu *)w)->set_scroll_target(213.0f, 124.0f);
+    w->set_scroll_target(213.0f, 124.0f);
     return w;
 }
 
@@ -1209,7 +1209,7 @@ TWindowMenu *TWindowSubComCard::create_single_entry_window() {
     menu = create_window_menu_default(get_window_layout_position(0x84), 1);
     menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x38)), 3, 0);
     menu->set_flag_40();
-    ((TWindowMenu *)menu)->set_scroll_target(213.0f, 64.0f);
+    menu->set_scroll_target(213.0f, 64.0f);
     return menu;
 }
 
@@ -1278,8 +1278,8 @@ void TWindowSubComCard::rebuild_com_card_list(TWindowMenu *list_window) {
     cur = list_window->get_selected_value();
     sel = -1;
     TLobby::clear_flag_bit2();
-    pos = ((TWindowMenu *)list_window)->get_cursor_pos();
-    ((TWindowMenu *)list_window)->reset_entries();
+    pos = list_window->get_cursor_pos();
+    list_window->reset_entries();
     n = TLobby::get_com_card_data();
     for (i = n - 1; i >= 0; i--) {
         e = TLobby::get_com_card_entry(i);
@@ -1293,9 +1293,9 @@ void TWindowSubComCard::rebuild_com_card_list(TWindowMenu *list_window) {
     }
     list_window->update_layout_height(243.0f);
     if (sel == -1) {
-        ((TWindowMenu *)list_window)->set_selected_index(pos);
+        list_window->set_selected_index(pos);
     } else {
-        ((TWindowMenu *)list_window)->set_selected_index(sel);
+        list_window->set_selected_index(sel);
     }
 }
 #pragma pop
@@ -1378,7 +1378,7 @@ TWindowMenu *TWindowSubComCard::create_option_list_window(ChoiceSearchSelection 
     if (key == 0) {
         win->add_text_entry((saddr)this->get_message_10(0), 6, 0);
         win->add_text_entry((saddr)this->get_message_10(1), 6, 1);
-        ((TWindowMenu *)win)->set_selected_index(TLobby::open_hard_keyboard(client_id));
+        win->set_selected_index(TLobby::open_hard_keyboard(client_id));
     } else {
         sel = find_choice_search_value(selections, key);
         cs = (ChrSel_80272B60 *)TWindowSubComCard::get_chr_select();
@@ -1391,7 +1391,7 @@ TWindowMenu *TWindowSubComCard::create_option_list_window(ChoiceSearchSelection 
                 val = e->val;
                 win->add_text_entry((saddr)e->name, 6, val);
                 if (sel == val) {
-                    ((TWindowMenu *)win)->set_selected_index(idx);
+                    win->set_selected_index(idx);
                 }
                 idx++;
             }
@@ -1400,7 +1400,7 @@ TWindowMenu *TWindowSubComCard::create_option_list_window(ChoiceSearchSelection 
         }
     }
     win->set_flag70_bit10();
-    ((TWindowMenu *)win)->set_scroll_target(405.0f, 124.0f);
+    win->set_scroll_target(405.0f, 124.0f);
     align_menu_entry_positions(win);
     return win;
 }
@@ -1419,11 +1419,11 @@ TWindowMenu *TWindowSubComCard::sub_80272A98() {
     for (i = 0; i < count; i++, e++) {
         w->add_text_entry((saddr)e->name, 6, i);
     }
-    if (((TWindowMenu *)w)->get_entry_count() <= 0) {
+    if (w->get_entry_count() <= 0) {
         add_gray_text_entry(w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
     }
     w->set_flag70_bit10();
-    ((TWindowMenu *)w)->set_scroll_target(223.0f, 124.0f);
+    w->set_scroll_target(223.0f, 124.0f);
     return w;
 }
 TWindowMessage *TWindowSubComCard::open_mode4_window() {
@@ -1484,16 +1484,16 @@ TWindowMenu *TWindowSubComCard::create_player_select_window() {
     i = 0;
     do {
         if (i != local_client_id && (p = get_player_by_client_id(i)) != NULL &&
-            p->is_script_controlled() == 0 && ((TObjChara *)p)->obj_isState3_324() == 0) {
+            p->is_script_controlled() == 0 && p->obj_isState3_324() == 0) {
             w->add_text_entry((saddr)p->get_name(), 7, i);
         }
         i++;
     } while (i < 0xC);
-    if (((TWindowMenu *)w)->get_entry_count() <= 0) {
+    if (w->get_entry_count() <= 0) {
         add_gray_text_entry(w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD2)), 7, 0);
     }
     w->set_flag70_bit10();
-    ((TWindowMenu *)w)->set_scroll_target(223.0f, 184.0f);
+    w->set_scroll_target(223.0f, 184.0f);
     return w;
 }
 #pragma pop
@@ -1513,7 +1513,7 @@ TWindowMenu *TWindowSubComCard::sub_80272640() {
         add_gray_text_entry(w, (const char *)(TWindowSubStatusDisp::get_message_10(0xD1)), 7, 0);
     }
     w->set_flag70_bit10();
-    ((TWindowMenu *)w)->set_scroll_target(223.0f, 184.0f);
+    w->set_scroll_target(223.0f, 184.0f);
     return w;
 }
 

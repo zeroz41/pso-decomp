@@ -47,7 +47,7 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
     this->client_id = client;
     this->equip_list = (TWindowMenuIconLine *)create_equip_list_window((saddr)get_window_layout_position(0), (saddr)&equip_list_window_size, this->client_id);
     this->equip_list->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 0));
-    ((TWindowSubShortCutList *)(this->equip_list))->set_flag70_bit10();
+    this->equip_list->set_flag70_bit10();
     this->window_help_item = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
     this->window_help_item->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 2));
     this->equip_kind_list = 0;

@@ -190,7 +190,7 @@ TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
     r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(2), 6, 2);
     r->calc_window_size();
     align_menu_entry_positions(r);
-    ((TWindowMenu *)r)->set_selected_index(this->mode);
+    r->set_selected_index(this->mode);
     return r;
 }
 
@@ -207,7 +207,7 @@ TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
     }
     r->calc_window_size();
     align_menu_entry_positions(r);
-    ((TWindowMenu *)r)->set_selected_index(this->selected_value);
+    r->set_selected_index(this->selected_value);
     return r;
 }
 

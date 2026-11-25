@@ -65,7 +65,7 @@ void TWindowGetComCard::run_task() {
         }
         if (confirmation == 0) {
             confirmation = reinterpret_cast<TWindowMenu *>(init_shop_judgment_window(&window_rect));
-            ((TWindowSubComCardList *)(confirmation))->set_flag70_bit10();
+            confirmation->set_flag70_bit10();
         }
         confirmation->clear_flag_and_release();
         state = 3;

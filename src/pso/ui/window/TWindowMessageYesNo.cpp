@@ -72,7 +72,7 @@ void TWindowMessageYesNo::set_choice_menu_flag70_bit10() {
 
 
 void TWindowMessageYesNo::close() { queue_destruction(); }
-void TWindowMessageYesNo::set_menu_selected_index(s16 index) { if (choice_menu) ((TWindowMenu *)choice_menu)->set_selected_index(index); }
+void TWindowMessageYesNo::set_menu_selected_index(s16 index) { if (choice_menu) choice_menu->set_selected_index(index); }
 s32 TWindowMessageYesNo::get_selected_value() {
     if (choice_menu == NULL) {
         return -1;
@@ -128,7 +128,7 @@ const char *TWindowMessageYesNo::class_name = "TWindowMessageYesNo";
 
 void TWindowMessageYesNo::render() {  }
 
-void TWindowMessageYesNo::run_task() { if (is_child_visible() != 0) { ((TWindowMenu *)(this->message_menu))->confirm_selection(); } }
+void TWindowMessageYesNo::run_task() { if (is_child_visible() != 0) { this->message_menu->confirm_selection(); } }
 
 TWindowMessageYesNo *TWindowMessageYesNo::create(void *parent, s32 client_id, const char *yes_label, const char *no_label) {
     TWindowMessageYesNo *o;

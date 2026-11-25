@@ -320,14 +320,14 @@ void TWindowMainMenu::update_description_text(s32 id) {
         if (help_window == NULL) {
             const NJS_POINT2 *tmp = get_window_layout_position(0x1B);
             help_window = TWindowMessage::create(tmp, lbl_8044F2E0, 1, this->client_index);
-            ((TWindowBase *)help_window)->set_depth(49999.0f);
+            help_window->set_depth(49999.0f);
             call_if_split_screen((uaddr)help_window, this->client_index);
         }
         help_window->append_line(select_main_menu_item_10(id), 0x80);
     }
 }
 
-void TWindowMainMenu::close_child_window() { if (help_window != NULL) { ((TWindowBase *)this->help_window)->close(); help_window = NULL; } }
+void TWindowMainMenu::close_child_window() { if (help_window != NULL) { this->help_window->close(); help_window = NULL; } }
 
 void TWindowMainMenu::sub_80263FE0() {
     toggle_help_window_on_button((uaddr)help_window, this->client_index);

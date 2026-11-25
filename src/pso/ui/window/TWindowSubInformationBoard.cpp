@@ -89,7 +89,7 @@ void TWindowSubInformationBoard::run_task() {
         this->menu_window->clear_flag_and_release();
         this->state = 2U;
     case 2:
-        set_message_index(((TWindowMenu *)this->menu_window)->get_cursor_pos());
+        set_message_index(this->menu_window->get_cursor_pos());
         if (this->menu_window->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             this->state = 0xCU;

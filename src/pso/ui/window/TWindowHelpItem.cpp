@@ -262,7 +262,7 @@ void fn_80255A38(TWindowHelpItem *item) {
     item->m_callback = NULL;
 }
 
-void TWindowHelpItem::update_help_item(s32 mode) { if (fn_8026C7C0(*(void**)((char*)this + 0x64)) != 0) { ((TWindowHelpItem *)this)->dispatch_item_help(); } }
+void TWindowHelpItem::update_help_item(s32 mode) { if (fn_8026C7C0(*(void**)((char*)this + 0x64)) != 0) { this->dispatch_item_help(); } }
 
 void TWindowHelpItem::set_items_and_refresh(void* a1, void* a2) { *(void* *)&this->secondary_id = a2; *(void* *)&this->secondary_item = a1; update_cursor_selection(); dispatch_item_help(); }
 

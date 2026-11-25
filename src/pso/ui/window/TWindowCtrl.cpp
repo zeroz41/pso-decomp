@@ -517,7 +517,7 @@ void TWindowCtrl::handle_controller() {
 void TWindowCtrl::update_trade_window() {
     if (this->area_window != NULL) {
         if ((TWindowCtrl::is_slot_visible(local_client_id) != 0) || (is_client_main_menu_disabled(local_client_id) != 0) || ((is_split_screen() != 0) && (TRaderMapCore::is_active() == 0))) {
-            ((TWindowLockOn *)(this->area_window))->request_close();
+            this->area_window->request_close();
             return;
         }
         window_request_show((void *)this->area_window);
@@ -530,7 +530,7 @@ void TWindowCtrl__sub_8024B9C0(void *ctrl_arg) {
     TWindowCtrl *ctrl = (TWindowCtrl *)ctrl_arg;
     if ((u32)ctrl->timer_window != 0U) {
         if (TWindowCtrl::is_slot_visible(local_client_id) != 0) {
-            ((TWindowLockOn *)(ctrl->timer_window))->request_close();
+            ctrl->timer_window->request_close();
             return;
         }
         window_request_show((void *)ctrl->timer_window);
@@ -577,7 +577,7 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     for (i = 0; i < 3; i++) {
         status = TWindowCtrl::instance->simple_status[i];
         if (status != NULL && status->is_open_and_unblocked() != 0 && n-- == 0) {
-            player = get_player_by_client_id(((TWindowSimpleStatus *)status)->get_width());
+            player = get_player_by_client_id(status->get_width());
             if (player == NULL) {
                 return 0;
             }
@@ -685,8 +685,8 @@ void complete_actor_speech_balloons(u16 id) {
     if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = TWindowCtrl::instance->balloons[i];
-            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
-                ((TWindowFukidasi *)w)->show_immediately();
+            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
+                w->show_immediately();
             }
         }
     }

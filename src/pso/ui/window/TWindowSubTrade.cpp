@@ -60,7 +60,7 @@ TWindowSubTrade::~TWindowSubTrade() {
     release_trade_sub_window(this);
     TLobby::check_flags_and_proceed();
     if (this->m_confirm_prompt != NULL) {
-        ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
+        this->m_confirm_prompt->close();
         this->m_confirm_prompt = NULL;
     }
     if (this->m_message_window != NULL) {
@@ -80,7 +80,7 @@ void TWindowSubTrade::run_task() {
     case 0:
     case 1:
         if (this->m_confirm_prompt != NULL) {
-            ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
+            this->m_confirm_prompt->close();
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window != NULL) {
@@ -93,7 +93,7 @@ void TWindowSubTrade::run_task() {
         m_player_list->clear_flag_and_release();
         this->state = 2U;
     case 2:
-        if (((TWindowMenu *)(this->m_player_list))->is_cancelled() != 0) {
+        if (this->m_player_list->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             this->state = 7U;
         } else if (m_player_list->is_decided() != 0) {
@@ -109,10 +109,10 @@ void TWindowSubTrade::run_task() {
         }
         this->state = 4U;
     case 4:
-        if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->is_cancelled() != 0) {
+        if (this->m_confirm_prompt->is_cancelled() != 0) {
             this->state = 1U;
         } else if (m_confirm_prompt->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->get_selected_value() == 0) {
+            if (this->m_confirm_prompt->get_selected_value() == 0) {
                 this->state = 5U;
             } else {
                 this->state = 1U;
@@ -121,7 +121,7 @@ void TWindowSubTrade::run_task() {
         break;
     case 5:
         if (this->m_confirm_prompt != NULL) {
-            ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();
+            this->m_confirm_prompt->close();
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window == NULL) {

@@ -434,7 +434,7 @@ void TWindowSubSymbolChatParts::run_task() {
         heading->update_subwindow();
         scrollbar->increment_counter();
     }
-    ((TWindowBase *)this)->update_window();
+    this->update_window();
 }
 
 TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {

@@ -316,7 +316,7 @@ void TObjLuker::run_task() {
     }
     if (p == NULL) {
         if (this->effect != NULL) {
-            ((TObject *)(this->effect))->queue_destruction();
+            this->effect->queue_destruction();
             this->effect = NULL;
         }
         this->effect_pending = 1;
@@ -381,7 +381,7 @@ void TObjLuker::run_task() {
             }
             this->hold_frames = 0;
             if (this->effect != NULL) {
-                ((TObject *)(this->effect))->queue_destruction();
+                this->effect->queue_destruction();
                 this->effect = NULL;
             }
             this->effect_pending = 1;

@@ -260,7 +260,7 @@ TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, 
     }
     for (TWindowFukidasi *p = first; p != NULL; p = static_cast<TWindowFukidasi *>(p->m_next)) {
         if (TWindowFukidasi__sub_8024695C(p) != 0 && p->is_bit10_set() == 0 &&
-            ((TWindowBase *)p)->is_open_and_unblocked() != 0 && p != this &&
+            p->is_open_and_unblocked() != 0 && p != this &&
             (get_visible_flag() == 0 || p->get_visible_flag() == 0) &&
             is_balloon_overlapping(p, position, size)) {
             return p;

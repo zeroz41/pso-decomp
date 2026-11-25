@@ -314,7 +314,7 @@ void TWindowInputNumber::run_task() {
     if ((heading_window != 0U) && ((f32) self->open_tick >= 7.5f)) {
         ((TWindowSubStatusDisp *)heading_window)->update_subwindow();
     }
-    ((TWindowBase *)self)->update_window();
+    self->update_window();
     self->update_fade();
     self->update_window_entry_list(&self->entry_list);
 }

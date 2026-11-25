@@ -204,7 +204,7 @@ void TWindowMenuInfomation::render() {
     WindowDrawContext *draw_context;
 
     draw_context = get_draw_context();
-    ((TWindowBase *)(this))->draw_window_frame(draw_context);
+    this->draw_window_frame(draw_context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>((this)),
         &entry_list,

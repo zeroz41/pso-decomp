@@ -111,7 +111,7 @@ TWindowOptionCtrl::~TWindowOptionCtrl() {
         sound_balance_window = NULL;
     }
     if (option_menu != NULL) {
-        ((TWindowBase *)option_menu)->close();
+        option_menu->close();
         option_menu = NULL;
     }
     if (m_30 != NULL) {
@@ -119,11 +119,11 @@ TWindowOptionCtrl::~TWindowOptionCtrl() {
         m_30 = NULL;
     }
     if (sub_menu != NULL) {
-        ((TWindowBase *)sub_menu)->close();
+        sub_menu->close();
         sub_menu = NULL;
     }
     if (main_menu != NULL) {
-        ((TWindowBase *)main_menu)->close();
+        main_menu->close();
         main_menu = NULL;
     }
 }
@@ -149,11 +149,11 @@ void TWindowOptionCtrl::run_task() {
             sound_balance_window = NULL;
         }
         if (option_menu != NULL) {
-            ((TWindowBase *)option_menu)->close();
+            option_menu->close();
             option_menu = NULL;
         }
         if (sub_menu != NULL) {
-            ((TWindowBase *)sub_menu)->close();
+            sub_menu->close();
             sub_menu = NULL;
         }
         if (main_menu == NULL) {
@@ -287,7 +287,7 @@ void TWindowOptionCtrl::run_task() {
             yes_no_window = NULL;
         }
         if (option_menu != NULL) {
-            ((TWindowBase *)option_menu)->close();
+            option_menu->close();
             option_menu = NULL;
         }
         if (m_30 != NULL) {
@@ -417,7 +417,7 @@ saddr TWindowOptionCtrl::create_list_window() {
 
     unlock_music_flag(2);
     list = create_window_menu_default(TWindowOptionCtrl::get_option_entry(0xCF), 0x31);
-    ((TWindowMenu *)list)->set_flag70_bit100();
+    list->set_flag70_bit100();
     idx = 0;
     do {
         if (is_music_flag_unlocked_stub(idx) != 0) {
@@ -430,7 +430,7 @@ saddr TWindowOptionCtrl::create_list_window() {
         idx += 1;
     } while (idx < 0x31);
     ((TWindowOptionCtrl *)list)->set_flag70_bit400();
-    ((TWindowMenu *)list)->set_scroll_target(470.0f, 124.0f);
+    list->set_scroll_target(470.0f, 124.0f);
     align_menu_entry_positions(list);
     return (saddr)list;
 }
@@ -532,11 +532,11 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
         unload_lobby_scene_resources();
         load_lobby_scene_resources();
         if (option_menu != NULL) {
-            ((TObject *)option_menu)->queue_destruction();
+            option_menu->queue_destruction();
             option_menu = NULL;
         }
         if (main_menu != NULL) {
-            ((TObject *)main_menu)->queue_destruction();
+            main_menu->queue_destruction();
             main_menu = NULL;
         }
         main_menu = (TWindowMenu *)create_menu();

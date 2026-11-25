@@ -42,7 +42,7 @@ TWindowArea *create_window_area() {
     object = new TWindowArea();
     fn_802449E0((u8 *)object);
     fn_8024450C(object);
-    title_entry = (u8 *)((TWindowRoom *)object)->get_title_entry();
+    title_entry = (u8 *)object->get_title_entry();
     *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)title_entry)->get_field_20()));
     return object;
 }

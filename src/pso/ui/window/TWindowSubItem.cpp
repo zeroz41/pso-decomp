@@ -114,7 +114,7 @@ void TWindowSubItemList::gray_out_battle_item_entries() {
 
     for (i = 0; i < entry_capacity; i++) {
         e = (ItemListRow *)get_array_entry(i);
-        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && (e->get_item() & -0x10) == -0x10) {
+        if (e->is_flag_4_set() != 0 && (e->get_item() & -0x10) == -0x10) {
             e->category_style = 0xFFAAAAAA;
             e->style = 0xFF909090;
             e->suffix_style = 0xFF909090;
@@ -130,7 +130,7 @@ void TWindowSubItemList::gray_out_unusable_entries() {
 
     for (i = 0; i < entry_capacity; i++) {
         e = (ItemListRow *)get_array_entry(i);
-        if (((TWindowLayoutEntry *)e)->is_flag_4_set() != 0 && e->get_item() == -0xFF) {
+        if (e->is_flag_4_set() != 0 && e->get_item() == -0xFF) {
             e->category_style = 0xFFAAAAAA;
             e->suffix_style = 0xFF909090;
             e->flags |= 0x80;
@@ -183,7 +183,7 @@ TWindowSubItem::~TWindowSubItem() {
     if (count_input != 0) { ((TWindowBase *)count_input)->close(); count_input = 0; }
     if (confirm_menu != 0) { confirm_menu->close(); confirm_menu = 0; }
     if (purpose_menu != 0) { purpose_menu->close(); purpose_menu = 0; }
-    if (help_window != 0) { ((TWindowBase *)help_window)->close(); help_window = 0; }
+    if (help_window != 0) { help_window->close(); help_window = 0; }
     if (item_list != 0) { item_list->close(); item_list = 0; }
 }
 
@@ -210,7 +210,7 @@ void TWindowSubItem::run_task() {
             }
             if (this->help_window == 0) {
                 this->help_window = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
-                ((TWindowBase *)this->help_window)->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 4));
+                this->help_window->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 4));
                 this->displayed_item = -1;
             }
             item_list->refresh();
@@ -238,7 +238,7 @@ void TWindowSubItem::run_task() {
                 this->confirm_menu = 0;
             }
             if (this->help_window != 0) {
-                ((TWindowBase *)(this->help_window))->close();
+                this->help_window->close();
                 this->help_window = 0;
             }
             if (this->purpose_menu == 0) {
@@ -635,11 +635,11 @@ void TWindowSubItem::close_windows(s32 arg1) {
             return;
         case 1:
             if (this->confirm_menu != NULL) {
-                ((TWindowBase *)this->confirm_menu)->close();
+                this->confirm_menu->close();
                 this->confirm_menu = 0U;
             }
             if (this->purpose_menu != NULL) {
-                ((TWindowBase *)this->purpose_menu)->close();
+                this->purpose_menu->close();
                 this->purpose_menu = 0U;
             }
             this->state = 0xA;

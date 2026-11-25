@@ -193,7 +193,7 @@ void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->up
 
 TWindowShortCut::~TWindowShortCut() {
     if (this->symbol_preview != NULL) {
-        ((TWindowBase *)this->symbol_preview)->close();
+        this->symbol_preview->close();
         this->symbol_preview = NULL;
     }
     if (this->preview_window != NULL) {

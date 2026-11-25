@@ -186,7 +186,7 @@ void TWindowSubSymbolChatFaceType::run_task() {
     if ((f32) (s32)window_sub_symbol_chat_face_type->open_tick >= 7.5f) {
         status_disp->update_subwindow();
     }
-    ((TWindowBase *)window_sub_symbol_chat_face_type)->update_window();
+    window_sub_symbol_chat_face_type->update_window();
     window_sub_symbol_chat_face_type->update_window_entry_list(&window_sub_symbol_chat_face_type->entry_list);
 }
 

@@ -119,15 +119,15 @@ TWindowSubMag::~TWindowSubMag() {
         photon = 0U;
     }
     if (list2 != 0U) {
-        ((TWindowBase *)list2)->close();
+        list2->close();
         list2 = 0U;
     }
     if (card != 0U) {
-        ((TWindowBase *)card)->close();
+        card->close();
         card = 0U;
     }
     if (slotwin != 0U) {
-        ((TWindowBase *)slotwin)->close();
+        slotwin->close();
         slotwin = 0U;
     }
     if (help != 0U) {
@@ -135,7 +135,7 @@ TWindowSubMag::~TWindowSubMag() {
         help = 0U;
     }
     if (list != 0U) {
-        ((TWindowBase *)list)->close();
+        list->close();
         list = 0U;
     }
 }
@@ -152,7 +152,7 @@ void TWindowSubMag::run_task() {
     case 0:
     case 1:
         if (card != NULL) {
-            ((TWindowBase *)card)->close();
+            card->close();
             card = NULL;
         }
         if (help == NULL) {
@@ -188,7 +188,7 @@ void TWindowSubMag::run_task() {
             photon = NULL;
         }
         if (list2 != NULL) {
-            ((TWindowBase *)list2)->close();
+            list2->close();
             list2 = NULL;
         }
         if (help != NULL) {
@@ -212,7 +212,7 @@ void TWindowSubMag::run_task() {
         break;
     case 5:
         if (card != NULL) {
-            ((TWindowBase *)card)->close();
+            card->close();
             card = NULL;
         }
         ((TWindowSubStatusDisp *)(list))->init_scroll_pos();
@@ -292,7 +292,7 @@ void TWindowSubMag::run_task() {
         break;
     case 14:
         if (card != NULL) {
-            ((TWindowBase *)card)->close();
+            card->close();
             card = NULL;
         }
         if (help != NULL) {
@@ -471,7 +471,7 @@ loop_1:
 void TWindowSubMag::update_displayed_item() {
     s32 cursor_value;
 
-    cursor_value = ((TWindowMenuIconLine *)this->list)->get_cursor_value();
+    cursor_value = this->list->get_cursor_value();
     if (cursor_value != (s32) this->displayed_item) {
         this->displayed_item = cursor_value;
         help->set_displayed_item_by_id(cursor_value);

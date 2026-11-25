@@ -188,7 +188,7 @@ void TWindowSubCustomSelect::render() {
     TWindowSubCustomSelect *window_sub_custom_select = this;
     WindowDrawContext *draw_context;
     draw_context = window_sub_custom_select->get_draw_context();
-    ((TWindowBase *)window_sub_custom_select)->draw_window_frame(draw_context);
+    window_sub_custom_select->draw_window_frame(draw_context);
     window_sub_custom_select->draw_palette_cells(draw_context);
     window_sub_custom_select->draw_cursor(draw_context);
     ((TWindowSubStatusDisp *)(window_sub_custom_select->status_display))->forward_render(draw_context);

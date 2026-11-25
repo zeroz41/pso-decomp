@@ -105,7 +105,7 @@ s32 TWindowChat::submit_keyboard_input() {
         this->set_input_active();
         return 1;
     }
-    if (((TWindowKeyBoardBase *)(this->composer))->is_confirmed() == 0) {
+    if (this->composer->is_confirmed() == 0) {
         return 0;
     }
     this->set_active_flag();
@@ -115,7 +115,7 @@ s32 TWindowChat::submit_keyboard_input() {
             TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4))->update_selected_symbol();
         }
     } else {
-        ((TWindowKeyBoardBase *)this->composer)->export_text((char *)this->result + 4);
+        this->composer->export_text((char *)this->result + 4);
     }
     composer->reset_input();
     return 1;
@@ -387,15 +387,15 @@ TWindowChat::~TWindowChat() {
         auxiliaryWindow = NULL;
     }
     if (softKeyboard != NULL) {
-        ((TWindowBase *)this->softKeyboard)->close();
+        this->softKeyboard->close();
         softKeyboard = NULL;
     }
     if (hardKeyboard != NULL) {
-        ((TWindowBase *)this->hardKeyboard)->close();
+        this->hardKeyboard->close();
         hardKeyboard = NULL;
     }
     if (composer != NULL) {
-        ((TWindowBase *)this->composer)->close();
+        this->composer->close();
         composer = NULL;
     }
 }
