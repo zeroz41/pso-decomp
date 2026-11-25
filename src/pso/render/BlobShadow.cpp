@@ -19,9 +19,9 @@
 NJS_TEXANIM blob_shadow_rect_desc = {5, 5, 0, 0, 5, 5, 253, 253, 0, 0};
 NJS_TEXLIST *blob_shadow_texture_list;
 
-void draw_blob_shadow(s32 forceDraw) {
+void draw_blob_shadow(s32 force_draw) {
     NJS_SPRITE sprite;
-    if (forceDraw != 0 || split_screen_active() != 0) {
+    if (force_draw != 0 || split_screen_active() != 0) {
         sprite.p.x = -4.9910388f;
         sprite.p.y = 0.0f;
         sprite.p.z = 0.0f;
