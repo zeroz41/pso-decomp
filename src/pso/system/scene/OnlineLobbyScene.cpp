@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/ControllerInput.h"
+#include "pso/network/NetworkConnect.h"
 #include <string.h>
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/network/TGameProtocol.h"
@@ -327,9 +328,9 @@ void reload_lobby_floor_scene(void) {
     lobby_floor_reload_pending = 0;
 }
 
-void TLobby::send_and_handle() { TLobby::blocking_vsync(); }
+void send_and_handle() { blocking_vsync(); }
 
-void TLobby::blocking_vsync() {
+void blocking_vsync() {
     TLoadCtrl::set_field1C(0);
     begin_gx_frame();
     if ((s32) lbl_805D5718 != 0) {
@@ -574,7 +575,7 @@ void cleanup_online_lobby_scene(void) {
         render_tick();
         i += 1;
     } while (i < 0x1E);
-    TLobby::cleanup();
+    cleanup();
     if (online_lobby_scene_handle == 0) {
         var_r3 = (s32 *)&floor_transition_state;
         var_r3 = (s32 *)&floor_transition_state;

@@ -3072,7 +3072,7 @@ pso/ui/frontend/TAdExNetConfirmGC.cpp:
 pso/unk/text_8014618C.cpp:
 	.text       start:0x8014618C end:0x801461EC
 
-pso/unk/TLobby_801461EC.cpp:
+pso/network/NetworkConnect.cpp:
 	.text       start:0x801461EC end:0x80147A80
 	.rodata     start:0x8043F3F0 end:0x8043F428
 	.data       start:0x804A7808 end:0x804A7850

@@ -23,7 +23,7 @@ extern s16 disc_error_code;
 void *network_info_work;
 u16 network_info_flags;
 u16 lbl_805D56CE;
-int keyboard_buffer_cursor; // stored only by TLobby_801461EC; placed here by the 8-byte .sbss boundary at 0x805D56D8
+int keyboard_buffer_cursor; // stored only by NetworkConnect; placed here by the 8-byte .sbss boundary at 0x805D56D8
 s32 load_network_info(void) {
     LoadNetworkInfoBuf buf;
     LoadNetworkInfoIds ids = {0, 1};
@@ -203,7 +203,7 @@ s32 TLobby::is_status_zero() {
     return 0;
 }
 
-s32 TLobby::is_state_active() {
+s32 is_state_active() {
     u8 sp8;
 
     if (TLobby__sub_803F5678((&sp8)) != 0) {

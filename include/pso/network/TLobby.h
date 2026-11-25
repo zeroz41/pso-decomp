@@ -208,8 +208,6 @@ struct TLobby : public TObject {
     static void run_floor_update_2();
     static void create_map_csn_ctrl();
     static s32 is_status_zero();
-    static s32 is_state_active();
-    static void init_account_entries();
     static void bswap_header(void *p);
 
     static void *create_npc(void *set_data);
@@ -229,8 +227,6 @@ struct TLobby : public TObject {
     static void reset_to_chr_select();
     static void start_udp_test_game();
     void bswap_udp_test_header();
-    static void send_and_handle();
-    static void blocking_vsync();
     static void reload_floor_scene();
     static void free_objects();
     static void run_lobby_frame();
@@ -494,20 +490,6 @@ struct TLobby : public TObject {
     static void handle_info_board(TRecvInfoBoard *info_board);
     static void handle_choice_search_results(ChoiceSearchResultList *results);
     static void handle_choice_search_options(TRecvChoiceSearchOptions *options);
-    static void init_keyboard_buffer();
-    static s32 poll_connect();
-    static void remove_default_route();
-    static void set_default_gateway(s32 gateway);
-    static s32 query_task_active();
-    static int get_link_status_value();
-    static void cleanup();
-    static void flush_pending_flags();
-    static s32 run_connect_sequence();
-    static char *get_dialing_phone_number();
-    static void set_ppp_password(const char *src);
-    static void load_network_configs();
-    static void teardown_boss2();
-    static s32 set_dns_servers();
     static void send_battle_mode_data(void * _w0);
     static unsigned char read_packet_byte();
     static void close_windows();

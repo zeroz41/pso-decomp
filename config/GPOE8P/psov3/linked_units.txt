@@ -750,7 +750,7 @@ pso/unk/TLobby_80132ED0.cpp
 pso/unk/TLobby_80140FF4.cpp
 pso/unk/TLobby_80156B18.cpp
 pso/unk/TLobby_80160804.cpp
-pso/unk/TLobby_801461EC.cpp
+pso/network/NetworkConnect.cpp
 pso/unk/TLobby_80191F80.cpp
 pso/system/scene/OfflineGameScene.cpp
 pso/system/scene/OnlineLobbyScene.cpp

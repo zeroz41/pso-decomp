@@ -8,4 +8,7 @@ s32 load_network_info(void);
 s32 TLobby__sub_80145DB4(s32 arg0);
 }
 
+// 1 when the network adapter reports state 1.
+s32 is_state_active();
+
 #endif

@@ -59,7 +59,7 @@
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FD78C.h"
-#include "pso/unk/TLobby_801461EC.h"
+#include "pso/network/NetworkConnect.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -326,10 +326,10 @@ void init_game_systems(void) {
     TParticleCtrl::init_particle_buffer();
     GXSetPixelFmt(GX_PF_RGBA6_Z24, GX_ZC_LINEAR);
     init_disc_error_messages();
-    TLobby::init_keyboard_buffer();
+    init_keyboard_buffer();
     TAdPlayerLoadGC::load_banner_files();
     TLobby::load_player_data();
-    TLobby::init_account_entries();
+    init_account_entries();
     load_ha_u032_kage();
     fn_800FFE10();
     TLobby::reset_story_select();

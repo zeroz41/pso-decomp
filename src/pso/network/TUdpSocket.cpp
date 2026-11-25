@@ -1,7 +1,7 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/UdpRuntime.h"
 #include "pso/network/NetApi.h"
-#include "pso/unk/TLobby_801461EC.h"
+#include "pso/network/NetworkConnect.h"
 #include "pso/network/NetStack.h"
 #include "types.h"
 #include "pso/system/byteswap.h"

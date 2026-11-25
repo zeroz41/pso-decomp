@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
+#include "pso/network/NetworkConnect.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/unk/text_8007FA24.h"
@@ -14,7 +15,7 @@
 void TAdTrialModemChkGC__sub_803354A4(void) {  }
 void TAdTrialModemChkGC::check_modem_result() {
     if (load_network_info() != 0) {
-        TLobby::init_account_entries();
+        init_account_entries();
         TAdTrialModemChkGC__sub_8007FA24(0);
         return;
     }

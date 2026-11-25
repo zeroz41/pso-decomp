@@ -22,7 +22,8 @@
 #include "pso/unk/text_8014618C.h"
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
-#include "pso/unk/TLobby_801461EC.h"
+#include "pso/network/NetworkConnect.h"
+#include "pso/unk/text_80145A94.h"
 
 void TAdDialingGC::open() {
     TAdDialingGC::instance = NULL;
@@ -55,7 +56,7 @@ extern const char *TAdDialingGC__name;
 TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
     *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC__name);
     TAdDialingGC::instance = this;
-    if (TLobby::is_state_active() != 0) {
+    if (is_state_active() != 0) {
         this->dial_mode = 1;
     } else if (TLobby__sub_8014618C() == 1) {
         this->dial_mode = 2;
@@ -150,7 +151,7 @@ void TAdDialingGC::draw_dialing_status() {
     if (fn_80145A44(a) == 0) {
         a[0] = 0;
     }
-    sprintf(b, lbl_804767C8, a, TLobby::get_dialing_phone_number());
+    sprintf(b, lbl_804767C8, a, get_dialing_phone_number());
     sprintf(c, (char *)get_connection_message_text(1), b);
     draw_menu_font_string_white((const char *)c, 23.0f, 351.0f);
 }

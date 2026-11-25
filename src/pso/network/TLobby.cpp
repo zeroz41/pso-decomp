@@ -84,7 +84,7 @@
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby_801461EC.h"
+#include "pso/network/NetworkConnect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/object/switch/TSwitch.h"
@@ -958,7 +958,7 @@ void TLobby::run_task() {
     if (quest_download_active != 0) {
         update_network_wait_icon();
     }
-    r = TLobby::query_task_active();
+    r = query_task_active();
     if (protocol_instance->m_is_invalid_packet != 0 || get_link_status() == 0 || r < 0) {
         protocol_instance->m_is_invalid_packet = 0;
         TQuestListOnline::close_windows_and_reset();
