@@ -75,19 +75,20 @@ TBoss5GryphonLightningWing::~TBoss5GryphonLightningWing() {}
 saddr __ct__26TBoss5GryphonLightningWingFP7TObjectP3VecP3VecP3Vecll(saddr allocation, TObject *parent, Vec *start,
                                                                     Vec *mid, Vec *end, s32 grow_frames,
                                                                     s32 hold_frames) {
+    TBoss5GryphonLightningWing *wing = (TBoss5GryphonLightningWing *)allocation;
     s32 i;
     __ct__22TBoss5GryphonLightningFP7TObjectP3Vecf(20.0f);
-    ((Wing_80351C18 *)allocation)->vt = __vt__26TBoss5GryphonLightningWing;
-    ((Wing_80351C18 *)allocation)->x0 = ((saddr)TBoss5GryphonLightningWing::name);
-    ((Wing_80351C18 *)allocation)->n = 3;
-    ((Wing_80351C18 *)allocation)->x98 = grow_frames;
-    ((Wing_80351C18 *)allocation)->x9C = grow_frames + hold_frames;
-    VecCopy(&((Wing_80351C18 *)allocation)->pts[0].v, start);
-    VecCopy(&((Wing_80351C18 *)allocation)->pts[((Wing_80351C18 *)allocation)->n - 1].v, end);
-    for (i = 1; i < ((Wing_80351C18 *)allocation)->n - 1; i++) {
-        ((Wing_80351C18 *)allocation)->pts[i].v.x = mid->x;
-        ((Wing_80351C18 *)allocation)->pts[i].v.y = mid->y;
-        ((Wing_80351C18 *)allocation)->pts[i].v.z = mid->z;
+    *(void **)((u8 *)wing + 0x18) = __vt__26TBoss5GryphonLightningWing;
+    wing->m_name = TBoss5GryphonLightningWing::name;
+    wing->segment_count = 3;
+    wing->grow_frames = grow_frames;
+    wing->life_frames = grow_frames + hold_frames;
+    VecCopy(&wing->segments[0].pos, start);
+    VecCopy(&wing->segments[wing->segment_count - 1].pos, end);
+    for (i = 1; i < wing->segment_count - 1; i++) {
+        wing->segments[i].pos.x = mid->x;
+        wing->segments[i].pos.y = mid->y;
+        wing->segments[i].pos.z = mid->z;
     }
     return allocation;
 }

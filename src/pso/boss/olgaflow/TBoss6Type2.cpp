@@ -99,7 +99,7 @@ Vec boss6_type2_follow_camera_target = { 0.0f, 10.43f, 70.42f };
 
 
 extern "C" {
-void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec);
+void TBoss6Type2__sub_802BE4E0(s32 *dest, s32 *boss6_type2_zero_vec);
 
 // One leg contact for update_leg_ground_effects: its node, the particle slot it drives and
 // the node height above which (up to 20 units) the slot's dust stays alive.
@@ -161,9 +161,9 @@ TBoss6Type2 *TBoss6Type2::create(Boss6BodySpawnParams *params) {
     return new TBoss6Type2(new TObjControl(tl_04), params);
 }
 
-void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec) {
-    *arg0 = *boss6_type2_zero_vec;
-    *(ByteBlock_C *)((saddr) arg0 + 4) = *(const ByteBlock_C *)((saddr) boss6_type2_zero_vec + 4);
+void TBoss6Type2__sub_802BE4E0(s32 *dest, s32 *boss6_type2_zero_vec) {
+    *dest = *boss6_type2_zero_vec;
+    *(ByteBlock_C *)((saddr) dest + 4) = *(const ByteBlock_C *)((saddr) boss6_type2_zero_vec + 4);
 }
 
 #pragma push
@@ -1692,15 +1692,15 @@ void TBoss6Type2::spawn_rocks_around_players() {
     s32 n;
     s32 cnt;
     s32 i;
-    u8 *pl;
+    TObjPlayer *pl;
     n = 0;
     cnt = TLobby::get_game_mode();
     for (i = 0; i < cnt; i++) {
-        pl = (u8 *)TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) != 0) {
+        pl = TObjPlayer::get_player_data(i);
+        if (TBoss6PlotFalz::is_active(pl) != 0) {
             f32 r = 40.0f * (3.0517578e-05f * (f32)rand()) + 10.0f;
             s32 ang = (s32)(65535.0f * (3.0517578e-05f * (f32)rand()));
-            VecCopy(&p, (const Vec *)(pl + 0x38));
+            VecCopy(&p, &pl->position);
             p.x += r * sin_table_lookup(ang);
             p.y = 0.0f;
             p.z += r * cos_table_lookup(ang);
@@ -1937,24 +1937,24 @@ void TBoss6Type2::reset_counters() {
 
 void TBoss6Type2::update_possess_target() {
     Vec v;
-    u8 *pl;
+    TObjPlayer *pl;
     s32 done;
     u16 id;
     id = possessed_client;
     if (id != 0xFFFF) {
         done = 0;
-        pl = (u8 *)get_player_by_client_id(id);
+        pl = get_player_by_client_id(id);
         if (pl == NULL) {
             done = 1;
-        } else if (TBoss6PlotFalz::is_active((TObjPlayer *)pl) == 0) {
-            VecCopy(&v, (const Vec *)(pl + 0x38));
+        } else if (TBoss6PlotFalz::is_active(pl) == 0) {
+            VecCopy(&v, &pl->position);
             v.y += 10.0f;
             spawn_flow_soul(this, &v, 0x1E);
             TBoss6EffHyoui::create(possessed_client, 1, 0x1E);
             if (this->is_target_valid() == 0) {
                 play_sound_effect(0x40069E13, &position, 0, 1);
             }
-            spawn_particle_effect((const Vec *)(pl + 0x38), 0x36);
+            spawn_particle_effect(&pl->position, 0x36);
             done = 1;
         }
         if (done != 0) {

@@ -87,16 +87,10 @@ struct Boss7LoadCallback {
     void (*release)(void);
 };
 
-// What TObjEnemy::movementParameters points at.
-struct TBoss7DeRolLeCMovement {
-    EnemyMoveParams move;
-    s32 pad_0C[4];
-};
-
 // The BML resource descriptor, followed by the action table that
 // TBoss7DeRolLeC's constructor hands to set_action_table.
 extern Boss7LoadCallback boss7_derolle_c_load_callbacks[6];
-extern TBoss7DeRolLeCMovement boss7_derolle_c_movement;
+extern BossMovementParameters boss7_derolle_c_movement;
 extern BmlResourceDescriptor bm_boss7_de_rol_le_c_resource_descriptor;
 extern TObjMotionAction de_rol_le_c_action_table[17];
 
@@ -402,7 +396,7 @@ Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7LaserImpact::load_static_resource, TBoss7LaserImpact::destroy_instance},
 };
 
-TBoss7DeRolLeCMovement boss7_derolle_c_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+BossMovementParameters boss7_derolle_c_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
 
 const char *bm_boss7_de_rol_le_c_model_names[7] = {
     boss7_de_rol_le_c_model_name_boss2_b_derorure_body_nj,
@@ -2341,7 +2335,6 @@ void TBoss7DeRolLeC::handle_side_jump_state(u32 event, s32 position_index, s32 n
 #pragma fp_contract on
 #pragma push
 #pragma opt_common_subs off
-#undef self
 void TBoss7DeRolLeC::handle_forward_jump_state(u32 event) {
     switch (event) {
     case 4:
@@ -2716,7 +2709,6 @@ void TBoss7DeRolLeC::handle_bite_state(u32 event, s32 position_index) {
 }
 #pragma pop
 #pragma pop
-#undef self
 void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index) {
     s32 ang;
     Vec v;

@@ -44,8 +44,8 @@ void begin_alpha_blend(f32 alpha) {
 }
 
 __declspec(section ".sdata2") extern const f32 alpha_blend_color = 0.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D8AE0 = 1.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D8AE4 = 0.5f;
+__declspec(section ".sdata2") extern const f32 boss4_float_one = 1.0f;
+__declspec(section ".sdata2") extern const f32 boss4_float_half = 0.5f;
 __declspec(section ".sdata2") extern const u32 alpha_blend_render_flags = 0x00008829;
 __declspec(section ".sdata2") extern const f32 alpha_blend_alpha_bias = -1.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805D8AF0 = 32768.0f;
+__declspec(section ".sdata2") extern const f32 boss4_half_turn_scale = 32768.0f;

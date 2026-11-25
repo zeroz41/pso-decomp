@@ -47,7 +47,7 @@
 
 #pragma readonly_strings on
 
-static CollisionBody TBoss6Mine__collision_body_template[1] = {
+CollisionBody TBoss6Mine::collision_body_template[1] = {
     {{0.0f, 0.0f, 0.0f}, 15.0f, 0.0f, 0, 0x801B, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
@@ -357,7 +357,7 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     texlist = 0;
     model = 0;
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
-    init_collision_body_parts(this, TBoss6Mine__collision_body_template, 1);
+    init_collision_body_parts(this, TBoss6Mine::collision_body_template, 1);
     VecCopy(&body_center, &position);
     velocity.z = 0.0f;
     velocity.y = 0.0f;

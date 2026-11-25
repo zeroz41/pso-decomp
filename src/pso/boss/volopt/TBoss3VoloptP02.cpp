@@ -85,7 +85,7 @@ static TObjMotionAction action_entries[9] = {
     {2, 0, 1, 0.7f, 4},
     {2, 0, 13, 0.6f, 1},
 };
-static VoloptMovementParams movement_params = {150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0};
+static BossMovementParameters movement_params = {{150.0f, 0.5555555f, 0x400}, {0x1E0000, 0, 1, 0}};
 static CollisionBody collision_bodies[5] = {
     {{0.0f, 23.0f, 29.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{36.0f, 26.0f, 0.0f}, 15.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -132,8 +132,8 @@ static u8 *node_27_color;
 static u8 *node_3f_color;
 
 void VoloptPartsMessage::init() {
-    command = 0x18;
-    size = 3;
+    header.subcommand = 0x18;
+    header.size = 3;
 }
 
 void VoloptPartsMessage::send() {
@@ -143,15 +143,15 @@ void VoloptPartsMessage::send() {
 
 void VoloptPartsMessage::swap() {
     s32 i;
-    ((G_ClientIDHeader *)this)->bswap();
+    ((G_ClientIDHeader *)&header)->bswap();
     for (i = 0; i < 4; i++) {
         bswap_16((u16 *)&part_hp[i]);
     }
 }
 
 void VoloptPhase2Message::init() {
-    command = 0x85;
-    size = 5;
+    header.subcommand = 0x85;
+    header.size = 5;
 }
 
 void VoloptPhase2Message::send() {
@@ -1312,7 +1312,7 @@ void TBoss3VoloptP02::broadcast_values() {
     VoloptPartsMessage message;
     s32 i;
     message.init();
-    message.entity_id = entity_id;
+    message.header.entity_id = entity_id;
     for (i = 0; i < 4; i++) {
         message.part_hp[i] = part_hp[i];
     }
@@ -1325,7 +1325,7 @@ extern "C" void handle_6x18_vol_opt2_boss_actions(VoloptPartsMessage *message) {
     u32 bit;
     s32 j;
     message->swap();
-    boss = (TBoss3VoloptP02 *)find_entity_by_id(message->entity_id);
+    boss = (TBoss3VoloptP02 *)find_entity_by_id(message->header.entity_id);
     if (boss != NULL) {
         for (i = 0; i < 4; i++) {
             boss->part_hp[i] = message->part_hp[i];

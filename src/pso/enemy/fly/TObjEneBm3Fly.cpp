@@ -48,7 +48,7 @@ ActorParamBlock *bm3_fly_resist_stats;
 Bm3FlyParameters * bm3_fly_lobby_params;
 BmlResource * bm3_fly_nest_resources;
 TBreakUpMdlData * bm3_fly_breakup_model;
-extern const f32 lbl_805D9E80;
+extern const f32 enemy_gravity_accel;
 extern void *tl_04;
 
 const BreakUpParamRow bm3_fly_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
@@ -479,7 +479,7 @@ void TObjEneBm3Fly::update_launch_state(s32 msg) {
             this->flightY += this->launch_velocity.y;
             this->position.z += this->launch_velocity.z;
             this->launch_velocity.x *= (0.9f);
-            this->launch_velocity.y += lbl_805D9E80;
+            this->launch_velocity.y += enemy_gravity_accel;
             this->launch_velocity.z *= (0.9f);
             this->step++;
             if (this->step > 40) {

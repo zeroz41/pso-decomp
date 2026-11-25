@@ -155,10 +155,7 @@ s32 boss8_dragon_behavior_param_ids[3] = {
     0x11, 0x12, 0x13,
 };
 s32 boss8_dragon_attack_stat_indices[5] = {0, 1, 2, 3, 4};
-void *boss8_dragon_movement_params[7] = {
-    (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x500050,
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
+BossMovementParameters boss8_dragon_movement_params = { { 225.0f, 0.0f, 0x600 }, { 0x500050, 0, 0, 0 } };
 CollisionBody boss8_dragon_collision_bodies[7] = {
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -277,9 +274,9 @@ s32 __ct__14SubtractiveRngFv(void *rng);
 void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *cmd);
 
 extern "C" {
-extern const f32 lbl_805D9E80;
-f32 lbl_805D6980 = 5.0f * lbl_805D9E80;
-f32 lbl_805D6984 = 7.0f * lbl_805D9E80;
+extern const f32 enemy_gravity_accel;
+f32 lbl_805D6980 = 5.0f * enemy_gravity_accel;
+f32 lbl_805D6984 = 7.0f * enemy_gravity_accel;
 }
 BmlResource *boss8_dragon_resource;
 s32 boss8_dragon_capture_node;
@@ -502,7 +499,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->set_requested_action(this->requested_action);
     reset_hp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]], TLobby::register_object(0x12));
     this->set_state_flag_1();
-    this->movementParameters = boss8_dragon_movement_params;
+    this->movementParameters = &boss8_dragon_movement_params;
     initialize_enemy_state(0x4C);
     this->wall_reach = 20.0f;
     this->enemy_init_acquire_period(0xA);
@@ -743,7 +740,7 @@ void TBoss8Dragon::select_next_action() {
             this->send_action_packet(0x16);
             return;
         }
-        goto block_14;
+        goto continue_sequence;
     }
     if (is_primary_sequence() != 0) {
         if (!(this->flags & 0x10)) {
@@ -751,10 +748,10 @@ void TBoss8Dragon::select_next_action() {
                 if (this->check_phase_advance() != 0) {
                     return;
                 }
-                goto block_14;
+                goto continue_sequence;
             }
         } else {
-            goto block_14;
+            goto continue_sequence;
         }
     } else {
         if (!(this->flags & 0x20) && (this->hp <= 0)) {
@@ -765,7 +762,7 @@ void TBoss8Dragon::select_next_action() {
             this->send_action_packet(0x15);
             return;
         }
-block_14:
+continue_sequence:
         if (boss8_dragon_hold_mode != 0) {
             this->dispatch_action(this->mode, 2);
             return;
@@ -783,7 +780,7 @@ void TBoss8Dragon::check_death() {
         if (check_damage_reaction() != 0) {
             return;
         }
-        goto block_8;
+        goto dispatch_final_action;
     }
     if (!(this->flags & 0x20) && (this->hp <= 0)) {
         if (this->phase == 1) {
@@ -793,7 +790,7 @@ void TBoss8Dragon::check_death() {
         send_action_packet(0x15);
         return;
     }
-block_8:
+dispatch_final_action:
     this->dispatch_action(this->mode, 0xB);
 }
 
@@ -1773,7 +1770,7 @@ void TBoss8Dragon::dispatch_action(u32 action, s32 event) {
     }
 }
 
-f32 boss8_dragon_fall_accel = 5.0f * lbl_805D9E80;
+f32 boss8_dragon_fall_accel = 5.0f * enemy_gravity_accel;
 
 CurvePathPoint boss8_dragon_bezier_points[4] = {
     {{0.0f, 0.0f, 0.0f}, 0.0f},
@@ -3106,7 +3103,7 @@ void TBoss8Dragon::update_burrow_inward_run(u32 event, s32 action) {
 }
 
 void TBoss8Dragon::update_burrow_outward_run(s32 event) {
-    struct { f32 x, y, z; } sp8;
+    struct { f32 x, y, z; } offset_from_origin;
     switch (event) {
     case 4:
         this->clear_intangible();
@@ -3125,8 +3122,8 @@ void TBoss8Dragon::update_burrow_outward_run(s32 event) {
         send_action_packet(0x1C);
         return;
     case 9:
-        VecCopy((Vec *)(&sp8), &this->position);
-        if (normalize_vector_xz((Vec *)&sp8) > 350.0f) {
+        VecCopy((Vec *)(&offset_from_origin), &this->position);
+        if (normalize_vector_xz((Vec *)&offset_from_origin) > 350.0f) {
             this->pick_next_action();
         }
         return;

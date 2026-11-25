@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "types.h"
+#include "pso/render/ColorLineList.h"
 #include <stddef.h>
 
 class TBoss4Fade : public TObject {
@@ -34,13 +35,9 @@ struct TBoss4DarkFalz;
 
 TBoss4Fade *create_boss4_fade();
 
-typedef struct Quad_803594EC
-{
-  void *tex;
-  u32 *colors;
-  s32 a;
-  s32 b;
-  u32 col[4];
-} Quad_803594EC;
+// The fullscreen fade's draw list: the strip's four vertices, then the four colours it points at.
+struct FadeStrip : public ColorLineList {
+    u32 col[4];
+};
 
 #endif

@@ -38,12 +38,12 @@ CollisionBody TBoss4Zako_collision_body_parts[1] = {
 
 #pragma readonly_strings on
 
-static const char TBoss4Zako__class_name_string[] = "TBoss4Zako";
-static const char TBoss4Uro__class_name_string[] = "TBoss4Uro";
-static const char TBoss4Bishi__class_name_string[] = "TBoss4Bishi";
-const char *TBoss4Zako::name = TBoss4Zako__class_name_string;
-const char *TBoss4Uro::name = TBoss4Uro__class_name_string;
-const char *TBoss4Bishi::name = TBoss4Bishi__class_name_string;
+static const char TBoss4Zako::class_name_string[] = "TBoss4Zako";
+static const char TBoss4Uro::class_name_string[] = "TBoss4Uro";
+static const char TBoss4Bishi::class_name_string[] = "TBoss4Bishi";
+const char *TBoss4Zako::name = TBoss4Zako::class_name_string;
+const char *TBoss4Uro::name = TBoss4Uro::class_name_string;
+const char *TBoss4Bishi::name = TBoss4Bishi::class_name_string;
 
 static const f32 movement_speed_step = 0.033333335f;
 static const f32 one_third = 0.33333334f;

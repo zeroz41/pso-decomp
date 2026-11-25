@@ -22,6 +22,7 @@ struct TBoss4Uro : public TBoss4Zako {
 
     Vec orbit_center;
     static const char *name;
+    static const char class_name_string[];
 };
 LAYOUT_ASSERT(TBoss4Uro_size, sizeof(TBoss4Uro) == 0x3D0);
 

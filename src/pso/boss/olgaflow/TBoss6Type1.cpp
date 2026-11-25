@@ -230,9 +230,9 @@ TBoss6Type1 *TBoss6Type1::create(Boss6BodySpawnParams *params) {
 extern "C" {
 
 
-u8 * TBoss6Type1__sub_802B96C0(saddr arg0, saddr arg1) {
-    *(ByteBlock_C_boss6_1 *)(arg0) = *(const ByteBlock_C_boss6_1 *)(arg1);
-    return (u8 *)arg0;
+u8 *copy_boss6_type1_vec(saddr dest, saddr source) {
+    *(ByteBlock_C_boss6_1 *)(dest) = *(const ByteBlock_C_boss6_1 *)(source);
+    return (u8 *)dest;
 }
 }
 
@@ -276,9 +276,9 @@ TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEn
     effect_point_receiver = TBoss6Zanzo::create(this, 2, 0xF);
     target_mode = 0;
     random_factor = 0;
-    TBoss6Type1__sub_802B96C0((saddr)&target_position, (saddr)&boss6_type1_origin);
+    copy_boss6_type1_vec((saddr)&target_position, (saddr)&boss6_type1_origin);
     VecCopy(&target_position.v, &position);
-    TBoss6Type1__sub_802B96C0((saddr)&pad_42C, (saddr)&boss6_type1_origin);
+    copy_boss6_type1_vec((saddr)&pad_42C, (saddr)&boss6_type1_origin);
     attack_mode = 1;
     active_parts = 0;
     for (i = 0; i < 32; i++) {
@@ -425,20 +425,20 @@ void TBoss6Type1::do_attack() {
 
 void TBoss6Type1::send_ret_rnd() {
     Boss6Type1AttackTarget s;
-    s32 r4;
+    s32 action;
     init_attack_params(&s);
     s.radius = 0x1C;
-    r4 = 0x21;
+    action = 0x21;
     attack_mode = 1;
     if (position.y < -20.0f) {
-        r4 = 0x26;
+        action = 0x26;
     }
-    send_6xA4_action(r4, &s);
+    send_6xA4_action(action, &s);
 }
 
 void TBoss6Type1::choose_attack() {
     Boss6Type1AttackTarget s;
-    s32 r4;
+    s32 action;
     s32 n;
     s32 id;
     switch (target_mode) {
@@ -475,11 +475,11 @@ void TBoss6Type1::choose_attack() {
             send_6xA4_action(4, &s);
             break;
         }
-        r4 = pick_random_entry(boss6_type1_random_action_table, 5);
-        switch (r4) {
+        action = pick_random_entry(boss6_type1_random_action_table, 5);
+        switch (action) {
         case 4:
             if (s.height == -2) {
-                r4 = 2;
+                action = 2;
             } else {
                 s.radius = 0x1C;
             }
@@ -489,14 +489,14 @@ void TBoss6Type1::choose_attack() {
             break;
         case 5:
             s.height = 10;
-            r4 = rand_range_inclusive(6, 7);
+            action = rand_range_inclusive(6, 7);
             break;
         case 8:
             s.height = 10;
-            r4 = rand_range_inclusive(8, 10);
+            action = rand_range_inclusive(8, 10);
             break;
         }
-        send_6xA4_action(r4, &s);
+        send_6xA4_action(action, &s);
         break;
     }
 }

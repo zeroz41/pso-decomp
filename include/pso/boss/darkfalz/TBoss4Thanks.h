@@ -32,7 +32,7 @@ struct TBoss4Thanks : public TObject {
     void update_particle_emitters();
     void destroy_effects();
     void clear_particle_emitters();
-    static int is_player_nearby(void *);
+    int is_player_nearby();
     void update_fade_out();
     void advance_thanks_state();
     void mark_done();
@@ -59,20 +59,4 @@ LAYOUT_ASSERT(TBoss4Thanks_size, sizeof(TBoss4Thanks) == 0x54);
 // A particle emitter of the Thanks scene, alive while fade_frame is in [first_frame, last_frame]
 // (the TBoss6Thanks twin's Boss6ThanksEmitter).
 struct Boss4ThanksEmitter { s32 id; s32 first_frame; s32 last_frame; };
-struct Anim_8035C6FC
-{
-  u8 pad[4];
-  u32 frames;
-};
-struct Thanks_8035C6FC
-{
-  u8 pad0[0x1C];
-  s32 state;
-  s32 cur;
-  s32 next;
-  f32 frame;
-  u8 pad2c[0x10];
-  Anim_8035C6FC *anim[4];
-};
-
 #endif

@@ -16,11 +16,10 @@ f32 TBoss4Fade::fullscreen_vertices[4][2] = {
     {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
 };
 
-typedef struct Quad_803594EC Quad_803594EC;
 void TBoss4Fade::render() {
   u32 c;
-  int new_var;
-  Quad_803594EC q;
+  int first_slot;
+  FadeStrip q;
   s32 i = write_index ^ 1;
   if (frames[i].active != 0)
   {
@@ -28,14 +27,14 @@ void TBoss4Fade::render() {
     q.colors = q.col;
     q.col[3] = c;
     q.col[2] = c;
-    new_var = 0;
+    first_slot = 0;
     q.col[1] = c;
-    q.col[new_var] = c;
-    q.a = new_var;
-    q.b = 4;
-    q.tex = TBoss4Fade::fullscreen_vertices;
+    q.col[first_slot] = c;
+    q.tex = (NJS_TEX *)first_slot;
+    q.count = 4;
+    q.verts = (ColorLineVertex *)TBoss4Fade::fullscreen_vertices;
     set_depth_buffer_settings_1();
-    reinterpret_cast<ColorLineList *>(&q)->draw_strip_swap_color(4, 6, -1.0f);
+    q.draw_strip_swap_color(4, 6, -1.0f);
     restore_saved_depth_alpha_state();
   }
 }

@@ -26,12 +26,6 @@ const char TBoss6CrushPtcl::class_name_string[] = "TBoss6CrushPtcl";
 const char *TBoss6CrushRock::name = TBoss6CrushRock::class_name_string;
 const char *TBoss6CrushPtcl::name = TBoss6CrushPtcl::class_name_string;
 
-extern "C" {
-// Keep the retail allocation and constructor calls separate.
-TBoss6CrushRock *__ct__15TBoss6CrushRockFP7TObjectPC3Vecl(
-    TBoss6CrushRock *rock, TObject *parent, const Vec *point, saddr model_index);
-}
-
 s32 TBoss6PlotFalz::get_hp() {
     return TBoss6PlotFalz::instance;
 }
@@ -69,10 +63,7 @@ void TBoss6Rock::spawn_crush_rocks(Vec *point, s32 kind) {
             p.x += radius * sin_table_lookup(angle);
             p.y += 35.0f * (0.000030517578f * (f32)rand());
             p.z += radius * cos_table_lookup(angle);
-            TBoss6CrushRock *rock = (TBoss6CrushRock *)TObject::operator new(sizeof(TBoss6CrushRock));
-            if (rock != NULL) {
-                __ct__15TBoss6CrushRockFP7TObjectPC3Vecl(rock, tl_02, &p, base + j);
-            }
+            new TBoss6CrushRock(tl_02, &p, base + j);
         }
     }
 }

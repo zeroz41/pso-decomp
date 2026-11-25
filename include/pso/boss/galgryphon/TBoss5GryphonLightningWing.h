@@ -33,18 +33,4 @@ saddr __ct__26TBoss5GryphonLightningWingFP7TObjectP3VecP3VecP3Vecll(saddr alloca
                                                                     s32 hold_frames);
 }
 
-struct Pt_80351C18 { Vec v; f32 w; };
-struct Wing_80351C18 {
-    s32 x0;
-    u8 pad4[0x14];
-    void *vt;
-    u8 pad1C[0x48 - 0x1C];
-    Pt_80351C18 pts[4];
-    u8 pad88[8];
-    s32 n;
-    s32 pad94;
-    s32 x98;
-    s32 x9C;
-};
-
 #endif

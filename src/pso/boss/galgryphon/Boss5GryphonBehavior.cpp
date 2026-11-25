@@ -118,12 +118,7 @@ s32 boss5_gryphon_behavior_param_ids[3] = { 0x1E, 0x1F, 0x20 };
 s32 boss5_gryphon_base_stat_indices[3] = { 0, 0, 0 };
 s32 boss5_gryphon_attack_stat_indices[3] = { 0, 1, 2 };
 s32 boss5_gryphon_resistance_stat_indices[3] = { 0, 0, 0 };
-// What the constructor points TObjEnemy::movementParameters at.
-struct Boss5GryphonMovementParameters {
-    EnemyMoveParams move;
-    s32 pad_0C[4];
-};
-Boss5GryphonMovementParameters boss5_gryphon_movement_params = { { 225.0f, 0.0f, 0x600 } };
+BossMovementParameters boss5_gryphon_movement_params = { { 225.0f, 0.0f, 0x600 } };
 CollisionBody boss5_gryphon_collision_body_parts[10] = {
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -189,11 +184,11 @@ Boss5GryphonParams *boss5_gryphon_behavior_params[3];
 Vec boss5_gryphon_bone_capture_origin;
 Vec boss5_gryphon_camera_pos_vec;
 u8 boss5_gryphon_direction_vec[0x10];  // a Vec; the split end counts the 4 bytes of .bss alignment after it
-extern const f32 lbl_805D9E80;
+extern const f32 enemy_gravity_accel;
 // Set up by this file's static initializer (the last function in the object): 3x and 2x the enemies'
 // per-frame gravity (TObjEneDD's -0.1f), the pair TBoss1Dragon names lift and gravity accel.
-f32 boss5_gryphon_lift_accel = gryphon_three * lbl_805D9E80;
-f32 boss5_gryphon_gravity_accel = 2.0f * lbl_805D9E80;
+f32 boss5_gryphon_lift_accel = gryphon_three * enemy_gravity_accel;
+f32 boss5_gryphon_gravity_accel = 2.0f * enemy_gravity_accel;
 player_stats *boss5_gryphon_base_params[1];
 ActorParamBlock *boss5_gryphon_resistance_params[1];
 BmlResource *boss5_gryphon_body_bml_resource;

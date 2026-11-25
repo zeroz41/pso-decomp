@@ -6,8 +6,8 @@
 
 extern "C" {
 
-void TBoss6Type2__sub_80356E50(s32 arg0, s32 cnt, s32 force) {
-    TBoss6Type2::send_subordinate_actions(0, arg0, cnt, force, arg0);
+void TBoss6Type2__sub_80356E50(s32 ids, s32 cnt, s32 force) {
+    TBoss6Type2::send_subordinate_actions(0, ids, cnt, force, ids);
 }
 
 struct Pkt_80356F28 { u8 b[0x40]; };

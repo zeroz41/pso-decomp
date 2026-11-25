@@ -271,8 +271,8 @@ BOOL TBoss3Volopt::is_v2_mode() {
 }
 
 void TBoss3VoloptAttackPacket::init() {
-    command = 0x84;
-    size = 4;
+    header.subcommand = 0x84;
+    header.size = 4;
 }
 
 void TBoss3VoloptAttackPacket::send() {
@@ -281,8 +281,8 @@ void TBoss3VoloptAttackPacket::send() {
 }
 
 void TBoss3VoloptTargetsPacket::init() {
-    command = 0x16;
-    size = 3;
+    header.subcommand = 0x16;
+    header.size = 3;
 }
 
 void TBoss3VoloptTargetsPacket::send() {
@@ -291,8 +291,8 @@ void TBoss3VoloptTargetsPacket::send() {
 }
 
 void TBoss3VoloptActionPacket::init() {
-    command = 0x15;
-    size = 3;
+    header.subcommand = 0x15;
+    header.size = 3;
 }
 
 void TBoss3VoloptActionPacket::send() {
@@ -301,7 +301,7 @@ void TBoss3VoloptActionPacket::send() {
 }
 
 void TBoss3VoloptActionPacket::swap() {
-    ((G_ClientIDHeader *)this)->bswap();
+    ((G_ClientIDHeader *)&header)->bswap();
     bswap_16((u16 *)&action);
     bswap_16(&target_id);
     bswap_16((u16 *)&param);
@@ -309,13 +309,13 @@ void TBoss3VoloptActionPacket::swap() {
 }
 
 void TBoss3VoloptTargetsPacket::swap() {
-    ((G_ClientIDHeader *)this)->bswap();
+    ((G_ClientIDHeader *)&header)->bswap();
     bswap_16((u16 *)&count);
 }
 
 void TBoss3VoloptPositionPacket::init() {
-    command = 0x17;
-    size = 5;
+    header.subcommand = 0x17;
+    header.size = 5;
 }
 
 void TBoss3VoloptPositionPacket::send() {
@@ -324,7 +324,7 @@ void TBoss3VoloptPositionPacket::send() {
 }
 
 void TBoss3VoloptPositionPacket::swap() {
-    ((G_ClientIDHeader *)this)->bswap();
+    ((G_ClientIDHeader *)&header)->bswap();
     bswap_32((u32 *)&rotation_y);
     bswap_32((u32 *)&pos.x);
     bswap_32((u32 *)&pos.y);
@@ -332,7 +332,7 @@ void TBoss3VoloptPositionPacket::swap() {
 }
 
 void TBoss3VoloptAttackPacket::swap() {
-    ((G_ClientIDHeader *)this)->bswap();
+    ((G_ClientIDHeader *)&header)->bswap();
     bswap_16((u16 *)&tech);
     bswap_16((u16 *)&count);
     bswap_16((u16 *)&reserved);
@@ -340,7 +340,7 @@ void TBoss3VoloptAttackPacket::swap() {
 
 void VoloptPhase2Message::swap() {
     s32 i;
-    ((G_ClientIDHeader *)this)->bswap();
+    ((G_ClientIDHeader *)&header)->bswap();
     bswap_16((u16 *)&mode);
     for (i = 0; i < 7; i++) {
         bswap_16((u16 *)&delays[i]);
@@ -573,7 +573,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 if ((core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id)) != NULL && core->is_mode_0() != 0) {
                     moves = (s32)(2.0f * random_ratio()) + 2;
                     move_core.init();
-                    move_core.id = entity_id;
+                    move_core.header.entity_id = entity_id;
                     move_core.action = 0;
                     move_core.param = core_slot;
                     move_core.param2 = moves;
@@ -603,7 +603,7 @@ void TBoss3Volopt::select_phase1_attack() {
             if (volopt_breakup_flag == 1 || breakup_tries >= 2) {
                 volopt_breakup_flag = 1;
                 release_core.init();
-                release_core.id = entity_id;
+                release_core.header.entity_id = entity_id;
                 release_core.action = 1;
                 release_core.send();
                 attack_step = 0;
@@ -612,7 +612,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 breakup_tries++;
                 count = shuffle_p01_order();
                 attack.init();
-                attack.id = entity_id;
+                attack.header.entity_id = entity_id;
                 attack.count = max_targets < count ? max_targets : count;
                 attack.tech = 3.0f * random_ratio();
                 move_data(attack.order, volopt_p01_order, sizeof(volopt_p01_order));
@@ -637,7 +637,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 if ((core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id)) != NULL && core->is_mode_0() != 0) {
                     moves = (s32)(2.0f * random_ratio()) + 2;
                     move_core_v1.init();
-                    move_core_v1.id = entity_id;
+                    move_core_v1.header.entity_id = entity_id;
                     move_core_v1.action = 0;
                     move_core_v1.param = core_slot;
                     move_core_v1.param2 = moves;
@@ -667,7 +667,7 @@ void TBoss3Volopt::select_phase1_attack() {
             if (volopt_breakup_flag == 1 || breakup_tries >= 2) {
                 volopt_breakup_flag = 1;
                 release_core_v1.init();
-                release_core_v1.id = entity_id;
+                release_core_v1.header.entity_id = entity_id;
                 release_core_v1.action = 1;
                 release_core_v1.send();
                 attack_step = 0;
@@ -676,7 +676,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 breakup_tries++;
                 count_v1 = shuffle_p01_order();
                 targets.init();
-                targets.id = entity_id;
+                targets.header.entity_id = entity_id;
                 targets.count = max_targets < count_v1 ? max_targets : count_v1;
                 move_data(targets.order, volopt_p01_order, sizeof(volopt_p01_order));
                 targets.send();
@@ -765,7 +765,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action_wait() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = entity_id;
+                packet.header.entity_id = entity_id;
                 packet.action = 3;
                 packet.target_id = target;
                 packet.send();
@@ -777,7 +777,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action() != 0 && targetId != 0xFFFF) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = entity_id;
+                packet.header.entity_id = entity_id;
                 packet.action = 4;
                 if (is_v2_mode() != 0) {
                     TBoss3VoloptP02::send_random_params();
@@ -792,7 +792,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_trigger() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = entity_id;
+                packet.header.entity_id = entity_id;
                 packet.action = 5;
                 packet.send();
                 attack_delay = 30.0f * (f32)p02->count_dead_parts() + 30.0f;
@@ -803,7 +803,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_set_motion() != 0 && target != 0xFFFF) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = entity_id;
+                packet.header.entity_id = entity_id;
                 packet.action = 6;
                 packet.target_id = target;
                 packet.send();
@@ -815,7 +815,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = entity_id;
+                packet.header.entity_id = entity_id;
                 packet.action = 7;
                 packet.param = 40.0f * random_ratio();
                 packet.send();
@@ -829,7 +829,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action_wait() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = entity_id;
+                packet.header.entity_id = entity_id;
                 packet.action = 3;
                 packet.target_id = p02->find_facing_player();
                 packet.send();
@@ -843,7 +843,7 @@ void TBoss3Volopt::select_phase2_attack() {
                 if (target != 0xFFFF) {
                     TBoss3VoloptActionPacket packet;
                     packet.init();
-                    packet.id = entity_id;
+                    packet.header.entity_id = entity_id;
                     packet.action = 4;
                     if (is_v2_mode() != 0) {
                         TBoss3VoloptP02::send_random_params();
@@ -859,7 +859,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_trigger() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = entity_id;
+                packet.header.entity_id = entity_id;
                 packet.action = 5;
                 packet.send();
                 attack_delay = 30.0f * (f32)p02->count_dead_parts() + 30.0f;
@@ -872,7 +872,7 @@ void TBoss3Volopt::select_phase2_attack() {
                 if (target != 0xFFFF) {
                     TBoss3VoloptActionPacket packet;
                     packet.init();
-                    packet.id = entity_id;
+                    packet.header.entity_id = entity_id;
                     packet.action = 6;
                     packet.target_id = target;
                     packet.send();
@@ -885,7 +885,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = entity_id;
+                packet.header.entity_id = entity_id;
                 packet.action = 7;
                 packet.param = 40.0f * random_ratio();
                 packet.send();
@@ -1399,7 +1399,7 @@ void TBoss3Volopt::send_position(TObjPlayer *player, Vec *pos, s32 rotation_y) {
     TBoss3VoloptPositionPacket packet;
     if (player != NULL) {
         packet.init();
-        packet.id = player->get_entity_id();
+        packet.header.entity_id = player->get_entity_id();
         VecCopy(&packet.pos, pos);
         packet.rotation_y = rotation_y;
         packet.send();
@@ -1410,12 +1410,12 @@ void handle_6x17_set_entity_position_and_angle(TBoss3VoloptPositionPacket *packe
     TObjCollidable *actor;
 
     packet->swap();
-    actor = find_entity_by_id(packet->id);
+    actor = find_entity_by_id(packet->header.entity_id);
     if (actor != NULL) {
         VecCopy(&actor->position, &packet->pos);
         actor->rotation_y = packet->rotation_y;
         actor->refresh_collision_body_centers();
-        if ((s32)packet->id == local_client_id) {
+        if ((s32)packet->header.entity_id == local_client_id) {
             reset_cameras_to_actor(static_cast<TObjPlayer *>(actor), 0);
         }
     }

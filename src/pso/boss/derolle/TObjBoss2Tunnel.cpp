@@ -1103,7 +1103,7 @@ s32 TObjBoss2Tunnel::save_snapshot() {
             return -9;
         }
         save_screen_snapshot();
-loop_4:
+retry_load:
         if (TAdPlayerLoadGC::probe_card_slot(1) == 0) {
             TObjBoss2Tunnel::snapshot_saved_flag = 0;
             return -5;
@@ -1113,11 +1113,11 @@ loop_4:
                 TObjBoss2Tunnel::snapshot_saved_flag = 1;
                 return -9;
             }
-            goto block_9;
+            goto clear_saved_flag;
         }
-        goto loop_4;
+        goto retry_load;
     }
-block_9:
+clear_saved_flag:
     TObjBoss2Tunnel::snapshot_saved_flag = 0;
     return status;
 }

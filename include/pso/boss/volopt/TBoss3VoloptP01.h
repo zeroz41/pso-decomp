@@ -8,6 +8,7 @@
 
 #include <dolphin/mtx.h>
 class TObjVoloptShutter;
+class TBreakUpMdlData;
 struct TBoss3Volopt;
 
 // Collision record behind TObjCollidable::m_a4.
@@ -32,16 +33,6 @@ struct TBoss3VoloptP01Model {
 struct TBoss3VoloptP01Params {
     u8 pad_0[0x18];
     s32 values[1];
-};
-
-struct TBoss3VoloptP01Movement {
-    f32 pad_0;
-    f32 pad_4;
-    s32 pad_8;
-    s32 pad_c;
-    s32 pad_10;
-    s32 pad_14;
-    s32 pad_18;
 };
 
 struct TBoss3VoloptP01CollisionPart {
@@ -106,6 +97,8 @@ struct TBoss3VoloptP01 : public TObjEnemyCustom {
     s32 pulse_angle;
     TObjVoloptShutter *shutter;
     TargetCursorList targets;
+    static BmlResource * resource_bundle;
+    static TBreakUpMdlData * breakup_model;
 };
 
 

@@ -94,7 +94,7 @@ TBoss7Joint::~TBoss7Joint() {
     clear_collision_bodies();
 }
 
-Boss7JointParams boss7_joint_params = { 225.0f, 0, 0x600 };
+BossMovementParameters boss7_joint_params = { { 225.0f, 0.0f, 0x600 } };
 
 #pragma opt_common_subs off
 s32 TBoss7Joint::init_params() {

@@ -116,7 +116,7 @@ void TBoss6Thanks::clear_particle_emitters() {
     }
 }
 
-int TBoss6Thanks::is_player_near(void *) {
+int TBoss6Thanks::is_player_near() {
     s32 i;
     s32 n;
     TObjPlayer *p;
@@ -179,7 +179,7 @@ void TBoss6Thanks::advance_thanks_state() {
     }
 }
 
-void TBoss6Thanks::mark_done() { if (TBoss6Thanks::is_player_near(this) != 0) { this->next_motion = 1; this->state = 1; } }
+void TBoss6Thanks::mark_done() { if (is_player_near() != 0) { this->next_motion = 1; this->state = 1; } }
 
 void TBoss6Thanks::run_task() {
   f32 lim;

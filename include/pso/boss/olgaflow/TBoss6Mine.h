@@ -69,6 +69,7 @@ struct TBoss6Mine : public TObjEnemy {
     void state_5();
     void state_6();
     void state_7();
+    static CollisionBody collision_body_template[1];
 };
 
 LAYOUT_ASSERT(TBoss6MineSetData_size, sizeof(TBoss6MineSetData) == 0x64);

@@ -8,13 +8,6 @@
 struct BmlResource;
 class TBoss3Volopt;
 
-struct TBoss3VoloptCoreMovement {
-    f32 target_range;
-    f32 base_speed;
-    s32 turn_speed;
-    s32 params[4];
-};
-
 class TBoss3VoloptCore : public TObjEnemyCustom {
 public:
     TBoss3VoloptCore(TBoss3Volopt *parent, u16 id, s32 param);

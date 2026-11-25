@@ -14,6 +14,12 @@ struct EnemyMoveParams {
     s32 turn_speed;
 };
 
+// The movement parameter block the bosses point TObjEnemy::movementParameters at: EnemyMoveParams and four more words.
+struct BossMovementParameters {
+    EnemyMoveParams move;
+    s32 extra[4];
+};
+
 struct TObjEnemyCustom : public TObjEnemy {
     TObjEnemyCustom(TObject *parent);
     virtual ~TObjEnemyCustom();

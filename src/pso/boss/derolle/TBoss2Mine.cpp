@@ -44,9 +44,9 @@ __declspec(section ".data") s32 boss2_mine_attack_params[2] = { 0xF, 0xF };
 
 __declspec(section ".data") s32 boss2_mine_resist_params[2] = { 0x11, 0x11 };
 
-TBoss2MineMovement boss2_mine_movement[2] = {
-    { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } },
-    { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } },
+BossMovementParameters boss2_mine_movement[2] = {
+    { { 225.0f, 0.0f, 0x600 }, { 0, 0, 0, 0 } },
+    { { 225.0f, 0.0f, 0x600 }, { 0, 0, 0, 0 } },
 };
 
 CollisionBody boss2_mine_collision_body = {

@@ -2,6 +2,7 @@
 #define PSO_BOSS_DEROLLE_TBOSS2MINE_H
 
 #include "types.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/vector.h"
 
@@ -79,12 +80,6 @@ struct TBoss2Mine : public TObjEneDD {
 };
 LAYOUT_ASSERT(TBoss2Mine_size, sizeof(TBoss2Mine) == 0x3F0);
 
-struct TBoss2MineMovement {
-    f32 target_range;
-    f32 base_speed;
-    s32 turn_speed;
-    s32 params[4];
-};
 // The mine's attack template: state_explode copies it, sets the power from the boss and
 // hands it to setup_attack_at_owner, whose setup_instance installs the collision radius.
 struct TBoss2MineCollisionWords {

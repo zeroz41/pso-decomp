@@ -500,23 +500,23 @@ struct SetEntryCopy {
 void copy_set_entry(void *arg0p, void *arg1p) {
 #define o ((struct SetEntryCopy *)arg0p)
 #define s ((struct SetEntryCopy *)arg1p)
-  struct SetEntryCopy *new_var;
-  struct SetEntryCopy *new_var2;
+  struct SetEntryCopy *dest_first;
+  struct SetEntryCopy *dest_second;
   struct SetEntryWords5 *dc = &o->params;
   struct SetEntryWords5 *sc = &s->params;
   o->set_index = s->set_index;
-  new_var2 = (new_var = o);
-  new_var2->kind = s->kind;
+  dest_second = (dest_first = o);
+  dest_second->kind = s->kind;
   o->unknown_04 = s->unknown_04;
-  new_var->entity_id = s->entity_id;
+  dest_first->entity_id = s->entity_id;
   o->room = s->room;
   o->wave = s->wave;
-  new_var->unknown_0C = s->unknown_0C;
+  dest_first->unknown_0C = s->unknown_0C;
   o->unknown_0E = s->unknown_0E;
-  new_var->position = s->position;
+  dest_first->position = s->position;
   o->rotation = s->rotation;
   *dc = *sc;
-  new_var->param_3C = s->param_3C;
+  dest_first->param_3C = s->param_3C;
   o->param_3E = s->param_3E;
 }
 #undef o

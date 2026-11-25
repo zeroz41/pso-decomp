@@ -7328,8 +7328,8 @@ force_active:
   - is_player_in_range__9TObjLukerFf
   - is_player_in_rock_area__11TBoss6Type2FUs
   - is_player_in_service_range__14TShopGeneratorFPUcf
-  - is_player_near__12TBoss6ThanksFPv
-  - is_player_nearby__12TBoss4ThanksFPv
+  - is_player_near__12TBoss6ThanksFv
+  - is_player_nearby__12TBoss4ThanksFv
   - is_player_nearby__13TObjTombstoneFv
   - is_primary_sequence__12TBoss1DragonFv
   - is_printable_key__19TWindowKeyBoardHardFUc

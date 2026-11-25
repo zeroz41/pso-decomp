@@ -157,7 +157,7 @@ CollisionBody dubchik_collision_body[1] = {
 
 BreakUpParamRow dubchik_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 
-TBoss3VoloptP01Movement dubchik_movement = { 150.0f, 0.37037036f, 0x400, 0x1E0000, 0, 1, 0 };
+BossMovementParameters dubchik_movement = { { 150.0f, 0.37037036f, 0x400 }, { 0x1E0000, 0, 1, 0 } };
 
 __declspec(section ".data") s16 dubchik_part0_node_ids[3] = { 0x14, 0x15, -1 };
 s16 dubchik_part1_node_ids[6] = { 0x2B, 0x31, 0x32, 0x33, 0x34, -1 };

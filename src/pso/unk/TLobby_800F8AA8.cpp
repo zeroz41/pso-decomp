@@ -1133,6 +1133,7 @@ s32 TLobby::run_disk_error_check() {
 // children of resource_load_task_root, one per relocatable data file), the quest and text
 // archive decryption, the disc-file wrappers and TLobby::run_frame; __sinit closes the TU.
 extern s32 memcard_access_active;
+extern int player_load_load_state;
 
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
     fn_800FFE14(fn_800FFE04(), entries, count);

@@ -37,7 +37,7 @@ struct TBoss6Thanks : public TObject {
     void update_particle_emitters();
     void destroy_effects();
     void clear_particle_emitters();
-    static int is_player_near(void *);
+    int is_player_near();
     void update_fade_out();
     void advance_thanks_state();
     void mark_done();

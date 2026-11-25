@@ -166,12 +166,6 @@ s32 de_rol_le_resistance_param_ids[1] = {0xF};
 // counterpart of TBoss2DeRolLe::shared_handler_id_table (dispatch_shared_handler_b)
 s32 de_rol_le_shared_handler_a_ids[1] = {0xF};
 
-// What TObjEnemy::movementParameters points at.
-struct TBoss2DeRolLeMovement {
-    EnemyMoveParams move;
-    s32 pad_0C[4];
-};
-
 // The four points matrix_mult_vec_array places along a breakup piece (derolle_capture_node_points).
 Vec derolle_part_transform_template[4] = {
     {0.0f, 0.0f, 0.0f},
@@ -197,7 +191,7 @@ s32 derolle_action_sequence_table[50] = {
 
 s32 TBoss2DeRolLe::shared_handler_id_table[3] = {0xF, 0x10, 0x11};
 
-TBoss2DeRolLeMovement boss2_derolle_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+BossMovementParameters boss2_derolle_movement = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
 
 CollisionBody boss2_derolle_collision_bodies[3] = {
     {{0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -1957,7 +1951,6 @@ void TBoss2DeRolLe::handle_intro_camera_state(u32 reason) {
 
 #pragma pop
 
-#undef arg0
 
 void TBoss2DeRolLe::handle_debug_pad_input(u32 reason) {
     u32 b;
@@ -2072,7 +2065,6 @@ extern "C" {
 #pragma push
 #pragma fp_contract on
 
-#undef arg0
 
 }
 
@@ -2388,8 +2380,6 @@ void TBoss2DeRolLe::handle_side_jump_state(u32 reason, s32 from, s32 to) {
     }
 }
 
-#undef o
-#undef self
 
 void TBoss2DeRolLe::handle_forward_jump_state(u32 reason) {
     Vec va;
@@ -2552,7 +2542,6 @@ void TBoss2DeRolLe::handle_forward_jump_state(u32 reason) {
     }
 }
 
-#undef o
 
 void TBoss2DeRolLe::handle_bite_state(u32 reason, s32 side) {
     switch (reason) {

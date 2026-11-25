@@ -8,22 +8,22 @@
 #include "pso/player/PlayerSlots.h"
 
 
-extern const f32 lbl_805D8AE0;
+extern const f32 boss4_float_one;
 
-extern const f32 lbl_805D8AE4;
-extern const f32 lbl_805D8AF0;
+extern const f32 boss4_float_half;
+extern const f32 boss4_half_turn_scale;
 
 #pragma push
 #pragma fp_contract on
 f32 ease_out_pow6(f32 t) {
     f32 rest;
-    rest = lbl_805D8AE0 - t;
-    return -((rest * (rest * (rest * (rest * (rest * rest))))) - lbl_805D8AE0);
+    rest = boss4_float_one - t;
+    return -((rest * (rest * (rest * (rest * (rest * rest))))) - boss4_float_one);
 }
 #pragma pop
 
 f32 TBoss4Type3::compute_wave_offset(f32 wave) {
-    return lbl_805D8AE4 * (lbl_805D8AE0 - cos_table_lookup((s32) (lbl_805D8AF0 * wave)));
+    return boss4_float_half * (boss4_float_one - cos_table_lookup((s32) (boss4_half_turn_scale * wave)));
 }
 s32 is_player_in_boss_area(u16 id) {
     TObjPlayer *p;

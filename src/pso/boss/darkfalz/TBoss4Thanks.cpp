@@ -90,7 +90,7 @@ void TBoss4Thanks::clear_particle_emitters() {
     }
 }
 
-int TBoss4Thanks::is_player_nearby(void *) {
+int TBoss4Thanks::is_player_nearby() {
     s32 n;
     s32 i;
     f32 lim;
@@ -158,33 +158,31 @@ void TBoss4Thanks::advance_thanks_state() {
     }
 }
 
-void TBoss4Thanks::mark_done() { if (TBoss4Thanks::is_player_nearby(this) != 0) { this->next_motion = 1; this->state = 1; } }
+void TBoss4Thanks::mark_done() { if (is_player_nearby() != 0) { this->next_motion = 1; this->state = 1; } }
 
-typedef struct Anim_8035C6FC Anim_8035C6FC;
-typedef struct Thanks_8035C6FC Thanks_8035C6FC;
 void TBoss4Thanks::run_task() {
-  Thanks_8035C6FC *o = (Thanks_8035C6FC *) this;
   f32 len;
-  switch (o->state)
+  s32 *next_motion_ref;
+  switch (state)
   {
     case 0:
-      ((TBoss4Thanks *)o)->mark_done();
+      mark_done();
       break;
     case 1:
-      ((TBoss4Thanks *)o)->advance_thanks_state();
+      advance_thanks_state();
       break;
     case 2:
-      ((TBoss4Thanks *)o)->update_fade_out();
+      update_fade_out();
       break;
   }
-  o->frame += 0.6f;
-  len = ((f32) o->anim[o->cur]->frames) - 1.0f;
-  if (o->frame >= len)
+  motion_frame += 0.6f;
+  len = ((f32) motions[current_motion]->frameCount) - 1.0f;
+  if (motion_frame >= len)
   {
-    o->frame -= len;
-    if (((Thanks_8035C6FC *) this)->cur != o->next)
+    motion_frame -= len;
+    if ((*(next_motion_ref = &next_motion)) != current_motion)
     {
-      ((Thanks_8035C6FC *) this)->cur = ((Thanks_8035C6FC *) this)->next;
+      current_motion = *next_motion_ref;
     }
   }
 }

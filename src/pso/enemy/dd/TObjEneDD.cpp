@@ -39,7 +39,7 @@ f32 atan2_float(f32 y, f32 x);
 extern "C" {
 f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
 }
-extern const f32 lbl_805D9E80 = -0.1f;
+extern const f32 enemy_gravity_accel = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
 extern const f32 view_detail_near_depth = 155.0f;
 #include "pso/enemy/dd/TObjEneDD_800B9AF8.h"

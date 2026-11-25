@@ -56,8 +56,8 @@ static void *volopt_p01_boss_stat_handle_a;
 static void *volopt_p01_shared_handler_b;
 static void *volopt_p01_object_handle;
 static TBoss3VoloptP01Params *volopt_p01_shared_handler_handle;
-static BmlResource *TBoss3VoloptP01__resource_bundle;
-static TBreakUpMdlData *TBoss3VoloptP01__breakup_model;
+BmlResource *TBoss3VoloptP01::resource_bundle;
+TBreakUpMdlData *TBoss3VoloptP01::breakup_model;
 static NJS_OBJECT *volopt_p01_chunk_list;
 static u8 *volopt_p01_breakup_color_ptr;
 
@@ -69,7 +69,7 @@ static TObjMotionAction volopt_p01_action_table[6] = {
     { 1, 0, 0xF, 1.0f, 0x10 },
     { 2, 2, 0xC, 1.0f, 0x0 },
 };
-static TBoss3VoloptP01Movement volopt_p01_movement = { 150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0 };
+static BossMovementParameters volopt_p01_movement = { { 150.0f, 0.5555555f, 0x400 }, { 0x1E0000, 0, 1, 0 } };
 static TBoss3VoloptP01CollisionPart volopt_p01_collision_parts = { 0, 18.0f, 0, 8.0f, 0, 0, 0x8003, 0, 0, 0, 0 };
 static BreakUpParamRow volopt_p01_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 void TObjVoloptShutter::open() {
@@ -83,8 +83,8 @@ void TObjVoloptShutter::close() {
 }
 
 void TBoss3VoloptP01::load_model(s32 index) {
-    model = (void *)TBoss3VoloptP01__resource_bundle->models[index].model;
-    texlist = TBoss3VoloptP01__resource_bundle->models[index].texlist;
+    model = (void *)TBoss3VoloptP01::resource_bundle->models[index].model;
+    texlist = TBoss3VoloptP01::resource_bundle->models[index].texlist;
 }
 
 s32 TBoss3VoloptP01::get_shared_value(s32 index) {
@@ -138,7 +138,7 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 gr
 #pragma pop
 
 void TBoss3VoloptP01::init_params() {
-    motion_list = TBoss3VoloptP01__resource_bundle->motions;
+    motion_list = TBoss3VoloptP01::resource_bundle->motions;
     action_table = volopt_p01_action_table;
     set_action_table(action_table);
     init_collision_body_parts(this, &volopt_p01_collision_parts, 1);
@@ -173,9 +173,9 @@ void *TBoss3VoloptP01::create(void *set_data) {
 }
 
 void TBoss3VoloptP01::init_breakup_effect() {
-    TBoss3VoloptP01__resource_bundle = boss3_volopt_resources;
-    TBoss3VoloptP01__breakup_model = new TBreakUpMdlData(TBoss3VoloptP01__resource_bundle->models[17].model);
-    volopt_p01_chunk_list = find_model_node(TBoss3VoloptP01__resource_bundle->models[17].model, 0xD);
+    TBoss3VoloptP01::resource_bundle = boss3_volopt_resources;
+    TBoss3VoloptP01::breakup_model = new TBreakUpMdlData(TBoss3VoloptP01::resource_bundle->models[17].model);
+    volopt_p01_chunk_list = find_model_node(TBoss3VoloptP01::resource_bundle->models[17].model, 0xD);
     volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);
     volopt_p01_shared_handler_b = TLobby::dispatch_shared_handler_b(0x22);
     volopt_p01_object_handle = TLobby::register_object(0x22);
@@ -184,8 +184,8 @@ void TBoss3VoloptP01::init_breakup_effect() {
 }
 
 void TBoss3VoloptP01::destroy() {
-    delete TBoss3VoloptP01__breakup_model;
-    TBoss3VoloptP01__breakup_model = NULL;
+    delete TBoss3VoloptP01::breakup_model;
+    TBoss3VoloptP01::breakup_model = NULL;
 }
 
 void TBoss3VoloptP01::run_task() {
@@ -357,7 +357,7 @@ void TBoss3VoloptP01::update_breakup() {
         advance_animation();
         timer--;
         if (timer < 0) {
-            TBoss3Volopt::create_breakup_mdl(TBoss3VoloptP01__breakup_model, &volopt_p01_breakup_params,
+            TBoss3Volopt::create_breakup_mdl(TBoss3VoloptP01::breakup_model, &volopt_p01_breakup_params,
                                texlist, &body_center, rotation_y);
             trigger_dell_biter_events(&body_center);
             behavior_flags |= 0x40000;
@@ -764,7 +764,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
             if (hiraisin->is_grounded() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = entity_id;
+                packet.header.entity_id = entity_id;
                 packet.action = 2;
                 packet.send();
             }

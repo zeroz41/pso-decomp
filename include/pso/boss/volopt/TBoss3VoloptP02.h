@@ -2,6 +2,7 @@
 #define PSO_BOSS_VOLOPT_TBOSS3VOLOPTP02_H
 
 #include "types.h"
+#include "pso/network/protocol/protocol_types.h"
 #include "dolphin/mtx.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/render/RenderFadeState.h"
@@ -9,9 +10,7 @@
 
 // The 6x85 message: Vol Opt ver.2 phase-2 commands (mode 0 carries the P02 wave delays).
 struct VoloptPhase2Message {
-    u8 command;
-    u8 size;
-    u8 pad_2[0x2];
+    G_UnusedHeader header;
     s16 mode;
     s16 delays[7];
 
@@ -22,9 +21,7 @@ struct VoloptPhase2Message {
 
 // The 6x18 message: the P02 part HP, which breaks the parts that reached zero.
 struct VoloptPartsMessage {
-    u8 command;
-    u8 size;
-    u16 entity_id;
+    G_EntityIDHeader header;
     s16 part_hp[4];
 
     void init();
@@ -134,15 +131,5 @@ extern BmlResource *volopt_p02_resources;
 extern VoloptP02Params *volopt_p02_params;
 
 LAYOUT_ASSERT(TBoss3VoloptP02_size, sizeof(TBoss3VoloptP02) == 0x510);
-
-struct VoloptMovementParams {
-    f32 radius;
-    f32 scale;
-    u32 turn_speed;
-    u32 flags;
-    u32 pad_10;
-    u32 count;
-    u32 pad_18;
-};
 
 #endif

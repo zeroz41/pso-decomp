@@ -2,6 +2,7 @@
 #define PSO_BOSS_DEROLLE_TBOSS2JOINT_H
 
 #include "types.h"
+#include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/NinjaTypes.h"
 
@@ -11,15 +12,6 @@ struct TBoss2JointMaterial {
     u32 diffuse;
     u8 pad_4[0xC];
     u16 strip_head;  // the following strip chunk's [flags|type] head
-};
-
-// One of the ten shell segments TBoss2DeRolLe spawns along its body (the Barba Ray twin is TBoss7Joint).
-// The movement parameters init_params installs.
-struct TBoss2JointMovement {
-    f32 pad_0;
-    s32 pad_4;
-    s32 pad_8;
-    s32 pad_c[4];
 };
 
 struct TBoss2Joint : public TObjEneDD {
@@ -63,7 +55,7 @@ struct TBoss2Joint : public TObjEneDD {
     f32 flash;           // flash_color's weight, fading by 0.05 per frame
     NJS_ARGB flash_color;
     static const char *name;
-    static TBoss2JointMovement movement;
+    static BossMovementParameters movement;
     static CollisionBody body;
 };
 
