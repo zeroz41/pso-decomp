@@ -790,8 +790,8 @@ force_active:
   - TODoorFourLightRuins__class_name
   - TODoorFourLightSpace__class_name
   - TODoorFourLight__collision_body_params
-  - TODoorJungleMain__bml_resource
-  - TODoorJungleMain__ct
+  - bml_resource__16TODoorJungleMain
+  - __ct__16TODoorJungleMainFP7TObjectPv
   - TODoorJungleMain_collision_body_parts
   - __ct__16TODummyKeyCave01FP7TObjectPv
   - TOExplosiveMachine01__class_name

@@ -29,6 +29,8 @@ struct AnimationMotion;
 #include "pso/object/door/TODoorAncient01.h"
 
 #include "pso/map/TObjMapCsn.h"
+#include "pso/object/base/ObjectSetData.h"
+#include "pso/object/base/ActorCollision.h"
 
 #include "pso/player/TObjPlayer.h"
 
@@ -84,9 +86,7 @@ CollisionBody TODoorJungleMain_collision_body_parts[1] = {
 // Story-flag ids of the three jungle switches (shared with TOKeyJungleMain).
 const s32 TOKeyJungleMain__data_804653C8[3] = {0x46, 0x47, 0x48};
 
-const char *TODoorJungleMain__name = "TODoorJungleMain";
-
-extern "C" u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2);
+const char *TODoorJungleMain::class_name = "TODoorJungleMain";
 
 extern "C" {
 
@@ -137,20 +137,9 @@ struct Door_8029B428 : VObj_8029B428 {
     s32 count;
 };
 
-BmlResource *TODoorJungleMain__bml_resource;
+BmlResource *TODoorJungleMain::bml_resource;
 
 NJS_TEXLIST *door_jungle_main_gvm_texture;
-
-extern "C" {
-
-u32 init_collision_body_parts(void *, saddr, s32);
-
-void *__ct__10TODoorBaseFP7TObject(void *a0);
-
-extern s32 __vt__16TODoorJungleMain[];
-
-
-}
 
 struct Door_8029B524 {
     u8 pad0[0x38];
@@ -160,45 +149,32 @@ struct Door_8029B524 {
 };
 
 
-extern "C" {
-
-void free_collision_body_parts(void *);
-
-
-u8 *TODoorJungleMain__ct(TODoorJungleMain *actor, s32 arg1, saddr set_data) {
-    struct CopyStack_8029B924 { u8 bytes[0x3C]; };
-    CopyStack_8029B924 copy_storage_8029B924;
-    saddr temp_r4;
-    __ct__10TODoorBaseFP7TObject(actor);
-    *(s32 **)((s8 *)actor + 0x18) = __vt__16TODoorJungleMain;
-    *(saddr *)((s8 *)actor + 0) = (saddr) TODoorJungleMain__name;
-    ((TODoorJungleMain *)(actor))->apply_object_set_data((void *)set_data);
-    actor->motion = (AnimationMotion *)get_bml_motion(TODoorJungleMain__bml_resource, 0);
-    actor->animation_step = 1.0f;
-    ((TODoorJungleMain *)actor)->animation_end_frame = 0.0f;
-    init_collision_body_parts(actor, (saddr) TODoorJungleMain_collision_body_parts, 1);
-    ((TObjCollidable *)actor)->refresh_collision_body_centers();
-    ((TObjPlayer *)actor)->register_object_by_id();
-    actor->view_range = 800.0f;
-    temp_r4 = set_data - 4;
-    ((TODoorJungleMain *)actor)->model_radius = 120.0f;
-    actor->m_d4 = 0;
-    actor->m_d8 = 0;
-    *(ByteBlock_3C *)(copy_storage_8029B924.bytes) = *(const ByteBlock_3C *)(temp_r4 + 4);
-    (*(f32 *)(copy_storage_8029B924.bytes + 0x24)) = 160.0f;
-    (*(f32 *)(copy_storage_8029B924.bytes + 0x28)) = 100.0f;
-    (*(f32 *)(copy_storage_8029B924.bytes + 0x2C)) = 40.0f;
-    (*(s32 *)(copy_storage_8029B924.bytes + 0x30)) = 2;
-    actor->m_dc = TObjMapCsn::create(copy_storage_8029B924.bytes);
-    return (u8 *)actor;
-}
-
+TODoorJungleMain::TODoorJungleMain(TObject *parent, void *set_data) : TODoorBase(parent) {
+    m_name = class_name;
+    apply_object_set_data(set_data);
+    motion = (AnimationMotion *)get_bml_motion(TODoorJungleMain::bml_resource, 0);
+    animation_step = 1.0f;
+    animation_end_frame = 0.0f;
+    init_collision_body_parts(this, TODoorJungleMain_collision_body_parts, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    view_range = 800.0f;
+    model_radius = 120.0f;
+    switches_on = 0;
+    smoke_timer = 0;
+    ObjectSetData csn_data;
+    __memcpy(&csn_data, set_data, sizeof(csn_data));
+    csn_data.scale.x = 160.0f;
+    csn_data.scale.y = 100.0f;
+    csn_data.scale.z = 40.0f;
+    csn_data.set_params[0] = 2;
+    map_csn = TObjMapCsn::create(&csn_data);
 }
 
 TODoorJungleMain::~TODoorJungleMain() {
-    if (m_dc != NULL) {
-        m_dc->queue_destruction();
-        m_dc = NULL;
+    if (map_csn != NULL) {
+        map_csn->queue_destruction();
+        map_csn = NULL;
     }
     this->unregister_object_by_id();
     free_collision_body_parts(this);
@@ -219,9 +195,9 @@ void TODoorJungleMain::run_task() {
         if ((f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1) - 70.0f < t &&
             t < (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1)) {
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
-            if (m_dc != NULL) {
-                m_dc->queue_destruction();
-                m_dc = NULL;
+            if (map_csn != NULL) {
+                map_csn->queue_destruction();
+                map_csn = NULL;
             }
         } else {
             flag = 1;
@@ -233,7 +209,7 @@ void TODoorJungleMain::run_task() {
             play_persistent_sound(0x43220, arg0, &this->position, 0, 0);
         }
         if (flag != 0) {
-            if (++*(s32 *)&this->m_d8 % 30 == 0) {
+            if (++smoke_timer % 30 == 0) {
                 Vec a = {40.0f, 0.0f, 0.0f};
                 Vec b = {-40.0f, 0.0f, 0.0f};
                 set_matrix_identity((u8 *)&mtx);
@@ -293,11 +269,11 @@ void TODoorJungleMain::render() {
         post_translate_matrix(self->xf);
         rotate_matrix_y(NULL, self->angle);
         if (self->flags & 1) {
-            draw_ginja_model_with_motion(get_bml_model(TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
+            draw_ginja_model_with_motion(get_bml_model(TODoorJungleMain::bml_resource, 3), self->fbc, self->fb4);
         } else {
-            draw_ginja_object(get_bml_model(TODoorJungleMain__bml_resource, 3));
+            draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, 3));
             for (i = 0; i < 3 - self->count; i++) {
-                draw_ginja_object(get_bml_model(TODoorJungleMain__bml_resource, ids.v[i]));
+                draw_ginja_object(get_bml_model(TODoorJungleMain::bml_resource, ids.v[i]));
             }
         }
         pop_matrix();
@@ -307,7 +283,7 @@ void TODoorJungleMain::render() {
 void TODoorJungleMain::load_resources() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, NULL);
-    TODoorJungleMain__bml_resource = (BmlResource *)var_r0;
+    TODoorJungleMain::bml_resource = (BmlResource *)var_r0;
     door_jungle_main_gvm_texture = LoadPvmFileTls("o_jungle_doormain.gvm");
 }
 
@@ -317,18 +293,14 @@ void TODoorJungleMain::free_static_resources() {
         safe_free(door_jungle_main_gvm_texture);
         door_jungle_main_gvm_texture = NULL;
     }
-    if (TODoorJungleMain__bml_resource != NULL) {
-        delete (BmlResource *)TODoorJungleMain__bml_resource;
-        TODoorJungleMain__bml_resource = NULL;
+    if (TODoorJungleMain::bml_resource != NULL) {
+        delete (BmlResource *)TODoorJungleMain::bml_resource;
+        TODoorJungleMain::bml_resource = NULL;
     }
 }
 
 void *TODoorJungleMain::create(void *set_data) {
-    void *o = TObject::operator new(0xE0);
-    if (o != NULL) {
-        o = ((void * (*)(void *, void *, void *))TODoorJungleMain__ct)(o, tl_05, set_data);
-    }
-    return o;
+    return new TODoorJungleMain(tl_05, set_data);
 }
 
 void TOKeyJungleMain::init_key_slots(void* _w0) {
@@ -378,9 +350,9 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
         if (arg2 == 0) {
             this->animation_end_frame = (f32) (this->motion->frameCount - 1);
             set_indexed_flags(0, 8);
-            if (m_dc != NULL) {
-                m_dc->queue_destruction();
-                m_dc = NULL;
+            if (map_csn != NULL) {
+                map_csn->queue_destruction();
+                map_csn = NULL;
             }
         }
     }
