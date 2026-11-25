@@ -541,7 +541,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list
         player = (saddr)get_player_by_client_id(window_sub_item->client_id);
         if (player != 0)
         {
-          if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (has_armor_with_unit_slot(window_sub_item, (TItem *)item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
+          if (((((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)&sp8) != 0) && (has_armor_with_unit_slot(window_sub_item, (TItem *)item) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
             list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
@@ -674,7 +674,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     if (item->get_item_group() != 3) {
         return 1;
     }
-    armor = TObjPlayer::get_slot_value((void *)(pl + 0xD04), (int)2);
+    armor = TObjPlayer::get_slot_value((void *)(pl + 0xD04), 2);
     if (armor == 0) {
         return 0;
     }

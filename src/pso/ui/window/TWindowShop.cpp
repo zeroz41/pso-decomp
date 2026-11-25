@@ -82,7 +82,7 @@ void TWindowShop::render() {
     }
     p = this->status_display;
     if (p != NULL) {
-        ((TWindowSubStatusDisp *)((void *)(p)))->forward_render(context);
+        ((TWindowSubStatusDisp *)(p))->forward_render(context);
     }
     p = this->scroll_bar;
     if (p != NULL) {

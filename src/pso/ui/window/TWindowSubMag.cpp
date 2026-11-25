@@ -437,7 +437,7 @@ void *TWindowSubMag::create_learned_blast_toast() {
     size.y = 40.0f;
     win = TWindowMessage::create(&pos, &size.x, 1, this->client_id);
     ((TWindowBase *)win)->set_depth(get_main_menu_layer_depth((u8 *)parent, 6));
-    ((TWindowMessage *)win)->append_line((saddr)((s32 *)get_shared_text_buffer()), (int)2);
+    ((TWindowMessage *)win)->append_line((saddr)((s32 *)get_shared_text_buffer()), 2);
     ((TWindowAddition *)win)->set_position_xy(scale, scale);
     return win;
 }
@@ -490,10 +490,10 @@ void TWindowSubMag::update_mag_help() {
     if (selected_blast != (s8) this->m_1d) {
         this->m_1d = (u8) selected_blast;
         if (selected_blast == -1) {
-            ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)lbl_805DD648), (int)0x80);
+            ((TWindowMessage *)(this->message))->append_line((saddr)((s32 *)lbl_805DD648), 0x80);
             return;
         }
-        ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(selected_blast + 0x27)), (int)0x80);
+        ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(selected_blast + 0x27)), 0x80);
     }
 }
 

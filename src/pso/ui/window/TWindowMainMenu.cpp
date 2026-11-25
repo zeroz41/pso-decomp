@@ -427,10 +427,10 @@ void TWindowMainMenu::update_selection_value() {
 
 void TWindowMainMenu::add_menu_entry(s16 id) {
     struct Elt80263D94_80263d94_80263B70 *arr = (struct Elt80263D94_80263d94_80263B70 *)this;
-    struct Elt80263D94_80263d94_80263B70 *e = (struct Elt80263D94_80263d94_80263B70 *)((char *)&arr[*(s16 *)((s8 *)(this) + 0x50)] + 0x28);
-    e->f0 = (s16) *(s16 *)((s8 *)(this) + 0x52);
+    struct Elt80263D94_80263d94_80263B70 *e = (struct Elt80263D94_80263d94_80263B70 *)((char *)&arr[*(s16 *)((s8 *)this + 0x50)] + 0x28);
+    e->f0 = (s16) *(s16 *)((s8 *)this + 0x52);
     e->id = id;
-    e->f4 = (s32) *(s32 *)((s8 *)(this) + 0x5C);
+    e->f4 = (s32) *(s32 *)((s8 *)this + 0x5C);
 }
 
 void TWindowMainMenu::sub_80263D7C() {

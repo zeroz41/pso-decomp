@@ -366,7 +366,7 @@ void TWindowSubComCard__sub_8007B1AC(void *ply_guild_card_tag, u8 *entries, s32 
 
 void TWindowSubComCard::set_text(void *text) {
     ((s32 (*)(void *, void *, int))strncpy)((void *) (((u8 *)this) + 0x20), text, 0x6B);
-    *(s8 *)((s8 *)(this) + 0x8B) = 0;
+    *(s8 *)((s8 *)this + 0x8B) = 0;
 }
 
 void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry) {
@@ -436,12 +436,12 @@ void TLobby::fill_guild_card_from_char(s32 index) {
     if (char_index != 0U) {
         temp_r31 = (unsigned char *) (char_index + 0x370);
         if (temp_r31 != NULL) {
-            *(u8 *)((s8 *)(this) + 0x8C) = (u8) (*(u8 *)((s8 *)(this) + 0x8C) | 1);
+            *(u8 *)((s8 *)this + 0x8C) = (u8) (*(u8 *)((s8 *)this + 0x8C) | 1);
             strncpy((char *)this + 8, (const char *)temp_r31, 0x17);
-            *(s8 *)((s8 *)(this) + 0x1F) = 0;
-            *(u8 *)((s8 *)(this) + 0x8F) = (u8) *(u8 *)((s8 *)temp_r31 + 0x31);
-            *(u8 *)((s8 *)(this) + 0x8E) = (u8) *(u8 *)((s8 *)temp_r31 + 0x30);
-            *(s8 *)((s8 *)(this) + 0x8D) = (s8) current_language;
+            *(s8 *)((s8 *)this + 0x1F) = 0;
+            *(u8 *)((s8 *)this + 0x8F) = (u8) *(u8 *)((s8 *)temp_r31 + 0x31);
+            *(u8 *)((s8 *)this + 0x8E) = (u8) *(u8 *)((s8 *)temp_r31 + 0x30);
+            *(s8 *)((s8 *)this + 0x8D) = (s8) current_language;
             if (protocol_instance != NULL) {
                 TPlyGuildCardTag *src = &protocol_instance->m_guildcard_tag;
                 if (src->m_guildcard_number != 0) {

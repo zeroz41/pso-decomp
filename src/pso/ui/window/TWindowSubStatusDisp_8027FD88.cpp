@@ -356,7 +356,7 @@ void TWindowSubStatusDisp::run_task() {
   {
     this->open_tick = 0x01000000;
   }
-  if ((handle_list_page_flip_input(this->m_68) != 0) || ((this->page) != ((s16) (this->requested_page))))
+  if ((handle_list_page_flip_input(this->m_68) != 0) || ((this->page) != (this->requested_page)))
   {
     if ((this->page) != (this->requested_page))
     {

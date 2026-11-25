@@ -583,7 +583,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(WindowDrawContext *context) {
     u16 *entry;
 
     if (!(this->state_flags & 0x80)) {
-        entry = (u16 *)this->get_array_entry((s16)(this->cursor));
+        entry = (u16 *)this->get_array_entry(this->cursor);
         if (*entry & 1) {
             draw_selection_bar(context, (u8 *)entry, this->is_decided());
         }
@@ -675,7 +675,7 @@ void TWindowMenuIconLine::run_task() {
         }
     }
     if ((f32) this->open_tick >= 7.5f) {
-        temp_r3 = *(u32 *)((s8 *)(this) + 0x80);
+        temp_r3 = *(u32 *)((s8 *)this + 0x80);
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
         }

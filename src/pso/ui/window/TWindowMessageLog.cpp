@@ -49,10 +49,8 @@ char *TWindowMessageLog::get_active_photon_object(u16 id) {
 }
 void TWindowMessageLog::clamp_scroll_offset() {
     NJS_POINT2 range;
-    f32 temp_f1;
     range.x = 0.0f;
-    temp_f1 = this->frame_size[1];
-    range.y = temp_f1 - 20.0f;
+    range.y = this->frame_size[1] - 20.0f;
     if (scroll_bar->clamp_offset(scroll_offset, &range) != 0) {
         this->target_scroll_y = (f32) this->scroll_offset[1];
     }

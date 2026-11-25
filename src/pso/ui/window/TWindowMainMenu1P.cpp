@@ -100,15 +100,15 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   {
     m_60 = (u8) ((m_60) - 1);
     m_61 = (u8) ((m_61) + -1);
-    if (((s8) (m_60)) < 0)
+    if (((s8)m_60) < 0)
     {
       m_60 = 0U;
     }
-    if (((s8) (m_61)) < 0)
+    if (((s8)m_61) < 0)
     {
       m_61 = 0U;
     }
-    if ((((s8) (m_60)) == 0) && (((s8) (m_61)) == 0))
+    if ((((s8)m_60) == 0) && (((s8)m_61) == 0))
     {
       temp_r3_2 = menu_flags;
       if (temp_r3_2 & 2)
@@ -123,11 +123,11 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   {
     m_60 = (u8) ((m_60) + 1);
     m_61 = (u8) ((m_61) - 1);
-    if (((f32) ((s8) (m_60))) > 6.0f)
+    if (((f32) ((s8)m_60)) > 6.0f)
     {
       m_60 = 6U;
     }
-    if (((s8) (m_61)) < 0)
+    if (((s8)m_61) < 0)
     {
       m_61 = 0U;
     }
@@ -136,19 +136,19 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   {
     m_60 = (u8) ((m_60) + 1);
     m_61 = (u8) ((m_61) + 1);
-    if (((f32) ((s8) (m_60))) > 3.0f)
+    if (((f32) ((s8)m_60)) > 3.0f)
     {
       m_60 = 3U;
     }
-    if (((f32) ((s8) (m_61))) > 3.0f)
+    if (((f32) ((s8)m_61)) > 3.0f)
     {
       m_61 = 3U;
     }
   }
-  backdrop.screen.projection.center_x = (f32) ((26.666666f * ((f32) ((s8) (m_60)))) + 320.0f);
-  backdrop.screen.projection.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8) (m_61))));
-  TWindowCtrlMain::set_depth(53.333332f * ((f32) ((s8) (m_60))), client_index);
-  TWindowCtrlMain::set_field18(480.0f - 74.666664f * ((f32) ((s8) (m_61))), client_index);
+  backdrop.screen.projection.center_x = (f32) ((26.666666f * ((f32) ((s8)m_60))) + 320.0f);
+  backdrop.screen.projection.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8)m_61)));
+  TWindowCtrlMain::set_depth(53.333332f * ((f32) ((s8)m_60)), client_index);
+  TWindowCtrlMain::set_field18(480.0f - 74.666664f * ((f32) ((s8)m_61)), client_index);
   backdrop.pad_40[0] = (f32) ((640.0f - (backdrop.screen.projection.center_x)) / 320.0f);
   backdrop.pad_40[1] = (f32) ((backdrop.screen.projection.center_y) / 240.0f);
   temp_f1 = backdrop.pad_40[1];

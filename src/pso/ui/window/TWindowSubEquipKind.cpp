@@ -29,7 +29,7 @@ void TWindowSubEquipKind::render() {
         draw_tab_label(context);
     }
     if (status_display != NULL) {
-        ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render(context);
+        ((TWindowSubStatusDisp *)(status_display))->forward_render(context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);

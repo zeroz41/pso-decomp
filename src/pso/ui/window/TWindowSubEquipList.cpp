@@ -33,7 +33,7 @@ void TWindowSubEquipList::render() {
         draw_context);
     draw_selected_list_entry(draw_context);
     if ((uaddr) this->status_display != 0U) {
-        ((TWindowSubStatusDisp *)((void *)(this->status_display)))->forward_render(draw_context);
+        ((TWindowSubStatusDisp *)(this->status_display))->forward_render(draw_context);
     }
 }
 #pragma pop

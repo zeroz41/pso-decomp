@@ -220,7 +220,7 @@ s32 TWindowSubStatusDisp::update_hp_entry() {
     array_entry = (u8 *)(((u8 *)get_array_entry(3)));
     *(f32 *)((s8 *)array_entry + 0x20) = (f32) ((TObjChara *)player)->get_hpmax();
     if (*(f32 *)((s8 *)array_entry + 0x24) > (f32) *(s16 *)((s8 *)player + 0x32C)) {
-        *(s32 *)((s8 *)(this) + 0x60) = 4;
+        *(s32 *)((s8 *)this + 0x60) = 4;
     }
     *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32C);
     if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
@@ -549,7 +549,7 @@ void TWindowSimpleStatus::run_task() {
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
     ((TWindowBase *)arg0)->update_window();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();
 }
 

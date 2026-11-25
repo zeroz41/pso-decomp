@@ -124,7 +124,7 @@ void TWindowPartyStatus::run_task() {
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0xAC)));
     ((TWindowBase *)arg0)->update_window();
     ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
+    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(arg0 + 0x24));
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();
 }
 TWindowPartyStatus::~TWindowPartyStatus() {

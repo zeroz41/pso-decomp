@@ -265,7 +265,7 @@ s32 TWindowMakeTeam::is_enabled() {
     if ((s8)get_mode() == 1) {
         return (u8)(0U);
     }
-    return (u8)(this->selected_value);
+    return (u8)this->selected_value;
 }
 
 saddr TWindowMakeTeam::draw_entry_0x110(s8 arg0) {

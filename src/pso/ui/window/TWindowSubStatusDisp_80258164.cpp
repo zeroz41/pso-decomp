@@ -172,7 +172,7 @@ void ItemListRow::update_item_icon_colors(void *item) {
     if (player != 0) {
         temp_r26 = ((TItem *)item)->test_item_flags(8);
         usable_action_flags = ((TItem *)item)->get_usable_action_flags(0x10, (TObjPlayer *)player);
-        temp_r27 = ((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8));
+        temp_r27 = ((TItem *)item)->check_equip_requirements((TObjPlayer *)player, &sp8);
         temp_r28_2 = ((VObj18B_802582c4_80257784 *) item)->vm8C();
         if (usable_action_flags != 0) {
             if (temp_r26 != 0) {
@@ -532,13 +532,11 @@ void ItemListRow::init_item_row(TItem *item, s32 arg2) {
 
 void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
     saddr item_data;
-    saddr temp_r3;
 
     this->x = lbl_805DCF08;
     this->status_icon = 51;
     item_data = get_item_data((uaddr)a1);
-    temp_r3 = TItemData::is_wrapped(a1);
-    select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), temp_r3);
+    select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), TItemData::is_wrapped(a1));
     forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     update_stat_line_if_positive(count);

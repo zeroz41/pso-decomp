@@ -161,7 +161,7 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
       help_technique = (s16) tech;
       if (((s16) tech) == 0x13)
       {
-        help_window->append_line((saddr)((void *)lbl_805DD83C), (int)0x82);
+        help_window->append_line((saddr)((void *)lbl_805DD83C), 0x82);
         return;
       }
       text_builder_reset();
@@ -174,7 +174,7 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
       text_builder_append((u8 *)((saddr) get_help_text_string(0x2E)));
       text_builder_append_int(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
       text_builder_append((u8 *)((saddr) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
-      help_window->append_line((saddr)((void *) get_shared_text_buffer()), (int)0x82);
+      help_window->append_line((saddr)((void *) get_shared_text_buffer()), 0x82);
     }
   }
 }
