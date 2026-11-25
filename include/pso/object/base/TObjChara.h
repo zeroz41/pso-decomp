@@ -198,6 +198,8 @@ public:
     u16 get_attack_credit_slot(s32 index);
     void set_attack_credit_slot(s32 index, u16 id);
     void clear_attack_credit_slot(s32 index);
+    void set_model_param(s16 v);
+    void set_model_id(s16 v);
     union {
         u16 attack_credit_slots[4];
         struct {

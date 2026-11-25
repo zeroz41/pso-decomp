@@ -436,8 +436,6 @@ struct TObjPlayer : public TObjChara {
     static saddr get_item_by_slot_flag(u8 flags);
     void set_flag_10000();
     void set_state_flags(u32 v);
-    void set_model_param(s16 v);
-    void set_model_id(s16 v);
     s16 is_status_subsystem_ready();
     CapturedTargetList *get_extended_state();
     f32 query_extended_state();

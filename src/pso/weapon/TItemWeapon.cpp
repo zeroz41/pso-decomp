@@ -255,8 +255,8 @@ void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s3
     weapon->trail_end_joints[trail] = end_joint;
 }
 
-void TObjPlayer::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }
-void TObjPlayer::set_model_id(s16 v) { this->m_116 = v; }
+void TObjChara::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }
+void TObjChara::set_model_id(s16 v) { this->m_116 = v; }
 s16 TObjPlayer::is_status_subsystem_ready() { return attack_state.get_validated_attack_kind(); }
 CapturedTargetList *TObjPlayer::get_extended_state() { return attack_state.get_lockon_targets(); }
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }

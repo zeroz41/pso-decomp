@@ -829,20 +829,20 @@ void TObjEneIllGill::update_weapon_attack() {
             if ((hit_target != NULL) && (hit_target->select_melee_contact_body(actor, 1.0f) != 0)) {
                 switch (this->weaponSpecial) {
                 case 1:
-                    ((TObjPlayer *)actor)->set_model_id(7);
-                    ((TObjPlayer *)actor)->set_model_param((int) ((s16) illGillAttackBehavior->specialParameter));
+                    set_model_id(7);
+                    set_model_param((int) ((s16) illGillAttackBehavior->specialParameter));
                     ((TObjChara *)(this->target))->receive_weapon_special_attack(actor, 0);
                     play_sound_effect(0x40039E54, &position, 0, 0);
                     break;
                 case 2:
-                    ((TObjPlayer *)actor)->set_model_id(0xA);
-                    ((TObjPlayer *)actor)->set_model_param((int) ((s16) illGillAttackBehavior->specialParameter));
+                    set_model_id(0xA);
+                    set_model_param((int) ((s16) illGillAttackBehavior->specialParameter));
                     ((TObjChara *)(this->target))->receive_weapon_special_attack(actor, 0);
                     play_sound_effect(0x40039E54, &position, 0, 0);
                     break;
                 case 3:
-                    ((TObjPlayer *)actor)->set_model_id(0xB);
-                    ((TObjPlayer *)actor)->set_model_param((int) ((s16) illGillAttackBehavior->thirdSpecialParameter));
+                    set_model_id(0xB);
+                    set_model_param((int) ((s16) illGillAttackBehavior->thirdSpecialParameter));
                     if (((TObjChara *)(this->target))->receive_weapon_special_attack(actor, 0) <= 0.0f) {
                         ((TObjChara *)(this->target))->receive_physical_attack(actor, 1.0f);
                     }
