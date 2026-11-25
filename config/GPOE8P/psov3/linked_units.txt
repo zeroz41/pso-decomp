@@ -1250,7 +1250,6 @@ pso/ui/window/TWindowSubMag_802559F8.cpp
 pso/ui/window/TWindowSubMag_802627D8.cpp
 pso/ui/window/TWindowSubQuestBoard.cpp
 pso/ui/window/TWindowSubQuestBoardSelect.cpp
-pso/ui/window/TWindowSubQuestBoard_8027D1E8.cpp
 pso/ui/window/TWindowSubShortCut.cpp
 pso/ui/window/TWindowSubShortCutList.cpp
 pso/ui/window/TWindowSubShortCut_80246FB0.cpp

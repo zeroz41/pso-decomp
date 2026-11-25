@@ -1,14 +1,16 @@
+#include "types.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowSubQuestBoard_8027D1E8.h"
+#include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/unk/TQuestManager.h"
-#include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
@@ -19,6 +21,29 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/SoundEffect.h"
+
+struct Obj_8027D1E8 { u8 pad[0x60]; s8 f60; };
+
+extern "C" {
+
+
+void fn_8027D1E8(Obj_8027D1E8 *o) {
+    o->f60 &= ~1;
+}
+
+void TWindowCtrl__sub_8027D1F8(void) {
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->flags &= ~0x10;
+    }
+}
+
+void TWindowCtrl__sub_8027D214(void) {
+    if (TWindowCtrl::instance != NULL) {
+        TWindowCtrl::instance->flags |= 0x10;
+    }
+}
+
+}
 
 #pragma push
 #pragma readonly_strings on

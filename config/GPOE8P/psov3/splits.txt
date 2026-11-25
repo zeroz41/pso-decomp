@@ -6704,11 +6704,8 @@ pso/ui/window/TWindowSubQuestBoard.cpp:
 	.sdata      start:0x805D3A78 end:0x805D3A80
 	.sdata2     start:0x805DD688 end:0x805DD690
 
-pso/ui/window/TWindowSubQuestBoard_8027D1E8.cpp:
-	.text       start:0x8027D1E8 end:0x8027D230
-
 pso/ui/window/TWindowSubQuestBoardSelect.cpp:
-	.text       start:0x8027D230 end:0x8027DB20
+	.text       start:0x8027D1E8 end:0x8027DB20
 	.rodata     start:0x8044FA48 end:0x8044FA78
 	.data       start:0x804D1848 end:0x804D19D4
 	.sdata      start:0x805D3A80 end:0x805D3A88
