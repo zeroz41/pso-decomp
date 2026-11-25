@@ -35,6 +35,7 @@
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/TScreenFadeIn.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/unk/text_800F7D30.h"
 
 
 
@@ -56,7 +57,6 @@ const char *TItemReverseTech__name = "TItemReverseTech";
 
 
 extern "C" {
-s32 prs_decompress_alloc(int, void *, int);
 void activate_fast_rotation_code(void);
 void activate_reverse_rotation_code(void);
 void activate_uraending_code(void);
@@ -160,7 +160,7 @@ void TItemReverseTech::load_textures() {
     NJS_TEXNAME *e;
     s32 i;
     NJS_TEXLIST *list;
-    int file;
+    void *file;
     void *buf;
     name_buffer = (char *)mem_alloc(0x1C);
     strncpy(name_buffer, name, 0x1B);
@@ -174,15 +174,15 @@ void TItemReverseTech::load_textures() {
     list = new NJS_TEXLIST;
     texture_list = list;
     list->textures = texnames;
-    file = (saddr)load_disc_file(name);
-    if (file != 0) {
+    file = load_disc_file(name);
+    if (file != NULL) {
         buf = mem_alloc(0x200000);
         if (buf != NULL && prs_decompress_alloc(file, buf, 0x200000) > 0) {
             load_gvm_texture_archive(buf, texture_list);
         }
         mem_free(buf);
     }
-    safe_free(reinterpret_cast<void *>(file));
+    safe_free(file);
 }
 #pragma pop
 

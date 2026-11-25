@@ -174,7 +174,7 @@ s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
             TLobby::debug_print("TGStream::gsSctLoadFile Malloc Failed.");
         }
         stream.read_sectors_sync(sectors, buf);
-        prs_decompress_buffer((saddr)buf, (saddr)dst);
+        prs_decompress_buffer(buf, dst);
         safe_free(buf);
         return stream.archive_entry->decoded_size;
     }

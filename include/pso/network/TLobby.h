@@ -140,7 +140,7 @@ struct TLobby : public TObject {
     void bswap_enemy_state();
     static void wait_ready_loop();
     static s32 run_disk_error_check();
-    s32 alloc_download_quest(s32 size, s32 *out_size);
+    void *alloc_download_quest(s32 size, s32 *out_size);
     static void run_frame();
     static void free_static_buffer(void* a0);
     static void *alloc_from_heap(size_t size);

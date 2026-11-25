@@ -5,8 +5,8 @@
 
 extern "C" {
 
-u32 prs_decompress_alloc(s32 src, s32 dst) {
-    u32 size;
+s32 prs_decompress_alloc(const void *src, void *dst, s32 size_limit) {
+    s32 size;
     PrsDecoder *prs = new PrsDecoder;
     if (prs != NULL) {
         size = prs->prs_decompress((u8 *)dst, (u8 *)src, 0);

@@ -956,7 +956,7 @@ void TLobby::load_font_texture() {
     void *file = TLobby::tmp_buf_use_req("FONT");
     if (file != 0) {
         s32 r;
-        prs_decompress_buffer((saddr)lobby_font_texture_prs_data, (saddr)file);
+        prs_decompress_buffer(lobby_font_texture_prs_data, file);
         r = load_gvm_texture_archive(file, (NJS_TEXLIST *)lbl_8049C61C);
         TLobby::tmp_buf_release("FONT");
         lobby_font_texture_loaded = 1;
@@ -1198,7 +1198,7 @@ u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
     __ct__14SubtractiveRngFv(&rng[0]);
     subtractive_rng_seed(&rng[0], seed);
     ((TAdSinglePlyChrSelectGC *)(&rng[0]))->crypt_data_be((u32 *)file->data, size - 8);
-    prs_decompress_buffer((saddr)file->data, (saddr)dst);
+    prs_decompress_buffer(file->data, dst);
     return decompressed_size;
 }
 
@@ -1213,24 +1213,24 @@ u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
     __ct__14SubtractiveRngFv(rng);
     subtractive_rng_seed(rng, v4);
     subtractive_rng_xor_buffer(rng, (u32 *)data, size - 8);
-    prs_decompress_buffer((saddr)data, (saddr)dst);
+    prs_decompress_buffer(data, dst);
     return v0;
 }
 
-s32 TLobby::alloc_download_quest(s32 size, s32 *out_size) {
+void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
     s32 rng[60];
     s32 v0 = *(s32 *)&this->m_name;
     s32 v4 = *(s32 *)&this->m_flags;
-    s32 ret;
+    void *ret;
 
-    ret = (saddr)TQuestVmDownLoadServer::alloc(v0);
-    if (ret == 0) {
-        return 0;
+    ret = TQuestVmDownLoadServer::alloc(v0);
+    if (ret == NULL) {
+        return NULL;
     }
     __ct__14SubtractiveRngFv(rng);
     subtractive_rng_seed(rng, v4);
     subtractive_rng_xor_buffer(rng, (u32 *)&this->m_prev, size - 8);
-    prs_decompress_buffer((saddr)&this->m_prev, ret);
+    prs_decompress_buffer(&this->m_prev, ret);
     if (out_size != NULL) {
         *out_size = v0;
     }
@@ -1238,17 +1238,17 @@ s32 TLobby::alloc_download_quest(s32 size, s32 *out_size) {
 }
 
 
-saddr load_encrypted_text_archive(char *name, s32 *out_size) {
+void *load_encrypted_text_archive(char *name, s32 *out_size) {
     s32 size;
     s32 h;
     u8 *buf;
-    s32 ret;
+    void *ret;
     s32 sp8;
     s32 rng[60];
 
     size = get_resource_file_size(name);
     if (size <= 0) {
-        return 0;
+        return NULL;
     }
     if ((size <= 0x40000) && (TLobby::tmp_buf_is_free() != 0)) {
         buf = TLobby::tmp_buf_use_req(load_file_prc_buffer_tag);
@@ -1262,12 +1262,12 @@ saddr load_encrypted_text_archive(char *name, s32 *out_size) {
         sp8 = *(s32 *)((s8 *)buf + 0);
         h = *(s32 *)((s8 *)buf + 4);
         safe_free(buf);
-        ret = (saddr)TQuestVmDownLoadServer::alloc(sp8);
+        ret = TQuestVmDownLoadServer::alloc(sp8);
         buf = load_disc_file(name);
         __ct__14SubtractiveRngFv(rng);
         subtractive_rng_seed(rng, h);
         subtractive_rng_xor_buffer(rng, (u32 *)(buf + 8), size - 8);
-        prs_decompress_buffer((saddr)(buf + 8), ret);
+        prs_decompress_buffer(buf + 8, ret);
         safe_free(buf);
     }
     if (out_size != NULL) {
@@ -1279,16 +1279,16 @@ saddr load_encrypted_text_archive(char *name, s32 *out_size) {
 saddr load_text_resource_pair(saddr name) {
     s32 size;
     char path[0x40];
-    saddr data;
-    saddr relocs;
+    u8 *data;
+    RelFileTrailer *relocs;
     s32 root;
 
     sprintf(path, "%s.pr2", name);
-    data = load_encrypted_text_archive(path, &size);
+    data = (u8 *)load_encrypted_text_archive(path, &size);
     sprintf(path, "%s.pr3", name);
-    relocs = load_encrypted_text_archive(path, &size);
-    root = (saddr)alloc_named_object((const char *)name, (u8 *)data, size, (RelFileTrailer *)relocs);
-    safe_free(reinterpret_cast<void *>(relocs));
+    relocs = (RelFileTrailer *)load_encrypted_text_archive(path, &size);
+    root = (saddr)alloc_named_object((const char *)name, data, size, relocs);
+    safe_free(relocs);
     return root;
 }
 

@@ -107,8 +107,7 @@ void TItemBuff__ct(void) {
         item_buff_buffer = NULL;
     }
 }
-s32 create_item_buff(s32 size);
-s32 create_item_buff(s32 size) {
+void *create_item_buff(s32 size) {
     s32 temp_available;
 
     if (size != 0) {
@@ -121,5 +120,5 @@ s32 create_item_buff(s32 size) {
             item_buff_buffer = mem_alloc(size);
         }
     }
-    return reinterpret_cast<saddr>(item_buff_buffer);
+    return item_buff_buffer;
 }

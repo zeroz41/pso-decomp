@@ -960,7 +960,7 @@ extern f32 battle_player_take_damage_score;
 extern f32 battle_player_kill_score;
 extern f32 battle_player_death_score;
 extern f32 battle_enemy_give_damage_score;
-extern saddr resource_decompress_buffer;
+extern u8 *resource_decompress_buffer;
 extern s32 game_difficulty_selection;
 extern f32 battle_enemy_take_damage_score;
 
@@ -2607,12 +2607,12 @@ void qst_op_nop_F8EF(void) {  }
 
 void qst_op_call_image_data() {
     s32 size;
-    u32 source_data;
+    void *source_data;
     size = qst_args[0];
-    source_data = ((int)((u32 (*)(void *))qst_label_address)((void *)((saddr) (u16) qst_args[1])));
-    if (source_data != 0U) {
-        prs_decompress_buffer((s32) source_data, resource_decompress_buffer);
-        fn_80197FD0((void *)resource_decompress_buffer, size);
+    source_data = ((void *(*)(void *))qst_label_address)((void *)((saddr) (u16) qst_args[1]));
+    if (source_data != NULL) {
+        prs_decompress_buffer(source_data, resource_decompress_buffer);
+        fn_80197FD0(resource_decompress_buffer, size);
     }
 }
 

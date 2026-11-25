@@ -34,39 +34,40 @@ s32 set_texlist(NJS_TEXLIST *texlist) {
 
 
 s32 load_streamed_prs_texture(saddr name, saddr texlist) {
-    saddr h;
-    saddr buf;
+    void *h;
+    void *buf;
     sprintf(texture_prs_stream_filename_buffer, "%s.prs", name);
-    h = (saddr)load_disc_file(texture_prs_stream_filename_buffer);
-    if (h == 0) {
-        safe_free(reinterpret_cast<void *>(h));
+    h = load_disc_file(texture_prs_stream_filename_buffer);
+    if (h == NULL) {
+        safe_free(h);
         return 0;
     }
-    buf = (saddr)TQuestVmDownLoadServer::alloc(0x100000);
+    buf = TQuestVmDownLoadServer::alloc(0x100000);
     prs_decompress_buffer(h, buf);
-    load_gvm_texture_archive((void *)buf, (NJS_TEXLIST *)texlist);
-    safe_free(reinterpret_cast<void *>(buf));
-    safe_free(reinterpret_cast<void *>(h));
+    load_gvm_texture_archive(buf, (NJS_TEXLIST *)texlist);
+    safe_free(buf);
+    safe_free(h);
     return 1;
 }
 
 s32 load_disc_prs_texture(saddr name, saddr texlist) {
     AdxfHandle *file;
-    saddr b;
-    saddr c;
+    s32 sectors;
+    void *c;
+    void *b;
     sprintf(texture_prs_disc_filename_buffer, "%s.prs", name);
     if (get_resource_file_size(texture_prs_disc_filename_buffer) != -1) {
         file = ADXF_Open(texture_prs_disc_filename_buffer, 0);
-        b = ADXF_GetFsizeSct(file);
+        sectors = ADXF_GetFsizeSct(file);
         ADXF_Close(file);
-        b = (saddr)xmalloc((s32)(b << 11));
-        if (read_disc_file(texture_prs_disc_filename_buffer, (void *)b) != -1) {
-            c = (saddr)xmalloc(0x200000);
+        b = xmalloc(sectors << 11);
+        if (read_disc_file(texture_prs_disc_filename_buffer, b) != -1) {
+            c = xmalloc(0x200000);
             prs_decompress_buffer(b, c);
-            load_gvm_texture_archive((void *)c, (NJS_TEXLIST *)texlist);
-            xfree((void *)c);
+            load_gvm_texture_archive(c, (NJS_TEXLIST *)texlist);
+            xfree(c);
         }
-        xfree((void *)b);
+        xfree(b);
         return 1;
     }
     return 0;

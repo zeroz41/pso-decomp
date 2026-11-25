@@ -135,7 +135,7 @@ void TLobby::load_now_loading_texture() {
         archive = TQuestVmDownLoadServer::alloc(0x11000);
         packed = TQuestVmDownLoadServer::alloc(0x2000);
         read_disc_file_sectors("NowLoading.prs", packed);
-        prs_decompress_buffer(reinterpret_cast<saddr>(packed), reinterpret_cast<saddr>(archive));
+        prs_decompress_buffer(packed, archive);
         load_gvm_texture_archive(archive, &lbl_804EF1DC);
         safe_free(packed);
         safe_free(archive);

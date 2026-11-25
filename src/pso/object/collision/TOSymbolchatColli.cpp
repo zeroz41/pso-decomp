@@ -43,7 +43,7 @@ CollisionBody lbl_804B4550[1] = {
 const char *lbl_805D3190 = "symbolchatcolli.prs";
 const char *TOSymbolchatColli__name = "TOSymbolchatColli";
 u32 symbolchat_colli_param_table[4];
-saddr symbol_chat_colli_entries;
+void *symbol_chat_colli_entries;
 
 s32 TOSymbolchatColli::get_state() {
     if (is_current_floor_switch_set(switch_ids[2]) == 1) {
@@ -137,17 +137,17 @@ void *TOSymbolchatColli::create(void *set_data) {
     return new TOSymbolchatColli(tl_05, (saddr)set_data);
 }
 
-void TOSymbolchatColli::free_rock() { mem_free((void *)symbol_chat_colli_entries); symbol_chat_colli_entries = 0; }
+void TOSymbolchatColli::free_rock() { mem_free(symbol_chat_colli_entries); symbol_chat_colli_entries = NULL; }
 
 void TOSymbolchatColli::load_symbol_chat_data() {
-    saddr h;
+    void *h;
     s32 i;
-    symbol_chat_colli_entries = (saddr)mem_alloc(0x840);
-    h = (saddr)load_disc_file(lbl_805D3190);
-    if (h != 0) {
+    symbol_chat_colli_entries = mem_alloc(0x840);
+    h = load_disc_file(lbl_805D3190);
+    if (h != NULL) {
         prs_decompress_buffer(h, symbol_chat_colli_entries);
     }
-    safe_free(reinterpret_cast<void *>(h));
+    safe_free(h);
     for (i = 0; i < 0x18; i++) {
         ((TWindowSubSymbolChat *)((u8 *)symbol_chat_colli_entries + i * 0x58))->bswap_entry();
     }

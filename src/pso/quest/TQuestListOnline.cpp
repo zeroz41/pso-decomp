@@ -291,10 +291,10 @@ void TQuestListOnline::request_download_buffer() {
 #pragma optimization_level 2
 #pragma dont_inline on
 void TQuestListOnline::decompress_quest_list_buffers() {
-    quest_bin_decompressed_size = prs_decompress_buffer((saddr)TQuestListOnline__bin_download_state.buffer, (saddr)TQuestListOnline__decompression_cursor);
+    quest_bin_decompressed_size = prs_decompress_buffer(TQuestListOnline__bin_download_state.buffer, TQuestListOnline__decompression_cursor);
     online_quest_bin_data = TQuestListOnline__decompression_cursor;
     TQuestListOnline__decompression_cursor += quest_bin_decompressed_size;
-    online_quest_list_decompressed_size = prs_decompress_buffer((saddr)TQuestListOnline__dat_download_state.buffer, (saddr)TQuestListOnline__decompression_cursor);
+    online_quest_list_decompressed_size = prs_decompress_buffer(TQuestListOnline__dat_download_state.buffer, TQuestListOnline__decompression_cursor);
     online_quest_dat_buffer = TQuestListOnline__decompression_cursor;
     set_state((saddr)((void *)7));
 }
@@ -432,7 +432,7 @@ s32 TQuestListOnline::init() {
 void TQuestListOnline::decompress_quest_buffer(const u8 *data, s32) {
     s32 temp_r3;
     if (TQuestListOnline__decompression_cursor != NULL) {
-        temp_r3 = prs_decompress_buffer((saddr)data, (saddr)TQuestListOnline__decompression_cursor);
+        temp_r3 = prs_decompress_buffer(data, TQuestListOnline__decompression_cursor);
         quest_bin_decompressed_size = temp_r3;
         online_quest_bin_data = TQuestListOnline__decompression_cursor;
         TQuestListOnline__decompression_cursor += temp_r3;
@@ -441,7 +441,7 @@ void TQuestListOnline::decompress_quest_buffer(const u8 *data, s32) {
 
 extern "C" void TQuestListOnline__sub_802176DC(const u8 *data, s32) {
     if (TQuestListOnline__decompression_cursor != NULL) {
-        online_quest_list_decompressed_size = prs_decompress_buffer((saddr)data, (saddr)TQuestListOnline__decompression_cursor);
+        online_quest_list_decompressed_size = prs_decompress_buffer(data, TQuestListOnline__decompression_cursor);
         online_quest_dat_buffer = TQuestListOnline__decompression_cursor;
     }
 }
