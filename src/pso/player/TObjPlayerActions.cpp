@@ -5448,7 +5448,6 @@ s32 copy_photon_blast_data__10TObjPlayerFiPv(saddr arg0, u8 *arg1) {
   var_r3 = var_r30;
   return var_r3;
 }
-extern int fold_flush_11;
 #pragma pop
 
 #pragma push
@@ -5458,7 +5457,6 @@ G_ExecutePhotonBlast_6x49::G_ExecutePhotonBlast_6x49() {
     header.subcommand = 0x49;
     header.size = sizeof(G_ExecutePhotonBlast_6x49) / 4;
 }
-extern int fold_flush_12;
 #pragma pop
 
 G_ExecutePhotonBlastParams_6x49::G_ExecutePhotonBlastParams_6x49() {
@@ -5548,7 +5546,6 @@ u8 *TObjPlayer__sub_801D21CC(u8 *buf, u8 *arg1) {
     *(ByteBlock_28 *)(buf + 4 + 4) = *(const ByteBlock_28 *)((saddr) (arg1 + 4) + 4);
     return buf;
 }
-extern int fold_flush_13;
 #pragma pop
 
 void G_SetTechniqueLevelOverride_6x8D::bswap() {
@@ -5610,7 +5607,6 @@ void TObjPlayer__sub_801D2448(void* p) { ((G_ClientIDHeader *)p)->bswap(); ((TOb
 u8 get_6x46_strike_packet_size(saddr arg0) {
     return (u8) (0x30 - ((0xA - ((CapturedTargetList *)(arg0 + 4))->get_captured_target_count()) * 4));
 }
-extern int fold_flush_14;
 #pragma pop
 
 #pragma push
@@ -5624,7 +5620,6 @@ G_Attack_6x43 &G_Attack_6x43::operator=(G_Attack_6x43 &src) {
     action_type = src.action_type;
     return *this;
 }
-extern int fold_flush_15;
 #pragma pop
 
 #pragma push
@@ -5637,7 +5632,6 @@ void *TObjPlayer::copy_6x40_walk_to_position_packet(void *pkt) {
     ((Pkt_801D24F4 *)this)->pos = ((Pkt_801D24F4 *)pkt)->pos;
     return this;
 }
-extern int fold_flush_16;
 #pragma pop
 
 #pragma push
@@ -5656,7 +5650,6 @@ u8 *TObjPlayer__sub_801D2540(u8 *arg0, u8 *arg1) {
     *(ByteBlock_C *)((saddr) arg0 + 0xC) = *(const ByteBlock_C *)((saddr) arg1 + 0xC);
     return arg0;
 }
-extern int fold_flush_17;
 #pragma pop
 
 #pragma push
@@ -5674,7 +5667,6 @@ u8 *TObjPlayer__sub_801D25AC(u8 *arg0, u8 *arg1) {
     *(ByteBlock_C *)((saddr) arg0 + 0xC) = *(const ByteBlock_C *)((saddr) arg1 + 0xC);
     return arg0;
 }
-extern int fold_flush_18;
 #pragma pop
 
 void TObjMotion::set_frame(f32 frame) { this->frame = frame; }
@@ -5843,7 +5835,6 @@ void PlayerDeathSink::add_progress(f32 step) {
         progress = 1.0f;
     }
 }
-extern int fold_flush_19;
 #pragma pop
 
 
@@ -5860,7 +5851,6 @@ f32 PlayerMoveSpeed::get_unscaled_speed() { return unscaled_speed; }
 #pragma auto_inline off
 #pragma dont_inline off
 void PlayerMoveSpeed::increment_run_counter() { run_counter++; }
-extern int fold_flush_20;
 
 #pragma push
 #pragma inline_depth(1)
@@ -5938,7 +5928,6 @@ G_HitByEnemy_6x4C &G_HitByEnemy_6x4C::operator=(G_HitByEnemy_6x4C &src) {
     velocity = src.velocity;
     return *this;
 }
-extern int fold_flush_21;
 #pragma pop
 
 #pragma push
@@ -5953,7 +5942,6 @@ void *TObjPlayer::copy_packet_pos_6x42(void *pkt) {
     ((Pkt_801D2964 *)this)->pos = ((Pkt_801D2964 *)pkt)->pos;
     return this;
 }
-extern int fold_flush_22;
 #pragma pop
 
 #pragma push
@@ -6057,7 +6045,6 @@ s32 PhotonBlastGauge::get_countdown() { return countdown; }
 void PhotonBlastGauge::decrement_countdown() {
     countdown--;
 }
-extern int fold_flush_23;
 
 #pragma push
 #pragma inline_depth(1)
@@ -6111,7 +6098,6 @@ void PhotonBlastGauge::set_field8(s32 v) { countdown = v; }
 PhotonBlastTarget *PhotonBlastGauge::get_target(s32 i) {
     return &targets[i];
 }
-extern int fold_flush_24;
 
 #pragma push
 #pragma inline_depth(1)
@@ -6164,7 +6150,6 @@ void TObjPlayer::bswap_u16_pair_list() {
         ((TObjPlayer *)(&arg0->e[i]))->bswap_u16_pair();
     }
 }
-extern int fold_flush_25;
 
 #pragma push
 #pragma inline_depth(1)
@@ -6189,7 +6174,6 @@ u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1) {
     *(ByteBlock_2C *)(arg0 + 4) = *(const ByteBlock_2C *)(arg1 + 4);
     return arg0;
 }
-extern int fold_flush_26;
 #pragma pop
 
 #pragma push
@@ -6206,7 +6190,6 @@ void TObjPlayer::bswap_entry_list() {
     }
     bswap_32((u32 *)this);
 }
-extern int fold_flush_27;
 #pragma pop
 
 #pragma push
@@ -6234,7 +6217,6 @@ void PlayerTechniqueState::set_level(u8 v) { level = v; }
 s32 PlayerTechniqueState::test_flag_2() { return test_flags_any(&flags.bits, 2); }
 
 void PlayerTechniqueState::decrement_state() { state--; }
-extern int fold_flush_28;
 
 f32 PlayerTechniqueState::get_charge_step() { return charge_step; }
 
@@ -6275,14 +6257,12 @@ FlagWord *PlayerAttackController::get_flags() { return (FlagWord *)&flags; }
 f32 PlayerAttackController::calc_attack_stage_multiplier(s32 kind) {
     return attack_type_accuracy_scales[kind] * attack_combo_accuracy_multipliers[get_validated_attack_stage()];
 }
-extern int fold_flush_29;
 
 void PlayerAttackController::set_lockon_targets(void *src) { copy_attack_targets(&lockon_targets, src); }
 
 void PlayerAttackController::end_swing() { ((FlagWord *)&flags)->set(1); }
 
 void PlayerAttackController::increment_hit_count() { hit_count++; }
-extern int fold_flush_30;
 
 void PlayerAttackController::set_recovery_timer(s32 frames) { recovery_timer = frames; }
 
@@ -6292,7 +6272,6 @@ void TObjPlayer::request_heavy_attack_particles() {
     u16 *arg0 = (u16 *)this;
     emit_heavy_attack_particles((saddr)((s8 *)arg0 + 4), *arg0);
 }
-extern int fold_flush_31;
 
 #pragma push
 #pragma inline_depth(1)
@@ -6308,7 +6287,6 @@ void emit_heavy_attack_particles(s32 owner, u16 target_id) {
     TObjPlayer::check_hit_by_id(owner, target_id, 0xBB);
     TObjPlayer::check_hit_by_id(owner, target_id, 0x1B7);
 }
-extern int fold_flush_32;
 
 f32 attack_damage_scale_table[3] = { 0.9f, 1.7f, 0.5f };
 f32 attack_type_accuracy_scales[3] = { 1.0f, 0.7f, 0.5f };
