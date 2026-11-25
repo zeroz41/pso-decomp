@@ -11,6 +11,7 @@ struct TObjItemLight : public TObjBase {
     u8 unk_90[0x4];
     s32 m_94;
     static void *create(void *set_data);
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TObjItemLight_size, sizeof(TObjItemLight) == 0x98);

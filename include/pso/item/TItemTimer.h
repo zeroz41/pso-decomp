@@ -16,6 +16,8 @@ public:
 public:
     void invoke_callback();
     void reset_fields();
+    static const char *class_name;
+    static const char class_name_string[];
 };
 
 #endif

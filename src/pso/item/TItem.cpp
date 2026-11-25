@@ -113,7 +113,7 @@ void (*model_node_visit_callback)(NJS_OBJECT *object);
 TItemIdCounters *item_id_counters;
 GC_Mtx *model_node_matrix_output_cursor;
 
-const char *TItem__name = "TItem";
+const char *TItem::name = "TItem";
 
 const CollisionBody item_collider_body = {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x31F0B};
 
@@ -350,7 +350,7 @@ void *TItem::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 void TItem::operator delete(void *p) { obj_heap->heap_free(p); }
 
 TItem::TItem(TObject *parent, u8 *item) : TObjCollidable(parent) {
-    m_name = TItem__name;
+    m_name = TItem::name;
     set_actor_flags(0x80000000);
     copy_collision_body(&collision_body, &item_collider_body);
     cursor_action.set_pick_up();

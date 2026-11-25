@@ -29,7 +29,7 @@ extern "C" {
 // The class name and the effect table's file name. This object starts at
 // 0x80117E50 with the nearby player checks (the last two functions below),
 // whose doubles follow these strings in .rodata.
-const char *TItemProShield__name = "TItemProShield";
+const char *TItemProShield::name = "TItemProShield";
 const char *lbl_805D2C3C = "ItemShieldEntry.dat";
 // Called with the item index widened to int.
 void __ct__19TItemEffShieldPulseFP7TObjectUsUc(void *object, TItemHeapObject *parent, u16 client, int index);
@@ -79,7 +79,7 @@ TItem *TItemProShield::create(u8 *item) {
 }
 
 TItemProShield::TItemProShield(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
-    m_name = TItemProShield__name;
+    m_name = TItemProShield::name;
     set_attach_slot(3);
     pmt = (ShieldPmtEntry *)lookup_item_pmt_record(item);
     effect_entry = &shield_table[pmt->block_effect];

@@ -23,6 +23,7 @@ public:
     TItemReverseTechPicture picture_6;
     s32 frame;
     s32 shown_count;
+    static const char *name;
 };
 LAYOUT_ASSERT(TItemReverseTechPart2Size, sizeof(TItemReverseTechPart2) == 0x158);
 

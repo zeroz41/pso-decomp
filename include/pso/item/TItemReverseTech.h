@@ -34,6 +34,7 @@ public:
     static NJS_TEXLIST *texture_list;
     static NJS_TEXNAME *texnames;
     static char *name_buffer;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(ReverseTechPartOneOffset, offsetof(TItemReverseTech, part_one) == 0x20);

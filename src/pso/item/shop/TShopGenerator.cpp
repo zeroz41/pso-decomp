@@ -37,18 +37,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-// One shop counter of the generator's set (set_params[0] picks it). Field names follow the targets and the
-// callers: run_fn_table_forward/run_fn_table_reverse call the two hooks, run_task opens the counter's sequence
-// through create and checks the per-client flag through get_slot_flag.
-struct ShopService {
-    const char *name;
-    void (*forward_fn)();
-    void (*reverse_fn)();
-    void *(*create)(void *player);
-    int (*get_slot_flag)(int slot);
-};
-
-ShopService TShopGenerator__service_dispatch_table[7] = {
+ShopService TShopGenerator::service_dispatch_table[7] = {
     {"WEAPON STORE", TShopEquipmentSequence__sub_8021DC08, TShopEquipmentSequence__sub_8021DBE0,
      TShopEquipmentSequence::create_instance, get_equipment_shop_slot_active_flag},
     {"MEDICAL CENTER", TMedicalCenterSequence::clear_window_slots, TMedicalCenterSequence::clear_slot_data,
@@ -67,9 +56,9 @@ ShopService TShopGenerator__service_dispatch_table[7] = {
      TJudgmentSequence::create, get_judgment_shop_slot_flags},
 };
 
-const char *TShopGenerator__class_name = "TShopGenerator";
+const char *TShopGenerator::class_name = "TShopGenerator";
 
-s32 TShopGenerator__slot_active_table[4];
+s32 TShopGenerator::slot_active_table[4];
 
 extern "C" {
 f32 vec3_dot(void *, void *);
@@ -105,7 +94,7 @@ s32 TShopGenerator::is_no_service_active(void *self, saddr player) {
     s32 i;
     int (*get_slot_flag)(int);
     for (i = 0; i < 7; i++) {
-        get_slot_flag = TShopGenerator__service_dispatch_table[i].get_slot_flag;
+        get_slot_flag = TShopGenerator::service_dispatch_table[i].get_slot_flag;
         if (get_slot_flag((u16)get_client_split_screen_slot(((TObjBase *)(player))->get_entity_id())) == 1) {
             return 0;
         }
@@ -118,7 +107,7 @@ void TShopGenerator::run_task() {
     s32 i;
     saddr p;
     int (*get_slot_flag)(int);
-    service = &TShopGenerator__service_dispatch_table[this->set_params[0]];
+    service = &TShopGenerator::service_dispatch_table[this->set_params[0]];
     if (this->m_94 > 0) {
         this->m_94--;
         return;
@@ -169,7 +158,7 @@ TShopGenerator::~TShopGenerator() {
 
 TShopGenerator::TShopGenerator(saddr set_data) : TObjBase(tl_05) {
     s32 temp_r0;
-    m_name = TShopGenerator__class_name;
+    m_name = TShopGenerator::class_name;
     this->apply_object_set_data((void *)set_data);
     this->m_90 = 0;
     this->m_94 = 5;
@@ -185,18 +174,18 @@ TShopGenerator::TShopGenerator(saddr set_data) : TObjBase(tl_05) {
 }
 
 int TShopGenerator::is_slot_active(u16 client) {
-    return TShopGenerator__slot_active_table[(u16)get_client_split_screen_slot(client)] == 1;
+    return TShopGenerator::slot_active_table[(u16)get_client_split_screen_slot(client)] == 1;
 }
 
 void TShopGenerator::clear_slot_active(u16 client) {
     u16 idx = get_client_split_screen_slot(client);
-    TShopGenerator__slot_active_table[idx] = 0;
+    TShopGenerator::slot_active_table[idx] = 0;
 }
 
 
 void set_shop_slot_active(u16 client) {
     u16 idx = get_client_split_screen_slot(client);
-    TShopGenerator__slot_active_table[idx] = 1;
+    TShopGenerator::slot_active_table[idx] = 1;
 }
 
 void *TShopGenerator::create(void *set_data) {
@@ -209,7 +198,7 @@ void TShopGenerator::run_fn_table_reverse() {
     s32 n;
     s32 i;
     TMedicalCenterMes::clear_slot_flags();
-    p = &TShopGenerator__service_dispatch_table[7];
+    p = &TShopGenerator::service_dispatch_table[7];
     n = 7;
     do {
         void (*f)() = (p - 1)->reverse_fn;
@@ -217,7 +206,7 @@ void TShopGenerator::run_fn_table_reverse() {
         f();
     } while (--n > 0);
     for (i = 0; i < 4; i++) {
-        TShopGenerator__slot_active_table[i] = 0;
+        TShopGenerator::slot_active_table[i] = 0;
     }
 }
 
@@ -226,13 +215,13 @@ void TShopGenerator::run_fn_table_forward() {
     s32 n;
     s32 i;
     n = 7;
-    p = &TShopGenerator__service_dispatch_table[0];
+    p = &TShopGenerator::service_dispatch_table[0];
     do {
         p->forward_fn();
         p++;
     } while (--n > 0);
     TMedicalCenterMes__sub_80216260();
     for (i = 0; i < 4; i++) {
-        TShopGenerator__slot_active_table[i] = 0;
+        TShopGenerator::slot_active_table[i] = 0;
     }
 }

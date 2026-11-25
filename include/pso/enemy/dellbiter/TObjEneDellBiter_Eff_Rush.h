@@ -16,6 +16,7 @@ public:
     Vec direction;
     f32 strength;
     s32 pad_30;
+    static const char *name;
 };
 LAYOUT_ASSERT(TObjEneDellBiter_Eff_Rush_size, sizeof(TObjEneDellBiter_Eff_Rush) == 0x34);
 

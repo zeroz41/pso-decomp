@@ -16,12 +16,12 @@ public:
     void set_menu_flags(u32 mask);
 
     FlagWord menu_flags;
+    static TItemMenuCtrl *instance;
 };
 
 LAYOUT_ASSERT(TItemMenuCtrlSize, sizeof(TItemMenuCtrl) == 0x20);
 LAYOUT_ASSERT(TItemMenuCtrlFlagsOffset, offsetof(TItemMenuCtrl, menu_flags) == 0x1C);
 
-extern TItemMenuCtrl *TItemMenuCtrl__instance;
 
 struct Vec;
 struct StarLightParameters;

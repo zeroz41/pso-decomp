@@ -116,6 +116,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     static void set_min_clamped_entry_value(s32 index, f32 speed);
     static void destroy_static_instance();
     static void load_resources();
+    static DelbiterInitialParameters param_table;
 };
 
 LAYOUT_ASSERT(TObjEneDellBiter_size, sizeof(TObjEneDellBiter) == 0x4E4);

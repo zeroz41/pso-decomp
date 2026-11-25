@@ -16,6 +16,7 @@ struct TItemMoney : public TItem {
     static TItem *create(u8 *item);
 
     s32 amount;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TItemMoneyAmountOffset, offsetof(TItemMoney, amount) == 0xF8);

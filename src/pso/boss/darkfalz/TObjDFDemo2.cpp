@@ -38,7 +38,7 @@ extern s32 boss4_zanzo_bml_index_table[];
 const char *TObjDFDemo2::name = "TObjDFDemo2";
 extern "C" {
 __declspec(section ".rodata") CameraAngles df_demo2_zero_camera_angles = {0, 0, 0};
-__declspec(section ".data") s32 TObjDFDemo2__motion_index_table[2] = {0x12, 0x11};
+__declspec(section ".data") s32 TObjDFDemo2::motion_index_table[2] = {0x12, 0x11};
 CameraPlayback df_demo2_camera_playback = {0, 0, 0, 0.0f, 0.5f};
 
 TObjDFDemo2 *TObjDFDemo2::create(TObject *parent, const Vec *position, s32 angle, s32 variant) {
@@ -63,7 +63,7 @@ TObjDFDemo2::TObjDFDemo2(TObject *parent, const Vec *position, s32 angle, s32 va
         k = t;
         this->parts[i].model = (NJS_OBJECT *)get_bml_model(archive, t);
         this->parts[i].texlist = get_bml_texlist(archive, k);
-        this->parts[i].motion = get_bml_motion(archive, TObjDFDemo2__motion_index_table[i]);
+        this->parts[i].motion = get_bml_motion(archive, TObjDFDemo2::motion_index_table[i]);
     }
     this->frame = -0.5f;
     activate_camera_mode(5);

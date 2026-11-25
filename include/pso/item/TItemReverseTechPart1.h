@@ -21,6 +21,7 @@ public:
     TAdRicoRingCtrl *ring;
 
     static TItemReverseTechPart1 *instance;  // set by the constructor; TItemReverseTechPart2::destroy_and_flag starts it
+    static const char *name;
 };
 LAYOUT_ASSERT(TItemReverseTechPart1Size, sizeof(TItemReverseTechPart1) == 0x34);
 

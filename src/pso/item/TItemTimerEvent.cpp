@@ -26,8 +26,8 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/TScene.h"
 
-extern const char TItemTimerEvent__class_name_string[] = "TItemTimerEvent";
-const char *TItemTimerEvent__class_name = TItemTimerEvent__class_name_string;
+const char TItemTimerEvent::class_name_string[] = "TItemTimerEvent";
+const char *TItemTimerEvent::class_name = TItemTimerEvent::class_name_string;
 
 
 struct VBase_8011D5B4 { char pad[0x18]; };
@@ -123,7 +123,7 @@ TItemTimerEventConfusionCurse::~TItemTimerEventConfusionCurse() {}
 TItemTimerEventParalysisCurse::~TItemTimerEventParalysisCurse() {}
 
 TItemTimerEvent::TItemTimerEvent(TItemHeapObject *parent, u16 client, s32 period) : TItemHeapObject(parent) {
-    m_name = TItemTimerEvent__class_name;
+    m_name = TItemTimerEvent::class_name;
     client_id = client;
     player = 0;
     interval = period;

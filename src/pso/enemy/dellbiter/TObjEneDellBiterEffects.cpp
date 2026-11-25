@@ -17,7 +17,7 @@
 extern "C" {
 }
 
-const char *TObjEneDellBiter_Eff_Rush__name = "TObjEneDellBiter_Eff_Rush";
+const char *TObjEneDellBiter_Eff_Rush::name = "TObjEneDellBiter_Eff_Rush";
 const char *TObjEneDellBiter_Eff_TpAbsorb1::class_name = "TObjEneDellBiter_Eff_TpAbsorb1";
 extern const AreaAttackContact dell_biter_tp_absorb_hit_params = {3.0f, 3};
 extern const DirectAttackPayload dell_biter_tp_absorb_attack = {0, 20.0f};
@@ -28,7 +28,7 @@ TObjEneDellBiter_Eff_Rush::TObjEneDellBiter_Eff_Rush(
     TObject *parent, TObjBase *source, TObjChara *recipient, f32 speed)
     : TObject(parent) {
     Vec displacement;
-    m_name = TObjEneDellBiter_Eff_Rush__name;
+    m_name = TObjEneDellBiter_Eff_Rush::name;
     target = recipient;
     strength = speed;
     pad_30 = 0;

@@ -30,14 +30,14 @@
 #include "pso/unk/text_803D8F74.h"
 
 extern "C" {
-__declspec(section ".rodata") char TBoss6RockChase__class_name_string[] = "TBoss6RockChase";
+__declspec(section ".rodata") char TBoss6RockChase::class_name_string[] = "TBoss6RockChase";
 }
 extern const TBoss6RockChaseKind boss6_rock_chase_model_radius_table[2];
 const TBoss6RockChaseKind boss6_rock_chase_model_radius_table[2] = {
     {4, 20.0f},
     {0, 30.0f},
 };
-const char *TBoss6RockChase::name = TBoss6RockChase__class_name_string;
+const char *TBoss6RockChase::name = TBoss6RockChase::class_name_string;
 
 void TBoss6RockChase::damage_players_in_range() {
     Vec d;

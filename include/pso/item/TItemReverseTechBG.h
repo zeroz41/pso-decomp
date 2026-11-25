@@ -41,6 +41,7 @@ public:
     f32 depth;
     s32 timer;
     s32 state;  // 0 fade in, 1 hold, 2 fade out, 3 done
+    static const char *name;
 };
 LAYOUT_ASSERT(TItemReverseTechBGSize, sizeof(TItemReverseTechBG) == 0x64);
 

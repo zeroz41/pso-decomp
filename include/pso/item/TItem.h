@@ -195,6 +195,7 @@ struct TItem : public TObjCollidable {
     u8 drop_model;                 // ground model, < ITEM_MODEL_COUNT
     TObjPlayer *owner;             // the player carrying it
     NJS_OBJECT *item_model;        // the object tree drawn for it
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TItemCollisionOffset, offsetof(TItem, collision_body) == 0xAC);

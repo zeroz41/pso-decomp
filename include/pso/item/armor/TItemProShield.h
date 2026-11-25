@@ -78,6 +78,7 @@ struct TItemProShield : public TItemEquipBase {
     u8 dfp_range;
     u8 evp_range;
     u32 shield_flags;
+    static const char *name;
 };
 
 LAYOUT_ASSERT(TItemProShield_size, sizeof(TItemProShield) == 0x1A0);

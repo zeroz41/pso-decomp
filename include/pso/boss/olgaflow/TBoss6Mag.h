@@ -59,6 +59,12 @@ struct TBoss6MagTarget {
     s32 on_shoulder;
 };
 
+// The particle effect each emitter slot plays, and the node it follows (-1 for the mag's position).
+struct TBoss6MagEmitter {
+    s32 effect_id;
+    s32 node;
+};
+
 struct TBoss6Mag : public TObjEnemy {
     TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params);
     virtual ~TBoss6Mag();
@@ -158,6 +164,8 @@ struct TBoss6Mag : public TObjEnemy {
     Vec node_positions[1];
     ModelNodePositionCapture *capture;
     static CollisionBody collision_body_parts[1];
+    static const TBoss6MagEmitter effect_emitter_id_table[4];
+    static TBoss6Mag *instance_slots[2];
 };
 
 LAYOUT_ASSERT(TBoss6Mag_offset_param_copy, offsetof(TBoss6Mag, param_copy) == 0x394);
@@ -180,12 +188,6 @@ extern TBoss6MagAction boss6_type2_action_table[6];
 
 void copy_mag_ramp(TBoss6MagRamp *dst, TBoss6MagRamp *src);
 void copy_mag_target(TBoss6MagTarget *dst, TBoss6MagTarget *src);
-
-// The particle effect each emitter slot plays, and the node it follows (-1 for the mag's position).
-struct TBoss6MagEmitter {
-    s32 effect_id;
-    s32 node;
-};
 // Motion table row: the play mode, the row change_motion moves to when a one-shot motion ends, the motion's
 // index in the scene archive and its speed.
 struct TBoss6MagMotionEntry {

@@ -24,7 +24,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 const char *dd_name = "TObjEneDD";
-const char *TObjEneDD_ST__name = "TObjEneDD_ST";
+const char *TObjEneDD_ST::name = "TObjEneDD_ST";
 #include "pso/map/CsnQuery.h"
 
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
@@ -1037,7 +1037,7 @@ void TObjEneDD::init_lights() { current_scene_light->sub_801337F8(); TObjLight__
 
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {
-    m_name = TObjEneDD_ST__name;
+    m_name = TObjEneDD_ST::name;
     this->enemy_clear_target();
     init_float_params();
     enemy_init_acquire_period(30);

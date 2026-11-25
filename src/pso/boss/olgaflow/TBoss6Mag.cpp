@@ -50,7 +50,7 @@ extern "C" s32 is_local_client_floor_leader();
 #pragma readonly_strings on
 
 const char *boss6_mag_name = "TBoss6Mag";
-extern const TBoss6MagEmitter TBoss6Type2__effect_emitter_id_table[4] = { {555, -1}, {556, -1}, {537, -1}, {542, 0} };
+const TBoss6MagEmitter TBoss6Mag::effect_emitter_id_table[4] = { {555, -1}, {556, -1}, {537, -1}, {542, 0} };
 extern const ModelNodePositionEntry boss6_mag_capture_nodes[2] = {{3}, {-1}};
 extern const TBoss6MagTarget boss6_mag_initial_target = { 0xFFFF, 1 };
 extern const TBoss6MagMotion boss6_type2_zero_vec3_block = { 0 };
@@ -67,7 +67,7 @@ TBoss6MagMotionEntry boss6_type2_motion_table[5] = {
     {0x0, 0x3, 0x32, 0.4f},
     {0x2, 0x0, 0xc, 0.5f},
 };
-__declspec(section ".data") TBoss6Mag *TBoss6Type2__instance_slots[2] = {
+__declspec(section ".data") TBoss6Mag *TBoss6Mag::instance_slots[2] = {
     NULL, NULL,
 };
 
@@ -85,7 +85,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     VecCopy(&position, &params->origin);
     rotation_y = params->rotation_y;
     index = params->index;
-    TBoss6Type2__instance_slots[index] = this;
+    TBoss6Mag::instance_slots[index] = this;
     apply_set_data(params);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
@@ -143,7 +143,7 @@ TBoss6Mag::~TBoss6Mag() {
         capture = NULL;
     }
     free_collision_body_parts(this);
-    TBoss6Type2__instance_slots[index] = NULL;
+    TBoss6Mag::instance_slots[index] = NULL;
 }
 
 void TBoss6Mag::run_task() {
@@ -663,7 +663,7 @@ void TBoss6Mag::spawn_falling_rocks() {
 #pragma pop
 
 void TBoss6Mag::set_path_points_by_index(s32 index, Vec *points, s32 count) {
-    TBoss6Mag *mag = TBoss6Type2__instance_slots[index];
+    TBoss6Mag *mag = TBoss6Mag::instance_slots[index];
     if (mag != NULL) {
         mag->set_path_points(points, count);
     }
@@ -983,7 +983,7 @@ void TBoss6Mag::update_state_effects() {
 
 void TBoss6Mag::update_effect_positions() {
     s32 i;
-    const TBoss6MagEmitter *table = TBoss6Type2__effect_emitter_id_table;
+    const TBoss6MagEmitter *table = TBoss6Mag::effect_emitter_id_table;
     for (i = 0; i < 4; i++) {
         Vec pos = position;
         const TBoss6MagEmitter *entry = &table[i];
@@ -999,7 +999,7 @@ void TBoss6Mag::update_effect_positions() {
 void TBoss6Mag::ensure_particle_emitter(s32 index) {
     if (emitters[index] == NULL) {
         Vec pos = position;
-        emitters[index] = create_particle_emitter(&pos, TBoss6Type2__effect_emitter_id_table[index].effect_id);
+        emitters[index] = create_particle_emitter(&pos, TBoss6Mag::effect_emitter_id_table[index].effect_id);
         if (emitters[index] != NULL) {
             emitters[index]->set_flags(0x40);
         }

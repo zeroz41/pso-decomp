@@ -43,6 +43,7 @@ public:
     s32 acquire_period;
     s32 validate_counter;         // the held target is re-checked every validate_period frames
     s32 validate_period;
+    static const char *name;
 };
 
 extern "C" {

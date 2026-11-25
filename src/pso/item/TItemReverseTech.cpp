@@ -57,7 +57,7 @@ static const f32 lbl_805DAC0C[1] = {480.0f};
 
 
 
-const char *TItemReverseTech__name = "TItemReverseTech";
+const char *TItemReverseTech::name = "TItemReverseTech";
 
 
 TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
@@ -196,7 +196,7 @@ void TItemReverseTech::create() {
 }
 
 TItemReverseTech::TItemReverseTech(TObject *parent) : TObject(parent) {
-    m_name = TItemReverseTech__name;
+    m_name = TItemReverseTech::name;
     part_one = new TItemReverseTechPart1(this, texture_list);
     part_two = NULL;
     new TAdEndText(this);
@@ -228,11 +228,11 @@ void TItemReverseTech::run_task() {
 }
 #pragma opt_common_subs reset
 
-const char *TItemReverseTechPart1__name = "TItemReverseTechPart1";
+const char *TItemReverseTechPart1::name = "TItemReverseTechPart1";
 
 
 TItemReverseTechPart1::TItemReverseTechPart1(TObject *parent, NJS_TEXLIST *texlist) : TObject(parent) {
-    m_name = TItemReverseTechPart1__name;
+    m_name = TItemReverseTechPart1::name;
     state = 0;
     timer = 0;
     fade_in_time = 150;
@@ -299,11 +299,11 @@ void TItemReverseTechPart2::destroy_and_flag(TObject *fade) {
     }
 }
 
-const char *TItemReverseTechPart2__name = "TItemReverseTechPart2";
+const char *TItemReverseTechPart2::name = "TItemReverseTechPart2";
 
 
 TItemReverseTechPart2::TItemReverseTechPart2(TObject *parent, NJS_TEXLIST *texlist) : TObject(parent) {
-    m_name = TItemReverseTechPart2__name;
+    m_name = TItemReverseTechPart2::name;
     picture_0.hold_time = 300;
     picture_0.fade_time = 0;
     picture_0.texlist = texlist;
@@ -410,11 +410,11 @@ void TItemReverseTechPart2::run_task() {
 
 void TItemReverseTechPart2::render() {  }
 
-const char *TItemReverseTechBG__name = "TItemReverseTechBG";
+const char *TItemReverseTechBG::name = "TItemReverseTechBG";
 
 
 TItemReverseTechBG::TItemReverseTechBG(TObject *parent, TItemReverseTechPicture *picture) : TObject(parent) {
-    m_name = TItemReverseTechBG__name;
+    m_name = TItemReverseTechBG::name;
     hold_time = picture->hold_time;
     fade_time = picture->fade_time;
     texlist = picture->texlist;
