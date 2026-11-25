@@ -716,23 +716,9 @@ extern packet *server_packet;
 
 
 #include "pso/item/TItem.h"
-struct RecoveredFields_801DD33C_arg0 {
-    u8 field_0;
-    u8 field_1;
-    u16 field_2;
-    s32 field_4;
-};
-
-struct RecoveredFields_801DD33C_arg1 {
-    u8 field_0;
-    u8 field_1;
-    u16 field_2;
-    s32 field_4;
-};
-
 extern "C" {
-u8 *__ct__15TRecvGenerateIDFRC15TRecvGenerateID(u8 *arg0, u8 *arg1);
-void __ct__16TGenGuildCardTagFRC16TGenGuildCardTag(u8 *arg0, u8 *arg1);
+TRecvGenerateID *__ct__15TRecvGenerateIDFRC15TRecvGenerateID(TRecvGenerateID *dst, TRecvGenerateID *src);
+void __ct__16TGenGuildCardTagFRC16TGenGuildCardTag(TGenGuildCardTag *dst, TGenGuildCardTag *src);
 }
 
 void TProtocol::recv_pso_regist_check(packet &pkt) {
@@ -1323,17 +1309,17 @@ void TProtocol::recv_generate_id(packet &pkt) {
 	}
 };
 
-u8 *__ct__15TRecvGenerateIDFRC15TRecvGenerateID(u8 *arg0, u8 *arg1) {
-    *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    __ct__16TGenGuildCardTagFRC16TGenGuildCardTag(arg0 + 8, arg1 + 8);
-    return arg0;
+TRecvGenerateID *__ct__15TRecvGenerateIDFRC15TRecvGenerateID(TRecvGenerateID *dst, TRecvGenerateID *src) {
+    *(u32 *)&dst->header = *(u32 *)&src->header;
+    dst->client_id = src->client_id;
+    __ct__16TGenGuildCardTagFRC16TGenGuildCardTag(&dst->tag, &src->tag);
+    return dst;
 }
-void __ct__16TGenGuildCardTagFRC16TGenGuildCardTag(u8 *arg0, u8 *arg1) {
-    ((RecoveredFields_801DD33C_arg0 *)arg0)->field_0 = (u8) ((RecoveredFields_801DD33C_arg1 *)arg1)->field_0;
-    ((RecoveredFields_801DD33C_arg0 *)arg0)->field_1 = (u8) ((RecoveredFields_801DD33C_arg1 *)arg1)->field_1;
-    ((RecoveredFields_801DD33C_arg0 *)arg0)->field_2 = (u16) ((RecoveredFields_801DD33C_arg1 *)arg1)->field_2;
-    ((RecoveredFields_801DD33C_arg0 *)arg0)->field_4 = (s32) ((RecoveredFields_801DD33C_arg1 *)arg1)->field_4;
+void __ct__16TGenGuildCardTagFRC16TGenGuildCardTag(TGenGuildCardTag *dst, TGenGuildCardTag *src) {
+    dst->tag0 = src->tag0;
+    dst->tag1 = src->tag1;
+    dst->tag2 = src->tag2;
+    dst->guildcard_number = src->guildcard_number;
 }
 void TProtocol::recv_pso_data_long(packet &pkt) {
 	TRecvPsoDataLong &tmp = as(TRecvPsoDataLong &, pkt);
@@ -1906,14 +1892,6 @@ void packet_header::bswap() {
     bswap_16(&size);
 }
 
-LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_0_offset, offsetof(RecoveredFields_801DD33C_arg0, field_0) == 0x0);
-LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_1_offset, offsetof(RecoveredFields_801DD33C_arg0, field_1) == 0x1);
-LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_2_offset, offsetof(RecoveredFields_801DD33C_arg0, field_2) == 0x2);
-LAYOUT_ASSERT(RecoveredFields_801DD33C_arg0_4_offset, offsetof(RecoveredFields_801DD33C_arg0, field_4) == 0x4);
-LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_0_offset, offsetof(RecoveredFields_801DD33C_arg1, field_0) == 0x0);
-LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_1_offset, offsetof(RecoveredFields_801DD33C_arg1, field_1) == 0x1);
-LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_2_offset, offsetof(RecoveredFields_801DD33C_arg1, field_2) == 0x2);
-LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_4_offset, offsetof(RecoveredFields_801DD33C_arg1, field_4) == 0x4);
 
 void TRecvQuestStats::bswap() {
     header.bswap();
