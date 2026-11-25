@@ -1865,9 +1865,9 @@ pso/ui/window/WindowLayoutCamera2Data.cpp
 pso/unk/text_8033F314.cpp
 pso/unk/text_8034960C.cpp
 pso/unk/text_80349B8C.cpp
-pso/unk/text_8034D3D0.cpp
+pso/math/CurvePathPoint.cpp
 pso/item/TUnk_804F112C.cpp
-pso/unk/text_80357058.cpp
+pso/effect/item/TItemEffOrgaFlowShot.cpp
 pso/unk/text_8035B6B0.cpp
 pso/unk/text_8035B750.cpp
 pso/unk/text_8035D444.cpp
