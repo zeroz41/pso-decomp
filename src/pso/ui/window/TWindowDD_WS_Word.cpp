@@ -27,7 +27,6 @@ extern const s32 lbl_805DFC18;
 
 
 extern const f32 TWindowDD__data_805DFB18;
-extern const f32 window_dd_row_height;
 extern const f32 lbl_805DFB40;
 extern const f32 lbl_805DFB44;
 
@@ -49,13 +48,13 @@ extern const f32 TWindowDD__data_805DFB74;
 extern const f32 lbl_805DFB78;
 extern const f32 lbl_805DFC1C;
 
-TWindowDD_WS_WordLayout TWindowDD__data_804EFC50 = {
+TWindowDD_WS_WordLayout word_select_page_layout = {
     1, 1,
     {3, {0.0f, 0.0f}, 0.2f, TWindowDD__data_805DFC14, 0x40, NULL},
 };
 __declspec(section ".data") f32 lbl_804EFC74[2] = {TWindowDD__data_805DFB6C, lbl_805DFB70};
-WindowDescriptor lbl_804EFC7C = {
-    {TWindowDD__data_805DFB74, lbl_805DFB78}, lbl_805DFC1C, &TWindowDD__data_804EFC50, 3,
+WindowDescriptor word_select_page_descriptor = {
+    {TWindowDD__data_805DFB74, lbl_805DFB78}, lbl_805DFC1C, &word_select_page_layout, 3,
 };
 
 struct Elem_80341FFC {
@@ -64,15 +63,14 @@ struct Elem_80341FFC {
 };
 
 
-extern s32 window_dd_tween_ticks;
 
 TWindowDD_WS_Word *TWindowDD_WS_Word::create(s32 element_list, s32 rows) {
-    TWindowDD__data_804EFC50.rows = rows;
+    word_select_page_layout.rows = rows;
     return new TWindowDD_WS_Word(element_list, rows);
 }
 
 TWindowDD_WS_Word::TWindowDD_WS_Word(s32 list_id, s32 visible_count)
-    : TWindowBase((u8 *)&lbl_804EFC7C, 4, (u8 *)lbl_804EFC74) {
+    : TWindowBase((u8 *)&word_select_page_descriptor, 4, (u8 *)lbl_804EFC74) {
     m_name = lbl_805D42E0;
     visible_row_count = visible_count;
     point_table_index = 0;
@@ -185,8 +183,8 @@ void TWindowDD_WS_Word::reset_fields() {
 }
 
 void TWindowDD_WS_Word::init_layout_entries() {
-    TWindowDD__data_804EFC50.rows = visible_row_count;
-    init_window_layout_entries(&entry_list, &TWindowDD__data_804EFC50, client_index);
+    word_select_page_layout.rows = visible_row_count;
+    init_window_layout_entries(&entry_list, &word_select_page_layout, client_index);
 }
 
 void TWindowDD_WS_Word::init_child(s32 list_id) {

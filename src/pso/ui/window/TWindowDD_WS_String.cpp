@@ -44,7 +44,6 @@ void TWindowDD_WS_String::run_task() {
 }
 
 
-extern const f32 window_dd_frame_margin;
 extern const u32 lbl_805DFC18;
 
 void TWindowDD_WS_String::init_and_set_field50(void *ticks) {
@@ -92,7 +91,6 @@ struct TWindowDD_WS_StringLayout {
 
 extern const u32 TWindowDD__data_805DFC14;
 extern const f32 lbl_805DFC20;
-extern const f32 window_dd_row_height;
 
 TWindowDD_WS_StringLayout lbl_804EFC00 = {
     1, 1,
@@ -100,14 +98,14 @@ TWindowDD_WS_StringLayout lbl_804EFC00 = {
 };
 
 // Size is written by TWindowDD_WS_String::create before each window is built.
-WindowDescriptor TWindowDD__data_804EFC24 = {
+WindowDescriptor word_select_string_descriptor = {
     {0.0f, 0.0f}, lbl_805DFC20, &lbl_804EFC00, 3,
 };
 
 TWindowDD_WS_String::~TWindowDD_WS_String() {}
 
 TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style)
-    : TWindowBase((u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos) {
+    : TWindowBase((u8 *)&word_select_string_descriptor, 4, (u8 *)pos) {
     WindowTextEntry *entry;
     m_name = lbl_805D42D8;
     copy_vec2(pad_64, pos);
@@ -128,8 +126,8 @@ TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style
 }
 
 TWindowDD_WS_String *TWindowDD_WS_String::create(f32 width, f32 *pos, f32 *size, u32 str, s32 style) {
-    TWindowDD__data_804EFC24.size[0] = width;
-    TWindowDD__data_804EFC24.size[1] = window_dd_row_height;
+    word_select_string_descriptor.size[0] = width;
+    word_select_string_descriptor.size[1] = window_dd_row_height;
     return new TWindowDD_WS_String(pos, size, str, style);
 }
 

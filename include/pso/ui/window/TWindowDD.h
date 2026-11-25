@@ -163,5 +163,9 @@ void TWindowDD__sub_80344114(void);
 
 // Upper bounds of the numeric word-select entries, indexed by TWindowDD::classify_id.
 extern const s32 word_select_numeric_limits[6];
+extern const f32 window_dd_row_height;
+extern const s32 window_dd_tween_ticks;
+extern const f32 window_dd_visible_rows;
+extern const f32 window_dd_frame_margin;
 
 #endif

@@ -65,7 +65,6 @@ void run_state__9TWindowDDFPv(TWindowDD *window_dd);
 TWindowDD_WS_Word *TWindowDD__sub_80347980(TWindowDD *window_dd);
 void pop_menu_level__9TWindowDDFPv(TWindowDD *window);
 void TWindowDD__sub_80347CC8(void *, void *);
-extern const s32 window_dd_tween_ticks;
 
 extern const f32 TWindowDD__data_805DFB74;
 
@@ -100,7 +99,6 @@ extern char *lbl_805D6E6C;
 
 extern s8 lbl_805D6E70;
 
-extern const f32 window_dd_visible_rows;
 
 extern const f32 lbl_805DFB60;
 

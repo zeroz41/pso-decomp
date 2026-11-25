@@ -17,7 +17,6 @@ extern const f32 lbl_805DFC00;
 extern const f32 lbl_805DFC04;
 extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
-extern const f32 window_dd_row_height;
 extern const f32 lbl_805DFB48;
 extern const f32 lbl_805DFB4C;
 

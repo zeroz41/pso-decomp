@@ -40,10 +40,8 @@ void append_word_select_token(s16, saddr, void *);
 void append_word_select_word_with_number(WordSelectMessage *entry, s16 id, char *word, char *buf, s32 *pos);
 saddr TWindowDD__sub_80348D88(void *p);
 void append_word_select_word(WordSelectMessage *entry, s16 id, char *buf, s32 *pos);
-extern const f32 window_dd_visible_rows;
 s32 TWindowDD__sub_80348DD8(void *, int);
 extern const f32 lbl_805DFB94;
-extern const saddr window_dd_tween_ticks;
 extern const f32 lbl_805DFB60;
 extern const f32 lbl_805DFBDC;
 extern const f32 lbl_805DFBE0;
@@ -51,7 +49,6 @@ extern const f32 lbl_805DFBE4;
 extern const f32 lbl_805DFBE8;
 extern const f32 lbl_805DFBEC;
 extern const f32 lbl_805DFC28;
-extern const f32 window_dd_frame_margin;
 void TWindowDD__sub_80347CC8(TWindowDD *window_dd, WordSelectMessage *message);
 void TWindowDD__sub_80348D90(void *, int);
 extern const f32 TWindowDD__data_805DFB6C;
@@ -799,9 +796,7 @@ WindowTexturePoint TWindowDD__data_805434E8[7][8];
 extern s32 *TWindowDD__player_name_buffers;
 extern s32 *TWindowDD__data_805D6E28;
 extern s16 *lbl_805D6E34;
-extern const f32 window_dd_frame_margin;
 extern const f32 lbl_805DFB5C;
-extern const f32 window_dd_row_height;
 typedef struct { char pad[0xBC]; } Buf;
 
 void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
