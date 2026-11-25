@@ -35,13 +35,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkModelDraw.h"
 
-
-
-extern "C" {
-
-}
-
-
 #include "pso/player/TPlayerParticleOwner.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 

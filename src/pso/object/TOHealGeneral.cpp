@@ -26,12 +26,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-// TObjCharaHelpers.h declares get_entity_id returning u16, but this
-// unit's callers saw a 32-bit return (no zero extension before the
-// (u16) test), so the helpers are still declared here.
-extern "C" {
-}
-
 const char *bm_fe_obj_kaifuku_moto_model_names[2] = { "fe_obj_kaifuku_moto.nj", NULL };
 const char *bm_fe_obj_kaifuku_moto_motion_names[1] = { NULL };
 BmlResourceDescriptor bm_fe_obj_kaifuku_moto_resource_descriptor = {
