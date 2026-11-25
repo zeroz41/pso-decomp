@@ -123,13 +123,13 @@ void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits
     TWindowSubStatusDisp::get_player();
 }
 
-void draw_small_font_text(void *color, const char *s, f32 x, f32 y, f32 scale) {
+void draw_small_font_text(u32 color, const char *s, f32 x, f32 y, f32 scale) {
     Pos_800FBFD8 pos;
     s32 id;
     set_default_alpha_blend();
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
-    set_draw_texture_and_color(0, (saddr)color);
+    set_draw_texture_and_color(0, color);
     while (*s != 0) {
         u8 c = *s++;
         pos.x = x;
