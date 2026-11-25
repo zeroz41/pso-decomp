@@ -9,13 +9,14 @@ struct GuildCardEntry;
 struct GuildCardSlot;
 struct NJS_POINT2;
 struct TWindowComCard;
+struct TWindowMenu;
 
 struct TWindowSubComCard : public TObject {
     static void update_display_value(uaddr list_window, uaddr card_window, s32 *last_selected);
     static GuildCardSlot *get_card_entry(s32 index);
     TWindowSubComCard(TObject *parent, s32 client);
     virtual ~TWindowSubComCard();
-    void rebuild_com_card_list(saddr list_window);
+    void rebuild_com_card_list(TWindowMenu *list_window);
     static const char *class_name;
     u32 sub_80272DE0();
     // Stores the option `val` picked for the category `key` (0 is the com param) and updates the menus.
@@ -23,7 +24,7 @@ struct TWindowSubComCard : public TObject {
     s32 reinit(int);
     s32 init_guild_card_tag(int);
     s32 sub_802730E0();
-    s32 create_option_list_window(ChoiceSearchSelection *selections, s32 key);
+    TWindowMenu *create_option_list_window(ChoiceSearchSelection *selections, s32 key);
     void sub_802721D8();
     u8 *find_entry_rest(void *, s32);
     void send_state_if_dirty();
@@ -42,8 +43,10 @@ struct TWindowSubComCard : public TObject {
     uaddr chr_select;
     u32 m_5c;
     uaddr menu_window;
-    uaddr m_64;
-    uaddr m_68;
+    // Menu the current state waits on (option lists, menus, player select). inferred: name from its creators.
+    TWindowMenu *submenu;
+    // Card list or card action menu. inferred: name from its creators.
+    TWindowMenu *card_menu;
     uaddr message_window;
     uaddr confirm_window;
     uaddr com_card_window;
@@ -103,7 +106,14 @@ struct TWindowSubComCard : public TObject {
     void set_card_index(s32 card_index);
     void set_selected_card(s32 card_index);
     void set_help_message(s32 help_index);
-    static s32 create_card_action_window();
+    static TWindowMenu *create_card_action_window();
+    TWindowMenu *sub_80272640();
+    TWindowMenu *sub_802728CC();
+    TWindowMenu *sub_80272A98();
+    TWindowMenu *sub_80273004();
+    static TWindowMenu *sub_8027337C();
+    TWindowMenu *sub_8027346C();
+    TWindowMenu *sub_8027353C();
     s32 create_entry_list_window();
     s32 open_yesno_dialog();
     s32 confirm_and_free();
@@ -112,12 +122,12 @@ struct TWindowSubComCard : public TObject {
     void set_display_page();
     static TWindowComCard *create_com_card_window(const NJS_POINT2 *position);
     static s32 create_menu();
-    static s32 create_single_entry_window();
-    static s32 open_menu();
+    TWindowMenu *create_single_entry_window();
+    TWindowMenu *open_menu();
     static void open_layout_window();
     static void open_mode4_window();
-    static s32 create_menu_window();
-    static s32 create_player_select_window();
+    TWindowMenu *create_menu_window();
+    TWindowMenu *create_player_select_window();
     static saddr create();
     static void cleanup(void* p);
     static u8 *send_cmd_133();
