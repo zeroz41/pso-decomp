@@ -15,6 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -90,4 +91,16 @@ TObjBoss5Pillar::TObjBoss5Pillar(TObject *parent, Vec *pos) : TObject(parent) {
     this->models[1] = boss5_common_bml_resource->models[1].model;
     this->motions[0] = boss5_common_bml_resource->motions[2].motion;
     this->motions[1] = boss5_common_bml_resource->motions[3].motion;
+}
+
+
+
+TObjBoss5Pillar *TObjBoss5Pillar::create(Vec *pos) {
+    return new TObjBoss5Pillar(tl_02, pos);
+}
+
+extern "C" {
+void TObjBoss5Pillar__sub_8028B70C(void) {  }
+void TObjBoss5Pillar__sub_8028B710(void) {  }
+
 }

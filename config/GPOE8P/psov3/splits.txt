@@ -670,18 +670,12 @@ pso/boss/goldragon/TBoss8Dragon_80067034.cpp:
 	.text       start:0x80067034 end:0x80067124
 	.sbss       start:0x805D4DE0 end:0x805D4DE8
 
-pso/boss/galgryphon/TObjBoss5Ctrl_80067124.cpp:
-	.text       start:0x80067124 end:0x8006715C
-
 pso/boss/galgryphon/TObjBoss5Ctrl.cpp:
-	.text       start:0x8006715C end:0x800673D0
+	.text       start:0x80067124 end:0x80067410
 	.rodata     start:0x80438128 end:0x80438140
 	.data       start:0x80488778 end:0x80488790
 	.sdata      start:0x805D2828 end:0x805D2830
 	.sdata2     start:0x805D8F10 end:0x805D8F1C
-
-pso/boss/galgryphon/TObjBoss5Ctrl_800673D0.cpp:
-	.text       start:0x800673D0 end:0x80067410
 
 pso/unk/TLobby_80067410.cpp:
 	.text       start:0x80067410 end:0x80067490
@@ -6786,14 +6780,11 @@ pso/boss/galgryphon/TObjBoss5PillarCtrl.cpp:
 	.sdata      start:0x805D3B38 end:0x805D3B40
 
 pso/boss/galgryphon/TObjBoss5Pillar.cpp:
-	.text       start:0x8028B400 end:0x8028B6C0
+	.text       start:0x8028B400 end:0x8028B714
 	.rodata     start:0x80450D00 end:0x80450D18
 	.data       start:0x804D3638 end:0x804D3650
 	.sdata      start:0x805D3B40 end:0x805D3B48
 	.sdata2     start:0x805DD918 end:0x805DD920
-
-pso/boss/galgryphon/TObjBoss5Pillar_8028B6C0.cpp:
-	.text       start:0x8028B6C0 end:0x8028B714
 
 pso/ui/charcreate/CharacterPreview.cpp:
 	.text       start:0x8028B714 end:0x8028B8C8
@@ -7298,18 +7289,15 @@ pso/effect/TBGLightningCtrl.cpp:
 	.sdata2     start:0x805DE030 end:0x805DE068
 
 pso/object/ambient/TOBiwaMushi.cpp:
-	.text       start:0x802AA2D4 end:0x802AABEC
+	.text       start:0x802AA2D4 end:0x802AABA4
 	.rodata     start:0x8046FCB8 end:0x8046FDB8
 	.data       start:0x804DDFB0 end:0x804DE0C4
 	.sdata      start:0x805D3E40 end:0x805D3E4C
 	.sbss       start:0x805D66D8 end:0x805D66E4
 	.sdata2     start:0x805DE068 end:0x805DE088
 
-pso/boss/olgaflow/TBoss6PlotFalz_802AABEC.cpp:
-	.text       start:0x802AABEC end:0x802AACF4
-
 pso/boss/olgaflow/TBoss6PlotFalz.cpp:
-	.text       start:0x802AACF4 end:0x802ACCC8
+	.text       start:0x802AABA4 end:0x802ACCC8
 	.rodata     start:0x8046FDB8 end:0x804705F8
 	.data       start:0x804DE0C8 end:0x804DE35C
 	.bss        start:0x80540B28 end:0x80540B30

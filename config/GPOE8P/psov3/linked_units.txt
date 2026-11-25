@@ -320,8 +320,6 @@ pso/boss/barbaray/TObjBoss7Tunnel.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp
 pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.cpp
 pso/boss/galgryphon/TObjBoss5Ctrl.cpp
-pso/boss/galgryphon/TObjBoss5Ctrl_80067124.cpp
-pso/boss/galgryphon/TObjBoss5Ctrl_800673D0.cpp
 pso/boss/galgryphon/TObjBoss5FloorGrass.cpp
 pso/boss/galgryphon/TObjBoss5FloorStone.cpp
 pso/boss/galgryphon/TObjBoss5Pillar.cpp
@@ -329,7 +327,6 @@ pso/boss/galgryphon/TObjBoss5PillarCtrl.cpp
 pso/boss/galgryphon/TObjBoss5PillarDemo.cpp
 pso/boss/galgryphon/TObjBoss5PillarSmoke.cpp
 pso/boss/galgryphon/TObjBoss5Pillar_8028B08C.cpp
-pso/boss/galgryphon/TObjBoss5Pillar_8028B6C0.cpp
 pso/ui/charcreate/CharacterPreview.cpp
 pso/boss/barbaray/TObjBoss7Dust.cpp
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp
@@ -1798,7 +1795,6 @@ pso/unk/text_80299420.cpp
 pso/unk/text_8029A97C.cpp
 pso/unk/text_802A0A30.cpp
 pso/unk/text_802A1020.cpp
-pso/boss/olgaflow/TBoss6PlotFalz_802AABEC.cpp
 pso/unk/text_802AE978.cpp
 pso/unk/text_802AEAA4.cpp
 pso/ui/TLevelSelect_802AEBA8.cpp
