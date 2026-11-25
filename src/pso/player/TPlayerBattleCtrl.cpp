@@ -170,19 +170,13 @@ typedef struct Send6x7DSetBattleModeDataMsg {
 } Send6x7DSetBattleModeDataMsg;
 
 extern "C" {
-void TLobby__sub_801C2C34(void *);
-}
-void clear_battle_player_ready_flags(void);
-extern "C" {
 void obj_clear_flag30_20000(void *);
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern const char *dead_spot_class_name;
 
 extern u16 battle_mode_data_table[];
-void send_6x7D_set_battle_mode_data(void *);
 s32 obj_set_flag_20000();
-s32 get_battle_time_limit_frames();
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
@@ -317,7 +311,6 @@ extern s32 battle_intro_value_table[];
 void obj_clear_flag30_20000(void *actor);
 }
 
-void record_local_battle_placement(void *);
 extern "C" {
 
 
@@ -348,17 +341,11 @@ void handle_6x7F_battle_scores(saddr command);
 void play_area_music(char *name);
 }
 
-void record_local_battle_placement(void *arg0);
 
 
 #define CFG (*(Cfg_801C3D50 **)&battle_config_ptr)
 
 
-void update_player_battle_ctrl_state(void *player_battle_ctrl);
-extern "C" {
-
-void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
-}
 
 extern s32 lbl_805D55C0;
 

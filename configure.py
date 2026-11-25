@@ -1025,7 +1025,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # table: deferred generation of the last-to-first source; .rodata then runs local initialisers backwards and the code
     # strings and int-to-float constant in .text order. Each string is reached by its own lis/addi: -pool off.
     # -sdata 4: the 8-byte battle_mode_data_table sits in .bss, not .sbss.
-    "pso/unk/TLobby_801C25B4.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-pool off", "-sdata 4", "-str reuse,readonly")},
+    "pso/player/TPlayerBattleCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-pool off", "-sdata 4", "-str reuse,readonly")},
     "pso/object/fence/TLazerFenceSw.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # Their class names ("TObjLight" 0x80445D38, "TMapCsnCtrl" 0x80445D68, "TObjMapCsn" 0x8043F268) open
     # their .rodata: readonly strings.

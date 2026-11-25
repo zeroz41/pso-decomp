@@ -25,7 +25,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries

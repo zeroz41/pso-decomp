@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TBattleMusicGainTask.h"

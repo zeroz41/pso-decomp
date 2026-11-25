@@ -62,7 +62,7 @@
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/network/protocol/choice_search.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"

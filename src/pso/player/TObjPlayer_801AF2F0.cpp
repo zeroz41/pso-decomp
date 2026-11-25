@@ -124,7 +124,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/network/protocol/subcommand_validation.h"

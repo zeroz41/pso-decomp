@@ -5,7 +5,7 @@
 #include "pso/network/TGameProtocol.h"
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/network/TPacket.h"

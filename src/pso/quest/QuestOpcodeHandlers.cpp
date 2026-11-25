@@ -101,7 +101,7 @@ int qst_label_address(int label);
 #include "pso/object/switch/TOChatSensor.h"
 #include "pso/object/collision/TOSymbolchatColli.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/network/client_id.h"

@@ -13,7 +13,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/system/vector.h"

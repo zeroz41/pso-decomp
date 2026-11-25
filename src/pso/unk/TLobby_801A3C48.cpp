@@ -69,7 +69,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
 #include "pso/network/protocol/choice_search.h"
-#include "pso/unk/TLobby_801C25B4.h"
+#include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
