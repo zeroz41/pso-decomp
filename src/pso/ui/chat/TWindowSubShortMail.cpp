@@ -43,7 +43,6 @@ static const f32 lbl_8044FACC[2] = {206.0f, 120.0f};
 
 extern "C" {
 s32 *get_shared_text_buffer(void);
-int get_flag_bit0__6TLobbyFv(void);
 }
 
 extern s32 local_client_id;
@@ -501,7 +500,7 @@ saddr TWindowSubShortMail::create_window(void) {
 
     window_layout_position = reinterpret_cast<saddr>(get_window_layout_position(0xA1));
     list = create_window_menu_default(window_layout_position, 2);
-    if (get_flag_bit0__6TLobbyFv() != 0) {
+    if (TLobby::get_flag_bit0() != 0) {
         ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 0, 0);
         ((TWindowMenu *)list)->add_text_entry(TLobby::get_card_window_area(), 0, 0);
     } else {
@@ -522,7 +521,7 @@ saddr TWindowSubShortMail::open_menu(void) {
     menu = create_window_menu_default(window_layout_position, 2);
     ((TWindowMenu *)menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x105)), 6, 1);
     ((TWindowMenu *)menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x106)), 6, 0);
-    if (get_flag_bit0__6TLobbyFv() == 0) {
+    if (TLobby::get_flag_bit0() == 0) {
         ((TWindowSubComCardList *)menu)->set_selected_index(1);
     }
     ((TWindowMenu *)menu)->set_flag70_bit10();
