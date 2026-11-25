@@ -51,8 +51,7 @@ const char *TFontSmallLobby__name = "TFontSmallLobby";
 char *status_text_label_table[5] = { "J", "E", "G", "F", "S" };
 extern TPlyChallenge lobby_player_status_records[];
 
-    extern int TWindowCtrlMain__instance;
-saddr TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
+saddr TWindowCtrlMain::get_instance() {  return (saddr)instance; }
 
 void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
     s32 card_status_bits;

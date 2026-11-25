@@ -147,8 +147,8 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   }
   backdrop.screen.projection.center_x = (f32) ((26.666666f * ((f32) ((s8) (m_60)))) + 320.0f);
   backdrop.screen.projection.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8) (m_61))));
-  TWindowCtrlMain::set_depth(53.333332f * ((f32) ((s8) (m_60))), client_index);
-  TWindowCtrlMain::set_field18(480.0f - 74.666664f * ((f32) ((s8) (m_61))), client_index);
+  TWindowCtrlMain::set_left(53.333332f * ((f32) ((s8) (m_60))), client_index);
+  TWindowCtrlMain::set_bottom(480.0f - 74.666664f * ((f32) ((s8) (m_61))), client_index);
   backdrop.pad_40[0] = (f32) ((640.0f - (backdrop.screen.projection.center_x)) / 320.0f);
   backdrop.pad_40[1] = (f32) ((backdrop.screen.projection.center_y) / 240.0f);
   temp_f1 = backdrop.pad_40[1];
