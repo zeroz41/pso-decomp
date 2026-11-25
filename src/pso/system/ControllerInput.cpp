@@ -677,7 +677,7 @@ void update_button_hold_counters(ControllerInputContext *pad) {
 
 }
 
-s32 TRaderMapCore::pack_color_bits(s32 input, s32 mask) {
+s32 TRaderMapCore::pack_color_bits(ControllerInputContext *pad, s32 mask) {
     s32 bits = mask | ((mask << 0x10) & 0xF00000);
     return bits | ((bits << 0x16) & 0x3C000000);
 }
@@ -697,7 +697,7 @@ s32 test_flags_04_packed(ControllerInputContext *pad, s32 mask) {
 }
 
 s32 test_controller_flag_4c_color(ControllerInputContext *pad, s32 mask) {
-    return (pad->pressed_with_sticks & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
+    return (pad->pressed_with_sticks & TRaderMapCore::pack_color_bits(pad, mask)) != 0;
 }
 
 s32 test_pressed_buttons_packed(void *pad, s32 mask) {
@@ -705,7 +705,7 @@ s32 test_pressed_buttons_packed(void *pad, s32 mask) {
 }
 
 s32 test_previous_buttons_color(ControllerInputContext *pad, s32 mask) {
-    return (pad->held_with_sticks & TRaderMapCore::pack_color_bits((saddr)pad, mask)) != 0;
+    return (pad->held_with_sticks & TRaderMapCore::pack_color_bits(pad, mask)) != 0;
 }
 
 s32 test_previous_buttons_remapped(ControllerInputContext *pad, s32 mask) {
@@ -719,7 +719,7 @@ s32 test_previous_buttons_packed(void *pad, s32 mask) {
 }
 
 s32 TAdMultiPlyChrSelectGC::dispatch_draw_command(ControllerInputContext *input, s32 buttons, s32 delay, s32 period) {
-    u32 mask = TRaderMapCore::pack_color_bits((saddr)input, buttons);
+    u32 mask = TRaderMapCore::pack_color_bits(input, buttons);
     return input_press_or_repeat(input, mask, delay, period);
 }
 
