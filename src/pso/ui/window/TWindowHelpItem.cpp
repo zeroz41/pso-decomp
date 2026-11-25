@@ -435,7 +435,7 @@ void TWindowHelpItem::show_weapon_requirements() {
             b->reset_float_field();
             d->reset_float_field();
             f->reset_float_field();
-            *(s32 *)(c + 0x20) = *(u16 *)(item + 0xE);
+            ((TWindowLayoutNumber *)c)->value = *(u16 *)(item + 0xE);
             return;
         }
         if (*(u16 *)(item + 0x10) != 0) {
@@ -443,7 +443,7 @@ void TWindowHelpItem::show_weapon_requirements() {
             b->reset_float_field();
             d->reset_float_field();
             f->reset_float_field();
-            *(s32 *)(c + 0x20) = *(u16 *)(item + 0x10);
+            ((TWindowLayoutNumber *)c)->value = *(u16 *)(item + 0x10);
             return;
         }
         if (*(u16 *)(item + 0x12) != 0) {
@@ -451,7 +451,7 @@ void TWindowHelpItem::show_weapon_requirements() {
             b->reset_float_field();
             d->reset_float_field();
             f->reset_float_field();
-            *(s32 *)(c + 0x20) = *(u16 *)(item + 0x12);
+            ((TWindowLayoutNumber *)c)->value = *(u16 *)(item + 0x12);
             return;
         }
         ((TWindowHelpItem *)a)->set_flag0_bit2();
@@ -499,7 +499,7 @@ void TWindowHelpItem::show_armor_requirements() {
             b->reset_float_field();
             d->reset_float_field();
             f->reset_float_field();
-            *(s32 *)(c + 0x20) = item[0x10] + 1;
+            ((TWindowLayoutNumber *)c)->value = item[0x10] + 1;
             return;
         }
         ((TWindowHelpItem *)a)->set_flag0_bit2();
@@ -564,7 +564,7 @@ void TWindowHelpItem::update_requirements() {
     s32 flags;
     PlayerRequirementStats st;
     TObjPlayer *pl;
-    u8 *entry;
+    TWindowLayoutNumber *entry;
     Pmt_80254CE4 *pmt;
     st.clear_fields();
     pl = get_player_by_client_id(client_index);
@@ -572,22 +572,22 @@ void TWindowHelpItem::update_requirements() {
         return;
     }
     update_stat_comparison();
-    entry = (u8 *)get_array_entry(10);
+    entry = (TWindowLayoutNumber *)get_array_entry(10);
     pmt = (Pmt_80254CE4 *)lookup_item_pmt_record((u8 *)active_item);
     if (check_equip_requirements(pl, active_item, &flags) == 0 && (flags & 1)) {
         return;
     }
     if (pmt->req_atp != 0) {
         if (build_player_equipment_requirement_stats(pl, &st) != 0) {
-            *(s32 *)(entry + 0x20) = st.atp;
+            entry->value = st.atp;
         }
     } else if (pmt->req_mst != 0) {
         if (build_player_equipment_requirement_stats(pl, &st) != 0) {
-            *(s32 *)(entry + 0x20) = st.mst;
+            entry->value = st.mst;
         }
     } else if (pmt->req_ata != 0) {
         if (build_player_equipment_requirement_stats(pl, &st) != 0) {
-            *(s32 *)(entry + 0x20) = st.ata;
+            entry->value = st.ata;
         }
     }
 }
@@ -610,7 +610,7 @@ void TWindowHelpItem::update_level_requirement() {
             } else {
 block_4:
                 if ((u8) *(u8 *)((s8 *)item_pmt_record + 0x10) != 0) {
-                    *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) (((TObjPlayer *)(player))->get_actor_level_index() + 1);
+                    ((TWindowLayoutNumber *)temp_r30)->value = (s32) (((TObjPlayer *)(player))->get_actor_level_index() + 1);
                 }
             }
         }
@@ -797,7 +797,7 @@ void TWindowHelpItem::show_armor_resistances() {
     temp_r31 = (get_array_entry(6));
     TWindowDuelResult::set_default_status(temp_r30, (saddr)TWindowSubStatusDisp::get_message_10(0xA1));
     ((TWindowHelpItem *)temp_r30)->reset_float_field();
-    *(s32 *)((s8 *)temp_r31 + 0x20) = active_item->data1.data_u8[5];
+    ((TWindowLayoutNumber *)temp_r31)->value = active_item->data1.data_u8[5];
 }
 
 void TWindowHelpItem::show_shield_resistances() {
