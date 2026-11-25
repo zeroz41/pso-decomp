@@ -11,9 +11,9 @@ public:
     virtual void render();
     virtual void run_task();
     virtual ~TObjContainerCommon();
-    virtual void vfunc_79() const;
-    virtual void vfunc_80();
-    virtual void vfunc_81();
+    virtual void spawn_break_effects() const;
+    virtual void update_state();
+    virtual void draw_model();
     virtual void debug_print_item_box_info();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_physical_attack(void *, f32);
@@ -30,7 +30,7 @@ public:
     f32 melee_range_sq; // 0x33C: squared reach tested by select_melee_contact_body (inferred name)
     CameraDistanceFade distance_fade;
     s32 random_item; // 0x360: debug_print_item_box_info prints "<- RANDOM ITEM" when set, "<- FIXED ITEM" otherwise
-    s32 in_view; // 0x364: set by render() when the view test passes, cleared by run_task() after vfunc_80 (inferred name)
+    s32 in_view; // 0x364: set by render() when the view test passes, cleared by run_task() after update_state (inferred name)
 };
 
 #endif

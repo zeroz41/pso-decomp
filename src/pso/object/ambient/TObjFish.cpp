@@ -42,71 +42,71 @@ s32 fish_area_event_stage;
 
 s32 TObjFish::update_state() {
     if ((s32) fish_area_event_stage == 0) {
-        switch (m_90) {
+        switch (school_state) {
         case 0:
             if (is_lobby_event_active() == 0) {
-                m_90 = 2;
-                this->m_92 = 0x28;
+                school_state = 2;
+                this->state_timer = 0x28;
             }
             goto Lend;
         case 2:
-            this->m_92 = (this->m_92 - 1);
-            if (this->m_92 <= 0) {
-                m_90 = 3;
+            this->state_timer = (this->state_timer - 1);
+            if (this->state_timer <= 0) {
+                school_state = 3;
             }
             goto Lend;
         case 3:
         default:
             if (is_lobby_event_active() != 0) {
-                m_90 = 0;
+                school_state = 0;
             }
         }
 Lend:
-        return (u8) (m_90 == 3);
+        return (u8) (school_state == 3);
     }
     return 1U;
 }
 
 #pragma push
-extern const char lbl_80465A48[] = "lobby_suisou_sakana01_yellow.gj";
-extern const char lbl_80465A68[] = "lobby_suisou_sakana02_red.gj";
-extern const char lbl_80465A88[] = "lobby_suisou_sakana03_bule.gj";
+extern const char fish_model_name_lobby_suisou_sakana01_yellow_gj[] = "lobby_suisou_sakana01_yellow.gj";
+extern const char fish_model_name_lobby_suisou_sakana02_red_gj[] = "lobby_suisou_sakana02_red.gj";
+extern const char fish_model_name_lobby_suisou_sakana03_bule_gj[] = "lobby_suisou_sakana03_bule.gj";
 extern const char fish_motion_name_lobby_suisou_sakana01_yellow_njm[] = "lobby_suisou_sakana01_yellow.njm";
 extern const char fish_motion_name_lobby_suisou_sakana02_red_njm[] = "lobby_suisou_sakana02_red.njm";
 extern const char fish_motion_name_lobby_suisou_sakana03_bule_njm[] = "lobby_suisou_sakana03_bule.njm";
 extern const char bm_sakana_obj_lobby_bml_filename[] = "bm_sakana_obj_lobby.bml";
-extern const char lbl_80465B24[] = "sakana_jungle21.gj";
-extern const char lbl_80465B38[] = "sakana_jungle22.gj";
-extern const char lbl_80465B4C[] = "sakana_jungle23.gj";
+extern const char fish_model_name_sakana_jungle21_gj[] = "sakana_jungle21.gj";
+extern const char fish_model_name_sakana_jungle22_gj[] = "sakana_jungle22.gj";
+extern const char fish_model_name_sakana_jungle23_gj[] = "sakana_jungle23.gj";
 extern const char fish_motion_name_sakana_jungle21_njm[] = "sakana_jungle21.njm";
 extern const char fish_motion_name_sakana_jungle22_njm[] = "sakana_jungle22.njm";
 extern const char fish_motion_name_sakana_jungle23_njm[] = "sakana_jungle23.njm";
 extern const char bm_sakana_obj_jungle2_bml_filename[] = "bm_sakana_obj_jungle2.bml";
-extern const char lbl_80465BB8[] = "sakana_jungle51.gj";
-extern const char lbl_80465BCC[] = "sakana_jungle52.gj";
-extern const char lbl_80465BE0[] = "sakana_jungle53.gj";
+extern const char fish_model_name_sakana_jungle51_gj[] = "sakana_jungle51.gj";
+extern const char fish_model_name_sakana_jungle52_gj[] = "sakana_jungle52.gj";
+extern const char fish_model_name_sakana_jungle53_gj[] = "sakana_jungle53.gj";
 extern const char fish_motion_name_sakana_jungle51_njm[] = "sakana_jungle51.njm";
 extern const char fish_motion_name_sakana_jungle52_njm[] = "sakana_jungle52.njm";
 extern const char fish_motion_name_sakana_jungle53_njm[] = "sakana_jungle53.njm";
 extern const char bm_sakana_obj_jungle5_bml_filename[] = "bm_sakana_obj_jungle5.bml";
-extern const char lbl_80465C4C[] = "sakana01_obj1.gj";
-extern const char lbl_80465C60[] = "sakana02_obj1.gj";
-extern const char lbl_80465C74[] = "sakana03_obj1.gj";
+extern const char fish_model_name_sakana01_obj1_gj[] = "sakana01_obj1.gj";
+extern const char fish_model_name_sakana02_obj1_gj[] = "sakana02_obj1.gj";
+extern const char fish_model_name_sakana03_obj1_gj[] = "sakana03_obj1.gj";
 extern const char fish_motion_name_sakana01_obj1_njm[] = "sakana01_obj1.njm";
 extern const char fish_motion_name_sakana02_obj1_njm[] = "sakana02_obj1.njm";
 extern const char fish_motion_name_sakana03_obj1_njm[] = "sakana03_obj1.njm";
 extern const char bm_sakana_obj_seabed1_bml_filename[] = "bm_sakana_obj_seabed1.bml";
-extern const char lbl_80465CE0[] = "sakana04_obj1.gj";
-extern const char lbl_80465CF4[] = "sakana05_obj1.gj";
-extern const char lbl_80465D08[] = "sakana06_obj1.gj";
+extern const char fish_model_name_sakana04_obj1_gj[] = "sakana04_obj1.gj";
+extern const char fish_model_name_sakana05_obj1_gj[] = "sakana05_obj1.gj";
+extern const char fish_model_name_sakana06_obj1_gj[] = "sakana06_obj1.gj";
 extern const char fish_motion_name_sakana04_obj1_njm[] = "sakana04_obj1.njm";
 extern const char fish_motion_name_sakana05_obj1_njm[] = "sakana05_obj1.njm";
 extern const char fish_motion_name_sakana06_obj1_njm[] = "sakana06_obj1.njm";
 extern const char bm_sakana_obj_seabed2_bml_filename[] = "bm_sakana_obj_seabed2.bml";
 
 // Per area stage and fish kind: animation frame step, then the motion's frame count.
-extern const f32 lbl_80465D74[5][3] = { { 1.0f, 1.0f, 1.0f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.0f, 0.0f, 0.0f } };
-extern const f32 lbl_80465DB0[5][3] = { { 30.0f, 30.0f, 30.0f }, { 5.0f, 20.0f, 30.0f }, { 5.0f, 5.0f, 5.0f }, { 30.0f, 30.0f, 30.0f }, { 30.0f, 30.0f, 30.0f } };
+extern const f32 fish_frame_step_table[5][3] = { { 1.0f, 1.0f, 1.0f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.0f, 0.0f, 0.0f } };
+extern const f32 fish_frame_count_table[5][3] = { { 30.0f, 30.0f, 30.0f }, { 5.0f, 20.0f, 30.0f }, { 5.0f, 5.0f, 5.0f }, { 30.0f, 30.0f, 30.0f }, { 30.0f, 30.0f, 30.0f } };
 extern const char fish_class_name_string[] = "TObjFish";
 #pragma pop
 
@@ -119,9 +119,9 @@ void TObjFish::render() {
 
     if (TMainTask::get_render_pass() != 1 &&
         update_object_view_visibility(400.0f, 200.0f) != 0 &&
-        m_a0 != NULL && update_state() != 0) {
-        f = m_a0;
-        n = (s32)m_94;
+        fish != NULL && update_state() != 0) {
+        f = fish;
+        n = (s32)fish_count;
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);
@@ -212,13 +212,13 @@ void TObjFish::run_task() {
     f32 best;
     s16 m;
 
-    if (m_a0 == NULL) {
+    if (fish == NULL) {
         return;
     }
-    n = m_94;
-    f = m_a0;
+    n = fish_count;
+    f = fish;
     while (n-- != 0) {
-        k = m_98 + n;
+        k = frame_counter + n;
         if (--f->timer <= 0) {
             f->timer = 0;
         }
@@ -318,20 +318,20 @@ void TObjFish::run_task() {
         }
         m = f->anim;
         if (m < 0 || m > 2) {
-            f->frame += lbl_80465D74[fish_area_event_stage][0];
-            if (f->frame >= lbl_80465DB0[fish_area_event_stage][0]) {
-                f->frame -= lbl_80465DB0[fish_area_event_stage][0];
+            f->frame += fish_frame_step_table[fish_area_event_stage][0];
+            if (f->frame >= fish_frame_count_table[fish_area_event_stage][0]) {
+                f->frame -= fish_frame_count_table[fish_area_event_stage][0];
             }
         } else {
-            f->frame += lbl_80465D74[fish_area_event_stage][m];
-            if (f->frame >= lbl_80465DB0[fish_area_event_stage][f->anim]) {
-                f->frame -= lbl_80465DB0[fish_area_event_stage][f->anim];
+            f->frame += fish_frame_step_table[fish_area_event_stage][m];
+            if (f->frame >= fish_frame_count_table[fish_area_event_stage][f->anim]) {
+                f->frame -= fish_frame_count_table[fish_area_event_stage][f->anim];
             }
         }
         f->seen = 0;
         f++;
     }
-    m_98++;
+    frame_counter++;
 }
 #pragma pop
 
@@ -344,20 +344,20 @@ s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
     s32 i;
 
     if (fish_area_event_stage == 0 && is_lobby_event_active() != 0) {
-        m_90 = 0;
+        school_state = 0;
     } else {
-        m_90 = 3;
+        school_state = 3;
     }
-    this->m_92 = 0;
-    if ((s32)m_94 < 1) {
+    this->state_timer = 0;
+    if ((s32)fish_count < 1) {
         return 0;
     }
-    m_a0 = (TObjFishEntry *)TQuestVmDownLoadServer::alloc((s32)m_94 * sizeof(TObjFishEntry));
-    if (m_a0 == NULL) {
+    fish = (TObjFishEntry *)TQuestVmDownLoadServer::alloc((s32)fish_count * sizeof(TObjFishEntry));
+    if (fish == NULL) {
         return 0;
     }
-    p = m_a0;
-    for (i = 0; i < (s32)m_94; i++) {
+    p = fish;
+    for (i = 0; i < (s32)fish_count; i++) {
         p->pos.x = 2.0f * (arg1->x * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
         p->pos.y = 2.0f * (arg1->y * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
         p->pos.z = 2.0f * (arg1->z * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
@@ -388,13 +388,13 @@ s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
 #pragma pop
 
 
-const char *lbl_805D3D58 = fish_class_name_string;
+const char *fish_class_name = fish_class_name_string;
 
 extern "C" {
 TObjFish::~TObjFish() {
-    if (m_a0 != NULL) {
-        safe_free(m_a0);
-        m_a0 = NULL;
+    if (fish != NULL) {
+        safe_free(fish);
+        fish = NULL;
     }
 }
 
@@ -412,8 +412,8 @@ TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     TObjFishSetData *data = (TObjFishSetData *)set_data;
     f32 y;
     f32 var_f1;
-    m_name = lbl_805D3D58;
-    m_a0 = NULL;
+    m_name = fish_class_name;
+    fish = NULL;
     VecCopy(&position, &data->position);
     copy_xyz(&rotation_x, data->rotation);
     VecCopy(&scale, &data->scale);
@@ -426,11 +426,11 @@ TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     if (var_f1 < y) {
         var_f1 = y;
     }
-    m_9c = var_f1;
-    m_94 = data->counts[0] + data->counts[1] + data->counts[2];
-    m_98 = 0;
-    if ((s32)m_94 < 1) {
-        m_94 = 1;
+    school_radius = var_f1;
+    fish_count = data->counts[0] + data->counts[1] + data->counts[2];
+    frame_counter = 0;
+    if ((s32)fish_count < 1) {
+        fish_count = 1;
     }
     if (init_fish_school(&scale, data->counts[0], data->counts[1]) == 0) {
         queue_destruction();
@@ -457,19 +457,19 @@ struct TObjFishAreaResource {
 };
 
 TObjFishAreaResource fish_resource_name_table[5] = {
-    { { lbl_80465A48, lbl_80465A68, lbl_80465A88, NULL },
+    { { fish_model_name_lobby_suisou_sakana01_yellow_gj, fish_model_name_lobby_suisou_sakana02_red_gj, fish_model_name_lobby_suisou_sakana03_bule_gj, NULL },
       { fish_motion_name_lobby_suisou_sakana01_yellow_njm, fish_motion_name_lobby_suisou_sakana02_red_njm, fish_motion_name_lobby_suisou_sakana03_bule_njm, NULL },
       { bm_sakana_obj_lobby_bml_filename, fish_resource_name_table[0].models, fish_resource_name_table[0].motions, 3, 3 } },
-    { { lbl_80465B24, lbl_80465B38, lbl_80465B4C, NULL },
+    { { fish_model_name_sakana_jungle21_gj, fish_model_name_sakana_jungle22_gj, fish_model_name_sakana_jungle23_gj, NULL },
       { fish_motion_name_sakana_jungle21_njm, fish_motion_name_sakana_jungle22_njm, fish_motion_name_sakana_jungle23_njm, NULL },
       { bm_sakana_obj_jungle2_bml_filename, fish_resource_name_table[1].models, fish_resource_name_table[1].motions, 3, 3 } },
-    { { lbl_80465BB8, lbl_80465BCC, lbl_80465BE0, NULL },
+    { { fish_model_name_sakana_jungle51_gj, fish_model_name_sakana_jungle52_gj, fish_model_name_sakana_jungle53_gj, NULL },
       { fish_motion_name_sakana_jungle51_njm, fish_motion_name_sakana_jungle52_njm, fish_motion_name_sakana_jungle53_njm, NULL },
       { bm_sakana_obj_jungle5_bml_filename, fish_resource_name_table[2].models, fish_resource_name_table[2].motions, 3, 3 } },
-    { { lbl_80465C4C, lbl_80465C60, lbl_80465C74, NULL },
+    { { fish_model_name_sakana01_obj1_gj, fish_model_name_sakana02_obj1_gj, fish_model_name_sakana03_obj1_gj, NULL },
       { fish_motion_name_sakana01_obj1_njm, fish_motion_name_sakana02_obj1_njm, fish_motion_name_sakana03_obj1_njm, NULL },
       { bm_sakana_obj_seabed1_bml_filename, fish_resource_name_table[3].models, fish_resource_name_table[3].motions, 3, 3 } },
-    { { lbl_80465CE0, lbl_80465CF4, lbl_80465D08, NULL },
+    { { fish_model_name_sakana04_obj1_gj, fish_model_name_sakana05_obj1_gj, fish_model_name_sakana06_obj1_gj, NULL },
       { fish_motion_name_sakana04_obj1_njm, fish_motion_name_sakana05_obj1_njm, fish_motion_name_sakana06_obj1_njm, NULL },
       { bm_sakana_obj_seabed2_bml_filename, fish_resource_name_table[4].models, fish_resource_name_table[4].motions, 3, 3 } },
 };

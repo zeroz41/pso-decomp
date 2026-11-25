@@ -27,7 +27,7 @@ public:
     TUnk_80494A10(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale);
     virtual ~TUnk_80494A10();
     virtual void run_task();
-    u8 m_C8[0x4];
+    f32 alpha;  // 0-1, fades the spot in once it is drawn
 };
 LAYOUT_ASSERT(TDeadSpot_size, sizeof(TDeadSpot) == 0xC8);
 LAYOUT_ASSERT(TUnk_80494A10_size, sizeof(TUnk_80494A10) == 0xCC);

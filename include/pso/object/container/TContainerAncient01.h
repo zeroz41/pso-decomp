@@ -21,13 +21,12 @@ struct TContainerAncient01 : public TObjChara {
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     u8 unk_334[0x4];
-    s16 m_338;
-    u8 unk_33A[0x2];
-    f32 m_33c;
+    f32 wait_limit;      // frames it waits for a player before it opens anyway (300 + scale.x - 1)
+    f32 active_limit;    // frames the open blast runs (210 + scale.y - 1)
     f32 range;
     Vec lower_effect_position;
     Vec upper_effect_position;
-    u32 m_35c;
+    s32 opened;          // 1 once it has opened
     Vec open_scale;
     void spawn_effect(const Vec *position, s32 effect_id);
     void reset_state();

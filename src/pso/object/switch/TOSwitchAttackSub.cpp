@@ -33,10 +33,10 @@ void TOSwitchAttackSub::run_task() {
     if (particle != 0 && (player = get_player_by_client_id(local_client_id)) != 0 && camera_ctrl_instance != NULL) {
         playerDistance = horizontal_distance_squared(&player->position, &camera_ctrl_instance->pos);
         if (2.0f * horizontal_distance_squared(&position, &camera_ctrl_instance->pos) < playerDistance) {
-            ((TParticleCtrl *)particle)->enable();
+            particle->enable();
             return;
         }
-        ((TParticleCtrl *)particle)->clear_active_flag();
+        particle->clear_active_flag();
     }
 }
 
@@ -67,9 +67,9 @@ TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 stop_switch, s32 requi
         particle = spawn_particle_effect_with_rotation(&position, &rotation, effect_ids[type], 0x40);
         if (particle != 0) {
             if ((s32)type == 10) {
-                ((TParticleCtrl *)particle)->set_scale(1.25f * scale, 1.25f * scale);
+                particle->set_scale(1.25f * scale, 1.25f * scale);
             } else {
-                ((TParticleCtrl *)particle)->set_scale(scale, scale);
+                particle->set_scale(scale, scale);
             }
         }
     }
@@ -85,25 +85,25 @@ extern s32 game_difficulty_selection;
 void TOSwitchAttack::init_params() {
     f32 x;
 
-    this->m_a7 = (u8) this->rotation_x;
+    this->effect_type = (u8) this->rotation_x;
     x = this->scale.x;
-    this->m_94 = (f32) (x * x);
-    *(f32 *)&this->unk_98 = (f32) (this->scale.y * (2.0f * (game_difficulty_selection + 1)));
-    *(f32 *)&this->unk_90 = (f32) this->scale.z;
-    if ((u8) this->m_a7 >= 0x15U) {
-        this->m_a7 = 0U;
+    this->range_sq = (f32) (x * x);
+    this->damage = (f32) (this->scale.y * (2.0f * (game_difficulty_selection + 1)));
+    this->size = (f32) this->scale.z;
+    if ((u8) this->effect_type >= 0x15U) {
+        this->effect_type = 0U;
     }
-    this->m_9c = 0;
-    this->m_a0 = (u16) this->set_params[0];
-    if ((u16) this->m_a0 >= 0x100U) {
-        this->m_a0 = 0xFFFFU;
+    this->fired = 0;
+    this->trigger_switch = (u16) this->set_params[0];
+    if ((u16) this->trigger_switch >= 0x100U) {
+        this->trigger_switch = 0xFFFFU;
     }
-    this->m_a2 = (u16) this->set_params[1];
-    if ((u16) this->m_a2 >= 0x100U) {
-        this->m_a2 = 0xFFFFU;
+    this->stop_switch = (u16) this->set_params[1];
+    if ((u16) this->stop_switch >= 0x100U) {
+        this->stop_switch = 0xFFFFU;
     }
-    this->m_a4 = (u16) this->set_params[2];
-    if ((u16) this->m_a4 > 1U) {
-        this->m_a4 = 1U;
+    this->repeatable = (u16) this->set_params[2];
+    if ((u16) this->repeatable > 1U) {
+        this->repeatable = 1U;
     }
 }

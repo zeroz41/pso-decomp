@@ -40,26 +40,6 @@ u8 *doa_ex01_alpha_model_node;
 u8 *doa_ex01_alpha_model_sibling;
 
 
-struct Obj_8018DA54 {
-    u8 pad[0x38];
-    f32 pos[3];
-    u8 pad44[0xAC - 0x44];
-    s32 state;
-    u8 padb0[0xD0 - 0xB0];
-    u32 flags;
-};
-
-struct Obj_8018DBCC {
-    u8 pad[0x38];
-    f32 pos[3];
-    u8 pad44[0xAC - 0x44];
-    s32 state;
-    u8 padb0[0xD0 - 0xB0];
-    u32 flags;
-    u8 padd4[0xD8 - 0xD4];
-    f32 xd8;
-};
-
 extern "C" {
 
 
@@ -67,20 +47,18 @@ extern "C" {
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TObjDoaEx01::update_closing() {
-    u8 *arg0 = (u8 *)this;
     this->animation_frame = (f32) (this->animation_frame - this->animation_step);
     if (this->animation_frame < 0.0f) {
         this->animation_frame = 0.0f;
         this->object_state = 0;
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
+        clear_player_status_flag(0, 8);
     }
 }
 #pragma pop
 
 void TObjDoaEx01::update_open() {
-    Obj_8018DA54 *self = (Obj_8018DA54 *)this;
-    if (self->flags & 1) {
-        if (((TObjMapObject *)self)->is_any_player_within_radius_xz((f32)1e+04f) == 0) {
+    if (door_flags & 1) {
+        if (is_any_player_within_radius_xz((f32)1e+04f) == 0) {
             this->object_state = 3;
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
@@ -123,11 +101,10 @@ void TObjDoaEx01::update_opening() {
     }
 }
 void TObjDoaEx01::update_closed() {
-    Obj_8018DBCC *self = (Obj_8018DBCC *)this;
-    if (self->flags & 1) {
-        if (((TObjMapObject *)self)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
+    if (door_flags & 1) {
+        if (is_any_player_within_radius_xz(4.9e+03f) == 1) {
             this->object_state = 1;
-            ((TObjCollidable *)self)->set_indexed_flags(0, 8);
+            set_indexed_flags(0, 8);
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
             case AREA_VR_TEMPLE_BETA:
@@ -142,15 +119,15 @@ void TObjDoaEx01::update_closed() {
                 break;
             }
         }
-    } else if (self->flags & 0x100000) {
-        self->xd8 += 0.1f;
-        if (1.0f <= self->xd8) {
-            self->flags &= ~0x100000;
+    } else if (door_flags & 0x100000) {
+        glow_phase += 0.1f;
+        if (1.0f <= glow_phase) {
+            door_flags &= ~0x100000;
         }
     } else {
-        self->xd8 -= 0.1f;
-        if (self->xd8 <= 0.0f) {
-            self->flags |= 0x100000;
+        glow_phase -= 0.1f;
+        if (glow_phase <= 0.0f) {
+            door_flags |= 0x100000;
         }
     }
 }
@@ -262,7 +239,7 @@ TObjDoaEx01::TObjDoaEx01(saddr parent, saddr set_data) : TODoorBase((TObject *)p
     this->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion(doa_ex01_resource_bundle, 0)) + 4);
     this->door_flags = 0x100001;
     *(f32 *)((s8 *)this + 0xD4) = 1.0f;
-    this->m_d8 = 1.0f;
+    this->glow_phase = 1.0f;
     *(f32 *)((s8 *)this + 0xDC) = 1.0f;
     this->m_e0 = 1.0f;
 }

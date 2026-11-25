@@ -7,10 +7,10 @@
 struct TObjContainerAbeEnemy : public TObjContainerCommon {
     TObjContainerAbeEnemy(TObject *parent, void *set_data);
     virtual ~TObjContainerAbeEnemy();
-    virtual void vfunc_79() const;
-    virtual void vfunc_81();
+    virtual void spawn_break_effects() const;
+    virtual void draw_model();
     virtual void debug_print_item_box_info();
-    virtual void vfunc_80();
+    virtual void update_state();
     virtual void vfunc_6(s16 *, s32);
     virtual f32 receive_physical_attack(void *, f32);
     static void *create(void *set_data);

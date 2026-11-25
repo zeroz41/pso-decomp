@@ -99,7 +99,7 @@ const char *lbl_805D2F10 = "TOContainerAncientEnemyRare";
 // archive (ancient_container_resource_bundle) by
 // TLanguage::load_container_fragment_textures. Both share one 8-aligned
 // .sbss block (0x805D58E8) that stays unclaimed until the bundle can be
-// defined here (see vfunc_79).
+// defined here (see spawn_break_effects).
 extern NJS_TEXLIST **ancient_container_fragment_texture_lists;
 
 static const TObjChipParams fish_break_debris_desc = {
@@ -245,7 +245,7 @@ TUnk_804B08BC::~TUnk_804B08BC() {
     free_collision_body_parts(this);
 }
 
-void TUnk_804B08BC::vfunc_80() {
+void TUnk_804B08BC::update_state() {
     switch (this->mode) {
     case 0:
         if (this->in_view != 0) {
@@ -255,7 +255,7 @@ void TUnk_804B08BC::vfunc_80() {
     }
 }
 
-void TUnk_804B08BC::vfunc_81() {
+void TUnk_804B08BC::draw_model() {
     NJS_OBJECT *obj;
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
@@ -289,7 +289,7 @@ void TUnk_804B08BC::vfunc_81() {
     }
 }
 
-void TUnk_804B08BC::vfunc_79() const {
+void TUnk_804B08BC::spawn_break_effects() const {
     if (this->mode == 1) {
         return;
     }
@@ -335,7 +335,7 @@ void *TOContainerAncientItemCommon::create(void *set_data) {
 void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
-            this->vfunc_79();
+            this->spawn_break_effects();
             request_configured_item_drop(this);
         }
         this->mode = 1;
@@ -355,7 +355,7 @@ TOContainerAncientItemRare::~TOContainerAncientItemRare() {
 void TOContainerAncientItemRare::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
-            this->vfunc_79();
+            this->spawn_break_effects();
             request_box_item_drop(&position, 1);
         }
         this->mode = 1;
@@ -378,7 +378,7 @@ void *TOContainerAncientItemNone::create(void *set_data) {
 void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
-            this->vfunc_79();
+            this->spawn_break_effects();
         }
         this->mode = 1;
         set_flag8();
@@ -404,7 +404,7 @@ TOContainerAncientEnemy::~TOContainerAncientEnemy() {
     free_collision_body_parts(this);
 }
 
-void TOContainerAncientEnemy::vfunc_80() {
+void TOContainerAncientEnemy::update_state() {
     switch (this->mode) {
     case 0:
         if (this->in_view != 0) {
@@ -414,7 +414,7 @@ void TOContainerAncientEnemy::vfunc_80() {
     }
 }
 
-void TOContainerAncientEnemy::vfunc_81() {
+void TOContainerAncientEnemy::draw_model() {
     NJS_OBJECT *obj;
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
@@ -472,7 +472,7 @@ f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
     return lbl_805DB39C;
 }
 
-void TOContainerAncientEnemy::vfunc_79() const {
+void TOContainerAncientEnemy::spawn_break_effects() const {
     if (this->mode != 1) {
         TObjChipParams a = ancient_enemy_break_debris_desc;
         a.pos.x = this->position.x;
@@ -503,7 +503,7 @@ void TOContainerAncientEnemy::vfunc_79() const {
 void TOContainerAncientEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
-            this->vfunc_79();
+            this->spawn_break_effects();
         }
         this->mode = 1;
         set_flag8();

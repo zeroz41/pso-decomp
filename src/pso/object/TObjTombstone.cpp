@@ -42,7 +42,7 @@
 #include "pso/player/PlayerSlots.h"
 #include <dolphin/base/PPCArch.h>
 
-struct Off_800753DC { s16 x, y; };
+struct LabelOffset { s16 x, y; };
 
 extern "C" {
 
@@ -51,7 +51,6 @@ u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
 const char *get_message_text(s32);
 void set_tombstone_position(s32 i, Vec *pos);
-void TObjTombstone__drop_recovery_items(TObjTombstone *self);
 }
 
 __declspec(section ".data") const char *re_b_mark_base_model_names[2] = { "re_b_mark_base.gj", NULL };
@@ -66,7 +65,7 @@ extern "C" {
 TObjTombstoneDropRates tombstone_base_matrix = { { 0.0f, 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f } };
 // Six template items: data 03 00 00/01/02 and 03 01 00/01/02 (inferred:
 // Monomate, Dimate, Trimate, Monofluid, Difluid, Trifluid), id 0xFFFFFFFF.
-TItemData lbl_8048D278[6] = {
+TItemData tombstone_recovery_item_templates[6] = {
     { { { 3, 0, 0, 0, 0, 1 } }, 0xFFFFFFFF, { { 0 } } },
     { { { 3, 0, 1, 0, 0, 1 } }, 0xFFFFFFFF, { { 0 } } },
     { { { 3, 0, 2, 0, 0, 1 } }, 0xFFFFFFFF, { { 0 } } },
@@ -74,7 +73,7 @@ TItemData lbl_8048D278[6] = {
     { { { 3, 1, 1, 0, 0, 1 } }, 0xFFFFFFFF, { { 0 } } },
     { { { 3, 1, 2, 0, 0, 1 } }, 0xFFFFFFFF, { { 0 } } },
 };
-Off_800753DC tombstone_name_label_offset_table[8] = {
+LabelOffset tombstone_name_label_offset_table[8] = {
     { 0, -2 }, { 2, -2 }, { 2, 0 }, { 2, 2 }, { 0, 2 }, { -2, 2 }, { -2, 0 }, { -2, -2 },
 };
 BmlResource *tombstone_shared_resource_object;
@@ -120,9 +119,9 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRec
     }
     setup(client, src);
     init_parts();
-    this->m_234 = 0;
+    this->items_dropped = 0;
     if (local_client_id != designated_client_id) {
-        this->m_234 = 1;
+        this->items_dropped = 1;
     }
 }
 
@@ -142,7 +141,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpo
     VecCopy(&record.position, &spot->position);
     setup(client, &record);
     reset_entries_and_format_name();
-    this->m_234 = 0;
+    this->items_dropped = 0;
 }
 
 void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
@@ -152,11 +151,11 @@ void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
     this->record = *src;
     VecCopy(&this->position, &this->record.position);
     this->rotation_y = this->client_id << 0xD;
-    this->m_b0 = 0.0f;
-    this->m_b4 = 0.0f;
-    this->m_b8 = 0.0f;
-    this->m_bc = 0.0f;
-    this->m_230 = 0;
+    this->local_distance = 0.0f;
+    this->label_fade = 0.0f;
+    this->outline_fade = 0.0f;
+    this->text_fade = 0.0f;
+    this->age = 0;
     set_tombstone_position(this->client_id, &this->position);
 }
 
@@ -168,23 +167,23 @@ void TObjTombstone::run_task() {
         queue_destruction();
         return;
     }
-    this->m_b0 = get_distance_to_local_player_xz();
+    this->local_distance = get_distance_to_local_player_xz();
     update_rise();
     if (is_player_nearby() != 0) {
-        TObjTombstone__drop_recovery_items(this);
+        drop_recovery_items();
     }
-    this->m_230 = this->m_230 + 1;
+    this->age = this->age + 1;
     tombstone_first_run_flag = 0;
 }
 
 void TObjTombstone::update_rise() {
-    if (is_other_tombstone_closer() == 0 && this->m_b0 < 50.0f) {
-        if ((this->m_b4 += 0.13333334f) > 1.0f) {
-            this->m_b4 = 1.0f;
+    if (is_other_tombstone_closer() == 0 && this->local_distance < 50.0f) {
+        if ((this->label_fade += 0.13333334f) > 1.0f) {
+            this->label_fade = 1.0f;
         }
     } else {
-        if ((this->m_b4 += -0.044444446f) < 0.0f) {
-            this->m_b4 = 0.0f;
+        if ((this->label_fade += -0.044444446f) < 0.0f) {
+            this->label_fade = 0.0f;
         }
     }
 }
@@ -195,10 +194,10 @@ s32 TObjTombstone::is_player_nearby() {
     f32 len;
     s32 i;
     TObjPlayer *player;
-    if (this->m_234 != 0) {
+    if (this->items_dropped != 0) {
         return 0;
     } else if (local_client_id != designated_client_id) {
-        this->m_234 = 1;
+        this->items_dropped = 1;
         return 0;
     }
     if (check_all_players_active() == 0) {
@@ -221,7 +220,7 @@ s32 TObjTombstone::is_player_nearby() {
 }
 
 // Drops recovery items around the tombstone, once.
-extern "C" void TObjTombstone__drop_recovery_items(TObjTombstone *self) {
+void TObjTombstone::drop_recovery_items() {
     s32 count;
     s32 players;
     s32 kind;
@@ -231,7 +230,7 @@ extern "C" void TObjTombstone__drop_recovery_items(TObjTombstone *self) {
     f32 sum;
     f32 *rate;
 
-    self->m_234 = 1;
+    items_dropped = 1;
     count = 0;
     roll = 0.000030517578f * rand();
     rate = tombstone_base_matrix.count;
@@ -265,16 +264,16 @@ extern "C" void TObjTombstone__drop_recovery_items(TObjTombstone *self) {
             sum += rate[1];
         }
         if (kind != -1) {
-            s32 angle = self->rotation_y - ((count - 1) * 0x2000) / 2;
-            TItemData item = lbl_8048D278[kind];
+            s32 angle = rotation_y - ((count - 1) * 0x2000) / 2;
+            TItemData item = tombstone_recovery_item_templates[kind];
             s32 dropped = 0;
             s32 step;
             for (step = 0; step < 0x10000; step += 0x2000) {
-                Vec pos = self->position;
+                Vec pos = position;
                 pos.x += 7.5f * cos_table_lookup(angle);
                 pos.z += 7.5f * sin_table_lookup(angle);
                 pos.y += 10.0f;
-                if (project_actor_to_ground((TObjChara *)self, &pos, 0) != 0) {
+                if (project_actor_to_ground((TObjChara *)this, &pos, 0) != 0) {
                     pos.y += 10.0f;
                     item.id = 0xFFFFFFFF;
                     drop_stacked_item(&item, local_client_id, &pos.x);
@@ -427,7 +426,7 @@ s32 TObjTombstone::check_height_ready() {
     if (TObjTombstone::check_all_players_active() == 0) {
         return 0;
     }
-    return (u32)__cntlzw(this->m_b0 > 500.0f) >> 5;
+    return (u32)__cntlzw(this->local_distance > 500.0f) >> 5;
 }
 
 s32 TObjTombstone::check_all_players_active() {
@@ -462,7 +461,7 @@ void TObjTombstone::update_render_flags() {
         }
         material = static_cast<NJS_OBJECT *>(model)->child->sibling->sibling;
         flags = &material->sibling->evalflags;
-        if (this->m_230 & 0x10) {
+        if (this->age & 0x10) {
             material->evalflags &= ~NJD_EVAL_HIDE;
             *flags |= NJD_EVAL_HIDE;
         } else {
@@ -487,7 +486,7 @@ void TObjTombstone::draw_name_labels() {
     f32 a;
     f32 b;
     u32 alpha;
-    if (0.0f == this->m_b4) return;
+    if (0.0f == this->label_fade) return;
     VecCopy(&pos, &this->position);
     pos.y += 14.0f;
     if (TObjTombstone::project_to_screen(this, &screen, &pos) == 0) return;
@@ -498,15 +497,15 @@ void TObjTombstone::draw_name_labels() {
     }
     m *= 0.5f;
     if (screen.x - m < 0.0f || screen.x + m > 640.0f) {
-        if ((this->m_b8 += -0.16666667f) < 0.0f) this->m_b8 = 0.0f;
-        if ((this->m_bc += -0.016666668f) < 0.0f) this->m_bc = 0.0f;
+        if ((this->outline_fade += -0.16666667f) < 0.0f) this->outline_fade = 0.0f;
+        if ((this->text_fade += -0.016666668f) < 0.0f) this->text_fade = 0.0f;
     } else {
-        if ((this->m_b8 += 0.16666667f) > 1.0f) this->m_b8 = 1.0f;
-        if ((this->m_bc += 0.16666667f) > 1.0f) this->m_bc = 1.0f;
+        if ((this->outline_fade += 0.16666667f) > 1.0f) this->outline_fade = 1.0f;
+        if ((this->text_fade += 0.16666667f) > 1.0f) this->text_fade = 1.0f;
     }
-    a = this->m_b4 * this->m_b8;
-    b = this->m_b4 * this->m_bc;
-    alpha = (s32)(40.0f * sin_table_lookup(this->m_230 << 8)) + 200;
+    a = this->label_fade * this->outline_fade;
+    b = this->label_fade * this->text_fade;
+    alpha = (s32)(40.0f * sin_table_lookup(this->age << 8)) + 200;
     c1 = (u32)(alpha * a) << 24;
     c2 = ((u32)(alpha * b) << 24) | 0xFFFFFF;
     for (s32 i = 0; i < 6; i++) {
@@ -518,7 +517,7 @@ void TObjTombstone::draw_name_labels() {
             if (a > 0.0f) {
                 s32 j;
                 for (j = 0; j < 8; j++) {
-                    Off_800753DC o = tombstone_name_label_offset_table[j];
+                    LabelOffset o = tombstone_name_label_offset_table[j];
                     draw_menu_font_string(name, c1, 1, p.x + o.x, p.y + o.y, 0.5f);
                 }
             }
@@ -537,11 +536,11 @@ void TObjTombstone::update_fade_by_distance() {
     if (player != NULL) {
         dist = xyz_distance(&player->position, &this->position);
         if (dist <= 40.0f) {
-            this->m_b4 = 1.0f;
+            this->label_fade = 1.0f;
         } else if (dist >= 50.0f) {
-            this->m_b4 = 0.0f;
+            this->label_fade = 0.0f;
         } else {
-            this->m_b4 = (50.0f - dist) / 10.0f;
+            this->label_fade = (50.0f - dist) / 10.0f;
         }
         draw_name_labels();
     }

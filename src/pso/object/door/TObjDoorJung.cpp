@@ -37,29 +37,19 @@ const char *door_jung_class_name = "TObjDoorJung";
 
 s32 door_jung_child_table[4];
 BmlResource *door_jung_resource_handle;
-NJS_TEXLIST *lbl_805D5BD4;
+NJS_TEXLIST *door_jung_texlist;
 s32 door_jung_child_list;
-s32 lbl_805D5BDC;
+s32 door_jung_scroll_tick;
 void *door_jung_door_scene_buffer;
-s32 lbl_805D5BE4;
-s32 lbl_805D5BE8;
-s32 lbl_805D5BEC;
-s32 lbl_805D5BF0;
+s32 door_jung_signal_red_texture;
+s32 door_jung_signal_blue_texture;
+s32 door_jung_beam_red_texture;
+s32 door_jung_beam_blue_texture;
 
 struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-/* Ninja object node of the door model: model pointer, transform, then child and sibling links. */
-struct Node_8018F4AC {
-    u32 eval_flags;
-    s32 model;
-    f32 position[3];
-    s32 angle[3];
-    f32 scale[3];
-    Node_8018F4AC *child;
-    Node_8018F4AC *sibling;
-};
 
 s32 free_collision_body_parts(void *);
 
@@ -77,30 +67,30 @@ void TObjDoorJung::free_buffers() {
 
 void load_door_jung_resources(void) {
     saddr handle;
-    Node_8018F4AC *model;
-    Node_8018F4AC *node;
+    NJS_OBJECT *model;
+    NJS_OBJECT *node;
     void *scene;
 
     handle = (saddr)new BmlResource(5, &bm_obj_beamdoa_resource_descriptor, 0, 0, NULL);
     door_jung_resource_handle = (BmlResource *)handle;
-    lbl_805D5BD4 = get_bml_texlist((BmlResource *)door_jung_resource_handle, 0);
-    model = (Node_8018F4AC *)get_bml_model((BmlResource *)door_jung_resource_handle, 1);
+    door_jung_texlist = get_bml_texlist((BmlResource *)door_jung_resource_handle, 0);
+    model = (NJS_OBJECT *)get_bml_model((BmlResource *)door_jung_resource_handle, 1);
     node = model->child;
-    door_jung_child_table[0] = node->model;
-    door_jung_child_table[1] = node->child->model;
-    door_jung_child_table[2] = node->child->child->model;
-    door_jung_child_table[3] = node->child->child->child->model;
-    door_jung_child_list = model->child->sibling->model;
-    lbl_805D5BDC = 0;
+    door_jung_child_table[0] = (s32)node->model;
+    door_jung_child_table[1] = (s32)node->child->model;
+    door_jung_child_table[2] = (s32)node->child->child->model;
+    door_jung_child_table[3] = (s32)node->child->child->child->model;
+    door_jung_child_list = (s32)model->child->sibling->model;
+    door_jung_scroll_tick = 0;
     const char *parts[4] = {"ts032_beamdoa_singo_aka", "ts032_beamdoa_singo_ao", "ts064_beamdoa_aka", "ts064_beamdoa_ao"};
-    lbl_805D5BE4 = find_texture_entry_by_name(lbl_805D5BD4, parts[0]);
-    lbl_805D5BE8 = find_texture_entry_by_name(lbl_805D5BD4, parts[1]);
-    lbl_805D5BEC = find_texture_entry_by_name(lbl_805D5BD4, parts[2]);
-    lbl_805D5BF0 = find_texture_entry_by_name(lbl_805D5BD4, parts[3]);
-    if (lbl_805D5BEC != -1) {
+    door_jung_signal_red_texture = find_texture_entry_by_name(door_jung_texlist, parts[0]);
+    door_jung_signal_blue_texture = find_texture_entry_by_name(door_jung_texlist, parts[1]);
+    door_jung_beam_red_texture = find_texture_entry_by_name(door_jung_texlist, parts[2]);
+    door_jung_beam_blue_texture = find_texture_entry_by_name(door_jung_texlist, parts[3]);
+    if (door_jung_beam_red_texture != -1) {
         scene = (void *)::operator new(0x14);
         if (scene != NULL) {
-            scene = ((TScene *)scene)->init_buffers((saddr)model->child->sibling, lbl_805D5BEC);
+            scene = ((TScene *)scene)->init_buffers((saddr)model->child->sibling, door_jung_beam_red_texture);
         }
         door_jung_door_scene_buffer = scene;
     } else {
@@ -124,40 +114,40 @@ void TObjDoorJung::render() {
 
     if (this->update_object_view_visibility(650.0f, 30.0f) != 0) {
         if (this->door_flags & 1) {
-            if (lbl_805D5BF0 >= 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_list), static_cast<u16>(lbl_805D5BF0));
+            if (door_jung_beam_blue_texture >= 0) {
+                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_list), static_cast<u16>(door_jung_beam_blue_texture));
             }
-        } else if (lbl_805D5BEC >= 0) {
-            set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_list), static_cast<u16>(lbl_805D5BEC));
+        } else if (door_jung_beam_red_texture >= 0) {
+            set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_list), static_cast<u16>(door_jung_beam_red_texture));
         }
-        if (actor_frame_tick != lbl_805D5BDC) {
+        if (actor_frame_tick != door_jung_scroll_tick) {
             if (door_jung_door_scene_buffer != NULL) {
                 ((TScene *)door_jung_door_scene_buffer)->offset_position(0, -0xA);
             }
-            lbl_805D5BDC = actor_frame_tick;
+            door_jung_scroll_tick = actor_frame_tick;
             PPCSync();
         }
         for (i = 0; i < this->active_light_count; i++) {
             if (is_current_floor_switch_set((u16)(this->switch_id + i)) == 1) {
-                if (lbl_805D5BE8 >= 0) {
-                    set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[i]), static_cast<u16>(lbl_805D5BE8));
+                if (door_jung_signal_blue_texture >= 0) {
+                    set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[i]), static_cast<u16>(door_jung_signal_blue_texture));
                 }
-            } else if (lbl_805D5BE4 >= 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[i]), static_cast<u16>(lbl_805D5BE4));
+            } else if (door_jung_signal_red_texture >= 0) {
+                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[i]), static_cast<u16>(door_jung_signal_red_texture));
             }
         }
         for (j = this->active_light_count; j < 4; j++) {
-            if (lbl_805D5BE8 >= 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[j]), static_cast<u16>(lbl_805D5BE8));
+            if (door_jung_signal_blue_texture >= 0) {
+                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[j]), static_cast<u16>(door_jung_signal_blue_texture));
             }
         }
-        TObjFish::set_global_param(lbl_805D5BD4);
+        TObjFish::set_global_param(door_jung_texlist);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((Node_8018F4AC *)get_bml_model((BmlResource *)door_jung_resource_handle, 0));
+        draw_ginja_object((NJS_OBJECT *)get_bml_model((BmlResource *)door_jung_resource_handle, 0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object((Node_8018F4AC *)get_bml_model((BmlResource *)door_jung_resource_handle, 1));
+        draw_ginja_object((NJS_OBJECT *)get_bml_model((BmlResource *)door_jung_resource_handle, 1));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

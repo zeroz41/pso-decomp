@@ -8,7 +8,7 @@ struct NJS_TEXLIST;
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 
-// One fish of a school (0x44 bytes; init_fish_school allocates m_94 of them at m_a0).
+// One fish of a school (0x44 bytes; init_fish_school allocates fish_count of them at fish).
 struct TObjFishEntry {
     Vec pos;         // relative to the school's position
     Vec target;
@@ -31,12 +31,12 @@ struct TObjFish : public TObjBase {
     s32 update_state();
     virtual void render();
     virtual void run_task();
-    s16 m_90;
-    s16 m_92;
-    u32 m_94;              // fish count
-    u32 m_98;              // frame counter
-    f32 m_9c;
-    TObjFishEntry *m_a0;   // the fish
+    s16 school_state;
+    s16 state_timer;
+    u32 fish_count;              // fish count
+    u32 frame_counter;              // frame counter
+    f32 school_radius;     // the larger of scale.x and scale.y
+    TObjFishEntry *fish;   // the fish
     static void reset_fish_globals();
     static void free_resource();
     static void load_area_resource();

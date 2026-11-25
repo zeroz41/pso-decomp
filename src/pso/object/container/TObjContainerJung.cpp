@@ -160,7 +160,7 @@ TObjContainerJung::~TObjContainerJung() {
     free_collision_body_parts(this);
 }
 
-void TObjContainerJung::vfunc_80() {
+void TObjContainerJung::update_state() {
 
     switch (this->mode) {
     case 0:
@@ -172,7 +172,7 @@ void TObjContainerJung::vfunc_80() {
     }
 }
 
-void TObjContainerJung::vfunc_81() {
+void TObjContainerJung::draw_model() {
     if (jungle_container_archive != NULL) {
         switch (this->mode) {
         case 0:
@@ -197,7 +197,7 @@ void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
-            this->vfunc_79();
+            this->spawn_break_effects();
             request_box_item_drop(&position, 1);
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
@@ -214,7 +214,7 @@ void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
 
 #pragma push
 #pragma opt_propagation off
-void TObjContainerJung::vfunc_79() const {
+void TObjContainerJung::spawn_break_effects() const {
     if (mode != 1) {
         TObjChipParams a = container_jung_debris_desc;
         f32 pz;
@@ -294,7 +294,7 @@ TObjContainerJungEx::~TObjContainerJungEx() {
     free_collision_body_parts(this);
 }
 
-void TObjContainerJungEx::vfunc_80() {
+void TObjContainerJungEx::update_state() {
 
     switch (this->mode) {
     case 0:
@@ -306,7 +306,7 @@ void TObjContainerJungEx::vfunc_80() {
     }
 }
 
-void TObjContainerJungEx::vfunc_81() {
+void TObjContainerJungEx::draw_model() {
 
     switch (this->mode) {
     case 0:
@@ -329,7 +329,7 @@ void TObjContainerJungEx::vfunc_6(s16 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
-            this->vfunc_79();
+            this->spawn_break_effects();
             request_configured_item_drop(this);
             ((TObjCollidable *)arg0)->set_flag8();
             ((TObject *)arg0)->queue_destruction();
@@ -344,7 +344,7 @@ void TObjContainerJungEx::vfunc_6(s16 *arg1, s32 arg2) {
 
 #pragma push
 #pragma opt_propagation off
-void TObjContainerJungEx::vfunc_79() const {
+void TObjContainerJungEx::spawn_break_effects() const {
     TObjChipParams a = container_jung_ex_spawn_params_a;
     f32 pz;
     f32 py;
@@ -434,7 +434,7 @@ void TObjContainerJungEnemy::load_models() {
     }
 }
 
-void TObjContainerJungEnemy::vfunc_80() {
+void TObjContainerJungEnemy::update_state() {
 
     switch (this->mode) {
     case 0:
@@ -446,7 +446,7 @@ void TObjContainerJungEnemy::vfunc_80() {
     }
 }
 
-void TObjContainerJungEnemy::vfunc_81() {
+void TObjContainerJungEnemy::draw_model() {
 
     switch (this->mode) {
     case 0:
@@ -493,7 +493,7 @@ f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
 
 #pragma push
 #pragma opt_propagation off
-void TObjContainerJungEnemy::vfunc_79() const {
+void TObjContainerJungEnemy::spawn_break_effects() const {
     if (mode != 1) {
         TObjChipParams a = container_jung_enemy_spawn_params_a;
         f32 za;
@@ -534,7 +534,7 @@ void TObjContainerJungEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
-            ((TObjContainerJungEnemy *)arg0)->vfunc_79();
+            ((TObjContainerJungEnemy *)arg0)->spawn_break_effects();
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
             ((TObject *)arg0)->queue_destruction();

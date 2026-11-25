@@ -212,24 +212,24 @@ void TObjPathObj::draw_line_strip(NJS_OBJECT *node, AnimationMotion *motion, f32
 #pragma push
 #pragma fp_contract on
 TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
-  s32 var_r0;
-  s32 temp_r3;
+  s32 clamped_profile;
+  s32 raw_profile;
   model = get_bml_model(seabed_dolphin_bml_archive, 0);
   motion = get_bml_motion(seabed_dolphin_bml_archive, 5);
-  temp_r3 = set_params[0];
-  if (temp_r3 < 0)
+  raw_profile = set_params[0];
+  if (raw_profile < 0)
   {
-    var_r0 = 0;
+    clamped_profile = 0;
   }
   else
   {
-    var_r0 = 4;
-    if (temp_r3 <= 4)
+    clamped_profile = 4;
+    if (raw_profile <= 4)
     {
-      var_r0 = temp_r3;
+      clamped_profile = raw_profile;
     }
   }
-  profile = var_r0;
+  profile = clamped_profile;
   path = get_bml_motion(seabed_dolphin_bml_archive, seabed_dolphin_path_profiles[profile].a);
   path_frame = 0.0f;
   motion_frame = 0.0f;
@@ -381,24 +381,24 @@ void *TObjSeabedDolphin::create(void *set_data) {
 #pragma push
 #pragma fp_contract on
 TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
-  s32 var_r0;
-  s32 temp_r3;
+  s32 clamped_profile;
+  s32 raw_profile;
   model = get_bml_model(jungle_ebi_model_resource, 0);
   motion = get_bml_motion(jungle_ebi_model_resource, 0);
-  temp_r3 = set_params[0];
-  if (temp_r3 < 0)
+  raw_profile = set_params[0];
+  if (raw_profile < 0)
   {
-    var_r0 = 0;
+    clamped_profile = 0;
   }
   else
   {
-    var_r0 = 2;
-    if (temp_r3 <= 2)
+    clamped_profile = 2;
+    if (raw_profile <= 2)
     {
-      var_r0 = temp_r3;
+      clamped_profile = raw_profile;
     }
   }
-  profile = var_r0;
+  profile = clamped_profile;
   path = get_bml_motion(jungle_ebi_model_resource, jungle_ebi_path_profiles[profile].a);
   path_frame = 0.0f;
   motion_frame = 0.0f;
@@ -556,24 +556,24 @@ void *TObjJungleEbi::create(void *set_data) {
 }
 
 TObjJungleBird::TObjJungleBird(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
-  s32 var_r0;
-  s32 temp_r3;
+  s32 clamped_profile;
+  s32 raw_profile;
   model = get_bml_model(jungle_bird_bml_resource, 0);
   motion = get_bml_motion(jungle_bird_bml_resource, 0);
-  temp_r3 = set_params[0];
-  if (temp_r3 < 0)
+  raw_profile = set_params[0];
+  if (raw_profile < 0)
   {
-    var_r0 = 0;
+    clamped_profile = 0;
   }
   else
   {
-    var_r0 = 2;
-    if (temp_r3 <= 2)
+    clamped_profile = 2;
+    if (raw_profile <= 2)
     {
-      var_r0 = temp_r3;
+      clamped_profile = raw_profile;
     }
   }
-  profile = var_r0;
+  profile = clamped_profile;
   path = get_bml_motion(jungle_bird_bml_resource, lobby_pigeon_path_parameters[profile].a);
   path_frame = 0.0f;
   motion_frame = 0.0f;
@@ -718,14 +718,14 @@ void *TObjJungleBird::create(void *set_data) {
 #pragma push
 #pragma fp_contract on
 TObjJungleKamome::TObjJungleKamome(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
-    s32 temp_r3;
-    s32 var_r0;
+    s32 raw_profile;
+    s32 clamped_profile;
 
     model = get_bml_model(lobby_kamome_model_resource, 0);
     motion = get_bml_motion(lobby_kamome_model_resource, 0);
-    temp_r3 = set_params[0];
-    var_r0 = (temp_r3 < 0) ? 0 : (temp_r3 > 2) ? 2 : temp_r3;
-    profile = var_r0;
+    raw_profile = set_params[0];
+    clamped_profile = (raw_profile < 0) ? 0 : (raw_profile > 2) ? 2 : raw_profile;
+    profile = clamped_profile;
     path = get_bml_motion(lobby_kamome_model_resource, jungle_seagull_path_profiles[profile].a);
     path_frame = 0.0f;
     motion_frame = 0.0f;

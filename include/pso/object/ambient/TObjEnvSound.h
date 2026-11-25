@@ -7,10 +7,10 @@
 struct TObjEnvSound : public TObjBase {
     TObjEnvSound(TObject *parent, void *arg2);
     virtual ~TObjEnvSound();
-    u8 unk_90[0x4];
-    u32 m_94;
-    u32 m_98;
-    u32 m_9c;
+    f32 radius;        // scale.z, or 200 when that is not positive
+    s32 attenuation;   // set_params[1] clamped to -127..127
+    u32 cue;           // the sound cue of the area's table row
+    s32 mode;          // the row's mode: 1 plays once in range, 2 keeps playing with the attenuation
     virtual void render();
     virtual void run_task();
     static s32 is_sound_enabled(void *self, s32 cue);

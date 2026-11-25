@@ -46,15 +46,15 @@ extern SetEntry_80157454 *quest_object_entries;
 void TOAttackableCol__sub_80157310(void * _w0) {  }
 
 void TOAttackableCol::init_params() {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r0_3;
+    s32 hits;
+    s32 switch_value;
+    s32 done_value;
 
     this->hits_left = (this->set_params[0] + 1);
-    temp_r0 = this->hits_left;
-    if (temp_r0 < 1) {
+    hits = this->hits_left;
+    if (hits < 1) {
         this->hits_left = 1;
-    } else if (temp_r0 > 0x100) {
+    } else if (hits > 0x100) {
         this->hits_left = 0x100;
     }
     this->script_kind = (s32) *(s32 *)&this->set_params[1];
@@ -66,8 +66,8 @@ void TOAttackableCol::init_params() {
         this->label = 0;
     }
     this->required_switch = (s32) this->scale.x;
-    temp_r0_2 = this->required_switch;
-    if ((temp_r0_2 < 0) || (temp_r0_2 >= 0x100)) {
+    switch_value = this->required_switch;
+    if ((switch_value < 0) || (switch_value >= 0x100)) {
         this->required_switch = -1;
     }
     if (this->scale.y < 0.0f) {
@@ -77,8 +77,8 @@ void TOAttackableCol::init_params() {
     }
     if ((s32) this->label == 0) {
         this->done_switch = (s32) this->scale.z;
-        temp_r0_3 = this->done_switch;
-        if ((temp_r0_3 < 0) || (temp_r0_3 >= 0x100)) {
+        done_value = this->done_switch;
+        if ((done_value < 0) || (done_value >= 0x100)) {
             this->done_switch = -1;
         }
     } else {
