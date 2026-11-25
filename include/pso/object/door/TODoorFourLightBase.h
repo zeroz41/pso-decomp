@@ -29,7 +29,7 @@ struct TODoorFourLightBase : public TODoorBase {
 
     void clamp_light_index();
     void render_lights();
-    void draw_node_tree(u8 *arg1);
+    void draw_node_tree(u8 *node_data);
 };
 
 LAYOUT_ASSERT(TODoorFourLightBase_size, sizeof(TODoorFourLightBase) == 0xFC);
