@@ -35,7 +35,7 @@ void TLobby__sub_801469B8(void* p);
 void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);
 s32 dns_term();
-saddr lobby_local_ip_addr;
+s32 lobby_local_ip_addr;
 s32 lobby_dns_server_addr;
 s32 lobby_dns_server_addr2;
 s32 lobby_gateway_addr;

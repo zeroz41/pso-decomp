@@ -5,12 +5,13 @@
 
 // First function of the ntInf library: it publishes the library's version
 // string ("ntInf Ver 1.17.00 Build:Jul  9 2002").
+// 32-byte aligned like the other ntInf globals.
+u32 lobby_net_config_mode __attribute__((aligned(32)));
+
 extern "C" {
 extern const char *ntinf_version_ref;
 char lbl_804FCE38[] = "\nntInf Ver 1.17.00 Build:Jul  9 2002 09:41:44\n";
 extern const char *const lbl_805E10F8 = lbl_804FCE38;
-// 32-byte aligned like the other ntInf globals (0x805D7980, 0x805D79A0, 0x805D79C0, 0x805D79E0).
-u32 lobby_net_config_mode __attribute__((aligned(32)));
 // inferred: a second copy of the mode argument; only this function writes it, nothing reads it
 s32 lbl_805D7984;
 extern s32 lobby_net_config_load_state;

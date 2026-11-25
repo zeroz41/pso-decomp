@@ -196,6 +196,7 @@ void BmlResource::set_flag_and_notify() {
         on_loaded(callback_context);
     }
 }
+}
 
 s32 LoadBmlExec(BmlResource *bml, const char *name) {
     s32 n;
@@ -424,6 +425,7 @@ void TLobby::init_download_buffers() {
     tmp_buf_name[0] = 0;
 }
 
+extern "C" {
 void check_bin_model_loaded__6TLobbyFPvPv(BmlResource *resource, void *) {
     if (resource->model_count <= resource->loaded_models &&
         resource->motion_count <= resource->loaded_motions &&
