@@ -1179,8 +1179,6 @@ pso/ui/window/TWindowMessageQuest.cpp
 pso/ui/window/TWindowMessageScroll.cpp
 pso/ui/window/TWindowMessageYesNo.cpp
 pso/ui/window/TWindowOptionCtrl.cpp
-pso/ui/window/TWindowOptionCtrl_80248940.cpp
-pso/ui/window/TWindowOptionCtrl_80248AA8.cpp
 pso/ui/window/TWindowOptionCtrl_8026CBA4.cpp
 pso/ui/window/TWindowOptionCtrl_8034C384.cpp
 pso/ui/window/TWindowPartyStatus.cpp
@@ -1247,9 +1245,6 @@ pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp
 pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp
 pso/ui/window/TWindowSubStatusDisp_80228C30.cpp
 pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp
-pso/ui/window/TWindowSubStatusDisp_80248968.cpp
-pso/ui/window/TWindowSubStatusDisp_80248ADC.cpp
-pso/ui/window/TWindowSubStatusDisp_80248BE8.cpp
 pso/ui/window/PageIndicator.cpp
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp
 pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp
@@ -1693,7 +1688,6 @@ pso/ui/TTitleMenu.cpp
 pso/ui/frontend/TAdTrialModemChkGC.cpp
 pso/ui/frontend/TAdTrialModemChkGC_8042E9FC.cpp
 pso/ui/frontend/TAdVIConfigGC.cpp
-pso/ui/frontend/TAdVIConfigGC_80248B8C.cpp
 pso/ui/frontend/TAdVIConfigGC_80308200.cpp
 pso/ui/frontend/TAdWarningBaseGC.cpp
 pso/ui/frontend/TAdYesNoBaseGC.cpp
@@ -1799,8 +1793,6 @@ pso/unk/text_8023DCB8.cpp
 pso/unk/text_8023F660.cpp
 pso/unk/text_802432F0.cpp
 pso/ui/window/TWindowAddition_80244238.cpp
-pso/unk/text_80248994.cpp
-pso/ui/city/THunterGuildSeqOffline_80248A14.cpp
 pso/ui/window/TWindowChoiceSetting_80249078.cpp
 pso/ui/window/TWindowHelpItem_802530D0.cpp
 pso/ui/window/TWindowHelpItem_80253154.cpp

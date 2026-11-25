@@ -5990,36 +5990,11 @@ pso/ui/chat/TSymbolChatMenu.cpp:
 	.data       start:0x804CE7D0 end:0x804CE7E8
 	.sdata2     start:0x805DCBA0 end:0x805DCBA8
 
-pso/ui/window/TWindowOptionCtrl_80248940.cpp:
-	.text       start:0x80248940 end:0x80248968
-
-pso/ui/window/TWindowSubStatusDisp_80248968.cpp:
-	.text       start:0x80248968 end:0x80248994
-
-pso/unk/text_80248994.cpp:
-	.text       start:0x80248994 end:0x80248A14
-
-pso/ui/city/THunterGuildSeqOffline_80248A14.cpp:
-	.text       start:0x80248A14 end:0x80248AA8
-
-pso/ui/window/TWindowOptionCtrl_80248AA8.cpp:
-	.text       start:0x80248AA8 end:0x80248ADC
-
-pso/ui/window/TWindowSubStatusDisp_80248ADC.cpp:
-	.text       start:0x80248ADC end:0x80248B7C
-
 pso/ui/window/TWindowCheckBox.cpp:
-	.text       start:0x80248B7C end:0x80248B8C
-	.rodata     start:0x8044EAD8 end:0x8044EAE8
-	.sdata      start:0x805D38B0 end:0x805D38B8
-
-pso/ui/frontend/TAdVIConfigGC_80248B8C.cpp:
-	.text       start:0x80248B8C end:0x80248BE8
-
-pso/ui/window/TWindowSubStatusDisp_80248BE8.cpp:
-	.text       start:0x80248BE8 end:0x80249078
-	.rodata     start:0x8044EAE8 end:0x8044EAF0
+	.text       start:0x80248940 end:0x80249078
+	.rodata     start:0x8044EAD8 end:0x8044EAF0
 	.data       start:0x804CE7E8 end:0x804CE804
+	.sdata      start:0x805D38B0 end:0x805D38B8
 	.sdata2     start:0x805DCBA8 end:0x805DCBAC
 
 pso/ui/window/TWindowChoiceSetting_80249078.cpp:
