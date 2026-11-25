@@ -863,7 +863,7 @@ void TWindowFukidasi::refresh_rect_placement() {
             if (res != d && rest_balloon(d, c) != 0) {
                 res = c;
             }
-            if (res == NULL && sub_802505C0(target_position, e) != 0) {
+            if (res == NULL && try_random_placement(target_position, e) != 0) {
                 res = e;
             }
         }
@@ -1011,7 +1011,7 @@ s32 TWindowFukidasi::try_place_bubble(f32 *rect, f32 *o) {
 }
 
 #pragma pop
-s32 TWindowFukidasi::sub_802505C0(f32 *rect, f32 *out) {
+s32 TWindowFukidasi::try_random_placement(f32 *rect, f32 *out) {
     f32 x = TWindowCtrlMain::get_position_z(client_index);
     f32 w = (TWindowCtrlMain::get_ctrl_field14(client_index) - TWindowCtrlMain::get_position_z(client_index)) - target_size[0];
     f32 y;
@@ -1054,7 +1054,7 @@ void TWindowFukidasi::place_rect_at_head_or_slot() {
 #pragma pop
 // Dead-stripped from the DOL: no code of it survives, only its literals (1000, 0.5
 // and 19 at 0x805DCD08-0x805DCD13 and 10430.38 at 0x8044ED70), pooled between
-// approach's 0.011 and sub_802505C0's 2^-15. It aims from the
+// approach's 0.011 and try_random_placement's 2^-15. It aims from the
 // middle of the 19-unit name plate draw_name_plate puts on the balloon's top edge at
 // the tail tip draw_tail places 1000/distance short of the speaker, with the
 // same atan2 scale. Name inferred from that role.

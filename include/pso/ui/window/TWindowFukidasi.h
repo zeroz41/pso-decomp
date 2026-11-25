@@ -61,7 +61,7 @@ public:
     s32 shift_rect_with_head(f32 *rect, f32 *out);
     s32 rest_balloon(f32 *rect, f32 *out);
     s32 try_place_bubble(f32 *rect, f32 *out);
-    s32 sub_802505C0(f32 *rect, f32 *out);
+    s32 try_random_placement(f32 *rect, f32 *out); // random spot in the client view; true when draw_resolved_window returns NULL there
     void clamp_text_size(f32 *out);
     s32 is_speech_balloon_ready();
     void complete_speech_balloon();
