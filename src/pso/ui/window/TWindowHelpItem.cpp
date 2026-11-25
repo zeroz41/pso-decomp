@@ -620,12 +620,12 @@ block_4:
 void TWindowHelpItem::update_stat_comparison() {
     s32 flags;
     PlayerRequirementStats st;
-    saddr e0;
-    saddr e3;
-    saddr e1;
-    saddr e4;
-    saddr e2;
-    saddr e5;
+    TUnk_804CF9F8 *e0;
+    TUnk_804CF9F8 *e3;
+    TUnk_804CF9F8 *e1;
+    TUnk_804CF9F8 *e4;
+    TUnk_804CF9F8 *e2;
+    TUnk_804CF9F8 *e5;
     Quest_802549B0 *q;
     TObjPlayer *pl;
     st.clear_fields();
@@ -637,18 +637,18 @@ void TWindowHelpItem::update_stat_comparison() {
     if (q == NULL) {
         return;
     }
-    e0 = reinterpret_cast<saddr>(get_array_entry(0));
-    e3 = reinterpret_cast<saddr>(get_array_entry(3));
-    e1 = reinterpret_cast<saddr>(get_array_entry(1));
-    e4 = reinterpret_cast<saddr>(get_array_entry(4));
-    e2 = reinterpret_cast<saddr>(get_array_entry(2));
-    e5 = reinterpret_cast<saddr>(get_array_entry(5));
-    ((TUnk_804CF9F8 *)e0)->set_value(pl->get_atp() + pl->get_actor_attack_params_atp_min() + pl->get_atp_range());
-    ((TUnk_804CF9F8 *)e3)->set_value(pl->get_ata());
-    ((TUnk_804CF9F8 *)e1)->set_value(pl->get_dfp());
-    ((TUnk_804CF9F8 *)e4)->set_value(pl->get_evp());
-    ((TUnk_804CF9F8 *)e2)->set_value(q->f2);
-    ((TUnk_804CF9F8 *)e5)->set_value(q->fc);
+    e0 = (TUnk_804CF9F8 *)get_array_entry(0);
+    e3 = (TUnk_804CF9F8 *)get_array_entry(3);
+    e1 = (TUnk_804CF9F8 *)get_array_entry(1);
+    e4 = (TUnk_804CF9F8 *)get_array_entry(4);
+    e2 = (TUnk_804CF9F8 *)get_array_entry(2);
+    e5 = (TUnk_804CF9F8 *)get_array_entry(5);
+    e0->set_value(pl->get_atp() + pl->get_actor_attack_params_atp_min() + pl->get_atp_range());
+    e3->set_value(pl->get_ata());
+    e1->set_value(pl->get_dfp());
+    e4->set_value(pl->get_evp());
+    e2->set_value(q->f2);
+    e5->set_value(q->fc);
     if (displayed_item_data == 0) {
         return;
     }
@@ -657,26 +657,26 @@ void TWindowHelpItem::update_stat_comparison() {
     } else {
         pl->preview_equip_stats(&st, (u8 *)displayed_item_data);
     }
-    ((TUnk_804CF9F8 *)e0)->set_compare_value(st.atp);
-    ((TUnk_804CF9F8 *)e3)->set_compare_value(st.ata);
-    ((TUnk_804CF9F8 *)e1)->set_compare_value(st.dfp);
-    ((TUnk_804CF9F8 *)e4)->set_compare_value(st.evp);
-    ((TUnk_804CF9F8 *)e2)->set_compare_value(st.mst);
-    ((TUnk_804CF9F8 *)e5)->set_compare_value(st.lck);
+    e0->set_compare_value(st.atp);
+    e3->set_compare_value(st.ata);
+    e1->set_compare_value(st.dfp);
+    e4->set_compare_value(st.evp);
+    e2->set_compare_value(st.mst);
+    e5->set_compare_value(st.lck);
     if (check_equip_requirements(pl, (TItemData *)displayed_item_data, &flags) != 0) {
-        ((TUnk_804CF9F8 *)e0)->set_flag_0x10(1);
-        ((TUnk_804CF9F8 *)e3)->set_flag_0x10(1);
-        ((TUnk_804CF9F8 *)e1)->set_flag_0x10(1);
-        ((TUnk_804CF9F8 *)e4)->set_flag_0x10(1);
-        ((TUnk_804CF9F8 *)e2)->set_flag_0x10(1);
-        ((TUnk_804CF9F8 *)e5)->set_flag_0x10(1);
+        e0->set_flag_0x10(1);
+        e3->set_flag_0x10(1);
+        e1->set_flag_0x10(1);
+        e4->set_flag_0x10(1);
+        e2->set_flag_0x10(1);
+        e5->set_flag_0x10(1);
     } else {
-        ((TUnk_804CF9F8 *)e0)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)e3)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)e1)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)e4)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)e2)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)e5)->set_flag_0x10(0);
+        e0->set_flag_0x10(0);
+        e3->set_flag_0x10(0);
+        e1->set_flag_0x10(0);
+        e4->set_flag_0x10(0);
+        e2->set_flag_0x10(0);
+        e5->set_flag_0x10(0);
     }
 }
 
@@ -724,28 +724,28 @@ void TWindowHelpItem::show_weapon_attributes() {
 
 void TWindowHelpItem::update_stat_disp2() {
     s32 requirement;
-    saddr native_row;
-    saddr abeast_row;
-    saddr machine_row;
-    saddr dark_row;
-    saddr hit_row;
+    TUnk_804CF9F8 *native_row;
+    TUnk_804CF9F8 *abeast_row;
+    TUnk_804CF9F8 *machine_row;
+    TUnk_804CF9F8 *dark_row;
+    TUnk_804CF9F8 *hit_row;
     saddr player;
     uaddr item;
     player = (saddr)get_player_by_client_id(client_index);
-    if ((player != 0) && (native_row = reinterpret_cast<saddr>(get_array_entry(0)), abeast_row = reinterpret_cast<saddr>(get_array_entry(1)), machine_row = reinterpret_cast<saddr>(get_array_entry(2)), dark_row = reinterpret_cast<saddr>(get_array_entry(3)), hit_row = reinterpret_cast<saddr>(get_array_entry(4)), (item = displayed_item_data, (item == 0U) == 0))) {
+    if ((player != 0) && (native_row = (TUnk_804CF9F8 *)get_array_entry(0), abeast_row = (TUnk_804CF9F8 *)get_array_entry(1), machine_row = (TUnk_804CF9F8 *)get_array_entry(2), dark_row = (TUnk_804CF9F8 *)get_array_entry(3), hit_row = (TUnk_804CF9F8 *)get_array_entry(4), (item = displayed_item_data, (item == 0U) == 0))) {
         if (check_equip_requirements((void *)player, (TItemData *)item, &requirement) != 0) {
-            ((TUnk_804CF9F8 *)native_row)->set_flag_0x10(1);
-            ((TUnk_804CF9F8 *)abeast_row)->set_flag_0x10(1);
-            ((TUnk_804CF9F8 *)machine_row)->set_flag_0x10(1);
-            ((TUnk_804CF9F8 *)dark_row)->set_flag_0x10(1);
-            ((TUnk_804CF9F8 *)hit_row)->set_flag_0x10(1);
+            native_row->set_flag_0x10(1);
+            abeast_row->set_flag_0x10(1);
+            machine_row->set_flag_0x10(1);
+            dark_row->set_flag_0x10(1);
+            hit_row->set_flag_0x10(1);
             return;
         }
-        ((TUnk_804CF9F8 *)native_row)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)abeast_row)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)machine_row)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)dark_row)->set_flag_0x10(0);
-        ((TUnk_804CF9F8 *)hit_row)->set_flag_0x10(0);
+        native_row->set_flag_0x10(0);
+        abeast_row->set_flag_0x10(0);
+        machine_row->set_flag_0x10(0);
+        dark_row->set_flag_0x10(0);
+        hit_row->set_flag_0x10(0);
     }
 }
 
@@ -858,34 +858,34 @@ void TWindowHelpItem::update_resistance_rows() {
 
 void TWindowHelpItem::update_stat_disp() {
     s32 requirement;
-    saddr a;
-    saddr b;
-    saddr c;
-    saddr d;
-    saddr e;
+    TUnk_804CF9F8 *a;
+    TUnk_804CF9F8 *b;
+    TUnk_804CF9F8 *c;
+    TUnk_804CF9F8 *d;
+    TUnk_804CF9F8 *e;
     saddr player;
 
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
-        a = reinterpret_cast<saddr>(this->get_array_entry(0));
-        b = reinterpret_cast<saddr>(this->get_array_entry(1));
-        c = reinterpret_cast<saddr>(this->get_array_entry(2));
-        d = reinterpret_cast<saddr>(this->get_array_entry(3));
-        e = reinterpret_cast<saddr>(this->get_array_entry(4));
+        a = (TUnk_804CF9F8 *)this->get_array_entry(0);
+        b = (TUnk_804CF9F8 *)this->get_array_entry(1);
+        c = (TUnk_804CF9F8 *)this->get_array_entry(2);
+        d = (TUnk_804CF9F8 *)this->get_array_entry(3);
+        e = (TUnk_804CF9F8 *)this->get_array_entry(4);
         if (this->displayed_item_data != 0) {
             if (check_equip_requirements((void *)player, (TItemData *)this->displayed_item_data, &requirement) != 0) {
-                ((TUnk_804CF9F8 *)a)->set_flag_0x10(1);
-                ((TUnk_804CF9F8 *)b)->set_flag_0x10(1);
-                ((TUnk_804CF9F8 *)c)->set_flag_0x10(1);
-                ((TUnk_804CF9F8 *)d)->set_flag_0x10(1);
-                ((TUnk_804CF9F8 *)e)->set_flag_0x10(1);
+                a->set_flag_0x10(1);
+                b->set_flag_0x10(1);
+                c->set_flag_0x10(1);
+                d->set_flag_0x10(1);
+                e->set_flag_0x10(1);
                 return;
             }
-            ((TUnk_804CF9F8 *)a)->set_flag_0x10(0);
-            ((TUnk_804CF9F8 *)b)->set_flag_0x10(0);
-            ((TUnk_804CF9F8 *)c)->set_flag_0x10(0);
-            ((TUnk_804CF9F8 *)d)->set_flag_0x10(0);
-            ((TUnk_804CF9F8 *)e)->set_flag_0x10(0);
+            a->set_flag_0x10(0);
+            b->set_flag_0x10(0);
+            c->set_flag_0x10(0);
+            d->set_flag_0x10(0);
+            e->set_flag_0x10(0);
         }
     }
 }
@@ -897,9 +897,9 @@ void TWindowHelpItem::show_mag_growth() {
     saddr a;
     saddr b;
     saddr c;
-    saddr lv;
-    saddr sy;
-    saddr iq;
+    TUnk_804CF9F8 *lv;
+    TUnk_804CF9F8 *sy;
+    TUnk_804CF9F8 *iq;
     saddr up;
     ((MagStats *)mag)->init();
     init_window_layout_entries(
@@ -908,17 +908,17 @@ void TWindowHelpItem::show_mag_growth() {
         client_index);
     m_callback = &TWindowHelpItem::idle_update;
     TItemData::deserialize_mag(active_item, (void *)mag);
-    lv = reinterpret_cast<saddr>(get_array_entry(0));
-    sy = reinterpret_cast<saddr>(get_array_entry(1));
-    iq = reinterpret_cast<saddr>(get_array_entry(2));
+    lv = (TUnk_804CF9F8 *)get_array_entry(0);
+    sy = (TUnk_804CF9F8 *)get_array_entry(1);
+    iq = (TUnk_804CF9F8 *)get_array_entry(2);
     up = reinterpret_cast<saddr>(get_array_entry(0xF));
-    ((TUnk_804CF9F8 *)lv)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA2));
-    ((TUnk_804CF9F8 *)sy)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA3));
-    ((TUnk_804CF9F8 *)iq)->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA4));
-    ((TUnk_804CF9F8 *)sy)->set_flag0_bit20();
-    ((TUnk_804CF9F8 *)lv)->set_value(((MagStats *)(mag))->get_level());
-    ((TUnk_804CF9F8 *)sy)->set_value(((MagStats *)mag)->get_synchro());
-    ((TUnk_804CF9F8 *)iq)->set_value(((MagStats *)mag)->get_iq());
+    lv->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA2));
+    sy->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA3));
+    iq->set_help_text((uaddr)TWindowSubStatusDisp::get_message_10(0xA4));
+    sy->set_flag0_bit20();
+    lv->set_value(((MagStats *)(mag))->get_level());
+    sy->set_value(((MagStats *)mag)->get_synchro());
+    iq->set_value(((MagStats *)mag)->get_iq());
     measure_message_text_width_default((void *)up);
     *(f32 *)((s8 *)up + 8) = 110.0f - 0.5f * *(f32 *)((s8 *)up + 0x10);
     ((TWindowHelpItem *)up)->set_flag0_bit2();
