@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "pso/system/byteswap.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -5468,58 +5469,31 @@ void qst_call_stack_push(s32 a0)
   qst_call_stack[qst_call_stack_depth++] = a0;
 }
 int qst_label_address(int label) {  return (saddr)(qst_code + qst_function_table[(u16)label]); }
-extern "C" {
-
-namespace pf2_p12 { extern "C" { s32 expand_message_substitutions(s32, s32, s32); } }
-#define expand_message_substitutions pf2_p12::expand_message_substitutions
-s32 bswap_32__FPUl(s32 *, s32);
-}
-namespace pf2_p12 { extern "C" { s32 memcpy(s32 *, s32, s32); } }
-#define memcpy pf2_p12::memcpy
-namespace pf2_p12 { extern "C" { s32 strlen(s32, s32); } }
-#define strlen pf2_p12::strlen
-
 void append_string_to_buffer(s32 dest) {
     s32 string_length;
 
-    string_length = strlen((saddr)(qst_code + qst_pc), (saddr)qst_code);
-    expand_message_substitutions((saddr)(qst_code + qst_pc), dest, (saddr)qst_code);
+    string_length = strlen((const char *)(qst_code + qst_pc));
+    expand_message_substitutions((saddr)(qst_code + qst_pc), dest);
     qst_pc += string_length + 1;
 }
-extern "C" {
 
 s32 stream_read_be32(void) {
-    s32 value;
-    s32 read_pc;
+    u32 value;
 
-    memcpy(&value, (saddr)(qst_code + qst_pc), 4);
-    read_pc = qst_pc;
-    qst_pc = read_pc + 4;
-    bswap_32__FPUl(&value, read_pc);
+    memcpy(&value, qst_code + qst_pc, 4);
+    qst_pc += 4;
+    bswap_32(&value);
     return value;
 }
-
-#undef expand_message_substitutions
-#undef memcpy
-#undef strlen
-
-s32 bswap_16__FPUs(u16 *, s32);
-}
-namespace pf2_p13 { extern "C" { s32 memcpy(u16 *, s32, s32); } }
-#define memcpy pf2_p13::memcpy
 
 u16 read_be_u16(void) {
     u16 value;
-    s32 read_pc;
 
-    memcpy(&value, (saddr)(qst_code + qst_pc), 2);
-    read_pc = qst_pc;
-    qst_pc = read_pc + 2;
-    bswap_16__FPUs(&value, read_pc);
+    memcpy(&value, qst_code + qst_pc, 2);
+    qst_pc += 2;
+    bswap_16(&value);
     return value;
 }
-
-#undef memcpy
 
 saddr qst_args[8];
 s32 qst_call_stack[64];
