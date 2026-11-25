@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/quest/QuestVm.h"
 
+struct TWindowMenu;
+
 class TQuestManager;
 struct G_SyncQuestRegister_6x77;
 
@@ -52,7 +54,7 @@ public:
 class TObjItemNameEntry : public TObject {
 public:
     void *keyboard;      // TKeyBoardControl for the name
-    void *prompt_menu;
+    TWindowMenu *prompt_menu;
 
     TObjItemNameEntry(TObject *parent);
     virtual void render();
