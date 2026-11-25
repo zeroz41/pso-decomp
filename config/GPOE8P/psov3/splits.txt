@@ -9428,9 +9428,12 @@ pso/boss/olgaflow/TBoss6Rock.cpp:
 	.sdata2     start:0x805DFF48 end:0x805DFFA8
 
 pso/player/Palettex.cpp:
-	.text       start:0x80354BE4 end:0x8035510C
+	.text       start:0x80354BE4 end:0x80354F7C
 	.ctors      start:0x80434010 end:0x80434014
 	.bss        start:0x80543978 end:0x805439A8
+
+pso/player/PalettexState.cpp:
+	.text       start:0x80354F7C end:0x8035510C
 
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp:
 	.text       start:0x8035510C end:0x803554F0

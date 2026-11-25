@@ -1572,6 +1572,7 @@ pso/player/MaterialUsage.cpp
 pso/effect/TIndirectEffectDrawTask.cpp
 pso/player/PlayerPadBinding.cpp
 pso/player/Palettex.cpp
+pso/player/PalettexState.cpp
 pso/weapon/TItemWeaponTsumikiri.cpp
 pso/weapon/TItemWeaponDarkMeteor.cpp
 pso/player/TObjPlayer_80357B2C.cpp
