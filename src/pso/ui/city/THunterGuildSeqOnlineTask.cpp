@@ -206,8 +206,7 @@ void TLobby::handle_quest_download_chunk() {
     if (TQuestListOnline__bin_download_complete != 0 && TQuestListOnline__dat_download_complete != 0) {
         if (TQuestListOnline__download_barrier_window == NULL) {
             NJS_POINT2 pos = download_barrier_window_size;
-            TQuestListOnline__download_barrier_window = reinterpret_cast<TWindowMessage *>(
-                create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xBE), &pos));
+            TQuestListOnline__download_barrier_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xBE), &pos);
             TQuestListOnline__download_barrier_window->append_line((int)(get_message_text(0x61)), (int)1);
             TQuestListOnline__download_barrier_window->set_depth(36000.0f);
             TQuestListOnline__download_barrier_window->complete_reveal();
@@ -228,8 +227,7 @@ void TQuestListOnline::begin_file_download(TRecvDownloadHead &file) {
     OnlineQuestDownloadState *s;
     if (TQuestListOnline__download_window == NULL) {
         NJS_POINT2 p = download_window_size;
-        TQuestListOnline__download_window = reinterpret_cast<TWindowMessage *>(
-            create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x2C), &p));
+        TQuestListOnline__download_window = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x2C), &p);
         TQuestListOnline__download_window->append_line(get_guild_text(0x14), 1);
         TQuestListOnline__download_window->complete_reveal();
         TQuestListOnline__download_window->set_depth(37000.0f);
@@ -300,7 +298,7 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
                 TQuestListOnline__quest_info_window = NULL;
             }
             NJS_POINT2 p = quest_info_window_size;
-            TQuestListOnline__quest_info_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&p, 1, local_client_id);
+            TQuestListOnline__quest_info_window = TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&p, 1, local_client_id);
             TQuestListOnline__quest_info_window->set_depth(37000.0f);
             TQuestListOnline__quest_info_window->append_line((saddr)quest_list_online_selected_quest_info->text, 0x80);
             if (TCameraCtrl::get_camera_id() >= 2) {

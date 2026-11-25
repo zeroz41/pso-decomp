@@ -125,7 +125,7 @@ static inline TWindowMenu *create_quest_confirmation_menu(const NJS_POINT2 *posi
 
 struct Pair_80288DA4 { s32 a; s32 b; };
 static inline TWindowMessage *create_quest_detail_window(const NJS_POINT2 *position, const f32 *size, u32 rows, u16 client) {
-    return (TWindowMessage *)TWindowMessage::create(position, size, rows, client);
+    return TWindowMessage::create(position, size, rows, client);
 }
 
 #pragma push

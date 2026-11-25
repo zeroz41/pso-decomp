@@ -300,16 +300,16 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
     return &message_window_settings;
 }
 
-u8 *TWindowMessage::create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client) {
+TWindowMessage *TWindowMessage::create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client) {
     TLobby__sub_80269DA4(size, rows);
-    return (u8 *)new TWindowMessage(position, rows, client);
+    return new TWindowMessage(position, rows, client);
 }
 
-u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, saddr rows) {
+TWindowMessage *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, saddr rows) {
     return TWindowMessage::create(pos, size, (u32)rows, 4);
 }
 
-u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
+TWindowMessage *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
     return TWindowMessage::create(pos, (const f32 *)size, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((size->y - 2e+01f) / 2e+01f) + 2)));
 }
 

@@ -1223,7 +1223,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
     static f32 text_width = window_size[0] - 40.0f;
     TWindowMessage *win;
     s32 frames;
-    win = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)window_pos, window_size, (u32)1, 4);
+    win = TWindowMessage::create((const NJS_POINT2 *)window_pos, window_size, (u32)1, 4);
     if (win != NULL) {
         switch (message) {
         case -2:
@@ -1283,7 +1283,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
     TWindowMessage *win;
     TDLGraph *graph;
     s32 frames;
-    win = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)window_pos, window_size, (u32)1, 4);
+    win = TWindowMessage::create((const NJS_POINT2 *)window_pos, window_size, (u32)1, 4);
     if (win != NULL) {
         win->append_line(get_localized_text_entry(0x24, 0xB), 3);
         win->set_depth(36900.0f);

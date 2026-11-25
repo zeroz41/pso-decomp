@@ -4854,7 +4854,7 @@ void qst_op_disp_msg_qb(void) {
         qst_message_window_qb->close();
         qst_message_window_qb = 0;
     }
-    qst_message_window_qb = reinterpret_cast<TWindowMessage *>(create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), (NJS_POINT2 *)&pr));
+    qst_message_window_qb = create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0x71), (NJS_POINT2 *)&pr);
     (qst_message_window_qb)->append_line(t, 3);
     ((TWindowBase *)qst_message_window_qb)->set_depth(50030.0f);
     qst_suspend_reason = QST_WAIT_MESSAGE_QB;

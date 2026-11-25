@@ -139,9 +139,9 @@ void TObjChallenge4PRetry::open_message_window() {
         this->message->close();
         this->message = NULL;
     }
-    this->message = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(
+    this->message = TWindowMessage::create(
         get_window_layout_position(0x39),
-        message_window_position, 1));
+        message_window_position, 1);
     if (this->message != NULL) {
         this->message->append_line(get_message_text(0x5E), 1);
     }

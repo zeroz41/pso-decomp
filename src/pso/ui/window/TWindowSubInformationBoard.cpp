@@ -225,7 +225,7 @@ u32 TWindowSubInformationBoard::sub_8034CDE0() {
 
 u32 TWindowSubInformationBoard::open_card_info_window() {
     static const f32 size[2] = {188.0f, 160.0f};
-    u8 *window;
+    TWindowMessage *window;
     window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA5), (const f32 *)size, 1);
     this->shown_index = -1;
     return (uaddr)window;
@@ -233,7 +233,7 @@ u32 TWindowSubInformationBoard::open_card_info_window() {
 
 u32 TWindowSubInformationBoard::show_card_a7() {
     static const f32 size[2] = {206.0f, 180.0f};
-    u8 *window;
+    TWindowMessage *window;
     window = TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0xA7), (const f32 *)size, 1);
     this->shown_index = -1;
     return (uaddr)window;

@@ -85,7 +85,7 @@ void TAdDialingSelectGC::run_task() {
         } else {
             WindowPos a = {80.0f, 176.0f};
             WindowPos b = {479.0f, 207.0f};
-            this->window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)&a, (NJS_POINT2 *)&b);
+            this->window = create_message_window_for_size((NJS_POINT2 *)&a, (NJS_POINT2 *)&b);
             ((TWindowMessage *)(this->window))->append_line(get_message_text(0xC), 1);
             this->state = 7;
         }

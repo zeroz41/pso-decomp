@@ -306,7 +306,7 @@ void TAdEnterSerialAccessGC::update_text_input(s32 field) {
 }
 
 TWindowBase *TAdEnterSerialAccessGC::open_message_window(s32 text_index) {
-    TWindowMessage *window = (TWindowMessage *)create_message_window_for_size(
+    TWindowMessage *window = create_message_window_for_size(
         const_cast<NJS_POINT2 *>(&lbl_804764C8), const_cast<NJS_POINT2 *>(&lbl_804764D0));
     window->append_line(get_localized_text_entry(0x17, text_index), 1);
     return window;

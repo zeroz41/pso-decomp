@@ -315,7 +315,7 @@ void TCharSaveSequence::wait_card_check() {
             check_memory_card->queue_destruction();
             check_memory_card = NULL;
             state = 2;
-            message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)lbl_80477D48, (NJS_POINT2 *)lbl_80477D50);
+            message_window = create_message_window_for_size((NJS_POINT2 *)lbl_80477D48, (NJS_POINT2 *)lbl_80477D50);
             lbl_805D6D90 |= 1;
             return;
         }

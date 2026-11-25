@@ -280,7 +280,7 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 field) {
 }
 
 TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
-    TWindowMessage *window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)lbl_80477178, (NJS_POINT2 *)lbl_80477180);
+    TWindowMessage *window = create_message_window_for_size((NJS_POINT2 *)lbl_80477178, (NJS_POINT2 *)lbl_80477180);
     window->append_line(get_localized_text_entry(0x17, (saddr)arg1), 1);
     return window;
 }

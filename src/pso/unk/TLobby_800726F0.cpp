@@ -180,9 +180,9 @@ void TObjChallengeRetry::sub_80072BB0() {
         this->message->close();
         this->message = NULL;
     }
-    this->message = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(
+    this->message = TWindowMessage::create(
         get_window_layout_position(0x39),
-        challenge_retry_window_pos, 1));
+        challenge_retry_window_pos, 1);
     if (this->message != NULL) {
         this->message->set_depth(70200.0f);
         this->message->append_line(get_message_text(0x5E), 1);

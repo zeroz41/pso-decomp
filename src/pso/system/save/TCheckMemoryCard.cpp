@@ -172,9 +172,9 @@ void TCheckMemoryCard::create_message_and_menu(u32 text, s32 sel, u32 first_entr
         return;
     }
     if (use_main_ctrl != 0) {
-        message_window = (TWindowMessage *)TWindowMessage::create(&check_memory_card_message_pos, check_memory_card_message_size, 1, 4);
+        message_window = TWindowMessage::create(&check_memory_card_message_pos, check_memory_card_message_size, 1, 4);
     } else {
-        message_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)&check_memory_card_message_pos, (NJS_POINT2 *)check_memory_card_message_size);
+        message_window = create_message_window_for_size((NJS_POINT2 *)&check_memory_card_message_pos, (NJS_POINT2 *)check_memory_card_message_size);
     }
     if (message_window == NULL) {
         return;

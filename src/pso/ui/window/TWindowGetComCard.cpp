@@ -132,7 +132,7 @@ TWindowGetComCard::TWindowGetComCard(TObject *parent) : TObject(parent) {
     static const f32 pos[2] = {10.0f, 277.0f};
     static const f32 size[3] = {264.0f, 104.0f, 0.0f};
     m_name = class_name;
-    message = reinterpret_cast<TWindowMessage *>(TWindowMessage::create((const NJS_POINT2 *)pos, (const f32 *)size, 1));
+    message = TWindowMessage::create((const NJS_POINT2 *)pos, (const f32 *)size, 1);
     confirmation = NULL;
     if (TWindowSubComCard::init_com_card() != 0) {
         GuildCardEntry *card = TWindowGetComCard__sub_8007B594();

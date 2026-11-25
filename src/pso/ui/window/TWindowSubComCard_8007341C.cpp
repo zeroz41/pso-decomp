@@ -90,7 +90,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challe
 
 void TLobby::open_challenge_window(s32 lobby, s32 challenge_id) {
     TWindowMessage *window;
-    window = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1));
+    window = TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1);
     challenge_mode_state.record_window = window;
     if (window == NULL) {
         return;
@@ -109,7 +109,7 @@ void TChallenge::open_challenge_progress_window(s32 slot) {
     ChallengeClientRecords *rec;
     s32 i;
     TWindowMessage *window;
-    window = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1));
+    window = TWindowMessage::create(get_window_layout_position(0x3B), challenge_window_extent, 1);
     challenge_mode_state.record_window = window;
     if (window == NULL) {
         return;
