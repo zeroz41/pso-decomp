@@ -81,7 +81,7 @@ void THunterGuildSeqOnline_Client::handle_confirm_window() {
             choice_menu->close();
             choice_menu = NULL;
             display_guild_message(9, 1);
-            pad_34 = 1;
+            exit_action = 1;
             if (THunterGuildSeqOffline__quest_result_callbacks[2] != -1) {
                 quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[2]));
             }
@@ -91,7 +91,7 @@ void THunterGuildSeqOnline_Client::handle_confirm_window() {
             choice_menu->close();
             choice_menu = NULL;
             display_guild_message(0xA, 1);
-            pad_34 = 0;
+            exit_action = 0;
             set_state(0xC);
             break;
         }
@@ -100,7 +100,7 @@ void THunterGuildSeqOnline_Client::handle_confirm_window() {
         choice_menu->close();
         choice_menu = NULL;
         display_guild_message(0xA, 1);
-        pad_34 = 0;
+        exit_action = 0;
         set_state(0xC);
     }
 }
@@ -113,7 +113,7 @@ void THunterGuildSeqOnline_Client::close_window() {
         quest_thread = NULL;
     }
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        switch (pad_34) {
+        switch (exit_action) {
         case 1: {
             new TScreenFadeOut(tl_00, reset_random_enemies_mode);
             THunterGuildSeqOffline__sub_8021E180(((TObjBase *)((saddr)player))->get_entity_id());

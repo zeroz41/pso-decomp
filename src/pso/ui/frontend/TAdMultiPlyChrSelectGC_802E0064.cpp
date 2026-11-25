@@ -35,7 +35,7 @@ s32 TAdChrSelBSlotGC::is_state_closing() {
     return 0;
 }
 
-TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_global_state() { return lbl_805D6E78; }
+TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_global_state() { return chr_move_effect_instance; }
 
     extern int lbl_805D384C;
 int TAdMultiPlyChrSelectGC::get_select_flag() {  return lbl_805D384C; }

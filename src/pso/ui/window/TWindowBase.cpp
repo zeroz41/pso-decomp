@@ -879,7 +879,6 @@ void TWindowBase::update_open_close() {
     }
 }
 
-extern "C" {
 
 void TWindowDD::update_com_card() { TWindowSubComCard__sub_8024634C(); }
 void TWindowBase::update_window() { update_open_close(); }
@@ -895,7 +894,6 @@ TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
     sub_80244F2C(descriptor, parent, client);
 }
 
-}
 
 extern const char lbl_8044E688[];
 extern const char hud_palette_texture_filename[];

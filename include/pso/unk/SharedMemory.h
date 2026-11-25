@@ -102,13 +102,13 @@ struct LaunchDolContext {
     SharedMemory shared_memory;
 };
 
-extern LaunchDolContext *lbl_805D7CB0;
-extern SharedMemoryDiscMessages *lbl_805D7CB8;
-extern SharedMemory *lbl_805D7CC0;
-extern SharedMemoryConnectParam *lbl_805D7CC4;
+extern LaunchDolContext *launch_dol_context;
+extern SharedMemoryDiscMessages *shared_memory_disc_messages;
+extern SharedMemory *shared_memory_block;
+extern SharedMemoryConnectParam *shared_memory_connect_param;
 
 extern "C" {
-extern s32 lbl_805D7CA8;
+extern s32 shared_memory_ready;
 void LaunchDol(LaunchDolContext *context);
 }
 

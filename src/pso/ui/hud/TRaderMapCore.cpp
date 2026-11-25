@@ -178,10 +178,10 @@ typedef struct Player_801F9E9C {
 extern "C" {
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
-f32 lbl_805D35F0 = 2000.0f;
-f32 lbl_805D35F4 = 1200.0f;
-f32 lbl_805D35F8 = 3500.0f;
-f32 lbl_805D35FC = 80.0f;
+f32 radar_camera_height_default = 2000.0f;
+f32 radar_camera_height_min = 1200.0f;
+f32 radar_camera_height_max = 3500.0f;
+f32 radar_camera_rise_speed = 80.0f;
 
 u8 *TRaderMapCore::floor_map_resource;
 s32 lbl_805D5F2C;
@@ -195,7 +195,7 @@ BmlResource *TRaderMapCore__frame_model_resource;
 NJS_TEXLIST *TRaderMapCore__data_805D5F4C;
 saddr TRaderMapCore::map_heap;
 
-extern NJS_TEXANIM lbl_804C87E4[];
+extern NJS_TEXANIM radar_sprite_texanims[];
 extern f32 lbl_804C87B4[][4];
 extern RadarScissorRect radar_map_view_scissor_table[3];
 extern RadarViewportRect radar_map_view_rect_table[3];
@@ -250,7 +250,7 @@ f32 lbl_804C87B4[3][4] = {
     { 450.0f, 373.0f, 450.0f, 383.0f },
     { 450.0f, 373.0f, 450.0f, 383.0f },
 };
-NJS_TEXANIM lbl_804C87E4[2] = {
+NJS_TEXANIM radar_sprite_texanims[2] = {
     { 32, 32, 16, 27, 0, 0, 256, 256, 0, 0 },
     { 32, 32, 16, 16, 0, 0, 256, 256, 1, 0 },
 };
@@ -401,7 +401,7 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     for (i = 0; i < 3; i++) {
         g = &TRaderMapCore__map_view_state[i].camera;
         init_ninja_camera(g);
-        g->py = lbl_805D35F0;
+        g->py = radar_camera_height_default;
         g->vy = -1.0f;
         g->vz = 0.0f;
         g->roll = 0x8000;
@@ -422,7 +422,7 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     follow_marker = 0;
     view_flags = 2;
     m_16c = 0;
-    m_170 = lbl_805D35FC;
+    m_170 = radar_camera_rise_speed;
     TRaderMapCore::view_mode = 0;
     map_angle = 0;
     TRaderMapCore::instance = this;
@@ -788,18 +788,18 @@ void TRaderMapCore::draw_compass(s32 mode) {
         sprite.sy = 1.0f;
         sprite.ang = 0;
         sprite.tlist = TRaderMapCore__data_805D5F4C;
-        sprite.tanim = lbl_804C87E4;
+        sprite.tanim = radar_sprite_texanims;
         color = 0xFFFFFFFF;
         TParticleCtrl::begin_effect_render();
         compass_xy = &lbl_804C87B4[mode][0];
         marker_xy = compass_xy + 2;
-        sprite.p.x = marker_xy[0] + lbl_804C87E4[1].cx;
-        sprite.p.y = marker_xy[1] + lbl_804C87E4[1].cy;
+        sprite.p.x = marker_xy[0] + radar_sprite_texanims[1].cx;
+        sprite.p.y = marker_xy[1] + radar_sprite_texanims[1].cy;
         set_default_alpha_blend();
         ((u8 *)&color)[3] = (u8)pulse_alpha;
         draw_compass_sprite(&sprite, 1, ((color & 0xFF00) << 16) | (color >> 16) | ((color & 0xFF) << 16), 0x21, 0.8f);
-        sprite.p.x = compass_xy[0] + lbl_804C87E4[0].cx;
-        sprite.p.y = compass_xy[1] + lbl_804C87E4[0].cy;
+        sprite.p.x = compass_xy[0] + radar_sprite_texanims[0].cx;
+        sprite.p.y = compass_xy[1] + radar_sprite_texanims[0].cy;
         sprite.ang = map_angle;
         set_additive_blend();
         draw_compass_sprite(&sprite, 0, -1, 0x21, 0.8f);
@@ -854,27 +854,27 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
         case 0:
             this->m_170 *= 1.2f;
             view->camera.py += this->m_170;
-            if (view->camera.py > lbl_805D35F0) {
-                view->camera.py = lbl_805D35F0;
+            if (view->camera.py > radar_camera_height_default) {
+                view->camera.py = radar_camera_height_default;
             }
             break;
         case 1:
             this->m_170 *= 1.2f;
             view->camera.py += this->m_170;
-            if (view->camera.py > lbl_805D35F8) {
-                view->camera.py = lbl_805D35F8;
+            if (view->camera.py > radar_camera_height_max) {
+                view->camera.py = radar_camera_height_max;
             }
             break;
         case 2:
             this->m_170 *= 1.2f;
             view->camera.py -= this->m_170;
-            if (view->camera.py < lbl_805D35F4) {
-                view->camera.py = lbl_805D35F4;
+            if (view->camera.py < radar_camera_height_min) {
+                view->camera.py = radar_camera_height_min;
             }
             break;
         }
     } else {
-        view->camera.py = lbl_805D35F0;
+        view->camera.py = radar_camera_height_default;
     }
     if (mode == 2) {
         out->copy_transform(free_view);
@@ -1291,11 +1291,11 @@ void TRaderMapCore::add_zoom_distance(f32 farg0) {
     if (((s32) TRaderMapCore::view_mode == 1) || ((s32) TRaderMapCore::view_mode == 2)) {
         py = TRaderMapCore__map_view_state[1].camera.py + farg0;
         TRaderMapCore__map_view_state[1].camera.py = py;
-        if (py < lbl_805D35F4) {
-            TRaderMapCore__map_view_state[1].camera.py = (f32) lbl_805D35F4;
+        if (py < radar_camera_height_min) {
+            TRaderMapCore__map_view_state[1].camera.py = (f32) radar_camera_height_min;
         }
-        if (TRaderMapCore__map_view_state[1].camera.py > lbl_805D35F8) {
-            TRaderMapCore__map_view_state[1].camera.py = (f32) lbl_805D35F8;
+        if (TRaderMapCore__map_view_state[1].camera.py > radar_camera_height_max) {
+            TRaderMapCore__map_view_state[1].camera.py = (f32) radar_camera_height_max;
         }
     }
 }

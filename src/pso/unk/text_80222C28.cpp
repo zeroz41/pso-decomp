@@ -13,10 +13,10 @@ const char *text_shop_rel_name_table[6] = { "TextShopJapanese.rel", "TextShopEng
 const char *quest_and_shop_error_text = "Error";
 // Text groups of the loaded TextShop*.rel: (*shop_text_groups)[group][index] is a string.
 const char ****shop_text_groups;
-// Text group per appraisal kind (lbl_805D6238 indexes it), then per game play mode.
+// Text group per appraisal kind (shop_section_id indexes it), then per game play mode.
 static const s32 appraisal_text_group_table[10] = {4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 static const s32 guild_text_play_mode_table[4] = {1, 2, 3, 0};
-extern s32 lbl_805D6238;
+extern s32 shop_section_id;
 
 saddr get_quest_list_text(s32 group, s32 index) {
     if (shop_text_groups != NULL) {
@@ -36,7 +36,7 @@ saddr get_guild_text(s32 index) {
 
 saddr get_appraisal_text(s32 index) {
     if (shop_text_groups != NULL) {
-        return (saddr)(*shop_text_groups)[appraisal_text_group_table[lbl_805D6238]][index];
+        return (saddr)(*shop_text_groups)[appraisal_text_group_table[shop_section_id]][index];
     }
     return (saddr)quest_and_shop_error_text;
 }
@@ -56,8 +56,8 @@ void TLobby::free_singleton() {
     }
 }
 void TLobby::create_named_lobby_object() {
-    if (((s32) lbl_805D6238 < 0) || ((s32) lbl_805D6238 > 9)) {
-        lbl_805D6238 = 0;
+    if (((s32) shop_section_id < 0) || ((s32) shop_section_id > 9)) {
+        shop_section_id = 0;
     }
     shop_text_groups = static_cast<const char ****>(create_named_object(text_shop_rel_name_table[current_language]));
 }

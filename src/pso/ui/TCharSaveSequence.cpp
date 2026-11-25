@@ -1,3 +1,4 @@
+#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/system/save/CardSaveFile.h"
@@ -85,7 +86,6 @@ s32 __ct__15TWindowCtrlMainFv(u32);
 
 extern u8 lobby_rule_settings[];
 CharacterSaveRecord *get_selected_save_record(CharacterFile *);
-s32 get_field_118__22TAdEnterSerialAccessGCFv();
 
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
@@ -249,7 +249,7 @@ void TCharSaveSequence::handle_load_result() {
     saddr src;
     switch (poll_memcard_result(chr_select_state)) {
     case 0:
-        seed_character_select_serial_rng(get_field_118__22TAdEnterSerialAccessGCFv());
+        seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
         src = (saddr)download_buffer;
         obj = new CharacterFile;
         memcpy(obj, (void *)(src + 0x2048), 0x1156C);
@@ -274,7 +274,7 @@ void TCharSaveSequence::handle_load_result() {
                     init_warps();
                 }
             } else {
-                seed_character_select_serial_rng(get_field_118__22TAdEnterSerialAccessGCFv());
+                seed_character_select_serial_rng(TAdEnterSerialAccessGC::get_serial_seed());
                 TAdSinglePlyChrSelectGC::encrypt_save_data((void *)TAdSinglePlyChrSelectGC::get_instance());
                 TAdSinglePlyChrSelectGC::save_character_file(1);
                 state = 4;

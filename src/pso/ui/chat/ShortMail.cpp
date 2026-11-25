@@ -59,7 +59,7 @@ typedef struct Hdr_8022525C
 } Hdr_8022525C;
 
 
-ShortMailEntry lbl_80513F70[8];
+ShortMailEntry short_mail_entries[8];
 s32 lbl_805D6270;
 int lobby_short_mail_entry_count;
 
@@ -88,7 +88,7 @@ void TLobby__sub_802258C8(void) {
   s32 i;
   ShortMailEntry *entry;
   i = 0;
-  entry = lbl_80513F70;
+  entry = short_mail_entries;
   do
   {
     if (entry->is_active() != 0)
@@ -115,7 +115,7 @@ ShortMailEntry *TLobby::find_short_mail_by_id(u32 id) {
 
 
 ShortMailEntry *get_short_mail_entry(int index) {
-    char *storage = reinterpret_cast<char *>(&lbl_80513F70);
+    char *storage = reinterpret_cast<char *>(&short_mail_entries);
     // Retain retail register allocation for the backing array address.
     if ((!storage) && (!storage)) {
     }
@@ -126,7 +126,7 @@ s32 TLobby::find_free_slot() {
   s32 var_r31;
   ShortMailEntry *entry;
   var_r31 = 0;
-  entry = lbl_80513F70;
+  entry = short_mail_entries;
   loop_1:
   if (entry->is_active() == 0)
   {
@@ -145,7 +145,7 @@ s32 TLobby::find_free_slot() {
 
 void TLobby__sub_80225A08(void *p) {
     s32 slot = TLobby::find_free_slot();
-    char *storage = reinterpret_cast<char *>(&lbl_80513F70);
+    char *storage = reinterpret_cast<char *>(&short_mail_entries);
     storage += slot * sizeof(ShortMailEntry);
     reinterpret_cast<ShortMailEntry *>(storage)->fill_from_packet(static_cast<u8 *>(p));
     lobby_short_mail_entry_count++;
@@ -166,10 +166,10 @@ void remove_short_mail_by_id(u32 id) {
 
 void TLobby::remove_entry_at(s32 idx) {
     if (idx < 7) {
-        ShortMailEntry *entry = &lbl_80513F70[idx];
+        ShortMailEntry *entry = &short_mail_entries[idx];
         move_words(entry, entry + 1, (7 - idx) * sizeof(ShortMailEntry) / sizeof(u32));
     }
-    lbl_80513F70[7].flags &= ~1;
+    short_mail_entries[7].flags &= ~1;
     lobby_short_mail_entry_count--;
 }
 
@@ -179,7 +179,7 @@ void TLobby::clear_all_entries(void* _w0) {
     lbl_805D6270 = 0;
     lobby_short_mail_entry_count = 0;
     TLobby::clear_lobby_flag();
-    entry = lbl_80513F70;
+    entry = short_mail_entries;
     for (i = 0; i < 8; i++) {
         entry->flags &= ~1;
         entry++;

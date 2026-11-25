@@ -448,7 +448,7 @@ block_19:
         this->state = 1;
         if (this->resumed != 0) {
             this->resumed = 0;
-            if ((u32) multi_chr_select_serial_access_state != get_field_118__22TAdEnterSerialAccessGCFv()) {
+            if ((u32) multi_chr_select_serial_access_state != TAdEnterSerialAccessGC::get_serial_seed()) {
                 TAdMultiPlyChrSelectGC::reset_slot_selections();
             }
         }
@@ -1453,7 +1453,7 @@ void TAdMultiPlyChrSelectGC::sub_802DCD14() {
 }
 
 void TAdMultiPlyChrSelectGC::sub_802DCCA4() {
-    multi_chr_select_serial_access_state = get_field_118__22TAdEnterSerialAccessGCFv();
+    multi_chr_select_serial_access_state = TAdEnterSerialAccessGC::get_serial_seed();
     switch (exit_action) {
     case 2:
         break;

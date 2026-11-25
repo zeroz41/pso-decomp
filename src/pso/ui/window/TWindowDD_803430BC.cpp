@@ -392,7 +392,7 @@ void TWindowDD__sub_80344114(void) {
     TWindowDD::init_ws_data_tables();
 }
 
-void free_buffers__9TWindowDDFv(void) {
+void TWindowDD::free_buffers() {
     clear_window_dd_nodes();
     if ((u32) TWindowDD__word_select_lists != 0U) {
         mem_free((void*)TWindowDD__word_select_lists);

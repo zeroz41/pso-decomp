@@ -12,7 +12,7 @@ struct TitleBackgroundTile {
     s32 tex;
 };
 
-extern TitleBackgroundTile lbl_80480BC8[8];
+extern TitleBackgroundTile title_background_tiles[8];
 
 void draw_title_background_quads(void *texture_list, s32 tex_base, s32 color, s32 mode, f32 depth) {
     static f32 s_offset_x0 = 0.0f;
@@ -25,11 +25,11 @@ void draw_title_background_quads(void *texture_list, s32 tex_base, s32 color, s3
     begin_screen_draw(mode);
     TObjFish::set_global_param(static_cast<NJS_TEXLIST *>(texture_list));
     for (i = 0; i < 8; i++) {
-        set_draw_texture_and_color(tex_base + lbl_80480BC8[i].tex, color);
-        q[0] = s_offset_x0 + (f32)lbl_80480BC8[i].x;
-        q[1] = s_offset_y0 + (f32)lbl_80480BC8[i].y;
-        q[2] = s_offset_x1 + ((f32)lbl_80480BC8[i].x + (f32)lbl_80480BC8[i].w);
-        q[3] = s_offset_y1 + ((f32)lbl_80480BC8[i].y + (f32)lbl_80480BC8[i].h);
+        set_draw_texture_and_color(tex_base + title_background_tiles[i].tex, color);
+        q[0] = s_offset_x0 + (f32)title_background_tiles[i].x;
+        q[1] = s_offset_y0 + (f32)title_background_tiles[i].y;
+        q[2] = s_offset_x1 + ((f32)title_background_tiles[i].x + (f32)title_background_tiles[i].w);
+        q[3] = s_offset_y1 + ((f32)title_background_tiles[i].y + (f32)title_background_tiles[i].h);
         q[4] = 0.0f;
         q[5] = 0.0f;
         q[6] = 1.0f;
@@ -39,7 +39,7 @@ void draw_title_background_quads(void *texture_list, s32 tex_base, s32 color, s3
     TWindowSubStatusDisp::get_player();
 }
 
-TitleBackgroundTile lbl_80480BC8[8] = {
+TitleBackgroundTile title_background_tiles[8] = {
     { 0x200, 0x180, 0x80, 0x80, 7 },
     { 0x200, 0x100, 0x80, 0x80, 6 },
     { 0x200, 0x80, 0x80, 0x80, 5 },

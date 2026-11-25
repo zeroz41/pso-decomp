@@ -43,7 +43,7 @@ s32 item_appraisal_score;
 extern "C" {
 struct SectionIdFavoredGrindTable { s32 value; u8 remaining[0x24]; };
 extern SectionIdFavoredGrindTable section_id_favored_grind_table;
-extern s32 lbl_805D6238;
+extern s32 shop_section_id;
 void shuffle_shop_pool_n_times(void *, s32);
 void push_shop_pool_entry(void *, u8);
 
@@ -77,7 +77,7 @@ void adjust_appraisal_percentages(Obj_80215720 *arg0) {
     s32 r;
     ((TLobby *)(&ctr))->reset_counter_64();
     count = item_appraisal_rules->percentage_rolls->count;
-    e = &item_appraisal_rules->percentage_rolls->entries[count * lbl_805D6238];
+    e = &item_appraisal_rules->percentage_rolls->entries[count * shop_section_id];
     while (count-- > 0) {
         if (item_appraisal_favored_weapon != 0) {
             n = e->favored_weight;
@@ -123,7 +123,7 @@ void TLobby::roll_item_grind_bonus() {
         ((TLobby *)buf)->reset_counter_64();
         const AppraisalRollTable *t = item_appraisal_rules->grind_rolls;
         n = t->count;
-        e = &t->entries[n * lbl_805D6238];
+        e = &t->entries[n * shop_section_id];
         while (n-- > 0) {
             if (item_appraisal_favored_weapon != 0) {
                 c = e->favored_weight;
@@ -161,7 +161,7 @@ void adjust_appraisal_special(Obj_8021599C *obj) {
     ((TLobby *)buf)->reset_counter_64();
     AppraisalRollTable *t = item_appraisal_rules->special_rolls;
     n = t->count;
-    e = &t->entries[n * lbl_805D6238];
+    e = &t->entries[n * shop_section_id];
     while (n-- > 0) {
         if (item_appraisal_favored_weapon != 0) {
             c = e->favored_weight;
@@ -189,7 +189,7 @@ void adjust_appraisal_special(Obj_8021599C *obj) {
 }
 
 bool TLobby::is_slot_match() {
-    return *(u8 *)((s8 *)this + 1) == *(s32 *)((s8 *)&section_id_favored_grind_table.value + (lbl_805D6238 * 4));
+    return *(u8 *)((s8 *)this + 1) == *(s32 *)((s8 *)&section_id_favored_grind_table.value + (shop_section_id * 4));
 }
 s32 is_slot_match__6TLobbyFv();
 

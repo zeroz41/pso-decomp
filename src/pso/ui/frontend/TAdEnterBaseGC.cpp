@@ -132,7 +132,6 @@ u8 *get_access_key_input_buffer();
 u8 *get_raw_serial_input_buffer();
 
 
-u32 get_field_118__22TAdEnterSerialAccessGCFv();
 
 }
 extern s32 tl_clipout;
@@ -283,7 +282,7 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 field) {
         case 2:
             return (u8 *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1154C);
         }
-    } else if (serial_access_entered_value_table[field] == get_field_118__22TAdEnterSerialAccessGCFv()) {
+    } else if (serial_access_entered_value_table[field] == TAdEnterSerialAccessGC::get_serial_seed()) {
         switch (field) {
         case 0:
             return get_raw_serial_input_buffer();

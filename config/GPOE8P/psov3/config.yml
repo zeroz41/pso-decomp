@@ -8190,7 +8190,7 @@ force_active:
   - memcard_work_areas
   - lbl_805137C8
   - lbl_80513918
-  - lbl_80513F70
+  - short_mail_entries
   - music_slot_cues
   - music_slot_progress
   - lbl_80514CF0
@@ -8373,7 +8373,7 @@ force_active:
   - lbl_805D60B8
   - lbl_805D60D4
   - lbl_805D6160
-  - lbl_805D6220
+  - shop_gear_sequence_instance
   - lbl_805D6228
   - lbl_805D622C
   - lbl_805D6230

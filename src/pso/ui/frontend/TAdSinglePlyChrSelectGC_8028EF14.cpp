@@ -253,7 +253,7 @@ s32 scan_creation_resources(void *arg0);
 uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);
 void reset_character_creation_figure_rotation(void);
 
-extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9];
+extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint creation_shape_corners[9];
 #pragma defer_codegen on
 TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     CreationTextureCacheEntry *p;
@@ -505,7 +505,7 @@ void TCMCharacter::run_task() {
 }
 
 
-// The three shape samples (corners in lbl_804D400C) of each proportion region.
+// The three shape samples (corners in creation_shape_corners) of each proportion region.
 s32 creation_region_sample_index_table[24] = {
     1, 3, 0,
     0, 4, 3,
@@ -517,7 +517,7 @@ s32 creation_region_sample_index_table[24] = {
     8, 7, 2,
 };
 // The (width, height) corner of each shape sample in the proportion plane.
-CreationShapePoint lbl_804D400C[9] = {
+CreationShapePoint creation_shape_corners[9] = {
     {0.0f, 0.0f}, {1.0f / 3.0f, 0.0f}, {2.0f / 3.0f, 0.0f}, {1.0f / 3.0f, 0.5f}, {0.0f, 1.0f},
     {1.0f / 3.0f, 1.0f}, {2.0f / 3.0f, 1.0f}, {1.0f, 1.0f}, {1.0f, 0.0f},
 };
@@ -740,9 +740,9 @@ void calc_shape_region_coefficients(f32 *point) {
     i0 = creation_region_sample_index_table[region * 3];
     i1 = creation_region_sample_index_table[region * 3 + 1];
     i2 = creation_region_sample_index_table[region * 3 + 2];
-    u = lbl_804D400C[i2].width - lbl_804D400C[i0].width;
-    u = (point[0] - lbl_804D400C[i0].width) / u;
-    hp = &lbl_804D400C[0].height;
+    u = creation_shape_corners[i2].width - creation_shape_corners[i0].width;
+    u = (point[0] - creation_shape_corners[i0].width) / u;
+    hp = &creation_shape_corners[0].height;
     y0 = hp[i0 * 2];
     v = hp[i1 * 2];
     v = v;

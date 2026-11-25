@@ -6,7 +6,7 @@
 #include <dolphin/os/OSReset.h>
 #undef PSO_SDK_COMPACT_MATH
 
-s32 lbl_805D7CA8;
+s32 shared_memory_ready;
 
 // Reset-payload relocator: copies the header+image at `arg` to 0x80003100,
 // stores it, OSResetSystem(2,0,0), clears the [0xd8] region, replays the
