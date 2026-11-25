@@ -109,9 +109,9 @@ TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(
         for (j = 0; j < 3; j++) {
             cursor_color[i][j] = 0;
             cursor_alpha[i][j] = 0;
-            unk_500[i][j] = 0;
+            slot_active[i][j] = 0;
             sel[i][j] = 0;
-            unk_4dc[j] = 0;
+            slot_count[j] = 0;
         }
         multi_ply_chr_select_tag_shown[i] = 0;
         multi_ply_chr_select_tag_alpha[i] = 0.0f;
@@ -410,12 +410,12 @@ void TAdChrSelPlyPlateGC::handle_dpad_input() {
     update_cell_uvs();
     n = TAdMultiPlyChrSelectGC::count_ready();
     m = TAdMultiPlyChrSelectGC::count_selected_slots();
-    if (m != n && unk_4dc[cursor_col] != 0 && selection == 0) {
+    if (m != n && slot_count[cursor_col] != 0 && selection == 0) {
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x10, 6, 1) != 0) {
-            move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, -1, unk_4dc[cursor_col]);
+            move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, -1, slot_count[cursor_col]);
         }
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x20, 6, 1) != 0) {
-            move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, 1, unk_4dc[cursor_col]);
+            move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, 1, slot_count[cursor_col]);
         }
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x80, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 1, 0, 2);
@@ -432,7 +432,7 @@ void TAdChrSelPlyPlateGC::handle_dpad_input() {
 void TAdChrSelPlyPlateGC::update_option_cursor() {
     unk_1c++;
     update_cell_uvs();
-    if (unk_4dc[cursor_col] != 0 && selection == 0) {
+    if (slot_count[cursor_col] != 0 && selection == 0) {
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C6008, 0x10, 6, 1) != 0) {
             play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]--;
@@ -441,11 +441,11 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
             play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]++;
         }
-        if (sel[multi_ply_chr_select_active_player][cursor_col] > unk_4dc[cursor_col] - 1) {
+        if (sel[multi_ply_chr_select_active_player][cursor_col] > slot_count[cursor_col] - 1) {
             sel[multi_ply_chr_select_active_player][cursor_col] = 0;
         }
         if (sel[multi_ply_chr_select_active_player][cursor_col] < 0) {
-            sel[multi_ply_chr_select_active_player][cursor_col] = unk_4dc[cursor_col] - 1;
+            sel[multi_ply_chr_select_active_player][cursor_col] = slot_count[cursor_col] - 1;
         }
     }
     if (test_pressed_buttons_packed(WIN_802C6008, 4) != 0 && selection == 0) {
@@ -626,15 +626,15 @@ void TAdMultiPlyChrSelectGC::reset_slot_selection_table() {
 }
 
 void TAdChrSelPlyPlateGC::add_slot_position(const void *src, s32 col) {
-    if ((u32)unk_4dc[col] < 4) {
-        copy_vec2(&home[unk_4dc[col]][col], (void *)src);
-        quad[unk_4dc[col]][col].x = home[unk_4dc[col]][col].x;
-        quad[unk_4dc[col]][col].y = home[unk_4dc[col]][col].y;
-        quad[unk_4dc[col]][col].z = home[unk_4dc[col]][col].x + pos.x;
-        quad[unk_4dc[col]][col].w = home[unk_4dc[col]][col].y + pos.y;
-        cursor_alpha[unk_4dc[col]][col] = 0;
-        unk_500[unk_4dc[col]][col] = 1;
-        unk_4dc[col]++;
+    if ((u32)slot_count[col] < 4) {
+        copy_vec2(&home[slot_count[col]][col], (void *)src);
+        quad[slot_count[col]][col].x = home[slot_count[col]][col].x;
+        quad[slot_count[col]][col].y = home[slot_count[col]][col].y;
+        quad[slot_count[col]][col].z = home[slot_count[col]][col].x + pos.x;
+        quad[slot_count[col]][col].w = home[slot_count[col]][col].y + pos.y;
+        cursor_alpha[slot_count[col]][col] = 0;
+        slot_active[slot_count[col]][col] = 1;
+        slot_count[col]++;
     }
 }
 
@@ -643,9 +643,9 @@ void TAdChrSelPlyPlateGC::clear_slot_entries(s32 column) {
     for (i = 0; i < 4; i++) {
         cursor_alpha[i][column] = 0;
         multi_ply_chr_select_tag_alpha[i] = 0.0f;
-        unk_500[i][column] = 0;
+        slot_active[i][column] = 0;
     }
-    unk_4dc[column] = 0;
+    slot_count[column] = 0;
 }
 
 void TAdChrSelPlyPlateGC::init_slot_position(saddr position, s32 row, s32 column) {
@@ -710,26 +710,26 @@ void TAdChrSelPlyPlateGC::reset_cursor_state() {
         multi_ply_chr_select_tag_shown[i] = 0;
         multi_ply_chr_select_tag_alpha[i] = 0.0f;
         for (j = 0; j < 3; j++) {
-            unk_500[i][j] = 0;
-            unk_4dc[j] = 0;
+            slot_active[i][j] = 0;
+            slot_count[j] = 0;
         }
     }
     multi_ply_chr_select_active_player = 0;
     unk_530 = 0;
 }
 
-u32 get_multiplayer_controller_active_index(int param_1) {
-  int iVar3;
-  int iVar2;
-  int iVar1;
-  iVar3 = 0;
-  for (iVar2 = 0; iVar2 < param_1 + 1; iVar2 = iVar2 + 1) {
-    iVar1 = TAdMultiPlyChrSelectGC::is_controller_connected(iVar2);
-    if (iVar1 == 0) {
-      iVar3 = iVar3 + 1;
+u32 get_multiplayer_controller_active_index(int index) {
+  int missing;
+  int i;
+  int connected;
+  missing = 0;
+  for (i = 0; i < index + 1; i = i + 1) {
+    connected = TAdMultiPlyChrSelectGC::is_controller_connected(i);
+    if (connected == 0) {
+      missing = missing + 1;
     }
   }
-  return param_1 - iVar3 & ~(param_1 - iVar3 >> 0x1f);
+  return index - missing & ~(index - missing >> 0x1f);
 }
 
 void TAdChrSelPlyPlateGC::render() {
@@ -766,7 +766,7 @@ void TAdChrSelPlyPlateGC::draw_selection_cursors() {
     }
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 3; j++) {
-            if (unk_500[i][j] != 0) {
+            if (slot_active[i][j] != 0) {
                 cursor[0][0] = 16.0f + quad[i][j].x;
                 cursor[0][2] = quad[i][j].z - 16.0f;
                 cursor[0][1] = quad[i][j].y;

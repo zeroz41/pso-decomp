@@ -13,7 +13,7 @@ struct CardSlotSummary { s32 x; s32 y; s32 state; };
 extern "C" {
 u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void);
-int TAdSinglePlyChrSelectGC__sub_801FD990(s32 chan);
+int start_system_file_write(s32 chan);
 s32 TAdSinglePlyChrSelectGC__sub_801FDAAC(void);
 s32 TAdSinglePlyChrSelectGC__sub_801FDC14(s32 slot);
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);

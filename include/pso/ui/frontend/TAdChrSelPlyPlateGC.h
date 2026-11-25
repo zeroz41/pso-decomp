@@ -62,14 +62,14 @@ struct TAdChrSelPlyPlateGC : public TObject {
     s32 cursor_color[4][3];
     vec2f pos;
     s32 sel[4][3];
-    s32 unk_4dc[3];
+    s32 slot_count[3];
     s32 captured_card_index;
     s32 cursor_col;
     s32 unk_4f0;
     s32 unk_4f4;
     s32 selection;
     s32 ready;
-    s32 unk_500[4][3];
+    s32 slot_active[4][3];
     s32 unk_530;
     s32 unk_534;
 };
@@ -86,7 +86,7 @@ LAYOUT_ASSERT(TAdChrSelPlyPlateGC_size, sizeof(TAdChrSelPlyPlateGC) == 0x538);
 extern TAdChrSelPlyPlateGC *ad_chr_sel_ply_plate_instance;
 
 extern "C" {
-u32 get_multiplayer_controller_active_index(int param_1);
+u32 get_multiplayer_controller_active_index(int index);
 }
 s32 is_multiplayer_character_slot_selected(s32 slot);
 

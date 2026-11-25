@@ -102,7 +102,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u16 get_card_status(int client);
     static u16 get_card_value(int client);
     static u16 get_card_field_21a8(int client);
-    s32 append_inventory_item(TItemData *item);
     static s32 load_player_by_slot(s32 chan);
     static s32 verify_system_file();
     static s32 load_save_from_card();
@@ -110,7 +109,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 verify_card_player_data();
     static s32 poll_memcard_status();
     s32 has_valid_slot();
-    void clear_inventory_slot_by_index(s32 i);
     static int get_selection();
     static void set_global_flags(s32 flags);
     static saddr get_instance();
@@ -166,7 +164,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 menu_choice;                       // 0x5C  chr_menu entry that decides where the scene goes next
     static void free_all_resources();
     s32 load_and_verify_character_save(char *desc);
-    static void remove_matching_entries(s32 arg0);
     u8 *copy_character_data(u8 *source);
     static void reset_quest_id();
     static void set_quest_download_server(int quest_download_server);
@@ -279,7 +276,7 @@ LAYOUT_ASSERT(TAdSinglePlyChrSelectGC_menu_choice_offset, offsetof(TAdSinglePlyC
 extern CharacterFile *card_character_save_buffer;
 extern CharacterFile *secondary_card_character_save_buffer;
 extern TPlyCharData *selected_character_data;
-extern uaddr active_character_save_record;
+extern CharacterSaveRecord *active_character_save_record;
 extern GuildCardSaveData *guild_card_save_payload;
 extern SystemSaveData *system_save_payload;
 extern SystemSaveData *secondary_card_system_save_payload;

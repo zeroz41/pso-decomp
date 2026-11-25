@@ -37,14 +37,16 @@ struct CharacterSaveRecord {
     // Puts item in the first free bank row; 0 when the bank is full.
     s32 register_in_free_room_slot(TItemData *item);
 
-    u8 pad_0[0x4];
-    s32 pad_4;
+    s32 flags;              // set_global_flags / clear_flags / check_flag
+    s32 creation_seconds;   // when the character was made; tells two records of one slot apart
     u32 magic;              // 0xA205B064 once the slot holds a character
     // Seconds played; update_elapsed_time adds the time since the character was selected.
     s32 play_time;
     s32 card_window_flags;  // test/set_card_window_flags (TWindowKeyBoardHard)
-    u32 pad_14;
-    u8 pad_18[0x248 - 0x18];
+    u32 save_count;         // raised before every save; the copy with the higher count is newer
+    u8 account[0x1C];       // the account's entry, copied in when the character is created
+    u8 user_name[0x10];
+    u8 pad_44[0x248 - 0x44];
     s32 bank_item_count;    // rows of bank_items in use
     s32 pad_24C;
     BankItemRecord bank_items[200];

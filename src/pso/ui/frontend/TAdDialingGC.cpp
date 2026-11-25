@@ -88,21 +88,21 @@ void TAdDialingGC::render() {
 }
 
 
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_804767A8[] = { 0, 28.0f };
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_804767B0[] = { 640.0f, 84.0f };
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_804767B8[] = { 0, 310.0f };
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_804767C0[] = { 640.0f, 136.0f };
-extern const char lbl_804767C8[5] = "%s%s";
+__declspec(section ".rodata") extern const NJS_POINT2 dialing_top_rect_position[] = { 0, 28.0f };
+__declspec(section ".rodata") extern const NJS_POINT2 dialing_top_rect_size[] = { 640.0f, 84.0f };
+__declspec(section ".rodata") extern const NJS_POINT2 dialing_bottom_rect_position[] = { 0, 310.0f };
+__declspec(section ".rodata") extern const NJS_POINT2 dialing_bottom_rect_size[] = { 640.0f, 136.0f };
+extern const char dialing_message_format[5] = "%s%s";
 void TAdDialingGC::render_if_flag_set() {
     if ((this->dial_flags & 1) && ((s32) this->dial_mode == 0)) {
-        draw_dialing_rectangle(lbl_804767A8, lbl_804767B0);
+        draw_dialing_rectangle(dialing_top_rect_position, dialing_top_rect_size);
     }
 }
 
 void TAdDialingGC::draw_if_flag_set() {
     TAdDialingGC *self = this;
     if (self->dial_flags & 1) {
-        draw_dialing_rectangle(lbl_804767B8, lbl_804767C0);
+        draw_dialing_rectangle(dialing_bottom_rect_position, dialing_bottom_rect_size);
     }
 }
 
@@ -139,7 +139,7 @@ void TAdDialingGC::draw_dialing_status() {
     if (fn_80145A44(a) == 0) {
         a[0] = 0;
     }
-    sprintf(b, lbl_804767C8, a, TLobby::get_dialing_phone_number());
+    sprintf(b, dialing_message_format, a, TLobby::get_dialing_phone_number());
     sprintf(c, (char *)get_connection_message_text(1), b);
     draw_menu_font_string_white((const char *)c, 23.0f, 351.0f);
 }

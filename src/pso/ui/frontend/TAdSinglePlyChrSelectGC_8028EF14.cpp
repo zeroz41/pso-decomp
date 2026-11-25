@@ -25,7 +25,6 @@
 
 
 
-struct Opaque_80290088;
 
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
 extern "C" {
@@ -268,7 +267,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     creation_figure_object = this;
     res = (saddr)new BmlResource(6, ((BmlResourceDescriptor **)character_making_resource_descriptor_table)[character_display_index((uaddr)cm)], 0, 0, NULL);
     chara_select_preview_resource = res;
-    for (p = ((CreationTextureCacheEntry *)creation_texture_cache); p < ((CreationTextureCacheEntry *)creation_texture_cache) + 0x80; p++) {
+    for (p = creation_texture_cache; p < creation_texture_cache + 0x80; p++) {
         p->in_use = 0;
         p->hair_textures.textures.present = 0;
         p->head_textures.textures.present = 0;
@@ -524,7 +523,7 @@ CreationShapePoint creation_shape_corners[9] = {
 
 
 void TCMCharacter::apply_character_appearance() {
-    struct Opaque_80290088 *app;
+    CharacterAppearanceFields *app;
     CharacterAppearanceFields *raw;
     s32 hair;
     s32 head;
@@ -532,8 +531,8 @@ void TCMCharacter::apply_character_appearance() {
         return;
     }
     TAdSinglePlyChrSelectGC::update_pair(this);
-    raw = (CharacterAppearanceFields *)creation_player_character;
-    app = (struct Opaque_80290088 *)raw;
+    raw = creation_player_character;
+    app = raw;
     hair = raw->hair;
     if ((s32)creation_hair_model_parts[hair].present == 1) {
         chara_select_hair_node_a = creation_hair_model_parts[hair].model;
@@ -541,14 +540,14 @@ void TCMCharacter::apply_character_appearance() {
     if ((s32)creation_cap_model_parts[hair].present == 1) {
         chara_select_hair_node_b = creation_cap_model_parts[hair].model;
     }
-    head = ((CharacterAppearanceFields *)app)->head;
+    head = app->head;
     if ((s32)creation_head_model_parts[head].present == 1) {
         chara_select_head_node = creation_head_model_parts[head].model;
     }
     char_creation_data_block = (void ***)relocate_data_block_pointers(reinterpret_cast<saddr>(this->shape_rel), this->shape_rel_size);
-    TCharaMaking__bind_body_shape_nodes((CharacterAppearanceFields *)((CharacterAppearanceFields *)app), this->model);
-    TCharaMaking__bind_head_shape_nodes((CharacterAppearanceFields *)((CharacterAppearanceFields *)app), (void *)((void *)chara_select_head_node));
-    blend_creation_proportion_shapes(&((CharacterAppearanceFields *)creation_player_character)->width);
+    TCharaMaking__bind_body_shape_nodes(app, this->model);
+    TCharaMaking__bind_head_shape_nodes(app, (void *)((void *)chara_select_head_node));
+    blend_creation_proportion_shapes(&creation_player_character->width);
     memcard_access_active = 0;
     char_select_active_flag = 1;
 }
@@ -560,11 +559,11 @@ void TCMCharacter::update_chara_preview() {
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
-            TCharaMaking__bind_head_shape_nodes((CharacterAppearanceFields *)((CharacterAppearanceFields *)creation_player_character), (void *)((void *)(chara_select_head_node = creation_head_model_parts[((CharacterAppearanceFields *)creation_player_character)->head].model)));
+            TCharaMaking__bind_head_shape_nodes(creation_player_character, (void *)((void *)(chara_select_head_node = creation_head_model_parts[creation_player_character->head].model)));
         }
         break;
     case 4: {
-        s32 hair = ((CharacterAppearanceFields *)creation_player_character)->hair;
+        s32 hair = creation_player_character->hair;
         uaddr a = creation_hair_model_parts[hair].model;
         uaddr b = creation_cap_model_parts[hair].model;
         chara_select_hair_node_a = a;
@@ -572,7 +571,7 @@ void TCMCharacter::update_chara_preview() {
         break;
     }
     }
-    blend_creation_proportion_shapes(&((CharacterAppearanceFields *)creation_player_character)->width);
+    blend_creation_proportion_shapes(&creation_player_character->width);
     this->advance_animation();
 }
 
