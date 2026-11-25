@@ -21,6 +21,7 @@
 
 
 #include "types.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -53,7 +54,6 @@ TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
 extern TObject *tl_00;
 
 struct StatusWindowPos { f32 a; f32 b; };extern "C" {
-saddr get_window_layout_position(s32);
 
 }
 extern s32 lbl_805D55C0;
@@ -202,7 +202,7 @@ void TQuestVmDownLoadServer::begin_file_download(TRecvDownloadHead &download_hea
     if (TQuestVmDownLoadServer__download_window == 0) {
         static const DownloadWindowPos window_size = {444.0f, 84.0f};
         DownloadWindowPos pos = window_size;
-        TQuestVmDownLoadServer__download_window = (uaddr)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (saddr)&pos, 1);
+        TQuestVmDownLoadServer__download_window = (uaddr)TWindowMessagePage::set_text(get_window_layout_position(0x2F), (saddr)&pos, 1);
         ((TWindowMessage *)TQuestVmDownLoadServer__download_window)->append_line(get_message_text(0x3E), 0x81);
         ((TWindowMessage *)TQuestVmDownLoadServer__download_window)->complete_reveal();
         TQuestVmDownLoadServer__total_download_bytes = 0;
@@ -1196,7 +1196,7 @@ void TMCFormatSequence::open_windows() {
     if (this->message_window == NULL) {
         static const FormatWindowPos window_size = {444.0f, 84.0f};
         FormatWindowPos t = window_size;
-        this->message_window = (TWindowMessagePage *)TWindowMessagePage::set_text((s32)get_window_layout_position(0x2F), (saddr)&t, 1);
+        this->message_window = (TWindowMessagePage *)TWindowMessagePage::set_text(get_window_layout_position(0x2F), (saddr)&t, 1);
         show_message(get_localized_text_entry(this->message_group, this->message_id), 0);
     }
     if (this->confirm_menu == NULL) {

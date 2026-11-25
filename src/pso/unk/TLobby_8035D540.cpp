@@ -14,7 +14,7 @@ TWindowMessageScroll *open_message_scroll_window(const NJS_POINT2 *position, con
 
     TLobby__sub_80269CA4(0x23);
     TLobby__sub_80269DA4(extent, 1);
-    window = new TWindowMessageScroll(reinterpret_cast<saddr>(position), completion);
+    window = new TWindowMessageScroll(position, completion);
     TLobby__sub_80269C90();
     return window;
 }

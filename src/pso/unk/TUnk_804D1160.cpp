@@ -81,7 +81,7 @@ TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TO
     client_id = client;
     custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
     ((TWindowBase *)custom_equip)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 0));
-    help_window = (uaddr)TWindowMessage::create((saddr)(get_window_layout_position(0x11)), lbl_8044F718, 1, client_id);
+    help_window = (uaddr)TWindowMessage::create(get_window_layout_position(0x11), lbl_8044F718, 1, client_id);
     ((TWindowBase *)help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 2));
     call_if_split_screen(help_window, client_id);
     custom_select = 0;

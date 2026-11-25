@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -62,7 +63,6 @@ s32 online_quest_list_state;
 
 
 extern "C" {
-saddr get_window_layout_position(int);
 
 
 
@@ -187,7 +187,7 @@ void TQuestListOnline::build_list_window() {
         }
         if (description_window == NULL) {
             WindowSize size = online_description_window_size;
-            description_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0x2D), (const f32 *)&size, 1);
+            description_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
             description_window->append_line((saddr)TQuestListOnline__quest_list_buffer->entries[0].short_description, (int)0x80);
         } else {
             description_window->append_line((saddr)TQuestListOnline__quest_list_buffer->entries[0].short_description, (int)0x80);
@@ -264,7 +264,7 @@ void TQuestListOnline::handle_list_selection() {
         } else if (selection_stage == 2) {
             if (confirm_window == NULL) {
                 s32 id = player->get_entity_id();
-                confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), id, NULL, NULL);
+                confirm_window = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
                 confirm_window->set_position_xy(get_scale(), get_scale());
                 if (sequence != NULL) {
                     sequence->display_guild_message(5, 1);

@@ -414,7 +414,7 @@ void TQuestListVM::build_download_list() {
         }
         if (description_window == NULL) {
             WindowSize size = description_window_size;
-            description_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0x2D), (const f32 *)&size, 1);
+            description_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)&size, 1);
             description_window->append_line((saddr)entries[0].description, 0x80);
             described_entry = 0;
         }
@@ -516,7 +516,7 @@ void TQuestListVM::poll_quest_download() {
 void TQuestListVM::open_confirm_window() {
     if (detail_window == NULL) {
         WindowSize size = detail_window_size;
-        detail_window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x2E), size.dimensions, 1, player->get_entity_id());
+        detail_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), size.dimensions, 1, player->get_entity_id());
         detail_window->append_line((saddr)((QuestBinHeader *)decrypted_quest_buffer)->long_description, 1);
         detail_window->set_depth(-13000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
@@ -528,7 +528,7 @@ void TQuestListVM::open_confirm_window() {
             set_state(resume_state);
             return;
         }
-        confirm_window = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
+        confirm_window = create_yes_no_window(get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
         confirm_window->set_position_xy(get_scale(), get_scale());
         display_guild_message(5, 1);
         set_state(resume_state);

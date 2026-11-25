@@ -192,7 +192,7 @@ void TQuestListOffline::init_quest_list_window() {
         list_window->calc_content_extent();
         if (description_window == NULL) {
             f32 size[2] = {228.0f, 184.0f};
-            description_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)get_window_layout_position(0x2D), (const f32 *)size, 1);
+            description_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2D), (const f32 *)size, 1);
             description_window->append_line(get_quest_list_text(0xE, quests->description_text), 0x80);
             shown_index = 0;
         } else {
@@ -232,7 +232,7 @@ void TQuestListOffline::update_list_navigation() {
         }
         if (confirm_window == NULL) {
             f32 size[2] = {332.0f, 210.0f};
-            confirm_window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x2E), size, 1, player->get_entity_id());
+            confirm_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), size, 1, player->get_entity_id());
             s32 text = get_quest_list_text(0xE, quests[sel].confirm_text);
             confirm_window->append_line(text, 0x80);
             confirm_window->set_depth(-13000.0f);
@@ -241,7 +241,7 @@ void TQuestListOffline::update_list_navigation() {
             }
         }
         if (confirm_menu == NULL) {
-            confirm_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
+            confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
             confirm_menu->set_position_xy(get_scale(), get_scale());
             if (sequence != NULL) {
                 sequence->display_guild_message(5, 1);
