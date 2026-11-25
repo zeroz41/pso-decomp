@@ -8,14 +8,16 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 s32 TEndingPic__animation_state;
 
+#pragma readonly_strings on
+const char *TEndingPic::name = "TEndingPic";
+#pragma readonly_strings reset
 extern "C" {
-int TKeyBoardControl__sub_8000F828(void);
-extern const char TEndingPic__class_name_string[] = "TEndingPic";
-const char *lbl_805D4378 = TEndingPic__class_name_string;
 NJS_TEXLIST *ending_pic_wall_texture_list;
+}
 
 void TEndingPic::advance_animation_state() {
     switch (TEndingPic__animation_state) {
@@ -146,7 +148,7 @@ void TEndingPic::run_task() { advance_animation_state(); }
 
 TEndingPic::~TEndingPic() {}
 TEndingPic::TEndingPic(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D4378;
+    m_name = name;
     elapsed_ticks = -1;
     TEndingPic__animation_state = 0;
     field_20 = 0xFF;
@@ -158,7 +160,6 @@ TEndingPic::TEndingPic(TObject *parent) : TObject(parent) {
     case 0: timing_rate = 30; break;
     case 1: timing_rate = 25; break;
     }
-}
 }
 
 NJS_TEXLIST *get_ending_ab_wall_texture_list(void) { return ending_ab_wall_texture_list; }
