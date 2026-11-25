@@ -346,7 +346,6 @@ struct Layout_80019038 {
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
-void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 void create_hit_effect__10TObjPlayerFPv(void *);
 int get_player_data__10TObjPlayerFi(int a0);
@@ -592,7 +591,6 @@ extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
 extern const char lbl_804340B0[];
 extern s32 actor_frame_tick;
-extern s32 lobby_player_count;
 extern s32 current_floor_index;
 extern TObject *tl_07;
 void obj_setField96_1(TObjCollidable *p);
@@ -2087,7 +2085,7 @@ int TObjChara::calc_distance_accuracy_penalty(void *attacker, void *body_arg, vo
         }
         if (0.0f < chance && this->random_ratio() <= chance) {
             body->flags |= 0x04000000;
-            attach_mine_trap__10TObjPlayerFiUi((saddr)this, (uaddr)attacker);
+            attach_mine_trap((TObjBase *)attacker);
             this->hit_flags |= 2;
             return 1;
         }
@@ -2455,7 +2453,6 @@ int TObjChara::deliver_attack_hits(f32) { return 0; }
 #pragma push
 #pragma fp_contract on
 #pragma opt_loop_invariants off
-#define attach_mine_trap__10TObjPlayerFiUi(a, b) ((void (*)(void *, void *))attach_mine_trap__10TObjPlayerFiUi)(a, b)
 #define TObjectV8047c128_subtract_hp(a, b) ((void (*)(void *, s32))TObjectV8047c128_subtract_hp)(a, b)
 #define VecCopy__FP3VecPC3Vec(a, b) ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(a, b)
 #define get_actor_attack_params_atp_min__9TObjCharaFv(a) (((TObjChara *)(a))->get_actor_attack_params_atp_min())
@@ -2484,7 +2481,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
         this->try_apply_damage((const Vec *)((u8 *)this + 0x2FC), 0);
         return 0.0f;
     }
-    attach_mine_trap__10TObjPlayerFiUi(((Obj_80014108 *)this), ((Obj_80014108 *)att));
+    attach_mine_trap((TObjBase *)att);
     if (((TObjChara *)this)->obj_isState2_324() != 0) {
         immune = 1;
     } else if (((TObjChara *)att)->obj_isState2_324() != 0) {
@@ -2590,7 +2587,6 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
 }
 
 #pragma pop
-#undef attach_mine_trap__10TObjPlayerFiUi
 #undef TObjectV8047c128_subtract_hp
 #undef VecCopy__FP3VecPC3Vec
 #undef get_actor_attack_params_atp_min__9TObjCharaFv
@@ -2657,7 +2653,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
         }
         return (0.0f);
     }
-    ((void (*)(Actor_8001311C *, Actor_8001311C *))attach_mine_trap__10TObjPlayerFiUi)(((Actor_8001311C *)this), ((Actor_8001311C *)att));
+    attach_mine_trap((TObjBase *)att);
     if (STATE2(((Actor_8001311C *)this)) != 0) {
         if ((u32)(info.type - 6) <= 3 || info.type == 10) {
             immune = 0;
@@ -3043,7 +3039,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         CLEARCOLL_W24()
         return (0.0f);
     }
-    ((void (*)(void *, void *))attach_mine_trap__10TObjPlayerFiUi)(self, att);
+    attach_mine_trap(att);
     if (ISSTATE2_W24(self) != 0) {
         immune = 1;
     } else if (ISSTATE2_W24(att) != 0) {
@@ -3808,9 +3804,9 @@ f32 TObjChara::random_ratio() {
 
 void TObjChara::refresh_target() {  }
 
-void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1) {
-    if (arg1 != 0U) {
-        ((TObjChara *)object)->record_attack_source(((TObjBase *)(arg1))->get_entity_id());
+void TObjChara::attach_mine_trap(TObjBase *attacker) {
+    if (attacker != NULL) {
+        record_attack_source(attacker->get_entity_id());
     }
 }
 
