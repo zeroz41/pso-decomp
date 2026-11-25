@@ -5,7 +5,9 @@
 
 extern "C" {
 int __fpclassifyf_803D6308(float __value);
-f32 fn_803D6308(f32 x);
+}
+f32 fractional_part(f32 x);
+extern "C" {
 float modff_803D6308(float x, float *iptr);
 }
 

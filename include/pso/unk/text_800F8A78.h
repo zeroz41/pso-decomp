@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-void fn_800F8A78(void);
-}
+void clear_player_name_copy_buffer(void);
 
 #endif

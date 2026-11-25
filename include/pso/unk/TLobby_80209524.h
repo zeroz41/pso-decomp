@@ -38,9 +38,7 @@ void copy_event_table_entry(void *arg0, void *arg1);
 void bswap_item_data_record(void *p);
 void bswap_table_header(void *p);
 void copy_challenge_random_event(ChallengeRandomEvent *dst, ChallengeRandomEvent *src);
-extern "C" {
-void TLobby__sub_8020A6B0(s32 player);
-}
+void load_floor_object_set(s32 player);
 s32 get_total_object_set_count(void);
 // --- end of C functions
 

@@ -3,8 +3,8 @@
 
 #include "types.h"
 
+u32 *copy_u32(u32 *p, const u32 *q);
 extern "C" {
-u32 *TObjCMHairMenu__sub_801E3F54(u32 *p, const u32 *q);
 void gx_write_u32(s32 value);
 void gx_write_f32x3(f32 x, f32 y, f32 z);
 void gx_write_f32x2(f32 x, f32 y);

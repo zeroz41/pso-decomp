@@ -73,12 +73,13 @@ extern "C" {
 void copy_name(char *name) {
     strncpy(player_name_copy_buffer, name, 0x10);
     if (strncmp(name, "..", 0x10) == 0) {
-        fn_800F8A78();
+        clear_player_name_copy_buffer();
     }
     change_disc_directory(name);
 }
+}
 
-void fn_800F8A78(void) {
+void clear_player_name_copy_buffer(void) {
     memset(player_name_copy_buffer, 0, 0x10);
 }
 
@@ -814,18 +815,19 @@ void *lbl_8049C5E0[15] = {
     (void *)0x0, (void *)"er_mes04", (void *)0x0, (void *)0x0,
     (void *)"er_mes05", (void *)0x0, (void *)0x0,
 };
+extern "C" {
 __declspec(section ".data") void *lbl_8049C61C[2] = {
     (void *)&lbl_8049C5E0, (void *)0x5,
 };
+}
 
 void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; TKeyBoardControl::reset(); }
 
 
-void TLobby__sub_800F8AD0(void) {
+void flag_pending_area_transfer(void) {
     if ((u32) main_phase_deferred_callback != 0U) {
         area_transfer_pending_flag = 1;
     }
-}
 }
 
 s32 is_area_transfer_pending() { return area_transfer_pending_flag ? 1 : 0; }
@@ -965,9 +967,7 @@ void TLobby::load_font_texture() {
         }
     }
 }
-extern "C" {
-
-void TLobby__sub_800F8F34(void) { lobby_state_byte_flag = 1; }
+void set_lobby_state_byte_flag(void) { lobby_state_byte_flag = 1; }
 
 #pragma pop
 
@@ -1134,6 +1134,7 @@ s32 TLobby::run_disk_error_check() {
 // archive decryption, the disc-file wrappers and TLobby::run_frame; __sinit closes the TU.
 extern s32 memcard_access_active;
 extern int player_load_load_state;
+extern "C" {
 
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
     fn_800FFE14(fn_800FFE04(), entries, count);
@@ -1420,7 +1421,7 @@ void TLobby::run_frame() {
     TObject *fade_task;
 
     begin_gx_frame();
-    TLobby__sub_800F8F34();
+    set_lobby_state_byte_flag();
     tl_su->run_tasks();
     tl_camera->run_tasks();
     tl_07->run_tasks();
@@ -1445,7 +1446,7 @@ void TLobby::run_frame() {
     }
     restore_saved_depth_alpha_state();
     if (static_cast<s8>(poll_reset_request()) != 0) {
-        TLobby__sub_800F8AD0();
+        flag_pending_area_transfer();
     }
     TLobby__sub_803382E4();
     render_tick();

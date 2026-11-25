@@ -266,8 +266,8 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
         draw_color_lines(reinterpret_cast<ColorLineList *>(poly), count, flags | 0x10, depth);
         copy_vec2((&v[0]), &poly->p[0]);
         copy_vec2((&v[1]), &poly->p[poly->num - 1]);
-        TObjCMHairMenu__sub_801E3F54(&c[0], &poly->col[0].color);
-        TObjCMHairMenu__sub_801E3F54(&c[1], &poly->col[poly->num - 1].color);
+        copy_u32(&c[0], &poly->col[0].color);
+        copy_u32(&c[1], &poly->col[poly->num - 1].color);
         draw_color_lines(&tmp, 2, flags, depth);
         return;
     }
@@ -349,9 +349,9 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
     pos = 0;
     p = (u8 *)(file + *offset);
     move_data(((&tag)), (const void *)(p), 4);
-    TLobby__sub_801E3CF0((u32 *)&tag);
+    bswap_u32_in_place((u32 *)&tag);
     move_data(((&size)), (const void *)(p + 4), 4);
-    TLobby__sub_801E3CF0(&size);
+    bswap_u32_in_place(&size);
     p += 8;
     *offset += 8;
     tag = bswap32_value(tag);
@@ -414,12 +414,12 @@ bad:
     return 0;
 next:
     move_data(((&tag)), (const void *)(p), 4);
-    TLobby__sub_801E3CF0((u32 *)&tag);
+    bswap_u32_in_place((u32 *)&tag);
     *offset += 4;
     tag = bswap32_value(tag);
     if (tag == 0x504F4630) {
         move_data(((&size)), (const void *)(p + 4), 4);
-        TLobby__sub_801E3CF0(&size);
+        bswap_u32_in_place(&size);
         p += 8;
         *offset += 4;
         while (size != 0) {
@@ -463,7 +463,7 @@ next:
     return buf;
 }
 
-void TLobby__sub_801E3CF0(u32 *p) {
+void bswap_u32_in_place(u32 *p) {
     u32 v = *p;
     *p = (v >> 24) | ((v >> 8) & 0xFF00) | ((v << 8) & 0xFF0000) | (v << 24);
 }
@@ -578,7 +578,7 @@ void gx_write_f32x2(f32 x, f32 y) {
     *(f32 *)0xCC008000 = y;
 }
 
-u32 *TObjCMHairMenu__sub_801E3F54(u32 *p, const u32 *q) {
+u32 *copy_u32(u32 *p, const u32 *q) {
     *p = *q;
     return p;
 }

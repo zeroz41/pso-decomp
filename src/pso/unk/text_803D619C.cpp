@@ -62,7 +62,7 @@ inline float modff_803D6308(float x, float *iptr) {
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-f32 fn_803D6308(f32 x) {
+f32 fractional_part(f32 x) {
     return modff_803D6308(x, &lbl_805D76A8);
 }
 #pragma pop

@@ -233,11 +233,8 @@ void TLobby__sub_8022804C(void) {
 void update_global_sound_frame(void) {
     update_sound_frame(&sound_control_state);
 }
-extern "C" {
-
-void TLobby__sub_8022809C(void) {
+void reset_sound_control_state(void) {
     ((TLobby *)&sound_control_state)->reset_sound_state();
-}
 }
 
 void TLobby::wait_for_sound_init() {

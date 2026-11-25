@@ -20,7 +20,9 @@ player_stats *get_battle_param_stats(int a0, int a1);
 s32 parse_two_digit_number(void *arg0);
 extern "C" {
 void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3);
-void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha);
+}
+void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha);
+extern "C" {
 void TLobby__sub_8001ED70(void);
 void reset_clock_bar_pulse(void);
 }

@@ -556,9 +556,10 @@ void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3) {
         }
     }
 }
+}
 
 #pragma fp_contract on
-void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha) {
+void draw_play_time_clock(f32 x, f32 y, f32 size, f32 alpha) {
     s32 frames;
     saddr text_color;
     saddr color;
@@ -634,6 +635,7 @@ void TLobby__sub_8001EA5C(f32 x, f32 y, f32 size, f32 alpha) {
     }
 }
 #pragma fp_contract reset
+extern "C" {
 
 void TLobby__sub_8001ED70(void) {  }
 void reset_clock_bar_pulse(void) {

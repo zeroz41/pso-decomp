@@ -13,14 +13,11 @@ class TObject;
 extern char player_name_copy_buffer[16];
 // What __sinit stores into disc_read_filename: an empty file name.
 extern const char *lbl_805D2B10;
-extern "C" {
-
-void TLobby__sub_800F8AD0(void);
-}
+void flag_pending_area_transfer(void);
 void reset_to_fallback_main_phase(void);
 void request_pending_file_read_flush(void);
+void set_lobby_state_byte_flag(void);
 extern "C" {
-void TLobby__sub_800F8F34(void);
 
 // The GSL archive close hook: hands the archive's entries to fn_800FFE14.
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count);

@@ -413,9 +413,7 @@ void update_sound_request_slots(void) {
 
 int TLobby__sub_80226B64(void) { TLobby::update_lobby_subsystems(); TLobby::init_layout_positions(); TLobby__sub_80226308(); lbl_805D62B4 = 0; lbl_805D62B8 = 0; sound_requests_enabled = 1; return 0; }
 
-extern "C" {
-
-s32 TLobby__sub_80226BA4(void) {
+s32 reset_sound_request_state(void) {
     s32 i;
     lbl_805D6278 = 0;
     lbl_805D62C4 = 0;
@@ -439,5 +437,4 @@ s32 TLobby__sub_80226BA4(void) {
         sound_pitch_requests[i].flags = 1;
     }
     return 1;
-}
 }
