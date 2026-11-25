@@ -71,7 +71,6 @@ struct Pl_8013B0F0 {
     TLockOnCursor *cur;
 };
 
-extern Pl_8013B0F0 *player_slot_table[12];
 
 
 struct Ent_8013B2C8 { s32 w; };
@@ -1457,8 +1456,8 @@ void TLOC_Start::run_task() {
     ((TMainCursor *)cur)->bind_action_channels();
     if (get_main_phase() == 0xF) {
         for (i = 0; i < 12; i++) {
-            Pl_8013B0F0 *p = player_slot_table[i];
-            if (p != NULL && ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
+            TObjPlayer *p = player_slot_table[i];
+            if (p != NULL && p->is_body_collision_inactive() == 0) {
                 submit_cursor_candidate(p, -1);
             }
         }
