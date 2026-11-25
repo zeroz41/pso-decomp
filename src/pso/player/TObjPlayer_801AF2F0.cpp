@@ -43,6 +43,8 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/city/TMedicalCenterMes.h"
+#include "pso/player/TPlayerLobbyMarker.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TEffGuard.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -549,9 +551,6 @@ u8 fn_801D71D0(s32 *);
 u8 fn_801D7204(s32 *);
 s32 TObjPlayer__sub_801D91B8(void *, void *);
 void update_all_units__10TObjPlayerFll(void *, u8);
-s32 __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(void *, void *, void *);
-u32 __nw__7TObjectFUl(s32);
-u8 * __ct__7TObjectFP7TObject(void *, void *);
 s32 get_battle_ctrl_default__6TLobbyFv();
 s32 validate_6xAE_set_animation_state(void *);
 s32 fn_8000F740(void *);
@@ -943,10 +942,7 @@ void TObjPlayer::reset_motion_fields() {
             this->send_field_state();
             this->set_meseta(0);
             {
-                void *m = ((void * (*)(int))__nw__7TObjectFUl)(0x234);
-                if (m != 0) {
-                    __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(m, (void *)tl_05, this);
-                }
+                new TMedicalCenterMes(tl_05, this);
             }
             break;
         case 1:
@@ -2272,18 +2268,11 @@ s32 TObjPlayer::query_state_if_present(void *out) {
 }
 
 void TObjPlayer::create_inventory() {
-    u8 *object;
-    u8 *inventory;
     if ((void *) this->inventory_objects == NULL) {
         this->inventory_objects = new TPlyItem(this);
     }
     this->inventory_objects->item_list = new TItemList((TObject *)this->inventory_objects);
-    object = (u8 *)(((u8 * (*)(s32))__nw__7TObjectFUl)(0x1C));
-    inventory = object;
-    if (inventory != NULL) {
-        inventory = (u8 *)(__ct__7TObjectFP7TObject(object, this));
-    }
-    this->inventory_objects->item_root = (TObject *)inventory;
+    this->inventory_objects->item_root = new TObject(this);
     clear_equip_slots((s32 *)(((u8 *)this) + 0xD04));
 }
 
