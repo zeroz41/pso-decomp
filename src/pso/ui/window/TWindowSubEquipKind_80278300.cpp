@@ -34,10 +34,10 @@ typedef struct {
 
 u32 calc_text_width(void);
 static const u8 lbl_805DD5F8[4] = {1, 2, 2, 1};
-void TWindowSubTradeMain::set_trade_state(s16 trade_state) {
+void TWindowSubEquipKind::set_trade_state(s16 trade_state) {
     this->trade_state = trade_state;
-    if ((s16) this->trade_state == 3) {
-        *(s16 *)((s8 *)this + 0x8A) = 0x3C;
+    if (this->trade_state == 3) {
+        state_timer = 60;
     }
 }
 

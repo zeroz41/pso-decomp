@@ -8,9 +8,10 @@ struct TWindowSubEquipKind : public TWindowMenuIconLine {
     TWindowSubEquipKind(u8 *parent, s32 client);
     virtual ~TWindowSubEquipKind();
     void draw_tab_label(void *);
+    void set_trade_state(s16 trade_state);
     virtual void render();
-    s16 m_88;
-    s16 m_8a;
+    s16 trade_state;  // indexes the status-display tab labels; 4 after the list opens
+    s16 state_timer;  // 60 when set_trade_state enters state 3, counted down to 0
     virtual void run_task();
 };
 

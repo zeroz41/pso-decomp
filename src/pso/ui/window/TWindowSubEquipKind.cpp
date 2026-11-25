@@ -25,7 +25,7 @@ void TWindowSubEquipKind::render() {
         reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
         context);
     draw_selected_list_entry(context);
-    if (m_88 != 4) {
+    if (trade_state != 4) {
         draw_tab_label(context);
     }
     if (status_display != NULL) {
@@ -40,9 +40,9 @@ void TWindowSubEquipKind::run_task() {
     int count;
 
     TWindowMenuIconLine::run_task();
-    count = m_8a;
+    count = state_timer;
     if (count != 0) {
-        m_8a = count - 1;
+        state_timer = count - 1;
     }
 }
 
@@ -51,6 +51,6 @@ TWindowSubEquipKind::~TWindowSubEquipKind() {}
 TWindowSubEquipKind::TWindowSubEquipKind(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 0x1F, client) {
     m_name = TWindowSubEquipKind__class_name;
     create_menu_scroll_bar();
-    m_88 = 4;
-    m_8a = 0;
+    trade_state = 4;
+    state_timer = 0;
 }

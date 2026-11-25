@@ -8,6 +8,8 @@ class TWindowHelpItem;
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+struct TWindowMenu;
+struct TWindowSubEquipKind;
 struct TWindowMessageYesNo;
 class TWindowChat;
 
@@ -15,9 +17,9 @@ struct TWindowSubTradeMain : public TObject {
     TWindowSubTradeMain(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubTradeMain();
     TWindowMessageYesNo *open_confirm_prompt();
-    saddr create_trade_window();
-    saddr open_trade_equip_window();
-    saddr create_list();
+    TWindowSubEquipKind *create_trade_window();
+    TWindowSubEquipKind *open_trade_equip_window();
+    TWindowSubEquipKind *create_list();
     TWindowInputNumber *create_input_number(s32 maximum);
     TWindowHelpItem *create_help_item();
     void set_displayed_item(s32);
@@ -26,17 +28,17 @@ struct TWindowSubTradeMain : public TObject {
     u8 state;
     u8 flags;
     u8 pad_1E[0x2];
-    u32 timer;
+    s32 timer;
     u32 displayed_item;
     u32 client_id;
     TWindowMainMenu *parent_menu;
-    uaddr menu;
-    uaddr confirm;
+    TWindowMenu *menu;
+    TWindowMenu *confirm;
     TWindowMessageYesNo *dialog;
-    uaddr offer;
-    uaddr request;
-    uaddr list;
-    uaddr input_number;
+    TWindowSubEquipKind *offer;
+    TWindowSubEquipKind *request;
+    TWindowSubEquipKind *list;
+    TWindowInputNumber *input_number;
     TWindowHelpItem *help_item;
     TWindowChat *chat;
     void *submission;
@@ -51,7 +53,6 @@ struct TWindowSubTradeMain : public TObject {
     void finish();
     void clear_flag();
     void clear_flag70_bit80();
-    void set_trade_state(s16 trade_state);
     static void draw_offer(u32 item_id, s32 amount);
     static void draw_request(u32 item_id, s32 amount);
     // Opens the status window once the trade list was sent.
@@ -61,8 +62,8 @@ struct TWindowSubTradeMain : public TObject {
     TWindowMessageYesNo *open_option_dialog_thunk(saddr message);
     TWindowMessageYesNo *open_status_window();
     TWindowMessageYesNo *update_from_lobby();
-    saddr create_trade_menu();
-    saddr build_trade_menu();
+    TWindowMenu *create_trade_menu();
+    TWindowMenu *build_trade_menu();
     virtual void render();
     virtual void run_task();
     u8 pad_58[0x18];
@@ -72,7 +73,7 @@ struct TWindowSubTradeMain : public TObject {
     u8 unk_76[0xA];
     uaddr m_80;
     u8 unk_84[0x4];
-    s16 trade_state;
+    u8 pad_88[0x2];
     u8 unk_8A[0x1E];
     void forward_to_child(s32 trade_state);
     void notify_child_if_present(s32 trade_state);
