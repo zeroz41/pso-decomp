@@ -17962,9 +17962,9 @@ draw_photon_blast_fan__FP19TWindowSimpleStatusP10NJS_POINT2P17WindowDrawContextU
 apply_random_shake__19TWindowSimpleStatusFv = .text:0x8026FDC0; // type:function size:0xE8
 update_hp_tp_level__19TWindowSimpleStatusFv = .text:0x8026FEA8; // type:function size:0x64
 update_for_player_index__13TWindowLockOnFl = .text:0x8026FF0C; // type:function size:0x108
-update_lockon_window = .text:0x80270014; // type:function size:0x4C
+update_lockon_window__FP19TWindowSimpleStatus = .text:0x80270014; // type:function size:0x4C
 update_photon_blast_player_marker__Fll = .text:0x80270060; // type:function size:0x190
-update_status_help_item__Fl = .text:0x802701F0; // type:function size:0x54
+update_status_help_item__FP19TWindowSimpleStatus = .text:0x802701F0; // type:function size:0x54
 draw_photon_blast_gauge_ring__FP19TWindowSimpleStatusP17WindowDrawContextPC10NJS_POINT2ff = .text:0x80270244; // type:function size:0x150
 draw_background__19TWindowSimpleStatusFP17WindowDrawContext = .text:0x80270394; // type:function size:0x180
 render__19TWindowSimpleStatusFv = .text:0x80270514; // type:function size:0x50

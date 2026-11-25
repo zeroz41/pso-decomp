@@ -325,10 +325,10 @@ void TWindowLockOn::update_for_player_index(s32 id) {
     *(s32 *)&this->entry_list = (s32) *(s32 *)((s8 *)temp_r29 + 0x18);
 }
 
-void update_lockon_window(u8 *window_simple_status) {
-    saddr temp_r31;
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_simple_status)->get_array_entry(1));
-    ((TWindowLockOn *)temp_r31)->update_for_player_index(((TWindowSimpleStatus *)window_simple_status)->get_width());
+void update_lockon_window(TWindowSimpleStatus *window) {
+    TWindowLockOn *lock_on;
+    lock_on = (TWindowLockOn *)window->get_array_entry(1);
+    lock_on->update_for_player_index(window->get_width());
 }
 
 void update_photon_blast_player_marker(saddr help, s32 client_id) {
@@ -380,14 +380,14 @@ void update_photon_blast_player_marker(saddr help, s32 client_id) {
     }
 }
 
-void update_status_help_item(saddr arg0) {
-    s32 var_r31;
+void update_status_help_item(TWindowSimpleStatus *window) {
+    s32 client_id;
 
-    var_r31 = ((TWindowSimpleStatus *)arg0)->get_width();
+    client_id = window->get_width();
     if (get_current_floor_area() == AREA_LOBBY) {
-        var_r31 = 0;
+        client_id = 0;
     }
-    update_photon_blast_player_marker((saddr)((TWindowBase *)arg0)->get_array_entry(0), var_r31);
+    update_photon_blast_player_marker((saddr)window->get_array_entry(0), client_id);
 }
 
 #pragma push
@@ -459,8 +459,8 @@ void TWindowSimpleStatus::render() {
 
 void TWindowSimpleStatus::run_task() {
     update_hp_tp_level();
-    update_lockon_window((u8 *)this);
-    update_status_help_item((saddr)this);
+    update_lockon_window(this);
+    update_status_help_item(this);
     update_status_icons((void *)(get_window_layout_position(0x1D)));
     update_window();
     update_fade();

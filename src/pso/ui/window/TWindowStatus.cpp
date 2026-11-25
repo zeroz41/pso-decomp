@@ -177,8 +177,8 @@ void TWindowStatus::render() {
 
 void TWindowStatus::run_task() {
     update_hp_tp_values();
-    update_lockon_window((u8 *)this);
-    update_status_help_item((saddr)this);
+    update_lockon_window(this);
+    update_status_help_item(this);
     update_status_icons((void *)(get_window_layout_position(0x1D)));
     update_window();
     update_fade();

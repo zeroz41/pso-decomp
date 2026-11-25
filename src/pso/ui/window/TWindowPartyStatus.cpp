@@ -85,9 +85,9 @@ void TWindowPartyStatus::render() {
 }
 
 void TWindowPartyStatus::run_task() {
-    update_lockon_window((u8 *)this);
+    update_lockon_window(this);
     draw();
-    update_status_help_item((saddr)this);
+    update_status_help_item(this);
     update_status_icons((void *)(get_window_layout_position(0xAC)));
     update_window();
     update_fade();
