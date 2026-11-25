@@ -14,7 +14,7 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    static void set_state(s32 arg0);
+    static void set_state(s32 episode);
     // The story list's cursor (story_select_cursor); TKeyBoardControl::dispatch_select_phase
     // switches on it after the ending.
     static int get_story_select();
@@ -25,7 +25,7 @@ public:
 
 LAYOUT_ASSERT(TAdStorySelectGC_size, sizeof(TAdStorySelectGC) == 0x24);
 
-s32 request_story_select_state(s32 arg0);
+s32 request_story_select_state(s32 state);
 
 // Cursor of the story list: cleared by the constructor, run_task stores the list's cursor every
 // frame (name inferred from that).
