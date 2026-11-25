@@ -261,7 +261,6 @@ Vec boss8_dragon_follow_camera_phase_eye_offsets[11] = {
 };
 extern CurvePathPoint boss8_dragon_bezier_points[4];
 extern CurvePathPoint boss8_dragon_bezier_points_3[3];
-extern CurvePathPoint TBoss8Dragon::dive_height_curve[3];
 
 
 extern "C" {

@@ -61,7 +61,7 @@ void TItemWeapon::draw_weapon_model() {
             TObjPlayer__weapon_node_ids[1] = parameters->effect_nodes[1];
             TObjPlayer__weapon_node_ids[2] = parameters->effect_nodes[2];
             if (this->model_motion == NULL) {
-                this->set_model_node_callback((saddr)apply_weapon_node_material);
+                this->set_model_node_callback(apply_weapon_node_material);
             } else {
                 set_chunk_model_node_callback(apply_weapon_node_material);
             }
@@ -286,7 +286,7 @@ void increment_model_node_counter(void) {
 
 int TObjPlayer::get_player_list() {  return model_node_counter; }
 
-void TItemWeapon::set_model_node_callback(s32 v) { model_node_callback = (void (*)(NJS_OBJECT *))v; }
+void TItemWeapon::set_model_node_callback(void (*callback)(NJS_OBJECT *)) { model_node_callback = callback; }
 
 void reset_model_node_counter(void) { model_node_counter = 0; }
 

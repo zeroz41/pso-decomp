@@ -38,8 +38,6 @@ NJS_TEXLIST *boss2_tentacle_texlist;
 // The working copy of the model nodes drawn while striking, and the rest pose read from the model;
 // defined below with load_shared_model.
 extern NJS_OBJECT tentacle_model_nodes[];
-extern Vec TBoss2Tentacle::segment_points[];
-extern s32 TBoss2Tentacle::segment_point_defaults[];
 
 void TBoss2Tentacle::render() {
     s32 i;

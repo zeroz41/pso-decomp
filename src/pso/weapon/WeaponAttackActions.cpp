@@ -36,6 +36,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_80120150.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/effect/item/TItemEffEquip.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include <stdlib.h>
@@ -75,7 +76,6 @@ extern "C" {
 WeaponArgb get_weapon_color__11TItemWeaponFPv(TItemWeapon *weapon);
 f32 * get_weapon_range_record(void *, s16);
 s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
-s32 rotate_matrix_y(int, void *);
 extern const f32 lbl_805DAC94;
 extern A12_8011E3E8 weapon_light_direction[];
 extern A16_8011E3E8 weapon_light_color[];
@@ -319,7 +319,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
                     VecCopy((Vec *)&v, &ph->bodies[item->get_captured_target_collider_index()].center);
                     subtract_vector(&v, ((Vec *)origin));
                     push_matrix_from(identity_matrix);
-                    ((void (*)(s32, s32))rotate_matrix_y)(0, angle);
+                    rotate_matrix_y(0, angle);
                     transform_point_by_current_matrix(&v.x, &atk.direction);
                     atk.flags |= 1;
                     pop_matrix();
@@ -378,7 +378,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         rec = get_weapon_range_record(this, 2);
         v.x = v.y = lbl_805DAC98;
         v.z = rec[0];
-        rotate_matrix_y(0, (void *)owner->rotation_y);
+        rotate_matrix_y(0, owner->rotation_y);
         transform_point_by_current_matrix(&v.x, &pos);
         pop_matrix();
         vec3_add_to(&pos, (const Vec *)origin);
@@ -461,7 +461,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 fallback.y = lbl_805DAC98;
                 fallback.x = lbl_805DAC98;
                 fallback.z = *range_record;
-                rotate_matrix_y(0, (void *) (owner->rotation_y + angle));
+                rotate_matrix_y(0, owner->rotation_y + angle);
                 transform_point_by_current_matrix(&fallback.x, &endpoint);
                 pop_matrix();
                 vec3_add_to((Vec *)&endpoint.x, (const Vec *)origin);

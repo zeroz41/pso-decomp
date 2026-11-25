@@ -113,7 +113,7 @@ struct TItemWeapon : public TItemEquipBase {
     void set_flag_8_unless_on_ground();
     // Calls impact_callback (if set) with the task layer, this, and both arguments.
     void call_impact_callback(saddr arg1, saddr arg2);
-    void set_model_node_callback(s32);
+    void set_model_node_callback(void (*callback)(NJS_OBJECT *));
     void advance_weapon_photon_phase();
     s32 is_active_in_game();
     void roll_technique();

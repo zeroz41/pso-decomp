@@ -30,7 +30,7 @@ void TBoss4Fade::render() {
     first_slot = 0;
     q.col[1] = c;
     q.col[first_slot] = c;
-    q.tex = (NJS_TEX *)first_slot;
+    q.tex = NULL;
     q.count = 4;
     q.verts = (ColorLineVertex *)TBoss4Fade::fullscreen_vertices;
     set_depth_buffer_settings_1();
