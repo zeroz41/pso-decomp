@@ -5852,7 +5852,7 @@ force_active:
   - draw_line_task_resource_path
   - draw_locked__8TObjDoorFv
   - draw_menu_backdrop_gradients__Fl
-  - draw_message_frame_row__11TWindowBaseFPvPv
+  - draw_message_frame_row__11TWindowBaseFP12TexturedQuadP17WindowDrawContext
   - draw_message_window__11TAdEp3ExistFPvPv
   - draw_model_12__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_model_13__23TBoss6Demo21_TYPE2_DEADFv
@@ -5920,7 +5920,7 @@ force_active:
   - draw_title_rings__Flfl
   - draw_tunnel_segment__FPUc
   - draw_value__13TWindowMesetaFP17WindowDrawContext
-  - draw_window_frame_strips__11TWindowBaseFPvPv
+  - draw_window_frame_strips__11TWindowBaseFP12TexturedQuadP17WindowDrawContext
   - draw_window_scanlines__FPUcPUc
   - draw_window_uv_sprite_part
   - draw_with_fade__18TObjEneEpsilonBodyFl

@@ -43,34 +43,6 @@ struct UVPair_8024503C { UV_8024503C e[2]; };
 const char *TWindowBase::class_name = "TWindowBase";
 static const UVPair_8024503C selection_bar_texture_coordinates = {{{151.0f, 57.0f}, {151.0f, 76.0f}}};
 
-struct QFrameQuad_80245808
-{
-  f32 x;
-  f32 y;
-  f32 right;
-  f32 bottom;
-  f32 u;
-  f32 v;
-  f32 uRight;
-  f32 vBottom;
-};
-
-struct QFrameWindow_80245808
-{
-  u8 pad[0x4c];
-  f32 height;
-};
-
-struct QFrameCtx_80245808
-{
-  f32 x;
-  f32 y;
-  u8 pad[0x1c];
-  f32 pivotY;
-  u8 pad2[4];
-  f32 scaleY;
-};
-
 void reset_line_width(void);
 void set_line_width(int a0);
 extern "C" {
@@ -500,7 +472,7 @@ BOOL TWindowSubComCard__sub_80245558(void *ctx, void *position, void *size) {
 
 #pragma push
 #pragma fp_contract on
-void TWindowBase::draw_message_frame_row(void *q, void *r) {
+void TWindowBase::draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *context) {
     f32 rem;
     f32 t;
     f32 z;
@@ -510,94 +482,91 @@ void TWindowBase::draw_message_frame_row(void *q, void *r) {
     } else {
         w = 32.0f;
     }
-    z = -1.0f / ((WindowDrawContext *)r)->depth;
-    ((TexturedQuad *)q)->x0 = ((WindowDrawContext *)r)->x;
-    ((TexturedQuad *)q)->x1 = ((WindowDrawContext *)r)->x + w;
-    ((TexturedQuad *)q)->u0 = 0.3828125f;
-    ((TexturedQuad *)q)->u1 = 0.5078125f;
-    ((TexturedQuad *)q)->x0 = ((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x0 - ((WindowDrawContext *)r)->pivot[0]) + ((WindowDrawContext *)r)->pivot[0];
-    ((TexturedQuad *)q)->x1 = ((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x1 - ((WindowDrawContext *)r)->pivot[0]) + ((WindowDrawContext *)r)->pivot[0];
-    draw_textured_quad_at_depth((f32 *)((TexturedQuad *)q), z);
-    ((TexturedQuad *)q)->x0 = (((WindowDrawContext *)r)->x + this->frame_size[0]) - w;
-    ((TexturedQuad *)q)->x1 = ((WindowDrawContext *)r)->x + this->frame_size[0];
-    ((TexturedQuad *)q)->u0 = 0.6328125f;
-    ((TexturedQuad *)q)->u1 = 0.7578125f;
-    ((TexturedQuad *)q)->x0 = ((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x0 - ((WindowDrawContext *)r)->pivot[0]) + ((WindowDrawContext *)r)->pivot[0];
-    ((TexturedQuad *)q)->x1 = ((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x1 - ((WindowDrawContext *)r)->pivot[0]) + ((WindowDrawContext *)r)->pivot[0];
-    draw_textured_quad_at_depth((f32 *)((TexturedQuad *)q), z);
-    ((TexturedQuad *)q)->x0 = 32.0f + ((WindowDrawContext *)r)->x;
-    ((TexturedQuad *)q)->u0 = 0.5078125f;
-    ((TexturedQuad *)q)->u1 = 0.6328125f;
-    rem = ((WindowDrawContext *)r)->scale[0] * (this->frame_size[0] - 64.0f);
-    ((TexturedQuad *)q)->x0 = ((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x0 - ((WindowDrawContext *)r)->pivot[0]) + ((WindowDrawContext *)r)->pivot[0];
+    z = -1.0f / context->depth;
+    quad->x0 = context->x;
+    quad->x1 = context->x + w;
+    quad->u0 = 0.3828125f;
+    quad->u1 = 0.5078125f;
+    quad->x0 = context->scale[0] * (quad->x0 - context->pivot[0]) + context->pivot[0];
+    quad->x1 = context->scale[0] * (quad->x1 - context->pivot[0]) + context->pivot[0];
+    draw_textured_quad_at_depth((f32 *)quad, z);
+    quad->x0 = (context->x + this->frame_size[0]) - w;
+    quad->x1 = context->x + this->frame_size[0];
+    quad->u0 = 0.6328125f;
+    quad->u1 = 0.7578125f;
+    quad->x0 = context->scale[0] * (quad->x0 - context->pivot[0]) + context->pivot[0];
+    quad->x1 = context->scale[0] * (quad->x1 - context->pivot[0]) + context->pivot[0];
+    draw_textured_quad_at_depth((f32 *)quad, z);
+    quad->x0 = 32.0f + context->x;
+    quad->u0 = 0.5078125f;
+    quad->u1 = 0.6328125f;
+    rem = context->scale[0] * (this->frame_size[0] - 64.0f);
+    quad->x0 = context->scale[0] * (quad->x0 - context->pivot[0]) + context->pivot[0];
     while (rem >= 0.0f) {
         if (rem < 32.0f) {
-            ((TexturedQuad *)q)->x1 = ((TexturedQuad *)q)->x0 + rem;
+            quad->x1 = quad->x0 + rem;
             t = 130.0f + rem;
-            ((TexturedQuad *)q)->u1 = t / 256.0f;
+            quad->u1 = t / 256.0f;
         } else {
-            ((TexturedQuad *)q)->x1 = 32.0f + ((TexturedQuad *)q)->x0;
+            quad->x1 = 32.0f + quad->x0;
         }
-        draw_textured_quad_at_depth((f32 *)((TexturedQuad *)q), z);
+        draw_textured_quad_at_depth((f32 *)quad, z);
         rem -= 32.0f;
-        ((TexturedQuad *)q)->x0 += 32.0f;
+        quad->x0 += 32.0f;
     }
 }
 #pragma pop
 
-typedef struct QFrameCtx_80245808 QFrameCtx_80245808;
-typedef struct QFrameQuad_80245808 QFrameQuad_80245808;
-typedef struct QFrameWindow_80245808 QFrameWindow_80245808;
 #pragma fp_contract on
-void TWindowBase::draw_quest_message_frame(void *c_arg) {
-    struct QFrameCtx_80245808 *c = (struct QFrameCtx_80245808 *)c_arg;
-  struct QFrameQuad_80245808 q;
+void TWindowBase::draw_quest_message_frame(void *context) {
+  WindowDrawContext *c = (WindowDrawContext *)context;
+  TexturedQuad q;
   f32 step;
   f32 rem;
   f32 half;
   begin_screen_draw(1);
   TObjFish::set_global_param(hud_texlist);
   set_draw_texture_and_color(1, -1);
-  if (((struct QFrameWindow_80245808 *)this)->height < 64.0f)
+  if (frame_size[1] < 64.0f)
   {
-    half = 0.5f * ((struct QFrameWindow_80245808 *)this)->height;
+    half = 0.5f * frame_size[1];
   }
   else
   {
     half = 32.0f;
   }
-  q.y = c->y;
-  q.bottom = c->y + half;
-  q.v = 0.0f;
-  q.vBottom = 0.125f;
-  q.y = (c->scaleY * (q.y - c->pivotY)) + c->pivotY;
-  q.bottom = (c->scaleY * (q.bottom - c->pivotY)) + c->pivotY;
-  draw_message_frame_row((TexturedQuad *)(&q), (WindowDrawContext *)(c));
-  q.bottom = c->y + ((struct QFrameWindow_80245808 *)this)->height;
-  q.y = q.bottom - half;
-  q.v = 0.25f;
-  q.vBottom = 0.375f;
-  q.y = (c->scaleY * (q.y - c->pivotY)) + c->pivotY;
-  q.bottom = (c->scaleY * (q.bottom - c->pivotY)) + c->pivotY;
-  draw_message_frame_row((TexturedQuad *)(&q), (WindowDrawContext *)(c));
-  q.y = 32.0f + c->y;
-  q.v = 0.125f;
-  q.vBottom = 0.25f;
-  step = 32.0f * c->scaleY;
-  rem = ((struct QFrameWindow_80245808 *)this)->height - 64.0f;
-  q.y = (c->scaleY * (q.y - c->pivotY)) + c->pivotY;
-  step = 32.0f * c->scaleY;
+  q.y0 = c->y;
+  q.y1 = c->y + half;
+  q.v0 = 0.0f;
+  q.v1 = 0.125f;
+  q.y0 = (c->scale[1] * (q.y0 - c->pivot[1])) + c->pivot[1];
+  q.y1 = (c->scale[1] * (q.y1 - c->pivot[1])) + c->pivot[1];
+  draw_message_frame_row(&q, c);
+  q.y1 = c->y + frame_size[1];
+  q.y0 = q.y1 - half;
+  q.v0 = 0.25f;
+  q.v1 = 0.375f;
+  q.y0 = (c->scale[1] * (q.y0 - c->pivot[1])) + c->pivot[1];
+  q.y1 = (c->scale[1] * (q.y1 - c->pivot[1])) + c->pivot[1];
+  draw_message_frame_row(&q, c);
+  q.y0 = 32.0f + c->y;
+  q.v0 = 0.125f;
+  q.v1 = 0.25f;
+  step = 32.0f * c->scale[1];
+  rem = frame_size[1] - 64.0f;
+  q.y0 = (c->scale[1] * (q.y0 - c->pivot[1])) + c->pivot[1];
+  step = 32.0f * c->scale[1];
   while (rem >= 0.0f)
   {
     if (rem < 32.0f)
     {
-      step = rem * ((float) c->scaleY);
-      q.vBottom = (32.0f + rem) / 256.0f;
+      step = rem * c->scale[1];
+      q.v1 = (32.0f + rem) / 256.0f;
     }
-    q.bottom = q.y + step;
-    draw_message_frame_row((TexturedQuad *)(&q), (WindowDrawContext *)(c));
+    q.y1 = q.y0 + step;
+    draw_message_frame_row(&q, c);
     rem -= 32.0f;
-    q.y += step;
+    q.y0 += step;
   }
   TWindowSubStatusDisp::get_player();
 }
@@ -686,58 +655,58 @@ void draw_window_scanlines(u8 *card, u8 *arg1) {
 #pragma push
 #pragma fp_contract on
 
-void TWindowBase::draw_window_frame_strips(void *q, void *r) {
+void TWindowBase::draw_window_frame_strips(TexturedQuad *quad, WindowDrawContext *context) {
   f32 rem;
   f32 t;
   f32 z;
   f32 w;
-  z = -1.0f / ((WindowDrawContext *)r)->depth;
+  z = -1.0f / context->depth;
   w = 0.5f * frame_size[0];
   if (w > 32.0f)
   {
     w = 32.0f;
   }
-  ((TexturedQuad *)q)->x0 = ((WindowDrawContext *)r)->x;
-  ((TexturedQuad *)q)->x1 = ((WindowDrawContext *)r)->x + w;
-  ((TexturedQuad *)q)->u0 = 0.0f;
-  ((TexturedQuad *)q)->u1 = w / 256.0f;
-  ((TexturedQuad *)q)->x0 = (((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x0 - ((WindowDrawContext *)r)->pivot[0])) + ((WindowDrawContext *)r)->pivot[0];
-  ((TexturedQuad *)q)->x1 = (((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x1 - ((WindowDrawContext *)r)->pivot[0])) + ((WindowDrawContext *)r)->pivot[0];
-  draw_textured_quad_at_depth((f32 *)((TexturedQuad *)q), z);
-  ((TexturedQuad *)q)->x0 = (((WindowDrawContext *)r)->x + frame_size[0]) - w;
-  ((TexturedQuad *)q)->x1 = ((WindowDrawContext *)r)->x + frame_size[0];
-  ((TexturedQuad *)q)->u0 = (96.0f - w) / 256.0f;
-  ((TexturedQuad *)q)->u1 = 0.375f;
-  ((TexturedQuad *)q)->x0 = (((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x0 - ((WindowDrawContext *)r)->pivot[0])) + ((WindowDrawContext *)r)->pivot[0];
-  ((TexturedQuad *)q)->x1 = (((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x1 - ((WindowDrawContext *)r)->pivot[0])) + ((WindowDrawContext *)r)->pivot[0];
-  draw_textured_quad_at_depth((f32 *)((TexturedQuad *)q), z);
-  ((TexturedQuad *)q)->x0 = 32.0f + ((WindowDrawContext *)r)->x;
-  ((TexturedQuad *)q)->u0 = 0.125f;
-  ((TexturedQuad *)q)->u1 = 0.25f;
-  rem = ((WindowDrawContext *)r)->scale[0] * (frame_size[0] - 64.0f);
-  ((TexturedQuad *)q)->x0 = (((WindowDrawContext *)r)->scale[0] * (((TexturedQuad *)q)->x0 - ((WindowDrawContext *)r)->pivot[0])) + ((WindowDrawContext *)r)->pivot[0];
+  quad->x0 = context->x;
+  quad->x1 = context->x + w;
+  quad->u0 = 0.0f;
+  quad->u1 = w / 256.0f;
+  quad->x0 = (context->scale[0] * (quad->x0 - context->pivot[0])) + context->pivot[0];
+  quad->x1 = (context->scale[0] * (quad->x1 - context->pivot[0])) + context->pivot[0];
+  draw_textured_quad_at_depth((f32 *)quad, z);
+  quad->x0 = (context->x + frame_size[0]) - w;
+  quad->x1 = context->x + frame_size[0];
+  quad->u0 = (96.0f - w) / 256.0f;
+  quad->u1 = 0.375f;
+  quad->x0 = (context->scale[0] * (quad->x0 - context->pivot[0])) + context->pivot[0];
+  quad->x1 = (context->scale[0] * (quad->x1 - context->pivot[0])) + context->pivot[0];
+  draw_textured_quad_at_depth((f32 *)quad, z);
+  quad->x0 = 32.0f + context->x;
+  quad->u0 = 0.125f;
+  quad->u1 = 0.25f;
+  rem = context->scale[0] * (frame_size[0] - 64.0f);
+  quad->x0 = (context->scale[0] * (quad->x0 - context->pivot[0])) + context->pivot[0];
   while (rem >= 0.0f)
   {
     if (rem < 32.0f)
     {
-      ((TexturedQuad *)q)->x1 = ((TexturedQuad *)q)->x0 + rem;
+      quad->x1 = quad->x0 + rem;
       t = 32.0f + rem;
-      ((TexturedQuad *)q)->u1 = t / 256.0f;
+      quad->u1 = t / 256.0f;
     }
     else
     {
-      ((TexturedQuad *)q)->x1 = 32.0f + ((TexturedQuad *)q)->x0;
+      quad->x1 = 32.0f + quad->x0;
     }
-    draw_textured_quad_at_depth((f32 *)((TexturedQuad *)q), z);
+    draw_textured_quad_at_depth((f32 *)quad, z);
     rem -= 32.0f;
-    ((TexturedQuad *)q)->x0 += 32.0f;
+    quad->x0 += 32.0f;
   }
 
 }
 #pragma pop
 
 #pragma fp_contract on
-void TWindowBase::draw_window_frame(void *r) {
+void TWindowBase::draw_window_frame(void *context) {
   TexturedQuad q;
   s32 n;
   f32 h;
@@ -745,7 +714,7 @@ void TWindowBase::draw_window_frame(void *r) {
   f32 rem;
   begin_screen_draw(1);
   TObjFish::set_global_param(hud_texlist);
-  set_draw_texture_and_color(1, ((WindowDrawContext *)r)->color);
+  set_draw_texture_and_color(1, ((WindowDrawContext *)context)->color);
   n = (s32) frame_size[1];
   n += (4 - (n & 3)) & 3;
   if (((f32) n) < 64.0f)
@@ -756,40 +725,40 @@ void TWindowBase::draw_window_frame(void *r) {
   {
     h = 32.0f;
   }
-  q.y0 = ((WindowDrawContext *)r)->y;
-  q.y1 = ((WindowDrawContext *)r)->y + h;
+  q.y0 = ((WindowDrawContext *)context)->y;
+  q.y1 = ((WindowDrawContext *)context)->y + h;
   q.v0 = 0.0f;
   q.v1 = h / 256.0f;
-  q.y0 = (((WindowDrawContext *)r)->scale[1] * (q.y0 - ((WindowDrawContext *)r)->pivot[1])) + ((WindowDrawContext *)r)->pivot[1];
-  q.y1 = (((WindowDrawContext *)r)->scale[1] * (q.y1 - ((WindowDrawContext *)r)->pivot[1])) + ((WindowDrawContext *)r)->pivot[1];
-  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)r)));
-  q.y0 = (((WindowDrawContext *)r)->y + n) - h;
-  q.y1 = ((WindowDrawContext *)r)->y + n;
+  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
+  q.y0 = (((WindowDrawContext *)context)->y + n) - h;
+  q.y1 = ((WindowDrawContext *)context)->y + n;
   q.v0 = (96.0f - h) / 256.0f;
   q.v1 = 0.375f;
-  q.y0 = (((WindowDrawContext *)r)->scale[1] * (q.y0 - ((WindowDrawContext *)r)->pivot[1])) + ((WindowDrawContext *)r)->pivot[1];
-  q.y1 = (((WindowDrawContext *)r)->scale[1] * (q.y1 - ((WindowDrawContext *)r)->pivot[1])) + ((WindowDrawContext *)r)->pivot[1];
-  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)r)));
-  q.y0 = 32.0f + ((WindowDrawContext *)r)->y;
+  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  q.y1 = (((WindowDrawContext *)context)->scale[1] * (q.y1 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
+  q.y0 = 32.0f + ((WindowDrawContext *)context)->y;
   q.v0 = 0.125f;
   q.v1 = 0.25f;
   rem = n - 64.0f;
-  q.y0 = (((WindowDrawContext *)r)->scale[1] * (q.y0 - ((WindowDrawContext *)r)->pivot[1])) + ((WindowDrawContext *)r)->pivot[1];
-  dy = 32.0f * ((WindowDrawContext *)r)->scale[1];
+  q.y0 = (((WindowDrawContext *)context)->scale[1] * (q.y0 - ((WindowDrawContext *)context)->pivot[1])) + ((WindowDrawContext *)context)->pivot[1];
+  dy = 32.0f * ((WindowDrawContext *)context)->scale[1];
   while (rem >= 0.0f)
   {
     if (rem < 32.0f)
     {
-      dy = rem * ((WindowDrawContext *)r)->scale[1];
+      dy = rem * ((WindowDrawContext *)context)->scale[1];
       q.v1 = (32.0f + rem) / 256.0f;
     }
     q.y1 = q.y0 + dy;
-    draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)r)));
+    draw_window_frame_strips((TexturedQuad *)(&q), (WindowDrawContext *)(((WindowDrawContext *)context)));
     rem -= 32.0f;
     q.y0 += dy;
   }
   TWindowSubStatusDisp::get_player();
-  draw_window_scanlines((u8 *)this, (u8 *)((WindowDrawContext *)r));
+  draw_window_scanlines((u8 *)this, (u8 *)((WindowDrawContext *)context));
 }
 
 void TWindowBase::update_fade() {
