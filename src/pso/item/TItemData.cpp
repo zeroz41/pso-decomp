@@ -100,22 +100,16 @@ extern "C" {
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void *lookup_item_pmt_record(u8 *item);
 u8 get_cast_technique_level(void *, int);
+void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
 f32 calc_clock_bonus__9TItemDataFPv(u8 *arg0);
 void * lookup_item_pmt_record(u8 *item);
-s16 getS16_06__9TItemDataFPv(void *arg0);
-s16 get_bswap16_field8__9TItemDataFPv(void *arg0);
 void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
 void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
-s16 get_field6_bswap__9TItemDataFPv(void *arg0);
 void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2, void *res, EquipStats *st, Stats2_8010BEC4 *st2);
 void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st);
-s32 is_usable__9TItemDataFPv(void *arg0);
-s32 is_custom_name_srank__9TItemDataFPv(u8 *arg0);
-void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
 }
 u8 get_technique_learn_limit(u8, u8);
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
-#define getS16_06__9TItemDataFPv ((s32 (*)(void *))getS16_06__9TItemDataFPv)
 
 struct Parm_8010C1E0 { u8 pad[8]; s16 dfp; s16 evp; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
 
@@ -147,15 +141,11 @@ struct Tbl_8010C8B4 { s32 w[19]; };
 static const Tbl_8010C8B4 item_icon_index_by_category_table = {{1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 3, 2}};
 static const f32 mag_stat_bonus_scale[4] = {2.0f, 0.5f, 1.0f, 2.0f};
 extern "C" {
-void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst);
 extern const u8 lbl_805DAB68 = 0x40;
 }
 saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id);
 extern "C" {
 
-extern "C" {
-u8 is_wrapped__9TItemDataFPv(Item_8010C52C *it);
-}
 
 
 void TItemData::set_present_color(s8 box_color) {
@@ -400,8 +390,8 @@ void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 u
     f32 add = ((f32 (*)(u8 *, s32))calc_clock_bonus__9TItemDataFPv)(self, player);
     parm = ((Parm_8010C0A4 *)lookup_item_pmt_record(self));
     if (parm != 0) {
-        b06 = getS16_06__9TItemDataFPv(self);
-        s32 b08 = ((s32 (*)(void *))get_bswap16_field8__9TItemDataFPv)(self);
+        b06 = ((s32 (*)(void *))TItemData::getS16_06)(self);
+        s32 b08 = ((s32 (*)(void *))TItemData::get_bswap16_field8)(self);
         s32 v = (s32)(parm->xa * mult + add);
         if (out != 0) {
             TItemData::add_stat_ptr(out, (s16)(v + b08));
@@ -425,7 +415,7 @@ void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 un
     f32 add = ((f32 (*)(u8 *, s32))calc_clock_bonus__9TItemDataFPv)(self, player);
     parm = lookup_item_pmt_record(self);
     if (parm != 0) {
-        dfpBonus = getS16_06__9TItemDataFPv(self);
+        dfpBonus = ((s32 (*)(void *))TItemData::getS16_06)(self);
         s16 evpBonus = TItemData::get_bswap16_field8(self);
         s32 dfp = (s32)(parm->dfp * mult + add);
         if (out != 0) {
@@ -496,18 +486,19 @@ void TItemData::set_wrapped() {
 }
 
 
-u8 is_wrapped__9TItemDataFPv(Item_8010C52C *it) {
-    switch (it->kind) {
+s32 TItemData::is_wrapped(void *data) {
+    TItemData *item = (TItemData *)data;
+    switch (item->data1.data_u8[0]) {
     case 0:
     case 1:
-        return ((it->b4 & 0x40) - 0x40) == 0;
+        return ((item->data1.data_u8[4] & 0x40) - 0x40) == 0;
     case 3:
-        if (TItemData::lookup_item_def(it) != 0) {
+        if (TItemData::lookup_item_def(item) != 0) {
             return 0;
         }
-        return ((it->b3 & 0x40) - 0x40) == 0;
+        return ((item->data1.data_u8[3] & 0x40) - 0x40) == 0;
     case 2:
-        return ((it->b12 & 0x40) - 0x40) == 0;
+        return ((item->data2.data_u8[2] & 0x40) - 0x40) == 0;
     default:
         return 0;
     }
@@ -536,28 +527,26 @@ u16 TItemData::get_packed_value() {
     return 0U;
 }
 #undef lookup_item_pmt_record
-#undef getS16_06__9TItemDataFPv
 
-#define serialize_mag__9TItemDataFPvPv ((s32 (*)(void *, s32 *))serialize_mag__9TItemDataFPvPv)
 u8 get_weapon_class_motion_type(u8);
 s32 get_item_icon_index(const u8 *q);
-void bswap__9TItemDataFv(saddr arg0);
 
-s32 is_usable__9TItemDataFPv(void *arg0) {
-    u8 temp_r0;
+s32 TItemData::is_usable(void *data) {
+    TItemData *item = (TItemData *)data;
+    u8 kind;
 
-    if (TItemData::is_custom_name_srank(arg0) == 0) {
-        temp_r0 = *(u8 *)((s8 *)arg0 + 0);
-        if ((temp_r0 != 2) && (temp_r0 != 4) && (*(u8 *)((s8 *)arg0 + 0xA) & 0x80)) {
+    if (TItemData::is_custom_name_srank(item) == 0) {
+        kind = item->data1.data_u8[0];
+        if ((kind != 2) && (kind != 4) && (item->data1.data_u8[10] & 0x80)) {
             return 1;
         }
     }
     return 0;
 }
 
-void bswap__9TItemDataFv(saddr arg0) {
-    bswap_32((u32 *)(arg0 + 0x10));
-    bswap_32((u32 *)(arg0 + 0xC));
+void TItemData::bswap() {
+    bswap_32(&data2.data_u32);
+    bswap_32(&id);
 }
 
 s32 TItemData::get_name_style() { return 0; }
@@ -622,7 +611,6 @@ s32 get_item_icon_index(const u8 *q) {
     return 0;
 }
 
-#undef serialize_mag__9TItemDataFPvPv
 
 #define lookup_item_pmt_record ((void * (*)())lookup_item_pmt_record)
 void TItemData__sub_8010CA08(TItemData *arg0, uaddr arg1, u8 arg2);
@@ -724,14 +712,15 @@ void TItemData::pack_three_colors(u8 *in) {
   }
 }
 
-s32 is_custom_name_srank__9TItemDataFPv(u8 *arg0) {
-    u8 temp_r0;
-    if ((u8) *(u8 *)((s8 *)arg0 + 0) == 0) {
-        temp_r0 = *(u8 *)((s8 *)arg0 + 1);
-        if ((temp_r0 >= 0x70U) && (temp_r0 <= 0x88U)) {
+s32 TItemData::is_custom_name_srank(void *data) {
+    TItemData *item = (TItemData *)data;
+    u8 kind;
+    if (item->data1.data_u8[0] == 0) {
+        kind = item->data1.data_u8[1];
+        if ((kind >= 0x70U) && (kind <= 0x88U)) {
             return 1;
         }
-        if ((temp_r0 >= 0xA5U) && (temp_r0 <= 0xA9U)) {
+        if ((kind >= 0xA5U) && (kind <= 0xA9U)) {
             return 1;
         }
     }
@@ -815,15 +804,14 @@ extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {
 
-void lookup_item_def__9TItemDataFPv(void *arg0) {
-    is_item_stackable(*(u8 *)((s8 *)arg0 + 0), *(u8 *)((s8 *)arg0 + 1));
+s32 TItemData::lookup_item_def(void *data) {
+    TItemData *item = (TItemData *)data;
+    return is_item_stackable(item->data1.data_u8[0], item->data1.data_u8[1]);
 }
-s16 get_field6_bswap__9TItemDataFPv(void *arg0) {
-    s16 sp8;
-
-    sp8 = *(s16 *)((s8 *)arg0 + 6);
-    bswap_16((u16 *)&sp8);
-    return sp8;
+s16 TItemData::get_field6_bswap(void *data) {
+    s16 value = *(s16 *)((u8 *)data + 6);
+    bswap_16((u16 *)&value);
+    return value;
 }
 
 void TItemData::set_unit_modifier(s16 modifier) {
@@ -832,12 +820,10 @@ void TItemData::set_unit_modifier(s16 modifier) {
     bswap_16(&this->data1.data_u16[3]);
 }
 
-s16 get_bswap16_field8__9TItemDataFPv(void *arg0) {
-    s16 sp8;
-
-    sp8 = *(s16 *)((s8 *)arg0 + 8);
-    bswap_16((u16 *)&sp8);
-    return sp8;
+s16 TItemData::get_bswap16_field8(void *data) {
+    s16 value = *(s16 *)((u8 *)data + 8);
+    bswap_16((u16 *)&value);
+    return value;
 }
 
 void TItemData::set_bswapped_field_8(s16 evp_bonus) {
@@ -846,12 +832,10 @@ void TItemData::set_bswapped_field_8(s16 evp_bonus) {
     bswap_16(&this->data1.data_u16[4]);
 }
 
-s16 getS16_06__9TItemDataFPv(void *arg0) {
-    s16 sp8;
-
-    sp8 = *(s16 *)((s8 *)arg0 + 6);
-    bswap_16((u16 *)&sp8);
-    return sp8;
+s16 TItemData::getS16_06(void *data) {
+    s16 value = *(s16 *)((u8 *)data + 6);
+    bswap_16((u16 *)&value);
+    return value;
 }
 
 void TItemData::set_dfp_bonus(s16 dfp_bonus) {
@@ -1167,7 +1151,9 @@ void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag
 
 void TItemData::bswap_fields() { bswap_16(&this->data1.data_u16[2]); bswap_16(&this->data1.data_u16[3]); bswap_16(&this->data1.data_u16[4]); bswap_16(&this->data1.data_u16[5]); }
 
-void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst) {
+void TItemData::deserialize_mag(void *item_data, void *mag_data) {
+    Raw_8010D614 *src = (Raw_8010D614 *)item_data;
+    Mag_8010D614 *dst = (Mag_8010D614 *)mag_data;
     if (dst != 0) {
         Raw_8010D614 tmp = *src;
         ((TItemData *)(&tmp))->bswap_fields();
