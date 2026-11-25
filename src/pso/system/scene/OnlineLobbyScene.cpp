@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "types.h"
 #include "pso/render/gjSystem.h"
-#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/debug_print.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

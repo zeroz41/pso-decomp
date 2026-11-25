@@ -60,7 +60,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_801461EC.h"
-#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/TLobby_80243370.h"

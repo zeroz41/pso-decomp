@@ -99,7 +99,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/quest/challenge/TChallenge.h"
-#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/object/TObjControl.h"

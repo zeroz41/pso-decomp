@@ -52,7 +52,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include <dolphin/os/OSTime.h>
-#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push

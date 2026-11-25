@@ -95,7 +95,7 @@
 
 #include "pso/system/scene/OfflineGameScene.h"
 
-#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/system/scene/OnlineLobbyScene.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 

@@ -4537,7 +4537,7 @@ pso/system/scene/OfflineGameScene.cpp:
 	.sdata      start:0x805D34B8 end:0x805D34C0
 	.sbss       start:0x805D5CE0 end:0x805D5CE8
 
-pso/unk/TLobby_801A3C48.cpp:
+pso/system/scene/OnlineLobbyScene.cpp:
 	.text       start:0x801A3C48 end:0x801A4C90
 	.rodata     start:0x80446918 end:0x80446940
 	.data       start:0x804C20E8 end:0x804C2298

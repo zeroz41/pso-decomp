@@ -753,7 +753,7 @@ pso/unk/TLobby_80160804.cpp
 pso/unk/TLobby_801461EC.cpp
 pso/unk/TLobby_80191F80.cpp
 pso/system/scene/OfflineGameScene.cpp
-pso/unk/TLobby_801A3C48.cpp
+pso/system/scene/OnlineLobbyScene.cpp
 pso/player/TPlayerBattleCtrl.cpp
 pso/unk/TLobby_801C4F80.cpp
 pso/unk/TLobby_801D3518.cpp
