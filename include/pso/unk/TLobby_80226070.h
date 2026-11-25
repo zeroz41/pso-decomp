@@ -3,10 +3,12 @@
 
 #include "types.h"
 
+void set_cue_stream_user_gain(s32 gain);
 extern "C" {
-void TLobby__sub_8022614C(s32 gain);
 int TLobby__sub_80226308(void);
-void TLobby__sub_8022644C(void);
+}
+void reset_sound_pitch_requests(void);
+extern "C" {
 void TTecRaFoie__sub_80226254(void);
 }
 void stop_sound_request(s32 idx);

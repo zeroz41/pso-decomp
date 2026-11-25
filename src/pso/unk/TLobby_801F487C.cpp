@@ -13,7 +13,8 @@ extern "C" {
 __declspec(section ".rodata") s32 lobby_story_flag_clear_list[6] = { 151, 152, 153, 154, -1, 0 };
 extern s32 lobby_story_flag_clear_list[6];
 
-void reset_camera_if_fullscreen__6TLobbyFPv(void* p) { if (TRaderMapCore::is_not_split_screen() == 1) { TCameraCtrl::get_nth_view_player_id((saddr)((void*)0)); ((int (*)(void))TLobby__sub_801F494C)(); } }
+void reset_camera_if_fullscreen__6TLobbyFPv(void* p) { if (TRaderMapCore::is_not_split_screen() == 1) { TCameraCtrl::get_nth_view_player_id((saddr)((void*)0)); ((int (*)(void))load_quest_story_flags)(); } }
+}
 
 void TLobby::clear_story_flag_list() {
     s32 i;
@@ -30,12 +31,10 @@ void TLobby::clear_story_flags_and_reset_camera() {
     ((void (*)(void))reset_camera_if_fullscreen__6TLobbyFPv)();
 }
 
-void TLobby__sub_801F494C(u16 client) {
+void load_quest_story_flags(u16 client) {
     uaddr character_save_record;
     character_save_record = get_character_save_record(client);
     if (character_save_record != 0U) {
         memcpy(quest_story_flags_by_difficulty, (void *)(character_save_record + 0x44), 0x200);
     }
-}
-
 }

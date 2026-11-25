@@ -47,7 +47,7 @@
 
 void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
     TCameraCtrl::restore_full_screen_view();
-    TLobby__sub_80228154(sprite, frame_index, flags, depth);
+    draw_screen_sprite(sprite, frame_index, flags, depth);
     TCameraCtrl::restore_saved_view();
 }
 
@@ -474,7 +474,6 @@ void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     TObjPlayer::render_tree(model);
 }
 
-extern "C" {
 
 
 void TObjPlayer::render_tree(void *model) {
@@ -496,7 +495,6 @@ void TObjPlayer::render_tree(void *model) {
 }
 
 
-}
 void render_tick(void) {
     TKeyBoardControl::run_tasks();
     TParticleCtrl::begin_effect_render();
@@ -513,9 +511,9 @@ void render_tick(void) {
     run_end_of_render_tasks();
 }
 
-s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2) {
+s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size) {
     s32 temp_r3;
-    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, (void *)arg2);
+    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, buf);
     if (temp_r3 >= 0) {
 loop_2:
         if (TLobby::read_afs_toc(id) != 3) {
@@ -531,9 +529,9 @@ loop_2:
     return temp_r3;
 }
 
-s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr arg2) {
+s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size) {
     s32 temp_r3;
-    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, (void *)arg2);
+    temp_r3 = TLobby::adxf_open_file(id, (void *)name, 0, buf);
     if (temp_r3 >= 0) {
 loop_1:
         if (TLobby::read_afs_toc(id) != 3) {

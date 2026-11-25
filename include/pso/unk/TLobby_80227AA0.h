@@ -9,7 +9,9 @@ struct Vec;
 // --- C functions defined in TLobby_80227AA0.cpp ---
 extern "C" {
 void TLobby__sub_80227AA8(s32 tracks);
-void TLobby__sub_80227AF8(s32 slot, const Vec *position);
+}
+void set_sound_request_position(s32 slot, const Vec *position);
+extern "C" {
 void TLobby__sub_80227D38(void);
 void TLobby__sub_8022804C(void);
 void TLobby__sub_8022809C(void);

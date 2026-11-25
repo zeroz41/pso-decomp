@@ -27,9 +27,7 @@ void TLobby__sub_80227AA8(s32 tracks) {
 #include "pso/network/client_id.h"
 #include "pso/unk/TLobby_803382E4.h"
 
-extern "C" {
-void TLobby__sub_80227AF8(s32 slot, const Vec *position) { TLobby__sub_8023F754(slot, position); }
-}
+void set_sound_request_position(s32 slot, const Vec *position) { set_sound_voice_position(slot, position); }
 
 
 s32 is_special_sound_id(u32 x) {

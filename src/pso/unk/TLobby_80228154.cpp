@@ -24,9 +24,6 @@ s32 init_scene_delo2();
 s32 load_dragon2_scene();
 
 
-extern "C" {
-
-
 // The screen quad draw_textured_quad_at_depth reads.
 struct TLobbyScreenQuad {
     f32 x0, y0, x1, y1;
@@ -40,7 +37,7 @@ union TLobbySpriteColor {
 
 // Draws one frame of a sprite on the screen; flags 1 rotates the quad by the
 // sprite's angle, 2 tints it with the model material colour, 0x20 blends.
-void TLobby__sub_80228154(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
+void draw_screen_sprite(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
     TLobbyScreenQuad quad;
     union TLobbySpriteColor color;
     if (sprite == NULL) {
@@ -115,7 +112,6 @@ void TLobby__sub_80228154(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 de
     set_draw_texture_and_color(frame->texid, color.packed);
     draw_textured_quad_at_depth(&quad.x0, depth);
     TWindowSubStatusDisp::get_player();
-}
 }
 
 void FloorTransition::clear_ready_flag_unless_locked() {

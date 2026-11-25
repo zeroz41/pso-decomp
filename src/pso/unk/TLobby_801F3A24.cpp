@@ -118,7 +118,7 @@ void TLobby::rebuild_all(u8 *quest) {
     TLobby__data_805D5EE0 = quest;
     TLobby::handle_msg_type1_for_idle_slots();
     TLobby::init_sub_state();
-    TLobby__sub_8020A2AC();
+    init_item_drop_rng();
     TLobby::init_floor_encounter_sections();
     TLobby::free_boss4rock();
     TLobby::rebuild_entry();

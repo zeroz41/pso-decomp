@@ -504,6 +504,7 @@ struct Voice_80241FD8;
 #pragma push
 
 #include "types.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 typedef struct ResolveSoundEffectBankRange {
     s32 start;
@@ -555,18 +556,18 @@ void SoundControlState::fn_8023F660(s32 tracks, s32 vol, s32 pan, s32 span, s32 
 
 extern "C" {
 s32 sndOutputMode(s32);
+}
 
 s32 TLobby::advance_rng() {
     *(s32 *)((s8 *)this + 0x2AC) = (s32) ((*(s32 *)((s8 *)this + 0x2AC) * 0x10DCD) + 1);
     return *(s32 *)((s8 *)this + 0x2AC);
 }
 
-void TLobby__sub_8023F754(s32 slot, const Vec *position) {
+void set_sound_voice_position(s32 slot, const Vec *position) {
     if (slot < 0 || slot >= 0x20) {
         return;
     }
     sound_request_voices[slot].position = position;
-}
 }
 
 void set_sound_slot_special_scale(s32 slot, f32 scale) {
@@ -954,7 +955,6 @@ s32 TLobby::reset_sound_state() {
 }
 extern "C" {
 void sndAuxCallbackPrepareReverbHI(void *rev);
-s32 TLobby__sub_801E3E9C(s32 id, const char *name, void *buf, s32 size);
 }
 
 s32 init_sound_aux_effects(SoundControlState *self) {
@@ -975,7 +975,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     self->depth = 0;
     self->set_output_mode(1);
     memset(lbl_80517BEC, 0, sizeof(lbl_80517BEC));
-    result = TLobby__sub_801E3E9C(0, "SOUND.BIN", lbl_80517BEC, 0xA0);
+    result = open_afs_file_wait_render(0, "SOUND.BIN", lbl_80517BEC, 0xA0);
     if (result != 0) {
         return 1;
     }

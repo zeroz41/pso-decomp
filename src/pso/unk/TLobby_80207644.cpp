@@ -306,6 +306,10 @@ extern const GetBossWarpDestinationTable boss_warp_destination_table_b = { {
 extern "C" {
 int selected_episode;
 }
+void randomize_adventure_maps(void);
+void reset_floor_map_registry(void);
+s32 get_floor_map_terrain(s32 floor);
+s32 get_boss_warp_destination(void);
 saddr story_select_pending_state = -1;
 int story_select_current = -1;
 void TLobby::backup_story_select() { selected_episode = story_select_current; }
@@ -444,7 +448,7 @@ void randomize_adventure_maps(void) {
 
 #pragma push
 #pragma opt_common_subs off
-void TLobby__sub_80207BB0(void) {
+void reset_floor_map_registry(void) {
     struct TLobbyIds ids = boss_warp_area_id_table;
     s32 i;
     memset(floor_map_registry, 0, sizeof(floor_map_registry));

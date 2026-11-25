@@ -2,6 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_80299C4C.h"
+#include "pso/unk/TLobby_80291D94.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/TObjChallenge4PRetry.h"
@@ -115,7 +116,6 @@ extern "C" {
 
 const char *obj_challenge4p_retry_class_name = "TObjChallenge4PRetry";
 
-s32 get_camera_view_count();
 
 s32 TLobby::is_multi_ready() {
     if ((TLobby::get_challenge_mode_flag() != 0) || (get_camera_view_count() <= 1)) {
@@ -223,16 +223,12 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
         queue_destruction();
     }
 }
-extern "C" {
-
-s32 TLobby__sub_80291F9C();
-}
 
 
 void giveup_window_handle_select(void *retry) {
 
     TLobby::play_effect_all_players(retry);
-    switch (TLobby__sub_80291F9C()) {
+    switch (get_challenge4p_retry_choice()) {
     case 0:
         play_cue_stream_file("lose.adx");
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(retry);

@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_8020A2AC(void);
-}
+void init_item_drop_rng(void);
 
 #endif

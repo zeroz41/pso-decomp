@@ -12,4 +12,7 @@ int TLobby__sub_80227A70(void *p);
 void TLobby__sub_80227A90(s32, const char *);
 }
 
+// Starts the loading music stream of the given index (0-3).
+void start_bgm_stream(s32 index);
+
 #endif

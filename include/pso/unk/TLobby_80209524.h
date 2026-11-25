@@ -30,19 +30,15 @@ QuestChunkHeader *find_type5_header(QuestChunkHeader *chunks, s32 id);
 void assign_object_ids(FloorObjectSetRow *rows, s32 count, s32 area);
 
 // --- C functions defined in TLobby_80209524.cpp ---
-extern "C" {
-EventShuffleTable *TLobby__sub_80209584(EventShuffleTable *table, s32 capacity);
-}
+EventShuffleTable *construct_event_shuffle_table(EventShuffleTable *table, s32 capacity);
 void select_event_shuffle_table(s16 id);
-extern "C" {
-void TLobby__sub_8020A2AC(void);
-}
+void init_item_drop_rng(void);
 void bswap_event_table_entry(void *p);
 void copy_event_table_entry(void *arg0, void *arg1);
 void bswap_item_data_record(void *p);
 void bswap_table_header(void *p);
+void copy_challenge_random_event(ChallengeRandomEvent *dst, ChallengeRandomEvent *src);
 extern "C" {
-void TLobby__sub_8020A618(ChallengeRandomEvent *dst, ChallengeRandomEvent *src);
 void TLobby__sub_8020A6B0(s32 player);
 }
 s32 get_total_object_set_count(void);

@@ -231,6 +231,6 @@ void TLobby::update_pulse_colors(s32 request) {
 }
 #pragma pop
 
-void TWindowSubStatusDisp__sub_803386F0(void) { TObjPlayer::free_if_valid(info_icon_texture); }
+void free_info_icon_texture(void) { TObjPlayer::free_if_valid(info_icon_texture); }
 
 void load_info_icon(void) { info_icon_texture = (saddr)LoadPvmFileTls("InfoIcon.gvm"); }

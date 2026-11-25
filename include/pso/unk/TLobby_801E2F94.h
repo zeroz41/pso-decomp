@@ -7,10 +7,11 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/Draw2D.h"
 
+// Opens an AFS file and spins the input loop until its table of contents is read.
+s32 open_afs_file_wait_input(s32 id, const char *name, void *buf, s32 size);
 extern "C" {
-s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2);
 void TLobby__sub_801E3CF0(u32 *p);
-s32 TLobby__sub_801E3E9C(s32 id, saddr name, saddr arg2);
+s32 open_afs_file_wait_render(s32 id, const char *name, void *buf, s32 size);
 }
 void reset_line_width(void);
 void set_line_width(int a0);

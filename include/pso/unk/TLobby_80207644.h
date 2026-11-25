@@ -13,8 +13,8 @@ struct FloorMapSelection {
 LAYOUT_ASSERT(FloorMapSelectionSize, sizeof(FloorMapSelection) == 0xC);
 LAYOUT_ASSERT(FloorMapSelectionTerrainOffset, offsetof(FloorMapSelection, terrain) == 4);
 
+void reset_floor_map_registry(void);
 extern "C" {
-void TLobby__sub_80207BB0(void);
 s32 get_floor_map_selection(s32 floor, FloorMapSelection *selection);
 }
 s32 lookup_floor_map_selection(s32 floor, FloorMapSelection *selection);

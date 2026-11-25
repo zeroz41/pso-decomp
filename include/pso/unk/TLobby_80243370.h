@@ -3,14 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
-void TLobby__sub_802433A8(void);
-}
+void free_player_data_load_buffer(void);
 
 // --- C functions defined in TLobby_80243370.cpp ---
-extern "C" {
-void TLobby__sub_802433A8(void);
-}
+void free_player_data_load_buffer(void);
 // --- end of C functions
 
 #endif

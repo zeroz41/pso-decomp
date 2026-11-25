@@ -7,9 +7,7 @@ struct TLobby;
 struct TItemData;
 void challenge_set_min_clear_time(s32 v);
 void challenge_set_boss_warp_disabled(s32 disabled);
-extern "C" {
-s32 TLobby__sub_80291F9C(void);
-}
+s32 get_challenge4p_retry_choice(void);
 s32 challenge_get_time_record(void);
 void challenge_set_time_record(s32 seed);
 extern "C" {
@@ -24,14 +22,12 @@ extern "C" {
 s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
 s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
 s32 TLobby__sub_80292DA0(s32 seed, u16 card);
-s32 TLobby__sub_80292F34(s32 limit);
-int get_camera_view_count(void *p);
 }
+s32 is_challenge_time_limit_invalid(s32 limit);
+int get_camera_view_count(void);
 void clear_challenge_and_split_screen_flags(void);
 void load_tombstone_resources();
-extern "C" {
-void TLobby__sub_80293218(s32 client);
-}
+void save_challenge_tombstone_spot(s32 client);
 s32 count_card_layout_entries(s32 client);
 void enable_split_screen_challenge_mode(void);
 s32 is_challenge_mode_active(void);
