@@ -40,7 +40,6 @@ struct Stack_80213B18 {
     f32 spC;
 };
 
-extern "C" {
 
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState quest_list_online_dat_download_state;
@@ -63,7 +62,6 @@ extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 
     extern int evt2_random_enemies_mode;
 
-}
 
     extern int evt2_random_enemies_mode;
 
@@ -71,10 +69,8 @@ extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 THunterGuildSeqOnline_Server *hunter_guild_seq_online_server_instance;
 THunterGuildSeqOnline_Client *hunter_guild_seq_online_client_instance;
 
-extern "C" {
 
 
-}
 
 struct Stack_8021488C {
     f32 sp8;
@@ -93,7 +89,6 @@ saddr get_window_layout_position(s32);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
-extern "C" {
 
 THunterGuildSeqOnline_Server::THunterGuildSeqOnline_Server(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
     m_name = THunterGuildSeqOnline_Server__name;
@@ -396,13 +391,11 @@ void THunterGuildSeqOffline__sub_80213E64(void) {
     }
 }
 
-}
 
 void set_random_enemies_mode(TObject *) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; TKeyBoardControl__sub_8000F950(); }
 
 void reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
 
-extern "C" {
 
 THunterGuildSeqOnline_Client::THunterGuildSeqOnline_Client(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
     m_name = THunterGuildSeqOnline_Client__name;
@@ -543,4 +536,3 @@ void THunterGuildSeqOnline_Client::update_shop_close() {
     }
 }
 
-}

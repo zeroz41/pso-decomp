@@ -121,8 +121,6 @@ u8 *calc_technique_parameters(s16, u8, s32);
 s32 get_cast_technique_level(void *, int);
 s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 }
-extern "C" {
-}
 
 
 s32 TWindowSubTechnique::open_menu() {

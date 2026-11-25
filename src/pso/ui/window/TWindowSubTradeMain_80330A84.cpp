@@ -123,8 +123,6 @@ struct TWindowSubTradeMain_8033162C {
     void *chat;
     u8 submission[4];
 };
-extern "C" {
-}
 
 typedef struct RecoveredFields_80331434_arg0 RecoveredFields_80331434_arg0;
 typedef struct RecoveredFields_80331520_arg0 RecoveredFields_80331520_arg0;
@@ -615,9 +613,8 @@ void TWindowSubTradeMain::run_task() {
 void TWindowSubTradeMain::render() {  }
 
 saddr TWindowSubTradeMain::build_trade_menu() {
-    u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) ((s32)(saddr)get_window_layout_position(0x5C)), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), (int) ((RecoveredFields_80331520_arg0 *) arg0)->field_28);
+  titled_window_menu = create_titled_window_menu((int) ((s32)(saddr)get_window_layout_position(0x5C)), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), (int) ((RecoveredFields_80331520_arg0 *) this)->field_28);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDA)), 6, 3);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDB)), 6, 0xA);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
@@ -629,9 +626,8 @@ saddr TWindowSubTradeMain::build_trade_menu() {
 }
 
 saddr TWindowSubTradeMain::create_trade_menu() {
-    u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) ((s32)(saddr)get_window_layout_position(0x5E)), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) arg0)->field_28);
+  titled_window_menu = create_titled_window_menu((int) ((s32)(saddr)get_window_layout_position(0x5E)), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) this)->field_28);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xE3)), 6, 0x16);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);
@@ -782,7 +778,7 @@ void TWindowSubTradeMain::set_labels(s32 labels) {
 }
 
 void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
-    switch (((TradeMain_80330BCC *)this)->state) {
+    switch (this->state) {
     case 2:
         if (((TradeMain_80330BCC *)this)->w30 != 0) {
             if (on != 0) {

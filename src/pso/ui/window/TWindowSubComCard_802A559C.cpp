@@ -7,7 +7,6 @@
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 
-extern "C" {
 
 // The yes/no choice menu sits 111 left of and 10 above the message window's bottom-right corner.
 void TWindowMessageYesNo::get_choice_menu_position(NJS_POINT2 *position) {
@@ -44,4 +43,3 @@ void TWindowMessageYesNo::move_to(const NJS_POINT2 *position) {
 void TWindowSubComCard::update_card_slot() { void* m = *(void* *)&this->m_2c; if (m) ((TWindowMenu *)m)->set_flag_40(); }
 void TWindowSubComCard::notify_trade_main() { void* m = *(void* *)&this->m_2c; if (m) ((TWindowSubTradeMain *)m)->clear_trade_flag(); }
 
-}

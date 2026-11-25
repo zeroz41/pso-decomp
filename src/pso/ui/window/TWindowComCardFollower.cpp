@@ -63,7 +63,7 @@ TWindowComCardFollower::~TWindowComCardFollower() {}
 void TWindowComCardFollower::run_task() {
     target_position[1] = parent_window->frame_position[1] + offset.y;
     frame_position[1] = target_position[1];
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(&entry_list);
 }

@@ -41,7 +41,7 @@ void TWindowSubComCardList::render() {
         this,
         &this->entry_list,
         ctx);
-    ((TWindowMenu *)this)->render_selected_entry(ctx);
+    this->render_selected_entry(ctx);
     this->draw_card_list_selection((u8 *)ctx);
     if (this->heading != 0) {
         this->heading->forward_render(ctx);

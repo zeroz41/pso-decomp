@@ -75,10 +75,8 @@ TWindowSubInformationBoard::~TWindowSubInformationBoard() {
     TWindowSubInformationBoard::clear_if_current((uaddr)&this->m_40);
 }
 
-extern "C" {
 
 void TWindowSubInformationBoard::run_task() {
-    u8 *arg0 = (u8 *)this;
     saddr temp_r30;
     u8 temp_r0;
     switch (this->m_1c) {
@@ -106,7 +104,7 @@ void TWindowSubInformationBoard::run_task() {
         }
         break;
     case 3:
-        TLobby::init_once_data((uaddr)((void *) ((u8 *)arg0 + 0x40)));
+        TLobby::init_once_data((uaddr)((void *) ((u8 *)this + 0x40)));
         this->m_1c = 4U;
     case 4:
         if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
@@ -119,7 +117,7 @@ void TWindowSubInformationBoard::run_task() {
         }
         break;
     case 5:
-        TWindowSubInformationBoard::clear_if_current((uaddr)((void *) ((u8 *)arg0 + 0x40)));
+        TWindowSubInformationBoard::clear_if_current((uaddr)((void *) ((u8 *)this + 0x40)));
         this->m_1c = 1U;
         break;
     case 6:
@@ -131,7 +129,7 @@ void TWindowSubInformationBoard::run_task() {
         }
         this->m_1c = 7U;
     case 7:
-        ((TWindowSubInformationBoard *)arg0)->set_page((int) (((TWindowMenu *)this->page_menu)->get_selected_value()));
+        this->set_page((int) (((TWindowMenu *)this->page_menu)->get_selected_value()));
         if (((TWindowMenu *)(this->page_menu))->is_cancelled() != 0) {
             this->m_1c = 8U;
             break;
@@ -150,7 +148,7 @@ void TWindowSubInformationBoard::run_task() {
             this->menu_window = 0U;
         }
         if (this->keyboard == NULL) {
-            this->keyboard = TWindowSubInformationBoard::open_keyboard((saddr)((void *)arg0));
+            this->keyboard = TWindowSubInformationBoard::open_keyboard((saddr)(this));
         }
         this->m_1c = 0xAU;
     case 10:
@@ -271,4 +269,3 @@ void TWindowSubInformationBoard::set_page(s32 arg1) {
     }
 }
 
-}

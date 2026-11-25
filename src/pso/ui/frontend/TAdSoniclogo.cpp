@@ -15,7 +15,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 void * sonic_logo_object;
 int TAdSoniclogo::state;
 int TLogo::exit_requested_flag;
@@ -26,7 +25,6 @@ void TAdSoniclogo::request_destroy(TObject *fade) {
     TAdSoniclogo::state = 1;
 }
 
-}
 
 
 void TAdSoniclogo::render() {

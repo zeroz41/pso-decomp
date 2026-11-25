@@ -452,7 +452,6 @@ void TCheckRoomSequence::handle_root_choice() {
 
 void TCheckRoomSequence::sub_802100F8() {  }
 void TCheckRoomSequence::sub_802100FC() {  }
-extern "C" {
 
 void TCheckRoomSequence::close_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0)) && (poll_memcard_result(((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) == 0)) {
@@ -545,7 +544,6 @@ TCheckRoomSequence::~TCheckRoomSequence() {
 }
 #pragma pop
 
-}
 
 TCheckRoomSequence::TCheckRoomSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
     m_name = TCheckRoomSequence__name;
@@ -563,7 +561,6 @@ TCheckRoomSequence::TCheckRoomSequence(TObject *parent, TObjPlayer *player) : TS
     TCheckRoomSequence::slot_active_flags[get_split_screen_slot()] = 1;
 }
 
-extern "C" {
 
 #pragma push
 #pragma optimization_level 1
@@ -589,7 +586,6 @@ void TCheckRoomSequence::reset_slots() {
         TCheckRoomSequence::slot_active_flags[i] = 0;
     }
 }
-}
 #pragma pop
 
 #pragma push
@@ -608,7 +604,6 @@ s32 get_bank_meseta_capacity(s32 i) {
 
 #pragma push
 #pragma optimization_level 1
-extern "C" {
 void TCheckRoomSequence::compact_items(int slot) {
     BankItemRecord *a;
     BankItemRecord *b;
@@ -655,7 +650,6 @@ s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot) {
         return 0;
     }
     return item->get_max_stack_size();
-}
 }
 #pragma pop
 
@@ -857,7 +851,6 @@ void copy_bank_from_card_window(s32 slot) {
     }
 }
 #pragma pop
-extern "C" {
 
 
 #pragma push
@@ -945,7 +938,6 @@ void BankItemRecord::init() {
 BankItemRecord::BankItemRecord() { init(); }
 
 void TShopWindowBase::display_shop_message(s32 id, s32 flags) {  }
-}
 
 #pragma optimization_level 4
 

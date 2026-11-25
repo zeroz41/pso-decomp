@@ -49,7 +49,6 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
 
 
 
@@ -61,7 +60,6 @@ extern "C" {
 
 extern f32 TObjBagWarnWin4P__message_window_size[2];
 
-}
 
 struct Sub_8006EC20 {
     u8 pad[0x1C];
@@ -76,7 +74,6 @@ struct Ctrl_8006EC20 {
     u8 pad44[0xD00 - 0x44];
     Sub_8006EC20 *pD00;
 };
-extern "C" {
 
 
 extern f32 TObjBagWarnWin__message_window_size[2];
@@ -91,14 +88,12 @@ void *TObjBagWarnWin::create(void *bag_warn_win) {
     void *o = (void *)new TObjBagWarnWin((TObject *)bag_warn_win);
     return o;
 }
-}
 
 TObjBagWarnWin::TObjBagWarnWin(TObject *parent) : TObject(parent) {
     this->m_name = TObjBagWarnWin__name;
     message_window = NULL;
     open_delay = 0;
 }
-extern "C" {
 TObjBagWarnWin::~TObjBagWarnWin() {}
 
 void TObjBagWarnWin::open_message_window() {
@@ -247,7 +242,6 @@ s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
         j += 1;
     } while (j < 4);
     return i;
-}
 }
 
 // The map is hidden only in single-screen solo play while the lobby state

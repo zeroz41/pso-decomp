@@ -7,7 +7,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 
-extern "C" {
 
 
 void TChCrLoadGmNjReq::start_character_load_task() {
@@ -26,4 +25,3 @@ void TChCrLoadGmNjReq::start_character_load_task() {
     }
 }
 
-}

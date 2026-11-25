@@ -56,8 +56,6 @@ struct Item_8027B424 { u8 b[0x10]; };
 
 extern u8 *text_language_group_table;
 extern "C" {
-}
-extern "C" {
 s32 calc_text_width();
 s32 text_builder_append();
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);
@@ -65,13 +63,11 @@ s32 are_status_entries_ready__13TWindowSubMagFi(void *);
 
 const char *TWindowSubMag::class_name = "TWindowSubMag";
 
-extern "C" {
 // Window positions (x, y): mag slot list, the two equip-kind lists, message window.
 extern const f32 lbl_8044F9E8[2] = {144.0f, 68.0f};
 extern const NJS_POINT2 lbl_8044F9F0 = {206.0f, 184.0f};
 extern const NJS_POINT2 lbl_8044F9F8 = {308.0f, 124.0f};
 extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
-}
 void append_text_space(void);
 void text_builder_reset(void);
 

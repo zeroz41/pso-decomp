@@ -5,11 +5,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
 
 void *TShopEquipmentSequence::create_instance(void *player) {
     return new TShopEquipmentSequence(tl_05, (TObjPlayer *)player);
-}
 }
 
 int get_equipment_shop_slot_active_flag(int a0) {  return TShopEquipmentSequence::slot_active_flags[a0]; }

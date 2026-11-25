@@ -15,7 +15,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 
 void TWindowDD_WS_String::render() {
@@ -40,12 +39,11 @@ void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
 }
 
 void TWindowDD_WS_String::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(&entry_list));
 }
 
-}
 
 extern const f32 TWindowDD__data_805DFB58;
 extern const u32 lbl_805DFC18;
@@ -109,7 +107,6 @@ WindowDescriptor TWindowDD__data_804EFC24 = {
 
 TWindowDD_WS_String::~TWindowDD_WS_String() {}
 
-extern "C" {
 TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style)
     : TWindowBase((u8 *)&TWindowDD__data_804EFC24, 4, (u8 *)pos) {
     u8 *entry;
@@ -137,4 +134,3 @@ TWindowDD_WS_String *create_word_select_string(f32 *pos, f32 *size, u32 str, s32
     return new TWindowDD_WS_String(pos, size, str, style);
 }
 
-}

@@ -502,11 +502,9 @@ void request_chara_making_archives(void) {
         }
     }
 }
-extern "C" {
 
 
 void TCharaMaking__sub_8028E790(void) {  }
-}
 
 extern saddr tl_03;
 

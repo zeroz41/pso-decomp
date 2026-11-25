@@ -10,7 +10,6 @@ TAdChrSelPlayerGC::TAdChrSelPlayerGC(TObject *parent, s32 mode, s32 index, s32 s
     init_selection_model(mode);
 }
 
-extern "C" {
 
 extern uaddr multi_ply_chr_select_resource_bundle;
 
@@ -28,4 +27,3 @@ void TAdChrSelPlayerGC__sub_802E10A0(void) {
     }
 }
 
-}

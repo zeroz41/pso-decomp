@@ -38,7 +38,6 @@ struct TChCrTagPlGraphicLayout {
     vec2f selected_pos;
 };
 
-extern "C" {
 
 void TChCrTagPlGraphic::render() {
     set_depth_buffer_settings_1();
@@ -116,7 +115,6 @@ s32 TChCrTagPlGraphic::is_selected() {
 
 TChCrTagPlGraphic::~TChCrTagPlGraphic() {}
 
-}
 
 TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, s32 index) : TChCrTag(parent, index) {
     const TChCrTagPlGraphicLayout *e;

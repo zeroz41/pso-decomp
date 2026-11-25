@@ -6,7 +6,6 @@
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 
-extern "C" {
 
 void TAdChrSelPlyPlateGC::set_cursor_column(s32 column) { cursor_col = column; }
 
@@ -41,4 +40,3 @@ TAdChrMoveEffectGC *TAdMultiPlyChrSelectGC::get_global_state() { return lbl_805D
     extern int lbl_805D384C;
 int TAdMultiPlyChrSelectGC::get_select_flag() {  return lbl_805D384C; }
 
-}

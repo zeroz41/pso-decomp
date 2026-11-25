@@ -21,10 +21,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
 
 extern const char *TMedicalCenterMes__class_name;
-}
 
 
 #include "pso/item/shop/TShopGenerator.h"
@@ -34,10 +32,8 @@ extern const char *TMedicalCenterMes__class_name;
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/text_8022350C.h"
 
-extern "C" {
 s32 TMedicalCenterSequence__data_80513E90[4];
 s32 TMedicalCenterMes::slot_flags[4];
-}
 
 extern "C" {
 extern const char *TMedicalCenterSequence__class_name;

@@ -36,14 +36,12 @@ extern "C" {
 BOOL fn_80145A44(char *dst);
 }
 
-extern "C" {
 #pragma readonly_strings on
 const char *TAdDialingGC__name = "TAdDialingGC";
 extern const char *TAdDialingGC__name;
-}
 
 TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TAdDialingGC__name);
+    *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC__name);
     TAdDialingGC::instance = this;
     if (TLobby::is_state_active() != 0) {
         this->dial_mode = 1;
@@ -61,7 +59,6 @@ TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
     this->dial_flags = 0;
 }
 
-extern "C" {
 TAdDialingGC::~TAdDialingGC() {
     TAdDialingGC::instance = 0;
 }
@@ -90,7 +87,6 @@ void TAdDialingGC::render() {
     update();
 }
 
-}
 
 __declspec(section ".rodata") extern const NJS_POINT2 lbl_804767A8[] = { 0, 28.0f };
 __declspec(section ".rodata") extern const NJS_POINT2 lbl_804767B0[] = { 640.0f, 84.0f };
@@ -136,7 +132,6 @@ void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size) {
 
 void TAdDialingGC__sub_80328B20(TAdDialingGC *) {}
 
-extern "C" {
 void TAdDialingGC::draw_dialing_status() {
     char a[0x20];
     char c[0x100];
@@ -316,11 +311,10 @@ void TAdDialingGC::show_guide_button() {
 }
 
 void TAdDialingGC::update_state_display() {
-    Obj_803285C0 *arg0 = (Obj_803285C0 *)this;
     if (*(s32 *)&this->dial_step == 2) {
         switch (*(s16 *)&this->selection) {
         case 0:
-            ((TAdDialingGC *)arg0)->update_status_display();
+            this->update_status_display();
             break;
         case 4:
             TAdDialingGC::update_dialing_display(0x14);
@@ -329,7 +323,7 @@ void TAdDialingGC::update_state_display() {
             TAdDialingGC::update_dialing_display(3);
             break;
         case 8:
-            ((TAdDialingGC *)arg0)->update_status_display();
+            this->update_status_display();
             break;
         case 1: case 2: case 3: case 5: case 7:
             break;
@@ -384,7 +378,7 @@ void TAdDialingGC::spawn_title_screen() {
         if ((s32) this->dial_mode == 0) {
             new TAdTitleGC(this, 5);
         }
-        create_draw_line_ctrl((TObject *)this, 0x11, 0.0f);
+        create_draw_line_ctrl(this, 0x11, 0.0f);
         this->dial_flags = (s32) (this->dial_flags | 1);
     }
 }
@@ -494,4 +488,3 @@ block_12:
     }
 }
 
-}

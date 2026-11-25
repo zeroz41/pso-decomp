@@ -30,7 +30,6 @@ extern "C" {
 char *get_shared_text_buffer(void);
 }
 
-extern "C" {
 TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 mode) : TObject(parent) {
     m_name = TWindowMakeTeam__name;
     m_1c = 0;
@@ -277,4 +276,3 @@ void *TWindowMakeTeam::init_status_disp(s8 arg0) {
     return TWindowSubStatusDisp::get_message_10(arg0 + 0x113);
 }
 
-}

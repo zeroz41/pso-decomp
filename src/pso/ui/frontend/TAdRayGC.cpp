@@ -12,7 +12,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
-extern "C" {
 extern f32 TAdRayGC_ray_quad_table[4][8];
 uaddr TAdRayGC::ray_texture_list;
 
@@ -161,6 +160,5 @@ void TAdRayGC::destroy_instance() {
     }
 }
 
-}
 
 void register_texture_f128_ray(void) { TAdRayGC::ray_texture_list = (uaddr)&lbl_804DC2D8; load_streamed_prs_texture((saddr)"f128_ray", (saddr)&lbl_804DC2D8); }

@@ -10,7 +10,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
 TBattleMusicGainTask *duel_result_window;
 extern TObject *tl_00;
 
@@ -45,7 +44,6 @@ TBattleMusicGainTask::TBattleMusicGainTask(TObject *parent, s32 gain, s32 durati
     TLobby::set_and_notify(gain);
 }
 
-}
 
 BattleRanking *get_battle_rankings(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {

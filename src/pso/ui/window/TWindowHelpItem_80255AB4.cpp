@@ -20,7 +20,6 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" {
 extern u8 *text_language_group_table;
 extern WindowDescriptor window_help_item_layout;
 extern "C" { extern char TWindowHelpItem__class_name_string[]; }
@@ -62,25 +61,24 @@ void TWindowHelpItem::render() {
 }
 
 void TWindowHelpItem::run_task() {
-    u8 *arg0 = (u8 *)this;
     if (!(this->window_flags & 2)) {
         this->open_tick = 0x01000000;
     }
-    if ((this->m_60 & 1) && (((TWindowBase *)arg0)->is_open_and_unblocked() != 0) && !(this->window_flags & 4)) {
+    if ((this->m_60 & 1) && (this->is_open_and_unblocked() != 0) && !(this->window_flags & 4)) {
         if (!(this->m_60 & 4)) {
             if (handle_list_page_flip_input(this->page_indicator) != 0) {
-                ((TWindowHelpItem *)arg0)->dispatch_item_help();
+                this->dispatch_item_help();
             }
         } else {
             decay_page_arrow_offset(this->page_indicator);
         }
-        ((TWindowHelpItem *)arg0)->invoke_callback_pmf();
+        this->invoke_callback_pmf();
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    update_window();
+    this->update_fade();
+    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     if (!(this->m_60 & 8)) {
-        toggle_help_window_on_button((uaddr)arg0, this->client_index);
+        toggle_help_window_on_button((uaddr)this, this->client_index);
     }
 }
 
@@ -88,7 +86,6 @@ TWindowHelpItem::~TWindowHelpItem() {
     delete_if_allocated(this->page_indicator, 1);
 }
 
-}
 TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window_help_item_layout, (s16)idx, (u8 *)pos) {
     this->m_name = window_help_item_class_name;
     copy_vec2(((u8 *)this + 0x30), pos);
@@ -113,4 +110,4 @@ s32 get_help_text_string(s32 id) {
 }
 
 s32 TWindowHelpItem__sub_80255DDC(void* p) { return *(s32*)((char*)p + 0x1c); }
-void TWindowHelpItem::set_flag0_bit20() { *(u16*)((char*)this + 0x0) |= 0x20; }
+void TWindowHelpItem::set_flag0_bit20() { *(u16*)(this + 0x0) |= 0x20; }

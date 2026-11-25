@@ -62,7 +62,6 @@ void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
     *second = *entry;
 }
 
-extern "C" {
 
 
 void TWindowSubTradeMain::update_trade_state() {
@@ -85,9 +84,7 @@ void TWindowSubTradeMain::close() {
     }
 }
 
-}
 
-extern "C" {
 
 // Puts the cursor back on the saved row, or the nearest selectable row above it.
 void TWindowMenuIconLine::clamp_selection_to_valid_entry() {
@@ -119,7 +116,6 @@ void TWindowMenuIconLine::reset_list() {
     }
 }
 
-}
 
 extern "C" {
 u32 calc_text_width();
@@ -132,7 +128,6 @@ WindowDescriptor lbl_804D0604 = {
 
 s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
 }
-extern "C" {
 
 
 saddr TWindowMenuIconLine::get_cursor_value() {
@@ -590,7 +585,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(WindowDrawContext *context) {
     if (!(this->state_flags & 0x80)) {
         entry = (u16 *)this->get_array_entry((s16)(this->cursor));
         if (*entry & 1) {
-            draw_selection_bar(context, (u8 *)entry, ((TWindowMenuIconLine *)this)->is_decided());
+            draw_selection_bar(context, (u8 *)entry, this->is_decided());
         }
     }
 }
@@ -653,7 +648,7 @@ void TWindowMenuIconLine::run_task() {
     ControllerInputContext *temp_r29_2;
     ControllerInputContext *context;
     temp_r31 = is_player_input_active(((s32) this->client_index));
-    if ((this->get_flag() == 0) && (((TWindowMenuIconLine *)this)->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
+    if ((this->get_flag() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
         if (this->state_flags & 0x10) {
             input = &controller_input_state.controllers[temp_r31];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
@@ -680,7 +675,7 @@ void TWindowMenuIconLine::run_task() {
         }
     }
     if ((f32) this->open_tick >= 7.5f) {
-        temp_r3 = *(u32 *)((s8 *)((u8 *)this) + 0x80);
+        temp_r3 = *(u32 *)((s8 *)(this) + 0x80);
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
         }
@@ -689,7 +684,7 @@ void TWindowMenuIconLine::run_task() {
             temp_r3_2->increment_counter();
         }
     }
-    ((TWindowDD *)((u8 *)this))->initialize_subwindow();
+    update_window();
     this->update_scroll_offset();
     this->step_window_tween();
     this->center_list_selection();
@@ -700,7 +695,6 @@ void TWindowMenuIconLine::run_task() {
 TWindowMenuIconLine::~TWindowMenuIconLine() {
     TWindowSubStatusDisp::destroy_allocation((saddr)this->scroll_bar, (s16)1);
     TWindowSubStatusDisp::destroy_status_display((saddr)this->status_display, (s16)1);
-}
 }
 
 // The descriptor-taking form; the window layout comes from the caller.

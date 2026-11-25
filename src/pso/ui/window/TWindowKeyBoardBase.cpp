@@ -90,7 +90,6 @@ void TWindowKeyBoardBase::init_keyboard_text_field(u32 width, u32 lines) {
 }
 
 s32 TWindowKeyBoardBase::sub_8025CE00(u8 *text) {
-    void * keyboard = (void *)this;
     char *p = (char *)text;
     u16 ch;
 
@@ -150,7 +149,6 @@ s32 TWindowKeyBoardBase::sub_8025CE00(u8 *text) {
 }
 
 void TWindowKeyBoardBase::sub_8025CF50(int count) {
-    void * keyboard = (void *)this;
     char tmp[0x100];
     char out[0x100];
     u32 i;
@@ -429,13 +427,12 @@ void TWindowKeyBoardBase::sub_8025D664() {
 }
 
 void TWindowKeyBoardBase::process_input() {
-    u8 *arg0 = (u8 *)this;
     u8 sp108[0x100];
     u8 sp8[0x100];
     s32 temp_r3;
     u8 *temp_r5;
 
-    if (!(*(u16 *)((s8 *)arg0 + 0x60) & 0x10)) {
+    if (!(*(u16 *)((s8 *)this + 0x60) & 0x10)) {
         temp_r3 = dispatch_request_0x23__19TWindowKeyBoardSoftFll(sp8, sp108);
         if (temp_r3 != 0) {
             candidate_count = temp_r3;
@@ -443,7 +440,7 @@ void TWindowKeyBoardBase::process_input() {
             temp_r5 = current_candidate;
             current_candidate = temp_r5 - (static_cast<s8>(temp_r5[0]) + 3);
             candidate_index = (s32) current_candidate[2];
-            ((TWindowKeyBoardBase *)arg0)->sub_8025CF50((int) (candidate_index));
+            this->sub_8025CF50((int) (candidate_index));
         }
     }
 }
@@ -925,7 +922,7 @@ void TWindowKeyBoardBase::render() {
 }
 
 void TWindowKeyBoardBase::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
 }
 

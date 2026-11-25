@@ -23,10 +23,8 @@
 #include "pso/player/TPlyCharData.h"
 
 
-extern "C" {
 extern const char lbl_804728D0[];
 const char lbl_804728D0[] = "TAdChrSelPlayerGC";
-}
 
 struct Stack_802E0468
 {
@@ -58,7 +56,6 @@ void copy_player_visual_record(void *, const void *);
 
 TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4] = { NULL };
 
-extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -360,7 +357,6 @@ int TAdMultiConfirmGC::set_cursor_index_2(void* p) { return ((int (*)(void *, in
 
 void TAdMultiConfirmGC__sub_802E03D0(void* p) { *(s32*)((char*)p + 0x118) = 0; }
 
-}
 
 TObjMotionAction lbl_804E2F78[9] = {
     { 1, 0, 0x21, 1.0f, 0 },

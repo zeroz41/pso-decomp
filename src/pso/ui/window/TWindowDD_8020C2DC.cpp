@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/network/TLobby.h"
 
-extern "C" {
 
 
 s32 TWindowDD::check_all_ready(s32 floor) {
@@ -26,4 +25,3 @@ s32 TWindowDD::check_all_ready(s32 floor) {
     return 1;
 }
 
-}

@@ -8,7 +8,6 @@
 #pragma readonly_strings on
 
 s32 TAdPsoPassSaveGC__data_805D6E80;
-extern "C" {
 
 void TAdPsoPassSaveGC::render() {
     vfunc_12();
@@ -45,4 +44,3 @@ TAdPsoPassSaveGC::TAdPsoPassSaveGC(TObject *parent) : TAdYesNoBaseGC(parent) {
     new TAdTitleGC(this, 18);
 }
 
-}

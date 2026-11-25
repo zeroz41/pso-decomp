@@ -51,9 +51,7 @@ const char *TWindowMainMenu__name = "TWindowMainMenu";
 extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-extern "C" {
 struct Obj_80263D7C; struct Obj_80263DBC;
-}
 
 struct Elt80263D94_80263d94_80263B70 { s16 f0; s16 id; s32 f4; };
 
@@ -80,7 +78,6 @@ void *__ct__32TAdMultiPlyChrSelectTransitionGCFP7TObjectl(void *, void *, void *
 
 
 int test_keyboard_card_flag4(void* p) { return TWindowKeyBoardHard::test_card_flag((saddr)p, 4); }
-extern "C" {
 void TWindowMainMenu::on_submenu_closed() {  }
 
 void TWindowMainMenu::on_menu_opened() {  }
@@ -103,7 +100,6 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
     help_window = NULL;
     active_entries = NULL;
     reset_depth_base();
-}
 }
 
 TWindowMainMenu::~TWindowMainMenu() {
@@ -473,10 +469,10 @@ void TWindowMainMenu::update_selection_value() {
 
 void TWindowMainMenu::add_menu_entry(s16 id) {
     struct Elt80263D94_80263d94_80263B70 *arr = (struct Elt80263D94_80263d94_80263B70 *)this;
-    struct Elt80263D94_80263d94_80263B70 *e = (struct Elt80263D94_80263d94_80263B70 *)((char *)&arr[*(s16 *)((s8 *)((u8 *)this) + 0x50)] + 0x28);
-    e->f0 = (s16) *(s16 *)((s8 *)((u8 *)this) + 0x52);
+    struct Elt80263D94_80263d94_80263B70 *e = (struct Elt80263D94_80263d94_80263B70 *)((char *)&arr[*(s16 *)((s8 *)(this) + 0x50)] + 0x28);
+    e->f0 = (s16) *(s16 *)((s8 *)(this) + 0x52);
     e->id = id;
-    e->f4 = (s32) *(s32 *)((s8 *)((u8 *)this) + 0x5C);
+    e->f4 = (s32) *(s32 *)((s8 *)(this) + 0x5C);
 }
 
 void TWindowMainMenu::sub_80263D7C() {

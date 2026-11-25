@@ -47,7 +47,7 @@ void TWindowQuantity::render() {
 }
 
 void TWindowQuantity::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_window_entry_list(&entry_list);
 }
 

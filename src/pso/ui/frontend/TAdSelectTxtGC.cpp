@@ -72,7 +72,6 @@ void clear_player_data_block(O_802A15BC *arg0) {
 
 
 uaddr ad_select_text_texture_handle;
-extern "C" {
 extern const s32 current_language;
 
 void TAdSelectTxtGC::reset_state() { *(short *)&this->m_prev = 0; *(short *)&this->m_id = 0; *(short *)&this->m_flags = 0; *(short*)((char*)this + 0x2) = 0; *(short *)&this->m_name = 0; *(short*)((char*)this + 0xe) = 0; *(short *)&this->m_next = 0; *(short*)((char*)this + 0xa) = 0; *(float *)&this->m_up = 0.0f; *(float *)&this->m_down = 0.0f; *(int*)((char*)this + 0x20) = 0; *(int*)((char*)this + 0x1c) = 0; *(int*)((char*)this + 0x18) = 0; }
@@ -113,7 +112,6 @@ void TAdSelectTxtGC::init_slot_entries(TAdSelectTxtLayout *layout, s32 value) {
     }
 }
 
-}
 TAdSelectTxtGC::TAdSelectTxtGC(TObject *parent, TAdSelectTxtLayout *layout, s32 value) : TObject(parent) {
     this->m_name = TAdSelectTxtGC__class_name;
     this->init_slot_entries(layout, value);

@@ -14,7 +14,6 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
 
 
 void TWindowMessageYesNo::close() { queue_destruction(); }
@@ -37,7 +36,6 @@ s32 TWindowMessageYesNo::is_child_visible() {
         return 0;
     }
     return choice_menu->is_decided();
-}
 }
 void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width) {
     *(s32 *)((s8 *)dialog + 0x28) = (saddr)create_window_menu((saddr)(position), 1, *(s32 *)((s8 *)dialog + 0x24));

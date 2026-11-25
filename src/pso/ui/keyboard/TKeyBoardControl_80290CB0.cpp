@@ -7,7 +7,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-extern "C" {
 u8 main_menu_scene_active_flag;
 
 void TKeyBoardControl::update_main_menu_scene() {
@@ -25,4 +24,3 @@ void TKeyBoardControl::update_main_menu_scene() {
 }
 void TKeyBoardControl__sub_80290D10(void) { (*(unsigned char *)&main_menu_scene_active_flag) = 0; }
 
-}

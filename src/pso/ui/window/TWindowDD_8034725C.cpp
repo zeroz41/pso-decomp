@@ -695,7 +695,6 @@ s32 TWindowDD::get_word_select_context() {
     }
     return (this->m_a0 != 0 ? 1 : 0) + 2;
 }
-extern "C" {
 
 int TWindowDD__sub_80348424(s32 _w0, s32 _w1) { return TWindowDD__sub_8034B008((saddr)((void*)(1)), (_w1)); }
 
@@ -704,9 +703,8 @@ void TWindowDD__sub_80348448(s32 arg0, s16 id) {
 }
 
 s32 TWindowDD::get_mode_code() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r3;
-    temp_r3 = *(s32 *)((s8 *)arg0 + 0xA8);
+    temp_r3 = *(s32 *)((s8 *)this + 0xA8);
     if (temp_r3 == 2) {
         return 1;
     }
@@ -722,7 +720,6 @@ void TWindowDD__sub_803484C4(u8 *window_dd) {
         reset_selection__9TWindowDDFv(window_dd, window_dd + 0xC4);
     }
     ((TWindowDD *)window_dd)->close_all_windows();
-}
 }
 
 void TWindowDD::close_all_windows() {
@@ -820,7 +817,6 @@ void TWindowDD::show_message_by_count(char *buf, s32 *pos) {
 }
 
 
-extern "C" {
 void TWindowDD::maybe_scroll(void* a1) { if (count_chars_since_newline((s32 *)a1) > 15) { TWindowDD::append_char(10, (char *)this, (s32 *)a1); } }
 
 s32 TWindowDD::count_chars_since_newline(s32 *len) {
@@ -849,12 +845,10 @@ void append_word_select_token(s16 id, saddr window_dd, void *pos) {
     TWindowDD::append_string((const char *)get_word_select_token_text(id), (char *)window_dd, (s32 *)pos);
 }
 
-}
 
 
 struct Dst_80348A9C { u8 pad[0xc]; f32 x; f32 y; u8 pad2[4]; };
 
-extern "C" {
 extern f32 lbl_805DFB1C;
 WindowTexturePoint TWindowDD__data_805434E8[7][8];
 extern s32 *TWindowDD__player_name_buffers;
@@ -1026,4 +1020,3 @@ saddr TWindowDD::get_entry(s32 arg0) {
     return reinterpret_cast<saddr>(&TWindowDD::ws_data_table[arg0]);
 }
 
-}

@@ -4,11 +4,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
 
 void *TCheckRoomSequence::create(void *arg2_) {
     return new TCheckRoomSequence(tl_05, (TObjPlayer *)arg2_);
-}
 }
 
 int get_check_room_slot_active_flag(int a0) {  return TCheckRoomSequence::slot_active_flags[a0]; }

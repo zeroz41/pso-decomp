@@ -100,23 +100,22 @@ s32 TWindowChat::sub_80247128() {
 }
 
 s32 TWindowChat::submit_keyboard_input() {
-    u8 *arg0 = (u8*)this;
     uaddr kb = (uaddr)this->composer;
     if (kb == 0U) {
         return 0;
     }
     if (((TWindowKeyBoardBase *)kb)->is_cancelled() != 0) {
         composer->reset_input();
-        ((TWindowChat *)arg0)->set_input_active();
+        this->set_input_active();
         return 1;
     }
     if (((TWindowKeyBoardBase *)(this->composer))->is_confirmed() == 0) {
         return 0;
     }
-    ((TWindowChat *)arg0)->set_active_flag();
+    this->set_active_flag();
     if (composer->get_flag() != 0) {
         TAdSinglePlyChrSelectGC__sub_80076D9C((saddr)this->result, (s32)(get_chat_shortcut((s32)((int) (s8)(composer->get_input_mode())))));
-        if (((u32) **(u32 * *)&this->result == 3U) && (((TWindowChat *)arg0)->is_mode_bit6() == 0)) {
+        if (((u32) **(u32 * *)&this->result == 3U) && (this->is_mode_bit6() == 0)) {
             TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4))->update_selected_symbol();
         }
     } else {
@@ -358,10 +357,9 @@ void TWindowChat::open_next_input_window() {
 void TWindowChat::render() {  }
 
 void TWindowChat::run_task() {
-    u8 *arg0 = (u8*)this;
-    if ((((int)((TWindowChat *)arg0)->is_open()) == 0) && (((TWindowChat *)arg0)->is_mode_bit4() == 0) && (((TWindowChat *)arg0)->is_visible() == 0)) {
-        ((TWindowChat *)arg0)->handle_chat_input();
-        ((TWindowChat *)arg0)->handle_input();
+    if ((((int)this->is_open()) == 0) && (this->is_mode_bit4() == 0) && (this->is_visible() == 0)) {
+        this->handle_chat_input();
+        this->handle_input();
         if (composer->sub_8025CB10() != 0) {
             flags = (u16) (flags | 4);
             return;

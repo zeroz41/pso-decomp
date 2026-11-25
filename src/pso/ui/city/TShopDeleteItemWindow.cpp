@@ -57,7 +57,6 @@ TShopDeleteItemWindow::TShopDeleteItemWindow(TObject *parent, TShopWindowBase *o
     ((TItemData *)(&displayed_item_colored))->init();
 }
 
-extern "C" {
 TShopDeleteItemWindow::~TShopDeleteItemWindow() {
     if (item_list != NULL) { item_list->close(); item_list = 0; }
     if (confirm_menu != NULL) { confirm_menu->close(); confirm_menu = 0; }
@@ -101,12 +100,10 @@ void TShopDeleteItemWindow::update_state() {
         return;
     }
 }
-}
 
 #pragma push
 #pragma opt_loop_invariants off
 
-extern "C" {
 void TShopDeleteItemWindow::sub_80337E2C() {
     s32 base;
     s32 cursor;
@@ -174,12 +171,10 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     }
     set_state(1);
 }
-}
 
 #pragma pop
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TShopDeleteItemWindow::update_item_select(void *arg0) {
     TItemData item;
     s32 count;
@@ -225,11 +220,9 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
         }
     }
 }
-}
 
 #pragma pop
 
-extern "C" {
 void TShopDeleteItemWindow::handle_number_input() {
     if (number_input != NULL && number_input->is_confirmed() != 0) {
         if (confirm_menu == NULL) {
@@ -311,5 +304,4 @@ void TShopDeleteItemWindow::display_message(const char *text, s32 flags) {
     if (owner != NULL) {
         owner->display_message(text, flags);
     }
-}
 }

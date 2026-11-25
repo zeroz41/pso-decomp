@@ -41,7 +41,6 @@ void * TWindowHelpItem__sub_8025A594(void *, void *, s32);
 void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
 }
 u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2);
-extern "C" {
 
 __declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
 
@@ -216,5 +215,4 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             out++;
         }
     }
-}
 }

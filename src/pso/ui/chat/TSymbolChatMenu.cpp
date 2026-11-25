@@ -30,8 +30,6 @@ TSymbolChatMenu::~TSymbolChatMenu() {
     if (preset_list != NULL) { preset_list->close(); preset_list = NULL; }
 }
 
-extern "C" {
-}
 
 TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
     // preset_list_pos: where the list of the 12 symbol chat presets opens.

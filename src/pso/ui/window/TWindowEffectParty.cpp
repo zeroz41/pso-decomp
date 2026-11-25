@@ -168,21 +168,20 @@ void TWindowEffectParty::calc_effect_position(void *arg1) {
 }
 
 s32 TWindowEffectParty::step_toward_target(f32 farg0, f32 farg1) {
-    u8 *arg0 = (u8 *)this;
   f32 scr;
   f32 y;
   s32 angle;
-  y = farg1 - (*((f32 *) (((s8 *) arg0) + 0x24)));
-  scr = *((f32 *) (((s8 *) arg0) + 0x20));
+  y = farg1 - (*((f32 *) (((s8 *) this) + 0x24)));
+  scr = *((f32 *) (((s8 *) this) + 0x20));
   scr = farg0 - scr;
   if (((scr * scr) + (y * y)) < 25.0f)
   {
-    *((f32 *) (((s8 *) arg0) + 0x20)) = farg0;
- do { *((f32 *) (((s8 *) arg0) + 0x24)) = farg1; return 1; } while (0);
+    *((f32 *) (((s8 *) this) + 0x20)) = farg0;
+ do { *((f32 *) (((s8 *) this) + 0x24)) = farg1; return 1; } while (0);
   }
   angle = (s32) (lbl_8044ECF0 * atan2_float((f64) y, (f64) scr));
-  *((f32 *) (((s8 *) arg0) + 0x20)) = (f32) ((5.0f * cos_table_lookup(angle)) + (*((f32 *) (((s8 *) arg0) + 0x20))));
-  *((f32 *) (((s8 *) arg0) + 0x24)) = (f32) ((5.0f * sin_table_lookup(angle)) + (*((f32 *) (((s8 *) arg0) + 0x24))));
+  *((f32 *) (((s8 *) this) + 0x20)) = (f32) ((5.0f * cos_table_lookup(angle)) + (*((f32 *) (((s8 *) this) + 0x20))));
+  *((f32 *) (((s8 *) this) + 0x24)) = (f32) ((5.0f * sin_table_lookup(angle)) + (*((f32 *) (((s8 *) this) + 0x24))));
   return 0;
 }
 

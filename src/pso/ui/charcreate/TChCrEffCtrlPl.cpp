@@ -19,6 +19,4 @@ s32 TChCrEffCtrlPl::get_clamped_player_index() {
     }
     return var_r3;
 }
-extern "C" {
 int TChCrEffCtrlPl__sub_80298F6C() { return TAdMultiPlyChrSelectGC__sub_80299454(); }
-}

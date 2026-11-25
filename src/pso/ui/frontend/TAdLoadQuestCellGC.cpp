@@ -6,7 +6,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
 __declspec(section ".data") TAdLoadQuestCellGC *ad_load_quest_cell_table[3] = { 0, 0, 0 };
 
 void TAdLoadQuestCellGC::render_state() {
@@ -24,7 +23,6 @@ void TAdLoadQuestCellGC::render_state() {
     }
 }
 
-}
 
 void TAdLoadQuestCellGC::render() {
     if (TMainTask::get_render_pass() != 1) {

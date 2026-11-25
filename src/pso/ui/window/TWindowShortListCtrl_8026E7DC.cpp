@@ -62,8 +62,7 @@ static const u8 page_first_state[4] = {0, 3, 6, 9};
 s16 TWindowSubComCardList::get_selected_index() { return *(s16 *)&this->unk_7A; }
 
 void TWindowShortListCtrl::update_cursor_pos() {
-    u8 *arg0 = (u8 *)this;
-    *(s16 *)((s8 *)arg0 + 0x7A) = get_cursor_pos();
+    *(s16 *)((s8 *)this + 0x7A) = get_cursor_pos();
 }
 
 s16 TWindowShortListCtrl::get_cursor_pos() { return *(s16*)((char*)this + 0x78); }

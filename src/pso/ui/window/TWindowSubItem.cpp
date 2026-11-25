@@ -454,7 +454,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     } else if ((s32) (arg1 & 0xFFFFFFF0) == -0x10) {
         TWindowSubItem::draw_slot((saddr)this, titled_window_menu, arg1);
     } else {
-        add_item_purpose_actions((TWindowSubItem *)this, titled_window_menu, arg1);
+        add_item_purpose_actions(this, titled_window_menu, arg1);
     }
     ((TWindowBase *)titled_window_menu)->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 1));
     ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
@@ -682,11 +682,9 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item) {
     return d.b[5] != 0 ? 1 : 0;
 }
 
-extern "C" {
 void TWindowSubItem::set_displayed_item(s32 id) {
     if ((this->help_window != NULL) && (id != (s32) this->displayed_item)) {
         this->displayed_item = id;
         this->help_window->set_displayed_item_by_id(id);
     }
-}
 }

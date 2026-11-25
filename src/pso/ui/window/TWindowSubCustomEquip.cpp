@@ -486,12 +486,11 @@ void TWindowSubCustomEquip::render() {
 }
 
 void TWindowSubCustomEquip::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r30;
     ControllerInputContext *context;
     temp_r30 = is_player_input_active(((s32) this->client_index));
-    if (((TWindowSubCustomEquip *)arg0)->is_selected() == 0) {
-        ((TWindowSubCustomEquip *)arg0)->handle_cursor_input();
+    if (this->is_selected() == 0) {
+        this->handle_cursor_input();
         context = &controller_input_state.controllers[temp_r30];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             handle_decide();
@@ -506,8 +505,8 @@ void TWindowSubCustomEquip::run_task() {
     if ((f32)open_tick >= 7.5f) {
         status_disp->update_subwindow();
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    update_window();
+    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
     this->m_66 = (this->m_66 + 1);
 }
 

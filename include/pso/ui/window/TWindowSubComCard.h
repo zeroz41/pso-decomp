@@ -72,7 +72,6 @@ struct TWindowSubComCard : public TObject {
     static s32 contains_profanity(char *text);
     static void mask_profanity_words(char *src, char *dst);
     uaddr get_field_20();
-    void update_open_close();
     void set_entry_value_clear_flag(s32 idx, s32 val);
     s32 get_entry_id();
     static s32 create_card_list(saddr parent, s32 card_slot, s32 count, s32 empty_message);

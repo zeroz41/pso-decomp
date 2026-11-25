@@ -29,7 +29,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
-extern "C" {
 saddr TAdMultiSelGameModeGC__data_805D69F0;
 void fn_803000C8(void) {
     if (is_split_screen() != 0) {
@@ -46,7 +45,6 @@ void fn_803000C8(void) {
     }
 }
 
-}
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -61,9 +59,7 @@ struct Pos_8030095C { f32 v[8]; };
 struct Cur_8030095C { f32 v[2]; };
 
 s32 is_multiplayer_character_slot_selected(s32 arg0);
-extern "C" {
 saddr lbl_805D69F4;
-}
 
 typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
 

@@ -11,7 +11,6 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 
-extern "C" {
 
 s32 TAdMultiPlyChrSelectGC::get_field_20() { return state; }
 
@@ -26,7 +25,6 @@ int TAdMultiPlyChrSelectGC::get_global_6700() {  return (saddr)menu_selection_cu
 int TAdMultiPlyChrSelectGC__sub_802C6FA8(void) {  return lbl_805D6668; }
 
 
-}
 
 TAdMultiPlyChrSelectTransitionGC *lbl_805D67E8;
 

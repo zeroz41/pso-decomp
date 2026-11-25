@@ -39,7 +39,6 @@ WindowDescriptor window_deposit_layout = {
 const char *TWindowDeposit::class_name = "TWindowDeposit";
 #pragma pop
 
-extern "C" {
 
 void TWindowDeposit::render_status(WindowDrawContext *context) {
     draw_window_tab(context, &context->inner_x, 3, this->width);
@@ -51,7 +50,7 @@ void TWindowDeposit::render() {
     draw_visible_window_entries(this, &entry_list, context);
 }
 
-void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
+void TWindowDeposit::run_task() { update_window(); update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char*)this + 0x24)); }
 
 TWindowDeposit::~TWindowDeposit() {}
 TWindowDeposit::TWindowDeposit(s16 client)
@@ -80,4 +79,3 @@ TWindowDeposit::TWindowDeposit(s16 client)
     }
 }
 
-}

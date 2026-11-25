@@ -43,7 +43,6 @@ void TWindowCheckBox::render() {
 }
 
 void TWindowCheckBox::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     uaddr temp_r3;
     WindowScrollBar *temp_r3_2;
@@ -51,33 +50,33 @@ void TWindowCheckBox::run_task() {
     ControllerInputContext *temp_r29_2;
     ControllerInputContext *context;
     temp_r31 = is_player_input_active(((s32) this->client_index));
-    if ((((TWindowMenuIconLine *)arg0)->get_flag() == 0) && (((TWindowMenuIconLine *)arg0)->is_decided() == 0) && (((TWindowBase *)arg0)->is_open_and_unblocked() != 0)) {
+    if ((this->get_flag() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
         if (state_flags & 0x10) {
             input = &controller_input_state.controllers[temp_r31];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-                ((TWindowMenuIconLine *)arg0)->move_cursor();
+                this->move_cursor();
             }
             if ((test_buttons_press_or_repeat(input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-                ((TWindowMenuIconLine *)arg0)->move_cursor_next();
+                this->move_cursor_next();
             }
         } else {
             temp_r29_2 = &controller_input_state.controllers[temp_r31];
             if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-                ((TWindowMenuIconLine *)arg0)->move_cursor();
+                this->move_cursor();
             }
             if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-                ((TWindowMenuIconLine *)arg0)->move_cursor_next();
+                this->move_cursor_next();
             }
         }
         context = &controller_input_state.controllers[temp_r31];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
-            ((TWindowCheckBox *)arg0)->sync_level_field();
+            this->sync_level_field();
         }
         if ((test_pressed_buttons_packed(context, 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
-            ((TWindowMenuIconLine *)arg0)->set_flag4();
+            this->set_flag4();
         }
     }
-    ((TWindowMenuIconLine *)arg0)->center_list_selection();
+    this->center_list_selection();
     if ((f32)open_tick >= 7.5f) {
         temp_r3 = (uaddr)status_display;
         if (temp_r3 != 0U) {
@@ -88,8 +87,8 @@ void TWindowCheckBox::run_task() {
             temp_r3_2->increment_counter();
         }
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TWindowBase *)arg0)->update_fade();
+    update_window();
+    this->update_fade();
     update_window_entry_list(&entry_list);
 }
 

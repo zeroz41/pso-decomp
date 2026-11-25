@@ -19,7 +19,6 @@ struct Cam_8034BE5C {
     Vec up;
 };
 
-extern "C" {
 const char *lbl_805D4340 = "TAdFloorLoadCamGC";
 extern const f32 lbl_805DFDB8;
 
@@ -91,7 +90,6 @@ void TAdFloorLoadCamGC::run_task() {
 }
 #pragma pop
 
-}
 TAdFloorLoadCamGC::~TAdFloorLoadCamGC() {
     TCameraCtrl::reset_up_vector();
 }

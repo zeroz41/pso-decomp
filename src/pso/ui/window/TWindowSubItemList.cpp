@@ -26,14 +26,12 @@ void TWindowSubItemList::draw_blinking_selection(WindowDrawContext *context) {
 const char *TWindowSubItemList__class_name = "TWindowSubItemList";
 
 
-extern "C" {
 
 TWindowSubItemList *create_sub_item_list_window(const NJS_POINT2 *anchor, const NJS_POINT2 *position, s32 client) {
     set_menu_icon_line_params(position, 0x24);
     return new TWindowSubItemList((u8 *)anchor, client);
 }
 
-}
 
 #pragma push
 #pragma fp_contract on

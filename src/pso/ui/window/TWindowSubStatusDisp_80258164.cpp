@@ -153,7 +153,6 @@ struct VObj18B_802582c4_80257784 : VBase18B_802582c4_80257784 {
     virtual s32 vm8C();
 };
 
-extern "C" {
 extern const f32 lbl_805DCF04;
 extern const f32 lbl_805DCF08;
 
@@ -476,9 +475,7 @@ void ItemListRow::init_status_entry(u8 category_icon, u32 src, s32 item) {
     this->flags |= 0x45;
 }
 
-}
 
-extern "C" {
 void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
     s32 item_data;
 
@@ -551,7 +548,6 @@ void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
     this->flags = (this->flags | 0x45);
 }
 
-}
 
 
 struct Quad_8025941C { f32 v[8]; };
@@ -566,7 +562,6 @@ extern const f32 lbl_805DCF28;
 extern const f32 lbl_805DCF2C;
 extern const f32 lbl_805DCF10;
 extern const f32 lbl_805DCF18;
-extern "C" {
 
 void ItemListRow::set_ground_item(void *it, s32 index) {
     s32 item_data;
@@ -669,7 +664,6 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
         }
         TWindowSubStatusDisp::get_player();
     }
-}
 }
 
 typedef struct ItemListPosition ItemListPosition;

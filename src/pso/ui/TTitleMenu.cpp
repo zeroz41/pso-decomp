@@ -40,7 +40,6 @@ void TTitleMenu::draw_record_with_camera(s32 record, s32 camera) {
     TLobby::draw_with_camera(TLobby::get_record(record), camera, 0x20, (-1e+01f));
 }
 
-extern "C" {
 
 
 s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller) {
@@ -50,7 +49,6 @@ s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller) {
 s32 TTitleMenu::get_cursor() { return cursor; }
 
 void TTitleMenu::update_title_prompt() {
-    u8 *arg0 = (u8 *)this;
   float new_var;
   if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 8) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0))
   {
@@ -86,7 +84,6 @@ void TTitleMenu::handle_cursor_input() {
 }
 
 void TTitleMenu::render() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     s32 temp_r31;
     s32 i;
@@ -145,7 +142,6 @@ void TTitleMenu::run_task() {
     frame++;
 }
 
-}
 
 TTitleMenu::~TTitleMenu() {}
 

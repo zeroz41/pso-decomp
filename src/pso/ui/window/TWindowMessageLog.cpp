@@ -120,7 +120,7 @@ void TAdScrollWinGC::advance_scroll(f32 v) { *(f32*)((char*)this + 0x94) += v; }
 void fn_8026A61C(void* p, f32 v) { *(f32*)((char*)p + 0x94) += v; }
 
 void TWindowMessageLog::append_line(s32 shared_text_buffer) {
-    ((TWindowMessage *)((u8 *)this))->append_line(shared_text_buffer, 0x502);
+    ((TWindowMessage *)(this))->append_line(shared_text_buffer, 0x502);
     update_scroll_position();
 }
 
@@ -268,7 +268,6 @@ u8 *create_message_log_window(s32 parent, saddr extent, s32 client) {
 
 const char *TWindowMessageLog__name = "TWindowMessageLog";
 
-extern "C" {
 void TWindowMessageLog::render() {
     WindowDrawContext *draw_context;
     draw_context = get_draw_context();
@@ -288,7 +287,7 @@ void TWindowMessageLog::run_task() {
     }
     update_scroll_animation();
     update_scroll();
-    ((TWindowDD *)((u8 *)this))->initialize_subwindow();
+    update_window();
     update_fade_offset();
     update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24));
 }
@@ -300,7 +299,7 @@ TWindowMessageLog::TWindowMessageLog(s32 parent, s32 client) : TWindowMessage(pa
     NJS_POINT2 extent;
     f32 temp_f1;
     s32 temp_r3;
-    *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TWindowMessageLog__name);
+    *(s32 *)(this + 0) = (s32) ((saddr)TWindowMessageLog__name);
     TWindowCtrl__sub_8026AD78(this);
     temp_f1 = this->target_size[0] - 8.0f;
     extent.y = 0.0f;
@@ -311,4 +310,3 @@ TWindowMessageLog::TWindowMessageLog(s32 parent, s32 client) : TWindowMessage(pa
     this->load_chat_history();
 }
 
-}

@@ -155,7 +155,7 @@ void TWindowTimer::run_task() {
     if (flags & 1) {
         draw(get_gogo_ball_score(0), get_gogo_ball_score(1));
     }
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_chat_parts();
     ease_window_timer_position();
     update_window_entry_list(&entry_list);

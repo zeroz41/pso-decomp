@@ -112,7 +112,7 @@ TWindowComCard::TWindowComCard(void *position, void *data)
 TWindowComCard::~TWindowComCard() {}
 
 void TWindowComCard::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(&entry_list);
 }

@@ -283,7 +283,7 @@ TWindowFukidasi *TWindowFukidasi::find_overlapping_balloon(const f32 *position, 
     if (is_bit10_set() != 0) {
         return NULL;
     }
-    if (((TWindowBase *)this)->is_open_and_unblocked() == 0) {
+    if (this->is_open_and_unblocked() == 0) {
         return NULL;
     }
     for (TWindowFukidasi *p = first; p != NULL; p = static_cast<TWindowFukidasi *>(p->m_next)) {
@@ -797,7 +797,7 @@ void TWindowBase::update_fade() {
 
     ticks = this->tween_ticks;
     if (ticks == 0) {
-        ((TWindowBase *)this)->save_position();
+        this->save_position();
         return;
     }
     this->frame_position[0] += (this->target_position[0] - this->frame_position[0]) / (f32) ticks;
@@ -830,61 +830,59 @@ void TWindowSubComCard__sub_8024634C(void) {
 }
 }
 
-void TWindowSubComCard::update_open_close() {
-    u8 *arg0 = (u8 *)this;
+void TWindowBase::update_open_close() {
     s32 card_window_flags;
     s32 state_flags;
 
-    if ((s32) *(s32 *)&this->m_5c < 0x01000000) {
-        card_window_flags = TWindowSubStatusDisp::get_card_window_flags(*(s16 *)&this->client_id);
-        card_window_flags += *(s32 *)&this->m_5c;
-        *(s32 *)&this->m_5c = card_window_flags + 1;
+    if ((s32) open_tick < 0x01000000) {
+        card_window_flags = TWindowSubStatusDisp::get_card_window_flags(client_index);
+        card_window_flags += open_tick;
+        open_tick = card_window_flags + 1;
     }
-    state_flags = *(s32 *)&this->m_2c;
+    state_flags = window_flags;
     if (!(state_flags & 2)) {
-        if ((state_flags & 0x10) && (((TWindowBase *)arg0)->is_closed() != 0)) {
-            ((TObject *)arg0)->queue_destruction();
+        if ((state_flags & 0x10) && (is_closed() != 0)) {
+            this->queue_destruction();
         }
     } else if (state_flags & 1) {
-        if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
+        if ((f32) open_tick >= 7.5f) {
             if (state_flags & 4) {
                 if (!(state_flags & 0x20)) {
                     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x53704, 0U, 0, 0);
                 }
-                *(s32 *)&this->m_2c = (s32) (*(s32 *)&this->m_2c & ~5);
+                window_flags = (s32) (window_flags & ~5);
                 return;
             }
-            *(s32 *)&this->m_2c = (s32) (state_flags & 0xFFFFFFFD);
+            window_flags = (s32) (state_flags & 0xFFFFFFFD);
         }
     } else {
-        *(s16 *)((s8 *)arg0 + 0x22) = (s16) (*(s16 *)((s8 *)arg0 + 0x22) + 1);
-        if ((f32) *(s16 *)((s8 *)arg0 + 0x22) >= 4.5f) {
-            if (*(s32 *)&this->m_2c & 0x10) {
-                ((TObject *)arg0)->disallow_rendering();
-                ((TObject *)arg0)->queue_destruction();
+        closing_tick = (s16) (closing_tick + 1);
+        if ((f32) closing_tick >= 4.5f) {
+            if (window_flags & 0x10) {
+                this->disallow_rendering();
+                this->queue_destruction();
             }
-            *(s16 *)((s8 *)arg0 + 0x22) = 0;
-            card_window_flags = *(s32 *)&this->m_2c;
+            closing_tick = 0;
+            card_window_flags = window_flags;
             if (card_window_flags & 4) {
                 if (!(card_window_flags & 0x20)) {
                     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x53703, 0U, 0, 0);
                 }
-                *(s32 *)&this->m_2c = (s32) (*(s32 *)&this->m_2c & 0xFFFFFFFB);
-                *(s32 *)&this->m_2c = (s32) (*(s32 *)&this->m_2c | 1);
-                *(s32 *)&this->m_5c = 0;
+                window_flags = (s32) (window_flags & 0xFFFFFFFB);
+                window_flags = (s32) (window_flags | 1);
+                open_tick = 0;
                 return;
             }
-            *(s32 *)&this->m_2c = (s32) (card_window_flags & 0xFFFFFFFD);
-            ((TObject *)arg0)->disallow_rendering();
+            window_flags = (s32) (card_window_flags & 0xFFFFFFFD);
+            this->disallow_rendering();
         }
     }
 }
 
 extern "C" {
-int update_open_close__17TWindowSubComCardFv(void*);
 
 void TWindowDD::update_com_card() { TWindowSubComCard__sub_8024634C(); }
-int TWindowDD::initialize_subwindow() { return update_open_close__17TWindowSubComCardFv(this); }
+void TWindowBase::update_window() { update_open_close(); }
 void TWindowBase::render() {  }
 void TWindowBase::run_task() {  }
 
@@ -910,14 +908,12 @@ extern const char lbl_8044E720[];
 extern const char lbl_8044E734[];
 extern const char lbl_8044E748[];
 extern const char lbl_8044E758[];
-extern "C" {
 
 void TWindowCtrlMain::free_window() {
     if (hud_texlist != NULL) {
         release_texture_list(hud_texlist);
         hud_texlist = NULL;
     }
-}
 }
 
 void load_hud_palette_textures(void) {

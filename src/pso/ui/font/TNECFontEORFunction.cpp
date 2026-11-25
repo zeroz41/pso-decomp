@@ -22,7 +22,6 @@ const u32 text_control_color_palette[10] = {
     0xFFFF00FF, 0xFFFFFF00, 0xFFFFFFFF, 0xFFFF8080, 0xFF8080FF,
 };
 
-extern "C" {
 extern s32 menu_font_upload_flags;
 extern u8 menu_font_upload_epoch;
 extern u8 lbl_8050C090[];
@@ -56,11 +55,8 @@ void TNECFontEORFunction::run_task() {
 }
 TNECFontEORFunction::~TNECFontEORFunction() {}
 
-}
 
-extern "C" {
 const char *nec_font_eor_class_name = "TNECFontEORFunction";
-}
 TNECFontEORFunction::TNECFontEORFunction() : TObject((TObject *)(&end_of_render_root)) {
     this->m_name = nec_font_eor_class_name;
 }
@@ -76,7 +72,6 @@ struct MenuGlyphEntry {
 };
 
 
-extern "C" {
 
 const char *parse_text_control_codes(const char *p, s32 *mb, s32 *color) {
     while (*p == '\t') {
@@ -299,7 +294,6 @@ void TWindowSubStatusDisp::pack_status_flags(u32 pixel) {
     *(u8 *)&this->m_name = (u8) (*(u8 *)&this->m_name | ((pixel >> 2U) & 0x30));
     *(u8 *)((s8 *)this + 1) = (u8) (pixel & 3);
     *(u8 *)((s8 *)this + 1) = (u8) (*(u8 *)((s8 *)this + 1) | ((pixel * 4) & 0x30));
-}
 }
 extern u8 *menu_font_glyph_pixel_buffers[];
 extern u8 *menu_font_glyph_data;

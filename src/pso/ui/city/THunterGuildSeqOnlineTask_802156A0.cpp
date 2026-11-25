@@ -189,8 +189,7 @@ void adjust_appraisal_special(Obj_8021599C *obj) {
 }
 
 bool TLobby::is_slot_match() {
-    u8 *arg0 = (u8 *)this;
-    return *(u8 *)((s8 *)arg0 + 1) == *(s32 *)((s8 *)&section_id_favored_grind_table.value + (lbl_805D6238 * 4));
+    return *(u8 *)((s8 *)this + 1) == *(s32 *)((s8 *)&section_id_favored_grind_table.value + (lbl_805D6238 * 4));
 }
 s32 is_slot_match__6TLobbyFv();
 

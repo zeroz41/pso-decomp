@@ -68,7 +68,6 @@ struct TWindowDD : public TObject
     void set_scale(s32 arg1, s32 arg2);
     static s32 check_all_ready(s32 floor);
     void update_com_card();
-    int initialize_subwindow();
     void set_mode_2();
     void reset_cursor();
     void set_pos_and_data(f32 farg0);

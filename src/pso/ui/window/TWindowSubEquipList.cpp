@@ -14,14 +14,12 @@
 const char *TWindowSubEquipList__class_name = "TWindowSubEquipList";
 
 
-extern "C" {
 
 u8 *create_equip_list_window(saddr parent, saddr position, s32 client) {
     set_menu_icon_line_params(reinterpret_cast<const NJS_POINT2 *>(position), 8);
     return (u8 *)new TWindowSubEquipList((u8 *)parent, client);
 }
 
-}
 
 #pragma push
 #pragma fp_contract on

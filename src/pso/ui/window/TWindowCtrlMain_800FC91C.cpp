@@ -50,7 +50,6 @@ const char *TFontSmallLobby__name = "TFontSmallLobby";
 // One letter per language (J/E/G/F/S), appended after the player name.
 char *status_text_label_table[5] = { "J", "E", "G", "F", "S" };
 extern TPlyChallenge lobby_player_status_records[];
-extern "C" {
 
     extern int TWindowCtrlMain__instance;
 saddr TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
@@ -152,7 +151,6 @@ void TFontPlayerStatusHelp::run_task() {
 }
 
 
-}
 TFontPlayerStatusHelp::~TFontPlayerStatusHelp() {
 
 }

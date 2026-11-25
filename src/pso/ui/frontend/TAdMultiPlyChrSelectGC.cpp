@@ -52,50 +52,37 @@
 #include "pso/system/SoundEffect.h"
 
 
-extern "C" {
 extern s32 lbl_804728A8[];
 extern s32 lbl_804728A0[];
 extern s32 lbl_80472890[];
 extern u8 lbl_80472898[];
 extern u8 player_number_text_buffer[];
-}
 
 
 u8 player_number_text_buffer[0x80];
-extern "C" {
 extern s8 lbl_80472880[];
 extern s8 lbl_80472888[];
-}
 
-extern "C" {
 extern NJS_POINT2 multi_chr_select_item_rect_table[];
-}
 
 extern "C" {
 s32 TAdPlyPltAnimCtrlGC__sub_80355148();
 }
 
-extern "C" {
 extern s32 lbl_80472870[];
 extern s32 lbl_80472878[];
 extern s32 lbl_80472868[];
-}
 
-extern "C" {
 extern s32 lbl_80472860[];
-}
 
-extern "C" {
 extern s32 lbl_80472850[];
 extern s32 lbl_80472858[];
 struct MultiPlayChrSelectSlotPositions { s32 value; u8 remaining[0x14]; };
 
 extern MultiPlayChrSelectSlotPositions multi_play_chr_select_slot_positions;
-}
 
 struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
 
-extern "C" {
 extern NJS_POINT2 multi_chr_select_widget_layout[];
 extern NJS_POINT2 multi_chr_select_cursor_size[];
 extern NJS_POINT2 multi_chr_select_cursor_position[];
@@ -104,11 +91,9 @@ extern NJS_POINT2 lbl_80472848[];
 s32 lbl_805D68C8;
 u32 multi_chr_select_serial_access_state;
 TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::instance;
-}
 
 extern "C" { extern char TAdMultiPlyChrSelectGC__class_name_string[]; }
 const char *TAdMultiPlyChrSelectGC__name = TAdMultiPlyChrSelectGC__class_name_string;
-extern "C" {
 extern s32 multi_ply_chr_select_active_player;
 void TAdChrSelPlyPlateGC::set_select_mode(int mode) { TAdMultiPlyChrSelectGC::select_mode = mode; }
 
@@ -143,7 +128,6 @@ TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_or_create(TObject *parent, s
     return scene;
 }
 
-}
 
 TAdMultiPlyChrSelectGC::TAdMultiPlyChrSelectGC(TObject *parent, s32 mode) : TObject(parent) {
     m_name = TAdMultiPlyChrSelectGC__name;
@@ -152,7 +136,6 @@ TAdMultiPlyChrSelectGC::TAdMultiPlyChrSelectGC(TObject *parent, s32 mode) : TObj
     this->handle_event(TAdMultiPlyChrSelectGC::get_select_flag());
 }
 
-extern "C" {
 TAdMultiPlyChrSelectGC::~TAdMultiPlyChrSelectGC() {
     TAdChrMoveEffectGC *move_effect = TAdMultiPlyChrSelectGC::get_global_state();
     if (move_effect != NULL) {
@@ -886,7 +869,6 @@ void TAdMultiPlyChrSelectGC::open_windows() {
     this->state = 0xC;
 }
 
-}
 
 void TAdMultiPlyChrSelectGC::reset_to_select() {
     SlotGridPosition split;
@@ -932,7 +914,6 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
     this->state = 0;
 }
 
-extern "C" {
 void TAdMultiPlyChrSelectGC::sub_802DDD08() {
     s32 frames;
     if (this->confirm_window != NULL) {
@@ -1905,4 +1886,3 @@ void TAdMultiPlyChrSelectGC::render() {
     if (TMainTask::get_render_pass() == 1) return;
 }
 
-}

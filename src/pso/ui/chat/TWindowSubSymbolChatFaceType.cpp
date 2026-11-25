@@ -17,11 +17,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-extern "C" {
 extern const char TWindowSubSymbolChatFaceType__class_name_string[29] = "TWindowSubSymbolChatFaceType";
-}
 
-extern "C" {
 
 
 
@@ -38,7 +35,6 @@ void TWindowSubSymbolChatFaceType::confirm_selection() {
     status_disp->set_entry_state(2);
 }
 
-}
 
 struct Stack_80283F38
 {
@@ -212,13 +208,12 @@ void TWindowSubSymbolChatFaceType::run_task() {
     if ((f32) (s32)window_sub_symbol_chat_face_type->open_tick >= 7.5f) {
         status_disp->update_subwindow();
     }
-    ((TWindowDD *)window_sub_symbol_chat_face_type)->initialize_subwindow();
+    ((TWindowBase *)window_sub_symbol_chat_face_type)->update_window();
     window_sub_symbol_chat_face_type->update_window_entry_list(&window_sub_symbol_chat_face_type->entry_list);
 }
 
 }
 
-extern "C" {
 
 
 
@@ -226,7 +221,6 @@ TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
     TWindowSubStatusDisp::destroy_status_display((s32)status_disp, 1);
 }
 
-}
 
 
 // inferred: symbol_chat_face_type_layout_entries, the layout table
@@ -249,7 +243,6 @@ WindowDescriptor symbol_chat_face_type_window_layout = {
     {178.0f, 188.0f}, 50050.0f, &symbol_chat_face_type_layout_entries, 0x43,
 };
 
-extern "C" {
 const char *TWindowSubSymbolChatFaceType__name = TWindowSubSymbolChatFaceType__class_name_string;
 TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(void *position, s8 *selection)
     : TWindowBase((u8 *)&symbol_chat_face_type_window_layout, 4, (u8 *)position) {
@@ -266,4 +259,3 @@ TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(void *position, s8 *s
     status_disp = heading;
 }
 
-}

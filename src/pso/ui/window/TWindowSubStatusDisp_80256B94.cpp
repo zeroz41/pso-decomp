@@ -20,7 +20,6 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 
 
-extern "C" {
 TWindowStatusGauge::TWindowStatusGauge(StatusGaugeLayout *source, s32 client)
     : TWindowLayoutEntry(client) {
     width = 0.0f;
@@ -209,4 +208,3 @@ TWindowLayoutEntry::TWindowLayoutEntry(s32 client) {
 }
 
 TWindowLayoutEntry::~TWindowLayoutEntry() {}
-}

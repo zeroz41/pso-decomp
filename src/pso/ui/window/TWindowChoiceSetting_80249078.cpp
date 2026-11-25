@@ -139,7 +139,7 @@ void TWindowChoiceSetting::run_task() {
             temp_r3_2->increment_counter();
         }
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
+    ((TWindowBase *)arg0)->update_window();
     ((TWindowChoiceSetting *)arg0)->sub_80249078();
     ((TWindowAddition *)arg0)->step_window_tween();
     ((TWindowMenuInfomation *)arg0)->update_scroll_offset();

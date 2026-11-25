@@ -449,11 +449,11 @@ void TWindowHelpItem::update_stat_disp() {
 
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
-        a = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(0));
-        b = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(1));
-        c = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(2));
-        d = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(3));
-        e = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(4));
+        a = reinterpret_cast<saddr>(this->get_array_entry(0));
+        b = reinterpret_cast<saddr>(this->get_array_entry(1));
+        c = reinterpret_cast<saddr>(this->get_array_entry(2));
+        d = reinterpret_cast<saddr>(this->get_array_entry(3));
+        e = reinterpret_cast<saddr>(this->get_array_entry(4));
         if (this->m_70 != 0) {
             if (check_equip_requirements((void *)player, (TItemData *)this->m_70, &requirement) != 0) {
                 TWindowHelpItem::set_flag_0x10((u16 *)a, 1);
@@ -801,12 +801,12 @@ void TWindowHelpItem::init_help_texts() {
         reinterpret_cast<WindowLayoutEntries *>((void *) ((u8 *) this + 0x24)),
         reinterpret_cast<const void *>(TWindowHelpItem::item_layout_entries),
         this->client_index);
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(0));
-    temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(1));
-    temp_r29 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(2));
-    temp_r28 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(3));
-    temp_r27 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(4));
-    temp_r26 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(5));
+    temp_r31 = reinterpret_cast<saddr>(this->get_array_entry(0));
+    temp_r30 = reinterpret_cast<saddr>(this->get_array_entry(1));
+    temp_r29 = reinterpret_cast<saddr>(this->get_array_entry(2));
+    temp_r28 = reinterpret_cast<saddr>(this->get_array_entry(3));
+    temp_r27 = reinterpret_cast<saddr>(this->get_array_entry(4));
+    temp_r26 = reinterpret_cast<saddr>(this->get_array_entry(5));
     ((TWindowHelpItem *)temp_r31)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x83)));
     ((TWindowHelpItem *)temp_r30)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x84)));
     ((TWindowHelpItem *)temp_r29)->set_help_text((saddr) (TWindowSubStatusDisp::get_message_10(0x85)));

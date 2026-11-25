@@ -253,7 +253,7 @@ void TWindowDD::set_value_f32(s32 arg1) {
 }
 
 void TWindowDD_WS_ScrollBar::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
 }
 

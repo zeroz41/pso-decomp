@@ -17,7 +17,6 @@ ParticleAngles TAdLoadNetworkGC__object_offset_table[5] = {
     {0x4000, 0, 0}, {0x4000, 0, 0}, {0, 0, 0}, {0x4000, 0, 0}, {0x4000, 0, 0},
 };
 
-extern "C" {
 const s32 load_network_object_id_table[5] = {19, 21, 23, 29, 110};
 const char *TAdLoadNetworkGC__class_name = "TAdLoadNetworkGC";
 void TAdLoadNetworkGC::run_task() {
@@ -26,7 +25,6 @@ void TAdLoadNetworkGC::run_task() {
         this->particles[i]->set_position(&this->position);
         this->particles[i]->set_direction(&TAdLoadNetworkGC__object_offset_table[i]);
     }
-}
 }
 TAdLoadNetworkGC::~TAdLoadNetworkGC() {
     u32 i;

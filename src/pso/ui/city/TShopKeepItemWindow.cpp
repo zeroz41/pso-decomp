@@ -38,8 +38,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
-}
 
 const char *TShopKeepItemWindow__class_name = "TShopKeepItemWindow";
 

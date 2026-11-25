@@ -213,28 +213,26 @@ void THunterGuildSeqOffline::update_state() {
 void THunterGuildSeqOffline::restore_player_state() { TShopSequence::restore_player_state(); fn_80223480(this); THunterGuildWarning::create_instance((saddr)((void*)2)); set_state((saddr)((void*)((void*)1))); }
 
 void THunterGuildSeqOffline::open_greeting() {
-    u8 *arg0 = (u8 *)this;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802130AC, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802130AC, spC) == 0x4);
     Stack_802130AC stack;
     stack.sp8 = 332.0f;
     stack.spC = 80.0f;
-    ((TShopSequence *)arg0)->create_message_window((s32)((saddr) (((u8 *)get_window_layout_position(0x2C)))), (saddr)&stack.sp8);
+    this->create_message_window((s32)((saddr) (((u8 *)get_window_layout_position(0x2C)))), (saddr)&stack.sp8);
     this->display_guild_message(1, 1);
-    counter_camera = set_service_counter_camera(arg0, 1);
-    ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(2)));
+    counter_camera = set_service_counter_camera(this, 1);
+    this->set_state((saddr)((void*)(2)));
 }
 
 void THunterGuildSeqOffline::resolve_active_quest_result() {
-    u8 *arg0 = (u8 *)this;
-    if ((this->is_message_ready() != 0) && ((((TShopWindowBase *)arg0)->is_decide_pressed() != 0) || (((TShopWindowBase *)arg0)->is_cancel_pressed() != 0))) {
+    if ((this->is_message_ready() != 0) && ((this->is_decide_pressed() != 0) || (this->is_cancel_pressed() != 0))) {
         if (is_quest_active() == 1) {
             if (TQuestThread::get_register(quest_mission_manager, 0xFF) == 1) {
                 this->display_guild_message(0xB, 1);
                 if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 4) != -1) {
                     this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 4)));
                 }
-                ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(7)));
+                this->set_state((saddr)((void*)(7)));
                 return;
             }
             if (TQuestThread::get_register(quest_mission_manager, 0xFD) == 1) {
@@ -242,15 +240,15 @@ void THunterGuildSeqOffline::resolve_active_quest_result() {
                 if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 0) != -1) {
                     this->quest_thread = reinterpret_cast<TQuestThread *>(TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks + 0)));
                 }
-                ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(8)));
+                this->set_state((saddr)((void*)(8)));
                 return;
             }
             this->display_guild_message(2, 1);
-            ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(3)));
+            this->set_state((saddr)((void*)(3)));
             return;
         }
         this->display_guild_message(4, 1);
-        ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(4)));
+        this->set_state((saddr)((void*)(4)));
     }
 }
 

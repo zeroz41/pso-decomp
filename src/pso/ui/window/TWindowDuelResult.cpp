@@ -30,7 +30,6 @@ s32 text_builder_append(s32);
 }
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 void text_builder_reset(void);
-extern "C" {
 
 extern "C" const char lbl_805DCCA8[] = ":";
 void *TWindowDuelResult::layout_entries[140] = {
@@ -105,7 +104,6 @@ void *duel_result_window_layout_table[119] = {
 WindowDescriptor window_duel_result_descriptor = {
     {388.0f, 164.0f}, 50043.0f, NULL, 3,
 };
-}
 
 void TWindowDuelResult::sub_8024EF3C() {  }
 
@@ -228,7 +226,7 @@ void TWindowDuelResult::run_task() {
         sub_8024F3CC();
     }
     sub_8024F330();
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_window_entry_list(&entry_list);
 }
 

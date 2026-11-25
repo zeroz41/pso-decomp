@@ -6,20 +6,16 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/SoundEffect.h"
-extern "C" {
 const char multi_confirm_texture_archive_name[] = "f064_multiconfirm";
 void *multi_confirm_texture_entries[3] = { (void *)multi_confirm_texture_archive_name, 0, 0 };
 struct MultiConfirmTextureList { void *entries; u32 count; };
 __declspec(section ".data") MultiConfirmTextureList multi_confirm_texture_descriptor = { multi_confirm_texture_entries, 1 };
-}
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" {
 saddr multi_confirm_texture_list;
-}
 
 const char *TAdMultiOkGC__name = "TAdMultiOkGC";
 // The unit was built with -inline off,deferred: the functions are written

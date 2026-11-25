@@ -458,7 +458,6 @@ struct RecoveredGlobal_8033B9C4_lbl_80513910 {
     u8 remaining[0xC];
 };
 
-extern "C" {
 
 extern RecoveredGlobal_8033B9C4_lbl_80513910 chr_select_serial_seeds;
 
@@ -520,7 +519,6 @@ TCharSaveSequence::TCharSaveSequence() : TObject(tl_01) {
     alloc_download_buffer();
     clear_buffer();
     stop_pad_rumble();
-}
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_8033B9C4_lbl_80513910_size, sizeof(RecoveredGlobal_8033B9C4_lbl_80513910) == 0x10);

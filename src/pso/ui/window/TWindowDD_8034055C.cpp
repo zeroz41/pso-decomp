@@ -12,7 +12,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 
-extern "C" {
 extern const f32 TWindowDD__data_805DFBFC;
 extern const f32 lbl_805DFC00;
 extern const f32 lbl_805DFC04;
@@ -101,7 +100,7 @@ void TWindowDD::set_clamped_page(s32 clamped_page) {
 }
 
 void TWindowWordSelectMode::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
 }
 
@@ -175,5 +174,4 @@ void TWindowWordSelectMode::render() {
         q.v1 += dv;
     }
     TWindowSubStatusDisp::get_player();
-}
 }

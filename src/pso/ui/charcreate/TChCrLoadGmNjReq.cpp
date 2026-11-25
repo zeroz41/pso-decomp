@@ -14,7 +14,6 @@
 const char *TChCrLoadGmNjReq__name = "TChCrLoadGmNjReq";
 #pragma pop
 
-extern "C" {
 
 
 void TChCrLoadGmNjReq::run_task() {
@@ -40,7 +39,6 @@ TChCrLoadGmNjReq::~TChCrLoadGmNjReq() {
     if (loaded_bml != nullptr) {
         delete loaded_bml;
     }
-}
 }
 
 TChCrLoadGmNjReq::TChCrLoadGmNjReq(TObject *parent, TChCrLoadGmNjReqArgs *args) : TObject(parent) {

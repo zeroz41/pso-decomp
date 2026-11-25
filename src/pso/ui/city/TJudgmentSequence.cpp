@@ -13,10 +13,8 @@
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
 s32 TJudgmentSequence::slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;
-}
 
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -134,7 +132,6 @@ TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TSho
     TJudgmentSequence::slot_flags[get_split_screen_slot()] = 1;
 }
 
-extern "C" {
 
 void TJudgmentSequence__sub_80216030(void) {
     s32 i;
@@ -151,4 +148,3 @@ void TJudgmentSequence__sub_80216058(void) {
 }
 
 void TShopWindowBase::send_message(s32 id, s32 flags) {  }
-}

@@ -22,12 +22,10 @@
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
 
 
 s32 lbl_805D6218;
 s32 lbl_805D621C;
-}
 
 extern "C" {
 extern const char *TShopEquipmentGearSequence__class_name;
@@ -125,7 +123,6 @@ void TShopEquipmentGearSequence::open_greeting() {
     counter_camera = set_service_counter_camera(this, 0x4);
 }
 
-extern "C" {
 
 void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
     s32 id;
@@ -210,4 +207,3 @@ void TShopEquipmentGearSequence::open_gear_shop(TShopWindowBase *sequence) {
     }
 }
 
-}

@@ -36,7 +36,6 @@
 #include "pso/render/GinjaTexture.h"
 
 
-extern "C" {
 
 
     extern int lobby_game_mode_state;
@@ -53,7 +52,6 @@ s32 TTitleScene::start_offline_seq() {
     return transition_flags & 4;
 }
 
-}
 
 struct TCameraCtrl;
 

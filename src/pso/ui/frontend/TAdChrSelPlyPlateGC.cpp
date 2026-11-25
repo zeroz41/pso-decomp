@@ -23,10 +23,8 @@ typedef struct Jump_802C5C84 {
 } Jump_802C5C84;
 
 extern s32 multi_ply_chr_select_slot_table[][5];
-extern "C" {
 s32 lbl_805D67D0;
 s32 lbl_805D67D4;
-}
 
 s32 multi_ply_chr_select_player_slot[4] = {
     0, 0, 0, 0,

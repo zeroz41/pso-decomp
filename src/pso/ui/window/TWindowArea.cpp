@@ -32,7 +32,7 @@ TWindowArea::TWindowArea() : TWindowRoom(NULL) {
 
 TWindowArea::~TWindowArea() {}
 
-void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); this->update_window_entry_list(&entry_list); }
+void TWindowArea::run_task() { update_window(); this->update_window_entry_list(&entry_list); }
 
 #pragma push
 #pragma fp_contract on
@@ -48,7 +48,6 @@ TWindowArea *create_window_area() {
 }
 #pragma pop
 
-extern "C" {
 #pragma push
 #pragma fp_contract on
 TWindowArea *create_area_window(void *text) {
@@ -62,9 +61,7 @@ TWindowArea *create_area_window(void *text) {
     return object;
 }
 #pragma pop
-}
 
-extern "C" {
 void fn_8024450C(s32 arg0) {
     s32 var_r30;
     s32 var_r31;
@@ -75,7 +72,6 @@ void fn_8024450C(s32 arg0) {
     var_r3 = var_r30;
     var_r5 = get_area_total();
     ((TWindowSubStatusDisp *)var_r3)->set_count_ratio_text(var_r31, var_r5);
-}
 }
 
 void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {

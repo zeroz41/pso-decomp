@@ -105,7 +105,6 @@ void TWindowPartyStatus::draw_background(u8 *ctx) {
         end_window_sweep_draw(0xB);
     }
 }
-extern "C" {
 
 void TWindowPartyStatus::render() {
     saddr ctx;
@@ -116,7 +115,6 @@ void TWindowPartyStatus::render() {
         &this->entry_list,
         reinterpret_cast<WindowDrawContext *>(ctx));
 }
-}
 
 void TWindowPartyStatus::run_task() {
     saddr arg0 = (saddr)this;
@@ -124,7 +122,7 @@ void TWindowPartyStatus::run_task() {
     draw();
     update_status_help_item((arg0));
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0xAC)));
-    ((TWindowDD *)arg0)->initialize_subwindow();
+    ((TWindowBase *)arg0)->update_window();
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();

@@ -41,18 +41,16 @@ WindowDescriptor window_break_in_layout = {
     {112.0f, 30.0f}, 50000.0f, &window_break_in_layout_entries, 0x823,
 };
 
-extern "C" {
 
 void TWindowBreakIn::render() {
     WindowDrawContext *context = draw_default_entry();
     draw_visible_window_entries(this, &entry_list, context);
 }
 
-void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_visibility(); ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list(&entry_list); }
+void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_visibility(); update_window(); update_window_entry_list(&entry_list); }
 
 TWindowBreakIn::~TWindowBreakIn() {}
 TWindowBreakIn::TWindowBreakIn() : TWindowBase((u8 *)&window_break_in_layout, (s16)(4), (u8 *)(get_window_layout_position(0xAA))) {
     m_name = TWindowBreakIn__name;
 }
 
-}

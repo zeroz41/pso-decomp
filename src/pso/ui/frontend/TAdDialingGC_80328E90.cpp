@@ -4,7 +4,6 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 
-extern "C" {
 
 
 void TAdDialingGC::close() {
@@ -19,4 +18,3 @@ void TAdDialingGC::open() {
     TLobby__sub_802A5154();
 }
 
-}

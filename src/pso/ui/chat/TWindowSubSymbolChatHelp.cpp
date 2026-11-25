@@ -226,7 +226,7 @@ void TWindowSubSymbolChatHelp::render() {
     draw_help_entries((void *)temp_r3);
 }
 
-void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); ((TWindowDD *)this)->initialize_subwindow(); }
+void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); update_window(); }
 
 TWindowSubSymbolChatHelp::~TWindowSubSymbolChatHelp() {}
 TWindowSubSymbolChatHelp::TWindowSubSymbolChatHelp(s8 *selection, s32 *mode)

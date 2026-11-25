@@ -21,7 +21,6 @@ struct TWindowSubComCard;
 
 struct UV_802AD538 { f32 u, v; };
 
-extern "C" {
 
 
 const char *TWindowMenuMainMenu__class_name = "TWindowMenuMainMenu";
@@ -499,4 +498,3 @@ void TWindowMenuMainMenu::handle_navigation_input() {
     }
 }
 
-}

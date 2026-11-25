@@ -16,7 +16,6 @@ CreationIconState creation_icon_states[7];
 f32 TObjCMIcon::horizontal_scroll_offset;
 #pragma common reset
 
-extern "C" {
 
 void TObjCMIcon::reset_icon_flags() {
     s32 i;
@@ -160,4 +159,3 @@ void run_task__10TObjCMIconFv(s32 arg0) {
 }
 #pragma pop
 
-}

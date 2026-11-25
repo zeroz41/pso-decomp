@@ -42,7 +42,6 @@ WindowDescriptor window_input_number_layout = {
     {104.0f, 74.0f}, 50050.0f, &window_input_number_layout_entries, 3,
 };
 
-extern "C" {
 
 void TWindowInputNumber::mark_confirmed() {
     if (!(this->inputFlags & 8) && (TWindowInputNumber::is_confirmed() == 0)) {
@@ -119,13 +118,11 @@ void TWindowInputNumber::set_value(f32 farg0) {
     align_digits();
 }
 
-}
 
 struct UV_802563A0 { f32 u, v; };
 struct ArrowUVs { UV_802563A0 uv[2]; };
 static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
-extern "C" {
 
 void TWindowInputNumber::create(s32 title) {
     uaddr var_r0;
@@ -318,7 +315,7 @@ void TWindowInputNumber::run_task() {
     if ((temp_r3 != 0U) && ((f32) self->open_tick >= 7.5f)) {
         ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
     }
-    reinterpret_cast<TWindowDD *>(self)->initialize_subwindow();
+    ((TWindowBase *)self)->update_window();
     self->update_fade();
     self->update_window_entry_list(&self->entry_list);
 }
@@ -327,7 +324,6 @@ TWindowInputNumber::~TWindowInputNumber() {
     if ((void *)unknown70 != NULL) { TWindowSubStatusDisp::destroy_status_display(unknown70, (s16)1); }
 }
 
-}
 
 TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high, s32 initial, s16 client)
     : TWindowBase((u8 *)&window_input_number_layout, client, (u8 *)position) {

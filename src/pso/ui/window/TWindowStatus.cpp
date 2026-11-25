@@ -194,7 +194,7 @@ void TWindowStatus::run_task() {
     update_lockon_window((u8 *)arg0);
     update_status_help_item(arg0);
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
-    ((TWindowDD *)arg0)->initialize_subwindow();
+    ((TWindowBase *)arg0)->update_window();
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
 }

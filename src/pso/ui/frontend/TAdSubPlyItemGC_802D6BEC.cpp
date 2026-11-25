@@ -44,7 +44,6 @@ void TAdSubPlyItemGC::run_task() {
     }
 }
 
-extern "C" {
 void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, PlayerSlotLabel *e) {
     s32 i = e->slot;
     strncpy(self->names[i], e->name, 0xFE);
@@ -55,7 +54,6 @@ void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, PlayerSlotLab
     self->level_pos[i].y = 20.0f + self->name_pos[i].y;
     self->alpha[i] = 0;
     self->visible[i] = 1;
-}
 }
 
 void TAdSubPlyItemGC::hide_all_entries() {

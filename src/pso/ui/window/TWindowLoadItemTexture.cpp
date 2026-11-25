@@ -17,7 +17,6 @@
 #pragma push
 #pragma opt_common_subs off
 
-extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -36,7 +35,6 @@ TWindowLoadItemTexture *fn_802628C0(void *position, const f32 *extent, s32 clien
     return window;
 }
 #pragma pop
-}
 
 #pragma pop
 
@@ -57,7 +55,6 @@ WindowDescriptor TWindowLoadItemTexture__window_descriptor = {
     {0.0f, 0.0f}, 38000.0f, &TWindowLoadItemTexture__layout_entries, 0x2B,
 };
 
-extern "C" {
 
 #pragma push
 #pragma readonly_strings on
@@ -90,7 +87,7 @@ void TWindowLoadItemTexture::render() {
 }
 
 void TWindowLoadItemTexture::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(&entry_list);
 }
@@ -127,4 +124,3 @@ TWindowLoadItemTexture::TWindowLoadItemTexture(void *position, f32 *extent, s32 
 
 void fn_80262C2C(TWindowLoadItemTexture *window) { window->m_61 |= 1; }
 
-}

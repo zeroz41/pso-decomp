@@ -340,33 +340,32 @@ void TWindowKeyBoardBase::vt20() {
 }
 
 void TWindowKeyBoardBase::handle_backspace() {
-    u8 *arg0 = (u8 *)this;
   s8 *new_var;
   u16 temp_r5;
   u32 temp_r3;
   u8 *temp_r4;
-  temp_r5 = *((u16 *) (((s8 *) arg0) + 0x60));
+  temp_r5 = *((u16 *) (((s8 *) this) + 0x60));
   if (temp_r5 & 4)
   {
-    if ((*((u16 *) (((s8 *) arg0) + 0x62))) & 1)
+    if ((*((u16 *) (((s8 *) this) + 0x62))) & 1)
     {
-      ((TWindowKeyBoardBase *)arg0)->update();
+      this->update();
       return;
     }
-    *((u16 *) (((s8 *) arg0) + 0x60)) = (u16) (temp_r5 & 0xFFFFFFFB);
+    *((u16 *) (((s8 *) this) + 0x60)) = (u16) (temp_r5 & 0xFFFFFFFB);
     return;
   }
-  temp_r4 = *((u8 **) (((s8 *) arg0) + 0x68));
+  temp_r4 = *((u8 **) (((s8 *) this) + 0x68));
   ;
   new_var = ((s8 *) temp_r4) + 4;
   if ((*((u32 *) new_var)) == 0U)
   {
-    *((u16 *) (((s8 *) arg0) + 0x60)) = (u16) (temp_r5 | 0x20);
+    *((u16 *) (((s8 *) this) + 0x60)) = (u16) (temp_r5 | 0x20);
     return;
   }
   *((u32 *) new_var) = (u32) ((*((u32 *) new_var)) - 1);
-  ((KeyboardTextBuffer *)(*((u8 **) (((s8 *) arg0) + 0x68))))->delete_char();
-  if (((*((u16 *) (((s8 *) arg0) + 0x60))) & 2) && (((u32) (*((u32 *) (((s8 *) (*((u8 **) (((s8 *) arg0) + 0x68)))) + 0x10)))) == 0U))
+  ((KeyboardTextBuffer *)(*((u8 **) (((s8 *) this) + 0x68))))->delete_char();
+  if (((*((u16 *) (((s8 *) this) + 0x60))) & 2) && (((u32) (*((u32 *) (((s8 *) (*((u8 **) (((s8 *) this) + 0x68)))) + 0x10)))) == 0U))
   {
     init();
   }
@@ -506,19 +505,19 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
     if (current_language == LANGUAGE_JAPANESE && code >= 0x80U && code < 0x100U) {
         return;
     }
-    if (!(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80) && this->m_input_mode >= 1U) {
+    if (!(*(u16 *)((s8 *)(this) + 0x60) & 0x80) && this->m_input_mode >= 1U) {
         sub_8025DBDC(1);
         if (this->m_input_mode == 2) {
-            *(u16 *)((s8 *)((u8 *)this) + 0x60) |= 0x80;
+            *(u16 *)((s8 *)(this) + 0x60) |= 0x80;
         }
-        if (this->m_input_mode == 3 && (*(u16 *)((s8 *)((u8 *)this) + 0x60) & 2)) {
-            ((TWindowKeyBoardBase *)((u8 *)this))->commit_composition_text();
+        if (this->m_input_mode == 3 && (*(u16 *)((s8 *)(this) + 0x60) & 2)) {
+            ((TWindowKeyBoardBase *)(this))->commit_composition_text();
         }
     }
-    if ((*(u16 *)((s8 *)((u8 *)this) + 0x60) & 4) || (*(s32 *)((s8 *)((u8 *)this) + 0xB4) & 0x40)) {
-        ((TWindowKeyBoardBase *)((u8 *)this))->commit_composition_text();
+    if ((*(u16 *)((s8 *)(this) + 0x60) & 4) || (*(s32 *)((s8 *)(this) + 0xB4) & 0x40)) {
+        ((TWindowKeyBoardBase *)(this))->commit_composition_text();
     }
-    f = *(s32 *)((s8 *)((u8 *)this) + 0xB4);
+    f = *(s32 *)((s8 *)(this) + 0xB4);
     if ((f & 0x10) && code >= 0x80U) {
         return;
     }
@@ -528,20 +527,20 @@ void TWindowKeyBoardBase::insert_character(u16 code) {
     if ((f & 0x100) && TWindowKeyBoardBase::is_alnum(code) == 0) {
         return;
     }
-    f = *(s32 *)((s8 *)((u8 *)this) + 0xB4);
+    f = *(s32 *)((s8 *)(this) + 0xB4);
     if ((f & 0x200) && !((s32)code >= 0x30 && (s32)code <= 0x39)) {
         return;
     }
     if (!(f & 1)) {
-        ((KeyboardTextBuffer *)(*(saddr *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
+        ((KeyboardTextBuffer *)(*(saddr *)((s8 *)(this) + 0x68)))->insert_char(code);
         return;
     }
-    if (!(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 2)) {
+    if (!(*(u16 *)((s8 *)(this) + 0x60) & 2)) {
         *(void **)((s8 *)((u8 *)this) + 0x68) = (void *)(((u8 *)this) + 0x84);
-        *(u16 *)((s8 *)((u8 *)this) + 0x60) |= 2;
+        *(u16 *)((s8 *)(this) + 0x60) |= 2;
     }
-    ((KeyboardTextBuffer *)(*(saddr *)((s8 *)((u8 *)this) + 0x68)))->insert_char(code);
-    if (this->m_input_mode == 0 && !(*(u16 *)((s8 *)((u8 *)this) + 0x60) & 0x80)) {
+    ((KeyboardTextBuffer *)(*(saddr *)((s8 *)(this) + 0x68)))->insert_char(code);
+    if (this->m_input_mode == 0 && !(*(u16 *)((s8 *)(this) + 0x60) & 0x80)) {
         sub_8025DBDC(0);
     }
 }

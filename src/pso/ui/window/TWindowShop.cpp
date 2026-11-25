@@ -16,7 +16,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 
 const char *TWindowShop__class_name = "TWindowShop";
@@ -26,7 +25,6 @@ static const NJS_POINT2 TShopJudgmentItemWindow__item_list_rect_table[3] = {
     { 385.0f, 184.0f }, { 385.0f, 104.0f }, { 300.0f, 104.0f }
 };
 
-}
 
 void TWindowShop::init_list_window(s32 title) {
     this->m_name = TWindowShop__class_name;
@@ -39,7 +37,6 @@ void TWindowShop::init_list_window(s32 title) {
     this->capacity = 0;
 }
 
-extern "C" {
 
 TWindowShop *create_item_list_window(s32 title, s32 count, s32 client) {
     s32 camera_id;
@@ -59,7 +56,6 @@ TWindowShop *create_item_list_window(s32 title, s32 count, s32 client) {
     return new TWindowShop(title, count, client);
 }
 
-}
 
 TWindowShop *TShopJudgmentItemWindow::open_default(s32 title) {
     return create_item_list_window(title, 0x40, local_client_id);

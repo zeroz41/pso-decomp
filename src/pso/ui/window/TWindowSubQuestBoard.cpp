@@ -65,7 +65,6 @@ TWindowSubQuestBoard::~TWindowSubQuestBoard() {
     if (select_window != NULL) { select_window->close(); select_window = NULL; }
 }
 
-extern "C" {
 void TWindowSubQuestBoard::run_task() {
     switch (this->state) {
     case 0:
@@ -291,5 +290,4 @@ void TWindowSubOption::update_photon_selection() {
             start_pad_rumble_client(0xC0, 0xF, (s16)client_id);
         }
     }
-}
 }

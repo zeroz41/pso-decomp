@@ -21,7 +21,6 @@
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
 NJS_TEXLIST *TBGMulti__textures;
-extern "C" {
 s32 split_screen_hud_animation_frame;
 
 void TWindowSubStatusDisp::draw_split_screen_dividers() {
@@ -116,7 +115,6 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
         set_default_alpha_blend();
     }
 }
-}
 #pragma pop
 
 void TWindowSubStatusDisp::draw_bottom_bar() {
@@ -169,7 +167,6 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
 
 #pragma readonly_strings on
 #pragma pool_data off
-extern "C" {
 extern s32 split_screen_hud_animation_frame;
 
 void TLobby::release_bg_multi_textures() {
@@ -189,5 +186,4 @@ void TBGMulti__ct(void) {
         TLanguage::set_entry_index(0, 0x4D);
     }
     split_screen_hud_animation_frame = 0x384;
-}
 }

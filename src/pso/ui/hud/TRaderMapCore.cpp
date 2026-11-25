@@ -296,7 +296,6 @@ extern s32 memcard_access_active;
 // The unit was built -inline off,deferred, which emits functions in reverse source order: they are
 // written here last to first.
 #pragma fp_contract on
-extern "C" {
 
 TUnk_804C88A8::~TUnk_804C88A8() {}
 
@@ -321,7 +320,6 @@ void TRaderMapCore::free_statics() {
         delete TRaderMapCore__frame_model_resource;
         TRaderMapCore__frame_model_resource = NULL;
     }
-}
 }
 
 s32 TRaderMapCore::apply_compass_param(const s32 *counter) {
@@ -389,7 +387,6 @@ void TRaderMapCore::create() {
         }
     }
 }
-extern "C" {
 
 #pragma push
 #pragma opt_common_subs off
@@ -503,7 +500,6 @@ void TRaderMapCore::run_task() {
 void TRaderMapCore::advance_scroll() {
     this->angle = (this->angle + 0x888);
     this->pulse_alpha = 127.0f + 64.0f * (1.0f + sin_table_lookup(this->angle));
-}
 }
 #pragma fp_contract reset
 
@@ -1450,7 +1446,6 @@ void TRaderMapCore::hide_radar() {
 }
 
 void TRaderMapCore::reset_counter() { this->target_player = 0; }
-extern "C" {
 
 s32 TRaderMapCore::should_show_map(void) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (TLobby::is_ready() == 0)) {
@@ -1471,5 +1466,4 @@ s32 TRaderMapCore::is_active() {
 
 s32 TRaderMapCore::is_render_admitted_default() {
     return is_render_admitted(TRaderMapCore::view_mode);
-}
 }

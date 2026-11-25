@@ -20,7 +20,6 @@ struct VObj_802b1a70_802B1990 : Base_802b1a70_802B1990 {
 #pragma readonly_strings on
 const char *TAdGuideTxtGC__class_name = "TAdGuideTxtGC";
 
-extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -39,7 +38,6 @@ void TAdGuideTxtGC::run_task() {
 }
 #pragma pop
 
-}
 TAdGuideTxtGC::~TAdGuideTxtGC() {
 
 }

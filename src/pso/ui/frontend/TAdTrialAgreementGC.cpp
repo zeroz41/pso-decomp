@@ -34,7 +34,6 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #pragma readonly_strings on
 
-extern "C" {
 
 
 void TAdTrialAgreementGC::render() {
@@ -52,9 +51,7 @@ loop_1:
     }
 }
 
-}
 
-extern "C" {
 
 const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
 
@@ -84,7 +81,6 @@ void TAdTrialAgreementGC::run_task() {
     update_state();
 }
 
-}
 TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 
 }

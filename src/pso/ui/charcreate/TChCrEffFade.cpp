@@ -91,7 +91,6 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
     strip.draw_strip_swap_color(4, 6, -1.5f);
 }
 
-extern "C" {
 
 
 void TChCrEffFade::render() {
@@ -137,7 +136,6 @@ void TChCrEffFade::run_task() {
 extern saddr tl_fade;
 
 TChCrEffFade::~TChCrEffFade() {}
-}
 TChCrEffFade::TChCrEffFade(s32 arg1, s32 arg2, s32 arg3) : TObject((TObject *)tl_fade) {
     s32 temp_r0;
     s32 temp_r0_2;

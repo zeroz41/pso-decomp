@@ -15,7 +15,6 @@ u8 keyboard_key_repeat_mask_table[4] = { 0x1D, 0x1F, 0x07, 0x00 };
 // The vowels and N/Y that take an accent, upper and lower case in pairs.
 const u8 *keyboard_accent_base_chars = (const u8 *)"AaEeIiOoUuNnYy";
 
-extern "C" {
 
 void TWindowKeyBoardHard::sub_8025EC04() {
     m_68 = 0;
@@ -528,7 +527,6 @@ void TWindowKeyBoardHard::set_mode1() {
     }
 }
 
-}
 
 
 void TWindowKeyBoardHard::set_mode0() {
@@ -560,7 +558,6 @@ void TWindowKeyBoardHard::set_mode0() {
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" {
 
 void TWindowKeyBoardHard::release_keyboard() {
     if (m_control != NULL) {
@@ -604,7 +601,6 @@ void TWindowKeyBoardHard::render() {
     }
 }
 
-}
 
 
 
@@ -612,7 +608,6 @@ void TWindowKeyBoardHard::render() {
 #include "pso/ui/window/WindowLayout.h"
 
 
-extern "C" {
 
 
 void TWindowKeyBoardHard::run_task() {
@@ -637,7 +632,7 @@ void TWindowKeyBoardHard::run_task() {
         if (temp_r3_2 > 0) {
             this->m_68 = (temp_r3_2 - 1);
         }
-        ((TWindowDD *)this)->initialize_subwindow();
+        update_window();
         update_fade();
     }
 }
@@ -653,7 +648,6 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
     this->release_keyboard();
 }
 
-}
 
 
 void TWindowKeyBoardHard::set_bits_shift7(saddr client_id, s32 arg1) {

@@ -5,13 +5,11 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
 
 
 
 void *TShopEquipmentGearSequence::create_instance(void *player) {
     return new TShopEquipmentGearSequence(tl_05, (TObjPlayer *)player);
-}
 }
 
 int get_equipment_gear_shop_window_slot(int a0) {  return TShopEquipmentGearSequence::window_slot_table[a0]; }

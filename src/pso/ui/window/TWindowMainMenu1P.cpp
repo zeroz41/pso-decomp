@@ -89,7 +89,6 @@ const NJS_POINT2 window_layout_position_table[92] = {
 
 const char *TWindowMainMenu1P__name = "TWindowMainMenu1P";
 
-extern "C" {
 
 #pragma fp_contract on
 void TWindowMainMenu1P::update_backdrop_transition() {
@@ -189,4 +188,3 @@ TWindowMainMenu1P::TWindowMainMenu1P(TObject *parent, s32 client) : TWindowMainM
     backdrop.pad_40[1] = 0.85f;
 }
 
-}

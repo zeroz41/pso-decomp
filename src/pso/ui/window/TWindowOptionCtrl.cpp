@@ -95,7 +95,6 @@ TWindowOptionCtrl::TWindowOptionCtrl(TObject *parent) : TObject(parent) {
     state = 0;
 }
 
-extern "C" {
 TWindowOptionCtrl::~TWindowOptionCtrl() {
     apply_selection_change();
     if (serial_info_window != NULL) {
@@ -383,11 +382,9 @@ void TWindowOptionCtrl::run_task() {
         break;
     }
 }
-}
 
 void TWindowOptionCtrl::render() {  }
 
-extern "C" {
 saddr TWindowOptionCtrl::create_menu() {
     saddr menu;
 
@@ -525,7 +522,6 @@ saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 ki
     ((TWindowMessage *)w)->complete_reveal();
     return w;
 }
-}
 
 const char *TWindowOptionCtrl::text_or_default(const char *text) {
     if ((text == NULL) || ((s8) *text == 0)) {
@@ -534,7 +530,6 @@ const char *TWindowOptionCtrl::text_or_default(const char *text) {
     return text;
 }
 
-extern "C" {
 s32 TWindowOptionCtrl::handle_input(s32 language) {
     if (TLanguage::set_language((s8) language) != 0) {
         unload_lobby_scene_resources();
@@ -586,7 +581,6 @@ void TWindowOptionCtrl::set_params(void *arg0, s16 arg1, s16 arg2) {
         *(s16 *)((s8 *)global_state + 4) = arg1;
         *(s8 *)((s8 *)global_state + 6) = arg2;
     }
-}
 }
 
 s32 TWindowOptionCtrl::get_option_field_C() {

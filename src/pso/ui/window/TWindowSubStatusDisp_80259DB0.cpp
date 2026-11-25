@@ -14,11 +14,10 @@ f32 fabs_float(f32, f32);
 #pragma fp_contract on
 
 void TWindowSubStatusDisp::set_all_values(s32 meseta) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) meseta;
-    *(f32 *)((s8 *)arg0 + 0x24) = (f32) meseta;
-    *(s32 *)((s8 *)arg0 + 0x20) = meseta;
-    *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;
+    *(f32 *)((s8 *)this + 0x28) = (f32) meseta;
+    *(f32 *)((s8 *)this + 0x24) = (f32) meseta;
+    *(s32 *)((s8 *)this + 0x20) = meseta;
+    *(f32 *)((s8 *)this + 0x2C) = 0.0f;
 }
 
 void TWindowSubStatusDisp::set_animated_target(s32 meseta, f32 farg0) {

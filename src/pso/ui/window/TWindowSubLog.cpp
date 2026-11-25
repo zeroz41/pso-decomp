@@ -24,7 +24,6 @@ const char *TWindowSubLog__class_name = "TWindowSubLog";
 
 struct Lg_8027B194 { s32 f0; u8 pad4[0x14]; void *vt; void *client_id; void *f20; s32 f24; void *f28; u8 f2c[0x10]; };
 
-extern "C" {
 const u8 lbl_8044F9C8[8] = {65, 136, 0, 0, 66, 16, 0, 0};
 const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
 
@@ -60,7 +59,6 @@ void TWindowSubLog::run_task() {
     }
 }
 
-}
 TWindowSubLog::~TWindowSubLog() {
     if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->chat = 0; }
     if (*(void **)((s8 *)this + 0x24) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x24)))->close(); this->m_24 = 0; }

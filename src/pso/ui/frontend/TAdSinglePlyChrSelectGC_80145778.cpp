@@ -31,7 +31,6 @@ typedef struct Glyph_80145804 {
     u8 pad[3];
 } Glyph_80145804;
 
-extern "C" {
 extern NJS_TEXLIST menu_font_texture_list[];
 u8 *menu_font_glyph_data;
 s16 *menu_font_palette;
@@ -54,7 +53,6 @@ void TAdSinglePlyChrSelectGC::free_resources() {
 }
 #pragma pop
 
-}
 
 typedef struct Rect_80145804 { u8 pad[0x24]; } Rect_80145804;
 

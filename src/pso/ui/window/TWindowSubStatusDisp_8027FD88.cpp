@@ -23,7 +23,6 @@
 #include "pso/player/PlayerRequirementStats.h"
 
 const char *TWindowSubStatusDisp__class_name = "TWindowSubStatusDisp";
-extern "C" {
 void *TWindowSubStatusDisp::summary_page_layout[135] = {
     (void *)0x12, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
@@ -267,7 +266,6 @@ void *TWindowSubStatusDisp::window_layout[5] = {
     (void *)0x439c0000, (void *)0x43200000, (void *)0x47438200, (void *)0x0,
     (void *)0x3,
 };
-}
 
 struct VBase_18_eecf68 { char pad[0x18]; };
 
@@ -354,24 +352,23 @@ TWindowSubStatusDisp::~TWindowSubStatusDisp() {
 }
 
 void TWindowSubStatusDisp::run_task() {
-    TWindowSubStatusDisp *arg0 = (TWindowSubStatusDisp *)this;
-  if (!((arg0->window_flags) & 2))
+  if (!((this->window_flags) & 2))
   {
-    arg0->open_tick = 0x01000000;
+    this->open_tick = 0x01000000;
   }
-  if ((handle_list_page_flip_input(arg0->m_68) != 0) || ((arg0->page) != ((s16) (arg0->requested_page))))
+  if ((handle_list_page_flip_input(this->m_68) != 0) || ((this->page) != ((s16) (this->requested_page))))
   {
-    if ((arg0->page) != (arg0->requested_page))
+    if ((this->page) != (this->requested_page))
     {
-      arg0->page = arg0->requested_page;
-      fn_8026C7AC(arg0->m_68, lbl_805DD6F4[arg0->page]);
+      this->page = this->requested_page;
+      fn_8026C7AC(this->m_68, lbl_805DD6F4[this->page]);
     }
-    arg0->entry_list.destroy_all_items();
-    arg0->dispatch_page_init();
+    this->entry_list.destroy_all_items();
+    this->dispatch_page_init();
   }
-  arg0->dispatch_page_update();
-  ((TWindowDD *)arg0)->initialize_subwindow();
-  ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *) arg0) + 0x24)));
+  this->dispatch_page_update();
+  update_window();
+  ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *) this) + 0x24)));
 }
 
 void TWindowSubStatusDisp::render() {
@@ -593,15 +590,15 @@ void TWindowSubStatusDisp::vt13() {
 
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
-        temp_r31 = (void *)((TWindowBase *)this)->get_array_entry(2);
+        temp_r31 = (void *)this->get_array_entry(2);
         *(s32 *)((s8 *)temp_r31 + 0x20) = (s32) ((TWindowSubStatusDisp *)player)->get_stat();
-        temp_r31_2 = (void *)((TWindowBase *)this)->get_array_entry(8);
+        temp_r31_2 = (void *)this->get_array_entry(8);
         *(s32 *)((s8 *)temp_r31_2 + 0x20) = (s32) ((TObjPlayer *)player)->get_class_id();
-        temp_r31_3 = (void *)((TWindowBase *)this)->get_array_entry(0xE);
+        temp_r31_3 = (void *)this->get_array_entry(0xE);
         *(s32 *)((s8 *)temp_r31_3 + 0x20) = (s32) ((TObjPlayer *)player)->get_item_index();
-        temp_r31_4 = (void *)((TWindowBase *)this)->get_array_entry(0x14);
+        temp_r31_4 = (void *)this->get_array_entry(0x14);
         *(s32 *)((s8 *)temp_r31_4 + 0x20) = (s32) ((TWindowSubStatusDisp *)player)->get_field_2F8();
-        temp_r31_5 = (void *)((TWindowBase *)this)->get_array_entry(0x1A);
+        temp_r31_5 = (void *)this->get_array_entry(0x1A);
         *(s32 *)((s8 *)temp_r31_5 + 0x20) = (s32) ((TWindowSubStatusDisp *)player)->get_item_type();
     }
 }

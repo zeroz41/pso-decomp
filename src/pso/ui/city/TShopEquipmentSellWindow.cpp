@@ -41,9 +41,7 @@
 
 #pragma dont_inline off
 
-extern "C" {
 const char *TShopEquipmentSellWindow__class_name = "TShopEquipmentSellWindow";
-}
 
 TShopEquipmentSellWindow::TShopEquipmentSellWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player, s32 title_text) : TShopWindowBase(parent) {
     this->m_name = TShopEquipmentSellWindow__class_name;
@@ -67,7 +65,6 @@ TShopEquipmentSellWindow::TShopEquipmentSellWindow(TObject *parent, TShopWindowB
     memset(this->entries, 0, sizeof(this->entries));
 }
 
-extern "C" {
 TShopEquipmentSellWindow::~TShopEquipmentSellWindow() {
     if (item_list != NULL) { item_list->close(); item_list = NULL; }
     if (confirm_menu != NULL) { confirm_menu->close(); confirm_menu = NULL; }
@@ -337,5 +334,4 @@ void TShopEquipmentSellWindow::display_message(const char *text, s32 flags) {
     if (sequence != NULL) {
         sequence->display_message(text, flags);
     }
-}
 }

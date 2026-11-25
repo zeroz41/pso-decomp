@@ -34,8 +34,6 @@ f32 vector_length(f32 *v);
 // Ninja chunk model (NJS_CNK_MODEL): vertex chunk list, polygon chunk list, bounds.
 struct CreationShapeModel { s32 *vertex_list; s16 *polygon_list; f32 center[3]; };
 struct CreationShapeNode { u32 eval_flags; CreationShapeModel *model; f32 pos[3]; s32 ang[3]; f32 scl[3]; };
-extern "C" {
-}
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
@@ -254,7 +252,6 @@ extern CreationShapeBlend creation_shape_blend;
 s32 scan_creation_resources(void *arg0);
 uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);
 void reset_character_creation_figure_rotation(void);
-extern "C" {
 
 extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9];
 #pragma defer_codegen on
@@ -319,7 +316,6 @@ TCMCharacter::~TCMCharacter() {
     creation_figure_object = 0;
     memcard_access_active = 0;
     char_creation_figure_draw_flag = 0;
-}
 }
 
 void TAdSinglePlyChrSelectGC::update_pair(void* p) { TAdSinglePlyChrSelectGC::init_entry_tables(p); ((TCMCharacter *)p)->load_model_parts(); }

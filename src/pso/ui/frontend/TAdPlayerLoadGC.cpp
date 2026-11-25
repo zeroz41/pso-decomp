@@ -12,9 +12,7 @@
 #include "types.h"
 const char *TAdPlayerLoadGC__class_name = "TAdPlayerLoadGC";
 
-extern "C" {
 extern int TAdChrSelBSlotGC__global_state;
-}
 
 void set_character_select_b_slot_state(int a0) { TAdChrSelBSlotGC__global_state = a0; }
 

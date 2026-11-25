@@ -80,11 +80,10 @@ void measure_message_text_width(void *, f32);
 extern u8 quest_board_handlers[];
 
 void TWindowSubQuestBoardSelect::sub_8027D230() {
-    u8 *arg0 = (u8 *)this;
     u8 *str;
     u8 *temp_r3;
     str = (u8 *)&quest_board_handlers + ((s8) this->slot * 0x24);
-    temp_r3 = (u8 *)(((TWindowBase *)arg0)->get_array_entry(1));
+    temp_r3 = (u8 *)(this->get_array_entry(1));
     set_text_entry_string((u8 *)temp_r3, (uaddr)str, 0);
     measure_message_text_width(temp_r3, 100000.0f);
     *(f32 *)((s8 *)temp_r3 + 8) = (f32) (385.0f - *(f32 *)((s8 *)temp_r3 + 0x10));
@@ -253,24 +252,23 @@ void TWindowSubQuestBoardSelect::render() {
         reinterpret_cast<WindowDrawContext *>(ctx));
 }
 void TWindowSubQuestBoardSelect::run_task() {
-    u8 *arg0 = (u8 *)this;
-    if (((TWindowSubQuestBoardSelect *)arg0)->is_open() == 0) {
-        ((TWindowSubQuestBoardSelect *)arg0)->select_next();
+    if (this->is_open() == 0) {
+        this->select_next();
         handle_page_input();
         if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
-            ((TWindowSubQuestBoardSelect *)arg0)->handle_decide();
+            this->handle_decide();
         }
         if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
-            ((TWindowSubQuestBoardSelect *)arg0)->handle_cancel();
+            this->handle_cancel();
         }
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
+    update_window();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         *(s32 *)&this->open_tick = 0x186A0;
         this->status_disp->update_subwindow();
     }
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
+    this->update_fade();
+    this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
 }
 
 TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
@@ -292,7 +290,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     }
     this->status_disp = (TWindowSubStatusDisp *)var_r30;
     *(s8 *)&this->m_60 = 0;
-    temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(0));
+    temp_r30 = reinterpret_cast<saddr>(this->get_array_entry(0));
     set_text_entry_string((u8 *)temp_r30, (uaddr)(TQuestThread::get_quest_name()), 0);
     ((TWindowSubComCard *)temp_r30)->get_field_20();
     temp_f2 = (f32) calc_text_width();

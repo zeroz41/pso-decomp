@@ -23,13 +23,11 @@
 #include "pso/unk/text_8022350C.h"
 #include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
 s32 TShopEquipmentSequence::slot_active_flags[4];
 extern const char *TShopEquipmentSequence__class_name;
 TShopEquipmentSequence *lbl_805D6228;
 s32 lbl_805D622C;
 s32 lbl_805D6230;
-}
 
 #pragma readonly_strings on
 struct Base_8021D584_8021D524 { char pad[0x18]; };
@@ -128,7 +126,6 @@ void TShopEquipmentSequence::update_state() {
     }
 }
 
-extern "C" {
 
 void TShopEquipmentSequence::open_greeting() {
     f32 pos[2];
@@ -224,4 +221,3 @@ void init_window__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
     }
 }
 
-}

@@ -146,7 +146,6 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 
-extern "C" {
 
 #pragma push
 #pragma optimization_level 3
@@ -189,18 +188,15 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
     return result;
 }
 #pragma pop
-}
 
 // ---- pso/unk/TLobby_80211C1C
 
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListOnline.h"
 
-extern "C" {
 
 int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_quest_id(); }
 
-}
 
 // ---- pso/unk/text_80211C3C
 
@@ -241,7 +237,6 @@ s32 TLobby__sub_80211C3C(void) {
 
 #include "pso/unk/TLobby_80211F0C.h"
 
-extern "C" {
 
 
 s32 TLobby::handle_main_phase(saddr player) {
@@ -257,7 +252,6 @@ s32 TLobby::handle_main_phase(saddr player) {
     return 0;
 }
 
-}
 
 // ---- pso/unk/text_80211D58
 

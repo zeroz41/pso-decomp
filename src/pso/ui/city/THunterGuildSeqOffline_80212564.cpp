@@ -15,7 +15,6 @@ struct VObj_802125BC_80212564 : Base_802125BC_80212564 {
     virtual int m8();
 };
 
-extern "C" {
 
 
 
@@ -35,4 +34,3 @@ void THunterGuildSeqOffline::handle_click() {
     }
 }
 
-}

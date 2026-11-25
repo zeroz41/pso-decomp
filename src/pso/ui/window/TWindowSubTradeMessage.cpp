@@ -7,11 +7,9 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
-extern "C" {
 __declspec(section ".rodata") extern const char trade_message_class_name[23] = "TWindowSubTradeMessage";
 __declspec(section ".rodata") extern const f32 trade_message_window_dimensions[2] = {282.0f,120.0f};
 __declspec(section ".sdata") const char* TWindowSubTradeMessage__name[2] = {trade_message_class_name,0};
-}
 
 void TWindowSubTradeMessage::finish() {
     parentWindow->on_submenu_closed();

@@ -14,7 +14,6 @@ extern CharacterAppearanceFields character_creation_visual_record;
 }
 extern char character_creation_name_buffer[0x18];
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
-extern "C" {
 
 CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void) {
     return &character_creation_visual_record;
@@ -95,4 +94,3 @@ void fn_8028DBC4(s32 _w0) {
 }
 int TAdSinglePlyChrSelectGC__sub_8028DC14(void) { return 1; }
 int TAdSinglePlyChrSelectGC__sub_8028DC1C(void* p) { fn_8028DBC4((saddr)p); return 1; }
-}

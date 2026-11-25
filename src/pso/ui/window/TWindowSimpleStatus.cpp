@@ -80,8 +80,6 @@ WindowDescriptor simple_status_window_layout = {
     {153.0f, 50.0f}, 50100.0f, &simple_status_window_layout_entries, 0xB28,
 };
 
-extern "C" {
-}
 struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
 
 struct VObj3_8026f71c_more_8026f8cc_0 : VtBase4_8026f71c_more_8026f8cc_0 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); };
@@ -152,9 +150,8 @@ s32 draw_textured_quad_at_depth(TexturedQuad *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
 
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
-    u8 *arg0 = (u8 *)this;
     u8 *array_entry;
-    array_entry = (u8 *)(((saddr)((TWindowBase *)arg0)->get_array_entry(4)));
+    array_entry = (u8 *)(((saddr)this->get_array_entry(4)));
     *(f32 *)((s8 *)array_entry + 0x20) = 0.0f;
     *(f32 *)((s8 *)array_entry + 0x24) = 0.0f;
     start_text_color_transition(array_entry, (s32)(0xFF008CFCU), 1.0f);
@@ -223,7 +220,7 @@ s32 TWindowSubStatusDisp::update_hp_entry() {
     array_entry = (u8 *)(((u8 *)get_array_entry(3)));
     *(f32 *)((s8 *)array_entry + 0x20) = (f32) ((TObjChara *)player)->get_hpmax();
     if (*(f32 *)((s8 *)array_entry + 0x24) > (f32) *(s16 *)((s8 *)player + 0x32C)) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x60) = 4;
+        *(s32 *)((s8 *)(this) + 0x60) = 4;
     }
     *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32C);
     if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
@@ -359,13 +356,12 @@ void TWindowSimpleStatus::apply_random_shake() {
 #pragma pop
 
 void TWindowSubStatusDisp::update_hp_tp_level() {
-    u8 *arg0 = (u8 *)this;
     saddr temp_r31;
     saddr temp_r31_2;
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(6));
-    *(s32 *)((s8 *)temp_r31 + 0x2C) = ((TWindowSubStatusDisp *)arg0)->update_hp_entry();
-    temp_r31_2 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(7));
-    *(s32 *)((s8 *)temp_r31_2 + 0x2C) = ((TWindowSubStatusDisp *)arg0)->update_hp_gauge();
+    temp_r31 = reinterpret_cast<saddr>(this->get_array_entry(6));
+    *(s32 *)((s8 *)temp_r31 + 0x2C) = this->update_hp_entry();
+    temp_r31_2 = reinterpret_cast<saddr>(this->get_array_entry(7));
+    *(s32 *)((s8 *)temp_r31_2 + 0x2C) = this->update_hp_gauge();
     update_status_entry();
 }
 
@@ -376,25 +372,25 @@ void TWindowLockOn::update_for_player_index(s32 id) {
 
     player = (VObj_8026ff0c *)get_player_by_client_id(id);
     if (player == NULL) {
-        ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
+        ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
     temp_r29 = (u8 *)player + 0x85C;
     if (temp_r29 == NULL) {
-        ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
+        ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
     str = player->m10();
     if (str == 0) {
-        ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
+        ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
     if (((TObjPlayer *)player)->is_inactive() == 0) {
-        ((TWindowHelpItem *)((u8 *)this))->set_flag0_bit2();
+        ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
-    ((TWindowSubStatusDisp *)((u8 *)this))->clear_visible_flag();
-    if ((((TWindowSubComCard *)((u8 *)this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)((u8 *)this))->get_field_20(), (const char *)str) != 0)) {
+    ((TWindowSubStatusDisp *)(this))->clear_visible_flag();
+    if ((((TWindowSubComCard *)(this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)(this))->get_field_20(), (const char *)str) != 0)) {
         set_text_entry_string(((u8 *)this), str, 0x20);
     }
     if (player->m31() != 0) {
@@ -551,7 +547,7 @@ void TWindowSimpleStatus::run_task() {
     update_lockon_window((u8 *)arg0);
     update_status_help_item(arg0);
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
-    ((TWindowDD *)arg0)->initialize_subwindow();
+    ((TWindowBase *)arg0)->update_window();
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();

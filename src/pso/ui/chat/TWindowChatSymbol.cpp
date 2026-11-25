@@ -299,12 +299,11 @@ void TWindowSubSymbolChat::init_layout_entries(saddr player) {
 }
 
 void TWindowChatSymbol::update_visibility() {
-    u8 *arg0 = (u8 *)this;
     if (((s32) this->m_64 == 0) && (selected_preset == NULL || is_symbol_chat_preset_in_use(selected_preset) == 0)) {
-        ((TObject *)arg0)->disallow_rendering();
+        this->disallow_rendering();
         return;
     }
-    ((TObject *)arg0)->allow_rendering();
+    this->allow_rendering();
     set_symbol_chat_parts(&this->entry_list, selected_preset->get_data_ptr());
 }
 
@@ -341,12 +340,11 @@ void TWindowChatSymbol::render() {
 #pragma pop
 
 void TWindowChatSymbol::run_task() {
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((char *)this + 0x24));
 }
 
-extern "C" {
 
 TWindowChatSymbol::~TWindowChatSymbol() {}
 
@@ -359,5 +357,4 @@ TWindowChatSymbol::TWindowChatSymbol(saddr arg1, saddr arg2) : TWindowBase((u8 *
     set_size((f32 *)arg2);
     this->selected_preset = 0;
     this->m_64 = 0;
-}
 }

@@ -15,7 +15,6 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #pragma readonly_strings on
 
-extern "C" {
 
 
 s32 TWindowMeseta::get_meseta_value() {
@@ -41,7 +40,6 @@ void TWindowMeseta::render() {
 }
 
 
-}
 
 const char *TWindowMeseta__class_name = "TWindowMeseta";
 
@@ -66,19 +64,17 @@ WindowDescriptor TWindowMeseta__window_descriptor = {
 
 struct Sub_80269244 { u8 pad0[8]; f32 x8; };
 
-extern "C" {
 
 
 void TWindowMeseta::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 meseta_value;
 
     meseta_value = this->get_meseta_value();
     if (meseta_value != (s32) this->meseta) {
         this->meseta = meseta_value;
-        ((TWindowSubStatusDisp *)(((TWindowBase *)arg0)->get_array_entry(1)))->set_animated_target(this->meseta, 9.0f);
+        ((TWindowSubStatusDisp *)(this->get_array_entry(1)))->set_animated_target(this->meseta, 9.0f);
     }
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_window_entry_list(&entry_list);
 }
 
@@ -106,4 +102,3 @@ TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     }
 }
 
-}

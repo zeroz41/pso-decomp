@@ -7,12 +7,10 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 
 const char *TObjCHTimeWin__class_name = "TObjCHTimeWin";
 
-}
 
 void TObjCHTimeWin::run_task() {
     if (timer_created != 0) {

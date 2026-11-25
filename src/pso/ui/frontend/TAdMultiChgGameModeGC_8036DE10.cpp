@@ -346,10 +346,10 @@ void TAdMultiChgGameModeGC::handle_menu_input() {
     s32 selected_menu_value;
     u8 *window_menu;
     if (handle_mode_selection() == 0) {
-        window_menu = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x34));
+        window_menu = (u8 *)(*(u8 **)((s8 *)(this) + 0x34));
         if (window_menu != NULL) {
             if (((int)((TWindowMenu *)window_menu)->is_decided()) != 0) {
-                selected_menu_value = ((TWindowMenu *)(*(u8 **)((s8 *)((u8 *)this) + 0x34)))->get_selected_value();
+                selected_menu_value = ((TWindowMenu *)(*(u8 **)((s8 *)(this) + 0x34)))->get_selected_value();
                 switch (selected_menu_value) {
                 case 0:
                     close_window_30();
@@ -484,9 +484,9 @@ void TAdMultiChgGameModeGC::set_state(s32 arg1) {
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_8036E858, sp10) == 0x8);
     Stack_8036E858 stack;
     u8 *temp_r6;
-    if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x1C) != arg1) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x1C) = arg1;
-        temp_r6 = (u8 *)multi_chg_game_mode_entry_table + (*(s32 *)((s8 *)((u8 *)this) + 0x1C) * 0x18);
+    if ((s32) *(s32 *)((s8 *)(this) + 0x1C) != arg1) {
+        *(s32 *)((s8 *)(this) + 0x1C) = arg1;
+        temp_r6 = (u8 *)multi_chg_game_mode_entry_table + (*(s32 *)((s8 *)(this) + 0x1C) * 0x18);
         member_action.words[0] = *(s32 *)((s8 *)temp_r6 + 0);
         member_action.words[1] = *(s32 *)((s8 *)temp_r6 + 4);
         member_action.words[2] = *(s32 *)((s8 *)temp_r6 + 8);
@@ -520,7 +520,6 @@ void TAdMultiChgGameModeGC::sub_8036E9EC() { close_window_30(); TAdMultiChgGameM
 
 LAYOUT_ASSERT(MemberActionStorage_8036EA24_size, sizeof(MemberActionStorage_8036EA24) == 12);
 void TAdSystemFileCheckGC::run_task() {
-    u8 *arg0 = (u8 *)this;
     MemberActionStorage_8036EA24 member_action;
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8036EA24, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_8036EA24, spC) == 0x4);
@@ -529,14 +528,14 @@ void TAdSystemFileCheckGC::run_task() {
     u8 *temp_r6;
     this->m_20 = TAdSinglePlyChrSelectGC::check_system_file_status();
     if (this->m_20 & 1) {
-        ((TAdMultiChgGameModeGC *)arg0)->set_state(9);
+        ((TAdMultiChgGameModeGC *)this)->set_state(9);
     }
     temp_r6 = (u8 *)multi_chg_game_mode_entry_table + (*(s32 *)&this->unk_1C * 0x18);
     member_action.words[0] = *(s32 *)((s8 *)temp_r6 + 0xC);
     member_action.words[1] = *(s32 *)((s8 *)temp_r6 + 0x10);
     member_action.words[2] = *(s32 *)((s8 *)temp_r6 + 0x14);
     if (member_action.action != 0) {
-        (((TAdMultiChgGameModeGC *)(arg0))->*member_action.action)();
+        (((TAdMultiChgGameModeGC *)(this))->*member_action.action)();
     }
 }
 

@@ -8,7 +8,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowSpritePart.h"
 
-extern "C" {
 
 
 int TWindowKeyBoardSoft::get_flag_bit0() { return this->m_60 & 0x1; }
@@ -32,4 +31,3 @@ void fn_8026287C(TWindowLoadItemTexture *window) {
     sprite->flags &= ~2;
 }
 
-}

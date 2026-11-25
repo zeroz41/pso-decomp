@@ -214,7 +214,7 @@ void TWindowActionPalette::run_task() {
     } else {
         set_bank_panel_art(2);
     }
-    ((TWindowDD *)this)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(&entry_list);
 }

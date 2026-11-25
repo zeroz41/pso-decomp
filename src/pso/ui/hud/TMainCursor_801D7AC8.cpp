@@ -4,7 +4,6 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TPlyDispConfig.h"
 
-extern "C" {
 
 
 s32 TMainCursor::find_action_slot(s32 arg0, void *arg1, s16 type, s32 enabled, s32 arg4) {
@@ -53,4 +52,3 @@ block_14:
     goto loop_9;
 }
 
-}

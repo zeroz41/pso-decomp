@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/GuildCardEntry.h"
 
-extern "C" {
 
 void TWindowSubComCard::update_press() {
     s32 temp_r31;
@@ -13,4 +12,3 @@ void TWindowSubComCard::update_press() {
     }
 }
 
-}

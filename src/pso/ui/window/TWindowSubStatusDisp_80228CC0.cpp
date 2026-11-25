@@ -105,7 +105,6 @@ char *format_int_decimal(s32 v, char *out) {
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
 
-extern "C" {
 void text_builder_append_int(s32 arg0) {
     text_builder_write_cursor = format_int_decimal(arg0, text_builder_write_cursor);
 }
@@ -154,7 +153,6 @@ void text_builder_append(u8 *str) {
   strncpy(text_builder_write_cursor, (char *)str, num);
   text_builder_write_cursor[num] = 0;
   text_builder_write_cursor += num;
-}
 }
 void text_builder_reset(void) {
     text_builder_write_cursor = text_builder_buffer;

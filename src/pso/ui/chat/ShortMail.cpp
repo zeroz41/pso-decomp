@@ -58,7 +58,6 @@ typedef struct Hdr_8022525C
   Tier_8022525C *tiers;
 } Hdr_8022525C;
 
-extern "C" {
 
 ShortMailEntry lbl_80513F70[8];
 s32 lbl_805D6270;
@@ -114,7 +113,6 @@ ShortMailEntry *TLobby::find_short_mail_by_id(u32 id) {
     return 0;
 }
 
-}
 
 ShortMailEntry *get_short_mail_entry(int index) {
     char *storage = reinterpret_cast<char *>(&lbl_80513F70);

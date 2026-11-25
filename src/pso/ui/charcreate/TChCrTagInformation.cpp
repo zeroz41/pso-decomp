@@ -12,7 +12,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
 const char *TChCrTagInformation__class_name = "TChCrTagInformation";
 
@@ -82,7 +81,6 @@ TChCrTagInformation::~TChCrTagInformation() {
     clear_char_creation_tag_selection();
 }
 
-}
 
 TChCrTagInformation::TChCrTagInformation(TObject *parent, s32 index) : TChCrTag(parent, index) {
     m_name = TChCrTagInformation__class_name;

@@ -18,6 +18,9 @@ public:
     void resort_window_order();
     void close();
     void request_close();
+    // The per-frame open/close animation every window runs from its run_task.
+    void update_open_close();
+    void update_window();
     void set_depth(f32 depth);
     void set_position(f32 *pos);
     void calc_inner_rect(WindowDrawContext *context);

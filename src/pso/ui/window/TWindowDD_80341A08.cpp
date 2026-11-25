@@ -22,11 +22,9 @@
 
 const char *lbl_805D42E0 = "TWindowDD_WS_Word";
 
-extern "C" {
 
 extern const s32 TWindowDD__data_805DFC14;
 extern const s32 lbl_805DFC18;
-}
 
 
 extern const f32 TWindowDD__data_805DFB18;
@@ -71,7 +69,6 @@ struct Entry_80341FFC {
     f32 y;
 };
 
-extern "C" {
 
 extern s32 TWindowDD__data_805DFB50;
 
@@ -154,9 +151,8 @@ s16 TWindowDD__sub_8034214C(u8 *value) {
 s32 TWindowDD::get_field_0x74() { return this->m_64[4]; }
 
 void TWindowDD::set_pos_and_data(f32 farg0) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x30) = farg0;
-    *(s32 *)((s8 *)arg0 + 0x50) = (s32) TWindowDD__data_805DFB50;
+    *(f32 *)((s8 *)this + 0x30) = farg0;
+    *(s32 *)((s8 *)this + 0x50) = (s32) TWindowDD__data_805DFB50;
 }
 
 void TWindowDD_WS_Word::load_element_list() {
@@ -229,7 +225,6 @@ void TWindowDD_WS_Word::init_and_mark_field8C() {
 #pragma push
 #pragma opt_common_subs off
 void TWindowDD_WS_Word::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r3_3;
     s32 temp_r3_4;
     s32 temp_r4;
@@ -313,7 +308,7 @@ void TWindowDD_WS_Word::run_task() {
             }
         }
     }
-    ((TWindowDD *)arg0)->initialize_subwindow();
+    update_window();
     update_fade();
     update_window_entry_list(&entry_list);
 }
@@ -514,5 +509,4 @@ void TWindowDD_WS_Word::render() {
     }
     entry->inner_y += 1.0f;
     draw_visible_window_entries(self, &self->entry_list, entry);
-}
 }

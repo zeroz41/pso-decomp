@@ -427,13 +427,11 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
 }
 
 
-extern "C" {
 void unload_lobby_scene_resources(void) {
     TLobby::call_funcs_reverse(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
 }
 void load_lobby_scene_resources(void) {
     run_load_callback_table(lobby_scene_release_callback_table, sizeof(lobby_scene_release_callback_table));
-}
 }
 
 void TLobby::release_scene_resources() {
@@ -496,7 +494,6 @@ void init_game_mode_select_scene(void) {
     load_floor_sound_bank(0);
 }
 
-extern "C" {
 void run_game_mode_select_frame(void) {
     switch (game_mode_scene_change_state) {
     case 0:
@@ -533,7 +530,6 @@ void run_game_mode_select_frame(void) {
         }
     }
     render_tick();
-}
 }
 
 void TAdMultiChgGameModeGC__sub_8023F4E4(void) { init_game_mode_select_scene(); TAdMultiChgGameModeGC::set_mode_change_state(); render_tick(); }

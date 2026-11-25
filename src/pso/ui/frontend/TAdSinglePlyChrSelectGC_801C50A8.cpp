@@ -13,7 +13,6 @@
 #include "pso/render/NinjaUtil.h"
 #undef PSO_SDK_COMPACT_MATH
 
-extern "C" {
     extern int duel_result_window;
 TObject *ad_single_ply_chr_select_instance;
 void TAdSinglePlyChrSelectGC::set_slot(int a0) { *(short*)((char*)active_character_save_record + 0x21b0) = a0; }
@@ -56,7 +55,6 @@ s32 TAdSinglePlyChrSelectGC::create_if_key_pressed() {
     return 1;
 }
 
-}
 
 struct Ply_801C51D4 { u8 pad[0x30]; u32 flags; u8 pad34[4]; f32 pos[3]; };
 
