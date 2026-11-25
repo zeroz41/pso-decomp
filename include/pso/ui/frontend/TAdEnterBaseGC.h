@@ -6,6 +6,8 @@
 
 class TAdSelectCurGC;
 class TKeyBoardControl;
+class TWindowBase;
+struct TWindowCallBack;
 
 struct TAdEnterBaseGC : public TObject {
     TAdEnterBaseGC(TObject *parent);
@@ -21,8 +23,8 @@ struct TAdEnterBaseGC : public TObject {
     u32 m_24;
     int m_28;
     TAdSelectCurGC *select_cursor;
-    int m_30;
-    u8 unk_34[0x4];
+    TWindowBase *prompt_window;
+    TWindowCallBack *callback_window;
 };
 
 LAYOUT_ASSERT(TAdEnterBaseGC_size, sizeof(TAdEnterBaseGC) == 0x38);
