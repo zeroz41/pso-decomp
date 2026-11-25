@@ -31,11 +31,11 @@ s32 TAdYesNoBaseGC::sub_8032C0B4() {
 s32 TAdYesNoBaseGC::create_menu_window() {
     TAdYesNoBaseGC *owner = this;
     NJS_POINT2 pos = {85.0f, 384.0f};
-    saddr r = (saddr)init_shop_judgment_window(&pos);
-    ((TWindowMenu *)r)->update_layout_height(470.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
-    ((TWindowMenu *)r)->set_selected_index((s16)owner->m_2c);
-    return r;
+    TWindowMenu *menu = init_shop_judgment_window(&pos);
+    menu->update_layout_height(470.0f);
+    align_menu_entry_positions(menu);
+    menu->set_selected_index((s16)owner->m_2c);
+    return (saddr)menu;
 }
 
 void TAdYesNoBaseGC::init_parts(void *position, void *size) {

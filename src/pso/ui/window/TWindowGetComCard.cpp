@@ -64,7 +64,7 @@ void TWindowGetComCard::run_task() {
             break;
         }
         if (confirmation == 0) {
-            confirmation = reinterpret_cast<TWindowMenu *>(init_shop_judgment_window(&window_rect));
+            confirmation = init_shop_judgment_window(&window_rect);
             confirmation->set_flag70_bit10();
         }
         confirmation->clear_flag_and_release();
