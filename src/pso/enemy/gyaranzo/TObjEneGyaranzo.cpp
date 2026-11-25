@@ -17,7 +17,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
@@ -40,7 +40,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/vector.h"
-#include "pso/object/TUnk_8049442C.h"
+#include "pso/object/TObjEneGyaranzoMine.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -674,7 +674,7 @@ void TObjEneGyaranzo::spawn_missile() {
     render_anim_model_at_pos();
     this->get_anim_node_position(0x18, &launch_position);
     spin = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
-    new TUnk_8049442C(this, &launch_position, rotation_y, spin);
+    new TObjEneGyaranzoMine(this, &launch_position, rotation_y, spin);
     spawn_particle_effect(&launch_position, 0xF3);
     play_sound_effect(this->remap_sound_for_area(0x4003B20D), &position, 0, 0);
 }

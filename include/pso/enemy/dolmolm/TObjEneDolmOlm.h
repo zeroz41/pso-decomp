@@ -4,12 +4,12 @@
 #include "types.h"
 
 struct NJS_OBJECT;
-#include "pso/enemy/TUnk_80493450.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/enemy/TObjEneBeastBase.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 class TAttackTraceStrip;
 
-struct TObjEneDolmOlm : public TUnk_80493450 {
+struct TObjEneDolmOlm : public TObjEneBeastBase {
     TObjEneDolmOlm(TObject *parent, void *set_data);
     static void *create(void *set_data);
     virtual ~TObjEneDolmOlm();
@@ -34,7 +34,7 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     virtual void play_alert_sound();
     virtual void spawn_death_effect();
     virtual void update_attack_trail();
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     TAttackTraceStrip *attack_traces[2]; // driven by update_attack_trail
     f32 retreat_chance;        // 0.3 + parameters[2]: select_post_attack_mode's odds of mode 10 (update_retreat)
     f32 special_attack_chance; // 0.3 + parameters[3]: run_attack_action's odds of mode 11 (update_special_attack)

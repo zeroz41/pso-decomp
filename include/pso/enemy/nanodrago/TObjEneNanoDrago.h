@@ -2,7 +2,7 @@
 #define PSO_ENEMY_NANODRAGO_TOBJENENANODRAGO_H
 
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/render/RenderFadeState.h"
 
 struct BmlResource;
@@ -75,7 +75,7 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     s32 cameraShakeCooldown;
     s32 alternateBeam;
     f32 sinkingOffset;
-    TUnk_80494938 appearFade;
+    TObjEnemyColorFade appearFade;
     f32 flightHeight;
     f32 descentSpeed;
     RenderFadeState cameraFades[4];

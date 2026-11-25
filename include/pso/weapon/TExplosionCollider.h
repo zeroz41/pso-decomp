@@ -1,9 +1,9 @@
 #ifndef PSO_WEAPON_TEXPLOSIONCOLLIDER_H
 #define PSO_WEAPON_TEXPLOSIONCOLLIDER_H
 #include "types.h"
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 
-class TExplosionCollider : public TUnk_804E355C {
+class TExplosionCollider : public TItemAttackColBase {
 public:
     TExplosionCollider(TObject *parent, S_802E451C *params);
     virtual ~TExplosionCollider();

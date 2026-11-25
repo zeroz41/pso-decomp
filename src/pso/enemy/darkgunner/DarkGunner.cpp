@@ -16,7 +16,7 @@
 
 #include "types.h"
 
-#include "pso/enemy/TUnk_804909C4.h"
+#include "pso/enemy/TObjEneDarkGunnerShot.h"
 
 #include "pso/render/NinjaUtil.h"
 
@@ -721,7 +721,7 @@ void TObjEneDarkGunner::update_attack() {
         state = 4;
         find_target_in_range(200.0f);
         if (targetId == 0xFFFF) break;
-        new TUnk_804909C4((u8 *)this, (saddr)&shadow_pos, (saddr)&((TObjChara *)target)->body_center);
+        new TObjEneDarkGunnerShot((u8 *)this, (saddr)&shadow_pos, (saddr)&((TObjChara *)target)->body_center);
         play_sound_effect(0x40039E2B, &position, 0, 0);
         break;
     case 4:

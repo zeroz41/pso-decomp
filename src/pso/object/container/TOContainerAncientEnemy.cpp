@@ -18,7 +18,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/player/TUnk_804B08BC.h"
 #include "pso/object/container/TOContainerAncientEnemy.h"
 #include "pso/object/container/TOContainerAncientEnemyCommon.h"
@@ -147,23 +147,23 @@ void G_FloorEvent_6x67::send() {
     send_subcommand(this);
 }
 
-void TUnk_804B6C24::vfunc_6(s16 *, s32) {  }
+void TObjContainerCommon::vfunc_6(s16 *, s32) {  }
 
-TUnk_804B6C24::~TUnk_804B6C24() {
+TObjContainerCommon::~TObjContainerCommon() {
 }
 
-s32 TUnk_804B6C24::roll_physical_accuracy(void *, s32, f32) { return 1; }
+s32 TObjContainerCommon::roll_physical_accuracy(void *, s32, f32) { return 1; }
 
-s32 TUnk_804B6C24::try_start_action(s32, s32) { return 1; }
+s32 TObjContainerCommon::try_start_action(s32, s32) { return 1; }
 
-void TUnk_804B6C24::apply_knockback_from_attacker(u8 *, f32) {  }
+void TObjContainerCommon::apply_knockback_from_attacker(u8 *, f32) {  }
 
-f32 TUnk_804B6C24::receive_weapon_special_attack(void *, void *) {
+f32 TObjContainerCommon::receive_weapon_special_attack(void *, void *) {
     receive_physical_attack(NULL, lbl_805DB398);
     return lbl_805DB39C;
 }
 
-int TUnk_804B6C24::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
+int TObjContainerCommon::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
 extern BmlResource *ancient_container_resource_bundle;
 
@@ -228,7 +228,7 @@ void free_ancient_container_resources(void) {
 
 #pragma pop
 
-TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TUnk_804B6C24(tl_05, set_data) {
+TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TObjContainerCommon(tl_05, set_data) {
     mode = 0;
     actorFlags |= 0x60000000U;
     init_collision_body_parts(this, &TOContainerAncientEnemy__collision_body_params, 1);
@@ -386,7 +386,7 @@ void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
     }
 }
 
-TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TUnk_804B6C24(tl_05, set_data) {
+TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainerCommon(tl_05, set_data) {
     m_name = TOContainerAncientEnemy__name;
     mode = 0;
     actorFlags |= 0x60000000U;

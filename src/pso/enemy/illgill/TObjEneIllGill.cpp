@@ -24,7 +24,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/network/TLobby.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -498,7 +498,7 @@ void TObjEneIllGill::update_idle() {
     switch (this->phase) {
     case 0:
         ((TObjBase *)self)->set_actor_flags(0x04040000);
-        ((TUnk_80494938 *)(&this->fade))->start_fade_in();
+        ((TObjEnemyColorFade *)(&this->fade))->start_fade_in();
         play_area_se_with_particle(&position);
         this->phase = 1;
         break;

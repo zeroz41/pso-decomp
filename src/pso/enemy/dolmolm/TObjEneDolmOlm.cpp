@@ -17,7 +17,7 @@
 
 #include "types.h"
 #include "pso/system/AreaSound.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -32,7 +32,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #include <stddef.h>
@@ -152,7 +152,7 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
     model = TObjEneDolmOlm__resource_bundle->models[i].model;
     texlist = TObjEneDolmOlm__resource_bundle->models[i].texlist;
 }
-TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(parent) {
+TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
     u32 col;
     m_name = obj_ene_dolm_olm_class_name;
     apply_set_data(set_data);

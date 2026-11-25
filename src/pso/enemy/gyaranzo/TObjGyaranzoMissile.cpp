@@ -8,7 +8,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/TUnk_8049442C.h"
+#include "pso/object/TObjEneGyaranzoMine.h"
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/player/TObjPlayer.h"

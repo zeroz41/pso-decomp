@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// The ring vertex directions and colors TUnk_8048FE7C reads; TObjEneDf2Bringer fills them at load.
+// The ring vertex directions and colors TObjEneDf2BringerRing reads; TObjEneDf2Bringer fills them at load.
 void init_bringer_effect_tables(void);
 void bringer_effect_cleanup_noop(void);
 // Builds a TObjEneDf2Bringer_Eff_Rush in TObject::operator new(0x34)'s memory (see BringerEffects.cpp).

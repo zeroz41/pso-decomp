@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERABEENEMY_H
 
 #include "types.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 
-struct TObjContainerAbeEnemy : public TUnk_804B6C24 {
+struct TObjContainerAbeEnemy : public TObjContainerCommon {
     TObjContainerAbeEnemy(TObject *parent, void *set_data);
     virtual ~TObjContainerAbeEnemy();
     virtual void vfunc_79() const;

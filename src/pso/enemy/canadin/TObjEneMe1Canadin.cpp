@@ -26,7 +26,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/AltModel.h"
 
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
 
 #include "pso/enemy/canadin/TObjEneMe1CanadinLeader.h"

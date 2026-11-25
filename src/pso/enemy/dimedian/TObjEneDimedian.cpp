@@ -28,7 +28,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/render/MaterialShadeFade.h"
 #include "pso/network/TLobby.h"
@@ -486,7 +486,7 @@ void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
     texlist = dimedian_resource_ptr->models[i].texlist;
 }
 
-TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TUnk_80493450(parent) {
+TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
     s32 color;
     s32 i;
     m_name = TObjEneDimedian_name_ref;

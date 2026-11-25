@@ -1,5 +1,5 @@
-#ifndef PSO_ENEMY_TUNK_804EF130_H
-#define PSO_ENEMY_TUNK_804EF130_H
+#ifndef PSO_ENEMY_TOBJENEMORFOSGROUNDSHOT_H
+#define PSO_ENEMY_TOBJENEMORFOSGROUNDSHOT_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -9,11 +9,11 @@ class TObjEneMorfos;
 
 // Morfos's ground shot: flies straight from start along angle (particle 0x213), hits players it passes and
 // dies after 500 units or on a wall (made by TObjEneMorfos; the vtable at 0x804EF130 overrides the dtor and run_task).
-class TUnk_804EF130 : public TObjCollidable {
+class TObjEneMorfosGroundShot : public TObjCollidable {
 public:
-    TUnk_804EF130(const Vec *start, s32 angle, TObjChara *owner);
+    TObjEneMorfosGroundShot(const Vec *start, s32 angle, TObjChara *owner);
     s32 snap_to_ground(Vec *position);
-    virtual ~TUnk_804EF130();
+    virtual ~TObjEneMorfosGroundShot();
     virtual void run_task();
     void hit_target_in_range(TObjChara *target, TObjCollidable *owner);
     Vec pos;
@@ -27,6 +27,6 @@ public:
     u16 owner_id;
     u8 pad_FA[0x2];
 };
-LAYOUT_ASSERT(TUnk_804EF130_size, sizeof(TUnk_804EF130) == 0xFC);
+LAYOUT_ASSERT(TObjEneMorfosGroundShot_size, sizeof(TObjEneMorfosGroundShot) == 0xFC);
 
 #endif

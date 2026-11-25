@@ -16,7 +16,7 @@ typedef void (*TItemAttackColHitWall)(s32 item_id, Vec *position, Vec *velocity)
 // ActorBodyHit entry and the collider's velocity.
 typedef void (*TItemAttackColHitObject)(s32 item_id, s32 *hit, Vec *velocity);
 
-struct TItemAttackCol : public TUnk_804E355C {
+struct TItemAttackCol : public TItemAttackColBase {
     TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params);
     virtual ~TItemAttackCol();
     virtual void move_by_velocity();

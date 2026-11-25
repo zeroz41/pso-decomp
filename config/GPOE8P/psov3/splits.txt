@@ -1351,7 +1351,7 @@ pso/enemy/darkgunner/DarkGunner.cpp:
 	.sbss       start:0x805D4FF8 end:0x805D5030
 	.sdata2     start:0x805D9978 end:0x805D99D0
 
-pso/enemy/TUnk_804909C4.cpp:
+pso/enemy/TObjEneDarkGunnerShot.cpp:
 	.text       start:0x800A3290 end:0x800A36A8
 	.rodata     start:0x8043A6E8 end:0x8043A700
 	.data       start:0x80490998 end:0x804909FC
@@ -1547,7 +1547,7 @@ pso/enemy/beast/TObjEneBeast_800C4E08.cpp:
 	.data       start:0x80493450 end:0x80493614
 	.sdata2     start:0x805DA028 end:0x805DA068
 
-pso/enemy/TUnk_80493450_800C69E8.cpp:
+pso/enemy/TObjEneBeastBase_800C69E8.cpp:
 	.text       start:0x800C69E8 end:0x800C6A18
 
 pso/enemy/TObjEnemyCustom.cpp:

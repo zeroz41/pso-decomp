@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CONTAINER_TOCONTAINERANCIENTENEMY_H
 
 #include "types.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 
-struct TOContainerAncientEnemy : public TUnk_804B6C24 {
+struct TOContainerAncientEnemy : public TObjContainerCommon {
     TOContainerAncientEnemy(void *set_data);
     virtual ~TOContainerAncientEnemy();
     virtual void debug_print_item_box_info();

@@ -7,8 +7,8 @@ class AreaAttackHistory;
 
 // The Bringer's TP-absorb shot: a box hitbox that TObjEneDf2Bringer fires along its facing
 // (setup_dir_shot) and that deals one hit per AreaAttackHistory entry. Its ctor names it with
-// bringer_tp_absorb_effect_name ("TObjEneDf2Bringer_Eff_TpAbsorb1"), shared with TUnk_8048FE64 and
-// TUnk_8048FE7C; the twin of TObjEneDellBiter_Eff_TpAbsorb1.
+// bringer_tp_absorb_effect_name ("TObjEneDf2Bringer_Eff_TpAbsorb1"), shared with TObjEneDf2BringerTpDrainPoint and
+// TObjEneDf2BringerRing; the twin of TObjEneDellBiter_Eff_TpAbsorb1.
 class TObjEneDf2Bringer_Eff_TpAbsorb1 : public TAttackCollider {
 public:
     TObjEneDf2Bringer_Eff_TpAbsorb1(TObject *parent, TObjBase *owner, AreaAttackHistory *history);

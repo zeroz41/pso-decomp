@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
 
 // Per-kind parameter block from TLobby::dispatch_shared_handler_a, one for each of
@@ -88,7 +88,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     s16 saved_evp;         // evp at construction
     u8 pad_406[0x2];
     Vec hand_position; // the target player's hand joint when its weapon is knocked off; the particle spot
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     u8 pad_430[0x4];
     s32 state_step;
     s32 state_timer;

@@ -1,10 +1,10 @@
-#ifndef PSO_ITEM_TUNK_804E355C_H
-#define PSO_ITEM_TUNK_804E355C_H
+#ifndef PSO_ITEM_TITEMATTACKCOLBASE_H
+#define PSO_ITEM_TITEMATTACKCOLBASE_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 
-// What TUnk_804E355C's constructor copies; reset_attack_params fills in
+// What TItemAttackColBase's constructor copies; reset_attack_params fills in
 // the defaults. The derived attack colliders' parameter blocks start with it.
 struct S_802E451C {
     Vec position;
@@ -21,10 +21,10 @@ struct S_802E451C {
 // Fills in an S_802E451C's defaults: no position, radius 5, one hit, no owner, room or weapon.
 extern "C" void reset_attack_params(S_802E451C *params);
 
-class TUnk_804E355C : public TObject {
+class TItemAttackColBase : public TObject {
 public:
-    TUnk_804E355C(TObject *parent, S_802E451C *params);
-    virtual ~TUnk_804E355C();
+    TItemAttackColBase(TObject *parent, S_802E451C *params);
+    virtual ~TItemAttackColBase();
     void check_hits();
     s32 try_add_hit_target(const ActorBodyHit *hit);
     virtual void on_hit(ActorBodyHit *hit);

@@ -19,7 +19,7 @@ class TBoss7LaserLight;
 class AreaAttackHistory;
 class TNodeMatrixRecorder;
 class TParticleCtrl;
-class TUnk_804E4788;
+class TBoss7PointTrail;
 struct G_BarbaRayBossActions_6xA9;
 struct G_BarbaRayBossActions_6xAA;
 struct TBoss7LaserPtcl;
@@ -177,8 +177,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TBoss7LaserLight *laser_light;
     Vec laser_light_pos;          // the position the laser light follows
     AreaAttackHistory *attack_history;
-    TUnk_804E4788 *hit_trail;     // ring trail of the laser's hit point (limit 6, effect 0x208)
-    TUnk_804E4788 *hit_trail_long; // the same with limit 15, effect 0x209
+    TBoss7PointTrail *hit_trail;     // ring trail of the laser's hit point (limit 6, effect 0x208)
+    TBoss7PointTrail *hit_trail_long; // the same with limit 15, effect 0x209
     s32 laser_shot_count;         // laser shots since the state that clears it
     s32 state_step;               // the running state's step (every state handler switches on it)
     s32 state_ints[6];            // per-state scratch: each state handler gives them its own meaning

@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <dolphin/mtx.h>
 #include "types.h"
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 
@@ -23,7 +23,7 @@ struct ItemEffPGParams : S_802E451C {
     ItemEffPGParams *init_params();
 };
 
-struct TItemEffPG : public TUnk_804E355C {
+struct TItemEffPG : public TItemAttackColBase {
     TItemEffPG(TObject *parent, ItemEffPGParams *params);
     virtual ~TItemEffPG();
     virtual s32 consume_charge();

@@ -48,7 +48,7 @@ class TPlyItem;
 class TPlayerLobbyMarker;
 class TPlyInventoryItem;
 struct TechniqueContactList;
-struct TUnk_801D8A4C;
+struct EndingPlayerRecord;
 struct PlayerSyncRecord;
 struct PlayerCharDataEntry;
 struct TLockOnCursor;
@@ -118,7 +118,7 @@ extern f32 player_one;
 
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *parent, PlayerSyncRecord *record);
-    TObjPlayer(TObject *parent, TUnk_801D8A4C *src);
+    TObjPlayer(TObject *parent, EndingPlayerRecord *src);
     TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record);
     // The key function: __vt__10TObjPlayer is emitted with the TU at 0x801AF290
     // (TObjPlayer_801AF2F0.cpp), which defines this; the destructor is in a later fragment.

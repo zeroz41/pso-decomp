@@ -7,7 +7,7 @@ struct NJS_OBJECT;
 struct TObjEneRecobox;
 class TParticleCtrl;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 // What TObjEnemy::movementParameters points at for a Recon (TObjEneRecon__ai_parameters).
 struct ReconMoveParams {
@@ -116,7 +116,7 @@ struct TObjEneRecon : public TObjEneDD_ST {
     s32 attacking;                // set while a strike or bomb state runs; get_attack_target_id reports the target then
     TParticleCtrl *emitter;       // particle emitter 0x217 trailing the body
     s32 emitter_side;             // flips each frame: the emitter swings 3 units to either side
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     u8 pad_49C[0x48];
 };
 

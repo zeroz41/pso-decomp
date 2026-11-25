@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/enemy/TUnk_804909C4.h"
+#include "pso/enemy/TObjEneDarkGunnerShot.h"
 
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -23,7 +23,7 @@ CollisionBody dark_gunner_shot_collision_body[] = {
     {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
 
-s32 TUnk_804909C4::check_player_hits(u16 id) {
+s32 TObjEneDarkGunnerShot::check_player_hits(u16 id) {
     TObjCollidable *owner;
     s32 result = 0;
     s32 i;
@@ -55,7 +55,7 @@ s32 TUnk_804909C4::check_player_hits(u16 id) {
     return result;
 }
 
-void TUnk_804909C4::run_task() {
+void TObjEneDarkGunnerShot::run_task() {
     VecCopy(&prev_position, &position);
     vec3_add_to(&position, &velocity);
     if (trail != NULL) {
@@ -70,14 +70,14 @@ void TUnk_804909C4::run_task() {
     }
 }
 
-TUnk_804909C4::~TUnk_804909C4() {
+TObjEneDarkGunnerShot::~TObjEneDarkGunnerShot() {
     free_collision_body_parts(this);
     if (trail != NULL) {
         trail->queue_destruction();
     }
 }
 
-TUnk_804909C4::TUnk_804909C4(u8 *owner, saddr start, saddr target) : TObjCollidable(tl_04) {
+TObjEneDarkGunnerShot::TObjEneDarkGunnerShot(u8 *owner, saddr start, saddr target) : TObjCollidable(tl_04) {
     CsnHit *wall;
     init_collision_body_parts(this, dark_gunner_shot_collision_body, 1);
     bodies->radius = 0.75f * dark_gunner_shot_speed;

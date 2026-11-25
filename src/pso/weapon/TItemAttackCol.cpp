@@ -11,7 +11,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include <stddef.h>
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -69,7 +69,7 @@ static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
 
 }
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);
-TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(parent) {
+TItemAttackColBase::TItemAttackColBase(TObject *parent, S_802E451C *params) : TObject(parent) {
     TObjPlayer *player;
     body.offset.x = 0.0f;
     body.offset.y = 0.0f;
@@ -107,9 +107,9 @@ TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(pare
     }
 }
 
-TUnk_804E355C::~TUnk_804E355C() {}
+TItemAttackColBase::~TItemAttackColBase() {}
 
-void TUnk_804E355C::check_hits() {
+void TItemAttackColBase::check_hits() {
     s32 i;
     ActorBodyHit *hit;
     reset_global_table();
@@ -142,7 +142,7 @@ void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source) 
     output->body = input->body;
 }
 
-s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
+s32 TItemAttackColBase::try_add_hit_target(const ActorBodyHit *hit) {
     s32 ok;
     ActorBodyHit *previous;
     s32 i;
@@ -180,13 +180,13 @@ s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
     return 0;
 }
 
-void TUnk_804E355C::on_hit(ActorBodyHit *hit) { resolve_attack_col_hit(hit); }
+void TItemAttackColBase::on_hit(ActorBodyHit *hit) { resolve_attack_col_hit(hit); }
 
-s32 TUnk_804E355C::has_game_join_id() {
+s32 TItemAttackColBase::has_game_join_id() {
     return find_equipped_item(item_id) != 0;
 }
 
-s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
+s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_802E456C, sp8) == 0x0);
     LAYOUT_ASSERT(sp9_offset, offsetof(Stack_802E456C, sp9) == 0x1);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_802E456C, spC) == 0x4);
@@ -273,7 +273,7 @@ void TItemAttackCol::create(TObject *parent, WeaponEffectDescriptor *params) {
     new TItemAttackCol(parent, params);
 }
 
-TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) : TUnk_804E355C(parent, params) {
+TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) : TItemAttackColBase(parent, params) {
     m_name = TItemAttackCol__name;
     VecCopy(&start_position, &params->position);
     if (params->flags & 1) {

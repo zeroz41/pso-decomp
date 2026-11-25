@@ -1,16 +1,16 @@
-#ifndef PSO_OBJECT_TUNK_8049442C_H
-#define PSO_OBJECT_TUNK_8049442C_H
+#ifndef PSO_OBJECT_TOBJENEGYARANZOMINE_H
+#define PSO_OBJECT_TOBJENEGYARANZOMINE_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
 struct NJS_OBJECT;
 
-class TUnk_8049442C : public TObjCollidable {
+class TObjEneGyaranzoMine : public TObjCollidable {
 public:
     // TObjEneGyaranzo::spawn_missile's mine (me4_y_mine.nj): owner's room and id, launch
     // position, yaw and turn rate.
-    TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin);
-    virtual ~TUnk_8049442C();
+    TObjEneGyaranzoMine(TObjBase *owner, Vec *pos, s32 angle, s32 spin);
+    virtual ~TObjEneGyaranzoMine();
     // Hits every hittable character but the owner, then goes off.
     void explode();
     // Falls onto the ground below (height above it); ground receives the ground point.
@@ -32,6 +32,6 @@ public:
     Vec probe_position;    // 5 above the position, where the wall test starts
     s32 arm_delay;         // frames before collisions set it off
 };
-LAYOUT_ASSERT(TUnk_8049442C_size, sizeof(TUnk_8049442C) == 0xF0);
+LAYOUT_ASSERT(TObjEneGyaranzoMine_size, sizeof(TObjEneGyaranzoMine) == 0xF0);
 
 #endif

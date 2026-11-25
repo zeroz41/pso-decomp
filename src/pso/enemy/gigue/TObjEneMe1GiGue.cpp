@@ -33,9 +33,9 @@
 #include "pso/enemy/gigue/TObjEneMe1GiGueBarrier.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
-#include "pso/enemy/TUnk_804E14E8.h"
+#include "pso/enemy/TObjEneMe1GiGueHomingShot.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
@@ -1027,7 +1027,7 @@ void TObjEneMe1GiGue::spawn_targeted_shot(s32 index) {
         angles.x = 0;
         angles.y = rotation_y + ((index & 1) ? -0x2000 : 0x2000);
         angles.z = 0;
-        new TUnk_804E14E8(&shotOrigin, targetIds[index], &angles, index * 3,
+        new TObjEneMe1GiGueHomingShot(&shotOrigin, targetIds[index], &angles, index * 3,
                           random_ratio() <= get_gigue_float_parameter(this, 5),
                           entity_id);
     }

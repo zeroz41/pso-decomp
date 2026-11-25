@@ -2,11 +2,11 @@
 #define PSO_OBJECT_CITY_TOBJCITY_SEASON_EASTEREGG_H
 
 #include "types.h"
-#include "pso/object/TUnk_804B5E48.h"
+#include "pso/object/TObjCitySeasonBase.h"
 
 class TParticleCtrl;
 
-struct TObjCity_Season_EasterEgg : public TUnk_804B5E48 {
+struct TObjCity_Season_EasterEgg : public TObjCitySeasonBase {
     TObjCity_Season_EasterEgg(TObject *parent, void *set_data);
     virtual ~TObjCity_Season_EasterEgg();
     virtual void render();

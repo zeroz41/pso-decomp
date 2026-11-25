@@ -20,7 +20,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"

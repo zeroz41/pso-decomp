@@ -2,7 +2,7 @@
 #define PSO_ENEMY_DIMEDIAN_TOBJENEDIMEDIAN_H
 
 #include "types.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/MaterialShadeFade.h"
 #include <dolphin/mtx.h>
@@ -10,7 +10,7 @@
 class TObject;
 class TAttackTraceStrip;
 
-struct TObjEneDimedian : public TUnk_80493450 {
+struct TObjEneDimedian : public TObjEneBeastBase {
     TObjEneDimedian(TObject *parent, void *set_data);
     virtual ~TObjEneDimedian();
     virtual void render();

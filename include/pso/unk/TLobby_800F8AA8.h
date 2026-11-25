@@ -6,7 +6,7 @@
 
 struct GslArchiveEntry;
 struct RelFileTrailer;
-class TUnk_8049C658;
+class TRelDataFile;
 class TObject;
 
 extern "C" {
@@ -30,8 +30,8 @@ saddr load_text_resource_pair(saddr name);
 void *load_encrypted_archive_data(const char *name);
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs);
 void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size);
-void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs);
-void *apply_rel_relocations(TUnk_8049C658 *file);
+void *apply_pointer_relocations(TRelDataFile *file, RelFileTrailer *relocs);
+void *apply_rel_relocations(TRelDataFile *file);
 TObject *TLoadCtrl__sub_800F9F00(void);
 }
 

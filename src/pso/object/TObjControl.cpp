@@ -9,7 +9,7 @@
 
 #include "pso/object/base/TObjChara.h"
 
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 
 #include "pso/object/TObjControl.h"
 
@@ -290,7 +290,7 @@ s32 TObjEnemy::has_group() {
     return reinterpret_cast<saddr>(groupRoot()) ? 1 : 0;
 }
 
-s32 TUnk_80493450::countChildren() {
+s32 TObjEneBeastBase::countChildren() {
     TObjEnemy* child = children;
     s32 count = 0;
     if (child) {
@@ -304,7 +304,7 @@ s32 TUnk_80493450::countChildren() {
     return count;
 }
 
-void TUnk_80493450::link_into_group_chain() {
+void TObjEneBeastBase::link_into_group_chain() {
     Ply_800F7118 *self = (Ply_800F7118 *)this;
     Ply_800F7118 *p;
     Ply_800F7118 *head;
@@ -393,7 +393,7 @@ void TUnk_80493450::link_into_group_chain() {
 }
 
 #undef FIND_TAIL_800F7118
-void TUnk_80493450::unlink_enemy_group_relations() {
+void TObjEneBeastBase::unlink_enemy_group_relations() {
     TObjEnemy *temp_r0;
     TObjEnemy *temp_r0_2;
     TObjEnemy *children;

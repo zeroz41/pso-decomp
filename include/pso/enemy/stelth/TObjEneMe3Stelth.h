@@ -4,7 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 // One variant's row of the parameter table TLobby hands load_shared_resources.
 struct StelthBehaviorParams {
@@ -86,7 +86,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     s16 saved_evp;         // evp at construction
     u8 pad_3f6[0x2];
     Vec hand_position;     // the target player's hand joint when its weapon is knocked off; the particle spot
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     s32 projection_scroll; // render adds 0x222 a frame; stelth_projection_texture_handle
     s32 state_step;
     s32 state_timer;

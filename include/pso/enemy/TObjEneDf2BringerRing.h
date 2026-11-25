@@ -1,19 +1,19 @@
-#ifndef PSO_ENEMY_TUNK_8048FE7C_H
-#define PSO_ENEMY_TUNK_8048FE7C_H
+#ifndef PSO_ENEMY_TOBJENEDF2BRINGERRING_H
+#define PSO_ENEMY_TOBJENEDF2BRINGERRING_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
 
 // The Bringer's expanding ring: radius grows from 10 to max_radius, then the ring fades out.
 // Drawn as two 6-vertex strips of (outer, inner) pairs.
-class TUnk_8048FE7C : public TObject {
+class TObjEneDf2BringerRing : public TObject {
 public:
     struct Vertex {
         Vec pos;
         u32 color;
     };
-    TUnk_8048FE7C(TObject *parent, const Vec *pos, f32 max_radius);
-    virtual ~TUnk_8048FE7C();
+    TObjEneDf2BringerRing(TObject *parent, const Vec *pos, f32 max_radius);
+    virtual ~TObjEneDf2BringerRing();
     virtual void run_task();
     virtual void render();
     void update_vertex_colors();    // the color table rotated by frame, alpha in the top byte
@@ -27,6 +27,6 @@ public:
     f32 max_radius;
     Vertex vertices[12];
 };
-LAYOUT_ASSERT(TUnk_8048FE7C_size, sizeof(TUnk_8048FE7C) == 0x100);
+LAYOUT_ASSERT(TObjEneDf2BringerRing_size, sizeof(TObjEneDf2BringerRing) == 0x100);
 
 #endif

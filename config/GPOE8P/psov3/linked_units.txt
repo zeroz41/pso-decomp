@@ -441,7 +441,7 @@ pso/enemy/slime/TObjEneSlimeOne_800EC394.cpp
 pso/enemy/slime/TObjEneSlimeTailAttack.cpp
 pso/enemy/TObjEnemyCustom.cpp
 pso/enemy/TObjEnemy_8020C3E0.cpp
-pso/enemy/TUnk_804909C4.cpp
+pso/enemy/TObjEneDarkGunnerShot.cpp
 pso/quest/challenge/ChallengeForceLoadouts.cpp
 pso/quest/challenge/ChallengeHunterLoadouts.cpp
 pso/quest/challenge/ChallengeRangerLoadouts.cpp
@@ -1789,7 +1789,7 @@ pso/effect/TDuelEffectCtrl.cpp
 pso/enemy/beast/TObjEneBeast_80092AE0.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp
-pso/enemy/TUnk_80493450_800C69E8.cpp
+pso/enemy/TObjEneBeastBase_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp
 pso/enemy/nanodrago/TObjNanoDragoSingleBeam.cpp

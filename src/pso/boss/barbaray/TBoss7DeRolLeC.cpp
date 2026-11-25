@@ -51,7 +51,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
 
-#include "pso/object/TUnk_804E4788.h"
+#include "pso/object/TBoss7PointTrail.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
@@ -3102,12 +3102,12 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             if (hit != NULL) {
                 VecCopy(beam_end, &hit->contact->point);
                 if (hit_trail == NULL) {
-                    hit_trail = new TUnk_804E4788(this, 6, 0x208);
+                    hit_trail = new TBoss7PointTrail(this, 6, 0x208);
                 } else {
                     hit_trail->push_ring_point(beam_end);
                 }
                 if (hit_trail_long == NULL) {
-                    hit_trail_long = new TUnk_804E4788(this, 0xF, 0x209);
+                    hit_trail_long = new TBoss7PointTrail(this, 0xF, 0x209);
                 } else {
                     hit_trail_long->push_ring_point(beam_end);
                 }

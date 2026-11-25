@@ -50,7 +50,7 @@
 #include "pso/system/vector.h"
 
 
-#include "pso/enemy/TUnk_8048FE7C.h"
+#include "pso/enemy/TObjEneDf2BringerRing.h"
 
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 
@@ -127,7 +127,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/item/TItem.h"
 
 #include "pso/enemy/bringer/BringerEffects.h"
-#include "pso/enemy/TUnk_8048FE64.h"
+#include "pso/enemy/TObjEneDf2BringerTpDrainPoint.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/map/CsnQuery.h"
@@ -567,7 +567,7 @@ s32 TObjEneDf2Bringer::attack_visible_players() {
                 dmg = floor_to_float(0.25f * (f32)get_actor_tp(player));
                 player->check_can_act((s16)dmg);
                 total += dmg;
-                new TUnk_8048FE64(this, &player->body_center, &node_points[3]);
+                new TObjEneDf2BringerTpDrainPoint(this, &player->body_center, &node_points[3]);
             }
         }
     }
@@ -1108,7 +1108,7 @@ void TObjEneDf2Bringer::update_shot_state(s32 reason) {
                 if (is_passing_frame(8.0f) != 0) {
                     Vec v = position;
                     v.y += 8.0f;
-                    new TUnk_8048FE7C(this, &v, 100.0f);
+                    new TObjEneDf2BringerRing(this, &v, 100.0f);
                 }
                 if (is_passing_frame(12.0f) != 0) {
                     drained_tp = attack_visible_players();

@@ -5,7 +5,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 class TParticleCtrl;
 
@@ -38,7 +38,7 @@ struct TObjEneIllGill : public TObjEnemy {
     virtual void run_hit_reaction();
     virtual void run_death_reaction();
     virtual void run_idle_action();
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     s32 fadingIn;
     s32 attackType;
     s32 weaponSpecial;

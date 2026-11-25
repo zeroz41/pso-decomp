@@ -29,7 +29,7 @@
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaMirage.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"

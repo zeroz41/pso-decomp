@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -33,7 +33,7 @@
 
 #include "pso/system/vector.h"
 
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -135,7 +135,7 @@ void TObjEneMerillLia::select_model_record(s32 i) {
     texlist = merill_lia_bml_resource->models[i].texlist;
 }
 
-TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_80493450(parent) {
+TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TObjEneBeastBase(parent) {
     m_name = merill_lia_class_name;
     apply_set_data(setData);
     init_behavior_params();
@@ -583,7 +583,7 @@ void TObjEneMerillLia::beast_idle_update() {
     }
     child_count = countChildren();
     {
-        TUnk_80493450 *other = (TUnk_80493450 *)next;
+        TObjEneBeastBase *other = (TObjEneBeastBase *)next;
         if (other != NULL) {
             s32 diff = other->child_count - child_count;
             if (diff > 1) {

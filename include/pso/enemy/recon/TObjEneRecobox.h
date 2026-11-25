@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 struct BmlResource;
 struct TObjEneRecon;
@@ -53,7 +53,7 @@ struct TObjEneRecobox : public TObjEneDD_ST {
     f32 get_recon_rotate_rad();
     f32 get_recon_offset_max();
 
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     s32 mount_type;               // debug TYPE: 0 NORMAL, 1 BOTTOM (rotated 0x8000), 2 SIDE (0x4000)
     s32 floor_flags;              // flags of the floor under the box (update_floor_probe); 0x4000 = reflective
     Vec floor_point;              // that floor point: the reflection plane of render_trap_model_if_visible

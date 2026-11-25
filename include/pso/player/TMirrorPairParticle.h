@@ -1,5 +1,5 @@
-#ifndef PSO_PLAYER_TUNK_804F166C_H
-#define PSO_PLAYER_TUNK_804F166C_H
+#ifndef PSO_PLAYER_TMIRRORPAIRPARTICLE_H
+#define PSO_PLAYER_TMIRRORPAIRPARTICLE_H
 #include "types.h"
 #include <dolphin/mtx.h>
 #include "pso/system/task/TObject.h"
@@ -8,10 +8,10 @@ class TParticleCtrl;
 
 // The pair of particles spawn_mirror_pair (a weapon special) sends spiralling in on the hit
 // position. Field names are inferred from the constructor, run_task and the destructor.
-class TUnk_804F166C : public TObject {
+class TMirrorPairParticle : public TObject {
 public:
-    TUnk_804F166C(TObject *parent, Vec *pos, s32 start_angle);
-    virtual ~TUnk_804F166C();
+    TMirrorPairParticle(TObject *parent, Vec *pos, s32 start_angle);
+    virtual ~TMirrorPairParticle();
     void update_inward_orbit_point();
     virtual void render();
     virtual void run_task();
@@ -23,6 +23,6 @@ public:
     s32 frames_left;         // inferred: 10 frames, then it queues its own destruction
     TParticleCtrl *particle; // the particle it moves, released by the destructor
 };
-LAYOUT_ASSERT(TUnk_804F166C_size, sizeof(TUnk_804F166C) == 0x50);
+LAYOUT_ASSERT(TMirrorPairParticle_size, sizeof(TMirrorPairParticle) == 0x50);
 
 #endif

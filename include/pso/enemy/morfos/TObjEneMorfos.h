@@ -8,7 +8,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/render/MaterialShadeFade.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 class TObject;
 class TParticleCtrl;
@@ -52,7 +52,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     f32 burst_chance;         // try_enter_low_hp_state's roll for the burst (state 9)
     s32 can_walk;             // variant <= 0
     MaterialShadeFade body_fade;
-    TUnk_80494938 wall_fade;  // draw_body fades the wall model with it
+    TObjEnemyColorFade wall_fade;  // draw_body fades the wall model with it
     RenderFadeState part_fades[4];
     TParticleCtrl *burst_emitter; // the burst's charge particles
     Vec node_points[2];       // record_camera_path_point stores two model nodes here
@@ -77,7 +77,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     // The state handlers dispatch_action picks (names from the motions they request).
     void state_damage(s32 ev);    // 10: damage_kabe_body
     void state_attack(s32 ev);    // 5: attack_kabe_body, spawns the arm
-    void state_beam(s32 ev);      // 6: beam_kabe_body, fires TUnk_804EF130 shots
+    void state_beam(s32 ev);      // 6: beam_kabe_body, fires TObjEneMorfosGroundShot shots
     void state_walk(s32 ev);      // 4: turns toward the target and walks
     void state_fade_out(s32 ev);  // 7: no target for 60 frames, fades out
     void state_hidden(s32 ev);    // 2: hidden at home until a target comes in range

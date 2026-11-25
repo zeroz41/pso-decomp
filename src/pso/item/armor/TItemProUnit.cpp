@@ -5,7 +5,7 @@
 #include "pso/item/armor/TItemProUnit.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemHeapObject.h"
-#include "pso/item/TUnk_804A0608.h"
+#include "pso/item/TItemTimerEventPbCharge.h"
 #include "pso/item/TItemTimerEventTpRegen.h"
 #include "pso/item/TItemTimerEventHpRegen.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -26,7 +26,7 @@ const char *item_pro_unit_class_name = "TItemProUnit";
 // (deferred code generation, see configure.py).
 
 // This object's copy of the timer event constructor (on_equip calls it).
-TUnk_804A0608::TUnk_804A0608(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
+TItemTimerEventPbCharge::TItemTimerEventPbCharge(TItemHeapObject *parent, u16 client, s32 period) : TItemTimerEvent(parent, client, period) {}
 
 // The out-of-line copies of PlayerAttackController's EVP scale accessors.
 f32 PlayerAttackController::get_evp() { return evp_scale; }
@@ -120,7 +120,7 @@ void TItemProUnit::on_equip() {
         break;
     case 17:
         if (effect_objects != NULL) {
-            new TUnk_804A0608(effect_objects, get_owner_client(), (s32)(30.0f * effect_amount));
+            new TItemTimerEventPbCharge(effect_objects, get_owner_client(), (s32)(30.0f * effect_amount));
         }
         break;
     }

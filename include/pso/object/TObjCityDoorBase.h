@@ -1,5 +1,5 @@
-#ifndef PSO_OBJECT_TUNK_804B5BA8_H
-#define PSO_OBJECT_TUNK_804B5BA8_H
+#ifndef PSO_OBJECT_TOBJCITYDOORBASE_H
+#define PSO_OBJECT_TOBJCITYDOORBASE_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -16,10 +16,10 @@ struct CityDoorParams {
 
 // The base of the city's motion-driven doors (shop, guild, warp, medical
 // center): it opens while a player stands near and closes when they leave.
-class TUnk_804B5BA8 : public TObjCollidable {
+class TObjCityDoorBase : public TObjCollidable {
 public:
-    TUnk_804B5BA8(TObject *parent, void *set, const CityDoorParams *params);
-    virtual ~TUnk_804B5BA8();
+    TObjCityDoorBase(TObject *parent, void *set, const CityDoorParams *params);
+    virtual ~TObjCityDoorBase();
     virtual s32 check_player_in_range(f32 range_sq);
     s32 is_any_city_player_in_range(const Vec *center, f32 range_squared);
     virtual void begin_state_1();

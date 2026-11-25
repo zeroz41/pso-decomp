@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERENEMY_H
 
 #include "types.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 
-struct TObjContainerEnemy : public TUnk_804B6C24 {
+struct TObjContainerEnemy : public TObjContainerCommon {
     TObjContainerEnemy(TObject *parent, void *set_data);
     virtual ~TObjContainerEnemy();
     virtual void debug_print_item_box_info();

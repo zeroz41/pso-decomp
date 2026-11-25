@@ -1,5 +1,5 @@
-#ifndef PSO_ENEMY_TUNK_80493450_H
-#define PSO_ENEMY_TUNK_80493450_H
+#ifndef PSO_ENEMY_TOBJENEBEASTBASE_H
+#define PSO_ENEMY_TOBJENEBEASTBASE_H
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 
@@ -13,11 +13,11 @@ struct BeastMovementParams {
     s32 pad_0C[4];
 };
 
-class TUnk_80493450 : public TObjEnemy {
+class TObjEneBeastBase : public TObjEnemy {
 public:
     virtual void run_task();
-    virtual ~TUnk_80493450();
-    TUnk_80493450(TObject *parent);
+    virtual ~TObjEneBeastBase();
+    TObjEneBeastBase(TObject *parent);
     virtual void refresh_target();
     virtual void run_idle_action();
     virtual void run_death_reaction();

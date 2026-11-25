@@ -2,11 +2,11 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERJUNGENEMY_H
 
 #include "types.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 
 struct NJS_OBJECT;
 
-struct TObjContainerJungEnemy : public TUnk_804B6C24 {
+struct TObjContainerJungEnemy : public TObjContainerCommon {
     TObjContainerJungEnemy(TObject *parent, void *set_data);
     virtual ~TObjContainerJungEnemy();
     virtual void vfunc_79() const;

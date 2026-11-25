@@ -2,7 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/enemy/TUnk_804E14E8.h"
+#include "pso/enemy/TObjEneMe1GiGueHomingShot.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/TObjMotion.h"
@@ -28,7 +28,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 
 
-TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id)
+TObjEneMe1GiGueHomingShot::TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id)
     : TObjCollidable(tl_04) {
     Vec *target;
     this->target_id = target_id;
@@ -61,7 +61,7 @@ TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles,
     state = 0;
 }
 
-TUnk_804E14E8::~TUnk_804E14E8() {
+TObjEneMe1GiGueHomingShot::~TObjEneMe1GiGueHomingShot() {
     if (ptcl0 != NULL) {
         ptcl0->queue_destruction();
         ptcl0 = NULL;
@@ -72,7 +72,7 @@ TUnk_804E14E8::~TUnk_804E14E8() {
     }
 }
 
-void TUnk_804E14E8::run_task() {
+void TObjEneMe1GiGueHomingShot::run_task() {
     TObjEneMe1GiGue *src;
     TObjChara *tgt;
     Vec v;

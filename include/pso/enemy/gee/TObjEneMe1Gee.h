@@ -5,7 +5,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx.h>
 
@@ -94,7 +94,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     TObjEneMe1Gee *leader;
     s32 kind;
     s32 status_flags;
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     f32 upper_hover_height;
     f32 hover_height;
     f32 random_hover_height;

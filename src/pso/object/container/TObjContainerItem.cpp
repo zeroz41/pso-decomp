@@ -27,7 +27,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/object/container/TObjContainerBase.h"
 #include "pso/object/container/TObjContainerItem.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
@@ -339,11 +339,11 @@ extern const f32 lbl_805DBD08;
 
 void TLazerFenceSw__sub_8018A554(void* p, f32 v) { *(f32*)((char*)p + 0x1c) = v; }
 
-void TUnk_804B6C24::vfunc_79() const {  }
+void TObjContainerCommon::vfunc_79() const {  }
 
-void TUnk_804B6C24::vfunc_80() {  }
+void TObjContainerCommon::vfunc_80() {  }
 
-void TUnk_804B6C24::vfunc_81() {  }
+void TObjContainerCommon::vfunc_81() {  }
 
 void load_forest_box_resources(void) {
     BmlResource *bundle;
@@ -427,7 +427,7 @@ NJS_OBJECT *get_container_breakup_model(s32 index) {
 
 #pragma push
 #pragma fp_contract on
-TUnk_804B6C24::TUnk_804B6C24(TObject *parent, void *set_data) : TObjChara(parent) {
+TObjContainerCommon::TObjContainerCommon(TObject *parent, void *set_data) : TObjChara(parent) {
     m_name = TObjContainerBase__name;
     apply_object_set_data(set_data);
     view_range = lbl_805DBD00;
@@ -445,11 +445,11 @@ TUnk_804B6C24::TUnk_804B6C24(TObject *parent, void *set_data) : TObjChara(parent
 
 #pragma pop
 
-s32 TUnk_804B6C24::select_melee_contact_body(void *target, f32) {
+s32 TObjContainerCommon::select_melee_contact_body(void *target, f32) {
     return xyz_distance_squared(&((TObjBase *)target)->position, &position) < melee_range_sq;
 }
 
-f32 TUnk_804B6C24::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
+f32 TObjContainerCommon::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
     s32 kind;
     struct VObj_8018A0B4 *o = (struct VObj_8018A0B4 *)this;
 
@@ -460,7 +460,7 @@ f32 TUnk_804B6C24::receive_direct_attack(void *arg1, DirectAttackPayload payload
     return lbl_805DBCF4;
 }
 
-f32 TUnk_804B6C24::receive_physical_attack(void *, f32) {
+f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
     u8 *arg0 = (u8 *)this;
     s16 sp8;
     if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)arg0 + 0x80) != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
@@ -471,13 +471,13 @@ f32 TUnk_804B6C24::receive_physical_attack(void *, f32) {
     return lbl_805DBCF4;
 }
 
-void TUnk_804B6C24::run_task() {
+void TObjContainerCommon::run_task() {
     distance_fade.step_fade();
     vfunc_80();
     in_view = 0;
 }
 
-void TUnk_804B6C24::render() {
+void TObjContainerCommon::render() {
     Obj_80189F24 *self = (Obj_80189F24 *)this;
     if (self->m8(self->x334, self->x338) != 1) {
         return;
@@ -496,7 +496,7 @@ void TUnk_804B6C24::render() {
 }
 
 #pragma pool_data off
-void TUnk_804B6C24::debug_print_item_box_info() {
+void TObjContainerCommon::debug_print_item_box_info() {
     Obj_80189E3C *self = (Obj_80189E3C *)this;
     Item_80189E3C item;
     if (this->scale.x > lbl_805DBCF4) {
@@ -520,7 +520,7 @@ void TUnk_804B6C24::debug_print_item_box_info() {
 }
 #pragma pool_data reset
 
-void play_container_break_sound(const TUnk_804B6C24 *container) {
+void play_container_break_sound(const TObjContainerCommon *container) {
     u32 area;
     area = get_current_floor_area();
     switch (area) {
@@ -575,11 +575,11 @@ void play_container_break_sound(const TUnk_804B6C24 *container) {
     }
 }
 
-void TUnk_804B6C24::request_configured_item_drop(TUnk_804B6C24 *container) {
+void TObjContainerCommon::request_configured_item_drop(TObjContainerCommon *container) {
     container->request_box_item_drop(&position, random_item);
 }
 
-TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
+TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = TObjContainerItem__name;
     model = (void *)get_forest_box_model(1);
     mode = 0;
@@ -671,7 +671,7 @@ void TObjContainerItem::vfunc_6(s16 *arg1, s32 arg2) {
     }
 }
 
-TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
+TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = TObjContainerEnemy__name;
     model = (void *)get_forest_box_model(1);
     mode = 0;
@@ -788,7 +788,7 @@ void TObjContainerEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     }
 }
 
-TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
+TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = TObjContainerNoItem__name;
     model = (void *)get_forest_box_model(1);
     mode = 0;
@@ -890,7 +890,7 @@ void TObjContainerNoItem::vfunc_6(s16 *arg1, s32 arg2) {
     }
 }
 
-TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
+TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = TObjContainerBase__name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -995,7 +995,7 @@ void *TObjContainerBase::create(void *set_data) {
     return new TObjContainerBase(tl_05, set_data);
 }
 
-TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
+TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = TObjContainerAbeEnemy__name;
     mode = 0;
     actorFlags |= 0x60000000;

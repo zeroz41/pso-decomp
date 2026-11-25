@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TMainTask.h"
@@ -483,12 +483,12 @@ void TQuestColCtrl::delete_by_param(s32 id) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcINW__name) != 0)
+        if ((((TObjContainerCommon *)cur)->check_value_equals(TObjQuestCol__class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(TObjQuestColA__class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(TObjQuestColApcIN__name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(TObjQuestColApcINW__name) != 0)
             && cur->m_id == id) {
             cur->queue_destruction();
             return;
@@ -503,12 +503,12 @@ TObjQuestColBase *TQuestColCtrl::find_by_id(u16 id) {
     while (quest_collision_task_root->m_down != 0 && next != 0) {
         cur = next;
         next = cur->m_next;
-        if ((((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestCol__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColA__class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcIN__name) != 0
-             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcINW__name) != 0)
+        if ((((TObjContainerCommon *)cur)->check_value_equals(TObjQuestCol__class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(TObjQuestColA__class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(TObjQuestColApcIN__name) != 0
+             || ((TObjContainerCommon *)cur)->check_value_equals(TObjQuestColApcINW__name) != 0)
             && id == ((TObjBase *)(static_cast<TObjQuestColBase *>(cur)))->get_entity_id()) {
             return static_cast<TObjQuestColBase *>(cur);
         }

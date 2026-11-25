@@ -6,7 +6,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/effect/TAttackTrace.h"
 
 struct NJS_OBJECT;
@@ -41,7 +41,7 @@ struct TObjGrass : public TObjEnemy {
     u8 _pad3A4[0x4];
     u32 m_3a8;
     u32 m_3ac;
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     TAttackTraceStrip *savers[2];  // attack traces; same type and role as TObjEneDubchik::saver (inferred name)
     void update_dying();
     static void update_camera_vec_by_stage(NJS_OBJECT *);

@@ -1,5 +1,5 @@
-#ifndef PSO_ENEMY_TUNK_804E14E8_H
-#define PSO_ENEMY_TUNK_804E14E8_H
+#ifndef PSO_ENEMY_TOBJENEME1GIGUEHOMINGSHOT_H
+#define PSO_ENEMY_TOBJENEME1GIGUEHOMINGSHOT_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -10,10 +10,10 @@ struct GiGueShotAngles { s32 x, y, z; };
 
 // GiGue's homing shot: waits `timer` frames, then flies from *start toward target_id and hits it
 // (made by TObjEneMe1GiGue::sub_802CB824; the vtable at 0x804E14E8 overrides only the dtor and run_task).
-class TUnk_804E14E8 : public TObjCollidable {
+class TObjEneMe1GiGueHomingShot : public TObjCollidable {
 public:
-    TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id);
-    virtual ~TUnk_804E14E8();
+    TObjEneMe1GiGueHomingShot(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id);
+    virtual ~TObjEneMe1GiGueHomingShot();
     virtual void run_task();
     Vec pos;
     Vec prev;
@@ -30,6 +30,6 @@ public:
     u16 target_id;
     u16 src_id;
 };
-LAYOUT_ASSERT(TUnk_804E14E8_size, sizeof(TUnk_804E14E8) == 0x10C);
+LAYOUT_ASSERT(TObjEneMe1GiGueHomingShot_size, sizeof(TObjEneMe1GiGueHomingShot) == 0x10C);
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef PSO_WEAPON_WEAPONEFFECTDESCRIPTOR_H
 #define PSO_WEAPON_WEAPONEFFECTDESCRIPTOR_H
 
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include "pso/system/NinjaTypes.h"
 #include <stddef.h>
 

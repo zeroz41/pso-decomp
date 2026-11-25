@@ -55,7 +55,7 @@
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
@@ -3845,7 +3845,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             continue;
         }
         if (pk_state.is_enabled() != 0 && obj_isState2_324() != 0 &&
-            ((TUnk_80493450 *)target)->test_elt_flag(collider, 0x2000) == 0) {
+            ((TObjEneBeastBase *)target)->test_elt_flag(collider, 0x2000) == 0) {
             continue;
         }
         if ((((TargetCollider *)bodies)->flags ^ ((TargetCollider *)target->bodies)[collider].flags) & 6) {

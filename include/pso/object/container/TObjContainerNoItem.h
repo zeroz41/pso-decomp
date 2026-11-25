@@ -2,9 +2,9 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERNOITEM_H
 
 #include "types.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 
-struct TObjContainerNoItem : public TUnk_804B6C24 {
+struct TObjContainerNoItem : public TObjContainerCommon {
     TObjContainerNoItem(TObject *parent, void *set_data);
     virtual ~TObjContainerNoItem();
     virtual void vfunc_81();

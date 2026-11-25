@@ -12,7 +12,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/ambient/PointLight.h"
 
-#include "pso/object/TUnk_804E4788.h"
+#include "pso/object/TBoss7PointTrail.h"
 #include "pso/boss/barbaray/TBoss7LaserLight.h"
 
 const char *TBoss7LaserLight_name = "TBoss7LaserLight";
@@ -106,7 +106,7 @@ void TBoss7LaserLight::run_task() {
 
 void TBoss7LaserLight::render() {}
 
-TUnk_804E4788::TUnk_804E4788(TObject *parent, s32 limit, s32 effect_id) : TObject(parent) {
+TBoss7PointTrail::TBoss7PointTrail(TObject *parent, s32 limit, s32 effect_id) : TObject(parent) {
     s32 i;
     for (i = 0; i < NUM_POINTS; i++) {
         m_points[i].x = 0.0f;
@@ -121,14 +121,14 @@ TUnk_804E4788::TUnk_804E4788(TObject *parent, s32 limit, s32 effect_id) : TObjec
     m_state = 0;
 }
 
-TUnk_804E4788::~TUnk_804E4788() {
+TBoss7PointTrail::~TBoss7PointTrail() {
     if (m_particle != NULL) {
         m_particle->queue_destruction();
         m_particle = NULL;
     }
 }
 
-void TUnk_804E4788::push_ring_point(const Vec *pos) {
+void TBoss7PointTrail::push_ring_point(const Vec *pos) {
     VecCopy(&m_points[m_head], pos);
     m_points[m_head].y += 5.0f;
     m_head++;
@@ -137,7 +137,7 @@ void TUnk_804E4788::push_ring_point(const Vec *pos) {
     }
 }
 
-void TUnk_804E4788::run_task() {
+void TBoss7PointTrail::run_task() {
     if (m_particle == NULL) {
         m_particle = (TParticleCtrl *)spawn_continuous_particle_effect_with_flags(m_points, m_effect_id, 0x40);
         if (m_particle != NULL) {

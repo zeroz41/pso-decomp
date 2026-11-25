@@ -17,7 +17,7 @@
 #include "types.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/system/AreaSound.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjChara.h"
@@ -534,9 +534,9 @@ void TObjEneShark::sub_800AC9DC(s32 i) {
     texlist = shark_bml_resource->models[i].texlist;
 }
 
-void TUnk_80493450::play_group_chase_sound() {  }
+void TObjEneBeastBase::play_group_chase_sound() {  }
 
-TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TUnk_80493450(parent) {
+TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TObjEneBeastBase(parent) {
     s32 color;
     s32 i;
 

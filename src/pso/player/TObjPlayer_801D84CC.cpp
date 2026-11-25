@@ -7,7 +7,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/player/TUnk_804C4540.h"
+#include "pso/player/TObjEndingPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -81,20 +81,20 @@ extern "C" {
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
 s32 rotate_matrix_y(int, int);
 
-int TUnk_804C4540::set_position_from(void *pos) { return TObjBase::set_position_from(pos); }
-void TUnk_804C4540::set_animation_default(s16 index) { set_animation(index); }
+int TObjEndingPlayer::set_position_from(void *pos) { return TObjBase::set_position_from(pos); }
+void TObjEndingPlayer::set_animation_default(s16 index) { set_animation(index); }
 
-TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
-    TUnk_801D8A4C record;
+TObjEndingPlayer *TObjEndingPlayer::create(TPlyCharData *data) {
+    EndingPlayerRecord record;
     copy_player_visual_record(record.visual, &data->m_disp_part2);
     TLobby::copy_data(record.stats, &data->m_stats);
     copy_equipped_weapon_and_mag(data->m_inventory.m_num_items,
                 data->m_inventory.get_items(),
                 reinterpret_cast<TPlyInventoryItem *>(record.items));
-    return new TUnk_804C4540(tl_03, &record);
+    return new TObjEndingPlayer(tl_03, &record);
 }
 
-void TUnk_804C4540::render() {
+void TObjEndingPlayer::render() {
     if ((test_actor_flags(0x02000000) == 0) && ((s32)model_load_flags == 0)) {
         select_actor_lighting(this);
         push_matrix();
@@ -120,7 +120,7 @@ void TUnk_804C4540::render() {
     pop_matrix();
 }
 
-void TUnk_804C4540::run_task() {}
+void TObjEndingPlayer::run_task() {}
 
 void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(player_ending_motion_object)); player_ending_motion_object = NULL; TObjPlayer::free_shared_data(); }
 }
@@ -132,7 +132,7 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(reinterpr
 void create_player_ending_motion(void);
 void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = static_cast<BmlMotionEntry **>(create_named_object("PlyEndingMotionData.rel")); }
 
-TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(parent, src) {
+TObjEndingPlayer::TObjEndingPlayer(TObject *parent, EndingPlayerRecord *src) : TObjPlayer(parent, src) {
     set_floor_index(1);
     set_floor_index(1);
     VecCopy(&position, ((ArrivalOverride *)src->pose)->get_pos());
@@ -151,11 +151,11 @@ TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(p
     TObjPlayer::assign_lobby_slot_if_flagged((saddr)this, &src->items[1]);
 }
 
-TUnk_804C4540::~TUnk_804C4540() {}
+TObjEndingPlayer::~TObjEndingPlayer() {}
 
 void TObjPlayer__sub_801D8A38(void* entry) { *(short*)((char*)entry + 0x0) = 1; *(float*)((char*)entry + 0x4) = 0.0f; }
 
-TUnk_801D8A4C::TUnk_801D8A4C() {
+EndingPlayerRecord::EndingPlayerRecord() {
     TObjPlayer::init_inventory_items((saddr)items);
     init_arrival_override((ArrivalOverride *)pose);
     TObjPlayer__sub_801D8A38(&pad_C0);

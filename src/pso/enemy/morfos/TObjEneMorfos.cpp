@@ -27,10 +27,10 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/TUnk_804EF130.h"
+#include "pso/enemy/TObjEneMorfosGroundShot.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/MaterialShadeFade.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -774,7 +774,7 @@ void TObjEneMorfos::state_beam(s32 ev) {
         case 2:
             if (this->is_passing_frame(6.0f) != 0) {
                 play_sound_effect(0x4003AD24, &position, 0, 0);
-                new TUnk_804EF130(node_points, (u16)(this->target_angle + 0x8000), this);
+                new TObjEneMorfosGroundShot(node_points, (u16)(this->target_angle + 0x8000), this);
                 step = 3;
             }
             break;
@@ -914,7 +914,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 ev) {
         case 3:
             if (is_passing_frame(6.0f) != 0) {
                 play_sound_effect(0x4003AD24, &position, 0, 0);
-                new TUnk_804EF130(node_points, (u16)(rotation_y + 0x8000), this);
+                new TObjEneMorfosGroundShot(node_points, (u16)(rotation_y + 0x8000), this);
                 step = 4;
             }
             break;

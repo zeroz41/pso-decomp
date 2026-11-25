@@ -26,7 +26,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
@@ -50,7 +50,7 @@ void TItemEffPG::create(TObject *parent, ItemEffPGParams *params) {
     new TItemEffPG(parent, params);
 }
 
-TItemEffPG::TItemEffPG(TObject *parent, ItemEffPGParams *params) : TUnk_804E355C(parent, params) {
+TItemEffPG::TItemEffPG(TObject *parent, ItemEffPGParams *params) : TItemAttackColBase(parent, params) {
     m_name = class_name;
     max_radius = params->max_radius;
     if (50.0f < max_radius) {

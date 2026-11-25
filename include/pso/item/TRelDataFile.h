@@ -1,5 +1,5 @@
-#ifndef PSO_ITEM_TUNK_8049C658_H
-#define PSO_ITEM_TUNK_8049C658_H
+#ifndef PSO_ITEM_TRELDATAFILE_H
+#define PSO_ITEM_TRELDATAFILE_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
@@ -16,17 +16,17 @@ struct RelFileTrailer {
 // A loaded relocatable data file: the image, its size and the relocated root. The ones
 // TLobby_800F8AA8.cpp loads by name are children of resource_load_task_root; their m_name
 // points at their own copy of the name (inferred: a resource load task).
-class TUnk_8049C658 : public TObject {
+class TRelDataFile : public TObject {
 public:
-    TUnk_8049C658(TObject *parent);
-    TUnk_8049C658();
-    virtual ~TUnk_8049C658();
+    TRelDataFile(TObject *parent);
+    TRelDataFile();
+    virtual ~TRelDataFile();
 
     u8 *data;
     s32 size;
     void *root;
     char name[17];
 };
-LAYOUT_ASSERT(TUnk_8049C658_size, sizeof(TUnk_8049C658) == 0x3C);
+LAYOUT_ASSERT(TRelDataFile_size, sizeof(TRelDataFile) == 0x3C);
 
 #endif

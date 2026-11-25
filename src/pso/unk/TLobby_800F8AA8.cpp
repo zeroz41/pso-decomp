@@ -28,7 +28,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/item/TUnk_8049C658.h"
+#include "pso/item/TRelDataFile.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -57,9 +57,9 @@
 
 const char *lbl_805D2B10 = "";
 
-// The parent of every loaded resource file (TUnk_8049C658): __sinit constructs it and
+// The parent of every loaded resource file (TRelDataFile): __sinit constructs it and
 // registers its destructor, then gives disc_read_filename its empty name.
-TUnk_8049C658 resource_load_task_root;
+TRelDataFile resource_load_task_root;
 char player_name_copy_buffer[16];
 
 extern "C" {
@@ -1129,7 +1129,7 @@ s32 TLobby::run_disk_error_check() {
 
 #undef pending_file_read_flush_requested
 
-// .text 0x800F93B4-0x800F9F4C: the GSL archive close hook, the resource load tasks (TUnk_8049C658
+// .text 0x800F93B4-0x800F9F4C: the GSL archive close hook, the resource load tasks (TRelDataFile
 // children of resource_load_task_root, one per relocatable data file), the quest and text
 // archive decryption, the disc-file wrappers and TLobby::run_frame; __sinit closes the TU.
 extern s32 lbl_805D49B4;
@@ -1140,11 +1140,11 @@ void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
 }
 }
 
-TUnk_8049C658::~TUnk_8049C658() {}
+TRelDataFile::~TRelDataFile() {}
 
 
 void *relocate_rel_data(void *data, s32 size) {
-    TUnk_8049C658 file;
+    TRelDataFile file;
 
     if (size > 0) {
         file.data = (u8 *)data;
@@ -1155,7 +1155,7 @@ void *relocate_rel_data(void *data, s32 size) {
 }
 
 void *load_relocatable_file(const char *name, void *buffer) {
-    TUnk_8049C658 file;
+    TRelDataFile file;
     s32 size = read_disc_file(name, buffer);
 
     if (size > 0) {
@@ -1171,14 +1171,14 @@ void free_data_file(void *p) { safe_free(p); }
 void *load_data_file(const char *path) { return load_disc_file(path); }
 
 void TLobby::free_nodes_with_id(uaddr root) {
-    TUnk_8049C658 *file = (TUnk_8049C658 *)resource_load_task_root.m_down;
+    TRelDataFile *file = (TRelDataFile *)resource_load_task_root.m_down;
 
     while (file != NULL) {
         if ((uaddr)file->root == root) {
             safe_free(file->data);
             delete file;
         }
-        file = (TUnk_8049C658 *)file->m_next;
+        file = (TRelDataFile *)file->m_next;
     }
 }
 
@@ -1299,7 +1299,7 @@ void *load_encrypted_archive_data(const char *name) {
 }
 
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs) {
-    TUnk_8049C658 *file = new TUnk_8049C658(&resource_load_task_root);
+    TRelDataFile *file = new TRelDataFile(&resource_load_task_root);
 
     memset(file->name, 0, sizeof(file->name));
     strncpy(file->name, name, sizeof(file->name) - 1);
@@ -1310,7 +1310,7 @@ void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *r
 }
 
 void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
-    TUnk_8049C658 *file = new TUnk_8049C658(&resource_load_task_root);
+    TRelDataFile *file = new TRelDataFile(&resource_load_task_root);
 
     memset(file->name, 0, sizeof(file->name));
     strncpy(file->name, name, sizeof(file->name) - 1);
@@ -1322,10 +1322,10 @@ void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
 
 void *create_named_object(const char *name) {
     s32 size = get_resource_file_size(name);
-    TUnk_8049C658 *file;
+    TRelDataFile *file;
 
     if (size > 0) {
-        file = new TUnk_8049C658(&resource_load_task_root);
+        file = new TRelDataFile(&resource_load_task_root);
         memset(file->name, 0, sizeof(file->name));
         strncpy(file->name, name, sizeof(file->name) - 1);
         file->m_name = file->name;
@@ -1341,7 +1341,7 @@ void clear_resource_load_tasks(void) {
 }
 
 
-void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs) {
+void *apply_pointer_relocations(TRelDataFile *file, RelFileTrailer *relocs) {
     u32 i;
     u32 n = relocs->reloc_count;
     u16 *offsets = (u16 *)(relocs + 1);
@@ -1355,7 +1355,7 @@ void *apply_pointer_relocations(TUnk_8049C658 *file, RelFileTrailer *relocs) {
     return file->root;
 }
 
-void *apply_rel_relocations(TUnk_8049C658 *file) {
+void *apply_rel_relocations(TRelDataFile *file) {
     u16 *offsets;
     u8 *cur;
     RelFileTrailer *trailer;
@@ -1375,9 +1375,9 @@ void *apply_rel_relocations(TUnk_8049C658 *file) {
     return file->root;
 }
 
-TUnk_8049C658::TUnk_8049C658(TObject *parent) : TObject(parent) {}
+TRelDataFile::TRelDataFile(TObject *parent) : TObject(parent) {}
 
-TUnk_8049C658::TUnk_8049C658() : TObject(NULL) {}
+TRelDataFile::TRelDataFile() : TObject(NULL) {}
 
 s32 TQuestVmDownLoadServer::is_ready() {
     TLobby::wait_ready_loop();

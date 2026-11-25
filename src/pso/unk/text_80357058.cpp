@@ -9,7 +9,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_80357058.h"
 
-#include "pso/item/TUnk_804E355C.h"
+#include "pso/item/TItemAttackColBase.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
@@ -225,7 +225,7 @@ void TItemEffOrgaFlowShot::run_task() {
 
 TItemEffOrgaFlowShot::~TItemEffOrgaFlowShot() {}
 
-TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, OrgaFlowShotParams *params) : TUnk_804E355C(parent, params) {
+TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, OrgaFlowShotParams *params) : TItemAttackColBase(parent, params) {
     m_name = class_name;
     hits_objects = 0;
     body.shape = 1;

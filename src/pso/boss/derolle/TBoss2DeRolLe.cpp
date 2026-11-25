@@ -271,7 +271,7 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 #include <stddef.h>
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
-#include "pso/object/TUnk_804A6F78.h"
+#include "pso/object/TSceneAmbientLight.h"
 
 player_stats *TBoss2DeRolLe__base_params[1];
 ActorParamBlock *TBoss2DeRolLe__resistance_params[1];

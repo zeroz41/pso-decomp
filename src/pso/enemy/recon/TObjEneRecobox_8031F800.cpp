@@ -59,7 +59,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 
 
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 

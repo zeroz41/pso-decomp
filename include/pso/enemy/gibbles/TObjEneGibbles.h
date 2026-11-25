@@ -7,7 +7,7 @@ struct TObjPlayer;
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 // movementParameters (gibbles_move_params): 250.0f, 1.25f, 0x400
 struct GibblesMoveParams {
@@ -82,7 +82,7 @@ struct TObjEneGibbles : public TObjEnemy {
     // and [2]; sub_802D9644/sub_802D9824 move [0] to a joint and hit with it
     TObjCollidable *attack_colliders[2];
     s32 head_angle;  // x turn of node 0x18, eased toward clamp_angle's target
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     RenderFadeState fades[4];
     // sets gibbles_action_table[action].speed, at least 0.1 (this is unused)
     void set_min_clamped_entry_value(s32 action, f32 speed);

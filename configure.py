@@ -586,7 +586,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowSubShortCut.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out KeyQuick, Key, Normal then TOHangceilingCaveBase: written last to first, deferred.
     "pso/object/cave/TOHangceilingCave01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # vtables come out TUnk_804A6F78, F90, FA8 then FC0 (text order of their key functions): written last to
+    # vtables come out TSceneAmbientLight, F90, FA8 then FC0 (text order of their key functions): written last to
     # first, deferred.
     "pso/object/ambient/TObjLight_80133568.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/TDeadSpot.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

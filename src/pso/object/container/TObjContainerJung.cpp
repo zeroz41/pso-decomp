@@ -24,7 +24,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
@@ -144,7 +144,7 @@ NJS_TEXLIST *TObjContainerJungEx::get_textures(s32 index) {
     return 0;
 }
 
-TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
+TObjContainerJung::TObjContainerJung(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = TObjContainerJung__name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -278,7 +278,7 @@ NJS_TEXLIST *TObjContainerJung::get_textures(s32) {
     return jungle_container_textures;
 }
 
-TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
+TObjContainerJungEx::TObjContainerJungEx(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = TObjContainerJungEx__name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -383,7 +383,7 @@ void *TObjContainerJungEx::create(void *set_data) {
     return new TObjContainerJungEx(tl_05, set_data);
 }
 
-TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) : TUnk_804B6C24(parent, set_data) {
+TObjContainerJungEnemy::TObjContainerJungEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
     m_name = TObjContainerJungEnemy__name;
     load_models();
     mode = 0;

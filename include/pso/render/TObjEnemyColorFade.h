@@ -1,12 +1,12 @@
-#ifndef PSO_RENDER_TUNK_80494938_H
-#define PSO_RENDER_TUNK_80494938_H
+#ifndef PSO_RENDER_TOBJENEMYCOLORFADE_H
+#define PSO_RENDER_TOBJENEMYCOLORFADE_H
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
 
-class TUnk_80494938 : public MaterialColorFade {
+class TObjEnemyColorFade : public MaterialColorFade {
 public:
-    TUnk_80494938();
-    virtual ~TUnk_80494938();
+    TObjEnemyColorFade();
+    virtual ~TObjEnemyColorFade();
     virtual void set_rate_from_divisor(s32);
     virtual void reset_color();
     virtual void reset_obstruction_fade();
@@ -26,9 +26,9 @@ public:
 };
 
 // Unrecovered enclosing constructors call the native constructor by its ABI symbol.
-extern "C" void *__ct__13TUnk_80494938Fv(void *);
+extern "C" void *__ct__18TObjEnemyColorFadeFv(void *);
 
-LAYOUT_ASSERT(FadeValueOffset, offsetof(TUnk_80494938, value) == 0x18);
-LAYOUT_ASSERT(FadeValueSize, sizeof(TUnk_80494938) == 0x1c);
+LAYOUT_ASSERT(FadeValueOffset, offsetof(TObjEnemyColorFade, value) == 0x18);
+LAYOUT_ASSERT(FadeValueSize, sizeof(TObjEnemyColorFade) == 0x1c);
 
 #endif

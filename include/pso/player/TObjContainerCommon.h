@@ -1,23 +1,23 @@
-#ifndef PSO_PLAYER_TUNK_804B6C24_H
-#define PSO_PLAYER_TUNK_804B6C24_H
+#ifndef PSO_PLAYER_TOBJCONTAINERCOMMON_H
+#define PSO_PLAYER_TOBJCONTAINERCOMMON_H
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/camera/CameraDistanceFade.h"
 
 // The containers' common base (TObjContainerItem's TU emits its vtable).
-class TUnk_804B6C24 : public TObjChara {
+class TObjContainerCommon : public TObjChara {
 public:
-    TUnk_804B6C24(TObject *parent, void *set_data);
+    TObjContainerCommon(TObject *parent, void *set_data);
     virtual void render();
     virtual void run_task();
-    virtual ~TUnk_804B6C24();
+    virtual ~TObjContainerCommon();
     virtual void vfunc_79() const;
     virtual void vfunc_80();
     virtual void vfunc_81();
     virtual void debug_print_item_box_info();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_physical_attack(void *, f32);
-    void request_configured_item_drop(TUnk_804B6C24 *container);
+    void request_configured_item_drop(TObjContainerCommon *container);
     virtual void vfunc_6(s16 *, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual s32 try_start_action(s32, s32);

@@ -2,12 +2,12 @@
 #define PSO_OBJECT_CONTAINER_TOBJCONTAINERJUNG_H
 
 #include "types.h"
-#include "pso/player/TUnk_804B6C24.h"
+#include "pso/player/TObjContainerCommon.h"
 
 struct NJS_OBJECT;
 struct NJS_TEXLIST;
 
-struct TObjContainerJung : public TUnk_804B6C24 {
+struct TObjContainerJung : public TObjContainerCommon {
     TObjContainerJung(TObject *parent, void *set_data);
     virtual ~TObjContainerJung();
     virtual void vfunc_79() const;

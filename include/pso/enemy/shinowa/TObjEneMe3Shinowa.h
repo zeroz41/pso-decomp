@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 
 class TParticleCtrl;
 class TAttackTraceStrip;
@@ -72,7 +72,7 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     s32 attack_count;  // attacks since the mirages left; the second spawns them again
     s16 m_3dc;
     TAttackTraceStrip *attack_traces[2];  // fed from the two motion sample tables in apply_effect_pair
-    TUnk_80494938 fade;
+    TObjEnemyColorFade fade;
     s32 state_step;
     s32 state_timer;
     s32 target_angle;

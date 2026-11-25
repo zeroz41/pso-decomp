@@ -8,7 +8,7 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
 #include "pso/enemy/beast/TObjEneBeast.h"
@@ -395,10 +395,10 @@ __declspec(section ".rodata") const char beast_a_bml_filename[25] = "bm_ene_re8_
 void TObjChara::init_position_vectors() {
     VecCopy(&prev_position, VecCopy(&move_origin, VecCopy(&move_destination, &position)));
 }
-void TUnk_80493450::request_stand_action() { this->requested_action = 0; }
-int TUnk_80493450::test_flag_256() { return 0; }
-void TUnk_80493450::select_post_attack_mode() {  }
-TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(parent) {
+void TObjEneBeastBase::request_stand_action() { this->requested_action = 0; }
+int TObjEneBeastBase::test_flag_256() { return 0; }
+void TObjEneBeastBase::select_post_attack_mode() {  }
+TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TObjEneBeastBase(parent) {
     s32 i;
 
     m_name = beast_class_name;

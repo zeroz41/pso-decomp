@@ -53,7 +53,7 @@ struct NJS_OBJECT;
 #include "pso/technique/TTecMegid.h"
 #include "pso/object/ambient/TObjFish.h"
 
-#include "pso/render/TUnk_80494938.h"
+#include "pso/render/TObjEnemyColorFade.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/TLevelSelect.h"

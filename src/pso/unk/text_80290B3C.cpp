@@ -1,12 +1,12 @@
 #include "types.h"
 #include "pso/unk/text_80290B3C.h"
-#include "pso/item/TUnk_8049C658.h"
+#include "pso/item/TRelDataFile.h"
 #include "pso/item/drop/TItemDrop.h"
 
 // Relocates a loaded data block in place through a temporary resource file
 // object (the same pass as apply_rel_relocations) and returns its root.
 uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1) {
-    TUnk_8049C658 c;
+    TRelDataFile c;
     u16 *idx;
     uaddr p;
     RelFileTrailer *h;

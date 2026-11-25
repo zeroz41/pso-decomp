@@ -1,8 +1,8 @@
 #ifndef PSO_OBJECT_CONTAINER_CONTAINERBREAKEFFECTS_H
 #define PSO_OBJECT_CONTAINER_CONTAINERBREAKEFFECTS_H
 
-class TUnk_804B6C24;
+class TObjContainerCommon;
 
-void play_container_break_sound(const TUnk_804B6C24 *container);
+void play_container_break_sound(const TObjContainerCommon *container);
 
 #endif

@@ -36,7 +36,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/object/base/TObjChara.h"
-#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_create.h"
@@ -128,7 +128,7 @@ void TLobby__sub_801036CC(void) {
     Player_801036CC *p;
     for (i = 0; i != TLobby::get_lobby_flag(); i++) {
         p = (Player_801036CC *)TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TUnk_80493450 *)p)->test_elt_flag(0, 0x20000) != 0 && p->owner == tl_05) {
+        if (p != NULL && ((TObjEneBeastBase *)p)->test_elt_flag(0, 0x20000) != 0 && p->owner == tl_05) {
             ((TObject *)p)->queue_destruction();
         }
     }
