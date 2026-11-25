@@ -129,7 +129,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 3:
                 o = ::operator new(0x2C);
                 if (o != NULL) {
-                    o = construct_text_entry(static_cast<WindowTextEntry *>(o), reinterpret_cast<TextLayoutRecord *>(rec), client);
+                    o = __ct__15WindowTextEntryFP16TextLayoutRecordl(o, reinterpret_cast<TextLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += 0x1C / 4;

@@ -1848,7 +1848,7 @@ force_active:
   - TWindowSubShortCutList__ct
   - find_target_user__19TWindowSubShortMailFv
   - set_replied__14ShortMailEntryFv
-  - TWindowSubStatusDisp__sub_8025AF0C
+  - __dt__15WindowTextEntryFv
   - TWindowSubStatusDisp__sub_8025B2DC
   - TWindowSubStatusDisp__sub_8025B760
   - draw_composition_background__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUl
@@ -3829,7 +3829,7 @@ force_active:
   - advance_state_4_to_5__17TObjEneMe1CanadinFv
   - advance_state_5_to_4__17TObjEneMe1CanadinFv
   - advance_state__16TObjEneRe7BeruraFP10NJS_OBJECT
-  - advance_text_entry_reveal__FP15WindowTextEntry
+  - update__15WindowTextEntryFv
   - advance_thanks_state__12TBoss4ThanksFv
   - advance_thanks_state__12TBoss6ThanksFv
   - advance_timer__14TBoss6PlotFalzFv
@@ -8041,7 +8041,7 @@ force_active:
   - __vt__22TWindowComCardFollower
   - __vt__13TUnk_804CF9F8
   - __vt__13TUnk_804CFA10
-  - lbl_804CFA28
+  - __vt__15WindowTextEntry
   - lbl_804D0D98
   - lbl_804D4090
   - lbl_804D9670
@@ -14510,7 +14510,7 @@ force_active:
   - render_status__14TWindowDepositFP17WindowDrawContext
   - render_status__18TAdMultiPlayerNoGCFv
   - render__13TUnk_804CF9F8FP17WindowDrawContext
-  - render_text_entry
+  - render__15WindowTextEntryFP17WindowDrawContext
   - render_tree__10TObjPlayerFPv
   - render_ui__9TMainTaskFv
   - render_with_fade__13TBoss5GryphonFl
