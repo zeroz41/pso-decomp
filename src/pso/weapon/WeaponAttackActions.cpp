@@ -70,10 +70,7 @@ typedef struct A16_8011E3E8 { s32 a; s32 b; s32 c; s32 d; } A16_8011E3E8;
 
 
 
-struct WeaponArgb { f32 alpha, red, green, blue; };
-
 extern "C" {
-WeaponArgb get_weapon_color__11TItemWeaponFPv(TItemWeapon *weapon);
 f32 * get_weapon_range_record(void *, s16);
 s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
 extern const f32 lbl_805DAC94;
@@ -261,8 +258,8 @@ void TItemWeapon::create_weapon_trail_effects() {
 }
 
 u32 pack_weapon_trail_color(void *weapon) {
-    WeaponArgb w = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon);
-    return (__cvt_fp2unsigned(255.0f * w.alpha) << 24 | __cvt_fp2unsigned(255.0f * w.red) << 16 | __cvt_fp2unsigned(255.0f * w.green) << 8) | __cvt_fp2unsigned(255.0f * w.blue);
+    NJS_ARGB w = ((TItemWeapon *)weapon)->get_weapon_color();
+    return (__cvt_fp2unsigned(255.0f * w.a) << 24 | __cvt_fp2unsigned(255.0f * w.r) << 16 | __cvt_fp2unsigned(255.0f * w.g) << 8) | __cvt_fp2unsigned(255.0f * w.b);
 }
 
 void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 radius) {
@@ -848,7 +845,7 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 // ---- pso/unk/text_80120150
 
-struct WeaponColorDescriptor_80120304 { s32 mode; WeaponArgb first, second; };
+struct WeaponColorDescriptor_80120304 { s32 mode; NJS_ARGB first, second; };
 
 extern const f32 lbl_805DACA0;
 s16 weapon_node_material_index;
@@ -866,14 +863,14 @@ void apply_weapon_node_material(NJS_OBJECT *) {
     ((TItem *)weapon_render_callback_object)->end_shield_tev();
     ((TItemWeapon *)weapon_render_callback_object)->transform_model_node();
     if(node == weapon_node_material_index) {
-        WeaponArgb color = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon_render_callback_object);
-        TItem::begin_constant_material_color((const NJS_ARGB *)&color);
+        NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
+        TItem::begin_constant_material_color(&color);
     }
     if(node == TObjPlayer__weapon_node_ids[0] || node == TObjPlayer__weapon_node_ids[1] || node == TObjPlayer__weapon_node_ids[2]) {
         TItem::begin_effect_render();
         if(test_flags_any((s32 *)&item_render_state, 4)) {
-            WeaponArgb color = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon_render_callback_object);
-            TItem::begin_constant_material_color((const NJS_ARGB *)&color);
+            NJS_ARGB color = ((TItemWeapon *)weapon_render_callback_object)->get_weapon_color();
+            TItem::begin_constant_material_color(&color);
         }
     }
     increment_model_node_counter();
@@ -901,31 +898,31 @@ void TItemWeapon::advance_weapon_photon_phase() {
 
 #pragma push
 #pragma fp_contract on
-WeaponArgb get_weapon_color__11TItemWeaponFPv(TItemWeapon *weapon) {
-    WeaponArgb first, second;
+NJS_ARGB TItemWeapon::get_weapon_color() {
+    NJS_ARGB first, second;
     WeaponColorDescriptor_80120304 *descriptor;
     f32 override_alpha;
-    if (weapon->photon_color_id != -1) {
-        descriptor = (WeaponColorDescriptor_80120304 *)get_photon_color_record(weapon->photon_color_id);
+    if (photon_color_id != -1) {
+        descriptor = (WeaponColorDescriptor_80120304 *)get_photon_color_record(photon_color_id);
         if (descriptor->mode == 1) {
-            copy_argb((NJS_ARGB *)&first, (NJS_ARGB *)&descriptor->first);
-            copy_argb((NJS_ARGB *)&second, (NJS_ARGB *)&descriptor->second);
-            first.alpha = weapon->photon_phase * (second.alpha - first.alpha) + first.alpha;
-            first.red = weapon->photon_phase * (second.red - first.red) + first.red;
-            first.green = weapon->photon_phase * (second.green - first.green) + first.green;
-            first.blue = weapon->photon_phase * (second.blue - first.blue) + first.blue;
-            override_alpha = weapon->get_owner_alpha();
+            copy_argb(&first, &descriptor->first);
+            copy_argb(&second, &descriptor->second);
+            first.a = photon_phase * (second.a - first.a) + first.a;
+            first.r = photon_phase * (second.r - first.r) + first.r;
+            first.g = photon_phase * (second.g - first.g) + first.g;
+            first.b = photon_phase * (second.b - first.b) + first.b;
+            override_alpha = get_owner_alpha();
             if (lbl_805DAC9C != override_alpha) {
-                first.alpha = override_alpha;
+                first.a = override_alpha;
             }
             return first;
         } else {
             return descriptor->first;
         }
     } else {
-        WeaponArgb fallback;
-        fallback.alpha = lbl_805DAC9C;
-        fallback.blue = fallback.green = fallback.red = lbl_805DAC98;
+        NJS_ARGB fallback;
+        fallback.a = lbl_805DAC9C;
+        fallback.b = fallback.g = fallback.r = lbl_805DAC98;
         return fallback;
     }
 }

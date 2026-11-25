@@ -45,7 +45,7 @@ typedef struct SlicerLaunchData_8012D9C8 {
 
 void init_slicer_launch_state(void *arg0);
 extern "C" {
-void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
+void get_weapon_color__11TItemWeaponFv(f32 *, void *);
 void *find_entity_by_id(s32);
 }
 
@@ -79,7 +79,7 @@ void TItemWeaponRappysFan::emit_marker_effects() {
     launch.kind = owner->attack_state.get_validated_attack_kind();
     launch.stage = owner->attack_state.get_validated_attack_stage();
     launch.multiplier = ((TObjPlayer *)(*(u8 **)&owner))->query_extended_state();
-    get_weapon_color__11TItemWeaponFPv(color_tmp, this);
+    get_weapon_color__11TItemWeaponFv(color_tmp, this);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)color_tmp);
     launch.facing = owner->rotation_y;
     launch.spin = 0;

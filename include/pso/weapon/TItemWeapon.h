@@ -115,6 +115,8 @@ struct TItemWeapon : public TItemEquipBase {
     void call_impact_callback(saddr arg1, saddr arg2);
     void set_model_node_callback(void (*callback)(NJS_OBJECT *));
     void advance_weapon_photon_phase();
+    // The photon colour (blended by photon_phase), white when the weapon has none.
+    NJS_ARGB get_weapon_color();
     s32 is_active_in_game();
     void roll_technique();
     // The owner is on the third step of a combo and the weapon is identified.

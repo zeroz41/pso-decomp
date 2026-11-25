@@ -15,6 +15,7 @@
 #include "pso/weapon/shoot/TItemShootModelRotZ.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/weapon/shoot/TItemShootGun.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_8011B328.h"
 #include "pso/unk/text_8011B620.h"
 #include "pso/unk/text_8011BE50.h"
@@ -40,15 +41,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_803D96A8.h"
 
-// The weapon's colour as TItemWeapon::get_weapon_color returns it
-// (WeaponAttackActions.cpp, which has no header declaration of it yet).
-struct WeaponArgb {
-    f32 alpha, red, green, blue;
-};
-
-extern "C" {
-WeaponArgb get_weapon_color__11TItemWeaponFPv(void *weapon);
-}
 
 // The task layers (TMainTask.h), tl_07 read-only: the gun shot's constructor
 // loads tl_07 ahead of the last store of its star-light parameter copy, which
@@ -280,18 +272,18 @@ u32 TItemShootGun::create(saddr owner, saddr pos, saddr endpoint, f32 life) {
 
 TItemShootGun::TItemShootGun(void *owner, const Vec *pos, const Vec *endpoint, f32 life)
     : TItemShootModel(owner, pos, endpoint, life) {
-    TItem *item = (TItem *)owner;
+    TItemWeapon *weapon = (TItemWeapon *)owner;
     m_name = item_shoot_gun_class_name;
-    WeaponArgb color = get_weapon_color__11TItemWeaponFPv(item);
+    NJS_ARGB color = weapon->get_weapon_color();
     StarLightParameters params = gun_shot_star_light_parameters;
-    params.color.channels.r = (u8)(255.0f * color.red);
-    params.color.channels.g = (u8)(255.0f * color.green);
-    params.color.channels.b = (u8)(255.0f * color.blue);
+    params.color.channels.r = (u8)(255.0f * color.r);
+    params.color.channels.g = (u8)(255.0f * color.g);
+    params.color.channels.b = (u8)(255.0f * color.b);
     m_50 = spawn_star_light_2d(&m_pos, &params, tl_07);
     TItemLoad::get_item_model(0, &model);
     TItemLoad::get_item_texture_list(0, &texture_list);
     m_6C = 0;
-    m_70 = item->get_item_index();
+    m_70 = weapon->get_item_index();
     if ((s32)m_70 < 0 || (s32)m_70 > 4) {
         m_70 = 4;
     }

@@ -262,7 +262,7 @@ s32 TBoss6Thanks::try_dispatch_darkfalz_phase() {
 }
 
 extern "C" {
-void get_weapon_color__11TItemWeaponFPv(void *, void *);
+void get_weapon_color__11TItemWeaponFv(void *, void *);
 }
 s32 any_player_has_listed_equipment(void) {
     s32 n = TLobby::get_game_mode();
@@ -291,7 +291,7 @@ s32 any_player_has_listed_equipment(void) {
 void TItemWeaponRubyBullet::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     f32 color[4];
     desc->flags |= 0x1C;
-    get_weapon_color__11TItemWeaponFPv(color, this);
+    get_weapon_color__11TItemWeaponFv(color, this);
     copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
     desc->wall_effect = (void *)spawn_wall_hit_particles;

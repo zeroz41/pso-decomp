@@ -31,7 +31,7 @@
 struct W_802D5B78 { s32 a; s32 b; s32 c; };
 
 extern "C" {
-void get_weapon_color__11TItemWeaponFPv(void *, void *);
+void get_weapon_color__11TItemWeaponFv(void *, void *);
 }
 
 TItemWeaponCard::~TItemWeaponCard() {}
@@ -140,7 +140,7 @@ void TItemWeaponCard::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc
     desc->scale = effect_scale;
     desc->spin[2] = 0xC000;
     desc->flags |= 2;
-    get_weapon_color__11TItemWeaponFPv(&color, this);
+    get_weapon_color__11TItemWeaponFv(&color, this);
     copy_argb(&desc->color, &color);
     desc->hit_effect = hit_effect;
     desc->wall_effect = wall_effect;
