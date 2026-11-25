@@ -12,39 +12,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/CapturedTargetList.h"
 
-// The (kind, value) pair send_srank_stat_extra hands to its target.
-struct StatExtraParam { s32 kind; f32 val; };
-
-struct StatExtraTargetBase { char pad[0x18]; };
-
-// View onto the stat-extra target: recs is its per-body record table, 0x2C a record.
-struct StatExtraTargetView : StatExtraTargetBase {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(TObjPlayer *, StatExtraParam *, u8 *, s32, s32);
-    u8 pad1c[0xA4 - 0x1C];
-    u8 *recs;
-};
-
 extern "C" {
 
 s32 resolve_hittable_target(s32, s32);
@@ -190,24 +157,24 @@ void TItemWeaponSRank::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 
 
 
 void TItemWeaponSRank::send_srank_stat_extra(uaddr target, s32 body) {
-    StatExtraTargetView *obj = (StatExtraTargetView *)target;
+    TObjChara *obj = (TObjChara *)target;
     TObjPlayer *sender;
-    StatExtraParam t1;
-    StatExtraParam t2;
+    DirectAttackPayload t1;
+    DirectAttackPayload t2;
     if (obj != NULL && (sender = owner) != NULL) {
         switch (kind) {
         case 1: {
             t1.kind = 0xB;
-            t1.val = 16.0f;
-            StatExtraParam p = t1;
-            obj->m21(sender, &p, obj->recs + body * 0x2C, -1, -1);
+            t1.power = 16.0f;
+            DirectAttackPayload p = t1;
+            obj->receive_direct_attack(sender, p, &obj->bodies[body], -1, -1);
             break;
         }
         case 2: {
             t2.kind = 0xC;
-            t2.val = 32.0f;
-            StatExtraParam p = t2;
-            obj->m21(sender, &p, obj->recs + body * 0x2C, -1, -1);
+            t2.power = 32.0f;
+            DirectAttackPayload p = t2;
+            obj->receive_direct_attack(sender, p, &obj->bodies[body], -1, -1);
             break;
         }
         }
