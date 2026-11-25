@@ -438,7 +438,7 @@ void TObjGrass::refresh_target() {
     u16 best_id;
     s32 i;
     u16 id;
-    u8 *p;
+    TObjPlayer *p;
     f32 best;
     f32 d;
     TObjPlayer *q;
@@ -456,20 +456,20 @@ void TObjGrass::refresh_target() {
             Vec v = lbl_8043B790;
             best = *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0) * *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0);
             for (; i < registered_player_count + registered_enemy_count; i++) {
-                p = (u8 *)TObjPlayer::get_player_data(i);
+                p = TObjPlayer::get_player_data(i);
                 if (p == NULL) {
                     break;
                 }
-                id = ((TObjBase *)(p))->get_entity_id();
-                if (id < 0x4000 && id != this->entity_id && !(*(s32 *)((s8 *)p + 0x30) & 0x02000800)) {
+                id = p->get_entity_id();
+                if (id < 0x4000 && id != this->entity_id && !(p->actorFlags & 0x02000800)) {
                     f32 xx;
                     f32 zz;
-                    VecCopy((Vec *)&v, (const Vec *)(p + 0x2FC));
+                    VecCopy(&v, &p->body_center);
                     subtract_vector(&v, &this->body_center);
                     xx = v.x * v.x;
                     zz = v.z * v.z;
                     d = xx + zz;
-                    if (d < best && check_path_obstructed(this, (Vec *)(p + 0x2FC)) != 1) {
+                    if (d < best && check_path_obstructed(this, &p->body_center) != 1) {
                         best_id = id;
                         best = d;
                     }
