@@ -41,7 +41,7 @@ TWindowArea *create_window_area() {
     u8 *title_entry;
     object = new TWindowArea();
     fn_802449E0((u8 *)object);
-    fn_8024450C(reinterpret_cast<saddr>(object));
+    fn_8024450C(object);
     title_entry = (u8 *)((TWindowRoom *)object)->get_title_entry();
     *(f32 *)((s8 *)title_entry + 8) = 80.0f - 0.5f * (f32) calc_text_width((char *)(((TWindowSubComCard *)title_entry)->get_field_20()));
     return object;
@@ -62,16 +62,10 @@ TWindowArea *create_area_window(void *text) {
 }
 #pragma pop
 
-void fn_8024450C(s32 arg0) {
-    s32 var_r30;
-    s32 var_r31;
-    TWindowSubStatusDisp *var_r3;
-    s32 var_r5;
-    var_r30 = arg0;
-    var_r31 = TObjNewFloorWin__sub_8007410C();
-    var_r3 = (TWindowSubStatusDisp *)var_r30;
-    var_r5 = get_area_total();
-    var_r3->set_count_ratio_text(var_r31, var_r5);
+void fn_8024450C(TWindowArea *area) {
+    s32 count = TObjNewFloorWin__sub_8007410C();
+    s32 total = get_area_total();
+    ((TWindowSubStatusDisp *)area)->set_count_ratio_text(count, total);
 }
 
 void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
