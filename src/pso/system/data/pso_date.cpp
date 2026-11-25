@@ -12,15 +12,6 @@
 #pragma dont_inline off
 struct Tbl_801E2B24 { s32 v[12]; };
 
-struct DateStamp_801E2B24 {
-    u16 year;
-    u8 month;
-    u8 day;
-    u8 hour;
-    u8 min;
-    u8 sec;
-};
-
 extern "C" {
 
 extern const Tbl_801E2B24 date_month_start_days[] = {
@@ -103,11 +94,9 @@ u8 calc_day_of_week(u16 year, u8 month, u8 day) {
     return (year + (year >> 2) - 15 + (13 * month + 8) / 5 + day) % 7;
 }
 
-extern "C" {
-void DateToSeconds__FP9DateStampPi(DateStamp_801E2B24 *ds, s32 *out);
 #pragma push
 #pragma opt_propagation off
-void DateToSeconds__FP9DateStampPi(DateStamp_801E2B24 *ds, s32 *out) {
+void DateToSeconds(DateStamp *ds, int *out) {
     s32 tbl[12];
     *(Tbl_801E2B24 *)tbl = *date_month_start_days;
     s32 y = ds->year - 0x7D0;
@@ -118,8 +107,7 @@ void DateToSeconds__FP9DateStampPi(DateStamp_801E2B24 *ds, s32 *out) {
     }
     d += tbl[ds->month - 1];
     d += ds->day - 1;
-    *out = ds->sec + ((ds->min + ((ds->hour + d * 0x18) * 0x3C))) * 0x3C;
-}
+    *out = ds->second + ((ds->minute + ((ds->hour + d * 0x18) * 0x3C))) * 0x3C;
 }
 void end_ginja_model_draw();
 #pragma pop
