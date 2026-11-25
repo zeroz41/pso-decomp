@@ -96,6 +96,8 @@ block_7:
 }
 #pragma pop
 
+}
+
 s32 select_unused_appearance_part(void *appearance, s32 part) {
     TAdSinglePlyChrSelectGCChr c = *(TAdSinglePlyChrSelectGCChr *)appearance;
     s32 max;
@@ -131,6 +133,4 @@ s32 select_unused_appearance_part(void *appearance, s32 part) {
 ok:
     copy_player_visual_record(appearance, &c);
     return 1;
-}
-
 }

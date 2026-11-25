@@ -246,7 +246,7 @@ force_active:
   - TAdSinglePlyChrSelectGC__sub_80223350
   - TAdSinglePlyChrSelectGC__sub_8022338C
   - TAdSinglePlyChrSelectGC__sub_8028C998
-  - select_unused_appearance_part
+  - select_unused_appearance_part__FPvl
   - __ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectP3VecP3VecP3VecPll
   - build_item_list__22TQuestVmDownLoadServerFiPv
   - clear_position
