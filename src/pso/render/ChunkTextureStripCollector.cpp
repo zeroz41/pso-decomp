@@ -166,9 +166,6 @@ StripBufferPair::~StripBufferPair() {
 }
 
 extern "C" {
-extern StripUvRef *plist_strip_write_ptr;
-extern s16 *plist_strip_uv_write_ptr;
-extern s32 plist_texture_matches_filter;
 
 StripBufferPair::StripBufferPair(NJS_OBJECT *model, s32 texture_filter) {
     strip_count = 0;
