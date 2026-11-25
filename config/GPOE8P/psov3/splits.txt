@@ -7229,24 +7229,12 @@ pso/ui/charcreate/TChCrTagPlBack.cpp:
 	.sdata      start:0x805D3DF0 end:0x805D3DF8
 	.sdata2     start:0x805DDFC8 end:0x805DDFEC
 
-pso/ui/window/TWindowSubComCard_802A559C.cpp:
-	.text       start:0x802A559C end:0x802A571C
-	.sdata2     start:0x805DDFF0 end:0x805DDFF8
-
-pso/ui/chat/TWindowSubShortMail_802A571C.cpp:
-	.text       start:0x802A571C end:0x802A5748
-
-pso/ui/window/TWindowSubComCard_802A5748.cpp:
-	.text       start:0x802A5748 end:0x802A596C
-
-pso/ui/frontend/TAdChrSelASlotGC_802A596C.cpp:
-	.text       start:0x802A596C end:0x802A5998
-
 pso/ui/window/TWindowMessageYesNo.cpp:
-	.text       start:0x802A5998 end:0x802A5B2C
+	.text       start:0x802A559C end:0x802A5B2C
 	.rodata     start:0x80466760 end:0x80466778
 	.data       start:0x804DD080 end:0x804DD098
 	.sdata      start:0x805D3DF8 end:0x805D3E00
+	.sdata2     start:0x805DDFF0 end:0x805DDFF8
 
 pso/ui/window/TWindowSnapShot_802A5B2C.cpp:
 	.text       start:0x802A5B2C end:0x802A6080

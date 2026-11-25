@@ -1201,8 +1201,6 @@ pso/ui/window/TWindowSubComCard_802495FC.cpp
 pso/ui/window/TWindowSubComCard_80265410.cpp
 pso/ui/window/TWindowSubComCard_80269064.cpp
 pso/ui/window/TWindowSubComCard.cpp
-pso/ui/window/TWindowSubComCard_802A559C.cpp
-pso/ui/window/TWindowSubComCard_802A5748.cpp
 pso/ui/window/TWindowSubCustomEquip.cpp
 pso/ui/window/TWindowSubCustomSelect.cpp
 pso/ui/window/TWindowSubCustomSelect_80275D84.cpp
@@ -1227,7 +1225,6 @@ pso/ui/window/TWindowSubShortCutList.cpp
 pso/ui/window/TWindowSubShortCut_80246FB0.cpp
 pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail.cpp
-pso/ui/chat/TWindowSubShortMail_802A571C.cpp
 pso/ui/window/TWindowSubStatusDisp.cpp
 pso/ui/window/TWindowSubStatusDisp_80071774.cpp
 pso/ui/window/TWindowSubStatusDisp_80077760.cpp
@@ -1574,7 +1571,6 @@ pso/ui/frontend/TAdBackGC.cpp
 pso/ui/frontend/TAdBackTxtGC.cpp
 pso/ui/frontend/TAdChrMoveEffectGC.cpp
 pso/ui/frontend/TAdChrSelASlotGC.cpp
-pso/ui/frontend/TAdChrSelASlotGC_802A596C.cpp
 pso/ui/frontend/TAdChrSelBSlotGC.cpp
 pso/ui/frontend/TAdChrSelMovePlateGC.cpp
 pso/ui/frontend/TAdChrSelPlayerGC.cpp
