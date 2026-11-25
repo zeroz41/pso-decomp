@@ -36,9 +36,6 @@ const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 }
-extern "C" {
-f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
-}
 extern const f32 lbl_805D9E80 = -0.1f;
 extern const f32 view_detail_far_depth = 310.0f;
 extern const f32 view_detail_near_depth = 155.0f;
@@ -94,7 +91,6 @@ f32 newton_sqrtf(f32);
 
 extern "C" {
 f32 fabs_float(f32);
-s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 }
 
 
@@ -474,7 +470,6 @@ CsnHit *TObjEneDD::enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist) {
 
 void TObjEneDD::calc_shot_position(Vec *shot, f32 dx, f32 dz, f32 dist) {
     Vec *out = shot;
-    s32 failures;
 
     f32 reach = dist + wall_reach;
     if (enemy_probe_wall_ahead(dx, dz, reach) == NULL) {
@@ -484,9 +479,8 @@ void TObjEneDD::calc_shot_position(Vec *shot, f32 dx, f32 dz, f32 dist) {
         wall_probe_failures = 0;
         return;
     }
-    failures = wall_probe_failures;
-    wall_probe_failures = failures + 1;
-    VecCopy__FP3VecPC3Vec(shot, (u8 *)&position, failures);
+    wall_probe_failures++;
+    VecCopy(shot, &position);
 }
 
 
@@ -1059,15 +1053,10 @@ TObjEneDD_ST::~TObjEneDD_ST() {}
 
 
 void TObjEneDD_ST::update_velocity() {
-    f32 dest_z;
-    f32 dest_x;
-
-    dest_x = destination.x;
-    destination_direction.x = dest_x - position.x;
+    destination_direction.x = destination.x - position.x;
     destination_direction.y = 0.0f;
-    dest_z = destination.z;
-    destination_direction.z = dest_z - position.z;
-    destination_distance = normalize_vector_xz__FP3Vec(&destination_direction, dest_z, dest_x);
+    destination_direction.z = destination.z - position.z;
+    destination_distance = normalize_vector_xz(&destination_direction);
 }
 
 
