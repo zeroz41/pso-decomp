@@ -57,10 +57,18 @@ public:
     void get_boundary_offset(s32 angle, f32 *out);
     TWindowFukidasi *find_balloon_overlap_for(TWindowFukidasi *first);
     void rearm_balloon(saddr flags);
+    void refresh_rect_placement();
+    s32 shift_rect_with_head(f32 *rect, f32 *out);
+    s32 rest_balloon(f32 *rect, f32 *out);
+    s32 try_place_bubble(f32 *rect, f32 *out);
+    s32 sub_802505C0(f32 *rect, f32 *out);
+    void clamp_text_size(f32 *out);
+    s32 is_speech_balloon_ready();
+    void complete_speech_balloon();
 
     s8 state;            // run_task's state machine
     u8 balloon_flags;    // bit 0 shown, 1 reveal, 2 active, 5 balloon visible
-    u8 unk_72[0x1];
+    u8 content_kind;     // 0 text entry, 1 symbol chat, 2 none (calc_text_size)
     s8 slot;             // the balloon slot taken from TWindowCtrl (alloc_nearest_free_slot)
     u8 unk_74[0x2];
     u16 speaker_id;  // Speaker entity ID, or 0xFFFF for no entity.
@@ -82,8 +90,6 @@ LAYOUT_ASSERT(TWindowFukidasi_size, sizeof(TWindowFukidasi) == 0x98);
 
 extern "C" {
 }
-void complete_speech_balloon(u8 *arg0);
-s32 is_speech_balloon_ready(u8 *window_base);
 extern "C" {
 void open__15TWindowFukidasiFPvPvi(u8 *window_fukidasi, u32 *arg1, s32 flags);
 void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);

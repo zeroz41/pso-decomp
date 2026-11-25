@@ -776,13 +776,13 @@ s32 TWindowCtrl::open_balloon(u16 player, u8 *arg1, s32 flags, s32 client) {
 
 s32 is_actor_speech_balloon_done(u16 id) {
     u32 i;
-    void *w;
+    TWindowFukidasi *w;
     if (TWindowCtrl::instance == NULL) {
         return 1;
     }
     for (i = 0; i < 4; i++) {
         w = TWindowCtrl::instance->balloons[i];
-        if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id() && is_speech_balloon_ready((u8 *)w) == 0) {
+        if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == w->get_speaker_id() && w->is_speech_balloon_ready() == 0) {
             return 0;
         }
     }
@@ -791,12 +791,12 @@ s32 is_actor_speech_balloon_done(u16 id) {
 
 void complete_actor_speech_balloons(u16 id) {
     u32 i;
-    void *w;
+    TWindowFukidasi *w;
     if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = TWindowCtrl::instance->balloons[i];
-            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
-                complete_speech_balloon((u8 *)w);
+            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && id == w->get_speaker_id()) {
+                w->complete_speech_balloon();
             }
         }
     }
@@ -804,12 +804,12 @@ void complete_actor_speech_balloons(u16 id) {
 
 void TWindowCtrl::close_windows_by_flags(u16 flags) {
     u32 i;
-    void *w;
+    TWindowFukidasi *w;
     if (instance != NULL) {
         for (i = 0; i < 4; i++) {
             w = instance->balloons[i];
-            if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && flags == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
-                ((TWindowBase *)w)->close();
+            if (w != NULL && w->all_parents_unqueued_for_destruction() != 0 && flags == w->get_speaker_id()) {
+                w->close();
             }
         }
     }
