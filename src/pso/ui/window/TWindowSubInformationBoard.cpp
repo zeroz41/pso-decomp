@@ -38,11 +38,11 @@ const char *lbl_805D4348 = "TWindowSubInformationBoard";
 
 }
 
-TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *object, void *arg2) : TObject(object) {
+TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *parent, s32 client) : TObject(parent) {
     this->m_name = lbl_805D4348;
-    *(void **)((s8 *)this + 0x20) = arg2;
+    this->client = client;
     this->shown_index = -1;
-    parent_menu = static_cast<TWindowMainMenu *>(object);
+    parent_menu = static_cast<TWindowMainMenu *>(parent);
     this->menu_window = 0;
     this->page_menu = 0;
     this->message_window = 0;

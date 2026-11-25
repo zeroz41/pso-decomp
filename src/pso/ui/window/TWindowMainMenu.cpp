@@ -69,14 +69,12 @@ s32 select_main_menu_item_10(s32);
 
 #include "pso/ui/window/TWindowMainMenu1P.h"
 #include "pso/player/PlayerSlots.h"
-extern "C" {
-s32 __ct__17TWindowSubAreaMapFP7TObjectPv(int, void *, int);
-s32 __ct__17TWindowSubComCardFP7TObjectPv(int, void *, int);
-s32 __ct__13TWindowSubLogFP7TObjectPv(int, void *, int);
-s32 __ct__18TWindowSubShortCutFP7TObjectPv(int, void *, int);
-s32 __ct__26TWindowSubInformationBoardFP7TObjectPv(int, void *, int);
-void *__ct__13TUnk_804E0B28FP7TObjectl(void *, void *, void *);
-}
+#include "pso/ui/window/TWindowSubAreaMap.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowSubLog.h"
+#include "pso/ui/window/TWindowSubShortCut.h"
+#include "pso/ui/window/TWindowSubInformationBoard.h"
+#include "pso/ui/TUnk_804E0B28.h"
 
 
 int test_keyboard_card_flag4(void* p) { return TWindowKeyBoardHard::test_card_flag((saddr)p, 4); }
@@ -246,16 +244,6 @@ void TWindowMainMenu::show_child_window() {
 }
 
 void TWindowMainMenu::create_submenu(u32 id) {
-    s32 temp_r3_13;
-    s32 temp_r3_14;
-    s32 temp_r3_17;
-    s32 temp_r3_18;
-    s32 temp_r3_9;
-    s32 var_r0_13;
-    s32 var_r0_14;
-    s32 var_r0_17;
-    s32 var_r0_18;
-    s32 var_r0_9;
     *(s32 *)((s8 *)((u8 *)this) + 0x4C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x4C) | 4);
     destroy_submenu();
     set_scale_f();
@@ -291,12 +279,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         return;
     case 12:
     case 13:
-        temp_r3_9 = ((saddr)TObject::operator new(0x28));
-        var_r0_9 = temp_r3_9;
-        if (var_r0_9 != 0) {
-            var_r0_9 = __ct__17TWindowSubAreaMapFP7TObjectPv(temp_r3_9, this, (int) this->client_index);
-        }
-        this->m_20 = var_r0_9;
+        this->m_20 = (saddr)new TWindowSubAreaMap(this, this->client_index);
         return;
     case 15:
     case 16:
@@ -310,20 +293,10 @@ void TWindowMainMenu::create_submenu(u32 id) {
         this->m_20 = (saddr)new TWindowSubSymbolChat(this, this->client_index);
         return;
     case 14:
-        temp_r3_13 = ((saddr)TObject::operator new(0x88));
-        var_r0_13 = temp_r3_13;
-        if (var_r0_13 != 0) {
-            var_r0_13 = __ct__17TWindowSubComCardFP7TObjectPv(temp_r3_13, this, (int) this->client_index);
-        }
-        this->m_20 = var_r0_13;
+        this->m_20 = (saddr)new TWindowSubComCard(this, this->client_index);
         return;
     case 21:
-        temp_r3_14 = ((saddr)TObject::operator new(0x80));
-        var_r0_14 = temp_r3_14;
-        if (var_r0_14 != 0) {
-            var_r0_14 = __ct__13TWindowSubLogFP7TObjectPv(temp_r3_14, this, (int) this->client_index);
-        }
-        this->m_20 = var_r0_14;
+        this->m_20 = (saddr)new TWindowSubLog(this, this->client_index);
         return;
     case 6:
         this->m_20 = (saddr)new TWindowSubOption(this, this->client_index);
@@ -333,20 +306,10 @@ void TWindowMainMenu::create_submenu(u32 id) {
         this->m_20 = reinterpret_cast<saddr>(new TWindowSubShortMail(this, client_index));
         return;
     case 22:
-        temp_r3_17 = ((saddr)TObject::operator new(0x914));
-        var_r0_17 = temp_r3_17;
-        if (var_r0_17 != 0) {
-            var_r0_17 = __ct__26TWindowSubInformationBoardFP7TObjectPv(temp_r3_17, this, (int) this->client_index);
-        }
-        this->m_20 = var_r0_17;
+        this->m_20 = (saddr)new TWindowSubInformationBoard(this, this->client_index);
         return;
     case 17:
-        temp_r3_18 = ((saddr)TObject::operator new(0x94));
-        var_r0_18 = temp_r3_18;
-        if (var_r0_18 != 0) {
-            var_r0_18 = __ct__18TWindowSubShortCutFP7TObjectPv(temp_r3_18, this, (int) this->client_index);
-        }
-        this->m_20 = var_r0_18;
+        this->m_20 = (saddr)new TWindowSubShortCut(this, this->client_index);
         return;
     case 7:
     case 8:
@@ -357,14 +320,9 @@ void TWindowMainMenu::create_submenu(u32 id) {
 }
 
 void TWindowMainMenu1P::create_char_select_slot() {
-    void *o;
     destroy_submenu();
     set_scale_f();
-    o = TObject::operator new(0x50);
-    if (o != NULL) {
-        o = __ct__13TUnk_804E0B28FP7TObjectl(o, this, reinterpret_cast<void *>(client_index));
-    }
-    *(void * *)&this->m_20 = o;
+    *(void * *)&this->m_20 = new TUnk_804E0B28(this, client_index);
 }
 
 void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->m_20 != 0) { ((TObject *)(*(void* *)&this->m_20))->queue_destruction(); *(int *)&this->m_20 = 0; } }

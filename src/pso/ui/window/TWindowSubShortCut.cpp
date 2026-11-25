@@ -43,10 +43,10 @@ const char *TWindowSubShortCut__class_name = "TWindowSubShortCut";
 
 void TWindowChat::set_flag1e_bit80() { flags |= 0x80; }
 
-TWindowSubShortCut::TWindowSubShortCut(TObject *object, void *arg2) : TObject(object) {
+TWindowSubShortCut::TWindowSubShortCut(TObject *parent, s32 client) : TObject(parent) {
     this->m_name = TWindowSubShortCut__class_name;
-    parent_menu = static_cast<TWindowMainMenu *>(object);
-    *(void **)((s8 *)this + 0x20) = arg2;
+    parent_menu = static_cast<TWindowMainMenu *>(parent);
+    client_id = client;
     this->com_card_list = 0;
     this->menu = 0;
     this->confirm_window = 0;

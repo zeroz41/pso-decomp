@@ -200,10 +200,10 @@ void TWindowSubComCard::set_com_param(saddr client_id, s32 com_param) {
 }
 }
 
-TWindowSubComCard::TWindowSubComCard(TObject *object, void *arg2) : TObject(object) {
+TWindowSubComCard::TWindowSubComCard(TObject *parent, s32 client) : TObject(parent) {
     m_name = class_name;
-    *(void **)((s8 *)this + 0x5C) = object;
-    *(void **)((s8 *)this + 0x20) = arg2;
+    *(void **)((s8 *)this + 0x5C) = parent;
+    client_id = client;
     this->m_60 = 0;
     this->m_64 = 0;
     this->m_74 = 0;

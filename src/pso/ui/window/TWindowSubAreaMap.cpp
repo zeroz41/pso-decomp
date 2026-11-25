@@ -29,10 +29,10 @@ TWindowSubAreaMap::~TWindowSubAreaMap() {
     if (map_disp != NULL) { map_disp->close(); map_disp = NULL; }
 }
 const char *TWindowSubAreaMap__name = "TWindowSubAreaMap";
-TWindowSubAreaMap::TWindowSubAreaMap(TObject *object, void *arg2) : TObject(object) {
+TWindowSubAreaMap::TWindowSubAreaMap(TObject *parent, s32 client) : TObject(parent) {
     this->m_name = TWindowSubAreaMap__name;
-    parent_menu = static_cast<TWindowMainMenu *>(object);
-    *(void **)((s8 *)this + 0x1C) = arg2;
+    parent_menu = static_cast<TWindowMainMenu *>(parent);
+    this->client = client;
     map_disp = new TWindowSubAreaMapDisp();
 }
 

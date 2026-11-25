@@ -8,9 +8,9 @@ struct TWindowMainMenu;
 struct TWindowSubAreaMapDisp;
 
 struct TWindowSubAreaMap : public TObject {
-    TWindowSubAreaMap(TObject *object, void *arg2);
+    TWindowSubAreaMap(TObject *parent, s32 client);
     virtual ~TWindowSubAreaMap();
-    u32 m_1c;
+    s32 client;
     TWindowMainMenu *parent_menu;
     TWindowSubAreaMapDisp *map_disp;
     virtual void render();

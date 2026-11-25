@@ -10,7 +10,7 @@ struct GuildCardSlot;
 struct TWindowSubComCard : public TObject {
     static void update_display_value(uaddr list_window, uaddr card_window, s32 *last_selected);
     static GuildCardSlot *get_card_entry(s32 index);
-    TWindowSubComCard(TObject *object, void *arg2);
+    TWindowSubComCard(TObject *parent, s32 client);
     virtual ~TWindowSubComCard();
     void rebuild_com_card_list(saddr list_window);
     static const char *class_name;
