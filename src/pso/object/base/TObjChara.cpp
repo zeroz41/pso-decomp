@@ -677,13 +677,13 @@ void *TObjChara::get_center() { return (char*)this + 0x2fc; }
 
 CsnHit *TObjChara::update_actor_ground_y() {
     Vec stack;
-    f32 temp_f1;
+    f32 y;
     CsnHit *hit;
     player_stats *stats;
     stack.x = position.x;
     stats = this->stat_block;
-    temp_f1 = position.y;
-    stack.y = temp_f1 + stats->proportions;
+    y = position.y;
+    stack.y = y + stats->proportions;
     stack.z = position.z;
     hit = csnVectorUnder(&stack, ground_candidates.groups, 0x15);
     if (hit == NULL) {
@@ -1053,10 +1053,10 @@ f32 update_enemy_wander_move(TObjEnemy *enemy, Vec dest, s32 flags, f32 speed) {
 
 f32 TObjEnemy::enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn) {
     Vec v;
-    f32 var_f31;
+    f32 dist_sq;
     s32 ang;
-    var_f31 = horizontal_distance_squared(&this->body_center, &this->move_destination);
-    if ((var_f31 < (speed * speed)) || (this->is_actor_cadence_frame(0x96) != 0)) {
+    dist_sq = horizontal_distance_squared(&this->body_center, &this->move_destination);
+    if ((dist_sq < (speed * speed)) || (this->is_actor_cadence_frame(0x96) != 0)) {
         v.x = v.y = (0.0f);
         v.z = (1.0f);
         ang = (s32) ((182.04445f) * ((3.6e+02f) * this->random_ratio()));
@@ -1074,10 +1074,10 @@ f32 TObjEnemy::enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn) 
         this->enemy_turn_toward_dest(turn);
         enemy_set_heading_velocity(speed, this, this->rotation_y);
         move_with_wall_slide(this);
-        var_f31 = horizontal_distance_squared(&this->move_destination, &this->body_center);
+        dist_sq = horizontal_distance_squared(&this->move_destination, &this->body_center);
         this->m_2ac = this->m_2ac + 1;
     }
-    return var_f31;
+    return dist_sq;
 }
 
 f32 enemy_backstep_from_point(TObjEnemy *enemy, Vec point, f32 speed) {
@@ -1246,40 +1246,40 @@ s32 TObjChara::update_poison_status() {
 }
 
 s32 TObjChara::update_action_hold_status() {
-    f32 temp_f31;
-    s32 temp_r31;
+    f32 undo_scale;
+    s32 remaining;
 
     if ((this->test_actor_flags(0x4000) != 0) && ((u16) this->entity_id >= 0x1000U)) {
         if (this->add_status_effect_timer(4, -1) <= 0) {
             this->status_effects[4].clear();
-            this->clear_actor_flags((u32)(0x4000));
+            this->clear_actor_flags(0x4000);
         }
         return 1;
     }
-    if (((TObjCollidable *)((((u8 *)this))))->test_actor_flags(2) != 0) {
-        temp_r31 = this->add_status_effect_timer(0, -1);
+    if (this->test_actor_flags(2) != 0) {
+        remaining = this->add_status_effect_timer(0, -1);
         if ((u16) this->entity_id < 0x1000U) {
-            if (temp_r31 <= 0) {
+            if (remaining <= 0) {
                 this->spawn_paralysis_feedback_effect(1);
                 this->set_status_effect_timer(0, 0x2D);
             }
             return 1;
         }
-        if (temp_r31 > 0) {
-            ((TObjBase *)((u8 *)this))->clear_actor_flags((u32)(3));
+        if (remaining > 0) {
+            this->clear_actor_flags(3);
             set_actor_flags(2);
-            if ((temp_r31 % 45) == 0) {
+            if ((remaining % 45) == 0) {
                 this->spawn_paralysis_feedback_effect(1);
             }
             return 1;
         }
-        ((TObjBase *)((u8 *)this))->clear_actor_flags((u32)(3));
-        *(s32 *)((s8 *)((u8 *)this) + 0x330) = (s32) (this->actorFlags & 0x3F);
-        temp_f31 = -this->get_status_effect_amount(0);
+        this->clear_actor_flags(3);
+        low_game_flags = actorFlags & 0x3F;
+        undo_scale = -this->get_status_effect_amount(0);
         {
-            f32 v = ((TObjChara *)((u8 *)this))->get_base_evp();
-            v *= temp_f31;
-            ((TObjChara *)((u8 *)this))->adjust_evp((s32) v);
+            f32 v = this->get_base_evp();
+            v *= undo_scale;
+            this->adjust_evp((s32) v);
         }
         this->status_effects[0].clear();
     }
@@ -1287,122 +1287,114 @@ s32 TObjChara::update_action_hold_status() {
 }
 
 s32 TObjChara::update_slow_status() {
-    s32 temp_ret;
+    s32 remaining;
 
-    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(8) != 0) && ((u16) ((TObjChara *)((u8 *)this))->entity_id < 0x1000U)) {
-        temp_ret = this->add_status_effect_timer(1, -1);
-        if (temp_ret > 0) {
-            if ((temp_ret % 45) == 0) {
+    if ((this->test_actor_flags(8) != 0) && ((u16) this->entity_id < 0x1000U)) {
+        remaining = this->add_status_effect_timer(1, -1);
+        if (remaining > 0) {
+            if ((remaining % 45) == 0) {
                 this->spawn_slow_effect(1);
             }
             return 1;
         }
-        ((TObjBase *)((u8 *)this))->clear_actor_flags((u32)0x3C);
-        *(s32 *)((s8 *)((u8 *)this) + 0x330) = (s32) (((TObjChara *)((u8 *)this))->actorFlags & 0x3F);
+        this->clear_actor_flags(0x3C);
+        low_game_flags = actorFlags & 0x3F;
         this->status_effects[1].clear();
-        goto block_7;
     }
-block_7:
     return 0;
 }
 
 s32 TObjChara::update_flag30_timer() {
-    s32 temp_ret;
+    s32 remaining;
 
     if (this->test_actor_flags(0x10) != 0) {
-        temp_ret = this->add_status_effect_timer(1, -1);
-        if (temp_ret > 0) {
-            this->clear_actor_flags((u32)0x3C);
+        remaining = this->add_status_effect_timer(1, -1);
+        if (remaining > 0) {
+            this->clear_actor_flags(0x3C);
             set_actor_flags(0x10);
-            if ((temp_ret % 45) == 0) {
+            if ((remaining % 45) == 0) {
                 this->spawn_confusion_feedback_effect(1);
             }
             return 1;
         }
-        this->clear_actor_flags((u32)0x3C);
-        *(s32 *)((s8 *)((u8 *)this) + 0x330) = (s32) (this->actorFlags & 0x3F);
+        this->clear_actor_flags(0x3C);
+        low_game_flags = actorFlags & 0x3F;
         this->status_effects[1].clear();
-        goto block_6;
     }
-block_6:
     return 0;
 }
 
 s32 TObjChara::update_movement_status() {
-    f32 temp_f31;
+    f32 undo_scale;
     f32 fv;
-    s32 temp_ret;
+    s32 remaining;
 
     if (this->test_actor_flags(0x20) != 0) {
-        temp_ret = this->add_status_effect_timer(1, -1);
-        if (temp_ret > 0) {
-            this->clear_actor_flags((u32)0x3C);
+        remaining = this->add_status_effect_timer(1, -1);
+        if (remaining > 0) {
+            this->clear_actor_flags(0x3C);
             set_actor_flags(0x20);
-            if ((temp_ret % 45) == 0) {
-                ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0xB20F, ((u8 *)this) + 0x38, 0, 0);
+            if ((remaining % 45) == 0) {
+                play_sound_effect(0xB20F, &position, 0, 0);
             }
             return 1;
         }
-        this->clear_actor_flags((u32)0x3C);
-        *(s32 *)((s8 *)((u8 *)this) + 0x330) = (s32) (this->actorFlags & 0x3F);
-        temp_f31 = -this->get_status_effect_amount(1);
+        this->clear_actor_flags(0x3C);
+        low_game_flags = actorFlags & 0x3F;
+        undo_scale = -this->get_status_effect_amount(1);
         fv = (f32) this->get_base_evp();
-        this->adjust_evp((s32) (fv * temp_f31));
+        this->adjust_evp((s32) (fv * undo_scale));
         this->status_effects[1].clear();
-        goto block_6;
     }
-block_6:
     return 0;
 }
 
 s32 TObjChara::update_shock_clock() {
-    f32 temp_f31;
+    f32 undo_scale;
     f32 fv;
-    s32 temp_ret;
+    s32 remaining;
     if (this->test_actor_flags(4) != 0) {
-        temp_ret = this->add_status_effect_timer(1, -1);
-        if (temp_ret > 0) {
-            this->clear_actor_flags((u32)0x3C);
+        remaining = this->add_status_effect_timer(1, -1);
+        if (remaining > 0) {
+            this->clear_actor_flags(0x3C);
             set_actor_flags(4);
-            if ((temp_ret % 45) == 0) {
+            if ((remaining % 45) == 0) {
                 this->play_shock_feedback(1);
             }
             return 1;
         }
-        this->clear_actor_flags((u32)0x3C);
-        *(s32 *)((s8 *)((u8 *)this) + 0x330) = (s32) (this->actorFlags & 0x3F);
+        this->clear_actor_flags(0x3C);
+        low_game_flags = actorFlags & 0x3F;
         if ((u16) this->entity_id >= 0x1000U) {
-            temp_f31 = -this->get_status_effect_amount(1);
+            undo_scale = -this->get_status_effect_amount(1);
             fv = (f32) this->get_base_evp();
-            this->adjust_evp((s32) (fv * temp_f31));
+            this->adjust_evp((s32) (fv * undo_scale));
         }
         this->status_effects[1].clear();
-        goto block_8;
     }
-block_8:
     return 0;
 }
 
 s32 TObjChara::update_attack_stat_status() {
-    s32 temp_ret;
+    s32 remaining;
 
     if (this->get_status_effect_timer(2) > 0) {
-        temp_ret = this->add_status_effect_timer(2, -1);
-        if (temp_ret > 0) {
-            if (((temp_ret % 45) == 0) && (((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x02000000) == 0)) {
+        remaining = this->add_status_effect_timer(2, -1);
+        if (remaining > 0) {
+            if (((remaining % 45) == 0) && (this->test_actor_flags(0x02000000) == 0)) {
                 switch (this->get_status_effect_type(2)) {
                 case 10:
                     break;
                 case 9:
-                    ((TObjChara *)((u8 *)this))->apply_switch_attack();
-                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
-                        ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4002462A, ((u8 *)this) + 0x38, 0, 0);
+                    this->apply_switch_attack();
+                    if ((this->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
+                        play_sound_effect(0x4002462A, &position, 0, 0);
                     }
                     break;
                 case 11:
-                    ((TObjChara *)((u8 *)this))->enemy_spawn_jellen_effect();
-                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
-                        ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4002442B, ((u8 *)this) + 0x38, 0, 0);
+                    this->enemy_spawn_jellen_effect();
+                    if ((this->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
+                        play_sound_effect(0x4002442B, &position, 0, 0);
                     }
                     break;
                 }
@@ -1410,37 +1402,37 @@ s32 TObjChara::update_attack_stat_status() {
             }
             return 1;
         }
-        ((TObjChara *)((u8 *)this))->adjust_atp((s32) ((f32) ((TObjChara *)((u8 *)this))->get_base_atp() * -this->get_status_effect_amount(2)));
-        ((TObjChara *)((u8 *)this))->adjust_atp_range((s32) ((f32) ((TObjChara *)((u8 *)this))->get_base_atp_range() * -this->get_status_effect_amount(2)));
+        this->adjust_atp((s32) ((f32) this->get_base_atp() * -this->get_status_effect_amount(2)));
+        this->adjust_atp_range((s32) ((f32) this->get_base_atp_range() * -this->get_status_effect_amount(2)));
         this->status_effects[2].clear();
     } else if (this->obj_isState2_324() != 0) {
-        ((TObjChara *)((u8 *)this))->adjust_atp((s32) ((f32) ((TObjChara *)((u8 *)this))->get_base_atp() * -this->get_status_effect_amount(2)));
-        ((TObjChara *)((u8 *)this))->adjust_atp_range((s32) ((f32) ((TObjChara *)((u8 *)this))->get_base_atp_range() * -this->get_status_effect_amount(2)));
+        this->adjust_atp((s32) ((f32) this->get_base_atp() * -this->get_status_effect_amount(2)));
+        this->adjust_atp_range((s32) ((f32) this->get_base_atp_range() * -this->get_status_effect_amount(2)));
         this->status_effects[2].clear();
     }
     return 0;
 }
 
 s32 TObjChara::update_defense_stat_status() {
-    s32 temp_ret;
+    s32 remaining;
 
     if (this->get_status_effect_timer(3) > 0) {
-        temp_ret = this->add_status_effect_timer(3, -1);
-        if (temp_ret > 0) {
-            if (((temp_ret % 45) == 0) && (((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x02000000) == 0)) {
+        remaining = this->add_status_effect_timer(3, -1);
+        if (remaining > 0) {
+            if (((remaining % 45) == 0) && (this->test_actor_flags(0x02000000) == 0)) {
                 switch (this->get_status_effect_type(3)) {
                 case 11:
                     break;
                 case 10:
                     this->trigger_switch_attack();
-                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
-                        ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x40022C2C, ((u8 *)this) + 0x38, 0, 0);
+                    if ((this->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
+                        play_sound_effect(0x40022C2C, &position, 0, 0);
                     }
                     break;
                 case 12:
                     this->enemy_spawn_zalure_effect();
-                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
-                        ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4002362D, ((u8 *)this) + 0x38, 0, 0);
+                    if ((this->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
+                        play_sound_effect(0x4002362D, &position, 0, 0);
                     }
                     break;
                 }
@@ -1659,21 +1651,21 @@ void TObjPlayer::spawn_recovery_effect() {
 }
 
 void TObjChara::apply_poison_status() {
-    f32 temp_f31;
+    f32 undo_scale;
 
     if ((this->obj_testFlag_2E4(4) == 0) && ((u16) this->entity_id < 0x1000U) && (this->test_immunity_flags(1) == 0)) {
         this->spawn_poison_effect(0);
         if (this->get_status_effect_type(0) == 0x10) {
-            f32 temp_d4;
-            temp_f31 = -this->get_status_effect_amount(0);
-            temp_d4 = (f32) this->get_base_evp();
-            adjust_evp((s32) (temp_d4 * temp_f31));
+            f32 base_evp;
+            undo_scale = -this->get_status_effect_amount(0);
+            base_evp = (f32) this->get_base_evp();
+            adjust_evp((s32) (base_evp * undo_scale));
         }
         this->set_status_effect_type(0, 0xF);
         this->set_status_effect_amount(0, (0.0f));
         this->set_status_effect_timer(0, 0x2D);
-        this->actorFlags = (s32) (this->actorFlags & 0xFFFFFFFC);
-        this->actorFlags = (s32) (this->actorFlags | 1);
+        actorFlags &= ~3;
+        actorFlags |= 1;
     }
 }
 
@@ -1685,20 +1677,19 @@ void TObjChara::apply_paralysis() {
         }
         this->set_status_effect_type(0, 0x10);
         if ((u16) this->entity_id >= 0x1000U) {
-            this->set_status_effect_amount(0, (f32) ((-0.15f)));
+            this->set_status_effect_amount(0, -0.15f);
             adjust_evp((s32) ((-0.15f) * (f32) this->get_base_evp()));
             this->set_status_effect_timer(0, 0xD2);
         } else {
-            this->set_status_effect_amount(0, (f32) ((0.0f)));
+            this->set_status_effect_amount(0, 0.0f);
             this->set_status_effect_timer(0, 0);
         }
-        this->actorFlags = (s32) (this->actorFlags & 0xFFFFFFFC);
-        this->actorFlags = (s32) (this->actorFlags | 2);
+        actorFlags &= ~3;
+        actorFlags |= 2;
     }
 }
 
 void TObjChara::apply_slow_status() {
-    f32 temp_f31;
     if (((u16) this->entity_id <= 0x1000U) && (this->test_immunity_flags(8) == 0)) {
         this->spawn_slow_effect(0);
         switch (this->get_status_effect_type(1)) {
@@ -1710,13 +1701,12 @@ void TObjChara::apply_slow_status() {
         this->set_status_effect_type(1, 0x11);
         this->set_status_effect_amount(1, (0.0f));
         this->set_status_effect_timer(1, 0xD2);
-        this->actorFlags = (s32) (this->actorFlags & 0xFFFFFFC3);
-        this->actorFlags = (s32) (this->actorFlags | 8);
+        actorFlags &= ~0x3C;
+        actorFlags |= 8;
     }
 }
 
 void TObjChara::apply_confusion_status() {
-    f32 temp_f31;
 
     if ((this->obj_testFlag_2E4(0x10) == 0) && (this->test_immunity_flags(0x10) == 0)) {
         this->spawn_confusion_feedback_effect(0);
@@ -1729,8 +1719,8 @@ void TObjChara::apply_confusion_status() {
         this->set_status_effect_type(1, 0x12);
         this->set_status_effect_amount(1, (0.0f));
         this->set_status_effect_timer(1, 0x12C);
-        this->actorFlags = (s32) (this->actorFlags & 0xFFFFFFC3);
-        this->actorFlags = (s32) (this->actorFlags | 0x10);
+        actorFlags &= ~0x3C;
+        actorFlags |= 0x10;
     }
 }
 
@@ -1747,8 +1737,8 @@ void TObjChara::apply_movement_ailment(CollisionBody *body) {
         this->set_status_effect_type(1, 2);
         this->set_status_effect_amount(1, (f32) ((-0.3f)));
         this->set_status_effect_timer(1, 0x96);
-        this->actorFlags = (s32) (this->actorFlags & 0xFFFFFFC3);
-        this->actorFlags = (s32) (this->actorFlags | 0x20);
+        actorFlags &= ~0x3C;
+        actorFlags |= 0x20;
         adjust_evp((s32) ((-0.3f) * (f32) this->get_base_evp()));
     }
 }
@@ -1830,36 +1820,36 @@ void TObjChara::clear_harmful_statuses() {
 #pragma fp_contract on
 void TObjChara::apply_attack_stat_status(void *receipt_data) {
     StatStatusReceipt *receipt = (StatStatusReceipt *)receipt_data;
-    f32 var_f31;
-    f32 temp_f30;
+    f32 amount;
+    f32 scale;
     f32 status_effect_amount;
 
     if ((s32) receipt->kind != 0xB) {
-        var_f31 = (0.01f) * ((1.3f) * receipt->power + (1e+01f));
+        amount = (0.01f) * ((1.3f) * receipt->power + (1e+01f));
     } else {
-        var_f31 = (-0.01f) * ((1.3f) * receipt->power + (1e+01f));
+        amount = (-0.01f) * ((1.3f) * receipt->power + (1e+01f));
     }
     status_effect_amount = this->get_status_effect_amount(2);
-    temp_f30 = ((f32 (*)(f32))fabs_float)(var_f31);
-    if (!(((f32 (*)(f32))fabs_float)(status_effect_amount) > temp_f30)) {
-        temp_f30 = -this->get_status_effect_amount(2);
+    scale = fabs_float(amount);
+    if (!(fabs_float(status_effect_amount) > scale)) {
+        scale = -this->get_status_effect_amount(2);
         {
             f32 v = this->get_base_atp();
-            v *= temp_f30;
+            v *= scale;
             this->adjust_atp((s32) v);
         }
-        temp_f30 = -this->get_status_effect_amount(2);
+        scale = -this->get_status_effect_amount(2);
         {
             f32 v = this->get_base_atp_range();
-            v *= temp_f30;
+            v *= scale;
             this->adjust_atp_range((s32) v);
         }
         this->set_status_effect_type(2, receipt->kind);
-        this->set_status_effect_amount(2, var_f31);
-        this->adjust_atp((s32) (var_f31 * (f32) this->get_base_atp()));
-        this->adjust_atp_range((s32) (var_f31 * (f32) this->get_base_atp_range()));
+        this->set_status_effect_amount(2, amount);
+        this->adjust_atp((s32) (amount * (f32) this->get_base_atp()));
+        this->adjust_atp_range((s32) (amount * (f32) this->get_base_atp_range()));
         this->set_status_effect_timer(2, (s32) ((3e+01f) * ((1e+01f) * receipt->power + (4e+01f))));
-        if (((TObjCollidable *)(((TObjPlayer *)this)))->test_actor_flags(0x02000000) == 0) {
+        if (this->test_actor_flags(0x02000000) == 0) {
             new TActorLight(0.1f, (NJS_ARGB *)player_attack_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
         }
     }
@@ -1867,27 +1857,27 @@ void TObjChara::apply_attack_stat_status(void *receipt_data) {
 
 void TObjChara::apply_defense_stat_status(void *receipt_arg) {
     StatStatusReceipt *receipt = (StatStatusReceipt *)receipt_arg;
-    f32 temp_f31;
-    f32 var_f30;
+    f32 scale;
+    f32 amount;
     f32 status_effect_amount;
 
     if (receipt->kind != 0xC) {
-        var_f30 = (0.01f) * ((1.3f) * receipt->power + (1e+01f));
+        amount = (0.01f) * ((1.3f) * receipt->power + (1e+01f));
     } else {
-        var_f30 = (-0.01f) * ((1.3f) * receipt->power + (1e+01f));
+        amount = (-0.01f) * ((1.3f) * receipt->power + (1e+01f));
     }
     status_effect_amount = this->get_status_effect_amount(3);
-    temp_f31 = ((f32 (*)(f32))fabs_float)(var_f30);
-    if (!(((f32 (*)(f32))fabs_float)(status_effect_amount) > temp_f31)) {
-        temp_f31 = -this->get_status_effect_amount(3);
+    scale = fabs_float(amount);
+    if (!(fabs_float(status_effect_amount) > scale)) {
+        scale = -this->get_status_effect_amount(3);
         {
             f32 v = this->get_base_dfp();
-            v *= temp_f31;
+            v *= scale;
             this->adjust_dfp((s32) v);
         }
         this->set_status_effect_type(3, receipt->kind);
-        this->set_status_effect_amount(3, var_f30);
-        this->adjust_dfp((s32) (var_f30 * (f32) this->get_base_dfp()));
+        this->set_status_effect_amount(3, amount);
+        this->adjust_dfp((s32) (amount * (f32) this->get_base_dfp()));
         this->set_status_effect_timer(3, (s32) ((3e+01f) * ((1e+01f) * receipt->power + (4e+01f))));
         if (this->test_actor_flags(0x02000000) == 0) {
             new TActorLight(0.1f, (NJS_ARGB *)player_defense_stat_status_light_colors, (Vec *)TObjPlayer__data_80434060, 0x2D, this, tl_07);
@@ -1930,7 +1920,7 @@ void TObjChara::clear_all_status_effects() {
         break;
     }
     this->actorFlags = (s32) (this->actorFlags & 0xFFFFFFC0);
-    *(s32 *)((s8 *)((u8 *)this) + 0x330) = (s32) (this->actorFlags & 0x3F);
+    low_game_flags = actorFlags & 0x3F;
     this->status_effects[0].clear();
     this->status_effects[1].clear();
     this->adjust_atp((s32) ((f32) this->get_base_atp() * -this->get_status_effect_amount(2)));
@@ -3000,13 +2990,13 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
 void apply_actor_gravity(TObjEnemy *enemy, s32 *ground_position, f32 hover_height) {
     Vec position;
     f32 y;
-    s32 temp_r31;
+    s32 grounded;
     VecCopy(&position, &enemy->position);
-    temp_r31 = project_actor_to_ground(enemy, &position, &enemy->ground_normal);
+    grounded = project_actor_to_ground(enemy, &position, &enemy->ground_normal);
     if (ground_position != NULL) {
         VecCopy((Vec *)ground_position, &position);
     }
-    if (temp_r31 != 0) {
+    if (grounded != 0) {
         ((TObjEnemy *)enemy)->velocity.y += (-0.10888889f);
         *(f32 *)((s8 *)enemy + 0x3C) = (f32) (*(f32 *)((s8 *)enemy + 0x3C) + ((TObjEnemy *)enemy)->velocity.y);
         y = position.y + hover_height;
@@ -3129,14 +3119,14 @@ void TObjPlayer::set_hp_clamped(s16 value) {
 
 s32 TObjPlayer::clamp_hp_value(s16 *value) {
     s16 hpmax;
-    s16 temp_r5;
-    temp_r5 = *value;
-    if (temp_r5 < 0) {
+    s16 v;
+    v = *value;
+    if (v < 0) {
         *value = 0;
         return 0;
     }
     hpmax = this->hpmax;
-    if (temp_r5 > hpmax) {
+    if (v > hpmax) {
         *value = hpmax;
         return 0;
     }
@@ -3572,37 +3562,37 @@ void TObjChara::apply_anti_technique(s32 level) {
         }
     }
     *(u32 *)(((u8 *)this) + 0x330) = this->actorFlags & 0x3F;
-    clear_actor_flags((u32)0x4000);
+    clear_actor_flags(0x4000);
     this->status_effects[4].clear();
 }
 
 s16 TObjChara::clamp_hp() {
-    s16 temp_r0;
+    s16 limit;
     s16 hp;
 
     hp = (this->hp);
     if (hp < 0) {
         (this->hp) = 0;
     } else {
-        temp_r0 = (this->hpmax);
-        if (temp_r0 < hp) {
-            (this->hp) = temp_r0;
+        limit = (this->hpmax);
+        if (limit < hp) {
+            (this->hp) = limit;
         }
     }
     return (this->hp);
 }
 
 s16 TObjPlayer::clamp_tp() {
-    s16 temp_r0;
-    s16 temp_r4;
+    s16 limit;
+    s16 cur;
 
-    temp_r4 = this->tp;
-    if (temp_r4 < 0) {
+    cur = this->tp;
+    if (cur < 0) {
         this->tp = 0;
     } else {
-        temp_r0 = this->tpmax;
-        if (temp_r0 < temp_r4) {
-            this->tp = temp_r0;
+        limit = this->tpmax;
+        if (limit < cur) {
+            this->tp = limit;
         }
     }
     return this->tp;
@@ -3621,36 +3611,36 @@ void TObjChara::clear_velocity() {
 }
 
 s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target) {
-    f32 var_f31;
+    f32 chance;
 
     if ((attacker->get_entity_id() >= 0x1000U) && (target->get_entity_id() < 0x1000U)) {
-        var_f31 = 0.75f - ((f32) ((TObjPlayer *)actor)->get_item_index() / 100.0f);
-        if (var_f31 < 0.0f) {
-            var_f31 = 0.0f;
+        chance = 0.75f - ((f32) ((TObjPlayer *)actor)->get_item_index() / 100.0f);
+        if (chance < 0.0f) {
+            chance = 0.0f;
         }
     } else if ((s32) game_difficulty_selection == 3) {
-        var_f31 = (0.025f);
+        chance = (0.025f);
     } else {
-        var_f31 = (0.06666667f);
+        chance = (0.06666667f);
     }
-    return ((TObjChara *)actor)->random_ratio() < var_f31;
+    return ((TObjChara *)actor)->random_ratio() < chance;
 }
 
 s32 calc_freeze_chance(TObjPlayer *actor, TObjPlayer *attacker, TObjPlayer *target, f32 base_chance) {
-    f32 var_f31;
+    f32 chance;
 
-    var_f31 = base_chance;
+    chance = base_chance;
     if ((attacker->get_entity_id() >= 0x1000U) && (attacker->get_entity_id() < 0x4000U) && (target->get_entity_id() < 0x1000U)) {
-        var_f31 = 0.75f - ((f32) ((TObjPlayer *)actor)->get_class_id() / 100.0f);
-        if (var_f31 < 0.0f) {
-            var_f31 = 0.0f;
+        chance = 0.75f - ((f32) ((TObjPlayer *)actor)->get_class_id() / 100.0f);
+        if (chance < 0.0f) {
+            chance = 0.0f;
         }
-    } else if (((s32) game_difficulty_selection == 3) && ((0.2f) < var_f31)) {
-        var_f31 = (0.2f);
-    } else if ((0.4f) < var_f31) {
-        var_f31 = (0.4f);
+    } else if (((s32) game_difficulty_selection == 3) && ((0.2f) < chance)) {
+        chance = (0.2f);
+    } else if ((0.4f) < chance) {
+        chance = (0.4f);
     }
-    return ((TObjChara *)actor)->random_ratio() < var_f31;
+    return ((TObjChara *)actor)->random_ratio() < chance;
 }
 
 void TObjChara::spawn_poison_effect(s32 play_sound) {
@@ -3767,7 +3757,7 @@ int TObjChara::test_flag_1000() { return this->test_actor_flags(4096); }
 
 s32 TObjChara::check_heavy_damage_flag(f32 dmg) {
     if (((0.25f) * (f32) this->hpmax) < dmg) {
-        this->actorFlags = (s32) (this->actorFlags | 0x400);
+        actorFlags |= 0x400;
         return 1;
     }
     return 0;
