@@ -339,8 +339,6 @@ void TObjChallenge4PRetry::update_giveup() {
     }
 }
 
-void *__ct__20TObjChallenge4PRetryFP7TObject(void *, void *);
-
 void TObjChallenge4PRetry::run_task() {
     u8 *arg0 = (u8 *)this;
     this->m_20 = ((s32 (*)(void *))is_designated_client)(arg0);
@@ -385,10 +383,7 @@ TObjChallenge4PRetry::TObjChallenge4PRetry(TObject *parent) : TObject(parent) {
     this->state = 0;
 }
 
-void *TObjChallenge4PRetry::create(void *arg0) {
-    void *o = TObject::operator new(0x34);
-    if (o != NULL) {
-        o = __ct__20TObjChallenge4PRetryFP7TObject(o, arg0);
-    }
+void *TObjChallenge4PRetry::create(TObject *parent) {
+    void *o = new TObjChallenge4PRetry(parent);
     return o;
 }

@@ -29,7 +29,7 @@ public:
     void close_window_field30();
     virtual void run_task();
 public:
-    static void *create(void *arg0);
+    static void *create(TObject *parent);
 };
 
 #endif

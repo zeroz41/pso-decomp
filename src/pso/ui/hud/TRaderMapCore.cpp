@@ -80,7 +80,7 @@ void *TRaderMapCore::instance;
 s32 TRaderMapCore::render_mode;
 BmlResource *radar_frame_model_resource;
 NJS_TEXLIST *radar_frame_texlist;
-saddr TRaderMapCore::map_heap;
+THeap *TRaderMapCore::map_heap;
 
 extern "C" {
 extern NJS_TEXANIM radar_sprite_texanims[];
@@ -88,7 +88,6 @@ extern f32 radar_compass_positions[][4];
 extern RadarScissorRect radar_map_view_scissor_table[3];
 extern RadarViewportRect radar_map_view_rect_table[3];
 s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map);
-void* __ct__5THeapFUli(void*, u32, s32);
 void rotate_matrix_y(void *, s32);
 extern RadarBackdropColor radar_map_backdrop_color;
 void set_radar_marker_color(TRaderMapCore *unused, u32 color);
@@ -102,7 +101,6 @@ static const RadarColor4 radar_player_slot_color_table[4] = {
 };
 NJS_POINT2 get_follow_marker_position(TRaderMapCore *core);
 
-int __dt__5THeapFv(void*, void*);
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
 }
 void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos);
@@ -1212,23 +1210,22 @@ void TRaderMapCore::set_piece_flags(s32 piece_flags) {
 
 void TRaderMapCore__sub_801F95CC(void) {
     s32 i;
-    void* p = THeap::operator new(0x14);
-    if (p != NULL) {
-        p = __ct__5THeapFUli(p, 0x1000, 0x20);
-    }
-    TRaderMapCore::map_heap = (saddr)p;
+    TRaderMapCore::map_heap = new THeap(0x1000, 0x20);
     for (i = 0; i < 0x12; i++) {
         ((s16* *)&TRaderMapCore::floor_discovery_table)[i] = NULL;
     }
 }
 
-void TRaderMapCore::free_heap() { __dt__5THeapFv((void*)TRaderMapCore::map_heap, (void*)1); TRaderMapCore::map_heap = 0; }
+void TRaderMapCore::free_heap() {
+    delete TRaderMapCore::map_heap;
+    TRaderMapCore::map_heap = 0;
+}
 
 void TRaderMapCore::free_map_data() {
     s32 i;
     for (i = 0x11; i >= 0; i--) {
         if (((s16* *)&TRaderMapCore::floor_discovery_table)[i] != NULL) {
-            ((THeap *)TRaderMapCore::map_heap)->heap_free(((s16* *)&TRaderMapCore::floor_discovery_table)[i]);
+            TRaderMapCore::map_heap->heap_free(((s16* *)&TRaderMapCore::floor_discovery_table)[i]);
             ((s16* *)&TRaderMapCore::floor_discovery_table)[i] = NULL;
         }
     }
@@ -1245,7 +1242,7 @@ s32 init_radar_floor_flags(s32 floor, RadarPieceInitMap *map) {
             piece->flags = *p;
         }
     } else {
-        saved = (s16 *) ((THeap *)TRaderMapCore::map_heap)->heap_zalloc((u32) map->count * 2);
+        saved = (s16 *) TRaderMapCore::map_heap->heap_zalloc((u32) map->count * 2);
         if (saved != NULL) {
             TRaderMapCore::floor_discovery_table[floor] = saved;
         } else {

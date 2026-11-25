@@ -1,4 +1,5 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/network/TSocket.h"
 #include "types.h"
 #include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
@@ -10,7 +11,6 @@
 #include "pso/network/TProtocol.h"
 
 extern "C" {
-u16 to_be_uint16_t__FUs(u16);
 saddr deferred_packet_buffer;
 s32 deferred_packet_buffer_used;
 s32 lbl_805D5D00;
@@ -51,7 +51,7 @@ void TLobby::drain_deferred_packets() {
         u8 *p;
         u16 n;
         p = (u8 *)(deferred_packet_buffer + i);
-        n = (u16)to_be_uint16_t__FUs(*(u16 *)(p + 2));
+        n = (u16)to_be_uint16_t(*(u16 *)(p + 2));
         if (p[0] == 0) {
             break;
         }
@@ -62,7 +62,7 @@ void TLobby::drain_deferred_packets() {
 void copy_packet(packet *pkt) {
     s32 len;
 
-    len = (u16) to_be_uint16_t__FUs(pkt->pkt.header.size);
+    len = (u16) to_be_uint16_t(pkt->pkt.header.size);
     if (deferred_packet_buffer_used + len <= 0x10000) {
         memcpy((void *)(deferred_packet_buffer + deferred_packet_buffer_used), pkt, len);
         deferred_packet_buffer_used += len;

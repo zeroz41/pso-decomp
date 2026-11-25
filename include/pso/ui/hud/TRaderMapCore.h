@@ -39,7 +39,7 @@ struct RadarMapViewState;
 struct RadarScissorRect;
 
 struct TRaderMapCore : public TObjBase {
-    static saddr map_heap;
+    static THeap *map_heap;
     static s32 render_mode;
     static void * instance;
     static u8 * floor_map_resource;

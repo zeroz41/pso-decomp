@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/vector.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
@@ -16,11 +17,6 @@
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-
-extern "C" {
-
-void copy_vec2__FPvPv(void *, void *);
-}
 
 #pragma readonly_strings on
 const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
@@ -43,8 +39,8 @@ s32 TAdYesNoBaseGC::create_menu_window() {
 }
 
 void TAdYesNoBaseGC::init_parts(void *position, void *size) {
-    copy_vec2__FPvPv(&message_position, position);
-    copy_vec2__FPvPv(&message_size, size);
+    copy_vec2(&message_position, position);
+    copy_vec2(&message_size, size);
 }
 
 
