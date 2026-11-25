@@ -46,33 +46,6 @@ public:
     static void render_game_mode_change();
     static void sync_mode_state();
 public:
-    void close_windows_on_selection();
-    void update_confirm_selection();
-    void update_card_confirm_selection();
-    void close_windows_and_reopen();
-    void close_window_30();
-    static void setup_mode_menu(void *owner, s32 mode);
-    void handle_menu_input();
-    void create_back_objects();
-    void update_mode_selection();
-    void load_system_on_mode_default();
-    s32 handle_mode_selection();
-    void update_mode_selection_and_save();
-    void check_player_load_result();
-    void request_scene_change_vt();
-    void set_state(s32 state);
-    void confirm_mode_selection();
-    void sub_8036DEDC();
-    void close_windows_and_cleanup();
-    void sub_8036E51C();
-    void sub_8036E6A0();
-    void sub_8036E6EC();
-    void sub_8036E750();
-    void sub_8036E7DC();
-    void sub_8036E830();
-    void sub_8036E834();
-    void sub_8036E854();
-    void sub_8036E9EC();
 
     s32 pad_1C;
     s32 selection;
