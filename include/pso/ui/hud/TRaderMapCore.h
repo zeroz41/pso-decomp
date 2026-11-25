@@ -29,6 +29,8 @@ struct RadarPlayerMarker {
     u8 pad_14[2];
     s16 id;
     NJS_ARGB color;
+
+    void reset();
 };
 
 struct TObjPlayer;
@@ -59,12 +61,12 @@ struct TRaderMapCore : public TObjBase {
     f32 viewport_width;
     f32 viewport_height;
     s32 view_flags;
-    s32 m_16c;
-    f32 m_170;
+    s32 zoom_state;
+    f32 zoom_step;
     s32 map_angle;
-    NJS_OBJECT *m_178;
-    NJS_OBJECT *m_17c;
-    NJS_OBJECT *m_180;
+    NJS_OBJECT *player_marker_model;
+    NJS_OBJECT *square_marker_model;
+    NJS_OBJECT *wide_marker_model;
     TObjPlayer *target_player;
     f32 pan_x_speed;
     f32 pan_z_speed;
@@ -115,7 +117,6 @@ struct TRaderMapCore : public TObjBase {
     void draw_compass(s32 mode);
     static void free_statics();
     static void load_frame_texture();
-    void reset();
     static NJS_OBJECT *init_map_ptr(const s32 *counter, s32 index);
     static s32 is_not_split_screen();
     static void clear();

@@ -50,6 +50,7 @@ struct PhotonBlastGauge {
     f32 get_charge();
     // The equipped mag's level for blast (0-5), -1 when no mag holds it.
     void set_blast_level(s16 blast, s8 level);
+    u8 get_blast_level(s16 blast);
     int check_flag_clear();
     int is_blast_launched();
     void set_complete_threshold(f32 threshold);

@@ -20,7 +20,6 @@ s32 get_game_play_mode();
 
 s32 TObjPlayer__sub_801AF694(void *, s32);
 s32 get_empty_action_entry(void *);
-s32 fn_8013F24C(void *, s32);
 void TPlyDispConfigSmth::init() {
     s32 i;
     i = 0;
@@ -258,7 +257,7 @@ s32 TObjPlayer::can_use_palette_action(u8 kind, u8 arg) {
         }
         break;
     case 5:
-        if ((s8)fn_8013F24C(&photon_blast_gauge, arg) == (s8)get_empty_action_entry(this)) {
+        if ((s8)photon_blast_gauge.get_blast_level(arg) == (s8)get_empty_action_entry(this)) {
             return 0;
         }
         break;

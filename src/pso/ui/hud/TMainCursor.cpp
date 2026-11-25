@@ -176,8 +176,6 @@ extern f32 scratch_vec5[3];
 
 }
 
-struct TargetPartEntry { u16 a; u16 b; u16 c; };
-
 
 
 
@@ -190,7 +188,7 @@ extern "C" {
 void __destroy_arr(void *, void *, int, int);
 }
 extern "C" {
-void reset_target_part_entry(void *);
+void reset_target_part_entry(LockOnTargetPart *);
 
 void __construct_array(void *, void *, void *, int, int);
 }
@@ -201,10 +199,7 @@ extern const f32 lbl_805DB0C4;
 
 
 
-struct ActionPriorityView { u8 pad[0x44]; u8 arr[1]; };
-
 extern "C" {
-u8 fn_8013F24C(ActionPriorityView *record, s16 i);
 
 }
 
@@ -346,11 +341,11 @@ void TLockOnCursor::run_task() {
 void TLockOnCursor::render() {
     s32 i;
     s32 j;
-    u8 *c;
+    LockOnActionSlot *c;
     s32 n;
     LockOnTargetRecord *p;
     saddr e;
-    u8 *o;
+    TObjCollidable *o;
     if (is_split_screen() != 0) {
         if (TCameraCtrl::get_camera_no() != TCameraCtrl::get_split_screen_view_index(get_target_id())) {
             return;
@@ -359,18 +354,18 @@ void TLockOnCursor::render() {
         return;
     }
     for (i = 0; i < 4; i++) {
-        c = (u8 *)get_action_slot(i);
+        c = get_action_slot(i);
         if (((TMainCursor *)c)->get_selected_entry() != 0) {
-            n = ((LockOnTargetRecordList *)(c + 0x9C))->get_count();
-            for (p = ((LockOnActionSlot *)c)->target_records.get_record(0), j = 0; j < n; j++, p++) {
+            n = c->target_records.get_count();
+            for (p = c->target_records.get_record(0), j = 0; j < n; j++, p++) {
                 if (p->is_primary() == 0 &&
                     p->is_excluded() == 0 &&
                     p->get_entity_id() != 0xFFFF) {
-                    o = (u8 *)find_entity_by_id(p->id);
+                    o = find_entity_by_id(p->id);
                     if (o != NULL) {
-                        e = *(s32 *)(o + 0xA4) + p->flag * 0x2C;
+                        e = (saddr)&o->bodies[p->flag];
                         if (e != 0) {
-                            renderSecondaryCursor((u8*)e, (s32)(get_cursor_palette_mode((void *)c)), (s32)(((TMainCursor *)c)->get_active()));
+                            renderSecondaryCursor((u8*)e, (s32)(get_cursor_palette_mode(c)), (s32)(((TMainCursor *)c)->get_active()));
                         }
                     }
                 }
@@ -743,9 +738,8 @@ s32 TMainCursor::get_action_cursor_priority(void *unused, saddr player, s32 inde
 }
 
 void TLockOnCursor::set_cursor_pos(u16 part, s32 index) {
-    saddr base = (saddr)this;
-    u32 eq = (u32) __cntlzw((u32) ((u16) ((CursorTarget *)(base + 0x4F8))->get_entity_id() - (u16) part)) >> 5;
-    set_target_part((u8 *)(base + 0x508), part, index, eq + 1);
+    u32 eq = (u32) __cntlzw((u32) ((u16) selection.target.get_entity_id() - (u16) part)) >> 5;
+    set_target_part(&target_part, part, index, eq + 1);
 }
 
 void TLockOnCursor::bind_action_channels() {
@@ -1131,13 +1125,12 @@ void TMainCursor::refresh_target_marker() {
 }
 
 void TMainCursor::update_position() {
-    saddr cursor = (saddr)this;
-    void *entity;
+    TObjCollidable *entity;
 
-    entity = find_entity_by_id(((TMainCursor *)cursor)->target.get_entity_id());
+    entity = find_entity_by_id(target.get_entity_id());
     if (entity != NULL) {
-        saddr base = *(s32 *)((s8 *)entity + 0xA4) + ((TMainCursor *)cursor)->is_position_moved() * 0x2C;
-        VecCopy(&((TMainCursor *)cursor)->position, (const Vec *)(base + 0x1C));
+        CollisionBody *body = &entity->bodies[is_position_moved()];
+        VecCopy(&position, &body->center);
     }
 }
 
@@ -1216,7 +1209,7 @@ void TMainCursor::render() {
 
 void TMainCursor::validate_target() {
     TObjPlayer *t;
-    ((FlagWord *)(((u8 *)this) + 0x20))->clear(0xB);
+    unk_20.clear(0xB);
     t = get_owner_player();
     if (t == NULL) {
         this->update_target_sub();
@@ -1230,9 +1223,9 @@ void TMainCursor::validate_target() {
         this->update_target_sub();
         return;
     }
-    if (get_target_palette_mode(((u8 *)this) + 0x60) != 1) {
-        if (TMainCursor::check_visible(&t->action_palettes.m_smth, t, get_target_palette_mode(((u8 *)this) + 0x60),
-                                            get_target_palette_slot(((u8 *)this) + 0x60)) == -1) {
+    if (get_target_palette_mode(&target.palette_tag) != 1) {
+        if (TMainCursor::check_visible(&t->action_palettes.m_smth, t, get_target_palette_mode(&target.palette_tag),
+                                            get_target_palette_slot(&target.palette_tag)) == -1) {
             t->lock_on_cursor->selection.target.set_entity_id(0xFFFF);
             this->update_target_sub();
             return;
@@ -1242,7 +1235,7 @@ void TMainCursor::validate_target() {
         TMainCursor__sub_8013E310(this);
         return;
     }
-    switch (get_target_palette_mode(((u8 *)this) + 0x60)) {
+    switch (get_target_palette_mode(&target.palette_tag)) {
     case 0:
         this->update_target_sub();
         return;
@@ -1255,7 +1248,7 @@ void TMainCursor::validate_target() {
         }
         return;
     case 3:
-        if (TObjPlayer::is_invalid_slot(get_cast_technique_level(&t->technique_state, get_target_palette_slot(((u8 *)this) + 0x60))) != 0) {
+        if (TObjPlayer::is_invalid_slot(get_cast_technique_level(&t->technique_state, get_target_palette_slot(&target.palette_tag))) != 0) {
             this->update_target_sub();
             return;
         }
@@ -1271,8 +1264,8 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (t->tp - (calc_technique_parameters(get_target_palette_slot(((u8 *)this) + 0x60),
-                                                      get_cast_technique_level(&t->technique_state, get_target_palette_slot(((u8 *)this) + 0x60)),
+        if (t->tp - (calc_technique_parameters(get_target_palette_slot(&target.palette_tag),
+                                                      get_cast_technique_level(&t->technique_state, get_target_palette_slot(&target.palette_tag)),
                                                       t->get_entity_id()))->tp_cost < 0) {
             this->update_target_sub();
             return;
@@ -1281,7 +1274,7 @@ void TMainCursor::validate_target() {
     case 4:
         return;
     case 5:
-        if ((s8)fn_8013F24C((ActionPriorityView *)((u8 *)t + 0x4AC), get_target_palette_slot(((u8 *)this) + 0x60)) != (s8)get_empty_action_entry()) {
+        if ((s8)t->photon_blast_gauge.get_blast_level(get_target_palette_slot(&target.palette_tag)) != (s8)get_empty_action_entry()) {
             this->update_target_sub();
             return;
         }
@@ -1610,7 +1603,7 @@ TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
 u16 CursorTarget::get_entity_id() { return entity_id; }
 
 
-void TMainCursor__sub_8013E310(void* p) { ((FlagWord *)((char*)p + 0x20))->set(2); }
+void TMainCursor__sub_8013E310(void* p) { ((TMainCursor *)p)->unk_20.set(2); }
 
 u8 get_target_palette_slot(void* p) { return get_action_palette_tag_slot(static_cast<const ActionPaletteTag *>(p)); }
 
@@ -1635,31 +1628,31 @@ int CursorTarget::matches_id(u16 id) {
 
 CursorTarget *LockOnSelection::get_target() { return &target; }
 
-void TMainCursor::update_target_sub() { ((FlagWord *)((char*)this + 0x20))->set(1); }
+void TMainCursor::update_target_sub() { unk_20.set(1); }
 
 u16 TMainCursor::get_client_id() { return owner.get_client_id(); }
 
 u16 CursorOwner::get_client_id() { return client_id; }
 
-int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)((char*)this + 0x20), 2); }
+int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)&unk_20, 2); }
 
-int TMainCursor::init_render_flags() { return test_flags_any((s32 *)((char*)this + 0x20), 8); }
+int TMainCursor::init_render_flags() { return test_flags_any((s32 *)&unk_20, 8); }
 
-int TMainCursor::update() { return test_flags_any((s32 *)((char*)this + 0x20), 4); }
+int TMainCursor::update() { return test_flags_any((s32 *)&unk_20, 4); }
 
-int TMainCursor::check_flag_1() { return test_flags_any((s32 *)((char*)this + 0x20), 1); }
+int TMainCursor::check_flag_1() { return test_flags_any((s32 *)&unk_20, 1); }
 
-u8 TMainCursor::is_position_moved() { return (u8)(TMainCursor__sub_8013E570((char*)this + 0x60)); }
+u8 TMainCursor::is_position_moved() { return (u8)(TMainCursor__sub_8013E570(&target.palette_tag)); }
 
 
 s16 TMainCursor__sub_8013E570(void* p) { return *(s16*)((char*)p + 0x6); }
 
 
-void TMainCursor::check_flag_4() { ((FlagWord *)((char*)this + 0x20))->set(4); }
+void TMainCursor::check_flag_4() { unk_20.set(4); }
 
-u8 TMainCursor::forward_13E338_at_60() { return get_target_palette_slot((char*)this + 0x60); }
+u8 TMainCursor::forward_13E338_at_60() { return get_target_palette_slot(&target.palette_tag); }
 
-u8 TMainCursor::update_sub_60() { return get_target_palette_mode((char*)this + 0x60); }
+u8 TMainCursor::update_sub_60() { return get_target_palette_mode(&target.palette_tag); }
 
 CursorOwner::~CursorOwner() {}
 
@@ -1737,12 +1730,12 @@ void ActionPriorityEntry::set_priority(s16 v) { priority = v; }
 
 u16 TLockOnCursor::get_target_id() { return target_id; }
 
-int TLockOnCursor::is_cursor_clear() { return (test_flags_any((s32 *)((char*)this + 0x1c), 1)) == 0; }
+int TLockOnCursor::is_cursor_clear() { return (test_flags_any((s32 *)&flags, 1)) == 0; }
 
-void set_target_part(u8 *target, u16 part, s32 index, s32 flag) {
-    *(s16 *)((s8 *)target + 0) = part;
-    *(s16 *)((s8 *)target + 2) = index;
-    *(s16 *)((s8 *)target + 4) = flag;
+void set_target_part(LockOnTargetPart *target, u16 part, s32 index, s32 flag) {
+    target->actor_id = part;
+    target->collider = index;
+    target->unk_4 = flag;
 }
 
 void LockOnActionSlot::set_actor_include_mask(s32 v) { actor_include_mask = v; }
@@ -1805,11 +1798,10 @@ TObject *TLockOnCursor::get_start_task() { return tasks.get_start_task(); }
 
 TObject *LockOnTasks::get_start_task() { return start_task; }
 
-void reset_target_part_entry(void *p) {
-    TargetPartEntry *entry = (TargetPartEntry *)p;
-    entry->a = 0xffff;
-    entry->b = 0;
-    entry->c = 0;
+void reset_target_part_entry(LockOnTargetPart *entry) {
+    entry->actor_id = 0xffff;
+    entry->collider = 0;
+    entry->unk_4 = 0;
 }
 
 void LockOnSelection::reset_state() {
@@ -1905,8 +1897,8 @@ void clear_marker_color(void* a0) { *(float*)((char*)a0 + 0xc) = cursor_float_ze
 
 int get_empty_action_entry(void) { return -1; }
 
-u8 fn_8013F24C(ActionPriorityView *record, s16 i) {
-    return record->arr[i];
+u8 PhotonBlastGauge::get_blast_level(s16 blast) {
+    return blast_levels[blast];
 }
 
 

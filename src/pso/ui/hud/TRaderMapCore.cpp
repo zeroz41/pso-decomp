@@ -67,34 +67,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/hud/RadarMapData.h"
 
-typedef struct RadarCoreMarker {
-    f32 x;
-    f32 y;
-    f32 z;
-    s32 unkC;
-    f32 unk10;
-    u8 pad14[2];
-    s16 id;
-    RadarColor4 color;
-} RadarCoreMarker;
-
-typedef struct RadarCoreView {
-    u8 pad0[0x94];
-    RadarCoreMarker e[4];
-    s32 unk134;
-    u8 pad138[0x34];
-    s32 mode;
-} RadarCoreView;
-
-typedef struct RadarPlayerView {
-    u8 pad0[0x38];
-    f32 pos[3];
-    u8 pad44[0x1C];
-    s32 unk60;
-    u8 pad64[0x828 - 0x64];
-    PlayerPkState pk_state;
-} RadarPlayerView;
-
 extern "C" {
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
@@ -220,7 +192,19 @@ NJS_OBJECT *TRaderMapCore::init_map_ptr(const s32 *, s32 index) {
     return get_bml_model(radar_frame_model_resource, index);
 }
 
-void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(int *)&this->m_next = 0; *(float *)&this->m_up = 1.0f; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texlist = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->entity_id = 1.0f; *(float*)((char*)this + 0x18) = 1.0f; }
+void RadarPlayerMarker::reset() {
+    z = 0.0f;
+    y = 0.0f;
+    x = 0.0f;
+    rot_y = 0;
+    scale = 1.0f;
+    *(s16 *)pad_14 = 0;
+    id = -1;
+    color.b = 1.0f;
+    color.g = 1.0f;
+    color.r = 1.0f;
+    color.a = 1.0f;
+}
 
 void TRaderMapCore::load_frame_texture() {
     radar_frame_model_resource = new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
@@ -312,9 +296,9 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     s32 i;
     u32 j;
     m_name = rader_map_core_name_ptr;
-    m_178 = init_map_ptr(&countdown, 2);
-    m_17c = init_map_ptr(&countdown, 0);
-    m_180 = init_map_ptr(&countdown, 1);
+    player_marker_model = init_map_ptr(&countdown, 2);
+    square_marker_model = init_map_ptr(&countdown, 0);
+    wide_marker_model = init_map_ptr(&countdown, 1);
     for (i = 0; i < 3; i++) {
         g = &radar_map_view_state[i].camera;
         init_ninja_camera(g);
@@ -338,8 +322,8 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     }
     follow_marker = 0;
     view_flags = 2;
-    m_16c = 0;
-    m_170 = radar_camera_rise_speed;
+    zoom_state = 0;
+    zoom_step = radar_camera_rise_speed;
     TRaderMapCore::view_mode = 0;
     map_angle = 0;
     TRaderMapCore::instance = this;
@@ -767,24 +751,24 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
         this->map_angle = 0;
     }
     if (this->view_flags & 2) {
-        switch (this->m_16c) {
+        switch (this->zoom_state) {
         case 0:
-            this->m_170 *= 1.2f;
-            view->camera.py += this->m_170;
+            this->zoom_step *= 1.2f;
+            view->camera.py += this->zoom_step;
             if (view->camera.py > radar_camera_height_default) {
                 view->camera.py = radar_camera_height_default;
             }
             break;
         case 1:
-            this->m_170 *= 1.2f;
-            view->camera.py += this->m_170;
+            this->zoom_step *= 1.2f;
+            view->camera.py += this->zoom_step;
             if (view->camera.py > radar_camera_height_max) {
                 view->camera.py = radar_camera_height_max;
             }
             break;
         case 2:
-            this->m_170 *= 1.2f;
-            view->camera.py -= this->m_170;
+            this->zoom_step *= 1.2f;
+            view->camera.py -= this->zoom_step;
             if (view->camera.py < radar_camera_height_min) {
                 view->camera.py = radar_camera_height_min;
             }
@@ -801,7 +785,7 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
 }
 
 void TRaderMapCore::draw_player_markers() {
-    u8 *marker;
+    RadarPlayerMarker *marker;
     s32 i;
     saved_model_render_flags = model_render_flags;
     copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
@@ -809,21 +793,21 @@ void TRaderMapCore::draw_player_markers() {
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= this->radar_render_flags;
     set_chunk_material_override_pair(-0xFF01, 0x100);
-    marker = ((u8 *)&this->player_marker_records);
+    marker = player_marker_records;
     i = 0;
     do {
-        if ((s16) *(s16 *)((s8 *)marker + 0x16) != -1) {
-            set_constant_material((const NJS_ARGB *)((marker + 0x18)));
+        if (marker->id != -1) {
+            set_constant_material(&marker->color);
             push_matrix();
-            translate_matrix(0, *(f32 *)((s8 *)marker + 0x0), 0.0f, *(f32 *)((s8 *)marker + 0x8));
-            rotate_matrix_y(0, *(s32 *)((s8 *)marker + 0xC));
-            scale_matrix(0, *(f32 *)((s8 *)marker + 0x10), *(f32 *)((s8 *)marker + 0x10), *(f32 *)((s8 *)marker + 0x10));
-            draw_ginja_object(this->m_178);
+            translate_matrix(0, marker->x, 0.0f, marker->z);
+            rotate_matrix_y(0, marker->rot_y);
+            scale_matrix(0, marker->scale, marker->scale, marker->scale);
+            draw_ginja_object(this->player_marker_model);
             pop_matrix();
             set_constant_material(&chunk_material_color_half_alpha_f32);
         }
         i += 1;
-        marker = (marker + 0x28);
+        marker++;
     } while (i < 4);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -848,11 +832,11 @@ void TRaderMapCore::draw_enemy_gate_markers() {
         switch (g->kind) {
         case 0:
             scale_matrix(0, 13.6f * g->scale, 8.0f, 5.6f * g->scale);
-            draw_ginja_object(this->m_180);
+            draw_ginja_object(this->wide_marker_model);
             break;
         case 1:
             scale_matrix(0, 8.0f * g->scale, 8.0f, 8.0f * g->scale);
-            draw_ginja_object(this->m_17c);
+            draw_ginja_object(this->square_marker_model);
             break;
         }
         pop_matrix();
@@ -866,83 +850,83 @@ void TRaderMapCore::draw_enemy_gate_markers() {
 
 void TRaderMapCore::gather_player_markers() {
     s32 floor;
-    RadarCoreMarker *e;
+    RadarPlayerMarker *e;
     s32 team;
     s32 i;
-    RadarPlayerView *p;
-    RadarCoreMarker *me;
+    TObjPlayer *p;
+    RadarPlayerMarker *me;
     team = 0;
     floor = get_current_floor();
-    ((RadarCoreView *)this)->unk134 = -1;
-    p = (RadarPlayerView *)get_player_by_client_id(local_client_id);
-    me = &((RadarCoreView *)this)->e[0];
+    follow_marker = -1;
+    p = get_player_by_client_id(local_client_id);
+    me = &player_marker_records[0];
     if (p != NULL) {
         team = p->pk_state.get_team();
-        if (((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
-            VecCopy((Vec *)me, (const Vec *)p->pos);
+        if (p->is_body_collision_inactive() == 0) {
+            VecCopy((Vec *)me, &p->position);
             me->y = 10.0f;
-            me->unkC = p->unk60;
+            me->rot_y = p->rotation_y;
             me->id = local_client_id;
-            ((RadarCoreView *)this)->unk134 = 0;
+            follow_marker = 0;
             if (SHOW(this) != 0) {
                 if (team == 1) {
-                    copy_argb((NJS_ARGB *)&me->color, (NJS_ARGB *)&radar_player_slot_color_table[0]);
+                    copy_argb(&me->color, (NJS_ARGB *)&radar_player_slot_color_table[0]);
                 } else if (team == 2) {
-                    copy_argb((NJS_ARGB *)&me->color, (NJS_ARGB *)&radar_player_slot_color_table[1]);
+                    copy_argb(&me->color, (NJS_ARGB *)&radar_player_slot_color_table[1]);
                 } else {
-                    copy_argb((NJS_ARGB *)&me->color, (NJS_ARGB *)&radar_player_slot_color_table[2]);
+                    copy_argb(&me->color, (NJS_ARGB *)&radar_player_slot_color_table[2]);
                 }
             } else {
-                copy_argb((NJS_ARGB *)&me->color, (NJS_ARGB *)(&radar_player_slot_color_table[((TObjBase *)(p))->get_entity_id()]));
+                copy_argb(&me->color, (NJS_ARGB *)(&radar_player_slot_color_table[p->get_entity_id()]));
             }
         } else {
-            ((TRaderMapCore *)me)->reset();
+            me->reset();
         }
     } else {
-        ((TRaderMapCore *)me)->reset();
+        me->reset();
     }
-    e = &((RadarCoreView *)this)->e[1];
+    e = &player_marker_records[1];
     for (i = 0; i < 4; i++) {
         if (i == local_client_id) {
             continue;
         }
         if (SHOW(this) == 0) {
-            p = (RadarPlayerView *)get_player_by_client_id(i);
-            if (p != NULL && floor == ((TObjPlayer *)p)->get_floor() &&
-                ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
-                VecCopy((Vec *)e, (const Vec *)p->pos);
+            p = get_player_by_client_id(i);
+            if (p != NULL && floor == p->get_floor() &&
+                p->is_body_collision_inactive() == 0) {
+                VecCopy((Vec *)e, &p->position);
                 e->y = 10.0f;
-                e->unkC = p->unk60;
+                e->rot_y = p->rotation_y;
                 e->id = i;
-                copy_argb((NJS_ARGB *)&e->color, (NJS_ARGB *)(&radar_player_slot_color_table[((TObjBase *)(p))->get_entity_id()]));
+                copy_argb(&e->color, (NJS_ARGB *)(&radar_player_slot_color_table[p->get_entity_id()]));
             } else {
-                ((TRaderMapCore *)e)->reset();
+                e->reset();
             }
         } else if (team != 0) {
-            p = (RadarPlayerView *)get_player_by_client_id(i);
-            if (p != NULL && floor == ((TObjPlayer *)p)->get_floor() &&
+            p = get_player_by_client_id(i);
+            if (p != NULL && floor == p->get_floor() &&
                 team == p->pk_state.get_team() &&
-                ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
-                VecCopy((Vec *)e, (const Vec *)p->pos);
+                p->is_body_collision_inactive() == 0) {
+                VecCopy((Vec *)e, &p->position);
                 e->y = 10.0f;
-                e->unkC = p->unk60;
+                e->rot_y = p->rotation_y;
                 e->id = i;
                 if (team == 1) {
-                    copy_argb((NJS_ARGB *)&e->color, (NJS_ARGB *)&radar_player_slot_color_table[0]);
+                    copy_argb(&e->color, (NJS_ARGB *)&radar_player_slot_color_table[0]);
                 } else if (team == 2) {
-                    copy_argb((NJS_ARGB *)&e->color, (NJS_ARGB *)&radar_player_slot_color_table[1]);
+                    copy_argb(&e->color, (NJS_ARGB *)&radar_player_slot_color_table[1]);
                 } else {
-                    copy_argb((NJS_ARGB *)&e->color, (NJS_ARGB *)&radar_player_slot_color_table[2]);
+                    copy_argb(&e->color, (NJS_ARGB *)&radar_player_slot_color_table[2]);
                 }
             } else {
-                ((TRaderMapCore *)e)->reset();
+                e->reset();
             }
         } else {
-            ((TRaderMapCore *)e)->reset();
+            e->reset();
         }
         e++;
     }
-    switch (((RadarCoreView *)this)->mode) {
+    switch (zoom_state) {
     case 0:
         for (s32 j = 0; j < 4; j++) {
             player_marker_records[j].scale = 22.0f;
@@ -1006,8 +990,8 @@ void update_radar_auto_discovery(TRaderMapCore *core, s32 unused, void *pos) {
 NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *core) {
     NJS_POINT2 p = { 0.0f, 0.0f };
     if (core->follow_marker >= 0) {
-        p.x = ((RadarCoreView *)core)->e[core->follow_marker].x;
-        p.y = ((RadarCoreView *)core)->e[core->follow_marker].z;
+        p.x = core->player_marker_records[core->follow_marker].x;
+        p.y = core->player_marker_records[core->follow_marker].z;
     }
     return p;
 }
