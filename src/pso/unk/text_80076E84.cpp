@@ -41,7 +41,7 @@ void handle_6x07_symbol_chat(Pkt_80076E98 *command) {
 struct SymBody_80076F48 { u32 w[12]; };
 struct SymPair_80076F48 { u32 b; u32 c; };
 struct Sym_80076F48 { u32 a; SymPair_80076F48 mid; SymBody_80076F48 body; };
-void *copy_symbol_chat_entry__6TLobbyFPvPv(void *dst, void *src) {
+void *TLobby::copy_symbol_chat_entry(void *dst, void *src) {
     *(Sym_80076F48 *)dst = *(Sym_80076F48 *)src;
     return dst;
 }

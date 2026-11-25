@@ -40,7 +40,6 @@ extern "C" {
 void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800728FC(u8 *arg0);
 u8 is_challenge_lobby__6TLobbyFv(void);
-void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 
@@ -223,7 +222,7 @@ void TLobby::send_45_and_close_windows(void * _w0) {
 }
 void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void TLobby::play_default_effect(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
-void play_player_default_effect__6TLobbyFv(s32 _w0) {
+void TLobby::play_player_default_effect() {
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->check_player_flag1() == 0)) {

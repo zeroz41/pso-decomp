@@ -182,7 +182,6 @@ void send_6x7D_set_battle_mode_data(void *);
 s32 obj_set_flag_20000();
 s32 TLobby__sub_801C417C();
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
-void init__6TLobbyFPv(void *arg0);
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
 }
@@ -326,6 +325,7 @@ extern "C" {
 void *create_window_menu_default(void *, int);
 
 void update_duel_result__6TLobbyFPv(u8 *arg0);
+
 
 
 extern char battle_intro_message_buffer[];
@@ -1313,7 +1313,7 @@ void TLobby::start_duel_battle() {
     ((Lobby_801C2F40 *)this)->f64 = battle_ctrl_default_value;
 }
 
-void init__6TLobbyFPv(void *arg0) {
+void TLobby::init(void *arg0) {
     saddr temp_r3;
     s32 i;
     TObjPlayer *player;
