@@ -13,13 +13,6 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/WindowTextEntry.h"
 
-struct RoomTitleEntry {
-    u8 unknown00[8];
-    f32 positionX;
-    u8 unknown0C[4];
-    f32 width;
-};
-
 // inferred: room_window_layout_entries, the layout table room_window_base_parameters points at.
 struct RoomWindowLayout {
     u32 cols;
@@ -62,12 +55,12 @@ TWindowRoom::~TWindowRoom() {}
 
 TWindowRoom::TWindowRoom(char *title)
     : TWindowBase((u8 *)&room_window_base_parameters, 4, (u8 *)get_window_layout_position(0xAF)) {
-    RoomTitleEntry *entry;
+    WindowTextEntry *entry;
     m_name = TWindowRoom__class_name;
-    entry = (RoomTitleEntry *)this->get_array_entry(0);
-    set_text_entry_string((WindowTextEntry *)entry, (uaddr)title, 0x60);
+    entry = (WindowTextEntry *)this->get_array_entry(0);
+    set_text_entry_string(entry, (uaddr)title, 0x60);
     measure_message_text_width_default(entry);
-    target_size[0] = 10.0f + (entry->positionX + entry->width);
+    target_size[0] = 10.0f + (entry->x + entry->width);
     target_position[0] -= target_size[0];
     this->save_position();
     tabParameter = TWindowSubStatusDisp__sub_802877A4(frame_size[0] - 16.0f);

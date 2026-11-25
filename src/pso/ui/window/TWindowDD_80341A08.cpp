@@ -64,11 +64,6 @@ struct Elem_80341FFC {
     s32 count;
 };
 
-struct Entry_80341FFC {
-    u8 pad[0xC];
-    f32 y;
-};
-
 
 extern s32 TWindowDD__data_805DFB50;
 
@@ -157,7 +152,7 @@ void TWindowDD_WS_Word::load_element_list() {
     Elem_80341FFC *e;
     s32 i;
     s32 n;
-    Entry_80341FFC *ent;
+    WindowTextEntry *ent;
     e = (Elem_80341FFC *)TWindowDD::get_element_ptr(element_list_id);
     if (e != NULL) {
         token_count = e->count;
@@ -175,8 +170,8 @@ void TWindowDD_WS_Word::load_element_list() {
     }
     visible_entry_count = n;
     for (i = 0; i < visible_entry_count; i++) {
-        ent = (Entry_80341FFC *)get_array_entry(i);
-        set_text_entry_string((WindowTextEntry *)ent, get_word_select_token_text(token_ids[i]), 0xC0);
+        ent = (WindowTextEntry *)get_array_entry(i);
+        set_text_entry_string(ent, get_word_select_token_text(token_ids[i]), 0xC0);
         ent->y = i * 20;
         measure_message_text_width_default(ent);
     }
