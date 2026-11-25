@@ -25,7 +25,7 @@ void TItemWeaponDarkBridge::update_weapon() {
         }
         if (lost > 0) {
             half = lost / 2;
-            TObjectV8047c128_subtract_hp((u8 *)owner, (s16)half);
+            subtract_actor_hp((TObjChara *)owner, (s16)half);
             add_actor_tp((TObjChara *)owner, (s16)half);
         }
     }

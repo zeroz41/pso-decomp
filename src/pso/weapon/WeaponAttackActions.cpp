@@ -88,7 +88,6 @@ struct Stack_8011E56C {
 struct ShotVector { f32 x,y,z; };
 
 
-s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 TObjChara *resolve_hittable_target(s32, s32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
@@ -106,7 +105,7 @@ void TItemWeapon::set_weapon_category_flags() {
 
 void TItemWeapon::drain_owner_hp_fraction(f32 farg0) {
     if (owner != NULL) {
-        TObjectV8047c128_subtract_hp((u8 *)owner, (farg0 * (f32) ((TObjChara *)owner)->get_hpmax()));
+        subtract_actor_hp(owner, (farg0 * (f32) ((TObjChara *)owner)->get_hpmax()));
     }
 }
 

@@ -160,7 +160,7 @@ void TItemTimerEventHpDrain::vfunc_7() {
 
 void TItemTimerEventHpDrain::vfunc_6() {
         if ((is_item_area_enabled(((TObjPlayer *)(this->m_28))->get_area()) == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0)) {
-        TObjectV8047c128_subtract_hp((u8 *)this->m_28, 1);
+        subtract_actor_hp((TObjChara *)this->m_28, 1);
     }
 }
 

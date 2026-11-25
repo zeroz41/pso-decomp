@@ -68,7 +68,7 @@ void TItemWeaponPsychoWand::update_weapon() {
             last_tp = tp;
         }
         if (spent > 0) {
-            TObjectV8047c128_subtract_hp((u8 *)owner, spent);
+            subtract_actor_hp(owner, spent);
             add_actor_tp((TObjChara *)owner, (s16)(spent / 2));
         }
     }
