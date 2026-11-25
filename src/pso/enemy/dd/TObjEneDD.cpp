@@ -53,7 +53,6 @@ extern const f32 view_detail_near_depth = 155.0f;
 extern "C" {
 int is_local_client_floor_leader(void*);
 int TObjPlayer__sub_801BA42C(void*);
-int freeze_all_players__10TObjPlayerFv(void*);
 }
 
 
@@ -1015,7 +1014,7 @@ void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance)
     vec3_add_to(out, &camera_ctrl_instance->pos);
 }
 
-int TObjEneDD::get_target_state_b() { return freeze_all_players__10TObjPlayerFv(this); }
+void TObjEneDD::get_target_state_b() { TObjPlayer::freeze_all_players(); }
 
 int TObjEneDD::get_target_state_a() { return TObjPlayer__sub_801BA42C(this); }
 
