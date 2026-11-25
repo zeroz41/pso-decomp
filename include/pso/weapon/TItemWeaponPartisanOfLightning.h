@@ -11,7 +11,7 @@ public:
     virtual void update_attack();
     virtual void update_idle();
     virtual void transform_model_node();
-    f32 pad_1f8;  // scale_matrix y/z for passes 1 and 2
+    f32 effect_thickness;  // scale_matrix y/z of the effect passes: shrinks to 0 idle, grows to 1 attacking
 };
 
 #endif

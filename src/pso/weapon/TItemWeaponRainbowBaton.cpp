@@ -13,7 +13,7 @@
 extern "C" void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 
 void TItemWeaponRainbowBaton::emit_marker_effects() {
-    f32 tmp[4];
+    f32 color_tmp[4];
     SlicerLaunchState launch;
     init_slicer_launch_state(&launch);
     launch.player_id = owner->get_entity_id();
@@ -23,8 +23,8 @@ void TItemWeaponRainbowBaton::emit_marker_effects() {
     launch.attack_kind = owner->attack_state.get_validated_attack_kind();
     launch.combo_stage = owner->attack_state.get_validated_attack_stage();
     launch.damage_multiplier = owner->query_extended_state();
-    get_weapon_color__11TItemWeaponFPv(tmp, this);
-    copy_argb(&launch.color, (NJS_ARGB *)tmp);
+    get_weapon_color__11TItemWeaponFPv(color_tmp, this);
+    copy_argb(&launch.color, (NJS_ARGB *)color_tmp);
     launch.facing = owner->rotation_y;
     get_joint_position(2, &launch.first_joint);
     get_joint_position(1, &launch.second_joint);

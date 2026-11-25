@@ -18,7 +18,7 @@ public:
 
 extern "C" {
 // The weapon's hit callback (hit_callback).
-void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d);
+void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body);
 }
 
 extern "C" {

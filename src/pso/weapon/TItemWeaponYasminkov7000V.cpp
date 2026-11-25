@@ -11,56 +11,53 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
 
-struct Obj_80131334 { u8 pad[0x1f8]; s32 state; };
-
 
 // Yasminkov 7000V (inferred)
-void TItemWeaponYasminkov7000V::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { post_translate_matrix(&this->m_1fc); } }
+void TItemWeaponYasminkov7000V::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { post_translate_matrix(&this->model_offset.x); } }
 
 #pragma push
 #pragma opt_common_subs off
 
 void TItemWeaponYasminkov7000V::update_weapon() {
-    f32 buffer_14[3];
-    s32 buffer_8[3];
+    f32 casing_velocity[3];
+    s32 casing_angles[3];
     s32 angle;
     switch (this->state) {
     case 1:
-        this->m_200 = (f32) (this->m_200 - 0.90000004f);
-        if (this->m_200 <= 0.0f) {
-            this->m_200 = 0.0f;
+        this->model_offset.y = (f32) (this->model_offset.y - 0.90000004f);
+        if (this->model_offset.y <= 0.0f) {
+            this->model_offset.y = 0.0f;
             this->state = 0;
             break;
         }
         break;
     case 2:
-        this->m_200 += 0.90000004f;
-        if (2.7f <= this->m_200) {
-            this->m_200 = 2.7f;
+        this->model_offset.y += 0.90000004f;
+        if (2.7f <= this->model_offset.y) {
+            this->model_offset.y = 2.7f;
             this->state = 3;
             break;
         }
         break;
     case 3:
         this->state = 1;
-        angle = *(s32 *)((s8 *)this->owner + 0x60) - 0x4000;
-        buffer_14[0] = sin_table_lookup(angle);
-        buffer_14[1] = 1.0f;
-        buffer_14[2] = cos_table_lookup(angle);
-        buffer_8[0] = 0x4000;
-        buffer_8[1] = *(s32 *)((s8 *)this->owner + 0x60);
-        buffer_8[2] = 0;
-        TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr) this, 2, (uaddr) &buffer_14[0], (uaddr) &buffer_8[0]);
+        angle = this->owner->rotation_y - 0x4000;
+        casing_velocity[0] = sin_table_lookup(angle);
+        casing_velocity[1] = 1.0f;
+        casing_velocity[2] = cos_table_lookup(angle);
+        casing_angles[0] = 0x4000;
+        casing_angles[1] = this->owner->rotation_y;
+        casing_angles[2] = 0;
+        TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr) this, 2, (uaddr) &casing_velocity[0], (uaddr) &casing_angles[0]);
         break;
     }
 }
 #pragma pop
 
 void TItemWeaponYasminkov7000V::emit_marker_effects() {
-    Obj_80131334 *self = (Obj_80131334 *)this;
     Vec muzzle;
     this->state = 2;
-    ((TItemWeapon *)self)->get_gun_point(&muzzle);
+    get_gun_point(&muzzle);
     spawn_particle_effect(&muzzle, 9);
 }
 
@@ -73,9 +70,9 @@ TItemWeaponYasminkov7000V::TItemWeaponYasminkov7000V(TObject *parent, u8 *item) 
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     shot_speed = 20.0f;
     state = 0;
-    *(f32 *)unk_204 = 0.0f;
-    m_200 = 0.0f;
-    m_1fc = 0.0f;
+    model_offset.z = 0.0f;
+    model_offset.y = 0.0f;
+    model_offset.x = 0.0f;
 }
 
 TItem *TItemWeaponYasminkov7000V::create(u8 *item) {

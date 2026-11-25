@@ -9,18 +9,12 @@
 #include "pso/system/MatrixStack.h"
 
 // Eight x/y/z scales, indexed by scale_step.
-struct RecoveredGlobal_80123CA8_lbl_8043E878 {
+struct CaneScaleTable {
     Vec value;
     Vec remaining[7];
 };
 
-// Eight x/y/z scales, indexed by scale_step.
-struct RecoveredGlobal_80123CA8_lbl_8043E8D8 {
-    Vec value;
-    Vec remaining[7];
-};
-
-const RecoveredGlobal_80123CA8_lbl_8043E878 lbl_8043E878 = {
+const CaneScaleTable lbl_8043E878 = {
     {1.0f, 1.0f, 1.0f},
     {
         {150000.5f, 150000.5f, 5000.5f},
@@ -32,7 +26,7 @@ const RecoveredGlobal_80123CA8_lbl_8043E878 lbl_8043E878 = {
         {100000.0f, 100000.0f, 100000.0f},
     },
 };
-const RecoveredGlobal_80123CA8_lbl_8043E8D8 lbl_8043E8D8 = {
+const CaneScaleTable lbl_8043E8D8 = {
     {1.0f, 1.0f, 1.0f},
     {
         {150000.5f, 150000.5f, 5000.5f},
@@ -45,12 +39,11 @@ const RecoveredGlobal_80123CA8_lbl_8043E8D8 lbl_8043E8D8 = {
     },
 };
 
-LAYOUT_ASSERT(RecoveredGlobal_80123CA8_lbl_8043E878_size, sizeof(RecoveredGlobal_80123CA8_lbl_8043E878) == 0x60);
-LAYOUT_ASSERT(RecoveredGlobal_80123CA8_lbl_8043E8D8_size, sizeof(RecoveredGlobal_80123CA8_lbl_8043E8D8) == 0x60);
+LAYOUT_ASSERT(CaneScaleTable_size, sizeof(CaneScaleTable) == 0x60);
 void TItemWeaponSorcerersCane::transform_model_node() {
     s32 player_list;
     s32 scale_step;
-    s32 temp_r4_2;
+    s32 step;
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 1:
@@ -60,8 +53,8 @@ void TItemWeaponSorcerersCane::transform_model_node() {
         return;
     case 4:
         TItem::begin_effect_render();
-        temp_r4_2 = this->scale_step;
-        scale_current_matrix((const f32 *)((u8 *)&lbl_8043E8D8.value + (temp_r4_2 * 0xC)));
+        step = this->scale_step;
+        scale_current_matrix((const f32 *)((u8 *)&lbl_8043E8D8.value + (step * 0xC)));
         return;
     case 7:
         TItem::begin_effect_render();
@@ -70,10 +63,10 @@ void TItemWeaponSorcerersCane::transform_model_node() {
 }
 
 void TItemWeaponSorcerersCane::update_weapon() {
-    s16 temp_r0;
-    s16 temp_r3_3;
+    s16 tp_drop;
+    s16 tp;
     s32 scale_step;
-    s32 temp_r3_2;
+    s32 step;
     if (this->scale_state == 1) {
         scale_step = this->scale_step;
         if (scale_step == 7) {
@@ -83,21 +76,21 @@ void TItemWeaponSorcerersCane::update_weapon() {
         }
     }
     if (this->scale_state == 2) {
-        temp_r3_2 = this->scale_step;
-        if (temp_r3_2 == 0) {
+        step = this->scale_step;
+        if (step == 0) {
             this->scale_state = 3;
         } else {
-            this->scale_step = (temp_r3_2 - 1);
+            this->scale_step = (step - 1);
         }
     }
-    temp_r3_3 = get_actor_tp(this->owner);
-    temp_r0 = this->cached_tp - temp_r3_3;
-    if (temp_r0 < 0) {
-        this->cached_tp = temp_r3_3;
+    tp = get_actor_tp(this->owner);
+    tp_drop = this->cached_tp - tp;
+    if (tp_drop < 0) {
+        this->cached_tp = tp;
         return;
     }
-    if (temp_r0 > 0) {
-        add_actor_tp(this->owner, static_cast<s32>(0.1f * (f32) temp_r0));
+    if (tp_drop > 0) {
+        add_actor_tp(this->owner, static_cast<s32>(0.1f * (f32) tp_drop));
         this->cached_tp = get_actor_tp(this->owner);
     }
 }

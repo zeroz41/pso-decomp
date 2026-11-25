@@ -68,30 +68,30 @@ TItemWeaponRappysFan::TItemWeaponRappysFan(TObject *parent, u8 *item) : TItemWea
 TItemWeaponRappysFan::~TItemWeaponRappysFan() {}
 
 void TItemWeaponRappysFan::emit_marker_effects() {
-    f32 tmp[4];
+    f32 color_tmp[4];
     SlicerLaunchData_8012D9C8 launch;
-    u8 *t;
+    TTecSlicer *slicer;
     init_slicer_launch_state(&launch);
     launch.player = ((TObjBase *)(*(u8 **)&owner))->get_entity_id();
     launch.weapon = get_item_id();
     launch.textures = *(void **)((s8 *)this + 0x24);
-    launch.model = *(void **)((s8 *)this + 0x188);
+    launch.model = second_model;
     launch.kind = owner->attack_state.get_validated_attack_kind();
     launch.stage = owner->attack_state.get_validated_attack_stage();
     launch.multiplier = ((TObjPlayer *)(*(u8 **)&owner))->query_extended_state();
-    get_weapon_color__11TItemWeaponFPv(tmp, this);
-    copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
-    launch.facing = *(s32 *)((s8 *)(*(u8 **)&owner) + 0x60);
+    get_weapon_color__11TItemWeaponFPv(color_tmp, this);
+    copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)color_tmp);
+    launch.facing = owner->rotation_y;
     launch.spin = 0;
     get_joint_position(3, launch.first);
     get_joint_position(2, launch.second);
-    t = ((u8 *)TTecSlicer::create((SlicerLaunchState *)&launch));
-    if (t != NULL) {
-        *(s32 *)((s8 *)t + 0x5C) += 0x4000;
-        *(f32 *)((s8 *)t + 0x68) = 2.0f;
-        *(f32 *)((s8 *)t + 0x6C) = 2.0f;
-        *(f32 *)((s8 *)t + 0x70) = 2.0f;
-        *(s32 *)((s8 *)t + 0x13C) = 0;
+    slicer = TTecSlicer::create((SlicerLaunchState *)&launch);
+    if (slicer != NULL) {
+        slicer->rotation_x += 0x4000;
+        slicer->scale.x = 2.0f;
+        slicer->scale.y = 2.0f;
+        slicer->scale.z = 2.0f;
+        slicer->useColorOverride = 0;
     }
 }
 

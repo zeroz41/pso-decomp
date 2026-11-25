@@ -2,6 +2,7 @@
 #define PSO_WEAPON_TITEMWEAPONYASMINKOV7000V_H
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 class TItemWeaponYasminkov7000V : public TItemWeapon {
 public:
@@ -12,9 +13,8 @@ public:
     virtual void emit_marker_effects();
     virtual void transform_model_node();
     s32 state;
-    float m_1fc;
-    f32 m_200;
-    u8 unk_204[0x4];
+    Vec model_offset;  // transform_model_node's translation; y slides 0..2.7 with the shot
+
 };
 
 #endif

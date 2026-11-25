@@ -4,14 +4,14 @@
 #include "pso/weapon/TItemWeaponSRank.h"
 
 // The S-rank bazooka-type weapon class: after a shot
-// (vfunc_62) update_weapon slides the barrel back and returns it.
+// (start_attack_effect) update_weapon slides the barrel back and returns it.
 class TItemWeaponSRankBazooka : public TItemWeaponSRank {
 public:
     virtual void transform_model_node();
     virtual void update_weapon();
     TItemWeaponSRankBazooka(TObject *parent, u8 *item);
     static TItem *create(u8 *item);
-    virtual void vfunc_62();
+    virtual void start_attack_effect();
     virtual ~TItemWeaponSRankBazooka();
     f32 barrel_offset;  // translate_matrix y offset in transform_model_node, 0 to -2
     s32 recoil_state;   // 1 sliding back, 2 returning, 0 at rest

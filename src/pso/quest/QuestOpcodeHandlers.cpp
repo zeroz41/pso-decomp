@@ -849,7 +849,7 @@ struct Obj_801F09EC {
 
 void VecCopy__FP3VecPC3Vec(Vec *, const void *);
 s16 get_actor_tp(u8 *);
-s32 obj_getPtr2B0_20();
+s32 get_actor_meseta();
 s16 obj_getS16_2BA(u8 *);
 s32 get_current_floor();
 f64 atan2_float(void *, f32, f32);
@@ -1268,7 +1268,7 @@ void qst_op_get_player_level(void) {
 void qst_op_get_slot_meseta(u8 i) {
     Card_801E7D7C *w;
     if (get_player_by_client_id(local_client_id) != NULL) {
-        qst_registers[i] = obj_getPtr2B0_20();
+        qst_registers[i] = get_actor_meseta();
     } else {
         qst_registers[i] = -1;
     }

@@ -22,10 +22,10 @@ void TItemWeaponSRankLauncher::transform_model_node() {
 }
 
 void TItemWeaponSRankLauncher::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
-    u8 sp8[16];
+    u8 color[16];
     desc->flags |= 0x39C;
-    get_weapon_color__11TItemWeaponFPv(sp8, this);
-    copy_argb(&desc->color, (NJS_ARGB *)sp8);
+    get_weapon_color__11TItemWeaponFPv(color, this);
+    copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
     desc->hits = 4;
     desc->scale = 2.0f;

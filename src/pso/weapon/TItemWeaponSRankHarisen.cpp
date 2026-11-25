@@ -10,7 +10,7 @@ void TItemWeaponSRankHarisen::transform_model_node() {
     }
 }
 
-void TItemWeaponSRankHarisen::vfunc_62() { scale.y = 0.1f; }
+void TItemWeaponSRankHarisen::start_attack_effect() { scale.y = 0.1f; }
 
 void TItemWeaponSRankHarisen::update_weapon() {
     if (scale.y < 1.0f) {

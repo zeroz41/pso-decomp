@@ -14,7 +14,7 @@ public:
 
 extern "C" {
 // Picks the model the owning weapon draws its shots with (0x188 while flag 4 is set, else 0x184).
-NJS_OBJECT *TObjPlayer__sub_801290D0(u8 *owner);
+NJS_OBJECT *get_punch_shot_model(u8 *owner);
 }
 
 LAYOUT_ASSERT(TItemShootSRankPunch_size, sizeof(TItemShootSRankPunch) == 0x6C);

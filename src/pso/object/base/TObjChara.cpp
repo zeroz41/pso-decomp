@@ -355,7 +355,7 @@ extern s32 registered_enemy_count;
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
 void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
 s16 get_actor_tp(u8* object);
-int obj_getPtr2B0_20(u8* p);
+int get_actor_meseta(u8* p);
 s16 obj_getS16_2BA(u8* p);
 void send_6x2F_change_player_hp(u16, u16, s16);
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
@@ -983,7 +983,7 @@ int TObjChara::obj_getPtr2B0_1C() {
     return this->stat_block->exp;
 }
 
-int obj_getPtr2B0_20(u8* p) {
+int get_actor_meseta(u8* p) {
     return *(int*)(*(u8**)(p + 0x2b0) + 0x20);
 }
 
@@ -3222,7 +3222,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         if (TESTF30_W24(self, 0x02000000) == 0) {
             DISPATCH_W24(att, self, &pos);
         }
-        if (cost <= (f32)((s32 (*)(void *))obj_getPtr2B0_20)(att)) {
+        if (cost <= (f32)((s32 (*)(void *))get_actor_meseta)(att)) {
             if (TObjPlayer::get_player_count() != 0) {
                 if (this->is_locally_controlled() != 0 && ISSTATE2_W24(att) != 0) {
                     att->send_update_entity_stat(self->f2D4, 2, (s32)cost);

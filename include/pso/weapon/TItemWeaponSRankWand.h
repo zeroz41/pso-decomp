@@ -8,7 +8,7 @@ public:
     TItemWeaponSRankWand(TObject *parent, u8 *item);
     static TItem *create(u8 *item);
     virtual ~TItemWeaponSRankWand();
-    virtual void vfunc_62();
+    virtual void start_attack_effect();
 };
 
 #endif

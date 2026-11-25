@@ -186,7 +186,7 @@ s32 TShopItemListWindow::check_purchase_eligibility() {
         return 0;
     }
     sel = item_list->get_cursor_value();
-    meseta = obj_getPtr2B0_20((u8 *)player);
+    meseta = get_actor_meseta((u8 *)player);
     if ((s32)shop_items[sel].data2.data_u32 > meseta) {
         return 0;
     }
@@ -263,7 +263,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
     if (item_list != NULL) {
         sel = item_list->get_cursor_value();
         room = player->can_inventory_accept_item(reinterpret_cast<u8 *>(&shop_items[sel]));
-        count = obj_getPtr2B0_20((u8 *)player) / (s32)shop_items[sel].data2.data_u32;
+        count = get_actor_meseta((u8 *)player) / (s32)shop_items[sel].data2.data_u32;
         if (count > room) {
             count = room;
         }

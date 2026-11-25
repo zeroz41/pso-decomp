@@ -181,7 +181,7 @@ void TCheckRoomSequence::begin_meseta_withdrawal() {
     s32 amount;
     bank_meseta = get_room_data(get_split_screen_slot());
     if (bank_meseta > 0) {
-        amount = 999999 - obj_getPtr2B0_20((u8 *)player);
+        amount = 999999 - get_actor_meseta((u8 *)player);
         amount = (amount < bank_meseta) ? amount : bank_meseta;
         if (amount > 0) {
             if (number_input == NULL) {
@@ -238,7 +238,7 @@ void TCheckRoomSequence::begin_meseta_deposit() {
     s32 amount;
     slot = get_split_screen_slot();
     if (get_bank_meseta_capacity(slot) > 0) {
-        meseta = obj_getPtr2B0_20((u8 *)player);
+        meseta = get_actor_meseta((u8 *)player);
         if (meseta > 0) {
             amount = get_bank_meseta_capacity(slot);
             amount = (amount < meseta) ? amount : meseta;

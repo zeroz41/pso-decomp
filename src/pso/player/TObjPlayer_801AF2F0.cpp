@@ -1890,7 +1890,7 @@ s32 TObjPlayer::can_pickup_item(TItemData *item_data) {
 
     if (TItemData::lookup_item_def((u8 *)item_data) != 0) {
         if ((u8) *(u8 *)item_data == 4) {
-            return obj_getPtr2B0_20((u8 *)this) < 0xF423F;
+            return get_actor_meseta((u8 *)this) < 0xF423F;
         }
         void *node_3615 = this->inventory_objects->set_mode_and_refresh_object((void *)item_data);
         if (node_3615 != 0U) {
@@ -2163,11 +2163,11 @@ void TObjPlayer::drop_items_on_death() {
         if (TObjPlayer::check_flag_01000000(this) == 0) {
             count=this->inventory_objects->set_globals_and_notify(this, records);
         }
-        if (obj_getPtr2B0_20((u8 *)this)!=0) {
+        if (get_actor_meseta((u8 *)this)!=0) {
             record=&records[count];
             record->set_source_id(-1);
             item=reinterpret_cast<TPlyInventoryItem *>(record)->get_data();
-            item->init_meseta(obj_getPtr2B0_20((u8 *)this));
+            item->init_meseta(get_actor_meseta((u8 *)this));
             count+=1;
             item->id=-1;
         }
@@ -5746,7 +5746,7 @@ s32 TObjPlayer::calc_battle_score() {
     v += (f32)battle_score.damage_stats[0].get_total();
     v -= (f32)battle_score.damage_stats[1].get_total();
     if (test_actor_flags(0x800) == 0) {
-        v += (f32)obj_getPtr2B0_20((u8 *)this) * battle_score.damage_stats[4].get_bonus_weight();
+        v += (f32)get_actor_meseta((u8 *)this) * battle_score.damage_stats[4].get_bonus_weight();
     }
     return (s32)v;
 }

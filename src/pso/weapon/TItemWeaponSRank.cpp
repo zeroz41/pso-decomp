@@ -133,7 +133,7 @@ void TItemWeaponSRank::emit_marker_effects() {
   s32 weapon_kind;
   s32 attack_flags;
   s32 new_var;
-  (this->vfunc_62());
+  (this->start_attack_effect());
   attack_flags = (this->get_attack_flags());
   if (attack_flags & 1)
   {

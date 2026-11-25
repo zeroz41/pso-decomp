@@ -44,7 +44,7 @@ s32 TMedicalCenterMes__slot_flags[4];
 extern "C" {
 extern const char *TMedicalCenterSequence__class_name;
 
-int obj_getPtr2B0_20(TObjPlayer *player);
+int get_actor_meseta(TObjPlayer *player);
 }
 
 struct Base_8021641C_802163AC { char pad[0x18]; };
@@ -195,7 +195,7 @@ void TMedicalCenterSequence::handle_window_result() {
 }
 
 void TMedicalCenterSequence::exec_heal() {
-    if (obj_getPtr2B0_20(player) < 0xA) {
+    if (get_actor_meseta(player) < 0xA) {
         display_shop_message(0xF, 1);
         set_state(0xA);
         return;

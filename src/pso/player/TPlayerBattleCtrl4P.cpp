@@ -1115,7 +1115,7 @@ s32 TPlayerBattleCtrl4P::calc_battle_score(TObjPlayer *player) {
     score -= (f32)player->battle_score.damage_stats[2].get_total();
     score += (f32)player->battle_score.damage_stats[0].get_total();
     score -= (f32)player->battle_score.damage_stats[1].get_total();
-    score += (f32)obj_getPtr2B0_20((u8 *)player) * player->battle_score.damage_stats[4].get_bonus_weight();
+    score += (f32)get_actor_meseta((u8 *)player) * player->battle_score.damage_stats[4].get_bonus_weight();
     total = (s32)score;
     player->battle_score.slots.set_score(total);
     return total;

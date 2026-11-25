@@ -196,7 +196,7 @@ s32 TShopArmorListWindow::check_purchase_eligibility() {
         return 0;
     }
     i = item_list->get_cursor_value();
-    if (stock[i].data2.price > obj_getPtr2B0_20((u8 *)player)) {
+    if (stock[i].data2.price > get_actor_meseta((u8 *)player)) {
         return 0;
     }
     r = &stock[i];

@@ -7,7 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffCane.h"
 
-void TItemWeaponSRankWand::vfunc_62() {
+void TItemWeaponSRankWand::start_attack_effect() {
     if (get_attack_stage() == 0) {
         TItemEffCane::spawn_pair(tl_05, this, 1, 2);
     }

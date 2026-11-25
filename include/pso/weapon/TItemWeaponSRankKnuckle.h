@@ -10,7 +10,7 @@ public:
     virtual ~TItemWeaponSRankKnuckle();
     virtual void on_equipped();  // equip hook: sets the owner's EVP
     virtual void on_unequipped();
-    virtual void vfunc_62();  // marker effect at the owner's knuckle joint
+    virtual void start_attack_effect();  // marker effect at the owner's knuckle joint
 };
 
 #endif

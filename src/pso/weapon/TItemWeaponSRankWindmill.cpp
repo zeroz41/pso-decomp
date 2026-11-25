@@ -17,17 +17,17 @@ void TItemWeaponSRankWindmill::transform_model_node() {
 }
 
 void TItemWeaponSRankWindmill::draw_held_model() {
-    s32 *temp_r31;
+    NJS_OBJECT *blend_node;
 
-    if ((u32) *(u32 *)((s8 *)this + 0xF0) != 0U) {
-        temp_r31 = *(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)this + 0xF4)) + 0x2C)) + 0x30)) + 0x30);
+    if (owner != NULL) {
+        blend_node = item_model->child->sibling->sibling;
         if (blend_off == 0) {
-            *temp_r31 |= 0x10;
+            blend_node->evalflags |= 0x10;
         }
         draw_weapon_model();
         this->update_trail_slot(0);
         if (blend_off == 0) {
-            *temp_r31 &= 0xFFFFFFEF;
+            blend_node->evalflags &= 0xFFFFFFEF;
         }
     }
 }

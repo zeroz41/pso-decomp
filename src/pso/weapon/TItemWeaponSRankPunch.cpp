@@ -25,19 +25,17 @@ struct Elem_80128A74 { u8 pad[0x1c]; u8 position[0x2c - 0x1c]; };
 
 struct Obj_80128A74 { u8 pad[0xa4]; Elem_80128A74 *elems; s32 count; };
 
-struct Obj_80128E08 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1fc - 0x18c]; u8 flags[4]; };
-
 extern "C" {
 Obj_80128A74 *find_entity_by_id(s32);
 
 void TObjPlayer__sub_80128A70(void) {  }
 
-void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d) {
+void s_rank_punch_hit_effect(s32 layer, uaddr player, s32 target_id, s32 body) {
     Obj_80128A74 *o;
-    ((TObjPlayer *)b)->clear_rico_ring_flag();
-    o = find_entity_by_id(c);
-    if (o != 0 && o->elems != 0 && d < o->count) {
-        spawn_particle_effect((const Vec *)o->elems[d].position, 0x45);
+    ((TObjPlayer *)player)->clear_rico_ring_flag();
+    o = find_entity_by_id(target_id);
+    if (o != 0 && o->elems != 0 && body < o->count) {
+        spawn_particle_effect((const Vec *)o->elems[body].position, 0x45);
     }
 }
 
@@ -67,7 +65,7 @@ void TItemShootSRankPunch::hook() {  }
 
 TItemShootSRankPunch::TItemShootSRankPunch(void *owner, const Vec *pos, const Vec *dir, f32 life)
     : TItemShootModel(owner, pos, dir, life) {
-    set_render_model(TObjPlayer__sub_801290D0((u8 *)owner), (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist());
+    set_render_model(get_punch_shot_model((u8 *)owner), (NJS_TEXLIST *)((TObjBase *)owner)->get_texlist());
 }
 
 u32 TObjPlayer::spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames) {
@@ -88,43 +86,41 @@ extern "C" {
 void clear_rico_ring_flag__10TObjPlayerFv(u32);
 
 void TItemWeaponSRankPunch::emit_marker_effects() {
-    saddr temp_r31;
+    saddr burst_state;
     s32 i;
-    u32 temp_r3;
-    u8 *arg0 = (u8 *)this;
+    u32 player_addr;
     TObjPlayer__sub_80128A70();
-    temp_r3 = *(u32 *)((s8 *)arg0 + 0xF0);
-    if (temp_r3 == 0U) return;
-    temp_r31 = temp_r3 + 0x7CC;
-    if (get_burst_counter((void *)temp_r31) == 0) {
+    player_addr = (u32)owner;
+    if (player_addr == 0U) return;
+    burst_state = player_addr + 0x7CC;
+    if (get_burst_counter((void *)burst_state) == 0) {
         i = 0;
         do {
-            increment_burst_counter((u8 *)temp_r31);
+            increment_burst_counter((u8 *)burst_state);
             i += 1;
         } while (i != 2);
         this->flags.set(2);
-        TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)clear_rico_ring_flag__10TObjPlayerFv, 0x3C);
+        TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)clear_rico_ring_flag__10TObjPlayerFv, 0x3C);
         this->flags.set(4);
-        if (launch_shot(arg0 + 0x200, 0, 0, 1) == 1) {
+        if (launch_shot((u8 *)&shot_origins[0], 0, 0, 1) == 1) {
             this->flags.clear(4);
-            launch_shot(arg0 + 0x20C, 0, 0, 0);
+            launch_shot((u8 *)&shot_origins[1], 0, 0, 0);
             return;
         }
         this->flags.clear(4);
-        launch_shot(arg0 + 0x20C, 0, 0, 1);
+        launch_shot((u8 *)&shot_origins[1], 0, 0, 1);
     }
 }
 
 void TItemWeaponSRankPunch::transform_model_node() {
     void *p;
-    Obj_80128E08 *self = (Obj_80128E08 *)this;
     switch (TObjPlayer::get_player_list()) {
     case 1:
-        if (test_flags_any((s32 *)self->flags, 2) == 0) {
-            if (test_flags_any((s32 *)self->flags, 1)) {
-                p = self->f188;
+        if (test_flags_any((s32 *)&flags, 2) == 0) {
+            if (test_flags_any((s32 *)&flags, 1)) {
+                p = second_model;
             } else {
-                p = self->f184;
+                p = model_data[1];
             }
             if (p) {
                 draw_ginja_object(p);
@@ -137,18 +133,17 @@ void TItemWeaponSRankPunch::transform_model_node() {
 }
 
 void TItemWeaponSRankPunch::draw_held_model() {
-    s32 temp_r31;
-    u8 *arg0 = (u8 *)this;
+    s32 saved_model;
 
-    temp_r31 = *(s32 *)((s8 *)arg0 + 0xF4);
+    saved_model = (s32)item_model;
     this->flags.set(1);
-    draw_weapon_at_joint((saddr)arg0, 0x30);
-    ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x200));
-    *(s32 *)((s8 *)arg0 + 0xF4) = (s32) *(s32 *)((s8 *)arg0 + 0x180);
+    draw_weapon_at_joint((saddr)this, 0x30);
+    get_joint_position(1, &shot_origins[0]);
+    item_model = (NJS_OBJECT *)model_data[0];
     this->flags.clear(1);
-    draw_weapon_at_joint((saddr)arg0, 0x23);
-    ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x20C));
-    *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;
+    draw_weapon_at_joint((saddr)this, 0x23);
+    get_joint_position(1, &shot_origins[1]);
+    item_model = (NJS_OBJECT *)saved_model;
 }
 
 TItemWeaponSRankPunch::~TItemWeaponSRankPunch() {}
@@ -157,7 +152,7 @@ TItemWeaponSRankPunch::TItemWeaponSRankPunch(TObject *parent, u8 *item) : TItemW
     this->effect_flags.set(32);
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)TObjPlayer::notify_hit_target;
-    hit_callback = (WeaponHitCallback)TObjPlayer__sub_80128A74;
+    hit_callback = (WeaponHitCallback)s_rank_punch_hit_effect;
     shot_callback = (WeaponShotCallback)TObjPlayer::spawn_shot_effect;
     shot_speed = 10.0f;
     flags.reset();
@@ -182,11 +177,12 @@ void TObjPlayer::clear_rico_ring_flag() {
 }
 
 
-NJS_OBJECT *TObjPlayer__sub_801290D0(u8 *owner) {
-    if (test_flags_any((s32 *)(owner + 0x1FC), 4) != 0) {
-        return *(NJS_OBJECT **)((s8 *)owner + 0x188);
+NJS_OBJECT *get_punch_shot_model(u8 *weapon) {
+    TItemWeaponSRankPunch *punch = (TItemWeaponSRankPunch *)weapon;
+    if (test_flags_any((s32 *)&punch->flags, 4) != 0) {
+        return punch->second_model;
     }
-    return *(NJS_OBJECT **)((s8 *)owner + 0x184);
+    return (NJS_OBJECT *)punch->model_data[1];
 }
 
 

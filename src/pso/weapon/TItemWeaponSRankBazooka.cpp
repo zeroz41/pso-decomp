@@ -62,6 +62,6 @@ TItem *TItemWeaponSRankBazooka::create(u8 *item) {
 }
 
 // Starts the recoil (the name s_rank_bazooka_marker was inferred).
-void TItemWeaponSRankBazooka::vfunc_62() { recoil_state = 1; }
+void TItemWeaponSRankBazooka::start_attack_effect() { recoil_state = 1; }
 
 TItemWeaponSRankBazooka::~TItemWeaponSRankBazooka() {}

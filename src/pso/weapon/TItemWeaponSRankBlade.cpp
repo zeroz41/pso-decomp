@@ -20,4 +20,4 @@ TItem *TItemWeaponSRankBlade::create(u8 *item) {
 
 TItemWeaponSRankBlade::~TItemWeaponSRankBlade() {}
 
-void TItemWeaponSRank::vfunc_62() {}
+void TItemWeaponSRank::start_attack_effect() {}

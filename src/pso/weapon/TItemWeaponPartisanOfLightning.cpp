@@ -10,24 +10,24 @@ void TItemWeaponPartisanOfLightning::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 1:
     case 2:
-        scale_matrix(NULL, 1.0f, pad_1f8, pad_1f8);
+        scale_matrix(NULL, 1.0f, effect_thickness, effect_thickness);
         TItem::begin_effect_render();
         break;
     }
 }
 
 void TItemWeaponPartisanOfLightning::update_idle() {
-    ::approach_value(&pad_1f8, 0.1f, 0.0f);
+    ::approach_value(&effect_thickness, 0.1f, 0.0f);
 }
 
 void TItemWeaponPartisanOfLightning::update_attack() {
-    ::approach_value(&pad_1f8, 0.3f, 1.0f);
+    ::approach_value(&effect_thickness, 0.3f, 1.0f);
 }
 
 TItemWeaponPartisanOfLightning::~TItemWeaponPartisanOfLightning() {}
 
 TItemWeaponPartisanOfLightning::TItemWeaponPartisanOfLightning(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    pad_1f8 = 1.0f;
+    effect_thickness = 1.0f;
 }
 
 TItem *TItemWeaponPartisanOfLightning::create(u8 *item) {

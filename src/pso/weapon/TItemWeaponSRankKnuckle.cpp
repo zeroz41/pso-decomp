@@ -24,7 +24,7 @@ void TItemWeaponSRankKnuckle::on_equipped() {
 }
 
 // S-rank knuckle marker (was s_rank_knuckle_marker): effect at the owner's knuckle joint.
-void TItemWeaponSRankKnuckle::vfunc_62() {
+void TItemWeaponSRankKnuckle::start_attack_effect() {
     Vec pos;
     owner->get_anim_node_position(knuckle_marker_joint_table[(owner->has_valid_handle() * 3) + owner->attack_state.get_validated_attack_stage()], &pos);
     spawn_particle_effect(&pos, 0x1D0);

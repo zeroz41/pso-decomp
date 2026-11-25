@@ -15,8 +15,10 @@ public:
     virtual void on_equipped();
     virtual void deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body);
     void set_special_selector(u8);
-    // First virtual of its own; the empty base body sits at the end of TItemWeaponSRankBlade's text.
-    virtual void vfunc_62();
+    // First virtual of its own, run first by emit_marker_effects: the weapon's
+    // own effect or animation start. The empty base body sits at the end of
+    // TItemWeaponSRankBlade's text.
+    virtual void start_attack_effect();
 
     s32 kind;  // get_item_index()
 };

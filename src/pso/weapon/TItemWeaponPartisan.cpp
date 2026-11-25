@@ -17,7 +17,7 @@ TItemWeaponPartisan::~TItemWeaponPartisan() {}
 void TItemWeaponPartisan::emit_marker_effects() {
     switch (get_item_index()) {
     case 6:
-        if (is_mode_two_and_ready() && obj_getPtr2B0_20((u8 *)owner) >= 10000) {
+        if (is_mode_two_and_ready() && get_actor_meseta((u8 *)owner) >= 10000) {
             try_spend_actor_meseta(owner, 10000);
             show_meseta_label((saddr)owner, (uaddr)&owner->body_center, 0, -10000);
             apply_scale_if_active(3.0f);
@@ -80,7 +80,7 @@ void TItemWeaponPartisan::update_weapon() {
     s32 speed;
 
     if (get_item_index() == 6) {
-        speed = obj_getPtr2B0_20((u8 *)owner) / 100000;
+        speed = get_actor_meseta((u8 *)owner) / 100000;
         speed = speed * 0x222;
         if (speed > 0x1555) {
             speed = 0x1555;
