@@ -30,15 +30,14 @@ struct TObjGrass : public TObjEnemy {
     void sub_800BCE44();
     Vec m_374;
     Vec m_380;
-    void* m_38c;
-    u8 unk_390[0x8];
+    Vec m_38c;
     f32 m_398;
     s16 m_39c;
     s16 m_39e;
     u32 m_3a0;
     s32 m_3a4;
     s32 m_3a8;
-    u32 m_3ac;
+    s32 m_3ac;
     TObjEnemyColorFade fade;
     TAttackTraceStrip *savers[2];  // attack traces; same type and role as TObjEneDubchik::saver (inferred name)
     void update_dying();
