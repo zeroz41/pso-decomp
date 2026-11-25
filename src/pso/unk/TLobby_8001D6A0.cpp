@@ -26,27 +26,25 @@
 
 #pragma readonly_strings on
 
-BattleMovementParams *get_player_entry__6TLobbyFii(int a0, int a1);
 AttackParams *TLobby__sub_8001E270(int a0, int a1);
 player_stats *TLobby__sub_8001E2A8(int a0, int a1);
-ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1);
 
 extern "C" {
 extern s32 auto_reply_flags;
 
 void TLobby::sync_auto_reply_state() {
     if ((auto_reply_flags & 4) || (auto_reply_flags & 1) != ((auto_reply_flags >> 1) & 1)) {
-        if (((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0) {
+        if (TLobby::get_flag_bit0() != 0) {
             protocol_instance->send_text_packet_c7((char *)(TLobby::get_card_window_area()));
         } else {
             protocol_instance->send_disable_auto_reply();
         }
         auto_reply_flags &= ~4;
-        auto_reply_flags = ((s32 (*)(void))get_flag_bit0__6TLobbyFv)() != 0 ? (auto_reply_flags | 2) : (auto_reply_flags & ~2);
+        auto_reply_flags = TLobby::get_flag_bit0() != 0 ? (auto_reply_flags | 2) : (auto_reply_flags & ~2);
     }
 }
 
-s32 get_card_window_area__6TLobbyFv(void) {
+saddr TLobby::get_card_window_area() {
     return get_character_save_record(0xFFFF) + 0x2050;
 }
 void TLobby::set_short_mail_text() {
@@ -64,13 +62,13 @@ void TLobby::set_short_mail_text() {
     TLobby::set_flag_bit0(0);
 }
 
-int get_flag_bit0__6TLobbyFv(void) {  return (auto_reply_flags & 0x1); }
+int TLobby::get_flag_bit0() { return (auto_reply_flags & 0x1); }
 
 s32 TLobby::set_flag_bit0(s32 enabled) {
     s32 var_r3;
     s32 ret;
 
-    ret = ((s32 (*)(s32))get_flag_bit0__6TLobbyFv)(enabled);
+    ret = TLobby::get_flag_bit0();
     if (ret == enabled) {
         return 0;
     }
@@ -89,7 +87,7 @@ extern TextBuilderBuffer text_builder_buffer;
 
 
 s32 TLobby::is_active() {
-    return *((s8* (*)(void))get_card_window_area__6TLobbyFv)() == 0 ? 0 : 1;
+    return *(s8 *)TLobby::get_card_window_area() == 0 ? 0 : 1;
 }
 
 void TLobby__sub_8001DBD8(s32 _w0) {
@@ -208,7 +206,6 @@ struct Blk_8001DF0C { s32 w[6]; };
 struct Obj_8001DF0C { Blk_8001DF0C a; Blk_8001DF0C b; };
 
 extern "C" {
-Obj_8001DF0C *copy_pair__6TLobbyFPvPv(Obj_8001DF0C *d, Obj_8001DF0C *s);
 
 void TLobby__sub_8001DEA8(s32 arg0) {
     lobby_instance = arg0;
@@ -220,15 +217,17 @@ void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         i = 0;
         do {
-            TLobby::copy_pair((Obj_8001DF0C *)(((saddr (*)(s32, s32))get_player_entry__6TLobbyFii)(i, arg0)), (Obj_8001DF0C *)(arg1));
+            TLobby::copy_pair((Obj_8001DF0C *)(((saddr (*)(s32, s32))TLobby::get_player_entry)(i, arg0)), (Obj_8001DF0C *)(arg1));
             i += 1;
         } while (i < 4);
     }
 }
-Obj_8001DF0C *copy_pair__6TLobbyFPvPv(Obj_8001DF0C *d, Obj_8001DF0C *s) {
+void *TLobby::copy_pair(void *dst, void *src) {
+    Obj_8001DF0C *d = (Obj_8001DF0C *)dst;
+    Obj_8001DF0C *s = (Obj_8001DF0C *)src;
     d->a = s->a;
     d->b = s->b;
-    return d;
+    return dst;
 }
 
 void TLobby__sub_8001DF58(s32 arg0, saddr ent) {
@@ -237,7 +236,7 @@ void TLobby__sub_8001DF58(s32 arg0, saddr ent) {
     if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
         i = 0;
         do {
-            ((TLobby *)(((saddr (*)(s32, s32))get_entry__6TLobbyFii)(i, arg0)))->copy_entry((void *)ent);
+            ((TLobby *)(((saddr (*)(s32, s32))TLobby::get_entry)(i, arg0)))->copy_entry((void *)ent);
             i += 1;
         } while (i < 4);
     }
@@ -328,11 +327,11 @@ u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
 
 BattleMovementParams *TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
 
-BattleMovementParams *get_player_entry__6TLobbyFii(int a0, int a1) {  return &battle_param_movement[a1]; }
+BattleMovementParams *TLobby::get_player_entry(int difficulty, int index) { return &battle_param_movement[index]; }
 
 ActorParamBlock *TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
 
-ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1) {  return &battle_param_resistances[a1]; }
+ActorParamBlock *TLobby::get_entry(int difficulty, int index) { return &battle_param_resistances[index]; }
 
 AttackParams *TLobby::dispatch_shared_handler_b(s32 index) { return TLobby__sub_8001E270(battle_parameter_difficulty, index); }
 
