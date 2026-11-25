@@ -8,7 +8,7 @@ class TChCrTagPlGraphic : public TChCrTag {
 public:
     TChCrTagPlGraphic(TObject *parent, s32 index);
     virtual ~TChCrTagPlGraphic();
-    void sub_802A3230();
+    void update_layout();
     virtual void render();
     virtual void run_task();
     virtual s32 is_selected();
@@ -17,9 +17,9 @@ public:
     static void create_matching_tags();
     void draw_class_illustration();
 
-    f32 m_3c;
-    f32 m_40;
-    f32 m_44;
+    f32 alpha;
+    f32 depth;
+    f32 scale;
     vec2f pos;
 };
 
