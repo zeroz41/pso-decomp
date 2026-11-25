@@ -887,8 +887,7 @@ void TBoss8Dragon::select_sequence(s32 secondary) {
 }
 
 s32 TBoss8Dragon::is_primary_sequence() {
-    TBoss8Dragon * boss8_dragon = this;
-    return boss8_dragon->sequenceCursor < 0x32;
+    return this->sequenceCursor < 0x32;
 }
 
 s32 TBoss8Dragon::is_secondary_sequence() {
@@ -1319,8 +1318,7 @@ s32 TBoss8Dragon::check_phase_advance() { return 0; }
 #pragma push
 #pragma fp_contract on
 f32 TBoss8Dragon::calc_step_value() {
-    TBoss8Dragon *o = this;
-    return 4.0f * (f32)o->burrow_run_count + 4.0f;
+    return 4.0f * (f32)this->burrow_run_count + 4.0f;
 }
 
 #pragma pop

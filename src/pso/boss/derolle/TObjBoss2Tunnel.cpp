@@ -532,67 +532,65 @@ void PiecewiseCurve::reset_floats() {
 }
 
 void PiecewiseCurve::init(f32 accel, f32 decel, f32 dist, f32 v0, f32 peak) {
-    PiecewiseCurve *c = this;
     f32 sq;
     f32 up;
     f32 down;
-    c->t = 0.0f;
-    c->accel = accel;
-    if (c->accel <= 0.0f) {
-        c->accel = 0.1f;
+    this->t = 0.0f;
+    this->accel = accel;
+    if (this->accel <= 0.0f) {
+        this->accel = 0.1f;
     }
-    c->decel = decel;
-    if (c->decel >= 0.0f) {
-        c->decel = -0.1f;
+    this->decel = decel;
+    if (this->decel >= 0.0f) {
+        this->decel = -0.1f;
     }
-    c->dist = dist;
+    this->dist = dist;
     sq = peak * peak;
-    c->peak = peak;
-    c->v0 = v0;
-    if (c->v0 > c->peak) {
-        c->accel = c->decel;
+    this->peak = peak;
+    this->v0 = v0;
+    if (this->v0 > this->peak) {
+        this->accel = this->decel;
     }
-    up = (0.5f * (sq - c->v0 * c->v0)) / c->accel;
-    down = (-0.5f * sq) / c->decel;
-    if (up + down >= c->dist) {
-        if (c->v0 > c->peak) {
-            c->decel = (-0.5f * (c->v0 * c->v0)) / c->dist;
-            c->accelEnd = c->decelStart = c->accelDist = c->decelPos = 0.0f;
-            c->end = -c->v0 / c->decel;
+    up = (0.5f * (sq - this->v0 * this->v0)) / this->accel;
+    down = (-0.5f * sq) / this->decel;
+    if (up + down >= this->dist) {
+        if (this->v0 > this->peak) {
+            this->decel = (-0.5f * (this->v0 * this->v0)) / this->dist;
+            this->accelEnd = this->decelStart = this->accelDist = this->decelPos = 0.0f;
+            this->end = -this->v0 / this->decel;
         } else {
-            c->peak = newton_sqrtf((c->dist * (2.0f * c->accel * c->decel)) / (c->decel - c->accel));
-            sq = c->peak * c->peak;
-            c->accelEnd = c->decelStart = c->peak / c->accel;
-            c->accelDist = c->decelPos = (0.5f * sq) / c->accel;
-            c->end = c->decelStart + (-c->peak / c->decel);
+            this->peak = newton_sqrtf((this->dist * (2.0f * this->accel * this->decel)) / (this->decel - this->accel));
+            sq = this->peak * this->peak;
+            this->accelEnd = this->decelStart = this->peak / this->accel;
+            this->accelDist = this->decelPos = (0.5f * sq) / this->accel;
+            this->end = this->decelStart + (-this->peak / this->decel);
         }
     } else {
-        c->accelDist = up;
-        c->accelEnd = (c->peak - c->v0) / c->accel;
-        c->decelPos = c->dist - down;
-        c->decelStart = c->accelEnd + (c->decelPos - up) / c->peak;
-        c->end = c->decelStart + (-c->peak / c->decel);
+        this->accelDist = up;
+        this->accelEnd = (this->peak - this->v0) / this->accel;
+        this->decelPos = this->dist - down;
+        this->decelStart = this->accelEnd + (this->decelPos - up) / this->peak;
+        this->end = this->decelStart + (-this->peak / this->decel);
     }
 }
 
 #pragma push
 #pragma fp_contract on
 f32 PiecewiseCurve::speed_at(f32 time) {
-    PiecewiseCurve *c = this;
     f32 t;
     f32 r = 0.0f;
     if (time < r) {
         r = r;
     } else {
-        if (time < c->accelEnd) {
-            r = c->accel * time + c->v0;
+        if (time < this->accelEnd) {
+            r = this->accel * time + this->v0;
         } else {
-            t = c->decelStart;
+            t = this->decelStart;
             if (time < t) {
-                r = c->peak;
-            } else if (time < c->end) {
+                r = this->peak;
+            } else if (time < this->end) {
                 t = time - t;
-                r = c->decel * t + c->peak;
+                r = this->decel * t + this->peak;
             }
         }
     }
@@ -607,29 +605,27 @@ f32 PiecewiseCurve::current_speed() {
 #pragma push
 #pragma fp_contract on
 s32 PiecewiseCurve::sample(f32 *out, f32 t) {
-    PiecewiseCurve *c = this;
     s32 done = 0;
     if (t < 0.0f) {
         *out = 0.0f;
-    } else if (t < c->accelEnd) {
-        *out = t * (0.5f * c->accel * t + c->v0);
-    } else if (t < c->decelStart) {
-        t -= c->accelEnd;
-        *out = t * c->peak + c->accelDist;
-    } else if (t < c->end) {
-        t = c->end - t;
-        *out = t * (0.5f * c->decel * t) + c->dist;
+    } else if (t < this->accelEnd) {
+        *out = t * (0.5f * this->accel * t + this->v0);
+    } else if (t < this->decelStart) {
+        t -= this->accelEnd;
+        *out = t * this->peak + this->accelDist;
+    } else if (t < this->end) {
+        t = this->end - t;
+        *out = t * (0.5f * this->decel * t) + this->dist;
     } else {
         done = 1;
-        *out = c->dist;
+        *out = this->dist;
     }
     return done;
 }
 #pragma pop
 s32 PiecewiseCurve::advance(f32 *out) {
-    PiecewiseCurve *c = this;
-    s32 done = c->sample(out, c->t);
-    c->t += 1.0f;
+    s32 done = this->sample(out, this->t);
+    this->t += 1.0f;
     return done;
 }
 

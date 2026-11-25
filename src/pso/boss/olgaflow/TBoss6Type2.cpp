@@ -498,8 +498,7 @@ s32 TBoss6Type2::find_index_in_table(u32 v) {
 }
 
 s32 TBoss6Type2::pick_random_other_index() {
-    TBoss6Type2 *o = this;
-    s32 t = TBoss6Type2::find_index_in_table(o->target_attribute_mask);
+    s32 t = TBoss6Type2::find_index_in_table(this->target_attribute_mask);
     s32 r = t + (s32)(2.99f * (3.0517578e-05f * (f32)rand())) + 1;
     if (r >= 4) {
         r -= 4;

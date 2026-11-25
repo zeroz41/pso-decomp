@@ -133,7 +133,6 @@ struct SRankModelIds { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
 extern SRankModelIds srank_weapon_model_ids[];
 void TItemWeapon::request_equipped_model() {
-    TItemWeapon *arg0 = this;
     u8 v = this->get_item_group();
     if (v >= 0xAA) {
         SRankModelIds t;
@@ -144,8 +143,8 @@ void TItemWeapon::request_equipped_model() {
         t.e = srank_weapon_model_ids[0].e;
         v = ((u8 *)&t)[get_motion_type()];
     }
-    arg0->request_model_load(v);
-    arg0->create_weapon_trail_effects();
+    this->request_model_load(v);
+    this->create_weapon_trail_effects();
 }
 
 

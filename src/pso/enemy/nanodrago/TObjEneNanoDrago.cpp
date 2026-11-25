@@ -960,19 +960,18 @@ void TObjEneNanoDrago::update_dying_state() {
 #pragma push
 #pragma fp_contract on
 void TObjEneNanoDrago::wander_around(Vec *center, f32 radius) {
-    TObjEneNanoDrago *actor = this;
     s32 ang;
     f32 r;
-    if (xz_distance_squared((Vec *)&actor->position, (Vec *)&actor->moveDestination) < 400.0f) {
+    if (xz_distance_squared((Vec *)&this->position, (Vec *)&this->moveDestination) < 400.0f) {
         ang = (s32)(182.04445f * (360.0f * random_ratio()));
         r = 0.4f * (radius * (1.0f + random_ratio()));
-        actor->moveDestination.x = r * cos_table_lookup(ang) + center->x;
-        actor->moveDestination.z = r * sin_table_lookup(ang) + center->z;
+        this->moveDestination.x = r * cos_table_lookup(ang) + center->x;
+        this->moveDestination.z = r * sin_table_lookup(ang) + center->z;
     }
-    VecCopy(&actor->move_destination, (const Vec *)&actor->moveDestination);
-    ((TObjEnemy *)actor)->enemy_turn_toward_dest(((NanoDragoMovementParams *)actor->movementParameters)->turnSpeed);
-    enemy_set_heading_velocity(actor->speed, actor, actor->rotation_y);
-    move_with_wall_slide(actor);
+    VecCopy(&this->move_destination, (const Vec *)&this->moveDestination);
+    this->enemy_turn_toward_dest(((NanoDragoMovementParams *)this->movementParameters)->turnSpeed);
+    enemy_set_heading_velocity(this->speed, this, this->rotation_y);
+    move_with_wall_slide(this);
 }
 #pragma pop
 void TObjEneNanoDrago::spawn_beam_particle(s32 i) {
