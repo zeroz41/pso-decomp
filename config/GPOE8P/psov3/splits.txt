@@ -6623,10 +6623,7 @@ pso/ui/window/TWindowSubCustomSelect.cpp:
 	.sdata2     start:0x805DD5A8 end:0x805DD5F0
 
 pso/ui/window/TWindowSubEquip.cpp:
-	.text       start:0x80277C70 end:0x80277D3C
-
-pso/ui/window/TWindowShortListCtrl_80277D3C.cpp:
-	.text       start:0x80277D3C end:0x80277DF8
+	.text       start:0x80277C70 end:0x80277DF8
 
 pso/ui/window/TWindowSubEquip_80277DF8.cpp:
 	.text       start:0x80277DF8 end:0x80278300

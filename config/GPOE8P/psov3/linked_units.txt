@@ -1210,7 +1210,6 @@ pso/ui/window/TWindowShop.cpp
 pso/ui/window/TWindowShortCut.cpp
 pso/ui/window/TWindowShortListCtrl_80221828.cpp
 pso/ui/window/TWindowShortListCtrl_8026E7DC.cpp
-pso/ui/window/TWindowShortListCtrl_80277D3C.cpp
 pso/ui/window/TWindowSimpleStatus.cpp
 pso/ui/window/TWindowSnapShot.cpp
 pso/ui/window/TWindowSoundBalance.cpp
