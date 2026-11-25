@@ -480,13 +480,11 @@ s32 try_send_6x27_use_item(void *player, s32 key);
 void release_players_from_cutscene(void);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
-s32 TObjPlayer__sub_801BE8F4(TObjCollidable *obj, s32 body, u32 mask);
 void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 void TObjPlayer__sub_801BEEE0(void *, void *);
 void TObjPlayer__sub_801BEF30(void *, void *);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
 void set_equip_slot_entry(saddr, s32, s32);
-s32 is_action_id_none(s32);
 void *__ct__12StatusEffectFv(void *);
 void release_all_players_control_lock(void);
 s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
@@ -3123,7 +3121,7 @@ saddr TObjPlayer::resolve_move_collision() {
         clear_velocity();
         return 2;
     }
-    if ((TObjPlayer__sub_801BE8F4(this, 0, 0x380000) != 0) && (TObjPlayer__sub_801BE8F4(this, 0, 0x01C00000) != 0)) {
+    if ((has_body_flags(this, 0, 0x380000) != 0) && (has_body_flags(this, 0, 0x01C00000) != 0)) {
         clear_velocity();
         return 4;
     }

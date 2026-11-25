@@ -151,9 +151,7 @@ void TObjPlayer::destroy_char_data_array() {
 
 __declspec(section ".ctors") static void *const __sinit_TObjPlayer_cpp_ref = (void *)__sinit_TObjPlayer_cpp;
 
-extern "C" {
 
-int subtract_photon_blast_charge(void*, f32);
 
 PlayerCharDataEntry::~PlayerCharDataEntry() {}
 
@@ -178,13 +176,11 @@ void TObjPlayer::check_flag_at_41c() { pending_actions.set(4); }
 void TObjPlayer::set_flag_41c_bit1() { pending_actions.set(2); }
 void TObjPlayer::clamp_stat_41c() { pending_actions.set(8); }
 
-}
 
 s8 TObjPlayer::get_rule_field_0() {
     return ((TLobby *)lobby_rule_settings)->get_rule_field_0();
 }
 
-extern "C" {
 
 
 void TObjPlayer::clear_flag_400000() {
@@ -239,13 +235,11 @@ short TObjPlayer::get_run_action() {
     return action_provider->get_run_action();
 }
 
-}
 
 TObjPlayer *get_local_player() {
     return get_player_by_client_id(local_client_id);
 }
 
-extern "C" {
 
 
 void TObjPlayer::clear_flag_200000() {
@@ -283,7 +277,6 @@ u8 TObjPlayer::get_mind_materials_used() { return materials.get_mind_used(); }
 void PlayerSyncRecord::set_power_materials_used(u8 v) { items[8].m_present[3] = v; }
 u8 TObjPlayer::get_power_materials_used() { return materials.get_power_used(); }
 
-}
 
 InventoryItemList::InventoryItemList() {
     s32 i;
@@ -293,17 +286,12 @@ InventoryItemList::InventoryItemList() {
     }
 }
 
-extern "C" {
 
 void TObjPlayer::set_move_mode(s32 v) { this->m_3dc = v; }
 void TObjPlayer::set_input_mode(s32 v) { this->m_3d8 = v; }
 
-}
 
-extern "C" {
-s32 TObjPlayer__sub_801BE8F4(TObjCollidable *obj, s32 body, u32 mask);
-
-s32 TObjPlayer__sub_801BE8F4(TObjCollidable *obj, s32 body, u32 mask) {
+s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask) {
     return (u8)((obj->bodies[body].flags & mask) != 0);
 }
 
@@ -341,7 +329,6 @@ void TObjPlayer::set_position_history_entry(s32 index, f32 x, f32 z) {
     *(f32 *)(entry + 0x6B4) = z;
 }
 
-}
 
 
 void TObjPlayer::set_action_flag_2() { this->state_flags |= 0x2; }
@@ -356,7 +343,6 @@ void TObjPlayer::start_freeze_self(TObjPlayer *player) { player->start_freeze();
 void TObjPlayer::set_floor(s32 v) { this->current_floor = v; }
 void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 
-extern "C" {
 
 
 s32 TObjPlayer::get_state_flags() { return this->state_flags; }
@@ -378,7 +364,6 @@ u8 PlayerSyncRecord::get_mind_materials_used() { return items[9].m_present[3]; }
 void TObjPlayer::set_power_materials_used(u8 v) { materials.set_power_used(v); }
 u8 PlayerSyncRecord::get_power_materials_used() { return items[8].m_present[3]; }
 
-}
 
 
 
@@ -424,10 +409,8 @@ void emit_grass_footstep_effect(PlayerFollowParticles *particles);
 void emit_water_footstep_effect(PlayerFollowParticles *particles);
 void emit_sand_footstep_effect(PlayerFollowParticles *particles);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
-extern "C" {
 int shared_count;
 int shared_flag;
-}
 
 #pragma defer_codegen on
 ContactSurfaceFlags::~ContactSurfaceFlags() {}
@@ -849,7 +832,6 @@ UnitScale::UnitScale() { reset(); }
 
 
 
-extern "C" {
 extern const f32 player_scale_initial;
 
 
@@ -883,7 +865,6 @@ void PlayerAnimationState::reset() {
 }
 PlayerMoveSpeed::PlayerMoveSpeed() { reset(); }
 PlayerScaleState::PlayerScaleState() { init(); }
-}
 void PlayerScaleState::init() {
     actor_id = 0xFFFF;
     flags.reset();
@@ -976,7 +957,6 @@ int PlayerActionProvider::get_attack2_action() { return -1; }
 int PlayerActionProvider::get_attack1_action() { return -1; }
 int PlayerActionProvider::get_run_action() { return -1; }
 
-extern "C" {
 
 void PlayerActionProvider::set_body_type(s32 body_type) { key.set_body_type(body_type); }
 
@@ -984,11 +964,9 @@ s32 is_action_id_none(s32 animation_number) {
     return (u8) (animation_number == -1);
 }
 
-}
 
 int get_player_action_provider_selector() { return player_action_provider_selector; }
 
-extern "C" {
 
 const TObjMotionAction *PlayerActionProvider::get_motion_actions(s32, s32) { return 0; }
 BmlMotionEntry *PlayerActionProvider::get_current_motion_list() { return NULL; }
@@ -1005,7 +983,6 @@ u8 PlayerTechniqueState::get_learned_level(s16 technique) const {
 
 u8 TObjPlayer::get_item_count_max() { return 255; }
 
-}
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -1169,7 +1146,6 @@ G_TeleportPlayer_6x24 &G_TeleportPlayer_6x24::operator=(G_TeleportPlayer_6x24 &s
 
 
 
-extern "C" {
 
 
 void G_TeleportPlayer_6x24::init() {
@@ -1291,7 +1267,6 @@ G_UseItem_6x27 &G_UseItem_6x27::operator=(G_UseItem_6x27 &src) {
     copy_subcommand_header(this, &src);
     item_id = src.item_id;
     return *this;
-}
 }
 
 void G_UseItem_6x27::init() {
@@ -1714,12 +1689,10 @@ s32 TObjPlayer::free_owned_buffer_b(saddr buffer, s16 flags) {
     return buffer;
 }
 
-struct O_801C21D4 { u8 pad[0x3a1]; u8 id; u8 pad2[0x408 - 0x3a2]; u8 arr[1]; };
 
 extern "C" {
 s32 __ct__12TPlyCharDataFv(s32 arg0);
-s32 get_record_byte_at(TPlyCharData *data, s32 tech);
-void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
+void is_slot_within_limit__10TObjPlayerFllUc(u8 cls, s16 tech, u8 level);
 
 
 PlayerAttackController *PlayerAttackController::init() {
@@ -1736,7 +1709,6 @@ s32 is_count_positive(s32 *count) {
     return *count > 0;
 }
 
-extern "C" {
 
 TItemData *TPlyInventoryItem::get_data() { return &m_data; }
 void PendingItemDrop::set_source_id(s32 id) { source_id = id; }
@@ -1788,15 +1760,14 @@ u8 TPlyCharData::get_class_flag_2() { return m_inventory.m_items[15].m_present[3
 u8 TPlyCharData::get_class_flag_1() { return m_inventory.m_items[14].m_present[3]; }
 u8 TPlyCharData::get_class_flag_0() { return m_inventory.m_items[13].m_present[3]; }
 
-s32 get_record_byte_at(TPlyCharData *data, s32 tech) {
-    return (u8)data->m_inventory.m_items[tech].m_present[2];
+s32 TPlyCharData::get_record_byte_at(s32 tech) {
+    return (u8)m_inventory.m_items[tech].m_present[2];
 }
 
-s32 TObjPlayer::get_slot_value_checked(s32 i) {
-    O_801C21D4 *self = (O_801C21D4 *)this;
-    u8 v = self->arr[i];
-    is_slot_within_limit__10TObjPlayerFllUc(self->id, i, v);
-    return (u8)(v);
+s32 TPlyCharData::get_technique_level(s32 tech) {
+    u8 level = m_tech_levels[tech];
+    is_slot_within_limit__10TObjPlayerFllUc(m_disp_part2.char_class, tech, level);
+    return level;
 }
 
 TPlyInventoryItem *TPlyInventory::get_items() { return m_items; }
@@ -1814,7 +1785,6 @@ TPlyCharData *PlayerCharDataEntry::get_char_data() { return &char_data; }
 s32 PlayerCharDataEntry::get_role() { return role; }
 PlayerCharDataEntry *PlayerCharDataEntry::construct() { ((TObjPlayer *)lobby_header)->clear_header_struct(); __ct__12TPlyCharDataFv((saddr)&char_data); __ct__8FlagWordFv(&flags); role = 0; return this; }
 
-}
 
 PhotonBlastRegistry::~PhotonBlastRegistry() {}
 

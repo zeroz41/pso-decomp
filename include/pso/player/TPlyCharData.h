@@ -31,6 +31,7 @@ public:
     void set_mind_materials_used(u8 count);
     void set_power_materials_used(u8 count);
     u8 get_luck_materials_used();
+    s32 get_record_byte_at(s32 tech);
     // TObjPlayer's class flag bytes (init_class_flags), kept in the last m_present byte of items 13-15.
     u8 get_class_flag_0();
     u8 get_class_flag_1();
@@ -44,6 +45,8 @@ public:
     // Cast level of technique `tech` up to 14; the levels above it are kept in m_present[2] of inventory slot `tech`.
     u8 *technique_level(s32 tech);
     u8 *technique_level_overflow(s32 tech);
+    // Name inferred from set_technique_level, which it mirrors.
+    s32 get_technique_level(s32 tech);
     void set_technique_level(s32 tech, u8 level);
     void set_technique_level_overflow(s32 tech, u8 level);
     u8 *get_technique_levels();

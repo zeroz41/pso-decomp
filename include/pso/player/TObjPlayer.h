@@ -520,7 +520,6 @@ struct TObjPlayer : public TObjChara {
     static u8 get_item_count_max();
     u32 unpack_u32_hi();
     u32 unpack_u32_lo();
-    s32 get_slot_value_checked(s32 i);
     static s32 decrement_clamp(s32 *value, s32 amount);
     void set_visible_flag();
     s32 check_flag_04000000();
@@ -1294,4 +1293,7 @@ void release_control_lock(TObjPlayer *player);
 
 // Empty; pickup_item calls it as an item joins the inventory, with the slot it takes.
 void on_inventory_item_added(TItem *item, s32 slot);
+
+// Whether any of mask is set in the flags of collision body `body` (name inferred).
+s32 has_body_flags(TObjCollidable *obj, s32 body, u32 mask);
 #endif

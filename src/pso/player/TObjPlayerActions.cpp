@@ -362,7 +362,6 @@ void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s32 play_weapon_hit_sound(void *);
 s32 draw_player_status(void *, void *, const char *);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
-s32 is_action_id_none(int);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
@@ -4755,7 +4754,7 @@ void TObjPlayer::check_idle_movement_request() {
     stick_angle = pad_binding.get_stick_angle();
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         this->lobby_animation = this->select_idle_action();
-        if (is_action_id_none((int) (this->lobby_animation)) == 0) {
+        if (is_action_id_none(this->lobby_animation) == 0) {
             if (this->lobby_animation == action_provider->get_chair_sit_action() ||
                 this->lobby_animation == action_provider->get_alt_chair_sit_action()) {
                 run_action_state_phase(0x18, 5);

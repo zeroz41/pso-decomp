@@ -267,7 +267,6 @@ void TObjPlayer::reset_technique_caps() {}
 
 void TObjPlayer::release_technique_caps() {}
 
-extern "C" s32 get_record_byte_at(TPlyCharData *data, s32 tech);
 
 // A saved character's technique levels.
 void TObjPlayer::init_saved_technique_caps(TPlyCharData *record) {
@@ -278,7 +277,7 @@ void TObjPlayer::init_saved_technique_caps(TPlyCharData *record) {
     technique_state.copy_all_technique_entries(0x1D);
     i = 0;
     do {
-        set_technique_level_clamped(this, ((TObjPlayer *)record)->get_slot_value_checked(i) + get_record_byte_at(record, i), i);
+        set_technique_level_clamped(this, record->get_technique_level(i) + record->get_record_byte_at(i), i);
         i += 1;
     } while (i < 0x13);
 }
