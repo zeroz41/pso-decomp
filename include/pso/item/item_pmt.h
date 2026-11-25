@@ -21,6 +21,8 @@ struct ItemSoundRequest {
 };
 
 void play_shield_sound_cue(ItemSoundRequest *cue);
+void play_weapon_hit_sound(ItemSoundRequest *request);
+void play_weapon_owner_sounds(ItemSoundRequest *request);
 
 void free_item_pmt(void);
 void load_item_pmt(void);

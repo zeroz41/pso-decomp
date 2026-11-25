@@ -581,22 +581,9 @@ s32 TItemWeapon::is_active_in_game() {
 
 // ---- pso/unk/text_8011F710
 
-struct Stack_8011F7CC {
-    s8 sp8;
-    s8 sp9;
-    u8 pad_A[0x2];
-    u8 * spC;
-    u8 pad_10[0x4];
-    u8 * sp14;
-    s32 sp18;
-};
-
 struct Item_8011F760 { u8 pad[0x10]; s32 count; };
 
 extern "C" {
-s32 play_weapon_hit_sound(void *);
-void play_weapon_owner_sounds(void*);
-
 s32 add_weapon_grind(TItemWeapon *weapon, s32 amount);
 
 s32 add_weapon_grind(TItemWeapon *weapon, s32 amount) {
@@ -625,12 +612,7 @@ u32 TItemWeapon::get_attack_flags() {
 }
 
 void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8011F7CC, sp8) == 0x0);
-    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_8011F7CC, sp9) == 0x1);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8011F7CC, spC) == 0x4);
-    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_8011F7CC, sp14) == 0xC);
-    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_8011F7CC, sp18) == 0x10);
-    Stack_8011F7CC stack;
+    ItemSoundRequest sound;
     f32 accuracy;
     f32 damage_dealt;
     s32 damage;
@@ -662,13 +644,13 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
                 damage = (s32)damage_dealt;
                 owner->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(owner, damage));
                 owner->apply_camera_shake(target, damage);
-                ((ItemSoundRequest *)(&stack.sp8))->clear();
-                stack.sp8 = get_item_group();
-                stack.sp9 = get_item_index();
-                stack.spC = (u8 *)owner;
-                stack.sp14 = (u8 *)target;
-                stack.sp18 = body;
-                play_weapon_hit_sound(&stack.sp8);
+                sound.clear();
+                sound.group = get_item_group();
+                sound.index = get_item_index();
+                sound.player = owner;
+                sound.target = target;
+                sound.collider = body;
+                play_weapon_hit_sound(&sound);
             }
         }
     }
@@ -676,17 +658,17 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
 }
 void TItemWeapon::perform_action() {
     TItemWeapon* self=this;
-    WeaponMarkerPacket packet;
+    ItemSoundRequest sound;
     Vec gun_point;
     Vec fallback_point;
     if (self->is_active_in_game() && !self->is_hidden() && is_current_area_item_enabled()) {
         self->rotation_y=self->owner->rotation_y;
         self->stage=self->get_attack_stage();
-        ((ItemSoundRequest *)(&packet))->clear();
-        packet.kind=self->get_item_group();
-        packet.variant=self->get_item_index();
-        packet.player=self->owner;
-        play_weapon_owner_sounds(&packet);
+        sound.clear();
+        sound.group=self->get_item_group();
+        sound.index=self->get_item_index();
+        sound.player=self->owner;
+        play_weapon_owner_sounds(&sound);
         if(self->test_weapon_flags(0x40000)) {
             start_pad_rumble_client(0x80, 5, (s16)self->owner->get_entity_id());
         } else if(self->test_weapon_flags(0x80000) && self->is_mode_two_and_ready()) {

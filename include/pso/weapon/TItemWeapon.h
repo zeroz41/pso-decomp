@@ -166,8 +166,6 @@ struct TItemWeapon : public TItemEquipBase {
     WeaponHitCallback hit_callback;     // deliver_hit, on the target hit
 };
 
-struct WeaponMarkerPacket { s8 kind,variant; u8 pad[2]; TObjPlayer* player; s32 unobserved[3]; };
-
 LAYOUT_ASSERT(WeaponTrailsOffset, offsetof(TItemWeapon,trails)==0x18C);
 LAYOUT_ASSERT(WeaponTechniqueRollOffset, offsetof(TItemWeapon,technique_roll)==0x1BC);
 LAYOUT_ASSERT(WeaponPreviousTechniqueRollOffset, offsetof(TItemWeapon,previous_technique_roll)==0x1C0);
@@ -187,7 +185,6 @@ LAYOUT_ASSERT(WeaponShotCallbackOffset, offsetof(TItemWeapon,shot_callback)==0x1
 LAYOUT_ASSERT(WeaponGunPointOffset, offsetof(TItemWeapon,gun_point_joint)==0x1CE);
 LAYOUT_ASSERT(WeaponHitCallbackOffset, offsetof(TItemWeapon,hit_callback)==0x1F4);
 LAYOUT_ASSERT(WeaponBaseSize, sizeof(TItemWeapon)==0x1F8);
-LAYOUT_ASSERT(WeaponMarkerPacketSize, sizeof(WeaponMarkerPacket)==0x14);
 extern "C" {
 void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s32 end_joint);
 // TItemWeapon's destructor under its own symbol, for the derived classes

@@ -60,8 +60,6 @@ extern "C" {
 s32 __cvt_fp2unsigned(f32);
 s32 get_item_star_count(s32 id);
 WeaponRangeRecord *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
-void play_weapon_owner_sounds(ItemSoundRequest *c);
-void play_weapon_hit_sound(ItemSoundRequest *c);
 }
 
 saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
@@ -254,29 +252,29 @@ void play_shield_sound_cue(ItemSoundRequest *cue) {
     }
 }
 
-void play_weapon_hit_sound(ItemSoundRequest *c) {
+void play_weapon_hit_sound(ItemSoundRequest *request) {
     s32 key[2];
     s32 pitch[2];
-    u8 group = c->group;
+    u8 group = request->group;
     u8 *target;
     u32 mode;
     u8 *pos;
     u16 type;
     s32 cls;
     s32 i;
-    if (c->group == 2 && c->index == 6) {
+    if (request->group == 2 && request->index == 6) {
         group = 0x32;
     }
-    if (c->group == 0x89 && c->index == 3) {
+    if (request->group == 0x89 && request->index == 3) {
         group = 0x10;
     }
     if (group < 0xAA) {
-        target = (u8 *)c->target;
+        target = (u8 *)request->target;
         key[0] = item_pmt_tbl->weapon_sounds[group].target[0].key;
         pitch[0] = item_pmt_tbl->weapon_sounds[group].target[0].pitch;
         key[1] = item_pmt_tbl->weapon_sounds[group].target[1].key;
         pitch[1] = item_pmt_tbl->weapon_sounds[group].target[1].pitch;
-        pos = (u8 *)((TObjCollidable *)target)->bodies + c->collider * 0x2C + 0x1C;
+        pos = (u8 *)((TObjCollidable *)target)->bodies + request->collider * 0x2C + 0x1C;
         type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
             cls = *(s8 *)&((TObjPlayer *)target)->m_88d;
@@ -315,20 +313,20 @@ void play_weapon_hit_sound(ItemSoundRequest *c) {
     }
 }
 
-void play_weapon_owner_sounds(ItemSoundRequest *c) {
+void play_weapon_owner_sounds(ItemSoundRequest *request) {
     s32 key[2];
     s32 pitch[2];
-    u8 group = c->group;
+    u8 group = request->group;
     const Vec *pos;
     s32 i;
-    if (c->group == 2 && c->index == 6) {
+    if (request->group == 2 && request->index == 6) {
         group = 0x32;
     }
-    if (c->group == 0x89 && c->index == 3) {
+    if (request->group == 0x89 && request->index == 3) {
         group = 0x10;
     }
     if (group < 0xAA) {
-        pos = &c->player->position;
+        pos = &request->player->position;
         key[0] = item_pmt_tbl->weapon_sounds[group].owner[0].key;
         pitch[0] = item_pmt_tbl->weapon_sounds[group].owner[0].pitch;
         key[1] = item_pmt_tbl->weapon_sounds[group].owner[1].key;

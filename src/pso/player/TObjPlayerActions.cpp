@@ -151,7 +151,6 @@ extern "C" {
 
 s32 copy_attack_targets(void *, void *);
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
-s32 play_weapon_hit_sound(void *);
 s32 draw_player_status(void *, void *, const char *);
 u16 get_action_palette_mode(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
@@ -3463,15 +3462,6 @@ struct TargetCollider {
 };
 
 
-struct WeaponHitSound {
-    s8 kind;
-    s8 variant;
-    u8 pad2[2];
-    TObjPlayer *attacker;
-    u8 pad8[4];
-    TObjChara *target;
-    s32 collider;
-};
 
 int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
     s32 count;
@@ -3526,14 +3516,14 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                 break;
             }
             hit = 1;
-            WeaponHitSound sound;
-            ((ItemSoundRequest *)&sound)->clear();
+            ItemSoundRequest sound;
+            sound.clear();
             TItem *item = get_equipped_weapon(this);
             if (item != NULL) {
-                sound.kind = item->get_item_group();
-                sound.variant = item->get_item_index();
+                sound.group = item->get_item_group();
+                sound.index = item->get_item_index();
             }
-            sound.attacker = this;
+            sound.player = this;
             sound.target = target;
             sound.collider = collider;
             play_weapon_hit_sound(&sound);
@@ -3556,13 +3546,13 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                         gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                         apply_camera_shake(target, damage);
                         hit = 1;
-                        WeaponHitSound sound;
-                        ((ItemSoundRequest *)&sound)->clear();
+                        ItemSoundRequest sound;
+                        sound.clear();
                         TItem *item = get_equipped_weapon(this);
                         if (item != NULL) {
-                            sound.kind = item->get_item_group();
+                            sound.group = item->get_item_group();
                         }
-                        sound.attacker = this;
+                        sound.player = this;
                         sound.target = target;
                         sound.collider = collider;
                         play_weapon_hit_sound(&sound);
