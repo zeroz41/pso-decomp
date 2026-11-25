@@ -134,7 +134,7 @@ void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 }
 
 ArrivalOverride player_arrival_overrides[12];
-u8 player_slot_table[0x30];
+TObjPlayer *player_slot_table[12];
 s32 lobby_rule_settings[9];
 u8 lbl_8050EA64[0xC];
 u8 TObjPlayer__char_data_array[0x42C * 0xC];
