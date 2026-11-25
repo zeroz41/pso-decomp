@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowMenuTeamStatus.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/unk/TUnk_804EF440.h"
 
 extern "C" {
 u8 *get_window_layout_position(s32);
@@ -23,7 +24,7 @@ const char *TWindowMenuTeamStatus__name = "TWindowMenuTeamStatus";
 
 void TWindowMenuTeamStatus::init(u32 count, s32 id) {
     s32 i;
-    TWindowMenuTeamStatus::Entry *entry;
+    TUnk_804EF440 *row;
 
     m_name = TWindowMenuTeamStatus__name;
     client_index = id;
@@ -36,8 +37,8 @@ void TWindowMenuTeamStatus::init(u32 count, s32 id) {
     status_display = 0;
     scroll_bar = 0;
     for (i = 0; i < (s32)count; i++) {
-        entry = (TWindowMenuTeamStatus::Entry *)get_array_entry(i);
-        entry->m_0c = i * 20;
+        row = (TUnk_804EF440 *)get_array_entry(i);
+        row->y = i * 20;
     }
 }
 

@@ -6,11 +6,6 @@
 // Named from the "TWindowMenuTeamStatus" class-name string init stores to m_name.
 class TWindowMenuTeamStatus : public TWindowShop {
 public:
-    struct Entry {
-        u8 unk_00[0xC];
-        f32 m_0c;
-    };
-
     static TWindowMenuTeamStatus *create(void *tbl);
     TWindowMenuTeamStatus(s32 arg);
     virtual ~TWindowMenuTeamStatus();
