@@ -235,7 +235,7 @@ NJS_TEXLIST *lobby_title_texture_list;
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void hide_title_layers_and_release(TTitleScene *scene);
 int TKeyBoardControl__sub_8000F828(void);
-void TKeyBoardControl__sub_8000F90C(int);
+void set_fallback_main_phase(int);
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 extern const s32 current_language;
@@ -288,7 +288,7 @@ void TTitleScene::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMulti
 void TTitleScene::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::set_mode_0x15(); }
 void TLobby__sub_803362A4(TTitleScene *scene) {
     if (TAdTrialAgreementGC__sub_80335958(scene->transition_controller) != 0) {
-        TKeyBoardControl__sub_8000F90C(2);
+        set_fallback_main_phase(2);
         if (scene->start_offline_seq() != 0) {
             ((void (*)(void *))TLobby__sub_803361FC)(scene);
             TitleStateHandler handler = state_handler_pmf_table[get_transition_cursor(scene)];
@@ -321,7 +321,7 @@ void TTitleScene::run_task() {
         TWindowOptionCtrl__sub_802273B4(0x1E);
     }
     if (m_38 < attract_tick && start_offline_seq() != 0) {
-        TKeyBoardControl__sub_8000F90C(2);
+        set_fallback_main_phase(2);
         set_opening_movie_purpose(0);
         request_main_phase(3);
     }
@@ -352,7 +352,7 @@ TTitleScene::TTitleScene(TObject *parent) : TObject(parent) {
     attract_tick = 0;
     auxiliary_window = NULL;
     transition_flags = 0;
-    TKeyBoardControl__sub_8000F90C(1);
+    set_fallback_main_phase(1);
     TAdMultiPlyChrSelectGC::reset_slot_selections();
     TObjEneDolmOlm::reset_count();
     TAdMultiPlyChrSelectGC__sub_803367E8();

@@ -58,9 +58,9 @@ s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 s32 is_palettex_activated(u16 client_index);
 s32 is_palettex_enabled(u16);
-s32 TWindowSubComCard__sub_802452DC(int);
-s32 TWindowSubComCard__sub_80245320(void *, void *);
-s32 TWindowSubComCard__sub_802454E4(int);
+s32 end_window_sweep_draw(int);
+s32 draw_window_sweep_strip(void *, void *);
+s32 begin_window_sweep_draw(int);
 }
 
 const PaletteItemKind lbl_8044E5E8[13] = {
@@ -286,9 +286,9 @@ void TWindowActionPalette::draw_frame(saddr arg1) {
     draw_textured_quad_at_depth((f32 *)&r4, depth);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, (u8 *)ctx + 0x10, (u8 *)ctx + 0x18) != 0) {
-        TWindowSubComCard__sub_802454E4(2);
-        TWindowSubComCard__sub_80245320(&r4, ctx);
-        TWindowSubComCard__sub_802452DC(2);
+        begin_window_sweep_draw(2);
+        draw_window_sweep_strip(&r4, ctx);
+        end_window_sweep_draw(2);
     }
 }
 #pragma pop

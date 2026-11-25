@@ -381,29 +381,29 @@ TWindowChat::~TWindowChat() {
             }
         }
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
+    if ((u32)symbolChatWindow != 0U) {
         ((TObject *)this->symbolChatWindow)->queue_destruction();
-        *(u32 *)((s8 *)this + 0x30) = 0U;
+        symbolChatWindow = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
+    if ((u32)wordSelectWindow != 0U) {
         ((TObject *)this->wordSelectWindow)->queue_destruction();
-        *(u32 *)((s8 *)this + 0x34) = 0U;
+        wordSelectWindow = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x2C) != 0U) {
+    if ((u32)auxiliaryWindow != 0U) {
         ((TWindowBase *)this->auxiliaryWindow)->close();
-        *(u32 *)((s8 *)this + 0x2C) = 0U;
+        auxiliaryWindow = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
+    if ((u32)softKeyboard != 0U) {
         ((TWindowBase *)this->softKeyboard)->close();
-        *(u32 *)((s8 *)this + 0x24) = 0U;
+        softKeyboard = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x28) != 0U) {
+    if ((u32)hardKeyboard != 0U) {
         ((TWindowBase *)this->hardKeyboard)->close();
-        *(u32 *)((s8 *)this + 0x28) = 0U;
+        hardKeyboard = NULL;
     }
-    if ((u32) *(u32 *)((s8 *)this + 0x20) != 0U) {
+    if ((u32)composer != 0U) {
         ((TWindowBase *)this->composer)->close();
-        *(u32 *)((s8 *)this + 0x20) = 0U;
+        composer = NULL;
     }
 }
 TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
@@ -413,19 +413,19 @@ TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
     this->composer = new TWindowKeyBoardBase;
     composer->init_keyboard_text_field(200, 2);
     this->hardKeyboard = new TWindowKeyBoardHard(composer);
-    *(u32 *)((s8 *)this + 0x24) = 0;
-    *(u32 *)((s8 *)this + 0x2C) = 0;
-    *(u32 *)((s8 *)this + 0x34) = 0;
-    *(u32 *)((s8 *)this + 0x30) = 0;
+    softKeyboard = NULL;
+    auxiliaryWindow = NULL;
+    wordSelectWindow = NULL;
+    symbolChatWindow = NULL;
     this->result = arg2;
     this->open_next_input_window();
 }
 
-void TWindowKeyBoardBase::set_flag62_bit4() { m_62 |= 0x4; }
+void TWindowKeyBoardBase::set_flag62_bit4() { request_flags |= 0x4; }
 
-u8 TWindowKeyBoardBase::get_input_mode() { return m_65; }
+u8 TWindowKeyBoardBase::get_input_mode() { return active_input_mode; }
 
-int TWindowKeyBoardBase::get_flag() { return (m_60 >> 6) & 1; }
+int TWindowKeyBoardBase::get_flag() { return (state_flags >> 6) & 1; }
 
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard) {
     return static_cast<s32>(keyboard->m_68) > 0;

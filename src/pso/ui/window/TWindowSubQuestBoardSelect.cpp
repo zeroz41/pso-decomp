@@ -245,7 +245,7 @@ void TWindowSubQuestBoardSelect::render() {
     saddr ctx;
     ctx = reinterpret_cast<saddr>(draw_default_entry());
     draw_window_frame((void *)ctx);
-    m_64->forward_render((void *)ctx);
+    status_disp->forward_render((void *)ctx);
     TWindowSubQuestBoardSelect__sub_8027D444(this, (Ctx_8027D444 *)ctx);
     draw_visible_window_entries(
         this,
@@ -267,7 +267,7 @@ void TWindowSubQuestBoardSelect::run_task() {
     ((TWindowDD *)arg0)->initialize_subwindow();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         *(s32 *)&this->open_tick = 0x186A0;
-        this->m_64->update_subwindow();
+        this->status_disp->update_subwindow();
     }
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
@@ -290,7 +290,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     if (var_r30 != 0) {
         var_r30 = (saddr)((TWindowSubStatusDisp *)var_r30)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));
     }
-    this->m_64 = (TWindowSubStatusDisp *)var_r30;
+    this->status_disp = (TWindowSubStatusDisp *)var_r30;
     *(s8 *)&this->m_60 = 0;
     temp_r30 = reinterpret_cast<saddr>(((TWindowBase *)this)->get_array_entry(0));
     set_text_entry_string((u8 *)temp_r30, (uaddr)(TQuestThread::get_quest_name()), 0);

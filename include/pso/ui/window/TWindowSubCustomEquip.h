@@ -26,7 +26,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     u8 m_65;
     s16 m_66;
     u32 angle;
-    TWindowSubStatusDisp *m_6c;
+    TWindowSubStatusDisp *status_disp;
     void layout_selection_parts(void *arg1);
     void layout_entry_group(void *index);
     void reset_selection();
@@ -49,6 +49,6 @@ struct TWindowSubCustomEquip : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSubCustomEquip_size, sizeof(TWindowSubCustomEquip) == 0x70);
 
-LAYOUT_ASSERT(TWindowSubCustomEquipHeadingOffset, offsetof(TWindowSubCustomEquip, m_6c) == 0x6C);
+LAYOUT_ASSERT(TWindowSubCustomEquipHeadingOffset, offsetof(TWindowSubCustomEquip, status_disp) == 0x6C);
 
 #endif

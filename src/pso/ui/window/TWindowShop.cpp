@@ -46,14 +46,14 @@ TWindowShop *create_item_list_window(s32 title, s32 count, s32 client) {
     camera_id = TCameraCtrl::get_camera_id();
     switch (camera_id) {
     case 1:
-        TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[0], count);
+        set_menu_icon_line_params(&TShopJudgmentItemWindow__item_list_rect_table[0], count);
         break;
     case 2:
-        TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[1], count);
+        set_menu_icon_line_params(&TShopJudgmentItemWindow__item_list_rect_table[1], count);
         break;
     case 3:
     case 4:
-        TShopJudgmentItemWindow__sub_80267F9C(&TShopJudgmentItemWindow__item_list_rect_table[2], count);
+        set_menu_icon_line_params(&TShopJudgmentItemWindow__item_list_rect_table[2], count);
         break;
     }
     return new TWindowShop(title, count, client);

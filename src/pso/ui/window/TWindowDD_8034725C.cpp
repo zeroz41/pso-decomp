@@ -74,11 +74,11 @@ struct W_80347B70 {
 
 extern "C" {
 void append_word_select_token(s16, saddr, void *);
-void TWindowDD__sub_8034740C(M_80347758 *entry, saddr window_dd, saddr pos);
-void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, char *buf, s32 *pos);
+void append_word_select_entry_words(M_80347758 *entry, saddr window_dd, saddr pos);
+void append_word_select_word_with_number(M_80347758 *entry, s16 id, char *word, char *buf, s32 *pos);
 saddr TWindowDD__sub_80348D88(void *p);
 extern s32 TWindowDD__window_mode;
-void TWindowDD__sub_80347474(M_80347758 *entry, s16 id, char *buf, s32 *pos);
+void append_word_select_word(M_80347758 *entry, s16 id, char *buf, s32 *pos);
 extern const f32 lbl_805DFB54;
 void TWindowDD__sub_80347FA0(saddr arg0, s32 arg1);
 s32 TWindowDD__sub_80348DD8(void *, int);
@@ -172,20 +172,20 @@ void TWindowDD::format_type6_message(saddr window_dd, void *pos) {
     }
 }
 
-void TWindowDD__sub_8034740C(M_80347758 *entry, saddr window_dd, saddr pos) {
-    TWindowDD__sub_80347474(entry, entry->a[0], (char *)window_dd, (s32 *)pos);
+void append_word_select_entry_words(M_80347758 *entry, saddr window_dd, saddr pos) {
+    append_word_select_word(entry, entry->a[0], (char *)window_dd, (s32 *)pos);
     if (entry->n > 1) {
         ((TWindowDD *)window_dd)->append_prompt_newline((s32 *)pos);
         append_word_select_token(entry->a[1], window_dd, (void *) pos);
     }
 }
 
-void TWindowDD__sub_80347474(M_80347758 *entry, s16 id, char *buf, s32 *pos) {
+void append_word_select_word(M_80347758 *entry, s16 id, char *buf, s32 *pos) {
     char *word = (char *)get_word_select_token_text(id);
-    TWindowDD__sub_803474CC(entry, id, word, buf, pos);
+    append_word_select_word_with_number(entry, id, word, buf, pos);
 }
 
-void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, char *buf, s32 *pos) {
+void append_word_select_word_with_number(M_80347758 *entry, s16 id, char *word, char *buf, s32 *pos) {
     char num[20];
     s32 kind;
     s32 value;
@@ -439,7 +439,7 @@ void TWindowDD::update_selection_state() {
     }
 }
 
-void TWindowDD__sub_80347C50(W_80347C50 *self) {
+void refresh_word_select_child_list(W_80347C50 *self) {
     s32 next;
 
     next = dispatch_by_window_mode(reinterpret_cast<TWindowDD *>(self), self->window_mode, self->entry_id,
@@ -642,7 +642,7 @@ void TWindowDD::set_default_positions(void *window, TWindowDD_WS_Word *child) {
 void TWindowDD::spawn_window() { play_sound_effect(344320, 0, 0, 0); }
 void TWindowDD::play_se() { play_sound_effect(339734, 0, 0, 0); }
 void TWindowDD::play_sound() { play_sound_effect(339201, 0, 0, 0); }
-u8 TWindowDD__sub_803482B0(u8 *window_dd) {
+u8 is_word_select_cancel_input(u8 *window_dd) {
     s32 var_r31;
     var_r31 = 0;
     if ((((s32)TWindowDD_check_input_mask(window_dd + 0x1C, 2)) != 0) || (*(s32 *)((s8 *)window_dd + 0x94) & 2)) {

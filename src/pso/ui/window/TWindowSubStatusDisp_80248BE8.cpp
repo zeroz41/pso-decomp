@@ -18,10 +18,10 @@
 #include "pso/network/client_id.h"
 
 extern "C" {
-s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
+s32 set_menu_icon_line_params(void *, int);
 
 u8 *TWindowSubStatusDisp__sub_80248BE8(saddr parent, saddr size, s32 client) {
-    TShopJudgmentItemWindow__sub_80267F9C((void *)size, 0x5);
+    set_menu_icon_line_params((void *)size, 0x5);
     return (u8 *)new TWindowCheckBox((u8 *)parent, client);
 }
 

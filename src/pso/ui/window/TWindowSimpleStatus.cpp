@@ -142,9 +142,9 @@ struct Rect_80270394 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f
 
 extern "C" {
 s32 get_photon_blast_chain(Slots_80270060 *);
-s32 TWindowSubComCard__sub_802452DC(s32);
-s32 TWindowSubComCard__sub_80245320(Rect_80270394 *, u8 *);
-s32 TWindowSubComCard__sub_802454E4(s32);
+s32 end_window_sweep_draw(s32);
+s32 draw_window_sweep_strip(Rect_80270394 *, u8 *);
+s32 begin_window_sweep_draw(s32);
 s32 start_text_color_transition(void *, s32, f32);
 }
 s32 get_status_effect_icon_index(u32 arg0);
@@ -530,9 +530,9 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
     draw_textured_quad_at_depth(&r, scale);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, &pos, &size) != 0) {
-        TWindowSubComCard__sub_802454E4(0xB);
-        TWindowSubComCard__sub_80245320(&r, ctx);
-        TWindowSubComCard__sub_802452DC(0xB);
+        begin_window_sweep_draw(0xB);
+        draw_window_sweep_strip(&r, ctx);
+        end_window_sweep_draw(0xB);
     }
 }
 

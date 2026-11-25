@@ -34,8 +34,8 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
     u32 temp_r4;
     const SymbolChatPart *part;
     SymbolChatPreset *instance;
-    m_84 = arg2;
-    *(m_84) = 0;
+    result_out = arg2;
+    *(result_out) = 0;
     instance = reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance());
     data_ptr = instance->get_data_ptr();
     temp_r3_2 = TWindowSubSymbolChat::calc_remaining_slots();
@@ -49,8 +49,8 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
         *(s16 *)((s8 *)((u8 *)this) + 0x6E) = (s16) part->id;
         *(s16 *)((s8 *)((u8 *)this) + 0x6A) = (s16) part->x;
         *(s16 *)((s8 *)((u8 *)this) + 0x6C) = (s16) part->y;
-        *m_7c = part->flags & 1;
-        *m_80 = ((u8) part->flags >> 1U) & 1;
+        *first_flag_out = part->flags & 1;
+        *second_flag_out = ((u8) part->flags >> 1U) & 1;
         do {
             part_flags = get_parts_entry(this, i);
             temp_r29_2 = get_parts_entry((saddr)i);
@@ -63,7 +63,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
         selection_mode = 2;
         return 0;
     }
-    m_70 = arg1;
+    selection_out = arg1;
     i = 0;
     selection_mode = 3;
     var_r29 = *(s16 *)((s8 *)((u8 *)this) + 0x6E) - temp_r3_2;
@@ -77,9 +77,9 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
                 *(s16 *)((s8 *)((u8 *)this) + 0x6A) = (s16) (((i & 1) ^ temp_r4) - temp_r4);
                 *(s16 *)((s8 *)((u8 *)this) + 0x6C) = (s16) (i / 2);
                 *(s16 *)((s8 *)((u8 *)this) + 0x6E) = (s16) (u8) temp_r8;
-                *m_70 = (temp_r8 >> 8U) & 7;
-                *m_7c = (temp_r8 >> 0xBU) & 1;
-                *m_80 = (temp_r8 >> 0xCU) & 1;
+                *selection_out = (temp_r8 >> 8U) & 7;
+                *first_flag_out = (temp_r8 >> 0xBU) & 1;
+                *second_flag_out = (temp_r8 >> 0xCU) & 1;
                 return 1;
             }
         }
@@ -90,7 +90,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
 
 void TWindowSubSymbolChatPartsSet::set_selection_and_refresh(s8 *arg1) {
     first_part_index = 0;
-    m_70 = arg1;
+    selection_out = arg1;
     selection_mode = 1;
     sub_8028625C();
 }
@@ -100,7 +100,7 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *arg1) {
   u16 *temp_r31;
   u16 *temp_r3;
   SymbolChatPreset *instance;
-  m_84 = arg1;
+  result_out = arg1;
   m_94 = 2.0f;
   if (((s32) (*arg1)) == 1)
   {
@@ -389,10 +389,10 @@ TWindowSubSymbolChatPartsSet::TWindowSubSymbolChatPartsSet(void *position, s16 i
     m_68 = 0;
     cursor_x = 0;
     cursor_y = 0;
-    m_6e = index;
-    m_70 = NULL;
-    m_7c = first;
-    m_80 = second;
+    set_index = index;
+    selection_out = NULL;
+    first_flag_out = first;
+    second_flag_out = second;
     TWindowSubStatusDisp *heading = static_cast<TWindowSubStatusDisp *>(::operator new(0x24));
     if (heading != NULL) {
         heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x34), client_index);

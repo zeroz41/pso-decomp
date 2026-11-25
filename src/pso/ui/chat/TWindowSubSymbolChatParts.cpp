@@ -526,8 +526,8 @@ void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {
 }
 
 TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void **)((s8 *)this + 0x8C)), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x88)), (s16)1);
+    TWindowSubStatusDisp::destroy_allocation((saddr)scrollbar, (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)heading, (s16)1);
 }
 
 TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(void *parent, s32 *arg2, s32 *arg3)

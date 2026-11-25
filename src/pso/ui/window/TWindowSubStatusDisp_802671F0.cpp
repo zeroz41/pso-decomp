@@ -137,7 +137,7 @@ void text_builder_reset();
 s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 extern "C" {
 
-void TShopJudgmentItemWindow__sub_80267F9C(const NJS_POINT2 *size, s32 count);
+void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count);
 
 saddr TWindowMenuIconLine::get_cursor_value() {
     return ((ItemListRow *)get_array_entry(cursor))->get_item();
@@ -621,11 +621,11 @@ void TWindowMenuIconLine::init(u32 arg1, s32 arg2) {
 #undef self
 
 TWindowMenuIconLine *fn_80267F38(saddr parent, saddr position, uaddr count, s16 client) {
-    ((s32 (*)(void *, void *))TShopJudgmentItemWindow__sub_80267F9C)((void *)position, (void *)count);
+    ((s32 (*)(void *, void *))set_menu_icon_line_params)((void *)position, (void *)count);
     return new TWindowMenuIconLine((u8 *)parent, count, client);
 }
 
-void TShopJudgmentItemWindow__sub_80267F9C(const NJS_POINT2 *size, s32 count) {
+void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count) {
     lbl_804D0604.pad_00[0] = size->x;
     lbl_804D0604.pad_00[1] = size->y;
     lbl_804D05F8[1] = count;

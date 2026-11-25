@@ -12,7 +12,7 @@ extern "C" {
 void TWindowMainMenu4P::on_submenu_closed() { if (close_active_submenu() != 0) { this->show_child_window(); } }
 
 void TWindowMainMenu4P::close_main_menu() {
-    if (this->m_4c & 1) {
+    if (this->menu_flags & 1) {
         TWindowMainMenu::close_and_clear_flags();
     }
 }
@@ -20,7 +20,7 @@ void TWindowMainMenu4P::close_main_menu() {
 void TWindowMainMenu4P::open_main_menu() {
     u8 *arg0 = (u8 *)this;
     u8 *player;
-    if (!(this->m_4c & 1)) {
+    if (!(this->menu_flags & 1)) {
         player = (u8 *)(get_player_by_client_id(client_index));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {

@@ -16,12 +16,14 @@ struct TWindowSubStatusDisp : public TWindowBase {
     virtual void run_task();
     virtual void render();
     s16 page; // index into the dispatch_page_init/update page tables
-    u16 m_62;
+    s16 requested_page;  // the page the owner wants shown (set_requested_page); run_task switches to it
     u32 m_64;
     PageIndicator *m_68;
     f32 scale_x;
     f32 scale_y;
 
+    void set_requested_page(s16 value);
+    void set_scale(f32 x, f32 y);
     void vt0();
     void vt1();
     void vt2();
@@ -115,7 +117,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
 };
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);
-LAYOUT_ASSERT(TWindowSubStatusDisp_offset_m_62, offsetof(TWindowSubStatusDisp, m_62) == 0x62);
+LAYOUT_ASSERT(TWindowSubStatusDisp_offset_requested_page, offsetof(TWindowSubStatusDisp, requested_page) == 0x62);
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_m_68, offsetof(TWindowSubStatusDisp, m_68) == 0x68);
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_x, offsetof(TWindowSubStatusDisp, scale_x) == 0x6C);
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_y, offsetof(TWindowSubStatusDisp, scale_y) == 0x70);

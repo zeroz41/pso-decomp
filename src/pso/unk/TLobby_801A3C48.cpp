@@ -131,7 +131,7 @@ s32 unlock_main_warp_destination();
 s32 load_area_scene_and_init(void *);
 s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
-s32 TKeyBoardControl__sub_8000F90C(int);
+s32 set_fallback_main_phase(int);
 int set_queued_main_phase(int);
 s32 run_join_lobby_connect__6TLobbyFi(void *);
 s32 TLobby__sub_80146908();
@@ -706,7 +706,7 @@ void run_online_lobby_scene(void) {
     TLobby__sub_801F3774();
     reset_controller_input_state();
     clear_keyboard_key_state();
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     set_queued_main_phase(0xF);
     clear_resource_load_tasks();
     TLobby::create_map_csn_ctrl();

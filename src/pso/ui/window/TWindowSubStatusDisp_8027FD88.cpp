@@ -343,7 +343,7 @@ TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
     m_name = TWindowSubStatusDisp__class_name;
     client_index = client;
     page = 0;
-    m_62 = page;
+    requested_page = page;
     scale_x = 1.0f;
     scale_y = 1.0f;
     m_68 = new PageIndicator(0, 3, client);
@@ -360,11 +360,11 @@ void TWindowSubStatusDisp::run_task() {
   {
     arg0->open_tick = 0x01000000;
   }
-  if ((handle_list_page_flip_input(arg0->m_68) != 0) || ((arg0->page) != ((s16) (*(s16 *)&arg0->m_62))))
+  if ((handle_list_page_flip_input(arg0->m_68) != 0) || ((arg0->page) != ((s16) (arg0->requested_page))))
   {
-    if ((arg0->page) != (*(s16 *)&arg0->m_62))
+    if ((arg0->page) != (arg0->requested_page))
     {
-      arg0->page = *(s16 *)&arg0->m_62;
+      arg0->page = arg0->requested_page;
       fn_8026C7AC(arg0->m_68, lbl_805DD6F4[arg0->page]);
     }
     arg0->entry_list.destroy_all_items();
@@ -864,7 +864,8 @@ s32 TWindowSubStatusDisp::get_display_mode() {
     }
     return m_68->get_type() != 2 ? RECORD_SET_EP2 : RECORD_SET_EP1;
 }
-void fn_8027FD94(void* p, s16 v) { *(s16*)((char*)p + 0x62) = v; }
-
-void fn_8027FD88(void* p, f32 a, f32 b) { *(f32*)((char*)p + 0x6c) = a; *(f32*)((char*)p + 0x70) = b; }
 }
+
+void TWindowSubStatusDisp::set_requested_page(s16 value) { requested_page = value; }
+
+void TWindowSubStatusDisp::set_scale(f32 x, f32 y) { scale_x = x; scale_y = y; }

@@ -20,7 +20,7 @@ struct TWindowSubQuestBoardSelect : public TWindowBase {
     u8 m_60;
     s8 slot;
     u8 _pad62[0x2];
-    TWindowSubStatusDisp *m_64;
+    TWindowSubStatusDisp *status_disp;
     void handle_cancel();
     void handle_decide();
     void select_next();

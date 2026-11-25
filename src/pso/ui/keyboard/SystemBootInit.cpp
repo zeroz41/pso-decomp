@@ -167,7 +167,7 @@ s32 get_main_phase(void) {
     return main_phase_state.cur;
 }
 
-void TKeyBoardControl__sub_8000F90C(s32 phase) {
+void set_fallback_main_phase(s32 phase) {
     main_phase_state.fallback = phase;
 }
 
@@ -175,7 +175,7 @@ void set_queued_main_phase(s32 phase) {
     main_phase_state.queued_main_phase = phase;
 }
 
-s32 TKeyBoardControl__sub_8000F92C(void) {
+s32 switch_to_fallback_main_phase(void) {
     main_phase_state.result = 3;
     return main_phase_state.next = main_phase_state.fallback;
 }

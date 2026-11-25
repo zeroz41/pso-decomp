@@ -135,10 +135,10 @@ void TChCrCharSelect::run_task() {
     (this->*tbl[TChCrCharSelect__input_mode])();
     switch (TChCrCharSelect__input_mode) {
     case 0:
-        TObjCMIcon__sub_802994C8(1, lbl_805DD9D8);
+        show_only_creation_icons(1, lbl_805DD9D8);
         return;
     case 1:
-        TObjCMIcon__sub_802994C8(2, lbl_80464E90);
+        show_only_creation_icons(2, lbl_80464E90);
         return;
     case 2:
     default:

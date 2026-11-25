@@ -35,7 +35,7 @@ void TWindowSubSymbolChatFaceType::close_when_chat_closed() {
 void TWindowSubSymbolChatFaceType::confirm_selection() {
     play_sound_effect(0x52D01, 0, 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
-    m_68->set_entry_state(2);
+    status_disp->set_entry_state(2);
 }
 
 }
@@ -191,7 +191,7 @@ void TWindowSubSymbolChatFaceType::render() {
     update_parts_entries();
     draw_window_frame((void *)context);
     TWindowSubSymbolChatFaceType__sub_80283F38((u8 *)this, (u8 *)context);
-    m_68->forward_render(reinterpret_cast<void *>(context));
+    status_disp->forward_render(reinterpret_cast<void *>(context));
     draw_visible_window_entries(this, &entry_list, reinterpret_cast<WindowDrawContext *>(context));
 }
 void TWindowSubSymbolChatFaceType::run_task() {
@@ -211,7 +211,7 @@ void TWindowSubSymbolChatFaceType::run_task() {
         }
     }
     if ((f32) (s32)window_sub_symbol_chat_face_type->open_tick >= 7.5f) {
-        m_68->update_subwindow();
+        status_disp->update_subwindow();
     }
     ((TWindowDD *)window_sub_symbol_chat_face_type)->initialize_subwindow();
     window_sub_symbol_chat_face_type->update_window_entry_list(&window_sub_symbol_chat_face_type->entry_list);
@@ -224,7 +224,7 @@ extern "C" {
 
 
 TWindowSubSymbolChatFaceType::~TWindowSubSymbolChatFaceType() {
-    TWindowSubStatusDisp::destroy_status_display((s32)m_68, 1);
+    TWindowSubStatusDisp::destroy_status_display((s32)status_disp, 1);
 }
 
 }
@@ -264,7 +264,7 @@ TWindowSubSymbolChatFaceType::TWindowSubSymbolChatFaceType(void *position, s8 *s
     if (heading != NULL) {
         heading = (TWindowSubStatusDisp *)heading->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x33), client_index);
     }
-    m_68 = heading;
+    status_disp = heading;
 }
 
 }

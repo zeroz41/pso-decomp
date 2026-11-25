@@ -20,7 +20,7 @@ TWindowStatusCategoryMenu::TWindowStatusCategoryMenu(TWindowMainMenu *parent, s3
     status_disp = new TWindowSubStatusDisp(client_id);
     if (TCameraCtrl::get_camera_id() > 2) {
         category_menu->set_position_xy(0.84f, 0.84f);
-        fn_8027FD88(status_disp, 0.84f, 0.84f);
+        status_disp->set_scale(0.84f, 0.84f);
     }
 }
 
@@ -41,7 +41,7 @@ void TWindowStatusCategoryMenu::run_task() {
     if (category_menu->is_cancelled() != 0) {
         main_menu->on_submenu_closed();
     }
-    fn_8027FD94(status_disp, category_menu->get_selected_value());
+    status_disp->set_requested_page(category_menu->get_selected_value());
 }
 
 void TWindowStatusCategoryMenu::render() {

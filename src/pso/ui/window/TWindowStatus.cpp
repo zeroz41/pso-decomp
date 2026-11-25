@@ -28,9 +28,9 @@ struct Quad_802710C4 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
 
-s32 TWindowSubComCard__sub_802452DC(int);
-s32 TWindowSubComCard__sub_80245320(void *, void *);
-s32 TWindowSubComCard__sub_802454E4(int);
+s32 end_window_sweep_draw(int);
+s32 draw_window_sweep_strip(void *, void *);
+s32 begin_window_sweep_draw(int);
 void draw_photon_blast_gauge_ring(s32, void *, const f32 *, f32, f32);
 void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(void *, f32);
@@ -170,9 +170,9 @@ void TWindowStatus::draw_background(u8 *ctx) {
     draw_textured_quad_at_depth(&q, s);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {
-        TWindowSubComCard__sub_802454E4(0xB);
-        TWindowSubComCard__sub_80245320(&q, ctx);
-        TWindowSubComCard__sub_802452DC(0xB);
+        begin_window_sweep_draw(0xB);
+        draw_window_sweep_strip(&q, ctx);
+        end_window_sweep_draw(0xB);
     }
 }
 

@@ -37,14 +37,14 @@ __declspec(section ".data") NJS_POINT2 TWindowGetComCard::window_rect = {152.0f,
 
 extern "C" {
 void TWindowFukidasi__sub_80252C38(void* p) { *(u8*)((char*)p + 0x71) |= 0x4; }
-void TWindowFukidasi::clear_visible_flag() { this->m_71 &= 0xfe; }
-void TWindowFukidasi::set_flag() { this->m_71 |= 0x1; }
-void TWindowFukidasi::set_balloon_visible() { this->m_71 |= 0x20; }
-int TWindowFukidasi::is_flag_set() { return this->m_71 & 0x1; }
-void TWindowFukidasi::clear_flag_20() { this->m_71 &= 0xffffffdf; }
-int TWindowFukidasi::is_active() { return (this->m_71 >> 2) & 0x1; }
-void TWindowFukidasi::clear_flag() { this->m_71 &= 0xfffffffb; }
-int TWindowFukidasi::is_balloon_visible() { return (this->m_71 >> 5) & 0x1; }
+void TWindowFukidasi::clear_visible_flag() { this->balloon_flags &= 0xfe; }
+void TWindowFukidasi::set_flag() { this->balloon_flags |= 0x1; }
+void TWindowFukidasi::set_balloon_visible() { this->balloon_flags |= 0x20; }
+int TWindowFukidasi::is_flag_set() { return this->balloon_flags & 0x1; }
+void TWindowFukidasi::clear_flag_20() { this->balloon_flags &= 0xffffffdf; }
+int TWindowFukidasi::is_active() { return (this->balloon_flags >> 2) & 0x1; }
+void TWindowFukidasi::clear_flag() { this->balloon_flags &= 0xfffffffb; }
+int TWindowFukidasi::is_balloon_visible() { return (this->balloon_flags >> 5) & 0x1; }
 int fn_80252CBC(void* p) { return *(u16*)((char*)p + 0x0) & 0x10; }
 }
 

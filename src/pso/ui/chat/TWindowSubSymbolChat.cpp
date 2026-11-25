@@ -163,47 +163,47 @@ SymbolChatPreset *TWindowSubSymbolChat__sub_8028379C(void) {
 TWindowSubSymbolChat::TWindowSubSymbolChat(TObject *parent, s32 client) : TObject(parent) {
     m_name = class_name;
     parent_menu = static_cast<TWindowMainMenu *>(parent);
-    m_24 = client;
-    m_30 = 0;
-    m_34 = 0;
-    m_38 = 0;
+    client_id = client;
+    symbol_window = 0;
+    second_symbol_window = 0;
+    symbol_list = 0;
     main_menu = 0;
     face_type_window = 0;
     parts = 0;
     parts_set = 0;
-    m_54 = 0;
+    help_window = 0;
     confirm_window = 0;
-    m_44 = 0;
-    m_58 = 0;
-    m_28 = 0;
+    option_window = 0;
+    keyboard = 0;
+    selected_preset = 0;
     TWindowSubSymbolChat__data_805D6494 = 0;
     TWindowSubSymbolChat__data_805D6498 = 0;
     TWindowSubSymbolChat__data_805D649C = 0;
     m_20 = 0;
     TWindowSubSymbolChat__instance = this;
-    m_5c = (uaddr)create_callback_at_zero_vec2(close_child);
+    close_callback = (uaddr)create_callback_at_zero_vec2(close_child);
     selected_value = 0;
 }
 
 TWindowSubSymbolChat::~TWindowSubSymbolChat() {
-    if (m_58 != 0U) {
-        ((TObject *)m_58)->queue_destruction();
-        m_58 = 0U;
+    if (keyboard != 0U) {
+        ((TObject *)keyboard)->queue_destruction();
+        keyboard = 0U;
     }
-    if (m_44 != 0U) {
+    if (option_window != 0U) {
         if ((has_window_task_root() != 0) && (selected_value == 0x27)) {
-            ((TWindowSubSymbolChat *)m_28)->set_flag_bit9(((TWindowOptionCtrl *)m_44)->update_selected_item());
+            ((TWindowSubSymbolChat *)selected_preset)->set_flag_bit9(((TWindowOptionCtrl *)option_window)->update_selected_item());
         }
-        ((TWindowBase *)m_44)->close();
-        m_44 = 0U;
+        ((TWindowBase *)option_window)->close();
+        option_window = 0U;
     }
     if (confirm_window != 0U) {
         ((TWindowMessageYesNo *)confirm_window)->close();
         confirm_window = 0U;
     }
-    if (m_54 != 0U) {
-        ((TWindowBase *)m_54)->close();
-        m_54 = 0U;
+    if (help_window != 0U) {
+        ((TWindowBase *)help_window)->close();
+        help_window = 0U;
     }
     if (face_type_window != 0U) {
         ((TWindowBase *)face_type_window)->close();
@@ -221,25 +221,25 @@ TWindowSubSymbolChat::~TWindowSubSymbolChat() {
         ((TWindowBase *)main_menu)->close();
         main_menu = 0U;
     }
-    if (m_38 != 0U) {
-        ((TWindowBase *)m_38)->close();
-        m_38 = 0U;
+    if (symbol_list != 0U) {
+        ((TWindowBase *)symbol_list)->close();
+        symbol_list = 0U;
     }
-    if (m_34 != 0U) {
-        ((TWindowBase *)m_34)->close();
-        m_34 = 0U;
+    if (second_symbol_window != 0U) {
+        ((TWindowBase *)second_symbol_window)->close();
+        second_symbol_window = 0U;
     }
-    if (m_30 != 0U) {
-        ((TWindowBase *)m_30)->close();
-        m_30 = 0U;
+    if (symbol_window != 0U) {
+        ((TWindowBase *)symbol_window)->close();
+        symbol_window = 0U;
     }
-    if (m_28 != 0U) {
-        reinterpret_cast<SymbolChatPreset *>(m_28)->clear_flag_bit2();
-        m_28 = 0U;
+    if (selected_preset != 0U) {
+        reinterpret_cast<SymbolChatPreset *>(selected_preset)->clear_flag_bit2();
+        selected_preset = 0U;
     }
-    if (m_5c != 0U) {
-        ((TWindowBase *)m_5c)->close();
-        m_5c = 0U;
+    if (close_callback != 0U) {
+        ((TWindowBase *)close_callback)->close();
+        close_callback = 0U;
     }
     TWindowSubSymbolChat__instance = 0;
 }
@@ -251,9 +251,9 @@ void TWindowSubSymbolChat::run_task() {
     switch (this->selected_value) {
     case 0:
     case 1:
-        if ((u32) this->m_28 != 0U) {
-            reinterpret_cast<SymbolChatPreset *>(m_28)->clear_flag_bit2();
-            this->m_28 = 0U;
+        if ((u32) this->selected_preset != 0U) {
+            reinterpret_cast<SymbolChatPreset *>(selected_preset)->clear_flag_bit2();
+            this->selected_preset = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
             ((TWindowMessageYesNo *)(this->confirm_window))->close();
@@ -263,26 +263,26 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowBase *)this->main_menu)->close();
             this->main_menu = 0U;
         }
-        if ((void *) this->m_30 == NULL) {
-            *(u8 * *)&this->m_30 = ((u8 *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)arg0, 0));
+        if ((void *) this->symbol_window == NULL) {
+            *(u8 * *)&this->symbol_window = ((u8 *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)arg0, 0));
         }
-        ((TWindowSubSymbolChatPartsSet *)(this->m_30))->update_visibility();
-        this->m_38 = ((u32)create_symbol_list_card());
+        ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->update_visibility();
+        this->symbol_list = ((u32)create_symbol_list_card());
         this->selected_value = 2U;
     case 2:
-        reinterpret_cast<TWindowChatSymbol *>(m_30)->set_from_key((int) (((TWindowMenu *)this->m_38)->get_selected_value()));
-        if (((TWindowMenu *)(this->m_38))->is_cancelled() != 0) {
+        reinterpret_cast<TWindowChatSymbol *>(symbol_window)->set_from_key((int) (((TWindowMenu *)this->symbol_list)->get_selected_value()));
+        if (((TWindowMenu *)(this->symbol_list))->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             this->selected_value = 0x2AU;
             return;
         }
-        if (((TWindowMenu *)(this->m_38))->is_decided() != 0) {
-            this->m_20 = ((TWindowMenu *)this->m_38)->get_selected_value();
+        if (((TWindowMenu *)(this->symbol_list))->is_decided() != 0) {
+            this->m_20 = ((TWindowMenu *)this->symbol_list)->get_selected_value();
             ((TWindowSubSymbolChat *)(this->m_20))->update_symbol_chat_result();
-            this->m_28 = TWindowSubSymbolChat::get_instance();
-            reinterpret_cast<SymbolChatPreset *>(this->m_28)->update_selected_symbol();
-            reinterpret_cast<SymbolChatPreset *>(m_28)->set_flag_bit2();
-            ((TWindowSubSymbolChatPartsSet *)(this->m_30))->update_visibility();
+            this->selected_preset = TWindowSubSymbolChat::get_instance();
+            reinterpret_cast<SymbolChatPreset *>(this->selected_preset)->update_selected_symbol();
+            reinterpret_cast<SymbolChatPreset *>(selected_preset)->set_flag_bit2();
+            ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->update_visibility();
             this->selected_value = 3U;
             return;
         }
@@ -293,21 +293,21 @@ void TWindowSubSymbolChat::run_task() {
             this->main_menu = 0U;
         }
     case 4:
-        if ((u32) this->m_58 != 0U) {
-            ((TObject *)this->m_58)->queue_destruction();
-            this->m_58 = 0U;
+        if ((u32) this->keyboard != 0U) {
+            ((TObject *)this->keyboard)->queue_destruction();
+            this->keyboard = 0U;
         }
-        if ((u32) this->m_44 != 0U) {
-            ((TWindowBase *)this->m_44)->close();
-            this->m_44 = 0U;
+        if ((u32) this->option_window != 0U) {
+            ((TWindowBase *)this->option_window)->close();
+            this->option_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
             ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = 0U;
         }
-        if ((u32) this->m_54 != 0U) {
-            ((TWindowBase *)this->m_54)->close();
-            this->m_54 = 0U;
+        if ((u32) this->help_window != 0U) {
+            ((TWindowBase *)this->help_window)->close();
+            this->help_window = 0U;
         }
         if ((u32) this->parts != 0U) {
             ((TWindowBase *)this->parts)->close();
@@ -317,21 +317,21 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowBase *)this->face_type_window)->close();
             this->face_type_window = 0U;
         }
-        if ((void *) this->m_34 != NULL) {
-            ((TWindowBase *)this->m_34)->close();
-            this->m_34 = NULL;
+        if ((void *) this->second_symbol_window != NULL) {
+            ((TWindowBase *)this->second_symbol_window)->close();
+            this->second_symbol_window = NULL;
         }
-        if ((u32) this->m_38 != 0U) {
-            ((TWindowBase *)this->m_38)->close();
-            this->m_38 = 0U;
+        if ((u32) this->symbol_list != 0U) {
+            ((TWindowBase *)this->symbol_list)->close();
+            this->symbol_list = 0U;
         }
-        if ((void *) this->m_30 == NULL) {
-            *(u8 * *)&this->m_30 = ((u8 *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)arg0, 0));
-            ((TWindowSubSymbolChatPartsSet *)(this->m_30))->set_selection(reinterpret_cast<SymbolChatPreset *>(m_28));
+        if ((void *) this->symbol_window == NULL) {
+            *(u8 * *)&this->symbol_window = ((u8 *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)arg0, 0));
+            ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->set_selection(reinterpret_cast<SymbolChatPreset *>(selected_preset));
         }
-        temp_r5 = (u8 *)this->m_30;
-        copy_vec2((void *)((this->m_30 + 0x30)), (void *)((void*)((saddr)get_window_layout_position(0x7B))));
-        *(s32 *)(this->m_30 + 0x50) = 6;
+        temp_r5 = (u8 *)this->symbol_window;
+        copy_vec2((void *)((this->symbol_window + 0x30)), (void *)((void*)((saddr)get_window_layout_position(0x7B))));
+        *(s32 *)(this->symbol_window + 0x50) = 6;
         if ((u32) this->main_menu == 0U) {
             this->main_menu = ((u32)TWindowSubSymbolChat::open_main_menu(arg0));
         }
@@ -350,27 +350,27 @@ void TWindowSubSymbolChat::run_task() {
         break;
     case 6:
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->m_54 != 0U) {
-            ((TWindowBase *)this->m_54)->close();
-            this->m_54 = 0U;
+        if ((u32) this->help_window != 0U) {
+            ((TWindowBase *)this->help_window)->close();
+            this->help_window = 0U;
         }
         if ((u32) this->face_type_window != 0U) {
             ((TWindowBase *)this->face_type_window)->close();
             this->face_type_window = 0U;
         }
-        if ((u32) this->m_38 == 0U) {
-            this->m_38 = ((u32)open_edit_menu());
+        if ((u32) this->symbol_list == 0U) {
+            this->symbol_list = ((u32)open_edit_menu());
         }
-        ((TWindowMenu *)(this->m_38))->clear_flag_and_release();
+        ((TWindowMenu *)(this->symbol_list))->clear_flag_and_release();
         this->selected_value = 7U;
     case 7:
         ((TWindowSubSymbolChat *)arg0)->update_sub_window();
-        if (((TWindowMenu *)(this->m_38))->is_cancelled() != 0) {
+        if (((TWindowMenu *)(this->symbol_list))->is_cancelled() != 0) {
             this->selected_value = 4U;
             return;
         }
-        if (((TWindowMenu *)(this->m_38))->is_decided() != 0) {
-            this->selected_value = ((TWindowMenu *)this->m_38)->get_selected_value();
+        if (((TWindowMenu *)(this->symbol_list))->is_decided() != 0) {
+            this->selected_value = ((TWindowMenu *)this->symbol_list)->get_selected_value();
             return;
         }
         break;
@@ -378,10 +378,10 @@ void TWindowSubSymbolChat::run_task() {
         if ((u32) this->face_type_window == 0U) {
             this->face_type_window = (uaddr)new TWindowSubSymbolChatFaceType((void *)(get_window_layout_position(0x7D)), &TWindowSubSymbolChat__data_805D6494);
         }
-        if ((u32) this->m_54 == 0U) {
-            this->m_54 = (uaddr)new TWindowSubSymbolChatHelp(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window);
+        if ((u32) this->help_window == 0U) {
+            this->help_window = (uaddr)new TWindowSubSymbolChatHelp(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window);
         }
-        reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->set_flag60_bit2();
+        reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_flag60_bit2();
         this->selected_value = 9U;
     case 9:
         if (TWindowSubSymbolChat__sub_80283998((void *)this->face_type_window) != 0) {
@@ -389,8 +389,8 @@ void TWindowSubSymbolChat::run_task() {
             return;
         }
         if (((TWindowSubSymbolChatFaceType *)(this->face_type_window))->is_open() != 0) {
-            ((TWindowSubSymbolChat *)(this->m_28))->set_symbol_flags((int) (fn_802839A4((void *)this->face_type_window)), (int)TWindowSubSymbolChat__data_805D6494);
-            ((TWindowSubSymbolChatPartsSet *)(this->m_30))->update_visibility();
+            ((TWindowSubSymbolChat *)(this->selected_preset))->set_symbol_flags((int) (fn_802839A4((void *)this->face_type_window)), (int)TWindowSubSymbolChat__data_805D6494);
+            ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->update_visibility();
             this->selected_value = 4U;
             return;
         }
@@ -400,28 +400,28 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowBase *)this->parts_set)->close();
             this->parts_set = 0U;
         }
-        if ((u32) this->m_54 != 0U) {
-            ((TWindowBase *)this->m_54)->close();
-            this->m_54 = 0U;
+        if ((u32) this->help_window != 0U) {
+            ((TWindowBase *)this->help_window)->close();
+            this->help_window = 0U;
         }
         if ((u32) this->parts != 0U) {
             ((TWindowBase *)this->parts)->close();
             this->parts = 0U;
         }
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->m_38 == 0U) {
-            this->m_38 = TWindowSubSymbolChat__sub_8028233C((saddr)arg0);
+        if ((u32) this->symbol_list == 0U) {
+            this->symbol_list = TWindowSubSymbolChat__sub_8028233C((saddr)arg0);
         }
-        ((TWindowMenu *)(this->m_38))->clear_flag_and_release();
+        ((TWindowMenu *)(this->symbol_list))->clear_flag_and_release();
         this->selected_value = 0xBU;
     case 11:
-        if (((TWindowMenu *)(this->m_38))->is_cancelled() != 0) {
+        if (((TWindowMenu *)(this->symbol_list))->is_cancelled() != 0) {
             this->selected_value = 4U;
             return;
         }
-        if (((TWindowMenu *)(this->m_38))->is_decided() != 0) {
+        if (((TWindowMenu *)(this->symbol_list))->is_decided() != 0) {
             this->symbol_index = 0;
-            this->selected_value = ((TWindowMenu *)this->m_38)->get_selected_value();
+            this->selected_value = ((TWindowMenu *)this->symbol_list)->get_selected_value();
             return;
         }
         break;
@@ -436,15 +436,15 @@ void TWindowSubSymbolChat::run_task() {
             fn_80285A28(this->parts, &TWindowSubSymbolChat__help_window);
         }
         ((TWindowSubSymbolChatParts *)this->parts)->select_index_and_scroll(this->symbol_index);
-        if ((u32) this->m_54 == 0U) {
-            this->m_54 = (uaddr)new TWindowSubSymbolChatHelp(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window);
+        if ((u32) this->help_window == 0U) {
+            this->help_window = (uaddr)new TWindowSubSymbolChatHelp(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window);
         }
         if (TWindowSubSymbolChat::count_instance_empty_slots() > 1) {
-            reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->set_flag60_bit1();
+            reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_flag60_bit1();
         } else {
-            TWindowSubSymbolChat__sub_80283944(reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54));
+            TWindowSubSymbolChat__sub_80283944(reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window));
         }
-        reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->set_pos_and_flag(&TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
+        reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_pos_and_flag(&TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
         this->selected_value = 0xDU;
     case 13:
         if (TWindowSubSymbolChat__sub_80283980((void *)this->parts) != 0) {
@@ -474,12 +474,12 @@ void TWindowSubSymbolChat::run_task() {
         }
         if (((TWindowSubSymbolChatPartsSet *)(this->parts_set))->is_active() != 0) {
             ((TWindowSubSymbolChat *)arg0)->sub_80281CC4();
-            ((TWindowSubSymbolChatPartsSet *)(this->m_30))->update_visibility();
+            ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->update_visibility();
             if (TWindowSubSymbolChat::count_instance_empty_slots() > 0) {
                 this->selected_value = 0xCU;
                 return;
             }
-            TWindowSubSymbolChat::open_menu((saddr)arg0, (s32)this->m_38);
+            TWindowSubSymbolChat::open_menu((saddr)arg0, (s32)this->symbol_list);
             this->selected_value = 0xAU;
             return;
         }
@@ -495,11 +495,11 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowSubSymbolChatParts *)this->parts)->open(&TWindowSubSymbolChat__data_805D6494);
         }
         ((TWindowSubSymbolChatParts *)this->parts)->select_index_and_scroll(this->symbol_index);
-        if ((u32) this->m_54 == 0U) {
-            this->m_54 = (uaddr)new TWindowSubSymbolChatHelp(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window);
+        if ((u32) this->help_window == 0U) {
+            this->help_window = (uaddr)new TWindowSubSymbolChatHelp(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window);
         }
-        reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->set_flag60_bit2();
-        reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->set_pos_and_flag(&TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
+        reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_flag60_bit2();
+        reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_pos_and_flag(&TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
         this->selected_value = 0x11U;
     case 17:
         if (TWindowSubSymbolChat__sub_80283980((void *)this->parts) != 0) {
@@ -529,34 +529,34 @@ void TWindowSubSymbolChat::run_task() {
         }
         if (((TWindowSubSymbolChatPartsSet *)(this->parts_set))->is_active() != 0) {
             ((TWindowSubSymbolChat *)arg0)->sub_80281C60();
-            ((TWindowSubSymbolChatPartsSet *)(this->m_30))->update_visibility();
+            ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->update_visibility();
             this->selected_value = 0x10U;
             return;
         }
         break;
     case 20:
-        if ((u32) this->m_54 != 0U) {
-            ((TWindowBase *)this->m_54)->close();
-            this->m_54 = 0U;
+        if ((u32) this->help_window != 0U) {
+            ((TWindowBase *)this->help_window)->close();
+            this->help_window = 0U;
         }
         if ((u32) this->parts != 0U) {
             ((TWindowBase *)this->parts)->close();
             this->parts = 0U;
         }
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->m_38 == 0U) {
-            this->m_38 = create_menu__20TWindowSubSymbolChatFPv((arg0));
+        if ((u32) this->symbol_list == 0U) {
+            this->symbol_list = create_menu__20TWindowSubSymbolChatFPv((arg0));
         }
-        ((TWindowMenu *)(this->m_38))->clear_flag_and_release();
+        ((TWindowMenu *)(this->symbol_list))->clear_flag_and_release();
         this->selected_value = 0x15U;
     case 21:
-        if (((TWindowMenu *)(this->m_38))->is_cancelled() != 0) {
+        if (((TWindowMenu *)(this->symbol_list))->is_cancelled() != 0) {
             this->selected_value = 4U;
             return;
         }
-        if (((TWindowMenu *)(this->m_38))->is_decided() != 0) {
+        if (((TWindowMenu *)(this->symbol_list))->is_decided() != 0) {
             this->symbol_index = 0;
-            this->selected_value = ((TWindowMenu *)this->m_38)->get_selected_value();
+            this->selected_value = ((TWindowMenu *)this->symbol_list)->get_selected_value();
             return;
         }
         break;
@@ -572,12 +572,12 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowSubSymbolChatParts *)this->parts)->update_height();
         }
         ((TWindowSubSymbolChatParts *)this->parts)->select_index_and_scroll(this->symbol_index);
-        if ((u32) this->m_54 == 0U) {
-            this->m_54 = (uaddr)new TWindowSubSymbolChatHelp(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window);
+        if ((u32) this->help_window == 0U) {
+            this->help_window = (uaddr)new TWindowSubSymbolChatHelp(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window);
         }
-        reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->clear_flag60_bit4();
-        reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->clear_flag60_bit2();
-        TWindowSubSymbolChat__sub_80283944(reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54));
+        reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->clear_flag60_bit4();
+        reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->clear_flag60_bit2();
+        TWindowSubSymbolChat__sub_80283944(reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window));
         this->selected_value = 0x17U;
     case 23:
     case 27:
@@ -600,11 +600,11 @@ void TWindowSubSymbolChat::run_task() {
             this->parts_set = ((TWindowSubSymbolChat *)arg0)->create_parts_set();
         }
         if (reinterpret_cast<TWindowSubSymbolChatPartsSet *>(parts_set)->select_symbol_chat_record(&TWindowSubSymbolChat__data_805D6494, &TWindowSubSymbolChat__help_window) != 0) {
-            reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->set_flag60_bit2();
+            reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_flag60_bit2();
         } else if (TWindowSubSymbolChat::count_instance_empty_slots() > 0) {
-            reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->set_flag60_bit1();
+            reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_flag60_bit1();
         }
-        reinterpret_cast<TWindowSubSymbolChatHelp *>(m_54)->set_pos_and_flag(&TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
+        reinterpret_cast<TWindowSubSymbolChatHelp *>(help_window)->set_pos_and_flag(&TWindowSubSymbolChat__data_805D6498, &TWindowSubSymbolChat__data_805D649C);
         this->selected_value = 0x19U;
     case 25:
         if (TWindowSubSymbolChat__sub_80283900((void *)this->parts_set) != 0) {
@@ -613,7 +613,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         if (((TWindowSubSymbolChatPartsSet *)(this->parts_set))->is_active() != 0) {
             ((TWindowSubSymbolChat *)arg0)->draw_selected_entry();
-            ((TWindowSubSymbolChatPartsSet *)(this->m_30))->update_visibility();
+            ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->update_visibility();
             this->selected_value = 0x16U;
             return;
         }
@@ -621,35 +621,35 @@ void TWindowSubSymbolChat::run_task() {
     case 28:
         this->selected_value = 0x1DU;
     case 29:
-        ((TWindowSubSymbolChat *)(this->m_28))->clear_entries();
-        reinterpret_cast<SymbolChatPreset *>(m_28)->set_flag_bit2();
-        ((TWindowSubSymbolChatPartsSet *)(this->m_30))->update_visibility();
+        ((TWindowSubSymbolChat *)(this->selected_preset))->clear_entries();
+        reinterpret_cast<SymbolChatPreset *>(selected_preset)->set_flag_bit2();
+        ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->update_visibility();
         this->selected_value = 4U;
         return;
     case 30:
-        if ((u32) this->m_38 != 0U) {
-            ((TWindowBase *)this->m_38)->close();
-            this->m_38 = 0U;
+        if ((u32) this->symbol_list != 0U) {
+            ((TWindowBase *)this->symbol_list)->close();
+            this->symbol_list = 0U;
         }
         if ((u32) this->main_menu != 0U) {
             ((TWindowBase *)this->main_menu)->close();
             this->main_menu = 0U;
         }
-        if ((void *) this->m_34 == NULL) {
-            *(u8 * *)&this->m_34 = ((u8 *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)arg0, 1));
+        if ((void *) this->second_symbol_window == NULL) {
+            *(u8 * *)&this->second_symbol_window = ((u8 *)TWindowSubSymbolChat::create_chat_symbol_window((saddr)arg0, 1));
         }
-        *(s32 *)(this->m_34 + 0x64) = 1;
-        this->m_38 = ((u32)create_symbol_list_card());
+        *(s32 *)(this->second_symbol_window + 0x64) = 1;
+        this->symbol_list = ((u32)create_symbol_list_card());
         apply_symbol();
         this->selected_value = 0x1FU;
     case 31:
-        reinterpret_cast<TWindowChatSymbol *>(m_34)->set_from_key((int) (((TWindowMenu *)this->m_38)->get_selected_value()));
-        if (((TWindowMenu *)(this->m_38))->is_cancelled() != 0) {
+        reinterpret_cast<TWindowChatSymbol *>(second_symbol_window)->set_from_key((int) (((TWindowMenu *)this->symbol_list)->get_selected_value()));
+        if (((TWindowMenu *)(this->symbol_list))->is_cancelled() != 0) {
             this->selected_value = 4U;
             return;
         }
-        if (((TWindowMenu *)(this->m_38))->is_decided() != 0) {
-            ((TWindowSubSymbolChat *)((saddr) get_symbol_chat_preset(((TWindowMenu *)this->m_38)->get_selected_value())))->commit((s32 *)this->m_28);
+        if (((TWindowMenu *)(this->symbol_list))->is_decided() != 0) {
+            ((TWindowSubSymbolChat *)((saddr) get_symbol_chat_preset(((TWindowMenu *)this->symbol_list)->get_selected_value())))->commit((s32 *)this->selected_preset);
             this->selected_value = 4U;
             return;
         }
@@ -657,11 +657,11 @@ void TWindowSubSymbolChat::run_task() {
     case 32:
         this->selected_value = 0x21U;
     case 33:
-        ((TWindowSubSymbolChat *)(this->m_28))->commit((s32 *)((saddr)TWindowSubSymbolChat__sub_8028379C()));
-        TWindowSubSymbolChat::set_flag_bit1((s32 *)this->m_28);
-        reinterpret_cast<SymbolChatPreset *>(m_28)->set_flag_bit2();
-        ((TWindowSubSymbolChat *)(this->m_28))->set_entry_name((void *)(TWindowSubStatusDisp::get_message_10(0xB5)));
-        ((TWindowSubSymbolChatPartsSet *)(this->m_30))->update_visibility();
+        ((TWindowSubSymbolChat *)(this->selected_preset))->commit((s32 *)((saddr)TWindowSubSymbolChat__sub_8028379C()));
+        TWindowSubSymbolChat::set_flag_bit1((s32 *)this->selected_preset);
+        reinterpret_cast<SymbolChatPreset *>(selected_preset)->set_flag_bit2();
+        ((TWindowSubSymbolChat *)(this->selected_preset))->set_entry_name((void *)(TWindowSubStatusDisp::get_message_10(0xB5)));
+        ((TWindowSubSymbolChatPartsSet *)(this->symbol_window))->update_visibility();
         this->selected_value = 4U;
         return;
     case 34:
@@ -670,18 +670,18 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowMessageYesNo *)(this->confirm_window))->close();
             this->confirm_window = 0U;
         }
-        if ((u32) this->m_38 == 0U) {
-            this->m_38 = ((TWindowSubSymbolChat *)arg0)->create_menu();
+        if ((u32) this->symbol_list == 0U) {
+            this->symbol_list = ((TWindowSubSymbolChat *)arg0)->create_menu();
         }
-        ((TWindowMenu *)(this->m_38))->clear_flag_and_release();
+        ((TWindowMenu *)(this->symbol_list))->clear_flag_and_release();
         this->selected_value = 0x23U;
     case 35:
-        if (((TWindowMenu *)(this->m_38))->is_cancelled() != 0) {
+        if (((TWindowMenu *)(this->symbol_list))->is_cancelled() != 0) {
             this->selected_value = 4U;
             return;
         }
-        if (((TWindowMenu *)(this->m_38))->is_decided() != 0) {
-            TWindowSubSymbolChat::play_symbol_sound((s32)((TWindowMenu *)this->m_38)->get_selected_value());
+        if (((TWindowMenu *)(this->symbol_list))->is_decided() != 0) {
+            TWindowSubSymbolChat::play_symbol_sound((s32)((TWindowMenu *)this->symbol_list)->get_selected_value());
             this->selected_value = 0x24U;
             return;
         }
@@ -696,7 +696,7 @@ void TWindowSubSymbolChat::run_task() {
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
             if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
-                ((TWindowSubSymbolChat *)(this->m_28))->set_symbol_index((int) (((TWindowMenu *)this->m_38)->get_selected_value()));
+                ((TWindowSubSymbolChat *)(this->selected_preset))->set_symbol_index((int) (((TWindowMenu *)this->symbol_list)->get_selected_value()));
                 this->selected_value = 4U;
                 return;
             }
@@ -706,13 +706,13 @@ void TWindowSubSymbolChat::run_task() {
         break;
     case 38:
         ((TWindowMenu *)(this->main_menu))->open();
-        if ((u32) this->m_44 == 0U) {
-            this->m_44 = ((TWindowSubSymbolChat *)arg0)->create_confirm_window();
+        if ((u32) this->option_window == 0U) {
+            this->option_window = ((TWindowSubSymbolChat *)arg0)->create_confirm_window();
         }
         this->selected_value = 0x27U;
     case 39:
-        if (((TWindowMenuIconLine *)(this->m_44))->is_cancelled() != 0) {
-            ((TWindowSubSymbolChat *)this->m_28)->set_flag_bit9((int) (((TWindowOptionCtrl *)this->m_44)->update_selected_item()));
+        if (((TWindowMenuIconLine *)(this->option_window))->is_cancelled() != 0) {
+            ((TWindowSubSymbolChat *)this->selected_preset)->set_flag_bit9((int) (((TWindowOptionCtrl *)this->option_window)->update_selected_item()));
             this->selected_value = 4U;
             return;
         }
@@ -722,20 +722,20 @@ void TWindowSubSymbolChat::run_task() {
             ((TWindowBase *)this->main_menu)->close();
             this->main_menu = 0U;
         }
-        if ((void *) this->m_30 != NULL) {
-            ((TWindowBase *)this->m_30)->close();
-            this->m_30 = NULL;
+        if ((void *) this->symbol_window != NULL) {
+            ((TWindowBase *)this->symbol_window)->close();
+            this->symbol_window = NULL;
         }
-        this->m_58 = ((TWindowSubSymbolChat *)arg0)->create_keyboard_control();
+        this->keyboard = ((TWindowSubSymbolChat *)arg0)->create_keyboard_control();
         this->selected_value = 0x29U;
     case 41:
-        if (((TKeyBoardControl *)(this->m_58))->is_cancelled() != 0) {
+        if (((TKeyBoardControl *)(this->keyboard))->is_cancelled() != 0) {
             this->selected_value = 4U;
             return;
         }
-        if (((TKeyBoardControl *)(this->m_58))->is_confirmed() != 0) {
-            entry_name = (saddr)((TKeyBoardControl *)(this->m_58))->realloc_buffer();
-            ((TWindowSubSymbolChat *)(this->m_28))->set_entry_name((void *)entry_name);
+        if (((TKeyBoardControl *)(this->keyboard))->is_confirmed() != 0) {
+            entry_name = (saddr)((TKeyBoardControl *)(this->keyboard))->realloc_buffer();
+            ((TWindowSubSymbolChat *)(this->selected_preset))->set_entry_name((void *)entry_name);
             mem_free((void *)entry_name);
             this->selected_value = 4U;
         }
@@ -777,7 +777,7 @@ s32 TWindowSubSymbolChat::create_symbol_list_card() {
 }
 
 void TWindowSubSymbolChat::apply_symbol() {
-    TWindowSubComCard__sub_80265680((TWindowMenu *)this->m_38, (s16) this->m_20);
+    TWindowSubComCard__sub_80265680((TWindowMenu *)this->symbol_list, (s16) this->m_20);
 }
 
 s32 TWindowSubSymbolChat::open_main_menu(void * _w0) {
@@ -801,7 +801,7 @@ s32 TWindowSubSymbolChat::open_edit_menu() {
 
     list = create_titled_window_menu_default((saddr)get_window_layout_position(0x79), 3, (saddr)TWindowSubStatusDisp::get_message_10(0xA8));
     ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xB3)), 6, 8);
-    if (reinterpret_cast<SymbolChatPreset *>(m_28)->is_initialized() != 0) {
+    if (reinterpret_cast<SymbolChatPreset *>(selected_preset)->is_initialized() != 0) {
         ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xB4)), 6, 0x1E);
     } else {
         add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB4)), 6, 0x1E);
@@ -864,7 +864,7 @@ s32 create_menu__20TWindowSubSymbolChatFPv(void *window_sub_symbol_chat) {
         ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xB0)), 6, 0x16);
         ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xB1)), 6, 0x1A);
     }
-    if (reinterpret_cast<SymbolChatPreset *>(static_cast<TWindowSubSymbolChat *>(window_sub_symbol_chat)->m_28)->is_initialized() != 0) {
+    if (reinterpret_cast<SymbolChatPreset *>(static_cast<TWindowSubSymbolChat *>(window_sub_symbol_chat)->selected_preset)->is_initialized() != 0) {
         ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
     } else {
         add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0xB2)), 6, 0x1C);
@@ -909,7 +909,7 @@ s32 TWindowSubSymbolChat::create_confirm_window() {
     ((TWindowMenuIconLine *)check_box_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0xAC));
     TWindowOptionCtrl::add_menu_item(check_box_window, (saddr)TWindowSubStatusDisp::get_message_10(0xBF), 1);
     TWindowOptionCtrl::add_menu_item(check_box_window, (saddr)TWindowSubStatusDisp::get_message_10(0xC0), 0);
-    if (TWindowSubSymbolChat__sub_80076FE0(reinterpret_cast<const SymbolChatPreset *>(m_28)) != 0) {
+    if (TWindowSubSymbolChat__sub_80076FE0(reinterpret_cast<const SymbolChatPreset *>(selected_preset)) != 0) {
         ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(0);
     } else {
         ((TWindowSubStatusDisp *)check_box_window)->set_selected_index(1);
@@ -923,7 +923,7 @@ s32 TWindowSubSymbolChat::create_keyboard_control() {
 
     keyboard = (saddr)new TKeyBoardControl(this, 0x90, 1, 4, local_client_id);
     reinterpret_cast<TKeyBoardControl *>(keyboard)->set_composer_flag62_bit4();
-    ((TKeyBoardControl *)keyboard)->set_text((char *)((TWindowSubSymbolChat *)this->m_28)->get_keyboard_ptr());
+    ((TKeyBoardControl *)keyboard)->set_text((char *)((TWindowSubSymbolChat *)this->selected_preset)->get_keyboard_ptr());
     ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
     ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
     ((TKeyBoardControl *)keyboard)->set_soft_flag60_bit1();
@@ -936,11 +936,11 @@ void TWindowSubSymbolChat::sub_80281CC4() {
   s32 new_var;
   cursor_x = reinterpret_cast<TWindowSubSymbolChatPartsSet *>(parts_set)->get_cursor_x();
   cursor_pos = reinterpret_cast<TWindowSubSymbolChatPartsSet *>(parts_set)->get_cursor_pos();
-  add__20TWindowSubSymbolChatFlllll(this->m_28, this->symbol_index, (int) ((s32) cursor_x), (int) ((s32) cursor_pos), (int) (*(s32 *)&TWindowSubSymbolChat__data_805D6498), (int) (*(s32 *)&TWindowSubSymbolChat__data_805D649C));
+  add__20TWindowSubSymbolChatFlllll(this->selected_preset, this->symbol_index, (int) ((s32) cursor_x), (int) ((s32) cursor_pos), (int) (*(s32 *)&TWindowSubSymbolChat__data_805D6498), (int) (*(s32 *)&TWindowSubSymbolChat__data_805D649C));
   new_var = (s32) cursor_pos;
   if (((s32) TWindowSubSymbolChat__help_window) != 0)
   {
-    add__20TWindowSubSymbolChatFlllll(this->m_28, this->symbol_index, (int) (0x40 - cursor_x), (int) new_var, (int) ((s32) ((u8) ((*(s32 *)&TWindowSubSymbolChat__data_805D6498) == 0))), (int) (*(s32 *)&TWindowSubSymbolChat__data_805D649C));
+    add__20TWindowSubSymbolChatFlllll(this->selected_preset, this->symbol_index, (int) (0x40 - cursor_x), (int) new_var, (int) ((s32) ((u8) ((*(s32 *)&TWindowSubSymbolChat__data_805D6498) == 0))), (int) (*(s32 *)&TWindowSubSymbolChat__data_805D649C));
   }
 }
 
@@ -949,7 +949,7 @@ void TWindowSubSymbolChat::sub_80281C60() {
     s16 y;
     x = reinterpret_cast<TWindowSubSymbolChatPartsSet *>(parts_set)->get_cursor_x();
     y = reinterpret_cast<TWindowSubSymbolChatPartsSet *>(parts_set)->get_cursor_pos();
-    ((TWindowSubSymbolChat *)this->m_28)->set_entry_bits(this->symbol_index, TWindowSubSymbolChat__data_805D6494, x + y * 2, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
+    ((TWindowSubSymbolChat *)this->selected_preset)->set_entry_bits(this->symbol_index, TWindowSubSymbolChat__data_805D6494, x + y * 2, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
 }
 
 void TWindowSubSymbolChat::draw_selected_entry() {
@@ -968,9 +968,9 @@ void TWindowSubSymbolChat::draw_selected_entry() {
     data = (Data_80281B18 *)reinterpret_cast<SymbolChatPreset *>(inst)->get_data_ptr();
     rem = TWindowSubSymbolChat::calc_remaining_slots();
     if (rem > this->symbol_index) {
-        ((TWindowSubSymbolChat *)(this->m_28))->set_entry(this->symbol_index, data->e[this->symbol_index].c, x, y, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
+        ((TWindowSubSymbolChat *)(this->selected_preset))->set_entry(this->symbol_index, data->e[this->symbol_index].c, x, y, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
         if (TWindowSubSymbolChat__help_window != 0) {
-            ((TWindowSubSymbolChat *)this->m_28)->add(data->e[this->symbol_index].c, 0x40 - x, y, (u8)(TWindowSubSymbolChat__data_805D6498 == 0), TWindowSubSymbolChat__data_805D649C);
+            ((TWindowSubSymbolChat *)this->selected_preset)->add(data->e[this->symbol_index].c, 0x40 - x, y, (u8)(TWindowSubSymbolChat__data_805D6498 == 0), TWindowSubSymbolChat__data_805D649C);
         }
     } else {
         n = this->symbol_index - rem;
@@ -978,8 +978,8 @@ void TWindowSubSymbolChat::draw_selected_entry() {
         for (i = 0; i < 4; i++) {
             if (TWindowSubSymbolChat__sub_800771C4(reinterpret_cast<SymbolChatPreset *>(inst), i) != 0 && n-- <= 0) {
                 v = data->w[i];
-                TWindowSubSymbolChat__sub_800771B0(reinterpret_cast<SymbolChatPreset *>(this->m_28), i);
-                ((TWindowSubSymbolChat *)this->m_28)->set_entry_bits(v, TWindowSubSymbolChat__data_805D6494, pos, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
+                TWindowSubSymbolChat__sub_800771B0(reinterpret_cast<SymbolChatPreset *>(this->selected_preset), i);
+                ((TWindowSubSymbolChat *)this->selected_preset)->set_entry_bits(v, TWindowSubSymbolChat__data_805D6494, pos, TWindowSubSymbolChat__data_805D6498, TWindowSubSymbolChat__data_805D649C);
                 return;
             }
         }
@@ -1030,14 +1030,14 @@ void TWindowSubSymbolChat::update_sub_window() {
 }
 
 s32 TWindowSubSymbolChat::is_card_confirmed() {
-    if (((TWindowMenu *)this->m_38)->get_selected_value() != 0x20) {
+    if (((TWindowMenu *)this->symbol_list)->get_selected_value() != 0x20) {
         return 0;
     }
     s32 temp;
     s32 ret;
 
-    temp = get_cursor_pos__20TWindowShortListCtrlFv(this->m_38);
-    ret = TWindowSubComCard__sub_80265660(this->m_38, temp);
+    temp = get_cursor_pos__20TWindowShortListCtrlFv(this->symbol_list);
+    ret = TWindowSubComCard__sub_80265660(this->symbol_list, temp);
     return ret ? 1 : 0;
 }
 

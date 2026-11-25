@@ -65,7 +65,7 @@ void TWindowSubShortCutList::refresh_entries() {
 }
 
 TWindowSubShortCutList *TWindowSubShortCutList::create(const NJS_POINT2 *position, s32 index) {
-    TShopJudgmentItemWindow__sub_80267F9C(&lbl_8044FAA8, 4);
+    set_menu_icon_line_params(&lbl_8044FAA8, 4);
     return new TWindowSubShortCutList(reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(position)), index);
 }
 

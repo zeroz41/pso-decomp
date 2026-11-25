@@ -85,7 +85,7 @@ s32 reset_controller_input_state();
 s32 __ct__15TWindowCtrlMainFv(u32);
 
 extern u8 lobby_rule_settings[];
-CharacterSaveRecord *TAdSinglePlyChrSelectGC__sub_801FCD3C(CharacterFile *);
+CharacterSaveRecord *get_selected_save_record(CharacterFile *);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
@@ -264,7 +264,7 @@ void TCharSaveSequence::handle_load_result() {
                 delete obj;
             }
         } else {
-            r = TAdSinglePlyChrSelectGC::compare_save_headers(TAdSinglePlyChrSelectGC__sub_801FCD3C(obj), (void *)get_character_save_record(0xFFFF), obj, (void *)TAdSinglePlyChrSelectGC::get_instance());
+            r = TAdSinglePlyChrSelectGC::compare_save_headers(get_selected_save_record(obj), (void *)get_character_save_record(0xFFFF), obj, (void *)TAdSinglePlyChrSelectGC::get_instance());
             if (r != 7) {
                 state = 0xC;
                 lbl_805D6D90 &= ~1;
@@ -384,7 +384,7 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     TAdSinglePlyChrSelectGC::noop();
     if (!(lbl_805D6D90 & 1)) {
         if (func_801A5E54__Fv() != 0) {
-            TKeyBoardControl__sub_8000F92C();
+            switch_to_fallback_main_phase();
         }
         if (TQuestVmDownLoadServer::is_ready() != 0) {
             request_main_phase(0);
@@ -412,7 +412,7 @@ void init_single_player_char_select_scene(void) {
         __ct__15TWindowCtrlMainFv(p);
     }
     new TCharSaveSequence();
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     lbl_805D6D90 = 0;
     play_area_music("title.adx");
     TLobby::set_and_notify(-900);

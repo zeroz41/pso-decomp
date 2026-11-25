@@ -89,7 +89,7 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
     s32 i;
     m_name = TWindowMainMenu__name;
     client_index = client;
-    m_4c = 0;
+    menu_flags = 0;
     submenu_depth = 0;
     selected_slot = 0;
     description_item_id = 0x1F;
@@ -99,16 +99,16 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
         slots[i].value = 0;
     }
     menu_window = NULL;
-    m_20 = 0;
+    submenu = 0;
     help_window = NULL;
     active_entries = NULL;
-    set_scale_f();
+    reset_depth_base();
 }
 }
 
 TWindowMainMenu::~TWindowMainMenu() {
     TObjPlayer *player;
-    if (*(s32 *)((s8 *)this + 0x4C) & 1) {
+    if (menu_flags & 1) {
         player = get_player_by_client_id(this->client_index);
         if (player != 0) {
             player->init_parts();
@@ -127,7 +127,7 @@ void TWindowMainMenu::handle_menu_selection() {
     s32 id;
     TWindowMenuMainMenu *node;
     TWindowMainMenuEntry *submenu;
-    if ((m_4c & 1) && !(m_4c & 4) && (node = menu_window) != NULL) {
+    if ((menu_flags & 1) && !(menu_flags & 4) && (node = menu_window) != NULL) {
         selected_slot = node->get_selected_slot();
         id = node->get_selected_item_type();
         update_description_text(id);
@@ -256,38 +256,38 @@ void TWindowMainMenu::create_submenu(u32 id) {
     s32 var_r0_17;
     s32 var_r0_18;
     s32 var_r0_9;
-    *(s32 *)((s8 *)((u8 *)this) + 0x4C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x4C) | 4);
+    menu_flags = (s32) (menu_flags | 4);
     destroy_submenu();
-    set_scale_f();
+    reset_depth_base();
     switch (id) {
     case 25:
-        this->m_20 = (saddr)new TWindowStatusCategoryMenu(this, this->client_index);
+        this->submenu = (saddr)new TWindowStatusCategoryMenu(this, this->client_index);
         return;
     case 0:
     case 1:
-        this->m_20 = (saddr)new TCustomizeMenuCtrl(this, this->client_index);
+        this->submenu = (saddr)new TCustomizeMenuCtrl(this, this->client_index);
         return;
     case 9:
     case 10:
-        this->m_20 = (saddr)new TWindowSubEquip(this, this->client_index);
+        this->submenu = (saddr)new TWindowSubEquip(this, this->client_index);
         return;
     case 11:
-        this->m_20 = (saddr)new TWindowSubItem(this, this->client_index);
+        this->submenu = (saddr)new TWindowSubItem(this, this->client_index);
         return;
     case 23:
     case 24:
-        this->m_20 = (saddr)new TWindowSubMag(this, this->client_index);
+        this->submenu = (saddr)new TWindowSubMag(this, this->client_index);
         return;
     case 26:
     case 27:
     case 28:
-        m_20 = reinterpret_cast<saddr>(new TWindowSubTrade(this, client_index));
+        submenu = reinterpret_cast<saddr>(new TWindowSubTrade(this, client_index));
         return;
     case 29:
-        m_20 = reinterpret_cast<saddr>(new TWindowSubTradeMain(this, client_index));
+        submenu = reinterpret_cast<saddr>(new TWindowSubTradeMain(this, client_index));
         return;
     case 30:
-        m_20 = reinterpret_cast<saddr>(new TWindowSubTradeMessage(this, client_index));
+        submenu = reinterpret_cast<saddr>(new TWindowSubTradeMessage(this, client_index));
         return;
     case 12:
     case 13:
@@ -296,18 +296,18 @@ void TWindowMainMenu::create_submenu(u32 id) {
         if (var_r0_9 != 0) {
             var_r0_9 = __ct__17TWindowSubAreaMapFP7TObjectPv(temp_r3_9, this, (int) this->client_index);
         }
-        this->m_20 = var_r0_9;
+        this->submenu = var_r0_9;
         return;
     case 15:
     case 16:
-        this->m_20 = reinterpret_cast<saddr>(new TWindowSubQuestBoard(this, reinterpret_cast<void *>(static_cast<saddr>(client_index))));
+        this->submenu = reinterpret_cast<saddr>(new TWindowSubQuestBoard(this, reinterpret_cast<void *>(static_cast<saddr>(client_index))));
         return;
     case 3:
     case 4:
-        this->m_20 = (saddr)new TWindowSubTechnique(this, this->client_index);
+        this->submenu = (saddr)new TWindowSubTechnique(this, this->client_index);
         return;
     case 18:
-        this->m_20 = (saddr)new TWindowSubSymbolChat(this, this->client_index);
+        this->submenu = (saddr)new TWindowSubSymbolChat(this, this->client_index);
         return;
     case 14:
         temp_r3_13 = ((saddr)TObject::operator new(0x88));
@@ -315,7 +315,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         if (var_r0_13 != 0) {
             var_r0_13 = __ct__17TWindowSubComCardFP7TObjectPv(temp_r3_13, this, (int) this->client_index);
         }
-        this->m_20 = var_r0_13;
+        this->submenu = var_r0_13;
         return;
     case 21:
         temp_r3_14 = ((saddr)TObject::operator new(0x80));
@@ -323,14 +323,14 @@ void TWindowMainMenu::create_submenu(u32 id) {
         if (var_r0_14 != 0) {
             var_r0_14 = __ct__13TWindowSubLogFP7TObjectPv(temp_r3_14, this, (int) this->client_index);
         }
-        this->m_20 = var_r0_14;
+        this->submenu = var_r0_14;
         return;
     case 6:
-        this->m_20 = (saddr)new TWindowSubOption(this, this->client_index);
+        this->submenu = (saddr)new TWindowSubOption(this, this->client_index);
         return;
     case 19:
     case 20:
-        this->m_20 = reinterpret_cast<saddr>(new TWindowSubShortMail(this, client_index));
+        this->submenu = reinterpret_cast<saddr>(new TWindowSubShortMail(this, client_index));
         return;
     case 22:
         temp_r3_17 = ((saddr)TObject::operator new(0x914));
@@ -338,7 +338,7 @@ void TWindowMainMenu::create_submenu(u32 id) {
         if (var_r0_17 != 0) {
             var_r0_17 = __ct__26TWindowSubInformationBoardFP7TObjectPv(temp_r3_17, this, (int) this->client_index);
         }
-        this->m_20 = var_r0_17;
+        this->submenu = var_r0_17;
         return;
     case 17:
         temp_r3_18 = ((saddr)TObject::operator new(0x94));
@@ -346,11 +346,11 @@ void TWindowMainMenu::create_submenu(u32 id) {
         if (var_r0_18 != 0) {
             var_r0_18 = __ct__18TWindowSubShortCutFP7TObjectPv(temp_r3_18, this, (int) this->client_index);
         }
-        this->m_20 = var_r0_18;
+        this->submenu = var_r0_18;
         return;
     case 7:
     case 8:
-        this->m_20 = (saddr)new TWindowSubGameEnd(this, this->client_index);
+        this->submenu = (saddr)new TWindowSubGameEnd(this, this->client_index);
     default:
         return;
     }
@@ -359,33 +359,33 @@ void TWindowMainMenu::create_submenu(u32 id) {
 void TWindowMainMenu1P::create_char_select_slot() {
     void *o;
     destroy_submenu();
-    set_scale_f();
+    reset_depth_base();
     o = TObject::operator new(0x50);
     if (o != NULL) {
         o = __ct__32TAdMultiPlyChrSelectTransitionGCFP7TObjectl(o, this, reinterpret_cast<void *>(client_index));
     }
-    *(void * *)&this->m_20 = o;
+    *(void * *)&this->submenu = o;
 }
 
-void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->m_20 != 0) { ((TObject *)(*(void* *)&this->m_20))->queue_destruction(); *(int *)&this->m_20 = 0; } }
+void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->submenu != 0) { ((TObject *)(*(void* *)&this->submenu))->queue_destruction(); *(int *)&this->submenu = 0; } }
 
 void TWindowMainMenu::update_description_text(s32 id) {
-    if ((s32) *(s32 *)((s8 *)this + 0x48) != id) {
-        *(s32 *)((s8 *)this + 0x48) = id;
-        if ((u32) *(u32 *)((s8 *)this + 0x24) == 0U) {
+    if ((s32)description_item_id != id) {
+        description_item_id = id;
+        if (help_window == NULL) {
             saddr tmp = reinterpret_cast<saddr>(get_window_layout_position(0x1B));
-            *(u32 *)((s8 *)this + 0x24) = (uaddr)TWindowMessage::create(tmp, lbl_8044F2E0, 1, this->client_index);
-            ((TWindowBase *)(*(uaddr *)((s8 *)this + 0x24)))->set_depth(49999.0f);
-            call_if_split_screen(*(u32 *)((s8 *)this + 0x24), this->client_index);
+            help_window = (TWindowMessage *)TWindowMessage::create(tmp, lbl_8044F2E0, 1, this->client_index);
+            ((TWindowBase *)help_window)->set_depth(49999.0f);
+            call_if_split_screen((uaddr)help_window, this->client_index);
         }
-        ((TWindowMessage *)(*(uaddr *)((s8 *)this + 0x24)))->append_line(select_main_menu_item_10(id), 0x80);
+        help_window->append_line(select_main_menu_item_10(id), 0x80);
     }
 }
 
-void TWindowMainMenu::close_child_window() { if (*(unsigned int*)((char*)this + 0x24) != 0) { ((TWindowBase *)this->help_window)->close(); *(int*)((char*)this + 0x24) = 0; } }
+void TWindowMainMenu::close_child_window() { if (help_window != NULL) { ((TWindowBase *)this->help_window)->close(); help_window = NULL; } }
 
 void TWindowMainMenu::sub_80263FE0() {
-    toggle_help_window_on_button(*(s32 *)((s8 *)this + 0x24), this->client_index);
+    toggle_help_window_on_button((s32)help_window, this->client_index);
 }
 
 s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
@@ -488,7 +488,7 @@ void TWindowMainMenu::open(s32 arg1) {
 
     player = get_player_by_client_id((s32)this->client_index);
     if (player != 0) {
-        *(s32 *)((s8 *)this + 0x4C) = *(s32 *)((s8 *)this + 0x4C) | 1;
+        menu_flags = menu_flags | 1;
         *(s32 *)((s8 *)this + 0x5C) = arg1;
         *(s16 *)((s8 *)this + 0x50) = 0;
         update_keyboard_card_state();
@@ -500,7 +500,7 @@ void TWindowMainMenu::open(s32 arg1) {
 void TWindowMainMenu::close_and_clear_flags() {
     void *player;
 
-    *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) & ~5);
+    menu_flags = (s32) (menu_flags & ~5);
     close_child_window();
     destroy_submenu();
     close();
@@ -510,7 +510,7 @@ void TWindowMainMenu::close_and_clear_flags() {
 }
 
 s32 TWindowMainMenu::close_active_submenu() {
-    *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) & 0xFFFFFFFB);
+    menu_flags = (s32) (menu_flags & 0xFFFFFFFB);
     destroy_submenu();
     if ((u32) *(u32 *)((s8 *)this + 0x5C) == 0U) {
         this->close_main_menu();
@@ -530,8 +530,8 @@ void TWindowMainMenu::try_open_battle_menu(s16 key) {
 
     id = key;
     player = get_player_by_client_id(this->client_index);
-    if ((player != 0) && !(*(s32 *)((s8 *)this + 0x4C) & 1) && (filter_menu_entry(&id, &spC) != 0) && (spC != 0)) {
-        *(s32 *)((s8 *)this + 0x4C) = (s32) (*(s32 *)((s8 *)this + 0x4C) | 1);
+    if ((player != 0) && !(menu_flags & 1) && (filter_menu_entry(&id, &spC) != 0) && (spC != 0)) {
+        menu_flags = (s32) (menu_flags | 1);
         *(s32 *)((s8 *)this + 0x5C) = 0;
         open_menu_with_entry(id);
         this->create_submenu(id);
@@ -546,10 +546,10 @@ void TWindowSubEquip::open_submenu(saddr window_main_menu, s32 arg1) {
     create_submenu__15TWindowMainMenuFUl(window_main_menu, (s16)arg1);
 }
 
-void TWindowMainMenu::set_scale_f() { *(float*)((char*)this + 0x58) = 50300.0f; }
+void TWindowMainMenu::reset_depth_base() { depth_base = 50300.0f; }
 
-f32 TWindowSubEquip__sub_80263AF8(u8 *parent, u32 arg1) {
-    return *(f32 *)((s8 *)parent + 0x58) - (f32) arg1;
+f32 get_main_menu_layer_depth(u8 *parent, u32 arg1) {
+    return ((TWindowMainMenu *)parent)->depth_base - (f32) arg1;
 }
 
 void TWindowSubEquip__sub_80263AF4(void) {  }

@@ -455,7 +455,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
 }
 
 extern "C" {
-void TWindowSubComCard__sub_802452DC(s32 texture) {
+void end_window_sweep_draw(s32 texture) {
     switch (window_ui_theme_index) {
     case 0:
     case 1:
@@ -471,7 +471,7 @@ void TWindowSubComCard__sub_802452DC(s32 texture) {
 #pragma push
 #pragma fp_contract on
 extern "C" {
-void TWindowSubComCard__sub_80245320(TexturedQuad *q, Rect_802455CC *r) {
+void draw_window_sweep_strip(TexturedQuad *q, Rect_802455CC *r) {
     ProjectedStripVertex v[6];
     f32 z;
     f32 t;
@@ -533,7 +533,7 @@ void TWindowSubComCard__sub_80245320(TexturedQuad *q, Rect_802455CC *r) {
     draw_projected_textured_strip(v, 6);
 }
 #pragma pop
-void TWindowSubComCard__sub_802454E4(s32 texture) {
+void begin_window_sweep_draw(s32 texture) {
     switch (window_ui_theme_index) {
     case 0:
     case 1:

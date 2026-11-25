@@ -196,7 +196,7 @@ TWindowFukidasi::TWindowFukidasi(u16 speaker, s32 text, s32 client, f32 scale)
 TWindowFukidasi::~TWindowFukidasi() {
     if (this->is_flag_set() != 0) {
         this->clear_visible_flag();
-        TWindowCtrl::release_slot((s8 *)&this->m_73);
+        TWindowCtrl::release_slot((s8 *)&this->slot);
     }
     if ((uaddr)this->name != 0U) {
         mem_free(this->name);
@@ -279,13 +279,13 @@ void TWindowFukidasi::run_task() {
 void TWindowFukidasi::render() {
     f32 off[2];
     WindowDrawContext *v;
-    switch (static_cast<u8>(m_70)) {
+    switch (static_cast<u8>(state)) {
     case 0:
         project_anchor(NULL, head_position);
         this->place_rect_at_head_or_slot();
         balloon_center[0] = 0.5f * target_size[0] + target_position[0];
         balloon_center[1] = 0.5f * target_size[1] + target_position[1];
-        m_70 = 1;
+        state = 1;
         break;
     case 2:
         ((void (*)(void *))refresh_rect_placement__15TWindowFukidasiFPv)(this);
@@ -536,10 +536,10 @@ void TWindowFukidasi::init_balloon(u16 speaker, s32 str, s32 client, f32 scale) 
     u32 len;
 
     *(s32 *)((s8 *)this + 0) = (saddr) window_fukidasi_class_name;
-    this->m_70 = 0;
-    this->m_71 = 0;
+    this->state = 0;
+    this->balloon_flags = 0;
     *(s8 *)&this->unk_72 = 2;
-    this->m_73 = -1;
+    this->slot = -1;
     this->speaker_id = speaker;
     this->client_index = client;
     if (str != 0) {
@@ -551,7 +551,7 @@ void TWindowFukidasi::init_balloon(u16 speaker, s32 str, s32 client, f32 scale) 
     }
     set_color(speaker);
     this->tail_scale = 0.0f;
-    this->m_7c = scale;
+    this->scale = scale;
     this->frame_size[0] = 0.0f;
     this->frame_size[1] = 0.0f;
     this->clear_flag();
@@ -564,20 +564,20 @@ void TWindowFukidasi::init_flags(s32 flags) {
     if (this->is_closed() != 0) {
         this->window_flags = (s32) (this->window_flags | 1);
     }
-    this->m_71 = (u8) (this->m_71 & ~0x50);
+    this->balloon_flags = (u8) (this->balloon_flags & ~0x50);
     if (flags & 2) {
-        this->m_71 = (u8) (this->m_71 | 8);
+        this->balloon_flags = (u8) (this->balloon_flags | 8);
     } else {
-        this->m_71 = (u8) (this->m_71 & 0xFFFFFFF7);
+        this->balloon_flags = (u8) (this->balloon_flags & 0xFFFFFFF7);
     }
     if (flags & 0x20) {
-        this->m_71 = (u8) (this->m_71 | 2);
+        this->balloon_flags = (u8) (this->balloon_flags | 2);
         this->set_flag();
         this->set_flag2c_bit200();
-        this->m_73 = 4;
+        this->slot = 4;
         return;
     }
-    this->m_71 = (u8) (this->m_71 & 0xFFFFFFFD);
+    this->balloon_flags = (u8) (this->balloon_flags & 0xFFFFFFFD);
 }
 
 // Dead-stripped from the DOL: no code of it survives, only its literal (1e6 at
@@ -1196,8 +1196,8 @@ s32 TWindowFukidasi::calc_name_plate_angle(f32 *world, f32 *scr, f32 *rect, f32 
 }
 
 void TWindowFukidasi::request_balloon_hide() {
-    if (!(this->m_71 & 0x10)) {
-        this->m_70 = 7;
+    if (!(this->balloon_flags & 0x10)) {
+        this->state = 7;
     }
 }
 

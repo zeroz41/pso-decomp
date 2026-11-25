@@ -27,8 +27,8 @@ s32 open_numeric_parameter_input__9TWindowDDFPviii(void *, int, int, void *);
 s32 classify_id__9TWindowDDFs();
 s32 TWindowDD__sub_80347CC8(void *, void *);
 s32 TWindowDD__sub_803435A0(void *);
-s32 TWindowDD__sub_80347C50();
-s32 TWindowDD__sub_803482B0(void *);
+s32 refresh_word_select_child_list();
+s32 is_word_select_cancel_input(void *);
 s32 TWindowDD__sub_80348424(void *, s16);
 s16 TWindowDD__sub_80348448(void *, s32);
 s32 push_recent_id(s32);
@@ -47,7 +47,7 @@ void TWindowDD::update() {
         TWindowDD__sub_803484C4(this);
         return;
     }
-    if (TWindowDD__sub_803482B0(this) != 0) {
+    if (is_word_select_cancel_input(this) != 0) {
         TWindowDD::play_se();
         TWindowDD::apply_entry_layout(this);
     }
@@ -56,7 +56,7 @@ void TWindowDD::update() {
 void TWindowDD::handle_confirm_input() {
     s32 id;
     W_80342ED0 *arg0 = (W_80342ED0 *)this;
-    TWindowDD__sub_80347C50();
+    refresh_word_select_child_list();
     if (((TWindowDD *)arg0)->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         id = TWindowDD__sub_80342158(reinterpret_cast<TWindowDD_WS_Word *>(arg0->ids[arg0->idx]));
@@ -67,7 +67,7 @@ void TWindowDD::handle_confirm_input() {
         TWindowDD__sub_803435A0(arg0);
         return;
     }
-    if (TWindowDD__sub_803482B0(arg0) != 0) {
+    if (is_word_select_cancel_input(arg0) != 0) {
         TWindowDD::play_se();
         ((TWindowDD *)arg0)->set_state();
     }

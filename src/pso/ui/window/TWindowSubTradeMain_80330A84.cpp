@@ -696,7 +696,7 @@ saddr TWindowSubTradeMain::create_trade_window() {
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowMenuIconLine *)w)->refresh_trade_item_list(get_trade_offer_items()->entries);
     ((TWindowSubTradeMain *)w)->close();
-    ((TWindowBase *)w)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)(((Self_80331178 *)this)->f2c), 0));
+    ((TWindowBase *)w)->set_depth(get_main_menu_layer_depth((u8 *)(((Self_80331178 *)this)->f2c), 0));
     return w;
 }
 
@@ -712,7 +712,7 @@ saddr TWindowSubTradeMain::open_trade_equip_window() {
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowMenuIconLine *)w)->refresh_trade_item_list(get_trade_window_state()->entries);
     ((TWindowSubTradeMain *)w)->close();
-    ((TWindowBase *)w)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)(((Self_803310BC *)this)->f2c), 1));
+    ((TWindowBase *)w)->set_depth(get_main_menu_layer_depth((u8 *)(((Self_803310BC *)this)->f2c), 1));
     return w;
 }
 
@@ -722,7 +722,7 @@ saddr TWindowSubTradeMain::create_list() {
     equip_kind_window = reinterpret_cast<saddr>(create_equip_kind_window((saddr)get_window_layout_position(0x64), &trade_list_window_pos, this->client_id));
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     ((TWindowMenuIconLine *)equip_kind_window)->refresh_trade_item_list(get_trade_list_items()->entries);
-    ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8(reinterpret_cast<u8 *>(parent_menu), 2));
+    ((TWindowBase *)equip_kind_window)->set_depth(get_main_menu_layer_depth(reinterpret_cast<u8 *>(parent_menu), 2));
     return equip_kind_window;
 }
 

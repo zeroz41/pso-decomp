@@ -103,8 +103,8 @@
 #include "pso/player/PlayerActionProvider.h"
 
 
-void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
-void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
+void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
+void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
 void TLobby__sub_801A2DF4(void) {  }
 void TLobby__sub_801A2DF8(void) {  }
 void TLobby__sub_801A2DFC(void) {  }
@@ -633,7 +633,7 @@ void init_offline_game_scene(void) {
             TLobby::reset_keyboard_input();
         }
     }
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     set_queued_main_phase(0xE);
     render_tick();
 }

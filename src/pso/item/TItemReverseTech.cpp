@@ -109,7 +109,7 @@ void TItemReverseTech::init_scene() {
     Vec at = {0.0f, 0.0f, -100.0f};
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose(&eye, &at);
-    TKeyBoardControl__sub_8000F90C(2);
+    set_fallback_main_phase(2);
     set_queued_main_phase(2);
     TParticleCtrl::create_quad_sprites();
     TItemReverseTech::create();
@@ -145,7 +145,7 @@ void TItemReverseTech::run_frame() {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::noop();
     if (static_cast<s8>(func_801A5E54()) != 0) {
-        TKeyBoardControl__sub_8000F92C();
+        switch_to_fallback_main_phase();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         request_main_phase(0);

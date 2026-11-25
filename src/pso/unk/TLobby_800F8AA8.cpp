@@ -860,7 +860,7 @@ void apply_phase_keyboard_mode() {
 }
 
 extern "C" {
-void TLobby__sub_800F8BD8(void) { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); }
+void TLobby__sub_800F8BD8(void) { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); }
 
 void TLobby::invoke_callback() {
     if (((s32 (*)()) main_phase_deferred_callback) != NULL) {

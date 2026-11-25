@@ -55,7 +55,7 @@ struct Self_8036E2AC {
 
 extern "C" {
 void *create_window_menu_default(void *, s32);
-void TKeyBoardControl__sub_8000F90C(s32 arg0);
+void set_fallback_main_phase(s32 arg0);
 
 // Message text by id: table_a holds the English text, table_b the Japanese.
 const char *multi_chg_game_mode_text_table_a[11] = {
@@ -560,5 +560,5 @@ TAdSystemFileCheckGC::TAdSystemFileCheckGC(TObject *object) : TObject(object) {
         ((TAdMultiChgGameModeGC *)this)->set_state(1);
     }
     TLobby::stop_audio_streams();
-    TKeyBoardControl__sub_8000F90C(9);
+    set_fallback_main_phase(9);
 }

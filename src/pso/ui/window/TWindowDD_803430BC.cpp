@@ -214,7 +214,7 @@ void TWindowDD__sub_803435A0(u8 *arg0);
 s32 TWindowDD__sub_80341AE0(int);
 s32 TWindowDD__sub_80341AF8(int);
 s32 TWindowDD__sub_8034217C(int);
-s32 TWindowDD__sub_803482B0(void *);
+s32 is_word_select_cancel_input(void *);
 s32 TWindowDD__sub_803484C4(void *);
 void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
 saddr TWindowDD__sub_80342384(s32 element_list, s32 rows);
@@ -656,7 +656,7 @@ void TWindowDD::run_task() {
                     break;
                 }
             }
-        } else if (TWindowDD__sub_803482B0(w) != 0) {
+        } else if (is_word_select_cancel_input(w) != 0) {
             TWindowDD::play_se();
             done = 1;
             w->x94 |= 2;

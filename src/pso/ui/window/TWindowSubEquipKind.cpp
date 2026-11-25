@@ -11,7 +11,7 @@
 extern "C" {
 
 TWindowSubEquipKind *create_equip_kind_window(saddr position, const NJS_POINT2 *size, s32 client) {
-    TShopJudgmentItemWindow__sub_80267F9C(size, 0x1F);
+    set_menu_icon_line_params(size, 0x1F);
     return new TWindowSubEquipKind(reinterpret_cast<u8 *>(position), client);
 }
 

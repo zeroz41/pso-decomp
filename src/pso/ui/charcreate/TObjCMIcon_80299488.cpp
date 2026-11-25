@@ -27,15 +27,15 @@ void TObjCMIcon::reset_icon_flags() {
     }
 }
 
-void TObjCMIcon__sub_802994B0(s32 arg0) {
+void show_creation_icon(s32 arg0) {
     creation_icon_states[arg0].hidden = 0;
 }
 
-void TObjCMIcon__sub_802994C8(s32 arg0, const s32 *arg1) {
+void show_only_creation_icons(s32 arg0, const s32 *arg1) {
     s32 i;
     TObjCMIcon::reset_icon_flags();
     for (i = 0; i < arg0; i++) {
-        TObjCMIcon__sub_802994B0(arg1[i]);
+        show_creation_icon(arg1[i]);
     }
 }
 

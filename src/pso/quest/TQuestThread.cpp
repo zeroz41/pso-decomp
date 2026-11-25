@@ -847,7 +847,7 @@ void TKeyBoardControl::clear_keyboard_flag60_bit1() {
     }
 }
 
-void TWindowKeyBoardBase::clear_flag60_bit1() { m_60 &= 0xfffe; }
+void TWindowKeyBoardBase::clear_flag60_bit1() { state_flags &= 0xfffe; }
 
 u32 TQuestListVM::get_quest_size() { return decompression_capacity; }
 

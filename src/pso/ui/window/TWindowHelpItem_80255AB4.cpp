@@ -57,7 +57,7 @@ void TWindowHelpItem::render() {
         reinterpret_cast<WindowDrawContext *>(context));
     temp_r3_2 = this->m_60;
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2)) {
-        draw_list_page_indicator(m_64, reinterpret_cast<WindowDrawContext *>(context));
+        draw_list_page_indicator(page_indicator, reinterpret_cast<WindowDrawContext *>(context));
     }
 }
 
@@ -68,11 +68,11 @@ void TWindowHelpItem::run_task() {
     }
     if ((this->m_60 & 1) && (((TWindowBase *)arg0)->sub_80244994() != 0) && !(this->window_flags & 4)) {
         if (!(this->m_60 & 4)) {
-            if (handle_list_page_flip_input(this->m_64) != 0) {
+            if (handle_list_page_flip_input(this->page_indicator) != 0) {
                 ((TWindowHelpItem *)arg0)->dispatch_item_help();
             }
         } else {
-            decay_page_arrow_offset(this->m_64);
+            decay_page_arrow_offset(this->page_indicator);
         }
         ((TWindowHelpItem *)arg0)->invoke_callback_pmf();
     }
@@ -85,7 +85,7 @@ void TWindowHelpItem::run_task() {
 }
 
 TWindowHelpItem::~TWindowHelpItem() {
-    delete_if_allocated(this->m_64, 1);
+    delete_if_allocated(this->page_indicator, 1);
 }
 
 }
@@ -94,7 +94,7 @@ TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window
     copy_vec2(((u8 *)this + 0x30), pos);
     this->save_position();
     this->m_60 = 0;
-    m_64 = new PageIndicator(0, 3, client_index);
+    page_indicator = new PageIndicator(0, 3, client_index);
     active_item = NULL;
     this->m_6c = 0;
     this->m_70 = 0;

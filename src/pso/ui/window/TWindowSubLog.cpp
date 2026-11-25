@@ -84,8 +84,8 @@ TWindowSubLog::TWindowSubLog(TObject *parent, void *arg2) : TObject(parent) {
     fn_8027B2A8((void*)(((Lg_8027B194 *)this)->f28));
 }
 
-void TWindowMainMenu::clear_log_active() { m_4c &= ~8; }
+void TWindowMainMenu::clear_log_active() { menu_flags &= ~8; }
 void TWindowMainMenu::restore_after_subwindow() { show_child_window(); }
-void TWindowMainMenu::set_log_active() { m_4c |= 8; }
+void TWindowMainMenu::set_log_active() { menu_flags |= 8; }
 void TWindowMainMenu::hide_for_subwindow() { update_trade_submenu(); }
 void fn_8027B2A8(void* p) { *(u16*)((char*)p + 0x1e) |= 0x200; }

@@ -170,7 +170,7 @@ TWindowSubItem::TWindowSubItem(TWindowMainMenu *parent, s32 client) : TObject(pa
     parent_menu = parent;
     client_id = client;
     item_list = create_sub_item_list_window(get_window_layout_position(3), &lbl_8044F998, client_id);
-    item_list->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 0));
+    item_list->set_depth(get_main_menu_layer_depth((u8 *)parent_menu, 0));
     item_list->set_flag70_bit10();
     help_window = 0;
     purpose_menu = 0;
@@ -212,7 +212,7 @@ void TWindowSubItem::run_task() {
             }
             if (this->help_window == 0) {
                 this->help_window = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
-                ((TWindowBase *)this->help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 4));
+                ((TWindowBase *)this->help_window)->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 4));
                 this->displayed_item = -1;
             }
             item_list->refresh();
@@ -456,7 +456,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     } else {
         add_item_purpose_actions((TWindowSubItem *)this, titled_window_menu, arg1);
     }
-    ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 1));
+    ((TWindowBase *)titled_window_menu)->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 1));
     ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
     ((TWindowMenu *)titled_window_menu)->update_layout_height(224.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
@@ -468,7 +468,7 @@ s32 TWindowSubItem::create_menu_window() {
     titled_window_menu = create_titled_window_menu(reinterpret_cast<saddr>(get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
     ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5D)), 6, 0);
     ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5E)), 6, 1);
-    ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 2));
+    ((TWindowBase *)titled_window_menu)->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 2));
     ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
     ((TWindowMenu *)titled_window_menu)->update_layout_height(224.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(titled_window_menu));
@@ -480,7 +480,7 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
 
     storage = (saddr)new TWindowInputNumber((void *)get_window_layout_position(5), 1, maximum, 1, (s16) this->client_id);
     ((TWindowInputNumber *)storage)->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
-    ((TWindowBase *)storage)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 3));
+    ((TWindowBase *)storage)->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 3));
     ((TWindowInputNumber *)storage)->set_value(224.0f);
     ((TWindowSubItem *)storage)->set_flag60_bit10();
     return storage;

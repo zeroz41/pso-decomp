@@ -147,12 +147,12 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
 }
 
 TWindowCtrlPlayer::~TWindowCtrlPlayer() {
-    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction(); this->m_3c = 0; }
-    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->lock_on_window = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->simple_status = 0; }
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->message_information = 0; }
-    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->m_28 = 0; }
+    if (short_list != NULL) { ((TObject *)short_list)->queue_destruction(); this->short_list = 0; }
+    if (lock_on_window != NULL) { ((TWindowBase *)lock_on_window)->close(); this->lock_on_window = 0; }
+    if (action_palette != NULL) { ((TWindowBase *)action_palette)->close(); this->action_palette = 0; }
+    if (simple_status != NULL) { ((TWindowBase *)simple_status)->close(); this->simple_status = 0; }
+    if (message_information != NULL) { ((TWindowBase *)message_information)->close(); this->message_information = 0; }
+    if (main_menu != NULL) { ((TObject *)main_menu)->queue_destruction(); this->main_menu = 0; }
 }
 
 void TWindowCtrlPlayer::run_task() { sub_8024E0F0(); ((TWindowCtrl *)this)->run_all_updates(); }
@@ -174,7 +174,7 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
         break;
     case 38:
         if (is_current_area_item_enabled() != 0) {
-            temp_r3_2 = reinterpret_cast<uaddr>(this->m_34);
+            temp_r3_2 = reinterpret_cast<uaddr>(this->action_palette);
             if (temp_r3_2 != 0U) {
                 ((TObject *)temp_r3_2)->clear_update_suspension();
             }
@@ -193,25 +193,25 @@ void TWindowCtrl::run_all_updates() { update_trade_window_visibility(); update_c
 
 void TWindowCtrl::update_trade_window_visibility() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_30 != NULL) && (((TWindowCtrl *)((void *) this->m_30))->is_flag_2_set() == 0)) {
+    if ((this->timer_window != NULL) && (((TWindowCtrl *)((void *) this->timer_window))->is_flag_2_set() == 0)) {
         if ((get_player_by_client_id(this->m_24) == NULL) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (is_status_window_hidden() != 0) || ((is_split_screen() != 0) && (get_active_menu() != 0))) {
-            ((TWindowLockOn *)(this->m_30))->request_close();
+            ((TWindowLockOn *)(this->timer_window))->request_close();
             return;
         }
-        window_request_show((void *)this->m_30);
+        window_request_show((void *)this->timer_window);
     }
 }
 
 void TWindowCtrl::update_child_window_visibility() {
     u8 *arg0 = (u8 *)this;
     u32 player;
-    if ((this->m_34 != NULL) && (((TWindowCtrl *)((void *) this->m_34))->is_flag_2_set() == 0)) {
+    if ((this->area_window != NULL) && (((TWindowCtrl *)((void *) this->area_window))->is_flag_2_set() == 0)) {
         player = (uaddr)get_player_by_client_id(this->m_24);
         if ((get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (((TWindowCtrl *)arg0)->is_enabled() != 0) || (player == 0U)) {
-            ((TWindowLockOn *)(this->m_34))->request_close();
+            ((TWindowLockOn *)(this->area_window))->request_close();
             return;
         }
-        window_request_show((void *)this->m_34);
+        window_request_show((void *)this->area_window);
     }
 }
 
@@ -222,7 +222,7 @@ void TWindowCtrl::update_target_info_window() {
     if ((*(void **)((s8 *)arg0 + 0x38) != NULL) && ((((TObject *)(*(void **)((s8 *)arg0 + 0x38)))->all_parents_unqueued_for_destruction() == 0) || (((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x38)))->sub_80244994() == 0))) {
         *(u32 *)((s8 *)arg0 + 0x38) = 0U;
     }
-    if ((is_lock_on_window_hidden() != 0) || (get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (has_get_com_card_window() != 0) || (TWindowCtrl__sub_8024A314() != 0)) {
+    if ((is_lock_on_window_hidden() != 0) || (get_active_menu() != 0) || (((TWindowCtrl *)arg0)->is_visible() != 0) || (has_com_card_window() != 0) || (TWindowCtrl__sub_8024A314() != 0)) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x38) != 0U) {
             ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
             *(u32 *)((s8 *)arg0 + 0x38) = 0U;

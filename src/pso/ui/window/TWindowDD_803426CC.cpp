@@ -4,8 +4,8 @@
 
 extern "C" {
 s32 TWindowDD__sub_803435A0(void *);
-s32 TWindowDD__sub_80347C50();
-s32 TWindowDD__sub_803482B0(void *);
+s32 refresh_word_select_child_list();
+s32 is_word_select_cancel_input(void *);
 void TWindowDD__sub_80342800(u8 *arg0);
 void TWindowDD__sub_803428C4(u8 *window_dd);
 s32 update_numeric_parameter_input__9TWindowDDFPv();
@@ -18,12 +18,12 @@ void TWindowDD::enter_state_16(void *window_dd) {
     var_r31 = 0;
     switch (*(s32 *)((s8 *)window_dd + 0xB8)) {
     case 0:
-        TWindowDD__sub_80347C50();
+        refresh_word_select_child_list();
         ((TWindowDD *)window_dd)->update_selection_state();
         if (((TWindowDD *)window_dd)->test_input_flag_4() != 0) {
             TWindowDD::play_sound();
             var_r31 = TWindowDD::update_close_flag(window_dd) == 0;
-        } else if (TWindowDD__sub_803482B0(window_dd) != 0) {
+        } else if (is_word_select_cancel_input(window_dd) != 0) {
             TWindowDD::play_se();
             TWindowDD::apply_entry_layout(window_dd);
         }
@@ -39,7 +39,7 @@ void TWindowDD::enter_state_16(void *window_dd) {
 }
 
 void TWindowDD::update_state(void *window_dd) {
-    TWindowDD__sub_80347C50();
+    refresh_word_select_child_list();
     ((TWindowDD *)window_dd)->update_selection_state();
     if (((TWindowDD *)window_dd)->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
@@ -47,7 +47,7 @@ void TWindowDD::update_state(void *window_dd) {
         TWindowDD__sub_803435A0(window_dd);
         return;
     }
-    if (TWindowDD__sub_803482B0(window_dd) != 0) {
+    if (is_word_select_cancel_input(window_dd) != 0) {
         TWindowDD::play_se();
         TWindowDD::apply_entry_layout(window_dd);
     }
@@ -57,7 +57,7 @@ void TWindowDD__sub_80342800(u8 *arg0) {
     u8 *var_r31;
     u8 *window_dd;
     var_r31 = arg0;
-    TWindowDD__sub_80347C50();
+    refresh_word_select_child_list();
     window_dd = var_r31;
     ((TWindowDD *)window_dd)->update_selection_state();
     window_dd = var_r31;
@@ -81,7 +81,7 @@ void TWindowDD__sub_80342800(u8 *arg0) {
         return;
     }
     window_dd = var_r31;
-    if (TWindowDD__sub_803482B0(window_dd) != 0) {
+    if (is_word_select_cancel_input(window_dd) != 0) {
         TWindowDD::play_se();
         window_dd = var_r31;
         TWindowDD::apply_entry_layout(window_dd);
@@ -108,14 +108,14 @@ void TWindowDD__sub_803428C4(u8 *window_dd) {
 }
 
 void update__9TWindowDDFi(saddr window_dd) {
-    TWindowDD__sub_80347C50();
+    refresh_word_select_child_list();
     if (((TWindowDD *)window_dd)->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         TWindowDD__sub_803428C4((u8 *)window_dd);
         TWindowDD__sub_803435A0((void *)window_dd);
         return;
     }
-    if (TWindowDD__sub_803482B0((void *)window_dd) != 0) {
+    if (is_word_select_cancel_input((void *)window_dd) != 0) {
         TWindowDD::play_se();
         TWindowDD::apply_entry_layout((void *)window_dd);
     }
@@ -130,7 +130,7 @@ void TWindowDD__sub_803429B0(u8 *window_dd) {
         if (((TWindowDD *)window_dd)->test_input_flag_4() != 0) {
             TWindowDD::play_sound();
             var_r31 = TWindowDD::update_close_flag(window_dd) == 0;
-        } else if (TWindowDD__sub_803482B0(window_dd) != 0) {
+        } else if (is_word_select_cancel_input(window_dd) != 0) {
             TWindowDD::play_se();
             TWindowDD::apply_entry_layout(window_dd);
         }

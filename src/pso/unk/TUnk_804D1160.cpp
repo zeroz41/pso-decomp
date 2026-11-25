@@ -80,9 +80,9 @@ TCustomizeMenuCtrl::TCustomizeMenuCtrl(TWindowMainMenu *parent, s32 client) : TO
     main_menu = parent;
     client_id = client;
     custom_equip = (uaddr)new TWindowSubCustomEquip(client_id);
-    ((TWindowBase *)custom_equip)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 0));
+    ((TWindowBase *)custom_equip)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 0));
     help_window = (uaddr)TWindowMessage::create((saddr)(get_window_layout_position(0x11)), lbl_8044F718, 1, client_id);
-    ((TWindowBase *)help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)main_menu, 2));
+    ((TWindowBase *)help_window)->set_depth(get_main_menu_layer_depth((u8 *)main_menu, 2));
     call_if_split_screen(help_window, client_id);
     custom_select = 0;
     help_kind = 0;
@@ -129,7 +129,7 @@ void TCustomizeMenuCtrl::run_task() {
         break;
     case 3:
         self->f2c = new TWindowSubCustomSelect(client_id);
-        ((TWindowBase *)self->f2c)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)self->f24, 1));
+        ((TWindowBase *)self->f2c)->set_depth(get_main_menu_layer_depth((u8 *)self->f24, 1));
         self->state = 4;
     case 4:
         ((TCustomizeMenuCtrl *)self)->update_customize_help_text(static_cast<TWindowSubCustomSelect *>(self->f2c)->get_selected_action());

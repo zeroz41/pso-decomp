@@ -230,7 +230,7 @@ force_active:
   - __dt__17CharacterFileSlotFv
   - TAdSinglePlyChrSelectGC__sub_801FCCB4
   - TAdSinglePlyChrSelectGC__sub_801FCCC0
-  - TAdSinglePlyChrSelectGC__sub_801FCD04
+  - get_selected_character_slot
   - TAdSinglePlyChrSelectGC__sub_801FDC14
   - TAdSinglePlyChrSelectGC__sub_801FE380
   - TAdSinglePlyChrSelectGC__sub_801FEBBC
@@ -942,7 +942,7 @@ force_active:
   - __ct__18TObjButterflyLobbyFP7TObjectP13ObjectSetData
   - TObjCGrass_bml_resource
   - TObjCMIcon__horizontal_scroll_offset
-  - TObjCMIcon__sub_802994B0
+  - show_creation_icon
   - TObjCMIcon__sub_8029957C
   - TObjCMIcon__sub_80299598
   - TObjCMMainMenu__sub_8028EC18

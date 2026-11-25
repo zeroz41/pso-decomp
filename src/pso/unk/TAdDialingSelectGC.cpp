@@ -139,7 +139,7 @@ TAdDialingSelectGC::TAdDialingSelectGC() : TObject((TObject *)tl_00) {
     if (o3 != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(o3, this, 3);
     }
-    TKeyBoardControl__sub_8000F90C(9);
+    set_fallback_main_phase(9);
     this->selection = 4;
     this->state = 0;
     this->timer = 0;

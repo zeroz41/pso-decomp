@@ -526,7 +526,7 @@ void run_game_mode_select_frame(void) {
     TAdSinglePlyChrSelectGC::noop();
     if (TAdPlayerLoadGC::get_instance() == 0) {
         if (func_801A5E54__Fv() != 0) {
-            TKeyBoardControl__sub_8000F92C();
+            switch_to_fallback_main_phase();
         }
         if (TQuestVmDownLoadServer::is_ready() != 0) {
             request_main_phase(0);
