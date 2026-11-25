@@ -56,70 +56,70 @@ const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 void TWindowSubCustomSelect::handle_cancel() {
     if (is_active() == 0) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_73 = (u8) (this->m_73 | 2);
+        this->state_flags = (u8) (this->state_flags | 2);
     }
 }
 
 void TWindowSubCustomSelect::handle_decide() {
     play_sound_effect(0x52D01, 0, 0, 0);
-    this->m_73 = (u8) (this->m_73 | 1);
-    ((TWindowSubStatusDisp *)(this->m_7c))->set_entry_state(2);
+    this->state_flags = (u8) (this->state_flags | 1);
+    ((TWindowSubStatusDisp *)(this->status_display))->set_entry_state(2);
 }
 
 #pragma fp_contract on
 void TWindowSubCustomSelect::update_list_scroll() {
   NJS_POINT2 range;
-  f32 *new_var3;
-  f32 tgt;
-  float new_var2;
-  new_var2 = (51.0f * ((f32) ((s8)this->m_71))) + 6.0f;
-  tgt = 27.0f + new_var2;
-  tgt -= 81.0f;
-  new_var3 = &this->scroll_offset[1];
-  *new_var3 = (*new_var3) + (tgt - (this->scroll_offset[1]));
+  f32 *scroll_y;
+  f32 target_y;
+  float row_y;
+  row_y = (51.0f * ((f32) ((s8)this->row))) + 6.0f;
+  target_y = 27.0f + row_y;
+  target_y -= 81.0f;
+  scroll_y = &this->scroll_offset[1];
+  *scroll_y = (*scroll_y) + (target_y - (this->scroll_offset[1]));
   range.x = 0.0f;
   range.y = ((this->frame_size[1]) - 10.0f) - 16.0f;
   scroll_bar->clamp_offset(scroll_offset, &range);
 }
 
 void TWindowSubCustomSelect::handle_grid_navigation() {
-    u8 temp_r3;
-    u8 temp_r3_2;
-    u8 temp_r3_3;
-    u8 temp_r4;
-    u8 temp_r5;
+    u8 column_now;
+    u8 column_wrapped;
+    u8 row_now;
+    u8 row_wrapped;
+    u8 rows;
     ControllerInputContext *window_choice_setting;
     window_choice_setting = &controller_input_state.controllers[is_player_input_active(((s32) this->client_index))];
     if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
         play_sound_effect(0x54100, 0, 0, 0);
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-            this->m_71 = (this->m_71 - 1);
+            this->row = (this->row - 1);
         }
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-            this->m_71 = (this->m_71 + 1);
+            this->row = (this->row + 1);
         }
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
-            this->m_70 = (this->m_70 + 1);
+            this->column = (this->column + 1);
         }
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
-            this->m_70 = (this->m_70 - 1);
+            this->column = (this->column - 1);
         }
-        temp_r3 = this->m_70;
-        if ((s8) temp_r3 < 0) {
-            this->m_70 = (temp_r3 + 3);
+        column_now = this->column;
+        if ((s8) column_now < 0) {
+            this->column = (column_now + 3);
         }
-        temp_r3_2 = this->m_70;
-        if ((s8) temp_r3_2 >= 3) {
-            this->m_70 = (temp_r3_2 - 3);
+        column_wrapped = this->column;
+        if ((s8) column_wrapped >= 3) {
+            this->column = (column_wrapped - 3);
         }
-        temp_r3_3 = this->m_71;
-        if ((s8) temp_r3_3 < 0) {
-            this->m_71 = (u8) (temp_r3_3 + this->m_72);
+        row_now = this->row;
+        if ((s8) row_now < 0) {
+            this->row = (u8) (row_now + this->row_count);
         }
-        temp_r4 = this->m_71;
-        temp_r5 = this->m_72;
-        if ((s8) temp_r4 >= (s8) temp_r5) {
-            this->m_71 = (u8) (temp_r4 - temp_r5);
+        row_wrapped = this->row;
+        rows = this->row_count;
+        if ((s8) row_wrapped >= (s8) rows) {
+            this->row = (u8) (row_wrapped - rows);
         }
     }
 }
@@ -128,9 +128,9 @@ void TWindowSubCustomSelect::handle_grid_navigation() {
 #pragma fp_contract on
 void TWindowSubCustomSelect::draw_cursor(WindowDrawContext *context) {
     NJS_POINT2 position;
-    position.x = (58.0f * (f32) (s8) this->m_70) + 1.0f;
-    position.y = (51.0f * (f32) (s8) this->m_71) + (-5.0f);
-    TWindowSubCustomEquip::draw_cursor_sprite(0.4f, context, &position, m_74);
+    position.x = (58.0f * (f32) (s8) this->column) + 1.0f;
+    position.y = (51.0f * (f32) (s8) this->row) + (-5.0f);
+    TWindowSubCustomEquip::draw_cursor_sprite(0.4f, context, &position, cursor_frame);
 }
 #pragma pop
 
@@ -152,7 +152,7 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     if (p == NULL) {
         return;
     }
-    e = reinterpret_cast<Ent_802776D0 *>(m_78);
+    e = reinterpret_cast<Ent_802776D0 *>(action_table);
     for (i = 0; e->id != 8; i++, e++) {
         if (e->id == 0) {
             continue;
@@ -191,7 +191,7 @@ void TWindowSubCustomSelect::render() {
     ((TWindowBase *)window_sub_custom_select)->draw_window_frame(draw_context);
     window_sub_custom_select->draw_palette_cells(draw_context);
     window_sub_custom_select->draw_cursor(draw_context);
-    ((TWindowSubStatusDisp *)((void *)(window_sub_custom_select->m_7c)))->forward_render(draw_context);
+    ((TWindowSubStatusDisp *)((void *)(window_sub_custom_select->status_display)))->forward_render(draw_context);
     draw_window_scrollbar(window_sub_custom_select->scroll_bar, draw_context, window_sub_custom_select->scroll_offset);
 }
 
@@ -214,12 +214,12 @@ void TWindowSubCustomSelect::run_task() {
     }
     update_list_scroll();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_7c))->update_subwindow();
+        ((TWindowSubStatusDisp *)(*(saddr *)&this->status_display))->update_subwindow();
         scroll_bar->increment_counter();
     }
     update_window();
     this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
-    *(s32 *)&this->m_74 = (s32) (*(s32 *)&this->m_74 + 1);
+    *(s32 *)&this->cursor_frame = (s32) (*(s32 *)&this->cursor_frame + 1);
 }
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
@@ -261,19 +261,19 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
         return;
     }
     if (q->flags & 0x10) {
-        m_78 = reinterpret_cast<uaddr>(custom_select_android_action_table);
+        action_table = reinterpret_cast<uaddr>(custom_select_android_action_table);
     } else {
-        m_78 = reinterpret_cast<uaddr>(custom_select_organic_action_table);
+        action_table = reinterpret_cast<uaddr>(custom_select_organic_action_table);
     }
-    this->m_73 = 0;
-    this->m_70 = 0;
-    this->m_71 = 0;
-    this->m_74 = 0;
-    e = reinterpret_cast<Ent_80277AEC *>(m_78);
-    this->m_72 = 0;
+    this->state_flags = 0;
+    this->column = 0;
+    this->row = 0;
+    this->cursor_frame = 0;
+    e = reinterpret_cast<Ent_80277AEC *>(action_table);
+    this->row_count = 0;
     while (e->id != 8) {
         e++;
-        (this->m_72)++;
+        (this->row_count)++;
     }
     o = ::operator new(0x24);
     if (o != NULL) {
@@ -281,7 +281,7 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
     }
     *(void **)((s8 *)this + 0x7C) = o;
     pos.x = 196.0f;
-    pos.y = 51.0f * (f32)(s8)m_72 + 18.0f;
+    pos.y = 51.0f * (f32)(s8)row_count + 18.0f;
     scroll_bar = new WindowScrollBar(&pos);
 }
 #pragma pop

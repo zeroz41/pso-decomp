@@ -10,7 +10,7 @@ struct WindowDrawContext;
 class WindowTextEntry {
 public:
     u16 flags;
-    s16 size_id; // card window scale kind
+    s16 client;
     virtual ~WindowTextEntry();
     virtual void update();
     virtual void render(WindowDrawContext *);

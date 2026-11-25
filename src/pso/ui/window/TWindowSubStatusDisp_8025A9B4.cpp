@@ -260,7 +260,7 @@ u8 *construct_text_entry(u8 *text_entry, u8 *rec, s32 client) {
     entry->flags = (u16) *(s32 *)((s8 *)rec + 0x14);
     entry->reveal_pos = (f32) K_CFAC;
     entry->color = (s32) *(s32 *)((s8 *)rec + 0x10);
-    entry->reveal_step = TWindowSubStatusDisp::get_card_window_scale((int) ((s32) entry->size_id));
+    entry->reveal_step = TWindowSubStatusDisp::get_card_window_scale((int) ((s32) entry->client));
     if (entry->flags & 4) {
         entry->reveal_step = (f32) (entry->reveal_step * K_CFC4);
     }

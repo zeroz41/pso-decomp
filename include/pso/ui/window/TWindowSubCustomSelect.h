@@ -11,13 +11,13 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     TWindowSubCustomSelect(s32 client);
     virtual ~TWindowSubCustomSelect();
     virtual void render();
-    u8 m_70;
-    u8 m_71;
-    u8 m_72;
-    u8 m_73;
-    u32 m_74;
-    uaddr m_78;
-    uaddr m_7c;
+    u8 column;
+    u8 row;
+    u8 row_count;
+    u8 state_flags;
+    u32 cursor_frame;
+    uaddr action_table;
+    uaddr status_display;
     WindowScrollBar *scroll_bar;
     void handle_cancel();
     void handle_decide();
@@ -32,6 +32,6 @@ struct TWindowSubCustomSelect : public TWindowAddition {
 
 LAYOUT_ASSERT(TWindowSubCustomSelect_size, sizeof(TWindowSubCustomSelect) == 0x84);
 
-LAYOUT_ASSERT(TWindowSubCustomSelectFieldsOffset, offsetof(TWindowSubCustomSelect, m_70) == 0x70);
+LAYOUT_ASSERT(TWindowSubCustomSelectFieldsOffset, offsetof(TWindowSubCustomSelect, column) == 0x70);
 
 #endif
