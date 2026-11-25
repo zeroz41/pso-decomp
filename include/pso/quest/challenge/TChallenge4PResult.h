@@ -31,7 +31,7 @@ public:
 public:
     static void create(int client, s32 arg1);
     static void clear_slot_entries();
-    void set_entry_item(void *arg1, s32 arg2);
+    void set_entry_item(TItemData *item, s32 slot);
     void close_window();
     void init_timer();
     void init_result_state();
@@ -42,7 +42,7 @@ public:
     void update_input();
 public:
     void get_player_rank();
-    static void update_entries(int, int);
+    static void update_entries(TItemData *item, s32 slot);
 };
 
 #include <stddef.h>

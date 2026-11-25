@@ -60,9 +60,6 @@ Challenge4PItemCode TChallenge4PItemSelect__item_table[8] = {
 };
 
 s32 TChallenge4PResult__slot_entries[4];
-struct E_8034B694 { u8 b[0x14]; };
-struct Q_8034B694 { s32 v; };
-struct W_8034B694 { u8 pad0[0x34]; E_8034B694 e[1]; u8 pad48[0x70 - 0x48]; Q_8034B694 f[1]; };
 
 extern "C" {
 
@@ -72,7 +69,6 @@ void get_player_result__18TChallenge4PResultFPv(TObjPlayer *, s32);
 void fn_8034BE48(TObjPlayer *);
 void request_active_window_close();
 void fn_8034BE38(TObjPlayer *);
-void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1);
 s32 __ct__18TChallenge4PResultFP7TObjectUsl(void *, s32, int, s32);
 
 }
@@ -262,10 +258,9 @@ void TChallenge4PResult::show_message(saddr text_handle) {
 
 
 void TChallenge4PResult::close_window() { if (this->message_window != 0) { this->message_window->close(); this->message_window = 0; } }
-void TChallenge4PResult::set_entry_item(void *arg1, s32 arg2) {
-    W_8034B694 *arg0 = (W_8034B694 *)this;
-    ((TItemData *)(&arg0->e[arg2]))->copy_from((TItemData *)(arg1));
-    arg0->f[arg2].v = 1;
+void TChallenge4PResult::set_entry_item(TItemData *item, s32 slot) {
+    reward_items[slot].copy_from(item);
+    reward_available[slot] = 1;
 }
 void TChallenge4PResult::clear_slot_entries() {
     s32 i;
@@ -323,14 +318,14 @@ s32 update_challenge_result_player_locks() {
 }
 
 
-void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1) {
+void TChallenge4PResult::update_entries(TItemData *item, s32 slot) {
     s32 i = 0;
     s32 *var_r30 = TChallenge4PResult__slot_entries;
     s32 var_r31 = 0;
     do {
         uaddr v = (u32)var_r30[var_r31];
         if (v != 0U) {
-            ((TChallenge4PResult *)v)->set_entry_item((void *)arg0, arg1);
+            ((TChallenge4PResult *)v)->set_entry_item(item, slot);
         }
         i += 1;
         var_r31 += 1;
@@ -419,7 +414,7 @@ void TChallenge4PItemSelect::submit_selected_item() {
         stack.spA = (s8) *(s32 *)((s8 *)temp_r31 + 8);
         temp_r3_2 = (uaddr)result;
         if (temp_r3_2 != 0U) {
-            ((TChallenge4PResult *)temp_r3_2)->set_entry_item((void *)((saddr) &stack.sp8), 2);
+            ((TChallenge4PResult *)temp_r3_2)->set_entry_item((TItemData *)&stack, 2);
         }
         state = 2;
     }

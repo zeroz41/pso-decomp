@@ -15436,7 +15436,7 @@ force_active:
   - set_segment_flags__19TBoss1DragonColli_CFv
   - set_enemy_mode_0__22THunterGuildSeqOfflineFP7TObject
   - set_entered_name__17TObjItemNameEntryFPCc
-  - set_entry_item__18TChallenge4PResultFPvl
+  - set_entry_item__18TChallenge4PResultFP9TItemDatal
   - set_entry_value_clamped__17TObjEneDf2BringerFlf
   - set_field48_clear_global__13TAdVIConfigGCFv
   - set_field4__6TSceneFv

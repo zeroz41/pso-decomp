@@ -656,12 +656,6 @@ void qst_op_va_call(s32 label) {
 }
 extern "C" {
 
-struct ItemData_801E72B4 {
-    u8 data1[12];
-    u32 id;
-    u8 data2[4];
-};
-
 struct Win_801E78D4 { u8 pad[0x2314]; s32 t[16]; };
 
 struct Card_801E7D7C {
@@ -991,25 +985,25 @@ void qst_op_scroll_text() {
 }
 
 void qst_op_item_create_multi_cm(u8 i) {
-    ItemData_801E72B4 item;
+    TItemData item;
     s32 mode = qst_registers[i++];
-    ((void (*)(ItemData_801E72B4 *))init__9TItemDataFv)(&item);
-    item.data1[0] = qst_registers[i++];
-    item.data1[1] = qst_registers[i++];
-    item.data1[2] = qst_registers[i++];
-    item.data1[3] = qst_registers[i++];
-    item.data1[4] = qst_registers[i++];
-    item.data1[5] = qst_registers[i];
+    item.init();
+    item.data1.data_u8[0] = qst_registers[i++];
+    item.data1.data_u8[1] = qst_registers[i++];
+    item.data1.data_u8[2] = qst_registers[i++];
+    item.data1.data_u8[3] = qst_registers[i++];
+    item.data1.data_u8[4] = qst_registers[i++];
+    item.data1.data_u8[5] = qst_registers[i];
     item.id = ((u32 (*)(u16))advance_item_id_counter)(local_client_id);
     switch (mode) {
     case 0:
-        TChallenge4PResult::update_entries((saddr)&item, 2);
+        TChallenge4PResult::update_entries(&item, 2);
         break;
     case 1:
-        TChallenge4PResult::update_entries((saddr)&item, 0);
+        TChallenge4PResult::update_entries(&item, 0);
         break;
     case 2:
-        TChallenge4PResult::update_entries((saddr)&item, 1);
+        TChallenge4PResult::update_entries(&item, 1);
         break;
     }
 }
