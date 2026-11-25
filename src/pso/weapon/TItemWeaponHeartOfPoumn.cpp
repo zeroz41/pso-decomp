@@ -1,0 +1,41 @@
+#include "types.h"
+#include "pso/weapon/TItemWeaponHeartOfPoumn.h"
+#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/item/TItem.h"
+#include "pso/weapon/TItemWeapon.h"
+#include "pso/weapon/TItemWeaponMonkeyKingBar.h"
+#include "pso/system/task/TMainTask.h"
+
+extern "C" {
+s32 draw_weapon_at_joint(void *, int);
+}
+
+
+void TItemWeaponHeartOfPoumn::draw_held_model() {
+    s32 temp_r31;
+    draw_weapon_at_joint(this, 0x31);
+    update_trail_slot(0);
+    update_trail_slot(1);
+    temp_r31 = *(s32 *)((s8 *)((u8 *)this) + 0xF4);
+    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = (saddr) this->second_model;
+    draw_weapon_at_joint(this, 0x24);
+    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = temp_r31;
+    update_trail_slot(2);
+    update_trail_slot(3);
+}
+
+TItemWeaponHeartOfPoumn::~TItemWeaponHeartOfPoumn() {}
+
+TItemWeaponHeartOfPoumn::TItemWeaponHeartOfPoumn(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    set_weapon_trail_joints(this, 2, 1, 2);
+    set_weapon_trail_joints(this, 3, 3, 4);
+    set_weapon_flags(513);
+}
+
+TItem *TObjPlayer::create_state_variant(u8 *item) {
+    if (item != NULL) {
+        return new TItemWeaponHeartOfPoumn(tl_05, item);
+    }
+    return NULL;
+}

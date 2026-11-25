@@ -572,15 +572,15 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TItemTimerEvent: written last to first, deferred.
     "pso/item/TItemTimerEvent.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out 0810, 0908, 0A00, 0AF8 then 0BF0: written last to first, deferred.
-    # The TUnk_804F0908 (Rappy's Fan) and TUnk_804F0AF8 (with the Gi-Gue bazooka) units end at
+    # The TItemWeaponRappysFan (Rappy's Fan) and TItemWeaponNeisClaw (with the Gi-Gue bazooka) units end at
     # .sdata2 pads (0x805DFDFC, 0x805DFE04) before TItemEffPG; all three keep deferred backwards source.
-    "pso/weapon/TUnk_804F0908.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/weapon/TUnk_804F0AF8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/weapon/TItemWeaponRappysFan.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/weapon/TItemWeaponNeisClaw.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/effect/item/TItemEffPG.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TExplosionCollider then TItemWeaponPanzerFaust: written last to first, deferred.
     "pso/weapon/TItemWeaponPanzerFaust.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # vtables come out TUnk_804A5D10 then TUnk_804A5D28: written last to first, deferred.
-    "pso/weapon/TUnk_804A5D28.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # vtables come out TUnk_804A5D10 then TItemWeaponInfernoBazooka: written last to first, deferred.
+    "pso/weapon/TItemWeaponInfernoBazooka.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # __vt__18TWindowSubShortCut (804D19D8) comes out before the run_task jump
     # table (804D19F0): written last to first, deferred.
     "pso/ui/window/TWindowSubShortCut.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

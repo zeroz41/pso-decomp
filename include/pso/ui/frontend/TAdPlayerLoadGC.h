@@ -67,7 +67,7 @@ void set_character_select_b_slot_state(int a0);
 
 // --- C functions defined in TAdPlayerLoadGC.cpp ---
 extern "C" {
-void *__dt__13TUnk_804E24F0Fv(void *arg0, s16 arg1);
+void *__dt__25TItemWeaponPhotonLauncherFv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 

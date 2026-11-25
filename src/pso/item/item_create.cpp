@@ -66,8 +66,8 @@
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/weapon/TItemWeaponPanzerFaust.h"
 #include "pso/weapon/TItemWeaponSRankCard.h"
-#include "pso/weapon/TUnk_804E24F0.h"
-#include "pso/weapon/TUnk_804F28E0.h"
+#include "pso/weapon/TItemWeaponPhotonLauncher.h"
+#include "pso/weapon/TItemWeaponSRankLauncher.h"
 #include "pso/unk/text_80125428.h"
 #include "pso/unk/text_80126740.h"
 #include "pso/unk/text_80126A34.h"
@@ -88,54 +88,54 @@
 #include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/weapon/TUnk_804A07C0.h"
 #include "pso/weapon/TUnk_804A0CB8.h"
-#include "pso/weapon/TUnk_804A0EA8.h"
-#include "pso/weapon/TUnk_804A0FA0.h"
-#include "pso/weapon/TUnk_804A1098.h"
-#include "pso/weapon/TUnk_804A1190.h"
+#include "pso/weapon/TItemWeaponGuldMilla.h"
+#include "pso/weapon/TItemWeaponDagger.h"
+#include "pso/weapon/TItemWeaponHildebluesCane.h"
+#include "pso/weapon/TItemWeaponFlowerBouquet.h"
 #include "pso/weapon/TUnk_804A1478.h"
-#include "pso/weapon/TUnk_804A1A48.h"
-#include "pso/weapon/TUnk_804A1B40.h"
+#include "pso/weapon/TItemWeaponStrikerOfChao.h"
+#include "pso/weapon/TItemWeaponWokOfAkikosShop.h"
 #include "pso/weapon/TUnk_804A1C38.h"
-#include "pso/weapon/TUnk_804A1E28.h"
+#include "pso/weapon/TItemWeaponSorcerersCane.h"
 #include "pso/weapon/TUnk_804A1F20.h"
-#include "pso/weapon/TUnk_804A2868.h"
-#include "pso/weapon/TUnk_804A2960.h"
+#include "pso/weapon/TItemWeaponFlameVisit.h"
+#include "pso/weapon/TItemWeaponFrozenShooter.h"
 #include "pso/weapon/TUnk_804A2C90.h"
-#include "pso/weapon/TUnk_804A3070.h"
-#include "pso/weapon/TUnk_804A3168.h"
-#include "pso/weapon/TUnk_804A3358.h"
+#include "pso/weapon/TItemWeaponAgito.h"
+#include "pso/weapon/TItemWeaponLavisBlade.h"
+#include "pso/weapon/TItemWeaponMagicalPiece.h"
 #include "pso/weapon/TUnk_804A3738.h"
 #include "pso/weapon/TUnk_804A4238.h"
 #include "pso/weapon/TUnk_804A4338.h"
-#include "pso/weapon/TUnk_804A4A88.h"
-#include "pso/weapon/TUnk_804A4D70.h"
-#include "pso/weapon/TUnk_804A4F60.h"
-#include "pso/weapon/TUnk_804A5458.h"
+#include "pso/weapon/TItemWeaponLavisCannon.h"
+#include "pso/weapon/TItemWeaponPartisan.h"
+#include "pso/weapon/TItemWeaponPsychoWand.h"
+#include "pso/weapon/TItemWeaponRod.h"
 #include "pso/weapon/TUnk_804A5550.h"
-#include "pso/weapon/TUnk_804A5648.h"
-#include "pso/weapon/TUnk_804A5740.h"
-#include "pso/weapon/TUnk_804A5838.h"
+#include "pso/weapon/TItemWeaponSambaMaracas.h"
+#include "pso/weapon/TItemWeaponSBeatsBlade.h"
+#include "pso/weapon/TItemWeaponSoulEater.h"
 #include "pso/weapon/TUnk_804A5930.h"
-#include "pso/weapon/TUnk_804A5B20.h"
-#include "pso/weapon/TUnk_804A5C18.h"
-#include "pso/weapon/TUnk_804A6108.h"
-#include "pso/weapon/TUnk_804A6200.h"
+#include "pso/weapon/TItemWeaponSlicer.h"
+#include "pso/weapon/TItemWeaponShot.h"
+#include "pso/weapon/TItemWeaponStingTip.h"
+#include "pso/weapon/TItemWeaponMadamsParasol.h"
 #include "pso/weapon/TUnk_804A62F8.h"
-#include "pso/weapon/TUnk_804A66D8.h"
-#include "pso/weapon/TUnk_804A68C8.h"
-#include "pso/weapon/TUnk_804A6AD8.h"
-#include "pso/weapon/TUnk_804A6BD0.h"
-#include "pso/weapon/TUnk_804A6CC8.h"
-#include "pso/weapon/TUnk_804A6DC0.h"
+#include "pso/weapon/TItemWeaponTwinPsychogun.h"
+#include "pso/weapon/TItemWeaponCane.h"
+#include "pso/weapon/TItemWeaponYasminkov9000M.h"
+#include "pso/weapon/TItemWeaponYasminkov3000R.h"
+#include "pso/weapon/TItemWeaponYasminkov2000H.h"
+#include "pso/weapon/TItemWeaponYasminkov7000V.h"
 #include "pso/weapon/TItemWeaponMusashi.h"
 #include "pso/weapon/TItemWeaponCard.h"
-#include "pso/weapon/TUnk_804ECDC0.h"
-#include "pso/weapon/TUnk_804ECFB0.h"
-#include "pso/weapon/TUnk_804ED1A0.h"
-#include "pso/weapon/TUnk_804ED488.h"
+#include "pso/weapon/TItemWeaponRainbowBaton.h"
+#include "pso/weapon/TItemWeaponDarkBridge.h"
+#include "pso/weapon/TItemWeaponMorningGlory.h"
+#include "pso/weapon/TItemWeaponDarkFlow.h"
 #include "pso/weapon/TItemWeaponGuardianna.h"
-#include "pso/weapon/TUnk_804F0AF8.h"
-#include "pso/weapon/TUnk_804F0810.h"
+#include "pso/weapon/TItemWeaponNeisClaw.h"
+#include "pso/weapon/TItemWeaponRikasClaw.h"
 #include "pso/weapon/TUnk_804F26E0.h"
 #include "pso/unk/text_80103674.h"
 #include "pso/unk/text_8010F168.h"
@@ -313,7 +313,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     create_s_rank_j_cutter_weapon,
     TItemWeaponMusashi::create,
     create_common_weapon,
-    TUnk_804E24F0::create,
+    TItemWeaponPhotonLauncher::create,
     TItemWeaponCard::create,
     create_nug2000_bazooka,
     create_s_berills_hands_weapon,
@@ -326,10 +326,10 @@ ItemCreateFunction weapon_factory_table[170] = {
     TObjPlayer::create_vtable_1f8_state,
     TItemWeaponCard::create,
     create_common_weapon,
-    TUnk_804F0810::create,
+    TItemWeaponRikasClaw::create,
     TObjPlayer::create_vtable_variant,
     TObjPlayer::create_mode_floats_state,
-    TUnk_804F0AF8::create,
+    TItemWeaponNeisClaw::create,
     TObjPlayer__sub_803265C0,
     create_dark_flow,
     create_dark_meteor_weapon,
@@ -340,7 +340,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     alloc_and_init_obj_effect,
     TItemWeaponCard::create,
     TObjPlayer__sub_80128308,
-    TUnk_804F28E0::create,
+    TItemWeaponSRankLauncher::create,
     TItemWeaponSRankCard::create,
     create_s_rank_knuckle,
     TObjPlayer::create_srank_common_weapon,

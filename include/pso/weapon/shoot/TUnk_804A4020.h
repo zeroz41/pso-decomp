@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/weapon/shoot/TItemShootModel.h"
 
-// The shot model TObjPlayer::spawn_shot_effect news for TUnk_804A403C.
+// The shot model TObjPlayer::spawn_shot_effect news for TItemWeaponSRankPunch.
 class TUnk_804A4020 : public TItemShootModel {
 public:
     TUnk_804A4020(void *owner, const Vec *pos, const Vec *dir, f32 life);

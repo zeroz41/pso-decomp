@@ -26,7 +26,7 @@ struct SlicerLaunchState {
 };
 
 // The defaults of a SlicerLaunchState. TUnk_804A4238.cpp keeps the copy the
-// game links; TUnk_804A5B20's TU compiled this inline body too:
+// game links; TItemWeaponSlicer's TU compiled this inline body too:
 // its literal pool opens with these 1.0/0.0, emitted with the weak copy right
 // after emit_marker_effects, ahead of update_idle's literals.
 #ifndef SLICER_LAUNCH_STATE_OUT_OF_LINE

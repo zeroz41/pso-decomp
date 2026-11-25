@@ -1,0 +1,38 @@
+#include "pso/math/ClampedStep.h"
+#include "types.h"
+#include <stddef.h>
+#include "pso/weapon/TItemWeaponPartisanOfLightning.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/task/TMainTask.h"
+
+void TItemWeaponPartisanOfLightning::transform_model_node() {
+    switch (TObjPlayer::get_player_list()) {
+    case 1:
+    case 2:
+        scale_matrix(NULL, 1.0f, pad_1f8, pad_1f8);
+        TItem::begin_effect_render();
+        break;
+    }
+}
+
+void TItemWeaponPartisanOfLightning::update_idle() {
+    ::approach_value(&pad_1f8, 0.1f, 0.0f);
+}
+
+void TItemWeaponPartisanOfLightning::update_attack() {
+    ::approach_value(&pad_1f8, 0.3f, 1.0f);
+}
+
+TItemWeaponPartisanOfLightning::~TItemWeaponPartisanOfLightning() {}
+
+TItemWeaponPartisanOfLightning::TItemWeaponPartisanOfLightning(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    pad_1f8 = 1.0f;
+}
+
+TItem *TObjPlayer::create_vtable_1f8_state(u8 *item) {
+    if (item != NULL) {
+        return new TItemWeaponPartisanOfLightning(tl_05, item);
+    }
+    return NULL;
+}

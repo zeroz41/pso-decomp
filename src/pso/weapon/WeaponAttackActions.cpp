@@ -10,7 +10,7 @@ struct NJS_OBJECT;
 #include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/weapon/TUnk_804A69DC.h"
+#include "pso/weapon/TItemWeaponWindmill.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemAttackCol.h"
@@ -20,7 +20,7 @@ struct NJS_OBJECT;
 #include "pso/weapon/WeaponAttackActions.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffLandHit.h"
-#include "pso/weapon/TUnk_804A4D70.h"
+#include "pso/weapon/TItemWeaponPartisan.h"
 #include "pso/system/PadRumble.h"
 #include "pso/item/TItemEquipBase.h"
 #include <stddef.h>
@@ -550,7 +550,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
     return var_r31;
 }
 
-void TUnk_804A69DC::for_each_target_in_range(f32 range) {
+void TItemWeaponWindmill::for_each_target_in_range(f32 range) {
     TObjChara *target;
     u16 uid;
     CapturedTargetList *state;
@@ -579,7 +579,7 @@ void TUnk_804A69DC::for_each_target_in_range(f32 range) {
 
 // ---- pso/player/TObjPlayer_8011F578
 
-void TUnk_804A4D70::apply_scale_if_active(f32 damage_scale) {
+void TItemWeaponPartisan::apply_scale_if_active(f32 damage_scale) {
 
     if (this->is_active_in_game() != 0) {
         this->remap_extra_attack_type();

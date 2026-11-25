@@ -9,7 +9,7 @@
 typedef void (*ItemTimerCallback)(TObject *object);
 
 // The hit a delayed weapon attack carries to its target (launch_shot,
-// launch_rare_weapon_special, TUnk_804A2260::sub_80124C90).
+// launch_rare_weapon_special, TItemWeaponDoubleCannon::sub_80124C90).
 struct DelayedWeaponHit {
     void copy_from(DelayedWeaponHit *source_record);
     s32 reserved;   // always 0
