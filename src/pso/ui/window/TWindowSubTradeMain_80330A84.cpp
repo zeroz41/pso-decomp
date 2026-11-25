@@ -35,7 +35,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/WindowLayout.h"
 
-const char *TWindowSubTradeMain__name = "TWindowSubTradeMain";
+const char *TWindowSubTradeMain::class_name = "TWindowSubTradeMain";
 
 // inferred: screen positions of the trade windows, named after the function that opens each one
 // (create_equip_kind_window takes the position, like short_list_window_pos in TWindowShortListCtrl).
@@ -68,7 +68,7 @@ void TWindowSubTradeMain__sub_803323A8(void* p) { *(u16*)((char*)p + 0x60) |= 0x
 
 TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     void *x;
-    this->m_name = TWindowSubTradeMain__name;
+    this->m_name = TWindowSubTradeMain::class_name;
     this->state = 0;
     this->flags = 0;
     this->timer = 0;

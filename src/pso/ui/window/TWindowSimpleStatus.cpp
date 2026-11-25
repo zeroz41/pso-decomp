@@ -36,7 +36,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowSimpleStatus__name = "TWindowSimpleStatus";
+const char *TWindowSimpleStatus::class_name = "TWindowSimpleStatus";
 #pragma pop
 
 // inferred: photon_blast_gauge_ring_offset, the ring's offset inside the window that
@@ -512,7 +512,7 @@ TWindowSimpleStatus::~TWindowSimpleStatus() {
 
 TWindowSimpleStatus::TWindowSimpleStatus(void *position, s32 client, u8 *descriptor)
     : TWindowBase(descriptor, (s16)client, (u8 *)position) {
-    m_name = TWindowSimpleStatus__name;
+    m_name = TWindowSimpleStatus::class_name;
     client_index = (s16)client;
     shake_ticks = 0;
     m_58 = -1.0f;

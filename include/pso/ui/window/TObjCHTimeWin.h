@@ -9,6 +9,7 @@ public:
     static int timer_value;
     TObjCHTimeWin(TObject *parent);
     virtual ~TObjCHTimeWin();
+    static const char *class_name;
     virtual void run_task();
     void init_timer();
 

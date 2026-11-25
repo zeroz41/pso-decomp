@@ -23,7 +23,7 @@
 
 #pragma readonly_strings on
 
-const char *TWindowSubEquip__class_name = "TWindowSubEquip";
+const char *TWindowSubEquip::class_name = "TWindowSubEquip";
 
 // Sizes of the equipment list (ctor) and equipment kind (open_equip_kind_list) windows, passed next to
 // their layout positions. inferred: names from the create_*_window argument they fill.
@@ -41,7 +41,7 @@ s32 TWindowSubEquip__sub_80263AF4(void *, s32);
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
 TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(parent) {
-    m_name = TWindowSubEquip__class_name;
+    m_name = TWindowSubEquip::class_name;
     this->parent = parent;
     this->client_id = client;
     this->equip_list = (TWindowMenuIconLine *)create_equip_list_window((saddr)get_window_layout_position(0), (saddr)&equip_list_window_size, this->client_id);

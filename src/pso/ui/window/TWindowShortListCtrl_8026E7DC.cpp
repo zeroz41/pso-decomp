@@ -48,7 +48,7 @@ s32 TWindowCtrl__sub_8024A1A8();
 }
 
 // The class name TObject::m_name points at.
-const char *TWindowShortListCtrl__name = "TWindowShortListCtrl";
+const char *TWindowShortListCtrl::class_name = "TWindowShortListCtrl";
 
 // Screen position of the list windows (inferred from create_equip_kind_window / set_scroll_target use).
 static const NJS_POINT2 short_list_window_pos = {308.0f, 124.0f};
@@ -69,7 +69,7 @@ void TWindowShortListCtrl::set_card_window_flags(saddr client_id, s32 page) {
 }
 
 TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TObject(parent) {
-    m_name = TWindowShortListCtrl__name;
+    m_name = TWindowShortListCtrl::class_name;
     this->client_id = client_id;
     TObjPlayer *player = get_player_by_client_id(this->client_id);
     if (player == NULL) {

@@ -9,6 +9,7 @@ struct TWindowSubStatusDisp;
 struct TWindowSubAreaMapDisp : public TWindowBase {
     TWindowSubAreaMapDisp();
     virtual ~TWindowSubAreaMapDisp();
+    static const char *class_name;
     u8 unk_60[0x4];
     f32 m_64;
     u8 unk_68[0x4];

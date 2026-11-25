@@ -1816,11 +1816,11 @@ force_active:
   - TWindowLockOn__update_for_enemy
   - TWindowLockOn__update_for_item
   - TWindowLockOn__update_for_other_player
-  - TWindowMeseta__class_name
+  - class_name__13TWindowMeseta
   - __ct__18TWindowMessagePageFPC10NJS_POINT2ll
-  - TWindowMessageYesNo__name
+  - class_name__19TWindowMessageYesNo
   - __ct__18TWindowPartyStatusFlPUc
-  - TWindowPartyStatus__name
+  - class_name__18TWindowPartyStatus
   - __ct__15TWindowQuantityFl
   - client_scan_index__17TWindowReturnCity
   - __ct__13TWindowStatusFPvlPUc
@@ -1836,14 +1836,14 @@ force_active:
   - TWindowSubComCard__sub_8027337C
   - TWindowSubComCard__sub_8027346C
   - TWindowSubComCard__sub_8027353C
-  - TWindowSubEquipList__class_name
+  - class_name__19TWindowSubEquipList
   - TWindowSubEquipList__ct
   - class_name__17TWindowSubGameEnd
-  - TWindowSubItemList__class_name
+  - class_name__18TWindowSubItemList
   - TWindowSubItemList__ct
   - select_cursor_entry__18TWindowSubItemListFv
   - gray_out_battle_item_entries__18TWindowSubItemListFv
-  - TWindowSubLog__class_name
+  - class_name__13TWindowSubLog
   - get_photon_blast_name
   - is_cancelled__19TWindowSubMagPhotonFv
   - TWindowSubQuestBoardSelect__sub_8027D444
@@ -8297,9 +8297,9 @@ force_active:
   - TWindowBreakIn__name
   - TWindowChallengeResult__name
   - lbl_805D38B0
-  - TWindowMessageInfomation__name
-  - TWindowMessageLog__name
-  - TWindowMessagePage__name
+  - class_name__24TWindowMessageInfomation
+  - class_name__17TWindowMessageLog
+  - class_name__18TWindowMessagePage
   - name__20TObjBoss5PillarSmoke
   - name__19TObjBoss5PillarCtrl
   - TChCrLoadGmNjReq__name

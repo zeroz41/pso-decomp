@@ -16,7 +16,7 @@
 #pragma readonly_strings on
 
 
-const char *TWindowMessagePage__name = "TWindowMessagePage";
+const char *TWindowMessagePage::class_name = "TWindowMessagePage";
 
 
 struct Page_8026AE20 { u8 pad[0x90]; s32 flags; void *msg; };
@@ -74,7 +74,7 @@ TWindowMessagePage::~TWindowMessagePage() {
 }
 
 TWindowMessagePage::TWindowMessagePage(const NJS_POINT2 *position, s32 rows, s32 client) : TWindowMessage(position, rows, client) {
-    this->m_name = TWindowMessagePage__name;
+    this->m_name = TWindowMessagePage::class_name;
     this->line_mode = 0;
     this->client_index = (s16) client;
     this->m_94 = 0;

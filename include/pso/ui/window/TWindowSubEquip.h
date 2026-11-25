@@ -11,6 +11,7 @@ class TWindowMenuIconLine;
 struct TWindowSubEquip : public TObject {
     TWindowSubEquip(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubEquip();
+    static const char *class_name;
     u8 m_1c;
     u8 _pad1D[0x3];
     u32 m_20;

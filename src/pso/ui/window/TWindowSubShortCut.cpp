@@ -39,12 +39,12 @@ extern "C" {
 u32 *get_chat_shortcut();
 }
 
-const char *TWindowSubShortCut__class_name = "TWindowSubShortCut";
+const char *TWindowSubShortCut::class_name = "TWindowSubShortCut";
 
 void TWindowChat::set_flag1e_bit80() { flags |= 0x80; }
 
 TWindowSubShortCut::TWindowSubShortCut(TObject *parent, s32 client) : TObject(parent) {
-    this->m_name = TWindowSubShortCut__class_name;
+    this->m_name = TWindowSubShortCut::class_name;
     parent_menu = static_cast<TWindowMainMenu *>(parent);
     client_id = client;
     this->com_card_list = 0;

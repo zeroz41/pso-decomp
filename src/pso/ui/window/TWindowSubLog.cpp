@@ -19,7 +19,7 @@
 #pragma readonly_strings on
 
 
-const char *TWindowSubLog__class_name = "TWindowSubLog";
+const char *TWindowSubLog::class_name = "TWindowSubLog";
 
 
 const NJS_POINT2 lbl_8044F9C8 = {17.0f, 36.0f};
@@ -66,7 +66,7 @@ TWindowSubLog::~TWindowSubLog() {
     TWindowCtrl::show_client_status_window(client);
 }
 TWindowSubLog::TWindowSubLog(TObject *parent, s32 client) : TObject(parent) {
-    m_name = TWindowSubLog__class_name;
+    m_name = TWindowSubLog::class_name;
     parent_menu = static_cast<TWindowMainMenu *>(parent);
     this->client = client;
     TWindowCtrl::hide_client_status_window(this->client);

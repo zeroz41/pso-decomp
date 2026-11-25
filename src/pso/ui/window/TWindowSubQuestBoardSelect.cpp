@@ -24,7 +24,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowSubQuestBoardSelect__class_name = "TWindowSubQuestBoardSelect";
+const char *TWindowSubQuestBoardSelect::class_name = "TWindowSubQuestBoardSelect";
 #pragma pop
 
 struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
@@ -268,7 +268,7 @@ TWindowSubQuestBoardSelect::TWindowSubQuestBoardSelect() : TWindowBase((u8 *)&TW
     f32 title_width;
     WindowTextEntry *entry_0;
     saddr heading;
-    m_name = TWindowSubQuestBoardSelect__class_name;
+    m_name = TWindowSubQuestBoardSelect::class_name;
     heading = (saddr)::operator new(0x24);
     if (heading != 0) {
         heading = (saddr)((TWindowSubStatusDisp *)heading)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x2B), (s32)((s32) this->client_index));

@@ -43,7 +43,7 @@ struct Stack_802A7F00 {
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowSnapShot__name = "TWindowSnapShot";
+const char *TWindowSnapShot::class_name = "TWindowSnapShot";
 #pragma pop
 
 // inferred: window_snapshot_layout_entries, the layout table window_snapshot_layout points at
@@ -130,7 +130,7 @@ void TWindowSnapShot::run_task() {
 TWindowSnapShot::~TWindowSnapShot() {}
 TWindowSnapShot::TWindowSnapShot(saddr arg1) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1) {
     saddr entry_1;
-    m_name = TWindowSnapShot__name;
+    m_name = TWindowSnapShot::class_name;
     this->m_60 = 0U;
     if (!TObjBoss2Tunnel::verify_snapshot_checksum()) {
         this->m_60 = (u8) (this->m_60 | 2);

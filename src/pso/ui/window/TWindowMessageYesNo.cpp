@@ -11,7 +11,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowMessageYesNo__name = "TWindowMessageYesNo";
+const char *TWindowMessageYesNo::class_name = "TWindowMessageYesNo";
 #pragma pop
 
 
@@ -31,7 +31,7 @@ TWindowMessageYesNo::~TWindowMessageYesNo() {
     if (message_menu != NULL) { message_menu->close(); this->message_menu = 0; }
 }
 TWindowMessageYesNo::TWindowMessageYesNo(TObject *parent, s32 client_id, void *yes_label, void *no_label) : TObject(parent) {
-    m_name = TWindowMessageYesNo__name;
+    m_name = TWindowMessageYesNo::class_name;
     this->client_id = client_id;
     this->message_menu = 0;
     choice_menu = NULL;

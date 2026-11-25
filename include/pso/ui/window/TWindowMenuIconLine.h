@@ -13,6 +13,7 @@ public:
     TWindowMenuIconLine(u8 *parent, u32 count, s16 client, u8 *descriptor);
     TWindowMenuIconLine(u8 *parent, u32 count, s16 client);
     virtual ~TWindowMenuIconLine();
+    static const char *class_name;
     virtual void run_task();
     virtual void render();
     virtual void init(u32 count, s32 client);

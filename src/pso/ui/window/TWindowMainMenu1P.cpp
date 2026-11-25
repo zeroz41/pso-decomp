@@ -87,7 +87,7 @@ const NJS_POINT2 window_layout_position_table[92] = {
     {43.0f, 1.0f}, {186.0f, 91.0f}, {20.0f, 240.0f}, {145.0f, 180.0f},
 };
 
-const char *TWindowMainMenu1P__name = "TWindowMainMenu1P";
+const char *TWindowMainMenu1P::class_name = "TWindowMainMenu1P";
 
 
 #pragma fp_contract on
@@ -173,7 +173,7 @@ TWindowMainMenu1P::~TWindowMainMenu1P() {
 }
 
 TWindowMainMenu1P::TWindowMainMenu1P(TObject *parent, s32 client) : TWindowMainMenu(parent, client) {
-    this->m_name = TWindowMainMenu1P__name;
+    this->m_name = TWindowMainMenu1P::class_name;
     transition_x = 0;
     transition_y = 0;
     backdrop.screen.projection.center_x = 320.0f;

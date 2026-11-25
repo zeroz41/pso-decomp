@@ -7,6 +7,7 @@
 struct TWindowTimer : public TWindowBase {
     TWindowTimer();
     virtual ~TWindowTimer();
+    static const char *class_name;
     void ease_window_timer_position();
     virtual void render();
     virtual void run_task();

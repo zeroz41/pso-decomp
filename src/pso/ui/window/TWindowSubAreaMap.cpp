@@ -26,9 +26,9 @@ void TWindowSubAreaMap::run_task() {
 TWindowSubAreaMap::~TWindowSubAreaMap() {
     if (map_disp != NULL) { map_disp->close(); map_disp = NULL; }
 }
-const char *TWindowSubAreaMap__name = "TWindowSubAreaMap";
+const char *TWindowSubAreaMap::class_name = "TWindowSubAreaMap";
 TWindowSubAreaMap::TWindowSubAreaMap(TObject *parent, s32 client) : TObject(parent) {
-    this->m_name = TWindowSubAreaMap__name;
+    this->m_name = TWindowSubAreaMap::class_name;
     parent_menu = static_cast<TWindowMainMenu *>(parent);
     this->client = client;
     map_disp = new TWindowSubAreaMapDisp();

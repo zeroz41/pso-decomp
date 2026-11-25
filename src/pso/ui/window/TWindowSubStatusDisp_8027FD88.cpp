@@ -24,7 +24,7 @@
 #include "pso/unk/text_8026C7AC.h"
 #include "pso/player/PlayerRequirementStats.h"
 
-const char *TWindowSubStatusDisp__class_name = "TWindowSubStatusDisp";
+const char *TWindowSubStatusDisp::class_name = "TWindowSubStatusDisp";
 struct SummaryPageLayout {
     u32 cols;
     u32 rows;
@@ -365,7 +365,7 @@ const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
     : TWindowBase((u8 *)TWindowSubStatusDisp::window_layout, client, (u8 *)get_window_layout_position(0x19)) {
-    m_name = TWindowSubStatusDisp__class_name;
+    m_name = TWindowSubStatusDisp::class_name;
     client_index = client;
     page = 0;
     requested_page = page;

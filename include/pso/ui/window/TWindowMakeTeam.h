@@ -12,6 +12,7 @@ class TWindowMenu;
 struct TWindowMakeTeam : public TObject {
     TWindowMakeTeam(TObject *parent, s32 kind);
     virtual ~TWindowMakeTeam();
+    static const char *class_name;
     u8 state;
     u8 flags;
     s8 mode;

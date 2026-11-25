@@ -16,6 +16,7 @@ struct TWindowSubCustomEquip : public TWindowBase {
     static f32 ring_scale;
     TWindowSubCustomEquip(s32 slot);
     virtual ~TWindowSubCustomEquip();
+    static const char *class_name;
     void handle_cursor_input();
     void update_palette_slot(s32, u16, u16);
     void get_cursor_origin(NJS_POINT2 *position);

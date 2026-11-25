@@ -17,6 +17,7 @@ class TWindowChat;
 struct TWindowSubTradeMain : public TObject {
     TWindowSubTradeMain(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubTradeMain();
+    static const char *class_name;
     TWindowMessageYesNo *open_confirm_prompt();
     saddr create_trade_window();
     saddr open_trade_equip_window();

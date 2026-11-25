@@ -262,7 +262,7 @@ u8 *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 clie
 
 
 
-const char *TWindowMessageLog__name = "TWindowMessageLog";
+const char *TWindowMessageLog::class_name = "TWindowMessageLog";
 
 void TWindowMessageLog::render() {
     WindowDrawContext *draw_context;
@@ -294,7 +294,7 @@ TWindowMessageLog::~TWindowMessageLog() {
 TWindowMessageLog::TWindowMessageLog(const NJS_POINT2 *position, s32 client) : TWindowMessage(position, 0x1E, client) {
     NJS_POINT2 extent;
     f32 bar_width;
-    *(s32 *)(this + 0) = (s32) ((saddr)TWindowMessageLog__name);
+    *(s32 *)(this + 0) = (s32) ((saddr)TWindowMessageLog::class_name);
     TWindowCtrl__sub_8026AD78(this);
     bar_width = this->target_size[0] - 8.0f;
     extent.y = 0.0f;

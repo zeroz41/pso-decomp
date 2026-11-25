@@ -64,7 +64,7 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
     {610.0f, 188.0f}, 50150.0f, NULL, 3,
 };
 
-const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
+const char *TWindowSubAreaMapDisp::class_name = "TWindowSubAreaMapDisp";
 
 
 
@@ -175,7 +175,7 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
     TWindowSubStatusDisp *display;
     u8 *str;
 
-    this->m_name = TWindowSubAreaMapDisp__name;
+    this->m_name = TWindowSubAreaMapDisp::class_name;
     if (get_game_play_mode() == 1) {
         text_builder_reset();
         text_builder_append((u8 *)(get_message_text(0x67)));

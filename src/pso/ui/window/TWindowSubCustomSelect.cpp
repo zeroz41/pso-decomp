@@ -51,7 +51,7 @@ WindowDescriptor TWindowSubCustomSelect__window_settings = {
     {204.0f, 188.0f}, 50050.0f, &window_sub_custom_select_layout_entries, 0x43,
 };
 
-const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
+const char *TWindowSubCustomSelect::class_name = "TWindowSubCustomSelect";
 
 void TWindowSubCustomSelect::handle_cancel() {
     if (is_active() == 0) {
@@ -250,7 +250,7 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
     Sub_80277AEC *q;
     Ent_80277AEC *e;
     void *o;
-    m_name = TWindowSubCustomSelect__class_name;
+    m_name = TWindowSubCustomSelect::class_name;
     client_index = client;
     p = (Big_80277AEC *)get_player_by_client_id(client_index);
     if (p == NULL) {

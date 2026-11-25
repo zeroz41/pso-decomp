@@ -23,7 +23,7 @@ struct Ctx_8026B148 {
     s32 reveal;
 };
 
-const char *TWindowMessageQuest__name = "TWindowMessageQuest";
+const char *TWindowMessageQuest::class_name = "TWindowMessageQuest";
 
 // create_quest_message_window_at's second argument (384 x 80: the window's size, inferred)
 struct DefaultQuestMessageExtent {
@@ -67,6 +67,6 @@ TWindowMessageQuest::~TWindowMessageQuest() {
 
 
 TWindowMessageQuest::TWindowMessageQuest(const NJS_POINT2 *position) : TWindowMessage(position, 1, local_client_id) {
-    this->m_name = TWindowMessageQuest__name;
+    this->m_name = TWindowMessageQuest::class_name;
     frame_mode = 0;
 }

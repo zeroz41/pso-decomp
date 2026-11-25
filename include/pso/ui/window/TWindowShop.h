@@ -8,6 +8,7 @@ public:
     TWindowShop(u8 *parent, s32 title, u32 count, u8 *descriptor);
     TWindowShop(s32 title, u32 count, s32 client);
     virtual ~TWindowShop();
+    static const char *class_name;
     void init_list_window(s32 title);
     virtual void render();
     virtual void run_task();

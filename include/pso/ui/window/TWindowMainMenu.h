@@ -30,6 +30,7 @@ struct MainMenuSlotState {
 struct TWindowMainMenu : public TObject {
     TWindowMainMenu(TObject *parent, s32 client);
     virtual ~TWindowMainMenu();
+    static const char *class_name;
     virtual void open_main_menu();
     virtual void on_menu_opened();
     virtual void close_main_menu();

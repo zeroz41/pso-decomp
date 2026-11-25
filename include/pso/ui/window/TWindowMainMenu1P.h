@@ -9,6 +9,7 @@
 struct TWindowMainMenu1P : public TWindowMainMenu {
     TWindowMainMenu1P(TObject *parent, s32 client);
     virtual ~TWindowMainMenu1P();
+    static const char *class_name;
     virtual void open_main_menu();
     virtual void close_main_menu();
     virtual void on_menu_opened();

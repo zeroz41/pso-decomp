@@ -11,6 +11,7 @@ struct WindowScrollBar;
 struct TWindowMessageLog : public TWindowMessage {
     TWindowMessageLog(const NJS_POINT2 *position, s32 client);
     virtual ~TWindowMessageLog();
+    static const char *class_name;
     void update_scroll_animation();
     void update_fade_offset();
     void clamp_scroll_offset();

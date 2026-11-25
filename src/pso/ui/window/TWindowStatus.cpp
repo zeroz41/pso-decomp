@@ -24,7 +24,7 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
-const char *TWindowStatus__name = "TWindowStatus";
+const char *TWindowStatus::class_name = "TWindowStatus";
 
 
 extern "C" {
@@ -211,7 +211,7 @@ TWindowStatus::~TWindowStatus() {
 
 TWindowStatus::TWindowStatus(void *position, s32 client, u8 *descriptor)
     : TWindowSimpleStatus(position, client, descriptor) {
-    m_name = TWindowStatus__name;
+    m_name = TWindowStatus::class_name;
 }
 
 TWindowSimpleStatus *create_status_window(saddr client) {

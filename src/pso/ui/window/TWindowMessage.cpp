@@ -20,7 +20,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-const char *TWindowMessage__name = "TWindowMessage";
+const char *TWindowMessage::class_name = "TWindowMessage";
 
 extern "C" {
 
@@ -348,7 +348,7 @@ TWindowMessage::~TWindowMessage() {
 TWindowMessage::TWindowMessage(const NJS_POINT2 *position, u32 rows, s32 client) : TWindowAddition((u8 *)&message_window_settings, (s16)client, (u8 *)position) {
     u32 i;
     TWindowMessageLine *line;
-    m_name = TWindowMessage__name;
+    m_name = TWindowMessage::class_name;
     oldest_line = 0;
     reveal_line = 0;
     next_line = 0;

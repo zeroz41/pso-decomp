@@ -81,11 +81,11 @@ TObjNewFloorWin::~TObjNewFloorWin() {}
 
 
 extern "C" {
-const char *TObjNewFloorWin__class_name = TObjNewFloorWin__class_name_string;
+const char *TObjNewFloorWin::class_name = TObjNewFloorWin__class_name_string;
 
 }
 TObjNewFloorWin::TObjNewFloorWin(TObject *object, void *arg2) : TObject(object) {
-    this->m_name = TObjNewFloorWin__class_name;
+    this->m_name = TObjNewFloorWin::class_name;
     client = (s32)arg2;
     window = 0;
     open_timer = 450;

@@ -14,6 +14,7 @@ struct TWindowMessageLine {
 struct TWindowMessage : public TWindowAddition {
     TWindowMessage(const NJS_POINT2 *position, u32 rows, s32 client);
     virtual ~TWindowMessage();
+    static const char *class_name;
     virtual void run_task();
     virtual void render();
     void update_scroll();

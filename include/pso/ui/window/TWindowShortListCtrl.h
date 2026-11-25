@@ -11,6 +11,7 @@ struct TWindowHelpItem;
 struct TWindowShortListCtrl : public TObject {
     TWindowShortListCtrl(TObject *parent, s32 client_id);
     virtual ~TWindowShortListCtrl();
+    static const char *class_name;
     void refresh_technique_rows(saddr, void *);
     void cycle_list_page();
     void sub_8026EA48();

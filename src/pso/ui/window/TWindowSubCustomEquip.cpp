@@ -33,7 +33,7 @@
 
 
 
-const char *TWindowSubCustomEquip__name = "TWindowSubCustomEquip";
+const char *TWindowSubCustomEquip::class_name = "TWindowSubCustomEquip";
 
 // Window entries of the palette icon and of its count label, per cursor cell (column + row * 3).
 static const u8 lbl_8044F738[6] = {12, 10, 11, 3, 1, 2};
@@ -515,7 +515,7 @@ TWindowSubCustomEquip::~TWindowSubCustomEquip() {
 
 TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_804D1488, slot, (u8 *)get_window_layout_position(0xF)) {
     void *heading;
-    this->m_name = TWindowSubCustomEquip__name;
+    this->m_name = TWindowSubCustomEquip::class_name;
     this->client_index = slot;
     this->state_flags = 0;
     this->slot = 1;

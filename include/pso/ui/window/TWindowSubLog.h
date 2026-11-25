@@ -10,6 +10,7 @@ class TWindowChat;
 struct TWindowSubLog : public TObject {
     TWindowSubLog(TObject *parent, s32 client);
     virtual ~TWindowSubLog();
+    static const char *class_name;
     s32 client;
     TWindowMainMenu *parent_menu;
     uaddr log_window;

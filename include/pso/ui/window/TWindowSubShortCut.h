@@ -15,6 +15,7 @@ struct TWindowShortCut;
 struct TWindowSubShortCut : public TObject {
     TWindowSubShortCut(TObject *parent, s32 client);
     virtual ~TWindowSubShortCut();
+    static const char *class_name;
     TWindowSubShortCutList *open_com_card_list();
     u8 state;
     u8 unk_1D[0x1];

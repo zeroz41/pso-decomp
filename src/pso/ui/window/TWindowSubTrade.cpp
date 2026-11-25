@@ -37,7 +37,7 @@ s32 text_builder_append();
 }
 void text_builder_reset(void);
 extern "C" {
-const char *TWindowSubTrade__name = "TWindowSubTrade"; // TWindowSubTrade__name
+const char *TWindowSubTrade::class_name = "TWindowSubTrade"; // TWindowSubTrade::class_name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
 s32 is_trade_range_bit_set(s32 client);
@@ -47,7 +47,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
 // Built with deferred code generation (the vtable precedes run_task's jump
 // table in .data), so the functions are written from the last one back.
 TWindowSubTrade::TWindowSubTrade(TWindowMainMenu *parent, s32 client) : TObject(parent) {
-    this->m_name = TWindowSubTrade__name;
+    this->m_name = TWindowSubTrade::class_name;
     parent_menu = parent;
     client_id = client;
     this->selected_player = 4;

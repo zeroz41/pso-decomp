@@ -46,7 +46,7 @@ struct TWindowSubItem;
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/camera/TCameraCtrl.h"
 
-const char *TWindowMainMenu__name = "TWindowMainMenu";
+const char *TWindowMainMenu::class_name = "TWindowMainMenu";
 
 extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -77,7 +77,7 @@ void TWindowMainMenu::on_menu_opened() {  }
 
 TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) {
     s32 i;
-    m_name = TWindowMainMenu__name;
+    m_name = TWindowMainMenu::class_name;
     client_index = client;
     menu_flags = 0;
     submenu_depth = 0;

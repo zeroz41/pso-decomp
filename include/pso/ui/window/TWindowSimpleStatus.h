@@ -7,6 +7,7 @@
 struct TWindowSimpleStatus : public TWindowBase {
     TWindowSimpleStatus(void *position, s32 client, u8 *descriptor);
     virtual ~TWindowSimpleStatus();
+    static const char *class_name;
     void draw_background(u8 *);
     void apply_random_shake();
     void update_status_icons(void *);

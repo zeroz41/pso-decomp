@@ -21,7 +21,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
 
-const char *TWindowMakeTeam__name = "TWindowMakeTeam";
+const char *TWindowMakeTeam::class_name = "TWindowMakeTeam";
 const char *lbl_805D395C = "";
 // Menu position pairs {389, 251} of the entry and status menus.
 extern const NJS_POINT2 lbl_8044F300 = {389.0f, 251.0f};
@@ -31,7 +31,7 @@ char *get_shared_text_buffer(void);
 }
 
 TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 kind) : TObject(parent) {
-    m_name = TWindowMakeTeam__name;
+    m_name = TWindowMakeTeam::class_name;
     state = 0;
     flags = 0;
     m_20 = kind;

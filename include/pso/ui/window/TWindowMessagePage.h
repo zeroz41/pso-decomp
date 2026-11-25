@@ -9,6 +9,7 @@ struct NJS_POINT2;
 struct TWindowMessagePage : public TWindowMessage {
     TWindowMessagePage(const NJS_POINT2 *position, s32 rows, s32 client);
     virtual ~TWindowMessagePage();
+    static const char *class_name;
     s32 is_message_window_ready();
     s32 is_ready();
     void update_message();

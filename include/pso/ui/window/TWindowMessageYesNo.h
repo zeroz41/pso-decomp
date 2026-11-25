@@ -12,6 +12,7 @@ struct NJS_POINT2;
 struct TWindowMessageYesNo : public TObject {
     TWindowMessageYesNo(TObject *parent, s32 client_id, void *yes_label, void *no_label);
     virtual ~TWindowMessageYesNo();
+    static const char *class_name;
     s32 is_child_visible();
     void close();
     s32 get_selected_value();

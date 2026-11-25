@@ -22,7 +22,7 @@
 #pragma readonly_strings on
 
 
-const char *TWindowPartyStatus__name = "TWindowPartyStatus";
+const char *TWindowPartyStatus::class_name = "TWindowPartyStatus";
 
 extern "C" {
 s32 end_window_sweep_draw(int);
@@ -114,7 +114,7 @@ TWindowPartyStatus::~TWindowPartyStatus() {
 
 TWindowPartyStatus::TWindowPartyStatus(s32 slot, u8 *descriptor)
     : TWindowSimpleStatus((void *)get_window_layout_position(0xAB), local_client_id, descriptor) {
-    m_name = TWindowPartyStatus__name;
+    m_name = TWindowPartyStatus::class_name;
     client_index = (s16)slot;
 }
 

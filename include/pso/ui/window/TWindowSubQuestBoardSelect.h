@@ -9,6 +9,7 @@ struct TWindowSubStatusDisp;
 struct TWindowSubQuestBoardSelect : public TWindowBase {
     TWindowSubQuestBoardSelect();
     virtual ~TWindowSubQuestBoardSelect();
+    static const char *class_name;
     void update_slot_display_flags();
     s32 get_slot_flag(s8 slot);
     int is_shortcut_active();

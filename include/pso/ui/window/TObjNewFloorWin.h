@@ -10,6 +10,7 @@ class TObjNewFloorWin : public TObject {
 public:
     TObjNewFloorWin(TObject *object, void *arg2);
     virtual ~TObjNewFloorWin();
+    static const char *class_name;
     virtual void run_task();
 public:
     void open_window();

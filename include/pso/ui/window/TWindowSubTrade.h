@@ -13,6 +13,7 @@ struct TWindowMessageYesNo;
 struct TWindowSubTrade : public TObject {
     TWindowSubTrade(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubTrade();
+    static const char *class_name;
     TWindowMessage *open_player_message_window(s32 player, s32 text);
     TWindowMessageYesNo *open_trade_confirm_prompt(s32 player);
     u8 state;

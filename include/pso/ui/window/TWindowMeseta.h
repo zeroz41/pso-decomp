@@ -7,6 +7,7 @@
 struct TWindowMeseta : public TWindowBase {
     TWindowMeseta(void *position, s32 client, s32 text);
     virtual ~TWindowMeseta();
+    static const char *class_name;
     virtual void render();
     f32 width;
     u32 client;

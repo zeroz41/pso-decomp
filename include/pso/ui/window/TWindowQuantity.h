@@ -9,6 +9,7 @@ struct TItem;
 struct TWindowQuantity : public TWindowBase {
     TWindowQuantity(s32 client);
     virtual ~TWindowQuantity();
+    static const char *class_name;
     virtual void render();
     f32 width;
     f32 scale[2];

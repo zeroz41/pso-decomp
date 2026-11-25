@@ -10,6 +10,7 @@ struct WindowScrollBar;
 struct TWindowSubCustomSelect : public TWindowAddition {
     TWindowSubCustomSelect(s32 client);
     virtual ~TWindowSubCustomSelect();
+    static const char *class_name;
     virtual void render();
     u8 column;
     u8 row;

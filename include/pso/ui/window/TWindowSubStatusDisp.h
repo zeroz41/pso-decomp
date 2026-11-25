@@ -26,6 +26,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static SummaryPageLayout summary_page_layout;
     TWindowSubStatusDisp(s32 client);
     virtual ~TWindowSubStatusDisp();
+    static const char *class_name;
     virtual void run_task();
     virtual void render();
     s16 page; // index into the dispatch_page_init/update page tables

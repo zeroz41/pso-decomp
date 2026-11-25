@@ -45,7 +45,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
 
-const char *TWindowMenuIconLine__name = "TWindowMenuIconLine";
+const char *TWindowMenuIconLine::class_name = "TWindowMenuIconLine";
 
 
 void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
@@ -592,7 +592,7 @@ void TWindowMenuIconLine::draw_selected_list_entry(WindowDrawContext *context) {
 void TWindowMenuIconLine::init(u32 count, s32 client) {
     u32 i;
     WindowTextEntry *e;
-    m_name = TWindowMenuIconLine__name;
+    m_name = TWindowMenuIconLine::class_name;
     client_index = client;
     entry_count = 0;
     cursor = 0;
