@@ -3,7 +3,7 @@
 #include "pso/system/ResourceFile.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxTalk.h"
-#include "pso/unk/text_803C5B50.h"
+#include "pso/audio/AdxtEntryAfs.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/network/TLobby.h"

@@ -1928,7 +1928,7 @@ pso/network/NetworkThreadRuntime.c
 pso/object/ambient/TObjFish.cpp
 pso/ui/city/TShopItemListWindow.cpp
 pso/map/CsnQuery.cpp
-pso/unk/text_803C5B50.cpp
+pso/audio/AdxtEntryAfs.cpp
 pso/ui/chat/TWindowSubSymbolChatParts.cpp
 pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp
 pso/network/NetLoopback.c

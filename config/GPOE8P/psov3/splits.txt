@@ -10512,7 +10512,7 @@ pso/audio/AdxtInit.cpp:
 	.sbss       start:0x805D7538 end:0x805D7548
 	.sdata2     start:0x805E0D30 end:0x805E0D38
 
-pso/unk/text_803C5B50.cpp:
+pso/audio/AdxtEntryAfs.cpp:
 	.text       start:0x803C5B50 end:0x803C5E78
 	.rodata     start:0x8047C5D8 end:0x8047C600
 	.bss        start:0x80572BA0 end:0x80573100

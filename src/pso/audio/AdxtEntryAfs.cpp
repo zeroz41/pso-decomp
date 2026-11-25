@@ -2,7 +2,7 @@
 #include <dolphin/os/OSThread.h>
 #include "pso/audio/AdxError.h"
 #include "pso/audio/AdxLock.h"
-#include "pso/unk/text_803C5B50.h"
+#include "pso/audio/AdxtEntryAfs.h"
 #include "pso/network/TLobby.h"
 #undef PSO_SDK_COMPACT_MATH
 #include <string.h>

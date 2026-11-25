@@ -1,10 +1,10 @@
-#ifndef PSO_UNK_TEXT_803C5B50_H
-#define PSO_UNK_TEXT_803C5B50_H
+#ifndef PSO_AUDIO_ADXTENTRYAFS_H
+#define PSO_AUDIO_ADXTENTRYAFS_H
 
 #include "types.h"
 #include "pso/audio/AdxStreamRuntime.h"
 
-// --- C functions defined in text_803C5B50.cpp ---
+// --- C functions defined in AdxtEntryAfs.cpp ---
 extern "C" {
 s32 get_stream_queued_count(AdxtPlayer *player);
 void TLobby__sub_803C5D24(AdxtPlayer *player);
