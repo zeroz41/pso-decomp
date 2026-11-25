@@ -1088,7 +1088,7 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
             }
         }
         if (TTecCtrl::is_technique_ready() != 0 && (c->flags & 0xA000) &&
-            ((u32 (*)(u8 *, void *, s32))init_target_vector__11TMainCursorFiii)((u8 *)entry, &c->center, (s32)&owner->bodies->center) != 0) {
+            ((u32 (*)(u8 *, void *, void *))init_target_vector__11TMainCursorFiii)((u8 *)entry, &c->center, &owner->bodies->center) != 0) {
             continue;
         }
         if (target_in_xz_cone(&entry->origin, &c->center, &owner->position, yaw,
