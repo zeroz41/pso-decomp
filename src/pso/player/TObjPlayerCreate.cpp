@@ -702,10 +702,10 @@ TObjPlayer *create_remote_player_object(void *record) {
     return new TObjPlayer(tl_03, (PlayerSyncRecord *)record);
 }
 
-s32 TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {
+TObjPlayer *TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {
     TObjPlayer *created;
 
     created = new TObjPlayer(tl_03, slot & 0xFFFF, entry->get_role(), entry->get_char_data());
     ((TLobby *)&created->guild_card_tag)->copy_header_struct(entry->get_lobby_header());
-    return (s32)created;
+    return created;
 }

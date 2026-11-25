@@ -484,7 +484,7 @@ struct TObjPlayer : public TObjChara {
     void update_action_animation();
     void update_input_and_draw();
     void free_chara_making();
-    static s32 create(u32 slot, PlayerCharDataEntry *entry);
+    static TObjPlayer *create(u32 slot, PlayerCharDataEntry *entry);
     static void free_shared_data();
     static void finalize_shared();
     static void init_shared();

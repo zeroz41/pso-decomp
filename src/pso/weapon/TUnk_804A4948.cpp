@@ -40,7 +40,7 @@ struct StatExtraTargetView : StatExtraTargetBase {
     virtual void m18();
     virtual void m19();
     virtual void m20();
-    virtual void m21(u32, StatExtraParam *, u8 *, s32, s32);
+    virtual void m21(TObjPlayer *, StatExtraParam *, u8 *, s32, s32);
     u8 pad1c[0xA4 - 0x1C];
     u8 *recs;
 };
@@ -191,10 +191,10 @@ void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 att
 
 void TUnk_804A4948::send_srank_stat_extra(uaddr target, s32 body) {
     StatExtraTargetView *obj = (StatExtraTargetView *)target;
-    u32 sender;
+    TObjPlayer *sender;
     StatExtraParam t1;
     StatExtraParam t2;
-    if (obj != NULL && (sender = (u32)owner) != 0) {
+    if (obj != NULL && (sender = owner) != NULL) {
         switch (kind) {
         case 1: {
             t1.kind = 0xB;
