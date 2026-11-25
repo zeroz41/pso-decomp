@@ -10,6 +10,7 @@ struct TWindowStatus : public TWindowSimpleStatus {
     virtual void render();
     virtual void run_task();
     void draw_background(u8 *ctx);
+    void update_hp_tp_values();
 };
 
 LAYOUT_ASSERT(TWindowStatus_size, sizeof(TWindowStatus) == 0x78);

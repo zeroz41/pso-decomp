@@ -82,10 +82,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_text(uaddr arg1, s32 arg2);
     void init_scroll_pos();
     void add_text_entry(s32 arg1, s32 arg2);
-    void start_hp_text_color_transition();
-    void init_gauge_entry();
-    void update_status_entry();
-    void update_hp_tp_level();
     static f32 get_base_y(f32 width);
     void update_entry_color();
     void set_entry_state(s8 entry_state);
@@ -107,11 +103,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static f32 round_away_from_zero(f32 farg0);
     static s32 build_status_text(s32 client_id);
     static void *get_entry_ptr(int a0);
-    s32 update_hp_entry();
     static s32 destroy_status_display(saddr arg0, s16 arg1);
     u8 *construct_type1_heading(s32 title, s32 client_index);
     void update_entry_visibility();
-    s32 update_hp_gauge();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);
     static void *destroy_free_buffers(void *window_sub_status_disp, s16 arg1);

@@ -67,7 +67,7 @@ WindowDescriptor party_status_window_params = {
     {114.0f, 46.0f}, 70100.0f, &lbl_804E7750, 0xB28,
 };
 
-void TWindowPartyStatus::draw() { ((TWindowSubStatusDisp *)this)->update_hp_entry(); ((TWindowSubStatusDisp *)this)->update_status_entry(); }
+void TWindowPartyStatus::draw() { update_hp_entry(); update_status_entry(); }
 
 void TWindowPartyStatus::draw_background(u8 *ctx) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8030C0C4, sp8) == 0x0);

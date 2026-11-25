@@ -7059,7 +7059,7 @@ force_active:
   - init_fresh_character_slot__Fl
   - __ct__16TItemWeaponSwordFP7TObjectPUc
   - init_from_table_entry__9TObjGrassFl
-  - init_gauge_entry__20TWindowSubStatusDispFv
+  - init_gauge_entry__19TWindowSimpleStatusFv
   - init_geometry__21TOHangceilingCaveBaseFv
   - init_gx_lighting_defaults__Fv
   - init_hall_boss_scene__14TBoss6PlotFalzFv
@@ -16014,7 +16014,7 @@ force_active:
   - gba_start_joyboot__Fv
   - start_get_type_async
   - start_handle_6x78_entry__FUs
-  - start_hp_text_color_transition__20TWindowSubStatusDispFv
+  - start_hp_text_color_transition__19TWindowSimpleStatusFv
   - start_invincibility__8TItemMagFv
   - start_line__15TAdDrawLineCtrlFl
   - start_lines_for_key__15TAdDrawLineCtrlFl
@@ -16917,7 +16917,7 @@ force_active:
   - update_homing_velocity__13TObjEneRe4BitFv
   - update_hover_height__13TObjEneMe1GeeFv
   - update_upper_hover_height__17TObjEneMe1CanadinFv
-  - update_hp_tp_values__20TWindowSubStatusDispFPv
+  - update_hp_tp_values__13TWindowStatusFv
   - update_hurt__12TObjEneLappyFv
   - update_idle__23TItemWeaponPanthersClawFv
   - update_idle__23TItemWeaponMeteorCudgelFv

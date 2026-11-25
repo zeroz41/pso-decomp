@@ -10,6 +10,12 @@ struct TWindowSimpleStatus : public TWindowBase {
     void draw_background(u8 *);
     void apply_random_shake();
     void update_status_icons(void *);
+    void start_hp_text_color_transition();
+    void init_gauge_entry();
+    void update_status_entry();
+    s32 update_hp_gauge();
+    s32 update_hp_entry();
+    void update_hp_tp_level();
     s32 get_width();
     virtual void render();
     u32 m_60;
