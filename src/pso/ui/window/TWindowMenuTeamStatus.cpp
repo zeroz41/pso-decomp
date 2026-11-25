@@ -47,12 +47,11 @@ TWindowMenuTeamStatus *TWindowMenuTeamStatus::create(void *tbl) {
 
 TWindowMenuTeamStatus::~TWindowMenuTeamStatus() {}
 
-// The window descriptor the constructor hands to the base constructor, with its layout words (the
-// lbl_804D05F8/lbl_804D0604 pair of TWindowSubStatusDisp_802671F0.cpp has the same shape).
-s32 lbl_804EF4C0[3] = {1, 0x40, 0xC};
-WindowDescriptor lbl_804EF4CC = {
-    {605.0f, 184.0f}, 50050.0f, lbl_804EF4C0, 3,
+// The window descriptor the constructor hands to the base constructor, with its layout words.
+s32 team_status_window_layout_entries[3] = {1, 0x40, 0xC};
+WindowDescriptor team_status_window_layout = {
+    {605.0f, 184.0f}, 50050.0f, team_status_window_layout_entries, 3,
 };
 
 TWindowMenuTeamStatus::TWindowMenuTeamStatus(s32 arg)
-    : TWindowShop(get_window_layout_position(0xB0), arg, 0x40, (u8 *)&lbl_804EF4CC) {}
+    : TWindowShop(get_window_layout_position(0xB0), arg, 0x40, (u8 *)&team_status_window_layout) {}
