@@ -36,7 +36,6 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"

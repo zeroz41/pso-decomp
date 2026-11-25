@@ -46,8 +46,6 @@ struct TimerEntry {
     f32 x;
 };
 
-extern "C" {
-
 #pragma push
 #pragma fp_contract on
 void init_timer_window_layout(TWindowTimer *self) {
@@ -167,6 +165,4 @@ TWindowTimer::TWindowTimer() : TWindowBase((u8 *)&window_timer_layout, 4, (u8 *)
     flags = 0;
     update_chat_parts();
     save_position();
-}
-
 }

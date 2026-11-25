@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowSubEquipKind.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -32,10 +33,8 @@ static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 
 
 extern "C" {
-f32 get_main_menu_layer_depth(u8 *arg0, u32 arg1);
 s32 mark_unequippable_items(int);
 void fn_80255A38(TWindowHelpItem *item);
-s32 TWindowSubEquip__sub_80263AF4(void *, s32);
 }
 
 // Built with deferred code generation (the vtable precedes the switch table

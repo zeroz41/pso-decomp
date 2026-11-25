@@ -29,8 +29,6 @@ struct TWindowSubItemList : public TWindowMenuIconLine {
 
 LAYOUT_ASSERT(TWindowSubItemList_size, sizeof(TWindowSubItemList) == 0x90);
 
-extern "C" {
 TWindowSubItemList *create_sub_item_list_window(const NJS_POINT2 *anchor, const NJS_POINT2 *position, s32 client);
-}
 
 #endif

@@ -21,7 +21,6 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
-#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/base/TObjCharaHelpers.h"

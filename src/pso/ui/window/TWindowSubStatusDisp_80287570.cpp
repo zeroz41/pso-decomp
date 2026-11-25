@@ -35,6 +35,7 @@ void __dl__FPv(void);
 f32 TWindowSubStatusDisp__sub_80287570(void *arg0) {
     return (1.6e+02f) + *(f32 *)((s8 *)arg0 + 0xC);
 }
+}
 
 void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
     TexturedQuad r3;
@@ -84,6 +85,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
 f32 TWindowSubStatusDisp::get_base_y(f32 width) {
     return (1.6e+02f) + width;
 }
+extern "C" {
 
 f32 TWindowSubStatusDisp__sub_802877A4(f32 farg0) {
   float new_var;

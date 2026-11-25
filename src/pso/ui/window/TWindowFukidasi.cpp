@@ -510,7 +510,7 @@ void TWindowFukidasi::set_text(saddr str, saddr flags) {
     init_window_layout_entries(
         &entry_list,
         reinterpret_cast<const void *>(&window_fukidasi_layout_entries.value),
-        (int) client_index);
+        client_index);
   }
   entry = (u8 *) get_array_entry(0);
   if (flags & 1)

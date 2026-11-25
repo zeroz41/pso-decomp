@@ -284,7 +284,7 @@ void TWindowBase::sub_80244F2C(u8 *descriptor, u8 *parent, s16 client) {
     resort_window_order();
     tween_ticks = 0;
     client_index = client;
-    init_window_layout_entries(&entry_list, ((WindowDescriptor *)descriptor)->layout, (int) (client_index));
+    init_window_layout_entries(&entry_list, ((WindowDescriptor *)descriptor)->layout, (client_index));
     open_tick = 0;
     closing_tick = 0;
     if (!(window_flags & 1) && !(window_flags & 2)) {

@@ -35,7 +35,6 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 struct Rec_802655E4 { s32 a; s32 b; };
 
 struct Win_802655E4 { u8 p0[0x72]; s16 f72; s16 f74; s16 f76; u8 p78[8]; Rec_802655E4 *f80; };
@@ -67,15 +66,15 @@ struct Card_80265AA4 {
 };
 
 struct Ent_80265C30;
+extern "C" {
 
 void measure_message_text_width(Ent_80265C30 *e, f32 x);
 void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
 s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row);
 void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
 void fn_80266378(s32 rows);
-
-u8 * init_shop_judgment_window(void* p);
 }
+
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 const f64 lbl_8044F330 = 0.0;
 // The TWindowMenu layout table (one type-3 text record; fn_80266378 sets the row count) and

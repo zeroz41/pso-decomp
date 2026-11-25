@@ -35,6 +35,7 @@ WindowDescriptor quantity_window_layout = {
 
 extern "C" {
 u32 calc_text_width(void);
+}
 const char *TWindowQuantity__name = "TWindowQuantity";
 void TWindowQuantity::set_position(WindowDrawContext *context) {
     draw_window_tab(context, &context->inner_x, 3, width);
@@ -79,6 +80,4 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
 
 TWindowQuantity *create_window_quantity(s32 client) {
     return new TWindowQuantity((saddr)client);
-}
-
 }

@@ -4,9 +4,9 @@
 #include "types.h"
 
 extern "C" {
-void update_lockon_window(u8 *arg0);
-void update_photon_blast_player_marker(saddr help, s32 arg1);
+void update_lockon_window(u8 *window_simple_status);
 }
+void update_photon_blast_player_marker(saddr help, s32 arg1);
 void update_status_help_item(saddr arg0);
 
 #endif

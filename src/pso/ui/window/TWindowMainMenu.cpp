@@ -2,11 +2,11 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowSubTrade.h"
+#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "types.h"
 #include "pso/network/TLobby.h"
-#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -35,7 +35,6 @@ struct TWindowSubItem;
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowLockOn.h"
@@ -61,7 +60,6 @@ struct E_80263DBC { s16 a; s32 b; };
 
 struct Obj_80263DBC { u8 pad[0x28]; E_80263DBC arr[4]; u8 pad2[0x50 - 0x48]; s16 f50; s16 f52; u8 pad3[0x5c - 0x54]; u32 f5c; };
 extern "C" {
-s32 is_trade_range_bit_set(s32);
 s32 select_main_menu_item_10(s32);
 }
 
@@ -112,7 +110,6 @@ TWindowMainMenu::~TWindowMainMenu() {
     destroy_submenu();
     close();
 }
-extern "C" {
 void TWindowMainMenu::run_task() {  }
 
 void TWindowMainMenu::render() {  }
@@ -504,12 +501,13 @@ void TWindowMainMenu::reset_depth_base() { depth_base = 50300.0f; }
 f32 get_main_menu_layer_depth(u8 *parent, u32 arg1) {
     return ((TWindowMainMenu *)parent)->depth_base - (f32) arg1;
 }
+extern "C" {
 
-void TWindowSubEquip__sub_80263AF4(void) {  }
+void TWindowSubEquip__sub_80263AF4(void *, s32) {}
+}
 
 void call_if_split_screen(uaddr object, s32 client_id) {
     if ((is_split_screen() != 0) && (object != 0U)) {
         fn_802449E0((u8 *)object);
     }
-}
 }

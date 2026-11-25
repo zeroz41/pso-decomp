@@ -1,4 +1,5 @@
 #include "pso/ui/window/WindowScrollBar.h"
+#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
@@ -18,11 +19,11 @@
 #include "pso/network/client_id.h"
 
 extern "C" {
-s32 set_menu_icon_line_params(void *, int);
 
 u8 *TWindowSubStatusDisp__sub_80248BE8(const NJS_POINT2 *position, saddr size, s32 client) {
-    set_menu_icon_line_params((void *)size, 0x5);
+    set_menu_icon_line_params((const NJS_POINT2 *)size, 0x5);
     return (u8 *)new TWindowCheckBox((u8 *)position, client);
+}
 }
 
 void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position) {
@@ -90,8 +91,6 @@ void TWindowCheckBox::run_task() {
     update_window();
     this->update_fade();
     update_window_entry_list(&entry_list);
-}
-
 }
 
 TWindowCheckBox::~TWindowCheckBox() {}

@@ -63,8 +63,8 @@ LAYOUT_ASSERT(ItemListRow_size, sizeof(ItemListRow) == 0x38);
 LAYOUT_ASSERT(ItemListRow_icons_offset, offsetof(ItemListRow, status_icon) == 0x1C);
 LAYOUT_ASSERT(ItemListRow_label_offset, offsetof(ItemListRow, label) == 0x20);
 
-extern "C" {
 void draw_item_list_icon(WindowDrawContext *context, ItemListPosition *position, s32 icon, s32 style, f32 depth);
+extern "C" {
 // ItemListRow::ItemListRow(u8 *, s32), called by init_window_layout_entries.
 void *__ct__11ItemListRowFPUcl(void *p, u8 *rec, s32 client);
 }

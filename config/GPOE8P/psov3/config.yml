@@ -1844,7 +1844,7 @@ force_active:
   - select_cursor_entry__18TWindowSubItemListFv
   - gray_out_battle_item_entries__18TWindowSubItemListFv
   - TWindowSubLog__class_name
-  - get_photon_blast_name
+  - get_photon_blast_name__Fl
   - is_cancelled__19TWindowSubMagPhotonFv
   - TWindowSubQuestBoardSelect__sub_8027D444
   - TWindowSubShortCutList__ct
@@ -1868,7 +1868,7 @@ force_active:
   - TWindowSubSymbolChat__sub_80281840
   - TWindowSubSymbolChat__sub_8028233C
   - TWindowSubSymbolChat__sub_8028379C
-  - get_technique_description_text
+  - get_technique_description_text__Fl
   - TWindowSubTradeMessage__name
   - TWindowTimer__sub_8019886C
   - TWindowTimer__sub_801988E8
@@ -5922,7 +5922,7 @@ force_active:
   - draw_value__13TWindowMesetaFP17WindowDrawContext
   - draw_window_frame_strips__11TWindowBaseFP12TexturedQuadP17WindowDrawContext
   - draw_window_scanlines__FPUcPUc
-  - draw_window_uv_sprite_part
+  - draw_window_uv_sprite_part__FP16WindowSpritePartP17WindowDrawContext
   - draw_with_fade__18TObjEneEpsilonBodyFl
   - draw_wrapped_text__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2
   - drawing__11TItemMagSub
@@ -6690,7 +6690,7 @@ force_active:
   - get_player__11TPlayerSoulFv
   - get_player_entry__6TLobbyFii
   - get_player_load_state__Fv
-  - get_player_motion_filename
+  - get_player_motion_filename__Fv
   - get_player_pos_in_arc__13TBoss5GryphonFllP3VecP3Vec
   - get_pos_ptr__8TTecShotFv
   - get_quest_data__16TQuestListOnlineFv

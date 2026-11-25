@@ -28,7 +28,7 @@ public:
     s32 find_entry_value_by_id(s32 key);
     void mark_entry_by_id(s32 entry_id);
     void disable_entry_by_id(s32 id);
-    void update_next_entry(s32 arg1, s32 string, s32 arg3);
+    void update_next_entry(s32 position, s32 string, s32 arg3);
     void set_entry_string_by_id(void *id, s32 entry_id);
     void create_sub_window(const char *title);
     u16 m_70;

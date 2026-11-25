@@ -19,7 +19,7 @@ struct WindowScrollBar {
     void increment_counter();
 };
 
-extern "C" void draw_window_scrollbar(const WindowScrollBar *scroll, WindowDrawContext *context, const f32 *offset);
+void draw_window_scrollbar(const WindowScrollBar *scroll, WindowDrawContext *context, const f32 *offset);
 
 LAYOUT_ASSERT(WindowScrollBar_size, sizeof(WindowScrollBar) == 0xC);
 LAYOUT_ASSERT(WindowScrollBar_extent, offsetof(WindowScrollBar, extent) == 0);

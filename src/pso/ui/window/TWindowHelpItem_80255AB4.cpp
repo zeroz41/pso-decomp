@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/TWindowMainMenu_80263AB0.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/ui/window/PageIndicator.h"

@@ -46,8 +46,6 @@ struct TWindowSubTechnique : public TObject {
 
 LAYOUT_ASSERT(TWindowSubTechnique_size, sizeof(TWindowSubTechnique) == 0x40);
 
-extern "C" {
 saddr get_technique_description_text(s32 arg0);
-}
 
 #endif

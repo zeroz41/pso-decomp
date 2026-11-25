@@ -7,12 +7,12 @@
 // texture corner with its uv edges.
 void draw_rotated_quad(f32 *q);
 
-extern "C" {
 u32 get_coarse_time(void);
 // Difference between two get_coarse_time values.
 s32 calc_delta(s32 start, s32 end);
 // Converts a get_coarse_time difference to microseconds.
 u32 coarse_time_to_usec(u32 x);
+extern "C" {
 void begin_screen_draw(s32 mode);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 }

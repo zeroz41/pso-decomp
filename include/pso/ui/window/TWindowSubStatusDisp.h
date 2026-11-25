@@ -112,7 +112,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static f32 round_away_from_zero(f32 farg0);
     static s32 build_status_text(s32 client_id);
     static void *get_entry_ptr(int a0);
-    void append_entry(s32 flag, s32 arg2, s32 item, s32 arg4, s32 arg5);
+    void append_entry(s32 flag, s32 src, s32 item, s32 arg4, s32 arg5);
     s32 update_hp_entry();
     static s32 destroy_status_display(saddr arg0, s16 arg1);
     u8 *construct_type1_heading(s32 title, s32 client_index);
@@ -130,6 +130,6 @@ LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_x, offsetof(TWindowSubStatusDisp
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_scale_y, offsetof(TWindowSubStatusDisp, scale_y) == 0x70);
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_size, sizeof(TWindowSubStatusDisp) == 0x74);
-extern "C" s32 measure_string_len(const char *str);
+s32 measure_string_len(const char *str);
 
 #endif

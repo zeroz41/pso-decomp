@@ -20,8 +20,6 @@ extern "C" {
 void *__dt__19TWindowMessageQuestFv(void *arg0, s16 arg1);
 }
 
-extern "C" {
 TWindowMessageQuest *create_quest_message_window();
-}
 
 #endif

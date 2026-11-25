@@ -9,8 +9,8 @@ u8 *TWindowSubStatusDisp__sub_80248BE8(const NJS_POINT2 *position, saddr size, s
 }
 
 // --- C functions defined in TWindowSubStatusDisp_80248BE8.cpp ---
-extern "C" {
 void *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position);
+extern "C" {
 u8 *TWindowSubStatusDisp__sub_80248BE8(const NJS_POINT2 *position, saddr size, s32 client);
 }
 // --- end of C functions

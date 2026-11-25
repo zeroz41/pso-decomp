@@ -17,7 +17,6 @@
 #include "pso/system/THeap.h"
 #include "pso/ui/Language.h"
 #include "pso/ui/window/TWindowMessageLog_8026AA38.h"
-#include "pso/unk/text_8026A93C.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8026AD44.h"
 #include "pso/ui/window/TWindowDD.h"

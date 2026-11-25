@@ -40,7 +40,6 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowHelpItem_802540AC.h"
 #include "pso/ui/window/TWindowMainMenu.h"
-#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
@@ -83,8 +82,6 @@ void TWindowHelpItem::set_flag60_bit8() { m_60 |= 8; }
 bool is_mag_full(u8 *arg0) {
     return (*(f32 *)((s8 *)arg0 + 0x194) < 2.0f) == 0;
 }
-
-extern "C" {
 
 int TWindowSubMagPhoton::is_cancelled() { return m_60 & 2; }
 
@@ -355,6 +352,7 @@ saddr TWindowSubMag::create_list() {
     equip_kind_window->refresh_usable_item_list();
     return reinterpret_cast<saddr>(equip_kind_window);
 }
+extern "C" {
 
 // dead-stripped: only its literals survive. 2.0f (.sdata2 0x805DD668) is pooled after create_action_menu's
 // 172.0f and ahead of run_task's literals, but its one live user is_mag_full is generated last (deferred
@@ -362,6 +360,7 @@ saddr TWindowSubMag::create_list() {
 // used it first. Minimal body after is_mag_full's check; name inferred.
 static int is_mag_fed_full(TItemMag *mag) {
     return mag->feeds_while_full >= 2.0f;
+}
 }
 
 void *TWindowSubMag::create_action_menu(s32 id) {
@@ -495,6 +494,4 @@ void TWindowSubMag::update_mag_help() {
         }
         ((TWindowMessage *)(this->message))->append_line((int)(get_help_text_string(selected_blast + 0x27)), 0x80);
     }
-}
-
 }

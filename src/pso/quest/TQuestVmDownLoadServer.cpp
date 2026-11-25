@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -91,7 +92,8 @@ SubtractiveRng quest_download_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
 extern "C" {
 s32 get_memcard_free_files(s32);
-u8 *init_shop_judgment_window(void *p);
+}
+extern "C" {
 s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size);
 }
 extern TObject *tl_03;

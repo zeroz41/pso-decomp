@@ -25,4 +25,9 @@ struct TWindowMessageLog : public TWindowMessage {
 };
 
 LAYOUT_ASSERT(TWindowMessageLog_size, sizeof(TWindowMessageLog) == 0x98);
+u8 *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 client);
+extern "C" {
+void post_chat_log_message(u16 id, s32 *shared_text_buffer);
+}
+
 #endif

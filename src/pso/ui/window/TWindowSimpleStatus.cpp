@@ -405,6 +405,7 @@ void update_lockon_window(u8 *window_simple_status) {
     temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)window_simple_status)->get_array_entry(1));
     ((TWindowLockOn *)temp_r31)->update_for_player_index(((TWindowSimpleStatus *)window_simple_status)->get_width());
 }
+}
 
 void update_photon_blast_player_marker(saddr help, s32 arg1) {
     Slots_80270060 s;
@@ -453,7 +454,6 @@ void update_photon_blast_player_marker(saddr help, s32 arg1) {
             break;
         }
     }
-}
 }
 
 void update_status_help_item(saddr arg0) {

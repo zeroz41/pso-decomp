@@ -1,4 +1,5 @@
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 // ---- pso/ui/window/TWindowSubTrade_802B1AB4
 #include "types.h"
@@ -36,11 +37,10 @@ extern "C" {
 s32 text_builder_append();
 }
 void text_builder_reset(void);
-extern "C" {
 const char *TWindowSubTrade__name = "TWindowSubTrade"; // TWindowSubTrade__name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
-s32 is_trade_range_bit_set(s32 client);
+extern "C" {
 TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
 }
 
