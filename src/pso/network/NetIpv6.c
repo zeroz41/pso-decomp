@@ -174,7 +174,7 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
     remaining = total_len - sizeof(Ipv6Header);
     hdr = ip;
     ext = hdr + sizeof(Ipv6Header);
-    next_header_field = hdr + offsetof(Ipv6Header, next_header);
+    next_header_field = &header->next_header;
     reassembled = 0;
     dst_cmp = dst;
     delivered = 0;
