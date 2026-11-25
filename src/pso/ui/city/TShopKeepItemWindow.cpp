@@ -60,10 +60,10 @@ TShopKeepItemWindow::TShopKeepItemWindow(TObject *parent, TShopWindowBase *seque
 }
 
 TShopKeepItemWindow::~TShopKeepItemWindow() {
-    if (this->item_list_window != 0) { ((TWindowBase *)this->item_list_window)->close(); this->item_list_window = 0; }
-    if (this->confirm_window != 0) { ((TWindowBase *)this->confirm_window)->close(); this->confirm_window = 0; }
-    if (this->number_window != 0) { ((TWindowBase *)this->number_window)->close(); this->number_window = 0; }
-    if (this->help_window != 0) { ((TWindowBase *)this->help_window)->close(); this->help_window = 0; }
+    if (this->item_list_window != 0) { this->item_list_window->close(); this->item_list_window = 0; }
+    if (this->confirm_window != 0) { this->confirm_window->close(); this->confirm_window = 0; }
+    if (this->number_window != 0) { this->number_window->close(); this->number_window = 0; }
+    if (this->help_window != 0) { this->help_window->close(); this->help_window = 0; }
 }
 
 void TShopKeepItemWindow::update_state() {
@@ -123,12 +123,12 @@ void TShopKeepItemWindow::rebuild_item_list() {
         this->item_list_window->calc_content_extent();
         cur = this->item_list_window->get_cursor_index();
     } else {
-        ((TWindowMenuIconLine *)(this->item_list_window))->save_cursor_selection();
+        this->item_list_window->save_cursor_selection();
         this->item_list_window->reset_list();
         for (s32 j = 0; j < this->entry_count; j++) {
             this->item_list_window->add_list_entry(this->entries[j].item, j);
         }
-        ((TWindowMenuIconLine *)(this->item_list_window))->clamp_selection_to_valid_entry();
+        this->item_list_window->clamp_selection_to_valid_entry();
         this->item_list_window->calc_content_extent();
         this->item_list_window->clear_decided();
         cur = this->item_list_window->get_cursor_index();
@@ -208,9 +208,9 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
     }
     if (this->confirm_window == NULL) {
         this->confirm_window = create_yes_no_window(get_window_layout_position(0x2B), (this->player->get_entity_id()), NULL, NULL);
-        ((TWindowMenu *)this->confirm_window)->set_ready_flag();
+        this->confirm_window->set_ready_flag();
         f32 scale = get_scale();
-        ((TWindowAddition *)this->confirm_window)->set_position_xy(get_scale(), scale);
+        this->confirm_window->set_position_xy(get_scale(), scale);
         set_state(2);
     }
 }
@@ -224,19 +224,19 @@ void TShopKeepItemWindow::update_number_input() {
         if (this->confirm_window == NULL) {
             entity_id = this->player->get_entity_id();
             this->confirm_window = create_yes_no_window(get_window_layout_position(0x2B), entity_id, NULL, NULL);
-            ((TWindowMenu *)(this->confirm_window))->set_ready_flag();
+            this->confirm_window->set_ready_flag();
             scale = get_scale();
-            ((TWindowAddition *)(this->confirm_window))->set_position_xy(get_scale(), scale);
+            this->confirm_window->set_position_xy(get_scale(), scale);
         }
-        this->deposit_count = ((TWindowInputNumber *)(this->number_window))->get_value();
-        ((TWindowBase *)this->number_window)->close();
+        this->deposit_count = this->number_window->get_value();
+        this->number_window->close();
         this->number_window = NULL;
         set_state(2);
         return;
     }
     w = this->number_window;
-    if ((w != NULL) && (((TWindowInputNumber *)w)->is_cancelled() != 0)) {
-        ((TWindowBase *)this->number_window)->close();
+    if ((w != NULL) && (w->is_cancelled() != 0)) {
+        this->number_window->close();
         this->number_window = NULL;
         set_state(3);
     }
@@ -257,20 +257,20 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
                 delete_item(this->player, this->entries[i].item->get_item_id(), this->deposit_count);
                 copy_bank_to_card_window(base);
                 play_sound_effect(0x52D01, 0, 0, 0);
-                ((TWindowBase *)this->confirm_window)->close();
+                this->confirm_window->close();
                 this->confirm_window = 0;
                 set_state(0);
                 return;
             }
             display_shop_message(0x3C, 1);
             play_sound_effect(0x53F06, 0, 0, 0);
-            ((TWindowBase *)this->confirm_window)->close();
+            this->confirm_window->close();
             this->confirm_window = 0;
             set_state(7);
             return;
         }
         if (r == 1) {
-            ((TWindowBase *)this->confirm_window)->close();
+            this->confirm_window->close();
             this->confirm_window = 0;
             set_state(3);
             return;
@@ -278,7 +278,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
     }
     win = this->confirm_window;
     if (win != NULL && win->is_cancelled() != 0) {
-        ((TWindowBase *)this->confirm_window)->close();
+        this->confirm_window->close();
         this->confirm_window = 0;
         set_state(3);
     }
