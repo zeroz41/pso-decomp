@@ -7,6 +7,7 @@
 struct TItem;
 struct TItemData;
 struct WindowScrollBar;
+struct TWindowSubStatusDisp;
 
 class TWindowMenuIconLine : public TWindowAddition {
 public:
@@ -26,6 +27,7 @@ public:
     void move_cursor_next();
     void handle_open();
     void set_flag4();
+    void clear_flag4();
     void set_flag_40();
     void clear_flag_40();
     void set_close_flag();
@@ -103,7 +105,7 @@ public:
     s16 saved_cursor;           // save_cursor_selection, before the list is rebuilt
     u8 unk_7A[0x2];
     s32 saved_cursor_value;
-    void * status_display;
+    TWindowSubStatusDisp *status_display;
     WindowScrollBar *scroll_bar; // created by create_menu_scroll_bar, drawn by draw_window_scrollbar
 };
 LAYOUT_ASSERT(TWindowMenuIconLine_size, sizeof(TWindowMenuIconLine) == 0x88);

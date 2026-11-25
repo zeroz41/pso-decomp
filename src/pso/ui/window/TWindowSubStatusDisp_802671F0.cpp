@@ -71,9 +71,9 @@ void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
 void TWindowMenuIconLine::activate() {
     if (status_display != NULL) {
         if (is_decided() != 0) {
-            ((TWindowSubStatusDisp *)status_display)->set_entry_state(2);
+            status_display->set_entry_state(2);
         } else {
-            ((TWindowSubStatusDisp *)status_display)->set_entry_state(1);
+            status_display->set_entry_state(1);
         }
     }
     clear_close_flag();
@@ -85,7 +85,7 @@ void TWindowMenuIconLine::deactivate() {
     set_flag_40();
     set_close_flag();
     if (status_display != NULL) {
-        ((TWindowSubStatusDisp *)status_display)->set_entry_state(0);
+        status_display->set_entry_state(0);
     }
 }
 
@@ -414,7 +414,7 @@ void TWindowMenuIconLine::handle_open() {
     }
     this->state_flags = (u16) (this->state_flags | 2);
     if (this->status_display != NULL) {
-        ((TWindowSubStatusDisp *)(this->status_display))->set_entry_state(2);
+        this->status_display->set_entry_state(2);
     }
 }
 
@@ -493,14 +493,14 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
 }
 
 void TWindowMenuIconLine::ensure_status_display(s32 title) {
-    uaddr var_r0;
+    TWindowSubStatusDisp *display;
 
-    if ((uaddr) this->status_display == 0U) {
-        var_r0 = (saddr)::operator new(0x24);
-        if (var_r0 != 0U) {
-            var_r0 = (uaddr)((TWindowSubStatusDisp *)var_r0)->construct_type1_heading(title, this->client_index);
+    if (this->status_display == NULL) {
+        display = (TWindowSubStatusDisp *)::operator new(0x24);
+        if (display != NULL) {
+            display = (TWindowSubStatusDisp *)display->construct_type1_heading(title, this->client_index);
         }
-        *(u32 *)&this->status_display = var_r0;
+        this->status_display = display;
         (this->window_flags) = (s32) ((this->window_flags) | 0x40);
     }
 }
@@ -635,8 +635,8 @@ void TWindowMenuIconLine::render() {
         reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
         draw_context);
     this->draw_selected_list_entry(draw_context);
-    if (this->status_display != 0) {
-        ((TWindowSubStatusDisp *)this->status_display)->forward_render(draw_context);
+    if (this->status_display != NULL) {
+        this->status_display->forward_render(draw_context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);

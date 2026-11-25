@@ -41,30 +41,6 @@ static const NJS_POINT2 trade_window_pos = {326.0f, 84.0f};
 static const NJS_POINT2 trade_equip_window_pos = {326.0f, 84.0f};
 static const NJS_POINT2 trade_list_window_pos = {326.0f, 104.0f};
 
-
-struct PB_803310BC { u8 pad[0x18]; };
-
-class Plr_803310BC : public PB_803310BC {
-public:
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual s32 m10();
-};
-
-
-struct PB_80331178 { u8 pad[0x18]; };
-
-class Plr_80331178 : public PB_80331178 {
-public:
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual s32 m10();
-};
-
-
-extern "C" {
-}
-
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
@@ -79,16 +55,14 @@ extern "C" {
 // table in .data), so the functions are written from the last one back.
 #pragma fp_contract on
 
-extern "C" {
-// Child-window flag setters; their only callers are TWindowSubTradeMain's
+// Child-window flag helpers; their only callers are TWindowSubTradeMain's
 // set_child_windows_enabled and run_task, and they follow its dtor/ctor here.
-void TWindowSubTradeMain__sub_803323C8(void* p) { *(u16*)((char*)p + 0x70) &= 0xfffffffb; }
-void TWindowSubTradeMain__sub_803323B8(void* p) { *(u16*)((char*)p + 0x60) &= 0xffffffbf; }
-void TWindowSubTradeMain__sub_803323A8(void* p) { *(u16*)((char*)p + 0x60) |= 0x40; }
-}
+void TWindowMenuIconLine::clear_flag4() { state_flags &= ~4; }
+void TWindowInputNumber::clear_flag_40() { inputFlags &= ~0x40; }
+void TWindowInputNumber::set_flag_40() { inputFlags |= 0x40; }
 
 TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : TObject(parent) {
-    void *x;
+    TObjPlayer *player;
     this->m_name = TWindowSubTradeMain__name;
     this->state = 0;
     this->flags = 0;
@@ -111,20 +85,19 @@ TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : 
     parent_menu->hide_for_subwindow();
     chat = new TWindowChat(this, &submission);
     fn_8027B2A8(chat);
-    x = (Plr_803310BC *)get_player_by_client_id(client_id);
-    if (x != NULL) {
-        ((TObjPlayer *)x)->start_freeze();
+    player = get_player_by_client_id(client_id);
+    if (player != NULL) {
+        player->start_freeze();
     }
 }
 
 TWindowSubTradeMain::~TWindowSubTradeMain() {
-    Plr_803310BC *player;
+    TObjPlayer *player;
 
     release_trade_main_window(this);
     TLobby::check_flags_and_proceed();
-    void *tmp_player;
-    if ((tmp_player = (void *)get_player_by_client_id(this->client_id)) != 0U) {
-        ((TObjPlayer *)tmp_player)->end_camera_pan();
+    if ((player = get_player_by_client_id(this->client_id)) != NULL) {
+        player->end_camera_pan();
     }
     if (chat != NULL) {
         chat->queue_destruction();
@@ -322,7 +295,7 @@ void TWindowSubTradeMain::run_task() {
         }
         if (this->request != NULL) {
             this->request->clear_decided();
-            TWindowSubTradeMain__sub_803323C8(this->request);
+            this->request->clear_flag4();
             this->request->deactivate();
         }
         this->state = 1;
@@ -393,7 +366,7 @@ void TWindowSubTradeMain::run_task() {
         }
         if (this->offer != NULL) {
             this->offer->clear_decided();
-            TWindowSubTradeMain__sub_803323C8(this->offer);
+            this->offer->clear_flag4();
             this->offer->deactivate();
         }
         if (is_local_trade_offer_confirmation_requested() != 0) {
@@ -623,14 +596,14 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
 }
 
 TWindowSubEquipKind *TWindowSubTradeMain::create_trade_window() {
-    Plr_80331178 *p;
+    TObjPlayer *p;
     TWindowSubEquipKind *w;
-    p = (Plr_80331178 *)get_player_by_client_id((s8)TLobby::get_trade_mode());
+    p = get_player_by_client_id((s8)TLobby::get_trade_mode());
     if (p == NULL) {
         return 0;
     }
     w = create_equip_kind_window(get_window_layout_position(0x60), &trade_window_pos, client_id);
-    w->ensure_status_display(p->m10());
+    w->ensure_status_display((saddr)p->get_name());
     w->set_trade_state(0);
     w->refresh_trade_item_list(get_trade_offer_items()->entries);
     w->deactivate();
@@ -639,14 +612,14 @@ TWindowSubEquipKind *TWindowSubTradeMain::create_trade_window() {
 }
 
 TWindowSubEquipKind *TWindowSubTradeMain::open_trade_equip_window() {
-    Plr_803310BC *p;
+    TObjPlayer *p;
     TWindowSubEquipKind *w;
-    p = (Plr_803310BC *)get_player_by_client_id(client_id);
+    p = get_player_by_client_id(client_id);
     if (p == NULL) {
         return 0;
     }
     w = create_equip_kind_window(get_window_layout_position(0x61), &trade_equip_window_pos, client_id);
-    w->ensure_status_display(p->m10());
+    w->ensure_status_display((saddr)p->get_name());
     w->set_trade_state(0);
     w->refresh_trade_item_list(get_trade_window_state()->entries);
     w->deactivate();
@@ -750,9 +723,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 14:
         if (this->input_number != NULL) {
             if (on != 0) {
-                TWindowSubTradeMain__sub_803323B8(this->input_number);
+                this->input_number->clear_flag_40();
             } else {
-                TWindowSubTradeMain__sub_803323A8(this->input_number);
+                this->input_number->set_flag_40();
             }
         }
         break;

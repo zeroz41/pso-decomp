@@ -88,7 +88,7 @@ void TWindowShop::render() {
         draw_item_list_capacity(this, context, this->entry_count, n);
     }
     if (status_display != NULL) {
-        ((TWindowSubStatusDisp *)status_display)->forward_render(context);
+        status_display->forward_render(context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);

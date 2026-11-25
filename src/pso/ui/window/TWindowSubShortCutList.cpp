@@ -71,7 +71,7 @@ void TWindowSubShortCutList::render() {
     draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     if (status_display != NULL) {
-        ((TWindowSubStatusDisp *)(status_display))->forward_render(context);
+        status_display->forward_render(context);
     }
     if (storage != NULL) {
         draw_list_page_indicator(storage, context);

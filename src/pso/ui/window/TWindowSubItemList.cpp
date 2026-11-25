@@ -43,7 +43,7 @@ void TWindowSubItemList::render() {
     draw_blinking_selection(context);
     draw_item_list_capacity(this, context, item_count, 0x1E);
     if (status_display != NULL) {
-        static_cast<TWindowSubStatusDisp *>(status_display)->forward_render(context);
+        status_display->forward_render(context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);

@@ -112,7 +112,7 @@ void TWindowCheckBox::render() {
     draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     if (status_display != NULL) {
-        ((TWindowSubStatusDisp *)status_display)->forward_render(context);
+        status_display->forward_render(context);
     }
     if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);
@@ -121,7 +121,7 @@ void TWindowCheckBox::render() {
 
 void TWindowCheckBox::run_task() {
     s32 temp_r31;
-    uaddr temp_r3;
+    TWindowSubStatusDisp *status;
     WindowScrollBar *window_scroll_bar;
     ControllerInputContext *input;
     ControllerInputContext *temp_r29_2;
@@ -155,9 +155,9 @@ void TWindowCheckBox::run_task() {
     }
     this->center_list_selection();
     if ((f32)open_tick >= 7.5f) {
-        temp_r3 = (uaddr)status_display;
-        if (temp_r3 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
+        status = status_display;
+        if (status != NULL) {
+            status->update_subwindow();
         }
         window_scroll_bar = scroll_bar;
         if (window_scroll_bar != NULL) {
