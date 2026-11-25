@@ -189,7 +189,7 @@ void TAdPlyStatusGC::format_status_strings() {
     }
 }
 
-TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *ad_enter_serial_access_gc) {
+TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *owner, const void *ad_enter_serial_access_gc) {
     TWindowBase *r = (TWindowBase *)TAdEnterSerialAccessGC::create_callback((void *)ad_enter_serial_access_gc,
                                               (void *)&ply_status_window_position,
                                               draw_status_window__14TAdPlyStatusGCFPvPv);
@@ -197,15 +197,15 @@ TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *ad_enter_seria
     return r;
 }
 
-void TAdPlyStatusGC::set_load_state(s32 arg1) {
-    s32 var_r4;
-    if (arg1 > 0) {
+void TAdPlyStatusGC::set_load_state(s32 load_result) {
+    s32 new_state;
+    if (load_result > 0) {
         if (state == 0) {
-            var_r4 = 2;
+            new_state = 2;
             if ((s32) TAdPlyStatusGC::is_shown != 0) {
-                var_r4 = 1;
+                new_state = 1;
             }
-            state = var_r4;
+            state = new_state;
         }
         return;
     }

@@ -5,7 +5,7 @@
 #pragma readonly_strings on
 
 
-const char *TWindowMessageInfomation__name = "TWindowMessageInfomation";
+const char *TWindowMessageInfomation::class_name = "TWindowMessageInfomation";
 
 
 void TWindowMessageInfomation::render() {
@@ -22,5 +22,5 @@ TWindowMessageInfomation::~TWindowMessageInfomation() {
 }
 
 TWindowMessageInfomation::TWindowMessageInfomation(const NJS_POINT2 *position, s32 client) : TWindowMessage(position, 0x10U, client) {
-    this->m_name = TWindowMessageInfomation__name;
+    this->m_name = TWindowMessageInfomation::class_name;
 }

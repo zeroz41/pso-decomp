@@ -38,13 +38,13 @@ TWindowWordSelectMode::TWindowWordSelectMode()
 
 TWindowWordSelectMode::~TWindowWordSelectMode() {}
 
-void TWindowWordSelectMode::set_clamped_selection(s32 row) {
-    if (row < grey_row_count) {
-        row = grey_row_count;
-    } else if (row >= 3) {
-        row = 2;
+void TWindowWordSelectMode::set_clamped_selection(s32 clamped_selection) {
+    if (clamped_selection < grey_row_count) {
+        clamped_selection = grey_row_count;
+    } else if (clamped_selection >= 3) {
+        clamped_selection = 2;
     }
-    selected_row = row;
+    selected_row = clamped_selection;
     highlight_hidden = 0;
 }
 
@@ -53,7 +53,7 @@ void TWindowWordSelectMode::hide_selection() { highlight_hidden = 1; }
 #pragma push
 #pragma opt_common_subs off
 void TWindowWordSelectMode::handle_input() {
-    s32 prev_row = selected_row;
+    s32 previous_row = selected_row;
     if (TWindowDD::apply_both_choices(&highlight_hidden, 0x10) != 0) {
         selected_row--;
     } else if (TWindowDD::apply_both_choices(&highlight_hidden, 0x20) != 0) {
@@ -64,13 +64,13 @@ void TWindowWordSelectMode::handle_input() {
         selected_row = 2;
     }
     s32 row = selected_row;
-    s32 first_row = grey_row_count;
-    if (row < first_row) {
-        selected_row = first_row;
+    s32 min_row = grey_row_count;
+    if (row < min_row) {
+        selected_row = min_row;
     } else if (row >= 3) {
         selected_row = 2;
     }
-    if (selected_row != prev_row) {
+    if (selected_row != previous_row) {
         TWindowDD::spawn_window();
     }
 }
@@ -113,8 +113,8 @@ void TWindowWordSelectMode::render() {
         return;
     }
     this->calc_inner_rect(ctx);
-    ((TWindowDD *)points)->reset_entries(word_select_inverse_depth(this->draw_depth, 0.0f), -1);
-    ((TWindowDD *)points)->copy_point_table(0);
+    reset_window_vertices(points, word_select_inverse_depth(this->draw_depth, 0.0f), -1);
+    copy_window_point_table(points, 0);
     TWindowDD__sub_80348A2C(ctx, points);
     TWindowDD__sub_803489B8(ctx, points, 0);
     count = TWindowDD::get_draw_count(hud_texlist);
@@ -126,11 +126,11 @@ void TWindowWordSelectMode::render() {
     for (i = 0; i < 3; i++) {
         TWindowDD__sub_803489B8(ctx, points, i);
         if (i == sel) {
-            ((TWindowDD *)points)->copy_point_table(1);
-            ((TWindowDD *)points)->draw_transformed_primitive(8, count, 1);
-            ((TWindowDD *)points)->copy_point_table(0);
+            copy_window_point_table(points, 1);
+            draw_window_vertices(points, 8, count, 1);
+            copy_window_point_table(points, 0);
         } else {
-            ((TWindowDD *)points)->draw_transformed_primitive(8, count, 1);
+            draw_window_vertices(points, 8, count, 1);
         }
     }
     depth = word_select_inverse_depth(this->draw_depth, 0.2f);

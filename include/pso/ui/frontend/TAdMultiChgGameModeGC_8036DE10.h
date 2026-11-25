@@ -3,16 +3,15 @@
 
 #include "types.h"
 
+class TAdSystemFileCheckGC;
+
 extern "C" {
-s32 TAdMultiChgGameModeGC__sub_8036DE10(s32 arg0, s32 arg1, s32 arg2);
-void TAdMultiChgGameModeGC__sub_8036E19C(u8 *arg0, s32 arg1);
-void close_window__21TAdMultiChgGameModeGCFPv(void *p);
+s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, s32 text_set);
 }
 
 // --- C functions defined in TAdMultiChgGameModeGC_8036DE10.cpp ---
 extern "C" {
-s32 TAdMultiChgGameModeGC__sub_8036DE10(s32 arg0, s32 arg1, s32 arg2);
-void TAdMultiChgGameModeGC__sub_8036E19C(u8 *arg0, s32 arg1);
+s32 TAdMultiChgGameModeGC__sub_8036DE10(TAdSystemFileCheckGC *owner, s32 index, s32 text_set);
 }
 // --- end of C functions
 

@@ -13,18 +13,18 @@ void TChCrTagPlGraphic::draw_class_illustration() {
     vec2f position;
     vec2f size;
     f32 value;
-    f32 opacity;
+    f32 alpha;
     s32 id;
-    if (!(alpha <= 0.0f)) {
+    if (!(m_alpha <= 0.0f)) {
         copy_vec2(&position, &pos);
-        value = scale;
+        value = m_scale;
         size.y = value;
         size.x = value;
-        opacity = alpha;
+        alpha = m_alpha;
         id = m_index * 2 + 0x66;
-        draw_ui_sprite_shaded(id, &position, &size, depth, opacity, opacity);
-        position.y += 255.5f * scale;
-        draw_ui_sprite_shaded(id + 1, &position, &size, depth, opacity, opacity);
+        draw_ui_sprite_shaded(id, &position, &size, m_depth, alpha, alpha);
+        position.y += 255.5f * m_scale;
+        draw_ui_sprite_shaded(id + 1, &position, &size, m_depth, alpha, alpha);
     }
 }
 #pragma pop
@@ -65,18 +65,18 @@ void TChCrTagPlGraphic::update_layout() {
     const TChCrTagPlGraphicLayout *e;
 
     e = &tag_player_graphic_layout_table[this->m_index];
-    this->alpha = this->m_fade * this->m_highlight;
+    this->m_alpha = this->m_fade * this->m_highlight;
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
-        this->depth += 0.25f * (e->depth - this->depth);
-        this->scale += 0.25f * (e->scale - this->scale);
+        this->m_depth += 0.25f * (e->m_depth - this->m_depth);
+        this->m_scale += 0.25f * (e->m_scale - this->m_scale);
         this->pos.x += 0.25f * (e->pos.x - this->pos.x);
         this->pos.y += 0.25f * (e->pos.y - this->pos.y);
         break;
     default:
         if (this->is_selected() != 0) {
-            this->depth += 0.25f * (-2.75f - this->depth);
-            this->scale += 0.25f * (1.0f - this->scale);
+            this->m_depth += 0.25f * (-2.75f - this->m_depth);
+            this->m_scale += 0.25f * (1.0f - this->m_scale);
             this->pos.x += 0.25f * (e->selected_pos.x - this->pos.x);
             this->pos.y += 0.25f * (e->selected_pos.y - this->pos.y);
         }
@@ -116,10 +116,10 @@ TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, s32 index) : TChCrTag(pare
     m_fade_out_step = -0.06666667f;
     m_highlight_in_step = 0.13333334f;
     m_highlight_out_step = -0.06666667f;
-    alpha = 0.0f;
+    m_alpha = 0.0f;
     e = &tag_player_graphic_layout_table[m_index];
-    depth = e->depth;
-    scale = e->scale;
+    m_depth = e->m_depth;
+    m_scale = e->m_scale;
     copy_vec2(&pos, (void *)&e->pos);
 }
 
@@ -131,7 +131,7 @@ void TChCrTagPlGraphic::create_matching_tags() {
     s32 i, j;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 12; j++) {
-            if (tag_player_graphic_layout_table[j].depth == tag_player_graphic_match_value_table[i]) {
+            if (tag_player_graphic_layout_table[j].m_depth == tag_player_graphic_match_value_table[i]) {
                 TChCrTagPlGraphic::create(j);
             }
         }

@@ -300,12 +300,11 @@ f32 TObjContainerCommon::receive_direct_attack(void *arg1, DirectAttackPayload p
 }
 
 f32 TObjContainerCommon::receive_physical_attack(void *, f32) {
-    u8 *arg0 = (u8 *)this;
     s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)arg0 + 0x80) != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
-        ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
-        ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
+        this->access_object_saved_state(&sp8, 0);
+        this->send_object_state_update(&sp8);
     }
     return lbl_805DBCF4;
 }
@@ -487,21 +486,20 @@ void TObjContainerItem::spawn_break_effects() const {
     }
 }
 
-void TObjContainerItem::vfunc_6(s16 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    if (arg2 != 0) {
-        if ((s16) *arg1 == 1) {
+void TObjContainerItem::vfunc_6(s16 *state, s32 notify) {
+    if (notify != 0) {
+        if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
-            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-            ((TObjCollidable *)arg0)->set_flag8();
-            ((TObject *)arg0)->queue_destruction();
+            this->clear_player_status_flag(0, 1);
+            this->set_flag8();
+            this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *arg1 == 1) {
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+    } else if ((s16) *state == 1) {
+        this->clear_player_status_flag(0, 1);
+        this->set_flag8();
+        this->queue_destruction();
         this->mode = 1;
     }
 }
@@ -602,20 +600,19 @@ void TObjContainerEnemy::spawn_break_effects() const {
     }
 }
 
-void TObjContainerEnemy::vfunc_6(s16 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    if (arg2 != 0) {
-        if ((s16) *arg1 == 1) {
+void TObjContainerEnemy::vfunc_6(s16 *state, s32 notify) {
+    if (notify != 0) {
+        if ((s16) *state == 1) {
             this->spawn_break_effects();
-            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-            ((TObjCollidable *)arg0)->set_flag8();
-            ((TObject *)arg0)->queue_destruction();
+            this->clear_player_status_flag(0, 1);
+            this->set_flag8();
+            this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *arg1 == 1) {
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+    } else if ((s16) *state == 1) {
+        this->clear_player_status_flag(0, 1);
+        this->set_flag8();
+        this->queue_destruction();
         this->mode = 1;
     }
 }
@@ -654,7 +651,6 @@ void TObjContainerNoItem::update_state() {
 }
 
 void TObjContainerNoItem::draw_model() {
-    u8 *arg0 = (u8 *)this;
     if (forest_box_model_archive != 0U) {
         switch (this->mode) {
         case 1:
@@ -665,7 +661,7 @@ void TObjContainerNoItem::draw_model() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
-        draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)arg0 + 0x34)));
+        draw_ginja_box_tree((NJS_OBJECT *)(*(saddr *)((s8 *)((u8 *)this) + 0x34)));
         pop_matrix();
             break;
         }
@@ -673,12 +669,11 @@ void TObjContainerNoItem::draw_model() {
 }
 
 f32 TObjContainerNoItem::receive_physical_attack(void *, f32) {
-    u8 *arg0 = (u8 *)this;
     s16 sp8;
-    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)arg0 + 0x80) != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x1000U) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x80) != 0U) && (this->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
-        ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
-        ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
+        this->access_object_saved_state(&sp8, 0);
+        this->send_object_state_update(&sp8);
     }
     return lbl_805DBCF4;
 }
@@ -703,20 +698,19 @@ void TObjContainerNoItem::spawn_break_effects() const {
     }
 }
 
-void TObjContainerNoItem::vfunc_6(s16 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    if (arg2 != 0) {
-        if ((s16) *arg1 == 1) {
+void TObjContainerNoItem::vfunc_6(s16 *state, s32 notify) {
+    if (notify != 0) {
+        if ((s16) *state == 1) {
             this->spawn_break_effects();
-            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-            ((TObjCollidable *)arg0)->set_flag8();
-            ((TObject *)arg0)->queue_destruction();
+            this->clear_player_status_flag(0, 1);
+            this->set_flag8();
+            this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *arg1 == 1) {
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+    } else if ((s16) *state == 1) {
+        this->clear_player_status_flag(0, 1);
+        this->set_flag8();
+        this->queue_destruction();
         this->mode = 1;
     }
 }
@@ -804,19 +798,18 @@ void TObjContainerBase::spawn_break_effects() const {
 
 #pragma pop
 
-void TObjContainerBase::vfunc_6(s16 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    if (arg2 != 0) {
-        if ((s16) *arg1 == 1) {
+void TObjContainerBase::vfunc_6(s16 *state, s32 notify) {
+    if (notify != 0) {
+        if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
-            ((TObjCollidable *)arg0)->set_flag8();
-            ((TObject *)arg0)->queue_destruction();
+            this->set_flag8();
+            this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *arg1 == 1) {
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+    } else if ((s16) *state == 1) {
+        this->set_flag8();
+        this->queue_destruction();
         this->mode = 1;
     }
 }
@@ -934,18 +927,17 @@ void TObjContainerAbeEnemy::spawn_break_effects() const {
 
 #pragma pop
 
-void TObjContainerAbeEnemy::vfunc_6(s16 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    if (arg2 != 0) {
-        if ((s16) *arg1 == 1) {
+void TObjContainerAbeEnemy::vfunc_6(s16 *state, s32 notify) {
+    if (notify != 0) {
+        if ((s16) *state == 1) {
             this->spawn_break_effects();
-            ((TObjCollidable *)arg0)->set_flag8();
-            ((TObject *)arg0)->queue_destruction();
+            this->set_flag8();
+            this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *arg1 == 1) {
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+    } else if ((s16) *state == 1) {
+        this->set_flag8();
+        this->queue_destruction();
         this->mode = 1;
     }
 }

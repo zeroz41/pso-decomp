@@ -56,15 +56,15 @@ void HelpItemStatCompareRow::set_compare_value(s32 value) {
 
 void HelpItemStatCompareRow::set_compare_color(s32 new_value) {
     if (value == new_value) {
-        value_color = -1;
+        color = -1;
         return;
     }
     if (value > new_value) {
-        value_color = 0xFF77E8FF;
+        color = 0xFF77E8FF;
     } else {
-        value_color = 0xFFDD8C41;
+        color = 0xFFDD8C41;
     }
-    flash_timer = 30;
+    highlight_timer = 30;
     set_value(new_value);
 }
 
@@ -87,7 +87,7 @@ void HelpItemStatCompareRow::set_help_text(uaddr str) {
 
 void HelpItemStatCompareRow::render(WindowDrawContext *context) {
     NJS_POINT2 text_pos;
-    s32 color;
+    s32 compare_color;
 
     if (context->open_tick < 0) {
         return;
@@ -103,29 +103,29 @@ void HelpItemStatCompareRow::render(WindowDrawContext *context) {
     draw_window_text((f32 *)&text_pos, ":", -1, 0, 100000.0f);
     text_pos.x += 64.0f;
     if (flags & 4) {
-        draw_number_value((f32 *)&text_pos, value, value_color, is_flag20_set());
+        draw_number_value((f32 *)&text_pos, value, color, is_flag20_set());
     }
     if (flags & 8) {
         draw_window_text((f32 *)&text_pos, "\tJ\x81\xA8", -1, 0, 100000.0f);
         text_pos.x += 70.0f;
         if (!(flags & 0x10)) {
-            color = 0xFF909090;
+            compare_color = 0xFF909090;
         } else if (value == compare_value) {
-            color = -1;
+            compare_color = -1;
         } else if (value > compare_value) {
-            color = 0xFF77E8FF;
+            compare_color = 0xFF77E8FF;
         } else {
-            color = 0xFFDD8C41;
+            compare_color = 0xFFDD8C41;
         }
-        draw_number_value((f32 *)&text_pos, compare_value, color, is_flag20_set());
+        draw_number_value((f32 *)&text_pos, compare_value, compare_color, is_flag20_set());
     }
 }
 
 void HelpItemStatCompareRow::update() {
-    if (flash_timer > 0) {
-        flash_timer--;
-        if (flash_timer <= 0) {
-            value_color = -1;
+    if (highlight_timer > 0) {
+        highlight_timer--;
+        if (highlight_timer <= 0) {
+            color = -1;
         }
     }
 }
@@ -136,8 +136,8 @@ HelpItemStatCompareRow::~HelpItemStatCompareRow() {
 
 HelpItemStatCompareRow::HelpItemStatCompareRow(PointLayoutRecord *rec, s32 client) : TWindowLayoutEntry(client) {
     copy_vec2(pos, rec->pos);
-    value_color = -1;
-    flash_timer = 0;
+    color = -1;
+    highlight_timer = 0;
     label = NULL;
     value = 0;
     compare_value = 0;

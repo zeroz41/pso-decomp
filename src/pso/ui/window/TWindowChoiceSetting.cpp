@@ -102,8 +102,6 @@ void TWindowMenuInfomation::create_sub_window(const char *title) {
     }
 }
 }
-struct W_802689EC { u8 pad[0x4C]; f32 f4c; u32 f50; u8 pad54[0x6C - 0x54]; f32 f6c; u8 pad70[4]; s16 f74; u8 pad76[0x7C - 0x76]; u32 f7c; };
-
 // dead-stripped: only its literals survive. 0.0f, 20.0f and 6.0f (.sdata2 0x805DD1D8-0x805DD1E0) open the pool
 // ahead of update_scroll_offset's 9/0.5/16/10 although their live user clamp_scroll follows it in .text: a function
 // compiled before update_scroll_offset built the same scroll clip. Minimal body after clamp_scroll's clip; name
@@ -120,12 +118,11 @@ static void get_scroll_clip(TWindowMenuInfomation *window, f32 *clip) {
 #pragma fp_contract on
 
 void TWindowMenuInfomation::update_scroll_offset() {
-    W_802689EC *w = (W_802689EC *)this;
     f32 v;
-    if (w->f7c != 0 && w->f50 == 0) {
-        v = 9.0f + (f32)(w->f74 * 20);
-        v -= 0.5f * ((w->f4c - 16.0f) - 10.0f);
-        w->f6c += v - w->f6c;
+    if (scroll_bar != 0 && tween_ticks == 0) {
+        v = 9.0f + (f32)(index * 20);
+        v -= 0.5f * ((frame_size[1] - 16.0f) - 10.0f);
+        scroll_offset[1] += v - scroll_offset[1];
     }
 }
 #pragma pop
@@ -223,9 +220,9 @@ void TWindowMenuInfomation::render() {
 
 void TWindowMenuInfomation::run_task() {
     TWindowSubStatusDisp *heading_window;
-    WindowScrollBar *window_scroll_bar;
+    WindowScrollBar *scroll;
     ControllerInputContext *input;
-    ControllerInputContext *pad_input;
+    ControllerInputContext *pad;
     ControllerInputContext *context;
     if ((this->is_selected() == 0) && (this->is_open() == 0)) {
         if (state_flags & 0x10) {
@@ -237,11 +234,11 @@ void TWindowMenuInfomation::run_task() {
                 this->move_next_choice();
             }
         } else {
-            pad_input = &controller_input_state.controllers[0];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+            pad = &controller_input_state.controllers[0];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 this->move_next_choice();
             }
         }
@@ -253,14 +250,14 @@ void TWindowMenuInfomation::run_task() {
             this->request_close();
         }
     }
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32) open_tick >= 7.5f) {
         heading_window = heading;
         if (heading_window != NULL) {
             heading_window->update_subwindow();
         }
-        window_scroll_bar = scroll_bar;
-        if (window_scroll_bar != NULL) {
-            window_scroll_bar->increment_counter();
+        scroll = scroll_bar;
+        if (scroll != NULL) {
+            scroll->increment_counter();
         }
     }
     update_window();

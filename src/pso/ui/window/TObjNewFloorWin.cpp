@@ -30,7 +30,7 @@ void TObjNewFloorWin::run_task() {
     case 0:
         if (window == NULL) {
             if (has_window_task_root() == 0) {
-                if (--wait_timer <= 0) {
+                if (--open_timer <= 0) {
                     queue_destruction();
                     return;
                 }
@@ -42,7 +42,7 @@ void TObjNewFloorWin::run_task() {
         }
         break;
     case 1:
-        if (--display_timer == 0x3C) {
+        if (--close_timer == 0x3C) {
             if (window != NULL) {
                 window->close();
                 window = NULL;
@@ -51,7 +51,7 @@ void TObjNewFloorWin::run_task() {
         }
         break;
     case 2:
-        if (--display_timer <= 0) {
+        if (--close_timer <= 0) {
             queue_destruction();
         }
         break;
@@ -61,14 +61,14 @@ void TObjNewFloorWin::run_task() {
 void TObjNewFloorWin::open_window() {
     const NJS_POINT2 *pos;
     pos = get_window_layout_position(0x3D);
-    if (client_id < 0) {
+    if (client < 0) {
         window = create_window_menu_default(pos, 1);
     } else {
-        window = create_window_menu(pos, 1, client_id);
+        window = create_window_menu(pos, 1, client);
     }
     if (window != NULL) {
-        sprintf(floor_text, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
-        window->add_text_entry((saddr)floor_text, 0, 0);
+        sprintf(title, "%s %02d", get_message_text(0x67), TObjNewFloorWin__sub_8007410C());
+        window->add_text_entry((saddr)title, 0, 0);
         window->calc_window_size();
         window->set_flag_40();
         fn_800740DC();
@@ -81,34 +81,32 @@ void TObjNewFloorWin::open_window() {
 TObjNewFloorWin::~TObjNewFloorWin() {}
 
 
-extern "C" {
-const char *TObjNewFloorWin__class_name = TObjNewFloorWin__class_name_string;
-}
+const char *TObjNewFloorWin::class_name = TObjNewFloorWin__class_name_string;
 
 TObjNewFloorWin::TObjNewFloorWin(TObject *object, s32 client_id) : TObject(object) {
-    this->m_name = TObjNewFloorWin__class_name;
-    this->client_id = client_id;
+    this->m_name = class_name;
+    client = client_id;
     window = NULL;
-    wait_timer = 450;
-    display_timer = 150;
+    open_timer = 450;
+    close_timer = 150;
     state = 0;
 }
 
 u8 *TLobby::create_new_floor_windows() {
-    TObjNewFloorWin *window;
+    TObjNewFloorWin *last;
     s32 i;
     if (is_split_screen() == 0) {
         return (u8 *)new TObjNewFloorWin(this, -1);
     }
-    window = NULL;
+    last = NULL;
     i = 0;
     do {
         if (get_player_by_client_id(i) != NULL) {
-            window = new TObjNewFloorWin(this, i);
+            last = new TObjNewFloorWin(this, i);
         }
         i++;
     } while (i < 4);
-    return (u8 *)window;
+    return (u8 *)last;
 }
 
 void fn_800740DC(void) { TWindowCtrl::close_active_window(); }

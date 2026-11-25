@@ -14,8 +14,8 @@ public:
     void open_member_name_window();
     virtual void run_task();
 
-    TWindowCheckBox *m_1C;
-    u8  m_20[0x60];
+    TWindowCheckBox *member_window;
+    char names[4][0x18];
 };
 
 #endif

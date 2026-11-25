@@ -76,8 +76,8 @@ TAdGuideTxtGC::TAdGuideTxtGC(TObject *parent) : TObject(parent) {
 }
 #pragma pop
 
-void reset__15TLobby_802D2F7CFPv(u8 *arg0) {
+void reset__15TLobby_802D2F7CFPv(u8 *guide) {
 
-    ((VObj_802b1a70_802B1990 *)((unsigned char *) (*(void **)((s8 *)arg0 + 0x28))))->m7();
-    *(s8 *)((s8 *)arg0 + 0x1C) = 7;
+    ((VObj_802b1a70_802B1990 *)((unsigned char *) (*(void **)((s8 *)guide + 0x28))))->m7();
+    *(s8 *)((s8 *)guide + 0x1C) = 7;
 }

@@ -17,7 +17,7 @@ public:
     void draw_tail(WindowDrawContext *context, u32 color, f32 *offset, f32 depth);
     void draw_name_plate(WindowDrawContext *context, u32 color);
     void init_balloon(u16 speaker, const char *text, s32 client, f32 scale);
-    s32 clamp_position(f32 *pos, f32 scale);
+    s32 clamp_position(f32 *pos, f32 scale_factor);
     void set_color(u16);
     void follow_anchor();
     s32 is_speaker_far_or_offscreen();
@@ -61,18 +61,18 @@ public:
     s32 shift_rect_with_head(f32 *rect, f32 *out);
     s32 rest_balloon(f32 *rect, f32 *out);
     s32 try_place_bubble(f32 *rect, f32 *out);
-    s32 try_random_placement(f32 *rect, f32 *out); // random spot in the client view; true when draw_resolved_window returns NULL there
+    s32 find_random_free_position(f32 *rect, f32 *out); // random spot in the client view; true when draw_resolved_window returns NULL there
     void clamp_text_size(f32 *out);
     s32 is_speech_balloon_ready();
-    void complete_speech_balloon();
-    void set_text(saddr str, saddr flags);
-    void open(u32 *symbol_chat, s32 flags);
+    void show_immediately();
+    void set_text(const char *str, s32 flags);
+    void open(u32 *symbol, s32 flags);
 
     u8 state;            // run_task's state machine
     u8 balloon_flags;    // bit 0 shown, 1 reveal, 2 active, 5 balloon visible
     u8 content_kind;     // 0 text entry, 1 symbol chat, 2 none (calc_text_size)
     s8 slot;             // the balloon slot taken from TWindowCtrl (alloc_nearest_free_slot)
-    s16 display_ticks;   // counts down while the balloon is shown; set from the text length (inferred)
+    s16 hide_ticks;      // frames left before the balloon starts to close (counts down in run_task state 4)
     u16 speaker_id;  // Speaker entity ID, or 0xFFFF for no entity.
     char *name;  // speaker name, drawn by draw_name_plate (inferred)
     f32 scale;

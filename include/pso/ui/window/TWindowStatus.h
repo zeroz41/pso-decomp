@@ -7,9 +7,10 @@
 struct TWindowStatus : public TWindowSimpleStatus {
     TWindowStatus(void *position, s32 client, u8 *descriptor);
     virtual ~TWindowStatus();
+    static const char *class_name;
     virtual void render();
     virtual void run_task();
-    void draw_background(WindowDrawContext *ctx);
+    void draw_background(WindowDrawContext *context);
     void update_hp_tp_values();
 };
 

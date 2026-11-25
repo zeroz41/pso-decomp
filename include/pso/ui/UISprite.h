@@ -13,9 +13,9 @@ extern const char *ccconsole_pvm_file_name_table[2];
 
 // The ruler lines (16 point pairs) and quad drawn by draw_creation_ruler_lines.
 extern const NJS_POINT3 creation_ruler_line_vertices[32];
-extern NJS_POINT3 lbl_804DA94C[4];
+extern NJS_POINT3 creation_ruler_line_verts[4];
 extern u32 creation_ruler_line_colors[4];
-extern NJS_POINT3COL lbl_804DA98C;
+extern NJS_POINT3COL creation_ruler_line_desc;
 
 void draw_creation_ruler_lines(f32 fade);
 
@@ -42,7 +42,7 @@ extern f32 ui_sprite_scale;
 void draw_ui_sprite(s32 sprite_id, const vec2f* position, f32 depth, f32 alpha);
 extern "C" {
 // Points *table at the cell table of sprite *id; ids from 143 on index the language's own table.
-void TCharaMaking__resolve_creation_sprite_table(NJS_TEXANIM** table, s32* id);
+void resolve_creation_sprite_table(NJS_TEXANIM** table, s32* id);
 void fn_80291138(void);
 void fn_80291178(void);
 }

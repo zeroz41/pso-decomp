@@ -12,16 +12,16 @@ struct SymbolChatPreset {
     SymbolChatPayload payload;
 
     void set_entry_name(const char *text);
-    void set_flag_bit9(s32 arg1);
-    void set_symbol_index(s32 arg1);
+    void set_flag_bit9(s32 enable);
+    void set_symbol_index(s32 symbol_index);
     s32 count_empty_slots();
     s32 count_used_slots();
     s32 find_free_entry(s32 i);
     void remove_slot_shift_down(s32 i);
-    void set_entry(s32 slot, s32 part_id, s32 x, s32 y, s32 flags, s32 flag_bit_1);
-    void add(s32 part_id, s32 x, s32 y, s32 flags, s32 flag_bit_1);
+    void set_entry(s32 slot, s32 part_id, s32 x, s32 y, s32 part_flags, s32 flag_bit_1);
+    void add(s32 part_id, s32 x, s32 y, s32 part_flags, s32 flag_bit_1);
     void set_entry_bits(s32 v, s32 a, s32 idx, s32 b, s32 c);
-    void set_symbol_flags(s32 arg1, s32 arg2);
+    void set_symbol_flags(s32 low_bits, s32 mode);
     void update_selected_symbol();
     u8 *get_symbol_chat_data();
     SymbolChatPayload *get_data_ptr();
@@ -52,9 +52,9 @@ LAYOUT_ASSERT(SavedSymbolChatPresetsEntriesOffset, offsetof(SavedSymbolChatPrese
 SymbolChatPreset *get_symbol_chat_preset(s32 index);
 s32 is_symbol_chat_preset_in_use(const SymbolChatPreset *preset);
 extern "C" {
-int TWindowSubSymbolChat__sub_80076FE0(const SymbolChatPreset *preset);
-void TWindowSubSymbolChat__sub_800771B0(SymbolChatPreset *preset, s32 index);
-s32 TWindowSubSymbolChat__sub_800771C4(const SymbolChatPreset *preset, s32 index);
+int is_preset_flag_bit9_set(const SymbolChatPreset *preset);
+void clear_facial_part(SymbolChatPreset *preset, s32 index);
+s32 is_facial_part_set(const SymbolChatPreset *preset, s32 index);
 }
 extern SymbolChatPreset symbol_chat_receive_buffer;
 extern u8 pending_symbol_chat_count;

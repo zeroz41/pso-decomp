@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowEffectParty.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -32,15 +33,15 @@ void *TWindowCtrl__sub_8024FB80(s8 i) {
     return TWindowCtrl::instance->simple_status[i];
 }
 
-TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source_slot, s8 target_slot, void *idx) : TObject(object) {
+TWindowEffectParty::TWindowEffectParty(TObject *object, s8 source, s8 target, void *effect_id) : TObject(object) {
     Pos_8024FAD8 p;
-    *(s32 *)this = ((saddr)TWindowEffectParty__name);
-    this->source_slot = source_slot;
-    set_slot_position(this->source_slot, &this->pos_x);
-    this->target_slot = target_slot;
-    set_slot_position(this->target_slot, &this->target_x);
+    m_name = TWindowEffectParty__name;
+    this->source_slot = source;
+    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->source_slot, &this->pos_x);
+    this->target_slot = target;
+    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->target_slot, &this->target_x);
     this->calc_effect_position(&p);
-    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)idx, (s32)(0xC0));
+    this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)effect_id, (s32)(0xC0));
     this->state = 0;
 }
 
@@ -50,12 +51,12 @@ TWindowEffectParty::~TWindowEffectParty() {
 
 void TWindowEffectParty::run_task() {
     s32 pos;
-    u8 temp_r3;
+    u8 slot;
 
     void *window;
 
-    temp_r3 = this->target_slot;
-    if (((s8) temp_r3 > 0) && (((window = TWindowCtrl__sub_8024FB80(temp_r3 - 1)) == 0) || (((TWindowBase *)window)->is_open_and_unblocked() == 0))) {
+    slot = this->target_slot;
+    if (((s8) slot > 0) && (((window = TWindowCtrl__sub_8024FB80(slot - 1)) == 0) || (((TWindowBase *)window)->is_open_and_unblocked() == 0))) {
         queue_destruction();
         return;
     }
@@ -143,44 +144,45 @@ void *TWindowEffectParty::create(void *owner, u16 from, u16 to, u32 kind) {
     return w;
 }
 
-void TWindowEffectParty::set_slot_position(s32 slot, f32 *pos) {
-    void *window;
+void TWindowEffectParty::set_slot_position(s32 unused, s32 slot, f32 *position) {
+    TWindowBase *window;
+    (void)unused;
 
     if (slot <= 0) {
-        copy_vec2(pos, (void*)(get_window_layout_position(0x1C)));
-        pos[0] += 228.0f;
-        pos[1] += 32.0f;
+        copy_vec2(position, (void*)(get_window_layout_position(0x1C)));
+        position[0] += 228.0f;
+        position[1] += 32.0f;
         return;
     }
-    window = TWindowCtrl__sub_8024FB80(slot - 1);
+    window = (TWindowBase *)TWindowCtrl__sub_8024FB80(slot - 1);
     if (window != NULL) {
-        pos[0] = (f32) (111.0f + *(f32 *)((s8 *)window + 0x30));
-        pos[1] = (f32) (19.0f + *(f32 *)((s8 *)window + 0x34));
+        position[0] = (f32) (111.0f + window->target_position[0]);
+        position[1] = (f32) (19.0f + window->target_position[1]);
     }
 }
 
-void TWindowEffectParty::calc_effect_position(void *position) {
-    f32 *out = (f32 *)position;
+void TWindowEffectParty::calc_effect_position(void *out_arg) {
+    f32 *out = (f32 *)out_arg;
     out[0] = this->pos_x;
     out[1] = this->pos_y;
     out[2] = (f32)(-1.0f / get_scale__15TWindowCtrlMainFv(local_client_id));
 }
 
-s32 TWindowEffectParty::step_toward_target(f32 target_x, f32 target_y) {
+s32 TWindowEffectParty::step_toward_target(f32 to_x, f32 to_y) {
   f32 scr;
   f32 y;
   s32 angle;
-  y = target_y - (*((f32 *) (((s8 *) this) + 0x24)));
-  scr = *((f32 *) (((s8 *) this) + 0x20));
-  scr = target_x - scr;
+  y = to_y - pos_y;
+  scr = pos_x;
+  scr = to_x - scr;
   if (((scr * scr) + (y * y)) < 25.0f)
   {
-    *((f32 *) (((s8 *) this) + 0x20)) = target_x;
- do { *((f32 *) (((s8 *) this) + 0x24)) = target_y; return 1; } while (0);
+    pos_x = to_x;
+ do { pos_y = to_y; return 1; } while (0);
   }
   angle = (s32) (lbl_8044ECF0 * atan2_float((f64) y, (f64) scr));
-  *((f32 *) (((s8 *) this) + 0x20)) = (f32) ((5.0f * cos_table_lookup(angle)) + (*((f32 *) (((s8 *) this) + 0x20))));
-  *((f32 *) (((s8 *) this) + 0x24)) = (f32) ((5.0f * sin_table_lookup(angle)) + (*((f32 *) (((s8 *) this) + 0x24))));
+  pos_x = (f32) ((5.0f * cos_table_lookup(angle)) + pos_x);
+  pos_y = (f32) ((5.0f * sin_table_lookup(angle)) + pos_y);
   return 0;
 }
 

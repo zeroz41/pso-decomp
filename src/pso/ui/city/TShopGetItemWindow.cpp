@@ -134,15 +134,15 @@ extern "C" {
 TWindowInputNumber *__ct__18TWindowInputNumberFPC10NJS_POINT2llls(void *, const NJS_POINT2 *, s32, s32, s32, s16);
 }
 
-extern const char *TShopGetItemWindow__class_name;
+extern const char *shop_get_item_window_class_name;
 
-const char *TShopGetItemWindow__class_name = "TShopGetItemWindow";
+const char *shop_get_item_window_class_name = "TShopGetItemWindow";
 TShopGetItemWindow::TShopGetItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player) : TShopWindowBase(parent) {
-    m_name = TShopGetItemWindow__class_name;
+    m_name = shop_get_item_window_class_name;
     state = 0;
     this->player = player;
     withdraw_count = 1;
-    pad_4C = 0;
+    unused_4C = 0;
     last_cursor = 0;
     on_close = 0;
     on_empty = 0;

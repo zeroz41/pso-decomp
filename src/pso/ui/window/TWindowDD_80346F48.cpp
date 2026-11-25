@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowDD_80346F48.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/WordSelectMessage.h"
 #include <string.h>
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
@@ -27,10 +28,9 @@ void TWindowDD::reset_selection() {
     build_item_list();
 }
 
-void TWindowDD::update_selected_id() {
-    s16 *msg = (s16 *)this;
-    if ((msg[1] == 1) && (TWindowDD__sub_80346FC0(msg[2]) != 0)) {
-        lbl_805D6E24 = msg[2];
+void WordSelectMessage::remember_selected_id() {
+    if ((type == 1) && (TWindowDD__sub_80346FC0(ids[0]) != 0)) {
+        lbl_805D6E24 = ids[0];
     }
 }
 s32 TWindowDD__sub_80346FC0(s16 id) {

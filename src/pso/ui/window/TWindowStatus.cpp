@@ -26,10 +26,10 @@
 #include "pso/unk/TWindowLayoutNumber.h"
 
 
-const char *TWindowStatus__name = "TWindowStatus";
+const char *TWindowStatus::class_name = "TWindowStatus";
 
 
-void set_status_entry_target(void *arg0, s32 arg1);
+void set_status_entry_target(void *entry, s32 value);
 #pragma readonly_strings on
 
 struct StatusWindowLayout {
@@ -122,7 +122,7 @@ void TWindowStatus::update_hp_tp_values() {
     }
 }
 
-void TWindowStatus::draw_background(WindowDrawContext *ctx) {
+void TWindowStatus::draw_background(WindowDrawContext *context) {
     static const NJS_POINT2 pos = {44.0f, 30.5f};
     TexturedQuad q;
     f32 w;
@@ -130,11 +130,11 @@ void TWindowStatus::draw_background(WindowDrawContext *ctx) {
 
     {
         u8 *e = (u8 *)get_array_entry(0xE);
-        draw_photon_blast_gauge_ring(this, ctx, &pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
+        draw_photon_blast_gauge_ring(this, context, &pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
-    set_draw_texture_and_color(0xB, ctx->color);
+    set_draw_texture_and_color(0xB, context->color);
     { f32 r = get_transition_progress();
     s = -1.0f / (0.0598f + this->draw_depth);
     q.x0 = -(69.0f * (w = 1.0f - r)); }
@@ -146,20 +146,20 @@ void TWindowStatus::draw_background(WindowDrawContext *ctx) {
     q.u1 = 0.73046875f;
     q.v1 = 0.625f;
     draw_textured_quad_at_depth((f32 *)&q, s);
-    q.x0 = ctx->x;
-    q.y0 = ctx->y;
+    q.x0 = context->x;
+    q.y0 = context->y;
     q.x1 = 228.0f + q.x0;
     q.y1 = 76.0f + q.y0;
     q.u0 = 0.0f;
     q.v0 = 0.0f;
     q.u1 = 0.890625f;
     q.v1 = 0.296875f;
-    ctx->transform_quad(&q);
+    context->transform_quad(&q);
     draw_textured_quad_at_depth((f32 *)&q, s);
     TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(ctx, &ctx->inner_x, &ctx->inner_w) != 0) {
+    if (TWindowSubComCard__sub_80245558(context, &context->inner_x, &context->inner_w) != 0) {
         begin_window_sweep_draw(0xB);
-        draw_window_sweep_strip(&q, ctx);
+        draw_window_sweep_strip(&q, context);
         end_window_sweep_draw(0xB);
     }
 }
@@ -194,7 +194,7 @@ TWindowStatus::~TWindowStatus() {
 
 TWindowStatus::TWindowStatus(void *position, s32 client, u8 *descriptor)
     : TWindowSimpleStatus(position, client, descriptor) {
-    m_name = TWindowStatus__name;
+    m_name = TWindowStatus::class_name;
 }
 
 TWindowSimpleStatus *create_status_window(saddr client) {

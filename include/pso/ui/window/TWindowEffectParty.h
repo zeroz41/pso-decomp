@@ -7,7 +7,7 @@
 class TParticleCtrl;
 
 struct TWindowEffectParty : public TObject {
-    TWindowEffectParty(TObject *object, s8 source_slot, s8 target_slot, void *idx);
+    TWindowEffectParty(TObject *object, s8 source, s8 target, void *effect_id);
     virtual ~TWindowEffectParty();
     s8 state;
     s8 source_slot;
@@ -20,9 +20,9 @@ struct TWindowEffectParty : public TObject {
     TParticleCtrl *m_particle; // inferred name: the continuous effect spawned by the ctor, released by the dtor
     virtual void render();
     virtual void run_task();
-    s32 step_toward_target(f32 target_x, f32 target_y);
-    void calc_effect_position(void *position);
-    void set_slot_position(s32 slot, f32 *pos);
+    s32 step_toward_target(f32 to_x, f32 to_y);
+    void calc_effect_position(void *out);
+    static void set_slot_position(s32 unused, s32 slot, f32 *position);
     static void *create(void *owner, u16 from, u16 to, u32 kind);
 };
 

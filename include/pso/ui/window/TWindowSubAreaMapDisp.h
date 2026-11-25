@@ -9,6 +9,7 @@ struct TWindowSubStatusDisp;
 struct TWindowSubAreaMapDisp : public TWindowBase {
     TWindowSubAreaMapDisp();
     virtual ~TWindowSubAreaMapDisp();
+    static const char *class_name;
     u8 unk_60[0x4];
     f32 m_64;
     u8 unk_68[0x4];
@@ -23,9 +24,11 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
 
 LAYOUT_ASSERT(TWindowSubAreaMapDisp_size, sizeof(TWindowSubAreaMapDisp) == 0x78);
 
+struct WindowDrawContext;
+
 extern "C" {
-void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1);
-void fn_80271848(s32 arg0, u8 *window_draw_context);
+void TWindowSubStatusDisp__sub_80271A6C(s32 window, WindowDrawContext *context);
+void fn_80271848(s32 window, WindowDrawContext *context);
 }
 
 #endif

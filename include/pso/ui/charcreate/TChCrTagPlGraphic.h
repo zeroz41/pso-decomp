@@ -6,8 +6,8 @@
 
 // One row of the class illustration layout table.
 struct TChCrTagPlGraphicLayout {
-    f32 scale;
-    f32 depth;
+    f32 m_scale;
+    f32 m_depth;
     vec2f pos;
     vec2f selected_pos;
 };
@@ -25,9 +25,9 @@ public:
     static void create_matching_tags();
     void draw_class_illustration();
 
-    f32 alpha;
-    f32 depth;
-    f32 scale;
+    f32 m_alpha;
+    f32 m_depth;
+    f32 m_scale;
     vec2f pos;
 };
 

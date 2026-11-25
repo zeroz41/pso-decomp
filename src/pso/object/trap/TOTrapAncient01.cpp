@@ -413,9 +413,9 @@ void TOTrapAncient01::release_trapped_player() {
     }
 }
 
-void TOTrapAncient01::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((s16) *arg1 == 4) {
-        if (arg2 == 1) {
+void TOTrapAncient01::vfunc_6(s16 *state, s32 notify) {
+    if ((s16) *state == 4) {
+        if (notify == 1) {
             this->play_sounds();
         }
         this->release_trapped_player();

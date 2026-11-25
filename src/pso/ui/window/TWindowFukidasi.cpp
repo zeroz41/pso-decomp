@@ -50,20 +50,6 @@ extern "C" {
 f32 xyz_distance(void *, void *);
 struct Entry_80250380 { u8 pad[0x10]; f32 w; f32 h; };
 
-
-
-
-
-
-
-
-
-struct Ent_802511E4 {
-    u8 pad0[0x38];
-    f32 pos[3];
-};
-
-
 }
 
 extern "C" {
@@ -121,7 +107,7 @@ void TWindowFukidasi::run_task() {
   switch (state)
   {
     case 1:
-      this->calc_text_size(&this->target_size[0]);
+      calc_text_size(&target_size[0]);
       tween_ticks = 6;
       this->clear_flag();
       this->set_flag2c_bit100();
@@ -140,10 +126,10 @@ void TWindowFukidasi::run_task() {
     case 4:
       if (balloon_flags & 8)
     {
-      display_ticks = (s16) (display_ticks - 1);
-      *((f32 *) (((s8 *) this) + 0x58)) += 0.1f;
+      hide_ticks = (s16) ((hide_ticks) - 1);
+      m_58 += 0.1f;
       this->sort_depth += 0.1f;
-      if (display_ticks < 0)
+      if ((hide_ticks) < 0)
       {
         state = 7U;
       }
@@ -499,7 +485,7 @@ void TWindowFukidasi::measure_text_unbounded(int entry) {
 
 #pragma push
 #pragma fp_contract on
-void TWindowFukidasi::set_text(saddr str, saddr flags) {
+void TWindowFukidasi::set_text(const char *str, s32 flags) {
   u32 new_var;
   WindowTextEntry *entry;
   init_flags(flags);
@@ -516,11 +502,11 @@ void TWindowFukidasi::set_text(saddr str, saddr flags) {
   entry = (WindowTextEntry *)get_array_entry(0);
   if (flags & 1)
   {
-    set_text_entry_string(entry, str, 0x20);
+    set_text_entry_string(entry, (uaddr)str, 0x20);
   }
   else
   {
-    set_text_entry_string(entry, str, 0);
+    set_text_entry_string(entry, (uaddr)str, 0);
   }
   if (flags & 4)
   {
@@ -541,7 +527,7 @@ void TWindowFukidasi::set_text(saddr str, saddr flags) {
   }
   entry->color = 0xFF000000;
   new_var = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x100));
-  display_ticks = (s16) ((3.3f * ((f32) new_var)) + 55.5f);
+  hide_ticks = (s16) ((3.3f * ((f32) new_var)) + 55.5f);
   if (TWindowSubStatusDisp::get_card_window_scale((int) ((s32) client_index)) > 0.0f)
   {
     open_tick = 0;
@@ -554,40 +540,40 @@ void TWindowFukidasi::set_text(saddr str, saddr flags) {
 }
 
 #pragma pop
-void TWindowFukidasi::open(u32 *symbol_chat, s32 flags) {
-    s32 reopen;
-    u8 current_state;
+void TWindowFukidasi::open(u32 *symbol, s32 flags) {
+    s32 restart;
+    u8 current;
 
-    reopen = 0;
+    restart = 0;
     init_flags(flags);
     if (content_kind != 1) {
         content_kind = 1U;
         entry_list.destroy_all_items();
         ((TWindowSubSymbolChat *)&entry_list)->init_layout_entries(client_index);
         if (state != 0) {
-            reopen = 1;
+            restart = 1;
         }
     } else {
-        current_state = state;
-        if ((current_state != 0) && (current_state != 4)) {
-            reopen = 1;
+        current = state;
+        if ((current != 0) && (current != 4)) {
+            restart = 1;
         }
     }
-    if (reopen != 0) {
+    if (restart != 0) {
         state = 5U;
         clear_flag();
         if (TWindowSubStatusDisp::get_card_window_scale(client_index) > 0.0f) {
             open_tick = 0;
         }
     }
-    set_symbol_chat_parts(&entry_list, (void *)symbol_chat);
-    TWindowSubSymbolChat::play_symbol_sound(((u32) *symbol_chat >> 5U) & 0xF);
-    display_ticks = 0x5A;
+    set_symbol_chat_parts(&entry_list, (void *)symbol);
+    TWindowSubSymbolChat::play_symbol_sound(((u32) *symbol >> 5U) & 0xF);
+    hide_ticks = 0x5A;
 }
 
 #pragma push
 #pragma fp_contract on
-s32 TWindowFukidasi::clamp_position(f32 *pos, f32 scale) {
+s32 TWindowFukidasi::clamp_position(f32 *pos, f32 scale_factor) {
     f32 min_x;
     f32 max_x;
     f32 min_y;
@@ -595,22 +581,22 @@ s32 TWindowFukidasi::clamp_position(f32 *pos, f32 scale) {
     s32 clamped;
 
     clamped = 0;
-    min_x = 20.0f + TWindowCtrlMain::get_position_z(this->client_index);
+    min_x = 20.0f + TWindowCtrlMain::get_left(this->client_index);
     if (pos[0] < min_x) {
         pos[0] = min_x;
         clamped = 1;
     }
-    max_x = (TWindowCtrlMain::get_ctrl_field14(this->client_index) - 20.0f) - (this->frame_size[0] * scale);
+    max_x = (TWindowCtrlMain::get_right(this->client_index) - 20.0f) - (this->frame_size[0] * scale_factor);
     if (pos[0] > max_x) {
         pos[0] = max_x;
         clamped = 1;
     }
-    min_y = 40.0f + TWindowCtrlMain::get_field10(this->client_index);
+    min_y = 40.0f + TWindowCtrlMain::get_top(this->client_index);
     if (pos[1] < min_y) {
         pos[1] = min_y;
         clamped = 1;
     }
-    max_y = (TWindowCtrlMain::get_field_18(this->client_index) - 40.0f) - (this->frame_size[1] * scale);
+    max_y = (TWindowCtrlMain::get_bottom(this->client_index) - 40.0f) - (this->frame_size[1] * scale_factor);
     if (pos[1] > max_y) {
         pos[1] = max_y;
         clamped = 1;
@@ -738,16 +724,16 @@ s32 TWindowFukidasi::is_speaker_far_or_offscreen() {
     } else {
         m = 0.0f;
     }
-    if (scr[0] < TWindowCtrlMain::get_position_z(client_index) - m) {
+    if (scr[0] < TWindowCtrlMain::get_left(client_index) - m) {
         return 1;
     }
-    if (scr[1] < TWindowCtrlMain::get_field10(client_index) - m) {
+    if (scr[1] < TWindowCtrlMain::get_top(client_index) - m) {
         return 1;
     }
-    if (scr[0] > m + TWindowCtrlMain::get_ctrl_field14(client_index)) {
+    if (scr[0] > m + TWindowCtrlMain::get_right(client_index)) {
         return 1;
     }
-    if (scr[1] > m + TWindowCtrlMain::get_field_18(client_index)) {
+    if (scr[1] > m + TWindowCtrlMain::get_bottom(client_index)) {
         return 1;
     }
     Vec v = fukidasi_forward_vec;
@@ -776,13 +762,13 @@ s32 TWindowFukidasi::is_speaker_far_or_offscreen() {
 
 #pragma pop
 s32 TWindowFukidasi::project_anchor(f32 *pos, f32 *out) {
-    Ent_802511E4 *e;
+    TObjCollidable *e;
     f32 tmp[3];
 
     if (speaker_id == 0xFFFF) {
         return 0;
     }
-    e = (Ent_802511E4 *)find_entity_by_id(speaker_id);
+    e = find_entity_by_id(speaker_id);
     if (e == NULL) {
         return 0;
     }
@@ -792,9 +778,9 @@ s32 TWindowFukidasi::project_anchor(f32 *pos, f32 *out) {
     if (pos == NULL) {
         pos = tmp;
     }
-    pos[0] = e->pos[0];
-    pos[1] = e->pos[1] + scale;
-    pos[2] = e->pos[2];
+    pos[0] = e->position.x;
+    pos[1] = e->position.y + scale;
+    pos[2] = e->position.z;
     if (out == NULL) {
         return 1;
     }
@@ -864,7 +850,7 @@ void TWindowFukidasi::refresh_rect_placement() {
             if (res != d && rest_balloon(d, c) != 0) {
                 res = c;
             }
-            if (res == NULL && try_random_placement(target_position, e) != 0) {
+            if (res == NULL && find_random_free_position(target_position, e) != 0) {
                 res = e;
             }
         }
@@ -1012,16 +998,16 @@ s32 TWindowFukidasi::try_place_bubble(f32 *rect, f32 *o) {
 }
 
 #pragma pop
-s32 TWindowFukidasi::try_random_placement(f32 *rect, f32 *out) {
-    f32 x = TWindowCtrlMain::get_position_z(client_index);
-    f32 w = (TWindowCtrlMain::get_ctrl_field14(client_index) - TWindowCtrlMain::get_position_z(client_index)) - target_size[0];
+s32 TWindowFukidasi::find_random_free_position(f32 *rect, f32 *out) {
+    f32 x = TWindowCtrlMain::get_left(client_index);
+    f32 w = (TWindowCtrlMain::get_right(client_index) - TWindowCtrlMain::get_left(client_index)) - target_size[0];
     f32 y;
     f32 h;
     f32 t;
     t = 0.000030517578f * (f32) rand();
     out[0] = t * w + x;
-    y = TWindowCtrlMain::get_field10(client_index);
-    h = (TWindowCtrlMain::get_field_18(client_index) - TWindowCtrlMain::get_field10(client_index)) - target_size[1];
+    y = TWindowCtrlMain::get_top(client_index);
+    h = (TWindowCtrlMain::get_bottom(client_index) - TWindowCtrlMain::get_top(client_index)) - target_size[1];
     t = 0.000030517578f * (f32) rand();
     out[1] = t * h + y;
     return (u32) __cntlzw((uaddr) draw_resolved_window(out, target_size, 4)) >> 5;
@@ -1055,7 +1041,7 @@ void TWindowFukidasi::place_rect_at_head_or_slot() {
 #pragma pop
 // Dead-stripped from the DOL: no code of it survives, only its literals (1000, 0.5
 // and 19 at 0x805DCD08-0x805DCD13 and 10430.38 at 0x8044ED70), pooled between
-// approach's 0.011 and try_random_placement's 2^-15. It aims from the
+// approach's 0.011 and find_random_free_position's 2^-15. It aims from the
 // middle of the 19-unit name plate draw_name_plate puts on the balloon's top edge at
 // the tail tip draw_tail places 1000/distance short of the speaker, with the
 // same atan2 scale. Name inferred from that role.
@@ -1090,12 +1076,12 @@ void TWindowFukidasi::calc_text_size(f32 *out) {
     Entry_80250380 *e;
     switch (content_kind) {
     case 0:
-        e = (Entry_80250380 *)this->get_array_entry(0);
+        e = (Entry_80250380 *)get_array_entry(0);
         out[0] = 0.1f + (8.0f + e->w);
         out[1] = 0.1f + (20.0f + e->h);
         break;
     case 1:
-        TWindowSubSymbolChat__sub_802483F0((saddr)&entry_list, (void *)out);
+        get_symbol_chat_frame_size((saddr)&entry_list, (void *)out);
         break;
     case 2:
         break;
@@ -1136,10 +1122,10 @@ void TWindowFukidasi::rearm_balloon(saddr flags) {
     switch (content_kind) {
     case 0:
         n = TWindowKeyBoardSoft::strnlen((s8 *)(((TWindowSubComCard *)(void *)this->get_array_entry(0))->get_field_20()), (u32)0x100);
-        display_ticks = (s16) ((3.3f * (f32) n) + 55.5f);
+        hide_ticks = (s16) ((3.3f * (f32) n) + 55.5f);
         break;
     case 1:
-        display_ticks = 0x5A;
+        hide_ticks = 0x5A;
         break;
     case 2:
         break;
@@ -1160,7 +1146,7 @@ s32 TWindowFukidasi::is_speech_balloon_ready() {
     return 0;
 }
 
-void TWindowFukidasi::complete_speech_balloon() {
+void TWindowFukidasi::show_immediately() {
     s32 t;
     state = 4;
     balloon_flags |= 0x40;

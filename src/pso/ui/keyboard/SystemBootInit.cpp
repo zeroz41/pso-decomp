@@ -110,7 +110,7 @@ void forward_clear_split_screen_fog(void) {
     TFogCtrl::clear_split_screen_fog();
 }
 
-void TKeyBoardControl__sub_8000F7FC(void) {
+void run_end_of_render_tasks(void) {
     end_of_render_root.run_tasks();
 }
 
@@ -179,11 +179,11 @@ s32 TKeyBoardControl::get_input() {
     return keyboard_input_flag;
 }
 
-void TKeyBoardControl__sub_8000F950(void) {
+void set_keyboard_input_flag(void) {
     keyboard_input_flag = 1;
 }
 
-void TKeyBoardControl__sub_8000F95C(void) {
+void clear_keyboard_input_flag(void) {
     keyboard_input_flag = 0;
 }
 
@@ -356,7 +356,7 @@ MainPhaseEntry main_phase_table[] = {
     { run_online_lobby_scene, update_camera_state, cleanup_online_lobby_scene },
     { TEnding::start_ending_scene, run_game_frame, fn_8008C4F4 },
     { NULL, NULL, NULL },
-    { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, TAdSinglePlyChrSelectGC__sub_8033B264 },
+    { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, release_single_ply_chr_select_scene },
     { TAdTrialModemChkGC__sub_803354E8, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC__sub_803354A4 },
     { NULL, NULL, NULL },
     { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },

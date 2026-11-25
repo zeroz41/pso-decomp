@@ -14,9 +14,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #pragma readonly_strings on
 
-struct UV_8025A650 { f32 u; f32 v; };
+struct StarUV { f32 u; f32 v; };
 
-extern const UV_8025A650 item_rarity_star_uv_table[4] = {
+extern const StarUV item_rarity_star_uv_table[4] = {
     { 0.0f, 239.0f }, { 17.0f, 239.0f }, { 34.0f, 239.0f }, { 51.0f, 239.0f },
 };
 
@@ -37,7 +37,7 @@ void HelpItemRarityStarRow::render(WindowDrawContext *context) {
     f32 y;
     s32 i;
     s32 n;
-    const UV_8025A650 *uv;
+    const StarUV *uv;
     f32 depth;
     if (context->open_tick < 0) {
         return;

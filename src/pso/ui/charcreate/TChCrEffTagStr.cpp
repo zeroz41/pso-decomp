@@ -19,14 +19,14 @@ void TChCrEffTagStr::start_fade_out() { state = 1; }
 #pragma fp_contract on
 void TChCrEffTagStr::render() {
     vec2f scale;
-    f32 alpha;
-    f32 remaining;
+    f32 fade_value;
+    f32 inv_fade;
     set_depth_buffer_settings_1();
-    alpha = fade;
-    remaining = 1.0f - alpha;
-    scale.y = alpha * alpha;
-    scale.x = (0.5f * remaining) + 1.0f;
-    draw_creation_sprite_offset(sprite_id, &pos, &scale, -2.4375f, alpha, remaining, 1.0f, 0.5f);
+    fade_value = fade;
+    inv_fade = 1.0f - fade_value;
+    scale.y = fade_value * fade_value;
+    scale.x = (0.5f * inv_fade) + 1.0f;
+    draw_creation_sprite_offset(sprite_id, &pos, &scale, -2.4375f, fade_value, inv_fade, 1.0f, 0.5f);
     restore_saved_depth_alpha_state();
 }
 #pragma pop
@@ -34,8 +34,8 @@ void TChCrEffTagStr::render() {
 #pragma push
 #pragma opt_common_subs off
 void TChCrEffTagStr::run_task() {
-    f32 next;
-    f32 faded;
+    f32 grown;
+    f32 shrunk;
     f32 current;
     f32 step0 = 0.13333334f;
     f32 step1 = -0.06666667f;
@@ -43,18 +43,18 @@ void TChCrEffTagStr::run_task() {
     case 0:
         current = fade;
         if (!(current >= 1.0f)) {
-            next = current + step0;
-            fade = next;
-            if (next >= 1.0f) {
+            grown = current + step0;
+            fade = grown;
+            if (grown >= 1.0f) {
                 fade = 1.0f;
                 break;
             }
         }
         break;
     case 1:
-        faded = fade + step1;
-        fade = faded;
-        if (faded <= 0.0f) {
+        shrunk = fade + step1;
+        fade = shrunk;
+        if (shrunk <= 0.0f) {
             fade = 0.0f;
             queue_destruction();
         }

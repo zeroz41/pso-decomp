@@ -469,7 +469,7 @@ void submit_target_to_player_cursor(void *target, s32 id);
 void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst);
 Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
 void TObjPlayer__sub_801B5A44(saddr player, s32 secondary, s32 i, s32 action, s32 param);
-void TObjPlayer__sub_801B5AF8(saddr player, s32 index);
+void get_action_palette_mode(saddr player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 }
 void handle_6x99(void);
@@ -3222,7 +3222,7 @@ TPlyDispConfigSmth *TObjPlayer::select_action_palette(int secondary) {
 
 #pragma push
 #pragma fp_contract on
-void TObjPlayer__sub_801B5AF8(saddr player, s32 index) {
+void get_action_palette_mode(saddr player, s32 index) {
     ((TPlyDispConfigSmth *)((TObjPlayer *)player)->refresh_effect())->get_current_tag_mode(index);
 }
 #pragma pop
@@ -3314,7 +3314,7 @@ LockOnActionSlot *TObjPlayer::find_palette_lockon_slot() {
     }
     cursor = (saddr)lock_on_cursor->action_slots;
     for (i = 0; i < 4; i++) {
-        if (try_move__11TMainCursorFiii(cursor, action_palette_state.get_mode(),
+        if (is_active_channel_matching(cursor, action_palette_state.get_mode(),
                 action_palette_state.get_slot()) != 0) {
             return (LockOnActionSlot *)cursor;
         }
@@ -3330,7 +3330,7 @@ void TObjPlayer::release_attached_resource() { void* m = this->lock_on_cursor; i
 s32 TObjPlayer::get_camera_field() {
     void *p = this->lock_on_cursor;
     if (p != 0) {
-        return ((TMainCursor *)p)->is_cursor_clear();
+        return ((TLockOnCursor *)p)->is_cursor_clear();
     }
     return 0;
 }
@@ -3654,7 +3654,7 @@ void TObjPlayer::update_facing_vector() {
     this->m_40c = cos_table_lookup(this->rotation_y);
     update_ground_contact();
     if (this->lock_on_cursor != NULL) {
-        ((TMainCursor *)this->lock_on_cursor)->reset_slots();
+        this->lock_on_cursor->reset_slots();
     }
     this->contact_surface.check_surface_exit();
 }
@@ -3733,7 +3733,7 @@ s32 TObjPlayer::is_target_valid() {
     if (this->lock_on_cursor == NULL) {
         return 0;
     }
-    if (((u16) this->interactor != 0xFFFF) || (is_controls_locked() != 0) || (((TMainCursor *)this->lock_on_cursor)->is_cursor_clear() == 0) || (this->check_flag_0x40000000() != 0) || (test_action_mask(0x1E) == 0)) {
+    if (((u16) this->interactor != 0xFFFF) || (is_controls_locked() != 0) || (this->lock_on_cursor->is_cursor_clear() == 0) || (this->check_flag_0x40000000() != 0) || (test_action_mask(0x1E) == 0)) {
         return 0;
     }
     return 1;
@@ -3973,7 +3973,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
     u8 *self = (u8 *)this;
     s16 kind;
     s16 act;
-    kind = ((s32 (*)(void *, s32))TObjPlayer__sub_801B5AF8)(this, mode);
+    kind = ((s32 (*)(void *, s32))get_action_palette_mode)(this, mode);
     act = get_action_palette_entry(mode);
     action_palette_state.set_mode(kind);
     action_palette_state.set_slot(act);

@@ -5,7 +5,7 @@
 
 extern "C" {
 s32 TAdDialingGC__sub_803284F8(s32 _w0);
-void TAdDialingGC__sub_80328730(s32 arg0);
+void TAdDialingGC__sub_80328730(s32 status);
 }
 
 #endif

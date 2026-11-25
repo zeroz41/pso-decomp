@@ -22,7 +22,7 @@
 
 #pragma readonly_strings on
 
-const char *THunterGuildWarning__name = "THunterGuildWarning";
+const char *hunter_guild_warning_name = "THunterGuildWarning";
 THunterGuildWarning *THunterGuildWarning::instance;
 
 void THunterGuildWarning::queue_destruction() {
@@ -31,9 +31,9 @@ void THunterGuildWarning::queue_destruction() {
     }
 }
 
-void THunterGuildWarning::create_instance(saddr arg0) {
+void THunterGuildWarning::create_instance(saddr mode) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (THunterGuildWarning::instance == NULL)) {
-        new THunterGuildWarning(tl_05, (void *)arg0);
+        new THunterGuildWarning(tl_05, (void *)mode);
     }
 }
 
@@ -57,7 +57,7 @@ void THunterGuildWarning::close_windows() {
 }
 
 // Opens the warning message windows for the local or remote players.
-void THunterGuildWarning::sub_80211774(void *) {
+void THunterGuildWarning::open_warning_windows(void *) {
     f32 size[2] = {322.0f, 120.0f};
     f32 scale[2] = {1.0f, 1.0f};
     int text;
@@ -110,9 +110,9 @@ void THunterGuildWarning::sub_80211774(void *) {
     }
 }
 
-void THunterGuildWarning__sub_802119CC(THunterGuildWarning *self) {
+void clear_windows(THunterGuildWarning *warning) {
     s32 i;
-    for (i = 0; i < 4; i++) self->windows[i] = NULL;
+    for (i = 0; i < 4; i++) warning->windows[i] = NULL;
 }
 
 void THunterGuildWarning::run_task() {
@@ -133,12 +133,12 @@ THunterGuildWarning::~THunterGuildWarning() {
     THunterGuildWarning::instance = NULL;
 }
 
-THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(object) {
-    m_name = THunterGuildWarning__name;
-    mode = (saddr)arg2;
+THunterGuildWarning::THunterGuildWarning(TObject *object, void *initial_mode) : TObject(object) {
+    m_name = hunter_guild_warning_name;
+    mode = (saddr)initial_mode;
     timer = 90;
-    THunterGuildWarning__sub_802119CC(this);
-    sub_80211774((void *)mode);
+    clear_windows(this);
+    open_warning_windows((void *)mode);
     THunterGuildWarning::instance = this;
 }
 
@@ -204,7 +204,7 @@ int TLobby::get_selected_quest_id() { return TQuestListOnline::get_selected_ques
 #include "pso/ui/keyboard/SystemBootInit.h"
 
 extern "C" {
-s32 THunterGuildSeqOffline__sub_80213458(void);
+s32 get_online_client_state(void);
 }
 
 s32 TLobby__sub_80211C3C(void) {
@@ -223,7 +223,7 @@ s32 TLobby__sub_80211C3C(void) {
             return 0;
         }
     }
-    switch (THunterGuildSeqOffline__sub_80213458()) {
+    switch (get_online_client_state()) {
     case -1:
         return 3;
     default:
@@ -259,11 +259,11 @@ s32 TLobby::handle_main_phase(saddr player) {
 
 extern "C" {
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
-s32 THunterGuildSeqOffline__sub_80211FEC(s32);
-s32 THunterGuildSeqOffline__sub_80212000(s32);
-s32 THunterGuildSeqOffline__sub_80212060(s32);
+s32 get_online_client_instance(s32);
+s32 get_online_server_instance(s32);
+s32 get_offline_instance(s32);
 extern s32 lbl_805D55C0;
-s32 TLobby__sub_80211D58(s32 arg0) {
+s32 is_in_hunter_guild(s32 client_id) {
     s32 kind;
     s32 player;
     if (get_main_phase() == 14) {
@@ -272,7 +272,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
                 return 1;
             }
             player = get_nth_view_player_id__11TCameraCtrlFl(0);
-            if ((u16)player != arg0) {
+            if ((u16)player != client_id) {
                 return 1;
             }
             if (THunterGuildWarning::is_active() != 0) {
@@ -298,16 +298,16 @@ s32 TLobby__sub_80211D58(s32 arg0) {
                 return 1;
             }
         }
-        return THunterGuildSeqOffline__sub_80212060(arg0);
+        return get_offline_instance(client_id);
     }
     if (get_main_phase() == 15) {
         if (lbl_805D55C0 != 0) {
             return 1;
         }
-        if (THunterGuildSeqOffline__sub_80212000(arg0) != 0) {
+        if (get_online_server_instance(client_id) != 0) {
             return 1;
         }
-        return THunterGuildSeqOffline__sub_80211FEC(arg0) != 0 ? 1 : 0;
+        return get_online_client_instance(client_id) != 0 ? 1 : 0;
     }
     return 0;
 }
@@ -333,17 +333,17 @@ void update_hunter_guild_phase(void) {
 }
 extern "C" {
 
-void THunterGuildSeqOffline__sub_8021339C(void);
+void clear_offline_instance_table(void);
 
 void TLobby::update_guild_or_quest_phase() {
     if (get_main_phase() == 0xE) {
-        THunterGuildSeqOffline__sub_8021339C();
+        clear_offline_instance_table();
         THunterGuildWarning__sub_8021170C();
     }
     if (get_main_phase() == 0xF) {
         TQuestListOnline::init_download_buffers();
         THunterGuildSeqOffline::zero_four_slots();
-        THunterGuildSeqOffline__sub_80213CA4();
+        clear_online_client_instance_table();
     }
 }
 

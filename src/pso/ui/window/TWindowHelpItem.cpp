@@ -179,11 +179,11 @@ TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window
     this->help_flags = 0;
     page_indicator = new PageIndicator(0, 3, client_index);
     active_item = NULL;
-    this->item_data = 0;
-    this->displayed_item_data = 0;
-    this->shown_item_id = -1;
-    this->item_id = -1;
-    this->displayed_item_id = -1;
+    this->secondary_item = 0;
+    this->primary_item = 0;
+    this->active_id = -1;
+    this->secondary_id = -1;
+    this->primary_id = -1;
     this->m_callback = NULL;
     this->scale_x = 1.0f;
     this->scale_y = 1.0f;
@@ -235,38 +235,38 @@ void TWindowHelpItem::render() {
 
 void TWindowHelpItem::update_cursor_selection() {
     this->help_flags = (u8) (this->help_flags | 1);
-    if ((s32) this->displayed_item_id != -1) {
-        active_item = reinterpret_cast<TItemData *>(displayed_item_data);
-        this->shown_item_id = (s32) this->displayed_item_id;
+    if ((s32) this->primary_id != -1) {
+        active_item = reinterpret_cast<TItemData *>(primary_item);
+        this->active_id = (s32) this->primary_id;
         return;
     }
-    if ((s32) this->item_id != -1) {
-        active_item = reinterpret_cast<TItemData *>(item_data);
-        this->shown_item_id = (s32) this->item_id;
+    if ((s32) this->secondary_id != -1) {
+        active_item = reinterpret_cast<TItemData *>(secondary_item);
+        this->active_id = (s32) this->secondary_id;
         return;
     }
     this->help_flags = (u8) (this->help_flags & 0xFE);
     active_item = NULL;
-    this->shown_item_id = -1;
+    this->active_id = -1;
 }
 
 void fn_80255A38(TWindowHelpItem *item) {
     item->entry_list.destroy_all_items();
     item->help_flags &= ~1;
     item->active_item = NULL;
-    item->item_data = 0;
-    item->displayed_item_data = 0;
-    item->shown_item_id = -1;
-    item->item_id = -1;
-    item->displayed_item_id = -1;
+    item->secondary_item = 0;
+    item->primary_item = 0;
+    item->active_id = -1;
+    item->secondary_id = -1;
+    item->primary_id = -1;
     item->m_callback = NULL;
 }
 
 void TWindowHelpItem::update_help_item(s32 mode) { if (fn_8026C7C0(*(void**)((char*)this + 0x64)) != 0) { ((TWindowHelpItem *)this)->dispatch_item_help(); } }
 
-void TWindowHelpItem::set_items_and_refresh(void* a1, void* a2) { *(void* *)&this->item_id = a2; *(void* *)&this->item_data = a1; update_cursor_selection(); dispatch_item_help(); }
+void TWindowHelpItem::set_items_and_refresh(void* a1, void* a2) { *(void* *)&this->secondary_id = a2; *(void* *)&this->secondary_item = a1; update_cursor_selection(); dispatch_item_help(); }
 
-void TWindowHelpItem::set_displayed_item_data(void* a1, void* a2) { *(void* *)&this->displayed_item_id = a2; *(void* *)&this->displayed_item_data = a1; update_cursor_selection(); dispatch_item_help(); }
+void TWindowHelpItem::set_displayed_item_data(void* a1, void* a2) { *(void* *)&this->primary_id = a2; *(void* *)&this->primary_item = a1; update_cursor_selection(); dispatch_item_help(); }
 
 void TWindowHelpItem::set_displayed_item_colored(uaddr displayed_item_colored) {
     saddr id;
@@ -332,7 +332,7 @@ void TWindowHelpItem::dispatch_item_help() {
     u8 sub;
 
     entry_list.destroy_all_items();
-    if (shown_item_id == -1) {
+    if (active_id == -1) {
         help_flags &= 0xF8;
         m_callback = NULL;
         return;
@@ -341,14 +341,14 @@ void TWindowHelpItem::dispatch_item_help() {
     help_flags |= 2;
     unlock_page_flip();
     if (active_item == NULL) {
-        if ((s32)displayed_item_id == -0xFF) {
+        if ((s32)primary_id == -0xFF) {
             help_flags &= ~2;
             lock_page_flip();
             init_text(TWindowSubStatusDisp::get_message_10(0x10D));
         } else {
             help_flags &= ~2;
             lock_page_flip();
-            init_text((void *)(get_localized_text_entry(0x10, ((s32)displayed_item_id & 0xF) + 0x18)));
+            init_text((void *)(get_localized_text_entry(0x10, ((s32)primary_id & 0xF) + 0x18)));
         }
     } else if (TItemData::is_wrapped(active_item) != 0) {
         help_flags &= ~2;
@@ -648,13 +648,13 @@ void TWindowHelpItem::update_stat_comparison() {
     e4->set_value(pl->get_evp());
     e2->set_value(q->f2);
     e5->set_value(q->fc);
-    if (displayed_item_data == 0) {
+    if (primary_item == 0) {
         return;
     }
     if (is_item_already_equipped() != 0) {
-        pl->preview_unequip_stats(&st, displayed_item_id);
+        pl->preview_unequip_stats(&st, primary_id);
     } else {
-        pl->preview_equip_stats(&st, (u8 *)displayed_item_data);
+        pl->preview_equip_stats(&st, (u8 *)primary_item);
     }
     e0->set_compare_value(st.atp);
     e3->set_compare_value(st.ata);
@@ -662,7 +662,7 @@ void TWindowHelpItem::update_stat_comparison() {
     e4->set_compare_value(st.evp);
     e2->set_compare_value(st.mst);
     e5->set_compare_value(st.lck);
-    if (check_equip_requirements(pl, (TItemData *)displayed_item_data, &flags) != 0) {
+    if (check_equip_requirements(pl, (TItemData *)primary_item, &flags) != 0) {
         e0->set_compare_enabled(1);
         e3->set_compare_enabled(1);
         e1->set_compare_enabled(1);
@@ -710,11 +710,11 @@ void TWindowHelpItem::show_weapon_attributes() {
         d->set_flag0_bit20();
         e->set_flag0_bit20();
         set_percentage_rows((WeaponAttribute *)((TObjPlayer *)player)->get_attribute_entry(0), &HelpItemStatCompareRow::set_value);
-        if (displayed_item_data != 0) {
+        if (primary_item != 0) {
             if (is_item_already_equipped() != 0) {
                 set_percentage_rows(NULL, &HelpItemStatCompareRow::set_compare_value);
             } else {
-                set_percentage_rows((WeaponAttribute *)(displayed_item_data + 6), &HelpItemStatCompareRow::set_compare_value);
+                set_percentage_rows((WeaponAttribute *)(primary_item + 6), &HelpItemStatCompareRow::set_compare_value);
             }
             e->update_visible_flags();
         }
@@ -731,7 +731,7 @@ void TWindowHelpItem::update_stat_disp2() {
     saddr player;
     uaddr item;
     player = (saddr)get_player_by_client_id(client_index);
-    if ((player != 0) && (native_row = (HelpItemStatCompareRow *)get_array_entry(0), abeast_row = (HelpItemStatCompareRow *)get_array_entry(1), machine_row = (HelpItemStatCompareRow *)get_array_entry(2), dark_row = (HelpItemStatCompareRow *)get_array_entry(3), hit_row = (HelpItemStatCompareRow *)get_array_entry(4), (item = displayed_item_data, (item == 0U) == 0))) {
+    if ((player != 0) && (native_row = (HelpItemStatCompareRow *)get_array_entry(0), abeast_row = (HelpItemStatCompareRow *)get_array_entry(1), machine_row = (HelpItemStatCompareRow *)get_array_entry(2), dark_row = (HelpItemStatCompareRow *)get_array_entry(3), hit_row = (HelpItemStatCompareRow *)get_array_entry(4), (item = primary_item, (item == 0U) == 0))) {
         if (check_equip_requirements((void *)player, (TItemData *)item, &requirement) != 0) {
             native_row->set_compare_enabled(1);
             abeast_row->set_compare_enabled(1);
@@ -840,11 +840,11 @@ void TWindowHelpItem::update_resistance_rows() {
         c->set_value(pl->get_item_index());
         d->set_value(((TWindowSubStatusDisp *)pl)->get_field_2F8());
         e->set_value(((TWindowSubStatusDisp *)pl)->get_item_type());
-        if (displayed_item_data != 0) {
+        if (primary_item != 0) {
             if (is_item_already_equipped() != 0) {
-                pl->preview_unequip_stats(&st, displayed_item_id);
+                pl->preview_unequip_stats(&st, primary_id);
             } else {
-                pl->preview_equip_stats(&st, (u8 *)displayed_item_data);
+                pl->preview_equip_stats(&st, (u8 *)primary_item);
             }
             a->set_compare_value(st.resist[0]);
             b->set_compare_value(st.resist[1]);
@@ -871,8 +871,8 @@ void TWindowHelpItem::update_stat_disp() {
         c = (HelpItemStatCompareRow *)this->get_array_entry(2);
         d = (HelpItemStatCompareRow *)this->get_array_entry(3);
         e = (HelpItemStatCompareRow *)this->get_array_entry(4);
-        if (this->displayed_item_data != 0) {
-            if (check_equip_requirements((void *)player, (TItemData *)this->displayed_item_data, &requirement) != 0) {
+        if (this->primary_item != 0) {
+            if (check_equip_requirements((void *)player, (TItemData *)this->primary_item, &requirement) != 0) {
                 a->set_compare_enabled(1);
                 b->set_compare_enabled(1);
                 c->set_compare_enabled(1);
@@ -1095,14 +1095,14 @@ void TWindowHelpItem::refresh_copied_items() {
     s32 displayed_id;
     u8 *item;
     u8 *displayed;
-    id = this->item_id;
+    id = this->secondary_id;
     if (id != -1) {
         item = (u8 *)(find_item_by_id(id));
         if (item != NULL) {
             ((TItem *)item)->copy_to_item_data(&this->item_copy);
         }
     }
-    displayed_id = this->displayed_item_id;
+    displayed_id = this->primary_id;
     if (displayed_id != -1) {
         displayed = (u8 *)(find_item_by_id(displayed_id));
         if (displayed != NULL) {
@@ -1248,7 +1248,7 @@ s32 TWindowHelpItem::is_item_already_equipped() {
     saddr item;
     s32 field;
     u32 diff;
-    field = this->displayed_item_id;
+    field = this->primary_id;
     if (field == -1) {
         return 0;
     }

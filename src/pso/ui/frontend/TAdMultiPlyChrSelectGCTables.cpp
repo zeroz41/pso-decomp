@@ -43,9 +43,9 @@ __declspec(section ".rodata") extern const u32 lbl_80472848[2] = {
     0x00000000, 0x00000000,
 };
 
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472850 = {91.0f, 160.0f};
+__declspec(section ".rodata") extern const NJS_POINT2 yes_no_prompt_position = {91.0f, 160.0f};
 
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472858 = {428.0f, 132.0f};
+__declspec(section ".rodata") extern const NJS_POINT2 create_character_prompt_position = {428.0f, 132.0f};
 
 __declspec(section ".rodata") extern const NJS_POINT2 lbl_80472860 = {91.0f, 160.0f};
 
@@ -59,10 +59,10 @@ __declspec(section ".rodata") extern const NJS_POINT2 lbl_80472880 = {225.0f, 13
 
 __declspec(section ".rodata") extern const NJS_POINT2 lbl_80472888 = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472890 = {397.0f, 132.0f};
+__declspec(section ".rodata") extern const NJS_POINT2 choice_menu_position = {397.0f, 132.0f};
 
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_80472898 = {225.0f, 132.0f};
+__declspec(section ".rodata") extern const NJS_POINT2 confirm_window_position = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_804728A0 = {225.0f, 132.0f};
+__declspec(section ".rodata") extern const NJS_POINT2 yes_no_dialog_position = {225.0f, 132.0f};
 
-__declspec(section ".rodata") extern const NJS_POINT2 lbl_804728A8 = {407.0f, 172.0f};
+__declspec(section ".rodata") extern const NJS_POINT2 delete_prompt_position = {407.0f, 172.0f};

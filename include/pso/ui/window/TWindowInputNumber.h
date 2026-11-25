@@ -24,7 +24,7 @@ struct TWindowInputNumber : public TWindowBase {
     s32 minimum;
     s32 maximum;
     s32 value;
-    saddr unknown70;
+    saddr heading;  // the title window made by create()
     f32 scaleX;
     f32 scaleY;
 

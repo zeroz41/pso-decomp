@@ -30,7 +30,7 @@ public:
     TObject *auxiliary_window;
     s32 m_30;
     s32 attract_tick;
-    s32 m_38;
+    s32 attract_timeout;
     u32 transition_flags;
     TObject *transition_children[3];
 };

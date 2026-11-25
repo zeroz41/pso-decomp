@@ -99,7 +99,7 @@ void TWindowLayoutNumber::render(WindowDrawContext *context) {
         case 0:
           r = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->style);
           pos.y0 = y;
-          x -= (u8) r;
+          x -= r;
           pos.x0 = x;
           set_glyph_quad_extents(r, &pos);
           break;

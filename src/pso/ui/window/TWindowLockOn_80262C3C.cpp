@@ -146,15 +146,15 @@ TWindowLockOn::TWindowLockOn(s32 player, u16 id) : TWindowBase((u8 *)&lbl_804D02
     this->m_name = TWindowLockOn__name;
     if (TCameraCtrl::get_camera_id() > 2) {
         this->scale = 0.7f;
-        this->m_6c = 0.7f;
+        this->height_scale = 0.7f;
     } else {
         this->scale = 1.0f;
-        this->m_6c = 1.0f;
+        this->height_scale = 1.0f;
     }
-    this->m_60 = 0xFFFF;
+    this->target_id = 0xFFFF;
     this->client_index = player;
-    this->m_64 = 0;
-    this->m_70 = NULL;
+    this->frames_left = 0;
+    this->refresh = NULL;
     this->bind_target(id);
     this->tween_ticks = 0;
 }
@@ -164,15 +164,15 @@ TWindowLockOn::~TWindowLockOn() {}
 void TWindowLockOn::run_task() {
     s32 old;
     open_tick = 0x01000000;
-    if (m_70) {
-        (this->*m_70)();
+    if (refresh) {
+        (this->*refresh)();
     }
     validate_target();
     update_window();
     update_fade();
     update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(&entry_list));
-    old = m_64;
-    m_64 = old - 1;
+    old = frames_left;
+    frames_left = old - 1;
     if (old < 0) {
         close();
     }
@@ -214,18 +214,18 @@ void TWindowLockOn::bind_target(u16 id) {
     if (is_lockable_target(actor) == 0) {
         return;
     }
-    if (m_60 == id) {
-        m_64 = 0x5A;
+    if (target_id == id) {
+        frames_left = 0x5A;
         return;
     }
-    if ((f32)m_64 > 90.0f) {
+    if ((f32)frames_left > 90.0f) {
         return;
     }
-    m_60 = id;
-    m_64 = 0x5A;
+    target_id = id;
+    frames_left = 0x5A;
     update_for_target(actor);
-    if (m_70) {
-        (this->*m_70)();
+    if (refresh) {
+        (this->*refresh)();
     }
 }
 
@@ -250,7 +250,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
     LockOnEntry *w;
     u16 id;
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lock_on_window_params, client_index);
-    m_70 = &TWindowLockOn::update_photon_blast_marker;
+    refresh = &TWindowLockOn::update_photon_blast_marker;
     w = (LockOnEntry *)get_array_entry(1);
     id = player->get_entity_id();
     ((TWindowLockOn *)w)->update_for_player_index(id);
@@ -259,7 +259,7 @@ void TWindowLockOn::update_for_other_player(TObjCollidable *player) {
     target_size[0] = 34.0f + w->w;
     target_size[1] = 49.0f;
     target_size[0] += 28.0f;
-    target_position[1] = ((TWindowLockOn *)(0x1E))->get_target_distance() - target_size[1] * m_6c;
+    target_position[1] = get_window_layout_y(0x1E) - target_size[1] * height_scale;
     tween_ticks = 0;
 }
 #pragma pop
@@ -271,7 +271,7 @@ void TWindowLockOn::update_for_item(TItem *item) {
     HelpItemRarityStarRow *e2;
     f32 r;
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lockon_window_layout_entries, client_index);
-    m_70 = &TWindowLockOn::refresh_ground_item;
+    refresh = &TWindowLockOn::refresh_ground_item;
     e = (LockOnEntry *)get_array_entry(0);
     ((ItemListRow *)e)->init_item_row(item, 0);
     ((ItemListRow *)e)->calc_row_width();
@@ -294,7 +294,7 @@ void TWindowLockOn::update_for_item(TItem *item) {
         e2->flags |= 2;
     }
     target_size[0] += 28.0f;
-    target_position[1] = ((TWindowLockOn *)(0x1E))->get_target_distance() - target_size[1] * m_6c;
+    target_position[1] = get_window_layout_y(0x1E) - target_size[1] * height_scale;
     tween_ticks = 0;
 }
 #pragma pop
@@ -312,7 +312,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
     u32 w2;
 
     init_window_layout_entries(reinterpret_cast<WindowLayoutEntries *>(&entry_list), &lbl_804D00F4, client_index);
-    m_70 = &TWindowLockOn::refresh_enemy_statuses;
+    refresh = &TWindowLockOn::refresh_enemy_statuses;
     e = reinterpret_cast<saddr>(get_array_entry(1));
     TWindowDuelResult::set_default_status((void *)e, (saddr)TWindowSubStatusDisp::get_message_10(0xA5));
     ((TWindowHelpItem *)e)->reset_float_field();
@@ -349,7 +349,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
         target_size[0] = (f32)w2;
     }
     target_size[0] += 28.0f;
-    target_position[1] = ((TWindowLockOn *)(0x1E))->get_target_distance() - target_size[1] * m_6c;
+    target_position[1] = get_window_layout_y(0x1E) - target_size[1] * height_scale;
     tween_ticks = 0;
     p = (LockOnEntryText *)get_array_entry(7);
     p->w = target_size[0] - 28.0f;
@@ -363,7 +363,7 @@ void TWindowLockOn::update_for_enemy(TObjChara *enemy) {
 #pragma pop
 
 void TWindowLockOn::update_photon_blast_marker() {
-    update_photon_blast_player_marker(reinterpret_cast<saddr>(get_array_entry(0)), m_60);
+    update_photon_blast_player_marker(reinterpret_cast<saddr>(get_array_entry(0)), target_id);
 }
 
 void TWindowLockOn::refresh_ground_item() {}
@@ -373,10 +373,10 @@ void TWindowLockOn::refresh_enemy_statuses() {
     LockOnEnemyView *enemy;
     s32 mode;
     LockOnGauge *g;
-    if (m_60 == 0xFFFF) {
+    if (target_id == 0xFFFF) {
         return;
     }
-    enemy = (LockOnEnemyView *)find_entity_by_id(m_60);
+    enemy = (LockOnEnemyView *)find_entity_by_id(target_id);
     if (enemy == NULL) {
         return;
     }
@@ -428,26 +428,26 @@ s32 TWindowLockOn::is_lockable_target(TObjCollidable *actor) {
 void TWindowLockOn::validate_target() {
     u16 id;
     TObjCollidable *target;
-    id = m_60;
+    id = target_id;
     if (id != 0xFFFF) {
         target = find_entity_by_id(id);
         if (target == NULL || target->all_parents_unqueued_for_destruction() == 0) {
-            m_60 = 0xFFFF;
-            if ((f32)m_64 > 15.0f) {
-                m_64 = 0xF;
+            target_id = 0xFFFF;
+            if ((f32)frames_left > 15.0f) {
+                frames_left = 0xF;
             }
         } else if (target->test_actor_flags(0x10000000) == 0) {
             if (target->test_actor_flags(0x20000000) != 0) {
                 if (((TObjChara *)target)->is_actor_dead() != 0) {
-                    m_60 = 0xFFFF;
-                    if ((f32)m_64 > 15.0f) {
-                        m_64 = 0xF;
+                    target_id = 0xFFFF;
+                    if ((f32)frames_left > 15.0f) {
+                        frames_left = 0xF;
                     }
                 }
             } else if (target->test_actor_flags(0x80000000) != 0 && ((TItem *)target)->get_mode() != 0) {
-                m_60 = 0xFFFF;
-                if ((f32)m_64 > 15.0f) {
-                    m_64 = 0xF;
+                target_id = 0xFFFF;
+                if ((f32)frames_left > 15.0f) {
+                    frames_left = 0xF;
                 }
             }
         }

@@ -122,7 +122,7 @@ TDeathTintFade::TDeathTintFade(TObject *parent, void (*callback)(TDeathTintFade 
 }
 
 TDeathTintFade::~TDeathTintFade() {
-    TWindowCtrlMain::set_value(viewport_index, 0);
+    TWindowCtrlMain::set_fill_color(viewport_index, 0);
 }
 
 void TDeathTintFade::run_task() {
@@ -135,7 +135,7 @@ void TDeathTintFade::run_task() {
         suspend_update();
     }
     color[3] = (s8)alpha;
-    TWindowCtrlMain::set_value(viewport_index, packed_color);
+    TWindowCtrlMain::set_fill_color(viewport_index, packed_color);
 }
 
 void TDeathTintFade::render() {  }
@@ -157,12 +157,12 @@ TColorOverlayFade::TColorOverlayFade(TObject *parent, s32 unk_1C, s32 duration, 
 }
 
 TColorOverlayFade::~TColorOverlayFade() {
-    TWindowCtrlMain::set_value((s32)local_client_id, (s32)this->lerp_color((1.0f)));
+    TWindowCtrlMain::set_fill_color((s32)local_client_id, (s32)this->lerp_color((1.0f)));
 }
 
 void TColorOverlayFade::run_task() {
     s32 next;
-    TWindowCtrlMain::set_value((s32)local_client_id, (s32)(this->lerp_color((f32)frame / (f32)duration)));
+    TWindowCtrlMain::set_fill_color((s32)local_client_id, (s32)(this->lerp_color((f32)frame / (f32)duration)));
     next = frame + 1;
     frame = next;
     if (next > duration) {

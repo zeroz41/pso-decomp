@@ -138,9 +138,9 @@ void TAdTitleTexGC::render_status_pair(s32 color) {
 
 #pragma push
 #pragma opt_common_subs off
-void TAdTitleTexGC::sub_802A4D74(s32 color, u8 *text, u8 *arg3) {
+void TAdTitleTexGC::sub_802A4D74(s32 color, u8 *text, u8 *label) {
     draw_menu_text(22.0f + rects[0].x0, 1.0f + rects[0].y0, (const char *)text, color);
-    draw_menu_text(22.0f + rects[1].x0, 1.0f + rects[1].y0, (const char *)arg3, color);
+    draw_menu_text(22.0f + rects[1].x0, 1.0f + rects[1].y0, (const char *)label, color);
 }
 #pragma pop
 

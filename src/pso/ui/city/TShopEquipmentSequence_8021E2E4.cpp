@@ -16,6 +16,6 @@ void *create_medical_center_sequence(void *player) {
     return new TMedicalCenterSequence(tl_05, (TObjPlayer *)player);
 }
 
-    extern int TMedicalCenterSequence__data_80513E90[];
+    extern int medical_center_slot_active_flags[];
 
-int TMedicalCenterSequence__sub_8021E390(int a0) {  return TMedicalCenterSequence__data_80513E90[a0]; }
+int TMedicalCenterSequence__sub_8021E390(int a0) {  return medical_center_slot_active_flags[a0]; }

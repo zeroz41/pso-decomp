@@ -5,14 +5,17 @@
 #include "pso/system/task/TObject.h"
 
 class TAdMultiOkGC;
+class TAdChrSelPlayerGC;
+class TAdGuideTxtGC;
 
 struct TAdMultiConfirmGC : public TObject {
     TAdMultiConfirmGC(TObject *parent);
     virtual ~TAdMultiConfirmGC();
-    u32 m_1c;
-    u32 m_20;
-    u8 _pad24[0x20];
-    u32 m_44;
+    u32 state;
+    u32 count;                          // players taking part
+    s32 ids[4];                         // multiplayer slot of each of them
+    TAdChrSelPlayerGC *players[4];
+    TAdGuideTxtGC *guide;
     TAdMultiOkGC *ok;
     virtual void render();
     virtual void run_task();

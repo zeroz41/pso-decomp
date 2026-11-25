@@ -29,15 +29,15 @@ public:
     void init_child(s32 list_id);
     void free_child();
     void init_and_mark_field8C();
-    s32 get_field_68();
-    s32 update_if_field28_set();
-    s32 get_cursor_index();
-    s32 get_field_0x74();
+    s32 get_selected_token_index();
+    s32 get_selected_row();
+    s32 get_token_count();
+    s32 get_selected_row_text();
     void set_pos_and_data(f32 x);
-    void reset_cursor();
-    void set_mode_2();
-    s32 state_flags; // bit 0: input and highlight off
-    s32 point_table_index; // 0 also picks the first v range
+    void use_active_strips();
+    void use_dim_strips();
+    s32 state_flags;
+    s32 strip_point_index; // point table index for the strips; 0 also picks the first v range
     s32 selected_token_index;
     s32 selected_row;
     s32 element_list_id; // read by load_element_list
@@ -46,8 +46,8 @@ public:
     s32 visible_entry_count;
     s16 *token_ids;
     f32 pad_84;
-    f32 scroll_offset; // (fraction of a 20-unit row drawn as partial strips)
-    s32 layout_dirty; // inferred: set on every change, cleared when run_task relayouts
+    f32 scroll_offset; // scroll offset (fraction of a 20-unit row drawn as partial strips)
+    s32 needs_text_refresh;
 };
 struct WindowDrawContext;
 
@@ -57,7 +57,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect);
 
 LAYOUT_ASSERT(TWindowDD_WS_Word_size, sizeof(TWindowDD_WS_Word) == 0x90);
 
-LAYOUT_ASSERT(TWindowDD_WS_Word_pad_64, offsetof(TWindowDD_WS_Word, point_table_index) == 0x64);
+LAYOUT_ASSERT(TWindowDD_WS_Word_pad_64, offsetof(TWindowDD_WS_Word, strip_point_index) == 0x64);
 LAYOUT_ASSERT(TWindowDD_WS_Word_pad_78, offsetof(TWindowDD_WS_Word, visible_row_count) == 0x78);
 LAYOUT_ASSERT(TWindowDD_WS_Word_float84, offsetof(TWindowDD_WS_Word, pad_84) == 0x84);
 LAYOUT_ASSERT(TWindowDD_WS_Word_pad_88, offsetof(TWindowDD_WS_Word, scroll_offset) == 0x88);

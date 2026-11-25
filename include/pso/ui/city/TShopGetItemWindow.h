@@ -22,7 +22,7 @@ struct TShopGetItemWindow : public TShopWindowBase {
     TWindowInputNumber *number_input;   // how many of a stacked tool to withdraw
     TWindowHelpItem *help_window;
     TItemData displayed_item_colored;   // the selected item
-    u8 pad_4C;
+    u8 unused_4C;
     u8 _pad4D[0x3];
     s32 room_table_entry;
     s32 withdraw_count;

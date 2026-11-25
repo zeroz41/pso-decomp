@@ -41,10 +41,10 @@ struct TChCrLoadAfsTextureReq : public TObject {
     s32 count;
     s32 index;
     AdxfHandle *load_handle;
-    s32 lifetime_remaining;
-    s32 slot_claimed;
+    s32 timeout_frames;
+    s32 holds_load_slot;
     s32 completion_mask;
-    s32 m_70;
+    s32 display_index;
     u8 m_74[8][0x24];
 };
 

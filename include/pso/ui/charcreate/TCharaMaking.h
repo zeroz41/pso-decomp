@@ -12,7 +12,7 @@ extern const char *charamakingmot_model_names[1];
 extern const char *charamakingmot_motion_names[50];
 extern BmlResourceDescriptor creation_menu_resource_descriptor;
 extern const char *TCharaMaking__name;
-extern const s32 lbl_8045122C[19];
+extern const s32 player_class_texture_archive_length[19];
 
 // Resets out-of-range appearance fields (name, section, class, parts); returns 0 if any were bad.
 s32 validate_player_visual_record(void *record);
@@ -37,8 +37,8 @@ struct TCharaMaking : public TObject {
     static s32 is_end();
     void update_light_direction();
     virtual void run_task();
-    static void *create(void *parent, void *arg1);
-    static s32 update_main_menu(saddr arg0);
+    static void *create(void *parent, void *appearance);
+    static s32 update_main_menu(saddr task);
 };
 
 LAYOUT_ASSERT(TCharaMaking_size, sizeof(TCharaMaking) == 0x24);

@@ -86,7 +86,7 @@ const char *parse_text_control_codes(const char *p, s32 *mb, s32 *color) {
         case 'C':
             if (color != NULL) {
                 if (p[1] == 'G') {
-                    *color = TWindowCtrl::get_field24();
+                    *color = TWindowCtrl::get_pulse_color();
                 } else if (p[1] >= '0' && p[1] <= '9') {
                     *color = text_control_color_palette[p[1] - '0'];
                 }
@@ -113,7 +113,7 @@ u32 TWindowSubStatusDisp::calc_text_width(char *s) {
     u32 w = 0;
     u8 c;
     s32 hi;
-    int new_var;
+    int code;
     u8 lo;
     if (s == NULL) {
         return 0;
@@ -131,9 +131,9 @@ u32 TWindowSubStatusDisp::calc_text_width(char *s) {
                 lo = c;
                 hi = 0;
             }
-            new_var = (hi << 8) & 0xFF00;
-            new_var = new_var | lo;
-            ((u16 (*)(u32))map_char_to_font_code)(new_var);
+            code = (hi << 8) & 0xFF00;
+            code = code | lo;
+            ((u16 (*)(u32))map_char_to_font_code)(code);
             w += (u8)((u32 (*)(void))get_font_char_advance)();
         }
     }
@@ -148,7 +148,7 @@ u32 calc_text_width(char *s) {
   u32 w = 0;
   u8 c;
   s32 hi;
-  int new_var;
+  int code;
   u8 lo;
   if (s == 0)
   {
@@ -182,9 +182,9 @@ u32 calc_text_width(char *s) {
         lo = c;
         hi = 0;
       }
-      new_var = (hi << 8) & 0xFF00;
-      new_var = new_var | lo;
-      w += (u8) get_font_char_advance(((u16 (*)(u32)) map_char_to_font_code)(new_var));
+      code = (hi << 8) & 0xFF00;
+      code = code | lo;
+      w += (u8) get_font_char_advance(((u16 (*)(u32)) map_char_to_font_code)(code));
     }
   }
   if (max < ((f32) w))
@@ -199,7 +199,7 @@ u32 calc_fullwidth_text_width(char *s) {
     u32 w = 0;
     u8 c;
     s32 hi;
-    int new_var;
+    int code;
     u8 lo;
     if (s == NULL) {
         return 0;
@@ -221,9 +221,9 @@ u32 calc_fullwidth_text_width(char *s) {
                 lo = c;
                 hi = 0;
             }
-            new_var = (hi << 8) & 0xFF00;
-            new_var = new_var | lo;
-            w += (u8)((u32 (*)(u32))get_font_char_advance)(new_var);
+            code = (hi << 8) & 0xFF00;
+            code = code | lo;
+            w += (u8)((u32 (*)(u32))get_font_char_advance)(code);
         }
     }
     if (max < (f32)w) {

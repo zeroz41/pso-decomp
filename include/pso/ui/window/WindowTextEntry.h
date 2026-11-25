@@ -12,10 +12,10 @@ struct TextLayoutRecord;
 class WindowTextEntry : public TWindowLayoutRect {
 public:
     f32 depth;          // added to the context depth for the text scale
-    f32 reveal_width;   // drawn width so far; render clips the text to it
+    f32 reveal_pos;     // characters revealed so far; a huge value = fully shown
     char *text;
     s32 color;
-    f32 reveal_speed;   // added to reveal_width every update
+    f32 reveal_step;    // reveal_pos growth per tick
 
     WindowTextEntry(TextLayoutRecord *rec, s32 client);
     virtual ~WindowTextEntry();

@@ -23,7 +23,7 @@ struct TShopEquipmentGearSequence : public TShopSequence {
     void try_close();
     void open_sell_window();
     void open_armor_list_window();
-    static void update_buy_sell_choice(void *self);
+    static void update_buy_sell_choice(void *sequence_ptr);
     void open_greeting();
     static void clear_window_slots();
     static void clear_window_slot_table();

@@ -7,10 +7,10 @@
 // tables, where no CW-emitted vtable goes: a real class here (key function in or out of the defer_codegen
 // off stretch, class defined in the .cpp, inline virtuals) always gets its vtable written after the jump
 // tables with the other vtables. So the original spelled the table out, and the ctor (init_lockon) and dtor
-// that store it are plain functions which call the TUnk_804A7260 ctor and dtor directly. The
+// that store it are plain functions which call the LockOnTask ctor and dtor directly. The
 // dtor passes flag 0, which only an implicit base-dtor call in a real dtor passes (an explicit
-// TUnk_804A7260::~TUnk_804A7260() call passes -1).
-class TLOC_ListClear : public TUnk_804A7260 {
+// LockOnTask::~LockOnTask() call passes -1).
+class TLOC_ListClear : public LockOnTask {
 public:
     virtual ~TLOC_ListClear();
     void *init_lockon(TObject *parent, u16 id);
@@ -19,8 +19,8 @@ public:
 LAYOUT_ASSERT(TLOC_ListClear_size, sizeof(TLOC_ListClear) == 0x24);
 
 extern "C" {
-void *__ct__13TUnk_804A7260FP7TObjectUs(void *self, TObject *parent, u16 id);
-void *__dt__13TUnk_804A7260Fv(void *self, s16 flags);
+void *__ct__10LockOnTaskFP7TObjectUs(void *self, TObject *parent, u16 id);
+void *__dt__10LockOnTaskFv(void *self, s16 flags);
 TLOC_ListClear *__dt__14TLOC_ListClearFv(TLOC_ListClear *task, s16 flags);
 }
 

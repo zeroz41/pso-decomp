@@ -12,8 +12,8 @@
 class HelpItemStatCompareRow : public TWindowLayoutEntry {
 public:
     f32 pos[2];
-    s32 value_color;  // -1, or the colour of the last change while flash_timer runs
-    s32 flash_timer;
+    s32 color;  // -1, or the colour of the last change while highlight_timer runs
+    s32 highlight_timer;
     char *label;
     s32 value;
     s32 compare_value;

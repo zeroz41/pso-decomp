@@ -24,13 +24,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80211C3C.h"
 
-const char *TObjBagWarnWin__name = "TObjBagWarnWin";
-
-const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
-
 #include "pso/unk/text_8006EBC4.h"
 
 #include "pso/ui/window/TObjBagWarnWin.h"
+
+const char *TObjBagWarnWin::class_name = "TObjBagWarnWin";
+
+const char *TObjBagWarnWin4P::class_name = "TObjBagWarnWin4P";
 
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
@@ -58,7 +58,6 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 
 
 
-extern f32 TObjBagWarnWin4P__message_window_size[2];
 
 
 struct Sub_8006EC20 {
@@ -76,7 +75,6 @@ struct Ctrl_8006EC20 {
 };
 
 
-extern f32 TObjBagWarnWin__message_window_size[2];
 
 extern u8 *text_language_group_table;
 
@@ -90,14 +88,14 @@ void *TObjBagWarnWin::create(void *bag_warn_win) {
 }
 
 TObjBagWarnWin::TObjBagWarnWin(TObject *parent) : TObject(parent) {
-    this->m_name = TObjBagWarnWin__name;
+    this->m_name = class_name;
     message_window = NULL;
     open_delay = 0;
 }
 TObjBagWarnWin::~TObjBagWarnWin() {}
 
 void TObjBagWarnWin::open_message_window() {
-    message_window = TWindowMessage::create(get_window_layout_position(0x38), (const f32 *)TObjBagWarnWin__message_window_size, 1);
+    message_window = TWindowMessage::create(get_window_layout_position(0x38), (const f32 *)message_window_size, 1);
     if (message_window != NULL) {
         message_window->set_depth(70200.0f);
         if (TCameraCtrl::get_camera_id() == 4) {
@@ -110,13 +108,13 @@ void TObjBagWarnWin::open_message_window() {
 }
 
 void TObjBagWarnWin::run_task() {
-    s32 temp_r0;
+    s32 remaining;
     if (message_window == NULL) {
         if (has_window_task_root() != 0) {
-            if (TObjBagWarnWin::should_show_warning(this) != 0) {
-                temp_r0 = open_delay - 1;
-                open_delay = temp_r0;
-                if (temp_r0 < 0) {
+            if (should_show_warning() != 0) {
+                remaining = open_delay - 1;
+                open_delay = remaining;
+                if (remaining < 0) {
                     open_delay = 0;
                 }
             } else {
@@ -126,14 +124,14 @@ void TObjBagWarnWin::run_task() {
                 open_message_window();
             }
         }
-    } else if (TObjBagWarnWin::should_show_warning(this) == 0) {
+    } else if (should_show_warning() == 0) {
         message_window->close();
         message_window = NULL;
         open_delay = 0x1E;
     }
 }
 
-s32 TObjBagWarnWin::should_show_warning(void *arg0) {
+s32 TObjBagWarnWin::should_show_warning() {
     Ctrl_8006EC20 *ctrl;
     if (TLobby__sub_80211C3C() != 3) {
         return 0;
@@ -172,7 +170,7 @@ TObjBagWarnWin4P *fn_8006EBC4(saddr parent) {
 }
 
 TObjBagWarnWin4P::TObjBagWarnWin4P(TObject *parent) : TObject(parent) {
-    m_name = TObjBagWarnWin4P__name;
+    m_name = class_name;
     message_window = NULL;
     open_delay = 0;
 }
@@ -181,7 +179,7 @@ TObjBagWarnWin4P::~TObjBagWarnWin4P() {}
 
 void TObjBagWarnWin4P::create_window() {
     const NJS_POINT2 *position = get_window_layout_position(0x5B);
-    message_window = TWindowMessage::create(position, TObjBagWarnWin4P__message_window_size, 1, 4);
+    message_window = TWindowMessage::create(position, message_window_size, 1, 4);
     if (message_window != NULL) {
         strncpy(message_text, (const char *)get_message_text(0x69), 0x7F);
         message_text[0x7F] = 0;
@@ -190,13 +188,13 @@ void TObjBagWarnWin4P::create_window() {
 }
 
 void TObjBagWarnWin4P::run_task() {
-    s32 temp_r0;
+    s32 remaining;
     if (message_window == NULL) {
         if (has_window_task_root() != 0) {
-            if (TObjBagWarnWin4P::check_can_open(this) != 0) {
-                temp_r0 = open_delay - 1;
-                open_delay = temp_r0;
-                if (temp_r0 < 0) {
+            if (check_can_open() != 0) {
+                remaining = open_delay - 1;
+                open_delay = remaining;
+                if (remaining < 0) {
                     open_delay = 0;
                 }
             } else {
@@ -206,14 +204,14 @@ void TObjBagWarnWin4P::run_task() {
                 create_window();
             }
         }
-    } else if (TObjBagWarnWin4P::check_can_open(this) == 0) {
+    } else if (check_can_open() == 0) {
         message_window->close();
         message_window = NULL;
         open_delay = 0x1E;
     }
 }
 
-s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
+s32 TObjBagWarnWin4P::check_can_open() {
     s32 i;
     s32 j;
 
@@ -256,5 +254,5 @@ s32 TWindowCtrl::is_map_visible() {
     return TLobby__sub_8030A770() != 0 ? 1 : 0;
 }
 
-__declspec(section ".data") f32 TObjBagWarnWin__message_window_size[2] = {350.0f, 120.0f};
-__declspec(section ".data") f32 TObjBagWarnWin4P__message_window_size[2] = {350.0f, 120.0f};
+__declspec(section ".data") f32 TObjBagWarnWin::message_window_size[2] = {350.0f, 120.0f};
+__declspec(section ".data") f32 TObjBagWarnWin4P::message_window_size[2] = {350.0f, 120.0f};

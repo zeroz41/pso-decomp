@@ -23,7 +23,7 @@
 #pragma readonly_strings on
 
 
-const char *TWindowPartyStatus__name = "TWindowPartyStatus";
+const char *TWindowPartyStatus::class_name = "TWindowPartyStatus";
 
 
 
@@ -52,27 +52,27 @@ WindowDescriptor party_status_window_params = {
 
 void TWindowPartyStatus::draw() { update_hp_entry(); update_status_entry(); }
 
-void TWindowPartyStatus::draw_background(WindowDrawContext *ctx) {
-    TexturedQuad q;
+void TWindowPartyStatus::draw_background(WindowDrawContext *context) {
+    TexturedQuad quad;
     f32 depth;
     depth = -1.0f / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
-    set_draw_texture_and_color(0xB, ctx->color);
-    q.x0 = ctx->inner_x;
-    q.y0 = ctx->inner_y;
-    q.x1 = 114.0f + q.x0;
-    q.y1 = 46.0f + q.y0;
-    q.u0 = 0.0f;
-    q.v0 = 0.703125f;
-    q.u1 = 0.4453125f;
-    q.v1 = 0.8828125f;
-    ctx->transform_quad(&q);
-    draw_textured_quad_at_depth((f32 *)&q, depth);
+    set_draw_texture_and_color(0xB, context->color);
+    quad.x0 = context->inner_x;
+    quad.y0 = context->inner_y;
+    quad.x1 = 114.0f + quad.x0;
+    quad.y1 = 46.0f + quad.y0;
+    quad.u0 = 0.0f;
+    quad.v0 = 0.703125f;
+    quad.u1 = 0.4453125f;
+    quad.v1 = 0.8828125f;
+    context->transform_quad(&quad);
+    draw_textured_quad_at_depth((f32 *)&quad, depth);
     TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(ctx, &ctx->inner_x, &ctx->inner_w) != 0) {
+    if (TWindowSubComCard__sub_80245558(context, &context->inner_x, &context->inner_w) != 0) {
         begin_window_sweep_draw(0xB);
-        draw_window_sweep_strip(&q, ctx);
+        draw_window_sweep_strip(&quad, context);
         end_window_sweep_draw(0xB);
     }
 }
@@ -100,15 +100,15 @@ TWindowPartyStatus::~TWindowPartyStatus() {
 
 TWindowPartyStatus::TWindowPartyStatus(s32 slot, u8 *descriptor)
     : TWindowSimpleStatus((void *)get_window_layout_position(0xAB), local_client_id, descriptor) {
-    m_name = TWindowPartyStatus__name;
+    m_name = TWindowPartyStatus::class_name;
     client_index = (s16)slot;
 }
 
 
 #pragma push
 #pragma opt_propagation off
-void *create_party_status_window(s32 arg0) {
-    s32 n = arg0 + 1;
+void *create_party_status_window(s32 slot_offset) {
+    s32 n = slot_offset + 1;
     s32 g = local_client_id;
     u32 slot = (u32)(g + n) & 3;
     return new TWindowPartyStatus(slot, (u8 *)&party_status_window_params);

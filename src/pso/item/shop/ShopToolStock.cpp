@@ -37,22 +37,22 @@ typedef struct Pair_8022525C
   s32 b;
 } Pair_8022525C;
 
-typedef struct Ent_8022525C
+typedef struct ToolStockEntry
 {
   u8 id;
   u8 count;
-} Ent_8022525C;
+} ToolStockEntry;
 
-typedef struct Tier_8022525C
+typedef struct ToolStockTier
 {
-  Ent_8022525C *ents;
+  ToolStockEntry *ents;
   u8 n;
-} Tier_8022525C;
+} ToolStockTier;
 
-typedef struct Hdr_8022525C
+typedef struct ToolStockTable
 {
-  Tier_8022525C *tiers;
-} Hdr_8022525C;
+  ToolStockTier *tiers;
+} ToolStockTable;
 
 extern "C" {
 void sort_shop_items(s32, s32, s32);
@@ -433,7 +433,7 @@ void TLobby::free_all_rocks() {
         uaddr v = (u32)var_r29[var_r31];
         if (v != 0U) {
             mem_free((void *)v);
-            var_r29[var_r31] = (s32)var_r30;
+            var_r29[var_r31] = var_r30;
         }
         i -= 1;
         var_r31 -= 1;

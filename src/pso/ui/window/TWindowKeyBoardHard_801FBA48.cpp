@@ -92,17 +92,17 @@ void TAdSinglePlyChrSelectGC::try_load_system_file() {
 }
 
 void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *save_data) {
-    Pso3CharacterFile *a;
-    Pso3CharacterFile *b;
-    a = new Pso3CharacterFile;
-    b = new Pso3CharacterFile;
-    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(a, save_data);
+    Pso3CharacterFile *plain;
+    Pso3CharacterFile *unshuffled;
+    plain = new Pso3CharacterFile;
+    unshuffled = new Pso3CharacterFile;
+    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(plain, save_data);
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[1]);
     subtractive_rng_make_shuffle(&chr_select_rng_state);
-    subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)a, (u8 *)b, (u32)(0x194B0));
-    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(save_data, b);
-    delete b;
-    delete a;
+    subtractive_rng_unshuffle(&chr_select_rng_state, (const u8 *)plain, (u8 *)unshuffled, (u32)(0x194B0));
+    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(save_data, unshuffled);
+    delete unshuffled;
+    delete plain;
     subtractive_rng_seed(&chr_select_rng_state, chr_select_serial_seeds[0]);
     chr_select_rng_state.apply_rng_cipher((u32 *)save_data, 0x194B0);
     subtractive_rng_seed(&chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)save_data));

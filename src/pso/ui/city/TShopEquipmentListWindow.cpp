@@ -44,7 +44,7 @@
 
 #pragma dont_inline off
 
-const char *TShopEquipmentListWindow__class_name = "TShopEquipmentListWindow";
+const char *shop_equipment_list_window_class_name = "TShopEquipmentListWindow";
 
 extern "C" {
 void get_shop_weapon_stock_item(TItemData *dst, s32 index, s32 table);
@@ -57,15 +57,15 @@ int TShopEquipmentListWindow__sub_8021C85C(int a0) {  return shop_weapon_stock_c
 
 TShopEquipmentListWindow::TShopEquipmentListWindow(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player) : TShopWindowBase(parent) {
     s32 count;
-    this->m_name = TShopEquipmentListWindow__class_name;
+    this->m_name = shop_equipment_list_window_class_name;
     this->player = player;
     this->sequence = sequence;
     this->confirm_menu = NULL;
     this->item_list = NULL;
     this->help_window = NULL;
-    this->pad_38 = NULL;
+    this->unused_window = NULL;
     this->cost_window = NULL;
-    this->pad_40 = 0;
+    this->unused_40 = 0;
     this->last_cursor = 0;
     this->can_equip = 0;
     this->state = 0;
@@ -78,7 +78,7 @@ TShopEquipmentListWindow::~TShopEquipmentListWindow() {
     if (item_list != NULL) { item_list->close(); item_list = NULL; }
     if (confirm_menu != NULL) { confirm_menu->close(); confirm_menu = NULL; }
     if (help_window != NULL) { help_window->close(); help_window = NULL; }
-    if (pad_38 != NULL) { pad_38->close(); pad_38 = NULL; }
+    if (unused_window != NULL) { unused_window->close(); unused_window = NULL; }
     if (cost_window != NULL) { cost_window->close(); cost_window = NULL; }
 }
 

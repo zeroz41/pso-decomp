@@ -31,7 +31,7 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8(this), value_index);
+        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -119,7 +119,7 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8(this), value_index);
+        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -207,7 +207,7 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8(this), value_index);
+        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -1189,7 +1189,7 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
     s32 v;
     switch (mode) {
     case 0:
-        v = TWindowDD_read_indexed_value(TWindowDD__sub_80346DB8(this), value_index);
+        v = TWindowDD_read_indexed_value(get_initial_word_select_list(this), value_index);
         if (v == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
@@ -1274,31 +1274,31 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
     return v;
 }
 s32 TWindowDD::get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index) {
-    s32 var_r31;
-    s16 temp_r31;
+    s32 value;
+    s16 resolved_id;
 
     switch (mode) {
     case 0:
-        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(TWindowDD__sub_80346DB8(this), value_index);
-        if (var_r31 == -0x1E) {
+        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(get_initial_word_select_list(this), value_index);
+        if (value == -0x1E) {
             switch (this->get_word_select_context()) {
             case 1:
-                var_r31 = 0x10;
+                value = 0x10;
                 break;
             case 0:
-                var_r31 = 0xF;
+                value = 0xF;
                 break;
             case 3:
-                var_r31 = 0x12;
+                value = 0x12;
                 break;
             case 2:
-                var_r31 = 0x11;
+                value = 0x11;
                 break;
             case 4:
-                var_r31 = 0x13;
+                value = 0x13;
                 break;
             case 5:
-                var_r31 = 0x14;
+                value = 0x14;
                 break;
             }
         }
@@ -1306,40 +1306,40 @@ s32 TWindowDD::get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index)
     case 1:
     case 2:
     case 6:
-        var_r31 = -0x3C;
+        value = -0x3C;
         break;
     case 3:
-        temp_r31 = TWindowDD_read_resolved_value(entry_id, value_index);
-        if (((s32 (*)(s16)) TWindowDD__sub_80347858)(temp_r31) != 0) {
-            var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xF, temp_r31 - 0x37);
+        resolved_id = TWindowDD_read_resolved_value(entry_id, value_index);
+        if (((s32 (*)(s16)) TWindowDD__sub_80347858)(resolved_id) != 0) {
+            value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xF, resolved_id - 0x37);
         } else {
-            var_r31 = -0x3C;
+            value = -0x3C;
         }
         break;
     case 5:
-        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xE, value_index);
+        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xE, value_index);
         break;
     case 7:
-        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xF, value_index);
+        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0xF, value_index);
         break;
     case 8:
-        var_r31 = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0x10, this->selected_word - 0x37);
+        value = ((s16 (*)(s32, s32))TWindowDD_read_indexed_value)(0x10, this->selected_word - 0x37);
         break;
     case 9:
-        var_r31 = -0x32;
+        value = -0x32;
         break;
     case 10:
         if (TWindowDD_read_resolved_value(0x118, value_index) == 0x685) {
-            var_r31 = -0x3C;
+            value = -0x3C;
         } else {
-            var_r31 = -1;
+            value = -1;
         }
         break;
     default:
-        var_r31 = -1;
+        value = -1;
         break;
     }
-    return var_r31;
+    return value;
 }
 #define BUF_803467CC ((Buf_803467CC *)TWindowDD__word_select_lists)
 void TWindowDD::build_item_list() {

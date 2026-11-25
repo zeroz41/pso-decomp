@@ -18,7 +18,7 @@ struct GuildCardEntry {
     char name[0x18];
     char text[0x6C];
     s8 flags;
-    s8 language;
+    s8 language;  // index of the Jpn./Eng./Ger./Fr./Span. label
     s8 section_id;
     s8 char_class;
 };

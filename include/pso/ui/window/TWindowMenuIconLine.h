@@ -14,9 +14,10 @@ public:
     TWindowMenuIconLine(u8 *parent, u32 count, s16 client, u8 *descriptor);
     TWindowMenuIconLine(u8 *parent, u32 count, s16 client);
     virtual ~TWindowMenuIconLine();
+    static const char *class_name;
     virtual void run_task();
     virtual void render();
-    virtual void init(u32, s32);
+    virtual void init(u32 count, s32 client);
     void draw_selected_list_entry(WindowDrawContext *context);
     void update_scroll_offset();
     void clamp_item_list_scroll();
@@ -88,7 +89,7 @@ public:
     void advance_status_disp_entry(s32 message);
     void advance_all_entries(s32 play_sound);
     void refresh_selected_entry(s32 play_sound);
-    void append_entry(s32 flag, s32 src, s32 item, s32 arg4, s32 arg5);
+    void append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows);
     void push_status_disp_entry(s32 count, s32 id);
     // Append a row for one of the player's five battle items (stat 0-4) when
     // they hold any; gray_out greys it where items cannot be used.

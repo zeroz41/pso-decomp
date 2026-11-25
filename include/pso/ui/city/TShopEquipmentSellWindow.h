@@ -31,7 +31,7 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     virtual void display_message(const char *text, s32 flags);
     virtual void display_shop_message(s32 id, s32 flags);
     TShopSellEntry entries[30];
-    u32 pad_370;
+    u32 unused_370;
     s32 entry_count;
     s32 title_text;                     // shop text id of the item list's title
     s32 sell_count;                     // how many of a stacked tool to sell

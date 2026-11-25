@@ -153,7 +153,7 @@ s32 copy_attack_targets(void *, void *);
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s32 play_weapon_hit_sound(void *);
 s32 draw_player_status(void *, void *, const char *);
-u16 TObjPlayer__sub_801B5AF8(void *, s32);
+u16 get_action_palette_mode(void *, s32);
 // start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
 s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
@@ -1691,7 +1691,7 @@ void TObjPlayer::prepare_death() {
     if (is_action_input_disabled() != 0) {
         enable_action_input();
     }
-    if (this->lock_on_cursor != NULL && ((TMainCursor *)this->lock_on_cursor)->is_cursor_clear() == 0) {
+    if (this->lock_on_cursor != NULL && this->lock_on_cursor->is_cursor_clear() == 0) {
         ((TObjPlayer *)this->lock_on_cursor)->clear_flag_1_at_1c();
     }
     if (this == NULL || this->obj_isState2_324() == 0) {
@@ -2639,7 +2639,7 @@ void TObjPlayer::prepare_photon_blast_action() {
         capture_technique_targets(this->photon_blast_gauge.get_valid_index(), this);
         if (this->lock_on_cursor != NULL) {
             PhotonBlastTarget *e = this->photon_blast_gauge.get_target(0);
-            ((TMainCursor *)this->lock_on_cursor)->set_cursor_pos(e->entity_id, e->index);
+            this->lock_on_cursor->set_cursor_pos(e->entity_id, e->index);
         }
         if (this == NULL || this->obj_isState2_324() == 0) {
             G_ExecutePhotonBlast_6x49 cmd;
@@ -2768,7 +2768,7 @@ void TObjPlayer::update_cursor(s32 parameter) {
     if ((cursor != NULL) && (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
         set_action_palette_tag_mode(&lock_on_cursor->palette_override, 3);
         set_action_palette_tag_slot(&lock_on_cursor->palette_override, static_cast<u8>(parameter));
-        TMainCursor__sub_8013DFC4((u8 *)&this->lock_on_cursor->palette_override);
+        set_action_channel_active((u8 *)&this->lock_on_cursor->palette_override);
     }
 }
 
@@ -3078,7 +3078,7 @@ void TObjPlayer::request_technique_cast() {
     capture_technique_targets(technique_state.get_or_init_field_4(), this);
     if (lock_on_cursor != NULL) {
         td = technique_state.get_technique_data();
-        ((TMainCursor *)lock_on_cursor)->set_cursor_pos(td->entity_id, td->index);
+        ((TLockOnCursor *)lock_on_cursor)->set_cursor_pos(td->entity_id, td->index);
     }
     tech = technique_state.get_or_init_field_4();
     TObjPlayer::split_capped_value(get_cast_technique_level(&technique_state, tech), &hi, &lo);
@@ -3618,14 +3618,14 @@ void TObjPlayer::send_attack_target_packet() {
 
 s32 TObjPlayer::select_attack_palette_slot() {
     s32 r = -1;
-    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 1) == 2 && pad_binding.is_button_pressed(4) != 0) {
+    if (get_action_palette_mode(((u8 *)this), 1) == 2 && pad_binding.is_button_pressed(4) != 0) {
         r = 1;
     }
-    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 2) == 2 && pad_binding.is_button_pressed(0x400) != 0 &&
+    if (get_action_palette_mode(((u8 *)this), 2) == 2 && pad_binding.is_button_pressed(0x400) != 0 &&
         is_palettex_activated(this->get_entity_id()) == 0) {
         r = 2;
     }
-    if (TObjPlayer__sub_801B5AF8(((u8 *)this), 3) == 2 && pad_binding.is_button_pressed(2) != 0) {
+    if (get_action_palette_mode(((u8 *)this), 3) == 2 && pad_binding.is_button_pressed(2) != 0) {
         r = 3;
     }
     return this->check_mode_action((u16)this->get_action_palette_entry(r)) != 0 ? r : -1;

@@ -15,18 +15,18 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaTexture.h"
 
-// The title banner textures: English (lbl_804DCA60/78) and Japanese (lbl_804DCA80/98) name lists and texlists.
-NJS_TEXNAME lbl_804DCA60[2] = { { "f512_midashi_eng", 0, 0 }, { "f512_midashi_eng_b", 0, 0 } };
-NJS_TEXLIST lbl_804DCA78 = { lbl_804DCA60, 2 };
-NJS_TEXNAME lbl_804DCA80[2] = { { "f512_midashi", 0, 0 }, { "f512_midashi_b", 0, 0 } };
-NJS_TEXLIST lbl_804DCA98 = { lbl_804DCA80, 2 };
+// The title banner textures: English (title_midashi_texnames_eng/78) and Japanese (title_midashi_texnames/98) name lists and texlists.
+NJS_TEXNAME title_midashi_texnames_eng[2] = { { "f512_midashi_eng", 0, 0 }, { "f512_midashi_eng_b", 0, 0 } };
+NJS_TEXLIST title_midashi_texlist_eng = { title_midashi_texnames_eng, 2 };
+NJS_TEXNAME title_midashi_texnames[2] = { { "f512_midashi", 0, 0 }, { "f512_midashi_b", 0, 0 } };
+NJS_TEXLIST title_midashi_texlist = { title_midashi_texnames, 2 };
 
 const char *ad_title_gc_class_name = "TAdTitleGC";
 
 extern "C" {
 u32 calc_text_width(char *s);
 s32 get_player__20TWindowSubStatusDispFv();
-uaddr lbl_805D6630;
+uaddr title_midashi_texlist_current;
 saddr get_localized_text_entry(s32, s32);
 
 // The title texture helpers. The TU is compiled deferred, so its functions come out backwards:
@@ -39,15 +39,15 @@ int game_files_modified() { return game_files_modified_flag; }
 void TLobby__sub_802A0F70(void) {
     TLobby::update_menu_cursor();
     const char *names[5] = { "f512_midashi", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng" };
-    NJS_TEXLIST *lists[5] = { &lbl_804DCA98, &lbl_804DCA78, &lbl_804DCA78, &lbl_804DCA78, &lbl_804DCA78 };
-    lbl_805D6630 = (uaddr)lists[current_language];
+    NJS_TEXLIST *lists[5] = { &title_midashi_texlist, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng, &title_midashi_texlist_eng };
+    title_midashi_texlist_current = (uaddr)lists[current_language];
     load_streamed_prs_texture(names[current_language], lists[current_language]);
 }
 
 void TLobby::free_dialog_global() {
-    if ((u32) lbl_805D6630 != 0U) {
-        release_texture_list((NJS_TEXLIST *)lbl_805D6630);
-        lbl_805D6630 = 0U;
+    if ((u32) title_midashi_texlist_current != 0U) {
+        release_texture_list((NJS_TEXLIST *)title_midashi_texlist_current);
+        title_midashi_texlist_current = 0U;
     }
 }
 
@@ -133,11 +133,11 @@ block_5:
     }
 }
 
-s32 TAdTitleGC::draw_title_layer(s32 arg1, s32 color) {
+s32 TAdTitleGC::draw_title_layer(s32 layer, s32 color) {
     s32 i;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D6630));
-    set_draw_texture_and_color(arg1 > 0xB, color);
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(title_midashi_texlist_current));
+    set_draw_texture_and_color(layer > 0xB, color);
     for (i = 0; i < 8; i++) {
         draw_textured_quad_at_depth(&rects[i].x0, (-1.0f) / -((113.0f) - (f32)i));
     }

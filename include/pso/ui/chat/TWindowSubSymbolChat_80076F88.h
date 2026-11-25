@@ -10,7 +10,7 @@ void TLobby__sub_80077608(void);
 }
 
 extern "C" {
-void TWindowSubSymbolChat__sub_80077704(void *p);
+void init_symbol_chat_header(void *p);
 }
 
 #endif

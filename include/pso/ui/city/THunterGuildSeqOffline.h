@@ -42,7 +42,7 @@ struct THunterGuildSeqOffline : public TShopSequence {
     TWindowMenu *choice_menu; // 0x2C: create_yes_no_window
     TObject *counter_camera; // 0x30: set_service_counter_camera
     TQuestThread *quest_thread;       // 0x34: TQuestThread::create_in_root
-    s32 unk_38;
+    s32 exit_action;       // 0: close; 1-4: leave through a fade-out that sets enemy mode 0, 1, 3 or 5
     static void clear_slots();
     static void reset_quest_list_vm();
     static void clear_slot_flags();

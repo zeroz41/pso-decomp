@@ -28,5 +28,5 @@ void build_6xA6_modify_trade_proposal(void* p) { *(u8*)((char*)p + 0x0) = 166; *
 
 
 void TLobby__sub_802D3AA8(void) {
-    lbl_805D63FC |= 8;
+    short_mail_flags |= 8;
 }

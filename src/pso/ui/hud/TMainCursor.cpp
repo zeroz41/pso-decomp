@@ -61,36 +61,27 @@
 #undef PSO_SDK_COMPACT_MATH
 
 
-extern void *lbl_804A71C4[6];
+extern void *lock_on_list_clear_vtable[6];
 
 
 extern const char *lockon_list_clear_task_name;
 
-struct Pl_8013B0F0 {
-    u8 pad[0x424];
-    TLockOnCursor *cur;
-};
 
-
-
-struct Ent_8013B2C8 { s32 w; };
 
 extern "C" {
-extern const f32 TMainCursor__data_805DB0C0;
+extern const f32 cursor_float_zero;
 
-extern const char *TLOC_Start__name;
+extern const char *lock_on_start_task_name;
 }
 
 extern "C" {
 
 void draw_chunk_object(void);
 
-struct VOff_8013B524_arg0_8013B524 { char pad_0[0x4C]; char f_4C[1]; };
-
 s32 rotate_matrix_y(s32, s32);
 
 u8 get_cast_technique_level(void *, s32);
-s16 TObjPlayer__sub_801B5AF8(TObjPlayer *player, s32 index);
+s16 get_action_palette_mode(TObjPlayer *player, s32 index);
 }
 
 
@@ -106,8 +97,8 @@ BmlResourceDescriptor target_cursor_resource_descriptor = {
 };
 const char *lock_on_cursor_class_name = "TLockOnCursor";
 const char *main_cursor_class_name = "TMainCursor";
-const char *TLOC_Start__name = "TLOC_Start";
-const char *TLOC_End__name = "TLOC_End";
+const char *lock_on_start_task_name = "TLOC_Start";
+const char *lock_on_end_task_name = "TLOC_End";
 const char *lockon_list_clear_task_name = "TLOC_ListClear";
 u8 cursor_action_priority_table[20] = {
     3, 8, 11, 5, 10, 13, 4, 9, 12, 7, 21, 22, 19, 20, 0, 16, 17, 14, 6, 0,
@@ -120,7 +111,7 @@ NJS_ARGB target_cursor_color_table[6] = {
     {1.0f, 0.0f, 0.39f, 0.0f},
     {1.0f, 0.0f, 0.0f, 0.0f},
 };
-void *lbl_804A71C4[6] = {
+void *lock_on_list_clear_vtable[6] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__14TLOC_ListClearFv, (void *)&run_task__14TLOC_ListClearFv,
     (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv,
 };
@@ -130,49 +121,24 @@ extern "C" {
 f32 vec3_dot(void *, void *);
 }
 
-struct ActionCursor_8013C924 {
-    u8 pad0[0x24];
-    TMainCursor actions;
-    u8 pad8C[0x520 - 0x24 - sizeof(TMainCursor)];
-    ActionPaletteTag channel;
-};
-
 struct TLockOnCursor;
 
-struct Cursor_8013CDE4 {
-    u8 pad0[0x1C];
-    f32 pos[3];
-    f32 f28;
-    f32 f2c;
-    f32 f30;
-    s32 f34;
-    s32 f38;
-    f32 f3c;
-    TargetCursorList f40;
-    LockOnTargetRecordList f9c;
-};
+struct TechniqueCursorParams { u8 pad0[8]; f32 reach; f32 apex_offset; u8 pad10[0x18 - 0x10]; s32 horizontal_angle; s32 vertical_angle; u8 pad20[2]; s8 cursor_type; };
 
-struct Main_8013CDE4 { u8 pad0[0x5C]; Cursor_8013CDE4 cursors[4]; };
-
-struct Tech_8013CDE4 { u8 pad0[8]; f32 f8; f32 fc; u8 pad10[0x18 - 0x10]; s32 f18; s32 f1c; u8 pad20[2]; s8 f22; };
-
-struct Weapon_8013CDE4 { f32 f0; f32 f4; s32 f8; s32 fc; s32 f10; };
+struct WeaponRangeRecord { f32 reach; f32 apex_offset; s32 horizontal_angle; s32 vertical_angle; s32 cursor_type; };
 
 extern "C" {
-Weapon_8013CDE4 *get_weapon_range_record(void *, s32);
+WeaponRangeRecord *get_weapon_range_record(void *, s32);
 extern f32 scratch_vec5[3];
-#define C_8013CDE4 ((saddr)cur)
-#define TECH_8013CDE4(t)                                          \
-    cur->f3c = (t)->fc;                                           \
-    cur->f28 = (t)->f8 + cur->f3c;                                \
-    cur->f34 = (t)->f18;                                          \
-    cur->f2c = cos_table_lookup(cur->f34);              \
-    cur->f38 = (t)->f1c;                                          \
-    cur->f30 = cos_table_lookup(cur->f38);
+#define APPLY_TECH_RANGE(t)                                          \
+    cur->cone_apex_offset = (t)->apex_offset;                                           \
+    cur->lock_range = (t)->reach + cur->cone_apex_offset;                                \
+    cur->horizontal_cone_angle = (t)->horizontal_angle;                                          \
+    cur->horizontal_cone_cos = cos_table_lookup(cur->horizontal_cone_angle);              \
+    cur->vertical_cone_angle = (t)->vertical_angle;                                          \
+    cur->vertical_cone_cos = cos_table_lookup(cur->vertical_cone_angle);
 
 }
-
-struct Obj_8013EC1C { u16 a; u16 b; u16 c; };
 
 
 u8 * lock_on_cursor_bml_resource;
@@ -181,22 +147,15 @@ s32 TLockOnCursor::target_cursor_model;
 
 NJS_OBJECT *main_cursor_model;
 extern "C" {
-void TLockOnCursor__sub_8013EC1C(void *);
+void reset_target_part_entry(LockOnTargetPart *);
 
 }
 
 extern const f32 lbl_805DB0C4;
 
 
-struct Rec_8013E870 { u8 pad[0x124]; };
-
-struct Obj_8013E870 { u8 pad[0x5c]; Rec_8013E870 recs[1]; };
-
-
-struct Obj_8013F24C { u8 pad[0x44]; u8 arr[1]; };
 
 extern "C" {
-u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
 
 }
 
@@ -207,17 +166,17 @@ u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
 
 void TLOC_ListClear::run_task() {
     if (m_target.resolve() != 0 && m_target.get_player()->lock_on_cursor != NULL) {
-        TObjPlayer__sub_8013DEF8((u8 *)&m_target.get_player()->lock_on_cursor->palette_override);
+        set_action_channel_inactive((u8 *)&m_target.get_player()->lock_on_cursor->palette_override);
     }
 }
 
 TLOC_ListClear *__dt__14TLOC_ListClearFv(TLOC_ListClear *task, s16 flags) {
     if (task != NULL) {
-        *(void ***)((u8 *)task + 0x18) = lbl_804A71C4;
+        *(void ***)((u8 *)task + 0x18) = lock_on_list_clear_vtable;
         if (task->m_target.resolve() != 0 && task->m_target.get_player()->lock_on_cursor != NULL) {
             task->m_target.get_player()->lock_on_cursor->set_list_clear_task(NULL);
         }
-        __dt__13TUnk_804A7260Fv(task, 0);
+        __dt__10LockOnTaskFv(task, 0);
         if (flags > 0) {
             TObject::operator delete(task);
         }
@@ -226,8 +185,8 @@ TLOC_ListClear *__dt__14TLOC_ListClearFv(TLOC_ListClear *task, s16 flags) {
 }
 
 void *TLOC_ListClear::init_lockon(TObject *parent, u16 id) {
-    __ct__13TUnk_804A7260FP7TObjectUs(this, parent, id);
-    *(void ***)((s8 *)this + 0x18) = lbl_804A71C4;
+    __ct__10LockOnTaskFP7TObjectUs(this, parent, id);
+    *(void ***)((s8 *)this + 0x18) = lock_on_list_clear_vtable;
     m_name = lockon_list_clear_task_name;
     return this;
 }
@@ -258,7 +217,7 @@ TLockOnCursor::TLockOnCursor(TObject *parent, u16 target_id) : TObject(parent) {
     flags.reset();
 }
 
-TUnk_8013F0A0::~TUnk_8013F0A0() {}
+ActionPriorityList::~ActionPriorityList() {}
 
 TLockOnCursor::~TLockOnCursor() {
     TObject *task;
@@ -306,7 +265,7 @@ void TLockOnCursor::reset_and_spawn_cursors() {
         action_slots[i].reset_state();
     }
     selection.reset_state();
-    TLockOnCursor__sub_8013EC1C(&target_part);
+    reset_target_part_entry(&target_part);
     nearest_target.reset();
     if (get_start_task() == NULL) {
         set_start_task(new TLOC_Start(tl_loc_start, get_target_id()));
@@ -324,12 +283,11 @@ void TLockOnCursor::reset_and_spawn_cursors() {
 }
 
 void TLockOnCursor::run_task() {
-    saddr arg0 = (saddr)this;
-    if (((TMainCursor *)(arg0 + 0x520))->is_channel_active() != 0) {
-        TLockOnCursor__sub_8013EB8C((void *)(arg0 + 0x520));
+    if (((TMainCursor *)&palette_override)->is_channel_active() != 0) {
+        TLockOnCursor__sub_8013EB8C(&palette_override);
         return;
     }
-    TLockOnCursor__sub_8013EB80((void *)(arg0 + 0x520));
+    TLockOnCursor__sub_8013EB80(&palette_override);
 }
 
 #pragma push
@@ -338,11 +296,11 @@ void TLockOnCursor::run_task() {
 void TLockOnCursor::render() {
     s32 i;
     s32 j;
-    u8 *c;
+    LockOnActionSlot *c;
     s32 n;
     LockOnTargetRecord *p;
     saddr e;
-    u8 *o;
+    TObjCollidable *o;
     if (is_split_screen() != 0) {
         if (TCameraCtrl::get_camera_no() != TCameraCtrl::get_split_screen_view_index(get_target_id())) {
             return;
@@ -351,18 +309,18 @@ void TLockOnCursor::render() {
         return;
     }
     for (i = 0; i < 4; i++) {
-        c = (u8 *)get_action_slot(i);
+        c = get_action_slot(i);
         if (((TMainCursor *)c)->get_selected_entry() != 0) {
-            n = ((LockOnTargetRecordList *)(c + 0x9C))->get_count();
-            for (p = ((LockOnActionSlot *)c)->target_records.get_record(0), j = 0; j < n; j++, p++) {
+            n = c->target_records.get_count();
+            for (p = c->target_records.get_record(0), j = 0; j < n; j++, p++) {
                 if (p->is_primary() == 0 &&
                     p->is_excluded() == 0 &&
                     p->get_entity_id() != 0xFFFF) {
-                    o = (u8 *)find_entity_by_id(p->id);
+                    o = find_entity_by_id(p->id);
                     if (o != NULL) {
-                        e = *(s32 *)(o + 0xA4) + p->flag * 0x2C;
+                        e = (saddr)&o->bodies[p->flag];
                         if (e != 0) {
-                            renderSecondaryCursor((u8*)e, (s32)(get_cursor_palette_mode((void *)c)), (s32)(((TMainCursor *)c)->get_active()));
+                            renderSecondaryCursor((u8*)e, (s32)(get_cursor_palette_mode(c)), (s32)(((TMainCursor *)c)->get_active()));
                         }
                     }
                 }
@@ -373,33 +331,32 @@ void TLockOnCursor::render() {
 #pragma pop
 
 void TLockOnCursor::renderSecondaryCursor(u8 *body, s16 type, s32 action) {
-    const saddr arg0 = (saddr)this;
-    f32 sp8[3];
+    f32 offset[3];
     f32 y;
-    s32 temp_r3_2;
+    s32 color_index;
     TObjPlayer *player;
     if (is_inactive() != 0) {
         player = get_player_by_client_id(get_target_id());
         if (player != NULL) {
-            temp_r3_2 = TMainCursor::check_visible(&player->action_palettes.m_smth, player, type, action);
-            if (temp_r3_2 != -1) {
+            color_index = TMainCursor::check_visible(&player->action_palettes.m_smth, player, type, action);
+            if (color_index != -1) {
                 TObjFish::set_global_param(&shared_effect_texture_list);
                 y = *(f32 *)((s8 *)body + 0xC);
                 push_matrix();
-                offset_point_toward_camera((Vec *)(body + 0x1C), (Vec *)&sp8, (f32)y);
-                translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
+                offset_point_toward_camera((Vec *)(body + 0x1C), (Vec *)&offset, (f32)y);
+                translate_matrix_vec3((u8 *)(0), (u8 *)&offset);
                 rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 TParticleCtrl::begin_effect_render();
                 push_matrix();
-                translate_matrix(0, TMainCursor__data_805DB0C0, y, TMainCursor__data_805DB0C0);
-                save_model_draw_state((void *)(arg0 + 0x48));
-                begin_constant_color_draw((void *)(arg0 + 0x48), &target_cursor_color_table[5]);
+                translate_matrix(0, cursor_float_zero, y, cursor_float_zero);
+                save_model_draw_state(&marker);
+                begin_constant_color_draw(&marker, &target_cursor_color_table[5]);
                 TMainCursor::get_cursor_model();
                 draw_chunk_object();
-                begin_constant_color_draw((void *)(arg0 + 0x48), &target_cursor_color_table[temp_r3_2]);
-                TLockOnCursor__sub_8013EB34();
+                begin_constant_color_draw(&marker, &target_cursor_color_table[color_index]);
+                get_target_cursor_model();
                 draw_chunk_object();
-                restore_model_draw_state((void *)(arg0 + 0x48));
+                restore_model_draw_state(&marker);
                 pop_matrix();
                 TParticleCtrl::end_effect_render();
                 pop_matrix();
@@ -468,14 +425,14 @@ void TLockOnCursor::publish_target_list(s32 slot) {
         cur->set_value(item->value);
         cur->set_flag(item->flag);
         cur->clear_excluded();
-        if (is_inactive() == 0 || ((TMainCursor *)ent)->test_button(item->flag, get_target_id()) != 0 || (part->flags & 0x08000000)) {
+        if (is_inactive() == 0 || ent->test_body_flag(item->flag, get_target_id()) != 0 || (part->flags & 0x08000000)) {
             cur->set_excluded();
         }
         if (mode == 1) {
             cur->clear_primary();
         } else {
             cur->set_primary();
-            if (((TMainCursor *)ent)->test_button(item->flag, get_target_id()) == 0) {
+            if (ent->test_body_flag(item->flag, get_target_id()) == 0) {
                 list = selection.get_target();
                 list->set_entity_id(item->id);
                 set_cursor_palette_mode(&list->palette_tag, get_cursor_palette_mode(sub));
@@ -490,7 +447,7 @@ void TLockOnCursor::publish_target_list(s32 slot) {
             }
         }
         part->flags |= 0x10000000;
-        TMainCursor__sub_80154230(ent, item->flag, get_target_id());
+        ent->set_body_flag(item->flag, get_target_id());
         count++;
     }
     sub->target_records.set_count(count);
@@ -507,82 +464,82 @@ void TLockOnCursor::sort_list(s32 index) {
 #pragma push
 #pragma fp_contract on
 
-void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
-    Cursor_8013CDE4 *cur;
-    Tech_8013CDE4 *tech;
-    Weapon_8013CDE4 *wpn;
+void TLockOnCursor::setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s32 id) {
+    LockOnActionSlot *cur;
+    TechniqueCursorParams *tech;
+    WeaponRangeRecord *wpn;
     s16 sid;
     if (player == NULL) {
         return;
     }
-    cur = &((Main_8013CDE4 *)this)->cursors[slot];
+    cur = &action_slots[slot];
     if (check_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(cur), kind, id) == 0) {
-        clear_target_cursor_list(&cur->f40);
-        cur->f9c.clear();
+        clear_target_cursor_list(&cur->target_list);
+        cur->target_records.clear();
     }
     set_cursor_mode(cur, kind);
     set_cursor_slot(cur, id);
     switch ((s16)kind) {
     case 1:
         if (((TObjChara *)player)->obj_isState3_324() == 0) {
-            TMainCursor__sub_8013E9A0(cur);
-            ((TMainCursor *)C_8013CDE4)->set_color(0x20000);
-            ((TMainCursor *)C_8013CDE4)->set_field_0c(0x8000);
-            ((TMainCursor *)C_8013CDE4)->set_color_mode(0xC0000000);
-            ((TMainCursor *)C_8013CDE4)->set_flags(0x30040800);
-            ((TMainCursor *)cur)->set_type(1);
-            VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
-            cur->f3c = TMainCursor__data_805DB0C0;
-            cur->f28 = 15.0f;
-            cur->f34 = 0x8000;
-            cur->f38 = 0x8000;
-            cur->f2c = cos_table_lookup(cur->f34);
-            cur->f30 = cos_table_lookup(cur->f38);
+            activate_action_channel(cur);
+            cur->set_body_include_mask(0x20000);
+            cur->set_body_exclude_mask(0x8000);
+            cur->set_actor_include_mask(0xC0000000);
+            cur->set_actor_exclude_mask(0x30040800);
+            cur->set_max_targets(1);
+            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            cur->cone_apex_offset = cursor_float_zero;
+            cur->lock_range = 15.0f;
+            cur->horizontal_cone_angle = 0x8000;
+            cur->vertical_cone_angle = 0x8000;
+            cur->horizontal_cone_cos = cos_table_lookup(cur->horizontal_cone_angle);
+            cur->vertical_cone_cos = cos_table_lookup(cur->vertical_cone_angle);
         }
         break;
     case 4:
         switch ((s16)id) {
         case 10:
-            tech = (Tech_8013CDE4 *)calc_technique_parameters(0xF, 0xE, ((TObjBase *)player)->get_entity_id());
-            TMainCursor__sub_8013E9A0(cur);
-            TECH_8013CDE4(tech)
-            ((TMainCursor *)cur)->set_type(tech->f22);
-            VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
-            TMainCursor::set_display_flags((saddr)this, (saddr)player, C_8013CDE4);
+            tech = (TechniqueCursorParams *)calc_technique_parameters(0xF, 0xE, player->get_entity_id());
+            activate_action_channel(cur);
+            APPLY_TECH_RANGE(tech)
+            cur->set_max_targets(tech->cursor_type);
+            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            TMainCursor::set_display_flags((saddr)this, (saddr)player, cur);
             break;
         case 9:
-            tech = (Tech_8013CDE4 *)calc_technique_parameters(0x11, 0xE, ((TObjBase *)player)->get_entity_id());
-            TMainCursor__sub_8013E9A0(cur);
-            TECH_8013CDE4(tech)
-            ((TMainCursor *)cur)->set_type(tech->f22);
-            VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
-            TMainCursor::setup_flags((saddr)this, (saddr)player, C_8013CDE4);
+            tech = (TechniqueCursorParams *)calc_technique_parameters(0x11, 0xE, player->get_entity_id());
+            activate_action_channel(cur);
+            APPLY_TECH_RANGE(tech)
+            cur->set_max_targets(tech->cursor_type);
+            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            TMainCursor::setup_flags((saddr)this, (saddr)player, cur);
             break;
         }
         break;
     case 2:
         wpn = get_weapon_range_record(TObjPlayer::get_equipped_weapon(player), id);
-        TMainCursor__sub_8013E9A0(cur);
-        TMainCursor::set_cursor_color((saddr)this, (saddr)player, C_8013CDE4);
-        ((TMainCursor *)C_8013CDE4)->set_field_0c(0);
-        ((TMainCursor *)C_8013CDE4)->set_flags(0x40800);
-        VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
-        cur->f3c = wpn->f4;
-        cur->f28 = wpn->f0 + cur->f3c;
-        cur->f34 = wpn->f8;
-        cur->f38 = wpn->fc;
-        cur->f2c = cos_table_lookup(cur->f34);
-        cur->f30 = cos_table_lookup(cur->f38);
-        ((TMainCursor *)cur)->set_type(wpn->f10);
+        activate_action_channel(cur);
+        TMainCursor::set_cursor_color((saddr)this, (saddr)player, cur);
+        cur->set_body_exclude_mask(0);
+        cur->set_actor_exclude_mask(0x40800);
+        VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+        cur->cone_apex_offset = wpn->apex_offset;
+        cur->lock_range = wpn->reach + cur->cone_apex_offset;
+        cur->horizontal_cone_angle = wpn->horizontal_angle;
+        cur->vertical_cone_angle = wpn->vertical_angle;
+        cur->horizontal_cone_cos = cos_table_lookup(cur->horizontal_cone_angle);
+        cur->vertical_cone_cos = cos_table_lookup(cur->vertical_cone_angle);
+        cur->set_max_targets(wpn->cursor_type);
         break;
     case 3: {
-        u16 client = ((TObjBase *)player)->get_entity_id();
-        s32 lvl = get_cast_technique_level(player + 0x428, id);
+        u16 client = player->get_entity_id();
+        s32 lvl = get_cast_technique_level(&player->technique_state, id);
         sid = id;
-        tech = (Tech_8013CDE4 *)calc_technique_parameters(sid, lvl, client);
-        TMainCursor__sub_8013E9A0(cur);
-        TECH_8013CDE4(tech)
-        ((TMainCursor *)cur)->set_type(tech->f22);
+        tech = (TechniqueCursorParams *)calc_technique_parameters(sid, lvl, client);
+        activate_action_channel(cur);
+        APPLY_TECH_RANGE(tech)
+        cur->set_max_targets(tech->cursor_type);
         switch (sid) {
         case 0:
         case 1:
@@ -595,62 +552,62 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
         case 8:
         case 9:
         case 18:
-            TMainCursor::set_cursor_color((saddr)this, (saddr)player, C_8013CDE4);
-            ((TMainCursor *)C_8013CDE4)->set_field_0c(0);
-            ((TMainCursor *)C_8013CDE4)->set_flags(0x40800);
-            VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
+            TMainCursor::set_cursor_color((saddr)this, (saddr)player, cur);
+            cur->set_body_exclude_mask(0);
+            cur->set_actor_exclude_mask(0x40800);
+            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
             break;
         case 14:
-            ((TMainCursor *)C_8013CDE4)->set_color(0x8000);
-            ((TMainCursor *)C_8013CDE4)->set_field_0c(0);
-            ((TMainCursor *)C_8013CDE4)->set_color_mode(0x60000000);
-            ((TMainCursor *)C_8013CDE4)->set_flags(0x40800);
-            scratch_vec5[0] = 50.0f * sin_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x2FC);
-            scratch_vec5[1] = *(f32 *)(player + 0x300);
-            scratch_vec5[2] = 50.0f * cos_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x304);
-            VecCopy((Vec *)cur->pos, (const Vec *)scratch_vec5);
+            cur->set_body_include_mask(0x8000);
+            cur->set_body_exclude_mask(0);
+            cur->set_actor_include_mask(0x60000000);
+            cur->set_actor_exclude_mask(0x40800);
+            scratch_vec5[0] = 50.0f * sin_table_lookup(player->rotation_y) + *(f32 *)((u8 *)player + 0x2FC);
+            scratch_vec5[1] = *(f32 *)((u8 *)player + 0x300);
+            scratch_vec5[2] = 50.0f * cos_table_lookup(player->rotation_y) + *(f32 *)((u8 *)player + 0x304);
+            VecCopy(&cur->origin, (const Vec *)scratch_vec5);
             break;
         case 10:
         case 13:
         case 15:
         case 16:
-            VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
-            TMainCursor::set_display_flags((saddr)this, (saddr)player, C_8013CDE4);
+            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            TMainCursor::set_display_flags((saddr)this, (saddr)player, cur);
             break;
         case 11:
         case 12:
-            if (((TObjPlayer *)player)->pk_state.is_enabled() != 0) {
-                ((TMainCursor *)C_8013CDE4)->set_color(0xA000);
-                ((TMainCursor *)C_8013CDE4)->set_color_mode(0x30000000);
+            if (player->pk_state.is_enabled() != 0) {
+                cur->set_body_include_mask(0xA000);
+                cur->set_actor_include_mask(0x30000000);
             } else {
-                ((TMainCursor *)C_8013CDE4)->set_color(0x8000);
-                ((TMainCursor *)C_8013CDE4)->set_color_mode(0x20000000);
+                cur->set_body_include_mask(0x8000);
+                cur->set_actor_include_mask(0x20000000);
             }
-            ((TMainCursor *)C_8013CDE4)->set_field_0c(0x30000);
-            ((TMainCursor *)C_8013CDE4)->set_flags(0xC0040800);
-            VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
+            cur->set_body_exclude_mask(0x30000);
+            cur->set_actor_exclude_mask(0xC0040800);
+            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
             break;
         case 17:
-            VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
-            TMainCursor::setup_flags((saddr)this, (saddr)player, C_8013CDE4);
+            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            TMainCursor::setup_flags((saddr)this, (saddr)player, cur);
             break;
         }
         break;
     }
     case 5: {
         s16 pid = id;
-        tech = (Tech_8013CDE4 *)get_photon_blast_entry((s16)pid);
-        TMainCursor__sub_8013E9A0(cur);
-        if (((TObjPlayer *)player)->pk_state.is_enabled() == 0) {
-            ((TMainCursor *)C_8013CDE4)->set_color(0x8000);
-            ((TMainCursor *)C_8013CDE4)->set_color_mode(0x20000000);
+        tech = (TechniqueCursorParams *)get_photon_blast_entry((s16)pid);
+        activate_action_channel(cur);
+        if (player->pk_state.is_enabled() == 0) {
+            cur->set_body_include_mask(0x8000);
+            cur->set_actor_include_mask(0x20000000);
         } else {
-            ((TMainCursor *)C_8013CDE4)->set_color(0xA000);
-            ((TMainCursor *)C_8013CDE4)->set_color_mode(0x30000000);
+            cur->set_body_include_mask(0xA000);
+            cur->set_actor_include_mask(0x30000000);
         }
-        ((TMainCursor *)C_8013CDE4)->set_field_0c(0);
-        ((TMainCursor *)C_8013CDE4)->set_flags(0xD0040800);
-        TECH_8013CDE4(tech)
+        cur->set_body_exclude_mask(0);
+        cur->set_actor_exclude_mask(0xD0040800);
+        APPLY_TECH_RANGE(tech)
         switch (pid) {
         case 0:
         case 1:
@@ -658,8 +615,8 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
         case 3:
         case 4:
         case 5:
-            VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
-            ((TMainCursor *)cur)->set_type(0xA);
+            VecCopy(&cur->origin, (const Vec *)((u8 *)player + 0x2FC));
+            cur->set_max_targets(0xA);
             break;
         }
         break;
@@ -668,42 +625,42 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
 }
 #pragma pop
 
-void TMainCursor::setup_flags(s32 arg0, s32 player, saddr main_cursor) {
-    ((TMainCursor *)main_cursor)->set_color(0x2000);
-    ((TMainCursor *)main_cursor)->set_field_0c(0x3C000);
-    ((TMainCursor *)main_cursor)->set_color_mode(0x800);
-    ((TMainCursor *)main_cursor)->set_flags(0xE0000000);
+void TMainCursor::setup_flags(s32 unused, s32 player, LockOnActionSlot *main_cursor) {
+    main_cursor->set_body_include_mask(0x2000);
+    main_cursor->set_body_exclude_mask(0x3C000);
+    main_cursor->set_actor_include_mask(0x800);
+    main_cursor->set_actor_exclude_mask(0xE0000000);
 }
 
-void TMainCursor::set_display_flags(s32 arg0, saddr player, saddr main_cursor) {
-    ((TMainCursor *)main_cursor)->set_color(0x2000);
-    ((TMainCursor *)main_cursor)->set_color_mode(0x10000000);
-    ((TMainCursor *)main_cursor)->set_flags(0xE0000800);
+void TMainCursor::set_display_flags(s32 unused, saddr player, LockOnActionSlot *main_cursor) {
+    main_cursor->set_body_include_mask(0x2000);
+    main_cursor->set_actor_include_mask(0x10000000);
+    main_cursor->set_actor_exclude_mask(0xE0000800);
     if (TTecCtrl::is_technique_ready() == 0) {
-        ((TMainCursor *)main_cursor)->set_field_0c(0x30000);
+        main_cursor->set_body_exclude_mask(0x30000);
         return;
     }
     if (((TObjPlayer *)player)->get_pk_team() == 1) {
-        ((TMainCursor *)main_cursor)->set_field_0c(0x40030000);
+        main_cursor->set_body_exclude_mask(0x40030000);
         return;
     }
-    ((TMainCursor *)main_cursor)->set_field_0c(0x40030000);
+    main_cursor->set_body_exclude_mask(0x40030000);
 }
 
-void TMainCursor::set_cursor_color(s32 arg0, saddr player, saddr main_cursor) {
+void TMainCursor::set_cursor_color(s32 unused, saddr player, LockOnActionSlot *main_cursor) {
     if (((TObjPlayer *)player)->pk_state.is_enabled() != 0) {
-        ((TMainCursor *)main_cursor)->set_color(0xA000);
-        ((TMainCursor *)main_cursor)->set_color_mode(0x70000000);
+        main_cursor->set_body_include_mask(0xA000);
+        main_cursor->set_actor_include_mask(0x70000000);
         return;
     }
-    ((TMainCursor *)main_cursor)->set_color(0x8000);
-    ((TMainCursor *)main_cursor)->set_color_mode(0x60000000);
+    main_cursor->set_body_include_mask(0x8000);
+    main_cursor->set_actor_include_mask(0x60000000);
 }
 
-s32 TMainCursor::get_action_cursor_priority(void *arg0, saddr player, s32 index) {
+s32 TMainCursor::get_action_cursor_priority(void *unused, saddr player, s32 index) {
     u16 kind;
     s32 sub;
-    kind = TObjPlayer__sub_801B5AF8((TObjPlayer *)player, index);
+    kind = get_action_palette_mode((TObjPlayer *)player, index);
     sub = ((TObjPlayer *)player)->get_action_palette_entry(index);
     switch (kind) {
     case 1:
@@ -734,21 +691,19 @@ s32 TMainCursor::get_action_cursor_priority(void *arg0, saddr player, s32 index)
     return 0;
 }
 
-void TMainCursor::set_cursor_pos(u16 arg1, s32 arg2) {
-    saddr arg0 = (saddr)this;
-    u32 eq = (u32) __cntlzw((u32) ((u16) ((CursorTarget *)(arg0 + 0x4F8))->get_entity_id() - (u16) arg1)) >> 5;
-    set_target_part((u8 *)(arg0 + 0x508), arg1, arg2, eq + 1);
+void TLockOnCursor::set_cursor_pos(u16 part, s32 index) {
+    u32 eq = (u32) __cntlzw((u32) ((u16) selection.target.get_entity_id() - (u16) part)) >> 5;
+    set_target_part(&target_part, part, index, eq + 1);
 }
 
-void TMainCursor::bind_action_channels() {
-    ActionCursor_8013C924 *self = (ActionCursor_8013C924 *)this;
+void TLockOnCursor::bind_action_channels() {
     s32 i;
     saddr player;
     u8 type;
     s32 slot;
     s32 count;
     u8 enabled;
-    u8 *entry;
+    ActionPriorityEntry *entry;
 
     if (is_cursor_clear() == 0) {
         return;
@@ -756,13 +711,13 @@ void TMainCursor::bind_action_channels() {
     if (TCameraCtrl::get_mode() != 0) {
         return;
     }
-    player = (saddr)get_player_by_client_id(((TLockOnCursor *)this)->get_target_id());
+    player = (saddr)get_player_by_client_id(get_target_id());
     if (player == 0) {
         return;
     }
-    if (((TObjPlayer *)player)->is_controls_locked() != 0 && ((TMainCursor *)(&self->channel))->is_channel_active() != 0) {
-        type = get_action_palette_tag_mode(&self->channel);
-        enabled = get_action_palette_tag_slot(&self->channel);
+    if (((TObjPlayer *)player)->is_controls_locked() != 0 && ((TMainCursor *)&palette_override)->is_channel_active() != 0) {
+        type = get_action_palette_tag_mode(&palette_override);
+        enabled = get_action_palette_tag_slot(&palette_override);
         if (is_current_area_item_enabled() == 0) {
             if (TObjPlayer::is_key_machine_ready() == 0) {
                 return;
@@ -774,25 +729,25 @@ void TMainCursor::bind_action_channels() {
                 return;
             }
         }
-        setup_action_channel((u8 *)player, 0, type, enabled);
+        setup_action_channel((TObjPlayer *)player, 0, type, enabled);
         return;
     }
-    count = TMainCursor__sub_8013E2A0(&self->actions);
-    entry = (u8 *)self->actions.get_index();
+    count = action_list.get_count();
+    entry = action_list.get_entries();
     for (i = 0; i < count; i++) {
-        set_action_entry_priority(entry, (s8)get_action_cursor_priority(this, player, i));
-        set_action_entry_index(entry, i);
-        entry += 4;
+        entry->set_priority((s8)TMainCursor::get_action_cursor_priority(this, player, i));
+        entry->set_index(i);
+        entry++;
     }
-    self->actions.sort_actions_by_priority();
-    entry = (u8 *)self->actions.get_index();
+    action_list.sort_actions_by_priority();
+    entry = action_list.get_entries();
     slot = 0;
     for (i = 0; i < count; i++) {
-        if (TMainCursor__sub_8013E298(entry) != 0) {
-            setup_action_channel((u8 *)player, slot, TObjPlayer__sub_801B5AF8((TObjPlayer *)player, get_action_entry_index(entry)), (s16)((TObjPlayer *)player)->get_action_palette_entry(get_action_entry_index(entry)));
+        if (entry->get_priority() != 0) {
+            setup_action_channel((TObjPlayer *)player, slot, get_action_palette_mode((TObjPlayer *)player, entry->get_index()), (s16)((TObjPlayer *)player)->get_action_palette_entry(entry->get_index()));
             slot++;
         }
-        entry += 4;
+        entry++;
     }
 }
 
@@ -802,32 +757,34 @@ LockOnActionSlot *TLockOnCursor::find_by_pos(s16 mode, s16 kind) {
 
     i = 0;
     slot = action_slots;
-loop_1:
-    if ((mode == (s32) get_cursor_palette_mode(slot)) && (kind == (s32) ((TMainCursor *)slot)->get_active()) && (((TMainCursor *)slot)->get_selected_entry() != 0)) {
-        return slot;
-    }
-    i += 1;
-    slot += 1;
-    if (i >= 4) {
-        return NULL;
-    }
-    goto loop_1;
+    do {
+        if ((mode == (s32) get_cursor_palette_mode(slot)) && (kind == (s32) ((TMainCursor *)slot)->get_active()) && (((TMainCursor *)slot)->get_selected_entry() != 0)) {
+            return slot;
+        }
+        i += 1;
+        slot += 1;
+    } while (i < 4);
+    return NULL;
 }
 
-void TMainCursor::init_slots() { { saddr i; for (i = 0; i < 4; i++) { init_slot((saddr)((void*)i)); } } }
-
-void TMainCursor::reset_slots() {
-    s32 arg0 = (saddr)this;
+void TLockOnCursor::init_slots() {
     s32 i;
-    saddr base;
+    for (i = 0; i < 4; i++) {
+        init_slot(i);
+    }
+}
 
-    base = arg0 + 0x5C;
+void TLockOnCursor::reset_slots() {
+    s32 i;
+    LockOnActionSlot *slot;
+
+    slot = action_slots;
     i = 0;
     do {
-        clear_target_cursor_list(&((LockOnActionSlot *)base)->target_list);
-        ((LockOnActionSlot *)base)->target_records.clear();
+        clear_target_cursor_list(&slot->target_list);
+        slot->target_records.clear();
         i += 1;
-        base += 0x124;
+        slot++;
     } while (i < 4);
 }
 
@@ -873,9 +830,9 @@ void LockOnActionSlot::reset_target_list() {
 
     target_list.set_count(0);
     i = 0;
-    max_candidate_dist = TMainCursor__data_805DB0C0;
+    max_candidate_dist = cursor_float_zero;
     do {
-        target_list.get_record(i)->set_value(TMainCursor__data_805DB0C0);
+        target_list.get_record(i)->set_value(cursor_float_zero);
         target_list.get_record(i)->set_id(0xFFFF);
         i += 1;
     } while (i < 0xA);
@@ -920,7 +877,7 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
             continue;
         }
         c->flags &= ~0x10000000;
-        ((TMainCursor *)candidate)->set_flag_bit(i, owner->get_entity_id());
+        ((TObjCollidable *)candidate)->clear_body_flag(i, owner->get_entity_id());
         if (!(c->flags & 1)) {
             continue;
         }
@@ -943,7 +900,7 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
             }
         }
         if (TTecCtrl::is_technique_ready() != 0 && (c->flags & 0xA000) &&
-            ((u32 (*)(u8 *, void *, void *))init_target_vector__11TMainCursorFiii)((u8 *)entry, &c->center, &owner->bodies->center) != 0) {
+            is_target_obstructed(entry, &c->center, &owner->bodies->center) != NULL) {
             continue;
         }
         if (target_in_xz_cone(&entry->origin, &c->center, &owner->position, yaw,
@@ -978,8 +935,8 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
 }
 
 
-void init_target_vector__11TMainCursorFiii(s32 arg0, saddr to, saddr from) {
-    csnVector((const Vec *)from, (const Vec *)to, 0x28A0);
+CsnHit *is_target_obstructed(LockOnActionSlot *unused, const Vec *to, const Vec *from) {
+    return csnVector(from, to, 0x28A0);
 }
 
 
@@ -994,11 +951,11 @@ s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist) {
     f32 z;
     if (-1.0f < range && range < 1.0f) {
         a.x = sin_table_lookup(yaw);
-        a.y = TMainCursor__data_805DB0C0;
+        a.y = cursor_float_zero;
         a.z = cos_table_lookup(yaw);
-        if (TMainCursor__data_805DB0C0 == dist) {
+        if (cursor_float_zero == dist) {
             b.x = q->x - p->x;
-            b.y = TMainCursor__data_805DB0C0;
+            b.y = cursor_float_zero;
             b.z = q->z - p->z;
             normalize_vector_safe(&b);
             if (vec3_dot(&a, &b) < range) {
@@ -1008,17 +965,17 @@ s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist) {
             x = dist * sin_table_lookup(yaw + 0x8000) + p->x;
             z = dist * cos_table_lookup(yaw + 0x8000) + p->z;
             b.x = q->x - x;
-            b.y = TMainCursor__data_805DB0C0;
+            b.y = cursor_float_zero;
             b.z = q->z - z;
             normalize_vector_safe(&b);
             if (vec3_dot(&a, &b) < range) {
                 return 0;
             }
             scratch_vec.x = q->x - r->x;
-            scratch_vec.y = TMainCursor__data_805DB0C0;
+            scratch_vec.y = cursor_float_zero;
             scratch_vec.z = q->z - r->z;
             normalize_vector_safe(&scratch_vec);
-            if (vec3_dot(&a, &scratch_vec) < TMainCursor__data_805DB0C0) {
+            if (vec3_dot(&a, &scratch_vec) < cursor_float_zero) {
                 return 0;
             }
         }
@@ -1033,9 +990,9 @@ s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
     f32 y;
     f32 z;
     if (-1.0f < range && range < 1.0f) {
-        if (TMainCursor__data_805DB0C0 == dist) {
+        if (cursor_float_zero == dist) {
             a.x = q->x - p->x;
-            a.y = TMainCursor__data_805DB0C0;
+            a.y = cursor_float_zero;
             a.z = q->z - p->z;
             b.x = a.x;
             b.y = q->y - p->y;
@@ -1050,7 +1007,7 @@ s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
             y = p->y;
             z = dist * cos_table_lookup(yaw + 0x8000) + p->z;
             a.x = q->x - x;
-            a.y = TMainCursor__data_805DB0C0;
+            a.y = cursor_float_zero;
             a.z = q->z - z;
             b.x = a.x;
             b.y = q->y - y;
@@ -1068,7 +1025,7 @@ s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
 #pragma pop
 
 
-s32 try_move__11TMainCursorFiii(saddr cursor, u8 type, u8 enabled) {
+s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled) {
     if (((TMainCursor *)cursor)->is_channel_active() != 0) {
         return matches_type_and_enabled(reinterpret_cast<const ActionPaletteTag *>(cursor), type, enabled);
     }
@@ -1083,10 +1040,10 @@ TMainCursor::TMainCursor(TObject *parent, u16 entity_id, s32 target_id, s32 acti
     : TObject(parent) {
     m_name = main_cursor_class_name;
     set_entity_id(entity_id);
-    set_target_id_at_60(target_id);
+    set_target_id(target_id);
     sub_8013E724(size);
     set_cursor_action_palette_mode(this, action_palette);
-    init_field_60(active);
+    set_palette_slot(active);
     set_client_id(client_id);
 }
 
@@ -1094,22 +1051,22 @@ TMainCursor::~TMainCursor() {}
 
 void TMainCursor::refresh_target_marker() {
     TObjPlayer *player;
-    s32 temp_r3_2;
+    s32 color_index;
     player = get_owner_player();
     if (player == NULL) {
         queue_destruction();
         return;
     }
-    temp_r3_2 = TMainCursor::check_visible(&player->action_palettes.m_smth, player, update_sub_60(), (u8) this->forward_13E338_at_60());
-    if (temp_r3_2 == -1) {
+    color_index = TMainCursor::check_visible(&player->action_palettes.m_smth, player, get_palette_mode(), (u8) this->get_palette_slot());
+    if (color_index == -1) {
         queue_destruction();
         return;
     }
-    this->m_1c = 0;
-    *(f32 *)&this->unk_28 = 3.75f;
-    *(f32 *)&this->m_34 = *(f32 *)&this->unk_28 - 1.0f;
-    *(f32 *)&this->unk_38 = 5.0f + *(f32 *)&this->unk_28;
-    *(f32 *)&this->unk_30 = *(f32 *)&this->unk_38;
+    this->phase = 0;
+    rest_height = 3.75f;
+    min_height = rest_height - 1.0f;
+    start_height = 5.0f + rest_height;
+    height = start_height;
     this->m_3c = 0.5f;
     this->update_position();
     if (check_can_pickup() != 0) {
@@ -1119,65 +1076,61 @@ void TMainCursor::refresh_target_marker() {
         marker.set_color(&target_cursor_color_table[4]);
         return;
     }
-    marker.set_color(&target_cursor_color_table[temp_r3_2]);
+    marker.set_color(&target_cursor_color_table[color_index]);
 }
 
 void TMainCursor::update_position() {
-    saddr arg0 = (saddr)this;
-    void *entity;
+    TObjCollidable *entity;
 
-    entity = find_entity_by_id(((TMainCursor *)arg0)->target.get_entity_id());
+    entity = find_entity_by_id(target.get_entity_id());
     if (entity != NULL) {
-        saddr base = *(s32 *)((s8 *)entity + 0xA4) + ((TMainCursor *)arg0)->is_position_moved() * 0x2C;
-        VecCopy((Vec *)(arg0 + 0x40), (const Vec *)(base + 0x1C));
+        CollisionBody *body = &entity->bodies[is_position_moved()];
+        VecCopy(&position, &body->center);
     }
 }
 
 void TMainCursor::run_task() {
-    u8 *arg0 = (u8 *)this;
-
-    if ((s32) this->m_1c != 2) {
-        ((TMainCursor *)arg0)->validate_target();
-        if (((TMainCursor *)arg0)->check_flag_1() != 0) {
-            this->m_1c = 2;
+    if ((s32) this->phase != 2) {
+        validate_target();
+        if (check_flag_1() != 0) {
+            this->phase = 2;
         }
     }
-    switch (this->m_1c) {
+    switch (this->phase) {
     case 0:
-        *(f32 *)&this->unk_30 = (f32) (*(f32 *)&this->unk_30 - 1.0f);
-        if (!(*(f32 *)&this->unk_30 > *(f32 *)&this->m_34)) {
-            *(f32 *)&this->unk_30 = (f32) *(f32 *)&this->unk_28;
-            this->m_1c = 1;
-            if (((TMainCursor *)arg0)->init_render_flags() == 0) {
-                if (((TMainCursor *)arg0)->update() != 0) {
-                    play_sound_effect(0x3816, reinterpret_cast<const Vec *>((u8 *)&this->m_40), 0, 1);
+        height = (f32) (height - 1.0f);
+        if (!(height > min_height)) {
+            height = (f32) rest_height;
+            this->phase = 1;
+            if (init_render_flags() == 0) {
+                if (update() != 0) {
+                    play_sound_effect(0x3816, &position, 0, 1);
                     return;
                 }
-                play_sound_effect(0x3111, reinterpret_cast<const Vec *>((u8 *)&this->m_40), 0, 1);
+                play_sound_effect(0x3111, &position, 0, 1);
             }
         }
     case 1:
         return;
     case 2: {
         f32 distance = marker.get_alpha() - 0.2f;
-        if (distance > TMainCursor__data_805DB0C0) {
+        if (distance > cursor_float_zero) {
             marker.set_alpha(distance);
             return;
         }
-        ((TObject *)arg0)->queue_destruction();
+        queue_destruction();
         break;
     }
     }
 }
 
 void TMainCursor::render() {
-    u8 *arg0 = (u8 *)this;
     s32 cam;
     s32 no;
-    if (((TMainCursor *)arg0)->init_render_flags() != 0) {
+    if (init_render_flags() != 0) {
         return;
     }
-    switch (((TMainCursor *)arg0)->test_flag_2_at_20()) {
+    switch (test_flag_2_at_20()) {
     case 0:
         break;
     default:
@@ -1192,10 +1145,10 @@ void TMainCursor::render() {
     } else if ((s32)main_task.get_task_flags() & 0x10) {
         return;
     }
-    switch (*(s32 *)(arg0 + 0x1C)) {
+    switch (this->phase) {
     case 0:
     case 1:
-        ((TMainCursor *)arg0)->update_position();
+        update_position();
         break;
     case 2:
         break;
@@ -1203,7 +1156,7 @@ void TMainCursor::render() {
         return;
     }
     TObjFish::set_global_param(&shared_effect_texture_list);
-    render__11TMainCursorFPv((TMainCursor *)arg0);
+    render_marker(this);
 }
 
 #pragma push
@@ -1211,7 +1164,7 @@ void TMainCursor::render() {
 
 void TMainCursor::validate_target() {
     TObjPlayer *t;
-    ((FlagWord *)(((u8 *)this) + 0x20))->clear(0xB);
+    unk_20.clear(0xB);
     t = get_owner_player();
     if (t == NULL) {
         this->update_target_sub();
@@ -1225,9 +1178,9 @@ void TMainCursor::validate_target() {
         this->update_target_sub();
         return;
     }
-    if (TMainCursor__sub_8013E358(((u8 *)this) + 0x60) != 1) {
-        if (TMainCursor::check_visible(&t->action_palettes.m_smth, t, TMainCursor__sub_8013E358(((u8 *)this) + 0x60),
-                                            TMainCursor__sub_8013E338(((u8 *)this) + 0x60)) == -1) {
+    if (get_target_palette_mode(&target.palette_tag) != 1) {
+        if (TMainCursor::check_visible(&t->action_palettes.m_smth, t, get_target_palette_mode(&target.palette_tag),
+                                            get_target_palette_slot(&target.palette_tag)) == -1) {
             t->lock_on_cursor->selection.target.set_entity_id(0xFFFF);
             this->update_target_sub();
             return;
@@ -1237,7 +1190,7 @@ void TMainCursor::validate_target() {
         TMainCursor__sub_8013E310(this);
         return;
     }
-    switch (TMainCursor__sub_8013E358(((u8 *)this) + 0x60)) {
+    switch (get_target_palette_mode(&target.palette_tag)) {
     case 0:
         this->update_target_sub();
         return;
@@ -1250,7 +1203,7 @@ void TMainCursor::validate_target() {
         }
         return;
     case 3:
-        if (TObjPlayer::is_invalid_slot(get_cast_technique_level(&t->technique_state, TMainCursor__sub_8013E338(((u8 *)this) + 0x60))) != 0) {
+        if (TObjPlayer::is_invalid_slot(get_cast_technique_level(&t->technique_state, get_target_palette_slot(&target.palette_tag))) != 0) {
             this->update_target_sub();
             return;
         }
@@ -1266,8 +1219,8 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (t->tp - (calc_technique_parameters(TMainCursor__sub_8013E338(((u8 *)this) + 0x60),
-                                                      get_cast_technique_level(&t->technique_state, TMainCursor__sub_8013E338(((u8 *)this) + 0x60)),
+        if (t->tp - (calc_technique_parameters(get_target_palette_slot(&target.palette_tag),
+                                                      get_cast_technique_level(&t->technique_state, get_target_palette_slot(&target.palette_tag)),
                                                       t->get_entity_id()))->tp_cost < 0) {
             this->update_target_sub();
             return;
@@ -1276,7 +1229,7 @@ void TMainCursor::validate_target() {
     case 4:
         return;
     case 5:
-        if ((s8)fn_8013F24C((Obj_8013F24C *)((u8 *)t + 0x4AC), TMainCursor__sub_8013E338(((u8 *)this) + 0x60)) != (s8)TMainCursor__sub_8013F244()) {
+        if ((s8)t->photon_blast_gauge.get_blast_level(get_target_palette_slot(&target.palette_tag)) != (s8)get_empty_action_entry()) {
             this->update_target_sub();
             return;
         }
@@ -1307,31 +1260,31 @@ s32 TMainCursor::check_can_pickup() {
 }
 
 
-void render__11TMainCursorFPv(TMainCursor *main_cursor) {
-    s32 sp8;
+void render_marker(TMainCursor *main_cursor) {
+    s32 offset;
     f32 y;
 
     TParticleCtrl::begin_effect_render();
-    y = *(f32 *)((s8 *)main_cursor + 0x30);
+    y = main_cursor->height;
     push_matrix();
-    offset_point_toward_camera((Vec *)((u8 *)main_cursor + 0x40), (Vec *)&sp8, main_cursor->m_2c);
-    translate_matrix_vec3((u8 *)(0), (u8 *)&sp8);
+    offset_point_toward_camera(&main_cursor->position, (Vec *)&offset, main_cursor->size);
+    translate_matrix_vec3((u8 *)(0), (u8 *)&offset);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     push_matrix();
     rotate_matrix_z(0, 0x2AAA);
-    translate_matrix(0, TMainCursor__data_805DB0C0, y, TMainCursor__data_805DB0C0);
+    translate_matrix(0, cursor_float_zero, y, cursor_float_zero);
     main_cursor->update_photon_chair();
     main_cursor->update_chair();
     pop_matrix();
     push_matrix();
     rotate_matrix_z(0, 0x7FFF);
-    translate_matrix(0, TMainCursor__data_805DB0C0, y, TMainCursor__data_805DB0C0);
+    translate_matrix(0, cursor_float_zero, y, cursor_float_zero);
     main_cursor->update_photon_chair();
     main_cursor->update_chair();
     pop_matrix();
     push_matrix();
     rotate_matrix_z(0, 0xD554);
-    translate_matrix(0, TMainCursor__data_805DB0C0, y, TMainCursor__data_805DB0C0);
+    translate_matrix(0, cursor_float_zero, y, cursor_float_zero);
     main_cursor->update_photon_chair();
     main_cursor->update_chair();
     pop_matrix();
@@ -1341,22 +1294,20 @@ void render__11TMainCursorFPv(TMainCursor *main_cursor) {
 
 
 void TMainCursor::update_chair() {
-    struct VOff_8013B524_arg0_8013B524 *self = (struct VOff_8013B524_arg0_8013B524 *)this;
-    save_model_draw_state(self->f_4C);
-    begin_constant_color_draw_self((NJS_ARGB *)(self->f_4C));
-    TMainCursor__get_lock_on_cursor_model();
+    save_model_draw_state(&marker);
+    begin_constant_color_draw_self((NJS_ARGB *)&marker);
+    get_lock_on_cursor_model();
     draw_chunk_object();
-    restore_model_draw_state(self->f_4C);
+    restore_model_draw_state(&marker);
 }
 
 void TMainCursor::update_photon_chair() {
-    saddr arg0 = (saddr)this;
     if (marker.get_alpha() > 0.99999f) {
-        save_model_draw_state((void*)(arg0 + 0x4C));
-        begin_constant_color_draw_argb((void *)(arg0 + 0x4C), 1.0f, TMainCursor__data_805DB0C0, TMainCursor__data_805DB0C0, TMainCursor__data_805DB0C0);
+        save_model_draw_state(&marker);
+        begin_constant_color_draw_argb(&marker, 1.0f, cursor_float_zero, cursor_float_zero, cursor_float_zero);
         TMainCursor::get_cursor_model();
         draw_chunk_object();
-        restore_model_draw_state((void*)(arg0 + 0x4C));
+        restore_model_draw_state(&marker);
     }
 }
 
@@ -1380,43 +1331,43 @@ s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8
 
 
 void LockOnActionSlot::reset_state() {
-    origin.z = TMainCursor__data_805DB0C0;
-    origin.y = TMainCursor__data_805DB0C0;
-    origin.x = TMainCursor__data_805DB0C0;
-    lock_range = TMainCursor__data_805DB0C0;
-    horizontal_cone_cos = TMainCursor__data_805DB0C0;
-    vertical_cone_cos = TMainCursor__data_805DB0C0;
+    origin.z = cursor_float_zero;
+    origin.y = cursor_float_zero;
+    origin.x = cursor_float_zero;
+    lock_range = cursor_float_zero;
+    horizontal_cone_cos = cursor_float_zero;
+    vertical_cone_cos = cursor_float_zero;
     horizontal_cone_angle = 0;
     vertical_cone_angle = 0;
-    cone_apex_offset = TMainCursor__data_805DB0C0;
-    max_candidate_dist = TMainCursor__data_805DB0C0;
-    ((TMainCursor *)this)->set_type(0);
+    cone_apex_offset = cursor_float_zero;
+    max_candidate_dist = cursor_float_zero;
+    set_max_targets(0);
     clear_target_cursor_list(&target_list);
     target_records.clear();
 }
 
-void copy_action_entry(void *arg0, void *arg1) {
-    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
+void copy_action_entry(void *dst, void *src) {
+    *(s16 *)((s8 *)dst + 0) = (s16) *(s16 *)((s8 *)src + 0);
+    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
 }
 
-s32 TMainCursor::sort_actions_by_priority() {
+s32 ActionPriorityList::sort_actions_by_priority() {
     s32 k;
     s32 n;
     s32 i;
-    Ent_8013B2C8 *p;
-    Ent_8013B2C8 *q;
-    TUnk_8013E2B0 tmp;
-    if ((Ent_8013B2C8 *)this->get_index() == NULL) {
+    ActionPriorityEntry *p;
+    ActionPriorityEntry *q;
+    ActionPriorityEntry tmp;
+    if (get_entries() == NULL) {
         return 0;
     }
-    n = TMainCursor__sub_8013E2A0(this);
+    n = get_count();
     while (--n > 0) {
-        p = (Ent_8013B2C8 *)this->get_index();
+        p = get_entries();
         for (i = 0; i < n; p++, i++) {
             q = p + 1;
-            k = TMainCursor__sub_8013E298(q);
-            if (TMainCursor__sub_8013E298(p) > k) {
+            k = q->get_priority();
+            if (p->get_priority() > k) {
                 copy_action_entry(&tmp, p);
                 copy_action_entry(p, q);
                 copy_action_entry(q, &tmp);
@@ -1428,7 +1379,7 @@ s32 TMainCursor::sort_actions_by_priority() {
 
 TObjPlayer *CursorOwner::get_player() { return get_player_by_client_id(client_id); }
 
-TLOC_Start::TLOC_Start(TObject *parent, u16 id) : TUnk_804A7260(parent, id) { m_name = TLOC_Start__name; }
+TLOC_Start::TLOC_Start(TObject *parent, u16 id) : LockOnTask(parent, id) { m_name = lock_on_start_task_name; }
 
 TLOC_Start::~TLOC_Start() {
     if ((m_target.resolve() != 0) && (m_target.get_player()->lock_on_cursor != NULL)) {
@@ -1437,23 +1388,22 @@ TLOC_Start::~TLOC_Start() {
 }
 
 void TLOC_Start::run_task() {
-    saddr arg0 = (saddr)this;
-    Pl_8013B0F0 *pl;
+    TObjPlayer *pl;
     TLockOnCursor *cur;
     s32 i;
-    pl = (Pl_8013B0F0 *)get_player_by_client_id((s32)(((PlayerRef *)(arg0 + 0x1C))->get_client_id()));
+    pl = get_player_by_client_id((s32)(m_target.get_client_id()));
     if (pl == NULL) {
         return;
     }
-    cur = pl->cur;
+    cur = pl->lock_on_cursor;
     if (cur == NULL) {
         return;
     }
     cur->nearest_target.reset();
     cur->selection.update_cursor_pos();
     cur->selection.target.set_entity_id(0xFFFF);
-    ((TMainCursor *)cur)->init_slots();
-    ((TMainCursor *)cur)->bind_action_channels();
+    cur->init_slots();
+    cur->bind_action_channels();
     if (get_main_phase() == 0xF) {
         for (i = 0; i < 12; i++) {
             TObjPlayer *p = player_slot_table[i];
@@ -1466,7 +1416,7 @@ void TLOC_Start::run_task() {
     }
 }
 
-TLOC_End::TLOC_End(TObject *parent, u16 id) : TUnk_804A7260(parent, id) { m_name = TLOC_End__name; }
+TLOC_End::TLOC_End(TObject *parent, u16 id) : LockOnTask(parent, id) { m_name = lock_on_end_task_name; }
 
 TLOC_End::~TLOC_End() {
     if ((m_target.resolve() != 0) && (m_target.get_player()->lock_on_cursor != NULL)) {
@@ -1477,8 +1427,8 @@ TLOC_End::~TLOC_End() {
 #pragma defer_codegen off
 
 
-void TObjPlayer__sub_8013DEF8(u8 *arg0) {
-    *(s16 *)((s8 *)arg0 + 2) = (s16) (*(s16 *)((s8 *)arg0 + 2) | 1);
+void set_action_channel_inactive(u8 *entry) {
+    *(s16 *)((s8 *)entry + 2) = (s16) (*(s16 *)((s8 *)entry + 2) | 1);
 }
 
 
@@ -1499,17 +1449,17 @@ void set_action_palette_tag_slot(ActionPaletteTag *tag, u8 slot) { tag->tag1 = s
 void set_action_palette_tag_mode(ActionPaletteTag *tag, u8 mode) { tag->tag0 = mode; }
 
 int matches_type_and_enabled(const ActionPaletteTag *tag, u8 type, u8 enabled) {
-    s32 var_r31;
-    var_r31 = 0;
+    s32 matched;
+    matched = 0;
     if ((type == get_action_palette_tag_mode(tag)) && (enabled == get_action_palette_tag_slot(tag))) {
-        var_r31 = 1;
+        matched = 1;
     }
-    return (u8)var_r31;
+    return (u8)matched;
 }
 
 
-void TMainCursor__sub_8013DFC4(u8 *arg0) {
-    *(s16 *)((s8 *)arg0 + 2) = (s16) (*(s16 *)((s8 *)arg0 + 2) & 0xFFFFFFFE);
+void set_action_channel_active(u8 *entry) {
+    *(s16 *)((s8 *)entry + 2) = (s16) (*(s16 *)((s8 *)entry + 2) & 0xFFFFFFFE);
 }
 
 
@@ -1526,13 +1476,13 @@ PlayerRef::PlayerRef() {
 
 u16 PlayerRef::get_client_id() { return client_id; }
 
-TUnk_804A7260::~TUnk_804A7260() {}
+LockOnTask::~LockOnTask() {}
 
 void TLockOnCursor::set_list_clear_task(TObject *task) { tasks.set_list_clear_task(task); }
 
-void TUnk_8013F08C::set_list_clear_task(TObject *task) { list_clear_task = task; }
+void LockOnTasks::set_list_clear_task(TObject *task) { list_clear_task = task; }
 
-TUnk_804A7260::TUnk_804A7260(TObject *parent, u16 id) : TObject(parent) {
+LockOnTask::LockOnTask(TObject *parent, u16 id) : TObject(parent) {
     disallow_rendering();
     m_target.set_client_id(id);
 }
@@ -1552,7 +1502,7 @@ u16 LockOnNearestTarget::get_candidate_target_id() { return candidate_target_id;
 
 void TLockOnCursor::set_end_task(TObject *task) { tasks.set_end_task(task); }
 
-void TUnk_8013F08C::set_end_task(TObject *task) { end_task = task; }
+void LockOnTasks::set_end_task(TObject *task) { end_task = task; }
 
 void CursorTarget::set_entity_id(u16 id) { entity_id = id; }
 
@@ -1569,32 +1519,32 @@ void LockOnNearestTarget::reset() {
     candidate_part_index = 0;
     published_target_id = 0xffff;
     candidate_target_id = 0xffff;
-    published_target_dist = TMainCursor__data_805DB0C0;
+    published_target_dist = cursor_float_zero;
     candidate_target_dist = lbl_805DB0C4;
 }
 
 void TLockOnCursor::set_start_task(TObject *task) { tasks.set_start_task(task); }
 
-void TUnk_8013F08C::set_start_task(TObject *task) { start_task = task; }
+void LockOnTasks::set_start_task(TObject *task) { start_task = task; }
 
 
-s16 TMainCursor__sub_8013E298(void* p) { return *(s16*)((char*)p + 0x0); }
+s16 ActionPriorityEntry::get_priority() { return priority; }
 
-s32 TMainCursor__sub_8013E2A0(void* p) { return *(s32*)((char*)p + 0x0); }
+s32 ActionListBase::get_count() { return count; }
 
 
-saddr TMainCursor::get_index() { return *(s32 *)&this->m_flags; }
+ActionPriorityEntry *ActionListBase::get_entries() { return entries; }
 
-TUnk_8013E2B0::TUnk_8013E2B0() { unk_2 = 0; unk_0 = 0; }
+ActionPriorityEntry::ActionPriorityEntry() { index = 0; priority = 0; }
 
 void LockOnTargetRecordList::clear() { count = 0; }
 
-void TMainCursor::set_type(s32 v) { *(s32 *)&this->m_flags = v; }
+void LockOnActionSlot::set_max_targets(s32 v) { max_targets = v; }
 
 NJS_OBJECT *TMainCursor::get_cursor_model() { return main_cursor_model; }
 
 
-int TMainCursor__get_lock_on_cursor_model(void) {  return lock_on_cursor_model; }
+int get_lock_on_cursor_model(void) {  return lock_on_cursor_model; }
 
 
 TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
@@ -1602,11 +1552,11 @@ TObjPlayer *TMainCursor::get_owner_player() { return owner.get_player(); }
 u16 CursorTarget::get_entity_id() { return entity_id; }
 
 
-void TMainCursor__sub_8013E310(void* p) { ((FlagWord *)((char*)p + 0x20))->set(2); }
+void TMainCursor__sub_8013E310(void* p) { ((TMainCursor *)p)->unk_20.set(2); }
 
-u8 TMainCursor__sub_8013E338(void* p) { return get_action_palette_tag_slot(static_cast<const ActionPaletteTag *>(p)); }
+u8 get_target_palette_slot(void* p) { return get_action_palette_tag_slot(static_cast<const ActionPaletteTag *>(p)); }
 
-u8 TMainCursor__sub_8013E358(void* p) { return get_action_palette_tag_mode(static_cast<const ActionPaletteTag *>(p)); }
+u8 get_target_palette_mode(void* p) { return get_action_palette_tag_mode(static_cast<const ActionPaletteTag *>(p)); }
 
 
 int CursorTarget::is_same_target(CursorTarget *other) {
@@ -1627,31 +1577,31 @@ int CursorTarget::matches_id(u16 id) {
 
 CursorTarget *LockOnSelection::get_target() { return &target; }
 
-void TMainCursor::update_target_sub() { ((FlagWord *)((char*)this + 0x20))->set(1); }
+void TMainCursor::update_target_sub() { unk_20.set(1); }
 
 u16 TMainCursor::get_client_id() { return owner.get_client_id(); }
 
 u16 CursorOwner::get_client_id() { return client_id; }
 
-int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)((char*)this + 0x20), 2); }
+int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)&unk_20, 2); }
 
-int TMainCursor::init_render_flags() { return test_flags_any((s32 *)((char*)this + 0x20), 8); }
+int TMainCursor::init_render_flags() { return test_flags_any((s32 *)&unk_20, 8); }
 
-int TMainCursor::update() { return test_flags_any((s32 *)((char*)this + 0x20), 4); }
+int TMainCursor::update() { return test_flags_any((s32 *)&unk_20, 4); }
 
-int TMainCursor::check_flag_1() { return test_flags_any((s32 *)((char*)this + 0x20), 1); }
+int TMainCursor::check_flag_1() { return test_flags_any((s32 *)&unk_20, 1); }
 
-u8 TMainCursor::is_position_moved() { return (u8)(TMainCursor__sub_8013E570((char*)this + 0x60)); }
-
-
-s16 TMainCursor__sub_8013E570(void* p) { return *(s16*)((char*)p + 0x6); }
+u8 TMainCursor::is_position_moved() { return (u8)(target.get_target_id()); }
 
 
-void TMainCursor::check_flag_4() { ((FlagWord *)((char*)this + 0x20))->set(4); }
+s16 CursorTarget::get_target_id() { return target_id; }
 
-u8 TMainCursor::forward_13E338_at_60() { return TMainCursor__sub_8013E338((char*)this + 0x60); }
 
-u8 TMainCursor::update_sub_60() { return TMainCursor__sub_8013E358((char*)this + 0x60); }
+void TMainCursor::check_flag_4() { unk_20.set(4); }
+
+u8 TMainCursor::get_palette_slot() { return get_target_palette_slot(&target.palette_tag); }
+
+u8 TMainCursor::get_palette_mode() { return get_target_palette_mode(&target.palette_tag); }
 
 CursorOwner::~CursorOwner() {}
 
@@ -1661,7 +1611,7 @@ void TMainCursor::set_client_id(u16 id) { owner.set_client_id(id); }
 
 void CursorOwner::set_client_id(u16 id) { client_id = id; }
 
-void TMainCursor::init_field_60(u8 slot) { set_cursor_palette_slot(&target.palette_tag, slot); }
+void TMainCursor::set_palette_slot(u8 slot) { set_cursor_palette_slot(&target.palette_tag, slot); }
 
 void set_cursor_palette_slot(ActionPaletteTag *tag, u8 slot) { set_action_palette_tag_slot(tag, slot); }
 
@@ -1669,9 +1619,9 @@ void set_cursor_action_palette_mode(TMainCursor *cursor, u8 mode) { set_cursor_p
 
 void set_cursor_palette_mode(ActionPaletteTag *tag, u8 mode) { set_action_palette_tag_mode(tag, mode); }
 
-void TMainCursor::sub_8013E724(f32 v) { this->m_2c = v; }
+void TMainCursor::sub_8013E724(f32 v) { this->size = v; }
 
-void TMainCursor::set_target_id_at_60(u8 target_id) {
+void TMainCursor::set_target_id(u8 target_id) {
     target.set_target_id(target_id);
 }
 
@@ -1709,11 +1659,11 @@ void TargetCursorRecord::copy_from(TargetCursorRecord *src) {
     value = src->value;
 }
 
-void TMainCursor::init_slot(s32 i) {
-    TMainCursor__sub_8013E8A0((void*)(&((Obj_8013E870 *)this)->recs[i]));
+void TLockOnCursor::init_slot(s32 i) {
+    deactivate_action_channel((void*)(&action_slots[i]));
 }
 
-void TMainCursor__sub_8013E8A0(void *p) { TObjPlayer__sub_8013DEF8((u8 *)p); }
+void deactivate_action_channel(void *p) { set_action_channel_inactive((u8 *)p); }
 
 int TMainCursor::get_selected_entry() { return is_channel_active(); }
 
@@ -1721,31 +1671,31 @@ u8 TMainCursor::get_active() { return get_action_palette_tag_slot(reinterpret_ca
 
 u8 get_cursor_palette_mode(void *p) { return get_action_palette_tag_mode(static_cast<const ActionPaletteTag *>(p)); }
 
-s16 get_action_entry_index(void* p) { return *(s16*)((char*)p + 0x2); }
+s16 ActionPriorityEntry::get_index() { return index; }
 
-void set_action_entry_index(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
+void ActionPriorityEntry::set_index(s16 v) { index = v; }
 
-void set_action_entry_priority(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
+void ActionPriorityEntry::set_priority(s16 v) { priority = v; }
 
 u16 TLockOnCursor::get_target_id() { return target_id; }
 
-int TMainCursor::is_cursor_clear() { return (test_flags_any((s32 *)((char*)this + 0x1c), 1)) == 0; }
+int TLockOnCursor::is_cursor_clear() { return (test_flags_any((s32 *)&flags, 1)) == 0; }
 
-void set_target_part(u8 *arg0, u16 arg1, s32 arg2, s32 arg3) {
-    *(s16 *)((s8 *)arg0 + 0) = arg1;
-    *(s16 *)((s8 *)arg0 + 2) = arg2;
-    *(s16 *)((s8 *)arg0 + 4) = arg3;
+void set_target_part(LockOnTargetPart *target, u16 part, s32 index, s32 flag) {
+    target->actor_id = part;
+    target->collider = index;
+    target->unk_4 = flag;
 }
 
-void TMainCursor::set_color_mode(s32 v) { *(s32 *)&this->m_up = v; }
+void LockOnActionSlot::set_actor_include_mask(s32 v) { actor_include_mask = v; }
 
-void TMainCursor::set_color(s32 v) { *(s32 *)&this->m_prev = v; }
+void LockOnActionSlot::set_body_include_mask(s32 v) { body_include_mask = v; }
 
-void TMainCursor::set_field_0c(s32 v) { *(s32 *)&this->m_next = v; }
+void LockOnActionSlot::set_body_exclude_mask(s32 v) { body_exclude_mask = v; }
 
-void TMainCursor::set_flags(s32 v) { *(s32 *)&this->m_down = v; }
+void LockOnActionSlot::set_actor_exclude_mask(s32 v) { actor_exclude_mask = v; }
 
-void TMainCursor__sub_8013E9A0(void *p) { TMainCursor__sub_8013DFC4((u8 *)p); }
+void activate_action_channel(void *p) { set_action_channel_active((u8 *)p); }
 
 void set_cursor_slot(void* p, u8 v) { set_action_palette_tag_slot(static_cast<ActionPaletteTag *>(p), v); }
 
@@ -1770,7 +1720,7 @@ void LockOnTargetRecord::clear_excluded() { flags.clear(2); }
 s32 LockOnActionSlot::get_max_targets() { return max_targets; }
 
 
-int TLockOnCursor__sub_8013EB34(void) {  return TLockOnCursor::target_cursor_model; }
+int get_target_cursor_model(void) {  return TLockOnCursor::target_cursor_model; }
 
 
 int LockOnTargetRecord::is_primary() { return test_flags_any(&flags.bits, 1); }
@@ -1787,21 +1737,20 @@ void TLockOnCursor__sub_8013EB8C(void* p) { *(s32*)((char*)p + 0x4) = 1; }
 
 TObject *TLockOnCursor::get_list_clear_task() { return tasks.get_list_clear_task(); }
 
-TObject *TUnk_8013F08C::get_list_clear_task() { return list_clear_task; }
+TObject *LockOnTasks::get_list_clear_task() { return list_clear_task; }
 
 TObject *TLockOnCursor::get_end_task() { return tasks.get_end_task(); }
 
-TObject *TUnk_8013F08C::get_end_task() { return end_task; }
+TObject *LockOnTasks::get_end_task() { return end_task; }
 
 TObject *TLockOnCursor::get_start_task() { return tasks.get_start_task(); }
 
-TObject *TUnk_8013F08C::get_start_task() { return start_task; }
+TObject *LockOnTasks::get_start_task() { return start_task; }
 
-void TLockOnCursor__sub_8013EC1C(void *p) {
-    Obj_8013EC1C *self = (Obj_8013EC1C *)p;
-    self->a = 0xffff;
-    self->b = 0;
-    self->c = 0;
+void reset_target_part_entry(LockOnTargetPart *entry) {
+    entry->actor_id = 0xffff;
+    entry->collider = 0;
+    entry->unk_4 = 0;
 }
 
 void LockOnSelection::reset_state() {
@@ -1810,12 +1759,12 @@ void LockOnSelection::reset_state() {
     unk_8.init();
     unk_0 = 0xffff;
     unk_2 = 0;
-    unk_4 = TMainCursor__data_805DB0C0;
+    unk_4 = cursor_float_zero;
 }
 
-TUnk_8013F114::~TUnk_8013F114() {}
+ActionListBase::~ActionListBase() {}
 
-TUnk_8013F08C::~TUnk_8013F08C() {}
+LockOnTasks::~LockOnTasks() {}
 
 LockOnActionSlot::~LockOnActionSlot() {}
 
@@ -1851,20 +1800,20 @@ void TargetCursorRecord::set_flag(s16 flag) { this->flag = flag; }
 
 void TargetCursorRecord::set_id(u16 id) { this->id = id; }
 
-TUnk_8013F114::TUnk_8013F114() { unk_0 = 0; unk_4 = 0; }
+ActionListBase::ActionListBase() { count = 0; entries = NULL; }
 
 
-void TMainCursor__sub_8013F10C(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
+void ActionListBase::set_count(s32 v) { count = v; }
 
-void TMainCursor__sub_8013F104(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
+void ActionListBase::set_entries(s32 v) { *(s32 *)&entries = v; }
 
 
-TUnk_8013F0A0::TUnk_8013F0A0() {
-    TMainCursor__sub_8013F10C(this, 4);
-    TMainCursor__sub_8013F104(this, (saddr)unk_8);
+ActionPriorityList::ActionPriorityList() {
+    set_count(4);
+    set_entries((saddr)slots);
 }
 
-TUnk_8013F08C::TUnk_8013F08C() { start_task = NULL; end_task = NULL; list_clear_task = NULL; }
+LockOnTasks::LockOnTasks() { start_task = NULL; end_task = NULL; list_clear_task = NULL; }
 
 LockOnTargetRecord::LockOnTargetRecord() {}
 
@@ -1874,31 +1823,31 @@ LockOnActionSlot::LockOnActionSlot() { reset_state(); }
 
 LockOnSelection::LockOnSelection() { reset_state(); }
 
-TUnk_8013EF3C::TUnk_8013EF3C() { TLockOnCursor__sub_8013EC1C(this); }
+LockOnTargetPart::LockOnTargetPart() { reset_target_part_entry(this); }
 
 LockOnNearestTarget::LockOnNearestTarget() { reset(); }
 
-TUnk_804A7248::TUnk_804A7248() {
+LockOnPaletteOverride::LockOnPaletteOverride() {
     unk_4 = 0;
 }
 
 void TLockOnCursor::sub_8013EEC0(u16 target_id) { this->target_id = target_id; }
 
-TUnk_804A7248::~TUnk_804A7248() {}
+LockOnPaletteOverride::~LockOnPaletteOverride() {}
 
 #pragma defer_codegen off
 
 MarkerColor::MarkerColor() {
-    TMainCursor__sub_8013F22C(this);
+    clear_marker_color(this);
 }
 
 
-void TMainCursor__sub_8013F22C(void* a0) { *(float*)((char*)a0 + 0xc) = TMainCursor__data_805DB0C0; *(float*)((char*)a0 + 0x8) = TMainCursor__data_805DB0C0; *(float*)((char*)a0 + 0x4) = TMainCursor__data_805DB0C0; *(float*)((char*)a0 + 0x0) = TMainCursor__data_805DB0C0; }
+void clear_marker_color(void* a0) { *(float*)((char*)a0 + 0xc) = cursor_float_zero; *(float*)((char*)a0 + 0x8) = cursor_float_zero; *(float*)((char*)a0 + 0x4) = cursor_float_zero; *(float*)((char*)a0 + 0x0) = cursor_float_zero; }
 
-int TMainCursor__sub_8013F244(void) { return -1; }
+int get_empty_action_entry(void) { return -1; }
 
-u8 fn_8013F24C(Obj_8013F24C *self, s16 i) {
-    return self->arr[i];
+u8 PhotonBlastGauge::get_blast_level(s16 blast) {
+    return blast_levels[blast];
 }
 
 

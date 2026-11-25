@@ -16,27 +16,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 
-struct VBase_18_7b3651 { char pad[0x18]; };
-
-struct VObj_18_7b3651 : VBase_18_7b3651 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual char *m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual s32 m14();
-};
-
-
 extern "C" {
 s32 get_shared_text_buffer(void);
 void text_builder_append_int(s32);
@@ -51,8 +30,7 @@ const char *TFontSmallLobby__name = "TFontSmallLobby";
 char *status_text_label_table[5] = { "J", "E", "G", "F", "S" };
 extern TPlyChallenge lobby_player_status_records[];
 
-    extern int TWindowCtrlMain__instance;
-saddr TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
+saddr TWindowCtrlMain::get_instance() {  return (saddr)instance; }
 
 void TWindowCtrlMain::advance_card_status(s32 local_client_id) {
     s32 card_status_bits;
@@ -69,9 +47,9 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     u8 *info;
     s32 idx;
     s32 lvl;
-    VObj_18_7b3651 *p;
+    TObjPlayer *p;
     mode = TWindowShortListCtrl::get_card_status_bits(client_id);
-    p = (VObj_18_7b3651 *)get_player_by_client_id(client_id);
+    p = get_player_by_client_id(client_id);
     if (p == NULL) {
         return 0;
     }
@@ -79,9 +57,9 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
     if (info == NULL) {
         return 0;
     }
-    name = p->m10();
-    idx = ((TObjPlayer *)p)->get_language();
-    lvl = p->m14();
+    name = (char *)p->get_name();
+    idx = p->get_language();
+    lvl = p->get_actor_level_index();
     text_builder_reset();
     switch (mode) {
     case 0:
@@ -124,7 +102,7 @@ void *TFontSmallLobby::create(s32 id) {
 
 void TFontPlayerStatusHelp::run_task() {
     s32 status_bits;
-    s32 temp_r4;
+    s32 client;
     uaddr text_source;
     saddr player;
 
@@ -140,8 +118,8 @@ void TFontPlayerStatusHelp::run_task() {
         set_help_text((const char *)text_source);
         if (text_source != 0U) {
             if (this->card_status_bits == 3) {
-                temp_r4 = (s32)this->player_id;
-                set_color(challenge_title_color(&lobby_player_status_records[temp_r4].challenge));
+                client = (s32)this->player_id;
+                set_color(challenge_title_color(&lobby_player_status_records[client].challenge));
             } else {
                 set_color(get_player_status_color((void *)player));
             }

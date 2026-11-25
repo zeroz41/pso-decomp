@@ -157,8 +157,8 @@ void set_text_entry_string(WindowTextEntry *entry, uaddr str, s32 flags) {
     } else {
         entry->text = (char *)str;
     }
-    if (entry->reveal_speed > K_CFAC) {
-        entry->reveal_width = K_CFAC;
+    if (entry->reveal_step > K_CFAC) {
+        entry->reveal_pos = K_CFAC;
     }
     entry->flags = entry->flags & ~0x2D1;
     entry->flags = entry->flags | (flags & 0x2C1);
@@ -190,8 +190,8 @@ void WindowTextEntry::render(WindowDrawContext *context) {
     t = a + x / context->inner_w;
     t *= (7.5f);
     len = (17.0f) * ((f32)context->open_tick - t);
-    if (len > reveal_width) {
-        len = reveal_width;
+    if (len > reveal_pos) {
+        len = reveal_pos;
     }
     set_text_draw_params(context, (!(flags & 0x100)), (flags & 0x80), scale, clip);
     if (flags & 4) {
@@ -212,9 +212,9 @@ void WindowTextEntry::render(WindowDrawContext *context) {
 #pragma opt_common_subs off
 void WindowTextEntry::update() {
     if (!(flags & 8)) {
-        reveal_width = reveal_width + reveal_speed;
-        if (reveal_width > (9e+05f)) {
-            reveal_width = (9e+05f);
+        reveal_pos = reveal_pos + reveal_step;
+        if (reveal_pos > (9e+05f)) {
+            reveal_pos = (9e+05f);
         }
     }
 }
@@ -236,14 +236,14 @@ WindowTextEntry::WindowTextEntry(TextLayoutRecord *rec, s32 client) : TWindowLay
     y = rec->pos[1];
     depth = rec->depth;
     flags = rec->flags;
-    reveal_width = K_CFAC;
+    reveal_pos = K_CFAC;
     color = rec->color;
-    reveal_speed = TWindowSubStatusDisp::get_card_window_scale(this->client);
+    reveal_step = TWindowSubStatusDisp::get_card_window_scale(this->client);
     if (flags & 4) {
-        reveal_speed = reveal_speed * K_CFC4;
+        reveal_step = reveal_step * K_CFC4;
     }
-    if (reveal_speed <= K_CFAC) {
-        reveal_width = (9e+05f);
+    if (reveal_step <= K_CFAC) {
+        reveal_pos = (9e+05f);
     }
     text = (char *)rec->text;
 }

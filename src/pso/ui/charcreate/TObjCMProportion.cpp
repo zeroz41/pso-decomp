@@ -15,11 +15,11 @@ PadSlot *get_creation_pad(void) {
 }
 
 s32 TChCrEffCtrlPl::get_clamped_player_index() {
-    s32 player = TAdMultiPlyChrSelectGC::is_selection_confirmed();
-    if (player < 0 || player > 3) {
-        player = 0;
+    s32 index = TAdMultiPlyChrSelectGC::is_selection_confirmed();
+    if (index < 0 || index > 3) {
+        index = 0;
     }
-    return player;
+    return index;
 }
 int TChCrEffCtrlPl__sub_80298F6C() { return TAdMultiPlyChrSelectGC__sub_80299454(); }
 

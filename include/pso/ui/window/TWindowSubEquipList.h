@@ -7,6 +7,7 @@
 struct TWindowSubEquipList : public TWindowMenuIconLine {
     TWindowSubEquipList(u8 *parent, s32 client);
     virtual ~TWindowSubEquipList();
+    static const char *class_name;
     virtual void render();
     void run_task();
 };

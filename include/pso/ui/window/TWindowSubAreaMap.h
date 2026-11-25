@@ -10,6 +10,7 @@ struct TWindowSubAreaMapDisp;
 struct TWindowSubAreaMap : public TObject {
     TWindowSubAreaMap(TObject *parent, s32 client);
     virtual ~TWindowSubAreaMap();
+    static const char *class_name;
     s32 client;
     TWindowMainMenu *parent_menu;
     TWindowSubAreaMapDisp *map_disp;

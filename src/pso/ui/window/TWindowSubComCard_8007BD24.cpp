@@ -50,9 +50,9 @@ void TWindowSubComCard::init_and_press_b(s32 client_id) {
 }
 
 void TWindowSubComCard::update_press() {
-    saddr entry = reinterpret_cast<saddr>(TWindowSubComCard::get_card_entry(reinterpret_cast<saddr>(this)));
-    if (TWindowSubComCard::scroll_list(entry) == 0) {
-        TWindowSubComCard::select_card_entry(entry);
+    saddr card_entry = reinterpret_cast<saddr>(TWindowSubComCard::get_card_entry(reinterpret_cast<saddr>(this)));
+    if (TWindowSubComCard::scroll_list(card_entry) == 0) {
+        TWindowSubComCard::select_card_entry(card_entry);
     }
 }
 

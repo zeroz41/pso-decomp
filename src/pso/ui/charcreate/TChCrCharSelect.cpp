@@ -50,7 +50,7 @@ void TChCrCharSelect::clamp_slot_index_to_range() {
     }
 }
 
-CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
+CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 extern "C" {
 s32 copy_player_visual_record(void *, void *);
 }
@@ -58,12 +58,12 @@ s32 copy_player_visual_record(void *, void *);
 extern saddr tl_03;
 
 void TChCrCharSelect::tick_and_apply_selection() {
-    s32 temp_r0;
+    s32 delay;
     CharacterAppearanceFields *character_appearance_fields;
 
-    temp_r0 = apply_delay - 1;
-    apply_delay = temp_r0;
-    if (temp_r0 <= 0) {
+    delay = apply_delay - 1;
+    apply_delay = delay;
+    if (delay <= 0) {
         character_appearance_fields = (CharacterAppearanceFields *)&TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2;
         copy_player_visual_record(character_appearance_fields, get_class_appearance_preset(get_char_select_class_id(TChCrCharSelect::selected_slot_index)));
         character_appearance_fields->section = -1;
@@ -95,20 +95,20 @@ void TChCrCharSelect::handle_menu_input() {
 }
 
 void TChCrCharSelect::handle_cursor_input() {
-    s32 temp_r0;
-    s32 temp_r0_2;
+    s32 next;
+    s32 previous;
 
     if (creation_direction_repeated(0x20) != 0) {
-        temp_r0 = TChCrCharSelect::selected_char_index + 1;
-        TChCrCharSelect::selected_char_index = temp_r0;
-        if (temp_r0 >= 3) {
+        next = TChCrCharSelect::selected_char_index + 1;
+        TChCrCharSelect::selected_char_index = next;
+        if (next >= 3) {
             TChCrCharSelect::selected_char_index = 0;
         }
         play_sound_effect(0x54100, 0, 0, 0);
     } else if (creation_direction_repeated(0x10) != 0) {
-        temp_r0_2 = TChCrCharSelect::selected_char_index - 1;
-        TChCrCharSelect::selected_char_index = temp_r0_2;
-        if (temp_r0_2 < 0) {
+        previous = TChCrCharSelect::selected_char_index - 1;
+        TChCrCharSelect::selected_char_index = previous;
+        if (previous < 0) {
             TChCrCharSelect::selected_char_index = 2;
         }
         play_sound_effect(0x54100, 0, 0, 0);

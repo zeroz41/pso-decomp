@@ -91,10 +91,9 @@ TODoorFourLightRuins::~TODoorFourLightRuins() {
 }
 
 void TODoorFourLightRuins::render() {
-    u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((this->update_object_view_visibility(this->view_range, this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
+    if ((this->update_object_view_visibility(this->view_range, this->model_radius) == 1) && (this->is_in_view_depth(30.0f) == 1)) {
         switch (this->object_state) {
         case 1:
         case 3:
@@ -185,7 +184,6 @@ void TODoorFourLightRuins::draw_model_and_lights() {
 }
 
 void TODoorFourLightRuins::update_door_switch_state() {
-    u8 *arg0 = (u8 *)this;
     s16 sp8;
     s32 off;
     s32 i;
@@ -193,7 +191,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
     s32 j;
     switch (this->lock_mode) {
     case 1:
-        ((TODoorBase *)arg0)->play_door_sound();
+        this->play_door_sound();
         this->door_flags |= 1;
         break;
     case 2:
@@ -206,7 +204,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
         if (off != 0) {
             this->door_flags &= ~1;
         } else {
-            ((TODoorBase *)arg0)->play_door_sound();
+            this->play_door_sound();
             this->door_flags |= 1;
         }
         break;
@@ -223,13 +221,13 @@ void TODoorFourLightRuins::update_door_switch_state() {
         if (off2 != 0) {
             this->door_flags &= ~1;
         } else {
-            ((TODoorBase *)arg0)->play_door_sound();
+            this->play_door_sound();
             this->door_flags |= 1;
         }
-        if (off2 == 0 && this->set_entry != 0 && ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
+        if (off2 == 0 && this->set_entry != 0 && this->access_object_saved_state(&sp8, 1) == 1) {
             sp8 = 1;
-            ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
-            ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
+            this->send_object_state_update(&sp8);
+            this->access_object_saved_state(&sp8, 0);
         }
         break;
     default:
@@ -238,8 +236,8 @@ void TODoorFourLightRuins::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightRuins::vfunc_6(s16 *arg1, s32) {
-    if ((s16) *arg1 == 1) {
+void TODoorFourLightRuins::vfunc_6(s16 *state, s32) {
+    if ((s16) *state == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
 }
@@ -293,10 +291,9 @@ TODoorFourLightSpace::~TODoorFourLightSpace() {
 }
 
 void TODoorFourLightSpace::render() {
-    u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((this->update_object_view_visibility(this->view_range, this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
+    if ((this->update_object_view_visibility(this->view_range, this->model_radius) == 1) && (this->is_in_view_depth(30.0f) == 1)) {
         switch (this->object_state) {
         case 1:
         case 3:
@@ -396,13 +393,12 @@ void TODoorFourLightSpace::draw_lights() {
 }
 
 void TODoorFourLightSpace::update_door_switch_state() {
-    u8 *arg0 = (u8 *)this;
     s16 sp8;
     s32 fail;
     s32 i;
     switch (this->lock_mode) {
     case 1:
-        ((TODoorBase *)arg0)->play_door_sound();
+        this->play_door_sound();
         this->door_flags |= 1;
         break;
     case 2:
@@ -415,7 +411,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
         if (fail != 0) {
             this->door_flags &= ~1;
         } else {
-            ((TODoorBase *)arg0)->play_door_sound();
+            this->play_door_sound();
             this->door_flags |= 1;
         }
         break;
@@ -430,16 +426,16 @@ void TODoorFourLightSpace::update_door_switch_state() {
                 }
             }
             if (bad == 0) {
-                ((TODoorBase *)arg0)->play_door_sound();
+                this->play_door_sound();
                 this->door_flags |= 1;
             } else {
                 this->door_flags &= ~1;
             }
             if (bad == 0 && this->set_entry != 0 &&
-                ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
+                this->access_object_saved_state(&sp8, 1) == 1) {
                 sp8 = 1;
-                ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
-                ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
+                this->send_object_state_update(&sp8);
+                this->access_object_saved_state(&sp8, 0);
             }
         }
         break;
@@ -449,8 +445,8 @@ void TODoorFourLightSpace::update_door_switch_state() {
     }
 }
 
-void TODoorFourLightSpace::vfunc_6(s16 *arg1, s32) {
-    if ((s16) *arg1 == 1) {
+void TODoorFourLightSpace::vfunc_6(s16 *state, s32) {
+    if ((s16) *state == 1) {
         this->door_flags = (s32) (this->door_flags | 1);
     }
 }

@@ -38,7 +38,7 @@ u8 * copy_player_visual_record(void *, void *);
 extern CharacterAppearanceFields character_creation_visual_record;
 }
 extern char character_creation_name_buffer[0x18];
-CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
+CharacterAppearanceFields *get_class_appearance_preset(s32 class_id);
 
 CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void) {
     return &character_creation_visual_record;
@@ -158,39 +158,39 @@ BmlResourceDescriptor creation_menu_resource_descriptor = {
 const char *TCharaMaking__name = "TCharaMaking";
 // Per-class value passed with each player_class_texture_archive_table entry
 // (19 entries, like the class tables).
-const s32 lbl_8045122C[19] = {
+const s32 player_class_texture_archive_length[19] = {
     137, 310, 286, 208, 311, 386, 337, 355, 516, 386, 321, 333,
     16, 17, 14, 14, 14, 14, 14,
 };
 
 struct P_8028DCCC { f32 a; f32 b; };
 
-u8 lbl_80518880[0x228];
-u8 lbl_80518AA8[0x384];
-u8 lbl_80518E2C[0x354];
-u8 lbl_80519180[0x2B8];
-u8 lbl_80519438[0x384];
-u8 lbl_805197BC[0x41C];
-u8 lbl_80519BD8[0x3B8];
-u8 lbl_80519F90[0x3DC];
-u8 lbl_8051A36C[0x520];
-u8 lbl_8051A88C[0x41C];
-u8 lbl_8051ACA8[0x398];
-u8 lbl_8051B040[0x3B0];
-u8 lbl_8051B3F0[0x138];
-u8 lbl_8051B528[0x138];
-u8 lbl_8051B660[0x134];
-u8 lbl_8051B794[0x134];
-u8 lbl_8051B8C8[0x134];
-u8 lbl_8051B9FC[0x134];
-u8 lbl_8051BB30[0x134];
+u8 player_class_texture_buffer_00[0x228];
+u8 player_class_texture_buffer_01[0x384];
+u8 player_class_texture_buffer_02[0x354];
+u8 player_class_texture_buffer_03[0x2B8];
+u8 player_class_texture_buffer_04[0x384];
+u8 player_class_texture_buffer_05[0x41C];
+u8 player_class_texture_buffer_06[0x3B8];
+u8 player_class_texture_buffer_07[0x3DC];
+u8 player_class_texture_buffer_08[0x520];
+u8 player_class_texture_buffer_09[0x41C];
+u8 player_class_texture_buffer_10[0x398];
+u8 player_class_texture_buffer_11[0x3B0];
+u8 player_class_texture_buffer_12[0x138];
+u8 player_class_texture_buffer_13[0x138];
+u8 player_class_texture_buffer_14[0x134];
+u8 player_class_texture_buffer_15[0x134];
+u8 player_class_texture_buffer_16[0x134];
+u8 player_class_texture_buffer_17[0x134];
+u8 player_class_texture_buffer_18[0x134];
 u8 chara_making_load_buffer[0x40C];
 
 void *player_class_texture_buffer_table[19] = {
-    lbl_80518880, lbl_80518AA8, lbl_80518E2C, lbl_80519180, lbl_80519438,
-    lbl_805197BC, lbl_80519BD8, lbl_80519F90, lbl_8051A36C, lbl_8051A88C,
-    lbl_8051ACA8, lbl_8051B040, lbl_8051B3F0, lbl_8051B528, lbl_8051B660,
-    lbl_8051B794, lbl_8051B8C8, lbl_8051B9FC, lbl_8051BB30,
+    player_class_texture_buffer_00, player_class_texture_buffer_01, player_class_texture_buffer_02, player_class_texture_buffer_03, player_class_texture_buffer_04,
+    player_class_texture_buffer_05, player_class_texture_buffer_06, player_class_texture_buffer_07, player_class_texture_buffer_08, player_class_texture_buffer_09,
+    player_class_texture_buffer_10, player_class_texture_buffer_11, player_class_texture_buffer_12, player_class_texture_buffer_13, player_class_texture_buffer_14,
+    player_class_texture_buffer_15, player_class_texture_buffer_16, player_class_texture_buffer_17, player_class_texture_buffer_18,
 };
 s32 player_class_trait_table[12] = {
     0x25, 0x2A, 0x31, 0x45, 0x51, 0x52, 0x86, 0x89, 0x8A, 0x32, 0x85, 0x46,
@@ -202,7 +202,7 @@ P_8028DCCC character_proportion_height_table[12] = {
 };
 
 extern "C" {
-s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
+s32 TCharaMaking__sub_8028E3A0(f32 *uv);
 }
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -254,7 +254,7 @@ f32 calc_character_height(CharacterAppearanceFields *appearance) {
 // Render flags OR'ed into model_render_flags for the hair pass. The original
 // loads them from .sdata2 (lwz) between the pool's 1.0 and 1/255, so they are
 // a const object, not a folded literal.
-static const s32 lbl_805DD930[1] = {0x81C};
+static const s32 hair_render_flags[1] = {0x81C};
 
 #pragma push
 #pragma opt_dead_assignments off
@@ -262,19 +262,19 @@ static const s32 lbl_805DD930[1] = {0x81C};
 
 void TCharaMaking__draw_colored_hair(f32 alpha, saddr child, CharacterAppearanceFields *character_appearance_fields, s32 specialColor) {
     struct Color { f32 a, r, g, b; } color;
-    s32 temp_r3;
+    s32 flags_masked;
     s32 second;
     s32 first;
-    s32 temp_r8;
-    temp_r8 = model_render_flags;
+    s32 flags;
+    flags = model_render_flags;
     first = chunk_polygon_flags_and_mask;
     second = chunk_polygon_flags_or_mask;
-    temp_r3 = temp_r8 & 0xFFFFFFDF;
-    model_render_flags = temp_r3;
-    saved_model_render_flags = temp_r8;
+    flags_masked = flags & 0xFFFFFFDF;
+    model_render_flags = flags_masked;
+    saved_model_render_flags = flags;
     saved_chunk_polygon_flags_and_mask = first;
     saved_chunk_polygon_flags_or_mask = second;
-    model_render_flags = temp_r3 | lbl_805DD930[0];
+    model_render_flags = flags_masked | hair_render_flags[0];
     if (alpha < 1.0f) {
         set_chunk_material_override_pair(-1, 0x800);
     }
@@ -298,46 +298,46 @@ void TCharaMaking::setup_from_data(s32 model, CharacterAppearanceFields *appeara
     TCharaMaking__draw_colored_hair(1.0f, model, appearance, 0);
 }
 
-CharacterAppearanceFields *get_class_appearance_preset(s32 arg0) {
-    s32 var_r3;
-    var_r3 = arg0;
-    if ((var_r3 < 0) || (var_r3 >= 0xD)) {
-        var_r3 = 0;
+CharacterAppearanceFields *get_class_appearance_preset(s32 class_id) {
+    s32 index;
+    index = class_id;
+    if ((index < 0) || (index >= 0xD)) {
+        index = 0;
     }
-    return &class_appearance_preset_table[var_r3];
+    return &class_appearance_preset_table[index];
 }
 
 void TCharaMaking::free_loaded_buffers() {
-    u8 *arg0 = (u8 *)this;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x8B8) != 0) {
-        if (!(*(s32 *)((s8 *)arg0 + 0xCFC) & 1)) {
-            release_texture_list(arg0 + 0xA1C);
+    u8 *base = (u8 *)this;
+    if ((s32) *(s32 *)((s8 *)base + 0x8B8) != 0) {
+        if (!(*(s32 *)((s8 *)base + 0xCFC) & 1)) {
+            release_texture_list(base + 0xA1C);
         }
-        *(s32 *)((s8 *)arg0 + 0x8B8) = 0;
+        *(s32 *)((s8 *)base + 0x8B8) = 0;
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0xA24) != 0) {
-        if (!(*(s32 *)((s8 *)arg0 + 0xCFC) & 2)) {
-            release_texture_list(arg0 + 0xB88);
+    if ((s32) *(s32 *)((s8 *)base + 0xA24) != 0) {
+        if (!(*(s32 *)((s8 *)base + 0xCFC) & 2)) {
+            release_texture_list(base + 0xB88);
         }
-        *(s32 *)((s8 *)arg0 + 0xA24) = 0;
+        *(s32 *)((s8 *)base + 0xA24) = 0;
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0xB90) != 0) {
-        if (!(*(s32 *)((s8 *)arg0 + 0xCFC) & 4)) {
-            release_texture_list(arg0 + 0xCF4);
+    if ((s32) *(s32 *)((s8 *)base + 0xB90) != 0) {
+        if (!(*(s32 *)((s8 *)base + 0xCFC) & 4)) {
+            release_texture_list(base + 0xCF4);
         }
-        *(s32 *)((s8 *)arg0 + 0xB90) = 0;
+        *(s32 *)((s8 *)base + 0xB90) = 0;
     }
 }
 
 void TCharaMaking::update_body_parts() {
-    u8 *arg0 = (u8 *)this;
-    validate_player_visual_record(arg0 + 0x85C);
-    *(f32 *)((s8 *)arg0 + 0xD48) = calc_character_height((CharacterAppearanceFields *)(arg0 + 0x85C));
-    TCharaMaking__bind_appearance_texture_lists(reinterpret_cast<CharacterTextureLoadSet *>(arg0 + 0x8B8),
-        reinterpret_cast<CharacterTextureLoadSet *>(arg0 + 0xA24),
-        reinterpret_cast<CharacterTextureLoadSet *>(arg0 + 0xB90),
-        reinterpret_cast<CharacterAppearanceFields *>(arg0 + 0x85C));
-    TChCrLoadReq::create(arg0);
+    u8 *base = (u8 *)this;
+    validate_player_visual_record(base + 0x85C);
+    *(f32 *)((s8 *)base + 0xD48) = calc_character_height((CharacterAppearanceFields *)(base + 0x85C));
+    TCharaMaking__bind_appearance_texture_lists(reinterpret_cast<CharacterTextureLoadSet *>(base + 0x8B8),
+        reinterpret_cast<CharacterTextureLoadSet *>(base + 0xA24),
+        reinterpret_cast<CharacterTextureLoadSet *>(base + 0xB90),
+        reinterpret_cast<CharacterAppearanceFields *>(base + 0x85C));
+    TChCrLoadReq::create(base);
 }
 
 s32 validate_player_visual_record(void *record) {
@@ -450,11 +450,11 @@ void TCharaMaking__bind_appearance_texture_lists(CharacterTextureLoadSet *hair, 
   CharacterTextureList **hairTextures;
   CharacterTextureList **headTextures;
   CharacterTextureList *source;
-  CharacterClassAppearance *new_var;
-  CharacterTextureList *character_texture_list;
-  new_var = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
+  CharacterClassAppearance *class_entry;
+  CharacterTextureList *head_source;
+  class_entry = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
   hair->present = 0;
-  definition = new_var;
+  definition = class_entry;
   hairTextures = definition->hairTextures;
   if (hairTextures != 0)
   {
@@ -469,20 +469,20 @@ void TCharaMaking__bind_appearance_texture_lists(CharacterTextureLoadSet *hair, 
   headTextures = definition->headTextures;
   if (headTextures != 0)
   {
-    character_texture_list = headTextures[appearance->head];
-    if (character_texture_list != 0)
+    head_source = headTextures[appearance->head];
+    if (head_source != 0)
     {
-      head->build_appearance_texture_names(appearance, definition, character_texture_list);
+      head->build_appearance_texture_names(appearance, definition, head_source);
       head->present = 1;
     }
   }
   body->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
   body->present = 1;
 }
-s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
-    if (arg0[0] < 0.0f || arg0[0] >= 1.0f || arg0[1] < 0.0f || arg0[1] >= 1.0f) {
-        arg0[0] = 0.0f;
-        arg0[1] = 0.0f;
+s32 TCharaMaking__sub_8028E3A0(f32 *uv) {
+    if (uv[0] < 0.0f || uv[0] >= 1.0f || uv[1] < 0.0f || uv[1] >= 1.0f) {
+        uv[0] = 0.0f;
+        uv[1] = 0.0f;
         return 1;
     }
     return 0;
@@ -573,7 +573,7 @@ void request_chara_making_archives(void) {
         if (TQuestVmDownLoadServer::is_ready() != 0) {
             return;
         }
-        if (TLobby__sub_801E3E9C(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], lbl_8045122C[i]) != 0) {
+        if (TLobby__sub_801E3E9C(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], player_class_texture_archive_length[i]) != 0) {
             if (TQuestVmDownLoadServer::is_ready() == 0) {
                 return;
             }
@@ -595,29 +595,29 @@ void TCharaMaking__sub_8028E790(void) {  }
 extern saddr tl_03;
 
 void TCharaMaking::update_light_direction() {
-    f32 temp_f31;
+    f32 cos_pitch;
     scene_light_state.direction.y = -1.0f * sin_table_lookup(m_1c);
-    temp_f31 = cos_table_lookup(m_1c);
-    scene_light_state.direction.x = temp_f31 * sin_table_lookup(m_20);
-    scene_light_state.direction.z = temp_f31 * cos_table_lookup(m_20);
+    cos_pitch = cos_table_lookup(m_1c);
+    scene_light_state.direction.x = cos_pitch * sin_table_lookup(m_20);
+    scene_light_state.direction.z = cos_pitch * cos_table_lookup(m_20);
 }
 
-s32 TCharaMaking::update_main_menu(saddr arg0) {
-    saddr var_r3;
+s32 TCharaMaking::update_main_menu(saddr task) {
+    saddr dressing_room;
 
     if (creation_main_menu_obj->is_state_3() != 0) {
         fn_8028D8F4();
-        var_r3 = 0;
+        dressing_room = 0;
         if ((s32) creation_dressing_room_mode_flag == 1) {
-            var_r3 = 1;
+            dressing_room = 1;
         }
-        TSaveChCr::create(var_r3);
+        TSaveChCr::create(dressing_room);
         end_creation_view();
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)task)->queue_destruction();
         return 1;
     }
     if (creation_main_menu_obj->is_state_4() != 0) {
-        ((TObject *)arg0)->queue_destruction();
+        ((TObject *)task)->queue_destruction();
         TChCrCharSelect::create((TObject *)tl_03);
         return 1;
     }
@@ -629,8 +629,8 @@ void TCharaMaking::run_task() {
     if (TCharaMaking::update_main_menu((saddr)this)) return;
 }
 
-void *TCharaMaking::create(void *parent, void *arg1) {
-    creation_player_character = (CharacterAppearanceFields *)arg1;
+void *TCharaMaking::create(void *parent, void *appearance) {
+    creation_player_character = (CharacterAppearanceFields *)appearance;
     return new TCharaMaking((TObject *)parent);
 }
 

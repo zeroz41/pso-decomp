@@ -15,9 +15,9 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
     TAdPlyPltAnimCtrlGC(TObject *parent);
     virtual ~TAdPlyPltAnimCtrlGC();
     virtual void render();
-    u32 m_1c;
-    u32 m_20;
-    PlyPltAnimVec2 m_24;
+    u32 state;
+    u32 frame;
+    PlyPltAnimVec2 plate_position;
     static void render(void *self);
     void init(void* a1);
     virtual void run_task();
@@ -28,7 +28,7 @@ struct TAdPlyPltAnimCtrlGC : public TObject {
 LAYOUT_ASSERT(TAdPlyPltAnimCtrlGC_size, sizeof(TAdPlyPltAnimCtrlGC) == 0x2C);
 
 extern "C" {
-void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0);
+void TAdPlyPltAnimCtrlGC__sub_80355168(TAdPlyPltAnimCtrlGC *ctrl);
 }
 
 // Whether every bit of `mask` is set in the flag word.

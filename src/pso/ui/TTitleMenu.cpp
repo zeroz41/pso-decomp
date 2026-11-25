@@ -45,14 +45,14 @@ s32 TAdTrialAgreementGC__sub_80335958(TTitleMenu *controller) {
 s32 TTitleMenu::get_cursor() { return cursor; }
 
 void TTitleMenu::update_title_prompt() {
-  float new_var;
+  float wave;
   if ((test_pressed_buttons_packed(&controller_physical_port_bank.controllers[0], 8) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0))
   {
     play_sound_effect(0x52D01, 0, 0, 0);
     state = 1;
   }
-  new_var = 1.0f + sin_table_lookup((s32) (182.04445f * ((f32) ((frame % 120) * 3))));
-  color.a = (f32) (new_var / 2.0f);
+  wave = 1.0f + sin_table_lookup((s32) (182.04445f * ((f32) ((frame % 120) * 3))));
+  color.a = (f32) (wave / 2.0f);
 }
 
 void TTitleMenu::handle_cursor_input() {
@@ -80,8 +80,8 @@ void TTitleMenu::handle_cursor_input() {
 }
 
 void TTitleMenu::render() {
-    s32 temp_r0;
-    s32 temp_r31;
+    s32 current_state;
+    s32 cursor;
     s32 i;
     if (TMainTask::get_render_pass() != 0) {
         TParticleCtrl::begin_effect_render();
@@ -94,8 +94,8 @@ void TTitleMenu::render() {
             bind_title_texture_list();
             TLobby::draw_with_camera(TLobby::get_record(0xA), 0xA, 0x22, (-1e+01f));
         }
-        temp_r0 = state;
-        if ((temp_r0 == 1) || (temp_r0 == 2)) {
+        current_state = state;
+        if ((current_state == 1) || (current_state == 2)) {
             i = 0xB;
             do {
                 draw_record_with_camera(i, i);
@@ -103,16 +103,16 @@ void TTitleMenu::render() {
             } while (i != 0xF);
             bind_title_texture_list();
             set_additive_blend();
-            temp_r31 = get_cursor();
+            cursor = get_cursor();
             if (state == 1) {
-                draw_record_with_camera(temp_r31 + 0xF, 0xF);
-                draw_record_with_camera(temp_r31 + 0x13, 0x13);
-                draw_record_with_camera(temp_r31 + 0x17, 0x17);
+                draw_record_with_camera(cursor + 0xF, 0xF);
+                draw_record_with_camera(cursor + 0x13, 0x13);
+                draw_record_with_camera(cursor + 0x17, 0x17);
             }
             if (state == 2) {
-                draw_record_with_camera(temp_r31 + 0x1B, 0x1B);
-                draw_record_with_camera(temp_r31 + 0x1F, 0x1F);
-                draw_record_with_camera(temp_r31 + 0x23, 0x23);
+                draw_record_with_camera(cursor + 0x1B, 0x1B);
+                draw_record_with_camera(cursor + 0x1F, 0x1F);
+                draw_record_with_camera(cursor + 0x23, 0x23);
             }
             set_default_alpha_blend();
         }

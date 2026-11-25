@@ -335,7 +335,7 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle(&quest_download_cipher_state);
     quest_download_cipher_state.permute_save_blocks((const u8*)src, (u8*)dst, (u32)size);
-    move_data((this), (const void *)(dst), size);
+    move_data((this), (dst), size);
     safe_free(dst);
     safe_free(src);
 }
@@ -348,7 +348,7 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle(&quest_download_cipher_state);
     subtractive_rng_unshuffle(&quest_download_cipher_state, (const u8 *)src, (u8 *)dst, (u32)size);
-    move_data((((u32 *)data)), (const void *)(dst), size);
+    move_data((((u32 *)data)), (dst), size);
     safe_free(dst);
     safe_free(src);
     subtractive_rng_seed(&quest_download_cipher_state, download_rng_seed_pair[0]);

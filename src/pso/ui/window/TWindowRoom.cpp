@@ -29,7 +29,7 @@ WindowDescriptor room_window_base_parameters = {
     {160.0f, 27.0f}, 37000.0f, &room_window_layout_entries, 0x82B,
 };
 
-const char *TWindowRoom__class_name = "TWindowRoom";
+const char *TWindowRoom::class_name = "TWindowRoom";
 
 
 void *TWindowRoom::get_title_entry() {
@@ -56,7 +56,7 @@ TWindowRoom::~TWindowRoom() {}
 TWindowRoom::TWindowRoom(char *title)
     : TWindowBase((u8 *)&room_window_base_parameters, 4, (u8 *)get_window_layout_position(0xAF)) {
     WindowTextEntry *entry;
-    m_name = TWindowRoom__class_name;
+    m_name = TWindowRoom::class_name;
     entry = (WindowTextEntry *)this->get_array_entry(0);
     set_text_entry_string(entry, (uaddr)title, 0x60);
     measure_message_text_width_default(entry);

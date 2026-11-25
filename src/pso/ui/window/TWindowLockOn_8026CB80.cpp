@@ -1,12 +1,6 @@
 #include "types.h"
-#include "pso/ui/window/TWindowLockOn.h"
+#include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
-
-void *get_window_layout_position();
-
-f32 TWindowLockOn::get_target_distance() {
-    return *(f32 *)((s8 *)(get_window_layout_position()) + 4);
-}
-
+f32 get_window_layout_y(s32 idx) {
+    return get_window_layout_position(idx)->y;
 }

@@ -17,7 +17,7 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/text_80076BC4.h"
 
-const char *TWindowSubShortCutList__class_name = "TWindowSubShortCutList";
+const char *TWindowSubShortCutList::class_name = "TWindowSubShortCutList";
 // Size argument of the shortcut list window.
 static const NJS_POINT2 lbl_8044FAA8 = {405.0f, 188.0f};
 
@@ -93,7 +93,7 @@ TWindowSubShortCutList::TWindowSubShortCutList(u8 *parent, s32 index)
     : TWindowMenuIconLine(parent, 4, local_client_id) {
     s32 row;
     s32 col;
-    m_name = TWindowSubShortCutList__class_name;
+    m_name = TWindowSubShortCutList::class_name;
     row = index / 4;
     col = index % 4;
     ensure_status_display((saddr)(TWindowSubStatusDisp::get_message_10(0x2D)));

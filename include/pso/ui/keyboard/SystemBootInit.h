@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TKeyBoardControl__sub_8000F7FC(void);
+void run_end_of_render_tasks(void);
 int TKeyBoardControl__sub_8000F828(void);
 }
 s32 get_previous_main_phase(void);
@@ -12,8 +12,8 @@ void set_fallback_main_phase(s32 phase);
 void set_queued_main_phase(s32 phase);
 s32 switch_to_fallback_main_phase(void);
 extern "C" {
-void TKeyBoardControl__sub_8000F950(void);
-void TKeyBoardControl__sub_8000F95C(void);
+void set_keyboard_input_flag(void);
+void clear_keyboard_input_flag(void);
 void request_main_phase(s32 phase);
 }
 void reset_main_phase_state(void);

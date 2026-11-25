@@ -4,6 +4,9 @@
 #include "types.h"
 
 class TWindowInputNumber;
+class TWindowBase;
+class TWindowMenuIconLine;
+struct TWindowMenu;
 class TWindowHelpItem;
 #include "pso/system/task/TObject.h"
 
@@ -16,6 +19,7 @@ class TWindowChat;
 struct TWindowSubTradeMain : public TObject {
     TWindowSubTradeMain(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubTradeMain();
+    static const char *class_name;
     TWindowMessageYesNo *open_confirm_prompt();
     TWindowSubEquipKind *create_trade_window();
     TWindowSubEquipKind *open_trade_equip_window();

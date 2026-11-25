@@ -194,7 +194,7 @@ CapturedTargetList *PlayerAttackController::capture_lockon_targets(TObjPlayer *p
         entry->set_collider_index(record->get_part());
         entry++;
     }
-    ((TMainCursor *)(player->lock_on_cursor))->set_cursor_pos(lockon_targets.entries[0].uid, lockon_targets.entries[0].collider_index);
+    player->lock_on_cursor->set_cursor_pos(lockon_targets.entries[0].uid, lockon_targets.entries[0].collider_index);
     return &lockon_targets;
 }
 

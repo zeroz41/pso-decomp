@@ -14,53 +14,56 @@ f32 fabs_float(f32, f32);
 #pragma fp_contract on
 
 void TWindowSubStatusDisp::set_all_values(s32 meseta) {
-    *(f32 *)((s8 *)this + 0x28) = (f32) meseta;
-    *(f32 *)((s8 *)this + 0x24) = (f32) meseta;
-    *(s32 *)((s8 *)this + 0x20) = meseta;
-    *(f32 *)((s8 *)this + 0x2C) = 0.0f;
+    TWindowLayoutCountingNumber *number = (TWindowLayoutCountingNumber *)this;
+    number->target = (f32) meseta;
+    number->current = (f32) meseta;
+    number->value = meseta;
+    number->step = 0.0f;
 }
 
-void TWindowSubStatusDisp::set_animated_target(s32 meseta, f32 farg0) {
-    f32 temp_f2;
-    f32 var_f31;
+void TWindowSubStatusDisp::set_animated_target(s32 meseta, f32 frames) {
+    TWindowLayoutCountingNumber *number = (TWindowLayoutCountingNumber *)this;
+    f32 target;
+    f32 delta;
 
-    if (*(f32 *)((s8 *)this + 0x28) != (f32) meseta) {
-        *(f32 *)((s8 *)this + 0x28) = (f32) meseta;
-        temp_f2 = *(f32 *)((s8 *)this + 0x28);
-        var_f31 = temp_f2 - *(f32 *)((s8 *)this + 0x24);
-        var_f31 = var_f31 / farg0;
-        if (fabs_float(var_f31, temp_f2) < 1.0f) {
-            if (var_f31 > 0.0f) {
-                var_f31 = 1.0f;
+    if (number->target != (f32) meseta) {
+        number->target = (f32) meseta;
+        target = number->target;
+        delta = target - number->current;
+        delta = delta / frames;
+        if (fabs_float(delta, target) < 1.0f) {
+            if (delta > 0.0f) {
+                delta = 1.0f;
             } else {
-                var_f31 = -1.0f;
+                delta = -1.0f;
             }
         }
-        *(f32 *)((s8 *)this + 0x2C) = var_f31;
+        number->step = delta;
     }
 }
 
-void set_status_entry_target(void *arg0, s32 arg1) {
-  f32 temp_f2;
-  f32 var_f31;
-  if ((*((f32 *) (((s8 *) arg0) + 0x28))) != ((f32) arg1))
+void set_status_entry_target(void *entry, s32 value) {
+  TWindowLayoutCountingNumber *number = (TWindowLayoutCountingNumber *)entry;
+  f32 target;
+  f32 delta;
+  if (number->target != ((f32) value))
   {
-    *((f32 *) (((s8 *) arg0) + 0x28)) = (f32) arg1;
-    temp_f2 = *((f32 *) (((s8 *) arg0) + 0x28));
-    var_f31 = temp_f2 - (*((f32 *) (((s8 *) arg0) + 0x24)));
-    var_f31 *= 0.0211f;
-    if (fabs_float(var_f31, temp_f2) < 1.0f)
+    number->target = (f32) value;
+    target = number->target;
+    delta = target - number->current;
+    delta *= 0.0211f;
+    if (fabs_float(delta, target) < 1.0f)
     {
-      if (var_f31 > 0.0f)
+      if (delta > 0.0f)
       {
-        var_f31 = 1.0f;
+        delta = 1.0f;
       }
       else
       {
-        var_f31 = -1.0f;
+        delta = -1.0f;
       }
     }
-    *((f32 *) (((s8 *) arg0) + 0x2C)) = var_f31;
+    number->step = delta;
   }
 }
 
@@ -69,14 +72,14 @@ void set_status_entry_target(void *arg0, s32 arg1) {
 
 void TWindowLayoutCountingNumber::update() {
     f32 target;
-    f32 temp_f30;
+    f32 distance;
     if (this->target != this->current) {
         if (this->flags & 8) {
             play_persistent_sound(0x44E03, this, NULL, 0, 0);
         }
         target = this->target;
-        temp_f30 = target - this->current;
-        if (((f32 (*)(f32)) fabs_float)(temp_f30) < (fabs_float(this->step, target))) {
+        distance = target - this->current;
+        if (((f32 (*)(f32)) fabs_float)(distance) < (fabs_float(this->step, target))) {
             this->current = this->target;
         } else {
             this->current = this->current + this->step;

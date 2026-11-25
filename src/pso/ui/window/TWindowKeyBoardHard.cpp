@@ -64,7 +64,7 @@ u16 TWindowKeyBoardHard::lookup_key_char(u8 key) {
     return keyboard_kana_unshifted_map[key];
 }
 
-s32 TWindowKeyBoardHard::translate_key_char(u8 key, u16 *key_char) {
+s32 TWindowKeyBoardHard::translate_key_char(u8 key, u16 *out_char) {
     s32 shift;
     u32 f;
     u16 c;
@@ -81,45 +81,45 @@ s32 TWindowKeyBoardHard::translate_key_char(u8 key, u16 *key_char) {
         switch (hardware_keyboard_state.get_key_state()) {
         case 0:
             if ((input_flags & 4) && current_language == LANGUAGE_JAPANESE) {
-                *key_char = keyboard_jp_symbol_map[key];
+                *out_char = keyboard_jp_symbol_map[key];
             } else if (shift != 0) {
-                *key_char = keyboard_jp_shifted_map[key];
+                *out_char = keyboard_jp_shifted_map[key];
             } else {
-                *key_char = keyboard_jp_unshifted_map[key];
+                *out_char = keyboard_jp_unshifted_map[key];
             }
             break;
         case 2:
             if (input_flags & 8) {
-                *key_char = keyboard_fr_alternate_map[key];
+                *out_char = keyboard_fr_alternate_map[key];
             } else if (shift != 0) {
-                *key_char = keyboard_fr_shifted_map[key];
+                *out_char = keyboard_fr_shifted_map[key];
             } else {
-                *key_char = keyboard_fr_unshifted_map[key];
+                *out_char = keyboard_fr_unshifted_map[key];
             }
             break;
         case 4:
             if (input_flags & 8) {
-                *key_char = keyboard_es_alternate_map[key];
+                *out_char = keyboard_es_alternate_map[key];
             } else if (shift != 0) {
-                *key_char = keyboard_es_shifted_map[key];
+                *out_char = keyboard_es_shifted_map[key];
             } else {
-                *key_char = keyboard_es_unshifted_map[key];
+                *out_char = keyboard_es_unshifted_map[key];
             }
             break;
         case 3:
             if (input_flags & 8) {
-                *key_char = keyboard_de_alternate_map[key];
+                *out_char = keyboard_de_alternate_map[key];
             } else if (shift != 0) {
-                *key_char = keyboard_de_shifted_map[key];
+                *out_char = keyboard_de_shifted_map[key];
             } else {
-                *key_char = keyboard_de_unshifted_map[key];
+                *out_char = keyboard_de_unshifted_map[key];
             }
             break;
         default:
             if (shift != 0) {
-                *key_char = keyboard_us_shifted_map[key];
+                *out_char = keyboard_us_shifted_map[key];
             } else {
-                *key_char = keyboard_us_unshifted_map[key];
+                *out_char = keyboard_us_unshifted_map[key];
             }
             break;
         }
@@ -130,39 +130,39 @@ s32 TWindowKeyBoardHard::translate_key_char(u8 key, u16 *key_char) {
     }
     if (m_control->composition_flags & 2) {
         if (input_flags & 4) {
-            *key_char = keyboard_jp_symbol_map[key];
+            *out_char = keyboard_jp_symbol_map[key];
         } else if (shift != 0) {
-            *key_char = keyboard_jp_fullwidth_shifted_map[key];
+            *out_char = keyboard_jp_fullwidth_shifted_map[key];
         } else {
-            *key_char = keyboard_jp_fullwidth_unshifted_map[key];
+            *out_char = keyboard_jp_fullwidth_unshifted_map[key];
         }
         return 1;
     }
     if (m_control->composition_flags & 4) {
         if (is_printable_key(key) != 0) {
             if (input_flags & 4) {
-                *key_char = keyboard_jp_symbol_map[key];
+                *out_char = keyboard_jp_symbol_map[key];
             } else if (shift != 0) {
-                *key_char = keyboard_jp_shifted_map[key];
+                *out_char = keyboard_jp_shifted_map[key];
             } else {
-                *key_char = keyboard_jp_unshifted_map[key];
+                *out_char = keyboard_jp_unshifted_map[key];
             }
             return ((input_flags >> 7) & 1) ? 2 : 0;
         }
         if (input_flags & 4) {
-            *key_char = keyboard_jp_symbol_map[key];
+            *out_char = keyboard_jp_symbol_map[key];
         } else if (shift != 0) {
-            *key_char = keyboard_jp_fullwidth_shifted_map[key];
+            *out_char = keyboard_jp_fullwidth_shifted_map[key];
         } else {
-            *key_char = keyboard_jp_fullwidth_unshifted_map[key];
+            *out_char = keyboard_jp_fullwidth_unshifted_map[key];
         }
         return 1;
     }
-    *key_char = lookup_key_char(key);
+    *out_char = lookup_key_char(key);
     if (!(m_control->composition_flags & 8)) {
         return 1;
     }
-    c = *key_char;
+    c = *out_char;
     if (c < 0x829F) {
         return 1;
     }
@@ -170,9 +170,9 @@ s32 TWindowKeyBoardHard::translate_key_char(u8 key, u16 *key_char) {
         return 1;
     }
     if (c > 0x82DD) {
-        *key_char = c + 1;
+        *out_char = c + 1;
     }
-    *key_char += 0xA1;
+    *out_char += 0xA1;
     return 1;
 }
 
@@ -265,7 +265,7 @@ u8 TWindowKeyBoardHard::sub_8025F2F8(u8 key) {
     return key;
 }
 
-s32 TWindowKeyBoardHard::lookup_key_repeat_state(u8 key, u8 code) {
+s32 TWindowKeyBoardHard::lookup_key_repeat_state(u8 key, u8 ch) {
     u32 st;
     u32 i;
 
@@ -274,7 +274,7 @@ s32 TWindowKeyBoardHard::lookup_key_repeat_state(u8 key, u8 code) {
         return 0;
     }
     for (i = 0; i < 7; i++) {
-        if (code == keyboard_repeat_key_codes[i]) {
+        if (ch == keyboard_repeat_key_codes[i]) {
             if (!(keyboard_key_repeat_mask_table[st] & (1 << i))) {
                 return 0;
             }
@@ -291,32 +291,32 @@ s32 TWindowKeyBoardHard::lookup_key_repeat_state(u8 key, u8 code) {
 
 s32 TWindowKeyBoardHard::sub_8025F4A0(u8 key) {
     static void (TWindowKeyBoardBase::*control_key_handlers[26])() = {
-        &TWindowKeyBoardBase::vt0,
-        &TWindowKeyBoardBase::vt21,
-        &TWindowKeyBoardBase::vt3,
-        &TWindowKeyBoardBase::vt4,
-        &TWindowKeyBoardBase::vt5,
-        &TWindowKeyBoardBase::vt6,
-        &TWindowKeyBoardBase::vt7,
-        &TWindowKeyBoardBase::vt8,
-        &TWindowKeyBoardBase::vt9,
-        &TWindowKeyBoardBase::vt10,
-        &TWindowKeyBoardBase::vt11,
-        &TWindowKeyBoardBase::vt12,
-        &TWindowKeyBoardBase::vt13,
-        &TWindowKeyBoardBase::vt14,
+        &TWindowKeyBoardBase::key_enter,
+        &TWindowKeyBoardBase::key_escape,
+        &TWindowKeyBoardBase::key_f1,
+        &TWindowKeyBoardBase::key_f2,
+        &TWindowKeyBoardBase::key_f3,
+        &TWindowKeyBoardBase::key_f4,
+        &TWindowKeyBoardBase::key_f5,
+        &TWindowKeyBoardBase::key_f6,
+        &TWindowKeyBoardBase::key_f7,
+        &TWindowKeyBoardBase::key_f8,
+        &TWindowKeyBoardBase::key_f9,
+        &TWindowKeyBoardBase::key_f10,
+        &TWindowKeyBoardBase::key_f11,
+        &TWindowKeyBoardBase::key_f12,
         &TWindowKeyBoardBase::sub_8025B928,
-        &TWindowKeyBoardBase::sub_8025BA44,
-        &TWindowKeyBoardBase::sub_8025BA28,
+        &TWindowKeyBoardBase::key_home,
+        &TWindowKeyBoardBase::key_end,
         &TWindowKeyBoardBase::sub_8025B92C,
         &TWindowKeyBoardBase::update_input_state,
-        &TWindowKeyBoardBase::vt1,
-        &TWindowKeyBoardBase::vt20,
-        &TWindowKeyBoardBase::vt15,
-        &TWindowKeyBoardBase::vt16,
-        &TWindowKeyBoardBase::vt17,
-        &TWindowKeyBoardBase::vt18,
-        &TWindowKeyBoardBase::vt19,
+        &TWindowKeyBoardBase::key_backspace,
+        &TWindowKeyBoardBase::key_delete,
+        &TWindowKeyBoardBase::key_right,
+        &TWindowKeyBoardBase::key_left,
+        &TWindowKeyBoardBase::key_up,
+        &TWindowKeyBoardBase::key_down,
+        &TWindowKeyBoardBase::key_space,
     };
     s32 busy;
     u32 t;
@@ -407,30 +407,30 @@ s32 TWindowKeyBoardHard::sub_8025F4A0(u8 key) {
 }
 
 void TWindowKeyBoardHard::process_key_input(u8 key) {
-    u16 code;
+    u16 ch;
     s32 mode;
 
     if (sub_8025F4A0(key) != 0) {
         accent_index = 7;
         return;
     }
-    mode = translate_key_char(key, &code);
-    if (code == 0x1F) {
+    mode = translate_key_char(key, &ch);
+    if (ch == 0x1F) {
         accent_index = 7;
         return;
     }
     if (poll_input() < 3U) {
-        if (lookup_key_repeat_state(key, (u8) code) == 0) {
-            code = (u16) sub_8025F2F8((u8) code);
+        if (lookup_key_repeat_state(key, (u8) ch) == 0) {
+            ch = (u16) sub_8025F2F8((u8) ch);
             goto block_7;
         }
     } else {
 block_7:
-        if ((sub_80260438() != 0) && ((s32) code >= 0x61) && ((s32) code <= 0x7A)) {
-            code -= 0x20;
+        if ((sub_80260438() != 0) && ((s32) ch >= 0x61) && ((s32) ch <= 0x7A)) {
+            ch -= 0x20;
         }
         m_control->set_input_mode(mode);
-        m_control->insert_character(code);
+        m_control->insert_character(ch);
     }
 }
 
@@ -601,7 +601,7 @@ void TWindowKeyBoardHard::render() {
 
 
 void TWindowKeyBoardHard::run_task() {
-    s32 temp_r3_2;
+    s32 delay;
 
     if (m_control != NULL) {
         if ((is_key_active() == 0) && (m_control->is_confirmed() == 0)) {
@@ -618,9 +618,9 @@ void TWindowKeyBoardHard::run_task() {
             update_modifier_flags();
             process_all_key_states();
         }
-        temp_r3_2 = this->m_68;
-        if (temp_r3_2 > 0) {
-            this->m_68 = (temp_r3_2 - 1);
+        delay = this->m_68;
+        if (delay > 0) {
+            this->m_68 = (delay - 1);
         }
         update_window();
         update_fade();
@@ -640,17 +640,17 @@ TWindowKeyBoardHard::TWindowKeyBoardHard(TWindowKeyBoardBase *control) : TWindow
 
 
 
-void TWindowKeyBoardHard::set_bits_shift7(saddr client_id, s32 enable) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(enable << 7), -0x81);
+void TWindowKeyBoardHard::set_bits_shift7(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 7), -0x81);
 }
-void TWindowKeyBoardHard::update_card_window_page_flags(saddr client_id, s32 enable) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(enable << 6), -0x41);
+void TWindowKeyBoardHard::update_card_window_page_flags(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 6), -0x41);
 }
-void TWindowKeyBoardHard::clear_card_window_flag(saddr client_id, s32 enable) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(enable << 4), -0x11);
+void TWindowKeyBoardHard::clear_card_window_flag(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 4), -0x11);
 }
-void TWindowKeyBoardHard::set_card_window_flag(saddr client_id, s32 enable) {
-    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(enable << 5), -0x21);
+void TWindowKeyBoardHard::set_card_window_flag(saddr client_id, s32 value) {
+    TWindowKeyBoardHard::set_card_window_flags((void *)client_id, (s32)(value << 5), -0x21);
 }
 int TWindowKeyBoardHard::sub_8026042C() { return (this->input_flags >> 6) & 0x1; }
 int TWindowKeyBoardHard::sub_80260438() { return (this->input_flags >> 10) & 0x1; }

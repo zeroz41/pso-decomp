@@ -932,9 +932,9 @@ s32 TWindowBase::is_closed() {
 
 int TWindowFukidasi__sub_8024695C(void* p) { return (*(u32*)((char*)p + 0x2c) >> 8) & 0x1; }
 
-int TWindowFukidasi::get_visible_flag() { return (*(u32*)((char*)this + 0x2c) >> 9) & 0x1; }
+int TWindowFukidasi::get_visible_flag() { return ((u32)window_flags >> 9) & 0x1; }
 
-int TWindowFukidasi::is_bit10_set() { return (*(u32*)((char*)this + 0x2c) >> 10) & 0x1; }
+int TWindowFukidasi::is_bit10_set() { return ((u32)window_flags >> 10) & 0x1; }
 void TWindowSubStatusDisp::update_entry_visibility() {
     uaddr entry7;
     uaddr entry6;

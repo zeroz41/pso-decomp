@@ -13,9 +13,9 @@ public:
 
 // TObject::m_name strings of the online hunter-guild sequence classes (.sdata, defined in
 // THunterGuildSeqOnlineTask.cpp in this order).
-extern const char *THunterGuildSeqOnlineTask__name;
-extern const char *THunterGuildSeqOnline_Server__name;
-extern const char *THunterGuildSeqOnline_Client__name;
+extern const char *hunter_guild_seq_online_task_name;
+extern const char *hunter_guild_seq_online_server_name;
+extern const char *hunter_guild_seq_online_client_name;
 
 void handle_6x73_exit_quest(void);
 

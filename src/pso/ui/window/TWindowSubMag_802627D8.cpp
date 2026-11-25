@@ -10,10 +10,10 @@
 
 
 
-int TWindowKeyBoardSoft::get_flag_bit0() { return this->m_60 & 0x1; }
-int TWindowKeyBoardSoft::is_cursor_locked() { return (this->m_60 >> 7) & 0x1; }
-int TWindowKeyBoardSoft::get_flag_bit6() { return (this->m_60 >> 6) & 0x1; }
-int TWindowKeyBoardSoft::get_flag_bit5() { return (this->m_60 >> 5) & 0x1; }
+int TWindowKeyBoardSoft::get_flag_bit0() { return this->state_flags & 0x1; }
+int TWindowKeyBoardSoft::is_cursor_locked() { return (this->state_flags >> 7) & 0x1; }
+int TWindowKeyBoardSoft::get_flag_bit6() { return (this->state_flags >> 6) & 0x1; }
+int TWindowKeyBoardSoft::get_flag_bit5() { return (this->state_flags >> 5) & 0x1; }
 int TWindowKeyBoardBase::get_flag62_bit8() { return this->request_flags & 0x8; }
 
 void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {

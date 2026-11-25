@@ -123,16 +123,16 @@ void TWindowMessageYesNo::open_yes_no_prompt_with_text(s32 text, const NJS_POINT
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowMessageYesNo__name = "TWindowMessageYesNo";
+const char *TWindowMessageYesNo::class_name = "TWindowMessageYesNo";
 #pragma pop
 
 void TWindowMessageYesNo::render() {  }
 
 void TWindowMessageYesNo::run_task() { if (is_child_visible() != 0) { ((TWindowMenu *)(this->message_menu))->confirm_selection(); } }
 
-TWindowMessageYesNo *TWindowMessageYesNo::create(void *parent, s32 client_id, const char *yes_text, const char *no_text) {
+TWindowMessageYesNo *TWindowMessageYesNo::create(void *parent, s32 client_id, const char *yes_label, const char *no_label) {
     TWindowMessageYesNo *o;
-    o = new TWindowMessageYesNo((TObject *)parent, client_id, yes_text, no_text);
+    o = new TWindowMessageYesNo((TObject *)parent, client_id, yes_label, no_label);
     return o;
 }
 
@@ -140,11 +140,11 @@ TWindowMessageYesNo::~TWindowMessageYesNo() {
     if (choice_menu != NULL) { choice_menu->close(); choice_menu = NULL; }
     if (message_menu != NULL) { message_menu->close(); message_menu = NULL; }
 }
-TWindowMessageYesNo::TWindowMessageYesNo(TObject *parent, s32 client_id, const char *yes_text, const char *no_text) : TObject(parent) {
-    m_name = TWindowMessageYesNo__name;
+TWindowMessageYesNo::TWindowMessageYesNo(TObject *parent, s32 client_id, const char *yes_label, const char *no_label) : TObject(parent) {
+    m_name = TWindowMessageYesNo::class_name;
     this->client_id = client_id;
     this->message_menu = 0;
     choice_menu = NULL;
-    this->yes_text = yes_text;
-    this->no_text = no_text;
+    this->yes_text = yes_label;
+    this->no_text = no_label;
 }

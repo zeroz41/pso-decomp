@@ -25,15 +25,15 @@
 #pragma readonly_strings on
 const char *TLoadingCur::class_name = "TLoadingCur";
 #pragma pop
-extern const ParticleAngles lbl_804349FC = {0, 0, 0};
+extern const ParticleAngles zero_particle_angles = {0, 0, 0};
 
 void TLoadingCur::update_camera_facing_offset() {
     ParticleAngles angles;
     if (particle != NULL) {
         VecCopy(&pos, &offset);
-        angles.x = lbl_804349FC.x;
-        angles.y = lbl_804349FC.y;
-        angles.z = lbl_804349FC.z;
+        angles.x = zero_particle_angles.x;
+        angles.y = zero_particle_angles.y;
+        angles.z = zero_particle_angles.z;
         facing.x = -ninja_camera.vx;
         facing.y = -ninja_camera.vy;
         facing.z = -ninja_camera.vz;

@@ -37,7 +37,6 @@ static const CharacterSlotPosition lbl_80475908 = { 429.0f, 156.0f };
 static const CharacterSlotPosition lbl_80475910 = { 441.0f, 117.0f };
 const char *TAdChrSelBSlotGC__name = "TAdChrSelBSlotGC";
 
-struct S_8030E3BC { s32 x; s32 y; s32 state; };
 
 PlayerSlotLabel chr_select_b_slot_entry;
 
@@ -52,7 +51,7 @@ void TAdChrSelBSlotGC::render() {
 }
 
 s32 TAdChrSelBSlotGC::is_character_transferred(u32 i) {
-    S_8030E3BC *e = (S_8030E3BC *)TAdSinglePlyChrSelectGC__sub_801FE3E4(i);
+    CardSlotSummary *e = (CardSlotSummary *)TAdSinglePlyChrSelectGC__sub_801FE3E4(i);
     if (e == 0) {
         return 0;
     }
@@ -60,7 +59,7 @@ s32 TAdChrSelBSlotGC::is_character_transferred(u32 i) {
 }
 
 PlayerSlotLabel *TAdChrSelBSlotGC::build_slot_entry(s32 index, s32 slot, void *pos) {
-    S_8030E3BC *e = (S_8030E3BC *)TAdSinglePlyChrSelectGC__sub_801FE3E4(slot);
+    CardSlotSummary *e = (CardSlotSummary *)TAdSinglePlyChrSelectGC__sub_801FE3E4(slot);
     chr_select_b_slot_entry.slot = index;
     chr_select_b_slot_entry.name = reinterpret_cast<const char *>(
         e != NULL ? e->x : get_localized_text_entry(0x16, 0x1C));
@@ -397,7 +396,7 @@ void TAdChrSelBSlotGC::show_not_formatted_message() {
 }
 
 void TAdChrSelBSlotGC::update_card_confirm() {
-    s32 var_r31;
+    s32 state_result;
 
     if (format_prompt->is_child_visible() != 0) {
         switch (format_prompt->get_selected_value()) {
@@ -407,11 +406,11 @@ void TAdChrSelBSlotGC::update_card_confirm() {
         case 0:
             if ((format_confirm == NULL) && (get_global_slot_data() != 0)) {
                 if (TAdMultiPlyChrSelectGC::get_state() != NULL) {
-                    var_r31 = TAdMultiPlyChrSelectGC::get_state()->get_state_result();
+                    state_result = TAdMultiPlyChrSelectGC::get_state()->get_state_result();
                 } else {
-                    var_r31 = 0;
+                    state_result = 0;
                 }
-                format_confirm = get_global_slot_data()->open_confirm_message(1, var_r31);
+                format_confirm = get_global_slot_data()->open_confirm_message(1, state_result);
                 state = 8;
                 return;
             }
@@ -433,7 +432,7 @@ void TAdChrSelBSlotGC::update_card_confirm() {
 }
 
 void TAdChrSelBSlotGC::show_format_prompt() {
-    s32 var_r31;
+    s32 state_result;
     if (get_global_state() > 0x11) {
         if (wait_message[4] != NULL) {
             wait_message[4]->close();
@@ -452,11 +451,11 @@ void TAdChrSelBSlotGC::show_format_prompt() {
     }
     if ((state_frames > 0xA) && (format_prompt == NULL) && (get_global_slot_data() != 0)) {
         if (TAdMultiPlyChrSelectGC::get_state() != NULL) {
-            var_r31 = TAdMultiPlyChrSelectGC::get_state()->get_state_result();
+            state_result = TAdMultiPlyChrSelectGC::get_state()->get_state_result();
         } else {
-            var_r31 = 0;
+            state_result = 0;
         }
-        format_prompt = get_global_slot_data()->create_message_window(1, var_r31);
+        format_prompt = get_global_slot_data()->create_message_window(1, state_result);
         state = 6;
     }
 }

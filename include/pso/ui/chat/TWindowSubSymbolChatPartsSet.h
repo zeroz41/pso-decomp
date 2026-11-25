@@ -11,20 +11,20 @@ struct SymbolChatPart;
 struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     TWindowSubSymbolChatPartsSet(const NJS_POINT2 *position, s16 index, s32 *first, s32 *second);
     virtual ~TWindowSubSymbolChatPartsSet();
-    void sub_8028625C();
+    void update_part_sprites();
     s32 is_active();
     s32 get_cursor_pos();
     s32 get_cursor_x();
     s32 is_cancelled();
-    void set_selection_and_refresh(s8 *arg1);
-    s32 select_symbol_chat_record(s8 *arg1, s32 *arg2);
-    void init_symbol_layout(s32 *arg1);
+    void set_selection_and_refresh(s8 *selection);
+    s32 select_symbol_chat_record(s8 *selection, s32 *result);
+    void init_symbol_layout(s32 *result);
     virtual void render();
-    u8 flags; // 1: decided, 2: cancelled (set by handle_cancel)
+    u8 result_flags;
     s8 selection_mode;
     s16 cursor_x;
     s16 cursor_y;
-    u16 set_index;
+    s16 part_id;
     s8 *selection_out;
     s32 first_part_index;
     s32 second_part_index;
@@ -38,9 +38,9 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     void toggle_selected_part();
     void handle_cursor_input();
     virtual void run_task();
-    f32 m_8c;
-    f32 m_90;
-    f32 m_94;
+    f32 offset_x;
+    f32 offset_y;
+    f32 scale;
     // Reads symbol_chat_parts_color_table.
     static int get_parts_color(int index);
     static void set_pos(WindowSpritePart *sprite, s16 x, s16 y);
@@ -52,7 +52,7 @@ struct TWindowSubSymbolChatPartsSet : public TWindowChatSymbol {
     static void setup_part_sprites(WindowSpritePart *help, WindowSpritePart *alternate, WindowSpritePart *shortcut_icon, u16 code, s32 color, s32 flip_u, s32 flip_v, s32 uv_index);
 };
 
-extern "C" WindowSpritePart *TWindowSubSymbolChatPartsSet__sub_802482B8(void *window, s32 index);
+extern "C" WindowSpritePart *get_shortcut_icon_entry(void *window, s32 index);
 
 LAYOUT_ASSERT(TWindowSubSymbolChatPartsSet_size, sizeof(TWindowSubSymbolChatPartsSet) == 0x98);
 #endif

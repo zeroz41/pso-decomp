@@ -129,13 +129,13 @@ struct TWindowHelpItem : public TWindowBase
     u8 _pad61[0x3];
     PageIndicator *page_indicator;
     TItemData *active_item;
-    u32 item_data;            // shown when no displayed item is set (item_id)
-    uaddr displayed_item_data;  // takes precedence; compared with the equipped one
-    TItemData item_copy;  // copy of the item item_id names
+    u32 secondary_item;       // shown when no primary item is set (secondary_id)
+    uaddr primary_item;       // takes precedence; compared with the equipped one
+    TItemData item_copy;      // copy of the item secondary_id names
     TItemData displayed_item;
-    s32 shown_item_id;  // id of the item on show, -1 for none
-    u32 item_id;
-    u32 displayed_item_id;
+    s32 active_id;  // id of the item on show, -1 for none
+    u32 secondary_id;
+    u32 primary_id;
     f32 scale_x;
     f32 scale_y;
     void (TWindowHelpItem::*m_callback)();  // run each frame for the page on show
@@ -169,6 +169,14 @@ struct TWindowHelpItem : public TWindowBase
     void set_displayed_item_data(void* a1, void* a2);
     void set_items_and_refresh(void* a1, void* a2);
     void update_cursor_selection();
+    void set_flag0_bit20();
+    void update_visible_flags();
+    static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
+    static void set_flag_0x10(u16 *flags, s32 on);
+    void set_flag8_and_field20(s32 next_value);
+    void set_compare_color(s32 count);
+    void set_flag4_and_field1c(s32 count);
+    void set_help_text(uaddr str);
     void reset_float_field();
     s32 is_item_already_equipped();
     void format_description_with_price();

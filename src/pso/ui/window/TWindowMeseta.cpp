@@ -42,7 +42,7 @@ void TWindowMeseta::render() {
 
 
 
-const char *TWindowMeseta__class_name = "TWindowMeseta";
+const char *TWindowMeseta::class_name = "TWindowMeseta";
 
 // inferred: window_meseta_layout_entries, the layout table TWindowMeseta__window_descriptor points at
 // (a label and the meseta counter, then an all-zero record).
@@ -84,7 +84,7 @@ TWindowMeseta::TWindowMeseta(void *position, s32 arg2, s32 str)
     : TWindowBase((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)position) {
     WindowTextEntry *a;
     Sub_80269244 *b;
-    m_name = TWindowMeseta__class_name;
+    m_name = TWindowMeseta::class_name;
     client = arg2;
     meseta = this->get_meseta_value();
     a = (WindowTextEntry *)get_array_entry(0);

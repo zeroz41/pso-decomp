@@ -34,10 +34,6 @@
 
 #pragma readonly_strings on
 
-struct Rec_802655E4 { s32 a; s32 b; };
-
-struct Win_802655E4 { u8 p0[0x72]; s16 f72; s16 f74; s16 f76; u8 p78[8]; Rec_802655E4 *f80; };
-
 struct Rec_802656D8 { u32 flags; s32 b; };
 
 struct Ent_802656D8 { u8 p0[0x24]; s32 f24; };
@@ -46,28 +42,11 @@ struct Win_802656D8 { u8 p0[0x80]; Rec_802656D8 *f80; };
 
 
 
-struct Ent_80265C30 { u8 pad[0x8]; f32 x; u8 padc[4]; f32 w; f32 h; };
 
 
-struct Ent_80265E60 { u8 pad[0x14]; f32 h; };
-
-struct Ent_80265F60 { u8 pad[0x10]; f32 w; f32 h; };
-
-
-struct Ent_80265AA4 { u32 flags; u32 x; };
-
-struct Card_80265AA4 {
-    u8 pad0[0x74];
-    s16 cur;
-    s16 cnt;
-    u8 pad1[8];
-    Ent_80265AA4 *ents;
-};
-
-struct Ent_80265C30;
 extern "C" {
 
-void measure_message_text_width(Ent_80265C30 *e, f32 x);
+void measure_message_text_width(WindowTextEntry *e, f32 x);
 void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
 s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row);
 void TWindowSubComCard__sub_80265680(TWindowMenu *menu, s16 row);
@@ -141,17 +120,17 @@ void TWindowSubComCardList::sub_8026556C() {
 
 void TWindowSubComCardList::reset_entries() {
     s32 i;
-    Rec_802655E4 *r;
+    TWindowMenuRow *r;
     void *e;
-    ((Win_802655E4 *)this)->f72 = 0;
-    ((Win_802655E4 *)this)->f74 = 0;
-    r = ((Win_802655E4 *)this)->f80;
-    for (i = 0; i < ((Win_802655E4 *)this)->f76; i++, r++) {
+    entry_count = 0;
+    row_cursor = 0;
+    r = rows;
+    for (i = 0; i < row_count; i++, r++) {
         e = ((void *)get_array_entry(i));
         TWindowDuelResult::set_default_status(e, 0);
         measure_message_text_width_default(e);
-        r->a = 0;
-        r->b = 0;
+        r->flags = 0;
+        r->value = 0;
     }
 }
 
@@ -219,49 +198,47 @@ void TWindowMenu::confirm_selection() {
 }
 
 void TWindowMenu::select_next_item() {
-    s16 var_r31;
+    s16 candidate;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = selected_row;
-loop_1:
-    var_r31 += 1;
-    if (var_r31 >= row_count) {
-        if (!(this->m_70 & 1)) {
-            var_r31 = 0;
-            goto block_4;
-        }
-    } else {
-block_4:
-        if (var_r31 != selected_row) {
-            if (sub_80266B18(var_r31) != 0) {
-                selected_row = var_r31;
-            } else {
-                goto loop_1;
+    candidate = selected_row;
+    while (1) {
+        candidate += 1;
+        if (candidate >= row_count) {
+            if (this->m_70 & 1) {
+                return;
             }
+            candidate = 0;
+        }
+        if (candidate == selected_row) {
+            return;
+        }
+        if (sub_80266B18(candidate) != 0) {
+            selected_row = candidate;
+            return;
         }
     }
 }
 
 void TWindowMenu::move_cursor_prev() {
-    s16 var_r31;
+    s16 candidate;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = selected_row;
-loop_1:
-    var_r31 -= 1;
-    if (var_r31 < 0) {
-        if (!(this->m_70 & 1)) {
-            var_r31 = row_count - 1;
-            goto block_4;
-        }
-    } else {
-block_4:
-        if (var_r31 != selected_row) {
-            if (sub_80266B18(var_r31) != 0) {
-                selected_row = var_r31;
-            } else {
-                goto loop_1;
+    candidate = selected_row;
+    while (1) {
+        candidate -= 1;
+        if (candidate < 0) {
+            if (this->m_70 & 1) {
+                return;
             }
+            candidate = row_count - 1;
+        }
+        if (candidate == selected_row) {
+            return;
+        }
+        if (sub_80266B18(candidate) != 0) {
+            selected_row = candidate;
+            return;
         }
     }
 }
@@ -299,20 +276,20 @@ void TWindowMenu::clamp_menu_choice_scroll() {
 }
 
 void TWindowMenu::advance_past_disabled_menu_rows() {
-    u16 *e;
+    WindowTextEntry *e;
     s16 t;
-    if (((Card_80265AA4 *)this)->cur < ((Card_80265AA4 *)this)->cnt) {
-        e = ((u16 *)((TWindowBase *)((Card_80265AA4 *)this))->get_array_entry((s32)(((Card_80265AA4 *)this)->cur)));
-        while (((u32)((TWindowSubComCard *)e)->get_field_20()) != 0 && (*e & 0x10)) {
-            t = ((Card_80265AA4 *)this)->cur + 1;
-            ((Card_80265AA4 *)this)->cur = t;
-            if (t >= ((Card_80265AA4 *)this)->cnt) {
+    if (row_cursor < row_count) {
+        e = static_cast<WindowTextEntry *>(get_array_entry((s32)row_cursor));
+        while (((u32)((TWindowSubComCard *)e)->get_field_20()) != 0 && (e->flags & 0x10)) {
+            t = row_cursor + 1;
+            row_cursor = t;
+            if (t >= row_count) {
                 break;
             }
-            e = ((u16 *)((TWindowBase *)((Card_80265AA4 *)this))->get_array_entry((s32)(((Card_80265AA4 *)this)->cur)));
-            if (((Card_80265AA4 *)this)->ents[((Card_80265AA4 *)this)->cur].flags & 2) {
-                ((Card_80265AA4 *)this)->ents[((Card_80265AA4 *)this)->cur].flags &= ~2;
-                *e &= ~8;
+            e = static_cast<WindowTextEntry *>(get_array_entry((s32)row_cursor));
+            if (rows[row_cursor].flags & 2) {
+                rows[row_cursor].flags &= ~2;
+                e->flags &= ~8;
             }
         }
     }
@@ -363,13 +340,13 @@ void align_menu_entry_positions(TWindowMenu *self) {
     f32 right = 0.5f * self->target_size[0] - 4.0f;
     u32 i;
     for (i = 0; i < self->row_count; i++) {
-        Ent_80265C30 *e = (Ent_80265C30 *)self->get_array_entry(i);
+        WindowTextEntry *e = static_cast<WindowTextEntry *>(self->get_array_entry(i));
         if (((TWindowSubComCard *)e)->get_field_20() != 0) {
             measure_message_text_width(e, left);
-            if (e->h > 18.0f) {
+            if (e->height > 18.0f) {
                 e->x = 0.0f;
             } else {
-                e->x = right - 0.5f * e->w;
+                e->x = right - 0.5f * e->width;
             }
         }
     }
@@ -379,13 +356,13 @@ void align_menu_entry_positions(TWindowMenu *self) {
 void TWindowMenu::calc_layout_height(f32 width) {
     f32 h;
     u32 i;
-    Ent_80265C30 *e;
+    WindowTextEntry *e;
     h = 0.0f;
     for (i = 0; i < row_count; i++) {
-        e = (Ent_80265C30 *)get_array_entry(i);
-        if (((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->h <= lbl_8044F330)) {
+        e = static_cast<WindowTextEntry *>(get_array_entry(i));
+        if (((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->height <= lbl_8044F330)) {
             measure_message_text_width(e, width);
-            h += 2.0f + e->h;
+            h += 2.0f + e->height;
         }
     }
     h -= 2.0f;
@@ -398,13 +375,13 @@ void TWindowMenu::calc_layout_height(f32 width) {
     save_position();
 }
 
-void TWindowSubComCardList::set_scroll_target(f32 width, f32 farg1) {
+void TWindowSubComCardList::set_scroll_target(f32 width, f32 max_height) {
     update_layout_height(width);
-    if (this->target_size[1] > farg1) {
+    if (this->target_size[1] > max_height) {
         sub_8026556C();
     }
-    this->target_size[1] = farg1;
-    layout_height = (f32) (farg1 - 20.0f);
+    this->target_size[1] = max_height;
+    layout_height = (f32) (max_height - 20.0f);
     save_position();
     update_scroll_target_position();
 }
@@ -413,10 +390,10 @@ void TWindowMenu::update_layout_height(f32 x) {
     f32 sum = 0.0f;
     u32 i;
     for (i = 0; i < row_count; i++) {
-        Ent_80265E60 *e = ((Ent_80265E60 *)this->TWindowBase::get_array_entry(i));
-        if (reinterpret_cast<TWindowSubComCard *>(e)->get_field_20() != 0) {
-            if (!(e->h <= lbl_8044F330)) {
-                sum += 2.0f + e->h;
+        WindowTextEntry *e = static_cast<WindowTextEntry *>(this->TWindowBase::get_array_entry(i));
+        if (((TWindowSubComCard *)e)->get_field_20() != 0) {
+            if (!(e->height <= lbl_8044F330)) {
+                sum += 2.0f + e->height;
             }
         }
     }
@@ -437,13 +414,13 @@ void TWindowMenu::calc_window_size() {
     f64 minimum_entry_height = lbl_8044F330;
     u32 i;
     for (i = 0; i < row_count; i++) {
-        Ent_80265F60 *e = static_cast<Ent_80265F60 *>(get_array_entry(i));
-        if (reinterpret_cast<TWindowSubComCard *>(e)->get_field_20() != 0) {
-            if (e->w > width) {
-                width = e->w;
+        WindowTextEntry *e = static_cast<WindowTextEntry *>(get_array_entry(i));
+        if (((TWindowSubComCard *)e)->get_field_20() != 0) {
+            if (e->width > width) {
+                width = e->width;
             }
-            if (!(e->h <= minimum_entry_height)) {
-                sum += row_gap + e->h;
+            if (!(e->height <= minimum_entry_height)) {
+                sum += row_gap + e->height;
             }
         }
     }
@@ -462,16 +439,16 @@ void TWindowMenu::layout_entries() {
     f64 zero;
     f32 y;
     u32 i;
-    u8 *e;
+    WindowTextEntry *e;
     f32 h;
     y = 0.0f;
     gap = 2.0f;
     zero = lbl_8044F330;
     for (i = 0; i < row_count; i++) {
-        e = (u8 *)get_array_entry(i);
+        e = static_cast<WindowTextEntry *>(get_array_entry(i));
         if (((TWindowSubComCard *)e)->get_field_20() != 0) {
-            *(f32 *)(e + 0xC) = y;
-            h = *(f32 *)(e + 0x14);
+            e->y = y;
+            h = e->height;
             if (!(h <= zero)) {
                 y += gap + h;
             }
@@ -662,7 +639,7 @@ void TWindowMenu::render() {
 void TWindowMenu::run_task() {
     s32 player_idx;
     ControllerInputContext *input;
-    ControllerInputContext *temp_r29_2;
+    ControllerInputContext *pad;
     ControllerInputContext *context;
 
     this->layout_entries();
@@ -680,11 +657,11 @@ void TWindowMenu::run_task() {
                 select_next_item();
             }
         } else {
-            temp_r29_2 = &controller_input_state.controllers[player_idx];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
+            pad = &controller_input_state.controllers[player_idx];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (is_locked(0x10) != 0)) {
                 move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (is_locked(0x20) != 0)) {
                 select_next_item();
             }
         }
@@ -720,27 +697,25 @@ TWindowMenu::~TWindowMenu() {
 }
 
 TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TWindowAddition((u8 *)&lbl_804D05CC, (s16)client, (u8 *)position) {
-    #define window_menu ((u8 *)this)
     u32 i;
-    u8 *p;
-    *(const char **)window_menu = lbl_805D3960;
-    *(s16 *)(window_menu + 0x72) = 0;
-    *(s16 *)(window_menu + 0x74) = 0;
-    *(u16 *)(window_menu + 0x76) = count;
-    *(s16 *)(window_menu + 0x78) = 0;
-    *(s16 *)(window_menu + 0x70) = 0;
-    *(s16 *)(window_menu + 0x20) = client;
-    ((TWindowMenu *)window_menu)->reset_selection();
-    *(u8 **)(window_menu + 0x80) = (u8 *)mem_alloc(count * 8);
-    p = *(u8 **)(window_menu + 0x80);
+    TWindowMenuRow *p;
+    m_name = lbl_805D3960;
+    entry_count = 0;
+    row_cursor = 0;
+    row_count = count;
+    selected_row = 0;
+    m_70 = 0;
+    client_index = client;
+    reset_selection();
+    rows = (TWindowMenuRow *)mem_alloc(count * 8);
+    p = rows;
     for (i = 0; i < count; i++) {
-        *(s32 *)p = 0;
-        *(s32 *)(p + 4) = 0;
-        p += 8;
+        p->flags = 0;
+        p->value = 0;
+        p++;
     }
-    *(s32 *)(window_menu + 0x88) = 0;
-    *(s32 *)(window_menu + 0x84) = 0;
-    #undef window_menu
+    heading = 0;
+    scroll_bar = 0;
 }
 
 #pragma push
@@ -766,7 +741,7 @@ s32 TWindowMenu::is_locked(s32 buttons) {
     if (this->m_70 & 0x200) {
         return 0;
     }
-    return test_buttons_press_or_repeat(&controller_input_state.keyboard, (s32)buttons, 6, 1);
+    return test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
 }
 
 int TWindowMenu::sub_80266BB8() { return (this->m_70 >> 6) & 0x1; }

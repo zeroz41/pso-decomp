@@ -88,7 +88,7 @@ void TAdFadeGC::render() { if (all_parents_unqueued_for_destruction() != 0) { dr
 
 void TAdFadeGC::run_task() {
     f32 temp_f0;
-    f32 temp_f1_2;
+    f32 new_opacity;
     f32 var_f2;
     if (((s32)all_parents_unqueued_for_destruction()) != 0) {
         elapsed_frames = (elapsed_frames + 1);
@@ -109,13 +109,13 @@ void TAdFadeGC::run_task() {
         }
         case 2: {
             opacity = (f32) (opacity + opacity_step);
-            temp_f1_2 = opacity;
-            if (temp_f1_2 < 0.0f) {
+            new_opacity = opacity;
+            if (new_opacity < 0.0f) {
                 opacity = 0.0f;
                 queue_destruction();
                 return;
             }
-            fade_color = (s32) ((s32) ((255.0f) * temp_f1_2) << 0x18);
+            fade_color = (s32) ((s32) ((255.0f) * new_opacity) << 0x18);
             break;
         }
         }
@@ -154,10 +154,10 @@ TAdFadeGC::TAdFadeGC(TObject *parent, s32 mode) : TObject(parent) {
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 bool TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
-    u8 *arg0 = (u8 *)this;
-    f32 temp_f0;
-    f32 temp_f31;
-    s32 temp_r31;
+    u8 *base = (u8 *)this;
+    f32 radius;
+    f32 radius_sq;
+    s32 player_floor;
     saddr player;
     player = (saddr)get_player_by_client_id(client);
     if (player == 0) {
@@ -166,12 +166,12 @@ bool TObjTradeCollision::is_player_outside_trade_radius(u32 client) {
     if (get_main_phase() != 0xF) {
         return 0;
     }
-    temp_r31 = ((TObjPlayer *)player)->get_floor();
-    if (temp_r31 != get_current_floor()) {
+    player_floor = ((TObjPlayer *)player)->get_floor();
+    if (player_floor != get_current_floor()) {
         return 0;
     }
-    temp_f0 = *(f32 *)&this->unk_AC;
-    temp_f31 = temp_f0 * temp_f0;
-    return (xz_distance_squared((void *)(player + 0x38), (void *)(arg0 + 0x38)) < temp_f31) == 0;
+    radius = *(f32 *)&this->unk_AC;
+    radius_sq = radius * radius;
+    return (xz_distance_squared((void *)(player + 0x38), (void *)(base + 0x38)) < radius_sq) == 0;
 }
 #pragma pop

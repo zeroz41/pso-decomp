@@ -262,7 +262,7 @@ void TSnapshotFileSetup::open_confirm_dialog(s32 message, s32 arg2) {
     }
     this->message_window = TWindowMessageYesNo::create((void *)tl_01, local_client_id, 0, 0);
     if (arg2 != 0) {
-        this->message_window->open_yes_no_prompt_with_text((s32)message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
+        this->message_window->open_yes_no_prompt_with_text(message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);
         return;
     }
     initialize_option_dialog(this->message_window, message, TWindowOptionCtrl::get_option_entry(0xCF), 470.0f);

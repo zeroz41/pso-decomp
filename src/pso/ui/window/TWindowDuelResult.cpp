@@ -30,6 +30,7 @@ saddr get_shared_text_buffer(s32);
 void text_builder_append_int(s32);
 s32 text_builder_append(s32);
 }
+void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 void text_builder_reset(void);
 
 extern "C" const char lbl_805DCCA8[] = ":";

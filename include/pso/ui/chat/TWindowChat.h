@@ -10,11 +10,11 @@ struct TWindowKeyBoardSoft;
 class TWindowChat : public TObject {
 public:
     virtual void render();
-    TWindowChat(TObject *object, void *arg2);
+    TWindowChat(TObject *object, void *result);
     virtual ~TWindowChat();
     s32 sub_80247EC0();
-    s32 sub_80247128();
-    s32 sub_80247080();
+    s32 update_word_select_window();
+    s32 update_symbol_chat_window();
     virtual void run_task();
 
     s32 submit_keyboard_input();
@@ -35,28 +35,26 @@ public:
     TWindowKeyBoardBase *composer;
     TWindowKeyBoardSoft *softKeyboard;
     TWindowKeyBoardHard *hardKeyboard;
-    void* auxiliaryWindow;
-    void* symbolChatWindow;
-    void* wordSelectWindow;
+    class TWindowBase *auxiliaryWindow;
+    class TSymbolChatMenu *symbolChatWindow;
+    class TWindowDD *wordSelectWindow;
     void* result;
 public:
     void update();
     void handle_input();
     void handle_chat_input();
-    int forward_card_at_1c();
-    int get_subcard_field1c();
     void set_active_flag();
     void set_input_active();
     int is_mode_bit6();
     int is_visible();
     int is_mode_bit4();
     int is_open();
-    static struct SymbolChatPreset *open_symbol_chat(s32 *arg0);
+    static struct SymbolChatPreset *open_symbol_chat(s32 *index);
 };
 extern "C" {
 s32 TWindowCtrl__sub_8024701C(TWindowChat *chat);
-void TWindowChat__sub_80247DFC(TWindowChat *chat);
-void TWindowChat__sub_80247E50(TWindowChat *chat);
+void consume_input_active_flag(TWindowChat *chat);
+void consume_active_flag(TWindowChat *chat);
 }
 
 #include <stddef.h>

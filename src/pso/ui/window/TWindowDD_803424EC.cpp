@@ -4,7 +4,7 @@
 extern "C" {
 
 s32 is_word_select_cancel_input(void *);
-s32 TWindowDD__sub_803484C4(void *);
+s32 finish_word_select(void *);
 
 }
 
@@ -12,7 +12,7 @@ void TWindowDD::handle_input() {
     update_selection_state();
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        TWindowDD__sub_803484C4(this);
+        finish_word_select(this);
         return;
     }
     if (is_word_select_cancel_input(this) != 0) {

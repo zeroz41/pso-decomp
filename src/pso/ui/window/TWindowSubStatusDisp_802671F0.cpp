@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/unk/TWindowLayoutEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #include "types.h"
@@ -48,7 +49,7 @@
 #include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/ui/window/LabelValueRow.h"
 
-const char *TWindowMenuIconLine__name = "TWindowMenuIconLine";
+const char *TWindowMenuIconLine::class_name = "TWindowMenuIconLine";
 
 
 void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player) {
@@ -191,13 +192,13 @@ void TWindowMenuIconLine::add_list_entry(s32 message) {
     }
 }
 
-void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 arg3, s32 item) {
+void TWindowSubShortCutList::draw_entry(s32 index, s32 status_style, s32 src, s32 item) {
     u8 status_icon;
     u8 category_icon;
 
     if ((s16) this->entry_count < (s16) this->entry_capacity) {
         fn_80266BD0(index, &status_icon, &category_icon, this->client_index);
-        ((ItemListRow *)get_array_entry(this->entry_count))->init_entry(status_icon, category_icon, status_style, arg3, item);
+        ((ItemListRow *)get_array_entry(this->entry_count))->init_entry(status_icon, category_icon, status_style, src, item);
         this->entry_count = (this->entry_count + 1);
     }
 }
@@ -282,7 +283,7 @@ void TWindowMenuIconLine::add_status_entry(s8 flags, s32 src, s32 item) {
     }
 }
 
-void TWindowMenuIconLine::append_entry(s32 flag, s32 src, s32 item, s32 arg4, s32 arg5) {
+void TWindowMenuIconLine::append_entry(s32 flag, s32 src, s32 item, s32 extra_flag, s32 space_rows) {
     ItemListRow *row;
     s32 i;
     f32 k;
@@ -291,10 +292,10 @@ void TWindowMenuIconLine::append_entry(s32 flag, s32 src, s32 item, s32 arg4, s3
     if (entry_count < entry_capacity) {
         row = static_cast<ItemListRow *>(get_array_entry(entry_count));
         row->init_status_entry_by_flag(flag, src, item);
-        if (arg4 != 0) {
+        if (extra_flag != 0) {
             row->flags |= 0x400;
         }
-        if (arg5 != 0) {
+        if (space_rows != 0) {
             k = 40.0f;
             i = 0;
             row->flags |= 0x1000;
@@ -420,49 +421,47 @@ void TWindowMenuIconLine::handle_open() {
 }
 
 void TWindowMenuIconLine::move_cursor_next() {
-    s16 var_r31;
+    s16 candidate;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->cursor;
-loop_1:
-    var_r31 += 1;
-    if (var_r31 >= (s16) this->entry_capacity) {
-        if (!(this->state_flags & 1)) {
-            var_r31 = 0;
-            goto block_4;
-        }
-    } else {
-block_4:
-        if (var_r31 != (s16) this->cursor) {
-            if (sub_80266B18(var_r31) != 0) {
-                this->cursor = var_r31;
-            } else {
-                goto loop_1;
+    candidate = this->cursor;
+    while (1) {
+        candidate += 1;
+        if (candidate >= (s16) this->entry_capacity) {
+            if (this->state_flags & 1) {
+                return;
             }
+            candidate = 0;
+        }
+        if (candidate == (s16) this->cursor) {
+            return;
+        }
+        if (sub_80266B18(candidate) != 0) {
+            this->cursor = candidate;
+            return;
         }
     }
 }
 
 void TWindowMenuIconLine::move_cursor() {
-    s16 var_r31;
+    s16 candidate;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->cursor;
-loop_1:
-    var_r31 -= 1;
-    if (var_r31 < 0) {
-        if (!(this->state_flags & 1)) {
-            var_r31 = this->entry_capacity - 1;
-            goto block_4;
-        }
-    } else {
-block_4:
-        if (var_r31 != (s16) this->cursor) {
-            if (sub_80266B18(var_r31) != 0) {
-                this->cursor = var_r31;
-            } else {
-                goto loop_1;
+    candidate = this->cursor;
+    while (1) {
+        candidate -= 1;
+        if (candidate < 0) {
+            if (this->state_flags & 1) {
+                return;
             }
+            candidate = this->entry_capacity - 1;
+        }
+        if (candidate == (s16) this->cursor) {
+            return;
+        }
+        if (sub_80266B18(candidate) != 0) {
+            this->cursor = candidate;
+            return;
         }
     }
 }
@@ -494,14 +493,14 @@ void TWindowMenuIconLine::create_menu_scroll_bar() {
 }
 
 void TWindowMenuIconLine::ensure_status_display(s32 title) {
-    TWindowSubStatusDisp *display;
+    TWindowSubStatusDisp *heading;
 
     if (this->status_display == NULL) {
-        display = (TWindowSubStatusDisp *)::operator new(0x24);
-        if (display != NULL) {
-            display = (TWindowSubStatusDisp *)display->construct_type1_heading(title, this->client_index);
+        heading = (TWindowSubStatusDisp *)::operator new(0x24);
+        if (heading != NULL) {
+            heading = (TWindowSubStatusDisp *)heading->construct_type1_heading(title, this->client_index);
         }
-        this->status_display = display;
+        this->status_display = heading;
         (this->window_flags) = (s32) ((this->window_flags) | 0x40);
     }
 }
@@ -560,26 +559,26 @@ void TWindowMenuIconLine::clamp_item_list_scroll() {
 #pragma fp_contract on
 void TWindowMenuIconLine::update_scroll_offset() {
   s8 *new_var;
-  f32 var_f4;
+  f32 target_y;
   u32 n;
   if ((this->state_flags) & 0x20)
   {
     new_var = ((s8 *) ((u16 *)get_array_entry(this->cursor))) + 0xC;
-    var_f4 = *((f32 *) new_var);
+    target_y = *((f32 *) new_var);
   }
   else
   {
-    var_f4 = 0.0f;
+    target_y = 0.0f;
   }
   n = this->tween_ticks;
   if (n == 0)
   {
-    this->scroll_offset[1] = var_f4;
+    this->scroll_offset[1] = target_y;
   }
   else
   {
-    var_f4 += 0.5f * ((this->target_size[1]) - (this->frame_size[1]));
-    this->scroll_offset[1] += (var_f4 - (this->scroll_offset[1])) / ((f32) n);
+    target_y += 0.5f * ((this->target_size[1]) - (this->frame_size[1]));
+    this->scroll_offset[1] += (target_y - (this->scroll_offset[1])) / ((f32) n);
   }
 }
 
@@ -594,26 +593,24 @@ void TWindowMenuIconLine::draw_selected_list_entry(WindowDrawContext *context) {
     }
 }
 
-#define self ((u8 *)this)
-void TWindowMenuIconLine::init(u32 arg1, s32 arg2) {
+void TWindowMenuIconLine::init(u32 count, s32 client) {
     u32 i;
-    u8 *e;
-    *(const char **)self = TWindowMenuIconLine__name;
-    *(s16 *)(self + 0x20) = arg2;
-    *(s16 *)(self + 0x72) = 0;
-    *(s16 *)(self + 0x74) = 0;
-    *(u16 *)(self + 0x76) = arg1;
-    *(s16 *)(self + 0x78) = 0;
-    *(s32 *)(self + 0x7C) = 0;
-    *(s16 *)(self + 0x70) = 0;
-    *(s32 *)(self + 0x80) = 0;
-    *(s32 *)(self + 0x84) = 0;
-    for (i = 0; i < arg1; i++) {
-        e = (u8 *)((TWindowBase *)self)->get_array_entry(i);
-        *(f32 *)(e + 0xC) = (f32)(i * 0x14);
+    WindowTextEntry *e;
+    m_name = TWindowMenuIconLine::class_name;
+    client_index = client;
+    entry_count = 0;
+    cursor = 0;
+    entry_capacity = count;
+    saved_cursor = 0;
+    saved_cursor_value = 0;
+    state_flags = 0;
+    status_display = 0;
+    scroll_bar = 0;
+    for (i = 0; i < count; i++) {
+        e = static_cast<WindowTextEntry *>(get_array_entry(i));
+        e->y = (f32)(i * 0x14);
     }
 }
-#undef self
 
 TWindowMenuIconLine *fn_80267F38(saddr parent, saddr position, uaddr count, s16 client) {
     ((s32 (*)(void *, void *))set_menu_icon_line_params)((void *)position, (void *)count);
@@ -645,16 +642,15 @@ void TWindowMenuIconLine::render() {
 }
 
 void TWindowMenuIconLine::run_task() {
-    s32 temp_r31;
-    uaddr temp_r3;
-    WindowScrollBar *window_scroll_bar;
+    s32 controller_index;
+    WindowScrollBar *bar;
     ControllerInputContext *input;
-    ControllerInputContext *temp_r29_2;
+    ControllerInputContext *pad;
     ControllerInputContext *context;
-    temp_r31 = is_player_input_active(((s32) this->client_index));
+    controller_index = is_player_input_active(((s32) this->client_index));
     if ((this->get_flag() == 0) && (this->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
         if (this->state_flags & 0x10) {
-            input = &controller_input_state.controllers[temp_r31];
+            input = &controller_input_state.controllers[controller_index];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor();
             }
@@ -662,15 +658,15 @@ void TWindowMenuIconLine::run_task() {
                 this->move_cursor_next();
             }
         } else {
-            temp_r29_2 = &controller_input_state.controllers[temp_r31];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+            pad = &controller_input_state.controllers[controller_index];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 this->move_cursor_next();
             }
         }
-        context = &controller_input_state.controllers[temp_r31];
+        context = &controller_input_state.controllers[controller_index];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 4) != 0)) {
             this->handle_open();
         }
@@ -679,13 +675,12 @@ void TWindowMenuIconLine::run_task() {
         }
     }
     if ((f32) this->open_tick >= 7.5f) {
-        temp_r3 = *(u32 *)((s8 *)this + 0x80);
-        if (temp_r3 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
+        if (status_display != NULL) {
+            status_display->update_subwindow();
         }
-        window_scroll_bar = scroll_bar;
-        if (window_scroll_bar != NULL) {
-            window_scroll_bar->increment_counter();
+        bar = scroll_bar;
+        if (bar != NULL) {
+            bar->increment_counter();
         }
     }
     update_window();

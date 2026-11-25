@@ -6,78 +6,68 @@
 #include "pso/system/byteswap.h"
 #include "pso/network/client_id.h"
 
-struct Pkt_80348C78 { u8 hdr[2]; u16 player; u8 body[0x1c]; };
-
 extern "C" {
 void copy_chat_entry__9TWindowDDFPvPv(void *, void *);
-int bswap_word_select__9TWindowDDFv(void*);
 
-int TWindowDD::handle_word_select() { return bswap_word_select__9TWindowDDFv((char*)this + 0x4); }
+void G_WordSelect_6x74::bswap_message() { message.bswap(); }
 
-void TWindowDD::send_chat_packet(void *data) {
-    Pkt_80348C78 pkt;
-    ((TWindowDD *)(&pkt))->init_header();
-    pkt.player = local_client_id;
-    copy_chat_entry__9TWindowDDFPvPv(pkt.body, data);
-    ((TWindowDD *)(&pkt))->update_and_send_lobby();
+void G_WordSelect_6x74::send_message(WordSelectMessage *data) {
+    G_WordSelect_6x74 pkt;
+    pkt.init_header();
+    pkt.client_id = local_client_id;
+    copy_chat_entry__9TWindowDDFPvPv(&pkt.message, data);
+    pkt.send();
 }
 
-void TWindowDD::update_and_send_lobby() { handle_word_select(); send_subcommand(this); }
-void TWindowDD::init_header() { *(u8*)((char*)this + 0x0) = 116; *(u8*)((char*)this + 0x1) = 8; }
+void G_WordSelect_6x74::send() { bswap_message(); send_subcommand(this); }
+void G_WordSelect_6x74::init_header() { subcommand = 116; size = 8; }
 
 }
-
-struct S_80348D90 { s16 count; s16 unk2; s16 items[8]; };
-
-struct S_80348DD8 { s16 count; s16 unk2; s16 items[8]; };
-
-struct S_80348D0C { u16 a; u16 b; u16 c[8]; u32 d; u32 e; };
 
 extern "C" {
 
-void TWindowDD::bswap_word_select() {
-    S_80348D0C *msg = (S_80348D0C *)this;
+void WordSelectMessage::bswap() {
     s32 i;
-    bswap_16(&msg->a);
-    bswap_16(&msg->b);
+    bswap_16((u16 *)&count);
+    bswap_16((u16 *)&type);
     for (i = 0; i < 8; i++) {
-        bswap_16(&msg->c[i]);
+        bswap_16((u16 *)&ids[i]);
     }
-    bswap_32(&msg->d);
-    bswap_32(&msg->e);
+    bswap_32((u32 *)&numeric_parameter);
+    bswap_32((u32 *)&unknown_a4);
 }
 
-void WordSelectMessage::reset_index() { numeric_value = 0; }
-void WordSelectMessage::set_field14(s32 v) { numeric_value = v; }
-saddr TWindowDD__sub_80348D88(void* p) { return *(s32*)((char*)p + 0x14); }
+void WordSelectMessage::reset_numeric_parameter() { numeric_parameter = 0; }
+void WordSelectMessage::set_numeric_parameter(s32 value) { numeric_parameter = value; }
+s32 WordSelectMessage::get_numeric_parameter() { return numeric_parameter; }
 
-void TWindowDD__sub_80348D90(S_80348D90 *self, s16 v) {
-    if (self->count > 0) {
-        self->items[self->count - 1] = v;
+void WordSelectMessage::set_last_token(s32 id) {
+    if (count > 0) {
+        ids[count - 1] = id;
     }
 }
 
-void WordSelectMessage::pop_entry() {
+void WordSelectMessage::pop_token() {
     if (count > 0) {
         ids[--count] = -1;
     }
 }
 
-void TWindowDD__sub_80348DD8(S_80348DD8 *self, s16 v) {
-    if (self->count < 8) {
-        self->items[self->count++] = v;
+void WordSelectMessage::push_token(s32 id) {
+    if (count < 8) {
+        ids[count++] = id;
     }
 }
 
-void WordSelectMessage::init_item_slots() {
+void WordSelectMessage::init() {
     s32 i;
     type = 0;
     count = 0;
     for (i = 0; i < 8; i++) {
         ids[i] = -1;
     }
-    numeric_value = 0;
-    pad_18 = 0;
+    numeric_parameter = 0;
+    unknown_a4 = 0;
 }
 
 }

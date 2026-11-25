@@ -14,7 +14,7 @@
 #pragma readonly_strings on
 
 
-const char *TShopSequence__class_name = "TShopSequence";
+const char *shop_sequence_class_name = "TShopSequence";
 
 // Conversation camera per service counter; the alternate set is used while a TLobby runs.
 static const s32 service_counter_camera_table[7] = {6, 5, 3, 0, 2, 1, 4};
@@ -129,6 +129,6 @@ TShopSequence::~TShopSequence() {
 }
 
 TShopSequence::TShopSequence(TObject *parent) : TShopWindowBase(parent) {
-    m_name = TShopSequence__class_name;
+    m_name = shop_sequence_class_name;
     message_window = new TMessageWindowController();
 }

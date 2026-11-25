@@ -3,34 +3,34 @@
 #include "pso/ui/window/TWindowDD.h"
 
 extern "C" {
-s32 TWindowDD__sub_803435A0(void *);
+s32 begin_word_select_state(void *);
 s32 refresh_word_select_child_list();
 s32 is_word_select_cancel_input(void *);
 s32 update_numeric_parameter_input__9TWindowDDFPv();
 
 void TWindowDD::enter_state_16() {
-    s32 confirmed;
+    s32 done;
 
-    confirmed = 0;
-    switch (numeric_input_active) {
+    done = 0;
+    switch (dialog_locked) {
     case 0:
         refresh_word_select_child_list();
         update_selection_state();
         if (test_input_flag_4() != 0) {
             TWindowDD::play_sound();
-            confirmed = update_close_flag() == 0;
+            done = update_close_flag() == 0;
         } else if (is_word_select_cancel_input(this) != 0) {
             TWindowDD::play_se();
             apply_entry_layout();
         }
         break;
     case 1:
-        confirmed = update_numeric_parameter_input__9TWindowDDFPv();
+        done = update_numeric_parameter_input__9TWindowDDFPv();
         break;
     }
-    if (confirmed != 0) {
+    if (done != 0) {
         next_state = 0x10;
-        TWindowDD__sub_803435A0(this);
+        begin_word_select_state(this);
     }
 }
 
@@ -40,7 +40,7 @@ void TWindowDD::update_state() {
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         next_state = 0xF;
-        TWindowDD__sub_803435A0(this);
+        begin_word_select_state(this);
         return;
     }
     if (is_word_select_cancel_input(this) != 0) {
@@ -54,7 +54,7 @@ void TWindowDD__sub_80342800(TWindowDD *window_dd) {
     window_dd->update_selection_state();
     if (window_dd->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        if (static_cast<s16>(window_dd->pages[window_dd->depth]->get_selected_id()) == 0x2C8) {
+        if (static_cast<s16>(window_dd->word_windows[window_dd->depth]->get_selected_id()) == 0x2C8) {
             window_dd->next_state = 0x11;
             window_dd->message.type = 5;
             window_dd->message.count = 0;
@@ -63,7 +63,7 @@ void TWindowDD__sub_80342800(TWindowDD *window_dd) {
             window_dd->message.type = 4;
             window_dd->message.count = 1;
         }
-        TWindowDD__sub_803435A0(window_dd);
+        begin_word_select_state(window_dd);
         return;
     }
     if (is_word_select_cancel_input(window_dd) != 0) {
@@ -76,7 +76,7 @@ void TWindowDD__sub_803428C4(TWindowDD *window_dd) {
     TWindowDD_WS_Word *page;
     window_dd->next_state = 0xD;
     window_dd->selected_word = 0x37;
-    page = window_dd->pages[window_dd->depth];
+    page = window_dd->word_windows[window_dd->depth];
     if (page != NULL) {
         window_dd->selected_word = page->get_selected_id();
         if (window_dd->selected_word == 0x43) {
@@ -92,7 +92,7 @@ void update__9TWindowDDFi(TWindowDD *window_dd) {
     if (window_dd->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
         TWindowDD__sub_803428C4(window_dd);
-        TWindowDD__sub_803435A0(window_dd);
+        begin_word_select_state(window_dd);
         return;
     }
     if (is_word_select_cancel_input(window_dd) != 0) {
@@ -101,32 +101,32 @@ void update__9TWindowDDFi(TWindowDD *window_dd) {
     }
 }
 void TWindowDD__sub_803429B0(TWindowDD *window_dd) {
-    s32 confirmed;
-    confirmed = 0;
-    switch (window_dd->numeric_input_active) {
+    s32 done;
+    done = 0;
+    switch (window_dd->dialog_locked) {
     case 0:
         window_dd->update_selection_state();
         if (window_dd->test_input_flag_4() != 0) {
             TWindowDD::play_sound();
-            confirmed = window_dd->update_close_flag() == 0;
+            done = window_dd->update_close_flag() == 0;
         } else if (is_word_select_cancel_input(window_dd) != 0) {
             TWindowDD::play_se();
             window_dd->apply_entry_layout();
         }
         break;
     case 1:
-        confirmed = update_numeric_parameter_input__9TWindowDDFPv();
+        done = update_numeric_parameter_input__9TWindowDDFPv();
         break;
     }
-    if (confirmed != 0) {
-        if (TWindowDD_is_id_in_range_5AC_5F9(window_dd->pages[window_dd->depth]->get_selected_id()) != 0) {
+    if (done != 0) {
+        if (TWindowDD_is_id_in_range_5AC_5F9(window_dd->word_windows[window_dd->depth]->get_selected_id()) != 0) {
             window_dd->next_state = 0xA;
         } else {
             window_dd->next_state = 0xB;
             window_dd->list_ids[2] = -1;
         }
         window_dd->list_ids[1] = -0x32;
-        TWindowDD__sub_803435A0(window_dd);
+        begin_word_select_state(window_dd);
     }
 }
 

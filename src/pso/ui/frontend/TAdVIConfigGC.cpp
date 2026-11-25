@@ -90,35 +90,35 @@ void TAdVIConfigGC::update_visibility() {
     }
 }
 
-void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x24) != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x24)))->clear_update_suspension();
-            ((TObject *)((void *)(*(uaddr *)((s8 *)arg0 + 0x24))))->allow_rendering();
-            ((TWindowBase *)(*(uaddr *)((s8 *)arg0 + 0x24)))->close();
-            *(u32 *)((s8 *)arg0 + 0x24) = 0U;
+void *destroy__13TAdVIConfigGCFPvs(void *config, s16 delete_flag) {
+    if (config != NULL) {
+        if ((u32) *(u32 *)((s8 *)config + 0x24) != 0U) {
+            ((TObject *)(*(void **)((s8 *)config + 0x24)))->clear_update_suspension();
+            ((TObject *)((void *)(*(uaddr *)((s8 *)config + 0x24))))->allow_rendering();
+            ((TWindowBase *)(*(uaddr *)((s8 *)config + 0x24)))->close();
+            *(u32 *)((s8 *)config + 0x24) = 0U;
         }
-        if (arg1 > 0) {
-            ::operator delete(arg0);
+        if (delete_flag > 0) {
+            ::operator delete(config);
         }
     }
-    return arg0;
+    return config;
 }
 
 extern "C" {
 
 u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
-    u8 *arg0 = (u8 *)this;
+    u8 *base = (u8 *)this;
     VecCopy((Vec *)&this->m_prev, position);
     *(f32 *)&this->m_name = (f32) (radius * radius);
     this->m_24 = 0;
     memset((u8 *)&this->m_28, 0, 0x60);
     *(s32 *)&this->m_flags = TLobby::count_members();
     *(s32 *)&this->m_down = 0;
-    *(s32 *)((s8 *)arg0 + 0x18) = 0;
-    ((TAdVIConfigGC *)arg0)->open_player_names_window();
+    *(s32 *)((s8 *)base + 0x18) = 0;
+    ((TAdVIConfigGC *)base)->open_player_names_window();
     this->m_1c = 0;
-    return arg0;
+    return base;
 }
 
 }

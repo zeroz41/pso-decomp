@@ -27,7 +27,7 @@
 
 s32 TShopItemTecSequence::slot_table[4];
 extern "C" {
-extern const char *TShopItemTecSequence__class_name;
+extern const char *shop_item_tec_sequence_class_name;
 s32 shop_tec_pending_message;
 s32 shop_tec_pending_state;
 TShopItemTecSequence *item_tec_sequence_instance;
@@ -40,18 +40,8 @@ extern int shop_tool_stock_counts[];
 }
 
 #pragma readonly_strings on
-struct VBase_18_a93f07
-{
-  char pad[0x18];
-};
-struct Stack_802202BC
-{
-  f32 sp8;
-  f32 spC;
-};
-typedef struct Stack_802202BC Stack_802202BC;
-typedef struct VBase_18_a93f07 VBase_18_a93f07;
-const char *TShopItemTecSequence__class_name = "TShopItemTecSequence";
+const char *shop_item_tec_sequence_class_name = "TShopItemTecSequence";
+
 void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item) {
     TItem *found;
     if (TRaderMapCore::is_not_split_screen() == 1 && (found = find_item_by_id(item->id)) != NULL && window->at_tekker != 0) {
@@ -74,7 +64,7 @@ void TShopItemTecSequence__sub_80220538(void) {
 }
 
 TShopItemTecSequence::TShopItemTecSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = TShopItemTecSequence__class_name;
+    m_name = shop_item_tec_sequence_class_name;
     state = 0;
     this->player = player;
     choice_menu = NULL;

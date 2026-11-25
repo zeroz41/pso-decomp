@@ -10,12 +10,13 @@ struct NJS_POINT2;
 struct TWindowSubShortCutList : public TWindowMenuIconLine {
     TWindowSubShortCutList(u8 *parent, s32 index);
     virtual ~TWindowSubShortCutList();
+    static const char *class_name;
     virtual void render();
     PageIndicator *storage;
     void refresh_entries();
     static TWindowSubShortCutList *create(const NJS_POINT2 *position, s32 index);
     virtual void run_task();
-    void draw_entry(s32 index, s32 status_style, s32 arg3, s32 item);
+    void draw_entry(s32 index, s32 status_style, s32 src, s32 item);
 };
 
 LAYOUT_ASSERT(TWindowSubShortCutList_size, sizeof(TWindowSubShortCutList) == 0x8C);

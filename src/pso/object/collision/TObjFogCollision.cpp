@@ -40,7 +40,7 @@ const char *fog_collision_name = "TObjFogCollision";
 const char *fog_collision_switch_name = "TObjFogCollisionSwitch";
 const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
-void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
+void record_fog_collision_hit(s32 index, s32 level, s32 link);
 extern "C" {
 u8 is_current_floor_switch_set(u16);
 
@@ -70,32 +70,32 @@ int TObjFogCollision::debug_draw_enabled() { return 0; }
 
 
 void TObjFogCollision::init_params() {
-    s32 temp_r0;
-    temp_r0 = this->set_params[0];
-    if (temp_r0 < 0) {
+    s32 level;
+    level = this->set_params[0];
+    if (level < 0) {
         this->set_params[0] = 0;
         return;
     }
-    if (temp_r0 >= 0x80) {
+    if (level >= 0x80) {
         this->set_params[0] = 0x7F;
     }
 }
 
 s32 TObjFogCollision::check_collision(u16 client) {
     f32 x;
-    f32 temp_f1;
-    f32 temp_f31;
+    f32 distance_sq;
+    f32 radius_sq;
     TObjPlayer *player;
 
     player = get_player_by_client_id(client);
     if (player != NULL) {
         x = this->scale.x;
-        temp_f31 = x * x;
-        temp_f1 = horizontal_distance_squared(&this->position, &player->position);
-        if (temp_f31 > temp_f1) {
+        radius_sq = x * x;
+        distance_sq = horizontal_distance_squared(&this->position, &player->position);
+        if (radius_sq > distance_sq) {
             return 1;
         }
-        if ((2.5e+03f + temp_f31) < temp_f1) {
+        if ((2.5e+03f + radius_sq) < distance_sq) {
             this->far_timer = 0x3C;
         }
         goto block_5;
@@ -188,15 +188,15 @@ TObjFogCollisionSwitch::~TObjFogCollisionSwitch() {
 
 
 void TObjFogCollisionSwitch::init_params() {
-    s32 temp_r0;
+    s32 switch_id;
 
     TObjFogCollision::init_params();
-    temp_r0 = this->set_params[2];
-    if (temp_r0 < 0) {
+    switch_id = this->set_params[2];
+    if (switch_id < 0) {
         this->set_params[2] = 0;
         return;
     }
-    if (temp_r0 > 0xFF) {
+    if (switch_id > 0xFF) {
         this->set_params[2] = 0xFF;
     }
 }
@@ -256,25 +256,25 @@ TObjFogCollisionPoison::~TObjFogCollisionPoison() {
 
 
 void TObjFogCollisionPoison::init_params() {
-    f32 var_f2;
+    f32 multiplier;
 
     this->poison_damage = (s32) floor_to_float(this->scale.y);
     switch ((s32) game_difficulty_selection) {
     default:
     case 0:
-        var_f2 = 1.0f;
+        multiplier = 1.0f;
         break;
     case 1:
-        var_f2 = 2.0f;
+        multiplier = 2.0f;
         break;
     case 2:
-        var_f2 = 3.0f;
+        multiplier = 3.0f;
         break;
     case 3:
-        var_f2 = 6.0f;
+        multiplier = 6.0f;
         break;
     }
-    this->poison_damage = (s32) ((f32) this->poison_damage * var_f2);
+    this->poison_damage = (s32) ((f32) this->poison_damage * multiplier);
 }
 
 void TObjFogCollisionPoison::run_task() {
@@ -404,10 +404,10 @@ void TObjFogCollision_Manager::record_hit(s32 level, s32 link) {
     }
 }
 
-void record_fog_collision_hit(s32 arg0, s32 level, s32 link) {
+void record_fog_collision_hit(s32 index, s32 level, s32 link) {
     TObjFogCollision_Manager *manager;
-    if ((arg0 >= 0) && (arg0 < 0xC)) {
-        manager = fog_collision_poison_instances[arg0];
+    if ((index >= 0) && (index < 0xC)) {
+        manager = fog_collision_poison_instances[index];
         if (manager != 0) {
             manager->record_hit(level, link);
         }
@@ -415,24 +415,24 @@ void record_fog_collision_hit(s32 arg0, s32 level, s32 link) {
 }
 
 void TObjFogCollision_Manager::run_task() {
-    s32 var_r4;
+    s32 level;
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         switch (cleared) {
         case 0:
             if (hit_count > 0) {
-                var_r4 = this->fog_level;
-                if (var_r4 >= 0x1000) {
-                    var_r4 -= 0x1000;
+                level = this->fog_level;
+                if (level >= 0x1000) {
+                    level -= 0x1000;
                 }
-                if (var_r4 < 0) {
-                    var_r4 = 0;
-                } else if (var_r4 >= 0x80) {
-                    var_r4 = 0x7F;
+                if (level < 0) {
+                    level = 0;
+                } else if (level >= 0x80) {
+                    level = 0x7F;
                 }
                 if (fog_link != 0) {
-                    TFogCtrl::select_fog_for_viewport(this->player, var_r4, 0);
+                    TFogCtrl::select_fog_for_viewport(this->player, level, 0);
                 } else {
-                    TFogCtrl::select_fog_for_viewport(this->player, var_r4, 1);
+                    TFogCtrl::select_fog_for_viewport(this->player, level, 1);
                 }
                 hit_count = 0;
             } else {

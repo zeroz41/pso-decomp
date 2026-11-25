@@ -32,7 +32,7 @@ void TChCrLoadAfsTextureReq::run_task() {
     if (m_28 == 1) {
         return;
     }
-    if (--lifetime_remaining <= 0) {
+    if (--timeout_frames <= 0) {
         return;
     }
     static TChCrLoadAfsTextureReqHandler tbl[] = {
@@ -50,11 +50,11 @@ void TChCrLoadAfsTextureReq::run_task() {
 void TChCrLoadAfsTextureReq::finish_request() {
     s32 count;
 
-    if (slot_claimed != 0 && TChCrLoadAfsTextureReq::active_load_count <= 3) {
+    if (holds_load_slot != 0 && TChCrLoadAfsTextureReq::active_load_count <= 3) {
         count = TChCrLoadAfsTextureReq::active_load_count - 1;
         TChCrLoadAfsTextureReq::active_load_count = count;
         if (count >= 0) {
-            slot_claimed = 0;
+            holds_load_slot = 0;
         }
     }
 }
@@ -63,14 +63,14 @@ s32 TChCrLoadAfsTextureReq::try_acquire_load_slot() {
     if (TChCrLoadAfsTextureReq::active_load_count < 0 || TChCrLoadAfsTextureReq::active_load_count > 3) {
         return 0;
     }
-    if (slot_claimed == 1) {
+    if (holds_load_slot == 1) {
         return 0;
     }
     if (TChCrLoadAfsTextureReq::active_load_count >= 3) {
         return 0;
     }
     TChCrLoadAfsTextureReq::active_load_count += 1;
-    slot_claimed = 1;
+    holds_load_slot = 1;
     return 1;
 }
 TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
@@ -107,8 +107,8 @@ void TChCrLoadAfsTextureReq::init_texture_table() {
     state = 0;
     index = 0;
     m_28 = 0;
-    lifetime_remaining = 0x14FA;
-    slot_claimed = 0;
+    timeout_frames = 0x14FA;
+    holds_load_slot = 0;
 }
 
 TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *textures, s32 *completion_flags, s32 display_index)
@@ -118,7 +118,7 @@ TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, NJS_TEXLIST *tex
     this->completion_flags = completion_flags;
     *this->completion_flags = 0;
     completion_mask = 0;
-    m_70 = display_index;
+    this->display_index = display_index;
     init_texture_table();
 }
 
@@ -127,7 +127,7 @@ TChCrLoadAfsTextureReq::TChCrLoadAfsTextureReq(TObject *parent, TChCrLoadAfsText
     textures = args->textures;
     completion_mask = args->completion_mask;
     completion_flags = args->completion_flags;
-    m_70 = args->display_index;
+    display_index = args->display_index;
     init_texture_table();
 }
 

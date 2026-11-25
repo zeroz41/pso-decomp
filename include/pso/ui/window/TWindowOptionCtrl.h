@@ -5,6 +5,10 @@
 #include "pso/system/task/TObject.h"
 
 class TAdPlayerLoadGC;
+class TWindowBase;
+class TWindowMenuIconLine;
+struct TWindowMenu;
+struct TWindowMessageYesNo;
 class TSnapshotFileSetup;
 struct NJS_POINT2;
 class TWindowCheckBox;
@@ -18,14 +22,14 @@ struct TWindowOptionCtrl : public TObject {
     s16 sound_mode;
     u8 pad_22[0x2];
     s32 m_24;
-    void *main_menu;
-    void *sub_menu;
+    TWindowMenu *main_menu;
+    TWindowMenu *sub_menu;
     void *m_30;
     TWindowCheckBox *option_menu;
-    void *sound_balance_window;
-    void *snap_shot_window;
-    void *yes_no_window;
-    void *serial_info_window;
+    TWindowBase *sound_balance_window;
+    TWindowBase *snap_shot_window;
+    TWindowMessageYesNo *yes_no_window;
+    TWindowBase *serial_info_window;
     TSnapshotFileSetup *card_format_dialog;
     TAdPlayerLoadGC *player_load; // memory-card watcher made by the ctor
 
@@ -33,13 +37,13 @@ struct TWindowOptionCtrl : public TObject {
     static void set_params(void *arg0, s16 arg1, s16 arg2);
     void apply_selection_change();
     void init_selection_indices();
-    void apply_and_close(s32 arg1);
+    void apply_and_close(s32 bgm_index);
     s32 handle_input(s32 language);
     static void set_field_value(s32 arg0, s16 arg1);
     static s32 get_option_field_C();
     static const char *text_or_default(const char *text);
     static saddr create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
-    static saddr open_yes_no_window(saddr arg0, s32 arg1, s32 index);
+    static saddr open_yes_no_window(saddr parent, s32 message_id, s32 index);
     TWindowCheckBox *create_option_menu();
     saddr create_sub_menu_window();
     saddr create_snap_shot_window();
@@ -56,7 +60,7 @@ struct TWindowOptionCtrl : public TObject {
     s32 get_field_64();
     s16 get_field_62();
     static const NJS_POINT2 *get_option_entry(int a0);
-    s32 add_label_value_line(const char *arg1, const char *arg2, u32 arg3);
+    s32 add_label_value_line(const char *label, const char *value, u32 flags);
 };
 
 LAYOUT_ASSERT(TWindowOptionCtrl_size, sizeof(TWindowOptionCtrl) == 0x50);

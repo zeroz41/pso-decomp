@@ -9,6 +9,7 @@ struct NJS_POINT2;
 struct TWindowSubItemList : public TWindowMenuIconLine {
     TWindowSubItemList(u8 *parent, s32 client);
     virtual ~TWindowSubItemList();
+    static const char *class_name;
     void draw_blinking_selection(WindowDrawContext *context);
     void render();
     void run_task();

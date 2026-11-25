@@ -7,9 +7,10 @@
 struct TWindowPartyStatus : public TWindowSimpleStatus {
     TWindowPartyStatus(s32 slot, u8 *descriptor);
     virtual ~TWindowPartyStatus();
+    static const char *class_name;
     virtual void render();
     void draw();
-    void draw_background(WindowDrawContext *ctx);
+    void draw_background(WindowDrawContext *context);
     virtual void run_task();
 };
 

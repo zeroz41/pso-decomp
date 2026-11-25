@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/system/memory.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
@@ -68,10 +69,10 @@ void TBoss5GryphonLightningEff::render() {
     set_additive_blend();
     project_lightning_points(points, widths, heights);
     build_lightning_strip(strip, points, widths, heights);
-    ((TWindowDD *)strip)->draw_transformed_primitive(this->point_count * 2, calc_segment_uvs(strip), 1);
+    draw_window_vertices((WindowVertex *)strip, this->point_count * 2, calc_segment_uvs(strip), 1);
     if (this->two_sided == 1) {
         build_lightning_strip(strip, points, heights, widths);
-        ((TWindowDD *)strip)->draw_transformed_primitive(this->point_count * 2, calc_segment_uvs(strip), 1);
+        draw_window_vertices((WindowVertex *)strip, this->point_count * 2, calc_segment_uvs(strip), 1);
     }
     set_default_alpha_blend();
     TParticleCtrl::end_effect_render();

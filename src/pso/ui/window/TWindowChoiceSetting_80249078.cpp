@@ -1,5 +1,6 @@
 #include "pso/ui/window/WindowScrollBar.h"
 #include "types.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -53,12 +54,12 @@ void TWindowChoiceSetting::begin_scroll(f32 height) {
 
 void TWindowChoiceSetting::sub_80249144() {
     u16 flags;
-    void *e;
+    WindowTextEntry *entry;
     flags = m_80;
     if (!(flags & 1)) {
         m_80 = (u16)(flags | 1);
-        e = get_array_entry(get_field_74());
-        target_size[1] = 20.0f + *(f32 *)((s8 *)e + 0x14);
+        entry = (WindowTextEntry *)get_array_entry(get_field_74());
+        target_size[1] = 20.0f + entry->height;
         if (window_flags & 0x40) {
             target_size[1] += 6.0f;
         }
@@ -93,9 +94,9 @@ void TWindowChoiceSetting::render() {
 }
 
 void TWindowChoiceSetting::run_task() {
-    WindowScrollBar *window_scroll_bar;
+    WindowScrollBar *scroll;
     ControllerInputContext *input;
-    ControllerInputContext *temp_r30_2;
+    ControllerInputContext *pad;
     ControllerInputContext *context;
     if ((is_selected() == 0) && (is_open() == 0)) {
         if (this->state_flags & 0x10) {
@@ -107,11 +108,11 @@ void TWindowChoiceSetting::run_task() {
                 move_next_choice();
             }
         } else {
-            temp_r30_2 = &controller_input_state.controllers[0];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+            pad = &controller_input_state.controllers[0];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 move_next_choice();
             }
         }
@@ -127,9 +128,9 @@ void TWindowChoiceSetting::run_task() {
         if (this->heading != 0) {
             this->heading->update_subwindow();
         }
-        window_scroll_bar = scroll_bar;
-        if (window_scroll_bar != NULL) {
-            window_scroll_bar->increment_counter();
+        scroll = scroll_bar;
+        if (scroll != NULL) {
+            scroll->increment_counter();
         }
     }
     update_window();

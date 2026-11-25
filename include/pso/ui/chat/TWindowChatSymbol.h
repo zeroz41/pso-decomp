@@ -9,7 +9,7 @@ struct NJS_POINT2;
 struct SymbolChatPreset;
 
 struct TWindowChatSymbol : public TWindowBase {
-    TWindowChatSymbol(const NJS_POINT2 *position, saddr arg2);
+    TWindowChatSymbol(const NJS_POINT2 *position, saddr size);
     virtual ~TWindowChatSymbol();
     void set_selection(SymbolChatPreset *preset);
     void set_from_key(s32 index);
@@ -25,8 +25,8 @@ LAYOUT_ASSERT(TWindowChatSymbol_size, sizeof(TWindowChatSymbol) == 0x68);
 struct WindowLayoutEntries;
 class WindowSpritePart;
 extern "C" {
-void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
-void fn_802483C8(WindowLayoutEntries *entries, u8 appearance);
+void get_symbol_chat_frame_size(int a0, void *a1);
+void apply_face_appearance_sprite(WindowLayoutEntries *entries, u8 appearance);
 }
 int set_symbol_chat_face_sprite(WindowSpritePart *sprite, u8 b);
 void set_symbol_chat_parts(WindowLayoutEntries *entries, void *data);

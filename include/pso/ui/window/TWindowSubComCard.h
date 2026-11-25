@@ -9,8 +9,12 @@ struct GuildCardEntry;
 struct GuildCardSlot;
 struct NJS_POINT2;
 struct TWindowComCard;
+struct TWindowMainMenu;
 struct TWindowMenu;
 struct TWindowMessage;
+struct TWindowSubComCardList;
+struct TWindowMessageYesNo;
+struct TKeyBoardControl;
 
 struct TWindowSubComCard : public TObject {
     static void update_display_value(uaddr list_window, uaddr card_window, s32 *last_selected);
@@ -42,19 +46,19 @@ struct TWindowSubComCard : public TObject {
     uaddr m_2c;
     ChoiceSearchSelection choice_selections[5];
     uaddr chr_select;
-    u32 m_5c;
+    TWindowMainMenu *parent_menu;
     TWindowMenu *menu_window;
-    // Menu the current state waits on (option lists, menus, player select). inferred: name from its creators.
-    TWindowMenu *submenu;
-    // Card list or card action menu. inferred: name from its creators.
-    TWindowMenu *card_menu;
+    // Menu the current state waits on (option lists, menus, player select).
+    TWindowMenu *com_card_menu;
+    // Card list or card action menu.
+    TWindowMenu *sub_menu;
     TWindowMessage *message_window;
-    uaddr confirm_window;
+    TWindowMessageYesNo *confirm_window;
     uaddr com_card_window;
-    uaddr m_78;
+    uaddr user_sort_window;
     uaddr entry_list_window;
-    uaddr keyboard;
-    uaddr card_list;
+    TKeyBoardControl *keyboard;
+    TWindowSubComCardList *card_list;
     static saddr get_card_slot(s32 arg0);
     static void *send_command(saddr index);
     static u8 *apply_selection(s32 index);

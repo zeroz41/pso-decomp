@@ -14,6 +14,7 @@ struct SoundBalanceSettings {
 struct TWindowSoundBalance : public TWindowBase {
     TWindowSoundBalance(const NJS_POINT2 *position);
     virtual ~TWindowSoundBalance();
+    static const char *class_name;
     int is_active();
     virtual void render();
     u8 m_60;

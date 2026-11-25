@@ -4,7 +4,7 @@
 extern "C" {
 
 s32 update_numeric_parameter_input__9TWindowDDFPv();
-s32 TWindowDD__sub_803435A0(void *);
+s32 begin_word_select_state(void *);
 s32 refresh_word_select_child_list();
 s32 is_word_select_cancel_input(void *);
 
@@ -12,7 +12,7 @@ void TWindowDD::enter_state_19() {
     s32 confirmed;
 
     confirmed = 0;
-    switch (numeric_input_active) {
+    switch (dialog_locked) {
     case 0:
         refresh_word_select_child_list();
         update_selection_state();
@@ -30,7 +30,7 @@ void TWindowDD::enter_state_19() {
     }
     if (confirmed != 0) {
         next_state = 0x13;
-        TWindowDD__sub_803435A0(this);
+        begin_word_select_state(this);
     }
 }
 
@@ -38,7 +38,7 @@ void TWindowDD::enter_state_18() {
     s32 confirmed;
 
     confirmed = 0;
-    switch (numeric_input_active) {
+    switch (dialog_locked) {
     case 0:
         refresh_word_select_child_list();
         update_selection_state();
@@ -56,7 +56,7 @@ void TWindowDD::enter_state_18() {
     }
     if (confirmed != 0) {
         next_state = 0x12;
-        TWindowDD__sub_803435A0(this);
+        begin_word_select_state(this);
     }
 }
 

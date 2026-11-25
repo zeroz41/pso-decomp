@@ -10,49 +10,49 @@
 
 
 void TTextureWave::advance_wrapped_cursor() {
-    s32 temp_r0;
-    s32 temp_r4;
+    s32 cursor;
+    s32 width;
 
-    this->m_4c = (this->m_4c + 1);
-    temp_r0 = this->m_4c;
-    temp_r4 = this->m_4;
-    if (temp_r0 >= temp_r4) {
-        this->m_4c = (s32) (temp_r0 - temp_r4);
+    this->phase = (this->phase + 1);
+    cursor = this->phase;
+    width = this->width;
+    if (cursor >= width) {
+        this->phase = (s32) (cursor - width);
     }
 }
 
 TTextureWave::~TTextureWave() {
-    release_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->m_3c));
-    safe_free(reinterpret_cast<void *>(this->m_44));
+    release_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->texture_list));
+    safe_free(reinterpret_cast<void *>(this->output));
 }
 
-void TTextureWave::init_image_buffer(u8 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
+void TTextureWave::init_image_buffer(u8 *image, s32 displacement) {
+    u8 *base = (u8 *)this;
+    u8 *header;
 
-    this->m_40 = arg1;
-    this->m_48 = arg2;
-    this->m_4 = (s32) *(u16 *)((s8 *)this->m_40 + 0x1C);
-    this->m_0 = (s32) *(u16 *)((s8 *)this->m_40 + 0x1E);
-    temp_r3 = this->m_40;
-    this->m_8 = (s32) *(u16 *)((s8 *)temp_r3 + 8);
-    this->m_8 = (s32) (this->m_8 | (*(u16 *)((s8 *)temp_r3 + 0xA) << 0x10));
-    this->m_44 = (saddr)TQuestVmDownLoadServer::alloc((this->m_0 * (this->m_4 * 2)) + 0x20);
-    *(void **)((s8 *)(*(void * *)&this->m_3c) + 0) = ((u8 *)&this->m_c);
-    *(s32 *)((s8 *)(*(void * *)&this->m_3c) + 4) = 1;
-    reinterpret_cast<GinjaTextureInput *>(arg0 + 0x18)->set_render_rect(reinterpret_cast<void *>(this->m_44 + 0x20), 5, (int) this->m_4, (int) this->m_0);
-    set_texture_name(reinterpret_cast<NJS_TEXNAME *>(&this->m_c),
-        reinterpret_cast<GinjaTextureInput *>(arg0 + 0x18), this->m_8, 0x40800000);
-    psoLoadTexture(*(NJS_TEXLIST **)&this->m_3c);
+    this->image_data = image;
+    this->displacement = displacement;
+    this->width = (s32) *(u16 *)((s8 *)this->image_data + 0x1C);
+    this->height = (s32) *(u16 *)((s8 *)this->image_data + 0x1E);
+    header = this->image_data;
+    this->texture_id = (s32) *(u16 *)((s8 *)header + 8);
+    this->texture_id = (s32) (this->texture_id | (*(u16 *)((s8 *)header + 0xA) << 0x10));
+    this->output = (saddr)TQuestVmDownLoadServer::alloc((this->height * (this->width * 2)) + 0x20);
+    *(void **)((s8 *)(*(void * *)&this->texture_list) + 0) = ((u8 *)&this->records);
+    *(s32 *)((s8 *)(*(void * *)&this->texture_list) + 4) = 1;
+    reinterpret_cast<GinjaTextureInput *>(base + 0x18)->set_render_rect(reinterpret_cast<void *>(this->output + 0x20), 5, (int) this->width, (int) this->height);
+    set_texture_name(reinterpret_cast<NJS_TEXNAME *>(&this->records),
+        reinterpret_cast<GinjaTextureInput *>(base + 0x18), this->texture_id, 0x40800000);
+    psoLoadTexture(*(NJS_TEXLIST **)&this->texture_list);
 }
 
 
-TTextureWave::TTextureWave(NJS_TEXLIST *texture_list) {
-    m_4c = 0;
-    m_40 = 0;
-    m_44 = 0;
-    m_48 = 0;
-    m_0 = 0;
-    m_4 = 0;
-    m_3c = (saddr)texture_list;
+TTextureWave::TTextureWave(NJS_TEXLIST *list) {
+    phase = 0;
+    image_data = 0;
+    output = 0;
+    displacement = 0;
+    height = 0;
+    width = 0;
+    texture_list = (saddr)list;
 }

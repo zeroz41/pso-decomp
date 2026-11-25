@@ -456,7 +456,7 @@ void TAdTimeSetGC::init_screen() {
         change_state(0);
         return;
     }
-    TAdSinglePlyChrSelectGC__sub_801FD990((s8)TAdSinglePlyChrSelectGC::get_chr_select_state());
+    start_system_file_write((s8)TAdSinglePlyChrSelectGC::get_chr_select_state());
     TAdSinglePlyChrSelectGC::set_player_index(0xF);
     create_backgrounds();
     close_and_next(3, -1, -1, -1);

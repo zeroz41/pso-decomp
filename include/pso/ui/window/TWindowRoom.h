@@ -11,6 +11,7 @@ struct TWindowRoom : public TWindowBase {
 
     TWindowRoom(char *title);
     virtual ~TWindowRoom();
+    static const char *class_name;
     void *get_title_entry();
     void draw_tab(WindowDrawContext *context);
     virtual void run_task();

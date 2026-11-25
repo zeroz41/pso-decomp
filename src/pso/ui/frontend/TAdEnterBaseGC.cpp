@@ -47,31 +47,30 @@
 #include "pso/network/client_id.h"
 #include "pso/unk/text_8013ADE4.h"
 
+struct LengthLimits { u32 n[4]; };
 
-struct Lim_8032B1A4 { u32 n[4]; };
-
-struct B4_8032AD30 { u8 b[4]; };
+struct KeyboardModes { u8 b[4]; };
 
 // The TU's .rodata starts at 0x80477178, right after TAdMcSelectMcGC's int->float double; only this file uses these.
 // show_message_window: position and size of the message window it opens.
-const f32 lbl_80477178[2] = {46.0f, 110.0f};
+const f32 enter_base_message_window_position[2] = {46.0f, 110.0f};
 
-const f32 lbl_80477180[2] = {548.0f, 120.0f};
+const f32 enter_base_message_window_size[2] = {548.0f, 120.0f};
 
 // create_default_callback: the two rects passed to TAdEnterSerialAccessGC::create_callback.
-const f32 lbl_80477188[2] = {73.0f, 220.0f};
+const f32 enter_base_callback_position[2] = {73.0f, 220.0f};
 
-const f32 lbl_80477190[2] = {494.0f, 60.0f};
+const f32 enter_base_callback_size[2] = {494.0f, 60.0f};
 
 // create_parts: TAdSelectCurGC rects; entry mode 3 starts at the third position and the second size.
-const TAdEnterBaseGC::Position lbl_80477198[4] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
+const TAdEnterBaseGC::Position enter_base_cursor_positions[4] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
 
-const TAdEnterBaseGC::Position lbl_804771B8[2] = {{330.0f, 20.0f}, {466.0f, 18.0f}};
+const TAdEnterBaseGC::Position enter_base_cursor_sizes[2] = {{330.0f, 20.0f}, {466.0f, 18.0f}};
 
 const s32 serial_keyboard_field_width_table[4] = {10, 12, 8, 31};
 
 // fn_8032B318: anchor of the centred text.
-const f32 lbl_804771D8[2] = {320.0f, 250.0f};
+const f32 enter_base_text_anchor[2] = {320.0f, 250.0f};
 
 const f32 serial_keyboard_position_table[4][2] = {{234.0f, 500.0f}, {234.0f, 500.0f}, {256.0f, 230.0f}, {87.0f, 500.0f}};
 
@@ -92,7 +91,7 @@ const NJS_COLOR entry_field_box_color = {0xFF};
 const NJS_COLOR password_field_box_color = {0xFF};
 
 // inferred: per-field mode passed to the TKeyBoardControl ctor by create_keyboard_control.
-const B4_8032AD30 serial_keyboard_mode_table = {3, 3, 2, 0};
+const KeyboardModes serial_keyboard_mode_table = {3, 3, 2, 0};
 
 const char *TAdEnterBaseGC__class_name = "TAdEnterBaseGC";
 
@@ -146,13 +145,13 @@ void TAdEnterBaseGC::create_parts() {
     new TAdBackTxtGC(this);
     if (TAdEnterBaseGC::entry_mode == 3) {
         this->select_cursor = new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
-            reinterpret_cast<const NJS_POINT2 *>(&lbl_80477198[2]),
-            reinterpret_cast<const NJS_POINT2 *>(&lbl_804771B8[1]));
+            reinterpret_cast<const NJS_POINT2 *>(&enter_base_cursor_positions[2]),
+            reinterpret_cast<const NJS_POINT2 *>(&enter_base_cursor_sizes[1]));
         return;
     }
     this->select_cursor = new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
-        reinterpret_cast<const NJS_POINT2 *>(lbl_80477198),
-        reinterpret_cast<const NJS_POINT2 *>(lbl_804771B8));
+        reinterpret_cast<const NJS_POINT2 *>(enter_base_cursor_positions),
+        reinterpret_cast<const NJS_POINT2 *>(enter_base_cursor_sizes));
 }
 
 void TAdEnterBaseGC::run_task() {  }
@@ -160,39 +159,39 @@ void TAdEnterBaseGC::run_task() {  }
 void TAdEnterBaseGC::fn_8032B318(Position *position) {
     u32 half_width = calc_text_width((char *)get_localized_text_entry(23, 4)) >> 1;
     f32 offset = half_width;
-    f32 x = lbl_804771D8[0];
+    f32 x = enter_base_text_anchor[0];
     offset = x - offset;
     position->x = offset;
-    position->y = lbl_804771D8[1];
+    position->y = enter_base_text_anchor[1];
 }
 
 int TAdEnterSerialAccessGC::forward_input(void *window, s32 mode, const char *buf) { return validate_input__22TAdEnterSerialAccessGCFPviPv(window, mode, buf); }
 
-int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const char *arg2) {
+int validate_input__22TAdEnterSerialAccessGCFPviPv(void *window, s32 mode, const char *text) {
     s32 i;
     s32 n;
 
-    Lim_8032B1A4 max = {10, 12, 8, 31};
-    max.n[2] = strlen(arg2);
-    max.n[3] = strlen(arg2);
-    Lim_8032B1A4 min = {10, 12, 1, 0};
-    if (strlen(arg2) < min.n[mode]) {
+    LengthLimits max = {10, 12, 8, 31};
+    max.n[2] = strlen(text);
+    max.n[3] = strlen(text);
+    LengthLimits min = {10, 12, 1, 0};
+    if (strlen(text) < min.n[mode]) {
         return 0;
     }
     switch (mode) {
     case 0:
     case 1:
         n = max.n[mode];
-        for (i = 0; i < n; i++, arg2++) {
-            if (is_digit(*arg2) == 0) {
+        for (i = 0; i < n; i++, text++) {
+            if (is_digit(*text) == 0) {
                 return 0;
             }
         }
         break;
     case 2:
         n = max.n[mode];
-        for (i = 0; i < n; i++, arg2++) {
-            if (is_alnum(*arg2) == 0) {
+        for (i = 0; i < n; i++, text++) {
+            if (is_alnum(*text) == 0) {
                 return 0;
             }
         }
@@ -213,15 +212,15 @@ char *TAdEnterSerialAccessGC::serial_to_hex_string(const char *serial) {
     return serial_access_hex_string_buf;
 }
 
-void TAdEnterSerialAccessGC::store_serial_access_key(saddr arg0, saddr arg1, saddr arg2) {
+void TAdEnterSerialAccessGC::store_serial_access_key(saddr serial, saddr access_key, saddr password) {
     saddr instance;
 
     instance = TAdSinglePlyChrSelectGC::get_instance();
     if (instance != 0) {
-        strncpy((char *)(instance + 0x1152C), (const char *)arg0, 0xF);
-        strncpy((char *)(instance + 0x1153C), (const char *)arg1, 0xF);
+        strncpy((char *)(instance + 0x1152C), (const char *)serial, 0xF);
+        strncpy((char *)(instance + 0x1153C), (const char *)access_key, 0xF);
         if (TAdPsoPassSaveGC__sub_8032B584() != 0) {
-            strncpy((char *)(instance + 0x1154C), (const char *)arg2, 0xF);
+            strncpy((char *)(instance + 0x1154C), (const char *)password, 0xF);
         }
     }
 }
@@ -250,7 +249,7 @@ s32 has_serial_input__22TAdEnterSerialAccessGCFv(s32 parent, s32 field) {
     return (s8)*get_serial_text__22TAdEnterSerialAccessGCFii(parent, field) ? 1 : 0;
 }
 
-u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 field) {
+u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 owner, s32 field) {
     if (field == 3) {
         return (u8 *)"";
     }
@@ -279,29 +278,29 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 field) {
     return (u8 *)"";
 }
 
-TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
-    TWindowMessage *window = create_message_window_for_size((NJS_POINT2 *)lbl_80477178, (NJS_POINT2 *)lbl_80477180);
-    window->append_line(get_localized_text_entry(0x17, (saddr)arg1), 1);
+TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *owner, void *message_index) {
+    TWindowMessage *window = create_message_window_for_size((NJS_POINT2 *)enter_base_message_window_position, (NJS_POINT2 *)enter_base_message_window_size);
+    window->append_line(get_localized_text_entry(0x17, (saddr)message_index), 1);
     return window;
 }
 
 TWindowCallBack *TAdEnterBaseGC::create_default_callback() {
-    return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, fn_8032AC9C);
+    return TAdEnterSerialAccessGC::create_callback((void *)enter_base_callback_position, (void *)enter_base_callback_size, fn_8032AC9C);
 }
 
-TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s32 field) {
+TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr parent, s32 field) {
     TKeyBoardControl *kb;
     if (field < 0 || field >= 4) {
         return NULL;
     }
-    B4_8032AD30 sp8 = serial_keyboard_mode_table;
-    kb = new TKeyBoardControl((TObject *)arg0, serial_keyboard_field_width_table[field], 0, sp8.b[field], local_client_id);
+    KeyboardModes sp8 = serial_keyboard_mode_table;
+    kb = new TKeyBoardControl((TObject *)parent, serial_keyboard_field_width_table[field], 0, sp8.b[field], local_client_id);
     if (kb == NULL) {
         return NULL;
     }
     kb->set_sub_position((u8 *)serial_keyboard_position_table[field]);
-    if (has_serial_input__22TAdEnterSerialAccessGCFv(arg0, field) != 0) {
-        kb->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(arg0, field));
+    if (has_serial_input__22TAdEnterSerialAccessGCFv(parent, field) != 0) {
+        kb->set_text((char *)get_serial_text__22TAdEnterSerialAccessGCFii(parent, field));
     }
     if (field != 3) {
         kb->set_composer_flag62_bit4();
@@ -309,8 +308,8 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s3
     return kb;
 }
 
-void fn_8032AC9C(void *window_base, void *context) {
-    ((TWindowBase *)window_base)->draw_window_frame(context);
+void fn_8032AC9C(void *window, void *context) {
+    ((TWindowBase *)window)->draw_window_frame(context);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
     switch (TAdEnterBaseGC::entry_mode) {
     case 0:

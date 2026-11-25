@@ -9,6 +9,7 @@ struct NJS_POINT2;
 struct TWindowMessageQuest : public TWindowMessage {
     TWindowMessageQuest(const NJS_POINT2 *position);
     virtual ~TWindowMessageQuest();
+    static const char *class_name;
     virtual void render();
     void set_frame_mode(s32 mode);
     s32 frame_mode;

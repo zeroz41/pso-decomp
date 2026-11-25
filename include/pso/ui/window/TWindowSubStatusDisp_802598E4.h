@@ -6,7 +6,7 @@
 extern "C" {
 void draw_right_aligned_number(void *arg0);
 }
-void set_status_entry_target(void *arg0, s32 arg1);
+void set_status_entry_target(void *entry, s32 value);
 
 // --- C functions defined in TWindowSubStatusDisp_802598E4.cpp ---
 extern "C" {

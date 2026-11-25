@@ -102,7 +102,7 @@ void TWindowDD_WS_ScrollBar::render() {
 
     self->calc_inner_rect(rect);
     tex = TWindowDD::get_draw_count(hud_texlist);
-    ((TWindowDD *)verts)->reset_entries(word_select_inverse_depth(self->draw_depth, 0.0f), -1);
+    reset_window_vertices(verts, word_select_inverse_depth(self->draw_depth, 0.0f), -1);
     uv = TWindowDD__data_805434E8[6];
     s = rect->scale[1];
     v = verts;
@@ -142,7 +142,7 @@ void TWindowDD_WS_ScrollBar::render() {
     half = 0.5f * lbl_805DFB38 * rect->scale[0];
     quad[0] = span_start(c, half);
     quad[2] = span_end(c, half);
-    ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
+    draw_window_vertices(verts, 8, tex, 1);
 
     z = word_select_inverse_depth(self->draw_depth, 0.1f);
     TObjFish::set_global_param(hud_texlist);
@@ -181,16 +181,16 @@ void TWindowDD_WS_ScrollBar::render() {
     bot = hi - lbl_805D6DC4 * s;
     quad[5] = lbl_805D6DFC;
     quad[7] = lbl_805D6E00;
-    if (self->total_rows <= self->visible_rows) {
+    if (self->count <= self->visible_count) {
         quad[1] = top;
         quad[3] = bot;
     } else {
-        range = self->inv_total_rows * (bot - top);
-        len = range * self->visible_rows;
+        range = self->inverse_count * (bot - top);
+        len = range * self->visible_count;
         if (len < 2.0f) {
             len = 2.0f;
         }
-        quad[1] = range * self->scroll_row + top;
+        quad[1] = range * self->first_index + top;
         quad[3] = quad[1] + len;
     }
     draw_textured_quad_at_depth(quad, z);
@@ -233,22 +233,22 @@ TWindowDD_WS_ScrollBar *TWindowDD_WS_ScrollBar::create() { return new TWindowDD_
 TWindowDD_WS_ScrollBar::TWindowDD_WS_ScrollBar()
     : TWindowBase((u8 *)lbl_804EFBD0, 4, (u8 *)lbl_804EFBC8) {
     m_name = TWindowDD_WS_ScrollBar__class_name;
-    total_rows = 6.0f;
-    visible_rows = 6.0f;
-    scroll_row = 0.0f;
+    count = 6.0f;
+    visible_count = 6.0f;
+    first_index = 0.0f;
     open_tick = 0x01000000;
 }
 
 TWindowDD_WS_ScrollBar::~TWindowDD_WS_ScrollBar() {}
 
-void TWindowDD_WS_ScrollBar::set_scale(s32 total, s32 visible) {
-    total_rows = total;
-    visible_rows = visible;
-    inv_total_rows = 1.0f / total_rows;
+void TWindowDD_WS_ScrollBar::set_range(s32 total, s32 visible) {
+    count = total;
+    visible_count = visible;
+    inverse_count = 1.0f / count;
 }
 
-void TWindowDD_WS_ScrollBar::set_value_f32(s32 row) {
-    scroll_row = row;
+void TWindowDD_WS_ScrollBar::set_first_index(s32 index) {
+    first_index = index;
 }
 
 void TWindowDD_WS_ScrollBar::run_task() {

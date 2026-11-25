@@ -512,7 +512,7 @@ void TPlayerBattleCtrl4P::return_to_hunters_guild() {
     queue_destruction();
 }
 
-void TPlayerBattleCtrl4P::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); }
+void TPlayerBattleCtrl4P::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); }
 
 void TPlayerBattleCtrl4P::sub_80311804() {  }
 

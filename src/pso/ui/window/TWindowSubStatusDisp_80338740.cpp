@@ -74,7 +74,7 @@ void TGameListRow::render(WindowDrawContext *context) {
   scale = -1.0f / (0.1495f + win->depth);
   draw_item_list_icon(win, &pos, (u8)this->icon, -1, scale);
   pos.x += 18.0f;
-  set_text_draw_params(win, 1, 1, (f32)scale, 100000.0f);
+  set_text_draw_params(win, 1, 1, scale, 100000.0f);
   draw_window_text((f32 *)&pos, this->text, -1, 1, 100000.0f);
   pos.x += 210.0f;
   draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(this, this->level)), -1, 0, 100000.0f);

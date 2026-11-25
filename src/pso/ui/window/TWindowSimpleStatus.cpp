@@ -42,7 +42,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowSimpleStatus__name = "TWindowSimpleStatus";
+const char *TWindowSimpleStatus::class_name = "TWindowSimpleStatus";
 #pragma pop
 
 // inferred: photon_blast_gauge_ring_offset, the ring's offset inside the window that
@@ -294,15 +294,15 @@ void TWindowSimpleStatus::update_hp_tp_level() {
 void TWindowLockOn::update_for_player_index(s32 id) {
     saddr str;
     TObjPlayer *player;
-    u8 *temp_r29;
+    u8 *status_block;
 
     player = get_player_by_client_id(id);
     if (player == NULL) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
-    temp_r29 = (u8 *)player->name;
-    if (temp_r29 == NULL) {
+    status_block = (u8 *)player->name;
+    if (status_block == NULL) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
@@ -323,7 +323,7 @@ void TWindowLockOn::update_for_player_index(s32 id) {
         *(s32 *)&this->entry_list = 0xFFFF0000;
         return;
     }
-    *(s32 *)&this->entry_list = (s32) *(s32 *)((s8 *)temp_r29 + 0x18);
+    *(s32 *)&this->entry_list = (s32) *(s32 *)((s8 *)status_block + 0x18);
 }
 
 void update_lockon_window(TWindowSimpleStatus *window) {
@@ -482,7 +482,7 @@ TWindowSimpleStatus::~TWindowSimpleStatus() {
 
 TWindowSimpleStatus::TWindowSimpleStatus(void *position, s32 client, u8 *descriptor)
     : TWindowBase(descriptor, (s16)client, (u8 *)position) {
-    m_name = TWindowSimpleStatus__name;
+    m_name = TWindowSimpleStatus::class_name;
     client_index = (s16)client;
     shake_ticks = 0;
     m_58 = -1.0f;

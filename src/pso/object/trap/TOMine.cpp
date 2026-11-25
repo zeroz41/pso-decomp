@@ -478,9 +478,8 @@ void TOMine::play_trigger_effects() {
 }
 // Slot 82: the detonation particle (inferred; was named detonate_if_triggered on TOMineTrap).
 void TOMine::spawn_blast_particle() {
-    saddr arg0 = (saddr)this;
     {
-        TParticleCtrl *particle = spawn_particle_effect((const Vec *)(arg0 + 0x2FC), 0x45);
+        TParticleCtrl *particle = spawn_particle_effect((const Vec *)(((u8 *)this) + 0x2FC), 0x45);
         if (particle != NULL) {
             particle->set_scale(1.25f, 1.25f);
         }
@@ -824,15 +823,13 @@ void TOMineTrap::run_task() {
     }
 }
 void TOMineTrap::set_armed() {
-    u8 *arg0 = (u8 *)this;
     this->mode = 2;
-    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
+    this->set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
 void TOMineTrap::set_triggered() {
-    u8 *arg0 = (u8 *)this;
     this->mode = 3;
-    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
+    this->set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
 s32 TOMineTrap::find_target_in_range() {

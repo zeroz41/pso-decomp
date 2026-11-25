@@ -10,17 +10,20 @@ class TObjNewFloorWin : public TObject {
 public:
     TObjNewFloorWin(TObject *object, s32 client_id);
     virtual ~TObjNewFloorWin();
+    static const char *class_name;
     virtual void run_task();
 public:
     void open_window();
 
     s32 state;
     TWindowMenu *window;
-    s32 wait_timer;     // 450 frames to wait for the window task root
-    s32 display_timer;  // 150 frames shown; the window closes at 60
-    char floor_text[0x20];  // "%s %02d" floor label
-    s32 client_id;      // create_window_menu's client_id, -1 outside split screen
+    s32 open_timer;     // 450 frames to wait for the window task root
+    s32 close_timer;    // 150 frames shown; the window closes at 60
+    char title[0x20];   // "%s %02d" floor label
+    s32 client;         // create_window_menu's client_id, -1 outside split screen
 };
+
+LAYOUT_ASSERT(TObjNewFloorWin_size, sizeof(TObjNewFloorWin) == 0x50);
 
 extern "C" {
 void fn_800740DC(void);

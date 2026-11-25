@@ -32,7 +32,7 @@ extern "C" void request_active_window_close(void) {
 }
 
 void TWindowTradeRequest::close_request_window() {
-    lbl_805D63FC &= 0xFFFFFFF7;
+    short_mail_flags &= 0xFFFFFFF7;
     TWindowCtrl *controller = reinterpret_cast<TWindowCtrl *>(TWindowCtrl::instance);
     if (controller != NULL) {
         TWindowTradeRequest *request = controller->trade_request;

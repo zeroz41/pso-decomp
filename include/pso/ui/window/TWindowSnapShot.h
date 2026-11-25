@@ -8,6 +8,7 @@
 struct TWindowSnapShot : public TWindowBase {
     TWindowSnapShot(saddr arg1);
     virtual ~TWindowSnapShot();
+    static const char *class_name;
     virtual void render();
     u8 m_60;
     void play_open_sound();

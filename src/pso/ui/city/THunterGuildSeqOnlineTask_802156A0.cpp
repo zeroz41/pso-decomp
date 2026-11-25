@@ -30,11 +30,11 @@ struct ItemAppraisalRules {
     AppraisalScoreEntry *grind_scores;
 };
 
-struct Item_8021587C { u8 pad[3]; u8 f3; };
-struct Obj_8021599C { u8 pad[4]; u8 slot; };
-struct Obj_80215720 { u8 pad[7]; s8 a; u8 p8; s8 b; u8 pa; s8 c; };
+struct AppraisalItemView { u8 pad[3]; u8 f3; };
+struct AppraisalSlotView { u8 pad[4]; u8 slot; };
+struct AppraisalPercentages { u8 pad[7]; s8 a; u8 p8; s8 b; u8 pa; s8 c; };
 
-struct Ctr_80215720 { u8 buf[0x68]; };
+struct ShopPoolCounter { u8 buf[0x68]; };
 
 // Grind/percentage steps picked by the JudgeItem appraisal rolls (name inferred from its users).
 static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3, 5, 10, 0};
@@ -68,8 +68,8 @@ u8 lookup_key_value__6TLobbyFc(s8 x) {
     return 0;
 }
 
-void adjust_appraisal_percentages(Obj_80215720 *arg0) {
-    Ctr_80215720 ctr;
+void adjust_appraisal_percentages(AppraisalPercentages *appraisal) {
+    ShopPoolCounter ctr;
     const AppraisalRollEntry *e;
     s32 count;
     s32 n;
@@ -92,22 +92,22 @@ void adjust_appraisal_percentages(Obj_80215720 *arg0) {
     r = ((TLobby *)(&ctr))->pop_byte();
     if (r != -1) {
         u8 v = item_appraisal_adjust_table[r];
-        arg0->a += v;
-        arg0->b += v;
-        arg0->c += v;
+        appraisal->a += v;
+        appraisal->b += v;
+        appraisal->c += v;
     } else {
-        arg0->a = 0;
-        arg0->b = 0;
-        arg0->c = 0;
+        appraisal->a = 0;
+        appraisal->b = 0;
+        appraisal->c = 0;
     }
-    if (arg0->a > 100) {
-        arg0->a = 100;
+    if (appraisal->a > 100) {
+        appraisal->a = 100;
     }
-    if (arg0->b > 100) {
-        arg0->b = 100;
+    if (appraisal->b > 100) {
+        appraisal->b = 100;
     }
-    if (arg0->c > 100) {
-        arg0->c = 100;
+    if (appraisal->c > 100) {
+        appraisal->c = 100;
     }
     item_appraisal_score += ((s8 (*)(s8))lookup_key_value__6TLobbyFc)(r);
 }
@@ -137,21 +137,21 @@ void TLobby::roll_item_grind_bonus() {
         shuffle_shop_pool_n_times(buf, 4);
         r = ((TLobby *)buf)->pop_byte();
         if (r != -1) {
-            s32 v = ((Item_8021587C *)this)->f3 + item_appraisal_adjust_table[r];
+            s32 v = ((AppraisalItemView *)this)->f3 + item_appraisal_adjust_table[r];
             if (v < 0) {
                 v = 0;
             }
-            ((Item_8021587C *)this)->f3 = v;
+            ((AppraisalItemView *)this)->f3 = v;
         }
         u8 m = ((TItemData *)this)->get_entry_field16();
-        if (((Item_8021587C *)this)->f3 > m) {
-            ((Item_8021587C *)this)->f3 = m;
+        if (((AppraisalItemView *)this)->f3 > m) {
+            ((AppraisalItemView *)this)->f3 = m;
         }
         item_appraisal_score += (s8)TLobby::lookup_table_value(r);
     }
 }
 
-void adjust_appraisal_special(Obj_8021599C *obj) {
+void adjust_appraisal_special(AppraisalSlotView *obj) {
     u8 buf[0x68];
     AppraisalRollEntry *e;
     s32 n;
@@ -194,13 +194,13 @@ s32 is_slot_match__6TLobbyFv();
 }
 
 
-void update_item_appraisal(saddr arg0) {
+void update_item_appraisal(saddr appraisal) {
     if ((uaddr) item_appraisal_rules != 0U) {
         item_appraisal_score = 0;
         item_appraisal_favored_weapon = is_slot_match__6TLobbyFv();
-        adjust_appraisal_special((Obj_8021599C *)arg0);
-        ((TLobby *)arg0)->roll_item_grind_bonus();
-        adjust_appraisal_percentages((Obj_80215720 *)arg0);
+        adjust_appraisal_special((AppraisalSlotView *)appraisal);
+        ((TLobby *)appraisal)->roll_item_grind_bonus();
+        adjust_appraisal_percentages((AppraisalPercentages *)appraisal);
     }
 }
 

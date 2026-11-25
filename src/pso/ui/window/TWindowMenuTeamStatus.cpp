@@ -20,13 +20,13 @@ void TWindowMenuTeamStatus::add_entry(s32 locked, const char *name, s8 player_co
 }
 
 // The class-name string TWindowMenuTeamStatus::init stores to m_name.
-const char *TWindowMenuTeamStatus__name = "TWindowMenuTeamStatus";
+const char *TWindowMenuTeamStatus::class_name = "TWindowMenuTeamStatus";
 
 void TWindowMenuTeamStatus::init(u32 count, s32 id) {
     s32 i;
     TGameListRow *row;
 
-    m_name = TWindowMenuTeamStatus__name;
+    m_name = TWindowMenuTeamStatus::class_name;
     client_index = id;
     entry_count = 0;
     cursor = 0;

@@ -13,7 +13,9 @@ struct CharacterFileSlot {
 
     TPlyCharData chardata;
     CharacterSaveRecord record;
-    u8 pad_278C[0x2798 - 0x278C];
+    u32 copied;      // set when the character is copied to the other page
+    s32 copy_time;   // seconds at the copy; both copies of one character carry the same value
+    u8 pad_2794[0x2798 - 0x2794];
 };
 
 // The PSO_CHARACTER memory card file: seven character slots.

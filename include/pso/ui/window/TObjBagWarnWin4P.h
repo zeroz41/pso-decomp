@@ -12,7 +12,9 @@ public:
     virtual ~TObjBagWarnWin4P();
     virtual void run_task();
 public:
-    static s32 check_can_open(void * _w0);
+    s32 check_can_open();
+    static const char *class_name;
+    static f32 message_window_size[2];
     void create_window();
 
     TWindowMessage *message_window;

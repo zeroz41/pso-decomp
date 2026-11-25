@@ -30,6 +30,7 @@ struct MainMenuSlotState {
 struct TWindowMainMenu : public TObject {
     TWindowMainMenu(TObject *parent, s32 client);
     virtual ~TWindowMainMenu();
+    static const char *class_name;
     virtual void open_main_menu();
     virtual void on_menu_opened();
     virtual void close_main_menu();
@@ -44,7 +45,7 @@ struct TWindowMainMenu : public TObject {
     void update_selection_value();
     void add_menu_entry(s16);
     void sub_80263D7C();
-    void open(s32);
+    void open(s32 entries);
     void close_and_clear_flags();
     s32 close_active_submenu();
     void reset_depth_base();
@@ -77,7 +78,7 @@ struct TWindowMainMenu : public TObject {
     void populate_menu(const TWindowMainMenuEntry *window_main_menu_entry);
     void open_menu_with_entry(s16 id);
     void try_open_battle_menu(s16 key);
-    s32 filter_menu_entry(s16 *arg1, s32 *arg2);
+    s32 filter_menu_entry(s16 *id, s32 *enabled);
     void update_description_text(s32 id);
 };
 
@@ -90,7 +91,7 @@ int test_keyboard_card_flag4(void *p);
 extern "C" {
 void TWindowSubEquip__sub_80263AF4(void *, s32);
 }
-f32 get_main_menu_layer_depth(u8 *parent, u32 arg1);
+f32 get_main_menu_layer_depth(u8 *parent, u32 layer);
 void call_if_split_screen(uaddr object, s32 client_id);
 
 #endif

@@ -307,9 +307,9 @@ s32 GuildCardRecord::get_id() { return id; }
 
 
 void TLobby__sub_80242918(void) {
-    lbl_805D63FC |= 4;
+    short_mail_flags |= 4;
 }
 
 void TLobby::clear_flag_bit2() {
-    lbl_805D63FC &= 0xFFFFFFFB;
+    short_mail_flags &= 0xFFFFFFFB;
 }

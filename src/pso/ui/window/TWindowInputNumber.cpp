@@ -49,17 +49,17 @@ void TWindowInputNumber::mark_confirmed() {
     }
 }
 void TWindowInputNumber::confirm_input() {
-    s32 entered;
+    s32 current;
     uaddr temp;
 
-    entered = this->value;
-    if ((entered < (s32) this->minimum) || (entered > (s32) this->maximum)) {
+    current = this->value;
+    if ((current < (s32) this->minimum) || (current > (s32) this->maximum)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
     play_sound_effect(0x52D01, 0, 0, 0);
     this->inputFlags = (u16) (this->inputFlags | 2);
-    temp = (u32) this->unknown70;
+    temp = (u32) this->heading;
     if (temp != 0U) {
         ((TWindowSubStatusDisp *)temp)->set_entry_state(2);
     }
@@ -99,13 +99,13 @@ void TWindowInputNumber::handle_decrement() {
 }
 
 void TWindowInputNumber::move_cursor_next() {
-    u8 count;
+    u8 digits;
 
     play_sound_effect(0x54100, 0, 0, 0);
     *(u8 *)&this->selectedDigit = (u8) (*(u8 *)&this->selectedDigit + 1);
-    if ((s8) *(u8 *)&this->selectedDigit >= (s8) (count = *(u8 *)&this->digitCount)) {
+    if ((s8) *(u8 *)&this->selectedDigit >= (s8) (digits = *(u8 *)&this->digitCount)) {
         if (this->inputFlags & 1) {
-            *(u8 *)&this->selectedDigit = (count - 1);
+            *(u8 *)&this->selectedDigit = (digits - 1);
             return;
         }
         *(u8 *)&this->selectedDigit = 0U;
@@ -125,15 +125,15 @@ static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 
 void TWindowInputNumber::create(s32 title) {
-    uaddr heading;
+    uaddr created;
 
-    if ((u32) this->unknown70 == 0U) {
-        heading = (saddr)::operator new(0x24);
-        if (heading != 0U) {
-            TWindowSubStatusDisp *saved = (TWindowSubStatusDisp *)heading;
-            heading = (uaddr)(saved)->construct_type1_heading(title, this->client_index);
+    if ((u32) this->heading == 0U) {
+        created = (saddr)::operator new(0x24);
+        if (created != 0U) {
+            uaddr saved = created;
+            created = (uaddr)((TWindowSubStatusDisp *)saved)->construct_type1_heading(title, this->client_index);
         }
-        this->unknown70 = heading;
+        this->heading = created;
         this->window_flags = (s32) (this->window_flags | 0x40);
         this->target_size[1] += 6.0f;
     }
@@ -166,15 +166,15 @@ void TWindowInputNumber::align_digits() {
 void TWindowInputNumber::refresh_digit_entries() {
     s32 i;
     TWindowLayoutNumber *entry;
-    s32 remaining;
+    s32 rest;
 
     i = 0;
-    remaining = value;
+    rest = value;
     do {
         entry = (TWindowLayoutNumber *)get_array_entry(i);
-        entry->value = remaining % 10;
+        entry->value = rest % 10;
         draw_right_aligned_number(entry);
-        remaining = remaining / 10;
+        rest = rest / 10;
         i++;
     } while ((u32)i < 6U);
 }
@@ -254,18 +254,18 @@ void TWindowInputNumber::render() {
     draw_window_frame(context);
     draw_visible_window_entries(this, &entry_list, context);
     draw_arrows(context, static_cast<TWindowLayoutNumber *>(get_array_entry(selectedDigit)), is_confirmed());
-    void *heading = reinterpret_cast<void *>(unknown70);
-    if (heading != NULL) {
-        static_cast<TWindowSubStatusDisp *>(heading)->forward_render(context);
+    void *heading_window = reinterpret_cast<void *>(heading);
+    if (heading_window != NULL) {
+        static_cast<TWindowSubStatusDisp *>(heading_window)->forward_render(context);
     }
 }
 
 void TWindowInputNumber::run_task() {
     TWindowInputNumber *self = this;
     s32 port;
-    uaddr heading;
+    uaddr heading_window;
     ControllerInputContext *input;
-    ControllerInputContext *pad_input;
+    ControllerInputContext *pad;
     ControllerInputContext *context;
 
     port = is_player_input_active(self->client_index);
@@ -288,17 +288,17 @@ void TWindowInputNumber::run_task() {
                 self->handle_decrement();
             }
         } else {
-            pad_input = &controller_input_state.controllers[port];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
+            pad = &controller_input_state.controllers[port];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
                 self->update_value();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
                 self->update();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
                 self->move_cursor_next();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
                 self->handle_decrement();
             }
         }
@@ -310,9 +310,9 @@ void TWindowInputNumber::run_task() {
             self->mark_confirmed();
         }
     }
-    heading = self->unknown70;
-    if ((heading != 0U) && ((f32) self->open_tick >= 7.5f)) {
-        ((TWindowSubStatusDisp *)heading)->update_subwindow();
+    heading_window = self->heading;
+    if ((heading_window != 0U) && ((f32) self->open_tick >= 7.5f)) {
+        ((TWindowSubStatusDisp *)heading_window)->update_subwindow();
     }
     ((TWindowBase *)self)->update_window();
     self->update_fade();
@@ -320,7 +320,7 @@ void TWindowInputNumber::run_task() {
 }
 
 TWindowInputNumber::~TWindowInputNumber() {
-    if ((void *)unknown70 != NULL) { TWindowSubStatusDisp::destroy_status_display(unknown70, (s16)1); }
+    if ((void *)heading != NULL) { TWindowSubStatusDisp::destroy_status_display(heading, (s16)1); }
 }
 
 
@@ -333,7 +333,7 @@ TWindowInputNumber::TWindowInputNumber(const NJS_POINT2 *position, s32 low, s32 
     minimum = low;
     maximum = high;
     value = initial;
-    unknown70 = 0;
+    heading = 0;
     scaleX = 1.0f;
     scaleY = 1.0f;
     calc_digit_count();

@@ -96,7 +96,7 @@ TWindowSubMag::TWindowSubMag(TWindowMainMenu *parent, s32 client) : TObject(pare
     m_name = class_name;
     this->parent = parent;
     client_id = client;
-    list = (void *)setup_list();
+    list = (TWindowMenuIconLine *)setup_list();
     help = NULL;
     slotwin = NULL;
     card = NULL;
@@ -163,18 +163,18 @@ void TWindowSubMag::run_task() {
             slotwin = fn_802628C0((void *)get_window_layout_position(0xC), lbl_8044F9E8, client_id);
         }
         help->unlock_page_flip();
-        ((TWindowMenuIconLine *)list)->refresh_mag_item_list(2);
-        ((TWindowMenuIconLine *)(list))->clear_decided();
-        static_cast<TWindowMenuIconLine *>(list)->start_scroll(188.0f);
+        list->refresh_mag_item_list(2);
+        list->clear_decided();
+        list->start_scroll(188.0f);
         state = 2;
     case 2:
         update_displayed_item();
         mag = help->get_mag_state();
         slotwin->set_mag_slot_state(help->get_mag_state());
-        if (((TWindowMenuIconLine *)(list))->is_cancelled() != 0) {
+        if (list->is_cancelled() != 0) {
             parent->on_submenu_closed();
             state = 0x11;
-        } else if (((TWindowMenuIconLine *)(list))->is_decided() != 0) {
+        } else if (list->is_decided() != 0) {
             state = 3;
         }
         break;
@@ -197,17 +197,17 @@ void TWindowSubMag::run_task() {
             help->enable_help_toggle();
             call_if_split_screen((uaddr)help, client_id);
         }
-        static_cast<TWindowMenuIconLine *>(list)->start_scroll(188.0f);
+        list->start_scroll(188.0f);
         if (card == NULL) {
-            card = create_action_menu(((TWindowMenuIconLine *)list)->get_cursor_value());
+            card = (TWindowMenu *)create_action_menu(list->get_cursor_value());
         }
-        ((TWindowMenu *)(card))->clear_flag_and_release();
+        card->clear_flag_and_release();
         state = 4;
     case 4:
-        if (((TWindowMenu *)(card))->is_cancelled() != 0) {
+        if (card->is_cancelled() != 0) {
             state = 1;
-        } else if (((TWindowMenu *)(card))->is_decided() != 0) {
-            set_mag_mode(((TWindowMenu *)card)->get_selected_value());
+        } else if (card->is_decided() != 0) {
+            set_mag_mode(card->get_selected_value());
         }
         break;
     case 5:
@@ -219,14 +219,14 @@ void TWindowSubMag::run_task() {
         help->update_help_item(1);
         help->lock_page_flip();
         if (list2 == NULL) {
-            list2 = (void *)create_list();
+            list2 = (TWindowMenuIconLine *)create_list();
         }
-        ((TWindowMenuIconLine *)(list2))->clear_decided();
+        list2->clear_decided();
         state = 6;
     case 6:
-        if (((TWindowMenuIconLine *)(list2))->is_cancelled() != 0) {
+        if (list2->is_cancelled() != 0) {
             state = 3;
-        } else if (((TWindowMenuIconLine *)(list2))->is_decided() != 0) {
+        } else if (list2->is_decided() != 0) {
             state = 7;
         }
         break;
@@ -237,7 +237,7 @@ void TWindowSubMag::run_task() {
             state = 5;
         } else if (TWindowSubItem::is_usable(player) != 0) {
             slots = count_slots();
-            TWindowSubMag::feed_mag((void*)player, (void*)(((TWindowMenuIconLine *)list)->get_cursor_value()), (void*)(((TWindowMenuIconLine *)list2)->get_cursor_value()));
+            TWindowSubMag::feed_mag((void*)player, (void*)(list->get_cursor_value()), (void*)(list2->get_cursor_value()));
             state = 8;
         }
         break;
@@ -246,7 +246,7 @@ void TWindowSubMag::run_task() {
         window_request_refresh((u8 *)help);
         help->disable_help_toggle();
         help->refresh_copied_items();
-        ((TWindowMenuIconLine *)list)->refresh_mag_item_list(2);
+        list->refresh_mag_item_list(2);
         slotwin->set_mag_slot_state(help->get_mag_state());
         if (help->update_mag_status_gauges() != 0) {
             state = 9;
@@ -469,12 +469,12 @@ loop_1:
 }
 
 void TWindowSubMag::update_displayed_item() {
-    s32 temp_r3;
+    s32 cursor_value;
 
-    temp_r3 = ((TWindowMenuIconLine *)this->list)->get_cursor_value();
-    if (temp_r3 != (s32) this->displayed_item) {
-        this->displayed_item = temp_r3;
-        help->set_displayed_item_by_id(temp_r3);
+    cursor_value = ((TWindowMenuIconLine *)this->list)->get_cursor_value();
+    if (cursor_value != (s32) this->displayed_item) {
+        this->displayed_item = cursor_value;
+        help->set_displayed_item_by_id(cursor_value);
     }
 }
 

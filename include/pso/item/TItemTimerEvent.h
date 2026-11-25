@@ -10,11 +10,11 @@ struct TItemTimerEvent : public TItemHeapObject {
     virtual void vfunc_6() = 0;
     virtual void vfunc_7();
     virtual void run_task();
-    u16 m_1c;
+    u16 client_id;
     u8 _pad1E[0x2];
-    u32 m_20;
-    u32 m_24;
-    uaddr m_28;
+    u32 interval;
+    u32 elapsed;
+    uaddr player;
     static void clear_timer_slot(u16 client_id);
     static void start_event_by_index(u16 client_id);
     static void check_battle_ctrl(int client);

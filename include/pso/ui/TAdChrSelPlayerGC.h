@@ -54,7 +54,7 @@ void TAdChrSelPlayerGC__sub_802E10A0(void);
 extern "C" {
 void TAdMultiConfirmGC__sub_802E03D0(void *p);
 void TAdMultiConfirmGC__sub_802E0448(void *p);
-void TObjPlayer__sub_802E0468(long long child, u8 *arg2, f32 farg0);
+void TObjPlayer__sub_802E0468(long long child, u8 *appearance, f32 alpha);
 void TObjPlayer__sub_802E0580(void *_w0, int _w1, void *_w2);
 }
 #endif

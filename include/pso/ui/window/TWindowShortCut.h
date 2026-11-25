@@ -10,6 +10,7 @@ struct TWindowMessageQuest;
 struct TWindowShortCut : public TWindowBase {
     TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut);
     virtual ~TWindowShortCut();
+    static const char *class_name;
     virtual void render();
     uaddr heading;                       // type-1 status heading titled with message 0x35
     TWindowMessageQuest *preview_window;       // text preview of a text or word-select shortcut

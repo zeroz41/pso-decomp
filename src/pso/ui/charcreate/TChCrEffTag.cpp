@@ -51,17 +51,17 @@ void TChCrEffTag::refresh_label() {
 #pragma fp_contract on
 void TChCrEffTag::run_task()
 {
-  f32 current;
+  f32 current_width;
   f32 target;
-  s32 index;
+  s32 current_heading;
   if (((s32) heading) != ((s32) TChCrEffTag::selected_heading))
   {
     refresh_label();
   }
-  index = heading;
-  if (index >= 0)
+  current_heading = heading;
+  if (current_heading >= 0)
   {
-    targetWidth = 15.0f + (f32) TObjCMMainMenu::get_creation_sprite_id(heading_sprite_ids[index]);
+    targetWidth = 15.0f + (f32) TObjCMMainMenu::get_creation_sprite_id(heading_sprite_ids[current_heading]);
   }
   target = targetWidth;
   if (width + 12.933333f < target)
@@ -76,13 +76,13 @@ void TChCrEffTag::run_task()
   {
     width += 0.2f * (target - width);
   }
-  current = width;
-  if (current < 100.0f)
+  current_width = width;
+  if (current_width < 100.0f)
   {
     width = 100.0f;
     return;
   }
-  if (current > 294.0f)
+  if (current_width > 294.0f)
   {
     width = 294.0f;
   }

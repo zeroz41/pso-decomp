@@ -33,7 +33,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/WindowLayout.h"
 
-const char *TWindowSubTradeMain__name = "TWindowSubTradeMain";
+const char *TWindowSubTradeMain::class_name = "TWindowSubTradeMain";
 
 // inferred: screen positions of the trade windows, named after the function that opens each one
 // (create_equip_kind_window takes the position, like short_list_window_pos in TWindowShortListCtrl).
@@ -63,7 +63,7 @@ void TWindowInputNumber::set_flag_40() { inputFlags |= 0x40; }
 
 TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : TObject(parent) {
     TObjPlayer *player;
-    this->m_name = TWindowSubTradeMain__name;
+    this->m_name = TWindowSubTradeMain::class_name;
     this->state = 0;
     this->flags = 0;
     this->timer = 0;
@@ -148,10 +148,10 @@ void TWindowSubTradeMain::run_task() {
     saddr n;
     player = is_player_input_active(this->client_id);
     if (this->chat->is_mode_bit4() != 0 && chat_accept_submission((saddr)&this->submission) != 0) {
-        TWindowChat__sub_80247E50(this->chat);
+        consume_active_flag(this->chat);
     }
     if (this->chat->is_visible() != 0) {
-        TWindowChat__sub_80247DFC(this->chat);
+        consume_input_active_flag(this->chat);
     }
     if (TWindowCtrl__sub_8024701C(this->chat) != 0) {
         this->set_labels(0xA);

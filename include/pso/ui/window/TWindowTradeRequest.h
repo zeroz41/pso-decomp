@@ -10,6 +10,7 @@ struct TWindowMessageYesNo;
 struct TWindowTradeRequest : public TObject {
     TWindowTradeRequest(TObject *parent);
     virtual ~TWindowTradeRequest();
+    static const char *class_name;
     s32 state;
     TWindowMessageYesNo *dialog;
     static void close_request_window();

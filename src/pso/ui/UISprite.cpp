@@ -1,9 +1,9 @@
 #include "pso/render/TriangleFan3D.h"
-// Character-creation sprite tables, ruler lines and UI sprite helpers (one TU, .text 0x80290D1C-0x802911E8).
-// One-TU evidence: TCharaMaking__resolve_creation_sprite_table addresses the three cell tables as offsets
+// Character-creation sprite tables, ruler lines and UI sprite helpers (one TU).
+// One-TU evidence: resolve_creation_sprite_table addresses the three cell tables as offsets
 // from creation_chara_sprite_entries (CW's anchor for objects defined in the same TU), the tables and
-// ccconsole_pvm_file_name_table are used by no other unit, and the .sdata2 pool 0x805DD958 {24.0f, 64.0f,
-// 0.0f, 1.0f} runs in first-use order from draw_creation_ruler_lines to fn_80291178 without a duplicate.
+// ccconsole_pvm_file_name_table are used by no other unit, and the .sdata2 pool {24.0f, 64.0f,
+// 0.0f, 1.0f} runs in first-use order from draw_creation_ruler_lines to the last helper without a duplicate.
 #include "types.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/ui/UISprite.h"
@@ -357,10 +357,10 @@ void draw_creation_ruler_lines(f32 fade) {
     draw_line_list(&d, 0x10, 5);
     c = (u32)(64.0f * fade) | 0x40400000 | 0x4000;
     creation_ruler_line_colors[0] = creation_ruler_line_colors[1] = c;
-    draw_tri_fan_3d(&lbl_804DA98C, 4, 7);
+    draw_tri_fan_3d(&creation_ruler_line_desc, 4, 7);
 }
 
-NJS_POINT3 lbl_804DA94C[4] = {
+NJS_POINT3 creation_ruler_line_verts[4] = {
     { -7.5f, 0.0f, -0.1f },
     { 7.5f, 0.0f, -0.1f },
     { 7.5f, 15.0f, -0.1f },
@@ -369,11 +369,11 @@ NJS_POINT3 lbl_804DA94C[4] = {
 
 u32 creation_ruler_line_colors[4] = { 0x40404000, 0x40404000, 0xFFFFFF00, 0xFFFFFF00 };
 
-NJS_POINT3COL lbl_804DA98C = { lbl_804DA94C, creation_ruler_line_colors, NULL, 4 };
+NJS_POINT3COL creation_ruler_line_desc = { creation_ruler_line_verts, creation_ruler_line_colors, NULL, 4 };
 
 s32 TObjCMMainMenu::get_creation_sprite_id(s32 sprite_id) {
     NJS_TEXANIM *cells;
-    TCharaMaking__resolve_creation_sprite_table(&cells, &sprite_id);
+    resolve_creation_sprite_table(&cells, &sprite_id);
     return cells[sprite_id].sx;
 }
 
@@ -388,7 +388,7 @@ void draw_creation_sprite_offset(s32 sprite_id, const vec2f *position, const vec
     NJS_TEXANIM *cell;
     copy_vec2(&pos, (void *)position);
     id = sprite_id;
-    TCharaMaking__resolve_creation_sprite_table(&cells, &id);
+    resolve_creation_sprite_table(&cells, &id);
     cell = &cells[id];
     pos.x += (f32)cell->cx;
     pos.y += (f32)cell->cy;
@@ -406,7 +406,7 @@ void draw_ui_sprite_tinted(s32 sprite_id, vec2f *position, vec2f *scale, UISprit
         sprite.sx = scale->x;
         sprite.sy = ui_sprite_scale * scale->y;
         sprite.tlist = &creation_sprite_table;
-        TCharaMaking__resolve_creation_sprite_table(&sprite.tanim, &sprite_id);
+        resolve_creation_sprite_table(&sprite.tanim, &sprite_id);
         copy_argb(&saved_model_draw_color, &model_material_color);
         set_constant_material((const NJS_ARGB *)tint);
         TLobby::draw_with_camera(&sprite, sprite_id, 0x22, depth);
@@ -454,7 +454,7 @@ void TChCrEffWall::draw_default_sprite(s32 sprite_id, const vec2f *position, f32
 void *cmicon_instance;
 s32 creation_sprite_table_index;
 
-void TCharaMaking__resolve_creation_sprite_table(NJS_TEXANIM **table, s32 *id) {
+void resolve_creation_sprite_table(NJS_TEXANIM **table, s32 *id) {
     if (*id < 143) {
         *table = lbl_804D9670;
         return;

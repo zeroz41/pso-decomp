@@ -36,41 +36,38 @@ struct TWindowDD : public TObject
     static TWindowDDValueList * ws_data_base;
     static uaddr work_buffer;
     static s32 window_mode;
-    TWindowDD(TObject *parent, void *out_message);
+    TWindowDD(TObject *parent, WordSelectMessage *output);
     virtual ~TWindowDD();
     virtual void run_task();
     s16 menu_index;                     // Its address is the input context of the button tests.
     u8 pad_1e[0x2];
-    s32 depth;                          // Index of the active word page.
-    TWindowDD_WS_Word *pages[8];
-    s32 state_stack[8];                 // state to return to from each page level
-    TWindowDD_WS_String *strings[6];    // [3] shows the message being composed
-    TWindowDD_WS_ScrollBar *scroll_bar;
-    TWindowWordSelectMode *mode_window;
-    TWindowInputNumber *number_window;
+    s32 depth;                          // levels opened so far; each has a word window
+    TWindowDD_WS_Word *word_windows[8];
+    s32 level_states[8];                // the state a level was in when the next level was opened
+    TWindowDD_WS_String *labels[6];     // SELECT, NEXT, the entry text, the message text and two cursor labels
+    TWindowDD_WS_ScrollBar *scroll_bar; // shows where the visible rows sit in the word list
+    TWindowWordSelectMode *mode_window; // the three-row mode indicator
+    TWindowInputNumber *number_window;  // the TWindowInputNumber of a numeric entry
     s32 list_ids[3];                    // element lists of pages depth .. depth + 2
-    s32 close_flags;
-    s32 word_appended;
+    s32 result_flags;
+    s32 token_pushed;                   // 1 once a word of the message has been taken from the list
     s32 last_selected_id;
-    s32 enemies_present;
+    s32 enemies_active;
     s32 selection_confirmed;
-    s32 status;                         // 1 mode menu, 2 sent, 3 cancelled
-    s32 transition;                     // 1 opening the next page, 2 closing this one
-    s32 state;
+    s32 dialog_state;                   // 0 choosing, 1 the confirm rows (mode_window) are active, 2 idle
+    s32 pending_transition;             // 0 none, 1 open the next level, 2 close this one
+    s32 state;                          // run_state's switch
     s32 next_state;
-    s32 numeric_input_active;
-    s32 extra_string_count;
-    WordSelectMessage *result;
-    WordSelectMessage message;
-    WordSelectMessage saved_message;
+    s32 dialog_locked;
+    s32 extra_window_count;
+    WordSelectMessage *output;          // the caller's message, written when the player accepts
+    WordSelectMessage message;          // the message being composed
+    WordSelectMessage final_message;    // copied to output when the player accepts
     s16 selected_word;
     u8 pad_fe[0x2];
     s32 pad_100;
     s32 pad_104;
-    void draw_transformed_primitive(s32 a1, u32 id, s32 a3);
-    void reset_entries(f32 z, s32 color);
-    void set_quad_corners_scaled(f32 x, f32 y, f32 scale);
-    static s32 apply_both_choices(void *input_context, saddr buttons);
+    static s32 apply_both_choices(void *unused, saddr buttons);
     static s32 check_all_ready(s32 floor);
     void update_com_card();
     void enter_state_19();
@@ -80,10 +77,9 @@ struct TWindowDD : public TObject
     void update_layout();
     void update_transition();
     void update();
-    static saddr get_element_ptr(s32 index);
+    static saddr get_element_ptr(s32 list_id);
     virtual void render();
     void reset_selection();
-    void update_selected_id();
     static void build_player_word_lists();
     static void free_buffers();
     static void open(void *message, u16 speaker);
@@ -120,7 +116,7 @@ struct TWindowDD : public TObject
     s32 get_mode_code();
     void set_state();
     void close_all_windows();
-    static s32 can_append_chars(s32 len, s32 *pos);
+    static s32 can_append_chars(s32 need, s32 *pos);
     static void format_message(WordSelectMessage *message, char *text, u16 player);
     void append_prompt_newline(s32 *pos);
     static s32 clamp_range_5FA_682(s16 id);
@@ -130,14 +126,8 @@ struct TWindowDD : public TObject
     static s32 count_chars_since_newline(const char *buf, s32 *pos);
     static void append_char(s8 c, char *buf, s32 *pos);
     static void append_string(const char *str, char *buf, s32 *pos);
-    void copy_point_table(s32 idx);
     static s32 get_draw_count(const NJS_TEXLIST *textures);
     static saddr get_entry(s32 index);
-    int handle_word_select();
-    static void send_chat_packet(void *data);
-    void update_and_send_lobby();
-    void init_header();
-    void bswap_word_select();
     static void init_ws_data_tables();
     static s32 lookup_item_category(s32 item);
     void handle_confirm_input();

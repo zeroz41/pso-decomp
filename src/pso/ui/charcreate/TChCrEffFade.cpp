@@ -18,13 +18,13 @@ const char *TChCrEffFade__class_name = "TChCrEffFade";
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
 
-void fn_80293D84(void *arg0, void *arg1, u32 color, f32 scale, f32 alpha) {
+void fn_80293D84(void *context, void *center, u32 color, f32 scale, f32 alpha) {
     // inferred: the unit hexagon the cells are scaled from
     static const ColorLineVertex hexagon[7] = {
         { 0.5f, -0.865f }, { 1.0f, 0.0f }, { 0.5f, 0.865f }, { -0.5f, 0.865f },
         { -1.0f, 0.0f }, { -0.5f, -0.865f }, { 0.0f, 0.0f },
     };
-    const ColorLineVertex *position = static_cast<const ColorLineVertex *>(arg1);
+    const ColorLineVertex *position = static_cast<const ColorLineVertex *>(center);
     ColorLineList prim;
     u32 colors[6];
     ColorLineVertex pts[6];
@@ -45,7 +45,7 @@ void fn_80293D84(void *arg0, void *arg1, u32 color, f32 scale, f32 alpha) {
     prim.draw_strip_swap_color(6, 6, (-1.5f));
 }
 
-void fn_80293E58(void *arg0, f32 scale) {
+void fn_80293E58(void *context, f32 scale) {
     // The hexagon grid covers the 640x480 screen plus a 12-unit margin.
     static const NJS_POINT2 grid_start = { -12.0f, -12.0f };
     static const NJS_POINT2 grid_end = { 652.0f, 492.0f };
@@ -59,7 +59,7 @@ void fn_80293E58(void *arg0, f32 scale) {
             p.x += -18.0f;
         }
         for (; p.x < grid_end.x; p.x += 36.0f) {
-            fn_80293D84(arg0, &p, 0, s, scale);
+            fn_80293D84(context, &p, 0, s, scale);
         }
         odd ^= 1;
     }
@@ -92,7 +92,7 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
 }
 
 void TChCrEffFade::render() {
-    f32 temp_f0;
+    f32 alpha_now;
 
     TCameraCtrl::restore_full_screen_view();
     switch (mode) {
@@ -101,31 +101,31 @@ void TChCrEffFade::render() {
         break;
     case 1:
         fn_80293E58(this, alpha);
-        temp_f0 = alpha;
-        draw_fade_strip(temp_f0 * temp_f0);
+        alpha_now = alpha;
+        draw_fade_strip(alpha_now * alpha_now);
         break;
     }
     TCameraCtrl::restore_saved_view();
 }
 
 void TChCrEffFade::update_fade() {
-    s32 temp_r6;
+    s32 current;
 
-    temp_r6 = frame;
-    if (temp_r6 <= 3) {
+    current = frame;
+    if (current <= 3) {
         alpha = 1.0f;
         return;
     }
-    alpha = (f32) (1.0f - ((temp_r6 - 3) / (f32)(length - 3)));
+    alpha = (f32) (1.0f - ((current - 3) / (f32)(length - 3)));
 }
 
 void TChCrEffFade::run_task() {
-    s32 temp_r3;
+    s32 current;
 
     frame = (s32) (frame + step);
     update_fade();
-    temp_r3 = frame;
-    if ((temp_r3 <= 0) || (temp_r3 >= (s32) length)) {
+    current = frame;
+    if ((current <= 0) || (current >= (s32) length)) {
         queue_destruction();
     }
 }
@@ -133,29 +133,29 @@ void TChCrEffFade::run_task() {
 extern saddr tl_fade;
 
 TChCrEffFade::~TChCrEffFade() {}
-TChCrEffFade::TChCrEffFade(s32 arg1, s32 arg2, s32 arg3) : TObject((TObject *)tl_fade) {
-    s32 temp_r0;
-    s32 temp_r0_2;
+TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject((TObject *)tl_fade) {
+    s32 len;
+    s32 direction;
     m_name = TChCrEffFade__class_name;
-    step = arg1;
-    length = (arg2 + 3);
-    temp_r0 = length;
-    if (temp_r0 < 4) {
+    step = new_step;
+    length = (new_length + 3);
+    len = length;
+    if (len < 4) {
         length = 4;
-    } else if (temp_r0 > 0x1C2) {
+    } else if (len > 0x1C2) {
         length = 0x1C2;
     }
-    temp_r0_2 = step;
-    if (temp_r0_2 == 1) {
+    direction = step;
+    if (direction == 1) {
         frame = 0;
-    } else if (temp_r0_2 == -1) {
+    } else if (direction == -1) {
         frame = (s32) length;
     } else {
         step = 1;
         frame = 0;
     }
     this->update_fade();
-    mode = arg3;
+    mode = unused;
 }
 
 void *TObjCMMainMenu::create_fade(void *duration, void *mode) {

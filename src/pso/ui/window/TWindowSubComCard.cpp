@@ -18,6 +18,7 @@
 #include "pso/system/ControllerInput.h"
 
 #include "types.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
@@ -102,21 +103,6 @@ struct Entry_80272B60 { u16 id; u16 val; u8 name[0x1C]; };
 
 struct ChrSel_80272B60 { u8 f0; u8 count; u8 pad[2]; Entry_80272B60 e[1]; };
 
-struct VBase_18_80272714 { char pad[0x18]; };
-
-struct VObj_18_80272714 : VBase_18_80272714 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void *m10();
-};
 extern "C" {
 s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
 s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card);
@@ -128,19 +114,6 @@ struct ComCardList_80272A98 { u8 pad0; u8 count; u8 pad2[2]; ComCardRec_80272A98
 
 
 }
-
-struct VBase_18_204a81 { char pad[0x18]; };
-
-struct VObj_18_204a81 : VBase_18_204a81 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual s32 m7();
-};
 
 struct ComEntry_8027375C { u8 data[0xD4]; };
 
@@ -185,13 +158,13 @@ void TWindowSubComCard::set_com_param(saddr client_id, s32 com_param) {
 
 TWindowSubComCard::TWindowSubComCard(TObject *parent, s32 client) : TObject(parent) {
     m_name = class_name;
-    *(void **)((s8 *)this + 0x5C) = parent;
+    this->parent_menu = (TWindowMainMenu *)parent;
     client_id = client;
     this->menu_window = 0;
-    this->submenu = 0;
+    this->com_card_menu = 0;
     this->com_card_window = 0;
-    this->m_78 = 0;
-    this->card_menu = 0;
+    this->user_sort_window = 0;
+    this->sub_menu = 0;
     this->message_window = 0;
     this->confirm_window = 0;
     this->keyboard = 0;
@@ -226,17 +199,17 @@ TWindowSubComCard::~TWindowSubComCard() {
         ((TObject *)keyboard)->queue_destruction();
         keyboard = 0U;
     }
-    if (card_menu != 0U) {
-        card_menu->close();
-        card_menu = 0U;
+    if (sub_menu != 0U) {
+        sub_menu->close();
+        sub_menu = 0U;
     }
-    if (submenu != 0U) {
-        submenu->close();
-        submenu = 0U;
+    if (com_card_menu != 0U) {
+        com_card_menu->close();
+        com_card_menu = 0U;
     }
-    if (m_78 != 0U) {
-        ((TWindowBase *)m_78)->close();
-        m_78 = 0U;
+    if (user_sort_window != 0U) {
+        ((TWindowBase *)user_sort_window)->close();
+        user_sort_window = 0U;
     }
     if (com_card_window != 0U) {
         ((TWindowBase *)com_card_window)->close();
@@ -266,7 +239,7 @@ void TWindowSubComCard::run_task() {
     case 0x1:
         this->send_state_if_dirty();
         if ((u32) this->keyboard != 0U) {
-            ((TObject *)(*(void **)((s8 *)this + 0x80)))->queue_destruction();
+            ((TObject *)this->keyboard)->queue_destruction();
             this->keyboard = 0U;
         }
         if ((u32) this->entry_list_window != 0U) {
@@ -274,24 +247,24 @@ void TWindowSubComCard::run_task() {
             this->entry_list_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            this->confirm_window->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->card_list != 0U) {
-            ((TWindowBase *)this->card_list)->close();
+            this->card_list->close();
             this->card_list = 0U;
         }
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
-        if ((u32) this->m_78 != 0U) {
-            ((TWindowBase *)this->m_78)->close();
-            this->m_78 = 0U;
+        if ((u32) this->user_sort_window != 0U) {
+            ((TWindowBase *)this->user_sort_window)->close();
+            this->user_sort_window = 0U;
         }
         if ((u32) this->com_card_window != 0U) {
             ((TWindowBase *)this->com_card_window)->close();
@@ -313,7 +286,7 @@ void TWindowSubComCard::run_task() {
     case 0x2:
         this->set_help_message((int) (((TWindowShortListCtrl *)(this->menu_window))->get_cursor_pos()));
         if (this->menu_window->is_cancelled() != 0) {
-            ((VObj_18_204a81 *)((u8 *)(*(u8 **)((s8 *)this + 0x5C))))->m7();
+            this->parent_menu->on_submenu_closed();
             this->state = 0x4FU;
             return;
         }
@@ -327,53 +300,53 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x3:
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
         if ((u32) this->com_card_window == 0U) {
             this->com_card_window = (uaddr)TWindowSubComCard::create_com_card_window(get_window_layout_position(0x81));
         }
-        if (this->submenu == 0U) {
-            this->submenu = this->sub_8027353C();
+        if (this->com_card_menu == 0U) {
+            this->com_card_menu = this->sub_8027353C();
         }
-        this->submenu->clear_flag_and_release();
-        this->submenu->clear_transition_flag();
+        this->com_card_menu->clear_flag_and_release();
+        this->com_card_menu->clear_transition_flag();
         this->state = 4U;
     case 0x4:
-        if (this->submenu->is_cancelled() != 0) {
+        if (this->com_card_menu->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (this->submenu->is_decided() != 0) {
-            this->state = this->submenu->get_selected_value();
+        if (this->com_card_menu->is_decided() != 0) {
+            this->state = this->com_card_menu->get_selected_value();
             return;
         }
         break;
     case 0x5:
-        if (this->card_menu == 0U) {
-            this->card_menu = TWindowSubComCard::sub_8027337C();
+        if (this->sub_menu == 0U) {
+            this->sub_menu = TWindowSubComCard::sub_8027337C();
         }
-        this->submenu->open();
+        this->com_card_menu->open();
         this->state = 6U;
     case 0x6:
-        if (this->card_menu->is_cancelled() != 0) {
+        if (this->sub_menu->is_cancelled() != 0) {
             this->state = 3U;
             return;
         }
-        if (this->card_menu->is_decided() != 0) {
-            TWindowSubComCard__sub_8007AF10(this->card_menu->get_selected_value());
+        if (this->sub_menu->is_decided() != 0) {
+            TWindowSubComCard__sub_8007AF10(this->sub_menu->get_selected_value());
             this->state = 7U;
             return;
         }
         break;
     case 0x7:
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
-        if (this->card_menu == 0U) {
-            this->card_menu = this->create_single_entry_window();
+        if (this->sub_menu == 0U) {
+            this->sub_menu = this->create_single_entry_window();
         }
         this->state = 8U;
     case 0x8:
@@ -383,9 +356,9 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x9:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if ((u32) this->com_card_window != 0U) {
             ((TWindowBase *)this->com_card_window)->close();
@@ -395,15 +368,15 @@ void TWindowSubComCard::run_task() {
             this->menu_window->close();
             this->menu_window = 0U;
         }
-        this->keyboard = ((u32 (*)(void*))create_keyboard__17TWindowSubComCardFi)(this);
+        this->keyboard = (TKeyBoardControl *)((u32 (*)(void*))create_keyboard__17TWindowSubComCardFi)(this);
         this->state = 0xAU;
     case 0xA:
-        if (((TKeyBoardControl *)(this->keyboard))->is_cancelled() != 0) {
+        if (this->keyboard->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (((TKeyBoardControl *)(this->keyboard))->is_confirmed() != 0) {
-            src = (saddr)((TKeyBoardControl *)(this->keyboard))->realloc_buffer();
+        if (this->keyboard->is_confirmed() != 0) {
+            src = (saddr)this->keyboard->realloc_buffer();
             TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
             keyboard_mode = TWindowSubComCard::get_keyboard_mode();
             ((TWindowSubComCard *)keyboard_mode)->set_text((void *)(get_shared_text_buffer()));
@@ -413,9 +386,9 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0xB:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if (this->message_window == 0U) {
             this->message_window = this->create();
@@ -423,19 +396,19 @@ void TWindowSubComCard::run_task() {
             this->m_28 = -1;
         }
         if ((u32) this->card_list == 0U) {
-            this->card_list = (uaddr)TWindowSubComCard::send_cmd_133();
+            this->card_list = (TWindowSubComCardList *)TWindowSubComCard::send_cmd_133();
         }
         if ((u32) this->com_card_window == 0U) {
-            this->selected_card = ((TWindowMenu *)this->card_list)->get_selected_value();
+            this->selected_card = this->card_list->get_selected_value();
             this->com_card_window = (uaddr)send_command(this->selected_card);
         }
         this->message_window->snap_to((f32 *)get_window_layout_position(0x99));
         ((TWindowLockOn *)(this->message_window))->request_close();
-        ((TWindowMenu *)(this->card_list))->clear_flag_and_release();
+        this->card_list->clear_flag_and_release();
         this->state = 0xCU;
     case 0xC:
-        TWindowSubComCard::update_display_value(this->card_list, this->com_card_window, (s32 *)&this->selected_card);
-        this->set_card_index((int) (((TWindowMenu *)this->card_list)->get_selected_value()));
+        TWindowSubComCard::update_display_value((uaddr)this->card_list, this->com_card_window, (s32 *)&this->selected_card);
+        this->set_card_index((int) (this->card_list->get_selected_value()));
         if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 0x400) != 0) {
             if (this->message_window->is_open_and_unblocked() != 0) {
                 ((TWindowLockOn *)(this->message_window))->request_close();
@@ -443,11 +416,11 @@ void TWindowSubComCard::run_task() {
                 window_request_show(this->message_window);
             }
         }
-        if (((TWindowMenu *)(this->card_list))->is_cancelled() != 0) {
+        if (this->card_list->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (((TWindowMenu *)(this->card_list))->is_decided() != 0) {
+        if (this->card_list->is_decided() != 0) {
             this->state = 0xDU;
             return;
         }
@@ -458,30 +431,30 @@ void TWindowSubComCard::run_task() {
             this->message_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            this->confirm_window->close();
             this->confirm_window = 0U;
         }
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
         if ((u32) this->com_card_window != 0U) {
             ((TWindowBase *)this->com_card_window)->close();
             this->com_card_window = 0U;
         }
-        if (this->submenu == 0U) {
-            this->submenu = this->open_menu();
+        if (this->com_card_menu == 0U) {
+            this->com_card_menu = this->open_menu();
         }
-        this->submenu->clear_transition_flag();
-        this->submenu->clear_flag_and_release();
+        this->com_card_menu->clear_transition_flag();
+        this->com_card_menu->clear_flag_and_release();
         this->state = 0xEU;
     case 0xE:
-        if (this->submenu->is_cancelled() != 0) {
+        if (this->com_card_menu->is_cancelled() != 0) {
             this->state = 0xBU;
             return;
         }
-        if (this->submenu->is_decided() != 0) {
-            this->state = this->submenu->get_selected_value();
+        if (this->com_card_menu->is_decided() != 0) {
+            this->state = this->com_card_menu->get_selected_value();
             return;
         }
         break;
@@ -492,15 +465,15 @@ void TWindowSubComCard::run_task() {
         this->state = 0xBU;
         return;
     case 0x11:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if (this->message_window == 0U) {
             this->message_window = this->create();
             this->m_28 = -1;
         }
-        this->set_card_index((int) (((TWindowMenu *)this->card_list)->get_selected_value()));
+        this->set_card_index((int) (this->card_list->get_selected_value()));
         this->state = 0x12U;
     case 0x12:
         if ((test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 6) != 0)) {
@@ -509,28 +482,28 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x13:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if ((u32) this->card_list != 0U) {
-            this->selected_card = ((TWindowMenu *)this->card_list)->get_selected_value();
-            ((TWindowBase *)this->card_list)->close();
+            this->selected_card = this->card_list->get_selected_value();
+            this->card_list->close();
             this->card_list = 0U;
         }
         if (this->menu_window != 0U) {
             this->menu_window->close();
             this->menu_window = 0U;
         }
-        this->keyboard = ((u32 (*)(void*, int))create_keyboard__17TWindowSubComCardFii)(this, this->selected_card);
+        this->keyboard = (TKeyBoardControl *)((u32 (*)(void*, int))create_keyboard__17TWindowSubComCardFii)(this, this->selected_card);
         this->state = 0x14U;
     case 0x14:
-        if (((TKeyBoardControl *)(this->keyboard))->is_cancelled() != 0) {
+        if (this->keyboard->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (((TKeyBoardControl *)(this->keyboard))->is_confirmed() != 0) {
-            src = (saddr)((TKeyBoardControl *)(this->keyboard))->realloc_buffer();
+        if (this->keyboard->is_confirmed() != 0) {
+            src = (saddr)this->keyboard->realloc_buffer();
             TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
             ((TWindowSubComCard *)(this->selected_card))->set_card_text((saddr) (get_shared_text_buffer()));
             mem_free((void *)src);
@@ -539,17 +512,17 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x15:
-        this->submenu->open();
-        this->confirm_window = this->confirm_and_free();
+        this->com_card_menu->open();
+        this->confirm_window = (TWindowMessageYesNo *)this->confirm_and_free();
         this->state = 0x16U;
     case 0x16:
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
+        if (this->confirm_window->is_cancelled() != 0) {
             this->state = 0xDU;
             return;
         }
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
-                TWindowSubComCard::remove_card_at(((TWindowMenu *)this->card_list)->get_selected_value());
+        if (this->confirm_window->is_child_visible() != 0) {
+            if (this->confirm_window->get_selected_value() == 0) {
+                TWindowSubComCard::remove_card_at(this->card_list->get_selected_value());
                 this->state = 1U;
                 return;
             }
@@ -558,149 +531,149 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x19:
-        ((TWindowMenu *)(this->card_list))->clear_flag_and_release();
+        this->card_list->clear_flag_and_release();
         this->state = 0x1AU;
     case 0x1A:
-        TWindowSubComCard::update_display_value(this->card_list, this->com_card_window, (s32 *)&this->selected_card);
-        if (((TWindowMenu *)(this->card_list))->is_cancelled() != 0) {
+        TWindowSubComCard::update_display_value((uaddr)this->card_list, this->com_card_window, (s32 *)&this->selected_card);
+        if (this->card_list->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (((TWindowMenu *)(this->card_list))->is_decided() != 0) {
+        if (this->card_list->is_decided() != 0) {
             this->state = 0x1BU;
             return;
         }
         break;
     case 0x1B:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if ((u32) this->card_list == 0U) {
-            this->card_list = (uaddr)TWindowSubComCard::send_cmd_133();
+            this->card_list = (TWindowSubComCardList *)TWindowSubComCard::send_cmd_133();
         }
         if ((u32) this->com_card_window == 0U) {
-            this->selected_card = ((TWindowMenu *)this->card_list)->get_selected_value();
+            this->selected_card = this->card_list->get_selected_value();
             this->com_card_window = (uaddr)send_command(this->selected_card);
         }
         ((TWindowSubComCard *)(this->card_list))->set_display_page();
-        ((TWindowMenu *)(this->card_list))->clear_flag_and_release();
+        this->card_list->clear_flag_and_release();
         this->state = 0x1CU;
     case 0x1C:
-        TWindowSubComCard::update_display_value(this->card_list, this->com_card_window, (s32 *)&this->selected_card);
-        if (((TWindowMenu *)(this->card_list))->is_cancelled() != 0) {
-            ((TWindowMenu *)(this->card_list))->reset_selection();
+        TWindowSubComCard::update_display_value((uaddr)this->card_list, this->com_card_window, (s32 *)&this->selected_card);
+        if (this->card_list->is_cancelled() != 0) {
+            this->card_list->reset_selection();
             this->state = 1U;
             return;
         }
-        if (((TWindowMenu *)(this->card_list))->is_decided() != 0) {
-            TWindowSubComCard::swap_cards((int) (((TWindowSubComCardList *)(this->card_list))->get_selected_index()), (int) (((TWindowMenu *)this->card_list)->get_selected_value()));
-            ((TWindowMenu *)(this->card_list))->reset_selection();
-            ((TWindowSubComCardList *)(this->card_list))->sub_80275360();
+        if (this->card_list->is_decided() != 0) {
+            TWindowSubComCard::swap_cards((int) (this->card_list->get_selected_index()), (int) (this->card_list->get_selected_value()));
+            this->card_list->reset_selection();
+            this->card_list->sub_80275360();
             this->state = 0x19U;
             return;
         }
         break;
     case 0x1D:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
-        if ((u32) this->m_78 != 0U) {
-            ((TWindowBase *)this->m_78)->close();
-            this->m_78 = 0U;
+        if ((u32) this->user_sort_window != 0U) {
+            ((TWindowBase *)this->user_sort_window)->close();
+            this->user_sort_window = 0U;
         }
-        this->card_menu = this->sub_80273004();
-        this->card_menu->add_text_entry((saddr)(""), 0x15, -1);
-        rebuild_com_card_list(this->card_menu);
+        this->sub_menu = this->sub_80273004();
+        this->sub_menu->add_text_entry((saddr)(""), 0x15, -1);
+        rebuild_com_card_list(this->sub_menu);
         this->state = 0x1EU;
     case 0x1E:
         if (is_com_card_active() != 0) {
-            rebuild_com_card_list(this->card_menu);
+            rebuild_com_card_list(this->sub_menu);
         }
-        if (this->card_menu->is_cancelled() != 0) {
+        if (this->sub_menu->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (this->card_menu->is_decided() != 0) {
-            find_and_load_com_card(this->card_menu->get_selected_value());
+        if (this->sub_menu->is_decided() != 0) {
+            find_and_load_com_card(this->sub_menu->get_selected_value());
             this->state = 0x1FU;
             return;
         }
         break;
     case 0x1F:
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
-        if ((u32) this->m_78 == 0U) {
+        if ((u32) this->user_sort_window == 0U) {
             record = ((s32 (*)(void))get_selected_guild_card_record)();
-            this->m_78 = (uaddr)new TWindowUserSort((saddr)get_window_layout_position(0x8A), reinterpret_cast<GuildCardRecord *>(record));
+            this->user_sort_window = (uaddr)new TWindowUserSort((saddr)get_window_layout_position(0x8A), reinterpret_cast<GuildCardRecord *>(record));
         }
-        if (this->submenu == 0U) {
-            this->submenu = this->sub_8027346C();
+        if (this->com_card_menu == 0U) {
+            this->com_card_menu = this->sub_8027346C();
         }
         this->state = 0x20U;
     case 0x20:
-        if (this->submenu->is_cancelled() != 0) {
+        if (this->com_card_menu->is_cancelled() != 0) {
             this->state = 0x1DU;
             return;
         }
-        if (this->submenu->is_decided() != 0) {
-            this->state = this->submenu->get_selected_value();
+        if (this->com_card_menu->is_decided() != 0) {
+            this->state = this->com_card_menu->get_selected_value();
             return;
         }
         break;
     case 0x21:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            this->confirm_window->close();
             this->confirm_window = 0U;
         }
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
-        if ((u32) this->m_78 != 0U) {
-            ((TWindowBase *)this->m_78)->close();
-            this->m_78 = 0U;
+        if ((u32) this->user_sort_window != 0U) {
+            ((TWindowBase *)this->user_sort_window)->close();
+            this->user_sort_window = 0U;
         }
         if (this->menu_window != 0U) {
             this->menu_window->close();
             this->menu_window = 0U;
         }
         if ((u32) this->keyboard == 0U) {
-            this->keyboard = reinterpret_cast<uaddr>(TWindowSubShortMail::create_keyboard());
+            this->keyboard = (TKeyBoardControl *)reinterpret_cast<uaddr>(TWindowSubShortMail::create_keyboard());
         }
-        ((TKeyBoardControl *)(this->keyboard))->set_position((void *)(get_window_layout_position(0xBB)));
+        this->keyboard->set_position((void *)(get_window_layout_position(0xBB)));
         reinterpret_cast<TKeyBoardControl *>(keyboard)->clear_keyboard_flag60_bit1();
-        ((TKeyBoardControl *)(this->keyboard))->show();
+        this->keyboard->show();
         this->state = 0x22U;
     case 0x22:
-        if (((TKeyBoardControl *)(this->keyboard))->is_cancelled() != 0) {
+        if (this->keyboard->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (((TKeyBoardControl *)(this->keyboard))->is_confirmed() != 0) {
+        if (this->keyboard->is_confirmed() != 0) {
             this->state = 0x23U;
             return;
         }
         break;
     case 0x23:
-        ((TKeyBoardControl *)(this->keyboard))->set_position((void *)(get_window_layout_position(0xBC)));
-        ((TKeyBoardControl *)this->keyboard)->hide();
-        this->confirm_window = TWindowSubShortMail::open_confirm_prompt(this, client_id);
+        this->keyboard->set_position((void *)(get_window_layout_position(0xBC)));
+        this->keyboard->hide();
+        this->confirm_window = (TWindowMessageYesNo *)TWindowSubShortMail::open_confirm_prompt(this, client_id);
         this->state = 0x24U;
     case 0x24:
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
+        if (this->confirm_window->is_cancelled() != 0) {
             this->state = 0x21U;
             return;
         }
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
+        if (this->confirm_window->is_child_visible() != 0) {
+            if (this->confirm_window->get_selected_value() == 0) {
                 this->sub_802721D8();
                 this->state = 1U;
                 return;
@@ -720,7 +693,7 @@ void TWindowSubComCard::run_task() {
         this->m_2c = (idle_ticks + 1);
         if ((f32) idle_ticks > 450.0f) {
             TWindowCtrl::unlock_client_main_menu((this->client_id));
-            ((VObj_18_204a81 *)((u8 *)(*(u8 **)((s8 *)this + 0x5C))))->m7();
+            this->parent_menu->on_submenu_closed();
             this->state = 0x4FU;
             return;
         }
@@ -757,9 +730,9 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x29:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if ((u32) this->entry_list_window == 0U) {
             this->entry_list_window = this->sub_80272DE0();
@@ -783,15 +756,15 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x2B:
         ((TWindowChoiceSetting *)this->entry_list_window)->sub_80249144();
-        this->submenu = this->create_option_list_window(choice_selections, (s32)((int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry())));
+        this->com_card_menu = this->create_option_list_window(choice_selections, (s32)((int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry())));
         this->state = 0x2CU;
     case 0x2C:
-        if (this->submenu->is_cancelled() != 0) {
+        if (this->com_card_menu->is_cancelled() != 0) {
             this->state = 0x29U;
             return;
         }
-        if (this->submenu->is_decided() != 0) {
-            this->set_choice_search_option(choice_selections, (int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry()), (int) (this->submenu->get_selected_value()));
+        if (this->com_card_menu->is_decided() != 0) {
+            this->set_choice_search_option(choice_selections, (int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
             this->state = 0x29U;
             return;
         }
@@ -811,30 +784,30 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x2F:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if ((u32) this->entry_list_window != 0U) {
             ((TWindowBase *)this->entry_list_window)->close();
             this->entry_list_window = 0U;
         }
-        if (this->card_menu == 0U) {
-            this->card_menu = this->sub_80272A98();
+        if (this->sub_menu == 0U) {
+            this->sub_menu = this->sub_80272A98();
         }
         if (this->message_window == 0U) {
             this->message_window = this->open_mode4_window();
             this->m_28 = -1;
         }
-        this->card_menu->clear_flag_and_release();
+        this->sub_menu->clear_flag_and_release();
         this->state = 0x30U;
     case 0x30:
-        this->set_selected_card((int) (this->card_menu->get_selected_value()));
-        if (this->card_menu->is_cancelled() != 0) {
+        this->set_selected_card((int) (this->sub_menu->get_selected_value()));
+        if (this->sub_menu->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (this->card_menu->is_decided() != 0) {
+        if (this->sub_menu->is_decided() != 0) {
             this->state = 0x31U;
             return;
         }
@@ -844,27 +817,27 @@ void TWindowSubComCard::run_task() {
             this->message_window->close();
             this->message_window = 0U;
         }
-        if (this->submenu == 0U) {
-            selected_value = this->card_menu->get_selected_value();
+        if (this->com_card_menu == 0U) {
+            selected_value = this->sub_menu->get_selected_value();
             ComList_8027375C *cl = (ComList_8027375C *) TWindowSubComCard::get_com_count();
             ((s32 (*)(void*))load_selected_guild_card_record)(&cl->entries[selected_value]);
-            this->submenu = this->create_menu_window();
+            this->com_card_menu = this->create_menu_window();
         }
         this->state = 0x32U;
     case 0x32:
-        if (this->submenu->is_cancelled() != 0) {
+        if (this->com_card_menu->is_cancelled() != 0) {
             this->state = 0x2FU;
             return;
         }
-        if (this->submenu->is_decided() != 0) {
-            this->state = this->submenu->get_selected_value();
+        if (this->com_card_menu->is_decided() != 0) {
+            this->state = this->com_card_menu->get_selected_value();
             return;
         }
         break;
     case 0x35:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if ((u32) this->entry_list_window == 0U) {
             this->entry_list_window = this->create_entry_list_window();
@@ -885,77 +858,77 @@ void TWindowSubComCard::run_task() {
     case 0x37:
         ((TWindowChoiceSetting *)this->entry_list_window)->sub_80249144();
         option_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-        this->submenu = this->create_option_list_window(option_record->choice_search, (s32)((int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry())));
+        this->com_card_menu = this->create_option_list_window(option_record->choice_search, (s32)((int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry())));
         this->state = 0x38U;
     case 0x38:
-        if (this->submenu->is_cancelled() != 0) {
+        if (this->com_card_menu->is_cancelled() != 0) {
             this->state = 0x35U;
             return;
         }
-        if (this->submenu->is_decided() != 0) {
+        if (this->com_card_menu->is_decided() != 0) {
             chosen_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-            this->set_choice_search_option(chosen_record->choice_search, (int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry()), (int) (this->submenu->get_selected_value()));
+            this->set_choice_search_option(chosen_record->choice_search, (int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry()), (int) (this->com_card_menu->get_selected_value()));
             this->state = 0x35U;
             return;
         }
         break;
     case 0x39:
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
         if ((u32) this->com_card_window != 0U) {
             ((TWindowBase *)this->com_card_window)->close();
             this->com_card_window = 0U;
         }
         if ((u32) this->card_list != 0U) {
-            ((TWindowBase *)this->card_list)->close();
+            this->card_list->close();
             this->card_list = 0U;
         }
-        if (this->submenu == 0U) {
-            this->submenu = this->sub_802728CC();
+        if (this->com_card_menu == 0U) {
+            this->com_card_menu = this->sub_802728CC();
         }
-        this->submenu->clear_flag_and_release();
+        this->com_card_menu->clear_flag_and_release();
         this->state = 0x3AU;
     case 0x3A:
-        if (this->submenu->is_cancelled() != 0) {
+        if (this->com_card_menu->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (this->submenu->is_decided() != 0) {
-            this->state = this->submenu->get_selected_value();
+        if (this->com_card_menu->is_decided() != 0) {
+            this->state = this->com_card_menu->get_selected_value();
             return;
         }
         break;
     case 0x3B:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            this->confirm_window->close();
             this->confirm_window = 0U;
         }
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if (this->message_window != 0U) {
             this->message_window->close();
             this->message_window = 0U;
         }
         if ((u32) this->card_list == 0U) {
-            this->card_list = ((u32 (*)(void))TWindowSubComCard::init_layout)();
+            this->card_list = (TWindowSubComCardList *)((u32 (*)(void))TWindowSubComCard::init_layout)();
         }
         if ((u32) this->com_card_window == 0U) {
-            this->selected_card = ((TWindowMenu *)this->card_list)->get_selected_value();
+            this->selected_card = this->card_list->get_selected_value();
             this->com_card_window = (uaddr)apply_selection(this->selected_card);
         }
-        ((TWindowMenu *)(this->card_list))->clear_flag_and_release();
+        this->card_list->clear_flag_and_release();
         this->state = 0x3CU;
     case 0x3C:
-        ((s32 (*)(int, int, void*))update_selection__17TWindowSubComCardFiii)(this->card_list, this->com_card_window, (void *) ((u8 *)this + 0x24));
-        if (((TWindowMenu *)(this->card_list))->is_cancelled() != 0) {
+        ((s32 (*)(int, int, void*))update_selection__17TWindowSubComCardFiii)((uaddr)this->card_list, this->com_card_window, (void *) ((u8 *)this + 0x24));
+        if (this->card_list->is_cancelled() != 0) {
             this->state = 0x39U;
             return;
         }
-        if (((TWindowMenu *)(this->card_list))->is_decided() != 0) {
+        if (this->card_list->is_decided() != 0) {
             this->state = 0x3DU;
             return;
         }
@@ -966,17 +939,17 @@ void TWindowSubComCard::run_task() {
             this->com_card_window = 0U;
         }
         if ((u32) this->confirm_window == 0U) {
-            this->confirm_window = this->sub_802730E0();
+            this->confirm_window = (TWindowMessageYesNo *)this->sub_802730E0();
         }
         this->state = 0x3EU;
     case 0x3E:
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
+        if (this->confirm_window->is_cancelled() != 0) {
             this->state = 0x3BU;
             return;
         }
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
-                TWindowSubComCard::remove_entry(((TWindowMenu *)this->card_list)->get_selected_value());
+        if (this->confirm_window->is_child_visible() != 0) {
+            if (this->confirm_window->get_selected_value() == 0) {
+                TWindowSubComCard::remove_entry(this->card_list->get_selected_value());
                 this->m_1d = (u8) (this->m_1d | 2);
                 this->state = 1U;
                 return;
@@ -986,47 +959,47 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x3F:
-        this->card_menu = TWindowSubComCard::create_card_action_window();
+        this->sub_menu = TWindowSubComCard::create_card_action_window();
         this->state = 0x40U;
     case 0x40:
-        if (this->card_menu->is_cancelled() != 0) {
+        if (this->sub_menu->is_cancelled() != 0) {
             this->state = 0x39U;
             return;
         }
-        if (this->card_menu->is_decided() != 0) {
-            this->state = this->card_menu->get_selected_value();
+        if (this->sub_menu->is_decided() != 0) {
+            this->state = this->sub_menu->get_selected_value();
             return;
         }
         break;
     case 0x41:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            this->confirm_window->close();
             this->confirm_window = 0U;
         }
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
         if ((u32) this->card_list == 0U) {
-            this->card_list = (uaddr)TWindowSubComCard::send_cmd_133();
+            this->card_list = (TWindowSubComCardList *)TWindowSubComCard::send_cmd_133();
         }
         if ((u32) this->com_card_window == 0U) {
-            this->selected_card = ((TWindowMenu *)this->card_list)->get_selected_value();
+            this->selected_card = this->card_list->get_selected_value();
             this->com_card_window = (uaddr)send_command(this->selected_card);
         }
-        ((TWindowMenu *)(this->card_list))->clear_flag_and_release();
+        this->card_list->clear_flag_and_release();
         this->state = 0x42U;
     case 0x42:
-        TWindowSubComCard::update_display_value(this->card_list, this->com_card_window, (s32 *)&this->selected_card);
-        if (((TWindowMenu *)(this->card_list))->is_cancelled() != 0) {
+        TWindowSubComCard::update_display_value((uaddr)this->card_list, this->com_card_window, (s32 *)&this->selected_card);
+        if (this->card_list->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (((TWindowMenu *)(this->card_list))->is_decided() != 0) {
+        if (this->card_list->is_decided() != 0) {
             this->state = 0x43U;
             return;
         }
@@ -1037,17 +1010,17 @@ void TWindowSubComCard::run_task() {
             this->com_card_window = 0U;
         }
         if ((u32) this->confirm_window == 0U) {
-            this->confirm_window = this->open_yesno_dialog();
+            this->confirm_window = (TWindowMessageYesNo *)this->open_yesno_dialog();
         }
         this->state = 0x44U;
     case 0x44:
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
+        if (this->confirm_window->is_cancelled() != 0) {
             this->state = 0x41U;
             return;
         }
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
-                ((TWindowSubComCard *)(saddr)(((TWindowMenu *)this->card_list)->get_selected_value()))->update_press();
+        if (this->confirm_window->is_child_visible() != 0) {
+            if (this->confirm_window->get_selected_value() == 0) {
+                ((TWindowSubComCard *)(saddr)(this->card_list->get_selected_value()))->update_press();
                 this->m_1d = (u8) (this->m_1d | 2);
                 this->state = 1U;
                 return;
@@ -1057,47 +1030,47 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x45:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
     case 0x46:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            this->confirm_window->close();
             this->confirm_window = 0U;
         }
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
-        if (this->submenu == 0U) {
-            this->submenu = this->create_player_select_window();
+        if (this->com_card_menu == 0U) {
+            this->com_card_menu = this->create_player_select_window();
         }
-        this->submenu->clear_flag_and_release();
+        this->com_card_menu->clear_flag_and_release();
         this->state = 0x47U;
     case 0x47:
-        if (this->submenu->is_cancelled() != 0) {
+        if (this->com_card_menu->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (this->submenu->is_decided() != 0) {
+        if (this->com_card_menu->is_decided() != 0) {
             this->state = 0x48U;
             return;
         }
         break;
     case 0x48:
         if ((u32) this->confirm_window == 0U) {
-            this->confirm_window = this->open_yesno_dialog();
+            this->confirm_window = (TWindowMessageYesNo *)this->open_yesno_dialog();
         }
         this->state = 0x49U;
     case 0x49:
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
+        if (this->confirm_window->is_cancelled() != 0) {
             this->state = 0x46U;
             return;
         }
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
-                TWindowSubComCard::init_and_press_b(this->submenu->get_selected_value());
+        if (this->confirm_window->is_child_visible() != 0) {
+            if (this->confirm_window->get_selected_value() == 0) {
+                TWindowSubComCard::init_and_press_b(this->com_card_menu->get_selected_value());
                 this->m_1d = (u8) (this->m_1d | 2);
                 this->state = 1U;
                 return;
@@ -1107,47 +1080,47 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x4A:
-        if (this->submenu != 0U) {
-            this->submenu->close();
-            this->submenu = 0U;
+        if (this->com_card_menu != 0U) {
+            this->com_card_menu->close();
+            this->com_card_menu = 0U;
         }
     case 0x4B:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            this->confirm_window->close();
             this->confirm_window = 0U;
         }
-        if (this->card_menu != 0U) {
-            this->card_menu->close();
-            this->card_menu = 0U;
+        if (this->sub_menu != 0U) {
+            this->sub_menu->close();
+            this->sub_menu = 0U;
         }
-        if (this->submenu == 0U) {
-            this->submenu = this->sub_80272640();
+        if (this->com_card_menu == 0U) {
+            this->com_card_menu = this->sub_80272640();
         }
-        this->submenu->clear_flag_and_release();
+        this->com_card_menu->clear_flag_and_release();
         this->state = 0x4CU;
     case 0x4C:
-        if (this->submenu->is_cancelled() != 0) {
+        if (this->com_card_menu->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (this->submenu->is_decided() != 0) {
+        if (this->com_card_menu->is_decided() != 0) {
             this->state = 0x4DU;
             return;
         }
         break;
     case 0x4D:
         if ((u32) this->confirm_window == 0U) {
-            this->confirm_window = this->open_yesno_dialog();
+            this->confirm_window = (TWindowMessageYesNo *)this->open_yesno_dialog();
         }
         this->state = 0x4EU;
     case 0x4E:
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
+        if (this->confirm_window->is_cancelled() != 0) {
             this->state = 0x4BU;
             return;
         }
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
-                TWindowSubComCard::init_and_press_a(this->submenu->get_selected_value());
+        if (this->confirm_window->is_child_visible() != 0) {
+            if (this->confirm_window->get_selected_value() == 0) {
+                TWindowSubComCard::init_and_press_a(this->com_card_menu->get_selected_value());
                 this->m_1d = (u8) (this->m_1d | 2);
                 this->state = 1U;
                 return;
@@ -1334,7 +1307,7 @@ void TWindowSubComCard::rebuild_com_card_list(TWindowMenu *list_window) {
 #pragma pop
 
 TWindowMessage *TWindowSubComCard::open_layout_window() {
-    return TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x80)), (const f32 *)com_card_layout_message_size, 1);
+    return TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x80)), com_card_layout_message_size, 1);
 }
 #pragma push
 #pragma opt_loop_invariants off
@@ -1460,7 +1433,7 @@ TWindowMenu *TWindowSubComCard::sub_80272A98() {
     return w;
 }
 TWindowMessage *TWindowSubComCard::open_mode4_window() {
-    return TWindowMessage::create(get_window_layout_position(0x8f), (const f32 *)com_card_mode4_message_size, 1);
+    return TWindowMessage::create(get_window_layout_position(0x8f), com_card_mode4_message_size, 1);
 }
 
 TWindowMenu *TWindowSubComCard::create_menu_window() {
@@ -1511,14 +1484,14 @@ TWindowMenu *TWindowSubComCard::create_card_action_window() {
 #pragma opt_loop_invariants off
 TWindowMenu *TWindowSubComCard::create_player_select_window() {
     s32 i;
-    VObj_18_80272714 *p;
+    TObjPlayer *p;
     TWindowMenu *w;
     w = create_titled_window_menu_default(get_window_layout_position(0x94), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x2D));
     i = 0;
     do {
-        if (i != local_client_id && (p = (VObj_18_80272714 *)get_player_by_client_id(i)) != NULL &&
-            ((TObjPlayer *)p)->is_script_controlled() == 0 && ((TObjChara *)p)->obj_isState3_324() == 0) {
-            w->add_text_entry((saddr)p->m10(), 7, i);
+        if (i != local_client_id && (p = get_player_by_client_id(i)) != NULL &&
+            p->is_script_controlled() == 0 && ((TObjChara *)p)->obj_isState3_324() == 0) {
+            w->add_text_entry((saddr)p->get_name(), 7, i);
         }
         i++;
     } while (i < 0xC);
@@ -1553,7 +1526,7 @@ TWindowMenu *TWindowSubComCard::sub_80272640() {
 TWindowMessage *TWindowSubComCard::create() {
     TWindowMessage *window;
 
-    window = TWindowMessage::create(get_window_layout_position(0x98), (const f32 *)com_card_message_size, 1);
+    window = TWindowMessage::create(get_window_layout_position(0x98), com_card_message_size, 1);
     window->set_depth(50090.0f);
     return window;
 }
@@ -1654,11 +1627,11 @@ void TWindowSubComCard::sub_802721D8() {
   saddr src;
   u8 *lobby;
   u8 *message;
-  src = (saddr)((TKeyBoardControl *)(*((u8 **) (((s8 *) (this)) + 0x80))))->realloc_buffer();
+  src = (saddr)this->keyboard->realloc_buffer();
   lobby = (u8 *) ((u8* (*)(void))get_selected_guild_card_record)();
   TWindowSubComCard::mask_profanity_words((char *)src, (char *)get_shared_text_buffer());
   new_var = (u8 *)get_shared_text_buffer();
-  message = (u8 *) new_var;
+  message = new_var;
   TLobby::send_simple_mail(reinterpret_cast<GuildCardRecord *>(lobby)->get_id(), message);
   mem_free((void *)src);
 }

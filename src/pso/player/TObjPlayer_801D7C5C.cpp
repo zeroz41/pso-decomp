@@ -18,11 +18,11 @@ void TObjPlayer::update_party_cursors(saddr cursors, saddr player) {
         s32 base = (saddr)TObjPlayer__sub_801D84B0((s32 *)cursors);
         entry = base + offset;
         if (((TObjPlayer *)player)->is_palette_slot_enabled(i) == 0) {
-            TObjPlayer__sub_8013DEF8((u8 *)entry);
+            set_action_channel_inactive((u8 *)entry);
         } else if (can_use_palette_action_for_entry__10TObjPlayerFP10TObjPlayer(entry, player) != 0) {
-            TMainCursor__sub_8013DFC4((u8 *)entry);
+            set_action_channel_active((u8 *)entry);
         } else {
-            TObjPlayer__sub_8013DEF8((u8 *)entry);
+            set_action_channel_inactive((u8 *)entry);
         }
         i += 1;
         offset += 4;

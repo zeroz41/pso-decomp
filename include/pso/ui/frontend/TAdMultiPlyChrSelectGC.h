@@ -34,7 +34,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     virtual ~TAdMultiPlyChrSelectGC();
     static TAdChrSelPlayerGC *get_or_create_player(TObject *parent, s32 mode, s32 index, s32 slot);
     void create_widgets();
-    void sub_802DC118(s32);
+    void update_guide_text(s32);
     virtual void render();
     s32 state_frames;   // 0x1C  frames in the current state; run_task zeroes it on a state change
     s32 state;          // 0x20  index into run_task's state handler table
@@ -117,11 +117,11 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void sub_802DC5CC();
     void sub_802DC440();
     void sub_802DC310();
-    s32 sub_802DC294(s32 cursor);
-    TWindowMenu *sub_802DBEC4(const NJS_POINT2 *desc);
-    TWindowMenu *sub_802DBE4C(const NJS_POINT2 *desc);
-    TWindowMessageYesNo *sub_802DBD64();
-    TWindowMessageYesNo *sub_802DBCE8();
+    s32 cursor_to_card_index(s32 cursor);
+    TWindowMenu *create_moving_notice(const NJS_POINT2 *desc);
+    TWindowMenu *create_full_notice(const NJS_POINT2 *desc);
+    TWindowMessageYesNo *create_yes_no_dialog();
+    TWindowMessageYesNo *create_delete_prompt();
     virtual void run_task();
     static TAdChrMoveEffectGC *get_global_state();
     static int get_select_flag();
@@ -135,13 +135,13 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TAdFadeGC *fade_task;
     TAdGameStartGC *game_start;
     TWindowMenu *choice_menu;                      // 0x7C  create_choice_menu (4 entries)
-    TWindowMenu *moving_notice;                    // 0x80  sub_802DBEC4, shown while a character moves
-    TWindowMenu *full_notice;                      // 0x84  sub_802DBE4C, shown when no free slot was found
+    TWindowMenu *moving_notice;                    // 0x80  create_moving_notice, shown while a character moves
+    TWindowMenu *full_notice;                      // 0x84  create_full_notice, shown when no free slot was found
     TWindowMessageYesNo *confirm_window;           // 0x88  create_confirm_window
     TWindowMessageYesNo *yes_no_prompt;            // 0x8C  a_slot->open_yes_no_window for a transferred character
     TWindowMessageYesNo *create_character_prompt;  // 0x90  a_slot->open_create_character_prompt
-    TWindowMessageYesNo *yes_no_dialog;            // 0x94  sub_802DBD64, swap search prompt
-    TWindowMessageYesNo *delete_prompt;            // 0x98  sub_802DBCE8, choice menu entry 2
+    TWindowMessageYesNo *yes_no_dialog;            // 0x94  create_yes_no_dialog, swap search prompt
+    TWindowMessageYesNo *delete_prompt;            // 0x98  create_delete_prompt, choice menu entry 2
     s32 resumed;                                   // 0x9C  set by handle_event when returning to the scene
     static s32 dispatch_draw_command(ControllerInputContext *input, s32 buttons, s32 delay, s32 period);
     void open_windows();

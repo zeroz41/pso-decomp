@@ -10,6 +10,7 @@ struct NJS_POINT2;
 struct TWindowMessageScroll : public TWindowMessageQuest {
     TWindowMessageScroll(const NJS_POINT2 *position, s32 *done);
     virtual ~TWindowMessageScroll();
+    static const char *class_name;
     void run_task();
     void set_scroll_speed(f32 speed);
     f32 scroll_speed;

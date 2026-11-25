@@ -39,7 +39,7 @@ int TWindowKeyBoardBase::is_alnum(u16 code) {
 
 s32 TWindowKeyBoardBase::get_state() { return m_text.cursor; }
 
-void TWindowKeyBoardBase::vt2() {
+void TWindowKeyBoardBase::key_clear() {
     if (state_flags & 2) {
         init();
     }
@@ -52,23 +52,23 @@ void TWindowKeyBoardBase::vt2() {
 void TWindowKeyBoardBase::sub_8025B928() {  }
 
 void TWindowKeyBoardBase::sub_8025B92C() {
-    s8 sp108[0x100];
-    s8 sp8[0x100];
-    s32 var_r3;
-    u16 temp_r4;
-    temp_r4 = state_flags;
-    if (temp_r4 & 2) {
-        if (!(temp_r4 & 4)) {
+    s8 text[0x100];
+    s8 name[0x100];
+    s32 count;
+    u16 flags;
+    flags = state_flags;
+    if (flags & 2) {
+        if (!(flags & 4)) {
             convert_input_text();
-            var_r3 = this->candidate_count;
+            count = this->candidate_count;
             if (!(state_flags & 0x10)) {
                 do {
-                    this->candidate_count = var_r3;
-                    var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
-                } while (var_r3 != 0);
-                sub_8025CFA8((s32 *)sp8);
-                sp8[0] = 0;
-                write_name_and_text((char *)sp8, (char *)sp8);
+                    this->candidate_count = count;
+                    count = TWindowKeyBoardSoft__sub_803E67D4(name, text);
+                } while (count != 0);
+                sub_8025CFA8((s32 *)name);
+                name[0] = 0;
+                write_name_and_text((char *)name, (char *)name);
                 goto block_5;
             }
         } else {
@@ -83,10 +83,10 @@ block_5:
 }
 
 void TWindowKeyBoardBase::update_input_state() {
-    u16 temp_r4;
+    u16 flags;
 
-    temp_r4 = state_flags;
-    if (temp_r4 & 4) {
+    flags = state_flags;
+    if (flags & 4) {
         if ((s32)composition_flags & 0x20) {
             update();
             return;
@@ -94,77 +94,77 @@ void TWindowKeyBoardBase::update_input_state() {
         select_next();
         return;
     }
-    if (temp_r4 & 2) {
+    if (flags & 2) {
         convert_input_text();
     }
 }
 
-void TWindowKeyBoardBase::sub_8025BA28() {
+void TWindowKeyBoardBase::key_end() {
     if (!(state_flags & 4)) {
         active_text->cursor = active_text->length;
     }
 }
 
-void TWindowKeyBoardBase::sub_8025BA44() {
+void TWindowKeyBoardBase::key_home() {
     if (!(state_flags & 4)) {
         active_text->cursor = 0;
     }
 }
 
-void TWindowKeyBoardBase::vt14() {
+void TWindowKeyBoardBase::key_f12() {
     if (!(request_flags & 8) && !((s32)composition_flags & 0x20) && !(state_flags & 2) && (is_chat_shortcut_set(0x13) != 0)) {
         active_input_mode = 0x13;
         state_flags = (u16) (state_flags | 0x41);
     }
 }
 
-void TWindowKeyBoardBase::vt13() {
+void TWindowKeyBoardBase::key_f11() {
     if (!(request_flags & 8) && !((s32)composition_flags & 0x20) && !(state_flags & 2) && (is_chat_shortcut_set(0x12) != 0)) {
         active_input_mode = 0x12;
         state_flags = (u16) (state_flags | 0x41);
     }
 }
 
-void TWindowKeyBoardBase::vt12() {
+void TWindowKeyBoardBase::key_f10() {
     if (!(request_flags & 8) && !((s32)composition_flags & 0x20) && !(state_flags & 2) && (is_chat_shortcut_set(0x11) != 0)) {
         active_input_mode = 0x11;
         state_flags = (u16) (state_flags | 0x41);
     }
 }
 
-void TWindowKeyBoardBase::vt11() {
+void TWindowKeyBoardBase::key_f9() {
     if (!(request_flags & 8) && !((s32)composition_flags & 0x20) && !(state_flags & 2) && (is_chat_shortcut_set(0x10) != 0)) {
         active_input_mode = 0x10;
         state_flags = (u16) (state_flags | 0x41);
     }
 }
 
-void TWindowKeyBoardBase::vt10() {
+void TWindowKeyBoardBase::key_f8() {
     if (!(request_flags & 8) && !((s32)composition_flags & 0x20) && !(state_flags & 2) && (is_chat_shortcut_set(0xF) != 0)) {
         active_input_mode = 0xF;
         state_flags = (u16) (state_flags | 0x41);
     }
 }
 
-void TWindowKeyBoardBase::vt9() {
-    s8 sp108[0x100];
-    s8 sp8[0x100];
-    s32 var_r3;
-    u16 temp_r4;
+void TWindowKeyBoardBase::key_f7() {
+    s8 text[0x100];
+    s8 name[0x100];
+    s32 count;
+    u16 flags;
     if (!((s32)composition_flags & 0x20)) {
-        temp_r4 = state_flags;
-        if (temp_r4 & 2) {
-            if (!(temp_r4 & 4)) {
+        flags = state_flags;
+        if (flags & 2) {
+            if (!(flags & 4)) {
                 convert_input_text();
-                var_r3 = this->candidate_count;
+                count = this->candidate_count;
                 if (!(state_flags & 0x10)) {
                     do {
-                        this->candidate_count = var_r3;
-                        var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
-                    } while (var_r3 != 0);
-                    sub_8025CFA8((s32 *)sp8);
-                    sp8[0] = 0;
-                    write_name_and_text((char *)sp8, (char *)sp8);
+                        this->candidate_count = count;
+                        count = TWindowKeyBoardSoft__sub_803E67D4(name, text);
+                    } while (count != 0);
+                    sub_8025CFA8((s32 *)name);
+                    name[0] = 0;
+                    write_name_and_text((char *)name, (char *)name);
                     goto block_6;
                 }
             } else {
@@ -178,25 +178,25 @@ block_6:
     }
 }
 
-void TWindowKeyBoardBase::vt8() {
-    s8 sp108[0x100];
-    s8 sp8[0x100];
-    s32 var_r3;
-    u16 temp_r4;
+void TWindowKeyBoardBase::key_f6() {
+    s8 text[0x100];
+    s8 name[0x100];
+    s32 count;
+    u16 flags;
     if (!((s32)composition_flags & 0x20)) {
-        temp_r4 = state_flags;
-        if (temp_r4 & 2) {
-            if (!(temp_r4 & 4)) {
+        flags = state_flags;
+        if (flags & 2) {
+            if (!(flags & 4)) {
                 convert_input_text();
-                var_r3 = this->candidate_count;
+                count = this->candidate_count;
                 if (!(state_flags & 0x10)) {
                     do {
-                        this->candidate_count = var_r3;
-                        var_r3 = TWindowKeyBoardSoft__sub_803E67D4(sp8, sp108);
-                    } while (var_r3 != 0);
-                    sub_8025CFA8((s32 *)sp8);
-                    sp8[0] = 0;
-                    write_name_and_text((char *)sp8, (char *)sp8);
+                        this->candidate_count = count;
+                        count = TWindowKeyBoardSoft__sub_803E67D4(name, text);
+                    } while (count != 0);
+                    sub_8025CFA8((s32 *)name);
+                    name[0] = 0;
+                    write_name_and_text((char *)name, (char *)name);
                     goto block_6;
                 }
             } else {
@@ -210,21 +210,21 @@ block_6:
     }
 }
 
-void TWindowKeyBoardBase::vt7() {
+void TWindowKeyBoardBase::key_f5() {
     if (!(request_flags & 8) && !((s32)composition_flags & 0x20) && !(state_flags & 2) && (is_chat_shortcut_set(0xC) != 0)) {
         active_input_mode = 0xC;
         state_flags = (u16) (state_flags | 0x41);
     }
 }
 
-void TWindowKeyBoardBase::vt6() {
+void TWindowKeyBoardBase::key_f4() {
     if (!(request_flags & 8) && !((s32)composition_flags & 0x20) && !(state_flags & 2) && (is_chat_shortcut_set(0xB) != 0)) {
         active_input_mode = 0xB;
         state_flags = (u16) (state_flags | 0x41);
     }
 }
 
-void TWindowKeyBoardBase::vt5() {
+void TWindowKeyBoardBase::key_f3() {
     if (!(request_flags & 8)) {
         if ((s32)composition_flags & 0x20) {
             sub_8025C51C(2);
@@ -237,7 +237,7 @@ void TWindowKeyBoardBase::vt5() {
     }
 }
 
-void TWindowKeyBoardBase::vt4() {
+void TWindowKeyBoardBase::key_f2() {
     if (!(request_flags & 8)) {
         if ((s32)composition_flags & 0x20) {
             sub_8025C51C(1);
@@ -250,7 +250,7 @@ void TWindowKeyBoardBase::vt4() {
     }
 }
 
-void TWindowKeyBoardBase::vt3() {
+void TWindowKeyBoardBase::key_f1() {
     if (!(request_flags & 8)) {
         if ((s32)composition_flags & 0x20) {
             sub_8025C51C(0);
@@ -263,7 +263,7 @@ void TWindowKeyBoardBase::vt3() {
     }
 }
 
-void TWindowKeyBoardBase::vt17() {
+void TWindowKeyBoardBase::key_up() {
     if (state_flags & 4) {
         if (request_flags & 1) {
             update();
@@ -273,7 +273,7 @@ void TWindowKeyBoardBase::vt17() {
     }
 }
 
-void TWindowKeyBoardBase::vt18() {
+void TWindowKeyBoardBase::key_down() {
     if (state_flags & 4) {
         if (request_flags & 1) {
             select_next();
@@ -283,7 +283,7 @@ void TWindowKeyBoardBase::vt18() {
     }
 }
 
-void TWindowKeyBoardBase::vt16() {
+void TWindowKeyBoardBase::key_left() {
     if (state_flags & 4) {
         if ((request_flags & 1) && !(composition_flags & 0x20)) {
             process_input();
@@ -297,7 +297,7 @@ void TWindowKeyBoardBase::vt16() {
     }
 }
 
-void TWindowKeyBoardBase::vt15() {
+void TWindowKeyBoardBase::key_right() {
     if (state_flags & 4) {
         if ((request_flags & 1) && !((s32)composition_flags & 0x20)) {
             sub_8025D664();
@@ -311,7 +311,7 @@ void TWindowKeyBoardBase::vt15() {
     }
 }
 
-void TWindowKeyBoardBase::vt20() {
+void TWindowKeyBoardBase::key_delete() {
     u16 flags;
     flags = state_flags;
     if (flags & 4) {
@@ -346,7 +346,7 @@ void TWindowKeyBoardBase::handle_backspace() {
     }
 }
 
-void TWindowKeyBoardBase::vt1() {
+void TWindowKeyBoardBase::key_backspace() {
     u16 flags;
     flags = state_flags;
     if (flags & 4) {
@@ -366,14 +366,14 @@ void TWindowKeyBoardBase::vt1() {
     }
 }
 
-void TWindowKeyBoardBase::vt21() {
-    u16 temp_r4;
-    temp_r4 = state_flags;
-    if (temp_r4 & 4) {
-        state_flags = (u16) (temp_r4 & 0xFFFFFFFB);
+void TWindowKeyBoardBase::key_escape() {
+    u16 flags;
+    flags = state_flags;
+    if (flags & 4) {
+        state_flags = (u16) (flags & 0xFFFFFFFB);
         return;
     }
-    if (temp_r4 & 2) {
+    if (flags & 2) {
         init();
         return;
     }
@@ -381,14 +381,14 @@ void TWindowKeyBoardBase::vt21() {
         this->m_text.reset_state();
         return;
     }
-    state_flags = (u16) (temp_r4 | 0x20);
+    state_flags = (u16) (flags | 0x20);
 }
 
 void TWindowKeyBoardBase::update_input_state2() {
-    u16 temp_r4;
+    u16 flags;
 
-    temp_r4 = state_flags;
-    if (temp_r4 & 4) {
+    flags = state_flags;
+    if (flags & 4) {
         if ((s32)composition_flags & 0x20) {
             update();
             return;
@@ -396,16 +396,16 @@ void TWindowKeyBoardBase::update_input_state2() {
         select_next();
         return;
     }
-    if (temp_r4 & 2) {
+    if (flags & 2) {
         convert_input_text();
     }
 }
 
-void TWindowKeyBoardBase::vt19() {
-    s32 temp_r4_2;
-    u16 temp_r4;
-    temp_r4 = state_flags;
-    if (temp_r4 & 4) {
+void TWindowKeyBoardBase::key_space() {
+    s32 mode_flags;
+    u16 flags;
+    flags = state_flags;
+    if (flags & 4) {
         if ((s32)composition_flags & 0x20) {
             update();
             return;
@@ -413,17 +413,17 @@ void TWindowKeyBoardBase::vt19() {
         select_next();
         return;
     }
-    if (temp_r4 & 2) {
+    if (flags & 2) {
         convert_input_text();
         return;
     }
-    temp_r4_2 = (s32)composition_flags;
-    if (!(temp_r4_2 & 0x80) && !(temp_r4_2 & 0x100) && !(temp_r4_2 & 0x200)) {
+    mode_flags = (s32)composition_flags;
+    if (!(mode_flags & 0x80) && !(mode_flags & 0x100) && !(mode_flags & 0x200)) {
         active_text->insert_char(0x20);
     }
 }
 
-void TWindowKeyBoardBase::vt0() {
+void TWindowKeyBoardBase::key_enter() {
     if (!(state_flags & 2)) {
         if (!(request_flags & 4) || (this->m_text.is_buffer_blank() == 0)) {
             state_flags = (u16) (state_flags | 1);
@@ -433,7 +433,7 @@ void TWindowKeyBoardBase::vt0() {
     }
 }
 
-void TWindowKeyBoardBase::sub_8025C51C(s32 status_index) {
+void TWindowKeyBoardBase::sub_8025C51C(s32 slot) {
     u8 *name;
     u16 flags;
     u32 cursor;
@@ -444,7 +444,7 @@ void TWindowKeyBoardBase::sub_8025C51C(s32 status_index) {
         }
         commit_composition_text();
     }
-    name = (u8 *)TWindowCtrl__sub_8024B7D4(status_index);
+    name = (u8 *)TWindowCtrl__sub_8024B7D4(slot);
     if (name != NULL) {
         text_builder_reset();
         cursor = m_text.cursor;
@@ -577,13 +577,12 @@ void TWindowKeyBoardBase::commit_composition_text() {
 #pragma pop
 
 void TWindowKeyBoardBase::export_text(char *out) {
-    TWindowKeyBoardBase *base = this;
     u32 a = 0;
     u32 b = 0;
     u32 c = 0;
     u16 code;
-    u16 *in = base->m_text.buffer;
-    if (!(base->composition_flags & 0x10) && (s32)*in != 0) {
+    u16 *in = m_text.buffer;
+    if (!(composition_flags & 0x10) && (s32)*in != 0) {
         out[0] = 9;
         if (current_language == LANGUAGE_JAPANESE) {
             out[1] = 'J';
@@ -596,7 +595,7 @@ void TWindowKeyBoardBase::export_text(char *out) {
     while ((s32)*in != 0) {
         code = *in++;
         get_font_char_advance(map_char_to_font_code(code));
-        if (base->m_text.measure_char_overflow(code, &a, &b, &c)) {
+        if (m_text.measure_char_overflow(code, &a, &b, &c)) {
             *out = 0;
             return;
         }
