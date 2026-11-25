@@ -19,6 +19,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 
 struct BmlModelLoadRequest {
@@ -89,7 +90,6 @@ extern "C" {
 s32 TLobby__sub_800F9FF4(saddr);
 s32 release_texture_list(void *);
 
-extern const char *lbl_805D2B10;
 }
 s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
 extern "C" {

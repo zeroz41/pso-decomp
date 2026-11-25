@@ -11,6 +11,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_800F9B84.h"
+#include "pso/ui/city/TShopGetItemWindow.h"
 
 struct SRock_80224544_8022448C;
 
@@ -99,7 +100,6 @@ extern int shop_weapon_stock_level;
 void roll_shop_weapon_special(Obj_80224F7C *obj);
 extern s32 shop_difficulty_tier;
 extern s32 section_id_favored_grind_table[];
-extern s32 shop_section_id;
 void roll_shop_weapon_grind(Item_80225064 *it);
 void roll_shop_weapon_second_bonus(Obj_80224C68 *obj);
 void roll_shop_weapon_first_bonus(Obj_80224DF0 *obj);

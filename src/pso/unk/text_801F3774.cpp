@@ -13,8 +13,8 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
+#include "pso/ui/TLevelSelect.h"
 
-extern s32 game_difficulty_selection;
 
 void TLobby__sub_801F3774(void) {  }
 

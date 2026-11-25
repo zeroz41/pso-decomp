@@ -34,6 +34,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/weapon/TItemAttacker.h"
+#include "pso/unk/TLobby_800F8AA8.h"
 
 struct Parm_8010C1E0;
 struct Item_8010C498;
@@ -750,7 +751,6 @@ struct Item_8010E59C {
     s32 meseta;
 };
 
-extern const char *lbl_805D2B10;
 s32 format_item_description(u8 *item);
 extern "C" {
 

@@ -21,6 +21,7 @@
 #include "types.h"
 #include "pso/audio/GcrnaStream.h"
 #include "pso/unk/text_803D31A4.h"
+#include "pso/audio/AdxManager.h"
 
 struct Pair_803C8678 { u32 a, b; };
 
@@ -97,7 +98,6 @@ s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *arg2) {
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
 
-extern s32 lbl_805D7540;
 
 extern "C" {
 void TLobby__sub_803CA8B4(AdxtPlayer *);

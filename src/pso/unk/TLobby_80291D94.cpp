@@ -32,6 +32,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/TLobby_80291D94.h"
+#include "pso/ui/TLevelSelect.h"
 
 ChallengeModeState challenge_default_settings = {
     -1, 1.0f, -1, 0, 0x39383814, -10, -1, 0, 0, -1,
@@ -331,7 +332,6 @@ s32 TLobby::set_camera_height_if_valid(f32 multiplier) {
     return 1;
 }
 
-extern s32 game_difficulty_selection;
 
 s32 TLobby::try_set_split_screen(s32 difficulty) {
     if (is_challenge_mode_active() == 0) {

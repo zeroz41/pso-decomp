@@ -5,6 +5,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/Language.h"
 #include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/ui/city/TShopGetItemWindow.h"
 
 #pragma readonly_strings on
 
@@ -16,7 +17,6 @@ const char ****shop_text_groups;
 // Text group per appraisal kind (shop_section_id indexes it), then per game play mode.
 static const s32 appraisal_text_group_table[10] = {4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 static const s32 guild_text_play_mode_table[4] = {1, 2, 3, 0};
-extern s32 shop_section_id;
 
 saddr get_quest_list_text(s32 group, s32 index) {
     if (shop_text_groups != NULL) {

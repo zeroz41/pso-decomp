@@ -236,7 +236,6 @@ __declspec(section ".rodata") CreationModelPart empty_creation_model_part = {0, 
 __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {0,0};
 }
 void load_creation_shape_rel(TCMCharacter *character);
-extern CreationShapeBlend creation_shape_blend;
 s32 scan_creation_resources(void *context);
 uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);
 void reset_character_creation_figure_rotation(void);
