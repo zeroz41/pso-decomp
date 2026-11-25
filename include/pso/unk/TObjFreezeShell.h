@@ -3,9 +3,13 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 
+struct CollisionBody;
+
+// The ice shell a freezing hit puts around a character: it grows to the
+// character's size, holds while the character stays frozen, and fades out.
 class TObjFreezeShell : public TObjChara {
 public:
-    TObjFreezeShell(u8 *arg1, u8 *arg2);
+    TObjFreezeShell(TObjChara *chara, CollisionBody *body, s32 duration);
     virtual ~TObjFreezeShell();
     void freeze_shell_grow();
     void freeze_shell_hold();
@@ -18,15 +22,17 @@ public:
     virtual s32 select_melee_contact_body(void *, f32);
     virtual void render();
     virtual void run_task();
-    u8 unk_334[0x4];
-    f32 m_338;
-    u8 unk_33C[0x4];
-    f32 color;
-    u8 unk_344[0xC];
-    void * emitter;
-    s32 m_354;
-    u8 unk_358[0x10];
+    s32 state;            // 0 grow, 1 hold, 2 fade, 3 done
+    f32 max_scale;        // the shell grows until its scale passes this
+    s32 grow_frames;      // frames spent growing; a mist particle every third
+    NJS_ARGB color;       // the fade colour; alpha drops each fading frame
+    void *emitter;        // the cold particles around the shell
+    s32 hit_count;        // the shell breaks on the third physical hit
+    u16 owner_id;         // entity id of the frozen character
+    Vec owner_position;   // where the character stood when it froze
 };
+LAYOUT_ASSERT(TObjFreezeShell_state, offsetof(TObjFreezeShell, state) == 0x334);
+LAYOUT_ASSERT(TObjFreezeShell_owner_position, offsetof(TObjFreezeShell, owner_position) == 0x35C);
 LAYOUT_ASSERT(TObjFreezeShell_size, sizeof(TObjFreezeShell) == 0x368);
 
 #endif

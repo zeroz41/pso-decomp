@@ -30,14 +30,29 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/model_render_state.h"
+#include "pso/render/gjSystem.h"
+#include "pso/render/render_util.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/object/base/TObjCollidable.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 
 
-f32 TObjFreezeShell::receive_physical_attack(void *arg1, f32) {
-    if (arg1 != 0U) {
-        this->m_354 = (this->m_354 + 1);
-        if ((s32) this->m_354 >= 3) {
-            *(s32 *)((s8 *)this + 0x334) = 2;
+__declspec(section ".data") const char *bm_eff_ice_model_names[3] = { "ice_break_root.gj", "ice_root.gj", NULL };
+__declspec(section ".data") const char *bm_eff_ice_motion_names[2] = { "ice_break_root.njm", NULL };
+BmlResourceDescriptor enemy_freeze_ice_resource_descriptor = { "bm_eff_ice.bml", bm_eff_ice_model_names, bm_eff_ice_motion_names, 2, 1 };
+
+// The bm_eff_ice.bml models and motion every freeze shell draws with.
+BmlResource *freeze_shell_bml_resource;
+
+f32 TObjFreezeShell::receive_physical_attack(void *attacker, f32) {
+    if (attacker != NULL) {
+        this->hit_count = (this->hit_count + 1);
+        if ((s32) this->hit_count >= 3) {
+            this->state = 2;
         }
     }
     return 0.0f;
@@ -47,47 +62,17 @@ void TObjPlayer::queue_destruction() { TObject::queue_destruction(); }
 
 
 void TObjFreezeShell::update_freeze_shell_timer() {
-    u8 *arg0 = (u8 *)this;
-    this->color = (f32) (this->color - 0.4f);
-    if (this->color <= -1.0f) {
-        *(s32 *)((s8 *)arg0 + 0x334) = 3;
-        this->color = (f32) -1.0f;
+    this->color.a = (f32) (this->color.a - 0.4f);
+    if (this->color.a <= -1.0f) {
+        this->state = 3;
+        this->color.a = (f32) -1.0f;
     }
 }
-
-struct UpdateFreezeShellTimerRecoveredGlobal { s32 value; u8 remaining[0x2C]; };
-LAYOUT_ASSERT(RecoveredGlobal_80081CD0_lbl_8058D490_size, sizeof(UpdateFreezeShellTimerRecoveredGlobal) == 0x30);
-
-struct UpdateFreezeShellTimerVBase { u8 pad[0x18]; };
-
-struct VObj_80081EA4 : UpdateFreezeShellTimerVBase {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-extern "C" {
-f32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
-extern UpdateFreezeShellTimerRecoveredGlobal identity_matrix;
-
-
-saddr freeze_shell_bml_resource;
-s32 scale_current_matrix(void *);
-s32 post_translate_matrix(void *);
-extern u8 chunk_material_color_half_alpha_f32[];
 
 void TObjFreezeShell::freeze_shell_hold() {
     TObjCollidable *owner;
     TParticleCtrl *effect;
-    owner = find_active_entity_by_id(*(u16 *)((s8 *)this + 0x358));
+    owner = find_active_entity_by_id(this->owner_id);
     if (owner == NULL) {
         return;
     }
@@ -97,50 +82,49 @@ void TObjFreezeShell::freeze_shell_hold() {
             return;
         }
     }
-    *(s32 *)((s8 *)this + 0x334) = 2;
-    effect = spawn_particle_effect((const Vec *)((u8 *)this + 0x35C), 0x153);
+    this->state = 2;
+    effect = spawn_particle_effect(&this->owner_position, 0x153);
     if (effect != NULL) {
         attach_particle_model(effect, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
     }
-    effect = spawn_particle_effect((const Vec *)((u8 *)this + 0x38), 0x33);
+    effect = spawn_particle_effect(&this->position, 0x33);
     if (effect != NULL) {
-        attach_particle_model(effect, get_bml_model((BmlResource *)freeze_shell_bml_resource, 0), get_bml_texlist((BmlResource *)freeze_shell_bml_resource, 1), get_bml_motion((BmlResource *)freeze_shell_bml_resource, 0), 0, 1.0f);
+        attach_particle_model(effect, get_bml_model(freeze_shell_bml_resource, 0), get_bml_texlist(freeze_shell_bml_resource, 1), get_bml_motion(freeze_shell_bml_resource, 0), 0, 1.0f);
         effect->set_scale(this->scale.x, this->scale.y);
     }
     this->frame = 0.0f;
 }
 
 void TObjFreezeShell::freeze_shell_grow() {
-    u8 *arg0 = (u8 *)this;
-    Vec stack;
-    f32 temp_f0;
+    Vec mist_pos;
+    f32 size;
     this->rotation_y = (this->rotation_y + 0x1000);
     this->scale.z += 0.1f;
-    temp_f0 = this->scale.z;
-    this->scale.y = temp_f0;
-    this->scale.x = temp_f0;
-    if (this->m_338 < this->scale.x) {
-        *(s32 *)((s8 *)arg0 + 0x334) = 1;
+    size = this->scale.z;
+    this->scale.y = size;
+    this->scale.x = size;
+    if (this->max_scale < this->scale.x) {
+        this->state = 1;
     }
-    *(s32 *)((s8 *)arg0 + 0x33C) = (s32) (*(s32 *)((s8 *)arg0 + 0x33C) + 1);
-    if ((*(s32 *)((s8 *)arg0 + 0x33C) % 3) == 0) {
-        stack.x = 0.0f;
-        stack.y = 0.0f;
-        stack.z = 10.0f * this->scale.x;
-        push_matrix_from(&identity_matrix.value);
+    this->grow_frames = (this->grow_frames + 1);
+    if ((this->grow_frames % 3) == 0) {
+        mist_pos.x = 0.0f;
+        mist_pos.y = 0.0f;
+        mist_pos.z = 10.0f * this->scale.x;
+        push_matrix_from(&identity_matrix);
         rotate_matrix_y(0, (int) (this->rotation_y * 2));
-        rotate_vector_by_matrix(0, &stack.x, &stack.x);
+        rotate_vector_by_matrix(0, &mist_pos, &mist_pos);
         pop_matrix();
-        vec3_add_to(&stack.x, (u8 *)&this->position);
-        create_timed_particle_emitter((&stack.x), 0x12D, 0, 0xA);
+        vec3_add_to(&mist_pos, &this->position);
+        create_timed_particle_emitter(&mist_pos, 0x12D, 0, 0xA);
     }
 }
 
 void TObjFreezeShell::run_task() {
     TObject *active_entity;
-    u16 id = *(u16 *)((s8 *)this + 0x358);
+    u16 id = this->owner_id;
     if ((id != 0xffffU) && (id < 0x4000U)) {
-        active_entity = (TObject *)find_active_entity_by_id(id);
+        active_entity = find_active_entity_by_id(id);
     } else {
         active_entity = NULL;
     }
@@ -154,7 +138,7 @@ void TObjFreezeShell::run_task() {
         queue_destruction();
         return;
     }
-    switch (*(s32 *)((s8 *)this + 0x334)) {
+    switch (this->state) {
     case 0:
         freeze_shell_grow();
         return;
@@ -170,21 +154,20 @@ void TObjFreezeShell::run_task() {
     }
 }
 void TObjFreezeShell::render() {
-    u8 *arg0 = (u8 *)this;
-    s32 ok;
-    VObj_80081EA4 *p;
-    ok = 1;
-    p = (VObj_80081EA4 *)find_active_entity_by_id(*(u16 *)((s8 *)arg0 + 0x358));
-    if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0) {
-        ok = p->m8(400.0f, 20.0f);
+    s32 visible;
+    TObjCollidable *owner;
+    visible = 1;
+    owner = find_active_entity_by_id(this->owner_id);
+    if (owner != NULL && owner->all_parents_unqueued_for_destruction() != 0) {
+        visible = owner->update_object_view_visibility(400.0f, 20.0f);
     }
-    if (ok != 0) {
-        TObjFish::set_global_param(get_bml_texlist((BmlResource *)(saddr)((void *)freeze_shell_bml_resource), 1));
+    if (visible != 0) {
+        TObjFish::set_global_param(get_bml_texlist(freeze_shell_bml_resource, 1));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        scale_current_matrix((u8 *)&this->scale);
-        switch (*(s32 *)((s8 *)arg0 + 0x334)) {
+        scale_current_matrix(&this->scale.x);
+        switch (this->state) {
         case 0:
         case 1:
             draw_ginja_object(this->model);
@@ -192,11 +175,11 @@ void TObjFreezeShell::render() {
         case 2:
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x8820;
-            set_constant_material((const NJS_ARGB *)((&this->color)));
+            set_constant_material(&this->color);
             draw_ginja_object(this->model);
             model_render_flags &= 0xFFFF77DF;
             set_chunk_material_override_pair(0xFF00, 0);
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
             break;
         }
@@ -204,80 +187,30 @@ void TObjFreezeShell::render() {
     }
 }
 
-s32 __ct__15TObjFreezeShellFPUcPUc(u32, u32, s32, s32);
-
-void create__10TObjPlayerFUiii(uaddr base, s32 arg1, s32 arg2) {
+extern "C" {
+void create__10TObjPlayerFUiii(uaddr chara, s32 body, s32 duration) {
     u16 entity_id;
 
-    u32 obj;
-    if ((is_current_area_item_enabled() != 0) && (base != 0U)) {
-        entity_id = ((TObjBase *)base)->get_entity_id();
-        if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U) && ((obj = (uaddr)TObject::operator new(0x368)) != 0U)) {
-            __ct__15TObjFreezeShellFPUcPUc(obj, base, arg1, arg2);
+    if ((is_current_area_item_enabled() != 0) && (chara != 0U)) {
+        entity_id = ((TObjBase *)chara)->get_entity_id();
+        if (((u16) entity_id != 0xFFFF) && ((u16) entity_id < 0x4000U)) {
+            new TObjFreezeShell((TObjChara *)chara, (CollisionBody *)body, duration);
         }
     }
 }
-
 }
 
-extern const char *bm_eff_ice_model_names[3];
-extern const char *bm_eff_ice_motion_names[2];
-extern BmlResourceDescriptor enemy_freeze_ice_resource_descriptor;
-
-struct LoadFreezeIceResourceRecoveredFields {
-    u8 unknown_0[0x18];
-    s32 * field_18;
-    u8 unknown_1C[0x18];
-    s32 field_34;
-    u8 unknown_38[0x28];
-    s32 field_60;
-    u8 unknown_64[0x4];
-    f32 field_68;
-    f32 field_6C;
-    f32 field_70;
-    u8 unknown_74[0x2C0];
-    s32 field_334;
-    f32 field_338;
-    s32 field_33C;
-    f32 field_340;
-    f32 field_344;
-    f32 field_348;
-    f32 field_34C;
-    s32 field_350;
-    s32 field_354;
-    s16 field_358;
-};
-
-struct LoadFreezeIceResourceRecoveredFields2 {
-    u8 unknown_0[0xC];
-    f32 field_C;
-};
-
-struct LoadFreezeIceResourceRecoveredFields3 {
-    u8 unknown_0[0x60];
-    s32 field_60;
-    u8 unknown_64[0x40];
-    u8 * field_A4;
-};
-
-extern "C" {
-extern saddr tl_05;
-
 void TLobby::destroy_global_singleton() {
-    if ((u32) freeze_shell_bml_resource != 0U) {
-        delete (BmlResource *)freeze_shell_bml_resource;
-        freeze_shell_bml_resource = 0U;
+    if (freeze_shell_bml_resource != NULL) {
+        delete freeze_shell_bml_resource;
+        freeze_shell_bml_resource = NULL;
     }
 }
 
 void TLobby::load_freeze_ice_resource() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(5, &enemy_freeze_ice_resource_descriptor, 0, 0, NULL);
-    (*(s32 *)&freeze_shell_bml_resource) = var_r0;
+    freeze_shell_bml_resource = new BmlResource(5, &enemy_freeze_ice_resource_descriptor, 0, 0, NULL);
 }
 
-}
 TObjFreezeShell::~TObjFreezeShell() {
     if (this->emitter != NULL) { TParticleCtrl::release(this->emitter); }
 }
@@ -285,61 +218,42 @@ TObjFreezeShell::~TObjFreezeShell() {
 
 #pragma push
 #pragma fp_contract on
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_18_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_18) == 0x18);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_34) == 0x34);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_60_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_60) == 0x60);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_68_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_68) == 0x68);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_6C_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_6C) == 0x6C);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_70_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_70) == 0x70);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_334_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_334) == 0x334);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_338_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_338) == 0x338);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_33C_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_33C) == 0x33C);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_340_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_340) == 0x340);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_344_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_344) == 0x344);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_348_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_348) == 0x348);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_34C_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_34C) == 0x34C);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_350_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_350) == 0x350);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_354_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_354) == 0x354);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg0_358_offset, offsetof(LoadFreezeIceResourceRecoveredFields, field_358) == 0x358);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg2_C_offset, offsetof(LoadFreezeIceResourceRecoveredFields2, field_C) == 0xC);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_60_offset, offsetof(LoadFreezeIceResourceRecoveredFields3, field_60) == 0x60);
-LAYOUT_ASSERT(RecoveredFields_8008213C_arg1_A4_offset, offsetof(LoadFreezeIceResourceRecoveredFields3, field_A4) == 0xA4);
-TObjFreezeShell::TObjFreezeShell(u8 *chara, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
-    player_stats *temp_r3;
-    ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_34 = (saddr)get_bml_model((BmlResource *)freeze_shell_bml_resource, 1);
+TObjFreezeShell::TObjFreezeShell(TObjChara *chara, CollisionBody *body, s32) : TObjChara(tl_05) {
+    player_stats *stats;
+    this->model = get_bml_model(freeze_shell_bml_resource, 1);
     if (chara != NULL) {
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_358 = ((TObjBase *)(chara))->get_entity_id();
-        VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(chara + 0x38));
-        if (arg2 != NULL) {
-            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x1C));
-            ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_338 = (f32) (0.15f * ((LoadFreezeIceResourceRecoveredFields2 *)arg2)->field_C);
-        } else if ((void *) ((LoadFreezeIceResourceRecoveredFields3 *)chara)->field_A4 != NULL) {
-            ((TObjCollidable *)chara)->refresh_collision_body_centers();
-            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((LoadFreezeIceResourceRecoveredFields3 *)chara)->field_A4 + 0x1C));
-            ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_338 = (f32) (0.15f * *(f32 *)((s8 *)(((LoadFreezeIceResourceRecoveredFields3 *)chara)->field_A4) + 0xC));
+        this->owner_id = chara->get_entity_id();
+        VecCopy(&this->owner_position, &chara->position);
+        if (body != NULL) {
+            VecCopy(&this->position, &body->center);
+            this->max_scale = (f32) (0.15f * body->radius);
+        } else if (chara->bodies != NULL) {
+            chara->refresh_collision_body_centers();
+            VecCopy(&this->position, &chara->bodies->center);
+            this->max_scale = (f32) (0.15f * chara->bodies->radius);
         } else {
-            VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(chara + 0x2FC));
-            temp_r3 = ((TObjChara *)chara)->get_stats();
-            if (temp_r3 != NULL) {
-                ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_338 = (f32) (0.075f * temp_r3->proportions);
+            VecCopy(&this->position, &chara->body_center);
+            stats = chara->get_stats();
+            if (stats != NULL) {
+                this->max_scale = (f32) (0.075f * stats->proportions);
             } else {
-                ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_338 = 1.5f;
+                this->max_scale = 1.5f;
             }
         }
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_60 = (s32) ((LoadFreezeIceResourceRecoveredFields3 *)chara)->field_60;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_70 = 0.0f;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_6C = 0.0f;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_68 = 0.0f;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_334 = 0;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_33C = 0;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_340 = 0.0f;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_344 = 0.0f;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_348 = 0.0f;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_34C = 0.0f;
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_350 = (saddr)create_particle_emitter((((u8 *)this) + 0x38), 0x12E);
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_354 = 0;
+        this->rotation_y = chara->rotation_y;
+        this->scale.z = 0.0f;
+        this->scale.y = 0.0f;
+        this->scale.x = 0.0f;
+        this->state = 0;
+        this->grow_frames = 0;
+        this->color.a = 0.0f;
+        this->color.r = 0.0f;
+        this->color.g = 0.0f;
+        this->color.b = 0.0f;
+        this->emitter = create_particle_emitter(&this->position, 0x12E);
+        this->hit_count = 0;
     } else {
-        ((LoadFreezeIceResourceRecoveredFields *)((u8 *)this))->field_350 = 0;
+        this->emitter = NULL;
         queue_destruction();
     }
 }
@@ -357,9 +271,6 @@ f32 TObjFreezeShell::receive_weapon_special_attack(void *, void *) {
     return 0.0f;
 }
 
-__declspec(section ".data") const char *bm_eff_ice_model_names[3] = { "ice_break_root.gj", "ice_root.gj", NULL };
-__declspec(section ".data") const char *bm_eff_ice_motion_names[2] = { "ice_break_root.njm", NULL };
-BmlResourceDescriptor enemy_freeze_ice_resource_descriptor = { "bm_eff_ice.bml", bm_eff_ice_model_names, bm_eff_ice_motion_names, 2, 1 };
 
 void TObjFreezeShell::apply_knockback_from_attacker(u8 *, f32) {  }
 void TParticleCtrl::set_scale(f32 a, f32 b) { scale_x = a; scale_y = b; }
