@@ -178,12 +178,9 @@ typedef struct Player_801CD72C {
 } Player_801CD72C;
 
 
-struct Pkt_801CDAD8 { u8 cmd; u8 size; u16 player; s16 heading; s16 kind; };
 
 
-struct Pkt_801CDED4 { u8 cmd; u8 size; u16 player; s16 heading; s16 kind; };
 
-struct Pkt_801CF128 { u8 cmd; u8 size; u16 player; s16 heading; s16 kind; };
 
 struct Plr_801CF56C {
     u8 pad0[0x38];
@@ -396,9 +393,7 @@ void update_player_action_palette(TObjPlayer *player, u8 slot);
 s32 copy_photon_blast_data__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
 u8 TObjPlayer__sub_801D2004(u8 *arg0);
 u8 * TObjPlayer__sub_801D21CC(u8 *arg0, u8 *arg1);
-void * TObjPlayer__sub_801D2348(void *arg0, void *arg1);
 void TObjPlayer__sub_801D2448(void* p);
-void * TObjPlayer__sub_801D24B0(void *arg0, void *arg1);
 u8 * TObjPlayer__sub_801D2540(u8 *arg0, u8 *arg1);
 u8 * TObjPlayer__sub_801D25AC(u8 *arg0, u8 *arg1);
 f32 get_action_rate_entry(Obj_801D2640 *p);
@@ -3457,21 +3452,21 @@ void TObjPlayer::enter_attack_stage3() {
 }
 
 }
-void handle_6x45_attack(G_Attack_6x43_6x44_6x45 *command) {
-    Pkt_801CDAD8 pkt;
+void handle_6x45_attack(G_Attack_6x45 *command) {
+    G_Attack_6x45 pkt;
     TObjPlayer *player;
-    ((G_Attack_6x45 *)&pkt)->init();
-    ((TObjPlayer *)(&pkt))->copy_6x45_attack_packet(command);
-    ((G_Attack_6x45 *)&pkt)->bswap();
-    if (validate_6x45_attack((G_Attack_6x43_6x44_6x45 *)&pkt) == 0) return;
-    player = get_player_by_client_id(pkt.player);
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x45_attack(&pkt) == 0) return;
+    player = get_player_by_client_id(pkt.header.client_id);
     if (player == 0) return;
     if (player->is_in_tl03_state() == 0) return;
     if (player->reset_volopt_state() == 0) return;
     if (player->test_action_mask(0x8200) != 0) return;
-    ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.kind);
-        player->attack_state.set_queued_kind(pkt.kind);
-    player->target_heading = pkt.heading;
+    ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.action_type);
+        player->attack_state.set_queued_kind(pkt.action_type);
+    player->target_heading = pkt.angle_y;
     player->run_action_state_phase(7, 0);
 }
 extern "C" {
@@ -3581,21 +3576,21 @@ void TObjPlayer::enter_attack_stage2() {
 }
 
 }
-void handle_6x44_attack(G_Attack_6x43_6x44_6x45 *command) {
-    Pkt_801CDED4 pkt;
+void handle_6x44_attack(G_Attack_6x44 *command) {
+    G_Attack_6x44 pkt;
     TObjPlayer *player;
-    ((G_Attack_6x44 *)&pkt)->init();
-    ((void (*)(Pkt_801CDED4 *, void *))TObjPlayer__sub_801D2348)(&pkt, command);
-    ((G_Attack_6x44 *)&pkt)->bswap();
-    if (validate_6x44_attack((G_Attack_6x43_6x44_6x45 *)&pkt) == 0) return;
-    player = get_player_by_client_id(pkt.player);
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x44_attack(&pkt) == 0) return;
+    player = get_player_by_client_id(pkt.header.client_id);
     if (player == 0) return;
     if (player->is_in_tl03_state() == 0) return;
     if (player->reset_volopt_state() == 0) return;
     if (player->test_action_mask(0x8200) != 0) return;
-    ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.kind);
-        player->attack_state.set_queued_kind(pkt.kind);
-    player->target_heading = pkt.heading;
+    ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.action_type);
+        player->attack_state.set_queued_kind(pkt.action_type);
+    player->target_heading = pkt.angle_y;
     player->run_action_state_phase(6, 0);
 }
 extern "C" {
@@ -4055,20 +4050,20 @@ void TObjPlayer::enter_attack_stage1() {
 }
 
 }
-void handle_6x43_attack(G_Attack_6x43_6x44_6x45 *command) {
-    Pkt_801CF128 pkt;
+void handle_6x43_attack(G_Attack_6x43 *command) {
+    G_Attack_6x43 pkt;
     TObjPlayer *player;
-    ((G_Attack_6x43 *)&pkt)->init();
-    ((void (*)(Pkt_801CF128 *, void *))TObjPlayer__sub_801D24B0)(&pkt, command);
-    ((G_Attack_6x43 *)&pkt)->bswap();
-    if (validate_6x43_attack((G_Attack_6x43_6x44_6x45 *)&pkt) == 0) return;
-    player = get_player_by_client_id(pkt.player);
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x43_attack(&pkt) == 0) return;
+    player = get_player_by_client_id(pkt.header.client_id);
     if (player == 0) return;
     if (player->is_in_tl03_state() == 0) return;
     if (player->reset_volopt_state() == 0) return;
     if (player->test_action_mask(0x8200) != 0) return;
-    ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.kind);
-    player->target_heading = pkt.heading;
+    ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.action_type);
+    player->target_heading = pkt.angle_y;
     player->run_action_state_phase(5, 0);
 }
 void TObjPlayer::request_normal_attack_stage1() {
@@ -5582,18 +5577,18 @@ void G_SetTechniqueLevelOverride_6x8D::send() {
     send_subcommand(this);
 }
 
-void *TObjPlayer::copy_6x45_attack_packet(void *src) {
-    copy_subcommand_header(this, src);
-    this->m_flags = *(s16 *)((s8 *)src + 0x4);
-    this->m_id = *(s16 *)((s8 *)src + 0x6);
-    return this;
+G_Attack_6x45 &G_Attack_6x45::operator=(G_Attack_6x45 &src) {
+    copy_subcommand_header(this, &src);
+    angle_y = src.angle_y;
+    action_type = src.action_type;
+    return *this;
 }
 
-void *TObjPlayer__sub_801D2348(void *arg0, void *arg1) {
-    copy_subcommand_header(arg0, arg1);
-    *(u16 *)((s8 *)arg0 + 0x4) = *(s16 *)((s8 *)arg1 + 0x4);
-    *(u16 *)((s8 *)arg0 + 0x6) = *(s16 *)((s8 *)arg1 + 0x6);
-    return arg0;
+G_Attack_6x44 &G_Attack_6x44::operator=(G_Attack_6x44 &src) {
+    copy_subcommand_header(this, &src);
+    angle_y = src.angle_y;
+    action_type = src.action_type;
+    return *this;
 }
 
 void TObjPlayer::bswap_field4_sub() { ((G_ClientIDHeader *)this)->bswap(); ((TObjPlayer *)((char*)this + 0x4))->bswap_u16_pair_list(); }
@@ -5623,11 +5618,11 @@ extern int fold_flush_14;
 #pragma dont_inline off
 #pragma dont_inline off
 
-void *TObjPlayer__sub_801D24B0(void *arg0, void *arg1) {
-    copy_subcommand_header(arg0, arg1);
-    *(u16 *)((s8 *)arg0 + 0x4) = *(s16 *)((s8 *)arg1 + 0x4);
-    *(u16 *)((s8 *)arg0 + 0x6) = *(s16 *)((s8 *)arg1 + 0x6);
-    return arg0;
+G_Attack_6x43 &G_Attack_6x43::operator=(G_Attack_6x43 &src) {
+    copy_subcommand_header(this, &src);
+    angle_y = src.angle_y;
+    action_type = src.action_type;
+    return *this;
 }
 extern int fold_flush_15;
 #pragma pop
