@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/unk/TLobby_80227A2C.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"

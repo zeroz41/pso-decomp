@@ -7,7 +7,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/unk/TLobby_80227A2C.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/TLoadCtrl_80227390.h"

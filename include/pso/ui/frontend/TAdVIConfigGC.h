@@ -18,7 +18,6 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     static void disable_progressive_mode();
     virtual void run_task();
     void set_field_2c(s32 v);
-    static void apply_config_if_valid(s32 item_id, s32 arg1);
     void open_player_names_window();
     s32 get_field_14();
     void update_visibility();

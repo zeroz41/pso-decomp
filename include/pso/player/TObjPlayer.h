@@ -1292,8 +1292,6 @@ extern s16 item_equip_attach_equip_flag_table[];
 // The demo camera check_demo_mode tests; TCameraDebugView looks at its entry of
 // demo_camera_params_table.
 extern s16 demo_camera_index;
-// The battle rule settings (0x24 bytes) the TLobby rule accessors read and write.
-extern s32 lobby_rule_settings[9];
 
 // The player object of each client id (NULL while the slot is empty).
 extern TObjPlayer *player_slot_table[12];

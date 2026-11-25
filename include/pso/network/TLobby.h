@@ -788,6 +788,9 @@ void receive_lobby_name(char *name);
 void clear_lobby_name();
 char *get_lobby_name();
 
+// The battle rule settings (0x24 bytes) the TLobby rule accessors read and write.
+extern s32 lobby_rule_settings[9];
+
 class TObject;
 
 s32 get_online_message_text(s32 id);

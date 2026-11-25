@@ -3,7 +3,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/network/TLobby.h"
-#include "pso/unk/TLobby_80227A2C.h"
+#include "pso/unk/TLobby_80227AA0.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/unk/TLobby_802268F4.h"
