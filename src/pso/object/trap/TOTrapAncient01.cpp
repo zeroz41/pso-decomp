@@ -394,7 +394,7 @@ void TOTrapAncient01::release_trapped_player() {
     TObjPlayer *player;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (target != NULL) {
-            player = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
+            player = get_player_by_client_id(target->get_entity_id());
             if (player != NULL) {
                 if (player->check_player_flag1() != 0) {
                     send_release_hold(player);
@@ -402,7 +402,7 @@ void TOTrapAncient01::release_trapped_player() {
                 obj_clear_flag30_20000(player);
             }
         }
-    } else if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
+    } else if (target != NULL && local_client_id == target->get_entity_id()) {
         player = get_player_by_client_id(local_client_id);
         if (player != NULL) {
             if (player->check_player_flag1() != 0) {

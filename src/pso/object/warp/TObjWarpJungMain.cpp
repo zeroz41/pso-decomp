@@ -97,9 +97,9 @@ void TObjWarpJungMain::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_ginja_object((void *)get_bml_model(warp_jung_beam_bml_resource, 0));
+        draw_ginja_object(get_bml_model(warp_jung_beam_bml_resource, 0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((void *)get_bml_model(warp_jung_beam_bml_resource, 1), warp_jung_beam_motion, m_c4);
+        draw_ginja_model_with_motion(get_bml_model(warp_jung_beam_bml_resource, 1), warp_jung_beam_motion, m_c4);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -233,11 +233,11 @@ f32 TObjWarpJung::get_static_field4_as_float() {
 void TObjWarpJung::set_global_render_param() { TObjFish::set_global_param(warp_jung_textures); }
 
 void TObjWarpJung::render_warp_effect(s32 model_index, s32 frame) {
-    draw_ginja_model_with_motion((void *)get_bml_model(warp_jung_beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
+    draw_ginja_model_with_motion(get_bml_model(warp_jung_beam_bml_resource, model_index), warp_jung_beam_motion, (f32)frame);
 }
 
 void TObjWarpJung::render_warp(s32 model_index) {
-    draw_ginja_object((void *)get_bml_model(warp_jung_beam_bml_resource, model_index));
+    draw_ginja_object(get_bml_model(warp_jung_beam_bml_resource, model_index));
 }
 
 s32 TObjWarpJung__sub_801A0404(s32 arg0) {

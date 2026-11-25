@@ -62,7 +62,7 @@ void TOSwitchAttack::run_task() {
             p = resolve_hittable_target(i, 0);
             if (p != NULL) {
                 if (((TObjPlayer *)p)->get_floor() == get_current_floor() &&
-                    horizontal_distance_squared(&((TObjPlayer *)p)->position, &position) < range_sq) {
+                    horizontal_distance_squared(&p->position, &position) < range_sq) {
                     DirectAttackPayload b;
                     b.kind = 0;
                     b.power = damage;

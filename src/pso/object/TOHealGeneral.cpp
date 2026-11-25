@@ -126,7 +126,7 @@ void TOHealGeneral::find_heal_target() {
             continue;
         }
         heal_target = id;
-        if (((TObjChara *)player)->get_actor_hp() < ((TObjChara *)player)->get_hpmax() ||
+        if (player->get_actor_hp() < player->get_hpmax() ||
             player->get_actor_tp() < player->get_tpmax() ||
             (u32)player->get_recovery_need_flags() != 0 ||
             (player->is_alive_and_ready() != 0 && player->are_traps_full() == 0)) {

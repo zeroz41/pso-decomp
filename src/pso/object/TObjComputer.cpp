@@ -217,10 +217,10 @@ void TObjGbAdvance::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, this->rotation_y);
-        draw_ginja_object((void *)get_bml_model(TObjGbAdvance__data_805D5B74, 0));
-        draw_ginja_object((void *)get_bml_model(TObjGbAdvance__data_805D5B74, 1));
-        draw_ginja_object((void *)get_bml_model(TObjGbAdvance__data_805D5B74, 2));
-        draw_ginja_object((void *)get_bml_model(TObjGbAdvance__data_805D5B74, 3));
+        draw_ginja_object(get_bml_model(TObjGbAdvance__data_805D5B74, 0));
+        draw_ginja_object(get_bml_model(TObjGbAdvance__data_805D5B74, 1));
+        draw_ginja_object(get_bml_model(TObjGbAdvance__data_805D5B74, 2));
+        draw_ginja_object(get_bml_model(TObjGbAdvance__data_805D5B74, 3));
         pop_matrix();
     }
 }

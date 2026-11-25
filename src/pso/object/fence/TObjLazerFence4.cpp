@@ -75,12 +75,12 @@ void TObjLazerFence4::init_models() {
     s32 i;
     s32 j;
     if (set_params[2] % 2 == 0) {
-        beam_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 4);
-        post_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 5);
+        beam_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 4);
+        post_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 5);
         motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 2);
     } else {
-        beam_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 6);
-        post_model = (NJS_OBJECT *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 7);
+        beam_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 6);
+        post_model = (NJS_OBJECT *)get_bml_model(lazer_fence_norm_bml_resource, 7);
         motion = (AnimationMotion *)get_bml_motion(lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {

@@ -136,35 +136,35 @@ void load_boss_warp_resources() {
         resource = new BmlResource(5, &lbl_804B94D8, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
         boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
-        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 2);
-        warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
+        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
+        warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
-        boss_warp_effect_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+        boss_warp_base_textures = get_bml_texlist(boss_warp_resource_bundle, 2);
+        boss_warp_effect_textures = get_bml_texlist(boss_warp_resource_bundle, 2);
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         resource = new BmlResource(5, &lbl_804B94FC, 0, 0, NULL);
         boss_warp_resource_bundle = resource;
         boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
-        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
-        warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
+        boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
+        warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        boss_warp_base_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
-        boss_warp_effect_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 0);
+        boss_warp_base_textures = get_bml_texlist(boss_warp_resource_bundle, 0);
+        boss_warp_effect_textures = get_bml_texlist(boss_warp_resource_bundle, 0);
         return;
     }
     resource = new BmlResource(5, &lbl_804B94AC, 0, 0, NULL);
     boss_warp_resource_bundle = resource;
     boss_warp_base_model = (NJS_OBJECT *)get_bml_model(resource, 0);
-    boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 2);
-    warp_boss_model = (NJS_OBJECT *)get_bml_model((BmlResource *)boss_warp_resource_bundle, 1);
+    boss_warp_confirmation_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 2);
+    warp_boss_model = (NJS_OBJECT *)get_bml_model(boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
     warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-    boss_warp_base_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
-    boss_warp_effect_textures = get_bml_texlist((BmlResource *)boss_warp_resource_bundle, 2);
+    boss_warp_base_textures = get_bml_texlist(boss_warp_resource_bundle, 2);
+    boss_warp_effect_textures = get_bml_texlist(boss_warp_resource_bundle, 2);
 }
 
 void release_boss_warp_resources(void) {
@@ -770,8 +770,8 @@ void TObjWarpBoss::update_warp_boss_visibility() {
             ((TObject *)menu_window)->disallow_rendering();
         }
         if (player_list_window != NULL) {
-            ((TObject *)player_list_window)->suspend_update();
-            ((TObject *)player_list_window)->disallow_rendering();
+            player_list_window->suspend_update();
+            player_list_window->disallow_rendering();
         }
     } else {
         if (yes_no_window != NULL) {
@@ -783,8 +783,8 @@ void TObjWarpBoss::update_warp_boss_visibility() {
             ((TObject *)menu_window)->allow_rendering();
         }
         if (player_list_window != NULL) {
-            ((TObject *)player_list_window)->clear_update_suspension();
-            ((TObject *)player_list_window)->allow_rendering();
+            player_list_window->clear_update_suspension();
+            player_list_window->allow_rendering();
         }
     }
 }

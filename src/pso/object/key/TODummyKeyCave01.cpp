@@ -176,7 +176,7 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        model = (void *)get_bml_model((BmlResource *)key_cave01_resource_bundle, 0);
+        model = (void *)get_bml_model(key_cave01_resource_bundle, 0);
         this->off_textures = key_cave01_texture_lists[0];
         this->on_textures = key_cave01_texture_lists[1];
         break;
@@ -184,7 +184,7 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_FOREST2:
     case AREA_MINE1:
     case AREA_MINE2:
-        model = (void *)get_bml_model((BmlResource *)key_machine01_resource_bundle, 0);
+        model = (void *)get_bml_model(key_machine01_resource_bundle, 0);
         this->off_textures = key_machine01_texture_lists[0];
         this->on_textures = key_machine01_texture_lists[1];
         break;
@@ -202,11 +202,11 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
         if (model_variant == 0) {
-            model = (void *)get_bml_model((BmlResource *)key_cave01_resource_bundle, 0);
+            model = (void *)get_bml_model(key_cave01_resource_bundle, 0);
             this->off_textures = key_cave01_texture_lists[0];
             this->on_textures = key_cave01_texture_lists[1];
         } else {
-            model = (void *)get_bml_model((BmlResource *)key_machine01_resource_bundle, 0);
+            model = (void *)get_bml_model(key_machine01_resource_bundle, 0);
             this->off_textures = key_machine01_texture_lists[0];
             this->on_textures = key_machine01_texture_lists[1];
         }
@@ -220,7 +220,7 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        model = (void *)get_bml_model((BmlResource *)key_cave01_resource_bundle, 0);
+        model = (void *)get_bml_model(key_cave01_resource_bundle, 0);
         this->off_textures = key_cave01_texture_lists[0];
         this->on_textures = key_cave01_texture_lists[1];
         spins = 1;

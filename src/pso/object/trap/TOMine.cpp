@@ -782,13 +782,13 @@ void TOMineTrap::run_task() {
                         target = chara;
                         switch (attack.kind) {
                         case 2:
-                            ((TObjChara *)target)->apply_movement_ailment(0);
+                            target->apply_movement_ailment(0);
                             break;
                         default:
-                            ((TObjChara *)target)->receive_direct_attack(this, attack, 0, -1, -1);
+                            target->receive_direct_attack(this, attack, 0, -1, -1);
                             break;
                         }
-                        ((TObjChara *)target)->record_attack_source(get_trap_type());
+                        target->record_attack_source(get_trap_type());
                     }
                     if (m_380 != 1) {
                         m_380 = show_owner_message(chara);
@@ -799,19 +799,19 @@ void TOMineTrap::run_task() {
                     target = p;
                     switch (attack.kind) {
                     case 2:
-                        ((TObjChara *)target)->apply_movement_ailment(0);
-                        ((TObjChara *)target)->sync_enemy_state(0);
+                        target->apply_movement_ailment(0);
+                        target->sync_enemy_state(0);
                         break;
                     default:
-                        ((TObjChara *)target)->receive_direct_attack(attacker, attack, 0, -1, -1);
+                        target->receive_direct_attack(attacker, attack, 0, -1, -1);
                         break;
                     }
-                    ((TObjChara *)target)->record_attack_source(get_trap_type());
+                    target->record_attack_source(get_trap_type());
                 }
             } else if (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap__data_805D3080) != 0) {
                 if (horizontal_distance_squared(&position, &p->position) < trigger_radius * trigger_radius) {
                     target = p;
-                    ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
+                    target->receive_physical_attack(this, 1.0f);
                 }
             }
         }

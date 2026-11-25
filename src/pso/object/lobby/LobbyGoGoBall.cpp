@@ -436,11 +436,11 @@ s32 TObjGoGoBall::reflect_velocity_off_collision(void *p, void *v) {
     end.x = ((Vec *)p)->x + ((Vec *)v)->x;
     end.y = ((Vec *)p)->y + ((Vec *)v)->y;
     end.z = ((Vec *)p)->z + ((Vec *)v)->z;
-    VecCopy(&dir, (const Vec *)((Vec *)v));
+    VecCopy(&dir, (const Vec *)v);
     len = vector_length(&dir);
     if ((0.0f) != len) {
         normalize_vector(&dir);
-        VecCopy(&a, (const Vec *)((Vec *)p));
+        VecCopy(&a, (const Vec *)p);
         a.x -= (3.0f) * (dir.x * len);
         a.y -= (3.0f) * (dir.y * len);
         a.z -= (3.0f) * (dir.z * len);

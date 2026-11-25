@@ -33,10 +33,10 @@ void TOMonumentAncient01::render() {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        draw_ginja_object(get_bml_model((BmlResource *)model_resource, 2));
+        draw_ginja_object(get_bml_model(model_resource, 2));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object(get_bml_model((BmlResource *)model_resource, 1));
-        draw_ginja_object(get_bml_model((BmlResource *)model_resource, 0));
+        draw_ginja_object(get_bml_model(model_resource, 1));
+        draw_ginja_object(get_bml_model(model_resource, 0));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -66,8 +66,8 @@ TOMonumentAncient01::~TOMonumentAncient01() {
 TOMonumentAncient01::TOMonumentAncient01(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)model_resource, 2);
-    texlist = get_bml_texlist((BmlResource *)model_resource, 2);
+    model = (void *)get_bml_model(model_resource, 2);
+    texlist = get_bml_texlist(model_resource, 2);
     init_collision_body_parts(this, &monument_ancient01_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

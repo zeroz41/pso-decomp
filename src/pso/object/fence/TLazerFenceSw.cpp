@@ -235,8 +235,8 @@ void TLazerFenceSw::load_resources() {
             lazer_fence_sw_texture_list = LoadPvmFileTls(fe_obj_switch_laz_gvm);
         }
     }
-    lazer_fence_sw_ginja_model_table[0] = get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
-    lazer_fence_sw_ginja_model_table[1] = get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 1);
+    lazer_fence_sw_ginja_model_table[0] = get_bml_model(lazer_fence_switch_bml_resource, 0);
+    lazer_fence_sw_ginja_model_table[1] = get_bml_model(lazer_fence_switch_bml_resource, 1);
     lazer_fence_beam_motions[0] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 0);
     lazer_fence_beam_motions[1] = (uaddr)get_bml_motion(lazer_fence_switch_bml_resource, 1);
     for (j = 0; j < 3; j++) {

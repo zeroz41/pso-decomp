@@ -386,14 +386,14 @@ void TOTrapAncient02::vfunc_82() {
         phase = 2;
     case 2:
         if (target != NULL) {
-            ((TObjBase *)target)->set_actor_flags(0x200);
-            ((TObjChara *)target)->enable_motion_blend();
-            ((TObjChara *)target)->set_override_speed(1.0f);
+            target->set_actor_flags(0x200);
+            target->enable_motion_blend();
+            target->set_override_speed(1.0f);
             timer--;
             if (timer < 0) {
                 phase = 3;
                 timer = reset;
-                if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
+                if (target != NULL && local_client_id == target->get_entity_id()) {
                     p = get_player_by_client_id(local_client_id);
                     if (p != NULL && p->check_player_flag1() != 0) {
                         send_release_hold(p);
@@ -597,16 +597,16 @@ void TOTrapAncient02R::vfunc_81() {
             TObjPlayer *p = get_player_by_client_id(player);
             target = p;
             if (target != NULL && p->get_floor() == get_current_floor() &&
-                (((TObjBase *)target)->alt_room == alt_room || ((TObjBase *)target)->room == room ||
+                (target->alt_room == alt_room || ((TObjBase *)target)->room == room ||
                  ((TObjBase *)target)->room == alt_room)) {
-                d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
+                d = horizontal_distance_squared(&target->position, &position);
                 dist = range + ((TObjCollidable *)target)->get_collision_body_radius(0);
                 if (d < dist * dist) {
                     mode = 3;
                     phase = 2;
                     VecCopy(&scratch_vec, &position);
                     scratch_vec.y += h344 + h348;
-                    VecCopy(&scratch_vec2, &((TObjChara *)target)->body_center);
+                    VecCopy(&scratch_vec2, &target->body_center);
                     subtract_vector(&scratch_vec2, &scratch_vec);
                     if (normalize_vector_safe(&scratch_vec2) < 1e-5f) {
                         scratch_vec2.x = scratch_vec2.y = 0.0f;
@@ -622,7 +622,7 @@ void TOTrapAncient02R::vfunc_81() {
                         DirectAttackPayload payload;
                         payload.kind = 3;
                         payload.power = scale_by_table_value(20.0f * (f32)tech_level + 240.0f);
-                        ((TObjChara *)target)->receive_direct_attack(this, payload, NULL, -1, -1);
+                        target->receive_direct_attack(this, payload, NULL, -1, -1);
                         spawn_particle_effect(&scratch_vec, 0xB9);
                         spawn_particle_effect(&scratch_vec, 0xBA);
                         {
@@ -632,7 +632,7 @@ void TOTrapAncient02R::vfunc_81() {
                         break;
                     }
                     case 0:
-                        TTecFoie::create_ex(this, &scratch_vec, &((TObjChara *)target)->body_center, tech_level);
+                        TTecFoie::create_ex(this, &scratch_vec, &target->body_center, tech_level);
                         break;
                     case 2:
                         TTecGiBarta::create_ex(this, &scratch_vec, ang, tech_level);

@@ -770,13 +770,13 @@ void TObjLaboMapWarp::render() {
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         if (is_field88_zero() != 0) {
-            draw_ginja_object((void *)get_bml_model(labo_map_warp_resource_bundle, 1));
+            draw_ginja_object(get_bml_model(labo_map_warp_resource_bundle, 1));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
+            draw_ginja_model_with_motion(get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
+            draw_ginja_model_with_motion(get_bml_model(labo_map_warp_resource_bundle, 0), get_bml_motion(labo_map_warp_resource_bundle, 0), animation_frame);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();
