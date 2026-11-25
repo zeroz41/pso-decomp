@@ -2,10 +2,12 @@
 #define PSO_UI_WINDOW_TWINDOWMESSAGEQUEST_H
 
 #include "types.h"
+
+struct NJS_POINT2;
 #include "pso/ui/window/TWindowMessage.h"
 
 struct TWindowMessageQuest : public TWindowMessage {
-    TWindowMessageQuest(s32 parent);
+    TWindowMessageQuest(const NJS_POINT2 *position);
     virtual ~TWindowMessageQuest();
     virtual void render();
     void set_frame_mode(s32 mode);

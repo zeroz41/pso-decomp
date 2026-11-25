@@ -2,12 +2,14 @@
 #define PSO_UI_WINDOW_TWINDOWMESSAGELOG_H
 
 #include "types.h"
+
+struct NJS_POINT2;
 #include "pso/ui/window/TWindowMessage.h"
 
 struct WindowScrollBar;
 
 struct TWindowMessageLog : public TWindowMessage {
-    TWindowMessageLog(s32 parent, s32 client);
+    TWindowMessageLog(const NJS_POINT2 *position, s32 client);
     virtual ~TWindowMessageLog();
     void update_scroll_animation();
     void update_fade_offset();

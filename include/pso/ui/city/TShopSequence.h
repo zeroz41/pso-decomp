@@ -2,6 +2,8 @@
 #define PSO_UI_CITY_TSHOPSEQUENCE_H
 
 #include "types.h"
+
+struct NJS_POINT2;
 #include "pso/ui/city/TShopWindowBase.h"
 
 struct TObjPlayer;
@@ -13,7 +15,7 @@ struct TShopSequence : public TShopWindowBase {
     virtual ~TShopSequence();
     virtual void restore_player_state();
     virtual void close_window();
-    u32 create_message_window(s32, s32);
+    u32 create_message_window(const NJS_POINT2 *position, s32 extent);
     void close_message_window();
     virtual void display_shop_message(s32 id, s32 flags);
     virtual void display_message(const char *text, s32 flags);

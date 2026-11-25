@@ -3,10 +3,12 @@
 
 #include <stddef.h>
 #include "types.h"
+
+struct NJS_POINT2;
 #include "pso/ui/window/TWindowMessageQuest.h"
 
 struct TWindowMessageScroll : public TWindowMessageQuest {
-    TWindowMessageScroll(s32 parent, s32 *done);
+    TWindowMessageScroll(const NJS_POINT2 *position, s32 *done);
     virtual ~TWindowMessageScroll();
     void run_task();
     void set_scroll_speed(f32 speed);

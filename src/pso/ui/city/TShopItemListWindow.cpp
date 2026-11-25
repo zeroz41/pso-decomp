@@ -268,7 +268,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
             count = room;
         }
         if (count > 1) {
-            quantity_input = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
+            quantity_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, count, 1, get_player_entity_id());
             if (quantity_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 quantity_input->set_scale(0.75f, 0.75f);
             }

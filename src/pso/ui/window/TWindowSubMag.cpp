@@ -338,9 +338,9 @@ void TWindowSubMag::render() {  }
 
 saddr TWindowSubMag::setup_list() {
     TWindowSubEquipKind *equip_kind_window;
-    s32 window_layout_position;
+    const NJS_POINT2 *window_layout_position;
 
-    window_layout_position = reinterpret_cast<saddr>(get_window_layout_position(7));
+    window_layout_position = get_window_layout_position(7);
     equip_kind_window = create_equip_kind_window(window_layout_position, &lbl_8044F9F0, this->client_id);
     equip_kind_window->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x29));
     equip_kind_window->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 0));
@@ -352,7 +352,7 @@ saddr TWindowSubMag::setup_list() {
 saddr TWindowSubMag::create_list() {
     TWindowSubEquipKind *equip_kind_window;
 
-    s32 window_layout_position = reinterpret_cast<saddr>(get_window_layout_position(0xD));
+    const NJS_POINT2 *window_layout_position = get_window_layout_position(0xD);
     equip_kind_window = create_equip_kind_window(window_layout_position, &lbl_8044F9F8, this->client_id);
     equip_kind_window->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     equip_kind_window->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 2));
@@ -396,9 +396,9 @@ void *TWindowSubMag::create_action_menu(s32 id) {
 
 void *TWindowSubMag::create() {
     void *object;
-    s32 window_layout_position;
+    const NJS_POINT2 *window_layout_position;
 
-    window_layout_position = reinterpret_cast<saddr>(get_window_layout_position(0xB));
+    window_layout_position = get_window_layout_position(0xB);
     object = TWindowMessage::create(window_layout_position, lbl_8044FA00, 1, this->client_id);
     ((TWindowBase *)object)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 4));
     *(s32 *)((s8 *)object + 0x5C) = 0x186A0;
@@ -440,7 +440,7 @@ void *TWindowSubMag::create_learned_blast_toast() {
     pos.x -= (0.5f * n + 4.0f) * scale;
     size.x = 8.0f + n;
     size.y = 40.0f;
-    win = TWindowMessage::create((saddr)&pos, &size.x, 1, this->client_id);
+    win = TWindowMessage::create(&pos, &size.x, 1, this->client_id);
     ((TWindowBase *)win)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 6));
     ((TWindowMessage *)win)->append_line((saddr)((s32 *)get_shared_text_buffer()), (int)2);
     ((TWindowAddition *)win)->set_position_xy(scale, scale);

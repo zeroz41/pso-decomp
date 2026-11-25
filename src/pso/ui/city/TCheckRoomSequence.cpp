@@ -185,7 +185,7 @@ void TCheckRoomSequence::begin_meseta_withdrawal() {
         amount = (amount < bank_meseta) ? amount : bank_meseta;
         if (amount > 0) {
             if (number_input == NULL) {
-                number_input = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
+                number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
                 if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
@@ -243,7 +243,7 @@ void TCheckRoomSequence::begin_meseta_deposit() {
             amount = get_bank_meseta_capacity(slot);
             amount = (amount < meseta) ? amount : meseta;
             if (number_input == NULL) {
-                number_input = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
+                number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, amount, 1, get_player_entity_id());
                 if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
                     number_input->set_scale(0.75f, 0.75f);
                 }
@@ -467,7 +467,7 @@ void TCheckRoomSequence::open_bank() {
     NJS_POINT2 position;
     position.x = 332.0f;
     position.y = 80.0f;
-    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)&position);
+    create_message_window(get_window_layout_position(0x2C), (saddr)&position);
     display_shop_message(0x31, 1);
     meseta_window = create_meseta_window(get_player_entity_id());
     deposit_window = new TWindowDeposit(get_player_entity_id());

@@ -26,8 +26,8 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-
-TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
+// Called by its mangled name: a new-expression allocates the entity id in a different register.
+TWindowInputNumber *__ct__18TWindowInputNumberFPC10NJS_POINT2llls(void *, const NJS_POINT2 *, s32, s32, s32, s16);
 }
 
 extern const char *TShopGetItemWindow__class_name;
@@ -186,7 +186,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
                 TWindowInputNumber *obj = (TWindowInputNumber *)TObject::operator new(0x7C);
                 if (obj != NULL) {
                     sel = (s16)get_player_entity_id();
-                    obj = __ct__18TWindowInputNumberFPvllls(obj, (s32)get_window_layout_position(0x2B), 1, count, 1, sel);
+                    obj = __ct__18TWindowInputNumberFPC10NJS_POINT2llls(obj, get_window_layout_position(0x2B), 1, count, 1, sel);
                 }
                 number_input = obj;
                 if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
@@ -196,7 +196,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
                 return;
             }
             sel = player->get_entity_id();
-            confirm_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), sel, NULL, NULL);
+            confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), sel, NULL, NULL);
             confirm_menu->set_ready_flag();
             scale = get_scale();
             ((TWindowAddition *)confirm_menu)->set_position_xy(get_scale(), scale);
@@ -210,7 +210,7 @@ void TShopGetItemWindow::update_input_number() {
     w = number_input;
     if (w != NULL && w->is_confirmed() != 0) {
         if (confirm_menu == NULL) {
-            confirm_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
+            confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), player->get_entity_id(), NULL, NULL);
             confirm_menu->set_ready_flag();
             ((TWindowAddition *)confirm_menu)->set_position_xy(get_scale(), get_scale());
         }

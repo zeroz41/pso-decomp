@@ -200,7 +200,7 @@ saddr TWindowSubOption::create_option_value_window(s32 option) {
     s16 value;
     saddr window;
     s32 flag;
-    window = (saddr)TWindowSubStatusDisp__sub_80248BE8((saddr)(get_window_layout_position(0x16)), (saddr)option_value_window_size, (s32)client_id);
+    window = (saddr)TWindowSubStatusDisp__sub_80248BE8(get_window_layout_position(0x16), (saddr)option_value_window_size, (s32)client_id);
     switch (option) {
     case 0:
         ((TWindowMenuIconLine *)window)->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x66)));

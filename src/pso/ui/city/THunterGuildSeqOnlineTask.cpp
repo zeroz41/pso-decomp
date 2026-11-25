@@ -301,7 +301,7 @@ void TQuestListOnline::receive_quest_info(OnlineQuestInfo &info) {
                 TQuestListOnline__quest_info_window = NULL;
             }
             NJS_POINT2 p = quest_info_window_size;
-            TQuestListOnline__quest_info_window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x2E), (const f32 *)&p, 1, local_client_id);
+            TQuestListOnline__quest_info_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x2E), (const f32 *)&p, 1, local_client_id);
             TQuestListOnline__quest_info_window->set_depth(37000.0f);
             TQuestListOnline__quest_info_window->append_line((saddr)TQuestListOnline__selected_quest_info->text, 0x80);
             if (TCameraCtrl::get_camera_id() >= 2) {

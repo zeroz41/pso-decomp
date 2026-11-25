@@ -191,7 +191,7 @@ TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 arg2
         ((s32 (*)(s32))text_builder_append)((saddr)p->get_name());
     }
     ((s32 (*)(s32))text_builder_append)(arg2);
-    window = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
+    window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
     window->append_line((saddr)get_shared_text_buffer(), 0x82);
     return window;
 }

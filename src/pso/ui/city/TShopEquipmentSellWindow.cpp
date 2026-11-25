@@ -232,7 +232,7 @@ void TShopEquipmentSellWindow::handle_selection() {
         if (this->entries[i].data.data1.data_u8[0] == 3) {
             type = this->entries[i].data.get_stack_count();
             if (type > 1 && this->number_input == NULL) {
-                this->number_input = new TWindowInputNumber((void *)get_window_layout_position(0x2B), 1, type, 1, get_player_entity_id());
+                this->number_input = new TWindowInputNumber(get_window_layout_position(0x2B), 1, type, 1, get_player_entity_id());
                 if (this->number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
                     this->number_input->set_scale(0.75f, 0.75f);
                 }

@@ -2,6 +2,8 @@
 #define PSO_UI_WINDOW_TWINDOWINPUTNUMBER_H
 
 #include "types.h"
+
+struct NJS_POINT2;
 #include <stddef.h>
 #include "pso/ui/window/TWindowBase.h"
 
@@ -24,7 +26,7 @@ struct TWindowInputNumber : public TWindowBase {
     f32 scaleX;
     f32 scaleY;
 
-    TWindowInputNumber(void *position, s32 minimum, s32 maximum, s32 initial, s16 client);
+    TWindowInputNumber(const NJS_POINT2 *position, s32 minimum, s32 maximum, s32 initial, s16 client);
     virtual ~TWindowInputNumber();
     void mark_confirmed();
     void confirm_input();

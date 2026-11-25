@@ -477,7 +477,7 @@ s32 TWindowSubItem::create_menu_window() {
 s32 TWindowSubItem::create_count_input(s32 maximum) {
     saddr storage;
 
-    storage = (saddr)new TWindowInputNumber((void *)get_window_layout_position(5), 1, maximum, 1, (s16) this->client_id);
+    storage = (saddr)new TWindowInputNumber(get_window_layout_position(5), 1, maximum, 1, (s16) this->client_id);
     ((TWindowInputNumber *)storage)->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
     ((TWindowBase *)storage)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 3));
     ((TWindowInputNumber *)storage)->set_value(224.0f);

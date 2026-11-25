@@ -3,6 +3,7 @@
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "types.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
@@ -40,7 +41,6 @@ struct Stack_80213B18 {
     f32 spC;
 };
 
-extern "C" saddr get_window_layout_position(s32);
 
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState TQuestListOnline__dat_download_state;
@@ -252,7 +252,7 @@ void THunterGuildSeqOnline_Server::update() {
 
 void THunterGuildSeqOnline_Server::create_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), ((TObjBase *)(player))->get_entity_id(), NULL, NULL);
+        choice_menu = create_yes_no_window(get_window_layout_position(0x2B), ((TObjBase *)(player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         choice_menu->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
@@ -448,7 +448,7 @@ void THunterGuildSeqOnline_Client::sub_80213B18() {
     Stack_80213B18 stack;
     stack.sp8 = 332.0f;
     stack.spC = 80.0f;
-    create_message_window((s32)(get_window_layout_position(0x2C)), (s32)((saddr) &stack.sp8));
+    create_message_window(get_window_layout_position(0x2C), (saddr)&stack.sp8);
     display_guild_message(1, 1);
     pad_30 = 0;
     set_state(2);

@@ -530,8 +530,8 @@ TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
     TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x88)), (s16)1);
 }
 
-TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(void *parent, s32 *arg2, s32 *arg3)
-    : TWindowAddition((u8 *)&symbol_chat_parts_window_layout, 4, (u8 *)parent) {
+TWindowSubSymbolChatParts::TWindowSubSymbolChatParts(const NJS_POINT2 *position, s32 *arg2, s32 *arg3)
+    : TWindowAddition((u8 *)&symbol_chat_parts_window_layout, 4, (u8 *)position) {
     NJS_POINT2 v;
     void *p;
 

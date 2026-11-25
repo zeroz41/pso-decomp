@@ -2,10 +2,12 @@
 #define PSO_UI_WINDOW_TWINDOWMESSAGEINFOMATION_H
 
 #include "types.h"
+
+struct NJS_POINT2;
 #include "pso/ui/window/TWindowMessage.h"
 
 struct TWindowMessageInfomation : public TWindowMessage {
-    TWindowMessageInfomation(s32 parent, s32 client);
+    TWindowMessageInfomation(const NJS_POINT2 *position, s32 client);
     virtual ~TWindowMessageInfomation();
     void render();
 };

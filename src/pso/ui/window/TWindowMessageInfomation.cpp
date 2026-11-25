@@ -21,6 +21,6 @@ TWindowMessageInfomation::~TWindowMessageInfomation() {
 
 }
 
-TWindowMessageInfomation::TWindowMessageInfomation(s32 parent, s32 client) : TWindowMessage(parent, 0x10U, client) {
+TWindowMessageInfomation::TWindowMessageInfomation(const NJS_POINT2 *position, s32 client) : TWindowMessage(position, 0x10U, client) {
     this->m_name = TWindowMessageInfomation__name;
 }

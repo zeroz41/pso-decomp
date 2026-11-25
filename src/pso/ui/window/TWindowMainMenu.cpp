@@ -331,7 +331,7 @@ void TWindowMainMenu::update_description_text(s32 id) {
     if ((s32) *(s32 *)((s8 *)this + 0x48) != id) {
         *(s32 *)((s8 *)this + 0x48) = id;
         if ((u32) *(u32 *)((s8 *)this + 0x24) == 0U) {
-            saddr tmp = reinterpret_cast<saddr>(get_window_layout_position(0x1B));
+            const NJS_POINT2 *tmp = get_window_layout_position(0x1B);
             *(u32 *)((s8 *)this + 0x24) = (uaddr)TWindowMessage::create(tmp, lbl_8044F2E0, 1, this->client_index);
             ((TWindowBase *)(*(uaddr *)((s8 *)this + 0x24)))->set_depth(49999.0f);
             call_if_split_screen(*(u32 *)((s8 *)this + 0x24), this->client_index);

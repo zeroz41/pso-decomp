@@ -30,9 +30,9 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-
 s16 get_player_entity_id__15TShopWindowBaseFv(void *);
-TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, void *, int, s32, int, int);
+// Called by its mangled name: a new-expression allocates the entity id in a different register.
+TWindowInputNumber *__ct__18TWindowInputNumberFPC10NJS_POINT2llls(void *, const NJS_POINT2 *, int, s32, int, int);
 }
 
 struct Base_80337910 { char pad[0x18]; };
@@ -206,7 +206,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
                 p = (TWindowInputNumber *)TObject::operator new(0x7C);
                 if (p != NULL) {
                     id = get_player_entity_id__15TShopWindowBaseFv(self);
-                    p = __ct__18TWindowInputNumberFPvllls(p, (void *)get_window_layout_position(0x2B), 1, count, 1, id);
+                    p = __ct__18TWindowInputNumberFPC10NJS_POINT2llls(p, get_window_layout_position(0x2B), 1, count, 1, id);
                 }
                 self->number_input = p;
                 if (self->number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
@@ -215,7 +215,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
                 self->set_state(2);
             } else {
                 id = ((TObjBase *)(self->player))->get_entity_id();
-                self->confirm_menu = create_yes_no_window((const NJS_POINT2 *)((get_window_layout_position(0x2B))), id, NULL, NULL);
+                self->confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
                 self->confirm_menu->set_ready_flag();
                 ((TWindowSubComCardList *)self->confirm_menu)->set_selected_index(1);
                 ((TWindowAddition *)self->confirm_menu)->set_position_xy(self->get_scale(), self->get_scale());
@@ -234,7 +234,7 @@ void TShopDeleteItemWindow::handle_number_input() {
     if (number_input != NULL && number_input->is_confirmed() != 0) {
         if (confirm_menu == NULL) {
             u32 id = ((TObjBase *)(player))->get_entity_id();
-            confirm_menu = create_yes_no_window((const NJS_POINT2 *)((get_window_layout_position(0x2B))), id, NULL, NULL);
+            confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
             confirm_menu->set_ready_flag();
             ((TWindowSubComCardList *)confirm_menu)->set_selected_index(1);
             ((TWindowAddition *)confirm_menu)->set_position_xy(get_scale(), get_scale());

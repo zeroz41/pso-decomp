@@ -1,6 +1,8 @@
 #ifndef PSO_UI_WINDOW_TMESSAGEWINDOWCONTROLLER_H
 #define PSO_UI_WINDOW_TMESSAGEWINDOWCONTROLLER_H
 #include "types.h"
+
+struct NJS_POINT2;
 class TWindowMessagePage;
 class TMessageWindowController {
 public:
@@ -28,8 +30,8 @@ public:
     void display_message(const char *text, s32 flags);
     void format_shop_message(s32 index, s32 flags);
     void close();
-    TWindowMessagePage *create_message_window(s32 x, s32 y, s32 flags);
-    TWindowMessagePage *create_window(s32 x, s32 y);
+    TWindowMessagePage *create_message_window(const NJS_POINT2 *position, s32 extent, s32 flags);
+    TWindowMessagePage *create_window(const NJS_POINT2 *position, s32 extent);
 };
 LAYOUT_ASSERT(TMessageWindowController_size_check, sizeof(TMessageWindowController)==0x210);
 #endif

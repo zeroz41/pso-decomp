@@ -72,7 +72,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     case 0:
         id = TCameraCtrl::get_nth_view_player_id(0);
         if (get_player_by_client_id(id) != NULL) {
-            windows[id] = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x31), size, 1, id);
+            windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
             windows[id]->append_line(get_message_text(99), 0x81);
@@ -82,7 +82,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     case 1:
         id = TCameraCtrl::get_nth_view_player_id(0);
         if (get_player_by_client_id(id) != NULL) {
-            windows[id] = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x31), size, 1, id);
+            windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
             windows[id]->append_line(get_message_text(104), 0x81);
@@ -98,7 +98,7 @@ void THunterGuildWarning::sub_80211774(void *) {
         for (i = 0; i < 4; i++) {
             if (id != i) {
                 if (get_player_by_client_id(i) != NULL) {
-                    windows[i] = (TWindowMessage *)TWindowMessage::create((saddr)get_window_layout_position(0x31), size, 1, i);
+                    windows[i] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, i);
                 }
                 if (windows[i] != NULL) {
                     windows[i]->append_line(get_message_text(text), 0x81);

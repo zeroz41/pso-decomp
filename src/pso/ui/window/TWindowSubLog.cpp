@@ -25,7 +25,7 @@ const char *TWindowSubLog__class_name = "TWindowSubLog";
 struct Lg_8027B194 { s32 f0; u8 pad4[0x14]; void *vt; void *client_id; void *f20; s32 f24; void *f28; u8 f2c[0x10]; };
 
 extern "C" {
-const u8 lbl_8044F9C8[8] = {65, 136, 0, 0, 66, 16, 0, 0};
+const NJS_POINT2 lbl_8044F9C8 = {17.0f, 36.0f};
 const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
 
 void TWindowSubLog::render() {  }
@@ -78,7 +78,7 @@ TWindowSubLog::TWindowSubLog(TObject *parent, s32 client) : TObject(parent) {
     TWindowCtrl__sub_8024ADAC((saddr)(((Lg_8027B194 *)this)->client_id));
     parent_menu->hide_for_subwindow();
     parent_menu->set_log_active();
-    ((Lg_8027B194 *)this)->f24 = (saddr)create_message_log_window((saddr)lbl_8044F9C8, (saddr)lbl_8044F9D0, (saddr)(((Lg_8027B194 *)this)->client_id));
+    ((Lg_8027B194 *)this)->f24 = (saddr)create_message_log_window(&lbl_8044F9C8, (saddr)lbl_8044F9D0, (saddr)(((Lg_8027B194 *)this)->client_id));
     w = new TWindowChat((TObject *)((Lg_8027B194 *)this), (void *)((Lg_8027B194 *)this)->f2c);
     ((Lg_8027B194 *)this)->f28 = w;
     fn_8027B2A8((void*)(((Lg_8027B194 *)this)->f28));

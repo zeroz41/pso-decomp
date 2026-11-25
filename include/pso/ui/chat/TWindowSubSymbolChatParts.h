@@ -2,6 +2,8 @@
 #define PSO_UI_CHAT_TWINDOWSUBSYMBOLCHATPARTS_H
 
 #include "types.h"
+
+struct NJS_POINT2;
 #include "pso/ui/window/TWindowAddition.h"
 
 struct TWindowSubStatusDisp;
@@ -9,7 +11,7 @@ struct TWindowSubStatusDisp;
 struct WindowScrollBar;
 
 struct TWindowSubSymbolChatParts : public TWindowAddition {
-    TWindowSubSymbolChatParts(void *parent, s32 *arg2, s32 *arg3);
+    TWindowSubSymbolChatParts(const NJS_POINT2 *position, s32 *arg2, s32 *arg3);
     virtual ~TWindowSubSymbolChatParts();
     static const char *class_name;
     void sub_80284FB8();

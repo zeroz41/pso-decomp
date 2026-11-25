@@ -220,7 +220,7 @@ void TWindowSubTechnique::run_task() {
         break;
     }
     case 3:
-        help_window = (TWindowMessage *)TWindowMessage::create((s32)((saddr)get_window_layout_position(0x14)), (const f32 *)technique_help_window_size, 1, (s32)playerIndex);
+        help_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x14), (const f32 *)technique_help_window_size, 1, (s32)playerIndex);
         ((TWindowBase *)help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
         ((TWindowSubTradeMain *)technique_menu)->clear_trade_flag();

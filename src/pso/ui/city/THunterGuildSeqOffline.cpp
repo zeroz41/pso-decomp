@@ -69,7 +69,7 @@ int fn_80223480(void*);
 
 void THunterGuildSeqOnline_Client::open_judgment_item_window() {
     if ((is_message_ready() != 0) && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        choice_menu = create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)player))->get_entity_id(), NULL, NULL);
+        choice_menu = create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)choice_menu)->set_selected_index(1);
         ((TWindowAddition *)choice_menu)->set_position_xy(get_scale(), get_scale());
         display_guild_message(8, 1);
@@ -222,7 +222,7 @@ void THunterGuildSeqOffline::open_greeting() {
     Stack_802130AC stack;
     stack.sp8 = 332.0f;
     stack.spC = 80.0f;
-    ((TShopSequence *)arg0)->create_message_window((s32)((saddr) (((u8 *)get_window_layout_position(0x2C)))), (saddr)&stack.sp8);
+    ((TShopSequence *)arg0)->create_message_window(get_window_layout_position(0x2C), (saddr)&stack.sp8);
     this->display_guild_message(1, 1);
     counter_camera = set_service_counter_camera(arg0, 1);
     ((TShopWindowBase *)arg0)->set_state((saddr)((void*)(2)));
@@ -261,7 +261,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
 
     if ((this->is_message_ready() != 0)
         && ((is_decide_pressed() != 0) || (is_cancel_pressed() != 0))) {
-        *(s32 *)&this->choice_menu = (saddr)create_yes_no_window((const NJS_POINT2 *)get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)this->player))->get_entity_id(), NULL, NULL);
+        *(s32 *)&this->choice_menu = (saddr)create_yes_no_window(get_window_layout_position(0x2B), (u16)((TObjBase *)((saddr)this->player))->get_entity_id(), NULL, NULL);
         ((TWindowSubComCardList *)(this->choice_menu))->set_selected_index(1);
         ((TWindowAddition *)(this->choice_menu))->set_position_xy(get_scale(), get_scale());
         this->display_guild_message(8, 1);

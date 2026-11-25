@@ -103,7 +103,7 @@ extern "C" {
 TObjBagWarnWin::~TObjBagWarnWin() {}
 
 void TObjBagWarnWin::open_message_window() {
-    message_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x38)), (const f32 *)TObjBagWarnWin__message_window_size, 1);
+    message_window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x38), (const f32 *)TObjBagWarnWin__message_window_size, 1);
     if (message_window != NULL) {
         message_window->set_depth(70200.0f);
         if (TCameraCtrl::get_camera_id() == 4) {
@@ -186,7 +186,7 @@ TObjBagWarnWin4P::TObjBagWarnWin4P(TObject *parent) : TObject(parent) {
 TObjBagWarnWin4P::~TObjBagWarnWin4P() {}
 
 void TObjBagWarnWin4P::create_window() {
-    s32 position = (s32)get_window_layout_position(0x5B);
+    const NJS_POINT2 *position = get_window_layout_position(0x5B);
     message_window = (TWindowMessage *)TWindowMessage::create(position, TObjBagWarnWin4P__message_window_size, 1, 4);
     if (message_window != NULL) {
         strncpy(message_text, (const char *)get_message_text(0x69), 0x7F);

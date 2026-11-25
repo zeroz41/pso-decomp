@@ -301,13 +301,13 @@ WindowDescriptor *TLobby__sub_80269CB4(void) {
     return &message_window_settings;
 }
 
-u8 *TWindowMessage::create(saddr parent, const f32 *size, uaddr rows, s32 client) {
+u8 *TWindowMessage::create(const NJS_POINT2 *position, const f32 *size, uaddr rows, s32 client) {
     TLobby__sub_80269DA4(size, rows);
-    return (u8 *)new TWindowMessage(parent, rows, client);
+    return (u8 *)new TWindowMessage(position, rows, client);
 }
 
 u8 *TWindowMessage::create(const NJS_POINT2 *pos, const f32 *size, saddr rows) {
-    return TWindowMessage::create((saddr)pos, size, (u32)rows, 4);
+    return TWindowMessage::create(pos, size, (u32)rows, 4);
 }
 
 u8 *create_message_window_for_size(NJS_POINT2 *pos, NJS_POINT2 *size) {
@@ -347,7 +347,7 @@ void TWindowMessage::run_task() {
 TWindowMessage::~TWindowMessage() {
     if (this->lines != NULL) { mem_free(this->lines); }
 }
-TWindowMessage::TWindowMessage(saddr parent, u32 rows, s32 client) : TWindowAddition((u8 *)&message_window_settings, (s16)client, (u8 *)parent) {
+TWindowMessage::TWindowMessage(const NJS_POINT2 *position, u32 rows, s32 client) : TWindowAddition((u8 *)&message_window_settings, (s16)client, (u8 *)position) {
     u32 i;
     TWindowMessageLine *line;
     m_name = TWindowMessage__name;

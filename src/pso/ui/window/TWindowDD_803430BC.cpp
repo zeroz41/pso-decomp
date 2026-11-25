@@ -139,6 +139,7 @@ struct Obj_80343C64
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/NinjaTypes.h"
 
 struct WordSelectPage;
 
@@ -149,8 +150,6 @@ struct WordSelectWindowState {
     u8 unknown40[0x84 - 0x40];
     TWindowInputNumber* numberWindow;
 };
-
-struct WindowPosition { f32 x, y; };
 
 s32 TWindowDD__window_mode;
 
@@ -969,7 +968,7 @@ void pop_menu_level__9TWindowDDFPv(TWindowDD_803431C0 *window) {
 }
 
 void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self, s32 minimum, s32 maximum, s32 initial) {
-    WindowPosition position;
+    NJS_POINT2 position;
     position.x = 60.0f + TWindowDD__data_805DFB6C;
     position.y = 10.0f + lbl_805DFB70;
     self->numberWindow = new TWindowInputNumber(&position, minimum, maximum, initial, (s16)local_client_id);

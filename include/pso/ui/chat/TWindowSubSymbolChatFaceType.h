@@ -3,12 +3,14 @@
 
 #include <stddef.h>
 #include "types.h"
+
+struct NJS_POINT2;
 #include "pso/ui/window/TWindowBase.h"
 
 struct TWindowSubStatusDisp;
 
 struct TWindowSubSymbolChatFaceType : public TWindowBase {
-    TWindowSubSymbolChatFaceType(void *position, s8 *selection);
+    TWindowSubSymbolChatFaceType(const NJS_POINT2 *position, s8 *selection);
     virtual ~TWindowSubSymbolChatFaceType();
     void update_parts_entries();
     void handle_input();

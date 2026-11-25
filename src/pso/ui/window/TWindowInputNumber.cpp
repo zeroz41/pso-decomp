@@ -329,7 +329,7 @@ TWindowInputNumber::~TWindowInputNumber() {
 
 }
 
-TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high, s32 initial, s16 client)
+TWindowInputNumber::TWindowInputNumber(const NJS_POINT2 *position, s32 low, s32 high, s32 initial, s16 client)
     : TWindowBase((u8 *)&window_input_number_layout, client, (u8 *)position) {
     m_name = TWindowInputNumber__name;
     client_index = client;

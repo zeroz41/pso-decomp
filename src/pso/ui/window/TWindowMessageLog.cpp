@@ -261,9 +261,9 @@ void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
     }
 }
 
-u8 *create_message_log_window(s32 parent, saddr extent, s32 client) {
+u8 *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 client) {
     TLobby__sub_80269DA4((void *)extent, 0x1E);
-    return (u8 *)new TWindowMessageLog(parent, client);
+    return (u8 *)new TWindowMessageLog(position, client);
 }
 
 
@@ -298,7 +298,7 @@ TWindowMessageLog::~TWindowMessageLog() {
     TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), 1);
     TWindowCtrl__sub_8026AD60();
 }
-TWindowMessageLog::TWindowMessageLog(s32 parent, s32 client) : TWindowMessage(parent, 0x1E, client) {
+TWindowMessageLog::TWindowMessageLog(const NJS_POINT2 *position, s32 client) : TWindowMessage(position, 0x1E, client) {
     NJS_POINT2 extent;
     f32 temp_f1;
     s32 temp_r3;

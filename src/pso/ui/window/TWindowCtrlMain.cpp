@@ -139,7 +139,7 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
     } else {
         ((struct Ctl_8024E2A8 *)this)->f28 = new TWindowMainMenu1P(this, ((struct Ctl_8024E2A8 *)this)->f24);
     }
-    ((struct Ctl_8024E2A8 *)this)->f2c = (void *)create_message_information_window((s32)(get_window_layout_position(0x20)), (saddr)lbl_8044EC4C, (s32)(((struct Ctl_8024E2A8 *)this)->f24));
+    ((struct Ctl_8024E2A8 *)this)->f2c = (void *)create_message_information_window(get_window_layout_position(0x20), (saddr)lbl_8044EC4C, (s32)(((struct Ctl_8024E2A8 *)this)->f24));
     ((struct Ctl_8024E2A8 *)this)->f30 = (void *)create_status_window(((struct Ctl_8024E2A8 *)this)->f24);
     ((TObject *)(((struct Ctl_8024E2A8 *)this)->f30))->suspend_update();
     ((struct Ctl_8024E2A8 *)this)->f34 = new TWindowActionPalette(((struct Ctl_8024E2A8 *)this)->f24);

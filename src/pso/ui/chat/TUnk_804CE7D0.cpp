@@ -54,5 +54,5 @@ TUnk_804CE7D0::TUnk_804CE7D0(TObject *parent) : TObject(parent) {
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(preset_list));
-    chat_symbol = new TWindowChatSymbol((saddr)&lbl_8044EAC8, (saddr)&lbl_8044EAD0);
+    chat_symbol = new TWindowChatSymbol(&lbl_8044EAC8, (saddr)&lbl_8044EAD0);
 }
