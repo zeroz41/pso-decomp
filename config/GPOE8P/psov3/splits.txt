@@ -8447,17 +8447,13 @@ pso/system/GbaDownloadRuntime.cpp:
 	.sbss       start:0x805D6CC0 end:0x805D6CE0
 	.sdata2     start:0x805DF7A0 end:0x805DF7B0
 
-pso/system/GbaAramCache.cpp:
-	.text       start:0x8032CDEC end:0x8032D1E4
-	.data       start:0x804EDB70 end:0x804EDBE8
-	.bss        start:0x805434B0 end:0x805434D0
-	.sbss       start:0x805D6CE0 end:0x805D6D00
-
 pso/ui/frontend/TAdWarningBaseGC.cpp:
-	.text       start:0x8032D1E4 end:0x8032D514
+	.text       start:0x8032CDEC end:0x8032D514
 	.rodata     start:0x80477320 end:0x80477350
-	.data       start:0x804EDBE8 end:0x804EDC10
+	.data       start:0x804EDB70 end:0x804EDC10
+	.bss        start:0x805434B0 end:0x805434D0
 	.sdata      start:0x805D4208 end:0x805D420C
+	.sbss       start:0x805D6CE0 end:0x805D6D00
 	.sdata2     start:0x805DF7B0 end:0x805DF7B4
 
 pso/ui/frontend/TAdGuideButtonGC.cpp:

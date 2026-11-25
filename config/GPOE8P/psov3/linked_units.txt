@@ -613,7 +613,6 @@ pso/ui/charcreate/CharacterAppearanceTables.cpp
 pso/ui/charcreate/CreationMotion.cpp
 pso/system/scene/EndingSceneTables.cpp
 pso/system/GbaDownloadRuntime.cpp
-pso/system/GbaAramCache.cpp
 pso/ui/keyboard/KeyboardCharacterMaps.cpp
 pso/quest/QuestDownloadAramFile.cpp
 pso/quest/QuestDownloadBuffers.cpp
