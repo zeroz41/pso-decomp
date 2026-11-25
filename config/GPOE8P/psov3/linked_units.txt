@@ -839,6 +839,8 @@ pso/audio/AdxAu.cpp
 pso/audio/AdxSpsd.cpp
 pso/audio/AdxAmp.cpp
 pso/audio/AdxLock.cpp
+pso/audio/AixDemuxer.cpp
+pso/audio/AixPlayer.cpp
 pso/audio/AdxHeader.cpp
 pso/audio/AdxDecode4.cpp
 pso/audio/AdxError.cpp
@@ -859,10 +861,6 @@ pso/audio/GcrnaBridgeSampleBits.cpp
 pso/unk/TLobby_803CBF50.cpp
 pso/unk/TLobby_803CC0B4.cpp
 pso/audio/AdxCacheControl.cpp
-pso/audio/AdxStreamScrollOffset.cpp
-pso/unk/TLobby_803CE1E4.cpp
-pso/audio/AdxStreamLock.cpp
-pso/unk/TLobby_803CE478.cpp
 pso/system/movie/CvFsErrorBridge.cpp
 pso/audio/LscLog.cpp
 pso/audio/CriSvm.cpp
@@ -1907,10 +1905,6 @@ PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Src/GCN_Mem_Alloc.c
 pso/audio/GcrnaBridgeTeardown.cpp
 pso/unk/text_803CC134.cpp
 pso/unk/text_803CC294.cpp
-pso/unk/text_803CD99C.cpp
-pso/unk/text_803CE1D8.cpp
-pso/unk/text_803CE1F4.cpp
-pso/unk/text_803CE240.cpp
 pso/unk/text_803CE568.cpp
 pso/system/movie/Gcci.cpp
 pso/unk/text_803D2F1C.cpp

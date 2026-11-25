@@ -10769,33 +10769,15 @@ pso/unk/text_803CC294.cpp:
 	.sbss       start:0x805D75E8 end:0x805D75F8
 	.sdata2     start:0x805E0D88 end:0x805E0D8C
 
-pso/unk/text_803CD99C.cpp:
-	.text       start:0x803CD99C end:0x803CE1D0
+pso/audio/AixDemuxer.cpp:
+	.text       start:0x803CD99C end:0x803CE240
 	.bss        start:0x8057FFD0 end:0x80581330
 	.sdata      start:0x805D4688 end:0x805D4690
 	.sdata2     start:0x805E0D90 end:0x805E0DA0
 
-pso/audio/AdxStreamScrollOffset.cpp:
-	.text       start:0x803CE1D0 end:0x803CE1D8
-
-pso/unk/text_803CE1D8.cpp:
-	.text       start:0x803CE1D8 end:0x803CE1E4
-
-pso/unk/TLobby_803CE1E4.cpp:
-	.text       start:0x803CE1E4 end:0x803CE1F4
-
-pso/unk/text_803CE1F4.cpp:
-	.text       start:0x803CE1F4 end:0x803CE200
-
-pso/audio/AdxStreamLock.cpp:
-	.text       start:0x803CE200 end:0x803CE240
-
-pso/unk/text_803CE240.cpp:
-	.text       start:0x803CE240 end:0x803CE478
+pso/audio/AixPlayer.cpp:
+	.text       start:0x803CE240 end:0x803CE568
 	.bss        start:0x80581330 end:0x80581A30
-
-pso/unk/TLobby_803CE478.cpp:
-	.text       start:0x803CE478 end:0x803CE568
 	.sbss       start:0x805D75F8 end:0x805D7600
 
 pso/unk/text_803CE568.cpp:

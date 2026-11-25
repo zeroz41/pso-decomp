@@ -1,11 +1,11 @@
 #include <string.h>
 #include "pso/unk/text_803D2F1C.h"
-#include "pso/unk/text_803CD99C.h"
 #include "pso/audio/AixPlayer.h"
-
 #include "pso/system/MiddlewareInterruptLock.h"
-
 #include "types.h"
+#include "pso/audio/AdxStreamScrollOffset.h"
+#include "pso/network/TLobby.h"
+#include "pso/audio/AdxStreamLock.h"
 
 #pragma readonly_strings on
 
@@ -209,4 +209,41 @@ void get_entry_pair(AixDemuxer *demuxer, s32 segment, s32 *offset, s32 *size) {
     }
 }
 
+}
+
+static inline s32 adx_get_scroll_offset_impl(void *self_ptr) {
+    return static_cast<AdxStreamScrollState *>(self_ptr)->scroll_offset;
+}
+
+s32 TLobby::get_scroll_offset() {
+    return adx_get_scroll_offset_impl(this);
+}
+
+s32 get_demuxer_layer_count(AixDemuxer *demuxer) {
+    return demuxer->header.layer_count;
+}
+
+extern "C" {
+void set_flag_4(AixDemuxer *demuxer, s8 continuous) {
+    demuxer->continuous = continuous;
+}
+
+void set_client_slot(AixDemuxer *demuxer, s8 paused) {
+    demuxer->paused = paused;
+}
+}
+
+extern "C" {
+s32 get_demuxer_state(AixDemuxer *demuxer) {
+    return demuxer->state;
+}
+
+}
+
+void adx_interrupt_lock_leave() {
+    middleware_interrupt_lock_leave();
+}
+
+void TLobby__sub_803CE220(void) {
+    middleware_interrupt_lock_enter();
 }
