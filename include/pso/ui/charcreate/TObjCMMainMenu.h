@@ -81,7 +81,7 @@ public:
     static f32 get_scale();
     static f32 get_proportion();
     static void set_selection(int selection);
-    static void set_speed(f32 farg0);
+    static void set_speed(f32 x);
     static s32 get_creation_sprite_id(s32 sprite_id);
     static s32 is_not_dressing_room_mode();
     // Turns the creation figure by delta.

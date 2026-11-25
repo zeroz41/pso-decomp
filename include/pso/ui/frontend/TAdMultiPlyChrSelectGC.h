@@ -83,7 +83,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     TWindowMenu *create_choice_menu();
     void collect_player_slots();
     s32 get_state_result();
-    static u8 *format_player_number_text(s32 arg0, s32 arg1);
+    static u8 *format_player_number_text(s32 arg0, s32 player_number);
     void request_scene_change();
     void check_cancel_input();
     void handle_input();
@@ -117,7 +117,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     void sub_802DC5CC();
     void sub_802DC440();
     void sub_802DC310();
-    s32 sub_802DC294(s32 arg1);
+    s32 sub_802DC294(s32 cursor);
     TWindowMenu *sub_802DBEC4(const NJS_POINT2 *desc);
     TWindowMenu *sub_802DBE4C(const NJS_POINT2 *desc);
     TWindowMessageYesNo *sub_802DBD64();

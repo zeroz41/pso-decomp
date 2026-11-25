@@ -105,8 +105,8 @@ struct TMainCursor : public TObject {
     void set_target_id_at_60(u8 target_id);
     void set_entity_id(u16 id);
     void init_slot(s32 i);
-    s32 test_button(s32 arg1, u16 arg2);
-    void set_flag_bit(s32 arg1, u16 arg2);
+    s32 test_button(s32 index, u16 target_id);
+    void set_flag_bit(s32 index, u16 target_id);
     s32 check_can_pickup();
     void setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id);
     static s32 try_add_target_candidate(LockOnActionSlot *entry, void *candidate, TObjPlayer *owner, LockOnNearestTarget *best);

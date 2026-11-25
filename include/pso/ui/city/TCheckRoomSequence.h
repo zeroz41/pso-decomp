@@ -23,8 +23,8 @@ struct TCheckRoomSequence : public TShopSequence {
     virtual void restore_player_state();
     virtual void close_window();
 
-    static int get_room_data(int a0);
-    static int get_room_table_entry(int a0);
+    static int get_room_data(int slot);
+    static int get_room_table_entry(int slot);
     static void *create(void *arg0);
     static void reset_slot_state();
     static void reset_slots();

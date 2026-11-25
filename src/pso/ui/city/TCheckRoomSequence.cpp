@@ -901,7 +901,7 @@ void TCheckRoomSequence::init_item_entry(BankItemRecord *record) {
 }
 #pragma pop
 
-void TCheckRoomSequence::copy_data(BankItemRecord *p, void *a1) { *(unsigned char*)(a1) = *(unsigned char*)(p); *(unsigned char*)((char*)a1 + 0x1) = *(unsigned char*)((char*)p + 0x1); *(unsigned char*)((char*)a1 + 0x2) = *(unsigned char*)((char*)p + 0x2); *(unsigned char*)((char*)a1 + 0x3) = *(unsigned char*)((char*)p + 0x3); *(unsigned char*)((char*)a1 + 0x4) = *(unsigned char*)((char*)p + 0x4); *(unsigned char*)((char*)a1 + 0x5) = *(unsigned char*)((char*)p + 0x5); ((TObjPlayer *)((char*)a1 + 0x6))->copy_entry_bytes((char*)p + 0x6); ((TObjPlayer *)((char*)a1 + 0x8))->copy_entry_bytes((char*)p + 0x8); ((TObjPlayer *)((char*)a1 + 0xa))->copy_entry_bytes((char*)p + 0xa); *(void**)((char*)a1 + 0xc) = *(void**)((char*)p + 0xc); *(void**)((char*)a1 + 0x10) = *(void**)((char*)p + 0x10); }
+void TCheckRoomSequence::copy_data(BankItemRecord *p, void *item) { *(unsigned char*)(item) = *(unsigned char*)(p); *(unsigned char*)((char*)item + 0x1) = *(unsigned char*)((char*)p + 0x1); *(unsigned char*)((char*)item + 0x2) = *(unsigned char*)((char*)p + 0x2); *(unsigned char*)((char*)item + 0x3) = *(unsigned char*)((char*)p + 0x3); *(unsigned char*)((char*)item + 0x4) = *(unsigned char*)((char*)p + 0x4); *(unsigned char*)((char*)item + 0x5) = *(unsigned char*)((char*)p + 0x5); ((TObjPlayer *)((char*)item + 0x6))->copy_entry_bytes((char*)p + 0x6); ((TObjPlayer *)((char*)item + 0x8))->copy_entry_bytes((char*)p + 0x8); ((TObjPlayer *)((char*)item + 0xa))->copy_entry_bytes((char*)p + 0xa); *(void**)((char*)item + 0xc) = *(void**)((char*)p + 0xc); *(void**)((char*)item + 0x10) = *(void**)((char*)p + 0x10); }
 
 #pragma push
 #pragma optimization_level 1
