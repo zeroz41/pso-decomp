@@ -1,3 +1,7 @@
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/TPlyGuildCardTag.h"
+#include "pso/network/protocol/packet_classes.h"
+#include "pso/network/protocol/protocol_types.h"
 #include "pso/system/memory.h"
 #include "types.h"
 #include "pso/player/GuildCardEntry.h"
@@ -140,8 +144,8 @@ struct Card_8007AC7C {
 
 extern "C" {
 void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry);
-s8 TWindowSubComCard__sub_8007B6EC(void *);
-s32 TWindowSubComCard__sub_8007B6F4(void *);
+s8 TWindowSubComCard__sub_8007B6EC(void *p);
+s32 TWindowSubComCard__sub_8007B6F4(void *self);
 int __ct__16TPlyGuildCardTagFv();
 
 s32 init_guild_card_tag__17TWindowSubComCardFi(s32 ply_guild_card_tag) {
@@ -510,3 +514,58 @@ void TWindowGetComCard::construct_card_tags() {
 }
 
 __declspec(section ".ctors") static void *const __sinit_TWindowGetComCard_8007B54C_cpp_ref = (void *)TWindowGetComCard::construct_card_tags;
+
+
+struct O_8007B6F4 { u8 pad[0x8c]; u8 flags; };
+
+extern "C" {
+int bswap__16TPlyGuildCardTagFv(void*);
+
+s32 GuildCardEntry::get_card_id() const { return id; }
+int GuildCardEntry::is_active() const { return flags & 1; }
+s8 TWindowSubComCard__sub_8007B6EC(void *p) { return *(s8 *)((char *)p + 0x8f); }
+
+s32 TWindowSubComCard__sub_8007B6F4(void *self) {
+    if (((O_8007B6F4 *)self)->flags & 2) {
+        return 0;
+    }
+    return 1;
+}
+
+void TWindowSubComCard::bswap_guild_card() { ((G_ClientIDHeader *)this)->bswap(); ((TWindowSubComCard *)((char*)this + 0x4))->bswap_guild_card_tag(); }
+int TWindowSubComCard::bswap_guild_card_tag() { return bswap__16TPlyGuildCardTagFv(this); }
+void TWindowSubComCard::init_card(void* client_id) { bswap_guild_card(); ((game_command *)this)->send_to_client((uaddr)client_id); }
+
+
+int TWindowSubComCard::get_keyboard_mode() {  return com_card_keyboard_mode; }
+
+void *TWindowSubComCard::init_guild_card() {
+    init_guild_card_tag__17TWindowSubComCardFi((saddr)((char *)this + 4));
+    *(u8 *)&this->m_name = 6;
+    *(u8 *)((s8 *)this + 0x1) = 37;
+    return this;
+}
+
+}
+
+int TAdSinglePlyChrSelectGC::get_state() {  return guild_card_save_payload; }
+
+void TPlyGuildCardTag::bswap() {
+    bswap_32(&m_guildcard_number);
+    bswap_16(&m_tag2);
+}
+
+void set_guild_card_receive_active() {
+    lbl_805D63FC |= 2;
+}
+
+s32 ShortMailEntry::get_sender_card_id() { return sender_card_id; }
+
+char *ShortMailEntry::get_sender_name() { return sender_name; }
+
+s32 TObjPlayer::get_section_id() {
+    s8 id = *((s8 *)this + 0x88C);
+    return id;
+}
+
+const char *TObjPlayer::get_name() { return name; }

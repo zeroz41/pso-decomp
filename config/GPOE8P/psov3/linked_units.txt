@@ -1222,7 +1222,6 @@ pso/ui/window/TWindowSubComCard_8007341C.cpp
 pso/ui/window/TWindowSubComCard_80073DB8.cpp
 pso/ui/window/TWindowSubComCard_80077788.cpp
 pso/ui/window/TWindowSubComCard_8007A810.cpp
-pso/ui/window/TWindowSubComCard_8007B6D8.cpp
 pso/ui/window/TWindowSubComCard_8007BD24.cpp
 pso/ui/window/TWindowSubComCard_8007BD94.cpp
 pso/ui/window/TWindowSubComCard_8007BDD8.cpp

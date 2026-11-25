@@ -974,13 +974,10 @@ pso/map/CsnQuery.cpp:
 	.sdata2     start:0x805D91F0 end:0x805D9210
 
 pso/ui/window/TWindowSubComCard_8007A810.cpp:
-	.text       start:0x8007A810 end:0x8007B6D8
+	.text       start:0x8007A810 end:0x8007B858
 	.ctors      start:0x80433F50 end:0x80433F54
 	.bss        start:0x80500158 end:0x80500398
 	.sbss       start:0x805D4E80 end:0x805D4E84
-
-pso/ui/window/TWindowSubComCard_8007B6D8.cpp:
-	.text       start:0x8007B6D8 end:0x8007B858
 
 pso/unk/TLobby_8007B858.cpp:
 	.text       start:0x8007B858 end:0x8007BD24
