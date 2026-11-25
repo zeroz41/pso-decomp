@@ -14,6 +14,7 @@ struct TWindowMessageLog;
 struct TWindowSimpleStatus;
 
 struct TWindowGetComCard;
+class TWindowChat;
 struct TWindowCtrlPlayer;
 
 class TWindowFukidasi;
@@ -30,10 +31,10 @@ struct TWindowCtrl : public TObject {
     u16 window_id;
     u8 _pad2A[0x2];
     uaddr m_2c;
-    TWindowTimer *m_30;
-    TWindowArea *m_34;
-    uaddr m_38;
-    TWindowGetComCard *m_3c;
+    TWindowTimer *timer;
+    TWindowArea *area;
+    TWindowChat *chat;
+    TWindowGetComCard *get_com_card;
     TWindowTradeRequest *trade_request;
     TWindowMessageLog *message_log;
     TWindowCtrlPlayer *players[12];
@@ -112,7 +113,6 @@ struct TWindowCtrl : public TObject {
     void update_open_sequence();
     static void shutdown();
     static void close();
-    void set_flag1e_bit40();
     static TWindowCtrlPlayer *get_window(s32 client_id);
     static void replace_submenu(s32 client_id, s16 id);
     static void try_open_battle_menu(s32 client_id, s16 key);
@@ -134,8 +134,6 @@ struct TWindowCtrl : public TObject {
     static u16 get_window_id();
     void update_party_status_rows();
     int is_flag_2_set();
-    void set_flag1e_bit8();
-    void clear_flag1e_bit8();
 };
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);

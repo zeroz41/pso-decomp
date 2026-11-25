@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/ui/window/TWindowComCardFollower.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -25,8 +26,8 @@ WindowDescriptor com_card_follower_window_descriptor = {
 };
 
 extern "C" void request_active_window_close(void) {
-    if ((TWindowCtrl::instance != NULL) && (TWindowCtrl::instance->m_38 != 0U)) {
-        ((TWindowCtrl *)((void*)TWindowCtrl::instance->m_38))->set_flag1e_bit8();
+    if ((TWindowCtrl::instance != NULL) && (TWindowCtrl::instance->chat != NULL)) {
+        TWindowCtrl::instance->chat->set_flag1e_bit8();
     }
 }
 
