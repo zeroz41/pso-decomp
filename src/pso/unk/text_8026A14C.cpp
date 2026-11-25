@@ -6,7 +6,7 @@
 #include "pso/system/THeap.h"
 #include "pso/ui/Language.h"
 
-THeap *TAdScrollWinGC__chat_log_heap;
+THeap *scroll_win_chat_log_heap;
 char *chat_last_line_buffer;
 
 
@@ -15,12 +15,12 @@ void clear_chat_log() {
     s32 i;
     for (i = 0x1D; i >= 0; i--) {
         if (chat_log_lines[i] != NULL) {
-            TAdScrollWinGC__chat_log_heap->heap_free(chat_log_lines[i]);
+            scroll_win_chat_log_heap->heap_free(chat_log_lines[i]);
             chat_log_lines[i] = NULL;
         }
     }
     if (chat_last_line_buffer != NULL) {
-        TAdScrollWinGC__chat_log_heap->heap_free(chat_last_line_buffer);
+        scroll_win_chat_log_heap->heap_free(chat_last_line_buffer);
         chat_last_line_buffer = NULL;
     }
 }

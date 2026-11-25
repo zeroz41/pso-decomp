@@ -23,7 +23,7 @@ struct VBar_80253D10 : VBase_80253D10 {
 
 extern const f32 lbl_805DCDF0;
 extern u8 lbl_804CF30C[];
-extern PM_80253D10 TWindowHelpItem__mag_growth_update_callback;
+extern PM_80253D10 window_help_item_mag_growth_update_callback;
 extern const f32 lbl_805DCDF4;
 extern const f32 lbl_805DCDF8;
 s32 TWindowHelpItem::update_mag_status_gauges() {
@@ -106,7 +106,7 @@ void TWindowHelpItem__vt10(u8 *window_base) {
         reinterpret_cast<WindowLayoutEntries *>(window_base + 0x24),
         reinterpret_cast<const void *>(lbl_804CF30C),
         *(s16 *)((s8 *)window_base + 0x20));
-    *(PM_80253D10 *)((s8 *)window_base + 0xB0) = TWindowHelpItem__mag_growth_update_callback;
+    *(PM_80253D10 *)((s8 *)window_base + 0xB0) = window_help_item_mag_growth_update_callback;
     TItemData::deserialize_mag((void *)(*(saddr *)((s8 *)window_base + 0x68)), (void *)mag);
     lv = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(0));
     sy = reinterpret_cast<saddr>(((TWindowBase *)window_base)->get_array_entry(1));

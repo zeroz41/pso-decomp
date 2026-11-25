@@ -44,14 +44,14 @@ extern "C" {
 
 saddr get_window_layout_position(s32);
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
-OnlineQuestDownloadState TQuestListOnline__dat_download_state;
-OnlineQuestDownloadState TQuestListOnline__bin_download_state;
+OnlineQuestDownloadState quest_list_online_dat_download_state;
+OnlineQuestDownloadState quest_list_online_bin_download_state;
 // Per-player slot flags, set by each class's ctor and cleared by its dtor
 // (same pattern as THunterGuildSeqOffline__instance_table).
 s32 THunterGuildSeqOnline_Server__instance_table[4];
 s32 THunterGuildSeqOnline_Client__instance_table[4];
-OnlineQuestMenu *TQuestListOnline__quest_list_buffer;
-OnlineQuestInfo *TQuestListOnline__selected_quest_info;
+OnlineQuestMenu *quest_list_online_quest_list_buffer;
+OnlineQuestInfo *quest_list_online_selected_quest_info;
 int TQuestListOnline__bin_download_complete;
 int TQuestListOnline__dat_download_complete;
 TWindowMessage *TQuestListOnline__download_window;

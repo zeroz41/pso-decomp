@@ -14,10 +14,12 @@ public:
     s32 state_20;
     s32 state_24;
     s32 unk_28;
-    u8 pad_2c[0x10];
+    s32 timer;
+    u8 pad_30[0xC];
     s32 m_3c;
     u8 *text;
-    u8 pad_44[0x8];
+    s32 timeout;
+    u8 pad_48[0x4];
     void *window_4c;
     void *window_50;
     void *window_54;

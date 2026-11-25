@@ -337,7 +337,7 @@ s32 quest_download_request_0x1E(saddr *arg0) {
   while ((*src) != 0)
   {
     ch = (src[0] << 8) | src[1];
-    if (TQuestVmDownLoadServer__is_sjis_double_byte(ch) == 0)
+    if (is_sjis_double_byte(ch) == 0)
     {
       return 3;
     }

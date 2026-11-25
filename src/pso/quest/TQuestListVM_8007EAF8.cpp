@@ -20,7 +20,7 @@ u8 *TQuestListVM::get_quest_bin() { return decrypted_quest_buffer; }
 void TQuestListVM::reset() { decrypted_quest_buffer = NULL; }
 
 TQuestVmDownLoadServer *get_quest_vm_download_server(void) {
-    return TQuestVmDownLoadServer__instance;
+    return quest_vm_download_server_instance;
 }
 
 void debug_print(const char *text) {

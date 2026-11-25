@@ -114,7 +114,7 @@ s32 initialize_boss_scene(void) {
 }
 extern "C" {
 
-const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
+const char *obj_challenge4p_retry_class_name = "TObjChallenge4PRetry";
 
 s32 get_camera_view_count();
 
@@ -377,7 +377,7 @@ TObjChallenge4PRetry::~TObjChallenge4PRetry() {
 }
 
 TObjChallenge4PRetry::TObjChallenge4PRetry(TObject *parent) : TObject(parent) {
-    m_name = TObjChallenge4PRetry__class_name;
+    m_name = obj_challenge4p_retry_class_name;
     this->m_20 = ((s32 (*)(void *))is_designated_client)(this);
     this->m_24 = 0;
     this->menu = NULL;

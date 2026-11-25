@@ -15,8 +15,8 @@ LAYOUT_ASSERT(OnlineQuestDownloadSizeOffset, offsetof(OnlineQuestDownloadState, 
 LAYOUT_ASSERT(OnlineQuestDownloadBufferOffset, offsetof(OnlineQuestDownloadState, buffer) == 0x38);
 
 extern "C" {
-extern OnlineQuestDownloadState TQuestListOnline__dat_download_state;
-extern OnlineQuestDownloadState TQuestListOnline__bin_download_state;
+extern OnlineQuestDownloadState quest_list_online_dat_download_state;
+extern OnlineQuestDownloadState quest_list_online_bin_download_state;
 void TQuestListOnline__sub_802176DC(const u8 *data, s32 size);
 }
 

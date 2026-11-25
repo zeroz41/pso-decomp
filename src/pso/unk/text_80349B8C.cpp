@@ -33,13 +33,13 @@ static const NJS_POINT2 lbl_804788A8[2] = { {410.0f, 1.0f}, {214.0f, 1.0f} };
 static const f32 quest_line_color_quad_coordinates[8] = { 212.0f, 55.0f, 212.0f, 56.0f, 229.0f, 25.0f, 229.0f, 24.0f };
 static const f32 quest_line_quad_vertices[8] = { 409.0f, 456.0f, 409.0f, 457.0f, 426.0f, 426.0f, 426.0f, 425.0f };
 // TAdLoadQuestLineGC::m_name (lbl_805D4300 in TAdLoadQuestLineGC.cpp) points here.
-extern const char TAdLoadQuestLineGC__class_name_string[] = "TAdLoadQuestLineGC";
+extern const char load_quest_line_class_name_string[] = "TAdLoadQuestLineGC";
 
 // Each function copies its rectangle list to the stack before drawing it.
 struct QuestLineRects6 { DrawFilledRects2dItem items[6]; };
 struct QuestLineRects2 { DrawFilledRects2dItem items[2]; };
 
-static const QuestLineRects6 TAdLoadQuestLineGC__rectangle_groups = { {
+static const QuestLineRects6 load_quest_line_rectangle_groups = { {
     { 3, 0x777777FF, lbl_80478778, lbl_80478790 },
     { 3, 0x777777FF, lbl_804787A8, lbl_804787C0 },
     { 3, 0x777777FF, lbl_804787D8, lbl_804787F0 },
@@ -122,6 +122,6 @@ void init_quest_line_draw_colors(void *arg0) {
 }
 
 void fn_80349E5C(void *arg0) {
-    QuestLineRects6 rects = TAdLoadQuestLineGC__rectangle_groups;
+    QuestLineRects6 rects = load_quest_line_rectangle_groups;
     draw_filled_rects_2d(arg0, &rects, 6);
 }

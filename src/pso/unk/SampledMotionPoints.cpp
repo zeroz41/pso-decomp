@@ -19,7 +19,7 @@ Vec *lbl_805D5230;
 s32 lbl_805D5234;
 s32 motion_trail_node_index;
 const s32 *lbl_805D523C;
-const Vec *TBoss4Type3__motion_trail_points;
+const Vec *boss4_type3_motion_trail_points;
 extern Vec lbl_80500F80;
 s32 transform_motion_node_points(SampledMotionPoints *sampled_motion_points, NJS_OBJECT *node, s32 idx);
 
@@ -43,10 +43,10 @@ s32 transform_motion_node_points(SampledMotionPoints *sampled_motion_points, NJS
         compose_motion_node_matrix(node);
         flags = node->evalflags;
         while (idx == lbl_805D523C[motion_trail_node_index]) {
-            if (TBoss4Type3__motion_trail_points == NULL) {
+            if (boss4_type3_motion_trail_points == NULL) {
                 matrix_mult_vec(0, &lbl_80500F80, lbl_805D5230);
             } else {
-                matrix_mult_vec(0, &TBoss4Type3__motion_trail_points[motion_trail_node_index], lbl_805D5230);
+                matrix_mult_vec(0, &boss4_type3_motion_trail_points[motion_trail_node_index], lbl_805D5230);
             }
             lbl_805D5230++;
             motion_trail_node_index++;
@@ -93,7 +93,7 @@ void SampledMotionPoints::sample(NJS_OBJECT *model, NJS_MOTION *motion, const s3
     lbl_805D5230 = points;
     lbl_805D5234 = points_per_sample;
     lbl_805D523C = node_indices;
-    TBoss4Type3__motion_trail_points = offsets;
+    boss4_type3_motion_trail_points = offsets;
     push_matrix();
     f = start;
     for (i = 0; i < sample_count; i++) {

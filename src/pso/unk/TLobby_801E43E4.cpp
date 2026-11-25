@@ -199,7 +199,7 @@ struct GvmFileHeader {
     u16 count;
 };
 
-u8 *TLanguage__read_cursor;
+u8 *language_read_cursor;
 
 NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     s32 count;
@@ -243,19 +243,19 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     str = (char *)(ent + count);
     for (; i < count; i++, ent++, str += 0x20) {
         ent->filename = str;
-        TLanguage__read_cursor += 2;
+        language_read_cursor += 2;
         if (hdr.flags & 1) {
             TLanguage::read_into_buffer(str, 0x1C);
             str[0x1C] = 0;
         }
         if (hdr.flags & 2) {
-            TLanguage__read_cursor += 2;
+            language_read_cursor += 2;
         }
         if (hdr.flags & 4) {
-            TLanguage__read_cursor += 2;
+            language_read_cursor += 2;
         }
         if (hdr.flags & 8) {
-            TLanguage__read_cursor += 4;
+            language_read_cursor += 4;
         }
     }
     load_gvm_texture_archive(buf, res);
@@ -268,7 +268,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
 }
 
 int TLanguage::read_file_header(u8 *cursor, GvmFileHeader *hdr) {
-    TLanguage__read_cursor = cursor;
+    language_read_cursor = cursor;
     TLanguage::read_into_buffer(hdr, 4);
     hdr->size = TLanguage::read_u32_le();
     hdr->flags = TLanguage::read_u16_le();
@@ -280,21 +280,21 @@ int TLanguage::read_file_header(u8 *cursor, GvmFileHeader *hdr) {
 }
 
 void TLanguage::read_into_buffer(void *destination, s32 length) {
-    move_data(destination, TLanguage__read_cursor, length);
-    TLanguage__read_cursor += length;
+    move_data(destination, language_read_cursor, length);
+    language_read_cursor += length;
 }
 
 s32 TLanguage::read_u32_le() {
-    s32 v = *TLanguage__read_cursor++;
-    v |= *TLanguage__read_cursor++ << 8;
-    v |= *TLanguage__read_cursor++ << 16;
-    v |= *TLanguage__read_cursor++ << 24;
+    s32 v = *language_read_cursor++;
+    v |= *language_read_cursor++ << 8;
+    v |= *language_read_cursor++ << 16;
+    v |= *language_read_cursor++ << 24;
     return v;
 }
 
 s32 TLanguage::read_u16_le() {
-    s32 lo = *TLanguage__read_cursor++;
-    lo |= *TLanguage__read_cursor++ << 8;
+    s32 lo = *language_read_cursor++;
+    lo |= *language_read_cursor++ << 8;
     return lo;
 }
 

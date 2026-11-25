@@ -6,14 +6,14 @@
 
 class TPlayerBattleCtrl;
 extern "C" {
-u8 TLobby__sub_801C2614(void);
+u8 is_battle_mode_running(void);
 s32 TLobby__sub_801C2678(void);
-s32 TLobby__sub_801C26A8(void);
+s32 is_duel_ranking_empty(void);
 void TLobby__sub_801C2C34(void);
 void TLobby__sub_801C38A4(void);
-void TLobby__sub_801C38E8(void *arg0);
-void TLobby__sub_801C3A40(void);
-s32 TLobby__sub_801C417C(void);
+void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
+void free_char_slots(void);
+s32 get_battle_time_limit_frames(void);
 void apply_game_settings__6TLobbyFll(s32 arg0, s32 arg1);
 s32 assign_player_id__6TLobbyFPv(void);
 s32 check_all_battle_flags__6TLobbyFPv(void);
@@ -44,20 +44,20 @@ void send_battle_mode_params__6TLobbyFScll(s8 arg0, s32 arg1, s32 arg2);
 void send_battle_mode_state__6TLobbyFv(void *self);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
-void update_duel_result__6TLobbyFPv(u8 *arg0);
+void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl);
 }
 void update_player_battle_ctrl_state(void *player_battle_ctrl);
 
 // --- C functions defined in TLobby_801C25B4.cpp ---
 extern "C" {
-u8 TLobby__sub_801C2614(void);
+u8 is_battle_mode_running(void);
 s32 TLobby__sub_801C2678(void);
-s32 TLobby__sub_801C26A8(void);
+s32 is_duel_ranking_empty(void);
 void TLobby__sub_801C2C34(void);
 void TLobby__sub_801C38A4(void);
-void TLobby__sub_801C38E8(void *arg0);
-void TLobby__sub_801C3A40(void);
-s32 TLobby__sub_801C417C(void);
+void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
+void free_char_slots(void);
+s32 get_battle_time_limit_frames(void);
 void apply_game_settings__6TLobbyFll(s32 arg0, s32 arg1);
 s32 assign_player_id__6TLobbyFPv(void);
 s32 check_all_battle_flags__6TLobbyFPv(void);
@@ -85,7 +85,7 @@ void send_battle_mode_params__6TLobbyFScll(s8 arg0, s32 arg1, s32 arg2);
 void send_battle_mode_state__6TLobbyFv(void *self);
 void set_flag_270__6TLobbyFv(void *arg0);
 void show_score_results__6TLobbyFv(void *self);
-void update_duel_result__6TLobbyFPv(u8 *arg0);
+void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl);
 }
 void update_player_battle_ctrl_state(void *player_battle_ctrl);
 // --- end of C functions

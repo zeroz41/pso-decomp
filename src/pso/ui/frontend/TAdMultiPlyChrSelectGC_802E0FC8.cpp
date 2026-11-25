@@ -12,7 +12,7 @@ TAdChrSelPlayerGC::TAdChrSelPlayerGC(TObject *parent, s32 mode, s32 index, s32 s
 
 extern "C" {
 
-extern uaddr TAdMultiPlyChrSelectGC__resource_bundle;
+extern uaddr multi_ply_chr_select_resource_bundle;
 
 TAdChrSelPlayerGC *TAdMultiPlyChrSelectGC::get_or_create_player(TObject *parent, s32 mode, s32 index, s32 slot) {
     if (multi_chr_select_player_slot_table[slot] == NULL) {
@@ -22,9 +22,9 @@ TAdChrSelPlayerGC *TAdMultiPlyChrSelectGC::get_or_create_player(TObject *parent,
 }
 
 void TAdChrSelPlayerGC__sub_802E10A0(void) {
-    if ((u32) TAdMultiPlyChrSelectGC__resource_bundle != 0U) {
-        delete (BmlResource *)TAdMultiPlyChrSelectGC__resource_bundle;
-        TAdMultiPlyChrSelectGC__resource_bundle = 0U;
+    if ((u32) multi_ply_chr_select_resource_bundle != 0U) {
+        delete (BmlResource *)multi_ply_chr_select_resource_bundle;
+        multi_ply_chr_select_resource_bundle = 0U;
     }
 }
 

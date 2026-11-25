@@ -715,7 +715,7 @@ int load_tombstone_resources(void* p);
 int load_resources__13TObjTombstoneFv(void*);
 }
 
-const char *TChallenge4P__class_name = "TChallenge4P";
+const char *challenge4p_class_name = "TChallenge4P";
 
 TChallenge4P *TChallenge4P::create() {
     return new TChallenge4P(tl_su);
@@ -926,7 +926,7 @@ void TLobby::copy_global_value_block() {
 }
 
 TChallenge4P::TChallenge4P(TObject *parent) : TObject(parent) {
-    m_name = TChallenge4P__class_name;
+    m_name = challenge4p_class_name;
     challenge4p_mode_state = challenge_default_settings;
     restore_challenge_from_save();
     frame_count = 0;

@@ -76,7 +76,7 @@ LAYOUT_ASSERT(QuestListOnline_selected_index, (offsetof(TQuestListOnline,selecte
 LAYOUT_ASSERT(QuestListOnline_selected_entry, (offsetof(TQuestListOnline,selected_entry)==0x4C));
 LAYOUT_ASSERT(QuestListOnline_selection_stage, (offsetof(TQuestListOnline,selection_stage)==0x68));
 LAYOUT_ASSERT(QuestListOnline_sequence, (offsetof(TQuestListOnline,sequence)==0x6C));
-extern TQuestListOnline *TQuestListOnline__instance;
+extern TQuestListOnline *quest_list_online_instance;
 
 extern "C" {
 void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu);

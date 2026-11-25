@@ -1133,7 +1133,7 @@ s32 TLobby::run_disk_error_check() {
 // children of resource_load_task_root, one per relocatable data file), the quest and text
 // archive decryption, the disc-file wrappers and TLobby::run_frame; __sinit closes the TU.
 extern s32 memcard_access_active;
-extern int TAdPlayerLoadGC__load_state;
+extern int player_load_load_state;
 
 void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
     fn_800FFE14(fn_800FFE04(), entries, count);
@@ -1455,9 +1455,9 @@ void TLobby::run_frame() {
     render_tick();
 }
 
-void TAdPlayerLoadGC::set_state(int state) { TAdPlayerLoadGC__load_state = state; }
+void TAdPlayerLoadGC::set_state(int state) { player_load_load_state = state; }
 
 
 TObject *get_load_fade_task(void) {
-    return (TObject *)TLoadCtrl__fade_task;
+    return (TObject *)load_ctrl_fade_task;
 }

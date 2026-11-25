@@ -231,7 +231,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TLobby__sub_8024285C, TLobby::reset_state},
     {clear_received_symbol_chat, TLobby__sub_80077608},
     {reset_choice_search_data, free_choice_search_data},
-    {TLobby::init_char_slots, TLobby__sub_801C3A40},
+    {TLobby::init_char_slots, free_char_slots},
     {(FloorResourceCallback)TOKeyJungleMain::init_key_slots, (FloorResourceCallback)TLobby__sub_8029B2A4},
     {(FloorResourceCallback)TLobby__sub_802D39FC, (FloorResourceCallback)TLobby__sub_802D39DC},
     {TObjBoss2Tunnel::reset_state, TObjBoss2Tunnel__sub_8007DD24},

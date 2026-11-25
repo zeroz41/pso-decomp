@@ -495,8 +495,8 @@ force_active:
   - is_selected__18TChCrTagOccupationFv
   - TChCrTagPlGraphic__sub_802A3230
   - is_selected__8TChCrTagFv
-  - TChallenge4PItemSelect__item_table
-  - TChallenge4PResult__slot_entries
+  - challenge4p_item_select_item_table
+  - challenge4p_result_slot_entries
   - __ct__12TChallenge4PFP7TObject
   - __ct__12TCharaMakingFP7TObject
   - TCheckRoomSequence__active_instance
@@ -603,7 +603,7 @@ force_active:
   - komorebi_bml_resource
   - komorebi_resource_descriptor
   - TLanguage__class_name
-  - TLanguage__read_cursor
+  - language_read_cursor
   - lazer_fence_sw_class_name
   - TLoadCtrl__ct
   - battle_team_table
@@ -671,12 +671,12 @@ force_active:
   - TLobby__sub_801A3CF8
   - TLobby__sub_801A3E94
   - set_floor_transition_ready
-  - TLobby__sub_801C26A8
+  - is_duel_ranking_empty
   - TLobby__sub_801C2C34
   - TLobby__sub_801C38A4
-  - TLobby__sub_801C38E8
+  - update_battle_exit_sequence
   - TLobby__sub_801C3AF4
-  - TLobby__sub_801C417C
+  - get_battle_time_limit_frames
   - TLobby__sub_801E3CF0
   - is_message_source_exhausted
   - append_message_char__FSc
@@ -948,7 +948,7 @@ force_active:
   - TObjCMMainMenu__sub_8028EC18
   - TObjCMMainMenu__sub_8028EC24
   - TObjCMMainMenu__sub_8028EC34
-  - TObjChallengeRetry__class_name
+  - obj_challenge_retry_class_name
   - __ct__18TObjChallengeRetryFP7TObject
   - __ct__16TObjCityAreaWarpFP7TObjectPv
   - TObjCityDoor_Guild__class_name
@@ -1386,10 +1386,10 @@ force_active:
   - TObjGrass__sub_800BCA2C
   - TObjGrass__sub_800BFB68
   - __ct__21TObjHMS_EZRope_PlayerFP7TObjectP15TObjHMSRopeSpecP19TObjHMSColliderSpec
-  - TObjItemNameEntry__class_name
-  - TObjItemNameSelect__class_name
-  - TObjItemOKWindow__class_name
-  - TObjItemOKWindow__text_format
+  - obj_item_name_entry_class_name
+  - obj_item_name_select_class_name
+  - obj_item_ok_window_class_name
+  - obj_item_ok_window_text_format
   - __ct__18TObjLaboDesignBaseFP7TObjectPvl
   - __ct__15TObjLaboMapWarpFP7TObjectPv
   - __ct__15TObjLazerFence4FP7TObjectPv
@@ -1669,22 +1669,22 @@ force_active:
   - set_speed__12TMotionModelFf
   - class_name__22TPlyPtclObjectLeftHand
   - class_name__23TPlyPtclObjectRightHand
-  - TQuestBgmCtrl__area_bgm_index
-  - TQuestBgmCtrl__bgm_forced_flag
-  - TQuestBgmCtrl__class_name
-  - TQuestBgmCtrl__instance
+  - quest_bgm_ctrl_area_bgm_index
+  - quest_bgm_ctrl_bgm_forced_flag
+  - quest_bgm_ctrl_class_name
+  - quest_bgm_ctrl_instance
   - TQuestBgmCtrl_class_name_string
-  - TQuestListChallenge__active_instance
-  - TQuestListChallenge__name
+  - quest_list_challenge_active_instance
+  - quest_list_challenge_name
   - TQuestListChallenge__stage_table
   - update_state__19TQuestListChallengeFv
   - TQuestListVM_class_name
-  - TQuestThreadBoard__class_name
-  - TQuestThread__class_name
-  - TQuestThread__floor_handler_ids
+  - quest_thread_board_class_name
+  - quest_thread_class_name
+  - quest_thread_floor_handler_ids
   - quest_card_file_name
-  - TQuestVmDownLoadServer__download_file_state
-  - TQuestVmDownLoadServer__rng_cipher_state
+  - quest_download_file_state
+  - quest_download_cipher_state
   - TQuestVmDownLoadServer__sub_801F6B98
   - TQuestVmDownLoadServer__sub_801F8538
   - TRKEXICallBack
@@ -7673,7 +7673,7 @@ force_active:
   - lbl_804509F0
   - lbl_80450A00
   - lbl_80450A10
-  - TQuestListChallenge__class_name_string
+  - quest_list_challenge_class_name_string
   - lbl_80450AB4
   - TChCrTagName__class_name_string
   - lbl_80466408

@@ -58,13 +58,13 @@ OfflineQuestEntry lbl_804C9C10[5] = {
     {-1, -1, -1, -1, -1, -1, -1, ""},
 };
 
-const char *TQuestListOffline__class_name = "TQuestListOffline";
+const char *quest_list_offline_class_name = "TQuestListOffline";
 
 void *story_quest_list_resource;
 
 TQuestListOffline::TQuestListOffline(TObject *parent, TShopWindowBase *sequence, TObjPlayer *player)
     : TShopWindowBase(parent) {
-    m_name = TQuestListOffline__class_name;
+    m_name = quest_list_offline_class_name;
     this->sequence = sequence;
     list_window = NULL;
     confirm_menu = NULL;

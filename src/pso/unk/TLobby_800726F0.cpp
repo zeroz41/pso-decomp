@@ -44,7 +44,7 @@ void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 
-const char *TObjChallengeRetry__class_name = "TObjChallengeRetry";
+const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
 void TLobby__sub_80072724(TLobby *lobby);
 void build_6x9D_packet(u8 *arg0);
 void TLobby__sub_800727A0(void *player);
@@ -376,7 +376,7 @@ void TObjChallengeRetry::sub_8007313C() {
   }
 }
 
-extern const char *TObjChallengeRetry__class_name;
+extern const char *obj_challenge_retry_class_name;
 void TObjChallengeRetry::run_task() {
     u8 *arg0 = (u8 *)this;
     this->m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(arg0);
@@ -412,7 +412,7 @@ TObjChallengeRetry::~TObjChallengeRetry() {
 }
 
 TObjChallengeRetry::TObjChallengeRetry(TObject *parent) : TObject(parent) {
-    m_name = TObjChallengeRetry__class_name;
+    m_name = obj_challenge_retry_class_name;
     m_20 = ((s32 (*)(void *))is_challenge_lobby__6TLobbyFv)(this);
     m_24 = 0;
     menu = NULL;

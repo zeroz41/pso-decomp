@@ -320,7 +320,7 @@ typedef struct Entry_80280B1C {
     s32 value;
 } Entry_80280B1C;
 extern "C" {
-s32 TLobby__sub_801C2614();
+s32 is_battle_mode_running();
 void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0);
 }
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
@@ -638,7 +638,7 @@ void TWindowSubStatusDisp::vt3() {
     temp_r30 = ((u8 *)(void *)get_array_entry(0xC));
     *(s32 *)((s8 *)temp_r30 + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_field((u16) this->client_index);
     card_flag = TAdSinglePlyChrSelectGC::get_card_flag((u16) this->client_index);
-    if (TLobby__sub_801C2614() != 0) {
+    if (is_battle_mode_running() != 0) {
         card_flag -= 1;
     }
     *(s32 *)((s8 *)((u8 *)(void *)get_array_entry(0xF)) + 0x20) = (s32) card_flag;

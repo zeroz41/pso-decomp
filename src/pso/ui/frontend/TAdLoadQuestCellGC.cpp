@@ -43,9 +43,9 @@ TAdLoadQuestCellGC::~TAdLoadQuestCellGC() {
     }
 }
 
-extern const char *TAdLoadQuestCellGC__name;
+extern const char *load_quest_cell_name;
 TAdLoadQuestCellGC::TAdLoadQuestCellGC(TObject *parent, s32 state) : TObject(parent) {
-    this->m_name = TAdLoadQuestCellGC__name;
+    this->m_name = load_quest_cell_name;
     m_state = state;
     this->m_frameCount = -1;
 }

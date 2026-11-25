@@ -84,12 +84,12 @@ extern u8 *online_quest_bin_data;
 extern char offline_quest_filename_buffer_a[];
 }
 
-extern const char *TQuestThread__class_name;
-extern const char *TQuestThreadBoard__class_name;
-extern const char *TObjItemNameEntry__class_name;
-extern const char *TObjItemNameSelect__class_name;
-extern const char *TObjItemOKWindow__class_name;
-extern const char TObjItemOKWindow__text_format[];
+extern const char *quest_thread_class_name;
+extern const char *quest_thread_board_class_name;
+extern const char *obj_item_name_entry_class_name;
+extern const char *obj_item_name_select_class_name;
+extern const char *obj_item_ok_window_class_name;
+extern const char obj_item_ok_window_text_format[];
 
 ItemNameEntry item_name_table_a[] = {
     {0x165, 0x70}, {0x166, 0x71}, {0x167, 0x72}, {0x168, 0x73}, {0x169, 0x74},
@@ -118,7 +118,7 @@ TQuestThreadBoard *quest_thread_board;
 int item_name_selection_index;
 ItemNameEntry *item_name_selection_table;
 u8 quest_board_handlers[0xD8];
-s32 TQuestThread__floor_handler_ids[18];
+s32 quest_thread_floor_handler_ids[18];
 char entered_item_name[0x10];
 
 void *TObjItemOKWindow::create(void *parent) {
@@ -151,7 +151,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     WindowPos pos;
     s32 name;
 
-    m_name = TObjItemOKWindow__class_name;
+    m_name = obj_item_ok_window_class_name;
     confirm_menu = init_shop_judgment_window((void *)get_window_layout_position(0x57));
     if (confirm_menu != NULL) {
         ((TWindowSubComCardList *)confirm_menu)->set_scroll_target(104.0f, 74.0f);
@@ -161,7 +161,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     if (name_menu != NULL) {
         name = (saddr)TObjItemNameSelect::get_selected_name();
         if (name != 0) {
-            sprintf(m_text, TObjItemOKWindow__text_format, get_entered_item_name(), name);
+            sprintf(m_text, obj_item_ok_window_text_format, get_entered_item_name(), name);
         } else {
             sprintf(m_text, "%s", get_entered_item_name());
         }
@@ -215,7 +215,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
     WindowPos pos;
     s32 i;
 
-    m_name = TObjItemNameSelect__class_name;
+    m_name = obj_item_name_select_class_name;
     item_name_selection_table = TLobby::get_instance() == 0 ? item_name_table_a : item_name_table_b;
     selection_menu = (void *)(saddr)create_window_menu_default((saddr)get_window_layout_position(0x58), 0x19);
     for (i = 0; item_name_selection_table[i].text_id != -1; i++) {
@@ -269,7 +269,7 @@ TObjItemNameEntry::~TObjItemNameEntry() {
 }
 
 TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
-    m_name = TObjItemNameEntry__class_name;
+    m_name = obj_item_name_entry_class_name;
     keyboard = new TKeyBoardControl(this, 8, 0, 1, local_client_id);
     if (keyboard != NULL) {
         ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)get_window_layout_position(0xBF));
@@ -428,7 +428,7 @@ TQuestThreadBoard::~TQuestThreadBoard() {
 }
 
 TQuestThreadBoard::TQuestThreadBoard(TQuestManager *root, s32 label) : TObject(NULL) {
-    m_name = TQuestThreadBoard__class_name;
+    m_name = quest_thread_board_class_name;
     ctx.copy(&root->ctx);
     ctx.pc = ctx.function_table[label];
     state = QST_RUNNING;
@@ -478,7 +478,7 @@ void TQuestThread::destroy_all_in(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         TObject *cur = child;
         child = child->m_next;
-        if (cur->check_value_equals(TQuestThread__class_name) != 0) {
+        if (cur->check_value_equals(quest_thread_class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_all_in(cur);
@@ -596,8 +596,8 @@ TQuestThread::~TQuestThread() {}
 
 TQuestThread *TQuestThread::create_for_floor() {
     s32 floor = get_current_floor();
-    if (TQuestThread__floor_handler_ids[floor] != -1 && quest_mission_manager != NULL) {
-        return new TQuestThread(quest_mission_manager, TQuestThread__floor_handler_ids[floor]);
+    if (quest_thread_floor_handler_ids[floor] != -1 && quest_mission_manager != NULL) {
+        return new TQuestThread(quest_mission_manager, quest_thread_floor_handler_ids[floor]);
     }
     return NULL;
 }
@@ -624,7 +624,7 @@ TQuestThread *TQuestThread::create_in_root(s32 label) {
 }
 
 TQuestThread::TQuestThread(TQuestManager *root, s32 label) : TObject(root) {
-    m_name = TQuestThread__class_name;
+    m_name = quest_thread_class_name;
     ctx.copy(&root->ctx);
     ctx.pc = ctx.function_table[label];
     state = QST_RUNNING;
@@ -637,14 +637,14 @@ void TQuestThread::clear_floor_handler(s32 floor) {
     if (floor < 0 || floor > 0x11) {
         return;
     }
-    TQuestThread__floor_handler_ids[floor] = -1;
+    quest_thread_floor_handler_ids[floor] = -1;
 }
 
 void TQuestThread::set_floor_handler(s32 floor, s32 label) {
     if (floor < 0 || floor > 0x11) {
         return;
     }
-    TQuestThread__floor_handler_ids[floor] = label;
+    quest_thread_floor_handler_ids[floor] = label;
 }
 
 void TQuestThread__sub_801F5D88(void) { TQuestThread::clear_all_floor_handlers(); }
@@ -652,7 +652,7 @@ void TQuestThread__sub_801F5D88(void) { TQuestThread::clear_all_floor_handlers()
 void TQuestThread::clear_all_floor_handlers() {
     s32 i;
     for (i = 0; i < 0x12; i++) {
-        TQuestThread__floor_handler_ids[i] = -1;
+        quest_thread_floor_handler_ids[i] = -1;
     }
 }
 
@@ -685,12 +685,12 @@ char *TQuestThread::get_quest_name() {
 }
 
 // defined here so their strings follow "ERROR" in .rodata, as in the original
-const char *TQuestThread__class_name = "TQuestThread";
-const char *TQuestThreadBoard__class_name = "TQuestThreadBoard";
-const char *TObjItemNameEntry__class_name = "TObjItemNameEntry";
-const char *TObjItemNameSelect__class_name = "TObjItemNameSelect";
-const char *TObjItemOKWindow__class_name = "TObjItemOKWindow";
-__declspec(section ".rodata") extern const char TObjItemOKWindow__text_format[] = "%s %s";
+const char *quest_thread_class_name = "TQuestThread";
+const char *quest_thread_board_class_name = "TQuestThreadBoard";
+const char *obj_item_name_entry_class_name = "TObjItemNameEntry";
+const char *obj_item_name_select_class_name = "TObjItemNameSelect";
+const char *obj_item_ok_window_class_name = "TObjItemOKWindow";
+__declspec(section ".rodata") extern const char obj_item_ok_window_text_format[] = "%s %s";
 
 void TQuestThread::clear_thread_state() {
     memset(quest_board_handlers, 0, 0xD8);

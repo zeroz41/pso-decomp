@@ -13,13 +13,13 @@
 const char *TAdPlayerLoadGC__class_name = "TAdPlayerLoadGC";
 
 extern "C" {
-extern int TAdPlayerLoadGC__load_state;
+extern int player_load_load_state;
 extern int TAdChrSelBSlotGC__global_state;
 }
 
 void set_character_select_b_slot_state(int a0) { TAdChrSelBSlotGC__global_state = a0; }
 
-int get_player_load_state(void) { return TAdPlayerLoadGC__load_state; }
+int get_player_load_state(void) { return player_load_load_state; }
 
 TAdPlayerLoadGC::TAdPlayerLoadGC(TObject *parent, int mode) : TObject(parent) {
     m_name = TAdPlayerLoadGC__class_name;

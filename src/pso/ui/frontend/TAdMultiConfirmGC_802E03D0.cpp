@@ -51,7 +51,7 @@ s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(int, int);
 
 extern TObjMotionAction lbl_804E2F78[9];
-u8 *TAdMultiPlyChrSelectGC__resource_bundle;
+u8 *multi_ply_chr_select_resource_bundle;
 
 void copy_player_visual_record(void *, const void *);
 
@@ -258,7 +258,7 @@ void TAdChrSelPlayerGC::run_task() {
 
 void TAdChrSelPlayerGC::init_model_animation() {
     this->set_action_table(lbl_804E2F78);
-    this->set_motion_list(reinterpret_cast<BmlResource *>(TAdMultiPlyChrSelectGC__resource_bundle)->motions);
+    this->set_motion_list(reinterpret_cast<BmlResource *>(multi_ply_chr_select_resource_bundle)->motions);
     set_cursor_index(0);
     set_animation((this->requested_action));
 }
