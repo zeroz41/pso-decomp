@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/system/task/TObject_8001A448.h"
-#include "pso/unk/text_80307BE8.h"
 #include "pso/system/memory.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
@@ -25,6 +24,46 @@
 #include <dolphin/os/OSRtc.h>
 #include <dolphin/vi.h>
 #undef PSO_SDK_COMPACT_MATH
+#include "pso/object/base/TObjCharaHelpers.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/render/NinjaUtil.h"
+
+// Ticks the names of the players on this floor within the radius init() set (in the
+// window open_player_names_window made) and records which of them are in range.
+#pragma push
+#pragma fp_contract on
+void update_players_in_range(u8 *check) {
+    TObjPlayer *player;
+    s32 i;
+    *(s32 *)((s8 *)check + 0x14) = 1;
+    *(s32 *)((s8 *)check + 0x18) = 0;
+    *(s32 *)((s8 *)check + 0x20) = 0;
+    if ((u32) *(u32 *)((s8 *)check + 0x24) != 0U) {
+        i = 0;
+        do {
+            player = get_player_by_client_id(i);
+            if (player != NULL) {
+                if ((get_current_floor() == player->get_floor()) && (xz_distance_squared(&player->position, (Vec *)(check + 8)) <= *(f32 *)((s8 *)check + 0))) {
+                    (*(TWindowCheckBox **)((s8 *)check + 0x24))->advance_matching_entries(1, i);
+                    *(s32 *)((s8 *)check + 0x20) = (s32) (*(s32 *)((s8 *)check + 0x20) | (1 << i));
+                    *(s32 *)((s8 *)check + 0x18) = 1;
+                } else {
+                    (*(TWindowCheckBox **)((s8 *)check + 0x24))->advance_matching_entries(0, i);
+                    *(s32 *)((s8 *)check + 0x20) = (s32) (*(s32 *)((s8 *)check + 0x20) & ~(1 << i));
+                    *(s32 *)((s8 *)check + 0x14) = 0;
+                }
+            } else {
+                (*(TWindowCheckBox **)((s8 *)check + 0x24))->advance_matching_entries(0, i);
+            }
+            i += 1;
+        } while (i < 4);
+    }
+    if ((s32) *(s32 *)((s8 *)check + 0x14) == 0) {
+        *(s32 *)((s8 *)check + 0x1C) = (s32) *(s32 *)((s8 *)check + 0x20);
+    }
+}
+#pragma pop
+
 
 #pragma readonly_strings on
 

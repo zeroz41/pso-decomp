@@ -8003,11 +8003,8 @@ pso/ui/frontend/EndingSequence.cpp:
 pso/object/warp/TObjAreaWarp_80307B70.cpp:
 	.text       start:0x80307B70 end:0x80307BE8
 
-pso/unk/text_80307BE8.cpp:
-	.text       start:0x80307BE8 end:0x80307D00
-
 pso/ui/frontend/TAdVIConfigGC.cpp:
-	.text       start:0x80307D00 end:0x80308200
+	.text       start:0x80307BE8 end:0x80308200
 	.rodata     start:0x80475468 end:0x80475478
 	.data       start:0x804E71B8 end:0x804E71F8
 	.sdata      start:0x805D4090 end:0x805D4098
