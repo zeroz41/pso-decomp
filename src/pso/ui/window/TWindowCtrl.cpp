@@ -122,26 +122,10 @@ const char *TWindowCtrl__name = "TWindowCtrl";
 static const s16 split_open_times[6] = {0, 4, 8, 12, 0, 0};
 static const s16 open_times[4] = {24, 30, 36, 0};
 
-typedef struct Ctrl_8024B8A0 {
-    u8 pad0[0x1E];
-    s16 timer;
-    u8 pad20[4];
-    u32 color;
-} Ctrl_8024B8A0;
 
 
 
-typedef struct Win_8024BE80 {
-    u8 pad0[0x34];
-    f32 y;
-    u8 pad38[0x50 - 0x38];
-    s32 fade;
-} Win_8024BE80;
 
-typedef struct Ctrl_8024BE80 {
-    u8 pad0[0x78];
-    Win_8024BE80 *slots[3];
-} Ctrl_8024BE80;
 
 
 extern "C" {
@@ -150,19 +134,7 @@ void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl);
 
 }
 
-typedef struct Win_8024C024 {
-    u8 pad0[0x50];
-    s32 fade;
-} Win_8024C024;
 
-typedef struct Ctrl_8024C024 {
-    u8 pad0[0x1E];
-    s16 timer;
-    s16 step;
-    u8 pad22[0x48 - 0x22];
-    Win_8024C024 *split[12];
-    Win_8024C024 *slots[3];
-} Ctrl_8024C024;
 
 struct TWindowCtrl_8024C160 {
     u8 pad0[0x18];
@@ -479,28 +451,27 @@ void TWindowCtrl::render() {  }
 
 
 void TWindowCtrl::update_open_sequence() {
-    Ctrl_8024C024 *o = (Ctrl_8024C024 *)this;
     if (is_split_screen() != 0) {
-        if (o->timer == split_open_times[o->step]) {
-            if (o->split[o->step] != NULL) {
-                ((TObject *)(o->split[o->step]))->clear_update_suspension();
+        if (open_timer == split_open_times[open_step]) {
+            if (players[open_step] != NULL) {
+                players[open_step]->clear_update_suspension();
             }
-            o->step++;
+            open_step++;
         }
     } else {
-        if (o->timer == open_times[o->step]) {
-            if (o->slots[o->step] != NULL) {
-                ((TObject *)(o->slots[o->step]))->clear_update_suspension();
-                ((TWindowCtrl *)o)->update_party_status_rows();
-                o->slots[o->step]->fade = 0;
+        if (open_timer == open_times[open_step]) {
+            if (simple_status[open_step] != NULL) {
+                simple_status[open_step]->clear_update_suspension();
+                update_party_status_rows();
+                simple_status[open_step]->tween_ticks = 0;
             }
-            o->step++;
+            open_step++;
         }
     }
-    if (o->timer > 30000) {
-        o->timer -= 10000;
+    if (open_timer > 30000) {
+        open_timer -= 10000;
     }
-    o->timer++;
+    open_timer++;
 }
 
 
@@ -513,23 +484,23 @@ void TWindowCtrl::update_party_status_rows() {
     f32 y;
     u32 i;
     void *pl;
-    Win_8024BE80 *w;
+    TWindowSimpleStatus *w;
     y = ((TWindowLockOn *)(0xAB))->get_target_distance();
     for (i = 0; i < 3; i++) {
-        w = ((Ctrl_8024BE80 *)this)->slots[i];
+        w = simple_status[i];
         if (w != NULL && ((TWindowCtrl *)w)->is_flag_2_set() == 0) {
-            pl = get_player_by_client_id(((TWindowSimpleStatus *)w)->get_width());
+            pl = get_player_by_client_id(w->get_width());
             if (pl == NULL || TWindowCtrl::has_player_active_menu(local_client_id) != 0 ||
                 TWindowCtrl::is_slot_visible(local_client_id) != 0 || is_flag_bit2_set() != 0 ||
                 ((TObjPlayer *)pl)->is_script_controlled() != 0 ||
                 (((TObjChara *)pl)->obj_isState3_324() != 0 &&
                  (((TObjPlayer *)pl)->get_field_828() != 0 || static_cast<TObjPlayer *>(pl)->get_npc_controller() == 0xFFFF))) {
-                ((TWindowLockOn *)w)->request_close();
+                w->request_close();
             } else {
                 window_request_show(w);
-                if (w->y != y) {
-                    w->y = y;
-                    w->fade = 0xF;
+                if (w->target_position[1] != y) {
+                    w->target_position[1] = y;
+                    w->tween_ticks = 0xF;
                 }
                 y += 55.0f;
             }
@@ -652,10 +623,9 @@ void TWindowCtrl__sub_8024B9C0(void *arg0) {
 
 #pragma fp_contract on
 void TWindowCtrl::update_pulse_color() {
-    Ctrl_8024B8A0 *o = (Ctrl_8024B8A0 *)this;
     f32 t;
     f32 a;
-    t = (u32)o->timer % 100;
+    t = (u32)open_timer % 100;
     if (t > 50.0f) {
         t = 100.0f - t;
     }
@@ -664,7 +634,7 @@ void TWindowCtrl::update_pulse_color() {
     if (a > 1.0f) {
         a = 1.0f;
     }
-    o->color = (u8)(s32)(53.0f * a + 19.0f * (1.0f - a)) |
+    pulse_color = (u8)(s32)(53.0f * a + 19.0f * (1.0f - a)) |
                ((((u8)(s32)(255.0f * a + 187.0f * (1.0f - a)) << 16) | 0xFF000000) |
                 ((u8)(s32)(174.0f * a + 83.0f * (1.0f - a)) << 8));
 }

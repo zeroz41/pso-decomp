@@ -24,10 +24,10 @@ struct TWindowCtrl : public TObject {
     virtual ~TWindowCtrl();
     static TWindowCtrl *instance;
     u16 flags;
-    u16 m_1e;
-    s16 countdown;
+    s16 open_timer;   // frames since the windows started opening (update_open_sequence)
+    s16 open_step;    // next window to open in the open sequence
     s16 submit_cooldown;
-    u32 m_24;
+    u32 pulse_color;  // ARGB that update_pulse_color cycles
     u16 window_id;
     u8 _pad2A[0x2];
     uaddr m_2c;
