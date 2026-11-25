@@ -52,7 +52,7 @@ struct TShopEquipmentSellWindow : public TShopWindowBase {
     void close();
     void handle_selection();
     void build_sell_list();
-    static s32 get_item_data_value(uaddr arg0);
+    static s32 get_item_data_value(uaddr item);
 };
 
 LAYOUT_ASSERT(TShopSellEntry_size, sizeof(TShopSellEntry) == 0x1C);

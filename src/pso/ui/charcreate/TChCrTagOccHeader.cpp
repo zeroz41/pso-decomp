@@ -15,13 +15,13 @@ const char *chcr_tag_occ_header_class_name = "TChCrTagOccHeader";
 void TChCrTagOccHeader::draw_header() {
   vec2f pos = {393.0f, 82.0f};
   vec2f scale;
-  f32 f31;
+  f32 intensity;
   f32 alpha;
   f32 depth;
   s32 n;
   s32 id;
-  f31 = (m_fade) * (m_highlight);
-  if (f31 <= 0.0f)
+  intensity = (m_fade) * (m_highlight);
+  if (intensity <= 0.0f)
   {
     return;
   }
@@ -33,7 +33,7 @@ void TChCrTagOccHeader::draw_header() {
   {
     depth = -3.0625f;
   }
-  alpha = f31 / 0.4f;
+  alpha = intensity / 0.4f;
   alpha = alpha * alpha;
   if (alpha > 1.0f)
   {
@@ -41,9 +41,9 @@ void TChCrTagOccHeader::draw_header() {
   }
   scale.y = 1.0f;
   scale.x = 1.0f;
-  if (f31 < 0.4f)
+  if (intensity < 0.4f)
   {
-    f32 t = (0.4f - f31) / 0.4f;
+    f32 t = (0.4f - intensity) / 0.4f;
     f32 k = 0.15f * t;
     scale.x = 1.0f + k;
     scale.y = scale.x;
@@ -58,11 +58,11 @@ void TChCrTagOccHeader::draw_header() {
     id = ((n - 3) / 4) + 0x63;
   }
   draw_ui_sprite_shaded(id, &pos, &scale, depth, alpha, 1.0f);
-  if (!is_selected() || f31 <= 0.4f)
+  if (!is_selected() || intensity <= 0.4f)
   {
     return;
   }
-  f31 = (f31 - 0.4f) / 0.6f;
+  intensity = (intensity - 0.4f) / 0.6f;
 
   if ((m_index) < 3)
   {
@@ -72,22 +72,22 @@ void TChCrTagOccHeader::draw_header() {
   {
     id = (m_index) + 0xad;
   }
-  f31 = f31;
+  intensity = intensity;
   if (is_selected())
   {
     f32 s = sin_table_lookup((m_frame) << 9);
-    f31 = (0.25f * s) + f31;
-    if (f31 < 0.0f)
+    intensity = (0.25f * s) + intensity;
+    if (intensity < 0.0f)
     {
-      f31 = 0.0f;
+      intensity = 0.0f;
     }
     else
-      if (f31 > 1.0f)
+      if (intensity > 1.0f)
     {
-      f31 = 1.0f;
+      intensity = 1.0f;
     }
   }
-  draw_ui_sprite_shaded(id, &pos, &scale, -2.125f, f31, 1.0f);
+  draw_ui_sprite_shaded(id, &pos, &scale, -2.125f, intensity, 1.0f);
 }
 #pragma pop
 

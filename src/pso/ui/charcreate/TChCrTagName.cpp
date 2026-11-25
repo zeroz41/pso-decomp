@@ -184,11 +184,9 @@ void TChCrTagName::update_slide_in() {
     fade = this->m_fade;
     progress = this->m_slide_end;
     if (fade < progress) {
-        if (1) {
-            start = this->m_slide_start;
-            progress = (fade - start) / (progress - start);
-            slide = (0.5f) * ((1.0f) - cos_table_lookup((s32)((32768.0f) * progress)));
-        }
+        start = this->m_slide_start;
+        progress = (fade - start) / (progress - start);
+        slide = (0.5f) * ((1.0f) - cos_table_lookup((s32)((32768.0f) * progress)));
     }
     this->pos.x = this->pos.x + ((3e+02f) * slide + (-3e+02f));
 }

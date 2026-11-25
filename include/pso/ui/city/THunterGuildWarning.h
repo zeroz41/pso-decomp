@@ -9,12 +9,12 @@ struct TWindowMessage;
 class THunterGuildWarning : public TObject {
 public:
     static THunterGuildWarning * instance;
-    THunterGuildWarning(TObject *arg1, void *arg2);
+    THunterGuildWarning(TObject *parent, void *warning_mode);
     virtual ~THunterGuildWarning();
     virtual void run_task();
 public:
     static void queue_destruction();
-    static void create_instance(saddr arg0);
+    static void create_instance(saddr warning_mode);
     static s32 is_active();
     void close_windows();
     void sub_80211774(void *arg);
