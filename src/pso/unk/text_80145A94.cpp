@@ -46,10 +46,10 @@ s32 load_network_info(void) {
         status = 4;
     }
     if (lbl_805D56CE != 0) {
-        TLobby__sub_803F3D60();
+        close_network_config();
         lbl_805D56CE = 0;
     }
-    TLobby__sub_803F3BF8(0, network_info_work, status);
+    open_network_config(0, network_info_work, status);
     lbl_805D56CE = 1;
     init_card_lib((void *)TLobby::get_global_63e0());
     start = 0;

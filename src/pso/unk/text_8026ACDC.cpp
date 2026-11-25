@@ -5,7 +5,7 @@
 
 extern void *chat_log_lines[];
 
-void TLobby__sub_8026ACDC(void) {
+void init_chat_log_heap(void) {
     s32 i;
     scroll_win_chat_log_heap = new THeap(0x2000, 8);
     chat_last_line_buffer = NULL;

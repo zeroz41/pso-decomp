@@ -23,7 +23,7 @@ extern u8 *lobby_net_config_card_base;
 #pragma opt_dead_assignments off
 // The caller's work buffer is declared 32-byte aligned like lobby_net_config_buffer it lands in; GC/1.3 gives
 // the parameter an aligned home, hence the 32-aligned frame.
-s32 TLobby__sub_803F3BF8(s32 backup_mode, void *buffer ATTRIBUTE_ALIGN_PARAM(32), s32 mode) {
+s32 open_network_config(s32 backup_mode, void *buffer ATTRIBUTE_ALIGN_PARAM(32), s32 mode) {
     ntinf_version_ref = ntinf_version_string_ref;
     if (get_network_config_mode() != 0) {
         return -1;
@@ -77,7 +77,7 @@ s32 update_network_info_request(void) {
 #pragma pop
 
 
-s32 TLobby__sub_803F3D60(void) {
+s32 close_network_config(void) {
     if (get_network_config_mode() == 0) {
         return -1;
     }

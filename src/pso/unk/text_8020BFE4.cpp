@@ -30,7 +30,7 @@ s32 TLobby::find_floor_object_factory(s32 area, s16 *object_type) {
     return 0;
 }
 
-void TLobby__sub_8020C07C(s32 pl, s16 b, s16 a, s32 mask, s32 set) {
+void set_wave_object_flags(s32 pl, s16 b, s16 a, s32 mask, s32 set) {
     if (pl == get_current_floor()) {
         FloorObjectSetRow *p = current_floor_object_set_rows;
         s32 i;

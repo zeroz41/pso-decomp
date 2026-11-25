@@ -852,7 +852,7 @@ void apply_phase_keyboard_mode() {
         break;
     case 1:
     case 2:
-        TLobby::set_keyboard_mode((saddr)TLobby__sub_800F8BD8);
+        TLobby::set_keyboard_mode((saddr)reset_to_fallback_main_phase);
         break;
     default:
         TLobby::set_keyboard_mode(0);
@@ -860,9 +860,7 @@ void apply_phase_keyboard_mode() {
     }
 }
 
-extern "C" {
-void TLobby__sub_800F8BD8(void) { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); }
-}
+void reset_to_fallback_main_phase(void) { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); }
 
 void TLobby::invoke_callback() {
     if (((s32 (*)()) main_phase_deferred_callback) != NULL) {
@@ -1293,7 +1291,7 @@ saddr load_text_resource_pair(saddr name) {
 void *load_encrypted_archive_data(const char *name) {
     s32 size;
 
-    return TLobby__sub_800F9A60(name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
+    return load_rel_data_file(name, (u8 *)load_encrypted_text_archive((char *)name, &size), size);
 }
 
 void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *relocs) {
@@ -1307,7 +1305,7 @@ void *alloc_named_object(const char *name, u8 *data, s32 size, RelFileTrailer *r
     return apply_pointer_relocations(file, relocs);
 }
 
-void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
+void *load_rel_data_file(const char *name, u8 *data, s32 size) {
     TRelDataFile *file = new TRelDataFile(&resource_load_task_root);
 
     memset(file->name, 0, sizeof(file->name));

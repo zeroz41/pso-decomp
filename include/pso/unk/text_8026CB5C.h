@@ -5,9 +5,9 @@
 
 struct NJS_POINT2;
 
+const NJS_POINT2 *get_large_vec2(void);
+const NJS_POINT2 *get_one_vec2(void);
 extern "C" {
-const NJS_POINT2 *fn_8026CB5C(void);
-const NJS_POINT2 *fn_8026CB68(void);
 const NJS_POINT2 *get_zero_vec2(void);
 }
 

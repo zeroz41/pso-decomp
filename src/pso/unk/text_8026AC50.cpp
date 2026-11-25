@@ -4,7 +4,7 @@
 #include "pso/system/THeap.h"
 
 extern u32 chat_log_lines[];
-void fn_8026AC50(void) {
+void free_chat_log_lines(void) {
     s32 i;
     uaddr v;
     for (i = 29; i >= 0; i--) {

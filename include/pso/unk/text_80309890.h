@@ -5,6 +5,6 @@
 
 class TObject;
 
-extern "C" void fn_80309890(TObject *object, s32 index);
+void select_char_creation_tag_info(TObject *object, s32 index);
 
 #endif

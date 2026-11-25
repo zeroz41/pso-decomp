@@ -2,10 +2,9 @@
 #include "pso/unk/text_803D8DE0.h"
 #include "pso/render/RenderSbssGlobals.h"
 
-extern "C" {
 #pragma push
 #pragma scheduling off
-void fn_803D8DE0(MtxP matrix, Vec *src, Vec *dst, u32 count) {
+void mult_vec_array_sr(MtxP matrix, Vec *src, Vec *dst, u32 count) {
     if (matrix == NULL) {
         matrix = *current_matrix;
     }
@@ -16,6 +15,7 @@ void fn_803D8DE0(MtxP matrix, Vec *src, Vec *dst, u32 count) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
+extern "C" {
 void blend_quaternions_nlerp(const Quaternion *a, const Quaternion *b, Quaternion *out, f32 t) {
     f32 x, y, z, w;
     f32 inv;
@@ -60,6 +60,5 @@ void blend_quaternions_nlerp(const Quaternion *a, const Quaternion *b, Quaternio
     out->z = z * inv;
     out->w = w * inv;
 }
-#pragma pop
-
 }
+#pragma pop

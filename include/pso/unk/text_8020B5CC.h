@@ -26,9 +26,7 @@ extern "C" {
 void TLobby__sub_8020B47C(FloorSetFlagsHeader *buffer);
 }
 void apply_floor_set_flags_packet(FloorSetFlagsHeader *buffer, u16 length);
-extern "C" {
-int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buffer);
-void TLobby__sub_8020BB18(void);
-}
+int pack_floor_set_flags(FloorSetFlagsPayload *buffer);
+void destroy_floor_decoration_objects(void);
 
 #endif

@@ -319,7 +319,7 @@ void TLobby::setup_quest_list() {
     map_set_enemy_id_counter = 0;
     switch ((s32) evt2_random_enemies_mode) {
     case 1:
-        TLobby::open_session(fn_801F43A8());
+        TLobby::open_session(get_offline_quest_filename_buffer_b());
         break;
     case 2:
         TLobby::update_and_reset(TQuestListOnline::get_quest_list_flag());
@@ -331,7 +331,7 @@ void TLobby::setup_quest_list() {
         TLobby::rebuild_all(TQuestListOnline::get_quest_list_flag());
         break;
     case 5:
-        TLobby::refresh_quest_list(fn_801F43A8());
+        TLobby::refresh_quest_list(get_offline_quest_filename_buffer_b());
         break;
     }
     advance_object_id_counter((u16) map_object_id_counter);

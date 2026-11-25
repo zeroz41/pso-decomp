@@ -3,14 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-int TLobby__sub_8020BF88(void);
-}
-
-// --- C functions defined in pso_carve_8020bf88.cpp ---
-extern "C" {
-int TLobby__sub_8020BF88(void);
-}
-// --- end of C functions
+int get_floor_set_flags_size(void);
 
 #endif

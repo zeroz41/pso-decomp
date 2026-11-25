@@ -3,9 +3,7 @@
 
 #include "types.h"
 
-extern "C" {
-void fn_802D1C84(void);
-void fn_802D1CC8(void);
-}
+void release_mericarol_render_texture(void);
+void create_mericarol_render_texture(void);
 
 #endif

@@ -16,7 +16,7 @@ const AllocatorCallbacks *global_allocator;
 void *sys_heap_handle;
 
 // The system heap's allocator, installed as global_allocator.
-extern const AllocatorCallbacks sys_allocator_func_table = { sys_alloc, free_to_sys_heap, sys_calloc, fn_803DE960 };
+extern const AllocatorCallbacks sys_allocator_func_table = { sys_alloc, free_to_sys_heap, sys_calloc, sys_heap_realloc };
 
 #pragma push
 #pragma scheduling off
@@ -75,7 +75,7 @@ void *sys_calloc(s32 arg0, s32 arg1) {
 }
 
 // Allocates size bytes, copies size bytes of ptr into them and frees ptr (a realloc; name inferred).
-void *fn_803DE960(void *ptr, u32 size) {
+void *sys_heap_realloc(void *ptr, u32 size) {
     void *p = OSAllocFromHeap(sys_heap_handle, size);
     move_data((p), (const void *)(ptr), size);
     OSFreeToHeap(sys_heap_handle, ptr);

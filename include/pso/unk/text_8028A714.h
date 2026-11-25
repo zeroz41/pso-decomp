@@ -5,10 +5,8 @@
 
 struct NJS_TEXLIST;
 
-extern "C" {
-u8 *fn_8028A714(s32 index);
-NJS_TEXLIST *fn_8028A750(s32 index);
-u8 *fn_8028A78C(s32 index);
-}
+u8 *get_green_door_motion(s32 index);
+NJS_TEXLIST *get_green_door_texlist(s32 index);
+u8 *get_green_door_model(s32 index);
 
 #endif

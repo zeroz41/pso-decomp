@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
-void fn_8026AC50(void);
-}
+void free_chat_log_lines(void);
 
 #endif

@@ -11,8 +11,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
-void fn_802233F8(void) {
+void release_other_players_hold(TObject *caller) {
     u16 self_slot;
     s32 i;
     TObjPlayer *p;
@@ -29,7 +28,7 @@ void fn_802233F8(void) {
         }
     }
 }
-void fn_80223480(void) {
+void impose_other_players_hold(TObject *caller) {
     u16 self_slot;
     s32 i;
     TObjPlayer *p;
@@ -45,6 +44,4 @@ void fn_80223480(void) {
             }
         }
     }
-}
-
 }

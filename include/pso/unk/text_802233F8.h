@@ -3,9 +3,9 @@
 
 #include "types.h"
 
-extern "C" {
-void fn_802233F8(void);
-void fn_80223480(void);
-}
+class TObject;
+
+void release_other_players_hold(TObject *caller);
+void impose_other_players_hold(TObject *caller);
 
 #endif
