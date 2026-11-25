@@ -290,9 +290,6 @@ void TLobby__sub_801C38A4(void);
 void TLobby__sub_801B09A4(void);
 
 
-void end_player_keyboard_hold(saddr client_id);
-
-void begin_player_keyboard_hold(saddr client_id);
 void request_active_window_close(void);
 s32 TLobby__sub_801C417C(void);
 void __destroy_new_array(void *, void *);
@@ -804,7 +801,7 @@ void TLobby::close_and_play_effect(int client, s32 local) {
         send_impose_hold(player, -1);
     }
     if (local != 0) {
-        begin_player_keyboard_hold(local_client_id);
+        TWindowCtrl::begin_client_keyboard_hold(local_client_id);
         request_active_window_close();
         TWindowCtrl::suppress_slot(local_client_id);
     }
@@ -816,7 +813,7 @@ void TLobby::handle_battle_result(int client, s32 local) {
         send_release_hold(player);
     }
     if (local != 0) {
-        end_player_keyboard_hold(local_client_id);
+        TWindowCtrl::end_client_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
         TWindowCtrl::unsuppress_slot(local_client_id);
     }

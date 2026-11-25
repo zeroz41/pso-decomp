@@ -21,8 +21,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/unk/text_8024ACEC.h"
-#include "pso/unk/text_8024AD30.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
@@ -332,7 +330,7 @@ void TObjWarpBoss::update_warp_dialogs() {
         ((TWindowMessageYesNo *)yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
         ((TWindowMessageYesNo *)yes_no_window)->set_menu_selected_index(1);
         ((TWindowMessageYesNo *)yes_no_window)->set_choice_menu_flag70_bit10();
-        begin_player_keyboard_hold(local_client_id);
+        TWindowCtrl::begin_client_keyboard_hold(local_client_id);
         request_active_window_close();
         TWindowCtrl::suppress_slot(local_client_id);
       }
@@ -603,7 +601,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
                     ((TWindowMenu *)menu_window)->calc_window_size();
                     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
                 }
-                begin_player_keyboard_hold(local_client_id);
+                TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
             }
@@ -612,7 +610,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
                 ((TWindowBase *)menu_window)->close();
                 menu_window = 0;
             }
-            end_player_keyboard_hold(local_client_id);
+            TWindowCtrl::end_client_keyboard_hold(local_client_id);
             TWindowCtrl::clear_flag();
             TWindowCtrl::unsuppress_slot(local_client_id);
         }
@@ -625,7 +623,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
             ((TWindowBase *)menu_window)->close();
             menu_window = 0;
         }
-        end_player_keyboard_hold(local_client_id);
+        TWindowCtrl::end_client_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
         TWindowCtrl::unsuppress_slot(local_client_id);
         break;
@@ -700,7 +698,7 @@ void TObjWarpBoss::close_windows() {
         ((TWindowBase *)player_list_window)->close();
         player_list_window = NULL;
     }
-    end_player_keyboard_hold(local_client_id);
+    TWindowCtrl::end_client_keyboard_hold(local_client_id);
     TWindowCtrl::clear_flag();
     TWindowCtrl::unsuppress_slot(local_client_id);
 }

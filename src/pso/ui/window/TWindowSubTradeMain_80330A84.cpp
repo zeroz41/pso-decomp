@@ -32,9 +32,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/ui/window/TWindowCtrl_8024ADAC.h"
-#include "pso/unk/text_8024AB98.h"
-#include "pso/unk/text_8024AB54.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/WindowLayout.h"
 
 const char *TWindowSubTradeMain__name = "TWindowSubTradeMain";
@@ -160,8 +158,8 @@ TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : 
     this->input_number = 0;
     this->help_item = 0;
     this->displayed_item = -1;
-    fn_8024AB54(client_id);
-    TWindowCtrl__sub_8024ADAC(client_id);
+    TWindowCtrl::lock_client_main_menu(client_id);
+    TWindowCtrl::hide_client_status_window(client_id);
     claim_trade_main_window(this);
     snapshot_trade_inventories();
     parent_menu->hide_for_subwindow();
@@ -221,8 +219,8 @@ TWindowSubTradeMain::~TWindowSubTradeMain() {
     if (parent_menu != NULL) {
         parent_menu->restore_after_subwindow();
     }
-    TWindowCtrl__sub_8024ADF0(this->client_id);
-    TWindowSubComCard__sub_8024AB98(this->client_id);
+    TWindowCtrl::show_client_status_window(this->client_id);
+    TWindowCtrl::unlock_client_main_menu(this->client_id);
 }
 
 void TWindowSubTradeMain::run_task() {

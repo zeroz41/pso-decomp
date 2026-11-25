@@ -48,7 +48,6 @@
 #include "pso/unk/text_800F8A18.h"
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"

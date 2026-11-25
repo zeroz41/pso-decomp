@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowSubLog.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/unk/text_8026A93C.h"
-#include "pso/ui/window/TWindowCtrl_8024ADAC.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdScrollWinGC_8026A5F8.h"
 #include "pso/unk/text_80076BC4.h"
@@ -68,14 +68,14 @@ TWindowSubLog::~TWindowSubLog() {
         parent_menu->clear_log_active();
         parent_menu->restore_after_subwindow();
     }
-    TWindowCtrl__sub_8024ADF0((saddr)(*(void **)((s8 *)this + 0x1C)));
+    TWindowCtrl::show_client_status_window(client);
 }
 TWindowSubLog::TWindowSubLog(TObject *parent, s32 client) : TObject(parent) {
     void *w;
     ((Lg_8027B194 *)this)->f0 = ((saddr)TWindowSubLog__class_name);
     parent_menu = static_cast<TWindowMainMenu *>(parent);
     this->client = client;
-    TWindowCtrl__sub_8024ADAC((saddr)(((Lg_8027B194 *)this)->client_id));
+    TWindowCtrl::hide_client_status_window(this->client);
     parent_menu->hide_for_subwindow();
     parent_menu->set_log_active();
     ((Lg_8027B194 *)this)->f24 = (saddr)create_message_log_window(&lbl_8044F9C8, (saddr)lbl_8044F9D0, (saddr)(((Lg_8027B194 *)this)->client_id));

@@ -25,7 +25,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
-#include "pso/unk/text_8024ACEC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
@@ -45,8 +44,6 @@
 
 extern "C" {
 s32 try_send_6x27_use_item(void *player, s32 key);
-s32 TWindowCtrl__sub_8024A228(saddr);
-s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
 }
 
@@ -104,7 +101,7 @@ TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TOb
     list_window = NULL;
     help_window = NULL;
     help_item_id = -1;
-    begin_player_keyboard_hold(this->client_id);
+    TWindowCtrl::begin_client_keyboard_hold(this->client_id);
     TWindowCtrl::set_flag_active();
     player->reset_equip_slots();
 }
@@ -114,7 +111,7 @@ TWindowShortListCtrl::~TWindowShortListCtrl() {
     if (player != NULL && TWindowCtrl::has_player_active_menu(client_id) == 0 && TWindowCtrl__sub_8024A1A8() == 0) {
         player->init_parts();
     }
-    end_player_keyboard_hold(client_id);
+    TWindowCtrl::end_client_keyboard_hold(client_id);
     TWindowCtrl::clear_flag_8();
     if (help_window != NULL) {
         ((TWindowBase *)help_window)->close();
@@ -257,7 +254,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowCtrl__sub_8024A228(client_id) == 0) {
+        if (TWindowCtrl::is_client_countdown_done(client_id) == 0) {
             return;
         }
         player->send_trap_packet(sel & 0xF);

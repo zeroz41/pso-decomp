@@ -49,7 +49,8 @@ struct TWindowCtrl : public TObject {
     static s32 get_field24();
     static s32 get_flag_bit0();
     static void clear_flag();
-    static void call_window_method_with_default_vec(s32 client);
+    static void start_client_countdown(s32 client);
+    static s32 is_client_countdown_done(s32 client);
     static void set_field22();
     static s32 is_submit_cooldown_clear();
     static void update_focused();
@@ -76,7 +77,16 @@ struct TWindowCtrl : public TObject {
     static void disable_client_main_menu(s32 client);
     static void enable_client_main_menu(s32 client);
     static s32 has_player_active_menu(s32 client);
-    static void apply_default_vec(s32 arg0, saddr client_id);
+    s32 has_client_short_list(s32 client);
+    s32 is_client_main_menu_disabled(s32 client);
+    static void show_client_status_window(s32 client);
+    static void hide_client_status_window(s32 client);
+    static void show_client_lock_on_window(s32 client);
+    static void hide_client_lock_on_window(s32 client);
+    static void lock_client_main_menu(s32 client);
+    static void unlock_client_main_menu(s32 client);
+    static void begin_client_keyboard_hold(s32 client);
+    static void end_client_keyboard_hold(s32 client);
     static s32 is_slot_visible(s32 client);
     static const NJS_POINT2 *get_message_by_type(s8 type, s32 client_id);
     static void release_slot(s8 *arg0);
@@ -119,6 +129,7 @@ struct TWindowCtrl : public TObject {
     u8 unk_98[0x50];
     static void set_flag_bit2();
     static void clear_flag_bit2();
+    s32 is_flag_bit2_set();
     static void set_field28(u16 arg0);
     static u16 get_window_id();
     void update_party_status_rows();

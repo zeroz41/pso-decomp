@@ -10,10 +10,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_8024AB98.h"
-#include "pso/unk/text_8024ACA8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/unk/text_8024AC64.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
@@ -61,7 +58,7 @@ TWindowTradeRequest::~TWindowTradeRequest() {
         reinterpret_cast<TWindowMessageYesNo *>(dialog)->close();
         dialog = NULL;
     }
-    TWindowReturnCity__sub_8024ACA8((local_client_id));
+    TWindowCtrl::show_client_lock_on_window((local_client_id));
     TWindowCtrl::enable_client_main_menu(local_client_id);
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
@@ -89,7 +86,7 @@ TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
         local->reset_equip_slots();
     }
     TWindowCtrl::disable_client_main_menu(local_client_id);
-    fn_8024AC64(local_client_id);
+    TWindowCtrl::hide_client_lock_on_window(local_client_id);
     state = 0;
 }
 }

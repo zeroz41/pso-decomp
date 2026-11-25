@@ -10,8 +10,6 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_8024ACEC.h"
-#include "pso/unk/text_8024AD30.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
@@ -137,7 +135,7 @@ void TWindowChat::update() {
             if (TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
                 ((TObjPlayer *)player)->init_parts();
             }
-            end_player_keyboard_hold(local_client_id);
+            TWindowCtrl::end_client_keyboard_hold(local_client_id);
         }
         composer->reset_input();
         this->close_all_children();
@@ -237,7 +235,7 @@ void TWindowChat::handle_input() {
                 if ((this->submit_keyboard_input() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
                         ((TObjPlayer *)player)->init_parts();
-                        end_player_keyboard_hold(local_client_id);
+                        TWindowCtrl::end_client_keyboard_hold(local_client_id);
                     }
                     this->close_all_children();
                     this->flags = (u16) (this->flags | 2);
@@ -248,7 +246,7 @@ void TWindowChat::handle_input() {
                 if ((sub_80247128() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
                         ((TObjPlayer *)player)->init_parts();
-                        end_player_keyboard_hold(local_client_id);
+                        TWindowCtrl::end_client_keyboard_hold(local_client_id);
                     }
                     this->close_all_children();
                     this->flags = (u16) (this->flags | 2);
@@ -259,7 +257,7 @@ void TWindowChat::handle_input() {
                 if ((sub_80247080() != 0) && (sub_80247EC0() != 0)) {
                     if (is_mode_bit6() != 0) {
                         ((TObjPlayer *)player)->init_parts();
-                        end_player_keyboard_hold(local_client_id);
+                        TWindowCtrl::end_client_keyboard_hold(local_client_id);
                     }
                     this->close_all_children();
                     this->flags = (u16) (this->flags | 2);
@@ -287,7 +285,7 @@ void TWindowChat::handle_chat_input() {
         open_next_input_window();
         if (is_mode_bit6() != 0)
         {
-          begin_player_keyboard_hold(local_client_id);
+          TWindowCtrl::begin_client_keyboard_hold(local_client_id);
           ((TObjPlayer *)player)->reset_equip_slots();
         }
       }
@@ -305,7 +303,7 @@ void TWindowChat::handle_chat_input() {
       if (is_mode_bit6() != 0)
       {
         ((TObjPlayer *)player)->init_parts();
-        end_player_keyboard_hold((saddr)local_client_id);
+        TWindowCtrl::end_client_keyboard_hold(local_client_id);
       }
     }
     else
@@ -377,7 +375,7 @@ TWindowChat::~TWindowChat() {
         if (!(this->flags & 2)) {
             if (this->is_mode_bit6() != 0) {
                 ((TObjPlayer *)player)->init_parts();
-                end_player_keyboard_hold(local_client_id);
+                TWindowCtrl::end_client_keyboard_hold(local_client_id);
             }
         }
     }

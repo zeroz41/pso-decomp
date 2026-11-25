@@ -25,8 +25,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
-#include "pso/unk/text_8024AB54.h"
-#include "pso/unk/text_8024AB98.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowComCard.h"
@@ -225,7 +224,7 @@ TWindowSubComCard::~TWindowSubComCard() {
     handle_close_flag();
     send_state_if_dirty();
     if ((u8) state == 0x26) {
-        TWindowSubComCard__sub_8024AB98(client_id);
+        TWindowCtrl::unlock_client_main_menu(client_id);
     }
     if (entry_list_window != 0U) {
         ((TWindowBase *)entry_list_window)->close();
@@ -729,14 +728,14 @@ void TWindowSubComCard::run_task() {
     case 0x25:
         ((s32 (*)(void))get_selected_guild_card_record)();
         TLobby__sub_8024259C();
-        fn_8024AB54((this->client_id));
+        TWindowCtrl::lock_client_main_menu((this->client_id));
         this->m_2c = 0;
         this->state = 0x26U;
     case 0x26:
         idle_ticks = this->m_2c;
         this->m_2c = (idle_ticks + 1);
         if ((f32) idle_ticks > 450.0f) {
-            TWindowSubComCard__sub_8024AB98((this->client_id));
+            TWindowCtrl::unlock_client_main_menu((this->client_id));
             ((VObj_18_204a81 *)((u8 *)(*(u8 **)((s8 *)this + 0x5C))))->m7();
             this->state = 0x4FU;
             return;

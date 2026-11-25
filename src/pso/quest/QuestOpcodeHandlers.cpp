@@ -65,7 +65,6 @@
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/text_8024AB18.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/unk/text_80278460.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/base/TObjBase.h"

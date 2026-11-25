@@ -3,8 +3,6 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjCityMainWarp_80186E24.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
-#include "pso/unk/text_8024ACEC.h"
-#include "pso/unk/text_8024AD30.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -37,7 +35,7 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
                     ((TWindowMenu *)(warp->menu_window))->calc_window_size();
                     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(warp->menu_window));
                 }
-                begin_player_keyboard_hold(local_client_id);
+                TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
             }
@@ -46,7 +44,7 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
                 ((TWindowBase *)(*(void **)((s8 *)warp + 0xB0)))->close();
                 warp->menu_window = 0U;
             }
-            end_player_keyboard_hold(local_client_id);
+            TWindowCtrl::end_client_keyboard_hold(local_client_id);
             TWindowCtrl::clear_flag();
             TWindowCtrl::unsuppress_slot(local_client_id);
         }
@@ -59,7 +57,7 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
             ((TWindowBase *)(*(void **)((s8 *)warp + 0xB0)))->close();
             warp->menu_window = 0U;
         }
-        end_player_keyboard_hold(local_client_id);
+        TWindowCtrl::end_client_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
         TWindowCtrl::unsuppress_slot(local_client_id);
         break;

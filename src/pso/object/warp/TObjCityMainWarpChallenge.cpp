@@ -37,7 +37,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_8024ACEC.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/network/client_id.h"
@@ -189,7 +188,7 @@ void TObjCityMainWarpChallenge::sub_801875F8() {
                 ((TWindowMessageYesNo *)this->yes_no_window)->open_yes_no_prompt_with_text((saddr)(TWindowSubStatusDisp::get_message_10(0x41)), get_window_layout_position(0x36), 368.0f);
                 ((TWindowMessageYesNo *)this->yes_no_window)->set_menu_selected_index(1);
                 ((TWindowMessageYesNo *)this->yes_no_window)->set_choice_menu_flag70_bit10();
-                begin_player_keyboard_hold(local_client_id);
+                TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
             }

@@ -1,4 +1,3 @@
-#include "pso/unk/text_8024AB98.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "types.h"

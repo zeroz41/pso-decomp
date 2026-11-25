@@ -6,7 +6,6 @@
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/player/InventoryItemList.h"
 #include "pso/player/PlayerLevelTable.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/player/PlayerState.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/player/PlayerHoldPacket.h"
@@ -558,7 +557,6 @@ s32 is_local_client(u16 client_index);
 void reset_client_quest_slot_table(void);
 s32 fn_8036B748(void *);
 s32 fn_8036B770(void *);
-s32 TWindowCtrl__sub_8024A228(u16);
 void *__construct_array(void *, void *, void *, u32, u32);
 
 extern const char *TOMineTrap__data_805D3080;
@@ -2078,7 +2076,7 @@ s32 TObjPlayer::send_trap_packet(int kind) {
     if ((u8 *)this != NULL && this->obj_isState2_324() != 0) {
         return 0;
     }
-    if (TWindowCtrl__sub_8024A228((u16)((TObjBase *)this)->get_entity_id()) == 0) {
+    if (TWindowCtrl::is_client_countdown_done((u16)((TObjBase *)this)->get_entity_id()) == 0) {
         return 0;
     }
     if (is_action_available() == 0) {
@@ -2105,7 +2103,7 @@ void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
         if (p != NULL && create_placed_trap__10TOMineTrapFUiss((u8 *)p, pkt.trap_type, pkt.trap_index) != 0) {
             p->trap_counts.consume(1, pkt.trap_type);
             if (p->is_locally_controlled() != 0) {
-                TWindowCtrl::call_window_method_with_default_vec((u16)p->get_entity_id());
+                TWindowCtrl::start_client_countdown((u16)p->get_entity_id());
             }
         }
     }

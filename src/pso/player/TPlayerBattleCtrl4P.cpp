@@ -54,8 +54,6 @@
 #include "pso/unk/TLobby_801D726C.h"
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/text_8020BC50.h"
-#include "pso/unk/text_8024AD30.h"
-#include "pso/unk/text_8024ACEC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
@@ -799,7 +797,7 @@ void TPlayerBattleCtrl4P::hold_player(u16 client_id, s32 hold_input) {
         send_impose_hold(player, -1);
     }
     if (hold_input != 0) {
-        begin_player_keyboard_hold(id);
+        TWindowCtrl::begin_client_keyboard_hold(id);
         request_active_window_close();
         TWindowCtrl::suppress_slot(id);
     }
@@ -889,7 +887,7 @@ void TPlayerBattleCtrl4P::release_player(u16 client_id, s32 release_input) {
         send_release_hold(player);
     }
     if (release_input != 0) {
-        end_player_keyboard_hold(client_id);
+        TWindowCtrl::end_client_keyboard_hold(client_id);
         TWindowCtrl::clear_flag();
         TWindowCtrl::unsuppress_slot(client_id);
     }

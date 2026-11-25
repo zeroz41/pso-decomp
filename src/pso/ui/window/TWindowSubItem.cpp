@@ -5,6 +5,7 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/map/FloorArea.h"
@@ -57,7 +58,6 @@ struct ItemData_80279754 {
 void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr arg2);
 
 extern "C" {
-s32 TWindowCtrl__sub_8024A228(saddr);
 s32 try_send_6x27_use_item(s32, s32);
 }
 
@@ -366,7 +366,7 @@ void TWindowSubItem::run_task() {
                 this->state = 1;
             }
             p = get_player_by_client_id(this->client_id);
-            if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TWindowCtrl__sub_8024A228(this->client_id) != 0) {
+            if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TWindowCtrl::is_client_countdown_done(this->client_id) != 0) {
                 p->send_trap_packet(item_list->get_cursor_value() & 0xF);
                 this->state = 1;
                 return;

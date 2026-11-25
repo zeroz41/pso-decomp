@@ -17,7 +17,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/text_8024AB98.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/unk/TLobby_802268F4.h"
