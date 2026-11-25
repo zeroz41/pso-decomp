@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowWordSelectMode.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowDD_WS_ScrollBar.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/Language.h"
@@ -564,7 +565,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
       ((Win_80343C64 *) p)->f48 = 2.0f;
     }
   }
-  self->f80 = (saddr)TWindowDD::create();
+  self->f80 = (saddr)TWindowWordSelectMode::create();
   self->f84 = 0;
   self->fA8 = 0;
   self->fAC = 0;
@@ -611,22 +612,22 @@ void TWindowDD::run_task() {
     s32 done;
     if (w->x80 != 0) {
         if (w->xB0 == 0) {
-            ((TWindowDD *)w->x80)->set_clamped_page(2);
+            w->x80->set_clamped_page(2);
         } else if (w->xC4 > 1) {
-            ((TWindowDD *)w->x80)->set_clamped_page(0);
+            w->x80->set_clamped_page(0);
         } else {
-            ((TWindowDD *)w->x80)->set_clamped_page(1);
+            w->x80->set_clamped_page(1);
         }
     }
     cur = w->subs[w->idx];
     if (w->x7C != 0 && cur != NULL) {
-        ((TWindowDD *)w->x7C)->set_value_f32(TWindowDD__sub_8034217C((saddr)cur));
+        ((TWindowDD_WS_ScrollBar *)w->x7C)->set_value_f32(TWindowDD__sub_8034217C((saddr)cur));
     }
     switch (w->xA8) {
     case 2:
         break;
     case 1:
-        ((TWindowDD *)w->x80)->handle_input();
+        w->x80->handle_input();
         done = 0;
         if (((TWindowDD *)w)->test_input_flag_4() != 0) {
             if (w->x80 != 0) {
@@ -670,7 +671,7 @@ void TWindowDD::run_task() {
             if (w->xB8 != 1 && TWindowDD_check_input_mask(w->input, 0x80) != 0) {
                 TWindowDD::spawn_window();
                 w->xA8 = 1;
-                ((TWindowDD *)w->x80)->set_clamped_selection(((TWindowDD *)(w->subs[w->idx]))->get_cursor_index());
+                w->x80->set_clamped_selection(((TWindowDD_WS_Word *)(w->subs[w->idx]))->get_cursor_index());
                 TWindowDD__sub_80341AE0((saddr)cur);
                 copy_chat_entry__9TWindowDDFPvPv((R_80343BC0 *)(&w->xE0), (R_80343BC0 *)(&w->xC4));
                 if (w->xE0 > 0) {
@@ -792,7 +793,7 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     }
     window_dd = TWindowDD__sub_80347AD4(arg0, 1, *(s32 *)((s8 *)arg0 + 0x8C));
     if (window_dd != NULL) {
-        ((TWindowDD *)window_dd)->set_pos_and_data(TWindowDD__data_805DFB6C);
+        ((TWindowDD_WS_Word *)window_dd)->set_pos_and_data(TWindowDD__data_805DFB6C);
         if (*(s32 *)((s8 *)temp_r31 + 0) & 1) {
             *(f32 *)((s8 *)window_dd + 0x38) = (f32) lbl_805DFB7C;
             temp_r3_3 = (unsigned char *) (*(void **)((s8 *)arg0 + 0x80));
@@ -817,13 +818,13 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
         if (temp_r3_5 & 1) {
             *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(reinterpret_cast<TWindowDD *>(arg0), (*(s32 *)((s8 *)arg0 + 0xB4)), (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
-                ((TWindowDD *)temp_r3)->set_pos_and_data(TWindowDD__data_805DFC10);
+                ((TWindowDD_WS_Word *)temp_r3)->set_pos_and_data(TWindowDD__data_805DFC10);
             }
             TWindowDD__sub_80347F48((arg0));
         } else {
             *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(reinterpret_cast<TWindowDD *>(arg0), (*(s32 *)((s8 *)arg0 + 0xB4)), (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
-                ((TWindowDD *)temp_r3)->set_pos_and_data(lbl_805DFB80);
+                ((TWindowDD_WS_Word *)temp_r3)->set_pos_and_data(lbl_805DFB80);
             }
             ((TWindowDD *)arg0)->init_entry_field_64(1);
         }
@@ -901,11 +902,11 @@ void TWindowDD::apply_entry_layout(void *window) {
             ((TWindowDD *)window_dd)->set_item_pos(0);
             update_word_select_child_position((saddr)window_dd, 1);
         } else if (*entry & 1) {
-            ((TWindowDD *)child)->set_pos_and_data(TWindowDD__data_805DFC10);
+            ((TWindowDD_WS_Word *)child)->set_pos_and_data(TWindowDD__data_805DFC10);
             *(f32 *)((s8 *)child + 0x38) = lbl_805DFB88;
             TWindowDD__sub_80347F48((u8 *)window_dd);
         } else {
-            ((TWindowDD *)child)->set_pos_and_data(lbl_805DFB80);
+            ((TWindowDD_WS_Word *)child)->set_pos_and_data(lbl_805DFB80);
             *(f32 *)((s8 *)child + 0x38) = lbl_805DFB88;
             ((TWindowDD *)window_dd)->init_entry_field_64(1);
         }

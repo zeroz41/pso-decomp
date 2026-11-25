@@ -23,6 +23,13 @@ public:
     void init_child(s32 list_id);
     void free_child();
     void init_and_mark_field8C();
+    s32 get_field_68();
+    s32 update_if_field28_set();
+    s32 get_cursor_index();
+    s32 get_field_0x74();
+    void set_pos_and_data(f32 farg0);
+    void reset_cursor();
+    void set_mode_2();
     s32 m_60;
     s32 pad_64; // point table index for the strips; 0 also picks the first v range
     s32 selected_token_index;

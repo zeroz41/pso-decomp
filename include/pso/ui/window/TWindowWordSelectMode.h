@@ -12,6 +12,10 @@ public:
     virtual void render();
     s32 get_selected_row();
     void hide_selection();
+    static TWindowWordSelectMode *create();
+    void set_clamped_selection(s32 row);
+    void handle_input();
+    void set_clamped_page(s32 clamped_page);
     s32 highlight_hidden; // nonzero hides the selected row's highlight
     s32 grey_row_count;   // rows below this index draw grey, the rest white
     s32 selected_row;

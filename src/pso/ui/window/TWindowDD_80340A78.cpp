@@ -242,14 +242,14 @@ TWindowDD_WS_ScrollBar::TWindowDD_WS_ScrollBar()
 
 TWindowDD_WS_ScrollBar::~TWindowDD_WS_ScrollBar() {}
 
-void TWindowDD::set_scale(s32 arg1, s32 arg2) {
-    *(f32 *)&this->m_64[0] = (f32) arg1;
-    *(f32 *)&this->m_64[1] = (f32) arg2;
-    *(f32 *)&this->m_44[7] = (f32) (1.0f / *(f32 *)&this->m_64[0]);
+void TWindowDD_WS_ScrollBar::set_scale(s32 arg1, s32 arg2) {
+    pad_64 = arg1;
+    pad_68 = arg2;
+    pad_60 = 1.0f / pad_64;
 }
 
-void TWindowDD::set_value_f32(s32 arg1) {
-    *(f32 *)&this->m_64[2] = (f32) arg1;
+void TWindowDD_WS_ScrollBar::set_value_f32(s32 arg1) {
+    pad_6C = arg1;
 }
 
 void TWindowDD_WS_ScrollBar::run_task() {

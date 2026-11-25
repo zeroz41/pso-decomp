@@ -114,22 +114,22 @@ void TWindowDD_WS_Word::add_scroll_offset(int offset) {
     TWindowDD::spawn_window();
 }
 
-s32 TWindowDD::get_field_68() { return this->m_64[1]; }
+s32 TWindowDD_WS_Word::get_field_68() { return selected_token_index; }
 
 void TWindowDD_WS_Word::get_cursor_pos(NJS_POINT2 *position) {
     position->x = frame_position[0];
     position->y = (f32)selected_row * TWindowDD__data_805DFB20 + frame_position[1];
 }
 
-s32 TWindowDD::update_if_field28_set() {
-    if ((u32) this->m_24[1] != 0U) {
-        TWindowSubComCard *entry = (TWindowSubComCard *)((TWindowBase *)this)->get_array_entry(m_64[2]);
+s32 TWindowDD_WS_Word::update_if_field28_set() {
+    if (entry_list.items != NULL) {
+        TWindowSubComCard *entry = (TWindowSubComCard *)get_array_entry(selected_row);
         return entry->get_field_20();
     }
     return 0;
 }
 
-s32 TWindowDD::get_cursor_index() { return this->m_64[2]; }
+s32 TWindowDD_WS_Word::get_cursor_index() { return selected_row; }
 
 s32 TWindowDD__sub_8034217C(u8 *value) {
     const TWindowDD_WS_Word *page = reinterpret_cast<const TWindowDD_WS_Word *>(value);
@@ -148,11 +148,11 @@ s16 TWindowDD__sub_8034214C(u8 *value) {
     return static_cast<s16>(page->pad_70);
 }
 
-s32 TWindowDD::get_field_0x74() { return this->m_64[4]; }
+s32 TWindowDD_WS_Word::get_field_0x74() { return token_count; }
 
-void TWindowDD::set_pos_and_data(f32 farg0) {
-    *(f32 *)((s8 *)this + 0x30) = farg0;
-    *(s32 *)((s8 *)this + 0x50) = (s32) TWindowDD__data_805DFB50;
+void TWindowDD_WS_Word::set_pos_and_data(f32 farg0) {
+    target_position[0] = farg0;
+    tween_ticks = TWindowDD__data_805DFB50;
 }
 
 void TWindowDD_WS_Word::load_element_list() {
@@ -315,9 +315,9 @@ void TWindowDD_WS_Word::run_task() {
 
 #pragma pop
 
-void TWindowDD::reset_cursor() { this->m_64[0] = 0; }
+void TWindowDD_WS_Word::reset_cursor() { pad_64 = 0; }
 
-void TWindowDD::set_mode_2() { this->m_64[0] = 2; }
+void TWindowDD_WS_Word::set_mode_2() { pad_64 = 2; }
 
 void TWindowDD__sub_80341AF8(u8 *value) {
     TWindowDD_WS_Word *page = reinterpret_cast<TWindowDD_WS_Word *>(value);

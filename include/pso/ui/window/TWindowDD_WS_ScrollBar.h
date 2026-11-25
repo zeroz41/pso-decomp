@@ -9,6 +9,8 @@ public:
     TWindowDD_WS_ScrollBar();
     virtual void run_task();
     virtual void render();
+    void set_scale(s32 arg1, s32 arg2);
+    void set_value_f32(s32 arg1);
     f32 pad_60; // thumb length = track * pad_60 * pad_68; offset = track * pad_60 * pad_6C
     f32 pad_64; // no thumb travel while pad_64 <= pad_68
     f32 pad_68;

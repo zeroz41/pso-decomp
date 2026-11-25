@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowDD_803488A8.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowDD_WS_ScrollBar.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/ui/window/TWindowDD_80341A08.h"
@@ -329,7 +330,7 @@ void TWindowDD::set_item_pos(s32 i) {
     O_80347940 *self = (O_80347940 *)this;
     void *p = self->items[self->base + i];
     if (p != NULL) {
-        ((TWindowDD *)p)->set_pos_and_data(lbl_805DFB94);
+        ((TWindowDD_WS_Word *)p)->set_pos_and_data(lbl_805DFB94);
     }
 }
 
@@ -359,7 +360,7 @@ u8 *TWindowDD::init_last_child() {
         var_r31 = ((u8 **)(arg0 + 0x24))[temp_r0 - 1];
         if (var_r31 != NULL) {
             reinterpret_cast<TWindowDD_WS_Word *>(var_r31)->init_and_mark_field8C();
-            ((TWindowDD *)var_r31)->set_pos_and_data(TWindowDD__data_805DFB6C);
+            reinterpret_cast<TWindowDD_WS_Word *>(var_r31)->set_pos_and_data(TWindowDD__data_805DFB6C);
             *(f32 *)((s8 *)var_r31 + 0x38) = (f32) TWindowDD__data_805DFB74;
         }
     }
@@ -435,7 +436,7 @@ void refresh_word_select_child_list(W_80347C50 *self) {
     s32 next;
 
     next = dispatch_by_window_mode(reinterpret_cast<TWindowDD *>(self), self->window_mode, self->entry_id,
-                                                                   self->child[self->depth]->get_field_68());
+                                                                   reinterpret_cast<TWindowDD_WS_Word *>(self->child[self->depth])->get_field_68());
     if (next != self->list_id) {
         self->list_id = next;
         reinterpret_cast<TWindowDD_WS_Word *>(self->child[self->depth + 1])->init_child(self->list_id);
@@ -495,7 +496,7 @@ void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1) {
     u32 r;
     u8 *o;
     static_cast<TWindowDD_WS_Word *>(arg0->pages[arg0->cur])->get_cursor_pos(&v);
-    r = ((TWindowDD *)(arg0->pages[arg0->cur]))->update_if_field28_set();
+    r = static_cast<TWindowDD_WS_Word *>(arg0->pages[arg0->cur])->update_if_field28_set();
     if (r != 0) {
         if (arg1 == 0) {
             a.x = lbl_805DFBDC;
@@ -565,19 +566,19 @@ void update_word_select_child_position(saddr window_dd, s32 arg1) {
     }
 }
 
-void TWindowDD::refresh_sub(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD *)a1)->set_mode_2(); }
+void TWindowDD::refresh_sub(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD_WS_Word *)a1)->set_mode_2(); }
 
-void TWindowDD::apply_input(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD *)a1)->reset_cursor(); }
+void TWindowDD::apply_input(void* p, void* a1) { TWindowDD__sub_80341AE0((u8 *)a1); ((TWindowDD_WS_Word *)a1)->reset_cursor(); }
 
-void TWindowDD::update(void* p, void* child) { TWindowDD__sub_80341AE0((u8 *)child); ((TWindowDD *)child)->set_mode_2(); }
+void TWindowDD::update(void* p, void* child) { TWindowDD__sub_80341AE0((u8 *)child); ((TWindowDD_WS_Word *)child)->set_mode_2(); }
 
 
 void TWindowDD::update(TWindowDD_WS_Word *window_dd) {
     TWindowDD__sub_80341AF8((u8 *)window_dd);
-    ((TWindowDD *)window_dd)->reset_cursor();
+    window_dd->reset_cursor();
     if ((u32) this->m_7c != 0U) {
-        ((TWindowDD *)(this->m_7c))->set_scale(((TWindowDD *)window_dd)->get_field_0x74(), (s32) lbl_805DFB54);
-        ((TWindowDD *)(this->m_7c))->set_value_f32(TWindowDD__sub_8034217C((u8 *)window_dd));
+        ((TWindowDD_WS_ScrollBar *)(this->m_7c))->set_scale(window_dd->get_field_0x74(), (s32) lbl_805DFB54);
+        ((TWindowDD_WS_ScrollBar *)(this->m_7c))->set_value_f32(TWindowDD__sub_8034217C((u8 *)window_dd));
     }
 }
 

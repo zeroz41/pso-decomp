@@ -27,7 +27,7 @@ struct TWindowPlacement { f32 x; f32 y; f32 depth; s32 entry_count; s32 flags; }
 __declspec(section ".data") f32 TWindowDD__layout_constant_pair[2] = { TWindowDD__data_805DFBFC, lbl_805DFC00 };
 TWindowPlacement TWindowDD__layout_constants = { lbl_805DFC04, lbl_805DFC08, lbl_805DFC2C, 0, 3 };
 
-void *TWindowDD::create() { return new TWindowWordSelectMode; }
+TWindowWordSelectMode *TWindowWordSelectMode::create() { return new TWindowWordSelectMode; }
 
 TWindowWordSelectMode::TWindowWordSelectMode()
     : TWindowBase((u8 *)&TWindowDD__layout_constants, 4, (u8 *)TWindowDD__layout_constant_pair) {
@@ -39,47 +39,39 @@ TWindowWordSelectMode::TWindowWordSelectMode()
 
 TWindowWordSelectMode::~TWindowWordSelectMode() {}
 
-void TWindowDD::set_clamped_selection(s32 clamped_selection) {
-    s32 temp_r0;
-    s32 var_r4;
-    var_r4 = clamped_selection;
-    temp_r0 = this->m_64[0];
-    if (var_r4 < temp_r0) {
-        var_r4 = temp_r0;
-    } else if (var_r4 >= 3) {
-        var_r4 = 2;
+void TWindowWordSelectMode::set_clamped_selection(s32 row) {
+    if (row < grey_row_count) {
+        row = grey_row_count;
+    } else if (row >= 3) {
+        row = 2;
     }
-    this->m_64[1] = var_r4;
-    this->m_44[7] = 0;
+    selected_row = row;
+    highlight_hidden = 0;
 }
 
 void TWindowWordSelectMode::hide_selection() { highlight_hidden = 1; }
 
 #pragma push
 #pragma opt_common_subs off
-void TWindowDD::handle_input() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
-    s32 temp_r31;
-    s32 temp_r3;
-    temp_r31 = this->m_64[1];
-    if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x10) != 0) {
-        this->m_64[1] = (this->m_64[1] - 1);
-    } else if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x20) != 0) {
-        this->m_64[1] = (this->m_64[1] + 1);
-    } else if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x20000) != 0) {
-        this->m_64[1] = 0;
-    } else if (TWindowDD::apply_both_choices((saddr)(arg0 + 0x60), 0x10000) != 0) {
-        this->m_64[1] = 2;
+void TWindowWordSelectMode::handle_input() {
+    s32 prev_row = selected_row;
+    if (TWindowDD::apply_both_choices((saddr)&highlight_hidden, 0x10) != 0) {
+        selected_row--;
+    } else if (TWindowDD::apply_both_choices((saddr)&highlight_hidden, 0x20) != 0) {
+        selected_row++;
+    } else if (TWindowDD::apply_both_choices((saddr)&highlight_hidden, 0x20000) != 0) {
+        selected_row = 0;
+    } else if (TWindowDD::apply_both_choices((saddr)&highlight_hidden, 0x10000) != 0) {
+        selected_row = 2;
     }
-    temp_r0 = this->m_64[1];
-    temp_r3 = this->m_64[0];
-    if (temp_r0 < temp_r3) {
-        this->m_64[1] = temp_r3;
-    } else if (temp_r0 >= 3) {
-        this->m_64[1] = 2;
+    s32 row = selected_row;
+    s32 first_row = grey_row_count;
+    if (row < first_row) {
+        selected_row = first_row;
+    } else if (row >= 3) {
+        selected_row = 2;
     }
-    if ((s32) this->m_64[1] != temp_r31) {
+    if (selected_row != prev_row) {
         TWindowDD::spawn_window();
     }
 }
@@ -87,16 +79,16 @@ void TWindowDD::handle_input() {
 
 s32 TWindowWordSelectMode::get_selected_row() { return selected_row; }
 
-void TWindowDD::set_clamped_page(s32 clamped_page) {
+void TWindowWordSelectMode::set_clamped_page(s32 clamped_page) {
     if (clamped_page < 0) {
-        this->m_64[0] = 0;
+        grey_row_count = 0;
         return;
     }
     if (clamped_page >= 3) {
-        this->m_64[0] = 2;
+        grey_row_count = 2;
         return;
     }
-    this->m_64[0] = clamped_page;
+    grey_row_count = clamped_page;
 }
 
 void TWindowWordSelectMode::run_task() {
