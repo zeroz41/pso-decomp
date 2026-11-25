@@ -17806,7 +17806,7 @@ force_active:
   - find_target_in_range__10TOMineTrapFv
   - is_target_in_list__6TOMineFPv
   - play_trigger_effects__6TOMineFv
-  - sync_position__10TOMineTrapFv
+  - sync_position__6TOMineFv
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data
 # addresses. dtk would emit a relocation and export the target symbol.

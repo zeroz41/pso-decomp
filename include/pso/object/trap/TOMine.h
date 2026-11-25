@@ -15,6 +15,9 @@ struct TOMine : public TObjChara {
     virtual f32 receive_weapon_special_attack(void *, void *);
     void detonate();
     void update_float_height();
+    void sync_position();
+    // Calls sync_position (name inferred).
+    void apply_float_position();
     void trigger_group();
     void follow_target();
     void update_trigger();

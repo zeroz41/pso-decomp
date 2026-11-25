@@ -111,15 +111,12 @@ s32 is_split_screen();
 }
 void text_builder_reset(void);
 extern "C" {
-s16 TOMineTrap__sub_80171340(TOMineTrap *p);
-u16 TOMineTrap__sub_80171358(TOMineTrap *p);
 void handle_6x80_trigger_trap(game_command_header *command);
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
 s32 get_current_floor(void);
 }
 
 extern "C" {
-void TOMineTrap__sub_80170CD4(void* p);
 f32 atan2_float(f32 y, f32 x);
 extern const char *mine_icon01_name;
 extern const char *mine_icon02_name;
@@ -132,7 +129,6 @@ extern "C" {
 int submit_target_to_player_cursor(void*);
 // ---- declarations carried over from the fragment TOMineTrap.cpp
 void set_mine_trap_damage(f32 farg0);
-int TOMineTrap__sub_80171350(void);
 // ---- functions, last address first (deferred codegen emits them in reverse)
 void G_TriggerTrap_6x80::init() {
     header.subcommand = 0x80;
@@ -173,10 +169,10 @@ void set_mine_trap_damage(f32 farg0) {
     mine_trap_attack_power = farg0;
 }
 int TOMineTrap::get_trap_count() {  return mine_trap_count; }
-u16 TOMineTrap__sub_80171358(TOMineTrap *p) { return p->m_37e; }
-int TOMineTrap__sub_80171350(void) {  return mine_trap_instance_id; }
+u16 TOMineTrap::get_trap_number() { return m_37e; }
+int TOMineTrap::get_instance() { return mine_trap_instance_id; }
 void TOMineTrap::sub_80171348(u16 v) { this->m_2d8 = v; }
-s16 TOMineTrap__sub_80171340(TOMineTrap *p) { return p->mode; }
+s16 TOMineTrap::get_mode() { return mode; }
 u16 TOMineTrap::get_trap_type() { return this->m_2d8; }
 s32 fn_80171314(TObjPlayer *player) { return player->check_flag(0x10000); }
 TOMine::TOMine(TObject *parent) : TObjChara(parent) {
@@ -254,7 +250,7 @@ void TOMine::run_task() {
             }
             switch (this->behavior) {
             default:
-                TOMineTrap__sub_80170CD4(this);
+                apply_float_position();
                 break;
             case 1:
                 trigger_group();
@@ -309,7 +305,7 @@ void TOMine::detonate() {
     this->clear_player_status_flag(0, 1);
     this->receive_physical_attack(0, 1.0f);
 }
-void TOMineTrap::sync_position() { VecCopy(&position, &float_position); refresh_collision_body_centers(); }
+void TOMine::sync_position() { VecCopy(&position, &float_position); refresh_collision_body_centers(); }
 void TOMine::update_float_height() {
     f32 y;
     f32 temp_f4;
@@ -326,7 +322,7 @@ void TOMine::update_float_height() {
         float_position.y = (f32) (float_position.y + sin_table_lookup(this->rotation_x));
     }
 }
-void TOMineTrap__sub_80170CD4(void* p) { ((TOMineTrap *)p)->sync_position(); }
+void TOMine::apply_float_position() { sync_position(); }
 void TOMine::trigger_group() {
     u8 *p;
     s32 i;
@@ -346,7 +342,7 @@ void TOMine::trigger_group() {
         }
         break;
     }
-    ((TOMineTrap *)((u8 *)this))->sync_position();
+    sync_position();
 }
 void TOMine::follow_target() {
   unsigned short new_var;
@@ -758,7 +754,7 @@ void TOMineTrap::run_task() {
             set_state();
             send_state_packet(2);
         }
-        TOMineTrap__sub_80170CD4(this);
+        apply_float_position();
         submit_cursor_candidate(this, -1);
         break;
     case 4:
@@ -957,12 +953,12 @@ void handle_6x80_trigger_trap(game_command_header *command) {
         if (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineTrap__data_805D3080) == 0) {
             continue;
         }
-        if (packet->trap_number != TOMineTrap__sub_80171358(p)) {
+        if (packet->trap_number != p->get_trap_number()) {
             continue;
         }
         switch (packet->what) {
         case 0:
-            switch (TOMineTrap__sub_80171340(p)) {
+            switch (p->get_mode()) {
             case 0:
             case 1:
                 p->set_armed();
@@ -970,7 +966,7 @@ void handle_6x80_trigger_trap(game_command_header *command) {
             }
             break;
         case 1:
-            switch (TOMineTrap__sub_80171340(p)) {
+            switch (p->get_mode()) {
             case 0:
             case 1:
             case 2:
@@ -979,7 +975,7 @@ void handle_6x80_trigger_trap(game_command_header *command) {
             }
             break;
         case 2:
-            switch (TOMineTrap__sub_80171340(p)) {
+            switch (p->get_mode()) {
             case 0:
             case 1:
             case 2:
@@ -1132,7 +1128,7 @@ void TOMineTrapDisp::run_task() {
     switch (m_a4) {
     case 0:
         hit = 0;
-        if (TOMineTrap__sub_80171350() == 1) {
+        if (TOMineTrap::get_instance() == 1) {
             for (i = 0; i < 4; i++) {
                 pl = get_player_by_client_id(i);
                 if (pl != 0 && pl->is_locally_controlled() != 0) {
