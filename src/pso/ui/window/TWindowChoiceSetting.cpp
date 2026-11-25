@@ -223,7 +223,7 @@ void TWindowMenuInfomation::render() {
 
 void TWindowMenuInfomation::run_task() {
     uaddr temp_r3;
-    WindowScrollBar *temp_r3_2;
+    WindowScrollBar *window_scroll_bar;
     ControllerInputContext *input;
     ControllerInputContext *temp_r30_2;
     ControllerInputContext *context;
@@ -258,9 +258,9 @@ void TWindowMenuInfomation::run_task() {
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
         }
-        temp_r3_2 = scroll_bar;
-        if (temp_r3_2 != NULL) {
-            temp_r3_2->increment_counter();
+        window_scroll_bar = scroll_bar;
+        if (window_scroll_bar != NULL) {
+            window_scroll_bar->increment_counter();
         }
     }
     update_window();

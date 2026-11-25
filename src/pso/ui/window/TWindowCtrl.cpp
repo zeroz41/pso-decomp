@@ -571,13 +571,13 @@ void TWindowCtrl::update_window_visibility() {
 
 void TWindowCtrl::update_com_card_window() {
     TWindowGetComCard *temp_r3;
-    TWindowChat *temp_r3_2;
+    TWindowChat *window_chat;
     TWindowGetComCard *temp_r3_3;
     temp_r3 = this->com_card_window;
     if ((temp_r3 != NULL) && (temp_r3->all_parents_unqueued_for_destruction() == 0)) {
         this->com_card_window = NULL;
     }
-    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((temp_r3_2 = chat_window, ((temp_r3_2 == NULL) == 0)) && (TWindowCtrl__sub_8024701C(temp_r3_2) != 0))) {
+    if ((is_guild_card_receive_active() == 0) || (TWindowCtrl::has_player_active_menu(local_client_id) != 0) || (TWindowCtrl::is_slot_visible(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || (trade_request != NULL) || ((window_chat = chat_window, ((window_chat == NULL) == 0)) && (TWindowCtrl__sub_8024701C(window_chat) != 0))) {
         temp_r3_3 = this->com_card_window;
         if (temp_r3_3 != NULL) {
             temp_r3_3->queue_destruction();

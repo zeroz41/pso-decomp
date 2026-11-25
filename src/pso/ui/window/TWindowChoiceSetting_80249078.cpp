@@ -100,7 +100,7 @@ void TWindowChoiceSetting::render() {
 
 void TWindowChoiceSetting::run_task() {
     u8 *arg0 = (u8 *)this;
-    WindowScrollBar *temp_r3_2;
+    WindowScrollBar *window_scroll_bar;
     ControllerInputContext *input;
     ControllerInputContext *temp_r30_2;
     ControllerInputContext *context;
@@ -134,9 +134,9 @@ void TWindowChoiceSetting::run_task() {
         if (this->heading != 0) {
             this->heading->update_subwindow();
         }
-        temp_r3_2 = scroll_bar;
-        if (temp_r3_2 != NULL) {
-            temp_r3_2->increment_counter();
+        window_scroll_bar = scroll_bar;
+        if (window_scroll_bar != NULL) {
+            window_scroll_bar->increment_counter();
         }
     }
     ((TWindowBase *)arg0)->update_window();

@@ -225,7 +225,7 @@ void window_request_show(void *object) {
 
 WindowDrawContext *TWindowBase::setup_window_draw_context(f32 *scale) {
     WindowDrawContext *context;
-    s32 var_r4;
+    s32 tick;
     context = WindowDrawContext::open_singleton(frame_position, frame_size, scale, draw_depth, window_flags);
     if (window_flags & 0x40) {
         context->animate_scale();
@@ -236,11 +236,11 @@ WindowDrawContext *TWindowBase::setup_window_draw_context(f32 *scale) {
     if (window_flags & 8) {
         context->set_bounds(0.0f, 0.0f, 640.0f, 480.0f);
     }
-    var_r4 = open_tick;
+    tick = open_tick;
     if (!(window_flags & 0x2000)) {
-        var_r4 = (s32) ((f32) var_r4 - 7.5f);
+        tick = (s32) ((f32) tick - 7.5f);
     }
-    context->set_open_tick(var_r4);
+    context->set_open_tick(tick);
     context->apply_closing_stretch(closing_tick);
     return context;
 }
