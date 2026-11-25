@@ -20,7 +20,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
-const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
+const char *TObjEneBm9Mericarol_Bomb::class_name = "TObjEneBm9Mericarol_Bomb";
 
 s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(const AreaAttackContact *contact, DirectAttackPayload *attack, AreaAttackHistory *history, f32 range) {
     s32 hit;
@@ -168,7 +168,7 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
     : TAttackCollider(owner, owner) {
     Vec d;
     f32 k;
-    m_name = TObjEneBm9Mericarol_Bomb__class_name;
+    m_name = TObjEneBm9Mericarol_Bomb::class_name;
     if (TObjEneDD::check_v2_mode() != 0) {
         attack.kind = 5;
     } else {

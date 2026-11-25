@@ -8,6 +8,7 @@ struct DelbiterParticleAngles { s32 x, y, z; };
 
 class TObjEneDellBiter_Eff_TpAbsorb1 : public TAttackCollider {
 public:
+    static const char *class_name;
     TObjEneDellBiter_Eff_TpAbsorb1(TObject *, TObjBase *, const Vec *, s32, AreaAttackHistory *, f32);
     virtual ~TObjEneDellBiter_Eff_TpAbsorb1();
     virtual void render();

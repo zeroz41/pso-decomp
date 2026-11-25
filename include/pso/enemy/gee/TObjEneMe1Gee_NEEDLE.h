@@ -6,6 +6,7 @@
 
 class TObjEneMe1Gee_NEEDLE : public TNeedleShoot {
 public:
+    static const char *name;
     TObjEneMe1Gee_NEEDLE(TObjBase *owner, Vec *from, Vec *to, f32 speed, f32 power);
     virtual ~TObjEneMe1Gee_NEEDLE();
     virtual void on_target_hit(TObjCollidable *target);

@@ -1222,7 +1222,7 @@ force_active:
   - set_melee_body_flags__17TObjEneMe1CanadinFv
   - hover_toward__17TObjEneMe1CanadinFf
   - approach_hover_y__17TObjEneMe1CanadinFf
-  - TObjEneMe1Gee_NEEDLE__name
+  - name__20TObjEneMe1Gee_NEEDLE
   - __ct__13TObjEneMe1GeeFP7TObjectP13TObjEneMe1GeeP3VecUsl
   - me1_gee_fade_command_streams
   - run_task__19TObjEneMe1GeeLeaderFv

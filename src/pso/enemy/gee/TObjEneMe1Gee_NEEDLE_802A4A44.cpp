@@ -57,7 +57,7 @@ TObjEneMe1Gee_NEEDLE::~TObjEneMe1Gee_NEEDLE() {
 
 #pragma readonly_strings on
 
-const char *TObjEneMe1Gee_NEEDLE__name = "TObjEneMe1Gee_NEEDLE";
+const char *TObjEneMe1Gee_NEEDLE::name = "TObjEneMe1Gee_NEEDLE";
 BmlResource *gee_needle_resource;
 
 void TObjEneMe1Gee_NEEDLE::render() {
@@ -93,7 +93,7 @@ void TObjEneMe1Gee_NEEDLE::run_task() {
 
 TObjEneMe1Gee_NEEDLE::TObjEneMe1Gee_NEEDLE(TObjBase *owner, Vec *from, Vec *to, f32 speed, f32 power)
     : TNeedleShoot(owner, from, to) {
-    m_name = TObjEneMe1Gee_NEEDLE__name;
+    m_name = TObjEneMe1Gee_NEEDLE::name;
     this->power = power;
     this->speed = speed;
     linger_frames = 150;

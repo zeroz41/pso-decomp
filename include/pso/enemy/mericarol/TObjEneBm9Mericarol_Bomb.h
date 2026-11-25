@@ -10,6 +10,7 @@ class TObjEneBm9Mericarol;
 
 class TObjEneBm9Mericarol_Bomb : public TAttackCollider {
 public:
+    static const char *class_name;
     TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 power, f32 speed, s32 final_blast);
     virtual ~TObjEneBm9Mericarol_Bomb();
     virtual void render();

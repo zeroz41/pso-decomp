@@ -21,6 +21,7 @@ struct TObjEneMe1Canadin_EffLightVertex {
 
 class TObjEneMe1Canadin_EffLight : public TObject {
 public:
+    static const char *name;
     TObjEneMe1Canadin_EffLight(TObject *parent, s32 count);
     virtual ~TObjEneMe1Canadin_EffLight();
     virtual void run_task();
