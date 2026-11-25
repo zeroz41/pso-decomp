@@ -17,7 +17,7 @@ public:
     void draw_tail(WindowDrawContext *context, u32 color, f32 *offset, f32 depth);
     void draw_name_plate(WindowDrawContext *context, u32 color);
     void init_balloon(u16 speaker, const char *text, s32 client, f32 scale);
-    s32 clamp_position(void *, f32);
+    s32 clamp_position(f32 *pos, f32 scale);
     void set_color(u16);
     void follow_anchor();
     s32 is_speaker_far_or_offscreen();

@@ -554,25 +554,25 @@ void TWindowFukidasi::set_text(saddr str, saddr flags) {
 
 #pragma pop
 void TWindowFukidasi::open(u32 *symbol_chat, s32 flags) {
-    s32 var_r31;
-    u8 temp_r0;
+    s32 reopen;
+    u8 current_state;
 
-    var_r31 = 0;
+    reopen = 0;
     init_flags(flags);
     if (content_kind != 1) {
         content_kind = 1U;
         entry_list.destroy_all_items();
         ((TWindowSubSymbolChat *)&entry_list)->init_layout_entries(client_index);
         if (state != 0) {
-            var_r31 = 1;
+            reopen = 1;
         }
     } else {
-        temp_r0 = state;
-        if ((temp_r0 != 0) && (temp_r0 != 4)) {
-            var_r31 = 1;
+        current_state = state;
+        if ((current_state != 0) && (current_state != 4)) {
+            reopen = 1;
         }
     }
-    if (var_r31 != 0) {
+    if (reopen != 0) {
         state = 5U;
         clear_flag();
         if (TWindowSubStatusDisp::get_card_window_scale(client_index) > 0.0f) {
@@ -586,35 +586,35 @@ void TWindowFukidasi::open(u32 *symbol_chat, s32 flags) {
 
 #pragma push
 #pragma fp_contract on
-s32 TWindowFukidasi::clamp_position(void *pos, f32 scale) {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    f32 temp_f1_3;
-    f32 temp_f1_4;
-    s32 var_r31;
+s32 TWindowFukidasi::clamp_position(f32 *pos, f32 scale) {
+    f32 min_x;
+    f32 max_x;
+    f32 min_y;
+    f32 max_y;
+    s32 clamped;
 
-    var_r31 = 0;
-    temp_f1 = 20.0f + TWindowCtrlMain::get_position_z(this->client_index);
-    if (*(f32 *)((s8 *)pos + 0) < temp_f1) {
-        *(f32 *)((s8 *)pos + 0) = temp_f1;
-        var_r31 = 1;
+    clamped = 0;
+    min_x = 20.0f + TWindowCtrlMain::get_position_z(this->client_index);
+    if (pos[0] < min_x) {
+        pos[0] = min_x;
+        clamped = 1;
     }
-    temp_f1_2 = (TWindowCtrlMain::get_ctrl_field14(this->client_index) - 20.0f) - (this->frame_size[0] * scale);
-    if (*(f32 *)((s8 *)pos + 0) > temp_f1_2) {
-        *(f32 *)((s8 *)pos + 0) = temp_f1_2;
-        var_r31 = 1;
+    max_x = (TWindowCtrlMain::get_ctrl_field14(this->client_index) - 20.0f) - (this->frame_size[0] * scale);
+    if (pos[0] > max_x) {
+        pos[0] = max_x;
+        clamped = 1;
     }
-    temp_f1_3 = 40.0f + TWindowCtrlMain::get_field10(this->client_index);
-    if (*(f32 *)((s8 *)pos + 4) < temp_f1_3) {
-        *(f32 *)((s8 *)pos + 4) = temp_f1_3;
-        var_r31 = 1;
+    min_y = 40.0f + TWindowCtrlMain::get_field10(this->client_index);
+    if (pos[1] < min_y) {
+        pos[1] = min_y;
+        clamped = 1;
     }
-    temp_f1_4 = (TWindowCtrlMain::get_field_18(this->client_index) - 40.0f) - (this->frame_size[1] * scale);
-    if (*(f32 *)((s8 *)pos + 4) > temp_f1_4) {
-        *(f32 *)((s8 *)pos + 4) = temp_f1_4;
-        var_r31 = 1;
+    max_y = (TWindowCtrlMain::get_field_18(this->client_index) - 40.0f) - (this->frame_size[1] * scale);
+    if (pos[1] > max_y) {
+        pos[1] = max_y;
+        clamped = 1;
     }
-    return var_r31;
+    return clamped;
 }
 
 #pragma pop
