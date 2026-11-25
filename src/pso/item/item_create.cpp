@@ -150,7 +150,7 @@
 #include "pso/unk/TLobby_80103F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/item/drop/TItemDropSub.h"
-#include "pso/ui/window/TWindowSubComCard_80077788.h"
+#include "pso/network/protocol/choice_search.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/map/CsnGroundQuery.h"
@@ -223,8 +223,6 @@
 extern "C" {
 s32 get_item_icon_index();
 void TLobby__sub_80104464(void);
-int fn_80077788(void);
-int fn_80077790(void);
 }
 
 // This unit's .sbss, in address order.

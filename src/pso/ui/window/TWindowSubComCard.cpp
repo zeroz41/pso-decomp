@@ -14,7 +14,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubComCard_80077788.h"
+#include "pso/network/protocol/choice_search.h"
 #include "pso/system/ControllerInput.h"
 
 #include "types.h"

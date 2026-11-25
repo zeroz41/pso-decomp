@@ -5,6 +5,7 @@
 #include "pso/network/protocol/packet_classes.h"
 #include <stddef.h>
 #include "pso/network/TPlyMeetUserExtension.h"
+#include "types.h"
 
 // C2/C3: the player's choice search settings.
 struct ChoiceSearchPacket {
@@ -87,5 +88,20 @@ LAYOUT_ASSERT(ChoiceSearchPayloadOffset, offsetof(ChoiceSearchPacket, parameters
 LAYOUT_ASSERT(ChoiceSearchReconnectOffset, offsetof(ChoiceSearchResult, reconnect) == 0x64);
 LAYOUT_ASSERT(ChoiceSearchResultSize, sizeof(ChoiceSearchResult) == 0xD4);
 LAYOUT_ASSERT(ChoiceSearchResultListSize, sizeof(ChoiceSearchResultList) == 0x1A84);
+
+struct ChoiceSearchSelection;
+struct TPlyChoiceSearchConfig;
+
+extern "C" {
+u8 *copy_struct28__17TWindowSubComCardFii(saddr dest, saddr src);
+int fn_80077788(void);
+int fn_80077790(void);
+}
+
+// The option picked in the category `parent_choice_id` of the five selections, or 0.
+s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choice_id);
+
+// Copies the saved choice search selections into the search request.
+void copy_choice_search_selections(ChoiceSearchSelection *selections, TPlyChoiceSearchConfig *config);
 
 #endif

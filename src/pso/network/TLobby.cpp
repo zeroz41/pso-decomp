@@ -96,7 +96,6 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/protocol/choice_search.h"
-#include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 #include "pso/quest/challenge/TChallenge.h"

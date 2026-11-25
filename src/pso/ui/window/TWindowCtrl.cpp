@@ -8,7 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/ui/window/TWindowSubComCard_80077788.h"
+#include "pso/network/protocol/choice_search.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"

@@ -823,8 +823,6 @@ s32 get_current_floor();
 f64 atan2_float(void *, f32, f32);
 int set_camera_capture_overlay_alpha(void*);
 s32 copy_player_visual_record(void *, int);
-s32 fn_80077788(void);
-s32 fn_80077790(void);
 s32 __ct__16TPlyGuildCardTagFv(s32);
 s32 reset_map();
 s32 advance_item_id_counter(u16);

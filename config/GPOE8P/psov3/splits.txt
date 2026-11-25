@@ -939,12 +939,9 @@ pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp:
 pso/ui/window/TWindowSubStatusDisp_80077760.cpp:
 	.text       start:0x80077760 end:0x80077788
 
-pso/ui/window/TWindowSubComCard_80077788.cpp:
-	.text       start:0x80077788 end:0x800779A0
-	.sbss       start:0x805D4E58 end:0x805D4E60
-
 pso/network/protocol/choice_search.cpp:
-	.text       start:0x800779A0 end:0x80077BC0
+	.text       start:0x80077788 end:0x80077BC0
+	.sbss       start:0x805D4E58 end:0x805D4E60
 
 pso/camera/TCineCtrl.cpp:
 	.text       start:0x80077BC0 end:0x80078064
