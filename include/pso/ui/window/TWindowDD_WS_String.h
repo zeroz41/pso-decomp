@@ -12,7 +12,7 @@ public:
     virtual void run_task();
     virtual void render();
     void draw(saddr, s32, f32);
-    void init_and_set_field50(void *ticks);
+    void init_and_set_field50(s32 ticks);
     void update_position(s32 ticks);
     void set_first_entry_text(u32 str);
     void draw_entry_if_visible(void *);

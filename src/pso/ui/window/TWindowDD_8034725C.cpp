@@ -414,7 +414,7 @@ void TWindowDD__sub_80347CC8(TWindowDD *window_dd, WordSelectMessage *message) {
             if (x <= 0.0f) {
                 s->update_position(window_dd_tween_ticks);
             } else {
-                s->init_and_set_field50((void *)window_dd_tween_ticks);
+                s->init_and_set_field50(window_dd_tween_ticks);
             }
         }
     }
@@ -430,7 +430,7 @@ s32 TWindowDD::setup_entry(s16 id) {
     if ((text != NULL) && ((str = get_word_select_token_text(id)) != 0)) {
         text->set_first_entry_text(str);
         text->fit_width_to_text();
-        text->init_and_set_field50((void *)window_dd_tween_ticks);
+        text->init_and_set_field50(window_dd_tween_ticks);
         shown = 1;
     }
     return shown;
@@ -459,7 +459,7 @@ void TWindowDD__sub_80347E04(TWindowDD *window_dd, s32 index) {
             o->set_depth(lbl_805DFC28);
             o->fit_width_to_text();
             copy_vec2(o->frame_position, &v);
-            o->init_and_set_field50((void *)window_dd_tween_ticks);
+            o->init_and_set_field50(window_dd_tween_ticks);
             window_dd->strings[index + 4] = o;
         }
     }
@@ -494,7 +494,7 @@ void TWindowDD::init_entry_field_64(s32 index) {
     TWindowDD_WS_String *text;
     text = strings[index];
     if (text != NULL) {
-        text->init_and_set_field50((void *)window_dd_tween_ticks);
+        text->init_and_set_field50(window_dd_tween_ticks);
     }
 }
 

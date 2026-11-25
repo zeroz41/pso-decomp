@@ -46,9 +46,9 @@ void TWindowDD_WS_String::run_task() {
 
 extern const u32 lbl_805DFC18;
 
-void TWindowDD_WS_String::init_and_set_field50(void *ticks) {
+void TWindowDD_WS_String::init_and_set_field50(s32 ticks) {
     copy_vec2(target_position, pad_64);
-    tween_ticks = (saddr)ticks;
+    tween_ticks = ticks;
 }
 
 void TWindowDD_WS_String::update_position(s32 ticks) {
