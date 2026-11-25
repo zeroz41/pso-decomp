@@ -1263,6 +1263,8 @@ pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp
 pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp
 pso/ui/window/TWindowSubStatusDisp_80228C30.cpp
 pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp
+pso/ui/window/TWindowSubStatusDisp_80248968.cpp
+pso/ui/window/TWindowSubStatusDisp_80248ADC.cpp
 pso/ui/window/TWindowSubStatusDisp_80248BE8.cpp
 pso/ui/window/PageIndicator.cpp
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp

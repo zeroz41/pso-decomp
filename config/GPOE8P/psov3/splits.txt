@@ -6019,7 +6019,10 @@ pso/ui/chat/TSymbolChatMenu.cpp:
 	.sdata2     start:0x805DCBA0 end:0x805DCBA8
 
 pso/ui/window/TWindowOptionCtrl_80248940.cpp:
-	.text       start:0x80248940 end:0x80248994
+	.text       start:0x80248940 end:0x80248968
+
+pso/ui/window/TWindowSubStatusDisp_80248968.cpp:
+	.text       start:0x80248968 end:0x80248994
 
 pso/unk/text_80248994.cpp:
 	.text       start:0x80248994 end:0x80248A14
@@ -6028,7 +6031,10 @@ pso/ui/city/THunterGuildSeqOffline_80248A14.cpp:
 	.text       start:0x80248A14 end:0x80248AA8
 
 pso/ui/window/TWindowOptionCtrl_80248AA8.cpp:
-	.text       start:0x80248AA8 end:0x80248B7C
+	.text       start:0x80248AA8 end:0x80248ADC
+
+pso/ui/window/TWindowSubStatusDisp_80248ADC.cpp:
+	.text       start:0x80248ADC end:0x80248B7C
 
 pso/ui/window/TWindowCheckBox.cpp:
 	.text       start:0x80248B7C end:0x80248B8C
