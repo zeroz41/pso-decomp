@@ -26,7 +26,7 @@ struct DragonEffectResource { saddr particle_ids[8]; };
 struct TBoss1Dragon : public TObjEneDD_ST {
     TBoss1Dragon(TObject *parent, void *set_data);
     virtual ~TBoss1Dragon();
-    void load_resources();
+    static void load_resources();
     void request_state_change(u32 state);
     virtual void dispatch_action(u32 state, s32 reason);
     virtual void run_task();

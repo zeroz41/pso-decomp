@@ -184,7 +184,6 @@ s32 load_current_floor_resources(void) {
 }
 extern "C" {
 
-void load_resources__12TBoss1DragonFv();
 void load_boss5_gryphon_resources();
 void load_darkgunner_effect_resources();
 
@@ -357,7 +356,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_11[6] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { TBoss1DragonDemo__sub_8002B690, TBoss1DragonDemo__sub_8002B68C },
-    { load_resources__12TBoss1DragonFv, TBoss1Dragon::free_resources },
+    { TBoss1Dragon::load_resources, TBoss1Dragon::free_resources },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },
 };
