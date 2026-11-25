@@ -217,7 +217,8 @@ s32 current_floor_index;
 floor_area current_floor_area_type;
 s32 scene_resource_index;
 SceneMaterialRoot *scene_material_root;
-uaddr texture_wave_resource;
+// The forest t.rel module: its first word points to the texture-wave table.
+TextureWaveEntry **texture_wave_resource;
 s8 floor_scene_ready_flag;
 s32 current_lobby_id;
 s32 lobby_online_ready_flag;
@@ -704,7 +705,7 @@ void TScene::load_scene_rel_file(saddr ent) {
 void TScene::load_supplementary_t_rel(saddr name) {
     u8 id[0x20];
     s32 n;
-    texture_wave_resource = 0;
+    texture_wave_resource = NULL;
     supplementary_rel_buffer = NULL;
     loaded_floor_rel_file_index = 0;
     TLobby::replace_file_extension((char *)((s32 *)id), (char *)name, (char *)((s32 *)"t.rel"));
@@ -712,7 +713,7 @@ void TScene::load_supplementary_t_rel(saddr name) {
     if (n > 0) {
         supplementary_rel_buffer = TQuestVmDownLoadServer::alloc(n);
         if (supplementary_rel_buffer != NULL) {
-            texture_wave_resource = (u32)load_relocatable_file(reinterpret_cast<const char *>(id), supplementary_rel_buffer);
+            texture_wave_resource = (TextureWaveEntry **)load_relocatable_file(reinterpret_cast<const char *>(id), supplementary_rel_buffer);
             loaded_floor_rel_file_index = n;
         }
     }
@@ -956,9 +957,9 @@ void TScene::load_floor_rel_file(saddr name) {
     TLobby::replace_file_extension((char *)((s32 *)id), (char *)name, (char *)((s32 *)"t.rel"));
     if (get_resource_file_size((const char *)id) <= loaded_floor_rel_file_index) {
         if (supplementary_rel_buffer != NULL) {
-            texture_wave_resource = (u32)load_relocatable_file(reinterpret_cast<const char *>(id), supplementary_rel_buffer);
+            texture_wave_resource = (TextureWaveEntry **)load_relocatable_file(reinterpret_cast<const char *>(id), supplementary_rel_buffer);
         } else {
-            texture_wave_resource = 0;
+            texture_wave_resource = NULL;
         }
     }
 }
@@ -979,7 +980,7 @@ TScene::TScene(TObject *parent) : TObject(parent) {
     pad_38 = 0x32;
     pad_3C = 0;
     initialize_materials();
-    if ((get_current_floor_area() == AREA_FOREST1) && ((u32) texture_wave_resource != 0U) && (scene_material_root != NULL) && (scene_material_root->texlist != 0)) {
+    if ((get_current_floor_area() == AREA_FOREST1) && (texture_wave_resource != NULL) && (scene_material_root != NULL) && (scene_material_root->texlist != 0)) {
         TScene::create_texture_wave_tasks(this);
     }
     init_material_nodes();
@@ -1186,7 +1187,7 @@ s32 load_texture_sequence_frame(void *task, SceneMaterialCycle *c) {
 }
 
 void TScene::create_texture_wave_tasks(TObject *parent) {
-    TextureWaveEntry *e = *(TextureWaveEntry **)texture_wave_resource;
+    TextureWaveEntry *e = *texture_wave_resource;
     do {
         new TEF_PvrWave(parent, e->image, e->size, e->texture_index);
         e++;

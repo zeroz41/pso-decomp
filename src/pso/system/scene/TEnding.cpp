@@ -13,13 +13,13 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/ui/frontend/TAdEndText.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 u32 ending_frame_counter;
+s32 ending_scene_active;
 
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
-int TKeyBoardControl__sub_8000F828(void);
-s32 ending_scene_active;
 extern const char TEnding__class_name_string[];
 const char *TEnding__class_name = TEnding__class_name_string;
 }

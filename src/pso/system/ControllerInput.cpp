@@ -36,11 +36,12 @@ u32 TKeyBoardControl_key_bit_table[6] = { 16, 32, 64, 128, 4, 2 };
 u32 keyboard_poll_key_codes[6] = { 94, 93, 92, 95, 97, 76 };
 s32 controller_device_id_table[4] = { 0, 6, 12, 18 };
 
-extern "C" {
 s32 lbl_805D34C8 = 1;
 ControllerInputState controller_input_state;
 ControllerInputState controller_physical_port_bank;
 u32 pad_recalibration_counters[4];
+
+extern "C" {
 
 void TKeyBoardControl::reset() { controller_reset_requested = 0; }
 
