@@ -9,10 +9,4 @@ f32 fn_803D6308(f32 x);
 float modff_803D6308(float x, float *iptr);
 }
 
-// --- C functions defined in text_803D619C.cpp ---
-extern "C" {
-f32 fn_803D6308(f32 x);
-}
-// --- end of C functions
-
 #endif

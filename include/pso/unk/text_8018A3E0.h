@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-// --- C functions defined in text_8018A3E0.cpp ---
 void load_forest_box_resources(void);
-// --- end of C functions
 
 #endif

@@ -8,9 +8,4 @@ struct TItem;
 extern "C" {
 }
 
-// --- C functions defined in text_80125428.cpp ---
-extern "C" {
-}
-// --- end of C functions
-
 #endif

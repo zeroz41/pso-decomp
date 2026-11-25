@@ -13,10 +13,4 @@ extern "C" {
 void visit_model_tree_recursive(Acc_80327A38 *acc, NJS_OBJECT *node, s32 id);
 }
 
-// --- C functions defined in text_803279CC.cpp ---
-extern "C" {
-void visit_model_tree_recursive(Acc_80327A38 *acc, NJS_OBJECT *node, s32 id);
-}
-// --- end of C functions
-
 #endif
