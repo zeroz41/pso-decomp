@@ -33,7 +33,7 @@ void TWindowDD_WS_String::render() {
 
 void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
     if (*(s32 *)((s8 *)entry + 0x30) >= 0) {
-        draw((saddr)entry, pad_60, 0.0f);
+        draw((saddr)entry, text_style, 0.0f);
     }
 }
 
@@ -46,18 +46,18 @@ void TWindowDD_WS_String::run_task() {
 
 extern const u32 lbl_805DFC18;
 
-void TWindowDD_WS_String::init_and_set_field50(s32 ticks) {
-    copy_vec2(target_position, pad_64);
+void TWindowDD_WS_String::move_to_start(s32 ticks) {
+    copy_vec2(target_position, start_position);
     tween_ticks = ticks;
 }
 
 void TWindowDD_WS_String::update_position(s32 ticks) {
-    copy_vec2(target_position, pad_6C);
+    copy_vec2(target_position, end_position);
     tween_ticks = ticks;
-    if (pad_6C[0] < 0.0f) {
+    if (end_position[0] < 0.0f) {
         target_position[0] -= target_size[0];
     }
-    if (pad_6C[1] < 0.0f) {
+    if (end_position[1] < 0.0f) {
         target_position[1] -= target_size[1];
     }
 }
@@ -108,9 +108,9 @@ TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style
     : TWindowBase((u8 *)&word_select_string_descriptor, 4, (u8 *)pos) {
     WindowTextEntry *entry;
     m_name = lbl_805D42D8;
-    copy_vec2(pad_64, pos);
-    copy_vec2(pad_6C, size);
-    pad_60 = style;
+    copy_vec2(start_position, pos);
+    copy_vec2(end_position, size);
+    text_style = style;
     entry = (WindowTextEntry *)get_array_entry(0);
     if (entry != NULL) {
         set_text_entry_string(entry, str, 0x80);
@@ -119,7 +119,7 @@ TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style
         measure_message_text_width_default(entry);
         ((TWindowHelpItem *)entry)->reset_float_field();
     }
-    if ((pad_60 == 1) || (pad_60 == 3)) {
+    if ((text_style == 1) || (text_style == 3)) {
         entry->color = lbl_805DFC18;
     }
     open_tick = 0x01000000;
