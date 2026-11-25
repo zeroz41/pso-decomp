@@ -18,7 +18,7 @@ extern s32 game_difficulty_selection;
 
 void TLobby__sub_801F3774(void) {  }
 
-void TLobby::send_6x75_quest_flag(s16 flag, s16 action, s16 difficulty) {
+void TLobby::send_6x75_quest_flag(s32 flag, s16 action, s32 difficulty) {
     G_UpdateQuestFlag_V3_BB_6x75 packet;
     build_6x75_update_quest_flag_dc(&packet);
     packet.__base_G_UpdateQuestFlag_DC_PC_6x75.flag = flag;
@@ -28,7 +28,7 @@ void TLobby::send_6x75_quest_flag(s16 flag, s16 action, s16 difficulty) {
     send_and_handle_6x75((TLobby *)&packet);
 }
 
-void TLobby::send_6x75_quest_flag_cur_difficulty(s16 flag, s16 action) {
+void TLobby::send_6x75_quest_flag_cur_difficulty(s32 flag, s16 action) {
     G_UpdateQuestFlag_V3_BB_6x75 packet;
     build_6x75_update_quest_flag_dc(&packet);
     packet.__base_G_UpdateQuestFlag_DC_PC_6x75.flag = flag;

@@ -410,8 +410,8 @@ struct TLobby : public TObject {
     static void rebuild_area_keep_players();
     static void teardown_scene();
     u8 get_rule_field_0();
-    static void send_6x75_quest_flag(s16 flag, s16 action, s16 difficulty);
-    static void send_6x75_quest_flag_cur_difficulty(s16 flag, s16 action);
+    static void send_6x75_quest_flag(s32 flag, s16 action, s32 difficulty);
+    static void send_6x75_quest_flag_cur_difficulty(s32 flag, s16 action);
     void byteswap_6x75_packet();
     void pick_random_entry();
     static void pick_weighted_entry(s32 *key, s32 *slot);
