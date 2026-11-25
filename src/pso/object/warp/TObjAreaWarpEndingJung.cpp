@@ -456,7 +456,7 @@ void TObjMapWarp::draw_debug_destinations() {
         b.y += 5.0f;
         a.y += 5.0f;
         debug_draw_line(&b, &a, 0xFFFF0000, 0xFFFF0000);
-        fn_80141CB4(end, 15.0f);
+        debug_draw_marker(end, 15.0f);
     }
 }
 
