@@ -38,7 +38,6 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/unk/text_8025373C.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
@@ -1018,54 +1017,55 @@ s32 TWindowHelpItem::update_mag_status_gauges() {
     return changed;
 }
 
-s32 fn_8025373C(TWindowHelpItem *self) {
+// inferred: steps each shown mag level one towards the mag's own level; 1 while any still moves.
+s32 TWindowHelpItem::advance_mag_levels() {
     MagStats mag;
-    HelpItemStatCompareRow *help;
+    HelpItemStatCompareRow *level_row;
     TWindowLayoutEntry *panel;
     TWindowStatusGaugeFeedback *bar;
     TWindowLayoutNumber *num;
     s32 count;
     mag.init();
-    TItemData::deserialize_mag(self->active_item, &mag);
-    help = (HelpItemStatCompareRow *)self->get_array_entry(0);
-    panel = (TWindowLayoutEntry *)self->get_array_entry(0xF);
-    count = help->get_value();
-    num = (TWindowLayoutNumber *)self->get_array_entry(4);
-    bar = (TWindowStatusGaugeFeedback *)self->get_array_entry(5);
+    TItemData::deserialize_mag(active_item, &mag);
+    level_row = (HelpItemStatCompareRow *)get_array_entry(0);
+    panel = (TWindowLayoutEntry *)get_array_entry(0xF);
+    count = level_row->get_value();
+    num = (TWindowLayoutNumber *)get_array_entry(4);
+    bar = (TWindowStatusGaugeFeedback *)get_array_entry(5);
     if (num->value < mag.get_def_level()) {
         num->value++;
         bar->target = 0.0f;
         count++;
         bar->calc_bar_width();
     }
-    num = (TWindowLayoutNumber *)self->get_array_entry(7);
-    bar = (TWindowStatusGaugeFeedback *)self->get_array_entry(8);
+    num = (TWindowLayoutNumber *)get_array_entry(7);
+    bar = (TWindowStatusGaugeFeedback *)get_array_entry(8);
     if (num->value < mag.get_pow_level()) {
         num->value++;
         count++;
         bar->target = 0.0f;
         bar->calc_bar_width();
     }
-    num = (TWindowLayoutNumber *)self->get_array_entry(0xA);
-    bar = (TWindowStatusGaugeFeedback *)self->get_array_entry(0xB);
+    num = (TWindowLayoutNumber *)get_array_entry(0xA);
+    bar = (TWindowStatusGaugeFeedback *)get_array_entry(0xB);
     if (num->value < mag.get_dex_level()) {
         num->value++;
         bar->target = 0.0f;
         count++;
         bar->calc_bar_width();
     }
-    num = (TWindowLayoutNumber *)self->get_array_entry(0xD);
-    bar = (TWindowStatusGaugeFeedback *)self->get_array_entry(0xE);
+    num = (TWindowLayoutNumber *)get_array_entry(0xD);
+    bar = (TWindowStatusGaugeFeedback *)get_array_entry(0xE);
     if (num->value < mag.get_mind_level()) {
         num->value++;
         bar->target = 0.0f;
         count++;
         bar->calc_bar_width();
     }
-    self->update_mag_status_gauges();
-    if (count != help->get_value()) {
-        help->set_value(count);
-        ((TWindowHelpItem *)help)->set_flag0_bit2();
+    update_mag_status_gauges();
+    if (count != level_row->get_value()) {
+        level_row->set_value(count);
+        ((TWindowHelpItem *)level_row)->set_flag0_bit2();
         ((TWindowSubStatusDisp *)panel)->clear_visible_flag();
         return 1;
     }

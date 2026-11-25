@@ -4,7 +4,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/MagStats.h"
 #include "pso/ui/window/WindowMenuFactory.h"
-#include "pso/unk/text_8025373C.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
@@ -261,7 +260,7 @@ void TWindowSubMag::run_task() {
         }
         break;
     case 10:
-        if (fn_8025373C(help) != 0) {
+        if (help->advance_mag_levels() != 0) {
             play_sound_effect(0x4002A80F, 0, 0, 0);
             timer = 0;
             state = 11;
