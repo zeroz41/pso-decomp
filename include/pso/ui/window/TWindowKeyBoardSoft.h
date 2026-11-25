@@ -54,7 +54,7 @@ struct TWindowKeyBoardSoft : public TWindowBase
     static s32 dispatch_request_0x20(const char *a, const char *b);
     static s32 dispatch_request_0x1c();
     static void dispatch_request_0x14(s32 a, s32 b);
-    static void dispatch_request_0x13(s32 arg0, s32 arg1, s32 arg2);
+    static void dispatch_request_0x13(s32 text_id, s32 segment, s32 rest);
     static void dispatch_request_0x10(s32 a, s32 b);
     static void dispatch_request_0f(s32 a, s32 b);
     void calc_cursor_step(s32 *first_page, s32 *last_page);
