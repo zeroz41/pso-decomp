@@ -66,11 +66,6 @@ struct ComCardTextSet { void *t0; ComCardText *t4; void *t8; void *tC; void *t10
 struct ComCardDisplay { u8 pad[4]; ComCardTextSet *set; };
 extern "C" void update_com_card_display(ComCardDisplay *display, void *data);
 
-extern "C" {
-s8 TWindowSubComCard__sub_8007B6EC(void *);
-s32 TWindowSubComCard__sub_8007B6F4(void *);
-}
-
 extern u8 *text_language_group_table;
 
 
@@ -188,7 +183,7 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
         n = 5;
     }
     TWindowDuelResult::set_default_status(tC, (saddr)com_card_status_text_table[n]);
-    n = TWindowSubComCard__sub_8007B6EC(arg1);
+    n = reinterpret_cast<GuildCardEntry *>(arg1)->get_char_class();
     if (n > 0xC) {
         n = 0xC;
     }
@@ -198,7 +193,7 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
         n = 0xA;
     }
     TWindowDuelResult::set_default_status(t10, reinterpret_cast<saddr>(TObjLuker::get_stat_table_entry(n)));
-    if (TWindowSubComCard__sub_8007B6F4(arg1) != 0) {
+    if (reinterpret_cast<GuildCardEntry *>(arg1)->sub_8007B6F4() != 0) {
         id = reinterpret_cast<const GuildCardEntry *>(arg1)->get_card_id();
         if (id == 0) {
             t4->flags |= 2;

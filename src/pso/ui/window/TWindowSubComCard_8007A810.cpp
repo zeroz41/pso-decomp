@@ -144,8 +144,6 @@ struct Card_8007AC7C {
 
 extern "C" {
 void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry);
-s8 TWindowSubComCard__sub_8007B6EC(void *p);
-s32 TWindowSubComCard__sub_8007B6F4(void *card);
 int __ct__16TPlyGuildCardTagFv();
 
 s32 init_guild_card_tag__17TWindowSubComCardFi(void *ply_guild_card_tag) {
@@ -186,13 +184,13 @@ s32 TWindowSubComCard__sub_8007AC7C(Card_8007AC7C *self, GuildCardSlot *cards, s
             return 0;
         }
         if (id == cards->entry.get_card_id()) {
-            if (TWindowSubComCard__sub_8007B6F4(self) != 0) {
+            if (reinterpret_cast<const GuildCardEntry *>(self)->sub_8007B6F4() != 0) {
                 ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(cards, self);
-            } else if (TWindowSubComCard__sub_8007B6F4(cards) == 0) {
-                if (TWindowSubComCard__sub_8007B6EC(self) < 12) {
+            } else if (cards->entry.sub_8007B6F4() == 0) {
+                if (reinterpret_cast<GuildCardEntry *>(self)->get_char_class() < 12) {
                     ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(cards, self);
                 } else {
-                    TWindowSubComCard__sub_8007B6EC(cards);
+                    cards->entry.get_char_class();
                 }
             }
             return 1;
@@ -227,9 +225,8 @@ void forward_to_matching_card__17TWindowSubComCardFPvPvi(void *card, u8 *slots, 
 
 }
 
-struct Card_8007B0D0;
 extern "C" {
-s32 TWindowSubComCard__sub_8007B0D0(Card_8007B0D0 *, Card_8007B0D0 *, s32);
+s32 TWindowSubComCard__sub_8007B0D0(GuildCardEntry *, GuildCardEntry *, s32);
 s32 bswap_guild_card__17TWindowSubComCardFv();
 
 void TWindowSubComCard::start_player_data_load(s32 ply_guild_card_tag) {
@@ -261,10 +258,6 @@ struct Card_8007B010 { u8 body[0x90]; };
 
 struct Card_8007AFB8 { u8 body[0x100]; };
 
-struct Card_8007B0D0 {
-    u8 pad[0x8F];
-    s8 level;
-};
 
 extern "C" {
 
@@ -328,22 +321,22 @@ u32 TWindowSubComCard__sub_8007B070(u8 *keyboard_mode) {
     return (u32) (s8) *(u8 *)((s8 *)keyboard_mode + 0x8F) >> 0x1FU;
 }
 
-s32 TWindowSubComCard__sub_8007B0D0(Card_8007B0D0 *self, Card_8007B0D0 *cards, s32 count) {
+s32 TWindowSubComCard__sub_8007B0D0(GuildCardEntry *self, GuildCardEntry *cards, s32 count) {
     u32 id;
     s32 i;
-    id = reinterpret_cast<const GuildCardEntry *>(self)->get_card_id();
+    id = self->get_card_id();
     for (i = 0; i < count; i++, cards++) {
-        if (reinterpret_cast<const GuildCardEntry *>(cards)->is_active() == 0) {
+        if (cards->is_active() == 0) {
             return 0;
         }
-        if (id == reinterpret_cast<const GuildCardEntry *>(cards)->get_card_id()) {
-            if (TWindowSubComCard__sub_8007B6F4(self) != 0) {
+        if (id == cards->get_card_id()) {
+            if (self->sub_8007B6F4() != 0) {
                 ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(cards, self);
-            } else if (TWindowSubComCard__sub_8007B6F4(cards) == 0) {
-                if (self->level < 12) {
+            } else if (cards->sub_8007B6F4() == 0) {
+                if (self->char_class < 12) {
                     ((s32 (*)(void *, void *))forward_return_arg__17TWindowSubComCardFi)(cards, self);
                 } else {
-                    TWindowSubComCard__sub_8007B6EC(cards);
+                    cards->get_char_class();
                 }
             }
             return 1;
@@ -521,10 +514,10 @@ int bswap__16TPlyGuildCardTagFv(void*);
 
 s32 GuildCardEntry::get_card_id() const { return id; }
 int GuildCardEntry::is_active() const { return flags & 1; }
-s8 TWindowSubComCard__sub_8007B6EC(void *p) { return *(s8 *)((char *)p + 0x8f); }
+s8 GuildCardEntry::get_char_class() { return char_class; }
 
-s32 TWindowSubComCard__sub_8007B6F4(void *card) {
-    if (((GuildCardEntry *)card)->flags & 2) {
+s32 GuildCardEntry::sub_8007B6F4() const {
+    if (flags & 2) {
         return 0;
     }
     return 1;

@@ -8,13 +8,17 @@ struct GuildCardEntry {
     s32 get_card_id() const;
     char *get_name();
     int is_active() const;
+    s8 get_char_class();
+    s32 sub_8007B6F4() const;
 
     u8 tag[4];
     s32 id;
     char name[0x18];
     char text[0x6C];
     s8 flags;
-    u8 unk_8d[3];
+    s8 language;
+    s8 section_id;
+    s8 char_class;
 };
 
 LAYOUT_ASSERT(GuildCardEntry_size, sizeof(GuildCardEntry) == 0x90);
