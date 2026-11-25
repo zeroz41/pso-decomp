@@ -8,7 +8,8 @@
 struct TWindowSubSymbolChatHelp : public TWindowBase {
     TWindowSubSymbolChatHelp(s8 *selection, s32 *mode);
     virtual ~TWindowSubSymbolChatHelp();
-    void draw_help_entry(void *, s32, s32);
+    void draw_help_entry(void *window_draw_context, s32 index, s32 color);
+    void draw_help_icon(WindowDrawContext *window_draw_context, s32 index, s32 color);
     void draw_color_palette(void *);
     s8 flags; // bits 1, 2, 4 (set_flag60_bit*/clear_flag60_bit*); 4 also by set_pos_and_flag
     u8 _pad61[0x3];
