@@ -8,14 +8,6 @@ extern const char *TFontSmallLobby__name;
 
 struct TFontSmallLobby
 {
-    u8 _pad1C[0x40C];
-    void* m_428;
-    u8 _pad42C[0x80];
-    void* m_4ac;
-    u8 _pad4B0[0x9C];
-    u32 m_54c;
-    u8 _pad550[0x60];
-    void* m_5b0;
     static void *create(s32 id);
     static s32 is_lobby_floor_15();
     static void draw_small_label(int line);
