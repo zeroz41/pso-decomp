@@ -188,7 +188,11 @@ struct G_CardCounts_Ep3NTE_6xBC {
 struct G_CastTechniqueComplete_6x48 {
  struct G_ClientIDHeader header;
  s16 technique_number;
- u16 level;
+ s16 level;
+ void bswap();
+ G_CastTechniqueComplete_6x48 &operator=(G_CastTechniqueComplete_6x48 &src);
+ void init();
+ void send();
 };
 
 struct G_CastTechnique_Header_6x47 {
@@ -842,7 +846,11 @@ struct G_RestoreShrunkenPlayer_6x88 {
 struct G_RevivePlayer_6x33 {
  struct G_ClientIDHeader header;
  u16 client_id2;
- u16 unused;
+ s16 unused;
+ void bswap();
+ G_RevivePlayer_6x33 &operator=(G_RevivePlayer_6x33 &src);
+ void init();
+ void send();
 };
 
 struct G_RevivePlayer_V3_BB_6xA1 {
@@ -1073,7 +1081,11 @@ struct G_SetTechniqueLevelOverride_6x8D {
  struct G_ClientIDHeader header;
  u8 level_upgrade;
  u8 unused1;
- u16 unused2;
+ s16 unused2;
+ void bswap();
+ G_SetTechniqueLevelOverride_6x8D &operator=(G_SetTechniqueLevelOverride_6x8D &src);
+ void init();
+ void send();
 };
 
 struct G_SetTelepipeState_6x68 {

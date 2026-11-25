@@ -140,14 +140,6 @@ typedef struct Player_801CC6B8 {
 
 
 
-struct Pkt_801CCB58 { u16 hdr; u16 id; s16 c; };
-
-typedef struct Msg_801CCA84 {
-    u8 pad0[2];
-    u16 id;
-    u16 target;
-    u8 pad6[2];
-} Msg_801CCA84;
 
 typedef struct Tech_801CCA84 {
     s32 kind;
@@ -163,11 +155,9 @@ typedef struct Player_801CCA84 {
 } Player_801CCA84;
 
 
-struct Pkt_801CCEDC { u16 hdr; u16 id; s16 tech; u16 level; };
 
 struct Player_801CCEDC { u8 pad[0x328]; s16 f328; u8 pad32a[0x32E - 0x32A]; s16 tp; u8 pad330[0x428 - 0x330]; u8 techs[4]; };
 
-struct Pkt_801CCD38 { u16 hdr; u16 id; s16 tech; s16 level; };
 
 
 struct Player_801CCD38 { u8 pad[0x10]; TObject *f10; u8 pad14[0x328 - 0x14]; s16 f328; u8 pad32a[0x428 - 0x32A]; u8 techs[4]; };
@@ -179,12 +169,6 @@ struct Player_801CD078 { u8 pad[0x32E]; s16 tp; u8 pad330[0x428 - 0x330]; u8 tec
 
 
 
-typedef struct Msg1_801CD72C {
-    u8 pad0[2];
-    u16 id;
-    u8 level;
-    u8 pad5[3];
-} Msg1_801CD72C;
 
 
 typedef struct Player_801CD72C {
@@ -193,12 +177,6 @@ typedef struct Player_801CD72C {
     u8 techs[4];
 } Player_801CD72C;
 
-typedef struct Msg_801CD6BC {
-    u8 pad0[2];
-    u16 id;
-    u8 level;
-    u8 pad5[3];
-} Msg_801CD6BC;
 
 struct Pkt_801CDAD8 { u8 cmd; u8 size; u16 player; s16 heading; s16 kind; };
 
@@ -339,7 +317,6 @@ struct E_801D1FA4 { u8 d[4]; };
 
 struct Obj_801D1FA4 { u16 a; u16 b; s16 n0; s16 n; u8 pad[4]; E_801D1FA4 e[1]; };
 
-struct Pkt_801D209C { u8 cmd; u8 size; u8 pad[2]; u16 a; u16 b; };
 
 struct Vec_801D24F4 { u8 bytes[0xC]; };
 
@@ -410,7 +387,6 @@ void TObjPlayer__deactivate_off_floor_body(void* p);
 void handle_6x57(G_Unknown_6x57 *command);
 void release_all_players_control_lock(void);
 void handle_6x36(void);
-void handle_6x48_cast_technique_complete(void *arg);
 s32 TObjPlayer__sub_801CFBFC(u8 *arg0);
 void TObjPlayer__sub_801D0E74(void* p);
 G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
@@ -419,7 +395,6 @@ void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *player, u8 level, s
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 s32 copy_photon_blast_data__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
 u8 TObjPlayer__sub_801D2004(u8 *arg0);
-void* TObjPlayer__sub_801D2058(void* p, void* a1);
 u8 * TObjPlayer__sub_801D21CC(u8 *arg0, u8 *arg1);
 void * TObjPlayer__sub_801D2348(void *arg0, void *arg1);
 void TObjPlayer__sub_801D2448(void* p);
@@ -434,8 +409,6 @@ u8 get_cast_technique_level(void *techs, s16 tech);
 int is_android_player(void* p);
 void remove_photon_blast_participant(s32 id);
 void send_photon_blast_targets_packet(u8 *player);
-void init_6x48_cast_complete_packet(u8 *arg0);
-void init_6x8D_technique_level_packet(u8 *arg0);
 void send_6x46_attack_finished(u8 *arg0);
 u8 get_6x46_strike_packet_size(saddr arg0);
 void emit_heavy_attack_particles(saddr owner, u16 target_id);
@@ -3025,21 +2998,21 @@ void TObjPlayer::dispatch_photon_blast_action(s16 phase) {
 
 }
 void handle_6x33_revive_player(G_RevivePlayer_6x33 *command) {
-    Msg_801CCA84 m;
+    G_RevivePlayer_6x33 m;
     Tech_801CCA84 t;
     Player_801CCA84 *p;
     Player_801CCA84 *q;
-    ((TObjPlayer *)(&m))->init_6x33_packet();
-    ((void (*)(void *, void *))TObjPlayer__sub_801D2058)(&m, command);
-    ((TObjPlayer *)(&m))->bswap_coords();
-    if (validate_6x33_revive_player((G_RevivePlayer_6x33 *)&m) != 0) {
-        p = (Player_801CCA84 *)get_player_by_client_id(m.id);
+    m.init();
+    m = *command;
+    m.bswap();
+    if (validate_6x33_revive_player(&m) != 0) {
+        p = (Player_801CCA84 *)get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
-            q = (Player_801CCA84 *)get_player_by_client_id(m.target);
+            q = (Player_801CCA84 *)get_player_by_client_id(m.client_id2);
             if (q != NULL && ((TObjPlayer *)q)->check_flag_4() == 0 && q->list == tl_03) {
                 __ct__16TargetCursorListFv((&t));
                 t.kind = 1;
-                t.target = m.target;
+                t.target = m.client_id2;
                 t.f6 = 0;
                 t.f8 = 10.0f;
                 TTecReverser::create(p, ((TObjPlayer *)p)->get_position_ptr(), &t, 0x1D);
@@ -3049,13 +3022,13 @@ void handle_6x33_revive_player(G_RevivePlayer_6x33 *command) {
 }
 
 void send_6x33_revive_player(u16 client_id, u16 target_id) {
-    struct Pkt_801CCB58 pkt;
+    G_RevivePlayer_6x33 pkt;
     TObjChara *chara = (TObjChara *)get_player_by_client_id(static_cast<u16>(client_id));
     if (chara == NULL || chara->obj_isState2_324() == 0) {
-        ((TObjPlayer *)(&pkt))->init_6x33_packet();
-        pkt.id = client_id;
-        pkt.c = target_id;
-        ((TObjPlayer *)(&pkt))->send_coords();
+        pkt.init();
+        pkt.header.client_id = client_id;
+        pkt.client_id2 = target_id;
+        pkt.send();
     }
 }
 
@@ -3117,29 +3090,31 @@ inline void tail_801CCD38(Player_801CCD38 *p, s32 t, s8 lvl) {
 extern int fold_flush_3;
 #pragma pop
 
+}
+
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void handle_6x48_cast_technique_complete(void *arg) {
-    Pkt_801CCD38 pkt;
+void handle_6x48_cast_technique_complete(G_CastTechniqueComplete_6x48 *command) {
+    G_CastTechniqueComplete_6x48 pkt;
     s8 lvl;
     u8 ul;
     Player_801CCD38 *p;
     s16 tech;
-    ((void (*)(void *))init_6x48_cast_complete_packet)(&pkt);
-    ((TObjPlayer *)(&pkt))->copy_6x48_cast_technique_complete_packet(arg);
-    ((TObjPlayer *)(&pkt))->swap_header();
-    if (validate_6x48_cast_technique_complete(reinterpret_cast<G_CastTechniqueComplete_6x48 *>(&pkt)) == 0) {
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x48_cast_technique_complete(&pkt) == 0) {
         return;
     }
-    p = (Player_801CCD38 *)get_player_by_client_id((u16)pkt.id);
+    p = (Player_801CCD38 *)get_player_by_client_id(pkt.header.client_id);
     if (p == NULL) {
         return;
     }
     if (((TObjPlayer *)p)->reset_volopt_state() == 0) {
         return;
     }
-    tech = pkt.tech;
+    tech = pkt.technique_number;
     ((PlayerTechniqueState *)(p->techs))->set_technique_id(tech);
     lvl = pkt.level;
     if (lvl == 0xE) {
@@ -3153,8 +3128,9 @@ void handle_6x48_cast_technique_complete(void *arg) {
     TObjPlayer::set_technique_level_clamped((TObjPlayer *)p, ul, tech);
     tail_801CCD38(p, tech, lvl);
 }
-extern int fold_flush_4;
 #pragma pop
+
+extern "C" {
 
 void TObjPlayer::pay_tp_and_send_6x48_cast() {
     Player_801CCEDC *self = (Player_801CCEDC *)this;
@@ -3163,7 +3139,7 @@ void TObjPlayer::pay_tp_and_send_6x48_cast() {
     u8 lo;
     if (this->reset_volopt_state() != 0) {
         if (self == 0 || ((TObjChara *)self)->obj_isState2_324() == 0) {
-            Pkt_801CCEDC pkt;
+            G_CastTechniqueComplete_6x48 pkt;
             this->phase = 4;
             tech = ((PlayerTechniqueState *)self->techs)->get_or_init_field_4();
             this->tp -= calc_technique_parameters(tech, ((PlayerTechniqueState *)self->techs)->get_castable_technique_level(), get_entity_id())->tp_cost;
@@ -3171,11 +3147,11 @@ void TObjPlayer::pay_tp_and_send_6x48_cast() {
                 this->tp = 0;
             }
             TObjPlayer::split_capped_value(((PlayerTechniqueState *)self->techs)->get_castable_technique_level(), &hi, &lo);
-            ((void (*)(void *))init_6x48_cast_complete_packet)(&pkt);
-            pkt.id = ((TObjBase *)self)->get_entity_id();
-            pkt.tech = tech;
+            pkt.init();
+            pkt.header.client_id = ((TObjBase *)self)->get_entity_id();
+            pkt.technique_number = tech;
             pkt.level = hi;
-            ((TObjPlayer *)(&pkt))->send_swapped_header();
+            pkt.send();
         }
     }
 }
@@ -3361,15 +3337,15 @@ void handle_6x47_cast_technique(G_CastTechnique_6x47 *command) {
     p->run_action_state_phase(8, 0);
 }
 void handle_6x8D_set_technique_level_override(G_SetTechniqueLevelOverride_6x8D *command) {
-    Msg_801CD6BC m;
+    G_SetTechniqueLevelOverride_6x8D m;
     TObjPlayer *p;
-    ((void (*)(void *))init_6x8D_technique_level_packet)(&m);
-    ((TObjPlayer *)(&m))->copy_6x8d_technique_level_packet(command);
-    ((TObjPlayer *)(&m))->swap_field6();
-    if (validate_6x8D_set_technique_level_override(reinterpret_cast<G_SetTechniqueLevelOverride_6x8D *>(&m)) != 0) {
-        p = get_player_by_client_id(m.id);
+    m.init();
+    m = *command;
+    m.bswap();
+    if (validate_6x8D_set_technique_level_override(&m) != 0) {
+        p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
-            p->technique_state.set_tech_override(m.level);
+            p->technique_state.set_tech_override(m.level_upgrade);
         }
     }
 }
@@ -3377,7 +3353,7 @@ extern "C" {
 void TObjPlayer::request_technique_cast() {
     u8 hi;
     u8 lo;
-    Msg1_801CD72C m1;
+    G_SetTechniqueLevelOverride_6x8D m1;
     PhotonBlastTarget *td;
     s16 tech;
     s32 i;
@@ -3393,10 +3369,10 @@ void TObjPlayer::request_technique_cast() {
     tech = ((PlayerTechniqueState *)(self->techs))->get_or_init_field_4();
     TObjPlayer::split_capped_value(get_cast_technique_level(self->techs, tech), &hi, &lo);
     if (self == NULL || ((TObjChara *)self)->obj_isState2_324() == 0) {
-        ((void (*)(void *))init_6x8D_technique_level_packet)(&m1);
-        m1.id = ((TObjBase *)self)->get_entity_id();
-        m1.level = lo;
-        ((TObjPlayer *)(&m1))->send_swap_field6();
+        m1.init();
+        m1.header.client_id = ((TObjBase *)self)->get_entity_id();
+        m1.level_upgrade = lo;
+        m1.send();
         G_CastTechnique_6x47 cmd;
         cmd.header.client_id = ((TObjBase *)self)->get_entity_id();
         cmd.params.technique_number = tech;
@@ -5526,37 +5502,55 @@ u8 TObjPlayer__sub_801D2004(u8 *arg0) {
     return (u8) (0x34 - ((0xA - *(s16 *)((s8 *)arg0 + 6)) * 4));
 }
 
-void TObjPlayer::bswap_coords() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
-
-void* TObjPlayer__sub_801D2058(void* p, void* a1) { copy_subcommand_header(p, a1); *(short*)((char*)p + 0x4) = *(unsigned short*)((char*)a1 + 0x4); *(short*)((char*)p + 0x6) = *(short*)((char*)a1 + 0x6); return p; }
-
-void TObjPlayer::init_6x33_packet() {
-    Pkt_801D209C *p = (Pkt_801D209C *)this;
-    p->a = 0xFFFF;
-    p->b = 0;
-    p->cmd = 0x33;
-    p->size = 2;
+void G_RevivePlayer_6x33::bswap() {
+    header.bswap();
+    bswap_16(&client_id2);
+    bswap_16((u16 *)&unused);
 }
 
-void TObjPlayer::send_coords() { bswap_coords(); send_subcommand(this); }
-
-void TObjPlayer::swap_header() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
-
-void *TObjPlayer::copy_6x48_cast_technique_complete_packet(void *src) {
-    copy_subcommand_header(this, src);
-    this->m_flags = *(s16 *)((s8 *)src + 0x4);
-    this->m_id = *(s16 *)((s8 *)src + 0x6);
-    return this;
+G_RevivePlayer_6x33 &G_RevivePlayer_6x33::operator=(G_RevivePlayer_6x33 &src) {
+    copy_subcommand_header(this, &src);
+    client_id2 = src.client_id2;
+    unused = src.unused;
+    return *this;
 }
 
-void init_6x48_cast_complete_packet(u8 *arg0) {
-    *(s16 *)((s8 *)arg0 + 6) = 0;
-    *(s16 *)((s8 *)arg0 + 4) = 0;
-    *(s8 *)((s8 *)arg0 + 0) = 0x48;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void G_RevivePlayer_6x33::init() {
+    client_id2 = 0xFFFF;
+    unused = 0;
+    header.subcommand = 0x33;
+    header.size = 2;
 }
 
-void TObjPlayer::send_swapped_header() { swap_header(); send_subcommand(this); }
+void G_RevivePlayer_6x33::send() {
+    bswap();
+    send_subcommand(this);
+}
+
+void G_CastTechniqueComplete_6x48::bswap() {
+    header.bswap();
+    bswap_16((u16 *)&technique_number);
+    bswap_16((u16 *)&level);
+}
+
+G_CastTechniqueComplete_6x48 &G_CastTechniqueComplete_6x48::operator=(G_CastTechniqueComplete_6x48 &src) {
+    copy_subcommand_header(this, &src);
+    technique_number = src.technique_number;
+    level = src.level;
+    return *this;
+}
+
+void G_CastTechniqueComplete_6x48::init() {
+    level = 0;
+    technique_number = 0;
+    header.subcommand = 0x48;
+    header.size = 2;
+}
+
+void G_CastTechniqueComplete_6x48::send() {
+    bswap();
+    send_subcommand(this);
+}
 
 #pragma push
 #pragma inline_depth(1)
@@ -5570,25 +5564,31 @@ u8 *TObjPlayer__sub_801D21CC(u8 *buf, u8 *arg1) {
 extern int fold_flush_13;
 #pragma pop
 
-void TObjPlayer::swap_field6() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x6)); }
-
-void *TObjPlayer::copy_6x8d_technique_level_packet(void *command) {
-    copy_subcommand_header(this, command);
-    *(u8 *)((s8 *)this + 0x4) = *(u8 *)((s8 *)command + 0x4);
-    *(u8 *)((s8 *)this + 0x5) = *(u8 *)((s8 *)command + 0x5);
-    this->m_id = *(s16 *)((s8 *)command + 0x6);
-    return this;
+void G_SetTechniqueLevelOverride_6x8D::bswap() {
+    header.bswap();
+    bswap_16((u16 *)&unused2);
 }
 
-void init_6x8D_technique_level_packet(u8 *arg0) {
-    *(s16 *)((s8 *)arg0 + 6) = 0;
-    *(s8 *)((s8 *)arg0 + 5) = 0;
-    *(s8 *)((s8 *)arg0 + 4) = 0;
-    *(u8 *)((s8 *)arg0 + 0) = 0x8D;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+G_SetTechniqueLevelOverride_6x8D &G_SetTechniqueLevelOverride_6x8D::operator=(G_SetTechniqueLevelOverride_6x8D &src) {
+    copy_subcommand_header(this, &src);
+    level_upgrade = src.level_upgrade;
+    unused1 = src.unused1;
+    unused2 = src.unused2;
+    return *this;
 }
 
-void TObjPlayer::send_swap_field6() { swap_field6(); send_subcommand(this); }
+void G_SetTechniqueLevelOverride_6x8D::init() {
+    unused2 = 0;
+    unused1 = 0;
+    level_upgrade = 0;
+    header.subcommand = 0x8D;
+    header.size = 2;
+}
+
+void G_SetTechniqueLevelOverride_6x8D::send() {
+    bswap();
+    send_subcommand(this);
+}
 
 void *TObjPlayer::copy_6x45_attack_packet(void *src) {
     copy_subcommand_header(this, src);

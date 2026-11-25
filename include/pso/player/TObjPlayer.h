@@ -722,15 +722,6 @@ struct TObjPlayer : public TObjChara {
     void byteswap_6x49_packet();
     void swap_endian_shorts();
     void byteswap_pb_targets_packet();
-    void bswap_coords();
-    void init_6x33_packet();
-    void send_coords();
-    void swap_header();
-    void *copy_6x48_cast_technique_complete_packet(void *src);
-    void send_swapped_header();
-    void swap_field6();
-    void *copy_6x8d_technique_level_packet(void *command);
-    void send_swap_field6();
     void *copy_6x45_attack_packet(void *src);
     void bswap_field4_sub();
     void*build_packet_header();
