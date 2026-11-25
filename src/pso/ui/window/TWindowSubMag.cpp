@@ -75,9 +75,9 @@ extern "C" const char lbl_805DD648[] = "";
 
 TItemData *TWindowHelpItem::get_mag_state() { return active_item; }
 
-void TWindowHelpItem::clear_flag60_bit8() { m_60 &= ~8; }
+void TWindowHelpItem::enable_help_toggle() { help_flags &= ~8; }
 
-void TWindowHelpItem::set_flag60_bit8() { m_60 |= 8; }
+void TWindowHelpItem::disable_help_toggle() { help_flags |= 8; }
 
 bool is_mag_full(u8 *arg0) {
     return (*(f32 *)((s8 *)arg0 + 0x194) < 2.0f) == 0;
@@ -165,7 +165,7 @@ void TWindowSubMag::run_task() {
         if (slotwin == NULL) {
             slotwin = fn_802628C0((void *)get_window_layout_position(0xC), lbl_8044F9E8, client_id);
         }
-        help->sub_80255E24();
+        help->unlock_page_flip();
         ((TWindowMenuIconLine *)list)->refresh_mag_item_list(2);
         ((TWindowMenuIconLine *)(list))->clear_decided();
         static_cast<TWindowMenuIconLine *>(list)->start_scroll(188.0f);
@@ -196,8 +196,8 @@ void TWindowSubMag::run_task() {
         }
         if (help != NULL) {
             window_request_show(help);
-            help->sub_80255E24();
-            help->clear_flag60_bit8();
+            help->unlock_page_flip();
+            help->enable_help_toggle();
             call_if_split_screen((uaddr)help, client_id);
         }
         static_cast<TWindowMenuIconLine *>(list)->start_scroll(188.0f);
@@ -220,7 +220,7 @@ void TWindowSubMag::run_task() {
         }
         ((TWindowSubStatusDisp *)(list))->init_scroll_pos();
         help->update_help_item(1);
-        help->set_flag60_bit4();
+        help->lock_page_flip();
         if (list2 == NULL) {
             list2 = (void *)create_list();
         }
@@ -247,7 +247,7 @@ void TWindowSubMag::run_task() {
     case 8:
         window_request_show(help);
         window_request_refresh((u8 *)help);
-        help->set_flag60_bit8();
+        help->disable_help_toggle();
         help->refresh_copied_items();
         ((TWindowMenuIconLine *)list)->refresh_mag_item_list(2);
         slotwin->set_mag_slot_state(help->get_mag_state());
@@ -300,8 +300,8 @@ void TWindowSubMag::run_task() {
         }
         if (help != NULL) {
             help->request_close();
-            help->set_flag60_bit8();
-            help->set_flag60_bit4();
+            help->disable_help_toggle();
+            help->lock_page_flip();
         }
         photon = new TWindowSubMagPhoton(get_window_layout_position(0xA), mag, client_id);
         photon->set_depth(get_main_menu_layer_depth((u8 *)parent, 3));

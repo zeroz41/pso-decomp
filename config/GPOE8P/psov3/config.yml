@@ -1789,18 +1789,16 @@ force_active:
   - TWindowFukidasi__sub_80249788
   - TWindowGetComCard__sub_8007B60C
   - item_layout_entries__15TWindowHelpItem
-  - TWindowHelpItem__requirements_update_callback
   - resistance_layout_entries__15TWindowHelpItem
-  - TWindowHelpItem__stat_comparison_callback
   - TWindowHelpItem__sub_8025A600
   - TWindowHelpItem__sub_8025A900
   - TWindowHelpItem__sub_8025A904
-  - TWindowHelpItem__vt0
-  - TWindowHelpItem__vt1
-  - TWindowHelpItem__vt3
-  - TWindowHelpItem__vt4
-  - TWindowHelpItem__vt7
-  - TWindowHelpItem__vt9
+  - show_weapon_requirements__15TWindowHelpItemFv
+  - show_weapon_attributes__15TWindowHelpItemFv
+  - show_armor_requirements__15TWindowHelpItemFv
+  - show_armor_resistances__15TWindowHelpItemFv
+  - show_shield_resistances__15TWindowHelpItemFv
+  - show_mag_stats__15TWindowHelpItemFv
   - TWindowKeyBoardHard__name
   - apply_dakuten_to_last_char__18KeyboardTextBufferFv
   - window_duel_result_descriptor
@@ -5150,7 +5148,7 @@ force_active:
   - clear_field2A0__22TQuestVmDownLoadServerFP17TMCFormatSequence
   - clear_field_d8__14TOTrapChainSawFv
   - clear_log_active__15TWindowMainMenuFv
-  - clear_flag60_bit8__15TWindowHelpItemFv
+  - enable_help_toggle__15TWindowHelpItemFv
   - clear_flag70_bit80__19TWindowSubTechniqueFv
   - clear_flag_and_notify__18CameraDistanceFadeFv
   - clear_flag_and_release__14TWindowSubItemFv
@@ -7371,7 +7369,6 @@ force_active:
   - item_effect_object_table
   - item_equip_base_class_name
   - __vt__17TItemFollowEffect
-  - item_help_level_requirement_callback
   - item_id_counters
   - item_kt_archive_filename
   - item_mag_class_name
@@ -8380,10 +8377,6 @@ force_active:
   - temporary_texture_entries
   - temporary_texture_names
   - lbl_805D6440
-  - lbl_805D6448
-  - lbl_805D6449
-  - lbl_805D644A
-  - lbl_805D644B
   - lbl_805D64A8
   - lbl_805D64AC
   - lbl_805D6800
@@ -15456,7 +15449,7 @@ force_active:
   - set_flag3c8_bit8__13TObjEneMe1GeeFv
   - set_flag3c8_bit8__17TObjEneMe1CanadinFv
   - set_log_active__15TWindowMainMenuFv
-  - set_flag60_bit8__15TWindowHelpItemFv
+  - disable_help_toggle__15TWindowHelpItemFv
   - set_flag62_bit8__19TWindowKeyBoardBaseFv
   - set_flag_10__21TWindowMenuInfomationFv
   - set_flag_270__6TLobbyFPv
@@ -15532,7 +15525,7 @@ force_active:
   - set_password__17TAdEnterPPPPassGCFPCc
   - set_password__18TAdEnterPasswordGCFPCc
   - set_path_points__9TBoss6MagFP3Vecl
-  - set_percentage_rows__15TWindowHelpItemFPvPvi
+  - set_percentage_rows__15TWindowHelpItemFP15WeaponAttributeM15TWindowHelpItemFPCvPvl_v
   - set_phase_555__11TBoss6Type1Fv
   - set_phase_90__11TBoss6Type1Fv
   - set_phase_timer_3E__11TBoss6Type1Fv
@@ -16971,7 +16964,7 @@ force_active:
   - update_landing_attack__13TBoss5GryphonFUl
   - update_letterbox_hide__9TCineCtrlFv
   - update_letterbox_show__9TCineCtrlFv
-  - update_level_requirement__15TWindowHelpItemFPv
+  - update_level_requirement__15TWindowHelpItemFv
   - update_libera__11TBoss4Type3Fv
   - update_lifetime__14TBoss6GravBallFv
   - update_lift_state__12TBoss1DragonFUl
@@ -17124,7 +17117,7 @@ force_active:
   - update_render_flags__13TObjTombstoneFv
   - update_replenish__17TObjEneBm3FlyNestFv
   - update_requirements__15TWindowHelpItemFv
-  - update_resistance_rows__15TWindowHelpItemFPv
+  - update_resistance_rows__15TWindowHelpItemFv
   - update_resta_action__8TItemMagFv
   - update_results_phase__19TPlayerBattleCtrl4PFv
   - update_retract_state__14TBoss7TentacleFPv
@@ -17194,7 +17187,7 @@ force_active:
   - update_spin__13TOCtrlDubchikFv
   - update_spinning_projectile_attack__12TBoss1DragonFUl
   - update_stat_comparison__15TWindowHelpItemFv
-  - update_stat_disp2__15TWindowHelpItemFPv
+  - update_stat_disp2__15TWindowHelpItemFv
   - update_stat_line__11ItemListRowFl
   - update_stat_line_if_positive__11ItemListRowFl
   - update_stat_messages__17TWindowSetLevelUpFv

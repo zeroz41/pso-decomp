@@ -451,6 +451,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .rodata holds render's scale vector ahead of the int-to-float constant the earlier
     # TTecReverser::sub_8022BE64 uses: deferred generation of the last-to-first source.
     "pso/technique/TTecCircle.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds dispatch_item_help's page tables ahead of the member pointers the
+    # earlier page functions store: deferred generation of the last-to-first source.
+    "pso/ui/window/TWindowHelpItem_802540AC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/effect/TDuelEffectCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectString.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 
-extern TWindowHelpItem::CallbackWords TWindowHelpItem__photon_blast_update_callback;
+extern void (TWindowHelpItem::*TWindowHelpItem__photon_blast_update_callback)();
 
 struct HelpItemStarRowEntry {
     u8 pad0[0x10];
@@ -19,7 +19,6 @@ struct HelpItemLevelEntry {
 extern "C" {
 void TWindowHelpItem__sub_802531A0(void);
 void TWindowHelpItem__sub_80253268(u8 *window_base);
-void TWindowHelpItem__vt11(u8 *window);
 }
 
 #endif

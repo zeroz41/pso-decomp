@@ -148,7 +148,7 @@ void TWindowHelpItem::update_tech_disk_details() {
     }
 }
 
-void TWindowHelpItem::sub_802534B0() {
+void TWindowHelpItem::show_item_description() {
     u8 *e;
     HelpItemStarRowEntry *e2;
     init_window_layout_entries(
@@ -164,23 +164,23 @@ void TWindowHelpItem::sub_802534B0() {
     e2->stars = (u8)((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->calc_display_grade();
 }
 
-void TWindowHelpItem__vt11(u8 *window) {
+void TWindowHelpItem::show_mag_photon_blasts() {
     MagData_80253564 mag;
     s32 slot;
     s32 blast;
     ((MagStats *)(&mag))->init();
     init_window_layout_entries(
-        reinterpret_cast<WindowLayoutEntries *>(window + 0x24),
+        &entry_list,
         reinterpret_cast<const void *>(lbl_804CF4E4),
-        *(s16 *)((s8 *)window + 0x20));
-    ((TWindowHelpItem *)window)->m_callback = TWindowHelpItem__photon_blast_update_callback;
-    TItemData::deserialize_mag(*(void **)((s8 *)window + 0x68), &mag);
+        client_index);
+    m_callback = TWindowHelpItem__photon_blast_update_callback;
+    TItemData::deserialize_mag(active_item, &mag);
     for (slot = 0; slot < 3; slot++) {
         blast = ((MagStats *)(&mag))->get_photon_blast(slot);
         if (blast != -1) {
-            draw_action_palette_icon(((void *)((TWindowBase *)window)->get_array_entry(slot + 1)), 5, (u16) blast);
+            draw_action_palette_icon(((void *)get_array_entry(slot + 1)), 5, (u16) blast);
         } else {
-            draw_action_palette_icon(((void *)((TWindowBase *)window)->get_array_entry(slot + 1)), 0, 0);
+            draw_action_palette_icon(((void *)get_array_entry(slot + 1)), 0, 0);
         }
     }
 }

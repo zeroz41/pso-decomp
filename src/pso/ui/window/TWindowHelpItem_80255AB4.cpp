@@ -24,24 +24,23 @@ extern u8 *text_language_group_table;
 extern WindowDescriptor window_help_item_layout;
 extern "C" { extern char TWindowHelpItem__class_name_string[]; }
 const char *window_help_item_class_name = TWindowHelpItem__class_name_string;
-extern TWindowHelpItem::CallbackWords __ptmf_null;
 
 
 void TWindowHelpItem::update_cursor_selection() {
-    this->m_60 = (u8) (this->m_60 | 1);
-    if ((s32) this->m_a4 != -1) {
-        active_item = reinterpret_cast<TItemData *>(m_70);
-        this->m_9c = (s32) this->m_a4;
+    this->help_flags = (u8) (this->help_flags | 1);
+    if ((s32) this->displayed_item_id != -1) {
+        active_item = reinterpret_cast<TItemData *>(displayed_item_data);
+        this->shown_item_id = (s32) this->displayed_item_id;
         return;
     }
-    if ((s32) this->m_a0 != -1) {
-        active_item = reinterpret_cast<TItemData *>(m_6c);
-        this->m_9c = (s32) this->m_a0;
+    if ((s32) this->item_id != -1) {
+        active_item = reinterpret_cast<TItemData *>(item_data);
+        this->shown_item_id = (s32) this->item_id;
         return;
     }
-    this->m_60 = (u8) (this->m_60 & 0xFE);
+    this->help_flags = (u8) (this->help_flags & 0xFE);
     active_item = NULL;
-    this->m_9c = -1;
+    this->shown_item_id = -1;
 }
 
 void TWindowHelpItem::render() {
@@ -54,7 +53,7 @@ void TWindowHelpItem::render() {
         this,
         reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
         reinterpret_cast<WindowDrawContext *>(context));
-    temp_r3_2 = this->m_60;
+    temp_r3_2 = this->help_flags;
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2)) {
         draw_list_page_indicator(page_indicator, reinterpret_cast<WindowDrawContext *>(context));
     }
@@ -64,8 +63,8 @@ void TWindowHelpItem::run_task() {
     if (!(this->window_flags & 2)) {
         this->open_tick = 0x01000000;
     }
-    if ((this->m_60 & 1) && (this->is_open_and_unblocked() != 0) && !(this->window_flags & 4)) {
-        if (!(this->m_60 & 4)) {
+    if ((this->help_flags & 1) && (this->is_open_and_unblocked() != 0) && !(this->window_flags & 4)) {
+        if (!(this->help_flags & 4)) {
             if (handle_list_page_flip_input(this->page_indicator) != 0) {
                 this->dispatch_item_help();
             }
@@ -77,7 +76,7 @@ void TWindowHelpItem::run_task() {
     update_window();
     this->update_fade();
     this->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
-    if (!(this->m_60 & 8)) {
+    if (!(this->help_flags & 8)) {
         toggle_help_window_on_button((uaddr)this, this->client_index);
     }
 }
@@ -90,15 +89,15 @@ TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window
     this->m_name = window_help_item_class_name;
     copy_vec2(((u8 *)this + 0x30), pos);
     this->save_position();
-    this->m_60 = 0;
+    this->help_flags = 0;
     page_indicator = new PageIndicator(0, 3, client_index);
     active_item = NULL;
-    this->m_6c = 0;
-    this->m_70 = 0;
-    this->m_9c = -1;
-    this->m_a0 = -1;
-    this->m_a4 = -1;
-    this->m_callback = __ptmf_null;
+    this->item_data = 0;
+    this->displayed_item_data = 0;
+    this->shown_item_id = -1;
+    this->item_id = -1;
+    this->displayed_item_id = -1;
+    this->m_callback = NULL;
     this->scale_x = 1.0f;
     this->scale_y = 1.0f;
     this->dispatch_item_help();

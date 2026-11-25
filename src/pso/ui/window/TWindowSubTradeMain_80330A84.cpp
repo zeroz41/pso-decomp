@@ -782,9 +782,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 4:
         if (((TradeMain_80330BCC *)this)->w4C != 0) {
             if (on != 0) {
-                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->sub_80255E24();
+                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->unlock_page_flip();
             } else {
-                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->set_flag60_bit4();
+                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->lock_page_flip();
             }
         }
         if (((TradeMain_80330BCC *)this)->w44 != 0) {
@@ -808,9 +808,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 11:
         if (((TradeMain_80330BCC *)this)->w4C != 0) {
             if (on != 0) {
-                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->sub_80255E24();
+                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->unlock_page_flip();
             } else {
-                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->set_flag60_bit4();
+                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->lock_page_flip();
             }
         }
         if (((TradeMain_80330BCC *)this)->w40 != 0) {
@@ -824,9 +824,9 @@ void TWindowSubTradeMain::set_child_windows_enabled(s32 on) {
     case 18:
         if (((TradeMain_80330BCC *)this)->w4C != 0) {
             if (on != 0) {
-                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->sub_80255E24();
+                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->unlock_page_flip();
             } else {
-                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->set_flag60_bit4();
+                ((TWindowHelpItem *)(((TradeMain_80330BCC *)this)->w4C))->lock_page_flip();
             }
         }
         if (((TradeMain_80330BCC *)this)->w3C != 0) {

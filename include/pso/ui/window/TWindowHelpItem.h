@@ -8,6 +8,13 @@
 
 struct PageIndicator;
 
+// One of a weapon's three attribute slots: the area it boosts (1-5) and the
+// percentage.
+struct WeaponAttribute {
+    u8 area;
+    s8 percent;
+};
+
 struct TWindowHelpItem : public TWindowBase
 {
     static void * description_text_layout[9];
@@ -16,30 +23,32 @@ struct TWindowHelpItem : public TWindowBase
     virtual ~TWindowHelpItem();
     virtual void render();
     virtual void run_task();
-    void sub_802534B0();
+    void show_item_description();
     void update_tech_disk_details();
     void init_text(void *);
-    void sub_80255E24();
-    void set_flag60_bit4();
-    void set_flag60_bit8();
-    void clear_flag60_bit8();
+    void unlock_page_flip();
+    void lock_page_flip();
+    void disable_help_toggle();
+    void enable_help_toggle();
     TItemData *get_mag_state();
     s32 update_mag_status_gauges();
     void update_help_item(s32 mode);
-    u8 m_60;
+    // 1: an item is shown, 2: it has pages, 4: page flipping locked,
+    // 8: the help button toggle is off.
+    u8 help_flags;
     u8 _pad61[0x3];
     PageIndicator *page_indicator;
     TItemData *active_item;
-    u32 m_6c;
-    uaddr m_70;
+    u32 item_data;            // shown when no displayed item is set (item_id)
+    uaddr displayed_item_data;  // takes precedence; compared with the equipped one
     u8 _pad74[0x14];
     TItemData displayed_item;
-    u32 m_9c;
-    u32 m_a0;
-    u32 m_a4;
+    s32 shown_item_id;  // id of the item on show, -1 for none
+    u32 item_id;
+    u32 displayed_item_id;
     f32 scale_x;
     f32 scale_y;
-    struct CallbackWords { u32 words[3]; } m_callback;
+    void (TWindowHelpItem::*m_callback)();  // run each frame for the page on show
 
     TWindowHelpItem(void *position, s32 index);
     void set_flag0_bit2();
@@ -47,7 +56,20 @@ struct TWindowHelpItem : public TWindowBase
     static s32 get_help_value(u16 slot, s32 client_id);
     void update_displayed_item();
     void update_stat_disp();
-    static void update_resistance_rows(void *window_base);
+    void update_resistance_rows();
+    // The pages dispatch_item_help shows for each item type.
+    void show_weapon_requirements();
+    void show_weapon_attributes();
+    void show_armor_requirements();
+    void show_armor_resistances();
+    void show_shield_resistances();
+    void show_mag_stats();
+    void show_mag_growth();
+    void show_mag_photon_blasts();
+    void update_requirements();
+    void update_level_requirement();
+    void update_stat_comparison();
+    void set_percentage_rows(WeaponAttribute *attributes, void (TWindowHelpItem::*set)(s32));
     void init_help_texts();
     void invoke_callback_pmf();
     void dispatch_item_help();
@@ -61,15 +83,15 @@ struct TWindowHelpItem : public TWindowBase
     void update_visible_flags();
     static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
     static void set_flag_0x10(u16 *arg0, s32 arg1);
-    void set_flag8_and_field20(s32 arg1);
+    void set_compare_value(s32 value);
     void set_compare_color(s32 count);
-    void set_flag4_and_field1c(s32 count);
+    void set_value(s32 value);
     void set_help_text(uaddr str);
     void reset_float_field();
     s32 is_item_already_equipped();
     void format_description_with_price();
     void refresh_copied_items();
-    static void update_stat_disp2(void *window_base);
+    void update_stat_disp2();
     static void tick_display_timer(void *arg0);
     static void *destroy(void *arg0, s16 arg1);
 };
@@ -79,5 +101,4 @@ LAYOUT_ASSERT(HelpItem_name_offset, offsetof(TWindowHelpItem, m_name) == 0);
 LAYOUT_ASSERT(HelpItem_active_item_offset, offsetof(TWindowHelpItem, active_item) == 0x68);
 LAYOUT_ASSERT(HelpItem_page_offset, offsetof(TWindowHelpItem, page_indicator) == 0x64);
 LAYOUT_ASSERT(HelpItem_callback_offset, offsetof(TWindowHelpItem, m_callback) == 0xB0);
-LAYOUT_ASSERT(HelpItem_callback_size, sizeof(TWindowHelpItem::CallbackWords) == 12);
 #endif

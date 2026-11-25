@@ -3,12 +3,13 @@
 
 #include "types.h"
 
+struct TWindowHelpItem;
+
+// Run each frame while the resistance page is shown.
+extern void (TWindowHelpItem::*item_help_resistance_stat_callback)();
+
 extern "C" {
-void TWindowHelpItem__vt1(void *arg0);
-void TWindowHelpItem__vt4(void *window_base);
-void TWindowHelpItem__vt7(saddr window_base);
 void show_item_by_id__15TWindowHelpItemFPvi(u8 *window_help_item, saddr id);
-void update_level_requirement__15TWindowHelpItemFPv(u8 *arg0);
 }
 
 #endif

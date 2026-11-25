@@ -58,10 +58,10 @@ void TWindowHelpItem::update_visible_flags() {
     temp_r3 = temp_r0 & 4;
     if ((temp_r3 != 0) || (temp_r0 & 8)) {
         if (temp_r3 == 0) {
-            set_flag4_and_field1c(0);
+            set_value(0);
         }
         if (!(*arg0 & 8)) {
-            set_flag8_and_field20(0);
+            set_compare_value(0);
         }
     }
 }
@@ -86,9 +86,9 @@ void TWindowHelpItem::set_flag_0x10(u16 *arg0, s32 arg1) {
     *arg0 &= 0xFFFFFFEF;
 }
 
-void TWindowHelpItem::set_flag8_and_field20(s32 arg1) {
+void TWindowHelpItem::set_compare_value(s32 value) {
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 8);
-    reinterpret_cast<Item_8025A354 *>(this)->next = arg1;
+    reinterpret_cast<Item_8025A354 *>(this)->next = value;
 }
 
 void TWindowHelpItem::set_compare_color(s32 count) {
@@ -105,12 +105,12 @@ void TWindowHelpItem::set_compare_color(s32 count) {
         reinterpret_cast<Item_8025A354 *>(this)->value10 = 0xFFDD8C41;
     }
     reinterpret_cast<Item_8025A354 *>(this)->animation = 0x1E;
-    set_flag4_and_field1c(count);
+    set_value(count);
 }
 
-void TWindowHelpItem::set_flag4_and_field1c(s32 count) {
+void TWindowHelpItem::set_value(s32 value) {
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 4);
-    reinterpret_cast<Item_8025A354 *>(this)->cur = count;
+    reinterpret_cast<Item_8025A354 *>(this)->cur = value;
 }
 
 void TWindowHelpItem::set_help_text(uaddr str) {

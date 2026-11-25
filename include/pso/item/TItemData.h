@@ -33,6 +33,7 @@ struct TItemData {
 
     union {
         u8 data_u8[12];
+        s8 data_s8[12];
         u8 data_u8_pair[6][2];
         u16 data_u16[6];
         u32 data_u32[3];

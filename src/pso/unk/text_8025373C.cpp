@@ -68,7 +68,7 @@ s32 fn_8025373C(TWindowHelpItem *self) {
     }
     self->update_mag_status_gauges();
     if (count != TWindowHelpItem__sub_80255DDC(help)) {
-        ((TWindowHelpItem *)help)->set_flag4_and_field1c(count);
+        ((TWindowHelpItem *)help)->set_value(count);
         ((TWindowHelpItem *)help)->set_flag0_bit2();
         ((TWindowSubStatusDisp *)panel)->clear_visible_flag();
         return 1;
