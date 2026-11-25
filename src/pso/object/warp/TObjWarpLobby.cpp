@@ -82,13 +82,13 @@ void TObjWarpLobby::open_lobby_menu() {
     s32 i;
     position.x = 4.5e+02f;
     position.y = 1e+02f;
-    this->menu_window = (uaddr)create_window_menu_default(&position, 0xF);
+    this->menu_window = create_window_menu_default(&position, 0xF);
     for (i = 0; i < 0xF; i++) {
-        ((TWindowMenu *)this->menu_window)->add_text_entry((saddr)warp_lobby_directory_label_table[i], 6, i);
+        this->menu_window->add_text_entry((saddr)warp_lobby_directory_label_table[i], 6, i);
     }
-    ((TWindowMenu *)(this->menu_window))->calc_window_size();
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
-    ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
+    this->menu_window->calc_window_size();
+    align_menu_entry_positions(this->menu_window);
+    this->menu_window->set_flag70_bit10();
     request_active_window_close();
 }
 
@@ -117,21 +117,21 @@ void TObjWarpLobby::run_task() {
     }
     beam_phase += 336.0f;
     if ((find_warp_player_in_range(this, (u16)local_client_id, warp_range) != NULL) && (is_warp_enabled() != 0)) {
-        if (((u32) menu_window == 0U) && (TLobby::is_idle() != 0)) {
+        if ((menu_window == NULL) && (TLobby::is_idle() != 0)) {
             open_lobby_menu();
         }
-        if (((u32) menu_window != 0U) && (((TWindowMenu *)(menu_window))->is_decided() != 0)) {
-            selected_menu_value = ((TWindowMenu *)(menu_window))->get_selected_value();
-            if (menu_window != 0U) {
-                ((TObject *)(menu_window))->queue_destruction();
-                menu_window = 0U;
+        if ((menu_window != NULL) && (menu_window->is_decided() != 0)) {
+            selected_menu_value = menu_window->get_selected_value();
+            if (menu_window != NULL) {
+                menu_window->queue_destruction();
+                menu_window = NULL;
                 TWindowCtrl::clear_flag();
             }
             TLobby::send_room_change(selected_menu_value);
         }
-    } else if ((u32) menu_window != 0U) {
-        ((TWindowBase *)menu_window)->close();
-        menu_window = 0U;
+    } else if (menu_window != NULL) {
+        menu_window->close();
+        menu_window = NULL;
         TWindowCtrl::clear_flag();
     }
 }
@@ -145,7 +145,7 @@ TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(par
     m_name = class_name;
     this->beam_frame = 0.0f;
     beam_phase = 0.0f;
-    this->menu_window = 0;
+    this->menu_window = NULL;
     pad_D0 = 0;
     pad_D4 = 0;
     beam_motion = lobby_warp_bml_resource->motions[0].motion;

@@ -423,7 +423,7 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
     s32 j2;
     s32 k2;
 
-    if (menu_window != 0) {
+    if (menu_window != NULL) {
         return;
     }
     if (is_quest_active() == 0) {
@@ -453,15 +453,15 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
         }
     }
     if (n > 0) {
-        menu_window = (saddr)create_window_menu(get_window_layout_position(0x32), n, client_id);
-        if (menu_window != 0) {
+        menu_window = create_window_menu(get_window_layout_position(0x32), n, client_id);
+        if (menu_window != NULL) {
             if (TLobby::get_instance() == 0) {
                 for (j = 0, k = 0; j < 17; j++) {
                     if (city_main_warp_visible_destination_mask & (1 << j)) {
                         if (get_game_play_mode() == 1) {
-                            ((TWindowMenu *)menu_window)->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, k);
+                            menu_window->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, k);
                         } else {
-                            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
+                            menu_window->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
                         }
                         k++;
                     }
@@ -470,21 +470,21 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
                 for (j2 = 0, k2 = 0; j2 < 17; j2++) {
                     if (city_main_warp_visible_destination_mask & (1 << j2)) {
                         if (get_game_play_mode() == 1) {
-                            ((TWindowMenu *)menu_window)->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, k2);
+                            menu_window->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 0xE, k2);
                         } else {
-                            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
+                            menu_window->add_text_entry(get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
                         }
                         k2++;
                     }
                 }
             }
-            ((TWindowMenu *)menu_window)->set_flag70_bit10();
-            ((TWindowMenu *)menu_window)->set_loss_flag();
-            ((TWindowMenu *)menu_window)->update_layout_height(288.0f);
+            menu_window->set_flag70_bit10();
+            menu_window->set_loss_flag();
+            menu_window->update_layout_height(288.0f);
             if (((TWindowSubComCardList *)menu_window)->target_size[1] > 160.0f) {
                 ((TWindowMenu *)menu_window)->set_scroll_target(288.0f, 160.0f);
             }
-            align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
+            align_menu_entry_positions(menu_window);
         }
     }
     request_active_window_close();
@@ -492,18 +492,18 @@ void TObjCityMainWarp::open_confirm_window(s32 client_id) {
 }
 #pragma pop
 
-void TObjCityMainWarp::close_menu() { if (menu_window != 0) { TObjWarpBase::close_menu(); TWindowCtrl::clear_flag(); } }
+void TObjCityMainWarp::close_menu() { if (menu_window != NULL) { TObjWarpBase::close_menu(); TWindowCtrl::clear_flag(); } }
 
 s32 TObjCityMainWarp::is_choice_confirmed() {
     if (TLobby::get_instance() == 0) {
-        if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
-            dest_floor = city_warp_floor_destination_table[menu_destinations[((TWindowMenu *)menu_window)->get_selected_value()]];
+        if (menu_window != NULL && menu_window->is_decided() != 0) {
+            dest_floor = city_warp_floor_destination_table[menu_destinations[menu_window->get_selected_value()]];
             return 1;
         }
         return 0;
     }
-    if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
-        dest_floor = city_warp_floor_destination_table_b[lobby_menu_destinations[((TWindowMenu *)menu_window)->get_selected_value()]];
+    if (menu_window != NULL && menu_window->is_decided() != 0) {
+        dest_floor = city_warp_floor_destination_table_b[lobby_menu_destinations[menu_window->get_selected_value()]];
         return 1;
     }
     return 0;
@@ -570,13 +570,13 @@ void *TObjCityAreaWarp::create(void *set_data) {
 }
 
 void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
-    if (menu_window == 0) {
-        menu_window = (saddr)create_window_menu(get_window_layout_position(0x33), 1, client_id);
-        ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, 0x24), 0xA, 0, -1);
-        ((TWindowMenu *)menu_window)->set_flag70_bit10();
-        ((TWindowMenu *)menu_window)->set_flag_40();
-        ((TWindowMenu *)menu_window)->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
+    if (menu_window == NULL) {
+        menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
+        menu_window->add_text_entry(get_localized_text_entry(9, 0x24), 0xA, 0, -1);
+        menu_window->set_flag70_bit10();
+        menu_window->set_flag_40();
+        menu_window->calc_window_size();
+        align_menu_entry_positions(menu_window);
         user_client_id = client_id;
     }
 }

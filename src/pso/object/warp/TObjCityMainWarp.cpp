@@ -49,8 +49,8 @@ void TObjCityMainWarpChallenge::close_windows() {
         this->yes_no_window->close();
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
-    if (this->menu_window != 0U) {
-        ((TWindowBase *)this->menu_window)->close();
+    if (this->menu_window != NULL) {
+        this->menu_window->close();
         (this->menu_window) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x164) != 0U) {
@@ -124,22 +124,22 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
         return;
     case 1:
         if (find_local_city_warp_player(warp, warp->warp_range) != NULL) {
-            if ((u32) warp->menu_window == 0U) {
-                warp->menu_window = (uaddr)create_window_menu_default(get_window_layout_position(0x35), 7);
-                if ((u32) warp->menu_window != 0U) {
-                    ((TWindowMenu *)(warp->menu_window))->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
-                    ((TWindowMenu *)(warp->menu_window))->set_flag_40();
-                    ((TWindowMenu *)(warp->menu_window))->calc_window_size();
-                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(warp->menu_window));
+            if (warp->menu_window == NULL) {
+                warp->menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
+                if (warp->menu_window != NULL) {
+                    warp->menu_window->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
+                    warp->menu_window->set_flag_40();
+                    warp->menu_window->calc_window_size();
+                    align_menu_entry_positions(warp->menu_window);
                 }
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
             }
         } else {
-            if ((u32) warp->menu_window != 0U) {
+            if (warp->menu_window != NULL) {
                 ((TWindowBase *)(*(void **)((s8 *)warp + 0xB0)))->close();
-                warp->menu_window = 0U;
+                warp->menu_window = NULL;
             }
             TWindowCtrl::end_client_keyboard_hold(local_client_id);
             TWindowCtrl::clear_flag();
@@ -150,9 +150,9 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
         }
         return;
     case -1:
-        if ((u32) warp->menu_window != 0U) {
+        if (warp->menu_window != NULL) {
             ((TWindowBase *)(*(void **)((s8 *)warp + 0xB0)))->close();
-            warp->menu_window = 0U;
+            warp->menu_window = NULL;
         }
         TWindowCtrl::end_client_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();

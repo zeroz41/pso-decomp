@@ -226,7 +226,7 @@ TObjWarpBase::TObjWarpBase(TObject *parent, void *set_data) : TObjCollidable(par
     m_name = class_name;
     apply_object_set_data(set_data);
     warp_range = 10.0f;
-    menu_window = 0;
+    menu_window = NULL;
     field_collider = new TTelepipeSelectField(&position, this, 1);
     user_client_id = 0xFFFF;
 }
@@ -247,17 +247,15 @@ TObjPlayer *find_warp_player_in_range(TObjWarpBase *warp, u16 client_id, f32 ran
 }
 
 void TObjWarpBase::close_menu() {
-    uaddr player;
-
-    player = (u32) this->menu_window;
-    if (player != 0U) {
-        ((TWindowBase *)player)->close();
-        this->menu_window = 0U;
-        player = (uaddr)get_player_by_client_id(this->user_client_id);
-        if (player != 0U) {
-            ((TObjPlayer *)player)->pad_binding.enable_buttons(4);
+    TWindowMenu *window = menu_window;
+    if (window != NULL) {
+        window->close();
+        menu_window = NULL;
+        TObjPlayer *player = get_player_by_client_id(user_client_id);
+        if (player != NULL) {
+            player->pad_binding.enable_buttons(4);
         }
-        this->user_client_id = 0xFFFFU;
+        user_client_id = 0xFFFF;
     }
 }
 
@@ -402,15 +400,15 @@ void TObjMapWarp::process_player_warps() {
     }
     if (is_warp_enabled() == 0) {
         if (this->menu_window != NULL) {
-            ((TWindowBase *)this->menu_window)->close();
+            this->menu_window->close();
             this->menu_window = NULL;
         }
     } else {
         TObjPlayer *t2;
         s32 j2;
         if (this->menu_window != NULL) {
-            ((TObject *)(this->menu_window))->clear_update_suspension();
-            ((TObject *)this->menu_window)->allow_rendering();
+            this->menu_window->clear_update_suspension();
+            this->menu_window->allow_rendering();
         }
         t2 = find_warp_player_in_range(this, local_client_id, this->warp_range);
         if (t2 != NULL) {
@@ -512,17 +510,17 @@ TObjAreaWarp::~TObjAreaWarp() {
 void TObjAreaWarp::open_confirm_window(s32 client_id) {
     uaddr player;
 
-    if ((u32) this->menu_window == 0U) {
-        this->menu_window = (uaddr)create_window_menu(get_window_layout_position(0x33), 1, client_id);
+    if (this->menu_window == NULL) {
+        this->menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         if (get_game_play_mode() == 1) {
-            ((TWindowMenu *)(this->menu_window))->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
+            this->menu_window->add_text_entry((saddr)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
         } else {
-            ((TWindowMenu *)(this->menu_window))->add_text_entry(get_floor_destination_name(get_floor_area(this->dest_floor)), 2, 0, -1);
+            this->menu_window->add_text_entry(get_floor_destination_name(get_floor_area(this->dest_floor)), 2, 0, -1);
         }
-        ((TWindowMenu *)(this->menu_window))->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
-        ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
-        ((TWindowMenu *)(this->menu_window))->set_flag_40();
+        this->menu_window->calc_window_size();
+        align_menu_entry_positions(this->menu_window);
+        this->menu_window->set_flag70_bit10();
+        this->menu_window->set_flag_40();
         this->user_client_id = client_id;
         player = (uaddr)get_player_by_client_id(this->user_client_id);
         if (player != 0U) {
@@ -548,14 +546,14 @@ void TObjAreaWarp::handle_area_selection() {
     s32 i;
     TObjPlayer *t;
     if (is_warp_enabled() == 0) {
-        if (menu_window != 0) {
-            ((TWindowBase *)menu_window)->close();
-            menu_window = 0;
+        if (menu_window != NULL) {
+            menu_window->close();
+            menu_window = NULL;
         }
     } else {
-        if (menu_window != 0) {
-            ((TObject *)menu_window)->clear_update_suspension();
-            ((TObject *)menu_window)->allow_rendering();
+        if (menu_window != NULL) {
+            menu_window->clear_update_suspension();
+            menu_window->allow_rendering();
         }
         if (is_split_screen() != 0) {
             found = 0;
@@ -933,17 +931,17 @@ void TObjAreaWarpEnding::debug_print_area_num() {
 }
 
 void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
-    if ((u32) this->menu_window == 0U) {
-        this->menu_window = (uaddr)create_window_menu(get_window_layout_position(0x33), 1, client_id);
+    if (this->menu_window == NULL) {
+        this->menu_window = create_window_menu(get_window_layout_position(0x33), 1, client_id);
         if (get_main_phase() == 0xE) {
-            ((TWindowMenu *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x26), 3, 0, -1);
+            this->menu_window->add_text_entry(get_localized_text_entry(9, 0x26), 3, 0, -1);
         } else {
-            ((TWindowMenu *)(this->menu_window))->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
+            this->menu_window->add_text_entry(get_localized_text_entry(9, 0x23), 2, 0, -1);
         }
-        ((TWindowMenu *)(this->menu_window))->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(this->menu_window));
-        ((TWindowMenu *)(this->menu_window))->set_flag70_bit10();
-        ((TWindowMenu *)(this->menu_window))->set_flag_40();
+        this->menu_window->calc_window_size();
+        align_menu_entry_positions(this->menu_window);
+        this->menu_window->set_flag70_bit10();
+        this->menu_window->set_flag_40();
         user_client_id = client_id;
     }
 }

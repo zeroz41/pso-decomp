@@ -107,8 +107,8 @@ void TObjWarpJungMain::render() {
 
 // Returns 1 once the destination menu is decided, with dest_floor set to the chosen area.
 s32 TObjWarpJungMain::is_choice_confirmed_by(s32) {
-    if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
-        dest_floor = jungle_warp_destination_ids[((TWindowMenu *)menu_window)->get_selected_value()];
+    if (menu_window != NULL && menu_window->is_decided() != 0) {
+        dest_floor = jungle_warp_destination_ids[menu_window->get_selected_value()];
         return 1;
     }
     return 0;
@@ -121,15 +121,15 @@ void TObjWarpJungMain::close_menu() { TObjWarpBase::close_menu(); TWindowCtrl::c
 // Opens the three-entry destination menu for the player with this client id.
 void TObjWarpJungMain::open_confirm_window(s32 client_id) {
     s32 i;
-    if (menu_window == 0) {
-        menu_window = (saddr)create_window_menu(get_window_layout_position(0x32), 3, client_id);
+    if (menu_window == NULL) {
+        menu_window = create_window_menu(get_window_layout_position(0x32), 3, client_id);
         for (i = 0; i < 3; i++) {
-            ((TWindowMenu *)menu_window)->add_text_entry(get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
+            menu_window->add_text_entry(get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
-        ((TWindowMenu *)menu_window)->calc_window_size();
-        align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
-        ((TWindowMenu *)menu_window)->set_flag70_bit10();
-        ((TWindowMenu *)menu_window)->set_loss_flag();
+        menu_window->calc_window_size();
+        align_menu_entry_positions(menu_window);
+        menu_window->set_flag70_bit10();
+        menu_window->set_loss_flag();
         request_active_window_close();
         user_client_id = client_id;
     }

@@ -448,9 +448,9 @@ void TObjWarpBoss::update_warp_confirmation() {
             state_step = 2;
             break;
         }
-        if (menu_window != 0) {
-            ((TWindowBase *)menu_window)->close();
-            menu_window = 0;
+        if (menu_window != NULL) {
+            menu_window->close();
+            menu_window = NULL;
         }
         if (player_list_window != NULL) {
             ((TWindowBase *)player_list_window)->close();
@@ -589,22 +589,22 @@ void TObjWarpBoss::warp_boss_handle_window() {
         return;
     case 1:
         if (find_local_boss_warp_player(this, warp_range) != NULL) {
-            if (menu_window == 0) {
-                menu_window = (uaddr)create_window_menu_default(get_window_layout_position(0x35), 7);
-                if (menu_window != 0) {
-                    ((TWindowMenu *)menu_window)->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
-                    ((TWindowMenu *)menu_window)->set_flag_40();
-                    ((TWindowMenu *)menu_window)->calc_window_size();
-                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(menu_window));
+            if (menu_window == NULL) {
+                menu_window = create_window_menu_default(get_window_layout_position(0x35), 7);
+                if (menu_window != NULL) {
+                    menu_window->add_text_entry((saddr)TWindowSubStatusDisp::get_message_10(0x40), 0, 0, -1);
+                    menu_window->set_flag_40();
+                    menu_window->calc_window_size();
+                    align_menu_entry_positions(menu_window);
                 }
                 TWindowCtrl::begin_client_keyboard_hold(local_client_id);
                 request_active_window_close();
                 TWindowCtrl::suppress_slot(local_client_id);
             }
         } else {
-            if (menu_window != 0) {
-                ((TWindowBase *)menu_window)->close();
-                menu_window = 0;
+            if (menu_window != NULL) {
+                menu_window->close();
+                menu_window = NULL;
             }
             TWindowCtrl::end_client_keyboard_hold(local_client_id);
             TWindowCtrl::clear_flag();
@@ -615,9 +615,9 @@ void TObjWarpBoss::warp_boss_handle_window() {
         }
         return;
     case -1:
-        if (menu_window != 0) {
-            ((TWindowBase *)menu_window)->close();
-            menu_window = 0;
+        if (menu_window != NULL) {
+            menu_window->close();
+            menu_window = NULL;
         }
         TWindowCtrl::end_client_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
@@ -686,9 +686,9 @@ void TObjWarpBoss::close_windows() {
         yes_no_window->close();
         yes_no_window = NULL;
     }
-    if (menu_window != 0) {
-        ((TWindowBase *)menu_window)->close();
-        menu_window = 0;
+    if (menu_window != NULL) {
+        menu_window->close();
+        menu_window = NULL;
     }
     if (player_list_window != NULL) {
         ((TWindowBase *)player_list_window)->close();
@@ -765,9 +765,9 @@ void TObjWarpBoss::update_warp_boss_visibility() {
             yes_no_window->suspend_update();
             yes_no_window->disallow_rendering();
         }
-        if (menu_window != 0) {
-            ((TObject *)menu_window)->suspend_update();
-            ((TObject *)menu_window)->disallow_rendering();
+        if (menu_window != NULL) {
+            menu_window->suspend_update();
+            menu_window->disallow_rendering();
         }
         if (player_list_window != NULL) {
             player_list_window->suspend_update();
@@ -778,9 +778,9 @@ void TObjWarpBoss::update_warp_boss_visibility() {
             yes_no_window->clear_update_suspension();
             yes_no_window->allow_rendering();
         }
-        if (menu_window != 0) {
-            ((TObject *)menu_window)->clear_update_suspension();
-            ((TObject *)menu_window)->allow_rendering();
+        if (menu_window != NULL) {
+            menu_window->clear_update_suspension();
+            menu_window->allow_rendering();
         }
         if (player_list_window != NULL) {
             player_list_window->clear_update_suspension();

@@ -3,6 +3,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowMenu.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
@@ -295,9 +296,9 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
             state_step = 2;
             break;
         }
-        if (menu_window != 0) {
-            ((TWindowBase *)menu_window)->close();
-            menu_window = 0;
+        if (menu_window != NULL) {
+            menu_window->close();
+            menu_window = NULL;
         }
         if (player_list_window != 0) {
             ((TWindowBase *)player_list_window)->close();
