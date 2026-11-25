@@ -44,22 +44,22 @@ void TWindowMenuInfomation::draw() {
     }
 }
 void TWindowMenuInfomation::move_next_choice() {
-    s16 var_r31;
+    s16 candidate;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->index;
+    candidate = this->index;
 loop_1:
-    var_r31 += 1;
-    if (var_r31 >= entry_capacity) {
+    candidate += 1;
+    if (candidate >= entry_capacity) {
         if (!(this->m_70 & 1)) {
-            var_r31 = 0;
+            candidate = 0;
             goto block_4;
         }
     } else {
 block_4:
-        if (var_r31 != (s16) this->index) {
-            if (sub_80266B18(var_r31) != 0) {
-                this->index = var_r31;
+        if (candidate != (s16) this->index) {
+            if (sub_80266B18(candidate) != 0) {
+                this->index = candidate;
             } else {
                 goto loop_1;
             }
@@ -67,22 +67,22 @@ block_4:
     }
 }
 void TWindowMenuInfomation::move_cursor_prev() {
-    s16 var_r31;
+    s16 candidate;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->index;
+    candidate = this->index;
 loop_1:
-    var_r31 -= 1;
-    if (var_r31 < 0) {
+    candidate -= 1;
+    if (candidate < 0) {
         if (!(this->m_70 & 1)) {
-            var_r31 = entry_capacity - 1;
+            candidate = entry_capacity - 1;
             goto block_4;
         }
     } else {
 block_4:
-        if (var_r31 != (s16) this->index) {
-            if (sub_80266B18(var_r31) != 0) {
-                this->index = var_r31;
+        if (candidate != (s16) this->index) {
+            if (sub_80266B18(candidate) != 0) {
+                this->index = candidate;
             } else {
                 goto loop_1;
             }
@@ -132,13 +132,13 @@ void TWindowMenuInfomation::update_scroll_offset() {
 
 void TWindowMenuInfomation::clamp_scroll() {
     NJS_POINT2 range;
-    f32 temp_f1;
+    f32 height;
     if (scroll_bar != NULL) {
         range.x = 0.0f;
-        temp_f1 = this->frame_size[1] - 20.0f;
-        range.y = temp_f1;
+        height = this->frame_size[1] - 20.0f;
+        range.y = height;
         if (this->heading != 0) {
-            range.y = temp_f1 - 6.0f;
+            range.y = height - 6.0f;
         }
         scroll_bar->clamp_offset(scroll_offset, &range);
     }
@@ -222,13 +222,13 @@ void TWindowMenuInfomation::render() {
 }
 
 void TWindowMenuInfomation::run_task() {
-    uaddr temp_r3;
+    TWindowSubStatusDisp *heading_window;
     WindowScrollBar *window_scroll_bar;
     ControllerInputContext *input;
-    ControllerInputContext *temp_r30_2;
+    ControllerInputContext *pad_input;
     ControllerInputContext *context;
     if ((this->is_selected() == 0) && (this->is_open() == 0)) {
-        if (*(u16 *)((s8 *)this + 0x70) & 0x10) {
+        if (m_70 & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor_prev();
@@ -237,11 +237,11 @@ void TWindowMenuInfomation::run_task() {
                 this->move_next_choice();
             }
         } else {
-            temp_r30_2 = &controller_input_state.controllers[0];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+            pad_input = &controller_input_state.controllers[0];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 this->move_next_choice();
             }
         }
@@ -254,9 +254,9 @@ void TWindowMenuInfomation::run_task() {
         }
     }
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        temp_r3 = *(u32 *)((s8 *)this + 0x78);
-        if (temp_r3 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
+        heading_window = heading;
+        if (heading_window != NULL) {
+            heading_window->update_subwindow();
         }
         window_scroll_bar = scroll_bar;
         if (window_scroll_bar != NULL) {

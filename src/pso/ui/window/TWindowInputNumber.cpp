@@ -49,11 +49,11 @@ void TWindowInputNumber::mark_confirmed() {
     }
 }
 void TWindowInputNumber::confirm_input() {
-    s32 temp_r3;
+    s32 entered;
     uaddr temp;
 
-    temp_r3 = this->value;
-    if ((temp_r3 < (s32) this->minimum) || (temp_r3 > (s32) this->maximum)) {
+    entered = this->value;
+    if ((entered < (s32) this->minimum) || (entered > (s32) this->maximum)) {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
@@ -99,13 +99,13 @@ void TWindowInputNumber::handle_decrement() {
 }
 
 void TWindowInputNumber::move_cursor_next() {
-    u8 temp_r4;
+    u8 count;
 
     play_sound_effect(0x54100, 0, 0, 0);
     *(u8 *)&this->selectedDigit = (u8) (*(u8 *)&this->selectedDigit + 1);
-    if ((s8) *(u8 *)&this->selectedDigit >= (s8) (temp_r4 = *(u8 *)&this->digitCount)) {
+    if ((s8) *(u8 *)&this->selectedDigit >= (s8) (count = *(u8 *)&this->digitCount)) {
         if (this->inputFlags & 1) {
-            *(u8 *)&this->selectedDigit = (temp_r4 - 1);
+            *(u8 *)&this->selectedDigit = (count - 1);
             return;
         }
         *(u8 *)&this->selectedDigit = 0U;
@@ -125,15 +125,15 @@ static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 
 void TWindowInputNumber::create(s32 title) {
-    uaddr var_r0;
+    uaddr heading;
 
     if ((u32) this->unknown70 == 0U) {
-        var_r0 = (saddr)::operator new(0x24);
-        if (var_r0 != 0U) {
-            TWindowSubStatusDisp *saved = (TWindowSubStatusDisp *)var_r0;
-            var_r0 = (uaddr)(saved)->construct_type1_heading(title, this->client_index);
+        heading = (saddr)::operator new(0x24);
+        if (heading != 0U) {
+            TWindowSubStatusDisp *saved = (TWindowSubStatusDisp *)heading;
+            heading = (uaddr)(saved)->construct_type1_heading(title, this->client_index);
         }
-        this->unknown70 = var_r0;
+        this->unknown70 = heading;
         this->window_flags = (s32) (this->window_flags | 0x40);
         this->target_size[1] += 6.0f;
     }
@@ -164,20 +164,19 @@ void TWindowInputNumber::align_digits() {
 #pragma pop
 
 void TWindowInputNumber::refresh_digit_entries() {
-  s32 i;
-  u8 *entry;
-  s32 var_r29;
-  i = 0;
-  var_r29 = this->value;
-  do
-  {
-    entry = (u8 *) ((TWindowBase *)((u8 *)this))->get_array_entry(i);
-    *((s32 *) (((s8 *) entry) + 0x20)) = (s32) (var_r29 % 10);
-    draw_right_aligned_number(entry);
-    var_r29 = var_r29 / 10;
-    i += 1;
-  }
-  while (((u32) i) < 6U);
+    s32 i;
+    TWindowLayoutNumber *entry;
+    s32 remaining;
+
+    i = 0;
+    remaining = value;
+    do {
+        entry = (TWindowLayoutNumber *)get_array_entry(i);
+        entry->value = remaining % 10;
+        draw_right_aligned_number(entry);
+        remaining = remaining / 10;
+        i++;
+    } while ((u32)i < 6U);
 }
 
 void TWindowInputNumber::calc_digit_count() {
@@ -263,19 +262,19 @@ void TWindowInputNumber::render() {
 
 void TWindowInputNumber::run_task() {
     TWindowInputNumber *self = this;
-    s32 temp_r30;
-    uaddr temp_r3;
+    s32 port;
+    uaddr heading;
     ControllerInputContext *input;
-    ControllerInputContext *temp_r29_2;
+    ControllerInputContext *pad_input;
     ControllerInputContext *context;
 
-    temp_r30 = is_player_input_active(self->client_index);
+    port = is_player_input_active(self->client_index);
     if (!(self->window_flags & 2)) {
         self->open_tick = 0x01000000;
     }
     if ((self->is_confirmed() == 0) && !(self->inputFlags & 0x40) && (self->is_open_and_unblocked() != 0)) {
         if (self->inputFlags & 0x10) {
-            input = &controller_input_state.controllers[temp_r30];
+            input = &controller_input_state.controllers[port];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
                 self->update_value();
             }
@@ -289,21 +288,21 @@ void TWindowInputNumber::run_task() {
                 self->handle_decrement();
             }
         } else {
-            temp_r29_2 = &controller_input_state.controllers[temp_r30];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
+            pad_input = &controller_input_state.controllers[port];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {
                 self->update_value();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x20, 6, 1) != 0) || (self->is_locked(0x20) != 0)) {
                 self->update();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x40, 6, 1) != 0) || (self->is_locked(0x40) != 0)) {
                 self->move_cursor_next();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r29_2, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad_input, 0x80, 6, 1) != 0) || (self->is_locked(0x80) != 0)) {
                 self->handle_decrement();
             }
         }
-        context = &controller_input_state.controllers[temp_r30];
+        context = &controller_input_state.controllers[port];
         if ((test_pressed_buttons_packed(context, 4) != 0) || (self->test_input_flag(4) != 0)) {
             self->confirm_input();
         }
@@ -311,9 +310,9 @@ void TWindowInputNumber::run_task() {
             self->mark_confirmed();
         }
     }
-    temp_r3 = self->unknown70;
-    if ((temp_r3 != 0U) && ((f32) self->open_tick >= 7.5f)) {
-        ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
+    heading = self->unknown70;
+    if ((heading != 0U) && ((f32) self->open_tick >= 7.5f)) {
+        ((TWindowSubStatusDisp *)heading)->update_subwindow();
     }
     ((TWindowBase *)self)->update_window();
     self->update_fade();
