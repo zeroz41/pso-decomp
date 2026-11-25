@@ -1625,15 +1625,12 @@ pso/effect/TAttackTrace.cpp:
 	.sdata      start:0x805D2A90 end:0x805D2A98
 
 pso/render/RenderFadeState.cpp:
-	.text       start:0x800D7AD0 end:0x800D7BFC
+	.text       start:0x800D7AD0 end:0x800D7CF4
+	.data       start:0x804949A0 end:0x804949D8
 	.sdata2     start:0x805DA368 end:0x805DA380
 
 pso/object/TDeadSpotSdata2.cpp:
 	.sdata2     start:0x805DA380 end:0x805DA388
-
-pso/render/RenderFadeState_800D7BFC.cpp:
-	.text       start:0x800D7BFC end:0x800D7CF4
-	.data       start:0x804949A0 end:0x804949D8
 
 pso/object/TDeadSpot.cpp:
 	.text       start:0x800D7CF4 end:0x800D87A8

@@ -1531,7 +1531,6 @@ pso/render/CameraCapture.cpp
 pso/enemy/dubchik/TDubchikShot.cpp
 pso/enemy/dubchik/TDubchikPart.cpp
 pso/enemy/flower/TObjEneRe2Flower_Bomb.cpp
-pso/render/RenderFadeState_800D7BFC.cpp
 pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.cpp
 pso/render/GinjaTextureEntryCopy.cpp
 pso/render/AltModel.cpp
