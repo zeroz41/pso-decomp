@@ -7674,20 +7674,20 @@ force_active:
   - quest_list_challenge_class_name_string
   - lbl_80450AB4
   - TChCrTagName__class_name_string
-  - lbl_80466408
-  - lbl_80466410
-  - lbl_80466418
-  - lbl_80466420
-  - lbl_80466428
-  - lbl_80466430
-  - lbl_80466720
-  - lbl_80466728
-  - lbl_80466730
-  - lbl_80466738
-  - lbl_80466740
-  - lbl_80466748
-  - lbl_80466750
-  - lbl_80466758
+  - name_tag_back_scale
+  - name_tag_edge_scale
+  - name_tag_corner_scale
+  - name_tag_side_scale
+  - name_tag_cap_scale
+  - name_tag_label_scale
+  - plback_top_left_pos
+  - plback_top_right_pos
+  - plback_bottom_left_pos
+  - plback_bottom_right_pos
+  - plback_edge_scale
+  - plback_top_edge_pos
+  - plback_bottom_edge_pos
+  - plback_side_start_pos
   - TBGLightning__class_name_string
   - TBGLightningCtrl__class_name_string
   - bolt_first_texture__12TBGLightning

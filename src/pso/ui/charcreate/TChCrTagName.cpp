@@ -12,12 +12,12 @@
 
 __declspec(section ".rodata") extern const char TChCrTagName__class_name_string[] = "TChCrTagName";
 const char *TChCrTagName::class_name = TChCrTagName__class_name_string;
-extern vec2f lbl_80466408[];
-extern vec2f lbl_80466410[];
-extern vec2f lbl_80466418[];
-extern vec2f lbl_80466420[];
-extern vec2f lbl_80466428[];
-extern vec2f lbl_80466430[];
+extern const vec2f name_tag_back_scale;
+extern const vec2f name_tag_edge_scale;
+extern const vec2f name_tag_corner_scale;
+extern const vec2f name_tag_side_scale;
+extern const vec2f name_tag_cap_scale;
+extern const vec2f name_tag_label_scale;
 
 
 #pragma push
@@ -31,7 +31,7 @@ void TChCrTagName::draw_tag_sprites() {
     f32 t2;
     f32 alpha;
     vec2f pos;
-    vec2f scale = lbl_80466430[0];
+    vec2f scale = name_tag_label_scale;
     if (this->m_fade > this->m_slide_end) {
         t = (this->m_fade - this->m_slide_end) / ((1.0f) - this->m_slide_end);
     } else {
@@ -82,7 +82,7 @@ void TChCrTagName::draw_tag_frame() {
     bright = (0.75f) * (s * s) + (0.25f);
     t = t * t;
     {
-        vec2f scale = lbl_80466410[0];
+        vec2f scale = name_tag_edge_scale;
         vec2f pos;
         copy_vec2((&pos), &this->pos);
         draw_ui_sprite_shaded(0x41, &pos, &scale, depth, t, bright);
@@ -90,7 +90,7 @@ void TChCrTagName::draw_tag_frame() {
         draw_ui_sprite_shaded(0x42, &pos, &scale, depth, t, bright);
     }
     {
-        vec2f scale = lbl_80466418[0];
+        vec2f scale = name_tag_corner_scale;
         vec2f pos;
         copy_vec2((&pos), &this->pos);
         pos.x += (226.0f);
@@ -99,7 +99,7 @@ void TChCrTagName::draw_tag_frame() {
         draw_ui_sprite_shaded(this->m_index == 11 ? 0x46 : 0x4A, &pos, &scale, depth, t, bright);
     }
     {
-        vec2f scale = lbl_80466420[0];
+        vec2f scale = name_tag_side_scale;
         vec2f pos;
         copy_vec2((&pos), &this->pos);
         pos.x += (226.0f);
@@ -107,7 +107,7 @@ void TChCrTagName::draw_tag_frame() {
         draw_ui_sprite_shaded(0x40, &pos, &scale, depth, t, bright);
     }
     if (this->m_fade < (1.0f)) {
-        vec2f scale = lbl_80466428[0];
+        vec2f scale = name_tag_cap_scale;
         vec2f pos;
         copy_vec2((&pos), &this->pos);
         pos.x -= (3.0f);
@@ -121,7 +121,7 @@ void TChCrTagName::draw_tag_sprite() {
     f32 t;
     vec2f pos;
     s32 id = this->m_index / 4 + 0x3C;
-    vec2f scale = lbl_80466408[0];
+    vec2f scale = name_tag_back_scale;
     t = (1.0f);
     if (this->m_fade < this->m_slide_end) {
         t = (this->m_fade - this->m_slide_start) / (this->m_slide_end - this->m_slide_start);
@@ -138,12 +138,12 @@ void TChCrTagName::draw_tag_sprite() {
 }
 #pragma pop
 
-__declspec(section ".rodata") vec2f lbl_80466408[1] = {{9.625f, 1.0f}};
-__declspec(section ".rodata") vec2f lbl_80466410[1] = {{28.25f, 1.0f}};
-__declspec(section ".rodata") vec2f lbl_80466418[1] = {{1.0f, 1.0f}};
-__declspec(section ".rodata") vec2f lbl_80466420[1] = {{1.0f, 1.75f}};
-__declspec(section ".rodata") vec2f lbl_80466428[1] = {{1.0f, 3.75f}};
-__declspec(section ".rodata") vec2f lbl_80466430[1] = {{1.0f, 1.0f}};
+__declspec(section ".rodata") const vec2f name_tag_back_scale = {9.625f, 1.0f};
+__declspec(section ".rodata") const vec2f name_tag_edge_scale = {28.25f, 1.0f};
+__declspec(section ".rodata") const vec2f name_tag_corner_scale = {1.0f, 1.0f};
+__declspec(section ".rodata") const vec2f name_tag_side_scale = {1.0f, 1.75f};
+__declspec(section ".rodata") const vec2f name_tag_cap_scale = {1.0f, 3.75f};
+__declspec(section ".rodata") const vec2f name_tag_label_scale = {1.0f, 1.0f};
 
 void TChCrTagName::render() {
     draw_tag_sprite();
