@@ -37,7 +37,6 @@
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/map/FloorPopulation.h"
 
-extern "C" void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 n);
 
 // The entity table, sorted by entity id (CollisionActorLookup.h).
 extern TObjCollidable *TObjPlayer__data_8050D460[0x18C];
@@ -1060,9 +1059,7 @@ CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionB
     }
     if (actor->body_flags == NULL) {
         n = actor->body_count;
-        actor->body_flags = (FlagWord *)__construct_new_array(mem_alloc(n * sizeof(FlagWord) + 0x10),
-                                                              (void *)__ct__8FlagWordFv, NULL,
-                                                              sizeof(FlagWord), n);
+        actor->body_flags = new FlagWord[n];
     }
     return actor->bodies;
 }
