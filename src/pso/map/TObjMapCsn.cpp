@@ -131,7 +131,7 @@ TObjMapCsn::~TObjMapCsn() {
 TObjMapCsn::TObjMapCsn(TObject *parent, void *set_data) : TObjCollidable(parent) {
     f32 half_width;
     f32 half_depth;
-    m_name = TObjMapCsn__class_name;
+    m_name = class_name;
     apply_object_set_data(set_data);
     actorFlags |= 0x40000000;
     update_state();

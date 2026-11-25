@@ -25,9 +25,6 @@ public:
     f32 value;
 };
 
-// Unrecovered enclosing constructors call the native constructor by its ABI symbol.
-extern "C" void *__ct__18TObjEnemyColorFadeFv(void *);
-
 LAYOUT_ASSERT(FadeValueOffset, offsetof(TObjEnemyColorFade, value) == 0x18);
 LAYOUT_ASSERT(FadeValueSize, sizeof(TObjEnemyColorFade) == 0x1c);
 

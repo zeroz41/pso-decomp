@@ -83,7 +83,7 @@ void init_scene_fog_system(void) {
 
 void TFogCtrl::reset() {
     TObjFogCollisionPoison__sub_801533BC();
-    TQuestVmDownLoadServer::destroy_instance();
+    destroy_instance();
     if (fog_entry_array != NULL) {
         mem_free(fog_entry_array);
     }
@@ -604,7 +604,7 @@ void TFogCtrl::create_instance() {
     fog_ctrl_instance = new TFogCtrl_EOR();
 }
 
-void TQuestVmDownLoadServer::destroy_instance() {
+void TFogCtrl::destroy_instance() {
     if (fog_ctrl_instance != NULL) {
         fog_ctrl_instance->queue_destruction();
     }
