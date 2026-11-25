@@ -347,7 +347,6 @@ struct TObjPlayer : public TObjChara {
     static void set_shared_count(int count);
     void set_position(f32 a, f32 b, f32 c);
     void set_meseta(s32 meseta);
-    void copy_player_record_header(u8 *src);
     void check_hit_by_id_431_from_packet();
     void emit_photon_blast_feedback_from_packet();
     u16 get_attacker_id();
@@ -1087,7 +1086,7 @@ struct TObjPlayer : public TObjChara {
     // Sets the player's cast level of technique `tech`, capped at the level it has learned.
     static void set_technique_level_clamped(TObjPlayer *player, u8 level, s16 tech);
     static void send_6x29_delete_item(TObjPlayer *player, s32 item_id, s32 count);
-    static s32 fill_player_record(void *, void *);
+    void fill_player_record(PlayerSyncRecord *record);
     static void foreach_player(void (*callback)(TObjPlayer *));
     s32 calc_scaled_value(s32 value);
     void prepare_guild_return(s32);

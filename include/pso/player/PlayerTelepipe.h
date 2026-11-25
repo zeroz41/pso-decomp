@@ -12,6 +12,7 @@ struct PlayerTelepipe {
     TelepipeState state;
     s32 flags;  // FlagWord bits; init builds the word in place
 
+    PlayerTelepipe &operator=(PlayerTelepipe &src);
     // No telepipe: owner 0xFFFF, floor 0, at the origin.
     PlayerTelepipe *init();
 };

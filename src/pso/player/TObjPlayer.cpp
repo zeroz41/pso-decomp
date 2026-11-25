@@ -401,7 +401,6 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 
 extern "C" {
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
-void TObjPlayer__sub_801BEF30(void* p, void* q);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 }
 void emit_grass_footstep_effect(PlayerFollowParticles *particles);
@@ -721,16 +720,20 @@ StatusEffect &StatusEffect::operator=(StatusEffect &src) {
     return *this;
 }
 
-void TObjPlayer__sub_801BEF30(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
+PlayerPkState &PlayerPkState::operator=(PlayerPkState &src) {
+    enabled = src.enabled;
+    team = src.team;
+    return *this;
+}
 
-void TObjPlayer::copy_player_record_header(u8 *src) {
-    u8 *dst = (u8 *)this;
-    *(u16 *)((s8 *)dst + 0) = (u16) *(u16 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    __memcpy(&this->m_prev, src + 8, 0xC);
-    *(s32 *)((s8 *)dst + 0x14) = (s32) *(s32 *)((s8 *)src + 0x14);
-    *(s32 *)((s8 *)dst + 0x18) = (s32) *(s32 *)((s8 *)src + 0x18);
+PlayerTelepipe &PlayerTelepipe::operator=(PlayerTelepipe &src) {
+    state.owner_client_id = src.state.owner_client_id;
+    state.floor = src.state.floor;
+    state.room_id = src.state.room_id;
+    __memcpy(&state.pos, &src.state.pos, sizeof(Vec));
+    state.angle_y = src.state.angle_y;
+    flags = src.flags;
+    return *this;
 }
 
 void TObjPlayer__sub_801BEEE0(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }

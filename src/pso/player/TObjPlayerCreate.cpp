@@ -104,7 +104,6 @@ void TObjPlayer::place_on_area_entry() {
     }
 }
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
-void TObjPlayer__sub_801BEF30(void *p, void *q);
 
 s32 TObjPlayer::has_active_camera_event() {
     if (TLobby::get_instance() == 0) {
@@ -129,8 +128,8 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
     mode = record->phase;
     hp = record->current_hp;
     ((TLobby *)&guild_card_tag)->copy_header_struct(&record->player_tag);
-    TObjPlayer__sub_801BEF30(&pk_state, &record->unknown_a6);
-    ((TObjPlayer *)&telepipe)->copy_player_record_header((u8 *)&record->telepipe);
+    pk_state = record->pk_state;
+    telepipe = record->telepipe;
     TObjPlayer__sub_801BEEE0(&death_flags, &record->death_flags);
     movement_hold = record->hold_state;
     set_floor_index(record->area);

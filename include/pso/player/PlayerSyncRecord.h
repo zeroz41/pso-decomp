@@ -7,6 +7,8 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/MovementHold.h"
+#include "pso/player/PlayerPkState.h"
+#include "pso/player/PlayerTelepipe.h"
 #include "pso/player/PlayerStats.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/TPlyInventory.h"
@@ -27,10 +29,8 @@ struct PlayerSyncRecord {
     u32 language;
     u32 player_tag;
     u32 guild_card_number;
-    u32 unknown_a6;
-    u32 battle_team_number;
-    TelepipeState telepipe;
-    u32 telepipe_unknown_a4;
+    PlayerPkState pk_state;
+    PlayerTelepipe telepipe;
     u32 death_flags;
     MovementHold hold_state;
     u32 area;

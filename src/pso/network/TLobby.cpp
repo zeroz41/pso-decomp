@@ -589,7 +589,7 @@ void TLobby::send_6x70_player_data(int size) {
     init_player_join_record(&stack.sp8);
     packet = (PlayerSyncPacket *)mem_alloc(0x494);
     if (packet != NULL) {
-        TObjPlayer::fill_player_record(get_player_by_client_id(local_client_id), &packet->record);
+        get_player_by_client_id(local_client_id)->fill_player_record(&packet->record);
         packet->header.subcommand = 0x70;
         packet->header.size = 0;
         packet->header.client_id = local_client_id;
@@ -2252,7 +2252,7 @@ void TLobby::make_players() {
         p = create_player_object(1 - local_client_id, 4, TAdSinglePlyChrSelectGC::get_char_index(0));
         if (p != NULL) {
             init_player_join_record(&hdr);
-            TObjPlayer::fill_player_record(p, &hdr);
+            p->fill_player_record((PlayerSyncRecord *)&hdr);
             TLobby::bswap_player_data(&hdr);
             hdr.fAC = 0;
             hdr.f488 = 0;
@@ -2764,7 +2764,7 @@ void TLobby::bswap_player_data(void *data) {
     }
     bswap_32(&record->language);
     ((TLobby *)&record->player_tag)->bswap_fields();
-    bswap_u32_pair(&record->unknown_a6);
+    bswap_u32_pair(&record->pk_state);
     bswap_telepipe_record(&record->telepipe);
     bswap_32(&record->death_flags);
     bswap_32(&record->area);
