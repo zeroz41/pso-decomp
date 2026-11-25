@@ -1753,7 +1753,6 @@ pso/unk/text_80074C70.cpp
 pso/unk/text_80076BC4.cpp
 pso/unk/text_80076E84.cpp
 pso/network/protocol/choice_search.cpp
-pso/unk/text_8007C0CC.cpp
 pso/effect/TDuelEffectCtrl.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp

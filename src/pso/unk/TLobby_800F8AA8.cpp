@@ -37,7 +37,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/text_8007C0CC.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_800FFE04.h"
 #include "pso/system/TLoadCtrl.h"
@@ -1183,7 +1182,6 @@ void TLobby::free_nodes_with_id(uaddr root) {
 
 u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
     QuestDownloadFile *file = (QuestDownloadFile *)src;
-    s32 rng[60];
     u32 decompressed_size;
     u32 seed;
 
@@ -1194,30 +1192,28 @@ u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
     if (decompressed_size > capacity) {
         return 0U;
     }
-    __ct__14SubtractiveRngFv(&rng[0]);
-    subtractive_rng_seed(&rng[0], seed);
-    ((TAdSinglePlyChrSelectGC *)(&rng[0]))->crypt_data_be((u32 *)file->data, size - 8);
+    SubtractiveRng rng;
+    subtractive_rng_seed(&rng, seed);
+    rng.crypt_data_be((u32 *)file->data, size - 8);
     prs_decompress_buffer(file->data, dst);
     return decompressed_size;
 }
 
 u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
-    s32 rng[60];
     u32 v0 = decompressed_size;
     s32 v4 = seed;
 
     if (v0 > capacity) {
         return 0U;
     }
-    __ct__14SubtractiveRngFv(rng);
-    subtractive_rng_seed(rng, v4);
-    subtractive_rng_xor_buffer(rng, (u32 *)data, size - 8);
+    SubtractiveRng rng;
+    subtractive_rng_seed(&rng, v4);
+    subtractive_rng_xor_buffer(&rng, (u32 *)data, size - 8);
     prs_decompress_buffer(data, dst);
     return v0;
 }
 
 void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
-    s32 rng[60];
     s32 v0 = *(s32 *)&this->m_name;
     s32 v4 = *(s32 *)&this->m_flags;
     void *ret;
@@ -1226,9 +1222,9 @@ void *TLobby::alloc_download_quest(s32 size, s32 *out_size) {
     if (ret == NULL) {
         return NULL;
     }
-    __ct__14SubtractiveRngFv(rng);
-    subtractive_rng_seed(rng, v4);
-    subtractive_rng_xor_buffer(rng, (u32 *)&this->m_prev, size - 8);
+    SubtractiveRng rng;
+    subtractive_rng_seed(&rng, v4);
+    subtractive_rng_xor_buffer(&rng, (u32 *)&this->m_prev, size - 8);
     prs_decompress_buffer(&this->m_prev, ret);
     if (out_size != NULL) {
         *out_size = v0;
@@ -1243,7 +1239,6 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
     u8 *buf;
     void *ret;
     s32 sp8;
-    s32 rng[60];
 
     size = get_resource_file_size(name);
     if (size <= 0) {
@@ -1263,9 +1258,9 @@ void *load_encrypted_text_archive(char *name, s32 *out_size) {
         safe_free(buf);
         ret = TQuestVmDownLoadServer::alloc(sp8);
         buf = load_disc_file(name);
-        __ct__14SubtractiveRngFv(rng);
-        subtractive_rng_seed(rng, h);
-        subtractive_rng_xor_buffer(rng, (u32 *)(buf + 8), size - 8);
+        SubtractiveRng rng;
+        subtractive_rng_seed(&rng, h);
+        subtractive_rng_xor_buffer(&rng, (u32 *)(buf + 8), size - 8);
         prs_decompress_buffer(buf + 8, ret);
         safe_free(buf);
     }

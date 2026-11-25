@@ -80,12 +80,7 @@ s32 challenge_event_source_size;
 
 extern "C" {
 EventShuffleTable *TLobby__sub_80209584(EventShuffleTable *table, s32 capacity) {
-    void *storage = ::operator new(0xE8);
-    SubtractiveRng *rng = static_cast<SubtractiveRng *>(storage);
-    if (rng != NULL) {
-        rng = reinterpret_cast<SubtractiveRng *>(__ct__14SubtractiveRngFv(storage));
-    }
-    table->rngState = rng;
+    table->rngState = new SubtractiveRng;
     table->entries = static_cast<s32 *>(mem_alloc(capacity * sizeof(*table->entries)));
     table->cursor = 0;
     table->count = capacity;

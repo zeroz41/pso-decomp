@@ -986,12 +986,9 @@ pso/ui/window/TWindowSubComCard_8007BD24.cpp:
 pso/network/PSOV3EncryptionTCP.cpp:
 	.text       start:0x8007BF8C end:0x8007C0CC
 
-pso/unk/text_8007C0CC.cpp:
-	.text       start:0x8007C0CC end:0x8007C520
-	.bss        start:0x80500398 end:0x80500598
-
 pso/system/SubtractiveRng.cpp:
-	.text       start:0x8007C520 end:0x8007C5C0
+	.text       start:0x8007C0CC end:0x8007C5C0
+	.bss        start:0x80500398 end:0x80500598
 
 pso/boss/derolle/TObjBoss2Tunnel.cpp:
 	.text       start:0x8007C5C0 end:0x8007EAF8

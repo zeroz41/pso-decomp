@@ -674,7 +674,6 @@ TBoss1Dragon::TBoss1Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     s32 i;
     s32 j;
 
-    __ct__14SubtractiveRngFv(this->randomState);
     this->m_name = TBoss1Dragon::name;
     if ((u32)boss1_dragon_main_instance == 0U) {
         boss1_dragon_main_instance = (saddr)this;
@@ -2921,7 +2920,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
         s32 low = (s32)((100.0f) * this->savedZ);
         seed *= 0x10000UL;
         seed |= (u32)low & 0xFFFFUL;
-        subtractive_rng_seed(this->randomState, seed);
+        subtractive_rng_seed(&this->randomState, seed);
         break;
     }
     case 6:
@@ -2976,18 +2975,18 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                     if (((TObjBase *)player)->is_alive() != 0) {
                         VecCopy(&position, &player->position);
                         position.x += (100.0f) *
-                            ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
+                            (this->randomState.next_ratio() - (0.5f));
                         position.z += (100.0f) *
-                            ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
+                            (this->randomState.next_ratio() - (0.5f));
                         found = 1;
                     }
                 }
                 if (found == 0) {
                     position.x = 700.0f *
-                        ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
+                        (this->randomState.next_ratio() - (0.5f));
                     position.y = (0.0f);
                     position.z = 700.0f *
-                        ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
+                        (this->randomState.next_ratio() - (0.5f));
                 }
                 new TBoss1DragonEffBullet(&this->sub_tasks, &this->breath_origin, &position);
             }

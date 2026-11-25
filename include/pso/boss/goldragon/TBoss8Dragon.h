@@ -9,6 +9,7 @@
 #include "pso/boss/derolle/AccelerationCurve.h"
 
 #include "pso/math/CurvePathPoint.h"
+#include "pso/system/SubtractiveRng.h"
 class AreaAttackHistory;
 struct DragonAttackParams;
 struct TBoss8DragonEffTail;
@@ -133,7 +134,7 @@ public:
     u32 facingAngle;  // as TBoss1Dragon::facingAngle: the angle state_circle_flight circles on
     s32 attack_kind;  // as TBoss1Dragon::attack_kind: the breath and fire bullets' attack kind (set_mode_params)
     const s32 *particle_ids;  // TBoss1Dragon reads the same ids through effectResource->particle_ids
-    u32 randomState[58];  // a SubtractiveRng, as TBoss1Dragon::randomState
+    SubtractiveRng randomState;  // as TBoss1Dragon::randomState
     s32 stateStep;  // step and frame counter of the current action, as in TBoss1Dragon
     s32 impactAge;
     s32 action_frames;

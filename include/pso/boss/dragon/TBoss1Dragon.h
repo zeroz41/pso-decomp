@@ -9,6 +9,7 @@ struct NJS_TEXLIST;
 #include "pso/render/RenderFadeState.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/system/SubtractiveRng.h"
 
 class TBoss1DragonEffTail;
 class TParticleCtrl;
@@ -132,7 +133,7 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     s32 attack_kind;  // the fire attacks' DragonAttackParams kind: 1, 0x13 in V2
     TBoss1DragonAttackCollider *attack_collider;  // the V2 attacks place this sphere instead of TObjEneDD's effects
     DragonEffectResource* effectResource;
-    u32 randomState[58];
+    SubtractiveRng randomState;
     s32 stateStep;
     s32 impactAge;
     s32 action_frames;  // frames into the current action step (twin TBoss8Dragon::action_frames)
