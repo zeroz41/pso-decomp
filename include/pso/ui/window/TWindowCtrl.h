@@ -14,23 +14,25 @@ struct TWindowMessageLog;
 struct TWindowSimpleStatus;
 
 struct TWindowGetComCard;
+struct TWindowBreakIn;
 class TWindowChat;
 struct TWindowCtrlPlayer;
 
 class TWindowFukidasi;
+class TObjBase;
 
 struct TWindowCtrl : public TObject {
     TWindowCtrl(TObject *parent);
     virtual ~TWindowCtrl();
     static TWindowCtrl *instance;
     u16 flags;
-    u16 m_1e;
-    s16 countdown;
+    s16 tick;  // frames since the windows opened; the open sequence and the pulse colour read it
+    s16 open_step;  // next entry of the open sequence
     s16 submit_cooldown;
-    u32 m_24;
+    u32 pulse_color;
     u16 window_id;
     u8 _pad2A[0x2];
-    uaddr m_2c;
+    TWindowBreakIn *break_in;
     TWindowTimer *timer_window;
     TWindowArea *area_window;
     TWindowChat *chat_window;
@@ -47,12 +49,12 @@ struct TWindowCtrl : public TObject {
     static s32 is_map_visible();
     static void clear_flag_2();
     static void set_close_flag();
-    static s32 get_field24();
+    static s32 get_pulse_color();
     static s32 get_flag_bit0();
     static void clear_flag();
     static void start_client_countdown(s32 client);
     static s32 is_client_countdown_done(s32 client);
-    static void set_field22();
+    static void start_submit_cooldown();
     static s32 is_submit_cooldown_clear();
     static void update_focused();
     static s32 get_active_sub();
@@ -67,6 +69,7 @@ struct TWindowCtrl : public TObject {
     static char *skip_name_prefix(void *self, char *s);
     void get_speaker_balloon_anchor(u16 speaker, f32 *height, char **name);
     s32 find_farthest_balloon_slot(u16 speaker);
+    f32 get_squared_distance_to_entity(TObjBase *from, u16 id);
     TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();
     TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);
@@ -92,7 +95,7 @@ struct TWindowCtrl : public TObject {
     static const NJS_POINT2 *get_message_by_type(s8 type, s32 client_id);
     static void release_slot(s8 *arg0);
     static void close_windows_by_flags(u16 flags);
-    static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 client);
+    static s32 open_balloon(u16 player, u8 *text, s32 flags, s32 client);
     static saddr open(u16 id, const char *text, s32 flags);
     static int open_default(u16 id, const char *text);
     static void create_level_up_window(saddr stats, saddr client);
@@ -130,7 +133,7 @@ struct TWindowCtrl : public TObject {
     static void set_flag_bit2();
     static void clear_flag_bit2();
     s32 is_flag_bit2_set();
-    static void set_field28(u16 arg0);
+    static void set_window_id(u16 arg0);
     static u16 get_window_id();
     void update_party_status_rows();
     int is_flag_2_set();

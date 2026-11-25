@@ -996,7 +996,7 @@ void qst_op_chat_bubble(void) {
     s32 v;
     if (id < 100) {
         TWindowCtrl::open_default(id, text);
-        TWindowCtrl::set_field28(id);
+        TWindowCtrl::set_window_id(id);
         return;
     }
     start = TLobby::get_game_mode();
@@ -1012,7 +1012,7 @@ void qst_op_chat_bubble(void) {
             }
             if (v == id) {
                 TWindowCtrl::open_default(win, text);
-                TWindowCtrl::set_field28(win);
+                TWindowCtrl::set_window_id(win);
                 return;
             }
         }
@@ -4938,7 +4938,7 @@ void qst_op_message(void) {
     qst_message_speaker = speaker;
     if (speaker < 100) {
         TWindowCtrl::open(static_cast<u16>(speaker), text, 0x2D);
-        TWindowCtrl::set_field28((u16)speaker);
+        TWindowCtrl::set_window_id((u16)speaker);
         qst_suspend_reason = QST_WAIT_MESSAGE;
     } else {
         first = TLobby::get_game_mode();
@@ -4955,7 +4955,7 @@ void qst_op_message(void) {
                 }
                 if (entity == speaker) {
                     TWindowCtrl::open(static_cast<u16>(identity), text, 0x2D);
-                    TWindowCtrl::set_field28(identity);
+                    TWindowCtrl::set_window_id(identity);
                     qst_suspend_reason = QST_WAIT_MESSAGE;
                     break;
                 }

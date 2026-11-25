@@ -6,8 +6,8 @@
 extern "C" {
 void TAdSinglePlyChrSelectGC__sub_801FBB1C(void);
 void TAdSinglePlyChrSelectGC__sub_801FBB7C(void);
-void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *arg0);
+void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *save_data);
 }
-void draw_ginja_box_tree(u8 *arg0);
+void draw_ginja_box_tree(u8 *node);
 
 #endif

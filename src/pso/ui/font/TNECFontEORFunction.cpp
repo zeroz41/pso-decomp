@@ -87,7 +87,7 @@ const char *parse_text_control_codes(const char *p, s32 *mb, s32 *color) {
         case 'C':
             if (color != NULL) {
                 if (p[1] == 'G') {
-                    *color = TWindowCtrl::get_field24();
+                    *color = TWindowCtrl::get_pulse_color();
                 } else if (p[1] >= '0' && p[1] <= '9') {
                     *color = text_control_color_palette[p[1] - '0'];
                 }

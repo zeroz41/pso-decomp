@@ -16,10 +16,10 @@ void fn_80255A38(TWindowHelpItem *item) {
     item->entry_list.destroy_all_items();
     item->m_60 &= ~1;
     item->active_item = NULL;
-    item->m_6c = 0;
-    item->m_70 = 0;
-    item->m_9c = -1;
-    item->m_a0 = -1;
-    item->m_a4 = -1;
+    item->secondary_item = 0;
+    item->primary_item = 0;
+    item->active_id = -1;
+    item->secondary_id = -1;
+    item->primary_id = -1;
     item->m_callback = __ptmf_null;
 }

@@ -17,23 +17,23 @@ s32 lbl_805D5D00;
 s32 lbl_805D5D04;
 }
 
-s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 arg2) {
+s32 TWindowKeyBoardHard::test_card_flag(s32 client, s32 mask) {
     void *character_save_record;
 
     character_save_record = ((void *)get_character_save_record((u32)client));
     if (character_save_record == NULL) {
         return 0;
     }
-    return (*(s32 *)((s8 *)character_save_record + 0x10) & arg2) ? 1 : 0;
+    return (*(s32 *)((s8 *)character_save_record + 0x10) & mask) ? 1 : 0;
 }
 
-void TWindowKeyBoardHard::set_card_window_flags(void *client_id, s32 arg1, s32 arg2) {
+void TWindowKeyBoardHard::set_card_window_flags(void *client_id, s32 bits, s32 keep_mask) {
     void *character_save_record;
 
     character_save_record = (void *)get_character_save_record((uaddr)client_id);
     if (character_save_record != NULL) {
-        *(s32 *)((s8 *)character_save_record + 0x10) = (s32) (*(s32 *)((s8 *)character_save_record + 0x10) & arg2);
-        *(s32 *)((s8 *)character_save_record + 0x10) = (s32) (*(s32 *)((s8 *)character_save_record + 0x10) | arg1);
+        *(s32 *)((s8 *)character_save_record + 0x10) = (s32) (*(s32 *)((s8 *)character_save_record + 0x10) & keep_mask);
+        *(s32 *)((s8 *)character_save_record + 0x10) = (s32) (*(s32 *)((s8 *)character_save_record + 0x10) | bits);
     }
 }
 

@@ -466,6 +466,6 @@ s32 TWindowChat::sub_80247EC0() {
     return (u8) ((this->flags & 0x240) != 0);
 }
 
-void TWindowKeyBoardSoft::set_flag60_bit1() { m_60 |= 0x2; }
+void TWindowKeyBoardSoft::set_flag60_bit1() { state_flags |= 0x2; }
 
 int TWindowSubSymbolChatHelp__sub_80247EE8(int a0) {  return chat_help_color_table[a0]; }

@@ -29,40 +29,40 @@ extern char memory_card_character_dir_name[];
 extern s32 memcard_access_active;
 }
 int TWindowKeyBoardHard::is_card_flag_set() { return TWindowKeyBoardHard::test_card_flag((saddr)this, 1); }
-void draw_ginja_box_tree(u8 *arg0) {
-    saddr temp_r31;
-    u8 *temp_r3;
-    u8 *var_r30;
-    var_r30 = arg0;
+void draw_ginja_box_tree(u8 *node) {
+    saddr flags;
+    u8 *child;
+    u8 *cur;
+    cur = node;
     do {
-        temp_r31 = *(s32 *)((s8 *)var_r30 + 0);
+        flags = *(s32 *)((s8 *)cur + 0);
         push_matrix();
-        if (!(temp_r31 & 1)) {
-            post_translate_matrix(var_r30 + 8);
+        if (!(flags & 1)) {
+            post_translate_matrix(cur + 8);
         }
-        if (!(temp_r31 & 2)) {
-            rotate_matrix_by_node_angles(var_r30 + 0x14, (void *) (temp_r31 & 0x20));
+        if (!(flags & 2)) {
+            rotate_matrix_by_node_angles(cur + 0x14, (void *) (flags & 0x20));
         }
-        if (!(temp_r31 & 4)) {
-            scale_current_matrix(var_r30 + 0x20);
+        if (!(flags & 4)) {
+            scale_current_matrix(cur + 0x20);
         }
-        if (!(temp_r31 & 0x100000)) {
+        if (!(flags & 0x100000)) {
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
         }
-        if (!(temp_r31 & 8)) {
-            draw_ginja_model(*(void **)((s8 *)var_r30 + 4));
+        if (!(flags & 8)) {
+            draw_ginja_model(*(void **)((s8 *)cur + 4));
         }
-        if (!(temp_r31 & 0x10)) {
-            temp_r3 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x2C));
-            if (temp_r3 != NULL) {
-                draw_ginja_box_tree(temp_r3);
+        if (!(flags & 0x10)) {
+            child = (u8 *)(*(u8 **)((s8 *)cur + 0x2C));
+            if (child != NULL) {
+                draw_ginja_box_tree(child);
             }
         }
         pop_matrix();
-        var_r30 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x30));
-    } while (var_r30 != NULL);
+        cur = (u8 *)(*(u8 **)((s8 *)cur + 0x30));
+    } while (cur != NULL);
 }
 
 void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {
@@ -95,22 +95,22 @@ void TAdSinglePlyChrSelectGC::try_load_system_file() {
     }
 }
 
-void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *arg0) {
-    Pso3CharacterFile *a;
-    Pso3CharacterFile *b;
-    a = new Pso3CharacterFile;
-    b = new Pso3CharacterFile;
-    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(a, arg0);
+void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *save_data) {
+    Pso3CharacterFile *plain;
+    Pso3CharacterFile *unshuffled;
+    plain = new Pso3CharacterFile;
+    unshuffled = new Pso3CharacterFile;
+    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(plain, save_data);
     subtractive_rng_seed(chr_select_rng_state, chr_select_serial_seeds[1]);
     subtractive_rng_make_shuffle((s32 *)chr_select_rng_state);
-    subtractive_rng_unshuffle((void *)chr_select_rng_state, (const u8 *)a, (u8 *)b, (u32)(0x194B0));
-    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(arg0, b);
-    delete b;
-    delete a;
+    subtractive_rng_unshuffle((void *)chr_select_rng_state, (const u8 *)plain, (u8 *)unshuffled, (u32)(0x194B0));
+    copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(save_data, unshuffled);
+    delete unshuffled;
+    delete plain;
     subtractive_rng_seed(chr_select_rng_state, chr_select_serial_seeds[0]);
-    ((TAdSinglePlyChrSelectGC *)chr_select_rng_state)->apply_rng_cipher((u32 *)arg0, 0x194B0);
-    subtractive_rng_seed(chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)arg0));
-    subtractive_rng_xor_buffer((s32 *)chr_select_rng_state, (u32 *)arg0, 0x194AC);
+    ((TAdSinglePlyChrSelectGC *)chr_select_rng_state)->apply_rng_cipher((u32 *)save_data, 0x194B0);
+    subtractive_rng_seed(chr_select_rng_state, TAdSinglePlyChrSelectGC__sub_80202A68((u8 *)save_data));
+    subtractive_rng_xor_buffer((s32 *)chr_select_rng_state, (u32 *)save_data, 0x194AC);
 }
 
 s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {

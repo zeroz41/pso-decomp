@@ -61,7 +61,7 @@ s32 chat_accept_submission(saddr submission) {
     if (TWindowCtrl::is_submit_cooldown_clear() == 0) {
         return 0;
     }
-    TWindowCtrl::set_field22();
+    TWindowCtrl::start_submit_cooldown();
     chat_dispatch_accepted_result((s32 *)submission);
     return 1;
 }

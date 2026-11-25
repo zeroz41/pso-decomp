@@ -14,18 +14,16 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #pragma readonly_strings on
 
-struct UV_8025A650 { f32 u; f32 v; };
+struct StarUV { f32 u; f32 v; };
 
 
 struct Item_8025A650 { u8 p0[8]; f32 x; f32 y; s32 count; };
 
-struct Ctx_8025A650 { u8 p0[0x10]; f32 x; f32 y; u8 p18[0x18]; s32 f30; u8 p34[4]; f32 z; };
-
 extern "C" {
-void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx);
+void render_item_rarity_stars(Item_8025A650 *item, WindowDrawContext *ctx);
 }
 
-extern const UV_8025A650 item_rarity_star_uv_table[4] = {
+extern const StarUV item_rarity_star_uv_table[4] = {
     { 0.0f, 239.0f }, { 17.0f, 239.0f }, { 34.0f, 239.0f }, { 51.0f, 239.0f },
 };
 
@@ -37,34 +35,34 @@ void *lbl_804CFA10[6] = {
     0,
 };
 
-f32 get_item_star_row_width(u8 *arg0) {
-    s32 var_r0;
-    var_r0 = *(s32 *)((s8 *)arg0 + 0x10);
-    if (var_r0 < 0xA) {
-        var_r0 = 0xA;
+f32 get_item_star_row_width(u8 *row) {
+    s32 count;
+    count = ((Item_8025A650 *)row)->count;
+    if (count < 0xA) {
+        count = 0xA;
     }
-    return 17.0f * (f32) var_r0;
+    return 17.0f * (f32) count;
 }
 
-void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
+void render_item_rarity_stars(Item_8025A650 *item, WindowDrawContext *ctx) {
     TexturedQuad q;
     f32 depth2;
     f32 x;
     f32 y;
     s32 i;
     s32 n;
-    const UV_8025A650 *uv;
+    const StarUV *uv;
     f32 depth;
-    if (ctx->f30 < 0) {
+    if (ctx->open_tick < 0) {
         return;
     }
     set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(1, -1);
-    x = ctx->x + item->x;
-    y = ctx->y + item->y;
-    depth = -1.0f / (0.1196f + ctx->z);
+    x = ctx->inner_x + item->x;
+    y = ctx->inner_y + item->y;
+    depth = -1.0f / (0.1196f + ctx->depth);
     for (i = 0; i < item->count; i++) {
         if (i < 9) {
             uv = &item_rarity_star_uv_table[1];
@@ -79,15 +77,15 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
         q.v0 = uv->v / 256.0f;
         q.u1 = (16.0f + uv->u) / 256.0f;
         q.v1 = (16.0f + uv->v) / 256.0f;
-        if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+        if (ctx->clip_and_transform_quad(&q) != 0) {
             draw_textured_quad_at_depth((f32 *)&q, depth);
         }
         x += 17.0f;
     }
     uv = item_rarity_star_uv_table;
-    x = ctx->x + item->x;
-    y = ctx->y + item->y;
-    depth2 = -1.0f / (0.0897f + ctx->z);
+    x = ctx->inner_x + item->x;
+    y = ctx->inner_y + item->y;
+    depth2 = -1.0f / (0.0897f + ctx->depth);
     n = item->count;
     if (n < 10) {
         n = 10;
@@ -101,7 +99,7 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
         q.v0 = uv->v / 256.0f;
         q.u1 = (16.0f + uv->u) / 256.0f;
         q.v1 = (16.0f + uv->v) / 256.0f;
-        if (((WindowDrawContext *)ctx)->clip_and_transform_quad(&q) != 0) {
+        if (ctx->clip_and_transform_quad(&q) != 0) {
             draw_textured_quad_at_depth((f32 *)&q, depth2);
         }
         x += 17.0f;
@@ -112,21 +110,21 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
 
 void TWindowHelpItem__sub_8025A900(void) {  }
 
-void *TWindowHelpItem__sub_8025A904(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 4) = lbl_804CFA10;
-        __dt__18TWindowLayoutEntryFv(arg0, 0);
-        if (arg1 > 0) {
-            ::operator delete(arg0);
+void *TWindowHelpItem__sub_8025A904(void *row, s16 flags) {
+    if (row != NULL) {
+        *(void ***)((s8 *)row + 4) = lbl_804CFA10;
+        __dt__18TWindowLayoutEntryFv(row, 0);
+        if (flags > 0) {
+            ::operator delete(row);
         }
     }
-    return arg0;
+    return row;
 }
 
-u8 *TWindowHelpItem__sub_8025A95C(u8 *arg0, saddr rec, s32 client) {
-    __ct__18TWindowLayoutEntryFl(arg0, client);
-    *(s32 **)((s8 *)arg0 + 4) = ((s32 *)&lbl_804CFA10);
-    copy_vec2((arg0 + 8), (void *)(rec + 4));
-    *(s32 *)((s8 *)arg0 + 0x10) = 0;
-    return arg0;
+u8 *TWindowHelpItem__sub_8025A95C(u8 *row, saddr rec, s32 client) {
+    __ct__18TWindowLayoutEntryFl(row, client);
+    *(s32 **)((s8 *)row + 4) = ((s32 *)&lbl_804CFA10);
+    copy_vec2((row + 8), (void *)(rec + 4));
+    ((Item_8025A650 *)row)->count = 0;
+    return row;
 }

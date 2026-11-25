@@ -723,7 +723,7 @@ void ItemListRow::render(WindowDrawContext *context) {
       }
       if (this->flags & 0x800)
       {
-        style = TWindowCtrl::get_field24();
+        style = TWindowCtrl::get_pulse_color();
       }
       else
       {

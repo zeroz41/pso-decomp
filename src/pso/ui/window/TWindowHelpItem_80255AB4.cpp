@@ -29,19 +29,19 @@ extern TWindowHelpItem::CallbackWords __ptmf_null;
 
 void TWindowHelpItem::update_cursor_selection() {
     this->m_60 = (u8) (this->m_60 | 1);
-    if ((s32) this->m_a4 != -1) {
-        active_item = reinterpret_cast<TItemData *>(m_70);
-        this->m_9c = (s32) this->m_a4;
+    if ((s32) this->primary_id != -1) {
+        active_item = reinterpret_cast<TItemData *>(primary_item);
+        this->active_id = (s32) this->primary_id;
         return;
     }
-    if ((s32) this->m_a0 != -1) {
-        active_item = reinterpret_cast<TItemData *>(m_6c);
-        this->m_9c = (s32) this->m_a0;
+    if ((s32) this->secondary_id != -1) {
+        active_item = reinterpret_cast<TItemData *>(secondary_item);
+        this->active_id = (s32) this->secondary_id;
         return;
     }
     this->m_60 = (u8) (this->m_60 & 0xFE);
     active_item = NULL;
-    this->m_9c = -1;
+    this->active_id = -1;
 }
 
 void TWindowHelpItem::render() {
@@ -93,11 +93,11 @@ TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window
     this->m_60 = 0;
     page_indicator = new PageIndicator(0, 3, client_index);
     active_item = NULL;
-    this->m_6c = 0;
-    this->m_70 = 0;
-    this->m_9c = -1;
-    this->m_a0 = -1;
-    this->m_a4 = -1;
+    this->secondary_item = 0;
+    this->primary_item = 0;
+    this->active_id = -1;
+    this->secondary_id = -1;
+    this->primary_id = -1;
     this->m_callback = __ptmf_null;
     this->scale_x = 1.0f;
     this->scale_y = 1.0f;
