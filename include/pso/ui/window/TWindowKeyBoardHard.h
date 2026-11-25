@@ -41,7 +41,7 @@ struct TWindowKeyBoardHard : public TWindowBase {
     void sub_8025EC04();
     s32 is_printable_key(u8 arg1);
     s32 has_non_modifier_key();
-    s32 translate_key_char(u8 arg1, u16 *arg2);
+    s32 translate_key_char(u8 arg1, u16 *key_char);
     s32 get_input_mode();
     void set_mode0();
     void set_mode1();

@@ -85,9 +85,9 @@ extern "C" {
 void complete_speech_balloon(u8 *arg0);
 s32 is_speech_balloon_ready(u8 *window_base);
 extern "C" {
-void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 flags);
+void open__15TWindowFukidasiFPvPvi(u8 *window_fukidasi, u32 *arg1, s32 flags);
 void set_color__15TWindowFukidasiFUs(void *arg0, u16 arg1);
-void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr str, saddr flags);
+void set_text__15TWindowFukidasiFPvii(u8 *window_fukidasi, saddr str, saddr flags);
 }
 
 #endif

@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void handle_6x74_word_select(u8 *arg0);
+void handle_6x74_word_select(u8 *window_dd);
 
 #endif
