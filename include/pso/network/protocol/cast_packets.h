@@ -49,6 +49,7 @@ struct G_ExecutePhotonBlastParams_6x49 {
 // 6x49: a player fires a photon blast at up to ten targets.
 struct G_ExecutePhotonBlast_6x49 {
     G_ExecutePhotonBlast_6x49();
+    G_ExecutePhotonBlast_6x49 &operator=(G_ExecutePhotonBlast_6x49 &src);
 
     G_ClientIDHeader header;
     G_ExecutePhotonBlastParams_6x49 params;

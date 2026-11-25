@@ -105,13 +105,6 @@ struct Packet_801D1DDC {
     struct Target_801D1DDC targets[10];
 };
 
-struct ByteBlock_28
-{
-  u8 bytes[0x28];
-};
-
-typedef struct ByteBlock_28 ByteBlock_28;
-
 struct E_801D1FA4 { u8 d[4]; };
 
 struct Obj_801D1FA4 { u16 a; u16 b; s16 n0; s16 n; u8 pad[4]; E_801D1FA4 e[1]; };
@@ -148,7 +141,6 @@ u16 get_action_palette_mode(void *, s32);
 s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
-s32 copy_photon_blast_data__10TObjPlayerFiPv(saddr arg0, u8 *arg1);
 u8 TObjPlayer__sub_801D2004(u8 *arg0);
 void TObjPlayer__sub_801D2448(void* p);
 u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1);
@@ -2582,7 +2574,7 @@ void handle_6x49_execute_photon_blast(G_ExecutePhotonBlast_Header_6x49 *command)
     s32 i;
     TObjPlayer *p;
     G_ExecutePhotonBlast_6x49 cmd;
-    ((void (*)(void *, void *))copy_photon_blast_data__10TObjPlayerFiPv)(&cmd, command);
+    cmd = *(G_ExecutePhotonBlast_6x49 *)command;
     ((TObjPlayer *)(&cmd))->byteswap_6x49_packet();
     if (validate_6x49_execute_photon_blast(&cmd) != 0) {
         p = get_player_by_client_id(cmd.header.client_id);
@@ -5095,30 +5087,11 @@ void TObjPlayer::swap_endian_shorts() { bswap_16((u16 *)((char*)this + 0x2)); bs
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
-s32 copy_photon_blast_data__10TObjPlayerFiPv(saddr arg0, u8 *arg1) {
-  saddr var_r30;
-  s32 var_r3;
-  saddr var_r5;
-  s32 var_r6;
-  u8 *var_r31;
-  u8 *var_r4;
-  var_r30 = arg0;
-  var_r31 = (u8 *) arg1;
-  copy_subcommand_header((void*)(arg0), arg1);
-  var_r6 = *((s32 *) (((s8 *) var_r31) + 4));
-  var_r3 = *((s32 *) (((s8 *) var_r31) + 8));
-  if ((arg0 && arg0) && arg0)
-  {
-  }
-  var_r5 = var_r30 + 8;
-  var_r4 = (u8 *) (var_r31 + 8);
-  *((s32 *) (((s8 *) var_r30) + 4)) = var_r6;
-  *((s32 *) (((s8 *) var_r30) + 8)) = var_r3;
-  *((ByteBlock_28 *) (var_r5 + 4)) = *((const ByteBlock_28 *) (((saddr) var_r4) + 4));
-  var_r5 += 0x28;
-  var_r4 += 0x28;
-  var_r3 = var_r30;
-  return var_r3;
+G_ExecutePhotonBlast_6x49 &G_ExecutePhotonBlast_6x49::operator=(G_ExecutePhotonBlast_6x49 &src) {
+    copy_subcommand_header(this, &src);
+    __memcpy(&params, &src.params, sizeof(params));
+    __memcpy(targets, src.targets, sizeof(targets));
+    return *this;
 }
 #pragma pop
 
