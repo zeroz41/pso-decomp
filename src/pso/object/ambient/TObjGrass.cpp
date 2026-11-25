@@ -64,6 +64,8 @@
 #include "pso/network/client_id.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/object/base/TObjCollidable.h"
+#include "pso/ui/TLevelSelect.h"
 
 saddr lbl_805D5140;
 AttackParams **grass_bml_resource;  // the three attack parameter sets (inferred: not a BML resource)
@@ -94,19 +96,15 @@ struct E1C_800BF924 { u8 pad[0x1C]; };
 
 struct E2C_800BF924 { u8 pad[0x2C]; };
 
-void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 void TObjGrass__sub_800BFB68(O_800BFB68 *self);
 }
-void free_collision_body_parts(TObjCollidable *actor);
 extern "C" {
 f32 step_toward_destination(void *, Vec, f32);
 void TObjGrass__sub_800BCA2C(void *);
 f32 enemy_move_toward(void *, s32, void *, s32, f32);
 void enemy_pursue_point(void *, s32, void *, f32, f32);
 }
-extern s32 game_difficulty_selection;
-void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid(void *, Vec);

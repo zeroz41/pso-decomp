@@ -19,6 +19,7 @@
 
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 
 #pragma defer_codegen on
@@ -40,7 +41,6 @@ void create_bgm_col_zones(void);
 extern s32 tl_05;
 int get_quest_bgm_issued_flag(void);
 
-extern s32 local_client_id;
 
 struct Row_8017E550 { Vec pos; f32 radius; s32 category; };
 

@@ -21,9 +21,10 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 
 
+s32 city_main_warp_destination_id;
+
 extern "C" {
 s32 is_local_client_floor_leader(s32);
-s32 city_main_warp_destination_id;
 
 void TObjCityMainWarp::update_state() {
     s32 temp_r0_2;

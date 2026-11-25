@@ -42,6 +42,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjCollidable.h"
 
 #pragma readonly_strings on
 
@@ -110,7 +111,6 @@ extern const TObjChipParams container_jung_enemy_spawn_params_b = {
 extern "C" {
 u32 init_collision_body_parts(void *, saddr, s32);
 }
-void free_collision_body_parts(TObjCollidable *actor);
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
 

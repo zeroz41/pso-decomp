@@ -106,7 +106,6 @@ void release_boss_warp_resources(void);
 
 const char lbl_8044663C[] = "<- NEXT STAGE No.";
 const char lbl_80446650[] = "<- KEY ID : %d";
-extern u32 player_slot_table[];
 extern s32 lbl_805D55C0;
 
 
@@ -820,22 +819,22 @@ TObjWarpBossMulti::~TObjWarpBossMulti() {
 
 void TObjWarpBossMulti::run_task() {
     s32 i;
-    uaddr pl;
+    TObjPlayer *pl;
     f32 r;
 
     for (i = 0; i < 4; i++) {
         pl = player_slot_table[i];
-        if (pl != 0U && ((TObjChara *)pl)->is_locally_controlled() != 0) {
-            if (((TObjPlayer *)pl)->get_floor() == get_current_floor()) {
-                if (xz_distance_squared(&((TObjPlayer *)pl)->position, &position) <= (r = 25.0f + warp_range) * r) {
-                    if (TObjWarpBossMulti::is_flag_clear((void*)pl) != 0) {
+        if (pl != NULL && pl->is_locally_controlled() != 0) {
+            if (pl->get_floor() == get_current_floor()) {
+                if (xz_distance_squared(&pl->position, &position) <= (r = 25.0f + warp_range) * r) {
+                    if (TObjWarpBossMulti::is_flag_clear(pl) != 0) {
                         player_in_range[i] = 1;
-                        ((TObjPlayer *)pl)->set_flag_4096();
+                        pl->set_flag_4096();
                     }
-                } else if (TObjWarpBossMulti::is_flag_clear((void*)pl) == 0) {
+                } else if (TObjWarpBossMulti::is_flag_clear(pl) == 0) {
                     if (player_in_range[i] != 0) {
                         player_in_range[i] = 0;
-                        ((TObjPlayer *)pl)->clear_flag_4096();
+                        pl->clear_flag_4096();
                     }
                 }
             }

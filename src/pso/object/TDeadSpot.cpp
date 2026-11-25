@@ -30,6 +30,7 @@
 #include "pso/unk/text_803D8DE0.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/derolle/RandomAngle.h"
+#include "pso/render/model_render_state.h"
 
 struct CornerRow {
     u8 pad[0x88];
@@ -46,9 +47,7 @@ const char *dead_spot_class_name = "TDeadSpot";
 }
 #pragma pop
 
-extern s32 saved_model_render_flags;
 
-extern s32 model_render_flags;
 
 #pragma push
 #pragma fp_contract on

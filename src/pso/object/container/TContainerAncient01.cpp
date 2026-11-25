@@ -46,6 +46,7 @@ static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/object/base/TObjCollidable.h"
 
 struct Obj_8018B180 { u8 pad[0x38]; Vec pos; };
 
@@ -79,7 +80,6 @@ void TContainerAncient01__sub_8018B180(TContainerAncient01 *self, f32 range);
 void TContainerAncient01R__sub_8018AF74(void);
 }
 
-void free_collision_body_parts(TObjCollidable *actor);
 
 
 const char *fe_obj_h_s_konte_model_names[3] = { "fe_obj_h_s_konte.gj", "fe_obj_h_s_konte2.gj", NULL };

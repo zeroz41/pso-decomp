@@ -11,8 +11,8 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/TLevelSelect.h"
 
-extern s32 game_difficulty_selection;
 
 const char *mine_icon01_name = "TOMineIcon01";
 

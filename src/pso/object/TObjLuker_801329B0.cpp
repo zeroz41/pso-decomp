@@ -2,9 +2,9 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/object/TObjLuker.h"
+#include "pso/ui/TLevelSelect.h"
 
 extern u8 *text_language_group_table;
-extern s32 game_difficulty_selection;
 
 // Section ID names, indexed by a character's section id (TObjCMName, TAdPlyStatusGC).
 const char *luker_stat_entry_ptr_table[] = {

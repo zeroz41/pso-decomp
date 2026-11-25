@@ -50,7 +50,6 @@ static const char lbl_80444A58[] = "<- KEY ID : %d";
 extern "C" {
 s32 is_local_client_floor_leader(s32);
 void request_active_window_close(void);
-extern s32 city_main_warp_destination_id;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = lbl_805D32B8;

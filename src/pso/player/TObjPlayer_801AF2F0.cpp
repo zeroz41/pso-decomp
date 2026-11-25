@@ -519,7 +519,6 @@ extern const char *TObjPlayer__player_set_class_name;
 extern const f32 player_front_distance;
 extern Vec scratch_vec5;
 extern Color_801B6964 player_feedback_light_color[];
-extern TObjPlayer *player_slot_table[];
 extern s32 lbl_805D55C0;
 extern PlayerCharDataEntry *lobby_char_slot_array;
 extern const char status_line_break[];

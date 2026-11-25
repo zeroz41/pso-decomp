@@ -396,7 +396,6 @@ extern const char *TOMineTrap__data_805D3080;
 const f64 freeze_escape_timer_scale = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
 extern f32 player_feedback_light_color[];
-extern void *player_slot_table[];
 extern const char *TWindowReturnCity__class_name;
 
 }
@@ -2664,21 +2663,21 @@ void release_photon_blast_player_holds(u16 *p) {
 
 void freeze_players_for_photon_blast(s16 arg0, u16 *arg1) {
     s32 i;
-    void *obj;
-    void **tbl;
+    TObjPlayer *obj;
+    TObjPlayer **tbl;
     tbl = player_slot_table;
     i = 0;
     do {
         obj = *tbl;
-        if (obj != NULL && ((TObjPlayer *)obj)->is_on_current_floor() != 0 && ((TObjPlayer *)obj)->test_action_mask(0x8000) == 0 &&
+        if (obj != NULL && obj->is_on_current_floor() != 0 && obj->test_action_mask(0x8000) == 0 &&
             (TObjPlayer::is_single_screen() != 0 ||
-             (TObjPlayer::is_single_screen() == 0 && arg0 == ((TObjBase *)obj)->get_room()))) {
+             (TObjPlayer::is_single_screen() == 0 && arg0 == obj->get_room()))) {
             TObjPlayer__sub_801D0F70(obj);
             if (arg1 != NULL) {
-                *arg1 = ((TObjBase *)obj)->get_entity_id();
+                *arg1 = obj->get_entity_id();
                 arg1++;
             }
-            ((TObjPlayer *)obj)->run_action_state_phase(0x13, 0);
+            obj->run_action_state_phase(0x13, 0);
         }
         i++;
         tbl++;

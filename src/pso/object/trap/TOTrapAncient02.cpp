@@ -47,8 +47,8 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/TLevelSelect.h"
 
-extern s32 game_difficulty_selection;
 
 const char *bm_fs_obj_o_torabasami_motion_names[] = {NULL};
 const char *bm_obj_ruins_pillar_motion_names[] = {NULL};

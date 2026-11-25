@@ -34,10 +34,10 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/TLevelSelect.h"
 
 struct Q_801681D0 { f32 w[4]; };
 
-extern s32 game_difficulty_selection;
 
 BmlResource *hangceiling_cave01_model_archive;
 NJS_TEXLIST **turiten_singo_texture_lists;

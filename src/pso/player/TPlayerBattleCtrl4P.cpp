@@ -58,6 +58,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/quest/QuestOpcodeHandlers.h"
 
 
 // Window size {width, height} passed to TWindowMessage::create.
@@ -76,14 +77,12 @@ void TLobby__sub_801B09A4(void);
 void request_active_window_close(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
-extern s16 battle_event_second_table[];
 s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
 extern "C" {
 void reset_map();
 }
 char team_matchup_message_buffer[256];
-    extern int evt2_random_enemies_mode;
 typedef void (TPlayerBattleCtrl4P::*BattleAction)();
 s32 lbl_805D6AB0;
 // Japanese text (shift-JIS)

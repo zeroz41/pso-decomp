@@ -41,6 +41,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 // The enemy's row of the floor's set data (what set_entry points at).
@@ -94,7 +95,6 @@ extern u8 lobby_rule_settings[];
 
 s32 area_random_seed;
 
-extern s32 game_difficulty_selection;
 
 void init_6x0A_enemy_state_packet(void *);
 

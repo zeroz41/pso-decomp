@@ -34,8 +34,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
-extern s32 actor_frame_tick;
 
 // One kind of TObjSeabedSuiso_CH.
 struct SeabedSuisoKind {

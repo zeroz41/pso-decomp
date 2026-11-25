@@ -19,10 +19,10 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/render/render_util.h"
 
 // The default constant-material colour (owner unit not split yet; 27 files
 // declare it with their own types, see the lane report).
-extern u8 chunk_material_color_half_alpha_f32[];
 
 const char *bm_fs_obj_o_doorpanel_model_names[] = {"fs_obj_o_doorpanel.gj", NULL};
 const char *bm_fs_obj_o_doorpanel_motion_names[] = {NULL};
@@ -152,7 +152,7 @@ void TOKeyAncient03::render() {
         pop_matrix();
         pop_matrix();
         if (is_on != 1) {
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
         pop_matrix();

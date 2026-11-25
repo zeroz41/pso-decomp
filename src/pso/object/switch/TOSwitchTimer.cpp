@@ -26,8 +26,6 @@ struct Stack_801781D8 {
     s8 sp1C;
 };
 
-void clear_floor_switch_flag(u32 id, s16 floor);
-void set_floor_switch_flag(u32 id, s16 floor);
 void handle_6x93_set_switch_flag_from_timer(G_SetSwitchFlagFromTimer_6x93 *command) {
     ((TOChatSensor *)command)->swap_state_endian();
     if (command->should_set == 1) {
@@ -123,7 +121,6 @@ void TOSwitchTimer::init_from_set_data() {
 const char *switch_timer_name = "TOSwitchTimer";
 
 
-void clear_floor_switch_flag(u32 id, s16 floor);
 
 
 void TOSwitchTimer::render() {

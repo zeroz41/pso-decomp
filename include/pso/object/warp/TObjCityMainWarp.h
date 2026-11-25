@@ -40,4 +40,7 @@ struct TObjCityMainWarp : public TObjAreaWarp {
 };
 
 LAYOUT_ASSERT(TObjCityMainWarp_size, sizeof(TObjCityMainWarp) == 0x154);
+
+// The floor the city main warp sends the player to (TObjDoor::set_main_warp_id).
+extern s32 city_main_warp_destination_id;
 #endif

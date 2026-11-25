@@ -17,6 +17,7 @@
 #include "pso/object/TObjRoomId.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane
@@ -136,7 +137,6 @@ void set_player_room_control_flag(TObjPlayer *player) {
     player->set_state_flags(0x02000000);
 }
 
-extern s32 local_client_id;
 
 u16 get_entity_id_kind(u16 entity_id) {
     u16 r;

@@ -11,9 +11,9 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/unk/TLobby_800FD78C.h"
 
 // The game's frame counter (main's .sbss; no module header owns it yet).
-extern s32 actor_frame_tick;
 
 const char *bm_fs_obj_cap_moto_model_names[] = {"fs_obj_cap_moto.gj", NULL};
 const char *bm_fs_obj_cap_moto_motion_names[] = {NULL};

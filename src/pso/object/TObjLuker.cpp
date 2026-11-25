@@ -36,6 +36,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/network/client_id.h"
 
 
 #pragma readonly_strings on
@@ -130,7 +131,6 @@ void TObjLuker::open_destination_windows() {
 }
 }
 s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
-extern s32 local_client_id;
 s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range) {
     s32 ret;
     s32 flag;

@@ -1290,6 +1290,9 @@ extern s16 item_equip_attach_equip_flag_table[];
 // demo_camera_params_table.
 extern s16 demo_camera_index;
 
+// The player object of each client id (NULL while the slot is empty).
+extern TObjPlayer *player_slot_table[12];
+
 extern "C" {
 void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot);
 void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s32 count);

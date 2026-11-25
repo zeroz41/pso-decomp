@@ -81,8 +81,8 @@
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/OnlineLobbyScene.h"
+#include "pso/unk/text_801F43B4.h"
 
-s32 get_story_flag(s32);
 
 s32 city_main_warp_enabled_destinations;
 

@@ -110,7 +110,6 @@ extern "C" {
 // ---- declarations carried over from the fragment text_8016F1C0.cpp
 s32 is_split_screen();
 }
-void text_builder_reset(void);
 extern "C" {
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
 s32 get_current_floor(void);

@@ -21,6 +21,8 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
+#include "pso/object/base/TObjCollidable.h"
+#include "pso/unk/TLobby_801F3A24.h"
 
 
 #pragma readonly_strings on
@@ -28,10 +30,8 @@
 CollisionBody attackable_col_collision_parts = {{0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *attackable_col_name = "TOAttackableCol";
 
-void set_floor_switch_flag(u32 id, s16 floor);
 
 
-struct SetEntry_80157454 { s16 id; s16 value; };
 
 extern "C" {
 void TOAttackableCol__sub_80157310(void *_w0);
@@ -40,8 +40,6 @@ s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
 }
-void free_collision_body_parts(TObjCollidable *actor);
-extern SetEntry_80157454 *quest_object_entries;
 extern "C" {
 
 void TOAttackableCol__sub_80157310(void * _w0) {  }
@@ -98,7 +96,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
             col = (TOAttackableCol *)find_entity_by_id(command->header.entity_id);
             if (col != NULL) {
                 if (reinterpret_cast<TObject *>(col)->check_value_equals(attackable_col_name) != 0) {
-                    SetEntry_80157454 saved;
+                    QuestObjectEntry saved;
                     switch (command->is_destroyed) {
                     case 0:
                         mode = col->mode;
@@ -118,12 +116,12 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
                         }
                         break;
                     }
-                    saved.id = col->mode;
-                    col->vfunc_6(&saved.id, 0);
+                    saved.flags = col->mode;
+                    col->vfunc_6(&saved.flags, 0);
                 }
             } else {
-                SetEntry_80157454 entry = quest_object_entries[command->object_index];
-                entry.id = command->flags;
+                QuestObjectEntry entry = quest_object_entries[command->object_index];
+                entry.flags = command->flags;
                 TLobby::apply_table_entry(command->object_index, &entry);
             }
             if (command->should_set == 1 && command->switch_flag_num < 0x100 && command->floor < 18) {

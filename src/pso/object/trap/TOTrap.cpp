@@ -14,11 +14,11 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/ui/TLevelSelect.h"
 
 const char *lbl_805D3198 = "TOTrap";
 
 
-extern s32 game_difficulty_selection;
 f32 TOTrap::scale_by_table_value(f32 table_value) {
     f32 scale[4] = {1.0f, 2.0f, 3.0f, 6.0f};
     return table_value * scale[game_difficulty_selection];

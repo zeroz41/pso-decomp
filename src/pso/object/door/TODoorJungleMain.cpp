@@ -61,6 +61,7 @@ struct AnimationMotion;
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/text_801F4560.h"
 
 
 struct Ids_8029B428 {
@@ -97,7 +98,6 @@ void TLobby__sub_8029B2A4(void* p);
 }
 s32 is_any_player_near(saddr arg0);
 
-void clear_story_flag_in_bank(s32 n, s32 flag);
 
 #pragma inline_depth(1)
 

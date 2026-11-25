@@ -113,6 +113,8 @@
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/technique/TechniqueBoost.h"
+#include "pso/ui/TLevelSelect.h"
 
 
 struct ObjFlags;
@@ -143,8 +145,6 @@ void empty_post_damage_hook(void *defender, void *attacker);
 void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage);
 void draw_hp_label(void *player, u32 pos, s32 delay, s16 arg3);
 void obj_copyVec2_0(u8* d, u8* s);
-f32 calc_technique_boost(s32, u16);
-extern s32 game_difficulty_selection;
 void display_exp_gain(saddr player, u32 pos, s32 delay, s32 arg3);
 void show_tp_font(saddr player, u32 pos, s32 delay, s32 arg3);
 s16 obj_getS16_118(u8* p);
@@ -253,8 +253,6 @@ struct ObjFlags {
 struct O_80019664 { u8 f0; u8 f1; u8 pad[2]; u16 f4; u8 f6; u8 f7; };
 struct Obj_80014B5C { u8 pad0[0x30]; u32 f30; u8 pad34[0x254 - 0x34]; u8 f254[0x330 - 0x254]; u32 f330; };
 
-void shutdown_and_reset_system(void);
-void init_game_systems(void);
 extern "C" {
 s32 select_destination_away_from(TObjChara *chara, Vec point);
 s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
@@ -298,7 +296,6 @@ void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 is_entity_locally_controlled(s32 id);
 f64 fabs_double(f64 x);
-void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 #pragma push
 #pragma fp_contract on
 #pragma push

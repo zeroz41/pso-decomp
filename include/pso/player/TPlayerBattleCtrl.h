@@ -101,6 +101,9 @@ void play_duel_result_stream(const char *file, saddr duration);
 
 extern s32 battle_ctrl_default_value;
 
+// Battle event times in seconds; start_duel_battle arms one pending event per non-zero entry.
+extern s16 battle_event_second_table[8];
+
 // Battle score weights the quest opcodes ba_*_score set; the rule setup hands them to each player's
 // score counters.
 extern f32 battle_player_give_damage_score;

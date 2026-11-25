@@ -54,6 +54,7 @@
 #include <dolphin/os/OSTime.h>
 #include "pso/system/scene/OnlineLobbyScene.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/boss/volopt/TObjVoloptCage.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -84,7 +85,6 @@ void play_duel_result_stream(const char *file, saddr duration);
 extern "C" {
 u8 is_battle_mode_running(void);
 s32 TLobby__sub_801C2678(void);
-extern s16 battle_event_second_table[];
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
 s32 is_duel_ranking_empty(void);
@@ -167,14 +167,12 @@ typedef struct Send6x7DSetBattleModeDataMsg {
     s32 order[4];
 } Send6x7DSetBattleModeDataMsg;
 
-void obj_clear_flag30_20000(TObjBase *actor);
 extern "C" {
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 extern const char *dead_spot_class_name;
 
 extern u16 battle_mode_data_table[];
-s32 obj_set_flag_20000();
 s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
@@ -290,10 +288,8 @@ s32 fn_801D6D8C(void *, int, int);
 s32 fn_801D726C(void *, int);
 s32 fn_801D72B0(void *, int);
 }
-extern u32 player_slot_table[];
 
 extern s32 battle_intro_value_table[];
-void obj_clear_flag30_20000(TObjBase *actor);
 
 extern "C" {
 
@@ -836,18 +832,18 @@ void apply_game_settings(s32 owner, s32 use_config) {
         }
         TLobby::set_field_a(lobby_rule_settings, (u8) (flag != 0));
         for (s32 i = 0; i < 4; i++) {
-            uaddr p = player_slot_table[i];
-            if (p != 0U) {
-                ((DamageStatSlot *)(p + 0x78C))->set_bonus_weight(battle_player_give_damage_score);
-                ((DamageStatSlot *)(p + 0x78C))->set_normal_weight(battle_enemy_give_damage_score);
-                ((DamageStatSlot *)(p + 0x77C))->set_bonus_weight(battle_player_take_damage_score);
-                ((DamageStatSlot *)(p + 0x77C))->set_normal_weight(battle_enemy_take_damage_score);
-                ((DamageStatSlot *)(p + 0x75C))->set_bonus_weight(battle_player_kill_score);
-                ((DamageStatSlot *)(p + 0x75C))->set_normal_weight(battle_enemy_kill_score);
-                ((DamageStatSlot *)(p + 0x76C))->set_bonus_weight(battle_player_death_score);
-                ((DamageStatSlot *)(p + 0x76C))->set_normal_weight(battle_enemy_death_score);
-                ((DamageStatSlot *)(p + 0x79C))->set_bonus_weight(battle_meseta_score);
-                ((DamageStatSlot *)(p + 0x79C))->set_normal_weight(battle_meseta_score);
+            TObjPlayer *p = player_slot_table[i];
+            if (p != NULL) {
+                p->battle_score.damage_stats[3].set_bonus_weight(battle_player_give_damage_score);
+                p->battle_score.damage_stats[3].set_normal_weight(battle_enemy_give_damage_score);
+                p->battle_score.damage_stats[2].set_bonus_weight(battle_player_take_damage_score);
+                p->battle_score.damage_stats[2].set_normal_weight(battle_enemy_take_damage_score);
+                p->battle_score.damage_stats[0].set_bonus_weight(battle_player_kill_score);
+                p->battle_score.damage_stats[0].set_normal_weight(battle_enemy_kill_score);
+                p->battle_score.damage_stats[1].set_bonus_weight(battle_player_death_score);
+                p->battle_score.damage_stats[1].set_normal_weight(battle_enemy_death_score);
+                p->battle_score.damage_stats[4].set_bonus_weight(battle_meseta_score);
+                p->battle_score.damage_stats[4].set_normal_weight(battle_meseta_score);
             }
         }
         TLobby::set_section_id(lobby_rule_settings, 1);
@@ -1216,7 +1212,7 @@ void TDelayedAreaMusic::run_task() {
 
 void TPlayerBattleCtrl::init_battle_round() {
   s32 char_select_slot;
-  saddr temp_r3;
+  TObjPlayer *player;
   s32 var_ctr;
   s32 var_r3;
   s32 i;
@@ -1235,16 +1231,16 @@ void TPlayerBattleCtrl::init_battle_round() {
   TAdSinglePlyChrSelectGC__sub_801FCE6C();
   apply_game_settings((saddr)this, 1);
   TLobby::close_and_play_effect((u16) local_client_id, 1);
-  temp_r3 = (saddr)get_local_player();
-  if (temp_r3 != 0)
+  player = get_local_player();
+  if (player != NULL)
   {
-    obj_set_flag_20000();
-    ((DamageStatSlot *)(temp_r3 + 0x78C))->reset();
-    ((DamageStatSlot *)(temp_r3 + 0x77C))->reset();
-    ((DamageStatSlot *)(temp_r3 + 0x75C))->reset();
-    ((DamageStatSlot *)(temp_r3 + 0x76C))->reset();
-    ((DamageStatSlot *)(temp_r3 + 0x79C))->reset();
-    ((PlayerSubObjectSlots *)(temp_r3 + 0x7AC))->set_score(0);
+    obj_set_flag_20000(player);
+    player->battle_score.damage_stats[3].reset();
+    player->battle_score.damage_stats[2].reset();
+    player->battle_score.damage_stats[0].reset();
+    player->battle_score.damage_stats[1].reset();
+    player->battle_score.damage_stats[4].reset();
+    player->battle_score.slots.set_score(0);
   }
   *((s32 *) (((s8 *) this) + 0x60)) = 0x5A;
   calc_player_rankings();
@@ -1280,16 +1276,15 @@ void TPlayerBattleCtrl::start_duel_battle() {
 }
 
 void TPlayerBattleCtrl::init() {
-    saddr temp_r3;
     s32 i;
     TObjPlayer *player;
 
     set_flag_270();
     TLobby::close_and_play_effect((u16) local_client_id, 1);
-    temp_r3 = (saddr)get_local_player();
-    if (temp_r3 != 0) {
-        obj_set_flag_20000();
-        ((ProtectionTimer *)(temp_r3 + 0x644))->set_frames(0xE10);
+    player = get_local_player();
+    if (player != NULL) {
+        obj_set_flag_20000(player);
+        player->protection.set_frames(0xE10);
     }
     TOMineTrap::destroy_matching_traps();
     queue_destroy_event_descendants(tl_01);

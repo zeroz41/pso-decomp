@@ -55,6 +55,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/object/base/TObjCollidable.h"
+#include "pso/network/client_id.h"
 
 struct Item_80189E3C { u8 pad[0x30]; s32 data[3]; };
 struct ForestBoxCollisionBody {
@@ -152,8 +154,6 @@ extern const f32 lbl_805DBCF8;
 extern "C" {
 u32 init_collision_body_parts(void *, void *, s32);
 }
-void free_collision_body_parts(TObjCollidable *actor);
-extern s32 local_client_id;
 NJS_OBJECT *get_container_breakup_model(s32 index);
 extern const f32 lbl_805DBCF4;
 NJS_OBJECT *get_forest_box_model(s32 index);
