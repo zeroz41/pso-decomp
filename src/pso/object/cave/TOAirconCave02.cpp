@@ -10,14 +10,14 @@
 
 const char *bm_fe_obj_aircon02_model_names[] = {"fe_obj_aircon02.gj", NULL};
 const char *bm_fe_obj_aircon02_motion_names[] = {NULL};
-BmlResourceDescriptor TOAirconCave02__shared_resource_desc = {
+BmlResourceDescriptor aircon_cave02_shared_resource_desc = {
     "bm_fe_obj_aircon02.bml", bm_fe_obj_aircon02_model_names, bm_fe_obj_aircon02_motion_names, 1, 0,
 };
 const char *TOAirconCave02_class_name = "TOAirconCave02";
-BmlResource *TOAirconCave02__bml_resource;
+BmlResource *aircon_cave02_bml_resource;
 
 void TOAirconCave02::render() {
-    void *object = (void *)TOAirconCave02__bml_resource->models[0].model;
+    void *object = (void *)aircon_cave02_bml_resource->models[0].model;
     if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
@@ -33,15 +33,15 @@ void *TOAirconCave02::create(void *set_data) {
 }
 
 void TOAirconCave02::release_static_resource() {
-    if (TOAirconCave02__bml_resource != NULL) {
-        delete TOAirconCave02__bml_resource;
-        TOAirconCave02__bml_resource = NULL;
+    if (aircon_cave02_bml_resource != NULL) {
+        delete aircon_cave02_bml_resource;
+        aircon_cave02_bml_resource = NULL;
     }
 }
 
 void TOAirconCave02::load_shared_resource() {
-    BmlResource *resource = new BmlResource(1, &TOAirconCave02__shared_resource_desc, 0, 0, NULL);
-    TOAirconCave02__bml_resource = resource;
+    BmlResource *resource = new BmlResource(1, &aircon_cave02_shared_resource_desc, 0, 0, NULL);
+    aircon_cave02_bml_resource = resource;
 }
 
 TOAirconCave02::~TOAirconCave02() {}
@@ -49,8 +49,8 @@ TOAirconCave02::~TOAirconCave02() {}
 TOAirconCave02::TOAirconCave02(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TOAirconCave02_class_name;
     apply_object_set_data(set_data);
-    model = (void *)TOAirconCave02__bml_resource->models[0].model;
-    texlist = TOAirconCave02__bml_resource->models[0].texlist;
+    model = (void *)aircon_cave02_bml_resource->models[0].model;
+    texlist = aircon_cave02_bml_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 40.0f;
 }

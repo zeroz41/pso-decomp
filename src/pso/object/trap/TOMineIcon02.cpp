@@ -14,7 +14,7 @@
 
 extern s32 game_difficulty_selection;
 
-const char *TOMineIcon02__name = "TOMineIcon02";
+const char *mine_icon02_name = "TOMineIcon02";
 
 void TOMineIcon02::vfunc_84() {  }
 
@@ -36,7 +36,7 @@ TOMineIcon02::~TOMineIcon02() {
 #pragma push
 #pragma fp_contract on
 TOMineIcon02::TOMineIcon02(TObject *parent, void *set_data) : TOMine(parent) {
-    m_name = TOMineIcon02__name;
+    m_name = mine_icon02_name;
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();

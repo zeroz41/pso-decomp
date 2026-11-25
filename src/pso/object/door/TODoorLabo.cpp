@@ -65,20 +65,20 @@ NJS_TEXLIST *seabed_door_lit_textures;
 NJS_TEXLIST *seabed_door_unlit_textures;
 BmlResource *seabed_four_light_door_bml_resource;
 NJS_TEXLIST *seabed_four_light_door_textures;
-NJS_TEXLIST *TODoorFourLightSeabedU__texture_list;
+NJS_TEXLIST *door_four_light_seabed_u_texture_list;
 BmlResource *TODoorLabo__bml_resource;
-NJS_TEXLIST *TODoorLabo__green_texture_list;
+NJS_TEXLIST *door_labo_green_texture_list;
 NJS_TEXLIST *labo_door_red_textures;
-BmlResource *TODoorLabo__model_archive;
-NJS_TEXLIST *TODoorLaboNormal__green_texture_list;
-NJS_TEXLIST *TODoorLaboNormal__red_texture_list;
+BmlResource *door_labo_model_archive;
+NJS_TEXLIST *door_labo_normal_green_texture_list;
+NJS_TEXLIST *door_labo_normal_red_texture_list;
 
-const char *TODoorFourLightBase__class_name = "TODoorFourLightBase";
+const char *door_four_light_base_class_name = "TODoorFourLightBase";
 
 
 TODoorFourLightBase::TODoorFourLightBase(TObject *parent, void *set_data) : TODoorBase(parent) {
     s32 i;
-    m_name = TODoorFourLightBase__class_name;
+    m_name = door_four_light_base_class_name;
     apply_object_set_data(set_data);
     init_door_switch_binding();
     for (i = 0; i < 8; i++) {
@@ -340,12 +340,12 @@ void free_seabed_four_light_door_resources() {
 }
 
 }
-const char *TODoorFourLightSeabed__class_name = "TODoorFourLightSeabed";
+const char *door_four_light_seabed_class_name = "TODoorFourLightSeabed";
 const FourLightNodeTable door_four_light_seabed_index_table = {{2, 4, 9, 11, 3, 5, 10, 12}};
 
 TODoorFourLightSeabed::TODoorFourLightSeabed(TObject *parent, void *set_data) : TODoorFourLightBase(parent, set_data) {
     s32 i;
-    m_name = TODoorFourLightSeabed__class_name;
+    m_name = door_four_light_seabed_class_name;
     init_collision_body_parts(this, labo_door_collision_body_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -386,22 +386,22 @@ void load_seabed_u_four_light_door_resources(void) {
         var_r0 = (saddr)new BmlResource(5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, NULL);
         seabed_four_light_door_bml_resource = (BmlResource *)var_r0;
         seabed_four_light_door_textures = LoadPvmFileTls("fs_obj_doorx4_u_green.GVM");
-        TODoorFourLightSeabedU__texture_list = LoadPvmFileTls("fs_obj_doorx4_u.GVM");
+        door_four_light_seabed_u_texture_list = LoadPvmFileTls("fs_obj_doorx4_u.GVM");
         return;
     case AREA_SEABED_LOWER:
         var_r0_2 = (saddr)new BmlResource(5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, NULL);
         seabed_four_light_door_bml_resource = (BmlResource *)var_r0_2;
         seabed_four_light_door_textures = LoadPvmFileTls("fs_obj_doorx4_usui_green_02.GVM");
-        TODoorFourLightSeabedU__texture_list = LoadPvmFileTls("fs_obj_doorx4_usui_02.GVM");
+        door_four_light_seabed_u_texture_list = LoadPvmFileTls("fs_obj_doorx4_usui_02.GVM");
         return;
     }
 }
 
 void free_seabed_u_four_light_door_resources() {
-    if (TODoorFourLightSeabedU__texture_list != NULL) {
-        release_texture_list(TODoorFourLightSeabedU__texture_list);
-        safe_free(TODoorFourLightSeabedU__texture_list);
-        TODoorFourLightSeabedU__texture_list = NULL;
+    if (door_four_light_seabed_u_texture_list != NULL) {
+        release_texture_list(door_four_light_seabed_u_texture_list);
+        safe_free(door_four_light_seabed_u_texture_list);
+        door_four_light_seabed_u_texture_list = NULL;
     }
     if (seabed_four_light_door_textures != NULL) {
         release_texture_list(seabed_four_light_door_textures);
@@ -443,7 +443,7 @@ TODoorFourLightSeabedU::~TODoorFourLightSeabedU() {
 }
 
 s32 TODoorFourLightSeabedU::get_unlit_textures() {
-    return (saddr)TODoorFourLightSeabedU__texture_list;
+    return (saddr)door_four_light_seabed_u_texture_list;
 }
 
 s32 TODoorFourLightSeabedU::get_lit_textures() {
@@ -453,7 +453,7 @@ s32 TODoorFourLightSeabedU::get_lit_textures() {
 void load_labo_door_resources(void) {
     saddr r = (saddr)new BmlResource(5, &labo_door_resource_descriptor, 0, 0, NULL);
     TODoorLabo__bml_resource = (BmlResource *)r;
-    TODoorLabo__green_texture_list = LoadPvmFileTls("obj_o_labodoor_l_grn.GVM");
+    door_labo_green_texture_list = LoadPvmFileTls("obj_o_labodoor_l_grn.GVM");
     labo_door_red_textures = LoadPvmFileTls("obj_o_labodoor_l_red.GVM");
 }
 
@@ -467,10 +467,10 @@ void TAdSinglePlyChrSelectGC::free_all_resources() {
         safe_free(labo_door_red_textures);
         labo_door_red_textures = NULL;
     }
-    if (TODoorLabo__green_texture_list != NULL) {
-        release_texture_list(TODoorLabo__green_texture_list);
-        safe_free(TODoorLabo__green_texture_list);
-        TODoorLabo__green_texture_list = NULL;
+    if (door_labo_green_texture_list != NULL) {
+        release_texture_list(door_labo_green_texture_list);
+        safe_free(door_labo_green_texture_list);
+        door_labo_green_texture_list = NULL;
     }
     if (TODoorLabo__bml_resource != NULL) {
         delete (BmlResource *)TODoorLabo__bml_resource;
@@ -510,7 +510,7 @@ s32 TODoorLabo::get_unlit_textures() {
 }
 
 s32 TODoorLabo::get_lit_textures() {
-    return (saddr)TODoorLabo__green_texture_list;
+    return (saddr)door_labo_green_texture_list;
 }
 
 void TODoorLabo::init_model_by_type() {
@@ -526,25 +526,25 @@ void TODoorLabo::init_model_by_type() {
 
 void TODoorLabo::load_resources() {
     saddr r = (saddr)new BmlResource(5, &labo_door_resource_descriptor_2, 0, 0, NULL);
-    TODoorLabo__model_archive = (BmlResource *)r;
-    TODoorLaboNormal__green_texture_list = LoadPvmFileTls("o_labodoor_nrm_green.GVM");
-    TODoorLaboNormal__red_texture_list = LoadPvmFileTls("o_labodoor_nrm_red.GVM");
+    door_labo_model_archive = (BmlResource *)r;
+    door_labo_normal_green_texture_list = LoadPvmFileTls("o_labodoor_nrm_green.GVM");
+    door_labo_normal_red_texture_list = LoadPvmFileTls("o_labodoor_nrm_red.GVM");
 }
 
 void TODoorLabo::free_resources() {
-    if (TODoorLaboNormal__red_texture_list != NULL) {
-        release_texture_list(TODoorLaboNormal__red_texture_list);
-        safe_free(TODoorLaboNormal__red_texture_list);
-        TODoorLaboNormal__red_texture_list = NULL;
+    if (door_labo_normal_red_texture_list != NULL) {
+        release_texture_list(door_labo_normal_red_texture_list);
+        safe_free(door_labo_normal_red_texture_list);
+        door_labo_normal_red_texture_list = NULL;
     }
-    if (TODoorLaboNormal__green_texture_list != NULL) {
-        release_texture_list(TODoorLaboNormal__green_texture_list);
-        safe_free(TODoorLaboNormal__green_texture_list);
-        TODoorLaboNormal__green_texture_list = NULL;
+    if (door_labo_normal_green_texture_list != NULL) {
+        release_texture_list(door_labo_normal_green_texture_list);
+        safe_free(door_labo_normal_green_texture_list);
+        door_labo_normal_green_texture_list = NULL;
     }
-    if (TODoorLabo__model_archive != NULL) {
-        delete (BmlResource *)TODoorLabo__model_archive;
-        TODoorLabo__model_archive = NULL;
+    if (door_labo_model_archive != NULL) {
+        delete (BmlResource *)door_labo_model_archive;
+        door_labo_model_archive = NULL;
     }
 }
 
@@ -557,7 +557,7 @@ TODoorLaboNormal::TODoorLaboNormal(TObject *parent, void *set_data) : TODoorFour
     refresh_collision_body_centers();
     register_object_by_id();
     init_field_d4();
-    motion = (AnimationMotion *)get_bml_motion(TODoorLabo__model_archive, 0);
+    motion = (AnimationMotion *)get_bml_motion(door_labo_model_archive, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 0.5f;
     {
@@ -578,12 +578,12 @@ TODoorLaboNormal::~TODoorLaboNormal() {
 }
 
 s32 TODoorLaboNormal::get_unlit_textures() {
-    return (saddr)TODoorLaboNormal__red_texture_list;
+    return (saddr)door_labo_normal_red_texture_list;
 }
 
 s32 TODoorLaboNormal::get_lit_textures() {
-    return (saddr)TODoorLaboNormal__green_texture_list;
+    return (saddr)door_labo_normal_green_texture_list;
 }
 
-void TODoorLaboNormal::init_field_d4() { model = get_bml_model(TODoorLabo__model_archive, 0); }
+void TODoorLaboNormal::init_field_d4() { model = get_bml_model(door_labo_model_archive, 0); }
 

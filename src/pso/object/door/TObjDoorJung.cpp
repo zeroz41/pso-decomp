@@ -32,15 +32,15 @@ const char *bm_obj_beamdoa_motion_names[1] = {NULL};
 BmlResourceDescriptor bm_obj_beamdoa_resource_descriptor = {
     "bm_obj_beamdoa.bml", bm_obj_beamdoa_model_names, bm_obj_beamdoa_motion_names, 2, 0,
 };
-CollisionBody TObjDoorJung__collision_desc = {{0.0f, 20.0f, 0.0f}, 10.0f, 30.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
-const char *TObjDoorJung__class_name = "TObjDoorJung";
+CollisionBody door_jung_collision_desc = {{0.0f, 20.0f, 0.0f}, 10.0f, 30.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *door_jung_class_name = "TObjDoorJung";
 
-s32 TObjDoorJung__child_table[4];
-BmlResource *TObjDoorJung__resource_handle;
+s32 door_jung_child_table[4];
+BmlResource *door_jung_resource_handle;
 NJS_TEXLIST *lbl_805D5BD4;
 s32 door_jung_child_list;
 s32 lbl_805D5BDC;
-void *TObjDoorJung__door_scene_buffer;
+void *door_jung_door_scene_buffer;
 s32 lbl_805D5BE4;
 s32 lbl_805D5BE8;
 s32 lbl_805D5BEC;
@@ -64,13 +64,13 @@ struct Node_8018F4AC {
 s32 free_collision_body_parts(void *);
 
 void TObjDoorJung::free_buffers() {
-    if (TObjDoorJung__door_scene_buffer != NULL) {
-        ((TScene *)TObjDoorJung__door_scene_buffer)->destroy_buffers(1);
-        TObjDoorJung__door_scene_buffer = NULL;
+    if (door_jung_door_scene_buffer != NULL) {
+        ((TScene *)door_jung_door_scene_buffer)->destroy_buffers(1);
+        door_jung_door_scene_buffer = NULL;
     }
-    if (TObjDoorJung__resource_handle != NULL) {
-        delete (BmlResource *)TObjDoorJung__resource_handle;
-        TObjDoorJung__resource_handle = NULL;
+    if (door_jung_resource_handle != NULL) {
+        delete (BmlResource *)door_jung_resource_handle;
+        door_jung_resource_handle = NULL;
     }
 }
 
@@ -82,14 +82,14 @@ void load_door_jung_resources(void) {
     void *scene;
 
     handle = (saddr)new BmlResource(5, &bm_obj_beamdoa_resource_descriptor, 0, 0, NULL);
-    TObjDoorJung__resource_handle = (BmlResource *)handle;
-    lbl_805D5BD4 = get_bml_texlist((BmlResource *)TObjDoorJung__resource_handle, 0);
-    model = (Node_8018F4AC *)get_bml_model((BmlResource *)TObjDoorJung__resource_handle, 1);
+    door_jung_resource_handle = (BmlResource *)handle;
+    lbl_805D5BD4 = get_bml_texlist((BmlResource *)door_jung_resource_handle, 0);
+    model = (Node_8018F4AC *)get_bml_model((BmlResource *)door_jung_resource_handle, 1);
     node = model->child;
-    TObjDoorJung__child_table[0] = node->model;
-    TObjDoorJung__child_table[1] = node->child->model;
-    TObjDoorJung__child_table[2] = node->child->child->model;
-    TObjDoorJung__child_table[3] = node->child->child->child->model;
+    door_jung_child_table[0] = node->model;
+    door_jung_child_table[1] = node->child->model;
+    door_jung_child_table[2] = node->child->child->model;
+    door_jung_child_table[3] = node->child->child->child->model;
     door_jung_child_list = model->child->sibling->model;
     lbl_805D5BDC = 0;
     const char *parts[4] = {"ts032_beamdoa_singo_aka", "ts032_beamdoa_singo_ao", "ts064_beamdoa_aka", "ts064_beamdoa_ao"};
@@ -102,9 +102,9 @@ void load_door_jung_resources(void) {
         if (scene != NULL) {
             scene = ((TScene *)scene)->init_buffers((saddr)model->child->sibling, lbl_805D5BEC);
         }
-        TObjDoorJung__door_scene_buffer = scene;
+        door_jung_door_scene_buffer = scene;
     } else {
-        TObjDoorJung__door_scene_buffer = NULL;
+        door_jung_door_scene_buffer = NULL;
     }
 }
 
@@ -131,8 +131,8 @@ void TObjDoorJung::render() {
             set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_list), static_cast<u16>(lbl_805D5BEC));
         }
         if (actor_frame_tick != lbl_805D5BDC) {
-            if (TObjDoorJung__door_scene_buffer != NULL) {
-                ((TScene *)TObjDoorJung__door_scene_buffer)->offset_position(0, -0xA);
+            if (door_jung_door_scene_buffer != NULL) {
+                ((TScene *)door_jung_door_scene_buffer)->offset_position(0, -0xA);
             }
             lbl_805D5BDC = actor_frame_tick;
             PPCSync();
@@ -140,24 +140,24 @@ void TObjDoorJung::render() {
         for (i = 0; i < this->active_light_count; i++) {
             if (is_current_floor_switch_set((u16)(this->switch_id + i)) == 1) {
                 if (lbl_805D5BE8 >= 0) {
-                    set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[i]), static_cast<u16>(lbl_805D5BE8));
+                    set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[i]), static_cast<u16>(lbl_805D5BE8));
                 }
             } else if (lbl_805D5BE4 >= 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[i]), static_cast<u16>(lbl_805D5BE4));
+                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[i]), static_cast<u16>(lbl_805D5BE4));
             }
         }
         for (j = this->active_light_count; j < 4; j++) {
             if (lbl_805D5BE8 >= 0) {
-                set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[j]), static_cast<u16>(lbl_805D5BE8));
+                set_ginja_model_texture_slot(reinterpret_cast<void *>(door_jung_child_table[j]), static_cast<u16>(lbl_805D5BE8));
             }
         }
         TObjFish::set_global_param(lbl_805D5BD4);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((Node_8018F4AC *)get_bml_model((BmlResource *)TObjDoorJung__resource_handle, 0));
+        draw_ginja_object((Node_8018F4AC *)get_bml_model((BmlResource *)door_jung_resource_handle, 0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object((Node_8018F4AC *)get_bml_model((BmlResource *)TObjDoorJung__resource_handle, 1));
+        draw_ginja_object((Node_8018F4AC *)get_bml_model((BmlResource *)door_jung_resource_handle, 1));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -203,9 +203,9 @@ TObjDoorJung::~TObjDoorJung() {
 }
 
 TObjDoorJung::TObjDoorJung(TObject *parent, void *set_data) : TODoorBase(parent) {
-    this->m_name = TObjDoorJung__class_name;
+    this->m_name = door_jung_class_name;
     apply_object_set_data(set_data);
-    init_collision_body_parts(this, &TObjDoorJung__collision_desc, 1);
+    init_collision_body_parts(this, &door_jung_collision_desc, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     init_door_switch_binding();

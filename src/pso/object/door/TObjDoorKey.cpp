@@ -43,8 +43,8 @@ struct NJS_TEXLIST;
 
 const char *abeno_fs_obj001_fosuno_model_names[4] = { "abeno_fs_obj001_fosuno.gj", "abesu_fs_obj001_fosu.gj", "abesu_fs_obj001_fotutu.gj", NULL };
 const char *abeno_fs_obj001_fosuno_motion_names[1] = { NULL };
-BmlResourceDescriptor TObjDoorKey__resource_descriptor = { "abeno_fs_obj001_fosuno.bml", abeno_fs_obj001_fosuno_model_names, abeno_fs_obj001_fosuno_motion_names, 3, 0 };
-CollisionBody TObjDoorKey__collision_body_parts[] = {
+BmlResourceDescriptor door_key_resource_descriptor = { "abeno_fs_obj001_fosuno.bml", abeno_fs_obj001_fosuno_model_names, abeno_fs_obj001_fosuno_motion_names, 3, 0 };
+CollisionBody door_key_collision_body_parts[] = {
     {{0.0f, 10.0f, 0.0f}, 7.0f, 50.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
 /* beam colour (a, r, g, b) per key id */
@@ -60,11 +60,11 @@ NJS_ARGB door_key_beam_color_table[10] = {
     { 1.0f, 0.8235294f, 0.09803922f, 0.39215687f },
     { 1.0f, 1.0f, 1.0f, 1.0f },
 };
-const char *TObjDoorKey__class_name = "TObjDoorKey";
+const char *door_key_class_name = "TObjDoorKey";
 
-saddr TObjDoorKey__ginja_model_table[4];
+saddr door_key_ginja_model_table[4];
 BmlResource *door_key_resource_handle;
-NJS_TEXLIST *TObjDoorKey__texture_handle;
+NJS_TEXLIST *door_key_texture_handle;
 s16 door_key_id_counter;
 s32 TObjDoorKey__data_805D5C04;
 
@@ -78,7 +78,7 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
     while (tl_05->children != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if (reinterpret_cast<TObject *>(cur)->check_value_equals(TObjDoorKey__class_name) != 0 && cur->id == id) {
+        if (reinterpret_cast<TObject *>(cur)->check_value_equals(door_key_class_name) != 0 && cur->id == id) {
             return cur;
         }
     }
@@ -124,22 +124,22 @@ void TObjDoorKey::render() {
 
 void TObjDoorKey::draw_active_beam() {
     if (TObjDoorKey__data_805D5C04 != actor_frame_tick) {
-        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(((NJS_OBJECT *)TObjDoorKey__ginja_model_table[1])->model), 0, 0x14, 0xE, 1);
+        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(((NJS_OBJECT *)door_key_ginja_model_table[1])->model), 0, 0x14, 0xE, 1);
         PPCSync();
         TObjDoorKey__data_805D5C04 = actor_frame_tick;
     }
-    TObjFish::set_global_param(TObjDoorKey__texture_handle);
+    TObjFish::set_global_param(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    draw_ginja_object((void *)TObjDoorKey__ginja_model_table[0]);
+    draw_ginja_object((void *)door_key_ginja_model_table[0]);
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[set_params[2]]);
-    draw_ginja_object((void *)TObjDoorKey__ginja_model_table[1]);
+    draw_ginja_object((void *)door_key_ginja_model_table[1]);
     rotate_matrix_y(0, spin_angle);
-    saddr *g = TObjDoorKey__ginja_model_table;
+    saddr *g = door_key_ginja_model_table;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((((NJS_OBJECT *)g[2])->model)), ((u16)set_params[2]));
     draw_ginja_object((void *)g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
@@ -149,16 +149,16 @@ void TObjDoorKey::draw_active_beam() {
 }
 
 void TObjDoorKey::draw_inactive_badge() {
-    TObjFish::set_global_param(TObjDoorKey__texture_handle);
+    TObjFish::set_global_param(door_key_texture_handle);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    draw_ginja_object((void *)TObjDoorKey__ginja_model_table[0]);
+    draw_ginja_object((void *)door_key_ginja_model_table[0]);
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     set_constant_material(&door_key_beam_color_table[set_params[2]]);
-    saddr *g = TObjDoorKey__ginja_model_table;
+    saddr *g = door_key_ginja_model_table;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((((NJS_OBJECT *)g[2])->model)), ((u16)set_params[2]));
     draw_ginja_object((void *)g[2]);
     set_constant_material(&chunk_material_color_half_alpha_f32);
@@ -226,7 +226,7 @@ TObjDoorKey::~TObjDoorKey() {
     }
 }
 TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
-    this->m_name = TObjDoorKey__class_name;
+    this->m_name = door_key_class_name;
     init_key(set_entry);
     activated = 0;
     spin_angle = 0;
@@ -240,7 +240,7 @@ TObjDoorKey::TObjDoorKey(TObject *parent, void *set_entry) : TOKey(parent) {
     if (this->set_params[2] > 9) {
         this->set_params[2] = 9;
     }
-    init_collision_body_parts(this, TObjDoorKey__collision_body_parts, 1);
+    init_collision_body_parts(this, door_key_collision_body_parts, 1);
     this->actorFlags |= 0x40000000;
     this->register_object_by_id();
     Vec pos = this->position;
@@ -260,20 +260,20 @@ void TObjDoorKey::free_key() {
         delete (BmlResource *)door_key_resource_handle;
         door_key_resource_handle = NULL;
     }
-    TObjPlayer::free_if_valid((saddr)TObjDoorKey__texture_handle);
-    TObjDoorKey__texture_handle = NULL;
+    TObjPlayer::free_if_valid((saddr)door_key_texture_handle);
+    door_key_texture_handle = NULL;
     TObjDoorKey__data_805D5C04 = 0;
 }
 
 void TObjDoorKey::load_resources() {
-    saddr r = (saddr)new BmlResource(5, &TObjDoorKey__resource_descriptor, 0, 0, NULL);
+    saddr r = (saddr)new BmlResource(5, &door_key_resource_descriptor, 0, 0, NULL);
     door_key_resource_handle = (BmlResource *)r;
-    TObjDoorKey__texture_handle = LoadPvmFileTls("fe_obj_switch.gvm");
-    TObjDoorKey__ginja_model_table[0] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 1);
-    TObjDoorKey__ginja_model_table[1] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 2);
+    door_key_texture_handle = LoadPvmFileTls("fe_obj_switch.gvm");
+    door_key_ginja_model_table[0] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 1);
+    door_key_ginja_model_table[1] = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 2);
     s32 t = (saddr)get_bml_model((BmlResource *)door_key_resource_handle, 0);
     door_key_id_counter = 0;
-    TObjDoorKey__ginja_model_table[2] = t;
+    door_key_ginja_model_table[2] = t;
     TObjDoorKey__data_805D5C04 = 0;
 }
 

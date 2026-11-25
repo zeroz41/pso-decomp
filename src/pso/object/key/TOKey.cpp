@@ -26,7 +26,7 @@
 #include "pso/player/PlayerSlots.h"
 
 
-const char *TOKey__class_name = "TOKey";
+const char *key_class_name = "TOKey";
 
 void CursorAction::set_use() { kind = CURSOR_ACTION_USE; }
 
@@ -60,7 +60,7 @@ void TOKey::update_switch_off() {}
 void TOKey::update_switch_on() {}
 
 TOKey::TOKey(TObject *parent) : TObjMapObject(parent) {
-    m_name = TOKey__class_name;
+    m_name = key_class_name;
     switch_id = -1;
     activate_range = 20.0f;
     mode = KEY_MODE_NONE;

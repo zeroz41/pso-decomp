@@ -69,7 +69,7 @@ struct BattleTeamTotals { s32 team[2]; };
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
 extern "C" {
 u8 TLobby__sub_801D7100(void *);
-extern const char *TDeadSpot__class_name;
+extern const char *dead_spot_class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 s32 fn_801D6D8C(void *, u8, int);
@@ -662,7 +662,7 @@ void TPlayerBattleCtrl4P::destroy_dead_spots(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         cur = child;
         child = cur->m_next;
-        if (reinterpret_cast<TObject *>(cur)->check_value_equals(TDeadSpot__class_name) != 0) {
+        if (reinterpret_cast<TObject *>(cur)->check_value_equals(dead_spot_class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_dead_spots(cur);

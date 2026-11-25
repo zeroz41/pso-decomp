@@ -69,7 +69,7 @@ typedef struct Light_80193FE8 {
 extern "C" {
 s32 is_split_screen(void);
 
-const char *TObjLight__class_name = "TObjLight";
+const char *light_class_name = "TObjLight";
 
 void TObjLight::render() {  }
 
@@ -188,7 +188,7 @@ TObjLight::~TObjLight() {
 
 TObjLight::TObjLight(TObject *parent, u8 *set_data) : TObjBase(parent) {
     TObjLight *light = this;
-    light->m_name = TObjLight__class_name;
+    light->m_name = light_class_name;
     ((TObjLight *)(light))->apply_object_set_data(set_data);
     light->m_90 = (s32) *(s16 *)((s8 *)set_data + 8);
     light->actor_color.a = 0.5f;

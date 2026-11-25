@@ -60,7 +60,7 @@ u32 __cvt_fp2unsigned(f32);
 
 #pragma push
 #pragma readonly_strings on
-const char *TDeadSpot__class_name = "TDeadSpot";
+const char *dead_spot_class_name = "TDeadSpot";
 }
 #pragma pop
 
@@ -87,7 +87,7 @@ TDeadSpot::TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s3
     f32 b0x, b0y, b0z, b1x, b1y, b1z;
     s32 bad;
     s32 i;
-    m_name = TDeadSpot__class_name;
+    m_name = dead_spot_class_name;
     self->texture = texture;
     self->selector = selector;
     self->maxScale = maxScale;

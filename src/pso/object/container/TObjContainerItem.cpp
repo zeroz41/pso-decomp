@@ -270,10 +270,10 @@ static TObjChipParams forest_box_break_params[4] = {
 };
 
 // TObjContainerBase's name (the containers' constructors install it)
-const char *TObjContainerBase__name = "TObjContainerBase";
-const char *TObjContainerItem__name = "TObjContainerItem";
-const char *TObjContainerEnemy__name = "TObjContainerEnemy";
-const char *TObjContainerNoItem__name = "TObjContainerNoItem";
+const char *container_base_name = "TObjContainerBase";
+const char *container_item_name = "TObjContainerItem";
+const char *container_enemy_name = "TObjContainerEnemy";
+const char *container_no_item_name = "TObjContainerNoItem";
 
 extern const TObjChipParams container_break_particle_parameters = {
     0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x14,
@@ -282,7 +282,7 @@ extern const TObjChipParams container_break_small_debris_parameters = {
     0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, 6, 0x32, 0.0f, 0.5f, 0, 0, 0x14,
 };
 
-const char *TObjContainerAbeEnemy__name = "TObjContainerAbeEnemy";
+const char *container_abe_enemy_name = "TObjContainerAbeEnemy";
 
 extern const TObjChipParams lbl_80444E5C = {
     0.5f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.6f, 0, 0, 0x14,
@@ -428,7 +428,7 @@ NJS_OBJECT *get_container_breakup_model(s32 index) {
 #pragma push
 #pragma fp_contract on
 TObjContainerCommon::TObjContainerCommon(TObject *parent, void *set_data) : TObjChara(parent) {
-    m_name = TObjContainerBase__name;
+    m_name = container_base_name;
     apply_object_set_data(set_data);
     view_range = lbl_805DBD00;
     model_radius = lbl_805DBD04;
@@ -580,7 +580,7 @@ void TObjContainerCommon::request_configured_item_drop(TObjContainerCommon *cont
 }
 
 TObjContainerItem::TObjContainerItem(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
-    m_name = TObjContainerItem__name;
+    m_name = container_item_name;
     model = (void *)get_forest_box_model(1);
     mode = 0;
     actorFlags |= 0x60000000;
@@ -672,7 +672,7 @@ void TObjContainerItem::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TObjContainerEnemy::TObjContainerEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
-    m_name = TObjContainerEnemy__name;
+    m_name = container_enemy_name;
     model = (void *)get_forest_box_model(1);
     mode = 0;
     actorFlags |= 0x60000000;
@@ -789,7 +789,7 @@ void TObjContainerEnemy::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TObjContainerNoItem::TObjContainerNoItem(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
-    m_name = TObjContainerNoItem__name;
+    m_name = container_no_item_name;
     model = (void *)get_forest_box_model(1);
     mode = 0;
     actorFlags |= 0x60000000;
@@ -891,7 +891,7 @@ void TObjContainerNoItem::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TObjContainerBase::TObjContainerBase(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
-    m_name = TObjContainerBase__name;
+    m_name = container_base_name;
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);
@@ -996,7 +996,7 @@ void *TObjContainerBase::create(void *set_data) {
 }
 
 TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : TObjContainerCommon(parent, set_data) {
-    m_name = TObjContainerAbeEnemy__name;
+    m_name = container_abe_enemy_name;
     mode = 0;
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, &forest_box_collision_body_parts, 1);

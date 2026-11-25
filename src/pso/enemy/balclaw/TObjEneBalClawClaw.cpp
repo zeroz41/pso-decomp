@@ -51,7 +51,7 @@ TObjMotionAction balclaw_claw_actions[7] = {
     {1, 0, 0xE, 0.7f, 1},
 };
 BalClawMovement balclaw_claw_movement = {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0};
-CollisionBody TObjEneBalClawClaw__collision_body_template = {{0.0f, 18.0f, 0.0f}, 5.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
+CollisionBody bal_claw_claw_collision_body_template = {{0.0f, 18.0f, 0.0f}, 5.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 player_stats *balclaw_claw_base_params[1];
 AttackParams *balclaw_claw_attack_params[1];
@@ -94,7 +94,7 @@ void TObjEneBalClawClaw::init() {
     this->motion_list = balclaw_bml_resource->motions;
     this->action_table = balclaw_claw_actions;
     this->set_action_table(this->action_table);
-    init_collision_body_parts(this, &TObjEneBalClawClaw__collision_body_template, 1);
+    init_collision_body_parts(this, &bal_claw_claw_collision_body_template, 1);
     this->variant = 0;
     this->movementParameters = &balclaw_claw_movement;
     this->bind_enemy_combat_stats(balclaw_claw_base_params[0], balclaw_claw_attack_params[0], balclaw_claw_resistance_params[0]);
@@ -720,7 +720,7 @@ void TObjEneBalClawClaw::load_resources() {
     BmlModelEntry *models;
     models = balclaw_bml_resource->models;
     TObjNpcEnemy::register_animated_chunk(0x14, models[2].model, models[2].texlist, &binding,
-                            TObjEneBalClawClaw__collision_body_template.radius, 15.0f);
+                            bal_claw_claw_collision_body_template.radius, 15.0f);
 }
 
 void TObjEneBalClawClaw::free_resources() {

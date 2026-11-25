@@ -80,21 +80,21 @@
 
 extern "C" {
 player_stats *dellbiter_boss_stat_handle;
-AttackParams *TObjEneDellBiter__shared_handler_param;
+AttackParams *dell_biter_shared_handler_param;
 ActorParamBlock *dellbiter_object_stat_handle;
-DelbiterMovementParameters * TObjEneDellBiter__movement_params;
-BmlResource *TObjEneDellBiter__shared_model_resource;
-s32 TObjEneDellBiter__demo_script_step;
-s32 TObjEneDellBiter__demo_rotate_x_angle;
-Vec *TObjEneDellBiter__demo_script_cursor;
-saddr TObjEneDellBiter__scrolling_uv_polygon_list;
-s32 TObjEneDellBiter__last_uv_scroll_tick;
+DelbiterMovementParameters * dell_biter_movement_params;
+BmlResource *dell_biter_shared_model_resource;
+s32 dell_biter_demo_script_step;
+s32 dell_biter_demo_rotate_x_angle;
+Vec *dell_biter_demo_script_cursor;
+saddr dell_biter_scrolling_uv_polygon_list;
+s32 dell_biter_last_uv_scroll_tick;
 
 Vec dellbiter_demo_camera_vec;
 
 
 extern const char *dell_biter_model_names[2];
-extern const char *TObjEneDellBiter__resource_descriptor[11];
+extern const char *dell_biter_resource_descriptor[11];
 extern const char *dell_biter_low_model_names[2];
 extern const char *dell_biter_low_motion_names[11];
 
@@ -110,13 +110,13 @@ CollisionBody dell_biter_collision_bodies[4] = {
 __declspec(section ".data") const char *dell_biter_model_names[2] = {
     "biter_body.nj", NULL,
 };
-const char *TObjEneDellBiter__resource_descriptor[11] = {
+const char *dell_biter_resource_descriptor[11] = {
     "attack_biter_body.njm", "beam_biter_body.njm", "damage_biter_body.njm", "dead_biter_body.njm",
     "kamae_biter_body.njm", "run_biter_body.njm", "stop_biter_body.njm", "tpkyu_biter_body.njm",
     "wait_biter_body.njm", "walk_biter_body.njm", NULL,
 };
 BmlResourceDescriptor dell_biter_bml_resource = {
-    "bm_ene_biter_body.bml", dell_biter_model_names, TObjEneDellBiter__resource_descriptor, 1, 10
+    "bm_ene_biter_body.bml", dell_biter_model_names, dell_biter_resource_descriptor, 1, 10
 };
 __declspec(section ".data") const char *dell_biter_low_model_names[2] = {
     "lo_biter_body.nj", NULL,
@@ -142,7 +142,7 @@ TObjMotionAction dell_biter_param_table[10] = {
     {3, 0, 3, 0.7f, 0}
 };
 
-const char *TObjEneDellBiter__class_name = "TObjEneDellBiter";
+const char *dell_biter_class_name = "TObjEneDellBiter";
 }
 #pragma fp_contract on
 
@@ -151,24 +151,24 @@ void TObjEneDellBiter::load_resources() {
     dellbiter_demo_camera_vec.y = 0.0f;
     dellbiter_demo_camera_vec.z = 0.0f;
     if (is_split_screen() != 0) {
-        TObjEneDellBiter__shared_model_resource = load_enemy_bml_resource(&dell_biter_low_bml_resource);
+        dell_biter_shared_model_resource = load_enemy_bml_resource(&dell_biter_low_bml_resource);
     } else {
-        TObjEneDellBiter__shared_model_resource = load_enemy_bml_resource(&dell_biter_bml_resource);
+        dell_biter_shared_model_resource = load_enemy_bml_resource(&dell_biter_bml_resource);
     }
     dellbiter_boss_stat_handle = TLobby::register_boss(0xD);
-    TObjEneDellBiter__shared_handler_param = TLobby::dispatch_shared_handler_b(0xD);
+    dell_biter_shared_handler_param = TLobby::dispatch_shared_handler_b(0xD);
     dellbiter_object_stat_handle = TLobby::register_object(0xD);
-    TObjEneDellBiter__movement_params = (DelbiterMovementParameters *)TLobby::dispatch_shared_handler_a(0xD);
-    TObjEneDellBiter__demo_script_step = 0;
-    TObjEneDellBiter__demo_rotate_x_angle = 0;
-    TObjEneDellBiter__demo_script_cursor = 0;
-    TObjEneDellBiter::set_min_clamped_entry_value(4, TObjEneDellBiter__movement_params->animation_speed_4);
-    TObjEneDellBiter::set_min_clamped_entry_value(5, TObjEneDellBiter__movement_params->animation_speed_5);
+    dell_biter_movement_params = (DelbiterMovementParameters *)TLobby::dispatch_shared_handler_a(0xD);
+    dell_biter_demo_script_step = 0;
+    dell_biter_demo_rotate_x_angle = 0;
+    dell_biter_demo_script_cursor = 0;
+    TObjEneDellBiter::set_min_clamped_entry_value(4, dell_biter_movement_params->animation_speed_4);
+    TObjEneDellBiter::set_min_clamped_entry_value(5, dell_biter_movement_params->animation_speed_5);
     {
-        BmlResource *resource = TObjEneDellBiter__shared_model_resource;
+        BmlResource *resource = dell_biter_shared_model_resource;
         NJS_OBJECT *object = resource->models->model;
-        TObjEneDellBiter__scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
-        TObjEneDellBiter__last_uv_scroll_tick = 0;
+        dell_biter_scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
+        dell_biter_last_uv_scroll_tick = 0;
         NpcAnimationBinding attack = { resource->motions, dell_biter_param_table, 0, 1, 10 };
         TObjNpcEnemy::register_animated_chunk((s16)0x46, resource->models->model, resource->models->texlist,
             &attack, dell_biter_collision_bodies[0].radius, 0.0f);
@@ -180,9 +180,9 @@ void *TObjEneDellBiter::create(void *set_data) {
 }
 
 void TObjEneDellBiter::destroy_static_instance() {
-    if (TObjEneDellBiter__shared_model_resource != NULL) {
-        delete TObjEneDellBiter__shared_model_resource;
-        TObjEneDellBiter__shared_model_resource = NULL;
+    if (dell_biter_shared_model_resource != NULL) {
+        delete dell_biter_shared_model_resource;
+        dell_biter_shared_model_resource = NULL;
     }
 }
 
@@ -194,7 +194,7 @@ void TObjEneDellBiter::set_min_clamped_entry_value(s32 index, f32 speed) {
 }
 
 TObjEneDellBiter::TObjEneDellBiter(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
-    m_name = TObjEneDellBiter__class_name;
+    m_name = dell_biter_class_name;
     invoke_initialization_hook(set_data);
     init_target_offsets();
     init_params();
@@ -203,16 +203,16 @@ TObjEneDellBiter::TObjEneDellBiter(TObject *parent, void *set_data) : TObjEneDD_
 void TObjEneDellBiter::init_params() {
     s32 i;
     init_position_vectors();
-    model = TObjEneDellBiter__shared_model_resource->models->model;
-    texlist = TObjEneDellBiter__shared_model_resource->models->texlist;
+    model = dell_biter_shared_model_resource->models->model;
+    texlist = dell_biter_shared_model_resource->models->texlist;
     init_model((CollisionBody *)dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
     set_action_table(dell_biter_param_table);
-    set_motion_list(TObjEneDellBiter__shared_model_resource->motions);
+    set_motion_list(dell_biter_shared_model_resource->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
-    reset_hp(dellbiter_boss_stat_handle, TObjEneDellBiter__shared_handler_param, dellbiter_object_stat_handle);
+    reset_hp(dellbiter_boss_stat_handle, dell_biter_shared_handler_param, dellbiter_object_stat_handle);
     set_state_8();
     movementParameters = &TObjEneDellBiter__param_table;
     initialize_enemy_state(0x48);
@@ -297,9 +297,9 @@ void TObjEneDellBiter::run_task() {
     }
     if (this->update_status_effects() != 4) {
         this->update_action_state();
-        if ((s32) TObjEneDellBiter__last_uv_scroll_tick != (s32) actor_frame_tick) {
-            TObjEneDellBiter__last_uv_scroll_tick = actor_frame_tick;
-            TObjPlayer__sub_8023DEE0((s16 *)TObjEneDellBiter__scrolling_uv_polygon_list, 0xC, 0, 0);
+        if ((s32) dell_biter_last_uv_scroll_tick != (s32) actor_frame_tick) {
+            dell_biter_last_uv_scroll_tick = actor_frame_tick;
+            TObjPlayer__sub_8023DEE0((s16 *)dell_biter_scrolling_uv_polygon_list, 0xC, 0, 0);
         }
     }
     this->update_particle_emitters();
@@ -411,7 +411,7 @@ void TObjEneDellBiter::update_contact_attacks() {
         attack_bodies[1]->rotation_y = rotation_y;
         VecCopy(&attack_bodies[1]->position, &part_positions[1]);
         attack_bodies[1]->refresh_collision_body_centers();
-        AreaAttackContact attack = { get_attack_params_atp_min(TObjEneDellBiter__shared_handler_param), 1 };
+        AreaAttackContact attack = { get_attack_params_atp_min(dell_biter_shared_handler_param), 1 };
         if (is_confused() != 0) {
             attack.contact_flags |= 2;
         }
@@ -440,14 +440,14 @@ s32 TObjEneDellBiter::check_rush_collisions() {
                 if (flags & 0x10) {
                     if (game_difficulty_selection == 3) {
                         attack.kind = 5;
-                        attack.power = TObjEneDellBiter__movement_params->powered_attack_power;
+                        attack.power = dell_biter_movement_params->powered_attack_power;
                     } else {
                         attack.kind = 3;
-                        attack.power = TObjEneDellBiter__movement_params->powered_attack_power;
+                        attack.power = dell_biter_movement_params->powered_attack_power;
                     }
                 } else {
                     attack.kind = 0;
-                    attack.power = TObjEneDellBiter__movement_params->attack_power;
+                    attack.power = dell_biter_movement_params->attack_power;
                 }
                 target->receive_direct_attack(this, attack, NULL, -1, -1);
                 if (target->test_actor_flags(0x04000000) == 0) {
@@ -801,7 +801,7 @@ void TObjEneDellBiter::update_emerge_run_state(s32 reason) {
         bodies->flags |= 0x700;
         clear_intangible();
         fade.reset_obstruction_fade();
-        current_speed = TObjEneDellBiter__movement_params->rush_speed;
+        current_speed = dell_biter_movement_params->rush_speed;
         step = 0;
         play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E12)), &position, 0, 0);
         VecCopy(&position, &home_position);
@@ -809,7 +809,7 @@ void TObjEneDellBiter::update_emerge_run_state(s32 reason) {
         VecCopy(&body_center, &position);
         position.x -= 100.0f * sin_table_lookup(rotation_y);
         position.z -= 100.0f * cos_table_lookup(rotation_y);
-        state_timer = (s32)(100.0f / TObjEneDellBiter__movement_params->rush_speed);
+        state_timer = (s32)(100.0f / dell_biter_movement_params->rush_speed);
         combo_count = 0;
         rush_count = 0;
         this->set_active();
@@ -925,7 +925,7 @@ void TObjEneDellBiter::update_walk_state(s32 reason) {
     case 3:
         if ((uaddr) current_target == 0U) {
             transition_enemy_state(4);
-        } else if ((destination_distance >= TObjEneDellBiter__movement_params->rush_start_distance) && ((s32) rush_count < 2)) {
+        } else if ((destination_distance >= dell_biter_movement_params->rush_start_distance) && ((s32) rush_count < 2)) {
             transition_enemy_state(6);
         } else if ((s32) state_timer == 1) {
             transition_enemy_state(7);
@@ -941,7 +941,7 @@ void TObjEneDellBiter::update_walk_state(s32 reason) {
         }
         rotation_y = approach_angle_limited(rotation_y, angle = (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), 0x300);
         part_rotation_x = TObjBoss2Tunnel::turn_toward_angle_limited((s32)rotation_y, (s32)part_rotation_x, (s32)angle, 0x200, 0x2000);
-        delbiter_movement_parameters = TObjEneDellBiter__movement_params;
+        delbiter_movement_parameters = dell_biter_movement_params;
         if (destination_distance <= (f32) delbiter_movement_parameters->attack_distance) {
             facing = (destination_direction.x * sin_table_lookup(rotation_y)) + (destination_direction.z * cos_table_lookup(rotation_y));
             if (facing >= cos_table_lookup(0x1800)) {
@@ -970,7 +970,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
         flags |= 4;
         state_timer = 0;
         step = 0;
-        current_speed = TObjEneDellBiter__movement_params->rush_speed;
+        current_speed = dell_biter_movement_params->rush_speed;
         rush_traveled = 0.0f;
         fill_value_array(attack_history);
         this->set_active();
@@ -1013,11 +1013,11 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
                 this->update_velocity();
             }
             hit = 0;
-            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * TObjEneDellBiter__movement_params->rush_speed) != 0) {
+            if (this->enemy_probe_wall_ahead(destination_direction.x, destination_direction.z, 30.0f * dell_biter_movement_params->rush_speed) != 0) {
                 hit = 1;
             }
-            this->move_clamped_on_ground(destination_direction.x, destination_direction.z, TObjEneDellBiter__movement_params->rush_speed);
-            rush_traveled += TObjEneDellBiter__movement_params->rush_speed;
+            this->move_clamped_on_ground(destination_direction.x, destination_direction.z, dell_biter_movement_params->rush_speed);
+            rush_traveled += dell_biter_movement_params->rush_speed;
             if (this->has_move_failures(1) != 0) {
                 hit = 1;
             }
@@ -1038,7 +1038,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
                     }
                 }
             }
-            if (hit != 0 || rush_traveled >= TObjEneDellBiter__movement_params->rush_distance) {
+            if (hit != 0 || rush_traveled >= dell_biter_movement_params->rush_distance) {
                 state_timer = 2;
                 step = 0;
                 this->set_field_378(5);
@@ -1119,7 +1119,7 @@ void TObjEneDellBiter::update_attack_state(s32 reason) {
             break;
         case 1:
             state_timer = (state_timer + 1);
-            if ((s32) state_timer >= (s32) TObjEneDellBiter__movement_params->state_duration) {
+            if ((s32) state_timer >= (s32) dell_biter_movement_params->state_duration) {
                 step = 2;
             }
             break;
@@ -1223,7 +1223,7 @@ void TObjEneDellBiter::update_change_state(s32 reason) {
         if (this->get_flag_b4() != 0) {
             state_timer = 1;
             flags = (s32) (flags | 0x10);
-            effect_timer = (s32) (30.0f * (f32) TObjEneDellBiter__movement_params->effect_duration);
+            effect_timer = (s32) (30.0f * (f32) dell_biter_movement_params->effect_duration);
         }
         this->update_ground_contact();
         this->check_collisions();
@@ -1295,7 +1295,7 @@ void TObjEneDellBiter::update_laser_state(s32 reason) {
             }
             if (is_passing_frame(14.0f) != 0) {
                 drained = drained_tp;
-                power = (f32) TObjEneDellBiter__movement_params->tp_attack_power;
+                power = (f32) dell_biter_movement_params->tp_attack_power;
                 if (drained > 0x96) {
                     power *= 2.0f;
                 } else if (drained > 0x46) {
@@ -1401,7 +1401,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
 
 void TObjEneDellBiter::step_demo_script(NJS_OBJECT *) {
     Vec *pos;
-    switch (TObjEneDellBiter__demo_script_step) {
+    switch (dell_biter_demo_script_step) {
     case 9:
     case 10:
     case 11:
@@ -1425,17 +1425,17 @@ void TObjEneDellBiter::step_demo_script(NJS_OBJECT *) {
     case 31:
         break;
     case 8:
-        rotate_matrix_x(0, TObjEneDellBiter__demo_rotate_x_angle);
+        rotate_matrix_x(0, dell_biter_demo_rotate_x_angle);
         break;
     case 12:
     case 22:
     case 32:
-        pos = TObjEneDellBiter__demo_script_cursor;
-        TObjEneDellBiter__demo_script_cursor = pos + 1;
+        pos = dell_biter_demo_script_cursor;
+        dell_biter_demo_script_cursor = pos + 1;
         forward_transform_to_view((const Vec *)&dellbiter_demo_camera_vec, pos);
         break;
     }
-    TObjEneDellBiter__demo_script_step += 1;
+    dell_biter_demo_script_step += 1;
 }
 
 void TObjEneDellBiter::render() {
@@ -1475,9 +1475,9 @@ void TObjEneDellBiter::render() {
             TObjEneDD::draw_ground_shadow(&v, 0);
         }
         update_secondary_light();
-        TObjEneDellBiter__demo_script_step = 0;
-        TObjEneDellBiter__demo_rotate_x_angle = part_rotation_x;
-        TObjEneDellBiter__demo_script_cursor = part_positions;
+        dell_biter_demo_script_step = 0;
+        dell_biter_demo_rotate_x_angle = part_rotation_x;
+        dell_biter_demo_script_cursor = part_positions;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         toggle_particle_effect();

@@ -76,7 +76,7 @@ static const char mericarol_wake_motion_name[] = "wake_bm9_s_meri_body.njm";
 static const char mericarol_archive_name[] = "bm_ene_bm9_s_mericarol.bml";
 static const char mericarol_low_detail_body_model_name[] = "lo_bm9_s_meri_body.nj";
 static const char mericarol_low_detail_archive_name[] = "bm_ene_bm9_s_mericarol_low.bml";
-static const char TObjEneBm9Mericarol__class_name_string[] = "TObjEneBm9Mericarol";
+static const char bm9_mericarol_class_name_string[] = "TObjEneBm9Mericarol";
 
 TObjEneBm9MericarolMovementParameters mericarol_movement_params = {
     { 225.0f, 0.0f, 0x200 }, { 0, 0, 0, 0 },
@@ -137,7 +137,7 @@ AttackParams *bm9_mericarol_phase_attack_table[3];
 ActorParamBlock *bm9_mericarol_phase_resist_table[3];
 TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
 f32 lbl_80540B88[4];
-const char *TObjEneBm9Mericarol__class_name = TObjEneBm9Mericarol__class_name_string;
+const char *bm9_mericarol_class_name = bm9_mericarol_class_name_string;
 SampledMotionPoints *mericarol_trail0_points;
 SampledMotionPoints *mericarol_trail1_points;
 BmlResource *mericarol_bml;
@@ -209,7 +209,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     s32 ph;
     s32 i;
 
-    m_name = TObjEneBm9Mericarol__class_name;
+    m_name = bm9_mericarol_class_name;
     invoke_initialization_hook(set_data);
     init_size_tier_and_offsets();
     flags = 0;

@@ -58,10 +58,10 @@ Vec rock_jungle_vec3_table[3] = {
 };
 const char *bm_o_rock_jungle_motion_names[1] = { NULL };
 
-BmlResource *TORockJungleS01__bml_resource;
-NJS_TEXLIST *TORockJungleS01__texture_resource;
+BmlResource *rock_jungle_s01_bml_resource;
+NJS_TEXLIST *rock_jungle_s01_texture_resource;
 
-const char *TORockJungleS01__name = "TORockJungleS01";
+const char *rock_jungle_s01_name = "TORockJungleS01";
 
 // The original reaches each texture-list name with its own lis/addi while the
 // L01 constructor reaches its .rodata from one pooled base: pool_data is off
@@ -71,17 +71,17 @@ void TORockJungleS01::load_resources() {
     BmlResource *resource;
 
     resource = new BmlResource(1, &TORockJungleS01_resource_descriptor, 0, 0, NULL);
-    TORockJungleS01__bml_resource = resource;
+    rock_jungle_s01_bml_resource = resource;
     switch (get_current_floor_area()) {
     case AREA_SEASIDE:
-        TORockJungleS01__texture_resource = LoadPvmFileTls("o_rock_jungle_05.GVM");
+        rock_jungle_s01_texture_resource = LoadPvmFileTls("o_rock_jungle_05.GVM");
         break;
     case AREA_MOUNTAIN:
-        TORockJungleS01__texture_resource = LoadPvmFileTls("o_rock_jungle_04.GVM");
+        rock_jungle_s01_texture_resource = LoadPvmFileTls("o_rock_jungle_04.GVM");
         break;
     case AREA_JUNGLE_EAST:
     default:
-        TORockJungleS01__texture_resource = LoadPvmFileTls("o_rock_jungle_123.GVM");
+        rock_jungle_s01_texture_resource = LoadPvmFileTls("o_rock_jungle_123.GVM");
         break;
     }
     TObjNpcEnemy::register_ginja(0x3E, get_model(0),
@@ -90,34 +90,34 @@ void TORockJungleS01::load_resources() {
 #pragma pool_data reset
 
 void TORockJungleS01::free_globals() {
-    if (TORockJungleS01__texture_resource != NULL) {
-        release_texture_list(TORockJungleS01__texture_resource);
-        safe_free(TORockJungleS01__texture_resource);
-        TORockJungleS01__texture_resource = NULL;
+    if (rock_jungle_s01_texture_resource != NULL) {
+        release_texture_list(rock_jungle_s01_texture_resource);
+        safe_free(rock_jungle_s01_texture_resource);
+        rock_jungle_s01_texture_resource = NULL;
     }
-    if (TORockJungleS01__bml_resource != NULL) {
-        delete TORockJungleS01__bml_resource;
-        TORockJungleS01__bml_resource = NULL;
+    if (rock_jungle_s01_bml_resource != NULL) {
+        delete rock_jungle_s01_bml_resource;
+        rock_jungle_s01_bml_resource = NULL;
     }
 }
 
 NJS_OBJECT *TORockJungleS01::get_model(s32 index) {
-    if (TORockJungleS01__bml_resource != NULL) {
-        return get_bml_model(TORockJungleS01__bml_resource, index);
+    if (rock_jungle_s01_bml_resource != NULL) {
+        return get_bml_model(rock_jungle_s01_bml_resource, index);
     }
     return 0;
 }
 
 // Every rock uses the floor's one texture list, whatever its model.
 NJS_TEXLIST *get_jungle_rock_texture_resource(s32 index) {
-    if (TORockJungleS01__texture_resource != NULL) {
-        return TORockJungleS01__texture_resource;
+    if (rock_jungle_s01_texture_resource != NULL) {
+        return rock_jungle_s01_texture_resource;
     }
     return NULL;
 }
 
 TORockJungleS01::TORockJungleS01(void *set_data) {
-    m_name = TORockJungleS01__name;
+    m_name = rock_jungle_s01_name;
     apply_object_set_data(set_data);
     model = get_model(0);
     texlist = get_jungle_rock_texture_resource(0);

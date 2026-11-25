@@ -48,12 +48,12 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/TPlyDispData.h"
 
-extern player_stats **TObjEneShark__resource_node;
-extern AttackParams **TObjEneShark__resource_buf;
+extern player_stats **shark_resource_node;
+extern AttackParams **shark_resource_buf;
 extern ActorParamBlock **shark_resource_data;
 extern BattleMovementParams **shark_resource_buffer;
 extern BmlResource *shark_bml_resource;
-extern SampledMotionPoints *TObjEneShark__attack_motion_3_trail;
+extern SampledMotionPoints *shark_attack_motion_3_trail;
 extern SampledMotionPoints *shark_attack4_trail_buffer;
 extern s32 shark_render_node_index;
 extern const char *TObjEneShark_name_ref;
@@ -105,7 +105,7 @@ void TObjEneShark::update_attack_trail() {
     }
     switch (requested_action) {
     case 3:
-        e = TObjEneShark__attack_motion_3_trail->lookup(frame);
+        e = shark_attack_motion_3_trail->lookup(frame);
         idx = 0;
         break;
     case 4:
@@ -373,7 +373,7 @@ __declspec(section ".rodata") char shark_motion_name_stund_bm1_s_wala_body_njm[]
 __declspec(section ".rodata") char shark_motion_name_wakeup_bm1_s_wala_body_njm[] = "wakeup_bm1_s_wala_body.njm";
 __declspec(section ".rodata") char shark_motion_name_walk_bm1_s_wala_body_njm[] = "walk_bm1_s_wala_body.njm";
 __declspec(section ".rodata") char bm_ene_bm1_shark_bml_filename[] = "bm_ene_bm1_shark.bml";
-__declspec(section ".rodata") char TObjEneShark__class_name_string[] = "TObjEneShark";
+__declspec(section ".rodata") char shark_class_name_string[] = "TObjEneShark";
 
 const char *bm_ene_bm1_shark_model_names[4] = {
     shark_model_name_bm1f_s_wala_body_nj, shark_model_name_bm1tl_s_wala_body_nj, shark_model_name_bm1_s_wala_body_nj, NULL,
@@ -387,7 +387,7 @@ const char *bm_ene_bm1_shark_motion_names[13] = {
 BmlResourceDescriptor bm_ene_bm1_shark_resource_descriptor = {
     bm_ene_bm1_shark_bml_filename, bm_ene_bm1_shark_model_names, bm_ene_bm1_shark_motion_names, 3, 12,
 };
-TObjMotionAction TObjEneShark__action_table[11] = {
+TObjMotionAction shark_action_table[11] = {
     { 1, 0, 9, 0.6f, 0x1 },
     { 2, 0, 7, 0.6f, 0x20 },
     { 1, 2, 11, 1.0f, 0x1 },
@@ -419,13 +419,13 @@ void *TObjEneShark::create(void *setData) {
 }
 
 void TObjEneShark::free_resources() {
-    if (TObjEneShark__resource_node != NULL) {
-        mem_free(TObjEneShark__resource_node);
-        TObjEneShark__resource_node = NULL;
+    if (shark_resource_node != NULL) {
+        mem_free(shark_resource_node);
+        shark_resource_node = NULL;
     }
-    if (TObjEneShark__resource_buf != NULL) {
-        mem_free(TObjEneShark__resource_buf);
-        TObjEneShark__resource_buf = NULL;
+    if (shark_resource_buf != NULL) {
+        mem_free(shark_resource_buf);
+        shark_resource_buf = NULL;
     }
     if (shark_resource_data != NULL) {
         mem_free(shark_resource_data);
@@ -439,9 +439,9 @@ void TObjEneShark::free_resources() {
         delete shark_attack4_trail_buffer;
         shark_attack4_trail_buffer = NULL;
     }
-    if (TObjEneShark__attack_motion_3_trail != NULL) {
-        delete TObjEneShark__attack_motion_3_trail;
-        TObjEneShark__attack_motion_3_trail = NULL;
+    if (shark_attack_motion_3_trail != NULL) {
+        delete shark_attack_motion_3_trail;
+        shark_attack_motion_3_trail = NULL;
     }
     if (shark_bml_resource != NULL) {
         delete shark_bml_resource;
@@ -456,20 +456,20 @@ void TLobby::load_shark_resources() {
     } else {
         shark_bml_resource = new BmlResource(1, &bm_ene_bm1_shark_resource_descriptor, 0, 0, NULL);
     }
-    TObjEneShark__attack_motion_3_trail = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
+    shark_attack_motion_3_trail = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     shark_attack4_trail_buffer = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
-    TObjEneShark__attack_motion_3_trail->sample_two_nodes(shark_bml_resource->models->model, (NJS_MOTION *)shark_bml_resource->motions[TObjEneShark__action_table[3].motion].motion, 5, 8);
-    shark_attack4_trail_buffer->sample_two_nodes(shark_bml_resource->models->model, (NJS_MOTION *)shark_bml_resource->motions[TObjEneShark__action_table[4].motion].motion, 0xA, 0xD);
-    TObjEneShark__resource_node = static_cast<player_stats **>(mem_alloc(3 * sizeof(*TObjEneShark__resource_node)));
-    TObjEneShark__resource_buf = static_cast<AttackParams **>(mem_alloc(3 * sizeof(*TObjEneShark__resource_buf)));
+    shark_attack_motion_3_trail->sample_two_nodes(shark_bml_resource->models->model, (NJS_MOTION *)shark_bml_resource->motions[shark_action_table[3].motion].motion, 5, 8);
+    shark_attack4_trail_buffer->sample_two_nodes(shark_bml_resource->models->model, (NJS_MOTION *)shark_bml_resource->motions[shark_action_table[4].motion].motion, 0xA, 0xD);
+    shark_resource_node = static_cast<player_stats **>(mem_alloc(3 * sizeof(*shark_resource_node)));
+    shark_resource_buf = static_cast<AttackParams **>(mem_alloc(3 * sizeof(*shark_resource_buf)));
     shark_resource_data = static_cast<ActorParamBlock **>(mem_alloc(3 * sizeof(*shark_resource_data)));
     shark_resource_buffer = static_cast<BattleMovementParams **>(mem_alloc(3 * sizeof(*shark_resource_buffer)));
-    TObjEneShark__resource_node[0] = TLobby::register_boss(0x4F);
-    TObjEneShark__resource_node[1] = TLobby::register_boss(0x50);
-    TObjEneShark__resource_node[2] = TLobby::register_boss(0x51);
-    TObjEneShark__resource_buf[0] = TLobby::dispatch_shared_handler_b(0x54);
-    TObjEneShark__resource_buf[1] = TLobby::dispatch_shared_handler_b(0x55);
-    TObjEneShark__resource_buf[2] = TLobby::dispatch_shared_handler_b(0x56);
+    shark_resource_node[0] = TLobby::register_boss(0x4F);
+    shark_resource_node[1] = TLobby::register_boss(0x50);
+    shark_resource_node[2] = TLobby::register_boss(0x51);
+    shark_resource_buf[0] = TLobby::dispatch_shared_handler_b(0x54);
+    shark_resource_buf[1] = TLobby::dispatch_shared_handler_b(0x55);
+    shark_resource_buf[2] = TLobby::dispatch_shared_handler_b(0x56);
     shark_resource_data[0] = TLobby::register_object(0x4E);
     shark_resource_data[1] = TLobby::register_object(0x4F);
     shark_resource_data[2] = TLobby::register_object(0x50);
@@ -479,7 +479,7 @@ void TLobby::load_shark_resources() {
     shark_render_node_index = 0;
     {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
-        NpcAnimationBinding anim = { shark_bml_resource->motions, TObjEneShark__action_table, 0, 2, 12 };
+        NpcAnimationBinding anim = { shark_bml_resource->motions, shark_action_table, 0, 2, 12 };
         for (i = 0; i < 3; i++) {
             TObjNpcEnemy::register_animated_chunk(ids[i], shark_bml_resource->models[i].model, shark_bml_resource->models[i].texlist, &anim,
                 7.5f, 0.0f);
@@ -546,14 +546,14 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TObjEneBeastBase(pa
     subtype = variant;
     apply_clamped_mode_param();
     sub_800AC9DC(variant);
-    action_table = TObjEneShark__action_table;
+    action_table = shark_action_table;
     set_action_table(action_table);
     motion_list = shark_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
     init_collision_body_parts(this, &shark_collision_body_table[subtype], 1);
-    bind_enemy_combat_stats(TObjEneShark__resource_node[subtype], TObjEneShark__resource_buf[subtype], shark_resource_data[subtype]);
+    bind_enemy_combat_stats(shark_resource_node[subtype], shark_resource_buf[subtype], shark_resource_data[subtype]);
     movementParameters = &shark_movement_params[subtype];
     referenceHp = hp;
     update_prev_position();
@@ -610,13 +610,13 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TObjEneBeastBase(pa
 }
 
 
-const char *TObjEneShark_name_ref = TObjEneShark__class_name_string;
+const char *TObjEneShark_name_ref = shark_class_name_string;
 
-player_stats **TObjEneShark__resource_node;
-AttackParams **TObjEneShark__resource_buf;
+player_stats **shark_resource_node;
+AttackParams **shark_resource_buf;
 ActorParamBlock **shark_resource_data;
 BattleMovementParams **shark_resource_buffer;
 BmlResource *shark_bml_resource;
-SampledMotionPoints *TObjEneShark__attack_motion_3_trail;
+SampledMotionPoints *shark_attack_motion_3_trail;
 SampledMotionPoints *shark_attack4_trail_buffer;
 s32 shark_render_node_index;

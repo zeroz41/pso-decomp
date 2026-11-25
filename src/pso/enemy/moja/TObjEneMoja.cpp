@@ -137,7 +137,7 @@ MojaMovementParameters moja_movement_params[2] = {
 };
 CollisionBody moja_collision_body = { { 0.0f, 20.0f, 0.0f }, 12.5f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f };
 
-const char *TObjEneMoja__name = "TObjEneMoja";
+const char *moja_name = "TObjEneMoja";
 
 // What load_resources sets up and free_resources releases: the combat stat
 // blocks of the two variants, the archive and the punch's sampled trail.
@@ -154,7 +154,7 @@ static const s32 moja_hittable_body_flags = 0x8001;
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
 TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
-    m_name = TObjEneMoja__name;
+    m_name = moja_name;
     apply_set_data(setData);
     init_position_vectors();
     mode = 0;

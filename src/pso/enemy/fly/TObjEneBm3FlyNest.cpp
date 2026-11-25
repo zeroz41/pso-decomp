@@ -85,7 +85,7 @@ struct Bm3FlyNestVertexList {
     s32 count;
     s32 pad_10;
 };
-Vec TObjEneBm3FlyNest__attachment_sample_origin;
+Vec bm3_fly_nest_attachment_sample_origin;
 f32 fly_nest_vertex_table[6];
 __declspec(section ".data") s32 fly_nest_vertex_indices[2];
 Bm3FlyNestVertexList fly_nest_vertex_list;
@@ -229,9 +229,9 @@ void TObjEneBm3FlyNest_CarryFly::render() {
 
 void TObjEneBm3FlyNest::load_resources() {
     BmlModelEntry *models;
-    TObjEneBm3FlyNest__attachment_sample_origin.x = 0.0f;
-    TObjEneBm3FlyNest__attachment_sample_origin.y = 0.0f;
-    TObjEneBm3FlyNest__attachment_sample_origin.z = 0.0f;
+    bm3_fly_nest_attachment_sample_origin.x = 0.0f;
+    bm3_fly_nest_attachment_sample_origin.y = 0.0f;
+    bm3_fly_nest_attachment_sample_origin.z = 0.0f;
     bm3_fly_nest_node_index = 0;
     TObjEneBm3FlyNest_attachment_point_ptr = NULL;
     bm3_fly_nest_sample_cursor = NULL;
@@ -955,7 +955,7 @@ void TObjEneBm3FlyNest::init() { init_params(); }
 void TObjEneBm3FlyNest::capture_attachment(NJS_OBJECT *object) {
     switch (bm3_fly_nest_node_index) {
     case 36: case 45:
-        forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
+        forward_transform_to_view(&bm3_fly_nest_attachment_sample_origin, TObjEneBm3FlyNest_attachment_point_ptr++);
         break;
     }
     ++bm3_fly_nest_node_index;
@@ -967,7 +967,7 @@ void TObjEneBm3FlyNest::handle_attachment_sample(NJS_OBJECT *object) {
         pos = bm3_fly_nest_sample_cursor;
         bm3_fly_nest_attachment_index += 1;
         bm3_fly_nest_sample_cursor = pos + 1;
-        forward_transform_to_view(&TObjEneBm3FlyNest__attachment_sample_origin, pos);
+        forward_transform_to_view(&bm3_fly_nest_attachment_sample_origin, pos);
     }
     TObjEneBm3FlyNest::capture_attachment(object);
 }

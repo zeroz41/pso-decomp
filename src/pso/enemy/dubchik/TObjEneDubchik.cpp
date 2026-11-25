@@ -121,7 +121,7 @@ BmlResourceDescriptor bm_ene_dubchik_resource_descriptor = {
 };
 
 }
-const char *TObjEneDubchik__class_name = "TObjEneDubchik";
+const char *dubchik_class_name = "TObjEneDubchik";
 extern "C" {
 
 __declspec(section ".data") f32 dubchik_walk_speed_by_variant[2] = { 0.37037036f, 0.5703704f };
@@ -212,7 +212,7 @@ void TObjEneDubchik::run_idle_action() {  }
 
 TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
     s32 i;
-    m_name = TObjEneDubchik__class_name;
+    m_name = dubchik_class_name;
     apply_set_data(set_data);
     VecCopy(&move_origin, VecCopy(&move_destination, VecCopy(&prev_position, &position)));
     motion_list = dubchik_resource->motions;

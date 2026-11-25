@@ -19,8 +19,8 @@ const char *bm_fs_obj_yukakaiten01_motion_names[] = {"fs_obj_yukakaiten01.njm", 
 BmlResourceDescriptor bm_fs_obj_yukakaiten01_resource_descriptor = {
     "bm_fs_obj_yukakaiten01.bml", bm_fs_obj_yukakaiten01_model_names, bm_fs_obj_yukakaiten01_motion_names, 1, 1,
 };
-const char *TORevlightCave01__class_name = "TORevlightCave01";
-BmlResource *TORevlightCave01__bml_resource;
+const char *revlight_cave01_class_name = "TORevlightCave01";
+BmlResource *revlight_cave01_bml_resource;
 
 void TORevlightCave01::update_demo() {}
 
@@ -54,25 +54,25 @@ void *TORevlightCave01::create(void *set_data) {
 }
 
 void TORevlightCave01::release_static_instance() {
-    if (TORevlightCave01__bml_resource != NULL) {
-        delete TORevlightCave01__bml_resource;
-        TORevlightCave01__bml_resource = NULL;
+    if (revlight_cave01_bml_resource != NULL) {
+        delete revlight_cave01_bml_resource;
+        revlight_cave01_bml_resource = NULL;
     }
 }
 
 void TORevlightCave01::load_shared_resource() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_yukakaiten01_resource_descriptor, 0, 0, NULL);
-    TORevlightCave01__bml_resource = resource;
+    revlight_cave01_bml_resource = resource;
 }
 
 TORevlightCave01::~TORevlightCave01() {}
 
 TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
-    m_name = TORevlightCave01__class_name;
+    m_name = revlight_cave01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)TORevlightCave01__bml_resource->models[0].model;
-    texlist = TORevlightCave01__bml_resource->models[0].texlist;
-    motion = TORevlightCave01__bml_resource->motions[0].motion;
+    model = (void *)revlight_cave01_bml_resource->models[0].model;
+    texlist = revlight_cave01_bml_resource->models[0].texlist;
+    motion = revlight_cave01_bml_resource->motions[0].motion;
     animation_step = 0.8f;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     view_range = 500.0f;

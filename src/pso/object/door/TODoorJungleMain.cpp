@@ -84,7 +84,7 @@ CollisionBody TODoorJungleMain_collision_body_parts[1] = {
 // Story-flag ids of the three jungle switches (shared with TOKeyJungleMain).
 const s32 TOKeyJungleMain__data_804653C8[3] = {0x46, 0x47, 0x48};
 
-const char *TODoorJungleMain__name = "TODoorJungleMain";
+const char *door_jungle_main_name = "TODoorJungleMain";
 
 extern "C" u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, saddr arg2);
 
@@ -107,7 +107,7 @@ void clear_story_flag_in_bank(s32 n, s32 flag);
 
 struct ByteBlock_3C { u8 bytes[0x3c]; };
 
-BmlResource *TODoorJungleMain__bml_resource;
+BmlResource *door_jungle_main_bml_resource;
 
 NJS_TEXLIST *door_jungle_main_gvm_texture;
 
@@ -133,9 +133,9 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *actor, s32 arg1, saddr set_data) {
     saddr temp_r4;
     __ct__10TODoorBaseFP7TObject(actor);
     *(s32 **)((s8 *)actor + 0x18) = __vt__16TODoorJungleMain;
-    *(saddr *)((s8 *)actor + 0) = (saddr) TODoorJungleMain__name;
+    *(saddr *)((s8 *)actor + 0) = (saddr) door_jungle_main_name;
     ((TODoorJungleMain *)(actor))->apply_object_set_data((void *)set_data);
-    actor->motion = (AnimationMotion *)get_bml_motion(TODoorJungleMain__bml_resource, 0);
+    actor->motion = (AnimationMotion *)get_bml_motion(door_jungle_main_bml_resource, 0);
     actor->animation_step = 1.0f;
     ((TODoorJungleMain *)actor)->animation_end_frame = 0.0f;
     init_collision_body_parts(actor, (saddr) TODoorJungleMain_collision_body_parts, 1);
@@ -252,11 +252,11 @@ void TODoorJungleMain::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         if (door_flags & 1) {
-            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3), motion, animation_end_frame);
+            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)door_jungle_main_bml_resource, 3), motion, animation_end_frame);
         } else {
-            draw_ginja_object((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3));
+            draw_ginja_object((void *)get_bml_model((BmlResource *)door_jungle_main_bml_resource, 3));
             for (i = 0; i < 3 - switch_count; i++) {
-                draw_ginja_object((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, ids.v[i]));
+                draw_ginja_object((void *)get_bml_model((BmlResource *)door_jungle_main_bml_resource, ids.v[i]));
             }
         }
         pop_matrix();
@@ -266,7 +266,7 @@ void TODoorJungleMain::render() {
 void TODoorJungleMain::load_resources() {
     saddr var_r0;
     var_r0 = (saddr)new BmlResource(0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, NULL);
-    TODoorJungleMain__bml_resource = (BmlResource *)var_r0;
+    door_jungle_main_bml_resource = (BmlResource *)var_r0;
     door_jungle_main_gvm_texture = LoadPvmFileTls("o_jungle_doormain.gvm");
 }
 
@@ -276,9 +276,9 @@ void TODoorJungleMain::free_static_resources() {
         safe_free(door_jungle_main_gvm_texture);
         door_jungle_main_gvm_texture = NULL;
     }
-    if (TODoorJungleMain__bml_resource != NULL) {
-        delete (BmlResource *)TODoorJungleMain__bml_resource;
-        TODoorJungleMain__bml_resource = NULL;
+    if (door_jungle_main_bml_resource != NULL) {
+        delete (BmlResource *)door_jungle_main_bml_resource;
+        door_jungle_main_bml_resource = NULL;
     }
 }
 

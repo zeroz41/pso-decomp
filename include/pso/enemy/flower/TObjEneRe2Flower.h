@@ -26,7 +26,7 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     void sub_800C3BA8();
     s32 remap_sound_for_variant(s32 sound_id);
     // dispatch_action's states 0-11, named by the motions they request through
-    // TObjEneRe2Flower__animation_descriptors (attack0 damege1 die2 laugh3 waitc4 waito5 wake6)
+    // re2_flower_animation_descriptors (attack0 damege1 die2 laugh3 waitc4 waito5 wake6)
     // and by what they do.
     void state_hidden(s32 reason);
     void state_fade_in(s32 reason);

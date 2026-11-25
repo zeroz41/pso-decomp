@@ -23,7 +23,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
-const char *TObjEneDD__name = "TObjEneDD";
+const char *dd_name = "TObjEneDD";
 const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 #include "pso/map/CsnQuery.h"
 
@@ -153,7 +153,7 @@ void TObjEneDD::release_resource() {
 }
 
 TObjEneDD::TObjEneDD(TObject *parent) : TObjEnemy(parent) {
-    m_name = TObjEneDD__name;
+    m_name = dd_name;
     previous_mode = 0;
     next_mode = 0;
     wall_reach = 5.0f;

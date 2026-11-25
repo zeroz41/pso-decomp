@@ -8,11 +8,11 @@
 
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-const char *TOChatSensor__name = "TOChatSensor";
+const char *chat_sensor_name = "TOChatSensor";
 
 const char *chat_sensor_folder_name_ptr = "TOChatSensorFolder";
 
-const char *TOChatSensorCapture__class_name = "TOChatSensorCapture";
+const char *chat_sensor_capture_class_name = "TOChatSensorCapture";
 
 #include "types.h"
 #include <string.h>
@@ -61,11 +61,11 @@ struct ChatSensorTable {
 };
 
 extern "C" {
-void *TOChatSensorFolder__instance;
+void *chat_sensor_folder_instance;
 
 ChatSensorTable *chat_sensor_table;
 
-TOChatSensorCapture *TOChatSensorCapture__instance;
+TOChatSensorCapture *chat_sensor_capture_instance;
 
 s32 find_chat_keyword(char *, char (*)[0x20], s32);
 
@@ -101,19 +101,19 @@ void *TOChatSensor::create(void *set) {
     u32 temp_r3;
     u32 temp_r3_2;
     u32 var_r0;
-    if ((uaddr) TOChatSensorFolder__instance == 0U) {
+    if ((uaddr) chat_sensor_folder_instance == 0U) {
         new TOChatSensorFolder(tl_05);
     }
-    if ((uaddr) TOChatSensorFolder__instance != 0U) {
-        return new TOChatSensor((TObject *)TOChatSensorFolder__instance, set);
+    if ((uaddr) chat_sensor_folder_instance != 0U) {
+        return new TOChatSensor((TObject *)chat_sensor_folder_instance, set);
     }
     return NULL;
 }
 
 void TOChatSensor::dispatch_chat_message_to_children(saddr arg0) {
     void *var_r31;
-    if (TOChatSensorFolder__instance != 0U) {
-        var_r31 = *(void **)((s8 *)TOChatSensorFolder__instance + 0x14);
+    if (chat_sensor_folder_instance != 0U) {
+        var_r31 = *(void **)((s8 *)chat_sensor_folder_instance + 0x14);
         while (var_r31 != NULL) {
             ((TOChatSensor *)var_r31)->handle_chat_message((void *)arg0);
             var_r31 = *(void **)((s8 *)var_r31 + 0xC);
@@ -124,7 +124,7 @@ void TOChatSensor::dispatch_chat_message_to_children(saddr arg0) {
 TOChatSensor::TOChatSensor(TObject *parent, void *arg2) : TObjBase(parent) {
     s32 n;
     char **t;
-    m_name = TOChatSensor__name;
+    m_name = chat_sensor_name;
     apply_object_set_data(arg2);
     script_thread = 0;
     player_inside = 0;
@@ -266,11 +266,11 @@ void TOChatSensor::check_player_proximity() {
 
 TOChatSensorFolder::TOChatSensorFolder(TObject *parent) : TObject(parent) {
     m_name = chat_sensor_folder_name_ptr;
-    TOChatSensorFolder__instance = this;
+    chat_sensor_folder_instance = this;
 }
 
 TOChatSensorFolder::~TOChatSensorFolder() {
-    TOChatSensorFolder__instance = 0;
+    chat_sensor_folder_instance = 0;
 }
 
 void TLobby__sub_8015ABD4(void) {  }
@@ -278,7 +278,7 @@ void TLobby__sub_8015ABD4(void) {  }
 void TLobby__sub_8015ABD0(void) {  }
 
 void TOChatSensorCapture::create_instance(void *parent) {
-    if (TOChatSensorCapture__instance == NULL) {
+    if (chat_sensor_capture_instance == NULL) {
         new TOChatSensorCapture((TObject *)parent);
     }
 }
@@ -286,7 +286,7 @@ void TOChatSensorCapture::create_instance(void *parent) {
 #pragma push
 #pragma opt_common_subs off
 TOChatSensorCapture::TOChatSensorCapture(TObject *parent) : TObject(parent) {
-    m_name = TOChatSensorCapture__class_name;
+    m_name = chat_sensor_capture_class_name;
     s32 i = 0;
     do {
         lifetime[i] = 0;
@@ -294,13 +294,13 @@ TOChatSensorCapture::TOChatSensorCapture(TObject *parent) : TObject(parent) {
         memset(messages[i], 0, 4);
         i += 1;
     } while (i != 4);
-    TOChatSensorCapture__instance = this;
+    chat_sensor_capture_instance = this;
 }
 
 #pragma pop
 TOChatSensorCapture::~TOChatSensorCapture() {
     for (int i = 0; i != 4; i++) mem_free(messages[i]);
-    TOChatSensorCapture__instance = 0;
+    chat_sensor_capture_instance = 0;
 }
 
 void TOChatSensorCapture::run_task() {
@@ -315,9 +315,9 @@ void TOChatSensorCapture::run_task() {
 }
 
 void TOChatSensorCapture::capture_message(u16 client, const char *message) {
-    if (TOChatSensorCapture__instance != NULL && client < 4) {
-        strncpy(TOChatSensorCapture__instance->messages[client], message, 0x100);
-        TOChatSensorCapture__instance->lifetime[client] = 0x78;
+    if (chat_sensor_capture_instance != NULL && client < 4) {
+        strncpy(chat_sensor_capture_instance->messages[client], message, 0x100);
+        chat_sensor_capture_instance->lifetime[client] = 0x78;
     }
 }
 
@@ -325,7 +325,7 @@ s32 TOChatSensorCapture::check_keyword(u16 client, const char *keyword) {
     char buffer[0x20];
     s32 i;
     s32 c;
-    if (TOChatSensorCapture__instance != NULL && client < 4) {
+    if (chat_sensor_capture_instance != NULL && client < 4) {
         strncpy(buffer, keyword, 0x20);
         for (i = 0; i < 0x20; i++) {
             c = buffer[i];
@@ -335,7 +335,7 @@ s32 TOChatSensorCapture::check_keyword(u16 client, const char *keyword) {
                 break;
             }
         }
-        if (find_chat_keyword(TOChatSensorCapture__instance->messages[client],
+        if (find_chat_keyword(chat_sensor_capture_instance->messages[client],
                               (char (*)[0x20])buffer, current_language) > -1) return 1;
     }
     return 0;

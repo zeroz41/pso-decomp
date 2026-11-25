@@ -174,7 +174,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     void climb_toward(f32 height);
     void climb_hover_y(f32 height);
     void calc_position(Vec *out);
-    static BmlResource *get_resource_bundle();  // returns TObjEneMe1Gee__resource_bundle
+    static BmlResource *get_resource_bundle();  // returns me1_gee_resource_bundle
 };
 
 // Stat ids of the three kinds (GeeData); load_resources registers them with TLobby.

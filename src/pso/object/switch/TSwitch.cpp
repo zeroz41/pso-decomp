@@ -44,7 +44,7 @@ u8 is_floor_switch_set(u32 id, s16 floor) {
 }
 
 #pragma readonly_strings on
-const char *TSwitch__name = "TSwitch";
+const char *switch_name = "TSwitch";
 
 
 u8 is_current_floor_switch_set(s32 id) {
@@ -102,7 +102,7 @@ void set_current_floor_switch(s32 id) {
 }
 
 TSwitch::TSwitch(TObject *parent) : TObject(parent) {
-    m_name = TSwitch__name;
+    m_name = switch_name;
     m_1c = 0;
     m_20 = 0;
     m_24 = 0;

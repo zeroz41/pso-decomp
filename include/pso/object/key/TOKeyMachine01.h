@@ -32,8 +32,8 @@ public:
 
 LAYOUT_ASSERT(TOKeyMachine01_size, sizeof(TOKeyMachine01) == 0xFC);
 
-extern BmlResource *TOKeyMachine01__resource_bundle;
+extern BmlResource *key_machine01_resource_bundle;
 // The red texture list while up, the model's own while down.
-extern NJS_TEXLIST **TOKeyMachine01__texture_lists;
+extern NJS_TEXLIST **key_machine01_texture_lists;
 
 #endif

@@ -116,7 +116,7 @@ void send_6x0A_enemy_state_packet(void *);
 #pragma push
 #pragma readonly_strings on
 const char *TObjEnemy_class_name = "TObjEnemy";
-const char *TObjControl__name = "TObjControl";
+const char *control_name = "TObjControl";
 #pragma pop
 
 void TObject::resume_update() { m_flags &= ~PAUSE_UPDATE; }
@@ -816,7 +816,7 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(G_SetEnemyLowGameFlagsUltimat
 }
 
 TObjControl::TObjControl(TObject *parent) : TObject(parent) {
-    m_name = TObjControl__name;
+    m_name = control_name;
     m_decision_mode = 2;
     m_reserved = 0;
 }

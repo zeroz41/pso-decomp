@@ -25,7 +25,7 @@
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
 
-__declspec(section ".data") s32 TObjEnePanarmsAtkColli__type_index_table[2] = {1, 2};
+__declspec(section ".data") s32 panarms_atk_colli_type_index_table[2] = {1, 2};
 Vec panarms_atk_zero_vec = {0.0f, 0.0f, 0.0f};
 
 
@@ -183,7 +183,7 @@ TObjEnePanarmsAtkColli::TObjEnePanarmsAtkColli(TObject *parent, Vec *position, V
     last_hit_player = NULL;
     last_hit_enemy = NULL;
     set_param(0x15);
-    attack_power = ((f32 *)TLobby::dispatch_shared_handler_a(0x31))[TObjEnePanarmsAtkColli__type_index_table[this->type]];
+    attack_power = ((f32 *)TLobby::dispatch_shared_handler_a(0x31))[panarms_atk_colli_type_index_table[this->type]];
     if (attack_power < 0.0f) {
         attack_power = 0.0f;
     }

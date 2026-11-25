@@ -120,7 +120,7 @@ void TOSwitchTimer::init_from_set_data() {
     this->floor = get_current_floor();
 }
 
-const char *TOSwitchTimer__name = "TOSwitchTimer";
+const char *switch_timer_name = "TOSwitchTimer";
 
 
 void clear_floor_switch_flag(u32 id, s16 floor);
@@ -189,7 +189,7 @@ TOSwitchTimer::~TOSwitchTimer() {
     }
 }
 TOSwitchTimer::TOSwitchTimer(saddr parent, saddr set_data) : TObjBase((TObject *)parent) {
-    m_name = TOSwitchTimer__name;
+    m_name = switch_timer_name;
     apply_object_set_data((void *)set_data);
     init_from_set_data();
 }

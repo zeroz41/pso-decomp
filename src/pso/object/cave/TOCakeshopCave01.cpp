@@ -22,7 +22,7 @@ CollisionBody cakeshop_cave01_collision_body_part[] = {
     {{0.0f, 22.5f, 0.0f}, 15.0f, 35.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 const char *TOCakeshopCave01_class_name = "TOCakeshopCave01";
-BmlResource *TOCakeshopCave01__model_resource;
+BmlResource *cakeshop_cave01_model_resource;
 
 // Each of the eight lights fades out at random, stays off a while, then
 // comes back.
@@ -91,15 +91,15 @@ void *TOCakeshopCave01::create(void *set_data) {
 }
 
 void TOCakeshopCave01::release_static_resource() {
-    if (TOCakeshopCave01__model_resource != NULL) {
-        delete TOCakeshopCave01__model_resource;
-        TOCakeshopCave01__model_resource = NULL;
+    if (cakeshop_cave01_model_resource != NULL) {
+        delete cakeshop_cave01_model_resource;
+        cakeshop_cave01_model_resource = NULL;
     }
 }
 
 void TOCakeshopCave01::load_shared_resource() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_cakeya_resource_descriptor, 0, 0, NULL);
-    TOCakeshopCave01__model_resource = resource;
+    cakeshop_cave01_model_resource = resource;
 }
 
 TOCakeshopCave01::~TOCakeshopCave01() {
@@ -111,8 +111,8 @@ TOCakeshopCave01::TOCakeshopCave01(void *set_data) : TObjMapObject(tl_05) {
     s32 i;
     m_name = TOCakeshopCave01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)TOCakeshopCave01__model_resource->models[0].model;
-    texlist = TOCakeshopCave01__model_resource->models[0].texlist;
+    model = (void *)cakeshop_cave01_model_resource->models[0].model;
+    texlist = cakeshop_cave01_model_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 60.0f;
     actorFlags |= 0x40000000;

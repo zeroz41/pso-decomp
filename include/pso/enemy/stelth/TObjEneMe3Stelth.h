@@ -20,7 +20,7 @@ struct StelthBehaviorParams {
     s32 attack_tech_level;   // Rafoie and Gifoie
 };
 
-// The record movementParameters points at (TObjEneMe3Stelth__shared_params); the
+// The record movementParameters points at (me3_stelth_shared_params); the
 // TObjEneMe3SinowZoaMoveParams layout.
 struct StelthMovementParams {
     f32 radius;      // target search radius the shared enemy targeting reads

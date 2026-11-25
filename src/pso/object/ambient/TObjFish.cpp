@@ -37,11 +37,11 @@
 #include <stdlib.h>
 
 
-BmlResource *TObjFish__area_bml_resource;
-s32 TObjFish__area_event_stage;
+BmlResource *fish_area_bml_resource;
+s32 fish_area_event_stage;
 
 s32 TObjFish::update_state() {
-    if ((s32) TObjFish__area_event_stage == 0) {
+    if ((s32) fish_area_event_stage == 0) {
         switch (m_90) {
         case 0:
             if (is_lobby_event_active() == 0) {
@@ -107,7 +107,7 @@ extern const char bm_sakana_obj_seabed2_bml_filename[] = "bm_sakana_obj_seabed2.
 // Per area stage and fish kind: animation frame step, then the motion's frame count.
 extern const f32 lbl_80465D74[5][3] = { { 1.0f, 1.0f, 1.0f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.0f, 0.0f, 0.0f } };
 extern const f32 lbl_80465DB0[5][3] = { { 30.0f, 30.0f, 30.0f }, { 5.0f, 20.0f, 30.0f }, { 5.0f, 5.0f, 5.0f }, { 30.0f, 30.0f, 30.0f }, { 30.0f, 30.0f, 30.0f } };
-extern const char TObjFish__class_name_string[] = "TObjFish";
+extern const char fish_class_name_string[] = "TObjFish";
 #pragma pop
 
 #pragma push
@@ -164,32 +164,32 @@ void TObjFish::render() {
             if (get_current_floor_area() == AREA_SEABED_UPPER) {
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 1));
-                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 1));
+                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 1));
+                    draw_ginja_object((void *)get_bml_model(fish_area_bml_resource, 1));
                     break;
                 case 2:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 2));
-                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 2));
+                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 2));
+                    draw_ginja_object((void *)get_bml_model(fish_area_bml_resource, 2));
                     break;
                 default:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 0));
-                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 0));
+                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 0));
+                    draw_ginja_object((void *)get_bml_model(fish_area_bml_resource, 0));
                     break;
                 }
             } else {
                 set_motion_packed_rotation();
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 1));
-                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
+                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 1));
+                    draw_ginja_model_with_motion((void *)get_bml_model(fish_area_bml_resource, 1), get_bml_motion(fish_area_bml_resource, 1), f->frame);
                     break;
                 case 2:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 2));
-                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
+                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 2));
+                    draw_ginja_model_with_motion((void *)get_bml_model(fish_area_bml_resource, 2), get_bml_motion(fish_area_bml_resource, 2), f->frame);
                     break;
                 default:
-                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 0));
-                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
+                    TObjFish::set_global_param(get_bml_texlist(fish_area_bml_resource, 0));
+                    draw_ginja_model_with_motion((void *)get_bml_model(fish_area_bml_resource, 0), get_bml_motion(fish_area_bml_resource, 0), f->frame);
                     break;
                 }
                 clear_motion_packed_rotation();
@@ -318,14 +318,14 @@ void TObjFish::run_task() {
         }
         m = f->anim;
         if (m < 0 || m > 2) {
-            f->frame += lbl_80465D74[TObjFish__area_event_stage][0];
-            if (f->frame >= lbl_80465DB0[TObjFish__area_event_stage][0]) {
-                f->frame -= lbl_80465DB0[TObjFish__area_event_stage][0];
+            f->frame += lbl_80465D74[fish_area_event_stage][0];
+            if (f->frame >= lbl_80465DB0[fish_area_event_stage][0]) {
+                f->frame -= lbl_80465DB0[fish_area_event_stage][0];
             }
         } else {
-            f->frame += lbl_80465D74[TObjFish__area_event_stage][m];
-            if (f->frame >= lbl_80465DB0[TObjFish__area_event_stage][f->anim]) {
-                f->frame -= lbl_80465DB0[TObjFish__area_event_stage][f->anim];
+            f->frame += lbl_80465D74[fish_area_event_stage][m];
+            if (f->frame >= lbl_80465DB0[fish_area_event_stage][f->anim]) {
+                f->frame -= lbl_80465DB0[fish_area_event_stage][f->anim];
             }
         }
         f->seen = 0;
@@ -343,7 +343,7 @@ s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
     TObjFishEntry *p;
     s32 i;
 
-    if (TObjFish__area_event_stage == 0 && is_lobby_event_active() != 0) {
+    if (fish_area_event_stage == 0 && is_lobby_event_active() != 0) {
         m_90 = 0;
     } else {
         m_90 = 3;
@@ -388,7 +388,7 @@ s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
 #pragma pop
 
 
-const char *lbl_805D3D58 = TObjFish__class_name_string;
+const char *lbl_805D3D58 = fish_class_name_string;
 
 extern "C" {
 TObjFish::~TObjFish() {
@@ -445,9 +445,9 @@ void *TObjFish::create(void *set_data) {
 }
 
 void TObjFish::free_resource() {
-    if (TObjFish__area_bml_resource != NULL) {
-        delete TObjFish__area_bml_resource;
-        TObjFish__area_bml_resource = NULL;
+    if (fish_area_bml_resource != NULL) {
+        delete fish_area_bml_resource;
+        fish_area_bml_resource = NULL;
     }
 }
 struct TObjFishAreaResource {
@@ -482,31 +482,31 @@ void TObjFish::load_area_resource() {
     BmlResource *p;
     switch (get_current_floor_area()) {
     case AREA_JUNGLE_NORTH:
-        TObjFish__area_event_stage = 1;
+        fish_area_event_stage = 1;
         p = new BmlResource(1, &base[1].descriptor, 0, 0, NULL);
-        TObjFish__area_bml_resource = p;
+        fish_area_bml_resource = p;
         break;
     case AREA_SEASIDE:
     case AREA_SEASIDE_NIGHT:
-        TObjFish__area_event_stage = 2;
+        fish_area_event_stage = 2;
         p = new BmlResource(1, &base[2].descriptor, 0, 0, NULL);
-        TObjFish__area_bml_resource = p;
+        fish_area_bml_resource = p;
         break;
     case AREA_SEABED_UPPER:
-        TObjFish__area_event_stage = 3;
+        fish_area_event_stage = 3;
         p = new BmlResource(1, &base[3].descriptor, 0, 0, NULL);
-        TObjFish__area_bml_resource = p;
+        fish_area_bml_resource = p;
         break;
     case AREA_SEABED_LOWER:
-        TObjFish__area_event_stage = 4;
+        fish_area_event_stage = 4;
         p = new BmlResource(1, &base[4].descriptor, 0, 0, NULL);
-        TObjFish__area_bml_resource = p;
+        fish_area_bml_resource = p;
         break;
     case AREA_LOBBY:
     default:
-        TObjFish__area_event_stage = 0;
+        fish_area_event_stage = 0;
         p = new BmlResource(1, &base[0].descriptor, 0, 0, NULL);
-        TObjFish__area_bml_resource = p;
+        fish_area_bml_resource = p;
         break;
     }
 }

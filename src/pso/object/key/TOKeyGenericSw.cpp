@@ -41,13 +41,13 @@ BmlResourceDescriptor fs_obj_hanyousu_light_j_resource_descriptor = {
 CollisionBody key_generic_sw_collision_body[] = {
     {{0.0f, 10.0f, 0.0f}, 5.0f, 5.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-const char *TOKeyGenericSw__name = "TOKeyGenericSw";
+const char *key_generic_sw_name = "TOKeyGenericSw";
 // The body and the light.
-BmlResource *TOKeyGenericSw__shared_resource_ptrs[2];
+BmlResource *key_generic_sw_shared_resource_ptrs[2];
 // The body's texture list, the light's, then light_ao for the lit light.
 struct NJS_TEXLIST;
 
-NJS_TEXLIST **TOKeyGenericSw__texture_lists;
+NJS_TEXLIST **key_generic_sw_texture_lists;
 
 void TOKeyGenericSw::vfunc_25() {}
 
@@ -56,8 +56,8 @@ void TOKeyGenericSw::render() {
         return;
     }
     push_matrix();
-    texlist = TOKeyGenericSw__texture_lists[0];
-    model = (void *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].model;
+    texlist = key_generic_sw_texture_lists[0];
+    model = (void *)key_generic_sw_shared_resource_ptrs[0]->models[0].model;
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
@@ -67,13 +67,13 @@ void TOKeyGenericSw::render() {
     push_matrix();
     switch (is_on) {
     case 0:
-        texlist = TOKeyGenericSw__texture_lists[1];
+        texlist = key_generic_sw_texture_lists[1];
         break;
     case 1:
-        texlist = TOKeyGenericSw__texture_lists[2];
+        texlist = key_generic_sw_texture_lists[2];
         break;
     }
-    model = (void *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].model;
+    model = (void *)key_generic_sw_shared_resource_ptrs[1]->models[0].model;
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
@@ -105,20 +105,20 @@ void *TOKeyGenericSw::create(void *set_data) {
 }
 
 void TOKeyGenericSw::free_shared_resources() {
-    if (TOKeyGenericSw__texture_lists != NULL) {
-        TObjPlayer::free_if_valid((saddr)TOKeyGenericSw__texture_lists[2]);
-        if (TOKeyGenericSw__texture_lists != NULL) {
-            mem_free(TOKeyGenericSw__texture_lists);
-            TOKeyGenericSw__texture_lists = NULL;
+    if (key_generic_sw_texture_lists != NULL) {
+        TObjPlayer::free_if_valid((saddr)key_generic_sw_texture_lists[2]);
+        if (key_generic_sw_texture_lists != NULL) {
+            mem_free(key_generic_sw_texture_lists);
+            key_generic_sw_texture_lists = NULL;
         }
     }
-    if (TOKeyGenericSw__shared_resource_ptrs[1] != NULL) {
-        delete (BmlResource *)TOKeyGenericSw__shared_resource_ptrs[1];
-        TOKeyGenericSw__shared_resource_ptrs[1] = NULL;
+    if (key_generic_sw_shared_resource_ptrs[1] != NULL) {
+        delete (BmlResource *)key_generic_sw_shared_resource_ptrs[1];
+        key_generic_sw_shared_resource_ptrs[1] = NULL;
     }
-    if (TOKeyGenericSw__shared_resource_ptrs[0] != NULL) {
-        delete (BmlResource *)TOKeyGenericSw__shared_resource_ptrs[0];
-        TOKeyGenericSw__shared_resource_ptrs[0] = NULL;
+    if (key_generic_sw_shared_resource_ptrs[0] != NULL) {
+        delete (BmlResource *)key_generic_sw_shared_resource_ptrs[0];
+        key_generic_sw_shared_resource_ptrs[0] = NULL;
     }
 }
 
@@ -128,22 +128,22 @@ void TOKeyGenericSw::load_resources() {
 
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         resource = new BmlResource(1, &fs_obj_hanyousu_body1_j_resource_descriptor, 0, 0, NULL);
-        TOKeyGenericSw__shared_resource_ptrs[0] = resource;
+        key_generic_sw_shared_resource_ptrs[0] = resource;
         resource = new BmlResource(1, &fs_obj_hanyousu_light_j_resource_descriptor, 0, 0, NULL);
-        TOKeyGenericSw__shared_resource_ptrs[1] = resource;
-        TOKeyGenericSw__texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
-        TOKeyGenericSw__texture_lists[0] = TOKeyGenericSw__shared_resource_ptrs[0]->models[0].texlist;
-        TOKeyGenericSw__texture_lists[1] = TOKeyGenericSw__shared_resource_ptrs[1]->models[0].texlist;
-        TOKeyGenericSw__texture_lists[2] = LoadPvmFileTls("fs_obj_hanyousu_light_ao_j.GVM");
+        key_generic_sw_shared_resource_ptrs[1] = resource;
+        key_generic_sw_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(*key_generic_sw_texture_lists));
+        key_generic_sw_texture_lists[0] = key_generic_sw_shared_resource_ptrs[0]->models[0].texlist;
+        key_generic_sw_texture_lists[1] = key_generic_sw_shared_resource_ptrs[1]->models[0].texlist;
+        key_generic_sw_texture_lists[2] = LoadPvmFileTls("fs_obj_hanyousu_light_ao_j.GVM");
     } else {
         resource = new BmlResource(1, &fs_obj_hanyousu_body1_resource_descriptor, 0, 0, NULL);
-        TOKeyGenericSw__shared_resource_ptrs[0] = resource;
+        key_generic_sw_shared_resource_ptrs[0] = resource;
         resource = new BmlResource(1, &fs_obj_hanyousu_light_resource_descriptor, 0, 0, NULL);
-        TOKeyGenericSw__shared_resource_ptrs[1] = resource;
-        TOKeyGenericSw__texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(*TOKeyGenericSw__texture_lists));
-        TOKeyGenericSw__texture_lists[0] = TOKeyGenericSw__shared_resource_ptrs[0]->models[0].texlist;
-        TOKeyGenericSw__texture_lists[1] = TOKeyGenericSw__shared_resource_ptrs[1]->models[0].texlist;
-        TOKeyGenericSw__texture_lists[2] = LoadPvmFileTls("fs_obj_hanyousu_light_ao.GVM");
+        key_generic_sw_shared_resource_ptrs[1] = resource;
+        key_generic_sw_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(*key_generic_sw_texture_lists));
+        key_generic_sw_texture_lists[0] = key_generic_sw_shared_resource_ptrs[0]->models[0].texlist;
+        key_generic_sw_texture_lists[1] = key_generic_sw_shared_resource_ptrs[1]->models[0].texlist;
+        key_generic_sw_texture_lists[2] = LoadPvmFileTls("fs_obj_hanyousu_light_ao.GVM");
     }
 }
 
@@ -153,14 +153,14 @@ TOKeyGenericSw::~TOKeyGenericSw() {
 }
 
 TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) {
-    m_name = TOKeyGenericSw__name;
+    m_name = key_generic_sw_name;
     apply_object_set_data(set_data);
     init_switch_id();
-    model = (void *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].model;
-    motion = TOKeyGenericSw__shared_resource_ptrs[1]->motions[0].motion;
+    model = (void *)key_generic_sw_shared_resource_ptrs[1]->models[0].model;
+    motion = key_generic_sw_shared_resource_ptrs[1]->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
     animation_step = 2.0f;
-    texlist = TOKeyGenericSw__texture_lists[1];
+    texlist = key_generic_sw_texture_lists[1];
     init_collision_body_parts(this, key_generic_sw_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

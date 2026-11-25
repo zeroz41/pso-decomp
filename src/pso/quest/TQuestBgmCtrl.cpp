@@ -3,7 +3,7 @@
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/quest/TQuestThread.h"
 
-s32 TQuestBgmCtrl__bgm_issued_flag;
+s32 quest_bgm_ctrl_bgm_issued_flag;
 s32 TQuestBgmCtrl__bgm_forced_flag;
 s32 TQuestBgmCtrl__area_bgm_index;
 TQuestBgmCtrl* TQuestBgmCtrl__instance;
@@ -31,7 +31,7 @@ extern "C" __declspec(section ".rodata") const char quest_bgm_miles_filename[] =
 extern "C" __declspec(section ".rodata") const char TQuestBgmCtrl_class_name_string[] = "TQuestBgmCtrl";
 void TQuestBgmCtrl::force_bgm(int index) {
     TQuestBgmCtrl__area_bgm_index = index;
-    TQuestBgmCtrl__bgm_issued_flag = 0;
+    quest_bgm_ctrl_bgm_issued_flag = 0;
     TQuestBgmCtrl__bgm_forced_flag = 1;
     if (TQuestBgmCtrl__instance != NULL) {
         TQuestBgmCtrl__instance->run_task();
@@ -40,13 +40,13 @@ void TQuestBgmCtrl::force_bgm(int index) {
 
 void TQuestBgmCtrl::defer_bgm(int index) {
     TQuestBgmCtrl__area_bgm_index = index;
-    TQuestBgmCtrl__bgm_issued_flag = 0;
+    quest_bgm_ctrl_bgm_issued_flag = 0;
 }
 
 void TQuestBgmCtrl::run_task() {
-    if (((s32) TQuestBgmCtrl__bgm_issued_flag == 0) && ((TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) || ((s32) TQuestBgmCtrl__bgm_forced_flag != 0)) && ((s32) TQuestBgmCtrl__area_bgm_index > 0) && ((s32) TQuestBgmCtrl__area_bgm_index <= 0x11)) {
+    if (((s32) quest_bgm_ctrl_bgm_issued_flag == 0) && ((TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) || ((s32) TQuestBgmCtrl__bgm_forced_flag != 0)) && ((s32) TQuestBgmCtrl__area_bgm_index > 0) && ((s32) TQuestBgmCtrl__area_bgm_index <= 0x11)) {
         play_area_music((char *)quest_bgm_area_filename_table[TQuestBgmCtrl__area_bgm_index - 1]);
-        TQuestBgmCtrl__bgm_issued_flag = 1;
+        quest_bgm_ctrl_bgm_issued_flag = 1;
     }
 }
 
@@ -59,7 +59,7 @@ void *quest_bgm_area_filename_table[17] = {
 };
 
 TQuestBgmCtrl::~TQuestBgmCtrl() {
-    TQuestBgmCtrl__bgm_issued_flag = 0;
+    quest_bgm_ctrl_bgm_issued_flag = 0;
     TQuestBgmCtrl__bgm_forced_flag = 0;
     TQuestBgmCtrl__area_bgm_index = 0;
     TQuestBgmCtrl__instance = 0;
@@ -67,7 +67,7 @@ TQuestBgmCtrl::~TQuestBgmCtrl() {
 
 TQuestBgmCtrl::TQuestBgmCtrl(TObject* parent) : TObject(parent) {
     m_name = TQuestBgmCtrl__class_name;
-    TQuestBgmCtrl__bgm_issued_flag = 0;
+    quest_bgm_ctrl_bgm_issued_flag = 0;
     TQuestBgmCtrl__bgm_forced_flag = 0;
     TQuestBgmCtrl__area_bgm_index = 0;
     TQuestBgmCtrl__instance = this;

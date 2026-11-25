@@ -83,10 +83,10 @@ const char *bm_fe_obj_o_hahen_model_names[10] = {
     NULL,
 };
 const char *bm_fe_obj_o_hahen_motion_names[1] = {NULL};
-BmlResourceDescriptor TOWreckAncient__resource_descriptor = {
+BmlResourceDescriptor wreck_ancient_resource_descriptor = {
     debris_archive, bm_fe_obj_o_hahen_model_names, bm_fe_obj_o_hahen_motion_names, 9, 0,
 };
-const char *TOWreckAncient__name = "TOWreckAncient";
+const char *wreck_ancient_name = "TOWreckAncient";
 
 // One sphere per wreck model: the subclass passes its model's entry (TOWreckAncient02/03 use it too).
 extern __declspec(section ".data") const CollisionBody TOWreckAncient__collision_body_templates[7] = {
@@ -99,15 +99,15 @@ extern __declspec(section ".data") const CollisionBody TOWreckAncient__collision
     { { 0.0f, 0.0f, 0.0f }, 15.0f, 0.0f, 0, 0x10003 },
 };
 
-const char *TOWreckAncient01__name = "TOWreckAncient01";
-const char *TOWreckAncient04__name = "TOWreckAncient04";
-const char *TOWreckAncient05__name = "TOWreckAncient05";
-const char *TOWreckAncient06__name = "TOWreckAncient06";
-const char *TOWreckAncient07__name = "TOWreckAncient07";
-const char *TOWreckAncientBrakable__name = "TOWreckAncientBrakable";
-const char *TOWreckAncientBrakable05__name = "TOWreckAncientBrakable05";
+const char *wreck_ancient01_name = "TOWreckAncient01";
+const char *wreck_ancient04_name = "TOWreckAncient04";
+const char *wreck_ancient05_name = "TOWreckAncient05";
+const char *wreck_ancient06_name = "TOWreckAncient06";
+const char *wreck_ancient07_name = "TOWreckAncient07";
+const char *wreck_ancient_brakable_name = "TOWreckAncientBrakable";
+const char *wreck_ancient_brakable05_name = "TOWreckAncientBrakable05";
 
-extern const AncientWreckDebrisOffsets TOWreckAncientBrakable__debris_table = {
+extern const AncientWreckDebrisOffsets wreck_ancient_brakable_debris_table = {
     {
         { -7.0f, 12.0f, 9.0f },
         { 0.0f, 25.0f, -5.0f },
@@ -121,7 +121,7 @@ extern const AncientWreckDebrisOffsets TOWreckAncientBrakable__debris_table = {
     }
 };
 
-extern const TObjChipParams TOWreckAncientBrakable__debris_param_table = {
+extern const TObjChipParams wreck_ancient_brakable_debris_param_table = {
     0.25f, 0.07f, 0.26f,
     { 0.0f, 0.0f, 0.0f },
     { 5.0f, 7.5f, 5.0f },
@@ -137,7 +137,7 @@ BmlResource *wreck_ancient_brakable_bml_resource;
 // --- TOWreckAncient ---
 
 TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
-    m_name = TOWreckAncient__name;
+    m_name = wreck_ancient_name;
     model = (void *)get_bml_model((BmlResource *)wreck_ancient_bml_resource, model_index);
     texlist = get_bml_texlist((BmlResource *)wreck_ancient_bml_resource, model_index);
     view_far_depth = 400.0f;
@@ -154,7 +154,7 @@ void TOWreckAncient::load_resources() {
     saddr var_r0_2;
     var_r0 = (saddr)new BmlResource(1, &bm_o_wreck_ancient_resource_descriptor, 0, 0, NULL);
     wreck_ancient_bml_resource = (BmlResource *)var_r0;
-    var_r0_2 = (saddr)new BmlResource(1, &TOWreckAncient__resource_descriptor, 0, 0, NULL);
+    var_r0_2 = (saddr)new BmlResource(1, &wreck_ancient_resource_descriptor, 0, 0, NULL);
     wreck_ancient_brakable_bml_resource = (BmlResource *)var_r0_2;
 }
 
@@ -183,7 +183,7 @@ void TOWreckAncient::render() {
 // --- TOWreckAncient01 ---
 
 TOWreckAncient01::TOWreckAncient01(void *set_data) : TOWreckAncient(1) {
-    m_name = TOWreckAncient01__name;
+    m_name = wreck_ancient01_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[1], 1);
     register_object_by_id();
@@ -199,7 +199,7 @@ void *TOWreckAncient01::create(void *set_data) {
 // --- TOWreckAncient04 ---
 
 TOWreckAncient04::TOWreckAncient04(void *set_data) : TOWreckAncient(4) {
-    m_name = TOWreckAncient04__name;
+    m_name = wreck_ancient04_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[4], 1);
     register_object_by_id();
@@ -215,7 +215,7 @@ void *TOWreckAncient04::create(void *set_data) {
 // --- TOWreckAncient05 ---
 
 TOWreckAncient05::TOWreckAncient05(void *set_data) : TOWreckAncient(3) {
-    m_name = TOWreckAncient05__name;
+    m_name = wreck_ancient05_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[3], 1);
     register_object_by_id();
@@ -231,7 +231,7 @@ void *TOWreckAncient05::create(void *set_data) {
 // --- TOWreckAncient06 ---
 
 TOWreckAncient06::TOWreckAncient06(void *set_data) : TOWreckAncient(6) {
-    m_name = TOWreckAncient06__name;
+    m_name = wreck_ancient06_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[6], 1);
     register_object_by_id();
@@ -247,7 +247,7 @@ void *TOWreckAncient06::create(void *set_data) {
 // --- TOWreckAncient07 ---
 
 TOWreckAncient07::TOWreckAncient07(void *set_data) : TOWreckAncient(5) {
-    m_name = TOWreckAncient07__name;
+    m_name = wreck_ancient07_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[5], 1);
     register_object_by_id();
@@ -264,7 +264,7 @@ void *TOWreckAncient07::create(void *set_data) {
 
 
 TOWreckAncientBrakable::TOWreckAncientBrakable(s32 model_index) : TOWreckAncient(model_index) {
-    m_name = TOWreckAncientBrakable__name;
+    m_name = wreck_ancient_brakable_name;
     state = 0;
     switch_id = -1;
 }
@@ -301,8 +301,8 @@ void TOWreckAncientBrakable::run_task() {
 
 void TOWreckAncientBrakable::spawn_debris() {
     Vec tmp;
-    AncientWreckDebrisOffsets arr = TOWreckAncientBrakable__debris_table;
-    TObjChipParams p = TOWreckAncientBrakable__debris_param_table;
+    AncientWreckDebrisOffsets arr = wreck_ancient_brakable_debris_table;
+    TObjChipParams p = wreck_ancient_brakable_debris_param_table;
     s32 i;
     p.pos.x = position.x;
     p.pos.y = position.y;
@@ -328,7 +328,7 @@ void TOWreckAncientBrakable__sub_8017D444(void *) {  }
 // --- TOWreckAncientBrakable05 ---
 
 TOWreckAncientBrakable05::TOWreckAncientBrakable05(void *set_data) : TOWreckAncientBrakable(3) {
-    m_name = TOWreckAncientBrakable05__name;
+    m_name = wreck_ancient_brakable05_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[3], 1);
     register_object_by_id();

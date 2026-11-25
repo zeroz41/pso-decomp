@@ -18,8 +18,8 @@ const char *bm_fs_obj_dokanban02_motion_names[] = {NULL};
 BmlResourceDescriptor bm_fs_obj_dokanban02_resource_descriptor = {
     "bm_fs_obj_dokanban02.bml", bm_fs_obj_dokanban02_model_names, bm_fs_obj_dokanban02_motion_names, 1, 0,
 };
-const char *TOSignCave02__class_name = "TOSignCave02";
-BmlResource *TOSignCave02__bml_resource;
+const char *sign_cave02_class_name = "TOSignCave02";
+BmlResource *sign_cave02_bml_resource;
 
 #ifdef __MWERKS__
 #pragma push
@@ -38,24 +38,24 @@ void *TOSignCave02::create(void *set_data) {
 }
 
 void TOSignCave02::release_static_resource() {
-    if (TOSignCave02__bml_resource != NULL) {
-        delete TOSignCave02__bml_resource;
-        TOSignCave02__bml_resource = NULL;
+    if (sign_cave02_bml_resource != NULL) {
+        delete sign_cave02_bml_resource;
+        sign_cave02_bml_resource = NULL;
     }
 }
 
 void TOSignCave02::load_shared_resource() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_dokanban02_resource_descriptor, 0, 0, NULL);
-    TOSignCave02__bml_resource = resource;
+    sign_cave02_bml_resource = resource;
 }
 
 TOSignCave02::~TOSignCave02() {}
 
 TOSignCave02::TOSignCave02(TObject *parent, void *set_data) : TObjMapObject(parent) {
-    m_name = TOSignCave02__class_name;
+    m_name = sign_cave02_class_name;
     apply_object_set_data(set_data);
-    model = (void *)TOSignCave02__bml_resource->models[0].model;
-    texlist = TOSignCave02__bml_resource->models[0].texlist;
+    model = (void *)sign_cave02_bml_resource->models[0].model;
+    texlist = sign_cave02_bml_resource->models[0].texlist;
     view_range = 500.0f;
     model_radius = 300.0f;
 }

@@ -24,11 +24,11 @@ extern const char *bm_fe_obj_tank_hikari_model_names[2];
 const char *bm_fe_obj_tank_hikari_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_fe_obj_tank_hikari_model_names[2] = { "fe_obj_tank_hikari.gj", NULL };
 BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor = { "bm_fe_obj_tank_hikari.bml", bm_fe_obj_tank_hikari_model_names, bm_fe_obj_tank_hikari_motion_names, 1, 0 };
-const char *TOSparkMachine01__name = "TOSparkMachine01";
-BmlResource *TOSparkMachine01__static_resource;
+const char *spark_machine01_name = "TOSparkMachine01";
+BmlResource *spark_machine01_static_resource;
 extern BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor;
-extern BmlResource *TOSparkMachine01__static_resource;
-extern const char *TOSparkMachine01__name;
+extern BmlResource *spark_machine01_static_resource;
+extern const char *spark_machine01_name;
 void rotate_matrix_y(int, int);
 
 void TOSparkMachine01::update_spark_toggle(s32 i) {
@@ -97,15 +97,15 @@ void *TOSparkMachine01::create(void *set_data) {
 }
 
 void TOSparkMachine01::destroy_static_instance() {
-    if (TOSparkMachine01__static_resource != NULL) {
-        delete (BmlResource *)TOSparkMachine01__static_resource;
-        TOSparkMachine01__static_resource = NULL;
+    if (spark_machine01_static_resource != NULL) {
+        delete (BmlResource *)spark_machine01_static_resource;
+        spark_machine01_static_resource = NULL;
     }
 }
 
 void TOSparkMachine01::load_static_resource() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&bm_fe_obj_tank_hikari_resource_descriptor, 0, 0, NULL);
-    TOSparkMachine01__static_resource = archive;
+    spark_machine01_static_resource = archive;
 }
 
 }
@@ -116,10 +116,10 @@ TOSparkMachine01::~TOSparkMachine01() {
 TOSparkMachine01::TOSparkMachine01(void *set_data) : TObjBase(tl_05) {
     TOSparkMachine01 *self = this;
     s32 i;
-    self->m_name = TOSparkMachine01__name;
+    self->m_name = spark_machine01_name;
     self->apply_object_set_data(set_data);
-    self->model = (void *)TOSparkMachine01__static_resource->models[0].model;
-    self->texlist = TOSparkMachine01__static_resource->models[0].texlist;
+    self->model = (void *)spark_machine01_static_resource->models[0].model;
+    self->texlist = spark_machine01_static_resource->models[0].texlist;
     self->view_range = 500.0f;
     self->model_radius = 40.0f;
     self->actorFlags |= 0x40000000;

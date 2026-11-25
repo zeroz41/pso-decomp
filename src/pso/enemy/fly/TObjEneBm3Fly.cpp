@@ -42,16 +42,16 @@
 
 extern "C" {
 player_stats *bm3_fly_boss_stat_handle;
-AttackParams * TObjEneBm3Fly__attack_params;
+AttackParams * bm3_fly_attack_params;
 ActorParamBlock *bm3_fly_resist_stats;
 Bm3FlyParameters * bm3_fly_lobby_params;
 BmlResource * bm3_fly_nest_resources;
-TBreakUpMdlData * TObjEneBm3Fly__breakup_model;
+TBreakUpMdlData * bm3_fly_breakup_model;
 extern const f32 lbl_805D9E80;
 extern void *tl_04;
 
 const BreakUpParamRow bm3_fly_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
-const char *TObjEneBm3Fly__name = "TObjEneBm3Fly";
+const char *bm3_fly_name = "TObjEneBm3Fly";
 
 Bm3FlyMovementParameters bm3_fly_decision_row = {
     225.0f, 0.92592591f, 0x600, { 0, 0, 0, 0 },
@@ -75,9 +75,9 @@ void TObjEneBm3Fly::load_resources() {
     TBreakUpMdlData *model;
     bm3_fly_nest_resources = TObjEneBm3FlyNest::get_bml_resource();
     model = new TBreakUpMdlData(bm3_fly_nest_resources->models[0].model);
-    TObjEneBm3Fly__breakup_model = model;
+    bm3_fly_breakup_model = model;
     bm3_fly_boss_stat_handle = TLobby::register_boss(0);
-    TObjEneBm3Fly__attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);
+    bm3_fly_attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);
     bm3_fly_resist_stats = TLobby::register_object(0);
     bm3_fly_lobby_params = (Bm3FlyParameters *)TLobby::dispatch_shared_handler_a(0);
     {
@@ -92,14 +92,14 @@ TObjEneBm3Fly *TObjEneBm3Fly::create(TObjEneBm3FlyNest *nest, s32 entity_id, s32
 }
 
 void TObjEneBm3Fly::release_shared_data() {
-    if (TObjEneBm3Fly__breakup_model != NULL) {
-        delete TObjEneBm3Fly__breakup_model;
-        TObjEneBm3Fly__breakup_model = NULL;
+    if (bm3_fly_breakup_model != NULL) {
+        delete bm3_fly_breakup_model;
+        bm3_fly_breakup_model = NULL;
     }
 }
 
 TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity) : TObjEneDD_ST(parent) {
-    m_name = TObjEneBm3Fly__name;
+    m_name = bm3_fly_name;
     owner_id = nest->get_entity_id();
     init_common_from(nest);
     this->entity_id = entity_id;
@@ -122,7 +122,7 @@ void TObjEneBm3Fly::init_child_params() {
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
-    this->reset_hp(bm3_fly_boss_stat_handle, TObjEneBm3Fly__attack_params, bm3_fly_resist_stats);
+    this->reset_hp(bm3_fly_boss_stat_handle, bm3_fly_attack_params, bm3_fly_resist_stats);
     set_state_flag_1();
     this->movementParameters = &bm3_fly_decision_row;
     this->initialize_enemy_state(3);
@@ -376,7 +376,7 @@ f32 TObjEneBm3Fly::approach_value(f32 current, f32 target) {
 
 s32 TObjEneBm3Fly::can_attack_target() {
     f32 facing;
-    if ((this->destination_distance < ((5.0f) + TObjEneBm3Fly__attack_params->get_attack_range())) && (fabs_float((f32) (this->flightY - this->destination.y)) < (1.0f))) {
+    if ((this->destination_distance < ((5.0f) + bm3_fly_attack_params->get_attack_range())) && (fabs_float((f32) (this->flightY - this->destination.y)) < (1.0f))) {
         facing = vec3_dot(&this->moveDir, &this->destination_direction);
         if (facing >= cos_table_lookup(this->attack_params->get_attack_angle())) {
             return 1;
@@ -982,7 +982,7 @@ void TObjEneBm3Fly::action(s32 msg) {
         TBoss8Dragon__sub_800BB7DC(this);
         TBoss8Dragon__sub_800BB7D8(this, 0xF1, 1.0f);
         play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
-        TBoss3Volopt::create_breakup_mdl(TObjEneBm3Fly__breakup_model, &bm3_fly_breakup_params,
+        TBoss3Volopt::create_breakup_mdl(bm3_fly_breakup_model, &bm3_fly_breakup_params,
                            this->texlist, &this->body_center, this->rotation_y);
         this->step = 0;
         return;

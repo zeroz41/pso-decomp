@@ -38,7 +38,7 @@
 
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-const char *TObjGyaranzoMissile__class_name = "TObjGyaranzoMissile";
+const char *gyaranzo_missile_class_name = "TObjGyaranzoMissile";
 static const DirectAttackPayload gyaranzo_missile_explosion_attack[] = {{0, 0.0f}};
 
 void TObjGyaranzoMissile::explode() {
@@ -88,10 +88,10 @@ void TObjGyaranzoMissile::run_task() {
         Vec d = chased->body_center;
         subtract_vector(&d, &position);
         dist = vector_length(&d);
-        if (timer >= 15 && dist > TObjGyaranzoMissile__max_range) {
-            vec_set_length(&d, TObjGyaranzoMissile__max_range);
+        if (timer >= 15 && dist > gyaranzo_missile_max_range) {
+            vec_set_length(&d, gyaranzo_missile_max_range);
             vec3_add_to(&velocity, &d);
-            vec_set_length(&velocity, TObjGyaranzoMissile__speed_scale);
+            vec_set_length(&velocity, gyaranzo_missile_speed_scale);
         }
     }
     VecCopy(&prev_position, &position);
@@ -133,7 +133,7 @@ TObjGyaranzoMissile::~TObjGyaranzoMissile() {
 #pragma push
 #pragma fp_contract on
 TObjGyaranzoMissile::TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissileLaunch *launch, u16 target) : TObjCollidable(tl_04) {
-    m_name = TObjGyaranzoMissile__class_name;
+    m_name = gyaranzo_missile_class_name;
     init_collision_body_parts(this, &gyaranzo_missile_collision_body_b, 1);
     bodies->radius = 4.0f;
     VecCopy(&position, launch->position);
@@ -147,7 +147,7 @@ TObjGyaranzoMissile::TObjGyaranzoMissile(TObjEneGyaranzo *owner, GyaranzoMissile
     owner_id = owner->get_entity_id();
     velocity.x = 0.0f;
     velocity.y = 0.0f;
-    velocity.z = TObjGyaranzoMissile__speed_scale;
+    velocity.z = gyaranzo_missile_speed_scale;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, rotation_y);
     rotate_matrix_x(0, rotation_x);

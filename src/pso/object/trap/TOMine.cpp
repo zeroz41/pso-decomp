@@ -77,7 +77,7 @@ BmlResourceDescriptor mine_resource_desc = { "bm_o_mine.bml", bm_o_mine_model_na
 CollisionBody mine_collision_body_parts[1] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x18005},
 };
-const char *TOMine__name = "TOMine";
+const char *mine_name = "TOMine";
 int mine_trap_instance_id = 1;
 f32 mine_trap_attack_power = 700.0f; // the attack power a TOMineTrap is built with
 // Per floor area: the sound effects TOMine::play_trigger_sound and play_effect_sound play (-1 = none),
@@ -100,8 +100,8 @@ const f32 mine_trap_area_scale_table[36] = {
     1.3f,  1.3f,  1.3f,  1.3f,  1.45f, 1.45f, 0.0f,  0.0f,  0.0f,  0.0f,  1.45f, 1.45f,
 };
 const char *TOMineTrap__data_805D3080 = "TOMineTrap";
-const char *TOMineDisp__name = "TOMineDisp";
-const char *TOMineTrapDisp__name = "TOMineTrapDisp";
+const char *mine_disp_name = "TOMineDisp";
+const char *mine_trap_disp_name = "TOMineTrapDisp";
 BmlResource *mine_model_archive; // bm_o_mine.bml, loaded by TOMine::load_static_resource
 int mine_trap_count;
 
@@ -121,10 +121,10 @@ s32 get_current_floor(void);
 extern "C" {
 void TOMineTrap__sub_80170CD4(void* p);
 f32 atan2_float(f32 y, f32 x);
-extern const char *TOMineIcon01__name;
-extern const char *TOMineIcon02__name;
-extern const char *TOMineIcon03__name;
-extern const char *TOMineIcon04__name;
+extern const char *mine_icon01_name;
+extern const char *mine_icon02_name;
+extern const char *mine_icon03_name;
+extern const char *mine_icon04_name;
 }
 
 // ---- declarations carried over from the fragment TOMine.cpp
@@ -180,7 +180,7 @@ s16 TOMineTrap__sub_80171340(TOMineTrap *p) { return p->mode; }
 u16 TOMineTrap::get_trap_type() { return this->m_2d8; }
 s32 fn_80171314(TObjPlayer *player) { return player->check_flag(0x10000); }
 TOMine::TOMine(TObject *parent) : TObjChara(parent) {
-    m_name = TOMine__name;
+    m_name = mine_name;
     phase = 0;
     trigger_radius = 0.0f;
     detect_radius = 0.0f;
@@ -336,10 +336,10 @@ void TOMine::trigger_group() {
         for (i = registered_enemy_count; i < entity_table_count; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
             if (p != NULL && p != ((u8 *)this) &&
-                (reinterpret_cast<TObject *>(p)->check_value_equals(TOMineIcon01__name) != 0 ||
-                 reinterpret_cast<TObject *>(p)->check_value_equals(TOMineIcon02__name) != 0 ||
-                 reinterpret_cast<TObject *>(p)->check_value_equals(TOMineIcon03__name) != 0 ||
-                 reinterpret_cast<TObject *>(p)->check_value_equals(TOMineIcon04__name) != 0) &&
+                (reinterpret_cast<TObject *>(p)->check_value_equals(mine_icon01_name) != 0 ||
+                 reinterpret_cast<TObject *>(p)->check_value_equals(mine_icon02_name) != 0 ||
+                 reinterpret_cast<TObject *>(p)->check_value_equals(mine_icon03_name) != 0 ||
+                 reinterpret_cast<TObject *>(p)->check_value_equals(mine_icon04_name) != 0) &&
                 ((TOMine *)p)->behavior == 1 && ((TOMine *)p)->group_id == group_id) {
                 ((TOMine *)p)->update_trigger();
             }
@@ -1047,7 +1047,7 @@ void TOMineTrap::spawn_disp_objects() {
 }
 
 TOMineDisp::TOMineDisp(TObject *parent, u16 client) : TObjBase(parent) {
-    m_name = TOMineDisp__name;
+    m_name = mine_disp_name;
     m_a8 = client;
     color.a = 0.0f;
     color.r = 0.0f;
@@ -1114,7 +1114,7 @@ void TOMineDisp::render() {
 }
 
 TOMineTrapDisp::TOMineTrapDisp(TObject *parent, u16 client, u16 owner) : TOMineDisp(parent, client) {
-    m_name = TOMineTrapDisp__name;
+    m_name = mine_trap_disp_name;
     m_ac = owner;
 }
 

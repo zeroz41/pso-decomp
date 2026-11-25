@@ -41,7 +41,7 @@ BmlResourceDescriptor bm_ene_cgrass_resource_descriptor = {
 };
 TObjMotionAction cgrass_action_desc[1] = {{1, 0, 0, 4.0f, 1}};
 // inferred: the class name pointer the TObjCGrass constructor stores in the object's name field
-const char *TObjCGrass__name = "TObjCGrass";
+const char *c_grass_name = "TObjCGrass";
 const NpcAnimationBinding cgrass_anim_binding = {NULL, cgrass_action_desc, 0, 0, 1};
 
 Vec *TObjEneBm5Wolf::get_spawn_position() { return &spawn_position; }
@@ -134,7 +134,7 @@ TObjCGrass::~TObjCGrass() {
 #pragma fp_contract on
 TObjCGrass::TObjCGrass(Vec origin, s32 count, s32 lifetime) : TObjMotion(tl_06) {
     CsnHit *hit;
-    m_name = TObjCGrass__name;
+    m_name = c_grass_name;
     hit = csnVectorUnder(&origin, ground_candidates.groups, 1);
     if (hit != NULL) {
         VecCopy(&position, &hit->contact->point);

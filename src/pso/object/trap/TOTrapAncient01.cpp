@@ -47,7 +47,7 @@
 #include "pso/player/PlayerSlots.h"
 
 
-BmlResource *TOTrapAncient01__bml_resource;
+BmlResource *trap_ancient01_bml_resource;
 
 const char *bm_o_trap_ancient01_model_names[] = {
     "fe_obj_o_turigane_hahen01.gj",
@@ -64,7 +64,7 @@ BmlResourceDescriptor bm_o_trap_ancient01_resource_descriptor = {
 static CollisionBody trap_ancient01_collision_body[1] = {
     {{0.0f, 20.0f, 0.0f}, 14.0f, 0.0f, 0, 0x08011F04, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-const char *TOTrapAncient01__class_name = "TOTrapAncient01";
+const char *trap_ancient01_class_name = "TOTrapAncient01";
 
 extern const char *TObjPlayer_name;
 
@@ -76,12 +76,12 @@ f32 TObjCollidable::get_body_radius(s32 body) {
 #pragma fp_contract on
 TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(parent) {
     s32 i;
-    m_name = TOTrapAncient01__class_name;
+    m_name = trap_ancient01_class_name;
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();
-    model = (void *)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3);
-    texlist = get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 3);
+    model = (void *)get_bml_model((BmlResource *)trap_ancient01_bml_resource, 3);
+    texlist = get_bml_texlist((BmlResource *)trap_ancient01_bml_resource, 3);
     mode = 0;
     range = 0.5f * scale.x + 30.0f;
     if (scale.y < 0.0f) {
@@ -129,15 +129,15 @@ TOTrapAncient01::~TOTrapAncient01() {
 
 void TOTrapAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, NULL);
-    TOTrapAncient01__bml_resource = resource;
-    TObjNpcEnemy::register_ginja(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3),
+    trap_ancient01_bml_resource = resource;
+    TObjNpcEnemy::register_ginja(0x39, get_bml_model(trap_ancient01_bml_resource, 3),
                            get_bml_texlist(resource, 3), 20.0f, 0.0f);
 }
 
 void TOTrapAncient01::release_static_resource() {
-    if (TOTrapAncient01__bml_resource != NULL) {
-        delete TOTrapAncient01__bml_resource;
-        TOTrapAncient01__bml_resource = NULL;
+    if (trap_ancient01_bml_resource != NULL) {
+        delete trap_ancient01_bml_resource;
+        trap_ancient01_bml_resource = NULL;
     }
 }
 
@@ -349,17 +349,17 @@ void TOTrapAncient01::play_sounds() {
     const TObjChipParams chip0 = {
         0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
-        get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 0), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 0), 22,
+        get_bml_model((BmlResource *)trap_ancient01_bml_resource, 0), get_bml_texlist((BmlResource *)trap_ancient01_bml_resource, 0), 22,
     };
     const TObjChipParams chip1 = {
         0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
-        get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 1), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 1), 22,
+        get_bml_model((BmlResource *)trap_ancient01_bml_resource, 1), get_bml_texlist((BmlResource *)trap_ancient01_bml_resource, 1), 22,
     };
     const TObjChipParams chip2 = {
         0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
-        get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 2), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 2), 22,
+        get_bml_model((BmlResource *)trap_ancient01_bml_resource, 2), get_bml_texlist((BmlResource *)trap_ancient01_bml_resource, 2), 22,
     };
     new TObjChip(tl_06, &chip0);
     new TObjChip(tl_06, &chip1);

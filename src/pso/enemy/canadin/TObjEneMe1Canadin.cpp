@@ -69,9 +69,9 @@
 extern "C" {
 // inferred: the BML resource load_resources reads through bm_ene_me1_mb_resource_descriptor
 BmlResource *bm_ene_me1_mb_resource;
-// inferred: node counter of the render callback (TObjEneDf2Bringer__render_node_index twin)
-u32 TObjEneMe1Canadin__render_node_index;
-Vec *TObjEneMe1Canadin__render_point_cursor;
+// inferred: node counter of the render callback (df2_bringer_render_node_index twin)
+u32 me1_canadin_render_node_index;
+Vec *me1_canadin_render_point_cursor;
 
 
 
@@ -107,7 +107,7 @@ BmlResourceDescriptor bm_ene_me1_mb_resource_descriptor = {
 const Vec canadin_node3_axis = { 0.0f, 0.0f, 1.0f };
 const Vec canadin_node2_axis = { 0.0f, -1.0f, 0.0f };
 const NJS_ARGB canadin_formation_reset_vec4 = { 1.0f, 0.0f, 0.2f, 1.0f };
-const NJS_ARGB TObjEneMe1Canadin__map_core_default_vec4 = { 1.0f, 1.0f, 0.0f, 0.2f };
+const NJS_ARGB me1_canadin_map_core_default_vec4 = { 1.0f, 1.0f, 0.0f, 0.2f };
 const NJS_ARGB canadin_formation_fade_start_color = { 1.0f, 0.2f, 1.0f, 0.0f };
 TObjMotionAction canadin_action_table[7] = {
     { 1, 0, 4, 0.2f, 0 },
@@ -127,8 +127,8 @@ const char *canadin_leader_fade_sequence_table[5] = {
 };
 const DragonAttackParams canadin_discharge_attack_params = { 3, 5.0f, 3.0f, {3.0f, 1} };
 const DragonAttackParams canadin_self_destruct_attack_params = { 3, 10.0f, 20.0f, {3.0f, 1} };
-const char *TObjEneMe1Canadin__class_name = "TObjEneMe1Canadin";
-const char *TObjEneMe1CanadinLeader__class_name = "TObjEneMe1CanadinLeader";
+const char *me1_canadin_class_name = "TObjEneMe1Canadin";
+const char *me1_canadin_leader_class_name = "TObjEneMe1CanadinLeader";
 player_stats *canadin_boss_stat_handle_table[3];
 AttackParams *canadin_shared_handler_b_table[3];
 ActorParamBlock *canadin_object_handle_table[3];
@@ -162,7 +162,7 @@ void TObjEneMe1Canadin::load_resources() {
         canadin_object_handle_table[i] = TLobby::register_object(canadin_resist_stat_ids[i]);
         canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(canadin_param_ids[i]);
     }
-    TObjEneMe1Canadin__render_node_index = 0;
+    me1_canadin_render_node_index = 0;
     p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[1].model);
     canadin_leader_breakup_model = (TBreakUpMdlData *)p;
     p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[0].model);
@@ -206,7 +206,7 @@ void TObjEneMe1Canadin::free_resources() {
 }
 
 TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {
-    m_name = TObjEneMe1Canadin__class_name;
+    m_name = me1_canadin_class_name;
     invoke_initialization_hook(set_data);
     status_flags = 0;
     apply_parameters();
@@ -216,7 +216,7 @@ TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) 
 }
 
 TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader, Vec *pos, s32 id, s32 sub_id) : TObjEneDD_ST(parent) {
-    m_name = TObjEneMe1Canadin__class_name;
+    m_name = me1_canadin_class_name;
     this->leader = leader;
     init_common_from(this->leader);
     entity_id = id;
@@ -281,7 +281,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     work_point.z = 0.0f;
     eff_line = 0;
     particle_emitter = 0;
-    copy_argb(&core_color, (NJS_ARGB *)&TObjEneMe1Canadin__map_core_default_vec4);
+    copy_argb(&core_color, (NJS_ARGB *)&me1_canadin_map_core_default_vec4);
     core_color.a = 0.0f;
     fade_mode = 0;
     core_color_packed = 0;
@@ -1081,7 +1081,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             this->update_angle();
             if (this->requested_action == 1) {
                 this->stage = 3;
-                this->set_core_color(&TObjEneMe1Canadin__map_core_default_vec4);
+                this->set_core_color(&me1_canadin_map_core_default_vec4);
                 VecCopy(pos, &this->destination);
                 this->eff_line = new TObjEneMe1Canadin_EffLine(this, this->node_points, pos);
                 play_sound_effect(0x4002B71B, &this->body_center, 0, 0);
@@ -1212,7 +1212,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 if (this->status_flags & 0x40000) {
                     if (this->destination_distance < 40.0f) {
                         this->stage = 2;
-                        this->set_core_color(&TObjEneMe1Canadin__map_core_default_vec4);
+                        this->set_core_color(&me1_canadin_map_core_default_vec4);
                     }
                 } else if (this->destination_distance < 100.0f) {
                     this->leader = (TObjEneMe1Canadin *)find_entity_by_id(this->leader_id);
@@ -1746,28 +1746,28 @@ void TObjEneMe1Canadin::state_move_forward(s32 msg) {
 
 void canadin_capture_node_points(NJS_OBJECT *) {
     Vec *pos;
-    switch (TObjEneMe1Canadin__render_node_index) {
+    switch (me1_canadin_render_node_index) {
     case 2:
     case 3:
         push_matrix();
         forward_split_screen_view_matrix();
-        pos = TObjEneMe1Canadin__render_point_cursor;
-        TObjEneMe1Canadin__render_point_cursor = pos + 1;
+        pos = me1_canadin_render_point_cursor;
+        me1_canadin_render_point_cursor = pos + 1;
         matrix_mult_vec(0, &canadin_node_origin, pos);
-        pos = TObjEneMe1Canadin__render_point_cursor;
-        TObjEneMe1Canadin__render_point_cursor = pos + 1;
+        pos = me1_canadin_render_point_cursor;
+        me1_canadin_render_point_cursor = pos + 1;
         rotate_vector_by_matrix(0, pos, pos);
         pop_matrix();
         break;
     case 6:
     case 11:
     case 14:
-        pos = TObjEneMe1Canadin__render_point_cursor;
-        TObjEneMe1Canadin__render_point_cursor = pos + 1;
+        pos = me1_canadin_render_point_cursor;
+        me1_canadin_render_point_cursor = pos + 1;
         forward_transform_to_view(&canadin_node_origin, pos);
         break;
     }
-    TObjEneMe1Canadin__render_node_index += 1;
+    me1_canadin_render_node_index += 1;
 }
 
 void TObjEneMe1Canadin::render() {
@@ -1809,8 +1809,8 @@ void TObjEneMe1Canadin::render() {
         }
         if (draw_now != 0) {
             if ((s16) mode != 0xA) {
-                TObjEneMe1Canadin__render_node_index = 0;
-                TObjEneMe1Canadin__render_point_cursor = node_points;
+                me1_canadin_render_node_index = 0;
+                me1_canadin_render_point_cursor = node_points;
                 VecCopy(&node_points[3], &canadin_node3_axis);
                 VecCopy(&node_points[1], &canadin_node2_axis);
                 set_chunk_model_node_callback(canadin_capture_node_points);
@@ -1822,8 +1822,8 @@ void TObjEneMe1Canadin::render() {
                 set_chunk_model_node_callback(NULL);
             } else {
                 rotate_matrix_z(NULL, rotation_z);
-                TObjEneMe1Canadin__render_node_index = -1;
-                TObjEneMe1Canadin__render_point_cursor = node_points;
+                me1_canadin_render_node_index = -1;
+                me1_canadin_render_point_cursor = node_points;
                 VecCopy(&node_points[3], &canadin_node3_axis);
                 VecCopy(&node_points[1], &canadin_node2_axis);
                 set_chunk_model_node_callback(canadin_capture_node_points);
@@ -1884,7 +1884,7 @@ void *TObjEneMe1CanadinLeader::create(void *set_data) {
 TObjEneMe1CanadinLeader::TObjEneMe1CanadinLeader(TObject *parent, void *set_data) : TObjEneMe1Canadin(parent, set_data, 2) {
     s32 i;
 
-    m_name = TObjEneMe1CanadinLeader__class_name;
+    m_name = me1_canadin_leader_class_name;
     select_model();
     upper_hover_height += 10.0f;
     member_total = 8;

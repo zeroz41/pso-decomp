@@ -13,7 +13,7 @@ struct NJS_OBJECT;
 class TObject;
 class TParticleCtrl;
 
-// The Morfos row TLobby::dispatch_shared_handler_a returns (TObjEneMorfos__param_table).
+// The Morfos row TLobby::dispatch_shared_handler_a returns (morfos_param_table).
 struct MorfosParams {
     f32 projectile_speed;    // copied to morfos_projectile_speed
     f32 projectile_speed_b;  // copied to morfos_param_table_speed_copy
@@ -105,7 +105,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
 LAYOUT_ASSERT(TObjEneMorfos_size, sizeof(TObjEneMorfos) == 0x4D8);
 LAYOUT_ASSERT(TObjEneMorfos_fades, offsetof(TObjEneMorfos, body_fade) == 0x3EC);
 
-extern MorfosParams *TObjEneMorfos__param_table;
+extern MorfosParams *morfos_param_table;
 
 // What TObjEneMorfos::load_static_data fetches from TLobby; reset_hp reads one entry of each.
 extern player_stats *morfos_base_params[1];        // register_boss(0x40)

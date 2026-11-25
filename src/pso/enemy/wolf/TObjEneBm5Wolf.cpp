@@ -47,16 +47,16 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjBase.h"
 extern "C" {
-extern u32 TObjEneBm5Wolf__instance_list[];
-extern u32 TObjEneBm5Wolf__pack_member_list[];
-BmlResource *TObjEneBm5Wolf__bml_resource;
+extern u32 bm5_wolf_instance_list[];
+extern u32 bm5_wolf_pack_member_list[];
+BmlResource *bm5_wolf_bml_resource;
 
 void *bm5_wolf_decision_row[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 
-CollisionBody TObjEneBm5Wolf__collider_params[3] = {
+CollisionBody bm5_wolf_collider_params[3] = {
     { { 0.0f, 0.0f, 0.0f }, 6.0f, 0.0f, 0, 0x8003 },
     { { 0.0f, 0.0f, 0.0f }, 6.0f, 0.0f, 0, 0x9d03 },
     { { 0.0f, 0.0f, 0.0f }, 6.0f, 0.0f, 0, 0x9d03 },
@@ -103,12 +103,12 @@ const char *bm5_wolf_class_name = "TObjEneBm5Wolf";
 
 static const NpcAnimationBinding bm5_wolf_spawn_descriptor = { NULL, wolf_action_table, 0, 1, 19 };
 
-__declspec(section ".data") player_stats *TObjEneBm5Wolf__stat_params[2];
+__declspec(section ".data") player_stats *bm5_wolf_stat_params[2];
 __declspec(section ".data") AttackParams *wolf_stat_handle_a_table[2];
 __declspec(section ".data") ActorParamBlock *wolf_stat_handle_b_table[2];
 __declspec(section ".data") s32 wolf_param_table[2];
-s32 TObjEneBm5Wolf__render_node_index;
-s32 TObjEneBm5Wolf__render_joint_y_rotation;
+s32 bm5_wolf_render_node_index;
+s32 bm5_wolf_render_joint_y_rotation;
 }
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
@@ -128,8 +128,8 @@ struct Globals_800B8A40 {
 extern "C" {
 Vec lbl_80500B60;
 u32 lbl_80500B6C[3];
-u32 TObjEneBm5Wolf__pack_member_list[5];
-u32 TObjEneBm5Wolf__instance_list[3];
+u32 bm5_wolf_pack_member_list[5];
+u32 bm5_wolf_instance_list[3];
 void __register_global_object(void *obj, void *dtor, void *chain);
 void __dt__18TObjEneBm5WolfListFv();
 }
@@ -143,7 +143,7 @@ s32 actor_rand_int(saddr actor, s32 range) {
 }
 
 void TObjEneBm5Wolf::register_global_objects() {
-    Globals_800B8A40 *g = (Globals_800B8A40 *)TObjEneBm5Wolf__stat_params;
+    Globals_800B8A40 *g = (Globals_800B8A40 *)bm5_wolf_stat_params;
     __register_global_object(g->list0.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain0);
     __register_global_object(g->list1.reset(), (void *)__dt__18TObjEneBm5WolfListFv, g->chain1);
 }
@@ -210,28 +210,28 @@ void TObjEneBm5Wolf::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjEneBm5Wolf__bml_resource = load_enemy_bml_resource_named(&bm_ene_bm5_wolf_resource_descriptor, "bm_ene_bm5_wolf_a.bml");
+        bm5_wolf_bml_resource = load_enemy_bml_resource_named(&bm_ene_bm5_wolf_resource_descriptor, "bm_ene_bm5_wolf_a.bml");
     } else {
-        TObjEneBm5Wolf__bml_resource = load_enemy_bml_resource(&bm_ene_bm5_wolf_resource_descriptor);
+        bm5_wolf_bml_resource = load_enemy_bml_resource(&bm_ene_bm5_wolf_resource_descriptor);
     }
-    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->clear();
-    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->clear();
-    TObjEneBm5Wolf__render_node_index = 0;
-    TObjEneBm5Wolf__render_joint_y_rotation = 0;
+    ((TObjEneBm5WolfList *)bm5_wolf_pack_member_list)->clear();
+    ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->clear();
+    bm5_wolf_render_node_index = 0;
+    bm5_wolf_render_joint_y_rotation = 0;
     lbl_80500B60.x = 0.0f;
     lbl_80500B60.y = 0.0f;
     lbl_80500B60.z = 0.0f;
     for (i = 0; i < 2; i++) {
-        TObjEneBm5Wolf__stat_params[i] = TLobby::register_boss(wolf_base_stat_ids[i]);
+        bm5_wolf_stat_params[i] = TLobby::register_boss(wolf_base_stat_ids[i]);
         wolf_stat_handle_a_table[i] = TLobby::dispatch_shared_handler_b(wolf_attack_stat_ids[i]);
         wolf_stat_handle_b_table[i] = TLobby::register_object(wolf_resist_stat_ids[i]);
         wolf_param_table[i] = (saddr)TLobby::dispatch_shared_handler_a(wolf_param_ids[i]);
     }
     {
     NpcAnimationBinding sp = bm5_wolf_spawn_descriptor;
-    sp.motions = TObjEneBm5Wolf__bml_resource->motions;
-    TObjNpcEnemy::register_animated_chunk(9, TObjEneBm5Wolf__bml_resource->models[1].model, TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
-    TObjNpcEnemy::register_animated_chunk(10, TObjEneBm5Wolf__bml_resource->models[0].model, TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    sp.motions = bm5_wolf_bml_resource->motions;
+    TObjNpcEnemy::register_animated_chunk(9, bm5_wolf_bml_resource->models[1].model, bm5_wolf_bml_resource->models[0].texlist, &sp, bm5_wolf_collider_params[0].radius, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(10, bm5_wolf_bml_resource->models[0].model, bm5_wolf_bml_resource->models[0].texlist, &sp, bm5_wolf_collider_params[0].radius, 0.0f);
     }
 }
 
@@ -247,31 +247,31 @@ void *TObjEneBm5Wolf::create(void *set_data) {
 }
 
 void TObjEneBm5Wolf::release_global_805D5120() {
-    if (TObjEneBm5Wolf__bml_resource != 0) {
-        delete TObjEneBm5Wolf__bml_resource;
-        TObjEneBm5Wolf__bml_resource = 0;
+    if (bm5_wolf_bml_resource != 0) {
+        delete bm5_wolf_bml_resource;
+        bm5_wolf_bml_resource = 0;
     }
 }
 
 void TObjEneBm5Wolf::add_to_pack_member_list() {
-    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->append(&this->pack_node);
+    ((TObjEneBm5WolfList *)bm5_wolf_pack_member_list)->append(&this->pack_node);
 }
 
 void TObjEneBm5Wolf::remove_from_pack_member_list() {
-    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->remove(&this->pack_node);
+    ((TObjEneBm5WolfList *)bm5_wolf_pack_member_list)->remove(&this->pack_node);
 }
 
 void TObjEneBm5Wolf::add_to_instance_list() {
-    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->append(&this->instance_node);
+    ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->append(&this->instance_node);
 }
 
 void TObjEneBm5Wolf::remove_from_instance_list() {
-    ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->remove(&this->instance_node);
+    ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->remove(&this->instance_node);
 }
 
 TObjEneBm5Wolf *TObjEneBm5Wolf::find_pack_leader(s32 id) {
     TObjEneBm5WolfNode *n;
-    for (n = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->head; n != 0; n = n->next) {
+    for (n = ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->head; n != 0; n = n->next) {
         TObjEneBm5Wolf *w = n->get_owner();
         if (w != 0 && w->group_id == id) {
             return w;
@@ -287,14 +287,14 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     invoke_initialization_hook(set_data);
     select_subtype();
     init_position_vectors();
-    init_model(TObjEneBm5Wolf__collider_params, 1);
+    init_model(bm5_wolf_collider_params, 1);
     set_action_table(wolf_action_table);
-    set_motion_list(TObjEneBm5Wolf__bml_resource->motions);
+    set_motion_list(bm5_wolf_bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
     n = is_leader;
-    reset_hp(TObjEneBm5Wolf__stat_params[n != 0], wolf_stat_handle_a_table[n != 0], wolf_stat_handle_b_table[n != 0]);
+    reset_hp(bm5_wolf_stat_params[n != 0], wolf_stat_handle_a_table[n != 0], wolf_stat_handle_b_table[n != 0]);
     set_state_flag_1();
     movementParameters = bm5_wolf_decision_row;
     if (is_leader != 0) {
@@ -320,7 +320,7 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     status_flags = 0;
     jump_height = 0.0f;
     attack_collider = new TObjCollidable(NULL);
-    init_collision_body_parts(attack_collider, &TObjEneBm5Wolf__collider_params[1], 1);
+    init_collision_body_parts(attack_collider, &bm5_wolf_collider_params[1], 1);
     reaction_delay = 0;
     reaction_attacker_id = 0xFFFF;
     set_colliders_contact_low();
@@ -434,13 +434,13 @@ void TObjEneBm5Wolf::select_subtype() {
     this->group_id = (s32) floor_to_float(this->parameters[0]);
     if (this->parameters[1] >= 1.0f) {
         this->is_leader = 1;
-        this->model = (void *)TObjEneBm5Wolf__bml_resource->models[1].model;
-        this->texlist = TObjEneBm5Wolf__bml_resource->models[0].texlist;
+        this->model = (void *)bm5_wolf_bml_resource->models[1].model;
+        this->texlist = bm5_wolf_bml_resource->models[0].texlist;
         return;
     }
     this->is_leader = 0;
-    this->model = (void *)TObjEneBm5Wolf__bml_resource->models[0].model;
-    this->texlist = TObjEneBm5Wolf__bml_resource->models[0].texlist;
+    this->model = (void *)bm5_wolf_bml_resource->models[0].model;
+    this->texlist = bm5_wolf_bml_resource->models[0].texlist;
 }
 
 void TObjEneBm5Wolf::advance_pose_turn(s32 target) {
@@ -973,7 +973,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (this->substate == 0x3C) {
-            for (p = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__instance_list)->head; p != NULL; p = p->next) {
+            for (p = ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->head; p != NULL; p = p->next) {
                 r = p->get_owner();
                 if (this->group_id == ((TObjEneBm5Wolf *)r)->get_group_id()) {
                     r->set_attack_flag();
@@ -1757,7 +1757,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
         this->wall_reach = this->sink_depth = 0.0f;
         if (this->is_leader != 0) {
             k = 50.0f;
-            for (n = ((TObjEneBm5WolfList *)TObjEneBm5Wolf__pack_member_list)->head; n != NULL; n = n->next) {
+            for (n = ((TObjEneBm5WolfList *)bm5_wolf_pack_member_list)->head; n != NULL; n = n->next) {
                 e = n->get_owner();
                 if (e != NULL && e->group_id == this->group_id) {
                     ((TObjEneBm5Wolf *)e)->schedule_pack_reaction((s32)(k * this->random_ratio()) + 0x14, this->attacker_id);
@@ -1834,10 +1834,10 @@ void TObjEneBm5Wolf::despawn_state(s32 msg) {
 }
 
 void TObjEneBm5Wolf::advance_spawn_timer(NJS_OBJECT *) {
-    if (((s32) TObjEneBm5Wolf__render_node_index >= 0x16) && ((s32) TObjEneBm5Wolf__render_node_index < 0x18)) {
-        rotate_matrix_y(0, TObjEneBm5Wolf__render_joint_y_rotation);
+    if (((s32) bm5_wolf_render_node_index >= 0x16) && ((s32) bm5_wolf_render_node_index < 0x18)) {
+        rotate_matrix_y(0, bm5_wolf_render_joint_y_rotation);
     }
-    TObjEneBm5Wolf__render_node_index += 1;
+    bm5_wolf_render_node_index += 1;
 }
 
 void TObjEneBm5Wolf::render() {
@@ -1879,8 +1879,8 @@ void TObjEneBm5Wolf::render() {
             if (this->status_flags & 4) {
                 translate_matrix(0, 0.0f, this->jump_height, 0.0f);
             }
-            TObjEneBm5Wolf__render_node_index = 0;
-            TObjEneBm5Wolf__render_joint_y_rotation = -(this->turn_offset / 2);
+            bm5_wolf_render_node_index = 0;
+            bm5_wolf_render_joint_y_rotation = -(this->turn_offset / 2);
             set_chunk_model_node_callback(TObjEneBm5Wolf::advance_spawn_timer);
             TObjEneDD::clear_global_flag_400();
             toggle_particle_effect();

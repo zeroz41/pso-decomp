@@ -86,13 +86,13 @@ const char *fe_obj_ex_box1_motion_names[1] = { NULL };
 AncientContainerBml bm_o_container_ancient_resource_bundle = { { ancient_container_model, ancient_container_fragment1_model, ancient_container_fragment2_model, NULL }, { ancient_container_bml, bm_o_container_ancient_resource_bundle.model_filenames, bm_o_container_ancient_motion_names, 3, 0 } };
 AncientContainerBml fe_obj_o_vs2container_resource_bundle = { { vs2_container_fragment1_model, vs2_container_fragment2_model, vs2_container_model, NULL }, { vs2_container_bml, fe_obj_o_vs2container_resource_bundle.model_filenames, fe_obj_o_vs2container_motion_names, 3, 0 } };
 AncientContainerBml fe_obj_ex_box1_resource_bundle = { { ep2_box_model, ep2_box_fragment1_model, ep2_box_fragment2_model, NULL }, { "fe_obj_ex_box1.bml", fe_obj_ex_box1_resource_bundle.model_filenames, fe_obj_ex_box1_motion_names, 3, 0 } };
-CollisionBody TOContainerAncientEnemy__collision_body_params = { { 0.0f, 6.5f, 0.0f }, 7.5f, 7.5f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f };
+CollisionBody container_ancient_enemy_collision_body_params = { { 0.0f, 6.5f, 0.0f }, 7.5f, 7.5f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f };
 
-const char *TOContainerAncientItemCommon__name = "TOContainerAncientItemCommon";
-const char *TOContainerAncientItemRare__name = "TOContainerAncientItemRare";
-const char *TOContainerAncientItemNone__name = "TOContainerAncientItemNone";
-const char *TOContainerAncientEnemy__name = "TOContainerAncientEnemy";
-const char *TOContainerAncientEnemyCommon__name = "TOContainerAncientEnemyCommon";
+const char *container_ancient_item_common_name = "TOContainerAncientItemCommon";
+const char *container_ancient_item_rare_name = "TOContainerAncientItemRare";
+const char *container_ancient_item_none_name = "TOContainerAncientItemNone";
+const char *container_ancient_enemy_name = "TOContainerAncientEnemy";
+const char *container_ancient_enemy_common_name = "TOContainerAncientEnemyCommon";
 const char *lbl_805D2F10 = "TOContainerAncientEnemyRare";
 
 // The three fragment texture lists of the current floor, loaded with the
@@ -231,11 +231,11 @@ void free_ancient_container_resources(void) {
 TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TObjContainerCommon(tl_05, set_data) {
     mode = 0;
     actorFlags |= 0x60000000U;
-    init_collision_body_parts(this, &TOContainerAncientEnemy__collision_body_params, 1);
+    init_collision_body_parts(this, &container_ancient_enemy_collision_body_params, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
+    center.y += container_ancient_enemy_collision_body_params.offset.y;
     model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
     texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
 }
@@ -307,7 +307,7 @@ void TUnk_804B08BC::vfunc_79() const {
     b.floor_y = b.pos.y;
     b.model = get_bml_model(ancient_container_resource_bundle, 2);
     b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
-    if (check_value_equals(TOContainerAncientItemRare__name) != 0) {
+    if (check_value_equals(container_ancient_item_rare_name) != 0) {
         a.textures = ancient_container_fragment_texture_lists[1];
         b.textures = ancient_container_fragment_texture_lists[2];
     }
@@ -319,7 +319,7 @@ void TUnk_804B08BC::vfunc_79() const {
 }
 
 TOContainerAncientItemCommon::TOContainerAncientItemCommon(void *set_data) : TUnk_804B08BC(set_data) {
-    m_name = TOContainerAncientItemCommon__name;
+    m_name = container_ancient_item_common_name;
 }
 
 TOContainerAncientItemCommon::~TOContainerAncientItemCommon() {
@@ -345,7 +345,7 @@ void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TUnk_804B08BC(set_data) {
-    m_name = TOContainerAncientItemRare__name;
+    m_name = container_ancient_item_rare_name;
     texlist = ancient_container_fragment_texture_lists[0];
 }
 
@@ -365,7 +365,7 @@ void TOContainerAncientItemRare::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TOContainerAncientItemNone::TOContainerAncientItemNone(void *set_data) : TOContainerAncientItemRare(set_data) {
-    m_name = TOContainerAncientItemNone__name;
+    m_name = container_ancient_item_none_name;
 }
 
 TOContainerAncientItemNone::~TOContainerAncientItemNone() {
@@ -387,14 +387,14 @@ void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TObjContainerCommon(tl_05, set_data) {
-    m_name = TOContainerAncientEnemy__name;
+    m_name = container_ancient_enemy_name;
     mode = 0;
     actorFlags |= 0x60000000U;
-    init_collision_body_parts(this, &TOContainerAncientEnemy__collision_body_params, 1);
+    init_collision_body_parts(this, &container_ancient_enemy_collision_body_params, 1);
     register_object_by_id();
     VecCopy(&center, &position);
     VecCopy(&body_center, &position);
-    center.y += TOContainerAncientEnemy__collision_body_params.offset.y;
+    center.y += container_ancient_enemy_collision_body_params.offset.y;
     model = (void *)get_bml_model((BmlResource *)ancient_container_resource_bundle, 0);
     texlist = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 0);
 }
@@ -512,7 +512,7 @@ void TOContainerAncientEnemy::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TOContainerAncientEnemyCommon::TOContainerAncientEnemyCommon(void *set_data) : TOContainerAncientEnemy(set_data) {
-    m_name = TOContainerAncientEnemyCommon__name;
+    m_name = container_ancient_enemy_common_name;
 }
 
 TOContainerAncientEnemyCommon::~TOContainerAncientEnemyCommon() {

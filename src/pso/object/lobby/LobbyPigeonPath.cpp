@@ -73,7 +73,7 @@ BmlResource *lobby_pigeon_bml_archive;
 NJS_TEXLIST *lobby_pigeon_lobby_type;
 
 // TObjPathObj's class name.
-const char *TObjPathObj__name = "TObjPathObj";
+const char *path_obj_name = "TObjPathObj";
 
 // Path profiles: {path motion, path speed, motion speed, look-ahead frames, turn step};
 // a turn step of 182 is one degree in 0x10000 units.
@@ -146,7 +146,7 @@ void TObjPathObj::update() {  }
 void TObjPathObj::draw() {  }
 
 TObjPathObj::TObjPathObj(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjPathObj__name;
+    m_name = path_obj_name;
     apply_object_set_data(set_data);
     view_distance = 5e+02f;
     m_94 = 1.5e+02f;

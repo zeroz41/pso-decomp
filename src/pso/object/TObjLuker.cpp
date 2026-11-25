@@ -40,7 +40,7 @@
 #pragma readonly_strings on
 
 
-const char *TObjLuker__name = "TObjLuker";
+const char *luker_name = "TObjLuker";
 
 
 extern "C" {
@@ -401,7 +401,7 @@ TObjLuker::~TObjLuker() {
 
 TObjLuker::TObjLuker(TObject *parent, void *set_data) : TObjBase(parent) {
     s32 i;
-    m_name = TObjLuker__name;
+    m_name = luker_name;
     apply_object_set_data(set_data);
     state = 0;
     partner_id = 0xFFFF;

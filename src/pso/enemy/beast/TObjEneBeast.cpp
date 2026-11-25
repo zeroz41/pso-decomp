@@ -297,7 +297,7 @@ void *TObjEneBeast::create(void *set_data) {
 }
 
 player_stats **ene_beast_boss_id_buffer;
-AttackParams **TObjEneBeast__boss4_rock_handler_ids;
+AttackParams **beast_boss4_rock_handler_ids;
 ActorParamBlock **boss4_rock_pool;
 f32 **boss4_rock_shared_handler_ids;
 BmlResource *ene_beast_bml_resource;
@@ -309,9 +309,9 @@ void free_boss4_rock_pool(void) {
         mem_free(ene_beast_boss_id_buffer);
         ene_beast_boss_id_buffer = NULL;
     }
-    if (TObjEneBeast__boss4_rock_handler_ids != NULL) {
-        mem_free(TObjEneBeast__boss4_rock_handler_ids);
-        TObjEneBeast__boss4_rock_handler_ids = NULL;
+    if (beast_boss4_rock_handler_ids != NULL) {
+        mem_free(beast_boss4_rock_handler_ids);
+        beast_boss4_rock_handler_ids = NULL;
     }
     if (boss4_rock_pool != NULL) {
         mem_free(boss4_rock_pool);
@@ -358,15 +358,15 @@ void TObjEneBeast::load_resources() {
     beast_claw_trail_instance->sample_two_nodes(ene_beast_bml_resource->models->model, (NJS_MOTION *)ene_beast_bml_resource->motions[beast_action_table[3].motion].motion, 5, 8);
     boss4_type3_instance->sample_two_nodes(ene_beast_bml_resource->models->model, (NJS_MOTION *)ene_beast_bml_resource->motions[beast_action_table[4].motion].motion, 10, 13);
     ene_beast_boss_id_buffer = static_cast<player_stats **>(mem_alloc(0xC));
-    TObjEneBeast__boss4_rock_handler_ids = static_cast<AttackParams **>(mem_alloc(0xC));
+    beast_boss4_rock_handler_ids = static_cast<AttackParams **>(mem_alloc(0xC));
     boss4_rock_pool = static_cast<ActorParamBlock **>(mem_alloc(0xC));
     boss4_rock_shared_handler_ids = (f32 **)mem_alloc(0xC);
     ene_beast_boss_id_buffer[0] = TLobby::register_boss(0x4B);
     ene_beast_boss_id_buffer[1] = TLobby::register_boss(0x4C);
     ene_beast_boss_id_buffer[2] = TLobby::register_boss(0x4D);
-    TObjEneBeast__boss4_rock_handler_ids[0] = TLobby::dispatch_shared_handler_b(0x4E);
-    TObjEneBeast__boss4_rock_handler_ids[1] = TLobby::dispatch_shared_handler_b(0x4F);
-    TObjEneBeast__boss4_rock_handler_ids[2] = TLobby::dispatch_shared_handler_b(0x50);
+    beast_boss4_rock_handler_ids[0] = TLobby::dispatch_shared_handler_b(0x4E);
+    beast_boss4_rock_handler_ids[1] = TLobby::dispatch_shared_handler_b(0x4F);
+    beast_boss4_rock_handler_ids[2] = TLobby::dispatch_shared_handler_b(0x50);
     boss4_rock_pool[0] = TLobby::register_object(0x4A);
     boss4_rock_pool[1] = TLobby::register_object(0x4B);
     boss4_rock_pool[2] = TLobby::register_object(0x4C);
@@ -414,7 +414,7 @@ TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TObjEneBeastBase(p
     set_animation(requested_action);
     set_requested_action(requested_action);
     init_collision_body_parts(this, &beast_collision_body_table[subtype], 1);
-    bind_enemy_combat_stats(ene_beast_boss_id_buffer[subtype], TObjEneBeast__boss4_rock_handler_ids[subtype], boss4_rock_pool[subtype]);
+    bind_enemy_combat_stats(ene_beast_boss_id_buffer[subtype], beast_boss4_rock_handler_ids[subtype], boss4_rock_pool[subtype]);
     movementParameters = &beast_movement_params[subtype];
     referenceHp = hp;
     update_prev_position();

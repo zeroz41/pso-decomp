@@ -54,8 +54,8 @@ BmlResourceDescriptor bm_fs_obj_o_monument03_resource_descriptor = {
 CollisionBody monument_ancient02_collision_parts[] = {
     {{0.0f, 10.0f, 0.0f}, 20.0f, 0.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-const char *TOMonumentAncient02__class_name = "TOMonumentAncient02";
-BmlResource *TOMonumentAncient02__bml_resource;
+const char *monument_ancient02_class_name = "TOMonumentAncient02";
+BmlResource *monument_ancient02_bml_resource;
 // TBoss4DarkFalz.h declares this with a u16 flag, but this caller passes the
 // full word (no clrlwi); 35 callers share that declaration.
 extern "C" s32 set_story_flag_or_send_quest_flag(u32 flag);
@@ -177,9 +177,9 @@ void *TOMonumentAncient02::create(void *set_data) {
 }
 
 void TOMonumentAncient02::free_shared_data() {
-    if (TOMonumentAncient02__bml_resource != NULL) {
-        delete TOMonumentAncient02__bml_resource;
-        TOMonumentAncient02__bml_resource = NULL;
+    if (monument_ancient02_bml_resource != NULL) {
+        delete monument_ancient02_bml_resource;
+        monument_ancient02_bml_resource = NULL;
     }
 }
 
@@ -188,15 +188,15 @@ void TOMonumentAncient02::load_resources() {
     switch (get_current_floor_area()) {
     default:
         resource = new BmlResource(5, &bm_fs_obj_o_monument01_resource_descriptor, 0, 0, NULL);
-        TOMonumentAncient02__bml_resource = resource;
+        monument_ancient02_bml_resource = resource;
         break;
     case AREA_CAVE2:
         resource = new BmlResource(5, &bm_fs_obj_o_monument02_resource_descriptor, 0, 0, NULL);
-        TOMonumentAncient02__bml_resource = resource;
+        monument_ancient02_bml_resource = resource;
         break;
     case AREA_MINE2:
         resource = new BmlResource(5, &bm_fs_obj_o_monument03_resource_descriptor, 0, 0, NULL);
-        TOMonumentAncient02__bml_resource = resource;
+        monument_ancient02_bml_resource = resource;
         break;
     }
 }
@@ -209,10 +209,10 @@ TOMonumentAncient02::~TOMonumentAncient02() {
 
 TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObjMapObject(parent) {
     s32 area;
-    m_name = TOMonumentAncient02__class_name;
+    m_name = monument_ancient02_class_name;
     apply_object_set_data(set_data);
-    model = (void *)TOMonumentAncient02__bml_resource->models[0].model;
-    texlist = TOMonumentAncient02__bml_resource->models[0].texlist;
+    model = (void *)monument_ancient02_bml_resource->models[0].model;
+    texlist = monument_ancient02_bml_resource->models[0].texlist;
     init_collision_body_parts(this, monument_ancient02_collision_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();

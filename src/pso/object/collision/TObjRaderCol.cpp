@@ -19,9 +19,9 @@
 
 
 extern "C" {
-const char *TObjRaderCol__name = "TObjRaderCol";
-const char *TObjRaderHideCol__name = "TObjRaderHideCol";
-const char *TObjRaderIcon__name = "TObjRaderIcon";
+const char *rader_col_name = "TObjRaderCol";
+const char *rader_hide_col_name = "TObjRaderHideCol";
+const char *rader_icon_name = "TObjRaderIcon";
 u8 is_current_floor_switch_set(u16);
 
 }
@@ -36,7 +36,7 @@ TObjRaderCol::~TObjRaderCol() {
 }
 
 TObjRaderCol::TObjRaderCol(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjRaderCol__name;
+    m_name = rader_col_name;
     apply_object_set_data(set_data);
     radius = scale.x;
     id = (s32) set_params[0];
@@ -116,7 +116,7 @@ void TObjRaderCol::check_any_player_in_range() {
 void TObjRaderCol::render() {  }
 
 TObjRaderHideCol::TObjRaderHideCol(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjRaderHideCol__name;
+    m_name = rader_hide_col_name;
     apply_object_set_data(set_data);
     hide_radius = scale.x;
     radar_hidden = 0;
@@ -146,7 +146,7 @@ void TObjRaderHideCol::render() {  }
 
 
 TObjRaderIcon::TObjRaderIcon(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjRaderIcon__name;
+    m_name = rader_icon_name;
     apply_object_set_data(set_data);
     initialize_from_placement();
     disallow_rendering();

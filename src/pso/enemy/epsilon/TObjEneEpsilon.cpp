@@ -42,16 +42,16 @@ const char *bm_ene_epsilon_model_names[8] = {
 const char *bm_ene_epsilon_motion_names[5] = {
     "body_wait_re6_b_bcbody.njm", "bal_wait_re6_b_bal_body.njm", "claw_wait_re6_b_claw_body.njm", "bc_rot_bc1_bc_body.njm", NULL,
 };
-BmlResourceDescriptor TObjEneEpsilonGuard__resource_descriptor = { "bm_ene_epsilon.bml", bm_ene_epsilon_model_names, bm_ene_epsilon_motion_names, 7, 4 };
+BmlResourceDescriptor epsilon_guard_resource_descriptor = { "bm_ene_epsilon.bml", bm_ene_epsilon_model_names, bm_ene_epsilon_motion_names, 7, 4 };
 TObjMotionAction epsilon_action_table[1] = { { 1, 0, 0, 0.3f, 0 } };
 
-const char *TObjEneEpsilon__class_name = "TObjEneEpsilon";
+const char *epsilon_class_name = "TObjEneEpsilon";
 
 // The original TU was compiled deferred: functions are written last-to-first.
 #pragma defer_codegen on
 
 TObjEneEpsilon::TObjEneEpsilon(TObject *parent) : TObjEneDD_ST(parent) {
-    m_name = TObjEneEpsilon__class_name;
+    m_name = epsilon_class_name;
     set_state_flag_4();
 }
 
@@ -61,7 +61,7 @@ void TObjEneEpsilonGuard::load_assets() {
     epsilon_zero_vector.x = 0.0f;
     epsilon_zero_vector.y = 0.0f;
     epsilon_zero_vector.z = 0.0f;
-    epsilon_bml_resource = new BmlResource(1, &TObjEneEpsilonGuard__resource_descriptor, 0, 0, NULL);
+    epsilon_bml_resource = new BmlResource(1, &epsilon_guard_resource_descriptor, 0, 0, NULL);
     epsilon_body_breakup_model = new TBreakUpMdlData(get_bml_model(epsilon_bml_resource, 5));
     epsilon_guard_breakup_model = new TBreakUpMdlData(get_bml_model(epsilon_bml_resource, 6));
     epsilon_body_boss_stat_handle = TLobby::register_boss(0x23);
@@ -71,7 +71,7 @@ void TObjEneEpsilonGuard::load_assets() {
     epsilon_guard_boss_stat_handle = TLobby::register_boss(0x24);
     epsilon_guard_shared_handler_b = TLobby::dispatch_shared_handler_b(0x24);
     epsilon_guard_registered_object_handle = TLobby::register_object(0x24);
-    TObjEneEpsilonGuard__movement_params = (TObjEneEpsilonGuardParams *)TLobby::dispatch_shared_handler_a(0x24);
+    epsilon_guard_movement_params = (TObjEneEpsilonGuardParams *)TLobby::dispatch_shared_handler_a(0x24);
     epsilon_guard_part_color_table[0] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->model)->polygon_list;
     epsilon_guard_part_color_table[1] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->child->model)->polygon_list;
     epsilon_guard_part_color_table[2] = (u8 *)((NJS_CNK_MODEL *)get_bml_model(epsilon_bml_resource, 0)->child->sibling->child->child->sibling->child->child->sibling->sibling->sibling->child->model)->polygon_list;

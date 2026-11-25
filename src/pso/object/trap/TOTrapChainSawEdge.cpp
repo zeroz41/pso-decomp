@@ -166,9 +166,9 @@ BmlResourceDescriptor bm_obj_jungle_nokogiri_resource_descriptor = {
     "bm_obj_jungle_nokogiri.bml", chainsaw_ginja_model_filenames, bm_obj_jungle_nokogiri_motion_names, 5, 5,
 };
 
-const char *TOTrapChainSaw__name = "TOTrapChainSaw";
+const char *trap_chain_saw_name = "TOTrapChainSaw";
 
-__declspec(section ".rodata") F4_802C8FF8 TOTrapChainSaw__level_scale_table = { 1.0f, 2.0f, 3.0f, 6.0f };
+__declspec(section ".rodata") F4_802C8FF8 trap_chain_saw_level_scale_table = { 1.0f, 2.0f, 3.0f, 6.0f };
 
 const T_802C8F68 chainsaw_area_table_values = { { { 0x4D01F, 0x4C122, 0x4BC21 }, { 0x4004D01F, 0x4004C122, 0x4004BC21 }, { 0x4004D01F, 0x4004C122, 0x4004BC21 } } };
 
@@ -178,7 +178,7 @@ const s32 lbl_80471F28[2] = { 0, 1 };
 
 const s32 lbl_80471F30[2] = { 0, 1 };
 
-const char *TOTrapChainSawKey__name = "TOTrapChainSawKey";
+const char *trap_chain_saw_key_name = "TOTrapChainSawKey";
 
 const s32 lbl_80471F4C[2] = { 3, 4 };
 
@@ -306,7 +306,7 @@ NJS_TEXLIST *fn_802C9924(s32 index) {
 }
 
 TOTrapChainSaw::TOTrapChainSaw(TObject *parent, void *set_data) : TObjMapObject(parent) {
-    m_name = TOTrapChainSaw__name;
+    m_name = trap_chain_saw_name;
     apply_object_set_data(set_data);
     clear_field_d8();
     yaw_offset = 0;
@@ -507,7 +507,7 @@ void TOTrapChainSaw::update_demo() {
 }
 
 f32 TOTrapChainSaw::scale_by_level(f32 level) {
-    F4_802C8FF8 t = TOTrapChainSaw__level_scale_table;
+    F4_802C8FF8 t = trap_chain_saw_level_scale_table;
     return level * t.v[game_difficulty_selection];
 }
 #pragma push
@@ -640,7 +640,7 @@ void TOTrapChainSawDamage::vfunc_28() {
 }
 #define arg0 ((u8 *)this)
 TOTrapChainSawKey::TOTrapChainSawKey(TObject *parent, void *set_data) : TOTrapChainSaw(parent, set_data) {
-    *(saddr *)((s8 *)arg0 + 0) = (saddr) TOTrapChainSawKey__name;
+    *(saddr *)((s8 *)arg0 + 0) = (saddr) trap_chain_saw_key_name;
     ((TOTrapChainSawKey *)(arg0))->decode_params();
     ((TOTrapChainSawKey *)(arg0))->vfunc_16();
     init_collision_body_parts(this, chain_saw_collision_body_part_table[*(s32 *)((s8 *)arg0 + 0xF8)], 2);

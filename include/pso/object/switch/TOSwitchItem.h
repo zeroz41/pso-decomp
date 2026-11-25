@@ -39,6 +39,6 @@ public:
 
 LAYOUT_ASSERT(TOSwitchItem_size, sizeof(TOSwitchItem) == 0xF8);
 
-extern const char *TOSwitchItem__class_name;
+extern const char *switch_item_class_name;
 
 #endif

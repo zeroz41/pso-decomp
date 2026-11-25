@@ -74,10 +74,10 @@ CollisionBody lazer_fence_sw_collision_body_part[] = {
     {{0.0f, 10.0f, 0.0f}, 7.0f, 12.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
 const u16 lbl_80445CB8[4] = { 0, 1, 2, 3 };
-const char *TLazerFenceSw__class_name = "TLazerFenceSw";
+const char *lazer_fence_sw_class_name = "TLazerFenceSw";
 
 BmlResource *lazer_fence_switch_bml_resource;
-NJS_TEXLIST *TLazerFenceSw__texture_list;
+NJS_TEXLIST *lazer_fence_sw_texture_list;
 u8 *lazer_fence_switch_scroll_node;
 
 #pragma push
@@ -88,7 +88,7 @@ void TLazerFenceSw::draw_laser_beam() {
     for (i = 0; i < 3; i++) {
         set_ginja_model_texture_slot(lazer_fence_beam_node_table[i], color_slot);
     }
-    TObjFish::set_global_param(TLazerFenceSw__texture_list);
+    TObjFish::set_global_param(lazer_fence_sw_texture_list);
     if (actor_frame_tick != last_scroll_tick && uv_scroll >= 1.0f) {
         last_scroll_tick = actor_frame_tick;
         scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(reinterpret_cast<NJS_OBJECT *>(lazer_fence_switch_scroll_node)->model), 0, (s32)uv_scroll, 5, 1);
@@ -205,8 +205,8 @@ void free_lazer_fence_switch_resources(void) {
         delete (BmlResource *)lazer_fence_switch_bml_resource;
         lazer_fence_switch_bml_resource = NULL;
     }
-    TObjPlayer::free_if_valid((saddr)TLazerFenceSw__texture_list);
-    TLazerFenceSw__texture_list = NULL;
+    TObjPlayer::free_if_valid((saddr)lazer_fence_sw_texture_list);
+    lazer_fence_sw_texture_list = NULL;
 }
 }
 
@@ -223,14 +223,14 @@ void TLazerFenceSw::load_resources() {
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         obj = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_switch_laz_j_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
-        TLazerFenceSw__texture_list = LoadPvmFileTls(fe_obj_switch_laz_j_gvm);
+        lazer_fence_sw_texture_list = LoadPvmFileTls(fe_obj_switch_laz_j_gvm);
     } else {
         obj = new BmlResource(5, (BmlResourceDescriptor *)&laser_fence_switch_resource_descriptor, 0, 0, NULL);
         lazer_fence_switch_bml_resource = obj;
         if (game_difficulty_selection == 3) {
-            TLazerFenceSw__texture_list = LoadPvmFileTls(fe_obj_switch_laz_a_gvm);
+            lazer_fence_sw_texture_list = LoadPvmFileTls(fe_obj_switch_laz_a_gvm);
         } else {
-            TLazerFenceSw__texture_list = LoadPvmFileTls(fe_obj_switch_laz_gvm);
+            lazer_fence_sw_texture_list = LoadPvmFileTls(fe_obj_switch_laz_gvm);
         }
     }
     lazer_fence_sw_ginja_model_table[0] = get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
@@ -268,7 +268,7 @@ TLazerFenceSw::~TLazerFenceSw() {
 #pragma push
 #pragma opt_common_subs off
 TLazerFenceSw::TLazerFenceSw(TObject *parent, void *set_entry) : TOKey(parent) {
-    m_name = TLazerFenceSw__class_name;
+    m_name = lazer_fence_sw_class_name;
     init_key(set_entry);
     if (this->set_params[2] < 0) {
         this->set_params[2] = 0;

@@ -41,7 +41,7 @@ CollisionBody lbl_804B4550[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 const char *lbl_805D3190 = "symbolchatcolli.prs";
-const char *TOSymbolchatColli__name = "TOSymbolchatColli";
+const char *symbolchat_colli_name = "TOSymbolchatColli";
 u32 symbolchat_colli_param_table[4];
 saddr symbol_chat_colli_entries;
 
@@ -163,7 +163,7 @@ TOSymbolchatColli::~TOSymbolchatColli() {
 }
 TOSymbolchatColli::TOSymbolchatColli(TObject *parent, saddr set_data) : TObjChara(parent) {
     s32 i;
-    m_name = TOSymbolchatColli__name;
+    m_name = symbolchat_colli_name;
     apply_object_set_data((void *)set_data);
     init_collision_body_parts(this, lbl_804B4550, 1);
     this->register_object_by_id();

@@ -16,8 +16,8 @@
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
 
-const char *TOSwitchAttack__name = "TOSwitchAttack";
-const char *TOSwitchAttackSub__name = "TOSwitchAttackSub";
+const char *switch_attack_name = "TOSwitchAttack";
+const char *switch_attack_sub_name = "TOSwitchAttackSub";
 
 void TOSwitchAttackSub::run_task() {
     f32 playerDistance;
@@ -49,7 +49,7 @@ TOSwitchAttackSub::~TOSwitchAttackSub() {
 #pragma dont_inline off
 TOSwitchAttackSub::TOSwitchAttackSub(TObject *parent, s32 stop_switch, s32 required_switch, u32 type, f32 scale) : TObject(parent) {
     CameraAngles rotation;
-    m_name = TOSwitchAttackSub__name;
+    m_name = switch_attack_sub_name;
     disallow_rendering();
     stopSwitchId = stop_switch;
     requiredSwitchId = required_switch;

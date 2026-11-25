@@ -80,8 +80,8 @@ extern const s32 re2_flower_base_stat_ids[3];
 extern const s32 re2_flower_attack_stat_ids[3];
 extern const s32 re2_flower_resist_stat_ids[3];
 extern const s32 re2_flower_param_ids[3];
-extern const char TObjEneRe2Flower__class_name_string[];
-const char *re2_flower_class_name = TObjEneRe2Flower__class_name_string;
+extern const char re2_flower_class_name_string[];
+const char *re2_flower_class_name = re2_flower_class_name_string;
 // The variant's movement block (TLobby::dispatch_shared_handler_a of re2_flower_param_ids), set by the constructor.
 void *re2_flower_movement_params;
 BmlResource *re2_flower_bml_resource;
@@ -99,7 +99,7 @@ struct FlowerSetupData {
 
 LAYOUT_ASSERT(FlowerSetupData_size, sizeof(FlowerSetupData) == 0x1C);
 
-FlowerSetupData TObjEneRe2Flower__setup_data = { 225.0f, 0, 0x200, { 0, 0, 0, 0 } };
+FlowerSetupData re2_flower_setup_data = { 225.0f, 0, 0x200, { 0, 0, 0, 0 } };
 // The two collision part lists the constructor chooses between: the common
 // kinds, then the one is_tower_variant() selects.
 CollisionBody re2_flower_collision_bodies[2] = {
@@ -120,12 +120,12 @@ const char *bm_ene_re2_flower_motion_names[8] = {
     re2_flower_motion_name_waitc_re2_b_root_njm, re2_flower_motion_name_waito_re2_b_root_njm, re2_flower_motion_name_wake_re2_b_root_njm, NULL
 };
 
-BmlResourceDescriptor TObjEneRe2Flower__resource_descriptor = {
+BmlResourceDescriptor re2_flower_resource_descriptor = {
     re2_flower_bml_name_bm_ene_re2_flower_bml, bm_ene_re2_flower_model_names,
     bm_ene_re2_flower_motion_names, 1, 7
 };
 
-TObjMotionAction TObjEneRe2Flower__animation_descriptors[8] = {
+TObjMotionAction re2_flower_animation_descriptors[8] = {
     {3, 0, 0, 0.6f, 0}, {1, 0, 4, 0.3f, 0},
     {1, 0, 5, 0.5f, 0}, {2, 2, 6, 0.6f, 0},
     {3, 0, 1, 0.5f, 0}, {3, 0, 2, 0.5f, 0},
@@ -140,11 +140,11 @@ void load_re2_flower_resources(void) {
     BmlModelEntry *models;
 
     if (get_current_floor_area() == AREA_TOWER) {
-        re2_flower_bml_resource = load_enemy_bml_resource_named(&TObjEneRe2Flower__resource_descriptor, "bm_ene_dkflower.bml");
+        re2_flower_bml_resource = load_enemy_bml_resource_named(&re2_flower_resource_descriptor, "bm_ene_dkflower.bml");
     } else if (TObjEneDD::check_v2_mode() != 0) {
-        re2_flower_bml_resource = load_enemy_bml_resource_named(&TObjEneRe2Flower__resource_descriptor, "bm_ene_re2_flower_a.bml");
+        re2_flower_bml_resource = load_enemy_bml_resource_named(&re2_flower_resource_descriptor, "bm_ene_re2_flower_a.bml");
     } else {
-        re2_flower_bml_resource = load_enemy_bml_resource(&TObjEneRe2Flower__resource_descriptor);
+        re2_flower_bml_resource = load_enemy_bml_resource(&re2_flower_resource_descriptor);
     }
     re2_flower_node_index = 0;
     re2_flower_node_yaw = 0;
@@ -189,7 +189,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         init_model(re2_flower_collision_bodies, 2);
     }
-    set_action_table(TObjEneRe2Flower__animation_descriptors);
+    set_action_table(re2_flower_animation_descriptors);
     set_motion_list(re2_flower_bml_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
@@ -211,7 +211,7 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         set_state_flag_2();
     }
-    movementParameters = &TObjEneRe2Flower__setup_data;
+    movementParameters = &re2_flower_setup_data;
     if (is_tower_variant()) {
         initialize_enemy_state(83);
     } else if (is_rare_variant()) {

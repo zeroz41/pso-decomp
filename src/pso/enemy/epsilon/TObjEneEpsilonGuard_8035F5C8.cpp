@@ -78,7 +78,7 @@ CollisionBody epsilon_body_collision_bodies[2] = {
     {{0.0f, 12.0f, 0.0f}, 20.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 VoloptLineColor epsilon_body_debug_line_colors[2] = {{0x80, 0xFF, 0x40, 0x40}, {0x80, 0xFF, 0x40, 0x40}};
-VoloptLineList TObjEneEpsilonGuard__debug_line_list = {epsilon_body_debug_line_points, epsilon_body_debug_line_colors, 0, 4};
+VoloptLineList epsilon_guard_debug_line_list = {epsilon_body_debug_line_points, epsilon_body_debug_line_colors, 0, 4};
 
 const BreakUpParamRow epsilon_guard_destroy_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 // Body colour per color_index, copied into the guard parts.
@@ -88,7 +88,7 @@ const NJS_ARGB epsilon_body_colors[4] = {
     {255.0f, 255.0f, 255.0f, 0.0f},
     {255.0f, 255.0f, 0.0f, 255.0f},
 };
-const char *TObjEneEpsilonBody__class_name = "TObjEneEpsilonBody";
+const char *epsilon_body_class_name = "TObjEneEpsilonBody";
 
 
 // Writes the body's colour into the material colour bytes of the nine guard parts.
@@ -103,7 +103,7 @@ void TObjEneEpsilonBody::set_guard_part_colors(NJS_ARGB *color) {
 
 TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEneEpsilon(parent) {
     s32 i;
-    m_name = TObjEneEpsilonBody__class_name;
+    m_name = epsilon_body_class_name;
     invoke_initialization_hook(set_data);
     init_params();
     set_param(0x54);
@@ -956,7 +956,7 @@ void TObjEneEpsilonBody::draw_debug_line() {
     VecCopy(&epsilon_body_debug_line_points[0], &body_center);
     VecCopy(&epsilon_body_debug_line_points[1], &fire_position);
     set_additive_blend();
-    draw_line_list(&TObjEneEpsilonGuard__debug_line_list, 1, 5);
+    draw_line_list(&epsilon_guard_debug_line_list, 1, 5);
     set_default_alpha_blend();
 }
 

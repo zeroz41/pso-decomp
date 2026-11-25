@@ -27,10 +27,10 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 
-const char *TODummyKeyCave01__class_name = "TODummyKeyCave01";
-const char *TODummyKeyCave01Sound__class_name = "TODummyKeyCave01Sound";
+const char *dummy_key_cave01_class_name = "TODummyKeyCave01";
+const char *dummy_key_cave01_sound_class_name = "TODummyKeyCave01Sound";
 TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TODummyKeyCave01__class_name;
+    m_name = dummy_key_cave01_class_name;
     apply_object_set_data(set_data);
     color.b = 1.0f;
     color.g = 1.0f;
@@ -176,24 +176,24 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        model = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
-        this->off_textures = TOKeyCave01__texture_lists[0];
-        this->on_textures = TOKeyCave01__texture_lists[1];
+        model = (void *)get_bml_model((BmlResource *)key_cave01_resource_bundle, 0);
+        this->off_textures = key_cave01_texture_lists[0];
+        this->on_textures = key_cave01_texture_lists[1];
         break;
     case AREA_FOREST1:
     case AREA_FOREST2:
     case AREA_MINE1:
     case AREA_MINE2:
-        model = (void *)get_bml_model((BmlResource *)TOKeyMachine01__resource_bundle, 0);
-        this->off_textures = TOKeyMachine01__texture_lists[0];
-        this->on_textures = TOKeyMachine01__texture_lists[1];
+        model = (void *)get_bml_model((BmlResource *)key_machine01_resource_bundle, 0);
+        this->off_textures = key_machine01_texture_lists[0];
+        this->on_textures = key_machine01_texture_lists[1];
         break;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        model = (void *)get_bml_model((BmlResource *)TOKeyAncient03__model_archive, 0);
-        this->off_textures = TOKeyAncient03__texture_variants[0];
-        this->on_textures = TOKeyAncient03__texture_variants[1];
+        model = (void *)get_bml_model((BmlResource *)key_ancient03_model_archive, 0);
+        this->off_textures = key_ancient03_texture_variants[0];
+        this->on_textures = key_ancient03_texture_variants[1];
         break;
     case AREA_BATTLE1:
     case AREA_BATTLE2:
@@ -202,13 +202,13 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
         if (model_variant == 0) {
-            model = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
-            this->off_textures = TOKeyCave01__texture_lists[0];
-            this->on_textures = TOKeyCave01__texture_lists[1];
+            model = (void *)get_bml_model((BmlResource *)key_cave01_resource_bundle, 0);
+            this->off_textures = key_cave01_texture_lists[0];
+            this->on_textures = key_cave01_texture_lists[1];
         } else {
-            model = (void *)get_bml_model((BmlResource *)TOKeyMachine01__resource_bundle, 0);
-            this->off_textures = TOKeyMachine01__texture_lists[0];
-            this->on_textures = TOKeyMachine01__texture_lists[1];
+            model = (void *)get_bml_model((BmlResource *)key_machine01_resource_bundle, 0);
+            this->off_textures = key_machine01_texture_lists[0];
+            this->on_textures = key_machine01_texture_lists[1];
         }
         break;
     case AREA_CENTRAL_CONTROL_AREA:
@@ -220,9 +220,9 @@ void TODummyKeyCave01::init_from_set_data() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        model = (void *)get_bml_model((BmlResource *)TOKeyCave01__resource_bundle, 0);
-        this->off_textures = TOKeyCave01__texture_lists[0];
-        this->on_textures = TOKeyCave01__texture_lists[1];
+        model = (void *)get_bml_model((BmlResource *)key_cave01_resource_bundle, 0);
+        this->off_textures = key_cave01_texture_lists[0];
+        this->on_textures = key_cave01_texture_lists[1];
         spins = 1;
         break;
     default:
@@ -235,7 +235,7 @@ void TODummyKeyCave01::init_from_set_data() {
 
 
 TODummyKeyCave01Sound::TODummyKeyCave01Sound(TObject *parent, s32 kind, s32 delay) : TObject(parent) {
-    m_name = TODummyKeyCave01Sound__class_name;
+    m_name = dummy_key_cave01_sound_class_name;
     delay_frames = delay;
     sound_kind = kind;
     if ((s32) delay_frames <= 0) {

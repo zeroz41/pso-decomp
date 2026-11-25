@@ -15,7 +15,7 @@
 #include "pso/system/task/TMainTask.h"
 
 
-const char *TObjMesBase__class_name = "TObjMesBase";
+const char *mes_base_class_name = "TObjMesBase";
 
 void TObjMesBase::debug_draw_label() {
     messageLabel = set_params[0];
@@ -81,7 +81,7 @@ TObjMesBase::~TObjMesBase() {
 
 
 TObjMesBase::TObjMesBase(TObject *parent, ObjectSetData *placement) : TObjCollidable(parent) {
-    m_name = TObjMesBase__class_name;
+    m_name = mes_base_class_name;
     apply_object_set_data(placement);
     messageLabel = set_params[0];
     messageBank = set_params[2];

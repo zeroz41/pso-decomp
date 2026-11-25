@@ -17,7 +17,7 @@ struct GibblesMoveParams {
     s32 pad_0C[4];
 };
 
-// TObjEneGibbles__ai_parameters, TLobby::dispatch_shared_handler_a(0x3D) (names inferred)
+// gibbles_ai_parameters, TLobby::dispatch_shared_handler_a(0x3D) (names inferred)
 struct GibblesAiParams {
     f32 pad_00;
     f32 attack_recovery;  // frames it rests after the three-hit attack

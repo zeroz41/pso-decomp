@@ -13,8 +13,8 @@
 
 #pragma readonly_strings on
 
-const char *TObjEZBoneRotBase__name = "TObjEZBoneRotBase";
-const char *TObjEZBoneRotPlayer__name = "TObjEZBoneRotPlayer";
+const char *ez_bone_rot_base_name = "TObjEZBoneRotBase";
+const char *ez_bone_rot_player_name = "TObjEZBoneRotPlayer";
 
 void TObjEZBoneRotPlayer::run_task() {
     f32 temp_f1;
@@ -43,7 +43,7 @@ void TObjEZBoneRotPlayer::run_task() {
 }
 
 TObjEZBoneRotPlayer::TObjEZBoneRotPlayer(TObject *parent, u8 *root, void *desc) : TObjEZBoneRotBase(parent, root, (EZBoneRotDesc *)desc) {
-    m_name = TObjEZBoneRotPlayer__name;
+    m_name = ez_bone_rot_player_name;
     player = (TObjPlayer *)parent;
     last_rotation_y = player->rotation_y;
 }
@@ -135,7 +135,7 @@ TObjEZBoneRotBase::~TObjEZBoneRotBase() {}
 TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, void *root, EZBoneRotDesc *desc) : TObject(parent) {
     EZBoneRotKey *k;
 
-    m_name = TObjEZBoneRotBase__name;
+    m_name = ez_bone_rot_base_name;
     this->root = (NJS_OBJECT *)root;
     this->desc = desc;
     k = this->desc->keys;
@@ -149,7 +149,7 @@ TObjEZBoneRotBase::TObjEZBoneRotBase(TObject *parent, void *root, EZBoneRotDesc 
 TObjEZBoneRotPlayer::~TObjEZBoneRotPlayer() {}
 
 extern "C" {
-extern Vec TObjEZBoneRotPlayer__chain_gravity;
+extern Vec ez_bone_rot_player_chain_gravity;
 
 void TObjHMS_EZRope_Player::render() { sub_800FF2D0(); }
 void TObjHMS_EZRope_Player::run_task() {
@@ -187,7 +187,7 @@ void TObjHMS_EZRope_Player::run_task() {
         pd++;
     }
     pop_matrix();
-    update_ropes(&TObjEZBoneRotPlayer__chain_gravity);
+    update_ropes(&ez_bone_rot_player_chain_gravity);
 }
 
 }

@@ -9,8 +9,8 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
-extern const char TObjParticle__class_name_string[] = "TObjParticle";
-const char *obj_particle_class_name = TObjParticle__class_name_string;
+extern const char particle_class_name_string[] = "TObjParticle";
+const char *obj_particle_class_name = particle_class_name_string;
 }
 
 void TObjParticle::render() {

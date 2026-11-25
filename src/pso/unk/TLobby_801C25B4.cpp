@@ -174,7 +174,7 @@ extern "C" {
 void obj_clear_flag30_20000(void *);
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-extern const char *TDeadSpot__class_name;
+extern const char *dead_spot_class_name;
 
 extern u16 battle_mode_data_table[];
 void send_6x7D_set_battle_mode_data(void *);
@@ -1387,7 +1387,7 @@ void TLobby::destroy_matching_children() {
     TObject *down;
     down = this->m_down;
     while (down != NULL) {
-        if (down->check_value_equals(TDeadSpot__class_name) != 0) {
+        if (down->check_value_equals(dead_spot_class_name) != 0) {
             down->queue_destruction();
         }
         ((TLobby *)down)->destroy_matching_children();

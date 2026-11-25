@@ -35,7 +35,7 @@ __declspec(section ".data") const char *bm_obj_door_space_model_names[2] = {"fs_
 __declspec(section ".data") const char *bm_obj_door_space_motion_names[2] = {"fs_obj_ex_doa02.njm", NULL};
 BmlResourceDescriptor bm_obj_door_space_resource_descriptor = {"bm_obj_door_space.bml", bm_obj_door_space_model_names, bm_obj_door_space_motion_names, 1, 1};
 
-CollisionBody TODoorFourLight__collision_body_params = {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+CollisionBody door_four_light_collision_body_params = {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 struct Tbl_80289EE0 { s32 v[8]; };
 
@@ -53,9 +53,9 @@ void free_collision_body_parts(void *);
 
 struct Tbl_8028A5C4 { s32 v[8]; };
 
-const char *TODoorFourLightRuins__class_name = "TODoorFourLightRuins";
+const char *door_four_light_ruins_class_name = "TODoorFourLightRuins";
 const Tbl_8028A5C4 door_four_light_ruins_index_table = {3, 4, 6, 8, 2, 5, 7, 9};
-const char *TODoorFourLightSpace__class_name = "TODoorFourLightSpace";
+const char *door_four_light_space_class_name = "TODoorFourLightSpace";
 const Tbl_80289EE0 door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11};
 #pragma defer_codegen on
 
@@ -65,10 +65,10 @@ const Tbl_80289EE0 door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11
 #pragma dont_inline off
 TODoorFourLightRuins::TODoorFourLightRuins(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
     s32 i;
-    m_name = TODoorFourLightRuins__class_name;
+    m_name = door_four_light_ruins_class_name;
     apply_object_set_data((void *)set_data);
     init_door_switch_binding();
-    init_collision_body_parts(this, &TODoorFourLight__collision_body_params, 1);
+    init_collision_body_parts(this, &door_four_light_collision_body_params, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     this->model_tree = (saddr)fn_8028A78C(0);
@@ -269,10 +269,10 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
 
 TODoorFourLightSpace::TODoorFourLightSpace(saddr parent, saddr set_data) : TODoorBase((TObject *)parent) {
     s32 i;
-    m_name = TODoorFourLightSpace__class_name;
+    m_name = door_four_light_space_class_name;
     apply_object_set_data((void *)set_data);
     init_door_switch_binding();
-    init_collision_body_parts(this, &TODoorFourLight__collision_body_params, 1);
+    init_collision_body_parts(this, &door_four_light_collision_body_params, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     this->model_tree = (saddr)fn_8028A78C(0);

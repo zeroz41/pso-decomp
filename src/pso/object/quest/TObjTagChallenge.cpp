@@ -22,10 +22,10 @@ TObjTagChallenge::~TObjTagChallenge() {}
 #pragma readonly_strings on
 
 
-const char *TObjTagChallenge__class_name = "TObjTagChallenge";
+const char *tag_challenge_class_name = "TObjTagChallenge";
 
 TObjTagChallenge::TObjTagChallenge(TObject *parent) : TObject(parent) {
-    m_name = TObjTagChallenge__class_name;
+    m_name = tag_challenge_class_name;
 }
 
 void *create_obj_tag_challenge(void *tag_challenge) {

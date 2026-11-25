@@ -7,7 +7,7 @@
 // The referencing units (TObjEneRe2Flower, TObjEneDD) keep these extern so
 // their per-object lis/addi codegen is unchanged; this unit only provides bytes.
 
-extern TObjMotionAction TObjEneRe2Flower__animation_descriptors[8];
+extern TObjMotionAction re2_flower_animation_descriptors[8];
 
 // The normal and rare variants' self-destruct blast (state_self_destruct hands it to TObjEneDD__sub_800BA5A4).
 __declspec(section ".rodata") extern const DragonAttackParams enemy_dd_attack_param_block ATTRIBUTE_ALIGN(4) = {
@@ -40,10 +40,10 @@ __declspec(section ".rodata") extern const char re2_flower_motion_name_waitc_re2
 __declspec(section ".rodata") extern const char re2_flower_motion_name_waito_re2_b_root_njm[] ATTRIBUTE_ALIGN(4) = "waito_re2_b_root.njm";
 __declspec(section ".rodata") extern const char re2_flower_motion_name_wake_re2_b_root_njm[] ATTRIBUTE_ALIGN(4) = "wake_re2_b_root.njm";
 __declspec(section ".rodata") extern const char re2_flower_bml_name_bm_ene_re2_flower_bml[] ATTRIBUTE_ALIGN(4) = "bm_ene_re2_flower.bml";
-__declspec(section ".rodata") extern const char TObjEneRe2Flower__class_name_string[] ATTRIBUTE_ALIGN(4) = "TObjEneRe2Flower";
+__declspec(section ".rodata") extern const char re2_flower_class_name_string[] ATTRIBUTE_ALIGN(4) = "TObjEneRe2Flower";
 
 __declspec(section ".rodata") extern const NpcAnimationBinding re2_flower_animation_binding = {
-    NULL, TObjEneRe2Flower__animation_descriptors, 1, 6, 8,
+    NULL, re2_flower_animation_descriptors, 1, 6, 8,
 };
 
 // The tower variant's self-destruct blast; state_self_destruct sets power and recoil from its param block.

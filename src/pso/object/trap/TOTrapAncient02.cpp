@@ -70,10 +70,10 @@ TrapAncient02ResourceRecord trap_ancient02_resources[3] = {
 CollisionBody trap_ancient02_collision_body = {
     {0.0f, 8.5f, 0.0f}, 2.0f, 0.0f, 0, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
-const char *TOTrapAncient02__name = "TOTrapAncient02";
-const char *TOTrapAncient02R__name = "TOTrapAncient02R";
+const char *trap_ancient02_name = "TOTrapAncient02";
+const char *trap_ancient02_r_name = "TOTrapAncient02R";
 
-BmlResource *TOTrapAncient02__shared_resource;
+BmlResource *trap_ancient02_shared_resource;
 s32 lbl_805D5ADC;   // the actor_frame_tick the uv scroll last ran on
 GinjaModel *lbl_805D5AE0; // the model vfunc_84 scrolls the uvs of
 s32 lbl_805D5AE4;   // the mesh of it that scrolls
@@ -136,12 +136,12 @@ void TOTrapAncient02R::submit_cursor_and_notify() {
 }
 
 TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(parent) {
-    m_name = TOTrapAncient02__name;
+    m_name = trap_ancient02_name;
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();
-    model = TOTrapAncient02__shared_resource->models->model;
-    texlist = TOTrapAncient02__shared_resource->models->texlist;
+    model = trap_ancient02_shared_resource->models->model;
+    texlist = trap_ancient02_shared_resource->models->texlist;
     mode = 0;
     phase = 0;
     range = 0.5f * scale.x + 30.0f;
@@ -178,7 +178,7 @@ void TOTrapAncient02::load_resources() {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
         resource = new BmlResource(1, &records[1].descriptor, 0, 0, NULL);
-        TOTrapAncient02__shared_resource = resource;
+        trap_ancient02_shared_resource = resource;
         lbl_805D5AE0 = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
         lbl_805D5AE4 = 2;
         lbl_805D5ADC = 0;
@@ -193,14 +193,14 @@ void TOTrapAncient02::load_resources() {
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
         resource = new BmlResource(1, &records[2].descriptor, 0, 0, NULL);
-        TOTrapAncient02__shared_resource = resource;
+        trap_ancient02_shared_resource = resource;
         lbl_805D5AE0 = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
         lbl_805D5AE4 = 1;
         lbl_805D5ADC = 0;
         break;
     default:
         resource = new BmlResource(1, &records[0].descriptor, 0, 0, NULL);
-        TOTrapAncient02__shared_resource = resource;
+        trap_ancient02_shared_resource = resource;
         lbl_805D5AE0 = static_cast<GinjaModel *>(resource->models->model->child->child->model);
         lbl_805D5AE4 = 1;
         lbl_805D5ADC = 0;
@@ -209,9 +209,9 @@ void TOTrapAncient02::load_resources() {
 }
 
 void TOTrapAncient02::destroy_instance() {
-    if (TOTrapAncient02__shared_resource != NULL) {
-        delete TOTrapAncient02__shared_resource;
-        TOTrapAncient02__shared_resource = NULL;
+    if (trap_ancient02_shared_resource != NULL) {
+        delete trap_ancient02_shared_resource;
+        trap_ancient02_shared_resource = NULL;
     }
 }
 
@@ -491,12 +491,12 @@ void TOTrapAncient02::vfunc_88() {}
 void TOTrapAncient02::vfunc_86() {}
 
 TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAncient02(parent, set_data) {
-    m_name = TOTrapAncient02R__name;
+    m_name = trap_ancient02_r_name;
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();
-    model = TOTrapAncient02__shared_resource->models->model;
-    texlist = TOTrapAncient02__shared_resource->models->texlist;
+    model = trap_ancient02_shared_resource->models->model;
+    texlist = trap_ancient02_shared_resource->models->texlist;
     mode = 0;
     phase = 0;
     range = 0.5f * scale.x + 30.0f;

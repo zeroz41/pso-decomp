@@ -38,7 +38,7 @@ s32 TObjLiveCameraCtrl::next_slot;
 TObjLiveCameraCtrl *TObjLiveCameraCtrl::instances[1];
 extern "C" {
 s32 live_monitor_small_spawned_flag;
-u8 TObjLiveMonitorSmall__fish_spawned_flag;
+u8 live_monitor_small_fish_spawned_flag;
 const char *bm_obj_boss8_monitor_model_names[4] = {
     "fe_obj_monitor_sho.gj",
     "fe_obj_monitor_dai.gj",
@@ -49,10 +49,10 @@ const char *bm_obj_boss8_monitor_motion_names[1] = {NULL};
 BmlResourceDescriptor bm_obj_boss8_monitor_resource_descriptor = {
     "bm_obj_boss8_monitor.bml", bm_obj_boss8_monitor_model_names, bm_obj_boss8_monitor_motion_names, 3, 0,
 };
-const char *TObjLiveCameraCtrl__class_name = "TObjLiveCameraCtrl";
-const char *TObjLiveCamera__class_name = "TObjLiveCamera";
-const char *TObjLiveMonitor__name = "TObjLiveMonitor";
-const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
+const char *live_camera_ctrl_class_name = "TObjLiveCameraCtrl";
+const char *live_camera_class_name = "TObjLiveCamera";
+const char *live_monitor_name = "TObjLiveMonitor";
+const char *live_monitor_small_name = "TObjLiveMonitorSmall";
 }
 // The id each camera slot passes to its TLiveCameraView.
 const s32 live_camera_view_ids[2] = { 0xF44E8, 0xF44E9 };
@@ -85,7 +85,7 @@ TObjLiveCameraCtrl *TObjLiveCameraCtrl::get_instance(s32 slot) {
 
 TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
     s32 n;
-    m_name = TObjLiveCameraCtrl__class_name;
+    m_name = live_camera_ctrl_class_name;
     n = next_slot;
     instances[n] = this;
     next_slot = n + 1;
@@ -299,7 +299,7 @@ void *TObjLiveCamera::create(void *set_data) {
 }
 
 TObjLiveCamera::TObjLiveCamera(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TObjLiveCamera__class_name;
+    m_name = live_camera_class_name;
     apply_object_set_data(set_data);
 }
 
@@ -320,7 +320,7 @@ void *TObjLiveMonitor::create(TObject *parent) {
 }
 
 TObjLiveMonitor::TObjLiveMonitor(TObject *parent) : TObject(parent) {
-    m_name = TObjLiveMonitor__name;
+    m_name = live_monitor_name;
     model = get_bml_model(live_monitor_shared_resource, 1);
     texlist = get_bml_texlist(live_monitor_shared_resource, 0);
     screen = 5;
@@ -412,9 +412,9 @@ int TObjLiveMonitor::render_live_monitor_screen() {
 s32 TObjLiveMonitorSmall::spawn_all(TObject *parent) {
     NJS_OBJECT *node;
 
-    if ((s8) TObjLiveMonitorSmall__fish_spawned_flag == 0) {
+    if ((s8) live_monitor_small_fish_spawned_flag == 0) {
         live_monitor_small_spawned_flag = 1;
-        TObjLiveMonitorSmall__fish_spawned_flag = 1;
+        live_monitor_small_fish_spawned_flag = 1;
     }
     node = get_bml_model(live_monitor_shared_resource, 0)->child;
     while (node != NULL) {
@@ -427,7 +427,7 @@ s32 TObjLiveMonitorSmall::spawn_all(TObject *parent) {
 }
 
 TObjLiveMonitorSmall::TObjLiveMonitorSmall(TObject *parent, NJS_OBJECT *model) : TObjLiveMonitor(parent) {
-    m_name = TObjLiveMonitorSmall__name;
+    m_name = live_monitor_small_name;
     this->model = model;
 }
 

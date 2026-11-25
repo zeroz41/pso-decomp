@@ -56,7 +56,7 @@ struct Sw_801778A8 {
 };
 
 extern "C" {
-extern const char *TOSwitchAttack__name;
+extern const char *switch_attack_name;
 
 void TOSwitchAttack::render() {  }
 
@@ -175,7 +175,7 @@ TOSwitchAttack::~TOSwitchAttack() {
 }
 
 TOSwitchAttack::TOSwitchAttack(TObject *parent, void *set_data) : TObjBase(parent) {
-    m_name = TOSwitchAttack__name;
+    m_name = switch_attack_name;
     apply_object_set_data(set_data);
     init_params();
     m_a6 = 0;

@@ -39,10 +39,10 @@ struct Q_801681D0 { f32 w[4]; };
 
 extern s32 game_difficulty_selection;
 
-BmlResource *TOHangceilingCave01__model_archive;
+BmlResource *hangceiling_cave01_model_archive;
 NJS_TEXLIST **turiten_singo_texture_lists;
 s32 lbl_805D59D8;
-NJS_OBJECT *TOHangceilingCave01__model_root;
+NJS_OBJECT *hangceiling_cave01_model_root;
 s32 turiten_singo_key_model_index;
 s32 hanging_ceiling_motion_index;
 
@@ -56,9 +56,9 @@ extern const char lbl_80441798[] = "fe_obj_gc_turiten_moto.gj";
 extern const char lbl_804417B4[] = "fe_obj_gc_turiten_moto.njm";
 extern const char lbl_804417D0[] = "bm_obj_ruins_turiten.bml";
 __declspec(section ".rodata") extern Q_801681D0 hang_ceiling_cave_scale_params = { 1.0f, 2.0f, 3.0f, 6.0f };
-extern const char TOHangceilingCave01Normal__class_name_string[] = "TOHangceilingCave01Normal";
-extern const char TOHangceilingCave01Key__class_name_string[] = "TOHangceilingCave01Key";
-extern const char TOHangceilingCave01KeyQuick__class_name_string[] = "TOHangceilingCave01KeyQuick";
+extern const char hangceiling_cave01_normal_class_name_string[] = "TOHangceilingCave01Normal";
+extern const char hangceiling_cave01_key_class_name_string[] = "TOHangceilingCave01Key";
+extern const char hangceiling_cave01_key_quick_class_name_string[] = "TOHangceilingCave01KeyQuick";
 
 const char *fe_obj_turiten_moto_model_names[] = {lbl_804416F8, lbl_80441710, lbl_80441730, NULL};
 const char *fe_obj_turiten_moto_motion_names[] = {lbl_80441748, lbl_80441760, NULL};
@@ -70,9 +70,9 @@ BmlResourceDescriptor turiten_singo_resource_descriptor = {
     lbl_804417D0, bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
 CollisionBody lbl_804B2174 = {{0.0f, 80.0f, 0.0f}, 17.0f, 17.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-const char *TOHangceilingCave01Normal__class_name = TOHangceilingCave01Normal__class_name_string;
-const char *TOHangceilingCave01Key__class_name = TOHangceilingCave01Key__class_name_string;
-const char *TOHangceilingCave01KeyQuick__class_name = TOHangceilingCave01KeyQuick__class_name_string;
+const char *hangceiling_cave01_normal_class_name = hangceiling_cave01_normal_class_name_string;
+const char *hangceiling_cave01_key_class_name = hangceiling_cave01_key_class_name_string;
+const char *hangceiling_cave01_key_quick_class_name = hangceiling_cave01_key_quick_class_name_string;
 
 static const s32 hang_flag_8 = 8;
 
@@ -93,8 +93,8 @@ s32 TOHangceilingCaveBase::select_melee_contact_body(void *, f32) {
 
 TOHangceilingCaveBase::TOHangceilingCaveBase(TObject *parent, void *set_data) : TObjChara(parent) {
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)TOHangceilingCave01__model_archive, turiten_singo_key_model_index);
-    current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
+    model = (void *)get_bml_model((BmlResource *)hangceiling_cave01_model_archive, turiten_singo_key_model_index);
+    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
     init_collision_body_parts(this, &lbl_804B2174, 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -110,30 +110,30 @@ TOHangceilingCaveBase::~TOHangceilingCaveBase() {
 void load_turiten_singo_resources(void) {
     void *p;
 
-    TOHangceilingCave01__model_archive = NULL;
+    hangceiling_cave01_model_archive = NULL;
     turiten_singo_texture_lists = NULL;
     switch (get_current_floor_area()) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
         p = new BmlResource(5, &turiten_singo_resource_descriptor, 0, 0, NULL);
-        TOHangceilingCave01__model_archive = (BmlResource *)p;
+        hangceiling_cave01_model_archive = (BmlResource *)p;
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[1] = NULL;
         turiten_singo_texture_lists[0] = NULL;
-        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TOHangceilingCave01__model_archive, 0);
+        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)hangceiling_cave01_model_archive, 0);
         lbl_805D59D8 = 0;
-        TOHangceilingCave01__model_root = NULL;
+        hangceiling_cave01_model_root = NULL;
         turiten_singo_key_model_index = 0;
         hanging_ceiling_motion_index = 0;
         break;
     default:
         p = new BmlResource(5, &fe_obj_turiten_moto_resource_descriptor, 0, 0, NULL);
-        TOHangceilingCave01__model_archive = (BmlResource *)p;
+        hangceiling_cave01_model_archive = (BmlResource *)p;
         turiten_singo_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
         turiten_singo_texture_lists[0] = LoadPvmFileTls("fs_obj_turiten_singo.gvm");
         turiten_singo_texture_lists[1] = LoadPvmFileTls("fs_obj_turiten_singo_r.gvm");
-        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)TOHangceilingCave01__model_archive, 1);
-        TOHangceilingCave01__model_root = (NJS_OBJECT *)get_bml_model((BmlResource *)TOHangceilingCave01__model_archive, 2);
+        turiten_singo_texture_lists[2] = (NJS_TEXLIST *)get_bml_texlist((BmlResource *)hangceiling_cave01_model_archive, 1);
+        hangceiling_cave01_model_root = (NJS_OBJECT *)get_bml_model((BmlResource *)hangceiling_cave01_model_archive, 2);
         turiten_singo_key_model_index = 1;
         hanging_ceiling_motion_index = 0;
         break;
@@ -149,9 +149,9 @@ void TOHangceilingCave01::destroy_instance() {
             turiten_singo_texture_lists = NULL;
         }
     }
-    if (TOHangceilingCave01__model_archive != NULL) {
-        delete TOHangceilingCave01__model_archive;
-        TOHangceilingCave01__model_archive = NULL;
+    if (hangceiling_cave01_model_archive != NULL) {
+        delete hangceiling_cave01_model_archive;
+        hangceiling_cave01_model_archive = NULL;
     }
 }
 
@@ -211,7 +211,7 @@ void TOHangceilingCaveBase::render() {
         if (model != NULL && current_motion != NULL) {
             draw_ginja_model_with_motion(model, current_motion, frame);
         }
-        if (TOHangceilingCave01__model_root != NULL) {
+        if (hangceiling_cave01_model_root != NULL) {
             TParticleCtrl::begin_effect_render();
             if (display_mode == 0) {
                 level = wait_timer;
@@ -221,23 +221,23 @@ void TOHangceilingCaveBase::render() {
                 lit2 = level <= 3.0f * step;
                 TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
                 if (lit0 == 1) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->model);
                 }
                 if (lit1 == 1) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->child->model);
                 }
                 if (lit2 == 1) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->child->child->model);
                 }
                 TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[0]));
                 if (lit0 == 0) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->model);
                 }
                 if (lit1 == 0) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->child->model);
                 }
                 if (lit2 == 0) {
-                    draw_ginja_model((void *)TOHangceilingCave01__model_root->child->child->child->model);
+                    draw_ginja_model((void *)hangceiling_cave01_model_root->child->child->child->model);
                 }
             } else {
                 if (is_current_floor_switch_set((u16)switch_id) == 1) {
@@ -245,7 +245,7 @@ void TOHangceilingCaveBase::render() {
                 } else {
                     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(turiten_singo_texture_lists[1]));
                 }
-                draw_ginja_object(TOHangceilingCave01__model_root);
+                draw_ginja_object(hangceiling_cave01_model_root);
             }
             TParticleCtrl::end_effect_render();
         }
@@ -360,7 +360,7 @@ void TOHangceilingCaveBase::set_mode(s32 new_mode) {
         case 1:
             break;
         case 2:
-            current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
+            current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
             frame = 22.0f;
             play_speed = 1.0f;
             frame_count = (f32)current_motion->nbFrame - 1.0f;
@@ -405,7 +405,7 @@ f32 TOHangceilingCaveBase::calc_damage(f32 power) {
 
 TOHangceilingCave01Normal::TOHangceilingCave01Normal(TObject *parent, void *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
-    m_name = TOHangceilingCave01Normal__class_name;
+    m_name = hangceiling_cave01_normal_class_name;
     init_geometry();
 }
 
@@ -447,7 +447,7 @@ void TOHangceilingCave01Normal::update_state() {
 }
 
 void TOHangceilingCave01Normal::begin_wait() {
-    current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
+    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, hanging_ceiling_motion_index);
     texlist = turiten_singo_texture_lists[0];
     wait_timer = 4.0f * wait_interval;
     set_mode(0);
@@ -459,7 +459,7 @@ void TOHangceilingCave01Normal::begin_wait() {
 
 TOHangceilingCave01Key::TOHangceilingCave01Key(TObject *parent, void *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
-    m_name = TOHangceilingCave01Key__class_name;
+    m_name = hangceiling_cave01_key_class_name;
     init_geometry();
 }
 
@@ -497,7 +497,7 @@ void TOHangceilingCave01Key::update_state() {
 
 void TOHangceilingCave01Key::begin_wait() {
     texlist = turiten_singo_texture_lists[1];
-    current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, 1);
+    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, 1);
     wait_timer = 0.0f;
     set_mode(3);
     bodies->flags &= ~8;
@@ -509,7 +509,7 @@ void TOHangceilingCave01Key::begin_wait() {
 
 TOHangceilingCave01KeyQuick::TOHangceilingCave01KeyQuick(TObject *parent, void *set_data)
     : TOHangceilingCaveBase(parent, set_data) {
-    m_name = TOHangceilingCave01KeyQuick__class_name;
+    m_name = hangceiling_cave01_key_quick_class_name;
     init_geometry();
     set_damage(100.0f + scale.z);
 }
@@ -566,7 +566,7 @@ void TOHangceilingCave01KeyQuick::update_state() {
 
 void TOHangceilingCave01KeyQuick::begin_wait() {
     texlist = turiten_singo_texture_lists[1];
-    current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, 1);
+    current_motion = (NJS_MOTION *)get_bml_motion(hangceiling_cave01_model_archive, 1);
     wait_timer = 0.0f;
     set_mode(3);
     bodies->flags &= ~8;

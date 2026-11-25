@@ -12,7 +12,7 @@ struct NJS_OBJECT;
 class TParticleCtrl;
 class TObjEneEpsilonBody;
 
-// The guard's tuning values (TObjEneEpsilonGuard__movement_params, from the
+// The guard's tuning values (epsilon_guard_movement_params, from the
 // shared handler table, entry 0x24).
 struct TObjEneEpsilonGuardParams {
     f32 orbit_radius;        // around the body (set_orbit_destination)
@@ -92,6 +92,6 @@ LAYOUT_ASSERT(TObjEneEpsilonGuard_size, sizeof(TObjEneEpsilonGuard) == 0x4D8);
 extern player_stats *epsilon_guard_boss_stat_handle;
 extern AttackParams *epsilon_guard_shared_handler_b;
 extern ActorParamBlock *epsilon_guard_registered_object_handle;
-extern TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
+extern TObjEneEpsilonGuardParams *epsilon_guard_movement_params;
 
 #endif

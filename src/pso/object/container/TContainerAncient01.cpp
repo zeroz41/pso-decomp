@@ -194,15 +194,15 @@ void init_collision_body_parts(void *, void *, int);
 
 s32 submit_cursor_candidate(void *, int, f32);
 
-extern BmlResource *TContainerAncient01R__bml_resource;
+extern BmlResource *container_ancient01_r_bml_resource;
 
 unsigned int __cvt_fp2unsigned(f32);
 
 // Effect ids load_resources picks per area (0x230/0x231 or 0x45/0x46) and the
 // pair TContainerAncient01R::init_table_entries copies for its open effect.
-s32 TContainerAncient01__effect_id_table[2];
+s32 container_ancient01_effect_id_table[2];
 
-saddr TContainerAncient01__open_effect_table[2];
+saddr container_ancient01_open_effect_table[2];
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
 
@@ -219,7 +219,7 @@ const char *fe_obj_h_s_konte_model_names[3] = { "fe_obj_h_s_konte.gj", "fe_obj_h
 
 const char *fe_obj_h_s_konte_motion_names[3] = { "fe_obj_h_s_konte.njm", "fe_obj_h_s_konte2.njm", NULL };
 
-BmlResourceDescriptor TContainerAncient01__resource_descriptor = {
+BmlResourceDescriptor container_ancient01_resource_descriptor = {
     "fe_obj_h_s_konte.bml", fe_obj_h_s_konte_model_names, fe_obj_h_s_konte_motion_names, 2, 2,
 };
 
@@ -227,31 +227,31 @@ const char *bm_obj_geenest_model_names[3] = { "obj_o_geenest01.gj", "obj_o_geene
 
 const char *bm_obj_geenest_motion_names[3] = { "obj_o_geenest01.njm", "obj_o_geenest02.njm", NULL };
 
-BmlResourceDescriptor TContainerAncient01__resource_descriptor_2 = {
+BmlResourceDescriptor container_ancient01_resource_descriptor_2 = {
     "bm_obj_geenest.bml", bm_obj_geenest_model_names, bm_obj_geenest_motion_names, 2, 2,
 };
 
-void *TContainerAncient01__collision_body_parts[11] = {
+void *container_ancient01_collision_body_parts[11] = {
     (void *)0x0, (void *)0x41000000, (void *)0x0, (void *)0x41200000,
     (void *)0x41200000, (void *)0x0, (void *)0x38003, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 
-TObjMotionAction TContainerAncient01__anim_table[3] = {
+TObjMotionAction container_ancient01_anim_table[3] = {
     {1, 0, 0, 1.0f, 1},
     {1, 0, 0, 6.0f, 1},
     {2, 0, 1, 1.0f, 4},
 };
 
 // The constructors install these names (TObject::m_name).
-const char *TContainerAncient01__name = "TContainerAncient01";
+const char *container_ancient01_name = "TContainerAncient01";
 
 // The kind-3 preview uses this action table and the current floor archive's motions.
 static const NpcAnimationBinding container_ancient_anim_binding = {
-    NULL, TContainerAncient01__anim_table, 0, 0, 3,
+    NULL, container_ancient01_anim_table, 0, 0, 3,
 };
 
-const char *TContainerAncient01R__name = "TContainerAncient01R";
+const char *container_ancient01_r_name = "TContainerAncient01R";
 
 }
 
@@ -287,7 +287,7 @@ struct VObj_8018B820_8018B79C : Base_8018B820_8018B79C {
     virtual void m20(s32, f32);
 };
 extern "C" {
-extern BmlResource *TContainerAncient01__bml_resource;
+extern BmlResource *container_ancient01_bml_resource;
 
 s32 reset_state__19TContainerAncient01Fv();
 }
@@ -330,8 +330,8 @@ struct V_8018BE98 : B_8018BE98 {
     virtual void m20(s32 a, f32 b);
 };
 
-BmlResource *TContainerAncient01__bml_resource;
-BmlResource *TContainerAncient01R__bml_resource;
+BmlResource *container_ancient01_bml_resource;
+BmlResource *container_ancient01_r_bml_resource;
 
 s32 TContainerAncient01::roll_physical_accuracy(void *, s32, f32) { return 1; }
 
@@ -346,10 +346,10 @@ f32 TContainerAncient01::receive_weapon_special_attack(void *, void *) {
 }
 
 BmlResource *TContainerAncient01__sub_8018BE90(void) {
-    return TContainerAncient01__bml_resource;
+    return container_ancient01_bml_resource;
 }
 
-int TContainerAncient01::get_table_entry(int a0) {  return TContainerAncient01__effect_id_table[a0]; }
+int TContainerAncient01::get_table_entry(int a0) {  return container_ancient01_effect_id_table[a0]; }
 
 s32 TContainerAncient01R::roll_physical_accuracy(void *, s32, f32) { return 1; }
 
@@ -366,21 +366,21 @@ f32 TContainerAncient01R::receive_weapon_special_attack(void *, void *) {
 #pragma push
 #pragma fp_contract on
 TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObjChara(parent) {
-    m_name = TContainerAncient01__name;
+    m_name = container_ancient01_name;
     this->apply_object_set_data(set_data);
-    this->model = get_bml_model(TContainerAncient01__bml_resource, 0);
-    this->texlist = get_bml_texlist(TContainerAncient01__bml_resource, 0);
-    this->action_table = TContainerAncient01__anim_table;
+    this->model = get_bml_model(container_ancient01_bml_resource, 0);
+    this->texlist = get_bml_texlist(container_ancient01_bml_resource, 0);
+    this->action_table = container_ancient01_anim_table;
     this->set_action_table(this->action_table);
-    this->motion_list = TContainerAncient01__bml_resource->motions;
+    this->motion_list = container_ancient01_bml_resource->motions;
     this->requested_action = 0;
     this->set_animation((this->requested_action));
     this->set_requested_action((int) (this->requested_action));
     this->actorFlags = (s32) (this->actorFlags | 0x60000000);
-    init_collision_body_parts(this, (void *)&TContainerAncient01__collision_body_parts, 1);
+    init_collision_body_parts(this, (void *)&container_ancient01_collision_body_parts, 1);
     ((TObjPlayer *)this)->register_object_by_id();
     VecCopy((Vec *)((u8 *)this + 0x74), (const Vec *)(((u8 *)this) + 0x38));
-    *(f32 *)((s8 *)this + 0x78) = (f32) ((*(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4) / 2.0f) + *(f32 *)((s8 *)this + 0x78));
+    *(f32 *)((s8 *)this + 0x78) = (f32) ((*(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4) / 2.0f) + *(f32 *)((s8 *)this + 0x78));
     VecCopy((Vec *)((u8 *)this + 0x2FC), (const Vec *)(((u8 *)this) + 0x74));
     this->mode = 0;
     this->init_state_vectors();
@@ -394,29 +394,29 @@ TContainerAncient01::~TContainerAncient01() {
 
 void TContainerAncient01::load_resources() {
     BmlResource *p;
-    TContainerAncient01__bml_resource = NULL;
+    container_ancient01_bml_resource = NULL;
     if (TContainerAncient01::is_global_state_in_table() != 0) {
-        p = new BmlResource(5, &TContainerAncient01__resource_descriptor_2, 0, 0, NULL);
-        TContainerAncient01__effect_id_table[0] = 0x230;
-        TContainerAncient01__bml_resource = p;
-        TContainerAncient01__effect_id_table[1] = 0x231;
+        p = new BmlResource(5, &container_ancient01_resource_descriptor_2, 0, 0, NULL);
+        container_ancient01_effect_id_table[0] = 0x230;
+        container_ancient01_bml_resource = p;
+        container_ancient01_effect_id_table[1] = 0x231;
     } else {
-        p = new BmlResource(5, &TContainerAncient01__resource_descriptor, 0, 0, NULL);
-        TContainerAncient01__effect_id_table[0] = 0x45;
-        TContainerAncient01__bml_resource = p;
-        TContainerAncient01__effect_id_table[1] = 0x46;
+        p = new BmlResource(5, &container_ancient01_resource_descriptor, 0, 0, NULL);
+        container_ancient01_effect_id_table[0] = 0x45;
+        container_ancient01_bml_resource = p;
+        container_ancient01_effect_id_table[1] = 0x46;
     }
     NpcAnimationBinding prm = container_ancient_anim_binding;
-    prm.motions = TContainerAncient01__bml_resource->motions;
-    TObjNpcEnemy::register_animated_ginja(0x3B, get_bml_model(TContainerAncient01__bml_resource, 0),
-                                             get_bml_texlist(TContainerAncient01__bml_resource, 0), &prm,
+    prm.motions = container_ancient01_bml_resource->motions;
+    TObjNpcEnemy::register_animated_ginja(0x3B, get_bml_model(container_ancient01_bml_resource, 0),
+                                             get_bml_texlist(container_ancient01_bml_resource, 0), &prm,
                                              10.0f, TContainerAncient01__data_805DBD14[0]);
 }
 
 void TContainerAncient01::release_static_resource() {
-    if (TContainerAncient01__bml_resource != NULL) {
-        delete TContainerAncient01__bml_resource;
-        TContainerAncient01__bml_resource = NULL;
+    if (container_ancient01_bml_resource != NULL) {
+        delete container_ancient01_bml_resource;
+        container_ancient01_bml_resource = NULL;
     }
 }
 
@@ -462,11 +462,11 @@ void TContainerAncient01::run_task() {
             }
         }
     }
-    if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01__bml_resource, 0)) {
-        this->model = get_bml_model(TContainerAncient01__bml_resource, 0);
+    if (static_cast<const void *>(current_motion) == get_bml_motion(container_ancient01_bml_resource, 0)) {
+        this->model = get_bml_model(container_ancient01_bml_resource, 0);
     }
-    if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01__bml_resource, 1)) {
-        this->model = get_bml_model(TContainerAncient01__bml_resource, 1);
+    if (static_cast<const void *>(current_motion) == get_bml_motion(container_ancient01_bml_resource, 1)) {
+        this->model = get_bml_model(container_ancient01_bml_resource, 1);
     }
     ((TObject *)arg0)->TObject::run_task();
 }
@@ -525,8 +525,8 @@ void TContainerAncient01::sub_8018B700() {
     if (arg0->f35C == 0) {
         arg0->f35C = 1;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-        spawn_effect(&this->position, TContainerAncient01__effect_id_table[0]);
-        spawn_effect(&this->position, TContainerAncient01__effect_id_table[1]);
+        spawn_effect(&this->position, container_ancient01_effect_id_table[0]);
+        spawn_effect(&this->position, container_ancient01_effect_id_table[1]);
         if (TContainerAncient01::is_global_state_in_table() == 0) {
             ((TObjChara *)arg0)->request_box_item_drop(&((TObjChara *)arg0)->position, 1);
         }
@@ -552,9 +552,9 @@ void TContainerAncient01::init_state_vectors() {
     this->range = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
     this->m_36c = (s32) (*(s32 *)&this->set_params[2] + 4);
     VecCopy(&this->lower_effect_position, &this->position);
-    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
+    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4));
     VecCopy(&this->upper_effect_position, &this->lower_effect_position);
-    this->upper_effect_position.y = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + this->upper_effect_position.y);
+    this->upper_effect_position.y = (f32) ((1.25f * *(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4)) + this->upper_effect_position.y);
     *(s32 *)&this->m_35c = 0;
     this->open_scale.x = (f32) TContainerAncient01__data_805DBD10[0];
     this->open_scale.y = (f32) TContainerAncient01__data_805DBD10[0];
@@ -677,21 +677,21 @@ void TContainerAncient01::spawn_effect(const Vec *position, s32 effect_id) {
 TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TObjChara(parent) {
     NJS_POINT2 *c;
 
-    m_name = TContainerAncient01R__name;
+    m_name = container_ancient01_r_name;
     self->m5(set_data);
-    model = get_bml_model(TContainerAncient01R__bml_resource, 0);
-    texlist = get_bml_texlist(TContainerAncient01R__bml_resource, 0);
-    self->animTbl = TContainerAncient01__anim_table;
+    model = get_bml_model(container_ancient01_r_bml_resource, 0);
+    texlist = get_bml_texlist(container_ancient01_r_bml_resource, 0);
+    self->animTbl = container_ancient01_anim_table;
     ((TObjMotion *)self)->set_action_table(self->animTbl);
-    self->motion_list = TContainerAncient01R__bml_resource->motions;
+    self->motion_list = container_ancient01_r_bml_resource->motions;
     self->anim = 0;
     ((TObjMotion *)self)->set_animation(self->anim);
     ((TObjMotion *)self)->set_requested_action(self->anim);
     self->flags |= 0x60000000;
-    init_collision_body_parts(self, (void *)&TContainerAncient01__collision_body_parts, 1);
+    init_collision_body_parts(self, (void *)&container_ancient01_collision_body_parts, 1);
     ((TObjPlayer *)self)->register_object_by_id();
     VecCopy((Vec *)&self->pos74, (const Vec *)&self->pos);
-    c = (NJS_POINT2 *)&TContainerAncient01__collision_body_parts;
+    c = (NJS_POINT2 *)&container_ancient01_collision_body_parts;
     self->pos74.y = c->y / 2.0f + self->pos74.y;
     VecCopy((Vec *)&self->pos2fc, (const Vec *)&self->pos74);
     self->state = 0;
@@ -705,12 +705,12 @@ TContainerAncient01R::~TContainerAncient01R() {
 }
 
 void TContainerAncient01R::init_table_entries() {
-    TContainerAncient01R__bml_resource = TContainerAncient01__sub_8018BE90();
-    TContainerAncient01__open_effect_table[0] = TContainerAncient01::get_table_entry(0);
-    TContainerAncient01__open_effect_table[1] = TContainerAncient01::get_table_entry(1);
+    container_ancient01_r_bml_resource = TContainerAncient01__sub_8018BE90();
+    container_ancient01_open_effect_table[0] = TContainerAncient01::get_table_entry(0);
+    container_ancient01_open_effect_table[1] = TContainerAncient01::get_table_entry(1);
 }
 
-void TContainerAncient01R__sub_8018AF74(void) { TContainerAncient01R__bml_resource = NULL; }
+void TContainerAncient01R__sub_8018AF74(void) { container_ancient01_r_bml_resource = NULL; }
 
 void *TContainerAncient01R::create(void *parent) {
     return new TContainerAncient01R(tl_05, parent);
@@ -754,11 +754,11 @@ void TContainerAncient01R::run_task() {
             }
         }
     }
-    if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01R__bml_resource, 0)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01R__bml_resource, 0));
+    if (static_cast<const void *>(current_motion) == get_bml_motion(container_ancient01_r_bml_resource, 0)) {
+        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(container_ancient01_r_bml_resource, 0));
     }
-    if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01R__bml_resource, 1)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01R__bml_resource, 1));
+    if (static_cast<const void *>(current_motion) == get_bml_motion(container_ancient01_r_bml_resource, 1)) {
+        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(container_ancient01_r_bml_resource, 1));
     }
     ((TObject *)arg0)->TObject::run_task();
 }
@@ -817,8 +817,8 @@ void TContainerAncient01R::open_container() {
     if (arg0->f360 == 0) {
         arg0->f360 = 1;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-        trigger_spawn(&this->position, TContainerAncient01__open_effect_table[0]);
-        trigger_spawn(&this->position, TContainerAncient01__open_effect_table[1]);
+        trigger_spawn(&this->position, container_ancient01_open_effect_table[0]);
+        trigger_spawn(&this->position, container_ancient01_open_effect_table[1]);
         if (TContainerAncient01::is_global_state_in_table() == 0) {
             ((TObjChara *)arg0)->request_box_item_drop(&((TObjChara *)arg0)->position, 1);
         }
@@ -846,9 +846,9 @@ void TContainerAncient01R::init_positions() {
     this->range = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
     this->m_370 = (this->set_params[2] + 4);
     VecCopy(&this->lower_effect_position, &this->position);
-    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4));
+    this->lower_effect_position.y = (f32) (this->lower_effect_position.y + *(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4));
     VecCopy(&this->upper_effect_position, &this->lower_effect_position);
-    this->upper_effect_position.y = (f32) ((1.25f * *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts + 4)) + this->upper_effect_position.y);
+    this->upper_effect_position.y = (f32) ((1.25f * *(f32 *)((s8 *)&container_ancient01_collision_body_parts + 4)) + this->upper_effect_position.y);
     this->m_360 = 0;
     this->open_scale.x = (f32) TContainerAncient01__data_805DBD10[0];
     this->open_scale.y = (f32) TContainerAncient01__data_805DBD10[0];

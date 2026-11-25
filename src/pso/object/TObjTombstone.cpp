@@ -60,10 +60,10 @@ BmlResourceDescriptor tombstone_resource_descriptor = {
     "re_b_mark_base.bml", re_b_mark_base_model_names, re_b_mark_base_motion_names, 1, 0
 };
 extern "C" {
-const char *TObjTombstone__class_name = "TObjTombstone";
+const char *tombstone_class_name = "TObjTombstone";
 }
 extern "C" {
-TObjTombstoneDropRates TObjTombstone__base_matrix = { { 0.0f, 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f } };
+TObjTombstoneDropRates tombstone_base_matrix = { { 0.0f, 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f } };
 // Six template items: data 03 00 00/01/02 and 03 01 00/01/02 (inferred:
 // Monomate, Dimate, Trimate, Monofluid, Difluid, Trifluid), id 0xFFFFFFFF.
 TItemData lbl_8048D278[6] = {
@@ -77,7 +77,7 @@ TItemData lbl_8048D278[6] = {
 Off_800753DC tombstone_name_label_offset_table[8] = {
     { 0, -2 }, { 2, -2 }, { 2, 0 }, { 2, 2 }, { 0, 2 }, { -2, 2 }, { -2, 0 }, { -2, -2 },
 };
-BmlResource *TObjTombstone__shared_resource_object;
+BmlResource *tombstone_shared_resource_object;
 s32 tombstone_first_run_flag;
 Vec tombstone_position_table[4];
 }
@@ -98,24 +98,24 @@ TObjTombstone *TLobby::create_tombstone(TObject *parent, s32 client, const TObjT
 
 void TObjTombstone::load_resources() {
     BmlResource *res;
-    if (TObjTombstone__shared_resource_object == NULL) {
+    if (tombstone_shared_resource_object == NULL) {
         res = new BmlResource(1, &tombstone_resource_descriptor, 0, 0, NULL);
-        TObjTombstone__shared_resource_object = res;
+        tombstone_shared_resource_object = res;
         TObjTombstone::reset_matrix();
     }
 }
 
 void TObjTombstone::destroy() {
-    if (TObjTombstone__shared_resource_object != NULL) {
-        delete TObjTombstone__shared_resource_object;
-        TObjTombstone__shared_resource_object = NULL;
+    if (tombstone_shared_resource_object != NULL) {
+        delete tombstone_shared_resource_object;
+        tombstone_shared_resource_object = NULL;
         TObjTombstone::reset_matrix();
     }
 }
 
 TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRecord *src) : TObjCollidable(parent) {
-    this->m_name = TObjTombstone__class_name;
-    if (TObjTombstone__shared_resource_object == NULL) {
+    this->m_name = tombstone_class_name;
+    if (tombstone_shared_resource_object == NULL) {
         return;
     }
     setup(client, src);
@@ -130,8 +130,8 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRec
 TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot)
     : TObjCollidable(parent) {
     TObjTombstoneRecord record;
-    this->m_name = TObjTombstone__class_name;
-    if (TObjTombstone__shared_resource_object == NULL) {
+    this->m_name = tombstone_class_name;
+    if (tombstone_shared_resource_object == NULL) {
         return;
     }
     volatile TObjTombstoneRecord &output = record;
@@ -146,8 +146,8 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpo
 }
 
 void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
-    this->texlist = get_bml_texlist(TObjTombstone__shared_resource_object, 0);
-    this->model = get_bml_model(TObjTombstone__shared_resource_object, 0);
+    this->texlist = get_bml_texlist(tombstone_shared_resource_object, 0);
+    this->model = get_bml_model(tombstone_shared_resource_object, 0);
     this->client_id = client;
     this->record = *src;
     VecCopy(&this->position, &this->record.position);
@@ -234,7 +234,7 @@ extern "C" void TObjTombstone__drop_recovery_items(TObjTombstone *self) {
     self->m_234 = 1;
     count = 0;
     roll = 0.000030517578f * rand();
-    rate = TObjTombstone__base_matrix.count;
+    rate = tombstone_base_matrix.count;
     sum = *rate;
     for (i = 1; i < 5; i++) {
         if (0.0f != sum && roll <= sum) {
@@ -255,7 +255,7 @@ extern "C" void TObjTombstone__drop_recovery_items(TObjTombstone *self) {
         }
         kind = -1;
         roll = 0.000030517578f * rand();
-        rate = TObjTombstone__base_matrix.kind;
+        rate = tombstone_base_matrix.kind;
         sum = rate[0];
         for (j = 0; j < 6; j++, rate++) {
             if (0.0f != sum && roll <= sum) {
@@ -454,7 +454,7 @@ void TObjTombstone::update_render_flags() {
     NJS_OBJECT *material;
     u32 *flags;
 
-    if (TObjTombstone__shared_resource_object != NULL) {
+    if (tombstone_shared_resource_object != NULL) {
         if (tombstone_first_run_flag == 0) {
             scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(static_cast<NJS_OBJECT *>(model)->child->sibling->model), -8, 0, 0, 1);
             tombstone_first_run_flag = 1;
@@ -627,7 +627,7 @@ void handle_6x96(void) {}
 
 void TObjTombstone::reset_matrix() {
     TObjTombstoneDropRates rates = { { 0.0f, 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f } };
-    TObjTombstone__base_matrix.copy_matrix(&rates);
+    tombstone_base_matrix.copy_matrix(&rates);
 }
 
 void TObjTombstoneDropRates::copy_matrix(const TObjTombstoneDropRates *src) {
@@ -663,7 +663,7 @@ extern "C" void set_tombstone_drop_rates(TObjTombstoneDropRates *rates) {
         sum > one) {
         return;
     }
-    TObjTombstone__base_matrix.copy_matrix(rates);
+    tombstone_base_matrix.copy_matrix(rates);
 }
 
 void TLobby::reset_tombstone_values() {

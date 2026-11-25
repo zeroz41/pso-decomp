@@ -61,9 +61,9 @@ const Row_80190AA0 lbl_80445860[] = {
     {0x4004AD09, 2}, {0x4004B20A, 2}, {0x4004B20B, 2},
 };
 
-const char *TObjEnvSound__class_name = "TObjEnvSound";
-const char *TObjEnvSoundEx__class_name = "TObjEnvSoundEx";
-const char *TObjEnvSoundGlobal__class_name = "TObjEnvSoundGlobal";
+const char *env_sound_class_name = "TObjEnvSound";
+const char *env_sound_ex_class_name = "TObjEnvSoundEx";
+const char *env_sound_global_class_name = "TObjEnvSoundGlobal";
 
 extern "C" {
 const Row_80190AA0 *environment_sound_tables_by_area[36] = {
@@ -130,7 +130,7 @@ void handle_6x67_trigger_set_event(game_command_header *command) {
 #define self ((Obj_80190AA0 *)this)
 TObjEnvSound::TObjEnvSound(TObject *parent, void *arg2) : TObjBase(parent) {
     const Row_80190AA0 *table;
-    self->unk0 = TObjEnvSound__class_name;
+    self->unk0 = env_sound_class_name;
     ((TObjEnvSound *)self)->apply_object_set_data(arg2);
     table = environment_sound_tables_by_area[get_current_floor_area()];
     if (table != NULL) {
@@ -201,7 +201,7 @@ s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
 }
 
 TObjEnvSoundEx::TObjEnvSoundEx(TObject *parent, saddr set_data) : TObjBase(parent) {
-    m_name = TObjEnvSoundEx__class_name;
+    m_name = env_sound_ex_class_name;
     apply_object_set_data((void *)set_data);
     init_sound_params();
     volume = -127.0f;
@@ -286,7 +286,7 @@ void *TObjEnvSoundEx::create(void *rader_map_core) {
 
 #define env_sound_global this
 TObjEnvSoundGlobal::TObjEnvSoundGlobal(TObject *parent, saddr arg2) : TObjBase(parent) {
-    ((TObjEnvSoundGlobal *)env_sound_global)->m_name = TObjEnvSoundGlobal__class_name;
+    ((TObjEnvSoundGlobal *)env_sound_global)->m_name = env_sound_global_class_name;
     ((TObjEnvSoundGlobal *)(env_sound_global))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundGlobal *)env_sound_global)->setup_sound();
 }

@@ -82,6 +82,6 @@ public:
 };
 LAYOUT_ASSERT(TObjEneDubchik_size, sizeof(TObjEneDubchik) == 0x41C);
 
-extern const char *TObjEneDubchik__class_name;
+extern const char *dubchik_class_name;
 
 #endif

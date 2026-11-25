@@ -384,7 +384,7 @@ void *TObjEneDimedian::create(void *arg2_) {
 
 player_stats **dimedian_boss_object_buf;
 AttackParams **dimedian_attack_stat_table;
-ActorParamBlock **TObjEneDimedian__boss_objects;
+ActorParamBlock **dimedian_boss_objects;
 f32 **dimedian_buffer_ptr;
 extern BmlResource *dimedian_resource_ptr;
 
@@ -397,9 +397,9 @@ void TObjEneDimedian::free_boss_objects() {
         mem_free(dimedian_attack_stat_table);
         dimedian_attack_stat_table = NULL;
     }
-    if (TObjEneDimedian__boss_objects != NULL) {
-        mem_free(TObjEneDimedian__boss_objects);
-        TObjEneDimedian__boss_objects = NULL;
+    if (dimedian_boss_objects != NULL) {
+        mem_free(dimedian_boss_objects);
+        dimedian_boss_objects = NULL;
     }
     if (dimedian_buffer_ptr != NULL) {
         mem_free(dimedian_buffer_ptr);
@@ -443,7 +443,7 @@ void TLobby::load_dimedian_resources() {
     dimedian_attack_right_trail->sample_two_nodes(dimedian_resource_ptr->models->model, (NJS_MOTION *)dimedian_resource_ptr->motions[dimedian_action_table[4].motion].motion, 0xA, 0xD);
     dimedian_boss_object_buf = static_cast<player_stats **>(mem_alloc(0xC));
     dimedian_attack_stat_table = static_cast<AttackParams **>(mem_alloc(0xC));
-    TObjEneDimedian__boss_objects = static_cast<ActorParamBlock **>(mem_alloc(0xC));
+    dimedian_boss_objects = static_cast<ActorParamBlock **>(mem_alloc(0xC));
     dimedian_buffer_ptr = (f32 **)mem_alloc(0xC);
     dimedian_boss_object_buf[0] = TLobby::register_boss(0x53);
     dimedian_boss_object_buf[1] = TLobby::register_boss(0x54);
@@ -451,9 +451,9 @@ void TLobby::load_dimedian_resources() {
     dimedian_attack_stat_table[0] = TLobby::dispatch_shared_handler_b(0x5A);
     dimedian_attack_stat_table[1] = TLobby::dispatch_shared_handler_b(0x5B);
     dimedian_attack_stat_table[2] = TLobby::dispatch_shared_handler_b(0x5C);
-    TObjEneDimedian__boss_objects[0] = TLobby::register_object(0x52);
-    TObjEneDimedian__boss_objects[1] = TLobby::register_object(0x53);
-    TObjEneDimedian__boss_objects[2] = TLobby::register_object(0x54);
+    dimedian_boss_objects[0] = TLobby::register_object(0x52);
+    dimedian_boss_objects[1] = TLobby::register_object(0x53);
+    dimedian_boss_objects[2] = TLobby::register_object(0x54);
     dimedian_buffer_ptr[0] = (f32 *)TLobby::dispatch_shared_handler_a(0x52);
     dimedian_buffer_ptr[1] = (f32 *)TLobby::dispatch_shared_handler_a(0x53);
     dimedian_buffer_ptr[2] = (f32 *)TLobby::dispatch_shared_handler_a(0x54);
@@ -502,7 +502,7 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TObjEneBeast
     set_animation(requested_action);
     set_requested_action(requested_action);
     init_collision_body_parts(this, &dimedian_collision_body_table[subtype], 1);
-    bind_enemy_combat_stats(dimedian_boss_object_buf[subtype], dimedian_attack_stat_table[subtype], TObjEneDimedian__boss_objects[subtype]);
+    bind_enemy_combat_stats(dimedian_boss_object_buf[subtype], dimedian_attack_stat_table[subtype], dimedian_boss_objects[subtype]);
     movementParameters = &dimedian_movement_params[subtype];
     referenceHp = hp;
     update_prev_position();

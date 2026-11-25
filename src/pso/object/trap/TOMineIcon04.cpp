@@ -18,13 +18,13 @@
 
 extern s32 game_difficulty_selection;
 
-const char *TOMineIcon04__name = "TOMineIcon04";
+const char *mine_icon04_name = "TOMineIcon04";
 
 // -inline deferred: functions are written last-to-first.
 #pragma push
 #pragma fp_contract on
 TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
-    m_name = TOMineIcon04__name;
+    m_name = mine_icon04_name;
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();

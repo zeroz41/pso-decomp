@@ -124,7 +124,7 @@ TObjMotionAction saver_action_table[11] = {
     {3, 0, 3, 1.0f, 0x10},
 };
 
-const char *TObjEneSaver__class_name = "TObjEneSaver";
+const char *saver_class_name = "TObjEneSaver";
 const NpcAnimationBinding saver_init_binding_desc = { NULL, saver_action_table, 0, 1, 11 };
 const Vec lbl_8043A8A4 = {0.0f, 0.0f, 0.0f};
 const Vec lbl_8043A8B0 = {0.0f, 0.0f, 0.0f};
@@ -631,7 +631,7 @@ void *TObjEneSaver::get_center() { return &body_center; }
 
 TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) {
     s16 guard;
-    m_name = TObjEneSaver__class_name;
+    m_name = saver_class_name;
     apply_set_data(set_data);
     init_position_vectors();
     scale.z = 1.0f;

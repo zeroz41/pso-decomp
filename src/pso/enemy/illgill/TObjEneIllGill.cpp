@@ -58,8 +58,8 @@ struct IllGillEffectRotation { s32 x, y, z; };
 extern int enable_v2_features;
 extern "C" {
 BmlResource * illGillResource;
-player_stats *TObjEneIllGill__boss_registration_id;
-ActorParamBlock *TObjEneIllGill__resistance_params;
+player_stats *ill_gill_boss_registration_id;
+ActorParamBlock *ill_gill_resistance_params;
 IllGillAttackBehavior * illGillAttackBehavior;
 s32 illGillModelNodeIndex;
 }
@@ -106,7 +106,7 @@ AttackParams *ill_gill_combat_parameter_variants[4] = {0, 0, 0, 0};
 const char *TObjEneIllGill_class_name = "TObjEneIllGill";
 const NpcAnimationBinding illGillAnimBinding = { NULL, illGillActions, 0, 1, 10 };
 const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
-const char *TObjIllGillKage__class_name = "TObjIllGillKage";
+const char *ill_gill_kage_class_name = "TObjIllGillKage";
 }
 
 #pragma defer_codegen on
@@ -115,12 +115,12 @@ void TObjEneIllGill::load_shared_resources() {
     Vec *q;
 
     illGillResource = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
-    TObjEneIllGill__boss_registration_id = TLobby::register_boss(0x26);
+    ill_gill_boss_registration_id = TLobby::register_boss(0x26);
     ill_gill_combat_parameter_variants[0] = TLobby::dispatch_shared_handler_b(0x26);
     ill_gill_combat_parameter_variants[1] = TLobby::dispatch_shared_handler_b(0x27);
     ill_gill_combat_parameter_variants[2] = TLobby::dispatch_shared_handler_b(0x28);
     ill_gill_combat_parameter_variants[3] = TLobby::dispatch_shared_handler_b(0x29);
-    TObjEneIllGill__resistance_params = TLobby::register_object(0x26);
+    ill_gill_resistance_params = TLobby::register_object(0x26);
     illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;
     q = &illGillWeaponEffectPosition;
@@ -171,7 +171,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     register_object_by_id();
     movementParameters = &illGillMovement;
     attackType = 0;
-    this->bind_enemy_combat_stats(TObjEneIllGill__boss_registration_id, ill_gill_combat_parameter_variants[attackType], TObjEneIllGill__resistance_params);
+    this->bind_enemy_combat_stats(ill_gill_boss_registration_id, ill_gill_combat_parameter_variants[attackType], ill_gill_resistance_params);
     deathTimer = 0;
     mode = 0;
     phase = 0;
@@ -1386,7 +1386,7 @@ void TObjEneIllGill::update_charge_attack() {
 
 #pragma pop
 TObjIllGillKage::TObjIllGillKage(saddr parent, uaddr target) : TObjBase((TObject *)parent) {
-    m_name = TObjIllGillKage__class_name;
+    m_name = ill_gill_kage_class_name;
     if (target != 0U) {
         VecCopy(&position, &((TObjBase *)target)->position);
         this->target_id = ((TObjBase *)target)->get_entity_id();

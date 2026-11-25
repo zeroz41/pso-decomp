@@ -135,7 +135,7 @@ TObjMotionAction shinowa_mirage_motion_param_table[11] = {
     {3, 0, 6, 0.7f, ACTION_NO_BLEND_IN},
 };
 
-const char *TObjEneMe3Shinowa__name = "TObjEneMe3Shinowa";
+const char *me3_shinowa_name = "TObjEneMe3Shinowa";
 const char *TObjEneMe3ShinowaReal_class_name = "TObjEneMe3ShinowaReal";
 // inferred: TObjEneMe3ShinowaMirage::class_name (was lbl_805D2AD0; the mirage ctor stores it to m_name)
 const char *TObjEneMe3ShinowaMirage::class_name = "TObjEneMe3ShinowaMirage";
@@ -298,7 +298,7 @@ void TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(s32 slot, f32 speed) {
 }
 
 TObjEneMe3Shinowa::TObjEneMe3Shinowa(TObject *parent) : TObjEneDD_ST(parent) {
-    m_name = TObjEneMe3Shinowa__name;
+    m_name = me3_shinowa_name;
 }
 #pragma push
 #pragma opt_propagation off

@@ -39,8 +39,8 @@ const char *bm_o_warp_ancient_motion_names[4] = {
 BmlResourceDescriptor bm_o_warp_ancient_resource_descriptor = {
     "bm_o_warp_ancient.bml", bm_o_warp_ancient_model_names, bm_o_warp_ancient_motion_names, 6, 3,
 };
-const char *TObjMapWarpAncient__class_name = "TObjMapWarpAncient";
-const char *TObjGoalWarpAncient__class_name = "TObjGoalWarpAncient";
+const char *map_warp_ancient_class_name = "TObjMapWarpAncient";
+const char *goal_warp_ancient_class_name = "TObjGoalWarpAncient";
 BmlResource *ancient_warp_shared_resource;
 NJS_TEXLIST *goal_warp_ancient_gvm_texture;
 
@@ -77,7 +77,7 @@ void TObjMapWarpAncient::free_globals() {
 }
 
 TObjMapWarpAncient::TObjMapWarpAncient(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
-    m_name = TObjMapWarpAncient__class_name;
+    m_name = map_warp_ancient_class_name;
     beam_frame = 0.0f;
     beam_model = get_ancient_warp_model(2);
     ksita_model = get_ancient_warp_model(0);
@@ -137,7 +137,7 @@ void *TObjMapWarpAncient::create(void *set_data) {
 }
 
 TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    m_name = TObjGoalWarpAncient__class_name;
+    m_name = goal_warp_ancient_class_name;
     naka_frame = 0.0f;
     beam_frame = 0.0f;
     beam_model = get_ancient_warp_model(1);

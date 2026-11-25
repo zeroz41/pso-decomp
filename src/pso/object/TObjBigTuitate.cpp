@@ -35,8 +35,8 @@ struct ByteBlock_3C { u8 bytes[0x3c]; };
 
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
-BmlResource *TObjTuitate__bml_resource;
-BmlResource *TObjBigTuitate__bml_resource;
+BmlResource *tuitate_bml_resource;
+BmlResource *big_tuitate_bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
 __declspec(section ".data") const char *fe_obj_tutate_model_names[2] = { "fe_obj_tutate.gj", NULL };
@@ -49,14 +49,14 @@ const char *fe_obj_bigtutate_motion_names[1] = { NULL };
 BmlResourceDescriptor fe_obj_bigtutate_resource_descriptor = {
     "fe_obj_bigtutate.bml", fe_obj_bigtutate_model_names, fe_obj_bigtutate_motion_names, 1, 0
 };
-CollisionBody TObjTuitate__collision_parts[1] = {
+CollisionBody tuitate_collision_parts[1] = {
     {{0.0f, 0.0f, 0.0f}, 6.0f, 16.0f, 1, 0x10003},
 };
 CollisionBody big_tuitate_collision_body[1] = {
     {{0.0f, 0.0f, 0.0f}, 6.0f, 16.0f, 1, 0x10003},
 };
-const char *TObjTuitate__class_name = "TObjTuitate";
-const char *TObjBigTuitate__name = "TObjBigTuitate";
+const char *tuitate_class_name = "TObjTuitate";
+const char *big_tuitate_name = "TObjBigTuitate";
 
 void free_collision_body_parts(void *);
 
@@ -69,13 +69,13 @@ void free_collision_body_parts(void *);
 
 void load_tuitate_bml_resource(void) {
     BmlResource *storage = new BmlResource(1, (BmlResourceDescriptor *)&fe_obj_tutate_resource_descriptor, 0, 0, NULL);
-    TObjTuitate__bml_resource = storage;
+    tuitate_bml_resource = storage;
 }
 
 void free_tuitate_bml_resource(void) {
-    if (TObjTuitate__bml_resource != NULL) {
-        delete (BmlResource *)TObjTuitate__bml_resource;
-        TObjTuitate__bml_resource = NULL;
+    if (tuitate_bml_resource != NULL) {
+        delete (BmlResource *)tuitate_bml_resource;
+        tuitate_bml_resource = NULL;
     }
 }
 
@@ -95,9 +95,9 @@ TObjTuitate::TObjTuitate(TObject *parent, void *set_data) : TObjCollidable(paren
             f32 z;
         } extents;
     } copy_storage;
-    m_name = TObjTuitate__class_name;
+    m_name = tuitate_class_name;
     apply_object_set_data(set_data);
-    init_collision_body_parts(this, TObjTuitate__collision_parts, 1);
+    init_collision_body_parts(this, tuitate_collision_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     *(ByteBlock_3C *)(copy_storage.bytes) = *(const ByteBlock_3C *)set_data;
@@ -141,11 +141,11 @@ void TObjTuitate::render() {
     if (fading != 0) {
         m_fade.set_flags_and_apply_damage_color();
     }
-    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjTuitate__bml_resource, 0));
+    TObjFish::set_global_param(get_bml_texlist((BmlResource *)tuitate_bml_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TObjTuitate__bml_resource, 0)));
+    draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)tuitate_bml_resource, 0)));
     pop_matrix();
     if (fading != 0) {
         m_fade.clear_flag_and_notify();
@@ -155,13 +155,13 @@ void TObjTuitate::render() {
 
 void load_bigtuitate_bml_resource(void) {
     BmlResource *storage = new BmlResource(1, (BmlResourceDescriptor *)&fe_obj_bigtutate_resource_descriptor, 0, 0, NULL);
-    TObjBigTuitate__bml_resource = storage;
+    big_tuitate_bml_resource = storage;
 }
 
 void TObjBigTuitate::free_instance() {
-    if (TObjBigTuitate__bml_resource != NULL) {
-        delete (BmlResource *)TObjBigTuitate__bml_resource;
-        TObjBigTuitate__bml_resource = NULL;
+    if (big_tuitate_bml_resource != NULL) {
+        delete (BmlResource *)big_tuitate_bml_resource;
+        big_tuitate_bml_resource = NULL;
     }
 }
 
@@ -181,7 +181,7 @@ TObjBigTuitate::TObjBigTuitate(TObject *parent, void *set_data) : TObjCollidable
             f32 z;
         } extents;
     } copy_storage;
-    m_name = TObjBigTuitate__name;
+    m_name = big_tuitate_name;
     apply_object_set_data(set_data);
     init_collision_body_parts(this, big_tuitate_collision_body, 1);
     refresh_collision_body_centers();
@@ -227,11 +227,11 @@ void TObjBigTuitate::render() {
     if (fading != 0) {
         m_fade.set_flags_and_apply_damage_color();
     }
-    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjBigTuitate__bml_resource, 0));
+    TObjFish::set_global_param(get_bml_texlist((BmlResource *)big_tuitate_bml_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TObjBigTuitate__bml_resource, 0)));
+    draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)big_tuitate_bml_resource, 0)));
     pop_matrix();
     if (fading != 0) {
         m_fade.clear_flag_and_notify();

@@ -36,9 +36,9 @@
 #include "pso/render/render_util.h"
 
 
-const char *TObjFogCollision__name = "TObjFogCollision";
-const char *TObjFogCollisionSwitch__name = "TObjFogCollisionSwitch";
-const char *TObjFogCollisionPoison__name = "TObjFogCollisionPoison";
+const char *fog_collision_name = "TObjFogCollision";
+const char *fog_collision_switch_name = "TObjFogCollisionSwitch";
+const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
 struct VBase_801537CC { char pad[0x18]; };
 
@@ -65,7 +65,7 @@ void *TObjFogCollision::create(void *set) {
 
 }
 TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {
-    ((TObject *)this)->m_name = TObjFogCollision__name;
+    ((TObject *)this)->m_name = fog_collision_name;
     ((TObjFogCollision *)(((u8 *)this)))->apply_object_set_data(set);
     this->debug_state = 0;
     this->far_timer = 0;
@@ -190,7 +190,7 @@ void *TObjFogCollisionSwitch::create(void *set) {
 }
 
 TObjFogCollisionSwitch::TObjFogCollisionSwitch(TObject *parent, void *set) : TObjFogCollision(parent, set) {
-    m_name = TObjFogCollisionSwitch__name;
+    m_name = fog_collision_switch_name;
 }
 
 
@@ -250,7 +250,7 @@ void *TObjFogCollisionPoison::create(void *set) {
 TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjFogCollisionSwitch(arg1, set) {
     u16 i;
     TObject *parent = this;
-    m_name = TObjFogCollisionPoison__name;
+    m_name = fog_collision_poison_name;
     ((VObj_801537CC *)parent)->m11();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
@@ -305,7 +305,7 @@ void TObjFogCollisionPoison::run_task() {
 // manager ctor stores it in m_name like the other three X__name pointers).
 const char *TObjFogCollision_Manager__name = "TObjFogCollision_Manager";
 
-TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
+TObjFogCollision_Manager *fog_collision_poison_instances[12];
 
 extern "C" {
 s32 send_6x2F_change_player_hp(s32, u16, s16);
@@ -375,7 +375,7 @@ void TObjFogCollisionPoison::draw_debug_text() {
 void TObjFogCollisionPoison::clear_state_array() {
     s32 i;
     for (i = 0; i < 12; i++) {
-        TObjFogCollisionPoison__instances[i] = 0;
+        fog_collision_poison_instances[i] = 0;
     }
 }
 
@@ -393,11 +393,11 @@ void TObjFogCollisionPoison::create() {
     }
 }
 
-// One manager per client: registers itself in TObjFogCollisionPoison__instances[index].
+// One manager per client: registers itself in fog_collision_poison_instances[index].
 TObjFogCollision_Manager::TObjFogCollision_Manager(TObject *parent, s32 index) : TObject(parent) {
     m_name = TObjFogCollision_Manager__name;
     player = index;
-    TObjFogCollisionPoison__instances[player] = this;
+    fog_collision_poison_instances[player] = this;
     hit_count = 0;
     fog_level = 0;
     fog_link = 1;
@@ -405,7 +405,7 @@ TObjFogCollision_Manager::TObjFogCollision_Manager(TObject *parent, s32 index) :
 }
 
 TObjFogCollision_Manager::~TObjFogCollision_Manager() {
-    TObjFogCollisionPoison__instances[player] = 0;
+    fog_collision_poison_instances[player] = 0;
 }
 
 void TObjFogCollision_Manager::record_hit(s32 level, s32 link) {
@@ -419,7 +419,7 @@ void TObjFogCollision_Manager::record_hit(s32 level, s32 link) {
 void record_fog_collision_hit(s32 arg0, s32 level, s32 link) {
     TObjFogCollision_Manager *manager;
     if ((arg0 >= 0) && (arg0 < 0xC)) {
-        manager = TObjFogCollisionPoison__instances[arg0];
+        manager = fog_collision_poison_instances[arg0];
         if (manager != 0) {
             manager->record_hit(level, link);
         }

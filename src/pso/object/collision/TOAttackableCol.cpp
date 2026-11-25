@@ -25,8 +25,8 @@
 
 #pragma readonly_strings on
 
-CollisionBody TOAttackableCol__collision_parts = {{0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f};
-const char *TOAttackableCol__name = "TOAttackableCol";
+CollisionBody attackable_col_collision_parts = {{0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *attackable_col_name = "TOAttackableCol";
 
 void set_floor_switch_flag(u32 id, s16 floor);
 
@@ -95,7 +95,7 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
         if (command->header.entity_id != 0xFFFF && command->header.entity_id >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(command->header.entity_id);
             if (col != NULL) {
-                if (reinterpret_cast<TObject *>(col)->check_value_equals(TOAttackableCol__name) != 0) {
+                if (reinterpret_cast<TObject *>(col)->check_value_equals(attackable_col_name) != 0) {
                     SetEntry_80157454 saved;
                     switch (command->is_destroyed) {
                     case 0:
@@ -284,11 +284,11 @@ TOAttackableCol::~TOAttackableCol() {
 
 
 TOAttackableCol::TOAttackableCol(saddr set_data) : TObjChara(tl_05) {
-    ((TObject *)this)->m_name = TOAttackableCol__name;
+    ((TObject *)this)->m_name = attackable_col_name;
     ((TOAttackableCol *)(((u8 *)this)))->apply_object_set_data((void *)set_data);
     ((TObjChara *)this)->calc_attach_pos();
     set_actor_flags(0x60000000);
-    init_collision_body_parts(((u8 *)this), &TOAttackableCol__collision_parts, 1);
+    init_collision_body_parts(((u8 *)this), &attackable_col_collision_parts, 1);
     ((TObjCollidable *)this)->set_indexed_flags(0, 0x718);
     ((TObjPlayer *)this)->register_object_by_id();
     this->mode = 0;

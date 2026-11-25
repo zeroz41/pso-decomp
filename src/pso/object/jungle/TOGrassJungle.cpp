@@ -18,8 +18,8 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-BmlResource *TOGrassJungle__bml_resource;
-NJS_TEXLIST *TOGrassJungle__grass_gvm_texture;
+BmlResource *grass_jungle_bml_resource;
+NJS_TEXLIST *grass_jungle_grass_gvm_texture;
 const char *bm_o_grass_jungle_motion_names[1] = { NULL };
 const char *bm_o_grass_jungle_model_names[3] = { "fe_obj_kusa_hinata.gj", "fe_obj_kusa_kage.gj", NULL };
 BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.bml", bm_o_grass_jungle_model_names, bm_o_grass_jungle_motion_names, 2, 0 };
@@ -31,33 +31,33 @@ void *TOGrassJungle::create(void *set_data) {
 }
 
 void TOGrassJungle::release_static_instance() {
-    if (TOGrassJungle__grass_gvm_texture != NULL) {
-        release_texture_list(TOGrassJungle__grass_gvm_texture);
-        safe_free(TOGrassJungle__grass_gvm_texture);
-        TOGrassJungle__grass_gvm_texture = NULL;
+    if (grass_jungle_grass_gvm_texture != NULL) {
+        release_texture_list(grass_jungle_grass_gvm_texture);
+        safe_free(grass_jungle_grass_gvm_texture);
+        grass_jungle_grass_gvm_texture = NULL;
     }
-    if (TOGrassJungle__bml_resource != NULL) {
-        delete (BmlResource *)TOGrassJungle__bml_resource;
-        TOGrassJungle__bml_resource = NULL;
+    if (grass_jungle_bml_resource != NULL) {
+        delete (BmlResource *)grass_jungle_bml_resource;
+        grass_jungle_bml_resource = NULL;
     }
 }
 void TOGrassJungle::load_resources() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&ograss_jungle_resource_descriptor, 0, 0, NULL);
-    TOGrassJungle__bml_resource = archive;
-    TOGrassJungle__grass_gvm_texture = LoadPvmFileTls("o_grass_jungle.gvm");
-    TObjNpcEnemy::register_ginja(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOGrassJungle__bml_resource, 0)),
-                           TOGrassJungle__grass_gvm_texture, 12.0f, -10.0f);
+    grass_jungle_bml_resource = archive;
+    grass_jungle_grass_gvm_texture = LoadPvmFileTls("o_grass_jungle.gvm");
+    TObjNpcEnemy::register_ginja(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)grass_jungle_bml_resource, 0)),
+                           grass_jungle_grass_gvm_texture, 12.0f, -10.0f);
 }
 
 s32 rotate_matrix_y(s32, s32);
 
 void TOGrassJungle::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) == 1) {
-        TObjFish::set_global_param(TOGrassJungle__grass_gvm_texture);
+        TObjFish::set_global_param(grass_jungle_grass_gvm_texture);
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object((void *)get_bml_model((BmlResource *)TOGrassJungle__bml_resource, this->model_index));
+        draw_ginja_object((void *)get_bml_model((BmlResource *)grass_jungle_bml_resource, this->model_index));
         pop_matrix();
     }
 }

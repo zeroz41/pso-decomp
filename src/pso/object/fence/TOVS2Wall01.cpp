@@ -56,14 +56,14 @@ const char *bm_o_vs2_model_names[17] = {
 };
 BmlResourceDescriptor bm_o_vs2_resource_descriptor = { "bm_o_vs2.bml", bm_o_vs2_model_names, bm_o_vs2_motion_names, 16, 0 };
 
-const char *TOVS2__class_name = "TOVS2";
-const char *TOVS2Wreck01__class_name = "TOVS2Wreck01";
-const char *TOVS2Wreck02__class_name = "TOVS2Wreck02";
-const char *TOVS2Wreck03__class_name = "TOVS2Wreck03";
-const char *TOVS2Wreck04__class_name = "TOVS2Wreck04";
-const char *TOVS2Wreck05__class_name = "TOVS2Wreck05";
-const char *TOVS2Wreck06__class_name = "TOVS2Wreck06";
-const char *TOVS2Wall01__class_name = "TOVS2Wall01";
+const char *vs2_class_name = "TOVS2";
+const char *vs2_wreck01_class_name = "TOVS2Wreck01";
+const char *vs2_wreck02_class_name = "TOVS2Wreck02";
+const char *vs2_wreck03_class_name = "TOVS2Wreck03";
+const char *vs2_wreck04_class_name = "TOVS2Wreck04";
+const char *vs2_wreck05_class_name = "TOVS2Wreck05";
+const char *vs2_wreck06_class_name = "TOVS2Wreck06";
+const char *vs2_wall01_class_name = "TOVS2Wall01";
 
 extern const TObjChipParams vs2_wall_debris_desc = {
     0.25f, 0.07f, 0.26f, { 0.0f, 0.0f, 0.0f }, { 5.0f, 7.5f, 5.0f },
@@ -81,7 +81,7 @@ CollisionBody ovs2wall01_collision_parts[7] = {
     {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f}
 };
 
-BmlResource *TOVS2Wall01__bml_resource;
+BmlResource *vs2_wall01_bml_resource;
 
 // ---- text_8017B9AC
 struct WallSetEntry { u8 unk_0[4]; s16 m_4; };
@@ -111,7 +111,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
     }
     o = (TOVS2Wall01 *)find_entity_by_id(id);
     if (o != NULL) {
-        if (reinterpret_cast<TObject *>(o)->check_value_equals(TOVS2Wall01__class_name) == 0) {
+        if (reinterpret_cast<TObject *>(o)->check_value_equals(vs2_wall01_class_name) == 0) {
             return;
         }
         switch (wall_hit_packet->update_reason) {
@@ -203,8 +203,8 @@ void TOVS2Wall01::spawn_debris(s32 index) {
     params.pos.y = body_center.y;
     params.pos.z = body_center.z;
     params.floor_y = position.y;
-    params.model = get_bml_model(TOVS2Wall01__bml_resource, index);
-    params.textures = get_bml_texlist(TOVS2Wall01__bml_resource, index);
+    params.model = get_bml_model(vs2_wall01_bml_resource, index);
+    params.textures = get_bml_texlist(vs2_wall01_bml_resource, index);
     new TObjChip(tl_05, &params);
 }
 
@@ -300,11 +300,11 @@ s32 TOVS2Wall01::select_melee_contact_body(void *, f32) { return 1; }
 s32 TOVS2Wall01::roll_physical_accuracy(void *, s32, f32) { return 1; }
 s32 TOVS2Wall01::try_start_action(s32, s32) { return 1; }
 TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
-    m_name = TOVS2__class_name;
+    m_name = vs2_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(TOVS2Wall01__bml_resource, index);
+    model = (void *)get_bml_model(vs2_wall01_bml_resource, index);
     model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
-    texlist = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
+    texlist = get_bml_texlist((BmlResource *)vs2_wall01_bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
     m_c8 = TObjMapCsn::create(set_data);
@@ -323,14 +323,14 @@ void TOVS2Wall01::load_resources() {
   saddr temp_r3;
   saddr resource;
   resource = (saddr)new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
-  TOVS2Wall01__bml_resource = (BmlResource *)resource;
-  TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 5)),
+  vs2_wall01_bml_resource = (BmlResource *)resource;
+  TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)vs2_wall01_bml_resource, 5)),
                         reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
-    if (TOVS2Wall01__bml_resource != NULL) {
-        delete TOVS2Wall01__bml_resource;
-        TOVS2Wall01__bml_resource = NULL;
+    if (vs2_wall01_bml_resource != NULL) {
+        delete vs2_wall01_bml_resource;
+        vs2_wall01_bml_resource = NULL;
     }
 }
 void TOVS2::render() {
@@ -345,7 +345,7 @@ void TOVS2::render() {
     }
 }
 TOVS2Wreck01::TOVS2Wreck01(void *set_data) : TOVS2(set_data, 0) {
-    m_name = TOVS2Wreck01__class_name;
+    m_name = vs2_wreck01_class_name;
 }
 
 TOVS2Wreck01::~TOVS2Wreck01() {}
@@ -354,7 +354,7 @@ void *TOVS2Wreck01::create(void *set_data) {
     return new TOVS2Wreck01(set_data);
 }
 TOVS2Wreck02::TOVS2Wreck02(void *set_data) : TOVS2(set_data, 1) {
-    m_name = TOVS2Wreck02__class_name;
+    m_name = vs2_wreck02_class_name;
 }
 
 TOVS2Wreck02::~TOVS2Wreck02() {}
@@ -363,7 +363,7 @@ void *TOVS2Wreck02::create(void *set_data) {
     return new TOVS2Wreck02(set_data);
 }
 TOVS2Wreck03::TOVS2Wreck03(void *set_data) : TOVS2(set_data, 2) {
-    m_name = TOVS2Wreck03__class_name;
+    m_name = vs2_wreck03_class_name;
 }
 
 TOVS2Wreck03::~TOVS2Wreck03() {}
@@ -372,7 +372,7 @@ void *TOVS2Wreck03::create(void *set_data) {
     return new TOVS2Wreck03(set_data);
 }
 TOVS2Wreck04::TOVS2Wreck04(void *set_data) : TOVS2(set_data, 3) {
-    m_name = TOVS2Wreck04__class_name;
+    m_name = vs2_wreck04_class_name;
 }
 
 TOVS2Wreck04::~TOVS2Wreck04() {}
@@ -381,7 +381,7 @@ void *TOVS2Wreck04::create(void *set_data) {
     return new TOVS2Wreck04(set_data);
 }
 TOVS2Wreck05::TOVS2Wreck05(void *set_data) : TOVS2(set_data, 4) {
-    m_name = TOVS2Wreck05__class_name;
+    m_name = vs2_wreck05_class_name;
 }
 
 TOVS2Wreck05::~TOVS2Wreck05() {}
@@ -390,7 +390,7 @@ void *TOVS2Wreck05::create(void *set_data) {
     return new TOVS2Wreck05(set_data);
 }
 TOVS2Wreck06::TOVS2Wreck06(void *set_data) : TOVS2(set_data, 5) {
-    m_name = TOVS2Wreck06__class_name;
+    m_name = vs2_wreck06_class_name;
 }
 
 TOVS2Wreck06::~TOVS2Wreck06() {}
@@ -402,12 +402,12 @@ void *TOVS2Wreck06::create(void *set_data) {
 #pragma opt_common_subs off
 TOVS2Wall01::TOVS2Wall01(void *set_data) : TObjChara((TObject *)tl_05) {
     s32 initial_hits;
-    m_name = TOVS2Wall01__class_name;
+    m_name = vs2_wall01_class_name;
     apply_object_set_data(set_data);
     calc_attach_pos();
     set_actor_flags(0x60000000);
-    model = (void *)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 6);
-    texlist = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, 6);
+    model = (void *)get_bml_model((BmlResource *)vs2_wall01_bml_resource, 6);
+    texlist = get_bml_texlist((BmlResource *)vs2_wall01_bml_resource, 6);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[6], 1);
     set_indexed_flags(0, 0x08000000);
     register_object_by_id();
