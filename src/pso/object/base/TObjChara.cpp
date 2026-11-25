@@ -120,103 +120,7 @@
 struct ObjFlags;
 class TObjPlayer;
 struct Info_8001311C { s32 type; f32 power; };
-struct Rec_80011824 { s32 kind; f32 power; };
-struct Stats_80011824 { u8 pad0[0xE]; s16 f0E; };
-struct Coll_80011824 { u8 pad0[0x18]; u32 flags; Vec pos; };
-struct Base_80011824 { u8 pad0[0x18]; };
 
-struct Actor_80011824 : Base_80011824 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12(s32);
-    virtual void m13(s32);
-    virtual s32 m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20(void *, f32);
-    virtual void m21(void *, Rec_80011824, void *, s32, s32);
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46(s32);
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72(s32);
-    virtual void m73();
-    u16 id;
-    u8 pad1E[0x30 - 0x1E];
-    u32 flags30;
-    u8 pad34[0x2B0 - 0x34];
-    Stats_80011824 *stats;
-    u8 pad2B4[0x2D4 - 0x2B4];
-    u16 f2D4;
-    u8 pad2D6[0x2DC - 0x2D6];
-    u32 f2DC;
-    u8 pad2E0[0x2F2 - 0x2E0];
-    s16 f2F2;
-    s16 f2F4;
-    s16 f2F6;
-    s16 f2F8;
-    u8 pad2FA[0x2FC - 0x2FA];
-    Vec pos;
-};
 
 
 struct Layout_80019038 {
@@ -411,136 +315,6 @@ void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 #pragma push
 #pragma fp_contract on
 #pragma push
-#pragma fp_contract on
-#pragma opt_common_subs off
-#define TEST30(o, m) ((TObjCollidable *)o)->test_actor_flags(m)
-#define FIELD1C(o) ((TObjBase *)(o))->get_entity_id()
-#define STATE2(o) (((TObjChara *)(o))->obj_isState2_324())
-#define STATE3(o) ((TObjChara *)o)->obj_isState3_324()
-#define HIT(o, p) (((TObjChara *)(o))->try_apply_damage(p, 0))
-#define DAMAGE(o, p, d) (((TObjChara *)(o))->try_apply_damage(p, d))
-#define SWITCH_ATTACK(o, p) ((TObjChara *)(o))->trigger_switch_attack(p)
-#define SUB_HP(o, d) ((s32 (*)(TObjChara *, s32))TObjectV8047c128_subtract_hp)(o, d)
-struct TObjPlayer;
-struct Obj_80010DE8;
-
-#define FIELD1C_W24(p) ((TObjBase *)(p))->get_entity_id()
-#define TESTF30_W24(p, m) ((TObjCollidable *)((p)))->test_actor_flags((m))
-#define ISSTATE2_W24(p) (((TObjChara *)(p))->obj_isState2_324())
-#define MISS_W24(s, v) (((TObjChara *)(s))->show_miss_popup((const float *)(v)))
-#define APPLYDMG_W24(s, v, d) (((TObjChara *)(s))->try_apply_damage((const Vec *)(v), (d)))
-#define DISPATCH_W24(a, s, v) dispatch_weapon_special_effect((a), (s), (v), 1)
-#define SUBHP_W24(p, v) ((s32 (*)(void *, s32))TObjectV8047c128_subtract_hp)((p), (v))
-#define ADDHP_W24(p, v) ((s32 (*)(void *, s32))add_actor_hp)((p), (v))
-#define SUBTP_W24(p, v) ((TObjChara *)p)->subtract_actor_tp((s32)((v)))
-#define ADDTP_W24(p, v) ((s32 (*)(void *, s32))add_actor_tp)((p), (v))
-#define HPLABEL_W24(p, v, k, n) ((void (*)(void *, void *, s32, s32))draw_hp_label)((p), (v), (k), (n))
-#define TPFONT_W24(p, v, k, n) ((void (*)(void *, void *, s32, s32))show_tp_font)((p), (v), (k), (n))
-#define BOSS4_W24(p) (((TObjChara *)(p))->random_ratio())
-#define CLEARCOLL_W24() if (coll != NULL) { coll->flags &= ~0x04000000; }
-struct Obj_80014108;
-#pragma pop
-#undef TEST30
-#undef FIELD1C
-#undef STATE2
-#undef STATE3
-#undef HIT
-#undef DAMAGE
-#undef SWITCH_ATTACK
-#undef SUB_HP
-#undef FIELD1C_W24
-#undef TESTF30_W24
-#undef ISSTATE2_W24
-#undef MISS_W24
-#undef APPLYDMG_W24
-#undef DISPATCH_W24
-#undef SUBHP_W24
-#undef ADDHP_W24
-#undef SUBTP_W24
-#undef ADDTP_W24
-#undef HPLABEL_W24
-#undef TPFONT_W24
-#undef BOSS4_W24
-#undef CLEARCOLL_W24
-struct VBase_18_d805cd { char pad[0x18]; };
-
-struct VObj_18_d805cd : VBase_18_d805cd {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72(s32);
-    virtual void m73();
-};
-
 struct Coll_80014108 { u8 pad0[0x18]; u32 flags; Vec pos; f32 def; };
 struct Elem_80014108 { u8 type; s8 value; };
 
@@ -2367,8 +2141,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
         ((TObjChara *)((Obj_80014108 *)this))->sync_enemy_state(0);
     }
     if (((TObjChara *)((Obj_80014108 *)this))->is_locally_controlled() != 0) {
-        TObjPlayer::calc_photon_blast_charge(((Obj_80014108 *)this), (s32)(20.0f * total));
-        ((VObj_18_d805cd *)((Obj_80014108 *)this))->m73();
+        gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, (s32)(20.0f * total)));
     }
     record_local_damage_if_enabled(((Obj_80014108 *)this), ((Obj_80014108 *)att), (s32)total);
     empty_post_damage_hook(((Obj_80014108 *)this), ((Obj_80014108 *)att));
@@ -2740,8 +2513,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
         this->sync_enemy_state(0);
     }
     if (this->is_locally_controlled() != 0) {
-        TObjPlayer::calc_photon_blast_charge(this, (s32)((2e+01f) * dmg));
-        ((VObj_18_d805cd *)this)->m73();
+        gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, (s32)((2e+01f) * dmg)));
     }
     record_local_damage_if_enabled(this, ((TObjChara *)att), (s32)dmg);
     empty_post_damage_hook(this, ((TObjChara *)att));
@@ -2751,22 +2523,12 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-#define FIELD1C_W24(p) ((TObjBase *)(p))->get_entity_id()
-#define TESTF30_W24(p, m) ((TObjCollidable *)((p)))->test_actor_flags((m))
-#define ISSTATE2_W24(p) (((TObjChara *)(p))->obj_isState2_324())
-#define MISS_W24(s, v) (((TObjChara *)(s))->show_miss_popup((const float *)(v)))
-#define APPLYDMG_W24(s, v, d) (((TObjChara *)(s))->try_apply_damage((const Vec *)(v), (d)))
-#define DISPATCH_W24(a, s, v) dispatch_weapon_special_effect((a), (s), (v), 1)
 #define SUBHP_W24(p, v) ((s32 (*)(void *, s32))TObjectV8047c128_subtract_hp)((p), (v))
 #define ADDHP_W24(p, v) ((s32 (*)(void *, s32))add_actor_hp)((p), (v))
-#define SUBTP_W24(p, v) ((TObjChara *)p)->subtract_actor_tp((s32)((v)))
-#define ADDTP_W24(p, v) ((s32 (*)(void *, s32))add_actor_tp)((p), (v))
 #define HPLABEL_W24(p, v, k, n) ((void (*)(void *, void *, s32, s32))draw_hp_label)((p), (v), (k), (n))
 #define TPFONT_W24(p, v, k, n) ((void (*)(void *, void *, s32, s32))show_tp_font)((p), (v), (k), (n))
-#define BOSS4_W24(p) (((TObjChara *)(p))->random_ratio())
-#define CLEARCOLL_W24() if (coll != NULL) { coll->flags &= ~0x04000000; }
 f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
-    Rec_80011824 rec;
+    DirectAttackPayload rec;
     Vec pos;
     s16 kind;
     s16 power;
@@ -2777,24 +2539,23 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
     f32 cap;
     f32 amt;
     f32 chance;
-    Coll_80011824 *coll = (Coll_80011824 *)collision;
+    CollisionBody *coll = (CollisionBody *)collision;
     TObjChara *att = (TObjChara *)attacker;
-    Actor_80011824 *self = (Actor_80011824 *)this;
     if (coll != NULL) {
-        VecCopy(&pos, &coll->pos);
+        VecCopy(&pos, &coll->center);
     } else {
-        VecCopy(&pos, &self->pos);
+        VecCopy(&pos, &body_center);
     }
     if (att == NULL) {
         return (0.0f);
     }
-    if (FIELD1C_W24(att) == 0xFFFF) {
+    if (att->get_entity_id() == 0xFFFF) {
         return (0.0f);
     }
     kind = ((TObjPlayer *)att)->obj_getS16_116();
     power = ((s16 (*)(void *))obj_getS16_118)(att);
     blocked = 0;
-    if (TESTF30_W24(self, 0x04000000) != 0) {
+    if (test_actor_flags(0x04000000) != 0) {
         blocked = 1;
     }
     if (coll != NULL && (coll->flags & 0x02000000)) {
@@ -2811,7 +2572,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         case 7:
         case 9:
         case 10:
-            APPLYDMG_W24(self, &pos, 0);
+            try_apply_damage(&pos, 0);
             break;
         case 3:
         case 4:
@@ -2819,16 +2580,18 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         case 11:
         case 12:
         case 13:
-            MISS_W24(self, &pos);
+            show_miss_popup(&pos.x);
             break;
         }
-        CLEARCOLL_W24()
+        if (coll != NULL) {
+            coll->flags &= ~0x04000000;
+        }
         return (0.0f);
     }
     attach_mine_trap(att);
-    if (ISSTATE2_W24(self) != 0) {
+    if (obj_isState2_324() != 0) {
         immune = 1;
-    } else if (ISSTATE2_W24(att) != 0) {
+    } else if (att->obj_isState2_324() != 0) {
         if (this->is_locally_controlled() != 0 && ((TObjPlayer *)att)->pk_state.is_enabled() != 0) {
             immune = 0;
         } else {
@@ -2837,14 +2600,14 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
     } else {
         immune = 0;
     }
-    if (game_difficulty_selection == 3 && self->f2D4 < 0x1000 && att->obj_testFlag_2E4(4) != 0 &&
+    if (game_difficulty_selection == 3 && attacker_id < 0x1000 && att->obj_testFlag_2E4(4) != 0 &&
         kind != 11 && kind != 9 && kind != 10) {
         power += 30;
     }
     dmg = (0.0f);
     rec.kind = 0;
     rec.power = dmg;
-    if (self->f2D4 < 0x1000) {
+    if (attacker_id < 0x1000) {
         TItem *item = TObjPlayer::get_equipped_weapon(att);
         if (item == NULL) {
             mul = (1.0f);
@@ -2870,7 +2633,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
     }
     switch (kind) {
     case 1:
-        dmg = (0.01f) * (f32)(power * ((TObjChara *)self)->get_actor_hp());
+        dmg = (0.01f) * (f32)(power * this->get_actor_hp());
         cap = (3e+01f) * (game_difficulty_selection + 1);
         if (cap < dmg) {
             dmg = cap;
@@ -2880,48 +2643,50 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
             dmg = (1.0f);
         }
         if (TObjPlayer::get_player_count() != 0) {
-            if (this->is_locally_controlled() != 0 && ISSTATE2_W24(att) != 0) {
-                att->send_update_entity_stat(self->f2D4, 3, (s32)dmg);
-                ((TObjChara *)self)->send_update_entity_stat(self->f2D4, 0, (s32)dmg);
-                self->m20(att, (0.6f));
-            } else if (ISSTATE2_W24(self) == 0 || FIELD1C_W24(att) >= 0x1000) {
+            if (this->is_locally_controlled() != 0 && att->obj_isState2_324() != 0) {
+                att->send_update_entity_stat(attacker_id, 3, (s32)dmg);
+                this->send_update_entity_stat(attacker_id, 0, (s32)dmg);
+                receive_physical_attack(att, (0.6f));
+            } else if (obj_isState2_324() == 0 || att->get_entity_id() >= 0x1000) {
                 if (att->is_locally_controlled() != 0) {
-                    att->send_update_entity_stat(self->f2D4, 3, (s32)dmg);
-                    HPLABEL_W24(self, &pos, 10, (s32)dmg);
-                    SUBHP_W24(self, (s32)dmg);
-                } else if (ISSTATE2_W24(att) == 0) {
+                    att->send_update_entity_stat(attacker_id, 3, (s32)dmg);
+                    HPLABEL_W24(this, &pos, 10, (s32)dmg);
+                    SUBHP_W24(this, (s32)dmg);
+                } else if (att->obj_isState2_324() == 0) {
                     ADDHP_W24(att, (s32)dmg);
-                    DISPATCH_W24(att, self, &pos);
-                    SUBHP_W24(self, (s32)dmg);
+                    dispatch_weapon_special_effect(att, this, &pos, 1);
+                    SUBHP_W24(this, (s32)dmg);
                 }
-                self->m20(att, (0.6f));
+                receive_physical_attack(att, (0.6f));
             }
         } else {
             if (att->is_locally_controlled() != 0) {
-                att->send_update_entity_stat(self->f2D4, 3, (s32)dmg);
-                HPLABEL_W24(self, &pos, 10, (s32)dmg);
-                SUBHP_W24(self, (s32)dmg);
-            } else if (ISSTATE2_W24(att) == 0) {
+                att->send_update_entity_stat(attacker_id, 3, (s32)dmg);
+                HPLABEL_W24(this, &pos, 10, (s32)dmg);
+                SUBHP_W24(this, (s32)dmg);
+            } else if (att->obj_isState2_324() == 0) {
                 ADDHP_W24(att, (s32)dmg);
-                DISPATCH_W24(att, self, &pos);
-                SUBHP_W24(self, (s32)dmg);
+                dispatch_weapon_special_effect(att, this, &pos, 1);
+                SUBHP_W24(this, (s32)dmg);
             }
-            self->m20(att, (0.6f));
+            receive_physical_attack(att, (0.6f));
         }
-        if (((TObjChara *)self)->clamp_hp() <= 0) {
+        if (this->clamp_hp() <= 0) {
             set_actor_flags(0xA00);
-            empty_post_damage_hook(self, att);
+            empty_post_damage_hook(this, att);
         } else {
             set_actor_flags(0x200);
         }
-        if (TESTF30_W24(self, 0x02000000) == 0) {
+        if (test_actor_flags(0x02000000) == 0) {
             create_hit_effect__10TObjPlayerFPv(&pos);
         }
         break;
     case 2:
         if (att->obj_testFlag_2E4(4) != 0) {
             dmg = (0.0f);
-            CLEARCOLL_W24()
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
         } else {
             dmg = (0.01f) * (f32)(power * ((s16 (*)(void *))obj_getS16_2BA)(att));
             cap = (25.0f) * (game_difficulty_selection + 1);
@@ -2933,49 +2698,53 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
                 dmg = (1.0f);
             }
             if (TObjPlayer::get_player_count() != 0) {
-                if (this->is_locally_controlled() != 0 && ISSTATE2_W24(att) != 0) {
-                    att->send_update_entity_stat(self->f2D4, 4, (s32)dmg);
-                    ((TObjChara *)self)->send_update_entity_stat(self->f2D4, 1, (s32)dmg);
-                    self->m20(att, (0.6f));
-                } else if (ISSTATE2_W24(self) == 0 || FIELD1C_W24(att) >= 0x1000) {
+                if (this->is_locally_controlled() != 0 && att->obj_isState2_324() != 0) {
+                    att->send_update_entity_stat(attacker_id, 4, (s32)dmg);
+                    this->send_update_entity_stat(attacker_id, 1, (s32)dmg);
+                    receive_physical_attack(att, (0.6f));
+                } else if (obj_isState2_324() == 0 || att->get_entity_id() >= 0x1000) {
                     if (att->is_locally_controlled() != 0) {
-                        att->send_update_entity_stat(self->f2D4, 4, (s32)dmg);
-                        TPFONT_W24(self, &pos, 10, (s32)dmg);
-                        SUBTP_W24(self, (s32)dmg);
-                    } else if (ISSTATE2_W24(att) == 0) {
-                        ADDTP_W24(att, (s32)dmg);
-                        DISPATCH_W24(att, self, &pos);
-                        SUBTP_W24(self, (s32)dmg);
+                        att->send_update_entity_stat(attacker_id, 4, (s32)dmg);
+                        TPFONT_W24(this, &pos, 10, (s32)dmg);
+                        subtract_actor_tp((s32)dmg);
+                    } else if (att->obj_isState2_324() == 0) {
+                        add_actor_tp(att, (s32)dmg);
+                        dispatch_weapon_special_effect(att, this, &pos, 1);
+                        subtract_actor_tp((s32)dmg);
                     }
-                    self->m20(att, (0.6f));
+                    receive_physical_attack(att, (0.6f));
                 }
             } else {
                 if (att->is_locally_controlled() != 0) {
-                    att->send_update_entity_stat(self->f2D4, 4, (s32)dmg);
-                    TPFONT_W24(self, &pos, 10, (s32)dmg);
-                    SUBTP_W24(self, (s32)dmg);
-                } else if (ISSTATE2_W24(att) == 0) {
-                    ADDTP_W24(att, (s32)dmg);
-                    DISPATCH_W24(att, self, &pos);
-                    SUBTP_W24(self, (s32)dmg);
+                    att->send_update_entity_stat(attacker_id, 4, (s32)dmg);
+                    TPFONT_W24(this, &pos, 10, (s32)dmg);
+                    subtract_actor_tp((s32)dmg);
+                } else if (att->obj_isState2_324() == 0) {
+                    add_actor_tp(att, (s32)dmg);
+                    dispatch_weapon_special_effect(att, this, &pos, 1);
+                    subtract_actor_tp((s32)dmg);
                 }
-                self->m20(att, (0.6f));
+                receive_physical_attack(att, (0.6f));
             }
         }
         set_actor_flags(0x200);
-        if (TESTF30_W24(self, 0x02000000) == 0) {
+        if (test_actor_flags(0x02000000) == 0) {
             create_hit_effect__10TObjPlayerFPv(&pos);
         }
         break;
     case 3:
         if (is_boss_area() != 0) {
-            CLEARCOLL_W24()
-        } else if (self->id < 0x1000) {
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
+        } else if (entity_id < 0x1000) {
             dmg = (0.0f);
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
         } else {
-            dmg = (0.01f) * (f32)(power * ((TObjChara *)self)->obj_getPtr2B0_1C());
+            dmg = (0.01f) * (f32)(power * this->obj_getPtr2B0_1C());
             cap = (2e+01f) * (game_difficulty_selection + 1);
             if (cap < dmg) {
                 dmg = cap;
@@ -2986,138 +2755,148 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
             }
             if (immune == 0) {
                 if (this->is_locally_controlled() != 0) {
-                    self->m13((s32)dmg);
+                    consume_timer_field((s32)dmg);
                 }
                 att->add_actor_exp((s32)dmg);
             }
             set_actor_flags(0x200);
-            DISPATCH_W24(att, self, &pos);
-            if (TESTF30_W24(self, 0x02000000) == 0) {
+            dispatch_weapon_special_effect(att, this, &pos, 1);
+            if (test_actor_flags(0x02000000) == 0) {
                 create_hit_effect__10TObjPlayerFPv(&pos);
-                ((void (*)(void *, void *, s32, s32))display_exp_gain)(self, &pos, 10, (s32)dmg);
+                ((void (*)(void *, void *, s32, s32))display_exp_gain)(this, &pos, 10, (s32)dmg);
             }
         }
-        self->m20(att, (0.6f));
+        receive_physical_attack(att, (0.6f));
         break;
     case 4: {
         f32 cost = (2e+02f);
-        if (TESTF30_W24(self, 0x02000000) == 0) {
-            DISPATCH_W24(att, self, &pos);
+        if (test_actor_flags(0x02000000) == 0) {
+            dispatch_weapon_special_effect(att, this, &pos, 1);
         }
         if (cost <= (f32)((s32 (*)(void *))get_actor_meseta)(att)) {
             if (TObjPlayer::get_player_count() != 0) {
-                if (this->is_locally_controlled() != 0 && ISSTATE2_W24(att) != 0) {
-                    att->send_update_entity_stat(self->f2D4, 2, (s32)cost);
-                    self->m20(att, (3.0f));
-                } else if (ISSTATE2_W24(self) == 0 || FIELD1C_W24(att) >= 0x1000) {
+                if (this->is_locally_controlled() != 0 && att->obj_isState2_324() != 0) {
+                    att->send_update_entity_stat(attacker_id, 2, (s32)cost);
+                    receive_physical_attack(att, (3.0f));
+                } else if (obj_isState2_324() == 0 || att->get_entity_id() >= 0x1000) {
                     try_spend_actor_meseta(reinterpret_cast<TObjChara *>(att), (s32)cost);
                     ((void (*)(void *, void *, s32, s32))show_meseta_label)(att, &att->body_center, 0, (s32)-cost);
-                    self->m20(att, (3.0f));
+                    receive_physical_attack(att, (3.0f));
                 }
             } else {
                 if (immune == 0) {
                     try_spend_actor_meseta(reinterpret_cast<TObjChara *>(att), (s32)cost);
                     ((void (*)(void *, void *, s32, s32))show_meseta_label)(att, &att->body_center, 0, (s32)-cost);
                 }
-                self->m20(att, (3.0f));
+                receive_physical_attack(att, (3.0f));
             }
         } else {
-            self->flags30 |= 0x100;
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
+            actorFlags |= 0x100;
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
         }
         dmg = (0.0f);
         break;
     }
     case 5:
-        if (TESTF30_W24(self, 0x02000000) == 0) {
-            DISPATCH_W24(att, self, &pos);
+        if (test_actor_flags(0x02000000) == 0) {
+            dispatch_weapon_special_effect(att, this, &pos, 1);
         }
         amt = (0.2f) * (f32)((s16 (*)(void *))get_actor_tp)(att);
         if ((1e+01f) <= (f32)((s16 (*)(void *))get_actor_tp)(att)) {
             if (TObjPlayer::get_player_count() != 0) {
-                if (this->is_locally_controlled() != 0 && ISSTATE2_W24(att) != 0) {
-                    att->send_update_entity_stat(self->f2D4, 1, (s32)amt);
-                    self->m20(att, (3.0f));
-                } else if (ISSTATE2_W24(self) == 0 || FIELD1C_W24(att) >= 0x1000) {
-                    SUBTP_W24(att, (s32)amt);
-                    self->m20(att, (3.0f));
+                if (this->is_locally_controlled() != 0 && att->obj_isState2_324() != 0) {
+                    att->send_update_entity_stat(attacker_id, 1, (s32)amt);
+                    receive_physical_attack(att, (3.0f));
+                } else if (obj_isState2_324() == 0 || att->get_entity_id() >= 0x1000) {
+                    att->subtract_actor_tp((s32)amt);
+                    receive_physical_attack(att, (3.0f));
                 }
             } else {
-                SUBTP_W24(att, (s32)amt);
-                self->m20(att, (3.0f));
+                att->subtract_actor_tp((s32)amt);
+                receive_physical_attack(att, (3.0f));
             }
         } else {
-            self->flags30 |= 0x100;
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
+            actorFlags |= 0x100;
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
         }
         dmg = (0.0f);
         break;
     case 6:
-        if (TESTF30_W24(self, 0x02000000) == 0) {
-            DISPATCH_W24(att, self, &pos);
+        if (test_actor_flags(0x02000000) == 0) {
+            dispatch_weapon_special_effect(att, this, &pos, 1);
         }
         amt = (0.25f) * (f32)att->get_actor_hp();
         if ((1.0f) < (f32)att->get_actor_hp()) {
             if (TObjPlayer::get_player_count() != 0) {
-                if (this->is_locally_controlled() != 0 && ISSTATE2_W24(att) != 0) {
-                    att->send_update_entity_stat(self->f2D4, 0, (s32)amt);
-                    self->m20(att, (3.0f));
-                } else if (ISSTATE2_W24(self) == 0 || FIELD1C_W24(att) >= 0x1000) {
+                if (this->is_locally_controlled() != 0 && att->obj_isState2_324() != 0) {
+                    att->send_update_entity_stat(attacker_id, 0, (s32)amt);
+                    receive_physical_attack(att, (3.0f));
+                } else if (obj_isState2_324() == 0 || att->get_entity_id() >= 0x1000) {
                     SUBHP_W24(att, (s32)amt);
-                    self->m20(att, (3.0f));
+                    receive_physical_attack(att, (3.0f));
                 }
             } else {
                 ((s32 (*)(void *, s32))damage_hp__10TObjPlayerFii)(att, (s32)amt);
                 if (att->is_locally_controlled() != 0) {
-                    u16 id = FIELD1C_W24(att);
+                    u16 id = att->get_entity_id();
                     send_6x2F_change_player_hp(id, id, att->get_actor_hp());
                 }
-                self->m20(att, (3.0f));
+                receive_physical_attack(att, (3.0f));
             }
         } else {
-            self->flags30 |= 0x100;
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
+            actorFlags |= 0x100;
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
         }
         dmg = (0.0f);
         break;
     case 7:
-        chance = mul * ((0.01f) * (f32)(power - self->stats->f0E));
+        chance = mul * ((0.01f) * (f32)(power - stat_block->esp));
         if (chance < (0.0f)) {
             chance = (0.0f);
         }
-        if (((s32 (*)(void *, void *, void *, f32))calc_freeze_chance)(self, att, self, chance) != 0) {
-            if (TESTF30_W24(self, 0x02000000) == 0) {
+        if (((s32 (*)(void *, void *, void *, f32))calc_freeze_chance)(this, att, this, chance) != 0) {
+            if (test_actor_flags(0x02000000) == 0) {
                 create_hit_effect__10TObjPlayerFPv(&pos);
-                DISPATCH_W24(att, self, &pos);
+                dispatch_weapon_special_effect(att, this, &pos, 1);
             }
             if (immune == 0) {
-                self->m46(0);
-                self->m20(att, (0.6f));
+                apply_movement_ailment(0);
+                receive_physical_attack(att, (0.6f));
             }
         } else {
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
         }
         dmg = (0.0f);
         break;
     case 8:
-        if (BOSS4_W24(self) < mul * ((0.01f) * (f32)(power - self->stats->f0E))) {
-            if (TESTF30_W24(self, 0x02000000) == 0) {
+        if (random_ratio() < mul * ((0.01f) * (f32)(power - stat_block->esp))) {
+            if (test_actor_flags(0x02000000) == 0) {
                 create_hit_effect__10TObjPlayerFPv(&pos);
-                DISPATCH_W24(att, self, &pos);
+                dispatch_weapon_special_effect(att, this, &pos, 1);
             }
             if (immune == 0) {
-                if (self->id >= 0x1000) {
-                    self->m43();
+                if (entity_id >= 0x1000) {
+                    apply_paralysis();
                 }
-                self->m20(att, (0.6f));
+                receive_physical_attack(att, (0.6f));
             }
         } else {
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
         }
         dmg = (0.0f);
         break;
@@ -3126,22 +2905,22 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         rec.power = (5.0f) *
                     ((2e+01f) * ((1.0f) + (f32)power) +
                      (f32)att->get_actor_level_index() / ((5.0f) - (f32)power));
-        dmg = rec.power * ((0.002f) * (f32)(100 - self->f2F2));
+        dmg = rec.power * ((0.002f) * (f32)(100 - m_2f2));
         if (immune == 0) {
-            SUBHP_W24(self, (s32)dmg);
-            if (((TObjChara *)self)->clamp_hp() <= 0) {
+            SUBHP_W24(this, (s32)dmg);
+            if (this->clamp_hp() <= 0) {
                 set_actor_flags(0x800);
-                empty_post_damage_hook(self, att);
+                empty_post_damage_hook(this, att);
             }
         }
         set_actor_flags(0x200);
-        ((TObjChara *)self)->check_heavy_damage_flag(dmg);
-        self->f2DC |= 4;
-        if (TESTF30_W24(self, 0x02000000) == 0) {
+        this->check_heavy_damage_flag(dmg);
+        hit_flags |= 4;
+        if (test_actor_flags(0x02000000) == 0) {
             create_hit_effect__10TObjPlayerFPv(&pos);
-            ((TObjChara *)self)->trigger_switch_attack((const Vec *)&pos);
-            APPLYDMG_W24(self, &pos, (s32)dmg);
-            DISPATCH_W24(att, self, &pos);
+            this->trigger_switch_attack((const Vec *)&pos);
+            try_apply_damage(&pos, (s32)dmg);
+            dispatch_weapon_special_effect(att, this, &pos, 1);
         }
         break;
     case 10:
@@ -3149,90 +2928,98 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         rec.power = (5.0f) *
                     ((2e+01f) * ((1.0f) + (f32)power) +
                      (f32)att->get_actor_level_index() / ((5.0f) - (f32)power));
-        dmg = rec.power * ((0.002f) * (f32)(100 - self->f2F4));
+        dmg = rec.power * ((0.002f) * (f32)(100 - m_2f4));
         if (immune == 0) {
-            SUBHP_W24(self, (s32)dmg);
-            if (((TObjChara *)self)->clamp_hp() <= 0) {
+            SUBHP_W24(this, (s32)dmg);
+            if (this->clamp_hp() <= 0) {
                 set_actor_flags(0x800);
-                empty_post_damage_hook(self, att);
+                empty_post_damage_hook(this, att);
             }
         }
         set_actor_flags(0x200);
-        ((TObjChara *)self)->check_heavy_damage_flag(dmg);
-        self->f2DC |= 4;
+        this->check_heavy_damage_flag(dmg);
+        hit_flags |= 4;
         if ((this->is_locally_controlled() != 0 || ((TObjPlayer *)att)->is_local_player() != 0) &&
-            ((s32 (*)(void *, void *, void *, f32))calc_shock_chance)(self, att, self, dmg) != 0) {
-            self->m47();
+            ((s32 (*)(void *, void *, void *, f32))calc_shock_chance)(this, att, this, dmg) != 0) {
+            apply_shock_status();
         }
-        if (TESTF30_W24(self, 0x02000000) == 0) {
-            DISPATCH_W24(att, self, &pos);
-            ((void (*)(void *, void *))activate_switch_attacks__10TObjPlayerFii)(self, &pos);
-            APPLYDMG_W24(self, &pos, (s32)dmg);
+        if (test_actor_flags(0x02000000) == 0) {
+            dispatch_weapon_special_effect(att, this, &pos, 1);
+            ((void (*)(void *, void *))activate_switch_attacks__10TObjPlayerFii)(this, &pos);
+            try_apply_damage(&pos, (s32)dmg);
         }
         break;
     case 11:
-        mul *= (0.01f) * (f32)(power - self->f2F8);
-        if (self->id < 0x1000) {
+        mul *= (0.01f) * (f32)(power - m_2f8);
+        if (entity_id < 0x1000) {
             mul -= (0.5f);
         }
-        if (BOSS4_W24(self) < mul && is_boss_area() == 0) {
-            if (TESTF30_W24(self, 0x02000000) == 0) {
-                DISPATCH_W24(att, self, &pos);
+        if (random_ratio() < mul && is_boss_area() == 0) {
+            if (test_actor_flags(0x02000000) == 0) {
+                dispatch_weapon_special_effect(att, this, &pos, 1);
             }
             if (immune == 0) {
-                ((TObjChara *)self)->get_actor_hp();
-                ((TObjPlayer *)self)->set_hp_clamped(0);
+                this->get_actor_hp();
+                ((TObjPlayer *)this)->set_hp_clamped(0);
                 set_actor_flags(0xA00);
-                empty_post_damage_hook(self, att);
+                empty_post_damage_hook(this, att);
             }
         } else {
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
         }
         dmg = (0.0f);
         break;
     case 12:
-        if (BOSS4_W24(self) < mul * ((0.01f) * (f32)(power - self->stats->f0E))) {
+        if (random_ratio() < mul * ((0.01f) * (f32)(power - stat_block->esp))) {
             rec.kind = 18;
             rec.power = (0.0f);
-            self->m21(att, rec, coll, -1, -1);
-            if (TESTF30_W24(self, 0x02000000) == 0) {
-                DISPATCH_W24(att, self, &pos);
+            receive_direct_attack(att, rec, coll, -1, -1);
+            if (test_actor_flags(0x02000000) == 0) {
+                dispatch_weapon_special_effect(att, this, &pos, 1);
             }
         }
-        self->m20(att, (0.6f));
+        receive_physical_attack(att, (0.6f));
         dmg = (0.0f);
         break;
     case 13:
         if (is_boss_area() != 0) {
             dmg = (0.0f);
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
-        } else if (self->id < 0x1000) {
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
+        } else if (entity_id < 0x1000) {
             dmg = (0.0f);
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
-        } else if (BOSS4_W24(self) < (0.5f)) {
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
+        } else if (random_ratio() < (0.5f)) {
             dmg = mul * (((1.0f) - (0.01f) * (f32)power) *
-                         (f32)((TObjChara *)self)->get_actor_hp());
+                         (f32)this->get_actor_hp());
             if (dmg < (1.0f)) {
                 dmg = (1.0f);
             }
             if (immune == 0) {
-                SUBHP_W24(self, (s32)dmg);
-                if (((TObjChara *)self)->clamp_hp() <= 0) {
+                SUBHP_W24(this, (s32)dmg);
+                if (this->clamp_hp() <= 0) {
                     set_actor_flags(0x800);
-                    empty_post_damage_hook(self, att);
+                    empty_post_damage_hook(this, att);
                 }
             }
             set_actor_flags(0x200);
-            if (TESTF30_W24(self, 0x02000000) == 0) {
-                DISPATCH_W24(att, self, &pos);
+            if (test_actor_flags(0x02000000) == 0) {
+                dispatch_weapon_special_effect(att, this, &pos, 1);
             }
         } else {
             dmg = (0.0f);
-            MISS_W24(self, &pos);
-            CLEARCOLL_W24()
+            show_miss_popup(&pos.x);
+            if (coll != NULL) {
+                coll->flags &= ~0x04000000;
+            }
         }
         break;
     default:
@@ -3240,13 +3027,12 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
         break;
     }
     if (immune == 0) {
-        self->m72(0);
+        sync_enemy_state(0);
     }
     if (this->is_locally_controlled() != 0) {
-        TObjPlayer::calc_photon_blast_charge(self, (s32)((2e+01f) * dmg));
-        self->m73();
+        gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, (s32)((2e+01f) * dmg)));
     }
-    record_local_damage_if_enabled(self, att, (s32)dmg);
+    record_local_damage_if_enabled(this, att, (s32)dmg);
     return dmg;
 }
 
@@ -3260,20 +3046,10 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
 #undef DAMAGE
 #undef SWITCH_ATTACK
 #undef SUB_HP
-#undef FIELD1C_W24
-#undef TESTF30_W24
-#undef ISSTATE2_W24
-#undef MISS_W24
-#undef APPLYDMG_W24
-#undef DISPATCH_W24
 #undef SUBHP_W24
 #undef ADDHP_W24
-#undef SUBTP_W24
-#undef ADDTP_W24
 #undef HPLABEL_W24
 #undef TPFONT_W24
-#undef BOSS4_W24
-#undef CLEARCOLL_W24
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 hover_height) {
     Vec position;
     f32 y;
