@@ -791,7 +791,6 @@ pso/unk/TLobby_80291D94.cpp
 pso/unk/TLobby_80299A60.cpp
 pso/unk/TLobby_80299B90.cpp
 pso/unk/TLobby_80299C4C.cpp
-pso/object/seabed/TObjSuisoChip_802A6080.cpp
 pso/player/GamePlayerActionProvider.cpp
 pso/camera/TCameraVolOptFollow.cpp
 pso/camera/TCameraDebugOrbit.cpp

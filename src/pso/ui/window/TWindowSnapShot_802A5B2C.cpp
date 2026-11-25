@@ -147,3 +147,4 @@ s32 RlcArchive::get_buffer_size() { return file_size; }
 s32 RlcArchive::has_resource_size() { return (u8)(file_size != 0); }
 void PlayerMotionAramEntry::set_size(s32 v) { size = v; }
 void PlayerMotionAramEntry::set_aram_addr(s32 v) { aram_addr = v; }
+int get_rlc_directory_entry_size() { return 8; }

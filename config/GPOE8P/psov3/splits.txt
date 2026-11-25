@@ -7181,14 +7181,11 @@ pso/ui/window/TWindowMessageYesNo.cpp:
 	.sdata2     start:0x805DDFF0 end:0x805DDFF8
 
 pso/ui/window/TWindowSnapShot_802A5B2C.cpp:
-	.text       start:0x802A5B2C end:0x802A6080
+	.text       start:0x802A5B2C end:0x802A6088
 	.data       start:0x804DD098 end:0x804DD0A8
 
-pso/object/seabed/TObjSuisoChip_802A6080.cpp:
-	.text       start:0x802A6080 end:0x802A6168
-
 pso/object/seabed/TObjSuisoChip.cpp:
-	.text       start:0x802A6168 end:0x802A6F40
+	.text       start:0x802A6088 end:0x802A6F40
 	.rodata     start:0x80466778 end:0x80466CE0
 	.data       start:0x804DD0A8 end:0x804DD82C
 	.sdata      start:0x805D3E00 end:0x805D3E10
