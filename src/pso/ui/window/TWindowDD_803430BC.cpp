@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowDD_8034435C.h"
 #include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
@@ -139,8 +140,6 @@ struct Obj_80343C64
 #include "pso/map/FloorArea.h"
 #include "pso/player/PlayerSlots.h"
 
-struct NumberWindow;
-
 struct WordSelectPage;
 
 struct WordSelectWindowState {
@@ -148,7 +147,7 @@ struct WordSelectWindowState {
     s32 activePage;
     WordSelectPage* pages[7];
     u8 unknown40[0x84 - 0x40];
-    NumberWindow* numberWindow;
+    TWindowInputNumber* numberWindow;
 };
 
 struct WindowPosition { f32 x, y; };
@@ -277,8 +276,6 @@ s32 classify_id__9TWindowDDFs();
 
 void clear_window_dd_nodes(void);
 extern "C" {
-NumberWindow* __ct__18TWindowInputNumberFPvllls(void* storage, const WindowPosition* position,
-                                   s32 minimum, s32 maximum, s32 initial, s16 client);
 
 
 
@@ -975,12 +972,7 @@ void open_numeric_parameter_input__9TWindowDDFPviii(WordSelectWindowState* self,
     WindowPosition position;
     position.x = 60.0f + TWindowDD__data_805DFB6C;
     position.y = 10.0f + lbl_805DFB70;
-    NumberWindow* window = (NumberWindow*)TObject::operator new(0x7C);
-    if (window) {
-        window = __ct__18TWindowInputNumberFPvllls(window, &position, minimum, maximum, initial,
-                                      (s16)local_client_id);
-    }
-    self->numberWindow = window;
+    self->numberWindow = new TWindowInputNumber(&position, minimum, maximum, initial, (s16)local_client_id);
     if (self->numberWindow) {
         ((TWindowBase *)(self->numberWindow))->set_depth(lbl_805DFC28);
         ((TWindowSubItem *)(self->numberWindow))->set_flag60_bit10();

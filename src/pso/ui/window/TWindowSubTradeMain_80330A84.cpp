@@ -84,7 +84,6 @@ struct Self_80331178 { u8 pad[0x28]; s32 client; saddr f2c; };
 extern "C" {
 void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
-TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(TWindowInputNumber *, void *, s32, s32, s32, s16);
 }
 
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
@@ -727,10 +726,7 @@ saddr TWindowSubTradeMain::create_list() {
 }
 
 TWindowInputNumber *TWindowSubTradeMain::create_input_number(s32 maximum) {
-    TWindowInputNumber *window = (TWindowInputNumber *)TObject::operator new(sizeof(TWindowInputNumber));
-    if (window != NULL) {
-        window = __ct__18TWindowInputNumberFPvllls(window, (void *)get_window_layout_position(0x5D), 1, maximum, 1, (s16)client_id);
-    }
+    TWindowInputNumber *window = new TWindowInputNumber((void *)get_window_layout_position(0x5D), 1, maximum, 1, (s16)client_id);
     window->create((saddr)TWindowSubStatusDisp::get_message_10(0x28));
     window->set_value(282.0f);
     return window;
