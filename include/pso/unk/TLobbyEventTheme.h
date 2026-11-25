@@ -20,7 +20,8 @@ public:
     virtual ~TLobbyEventTheme();
     virtual void run_task();
 
-    void sub_80351DF8(s32 theme);
+    // Called every frame with the current theme; does nothing.
+    void update_theme(s32 theme);
 
     static void create();
     static s32 ended();
@@ -35,6 +36,7 @@ LAYOUT_ASSERT(TLobbyEventTheme_size, sizeof(TLobbyEventTheme) == 0x24);
 
 // The lobby texture list (obj_lobby_main.GVM), loaded and freed with the lobby.
 extern NJS_TEXLIST *lobby_main_texture_gvm;
+NJS_TEXLIST *get_lobby_main_texlist();
 
 void load_obj_lobby_main();
 void free_obj_lobby_main();

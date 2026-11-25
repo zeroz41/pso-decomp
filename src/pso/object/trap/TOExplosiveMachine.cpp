@@ -7,7 +7,7 @@
 #include "pso/object/trap/TOExplosiveMachine02.h"
 #include "pso/object/trap/TOExplosiveMachine03.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/TObjChip.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

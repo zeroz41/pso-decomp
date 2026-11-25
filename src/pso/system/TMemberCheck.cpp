@@ -1,7 +1,7 @@
 #include <string.h>
 #include "pso/system/TMemberCheck.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #pragma readonly_strings on
 

@@ -4,9 +4,10 @@
 #include "types.h"
 
 class TPlyCharData;
+struct TObjPlayer;
 extern "C" {
 int TObjPlayer__sub_802C46E0(void *p);
-void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, u8 *arg1);
+void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, TObjPlayer *player);
 }
 int init_character_action_config(void *p);
 extern "C" {

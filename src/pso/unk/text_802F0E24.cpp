@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_802F0E24.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaTexture.h"

@@ -18,7 +18,7 @@ LAYOUT_ASSERT(IPv6Address_size_check, sizeof(IPv6Address) == 16);
 LAYOUT_ASSERT(IPv6NeighborSolicitation_size_check, sizeof(IPv6NeighborSolicitation) == 24);
 LAYOUT_ASSERT(IPv6NeighborSolicitation_target_check, offsetof(IPv6NeighborSolicitation, target) == 8);
 
-/* ipv6_address_routing_state and its tables (TLobby_8041112C.c). */
+/* ipv6_address_routing_state and its tables (NetIpv6Route.c). */
 typedef struct Ipv6AddrNode Ipv6AddrNode;
 struct Ipv6AddrNode {
     s16 in_use;
@@ -59,7 +59,7 @@ typedef struct Ipv6Iface {
     s16 rs_count;
     s16 rs_timer;
     s16 mtu;
-    void *callback; /* event callback: invoke_routing_event_callback calls it as (iface, event, data) */
+    Ipv6EventCallback callback;
     Ipv6AddrNode *addrs;
 } Ipv6Iface;
 LAYOUT_ASSERT(Ipv6Iface_size_check, sizeof(Ipv6Iface) == 0x30);
@@ -174,6 +174,7 @@ extern Ipv6ProtocolState ipv6_protocol_state;
 Ipv6Route *NetIPv6LookupRoute(void *dst, void *src);
 /* The MTU of interface `iface`. */
 s16 get_iface_mtu(s16 iface);
+s32 NetIPv6UpdatePathMtu(IPv6Address *addr, s16 mtu);
 #ifdef __cplusplus
 }
 #endif

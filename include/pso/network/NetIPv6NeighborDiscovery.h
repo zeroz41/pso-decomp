@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/network/IPv6Send.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetIpv6Route.h"
 
 /* ICMPv6 type 0x88. flags: 0x80 router, 0x40 solicited, 0x20 override. */
 typedef struct NetIcmpv6NeighborAdvertisement {
@@ -38,6 +38,13 @@ typedef struct Ipv6NdHopLimitEvent {
     u8 hop_limit;
 } Ipv6NdHopLimitEvent;
 LAYOUT_ASSERT(Ipv6NdHopLimitEvent_size_check, sizeof(Ipv6NdHopLimitEvent) == 8);
+
+/* Event 0: an address finished duplicate address detection. */
+typedef struct Ipv6NdEvent {
+    u8 *addr;
+    s16 prefix_len;
+} Ipv6NdEvent;
+LAYOUT_ASSERT(Ipv6NdEvent_size_check, sizeof(Ipv6NdEvent) == 8);
 
 /* Neighbour discovery option 3 (prefix information, 32 bytes): a router advertisement's on-link prefix. */
 typedef struct Ipv6NdPrefixInfoOption {
@@ -76,6 +83,26 @@ typedef struct Ipv6NdMtuEvent {
     s32 mtu;
 } Ipv6NdMtuEvent;
 LAYOUT_ASSERT(Ipv6NdMtuEvent_size_check, sizeof(Ipv6NdMtuEvent) == 8);
+
+/* Event 10: a redirect: the route to destination (prefix_len bits) through old_router is replaced by a host route
+   through new_router. */
+typedef struct Ipv6NdRedirectEvent {
+    u8 *destination;
+    s16 prefix_len;
+    u8 *old_router;
+    u8 *new_router;
+} Ipv6NdRedirectEvent;
+LAYOUT_ASSERT(Ipv6NdRedirectEvent_size_check, sizeof(Ipv6NdRedirectEvent) == 0x10);
+
+/* The record NetIPv6HandleRoutingEvent reads, by event. */
+typedef union Ipv6RoutingEvent {
+    Ipv6NdEvent address;           /* 0 */
+    Ipv6NdPrefixEvent prefix;      /* 2 */
+    Ipv6NdHopLimitEvent hop_limit; /* 3 */
+    Ipv6NdMtuEvent mtu;            /* 4 */
+    Ipv6NdAddrEvent router;        /* 1 and 5 to 9 */
+    Ipv6NdRedirectEvent redirect;  /* 10 */
+} Ipv6RoutingEvent;
 
 s16 NetIPv6SendRouterSolicitation(s16 iface);
 s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *msg, void *opts, s16 *optlen, s16 iface);

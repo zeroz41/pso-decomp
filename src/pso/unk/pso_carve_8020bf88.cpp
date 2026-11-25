@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/pso_carve_8020bf88.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_8020B03C.h"
 
 int TLobby__sub_8020BF88(void) {

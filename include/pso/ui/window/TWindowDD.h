@@ -5,9 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
-extern "C" {
 s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value);
-}
 
 class TWindowDD_WS_Word;
 struct NJS_TEXLIST;
@@ -111,6 +109,13 @@ struct TWindowDD : public TObject
     static void play_sound();
     int test_input_flag_4();
     s32 get_word_select_context();
+    void build_item_list();
+    // Word-select entry value lookups per language; dispatch_by_window_mode picks one by current_language.
+    s32 get_entry_value_french(u32 mode, s32 entry_id, s32 value_index);
+    s32 get_entry_value_german(u32 mode, s32 entry_id, s32 value_index);
+    s32 get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index);
+    s32 get_entry_value_english(u32 mode, s32 entry_id, s32 value_index);
+    s32 get_entry_value_japanese(u32 mode, s32 entry_id, s32 value_index);
     s32 get_mode_code();
     void set_state();
     void close_all_windows();
@@ -151,23 +156,12 @@ struct TWindowDD : public TObject
 LAYOUT_ASSERT(WindowListSize, sizeof(TWindowDDValueList) == 8);
 LAYOUT_ASSERT(WindowListCountOffset, offsetof(TWindowDDValueList, count) == 4);
 
-extern "C" {
-s32 TWindowDD__sub_80340820(void *p);
-void TWindowDD__sub_80340910(void *p);
-}
 s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
-extern "C" {
-void *__dt__21TWindowWordSelectModeFv(void *arg0, s16 arg1);
 void measure_message_text_width_default(void *entry);
 extern TWindowDDValueList *TWindowDD__ws_data_base;
 extern TWindowDDValueList *TWindowDD__ws_data_table;
-void build_item_list__9TWindowDDFPv(TWindowDD *window);
-s32 TWindowDD__sub_8034435C(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
-s32 TWindowDD__sub_80344568(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
-s32 TWindowDD__sub_80344774(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
-s32 TWindowDD__sub_80346434(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
-s32 TWindowDD__sub_80346640(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
+extern "C" {
 void TWindowDD__sub_80344114(void);
 }
 

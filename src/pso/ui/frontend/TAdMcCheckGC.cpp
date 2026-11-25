@@ -16,7 +16,7 @@
 #undef PSO_SDK_COMPACT_MATH
 
 extern "C" {
-s32 create_window_menu_default(const void *, s32);
+TWindowMenu *create_window_menu_default(const void *pos, s32 entries);
 }
 
 void clear_draw_record(IndirectDrawRecord *record) {
@@ -32,14 +32,14 @@ static const NJS_POINT2 mc_check_window_positions[2] = {
 };
 
 TObject *TAdMcCheckGC::create(s32 message) {
-    saddr window_menu_default;
+    TWindowMenu *menu;
 
-    window_menu_default = create_window_menu_default(&mc_check_window_positions[this->card_slot], 1);
-    ((TWindowMenu *)window_menu_default)->add_text_entry(get_localized_text_entry(0x16, message), 0x20, 0);
-    ((TWindowMenu *)window_menu_default)->set_flag_40();
-    TQuestThread::set_status_flag_80((void *)window_menu_default);
-    ((TWindowSubComCard *)window_menu_default)->calc_layout_height(190.0f);
-    return reinterpret_cast<TObject *>(window_menu_default);
+    menu = create_window_menu_default(&mc_check_window_positions[this->card_slot], 1);
+    menu->add_text_entry(get_localized_text_entry(0x16, message), 0x20, 0);
+    menu->set_flag_40();
+    TQuestThread::set_status_flag_80(menu);
+    menu->calc_layout_height(190.0f);
+    return menu;
 }
 
 void TAdMcCheckGC::run_task() {

@@ -1,22 +1,23 @@
 #pragma readonly_strings on
 #include "pso/audio/LscStream.h"
+#include "pso/audio/LscLog.h"
 #include "pso/audio/AdxStream.h"
 #include "pso/audio/LscServer.h"
 #include "pso/audio/AdxStreamRuntime.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include <string.h>
 
 static char lsc_repeat_filename[0x28];
 
 extern "C" {
 
-// The three per-status steps are separate functions inlined into lsc_poll (inferred: CRI lsc_svr shape).
+// The three per-status steps are separate functions inlined into lsc_poll (CRI lsc_svr shape).
 // Entry being read (status 1): follow the stream until it ends.
 inline void read_803D1D28(LscStream *lsc_stream) {
     LscQueueEntry *entry;
     s32 status;
     if (lsc_stream->file_handle == 0) {
-        TLobby::log_printf("E0007: lsc->fp=NULL");
+        lsc_log_printf("E0007: lsc->fp=NULL");
     } else {
         entry = &lsc_stream->entries[lsc_stream->read_index];
         status = get_adx_stream_status(lsc_stream->file_handle);
@@ -64,7 +65,7 @@ inline void wait_803D1D28(LscStream *lsc_stream) {
         if (lsc_stream->file_handle == 0) {
             lsc_stream->file_handle = ADXSTM_OpenFnameRangeExRt(entry->filename, entry->open_mode, entry->range_offset, entry->range_length, (saddr)lsc_stream->stream);
             if (lsc_stream->file_handle == 0) {
-                TLobby::log_printf("E0004: Can not open '%s'", entry->filename);
+                lsc_log_printf("E0004: Can not open '%s'", entry->filename);
             }
             s32 sector_count = (get_field_14__6TLobbyFv(lsc_stream->file_handle) + 0x7FF) / 0x800;
             lsc_stream->read_started = 0;
@@ -72,14 +73,14 @@ inline void wait_803D1D28(LscStream *lsc_stream) {
             entry->progress = 0;
         }
         if (lsc_stream->read_started == 0) {
-            TLobby::set_range(lsc_stream->file_handle, lsc_stream->min_buffer_bytes, lsc_stream->buffer_capacity);
+            adxstm_set_read_range(lsc_stream->file_handle, lsc_stream->min_buffer_bytes, lsc_stream->buffer_capacity);
             seek_adx_stream_sector(lsc_stream->file_handle, 0);
             init_stream_position__6TLobbyFv(lsc_stream->file_handle);
             lsc_stream->read_started = 1;
         }
         entry->status = 1;
     } else if (lsc_stream->file_handle != 0) {
-        TLobby::log_printf("E0006: Illigal member nstm='%d' fp='%08x'h", lsc_stream->queued_count, lsc_stream->file_handle);
+        lsc_log_printf("E0006: Illigal member nstm='%d' fp='%08x'h", lsc_stream->queued_count, lsc_stream->file_handle);
     }
 }
 void lsc_poll(LscStream *lsc_stream) {

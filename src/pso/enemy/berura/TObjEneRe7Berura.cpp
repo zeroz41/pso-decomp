@@ -34,7 +34,7 @@
 #include "pso/animation/MotionContext.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -1414,7 +1414,7 @@ void TObjEneRe7Berura::render() {
         belra_uv_animation_buffer->scroll_uvs(texture_scroll, 0);
         fade = &camera_fades[cam];
         fade->update();
-        cam = fade->updateFromCamera(&body_center.x);
+        cam = fade->updateFromCamera(&body_center);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

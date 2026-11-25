@@ -3,7 +3,7 @@
 #include "pso/player/GamePlayerActionProvider.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/PlayerActionProvider.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
@@ -2630,9 +2630,9 @@ s32 TLobby::get_valid_child() {
     }
     return 0;
 }
-s32 TLobby::validate_handle(s32 *arg0) {
-    if (TLobby__sub_802A7278(*arg0) != 0) {
-        return *arg0;
+s32 TLobby::validate_handle(s32 *handle) {
+    if (TLobby__sub_802A7278(*handle) != 0) {
+        return *handle;
     }
     return 0;
 }

@@ -6,38 +6,6 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/PppFsm.h"
 
-#pragma push
-#pragma cplusplus off
-static inline s16 fn_8040B758_len(char* s)
-{
-    s16 len = 0;
-    s32 n;
-
-    while (len < 255) {
-        s8 c = *s;
-
-        s++;
-        if (c == 0) {
-            len--;
-            break;
-        }
-        n = c;
-        if (len + n + 1 <= 255) {
-            s += c;
-        } else {
-            len = 255;
-            break;
-        }
-        len = n + len;
-        len++;
-    }
-    return len;
-}
-#pragma pop
-
-
-
-
 /* CHAP state, in PppFsm.opts of the CHAP connection. */
 typedef struct PppChap {
     const char *name;
@@ -51,7 +19,7 @@ typedef struct PppChap {
 LAYOUT_ASSERT(PppChap_size_check, sizeof(PppChap) == 0x14);
 LAYOUT_ASSERT(PppChap_len_check, offsetof(PppChap, len) == 0x10);
 
-/* chap_state: the CHAP buffers and settings (TLobby_803FC178.c).  init_net_buffer_table (NetworkTransport.c) points
+/* chap_state: the CHAP buffers and settings (PppChap.c).  init_net_buffer_table (NetworkTransport.c) points
  * the buffers into that file's static block and sets their sizes. */
 typedef struct PppAuthState {
     u8 *rx_challenge_name;                     /* 0x00: the name in a challenge received */
@@ -79,7 +47,7 @@ typedef struct PppAuthState {
 } PppAuthState;
 LAYOUT_ASSERT(PppAuthState_size_check, sizeof(PppAuthState) == 0x40);
 
-/* pap_state: the PAP buffers and settings (TLobby_803FCF44.c), set by init_net_block_620_params. */
+/* pap_state: the PAP buffers and settings (Ppp.c), set by init_net_block_620_params. */
 typedef struct PppPapState {
     u8 *peer_id;                /* the peer id received */
     u8 *password;               /* 0x04: the password received */
@@ -94,7 +62,7 @@ typedef struct PppPapState {
 } PppPapState;
 LAYOUT_ASSERT(PppPapState_size_check, sizeof(PppPapState) == 0x18);
 
-/* ppp_buffers: the PPP frame buffers (TLobby_803FCF44.c), set by init_net_buffer_desc.  Each buffer starts with its
+/* ppp_buffers: the PPP frame buffers (Ppp.c), set by init_net_buffer_desc.  Each buffer starts with its
  * PppFrame record; its data starts ((headroom + 0x83) & ~3) bytes in. */
 typedef struct PppBuffers {
     s32 headroom;

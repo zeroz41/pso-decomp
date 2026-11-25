@@ -13,7 +13,7 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

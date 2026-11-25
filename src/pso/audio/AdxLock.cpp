@@ -2,9 +2,8 @@
 #include "types.h"
 #include "pso/audio/AdxLock.h"
 #include "pso/audio/CriSvm.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/LscStream.h"
-#include "pso/unk/TLobby_803C4698.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxEncoder.h"
 #include "pso/system/RefCountedWorkBuffer.h"
@@ -16,7 +15,7 @@
 
 s32 init_ref_count;
 
-void TLobby::release_ref() {
+void adx_unlock() {
     s32 depth;
 
     depth = init_ref_count - 1;
@@ -26,7 +25,7 @@ void TLobby::release_ref() {
     }
 }
 
-void TLobby::init_once() {
+void adx_lock() {
     if ((s32) init_ref_count == 0) {
         svm_lock();
     }

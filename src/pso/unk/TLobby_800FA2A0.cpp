@@ -4,7 +4,7 @@
 #include "pso/system/Adxf.h"
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
 s32 TLobby::create_named_entry(const char *name, void *buffer, AsyncFileReadCallback callback, const void *params, void **request) {

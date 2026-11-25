@@ -73,7 +73,7 @@
 
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/system/SoundEffect.h"
 
@@ -781,7 +781,7 @@ void TObjEneRecobox::render() {
 block_18:
                 camera_fade = &this->fades[camera_mode];
                 camera_fade->update();
-                camera_fading = camera_fade->updateFromCamera(&body_center.x);
+                camera_fading = camera_fade->updateFromCamera(&body_center);
                 if ((fading_in == 0) && (camera_fading != 0)) {
                     if (defer_render() != 0) {
                         model_render_flags = saved_model_render_flags;

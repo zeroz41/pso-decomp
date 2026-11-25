@@ -2,10 +2,10 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/PppVj.h"
+#include "pso/network/NetStack.h"
 #include "pso/network/NetTcpState.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
@@ -13,10 +13,10 @@
 
 #include "types.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_8041112C.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetIpv6Route.h"
+#include "pso/network/NetApi.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
 u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag);
 
@@ -36,7 +36,7 @@ extern Ipv4ProtocolState ipv4_protocol_state;
 
 s32 ipv4_term(void) {
     release_slot_by_id(0x800);
-    term_ipv4_config((void *)(&ipv4_protocol_state.nsockets));
+    term_ipv4_config(&ipv4_protocol_state);
     ipv4_protocol_state.nsockets = 0;
     return 0;
 }
@@ -88,12 +88,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
   s16 found;
   NetworkAddress src;
   NetworkAddress dst;
-  struct
-  {
-    u8 type;
-    u8 code;
-    s32 unused;
-  } err;
+  Icmp4Header err;
   u8 *dp;
   s16 r;
   u8 *data;
@@ -190,7 +185,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
   {
     case 1:
       found = 1;
-      if (icmp_input((u8 *) pkt, src.ipv4, dst.ipv4) < 0)
+      if (icmp_input(pkt, src.ipv4, dst.ipv4) < 0)
       {
         if (reassembled == 1)
         {
@@ -235,7 +230,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
             err.type = 3;
             err.code = 3;
             err.unused = 0;
-            r = icmp_send_error((u8 *) (&err), ip, len, iface);
+            r = icmp_send_error(&err, h, len, iface);
             if (reassembled == 1)
             {
               release_packet_fragments(pkt);
@@ -296,7 +291,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
   err.type = 3;
   err.code = 2;
   err.unused = 0;
-  icmp_send_error((u8 *) (&err), ip, len, iface);
+  icmp_send_error(&err, (IPv4Header *)ip, len, iface);
   if (reassembled == 1)
   {
     release_packet_fragments(pkt);
@@ -697,8 +692,8 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 
     return ~sum;
 }
 
-u16 calc_ip_checksum(NetPacket *self, s16 b) {
-    u32 s = packet_ones_complement_sum(self, b);
+u16 calc_ip_checksum(NetPacket *packet, s16 flag) {
+    u32 s = packet_ones_complement_sum(packet, flag);
     s = (s >> 16) + (s & 0xFFFF);
     s += (s >> 16);
     return ~s;

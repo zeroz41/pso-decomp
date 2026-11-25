@@ -3,11 +3,12 @@
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/quest/TQuestThread.h"
 #include <stdio.h>
 #include <string.h>
@@ -32,7 +33,7 @@ void TMessageWindowController::append_file_number() {
     append_text(buf);
 }
 void TMessageWindowController::append_title_string() {
-    const char *text = (const char *)TWindowSubStatusDisp::get_status_window(local_client_id);
+    const char *text = get_challenge_rank_title(local_client_id);
     if (text != NULL) {
         append_text(text);
         return;

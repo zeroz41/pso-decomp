@@ -16,8 +16,9 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/item/TItem.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/unk/TDeathTintFade.h"
 
 struct O_801C1C68 { u8 pad[4]; u8 a[0x10]; u8 b[0x10]; };
 
@@ -100,11 +101,11 @@ s32 is_item_equipped(TItem *item) {
     return equipped;
 }
 
-void TObjPlayer__sub_801C1AC8(void *self) {
-    is_item_stackable(((TItem *)self)->get_item_type(), ((TItem *)self)->get_item_group());
+s32 TObjPlayer__sub_801C1AC8(void *self) {
+    return is_item_stackable(((TItem *)self)->get_item_type(), ((TItem *)self)->get_item_group());
 }
 
-void TObjPlayer__sub_801C1B0C(void) {  }
+void TObjPlayer__sub_801C1B0C(void *item, s32 slot) {}
 
 void TObjPlayer::set_flags_bit2() { ((FlagWord *)((char*)this + 0x1c))->set(2); }
 
@@ -118,7 +119,7 @@ f32 get_lock_target_distance_sq(void* p) { return *(f32*)((char*)p + 0x8); }
 
 u16 get_lock_target_id(void* p) { return *(u16*)((char*)p + 0x4); }
 
-s32 fn_801C1BA0(void* p) { return *(s32*)((char*)p + 0x24); }
+s32 TDeathTintFade::get_viewport_index() { return viewport_index; }
 
 TPlyInventoryItem *fn_801C1BA8(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
     S_801C1BA8 *dst = (S_801C1BA8 *)destination;
@@ -148,8 +149,8 @@ void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i) {
     return self->b;
 }
 
-s32 is_action_channel_active(s32 *arg0, s32 arg1) {
-    return TWindowActionPalette::is_channel_active_at((saddr) arg0, *arg0, arg1);
+s32 TWindowActionPalette::is_channel_active(s32 *palette, s32 channel) {
+    return TWindowActionPalette::is_channel_active_at((saddr) palette, *palette, channel);
 }
 
 void TWindowActionPalette::set_palette_entry(saddr arg0, s32 i, s32 arg2, s32 arg3, s32 arg4) {
@@ -188,23 +189,23 @@ u16 TWindowActionPalette::get_slot_type_for_index(s32 *effect, s32 id) {
     return TWindowActionPalette::get_slot_type(effect, (s32)(*effect), id);
 }
 
-void* ref_primary_action_palette(void* p) { return p; }
+TPlyDispConfigSmth *TPlyDispConfig::ref_primary_palette() { return &m_smth; }
 
-void* ref_secondary_action_palette(void* p) { return (char*)p + 0x24; }
+TPlyDispConfigSmth *TPlyDispConfig::ref_secondary_palette() { return &m_smth1; }
 
-int test_photon_blast_modifier(void* p) { return TWindowActionPalette__sub_801C1C20((char*)p + 0x24); }
+int TPlyDispConfig::test_photon_blast_modifier() { return TWindowActionPalette__sub_801C1C20(&m_smth1); }
 
-void clear_secondary_action_palette_bank(void* p) { fn_801C1E98((void*)((char*)p + 0x24)); }
+void TPlyDispConfig::clear_secondary_bank() { m_smth1.clear_bank(); }
 
-void fn_801C1E98(void* p) { *(s32*)((char*)p + 0x0) = 0; }
+void TPlyDispConfigSmth::clear_bank() { bank = 0; }
 
-void clear_primary_action_palette_bank(void* p) { fn_801C1E98(p); }
+void TPlyDispConfig::clear_primary_bank() { m_smth.clear_bank(); }
 
-void set_secondary_action_palette_bank(void* p) { fn_801C1EE8((void*)((char*)p + 0x24)); }
+void TPlyDispConfig::set_secondary_bank() { m_smth1.set_bank(); }
 
-void fn_801C1EE8(void* p) { *(s32*)((char*)p + 0x0) = 1; }
+void TPlyDispConfigSmth::set_bank() { bank = 1; }
 
-void set_primary_action_palette_bank(void* p) { fn_801C1EE8(p); }
+void TPlyDispConfig::set_primary_bank() { m_smth.set_bank(); }
 
 void set_photon_blast_kind(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 

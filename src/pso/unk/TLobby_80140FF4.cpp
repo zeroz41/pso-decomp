@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/unk/TLobby_80140FF4.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/system/task/TMainTask.h"

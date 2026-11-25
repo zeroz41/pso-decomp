@@ -147,7 +147,6 @@ s32 calc_section_id_from_name(s8 *name) {
     return sum;
 }
 }
-s32 validate_player_visual_record(void *arg0);
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
@@ -254,7 +253,7 @@ void TCharaMaking::update_body_parts() {
     TChCrLoadReq::create(arg0);
 }
 
-s32 validate_player_visual_record(void *arg0) {
+s32 validate_player_visual_record(void *record) {
     s32 bad;
     s32 ok;
     s32 flags;
@@ -263,7 +262,7 @@ s32 validate_player_visual_record(void *arg0) {
     CharacterClassAppearance *row;
     s32 v;
     s32 lim;
-    d = (CharacterAppearanceFields *)arg0;
+    d = (CharacterAppearanceFields *)record;
     bad = 0;
     ok = 1;
     flags = 0;

@@ -9,7 +9,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/vector.h"

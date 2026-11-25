@@ -14,7 +14,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"

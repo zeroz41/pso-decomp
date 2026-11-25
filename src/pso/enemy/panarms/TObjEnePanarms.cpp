@@ -20,7 +20,7 @@
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/technique/TTecJelin.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecZarua.h"
@@ -426,7 +426,7 @@ void TObjEnePanBARA::render() {
     model_render_flags = render_flags | 0x01000000 | 1;
     fade = &fades[camera_mode];
     fade->update();
-    if (fade->updateFromCamera(&body_center.x) != 0) {
+    if (fade->updateFromCamera(&body_center) != 0) {
         fade->set_flags_and_apply_damage_color();
         draw_now = 1;
         if (defer_render() != 0) {

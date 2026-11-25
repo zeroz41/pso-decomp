@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TLobby_802D79EC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 
 

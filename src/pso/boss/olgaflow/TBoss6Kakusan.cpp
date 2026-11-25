@@ -6,7 +6,7 @@
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"

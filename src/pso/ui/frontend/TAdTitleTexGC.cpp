@@ -10,7 +10,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/charcreate/TObjCMAssignMenu.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/render/GinjaTexture.h"
 
 // Built with -inline off,deferred: .text comes out last function first, so the functions are written

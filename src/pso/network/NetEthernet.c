@@ -6,7 +6,7 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetStack.h"
 
 s32 dix_clear_links(void);
 s16 init_net_sockets(void);
@@ -14,7 +14,7 @@ s16 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b);
 s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt);
 s32 dix_free_buffer(s16 id, u8 *pkt);
 s32 dix_update_multicast(s16 idx, s16 mode, u8 *data);
-s32 dix_update_address(s16 id, s16 op, s32 addr);
+s32 dix_update_address(s16 id, s16 op, u8 *addr);
 s32 dix_get_address(s16 id, u8 *dst);
 s32 dix_get_address_length(s16 idx);
 s32 dix_get_mtu(s16 idx);
@@ -122,7 +122,7 @@ inline EthSocket *find_socket(EthSocket *ent, s16 n, s16 dev, u16 type) {
     }
     return 0;
 }
-saddr dix_input(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
+u8 *dix_input(s16 dev, s16 mode, s16 length, EthernetFrameHeader *frame) {
     EthernetState *tbl = &ethernet_state;
     EthSocket *ent;
     EthSocket *base;
@@ -136,13 +136,13 @@ saddr dix_input(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
     NetMemcpy(hdr.source, frame->source, 6);
     NetMemcpy(&hdr.ether_type, &frame->ether_type, 2);
     if (mode == 0) {
-        if (b > 0x5ea) {
-            return 0;
+        if (length > 0x5EA) {
+            return NULL;
         }
         base = tbl->sockets;
         ent = find_socket(base, tbl->nsockets, dev, hdr.ether_type);
         if (ent == 0) {
-            return 0;
+            return NULL;
         }
         ent->slot = 0;
         idx = ent - base;
@@ -155,31 +155,31 @@ saddr dix_input(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
                 slot->dev = dev;
                 slot->socket = idx;
                 slot->link = link;
-                slot->len = b;
+                slot->len = length;
                 goto foundslot;
             }
         }
         slot = 0;
     foundslot:
         if (slot == 0) {
-            return 0;
+            return NULL;
         }
         ent->slot = slot;
-        return (saddr)slot->frame;
+        return slot->frame;
     }
     if (mode == 1) {
         key = hdr.ether_type;
         base = tbl->sockets;
         ent = find_socket(base, tbl->nsockets, dev, key);
         if (ent == 0) {
-            return 0;
+            return NULL;
         }
         slot = ent->slot;
         idx = ent - base;
         if (slot == 0) {
-            return 0;
+            return NULL;
         }
-        if (slot->dev != dev || slot->socket != idx || slot->link != ent->link || slot->len != b) {
+        if (slot->dev != dev || slot->socket != idx || slot->link != ent->link || slot->len != length) {
             s32 lvl = OSDisableInterrupts();
             slot->used = 0;
             slot->dev = 0;
@@ -187,13 +187,13 @@ saddr dix_input(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
             slot->link = 0;
             slot->len = 0;
             OSRestoreInterrupts(lvl);
-            return 0;
+            return NULL;
         } else {
-            link_input((saddr)(slot->frame + sizeof(EthernetFrameHeader)), slot->len - sizeof(EthernetFrameHeader), slot->link, slot->socket, key);
-            return 0;
+            link_input(slot->frame + sizeof(EthernetFrameHeader), slot->len - sizeof(EthernetFrameHeader), slot->link, slot->socket, key);
+            return NULL;
         }
     }
-    return 0;
+    return NULL;
 }
 
 inline EthLink *find_link(EthernetState *g, s16 id) {
@@ -386,7 +386,7 @@ s32 dix_update_multicast(s16 idx, s16 mode, u8 *data) {
     return -2;
 }
 
-s32 dix_update_address(s16 id, s16 op, s32 addr) {
+s32 dix_update_address(s16 id, s16 op, u8 *addr) {
     s32 h;
     EthSocket *e;
 
@@ -596,7 +596,7 @@ found:
     }
     switch (b) {
     case 0x800:
-        ret = forward_net_op_5args(a, idx, 1, b, 6, (saddr)p1->mac, c, (saddr)k);
+        ret = forward_net_op_5args(a, idx, 1, b, 6, p1->mac, c, k);
         if (ret < 0) {
             err = ret;
             goto fail;

@@ -4,7 +4,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"

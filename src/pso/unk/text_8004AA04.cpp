@@ -7,7 +7,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/ModelNodeTables.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 void ModelNodeTables::destroy() {
     s32 i;

@@ -4,7 +4,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjEnvSound.h"
 #include "pso/object/ambient/TObjEnvSoundEx.h"
 #include "pso/object/ambient/TObjEnvSoundGlobal.h"

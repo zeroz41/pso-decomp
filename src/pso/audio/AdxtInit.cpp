@@ -1,17 +1,19 @@
 // CRI adx_inis.c: ADXT_Finish, ADXT_Init and the SVM server callbacks they register.
+#include "pso/audio/AdxtInit.h"
+#include "pso/audio/AdxError.h"
 #include <string.h>
 #include "pso/unk/text_803D31A4.h"
 #include "pso/unk/text_803CE240.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/AdxFsServer.h"
 #include "pso/audio/AdxLock.h"
-#include "pso/unk/TLobby_803C4698.h"
 #include "pso/unk/TLobby_803CC0B4.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxEncoder.h"
 #include "pso/system/RefCountedWorkBuffer.h"
+#include "pso/system/Adxf.h"
 #include "pso/audio/SjMemoryBuffer.h"
 #include "pso/audio/SjRingBuffer.h"
 #include "pso/unk/text_803CC294.h"
@@ -27,69 +29,69 @@ static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 1
 
 AdxtPlayer adx_stream_player_pool[16];
 
-void TLobby::dec_ref_and_shutdown() {
+void adxt_finish() {
     s32 temp_r0;
 
     temp_r0 = TLobby_init_ref_count - 1;
     TLobby_init_ref_count = temp_r0;
     if (temp_r0 == 0) {
         TLobby::shutdown_cleanup();
-        TLobby::dec_ref_and_reset_tables();
-        TLobby::si_get_type_async();
+        adxf_finish();
+        adxstm_finish_fs();
         lsc_shutdown();
-        TLobby::init_once();
-        TLobby::SVM_DelCbSvr(2, (saddr)((void *) (1)));
-        TLobby::SVM_DelCbSvr(2, (saddr)((void *) (3)));
-        TLobby::SVM_DelCbSvr(4, svm_cb_svr_handle);
+        adx_lock();
+        SVM_DelCbSvr(2, (saddr)((void *) (1)));
+        SVM_DelCbSvr(2, (saddr)((void *) (3)));
+        SVM_DelCbSvr(4, svm_cb_svr_handle);
         TLobby__sub_803D3194();
-        TLobby::release_ref();
-        TLobby::init_once();
+        adx_unlock();
+        adx_lock();
         TLobby::clear_session_buffer();
-        TLobby::clear_error_callback();
+        adxerr_finish();
         sj_memory_buffer_shutdown();
         sj_ring_buffer_shutdown();
-        TLobby::dec_ref_and_clear_buffer();
-        TLobby::release_ref();
+        ref_counted_work_buffer_finish();
+        adx_unlock();
     }
 }
-void TLobby::init_and_add_ref() {
+void adxt_init() {
     lbl_805E0D30;
     if (TLobby_init_ref_count == 0) {
         TLobby__sub_803C4698();
-        TLobby::init_once();
-        TLobby__sub_803D2ED4();
+        adx_lock();
+        ref_counted_work_buffer_init();
         sj_ring_buffer_init();
         sj_memory_buffer_init();
-        TLobby::clear_error_callback_state();
-        TLobby::clear_buffer_a00();
+        adxerr_init();
+        adxstm_clear_requests();
         TLobby::reset_sound_buffers();
-        TLobby::init_afs_adxf_state();
+        adxf_init();
         TLobby__sub_803CC114();
-        TLobby::flush_update(TLobby::forward_notify_error, NULL);
+        TLobby::flush_update(adxt_error_callback, NULL);
         memset(adx_stream_player_pool, 0, 0xA80);
         lsc_init();
         if (lbl_805D4658 == 1) {
-            TLobby::SVM_SetCbSvrId(2, 1, TLobby::get_state_zero, 0);
-            TLobby::SVM_SetCbSvrId(2, 3, TLobby::ar_alloc, 0);
-            svm_cb_svr_handle = TLobby::svm_set_cb_svr(4, TLobby::process_connection_state, 0);
+            SVM_SetCbSvrId(2, 1, adxt_exec_main_server_cb, 0);
+            SVM_SetCbSvrId(2, 3, adxt_exec_fs_server_cb, 0);
+            svm_cb_svr_handle = SVM_SetCbSvr(4, adxt_exec_vsync_server_cb, 0);
         }
         lbl_805D7540 = 0;
-        TLobby::release_ref();
+        adx_unlock();
     }
     TLobby_init_ref_count += 1;
 }
 
-s32 TLobby::ar_alloc(s32) {
+s32 adxt_exec_fs_server_cb(s32) {
     ADXT_ExecFsSvr();
     return 0;
 }
 
-s32 TLobby::get_state_zero(s32) {
+s32 adxt_exec_main_server_cb(s32) {
     TLobby__sub_803C9608();
     return 0;
 }
 
-s32 TLobby::process_connection_state(s32) {
+s32 adxt_exec_vsync_server_cb(s32) {
     if (is_adxm_initialized() == 1) {
         lsc_poll_all();
         TLobby__sub_803CE240();
@@ -101,6 +103,6 @@ s32 TLobby::process_connection_state(s32) {
     return 0;
 }
 
-void TLobby::forward_notify_error(void *, const char *message) {
-    TLobby::notify_error(message);
+void adxt_error_callback(void *, const char *message) {
+    adxerr_report(message);
 }

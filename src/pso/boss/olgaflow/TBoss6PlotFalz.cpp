@@ -53,7 +53,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/boss/olgaflow/TBoss6Tube.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/TObjControl.h"

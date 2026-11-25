@@ -6,7 +6,7 @@
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 ARQRequest ad_warning_arq_request;
 

@@ -32,7 +32,7 @@ const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 }

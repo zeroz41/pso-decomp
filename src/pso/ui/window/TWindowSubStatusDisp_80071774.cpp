@@ -2,113 +2,98 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/TLobby.h"
-#include "pso/unk/TLobby_8006F278.h"
-#include "pso/unk/TLobby_80070A00.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 
-struct E_80071868 { s32 a; s32 b; };
+static char no_rank_title[4] = "";
 
-struct W_80071868 { u8 pad[0x2288]; E_80071868 e[3]; u8 pad2[0xc]; s32 def; };
-
-struct G_800718D0 { u8 pad[0xC]; s32 fc; u8 rest[0x100]; };
-
-extern "C" {
-saddr TWindowSubStatusDisp__sub_8006F0D8(void *, void *);
-extern char lbl_805D2858[4];
-extern G_800718D0 challenge_mode_state;
-
-s32 TWindowSubStatusDisp::get_status_index(u16 client_index) {
-    uaddr character_save_record;
-
-    character_save_record = ((u32)get_character_save_record(client_index));
-    if (character_save_record == 0U) {
+s32 get_challenge_title_color(u16 client_index) {
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client_index);
+    if (record == NULL) {
         return -1;
     }
-    return TWindowSubStatusDisp::get_status_index_or_default((u16 *)(character_save_record + 0x21C4));
+    return challenge_title_color(&record->challenge);
 }
 
-s32 TWindowSubStatusDisp::get_status_index_or_default(u16 *arg0) {
-    if (arg0 == NULL) {
+s32 challenge_title_color(ChallengeRecord *record) {
+    if (record == NULL) {
         return -1;
     }
-    return TLobby__sub_80071654(*arg0);
+    return rgb555_to_argb(record->title_color);
 }
 
-extern char lbl_805D285C[4];
+static char no_record_title[4] = "";
 
-char *TWindowSubStatusDisp::get_status_window(u16 client) {
-    u32 character_save_record;
-
-    character_save_record = ((u32)get_character_save_record(client));
-    if (character_save_record == 0U) {
-        return lbl_805D285C;
+char *get_challenge_rank_title(u16 client) {
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client);
+    if (record == NULL) {
+        return no_record_title;
     }
-    return TWindowSubStatusDisp__sub_80071820(character_save_record + 0x21C4);
+    return TWindowSubStatusDisp__sub_80071820(&record->challenge);
 }
 
-char *TWindowSubStatusDisp__sub_80071820(uaddr arg0) {
-    if (arg0 == 0U) {
-        return lbl_805D2858;
+extern "C" char *TWindowSubStatusDisp__sub_80071820(ChallengeRecord *record) {
+    if (record == NULL) {
+        return no_rank_title;
     }
-    decode_obfuscated_string(challenge_rank_title, (void *)(arg0 + 0xD8), 0xC);
+    decode_obfuscated_string(challenge_rank_title, record->rank_title, 0xC);
     return challenge_rank_title;
 }
 
-s32 TWindowSubStatusDisp__sub_80071868(u16 id, s32 slot) {
-    W_80071868 *w = (W_80071868 *)get_character_save_record(id);
-    s32 idx;
-    s32 v;
-    if (w == 0) {
+s32 get_challenge_rank(u16 client, s32 set) {
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client);
+    s32 index;
+    s32 rank;
+    if (record == NULL) {
         return 0;
     }
-    idx = TWindowSubStatusDisp::resolve_player_slot(slot);
-    if (idx < 3) {
-        v = w->e[idx].a;
+    index = resolve_challenge_record_set(set);
+    if (index < 3) {
+        rank = record->challenge.ranks[index].rank;
     } else {
-        v = w->def;
+        rank = record->challenge.ep2_split_rank.rank;
     }
-    return (s32)TLobby::get_slot_clamped((u32)(v));
+    return decode_challenge_count(rank);
 }
 
-s32 TWindowSubStatusDisp__sub_800718D0(void) {
+s32 get_challenge_total_time(void) {
     s32 last;
-    s32 hash;
+    s32 max;
     s32 sum;
     s32 i;
     s32 r;
-    hash = TWindowSubStatusDisp::calc_layout_hash(-1);
-    if (TLobby::is_flag_set() == 0 || (u32)get_character_save_record(0xFFFF) == 0) {
-        return hash;
+    max = challenge_set_max_time(RECORD_SET_CURRENT);
+    if (is_challenge_mode() == 0 || (u32)get_character_save_record(0xFFFF) == 0) {
+        return max;
     }
     sum = 0;
-    last = TWindowSubStatusDisp::get_layout_id(-1);
+    last = challenge_set_stage_count(RECORD_SET_CURRENT);
     for (i = 0; i <= last - 2; i++) {
-        r = TWindowSubStatusDisp__sub_80071A24(i, 0xFFFF, -1);
+        r = get_challenge_stage_time(i, 0xFFFF, RECORD_SET_CURRENT);
         if (r == 0) {
-            return hash;
+            return max;
         }
         sum += r;
     }
-    sum += challenge_mode_state.fc;
+    sum += challenge_mode_state.base_time;
     return sum;
 }
 
-s32 TWindowSubStatusDisp__sub_80071988(u16 client, saddr slot) {
+s32 get_challenge_set_time(u16 client, s32 set) {
     s32 *p;
     s32 n;
     s32 r;
     s32 sum;
     s32 i;
-    uaddr w;
-    w = ((u32)get_character_save_record(client));
-    if (w == 0U) {
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client);
+    if (record == NULL) {
         return 0;
     }
-    p = (s32 *)TWindowSubStatusDisp__sub_8006F0D8((void *)(w + 0x21C4), (void *)slot);
+    p = challenge_set_stage_times(&record->challenge, set);
     sum = 0;
-    n = TWindowSubStatusDisp::get_layout_id(slot);
+    n = challenge_set_stage_count(set);
     for (i = 0; i < n; i++, p++) {
-        r = TLobby::get_valid_slot(*p);
+        r = decode_challenge_time(*p);
         if (r == 0) {
             return 0;
         }
@@ -117,15 +102,12 @@ s32 TWindowSubStatusDisp__sub_80071988(u16 client, saddr slot) {
     return sum;
 }
 
-s32 TWindowSubStatusDisp__sub_80071A24(s32 arg0, u16 client, saddr slot) {
-    s32 layout_id;
-    uaddr character_save_record;
-    character_save_record = get_character_save_record((u32)client);
-    layout_id = TWindowSubStatusDisp::get_layout_id(slot);
-    if ((arg0 < 0) || (arg0 >= layout_id) || (character_save_record == 0U)) {
+s32 get_challenge_stage_time(s32 stage, u16 client, s32 set) {
+    s32 count;
+    CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(client);
+    count = challenge_set_stage_count(set);
+    if (stage < 0 || stage >= count || record == NULL) {
         return 0;
     }
-    return TLobby::get_valid_slot((int) (*(s32 *)((s8 *)(TWindowSubStatusDisp__sub_8006F0D8((void *)(character_save_record + 0x21C4), (void *)slot)) + (arg0 * 4))));
-}
-
+    return decode_challenge_time(challenge_set_stage_times(&record->challenge, set)[stage]);
 }

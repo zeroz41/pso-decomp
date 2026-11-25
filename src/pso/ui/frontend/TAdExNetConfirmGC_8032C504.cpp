@@ -9,7 +9,7 @@
 #include "pso/unk/text_80145A94.h"
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on

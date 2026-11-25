@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
 
 typedef struct Item_80222FF0 { u8 d[0x14]; } Item_80222FF0;

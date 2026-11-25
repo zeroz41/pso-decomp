@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_80243370.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 
 extern "C" {

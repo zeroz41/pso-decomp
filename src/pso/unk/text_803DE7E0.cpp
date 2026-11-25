@@ -4,7 +4,7 @@
 #include "pso/unk/text_803DE8BC.h"
 #include "pso/system/AllocatorCallbacks.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
 
 extern "C" {

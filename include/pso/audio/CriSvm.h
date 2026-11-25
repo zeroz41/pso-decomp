@@ -25,4 +25,16 @@ void svm_unlock(void);
 void svm_lock(void);
 }
 
+extern "C" {
+void svm_init();
+s32 svm_exec_group5();
+s32 svm_exec_group4();
+s32 svm_exec_group2();
+void svm_set_message_callback(AdxMessageCallback callback, s32 context);
+void SVM_SetCbSvrId(s32 group, s32 slot, AdxWorkerCallback callback, s32 context);
+void SVM_DelCbSvr(s32 group, s32 id);
+s32 SVM_SetCbSvr(s32 group, AdxWorkerCallback callback, s32 context);
+void svm_report_message(char *src);
+}
+
 #endif

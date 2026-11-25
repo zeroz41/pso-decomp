@@ -6,7 +6,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/PppApi.h"
 #include "pso/ui/frontend/TAdDialingGC_80328210.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
@@ -17,7 +17,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_8014618C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include "pso/unk/TLobby_801461EC.h"
@@ -34,7 +34,6 @@ struct Obj_80328874 { u8 pad[0x9C]; s32 state; };
 
 extern "C" {
 BOOL fn_80145A44(char *dst);
-s32 call_146CA0_with_5708__6TLobbyFv();
 }
 
 extern "C" {
@@ -145,7 +144,7 @@ void TAdDialingGC::draw_dialing_status() {
     if (fn_80145A44(a) == 0) {
         a[0] = 0;
     }
-    sprintf(b, lbl_804767C8, a, call_146CA0_with_5708__6TLobbyFv());
+    sprintf(b, lbl_804767C8, a, TLobby::get_dialing_phone_number());
     sprintf(c, (char *)get_connection_message_text(1), b);
     draw_menu_font_string_white((const char *)c, 23.0f, 351.0f);
 }

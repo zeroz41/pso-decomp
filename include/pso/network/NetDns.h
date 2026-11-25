@@ -1,9 +1,10 @@
 #ifndef PSO_NETWORK_NETDNS_H
 #define PSO_NETWORK_NETDNS_H
-/* The DNS resolver (dns_resolver_state, src/pso/network/TLobby_804050DC.c).  init_net_config sets its limits and
+/* The DNS resolver (dns_resolver_state, src/pso/network/PppFraming.c).  init_net_config sets its limits and
  * carves its pools out of one static block; dns_init clears them. */
 #include "types.h"
 #include "pso/network/UdpRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 #include <stddef.h>
 
 #ifdef __cplusplus
@@ -97,6 +98,8 @@ typedef struct DnsPtrRequest {
     DnsPtr *entry;              /* 0x0C */
 } DnsPtrRequest;
 
+#define DNS_NO_WAITER ((NetThreadHandle)-1)
+
 /* A query (the handle the resolver's callers get is its index). */
 typedef struct DnsQuery {
     s16 active;
@@ -105,7 +108,7 @@ typedef struct DnsQuery {
     s16 id;                     /* 0x06: transaction id */
     s16 kind;                   /* 0x08: the DNS query type, 1 A or 12 PTR */
     s16 timer;                  /* 0x0A: seconds to the next retry */
-    u32 waiter;                 /* 0x0C: thread waiting for the answer, -1 = none */
+    NetThreadHandle waiter;     /* 0x0C: thread waiting for the answer, DNS_NO_WAITER = none */
     s16 status;                 /* 0x10: tries while running, the error once failed (< 0) */
     s16 outstanding;            /* 0x12 */
     s16 server;                 /* 0x14 */
@@ -165,10 +168,10 @@ LAYOUT_ASSERT(DnsQueryStatusOffset, offsetof(DnsQuery, status) == 0x10);
 LAYOUT_ASSERT(DnsQueryMessageOffset, offsetof(DnsQuery, msg) == 0x18);
 LAYOUT_ASSERT(DnsQueryReplyOffset, offsetof(DnsQuery, reply) == 0x1c);
 LAYOUT_ASSERT(DnsQueryRequestOffset, offsetof(DnsQuery, req) == 0x20);
-LAYOUT_ASSERT(DnsQueryLookupCallbackOffset, offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, cb) == 0x34);
-LAYOUT_ASSERT(DnsQueryLookupHostOffset, offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, host) == 0x38);
-LAYOUT_ASSERT(DnsQueryPtrCallbackOffset, offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, cb) == 0x28);
-LAYOUT_ASSERT(DnsQueryPtrEntryOffset, offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, entry) == 0x2c);
+LAYOUT_ASSERT(DnsQueryLookupCallbackOffset, offsetof(DnsQuery, req.lookup.cb) == 0x34);
+LAYOUT_ASSERT(DnsQueryLookupHostOffset, offsetof(DnsQuery, req.lookup.host) == 0x38);
+LAYOUT_ASSERT(DnsQueryPtrCallbackOffset, offsetof(DnsQuery, req.ptr.cb) == 0x28);
+LAYOUT_ASSERT(DnsQueryPtrEntryOffset, offsetof(DnsQuery, req.ptr.entry) == 0x2c);
 
 extern DnsResolverState dns_resolver_state;
 
@@ -177,6 +180,9 @@ s32 build_dns_query_a(DnsQuery *query, char *name, s16 length);
 s32 close_and_reset_connection(DnsQuery *connection);
 void dispatch_request_callback(DnsQuery *connection, s16 status);
 s16 dns_open_addr(char *name, s16 len, s32 type);
+// Hands the query's answer to the caller: up to *len addresses into buf, the canonical name into buf2.
+// mode 0 waits, -1 polls (-1 while the query runs), anything else is a callback.
+s16 dns_get_addr(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, uaddr mode);
 
 s16 dns_parse_reply(DnsQuery *self);
 s16 dns_remove_addr(DnsHost *host, DnsAddr *addr);

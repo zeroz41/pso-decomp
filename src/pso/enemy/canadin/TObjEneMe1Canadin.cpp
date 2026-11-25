@@ -20,7 +20,7 @@
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_Rush.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/TBreakUpMdl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/NinjaUtil.h"

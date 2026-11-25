@@ -1,8 +1,6 @@
 #include "pso/unk/TLobbyBattleParamData.h"
 
-// Data-only unit split off TLobby_8001D6A0 at 0x805D4A98: the lobby battle
-// parameter statics. Plain uninitialized globals (-sdata 8) land in .sbss; the
-// referencing unit keeps them extern.
+// The lobby battle parameter statics.
 
 u8 auto_reply_flags[0x8];
 BattleParameterBank *battle_parameter_buffer;

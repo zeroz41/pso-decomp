@@ -12,13 +12,12 @@
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
-#include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
 
 #include <stddef.h>
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/PointLight.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -36,7 +35,6 @@ extern "C" {
 void GXInitLightDir(void *light, f32 nx, f32 ny, f32 nz);
 void GXInitLightSpot(void *light, f32 cutoff, s32 spot_func);
 void GXInitLightDistAttn(void *light, f32 ref_distance, f32 ref_brightness, s32 dist_func);
-void __dt__7TObjectFv(void *, int);
 }
 
 // The GX light id of each point light slot.
@@ -49,22 +47,6 @@ extern "C" {
 __declspec(section ".data") u32 TObjLight__data_80506A5C;
 }
 const char light_entry_file_name[] = "lightentry.bin";
-extern "C" {
-TQuestThread *TLobby__sub_80134A20(void *p) { return TQuestThread::create_in_root((saddr)p); }
-
-extern s32 lbl_804A7008[];
-
-void *__dt__15TLobbyIdleTimerFv(void *object, s16 arg1) {
-    if (object != NULL) {
-        *(s32 **)((s8 *)object + 0x18) = lbl_804A7008;
-        __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(object);
-        }
-    }
-    return object;
-}
-}
 
 void LightEntry::bswap_data() {
     bswap_32((u32 *)&direction.x);

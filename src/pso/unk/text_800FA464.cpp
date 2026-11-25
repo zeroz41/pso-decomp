@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/text_800FA464.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
 AsyncFileReadRequest *async_file_read_current_request;
 AsyncFileReadRequest *lobby_stack_entry_list_tail;

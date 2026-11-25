@@ -22,9 +22,9 @@ void set_value_and_enable(NetBufferRef *ref, void *data);
 void init_packet_header(NetBufferRef *ref, void *data);
 void init_msg(NetBufferRef *ref, void *data);
 
-/* Advances a buffer reference by n bytes (TLobby_804050DC.c). */
+/* Advances a buffer reference by n bytes (PppFraming.c). */
 void netbuf_ref_advance(NetBufferRef *ref, s32 n);
-/* Frees the block behind a buffer reference of kind 2 or 4 (TLobby_804050DC.c). */
+/* Frees the block behind a buffer reference of kind 2 or 4 (PppFraming.c). */
 s32 netbuf_release(NetBufferRef *ref);
 #ifdef __cplusplus
 }

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TLobby_801D726C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 
@@ -230,7 +230,7 @@ void TLobby::reset_settings_to_default() {
     ((s32 (*)(void *, s32)) set_field_d__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D78FC)(arg0));
     ((s32 (*)(void *, s32)) set_field_0xE__6TLobbyFPvUc)(arg0, ((s32 (*)(void *)) ret_801D78F4)(arg0));
     this->set_volume(0);
-    this->set_validated_field_0x11(0xFF);
+    this->set_max_tech_level(0xFF);
     this->set_clamped_index(0);
     this->set_clamped_value_1c(0xA);
     *(s8 *)((s8 *)arg0 + 0x12) = 0;

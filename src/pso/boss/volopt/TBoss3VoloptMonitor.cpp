@@ -7,7 +7,7 @@
 #include "pso/boss/volopt/TBoss3VoloptMonitor.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"

@@ -19,7 +19,8 @@
 
 #include "pso/system/task/TObject.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 
 #include "pso/object/base/TObjMotion.h"
 
@@ -160,7 +161,7 @@ s32 TObjEnemy::apply_by_index(s16 index, const EnemyStateRecord *record) {
     if (index > 0xB4F) {
         return 0;
     }
-    TLobby__data_805D6144[index].copy_header(record);
+    enemy_state_records[index].copy_header(record);
     return 1;
 }
 
@@ -586,7 +587,7 @@ void TObjEnemy::award_enemy_experience(s32 client) {
         val *= 0.8f;
     }
     if (is_quest_active() == 1) {
-        if (TLobby::is_flag_set() != 0) {
+        if (is_challenge_mode() != 0) {
             val = (s32)((f32)val * TLobby__sub_800F7A7C());
         } else if (is_challenge_mode_active() != 0) {
             val = (s32)((f32)val * TLobby__sub_800F7A6C());
@@ -774,7 +775,7 @@ void handle_6x0A_update_enemy_state(G_UpdateEnemyState_6x0A *command) {
     TObjEnemy *e;
     ((TLobby *)command)->bswap_enemy_state();
     idx = command->enemy_index;
-    sp.copy_header(&TLobby__data_805D6144[idx]);
+    sp.copy_header(&enemy_state_records[idx]);
     sp.damage = command->total_damage;
     if (game_difficulty_selection == 3) {
         sp.flags &= 0x3F;

@@ -7,8 +7,7 @@ struct AudioStreamInputState;
 
 extern "C" {
 void sub_803C0018(void);
-void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void decode_adxb_pcm_stream(u8 *lobby);
+s16 *audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
 }
 
 // --- C functions defined in TLobby_803BFE50.cpp ---
@@ -22,8 +21,7 @@ s32 audio_stream_get_output_samples(AudioStreamInputState *st);
 void audio_stream_start(AudioStreamInputState *st);
 s32 audio_stream_get_state(AudioStreamInputState *st);
 void process_audio_stream_input(AudioStreamInputState *st);
-void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void decode_adxb_pcm_stream(u8 *lobby);
+s16 *audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
 }
 // --- end of C functions
 

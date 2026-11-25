@@ -28,6 +28,7 @@ extern s32 map_set_object_id_counter;
 extern s32 next_enemy_set_actor_id;
 extern s32 map_object_id_counter;
 extern s32 map_set_enemy_id_counter;
+extern saddr item_drop_server_seed;
 
 
 #endif

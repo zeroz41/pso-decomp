@@ -1,11 +1,11 @@
 /* The PPP option-negotiation state machine that LCP, IPCP and PAP drive (a C library, built with GC/1.2.5n). PppFsm is an inferred name; no string names this module. */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 #include "pso/network/NetStackTypes.h"
@@ -13,14 +13,13 @@
 #include "pso/network/PppBuffer.h"
 #include "pso/network/PppLcp.h"
 #include "pso/network/PppFsm.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/PppApi.h"
 #include "pso/network/IPv4Header.h"
 
-void update_countdown_state(PppFsm *);
 
 /* The PPP FCS-16 lookup table of RFC 1662 (fcstab), which the HDLC framing (ppp_poll_input, ppp_output_frame)
- * reads. .data 804FD3A8, just before this file's jump tables; owner inferred: no TU between NetworkThreadRuntime.c
- * and this one has other .data, and this file holds the stack's other checksum code (ip_pseudo_header_checksum). */
+ * reads. It sits just before this file's jump tables; owner inferred: no TU between NetworkThreadRuntime.c and
+ * this one has other .data, and this file holds the stack's other checksum code (ip_pseudo_header_checksum). */
 u16 ppp_fcs16_table[256] = {
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
     0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
@@ -56,7 +55,7 @@ u16 ppp_fcs16_table[256] = {
     0x7bc7, 0x6a4e, 0x58d5, 0x495c, 0x3de3, 0x2c6a, 0x1ef1, 0x0f78,
 };
 
-/* How many PPP protocols have reached the opened state (5); IPCP's wait stops at 2 (.sbss 805D7AA0). */
+/* How many PPP protocols have reached the opened state (5); IPCP's wait stops at 2. */
 s32 ppp_opened_count;
 
 void fsm_init(PppFsm *fsm) {
@@ -527,7 +526,7 @@ static inline PppFrame *ppp_frame_clear_length(PppFrame *frame) {
 #pragma opt_common_subs off
 #pragma opt_propagation on
 s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *payload) {
-    PppFsm *fsm = (PppFsm *)self;
+    PppFsm *fsm = self;
     PppBuffers *buffers;
     PppProtoBlocks *link = fsm->blocks;
     s32 command;
@@ -541,7 +540,7 @@ s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *p
         empty->data = (u8 *)empty + ((*(buffers = &ppp_buffers)).headroom + 0x83 & ~3);
         payload = ppp_frame_clear_length(empty);
     }
-    switch (command = (u8)code) {
+    switch (command = code) {
     case 1:
     case 5:
     case 9:
@@ -569,7 +568,7 @@ s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *p
         write_network_u32_be(payload->data, ((LcpOpts *)fsm->opts)->local.got.magic);
         break;
     }
-    payload_length = get_field_4(payload);
+    payload_length = ppp_frame_length(payload);
     {
         PppFrame *saved_frame = payload;
         /* Reuse the payload register for the length before restoring the frame. */
@@ -606,8 +605,7 @@ void fsm_noop_action(PppFsm *fsm) {
 
 }
 
-s32 read_2_bytes(void *self, void *src) {
-    u8 *dst = (u8 *)self;
+s32 read_2_bytes(u8 *dst, PppFrame **src) {
     u8 buf[2];
     if (dst == 0) {
         return -1;
@@ -634,9 +632,10 @@ s16 fsm_read_header(PppHeader *dst, PppFrame **src) {
     return 0;
 }
 
-u16 ip_pseudo_header_checksum(u8* p, PppFrame *buf, u16 count) {
+u16 ip_pseudo_header_checksum(IpPseudoHeader *pseudo, PppFrame *buf, u16 count) {
     u32 sum = 0;
     s32 i;
+    u8 *p = (u8 *)pseudo;
     if (p != NULL) {
         i = 6; while (i--) { sum += *p++ << 8; sum += *p++; }
     }
@@ -768,7 +767,7 @@ PppFrame *NetIPv4WriteHeader(ParsedIpHeader *ip, PppFrame *frame, s32 preserve_c
         NetMemcpy((u8 *)hdr + sizeof(*hdr), ip->opts, (ip->optlen < 0x2C) ? ip->optlen : 0x2C);
     }
     {
-        u32 m = (u16)n;
+        u32 m = n;
         NetMemcpy(data, hdr, m);
         if ((u16)preserve_checksum == 0) {
             sum = ip_checksum_accumulate(0, frame, n);

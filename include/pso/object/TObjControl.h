@@ -4,6 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+extern s32 area_random_seed;
+
 class TObjChara;
 
 class TObjControl : public TObject {

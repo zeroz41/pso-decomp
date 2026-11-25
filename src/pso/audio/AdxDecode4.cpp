@@ -1,8 +1,7 @@
 // CRI adx_dcd5.c: the 4-bit ADX block decoders (mono, stereo, stereo as mono).
 #include "types.h"
 #include "pso/audio/AdxDecode4.h"
-#include "pso/unk/TLobby.h"
-#include "pso/unk/TLobby_803C4698.h"
+#include "pso/network/TLobby.h"
 
 // Sign-extend the low four bits in the same way as the high nibble.
 extern const s32 adx_signed_nibbles[16] = {
@@ -11,18 +10,15 @@ extern const s32 adx_signed_nibbles[16] = {
 
 s32 adx_decode4_downmix_mode;
 
-void TLobby::set_global_805D7520(s32 mode) {
+void adx_set_stereo_downmix(s32 mode) {
     adx_decode4_downmix_mode = mode;
 }
 
-typedef s32 (*AdxDecodeTrampoline)(void);
-
-void TLobby::dispatch_receive_update() {
+s32 adx_decode_stereo_blocks(s8 *src, s32 nblk, s16 *outl, s16 *dlyl, s16 *outr, s16 *dlyr, s16 k0, s16 k1) {
     if (adx_decode4_downmix_mode == 0) {
-        ((AdxDecodeTrampoline)decode_adx_stereo)();
-        return;
+        return decode_adx_stereo(src, nblk, outl, dlyl, outr, dlyr, k0, k1);
     }
-    ((AdxDecodeTrampoline)decode_adx_stereo_downmix)();
+    return decode_adx_stereo_downmix(src, nblk, outl, dlyl, outr, dlyr, k0, k1);
 }
 
 #define ADX_CLIP16(v)                    \

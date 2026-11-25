@@ -1,12 +1,12 @@
 /* The PPP packet buffers, their init/shutdown pair and readers (a C library, built with GC/1.2.5n). PppBuffer is an
  * inferred name. */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 #include "pso/network/NetStackTypes.h"
@@ -22,7 +22,7 @@ s32 init_net_subsystem_block(void) {
     return 0;
 }
 
-s32 ppp_buffer_copy_out(u8* self_m, void* dst, s32 n)
+s32 ppp_buffer_copy_out(PppFrame *frame, void* dst, s32 n)
 {
     void NetMemcpy(void*, const void*, s16);
     s32 m; u16 cap; u32 t;
@@ -30,10 +30,10 @@ s32 ppp_buffer_copy_out(u8* self_m, void* dst, s32 n)
     if (dst == NULL) {
         return 0;
     }
-    cap = ((PppFrame *)self_m)->len;
+    cap = frame->len;
     t = (cap < (u16)n) ? cap : n;
     m = t;
-    NetMemcpy(dst, ((PppFrame *)self_m)->data, m);
+    NetMemcpy(dst, frame->data, m);
     return m;
 }
 
@@ -50,28 +50,28 @@ PppFrame *ppp_buffer_from_bytes(void *src, u16 n) {
 }
 #pragma opt_propagation reset
 
-PppFrame *alloc_from_buffer(PppFrame *frame, s16 n) {
+PppFrame *alloc_from_buffer(PppFrame *frame, s16 length) {
     u8 *data;
     if (frame != NULL) {
         data = frame->data;
-        if ((s32)(data - (u8 *)(frame + 1)) >= n) {
-            frame->data = data - n;
-            frame->len += n;
+        if ((s32)(data - (u8 *)(frame + 1)) >= length) {
+            frame->data = data - length;
+            frame->len += length;
             return frame;
         }
     }
     return NULL;
 }
 
-s16 ppp_buffer_read(void *self, void *dst, u16 n) {
+s16 ppp_buffer_read(PppFrame **cursor, void *dst, u16 n) {
     PppFrame *p;
     s16 m;
     s16 total = 0;
 
-    if (self == 0) {
+    if (cursor == 0) {
         return 0;
     }
-    while (n != 0 && (p = *(PppFrame **)self) != 0) {
+    while (n != 0 && (p = *cursor) != 0) {
         m = (n < p->len) ? n : p->len;
         if (dst != 0) {
             if (m == 1) {
@@ -99,7 +99,7 @@ void ppp_buffer_truncate(PppFrame **o, u16 v) {
     (*o)->len = v;
 }
 
-u32 get_field_4(PppFrame *frame) {
+u32 ppp_frame_length(PppFrame *frame) {
     return frame->len;
 }
 

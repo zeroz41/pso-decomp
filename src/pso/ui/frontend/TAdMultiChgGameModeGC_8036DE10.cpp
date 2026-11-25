@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
@@ -26,7 +27,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C88C0_size, sizeof(RecoveredGlobal
 
 #include <stddef.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 struct Stack_8036EA24 {
@@ -53,7 +54,6 @@ struct Self_8036E2AC {
 };
 
 extern "C" {
-s32 load_system_file(s32 arg0);
 void *create_window_menu_default(void *, s32);
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 
@@ -185,6 +185,7 @@ s32 TAdMultiChgGameModeGC__sub_8036DE10(s32 arg0, s32 arg1, s32 arg2) {
     }
     return (saddr)multi_chg_game_mode_text_table_a[arg1];
 }
+}
 
 void TAdMultiChgGameModeGC::close_windows_on_selection() {
     void *temp_r3;
@@ -234,7 +235,6 @@ void TAdMultiChgGameModeGC::update_confirm_selection() {
             set_state(8);
         }
     }
-}
 }
 
 void TAdMultiChgGameModeGC::close_windows_and_cleanup() {

@@ -790,9 +790,6 @@ pso/ui/window/TObjBagWarnWin.cpp:
 pso/quest/challenge/ChallengeModeData.cpp:
 	.sdata2     start:0x805D90D0 end:0x805D9100
 
-pso/quest/challenge/ChallengeModeSdata.cpp:
-	.sdata      start:0x805D2850 end:0x805D2860
-
 pso/quest/challenge/ChallengeForceLoadouts.cpp:
 	.data       start:0x80488E80 end:0x8048A188
 
@@ -802,37 +799,19 @@ pso/quest/challenge/ChallengeHunterLoadouts.cpp:
 pso/quest/challenge/ChallengeRangerLoadouts.cpp:
 	.data       start:0x8048B1F8 end:0x8048C348
 
-pso/unk/text_8006EF80.cpp:
-	.text       start:0x8006EF80 end:0x8006EF90
-
-pso/unk/text_8006EF90.cpp:
-	.text       start:0x8006EF90 end:0x8006F044
-
-pso/ui/window/TWindowSubStatusDisp_8006F044.cpp:
-	.text       start:0x8006F044 end:0x8006F278
-	.rodata     start:0x80438570 end:0x804385A8
-
-pso/unk/TLobby_8006F278.cpp:
-	.text       start:0x8006F278 end:0x8006FC34
-	.rodata     start:0x804385A8 end:0x804385B0
+pso/quest/challenge/ChallengeMode.cpp:
+	.text       start:0x8006EF80 end:0x80070AB0
+	.ctors      start:0x80433F48 end:0x80433F4C
+	.rodata     start:0x80438570 end:0x804385B8
+	.data       start:0x8048C348 end:0x8048D120
 	.bss        start:0x804FF800 end:0x804FF820
+	.sdata      start:0x805D2850 end:0x805D2858
+	.sbss       start:0x805D4E28 end:0x805D4E38
 	.sdata2     start:0x805D9100 end:0x805D9108
 
-pso/quest/TQuestVmDownLoadServer_8006FC34.cpp:
-	.text       start:0x8006FC34 end:0x8006FF4C
-
-pso/quest/challenge/ChallengeMode.cpp:
-	.text       start:0x8006FF4C end:0x800709C4
-	.data       start:0x8048C348 end:0x8048D120
-	.sbss       start:0x805D4E28 end:0x805D4E38
-
-pso/quest/challenge/TChallenge.cpp:
-	.text       start:0x800709C4 end:0x80070A00
-
-pso/unk/TLobby_80070A00.cpp:
-	.text       start:0x80070A00 end:0x8007172C
-	.ctors      start:0x80433F48 end:0x80433F4C
-	.rodata     start:0x804385B0 end:0x804385C0
+pso/quest/challenge/ChallengeModeQuest.cpp:
+	.text       start:0x80070AB0 end:0x8007172C
+	.rodata     start:0x804385B8 end:0x804385C0
 	.bss        start:0x804FF820 end:0x804FF838
 	.sbss       start:0x805D4E38 end:0x805D4E40
 	.sdata2     start:0x805D9108 end:0x805D9110
@@ -842,6 +821,7 @@ pso/object/ending/TObjOnlineEnding.cpp:
 
 pso/ui/window/TWindowSubStatusDisp_80071774.cpp:
 	.text       start:0x80071774 end:0x80071A9C
+	.sdata      start:0x805D2858 end:0x805D2860
 
 pso/unk/text_80071A9C.cpp:
 	.text       start:0x80071A9C end:0x80071B30
@@ -3003,27 +2983,15 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.cpp:
 	.text       start:0x801334D4 end:0x80133568
 
 pso/object/ambient/TObjLight_80133568.cpp:
-	.text       start:0x80133568 end:0x80134A40
+	.text       start:0x80133568 end:0x801349C8
 	.rodata     start:0x8043ED80 end:0x8043ED98
 	.data       start:0x804A6F28 end:0x804A6FD8
 	.bss        start:0x80506320 end:0x80506A60
 	.sbss       start:0x805D5558 end:0x805D557C
 	.sdata2     start:0x805DB088 end:0x805DB0A8
 
-pso/unk/TLobby.cpp:
-	.text       start:0x80134A40 end:0x80134D54
-
-pso/unk/TLobby_80134D54.cpp:
-	.text       start:0x80134D54 end:0x80134D74
-
-pso/unk/TLobby_80134D74.cpp:
-	.text       start:0x80134D74 end:0x80134DA0
-
-pso/unk/TLobby_80134DA0.cpp:
-	.text       start:0x80134DA0 end:0x80134E30
-
-pso/network/TPlyJoinLobbyEntry.cpp:
-	.text       start:0x80134E30 end:0x8013AE18
+pso/network/TLobby.cpp:
+	.text       start:0x801349C8 end:0x8013AE18
 	.ctors      start:0x80433F80 end:0x80433F84
 	.rodata     start:0x8043ED98 end:0x8043F090
 	.data       start:0x804A6FD8 end:0x804A7130
@@ -3049,7 +3017,7 @@ pso/ui/TLogo.cpp:
 	.data       start:0x804A72D8 end:0x804A7358
 	.sdata      start:0x805D2CC8 end:0x805D2CD0
 
-pso/unk/text_8013F810.cpp:
+pso/system/Lzss.cpp:
 	.text       start:0x8013F810 end:0x8013FFBC
 	.rodata     start:0x8043F168 end:0x8043F188
 
@@ -5092,62 +5060,8 @@ pso/network/TProtocol.cpp:
 	.sdata      start:0x805D3570 end:0x805D3580
 	.sbss       start:0x805D5E18 end:0x805D5E30
 
-pso/network/TRegister.cpp:
-	.text       start:0x801DFF38 end:0x801E0110
-
-pso/network/TUserAns.cpp:
-	.text       start:0x801E0110 end:0x801E015C
-
-pso/network/TRecvPort.cpp:
-	.text       start:0x801E015C end:0x801E0198
-
-pso/network/TUserAns_801E0198.cpp:
-	.text       start:0x801E0198 end:0x801E0284
-
-pso/player/TPlyGuildCardTag_801E0284.cpp:
-	.text       start:0x801E0284 end:0x801E0350
-
-pso/network/TRecvDownload.cpp:
-	.text       start:0x801E0350 end:0x801E0384
-
-pso/network/TRecvDownloadHead.cpp:
-	.text       start:0x801E0384 end:0x801E03B8
-
-pso/network/TPlyJoinGame.cpp:
-	.text       start:0x801E03B8 end:0x801E051C
-
-pso/unk/text_801E051C.cpp:
-	.text       start:0x801E051C end:0x801E0580
-
-pso/network/TPlyStartGame.cpp:
-	.text       start:0x801E0580 end:0x801E078C
-
-pso/unk/text_801E078C.cpp:
-	.text       start:0x801E078C end:0x801E0800
-
-pso/network/TPlyRecvLogin.cpp:
-	.text       start:0x801E0800 end:0x801E08CC
-
-pso/network/TProtocol_801E08CC.cpp:
-	.text       start:0x801E08CC end:0x801E0934
-
-pso/player/TPlySmth.cpp:
-	.text       start:0x801E0934 end:0x801E09C4
-
-pso/player/TPlyGuildCardTag_801E09C4.cpp:
-	.text       start:0x801E09C4 end:0x801E0A04
-
-pso/player/TPlyCharData_801E0A04.cpp:
-	.text       start:0x801E0A04 end:0x801E0A9C
-
-pso/network/TPlyJoinLobby.cpp:
-	.text       start:0x801E0A9C end:0x801E0BB4
-
-pso/network/TTcpSocket_801E0BB4.cpp:
-	.text       start:0x801E0BB4 end:0x801E0C08
-
-pso/unk/text_801E0C08.cpp:
-	.text       start:0x801E0C08 end:0x801E0C30
+pso/network/protocol/packet_classes.cpp:
+	.text       start:0x801DFF38 end:0x801E0C30
 	.ctors      start:0x80433F94 end:0x80433F98
 	.bss        start:0x80511DE8 end:0x80511ED0
 
@@ -6872,11 +6786,8 @@ pso/ui/window/TWindowSubAreaMapDisp.cpp:
 pso/ui/window/TWindowCtrl_80271DFC.cpp:
 	.text       start:0x80271DFC end:0x80271E48
 
-pso/unk/TLobby_80271E48.cpp:
-	.text       start:0x80271E48 end:0x80271E7C
-
 pso/ui/window/TWindowSubComCard.cpp:
-	.text       start:0x80271E7C end:0x802752D8
+	.text       start:0x80271E48 end:0x802752D8
 	.rodata     start:0x8044F698 end:0x8044F6F8
 	.data       start:0x804D0FF0 end:0x804D1148
 	.sdata      start:0x805D3A10 end:0x805D3A14
@@ -9205,7 +9116,7 @@ pso/effect/enemy/TEneParticleCtrl.cpp:
 	.data       start:0x804EF458 end:0x804EF4C0
 	.sdata      start:0x805D4258 end:0x805D4260
 
-pso/unk/TLobby_80338E9C.cpp:
+pso/ui/window/TWindowMenuTeamStatus.cpp:
 	.text       start:0x80338D58 end:0x80338F9C
 	.rodata     start:0x80477C00 end:0x80477C20
 	.data       start:0x804EF4C0 end:0x804EF4FC
@@ -11613,7 +11524,7 @@ pso/network/NetworkTransport.c:
 	.sbss       start:0x805D79F8 end:0x805D7A40
 	.sdata2     start:0x805E1108 end:0x805E1150
 
-pso/network/TLobby_803F86BC.c:
+pso/network/NetConfig.c:
 	.text       start:0x803F86BC end:0x803F8E08
 	.bss        start:0x805AEEB0 end:0x805BE070
 	.sdata      start:0x805D47F8 end:0x805D4818
@@ -11631,18 +11542,18 @@ pso/network/NetworkThreadRuntime.c:
 	.sbss       start:0x805D7A70 end:0x805D7A78
 	.sdata2     start:0x805E1150 end:0x805E1158
 
-pso/network/TLobby_803FAEA0.c:
+pso/network/PppApi.c:
 	.text       start:0x803FAEA0 end:0x803FC178
 	.bss        start:0x805BFF68 end:0x805C0180
 	.sbss       start:0x805D7A78 end:0x805D7A98
 
-pso/network/TLobby_803FC178.c:
+pso/network/PppChap.c:
 	.text       start:0x803FC178 end:0x803FCF44
 	.rodata     start:0x8047FDE0 end:0x8047FE18
 	.bss        start:0x805C0180 end:0x805C0310
 	.sbss       start:0x805D7A98 end:0x805D7AA0
 
-pso/network/TLobby_803FCF44.c:
+pso/network/Ppp.c:
 	.text       start:0x803FCF44 end:0x803FD0C0
 	.sdata2     start:0x805E1158 end:0x805E1170
 
@@ -11696,12 +11607,12 @@ pso/network/PppVj.c:
 	.text       start:0x80403F4C end:0x804048E8
 	.sbss       start:0x805D7AC0 end:0x805D7AC8
 
-pso/network/TLobby_804048E8.c:
+pso/network/PppVjCompress.c:
 	.text       start:0x804048E8 end:0x804050DC
 	.data       start:0x804FD650 end:0x804FD690
 	.bss        start:0x805C06D8 end:0x805C18B0
 
-pso/network/TLobby_804050DC.c:
+pso/network/PppFraming.c:
 	.text       start:0x804050DC end:0x80407358
 	.bss        start:0x805C18B0 end:0x805C1AB0
 	.sbss       start:0x805D7AC8 end:0x805D7AF8
@@ -11745,7 +11656,7 @@ pso/network/NetIpv6.c:
 	.data       start:0x804FD6E0 end:0x804FD7D8
 	.bss        start:0x805C1B78 end:0x805C1BB8
 
-pso/network/TLobby_8041112C.c:
+pso/network/NetIpv6Route.c:
 	.text       start:0x8041112C end:0x8041509C
 	.data       start:0x804FD7D8 end:0x804FD890
 	.bss        start:0x805C1BB8 end:0x805C1BE0
@@ -11782,7 +11693,7 @@ pso/network/NetUdp.c:
 	.text       start:0x80420C5C end:0x80421620
 	.bss        start:0x805C1DF0 end:0x805C1E00
 
-pso/network/text_80421620.c:
+pso/network/NetApi.c:
 	.text       start:0x80421620 end:0x80423298
 	.rodata     start:0x8047FF10 end:0x80480138
 	.sbss       start:0x805D7B00 end:0x805D7B08
@@ -11807,18 +11718,18 @@ pso/network/NetworkMessageTransport.c:
 	.sbss       start:0x805D7BB0 end:0x805D7BD0
 	.sdata2     start:0x805E1190 end:0x805E1198
 
-pso/network/TLobby_80426CAC.c:
+pso/network/NetPppoe.c:
 	.text       start:0x80426CAC end:0x80428374
 	.bss        start:0x805CFC20 end:0x805D0A40
 
-pso/network/TLobby_80428374.c:
+pso/network/ModemSession.c:
 	.text       start:0x80428374 end:0x80429598
 	.rodata     start:0x80480138 end:0x804801F8
 	.bss        start:0x805D0A40 end:0x805D0AA0
 	.sbss       start:0x805D7BD0 end:0x805D7C2C
 	.sdata2     start:0x805E1198 end:0x805E11F0
 
-pso/network/TLobby_80429598.c:
+pso/network/eth.c:
 	.text       start:0x80429598 end:0x8042BF48
 	.data       start:0x804FD9D8 end:0x804FDA20
 	.bss        start:0x805D0AA0 end:0x805D1D20

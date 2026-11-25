@@ -9,7 +9,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 // The original reads current_language as const here (the load is scheduled
 // above the stores of the copied tables); the same view as six other units.

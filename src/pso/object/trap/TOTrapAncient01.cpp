@@ -35,7 +35,7 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_800FD8A0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/TObjChip.h"
@@ -161,7 +161,7 @@ void TOTrapAncient01::render() {
     fade->update();
     m_340 = update_object_view_visibility(400.0f, 20.0f);
     if (m_340 == 1) {
-        if (fade->updateFromCamera(&position.x) == 1) {
+        if (fade->updateFromCamera(&position) == 1) {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -191,7 +191,7 @@ void TOTrapAncient01::render() {
         pop_matrix();
         pop_matrix();
         pop_matrix();
-        if (fade->updateFromCamera(&position.x) == 1) {
+        if (fade->updateFromCamera(&position) == 1) {
             fade->clear_flag_and_notify();
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

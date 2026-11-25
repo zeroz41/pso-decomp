@@ -9,6 +9,8 @@ int islower(int c);
 int tolower(int c);
 int toupper(int c);
 
+extern unsigned char __upper_map[256];
+
 #ifdef __cplusplus
 }
 #endif

@@ -3,7 +3,7 @@
 #include "pso/unk/TScreenFadeIn.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TitleSceneTables.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"

@@ -2,9 +2,9 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppVj.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
@@ -12,10 +12,10 @@
 
 #include "types.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_8041112C.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetIpv6Route.h"
+#include "pso/network/NetApi.h"
 
 #include <stddef.h>
 
@@ -27,15 +27,14 @@
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s16 icmp_input(u8 *self, u32 d, u32 c)
+s16 icmp_input(NetPacket *pkt, u32 src, u32 dst)
 {
   NetPacketFragment *p;
   NetBufferRef stream;
   u8 hdr[8];
-  u32 *new_var;
   u8 ip[24];
   u8 udp[8];
-  u8 addr[4];
+  u32 addr;
   u8 pad[12];
   NetPacketFragment *q;
   s16 r;
@@ -45,11 +44,10 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
   unsigned int a;
   u32 net;
   u32 mask;
-  NetPacket *pkt = (NetPacket *)self;
   rec = &pkt->fragments[1];
   set_value_and_enable(&stream, hdr);
   netbuf_copy_by_ref(&stream, &rec->buffer, 8);
-  if (calc_ip_checksum((NetPacket *)self, 0) != 0)
+  if (calc_ip_checksum(pkt, 0) != 0)
   {
     return -1;
   }
@@ -88,7 +86,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
       q++;
     }
 
-      r = icmp_send(0, 0, c, d, out);
+      r = icmp_send(0, 0, dst, src, out);
       if (r < 0)
     {
       release_entry(out);
@@ -126,19 +124,18 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
       case 0:
 
       case 2:
-        NetMemcpy(addr, hdr + 4, 4);
+        NetMemcpy(&addr, hdr + 4, 4);
         a = *((u32 *)(ip + 16));
         net = ((a & 0x80000000) == 0) ? (a & 0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (a & 0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (a & 0xFFFFFF00) : (0)));
-        new_var = (u32 *) addr;
         mask = ((a & 0x80000000) == 0) ? (0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (0xFFFFFF00) : (0)));
-        route4_redirect(net, *new_var, mask, 2, d);
+        route4_redirect(net, addr, mask, 2, src);
         break;
 
       case 1:
 
       case 3:
-        NetMemcpy(addr, hdr + 4, 4);
-        route4_redirect(*((u32 *)(ip + 16)), *((u32 *) addr), -1, 6, d);
+        NetMemcpy(&addr, hdr + 4, 4);
+        route4_redirect(*((u32 *)(ip + 16)), addr, -1, 6, src);
         break;
 
     }
@@ -153,16 +150,16 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
   return 0;
 }
 
-s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
+s16 icmp_send_error(Icmp4Header *icmp, IPv4Header *ip, s16 len, s16 iface)
 {
   NetPacket *pkt;
   s32 lim;
   s16 r;
-  if ((NetIPv4IsUnspecified(*((u32 *)(b + 0xc))) || NetIPv4IsLoopback(*((s32 *)(b + 0xc)))) || (NetIPv4IsBroadcast(*((u32 *)(b + 0xc)), id) != 0))
+  if ((NetIPv4IsUnspecified(ip->src) || NetIPv4IsLoopback(ip->src)) || (NetIPv4IsBroadcast(ip->src, iface) != 0))
   {
     return -1;
   }
-  if (NetIPv4IsBroadcast(*((u32 *)(b + 0x10)), id))
+  if (NetIPv4IsBroadcast(ip->dst, iface))
   {
     return -1;
   }
@@ -171,32 +168,25 @@ s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
   {
     return -1;
   }
-  lim = (s16) ((b[0] << 2) & 0x3C);
+  lim = (s16) ((ip->ver_ihl << 2) & 0x3C);
   lim = lim + 8;
-  x = (x < lim) ? (x) : (lim);
+  len = (len < lim) ? (len) : (lim);
   pkt->fragment_count = 0;
-  pkt->total_bytes = x;
-  pkt->fragments[pkt->fragment_count].length = x;
-  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, b);
+  pkt->total_bytes = len;
+  pkt->fragments[pkt->fragment_count].length = len;
+  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, ip);
   pkt->fragment_count += 1;
   pkt->total_bytes += 8;
   pkt->fragments[pkt->fragment_count].length = 8;
-  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, p);
+  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, icmp);
   pkt->fragment_count += 1;
-  *((u16 *)(p + 2)) = 0;
-  *((u16 *)(p + 2)) = calc_ip_checksum(pkt, 1);
-  r = AT_IP4_Send(pkt, *((u32 *)(b + 0xc)), *((u32 *)(b + 0x10)), 0, 0, 0, 1);
+  icmp->checksum = 0;
+  icmp->checksum = calc_ip_checksum(pkt, 1);
+  r = AT_IP4_Send(pkt, ip->src, ip->dst, 0, 0, 0, 1);
   release_entry(pkt);
   return r;
 }
 
-typedef struct Icmp4Header {
-    u8 type;
-    u8 code;
-    u16 checksum;
-    u8 rest[4];
-} Icmp4Header;
-LAYOUT_ASSERT(Icmp4Header_size_check, sizeof(Icmp4Header) == 8);
 s16 icmp_send(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
     NetBufferRef ref;
     Icmp4Header hdr;

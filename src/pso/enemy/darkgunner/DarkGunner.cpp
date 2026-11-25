@@ -67,7 +67,7 @@
 
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/ui/hud/TNowLoading.h"
 

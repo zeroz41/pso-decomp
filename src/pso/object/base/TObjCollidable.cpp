@@ -29,7 +29,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80156B18.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"

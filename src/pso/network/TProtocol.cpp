@@ -5,21 +5,17 @@
 #include "pso/network/TProtocol.h"
 #include "pso/network/protocol/protocol.h"
 #include "pso/network/PSOV3EncryptionTCP.h"
-#include "pso/network/TProtocol_801E08CC.h"
 #include "pso/player/TPlySmth.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/unk/TLobby.h"
-#include "pso/network/protocol/packet_swaps.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/item/TItemData.h"
 #include "pso/network/TPlyMeetUserExtension.h"
-#include "pso/network/TPlyJoinLobby.h"
-#include "pso/player/TPlyCharData_801E0A04.h"
 #include "pso/system/memory.h"
-#include "pso/ui/window/TMessageBox.h"
+#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 
 LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D4_trade_result_packet) == 0xBC9C);
 LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D1_advance_trade_state_packet) == 0xBCA0);
@@ -276,7 +272,7 @@ s32 TProtocol::send_login_9e_extended(void *player_name, int udp_disabled) {
     pkt.header.command = 0x9E;
     pkt.header.flags = m_udp_disabled;
     pkt.header.size = sizeof(pkt);
-    __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&pkt.tag, &m_guildcard_tag);
+    pkt.tag = m_guildcard_tag;
     pkt.hardware_id = m_smth;
     pkt.sub_version = m_sub_version;
     pkt.language = m_language;
@@ -312,7 +308,7 @@ void TProtocol::handle_cmd_02(packet &pkt) {
         memset(&tmp2, 0, sizeof(tmp2));
         tmp2.header.command = 0x9E;
         tmp2.header.flags = m_udp_disabled;
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&tmp2.tag, &m_guildcard_tag);
+        tmp2.tag = m_guildcard_tag;
         tmp2.hardware_id = m_smth;
         tmp2.sub_version = m_sub_version;
         tmp2.language = m_language;
@@ -412,7 +408,7 @@ void TProtocol::send_lobby_name_request() {
 
 void TProtocol::handle_cmd_8A(packet &pkt) {
     TRecvLobbyName tmp = as(TRecvLobbyName &, pkt);
-    bswap_cmd_8a_header(&tmp);
+    tmp.bswap();
     if (m_recv_handlers.handle_8A_lobby_name_packet != NULL) {
         m_recv_handlers.handle_8A_lobby_name_packet(tmp.name);
     }
@@ -428,25 +424,25 @@ void TProtocol::send_lobby_arrow(int arrow) {
 }
 
 // The lobby registers a no-argument function as the 88 handler; the protocol passes it the list.
-typedef void (*arrow_color_list_handler)(void *list);
+typedef void (*arrow_color_list_handler)(TArrowColorList *list);
 
 void TProtocol::handle_cmd_88(packet &pkt) {
-    char list[0xC4];
+    char list[sizeof(TArrowColorList)];
     arrow_color_list_handler handler;
 
-    copy_entry_table((s32 *)list, (s32 *)&pkt);
-    bswap_cmd_88_body(list);
+    copy_arrow_color_list((TArrowColorList *)list, (TArrowColorList *)&pkt);
+    ((TArrowColorList *)list)->bswap();
     handler = (arrow_color_list_handler)m_recv_handlers.handle_88_player_arrow_color_list_packet;
     if (handler != NULL) {
-        handler(list);
+        handler((TArrowColorList *)list);
     }
 }
 
 void TProtocol::handle_cmd_C4(packet &pkt) {
     char results[sizeof(ChoiceSearchResultList)];
 
-    copy_cmd_c4_entry_table((s32 *)results, (s32 *)&pkt);
-    bswap_cmd_c4_body(results);
+    copy_choice_search_result_list((ChoiceSearchResultList *)results, (ChoiceSearchResultList *)&pkt);
+    ((ChoiceSearchResultList *)results)->bswap();
     if (m_recv_handlers.handle_C4_choice_search_reply_packet != NULL) {
         m_recv_handlers.handle_C4_choice_search_reply_packet((ChoiceSearchResultList *)results);
     }
@@ -480,7 +476,7 @@ void TProtocol::send_choice_search_parameters(TPlyChoiceSearchConfig &parameters
 
 void TProtocol::handle_cmd_C0(packet &pkt) {
     TRecvChoiceSearchOptions tmp = as(TRecvChoiceSearchOptions &, pkt);
-    bswap_c0_lobby_entries(&tmp);
+    tmp.bswap();
     if (m_recv_handlers.handle_C0_choice_search_option_packet != NULL) {
         m_recv_handlers.handle_C0_choice_search_option_packet(&tmp);
     }
@@ -512,7 +508,7 @@ void TProtocol::handle_cmd_B1(packet &pkt) {
     lobby_state_flags = (lobby_state_flags & ~0xFF) | (low & 0xFF);
     lobby_state_flags = (lobby_state_flags & ~0xFF00) | ((mid << 8) & 0xFF00);
     lobby_state_flags = (lobby_state_flags & ~0xFF0000) | ((high << 16) & 0xFF0000);
-    bswap_packet_header_cmd_b1(&recv);
+    recv.bswap();
     handler = (server_time_handler)m_recv_handlers.handle_B1_current_time_packet;
     if (handler != NULL) {
         handler(recv.time);
@@ -546,7 +542,6 @@ void TProtocol::send_server_time_accepted() {
 
 // ---- pso/unk/text_801DB554
 #include "types.h"
-#include "pso/unk/TLobby.h"
 #include "pso/network/protocol/protocol.h"
 
 void TProtocol::send_6F_burst_done() {
@@ -586,19 +581,8 @@ void TProtocol::handle_cmd_97(packet &pkt) {
 
 // ---- pso/network/TProtocol_801DB684
 
-#include "pso/ui/chat/TChatMessage.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include <stddef.h>
-
-struct CharacterSaveInfoPacket {
-    packet_header header;
-    C_CharSaveInfo_DCv2_PC_V3_BB_96 payload;
-};
-
-struct ChangeShipOrBlockPacket {
-    packet_header header;
-    C_ChangeShipOrBlock_A0_A1 payload;
-};
 
 LAYOUT_ASSERT(CharacterSaveInfoPacket_size, sizeof(CharacterSaveInfoPacket) == 0xC);
 LAYOUT_ASSERT(ChangeShipOrBlockPacket_size, sizeof(ChangeShipOrBlockPacket) == 0x1C);
@@ -610,9 +594,9 @@ void TProtocol::send_character_save_info(int creation_timestamp, int event_count
     packet.header.command = 0x96;
     packet.header.flags = 0;
     packet.header.size = sizeof(packet);
-    packet.payload.creation_timestamp = creation_timestamp;
-    packet.payload.event_counter = event_counter;
-    bswap_save_packet((saddr)&packet);
+    packet.creation_timestamp = creation_timestamp;
+    packet.event_counter = event_counter;
+    packet.bswap();
     send((u8 *)&packet, sizeof(packet));
 }
 
@@ -628,29 +612,25 @@ void TProtocol::send_quest_menu_request() {
 }
 
 void TProtocol::send_block_list_request() {
-    ChangeShipOrBlockPacket packet;
-    u8 pad[8];
     if (m_connected != 0) {
-        construct_change_ship_block_packet((saddr)&packet);
+        ChangeShipOrBlockPacket packet;
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA1;
         packet.header.size = sizeof(packet);
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&packet.payload, &m_guildcard_tag);
-        bswap_change_ship_block_packet(&packet);
+        packet.tag = m_guildcard_tag;
+        packet.bswap();
         send((u8 *)&packet, sizeof(packet));
     }
 }
 
 void TProtocol::send_ship_list_request() {
-    ChangeShipOrBlockPacket packet;
-    u8 pad[8];
     if (m_connected != 0) {
-        construct_change_ship_block_packet((saddr)&packet);
+        ChangeShipOrBlockPacket packet;
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA0;
         packet.header.size = sizeof(packet);
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&packet.payload, &m_guildcard_tag);
-        bswap_change_ship_block_packet(&packet);
+        packet.tag = m_guildcard_tag;
+        packet.bswap();
         send((u8 *)&packet, sizeof(packet));
     }
 }
@@ -660,7 +640,7 @@ void TProtocol::send_simple_mail(TChatMessage &message) {
         message.header.command = 0x81;
         message.header.flags = 0;
         message.header.size = 0x220;
-        bswap__12TChatMessageFv((saddr)&message);
+        message.bswap();
         send((u8 *)&message, 0x220);
     }
 }
@@ -684,38 +664,19 @@ void TProtocol::handle_cmd_92(packet &pkt) {
     }
 }
 
-// ---- pso/unk/text_801DB998
-
-#include "pso/player/TPlySmth.h"
-
-struct Stack_801DB998 {
-    u8 sp8;
-    u8 pad_9[0x1];
-    s16 spA;
-    u8 spC[8];
-    s32 sp14;
-    u8 pad_18[0x1];
-    s8 sp19;
-    u8 pad_1A[0x2];
-    char sp1C[0x30];
-    char sp4C[0x30];
-    char sp7C[0x30];
-};
-
 void TProtocol::send_register_9c() {
-    Stack_801DB998 stack;
-    construct_cmd_9c_send_pso_regist((&stack.sp8));
-    memset(&stack.sp8, 0, 0xA4);
-    stack.sp8 = 0x9C;
-    stack.spA = 0xA4;
-    __as__8TPlySmthFRC8TPlySmth((saddr)&stack.spC, (saddr)&m_smth);
-    stack.sp14 = (s32)m_sub_version;
-    stack.sp19 = (s8)m_language;
-    strncpy(stack.sp1C, m_serial_number, 0x30);
-    strncpy(stack.sp4C, m_access_key, 0x30);
-    strncpy(stack.sp7C, m_password, 0x30);
-    bswap_cmd_9c_send_pso_regist((&stack.sp8));
-    send(&stack.sp8, 0xA4);
+    TSendPsoRegist pkt;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0x9C;
+    pkt.header.size = sizeof(pkt);
+    pkt.smth = m_smth;
+    pkt.sub_version = m_sub_version;
+    pkt.language = m_language;
+    strncpy(pkt.serial_number, m_serial_number, sizeof(pkt.serial_number));
+    strncpy(pkt.access_key, m_access_key, sizeof(pkt.access_key));
+    strncpy(pkt.password, m_password, sizeof(pkt.password));
+    pkt.bswap();
+    send((u8 *)&pkt, sizeof(pkt));
 }
 
 // ---- pso/network/TProtocol_801DBA58
@@ -737,6 +698,7 @@ void TProtocol::handle_cmd_90(packet &pkt) {
 #include "pso/system/byteswap.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/charcreate/TCharaMaking.h"
 #include <string.h>
 #include <stdio.h>
 #include <stddef.h>
@@ -952,70 +914,58 @@ void TProtocol::send_pso_data(game_command &packet, u32 size) {
     }
 }
 
-struct List_801DC1E4 { u8 command; u8 flags; u16 size; u32 entries[30]; };
-struct Text_801DC1E4 { u8 command; u8 flags; u16 size; char text[0x200]; };
-struct Proto_801DC1E4 { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
-
-s32 validate_player_visual_record(void *arg0);
-extern "C" {
-
-void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *char_data, TPlyChallenge *challenge, TPlyChoiceSearchConfig *choice_search_config,
-                               List_801DC1E4 *blocked_senders, Text_801DC1E4 *auto_reply, char *info_board) {
-    if (self->connected) {
-        validate_player_visual_record(char_data + 0x370);
-        TProtocol::copy_player_data(self->char_data, char_data);
+void TProtocol::send_update_chara_data_v2(TPlyCharData &char_data, TPlyChallenge &challenge, TPlyChoiceSearchConfig &choice_search_config,
+                                          TBlockedSenders &blocked_senders, TPlyText<512> &auto_reply, char *info_board) {
+    if (m_connected) {
+        validate_player_visual_record(&char_data.m_disp_part2);
+        copy_player_data(&m_character_data, &char_data);
         TPlyJoinData tmp;
         memset(&tmp, 0, sizeof(tmp));
         tmp.header.command = 0x98;
         tmp.header.flags = 3;
         tmp.header.size = sizeof(tmp);
-        TProtocol::copy_player_data(&tmp.char_data, self->char_data);
-        tmp.challenge = *challenge;
-        copy_choice_search_parameters(&tmp.choice_search_config, choice_search_config);
+        copy_player_data(&tmp.char_data, &m_character_data);
+        tmp.challenge = challenge;
+        copy_choice_search_parameters(&tmp.choice_search_config, &choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
-        for (int i = 0; i < blocked_senders->flags; ++i) {
-            tmp.blocked_senders[i] = blocked_senders->entries[i];
+        for (int i = 0; i < blocked_senders.header.flags; ++i) {
+            tmp.blocked_senders[i] = blocked_senders.blocked_senders[i];
         }
-        tmp.auto_reply_enabled = auto_reply->flags;
-        strncpy(tmp.auto_reply, auto_reply->text, sizeof(tmp.auto_reply) - 1);
+        tmp.auto_reply_enabled = auto_reply.header.flags;
+        strncpy(tmp.auto_reply, auto_reply.text, sizeof(tmp.auto_reply) - 1);
         const int packet_size = strlen(tmp.auto_reply) + 0x680;
         tmp.header.size = packet_size & ~3;
         encode_uploaded_player_inventory(&tmp.char_data);
         tmp.bswap();
-        ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
+        send((u8 *)&tmp, packet_size & ~3);
     }
 }
 
-struct List_801DC34C { u8 command; u8 flags; u16 size; u32 entries[30]; };
-struct Text_801DC34C { u8 command; u8 flags; u16 size; char text[0x200]; };
-struct Proto_801DC34C { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
-
-void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *char_data, TPlyChallenge *challenge, TPlyChoiceSearchConfig *choice_search_config,
-                               List_801DC34C *blocked_senders, Text_801DC34C *auto_reply, char *info_board) {
-    if (self->connected) {
-        validate_player_visual_record(char_data + 0x370);
-        TProtocol::copy_player_data(self->char_data, char_data);
+void TProtocol::send_chara_data_v2(TPlyCharData &char_data, TPlyChallenge &challenge, TPlyChoiceSearchConfig &choice_search_config,
+                                   TBlockedSenders &blocked_senders, TPlyText<512> &auto_reply, char *info_board) {
+    if (m_connected) {
+        validate_player_visual_record(&char_data.m_disp_part2);
+        copy_player_data(&m_character_data, &char_data);
         TPlyJoinData tmp;
         memset(&tmp, 0, sizeof(tmp));
         tmp.header.command = 0x61;
         tmp.header.flags = 3;
         tmp.header.size = sizeof(tmp);
-        TProtocol::copy_player_data(&tmp.char_data, self->char_data);
-        tmp.challenge = *challenge;
-        copy_choice_search_parameters(&tmp.choice_search_config, choice_search_config);
+        copy_player_data(&tmp.char_data, &m_character_data);
+        tmp.challenge = challenge;
+        copy_choice_search_parameters(&tmp.choice_search_config, &choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
-        for (int i = 0; i < blocked_senders->flags; ++i) {
-            tmp.blocked_senders[i] = blocked_senders->entries[i];
+        for (int i = 0; i < blocked_senders.header.flags; ++i) {
+            tmp.blocked_senders[i] = blocked_senders.blocked_senders[i];
         }
-        tmp.auto_reply_enabled = auto_reply->flags;
-        strncpy(tmp.auto_reply, auto_reply->text, sizeof(tmp.auto_reply) - 1);
+        tmp.auto_reply_enabled = auto_reply.header.flags;
+        strncpy(tmp.auto_reply, auto_reply.text, sizeof(tmp.auto_reply) - 1);
         const int packet_size = strlen(tmp.auto_reply) + 0x680;
         tmp.header.size = packet_size & ~3;
         encode_uploaded_player_inventory(&tmp.char_data);
         tmp.bswap();
-        ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
+        send((u8 *)&tmp, packet_size & ~3);
     }
-}
 }
 
 void TProtocol::send_text_list() {
@@ -1535,7 +1485,7 @@ void TProtocol::recv_start_lobby2(packet &pkt) {
 	m_joined_game = true;
 
 	if (m_recv_handlers.handle_67_recv_start_lobby2 != nullptr) {
-		m_recv_handlers.handle_67_recv_start_lobby2(tmp.entries, tmp.header.flags, tmp.client_id, tmp.leader_id, tmp.lobby_number, tmp.block_number, tmp.unknown1, tmp.event);
+		m_recv_handlers.handle_67_recv_start_lobby2(tmp.entries, tmp.header.flags, tmp.client_id, tmp.leader_id, tmp.lobby_number, tmp.block_number, tmp.enable_battle_mode, tmp.event);
 	}
 };
 
@@ -1991,11 +1941,8 @@ void TSendClientConfig::bswap() {
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct ClientConfigBytes { u8 bytes[0x20]; };
-
 TPlyClientConfig& TPlyClientConfig::operator=(const TPlyClientConfig& other) {
-    *reinterpret_cast<ClientConfigBytes*>(this) =
-        *reinterpret_cast<const ClientConfigBytes*>(&other);
+    __memcpy(this, &other, sizeof(*this));
     return *this;
 }
 
@@ -2034,16 +1981,16 @@ void TPlyChallenge::bswap() {
     bswap_16(&battle_place_count_3);
     bswap_16(&battle_place_count_4);
     bswap_16(&battle_disconnect_count);
-    bswap_16(&pad_10E);
-    bswap_16(&pad_110);
-    bswap_16(&pad_112);
-    bswap_32(&pad_114);
-    bswap_32(&pad_118);
+    bswap_16(&battle_reserved_count_1);
+    bswap_16(&battle_reserved_count_2);
+    bswap_16(&battle_reserved_count_3);
+    bswap_32(&battle_reserved_value_1);
+    bswap_32(&battle_reserved_value_2);
 }
 void TSendLogin::bswap() {
     header.bswap();
     tag.bswap();
-    bswap_ply_smth_pair(&hardware_id);
+    hardware_id.bswap();
     bswap_32(&sub_version);
     extension.bswap();
 }
@@ -2052,7 +1999,7 @@ void TPlyMeetUserExtension::bswap() {
     for (int i = 0; i < 8; ++i) {
         tags[i].bswap();
     }
-    bswap_32(&mbr_0x40);
+    bswap_32(&unknown);
 }
 
 void TRecvPsoRegistConnect::bswap() {
@@ -2061,158 +2008,98 @@ void TRecvPsoRegistConnect::bswap() {
     bswap_32(&client_key);
 }
 
-struct RecoveredFields_801DF394_arg0
-{
-  s32 field_0;
-};
-
-struct RecoveredFields_801DF394_arg1
-{
-  s32 field_0;
-};
-
-struct RecoveredFields_801DF4FC_arg0
-{
-  s32 field_0;
-};
-
-struct RecoveredFields_801DF4FC_arg1
-{
-  s32 field_0;
-};
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-struct W4_801DF558 { u32 w[4]; };
-
-struct W8_801DF558 { u32 w[8]; };
-
-struct W12_801DF558 { u32 w[12]; };
-
-struct T3_801DF558 { u32 w[3]; };
-
-struct Entry_801DF558 {
-    u32 a;
-    W4_801DF558 b;
-    W8_801DF558 c;
-    W12_801DF558 d;
-    T3_801DF558 e;
-    u8 ext[0x64];
-};
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-struct W4_801DF61C { s32 v[4]; };
-
-struct Copy_801DF61C { W4_801DF61C a; W4_801DF61C b; };
-
-struct Tag_801DF61C { u8 b[8]; };
-
-struct Obj_801DF61C {
-    Tag_801DF61C tags[8];
-    s32 w;
-    Copy_801DF61C c;
-};
-
-extern "C" {
-int bswap_32__FPUl(void* a0);
-s32 bswap_16__FPUs(s32);
-int __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void*);
-Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src);
-s32 __ct__16TPlyGuildCardTagFv(s32);
-}
-
 void TSendVerifyLicense::bswap() {
     header.bswap();
-    bswap_ply_smth_pair(&hardware_id);
+    hardware_id.bswap();
     bswap_32(&sub_version);
 }
 
 TSendVerifyLicense::TSendVerifyLicense() {}
-void bswap_cmd_8a_header(void *p) { ((packet_header *)p)->bswap(); }
-void bswap_cmd_88_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 16; i++) { bswap_cmd_88_marker_record((void*)((char*)p + 0x4 + i * 12)); } } }
+void TRecvLobbyName::bswap() { header.bswap(); }
 
-void bswap_cmd_88_marker_record(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x8)); }
-
-typedef struct RecoveredFields_801DF394_arg0 RecoveredFields_801DF394_arg0;
-typedef struct RecoveredFields_801DF394_arg1 RecoveredFields_801DF394_arg1;
-
-s32 *copy_entry_table(s32 *arg0, s32 *arg1) {
-  uaddr var_r30;
-  saddr var_r29;
-  var_r30 = (uaddr) (((u8 *) arg0) + 4);
-  var_r29 = (saddr) (((u8 *) arg1) + 4);
-  ((RecoveredFields_801DF394_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF394_arg1 *) arg1)->field_0;
-  do
-  {
-    copy_cmd_88_marker_record((void*)var_r30, (void*)var_r29);
-    var_r30 += 0xC;
-    var_r29 += 0xC;
-  }
-  while (var_r30 < ((uaddr) (((u8 *) arg0) + 0xC4)));
-  return arg0;
+void TArrowColorList::bswap() {
+    header.bswap();
+    for (int i = 0; i < 16; i++) {
+        entries[i].bswap();
+    }
 }
 
-void* copy_cmd_88_marker_record(void* p, void* a1) { __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(p); *(void**)((char*)p + 0x8) = *(void**)((char*)a1 + 0x8); return p; }
-void bswap_cmd_c4_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 32; i++) { bswap_cmd_c4_entry((void *)((char*)p + 0x4 + i * 212)); } } }
-
-void bswap_cmd_c4_entry(void *arg0) {
-    bswap_32((u32 *)arg0);
-    bswap_cmd_c4_reconnect_command((saddr)((void *)((char *)arg0 + 100)));
-    ((TPlyMeetUserExtension *)((char *)arg0 + 112))->bswap();
+void TArrowColorEntry::bswap() {
+    tag.bswap();
+    bswap_32(&color);
 }
 
-void bswap_cmd_c4_reconnect_command(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
-    bswap_16__FPUs(arg0 + 8);
-    bswap_16__FPUs(arg0 + 0xA);
-}
-
-typedef struct RecoveredFields_801DF4FC_arg0 RecoveredFields_801DF4FC_arg0;
-typedef struct RecoveredFields_801DF4FC_arg1 RecoveredFields_801DF4FC_arg1;
-s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1) {
-  u8 *dst;
-  u8 *src;
-  dst = (u8 *)arg0 + 4;
-  src = (u8 *)arg1 + 4;
-  ((RecoveredFields_801DF4FC_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF4FC_arg1 *) arg1)->field_0;
-  do
-  {
-    copy_cmd_c4_entry(dst, src);
-    dst += 0xD4;
-    src += 0xD4;
-  }
-  while (dst < (u8 *)arg0 + 0x1A84);
-  return arg0;
-}
-
-struct Obj_801DF61C;
-void *copy_cmd_c4_entry(void *dst, void *src) {
-    Entry_801DF558 *d = (Entry_801DF558 *)dst;
-    Entry_801DF558 *s = (Entry_801DF558 *)src;
-    d->a = s->a;
-    d->b = s->b;
-    d->c = s->c;
-    d->d = s->d;
-    d->e = s->e;
-    copy_ply_meet_user_extension((Obj_801DF61C *)d->ext, (Obj_801DF61C *)s->ext);
+TArrowColorList *copy_arrow_color_list(TArrowColorList *dst, TArrowColorList *src) {
+    TArrowColorEntry *d = dst->entries;
+    TArrowColorEntry *s = src->entries;
+    __memcpy(&dst->header, &src->header, sizeof(packet_header));
+    do {
+        copy_arrow_color_entry(d, s);
+        d++;
+        s++;
+    } while (d < dst->entries + 16);
     return dst;
 }
 
-Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src) {
-    Tag_801DF61C *d = dst->tags;
-    Tag_801DF61C *s = src->tags;
+TArrowColorEntry *copy_arrow_color_entry(TArrowColorEntry *dst, TArrowColorEntry *src) {
+    __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&dst->tag, &src->tag);
+    dst->color = src->color;
+    return dst;
+}
+
+void ChoiceSearchResultList::bswap() {
+    header.bswap();
+    for (int i = 0; i < 32; i++) {
+        entries[i].bswap();
+    }
+}
+
+void ChoiceSearchResult::bswap() {
+    bswap_32(&guildcard_number);
+    reconnect.bswap();
+    extension.bswap();
+}
+
+void ChoiceSearchReconnect::bswap() {
+    header.bswap();
+    bswap_32(&address);
+    bswap_16(&port);
+    bswap_16(&unused);
+}
+
+ChoiceSearchResultList *copy_choice_search_result_list(ChoiceSearchResultList *dst, ChoiceSearchResultList *src) {
+    ChoiceSearchResult *d = dst->entries;
+    ChoiceSearchResult *s = src->entries;
+    __memcpy(&dst->header, &src->header, sizeof(packet_header));
     do {
-        ((int (*)(void *, void *))__ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag)(d, s);
+        copy_choice_search_result(d, s);
+        d++;
+        s++;
+    } while (d < dst->entries + 32);
+    return dst;
+}
+
+ChoiceSearchResult *copy_choice_search_result(ChoiceSearchResult *dst, ChoiceSearchResult *src) {
+    dst->guildcard_number = src->guildcard_number;
+    __memcpy(dst->name, src->name, sizeof(dst->name));
+    __memcpy(dst->info, src->info, sizeof(dst->info));
+    __memcpy(dst->location, src->location, sizeof(dst->location));
+    __memcpy(&dst->reconnect, &src->reconnect, sizeof(dst->reconnect));
+    copy_ply_meet_user_extension(&dst->extension, &src->extension);
+    return dst;
+}
+
+TPlyMeetUserExtension *copy_ply_meet_user_extension(TPlyMeetUserExtension *dst, TPlyMeetUserExtension *src) {
+    TPlyGuildCardTag *d = dst->tags;
+    TPlyGuildCardTag *s = src->tags;
+    do {
+        __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(d, s);
         d++;
         s++;
     } while (d < dst->tags + 8);
-    dst->w = src->w;
-    dst->c.a = src->c.a;
-    dst->c.b = src->c.b;
+    dst->unknown = src->unknown;
+    __memcpy(dst->player_name, src->player_name, sizeof(dst->player_name));
+    __memcpy(dst->player_name2, src->player_name2, sizeof(dst->player_name2));
     return dst;
 }
 
@@ -2223,52 +2110,60 @@ void ChoiceSearchPacket::bswap() {
 void TPlyChoiceSearchConfig::bswap() {
     bswap_32(&disabled);
     for (int i = 0; i < 5; i++) {
-        bswap_u16_pair_field(&entries[i]);
+        entries[i].bswap();
     }
 }
 
-void bswap_u16_pair_field(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((void*)((char*)p + 0x2))); }
+void TPlyChoiceSearchConfig::Entry::bswap() {
+    bswap_16(&parent_choice_id);
+    bswap_16(&choice_id);
+}
 
 TPlyChoiceSearchConfig *copy_choice_search_parameters(TPlyChoiceSearchConfig *dst, const TPlyChoiceSearchConfig *src) {
     *dst = *src;
     return dst;
 }
 
-void bswap_c0_lobby_entries(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 56; i++) { bswap_c0_choice_search_entry((void*)((char*)p + 0x4 + i * 32)); } } }
-
-void bswap_c0_choice_search_entry(void* p) { bswap_u16_pair_field(p); }
-
-void bswap_packet_header_cmd_b1(void *p) { ((packet_header *)p)->bswap(); }
-
-void bswap_save_packet(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
-    ((s32)bswap_32__FPUl((void*)(arg0 + 8)));
+void TRecvChoiceSearchOptions::bswap() {
+    header.bswap();
+    for (int i = 0; i < 56; i++) {
+        entries[i].bswap();
+    }
 }
 
-void bswap_change_ship_block_packet(void* p) { ((packet_header *)p)->bswap(); ((TPlyGuildCardTag *)((char*)p + 0x4))->bswap(); }
+void ChoiceSearchOption::bswap() { choice.bswap(); }
 
-s32 construct_change_ship_block_packet(s32 arg0) {
-    __ct__16TPlyGuildCardTagFv(arg0 + 4);
-    return arg0;
+void TRecvServerTime::bswap() { header.bswap(); }
+
+void CharacterSaveInfoPacket::bswap() {
+    header.bswap();
+    bswap_32(&creation_timestamp);
+    bswap_32(&event_counter);
 }
 
-extern "C" {
-
-
-void bswap__12TChatMessageFv(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
-    bswap_32((u32 *)(arg0 + 0x1C));
+void ChangeShipOrBlockPacket::bswap() {
+    header.bswap();
+    tag.bswap();
 }
 
+ChangeShipOrBlockPacket::ChangeShipOrBlockPacket() {}
+
+void TChatMessage::bswap() {
+    header.bswap();
+    tag.bswap();
+    bswap_32(&to_guildcard_number);
 }
 
 LAYOUT_ASSERT(RegistConnectHeaderOffset, offsetof(TSendPsoRegistConnect, header) == 0);
 LAYOUT_ASSERT(RegistConnectPacketSize, sizeof(TSendPsoRegistConnect) == 0x28);
 
-void bswap_cmd_9c_send_pso_regist(void* p) { ((packet_header *)p)->bswap(); bswap_ply_smth_pair((char*)p + 0x4); bswap_32((u32 *)((char*)p + 0xc)); }
-void* construct_cmd_9c_send_pso_regist(void* p) { __ct__8TPlySmthFv((char*)p + 0x4); return p; }
+void TSendPsoRegist::bswap() {
+    header.bswap();
+    smth.bswap();
+    bswap_32(&sub_version);
+}
+
+TSendPsoRegist::TSendPsoRegist() {}
 
 void TSendPsoRegistConnect::bswap() {
     header.bswap();
@@ -2289,7 +2184,7 @@ void TPlyJoinLobbyEntry::bswap() {
     tag.bswap();
     bswap_32(&ip_addr);
     bswap_32(&client_id);
-    bswap__12TPlyCharDataFv((saddr)&char_data);
+    char_data.bswap();
 }
 
 LAYOUT_ASSERT(LobbyExitSize, sizeof(TRecvExit<true>) == 8);
@@ -2343,7 +2238,7 @@ void TRecvPsoData::bswap() {
 
 void TPlyJoinData::bswap() {
     header.bswap();
-    bswap__12TPlyCharDataFv((saddr)&char_data);
+    char_data.bswap();
     challenge.bswap();
     choice_search_config.bswap();
     for (int i = 0; i < 30; i++) {
@@ -2396,14 +2291,9 @@ void TSendAction<1>::bswap() {
 
 TSendAction<1>::TSendAction() {}
 
-extern "C" {
-
-
-void bswap__11TMessageBoxFv(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
-}
-
+void TMessageBox::bswap() {
+    header.bswap();
+    tag.bswap();
 }
 
 TMessageBox::TMessageBox() {}

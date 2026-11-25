@@ -15,7 +15,7 @@
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_803DE778.h"
 
@@ -25,8 +25,6 @@ s32 gvm_stream_cursor;
 s32 (*texture_loaders[4])(NJS_TEXLIST *, s32) = {
     read_gvrt_file_header, load_texture_from_memory, create_texture_from_input, reference_texture_by_global_index,
 };
-
-extern s32 ginja_draw_flags;
 
 void set_ginja_draw_flags(s32 flags) {
     ginja_draw_flags = flags;

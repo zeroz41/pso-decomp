@@ -2,9 +2,9 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppVj.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
@@ -12,35 +12,13 @@
 
 #include "types.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_8041112C.h"
-#include "pso/network/text_80421620.h"
-typedef struct LobbyHandler LobbyHandler;
+#include "pso/network/PppApi.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetIpv6Route.h"
+#include "pso/network/NetApi.h"
 
 #include <stddef.h>
 
-/* A link-layer driver, registered by insert_link_handler from 11 functions: loopback (register_loopback_handlers,
-   always entry 0), PPP (ppp_link_init) and Ethernet (init_net_sockets).  Each function is called by one
-   dispatcher (named after the slot); get_lladdr_len..multicast_ctl only when flags & 4. */
-struct LobbyHandler {
-    s16 active;
-    s16 flags;                                     /* 0x02: as registered: 1 loopback, 2 PPP, 0x7C Ethernet */
-    s16 (*get_interface_id)(s16 idx, void *dst);   /* 0x04: link_get_interface_id */
-    s16 (*open)(s16 idx, u32 a, s16 b, u32 *c);    /* 0x08: link_attach_protocol; opens a channel for an EtherType */
-    s32 (*close)(s16);                             /* 0x0C: call_entry_callback; frees the channel */
-    s16 (*get_mtu)(s32);                           /* 0x10: invoke_socket_callback; Ethernet 1500 */
-    s16 (*get_lladdr_len)(s32);                    /* 0x14: link_get_address_length; Ethernet 6 */
-    s32 (*get_lladdr)(s32, void *);                /* 0x18: link_get_address; copies the MAC */
-    s16 (*alias_ctl)(s32, s32, void *);            /* 0x1C: link_update_address; 1 adds, 2 removes an ARP alias */
-    s16 (*multicast_ctl)(s32, s32, void *);        /* 0x20: link_update_multicast; 1 joins, 2 leaves a multicast group */
-    s32 (*release_frame)(s32, s32);                /* 0x24: dispatch_handler_by_id; frees a received frame; link_input calls it
-                                                      as void (s16, s32) */
-    s16 (*forward)(s32, void *, void *);           /* 0x28: dispatch_handler_by_index; sends an IPv4 packet to a
-                                                      unicast next hop (ppp_link_forward_packet, forward_loopback_packet) */
-    s16 (*output)(s32, s32, void *, void *);       /* 0x2C: call_handler_by_index */
-};
-LAYOUT_ASSERT(LobbyHandler_size_check, sizeof(LobbyHandler) == 0x30);
 
 extern LobbyHandlerTable lobby_handler_table_desc; /* defined at the end of the file */
 
@@ -53,13 +31,13 @@ s16 insert_link_handler(NetLinkDriverFn *fns, s16 kind);
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-void link_input(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
+void link_input(u8 *msg, s16 len, s16 idx, s16 second, u16 type) {
     if (idx < 0 || idx >= lobby_handler_table_desc.count) {
         return;
     }
     switch (type) {
     default:
-        ((void (*)(s16, s32))lobby_handler_table_desc.list[idx].release_frame)(second, msg);
+        ((void (*)(s16, u8 *))lobby_handler_table_desc.list[idx].release_frame)(second, msg);
         break;
     case 0x800:
     case 0x806:
@@ -192,9 +170,9 @@ s16 dispatch_handler_by_index(s16 idx, s32 handle, void *addr, void *pkt) {
     return fn(handle, addr, pkt);
 }
 
-s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload) {
+s32 dispatch_handler_by_id(s16 first, s32 second, u8 *payload) {
     LobbyHandler *e;
-    s32 (*fn)(s32, s32);
+    s32 (*fn)(s32, u8 *);
 
     if (first < 0 || first > lobby_handler_table_desc.count) {
         return -0x10F;
@@ -351,7 +329,7 @@ s16 link_attach_protocol(s16 idx, u32 a, s16 b, u32 *c) {
     return e->open(idx, a, b, c);
 }
 
-s16 link_get_interface_id(s16 idx, void *a)
+s16 link_get_interface_id(s16 idx, void *dst)
 {
     LobbyHandler *e;
 
@@ -366,12 +344,12 @@ s16 link_get_interface_id(s16 idx, void *a)
     if (e->get_interface_id == NULL) {
         return -2;
     }
-    return e->get_interface_id(idx, a);
+    return e->get_interface_id(idx, dst);
 }
 
 #pragma push
 #pragma optimization_level 2
-s16 is_slot_flag_0x40_set(s16 i) {
+s16 link_solicits_routers(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;
@@ -383,7 +361,7 @@ s16 is_slot_flag_0x40_set(s16 i) {
 
 #pragma push
 #pragma optimization_level 2
-s16 is_slot_flag_0x20_set(s16 i) {
+s16 link_needs_resolution(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;
@@ -395,7 +373,7 @@ s16 is_slot_flag_0x20_set(s16 i) {
 
 #pragma push
 #pragma optimization_level 2
-s16 is_entry_flag10_set(s16 i) {
+s16 link_does_dad(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;
@@ -407,7 +385,7 @@ s16 is_entry_flag10_set(s16 i) {
 
 #pragma push
 #pragma optimization_level 2
-s16 is_socket_flag_set(s16 i) {
+s16 link_is_loopback(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;

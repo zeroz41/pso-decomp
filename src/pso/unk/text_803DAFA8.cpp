@@ -8,7 +8,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803DAF30.h"
 #include "pso/unk/text_803DAFA8.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_803DE778.h"
 
 s32 load_gvpl_palette(GvplChunk *chunk, GvplPalette *palette) {

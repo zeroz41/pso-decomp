@@ -4,13 +4,12 @@
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/UdpRuntime.h"
 #include "pso/network/NetIPv6NeighborDiscovery.h"
 
-/* Defined K&R with an s16 mtu (TLobby_8041112C.c). */
-s32 NetIPv6UpdatePathMtu(IPv6Address *addr, s16 mtu);
+/* Defined K&R with an s16 mtu (NetIpv6Route.c). */
 s16 icmp6_send_echo_reply(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16 idx);
 typedef struct Icmp6ErrorInfo {
     u8 type;

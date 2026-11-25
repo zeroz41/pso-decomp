@@ -9,6 +9,8 @@ public:
     TGameProtocol(TObject *parent);
     virtual ~TGameProtocol();
     virtual void run_task();
+    static const char *class_name;
+    static TGameProtocol *instance;
     // Counts 0..3 each frame; packets whose slot matches it are flushed (inferred name).
     u32 frame_slot;
 };

@@ -98,7 +98,7 @@ void *TWindowSubStatusDisp::destroy_free_buffers(void *window_sub_status_disp, s
     return window_sub_status_disp;
 }
 
-void*TWindowSubComCard::init_fields(int rec, int client) { __ct__13TUnk_804CF998Fl(this, client); *(int*)((char*)this + 0x4) = (saddr)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->m_20 = 0; *(int*)((char*)this + 0x18) = 0; return this; }
+void*TWindowSubComCard::init_fields(int rec, int client) { __ct__13TUnk_804CF998Fl(this, client); *(int*)((char*)this + 0x4) = (saddr)window_label_value_part_vtable; *(float*)((char*)this + 0x14) = (18.0f); this->m_24 = -1; *(int*)((char*)this + 0x1c) = 0; this->client_id = 0; *(int*)((char*)this + 0x18) = 0; return this; }
 
 int TWindowSubComCard::is_flag_4_set() { return *(u16*)((char*)this + 0x0) & 0x4; }
 

@@ -15,7 +15,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/base/TObjChara.h"

@@ -7,7 +7,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TCMCharacter.h"
 #include "pso/ui/charcreate/CharacterShape.h"

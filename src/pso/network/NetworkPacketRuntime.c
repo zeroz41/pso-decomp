@@ -7,7 +7,7 @@
 #include "pso/network/NetworkTransport.h"
 
 #include "types.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/NetApi.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

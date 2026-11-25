@@ -38,7 +38,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -339,7 +339,7 @@ void TObjEneGibbles::render() {
     }
     if (vis != 0) {
         this->fades[cam].update();
-        fade = this->fades[cam].updateFromCamera(&body_center.x);
+        fade = this->fades[cam].updateFromCamera(&body_center);
         select_actor_lighting(this);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix_from(NULL);

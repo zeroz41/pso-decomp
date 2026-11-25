@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-u8 *copy_char_data(u8 *arg0, u8 *arg1);
+class TPlyCharData;
+
+TPlyCharData *copy_char_data(TPlyCharData *dst, TPlyCharData *src);
 
 #endif

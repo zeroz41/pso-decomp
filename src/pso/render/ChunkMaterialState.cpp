@@ -6,33 +6,26 @@
 #include "pso/render/SceneFog.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/render/model_render_state.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/system/MatrixOps.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXLighting.h>
 #undef PSO_SDK_COMPACT_MATH
 
-struct Ent_803DEBC8 { u32 mask; u32 val; };
+// Defined at the end of the unit.
+extern PADStatus pad_status[4];
+extern PADStatus prev_pad_status[4];
+extern s32 pad_slot_state_buffer[0x78];
 
-struct ChunkMaterialColor { f32 alpha, red, green, blue; };
-
-
+u32 keyboard_pad_button_count = 12;
 
 extern "C" {
-extern PADStatus pad_status[4];
-extern s32 pad_slot_state_buffer[];
-extern Ent_803DEBC8 pad_button_map_table[];
-u32 keyboard_pad_button_count = 12;
-extern ChunkMaterialColor model_material_color;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
-extern PADStatus prev_pad_status[4];
 
 #pragma push
 #pragma scheduling off
@@ -49,7 +42,7 @@ void init_pad_slots_and_read(s32, s32, s32) {
 #pragma use_lmw_stmw off
 void read_pads() {
   u32 diff;
-  unsigned short new_var;
+  u16 buttons;
   PADStatus *pad;
   PADStatus *old;
   PadSlot *out;
@@ -67,8 +60,8 @@ void read_pads() {
     if (pad->err == 0)
     {
       clamp_pad_axes(pad);
-      diff = old->button ^ (new_var = pad->button);
-      cur = new_var;
+      diff = old->button ^ (buttons = pad->button);
+      cur = buttons;
       released = old->button & diff;
       out->held = map_pad_buttons(cur);
       out->notHeld = ~out->held;
@@ -133,7 +126,7 @@ s32 map_pad_buttons(u16 released) {
     s32 r = 0;
     u32 i;
     for (i = 0; i < keyboard_pad_button_count; i++) {
-        if (released & pad_button_map_table[i].mask) r |= pad_button_map_table[i].val;
+        if (released & pad_button_map_table[i].pad_mask) r |= pad_button_map_table[i].button;
     }
     return r;
 }
@@ -167,10 +160,10 @@ void init_light_globals(s32, s32) {
     model_render_flags = 0;
     chunk_polygon_flags_and_mask = -1;
     chunk_polygon_flags_or_mask = 0;
-    model_material_color.alpha = 255.0f;
-    model_material_color.red = 0.0f;
-    model_material_color.green = 0.0f;
-    model_material_color.blue = 0.0f;
+    model_material_color.a = 255.0f;
+    model_material_color.r = 0.0f;
+    model_material_color.g = 0.0f;
+    model_material_color.b = 0.0f;
     gx_chan_ctrl_light_mask = 0;
     light_position_distance = 100000000.0f;
     GXInitLightAttnK(gx_light_objects, 1.0f, 0.0f, 0.0f);
@@ -196,10 +189,10 @@ inline f32 clampMaterialChannel(f32 value, f32 lower, f32 upper) {
 }
 
 void set_constant_material(const NJS_ARGB *color) {
-    model_material_color.alpha = clampMaterialChannel(color->a, (-1.0f), 1.0f);
-    model_material_color.red = clampMaterialChannel(color->r, (-1.0f), 1.0f);
-    model_material_color.green = clampMaterialChannel(color->g, (-1.0f), 1.0f);
-    model_material_color.blue = clampMaterialChannel(color->b, (-1.0f), 1.0f);
+    model_material_color.a = clampMaterialChannel(color->a, (-1.0f), 1.0f);
+    model_material_color.r = clampMaterialChannel(color->r, (-1.0f), 1.0f);
+    model_material_color.g = clampMaterialChannel(color->g, (-1.0f), 1.0f);
+    model_material_color.b = clampMaterialChannel(color->b, (-1.0f), 1.0f);
 }
 
 PADStatus pad_status[4];
@@ -207,7 +200,7 @@ PADStatus prev_pad_status[4];
 PadSlot keyboard_control_pad_slots[4];
 s32 pad_slot_state_buffer[0x78];
 
-Ent_803DEBC8 pad_button_map_table[12] = {
+PadButtonMapping pad_button_map_table[12] = {
     {0x1, 0x40},     {0x2, 0x80},      {0x4, 0x20},   {0x8, 0x10},
     {0x40, 0x20000}, {0x20, 0x10000},  {0x10, 0x100}, {0x100, 0x4},
     {0x200, 0x2},    {0x400, 0x400},   {0x800, 0x200}, {0x1000, 0x8},

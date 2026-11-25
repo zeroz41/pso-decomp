@@ -18,4 +18,11 @@ void adxstm_close(AdxStreamFile *file);
 
 extern AdxStreamFile adx_stream_read_requests[40];
 
+struct AdxStreamFile;
+extern "C" {
+s32 adxstm_set_read_range(AdxStreamFile *file, s32 threshold, s32 chunk_size);
+void adxstm_finish_fs();
+s32 adxstm_clear_requests();
+}
+
 #endif

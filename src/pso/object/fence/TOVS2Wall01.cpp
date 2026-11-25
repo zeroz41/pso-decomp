@@ -7,7 +7,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/fence/TOVS2Wall01.h"
@@ -437,7 +437,7 @@ void TOVS2Wall01::render() {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             var_r31 = 0;
         } else {
-            var_r31 = m_340.updateFromCamera(&position.x);
+            var_r31 = m_340.updateFromCamera(&position);
         }
         if (var_r31 != 0) {
             saved_model_render_flags = model_render_flags;

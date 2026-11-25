@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/window/TWindowSubComCard_8007B6D8.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/protocol/packet_classes.h"
 
 struct O_8007B6F4 { u8 pad[0x8c]; u8 flags; };

@@ -16,16 +16,18 @@ public:
     ~TUnk_8013E800();
 };
 
-// TMainCursor +0x60; TUnk_8013EF6C holds two.
-class TUnk_8013E780 {
+// TMainCursor +0x60; LockOnSelection holds two.
+class CursorTarget {
 public:
-    ActionPaletteTag unk_0;
-    s16 unk_4;
-    s16 unk_6;
+    ActionPaletteTag palette_tag;
+    u16 target_index;
+    s16 target_id;
 
-    TUnk_8013E780();
-    ~TUnk_8013E780();
+    CursorTarget();
+    ~CursorTarget();
     void reset_target();
+    CursorTarget *copy_from(CursorTarget *src);
+    void set_target_id(s16 id);
 };
 
 struct TMainCursor : public TObject {
@@ -46,7 +48,7 @@ struct TMainCursor : public TObject {
     void* m_40;
     u8 _pad44[0x8];
     TUnk_804A7254 unk_4c;
-    TUnk_8013E780 unk_60;
+    CursorTarget target;
     void update_position();
     s32 sort_actions_by_priority();
     void reset_state();
@@ -67,8 +69,6 @@ struct TMainCursor : public TObject {
     int check_visible();
     saddr get_state();
     void set_target_index(s16 v);
-    void update_cursor_pos();
-    void*copy_from(void* a1);
     saddr get_index();
     void reset_slot();
     void set_type(s32 v);
@@ -106,7 +106,6 @@ struct TMainCursor : public TObject {
     void validate_target();
     int is_same_target(void *b);
     void set_target_id_at_60(u8 target_id);
-    void set_target_id(s16 v);
     int set_target_index_at_60(void* target_index);
     s32 get_body_exclude_mask();
     s32 get_body_include_mask();

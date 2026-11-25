@@ -3,7 +3,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include <string.h>
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 

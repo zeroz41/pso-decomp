@@ -4,7 +4,7 @@
 #include "pso/system/Adxf.h"
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
 s32 TLobby::create_file_load_entry(const char *name, NJS_TEXLIST *texture, AsyncFileReadCallback callback, const void *params, void **request) {

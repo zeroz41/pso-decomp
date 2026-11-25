@@ -1,5 +1,5 @@
 #include "pso/quest/QuestOpcodeTables.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 const s32 quest_sound_effect_ids[29] = {
     0x54100, 0x52D01, 0x52802, 0x53703, 0x53704, 0x53705,

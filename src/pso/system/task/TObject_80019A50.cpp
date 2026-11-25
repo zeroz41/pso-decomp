@@ -3,7 +3,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 
-void func_80019A68__Fv(void) {
+void update_network_wait_icon(void) {
     advance_network_wait_icon();
     draw_network_wait_icon();
 }

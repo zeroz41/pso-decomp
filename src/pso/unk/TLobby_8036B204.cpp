@@ -4,7 +4,7 @@
 #include "pso/unk/text_80076E84.h"
 #include "pso/unk/TLobby_8036B204.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 

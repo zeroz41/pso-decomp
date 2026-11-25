@@ -85,18 +85,19 @@ public:
 
 // TLockOnCursor::selection. When the player confirms a lock-on candidate, its
 // entity id, part and palette action go into target; the player acts on that entity.
-class TUnk_8013EF6C {
+class LockOnSelection {
 public:
     u16 unk_0;
     s16 unk_2;
     f32 unk_4;
     gc_tag unk_8;
-    TUnk_8013E780 target;
-    TUnk_8013E780 unk_14;
+    CursorTarget target;
+    CursorTarget cursor_target;  // update_cursor_pos copies target here
 
-    TUnk_8013EF6C();
-    ~TUnk_8013EF6C();
+    LockOnSelection();
+    ~LockOnSelection();
     void reset_state();
+    void update_cursor_pos();
 };
 
 // TLockOnCursor +0x508.
@@ -136,7 +137,7 @@ struct TLockOnCursor : public TObject {
     TUnk_8013F08C tasks;
     TUnk_804A7254 unk_48;
     LockOnActionSlot action_slots[4]; // inferred: one action palette tag and its targets each (find_by_pos)
-    TUnk_8013EF6C selection;
+    LockOnSelection selection;
     TUnk_8013EF3C target_part;
     TUnk_8013EF0C nearest_target;
     TUnk_804A7248 palette_override; // the palette action forced by update_cursor or the short list

@@ -16,7 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"

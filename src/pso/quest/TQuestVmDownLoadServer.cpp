@@ -61,7 +61,7 @@ extern s32 lbl_805D49B4;
 
 
 #include "pso/render/TDLGraph.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"

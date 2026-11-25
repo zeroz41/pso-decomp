@@ -11,7 +11,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TEffIndirectSampler.h"
@@ -171,9 +171,9 @@ TUnk_804EFA88::TUnk_804EFA88(TObject *parent) : TObject(parent) {
     lbl_805D6DA0 = this;
 }
 
-void TLobby::release_indexed_entry(s32 arg0) {
+void TLobby::release_indexed_entry(s32 index) {
     if (lbl_805D6DA0 != NULL && lbl_805D6DA0->entry_count < 0x10) {
-        ((TObjPlayer *)lbl_805D6DA0)->free_indexed_entry(arg0);
+        ((TObjPlayer *)lbl_805D6DA0)->free_indexed_entry(index);
         lbl_805D6DA0->entry_count = lbl_805D6DA0->entry_count + 1;
     }
 }

@@ -3,7 +3,7 @@
 #include "pso/object/lobby/TObjParticleLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 // Written from its last function back: the unit is built -inline off,deferred

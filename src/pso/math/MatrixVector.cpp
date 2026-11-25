@@ -38,7 +38,7 @@ void rotate_matrix_about_axis(u8 *matrix, saddr axis, s32 angle) {
 
 void translate_matrix_vec3(u8 *matrix, u8 *vec) {
     const Vec *offset = (const Vec *)vec;
-    translate_matrix((uaddr)matrix, offset->x, offset->y, offset->z);
+    translate_matrix((MtxP)matrix, offset->x, offset->y, offset->z);
 }
 
 // {0.0f, 1.0f}: matrix_identity reads its 1.0f (the Dolphin SDK keeps the same table as Unit01 in mtx.c).

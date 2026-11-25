@@ -2,39 +2,33 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/IPv6.h"
 
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 
 #include <stddef.h>
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetTcpState.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/NetApi.h"
 
 /* This file's functions. */
-s32 abort_tcp_connection(s16 id);
 void clear_position(TcpTcb *tcb);
 s32 close_if_open(TcpTcb *tcb);
 s32 get_rcv_bufsize(TcpTcb *tcb);
 s32 get_rcv_count(TcpTcb *tcb);
 s32 get_rcv_space(TcpTcb *tcb);
 s32 get_snd_queued(TcpTcb *tcb);
-s32 get_tcp_stat(s16 id, s16 *state, s16 *pending, s32 *snd_space, s32 *rcv_count);
 void insert_item_at(TcpTcb *tcb, s16 idx, s32 a, s32 b);
-s32 mark_connection_closed(s16 id);
 void reset_slot_index(TcpTcb *tcb);
-s16 AT_TCP_Connect(s16 handle, NetworkAddress *addr, s16 port);
-s16 tcp_get_socket_handle(s16 i);
-s16 validate_tcp_handle(s16 i);
 
 s16 tcp_sack_empty(TcpTcb *tcb);
 s32 get_snd_space(TcpTcb *tcb);
@@ -168,7 +162,7 @@ void tcp_drop(TcpTcb *tcp_tcb, s16 error) {
 }
 
 extern void tcp_slowtimo(void) {
-    TcpState *g = (TcpState *)&tcp_protocol_state;
+    TcpState *g = &tcp_protocol_state;
     TcpTcb *tcb;
     s16 i;
     s16 j;
@@ -231,7 +225,7 @@ extern s32 tcp_timers(TcpTcb *tcb, s16 timer) {
             tcb->rttvar += tcb->srtt >> 3;
             tcb->srtt = 0;
         }
-        reset_slot_index((void *)tcb);
+        reset_slot_index(tcb);
         tcb->rexmit_bytes = 0;
         tcb->pipe = 0;
         tcb->recover = tcb->snd_una;
@@ -292,7 +286,7 @@ void clear_position(TcpTcb *tcb) {
     tcb->timers[3] = 0;
 }
 
-s32 tcp_sack_next_hole(TcpTcb *tcb, s32 *p1, s32 *p2);
+s32 tcp_sack_next_hole(TcpTcb *tcb, s32 *start, s32 *end);
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
@@ -1470,20 +1464,20 @@ step6:
             } else {
                 found->flags |= 1;
             }
-            goto L1397;
+            goto fin_check;
         } else {
             if ((s32)(hdr.seq - found->rcv_nxt) > 0) {
                 tcp_reass(pkt, (len + total) & 0xffff, found, ti);
             }
             kind &= ~1;
             found->flags |= 1;
-            goto L1397;
+            goto fin_check;
         }
     }
     kind &= ~1;
-L1397:
+fin_check:
     if (!(kind & 1)) {
-        goto L1469;
+        goto send_pending;
     }
     NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 2);
     if (!(found->flags & 0x08)) {
@@ -1515,7 +1509,7 @@ L1397:
         found->timers[3] = 0x78;
         break;
     }
-L1469:
+send_pending:
     if (changed != 0 || (found->flags & 1)) {
         AT_TCP_Rawsend(found);
     }
@@ -1649,13 +1643,13 @@ s32 tcp_dooptions(TcpTcb *self, u8 *data, s16 total, TcpHdr *th)
 }
 #pragma pop
 
-void insert_item_at(TcpTcb *o, s16 idx, s32 a, s32 b) {
+void insert_item_at(TcpTcb *tcb, s16 idx, s32 a, s32 b) {
     s16 i;
     s16 n;
     if (idx < 0) {
         return;
     }
-    n = o->seg_top;
+    n = tcb->seg_top;
     if (idx > n + 1) {
         return;
     }
@@ -1663,16 +1657,16 @@ void insert_item_at(TcpTcb *o, s16 idx, s32 a, s32 b) {
         return;
     }
     if (n >= 0x1F) {
-        o->seg_top = 0x1E;
+        tcb->seg_top = 0x1E;
     }
-    for (i = o->seg_top; i >= idx; i--) {
-        o->segs[i + 1] = o->segs[i];
+    for (i = tcb->seg_top; i >= idx; i--) {
+        tcb->segs[i + 1] = tcb->segs[i];
     }
-    o->segs[idx].start = a;
-    o->segs[idx].end = b;
-    o->segs[idx].edge = b;
-    o->segs[idx].stamp = o->snd_max;
-    o->seg_top++;
+    tcb->segs[idx].start = a;
+    tcb->segs[idx].end = b;
+    tcb->segs[idx].edge = b;
+    tcb->segs[idx].stamp = tcb->snd_max;
+    tcb->seg_top++;
 }
 
 s16 tcp_sack_empty(TcpTcb *tcb) {
@@ -1915,7 +1909,9 @@ void tcp_sack_doack(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n) {
 
 #pragma push
 #pragma pool_data off
-s16 tcp_get_socket_handle(s16 i) {
+s16 tcp_get_socket_handle(i)
+s16 i;
+{
     s16 r;
     if (i < 0 || i >= tcp_protocol_state.count) {
         r = -4;
@@ -1961,7 +1957,12 @@ s32 tcp_start_receive(s16 handle, NetBufferRef *destination, s32 len, TcpComplet
 
 #pragma push
 #pragma pool_data off
-s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent) {
+s16 tcp_start_send(id, req, completion, urgent)
+s16 id;
+NetPacket *req;
+TcpCompletion completion;
+u8 urgent;
+{
     s16 r;
     s16 v;
     s16 ret;
@@ -2087,7 +2088,13 @@ s16 tcp_set_option(s16 i, s16 opt, u32 *val) {
 
 #pragma push
 #pragma pool_data off
-s32 get_tcp_stat(s16 id, s16 *state, s16 *pending, s32 *snd_space, s32 *rcv_count) {
+s32 get_tcp_stat(id, state, pending, snd_space, rcv_count)
+s16 id;
+s16 *state;
+s16 *pending;
+u32 *snd_space;
+u32 *rcv_count;
+{
     s16 r;
     TcpTcb *e;
 
@@ -2125,7 +2132,9 @@ s32 get_tcp_stat(s16 id, s16 *state, s16 *pending, s32 *snd_space, s32 *rcv_coun
 
 #pragma push
 #pragma pool_data off
-s32 mark_connection_closed(s16 id) {
+s32 mark_connection_closed(id)
+s16 id;
+{
     s16 r;
     TcpTcb *e;
 
@@ -2150,7 +2159,9 @@ s32 mark_connection_closed(s16 id) {
 
 #pragma push
 #pragma pool_data off
-s32 abort_tcp_connection(s16 id) {
+s32 abort_tcp_connection(id)
+s16 id;
+{
     s16 r;
     TcpTcb *e;
 
@@ -2177,7 +2188,11 @@ s32 abort_tcp_connection(s16 id) {
 }
 #pragma pop
 
-extern void tcp_set_ip_options(s16 idx, void *a, void *b) {
+void tcp_set_ip_options(idx, a, b)
+s16 idx;
+void *a;
+void *b;
+{
     TcpTcb *e;
 
     e = tcp_protocol_state.tcbs;
@@ -2271,7 +2286,7 @@ extern s32 tcp_unlink_listener(s16 idx) {
     return 0;
 }
 
-extern s32 tcp_pcbbind(s16 idx, NetworkAddress *a, u16 id) {
+s32 tcp_pcbbind(s16 idx, NetworkAddress *a, u16 id) {
     s16 i;
     TcpTcb *e;
     TcpState *g;
@@ -2476,7 +2491,9 @@ u16 tcp_next_ephemeral_port(void)
     return cur;
 }
 
-s16 validate_tcp_handle(s16 i) {
+s16 validate_tcp_handle(i)
+s16 i;
+{
     if (i < 0 || i >= tcp_protocol_state.count) { return -4; }
     if (tcp_protocol_state.tcbs[i].state != 1) { return -4; }
     return 0;

@@ -18,7 +18,7 @@
 
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_800F8A0C.h"
@@ -916,11 +916,11 @@ void TLobby::clear_player_slot_tables(s32 n) {
     lbl_80499A30[n] = 0;
 }
 
-void TLobby::set_entry_params(s32 arg1, s32 arg2, s32 arg3) {
+void TLobby::set_entry_params(s32 index, s32 sector_count, s32 buffer) {
     saddr arg0 = (saddr)this;
-    lobby_checked_read_ptr_table[arg1] = (AdxfHandle **)arg0;
-    lbl_80499A10[arg1] = arg2;
-    lbl_80499A20[arg1] = arg3;
+    lobby_checked_read_ptr_table[index] = (AdxfHandle **)arg0;
+    lbl_80499A10[index] = sector_count;
+    lbl_80499A20[index] = buffer;
 }
 
 #pragma push

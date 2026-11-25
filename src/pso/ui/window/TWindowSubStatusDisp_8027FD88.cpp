@@ -702,7 +702,7 @@ void TWindowSubStatusDisp::vt4() {
     title = (WindowTextEntry *)get_array_entry(1);
     WindowTextEntry *spacer = (WindowTextEntry *)get_array_entry(2);
     WindowTextEntry *value = (WindowTextEntry *)get_array_entry(3);
-    const char *player_name = (const char *)TWindowSubStatusDisp::get_status_window(client_index);
+    const char *player_name = (const char *)get_challenge_rank_title(client_index);
     if (slot != RECORD_SET_EP1 || player_name == NULL || *player_name == 0) {
         title->flags |= RecordEntryHidden;
         spacer->flags |= RecordEntryHidden;
@@ -713,13 +713,13 @@ void TWindowSubStatusDisp::vt4() {
         value->flags &= ~RecordEntryHidden;
         set_text_entry_string((u8 *)title, (uaddr)TWindowSubStatusDisp::get_message_10(0x9B), 0);
         set_text_entry_string((u8 *)value, (uaddr)player_name, 0x20);
-        value->color = TWindowSubStatusDisp::get_status_index(client_index);
+        value->color = get_challenge_title_color(client_index);
     }
 
     title = (WindowTextEntry *)get_array_entry(4);
     spacer = (WindowTextEntry *)get_array_entry(5);
     value = (WindowTextEntry *)get_array_entry(6);
-    s32 rank = TWindowSubStatusDisp__sub_80071868(client_index, slot);
+    s32 rank = get_challenge_rank(client_index, slot);
     if (rank == 0) {
         title->flags |= RecordEntryHidden;
         spacer->flags |= RecordEntryHidden;
@@ -739,7 +739,7 @@ void TWindowSubStatusDisp::vt4() {
     title = (WindowTextEntry *)get_array_entry(7);
     spacer = (WindowTextEntry *)get_array_entry(8);
     value = (WindowTextEntry *)get_array_entry(9);
-    s32 time = TWindowSubStatusDisp__sub_80071988(client_index, slot);
+    s32 time = get_challenge_set_time(client_index, slot);
     if (time == 0) {
         title->flags |= RecordEntryHidden;
         spacer->flags |= RecordEntryHidden;
@@ -765,7 +765,7 @@ void TWindowSubStatusDisp::vt4() {
     title = (WindowTextEntry *)get_array_entry(0xA);
     spacer = (WindowTextEntry *)get_array_entry(0xB);
     value = (WindowTextEntry *)get_array_entry(0xC);
-    rank = TWindowSubStatusDisp__sub_80071868(client_index, slot);
+    rank = get_challenge_rank(client_index, slot);
     if (rank == 0) {
         title->flags |= RecordEntryHidden;
         spacer->flags |= RecordEntryHidden;
@@ -781,7 +781,7 @@ void TWindowSubStatusDisp::vt4() {
     title = (WindowTextEntry *)get_array_entry(0xD);
     spacer = (WindowTextEntry *)get_array_entry(0xE);
     value = (WindowTextEntry *)get_array_entry(0xF);
-    time = TWindowSubStatusDisp__sub_80071988(client_index, slot);
+    time = get_challenge_set_time(client_index, slot);
     if (time == 0) {
         title->flags |= RecordEntryHidden;
         spacer->flags |= RecordEntryHidden;
@@ -819,7 +819,7 @@ void vt5__20TWindowSubStatusDispFv(u8 *window_base) {
   type = ((TWindowSubStatusDisp *)new_var)->get_display_mode();
   e = (u16 *) (void *)((TWindowBase *)window_base)->get_array_entry(0);
   set_text_entry_string((u8 *)e, (saddr)TWindowSubStatusDisp::get_message_10(status_disp_vt5_message_ids[type]), 0);
-  n = TWindowSubStatusDisp::get_layout_id(type);
+  n = challenge_set_stage_count(type);
   i = 0;
   do
   {
@@ -831,7 +831,7 @@ void vt5__20TWindowSubStatusDispFv(u8 *window_base) {
     }
     else
     {
-      r = TWindowSubStatusDisp__sub_80071A24(i, *((s16 *) (((s8 *) window_base) + 0x20)), type);
+      r = get_challenge_stage_time(i, *((s16 *) (((s8 *) window_base) + 0x20)), type);
       if (r == 0)
       {
         *e |= 2;

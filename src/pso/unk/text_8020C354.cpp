@@ -1,7 +1,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/text_8020C354.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 struct Row_8020C354 { s16 type, flags; u8 u4[8]; s16 room; u8 ue[0x3a]; };
 
 

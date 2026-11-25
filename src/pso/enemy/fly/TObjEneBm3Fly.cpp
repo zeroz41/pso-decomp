@@ -27,7 +27,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/moja/TObjEneMoja.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"

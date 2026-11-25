@@ -14,7 +14,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80228E98.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_80347F34.h"
@@ -307,6 +308,7 @@ u8 TWindowDD__sub_80347858(s16 arg0) {
     }
     return (u8)r;
 }
+}
 
 s32 TWindowDD::is_state_zero_unless_0x2C8(s32 arg0) {
     if ((s16)arg0 == 0x2C8) {
@@ -371,6 +373,7 @@ u8 *TWindowDD::init_last_child() {
     }
     return var_r31;
 }
+extern "C" {
 
 void TWindowDD__sub_80347A4C(u8 *arg0, saddr window_dd) {
     s32 temp_r3;
@@ -521,6 +524,7 @@ void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1) {
         }
     }
 }
+}
 
 s32 TWindowDD::get_current_child_index() {
     u8 *arg0 = (u8 *)this;
@@ -532,8 +536,6 @@ s32 TWindowDD::get_current_child_index() {
     }
     var_r3 = (u8 *)((void *)-1U);
     return -1;
-}
-
 }
 #pragma pop
 
@@ -665,23 +667,22 @@ struct W_80348520 {
 extern "C" {
 s32 copy_chat_entry__9TWindowDDFPvPv(int, void *);
 s32 reset_selection__9TWindowDDFv(void *, void *);
+}
 
 int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask((char*)this + 0x1c, 4); }
-
-extern s32 TWindowDD__window_mode;
 
 s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index) {
     switch ((s32) TWindowDD__window_mode) {
     case 0:
-        return TWindowDD__sub_80346640(window, window_mode, entry_id, value_index);
+        return window->get_entry_value_japanese(window_mode, entry_id, value_index);
     default:
-        return TWindowDD__sub_80346434(window, window_mode, entry_id, value_index);
+        return window->get_entry_value_english(window_mode, entry_id, value_index);
     case 4:
-        return TWindowDD__sub_80344774(window, window_mode, entry_id, value_index);
+        return window->get_entry_value_spanish(window_mode, entry_id, value_index);
     case 2:
-        return TWindowDD__sub_80344568(window, window_mode, entry_id, value_index);
+        return window->get_entry_value_german(window_mode, entry_id, value_index);
     case 3:
-        return TWindowDD__sub_8034435C(window, window_mode, entry_id, value_index);
+        return window->get_entry_value_french(window_mode, entry_id, value_index);
     }
 }
 
@@ -697,11 +698,12 @@ s32 TWindowDD::get_word_select_context() {
     if (TObjPlayer::get_player_count() != 0) {
         return 4;
     }
-    if (TLobby::is_flag_set() != 0) {
+    if (is_challenge_mode() != 0) {
         return 5;
     }
     return (this->m_a0 != 0 ? 1 : 0) + 2;
 }
+extern "C" {
 
 int TWindowDD__sub_80348424(s32 _w0, s32 _w1) { return TWindowDD__sub_8034B008((saddr)((void*)(1)), (_w1)); }
 
@@ -728,6 +730,7 @@ void TWindowDD__sub_803484C4(u8 *window_dd) {
         reset_selection__9TWindowDDFv(window_dd, window_dd + 0xC4);
     }
     ((TWindowDD *)window_dd)->close_all_windows();
+}
 }
 
 void TWindowDD::close_all_windows() {
@@ -807,8 +810,6 @@ s32 TWindowDD::clamp_range_2C9_552(s16 id) {
         return id - 0x2C9;
     }
     return 0;
-}
-
 }
 
 

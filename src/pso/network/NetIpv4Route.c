@@ -2,9 +2,9 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppVj.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
@@ -12,12 +12,12 @@
 
 #include "types.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_8041112C.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetIpv6Route.h"
+#include "pso/network/NetApi.h"
 
-s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
+s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, int origin, int type, int flags);
 
 #include <stddef.h>
 
@@ -32,7 +32,7 @@ s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
 #pragma inline_depth(4)
 
 s32 shutdown_ipv4_routing(void) {
-    term_ipv4_routing_config((void *)&ipv4_address_routing_state);
+    term_ipv4_routing_config(&ipv4_address_routing_state);
     ipv4_address_routing_state.nroutes = 0;
     ipv4_address_routing_state.nifaces = 0;
     ipv4_address_routing_state.max_aliases = 0;
@@ -236,7 +236,7 @@ extern s16 bring_down_ipv4_interface(s16 id) {
     nd = b->aliases;
     cnt = 0;
     while (nd != NULL && cnt < g->max_aliases) {
-        if (is_socket_flag_set(id) == 0 && first_iface_addr(pn, pb, &addr)) {
+        if (link_is_loopback(id) == 0 && first_iface_addr(pn, pb, &addr)) {
             remove_iface_route(g, nd->addr, addr);
         }
         link_update_address(id, b->handle, 2, &nd->addr);
@@ -252,7 +252,7 @@ extern s16 bring_down_ipv4_interface(s16 id) {
             nd = next;
         }
     }
-    if (is_socket_flag_set(id) == 0 && first_iface_addr(pn, pb, &addr)) {
+    if (link_is_loopback(id) == 0 && first_iface_addr(pn, pb, &addr)) {
         remove_iface_route(g, b->addr, addr);
     }
     {
@@ -327,7 +327,7 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     found = 0;
     ifc->aliases = NULL;
     gateway = 0xFFFFFFFF;
-    if (is_socket_flag_set(idx) == 0 && !unspecified) {
+    if (link_is_loopback(idx) == 0 && !unspecified) {
         found = first_iface_addr(pn, pifs, &gateway);
         if (found) {
             found = NetIPv4AddRoute(addr, 0xFFFFFFFF, gateway, 0, 1, 0);
@@ -346,7 +346,7 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     }
     err = NetIPv4AddRoute(addr & mask, mask, addr, 0, 1, 0);
     if (err < 0) {
-        if (is_socket_flag_set(idx) == 0 && gateway != 0xFFFFFFFF && !unspecified) {
+        if (link_is_loopback(idx) == 0 && gateway != 0xFFFFFFFF && !unspecified) {
             remove_iface_route(g, addr, gateway);
         }
         call_entry_callback(idx, ifc->handle);
@@ -427,7 +427,7 @@ Ipv4Route *AT_IP4_RouteSearch(u32 dst, u32 src) {
     return NULL;
 }
 
-s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
+s32 route4_redirect(u32 dst, u32 new_gateway, u32 mask, u32 flags, u32 old_gateway)
 {
   Ipv4RoutingState *tbl = &ipv4_address_routing_state;
   u32 route_dst;
@@ -435,7 +435,6 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
   s16 i;
   s16 found = 0;
   Ipv4Route *e;
-  s16 NetIPv4AddRoute(u32, u32, u32, int, int, int); /* declared here with promoted parameter types; the definition is s16 (u32, u32, u32, s16, u8, u16) */
   for (i = 0, e = tbl->routes; i < tbl->nroutes; i++, e++)
   {
     if (!(e->flags & 1))
@@ -449,14 +448,14 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
     route_dst = e->dst;
     if (route_dst == 0)
     {
-      a4 |= 2;
+      flags |= 2;
       found = 1;
       continue;
     }
-    f = (u16) a4;
-    if (a4 & 4)
+    f = (u16) flags;
+    if (flags & 4)
     {
-      if (((!e->flags) & 4) || (route_dst != a1))
+      if (((!e->flags) & 4) || (route_dst != dst))
       {
         continue;
       }
@@ -468,7 +467,7 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
     {
       continue;
     }
-    if ((a1 & e->mask) != (route_dst & a3))
+    if ((dst & e->mask) != (route_dst & mask))
     {
       continue;
     }
@@ -479,7 +478,7 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
 
   if (found != 0)
   {
-    if (NetIPv4AddRoute(a1, a3, new_gateway, 1, 2, a4) != 0)
+    if (NetIPv4AddRoute(dst, mask, new_gateway, 1, 2, flags) != 0)
     {
       return -1;
     }
@@ -562,7 +561,14 @@ inline Ipv4Iface *ipv4_ifaces(Ipv4RoutingState *g) {
 }
 #pragma push
 #pragma opt_common_subs on
-s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 origin, u8 type, u16 flags) {
+s16 NetIPv4AddRoute(dst, mask, gateway, origin, type, flags)
+u32 dst;
+u32 mask;
+u32 gateway;
+s16 origin;
+u8 type;
+u16 flags;
+{
     Ipv4RoutingState *g = &ipv4_address_routing_state;
     Ipv4Iface *ifaces;
     s16 m;

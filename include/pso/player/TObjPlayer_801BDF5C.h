@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+extern s32 lobby_player_count;
+
 struct TObjPlayer;
 class TPlyCharData;
 

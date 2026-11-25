@@ -10,12 +10,14 @@ public:
     TPlyMeetUserExtension();
 
     TPlyGuildCardTag tags[8];
-    u32 mbr_0x40;
+    u32 unknown;
     char player_name[16];
     char player_name2[16];
 public:
     void bswap();
 };
+TPlyMeetUserExtension *copy_ply_meet_user_extension(TPlyMeetUserExtension *dst, TPlyMeetUserExtension *src);
+
 LAYOUT_ASSERT(TPlyMeetUserExtensionSize, sizeof(TPlyMeetUserExtension) == 0x64);
 
 #endif

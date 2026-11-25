@@ -4,7 +4,7 @@
 #include "pso/unk/TLobby_800FC3CC.h"
 #include "pso/ui/UISprite.h"
 #include "pso/camera/CreationCamera.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

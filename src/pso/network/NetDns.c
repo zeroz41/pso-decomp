@@ -2,9 +2,9 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppVj.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
@@ -12,10 +12,10 @@
 
 #include "types.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_8041112C.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetIpv6Route.h"
+#include "pso/network/NetApi.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
 void complete_pending_request(s16 id, s16 event);
 void tick_connection_timeouts(void);
@@ -37,10 +37,10 @@ typedef struct DnsQueryHeader {
     u16 id;
     u8 flags_high;
     u8 flags_low;
-    s16 qd;
-    s16 an;
-    s16 ns;
-    s16 ar;
+    u16 qd;
+    u16 an;
+    u16 ns;
+    u16 ar;
 } DnsQueryHeader;
 
 typedef struct DnsQuestion {
@@ -62,7 +62,7 @@ s32 dns_encode_name(u8 *dst, char *src, s32 max);
 s32 dns_term(void) {
     s32 ret;
     s16 i;
-    DnsResolverState *m = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *m = &dns_resolver_state;
     DnsQuery *e;
 
     ret = reset_at_timer(tick_connection_timeouts);
@@ -146,7 +146,7 @@ s16 dns_init(void) {
             p->active = 0;
             p->socket = -1;
             p->id = 0;
-            p->waiter = -1;
+            p->waiter = DNS_NO_WAITER;
             p->status = -65;
             p->outstanding = 0;
             p->msg = 0;
@@ -162,7 +162,7 @@ s16 dns_init(void) {
 #pragma push
 #pragma opt_propagation off
 s32 dns_close(s16 i) {
-    DnsResolverState *g = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *g = &dns_resolver_state;
     DnsQuery *e;
     if (i < 0 || i > g->nqueries) { return -2; }
     e = (DnsQuery *)((u8 *)g->queries + i * 0x3C);
@@ -171,7 +171,7 @@ s32 dns_close(s16 i) {
 }
 #pragma pop
 
-extern void dns_copy_lookup_result(DnsLookupRequest *p);
+extern void dns_copy_lookup_result(DnsLookupRequest *self);
 #pragma push
 #pragma opt_propagation off
 extern s16 dns_get_addr(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, uaddr mode) {
@@ -185,7 +185,7 @@ extern s16 dns_get_addr(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, uad
         return -2;
     }
     f = &g->queries[idx];
-    e = (DnsQuery *)f;
+    e = f;
     if (f->active == 0) {
         return -2;
     }
@@ -214,11 +214,11 @@ extern s16 dns_get_addr(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, uad
     if (mode == 0) {
         lock_at_sem();
         if (e->status > 0 || e->outstanding > 0) {
-            if (e->waiter != 0xFFFFFFFF) {
+            if (e->waiter != DNS_NO_WAITER) {
                 unlock_at_sem();
                 return -2;
             }
-            NetStoreCurrentThread((s32 *)&e->waiter);
+            NetStoreCurrentThread(&e->waiter);
             unlock_at_sem();
             NetSuspendCurrentThread();
         } else {
@@ -428,7 +428,7 @@ s16 dns_open_addr(char *name, s16 len, s32 type)
 #pragma pop
 
 s32 dns_clear_server(void) {
-    DnsResolverState *g = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *g = &dns_resolver_state;
     s32 cnt;
     s16 i;
     NetworkAddress *r;
@@ -450,32 +450,32 @@ s32 dns_clear_server(void) {
     return cnt;
 }
 
-inline s32 addr_compare(u32 family, u8 *a, u8 *b) {
+inline s32 addr_compare(u32 family, NetworkAddress *a, NetworkAddress *b) {
     switch (family) {
     case 4:
-        if (*(u32 *)b != 4) {
+        if (b->family != 4) {
             return -1;
         }
-        return NetMemcmp(a + 4, b + 4, 4);
+        return NetMemcmp(a->address, b->address, 4);
     case 6:
-        if (*(u32 *)b != 6) {
+        if (b->family != 6) {
             return -1;
         }
-        return NetMemcmp(a + 4, b + 4, 0x10);
+        return NetMemcmp(a->address, b->address, 0x10);
     default:
     case 0:
         return -1;
     }
 }
-extern s16 dns_set_server(u8 *self) {
+s16 dns_set_server(NetworkAddress *self) {
     DnsResolverState *g;
     s16 ret;
     s16 i;
-    u8 *p;
-    u8 *slot;
+    NetworkAddress *p;
+    NetworkAddress *slot;
     u32 family;
 
-    switch (*(u32 *)self) {
+    switch (self->family) {
     case 4:
     case 6:
         break;
@@ -485,18 +485,18 @@ extern s16 dns_set_server(u8 *self) {
     }
     lock_at_sem();
     g = &dns_resolver_state;
-    p = (u8 *)g->servers;
+    p = g->servers;
     slot = NULL;
-    for (i = 0; i < g->nservers; i++, p += 0x14) {
-        if (*(u32 *)p == 0) {
+    for (i = 0; i < g->nservers; i++, p++) {
+        if (p->family == 0) {
             if (slot == NULL) {
                 ret = i;
                 slot = p;
             }
             continue;
         }
-        family = *(u32 *)self;
-        if (family != *(u32 *)p) {
+        family = self->family;
+        if (family != p->family) {
             continue;
         }
         if (addr_compare(family, self, p) == 0) {
@@ -506,7 +506,7 @@ extern s16 dns_set_server(u8 *self) {
         }
     }
     if (slot != NULL) {
-        NetMemcpy(slot, self, 0x14);
+        NetMemcpy(slot, self, sizeof(NetworkAddress));
     } else {
         ret = -2;
     }
@@ -524,7 +524,7 @@ void tick_connection_timeouts(void) {
     s16 i;
 
     dns_expire_cache();
-    g = (DnsResolverState *)&dns_resolver_state;
+    g = &dns_resolver_state;
     c = g->ptrs;
     i = 0;
     while (i < g->nptrs) {
@@ -541,7 +541,7 @@ void tick_connection_timeouts(void) {
 
 extern void dns_tick_queries(void)
 {
-    DnsResolverState *base = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *base = &dns_resolver_state;
     NetworkAddress *found;
     s16 *dp;
     s16 cnt;
@@ -602,8 +602,8 @@ extern void dns_resend_query(void *arg)
     s16 ret;
     s16 *dp;
 
-    base = (DnsResolverState *)&dns_resolver_state;
-    if ((found = dns_next_server((DnsResolverState *)base, (DnsQuery *)e)) == NULL) {
+    base = &dns_resolver_state;
+    if ((found = dns_next_server(base, e)) == NULL) {
         dns_complete_query(e, -0x44, 0);
         return;
     }
@@ -618,7 +618,7 @@ extern void dns_resend_query(void *arg)
         e->status = e->status + 1;
         return;
     }
-    if (*(s16 *)((u8 *)e + 8) == 1 && *(u32 *)((u8 *)e + 0x20) == 0) {
+    if (e->kind == 1 && e->req.lookup.family == 0) {
         e->timer = 2;
         e->outstanding = 1;
         return;
@@ -652,7 +652,7 @@ extern void dns_expire_cache(void) {
     DnsResolverState *base;
     DnsHost *e;
 
-    base = (DnsResolverState *)&dns_resolver_state;
+    base = &dns_resolver_state;
     e = base->hosts;
     i = 0;
     while (i < base->nhosts) {
@@ -763,7 +763,7 @@ s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
 }
 
 inline DnsQuery *find_query_by_socket(s16 id) {
-    DnsResolverState *g = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *g = &dns_resolver_state;
     s16 n;
     DnsQuery *e;
     s16 i;
@@ -894,7 +894,7 @@ s16 dns_parse_reply(DnsQuery *self)
   s32 len;
   DnsQuery *s;
   DnsBuffer *p;
-  u8 *hdr;
+  DnsQueryHeader *hdr;
   u8 *qname;
   u16 cnt;
   s16 n;
@@ -904,17 +904,17 @@ s16 dns_parse_reply(DnsQuery *self)
   s32 r;
   s = self;
   p = s->reply;
-  hdr = p->data;
+  hdr = (DnsQueryHeader *)p->data;
   len = p->len;
-  if ((*((u16 *) hdr)) != (u16) s->id)
+  if (hdr->id != (u16) s->id)
   {
     return -1;
   }
-  if (!(hdr[2] & 0x80))
+  if (!(hdr->flags_high & 0x80))
   {
     return -1;
   }
-  rcode = hdr[3] & 0xF;
+  rcode = hdr->flags_low & 0xF;
   switch (rcode)
   {
     case 1:
@@ -936,7 +936,7 @@ s16 dns_parse_reply(DnsQuery *self)
       return -1;
 
     case 0:
-      if ((*((u16 *)(hdr + 6))) == 0)
+      if (hdr->an == 0)
     {
       s->timer = 1;
       return -1;
@@ -945,9 +945,9 @@ s16 dns_parse_reply(DnsQuery *self)
 
   }
 
-  cur = hdr + DNS_HEADER_SIZE;
+  cur = (u8 *)hdr + DNS_HEADER_SIZE;
   len -= DNS_HEADER_SIZE;
-  t = *((u16 *)(hdr + 4));
+  t = hdr->qd;
   if (t != 0)
   {
     n = t;
@@ -961,7 +961,7 @@ s16 dns_parse_reply(DnsQuery *self)
     }
 
   }
-  cnt = *((u16 *)(hdr + 6));
+  cnt = hdr->an;
   if (cnt != 0)
   {
     while (((s16) cnt) > 0)
@@ -1223,9 +1223,9 @@ s32 close_and_reset_connection(DnsQuery *self) {
     self->kind = 0;
     self->status = -0x41;
     self->outstanding = 0;
-    if (self->waiter != 0xFFFFFFFFU) {
+    if (self->waiter != DNS_NO_WAITER) {
         resume_thread(self->waiter);
-        self->waiter = -1;
+        self->waiter = DNS_NO_WAITER;
     }
     unlock_at_sem();
     return result;
@@ -1439,7 +1439,7 @@ s32 append_to_list(DnsHost *o, DnsAddr *n) {
         o->addrs = n;
         return 0;
     }
-    for (p = o->addrs, i = 0; i < ((DnsResolverState *)&dns_resolver_state)->naddrs; i++) {
+    for (p = o->addrs, i = 0; i < dns_resolver_state.naddrs; i++) {
         if (p->next == NULL) {
             o->naddrs++;
             p->next = n;
@@ -1467,16 +1467,16 @@ void dispatch_request_callback(DnsQuery *connection, s16 status) {
         if (a->cb == NULL) {
             if (status != 0) {
                 lock_at_sem();
-                if (connection->waiter != 0xFFFFFFFFU) {
+                if (connection->waiter != DNS_NO_WAITER) {
                     resume_thread(connection->waiter);
-                    connection->waiter = -1;
+                    connection->waiter = DNS_NO_WAITER;
                 }
                 unlock_at_sem();
                 return;
             }
-            if (connection->waiter != 0xFFFFFFFFU) {
+            if (connection->waiter != DNS_NO_WAITER) {
                 resume_thread(connection->waiter);
-                connection->waiter = -1;
+                connection->waiter = DNS_NO_WAITER;
             }
             return;
         }
@@ -1497,16 +1497,16 @@ void dispatch_request_callback(DnsQuery *connection, s16 status) {
         if (b->cb == NULL) {
             if (status != 0) {
                 lock_at_sem();
-                if (connection->waiter != 0xFFFFFFFFU) {
+                if (connection->waiter != DNS_NO_WAITER) {
                     resume_thread(connection->waiter);
-                    connection->waiter = -1;
+                    connection->waiter = DNS_NO_WAITER;
                 }
                 unlock_at_sem();
                 return;
             }
-            if (connection->waiter != 0xFFFFFFFFU) {
+            if (connection->waiter != DNS_NO_WAITER) {
                 resume_thread(connection->waiter);
-                connection->waiter = -1;
+                connection->waiter = DNS_NO_WAITER;
             }
             return;
         }

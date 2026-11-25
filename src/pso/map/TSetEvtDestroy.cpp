@@ -3,7 +3,7 @@
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/EventShuffleTable.h"
 
 #include "pso/map/TSetEvtDestroy.h"

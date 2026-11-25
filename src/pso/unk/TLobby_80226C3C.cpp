@@ -1,11 +1,12 @@
 #include <string.h>
+#include "pso/audio/AdxtInit.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxTalk.h"
 #include "pso/unk/text_803C5B50.h"
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/memory.h"
@@ -253,9 +254,9 @@ void set_dark_falz_music_request(s32 arg0) {
     }
 }
 
-void TLobby::set_target_id(s32 arg0) {
+void TLobby::set_target_id(s32 target_id) {
     if ((s32) lbl_805D6300 != 4) {
-        music_target_id = arg0;
+        music_target_id = target_id;
     }
 }
 
@@ -312,7 +313,7 @@ s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
 void init_adx_audio_system(void);
 
-// inferred: the four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
+// The four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).
 extern const SndHooks snd_hooks = { TLobby__sub_80227A4C, TLobby::free };
 const char *bgm_stream_files[] = {"bass.acx", "map1.acx", "map2.acx", "quest.acx", NULL};
@@ -478,7 +479,7 @@ static Passage_80226FA0 ruin_mode1_passages[7] = {
 };
 static Program_80226FA0 ruin_music = {"slbgm_ruin.afs", 7, 171, 206, {ruin_mode0_passages, ruin_mode1_passages}};
 
-// inferred: the area music programs init_music_sequencer selects by index.
+// The area music programs init_music_sequencer selects by index.
 Program_80226FA0 *music_programs[] = {
     &forest_music, &cave_music, &machine_music, &ancient_music, &dark_music,
     &jungle_music, &seabed_music, &ruin_music, &space_music,
@@ -584,7 +585,7 @@ void TLobby::shutdown_buffers() {
         xfree(lbl_805D62DC);
         lbl_805D62DC = NULL;
     }
-    TLobby::dec_ref_and_shutdown();
+    adxt_finish();
     if (lbl_805D62EC != 0U) {
         safe_free(reinterpret_cast<void *>(lbl_805D62EC));
     }
@@ -600,7 +601,7 @@ void init_adx_audio_system(void) {
     lbl_805D62D8 = xmalloc(0xA924);
     lbl_805D62DC = xmalloc(0xA000);
     TLobby__sub_803CBE20(lbl_805D62DC, 0xA000, 5);
-    TLobby::init_and_add_ref();
+    adxt_init();
     setup_adx_file_systems(NULL);
     init_runtime_threads(NULL);
     SndHooks hooks = snd_hooks;

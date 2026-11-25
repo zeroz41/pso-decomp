@@ -3,6 +3,11 @@
 #include "types.h"
 #include "pso/network/TradeItemEntry.h"
 
+struct G_ModifyTradeProposal_6xA6;
+struct TWindowSubTrade;
+struct TWindowSubTradeMain;
+class TWindowSubTradeMessage;
+
 // [0] is the local player's side, [1] the trade partner's.
 extern TradeSide trade_window_state[2];
 // The trade session state (.sbss), defined in TradeSession.cpp.
@@ -10,41 +15,48 @@ extern u16 trade_protocol_flags;
 extern s8 trade_partner_client_id;
 extern u8 trade_proposal_state;
 extern s32 trade_proposal_delay;
-extern uaddr trade_main_window;
+extern TWindowSubTradeMain *trade_main_window;
 
-struct G_ModifyTradeProposal_6xA6;
-
-typedef void (*TradeProposalHandler)(void* packet);
+// Handlers of a 6xA6 trade proposal, by trade state and proposal type (what).
+typedef void (*TradeProposalHandler)(G_ModifyTradeProposal_6xA6 *proposal);
 extern "C" TradeProposalHandler trade_proposal_state_handlers[10][8];
+
+TradeItemList *get_trade_list_items(void);
+TradeItemList *get_trade_offer_items(void);
+TradeItemList *get_trade_window_state(void);
+
+// The open trade windows register here; each call returns 1 when it changed the slot.
+s32 clear_trade_message_controller_if_owner(TWindowSubTradeMessage *window);
+s32 set_trade_message_controller(TWindowSubTradeMessage *window);
+s32 release_trade_main_window(TWindowSubTradeMain *window);
+s32 claim_trade_main_window(TWindowSubTradeMain *window);
+s32 release_trade_sub_window(TWindowSubTrade *window);
+s32 claim_trade_sub_window(TWindowSubTrade *window);
 
 void cancel_trade_for_member_out_of_range(s32 client_id);
 const char *format_trade_out_of_range_message(s32 client_id);
 void handle_6xA6_modify_trade_proposal(u8 *message_window);
 void handle_6xA7(void);
 void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal);
-void handle_trade_final_confirmation(void *packet);
+void handle_trade_final_confirmation(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_item_amount(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_item_move(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_request_state_a(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_request_state_b(G_ModifyTradeProposal_6xA6 *proposal);
-void handle_trade_offer_confirmation(void *packet);
-void handle_trade_partner_cancel(void *packet);
-void handle_trade_request_reply(void *packet);
+void handle_trade_offer_confirmation(G_ModifyTradeProposal_6xA6 *proposal);
+void handle_trade_partner_cancel(G_ModifyTradeProposal_6xA6 *proposal);
+void handle_trade_request_reply(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_state_cancel(G_ModifyTradeProposal_6xA6 *proposal);
-void ignore_trade_proposal_event(void);
+void ignore_trade_proposal_event(G_ModifyTradeProposal_6xA6 *proposal);
 void reset_trade_session(void);
 // Resets the trade state and shows message in the trade message window.
 void reset_trade_session(const char *message);
-extern "C" {
-void send_6xA6_modify_trade_proposal(saddr client_id);
-}
 void send_trade_busy_reply(saddr client_id);
 void update_status_message(G_ModifyTradeProposal_6xA6 *proposal);
 
-// --- C functions defined in TradeSession.cpp ---
 extern "C" {
 saddr build_trade_partner_status_text(void);
+void send_6xA6_modify_trade_proposal(saddr client_id);
 }
-// --- end of C functions
 
 #endif

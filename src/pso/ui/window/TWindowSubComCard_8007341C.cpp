@@ -8,7 +8,8 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -22,7 +23,6 @@
 
 extern "C" {
 char *get_message_text(s32);
-s32 fn_80071A9C(void *, void *, void *);
 __declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};
 char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
@@ -58,29 +58,29 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challe
             strcat(challenge_progress_text_buffer, (char *)(((u8 *)get_player_by_client_id(i)) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n  ");
             data = &rec->records;
-            slot = TWindowSubStatusDisp__sub_8006F134(data, kind);
-            t = TLobby::get_valid_slot(TWindowSubStatusDisp__sub_8006F0D8(data, kind)[idx]);
+            slot = challenge_set_rank(data, kind);
+            t = decode_challenge_time(challenge_set_stage_times(data, kind)[idx]);
             if (t == 0) {
                 strcat(challenge_progress_text_buffer, "      ");
                 strcat(challenge_progress_text_buffer, get_message_text(0x51));
                 strcat(challenge_progress_text_buffer, "\n");
             } else {
-                if ((s32)TLobby::get_slot_clamped((u32)(slot->rank)) == 0) {
+                if ((s32)decode_challenge_count((u32)(slot->rank)) == 0) {
                     strcat(challenge_progress_text_buffer, "            ");
                 } else {
-                    p = TWindowSubStatusDisp__sub_8006F0D8(data, kind);
+                    p = challenge_set_stage_times(data, kind);
                     sum = 0;
-                    n = TWindowSubStatusDisp::get_layout_id(kind);
+                    n = challenge_set_stage_count(kind);
                     for (j = 0; j < n; j++, p++) {
-                        sum += TLobby::get_valid_slot(*p);
+                        sum += decode_challenge_time(*p);
                     }
-                    sl = (s32)TLobby::get_slot_clamped((u32)(slot->rank));
-                    TQuestVmDownLoadServer::split_time_hms(sum, &h1, &m1, &s1);
+                    sl = (s32)decode_challenge_count((u32)(slot->rank));
+                    split_challenge_time(sum, &h1, &m1, &s1);
                     sprintf(buf2, "%02d'%02d\"%02d %s", h1, m1, s1, challenge_grade_letter_table[sl]);
                     strcat(challenge_progress_text_buffer, buf2);
                 }
                 strcat(challenge_progress_text_buffer, "  ");
-                TQuestVmDownLoadServer::split_time_hms(t, &h2, &m2, &s2);
+                split_challenge_time(t, &h2, &m2, &s2);
                 sprintf(buf1, "%1d'%02d\"%02d\n", h2, m2, s2);
                 strcat(challenge_progress_text_buffer, buf1);
             }
@@ -103,7 +103,7 @@ void TLobby::open_challenge_window(s32 lobby, s32 challenge_id) {
     challenge_mode_state.record_window->append_line((saddr)challenge_progress_text_buffer, 0);
 }
 
-void TChallenge::open_challenge_progress_window(void *slot) {
+void TChallenge::open_challenge_progress_window(s32 slot) {
     char tmp[32];
     s32 n;
     ChallengeClientRecords *rec;
@@ -124,8 +124,8 @@ void TChallenge::open_challenge_progress_window(void *slot) {
         if (rec->present != 0) {
             strcat(challenge_progress_text_buffer, (char *)(((u8 *)get_player_by_client_id(i)) + 0x85C));
             strcat(challenge_progress_text_buffer, "\n    ");
-            n = fn_80071A9C(this, &rec->records, slot);
-            if (n >= TWindowSubStatusDisp::get_layout_id((saddr)slot)) {
+            n = count_cleared_stages(&rec->records, slot);
+            if (n >= challenge_set_stage_count(slot)) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x52));
             } else if (n == 0) {
                 strcat(challenge_progress_text_buffer, get_message_text(0x51));
@@ -156,10 +156,10 @@ void TChallenge::show_challenge_record_window(s32 mode) {
     case 0:
         return;
     case 1:
-        open_challenge_progress_window((void *)0);
+        open_challenge_progress_window(0);
         break;
     case 2:
-        open_challenge_progress_window((void *)1);
+        open_challenge_progress_window(1);
         break;
     default:
         TLobby::open_challenge_window((saddr)this, mode);

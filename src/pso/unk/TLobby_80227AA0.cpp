@@ -1,4 +1,5 @@
 #include "pso/network/protocol/GameplaySoundPacket.h"
+#include "pso/audio/AdxTalk.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"
@@ -6,7 +7,7 @@
 #include "pso/audio/AdxManager.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8023F660.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_8023F734.h"
@@ -70,13 +71,13 @@ s32 TLobby::is_camera_state_active() {
 void TLobby::set_mode(s32 mode) {
     switch (mode) {
     case 0:
-        TLobby::on_set_mode(1);
+        adxt_set_output_mono(1);
         break;
     case 1:
-        TLobby::on_set_mode(0);
+        adxt_set_output_mono(0);
         break;
     case 2:
-        TLobby::on_set_mode(0);
+        adxt_set_output_mono(0);
         break;
     }
     sound_control_state.set_output_mode(mode);
@@ -87,8 +88,8 @@ void get_menu_field_280__6TLobbyFv(void) {
     ((TLobby *)&sound_control_state)->get_field_0x280();
 }
 
-void TLobby::set_menu_index_main(u8 *arg0) {
-    ((TLobby *)&sound_control_state)->set_menu_index((saddr)arg0);
+void TLobby::set_menu_index_main(u8 *index) {
+    ((TLobby *)&sound_control_state)->set_menu_index((saddr)index);
 }
 
 void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }

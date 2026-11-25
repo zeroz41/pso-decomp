@@ -167,13 +167,13 @@ void TOBoss4Bird::run_task() {
         subtract_vector(&scratch_vec, &position);
         rotation_y = approach_angle_limited(
             rotation_y, (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z)), 0x100);
-        lbl_8050BF00.x = lbl_8050BF00.y = 0.0f;
-        lbl_8050BF00.z = speed;
+        scratch_vec2.x = scratch_vec2.y = 0.0f;
+        scratch_vec2.z = speed;
         push_matrix_from(&identity_matrix);
         rotate_matrix_y(NULL, rotation_y);
-        rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+        rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
         pop_matrices(1);
-        vec3_add_to(&position, &lbl_8050BF00);
+        vec3_add_to(&position, &scratch_vec2);
         if (horizontal_distance_squared(&target, &position) < wander_radius || 150.0f < (f32)flight_timer++) {
             state = 0;
             flight_timer = 0;

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/container/TContainerAncient01.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"

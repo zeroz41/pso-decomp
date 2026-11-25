@@ -4,7 +4,7 @@
 #include "pso/unk/text_8042EE4C.h"
 #include "pso/ui/frontend/TAdTrialModemChkGC.h"
 #include "pso/unk/text_8042EAD4.h"
-#include "pso/network/TLobby_80429598.h"
+#include "pso/network/eth.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/network/ModemRuntime.h"

@@ -2,8 +2,21 @@
 #define PSO_SYSTEM_CHARACTER_SAVE_RECORD_LOOKUP_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/quest/challenge/ChallengeRecord.h"
 #include "pso/ui/city/BankItemRecord.h"
+#include "pso/system/ChoiceSearchSelection.h"
+
+// A character's battle mode results: wins in each place (first to fourth) and battles left early.
+// The client keeps the remaining counts and values only to send them on.
+struct BattleRecord {
+    u16 place_counts[4];
+    u16 disconnect_count;
+    u16 reserved_counts[3];
+    u32 reserved_values[2];
+};
+
+LAYOUT_ASSERT(BattleRecord_size, sizeof(BattleRecord) == 0x18);
 
 struct ChatShortcutBodyCopy {
     u8 bytes[0x50];
@@ -36,15 +49,27 @@ struct CharacterSaveRecord {
     s32 pad_24C;
     BankItemRecord bank_items[200];
     // Set up by init_guild_card_tag.
-    u8 guild_card[0x21C4 - 0x1510];
+    u8 guild_card[0x21A8 - 0x1510];
+    // Battle results sent with the character data (61/98) and shown in the lobby.
+    BattleRecord online_battle;
+    u8 pad_21C0[0x21C4 - 0x21C0];
     // Challenge mode records; the 6x7C packet carries a copy.
     ChallengeRecord challenge;
-    u8 pad_22C4[0x2354 - 0x22C4];
+    u8 pad_22C4[0x22EC - 0x22C4];
+    // Choice search settings, sent in C2/C3 and with the character data.
+    ChoiceSearchSelection choice_search[5];
+    u8 pad_2314[0x2354 - 0x2314];
     // Split-screen battles finished in each place (first to fourth), and battles left early.
     u16 battle_place_counts[4];
     u16 battle_disconnect_count;
     u8 pad_235E[0x2370 - 0x235E];
 };
+
+LAYOUT_ASSERT(CharacterSaveRecord_online_battle, offsetof(CharacterSaveRecord, online_battle) == 0x21A8);
+LAYOUT_ASSERT(CharacterSaveRecord_challenge, offsetof(CharacterSaveRecord, challenge) == 0x21C4);
+LAYOUT_ASSERT(CharacterSaveRecord_choice_search, offsetof(CharacterSaveRecord, choice_search) == 0x22EC);
+LAYOUT_ASSERT(CharacterSaveRecord_battle_place_counts, offsetof(CharacterSaveRecord, battle_place_counts) == 0x2354);
+LAYOUT_ASSERT(CharacterSaveRecord_size, sizeof(CharacterSaveRecord) == 0x2370);
 
 // In split screen the record of player `client` (0xFFFF: the first player), otherwise the active
 // character's record.

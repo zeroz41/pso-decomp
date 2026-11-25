@@ -47,7 +47,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_802D1C84.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_800F0810.h"
@@ -1171,7 +1171,7 @@ void TObjEneBm9Mericarol::render() {
     }
     fade = &camera_fades[cam];
     fade->update();
-    vis = fade->updateFromCamera(&body_center.x);
+    vis = fade->updateFromCamera(&body_center);
     if (this->mode == 0xC) {
         return;
     }

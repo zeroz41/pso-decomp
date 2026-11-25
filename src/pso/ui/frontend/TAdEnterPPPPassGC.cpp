@@ -10,7 +10,7 @@
 #include "pso/unk/text_8014618C.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"

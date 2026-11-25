@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 extern s32 lbl_805D6C84;

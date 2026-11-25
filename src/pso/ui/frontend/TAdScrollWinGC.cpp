@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_80145A94.h"
@@ -70,7 +70,7 @@ TAdScrollWinGC::~TAdScrollWinGC() {
         m_window->queue_destruction();
         m_window = NULL;
     }
-    fn_8026A14C();
+    clear_chat_log();
 }
 
 void TAdScrollWinGC::run_task() {

@@ -15,7 +15,7 @@ struct LightEntry;
 extern "C" {
 TQuestThread *TLobby__sub_80134A20(void *p);
 void TObjLight__sub_801337FC(void *light);
-void *__dt__15TLobbyIdleTimerFv(void *arg0, s16 arg1);
+void *__dt__15TLobbyIdleTimerFv(void *object, s16 arg1);
 }
 void init_area_lights(void);
 void init_map_lights(LightEntry *entry);

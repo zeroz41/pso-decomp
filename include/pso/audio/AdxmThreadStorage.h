@@ -14,7 +14,7 @@ extern u8 adxm_busy_wait_stack[ADXM_BUSY_WAIT_STACK_BYTES];
 
 // Flags shared between the ADXM threads (main, worker, vblank, busy-wait).
 // adxm_busy_wait_run_flag/adxm_busy_wait_spin_count are polled in the call-free loop of
-// TLobby::wait_for_lock_release; the others are each written by one thread and
+// adxm_busy_wait_loop; the others are each written by one thread and
 // read by another (worker_thread_loop, vblank_thread_loop,
 // adxm_goto_mwidle_border, __OSCallResetFunctions), and init_runtime_threads
 // stores them in source order, which CodeWarrior keeps only for volatile objects.

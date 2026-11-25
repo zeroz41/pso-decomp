@@ -29,7 +29,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -139,11 +139,11 @@ void init_6x0A_enemy_state_packet(void* p) { *(u8*)((char*)p + 0x0) = 10; *(u8*)
 int get_attack_credit_slot_count(void) { return 4; }
 
 f32 TLobby__sub_800F7A6C(void) {
-    return challenge4p_mode_state.pad_4;
+    return challenge4p_mode_state.exp_multiplier;
 }
 
 f32 TLobby__sub_800F7A7C(void) {
-    return challenge_mode_state.pad_4;
+    return challenge_mode_state.exp_multiplier;
 }
 
 void unload_floor_resources(s32 selector) {

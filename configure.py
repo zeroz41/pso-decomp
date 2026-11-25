@@ -515,7 +515,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # dtors): written last to first, deferred.
     "pso/camera/TCameraConversation.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -sdata 4: its last .bss object (0x8050BEB8) is 8 bytes.
-    "pso/network/TPlyJoinLobbyEntry.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    "pso/network/TLobby.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte load/release callback tables of BOSS01 (0x804A7358), BOSS02 (0x804A7360)
     # and BOSS05 (0x804A7368) sit in .data, not .sdata.
     "pso/map/area/AreaBoss01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
@@ -804,7 +804,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .data holds the vtable ahead of update_stat_messages's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowSetLevelUp.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly", "-pool off")},
     "pso/ui/window/TWindowChallengeResult.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/unk/text_8013F810.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/system/Lzss.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/network/TProtocol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6PlotFalz_802B0228.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -867,7 +867,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # "TEneParticleCtrl" sits in .rodata at 0x80477BE8
     "pso/effect/enemy/TEneParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # "TWindowMenuTeamStatus" sits in .rodata at 0x80477C00
-    "pso/unk/TLobby_80338E9C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowMenuTeamStatus.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # class-name strings sit in .rodata before the double literals (0x80443B68)
     "pso/object/city/CityTraffic.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # .data holds the ten season-object vtables in the ascending text order of their key
@@ -1146,13 +1146,15 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TBoss7Crawfish: one GC/1.3.2 TU (the five former parts compile identically under 1.3.2, not under 2.6);
     # its resource names are .rodata strings.
     "pso/boss/barbaray/TBoss7Crawfish.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # GC/1.3: the compiler-generated TMenuList<> copy constructor.
-    "pso/network/TRegister.cpp": {"mw_version": "GC/1.3"},
-    "pso/player/TPlyGuildCardTag_801E0284.cpp": {"mw_version": "GC/1.3"},
+    # packet_classes: the packet class bodies after TProtocol (0x801DFF38-0x801E0C30) are a second
+    # object. Only 1.3-1.3.2 build it: 2.x loads the first word of the compiler-generated TMenuList<>
+    # copies before stmw, and TProtocol.cpp itself builds only under 2.5-2.7. TProtocol.o also
+    # carries weak copies of these copy constructors and bswaps, which the link drops for the strong
+    # ones here.
+    "pso/network/protocol/packet_classes.cpp": {"mw_version": "GC/1.3"},
     # fill_date_from_seconds stores the month between the days[m - 1] load and the subtraction only
     # under 1.3-2.0 (2.6 schedules the store after it).
     "pso/system/data/pso_date.cpp": {"mw_version": "GC/1.3"},
-    "pso/network/TPlyStartGame.cpp": {"mw_version": "GC/1.3"},
     # TShopItemListWindow: handle_amount_confirm compiles identical only under 1.3-2.0 (2.5/2.6
     # schedule it differently); every other function of the unit compiles the same.
     # Deferred inlining: __vt__19TShopItemListWindow sits before vfunc_11's switch table in .data
@@ -1616,14 +1618,14 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     ("avetcp", 0x803F7678, "GC/1.2.5n", cflags_middleware, {
         # -str reuse,readonly: the test account's literals sit in .sdata2 ("test", 805E1100) and .rodata ("hogehoge", 8047FD28).
         "pso/network/NetAuthSecrets.c": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
-        "pso/network/TLobby_803F86BC.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/NetConfig.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetworkRuntime.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         # -str reuse,readonly: its one string literal, the IPv6CP protocol name "IPv6cp", sits in .sdata2 (805E1150).
         "pso/network/NetworkThreadRuntime.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
-        "pso/network/TLobby_803FAEA0.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/PppApi.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         # -str reuse,readonly: CHAP's messages "Request timeout", "Request retry exceeded" and "Wellcome!!" sit in .rodata (8047FDE0).
-        "pso/network/TLobby_803FC178.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
-        "pso/network/TLobby_803FCF44.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/PppChap.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
+        "pso/network/Ppp.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetPppLink.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppFsm.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppIpcp.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
@@ -1634,8 +1636,8 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/network/PppPap.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
         "pso/network/PppControl.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppVj.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        # TLobby_804048E8.c was built with CSE: its VJ compressor matches only with it, init_net_list as BSD writes it.
-        "pso/network/TLobby_804050DC.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        # PppVjCompress.c was built with CSE: its VJ compressor matches only with it, init_net_list as BSD writes it.
+        "pso/network/PppFraming.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         # NetArp.c was built with CSE: every function matches with it, arp_handle_packet only with it.
         "pso/network/NetEthernet.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetHandlerTable.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
@@ -1646,7 +1648,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/network/NetIpv4.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetIpv4Route.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetIpv6.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        # TLobby_8041112C.c was built with CSE: every function matches with it, NetIPv6GetAddressScopeClass only in
+        # NetIpv6Route.c was built with CSE: every function matches with it, NetIPv6GetAddressScopeClass only in
         # its inline-helper form, and seven functions needed opt_common_subs pragma scopes under -opt nocse.
         # NetLoopback.c was built with CSE: every function matches with it, send_loopback_frame only with it.
         # NetBufferPool.c was built with CSE: its free (0x8041579C) and alloc (0x80415954) only match with it.

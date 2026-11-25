@@ -28,7 +28,9 @@ void broadcast_to_players__6TLobbyFii(s32 arg0, saddr arg1);
 void bswap__12player_statsFv(void *arg0);
 void copy_all_data__6TLobbyFii(s32 arg0, saddr src);
 void copy_all_entries__6TLobbyFii(s32 arg0, saddr arg1);
+}
 s32 default_clock_offset_frames(void);
+extern "C" {
 s32 get_card_window_area__6TLobbyFv(void);
 ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1);
 int get_flag_bit0__6TLobbyFv(void);

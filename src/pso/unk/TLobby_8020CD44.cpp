@@ -2,7 +2,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/text_8020CCF4.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 void TLobby::create_objects(s32 floor) {
     s16 flags;
@@ -27,7 +27,7 @@ void TLobby::create_objects(s32 floor) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&TLobby__data_805D6144[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
                 }
             } else {
                 row->enemy = NULL;

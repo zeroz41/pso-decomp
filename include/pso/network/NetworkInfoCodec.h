@@ -4,62 +4,63 @@
 #include "types.h"
 #include <stddef.h>
 
+// Fields are named after their GAMECUBE_NETINFO keys (NAM0=, PN_0=, SA_0=, ...).
 typedef struct NetworkInfoNamedConfig {
     char name[0x20];
-    s16 v20, v22, v24, v26;
+    s16 pan, man, sgn, urn;
 } NetworkInfoNamedConfig;
 
 typedef struct NetworkInfoConnectionConfig {
-    char s000[0x20];
-    char s020[0x80];
-    char s0A0[0x20];
-    s32 v0C0;
-    s32 v0C4;
-    s32 v0C8;
-    char s0CC[0x40];
-    u16 v10C;
-    s16 v10E;
-    u8 v110;
-    u8 v111;
+    char pn[0x20];
+    char li[0x80];
+    char lp[0x20];
+    s32 d1;
+    s32 d2;
+    s32 it;
+    char pxs[0x40];
+    u16 pxp;
+    s16 at;
+    u8 dt;
+    u8 pa;
     u8 pad112[2];
-    char s114[0x10];
-    char s124[0x10];
-    char s134[0x20];
-    char s154[0x20];
-    char s174[0x20];
-    s16 v194;
-    s16 v196;
-    char s198[0x20];
-    u8 v1B8;
-    u8 v1B9;
+    char ol[0x10];
+    char od[0x10];
+    char t1[0x20];
+    char t2[0x20];
+    char t3[0x20];
+    s16 rc;
+    s16 ri;
+    char mi[0x20];
+    u8 dy;
+    u8 py;
     u8 pad1BA[2];
-    s32 v1BC;
-    s32 v1C0;
-    s32 v1C4;
-    char s1C8[0x40];
-    s32 v208;
-    s32 v20C;
+    s32 ip;
+    s32 snm;
+    s32 g1;
+    char hn[0x40];
+    s32 mt;
+    s32 mr;
 } NetworkInfoConnectionConfig;
 
 typedef struct NetworkInfoMailConfig {
-    u8 v00;
-    u8 v01;
-    s16 v02;
-    char s04[0x40];
-    char s44[0x40];
-    char s84[0x40];
-    char sC4[0x20];
-    char sE4[0x20];
-    char s104[0x20];
+    u8 sa;
+    u8 sd;
+    s16 iv;
+    char ma[0x40];
+    char ms[0x40];
+    char ps[0x40];
+    char pi[0x20];
+    char pp[0x20];
+    char mn[0x20];
 } NetworkInfoMailConfig;
 
 typedef struct NetworkInfoCredentialConfig {
-    u8 v00;
+    u8 nm;
     u8 pad01[3];
-    char s04[0x20];
-    char s24[0x20];
-    char s44[0x20];
-    char s64[0x20];
+    char cni[0x20];
+    char cnp[0x20];
+    char cmi[0x20];
+    char cmp[0x20];
 } NetworkInfoCredentialConfig;
 
 typedef struct NetworkInfoConfigText400 {
@@ -71,10 +72,10 @@ typedef struct NetworkInfoConfigText256 {
 } NetworkInfoConfigText256;
 
 typedef struct NetworkInfoConfig {
-    u16 v0;
-    s16 v2;
-    s16 v4;
-    s16 v6;
+    u16 iver;
+    s16 cnum;
+    s16 mnum;
+    s16 bnum;
     NetworkInfoNamedConfig a[6];
     NetworkInfoConnectionConfig b[6];
     NetworkInfoMailConfig c[6];
@@ -115,6 +116,7 @@ LAYOUT_ASSERT(NetworkInfoConfigText400Offset, offsetof(NetworkInfoConfig, e) == 
 LAYOUT_ASSERT(NetworkInfoConfigText256Offset, offsetof(NetworkInfoConfig, f) == 0x17D4);
 
 s32 parse_netinfo(char *text, u32 size, NetworkInfoConfig *config);
+s32 parse_network_info_config_line(char *s, u32 n, NetworkInfoConfig *q);
 s32 decode_network_info_payload(u8 *key_data, u8 *payload, u32 size, NetworkInfoConfig *config);
 
 u32 *allocate_network_info_cipher_key(u8 *key_data);

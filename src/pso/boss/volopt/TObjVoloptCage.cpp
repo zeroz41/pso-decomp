@@ -7,7 +7,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/effect/TBreakUpMdl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/player/TObjPlayer.h"

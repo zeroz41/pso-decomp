@@ -14,4 +14,14 @@ void TLobby__sub_8032CDC0(void);
 void reset_joyboot_state(void *p);
 }
 
+void gba_download_destroy_graph();
+void gba_download_create_graph();
+void gba_download_free_buffer();
+void gba_download_alloc_buffer();
+void gba_download_load_file(const char *filename);
+u8 gba_download_update_graph();
+void gba_calc_joyboot_checksum();
+s32 gba_start_joyboot();
+void gba_joyboot_set_send_buffer(u8 *buffer, s32 length);
+
 #endif

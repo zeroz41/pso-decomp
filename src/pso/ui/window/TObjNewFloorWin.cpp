@@ -12,7 +12,7 @@
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include <stdio.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TObjPlayer_80011014.h"

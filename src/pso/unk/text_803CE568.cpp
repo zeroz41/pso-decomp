@@ -3,7 +3,7 @@
 #include <string.h>
 #include "pso/system/CvFsStreamHandle.h"
 #include "pso/unk/text_803CE568.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 
 struct Ent_803CF958 { CvFsDeviceInterface *device; char name[12]; };

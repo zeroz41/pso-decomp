@@ -18,7 +18,7 @@
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_803360CC.h"

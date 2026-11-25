@@ -140,12 +140,6 @@ struct StatusEffectState {
  u32 remaining_frames;
 };
 
-struct VectorXYZF {
- f32 x;
- f32 y;
- f32 z;
-};
-
 struct TelepipeState {
  u16 owner_client_id;
  s16 floor;

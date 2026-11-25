@@ -5,6 +5,8 @@
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/unk/text_800FCC78.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
+#include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -34,11 +36,9 @@ struct VObj_18_7b3651 : VBase_18_7b3651 {
     virtual s32 m14();
 };
 
-typedef struct Ent_800FC968 { u8 pad0[4]; char name[0x100]; u16 a; u8 pad106[6]; u16 b; u8 pad10E[0x11C - 0x10E]; } Ent_800FC968;
 
 extern "C" {
 s32 get_shared_text_buffer(void);
-char *TWindowSubStatusDisp__sub_80071820(char *);
 void text_builder_append_int(s32);
 void text_builder_append(const char *);
 }
@@ -49,10 +49,8 @@ const char *TFontSmallLobby__name = "TFontSmallLobby";
 
 // One letter per language (J/E/G/F/S), appended after the player name.
 char *status_text_label_table[5] = { "J", "E", "G", "F", "S" };
-extern Ent_800FC968 lobby_player_status_records[];
+extern TPlyChallenge lobby_player_status_records[];
 extern "C" {
-
-s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
 
     extern int TWindowCtrlMain__instance;
 saddr TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
@@ -101,15 +99,15 @@ s32 TWindowSubStatusDisp::build_status_text(s32 client_id) {
             return 0;
         }
         text_builder_append("W:");
-        text_builder_append_int(lobby_player_status_records[client_id].a);
+        text_builder_append_int(lobby_player_status_records[client_id].battle_place_count_1);
         text_builder_append(" D:");
-        text_builder_append_int(lobby_player_status_records[client_id].b);
+        text_builder_append_int(lobby_player_status_records[client_id].battle_disconnect_count);
         break;
     case 3:
         if ((s8)info[0x33] < 2) {
             return 0;
         }
-        text_builder_append(TWindowSubStatusDisp__sub_80071820(lobby_player_status_records[client_id].name));
+        text_builder_append(TWindowSubStatusDisp__sub_80071820(&lobby_player_status_records[client_id].challenge));
         break;
     case 4:
         return 0;
@@ -144,7 +142,7 @@ void TUnk_8049CA54::run_task() {
         if (text_source != 0U) {
             if (this->card_status_bits == 3) {
                 temp_r4 = (s32)this->player_id;
-                set_color(get_status_index_or_default__20TWindowSubStatusDispFPUs((s8 *)lobby_player_status_records + (temp_r4 * 0x11C) + 4, temp_r4));
+                set_color(challenge_title_color(&lobby_player_status_records[temp_r4].challenge));
             } else {
                 set_color(get_player_status_color((void *)player));
             }

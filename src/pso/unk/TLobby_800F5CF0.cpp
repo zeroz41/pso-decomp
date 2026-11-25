@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"

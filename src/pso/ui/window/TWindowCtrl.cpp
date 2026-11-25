@@ -8,8 +8,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/window/TWindowFukidasi.h"
@@ -70,13 +71,6 @@
 TWindowCtrl *TWindowCtrl::instance;
 u16 lbl_805D63FC;
 
-extern "C" {
-
-s32 TLobby__sub_80077798(s32, s32 *);
-
-s32 open_hard_keyboard__6TLobbyFPv(s32);
-
-}
 
 struct RecoveredFields_8024A688_arg1
 {
@@ -1587,13 +1581,13 @@ bool TWindowCtrl__sub_8024A1A8(void) {
 extern "C" {
 
 void TLobby::send_card_window_state() {
-    s32 parameters[5];
-    s32 character_save_record;
+    TPlyChoiceSearchConfig parameters;
+    CharacterSaveRecord *card;
 
-    character_save_record = get_character_save_record(0xFFFF);
-    parameters[0] = open_hard_keyboard__6TLobbyFPv(local_client_id) ? 1 : 0;
-    TLobby__sub_80077798(character_save_record + 0x22EC, parameters);
-    protocol_instance->send_choice_search_parameters((TPlyChoiceSearchConfig &)parameters);
+    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
+    parameters.disabled = TLobby::open_hard_keyboard(local_client_id) ? 1 : 0;
+    copy_choice_search_selections(card->choice_search, &parameters);
+    protocol_instance->send_choice_search_parameters(parameters);
 }
 
 }

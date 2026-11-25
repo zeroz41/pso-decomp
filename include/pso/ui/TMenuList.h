@@ -10,9 +10,7 @@
 #define TMenuListEntry(name, members) \
 class name { \
 public: \
-    void bswap() { \
-        tag.bswap(); \
-    }; \
+    void bswap(); \
 public: \
     TPlyGuildCardTag tag; \
     members \

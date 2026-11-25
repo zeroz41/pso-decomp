@@ -29,8 +29,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/unk/TLobby.h"
-#include "pso/unk/TLobby_80070A00.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
@@ -69,7 +69,7 @@ const char *onlineending_dat_motion_names[26] = {
     "ending_blue_oya.njm",
     NULL,
 };
-// inferred: onlineending_dat_resource_descriptor, named after its archive.
+// onlineending_dat_resource_descriptor, named after its archive.
 BmlResourceDescriptor onlineending_dat_resource_descriptor = {
     "onlineending_dat.bml", onlineending_dat_model_names, onlineending_dat_motion_names, 1, 25,
 };
@@ -136,7 +136,7 @@ NJS_POINT2 online_ending_quad_vertices[4] = {
 };
 
 const char *online_ending_class_name = "TObjOnlineEnding";
-// inferred: the camera position and target run_task gives the ending scene.
+// The camera position and target run_task gives the ending scene.
 static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
 static const Vec online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 f32 online_ending_scene_scale = 0.88f;
@@ -324,11 +324,11 @@ void TObjOnlineEnding::render() {
 
 void TObjOnlineEnding::create_result_window() {
     result_window = NULL;
-    if (TLobby::is_flag_set() != 0) {
-        if (TLobby::get_online_result_value() == TWindowSubStatusDisp::get_layout_id(-1) - 1) {
+    if (is_challenge_mode() != 0) {
+        if (current_challenge_stage() == challenge_set_stage_count(RECORD_SET_CURRENT) - 1) {
             result_window = new TWindowChallengeResult(
-                reinterpret_cast<const char *>(TLobby__sub_80070ACC()),
-                TWindowSubStatusDisp__sub_800718D0(),
+                reinterpret_cast<const char *>(get_lobby_name()),
+                get_challenge_total_time(),
                 get_card_window_value());
         }
     }

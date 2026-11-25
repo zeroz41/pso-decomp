@@ -9,7 +9,8 @@ public:
     virtual ~RenderFadeState();
     virtual void set_flags_and_apply_damage_color();
     void activate_and_dispatch();
-    s32 updateFromCamera(const f32* position);
+    // Fades out while position is closer than 28 to the camera, back in otherwise; nonzero while faded.
+    s32 updateFromCamera(const Vec *position);
     s32 isFading() const;
     void restore();
     void fadeOut();

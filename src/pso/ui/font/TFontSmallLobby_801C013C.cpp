@@ -6,7 +6,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/ui/font/TFontSmallLobby.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include <string.h>
 #include "pso/network/protocol/packet_classes.h"

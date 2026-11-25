@@ -7,7 +7,7 @@
 #include "pso/boss/goldragon/TBoss8DragonColli.h"
 #include "pso/boss/goldragon/TBoss8DragonColli_C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixVector.h"

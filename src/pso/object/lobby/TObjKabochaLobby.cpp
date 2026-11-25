@@ -2,7 +2,8 @@
 #include "pso/object/lobby/TObjKabochaLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/unk/TLobbyEventTheme.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -80,7 +81,7 @@ void TObjKabochaLobby::free_resources() {
 void TObjKabochaLobby::load_resources() {
     void *resource = new BmlResource(5, &lobby_pumpkin_resource_descriptor, 0, 0, NULL);
     model_resource = (BmlResource *)resource;
-    lobby_texlist = TLobby::get_lobby_texlist();
+    lobby_texlist = get_lobby_main_texlist();
 }
 
 TObjKabochaLobby::~TObjKabochaLobby() {}

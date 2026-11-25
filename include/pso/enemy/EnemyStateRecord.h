@@ -23,6 +23,6 @@ LAYOUT_ASSERT(EnemyStateRecord_size, sizeof(EnemyStateRecord) == 0xC);
 LAYOUT_ASSERT(EnemyStateRecord_damage_offset, offsetof(EnemyStateRecord, damage) == 6);
 LAYOUT_ASSERT(EnemyStateRecord_attack_status_offset, offsetof(EnemyStateRecord, attack_status) == 8);
 
-extern EnemyStateRecord *TLobby__data_805D6144;
+extern EnemyStateRecord *enemy_state_records;
 
 #endif

@@ -1,8 +1,7 @@
 // CRI adx_bau.c: the Sun/NeXT .snd (AU) decoder (ADXB_ExecOneAu: mu-law, 8 and 16 bit).
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby_803C1A58.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
 #include "pso/audio/AdxExpand.h"
 
@@ -32,24 +31,19 @@ s16 stream_chunk_decode_table[256] = {
 
 void adxb_decode_au_ulaw(AdxbDecoder *o);
 
-static inline void adxb_exec_au_impl(void *ptr) {
-    AdxbDecoder *o = (AdxbDecoder *)ptr;
+void adxb_exec_one_au(AdxbDecoder *adxb) {
     s16 kind;
 
-    kind = o->m_AA;
+    kind = adxb->encoding;
     if (kind == 2) {
-        adxb_decode_au_ulaw(o);
+        adxb_decode_au_ulaw(adxb);
         return;
     }
     if (kind == 1) {
-        TLobby__sub_803C2A00(o);
+        TLobby__sub_803C2A00(adxb);
         return;
     }
-    process_byteswapped_pcm_transfer(o);
-}
-
-void TLobby::dispatch_by_state() {
-    adxb_exec_au_impl(this);
+    process_byteswapped_pcm_transfer(adxb);
 }
 
 void adxb_decode_au_ulaw(AdxbDecoder *o) {
@@ -168,8 +162,7 @@ void process_byteswapped_pcm_transfer(AdxbDecoder *o) {
 }
 extern "C" {
 
-s32 TLobby__sub_803C30E8(u8 *decoder, saddr hdr, s32 size) {
-    AdxbDecoder *o = (AdxbDecoder *)decoder;
+s32 adxb_decode_header_au(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s32 format;
     s32 samples;
     s32 bits;
@@ -179,71 +172,70 @@ s32 TLobby__sub_803C30E8(u8 *decoder, saddr hdr, s32 size) {
     s32 err;
     u8 *data;
     u8 *buf;
-    o->m_02 = 1;
+    adxb->m_02 = 1;
     if (size < 8) {
         len = 0;
         err = -1;
     } else {
-        data = fn_803C32EC((u8 *)hdr, size, &rate, &channels, &bits, &samples, &format);
+        data = adx_au_parse_header(hdr, size, &rate, &channels, &bits, &samples, &format);
         if (data == NULL) {
             err = -1;
         } else {
-            len = data - (u8 *)hdr;
+            len = data - hdr;
             if (len <= 0) {
                 err = -1;
             } else {
                 err = 0;
-                o->rate = rate;
-                o->channels = channels;
-                o->bits = bits;
-                o->samples = samples;
-                o->m_0C = -1;
-                o->block_bytes = (o->channels * o->bits) / 8;
-                o->block_samples = 1;
+                adxb->rate = rate;
+                adxb->channels = channels;
+                adxb->bits = bits;
+                adxb->samples = samples;
+                adxb->encoding_type = -1;
+                adxb->block_bytes = (adxb->channels * adxb->bits) / 8;
+                adxb->block_samples = 1;
             }
         }
     }
     if (err < 0) {
         return 0;
     }
-    buf = o->m_4C;
-    o->m_1C = 0;
-    o->m_4A = 0;
-    o->m_48 = 0;
-    o->loop_count = 0;
-    o->loop_type = 0;
-    o->loop_end_byte = 0;
-    o->loop_end_sample = 0;
-    o->loop_start_byte = 0;
-    o->loop_start_sample = 0;
-    o->loop_enabled = 0;
-    o->stream_channels = o->channels;
-    o->stream_block_bytes = o->block_bytes;
-    o->stream_block_samples = o->block_samples;
-    o->buf = o->output_buffer;
-    o->bufLen = o->wrap_len;
-    o->rOff = o->wrap_offset;
-    o->m_7C = o->m_48;
-    o->m_7E = o->m_4A;
-    o->m_80 = buf;
-    o->m_9C = 0;
-    o->m_98 = 0;
-    o->format = 4;
-    o->m_AA = format;
+    buf = adxb->m_4C;
+    adxb->cutoff = 0;
+    adxb->m_4A = 0;
+    adxb->m_48 = 0;
+    adxb->loop_count = 0;
+    adxb->loop_type = 0;
+    adxb->loop_end_byte = 0;
+    adxb->loop_end_sample = 0;
+    adxb->loop_start_byte = 0;
+    adxb->loop_start_sample = 0;
+    adxb->loop_enabled = 0;
+    adxb->stream_channels = adxb->channels;
+    adxb->stream_block_bytes = adxb->block_bytes;
+    adxb->stream_block_samples = adxb->block_samples;
+    adxb->buf = adxb->output_buffer;
+    adxb->bufLen = adxb->wrap_len;
+    adxb->rOff = adxb->wrap_offset;
+    adxb->m_7C = adxb->m_48;
+    adxb->m_7E = adxb->m_4A;
+    adxb->m_80 = buf;
+    adxb->write_pos = 0;
+    adxb->total_written = 0;
+    adxb->format = 4;
+    adxb->encoding = format;
     memset(buf, 0, 4);
     return len;
 }
 
-s32 TLobby::is_snd_header() {
-    if (memcmp(this, ".snd", 4) == 0 || memcmp(this, ".sd", 4) == 0) {
+s32 adxb_is_au_header(const u8 *hdr) {
+    if (memcmp(hdr, ".snd", 4) == 0 || memcmp(hdr, ".sd", 4) == 0) {
         return 1;
     }
     return 0;
 }
 
-// Reads a Sun/NeXT ".snd" (AU) header, whose fields are big-endian; returns the start of
-// the sample data, or NULL when the magic, data offset or encoding is not supported.
-u8 *fn_803C32EC(u8 *hdr, s32 size, s32 *rate, s32 *channels, s32 *bits, s32 *samples, s32 *format) {
+// The AU header's fields are big-endian.
+u8 *adx_au_parse_header(u8 *hdr, s32 size, s32 *rate, s32 *channels, s32 *bits, s32 *samples, s32 *format) {
     u32 magic;
     u32 offset;
     u32 data_size;

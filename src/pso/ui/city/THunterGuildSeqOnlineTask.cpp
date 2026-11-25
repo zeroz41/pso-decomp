@@ -12,7 +12,8 @@
 #include "pso/network/TProtocol.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/quest/OnlineQuestMenuRecords.h"
 #include "pso/quest/OnlineQuestDownloadState.h"
@@ -138,7 +139,7 @@ void TQuestListOnline::handle_quest_ready() {
         q = &TQuestListOnline__dat_download_state;
         TQuestListOnline__sub_802176DC(q->buffer, q->size);
         TLobby::set_enemy_mode_flag();
-        r = TLobby::is_flag_set();
+        r = is_challenge_mode();
         m = 2;
         if (r != 0) {
             m = 4;

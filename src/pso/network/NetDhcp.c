@@ -8,10 +8,10 @@
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/NetDhcp.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/NetApi.h"
 #include "types.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include <stddef.h>
 #include "pso/network/BufferRef.h"
 
@@ -51,7 +51,7 @@ u32 dhcp_lease_time;
 u32 dhcp_last_tick_ms;
 u32 dhcp_elapsed_ms;
 u32 dhcp_requested_lease;
-s32 lbl_805D7B54;
+s32 dhcp_request_reserved;
 u32 dhcp_xid;
 u32 dhcp_magic_cookie;
 s32 *dhcp_broadcast_out;
@@ -175,7 +175,7 @@ s32 dhcp_store_ack_options(BootpPacket *pkt) {
         *dhcp_broadcast_out = dhcp_broadcast;
         dhcp_broadcast_out = NULL;
     }
-    parse_dhcp_lease_times((u8 *)opts);
+    parse_dhcp_lease_times(opts);
     n = find_dhcp_option(opts, 0xF, &p);
     if (n != 0) {
         dhcp_set_option(3, (s16)n, p);
@@ -303,7 +303,7 @@ s32 dhcp_build_packet(DhcpMessage *packet) {
         *p++ = 0xC;
         m = len + 1;
         *p++ = m;
-        NetMemcpy(p, ((char *)&dhcp_hostname), m);
+        NetMemcpy(p, dhcp_hostname, m);
         p += m;
     }
     *p++ = 0xFF;
@@ -674,7 +674,7 @@ s16 DHCP_hostname(char *hostname) {
         dhcp_error = 1;
         return -1;
     }
-    length = NetStringLength((const char*)hostname);
+    length = NetStringLength(hostname);
     if ((u16)length < 0x20 && (u16)length != 0) {
         dhcp_set_option(0x10, (u16)length, hostname);
         return 0;
@@ -909,9 +909,9 @@ s32 DHCP_release(s32 session, s32 ip, s32 retries) {
     return 0;
 }
 
-s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
+s16 dhcp_discover_and_request(s16 iface, s32 reserved, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     s32 state;
-    if (DHCP_request(iface, arg1, lease_time, ignored, address, netmask, broadcast, retries) != 0) {
+    if (DHCP_request(iface, reserved, lease_time, ignored, address, netmask, broadcast, retries) != 0) {
         return -1;
     }
     do {
@@ -927,7 +927,7 @@ s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *ignored
     return 0;
 }
 
-s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
+s32 DHCP_request(s16 iface, s32 reserved, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     dhcp_error = 0;
     if (dhcp_state != 0) {
         dhcp_error = 2;
@@ -940,7 +940,7 @@ s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *ignored, s32 *addres
     dhcp_client_addr_out = address;
     dhcp_netmask_out = netmask;
     dhcp_broadcast_out = broadcast;
-    lbl_805D7B54 = arg1;
+    dhcp_request_reserved = reserved;
     dhcp_requested_lease = lease_time;
     dhcp_max_retries = retries;
     dhcp_state = 1;
@@ -966,7 +966,7 @@ static inline void dhcp_reset_state(s16 iface) {
     dhcp_broadcast_out = 0;
     dhcp_magic_cookie = 0x63825363;
     dhcp_xid = 0;
-    lbl_805D7B54 = 0;
+    dhcp_request_reserved = 0;
     dhcp_requested_lease = 0;
     NetMemset(dhcp_hostname, 0, 0x20);
     dhcp_elapsed_ms = 0;
@@ -1035,16 +1035,16 @@ s32 ensure_dhcp_reply_socket(void) {
 #pragma dont_inline on
 #pragma use_lmw_stmw off
 s32 dhcp_set_interface_mode(s32 mode) {
-    u8 pad0[4];
+    u8 hw_addr[6];
     u8 buf[0x1c];
-    s32 buf2[3];
+    u8 pad1[0xc];
     struct Ipv4IfConfig req;
     u8 pad[0x10];
     struct Ipv4IfConfig req2;
     s32 ret;
     s32 r;
 
-    ret = (s16)if_get(dhcp_iface, buf, 0x1c, (u8 *)buf2 + 0x28) < 0 ? 0 : 1;
+    ret = (s16)if_get(dhcp_iface, buf, 0x1c, hw_addr) < 0 ? 0 : 1;
     r = ret;
     if (ret != mode) {
         switch (mode) {

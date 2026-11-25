@@ -1,6 +1,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/player/PlayerSlots.h"
@@ -44,7 +45,7 @@ void TLobby__sub_800727A0(void *player);
 }
 void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
     s32 idx;
-    if (TLobby::is_flag_set() == 0) {
+    if (is_challenge_mode() == 0) {
         return;
     }
     ((TLobby *)command)->bswap_challenge_dead_flag();
@@ -60,7 +61,7 @@ extern "C" {
 
 void TLobby__sub_800722AC(s32 arg0) {
     Stack_800722AC stack;
-    if (TLobby::is_flag_set() == 0) {
+    if (is_challenge_mode() == 0) {
         return;
     }
     if (arg0 < 0 || arg0 >= 4) {
@@ -71,14 +72,14 @@ void TLobby__sub_800722AC(s32 arg0) {
     TLobby__sub_80072724((TLobby *)&stack);
 }
 
-void TLobby::send_challenge_retry_cmd(s32 arg0) {
+void TLobby::send_challenge_retry_cmd(s32 choice) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80072308, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80072308, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80072308, sp10) == 0x8);
     Stack_80072308 stack;
-    if (TLobby::is_flag_set() != 0) {
+    if (is_challenge_mode() != 0) {
         TLobby__sub_800727EC((u8 *)&stack.sp8);
-        stack.sp10 = arg0;
+        stack.sp10 = choice;
         stack.spC = local_client_id;
         ((TLobby *)(&stack.sp8))->send_and_handle_60_wrapper();
     }
@@ -88,13 +89,13 @@ void TLobby::send_challenge_retry_cmd(s32 arg0) {
 void handle_6x97_select_challenge_mode_failure_option(void *player) {
     s32 var_r0;
 
-    if (TLobby::is_flag_set() != 0) {
+    if (is_challenge_mode() != 0) {
         TLobby__sub_800727A0(player);
         var_r0 = *(s32 *)((s8 *)player + 8);
         if ((var_r0 < 0) || (var_r0 > 1)) {
             var_r0 = 0;
         }
-        challenge_mode_state.pad_24 = var_r0;
+        challenge_mode_state.retry_choice = var_r0;
     }
 }
 
@@ -102,36 +103,35 @@ void handle_6x95_set_challenge_time(G_SetChallengeTime_6x95 *command) {
     s32 idx;
     s32 t;
     s32 r;
-    if (TLobby::is_flag_set() == 0) {
+    if (is_challenge_mode() == 0) {
         return;
     }
     ((TLobby *)command)->byteswap_challenge_time_packet();
     t = command->time;
     idx = command->client_id;
-    r = TLobby::get_valid_slot(t);
+    r = decode_challenge_time(t);
     if (idx < 0 || idx >= 4) {
         return;
     }
-    if (TLobby::check_challenge_time_range(r) != 0) {
-        t = TLobby::mix_seed_checked((saddr)((void *)0x8C9F));
+    if (is_challenge_time_invalid(r) != 0) {
+        t = encode_challenge_time(0x8C9F);
     }
-    challenge_mode_state.pad_680[idx] = t;
+    challenge_mode_state.client_time_records[idx] = t;
 }
 
-void TLobby::send_seed_state() {
-    s32 arg0 = (saddr)this;
+void send_challenge_time(s32 clear_time) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80072448, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80072448, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80072448, sp10) == 0x8);
     Stack_80072448 stack;
     TLobby__sub_80072880((u8 *)&stack.sp8);
-    stack.sp10 = TLobby::mix_seed_checked(arg0);
+    stack.sp10 = encode_challenge_time(clear_time);
     stack.spC = local_client_id;
     ((TLobby *)(&stack.sp8))->send_state();
 }
 
 void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWindow_6x8A *command) {
-    if (TLobby::is_flag_set() == 0) {
+    if (is_challenge_mode() == 0) {
         return;
     }
     ((TLobby *)command)->byteswap_challenge_packet();
@@ -141,19 +141,19 @@ void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWi
     challenge_task->set_challenge_record_page(command->which);
 }
 
-void TLobby::send_challenge_with_value(s32 arg0, s32 arg1) {
+void TLobby::send_challenge_with_value(s32 challenge, s32 window_mode) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800724F0, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_800724F0, spC) == 0x4);
     Stack_800724F0 stack;
     TLobby__sub_800728FC((u8 *)&stack.sp8);
-    stack.spC = arg1;
+    stack.spC = window_mode;
     ((TLobby *)(&stack.sp8))->send_challenge_packet();
 }
 
 void handle_6x7C_set_challenge_records(G_SetChallengeRecords_V3_6x7C *command) {
     s32 id;
     ChallengeClientRecords *rec;
-    if (TLobby::is_flag_set() == 0) {
+    if (is_challenge_mode() == 0) {
         return;
     }
     command->bswap();
@@ -184,7 +184,7 @@ void TChallenge::send_6x7c_reset() {
 
 void TLobby__sub_80072618(void) {
     ChallengeClientRecords *own;
-    if (TLobby::is_flag_set() != 0) {
+    if (is_challenge_mode() != 0) {
         own = &challenge_mode_state.client_records[local_client_id];
         if (((u32)get_character_save_record(0xFFFF)) != 0) {
             own->records = *(ChallengeRecord *)(get_character_save_record(0xFFFF) + 0x21C4);

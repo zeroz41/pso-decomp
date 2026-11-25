@@ -4,7 +4,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_8020E700.h"
 #include "pso/unk/text_8020EEFC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_8020E400.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -246,9 +246,9 @@ void clear_shop_armor_flags(void) {
     memset(shop_armor_stock_generated_flags, 0, 0x10);
 }
 
-void TLobby::copy_armor_shop_entry(s32 arg1, s32 base) {
+void TLobby::copy_armor_shop_entry(s32 index, s32 base) {
     saddr arg0 = (saddr)this;
-    *(ByteBlock_14 *)(arg0) = ((const ByteBlock_14 *)lbl_80513D78[base])[arg1];
+    *(ByteBlock_14 *)(arg0) = ((const ByteBlock_14 *)lbl_80513D78[base])[index];
 }
 
 // ---- pso/unk/TLobby_8020ED20

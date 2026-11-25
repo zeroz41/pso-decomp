@@ -1,7 +1,7 @@
 #pragma readonly_strings on
 #include "pso/effect/TEffect.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_8023E480.h"

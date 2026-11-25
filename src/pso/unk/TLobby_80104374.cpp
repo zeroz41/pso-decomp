@@ -12,7 +12,7 @@
 #include "pso/network/protocol/ItemDropPacket.h"
 #include "pso/enemy/TObjEnemy.h"
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TUnk_8049F770.h"
@@ -378,15 +378,15 @@ void normalize_drop_area(s32 *p);
 
 void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
 int TLobby::get_sync_counter(u16 a0) {  return item_sync_counter_table[a0]; }
-s32 TLobby::get_item_data(u32 arg0) {
-    if (arg0 != 0U) {
+s32 TLobby::get_item_data(u32 item) {
+    if (item != 0U) {
         return get_item_icon_index();
     }
     return 0;
 }
-void TLobby::forward_message(saddr buf, uaddr arg1) {
-    if (arg1 != 0U) {
-        ((TItemData *)arg1)->format_item_name((char *)buf);
+void TLobby::forward_message(saddr buf, uaddr item) {
+    if (item != 0U) {
+        ((TItemData *)item)->format_item_name((char *)buf);
     }
 }
 void TLobby::mark_selected() { lobby_drop_flag = 1; }
@@ -472,13 +472,13 @@ void TLobby::forward_to_player(int id, void *item) {
         }
     }
 }
-void TLobby::handle_player_event(s32 client, s32 arg1) {
+void TLobby::handle_player_event(s32 client, s32 slot) {
     TObjPlayer *player;
     TItem *item;
     player = get_player_by_client_id((u16)client);
     if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) designated_client_id)))) {
         item = NULL;
-        switch (arg1) {
+        switch (slot) {
         case 0:
             item = TObjPlayer::get_equipped_weapon(player);
             break;
@@ -495,7 +495,7 @@ void TLobby::handle_player_event(s32 client, s32 arg1) {
         case 5:
         case 6:
         case 7:
-            item = player->get_equipped_item(arg1 + 5);
+            item = player->get_equipped_item(slot + 5);
             break;
         default:
             break;
@@ -1211,7 +1211,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                 (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
                  designated_client_id == local_client_id)) {
                 if (self->f2c != -1) {
-                    EnemyStateRecord e = TLobby__data_805D6144[self->f2c];
+                    EnemyStateRecord e = enemy_state_records[self->f2c];
                     if (e.drop_id != 0xFFFF) {
                         Pkt_80105538 pkt;
                         build_6x06_send_guild_card(&pkt);
@@ -1261,10 +1261,10 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
                     drop.ignore_def = random_item;
                     drop.entity_index = set_index;
                     extended.effective_area = get_current_floor_area();
-                    packet.param3 = scale.z;
-                    packet.param4 = set_params[0];
-                    packet.param5 = set_params[1];
-                    packet.param6 = set_params[2];
+                    packet.scale_z = scale.z;
+                    packet.set_params[0] = set_params[0];
+                    packet.set_params[1] = set_params[1];
+                    packet.set_params[2] = set_params[2];
                     packet.send();
                 }
             }
@@ -1381,10 +1381,10 @@ void G_SpecializableItemDropRequest_6xA2::send() {
 
 void G_SpecializableItemDropRequest_6xA2::bswap() {
     bswap_6x60_drop_request_fields(this);
-    bswap_32(reinterpret_cast<u32 *>(&param3));
-    bswap_32(reinterpret_cast<u32 *>(&param4));
-    bswap_32(reinterpret_cast<u32 *>(&param5));
-    bswap_32(reinterpret_cast<u32 *>(&param6));
+    bswap_32(reinterpret_cast<u32 *>(&scale_z));
+    bswap_32(reinterpret_cast<u32 *>(&set_params[0]));
+    bswap_32(reinterpret_cast<u32 *>(&set_params[1]));
+    bswap_32(reinterpret_cast<u32 *>(&set_params[2]));
 }
 
 G_SpecializableItemDropRequest_6xA2 *G_SpecializableItemDropRequest_6xA2::init() {

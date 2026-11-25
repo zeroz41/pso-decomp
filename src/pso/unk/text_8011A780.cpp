@@ -7,7 +7,7 @@
 #include "pso/unk/TLobby_80105A2C.h"
 #include "pso/unk/text_8011A780.h"
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/object/base/ObjectSetData.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -102,10 +102,10 @@ void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request) {
             id = build_item_id(row.drop_id_base);
             row.drop_id_base = 0xFFFF;
             TLobby::apply_table_entry(source, &row);
-            set.scale.z = request->param3;
-            set.set_params[0] = request->param4;
-            set.set_params[1] = request->param5;
-            set.set_params[2] = request->param6;
+            set.scale.z = request->scale_z;
+            set.set_params[0] = request->set_params[0];
+            set.set_params[1] = request->set_params[1];
+            set.set_params[2] = request->set_params[2];
             item.unpack_from_item(&set);
             if (0.0f == set.scale.z) {
                 const u8 data0 = item.data1.data_u8[0];
@@ -187,7 +187,7 @@ void process_enemy_drop_request(s32 area, s16 source, int client, s16 room, int 
     u32 id;
     if (source != -1) {
         TItemData item;
-        EnemyStateRecord row = TLobby__data_805D6144[source];
+        EnemyStateRecord row = enemy_state_records[source];
         if (row.drop_id != 0xFFFF) {
             id = build_item_id(row.drop_id);
             row.drop_id = 0xFFFF;
@@ -272,7 +272,7 @@ void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt) {
     pkt->item.item.decode_from_network();
     s32 kind = pkt->item.source_type;
     if (kind == 1) {
-        EnemyStateRecord row = TLobby__data_805D6144[pkt->item.entity_index];
+        EnemyStateRecord row = enemy_state_records[pkt->item.entity_index];
         row.drop_id = 0xFFFF;
         TObjEnemy::apply_by_index(pkt->item.entity_index, &row);
     } else {
@@ -361,7 +361,7 @@ s32 TLobby::apply_table_entry(s16 source, void * _w1) {
     ((TLobby *)&quest_object_entries[source])->copy_short_fields(_w1);
     return 1;
 }
-void TLobby::copy_short_fields(void *arg1) {
-    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(u16 *)((s8 *)this + 2) = (u16) *(u16 *)((s8 *)arg1 + 2);
+void TLobby::copy_short_fields(void *src) {
+    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)src + 0);
+    *(u16 *)((s8 *)this + 2) = (u16) *(u16 *)((s8 *)src + 2);
 }

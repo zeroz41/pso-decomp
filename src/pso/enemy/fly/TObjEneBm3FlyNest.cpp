@@ -35,7 +35,7 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/camera/TCameraCtrl.h"
 
@@ -1003,7 +1003,7 @@ void TObjEneBm3FlyNest::render() {
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             cm = &fades[cam];
             cm->update();
-            if (cm->updateFromCamera(&body_center.x) != 0) {
+            if (cm->updateFromCamera(&body_center) != 0) {
                 cm->set_flags_and_apply_damage_color();
                 if (defer_render() != 0) {
                     visible = 0;
@@ -1047,7 +1047,7 @@ void TObjEneBm3FlyNest::render() {
                 pop_matrix();
             }
             update_primary_light();
-            if (cm->updateFromCamera(&body_center.x) != 0) {
+            if (cm->updateFromCamera(&body_center) != 0) {
                 cm->clear_flag_and_notify();
             }
             model_render_flags = saved_model_render_flags;

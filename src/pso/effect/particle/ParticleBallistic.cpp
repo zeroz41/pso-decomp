@@ -29,7 +29,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

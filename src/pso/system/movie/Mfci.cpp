@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/audio/CriSvm.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/movie/Mfci.h"
 
 extern "C" unsigned long strtoul(const char *, char **, int);

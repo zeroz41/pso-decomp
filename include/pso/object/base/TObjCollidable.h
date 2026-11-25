@@ -79,4 +79,7 @@ struct ActorBodyHit {
 };
 void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
 
+struct G_UpdateObjectState_6x0B;
+void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
+
 #endif

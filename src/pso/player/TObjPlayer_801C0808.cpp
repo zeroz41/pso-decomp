@@ -3,7 +3,7 @@
 #include "pso/player/TObjPlayer_801C0808.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/protocol/protocol_types.h"

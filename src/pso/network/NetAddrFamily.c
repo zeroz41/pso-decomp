@@ -2,9 +2,9 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppVj.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
@@ -12,10 +12,10 @@
 
 #include "types.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_8041112C.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetIpv6Route.h"
+#include "pso/network/NetApi.h"
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetIpv4.h"
@@ -94,7 +94,7 @@ s16 AT_IP_IsReachable(NetworkAddress *dst, NetworkAddress *src) {
     case 4:
         return AT_IP4_IsReachable(dst->ipv4, src->ipv4);
     case 6:
-        return NetIPv6IsReachable(dst->address, (saddr)src->address);
+        return NetIPv6IsReachable(dst->address, src->address);
     default:
     case 0:
         return -2;

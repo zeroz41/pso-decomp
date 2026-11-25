@@ -2,7 +2,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/text_8020CCF4.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 s32 TLobby::link_matching_objects(s16 room, s16 wave) {
     s16 set_index;
@@ -32,7 +32,7 @@ s32 TLobby::link_matching_objects(s16 room, s16 wave) {
                 enemy->set_entry = row;
                 set_index = enemy->set_index;
                 if (set_index != -1) {
-                    enemy->apply_enemy_state(&TLobby__data_805D6144[set_index].flags);
+                    enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
                 }
                 spawned += 1;
             } else {

@@ -11,7 +11,7 @@ struct G_CastTechniqueParams_6x47 {
     G_CastTechniqueParams_6x47();
 
     s8 technique_number;
-    u8 unused;
+    s8 unused;
     u8 level;
     s8 target_count;
 };
@@ -39,7 +39,7 @@ struct G_ExecutePhotonBlastParams_6x49 {
     G_ExecutePhotonBlastParams_6x49();
 
     s8 photon_blast; // -1, or which of the six
-    u8 unused1;
+    s8 unused1;
     s16 target_count;
     s16 pb_meter_value;
     s16 unused2;

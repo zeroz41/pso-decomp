@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/player/TObjPlayer.h"
 

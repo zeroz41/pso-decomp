@@ -7,7 +7,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 // The motion binding the chao NPC passes to TLobby::spawn_npc_enemy (laid out like MojaAnimationBinding).
 
