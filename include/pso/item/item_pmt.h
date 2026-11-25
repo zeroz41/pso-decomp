@@ -9,8 +9,8 @@ class TObjChara;
 // What the item sound players read: the item's group and index, the player
 // using it and, for a hit, what it hit and which of its colliders.
 struct ItemSoundRequest {
-    s8 group;
-    s8 index;
+    u8 group;
+    u8 index;
     u8 pad_2[2];
     TObjPlayer *player;
     s32 unused;
@@ -19,6 +19,8 @@ struct ItemSoundRequest {
 
     void clear();
 };
+
+void play_shield_sound_cue(ItemSoundRequest *cue);
 
 void free_item_pmt(void);
 void load_item_pmt(void);

@@ -80,8 +80,6 @@ struct SoundRemapTable_8011C620 { s32 count; SoundRemap_8011C620 *entries; };
 
 struct Pmt_8011C7C8 { u8 pad[0x34]; WeaponSounds_8011C7C8 *weapons; u8 pad38[0x48 - 0x38]; SoundRemapTable_8011C620 *remaps; };
 
-struct Ctx_8011C7C8 { u8 group; u8 variant; u8 pad[2]; u8 *owner; u8 pad8[4]; u8 *target; s32 part; };
-
 typedef struct Pmt_8011CA10 { u8 pad[0x20]; f32 *t20; f32 *t24; } Pmt_8011CA10;
 
 struct RuleTbl_8011C0B8 { s32 count; ItemCombination *rules; };
@@ -94,8 +92,6 @@ typedef struct Ent_8011C59C { s32 a; s32 b; } Ent_8011C59C;
 
 typedef struct Pmt_8011C59C { u8 pad[4]; Sub_8011C59C *sub; u8 pad2[0x34]; Ent_8011C59C *tbl; } Pmt_8011C59C;
 
-typedef struct Obj_8011C59C { u8 pad0; u8 idx; u8 pad[2]; u8 *ptr; } Obj_8011C59C;
-
 typedef struct PmtEnt_8011C234 { s32 id; u8 pad[0x10]; } PmtEnt_8011C234;
 
 typedef struct PmtRow_8011C234 { s32 count; PmtEnt_8011C234 *ents; } PmtRow_8011C234;
@@ -106,9 +102,9 @@ extern "C" {
 s32 __cvt_fp2unsigned(f32);
 s32 get_item_star_count(s32 id);
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
-void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
-void play_weapon_hit_sound(Ctx_8011C7C8 *c);
-void play_shield_sound_cue(Obj_8011C59C *cue);
+void play_weapon_owner_sounds(ItemSoundRequest *c);
+void play_weapon_hit_sound(ItemSoundRequest *c);
+}
 
 saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
     void *temp_r5;
@@ -118,7 +114,6 @@ saddr TObjPlayer::get_item_pmt_entry(u8 arg0) {
         return *(s32 *)((s8 *)temp_r5 + 4) + ((arg0 * 8) & 0x7F8);
     }
     return 0;
-}
 }
 s32 is_unsealable_item(u8 *id) {
     List_8011C030 *l = ((Tbl_8011C030 *)item_pmt_tbl)->list;
@@ -282,20 +277,20 @@ s32 get_unit_attribute_index__10TObjPlayerFUc(u8 flags) {
     return 0;
 }
 
-void play_shield_sound_cue(Obj_8011C59C *cue) {
+void play_shield_sound_cue(ItemSoundRequest *cue) {
     Pmt_8011C59C *pmt = (Pmt_8011C59C *)item_pmt_tbl;
-    u8 idx = cue->idx;
+    u8 idx = cue->index;
     if (idx < pmt->sub->count) {
         s32 off;
         u8 *tbl;
         s32 a;
-        u8 *pos;
+        const Vec *pos;
         tbl = (u8 *)pmt->tbl;
         a = *(s32 *)(tbl + (idx & 0x7f) * 8);
         off = ((idx & 0x7f) * 2 + 1) * 4;
-        pos = cue->ptr + 0x38;
+        pos = &cue->player->position;
         if (a != 0) {
-            s32 r = play_sound_effect(a, reinterpret_cast<const Vec *>(pos), 0, 0);
+            s32 r = play_sound_effect(a, pos, 0, 0);
             if (*(s32 *)(tbl + off) != 0) {
                 set_sound_pitch_request(r, *(s32 *)(tbl + off), 0);
             }
@@ -303,7 +298,7 @@ void play_shield_sound_cue(Obj_8011C59C *cue) {
     }
 }
 
-void play_weapon_hit_sound(Ctx_8011C7C8 *c) {
+void play_weapon_hit_sound(ItemSoundRequest *c) {
     s32 key[2];
     s32 pitch[2];
     u8 group = c->group;
@@ -313,19 +308,19 @@ void play_weapon_hit_sound(Ctx_8011C7C8 *c) {
     u16 type;
     s32 cls;
     s32 i;
-    if (c->group == 2 && c->variant == 6) {
+    if (c->group == 2 && c->index == 6) {
         group = 0x32;
     }
-    if (c->group == 0x89 && c->variant == 3) {
+    if (c->group == 0x89 && c->index == 3) {
         group = 0x10;
     }
     if (group < 0xAA) {
-        target = c->target;
+        target = (u8 *)c->target;
         key[0] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[0].key;
         pitch[0] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[0].pitch;
         key[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].key;
         pitch[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].pitch;
-        pos = (u8 *)((TObjCollidable *)target)->bodies + c->part * 0x2C + 0x1C;
+        pos = (u8 *)((TObjCollidable *)target)->bodies + c->collider * 0x2C + 0x1C;
         type = ((TObjBase *)(target))->get_entity_id();
         if (type < 0x1000) {
             cls = *(s8 *)&((TObjPlayer *)target)->m_88d;
@@ -364,20 +359,20 @@ void play_weapon_hit_sound(Ctx_8011C7C8 *c) {
     }
 }
 
-void play_weapon_owner_sounds(Ctx_8011C7C8 *c) {
+void play_weapon_owner_sounds(ItemSoundRequest *c) {
     s32 key[2];
     s32 pitch[2];
     u8 group = c->group;
-    u8 *pos;
+    const Vec *pos;
     s32 i;
-    if (c->group == 2 && c->variant == 6) {
+    if (c->group == 2 && c->index == 6) {
         group = 0x32;
     }
-    if (c->group == 0x89 && c->variant == 3) {
+    if (c->group == 0x89 && c->index == 3) {
         group = 0x10;
     }
     if (group < 0xAA) {
-        pos = c->owner + 0x38;
+        pos = &c->player->position;
         key[0] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].owner[0].key;
         pitch[0] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].owner[0].pitch;
         key[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].owner[1].key;
@@ -386,7 +381,7 @@ void play_weapon_owner_sounds(Ctx_8011C7C8 *c) {
             s32 k = key[i];
             s32 p = pitch[i];
             if (k != 0) {
-                s32 handle = play_sound_effect(k, reinterpret_cast<const Vec *>(pos), 0, 0);
+                s32 handle = play_sound_effect(k, pos, 0, 0);
                 if (p != 0) {
                     set_sound_pitch_request(handle, p, 0);
                 }

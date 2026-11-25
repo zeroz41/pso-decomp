@@ -24,18 +24,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_pmt.h"
 
-// What play_shield_sound_cue reads (ItemSoundRequest::clear clears it).
-struct ShieldSoundCue {
-    s8 group;
-    u8 index;
-    u8 pad_2[2];
-    TObjPlayer *owner;
-    s32 pad_8[3];
-};
-
 extern "C" {
-// Defined in files that have no headers yet.
-s32 play_shield_sound_cue(ShieldSoundCue *cue);
 // The item file helpers (TItemDrop_800F93F0.cpp).
 // The class name and the effect table's file name. This object starts at
 // 0x80117E50 with the nearby player checks (the last two functions below),
@@ -105,14 +94,14 @@ TItemProShield::TItemProShield(TObject *parent, u8 *item) : TItemEquipBase(paren
 }
 
 void TItemProShield::perform_action() {
-    ShieldSoundCue cue;
+    ItemSoundRequest cue;
     if (owner != NULL) {
         if (is_hidden() == 0) {
             create_shield_effect(tl_05, get_owner_client(), effect_entry);
-            ((ItemSoundRequest *)&cue)->clear();
+            cue.clear();
             cue.group = get_item_group();
             cue.index = get_item_index();
-            cue.owner = owner;
+            cue.player = owner;
             play_shield_sound_cue(&cue);
         }
         if (shield_flags & SHIELD_FLAG_BLOCK_RECOVERY) {
