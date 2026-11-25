@@ -3750,7 +3750,7 @@ force_active:
   - activate_effect__25TItemWeaponHeavenPunisherFl
   - activate_effect__20TItemWeaponTsumikiriFl
   - activate_effect__8TItemMagFl
-  - activate_switch_attacks__10TObjPlayerFii
+  - activate_switch_attacks__9TObjCharaFPC3Vec
   - ad_game_start_name_ptr
   - ad_warning_arq_request
   - add_armor_stat_contribution__9TItemDataFPviiPv
@@ -3759,7 +3759,7 @@ force_active:
   - add_dex__8MagStatsFs
   - add_gogo_ball_one_point_score__Fl
   - add_gogo_ball_three_point_score__Fl
-  - add_id_to_slots__10TObjPlayerFiUs
+  - add_id_to_slots__9TObjCharaFUs
   - add_instance__16TObjEneMe3StelthFP10NJS_OBJECT
   - add_iq__8MagStatsFl
   - add_item_purpose_actions__FP14TWindowSubItemP11TWindowMenul
@@ -5542,7 +5542,7 @@ force_active:
   - cursor_action_priority_table
   - curvecmp
   - cycle_spectate_target__11TCameraCtrlFv
-  - damage_hp__10TObjPlayerFii
+  - damage_hp__9TObjCharaFl
   - damage_linked_entity__16TObjEneBm5GibonUFv
   - damage_linked_entity_type10__16TObjEneBm5GibonUFv
   - damage_nearby_players__14TBoss7TentacleFPv
@@ -9140,7 +9140,7 @@ force_active:
   - number_format_digit_buffer
   - obj_camera_class_name
   - obj_chip_class_name_ptr
-  - obj_clearArrS16_FC__FP9TObjCharal
+  - clear_attack_credit_slot__9TObjCharaFl
   - obj_container_ido_class_name
   - obj_curtain_lobby_class_name
   - boss6_scene_archive
@@ -16566,10 +16566,10 @@ force_active:
   - try_relocate_on_timer__15TObjEneDelDepthFv
   - try_spawn_child__12TObjEneSlimeFPv
   - try_spawn_ground_effect__16TObjEneMe3StelthFPC3Vec
-  - try_start_action__11TOVS2Wall01Fll
-  - try_start_action__15TOAttackableColFll
-  - try_start_action__19TContainerAncient01Fll
-  - try_start_action__20TContainerAncient01RFll
+  - try_start_action__11TOVS2Wall01FPvlf
+  - try_start_action__15TOAttackableColFPvlf
+  - try_start_action__19TContainerAncient01FPvlf
+  - try_start_action__20TContainerAncient01RFPvlf
   - try_trigger_action__17TObjEneMe1CanadinFv
   - try_update_target_flag__10TNpcPlayerFPvi
   - turiten_singo_key_model_index
@@ -17386,8 +17386,8 @@ force_active:
   - update_state__17TQuestListOfflineFv
   - vfunc_12__8TObjChipFv
   - vfunc_13__21TObjCityVerticalModelFl
-  - init_params__22TObjFogCollisionPoisonFl
-  - init_params__22TObjFogCollisionSwitchFl
+  - init_params__22TObjFogCollisionPoisonFv
+  - init_params__22TObjFogCollisionSwitchFv
   - vfunc_14__12TObjComputerFv
   - vfunc_14__13TObjGbAdvanceFv
   - vfunc_14__14TOTrapChainSawFv
