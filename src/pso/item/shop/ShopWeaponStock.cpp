@@ -177,6 +177,7 @@ s32 TLobby::get_level_bracket(s32 shop_weapon_stock_level) {
     return -1;
 }
 
+}
 s32 TLobby__sub_80224840(s32 shop_weapon_stock_level) {
     if ((shop_weapon_stock_level >= 1) && (shop_weapon_stock_level <= 0xA)) {
         return 0;
@@ -207,6 +208,7 @@ s32 TLobby__sub_80224840(s32 shop_weapon_stock_level) {
     }
     return -1;
 }
+extern "C" {
 
 s32 TLobby::classify_level_bracket_narrow(s32 shop_weapon_stock_level) {
     if ((shop_weapon_stock_level >= 1) && (shop_weapon_stock_level <= 3)) {
@@ -498,8 +500,8 @@ void roll_shop_weapon_grind(Item_80225064 *it) {
 }
 #pragma pop
 
-void TLobby__sub_80225238(int tbl, int a1) { shop_weapon_stock_level = a1; generate_shop_weapon_stock(tbl); }
 }
+void TLobby__sub_80225238(int tbl, int a1) { shop_weapon_stock_level = a1; generate_shop_weapon_stock(tbl); }
 
 #pragma push
 #pragma optimization_level 1

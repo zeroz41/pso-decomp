@@ -50,7 +50,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TDeadSpot.h"
 
-extern "C" {
 extern SampledMotionPoints *dimedian_attack_left_trail;
 extern SampledMotionPoints *dimedian_attack_right_trail;
 
@@ -310,7 +309,6 @@ void TObjEneDimedian::render() {
     }
 }
 
-}
 
 extern "C" const char dimedian_sl_body_model_filename[20] = "df3_sl_wala_body.nj";
 extern "C" const char dimedian_ssl_body_model_filename[24] = "df3_ssl_wala_body.nj";
@@ -471,7 +469,6 @@ void TLobby::load_dimedian_resources() {
 extern "C" __declspec(section ".rodata") const char dimedian_a_bml_filename[26] = "bm_ene_df3_dimedian_a.bml";
 }
 
-extern "C" {
 saddr dimedian_resource_handles[3];
 s32 dimedian_last_draw_tick[3];
 
@@ -480,7 +477,6 @@ const char *TObjEneDimedian_name_ref = dimedian_class_name;
 BmlResource *dimedian_resource_ptr;
 SampledMotionPoints *dimedian_attack_left_trail;
 SampledMotionPoints *dimedian_attack_right_trail;
-}
 
 #pragma defer_codegen on
 void TObjEneDimedian::load_dimedian_param_entry(s32 i) {

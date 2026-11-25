@@ -79,7 +79,6 @@
 #include "pso/object/TDeadSpot.h"
 
 
-extern "C" {
 player_stats *dellbiter_boss_stat_handle;
 AttackParams *dell_biter_shared_handler_param;
 ActorParamBlock *dellbiter_object_stat_handle;
@@ -144,7 +143,6 @@ TObjMotionAction dell_biter_param_table[10] = {
 };
 
 const char *dell_biter_class_name = "TObjEneDellBiter";
-}
 #pragma fp_contract on
 
 void TObjEneDellBiter::load_resources() {
@@ -206,7 +204,7 @@ void TObjEneDellBiter::init_params() {
     init_position_vectors();
     model = dell_biter_shared_model_resource->models->model;
     texlist = dell_biter_shared_model_resource->models->texlist;
-    init_model((CollisionBody *)dell_biter_collision_bodies, 1);
+    init_model(dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
     set_action_table(dell_biter_param_table);
     set_motion_list(dell_biter_shared_model_resource->motions);
@@ -298,7 +296,7 @@ void TObjEneDellBiter::run_task() {
     }
     if (this->update_status_effects() != 4) {
         this->update_action_state();
-        if ((s32) dell_biter_last_uv_scroll_tick != (s32) actor_frame_tick) {
+        if (dell_biter_last_uv_scroll_tick != (s32) actor_frame_tick) {
             dell_biter_last_uv_scroll_tick = actor_frame_tick;
             TObjPlayer__sub_8023DEE0((s16 *)dell_biter_scrolling_uv_polygon_list, 0xC, 0, 0);
         }
@@ -1433,7 +1431,7 @@ void TObjEneDellBiter::step_demo_script(NJS_OBJECT *) {
     case 32:
         pos = dell_biter_demo_script_cursor;
         dell_biter_demo_script_cursor = pos + 1;
-        forward_transform_to_view((const Vec *)&dellbiter_demo_camera_vec, pos);
+        forward_transform_to_view(&dellbiter_demo_camera_vec, pos);
         break;
     }
     dell_biter_demo_script_step += 1;

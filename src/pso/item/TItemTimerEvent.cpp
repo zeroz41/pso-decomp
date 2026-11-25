@@ -49,7 +49,6 @@ void TObjPlayer::set_flag_10000() {
     set_state_flags(0x10000);
 }
 
-extern "C" {
 TItemLockCountCtrl * item_timer_event_instance;
 
 void TObjPlayer::clear_state_flags(s32 mask) {
@@ -254,4 +253,3 @@ void TItemTimerEventParalysisCurse::vfunc_6() {
     }
 }
 
-}

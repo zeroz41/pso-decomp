@@ -1188,8 +1188,6 @@ TItem *construct_item(TItemData *data) {
     return 0;
 }
 
-extern "C" {
-
 TItem *TLobby__sub_801054E0(u8 *item) {
     if (item != 0) {
         if (item[1] < 4) {
@@ -1200,6 +1198,7 @@ TItem *TLobby__sub_801054E0(u8 *item) {
     }
     return 0;
 }
+extern "C" {
 
 // Clears a drop request's position. Dead-stripped from the game: only its 0.0f literal remains.
 void clear_drop_request_position(Vec *v) {

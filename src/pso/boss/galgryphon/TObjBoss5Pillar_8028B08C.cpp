@@ -14,7 +14,6 @@ TObjBoss5PillarSmoke *TObjBoss5Pillar::create_smoke(TObject *parent, NJS_OBJECT 
     return new TObjBoss5PillarSmoke(parent, node);
 }
 
-extern "C" {
 
 void trigger_pillars_in_range(TObjBoss5PillarCtrl *pillar_controller, const Vec *pos, const DragonAttackParams *params) {
     f32 off;
@@ -32,4 +31,3 @@ void trigger_pillars_in_range(TObjBoss5PillarCtrl *pillar_controller, const Vec 
     }
 }
 
-}

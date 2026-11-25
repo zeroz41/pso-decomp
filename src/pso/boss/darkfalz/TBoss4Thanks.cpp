@@ -209,7 +209,6 @@ TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
     this->fade_frame = 0;
 }
 
-extern "C" {
 
 extern void *tl_02;
 
@@ -235,7 +234,6 @@ s32 TBoss4Thanks::check_ready() {
     return 1;
 }
 
-}
 
 s32 any_player_has_listed_item(void) {
     s32 n = TLobby::get_game_mode();

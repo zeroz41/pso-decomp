@@ -1356,7 +1356,6 @@ void TBoss2DeRolLe::start_death_sequence() {
     }
 }
 
-extern "C" {
 
 void handle_6x13_de_rol_le_boss_actions(DeRolLeActionPacket *packet) {
     TBoss2DeRolLe *boss;
@@ -1392,7 +1391,6 @@ void TBoss2DeRolLe::reset_action_sequence() {
     action_index = 0;
 }
 
-}
 
 
 

@@ -20,11 +20,9 @@ void TItemData::add_quantity(s32 amount) {
 void add_eth_resist(void *res, s32 amount) {
     *(s16 *)((s8 *)res + 6) = (s16) (*(s16 *)((s8 *)res + 6) + amount);
 }
-extern "C" {
 
 void TItemData__sub_8010EDD8(void *res, s32 amount) {
     *(s16 *)((s8 *)res + 4) = (s16) (*(s16 *)((s8 *)res + 4) + amount);
-}
 }
 
 void TItemData::adjust_count(s32 amount) {

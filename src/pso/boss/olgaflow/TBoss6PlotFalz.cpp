@@ -902,7 +902,6 @@ void TBoss6PlotFalz::move_player_to(TObjPlayer *player, Vec *pos) {
 
 
 BmlResource *boss6_scene_archive;
-extern "C" {
 
 void TBoss6PlotFalz::render() {  }
 
@@ -937,7 +936,6 @@ void handle_6xA3_olga_flow_boss_actions(game_command_header *command) {
     }
 }
 
-}
 
 
 void TBoss6PlotFalz::send_6xA3_action(s8 phase) {

@@ -118,7 +118,6 @@ void play_area_se_with_particle(Vec *position) {
     v.y += 30.0f;
     spawn_particle_effect(&v, 0xE6);
 }
-extern "C" {
 
 void TBoss3Volopt__sub_800D8D88(saddr position) {
     const Vec *sound_position = reinterpret_cast<const Vec *>(position);
@@ -147,7 +146,6 @@ void TBoss3Volopt__sub_800D8D88(saddr position) {
     spawn_particles_at__12TBoss3VoloptFi(position);
 }
 
-}
 void play_area_sound_effect(Vec *position) {
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
@@ -201,14 +199,12 @@ void create_dead_spot(Vec *pos, s32 particle, s32 duration, f32 radius) {
     new TDeadSpotGroundEmitter((TObject *)tl_05, pos, create_timed_particle_emitter(pos, particle, 0, duration), radius);
 }
 
-extern "C" {
 
 void fn_800D911C(Vec *position) {
     create_timed_particle_emitter(position, 232, 10, 1);
     create_timed_particle_emitter(position, 236, 10, 1);
 }
 
-}
 
 void trigger_dell_biter_events(const Vec *pos) { spawn_particle_effect(pos, 251); spawn_particle_effect(pos, 252); spawn_particle_effect(pos, 227); }
 
@@ -272,7 +268,6 @@ void TDeadSpot::spawn_kind1_scale25(const Vec *point, s32 delay) {
 void TDeadSpot::spawn_kind2_scale2_5(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 2, delay, 2.5f);
 }
-extern "C" {
 
 void TDeadSpot::spawn_kind2_scale7_5(const Vec *point, s32 delay) {
     TDeadSpot::spawn(point, 2, delay, 7.5f);
@@ -302,7 +297,6 @@ void TDeadSpot::free_resource() {
         delete player_corpse_mark_resource;
         player_corpse_mark_resource = NULL;
     }
-}
 }
 
 void TDeadSpot::load_resource() {

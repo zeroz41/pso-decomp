@@ -310,9 +310,8 @@ u16 TBoss4Type3::pick_random_target_player() {
 TBoss4DarkFalzSetEntry dark_falz_set_entry;
 
 
-extern "C" {
-s32 is_local_client_floor_leader();
-s32 get_main_phase();
+extern "C" s32 is_local_client_floor_leader();
+extern "C" s32 get_main_phase();
 
 s32 TBoss4DarkFalz::alloc_child_ids(s16 *set_index_out, s16 *entity_id_out) {
     s32 n = next_child_index;
@@ -692,7 +691,6 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
             }
         }
     }
-}
 }
 #pragma pop
 

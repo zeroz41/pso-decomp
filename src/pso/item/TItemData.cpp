@@ -69,7 +69,6 @@ s32 check_equip_requirements(void *self, TItemData *item, s32 *out);
 u8 get_cast_technique_level(void *, int);
 void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag);
 f32 calc_clock_bonus__9TItemDataFPv(u8 *item);
-void * lookup_item_pmt_record(u8 *item);
 void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
 void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out);
 void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 player, s32 unused, void *res, EquipStats *st, Stats2_8010BEC4 *st2);

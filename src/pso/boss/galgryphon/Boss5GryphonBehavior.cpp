@@ -354,7 +354,6 @@ s32 boss5_gryphon_resistance_param_ids[1] = { 0x1E };
 const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 }
 
-extern "C" {
 void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
                            AnimationMotion *motion, s32 loop, f32 frame) {
     particle->model = model;
@@ -378,7 +377,6 @@ void G_GalGryphonBossActions_6x9F::init() {
     header.size = 4;
 }
 
-}
 void G_GalGryphonBossActions_6x9F::bswap() {
     header.bswap();
     bswap_32(&target_id);

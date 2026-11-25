@@ -24,10 +24,10 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/item_pmt.h"
 
-extern "C" {
 // The item file helpers (TItemDrop_800F93F0.cpp).
 // The class name and the effect table's file name.
 const char *TItemProShield::name = "TItemProShield";
+extern "C" {
 const char *lbl_805D2C3C = "ItemShieldEntry.dat";
 // Called with the item index widened to int.
 void __ct__19TItemEffShieldPulseFP7TObjectUsUc(void *object, TItemHeapObject *parent, u16 client, int index);
