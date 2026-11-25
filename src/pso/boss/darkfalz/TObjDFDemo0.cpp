@@ -36,7 +36,6 @@ const ModelNodeSpec TObjDFDemo0::model_node_entries[7] = {
     {9, 1, 0}, {7, 1, 0}, {5, 2, 0}, {4, 2, 0}, {6, 2, 0}, {3, 5, 0}, {3, 0x5E, 0},
 };
 
-extern "C" {
 DFDemo0Emitter TObjDFDemo0::entry_table[5] = {
     {0x14B, 0, 0x82, {0.0f, 0.0f, -120.0f}},
     {0x14C, 0x50, 0x8C, {0.0f, 0.0f, 10.0f}},
@@ -44,6 +43,7 @@ DFDemo0Emitter TObjDFDemo0::entry_table[5] = {
     {0x14C, 0x78, 0x8C, {-130.0f, 0.0f, -120.0f}},
     {0x14D, 0x92, 0xC8, {0.0f, 0.0f, -120.0f}},
 };
+extern "C" {
 // The motions of the six body models.
 s32 df_demo0_body_motion_ids[6] = {0x50, 0x4E, 0x19, 0x19, 0x19, 0x18};
 // Where the demo plays out: the camera looks from it, effects gather on it and sounds play from it.

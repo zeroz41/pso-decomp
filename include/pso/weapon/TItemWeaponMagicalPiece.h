@@ -13,6 +13,5 @@ public:
     static TItem *create(u8 *item);
 };
 
-extern "C" TItem *TItemWeaponMagicalPiece::create(u8 *item);
 
 #endif

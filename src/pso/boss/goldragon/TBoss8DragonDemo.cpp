@@ -13,8 +13,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 
+extern "C" {
 void TBoss8DragonDemo::render() {  }
 
 void TBoss8DragonDemo::run_task() {
@@ -51,7 +51,7 @@ void TBoss8DragonColli::enable_blocking_bodies(Vec *pos, s32 angle) {
         objects[i]->enable_at(pos, angle);
     }
 }
+}
 
 const char *TBoss8DragonDemo::name = "TBoss8DragonDemo";
-}
 

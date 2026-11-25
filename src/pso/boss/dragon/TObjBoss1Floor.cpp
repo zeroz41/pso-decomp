@@ -34,8 +34,8 @@
 #include "pso/render/CameraCapture.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
 const char *TObjBoss1Floor::name = "TObjBoss1Floor";
+extern "C" {
 void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
 }

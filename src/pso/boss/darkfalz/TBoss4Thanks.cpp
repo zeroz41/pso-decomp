@@ -32,8 +32,8 @@
 
 
 
-extern "C" {
 const char *TBoss4Thanks::class_name = "TBoss4Thanks";
+extern "C" {
 // Position of the emitters and of the proximity check (x, y, z).
 extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
 // Equipment any_player_has_listed_item() (text_8035C9E8, this TU's code) looks for: {type, group, index}.
@@ -106,8 +106,8 @@ int TBoss4Thanks::is_player_nearby() {
     }
     return 0;
 }
-
 }
+
 
 void TBoss4Thanks::render() {
   f32 fade;

@@ -19,9 +19,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
 const char *TBoss6EffFlowSoul::name = "TBoss6EffFlowSoul";
-}
 
 void TBoss6EffFlowSoul::run_task() {
     Vec target;

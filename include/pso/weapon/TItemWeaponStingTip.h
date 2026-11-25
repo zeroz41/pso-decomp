@@ -16,6 +16,5 @@ public:
     s32 rotation_z;  // rotate_matrix_z angle of the model hook
 };
 
-extern "C" TItem *TItemWeaponStingTip::create(u8 *item);
 
 #endif

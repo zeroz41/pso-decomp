@@ -25,14 +25,11 @@
 
 extern "C" {
 __declspec(section ".rodata") s32 boss5_gryphon_snarl_effect_id_table[4] = { 521, 539, 540, 538 };
+}
 const char *TBoss5GryphonSnarl::name = "TBoss5GryphonSnarl";
-s32 * TBoss5GryphonSnarl::effect_table;
-extern s32 boss5_gryphon_snarl_effect_id_table[4];
-extern s32 *TBoss5GryphonSnarl::effect_table;
+s32 *TBoss5GryphonSnarl::effect_table;
 
 void TBoss5GryphonSnarl::render() {  }
-
-}
 
 #pragma push
 #pragma fp_contract on

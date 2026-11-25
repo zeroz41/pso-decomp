@@ -20,12 +20,12 @@
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TBoss1DragonEffTail::name = "TBoss1DragonEffTail";
 CollisionBody TBoss1DragonEffTail::collision_body_templates[17] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 },
 };
 
+extern "C" {
 void TBoss1DragonEffTail::render() {  }
 
 void TBoss1DragonEffTail::run_task() {
@@ -105,5 +105,5 @@ TBoss1DragonEffTail::TBoss1DragonEffTail(TBoss1Dragon *dragon, Vec *nodes)
     sweep_vector.y = 0.0f;
     sweep_vector.z = 0.0f;
 }
-
 }
+

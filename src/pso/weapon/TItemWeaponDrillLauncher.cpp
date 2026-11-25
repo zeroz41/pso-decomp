@@ -32,7 +32,6 @@ struct TItemEquipBase;
 #include "pso/system/MatrixStack.h"
 
 saddr drill_launcher_create_shot(saddr owner, saddr pos, saddr dir, f32 life);
-TItem *TItemWeaponDrillLauncher::create(u8 *item);
 void drill_launcher_return_timer(void *weapon);
 
 

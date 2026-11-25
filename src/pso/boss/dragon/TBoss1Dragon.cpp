@@ -176,8 +176,10 @@ BmlResourceDescriptor boss1_dragon_bml_descriptor = {"bm_boss1_dragon.bml", boss
 // (de_rol_le_base_param_ids / boss5_gryphon_base_param_ids twins)
 s32 boss1_dragon_base_param_ids[1] = {0x12};
 s32 boss1_dragon_register_object_ids[1] = {0x12};
+}
 const char *TBoss1Dragon::name = "TBoss1Dragon";
 extern const DragonAttackParams TBoss1Dragon::foot_step_attack_params = {0, 10.0f, 15.0f, {8.0f, 1}};
+extern "C" {
 extern const DragonAttackParams dragon_breath_attack_params = {0, 500.0f, 45.0f, {100.0f, 1}};
 extern const DragonAttackParams dragon_fireball_attack_params = {1, 2.0f, 10.0f, {10.0f, 1}};
 extern const DragonAttackParams dragon_fireball_impact_damage_params = {1, 10.0f, 30.0f, {10.0f, 1}};

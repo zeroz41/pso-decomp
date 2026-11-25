@@ -100,7 +100,6 @@ CollisionBody TBoss6Type1::collision_body_parts[7] = {
 };
 __declspec(section ".data") s32 boss6_type1_part_model_ids[2] = {3, 6};
 
-extern "C" {
 Boss6Type1MotionSet TBoss6Type1::motion_set_table[21] = {
     {0, 0, 44, 45}, {0, 1, 42, 45}, {0, 2, 44, 56}, {2, 0, 40, 41}, {2, 2, 44, 53},
     {2, 0, 37, 38}, {2, 2, 37, 38}, {2, 8, 29, 30}, {0, 8, 13, 14}, {2, 1, 47, 48},
@@ -109,6 +108,7 @@ Boss6Type1MotionSet TBoss6Type1::motion_set_table[21] = {
     {2, 2, 44, 15},
 };
 
+extern "C" {
 const s8 boss6_type1_low_attack_heights[2] = { 0x12, 0x0A };
 const s8 boss6_type1_mid_attack_heights[2] = { 0x12, -2 };
 static const s32 boss6_type1_slot_count = 24;
@@ -126,10 +126,10 @@ inline const s32 &sway_delay_min() { return boss6_type1_sway_delay_min; }
 inline const s32 &sway_delay_range() { return boss6_type1_sway_delay_range; }
 inline const s32 &anim_count() { return boss6_type1_anim_count; }
 inline const s32 &main_anim_index() { return boss6_type1_main_anim_index; }
-
-
-
 }
+
+
+
 
 
 

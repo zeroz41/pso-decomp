@@ -11,10 +11,10 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 
-extern "C" {
 #pragma push
 #pragma readonly_strings on
 const char *TObjBoss5PillarDemo::name = "TObjBoss5PillarDemo";
+extern "C" {
 #pragma pop
 
 void TObjBoss5PillarDemo__sub_8028AB38(void) {
@@ -30,8 +30,8 @@ void TObjBoss5PillarDemo::update_active_pillar() {
         clear_chain_flags(models[7].model, models[6].model);
     }
 }
-
 }
+
 TObjBoss5PillarDemo::~TObjBoss5PillarDemo() {
 
 }

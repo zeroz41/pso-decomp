@@ -24,9 +24,7 @@ void TObjBoss2RaftSplash::run_task() {
 }
 TObjBoss2RaftSplash::~TObjBoss2RaftSplash() {}
 
-extern "C" {
 const char *TObjBoss2RaftSplash::name = "TObjBoss2RaftSplash";
-}
 TObjBoss2RaftSplash::TObjBoss2RaftSplash(TObject *parent, const Vec *position, const Vec *offset, f32 *speed)
     : TObject(parent) {
     m_name = TObjBoss2RaftSplash::name;
