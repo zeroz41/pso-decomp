@@ -22,11 +22,8 @@
 #include "pso/unk/text_8006EBC4.h"
 #include "pso/unk/text_8020EE2C.h"
 #include "pso/object/city/TObjCityAirCar_Ctrl.h"
+#include "pso/object/city/CitySeasonResources.h"
 
-extern "C" {
-// CitySeasonResources.cpp; its header does not declare it yet.
-void TLobby__sub_80184DF4(void);
-}
 // THunterGuildSeqOnlineTask_802156A0.cpp; no header declares it yet.
 void load_judge_item(void);
 
@@ -39,7 +36,7 @@ void (*TLobby_scene_load_callback_table[24])(void) = {
     load_judge_item, TLobby::free_window,
     TQuestListOffline::reset_global_if_not_split_screen, TQuestListOffline::free_global,
     reset_globals2__19TQuestListChallengeFv, reset_globals__19TQuestListChallengeFv,
-    TLobby__sub_80184DF4, TLobby::free_buffers,
+    load_city_season_resources, free_city_season_resources,
     TCheckRoomSequence::alloc_item_buffers, TCheckRoomSequence::free_bank_item_records,
     measure_traffic_path_lengths, free_buffer_pair_table,
     TQuestVmDownLoadServer::reset_download_state, TQuestVmDownLoadServer::free_download_buffers,

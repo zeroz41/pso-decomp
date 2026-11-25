@@ -427,8 +427,6 @@ struct TLobby : public TObject {
     static void respawn_missing_floor_items(s32 n);
     static void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
     static void reset_item_id_counters();
-    static void clear_global_array(void* _w0);
-    static void free_buffers();
     static void free_global_buffer();
     static void reload_offline_area();
     static void rebuild_area_keep_players();
