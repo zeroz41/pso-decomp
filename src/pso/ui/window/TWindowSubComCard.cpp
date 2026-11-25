@@ -102,9 +102,6 @@ struct Entry_80272B60 { u16 id; u16 val; u8 name[0x1C]; };
 struct ChrSel_80272B60 { u8 f0; u8 count; u8 pad[2]; Entry_80272B60 e[1]; };
 
 extern "C" {
-s32 create_keyboard__17TWindowSubComCardFi(saddr arg0);
-s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card);
-
 struct ComCardRec_80272A98 { u32 id; char name[0xD0]; };
 
 struct ComCardList_80272A98 { u8 pad0; u8 count; u8 pad2[2]; ComCardRec_80272A98 entries[1]; };
@@ -365,7 +362,7 @@ void TWindowSubComCard::run_task() {
             this->menu_window->close();
             this->menu_window = 0U;
         }
-        this->keyboard = (TKeyBoardControl *)((u32 (*)(void*))create_keyboard__17TWindowSubComCardFi)(this);
+        this->keyboard = create_keyboard();
         this->state = 0xAU;
     case 0xA:
         if (this->keyboard->is_cancelled() != 0) {
@@ -492,7 +489,7 @@ void TWindowSubComCard::run_task() {
             this->menu_window->close();
             this->menu_window = 0U;
         }
-        this->keyboard = (TKeyBoardControl *)((u32 (*)(void*, int))create_keyboard__17TWindowSubComCardFii)(this, this->selected_card);
+        this->keyboard = create_keyboard(this->selected_card);
         this->state = 0x14U;
     case 0x14:
         if (this->keyboard->is_cancelled() != 0) {
@@ -1528,28 +1525,30 @@ TWindowMessage *TWindowSubComCard::create() {
     return window;
 }
 
-s32 create_keyboard__17TWindowSubComCardFi(saddr parent) {
-    saddr keyboard;
-    s32 keyboard_mode;
+// Opens the keyboard over the text of the com card being written.
+TKeyBoardControl *TWindowSubComCard::create_keyboard() {
+    int keyboard_mode;
+    TKeyBoardControl *control;
 
     keyboard_mode = TWindowSubComCard::get_keyboard_mode();
-    keyboard = (saddr)new TKeyBoardControl((TObject *)parent, 0xC6, 3, 4, local_client_id);
-    ((TKeyBoardControl *)keyboard)->set_text((char *)((TWindowComCard *)(saddr)keyboard_mode)->get_kbd_ptr());
-    ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
-    ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
-    ((TKeyBoardControl *)keyboard)->set_soft_flag60_bit1();
-    return keyboard;
+    control = new TKeyBoardControl(this, 0xC6, 3, 4, local_client_id);
+    control->set_text((char *)((TWindowComCard *)keyboard_mode)->get_kbd_ptr());
+    control->set_sub_position((u8 *)get_window_layout_position(0xBB));
+    control->set_flag62_bit2();
+    control->set_soft_flag60_bit1();
+    return control;
 }
 
-s32 create_keyboard__17TWindowSubComCardFii(saddr parent, saddr card) {
-    saddr keyboard;
+// Opens the keyboard over the note of the guild card `card_index`.
+TKeyBoardControl *TWindowSubComCard::create_keyboard(s32 card_index) {
+    TKeyBoardControl *control;
 
-    keyboard = (saddr)new TKeyBoardControl((TObject *)parent, 0xC6, 3, 4, local_client_id);
-    ((TKeyBoardControl *)keyboard)->set_text((char *)(saddr)((TWindowSubComCard *)card)->get_card_entry_data());
-    ((TKeyBoardControl *)keyboard)->set_sub_position((u8 *)(get_window_layout_position(0xBB)));
-    ((TKeyBoardControl *)keyboard)->set_flag62_bit2();
-    ((TKeyBoardControl *)keyboard)->set_soft_flag60_bit1();
-    return keyboard;
+    control = new TKeyBoardControl(this, 0xC6, 3, 4, local_client_id);
+    control->set_text((char *)((TWindowSubComCard *)card_index)->get_card_entry_data());
+    control->set_sub_position((u8 *)get_window_layout_position(0xBB));
+    control->set_flag62_bit2();
+    control->set_soft_flag60_bit1();
+    return control;
 }
 
 void TWindowSubComCard::update_display_value(TWindowMenu *list_window, TWindowComCard *card_window, s32 *last_selected) {

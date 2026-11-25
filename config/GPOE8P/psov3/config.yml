@@ -5482,8 +5482,8 @@ force_active:
   - create_instance__23TAdSinglePlyChrSelectGCFv
   - create_inward_orbit_effect__FPUclPUcl
   - create_judgment_item_window__15TShopWindowBaseFPv
-  - create_keyboard__17TWindowSubComCardFi
-  - create_keyboard__17TWindowSubComCardFii
+  - create_keyboard__17TWindowSubComCardFv
+  - create_keyboard__17TWindowSubComCardFl
   - create_keyboard_control__20TWindowSubSymbolChatFv
   - create_learned_blast_toast__13TWindowSubMagFv
   - create_left_hand__19PlayerHandParticlesFP8TObjBase

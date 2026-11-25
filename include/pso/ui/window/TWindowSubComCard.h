@@ -73,6 +73,8 @@ struct TWindowSubComCard : public TObject {
     s32 get_card_id();
     int is_active();
     static int get_keyboard_mode();
+    TKeyBoardControl *create_keyboard();
+    TKeyBoardControl *create_keyboard(s32 card_index);
     static s32 init_card();
     static void remove_entry(s32 index);
     static s32 scroll_list(s32 ply_guild_card_tag);
