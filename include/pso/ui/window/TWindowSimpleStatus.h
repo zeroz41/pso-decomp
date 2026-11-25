@@ -7,12 +7,13 @@
 struct TWindowSimpleStatus : public TWindowBase {
     TWindowSimpleStatus(void *position, s32 client, u8 *descriptor);
     virtual ~TWindowSimpleStatus();
+    static const char *class_name;
     void draw_background(u8 *);
     void apply_random_shake();
     void update_status_icons(void *);
     s32 get_width();
     virtual void render();
-    u32 m_60;
+    u32 shake_ticks;
     virtual void run_task();
     static TWindowSimpleStatus *create(void *position, s32 client);
     TWindowBase *w[5]; // child windows; the dtor closes the first four

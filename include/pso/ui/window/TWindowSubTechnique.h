@@ -31,14 +31,14 @@ struct TWindowSubTechnique : public TObject {
 
     void rebuildTechniqueList(saddr list, s32 category);
     TWindowMenu *open_menu();
-    void update_selected_help(s32 arg1);
+    void update_selected_help(s32 technique);
     virtual void render();
     virtual void run_task();
     void clear_flag70_bit80();
     static void get_selection(s16 *arg0, s32 *arg1, s32 client);
     static s32 update_selection(s16 *arg0, s32 *arg1, s32 client);
     static void get_current_selection(s16 *arg0, s32 *arg1, s32 client);
-    static s32 lookup_technique(s32 arg0, s32 client);
+    static s32 lookup_technique(s32 technique, s32 client);
     TWindowMenu *create_title_window(s32 category);
     static s32 is_technique_available(s32 sub, s32 client);
     static void draw_technique_row(s32 id, s32 client, saddr list);
@@ -47,7 +47,7 @@ struct TWindowSubTechnique : public TObject {
 LAYOUT_ASSERT(TWindowSubTechnique_size, sizeof(TWindowSubTechnique) == 0x40);
 
 extern "C" {
-saddr get_technique_description_text(s32 arg0);
+saddr get_technique_description_text(s32 technique);
 }
 
 #endif

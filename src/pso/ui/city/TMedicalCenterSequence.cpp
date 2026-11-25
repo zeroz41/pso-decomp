@@ -22,7 +22,7 @@
 #include "pso/ui/window/WindowLayout.h"
 
 
-extern const char *TMedicalCenterMes__class_name;
+extern const char *medical_center_mes_class_name;
 
 
 #include "pso/item/shop/TShopGenerator.h"
@@ -32,54 +32,39 @@ extern const char *TMedicalCenterMes__class_name;
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/text_8022350C.h"
 
-s32 TMedicalCenterSequence__data_80513E90[4];
+s32 medical_center_slot_active_flags[4];
 s32 TMedicalCenterMes::slot_flags[4];
 
 extern "C" {
-extern const char *TMedicalCenterSequence__class_name;
+extern const char *medical_center_sequence_class_name;
 
 int get_actor_meseta(TObjPlayer *player);
 }
 
-struct Base_8021641C_802163AC { char pad[0x18]; };
-struct Base_802165D8_802163AC { char pad[0x18]; };
-struct Base_80216784_802163AC { char pad[0x18]; };
-struct VBase_18_a93f07
-{
-  char pad[0x18];
-};
-struct Stack_80216830
-{
-  f32 sp8;
-  f32 spC;
-};
-struct Base_802164A4 { char pad[0x18]; };
-struct Base_80216540 { char pad[0x18]; };
-struct Base_8021658C { char pad[0x18]; };
-const char *TMedicalCenterSequence__class_name = "TMedicalCenterSequence";
-const char *TMedicalCenterMes__class_name = "TMedicalCenterMes";
+const char *medical_center_sequence_class_name = "TMedicalCenterSequence";
+const char *medical_center_mes_class_name = "TMedicalCenterMes";
 void TMedicalCenterSequence::clear_window_slots() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TMedicalCenterSequence__data_80513E90[i] = 0;
+        medical_center_slot_active_flags[i] = 0;
     }
 }
 
 void TMedicalCenterSequence::clear_slot_data() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TMedicalCenterSequence__data_80513E90[i] = 0;
+        medical_center_slot_active_flags[i] = 0;
     }
 }
 
 TMedicalCenterSequence::TMedicalCenterSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = TMedicalCenterSequence__class_name;
+    m_name = medical_center_sequence_class_name;
     state = 0;
     this->player = player;
     meseta_window = NULL;
     yes_no_menu = NULL;
     counter_camera = NULL;
-    TMedicalCenterSequence__data_80513E90[get_split_screen_slot()] = 1;
+    medical_center_slot_active_flags[get_split_screen_slot()] = 1;
 }
 
 TMedicalCenterSequence::~TMedicalCenterSequence() {
@@ -96,7 +81,7 @@ TMedicalCenterSequence::~TMedicalCenterSequence() {
         ((TWindowBase *)yes_no_menu)->close();
         yes_no_menu = NULL;
     }
-    TMedicalCenterSequence__data_80513E90[get_split_screen_slot()] = 0;
+    medical_center_slot_active_flags[get_split_screen_slot()] = 0;
 }
 
 void TMedicalCenterSequence::update_state() {
@@ -140,8 +125,6 @@ void TMedicalCenterSequence::restore_player_state() {
     set_state(1);
 }
 
-typedef struct Stack_80216830 Stack_80216830;
-typedef struct VBase_18_a93f07 VBase_18_a93f07;
 void TMedicalCenterSequence::open_greeting_window() {
     f32 pos[2];
     pos[0] = 332.0f;
@@ -240,7 +223,7 @@ void TMedicalCenterSequence::close_window() {
 }
 
 TMedicalCenterMes::TMedicalCenterMes(TObject *parent, TObjPlayer *player) : TObject(parent) {
-    m_name = TMedicalCenterMes__class_name;
+    m_name = medical_center_mes_class_name;
     state = 0;
     this->player = player;
     if (this->player != NULL) {
@@ -276,7 +259,7 @@ void TMedicalCenterMes::run_task() {
         if (player == NULL) {
             player = get_player_by_client_id(local_client_id);
         }
-        THunterGuildSeqOffline__sub_8021E180(player->get_entity_id());
+        set_shop_slot_active(player->get_entity_id());
         TWindowCtrl::suppress_slot(player->get_entity_id());
         f32 pos[2] = {332.0f, 80.0f};
         s32 id = player->get_entity_id();

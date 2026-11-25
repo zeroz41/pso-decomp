@@ -39,52 +39,6 @@ struct Item_8010D510;
 struct Parm_8010EBD8;
 struct Params_8010E414;
 struct Item_8010E59C;
-struct VBase_18_38db83
-{
-  char pad[0x18];
-};
-
-struct VObj_18_38db83 : VBase_18_38db83 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual u8 m37();
-};
-
 struct Parm_8010C320
 {
   u8 pad[0xA];
@@ -814,8 +768,7 @@ s16 TItemData::get_field6_bswap(void *data) {
 }
 
 void TItemData::set_unit_modifier(s16 modifier) {
-    u8 *arg0 = (u8 *)this;
-    *(s16 *)((s8 *)arg0 + 6) = modifier;
+    this->data1.data_u16[3] = modifier;
     bswap_16(&this->data1.data_u16[3]);
 }
 
@@ -826,8 +779,7 @@ s16 TItemData::get_bswap16_field8(void *data) {
 }
 
 void TItemData::set_bswapped_field_8(s16 evp_bonus) {
-    u8 *arg0 = (u8 *)this;
-    *(s16 *)((s8 *)arg0 + 8) = evp_bonus;
+    this->data1.data_u16[4] = evp_bonus;
     bswap_16(&this->data1.data_u16[4]);
 }
 
@@ -838,8 +790,7 @@ s16 TItemData::getS16_06(void *data) {
 }
 
 void TItemData::set_dfp_bonus(s16 dfp_bonus) {
-    u8 *arg0 = (u8 *)this;
-    *(s16 *)((s8 *)arg0 + 6) = dfp_bonus;
+    this->data1.data_u16[3] = dfp_bonus;
     bswap_16(&this->data1.data_u16[3]);
 }
 
@@ -898,8 +849,6 @@ s32 TItemData::has_bonus_stats() {
 }
 
 typedef struct VBase_18_38db83 VBase_18_38db83;
-typedef struct VObj_18_38db83 VObj_18_38db83;
-#define PSO_VCALL_VObj_18_38db83_m37(_self) (((VObj_18_38db83 *)(_self))->m37())
 s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   s32 result;
   u16 id;
@@ -1049,19 +998,19 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
           switch (((u8 *)this)[2])
           {
             case 0:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[0 / 2] <= quest->stats.atp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[0 / 2] <= quest->stats.atp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 1:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[2 / 2] <= quest->stats.mst) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[2 / 2] <= quest->stats.mst) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 2:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[4 / 2] <= quest->stats.evp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[4 / 2] <= quest->stats.evp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
@@ -1079,13 +1028,13 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
             }
               break;
             case 5:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[8 / 2] <= quest->stats.dfp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[8 / 2] <= quest->stats.dfp) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
               break;
             case 6:
-              if ((((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[0xC / 2] <= quest->stats.lck) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
+              if ((((s16 *)TObjPlayer::get_class_stat_entry(player))[0xC / 2] <= quest->stats.lck) || (((TObjPlayer *)player)->can_use_more_materials_for_class() != 0))
             {
               hit = 1;
             }
@@ -1109,7 +1058,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
         void *mag = (void *) ((TItemData *)player)->get_item_field_2();
         if (mag != 0)
         {
-          if (PSO_VCALL_VObj_18_38db83_m37(mag) >= 4)
+          if (((TItem *)mag)->get_slot_count() >= 4)
           {
             result |= 1;
           }
@@ -1170,51 +1119,51 @@ void TItemData::deserialize_mag(void *item_data, void *mag_data) {
 
 f32 TItemData::get_shield_set_multiplier(u8 *player) {
   TItem *item;
-  f32 var_f31;
-  saddr temp_r30;
-  TItem *temp_r30_2;
-  TItem *temp_r30_3;
-  saddr temp_r31_2;
-  saddr temp_r31_3;
-  u8 temp_r0;
-  u8 *temp_r3;
-  temp_r0 = this->data1.data_u8[2];
-  var_f31 = 1.0f;
-  switch ((s32) temp_r0)
+  f32 multiplier;
+  saddr partner;
+  TItem *weapon_2;
+  TItem *weapon_3;
+  saddr partner_2;
+  saddr partner_3;
+  u8 set_id;
+  u8 *weapon;
+  set_id = this->data1.data_u8[2];
+  multiplier = 1.0f;
+  switch ((s32) set_id)
   {
     case 26:
-      temp_r3 = (u8 *) TObjPlayer::get_equipped_weapon(player);
-      if ((temp_r3 != 0) && (((TItem *)temp_r3)->get_item_group() == 0x1A))
+      weapon = (u8 *) TObjPlayer::get_equipped_weapon(player);
+      if ((weapon != 0) && (((TItem *)weapon)->get_item_group() == 0x1A))
     {
-      var_f31 = 2.0f;
+      multiplier = 2.0f;
     }
       break;
     case 38:
       item = TObjPlayer::get_equipped_weapon(player);
-      temp_r30 = ((TItemData *)player)->get_item_field_2();
-      if (((((item != NULL) && (((u32) temp_r30) != 0U)) && (item->get_item_group() == 1)) && (item->get_item_index() == 5)) && (((TItem *)temp_r30)->get_item_index() == 0x28))
+      partner = ((TItemData *)player)->get_item_field_2();
+      if (((((item != NULL) && (((u32) partner) != 0U)) && (item->get_item_group() == 1)) && (item->get_item_index() == 5)) && (((TItem *)partner)->get_item_index() == 0x28))
     {
-      var_f31 = 1.5f;
+      multiplier = 1.5f;
     }
       break;
     case 36:
-      temp_r30_2 = TObjPlayer::get_equipped_weapon(player);
-      temp_r31_2 = ((TItemData *)player)->get_item_field_2();
-      if (((((temp_r30_2 != NULL) && (((u32) temp_r31_2) != 0U)) && (temp_r30_2->get_item_group() == 2)) && (temp_r30_2->get_item_index() == 5)) && (((TItem *)temp_r31_2)->get_item_index() == 0x26))
+      weapon_2 = TObjPlayer::get_equipped_weapon(player);
+      partner_2 = ((TItemData *)player)->get_item_field_2();
+      if (((((weapon_2 != NULL) && (((u32) partner_2) != 0U)) && (weapon_2->get_item_group() == 2)) && (weapon_2->get_item_index() == 5)) && (((TItem *)partner_2)->get_item_index() == 0x26))
     {
-      var_f31 = 1.5f;
+      multiplier = 1.5f;
     }
       break;
     case 37:
-      temp_r30_3 = TObjPlayer::get_equipped_weapon(player);
-      temp_r31_3 = ((TItemData *)player)->get_item_field_2();
-      if (((((temp_r30_3 != NULL) && (((u32) temp_r31_3) != 0U)) && (temp_r30_3->get_item_group() == 6)) && (temp_r30_3->get_item_index() == 6)) && (((TItem *)temp_r31_3)->get_item_index() == 0x27))
+      weapon_3 = TObjPlayer::get_equipped_weapon(player);
+      partner_3 = ((TItemData *)player)->get_item_field_2();
+      if (((((weapon_3 != NULL) && (((u32) partner_3) != 0U)) && (weapon_3->get_item_group() == 6)) && (weapon_3->get_item_index() == 6)) && (((TItem *)partner_3)->get_item_index() == 0x27))
     {
-      var_f31 = 1.5f;
+      multiplier = 1.5f;
     }
       break;
   }
-  return var_f31;
+  return multiplier;
 }
 
 f32 TItemData::get_armor_set_multiplier(u8 *player) {
@@ -1315,49 +1264,49 @@ f32 TItemData::get_armor_set_multiplier(u8 *player) {
 }
 
 f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
-  f32 var_f31;
-  saddr temp_r31;
-  saddr temp_r30;
-  saddr temp_r30_2;
-  saddr temp_r30_3;
-  saddr temp_r31_2;
-  saddr temp_r31_3;
-  u8 temp_r0;
+  f32 multiplier;
+  saddr first;
+  saddr second;
+  saddr first_2;
+  saddr first_3;
+  saddr second_2;
+  saddr second_3;
+  u8 weapon_type;
   u8 *item;
-  temp_r0 = this->data1.data_u8[1];
-  var_f31 = 1.0f;
-  switch ((s32) temp_r0)
+  weapon_type = this->data1.data_u8[1];
+  multiplier = 1.0f;
+  switch ((s32) weapon_type)
   {
     case 1:
       if (((u8) (this->data1.data_u8[2])) == 5)
     {
-      temp_r31 = ((TItemData *)item_data)->test_flag3();
-      temp_r30 = ((TItemData *)item_data)->get_item_field_2();
-      if ((((((u32) temp_r31) != 0U) && (((u32) temp_r30) != 0U)) && (((TItem *)temp_r31)->get_item_index() == 0x26)) && (((TItem *)temp_r30)->get_item_index() == 0x28))
+      first = ((TItemData *)item_data)->test_flag3();
+      second = ((TItemData *)item_data)->get_item_field_2();
+      if ((((((u32) first) != 0U) && (((u32) second) != 0U)) && (((TItem *)first)->get_item_index() == 0x26)) && (((TItem *)second)->get_item_index() == 0x28))
       {
-        var_f31 = 1.5f;
+        multiplier = 1.5f;
       }
     }
       break;
     case 2:
       if (((u8) (this->data1.data_u8[2])) == 5)
     {
-      temp_r30_2 = ((TItemData *)item_data)->test_flag3();
-      temp_r31_2 = ((TItemData *)item_data)->get_item_field_2();
-      if ((((((u32) temp_r30_2) != 0U) && (((u32) temp_r31_2) != 0U)) && (((TItem *)temp_r30_2)->get_item_index() == 0x24)) && (((TItem *)temp_r31_2)->get_item_index() == 0x26))
+      first_2 = ((TItemData *)item_data)->test_flag3();
+      second_2 = ((TItemData *)item_data)->get_item_field_2();
+      if ((((((u32) first_2) != 0U) && (((u32) second_2) != 0U)) && (((TItem *)first_2)->get_item_index() == 0x24)) && (((TItem *)second_2)->get_item_index() == 0x26))
       {
-        var_f31 = 1.5f;
+        multiplier = 1.5f;
       }
     }
       break;
     case 6:
       if (((u8) (this->data1.data_u8[2])) == 6)
     {
-      temp_r30_3 = ((TItemData *)item_data)->test_flag3();
-      temp_r31_3 = ((TItemData *)item_data)->get_item_field_2();
-      if ((((((u32) temp_r30_3) != 0U) && (((u32) temp_r31_3) != 0U)) && (((TItem *)temp_r30_3)->get_item_index() == 0x25)) && (((TItem *)temp_r31_3)->get_item_index() == 0x27))
+      first_3 = ((TItemData *)item_data)->test_flag3();
+      second_3 = ((TItemData *)item_data)->get_item_field_2();
+      if ((((((u32) first_3) != 0U) && (((u32) second_3) != 0U)) && (((TItem *)first_3)->get_item_index() == 0x25)) && (((TItem *)second_3)->get_item_index() == 0x27))
       {
-        var_f31 = 1.5f;
+        multiplier = 1.5f;
       }
     }
       break;
@@ -1365,11 +1314,11 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
       item = (u8 *) ((TItemData *)item_data)->test_flag3();
       if ((item != 0) && (((TItem *)item)->get_item_index() == 0x1A))
     {
-      var_f31 = 2.0f;
+      multiplier = 2.0f;
     }
       break;
   }
-  return var_f31;
+  return multiplier;
 }
 
 f32 TItemData::get_set_bonus_multiplier(saddr player) {
@@ -1396,7 +1345,7 @@ void TItemData::apply_equip_effects(s32 arg1, saddr player, saddr arg3, saddr ar
         calc_clock_bonus__9TItemDataFPv(this, arg1);
         switch ((s32) (this->data1.data_u8[0])) {
         case 0:
-            add_weapon_stat_bonuses((s32)arg1, (s16 *)player, (s32)arg3, (s16 *)arg4, (s32)arg5);
+            add_weapon_stat_bonuses(arg1, (s16 *)player, (s32)arg3, (s16 *)arg4, arg5);
             break;
         case 1:
             switch ((s32) (this->data1.data_u8[1])) {

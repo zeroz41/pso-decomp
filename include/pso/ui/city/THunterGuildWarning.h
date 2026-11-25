@@ -9,15 +9,15 @@ struct TWindowMessage;
 class THunterGuildWarning : public TObject {
 public:
     static THunterGuildWarning * instance;
-    THunterGuildWarning(TObject *arg1, void *arg2);
+    THunterGuildWarning(TObject *object, void *initial_mode);
     virtual ~THunterGuildWarning();
     virtual void run_task();
 public:
     static void queue_destruction();
-    static void create_instance(saddr arg0);
+    static void create_instance(saddr mode);
     static s32 is_active();
     void close_windows();
-    void sub_80211774(void *arg);
+    void open_warning_windows(void *unused);
 
     saddr mode;                    // 0x1C: message set; 0 and 1 warn the local player, 2 the others
     s32 timer;                   // 0x20: frames left before the task destroys itself
@@ -27,7 +27,7 @@ public:
 void update_hunter_guild_phase();
 
 extern "C" {
-void THunterGuildWarning__sub_802119CC(THunterGuildWarning *self);
+void clear_windows(THunterGuildWarning *warning);
 void THunterGuildWarning__sub_80211700(void);
 void THunterGuildWarning__sub_8021170C(void);
 }

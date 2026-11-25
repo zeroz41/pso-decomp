@@ -592,7 +592,7 @@ void load_item_pmt() {
     RelocatedFile *p = new RelocatedFile(item_pmt_filename_descriptor, 0x10000);
     item_pmt = p;
     if (p != NULL) {
-        item_pmt_tbl = ((RelocatedFile *)p)->get_root();
+        item_pmt_tbl = (p)->get_root();
     }
 }
 

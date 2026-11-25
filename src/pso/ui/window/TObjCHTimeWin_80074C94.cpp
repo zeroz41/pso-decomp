@@ -9,7 +9,7 @@
 
 
 
-const char *TObjCHTimeWin__class_name = "TObjCHTimeWin";
+const char *TObjCHTimeWin::class_name = "TObjCHTimeWin";
 
 
 void TObjCHTimeWin::run_task() {
@@ -28,7 +28,7 @@ void TObjCHTimeWin::init_timer(void) { TWindowCtrl::create_alt_timer(); TWindowC
 TObjCHTimeWin::~TObjCHTimeWin() {}
 
 TObjCHTimeWin::TObjCHTimeWin(TObject *parent) : TObject(parent) {
-    m_name = TObjCHTimeWin__class_name;
+    m_name = TObjCHTimeWin::class_name;
     timer_created = 0;
 }
 

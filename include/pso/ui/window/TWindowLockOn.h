@@ -12,14 +12,13 @@ struct TWindowLockOn : public TWindowBase {
     TWindowLockOn(s32 player, u16 id);
     virtual ~TWindowLockOn();
     virtual void render();
-    u16 m_60;
+    u16 target_id;  // entity id of the locked target, 0xFFFF for none
     u8 _pad62[0x2];
-    s32 m_64;
+    s32 frames_left;  // the window closes when this runs out
     f32 scale;
-    f32 m_6c;
-    void (TWindowLockOn::*m_70)();
+    f32 height_scale;  // scales the window height when it is placed above its target
+    void (TWindowLockOn::*refresh)();
     s32 get_target_id();
-    f32 get_target_distance();
     void validate_target();
     void refresh_ground_item();
     void update_photon_blast_marker();

@@ -19,37 +19,37 @@
 extern "C" {
 u8 *init_shop_judgment_window(void *p);
 
-void copy_vec2__FPvPv(void *);
+void copy_vec2__FPvPv(void *, void *);
 
 #pragma readonly_strings on
 const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
 
 s32 TAdYesNoBaseGC::sub_8032C0B4() {
     saddr message_window;
-    message_window = (saddr)create_message_window_for_size((NJS_POINT2 *)&this->unk_30, (NJS_POINT2 *)&this->unk_38);
+    message_window = (saddr)create_message_window_for_size(&this->message_position, &this->message_size);
     ((TWindowMessage *)message_window)->append_line(vfunc_10(), 1);
     return message_window;
 }
 
 s32 TAdYesNoBaseGC::create_menu_window() {
-    TAdYesNoBaseGC *arg0 = this;
+    TAdYesNoBaseGC *owner = this;
     NJS_POINT2 pos = {85.0f, 384.0f};
     saddr r = (saddr)init_shop_judgment_window(&pos);
     ((TWindowMenu *)r)->update_layout_height(470.0f);
     align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(r));
-    ((TWindowSubComCardList *)r)->set_selected_index((s16)arg0->m_2c);
+    ((TWindowSubComCardList *)r)->set_selected_index((s16)owner->m_2c);
     return r;
 }
 
-void TAdYesNoBaseGC::init_parts(void *arg1, void *arg2) {
-    copy_vec2__FPvPv((void *)((char *)this + 48));
-    ((void (*)(void *, void *))copy_vec2__FPvPv)((void *)((char *)this + 56), arg2);
+void TAdYesNoBaseGC::init_parts(void *position, void *size) {
+    copy_vec2__FPvPv(&message_position, position);
+    copy_vec2__FPvPv(&message_size, size);
 }
 
 
 void TAdYesNoBaseGC::vfunc_11() {
     s32 selected_menu_value;
-    s32 temp_r4;
+    s32 timer;
 
     this->m_20 = (s32) this->m_1c;
     switch (this->m_1c) {
@@ -87,9 +87,9 @@ void TAdYesNoBaseGC::vfunc_11() {
             ((TWindowBase *)this->m_44)->close();
             this->m_44 = 0U;
         }
-        temp_r4 = this->m_28 + 1;
-        this->m_28 = temp_r4;
-        if ((f32) temp_r4 > 4.5f) {
+        timer = this->m_28 + 1;
+        this->m_28 = timer;
+        if ((f32) timer > 4.5f) {
             this->m_1c = (s32) this->m_24;
         }
         break;
@@ -118,10 +118,10 @@ TAdYesNoBaseGC::TAdYesNoBaseGC(TObject *parent) : TObject(parent) {
     void *o2;
     m_name = TAdYesNoBaseGC__class_name;
     m_28 = 0;
-    *(f32 *)((s8 *)this + 0x30) = 46.0f;
-    m_34 = 131.0f;
-    *(f32 *)((s8 *)this + 0x38) = 548.0f;
-    m_3c = 220.0f;
+    message_position.x = 46.0f;
+    message_position.y = 131.0f;
+    message_size.x = 548.0f;
+    message_size.y = 220.0f;
     m_1c = 0;
     m_24 = 0;
     m_2c = 1;

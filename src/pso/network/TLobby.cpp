@@ -2688,7 +2688,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_66_recv_exit_game = (recv_packet_handler_handle_66_recv_exit_game)TLobby::remove_player;
     protocol_instance->m_recv_handlers.handle_68_recv_burst_lobby = TLobby::on_lobby_player_add;
     protocol_instance->m_recv_handlers.handle_69_recv_exit_lobby = TLobby::retire_lobby_player;
-    protocol_instance->m_recv_handlers.handle_81_recv_chat_message = (recv_packet_handler_handle_81_recv_chat_message)try_close__6TLobbyFPv;
+    protocol_instance->m_recv_handlers.handle_81_recv_chat_message = (recv_packet_handler_handle_81_recv_chat_message)receive_short_mail;
     protocol_instance->m_recv_handlers.handle_41_recv_user_ans = TLobby::handle_user_search_answer;
     protocol_instance->m_recv_handlers.handle_18_90_9A_recv_pso_regist_check = (recv_packet_handler_handle_18_90_9A_recv_pso_regist_check)TLobby::handle_verify_result;
     protocol_instance->m_recv_handlers.handle_92_9C_register_response_packet = (recv_packet_handler_handle_92_9C_register_response_packet)TLobby::handle_register_result;
@@ -2969,11 +2969,11 @@ extern u8 *text_language_group_table;
 
 int TWindowMenuIconLine::is_decided() { return (this->state_flags >> 1) & 0x1; }
 int TWindowMenuIconLine::is_cancelled() { return (this->state_flags >> 2) & 0x1; }
-int TWindowMakeTeam::test_flag_1d_bit1() { return (m_1d >> 1) & 1; }
+int TWindowMakeTeam::test_flag_1d_bit1() { return (flags >> 1) & 1; }
 s32 TWindowMakeTeam::get_field_20() { return m_20; }
-u8 TWindowMakeTeam::get_mode() { return m_1e; }
-u8 TWindowMakeTeam::read_mode() { return m_1e; }
-int TWindowMakeTeam::test_flag_1d_bit0() { return m_1d & 1; }
+u8 TWindowMakeTeam::get_mode() { return mode; }
+u8 TWindowMakeTeam::read_mode() { return mode; }
+int TWindowMakeTeam::test_flag_1d_bit0() { return flags & 1; }
 
 s32 *get_access_key_input_buffer(void) {
     return (s32 *)TAdEnterSerialAccessGC::access_key_input_buffer;

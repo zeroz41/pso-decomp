@@ -23,7 +23,7 @@ void TWindowSubComCard::init_and_press_a(s32 id) {
     u8 ply_guild_card_tag[0x84];
 
     init_guild_card_tag__17TWindowSubComCardFi((s32 *) ply_guild_card_tag);
-    TWindowSubComCard::handle_press_a((saddr)((s32 *) ply_guild_card_tag), (s32)id);
+    TWindowSubComCard::handle_press_a((saddr)((s32 *) ply_guild_card_tag), id);
 }
 
 }

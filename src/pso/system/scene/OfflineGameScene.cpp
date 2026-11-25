@@ -103,8 +103,8 @@
 #include "pso/player/PlayerActionProvider.h"
 
 
-void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
-void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
+void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
+void TLobby::shutdown_keyboard_control() { TKeyBoardControl::reset(); TLobby::reset_quest_state(); switch_to_fallback_main_phase(); clear_keyboard_key_state(); clear_keyboard_input_flag(); TLobby::clear_counter(); }
 void TLobby__sub_801A2DF4(void) {  }
 void TLobby__sub_801A2DF8(void) {  }
 void TLobby__sub_801A2DFC(void) {  }
@@ -467,7 +467,7 @@ void run_offline_game_frame(void) {
     }
     if (TKeyBoardControl::get_input() != 0) {
         TLobby::reload_offline_area();
-        TKeyBoardControl__sub_8000F95C();
+        clear_keyboard_input_flag();
     }
     render_tick();
 }
@@ -497,7 +497,7 @@ void run_offline_transfer_frame(void) {
     }
     if (TKeyBoardControl::get_input() != 0) {
         TLobby::rebuild_area_keep_players();
-        TKeyBoardControl__sub_8000F95C();
+        clear_keyboard_input_flag();
     }
     if (TKeyBoardControl::get_key_state() != 0) {
         run_offline_area_transfer();

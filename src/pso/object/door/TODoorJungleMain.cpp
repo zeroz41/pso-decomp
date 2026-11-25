@@ -239,9 +239,9 @@ void TODoorJungleMain::render() {
 }
 
 void TODoorJungleMain::load_resources() {
-    saddr var_r0;
-    var_r0 = (saddr)new BmlResource(0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, NULL);
-    TODoorJungleMain::bml_resource = (BmlResource *)var_r0;
+    saddr created;
+    created = (saddr)new BmlResource(0x1, &bm_o_jungle_doormain_resource_descriptor, 0, 0, NULL);
+    TODoorJungleMain::bml_resource = (BmlResource *)created;
     door_jungle_main_gvm_texture = LoadPvmFileTls("o_jungle_doormain.gvm");
 }
 
@@ -302,10 +302,10 @@ s32 is_any_player_near(saddr arg0) {
 }
 
 
-void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((arg1 != NULL) && ((s16) *arg1 == 1)) {
+void TODoorJungleMain::vfunc_6(s16 *state, s32 notify) {
+    if ((state != NULL) && ((s16) *state == 1)) {
         this->door_flags = (s32) (this->door_flags | 1);
-        if (arg2 == 0) {
+        if (notify == 0) {
             this->animation_end_frame = (f32) (this->motion->frameCount - 1);
             set_indexed_flags(0, 8);
             if (map_csn != NULL) {

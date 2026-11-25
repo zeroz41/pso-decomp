@@ -12,7 +12,7 @@ public:
     virtual void run_task();
     virtual void render();
     s32 get_viewport_index();
-    s32 viewport_index; // passed to TWindowCtrlMain::set_value
+    s32 viewport_index; // passed to TWindowCtrlMain::set_fill_color
     void (*callback)(TDeathTintFade *fade); // called once alpha reaches 128
 };
 LAYOUT_ASSERT(TDeathTintFade_size, sizeof(TDeathTintFade) == 0x2C);

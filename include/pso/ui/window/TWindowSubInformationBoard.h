@@ -6,26 +6,29 @@
 
 struct TWindowMainMenu;
 struct TKeyBoardControl;
+struct TWindowMenu;
+struct TWindowMessage;
+struct TWindowMessageYesNo;
 
 struct TWindowSubInformationBoard : public TObject {
     TWindowSubInformationBoard(TObject *parent, s32 client);
     virtual ~TWindowSubInformationBoard();
     u32 open_card_info_window();
-    u8 m_1c;
+    u8 state;
     u8 _pad1D[0x3];
     s32 client;
     u32 shown_index;    // index set_page/set_message_index last showed; -1 after a new message window
     TWindowMainMenu *parent_menu;
-    uaddr menu_window;    // create_info_board_menu (TWindowMenu)
+    TWindowMenu *menu_window;    // create_info_board_menu (TWindowMenu)
     uaddr page_menu;      // sub_8034CDE0: one entry per info-board page, picks set_page
-    uaddr message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)
-    uaddr m_38;
+    TWindowMessage *message_window; // TWindowMessage::create (open_card_info_window, show_card_a7)
+    TWindowMessageYesNo *dialog_window;
     TKeyBoardControl *keyboard;
     void* m_40;
     virtual void render();
     virtual void run_task();
     static void clear_if_current(u32 arg0);
-    void set_page(s32 arg1);
+    void set_page(s32 page);
     void set_message_index(s32 index);
     static TKeyBoardControl *open_keyboard(saddr parent);
     u32 show_card_a7();

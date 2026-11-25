@@ -37,7 +37,7 @@ s32 text_builder_append();
 }
 void text_builder_reset(void);
 extern "C" {
-const char *TWindowSubTrade__name = "TWindowSubTrade"; // TWindowSubTrade__name
+const char *TWindowSubTrade::class_name = "TWindowSubTrade"; // TWindowSubTrade::class_name
 // Player message window position (x, y).
 extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
 s32 is_trade_range_bit_set(s32 client);
@@ -47,15 +47,15 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *);
 // Built with deferred code generation (the vtable precedes run_task's jump
 // table in .data), so the functions are written from the last one back.
 TWindowSubTrade::TWindowSubTrade(TWindowMainMenu *parent, s32 client) : TObject(parent) {
-    this->m_name = TWindowSubTrade__name;
+    this->m_name = TWindowSubTrade::class_name;
     parent_menu = parent;
-    m_20 = client;
-    this->m_24 = 4;
+    client_id = client;
+    this->selected_player = 4;
     this->m_player_list = NULL;
     this->m_message_window = NULL;
     this->m_confirm_prompt = NULL;
     claim_trade_sub_window(this);
-    this->m_1c = 0;
+    this->state = 0;
 }
 
 TWindowSubTrade::~TWindowSubTrade() {
@@ -76,9 +76,9 @@ TWindowSubTrade::~TWindowSubTrade() {
 }
 
 void TWindowSubTrade::run_task() {
-    s32 temp_r30;
-    temp_r30 = is_player_input_active((this->m_20));
-    switch (this->m_1c) {
+    s32 controller_index;
+    controller_index = is_player_input_active((this->client_id));
+    switch (this->state) {
     case 0:
     case 1:
         if (this->m_confirm_prompt != NULL) {
@@ -93,31 +93,31 @@ void TWindowSubTrade::run_task() {
             m_player_list = TWindowSubComCard__sub_802B1C1C(this);
         }
         m_player_list->clear_flag_and_release();
-        this->m_1c = 2U;
+        this->state = 2U;
     case 2:
         if (((TWindowMenu *)(this->m_player_list))->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
-            this->m_1c = 7U;
+            this->state = 7U;
         } else if (m_player_list->is_decided() != 0) {
-            this->m_1c = 3U;
+            this->state = 3U;
         }
         break;
     case 3:
         if (this->m_player_list != NULL) {
-            this->m_24 = m_player_list->get_selected_value();
+            this->selected_player = m_player_list->get_selected_value();
         }
         if (this->m_confirm_prompt == NULL) {
-            this->m_confirm_prompt = this->open_trade_confirm_prompt(this->m_24);
+            this->m_confirm_prompt = this->open_trade_confirm_prompt(this->selected_player);
         }
-        this->m_1c = 4U;
+        this->state = 4U;
     case 4:
         if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->is_cancelled() != 0) {
-            this->m_1c = 1U;
+            this->state = 1U;
         } else if (m_confirm_prompt->is_child_visible() != 0) {
             if (((TWindowMessageYesNo *)(this->m_confirm_prompt))->get_selected_value() == 0) {
-                this->m_1c = 5U;
+                this->state = 5U;
             } else {
-                this->m_1c = 1U;
+                this->state = 1U;
             }
         }
         break;
@@ -127,15 +127,15 @@ void TWindowSubTrade::run_task() {
             this->m_confirm_prompt = NULL;
         }
         if (this->m_message_window == NULL) {
-            this->m_message_window = this->open_player_message_window(this->m_24, (saddr) (TWindowSubStatusDisp::get_message_10(0xD7)));
+            this->m_message_window = this->open_player_message_window(this->selected_player, (saddr) (TWindowSubStatusDisp::get_message_10(0xD7)));
         }
-        send_6xA6_modify_trade_proposal((this->m_24));
-        this->m_1c = 6U;
+        send_6xA6_modify_trade_proposal((this->selected_player));
+        this->state = 6U;
     case 6:
-        if ((test_pressed_buttons_packed(&controller_input_state.controllers[temp_r30], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[controller_index], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             TLobby::cancel_trade();
-            this->m_1c = 1U;
+            this->state = 1U;
         }
         break;
     case 7:
@@ -180,15 +180,15 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
     return list;
 }
 
-TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 arg2) {
+TWindowMessage *TWindowSubTrade::open_player_message_window(s32 player, s32 message) {
     TWindowMessage *window;
     TObjPlayer *p = get_player_by_client_id(player);
     text_builder_reset();
     if (p != NULL) {
         ((s32 (*)(s32))text_builder_append)((saddr)p->get_name());
     }
-    ((s32 (*)(s32))text_builder_append)(arg2);
-    window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
+    ((s32 (*)(s32))text_builder_append)(message);
+    window = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->client_id);
     window->append_line((saddr)get_shared_text_buffer(), 0x82);
     return window;
 }
@@ -203,7 +203,7 @@ TWindowMessageYesNo *TWindowSubTrade::open_trade_confirm_prompt(s32 client) {
     }
     TWindowSubStatusDisp::get_message_10(0xD6);
     text_builder_append();
-    prompt = (TWindowMessageYesNo *)TWindowMessageYesNo::create(this, m_20, NULL, NULL);
+    prompt = (TWindowMessageYesNo *)TWindowMessageYesNo::create(this, client_id, NULL, NULL);
     open_yes_no_prompt(prompt, (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(get_shared_text_buffer()), get_window_layout_position(0x5B), 384.0f);
     prompt->set_menu_selected_index(1);
     prompt->set_choice_menu_flag70_bit10();

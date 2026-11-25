@@ -46,26 +46,30 @@ void TKeyBoardControl::set_depth(f32 depth) {
 }
 
 void TKeyBoardControl::set_position(void *pos) {
-    m_base->target_position[0] = (f32)(((f32 *)pos)[0] - 4.0f);
-    m_base->target_position[1] = (f32)(((f32 *)pos)[1] - 10.0f);
+    f32 *p = (f32 *)pos;
+    m_base->target_position[0] = (f32)(p[0] - 4.0f);
+    m_base->target_position[1] = (f32)(p[1] - 10.0f);
     m_base->tween_ticks = 3;
 }
 
 void TKeyBoardControl::set_soft_position(u8 *pos) {
-    m_soft->target_position[0] = (f32)((f32 *)pos)[0];
-    m_soft->target_position[1] = (f32)((f32 *)pos)[1];
+    f32 *p = (f32 *)pos;
+    m_soft->target_position[0] = (f32)p[0];
+    m_soft->target_position[1] = (f32)p[1];
     m_soft->save_position();
 }
 
 void TKeyBoardControl::set_hard_position(u8 *pos) {
-    m_hard->target_position[0] = (f32)((f32 *)pos)[0];
-    m_hard->target_position[1] = (f32)((f32 *)pos)[1];
+    f32 *p = (f32 *)pos;
+    m_hard->target_position[0] = (f32)p[0];
+    m_hard->target_position[1] = (f32)p[1];
     m_hard->save_position();
 }
 
 void TKeyBoardControl::set_sub_position(u8 *pos) {
-    m_base->target_position[0] = (f32)(((f32 *)pos)[0] - 4.0f);
-    m_base->target_position[1] = (f32)(((f32 *)pos)[1] - 10.0f);
+    f32 *p = (f32 *)pos;
+    m_base->target_position[0] = (f32)(p[0] - 4.0f);
+    m_base->target_position[1] = (f32)(p[1] - 10.0f);
     m_base->save_position();
 }
 

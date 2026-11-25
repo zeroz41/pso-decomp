@@ -11,7 +11,7 @@
 #pragma readonly_strings on
 
 
-const char *TWindowSubEquipList__class_name = "TWindowSubEquipList";
+const char *TWindowSubEquipList::class_name = "TWindowSubEquipList";
 
 
 
@@ -43,6 +43,6 @@ void TWindowSubEquipList::run_task() { TWindowMenuIconLine::run_task(); }
 TWindowSubEquipList::~TWindowSubEquipList() {}
 
 TWindowSubEquipList::TWindowSubEquipList(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 8, client) {
-    m_name = TWindowSubEquipList__class_name;
+    m_name = TWindowSubEquipList::class_name;
     ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x25));
 }

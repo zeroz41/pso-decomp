@@ -223,7 +223,7 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
     }
 }
 
-void TKeyBoardControl__sub_8000F950(void);
+void set_keyboard_input_flag(void);
 s32 TLobby__sub_80291F9C();
 }
 
@@ -242,7 +242,7 @@ void giveup_window_handle_select(void *retry) {
         if (is_quest_active() == 1) {
             TLobby::clear_counter();
             evt2_random_enemies_mode = 0;
-            TKeyBoardControl__sub_8000F950();
+            set_keyboard_input_flag();
         }
         return;
     case 1:

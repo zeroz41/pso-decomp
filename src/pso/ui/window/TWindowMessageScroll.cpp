@@ -10,7 +10,7 @@
 
 #pragma readonly_strings on
 
-const char *TWindowMessageScroll__class_name = "TWindowMessageScroll";
+const char *TWindowMessageScroll::class_name = "TWindowMessageScroll";
 
 void TWindowMessageScroll::run_task() {
     this->scroll_offset[1] = (f32) (this->scroll_offset[1] + scroll_speed);
@@ -28,7 +28,7 @@ TWindowMessageScroll::~TWindowMessageScroll() {
 }
 
 TWindowMessageScroll::TWindowMessageScroll(const NJS_POINT2 *position, s32 *completion) : TWindowMessageQuest(position) {
-    this->m_name = TWindowMessageScroll__class_name;
+    this->m_name = TWindowMessageScroll::class_name;
     scroll_speed = 0.0f;
     completion_register = completion;
     *completion_register = 0;

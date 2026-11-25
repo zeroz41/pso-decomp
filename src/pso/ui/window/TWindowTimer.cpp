@@ -38,7 +38,7 @@ WindowDescriptor window_timer_layout = {
     {104.0f, 27.0f}, 50100.0f, &window_timer_layout_entries, 0x828,
 };
 
-const char *TWindowTimer__name = "TWindowTimer";
+const char *TWindowTimer::class_name = "TWindowTimer";
 
 /* Window entry view: the text entry the timer centres (x at +8). */
 struct TimerEntry {
@@ -163,7 +163,7 @@ void TWindowTimer::run_task() {
 
 TWindowTimer::~TWindowTimer() {}
 TWindowTimer::TWindowTimer() : TWindowBase((u8 *)&window_timer_layout, 4, (u8 *)(get_zero_vec2())) {
-    m_name = TWindowTimer__name;
+    m_name = TWindowTimer::class_name;
     flags = 0;
     update_chat_parts();
     save_position();

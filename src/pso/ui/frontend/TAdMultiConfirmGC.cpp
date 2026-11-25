@@ -13,28 +13,6 @@
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/system/task/TObject.h"
 
-typedef struct Obj_802FF87C {
-    u8 pad0[0x1C];
-    s32 state;
-    u32 count;
-    u8 pad24[0x34 - 0x24];
-    TAdChrSelPlayerGC *players[4];
-    u8 pad44[4];
-    s32 x48;
-} Obj_802FF87C;
-
-struct TAdMultiConfirmGC_802FFA3C {
-    s32 x0;
-    u8 pad4[0x14];
-    void *vt;
-    s32 state;
-    u32 count;
-    s32 ids[4];
-    TAdChrSelPlayerGC *players[4];
-    void *guide;
-    TAdMultiOkGC *ok;
-};
-
 extern "C" {
 void TAdMultiConfirmGC__sub_802E03D0(void *);
 void TAdMultiConfirmGC__sub_802E0448(void *);
@@ -43,7 +21,7 @@ s32 fn_802E0454(void *);
 extern "C" {
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 }
-s32 is_multiplayer_character_slot_selected(s32 arg0);
+s32 is_multiplayer_character_slot_selected(s32 slot);
 extern "C" {
 void fn_802FF7EC(void *);
 extern const char *multi_confirm_name;
@@ -54,37 +32,36 @@ void fn_802FF760(void *);
 void TAdMultiConfirmGC::render() {  }
 
 void TAdMultiConfirmGC::run_task() {
-    Obj_802FF87C *arg0 = (Obj_802FF87C *)this;
     u32 j;
     u32 i;
-    switch (this->m_1c) {
+    switch (this->state) {
     case 0:
-        this->m_1c = 1;
+        this->state = 1;
         break;
     case 1:
         for (i = 0; i < 4; i++) {
-            if (arg0->players[i] != NULL) {
-                arg0->players[i]->set_field_100(2);
+            if (players[i] != NULL) {
+                players[i]->set_field_100(2);
             }
         }
-        this->m_1c = 2;
+        this->state = 2;
         break;
     case 2:
         i = 1;
-        for (j = 0; j < this->m_20; j++) {
-            if (arg0->players[j] != NULL && fn_802E0454(arg0->players[j]) == 0) {
+        for (j = 0; j < this->count; j++) {
+            if (players[j] != NULL && fn_802E0454(players[j]) == 0) {
                 i = 0;
                 break;
             }
         }
         if ((s32)i == 1) {
-            for (i = 0; i < this->m_20; i++) {
-                if (arg0->players[i] != NULL) {
-                    TAdMultiConfirmGC__sub_802E0448(arg0->players[i]);
-                    TAdMultiConfirmGC__sub_802E03D0(arg0->players[i]);
+            for (i = 0; i < this->count; i++) {
+                if (players[i] != NULL) {
+                    TAdMultiConfirmGC__sub_802E0448(players[i]);
+                    TAdMultiConfirmGC__sub_802E03D0(players[i]);
                 }
             }
-            this->m_1c = 3;
+            this->state = 3;
         }
         break;
     case 3:
@@ -106,40 +83,40 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     u32 i;
     u32 j;
     u32 n;
-    void *p;
+    TAdGuideTxtGC *p;
     m_name = multi_confirm_name;
-    ((TAdMultiConfirmGC_802FFA3C *)this)->state = 0;
-    ((TAdMultiConfirmGC_802FFA3C *)this)->guide = 0;
+    state = 0;
+    guide = 0;
     for (i = 0; i < 4; i++) {
-        ((TAdMultiConfirmGC_802FFA3C *)this)->players[i] = 0;
+        players[i] = 0;
     }
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
     new TAdTitleGC(this, 0x10);
     new TAdTitleTexGC(this);
-    ((TAdMultiConfirmGC_802FFA3C *)this)->count = 0;
+    count = 0;
     for (i = 0; i < 4; i++) {
-        ((TAdMultiConfirmGC_802FFA3C *)this)->ids[i] = 0;
+        ids[i] = 0;
     }
     for (i = 0; i < 4; i++) {
         if (is_multiplayer_character_slot_selected(i) != 0) {
-            ((TAdMultiConfirmGC_802FFA3C *)this)->ids[((TAdMultiConfirmGC_802FFA3C *)this)->count] = i;
-            ((TAdMultiConfirmGC_802FFA3C *)this)->count++;
+            ids[count] = i;
+            count++;
         }
     }
-    arg.count = ((TAdMultiConfirmGC_802FFA3C *)this)->count;
+    arg.count = count;
     arg.mask = 0;
-    for (j = 0; j < (n = ((TAdMultiConfirmGC_802FFA3C *)this)->count); j++) {
-        ((TAdMultiConfirmGC_802FFA3C *)this)->players[j] = TAdMultiPlyChrSelectGC::get_or_create_player(this, n + 1, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
-        new TAdMultiPlayerNoGC(this, ((TAdMultiConfirmGC_802FFA3C *)this)->count, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
-        arg.mask |= 1 << ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j];
+    for (j = 0; j < (n = count); j++) {
+        players[j] = TAdMultiPlyChrSelectGC::get_or_create_player(this, n + 1, j, ids[j]);
+        new TAdMultiPlayerNoGC(this, count, j, ids[j]);
+        arg.mask |= 1 << ids[j];
     }
-    ((TAdMultiConfirmGC_802FFA3C *)this)->ok = new TAdMultiOkGC(this, &arg);
-    p = new TAdGuideTxtGC(reinterpret_cast<TObject *>(((TAdMultiConfirmGC_802FFA3C *)this)));
-    ((TAdMultiConfirmGC_802FFA3C *)this)->guide = p;
-    ((TAdGuideTxtGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));
-    ((TAdGuideTxtGC *)(((TAdMultiConfirmGC_802FFA3C *)this)->guide))->set_line(1, reinterpret_cast<const char *>(&lbl_805DEF30));
-    fn_802FF7EC(((TAdMultiConfirmGC_802FFA3C *)this));
+    ok = new TAdMultiOkGC(this, &arg);
+    p = new TAdGuideTxtGC(this);
+    guide = p;
+    guide->set_line(0, reinterpret_cast<const char *>((get_localized_text_entry(0x25, 0))));
+    guide->set_line(1, reinterpret_cast<const char *>(&lbl_805DEF30));
+    fn_802FF7EC(this);
 }
 
 #pragma pop

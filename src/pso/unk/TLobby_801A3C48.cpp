@@ -119,7 +119,7 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 
 extern "C" {
 void clear_enabled_main_warps(void);
-int TKeyBoardControl__sub_8000F95C(void);
+int clear_keyboard_input_flag(void);
 s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
 int request_main_phase(int);
@@ -239,7 +239,7 @@ void load_floor_scene(void);
 void TLobby::set_flag_and_update() { new_game_setup_flags = (new_game_setup_flags | 0x1); set_floor_transition_ready(&floor_transition_state); }
 
 void TLobby::init_chr_select() { TKeyBoardControl::reset(); TLobby::send_logout(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
-void TLobby::reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
+void TLobby::reset_to_chr_select() { reset_controller_input_state(); TLobby::send_logout(); TLobby::free_objects(); clear_keyboard_input_flag(); TLobby::clear_counter(); TAdSinglePlyChrSelectGC::init(); set_queued_main_phase(9); request_main_phase(18); }
 void TLobby__sub_801A3CF8(void) {  }
 
 void TLobby::start_udp_test_game() {
@@ -629,7 +629,7 @@ void TLobby::run_lobby_frame() {
     }
     if (TKeyBoardControl::get_input() != 0) {
         reload_lobby_floor_scene();
-        TKeyBoardControl__sub_8000F95C();
+        clear_keyboard_input_flag();
     }
     render_tick();
 }
@@ -664,7 +664,7 @@ void TLobby::run_main_frame() {
     TLobby::update_periodic_tick();
     if (TKeyBoardControl::get_input() != 0) {
         start_quest_mission();
-        TKeyBoardControl__sub_8000F95C();
+        clear_keyboard_input_flag();
     }
     if (TKeyBoardControl::get_key_state() != 0) {
         change_floor_reload_area();

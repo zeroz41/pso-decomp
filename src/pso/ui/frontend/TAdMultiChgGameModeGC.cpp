@@ -28,7 +28,7 @@ struct Pos_802FFE58 { f32 v[6]; };
 struct Cur_802FFE58 { f32 v[2]; };
 
 s32 lbl_805D69E8;
-s32 is_multiplayer_character_slot_selected(s32 arg0);
+s32 is_multiplayer_character_slot_selected(s32 slot);
 const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
 
 static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
@@ -39,15 +39,15 @@ void fn_802FFC78(void) {  }
 void fn_802FFC7C(void) {  }
 void TAdMultiChgGameModeGC::render() {  }
 s32 TAdMultiChgGameModeGC::check_players_ready(void * _w0) {
-    u32 var_r31;
+    u32 slot;
 
-    var_r31 = 0U;
+    slot = 0U;
 loop_1:
-    if ((is_multiplayer_character_slot_selected(var_r31) != 0) && (TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(var_r31) > 3)) {
+    if ((is_multiplayer_character_slot_selected(slot) != 0) && (TAdMultiPlyChrSelectGC::get_multiplayer_character_slot(slot) > 3)) {
         return 1;
     }
-    var_r31 += 1;
-    if (var_r31 >= 4U) {
+    slot += 1;
+    if (slot >= 4U) {
         return 0;
     }
     goto loop_1;

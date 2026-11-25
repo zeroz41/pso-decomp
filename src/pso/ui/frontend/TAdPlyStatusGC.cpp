@@ -76,14 +76,14 @@ void TAdPlyStatusGC::render() { if (TMainTask::get_render_pass() != 1) { set_col
 struct Box_8033F3D8 { f32 v[8]; };
 struct Item_8033F3D8 { s8 valid; u8 pad[0xF]; };
 
-void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
+void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *context) {
     Item_8033F3D8 items[3];
     Box_8033F3D8 box;
     NJS_POINT2 pts[3];
     NJS_POINT2 pts2[3];
     s32 i;
 
-    ((TWindowBase *)window_base)->draw_window_frame(arg1);
+    ((TWindowBase *)window_base)->draw_window_frame(context);
     if (ply_status_preview != NULL && ply_status_preview->is_unloaded() != 0 && TAdPlyStatusGC::is_shown != 0 &&
         ply_status_preview->get_status_sub()->textures->texaddr != 0) {
         box = TAdPlyStatusGC__status_window_box;
@@ -98,7 +98,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
         TWindowSubStatusDisp::get_player();
     }
     ((TAdPlyStatusGC *)items)->format_status_strings();
-    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 1, 1, 0.8f, 100000.0f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(context), 1, 1, 0.8f, 100000.0f);
     for (i = 0; i < 3; i++) {
         pts[i].x = ply_status_window_points_first[i].x + OFF_8033F3D8.x;
         pts[i].y = ply_status_window_points_first[i].y + OFF_8033F3D8.y;
@@ -188,7 +188,7 @@ void TAdPlyStatusGC::format_status_strings() {
     }
 }
 
-TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *ad_enter_serial_access_gc) {
+TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *owner, const void *ad_enter_serial_access_gc) {
     TWindowBase *r = (TWindowBase *)TAdEnterSerialAccessGC::create_callback((void *)ad_enter_serial_access_gc,
                                               (void *)&ply_status_window_position,
                                               draw_status_window__14TAdPlyStatusGCFPvPv);
@@ -196,15 +196,15 @@ TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *ad_enter_seria
     return r;
 }
 
-void TAdPlyStatusGC::set_load_state(s32 arg1) {
-    s32 var_r4;
-    if (arg1 > 0) {
+void TAdPlyStatusGC::set_load_state(s32 load_result) {
+    s32 new_state;
+    if (load_result > 0) {
         if (state == 0) {
-            var_r4 = 2;
+            new_state = 2;
             if ((s32) TAdPlyStatusGC::is_shown != 0) {
-                var_r4 = 1;
+                new_state = 1;
             }
-            state = var_r4;
+            state = new_state;
         }
         return;
     }

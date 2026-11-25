@@ -3,11 +3,15 @@
 
 #include "types.h"
 struct NJS_POINT2;
+class TWindowMenuIconLine;
+struct TWindowMenu;
+struct TWindowHelpItem;
 #include "pso/system/task/TObject.h"
 
 struct TWindowShortListCtrl : public TObject {
     TWindowShortListCtrl(TObject *parent, s32 client_id);
     virtual ~TWindowShortListCtrl();
+    static const char *class_name;
     void refresh_technique_rows(saddr, void *);
     void cycle_list_page();
     void sub_8026EA48();
@@ -23,11 +27,11 @@ struct TWindowShortListCtrl : public TObject {
     u32 client_id;
     void* m_28;
     // Technique list (create_window, page 3).
-    void *tech_window;
+    TWindowMenu *tech_window;
     // Item / shortcut list (create_equip_kind_window, pages 0-2).
-    void *list_window;
+    TWindowMenuIconLine *list_window;
     // Help window (TWindowHelpItem) toggled by button 0x400; cycle_list_page is off while it is open.
-    void *help_window;
+    TWindowHelpItem *help_window;
     // Item id the help window shows (set_displayed_item; -1 when opened).
     s32 help_item_id;
     static s32 get_card_window_flags(s32 client_id);

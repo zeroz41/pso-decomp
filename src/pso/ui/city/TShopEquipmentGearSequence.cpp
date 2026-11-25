@@ -28,14 +28,14 @@ s32 shop_gear_pending_message;
 s32 shop_gear_pending_state;
 
 extern "C" {
-extern const char *TShopEquipmentGearSequence__class_name;
+extern const char *shop_equipment_gear_sequence_class_name;
 s32 get_shop_text(s32);
 }
 
 #pragma readonly_strings on
 s32 TShopEquipmentGearSequence::window_slot_table[4];
 TShopEquipmentGearSequence *shop_gear_sequence_instance;
-const char *TShopEquipmentGearSequence__class_name = "TShopEquipmentGearSequence";
+const char *shop_equipment_gear_sequence_class_name = "TShopEquipmentGearSequence";
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
@@ -54,7 +54,7 @@ void TShopEquipmentGearSequence::clear_window_slots() {
 }
 
 TShopEquipmentGearSequence::TShopEquipmentGearSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = TShopEquipmentGearSequence__class_name;
+    m_name = shop_equipment_gear_sequence_class_name;
     state = 0;
     this->player = player;
     choice_menu = NULL;
@@ -124,10 +124,10 @@ void TShopEquipmentGearSequence::open_greeting() {
 }
 
 
-void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
+void TShopEquipmentGearSequence::update_buy_sell_choice(void *sequence_ptr) {
     s32 id;
     s32 r;
-    TShopEquipmentGearSequence *sequence = static_cast<TShopEquipmentGearSequence *>(self);
+    TShopEquipmentGearSequence *sequence = static_cast<TShopEquipmentGearSequence *>(sequence_ptr);
     if (sequence->choice_menu == NULL) {
         id = ((TObjBase *)(sequence->player))->get_entity_id();
         sequence->choice_menu = create_window_menu(get_window_layout_position(0x2B), 2, id);

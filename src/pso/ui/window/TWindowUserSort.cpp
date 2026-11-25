@@ -16,7 +16,7 @@ struct TCameraCtrl;
 
 #pragma push
 #pragma readonly_strings on
-const char *TWindowUserSort__name = "TWindowUserSort";
+const char *TWindowUserSort::class_name = "TWindowUserSort";
 
 // inferred: window_user_sort_layout_entries, the layout table window_user_sort_settings points at
 // (label/value rows for name, ship, block and team; fill_card_text_entries fills the values).
@@ -62,7 +62,7 @@ TWindowUserSort::~TWindowUserSort() {}
 
 #define self ((u8 *)this)
 TWindowUserSort::TWindowUserSort(saddr arg1, GuildCardRecord *record) : TWindowBase((u8 *)&window_user_sort_settings, (s16)4, (u8 *)arg1) {
-    m_name = TWindowUserSort__name;
+    m_name = TWindowUserSort::class_name;
     m_60 = record;
     ((TWindowSubStatusDisp *)(self + 0x24))->fill_card_text_entries(record);
 }
@@ -71,24 +71,24 @@ TWindowUserSort::TWindowUserSort(saddr arg1, GuildCardRecord *record) : TWindowB
 void TWindowMainMenu1P::on_submenu_closed() { if (close_active_submenu() != 0) { this->create_char_select_slot(); } }
 
 void TWindowMainMenu1P::on_menu_opened() {
-    s32 temp_r3;
+    s32 flags;
 
-    temp_r3 = *(s32 *)((s8 *)this + 0x4C);
-    if (!(temp_r3 & 2)) {
-        *(s32 *)((s8 *)this + 0x4C) = (s32) (temp_r3 | 2);
+    flags = menu_flags;
+    if (!(flags & 2)) {
+        menu_flags = (s32) (flags | 2);
         backdrop.begin_override();
     }
 }
 
 void TWindowMainMenu1P::close_main_menu() {
-    if (*(s32 *)((s8 *)this + 0x4C) & 1) {
+    if (menu_flags & 1) {
         TWindowMainMenu::close_and_clear_flags();
     }
 }
 void TWindowMainMenu1P::open_main_menu() {
     u8 *player;
-    if (!(*(s32 *)((s8 *)this + 0x4C) & 1)) {
-        player = (u8 *)(get_player_by_client_id(*(u32 *)((s8 *)this + 0x54)));
+    if (!(menu_flags & 1)) {
+        player = (u8 *)(get_player_by_client_id(client_index));
         if (player != NULL) {
             if (((TObjPlayer *)player)->is_android() != 0) {
                 this->open((saddr)main_menu_1p_android_entries);

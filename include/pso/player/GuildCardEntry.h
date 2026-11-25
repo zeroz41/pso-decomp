@@ -14,7 +14,9 @@ struct GuildCardEntry {
     char name[0x18];
     char text[0x6C];
     s8 flags;
-    u8 unk_8d[3];
+    s8 language;  // index of the Jpn./Eng./Ger./Fr./Span. label
+    s8 section_id;
+    u8 char_class;
 };
 
 LAYOUT_ASSERT(GuildCardEntry_size, sizeof(GuildCardEntry) == 0x90);

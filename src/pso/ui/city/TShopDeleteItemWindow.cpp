@@ -35,17 +35,13 @@ s16 get_player_entity_id__15TShopWindowBaseFv(void *);
 TWindowInputNumber *__ct__18TWindowInputNumberFPC10NJS_POINT2llls(void *, const NJS_POINT2 *, int, s32, int, int);
 }
 
-struct Base_80337910 { char pad[0x18]; };
-struct Base_80337948_80337910 { char pad[0x18]; };
-struct VBase_80337B00 { char pad[0x18]; };
-struct Base_80337980_80337910 { char pad[0x18]; };
-const char *TShopDeleteItemWindow__name = "TShopDeleteItemWindow";
+const char *shop_delete_item_window_name = "TShopDeleteItemWindow";
 TShopDeleteItemWindow::TShopDeleteItemWindow(TObject *parent, TShopWindowBase *owner, TObjPlayer *player) : TShopWindowBase(parent) {
-    m_name = TShopDeleteItemWindow__name;
+    m_name = shop_delete_item_window_name;
     state = 0;
     this->player = player;
     delete_count = 1;
-    pad_54 = 0;
+    unused_54 = 0;
     last_cursor = 0;
     on_close = 0;
     on_empty = 0;
@@ -175,47 +171,47 @@ void TShopDeleteItemWindow::sub_80337E2C() {
 #pragma pop
 #pragma push
 #pragma opt_common_subs off
-void TShopDeleteItemWindow::update_item_select(void *arg0) {
+void TShopDeleteItemWindow::update_item_select(void *window_ptr) {
     TItemData item;
     s32 count;
     s32 base;
     s32 cursor;
     TWindowInputNumber *p;
     s32 id;
-    TShopDeleteItemWindow *self = (TShopDeleteItemWindow *)arg0;
-    base = self->get_split_screen_slot();
-    if (self->item_list != NULL) {
-        cursor = self->item_list->get_cursor_value();
-        if (self->help_window != NULL && cursor != self->last_cursor) {
-            if (TCheckRoomSequence::copy_item_record(cursor, &self->displayed_item_colored, base) != 0) {
-                self->help_window->set_displayed_item_colored((uaddr)&self->displayed_item_colored);
+    TShopDeleteItemWindow *window = (TShopDeleteItemWindow *)window_ptr;
+    base = window->get_split_screen_slot();
+    if (window->item_list != NULL) {
+        cursor = window->item_list->get_cursor_value();
+        if (window->help_window != NULL && cursor != window->last_cursor) {
+            if (TCheckRoomSequence::copy_item_record(cursor, &window->displayed_item_colored, base) != 0) {
+                window->help_window->set_displayed_item_colored((uaddr)&window->displayed_item_colored);
             }
-            self->last_cursor = cursor;
+            window->last_cursor = cursor;
         }
     }
-    if (self->is_cancel_pressed() != 0) {
-        self->set_state(7);
-    } else if (self->is_decide_pressed() != 0) {
-        if (copy_bank_item_with_stack_limit(self->item_list->get_cursor_value(), &item, &count, base) != 0) {
+    if (window->is_cancel_pressed() != 0) {
+        window->set_state(7);
+    } else if (window->is_decide_pressed() != 0) {
+        if (copy_bank_item_with_stack_limit(window->item_list->get_cursor_value(), &item, &count, base) != 0) {
             if (item.data1.data_u8[0] == 3 && count > 1) {
                 p = (TWindowInputNumber *)TObject::operator new(0x7C);
                 if (p != NULL) {
-                    id = get_player_entity_id__15TShopWindowBaseFv(self);
+                    id = get_player_entity_id__15TShopWindowBaseFv(window);
                     p = __ct__18TWindowInputNumberFPC10NJS_POINT2llls(p, get_window_layout_position(0x2B), 1, count, 1, id);
                 }
-                self->number_input = p;
-                if (self->number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    self->number_input->set_scale(0.75f, 0.75f);
+                window->number_input = p;
+                if (window->number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {
+                    window->number_input->set_scale(0.75f, 0.75f);
                 }
-                self->set_state(2);
+                window->set_state(2);
             } else {
-                id = ((TObjBase *)(self->player))->get_entity_id();
-                self->confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
-                self->confirm_menu->set_ready_flag();
-                ((TWindowSubComCardList *)self->confirm_menu)->set_selected_index(1);
-                ((TWindowAddition *)self->confirm_menu)->set_position_xy(self->get_scale(), self->get_scale());
-                self->set_state(3);
-                self->display_shop_message(0x4D, 1);
+                id = ((TObjBase *)(window->player))->get_entity_id();
+                window->confirm_menu = create_yes_no_window(get_window_layout_position(0x2B), id, NULL, NULL);
+                window->confirm_menu->set_ready_flag();
+                ((TWindowSubComCardList *)window->confirm_menu)->set_selected_index(1);
+                ((TWindowAddition *)window->confirm_menu)->set_position_xy(window->get_scale(), window->get_scale());
+                window->set_state(3);
+                window->display_shop_message(0x4D, 1);
             }
         }
     }

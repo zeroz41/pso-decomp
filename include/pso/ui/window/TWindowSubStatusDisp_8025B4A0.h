@@ -5,13 +5,13 @@
 
 extern "C" {
 void TWindowSubStatusDisp__sub_8025B760(void *p);
-void draw_label_value__20TWindowSubStatusDispFPvPv(u8 *window_sub_com_card, u8 *arg1);
+void draw_label_value__20TWindowSubStatusDispFPvPv(u8 *window_sub_com_card, u8 *draw_context);
 }
 
 // --- C functions defined in TWindowSubStatusDisp_8025B4A0.cpp ---
 extern "C" {
 void TWindowSubStatusDisp__sub_8025B760(void *p);
-void draw_label_value__20TWindowSubStatusDispFPvPv(u8 *window_sub_com_card, u8 *arg1);
+void draw_label_value__20TWindowSubStatusDispFPvPv(u8 *window_sub_com_card, u8 *draw_context);
 }
 // --- end of C functions
 

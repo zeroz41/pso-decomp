@@ -865,8 +865,8 @@ int set_quest_failure_callback(void*);
 s32 clear_floor_event_flags();
 s32 is_room_enemy_set_cleared(int, int, void *);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
-s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot);
-void try_close__6TLobbyFPv(void *p);
+s32 delete_bank_item(u8 *item, s32 slot);
+void receive_short_mail(void *p);
 int turn_on_bgm_p2(void*);
 int turn_off_bgm_p2(void*);
 void request_active_window_close(void);
@@ -996,7 +996,7 @@ void qst_op_chat_bubble(void) {
     s32 v;
     if (id < 100) {
         TWindowCtrl::open_default(id, text);
-        TWindowCtrl::set_field28(id);
+        TWindowCtrl::set_window_id(id);
         return;
     }
     start = TLobby::get_game_mode();
@@ -1012,7 +1012,7 @@ void qst_op_chat_bubble(void) {
             }
             if (v == id) {
                 TWindowCtrl::open_default(win, text);
-                TWindowCtrl::set_field28(win);
+                TWindowCtrl::set_window_id(win);
                 return;
             }
         }
@@ -1873,7 +1873,7 @@ void qst_op_stop_animation(s32 reg) {
 void qst_op_use_animation(s32 slot_reg, s32 anim_reg) {
     apply_to_battle_player_slot(qst_registers[(u8)slot_reg], qst_registers[(u8)anim_reg]);
 }
-void TLobby::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
+void TLobby::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; set_keyboard_input_flag(); }
 
 void qst_op_qexit() {
     if (is_quest_active() == 1) {
@@ -2456,7 +2456,7 @@ void qst_op_send_mail(void) {
         tag.name[0xF] = 0;
         strncpy(tag.text, fields->tokens[1], 0x1FF);
         tag.text[0x1FF] = 0;
-        try_close__6TLobbyFPv(&tag);
+        receive_short_mail(&tag);
         delete fields;
     }
 }
@@ -3618,7 +3618,7 @@ void qst_op_delete_bank_item(u8 regs, u8 dst) {
     item.data1.data_u8[3] = qst_registers[(u8)regs++];
     item.data1.data_u8[4] = qst_registers[(u8)regs++];
     item.data1.data_u8[5] = qst_registers[regs];
-    if (TCheckRoomSequence__delete_bank_item((u8 *)&item, 0) != 0) {
+    if (delete_bank_item((u8 *)&item, 0) != 0) {
         qst_registers[dst] = 1;
     } else {
         qst_registers[dst] = 0;
@@ -4938,7 +4938,7 @@ void qst_op_message(void) {
     qst_message_speaker = speaker;
     if (speaker < 100) {
         TWindowCtrl::open(static_cast<u16>(speaker), text, 0x2D);
-        TWindowCtrl::set_field28((u16)speaker);
+        TWindowCtrl::set_window_id((u16)speaker);
         qst_suspend_reason = QST_WAIT_MESSAGE;
     } else {
         first = TLobby::get_game_mode();
@@ -4955,7 +4955,7 @@ void qst_op_message(void) {
                 }
                 if (entity == speaker) {
                     TWindowCtrl::open(static_cast<u16>(identity), text, 0x2D);
-                    TWindowCtrl::set_field28(identity);
+                    TWindowCtrl::set_window_id(identity);
                     qst_suspend_reason = QST_WAIT_MESSAGE;
                     break;
                 }

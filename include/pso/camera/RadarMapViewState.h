@@ -30,6 +30,6 @@ struct RadarViewportRect {
 
 LAYOUT_ASSERT(RadarViewportRect_size, sizeof(RadarViewportRect) == 0x14);
 
-extern "C" RadarMapViewState TRaderMapCore__map_view_state[3];
+extern "C" RadarMapViewState radar_map_view_state[3];
 
 #endif

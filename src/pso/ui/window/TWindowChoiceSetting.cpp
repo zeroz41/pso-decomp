@@ -44,22 +44,22 @@ void TWindowMenuInfomation::draw() {
     }
 }
 void TWindowMenuInfomation::move_next_choice() {
-    s16 var_r31;
+    s16 candidate;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->index;
+    candidate = this->index;
 loop_1:
-    var_r31 += 1;
-    if (var_r31 >= entry_capacity) {
+    candidate += 1;
+    if (candidate >= entry_capacity) {
         if (!(this->m_70 & 1)) {
-            var_r31 = 0;
+            candidate = 0;
             goto block_4;
         }
     } else {
 block_4:
-        if (var_r31 != (s16) this->index) {
-            if (sub_80266B18(var_r31) != 0) {
-                this->index = var_r31;
+        if (candidate != (s16) this->index) {
+            if (sub_80266B18(candidate) != 0) {
+                this->index = candidate;
             } else {
                 goto loop_1;
             }
@@ -67,22 +67,22 @@ block_4:
     }
 }
 void TWindowMenuInfomation::move_cursor_prev() {
-    s16 var_r31;
+    s16 candidate;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = this->index;
+    candidate = this->index;
 loop_1:
-    var_r31 -= 1;
-    if (var_r31 < 0) {
+    candidate -= 1;
+    if (candidate < 0) {
         if (!(this->m_70 & 1)) {
-            var_r31 = entry_capacity - 1;
+            candidate = entry_capacity - 1;
             goto block_4;
         }
     } else {
 block_4:
-        if (var_r31 != (s16) this->index) {
-            if (sub_80266B18(var_r31) != 0) {
-                this->index = var_r31;
+        if (candidate != (s16) this->index) {
+            if (sub_80266B18(candidate) != 0) {
+                this->index = candidate;
             } else {
                 goto loop_1;
             }
@@ -102,8 +102,6 @@ void TWindowMenuInfomation::create_sub_window(const char *title) {
     }
 }
 }
-struct W_802689EC { u8 pad[0x4C]; f32 f4c; u32 f50; u8 pad54[0x6C - 0x54]; f32 f6c; u8 pad70[4]; s16 f74; u8 pad76[0x7C - 0x76]; u32 f7c; };
-
 // dead-stripped: only its literals survive. 0.0f, 20.0f and 6.0f (.sdata2 0x805DD1D8-0x805DD1E0) open the pool
 // ahead of update_scroll_offset's 9/0.5/16/10 although their live user clamp_scroll follows it in .text: a function
 // compiled before update_scroll_offset built the same scroll clip. Minimal body after clamp_scroll's clip; name
@@ -120,12 +118,11 @@ static void get_scroll_clip(TWindowMenuInfomation *window, f32 *clip) {
 #pragma fp_contract on
 
 void TWindowMenuInfomation::update_scroll_offset() {
-    W_802689EC *w = (W_802689EC *)this;
     f32 v;
-    if (w->f7c != 0 && w->f50 == 0) {
-        v = 9.0f + (f32)(w->f74 * 20);
-        v -= 0.5f * ((w->f4c - 16.0f) - 10.0f);
-        w->f6c += v - w->f6c;
+    if (scroll_bar != 0 && tween_ticks == 0) {
+        v = 9.0f + (f32)(index * 20);
+        v -= 0.5f * ((frame_size[1] - 16.0f) - 10.0f);
+        scroll_offset[1] += v - scroll_offset[1];
     }
 }
 #pragma pop
@@ -210,7 +207,7 @@ void TWindowMenuInfomation::render() {
     ((TWindowBase *)(this))->draw_window_frame(draw_context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>((this)),
-        reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
+        &entry_list,
         draw_context);
     draw_setting(draw_context);
     if (this->heading != 0) {
@@ -222,13 +219,13 @@ void TWindowMenuInfomation::render() {
 }
 
 void TWindowMenuInfomation::run_task() {
-    uaddr temp_r3;
-    WindowScrollBar *temp_r3_2;
+    uaddr heading_window;
+    WindowScrollBar *scroll;
     ControllerInputContext *input;
-    ControllerInputContext *temp_r30_2;
+    ControllerInputContext *pad;
     ControllerInputContext *context;
     if ((this->is_selected() == 0) && (this->is_open() == 0)) {
-        if (*(u16 *)((s8 *)this + 0x70) & 0x10) {
+        if (m_70 & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor_prev();
@@ -237,11 +234,11 @@ void TWindowMenuInfomation::run_task() {
                 this->move_next_choice();
             }
         } else {
-            temp_r30_2 = &controller_input_state.controllers[0];
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
+            pad = &controller_input_state.controllers[0];
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor_prev();
             }
-            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(temp_r30_2, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
+            if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(pad, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
                 this->move_next_choice();
             }
         }
@@ -253,21 +250,21 @@ void TWindowMenuInfomation::run_task() {
             this->request_close();
         }
     }
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        temp_r3 = *(u32 *)((s8 *)this + 0x78);
-        if (temp_r3 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
+    if ((f32) open_tick >= 7.5f) {
+        heading_window = (uaddr)heading;
+        if (heading_window != 0U) {
+            ((TWindowSubStatusDisp *)heading_window)->update_subwindow();
         }
-        temp_r3_2 = scroll_bar;
-        if (temp_r3_2 != NULL) {
-            temp_r3_2->increment_counter();
+        scroll = scroll_bar;
+        if (scroll != NULL) {
+            scroll->increment_counter();
         }
     }
     update_window();
     this->step_window_tween();
     this->update_scroll_offset();
     this->clamp_scroll();
-    ((TWindowBase *)this)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&(*(void * *)((u8 *)this + 0x24))));
+    ((TWindowBase *)this)->update_window_entry_list(&entry_list);
 }
 
 TWindowMenuInfomation::~TWindowMenuInfomation() {

@@ -3,6 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/player/GuildCardEntry.h"
@@ -58,13 +59,7 @@ const ComCardHelpRect com_card_help_panel_rect_table[14] = {
     {72.0f, 167.0f}, {104.0f, 167.0f}, {136.0f, 167.0f}, {168.0f, 167.0f},
 };
 
-// The text set of the com card display: its six text entries (name, card id, class, status, stat, keyboard).
-struct ComCardText { u16 flags; u8 pad2[6]; f32 x; u8 padC[4]; f32 w; };
-
-struct ComCardTextSet { void *t0; ComCardText *t4; void *t8; void *tC; void *t10; void *t14; };
-
-struct ComCardDisplay { u8 pad[4]; ComCardTextSet *set; };
-extern "C" void update_com_card_display(ComCardDisplay *display, void *data);
+extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data);
 
 extern "C" {
 s8 TWindowSubComCard__sub_8007B6EC(void *);
@@ -97,16 +92,16 @@ s32 get_class_name_text(s32 class_index) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x1C)) + (class_index * 4));
 }
 
-extern "C" s8 TWindowComCard__sub_80249C20(void* p) { return *(s8*)((char*)p + 0x8d); }
+extern "C" s8 TWindowComCard__sub_80249C20(void* p) { return ((GuildCardEntry *)p)->language; }
 
-extern "C" s8 TWindowComCard__sub_80249C18(void* p) { return *(s8*)((char*)p + 0x8e); }
+extern "C" s8 TWindowComCard__sub_80249C18(void* p) { return ((GuildCardEntry *)p)->section_id; }
 
 void*TWindowComCard::get_kbd_ptr() { return (char*)this + 0x20; }
 
 TWindowComCard::TWindowComCard(const NJS_POINT2 *position, void *data)
     : TWindowBase((u8 *)&com_card_window_descriptor, 4, (u8 *)position) {
     m_name = TWindowComCard__class_name;
-    update_com_card_display((ComCardDisplay *)&entry_list, data);
+    update_com_card_display(&entry_list, data);
 }
 
 TWindowComCard::~TWindowComCard() {}
@@ -151,55 +146,54 @@ u8 *TWindowComCard::create_for_card(const NJS_POINT2 *position, s32 index, saddr
 }
 
 void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
-    saddr arg0 = (saddr)this;
     saddr temp = cards + (card_index << 8);
     if (temp != 0) {
-        update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
+        update_com_card_display(&entry_list, (void *)temp);
     }
 }
 
-extern "C" void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2) {
-    saddr temp = arg2 + (arg1 * 0x90);
+extern "C" void TWindowComCard__sub_80249920(saddr window, s32 index, s32 records) {
+    saddr temp = records + (index * 0x90);
     if (temp != 0) {
-        update_com_card_display((ComCardDisplay *)(arg0 + 0x24), (void *)temp);
+        update_com_card_display(&((TWindowComCard *)window)->entry_list, (void *)temp);
     }
 }
 
-extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
-    ComCardText *t4;
+extern "C" void update_com_card_display(WindowLayoutEntries *entries, void *data) {
+    WindowTextEntry *t4;
     void *t14;
     void *t0;
     void *tC;
     void *t8;
     void *t10;
-    ComCardTextSet *s;
+    void **s;
     s32 n;
     s32 id;
-    s = arg0->set;
-    t0 = s->t0;
-    tC = s->tC;
-    t8 = s->t8;
-    t10 = s->t10;
-    t4 = s->t4;
-    t14 = s->t14;
-    set_text_entry_string((u8 *)t0, (uaddr)reinterpret_cast<GuildCardEntry *>(arg1)->get_name(), 0x220);
-    n = TWindowComCard__sub_80249C20(arg1);
+    s = entries->items;
+    t0 = s[0];
+    tC = s[3];
+    t8 = s[2];
+    t10 = s[4];
+    t4 = (WindowTextEntry *)s[1];
+    t14 = s[5];
+    set_text_entry_string((u8 *)t0, (uaddr)reinterpret_cast<GuildCardEntry *>(data)->get_name(), 0x220);
+    n = TWindowComCard__sub_80249C20(data);
     if (n > 5) {
         n = 5;
     }
     TWindowDuelResult::set_default_status(tC, (saddr)com_card_status_text_table[n]);
-    n = TWindowSubComCard__sub_8007B6EC(arg1);
+    n = TWindowSubComCard__sub_8007B6EC(data);
     if (n > 0xC) {
         n = 0xC;
     }
     TWindowDuelResult::set_default_status(t8, get_class_name_text(n));
-    n = TWindowComCard__sub_80249C18(arg1);
+    n = TWindowComCard__sub_80249C18(data);
     if (n > 0xA) {
         n = 0xA;
     }
     TWindowDuelResult::set_default_status(t10, reinterpret_cast<saddr>(TObjLuker::get_stat_table_entry(n)));
-    if (TWindowSubComCard__sub_8007B6F4(arg1) != 0) {
-        id = reinterpret_cast<const GuildCardEntry *>(arg1)->get_card_id();
+    if (TWindowSubComCard__sub_8007B6F4(data) != 0) {
+        id = reinterpret_cast<const GuildCardEntry *>(data)->get_card_id();
         if (id == 0) {
             t4->flags |= 2;
         } else {
@@ -207,11 +201,11 @@ extern "C" void update_com_card_display(ComCardDisplay *arg0, void *arg1) {
             text_builder_append_int(id);
             set_text_entry_string((u8 *)t4, (uaddr)((void *)get_shared_text_buffer()), 0x20);
             measure_message_text_width_default(t4);
-            t4->x = 198.0f - t4->w;
+            t4->x = 198.0f - t4->width;
             t4->flags &= ~2;
         }
     } else {
         t4->flags |= 2;
     }
-    set_text_entry_string((u8 *)t14, (uaddr)((void *)((TWindowComCard *)arg1)->get_kbd_ptr()), 0x220);
+    set_text_entry_string((u8 *)t14, (uaddr)((void *)((TWindowComCard *)data)->get_kbd_ptr()), 0x220);
 }

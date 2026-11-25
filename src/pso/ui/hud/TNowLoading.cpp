@@ -14,7 +14,7 @@
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
-const char *TNowLoading__class_name = "TNowLoading";
+const char *now_loading_class_name = "TNowLoading";
 void TNowLoading__sub_8001D4D0(void);
 void TNowLoading__sub_8001D4D4(void);
 
@@ -74,7 +74,7 @@ TNowLoading::~TNowLoading() {
 TNowLoading::TNowLoading(TObject *parent, Vec *pos) : TObject(parent) {
     Vec dir;
     s32 out[3];
-    this->m_name = TNowLoading__class_name;
+    this->m_name = now_loading_class_name;
     VecCopy(&this->m_position, pos);
     out[0] = 0;
     out[1] = 0;

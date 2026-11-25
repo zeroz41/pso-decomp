@@ -35,22 +35,22 @@ extern "C" void update_transition_anim_if_active(void *, void *) {
 }
 
 void TAdMultiPlyChrSelectTransitionGC::update_transition_anim() {
-    f32 var_f31;
-    f32 var_f4;
+    f32 fade1;
+    f32 fade0;
     s32 timer;
-    s32 temp_r3_2;
+    s32 elapsed;
 
     timer = this->timer;
     if (timer <= 0x96) {
-        var_f4 = 1.0f;
-        var_f31 = (15.0f - (f32) timer) / 15.0f;
+        fade0 = 1.0f;
+        fade1 = (15.0f - (f32) timer) / 15.0f;
     } else {
-        temp_r3_2 = timer - 0x96;
-        var_f31 = 1.0f;
-        var_f4 = (15.0f - (f32) temp_r3_2) / 15.0f;
+        elapsed = timer - 0x96;
+        fade1 = 1.0f;
+        fade0 = (15.0f - (f32) elapsed) / 15.0f;
     }
-    TLobby__sub_8001EA5C(this->position0X, this->position0Y, -1.5f, var_f4);
-    TLobby__sub_8001E998(this->position1X, this->position1Y, -1.5f, var_f31);
+    TLobby__sub_8001EA5C(this->position0X, this->position0Y, -1.5f, fade0);
+    TLobby__sub_8001E998(this->position1X, this->position1Y, -1.5f, fade1);
 }
 
 void TAdMultiPlyChrSelectTransitionGC::render() {  }

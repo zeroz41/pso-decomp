@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TMainCursor__sub_8013DFC4(u8 *arg0);
+void set_action_channel_active(u8 *entry);
 }
 
 

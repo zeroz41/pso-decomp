@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TObjPlayer__sub_8013DEF8(u8 *arg0);
+void set_action_channel_inactive(u8 *entry);
 }
 
 

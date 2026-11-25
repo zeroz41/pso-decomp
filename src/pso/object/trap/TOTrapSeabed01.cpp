@@ -113,9 +113,9 @@ TOTrapSeabed01::~TOTrapSeabed01() {
     free_collision_body_parts(this);
 }
 
-void TOTrapSeabed01::vfunc_6(s16 *arg1, s32 arg2) {
-    if (*arg1 == 4) {
-        if (arg2 == 1) {
+void TOTrapSeabed01::vfunc_6(s16 *state, s32 notify) {
+    if (*state == 4) {
+        if (notify == 1) {
             this->play_sounds();
         }
         if (sound_handle >= 0) {

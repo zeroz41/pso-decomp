@@ -32,19 +32,19 @@ extern "C" {
 void fn_8025DE10(void *context, NJS_POINT2 *cursor);
 }
 
-char lbl_80543010[0x40];
-char lbl_80543050[0x40];
+char serial_hex_buffer[0x40];
+char serial_decimal_buffer[0x40];
 char TAdEnterSerialAccessGC_serial_buffer[0x14];
-char lbl_805430A4[0x18];
-char lbl_805430BC[0x14];
+char access_key_dashed_buffer[0x18];
+char stored_serial_dashed_buffer[0x14];
 char enter_serial_formatted_buffer[0x18];
 TKeyBoardControl *TAdEnterSerialAccessGC::keyboard_control;
 s32 TAdEnterSerialAccessGC::input_state;
 
-const NJS_POINT2 lbl_804764C8 = { 46.0f, 110.0f };
-const NJS_POINT2 lbl_804764D0 = { 548.0f, 120.0f };
-const NJS_POINT2 lbl_804764D8 = { 85.0f, 220.0f };
-const NJS_POINT2 lbl_804764E0 = { 470.0f, 60.0f };
+const NJS_POINT2 serial_message_window_position = { 46.0f, 110.0f };
+const NJS_POINT2 serial_message_window_size = { 548.0f, 120.0f };
+const NJS_POINT2 serial_draw_window_position = { 85.0f, 220.0f };
+const NJS_POINT2 serial_draw_window_size = { 470.0f, 60.0f };
 const NJS_POINT2 TAdEnterSerialAccessGC::selection_positions[2] = { { 155.0f, 231.0f }, { 155.0f, 251.0f } };
 const NJS_POINT2 lbl_804764F8 = { 330.0f, 20.0f };
 const char *TAdEnterSerialAccessGC__name = "TAdEnterSerialAccessGC";
@@ -308,31 +308,31 @@ void TAdEnterSerialAccessGC::update_text_input(s32 field) {
 
 TWindowBase *TAdEnterSerialAccessGC::open_message_window(s32 text_index) {
     TWindowMessage *window = (TWindowMessage *)create_message_window_for_size(
-        const_cast<NJS_POINT2 *>(&lbl_804764C8), const_cast<NJS_POINT2 *>(&lbl_804764D0));
+        const_cast<NJS_POINT2 *>(&serial_message_window_position), const_cast<NJS_POINT2 *>(&serial_message_window_size));
     window->append_line(get_localized_text_entry(0x17, text_index), 1);
     return window;
 }
 
 TWindowCallBack *TAdEnterSerialAccessGC::create_draw_callback() {
-    return create_callback((void *)&lbl_804764D8, (void *)&lbl_804764E0, draw_screen);
+    return create_callback((void *)&serial_draw_window_position, (void *)&serial_draw_window_size, draw_screen);
 }
 
 char *TAdEnterSerialAccessGC::hex_to_decimal_string(const char *serial) {
     s32 value = 0;
     sscanf(serial, "%lu", &value);
-    memset(lbl_80543010, 0, 0x40);
-    sprintf(lbl_80543010, "%08X", value);
-    return lbl_80543010;
+    memset(serial_hex_buffer, 0, 0x40);
+    sprintf(serial_hex_buffer, "%08X", value);
+    return serial_hex_buffer;
 }
 
 char *TAdEnterSerialAccessGC::convert_serial_hex_to_decimal(const char *serial) {
     u32 value = 0;
     sscanf(serial, "%08X", &value);
-    memset(lbl_80543050, 0, 0x40);
+    memset(serial_decimal_buffer, 0, 0x40);
     if (value != 0) {
-        sprintf(lbl_80543050, "%010lu", value);
+        sprintf(serial_decimal_buffer, "%010lu", value);
     }
-    return lbl_80543050;
+    return serial_decimal_buffer;
 }
 
 #pragma push
@@ -367,19 +367,19 @@ s32 TAdEnterSerialAccessGC::parse_serial_value() {
 }
 
 char *TAdEnterSerialAccessGC__sub_803217B8(void) {
-    memset(lbl_805430A4, 0, 0x18);
+    memset(access_key_dashed_buffer, 0, 0x18);
     u32 lengths[3] = { 4, 4, 4 };
-    TAdEnterSerialAccessGC::format_dashed_serial(lbl_805430A4, TAdEnterSerialAccessGC::access_key_input_buffer, 3, lengths);
-    return lbl_805430A4;
+    TAdEnterSerialAccessGC::format_dashed_serial(access_key_dashed_buffer, TAdEnterSerialAccessGC::access_key_input_buffer, 3, lengths);
+    return access_key_dashed_buffer;
 }
 
 char *TAdEnterSerialAccessGC__sub_80321738(void) {
-    memset(lbl_805430BC, 0, 0x14);
+    memset(stored_serial_dashed_buffer, 0, 0x14);
     u32 lengths[3] = { 2, 4, 4 };
-    TAdEnterSerialAccessGC::format_dashed_serial(lbl_805430BC,
+    TAdEnterSerialAccessGC::format_dashed_serial(stored_serial_dashed_buffer,
         TAdEnterSerialAccessGC::convert_serial_hex_to_decimal((const char *)(TAdSinglePlyChrSelectGC::get_instance() + 0x1152C)),
         3, lengths);
-    return lbl_805430BC;
+    return stored_serial_dashed_buffer;
 }
 
 char *TAdEnterSerialAccessGC::get_formatted_serial() {
@@ -403,7 +403,7 @@ void TAdEnterSerialAccessGC::format_dashed_serial(char *dst, const char *src, u3
 }
 
 const NJS_COLOR serial_plate_color = { 0xFF };
-const NJS_POINT2 lbl_80476548 = { 234.0f, 230.0f };
+const NJS_POINT2 serial_narrow_plate_position = { 234.0f, 230.0f };
 const NJS_POINT2 serial_plate_position_table[3] = { { 258.0f, 230.0f }, { 293.0f, 230.0f }, { 352.0f, 230.0f } };
 
 #pragma push
@@ -419,7 +419,7 @@ void TAdEnterSerialAccessGC::draw_serial_plates() {
     narrow.height = 18.0f;
     TAdPlyChrSelPlateGC narrow_plate(tl_clipout, &narrow);
     {
-        NJS_POINT2 pos = lbl_80476548;
+        NJS_POINT2 pos = serial_narrow_plate_position;
         NJS_COLOR color = serial_plate_color;
         switch (input_state) {
         case 3:

@@ -1,10 +1,9 @@
+#include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/ControllerInputState.h"
 
 #include "types.h"
 #include "pso/system/ControllerInput.h"
-
-struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
 
 // Window layout constants shared by the TWindowDD files (one definition here, extern elsewhere).
 extern const f32 TWindowDD__data_805DFB18 = 0.00390625f;
@@ -79,67 +78,66 @@ extern const f32 lbl_805DFC28 = 50037.0f;
 extern const f32 lbl_805DFC2C = 50040.0f;
 
 
-void TWindowDD::reset_entries(f32 v, s32) {
-    E_803403F8 *p = (E_803403F8 *)this;
+void reset_window_vertices(WindowVertex *p, f32 depth, s32) {
     s32 i;
     for (i = 0; i < 8; i++) {
-        p->a = 0.0f;
-        p->b = 0.0f;
-        p->c = v;
-        p->d = 0.0f;
-        p->e = 0.0f;
-        p->f = -1;
+        p->x = 0.0f;
+        p->y = 0.0f;
+        p->depth = depth;
+        p->u = 0.0f;
+        p->v = 0.0f;
+        p->color = -1;
         p++;
     }
 }
 
-void TWindowDD::set_quad_corners_scaled(f32 x, f32 y, f32 farg2) {
-  f32 temp_f0;
-  f32 temp_f1;
-  f32 temp_f1_2;
-  s8 *new_var;
-  f32 temp_f2;
-  f32 temp_f4;
-  float new_var4;
-  f32 temp_f5;
-  int new_var3;
-  f32 temp_f7;
-  f32 temp_f8;
-  s8 *new_var2;
-  temp_f4 = x + farg2;
-  temp_f8 = TWindowDD__data_805DFB18 * x;
-  temp_f7 = TWindowDD__data_805DFB18 * y;
-  *((f32 *) (((s8 *) this) + 0)) = temp_f8;
-  temp_f5 = TWindowDD__data_805DFB18 * (TWindowDD__data_805DFB20 + y);
-  new_var4 = TWindowDD__data_805DFB18 * temp_f4;
-  *((f32 *) (((s8 *) this) + 4)) = temp_f7;
-  temp_f1 = 48.0f + x;
-  temp_f2 = new_var4;
-  *((f32 *) (((s8 *) this) + 8)) = temp_f8;
-  temp_f1_2 = TWindowDD__data_805DFB18 * temp_f1;
-  *((f32 *) (((s8 *) this) + 0xC)) = temp_f5;
-  temp_f0 = temp_f1;
-  temp_f0 = TWindowDD__data_805DFB18 * (temp_f0 - farg2);
-  new_var2 = ((s8 *) this) + 0x28;
-  *((f32 *) (((s8 *) this) + 0x10)) = temp_f2;
-  *((f32 *) (((s8 *) this) + 0x14)) = temp_f7;
-  *((f32 *) (((s8 *) this) + 0x18)) = temp_f2;
-  *((f32 *) (((s8 *) this) + 0x1C)) = temp_f5;
-  *((f32 *) (((s8 *) this) + 0x20)) = temp_f0;
-  *((f32 *) (((s8 *) this) + 0x24)) = temp_f7;
-  new_var3 = 0x30;
-  *((f32 *) new_var2) = temp_f0;
-  *((f32 *) (((s8 *) this) + 0x2C)) = temp_f5;
-  *((f32 *) (((s8 *) this) + new_var3)) = temp_f1_2;
-  *((f32 *) (((s8 *) this) + 0x34)) = temp_f7;
-  new_var = ((s8 *) this) + 0x38;
-  *((f32 *) new_var) = temp_f1_2;
-  *((f32 *) (((s8 *) this) + 0x3C)) = temp_f5;
+void fill_window_point_table(NJS_POINT2 *points, f32 x, f32 y, f32 width) {
+  f32 inner_right_u;
+  f32 inner_left;
+  f32 inner_left_u;
+  s8 *point_7;
+  f32 right_u;
+  f32 right;
+  float right_scaled;
+  f32 bottom_v;
+  int offset_30;
+  f32 top_v;
+  f32 left_u;
+  s8 *point_5;
+  right = x + width;
+  left_u = TWindowDD__data_805DFB18 * x;
+  top_v = TWindowDD__data_805DFB18 * y;
+  *((f32 *) (((s8 *) points) + 0)) = left_u;
+  bottom_v = TWindowDD__data_805DFB18 * (TWindowDD__data_805DFB20 + y);
+  right_scaled = TWindowDD__data_805DFB18 * right;
+  *((f32 *) (((s8 *) points) + 4)) = top_v;
+  inner_left = 48.0f + x;
+  right_u = right_scaled;
+  *((f32 *) (((s8 *) points) + 8)) = left_u;
+  inner_left_u = TWindowDD__data_805DFB18 * inner_left;
+  *((f32 *) (((s8 *) points) + 0xC)) = bottom_v;
+  inner_right_u = inner_left;
+  inner_right_u = TWindowDD__data_805DFB18 * (inner_right_u - width);
+  point_5 = ((s8 *) points) + 0x28;
+  *((f32 *) (((s8 *) points) + 0x10)) = right_u;
+  *((f32 *) (((s8 *) points) + 0x14)) = top_v;
+  *((f32 *) (((s8 *) points) + 0x18)) = right_u;
+  *((f32 *) (((s8 *) points) + 0x1C)) = bottom_v;
+  *((f32 *) (((s8 *) points) + 0x20)) = inner_right_u;
+  *((f32 *) (((s8 *) points) + 0x24)) = top_v;
+  offset_30 = 0x30;
+  *((f32 *) point_5) = inner_right_u;
+  *((f32 *) (((s8 *) points) + 0x2C)) = bottom_v;
+  *((f32 *) (((s8 *) points) + offset_30)) = inner_left_u;
+  *((f32 *) (((s8 *) points) + 0x34)) = top_v;
+  point_7 = ((s8 *) points) + 0x38;
+  *((f32 *) point_7) = inner_left_u;
+  *((f32 *) (((s8 *) points) + 0x3C)) = bottom_v;
 }
 
 #pragma push
 #pragma opt_dead_assignments off
-s32 TWindowDD::apply_both_choices(s32 arg0, saddr buttons) {
+s32 TWindowDD::apply_both_choices(s32 unused, saddr buttons) {
   return test_buttons_press_or_repeat(&controller_input_state.controllers[0], buttons, 6, 1) | test_buttons_press_or_repeat(&controller_input_state.keyboard, buttons, 6, 1);
 }
 #pragma pop

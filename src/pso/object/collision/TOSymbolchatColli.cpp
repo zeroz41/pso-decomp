@@ -10,6 +10,7 @@
 #include "pso/object/base/TObjChara.h"
 
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/ui/chat/SymbolChatPreset.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
@@ -149,7 +150,7 @@ void TOSymbolchatColli::load_symbol_chat_data() {
     }
     safe_free(h);
     for (i = 0; i < 0x18; i++) {
-        ((TWindowSubSymbolChat *)((u8 *)symbol_chat_colli_entries + i * 0x58))->bswap_entry();
+        ((SymbolChatPreset *)((u8 *)symbol_chat_colli_entries + i * 0x58))->bswap_entry();
     }
     for (i = 0; i < 3; i++) {
         symbolchat_colli_param_table[i] = 0;

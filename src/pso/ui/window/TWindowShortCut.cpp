@@ -24,7 +24,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/network/client_id.h"
 
-const char *TWindowShortCut__name = "TWindowShortCut";
+const char *TWindowShortCut::class_name = "TWindowShortCut";
 
 
 // The shortcut window's entries: three rows of label, ":" and icons or text, filled by
@@ -204,7 +204,7 @@ TWindowShortCut::~TWindowShortCut() {
 }
 TWindowShortCut::TWindowShortCut(saddr arg1, s32 index, s32 *chat_shortcut) : TWindowBase((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1) {
     saddr var_r31;
-    m_name = TWindowShortCut__name;
+    m_name = TWindowShortCut::class_name;
     var_r31 = (saddr)::operator new(0x24);
     if (var_r31 != 0) {
         var_r31 = (saddr)((TWindowSubStatusDisp *)var_r31)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x35), this->client_index);

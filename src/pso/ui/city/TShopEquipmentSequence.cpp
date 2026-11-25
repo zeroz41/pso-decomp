@@ -24,27 +24,13 @@
 #include "pso/ui/window/WindowLayout.h"
 
 s32 TShopEquipmentSequence::slot_active_flags[4];
-extern const char *TShopEquipmentSequence__class_name;
-TShopEquipmentSequence *lbl_805D6228;
-s32 lbl_805D622C;
-s32 lbl_805D6230;
+extern const char *shop_equipment_sequence_class_name;
+TShopEquipmentSequence *shop_equipment_sequence_instance;
+s32 shop_equipment_pending_message;
+s32 shop_equipment_pending_state;
 
 #pragma readonly_strings on
-struct Base_8021D584_8021D524 { char pad[0x18]; };
-struct Base_8021D5D4_8021D524 { char pad[0x18]; };
-struct VBase_18_a93f07
-{
-  char pad[0x18];
-};
-struct Stack_8021D948
-{
-  f32 sp8;
-  f32 spC;
-};
-struct S_8021D750 { u8 pad[0x24]; s32 player; };
-struct Base_8021D7B8 { char pad[0x18]; };
-struct Base_8021D524 { char pad[0x18]; };
-const char *TShopEquipmentSequence__class_name = "TShopEquipmentSequence";
+const char *shop_equipment_sequence_class_name = "TShopEquipmentSequence";
 void TShopEquipmentSequence__sub_8021DC08(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -60,15 +46,15 @@ void TShopEquipmentSequence__sub_8021DBE0(void) {
 }
 
 TShopEquipmentSequence::TShopEquipmentSequence(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
-    m_name = TShopEquipmentSequence__class_name;
+    m_name = shop_equipment_sequence_class_name;
     state = 0;
     this->player = player;
     choice_menu = NULL;
     meseta_window = NULL;
     counter_camera = NULL;
-    lbl_805D6228 = this;
-    lbl_805D622C = 0;
-    lbl_805D6230 = 0;
+    shop_equipment_sequence_instance = this;
+    shop_equipment_pending_message = 0;
+    shop_equipment_pending_state = 0;
     TShopEquipmentSequence::slot_active_flags[get_split_screen_slot()] = 1;
 }
 
@@ -175,15 +161,15 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
 
 void TShopEquipmentSequence::open_buy_window() {
     TShopEquipmentListWindow *o = new TShopEquipmentListWindow(tl_05, this, player);
-    o->on_close = exit__22TShopEquipmentSequenceFPv;
+    o->on_close = TShopEquipmentSequence::exit;
     reset_controller_input_state();
     set_state(7);
 }
 
 void TShopEquipmentSequence::open_sell_window() {
     TShopEquipmentSellWindow *o = new TShopEquipmentSellWindow(tl_05, this, player, 0x26);
-    o->on_close = exit__22TShopEquipmentSequenceFPv;
-    o->on_empty = init_window__22TShopEquipmentSequenceFPv;
+    o->on_close = TShopEquipmentSequence::exit;
+    o->on_empty = TShopEquipmentSequence::init_window;
     reset_controller_input_state();
     set_state(7);
 }
@@ -200,24 +186,24 @@ void TShopEquipmentSequence__sub_8021D65C(void) {  }
 
 void TShopEquipmentSequence::handle_confirm() {
     if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
-        display_shop_message(lbl_805D622C, 1);
-        set_state(lbl_805D6230);
+        display_shop_message(shop_equipment_pending_message, 1);
+        set_state(shop_equipment_pending_state);
     }
 }
 
-void exit__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
+void TShopEquipmentSequence::exit(TShopWindowBase *window) {
     if (window != NULL) {
         window->display_shop_message(0x1A, 1);
         window->set_state(2);
     }
 }
 
-void init_window__22TShopEquipmentSequenceFPv(TShopWindowBase *window) {
+void TShopEquipmentSequence::init_window(TShopWindowBase *window) {
     if (window != NULL) {
         window->display_shop_message(0x1B, 1);
         window->set_state(8);
-        lbl_805D622C = 0x1A;
-        lbl_805D6230 = 2;
+        shop_equipment_pending_message = 0x1A;
+        shop_equipment_pending_state = 2;
     }
 }
 

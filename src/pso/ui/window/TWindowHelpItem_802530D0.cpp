@@ -9,7 +9,7 @@ s32 TWindowHelpItem::is_item_already_equipped() {
     saddr item;
     s32 field;
     u32 diff;
-    field = this->m_a4;
+    field = this->primary_id;
     if (field == -1) {
         return 0;
     }

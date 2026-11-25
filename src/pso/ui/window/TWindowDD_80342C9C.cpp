@@ -5,7 +5,7 @@ extern "C" {
 s32 TWindowDD__sub_803428C4(void *);
 s32 TWindowDD__sub_80342B5C(void *);
 s32 update_numeric_parameter_input__9TWindowDDFPv();
-s32 TWindowDD__sub_803435A0(void *);
+s32 begin_word_select_state(void *);
 s32 refresh_word_select_child_list();
 s32 is_word_select_cancel_input(void *);
 void TWindowDD::update_transition() {
@@ -13,8 +13,8 @@ void TWindowDD::update_transition() {
     update_selection_state();
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        *(s32 *)((s8 *)this + 0xB4) = 6;
-        TWindowDD__sub_803435A0(this);
+        next_state = 6;
+        begin_word_select_state(this);
         return;
     }
     if (is_word_select_cancel_input(this) != 0) {
@@ -23,49 +23,50 @@ void TWindowDD::update_transition() {
     }
 }
 void TWindowDD__sub_80342D14(u8 *window_dd) {
-    s32 var_r31;
-    var_r31 = 0;
-    *(s16 *)((s8 *)window_dd + 0xC6) = 1;
-    switch (*(s32 *)((s8 *)window_dd + 0xB8)) {
+    s32 done;
+    TWindowDD *w = (TWindowDD *)window_dd;
+    done = 0;
+    w->message.type = 1;
+    switch (w->dialog_locked) {
     case 0:
         refresh_word_select_child_list();
-        ((TWindowDD *)window_dd)->update_selection_state();
-        if (((TWindowDD *)window_dd)->test_input_flag_4() != 0) {
+        w->update_selection_state();
+        if (w->test_input_flag_4() != 0) {
             TWindowDD::play_sound();
-            var_r31 = !TWindowDD::update_close_flag(window_dd);
+            done = !TWindowDD::update_close_flag(window_dd);
         } else if (is_word_select_cancel_input(window_dd) != 0) {
             TWindowDD::play_se();
-            ((TWindowDD *)window_dd)->m_a4 = 0;
+            w->m_a4 = 0;
             TWindowDD::apply_entry_layout(window_dd);
         }
         break;
     case 1:
-        var_r31 = update_numeric_parameter_input__9TWindowDDFPv();
+        done = update_numeric_parameter_input__9TWindowDDFPv();
         break;
     }
-    if (var_r31) {
-        ((TWindowDD *)window_dd)->m_a4 = 1;
-        if ((s32) ((TWindowDD *)window_dd)->m_8c == -0x3C) {
-            *(s32 *)((s8 *)window_dd + 0xB4) = 0x14;
+    if (done) {
+        w->m_a4 = 1;
+        if ((s32) w->m_8c == -0x3C) {
+            w->next_state = 0x14;
         } else {
             switch (TWindowDD::window_mode) {
             case 0:
                 TWindowDD__sub_80342B5C(window_dd);
-                ((TWindowDD *)(window_dd + 0xC4))->init_item_slots();
-                *(s16 *)((s8 *)window_dd + 0xC6) = 3;
+                w->message.init();
+                w->message.type = 3;
                 break;
             case 1:
             case 2:
             case 3:
             case 4:
             default:
-                ((TWindowDD *)(window_dd + 0xC4))->init_item_slots();
-                *(s16 *)((s8 *)window_dd + 0xC6) = 4;
+                w->message.init();
+                w->message.type = 4;
                 TWindowDD__sub_803428C4(window_dd);
                 break;
             }
         }
-        TWindowDD__sub_803435A0(window_dd);
+        begin_word_select_state(window_dd);
     }
 }
 

@@ -4,18 +4,18 @@
 #include "types.h"
 
 extern "C" {
-int THunterGuildSeqOffline__sub_80211FEC(int a0);
-int THunterGuildSeqOffline__sub_80212000(int a0);
-int THunterGuildSeqOffline__sub_80212060(int a0);
-s32 THunterGuildSeqOffline__sub_80212074(void);
+int get_online_client_instance(int a0);
+int get_online_server_instance(int a0);
+int get_offline_instance(int a0);
+s32 is_near_designated_player(void);
 }
 
 // --- C functions defined in THunterGuildSeqOffline_80211FEC.cpp ---
 extern "C" {
-int THunterGuildSeqOffline__sub_80211FEC(int a0);
-int THunterGuildSeqOffline__sub_80212000(int a0);
-int THunterGuildSeqOffline__sub_80212060(int a0);
-s32 THunterGuildSeqOffline__sub_80212074(void);
+int get_online_client_instance(int a0);
+int get_online_server_instance(int a0);
+int get_offline_instance(int a0);
+s32 is_near_designated_player(void);
 }
 // --- end of C functions
 

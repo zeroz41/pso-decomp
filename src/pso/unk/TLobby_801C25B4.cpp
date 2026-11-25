@@ -334,7 +334,7 @@ void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 
 
 s32 check_team_balance__6TLobbyFPvi(UpdateTimedWaitLobby *self, s32 arg1);
-void TKeyBoardControl__sub_8000F950(void);
+void set_keyboard_input_flag(void);
 extern s32 evt2_random_enemies_mode;
 void TAdSinglePlyChrSelectGC__sub_801C50C0(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C50CC();
@@ -782,7 +782,7 @@ void TLobby::end_battle_mode_cleanup() {
         }
         TLobby::clear_counter();
         evt2_random_enemies_mode = 0;
-        TKeyBoardControl__sub_8000F950();
+        set_keyboard_input_flag();
         lobby_floor_reload_pending = 1;
         ((TObject *)this)->queue_destruction();
         break;

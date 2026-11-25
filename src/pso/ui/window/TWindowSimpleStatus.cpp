@@ -1,3 +1,5 @@
+#include "pso/unk/TWindowLayoutNumber.h"
+#include "pso/unk/TWindowStatusGauge.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
@@ -32,13 +34,9 @@
 #include <stdlib.h>
 #include "pso/map/area/AreaScene.h"
 
-struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
-
-struct Params_80270244 { f32 x; f32 y; u8 pad8[0x18]; f32 f20; f32 f24; f32 f28; f32 f2c; s32 f30; };
-
 #pragma push
 #pragma readonly_strings on
-const char *TWindowSimpleStatus__name = "TWindowSimpleStatus";
+const char *TWindowSimpleStatus::class_name = "TWindowSimpleStatus";
 #pragma pop
 
 // inferred: photon_blast_gauge_ring_offset, the ring's offset inside the window that
@@ -80,58 +78,6 @@ WindowDescriptor simple_status_window_layout = {
     {153.0f, 50.0f}, 50100.0f, &simple_status_window_layout_entries, 0xB28,
 };
 
-struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
-
-struct VObj3_8026f71c_more_8026f8cc_0 : VtBase4_8026f71c_more_8026f8cc_0 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); };
-
-struct Base_8026F77C_more_8026f8cc_0 { char pad[0x18]; };
-
-struct VObj_8026F77C_more_8026f8cc_0 : Base_8026F77C_more_8026f8cc_0 {
-    virtual void m0();virtual void m1();virtual void m2();virtual void m3();
-    virtual void m4();virtual void m5();virtual void m6();virtual void m7();
-    virtual void m8();virtual void m9();virtual void m10();virtual void m11();
-    virtual void m12();virtual void m13();
-    virtual int m14();
-};
-
-struct VObj_8026ff0c;
-
-struct VObj_8026ff0c {
-    char pad[0x18];
-    virtual s32 m0();
-    virtual s32 m1();
-    virtual s32 m2();
-    virtual s32 m3();
-    virtual s32 m4();
-    virtual s32 m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-    virtual s32 m9();
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13();
-    virtual s32 m14();
-    virtual s32 m15();
-    virtual s32 m16();
-    virtual s32 m17();
-    virtual s32 m18();
-    virtual s32 m19();
-    virtual s32 m20();
-    virtual s32 m21();
-    virtual s32 m22();
-    virtual s32 m23();
-    virtual s32 m24();
-    virtual s32 m25();
-    virtual s32 m26();
-    virtual s32 m27();
-    virtual s32 m28();
-    virtual s32 m29();
-    virtual s32 m30();
-    virtual s32 m31();
-};
-
 struct Slots_80270060 { s32 type[4]; u32 id[4]; };
 
 
@@ -143,95 +89,94 @@ s32 begin_window_sweep_draw(s32);
 s32 start_text_color_transition(void *, s32, f32);
 }
 s32 get_status_effect_icon_index(u32 arg0);
-void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
+void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 extern "C" {
 void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(TexturedQuad *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
+}
 
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
-    u8 *array_entry;
-    array_entry = (u8 *)(((saddr)this->get_array_entry(4)));
-    *(f32 *)((s8 *)array_entry + 0x20) = 0.0f;
-    *(f32 *)((s8 *)array_entry + 0x24) = 0.0f;
-    start_text_color_transition(array_entry, (s32)(0xFF008CFCU), 1.0f);
+    TWindowStatusGauge *gauge;
+    gauge = static_cast<TWindowStatusGauge *>(this->get_array_entry(4));
+    gauge->maximum = 0.0f;
+    gauge->target = 0.0f;
+    start_text_color_transition(gauge, (s32)(0xFF008CFCU), 1.0f);
 }
 
 void TWindowSubStatusDisp::init_gauge_entry() {
-    VObj3_8026f71c_more_8026f8cc_0 *array_entry;
-    f32 temp_f0;
+    TWindowStatusGauge *gauge;
+    f32 zero;
 
-    array_entry = (VObj3_8026f71c_more_8026f8cc_0 *) get_array_entry(3);
-    temp_f0 = 0.0f;
-    *(f32 *)((s8 *)array_entry + 0x20) = temp_f0;
-    *(f32 *)((s8 *)array_entry + 0x24) = temp_f0;
-    array_entry->m3();
-    start_text_color_transition(array_entry, 0xFF00FF15, 1.0f);
+    gauge = static_cast<TWindowStatusGauge *>(get_array_entry(3));
+    zero = 0.0f;
+    gauge->maximum = zero;
+    gauge->target = zero;
+    gauge->calc_bar_width();
+    start_text_color_transition(gauge, 0xFF00FF15, 1.0f);
 }
 
 void TWindowSubStatusDisp::update_status_entry() {
-    saddr arg0 = (saddr)this;
-    void *temp_r31;
-    VObj_8026F77C_more_8026f8cc_0 *player;
+    void *entry_2;
+    TObjChara *player;
 
-    player = (VObj_8026F77C_more_8026f8cc_0 *) get_player_by_client_id(((TWindowSimpleStatus *)this)->get_width());
+    player = (TObjChara *) get_player_by_client_id(((TWindowSimpleStatus *)this)->get_width());
     if (player != NULL) {
-        temp_r31 = (void *)((TWindowBase *)arg0)->get_array_entry(2);
-        *(s32 *)((s8 *)temp_r31 + 0x20) = player->m14() + 1;
+        entry_2 = (void *)get_array_entry(2);
+        ((TWindowLayoutNumber *)entry_2)->value = player->get_actor_level_index() + 1;
     }
 }
 
 s32 TWindowSubStatusDisp::update_hp_gauge() {
     s32 rgb;
-    s32 var_r31;
-    void *array_entry;
-    void *player;
-    saddr arg0 = (saddr)this;
+    s32 text_color;
+    TWindowStatusGauge *gauge;
+    TObjChara *player;
 
-    player = get_player_by_client_id(((TWindowSimpleStatus *)this)->get_width());
+    player = (TObjChara *)get_player_by_client_id(((TWindowSimpleStatus *)this)->get_width());
     if (player == NULL) {
-        ((TWindowSubStatusDisp *)arg0)->start_hp_text_color_transition();
+        this->start_hp_text_color_transition();
         return 0xFF008CFC;
     }
-    array_entry = (void *)((TWindowBase *)arg0)->get_array_entry(4);
-    *(f32 *)((s8 *)array_entry + 0x20) = (f32) obj_getS16_2BA((u8 *)player);
-    *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32E);
-    if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
-        var_r31 = -1;
+    gauge = static_cast<TWindowStatusGauge *>(get_array_entry(4));
+    gauge->maximum = (f32) obj_getS16_2BA((u8 *)player);
+    gauge->target = (f32) player->tp;
+    if (gauge->target > (0.2f * gauge->maximum)) {
+        text_color = -1;
         rgb = 0xFF008CFC;
     } else {
         rgb = -0x3EEC;
-        var_r31 = -0x3EEC;
+        text_color = -0x3EEC;
     }
-    start_text_color_transition(array_entry, rgb, 11.1f);
-    return var_r31;
+    start_text_color_transition(gauge, rgb, 11.1f);
+    return text_color;
 }
 
 s32 TWindowSubStatusDisp::update_hp_entry() {
-    s32 var_r30;
+    s32 text_color;
     s32 rgb;
-    u8 *array_entry;
-    u8 *player;
-    player = (u8 *)get_player_by_client_id(((TWindowSimpleStatus *)this)->get_width());
+    TWindowStatusGauge *gauge;
+    TObjChara *player;
+    player = (TObjChara *)get_player_by_client_id(((TWindowSimpleStatus *)this)->get_width());
     if (player == NULL) {
         this->init_gauge_entry();
         return 0xFF00FF15;
     }
-    array_entry = (u8 *)(((u8 *)get_array_entry(3)));
-    *(f32 *)((s8 *)array_entry + 0x20) = (f32) ((TObjChara *)player)->get_hpmax();
-    if (*(f32 *)((s8 *)array_entry + 0x24) > (f32) *(s16 *)((s8 *)player + 0x32C)) {
+    gauge = static_cast<TWindowStatusGauge *>(get_array_entry(3));
+    gauge->maximum = (f32) player->get_hpmax();
+    if (gauge->target > (f32) player->hp) {
         *(s32 *)((s8 *)(this) + 0x60) = 4;
     }
-    *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32C);
-    if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
-        var_r30 = -1;
+    gauge->target = (f32) player->hp;
+    if (gauge->target > (0.2f * gauge->maximum)) {
+        text_color = -1;
         rgb = 0xFF00FF15;
     } else {
         rgb = 0xFFF2FF19;
-        var_r30 = 0xFFF2FF19;
+        text_color = 0xFFF2FF19;
     }
-    start_text_color_transition(array_entry, rgb, 11.1f);
-    return var_r30;
+    start_text_color_transition(gauge, rgb, 11.1f);
+    return text_color;
 }
 
 void TWindowSimpleStatus::update_status_icons(void *ofs) {
@@ -241,60 +186,60 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
     saddr i;
     s32 j;
     s32 name;
-    void *w;
+    TWindowBase *follower;
     void *player;
-    player = get_player_by_client_id(((Disp_8026F9F4 *)this)->id);
+    player = get_player_by_client_id(this->client_index);
     if (player == NULL || is_open_and_unblocked() == 0) {
         for (i = 0; i < 5; i++) {
-            if (((Disp_8026F9F4 *)this)->windows[i] != NULL) {
-                ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[i]))->close();
-                ((Disp_8026F9F4 *)this)->windows[i] = NULL;
+            if (this->w[i] != NULL) {
+                this->w[i]->close();
+                this->w[i] = NULL;
             }
         }
         return;
     }
     count = 0;
     j = 0;
-    i = ((s32 (*)(Slots_80270060 *, s32))get_photon_blast_chain)(&buf, ((Disp_8026F9F4 *)this)->id);
+    i = ((s32 (*)(Slots_80270060 *, s32))get_photon_blast_chain)(&buf, this->client_index);
     if (i == 1 || i == 2) {
         for (i = 0; buf.type[i] != -1; i++) {
-            if (buf.id[i] == ((Disp_8026F9F4 *)this)->id) {
+            if (buf.id[i] == this->client_index) {
                 break;
             }
         }
         name = (saddr)((TWindowComCard *)i)->get_card_name_ptr();
-        w = ((Disp_8026F9F4 *)this)->windows[j];
-        if (w == NULL) {
-            w = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, name, ((Disp_8026F9F4 *)this)->id);
-            ((Disp_8026F9F4 *)this)->windows[j] = w;
-            ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[j]))->set_depth(1.0f + ((TWindowBase *)((Disp_8026F9F4 *)this))->get_scale());
+        follower = this->w[j];
+        if (follower == NULL) {
+            follower = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, 0, name, this->client_index);
+            this->w[j] = follower;
+            this->w[j]->set_depth(1.0f + get_scale());
         } else {
-            ((TWindowComCardFollower *)w)->set_column(0);
-            ((TWindowComCardFollower *)(((Disp_8026F9F4 *)this)->windows[j]))->set_selected_index(name);
+            ((TWindowComCardFollower *)follower)->set_column(0);
+            ((TWindowComCardFollower *)this->w[j])->set_selected_index(name);
         }
         count = 1;
-    } else if (((Disp_8026F9F4 *)this)->windows[j] != NULL) {
-        ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[j]))->close();
-        ((Disp_8026F9F4 *)this)->windows[j] = NULL;
+    } else if (this->w[j] != NULL) {
+        this->w[j]->close();
+        this->w[j] = NULL;
     }
     j++;
     for (k = 0; k < 4; k++, j++) {
         s32 word = ((TObjChara *)player)->get_status_effect_type(k);
         if (word == 0) {
-            if (((Disp_8026F9F4 *)this)->windows[j] != NULL) {
-                ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[j]))->close();
-                ((Disp_8026F9F4 *)this)->windows[j] = NULL;
+            if (this->w[j] != NULL) {
+                this->w[j]->close();
+                this->w[j] = NULL;
             }
         } else {
             name = get_status_effect_icon_index(word);
-            w = ((Disp_8026F9F4 *)this)->windows[j];
-            if (w == NULL) {
-                w = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, name, ((Disp_8026F9F4 *)this)->id);
-                ((Disp_8026F9F4 *)this)->windows[j] = w;
-                ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[j]))->set_depth(2.0f + ((f32)k + ((TWindowBase *)((Disp_8026F9F4 *)this))->get_scale()));
+            follower = this->w[j];
+            if (follower == NULL) {
+                follower = new TWindowComCardFollower(this, (NJS_POINT2 *)ofs, count, name, this->client_index);
+                this->w[j] = follower;
+                this->w[j]->set_depth(2.0f + ((f32)k + get_scale()));
             } else {
-                ((TWindowComCardFollower *)w)->set_column(count);
-                ((TWindowComCardFollower *)(((Disp_8026F9F4 *)this)->windows[j]))->set_selected_index(name);
+                ((TWindowComCardFollower *)follower)->set_column(count);
+                ((TWindowComCardFollower *)this->w[j])->set_selected_index(name);
             }
             count++;
         }
@@ -303,26 +248,27 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
 
 #pragma push
 #pragma fp_contract on
-void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
+extern "C" {
+void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *center, WindowDrawContext *context, u32 color, f32 depth_offset, s32 start_angle, s32 end_angle, f32 radius_scale) {
     NJS_POINT2 verts[3];
     NJS_POINT2COL prim;
     NJS_COLOR colors[3];
-    s32 end = arg5;
-    s32 angle = arg4;
+    s32 end = end_angle;
+    s32 angle = start_angle;
     f32 amp_x;
     f32 amp_y;
     f32 depth;
 
-    depth = ((TWindowSimpleStatus *)window_simple_status)->draw_depth + 0.299f * arg6;
-    amp_x = arg7 * arg2->f28;
-    amp_y = arg7 * arg2->f2c;
+    depth = ((TWindowSimpleStatus *)window_simple_status)->draw_depth + 0.299f * depth_offset;
+    amp_x = radius_scale * context->scale[0];
+    amp_y = radius_scale * context->scale[1];
     prim.p = verts;
     prim.col = colors;
     prim.tex = NULL;
     prim.num = 1;
-    colors[2].color = colors[1].color = colors[0].color = (arg3 << 8) | (arg3 >> 24);
-    verts[0].x = arg2->f20 + arg2->f28 * (arg1->x - arg2->f20);
-    verts[0].y = arg2->f24 + arg2->f2c * (arg1->y - arg2->f24);
+    colors[2].color = colors[1].color = colors[0].color = (color << 8) | (color >> 24);
+    verts[0].x = context->pivot[0] + context->scale[0] * (center->x - context->pivot[0]);
+    verts[0].y = context->pivot[1] + context->scale[1] * (center->y - context->pivot[1]);
     verts[2].x = amp_x * cos_table_lookup(angle) + verts[0].x;
     verts[2].y = amp_y * sin_table_lookup(angle) + verts[0].y;
     while (angle < end) {
@@ -337,6 +283,7 @@ void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_
         draw_polygon_2d(&prim, 3, 2, depth);
     }
 }
+}
 #pragma pop
 
 #pragma push
@@ -345,8 +292,8 @@ void TWindowSimpleStatus::apply_random_shake() {
     s32 ang;
     f32 dist;
 
-    if (this->m_60 != 0) {
-        (this->m_60)--;
+    if (this->shake_ticks != 0) {
+        (this->shake_ticks)--;
         ang = (s32)(65536.0f * (3.0517578e-05f * (f32)rand()));
         dist = 5.0f * (3.0517578e-05f * (f32)rand());
         this->frame_position[0] += dist * cos_table_lookup(ang);
@@ -356,36 +303,36 @@ void TWindowSimpleStatus::apply_random_shake() {
 #pragma pop
 
 void TWindowSubStatusDisp::update_hp_tp_level() {
-    saddr temp_r31;
-    saddr temp_r31_2;
-    temp_r31 = reinterpret_cast<saddr>(this->get_array_entry(6));
-    *(s32 *)((s8 *)temp_r31 + 0x2C) = this->update_hp_entry();
-    temp_r31_2 = reinterpret_cast<saddr>(this->get_array_entry(7));
-    *(s32 *)((s8 *)temp_r31_2 + 0x2C) = this->update_hp_gauge();
+    saddr entry_6;
+    saddr entry_7;
+    entry_6 = reinterpret_cast<saddr>(this->get_array_entry(6));
+    *(s32 *)((s8 *)entry_6 + 0x2C) = this->update_hp_entry();
+    entry_7 = reinterpret_cast<saddr>(this->get_array_entry(7));
+    *(s32 *)((s8 *)entry_7 + 0x2C) = this->update_hp_gauge();
     update_status_entry();
 }
 
 void TWindowLockOn::update_for_player_index(s32 id) {
     saddr str;
-    struct VObj_8026ff0c *player;
-    u8 *temp_r29;
+    TObjPlayer *player;
+    u8 *status_block;
 
-    player = (VObj_8026ff0c *)get_player_by_client_id(id);
+    player = get_player_by_client_id(id);
     if (player == NULL) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
-    temp_r29 = (u8 *)player + 0x85C;
-    if (temp_r29 == NULL) {
+    status_block = (u8 *)player + 0x85C;
+    if (status_block == NULL) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
-    str = player->m10();
+    str = (saddr)player->get_name();
     if (str == 0) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
-    if (((TObjPlayer *)player)->is_inactive() == 0) {
+    if (player->is_inactive() == 0) {
         ((TWindowHelpItem *)(this))->set_flag0_bit2();
         return;
     }
@@ -393,27 +340,30 @@ void TWindowLockOn::update_for_player_index(s32 id) {
     if ((((TWindowSubComCard *)(this))->get_field_20() == 0U) || (strcmp((const char *)((TWindowSubComCard *)(this))->get_field_20(), (const char *)str) != 0)) {
         set_text_entry_string(((u8 *)this), str, 0x20);
     }
-    if (player->m31() != 0) {
+    if (player->has_flag_0x800() != 0) {
         *(s32 *)&this->entry_list = 0xFFFF0000;
         return;
     }
-    *(s32 *)&this->entry_list = (s32) *(s32 *)((s8 *)temp_r29 + 0x18);
+    *(s32 *)&this->entry_list = (s32) *(s32 *)((s8 *)status_block + 0x18);
 }
 
-void update_lockon_window(u8 *arg0) {
-    saddr temp_r31;
-    temp_r31 = reinterpret_cast<saddr>(((TWindowBase *)arg0)->get_array_entry(1));
-    ((TWindowLockOn *)temp_r31)->update_for_player_index(((TWindowSimpleStatus *)arg0)->get_width());
+extern "C" {
+void update_lockon_window(u8 *window) {
+    saddr entry_1;
+    entry_1 = reinterpret_cast<saddr>(((TWindowBase *)window)->get_array_entry(1));
+    ((TWindowLockOn *)entry_1)->update_for_player_index(((TWindowSimpleStatus *)window)->get_width());
+}
 }
 
-void update_photon_blast_player_marker(saddr help, s32 arg1) {
+extern "C" {
+void update_photon_blast_player_marker(saddr help, s32 client) {
     Slots_80270060 s;
     s32 type;
     u32 key;
     s32 r;
     s32 i;
     TObjPlayer *p;
-    key = arg1;
+    key = client;
     type = -1;
     if (key != 0xFFFF) {
         r = get_photon_blast_chain(&s);
@@ -456,33 +406,33 @@ void update_photon_blast_player_marker(saddr help, s32 arg1) {
 }
 }
 
-void update_status_help_item(saddr arg0) {
-    s32 var_r31;
+void update_status_help_item(saddr window) {
+    s32 client;
 
-    var_r31 = ((TWindowSimpleStatus *)arg0)->get_width();
+    client = ((TWindowSimpleStatus *)window)->get_width();
     if (get_current_floor_area() == AREA_LOBBY) {
-        var_r31 = 0;
+        client = 0;
     }
-    update_photon_blast_player_marker((saddr)((TWindowBase *)arg0)->get_array_entry(0), var_r31);
+    update_photon_blast_player_marker((saddr)((TWindowBase *)window)->get_array_entry(0), client);
 }
 
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
 extern "C" {
-void draw_photon_blast_gauge_ring(s32 window_simple_status, Params_80270244 *ctx, const NJS_POINT2 *pos, f32 farg0, f32 farg1) {
+void draw_photon_blast_gauge_ring(s32 window_simple_status, WindowDrawContext *ctx, const NJS_POINT2 *pos, f32 charge, f32 radius_scale) {
     NJS_POINT2 p;
     u32 n;
-    if (farg0 > 500.0f) {
-        farg0 = 500.0f;
+    if (charge > 500.0f) {
+        charge = 500.0f;
     }
-    n = TWindowSubComCard::trunc_float(0.01f * farg0);
-    farg0 -= 100.0f * n;
-    if (ctx->f30 >= 0) {
+    n = TWindowSubComCard::trunc_float(0.01f * charge);
+    charge -= 100.0f * n;
+    if (ctx->open_tick >= 0) {
         p.x = ctx->x + pos->x;
         p.y = ctx->y + pos->y;
-        draw_photon_blast_fan(window_simple_status, &p, ctx, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, farg1);
-        draw_photon_blast_fan(window_simple_status, &p, ctx, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * farg0), 0xD700, farg1);
+        draw_photon_blast_fan(window_simple_status, &p, ctx, photon_blast_gauge_ring_color_table[n], 0.0f, 0, 0xD700, radius_scale);
+        draw_photon_blast_fan(window_simple_status, &p, ctx, photon_blast_gauge_ring_color_table[++n], 0.1f, 55040.0f - 0.01f * (55040.0f * charge), 0xD700, radius_scale);
     }
 }
 }
@@ -501,15 +451,15 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
     } else {
         f = 0.0f;
     }
-    draw_photon_blast_gauge_ring((saddr)this, (Params_80270244 *)(ctx), &photon_blast_gauge_ring_offset, f, 17.0f);
-    pos.x = 6.0f + *(f32 *)((s8 *)ctx + 0x10);
-    pos.y = 2.0f + *(f32 *)((s8 *)ctx + 0x14);
+    draw_photon_blast_gauge_ring((saddr)this, (WindowDrawContext *)ctx, &photon_blast_gauge_ring_offset, f, 17.0f);
+    pos.x = 6.0f + ((WindowDrawContext *)ctx)->inner_x;
+    pos.y = 2.0f + ((WindowDrawContext *)ctx)->inner_y;
     size.x = 36.0f;
     size.y = 35.0f;
     scale = -1.0f / this->draw_depth;
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
-    set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
+    set_draw_texture_and_color(0xB, ((WindowDrawContext *)ctx)->color);
     r.x0 = pos.x;
     r.y0 = pos.y;
     r.x1 = r.x0 + size.x;
@@ -518,7 +468,7 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
     r.v0 = 0.3125f;
     r.u1 = 0.8828125f;
     r.v1 = 0.44921875f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&r);
+    ((WindowDrawContext *)ctx)->transform_quad(&r);
     draw_textured_quad_at_depth(&r, scale);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, &pos, &size) != 0) {
@@ -527,9 +477,6 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
         end_window_sweep_draw(0xB);
     }
 }
-
-extern "C" {
-s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
 void TWindowSimpleStatus::render() {
     saddr ctx;
@@ -542,15 +489,14 @@ void TWindowSimpleStatus::render() {
 }
 
 void TWindowSimpleStatus::run_task() {
-    saddr arg0 = (saddr)this;
-    update_hp_tp_level__20TWindowSubStatusDispFv();
-    update_lockon_window((u8 *)arg0);
-    update_status_help_item(arg0);
-    ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
-    ((TWindowBase *)arg0)->update_window();
-    ((TWindowBase *)arg0)->update_fade();
-    ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((void *)(arg0 + 0x24)));
-    ((TWindowSimpleStatus *)arg0)->apply_random_shake();
+    ((TWindowSubStatusDisp *)this)->update_hp_tp_level();
+    update_lockon_window((u8 *)this);
+    update_status_help_item((saddr)this);
+    this->update_status_icons((void *)(get_window_layout_position(0x1D)));
+    this->update_window();
+    this->update_fade();
+    this->update_window_entry_list(&this->entry_list);
+    this->apply_random_shake();
 }
 
 
@@ -566,9 +512,9 @@ TWindowSimpleStatus::~TWindowSimpleStatus() {
 
 TWindowSimpleStatus::TWindowSimpleStatus(void *position, s32 client, u8 *descriptor)
     : TWindowBase(descriptor, (s16)client, (u8 *)position) {
-    m_name = TWindowSimpleStatus__name;
+    m_name = TWindowSimpleStatus::class_name;
     client_index = (s16)client;
-    m_60 = 0;
+    shake_ticks = 0;
     m_58 = -1.0f;
     for (s32 i = 0; i < 5; i++) {
         w[i] = NULL;
@@ -577,6 +523,4 @@ TWindowSimpleStatus::TWindowSimpleStatus(void *position, s32 client, u8 *descrip
 
 TWindowSimpleStatus *TWindowSimpleStatus::create(void *position, s32 client) {
     return new TWindowSimpleStatus(position, client, (u8 *)&simple_status_window_layout);
-}
-
 }

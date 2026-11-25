@@ -35,15 +35,15 @@ struct TChCrLoadAfsTextureReq : public TObject {
     s32 m_28;
     s32 state;
     NJS_TEXLIST *textures;
-    s32 *m_34;
+    s32 *completion_flags;
     uaddr buffers[8];
     s32 count;
     s32 index;
     AdxfHandle *load_handle;
-    s32 m_64;
-    s32 m_68;
-    s32 m_6c;
-    s32 m_70;
+    s32 timeout_frames;
+    s32 holds_load_slot;
+    s32 completion_mask;
+    s32 display_index;
     u8 m_74[8][0x24];
 };
 

@@ -5,8 +5,8 @@
 
 extern "C" {
 void TMainCursor__sub_8013E310(void *p);
-u8 TMainCursor__sub_8013E338(void *p);
-u8 TMainCursor__sub_8013E358(void *p);
+u8 get_target_palette_slot(void *p);
+u8 get_target_palette_mode(void *p);
 }
 
 

@@ -7,12 +7,12 @@ class TWindowDD_WS_Word;
 
 // --- C functions defined in TWindowDD_80341A08.cpp ---
 extern "C" {
-void TWindowDD__sub_80341AE0(u8 *arg0);
-void TWindowDD__sub_80341AF8(u8 *arg0);
-s16 TWindowDD__sub_8034214C(u8 *child);
+void hide_word_select_selection(u8 *arg0);
+void show_word_select_selection(u8 *arg0);
+s16 get_word_select_list_id(u8 *child);
 int get_word_select_selected_id(const TWindowDD_WS_Word *window_dd);
-s32 TWindowDD__sub_8034217C(u8 *arg0);
-saddr TWindowDD__sub_80342384(s32 element_list, s32 rows);
+s32 get_word_select_first_visible_index(u8 *arg0);
+saddr create_word_select_child(s32 element_list, s32 rows);
 }
 // --- end of C functions
 

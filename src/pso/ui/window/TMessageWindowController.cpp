@@ -143,7 +143,7 @@ char *TMessageWindowController::parse_message_text(const char *source, char *des
 }
 s32 TMessageWindowController::is_ready() {
     TWindowMessagePage *current = window;
-    if (current != NULL) return ((TWindowMessagePage *)current)->is_ready();
+    if (current != NULL) return current->is_ready();
     return 1;
 }
 void TMessageWindowController::send_message(s32 index, s32 flags) {

@@ -30,13 +30,13 @@ struct TWindowHelpItem : public TWindowBase
     u8 _pad61[0x3];
     PageIndicator *page_indicator;
     TItemData *active_item;
-    u32 m_6c;
-    uaddr m_70;
+    u32 secondary_item;
+    uaddr primary_item;
     u8 _pad74[0x14];
     TItemData displayed_item;
-    u32 m_9c;
-    u32 m_a0;
-    u32 m_a4;
+    u32 active_id;
+    u32 secondary_id;
+    u32 primary_id;
     f32 scale_x;
     f32 scale_y;
     struct CallbackWords { u32 words[3]; } m_callback;
@@ -60,8 +60,8 @@ struct TWindowHelpItem : public TWindowBase
     void set_flag0_bit20();
     void update_visible_flags();
     static void draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent);
-    static void set_flag_0x10(u16 *arg0, s32 arg1);
-    void set_flag8_and_field20(s32 arg1);
+    static void set_flag_0x10(u16 *flags, s32 on);
+    void set_flag8_and_field20(s32 next_value);
     void set_compare_color(s32 count);
     void set_flag4_and_field1c(s32 count);
     void set_help_text(uaddr str);
@@ -70,8 +70,8 @@ struct TWindowHelpItem : public TWindowBase
     void format_description_with_price();
     void refresh_copied_items();
     static void update_stat_disp2(void *window_base);
-    static void tick_display_timer(void *arg0);
-    static void *destroy(void *arg0, s16 arg1);
+    static void tick_display_timer(void *row);
+    static void *destroy(void *row, s16 flags);
 };
 
 LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);

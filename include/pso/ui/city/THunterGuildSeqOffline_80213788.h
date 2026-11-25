@@ -21,10 +21,10 @@ struct THunterGuildSeqOnline_Client : public TShopSequence {
     void update_shop_close();
     void update_close_shop();
     void handle_close();
-    void sub_80213B18();
-    void sub_80213980();
+    void open_greeting();
+    void resolve_active_quest_result();
     TObject *counter_camera;  // 0x2C: set_service_counter_camera
-    s32 pad_30;
+    s32 check_step;
     s32 exit_action;  // 1: close_window leaves through the fade-out; 0 and 2 just close
     TQuestThread *quest_thread;    // 0x38: TQuestThread::create_in_root
     TWindowMenu *choice_menu; // 0x3C: create_yes_no_window
@@ -39,19 +39,19 @@ struct THunterGuildSeqOnline_Server : public TShopSequence {
     void restore_player_state();
     void close_window();
     void init_window();
-    void sub_802145F8();
-    void sub_80214058();
+    void handle_party_check();
+    void open_quest_list();
     void update_confirm_input();
     void update();
     void create_judgment_item_window();
-    void sub_80214254();
+    void handle_judgment_choice();
     void confirm_and_close_if_valid();
     TObject *counter_camera;  // 0x2C: set_service_counter_camera
-    s32 pad_30;
+    s32 check_step;
     s32 exit_action;  // 1: close_window leaves through the fade-out; 0 and 2 just close
     TWindowMenu *choice_menu; // 0x38: create_yes_no_window
     TObject *quest_thread;    // 0x3C: TQuestThread::create_in_root
-    s32 pad_40;
+    s32 message_pending;
 };
 
 LAYOUT_ASSERT(THunterGuildSeqOnline_Server_size, sizeof(THunterGuildSeqOnline_Server) == 0x44);
@@ -66,7 +66,7 @@ void reset_random_enemies_mode(TObject *fade);
 
 // --- C functions defined in THunterGuildSeqOffline_80213788.cpp ---
 extern "C" {
-void THunterGuildSeqOffline__sub_80213CA4(void);
+void clear_online_client_instance_table(void);
 void THunterGuildSeqOffline__sub_80213E64(void);
 void THunterGuildSeqOffline__sub_80213EBC(void);
 void THunterGuildSeqOffline__sub_80213F78(void);

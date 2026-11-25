@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void TWindowSubSymbolChat__sub_80077704(void *p);
+void init_symbol_chat_header(void *p);
 }
 
 // --- C functions defined in TWindowSubSymbolChat_8007763C.cpp ---
 extern "C" {
-void TWindowSubSymbolChat__sub_80077704(void *p);
+void init_symbol_chat_header(void *p);
 }
 // --- end of C functions
 

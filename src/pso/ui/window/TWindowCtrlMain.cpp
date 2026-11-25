@@ -51,19 +51,19 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
-const char *TWindowCtrlMain__name = "TWindowCtrlMain";
-const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
-const char *TWindowCtrlSub__name = "TWindowCtrlSub";
-const char *TWindowCtrlClipOut__name = "TWindowCtrlClipOut";
-const char *TWindowCtrlPlayer__name = "TWindowCtrlPlayer";
+const char *window_ctrl_main_class_name = "TWindowCtrlMain";
+const char *window_ctrl_screen_class_name = "TWindowCtrlScreen";
+const char *window_ctrl_sub_class_name = "TWindowCtrlSub";
+const char *window_ctrl_clip_out_class_name = "TWindowCtrlClipOut";
+const char *window_ctrl_player_class_name = "TWindowCtrlPlayer";
 
 // width, height of the player message window (TLobby__sub_80269DA4 stores it as the window size)
 const f32 lbl_8044EC4C[2] = {255.0f, 120.0f};
 s32 TWindowCtrlMain::display_flags;
-TObject *TWindowCtrlMain__instance;
+TObject *TWindowCtrlMain::instance;
 TObject *TWindowCtrlMain::window_task_root;
-TWindowCtrlScreen *TWindowCtrlMain__screen_controller;
-TWindowCtrlSub *TWindowCtrlMain__sub_controller;
+TWindowCtrlScreen *TWindowCtrlMain::screen_controller;
+TWindowCtrlSub *TWindowCtrlMain::sub_controller;
 TWindowCtrlClipOut *window_clip_out_instance;
 f32 window_depth_order_cursor;
 extern TObject *tl_01;
@@ -75,9 +75,8 @@ struct VObj_8024C820 {
     virtual void m0(int);
 };
 extern "C" void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index);
-struct Ent_8024CCDC { u8 p0[8]; f32 f8; f32 fC; u8 p10[0xC]; };
+WindowControlState TWindowCtrlMain::viewport_states[6];
 extern "C" {
-WindowControlState TWindowCtrlMain__viewport_states[6];
 struct Poly_8024CE68 {
     NJS_POINT2 *verts;
     u32 *colors;
@@ -88,7 +87,7 @@ struct Poly_8024CE68 {
 extern "C" s32 fn_8002AE08(s32 client_id);
 
 TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 client_id) : TObject(parent) {
-    m_name = TWindowCtrlPlayer__name;
+    m_name = window_ctrl_player_class_name;
     flags = 0;
     open_timer = 0;
     countdown = 0;
@@ -392,13 +391,13 @@ void TWindowCtrlMain::reset_all(void* _w0) {
     WindowDrawContext::get_or_create_instance();
     TWindowCtrlMain::display_flags = 0;
     TWindowCtrlMain::window_task_root = NULL;
-    TWindowCtrlMain__screen_controller = NULL;
-    TWindowCtrlMain__sub_controller = NULL;
+    TWindowCtrlMain::screen_controller = NULL;
+    TWindowCtrlMain::sub_controller = NULL;
     window_clip_out_instance = NULL;
-    TWindowCtrlMain__instance = NULL;
+    TWindowCtrlMain::instance = NULL;
     window_depth_order_cursor = -1.5999999f;
     for (i = 0; i < 6; i++) {
-        ((TWindowCtrlMain *)(&TWindowCtrlMain__viewport_states[i]))->init_fields();
+        TWindowCtrlMain::viewport_states[i].init();
     }
 }
 
@@ -411,20 +410,20 @@ void TWindowCtrlMain::free_all_windows() {
         delete window_clip_out_instance;
         window_clip_out_instance = NULL;
     }
-    if (TWindowCtrlMain__sub_controller != NULL) {
-        delete TWindowCtrlMain__sub_controller;
-        TWindowCtrlMain__sub_controller = NULL;
+    if (TWindowCtrlMain::sub_controller != NULL) {
+        delete TWindowCtrlMain::sub_controller;
+        TWindowCtrlMain::sub_controller = NULL;
     }
-    if (TWindowCtrlMain__screen_controller != NULL) {
-        delete TWindowCtrlMain__screen_controller;
-        TWindowCtrlMain__screen_controller = NULL;
+    if (TWindowCtrlMain::screen_controller != NULL) {
+        delete TWindowCtrlMain::screen_controller;
+        TWindowCtrlMain::screen_controller = NULL;
     }
     for (i = 5; i >= 0; i--) {
-        TWindowCtrlMain::release_ptr((void **)&TWindowCtrlMain__viewport_states[i].window_root);
+        TWindowCtrlMain::release_ptr((void **)&TWindowCtrlMain::viewport_states[i].window_root);
     }
-    if (TWindowCtrlMain__instance != NULL) {
-        delete TWindowCtrlMain__instance;
-        TWindowCtrlMain__instance = NULL;
+    if (TWindowCtrlMain::instance != NULL) {
+        delete TWindowCtrlMain::instance;
+        TWindowCtrlMain::instance = NULL;
     }
     if (root != NULL) {
         delete root;
@@ -436,23 +435,23 @@ void TWindowCtrlMain::free_all_windows() {
 TWindowCtrlMain::TWindowCtrlMain() : TObject(tl_fadeafter) {
     WindowControlState *e;
     s32 i;
-    m_name = TWindowCtrlMain__name;
+    m_name = window_ctrl_main_class_name;
     if (TWindowCtrlMain::window_task_root == NULL) {
         TWindowCtrlMain::window_task_root = new TObject(NULL);
     }
-    if (TWindowCtrlMain__instance == NULL) {
-        TWindowCtrlMain__instance = new TObject(TWindowCtrlMain::window_task_root);
+    if (TWindowCtrlMain::instance == NULL) {
+        TWindowCtrlMain::instance = new TObject(TWindowCtrlMain::window_task_root);
     }
     for (i = 0; i < 6; i++) {
-        e = &TWindowCtrlMain__viewport_states[i];
-        ((TWindowCtrlMain *)e)->init_fields();
+        e = &TWindowCtrlMain::viewport_states[i];
+        e->init();
         e->window_root = new TObject(TWindowCtrlMain::window_task_root);
     }
-    if (TWindowCtrlMain__screen_controller == NULL) {
-        TWindowCtrlMain__screen_controller = new TWindowCtrlScreen(tl_window);
+    if (TWindowCtrlMain::screen_controller == NULL) {
+        TWindowCtrlMain::screen_controller = new TWindowCtrlScreen(tl_window);
     }
-    if (TWindowCtrlMain__sub_controller == NULL) {
-        TWindowCtrlMain__sub_controller = new TWindowCtrlSub(tl_01);
+    if (TWindowCtrlMain::sub_controller == NULL) {
+        TWindowCtrlMain::sub_controller = new TWindowCtrlSub(tl_01);
     }
     if (window_clip_out_instance == NULL) {
         window_clip_out_instance = new TWindowCtrlClipOut(tl_clipout);
@@ -468,20 +467,20 @@ TWindowCtrlMain::~TWindowCtrlMain() {
         delete window_clip_out_instance;
         window_clip_out_instance = NULL;
     }
-    if (TWindowCtrlMain__sub_controller != NULL) {
-        delete TWindowCtrlMain__sub_controller;
-        TWindowCtrlMain__sub_controller = NULL;
+    if (TWindowCtrlMain::sub_controller != NULL) {
+        delete TWindowCtrlMain::sub_controller;
+        TWindowCtrlMain::sub_controller = NULL;
     }
-    if (TWindowCtrlMain__screen_controller != NULL) {
-        delete TWindowCtrlMain__screen_controller;
-        TWindowCtrlMain__screen_controller = NULL;
+    if (TWindowCtrlMain::screen_controller != NULL) {
+        delete TWindowCtrlMain::screen_controller;
+        TWindowCtrlMain::screen_controller = NULL;
     }
     for (i = 5; i >= 0; i--) {
-        TWindowCtrlMain::release_ptr((void **)&TWindowCtrlMain__viewport_states[i].window_root);
+        TWindowCtrlMain::release_ptr((void **)&TWindowCtrlMain::viewport_states[i].window_root);
     }
-    if (TWindowCtrlMain__instance != NULL) {
-        delete TWindowCtrlMain__instance;
-        TWindowCtrlMain__instance = NULL;
+    if (TWindowCtrlMain::instance != NULL) {
+        delete TWindowCtrlMain::instance;
+        TWindowCtrlMain::instance = NULL;
     }
     if (root != NULL) {
         delete root;
@@ -505,7 +504,7 @@ void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
     u32 colors[4];
     u32 color;
 
-    color = get_window_control_state(viewport_index)->field04;
+    color = get_window_control_state(viewport_index)->fill_color;
     if (color == 0) {
         return;
     }
@@ -545,7 +544,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     u32 c;
 
     s = get_window_control_state(viewport_index);
-    alpha = s->field08;
+    alpha = s->backdrop_alpha;
     if (alpha <= 0.0f) {
         return;
     }
@@ -559,44 +558,44 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     colors[3] = 0xFF000000;
     verts[0].x = 0.0f;
     verts[0].y = 0.0f;
-    verts[1].x = 0.5f * s->field0C;
+    verts[1].x = 0.5f * s->left;
     verts[1].y = 0.0f;
-    verts[2].x = 0.5f * s->field0C;
+    verts[2].x = 0.5f * s->left;
     verts[2].y = 480.0f;
     verts[3].x = 0.0f;
     verts[3].y = 480.0f;
     reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
-    verts[0].x = 0.5f * s->field0C;
-    verts[0].y = 480.0f - 0.5f * (480.0f - s->field18);
+    verts[0].x = 0.5f * s->left;
+    verts[0].y = 480.0f - 0.5f * (480.0f - s->bottom);
     verts[1].x = 640.0f;
-    verts[1].y = 480.0f - 0.5f * (480.0f - s->field18);
+    verts[1].y = 480.0f - 0.5f * (480.0f - s->bottom);
     verts[2].x = 640.0f;
     verts[2].y = 480.0f;
-    verts[3].x = 0.5f * s->field0C;
+    verts[3].x = 0.5f * s->left;
     verts[3].y = 480.0f;
     reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
     colors[2] = 0;
     colors[3] = 0;
-    verts[0].x = 0.5f * s->field0C;
+    verts[0].x = 0.5f * s->left;
     verts[0].y = 0.0f;
-    verts[1].x = 0.5f * s->field0C;
-    verts[1].y = 480.0f - 0.5f * (480.0f - s->field18);
-    verts[2].x = s->field0C;
-    verts[2].y = 480.0f - 0.5f * (480.0f - s->field18);
-    verts[3].x = s->field0C;
+    verts[1].x = 0.5f * s->left;
+    verts[1].y = 480.0f - 0.5f * (480.0f - s->bottom);
+    verts[2].x = s->left;
+    verts[2].y = 480.0f - 0.5f * (480.0f - s->bottom);
+    verts[3].x = s->left;
     verts[3].y = 0.0f;
     reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
-    verts[0].x = 0.5f * s->field0C;
-    verts[0].y = 480.0f - 0.5f * (480.0f - s->field18);
+    verts[0].x = 0.5f * s->left;
+    verts[0].y = 480.0f - 0.5f * (480.0f - s->bottom);
     verts[1].x = 640.0f;
-    verts[1].y = 480.0f - 0.5f * (480.0f - s->field18);
+    verts[1].y = 480.0f - 0.5f * (480.0f - s->bottom);
     verts[2].x = 640.0f;
-    verts[2].y = s->field18;
-    verts[3].x = 0.5f * s->field0C;
-    verts[3].y = s->field18;
+    verts[2].y = s->bottom;
+    verts[3].x = 0.5f * s->left;
+    verts[3].y = s->bottom;
     reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
     begin_screen_draw(1);
@@ -604,10 +603,10 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     a = (s32)(255.0f * alpha) << 24;
     set_draw_texture_and_color(11, a | 0xFFFFFF);
 
-    for (y = s->field18; y > 0.0f; y -= 16.0f) {
+    for (y = s->bottom; y > 0.0f; y -= 16.0f) {
         q.x0 = 0.0f;
         q.y0 = y - 16.0f;
-        q.x1 = s->field0C;
+        q.x1 = s->left;
         q.y1 = y;
         q.u0 = 0.07421875f;
         q.v0 = 0.93359375f;
@@ -615,7 +614,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
         q.v1 = 0.99609375f;
         draw_textured_quad_at_depth((f32 *)&q, 0.1f);
     }
-    for (y = s->field18; y < 480.0f; y += 16.0f) {
+    for (y = s->bottom; y < 480.0f; y += 16.0f) {
         q.x0 = 0.0f;
         q.y0 = y;
         q.x1 = 640.0f;
@@ -626,10 +625,10 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
         q.v1 = 0.99609375f;
         draw_textured_quad_at_depth((f32 *)&q, 0.1f);
     }
-    q.x0 = s->field0C;
-    q.y0 = s->field18 - 16.0f;
-    q.x1 = 16.0f + s->field0C;
-    q.y1 = s->field18;
+    q.x0 = s->left;
+    q.y0 = s->bottom - 16.0f;
+    q.x1 = 16.0f + s->left;
+    q.y1 = s->bottom;
     q.u0 = 0.00390625f;
     q.v0 = 0.93359375f;
     q.u1 = 0.06640625f;
@@ -642,15 +641,15 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     line.tex = NULL;
     line.count = 2;
     lcolors[1] = lcolors[0] = a | 0xEDFF;
-    lverts[0].x = s->field0C;
-    lverts[0].y = s->field10;
-    lverts[1].x = s->field0C;
-    lverts[1].y = s->field18 - 16.0f;
+    lverts[0].x = s->left;
+    lverts[0].y = s->top;
+    lverts[1].x = s->left;
+    lverts[1].y = s->bottom - 16.0f;
     draw_color_lines(&line, 2, 4, -10.0f);
-    lverts[0].x = 16.0f + s->field0C;
-    lverts[0].y = s->field18;
-    lverts[1].x = s->field14;
-    lverts[1].y = s->field18;
+    lverts[0].x = 16.0f + s->left;
+    lverts[0].y = s->bottom;
+    lverts[1].x = s->right;
+    lverts[1].y = s->bottom;
     draw_color_lines(&line, 2, 4, -10.0f);
 }
 #pragma pop
@@ -665,41 +664,41 @@ s32 is_window_display_enabled(void) {
 }
 
 TObject *TWindowCtrlMain__sub_8024CE34(void) {
-    return TWindowCtrlMain__viewport_states[4].window_root;
+    return TWindowCtrlMain::viewport_states[4].window_root;
 }
 
 TObject *TWindowCtrlMain__sub_8024CE24(void) {
-    return TWindowCtrlMain__viewport_states[5].window_root;
+    return TWindowCtrlMain::viewport_states[5].window_root;
 }
 
 TObject *get_viewport_window_root(s32 viewport_index) {
     if (is_split_screen() != 0) {
-        return TWindowCtrlMain__viewport_states[viewport_index].window_root;
+        return TWindowCtrlMain::viewport_states[viewport_index].window_root;
     }
-    return TWindowCtrlMain__viewport_states[0].window_root;
+    return TWindowCtrlMain::viewport_states[0].window_root;
 }
 
 TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return get_viewport_window_root((saddr)p); }
 
-void TWindowCtrlMain::set_value(s32 viewport_index, s32 arg1) {
-    get_window_control_state(viewport_index)->field04 = arg1;
+void TWindowCtrlMain::set_fill_color(s32 viewport_index, s32 color) {
+    get_window_control_state(viewport_index)->fill_color = color;
 }
 
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index) {
-    return get_window_control_state(viewport_index)->field04;
+    return get_window_control_state(viewport_index)->fill_color;
 }
 
 void TWindowCtrlMain::update_fade_alphas() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        Ent_8024CCDC *e = &((Ent_8024CCDC *)&TWindowCtrlMain__viewport_states)[i];
+        WindowControlState *e = &TWindowCtrlMain::viewport_states[i];
         f32 *q;
-        if (e->fC >= 0.1f) {
-            e->f8 += 0.09f;
+        if (e->left >= 0.1f) {
+            e->backdrop_alpha += 0.09f;
         } else {
-            e->f8 -= 0.09f;
+            e->backdrop_alpha -= 0.09f;
         }
-        q = &e->f8;
+        q = &e->backdrop_alpha;
         if (*q > 1.0f) {
             *q = 1.0f;
         }
@@ -711,33 +710,33 @@ void TWindowCtrlMain::update_fade_alphas() {
 
 WindowControlState* get_window_control_state(s32 viewport_index) {
     if (is_split_screen()) {
-        return &TWindowCtrlMain__viewport_states[viewport_index];
+        return &TWindowCtrlMain::viewport_states[viewport_index];
     }
-    return TWindowCtrlMain__viewport_states;
+    return TWindowCtrlMain::viewport_states;
 }
 
-void TWindowCtrlMain::set_depth(f32 value, s32 viewport_index) {
-    get_window_control_state(viewport_index)->field0C = value;
+void TWindowCtrlMain::set_left(f32 value, s32 viewport_index) {
+    get_window_control_state(viewport_index)->left = value;
 }
 
-void TWindowCtrlMain::set_field18(f32 value, s32 viewport_index) {
-    get_window_control_state(viewport_index)->field18 = value;
+void TWindowCtrlMain::set_bottom(f32 value, s32 viewport_index) {
+    get_window_control_state(viewport_index)->bottom = value;
 }
 
-f32 TWindowCtrlMain::get_position_z(s32 viewport_index) {
-    return get_window_control_state(viewport_index)->field0C;
+f32 TWindowCtrlMain::get_left(s32 viewport_index) {
+    return get_window_control_state(viewport_index)->left;
 }
 
-f32 TWindowCtrlMain::get_field10(s32 viewport_index) {
-    return get_window_control_state(viewport_index)->field10;
+f32 TWindowCtrlMain::get_top(s32 viewport_index) {
+    return get_window_control_state(viewport_index)->top;
 }
 
-f32 TWindowCtrlMain::get_ctrl_field14(s32 viewport_index) {
-    return get_window_control_state(viewport_index)->field14;
+f32 TWindowCtrlMain::get_right(s32 viewport_index) {
+    return get_window_control_state(viewport_index)->right;
 }
 
-f32 TWindowCtrlMain::get_field_18(s32 viewport_index) {
-    return get_window_control_state(viewport_index)->field18;
+f32 TWindowCtrlMain::get_bottom(s32 viewport_index) {
+    return get_window_control_state(viewport_index)->bottom;
 }
 
 void TWindowCtrlMain__sub_8024CB8C() {
@@ -753,11 +752,11 @@ f32 TWindowCtrlMain::get_scale() {
 }
 
 TWindowCtrlScreen::TWindowCtrlScreen(TObject *parent) : TObject(parent) {
-    m_name = TWindowCtrlScreen__name;
+    m_name = window_ctrl_screen_class_name;
 }
 
 TWindowCtrlScreen::~TWindowCtrlScreen() {
-    TWindowCtrlMain__screen_controller = NULL;
+    TWindowCtrlMain::screen_controller = NULL;
 }
 
 void TWindowCtrlScreen::render() {
@@ -766,7 +765,7 @@ void TWindowCtrlScreen::render() {
         viewport_index = (s32)TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no());
         set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
-        TWindowCtrlMain__instance->render_nodes();
+        TWindowCtrlMain::instance->render_nodes();
         TWindowCtrlMain__sub_8024D2A4(viewport_index);
         TCameraCtrl::restore_full_screen_view();
         draw_menu_backdrop_gradients(viewport_index);
@@ -777,11 +776,11 @@ void TWindowCtrlScreen::render() {
 }
 
 TWindowCtrlSub::TWindowCtrlSub(TObject *parent) : TObject(parent) {
-    m_name = TWindowCtrlSub__name;
+    m_name = window_ctrl_sub_class_name;
 }
 
 TWindowCtrlSub::~TWindowCtrlSub() {
-    TWindowCtrlMain__sub_controller = NULL;
+    TWindowCtrlMain::sub_controller = NULL;
 }
 
 void TWindowCtrlSub::run_task() {
@@ -791,7 +790,7 @@ void TWindowCtrlSub::run_task() {
 }
 
 TWindowCtrlClipOut::TWindowCtrlClipOut(TObject *parent) : TObject(parent) {
-    m_name = TWindowCtrlClipOut__name;
+    m_name = window_ctrl_clip_out_class_name;
 }
 
 TWindowCtrlClipOut::~TWindowCtrlClipOut() {
@@ -809,7 +808,15 @@ void TWindowCtrlClipOut::render() {
     }
 }
 
-void TWindowCtrlMain::init_fields() { *(int *)&this->m_name = 0; *(int *)&this->m_flags = 0; *(float *)&this->m_prev = 0.0f; *(float *)&this->m_next = 0.0f; *(float *)&this->m_up = 0.0f; *(float *)&this->m_down = 640.0f; *(float*)((char*)this + 0x18) = 480.0f; }
+void WindowControlState::init() {
+    window_root = NULL;
+    fill_color = 0;
+    backdrop_alpha = 0.0f;
+    left = 0.0f;
+    top = 0.0f;
+    right = 640.0f;
+    bottom = 480.0f;
+}
 
 void TWindowCtrlMain::release_ptr(void **arg0) {
     VObj_8024C820 *obj = (VObj_8024C820 *)*arg0;

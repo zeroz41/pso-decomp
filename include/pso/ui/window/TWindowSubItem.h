@@ -6,6 +6,8 @@ struct TWindowMenu;
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+struct TWindowMenu;
+class TWindowInputNumber;
 struct TWindowHelpItem;
 struct TWindowSubItemList;
 struct TObjPlayer;
@@ -20,8 +22,8 @@ struct TWindowSubItem : public TObject {
     s32 amount;
     TWindowMainMenu *parent_menu;
     TWindowSubItemList *item_list;
-    uaddr purpose_menu;
-    uaddr confirm_menu;
+    TWindowMenu *purpose_menu;
+    TWindowMenu *confirm_menu;
     uaddr count_input;
     TWindowHelpItem *help_window;
 
@@ -29,9 +31,9 @@ struct TWindowSubItem : public TObject {
     void set_displayed_item(s32 id);
     void use_selected_item();
     void close_windows(s32 arg1);
-    void exec_item_command(saddr item_id, s32 arg2);
+    void exec_item_command(saddr item_id, s32 command);
     void set_cursor_row_for_mode(s32 mode);
-    static void draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 arg3);
+    static void draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 item_id);
     static void add_meseta_purpose_actions(saddr arg0, TWindowMenu *titled_window_menu);
     s32 create_count_input(s32 maximum);
     s32 create_menu_window();
@@ -39,7 +41,7 @@ struct TWindowSubItem : public TObject {
     virtual void run_task();
     void set_flag60_bit10();
     void clear_flag_and_release();
-    s32 open_purpose_window(s32 arg1);
+    s32 open_purpose_window(s32 item_id);
     static s32 is_usable(TObjPlayer *player);
 };
 

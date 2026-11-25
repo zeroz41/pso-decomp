@@ -27,10 +27,10 @@ RelocatedFile *draw_line_task_resource;
 #else
 #define DRAW_LINE_CONST
 #endif
-DRAW_LINE_CONST extern const f32 lbl_805D7DD8;
-DRAW_LINE_CONST extern const f32 lbl_805D7DDC;
-DRAW_LINE_CONST extern const f32 lbl_805D7DE0;
-DRAW_LINE_CONST extern const f32 lbl_805D7DE4;
+DRAW_LINE_CONST extern const f32 draw_line_one;
+DRAW_LINE_CONST extern const f32 draw_line_zero;
+DRAW_LINE_CONST extern const f32 draw_line_minus_one;
+DRAW_LINE_CONST extern const f32 draw_line_half;
 
 // The TObject and TMainTask accessors whose kept out-of-line copies sit at
 // the end of this file; deferred code generation emits them last.
@@ -43,7 +43,7 @@ void TObject::suspend_update() { m_flags |= SUSPEND_UPDATE; }
 s32 TMainTask::get_render_pass() { return render_pass; }
 
 TAdDrawLineTask *create_draw_line_task(TObject *parent, const DrawLineRecord *record, TAdDrawLineCtrl *controller) {
-    if (record != NULL && lbl_805D7DDC != record->speed) {
+    if (record != NULL && draw_line_zero != record->speed) {
         return new TAdDrawLineTask(parent, record, controller);
     }
     return NULL;
@@ -54,8 +54,8 @@ TAdDrawLineTask::TAdDrawLineTask(TObject *parent, const DrawLineRecord *record, 
     m_name = TAdDrawLineTask__class_name;
     controller = ctrl;
     copy_draw_line_record(&line, record);
-    line.start.w = lbl_805D7DE0 / line.start.w;
-    line.end.w = lbl_805D7DE0 / line.end.w;
+    line.start.w = draw_line_minus_one / line.start.w;
+    line.end.w = draw_line_minus_one / line.end.w;
     f32 dx = line.end.x - line.start.x;
     f32 dy = line.end.y - line.start.y;
     f32 length = newton_sqrtf(dx * dx + dy * dy);
@@ -72,9 +72,9 @@ TAdDrawLineTask::TAdDrawLineTask(TObject *parent, const DrawLineRecord *record, 
     color_step.channels.alpha = (end_color.channels.alpha - start_color.channels.alpha) / duration;
     color_step.channels.blue = (end_color.channels.blue - start_color.channels.blue) / duration;
     color.value = line.start.color.value;
-    frame = lbl_805D7DDC;
-    f32 normal_x = lbl_805D7DE0 * dy;
-    f32 half_width = line.width * lbl_805D7DE4;
+    frame = draw_line_zero;
+    f32 normal_x = draw_line_minus_one * dy;
+    f32 half_width = line.width * draw_line_half;
     half_width_x = normal_x * half_width / length;
     half_width_y = dx * half_width / length;
     vertices[0].x = line.start.x + half_width_x;
@@ -94,7 +94,7 @@ TAdDrawLineTask::~TAdDrawLineTask() {}
 
 void TAdDrawLineTask::run_task() {
     allow_rendering();
-    if (lbl_805D7DD8 + frame < duration) {
+    if (draw_line_one + frame < duration) {
         color.channels.green += color_step.channels.green;
         color.channels.red += color_step.channels.red;
         color.channels.alpha += color_step.channels.alpha;
@@ -107,7 +107,7 @@ void TAdDrawLineTask::run_task() {
         vertices[3].y += step_y;
         vertices[3].w += step_w;
         vertices[3].color.value = color.value;
-        frame += lbl_805D7DD8;
+        frame += draw_line_one;
         return;
     }
     vertices[2].x = line.end.x + half_width_x;
@@ -130,13 +130,13 @@ void TAdDrawLineTask::render() {
 }
 
 void TAdDrawLineTask::set_depth(f32 depth) {
-    if (lbl_805D7DDC == depth) {
+    if (draw_line_zero == depth) {
         return;
     }
-    f32 reciprocal = lbl_805D7DE0 / depth;
+    f32 reciprocal = draw_line_minus_one / depth;
     line.start.w = reciprocal;
     line.end.w = reciprocal;
-    step_w = lbl_805D7DDC;
+    step_w = draw_line_zero;
     for (s32 i = 0; i < 4; i++) {
         vertices[i].w = reciprocal;
     }
@@ -206,7 +206,7 @@ void TAdDrawLineCtrl::render() {
 
 void TAdDrawLineCtrl::start_line(s32 index) {
     TAdDrawLineTask *task = create_draw_line_task(child_root, &line_data->lines[index], this);
-    if (task != NULL && lbl_805D7DDC != line_depth) {
+    if (task != NULL && draw_line_zero != line_depth) {
         task->set_depth(line_depth);
     }
 }
@@ -236,8 +236,8 @@ void copy_line_vertex(void *destination, void *source) {
     to->color.value = from->color.value;
 }
 
-DRAW_LINE_CONST extern const f32 lbl_805D7DD8 = 1.0f;
-DRAW_LINE_CONST extern const f32 lbl_805D7DDC = 0.0f;
-DRAW_LINE_CONST extern const f32 lbl_805D7DE0 = -1.0f;
-DRAW_LINE_CONST extern const f32 lbl_805D7DE4 = 0.5f;
+DRAW_LINE_CONST extern const f32 draw_line_one = 1.0f;
+DRAW_LINE_CONST extern const f32 draw_line_zero = 0.0f;
+DRAW_LINE_CONST extern const f32 draw_line_minus_one = -1.0f;
+DRAW_LINE_CONST extern const f32 draw_line_half = 0.5f;
 #undef DRAW_LINE_CONST

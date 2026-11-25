@@ -16,13 +16,13 @@ LAYOUT_ASSERT(OnlineQuestFile_size_offset, offsetof(TRecvDownloadHead, file_size
 extern "C" {
 extern OnlineQuestMenu *quest_list_online_quest_list_buffer;
 extern OnlineQuestInfo *quest_list_online_selected_quest_info;
-extern TWindowMessage *TQuestListOnline__download_window;
-extern TWindowMessage *TQuestListOnline__quest_info_window;
-extern TWindowMessage *TQuestListOnline__download_barrier_window;
+extern TWindowMessage *online_quest_download_window;
+extern TWindowMessage *online_quest_info_window;
+extern TWindowMessage *online_quest_download_barrier_window;
 }
 // Set once the quest's .bin / .dat file has fully arrived.
-extern int TQuestListOnline__bin_download_complete;
-extern int TQuestListOnline__dat_download_complete;
+extern int online_quest_bin_download_complete;
+extern int online_quest_dat_download_complete;
 // Byte counts behind the download progress graph.
 extern s32 quest_download_received_bytes;
 extern s32 quest_download_graph_current_bytes;

@@ -7,7 +7,7 @@ struct SymbolChatPreset;
 
 struct TWindowSubSymbolChat;
 extern "C" {
-SymbolChatPreset *TWindowSubSymbolChat__sub_8028379C(void);
+SymbolChatPreset *get_symbol_chat_receive_buffer(void);
 }
 
 #endif

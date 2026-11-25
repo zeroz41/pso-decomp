@@ -25,14 +25,14 @@ struct TShopDeleteItemWindow : public TShopWindowBase {
     TWindowInputNumber *number_input;   // how many of a stacked tool to delete
     TWindowHelpItem *help_window;
     TItemData displayed_item_colored;   // the selected item
-    u8 pad_54;
+    u8 unused_54;
     u8 _pad55[0x3];
     s32 room_table_entry;
     s32 delete_count;
     s32 last_cursor;                    // the entry the help window shows
     TShopWindowBase *sequence;          // the bank sequence that opened it; messages go to it
     void destroy();
-    static void update_item_select(void *arg0);
+    static void update_item_select(void *window_ptr);
     void handle_number_input();
     void handle_confirm_dialog();
 };

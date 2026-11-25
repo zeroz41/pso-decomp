@@ -10,6 +10,7 @@ struct TWindowUserSort : public TWindowBase {
     TWindowUserSort(saddr arg1, GuildCardRecord *record);
     virtual void render();
     virtual ~TWindowUserSort();
+    static const char *class_name;
     GuildCardRecord *m_60;
     virtual void run_task();
 };

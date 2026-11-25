@@ -139,29 +139,15 @@ void ItemListRow::update_stat_line_if_positive(s32 count) {
     }
 }
 
-struct VBase18B_802582c4_80257784 { char pad[0x18]; };
-struct VObj18B_802582c4_80257784 : VBase18B_802582c4_80257784 {
-    virtual void vpad0(); virtual void vpad1(); virtual void vpad2(); virtual void vpad3();
-    virtual void vpad4(); virtual void vpad5(); virtual void vpad6(); virtual void vpad7();
-    virtual void vpad8(); virtual void vpad9(); virtual void vpad10(); virtual void vpad11();
-    virtual void vpad12(); virtual void vpad13(); virtual void vpad14(); virtual void vpad15();
-    virtual void vpad16(); virtual void vpad17(); virtual void vpad18(); virtual void vpad19();
-    virtual void vpad20(); virtual void vpad21(); virtual void vpad22(); virtual void vpad23();
-    virtual void vpad24(); virtual void vpad25(); virtual void vpad26(); virtual void vpad27();
-    virtual void vpad28(); virtual void vpad29(); virtual void vpad30(); virtual void vpad31();
-    virtual void vpad32();
-    virtual s32 vm8C();
-};
-
 extern const f32 lbl_805DCF04;
 extern const f32 lbl_805DCF08;
 
 void ItemListRow::update_item_icon_colors(void *item) {
     s16 sp8;
-    s32 temp_r26;
-    s32 temp_r27;
+    s32 item_flags;
+    s32 equip_requirements;
     s32 usable_action_flags;
-    s32 temp_r28_2;
+    s32 identified;
     saddr player;
 
     if (((TItem *)item)->is_wrapped() != 0) {
@@ -170,20 +156,20 @@ void ItemListRow::update_item_icon_colors(void *item) {
     }
     player = (saddr)get_player_by_client_id(this->client);
     if (player != 0) {
-        temp_r26 = ((TItem *)item)->test_item_flags(8);
+        item_flags = ((TItem *)item)->test_item_flags(8);
         usable_action_flags = ((TItem *)item)->get_usable_action_flags(0x10, (TObjPlayer *)player);
-        temp_r27 = ((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8));
-        temp_r28_2 = ((VObj18B_802582c4_80257784 *) item)->vm8C();
+        equip_requirements = ((TItem *)item)->check_equip_requirements((TObjPlayer *)player, (&sp8));
+        identified = ((TItem *) item)->is_identified();
         if (usable_action_flags != 0) {
-            if (temp_r26 != 0) {
+            if (item_flags != 0) {
                 this->status_icon = 0x30;
             } else {
                 this->status_icon = 0x2F;
             }
-        } else if (temp_r26 != 0) {
+        } else if (item_flags != 0) {
             this->status_icon = 0xC;
         } else {
-            if ((temp_r28_2 == 0) && (((TItem *)item)->is_rare_item() != 0)) {
+            if ((identified == 0) && (((TItem *)item)->is_rare_item() != 0)) {
                 this->status_icon = 0x19;
             } else if (sp8 & 1) {
                 this->status_icon = 0x13;
@@ -192,12 +178,12 @@ void ItemListRow::update_item_icon_colors(void *item) {
             }
             this->status_style = -1;
         }
-        if (temp_r28_2 == 0) {
+        if (identified == 0) {
             this->category_style = -1;
             this->style = 0xFF00FFFC;
             return;
         }
-        if (temp_r27 != 0) {
+        if (equip_requirements != 0) {
             this->category_style = -1;
             if (((TItem *)item)->is_custom_name_srank() != 0) {
                 this->style = 0xFFFE3C28;
@@ -234,8 +220,8 @@ void ItemListRow::update_item_icon_colors(void *item) {
 
 void ItemListRow::update_item_colors(saddr item) {
     s32 requirement;
-    s32 temp_r29;
-    s32 temp_r30;
+    s32 equip_requirements;
+    s32 item_flags;
     saddr player;
 
     if (TItemData::is_wrapped((void *)item) != 0) {
@@ -244,22 +230,22 @@ void ItemListRow::update_item_colors(saddr item) {
     }
     player = (saddr)get_player_by_client_id(this->client);
     if (player != 0) {
-        temp_r29 = check_equip_requirements((void *)player, (TItemData *)item, &requirement);
-        temp_r30 = ((TItemData *)item)->check_item_flags();
+        equip_requirements = check_equip_requirements((void *)player, (TItemData *)item, &requirement);
+        item_flags = ((TItemData *)item)->check_item_flags();
         if ((u8) this->status_icon == 0x33) {
-            if ((temp_r30 == 0) && (TItemData::is_rare_item((u8 *)item) != 0)) {
+            if ((item_flags == 0) && (TItemData::is_rare_item((u8 *)item) != 0)) {
                 this->status_icon = 0x19U;
             } else if (requirement & 1) {
                 this->status_icon = 0x13U;
             }
             this->status_style = -1;
         }
-        if (temp_r30 == 0) {
+        if (item_flags == 0) {
             this->category_style = -1;
             this->style = 0xFF00FFFC;
             return;
         }
-        if (temp_r29 != 0) {
+        if (equip_requirements != 0) {
             this->category_style = -1;
             if (TItemData::is_custom_name_srank((u8 *)item) != 0) {
                 this->style = 0xFFFE3C28;
@@ -294,8 +280,8 @@ void ItemListRow::update_item_colors(saddr item) {
     }
 }
 
-void ItemListRow::select_item_icon(s32 item_data, u8 arg2, u8 arg3, s32 arg4) {
-    if (arg4 != 0) {
+void ItemListRow::select_item_icon(s32 item_data, u8 item_type, u8 item_group, s32 wrapped) {
+    if (wrapped != 0) {
         this->category_icon = 8;
         return;
     }
@@ -310,13 +296,13 @@ void ItemListRow::select_item_icon(s32 item_data, u8 arg2, u8 arg3, s32 arg4) {
         this->category_icon = 2;
         return;
     default:
-        switch ((s32) arg2) {
+        switch ((s32) item_type) {
         case 1:
-            if (arg3 == 3) {
+            if (item_group == 3) {
                 this->category_icon = 4;
                 return;
             }
-            if (arg3 == 2) {
+            if (item_group == 2) {
                 this->category_icon = 0xA;
                 return;
             }
@@ -326,15 +312,15 @@ void ItemListRow::select_item_icon(s32 item_data, u8 arg2, u8 arg3, s32 arg4) {
             this->category_icon = 3;
             return;
         case 3:
-            if (arg3 == 0) {
+            if (item_group == 0) {
                 this->category_icon = 5;
                 return;
             }
-            if (arg3 == 1) {
+            if (item_group == 1) {
                 this->category_icon = 7;
                 return;
             }
-            if (arg3 == 2) {
+            if (item_group == 2) {
                 this->category_icon = 6;
                 return;
             }
@@ -352,69 +338,69 @@ void ItemListRow::select_item_icon(s32 item_data, u8 arg2, u8 arg3, s32 arg4) {
     }
 }
 
-void ItemListRow::setup_entry_msg_d1(s32 arg1) {
+void ItemListRow::setup_entry_msg_d1(s32 item) {
     this->x = (f32) lbl_805DCF04;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
     this->label = (char *)replace_owned_string((s32)((saddr) (TWindowSubStatusDisp::get_message_10(0xD1))), (s32)((int) ((saddr)this->label)), 8, 1);
     this->style = 0xFF909090;
-    this->item = arg1;
+    this->item = item;
     this->flags |= 0xC5;
 }
 
-void ItemListRow::setup_entry_msg_d0(s32 arg1) {
+void ItemListRow::setup_entry_msg_d0(s32 item) {
     this->x = (f32) lbl_805DCF08;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
     this->label = (char *)replace_owned_string((s32)((saddr) (TWindowSubStatusDisp::get_message_10(0xD0))), (s32)((int) ((saddr)this->label)), 8, 1);
     this->style = 0xFF909090;
-    this->item = arg1;
+    this->item = item;
     this->flags |= 0xC5;
 }
 
-void ItemListRow::init_no_item_entry(s32 arg1) {
+void ItemListRow::init_no_item_entry(s32 item) {
     this->x = (f32) lbl_805DCF08;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
     this->label = (char *)replace_owned_string((s32)((saddr) (TWindowSubStatusDisp::get_message_10(0xCF))), (s32)((int) ((saddr)this->label)), 8, 1);
     this->style = 0xFF909090;
-    this->item = arg1;
+    this->item = item;
     this->flags |= 0xC5;
 }
 
-void ItemListRow::init_entry(u8 arg1, u8 arg2, u8 arg3, u32 src, s32 arg5) {
+void ItemListRow::init_entry(u8 status_icon, u8 category_icon, u8 status_style, u32 src, s32 item) {
     this->x = (f32) lbl_805DCF08;
-    this->status_icon = arg1;
-    this->category_icon = arg2;
-    this->status_style = (s32) arg3;
+    this->status_icon = status_icon;
+    this->category_icon = category_icon;
+    this->status_style = (s32) status_style;
     this->category_style = -1;
     this->label = (char *)replace_owned_string(src, (saddr)this->label, 8, 1);
     this->style = -1;
-    this->item = arg5;
+    this->item = item;
     this->flags |= 0x245;
 }
 
-void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 arg1, s32 arg2) {
+void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 value, s32 item) {
     row->x = (f32) lbl_805DCF08;
     row->status_icon = 0x33;
     row->category_icon = 9;
     text_builder_reset();
-    text_builder_append_int(arg1);
+    text_builder_append_int(value);
     text_builder_append((u8 *)((s32 *) (TWindowSubStatusDisp::get_download_server())));
     row->suffix = (char *)row->replace_owned_string((s32)((int) (get_shared_text_buffer())), (s32)((int) ((saddr)row->suffix)), 0x10, 1);
     row->suffix_style = -1;
-    row->item = arg2;
+    row->item = item;
     row->flags |= 0x45;
 }
 
-void ItemListRow::setup_stat_line(s32 src, s32 arg2, s32 arg3) {
+void ItemListRow::setup_stat_line(s32 src, s32 stat, s32 item) {
     this->x = (f32) lbl_805DCF08;
     this->status_icon = 0x33;
     this->category_icon = 0x2D;
     this->label = (char *)replace_owned_string(src, (saddr)this->label, 8, 1);
-    update_stat_line(arg2);
-    this->item = arg3;
-    if (arg2 <= 0) {
+    update_stat_line(stat);
+    this->item = item;
+    if (stat <= 0) {
         this->style = 0xFF909090;
         this->category_style = 0xFFAAAAAA;
         this->flags |= 0xC5;
@@ -440,22 +426,22 @@ void ItemListRow::init_status_entry_by_flag(s32 flag, u32 src, s32 item) {
     this->x = lbl_805DCF04;
 }
 
-void ItemListRow::init_list_entry(u8 icon, s32 src, s32 arg3) {
-    u8 var_r0;
+void ItemListRow::init_list_entry(u8 icon, s32 src, s32 item) {
+    u8 status_icon_value;
 
-    var_r0 = icon;
+    status_icon_value = icon;
     this->x = (f32) lbl_805DCF04;
     if (icon == 0x18) {
-        var_r0 = 0x16;
+        status_icon_value = 0x16;
     }
-    this->status_icon = var_r0;
+    this->status_icon = status_icon_value;
     this->category_icon = 0x33;
     this->status_style = -1;
     this->category_style = -1;
     this->label = (char *)replace_owned_string(src, (saddr)this->label, 8, 1);
     this->style = -1;
     this->suffix_style = -1;
-    this->item = arg3;
+    this->item = item;
     this->flags |= 0x145;
     if (icon == 0x18) {
         this->flags |= 0x80;
@@ -493,8 +479,6 @@ void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
 }
 
 void ItemListRow::update_from_player(void *item, s32 price, s32 index) {
-    s32 temp_r31;
-    s32 temp_r30;
     s32 item_data;
 
     this->x = (f32) lbl_805DCF08;
@@ -510,7 +494,7 @@ void ItemListRow::update_from_player(void *item, s32 price, s32 index) {
     this->item = index;
     this->flags |= 0x45;
 }
-void ItemListRow::init_item_row(TItem *item, s32 arg2) {
+void ItemListRow::init_item_row(TItem *item, s32 index) {
     s32 item_data;
     this->x = (f32) lbl_805DCF08;
     item_data = item->get_icon_index();
@@ -522,7 +506,7 @@ void ItemListRow::init_item_row(TItem *item, s32 arg2) {
     }
     update_item_icon_colors(item);
     this->suffix_style = (s32) this->style;
-    this->item = arg2;
+    this->item = index;
     this->flags |= 0x45;
 }
 
@@ -532,13 +516,13 @@ void ItemListRow::init_item_row(TItem *item, s32 arg2) {
 
 void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
     saddr item_data;
-    saddr temp_r3;
+    saddr wrapped;
 
     this->x = lbl_805DCF08;
     this->status_icon = 51;
     item_data = get_item_data((uaddr)a1);
-    temp_r3 = TItemData::is_wrapped(a1);
-    select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), temp_r3);
+    wrapped = TItemData::is_wrapped(a1);
+    select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), wrapped);
     forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     update_stat_line_if_positive(count);
@@ -584,13 +568,13 @@ void ItemListRow::set_ground_item(void *it, s32 index) {
 
 extern const f32 lbl_805DCF0C;
 
-void ItemListRow::init_display(s32 src, s32 arg2) {
+void ItemListRow::init_display(s32 src, s32 item) {
     this->x = (f32) lbl_805DCF0C;
     this->status_icon = 0x33;
     this->category_icon = 0x33;
     this->label = (char *)replace_owned_string(src, (s32)((saddr)this->label), 8, 1);
     this->style = -1;
-    this->item = arg2;
+    this->item = item;
     this->flags |= 0x45;
 }
 
@@ -710,11 +694,11 @@ void ItemListRow::render(WindowDrawContext *context) {
       }
       if (this->flags & 0x1000)
       {
-        set_text_draw_params(win, 1, 0, (f32)depth, (f32)win->clip_x1);
+        set_text_draw_params(win, 1, 0, depth, (f32)win->clip_x1);
       }
       else
       {
-        set_text_draw_params(win, 1, 1, (f32)depth, (f32)lbl_805DCF28);
+        set_text_draw_params(win, 1, 1, depth, (f32)lbl_805DCF28);
       }
       if (this->flags & 0x400)
       {
@@ -723,7 +707,7 @@ void ItemListRow::render(WindowDrawContext *context) {
       }
       if (this->flags & 0x800)
       {
-        style = TWindowCtrl::get_field24();
+        style = TWindowCtrl::get_pulse_color();
       }
       else
       {

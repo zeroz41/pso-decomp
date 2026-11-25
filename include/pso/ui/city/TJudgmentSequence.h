@@ -26,9 +26,9 @@ LAYOUT_ASSERT(TJudgmentSequence_size, sizeof(TJudgmentSequence) == 0x34);
 
 // --- C functions defined in TJudgmentSequence.cpp ---
 extern "C" {
-void TJudgmentSequence__sub_80215BA0(TShopWindowBase *window);
+void on_judgment_close(TShopWindowBase *window);
 void TJudgmentSequence__sub_80215BCC(TShopWindowBase *window);
-void TJudgmentSequence__sub_80215BF8(TShopWindowBase *window);
+void on_judgment_cancel(TShopWindowBase *window);
 void TJudgmentSequence__sub_80216030(void);
 void TJudgmentSequence__sub_80216058(void);
 }

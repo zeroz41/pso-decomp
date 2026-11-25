@@ -8,42 +8,31 @@
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 
-struct W_80342ED0 {
-    u8 pad0[0x20];
-    s32 idx;
-    s32 ids[(0xB4 - 0x24) / 4];
-    s32 fb4;
-    u8 padb8[0xC6 - 0xB8];
-    s16 fc6;
-    u8 padc8[0x104 - 0xC8];
-    s32 f104;
-};
-
 const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
 
 extern "C" {
 s32 open_numeric_parameter_input__9TWindowDDFPviii(void *, int, int, void *);
 s32 classify_id__9TWindowDDFs();
-s32 TWindowDD__sub_80347CC8(void *, void *);
-s32 TWindowDD__sub_803435A0(void *);
+s32 refresh_word_select_message(void *, void *);
+s32 begin_word_select_state(void *);
 s32 refresh_word_select_child_list();
 s32 is_word_select_cancel_input(void *);
 s32 TWindowDD__sub_80348424(void *, s16);
 s16 TWindowDD__sub_80348448(void *, s32);
 s32 push_recent_id(s32);
-s32 TWindowDD__sub_803484C4(void *);
+s32 finish_word_select(void *);
 
 void TWindowDD::update() {
     this->update_selection_state();
     if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        if ((s32) *(s32 *)((s8 *)this + 0xB0) == 1) {
-            *(s32 *)((s8 *)this + 0xB4) = 0x14;
+        if ((s32) state == 1) {
+            next_state = 0x14;
             this->m_8c = -0x3C;
-            TWindowDD__sub_803435A0(this);
+            begin_word_select_state(this);
             return;
         }
-        TWindowDD__sub_803484C4(this);
+        finish_word_select(this);
         return;
     }
     if (is_word_select_cancel_input(this) != 0) {
@@ -54,60 +43,59 @@ void TWindowDD::update() {
 
 void TWindowDD::handle_confirm_input() {
     s32 id;
-    W_80342ED0 *arg0 = (W_80342ED0 *)this;
     refresh_word_select_child_list();
-    if (((TWindowDD *)arg0)->test_input_flag_4() != 0) {
+    if (test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        id = get_word_select_selected_id(reinterpret_cast<TWindowDD_WS_Word *>(arg0->ids[arg0->idx]));
-        arg0->fc6 = TWindowDD__sub_80348448(arg0, id);
-        arg0->fb4 = TWindowDD__sub_80348424(arg0, id);
+        id = get_word_select_selected_id(reinterpret_cast<TWindowDD_WS_Word *>(word_windows[depth]));
+        message.type = TWindowDD__sub_80348448(this, id);
+        next_state = TWindowDD__sub_80348424(this, id);
         push_recent_id(id);
-        arg0->f104 = 0;
-        TWindowDD__sub_803435A0(arg0);
+        m_104 = 0;
+        begin_word_select_state(this);
         return;
     }
-    if (is_word_select_cancel_input(arg0) != 0) {
+    if (is_word_select_cancel_input(this) != 0) {
         TWindowDD::play_se();
-        ((TWindowDD *)arg0)->set_state();
+        set_state();
     }
 }
 
 u8 update_numeric_parameter_input__9TWindowDDFPv(u8 *arg0) {
-    s32 temp_r3;
-    s32 var_r31;
-    u8 *var_r3;
-    var_r31 = 0;
-    if ((u32) ((TWindowDD *)arg0)->m_84 == 0U) {
-        ((TWindowDD *)arg0)->get_current_child_index();
-        temp_r3 = classify_id__9TWindowDDFs();
-        if (temp_r3 != 7) {
-            open_numeric_parameter_input__9TWindowDDFPviii(arg0, 0, word_select_numeric_limits[temp_r3], (void *) (TWindowDD__sub_80348D88(arg0 + 0xC4)));
+    s32 kind;
+    s32 result;
+    u8 *word_window;
+    TWindowDD *w = (TWindowDD *)arg0;
+    result = 0;
+    if ((u32) w->number_window == 0U) {
+        w->get_current_child_index();
+        kind = classify_id__9TWindowDDFs();
+        if (kind != 7) {
+            open_numeric_parameter_input__9TWindowDDFPviii(arg0, 0, word_select_numeric_limits[kind], (void *) (w->message.get_numeric_parameter()));
             return 0U;
         }
         return 1U;
     }
-    TWindowDD__sub_80347CC8(arg0, arg0 + 0xC4);
-    if (((u32) ((TWindowDD *)arg0)->m_84 != 0U) || (((TObject *)(*(void **)((s8 *)arg0 + 0x84)))->all_parents_unqueued_for_destruction() != 0)) {
-        ((TWindowDD *)(arg0 + 0xC4))->set_field14((int) (((TWindowInputNumber *)(((TWindowDD *)arg0)->m_84))->get_value()));
-        if (((TWindowInputNumber *)(((TWindowDD *)arg0)->m_84))->is_cancelled() != 0) {
-            var_r31 = 2;
-            ((TWindowDD *)(arg0 + 0xC4))->reset_index();
-            ((TWindowBase *)(((TWindowDD *)arg0)->m_84))->close();
-        } else if (((TWindowInputNumber *)(((TWindowDD *)arg0)->m_84))->is_confirmed() != 0) {
-            var_r31 = 1;
-            ((TWindowBase *)(((TWindowDD *)arg0)->m_84))->close();
+    refresh_word_select_message(arg0, &w->message);
+    if (((u32) w->number_window != 0U) || (((TObject *)w->number_window)->all_parents_unqueued_for_destruction() != 0)) {
+        w->message.set_numeric_parameter((int) (((TWindowInputNumber *)w->number_window)->get_value()));
+        if (((TWindowInputNumber *)w->number_window)->is_cancelled() != 0) {
+            result = 2;
+            w->message.reset_numeric_parameter();
+            ((TWindowBase *)w->number_window)->close();
+        } else if (((TWindowInputNumber *)w->number_window)->is_confirmed() != 0) {
+            result = 1;
+            ((TWindowBase *)w->number_window)->close();
         }
     } else {
-        var_r31 = 2;
+        result = 2;
     }
-    if (var_r31 != 0) {
-        var_r3 = (u8 *)(arg0 + (*(s32 *)((s8 *)arg0 + 0x20) * 4));
-        var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
-        TWindowDD__sub_80341AF8((var_r3));
-        ((TWindowDD *)arg0)->m_84 = 0U;
-        *(s32 *)((s8 *)arg0 + 0xB8) = 0;
+    if (result != 0) {
+        word_window = (u8 *)w->word_windows[w->depth];
+        show_word_select_selection(word_window);
+        w->number_window = 0U;
+        w->dialog_locked = 0;
     }
-    return (u8) (var_r31 == 1);
+    return (u8) (result == 1);
 }
 
 }

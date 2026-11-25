@@ -16,17 +16,18 @@ struct TWindowSubCustomEquip : public TWindowBase {
     static f32 ring_scale;
     TWindowSubCustomEquip(s32 slot);
     virtual ~TWindowSubCustomEquip();
+    static const char *class_name;
     void handle_cursor_input();
     void update_palette_slot(s32, u16, u16);
     void get_cursor_origin(NJS_POINT2 *position);
     virtual void render();
-    u8 m_60;
-    u8 m_61;
-    u8 m_62;
-    u8 m_63;
-    u8 m_64;
-    u8 m_65;
-    s16 m_66;
+    u8 state_flags;
+    u8 slot;
+    u8 bank;
+    u8 bank_swap_timer;
+    u8 front_bank;
+    u8 back_bank;
+    s16 cursor_frame;
     u32 angle;
     TWindowSubStatusDisp *status_disp;
     void layout_selection_parts(void *arg1);
@@ -43,9 +44,9 @@ struct TWindowSubCustomEquip : public TWindowBase {
     static void draw_cursor_sprite(f32 depth_scale, WindowDrawContext *context, NJS_POINT2 *position, s32 frame);
     s32 is_type_valid(u8 type);
     s32 get_saved_slot_for_index(u8 slot);
-    void get_cursor_pos(void *arg1);
-    void remove_duplicate_bindings(void *arg1);
-    void toggle_action_binding(void *arg1);
+    void get_cursor_pos(void *tag_out);
+    void remove_duplicate_bindings(void *tag_ptr);
+    void toggle_action_binding(void *tag_ptr);
     void place_bank_slot_on_ring(s32 angle, s32 index);
 };
 

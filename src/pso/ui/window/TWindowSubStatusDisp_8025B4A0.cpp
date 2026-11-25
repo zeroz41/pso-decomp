@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TWindowLayoutRect.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B4A0.h"
@@ -10,6 +11,15 @@
 #include <string.h>
 #pragma readonly_strings on
 #pragma fp_contract on
+
+// A window part that shows a label and a value text after a layout rectangle.
+class LabelValuePart : public TWindowLayoutRect {
+public:
+    s32 m_18;
+    char *label;
+    char *value;
+    s32 color;
+};
 
 extern "C" {
 u32 calc_text_width(u32);
@@ -23,75 +33,81 @@ void *window_label_value_part_vtable[6] = {
 };
 
 void TWindowSubStatusDisp::set_string(uaddr string) {
-    s32 temp_r3;
+    LabelValuePart *part = (LabelValuePart *)this;
+    s32 title_len;
 
-    mem_free((void *)(*(saddr *)((s8 *)this + 0x20)));
-    *(s32 *)((s8 *)this + 0x20) = 0;
+    mem_free((void *)part->value);
+    part->value = 0;
     if (string != 0U) {
-        *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
-        temp_r3 = (s32)measure_string_len((const char *)(string));
-        *(s32 *)((s8 *)this + 0x20) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(saddr *)((s8 *)this + 0x20)), (const char *)string, (u32)temp_r3 + 1);
+        part->x = (f32) (0.0f);
+        title_len = (s32)measure_string_len((const char *)(string));
+        part->value = (char *)mem_alloc(title_len + 1);
+        strncpy(part->value, (const char *)string, (u32)title_len + 1);
     }
 }
 
-void TWindowSubStatusDisp::set_text(uaddr arg1, s32 string, s32 arg3) {
-    s32 temp_r3;
+void TWindowSubStatusDisp::set_text(uaddr label, s32 string, s32 value_18) {
+    LabelValuePart *part = (LabelValuePart *)this;
+    s32 title_len;
 
-    mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
-    *(s32 *)((s8 *)this + 0x1C) = 0;
-    if (arg1 != 0U) {
-        temp_r3 = (s32)measure_string_len((const char *)(arg1));
-        *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
+    mem_free((void *)part->label);
+    part->label = 0;
+    if (label != 0U) {
+        title_len = (s32)measure_string_len((const char *)(label));
+        part->label = (char *)mem_alloc(title_len + 1);
+        strncpy(part->label, (const char *)label, (u32)title_len + 1);
     }
-    *(s32 *)((s8 *)this + 0x18) = arg3;
-    *(f32 *)((s8 *)this + 8) = (f32) (0.0f);
-    *(u16 *)(this + 0) = *(u16 *)(this + 0) | 5;
+    part->m_18 = value_18;
+    part->x = (f32) (0.0f);
+    part->flags = part->flags | 5;
     set_string(string);
 }
 
-void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2) {
-    s32 temp_r3;
+void TWindowSubStatusDisp::set_text(uaddr label, s32 value_18) {
+    LabelValuePart *part = (LabelValuePart *)this;
+    s32 title_len;
     f64 tmp;
 
-    mem_free((void *)(*(saddr *)((s8 *)this + 0x1C)));
-    *(s32 *)((s8 *)this + 0x1C) = 0;
-    if (arg1 != 0U) {
-        temp_r3 = (s32)measure_string_len((const char *)(arg1));
-        *(s32 *)((s8 *)this + 0x1C) = (saddr)mem_alloc(temp_r3 + 1);
-        strncpy((char *)(*(saddr *)((s8 *)this + 0x1C)), (const char *)arg1, (u32)temp_r3 + 1);
+    mem_free((void *)part->label);
+    part->label = 0;
+    if (label != 0U) {
+        title_len = (s32)measure_string_len((const char *)(label));
+        part->label = (char *)mem_alloc(title_len + 1);
+        strncpy(part->label, (const char *)label, (u32)title_len + 1);
     }
-    *(s32 *)((s8 *)this + 0x18) = arg2;
-    *(u16 *)(this + 0) = (u16) (*(u16 *)(this + 0) | 0x15);
-    *(f32 *)((s8 *)this + 8) = (208.5f) - ((0.5f) * (f32) ::calc_text_width(arg1));
+    part->m_18 = value_18;
+    part->flags = (u16) (part->flags | 0x15);
+    part->x = (208.5f) - ((0.5f) * (f32) ::calc_text_width(label));
 }
-void draw_label_value__20TWindowSubStatusDispFPvPv(u8 *window_sub_com_card, u8 *arg1) {
+void draw_label_value__20TWindowSubStatusDispFPvPv(u8 *window_sub_com_card, u8 *draw_context) {
     NJS_POINT2 pos;
-    if ((((TWindowSubComCard *)window_sub_com_card)->is_flag_4_set() != 0) && ((s32) *(s32 *)((s8 *)arg1 + 0x30) >= 0)) {
-        pos.x = *(f32 *)((s8 *)arg1 + 0x10) + *(f32 *)((s8 *)window_sub_com_card + 8);
-        pos.y = *(f32 *)((s8 *)arg1 + 0x14) + *(f32 *)((s8 *)window_sub_com_card + 0xC);
-        set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 1, 1, (-1.0f) / ((0.0897f) + *(f32 *)((s8 *)arg1 + 0x38)), (1e+05f));
-        draw_window_text(&pos.x, (const char *)(*(u8 **)((s8 *)window_sub_com_card + 0x1C)), (((TWindowSubComCard *)window_sub_com_card)->selected_card), 1, 1e+05f);
-        if (!(*(u16 *)((s8 *)window_sub_com_card + 0) & 0x10)) {
+    LabelValuePart *part = (LabelValuePart *)window_sub_com_card;
+    WindowDrawContext *context = (WindowDrawContext *)draw_context;
+    if ((((TWindowSubComCard *)part)->is_flag_4_set() != 0) && (context->open_tick >= 0)) {
+        pos.x = context->inner_x + part->x;
+        pos.y = context->inner_y + part->y;
+        set_text_draw_params(context, 1, 1, (-1.0f) / ((0.0897f) + context->depth), (1e+05f));
+        draw_window_text(&pos.x, (const char *)part->label, part->color, 1, 1e+05f);
+        if (!(part->flags & 0x10)) {
             pos.x += (154.0f);
-            draw_window_text(&pos.x, ":", ((TWindowSubComCard *)window_sub_com_card)->selected_card, 0, (1e+05f));
+            draw_window_text(&pos.x, ":", part->color, 0, (1e+05f));
         }
         pos.x += (12.0f);
-        draw_window_text(&pos.x, (const char *)(*(u8 **)((s8 *)window_sub_com_card + 0x20)), (((TWindowSubComCard *)window_sub_com_card)->selected_card), 1, 1e+05f);
+        draw_window_text(&pos.x, (const char *)part->value, part->color, 1, 1e+05f);
     }
 }
 void TWindowSubStatusDisp__sub_8025B760(void *p) {
     if (((TWindowSubComCard *)p)->is_flag_4_set()) return;
 }
 
-void *TWindowSubStatusDisp::destroy_free_buffers(void *window_sub_status_disp, s16 arg1) {
+void *TWindowSubStatusDisp::destroy_free_buffers(void *window_sub_status_disp, s16 delete_flag) {
+    LabelValuePart *part = (LabelValuePart *)window_sub_status_disp;
     if (window_sub_status_disp != NULL) {
         *(void ***)((s8 *)window_sub_status_disp + 4) = window_label_value_part_vtable;
-        mem_free((void *)(*(saddr *)((s8 *)window_sub_status_disp + 0x20)));
-        mem_free((void *)(*(saddr *)((s8 *)window_sub_status_disp + 0x1C)));
+        mem_free((void *)part->value);
+        mem_free((void *)part->label);
         __dt__17TWindowLayoutRectFv(window_sub_status_disp, 0);
-        if (arg1 > 0) {
+        if (delete_flag > 0) {
             ::operator delete(window_sub_status_disp);
         }
     }

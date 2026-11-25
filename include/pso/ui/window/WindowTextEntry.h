@@ -10,7 +10,7 @@ struct WindowDrawContext;
 class WindowTextEntry {
 public:
     u16 flags;
-    s16 m_2;
+    s16 client;
     virtual ~WindowTextEntry();
     virtual void update();
     virtual void render(WindowDrawContext *);
@@ -18,11 +18,11 @@ public:
     f32 y;
     f32 width;
     f32 height;
-    f32 m_18;
-    f32 m_1c;
+    f32 depth;
+    f32 reveal_pos; // characters revealed so far; a huge value = fully shown
     char *text;
     s32 color;
-    f32 m_28;
+    f32 reveal_step; // reveal_pos growth per tick
 };
 
 LAYOUT_ASSERT(WindowTextEntry_size, sizeof(WindowTextEntry) == 0x2C);

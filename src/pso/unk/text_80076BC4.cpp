@@ -3,6 +3,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/WordSelectMessage.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/base/TObjBase.h"
@@ -49,7 +50,7 @@ void chat_dispatch_accepted_result(s32 *submission) {
         ((s32 (*)(void *)) submit_chat_text)((s8 *)submission + 4);
         return;
     case 2:
-        TWindowDD::send_chat_packet((s8 *)submission + 4);
+        G_WordSelect_6x74::send_message((WordSelectMessage *)((s8 *)submission + 4));
         return;
     case 3:
         TWindowSubSymbolChat::send_selected_symbol_chat((s32 *)((s8 *)submission + 4));
@@ -61,7 +62,7 @@ s32 chat_accept_submission(saddr submission) {
     if (TWindowCtrl::is_submit_cooldown_clear() == 0) {
         return 0;
     }
-    TWindowCtrl::set_field22();
+    TWindowCtrl::start_submit_cooldown();
     chat_dispatch_accepted_result((s32 *)submission);
     return 1;
 }

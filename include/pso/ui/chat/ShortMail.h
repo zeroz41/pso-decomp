@@ -42,13 +42,13 @@ void remove_short_mail_by_id(u32 id);
 void set_short_mail_text(char *message);
 
 extern "C" {
-void TLobby__sub_802258C8(void);
-void TLobby__sub_80225A08(void *p);
+void clear_unread_flags(void);
+void store_short_mail(void *p);
 void TLobby__sub_80225C44(void *p);
 void TLobby__sub_80225C64(void *p);
-void TLobby__sub_80225CB8(void);
+void set_new_mail_flag(void);
 void *get_com_card_list__6TLobbyFv(void *p);
-void try_close__6TLobbyFPv(void *p);
+void receive_short_mail(void *p);
 void *TLobby__sub_8022598C(int a0);
 void TLobby__sub_80225C8C(void *p);
 }

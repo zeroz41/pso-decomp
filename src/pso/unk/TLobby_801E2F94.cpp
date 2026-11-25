@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowVertexBufferAbi.h"
 #include "pso/system/memory.h"
 #include "pso/render/TriangleFan3D.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -148,7 +149,7 @@ void set_screen_center(f32 x, f32 y) {
 extern "C" {
 void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
-void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { select_texture_by_surface_id(id); draw_screen_textured_strip((ScreenTexturedVertex *)this, a1, a3); }
+void draw_window_vertices(WindowVertex *vertices, s32 count, u32 surface_id, s32 blended) { select_texture_by_surface_id(surface_id); draw_screen_textured_strip((ScreenTexturedVertex *)vertices, count, blended); }
 
 }
 
@@ -486,7 +487,7 @@ extern "C" {
 void TLobby__sub_803382E4(void);
 s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
-void TKeyBoardControl__sub_8000F7FC(void);
+void run_end_of_render_tasks(void);
 
 
 void TObjPlayer::render_tree(void *model) {
@@ -522,7 +523,7 @@ void render_tick(void) {
     TParticleCtrl::end_effect_render();
     copy_efb_to_framebuffer();
     present_frame();
-    TKeyBoardControl__sub_8000F7FC();
+    run_end_of_render_tasks();
 }
 
 s32 TKeyBoardControl__sub_801E3E24(s32 id, saddr name, saddr arg2) {

@@ -6,10 +6,12 @@
 
 struct TWindowHelpItem;
 struct TWindowMainMenu;
+class TWindowMenuIconLine;
 
 struct TWindowSubEquip : public TObject {
     TWindowSubEquip(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubEquip();
+    static const char *class_name;
     u8 m_1c;
     u8 _pad1D[0x3];
     u32 m_20;
@@ -17,8 +19,8 @@ struct TWindowSubEquip : public TObject {
     u32 client_id;
     TWindowMainMenu *parent;
     TWindowHelpItem *window_help_item;
-    uaddr equip_list;
-    uaddr equip_kind_list;
+    TWindowMenuIconLine *equip_list;
+    TWindowMenuIconLine *equip_kind_list;
     void update_displayed_item();
     void update();
     s32 open_equip_kind_list(u32 arg1);

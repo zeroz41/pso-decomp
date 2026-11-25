@@ -6,6 +6,7 @@
 #include "pso/ui/window/WindowLayoutEntries.h"
 
 struct WindowDrawContext;
+struct TexturedQuad;
 
 class TWindowBase : public TObject {
 public:
@@ -13,8 +14,8 @@ public:
     virtual ~TWindowBase();
     void reparent_to_main_ctrl();
     void draw_window_frame(void *);
-    void draw_window_frame_strips(void *, void *);
-    void draw_message_frame_row(void *, void *);
+    void draw_window_frame_strips(TexturedQuad *quad, WindowDrawContext *context);
+    void draw_message_frame_row(TexturedQuad *quad, WindowDrawContext *context);
     void resort_window_order();
     void close();
     void request_close();

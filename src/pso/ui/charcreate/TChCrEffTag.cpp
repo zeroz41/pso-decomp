@@ -37,42 +37,42 @@ void TChCrEffTag::refresh_label() {
 #pragma fp_contract on
 void TChCrEffTag::run_task()
 {
-  f32 temp_f1;
-  f32 temp_f3;
-  s32 temp_r0;
+  f32 current_width;
+  f32 target;
+  s32 current_heading;
   if (((s32) heading) != ((s32) TChCrEffTag::selected_heading))
   {
     refresh_label();
   }
-  temp_r0 = heading;
-  if (temp_r0 >= 0)
+  current_heading = heading;
+  if (current_heading >= 0)
   {
-    targetWidth = (f32) (15.0f + ((f32) TObjCMMainMenu::get_creation_sprite_id((int) lbl_804652A4[temp_r0])));
+    targetWidth = (f32) (15.0f + ((f32) TObjCMMainMenu::get_creation_sprite_id((int) lbl_804652A4[current_heading])));
   }
   width = width;
-  temp_f3 = targetWidth;
-  if (width + 12.933333f < temp_f3)
+  target = targetWidth;
+  if (width + 12.933333f < target)
   {
     width += 12.933333f;
   }
-  else if (width - 12.933333f > temp_f3)
+  else if (width - 12.933333f > target)
   {
     width -= 12.933333f;
   }
   else
   {
-    width += 0.2f * (temp_f3 - width);
+    width += 0.2f * (target - width);
   }
-  temp_f1 = width;
-  if (temp_f1 < 1e+02f)
+  current_width = width;
+  if (current_width < 1e+02f)
   {
     width = (f32) 1e+02f;
     return;
   }
-  if ((temp_f3 && temp_f3) && temp_f3)
+  if ((target && target) && target)
   {
   }
-  if (temp_f1 > 294.0f)
+  if (current_width > 294.0f)
   {
     width = 294.0f;
   }

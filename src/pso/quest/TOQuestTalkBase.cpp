@@ -29,8 +29,8 @@ void TOQuestTalkBase::vfunc_6(s16 *state, s32) {
 void TOQuestTalkBase::interact(u16 client) {
     TObjPlayer *player;
     if (quest_label > 0) {
-        if ((u16)client == local_client_id) {
-            player = get_player_by_client_id((u16)client);
+        if (client == local_client_id) {
+            player = get_player_by_client_id(client);
             if (player == NULL || (s32)object_state != 1) {
                 return;
             }
@@ -139,7 +139,7 @@ void TOQuestTalkBase::run_task() {
             end_conversation_camera();
             if (interactor == local_client_id) {
                 player = get_player_by_client_id(local_client_id);
-                if (player != NULL && (player)->check_player_flag1() != 0) {
+                if (player != NULL && player->check_player_flag1() != 0) {
                     send_release_hold(player);
                 }
             }

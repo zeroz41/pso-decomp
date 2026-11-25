@@ -332,9 +332,9 @@ void *TOContainerAncientItemCommon::create(void *set_data) {
     return new TOContainerAncientItemCommon(set_data);
 }
 
-void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((s16) *arg1 == 1) {
-        if (arg2 != 0) {
+void TOContainerAncientItemCommon::vfunc_6(s16 *state, s32 notify) {
+    if ((s16) *state == 1) {
+        if (notify != 0) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
         }
@@ -352,9 +352,9 @@ TOContainerAncientItemRare::TOContainerAncientItemRare(void *set_data) : TUnk_80
 TOContainerAncientItemRare::~TOContainerAncientItemRare() {
 }
 
-void TOContainerAncientItemRare::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((s16) *arg1 == 1) {
-        if (arg2 != 0) {
+void TOContainerAncientItemRare::vfunc_6(s16 *state, s32 notify) {
+    if ((s16) *state == 1) {
+        if (notify != 0) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
         }
@@ -375,9 +375,9 @@ void *TOContainerAncientItemNone::create(void *set_data) {
     return new TOContainerAncientItemNone(set_data);
 }
 
-void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((s16) *arg1 == 1) {
-        if (arg2 != 0) {
+void TOContainerAncientItemNone::vfunc_6(s16 *state, s32 notify) {
+    if ((s16) *state == 1) {
+        if (notify != 0) {
             this->spawn_break_effects();
         }
         this->mode = 1;
@@ -500,9 +500,9 @@ void TOContainerAncientEnemy::spawn_break_effects() const {
     }
 }
 
-void TOContainerAncientEnemy::vfunc_6(s16 *arg1, s32 arg2) {
-    if ((s16) *arg1 == 1) {
-        if (arg2 != 0) {
+void TOContainerAncientEnemy::vfunc_6(s16 *state, s32 notify) {
+    if ((s16) *state == 1) {
+        if (notify != 0) {
             this->spawn_break_effects();
         }
         this->mode = 1;

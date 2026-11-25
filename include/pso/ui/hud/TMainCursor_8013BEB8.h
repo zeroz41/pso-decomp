@@ -4,8 +4,8 @@
 #include "types.h"
 
 extern "C" {
-void init_target_vector__11TMainCursorFiii(s32 arg0, saddr to, saddr from);
-s32 try_move__11TMainCursorFiii(saddr cursor, u8 type, u8 enabled);
+struct CsnHit *is_target_obstructed(class LockOnActionSlot *unused, const Vec *to, const Vec *from);
+s32 is_active_channel_matching(saddr cursor, u8 type, u8 enabled);
 }
 
 #endif

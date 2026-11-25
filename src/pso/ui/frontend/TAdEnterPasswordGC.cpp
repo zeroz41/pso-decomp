@@ -29,7 +29,7 @@ static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.
 const char *TAdEnterPasswordGC__class_name = "TAdEnterPasswordGC";
 
 
-typedef void (TAdEnterPasswordGC::*Pmf_8032B984)();
+typedef void (TAdEnterPasswordGC::*StateHandler)();
 
 #pragma explicit_zero_data on
 TAdEnterPasswordGCInputBuffer TAdEnterPasswordGC__input_buffer = { 0 };
@@ -164,12 +164,12 @@ void TAdEnterPasswordGC::open_keyboard_window(void *arg) {
 void TAdEnterPasswordGC::run_task() {
     fn_8032B318(password_screen_status_line_position);
     m_1c = password_entry_dispatch_state;
-    static Pmf_8032B984 tbl[5] = {
-        (Pmf_8032B984)&TAdEnterPasswordGC::open_keyboard_window,
-        (Pmf_8032B984)&TAdEnterPasswordGC::update_password_input,
-        (Pmf_8032B984)&TAdEnterPasswordGC::request_transition,
-        (Pmf_8032B984)&TAdEnterPasswordGC::set_multi_chg_game_mode_0x14,
-        (Pmf_8032B984)&TAdEnterPasswordGC::close_window_and_destroy,
+    static StateHandler tbl[5] = {
+        (StateHandler)&TAdEnterPasswordGC::open_keyboard_window,
+        (StateHandler)&TAdEnterPasswordGC::update_password_input,
+        (StateHandler)&TAdEnterPasswordGC::request_transition,
+        (StateHandler)&TAdEnterPasswordGC::set_multi_chg_game_mode_0x14,
+        (StateHandler)&TAdEnterPasswordGC::close_window_and_destroy,
     };
     (this->*tbl[password_entry_dispatch_state])();
     if (m_1c != password_entry_dispatch_state) {

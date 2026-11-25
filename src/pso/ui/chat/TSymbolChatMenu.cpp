@@ -15,9 +15,8 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/TSymbolChatMenu.h"
 
-// The symbol chat preset selection (inferred): its vtable 0x804CE7D0 follows a 4-byte pad after
-// TWindowChatSymbol's vtable (pad + 8-aligned start = new TU); .text 0x80248774-0x80248940,
-// .rodata 0x8044EAC0-0x8044EAD8 and .sdata2 0x805DCBA0-0x805DCBA8 are its ctor's.
+// The symbol chat preset selection (inferred): its vtable follows a 4-byte pad after
+// TWindowChatSymbol's vtable (pad + 8-aligned start = new TU).
 
 void TSymbolChatMenu::render() {  }
 
@@ -34,25 +33,25 @@ TSymbolChatMenu::~TSymbolChatMenu() {
 TSymbolChatMenu::TSymbolChatMenu(TObject *parent) : TObject(parent) {
     // preset_list_pos: where the list of the 12 symbol chat presets opens.
     static const NJS_POINT2 preset_list_pos = {30.0f, 314.0f};
-    static const NJS_POINT2 lbl_8044EAC8 = {250.0f, 314.0f};
-    static const NJS_POINT2 lbl_8044EAD0 = {168.0f, 120.0f};
+    static const NJS_POINT2 symbol_chat_menu_position = {250.0f, 314.0f};
+    static const NJS_POINT2 symbol_chat_menu_size = {168.0f, 120.0f};
     s32 i;
     u8 *text;
-    u8 *symbol_chat_preset;
-    preset_list = (TWindowSubComCardList *)(u8 *)(saddr)create_window_menu_default(&preset_list_pos, 0xC);
+    SymbolChatPreset *symbol_chat_preset;
+    preset_list = (TWindowSubComCardList *)create_window_menu_default(&preset_list_pos, 0xC);
     i = 0;
     do {
-        symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));
-        text = (u8 *)(reinterpret_cast<SymbolChatPreset *>(symbol_chat_preset)->get_symbol_chat_data());
-        if (is_symbol_chat_preset_in_use(reinterpret_cast<const SymbolChatPreset *>(symbol_chat_preset)) != 0) {
+        symbol_chat_preset = get_symbol_chat_preset(i);
+        text = (u8 *)(symbol_chat_preset->get_symbol_chat_data());
+        if (is_symbol_chat_preset_in_use(symbol_chat_preset) != 0) {
             preset_list->add_text_entry((saddr)text, 0x66, i);
         } else {
-            add_gray_text_entry((TWindowMenu *)preset_list, (const char *)text, 0x46, (s32)i);
+            add_gray_text_entry(preset_list, (const char *)text, 0x46, (s32)i);
         }
         i += 1;
     } while (i < 0xC);
     preset_list->set_flag70_bit10();
     preset_list->set_scroll_target(220.0f, 120.0f);
-    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(preset_list));
-    chat_symbol = new TWindowChatSymbol(&lbl_8044EAC8, (saddr)&lbl_8044EAD0);
+    align_menu_entry_positions(preset_list);
+    chat_symbol = new TWindowChatSymbol(&symbol_chat_menu_position, (saddr)&symbol_chat_menu_size);
 }

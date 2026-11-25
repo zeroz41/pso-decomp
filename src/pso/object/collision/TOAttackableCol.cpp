@@ -160,20 +160,20 @@ void TOAttackableCol::send_state_change(u16 state) {
     }
 }
 
-void TOAttackableCol::vfunc_6(s16 *arg1, s32 arg2) {
+void TOAttackableCol::vfunc_6(s16 *state, s32 notify) {
     s16 mode;
-    s32 temp_r0;
-    if (arg1 != NULL) {
-        this->mode = (s16) *arg1;
+    s32 mode_value;
+    if (state != NULL) {
+        this->mode = (s16) *state;
     }
-    temp_r0 = this->mode;
-    if (temp_r0 != 1) {
-        if ((temp_r0 >= 1) || (temp_r0 < 0)) {
+    mode_value = this->mode;
+    if (mode_value != 1) {
+        if ((mode_value >= 1) || (mode_value < 0)) {
             this->mode = 0;
         }
     } else {
         this->hits_left = 0;
-        if (arg2 != 0) {
+        if (notify != 0) {
             handle_6x91_update_state();
         }
     }
@@ -185,18 +185,18 @@ void TOAttackableCol::handle_6x91_update_state() { clear_player_status_flag(0, 1
 
 f32 TOAttackableCol::apply_hit(saddr player) {
   s32 id;
-  s32 temp_r0_2;
-  s32 var_r30;
-  u32 temp_r3;
-  u32 temp_r3_2;
-  uaddr var_r0;
-  uaddr var_r0_2;
-  var_r30 = 0;
+  s32 kind;
+  s32 is_local_player;
+  u32 unused1;
+  u32 unused2;
+  uaddr thread_a;
+  uaddr thread_b;
+  is_local_player = 0;
   if (((player != 0) && (((TObjBase *)player)->get_entity_id() < 4U)) && (((TObjChara *)player)->is_locally_controlled() != 0))
   {
-    var_r30 = 1;
+    is_local_player = 1;
   }
-  if (var_r30 != 0)
+  if (is_local_player != 0)
   {
     id = this->required_switch;
     if (((id >= 0) && (id < 0x100)) && (is_current_floor_switch_set(((u16) id)) == 0))
@@ -210,22 +210,22 @@ f32 TOAttackableCol::apply_hit(saddr player) {
       send_state_change((u16)(1));
       if ((this->label) > 0)
       {
-        temp_r0_2 = script_kind;
-        if ((((temp_r0_2 >= 0x64) && (temp_r0_2 < 0x3E8)) && ((quest_mission_manager) != 0U)) && (quest_mission_manager->all_parents_unqueued_for_destruction() != 0))
+        kind = script_kind;
+        if ((((kind >= 0x64) && (kind < 0x3E8)) && ((quest_mission_manager) != 0U)) && (quest_mission_manager->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0 = (uaddr)new TQuestThread(quest_mission_manager, this->label);
-          if (var_r0 != 0U)
+          thread_a = (uaddr)new TQuestThread(quest_mission_manager, this->label);
+          if (thread_a != 0U)
           {
-            ((TObject *)var_r0)->set_parent(tl_00);
+            ((TObject *)thread_a)->set_parent(tl_00);
           }
         }
         else
           if (((quest_area_manager) != 0U) && (quest_area_manager->all_parents_unqueued_for_destruction() != 0))
         {
-          var_r0_2 = (uaddr)new TQuestThread(quest_area_manager, this->label);
-          if (var_r0_2 != 0U)
+          thread_b = (uaddr)new TQuestThread(quest_area_manager, this->label);
+          if (thread_b != 0U)
           {
-            ((TObject *)var_r0_2)->set_parent(tl_00);
+            ((TObject *)thread_b)->set_parent(tl_00);
           }
         }
       }
@@ -244,11 +244,11 @@ f32 TOAttackableCol::apply_hit(saddr player) {
 
 void TOAttackableCol::release() { set_flag8(); queue_destruction(); }
 void TOAttackableCol::check_door_trigger() {
-    s32 temp_r0;
-    s32 temp_r0_2;
+    s32 required;
+    s32 done_switch;
 
-    temp_r0 = this->required_switch;
-    if (((temp_r0 < 0) || (temp_r0 >= 0x100) || (is_current_floor_switch_set((u16) temp_r0) == 1)) && ((submit_cursor_candidate(this, -1), (((s32) this->hits_left > 0) == 0)) || (((s32) this->label == 0) && (temp_r0_2 = this->done_switch, ((temp_r0_2 < 0) == 0)) && (temp_r0_2 < 0x100) && (is_current_floor_switch_set((u16) temp_r0_2) == 1)))) {
+    required = this->required_switch;
+    if (((required < 0) || (required >= 0x100) || (is_current_floor_switch_set((u16) required) == 1)) && ((submit_cursor_candidate(this, -1), (((s32) this->hits_left > 0) == 0)) || (((s32) this->label == 0) && (done_switch = this->done_switch, ((done_switch < 0) == 0)) && (done_switch < 0x100) && (is_current_floor_switch_set((u16) done_switch) == 1)))) {
         this->hits_left = 0;
         send_state_change((u16)(1));
     }
@@ -273,9 +273,9 @@ void TOAttackableCol::run_task() {
 
 void TOAttackableCol::render() {  }
 
-void *TOAttackableCol::create(void *arg0) {
+void *TOAttackableCol::create(void *set_data) {
     void *o;
-    o = (void *)new TOAttackableCol((saddr)arg0);
+    o = (void *)new TOAttackableCol((saddr)set_data);
     return o;
 }
 

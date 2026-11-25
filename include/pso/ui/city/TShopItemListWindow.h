@@ -28,7 +28,7 @@ struct TShopItemListWindow : public TShopWindowBase {
     TWindowHelpItem *help_window;     // description of the selected item
     TWindowQuantity *status_window;   // how many of the selected item the player carries
     TWindowCost *cost_window;         // price of the selected item
-    u32 pad_44;
+    u32 unused_44;
     s32 item_count;       // rows of shop_items in use
     u32 purchase_step;    // handle_amount_confirm: 0 choosing the amount, 1 the yes / no menu
     u32 purchase_count;   // how many to buy

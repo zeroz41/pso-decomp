@@ -10,45 +10,55 @@
 #include "pso/unk/TUnk_804A7248.h"
 #include "pso/ui/hud/MarkerColor.h"
 
-// Two words, the base of TUnk_8013F0A0.
-class TUnk_8013F114 {
+// A priority and an index into the player's action palette.
+class ActionPriorityEntry {
 public:
-    s32 unk_0;
-    s32 unk_4;
+    s16 priority;
+    s16 index;
 
-    TUnk_8013F114();
-    ~TUnk_8013F114();
+    ActionPriorityEntry();
+    s16 get_priority();
+    s16 get_index();
+    void set_priority(s16 v);
+    void set_index(s16 v);
 };
 
-// Two halfwords. TUnk_8013F0A0 holds four; TMainCursor::sort_actions_by_priority builds one on the stack.
-class TUnk_8013E2B0 {
+// A count and a pointer to that many entries; the base of ActionPriorityList.
+class ActionListBase {
 public:
-    s16 unk_0;
-    s16 unk_2;
+    s32 count;
+    ActionPriorityEntry *entries;
 
-    TUnk_8013E2B0();
+    ActionListBase();
+    ~ActionListBase();
+    s32 get_count();
+    ActionPriorityEntry *get_entries();
+    void set_count(s32 v);
+    void set_entries(s32 v);
 };
 
 // TLockOnCursor +0x24.
-class TUnk_8013F0A0 : public TUnk_8013F114 {
+class ActionPriorityList : public ActionListBase {
 public:
-    TUnk_8013E2B0 unk_8[4];
+    ActionPriorityEntry slots[4];
 
-    TUnk_8013F0A0();
-    ~TUnk_8013F0A0();
+    ActionPriorityList();
+    ~ActionPriorityList();
+    // Bubble sorts entries by priority, lowest first.
+    s32 sort_actions_by_priority();
 };
 
 // TLockOnCursor +0x3C: the TLOC_Start, TLOC_End and TLOC_ListClear tasks that
 // reset_and_spawn_cursors creates and ~TLockOnCursor deletes. Each task clears its
 // own slot when it is destroyed.
-class TUnk_8013F08C {
+class LockOnTasks {
 public:
     TObject *start_task;
     TObject *end_task;
     TObject *list_clear_task;
 
-    TUnk_8013F08C();
-    ~TUnk_8013F08C();
+    LockOnTasks();
+    ~LockOnTasks();
     void set_list_clear_task(TObject *task);
     void set_end_task(TObject *task);
     void set_start_task(TObject *task);
@@ -129,6 +139,11 @@ public:
     s32 get_body_include_mask();
     s32 get_actor_exclude_mask();
     s32 get_actor_include_mask();
+    void set_max_targets(s32 v);
+    void set_body_include_mask(s32 v);
+    void set_body_exclude_mask(s32 v);
+    void set_actor_include_mask(s32 v);
+    void set_actor_exclude_mask(s32 v);
 };
 
 // TLockOnCursor::selection. When the player confirms a lock-on candidate, its
@@ -152,13 +167,13 @@ public:
 };
 
 // TLockOnCursor +0x508.
-class TUnk_8013EF3C {
+class LockOnTargetPart {
 public:
     u16 actor_id;
     s16 collider;
     u16 unk_4;
 
-    TUnk_8013EF3C();
+    LockOnTargetPart();
 };
 
 // TLockOnCursor +0x510. TMainCursor::try_add_target_candidate keeps the closest
@@ -188,14 +203,14 @@ struct TLockOnCursor : public TObject {
     static s32 target_cursor_model;
     FlagWord flags;
     u16 target_id; // read by get_target_id()
-    TUnk_8013F0A0 unk_24;
-    TUnk_8013F08C tasks;
+    ActionPriorityList action_list;
+    LockOnTasks tasks;
     MarkerColor marker;
     LockOnActionSlot action_slots[4]; // inferred: one action palette tag and its targets each (find_by_pos)
     LockOnSelection selection;
-    TUnk_8013EF3C target_part;
+    LockOnTargetPart target_part;
     LockOnNearestTarget nearest_target;
-    TUnk_804A7248 palette_override; // the palette action forced by update_cursor or the short list
+    LockOnPaletteOverride palette_override; // the palette action forced by update_cursor or the short list
 
     TLockOnCursor(TObject *parent, u16 target_id);
     virtual ~TLockOnCursor();
@@ -219,6 +234,14 @@ struct TLockOnCursor : public TObject {
     TObject *get_start_task();
     void reset_and_spawn_cursors();
     LockOnActionSlot *find_by_pos(s16 mode, s16 kind);
+    // Fills the four action slots from the player's action palette.
+    void bind_action_channels();
+    void setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s32 id);
+    void init_slots();
+    void init_slot(s32 i);
+    void reset_slots();
+    void set_cursor_pos(u16 part, s32 index);
+    int is_cursor_clear();
 };
 
 LAYOUT_ASSERT(TLockOnCursor_size, sizeof(TLockOnCursor) == 0x52C);

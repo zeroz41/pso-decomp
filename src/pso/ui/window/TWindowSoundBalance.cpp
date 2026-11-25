@@ -57,7 +57,7 @@ WindowDescriptor window_sound_balance_settings = {
     {470.0f, 60.0f}, 50100.0f, &window_sound_balance_layout_entries, 3,
 };
 
-const char *TWindowSoundBalance__name = "TWindowSoundBalance";
+const char *TWindowSoundBalance::class_name = "TWindowSoundBalance";
 
 void TWindowSoundBalance::set_sound_effect_gain(s16 gain) {
     if (sound_effect_gain != gain) {
@@ -194,7 +194,7 @@ TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
     u8 *e;
     SoundBalanceSettings *st;
 
-    this->m_name = TWindowSoundBalance__name;
+    this->m_name = TWindowSoundBalance::class_name;
     this->m_60 = 0;
     this->selection = 0;
     this->music_gain = 1;

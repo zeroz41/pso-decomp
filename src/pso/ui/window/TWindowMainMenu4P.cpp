@@ -39,9 +39,9 @@ TWindowMainMenu4P::~TWindowMainMenu4P() {
 }
 
 
-const char *TWindowMainMenu4P__name = "TWindowMainMenu4P";
+const char *TWindowMainMenu4P::class_name = "TWindowMainMenu4P";
 
 TWindowMainMenu4P::TWindowMainMenu4P(TObject *parent, s32 client) : TWindowMainMenu(parent, client) {
-    m_name = TWindowMainMenu4P__name;
+    m_name = TWindowMainMenu4P::class_name;
 }
 

@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void *create_party_status_window(s32 arg0);
+void *create_party_status_window(s32 slot_offset);
 
 #endif

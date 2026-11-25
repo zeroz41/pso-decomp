@@ -3,14 +3,13 @@
 
 #include "types.h"
 
+class LockOnTargetPart;
+
 extern "C" {
-void TMainCursor__sub_8013E8A0(void *p);
+void deactivate_action_channel(void *p);
 u8 get_cursor_palette_mode(void *p);
-s16 get_action_entry_index(void *p);
-void set_action_entry_index(void *p, s16 v);
-void set_action_entry_priority(void *p, s16 v);
-void set_target_part(u8 *arg0, u16 arg1, s32 arg2, s32 arg3);
-void TMainCursor__sub_8013E9A0(void *p);
+void set_target_part(LockOnTargetPart *target, u16 part, s32 index, s32 flag);
+void activate_action_channel(void *p);
 void set_cursor_slot(void *p, u8 v);
 void set_cursor_mode(void *p, u8 v);
 }

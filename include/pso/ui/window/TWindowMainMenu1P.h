@@ -9,6 +9,7 @@
 struct TWindowMainMenu1P : public TWindowMainMenu {
     TWindowMainMenu1P(TObject *parent, s32 client);
     virtual ~TWindowMainMenu1P();
+    static const char *class_name;
     virtual void open_main_menu();
     virtual void close_main_menu();
     virtual void on_menu_opened();
@@ -18,13 +19,13 @@ struct TWindowMainMenu1P : public TWindowMainMenu {
     void run_task();
     void create_char_select_slot();
 
-    u8 m_60;
-    u8 m_61;
+    u8 transition_x;
+    u8 transition_y;
     CameraViewParams backdrop;
 };
 
 LAYOUT_ASSERT(TWindowMainMenu1P_size, sizeof(TWindowMainMenu1P) == 0xAC);
-LAYOUT_ASSERT(MainMenu1PTransitionOffset, offsetof(TWindowMainMenu1P, m_60) == 0x60);
+LAYOUT_ASSERT(MainMenu1PTransitionOffset, offsetof(TWindowMainMenu1P, transition_x) == 0x60);
 LAYOUT_ASSERT(MainMenu1PBackdropOffset, offsetof(TWindowMainMenu1P, backdrop) == 0x64);
 
 

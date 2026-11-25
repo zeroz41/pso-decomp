@@ -38,9 +38,9 @@ LAYOUT_ASSERT(TLogoExtent, sizeof(TLogo) == 0x38);
 
 extern "C" {
 void TLogo__sub_8013F5AC(void);
-int TLogo__sub_8013F7E8(TAdADXlogo *logo);
+int is_adx_logo_done(TAdADXlogo *logo);
 s32 TLogo__sub_8013F800(void *p);
-int TLogo__sub_8013F808(void);
+int is_logo_clear_flag_set(void);
 }
 
 #endif

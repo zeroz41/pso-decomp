@@ -31,10 +31,10 @@ struct TShopJudgmentItemWindow : public TShopWindowBase {
     TItemData selected_item;  // the selected item as it was
     TItem *result_item;       // shown in the result list
     TShopJudgmentItemEntry entries[30];
-    u32 pad_144;
+    u32 unused_144;
     s32 item_count;
     s32 timer;  // frames left before the result can be dismissed
-    u32 pad_150;
+    u32 unused_150;
     TWindowMenuIconLine *item_list;
     TWindowMenu *yes_no_menu;
     TWindowHelpItem *help_window;

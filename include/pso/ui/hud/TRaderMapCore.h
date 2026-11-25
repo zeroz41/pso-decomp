@@ -26,9 +26,11 @@ struct RadarPlayerMarker {
     f32 z;
     s32 rot_y;
     f32 scale;
-    u8 pad_14[2];
+    s16 unused_14;
     s16 id;
     NJS_ARGB color;
+
+    void reset();
 };
 
 struct TObjPlayer;
@@ -59,12 +61,12 @@ struct TRaderMapCore : public TObjBase {
     f32 viewport_width;
     f32 viewport_height;
     s32 view_flags;
-    s32 m_16c;
-    f32 m_170;
+    s32 zoom_state;
+    f32 zoom_step;
     s32 map_angle;
-    NJS_OBJECT *m_178;
-    NJS_OBJECT *m_17c;
-    NJS_OBJECT *m_180;
+    NJS_OBJECT *player_marker_model;
+    NJS_OBJECT *square_marker_model;
+    NJS_OBJECT *wide_marker_model;
     TObjPlayer *target_player;
     f32 pan_x_speed;
     f32 pan_z_speed;
@@ -86,10 +88,10 @@ struct TRaderMapCore : public TObjBase {
     static void free_map_data();
     static void free_heap();
     static void set_piece_flags(s32 piece_flags);
-    static void add_zoom_distance(f32 farg0);
+    static void add_zoom_distance(f32 delta);
     static void open_free_map_view();
-    static void pan_vertical(f32 farg0);
-    static void pan_horizontal(f32 farg0);
+    static void pan_vertical(f32 delta);
+    static void pan_horizontal(f32 delta);
     void reset_marker_scale();
     static s32 block_region_by_id(s16 id);
     static s32 reveal_region_by_id(s16 id);
@@ -115,14 +117,13 @@ struct TRaderMapCore : public TObjBase {
     void draw_compass(s32 mode);
     static void free_statics();
     static void load_frame_texture();
-    void reset();
     static NJS_OBJECT *init_map_ptr(const s32 *counter, s32 index);
     static s32 is_not_split_screen();
     static void clear();
     static s32 apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 period);
     void gather_player_markers();
     void draw_enemy_gate_markers();
-    static void draw_backdrop(TRaderMapCore *self, s32 mode);
+    static void draw_backdrop(TRaderMapCore *unused, s32 mode);
     static void pick_target_position(void *, void *);
     static s32 should_show_map();
 };

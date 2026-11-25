@@ -4,6 +4,9 @@
 #include "types.h"
 
 class TWindowInputNumber;
+class TWindowBase;
+class TWindowMenuIconLine;
+struct TWindowMenu;
 class TWindowHelpItem;
 #include "pso/system/task/TObject.h"
 
@@ -14,6 +17,7 @@ class TWindowChat;
 struct TWindowSubTradeMain : public TObject {
     TWindowSubTradeMain(TWindowMainMenu *parent, s32 client);
     virtual ~TWindowSubTradeMain();
+    static const char *class_name;
     TWindowMessageYesNo *open_confirm_prompt();
     saddr create_trade_window();
     saddr open_trade_equip_window();
@@ -30,13 +34,13 @@ struct TWindowSubTradeMain : public TObject {
     u32 displayed_item;
     u32 client_id;
     TWindowMainMenu *parent_menu;
-    uaddr menu;
-    uaddr confirm;
+    TWindowMenu *menu;
+    TWindowBase *confirm;
     TWindowMessageYesNo *dialog;
-    uaddr offer;
-    uaddr request;
-    uaddr list;
-    uaddr input_number;
+    TWindowMenuIconLine *offer;
+    TWindowMenuIconLine *request;
+    TWindowMenuIconLine *list;
+    TWindowInputNumber *input_number;
     TWindowHelpItem *help_item;
     TWindowChat *chat;
     void *submission;

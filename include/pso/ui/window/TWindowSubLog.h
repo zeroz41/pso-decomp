@@ -5,15 +5,17 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+class TWindowChat;
 
 struct TWindowSubLog : public TObject {
     TWindowSubLog(TObject *parent, s32 client);
     virtual ~TWindowSubLog();
+    static const char *class_name;
     s32 client;
     TWindowMainMenu *parent_menu;
-    uaddr m_24;
-    uaddr chat;
-    void* m_2c;
+    uaddr log_window;
+    TWindowChat *chat;
+    void *submission;
     virtual void render();
     virtual void run_task();
     u8 unk_30[0x1C];

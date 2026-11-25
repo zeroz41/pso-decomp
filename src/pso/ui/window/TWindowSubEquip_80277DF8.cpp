@@ -23,7 +23,7 @@
 
 #pragma readonly_strings on
 
-const char *TWindowSubEquip__class_name = "TWindowSubEquip";
+const char *TWindowSubEquip::class_name = "TWindowSubEquip";
 
 // Sizes of the equipment list (ctor) and equipment kind (open_equip_kind_list) windows, passed next to
 // their layout positions. inferred: names from the create_*_window argument they fill.
@@ -32,7 +32,7 @@ static const NJS_POINT2 equip_kind_window_size = {308.0f, 124.0f};
 
 
 extern "C" {
-f32 get_main_menu_layer_depth(u8 *arg0, u32 arg1);
+f32 get_main_menu_layer_depth(u8 *parent, u32 layer);
 s32 mark_unequippable_items(int);
 void fn_80255A38(TWindowHelpItem *item);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
@@ -41,11 +41,11 @@ s32 TWindowSubEquip__sub_80263AF4(void *, s32);
 // Built with deferred code generation (the vtable precedes the switch table
 // in .data), so the functions are written from the last one back.
 TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(parent) {
-    m_name = TWindowSubEquip__class_name;
+    m_name = TWindowSubEquip::class_name;
     this->parent = parent;
     this->client_id = client;
-    this->equip_list = (uaddr)create_equip_list_window((saddr)get_window_layout_position(0), (saddr)&equip_list_window_size, this->client_id);
-    ((TWindowBase *)this->equip_list)->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 0));
+    this->equip_list = (TWindowMenuIconLine *)create_equip_list_window((saddr)get_window_layout_position(0), (saddr)&equip_list_window_size, this->client_id);
+    this->equip_list->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 0));
     ((TWindowSubShortCutList *)(this->equip_list))->set_flag70_bit10();
     this->window_help_item = new TWindowHelpItem((void *)get_window_layout_position(2), this->client_id);
     this->window_help_item->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 2));
@@ -56,60 +56,60 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
 }
 
 TWindowSubEquip::~TWindowSubEquip() {
-    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->equip_kind_list = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->equip_list = 0; }
+    if (equip_kind_list != NULL) { equip_kind_list->close(); this->equip_kind_list = 0; }
+    if (equip_list != NULL) { equip_list->close(); this->equip_list = 0; }
     if (this->window_help_item != NULL) { this->window_help_item->close(); this->window_help_item = NULL; }
 }
 
 void TWindowSubEquip::run_task() {
-    s32 temp_r3;
-    temp_r3 = is_player_input_active(this->client_id);
+    s32 controller_index;
+    controller_index = is_player_input_active(this->client_id);
     switch ((s32) this->m_1c) {
     case 0:
     case 1:
         if ((u32) this->equip_kind_list != 0U) {
             TWindowSubEquip__sub_80263AF4(this->parent, 1);
-            ((TWindowBase *)this->equip_kind_list)->close();
+            this->equip_kind_list->close();
             this->equip_kind_list = 0U;
         }
         fn_80255A38(this->window_help_item);
         this->m_20 = -1;
         this->m_24 = -1;
-        ((TWindowMenuIconLine *)equip_list)->refresh_equipment_list();
-        ((TWindowMenuIconLine *)(this->equip_list))->clear_decided();
-        reinterpret_cast<TWindowMenuIconLine *>(equip_list)->start_scroll(188.0f);
+        equip_list->refresh_equipment_list();
+        this->equip_list->clear_decided();
+        equip_list->start_scroll(188.0f);
         this->m_1c = 2U;
     case 2:
         update();
-        if (((TWindowMenuIconLine *)(this->equip_list))->is_cancelled() != 0) {
+        if (this->equip_list->is_cancelled() != 0) {
             this->parent->on_submenu_closed();
             this->m_1c = 6U;
             return;
         }
-        if (((TWindowMenuIconLine *)(this->equip_list))->is_decided() != 0) {
+        if (this->equip_list->is_decided() != 0) {
             this->m_1c = 3U;
         }
         break;
     case 3:
         ((TWindowSubStatusDisp *)(this->equip_list))->init_scroll_pos();
         if ((u32) this->equip_kind_list == 0U) {
-            this->equip_kind_list = open_equip_kind_list(((TWindowMenuIconLine *)this->equip_list)->get_cursor_value());
+            this->equip_kind_list = (TWindowMenuIconLine *)open_equip_kind_list(this->equip_list->get_cursor_value());
         }
-        ((TWindowMenuIconLine *)(this->equip_kind_list))->clear_decided();
+        this->equip_kind_list->clear_decided();
         this->m_1c = 4U;
     case 4:
         update_displayed_item();
-        if (((TWindowMenuIconLine *)(this->equip_kind_list))->is_cancelled() != 0) {
+        if (this->equip_kind_list->is_cancelled() != 0) {
             this->m_1c = 1U;
             return;
         }
-        if (((TWindowMenuIconLine *)(this->equip_kind_list))->is_decided() != 0) {
+        if (this->equip_kind_list->is_decided() != 0) {
             this->m_1c = 5U;
             return;
         }
         break;
     case 5:
-        if ((test_pressed_buttons_packed(&controller_input_state.controllers[temp_r3], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
+        if ((test_pressed_buttons_packed(&controller_input_state.controllers[controller_index], 2) != 0) || (test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
             play_sound_effect(0x52F16, 0, 0, 0);
             this->m_1c = 3U;
             return;
@@ -159,7 +159,7 @@ s32 TWindowSubEquip::open_equip_kind_list(u32 arg1) {
 }
 
 void TWindowSubEquip::apply_slot_selection() {
-    s32 temp_r31;
-    temp_r31 = ((TWindowMenuIconLine *)this->equip_list)->get_cursor_value();
-    TWindowShortListCtrl::assign_shortcut(temp_r31, (int) (((TWindowMenuIconLine *)this->equip_kind_list)->get_cursor_value()), this->client_id);
+    s32 cursor_value;
+    cursor_value = this->equip_list->get_cursor_value();
+    TWindowShortListCtrl::assign_shortcut(cursor_value, (int) (this->equip_kind_list->get_cursor_value()), this->client_id);
 }

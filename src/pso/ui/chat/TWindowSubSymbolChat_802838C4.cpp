@@ -24,27 +24,27 @@ s32 TWindowSubSymbolChatPartsSet::get_cursor_x() {
 }
 
 s32 TWindowSubSymbolChatPartsSet::is_active() {
-    return this->m_68 & 1;
+    return this->result_flags & 1;
 }
 
-s32 TWindowSubSymbolChat__sub_80283900(void *parts_set) {
-    return *(u8 *)((s8 *)parts_set + 0x68) & 2;
+s32 TWindowSubSymbolChatPartsSet::is_cancelled() {
+    return this->result_flags & 2;
 }
 
 void TWindowSubSymbolChatHelp::clear_flag60_bit2() {
-    m_60 = (u8)(m_60 & ~2);
+    feature_flags = (u8)(feature_flags & ~2);
 }
 
 void TWindowSubSymbolChatHelp::clear_flag60_bit4() {
-    m_60 = (u8)(m_60 & ~4);
+    feature_flags = (u8)(feature_flags & ~4);
 }
 
 void TWindowSubSymbolChatHelp::set_pos_and_flag(s32 *first, s32 *second) {
-    m_6c = first;
-    m_70 = second;
-    m_60 = (u8)(m_60 | 4);
+    flip_u = first;
+    flip_v = second;
+    feature_flags = (u8)(feature_flags | 4);
 }
-void TWindowSubSymbolChat__sub_80283944(TWindowSubSymbolChatHelp *window) {
-    window->m_60 &= ~1;
+void clear_help_feature_flag1(TWindowSubSymbolChatHelp *window) {
+    window->feature_flags &= ~1;
 }
 

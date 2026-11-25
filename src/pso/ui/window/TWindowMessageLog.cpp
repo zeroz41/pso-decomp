@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/MessageWindowSettingsAbi.h"
 #include "pso/system/memory.h"
 #include "types.h"
@@ -32,7 +33,7 @@
 extern "C" {
 char *TWindowMessageLog::get_active_photon_object(u16 id) {
     TObjPlayer *entity;
-    char *var_r3;
+    char *name;
 
     entity = (TObjPlayer *)find_entity_by_id(id);
     if (entity == NULL) {
@@ -41,65 +42,65 @@ char *TWindowMessageLog::get_active_photon_object(u16 id) {
     if ((entity->obj_isState2_324() == 0) && (entity->is_locally_controlled() == 0)) {
         return 0;
     }
-    var_r3 = entity->name;
-    if (var_r3 == 0) {
-        var_r3 = 0;
+    name = entity->name;
+    if (name == 0) {
+        name = 0;
     }
-    return var_r3;
+    return name;
 }
 void TWindowMessageLog::clamp_scroll_offset() {
     NJS_POINT2 range;
-    f32 temp_f1;
+    f32 frame_height;
     range.x = 0.0f;
-    temp_f1 = this->frame_size[1];
-    range.y = temp_f1 - 20.0f;
+    frame_height = this->frame_size[1];
+    range.y = frame_height - 20.0f;
     if (scroll_bar->clamp_offset(scroll_offset, &range) != 0) {
         this->target_scroll_y = (f32) this->scroll_offset[1];
     }
 }
 void TWindowMessageLog::update_scroll_position() {
     NJS_POINT2 extent;
-    saddr temp_r31;
-    saddr array_entry;
-    s32 temp_r4;
-    s32 var_r30;
-    temp_r4 = this->next_line;
-    var_r30 = temp_r4 - 1;
-    if (var_r30 < 0) {
-        var_r30 = this->line_count - 1;
+    WindowTextEntry *first_entry;
+    WindowTextEntry *last_entry;
+    s32 first_line;
+    s32 last_line;
+    first_line = this->next_line;
+    last_line = first_line - 1;
+    if (last_line < 0) {
+        last_line = this->line_count - 1;
     }
-    temp_r31 = reinterpret_cast<saddr>(this->get_array_entry(temp_r4));
-    array_entry = reinterpret_cast<saddr>(this->get_array_entry(var_r30));
+    first_entry = static_cast<WindowTextEntry *>(this->get_array_entry(first_line));
+    last_entry = static_cast<WindowTextEntry *>(this->get_array_entry(last_line));
     extent.x = (this->frame_size[0] - 4.0f) - 9.0f;
-    extent.y = (*(f32 *)((s8 *)array_entry + 0xC) + *(f32 *)((s8 *)array_entry + 0x14)) - *(f32 *)((s8 *)temp_r31 + 0xC);
+    extent.y = (last_entry->y + last_entry->height) - first_entry->y;
     scroll_bar->set_extent(&extent);
     this->clamp_scroll_offset();
 }
 
 
 void TWindowMessageLog::update_fade_offset() {
-    f32 temp_f1;
-    f32 temp_f31;
+    f32 height_change;
+    f32 old_height;
 
-    temp_f31 = this->frame_size[1];
+    old_height = this->frame_size[1];
     update_fade();
-    temp_f1 = this->frame_size[1] - temp_f31;
-    if (0.0f != temp_f1) {
-        this->target_scroll_y = (f32) (this->target_scroll_y - temp_f1);
-        this->scroll_offset[1] = (f32) (this->scroll_offset[1] - temp_f1);
+    height_change = this->frame_size[1] - old_height;
+    if (0.0f != height_change) {
+        this->target_scroll_y = (f32) (this->target_scroll_y - height_change);
+        this->scroll_offset[1] = (f32) (this->scroll_offset[1] - height_change);
         clamp_scroll_offset();
     }
 }
 
 
 void TWindowMessageLog::update_scroll_animation() {
-    f32 temp_f1;
+    f32 pending;
 
-    temp_f1 = this->m_94;
-    if (0.0f != temp_f1) {
-        this->target_scroll_y = (f32) (this->target_scroll_y + temp_f1);
-        this->scroll_offset[1] = (f32) (this->scroll_offset[1] + this->m_94);
-        this->m_94 *= 0.0f;
+    pending = this->pending_scroll;
+    if (0.0f != pending) {
+        this->target_scroll_y = (f32) (this->target_scroll_y + pending);
+        this->scroll_offset[1] = (f32) (this->scroll_offset[1] + this->pending_scroll);
+        this->pending_scroll *= 0.0f;
         clamp_scroll_offset();
     }
 }
@@ -143,16 +144,16 @@ s32 TLobby::find_free_chat_log_slot() {
 }
 }
 
-void chat_log_remove_line(saddr arg0) {
+void chat_log_remove_line(saddr index) {
     u32 *destination;
-    uaddr temp_r4;
-    destination = (u32 *)((u8 *)&chat_log_lines.value + (arg0 * 4));
-    temp_r4 = *destination;
-    if (temp_r4 != 0U) {
-        ((THeap *)scroll_win_chat_log_heap)->heap_free((void *)temp_r4);
+    uaddr line;
+    destination = (u32 *)((u8 *)&chat_log_lines.value + (index * 4));
+    line = *destination;
+    if (line != 0U) {
+        ((THeap *)scroll_win_chat_log_heap)->heap_free((void *)line);
         *destination = 0U;
-        if (arg0 < 0x1D) {
-            move_words(reinterpret_cast<void *>(destination), reinterpret_cast<u8 *>(&chat_log_lines.value) + (arg0 + 1) * 4, (saddr)((void *) ((0x1D - arg0) & 0x3FFFFFFF)));
+        if (index < 0x1D) {
+            move_words(reinterpret_cast<void *>(destination), reinterpret_cast<u8 *>(&chat_log_lines.value) + (index + 1) * 4, (saddr)((void *) ((0x1D - index) & 0x3FFFFFFF)));
         }
         *(s32 *)((s8 *)&chat_log_lines.value + 0x74) = 0;
     }
@@ -171,7 +172,7 @@ s32 chat_text_lacks_language_tag(const char *text) {
 }
 
 void cache_last_chat_line(uaddr text) {
-    s32 temp_r31;
+    s32 lacks_language_tag;
     s32 size;
     u8 *dest;
     if ((void *) chat_last_line_buffer != NULL) {
@@ -179,9 +180,9 @@ void cache_last_chat_line(uaddr text) {
         chat_last_line_buffer = NULL;
     }
     if (text != 0U) {
-        temp_r31 = chat_text_lacks_language_tag((const char *)(text));
+        lacks_language_tag = chat_text_lacks_language_tag((const char *)(text));
         size = (s32)measure_string_len((const char *)((void *)text)) + 1;
-        if (temp_r31 != 0) {
+        if (lacks_language_tag != 0) {
             size += 2;
         }
         dest = (u8 *)((THeap *)scroll_win_chat_log_heap)->heap_alloc(size);
@@ -192,7 +193,7 @@ void cache_last_chat_line(uaddr text) {
             } while (dest == NULL);
         }
         chat_last_line_buffer = dest;
-        if (temp_r31 != 0) {
+        if (lacks_language_tag != 0) {
             *(s8 *)((s8 *)dest + 0) = 9;
             if (current_language == LANGUAGE_JAPANESE) {
                 *(s8 *)((s8 *)dest + 1) = 0x4A;
@@ -209,23 +210,23 @@ void cache_last_chat_line(uaddr text) {
 
 void chat_log_add_line(const char *text) {
     saddr num;
-    s32 temp_r30;
-    s32 var_r28;
+    s32 slot_offset;
+    s32 buffer;
     s32 free_chat_log_slot;
     num = strlen(text);
     free_chat_log_slot = TLobby::find_free_chat_log_slot();
-    var_r28 = (saddr) heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
-    if (var_r28 == 0) {
+    buffer = (saddr) heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
+    if (buffer == 0) {
         do {
             chat_log_remove_line(0);
-            var_r28 = (saddr) heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
-        } while (var_r28 == 0);
+            buffer = (saddr) heap_alloc__5THeapFUl(scroll_win_chat_log_heap, num + 1);
+        } while (buffer == 0);
         free_chat_log_slot = TLobby::find_free_chat_log_slot();
     }
-    temp_r30 = free_chat_log_slot * 4;
-    *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0) = var_r28;
-    strncpy(*(char **)((u8 *)&chat_log_lines.value + temp_r30), text, num);
-    *(s8 *)((s8 *)(num + *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + temp_r30) + 0)) + 0) = 0;
+    slot_offset = free_chat_log_slot * 4;
+    *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + slot_offset) + 0) = buffer;
+    strncpy(*(char **)((u8 *)&chat_log_lines.value + slot_offset), text, num);
+    *(s8 *)((s8 *)(num + *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + slot_offset) + 0)) + 0) = 0;
 }
 
 void append_text_space(void);
@@ -261,7 +262,7 @@ u8 *create_message_log_window(const NJS_POINT2 *position, saddr extent, s32 clie
 
 
 
-const char *TWindowMessageLog__name = "TWindowMessageLog";
+const char *TWindowMessageLog::class_name = "TWindowMessageLog";
 
 void TWindowMessageLog::render() {
     WindowDrawContext *draw_context;
@@ -292,16 +293,15 @@ TWindowMessageLog::~TWindowMessageLog() {
 }
 TWindowMessageLog::TWindowMessageLog(const NJS_POINT2 *position, s32 client) : TWindowMessage(position, 0x1E, client) {
     NJS_POINT2 extent;
-    f32 temp_f1;
-    s32 temp_r3;
-    *(s32 *)(this + 0) = (s32) ((saddr)TWindowMessageLog__name);
+    f32 bar_width;
+    *(s32 *)(this + 0) = (s32) ((saddr)TWindowMessageLog::class_name);
     TWindowCtrl__sub_8026AD78(this);
-    temp_f1 = this->target_size[0] - 8.0f;
+    bar_width = this->target_size[0] - 8.0f;
     extent.y = 0.0f;
-    extent.x = temp_f1;
+    extent.x = bar_width;
     scroll_bar = new WindowScrollBar(&extent);
     this->window_flags = (s32) (this->window_flags | 0x80);
-    this->m_94 = (f32) 0.0f;
+    this->pending_scroll = (f32) 0.0f;
     this->load_chat_history();
 }
 

@@ -712,7 +712,7 @@ void TQuestListVM::load_vm() {
 void TQuestListVM::set_enemy_mode_3(TObject *) {
     TLobby::set_enemy_mode_flag();
     evt2_random_enemies_mode = 3;
-    TKeyBoardControl__sub_8000F950();
+    set_keyboard_input_flag();
 }
 
 void TQuestListVM::close_windows() {

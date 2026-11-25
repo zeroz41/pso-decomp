@@ -18,7 +18,7 @@
 
 
 
-const char *TWindowShop__class_name = "TWindowShop";
+const char *TWindowShop::class_name = "TWindowShop";
 
 // Item list window position per camera id (1, 2, 3-4).
 static const NJS_POINT2 TShopJudgmentItemWindow__item_list_rect_table[3] = {
@@ -27,7 +27,7 @@ static const NJS_POINT2 TShopJudgmentItemWindow__item_list_rect_table[3] = {
 
 
 void TWindowShop::init_list_window(s32 title) {
-    this->m_name = TWindowShop__class_name;
+    this->m_name = TWindowShop::class_name;
     ensure_status_display(title);
     create_menu_scroll_bar();
     this->set_depth(39000.0f);
@@ -82,7 +82,7 @@ void TWindowShop::render() {
     }
     p = this->status_display;
     if (p != NULL) {
-        ((TWindowSubStatusDisp *)((void *)(p)))->forward_render(context);
+        ((TWindowSubStatusDisp *)(p))->forward_render(context);
     }
     p = this->scroll_bar;
     if (p != NULL) {

@@ -2,6 +2,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "types.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/render/ColorCopy.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
@@ -15,54 +16,6 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
 
-
-struct Bar_80256C00 {
-    u8 pad0[0x14];
-    f32 scale;
-    u8 pad1[4];
-    f32 width;
-    f32 max;
-    f32 target;
-};
-
-struct Gauge_802571B4 {
-    u16 flags;
-    u8 pad2[0x12];
-    f32 scale;
-    u8 pad18[4];
-    f32 cur;
-    f32 max;
-    f32 val;
-};
-
-struct Gauge_80256E0C { u8 p0[0x14]; f32 max; };
-
-struct Gauge_80257784 {
-    u16 flags;
-    u8 pad2[0x8 - 0x2];
-    f32 f8;
-    f32 fC;
-    f32 f10;
-    f32 f14;
-    s32 f18;
-    f32 f1C;
-    f32 f20;
-    f32 f24;
-    u8 pad28[0x60 - 0x28];
-    s32 f60;
-    s32 f64;
-};
-
-struct Parent_80257784 {
-    u8 pad0[0x10];
-    f32 f10;
-    f32 f14;
-    f32 f18;
-    u8 pad1C[0x30 - 0x1C];
-    s32 f30;
-    u8 pad34[0x38 - 0x34];
-    f32 f38;
-};
 
 extern "C" {
 s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
@@ -85,20 +38,6 @@ struct Fade_802575C0 {
     f32 cr, cg, cb;
     u8 pad50[4];
     f32 dr, dg, db;
-};
-
-typedef void *(*Ctor_80257D44)(void *, void *, s32);
-
-struct Bar_8025799C {
-    u16 flags;
-    u8 pad0[0x14 - 2];
-    f32 width_max;
-    u32 color18;
-    f32 width;
-    f32 max;
-    f32 target;
-    s16 shown;
-    s16 timer;
 };
 
 
@@ -204,8 +143,6 @@ void TWindowStatusGaugeFeedback::calc_bar_width() {
 
 #pragma push
 #pragma fp_contract on
-#define self ((Gauge_80257784 *)this)
-#define parent ((Parent_80257784 *)context)
 void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
     NJS_POINT2 pos;
     f32 scale;
@@ -217,25 +154,25 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
     f32 ratio;
     f32 sz;
     s32 col;
-    used = self->f10 / 21.0f + self->fC / parent->f18;
+    used = this->y / 21.0f + this->x / context->inner_w;
     used *= 7.5f;
-    avail = 17.0f * ((f32)parent->f30 - used);
+    avail = 17.0f * ((f32)context->open_tick - used);
     if (avail <= 0.0f) {
         return;
     }
-    if (self->f20 <= 0.0f || self->f24 <= 0.0f) {
+    if (this->maximum <= 0.0f || this->target <= 0.0f) {
         ratio = 0.0f;
     } else {
-        ratio = self->f24 * self->f14 / self->f20;
+        ratio = this->target * this->scale / this->maximum;
     }
-    cur = self->f1C;
+    cur = this->width;
     if (cur <= ratio) {
         lo = cur;
-        col = self->f60;
+        col = this->rising_color;
         hi = ratio;
     } else {
         hi = cur;
-        col = self->f64;
+        col = this->falling_color;
         lo = ratio - 1.0f;
     }
     if (lo > avail) {
@@ -244,55 +181,52 @@ void TWindowStatusGaugeFeedback::render(WindowDrawContext *context) {
     if (hi > avail) {
         hi = avail;
     }
-    if (!(hi <= 0.0f) || (self->flags & 8)) {
-        pos.x = parent->f10 + self->fC;
-        pos.y = parent->f14 + self->f10;
-        sz = self->f8;
-        scale = -1.0f / (0.299f * sz + parent->f38);
+    if (!(hi <= 0.0f) || (this->flags & 8)) {
+        pos.x = context->inner_x + this->x;
+        pos.y = context->inner_y + this->y;
+        sz = this->depth;
+        scale = -1.0f / (0.299f * sz + context->depth);
         begin_screen_draw(1, sz, 0.299f, -1.0f);
         TObjFish::set_global_param(hud_texlist);
         set_draw_texture_and_color(0xB, -1);
-        if (self->flags & 8) {
-            TWindowSubStatusDisp__sub_80256C40(self, parent, &pos, scale);
+        if (this->flags & 8) {
+            TWindowSubStatusDisp__sub_80256C40(this, context, &pos, scale);
         }
         if (hi > 0.0f) {
             set_constant_material_color(col);
-            ((TWindowStatusGauge *)self)->draw_status_gauge_bar(context, &pos, scale, hi);
-            set_constant_material_color(self->f18);
-            ((TWindowStatusGauge *)self)->draw_status_gauge_bar(context, &pos, scale, lo);
+            draw_status_gauge_bar(context, &pos, scale, hi);
+            set_constant_material_color(this->color);
+            draw_status_gauge_bar(context, &pos, scale, lo);
         }
         TWindowSubStatusDisp::get_player();
     }
 }
-#undef self
-#undef parent
 #pragma pop
 
 void TWindowStatusGaugeFeedback::update() {
-    Bar_8025799C *bar = (Bar_8025799C *)this;
-    if (bar->flags & 0x40) {
-        bar->color18 = update_text_color_transition((Fade_802575C0 *)bar);
+    if (flags & 0x40) {
+        color = update_text_color_transition((Fade_802575C0 *)this);
     }
-    if ((f32)bar->shown != bar->target) {
-        f32 max = bar->max;
-        f32 cur = (f32)bar->shown;
-        f32 width;
+    if ((f32)shown != target) {
+        f32 max = maximum;
+        f32 cur = (f32)shown;
+        f32 bar_width;
         if (max <= 0.0f || cur <= 0.0f) {
-            width = 0.0f;
+            bar_width = 0.0f;
         } else {
-            width = (cur * bar->width_max) / max;
+            bar_width = (cur * scale) / max;
         }
-        bar->width = width;
-        if ((bar->flags & 0x20) && bar->width > bar->width_max) {
-            bar->width = bar->width_max;
+        width = bar_width;
+        if ((flags & 0x20) && width > scale) {
+            width = scale;
         }
-        bar->shown = (s16)bar->target;
-        bar->timer = 36;
+        shown = (s16)target;
+        timer = 36;
     }
-    bar->flags &= ~4;
-    if (bar->timer) {
-        --bar->timer;
-        if (!bar->timer && (bar->flags & 0x10)) {
+    flags &= ~4;
+    if (timer) {
+        --timer;
+        if (!timer && (flags & 0x10)) {
             s32 slot = play_sound_effect(0x22825, 0, 0, 0);
             set_sound_pitch_request(slot, -0x100, 0);
         }
