@@ -1031,6 +1031,6 @@ void TBoss6Mag::set_anim_frame(TBoss6Mag *partner) { this->partner = partner; }
 
 void TBoss6Mag::set_target_nodes(u32 flags, s32 variant) { target_attribute_mask = flags; segment_variant = variant; update_segment_angles(); }
 
-void TBoss6Mag::set_action_field_0x408(u16 client_id) { chase_target.client_id = client_id; }
+void TBoss6Mag::set_chase_target_client(u16 client_id) { chase_target.client_id = client_id; }
 
 void TBoss6Mag::set_on_shoulder(s32 on_shoulder) { chase_target.on_shoulder = on_shoulder; }

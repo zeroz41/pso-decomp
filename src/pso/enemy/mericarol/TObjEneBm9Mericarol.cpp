@@ -57,6 +57,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 #pragma defer_codegen on
 
 
@@ -989,7 +990,7 @@ void TObjEneBm9Mericarol::state_die(s32 reason) {
                 pos.x = x;
                 pos.z = 10.0f * cos_table_lookup(rotation_y);
                 vec3_add_to(&pos, &position);
-                TObjPlayer::spawn_dead_spot_kind1_scale25(&pos, 0x32);
+                TDeadSpot::spawn_kind1_scale25(&pos, 0x32);
                 spawn_ground_effect(&pos, 0x46);
             }
             update_ground_contact();

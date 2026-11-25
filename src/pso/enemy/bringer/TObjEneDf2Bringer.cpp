@@ -141,6 +141,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/TDeadSpot.h"
 
 #pragma defer_codegen on
 s32 TItem::get_item_id() { return (s32)this->item_id; }
@@ -1261,7 +1262,7 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
     case 0:
         this->advance_animation();
         if (this->body_fade.decay_value_toward_floor() != 0) {
-            TObjPlayer::spawn_dead_spot_kind0_scale15(&this->position, 0);
+            TDeadSpot::spawn_kind0_scale15(&this->position, 0);
             this->queue_destruction();
         }
     case 3:

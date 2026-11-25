@@ -52,6 +52,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -1302,7 +1303,7 @@ void TObjEneRe7Berura::update_death_state(s32 reason) {
             if (body_fade.decay_value_toward_floor() != 0) {
                 counter = 4;
                 status_flags |= 1;
-                TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0);
+                TDeadSpot::spawn_kind0_scale15(&position, 0);
                 queue_destruction();
             }
         }

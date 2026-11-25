@@ -59,7 +59,6 @@ s32 is_local_client_floor_leader();
 void release_players_from_cutscene(void);
 extern const char *door_vo_ship_class_name;
 }
-void reset_cameras_to_actor(void *actor, s32 flags);
 
 static const char *bm_boss3_volopt_model_names[] = {
     "fe_obj_hira_kage.nj",

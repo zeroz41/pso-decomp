@@ -62,6 +62,7 @@
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 #include "pso/render/model_render_state.h"
+#include "pso/object/TDeadSpot.h"
 
 
 saddr lbl_805D5140;
@@ -1509,7 +1510,7 @@ void TObjGrass::update_dying() {
             }
             }
             play_sound_effect(remap_sound_for_area(0x4003AB0A), &position, 0, 0);
-            TObjPlayer::spawn_dead_spot_kind1_scale15(&position, 0xA);
+            TDeadSpot::spawn_kind1_scale15(&position, 0xA);
             spawn_ground_effect((const Vec *)(arg0 + 0x38), 0x1E);
         }
         ((TObjEnePanarms *)arg0)->scale.y -= 0.01f;

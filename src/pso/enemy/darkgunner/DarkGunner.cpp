@@ -99,6 +99,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/TDeadSpot.h"
 
 #pragma readonly_strings on
 
@@ -444,9 +445,9 @@ void TObjEneDarkGunner::run_task() {
     if ((behavior_flags & 0x400000) && test_actor_flags(0x22) == 0) {
         s32 phase = material_phase;
         material_phase = phase + 0x800;
-        bodies->unk_28 = get_int_parameter(2);
+        bodies->defense = get_int_parameter(2);
     } else {
-        bodies->unk_28 = 0.0f;
+        bodies->defense = 0.0f;
     }
     if ((behavior_flags & 0x800000) && test_actor_flags(0x22) == 0) {
         if (glow_emitter == NULL) {
@@ -851,7 +852,7 @@ void TObjEneDarkGunner::update_dying() {
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         if (render_control.decay_value_toward_floor() == 1) {
-            TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
+            TDeadSpot::spawn_kind0_scale7_5(&position, 0);
             queue_destruction();
         }
         break;

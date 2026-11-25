@@ -826,16 +826,16 @@ void TBoss5Gryphon::update_body_colliders() {
         bodies[9].flags |= 1;
         bodies[0].radius = gryphon_ten;
     }
-    bodies[0].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_0_value;
-    bodies[1].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_1_4_value;
-    bodies[2].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_1_4_value;
-    bodies[3].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_1_4_value;
-    bodies[4].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_1_4_value;
-    bodies[5].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_5_value;
-    bodies[6].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_6_9_value;
-    bodies[7].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_6_9_value;
-    bodies[8].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_6_9_value;
-    bodies[9].unk_28 = boss5_gryphon_behavior_params[2]->attack.collider_6_9_value;
+    bodies[0].defense = boss5_gryphon_behavior_params[2]->attack.body0_defense;
+    bodies[1].defense = boss5_gryphon_behavior_params[2]->attack.body1_4_defense;
+    bodies[2].defense = boss5_gryphon_behavior_params[2]->attack.body1_4_defense;
+    bodies[3].defense = boss5_gryphon_behavior_params[2]->attack.body1_4_defense;
+    bodies[4].defense = boss5_gryphon_behavior_params[2]->attack.body1_4_defense;
+    bodies[5].defense = boss5_gryphon_behavior_params[2]->attack.body5_defense;
+    bodies[6].defense = boss5_gryphon_behavior_params[2]->attack.body6_9_defense;
+    bodies[7].defense = boss5_gryphon_behavior_params[2]->attack.body6_9_defense;
+    bodies[8].defense = boss5_gryphon_behavior_params[2]->attack.body6_9_defense;
+    bodies[9].defense = boss5_gryphon_behavior_params[2]->attack.body6_9_defense;
 }
 
 void TBoss5Gryphon::update_linked_ground_position() {
@@ -1211,28 +1211,26 @@ void TBoss5Gryphon::spawn_switch_attack(const Vec *pos) {
 }
 
 void TBoss5Gryphon::dispatch_action(u32 state, s32 event) {
-    TBoss5Gryphon *self = this;
     StateAction *actions = dispatch_state_actions();
     StateAction *action = actions + state;
 
     if (*action != NULL) {
-        (self->**action)(event);
+        (this->**action)(event);
     }
 }
 
 void TBoss5Gryphon::state_action_noop() {  }
 
 void TBoss5Gryphon::update_idle_state(u32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
+        this->requested_action = 0;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
         return;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
+        this->advance_animation();
         return;
     case 1: return;
     case 2: return;
@@ -1248,26 +1246,25 @@ void TBoss5Gryphon::update_idle_state(u32 event) {
 }
 
 void TBoss5Gryphon::update_ground_pursuit(s32 event) {
-    TBoss5Gryphon *self = this;
     f32 spd;
     switch (event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 1;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
-        self->flags |= 0x10;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
+        this->flags |= 0x10;
         this->targetRefreshCounter = 0;
         return;
     case 8:
-        self->refresh_target_periodically();
+        this->refresh_target_periodically();
         return;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        self->play_walk_footsteps();
-        self->update_velocity();
-        self->emit_walk_foot_attacks();
-        spd = self->get_motion_frame();
+        this->advance_animation();
+        this->play_walk_footsteps();
+        this->update_velocity();
+        this->emit_walk_foot_attacks();
+        spd = this->get_motion_frame();
         if (spd < gryphon_four) {
             enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
         } else if (!(spd < gryphon_ten)) {
@@ -1279,7 +1276,7 @@ void TBoss5Gryphon::update_ground_pursuit(s32 event) {
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~0x10;
+        this->flags &= ~0x10;
         break;
     case 1: return;
     case 2: return;
@@ -1295,63 +1292,62 @@ void TBoss5Gryphon::update_ground_pursuit(s32 event) {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::update_ground_takeoff(u32 event) {
-    TBoss5Gryphon *self = this;
     f32 d;
     switch (event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 3;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
-        self->takeoff.step = 0;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
+        this->takeoff.step = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->takeoff.step) {
+        this->advance_animation();
+        switch (this->takeoff.step) {
         case 0:
-            if (self->is_passing_frame((f32)gryphon_twenty_five) != 0) {
+            if (this->is_passing_frame((f32)gryphon_twenty_five) != 0) {
                 move_along_angle(gryphon_five, this->rotation_y);
-                self->flags |= 4;
-                self->run_default_state();
+                this->flags |= 4;
+                this->run_default_state();
                 enter_flight_mode();
                 start_camera_shake(0x14, gryphon_point_one_five);
-                self->play_se(0x40033409);
-                self->takeoff.step = 1;
+                this->play_se(0x40033409);
+                this->takeoff.step = 1;
             }
             break;
         case 1:
-            d = self->get_motion_frame() - gryphon_twenty_five;
+            d = this->get_motion_frame() - gryphon_twenty_five;
             d = gryphon_fifty * (d * d);
-            self->position.y = d * gryphon_quarter + gryphon_ground_height;
+            this->position.y = d * gryphon_quarter + gryphon_ground_height;
             move_along_angle(gryphon_one, this->rotation_y);
-            if (self->is_passing_frame((f32)gryphon_twenty_seven) != 0) {
-                self->takeoff.step = 2;
+            if (this->is_passing_frame((f32)gryphon_twenty_seven) != 0) {
+                this->takeoff.step = 2;
             }
             break;
         case 2:
-            d = gryphon_thirty - self->get_motion_frame();
-            self->position.y = gryphon_flight_height + gryphon_ground_height * -(d * d) / gryphon_nine;
+            d = gryphon_thirty - this->get_motion_frame();
+            this->position.y = gryphon_flight_height + gryphon_ground_height * -(d * d) / gryphon_nine;
             move_along_angle(gryphon_one, this->rotation_y);
-            if (self->is_passing_frame((f32)gryphon_thirty) != 0) {
-                self->position.y = gryphon_flight_height;
-                self->takeoff.step = 3;
+            if (this->is_passing_frame((f32)gryphon_thirty) != 0) {
+                this->position.y = gryphon_flight_height;
+                this->takeoff.step = 3;
             }
             break;
         case 3:
             move_along_angle(gryphon_one, this->rotation_y);
             if (is_motion_finished() != 0) {
-                self->advance_motion_entry();
+                this->advance_motion_entry();
             }
             break;
         }
-        if (self->is_passing_frame(20.0f) != 0 || self->is_passing_frame((f32)((f32)gryphon_twenty_eight)) != 0) {
-            self->spawn_ground_splash();
+        if (this->is_passing_frame(20.0f) != 0 || this->is_passing_frame((f32)((f32)gryphon_twenty_eight)) != 0) {
+            this->spawn_ground_splash();
         }
         break;
     case ENEMY_STATE_LEAVE:
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags &= ~4;
+        this->set_flight_height();
+        this->flags &= ~4;
         break;
     case 1: return;
     case 2: return;
@@ -1367,74 +1363,73 @@ void TBoss5Gryphon::update_ground_takeoff(u32 event) {
 
 #pragma pop
 void TBoss5Gryphon::update_shockwave_attack(u32 event) {
-    TBoss5Gryphon *self = this;
     Vec pos;
     Vec vel;
     f32 speed;
     switch (event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0x18;
-        self->clear_intangible();
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->work.step = 0;
-        self->work.timer = 0;
-        self->particles[0] = NULL;
+        this->set_flight_height();
+        this->work.step = 0;
+        this->work.timer = 0;
+        this->particles[0] = NULL;
         this->targetRefreshCounter = 0;
         break;
     case 8:
-        self->refresh_target_periodically();
+        this->refresh_target_periodically();
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->work.step) {
+        this->advance_animation();
+        switch (this->work.step) {
         case 0:
-            self->work.step = 1;
+            this->work.step = 1;
         case 1:
-            if (self->is_passing_frame(8.0f) != 0) {
-                self->play_se(0x40033203);
+            if (this->is_passing_frame(8.0f) != 0) {
+                this->play_se(0x40033203);
             }
-            if (self->is_passing_frame(20.0f) != 0) {
-                self->play_se(0x40033204);
+            if (this->is_passing_frame(20.0f) != 0) {
+                this->play_se(0x40033204);
             }
-            if (self->is_passing_frame((f32)gryphon_twelve) != 0) {
-                self->spawn_ground_splash();
+            if (this->is_passing_frame((f32)gryphon_twelve) != 0) {
+                this->spawn_ground_splash();
             }
-            speed = self->get_motion_frame();
-            if (self->particles[0] == NULL) {
+            speed = this->get_motion_frame();
+            if (this->particles[0] == NULL) {
                 if (speed >= 8.0f && speed <= gryphon_eighteen) {
-                    self->particles[0] = spawn_continuous_particle_effect_with_flags(&self->bone_positions[11], self->effect_ids[3], 0x40);
+                    this->particles[0] = spawn_continuous_particle_effect_with_flags(&this->bone_positions[11], this->effect_ids[3], 0x40);
                 }
             } else if (speed <= gryphon_eighteen) {
-                self->particles[0]->set_position(&self->bone_positions[11]);
+                this->particles[0]->set_position(&this->bone_positions[11]);
             } else {
-                self->particles[0]->queue_destruction();
-                self->particles[0] = NULL;
+                this->particles[0]->queue_destruction();
+                this->particles[0] = NULL;
             }
-            if (self->is_passing_frame((f32)gryphon_twenty_and_half) != 0) {
-                pos.x = self->destination.x;
+            if (this->is_passing_frame((f32)gryphon_twenty_and_half) != 0) {
+                pos.x = this->destination.x;
                 pos.y = boss5_gryphon_arena_center.y;
-                pos.z = self->destination.z;
+                pos.z = this->destination.z;
                 vel.x = gryphon_one_hundred_fifty * sin_table_lookup(this->rotation_y);
-                vel.y = 0.5f * -(self->bone_positions[11].y - boss5_gryphon_arena_center.y);
+                vel.y = 0.5f * -(this->bone_positions[11].y - boss5_gryphon_arena_center.y);
                 vel.z = gryphon_one_hundred_fifty * cos_table_lookup(this->rotation_y);
-                new TBoss5GryphonShockWave(&self->sub_tasks, self, &self->bone_positions[11], &pos, &vel,
-                                           self->target_id);
-                spawn_particle_effect_with_flags(&self->bone_positions[11], self->effect_ids[4], 0x40);
-                self->work.step = 2;
+                new TBoss5GryphonShockWave(&this->sub_tasks, this, &this->bone_positions[11], &pos, &vel,
+                                           this->target_id);
+                spawn_particle_effect_with_flags(&this->bone_positions[11], this->effect_ids[4], 0x40);
+                this->work.step = 2;
             }
             break;
         case 2:
             if (is_motion_finished() != 0) {
-                self->advance_motion_entry();
+                this->advance_motion_entry();
             }
             break;
         }
         break;
     case ENEMY_STATE_LEAVE:
-        if (self->particles[0] != NULL) {
-            self->particles[0]->queue_destruction();
-            self->particles[0] = NULL;
+        if (this->particles[0] != NULL) {
+            this->particles[0]->queue_destruction();
+            this->particles[0] = NULL;
         }
         break;
     case 1:
@@ -1450,58 +1445,57 @@ void TBoss5Gryphon::update_shockwave_attack(u32 event) {
 }
 
 void TBoss5Gryphon::update_landing_attack(u32 event) {
-    TBoss5Gryphon *self = this;
     Vec at;
     f32 d;
     switch (event) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 5;
-        self->clear_intangible();
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags |= 4;
-        self->work.step = 0;
+        this->set_flight_height();
+        this->flags |= 4;
+        this->work.step = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->work.step) {
+        this->advance_animation();
+        switch (this->work.step) {
         case 0:
             move_along_angle(gryphon_three_quarters, this->rotation_y);
-            if (self->is_passing_frame((f32)gryphon_one) != 0) {
-                self->work.step = 1;
+            if (this->is_passing_frame((f32)gryphon_one) != 0) {
+                this->work.step = 1;
             }
             break;
         case 1:
-            d = self->get_motion_frame() - gryphon_one;
-            self->position.y = gryphon_flight_height + gryphon_one_hundred_fifteen * -(d * d) / gryphon_four_hundred_eighty_four;
+            d = this->get_motion_frame() - gryphon_one;
+            this->position.y = gryphon_flight_height + gryphon_one_hundred_fifteen * -(d * d) / gryphon_four_hundred_eighty_four;
             move_along_angle(gryphon_three_quarters, this->rotation_y);
-            if (self->is_passing_frame((f32)gryphon_twenty_three) != 0) {
-                self->enter_ground_mode();
-                self->set_ground_height();
-                self->play_se(0x40032D0D);
-                at.x = self->position.x;
+            if (this->is_passing_frame((f32)gryphon_twenty_three) != 0) {
+                this->enter_ground_mode();
+                this->set_ground_height();
+                this->play_se(0x40032D0D);
+                at.x = this->position.x;
                 at.y = 0.0f;
-                at.z = self->position.z;
-                spawn_particle_effect_with_flags(&at, self->effect_ids[1], 0x40);
+                at.z = this->position.z;
+                spawn_particle_effect_with_flags(&at, this->effect_ids[1], 0x40);
                 TCameraCtrl::set_shake_preset(1);
-                self->emit_landing_impact();
-                self->work.step = 2;
+                this->emit_landing_impact();
+                this->work.step = 2;
             }
             break;
         case 2:
             if (is_motion_finished() != 0) {
-                self->advance_motion_entry();
+                this->advance_motion_entry();
             }
             break;
         }
-        if (self->is_passing_frame((f32)gryphon_twenty_four) != 0) {
-            self->spawn_ground_splash();
+        if (this->is_passing_frame((f32)gryphon_twenty_four) != 0) {
+            this->spawn_ground_splash();
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->enter_ground_mode();
-        self->set_ground_height();
-        self->flags &= ~4;
+        this->enter_ground_mode();
+        this->set_ground_height();
+        this->flags &= ~4;
         break;
     case 1: return;
     case 2: return;
@@ -1519,26 +1513,25 @@ void TBoss5Gryphon::update_landing_attack(u32 event) {
 #pragma fp_contract on
 #pragma pool_data off
 void TBoss5Gryphon::update_death_state(u32 event) {
-    TBoss5Gryphon *self = this;
     CameraPlayback cam;
     Vec v;
     Vec tmp;
     const Vec *p;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x1A;
-        self->set_intangible();
+        this->requested_action = 0x1A;
+        this->set_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags |= 0xC4;
-        self->work.step = 0;
-        self->work.timer = 0;
-        self->work.fall_speed = 0.0f;
+        this->set_flight_height();
+        this->flags |= 0xC4;
+        this->work.step = 0;
+        this->work.timer = 0;
+        this->work.fall_speed = 0.0f;
         p = get_arena_center();
-        self->rotation_y = (s32)(10430.38043493439 * atan2_float(p->x - self->position.x, p->z - self->position.z));
-        self->position.x = p->x - gryphon_six_hundred * sin_table_lookup(self->rotation_y);
-        self->position.y = gryphon_three_hundred_sixty;
-        self->position.z = p->z - gryphon_six_hundred * cos_table_lookup(self->rotation_y);
+        this->rotation_y = (s32)(10430.38043493439 * atan2_float(p->x - this->position.x, p->z - this->position.z));
+        this->position.x = p->x - gryphon_six_hundred * sin_table_lookup(this->rotation_y);
+        this->position.y = gryphon_three_hundred_sixty;
+        this->position.z = p->z - gryphon_six_hundred * cos_table_lookup(this->rotation_y);
         play_cue_stream_file("dradeath.adx");
         TWindowCtrl::init_all_slots();
         switch (get_boss_asset_variant()) {
@@ -1550,18 +1543,18 @@ void TBoss5Gryphon::update_death_state(u32 event) {
             cam.frame_step = 0.5f;
             activate_camera_mode(5);
             cam.play(0x31C7);
-            set_scripted_camera_origin(&self->position, &self->position, (CameraAngles *)&this->rotation_x);
+            set_scripted_camera_origin(&this->position, &this->position, (CameraAngles *)&this->rotation_x);
             break;
         }
         return;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
+        this->advance_animation();
         switch (get_boss_asset_variant()) {
         case 0:
-        if (self->is_passing_frame((f32)gryphon_one_hundred_ten) != 0) {
-            v.x = self->position.x;
+        if (this->is_passing_frame((f32)gryphon_one_hundred_ten) != 0) {
+            v.x = this->position.x;
             v.y = gryphon_negative_thirty;
-            v.z = self->position.z;
+            v.z = this->position.z;
             spawn_particle_effect_with_flags(&v, 0x201, 0x40);
             spawn_particle_effect_with_flags(&v, 0x20D, 0x40);
             spawn_particle_effect_with_flags(&v, 0x20D, 0x40);
@@ -1569,32 +1562,32 @@ void TBoss5Gryphon::update_death_state(u32 event) {
             play_sound_effect(0x4003230C, 0, 0, 0);
         }
         }
-        switch (self->work.step) {
+        switch (this->work.step) {
         case 0:
-            if (self->get_flag_b4() != 0) {
-                self->work.step = 1;
-                self->work.timer = 0;
+            if (this->get_flag_b4() != 0) {
+                this->work.step = 1;
+                this->work.timer = 0;
             }
             break;
         case 1:
-            self->work.timer++;
-            if (self->work.timer >= 50) {
-                self->advance_motion_entry();
+            this->work.timer++;
+            if (this->work.timer >= 50) {
+                this->advance_motion_entry();
             }
             break;
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~0x84;
-        VecCopy(&tmp, &self->position);
-        VecCopy(&self->position, &boss5_gryphon_death_position);
-        self->update_prev_position();
-        self->refresh_and_send_entity_flags();
+        this->flags &= ~0x84;
+        VecCopy(&tmp, &this->position);
+        VecCopy(&this->position, &boss5_gryphon_death_position);
+        this->update_prev_position();
+        this->refresh_and_send_entity_flags();
         set_story_flag_or_send_quest_flag(0x52);
-        VecCopy(&self->position, &tmp);
-        self->update_prev_position();
-        self->actorFlags = 0x12008;
-        self->sync_enemy_state(0);
+        VecCopy(&this->position, &tmp);
+        this->update_prev_position();
+        this->actorFlags = 0x12008;
+        this->sync_enemy_state(0);
         TWindowCtrl::init_all_slots2();
         restore_player_cameras();
         break;
@@ -1693,14 +1686,14 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
             break;
         case 1:
             VecCopy(&this->position, &boss5_gryphon_demo_position);
-            copy_xyz((u8 *)this + 0x5C, (void *)boss5_gryphon_demo_rotation);
+            copy_xyz(&this->rotation_x, (void *)boss5_gryphon_demo_rotation);
             advance_animation();
             return;
         }
         break;
     case ENEMY_STATE_LEAVE:
         VecCopy(&this->position, &boss5_gryphon_demo_position);
-        copy_xyz((u8 *)this + 0x5C, (void *)boss5_gryphon_demo_rotation);
+        copy_xyz(&this->rotation_x, (void *)boss5_gryphon_demo_rotation);
         this->position_correction.x = 0.0f;
         this->position_correction.y = 0.0f;
         this->position_correction.z = 0.0f;
@@ -1714,41 +1707,39 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
 
 #pragma pop
 void TBoss5Gryphon::wait_for_players(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0;
-        self->work.step = 0;
+        this->requested_action = 0;
+        this->work.step = 0;
         return;
     case 3:
-        if (self->work.step > 0x96) {
-            self->transition_enemy_state(0xB);
+        if (this->work.step > 0x96) {
+            this->transition_enemy_state(0xB);
         }
     case ENEMY_STATE_LEAVE:
     case 1:
         return;
     case ENEMY_STATE_UPDATE:
         if ((get_player_by_client_id(0) != 0U) || (get_player_by_client_id(1) != 0U) || (get_player_by_client_id(2) != 0U) || (get_player_by_client_id(3) != 0U)) {
-            self->work.step = (s32) (self->work.step + 1);
+            this->work.step = (s32) (this->work.step + 1);
         }
         break;
     }
 }
 
 void TBoss5Gryphon::update_turning_flight(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 4;
-        self->clear_intangible();
+        this->requested_action = 4;
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
+        this->set_flight_height();
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        self->spawn_flight_splash();
-        move_along_angle(self->motion->args.flight.speed, self->rotation_y);
-        self->turn_velocity += self->motion->args.flight.turn;
+        this->advance_animation();
+        this->spawn_flight_splash();
+        move_along_angle(this->motion->args.flight.speed, this->rotation_y);
+        this->turn_velocity += this->motion->args.flight.turn;
         break;
     case ENEMY_STATE_LEAVE:
         break;
@@ -1806,27 +1797,26 @@ void TBoss5Gryphon::circle_arena(s32 event) {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::move_to_motion_destination(s32 event) {
-    TBoss5Gryphon *self = this;
     f32 dx;
     f32 dz;
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 4;
-        self->clear_intangible();
+        this->requested_action = 4;
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->work.target_angle = angle_to_move_target(self);
+        this->set_flight_height();
+        this->work.target_angle = angle_to_move_target(this);
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        self->spawn_flight_splash();
-        dx = self->motion->args.move.x - self->position.x;
-        dz = self->motion->args.move.z - self->position.z;
-        turn_toward_angle_limited(self->motion->args.move.turn_rate, self->work.target_angle);
-        move_along_angle(self->motion->args.move.speed, (s32)(10430.38043493439 * atan2_float(dx, dz)));
+        this->advance_animation();
+        this->spawn_flight_splash();
+        dx = this->motion->args.move.x - this->position.x;
+        dz = this->motion->args.move.z - this->position.z;
+        turn_toward_angle_limited(this->motion->args.move.turn_rate, this->work.target_angle);
+        move_along_angle(this->motion->args.move.speed, (s32)(10430.38043493439 * atan2_float(dx, dz)));
         if (dx * dx + dz * dz < gryphon_ten) {
-            self->advance_motion_entry();
+            this->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
@@ -1839,7 +1829,6 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
 }
 
 void TBoss5Gryphon::update_glide_in(s32 event) {
-    TBoss5Gryphon *self = this;
     f32 speed;
     f32 f;
     f32 d;
@@ -1847,64 +1836,64 @@ void TBoss5Gryphon::update_glide_in(s32 event) {
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 6;
-        self->clear_intangible();
+        this->requested_action = 6;
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags |= 4;
-        self->work.step = 0;
+        this->set_flight_height();
+        this->flags |= 4;
+        this->work.step = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->work.step) {
+        this->advance_animation();
+        switch (this->work.step) {
         case 0:
             speed = gryphon_quarter;
-            self->position.y = gryphon_one_hundred_twenty * sin_table_lookup((s32)(gryphon_quarter_turn * self->get_motion_frame() / gryphon_eighteen)) + gryphon_flight_height;
-            if (self->is_passing_frame(gryphon_eighteen) != 0) {
-                self->work.step = 1;
-                self->work.timer = 0;
+            this->position.y = gryphon_one_hundred_twenty * sin_table_lookup((s32)(gryphon_quarter_turn * this->get_motion_frame() / gryphon_eighteen)) + gryphon_flight_height;
+            if (this->is_passing_frame(gryphon_eighteen) != 0) {
+                this->work.step = 1;
+                this->work.timer = 0;
             }
             break;
         case 1:
-            t = self->work.timer;
+            t = this->work.timer;
             speed = gryphon_two_point_one;
             if ((f32)t < *(const f32 *)&gryphon_fifteen) {
                 f = (f32)t;
                 d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_fifteen));
                 d = gryphon_one_hundred_sixteen_and_half * d + gryphon_one_hundred_sixteen_and_half;
-                self->position.y = gryphon_sixty_seven + d;
+                this->position.y = gryphon_sixty_seven + d;
             } else {
                 f = (f32)(0x1E - t);
                 d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_fifteen));
                 d = -gryphon_one_hundred_sixteen_and_half * d + gryphon_one_hundred_sixteen_and_half;
-                self->position.y = gryphon_sixty_seven + d;
+                this->position.y = gryphon_sixty_seven + d;
             }
-            self->rotation_x = (s32)(gryphon_three_32nds_turn * f / gryphon_fifteen);
-            self->work.timer++;
-            if (self->work.timer > 0x1E) {
-                self->enter_low_flight_mode();
-                self->set_low_flight_height();
-                self->rotation_x = 0;
-                self->work.step = 2;
+            this->rotation_x = (s32)(gryphon_three_32nds_turn * f / gryphon_fifteen);
+            this->work.timer++;
+            if (this->work.timer > 0x1E) {
+                this->enter_low_flight_mode();
+                this->set_low_flight_height();
+                this->rotation_x = 0;
+                this->work.step = 2;
             }
             break;
         case 2:
             speed = gryphon_two_point_one;
-            if (self->action_flags == 7) {
-                self->advance_motion_entry();
+            if (this->action_flags == 7) {
+                this->advance_motion_entry();
             }
             break;
         }
-        move_along_angle(speed, self->rotation_y);
-        if (self->is_passing_frame(gryphon_ten) != 0) {
-            self->spawn_ground_splash();
+        move_along_angle(speed, this->rotation_y);
+        if (this->is_passing_frame(gryphon_ten) != 0) {
+            this->spawn_ground_splash();
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~4;
-        self->enter_low_flight_mode();
-        self->set_low_flight_height();
-        self->rotation_x = 0;
+        this->flags &= ~4;
+        this->enter_low_flight_mode();
+        this->set_low_flight_height();
+        this->rotation_x = 0;
         break;
     case 10:
     case 11:
@@ -1915,29 +1904,28 @@ void TBoss5Gryphon::update_glide_in(s32 event) {
 
 #pragma pop
 void TBoss5Gryphon::update_low_flight_straight(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        if (self->flags & 0x100) {
-            self->requested_action = 0x14;
+        if (this->flags & 0x100) {
+            this->requested_action = 0x14;
         } else {
-            self->requested_action = 7;
+            this->requested_action = 7;
         }
-        self->clear_intangible();
-        self->enter_low_flight_mode();
-        self->set_low_flight_height();
-        self->work.timer = 0;
+        this->clear_intangible();
+        this->enter_low_flight_mode();
+        this->set_low_flight_height();
+        this->work.timer = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        move_along_angle(gryphon_three_and_half, self->rotation_y);
-        if (self->flags & 0x100) {
-            self->emit_flight_body_attacks();
-            self->update_low_flight_particles();
+        this->advance_animation();
+        move_along_angle(gryphon_three_and_half, this->rotation_y);
+        if (this->flags & 0x100) {
+            this->emit_flight_body_attacks();
+            this->update_low_flight_particles();
         } else {
-            self->emit_wing_attacks();
-            self->update_ground_effects();
-            self->spawn_ancient_trap(0x40032802);
+            this->emit_wing_attacks();
+            this->update_ground_effects();
+            this->spawn_ancient_trap(0x40032802);
         }
         break;
     case ENEMY_STATE_LEAVE:
@@ -2023,50 +2011,49 @@ void TBoss5Gryphon::update_low_flight_circle(s32 event) {
 
 #pragma pop
 void TBoss5Gryphon::update_bezier_descent(s32 event) {
-    TBoss5Gryphon *self = this;
     Vec out;
     Vec at;
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 9;
-        self->clear_intangible();
+        this->requested_action = 9;
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags |= 4;
-        self->enable_particles();
-        self->work.step = 0;
+        this->set_flight_height();
+        this->flags |= 4;
+        this->enable_particles();
+        this->work.step = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->work.step) {
+        this->advance_animation();
+        switch (this->work.step) {
         case 0:
-            move_along_angle(gryphon_one_and_half, self->rotation_y);
-            TBoss8Dragon::eval_bezier_curve(boss5_gryphon_landing_bezier_points, 4, 0, &out, self->get_motion_frame() / 20.0f);
-            self->position.y = out.y;
-            if (self->is_passing_frame(20.0f) != 0) {
-                self->enter_ground_mode();
-                self->set_ground_height();
-                self->play_se(0x40032D0D);
-                at.x = self->position.x;
+            move_along_angle(gryphon_one_and_half, this->rotation_y);
+            TBoss8Dragon::eval_bezier_curve(boss5_gryphon_landing_bezier_points, 4, 0, &out, this->get_motion_frame() / 20.0f);
+            this->position.y = out.y;
+            if (this->is_passing_frame(20.0f) != 0) {
+                this->enter_ground_mode();
+                this->set_ground_height();
+                this->play_se(0x40032D0D);
+                at.x = this->position.x;
                 at.y = 0.0f;
-                at.z = self->position.z;
-                spawn_particle_effect_with_flags(&at, self->effect_ids[1], 0x40);
+                at.z = this->position.z;
+                spawn_particle_effect_with_flags(&at, this->effect_ids[1], 0x40);
                 TCameraCtrl::set_shake_preset(1);
-                self->emit_landing_impact();
-                self->work.step = 1;
+                this->emit_landing_impact();
+                this->work.step = 1;
             }
             break;
         case 1:
-            if (self->is_motion_finished() != 0) {
-                self->advance_motion_entry();
+            if (this->is_motion_finished() != 0) {
+                this->advance_motion_entry();
             }
             break;
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~4;
-        self->destroy_parts();
+        this->flags &= ~4;
+        this->destroy_parts();
         break;
     case 10:
     case 11:
@@ -2078,7 +2065,6 @@ void TBoss5Gryphon::update_bezier_descent(s32 event) {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::update_dive_motion(s32 event) {
-    TBoss5Gryphon *self = this;
     f32 speed;
     f32 f;
     f32 d;
@@ -2090,66 +2076,65 @@ void TBoss5Gryphon::update_dive_motion(s32 event) {
         break;
     case ENEMY_STATE_ENTER:
         this->requested_action = 7;
-        self->clear_intangible();
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags |= 4;
-        self->enable_particles();
-        self->work.step = 0;
-        self->work.timer = 0;
+        this->set_flight_height();
+        this->flags |= 4;
+        this->enable_particles();
+        this->work.step = 0;
+        this->work.timer = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->work.step) {
+        this->advance_animation();
+        switch (this->work.step) {
         case 0:
-            t = self->work.timer;
+            t = this->work.timer;
             speed = gryphon_two_point_three;
             if ((f32)t < *(const f32 *)&gryphon_nineteen_and_half) {
                 f = (f32)t;
                 d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_nineteen_and_half));
                 d = -gryphon_one_hundred_sixteen_and_half * d + gryphon_one_hundred_sixteen_and_half;
-                self->position.y = gryphon_sixty_seven + d;
+                this->position.y = gryphon_sixty_seven + d;
             } else {
                 f = (f32)(0x27 - t);
                 d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_nineteen_and_half));
                 d = gryphon_one_hundred_sixteen_and_half * d + gryphon_one_hundred_sixteen_and_half;
-                self->position.y = gryphon_sixty_seven + d;
+                this->position.y = gryphon_sixty_seven + d;
             }
             this->rotation_x = (s32)(-(gryphon_five_64ths_turn * f) / gryphon_nineteen_and_half);
-            self->work.timer++;
-            if (self->work.timer == 0x11) {
+            this->work.timer++;
+            if (this->work.timer == 0x11) {
                 this->requested_action = 8;
-            } else if (self->work.timer > 0x27) {
-                self->position.y = gryphon_three_hundred;
+            } else if (this->work.timer > 0x27) {
+                this->position.y = gryphon_three_hundred;
                 this->rotation_x = 0;
-                self->work.step = 1;
+                this->work.step = 1;
             }
             break;
         case 1:
             speed = gryphon_quarter;
             f = this->frame_count - gryphon_ten;
-            d = self->get_motion_frame() - gryphon_ten;
-            self->position.y = gryphon_three_hundred - gryphon_one_hundred_twenty * sin_table_lookup((s32)(gryphon_quarter_turn * d / f));
-            if (self->is_passing_frame((f32)gryphon_seventeen) != 0) {
-                self->spawn_ground_splash();
+            d = this->get_motion_frame() - gryphon_ten;
+            this->position.y = gryphon_three_hundred - gryphon_one_hundred_twenty * sin_table_lookup((s32)(gryphon_quarter_turn * d / f));
+            if (this->is_passing_frame((f32)gryphon_seventeen) != 0) {
+                this->spawn_ground_splash();
             }
             if (is_motion_finished() != 0) {
-                self->advance_motion_entry();
+                this->advance_motion_entry();
             }
             break;
         }
         move_along_angle(speed, this->rotation_y);
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~4;
-        self->destroy_parts();
+        this->flags &= ~4;
+        this->destroy_parts();
         this->rotation_x = 0;
         break;
     }
 }
 
 void TBoss5Gryphon::update_spiral_in(s32 event) {
-    TBoss5Gryphon *self = this;
     f32 speed;
     f32 f;
     f32 d;
@@ -2157,64 +2142,64 @@ void TBoss5Gryphon::update_spiral_in(s32 event) {
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x13;
-        self->clear_intangible();
+        this->requested_action = 0x13;
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags |= 0x104;
-        self->work.step = 0;
+        this->set_flight_height();
+        this->flags |= 0x104;
+        this->work.step = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->work.step) {
+        this->advance_animation();
+        switch (this->work.step) {
         case 0:
             speed = gryphon_quarter;
-            self->position.y = 20.0f * sin_table_lookup((s32)(gryphon_quarter_turn * self->get_motion_frame() / gryphon_nine)) + gryphon_flight_height;
-            if (self->is_passing_frame(gryphon_nine) != 0) {
-                self->work.step = 1;
-                self->work.timer = 0;
+            this->position.y = 20.0f * sin_table_lookup((s32)(gryphon_quarter_turn * this->get_motion_frame() / gryphon_nine)) + gryphon_flight_height;
+            if (this->is_passing_frame(gryphon_nine) != 0) {
+                this->work.step = 1;
+                this->work.timer = 0;
             }
             break;
         case 1:
-            t = self->work.timer;
+            t = this->work.timer;
             speed = gryphon_two_point_one;
             if ((f32)t < *(const f32 *)&gryphon_ten) {
                 f = (f32)t;
                 d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_ten));
                 d = gryphon_sixty_six_and_half * d + gryphon_sixty_six_and_half;
-                self->position.y = gryphon_sixty_seven + d;
+                this->position.y = gryphon_sixty_seven + d;
             } else {
                 f = (f32)(0x14 - t);
                 d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_ten));
                 d = -gryphon_sixty_six_and_half * d + gryphon_sixty_six_and_half;
-                self->position.y = gryphon_sixty_seven + d;
+                this->position.y = gryphon_sixty_seven + d;
             }
-            self->rotation_x = (s32)(gryphon_three_32nds_turn * f / gryphon_ten);
-            self->work.timer++;
-            if (self->work.timer > 0x14) {
-                self->enter_low_flight_mode();
-                self->set_low_flight_height();
-                self->rotation_x = 0;
-                self->work.step = 2;
+            this->rotation_x = (s32)(gryphon_three_32nds_turn * f / gryphon_ten);
+            this->work.timer++;
+            if (this->work.timer > 0x14) {
+                this->enter_low_flight_mode();
+                this->set_low_flight_height();
+                this->rotation_x = 0;
+                this->work.step = 2;
             }
             break;
         case 2:
             speed = gryphon_two_point_one;
-            if (self->action_flags == 0x14) {
-                self->advance_motion_entry();
+            if (this->action_flags == 0x14) {
+                this->advance_motion_entry();
             }
             break;
         }
-        move_along_angle(speed, self->rotation_y);
-        if (self->is_passing_frame(gryphon_five) != 0) {
-            self->spawn_ground_splash();
+        move_along_angle(speed, this->rotation_y);
+        if (this->is_passing_frame(gryphon_five) != 0) {
+            this->spawn_ground_splash();
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~4;
-        self->enter_low_flight_mode();
-        self->set_low_flight_height();
-        self->rotation_x = 0;
+        this->flags &= ~4;
+        this->enter_low_flight_mode();
+        this->set_low_flight_height();
+        this->rotation_x = 0;
         break;
     case 10:
     case 11:
@@ -2225,53 +2210,52 @@ void TBoss5Gryphon::update_spiral_in(s32 event) {
 
 #pragma pop
 void TBoss5Gryphon::handle_descend_state(s32 event) {
-    TBoss5Gryphon *self = this;
     Vec out;
     Vec at;
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x16;
-        self->clear_intangible();
+        this->requested_action = 0x16;
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags |= 4;
-        self->update_particle_positions();
-        self->work.step = 0;
+        this->set_flight_height();
+        this->flags |= 4;
+        this->update_particle_positions();
+        this->work.step = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->work.step) {
+        this->advance_animation();
+        switch (this->work.step) {
         case 0:
-            move_along_angle(gryphon_one_and_half, self->rotation_y);
-            TBoss8Dragon::eval_bezier_curve(boss5_gryphon_descend_bezier_points, 4, 0, &out, self->get_motion_frame() / gryphon_seventeen);
-            self->position.y = out.y;
-            if (self->is_passing_frame((f32)gryphon_seventeen) != 0) {
-                self->enter_ground_mode();
-                self->set_ground_height();
-                self->play_se(0x40032D0D);
-                at.x = self->position.x;
+            move_along_angle(gryphon_one_and_half, this->rotation_y);
+            TBoss8Dragon::eval_bezier_curve(boss5_gryphon_descend_bezier_points, 4, 0, &out, this->get_motion_frame() / gryphon_seventeen);
+            this->position.y = out.y;
+            if (this->is_passing_frame((f32)gryphon_seventeen) != 0) {
+                this->enter_ground_mode();
+                this->set_ground_height();
+                this->play_se(0x40032D0D);
+                at.x = this->position.x;
                 at.y = 0.0f;
-                at.z = self->position.z;
-                spawn_particle_effect_with_flags(&at, self->effect_ids[1], 0x40);
+                at.z = this->position.z;
+                spawn_particle_effect_with_flags(&at, this->effect_ids[1], 0x40);
                 TCameraCtrl::set_shake_preset(1);
-                self->emit_landing_impact();
-                self->work.step = 1;
+                this->emit_landing_impact();
+                this->work.step = 1;
             }
             break;
         case 1:
-            if (self->is_motion_finished() != 0) {
-                self->advance_motion_entry();
+            if (this->is_motion_finished() != 0) {
+                this->advance_motion_entry();
             }
             break;
         }
-        if (self->is_passing_frame((f32)gryphon_four) != 0) {
-            self->spawn_ground_splash();
+        if (this->is_passing_frame((f32)gryphon_four) != 0) {
+            this->spawn_ground_splash();
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~0x104;
-        self->free_parts();
+        this->flags &= ~0x104;
+        this->free_parts();
         break;
     case 10: case 11:
     default:
@@ -2282,7 +2266,6 @@ void TBoss5Gryphon::handle_descend_state(s32 event) {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::handle_takeoff_state(s32 event) {
-    TBoss5Gryphon *self = this;
     f32 speed;
     f32 f;
     f32 d;
@@ -2290,68 +2273,68 @@ void TBoss5Gryphon::handle_takeoff_state(s32 event) {
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x14;
-        self->clear_intangible();
+        this->requested_action = 0x14;
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags |= 4;
-        self->update_particle_positions();
-        self->work.step = 0;
-        self->work.timer = 0;
+        this->set_flight_height();
+        this->flags |= 4;
+        this->update_particle_positions();
+        this->work.step = 0;
+        this->work.timer = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->work.step) {
+        this->advance_animation();
+        switch (this->work.step) {
         case 0:
-            t = self->work.timer;
+            t = this->work.timer;
             speed = gryphon_two_point_three;
             if ((f32)t < *(const f32 *)&gryphon_nineteen_and_half) {
                 f = (f32)t;
                 d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_nineteen_and_half));
                 d = -gryphon_eighty_one_and_half * d + gryphon_eighty_one_and_half;
-                self->position.y = gryphon_sixty_seven + d;
+                this->position.y = gryphon_sixty_seven + d;
             } else {
                 f = (f32)(0x27 - t);
                 d = cos_table_lookup((s32)(gryphon_quarter_turn * f / gryphon_nineteen_and_half));
                 d = gryphon_eighty_one_and_half * d + gryphon_eighty_one_and_half;
-                self->position.y = gryphon_sixty_seven + d;
+                this->position.y = gryphon_sixty_seven + d;
             }
-            self->rotation_x = (s32)(-(gryphon_five_64ths_turn * f) / gryphon_nineteen_and_half);
-            self->work.timer++;
-            if (self->work.timer == 0xB) {
-                self->requested_action = 0x15;
-            } else if (self->work.timer > 0x27) {
-                self->position.y = gryphon_two_hundred_thirty;
-                self->rotation_x = 0;
-                self->work.step = 1;
+            this->rotation_x = (s32)(-(gryphon_five_64ths_turn * f) / gryphon_nineteen_and_half);
+            this->work.timer++;
+            if (this->work.timer == 0xB) {
+                this->requested_action = 0x15;
+            } else if (this->work.timer > 0x27) {
+                this->position.y = gryphon_two_hundred_thirty;
+                this->rotation_x = 0;
+                this->work.step = 1;
             }
-            if (self->is_passing_frame(gryphon_seven) != 0) {
-                self->spawn_ground_splash();
+            if (this->is_passing_frame(gryphon_seven) != 0) {
+                this->spawn_ground_splash();
             }
             break;
         case 1: {
             f32 phase_speed;
             f32 base;
             speed = gryphon_quarter;
-            phase_speed = self->get_motion_frame();
+            phase_speed = this->get_motion_frame();
             base = gryphon_eleven;
             phase_speed -= base;
-            d = self->frame_count - base;
-            self->position.y = gryphon_two_hundred_thirty - gryphon_fifty *
+            d = this->frame_count - base;
+            this->position.y = gryphon_two_hundred_thirty - gryphon_fifty *
                 sin_table_lookup((s32)(gryphon_quarter_turn * phase_speed / d));
-            if (self->is_motion_finished() != 0) {
-                self->advance_motion_entry();
+            if (this->is_motion_finished() != 0) {
+                this->advance_motion_entry();
             }
             break;
         }
         }
-        move_along_angle(speed, self->rotation_y);
+        move_along_angle(speed, this->rotation_y);
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~0x104;
-        self->free_parts();
-        self->position.y = gryphon_flight_height;
-        self->rotation_x = 0;
+        this->flags &= ~0x104;
+        this->free_parts();
+        this->position.y = gryphon_flight_height;
+        this->rotation_x = 0;
         break;
     case 10:
     case 11:
@@ -2362,18 +2345,17 @@ void TBoss5Gryphon::handle_takeoff_state(s32 event) {
 
 #pragma pop
 void TBoss5Gryphon::update_run_in(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0xA;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
+        this->requested_action = 0xA;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        if (self->action_flags == 0xB) {
-            self->advance_motion_entry();
+        this->advance_animation();
+        if (this->action_flags == 0xB) {
+            this->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
@@ -2443,7 +2425,6 @@ void TBoss5Gryphon::state_move(s32 event) {
 }
 
 void TBoss5Gryphon::update_run_out(s32 event) {
-    TBoss5Gryphon *self = this;
     Vec at;
     f32 v;
     f32 speed;
@@ -2452,15 +2433,15 @@ void TBoss5Gryphon::update_run_out(s32 event) {
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0xC;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
-        self->flags |= 0x30;
+        this->requested_action = 0xC;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
+        this->flags |= 0x30;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        v = self->get_motion_frame();
+        this->advance_animation();
+        v = this->get_motion_frame();
         speed = 0.0f;
         if (v < gryphon_fifteen) {
             depth = gryphon_three_quarters;
@@ -2469,25 +2450,25 @@ void TBoss5Gryphon::update_run_out(s32 event) {
             depth = gryphon_three_quarters;
             scale = gryphon_point_eight_six;
         }
-        if (self->is_passing_frame(gryphon_three) != 0) {
+        if (this->is_passing_frame(gryphon_three) != 0) {
             speed += gryphon_eleven;
         }
-        self->scale_size(scale, depth, depth);
-        move_along_angle(speed, self->rotation_y);
-        if (self->is_passing_frame(gryphon_fifteen) != 0) {
-            at.x = self->position.x;
+        this->scale_size(scale, depth, depth);
+        move_along_angle(speed, this->rotation_y);
+        if (this->is_passing_frame(gryphon_fifteen) != 0) {
+            at.x = this->position.x;
             at.y = 0.0f;
-            at.z = self->position.z;
-            spawn_particle_effect_with_flags(&at, self->effect_ids[1], 0x40);
-            self->emit_landing_impact();
-            self->play_se(0x40032D0D);
+            at.z = this->position.z;
+            spawn_particle_effect_with_flags(&at, this->effect_ids[1], 0x40);
+            this->emit_landing_impact();
+            this->play_se(0x40032D0D);
         }
-        if (self->is_motion_finished() != 0) {
-            self->advance_motion_entry();
+        if (this->is_motion_finished() != 0) {
+            this->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~0x30;
+        this->flags &= ~0x30;
         break;
     case 10:
     case 11:
@@ -2497,29 +2478,28 @@ void TBoss5Gryphon::update_run_out(s32 event) {
 }
 
 void TBoss5Gryphon::update_crouch_in(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0xD;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
+        this->requested_action = 0xD;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        self->emit_ground_contact_attack();
-        if (self->is_passing_frame(gryphon_seven) != 0) {
-            self->collider->enable_blocking_bodies(&self->position, self->rotation_y);
+        this->advance_animation();
+        this->emit_ground_contact_attack();
+        if (this->is_passing_frame(gryphon_seven) != 0) {
+            this->collider->enable_blocking_bodies(&this->position, this->rotation_y);
         }
-        if (self->is_passing_frame(gryphon_one) != 0) {
-            self->play_se(0x40032D0E);
+        if (this->is_passing_frame(gryphon_one) != 0) {
+            this->play_se(0x40032D0E);
         }
-        if (self->action_flags == 0xE) {
-            self->advance_motion_entry();
+        if (this->action_flags == 0xE) {
+            this->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->collider->disable_blocking_bodies();
+        this->collider->disable_blocking_bodies();
         break;
     case 10:
     case 11:
@@ -2529,21 +2509,20 @@ void TBoss5Gryphon::update_crouch_in(s32 event) {
 }
 
 void TBoss5Gryphon::update_crouch(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0xE;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
-        self->collider->enable_blocking_bodies(&self->position, self->rotation_y);
+        this->requested_action = 0xE;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
+        this->collider->enable_blocking_bodies(&this->position, this->rotation_y);
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        self->emit_ground_contact_attack();
+        this->advance_animation();
+        this->emit_ground_contact_attack();
         break;
     case ENEMY_STATE_LEAVE:
-        self->collider->disable_blocking_bodies();
+        this->collider->disable_blocking_bodies();
         break;
     case 10:
     case 11:
@@ -2553,27 +2532,26 @@ void TBoss5Gryphon::update_crouch(s32 event) {
 }
 
 void TBoss5Gryphon::update_crouch_out(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0xF;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
-        self->collider->enable_blocking_bodies(&self->position, self->rotation_y);
+        this->requested_action = 0xF;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
+        this->collider->enable_blocking_bodies(&this->position, this->rotation_y);
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        self->emit_ground_contact_attack();
-        if (self->is_passing_frame(gryphon_five) != 0) {
-            self->collider->disable_blocking_bodies();
+        this->advance_animation();
+        this->emit_ground_contact_attack();
+        if (this->is_passing_frame(gryphon_five) != 0) {
+            this->collider->disable_blocking_bodies();
         }
-        if (self->is_motion_finished() != 0) {
-            self->advance_motion_entry();
+        if (this->is_motion_finished() != 0) {
+            this->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->collider->disable_blocking_bodies();
+        this->collider->disable_blocking_bodies();
         break;
     case 10:
     case 11:
@@ -2583,21 +2561,20 @@ void TBoss5Gryphon::update_crouch_out(s32 event) {
 }
 
 void TBoss5Gryphon::update_horn_in(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x10;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
+        this->requested_action = 0x10;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        if (self->is_passing_frame(gryphon_nineteen) != 0) {
-            self->play_se(0x4003320F);
+        this->advance_animation();
+        if (this->is_passing_frame(gryphon_nineteen) != 0) {
+            this->play_se(0x4003320F);
         }
-        if (self->action_flags == 0x11) {
-            self->advance_motion_entry();
+        if (this->action_flags == 0x11) {
+            this->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
@@ -2610,52 +2587,51 @@ void TBoss5Gryphon::update_horn_in(s32 event) {
 }
 
 void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
-    TBoss5Gryphon *self = this;
     Vec left;
     Vec right;
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x11;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
-        self->collider->enable_blocking_bodies(&self->position, self->rotation_y);
-        self->lightning.frame = 0;
+        this->requested_action = 0x11;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
+        this->collider->enable_blocking_bodies(&this->position, this->rotation_y);
+        this->lightning.frame = 0;
         push_matrix();
         set_matrix_identity(NULL);
-        post_translate_matrix(&self->position.x);
-        rotate_matrix_y(0, self->rotation_y);
+        post_translate_matrix(&this->position.x);
+        rotate_matrix_y(0, this->rotation_y);
         matrix_mult_vec(NULL, &gryphon_left_horn_lightning_offset, &left);
         matrix_mult_vec(NULL, &gryphon_right_horn_lightning_offset, &right);
         pop_matrix();
-        self->lightning.horns[0] = TBoss5GryphonLightningHorn::spawn_ground_lightning(self, &left, self->rotation_y);
-        self->lightning.horns[1] = TBoss5GryphonLightningHorn::spawn_ground_lightning(self, &right, self->rotation_y);
-        subtractive_rng_seed(self->rng, self->motion->args.seed);
+        this->lightning.horns[0] = TBoss5GryphonLightningHorn::spawn_ground_lightning(this, &left, this->rotation_y);
+        this->lightning.horns[1] = TBoss5GryphonLightningHorn::spawn_ground_lightning(this, &right, this->rotation_y);
+        subtractive_rng_seed(this->rng, this->motion->args.seed);
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        self->emit_ground_contact_attack();
+        this->advance_animation();
+        this->emit_ground_contact_attack();
         if (boss5_gryphon_behavior_params[2]->attack.action_level >= 2) {
-            self->spawn_lightning_effect();
-            apply_lightning_hit(self, &self->position, gryphon_sixty);
+            this->spawn_lightning_effect();
+            apply_lightning_hit(this, &this->position, gryphon_sixty);
         }
-        if (boss5_gryphon_behavior_params[2]->attack.action_level >= 4 && self->lightning.frame % 20 == 0) {
-            self->fire_horn_lightning((self->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng)));
+        if (boss5_gryphon_behavior_params[2]->attack.action_level >= 4 && this->lightning.frame % 20 == 0) {
+            this->fire_horn_lightning((this->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio());
         }
-        self->spawn_ancient_trap(0x40032D11);
-        self->lightning.frame++;
+        this->spawn_ancient_trap(0x40032D11);
+        this->lightning.frame++;
         break;
     case ENEMY_STATE_LEAVE:
-        if (self->lightning.horns[1] != NULL) {
-            self->lightning.horns[1]->queue_destruction();
-            self->lightning.horns[1] = NULL;
+        if (this->lightning.horns[1] != NULL) {
+            this->lightning.horns[1]->queue_destruction();
+            this->lightning.horns[1] = NULL;
         }
-        if (self->lightning.horns[0] != NULL) {
-            self->lightning.horns[0]->queue_destruction();
-            self->lightning.horns[0] = NULL;
+        if (this->lightning.horns[0] != NULL) {
+            this->lightning.horns[0]->queue_destruction();
+            this->lightning.horns[0] = NULL;
         }
-        self->collider->disable_blocking_bodies();
+        this->collider->disable_blocking_bodies();
         break;
     case 10:
     case 11:
@@ -2665,21 +2641,20 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
 }
 
 void TBoss5Gryphon::update_horn_out(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x12;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
+        this->requested_action = 0x12;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        if (self->is_passing_frame(6.0f) != 0) {
-            self->play_se(0x40032D10);
+        this->advance_animation();
+        if (this->is_passing_frame(6.0f) != 0) {
+            this->play_se(0x40032D10);
         }
-        if (self->is_motion_finished() != 0) {
-            self->advance_motion_entry();
+        if (this->is_motion_finished() != 0) {
+            this->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
@@ -2692,52 +2667,51 @@ void TBoss5Gryphon::update_horn_out(s32 event) {
 }
 
 void TBoss5Gryphon::update_offscreen_climb(s32 event) {
-    TBoss5Gryphon *self = this;
     f32 speed;
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x13;
-        self->clear_intangible();
+        this->requested_action = 0x13;
+        this->clear_intangible();
         enter_flight_mode();
-        self->set_flight_height();
-        self->flags |= 4;
-        self->work.timer = 0;
-        self->work.step = 0;
+        this->set_flight_height();
+        this->flags |= 4;
+        this->work.timer = 0;
+        this->work.step = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->work.step) {
+        this->advance_animation();
+        switch (this->work.step) {
         case 0: {
             f32 t;
             speed = gryphon_point_two_eight;
-            t = self->get_motion_frame();
-            self->position.y = gryphon_flight_height + gryphon_sixty * (t * t) / gryphon_twenty_five;
-            if (self->is_passing_frame(gryphon_five) != 0) {
-                self->work.timer = 0;
-                self->work.step = 1;
+            t = this->get_motion_frame();
+            this->position.y = gryphon_flight_height + gryphon_sixty * (t * t) / gryphon_twenty_five;
+            if (this->is_passing_frame(gryphon_five) != 0) {
+                this->work.timer = 0;
+                this->work.step = 1;
             }
             break;
         }
         case 1:
-            self->position.y += gryphon_forty;
+            this->position.y += gryphon_forty;
             speed = gryphon_point_two_eight;
-            self->work.timer++;
-            if (self->work.timer >= 0x28) {
-                self->enter_offscreen_mode();
-                self->set_offscreen_height();
-                self->rotation_x = 0x4000;
-                self->advance_motion_entry();
+            this->work.timer++;
+            if (this->work.timer >= 0x28) {
+                this->enter_offscreen_mode();
+                this->set_offscreen_height();
+                this->rotation_x = 0x4000;
+                this->advance_motion_entry();
             }
             break;
         }
-        move_along_angle(speed, self->rotation_y);
+        move_along_angle(speed, this->rotation_y);
         break;
     case ENEMY_STATE_LEAVE:
-        self->flags &= ~4;
-        self->enter_offscreen_mode();
-        self->set_offscreen_height();
-        self->rotation_x = 0x4000;
+        this->flags &= ~4;
+        this->enter_offscreen_mode();
+        this->set_offscreen_height();
+        this->rotation_x = 0x4000;
         break;
     case 10:
     case 11:
@@ -2749,54 +2723,53 @@ void TBoss5Gryphon::update_offscreen_climb(s32 event) {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::update_offscreen_dive(u32 event) {
-    TBoss5Gryphon *self = this;
     Vec w;
     Vec v;
     Vec p;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x14;
-        self->clear_intangible();
-        self->enter_offscreen_mode();
-        self->set_offscreen_height();
-        self->flags |= 4;
-        self->play_se(0x4003A818);
-        subtractive_rng_seed(self->rng, self->motion->args.seed);
-        self->rotation_x = 0x4000;
-        self->dive.frame = 0;
-        self->dive.frame_limit = (f32)self->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_seventy_five);
-        self->dive.fall_speed = gryphon_offscreen_drop / ((f32)self->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_thirty_two_and_half));
-        self->dive.step = 0;
+        this->requested_action = 0x14;
+        this->clear_intangible();
+        this->enter_offscreen_mode();
+        this->set_offscreen_height();
+        this->flags |= 4;
+        this->play_se(0x4003A818);
+        subtractive_rng_seed(this->rng, this->motion->args.seed);
+        this->rotation_x = 0x4000;
+        this->dive.frame = 0;
+        this->dive.frame_limit = (f32)this->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_seventy_five);
+        this->dive.fall_speed = gryphon_offscreen_drop / ((f32)this->motion->timer - TWindowSubStatusDisp::round_away_from_zero(gryphon_thirty_two_and_half));
+        this->dive.step = 0;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->dive.step) {
+        this->advance_animation();
+        switch (this->dive.step) {
         case 0: {
             TObjPlayer *pl;
             s32 a2;
             s32 ang;
             s32 found;
             f32 r;
-            f32 xx = self->position.x * self->position.x;
-            f32 zz = self->position.z * self->position.z;
+            f32 xx = this->position.x * this->position.x;
+            f32 zz = this->position.z * this->position.z;
             if (xx + zz > gryphon_arena_radius_sq) {
-                self->fire_at_angle(0x100);
+                this->fire_at_angle(0x100);
             } else {
-                self->update_heading(0x100);
+                this->update_heading(0x100);
             }
-            self->update_facing(gryphon_three);
-            self->position.y -= self->dive.fall_speed;
-            self->rotation_z += 0x3311;
-            if (self->dive.frame >= self->dive.frame_limit) {
-                self->requested_action = 0x16;
-                self->disable_motion_blend();
-                self->dive.step = 1;
+            this->update_facing(gryphon_three);
+            this->position.y -= this->dive.fall_speed;
+            this->rotation_z += 0x3311;
+            if (this->dive.frame >= this->dive.frame_limit) {
+                this->requested_action = 0x16;
+                this->disable_motion_blend();
+                this->dive.step = 1;
             }
             found = 0;
-            ang = 65536.0f * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng));
-            r = calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng));
-            if (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng)) > 0.5f) {
-                pl = get_player_by_client_id((u16)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng)))));
+            ang = 65536.0f * (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio();
+            r = (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio();
+            if ((reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio() > 0.5f) {
+                pl = get_player_by_client_id((u16)((s32)(gryphon_four * (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio())));
                 if (pl->is_alive() != 0) {
                     CsnHit *hit;
                     r *= gryphon_fifty;
@@ -2822,48 +2795,48 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
                 } while (hit == NULL || hit->contact->point.y > 6.0f);
             }
             {
-                a2 = 10430.38043493439 * atan2_float(v.x - self->position.x, v.z - self->position.z);
-                w.x = gryphon_fifty * sin_table_lookup(a2) + self->position.x;
-                w.y = gryphon_fifty + self->position.y;
-                w.z = gryphon_fifty * cos_table_lookup(a2) + self->position.z;
+                a2 = 10430.38043493439 * atan2_float(v.x - this->position.x, v.z - this->position.z);
+                w.x = gryphon_fifty * sin_table_lookup(a2) + this->position.x;
+                w.y = gryphon_fifty + this->position.y;
+                w.z = gryphon_fifty * cos_table_lookup(a2) + this->position.z;
             }
-            if (self->dive.frame % 5 == 0) {
-                TBoss5GryphonLightningWing::spawn_corner(self, &w, &v, 0x28, 0x11);
+            if (this->dive.frame % 5 == 0) {
+                TBoss5GryphonLightningWing::spawn_corner(this, &w, &v, 0x28, 0x11);
             }
-            if (self->dive.frame == 0x14) {
-                self->play_se(0x40033C12);
+            if (this->dive.frame == 0x14) {
+                this->play_se(0x40033C12);
             }
-            self->dive.frame++;
+            this->dive.frame++;
             break;
         }
         case 1: {
             f32 s;
-            self->move_along_angle(gryphon_one, self->rotation_y);
-            self->position.y -= self->dive.fall_speed;
-            s = self->get_motion_frame();
-            self->rotation_x = 65536.0f - gryphon_three_quarter_turn * (gryphon_one - s / gryphon_seven);
-            self->rotation_z = gryphon_dive_roll_scale * (gryphon_seven - s) * (gryphon_seven - s);
-            if (self->is_passing_frame((f32)gryphon_seven) != 0) {
-                self->rotation_x = 0;
-                self->rotation_z = 0;
-                self->dive.step = 2;
+            this->move_along_angle(gryphon_one, this->rotation_y);
+            this->position.y -= this->dive.fall_speed;
+            s = this->get_motion_frame();
+            this->rotation_x = 65536.0f - gryphon_three_quarter_turn * (gryphon_one - s / gryphon_seven);
+            this->rotation_z = gryphon_dive_roll_scale * (gryphon_seven - s) * (gryphon_seven - s);
+            if (this->is_passing_frame((f32)gryphon_seven) != 0) {
+                this->rotation_x = 0;
+                this->rotation_z = 0;
+                this->dive.step = 2;
             }
             break;
         }
         case 2:
-            self->move_along_angle(gryphon_one, self->rotation_y);
-            self->position.y -= self->dive.fall_speed;
-            if (self->is_passing_frame((f32)gryphon_seventeen) != 0) {
-                self->enter_ground_mode();
-                self->set_ground_height();
-                self->play_se(0x40032D0D);
-                p.x = self->position.x;
+            this->move_along_angle(gryphon_one, this->rotation_y);
+            this->position.y -= this->dive.fall_speed;
+            if (this->is_passing_frame((f32)gryphon_seventeen) != 0) {
+                this->enter_ground_mode();
+                this->set_ground_height();
+                this->play_se(0x40032D0D);
+                p.x = this->position.x;
                 p.y = 0.0f;
-                p.z = self->position.z;
-                spawn_particle_effect_with_flags(&p, self->effect_ids[1], 0x40);
+                p.z = this->position.z;
+                spawn_particle_effect_with_flags(&p, this->effect_ids[1], 0x40);
                 TCameraCtrl::set_shake_preset(1);
-                self->emit_landing_impact();
-                self->dive.step = 3;
+                this->emit_landing_impact();
+                this->dive.step = 3;
             }
             break;
         case 3:
@@ -2871,17 +2844,17 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->enter_ground_mode();
-        self->set_ground_height();
-        self->rotation_x = 0;
-        self->rotation_z = 0;
-        self->flags &= ~4;
+        this->enter_ground_mode();
+        this->set_ground_height();
+        this->rotation_x = 0;
+        this->rotation_z = 0;
+        this->flags &= ~4;
         break;
     case 8:
-        switch (self->dive.step) {
+        switch (this->dive.step) {
         case 0:
         case 1:
-            self->refresh_target_periodically();
+            this->refresh_target_periodically();
             break;
         case 2:
         case 3:
@@ -2894,30 +2867,29 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
 }
 
 void TBoss5Gryphon::update_roar_state(s32 event) {
-    TBoss5Gryphon *self = this;
     Vec pos;
     Vec *bones;
 
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 2;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
+        this->requested_action = 2;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        if (self->is_passing_frame(gryphon_roar_frame) != 0) {
-            bones = self->bone_positions;
+        this->advance_animation();
+        if (this->is_passing_frame(gryphon_roar_frame) != 0) {
+            bones = this->bone_positions;
             pos.x = 0.5f * (bones[1].x + bones[2].x);
             pos.y = 0.5f * (bones[1].y + bones[2].y);
             pos.z = 0.5f * (bones[1].z + bones[2].z);
-            new TBoss5GryphonSnarl(&self->sub_tasks, &pos);
+            new TBoss5GryphonSnarl(&this->sub_tasks, &pos);
             TCameraCtrl::set_shake_preset(1);
-            self->play_se(0x40032306);
+            this->play_se(0x40032306);
         }
-        if (self->is_motion_finished() != 0) {
-            self->advance_motion_entry();
+        if (this->is_motion_finished() != 0) {
+            this->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
@@ -2931,27 +2903,26 @@ void TBoss5Gryphon::update_roar_state(s32 event) {
 
 #pragma pop
 void TBoss5Gryphon::update_howl_state(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        self->requested_action = 0x17;
-        self->clear_intangible();
-        self->enter_ground_mode();
-        self->set_ground_height();
-        self->flags &= ~4;
+        this->requested_action = 0x17;
+        this->clear_intangible();
+        this->enter_ground_mode();
+        this->set_ground_height();
+        this->flags &= ~4;
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        if (self->is_passing_frame(gryphon_twelve) != 0) {
-            self->play_se(0x4003A817);
+        this->advance_animation();
+        if (this->is_passing_frame(gryphon_twelve) != 0) {
+            this->play_se(0x4003A817);
         }
-        if (self->is_motion_finished() != 0) {
-            self->advance_motion_entry();
+        if (this->is_motion_finished() != 0) {
+            this->advance_motion_entry();
         }
         break;
     case ENEMY_STATE_LEAVE:
-        self->enter_ground_mode();
-        self->set_ground_height();
+        this->enter_ground_mode();
+        this->set_ground_height();
         break;
     case 10:
     case 11:
@@ -2961,31 +2932,30 @@ void TBoss5Gryphon::update_howl_state(s32 event) {
 }
 
 void TBoss5Gryphon::update_mode_idle(s32 event) {
-    TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
-        switch (self->flight_mode) {
+        switch (this->flight_mode) {
         case 0:
-            self->requested_action = 0;
+            this->requested_action = 0;
             break;
         case 1:
-            self->requested_action = 4;
+            this->requested_action = 4;
             break;
         case 2:
-            self->requested_action = 7;
+            this->requested_action = 7;
             break;
         }
         break;
     case ENEMY_STATE_UPDATE:
-        self->advance_animation();
-        switch (self->flight_mode) {
+        this->advance_animation();
+        switch (this->flight_mode) {
         case 0:
             break;
         case 1:
-            self->spawn_flight_splash();
+            this->spawn_flight_splash();
             break;
         case 2:
-            move_along_angle(gryphon_three, self->rotation_y);
+            move_along_angle(gryphon_three, this->rotation_y);
             break;
         }
         break;
@@ -2999,11 +2969,10 @@ void TBoss5Gryphon::update_mode_idle(s32 event) {
 }
 
 void TBoss5Gryphon::handle_message(s32 msg) {
-    TBoss5Gryphon *self = this;
     switch (msg) {
     case 4:
-        self->flags |= 0x80;
-        self->queue_destruction();
+        this->flags |= 0x80;
+        this->queue_destruction();
         break;
     case 5:
         break;
@@ -3311,15 +3280,14 @@ void TBoss5Gryphon::choose_next_action(Boss5GryphonActionStep *step) {
 }
 
 s32 TBoss5Gryphon::run_action_script_step(Boss5GryphonMotionEntry *out, Boss5GryphonActionStep *step) {
-    TBoss5Gryphon *self = this;
     ScriptAction *actions = script_step_actions();
     ScriptAction *action;
     u32 index = step->command;
 
-    self->copy_angle_state(out, step);
+    this->copy_angle_state(out, step);
     action = actions + index;
     if (*action != NULL) {
-        (self->**action)(out, step);
+        (this->**action)(out, step);
     }
     if (index == 0x22) {
         return 1;
@@ -3432,45 +3400,44 @@ s32 TBoss5Gryphon::get_random_sign(Boss5GryphonActionStep *step, s32 i) {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::update_ground_effects() {
-    TBoss5Gryphon *self = this;
     Vec pts[16];
     Vec *p;
     Vec *q;
     s32 i;
     p = pts;
-    VecCopy(p++, &self->bone_positions[3]);
-    VecCopy(p++, &self->bone_positions[4]);
-    VecCopy(p++, &self->bone_positions[5]);
-    VecCopy(p, &self->bone_positions[6]);
-    p[1].x = (2.0f * self->bone_positions[3].x + self->bone_positions[4].x) / gryphon_three;
-    p[1].y = (2.0f * self->bone_positions[3].y + self->bone_positions[4].y) / gryphon_three;
-    p[1].z = (2.0f * self->bone_positions[3].z + self->bone_positions[4].z) / gryphon_three;
-    p[2].x = (2.0f * self->bone_positions[4].x + self->bone_positions[3].x) / gryphon_three;
-    p[2].y = (2.0f * self->bone_positions[4].y + self->bone_positions[3].y) / gryphon_three;
-    p[2].z = (2.0f * self->bone_positions[4].z + self->bone_positions[3].z) / gryphon_three;
-    p[3].x = 0.5f * (self->bone_positions[4].x + self->bone_positions[5].x);
-    p[3].y = 0.5f * (self->bone_positions[4].y + self->bone_positions[5].y);
-    p[3].z = 0.5f * (self->bone_positions[4].z + self->bone_positions[5].z);
-    p[4].x = 0.5f * (self->bone_positions[5].x + self->bone_positions[6].x);
-    p[4].y = 0.5f * (self->bone_positions[5].y + self->bone_positions[6].y);
-    p[4].z = 0.5f * (self->bone_positions[5].z + self->bone_positions[6].z);
+    VecCopy(p++, &this->bone_positions[3]);
+    VecCopy(p++, &this->bone_positions[4]);
+    VecCopy(p++, &this->bone_positions[5]);
+    VecCopy(p, &this->bone_positions[6]);
+    p[1].x = (2.0f * this->bone_positions[3].x + this->bone_positions[4].x) / gryphon_three;
+    p[1].y = (2.0f * this->bone_positions[3].y + this->bone_positions[4].y) / gryphon_three;
+    p[1].z = (2.0f * this->bone_positions[3].z + this->bone_positions[4].z) / gryphon_three;
+    p[2].x = (2.0f * this->bone_positions[4].x + this->bone_positions[3].x) / gryphon_three;
+    p[2].y = (2.0f * this->bone_positions[4].y + this->bone_positions[3].y) / gryphon_three;
+    p[2].z = (2.0f * this->bone_positions[4].z + this->bone_positions[3].z) / gryphon_three;
+    p[3].x = 0.5f * (this->bone_positions[4].x + this->bone_positions[5].x);
+    p[3].y = 0.5f * (this->bone_positions[4].y + this->bone_positions[5].y);
+    p[3].z = 0.5f * (this->bone_positions[4].z + this->bone_positions[5].z);
+    p[4].x = 0.5f * (this->bone_positions[5].x + this->bone_positions[6].x);
+    p[4].y = 0.5f * (this->bone_positions[5].y + this->bone_positions[6].y);
+    p[4].z = 0.5f * (this->bone_positions[5].z + this->bone_positions[6].z);
     p += 5;
-    VecCopy(p++, &self->bone_positions[7]);
-    VecCopy(p++, &self->bone_positions[8]);
-    VecCopy(p++, &self->bone_positions[9]);
-    VecCopy(p, &self->bone_positions[10]);
-    p[1].x = (2.0f * self->bone_positions[7].x + self->bone_positions[8].x) / gryphon_three;
-    p[1].y = (2.0f * self->bone_positions[7].y + self->bone_positions[8].y) / gryphon_three;
-    p[1].z = (2.0f * self->bone_positions[7].z + self->bone_positions[8].z) / gryphon_three;
-    p[2].x = (2.0f * self->bone_positions[8].x + self->bone_positions[7].x) / gryphon_three;
-    p[2].y = (2.0f * self->bone_positions[8].y + self->bone_positions[7].y) / gryphon_three;
-    p[2].z = (2.0f * self->bone_positions[8].z + self->bone_positions[7].z) / gryphon_three;
-    p[3].x = 0.5f * (self->bone_positions[8].x + self->bone_positions[9].x);
-    p[3].y = 0.5f * (self->bone_positions[8].y + self->bone_positions[9].y);
-    p[3].z = 0.5f * (self->bone_positions[8].z + self->bone_positions[9].z);
-    p[4].x = 0.5f * (self->bone_positions[9].x + self->bone_positions[10].x);
-    p[4].y = 0.5f * (self->bone_positions[9].y + self->bone_positions[10].y);
-    p[4].z = 0.5f * (self->bone_positions[9].z + self->bone_positions[10].z);
+    VecCopy(p++, &this->bone_positions[7]);
+    VecCopy(p++, &this->bone_positions[8]);
+    VecCopy(p++, &this->bone_positions[9]);
+    VecCopy(p, &this->bone_positions[10]);
+    p[1].x = (2.0f * this->bone_positions[7].x + this->bone_positions[8].x) / gryphon_three;
+    p[1].y = (2.0f * this->bone_positions[7].y + this->bone_positions[8].y) / gryphon_three;
+    p[1].z = (2.0f * this->bone_positions[7].z + this->bone_positions[8].z) / gryphon_three;
+    p[2].x = (2.0f * this->bone_positions[8].x + this->bone_positions[7].x) / gryphon_three;
+    p[2].y = (2.0f * this->bone_positions[8].y + this->bone_positions[7].y) / gryphon_three;
+    p[2].z = (2.0f * this->bone_positions[8].z + this->bone_positions[7].z) / gryphon_three;
+    p[3].x = 0.5f * (this->bone_positions[8].x + this->bone_positions[9].x);
+    p[3].y = 0.5f * (this->bone_positions[8].y + this->bone_positions[9].y);
+    p[3].z = 0.5f * (this->bone_positions[8].z + this->bone_positions[9].z);
+    p[4].x = 0.5f * (this->bone_positions[9].x + this->bone_positions[10].x);
+    p[4].y = 0.5f * (this->bone_positions[9].y + this->bone_positions[10].y);
+    p[4].z = 0.5f * (this->bone_positions[9].z + this->bone_positions[10].z);
     q = pts;
     for (i = 0; i < 16; i++, q++) {
         CsnHit *hit = csnVecterUnder(q, 0x16EF);
@@ -3484,10 +3451,10 @@ void TBoss5Gryphon::update_ground_effects() {
                 q->y = y;
             }
         }
-        if (self->parts[i] == NULL) {
-            self->parts[i] = spawn_continuous_particle_effect_with_flags(q, self->effect_ids[5], 0x40);
+        if (this->parts[i] == NULL) {
+            this->parts[i] = spawn_continuous_particle_effect_with_flags(q, this->effect_ids[5], 0x40);
         } else {
-            self->parts[i]->set_position(q);
+            this->parts[i]->set_position(q);
         }
     }
 }
@@ -3776,9 +3743,9 @@ void TBoss5Gryphon::fire_horn_lightning(s32 left, s32 client_id) {
     s32 ang;
     CsnHit *hit;
 
-    r = calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->rng));
+    r = (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio();
     r = 100.0f * r + 100.0f;
-    ang = (s32)(45056.0f * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->rng)) + (f32)this->rotation_y);
+    ang = (s32)(45056.0f * (reinterpret_cast<SubtractiveRng *>(this->rng))->next_ratio() + (f32)this->rotation_y);
     if (left != 0) {
         if (this->lightning.horns[0] == NULL) return;
         this->lightning.horns[0]->get_start_position(&pos);

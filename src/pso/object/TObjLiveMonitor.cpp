@@ -214,7 +214,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
     if (--shot_frames > 0) {
         return;
     }
-    r = calc_random_ratio__10TObjPlayerFv(&rng);
+    r = rng.next_ratio();
     if (r < 0.3f) {
         shot = SHOT_PLAYER_ORBIT;
     } else if (r < 0.4f) {
@@ -228,14 +228,14 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
     case SHOT_NONE:
         break;
     case SHOT_PLAYER_ORBIT:
-        shot_frames = 180.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 180.0f;
+        shot_frames = 180.0f * rng.next_ratio() + 180.0f;
         target_id = get_player_target();
-        orbit_angle = 65535.0f * calc_random_ratio__10TObjPlayerFv(&rng);
-        orbit_speed = 2.0f * (80.0f * (calc_random_ratio__10TObjPlayerFv(&rng) - 0.5f));
-        height_offset = 15.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 5.0f;
+        orbit_angle = 65535.0f * rng.next_ratio();
+        orbit_speed = 2.0f * (80.0f * (rng.next_ratio() - 0.5f));
+        height_offset = 15.0f * rng.next_ratio() + 5.0f;
         break;
     case SHOT_BEHIND_PLAYER:
-        shot_frames = 180.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 180.0f;
+        shot_frames = 180.0f * rng.next_ratio() + 180.0f;
         target_id = get_player_target();
         subject = get_player_by_client_id(target_id);
         if (subject != NULL) {
@@ -243,7 +243,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         }
         break;
     case SHOT_BEHIND_BOSS:
-        shot_frames = 150.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 150.0f;
+        shot_frames = 150.0f * rng.next_ratio() + 150.0f;
         target_id = get_boss_target();
         subject = (TObjBase *)get_enemy_entity(target_id);
         if (subject != NULL) {
@@ -251,8 +251,8 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
         }
         break;
     case SHOT_ARENA:
-        shot_frames = 120.0f * calc_random_ratio__10TObjPlayerFv(&rng) + 120.0f;
-        orbit_angle = 65535.0f * calc_random_ratio__10TObjPlayerFv(&rng);
+        shot_frames = 120.0f * rng.next_ratio() + 120.0f;
+        orbit_angle = 65535.0f * rng.next_ratio();
         eye.x = 360.0f * sin_table_lookup(orbit_angle);
         eye.y = 250.0f;
         eye.z = 360.0f * cos_table_lookup(orbit_angle);

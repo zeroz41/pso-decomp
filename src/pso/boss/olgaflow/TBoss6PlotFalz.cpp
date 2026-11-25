@@ -73,6 +73,7 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/network/client_id.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
+#include "pso/render/ChunkModelDraw.h"
 
 #pragma readonly_strings on
 const char *boss06_plotfalz_dat_model_names[15] = {
@@ -580,7 +581,7 @@ void TBoss6PlotFalz::spawn_type1() {
     }
 }
 
-void TBoss6PlotFalz::ensure_field384() {
+void TBoss6PlotFalz::ensure_tube() {
     if (tube == NULL) {
         tube = TBoss6Tube::create(this);
     }
@@ -632,7 +633,6 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
 
 
 
-void set_chunk_blend(u32 x);
 extern s32 game_difficulty_selection;
 
 void TBoss6PlotFalz::update_camera_target() {
@@ -973,7 +973,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     shake_preset = 0;
     fade = create_boss4_fade();
     tube = NULL;
-    ensure_field384();
+    ensure_tube();
     TBoss6PlotFalz::type1_instance = NULL;
     TBoss6PlotFalz::type2_instance = NULL;
     wait_demo = 0;

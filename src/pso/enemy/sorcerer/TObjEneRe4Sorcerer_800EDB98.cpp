@@ -111,6 +111,7 @@ extern "C" {
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/StripBufferPair.h"
+#include "pso/object/TDeadSpot.h"
 extern "C" {
 
 
@@ -1317,7 +1318,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 mode) {
     case 0:
         advance_animation();
         if (fade.decay_value_toward_floor() != 0) {
-            TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0);
+            TDeadSpot::spawn_kind0_scale15(&position, 0);
             queue_destruction();
         }
     case 3:

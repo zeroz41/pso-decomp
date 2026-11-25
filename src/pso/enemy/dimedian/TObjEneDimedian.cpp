@@ -47,6 +47,7 @@
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/object/TDeadSpot.h"
 
 extern "C" {
 extern SampledMotionPoints *dimedian_attack_left_trail;
@@ -102,7 +103,7 @@ void TObjEneDimedian::play_alert_sound() {
 
 void TObjEneDimedian::spawn_death_effect() {
     s32 area;
-    TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
+    TDeadSpot::spawn_kind0_scale7_5(&position, 0);
     fn_800D911C(&body_center);
     area = get_current_floor_area();
     if ((area == AREA_VR_TEMPLE_ALPHA) || (area == AREA_VR_TEMPLE_BETA)) {

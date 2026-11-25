@@ -70,7 +70,7 @@ struct TBoss6Mag : public TObjEnemy {
     virtual void run_death_reaction();
 
     void set_on_shoulder(s32 on_shoulder);
-    void set_action_field_0x408(u16 client_id);
+    void set_chase_target_client(u16 client_id);
     void set_target_nodes(u32 flags, s32 variant);
     void set_anim_frame(TBoss6Mag *partner);
     s32 is_phase_active();

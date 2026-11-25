@@ -750,7 +750,7 @@ void TObjPlayer::init_collision_body() {
     this->collision_body.center.x = this->position.x;
     this->collision_body.center.y = this->position.y;
     this->collision_body.center.z = this->position.z;
-    this->collision_body.unk_28 = player_zero;
+    this->collision_body.defense = player_zero;
     this->set_collision_body(&this->collision_body);
 }
 

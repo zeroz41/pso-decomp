@@ -3564,7 +3564,7 @@ void TBoss7DeRolLeC::handle_extend_tentacles_state(u32 event) {
 }
 
 void TBoss7DeRolLeC::handle_tentacle_needle_barrage_state(u32 event) {
-    u8 *player;
+    TObjPlayer *player;
     void *o;
     u16 id;
     u16 n;
@@ -3593,9 +3593,9 @@ void TBoss7DeRolLeC::handle_tentacle_needle_barrage_state(u32 event) {
             if (state_step == 0) {
                 state_step = 20;
                 state_ints[0]--;
-                player = (u8 *)get_player_by_client_id(needle_targets[state_ints[0] & 3]);
+                player = get_player_by_client_id(needle_targets[state_ints[0] & 3]);
                 if (player != NULL) {
-                    new TBoss7TentacleNeedle(this, (Vec *)(player + 0x38));
+                    new TBoss7TentacleNeedle(this, &player->position);
                 }
             } else {
                 state_step--;

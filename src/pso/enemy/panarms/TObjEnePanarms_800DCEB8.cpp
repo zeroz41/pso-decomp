@@ -55,6 +55,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 
 extern const char bm7_s_paa_body_model_filename[] = "bm7_s_paa_body.nj";
@@ -907,7 +908,7 @@ void TObjEnePanarms::update_dead() {
             spot.y = this->position.y;
             spot.z = (0.5f * this->position.z) + (0.5f * draw_positions[0].z);
             spawn_ground_effect(&spot, 0x78);
-            TObjPlayer::spawn_dead_spot_kind1_scale15(&spot, 6);
+            TDeadSpot::spawn_kind1_scale15(&spot, 6);
         }
         if (this->state_timer == 0x5A) {
             this->shadow_visible = 0;

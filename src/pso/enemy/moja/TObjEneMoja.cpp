@@ -63,6 +63,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/TDeadSpot.h"
 extern "C" {
 void TObjPlayer__sub_800ACA0C(void *);
 }
@@ -1363,7 +1364,7 @@ void TObjEneMoja::update_death_state() {
         play_sound_effect(remap_sound_for_area(0x3AD03), &v, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
         spawn_particle_effect(&v, 0xF0);
-        spawn_dead_spot_kind2_scale15(&v, 0x14);
+        TDeadSpot::spawn_kind2_scale15(&v, 0x14);
         spawn_effect_at_ground(&v, 0x32);
     }
     if (this->frame < 0.5f * (30.0f * this->play_speed)) {

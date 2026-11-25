@@ -39,6 +39,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 
 TObjMotionAction balclaw_claw_actions[7] = {
@@ -376,7 +377,7 @@ void TObjEneBalClawClaw::run_death_sequence() {
     case 1:
         advance_animation();
         if (fade.decay_value_toward_floor() == 1) {
-            TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
+            TDeadSpot::spawn_kind0_scale7_5(&position, 0);
             send_entity_set_flags();
             queue_destruction();
         }

@@ -54,6 +54,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 struct IllGillEffectRotation { s32 x, y, z; };
 extern int enable_v2_features;
 extern "C" {
@@ -1020,7 +1021,7 @@ void TObjEneIllGill::update_death_fall() {
       if (((TObjMotion *)self)->is_passing_frame((f32)(52.0f)) != 0)
     {
       play_sound_effect(0x4003A358, &position, 0, 0);
-      TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0xA);
+      TDeadSpot::spawn_kind0_scale15(&position, 0xA);
       fn_800D911C(&position);
       this->phase = 4;
       this->deathTimer = 0xA;

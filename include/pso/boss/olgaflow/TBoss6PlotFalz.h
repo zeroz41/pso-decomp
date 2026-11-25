@@ -48,7 +48,7 @@ LAYOUT_ASSERT(Boss6BodySpawnParamsVariantOffset, offsetof(Boss6BodySpawnParams, 
 struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6PlotFalz(TObject *parent, void *set_data);
     virtual ~TBoss6PlotFalz();
-    void ensure_field384();
+    void ensure_tube();
     void set_visible_flag();
     void call_state_action();
     void reset_child_ids();
@@ -60,7 +60,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     u8 spawn_variant;  // the 6xA3 mode; handed to the bodies as Boss6BodySpawnParams::variant
     u8 pad_37D[0x3];
     TBoss4Fade *fade;
-    TBoss6Tube *tube;  // the warp tube; ensure_field384 creates it
+    TBoss6Tube *tube;  // the warp tube; ensure_tube creates it
     TBoss6PlotFalzSetEntry set_entry;
     s32 next_child_index;  // added to set_index / entity_id by get_next_point
     s32 state_timer;  // frames in the current plot state

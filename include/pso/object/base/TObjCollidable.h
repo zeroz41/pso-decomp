@@ -19,7 +19,7 @@ struct CollisionBody {
     s32 shape;       // 0 sphere, 1 box
     u32 flags;
     Vec center;      // offset placed in the world by refresh_collision_body_centers
-    f32 unk_28;
+    f32 defense;  // per-body defense value the bosses fill in from their parameter blocks (0 for plain bodies); name inferred
 };
 // *dst = *src, the copy CodeWarrior 1.3.2 generates (TBoss1DragonColli's TU).
 void copy_collision_body(CollisionBody *dst, const CollisionBody *src);
@@ -39,6 +39,9 @@ public:
     void sub_80156A68();
     void*set_collision_body(void*);
     void clear_collision_bodies();
+    // Clear / set the collision flag (bit 1) of every body.
+    void disable_all_bodies();
+    void enable_all_bodies();
     // The radius of collision body `body`.
     f32 get_body_radius(s32 body);
     u32 check_actor_body_contact(void *, f32);

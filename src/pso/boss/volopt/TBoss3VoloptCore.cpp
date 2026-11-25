@@ -61,7 +61,6 @@ static CollisionBody core_body_parts[1] = {
     { { 0.0f, 0.0f, 0.0f }, 0.001f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-extern saddr player_battle_param_table[];
 
 void TObjEnemyCustom::set_state(s32 action) {
     s16 current = mode;

@@ -48,6 +48,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/unk/TLobby_802268F4.h"
 
 #pragma readonly_strings on
 
@@ -725,7 +726,6 @@ void TBoss4DarkFalz::run_task() {
 }
 
 void TBoss4DarkFalz::run_death_reaction() {  }
-void init_music_sequencer(s32 program);
 BmlResource *darkfalz_dat_resource;
 TBoss4Type1 *TBoss4DarkFalz::type1_instance;
 TBoss4Type2 *TBoss4DarkFalz::type2_instance;

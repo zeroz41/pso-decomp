@@ -29,10 +29,10 @@
 #pragma defer_codegen on
 
 // TBoss4Type1's body models and TBoss4Zanzo's model table.
-extern s32 boss4_type1_model_ids[6];
 extern s32 boss4_zanzo_bml_index_table[];
 #include "pso/render/model_render_state.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4Type1.h"
 // Defined after the constructor: it follows the constructor's angle template in .rodata.
 extern const ModelNodeSpec df_demo1_strip_specs[6];
 

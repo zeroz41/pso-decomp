@@ -76,6 +76,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/TDeadSpot.h"
 
 
 extern "C" {
@@ -1383,7 +1384,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
             break;
         case 1:
             if (fade.decay_value_toward_floor() != 0) {
-                TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0);
+                TDeadSpot::spawn_kind0_scale15(&position, 0);
                 state_timer = 2;
                 return;
             }

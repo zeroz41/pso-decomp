@@ -697,8 +697,8 @@ s32 get_current_floor(void) {
     return current_floor_index;
 }
 
-f32 calc_random_ratio__10TObjPlayerFv(SubtractiveRng *rng) {
-    const u32 sample = static_cast<u32>(subtractive_rng_next(reinterpret_cast<s32 *>(rng)));
+f32 SubtractiveRng::next_ratio() {
+    const u32 sample = static_cast<u32>(subtractive_rng_next(reinterpret_cast<s32 *>(this)));
     return (f32) (sample >> 16) / *(const volatile f32 *)&lbl_805D7D3C;
 }
 
@@ -3658,7 +3658,7 @@ f32 TObjChara::random_ratio() {
     if (get_main_phase() == 0xE) {
         return (3.0517578e-05f) * (f32) rand();
     }
-    return calc_random_ratio__10TObjPlayerFv(&rng);
+    return rng.next_ratio();
 }
 
 void TObjChara::refresh_target() {  }

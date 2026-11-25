@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/hud/TMainCursor_80154090.h"
 #include "pso/ui/hud/TMainCursor.h"
+#include "pso/object/base/TObjCollidable.h"
 #include "pso/system/data/FlagWord.h"
 
 extern "C" {
@@ -21,14 +22,14 @@ void TMainCursor__sub_801540B8(void *self, TargetCandidateEntry *arr, s32 i) {
     }
 }
 
-void TMainCursor__sub_801540D8(TargetCandidateEntry *arr, s32 n) {
+void clear_bodies_collision_flag(TargetCandidateEntry *arr, s32 n) {
     s32 i;
     for (i = 0; i < n; i++) {
         arr->flags &= ~1;
         arr++;
     }
 }
-void TMainCursor__sub_801540FC(TargetCandidateEntry *arr, s32 n) {
+void set_bodies_collision_flag(TargetCandidateEntry *arr, s32 n) {
     s32 i;
     for (i = 0; i < n; i++) {
         arr->flags |= 1;
@@ -36,8 +37,8 @@ void TMainCursor__sub_801540FC(TargetCandidateEntry *arr, s32 n) {
     }
 }
 
-void TMainCursor::update_pair() { TMainCursor__sub_801540D8((TargetCandidateEntry *)*(void**)((char*)this + 0xa4), (saddr)*(void**)((char*)this + 0xa8)); }
-void TMainCursor::update_cursor_pair() { TMainCursor__sub_801540FC((TargetCandidateEntry *)*(void**)((char*)this + 0xa4), (saddr)*(void**)((char*)this + 0xa8)); }
+void TObjCollidable::disable_all_bodies() { clear_bodies_collision_flag((TargetCandidateEntry *)bodies, body_count); }
+void TObjCollidable::enable_all_bodies() { set_bodies_collision_flag((TargetCandidateEntry *)bodies, body_count); }
 
 s32 TMainCursor::test_button(s32 index, u16 target_id) {
     s32 flag_table;

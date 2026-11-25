@@ -106,7 +106,6 @@ s32 get_current_floor();
 f32 newton_sqrtf(f32);
 s32 is_split_screen();
 }
-void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 void dragon_capture_node_points(NJS_OBJECT *);
 extern "C" {
 extern const Vec boss1_dragon_arena_center = {0.0f, 0.0f, 0.0f};
@@ -276,7 +275,6 @@ DragonModelState boss1_dragon_capture_chunk_model;
 // dragon_forward_reference_vec).
 Vec boss1_dragon_reference_pos_vec;
 Vec boss1_dragon_forward_reference_vec;
-extern s32 registered_player_count;
 extern f32 lbl_805D9E80;
 extern const f32 boss1_dragon_lift_accel = 3.0f * lbl_805D9E80;
 extern const f32 TBoss1Dragon__gravity_accel = 2.0f * lbl_805D9E80;
@@ -336,15 +334,15 @@ s32 TObjEnemy::exchange_object_state(void *record, s16 mode) {
     return 1;
 }
 
-void TObjPlayer::bswap_stats() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_DragonBossActions_6x10_6x11::bswap_6x10() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 
-void TObjPlayer::bswap_dragon_boss_fields() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_DragonBossActions_6x10_6x11::bswap_6x11() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 
-void TObjPlayer::set_type_dragon() { *(u8*)((char*)this + 0x0) = 18; *(u8*)((char*)this + 0x1) = 5; }
+void G_DragonBossActions_6x12::init() { *(u8*)((char*)this + 0x0) = 18; *(u8*)((char*)this + 0x1) = 5; }
 
-void TObjPlayer::bswap_6x12_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_DragonBossActions_6x12::bswap() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 
-void TObjPlayer::send_6x12_packet() { bswap_6x12_packet(); send_subcommand((u8 *)this); }
+void G_DragonBossActions_6x12::send() { bswap(); send_subcommand((u8 *)this); }
 
 void ProtectionTimer::set_frames(s32 v) { frames = v; }
 
@@ -1070,13 +1068,13 @@ void TBoss1Dragon::update_body_colliders() {
         set_collider_contact_high(&this->bodies[3]);
         set_collider_contact_high(&this->bodies[4]);
     }
-    this->bodies[0].unk_28 = boss1_dragon_behavior_params[0]->defense[2];
-    this->bodies[1].unk_28 = boss1_dragon_behavior_params[0]->defense[1];
-    this->bodies[2].unk_28 = boss1_dragon_behavior_params[0]->defense[1];
-    this->bodies[3].unk_28 = boss1_dragon_behavior_params[0]->defense[2];
-    this->bodies[4].unk_28 = boss1_dragon_behavior_params[0]->defense[2];
-    this->bodies[5].unk_28 = boss1_dragon_behavior_params[0]->defense[0];
-    this->bodies[6].unk_28 = boss1_dragon_behavior_params[0]->defense[2];
+    this->bodies[0].defense = boss1_dragon_behavior_params[0]->defense[2];
+    this->bodies[1].defense = boss1_dragon_behavior_params[0]->defense[1];
+    this->bodies[2].defense = boss1_dragon_behavior_params[0]->defense[1];
+    this->bodies[3].defense = boss1_dragon_behavior_params[0]->defense[2];
+    this->bodies[4].defense = boss1_dragon_behavior_params[0]->defense[2];
+    this->bodies[5].defense = boss1_dragon_behavior_params[0]->defense[0];
+    this->bodies[6].defense = boss1_dragon_behavior_params[0]->defense[2];
 }
 
 s32 TBoss1Dragon::update_linked_epsilon_position() {
@@ -1412,7 +1410,7 @@ void TBoss1Dragon::reload_impact_stats() {
 
 void handle_6x10_dragon_boss_actions(void *packet) {
     void *x;
-    ((TObjPlayer *)packet)->bswap_stats();
+    static_cast<G_DragonBossActions_6x10_6x11 *>(packet)->bswap_6x10();
     x = get_enemy_entity(static_cast<const G_DragonBossActions_6x10_6x11 *>(packet)->header.entity_id);
     if (x != NULL) {
         ((TBoss1Dragon *)x)->copy_params(packet);
@@ -1428,7 +1426,7 @@ void TBoss1Dragon::copy_params(void *packet) {
 
 void handle_6x11_dragon_boss_actions(void *packet) {
     void *x;
-    ((TObjPlayer *)packet)->bswap_dragon_boss_fields();
+    static_cast<G_DragonBossActions_6x10_6x11 *>(packet)->bswap_6x11();
     x = get_enemy_entity(static_cast<const G_DragonBossActions_6x10_6x11 *>(packet)->header.entity_id);
     if (x != NULL) {
         ((TBoss1Dragon *)x)->set_params(packet);
@@ -1446,7 +1444,7 @@ void TBoss1Dragon::set_params(void *packet) {
 
 void handle_6x12_dragon_boss_actions(TObjPlayer *packet) {
     void *x;
-    packet->bswap_6x12_packet();
+    reinterpret_cast<G_DragonBossActions_6x12 *>(packet)->bswap();
     x = get_enemy_entity(reinterpret_cast<const G_DragonBossActions_6x12 *>(packet)->action.header.entity_id);
     if (x != NULL) {
         ((TBoss1Dragon *)x)->receive_state_request((u8 *)packet);
@@ -1470,28 +1468,28 @@ void TBoss1Dragon::receive_state_request(u8 *packet) {
 
 void TBoss1Dragon::send_state_sync() {
     G_DragonBossActions_6x12 pkt;
-    ((TObjPlayer *)(&pkt))->set_type_dragon();
+    pkt.init();
     pkt.action.header.entity_id = this->entity_id;
     pkt.action.state = this->mode;
     pkt.action.action_index = (s16) this->sequenceCursor;
     pkt.action.target_id = this->target_id;
     pkt.x = this->destinationX;
     pkt.z = this->destinationZ;
-    ((TObjPlayer *)(&pkt))->send_6x12_packet();
+    pkt.send();
 }
 
 void TBoss1Dragon::request_state_change(u32 state32) {
     G_DragonBossActions_6x12 pkt;
 
     dispatch_action(state32, 6);
-    ((TObjPlayer *)(&pkt))->set_type_dragon();
+    pkt.init();
     pkt.action.header.entity_id = entity_id;
     pkt.action.state = state32;
     pkt.action.action_index = sequenceCursor;
     pkt.action.target_id = target_id;
     pkt.x = destinationX;
     pkt.z = destinationZ;
-    ((TObjPlayer *)(&pkt))->send_6x12_packet();
+    pkt.send();
 }
 
 void TBoss1Dragon::restoreTargetPosition() {
@@ -1640,8 +1638,7 @@ void TBoss1Dragon::spawn_impact_crater(Vec *pos) {
 
 #pragma pop
 void TBoss1Dragon::start_rumble() {
-    saddr self = (saddr)this;
-    start_pad_rumble_at(&this->position, 0xE0, self);
+    start_pad_rumble_at(&this->position, 0xE0, (saddr)this);
 }
 
 void TBoss1Dragon::apply_foot_step_attack(int side) {
@@ -2995,18 +2992,18 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                     if (((TObjBase *)player)->is_alive() != 0) {
                         VecCopy(&position, &player->position);
                         position.x += (100.0f) *
-                            (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - (0.5f));
+                            ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
                         position.z += (100.0f) *
-                            (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - (0.5f));
+                            ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
                         found = 1;
                     }
                 }
                 if (found == 0) {
                     position.x = 700.0f *
-                        (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - (0.5f));
+                        ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
                     position.y = (0.0f);
                     position.z = 700.0f *
-                        (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - (0.5f));
+                        ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - (0.5f));
                 }
                 new TBoss1DragonEffBullet(&this->sub_tasks, &this->breath_origin, &position);
             }
@@ -3186,7 +3183,6 @@ void TBoss1Dragon::handleFallState(u32 reason) {
 }
 
 void TBoss1Dragon::update_head_down_attack_state(u32 reason) {
-    u8 *self = (u8 *)this;
     f32 step;
     f32 dir_x;
     f32 dir_z;
@@ -3627,7 +3623,6 @@ void TBoss1Dragon::update_burrow_inward_run(u32 reason, s32 state) {
 }
 
 void TBoss1Dragon::update_burrow_outward_run(u32 reason) {
-    u8 *self = (u8 *)this;
     Vec offset;
     switch (reason) {
     case ENEMY_STATE_ENTER:
@@ -4740,7 +4735,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
         this->requested_action = 25;
         TWindowCtrl::init_all_slots();
         this->get_target_state_b();
-        ((TMainCursor *)this)->update_pair();
+        disable_all_bodies();
         break;
     case 2:
     case 9:
@@ -4958,7 +4953,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             this->breath_particles[0]->queue_destruction();
             this->breath_particles[0] = 0;
         }
-        ((TMainCursor *)this)->update_cursor_pair();
+        enable_all_bodies();
         *demo = 0;
         TWindowCtrl::init_all_slots2();
         this->get_target_state_a();
@@ -5249,12 +5244,11 @@ void TBoss1Dragon::render_shadows() {
 int TBoss1Dragon::run_demo_task() { return this->get_target_info(); }
 
 void TBoss1Dragon::render_low_detail() {
-    TBoss1Dragon *self = this;
     AnimationMotion *m;
     s32 i;
     f32 frame;
 
-    if (self->update_object_view_visibility((400.0f), (20.0f)) == 0) {
+    if (this->update_object_view_visibility((400.0f), (20.0f)) == 0) {
         return;
     }
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));

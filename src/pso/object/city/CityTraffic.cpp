@@ -214,7 +214,7 @@ void TObjCityAirCar_Ctrl::run_task() {
             }
         }
         if (count < 2 && --timer <= 0) {
-            timer = lerp__9TDeadSpotFff(180.0f, 900.0f);
+            timer = random_range(180.0f, 900.0f);
             if (i == 0 || i == 1) {
                 type = floor_to_float(5.0f * (3.0517578e-5f * rand()));
             } else {
@@ -230,7 +230,7 @@ void TObjCityAirCar_Ctrl::run_task() {
                     }
                 }
             }
-            speed = air_car_lane_speed_scale_table[i] * lerp__9TDeadSpotFff(2.0f, 5.0f);
+            speed = air_car_lane_speed_scale_table[i] * random_range(2.0f, 5.0f);
             if (count > 0) {
                 last = r->cars[count - 1];
                 if (fn_80181204(last) < 0.5f * air_car_lane_spacing_table[i]) {

@@ -371,12 +371,17 @@ struct G_DragonBossActions_6x10_6x11 {
  s16 state;
  s16 action_index;
  u32 target_id;
+ void bswap_6x10();
+ void bswap_6x11();
 };
 
 struct G_DragonBossActions_6x12 {
  G_DragonBossActions_6x10_6x11 action;
  f32 x;
  f32 z;
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_DropItem_6x2A {

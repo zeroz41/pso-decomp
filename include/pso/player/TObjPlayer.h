@@ -374,11 +374,6 @@ struct TObjPlayer : public TObjChara {
     s32 is_on_current_floor();
     s32 get_area();
     static s32 get_player_count();
-    void send_6x12_packet();
-    void bswap_6x12_packet();
-    void set_type_dragon();
-    void bswap_dragon_boss_fields();
-    void bswap_stats();
     static saddr get_battle_param(int index);
     s32 check_player_flag1();
     s32 check_flag(s32 flag);
@@ -403,12 +398,6 @@ struct TObjPlayer : public TObjChara {
     s16 get_atp();
     s16 get_atp_range();
     static void update_effect_sequence(NJS_OBJECT *);
-    static void spawn_dead_spot_kind0_scale7_5(const Vec *point, s32 delay);
-    static void spawn_dead_spot_kind0_scale15(const Vec *point, s32 delay);
-    static void spawn_dead_spot_kind1_scale15(const Vec *point, s32 delay);
-    static void spawn_dead_spot_kind1_scale25(const Vec *point, s32 delay);
-    static void spawn_dead_spot_kind2_scale7_5(const Vec *point, s32 delay);
-    static void destroy_static_lobby();
     static void init_render_globals();
     static void push_material_color_override(f32 alpha, f32 r, f32 g, f32 b);
     // attack_state.get_validated_attack_stage(): the pending stage, 0 when it is not valid.
@@ -1080,7 +1069,6 @@ struct TObjPlayer : public TObjChara {
     void set_floor_index(s32 v);
     GC_Mtx *item_node_matrices;
     void revive_or_spawn_marker();
-    static void spawn_dead_spot(const Vec *point, s32 selector, s32 delay, f32 maxScale);
     void add_luck_material(u8 amount);
     void add_dfp_material(u8 amount);
     void add_evp_material(u8 amount);

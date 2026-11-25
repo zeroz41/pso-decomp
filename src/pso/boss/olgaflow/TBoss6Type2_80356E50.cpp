@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include "pso/unk/text_80357058.h"
 
-void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0);
 extern "C" {
 
 void TBoss6Type2__sub_80356E50(s32 arg0, s32 cnt, s32 force) {

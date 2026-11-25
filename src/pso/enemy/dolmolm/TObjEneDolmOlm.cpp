@@ -68,6 +68,7 @@
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 extern const f64 dolmolm_radians_to_angle[];
 extern int lbl_805D69E8;
@@ -896,7 +897,7 @@ void TObjEneDolmOlm::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &position);
     spawn_ground_effect(&stack, 0x23);
-    spawn_dead_spot_kind1_scale7_5(&stack, 0xF);
+    TDeadSpot::spawn_kind1_scale7_5(&stack, 0xF);
 }
 void TObjEneDolmOlm::play_alert_sound() {
     play_sound_effect(remap_sound_for_area(0x4003AD00), &position, 0, 0);

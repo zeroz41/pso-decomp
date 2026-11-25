@@ -315,8 +315,8 @@ void TBoss6Type2::parse_action_packet(OlgaFlowType2ActionMsg *packet) {
     if (second_action_client >= 4) {
         second_action_client = 0xFFFF;
     }
-    mags[0]->set_action_field_0x408(first_action_client);
-    mags[1]->set_action_field_0x408(second_action_client);
+    mags[0]->set_chase_target_client(first_action_client);
+    mags[1]->set_chase_target_client(second_action_client);
 }
 
 void TBoss6Type2::send_action_packet(s32 action) {

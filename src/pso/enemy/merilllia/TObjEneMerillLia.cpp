@@ -65,6 +65,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/TDeadSpot.h"
 
 #pragma readonly_strings on
 
@@ -1029,7 +1030,7 @@ void TObjEneMerillLia::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &position);
     ::spawn_ground_effect(&stack, 0x23);
-    spawn_dead_spot_kind1_scale7_5(&stack, 0xF);
+    TDeadSpot::spawn_kind1_scale7_5(&stack, 0xF);
 }
 
 void TObjEneMerillLia::play_dig_sound() {

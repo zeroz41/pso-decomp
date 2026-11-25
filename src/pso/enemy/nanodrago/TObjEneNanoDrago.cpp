@@ -110,6 +110,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/object/TDeadSpot.h"
 
 
 
@@ -941,7 +942,7 @@ void TObjEneNanoDrago::update_dying_state() {
         timer = (timer - 1);
         if (timer <= 0) {
             spawn_ground_effect(&position, 0x1E);
-            spawn_dead_spot_kind1_scale7_5(&position, 0xF);
+            TDeadSpot::spawn_kind1_scale7_5(&position, 0xF);
             state = 4;
             return;
         }

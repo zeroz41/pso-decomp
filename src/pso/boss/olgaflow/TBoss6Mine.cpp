@@ -43,6 +43,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
@@ -333,7 +334,6 @@ TBoss6Mine::~TBoss6Mine() {
 }
 
 
-extern saddr tl_04;
 
 #pragma push
 #pragma fp_contract on

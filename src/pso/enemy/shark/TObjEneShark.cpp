@@ -47,6 +47,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/player/TPlyDispData.h"
+#include "pso/object/TDeadSpot.h"
 
 extern player_stats **shark_resource_node;
 extern AttackParams **shark_resource_buf;
@@ -91,7 +92,7 @@ void TObjEneShark::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &position);
     spawn_ground_effect(&stack, 0x23);
-    spawn_dead_spot_kind1_scale7_5(&stack, 0xF);
+    TDeadSpot::spawn_kind1_scale7_5(&stack, 0xF);
 }
 
 void TObjEneShark::update_attack_trail() {

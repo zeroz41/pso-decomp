@@ -37,6 +37,7 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 #pragma defer_codegen on
 
@@ -1045,7 +1046,7 @@ void TObjEneBm3Fly::state_death_fall(s32 msg) {
                     this->step = 2;
                     this->slide_speed = 0.0f;
                     this->status_flags &= ~BM3_FLY_SHADOW;
-                    spawn_dead_spot_kind2_scale2_5(&position, 0xA);
+                    TDeadSpot::spawn_kind2_scale2_5(&position, 0xA);
                     spawn_effect_at_ground(&this->position, 0x1E);
                 }
             }

@@ -113,6 +113,7 @@ s32 bm5_wolf_render_joint_y_rotation;
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
+#include "pso/object/TDeadSpot.h"
 
 #pragma defer_codegen on
 #pragma push
@@ -1789,7 +1790,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
                 }
                 rotate_xz_pair_by_angle(&pos.x, &pos.z, this->rotation_y);
                 vec3_add_to(&pos, &this->position);
-                TObjPlayer::spawn_dead_spot_kind2_scale7_5(&pos, 0x32);
+                TDeadSpot::spawn_kind2_scale7_5(&pos, 0x32);
                 spawn_effect_at_ground(&pos, 0x46);
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, *tgt, 0x300);

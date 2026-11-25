@@ -28,7 +28,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-extern BmlResource *volopt_p02_resources;
 
 
 static const char *TObjVoloptCage_name = "TObjVoloptCage";

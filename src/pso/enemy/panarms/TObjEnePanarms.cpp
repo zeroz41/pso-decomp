@@ -51,6 +51,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
+#include "pso/object/TDeadSpot.h"
 
 // The technique levels of TLobby::dispatch_shared_handler_a(0x33) (clamped to 0..14 by the callers).
 struct PanBARATechniqueLevels {
@@ -1057,7 +1058,7 @@ void TObjEnePanBARA::update_dead() {
     if (this->action_timer <= 0x78) {
         if (this->action_timer == 0x78) {
             spawn_ground_effect(&shadow_position, 0x78);
-            TObjPlayer::spawn_dead_spot_kind1_scale15(&shadow_position, 6);
+            TDeadSpot::spawn_kind1_scale15(&shadow_position, 6);
         }
         this->position.y += -0.15625f;
         if ((s32) this->action_timer < 0) {

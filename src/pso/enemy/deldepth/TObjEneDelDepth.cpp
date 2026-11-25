@@ -54,6 +54,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 
 DelDepthParameters *del_depth_tune_params;
@@ -969,7 +970,7 @@ void TObjEneDelDepth::update_death_fade() {
         ((TObjEnemy *)enemy)->exchange_object_state(&record, 0);
         apply_enemy_state(&record);
         ((TObjEnemy *)enemy)->send_entity_set_flags();
-        TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
+        TDeadSpot::spawn_kind0_scale7_5(&position, 0);
         this->queue_destruction();
         break;
     }

@@ -359,7 +359,7 @@ void TBoss4Type3::run_task() {
     }
     update_radar_markers();
     update_scale_sound();
-    collision->unk_28 = fade * (f32)(radius_shown - radius_hidden) + (f32)radius_hidden;
+    collision->defense = fade * (f32)(radius_shown - radius_hidden) + (f32)radius_hidden;
     handle_damage_taken();
     if (state != 2) {
         copy_positions_to_parts();

@@ -81,7 +81,7 @@ TItemAttackColBase::TItemAttackColBase(TObject *parent, S_802E451C *params) : TO
     body.center.x = 0.0f;
     body.center.y = 0.0f;
     body.center.z = 0.0f;
-    body.unk_28 = 0.0f;
+    body.defense = 0.0f;
     bodies = &body;
     body_count = 1;
     VecCopy(&position, &params->position);

@@ -44,7 +44,7 @@ void TBoss8Dragon::place_parts_in_ring(s32 n, s32 hp, s32 seed) {
     __ct__14SubtractiveRngFv(buf);
     if (n <= 5 && boss8_dragon_leader_part != NULL) {
         subtractive_rng_seed(buf, seed);
-        ang = (s32)(65535.0f * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(buf)));
+        ang = (s32)(65535.0f * (reinterpret_cast<SubtractiveRng *>(buf))->next_ratio());
         step = 0x10000 / (n + 1);
         leader = (TBoss8Dragon *)get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(0));
         leader->position.x = 320.0f * sin_table_lookup(ang);

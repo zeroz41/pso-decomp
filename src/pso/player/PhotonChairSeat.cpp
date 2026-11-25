@@ -21,7 +21,7 @@ TBoss7LaserImpact::TBoss7LaserImpact(TObject *parent, const Vec *origin) : TObje
     hit_body.center.x = 0.0f;
     hit_body.center.y = 0.0f;
     hit_body.center.z = 0.0f;
-    hit_body.unk_28 = 0.0f;
+    hit_body.defense = 0.0f;
     hit_set.colliders = &hit_body;
     hit_set.count = 1;
     VecCopy(&hit_set.position, origin);

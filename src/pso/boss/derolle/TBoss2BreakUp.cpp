@@ -152,8 +152,8 @@ TBoss2JointBreakUp::TBoss2JointBreakUp(TObject *parent, const Vec *pos) : TBoss2
         vec3_add_to(&p->pos, &joint_breakup_model->m_records[i].pos);
         v = &p->vel;
         VecCopy(v, &joint_breakup_model->m_records[i].vel);
-        v->y = lerp__9TDeadSpotFff(breakup_rise_speed_min, breakup_rise_speed_max);
-        v->z -= lerp__9TDeadSpotFff(breakup_unit, breakup_back_speed_max);
+        v->y = random_range(breakup_rise_speed_min, breakup_rise_speed_max);
+        v->z -= random_range(breakup_unit, breakup_back_speed_max);
         p->ang_x = random_angle();
         p->spin = (s32)(spin_max * rand_signed_unit());
         p->ang_z = random_angle();
@@ -255,8 +255,8 @@ TBoss2BodyBreakUp::TBoss2BodyBreakUp(TObject *parent, const f32 (*matrix)[4]) : 
     for (i = 0; i < 0x1C; i++, p++) {
         matrix_mult_vec(NULL, &body_breakup_model->m_records[i].pos, &p->pos);
         rotate_vector_by_matrix(0, &body_breakup_model->m_records[i].vel, &p->vel);
-        p->vel.y = lerp__9TDeadSpotFff(breakup_rise_speed_min, breakup_rise_speed_max);
-        p->vel.z -= lerp__9TDeadSpotFff(breakup_unit, breakup_back_speed_max);
+        p->vel.y = random_range(breakup_rise_speed_min, breakup_rise_speed_max);
+        p->vel.z -= random_range(breakup_unit, breakup_back_speed_max);
         p->ang_x = 0;
         p->spin = (s32)(breakup_spin_max * rand_signed_unit());
         p->ang_z = 0;

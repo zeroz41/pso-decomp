@@ -62,6 +62,7 @@ struct NJS_OBJECT;
 
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 
 static const char gibbles_model_name[] = "gibb_body.nj";
 static const char gibbles_attack_motion_name[] = "attack_gibb_body.njm";
@@ -1610,7 +1611,7 @@ void TObjEneGibbles::state_dead() {
             point.z = -10.0f;
             rotate_xz_pair_by_angle(&point.x, &point.z, this->rotation_y);
             vec3_add_to(&point, &position);
-            spawn_dead_spot_kind2_scale25(&point, 0xA);
+            TDeadSpot::spawn_kind2_scale25(&point, 0xA);
             spawn_effect_at_ground(&point, 0x46);
         }
     case 2:

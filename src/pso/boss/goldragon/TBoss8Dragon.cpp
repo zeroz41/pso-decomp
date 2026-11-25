@@ -300,8 +300,6 @@ u16 boss8_dragon_control_client_id;
 extern "C" {
 BOOL is_split_screen(void); // TObjCharaHelpers.h, whose other prototypes clash here
 }
-void set_tev_swap_channels(u8 r, u8 g, u8 b, u8 a);
-void init_tev_swap();
 // (from _802F4380)
 // (from _802F4480)
 void G_GolDragonBossActions_6xA8::init() {
@@ -846,13 +844,13 @@ void TBoss8Dragon::update_body_colliders() {
         set_collider_contact_high(&bodies[3]);
         set_collider_contact_high(&bodies[4]);
     }
-    bodies[0].unk_28 = boss8_dragon_behavior_params[0]->ints[2];
-    bodies[1].unk_28 = boss8_dragon_behavior_params[0]->ints[1];
-    bodies[2].unk_28 = boss8_dragon_behavior_params[0]->ints[1];
-    bodies[3].unk_28 = boss8_dragon_behavior_params[0]->ints[2];
-    bodies[4].unk_28 = boss8_dragon_behavior_params[0]->ints[2];
-    bodies[5].unk_28 = boss8_dragon_behavior_params[0]->ints[0];
-    bodies[6].unk_28 = boss8_dragon_behavior_params[0]->ints[2];
+    bodies[0].defense = boss8_dragon_behavior_params[0]->ints[2];
+    bodies[1].defense = boss8_dragon_behavior_params[0]->ints[1];
+    bodies[2].defense = boss8_dragon_behavior_params[0]->ints[1];
+    bodies[3].defense = boss8_dragon_behavior_params[0]->ints[2];
+    bodies[4].defense = boss8_dragon_behavior_params[0]->ints[2];
+    bodies[5].defense = boss8_dragon_behavior_params[0]->ints[0];
+    bodies[6].defense = boss8_dragon_behavior_params[0]->ints[2];
 }
 
 s32 TBoss8Dragon::update_linked_position() {
@@ -1026,7 +1024,7 @@ s32 TBoss8Dragon::select_target_in_front() {
     f32 lim;
     s32 n;
     s32 count;
-    u8 *player;
+    TObjPlayer *player;
     s32 i;
 
     n = 0;
@@ -1039,13 +1037,13 @@ s32 TBoss8Dragon::select_target_in_front() {
     ref.y = 0.0f;
     ref.z = cos_table_lookup(this->rotation_y);
     for (i = 0; i < count; i++) {
-        player = (u8 *)TObjPlayer::get_player_data(i);
-        if (((TObjMotion *)player)->is_alive() != 0) {
-            VecCopy(&d, (Vec *)(player + 0x38));
+        player = (TObjPlayer *)TObjPlayer::get_player_data(i);
+        if (player->is_alive() != 0) {
+            VecCopy(&d, &player->position);
             subtract_vector(&d, &this->position);
             normalize_vector_xz(&d);
             if (vec3_dot(&d, &ref) > lim) {
-                ids[n++] = ((TObjBase *)(player))->get_entity_id();
+                ids[n++] = player->get_entity_id();
             }
         }
     }
@@ -1076,9 +1074,8 @@ void TBoss8Dragon::try_spawn_trap() {
 }
 
 void TBoss8Dragon::play_sound_if_in_band() {
-    u8 *self = (u8 *)this;
     if ((this->is_passing_frame(4.0f) != 0) || (this->is_passing_frame(24.5f) != 0)) {
-        ((TBoss8Dragon *)((saddr) self))->play_effect_sound(0x4003A801);
+        play_effect_sound(0x4003A801);
     }
 }
 
@@ -1240,7 +1237,7 @@ void TBoss8Dragon::setDestinationX(s32 x) {
     this->destinationZ = 0.0f;
 }
 
-void TBoss8Dragon::copy_pos_to_field688() {
+void TBoss8Dragon::set_destination_to_position() {
     this->destinationX = this->position.x;
     this->destinationZ = this->position.z;
 }
@@ -1336,8 +1333,7 @@ f32 TBoss8Dragon::calc_step_value() {
 
 #pragma pop
 void TBoss8Dragon::start_rumble() {
-    saddr self = (saddr)this;
-    start_pad_rumble_at(&this->position, 0xE0, self);
+    start_pad_rumble_at(&this->position, 0xE0, (saddr)this);
 }
 
 void TBoss8Dragon::apply_foot_step_attack(int side) {
@@ -2172,7 +2168,7 @@ void TBoss8Dragon::update_lift_state(s32 event) {
         restore_target_pos();
         return;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         return;
     case 0:
         this->advance_animation();
@@ -2462,7 +2458,7 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
         }
         break;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         break;
     case 0:
         switch (this->stateStep) {
@@ -2510,15 +2506,15 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
                     player = get_player_by_client_id((u16)((this->action_frames >> 1) % 4));
                     if (player->is_alive() != 0) {
                         VecCopy(&pos, &player->position);
-                        pos.x += 100.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
-                        pos.z += 100.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
+                        pos.x += 100.0f * ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - 0.5f);
+                        pos.z += 100.0f * ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - 0.5f);
                         found = 1;
                     }
                 }
                 if (found == 0) {
-                    pos.x = 700.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
+                    pos.x = 700.0f * ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - 0.5f);
                     pos.y = 0.0f;
-                    pos.z = 700.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
+                    pos.z = 700.0f * ((reinterpret_cast<SubtractiveRng *>(this->randomState))->next_ratio() - 0.5f);
                 }
                 new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->attack_kind, this->get_entity_id());
             }
@@ -2676,7 +2672,7 @@ void TBoss8Dragon::update_fall_state(s32 event) {
         restore_target_pos();
         break;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         break;
     case 0:
         this->advance_animation();
@@ -2757,7 +2753,7 @@ void TBoss8Dragon::update_head_down_attack_state(s32 event) {
         restore_target_pos();
         return;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         return;
     case 0:
         this->advance_animation();
@@ -2834,7 +2830,7 @@ void TBoss8Dragon::update_stretch_state(s32 event) {
         restore_target_pos();
         break;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         break;
     case 0:
         this->advance_animation();
@@ -2870,7 +2866,7 @@ void TBoss8Dragon::state_roar(s32 event) {
         restore_target_pos();
         break;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         break;
     case 0:
         this->advance_animation();
@@ -3071,7 +3067,7 @@ void TBoss8Dragon::update_burrow_inward_run(u32 event, s32 action) {
         a = (s32)(65536.0f * this->random_ratio());
         this->position.x = 350.0f * sin_table_lookup(a);
         this->position.z = 350.0f * cos_table_lookup(a);
-        this->copy_pos_to_field688();
+        this->set_destination_to_position();
         break;
     case 0:
         switch (this->stateStep) {
@@ -3206,7 +3202,7 @@ void TBoss8Dragon::handle_spiral_state(s32 event) {
         a = (s32)(65536.0f * random_ratio());
         this->position.x = 350.0f * sin_table_lookup(a);
         this->position.z = 350.0f * cos_table_lookup(a);
-        copy_pos_to_field688();
+        set_destination_to_position();
         break;
     case 0:
         switch (this->stateStep) {
@@ -3654,7 +3650,7 @@ void TBoss8Dragon::update_controlled_stand_state(s32 event) {
         restore_target_pos();
         return;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         return;
     case 0:
         this->advance_animation();
@@ -3823,7 +3819,7 @@ void TBoss8Dragon::update_controlled_hover_state(s32 event) {
         restore_target_pos();
         return;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         return;
     case 0:
         this->advance_animation();
@@ -3954,7 +3950,7 @@ void TBoss8Dragon::update_controlled_burrow_state(s32 event) {
         restore_target_pos();
         break;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         break;
     case 0:
         this->stateStep = (this->stateStep + 1);
@@ -4119,7 +4115,7 @@ void TBoss8Dragon::handle_fall_state(s32 event) {
         restore_target_pos();
         return;
     case 6:
-        copy_pos_to_field688();
+        set_destination_to_position();
         return;
     case 0:
         this->fallVelocity += 0.1f;
@@ -4315,7 +4311,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
         this->requested_action = 0x1A;
         TWindowCtrl::init_all_slots();
         this->get_target_state_b();
-        ((TMainCursor *)this)->update_pair();
+        disable_all_bodies();
         break;
     }
     case 2:
@@ -4399,7 +4395,7 @@ void TBoss8Dragon::update_appearance_state(s32 event) {
             this->breath_particles[0]->queue_destruction();
             this->breath_particles[0] = 0;
         }
-        ((TMainCursor *)this)->update_cursor_pair();
+        enable_all_bodies();
         *flag = 0;
         TWindowCtrl::init_all_slots2();
         this->get_target_state_a();
@@ -4738,7 +4734,7 @@ s32 TBoss8Dragon::is_hiding_camera_target() {
     Vec eye;
     Vec dir;
     f32 dist;
-    u8 *entity;
+    TObjBase *entity;
     s32 i;
     if (camera_ctrl_instance == 0) {
         return 0;
@@ -4758,13 +4754,13 @@ s32 TBoss8Dragon::is_hiding_camera_target() {
     if (this->phase != 0) {
         return 0;
     }
-    entity = (u8 *)find_entity_by_id(TCameraCtrl::get_camera_target_id(-1));
+    entity = (TObjBase *)find_entity_by_id(TCameraCtrl::get_camera_target_id(-1));
     if (entity == 0) {
         return 0;
     }
     VecCopy(&eye, &camera_ctrl_instance->pos);
     eye.y = 0.0f;
-    VecCopy(&dir, (const Vec *)(entity + 0x38));
+    VecCopy(&dir, &entity->position);
     subtract_vector(&dir, &eye);
     dir.y = 0.0f;
     dist = normalize_vector_xz(&dir);

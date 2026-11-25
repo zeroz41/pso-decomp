@@ -24,10 +24,10 @@ struct Boss5GryphonAttackParams {
     f32 lightning_power;      // apply_lightning_hit
     f32 landing_radius;       // emit_landing_impact
     f32 pad_14;
-    s32 collider_5_value;     // update_body_colliders gives it to bodies[5].unk_28
-    s32 collider_1_4_value;   // bodies[1..4].unk_28
-    s32 collider_0_value;     // bodies[0].unk_28
-    s32 collider_6_9_value;   // bodies[6..9].unk_28
+    s32 body5_defense;     // update_body_colliders gives it to bodies[5].defense
+    s32 body1_4_defense;   // bodies[1..4].defense
+    s32 body0_defense;     // bodies[0].defense
+    s32 body6_9_defense;   // bodies[6..9].defense
     s32 action_level;         // indexes the action probability tables; unlocks scripts and lightning
     s32 pad_2C;
 };

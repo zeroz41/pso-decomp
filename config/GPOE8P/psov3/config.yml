@@ -745,8 +745,8 @@ force_active:
   - TMainCursor__sub_8013E694
   - TMainCursor__sub_8013E8A0
   - TMainCursor__sub_8013F22C
-  - TMainCursor__sub_801540D8
-  - TMainCursor__sub_801540FC
+  - clear_bodies_collision_flag
+  - set_bodies_collision_flag
   - TMainCursor__sub_80154288
   - TMainTask_name
   - TMedicalCenterMes__slot_flags
@@ -4669,7 +4669,7 @@ force_active:
   - broadcast_values__15TBoss3VoloptP02Fv
   - bsearch_record__6TLobbyFPvii
   - bswap32_in_place
-  - bswap_6x12_packet__10TObjPlayerFv
+  - bswap__24G_DragonBossActions_6x12Fv
   - bswap_6x6E_sync_game_state__6TLobbyFPv
   - bswap__15G_GoGoBall_6x79Fv
   - bswap_6xAD_subordinate_action__20TItemEffOrgaFlowShotFv
@@ -4683,7 +4683,7 @@ force_active:
   - bswap_and_send_extended_subcommand
   - bswap__16TArrowColorEntryFv
   - bswap_data__10LightEntryFv
-  - bswap_dragon_boss_fields__10TObjPlayerFv
+  - bswap_6x11__29G_DragonBossActions_6x10_6x11Fv
   - bswap_enemy_set_row_fields__FPv
   - bswap_enemy_set_rows__6TLobbyFUl
   - bswap_fields_0_4__6TLobbyFv
@@ -4699,7 +4699,7 @@ force_active:
   - bswap_packet_field__6TLobbyFv
   - bswap__14TPlyDispConfigFv
   - bswap_state__15TOAttackableColFv
-  - bswap_stats__10TObjPlayerFv
+  - bswap_6x10__29G_DragonBossActions_6x10_6x11Fv
   - bswap_u32
   - bswap_udp_test_header__6TLobbyFv
   - buffer_init__Fv
@@ -6036,7 +6036,7 @@ force_active:
   - enemy_tick_target_acquisition__12TObjEneDD_STFPllf
   - enlarge_flight_cutter_slicer__FPv
   - enlarge_s_rank_j_cutter_blade__FPv
-  - ensure_field384__14TBoss6PlotFalzFv
+  - ensure_tube__14TBoss6PlotFalzFv
   - enter_active_state__14TBoss6PlotFalzFv
   - enter_appear__11TBoss4Type3Fv
   - enter_appear_state__15TObjEneDelDepthFv
@@ -15308,7 +15308,7 @@ force_active:
   - select_weighted_byte__9TItemDropFiiiii
   - select_weighted_column_u16__9TItemDropFiiiii
   - send_45_and_close_windows__6TLobbyFPv
-  - send_6x12_packet__10TObjPlayerFv
+  - send__24G_DragonBossActions_6x12Fv
   - send_6x6D_item_state__6TLobbyFv
   - send_6x6E_sync_game_state__6TLobbyFi
   - send_6x6F_quest_flags__Fl
@@ -15599,7 +15599,7 @@ force_active:
   - set_triggers__8TItemMagFPCUcPCUc
   - set_model__14TDrawableModelFPv
   - set_owner_id__21PlayerFollowParticlesFUs
-  - set_type_dragon__10TObjPlayerFv
+  - init__24G_DragonBossActions_6x12Fv
   - set_next_floor_index__12Obj_80515BA0Fl
   - set_visible_flag__14TBoss6PlotFalzFv
   - set_volopt_cage_flag__Fv
@@ -15950,7 +15950,7 @@ force_active:
   - spawn_child__17TObjEneBm3FlyNestFv
   - spawn_concentrate__12TPhotonGollaFv
   - spawn_confusion_feedback_effect__9TObjCharaFl
-  - spawn_dead_spot__10TObjPlayerFPC3Vecllf
+  - spawn__9TDeadSpotFPC3Vecllf
   - spawn_debris__22TOWreckAncientBrakableFv
   - spawn_decorations_in_range__FP11TSetManager
   - spawn_effects__19TBoss3VoloptMonitorFv

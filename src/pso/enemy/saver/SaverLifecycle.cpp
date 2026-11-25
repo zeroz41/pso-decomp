@@ -65,6 +65,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueRingwaveList.h"
 #include "pso/render/GinjaMaterialState.h"
+#include "pso/object/TDeadSpot.h"
 
 extern "C" {
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
@@ -225,7 +226,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
         if (body_fade.decay_value_toward_floor() == 1) {
-            TObjPlayer::spawn_dead_spot_kind0_scale7_5(&position, 0);
+            TDeadSpot::spawn_kind0_scale7_5(&position, 0);
             phase = 2;
         }
         return;

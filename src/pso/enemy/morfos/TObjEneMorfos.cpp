@@ -58,6 +58,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TDeadSpot.h"
 // .rodata holds the table strings, the class name, the 803350AC binding template, then the Vecs in
 // reverse .text order and the doubles in .text order: deferred codegen, functions written last to first.
 #pragma defer_codegen on
@@ -1129,7 +1130,7 @@ void TObjEneMorfos::state_death(s32 ev) {
             if (body_fade.decay_value_toward_floor() != 0) {
                 this->counter = 2;
                 morfos_flags = (s32) (morfos_flags | 1);
-                TObjPlayer::spawn_dead_spot_kind0_scale15(&position, 0);
+                TDeadSpot::spawn_kind0_scale15(&position, 0);
                 return;
             }
             break;

@@ -154,7 +154,7 @@ public:
     s32 lobby_state_changed;  // as TBoss1Dragon::lobby_state_changed: lobby_state became 0
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
-    static s32 copy_pos_to_field688(void *p);
+    static s32 set_destination_to_position(void *p);
     static void capture_node_points(NJS_OBJECT *);
     void calc_velocity_from_angle();
     f32 clamp_step_in_radius(f32 a, f32 b, f32 s);
@@ -191,7 +191,7 @@ public:
     void send_action_packet(int action);
     void apply_ground_movement(Vec *step);
     void sweep_body_attack_spheres(f32 a, f32 b, f32 c);
-    void copy_pos_to_field688();
+    void set_destination_to_position();
     void restore_target_pos();
     void sync_target_pos();
     void release_grabbed_player();

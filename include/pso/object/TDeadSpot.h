@@ -13,6 +13,23 @@ public:
     virtual ~TDeadSpot();
     virtual void run_task();
     virtual void render();
+    // Spawns a dead spot with the given texture selector and maximum scale; the wrappers fix both.
+    static void spawn(const Vec *point, s32 selector, s32 delay, f32 maxScale);
+    static void spawn_kind0_scale2_5(const Vec *point, s32 delay);
+    static void spawn_kind0_scale7_5(const Vec *point, s32 delay);
+    static void spawn_kind0_scale15(const Vec *point, s32 delay);
+    static void spawn_kind0_scale25(const Vec *point, s32 delay);
+    static void spawn_kind1_scale2_5(const Vec *point, s32 delay);
+    static void spawn_kind1_scale7_5(const Vec *point, s32 delay);
+    static void spawn_kind1_scale15(const Vec *point, s32 delay);
+    static void spawn_kind1_scale25(const Vec *point, s32 delay);
+    static void spawn_kind2_scale2_5(const Vec *point, s32 delay);
+    static void spawn_kind2_scale7_5(const Vec *point, s32 delay);
+    static void spawn_kind2_scale15(const Vec *point, s32 delay);
+    static void spawn_kind2_scale25(const Vec *point, s32 delay);
+    // The shared corpse mark model the spots draw with, loaded and freed with the floor.
+    static void load_resource();
+    static void free_resource();
     ParticleStripVertex verts[4]; // 0x1C
     Vec center;                    // 0x7C
     Vec corners[4];                // 0x88

@@ -97,7 +97,7 @@ f32 rand_signed_unit(void) {
     return 2.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f);
 }
 
-f32 lerp__9TDeadSpotFff(f32 lo, f32 hi) {
+f32 random_range(f32 lo, f32 hi) {
     return ((hi - lo) * (3.0517578e-05f * (f32) rand())) + lo;
 }
 
@@ -533,7 +533,7 @@ void TObjBoss1MokoHill_SoloM::run_task() {
             normalize_vector_xz(&vel);
             vel.x *= 1.5f;
             vel.z *= 1.5f;
-            vel.y = lerp__9TDeadSpotFff(6.0f, 9.0f);
+            vel.y = random_range(6.0f, 9.0f);
             new TObjBoss1Rock(m_up, &pos, &vel, 1);
         }
         for (p = dragon_trail_raised_vertices, i = 0; i < dragon_trail_raised_count; p++, i++) {
@@ -600,7 +600,7 @@ TObjBoss1MokoHill_Solo::TObjBoss1MokoHill_Solo(TObject *parent, s32 hold_time) :
     VecCopy(&position, get_source_position());
     height = -32.0f;
     peak_height = -(2.0f + 8.0f * (3.0517578e-05f * (f32)rand()));
-    pad_3C = (s32)lerp__9TDeadSpotFff(20.0f, 40.0f);
+    pad_3C = (s32)random_range(20.0f, 40.0f);
     timer = 0;
     state = 0;
     if (TObjEneDD::check_v2_mode() != 0) {

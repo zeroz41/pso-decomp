@@ -27,23 +27,17 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/Draw2D.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/render/model_render_state.h"
 
 extern "C" {
 f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
 }
 
-void draw_chunk_model(void *);
-extern u32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
 NJS_TEXLIST *falz_zako_texture_list;
 void *falz_zako_chunk_model;
 s32 TBoss4ZakoDraw::draw_buffer_index;
 s32 TBoss4ZakoDraw::rotation_phase;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern u32 model_render_flags;
 
 
 
