@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 void FlagWord::set(u32 mask) { bits |= mask; }
 

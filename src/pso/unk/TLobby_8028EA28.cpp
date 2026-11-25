@@ -1,6 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/unk/TLobby_800FC3CC.h"
 #include "pso/ui/UISprite.h"
 #include "pso/camera/CreationCamera.h"

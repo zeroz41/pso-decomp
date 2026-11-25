@@ -34,7 +34,6 @@
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/ui/window/TWindowCtrl.h"

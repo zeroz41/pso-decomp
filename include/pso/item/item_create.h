@@ -10,4 +10,9 @@ void mark_selected();
 int get_drop_flag();
 void handle_select_confirm();
 
+
+s32 is_valid_drop_floor(s32 arg0);
+extern "C" {
+s32 TObjPlayer__sub_80104840(s32 arg0);
+}
 #endif

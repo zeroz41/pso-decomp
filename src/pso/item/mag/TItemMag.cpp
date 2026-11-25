@@ -19,7 +19,7 @@
 #include "pso/item/mag/TItemMagGrowEff.h"
 #include "pso/item/mag/TItemMagSub.h"
 #include "pso/map/FloorArea.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"

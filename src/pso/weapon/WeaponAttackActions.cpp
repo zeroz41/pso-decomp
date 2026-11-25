@@ -47,7 +47,7 @@ struct NJS_OBJECT;
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/technique/TechniqueContact.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/CapturedTargetList.h"
 #include "pso/math/MatrixTransforms.h"

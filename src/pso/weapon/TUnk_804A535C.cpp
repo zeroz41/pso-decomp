@@ -21,7 +21,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 

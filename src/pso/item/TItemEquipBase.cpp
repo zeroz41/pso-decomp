@@ -6,7 +6,6 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TItemTimerEvent.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/technique/TechniqueBoost.h"

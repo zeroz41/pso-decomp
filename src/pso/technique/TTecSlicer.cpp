@@ -30,7 +30,6 @@
 #include "pso/weapon/SlicerLaunchState.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/CapturedTargetList.h"

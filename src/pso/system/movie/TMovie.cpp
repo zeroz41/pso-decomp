@@ -20,7 +20,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_80320358.h"
-#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/ui/frontend/EndingSequence.h"
 
 struct MovieState;
 

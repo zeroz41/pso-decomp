@@ -29,7 +29,6 @@
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include <string.h>
 #include "pso/technique/TTecCtrl.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

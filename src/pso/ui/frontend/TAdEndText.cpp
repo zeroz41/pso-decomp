@@ -12,7 +12,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/ui/frontend/EndingSequence.h"
 #include "pso/system/scene/TEnding.h"
 
 NJS_TEXNAME TAdEndText::ending_font_textures[5] = {

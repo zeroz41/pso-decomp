@@ -103,7 +103,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_801D94C8.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/render/BlobShadow.h"

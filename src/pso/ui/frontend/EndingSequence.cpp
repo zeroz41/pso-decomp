@@ -5,7 +5,7 @@
 #include "pso/system/movie/TEndingMovie.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
-#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/text_80120908.h"

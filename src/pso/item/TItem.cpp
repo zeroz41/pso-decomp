@@ -54,7 +54,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/item/armor/TItemProArmor.h"
@@ -68,7 +67,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8007EB94.h"
 #include <dolphin/base/PPCArch.h>
 #include <stdlib.h>
 #include <string.h>

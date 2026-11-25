@@ -37,7 +37,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/unk/TAdDialingSelectGC.h"
 #include "pso/ui/frontend/DrawLineResource.h"

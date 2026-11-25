@@ -11,7 +11,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/unk/text_803D853C.h"

@@ -5,7 +5,6 @@
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 void release_photon_blast_requests(PhotonBlastRegistry *registry) {
     s32 count;

@@ -15,7 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/unk/text_800F7DAC.h"

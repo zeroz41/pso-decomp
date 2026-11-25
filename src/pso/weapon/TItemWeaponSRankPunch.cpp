@@ -19,7 +19,6 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
 struct Elem_80128A74 { u8 pad[0x1c]; u8 position[0x2c - 0x1c]; };
 

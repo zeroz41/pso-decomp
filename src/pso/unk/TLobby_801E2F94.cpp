@@ -3,7 +3,6 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/animation/MotionContext.h"
 
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/render/DebugFont.h"
 #include "pso/render/render_util.h"

@@ -3,7 +3,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/keyboard/KeyboardDeviceDriver.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"

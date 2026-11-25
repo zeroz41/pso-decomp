@@ -3,7 +3,6 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 typedef void (*Fn_801Fn)(void);
 struct Ent_8010F0C0 { Fn_801Fn a; Fn_801Fn b; };
 struct LoadUnloadSetUnloadSet {

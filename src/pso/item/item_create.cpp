@@ -40,7 +40,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/ui/city/TShopEquipmentSellWindow_801047B4.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

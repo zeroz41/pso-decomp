@@ -13,7 +13,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_802D3AB8.h"
 #include "pso/unk/text_802A1144.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"

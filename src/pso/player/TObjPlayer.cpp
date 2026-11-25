@@ -1,5 +1,4 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/player/PlayerState.h"
@@ -62,7 +61,6 @@
 #include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/technique/TTecLuker.h"

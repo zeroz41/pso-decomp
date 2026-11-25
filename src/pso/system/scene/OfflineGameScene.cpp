@@ -41,7 +41,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/unk/TLobby_8001D6A0.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
+#include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/object/ambient/TObjLight.h"

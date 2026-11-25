@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/PalettexState.h"
 #include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/system/data/FlagWord.h"
 
 s32 PalettexState::get_callback_label() { return callback_label; }
 

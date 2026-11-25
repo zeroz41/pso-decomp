@@ -65,7 +65,6 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/Palettex.h"
-#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/TForceOperate.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/ui/charcreate/PaletteCursorAction.h"

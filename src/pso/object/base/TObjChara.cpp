@@ -87,7 +87,7 @@
 
 #include "pso/ui/frontend/TAdEndText.h"
 
-#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/ui/frontend/EndingSequence.h"
 
 #include "pso/system/scene/TEnding.h"
 

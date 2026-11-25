@@ -12,7 +12,6 @@
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
-#include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
@@ -46,7 +45,7 @@
 #include "pso/ui/TLogo.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/frontend/TAdEndText.h"
-#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/ui/frontend/EndingSequence.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"

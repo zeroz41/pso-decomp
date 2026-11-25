@@ -5,8 +5,6 @@
 #include "pso/system/data/FlagWord.h"
 
 extern "C" {
-s32 test_flags_any(s32 flags, s32 mask, s32 table);
-
 void TMainCursor__sub_80154090(void) {  }
 void TMainCursor__sub_80154094(void) {  }
 
@@ -42,11 +40,11 @@ void TObjCollidable::disable_all_bodies() { clear_bodies_collision_flag((TargetC
 void TObjCollidable::enable_all_bodies() { set_bodies_collision_flag((TargetCandidateEntry *)bodies, body_count); }
 
 s32 TMainCursor::test_button(s32 index, u16 target_id) {
-    s32 flag_table;
+    s32 *flag_table;
 
     if (((s32 (*)(void))TMainCursor__sub_80154288)() != 0) {
-        flag_table = *(s32 *)((s8 *)this + 0x9C);
-        return test_flags_any(flag_table + (index * 4), 1 << target_id, flag_table);
+        flag_table = *(s32 **)((s8 *)this + 0x9C);
+        return test_flags_any(flag_table + index, 1 << target_id);
     }
     return 0;
 }
