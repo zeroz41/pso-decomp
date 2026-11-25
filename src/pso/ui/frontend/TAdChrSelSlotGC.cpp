@@ -77,12 +77,12 @@ block_5:
 void TAdChrSelSlotGC::reset_all_slots() {
     sub_802C754C(0);
     sub_802C754C(1);
-    sub_802C7498(0);
-    sub_802C7498(1);
-    sub_802C7498(2);
+    hide_slot_entry(0);
+    hide_slot_entry(1);
+    hide_slot_entry(2);
 }
 
-void TAdChrSelSlotGC::sub_802C7498(s32 i) {
+void TAdChrSelSlotGC::hide_slot_entry(s32 i) {
     visible[i + 2] = 0;
 }
 

@@ -42,12 +42,11 @@ struct Stack_80213B18 {
 
 extern "C" {
 
-saddr get_window_layout_position(s32);
 // Online quest download state, read by TQuestListOnline (THunterGuildSeqOnlineTask.cpp).
 OnlineQuestDownloadState quest_list_online_dat_download_state;
 OnlineQuestDownloadState quest_list_online_bin_download_state;
 // Per-player slot flags, set by each class's ctor and cleared by its dtor
-// (same pattern as THunterGuildSeqOffline__instance_table).
+// (same pattern as THunterGuildSeqOffline::instance_table).
 s32 THunterGuildSeqOnline_Server__instance_table[4];
 s32 THunterGuildSeqOnline_Client__instance_table[4];
 OnlineQuestMenu *quest_list_online_quest_list_buffer;
@@ -85,7 +84,6 @@ struct Stack_8021488C {
 extern "C" {
 
 
-saddr get_window_layout_position(s32);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 
 saddr get_window_layout_position(s32);

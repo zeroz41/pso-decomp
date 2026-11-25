@@ -48,7 +48,7 @@ const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";
 #pragma pop
 
 NJS_TEXLIST *logo_texture_e_handle;
-int TAdSEGAlogo__state;
+int TAdSEGAlogo::state;
 int sega_logo_done_flag;
 
 void TAdSEGAlogo::destroy_and_mark_done(TObject *fade) {
@@ -58,19 +58,19 @@ void TAdSEGAlogo::destroy_and_mark_done(TObject *fade) {
 
 void TAdSEGAlogo::request_destroy(TObject *fade) {
     fade->queue_destruction();
-    TAdSEGAlogo__state = 1;
+    TAdSEGAlogo::state = 1;
 }
 
 void TAdSEGAlogo::render() {
     render_logo_with_default(logo_texture_e_handle, 8, -1, -150.0f);
 }
 void TAdSEGAlogo::run_task() {
-    switch (TAdSEGAlogo__state) {
+    switch (TAdSEGAlogo::state) {
     case 0:
         break;
     case 1:
         if ((f32)++m_wait_frames > 60.0f) {
-            TAdSEGAlogo__state = 2;
+            TAdSEGAlogo::state = 2;
             new TScreenFadeOut(tl_00, TAdSEGAlogo::destroy_and_mark_done);
         }
         break;
@@ -84,7 +84,7 @@ TAdSEGAlogo::~TAdSEGAlogo() {}
 TAdSEGAlogo::TAdSEGAlogo(TObject *parent) : TObject(parent) {
     m_name = TAdSEGAlogo__class_name;
     m_wait_frames = 0;
-    TAdSEGAlogo__state = 0;
+    TAdSEGAlogo::state = 0;
     sega_logo_done_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(0);
     new TScreenFadeIn(tl_00, request_destroy);

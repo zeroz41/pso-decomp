@@ -22,10 +22,8 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-void TMedicalCenterMes__sub_80216260(void);
 
 extern const char *TMedicalCenterMes__class_name;
-extern s32 TMedicalCenterMes__slot_flags[4];
 }
 
 
@@ -38,7 +36,7 @@ extern s32 TMedicalCenterMes__slot_flags[4];
 
 extern "C" {
 s32 TMedicalCenterSequence__data_80513E90[4];
-s32 TMedicalCenterMes__slot_flags[4];
+s32 TMedicalCenterMes::slot_flags[4];
 }
 
 extern "C" {
@@ -251,28 +249,28 @@ TMedicalCenterMes::TMedicalCenterMes(TObject *parent, TObjPlayer *player) : TObj
     this->player = player;
     if (this->player != NULL) {
         s32 slot = get_client_split_screen_slot(this->player->get_entity_id());
-        TMedicalCenterMes__slot_flags[(u16)slot] = 1;
+        TMedicalCenterMes::slot_flags[(u16)slot] = 1;
     }
 }
 
 TMedicalCenterMes::~TMedicalCenterMes() {
     if (player != NULL) {
         s32 slot = get_client_split_screen_slot(player->get_entity_id());
-        TMedicalCenterMes__slot_flags[(u16)slot] = 0;
+        TMedicalCenterMes::slot_flags[(u16)slot] = 0;
     }
 }
 
 void TMedicalCenterMes__sub_80216260(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TMedicalCenterMes__slot_flags[i] = 0;
+        TMedicalCenterMes::slot_flags[i] = 0;
     }
 }
 
 void TMedicalCenterMes::clear_slot_flags() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TMedicalCenterMes__slot_flags[i] = 0;
+        TMedicalCenterMes::slot_flags[i] = 0;
     }
 }
 
@@ -315,5 +313,5 @@ void TMedicalCenterMes::run_task() {
     }
 }
 s32 TMedicalCenterMes::get_slot_flag(u16 client) {
-    return TMedicalCenterMes__slot_flags[(u16)get_client_split_screen_slot(client)];
+    return TMedicalCenterMes::slot_flags[(u16)get_client_split_screen_slot(client)];
 }

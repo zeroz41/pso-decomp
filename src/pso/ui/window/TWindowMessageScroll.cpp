@@ -20,7 +20,7 @@ void TWindowMessageScroll::run_task() {
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(&this->entry_list);
-    if ((((TWindowBase *)arg0)->sub_80244994() != 0) && (this->next_line_y <= this->scroll_offset[1])) {
+    if ((((TWindowBase *)arg0)->is_open_and_unblocked() != 0) && (this->next_line_y <= this->scroll_offset[1])) {
         *completion_register = 1;
     }
 }

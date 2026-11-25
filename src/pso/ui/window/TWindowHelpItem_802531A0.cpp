@@ -48,7 +48,6 @@ void draw_action_palette_icon(void *, int, u16);
 void text_builder_append();
 }
 extern u8 lbl_804CF4E4[];
-extern u8 TWindowHelpItem__description_text_layout[];
 extern V3_802531A4 TWindowHelpItem__description_update_callback;
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern u8 window_help_item_layout_entries[];
@@ -66,7 +65,7 @@ void TWindowHelpItem::init_text(void *str) {
     u8 *e;
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowHelpItem__description_text_layout),
+        reinterpret_cast<const void *>(TWindowHelpItem::description_text_layout),
         this->client_index);
     *(V3_802531A4 *)(((u8 *)this) + 0xB0) = TWindowHelpItem__description_update_callback;
     e = (u8 *)((TWindowBase *)this)->get_array_entry(0);

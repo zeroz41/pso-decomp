@@ -22,10 +22,9 @@ TAdPlyStatusGC *TAdPlyStatusGC::get_index() {  return ply_status_gc_instance; }
     extern int ply_status_index;
 void TAdPlyStatusGC::set_status_index(int a0, int a1) { ply_status_index = a1; }
 
-extern s32 TAdPlyStatusGC__window_offset_index;
 
 void TAdPlyStatusGC::close_window(s32 index) {
-    TAdPlyStatusGC__window_offset_index = index;
+    TAdPlyStatusGC::window_offset_index = index;
     if (window != NULL) {
         window->close();
         window = NULL;

@@ -37,7 +37,6 @@ extern "C" {
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
 
-void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p);
 
 void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {
     ((TWindowBase *)window)->draw_window_frame(frame_context);

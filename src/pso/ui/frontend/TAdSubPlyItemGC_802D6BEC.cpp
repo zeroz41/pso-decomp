@@ -58,7 +58,7 @@ void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, PlayerSlotLab
 }
 }
 
-void TAdSubPlyItemGC::sub_802D6D88() {
+void TAdSubPlyItemGC::hide_all_entries() {
     s32 i;
     for (i = 0; i < 4; i++) {
         visible[i] = 0;

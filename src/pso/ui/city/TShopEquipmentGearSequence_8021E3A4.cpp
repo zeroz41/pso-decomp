@@ -14,12 +14,10 @@ void *TShopEquipmentGearSequence::create_instance(void *player) {
 }
 }
 
-    extern int TShopEquipmentGearSequence__window_slot_table[];
-int get_equipment_gear_shop_window_slot(int a0) {  return TShopEquipmentGearSequence__window_slot_table[a0]; }
+int get_equipment_gear_shop_window_slot(int a0) {  return TShopEquipmentGearSequence::window_slot_table[a0]; }
 
 void *create_shop_item_tec_sequence(void *player) {
     return new TShopItemTecSequence(tl_05, (TObjPlayer *)player);
 }
 
-    extern int TShopItemTecSequence__slot_table[];
-int get_item_technique_shop_slot(int a0) {  return TShopItemTecSequence__slot_table[a0]; }
+int get_item_technique_shop_slot(int a0) {  return TShopItemTecSequence::slot_table[a0]; }

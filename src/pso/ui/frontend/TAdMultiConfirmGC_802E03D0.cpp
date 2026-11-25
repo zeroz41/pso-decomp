@@ -37,7 +37,6 @@ struct Stack_802E0468
 };
 
 extern "C" {
-void set_chunk_material_override_pair(s32, s32);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

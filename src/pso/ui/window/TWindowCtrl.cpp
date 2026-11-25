@@ -90,9 +90,7 @@ struct RecoveredFields_8024A688_temp_r3
 
 struct Ctrl_8024A928 { u8 pad[0x84]; void *slots[4]; };
 
-struct Ctrl_8024A714 { u8 pad[0x84]; void *arr[4]; };
 
-struct Obj_8024A7CC { u8 pad[0x84]; void *arr[4]; };
 
 struct Obj_8024AA08 { u8 pad[4]; u32 f4; };
 
@@ -100,23 +98,17 @@ struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
 extern "C" {
 
-s32 TWindowCtrl__sub_8024A314(void);
 
-void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
 
 u32 get_window__11TWindowCtrlFl(void);
 s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
 
-void TWindowCtrl__sub_8024A228(saddr client_id);
 
-bool TWindowCtrl__sub_8024A1A8(void);
 
 f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 arg2);
 
-s32 check_card_match_enabled__15TWindowFukidasiFl(void *, void *);
 
 
-void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
 
 }
 
@@ -128,13 +120,9 @@ s32 free_member__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
 
 struct Ctrl_8024B1A0 { u8 pad[0x1C]; u16 flags; };
 
-struct Win_8024B1A0 { u8 pad[0x40]; f32 x; f32 y; f32 w; f32 h; };
 
-struct Ctrl_8024B328 { u8 pad[0x84]; void *win[4]; };
 
-struct Ctrl_8024B3B4 { u8 pad[0x84]; void *win[4]; };
 
-struct Ctrl_8024B440 { u8 pad[0x84]; void *win[4]; };
 
 extern "C" {
 
@@ -173,7 +161,6 @@ s32 TWindowCtrl__sub_8024B000(void *, saddr);
 
 }
 
-extern "C" void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl);
 
 extern "C" {
 
@@ -194,7 +181,6 @@ typedef struct Ctrl_8024BE80 {
     Win_8024BE80 *slots[3];
 } Ctrl_8024BE80;
 
-void window_request_show(void *);
 
 extern "C" {
 
@@ -791,7 +777,7 @@ saddr TWindowCtrl__sub_8024B7D4(s32 n) {
     }
     for (i = 0; i < 3; i++) {
         status = TWindowCtrl::instance->simple_status[i];
-        if (status != NULL && status->sub_80244994() != 0 && n-- == 0) {
+        if (status != NULL && status->is_open_and_unblocked() != 0 && n-- == 0) {
             player = get_player_by_client_id(((TWindowSimpleStatus *)status)->get_width());
             if (player == NULL) {
                 return 0;
@@ -893,7 +879,7 @@ s32 is_actor_speech_balloon_done(u16 id) {
         return 1;
     }
     for (i = 0; i < 4; i++) {
-        w = ((Ctrl_8024B440 *)TWindowCtrl::instance)->win[i];
+        w = TWindowCtrl::instance->balloons[i];
         if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id() && is_speech_balloon_ready((u8 *)w) == 0) {
             return 0;
         }
@@ -906,7 +892,7 @@ void complete_actor_speech_balloons(u16 id) {
     void *w;
     if (TWindowCtrl::instance != NULL) {
         for (i = 0; i < 4; i++) {
-            w = ((Ctrl_8024B3B4 *)TWindowCtrl::instance)->win[i];
+            w = TWindowCtrl::instance->balloons[i];
             if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && id == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
                 complete_speech_balloon((u8 *)w);
             }
@@ -919,7 +905,7 @@ void TWindowCtrl::close_windows_by_flags(u16 flags) {
     void *w;
     if (instance != NULL) {
         for (i = 0; i < 4; i++) {
-            w = ((Ctrl_8024B328 *)instance)->win[i];
+            w = instance->balloons[i];
             if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && flags == reinterpret_cast<TWindowFukidasi *>(w)->get_speaker_id()) {
                 ((TWindowBase *)w)->close();
             }
@@ -974,9 +960,9 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
     mask = 0x40;
     best = -1;
     i = 0;
-    cx = (0.5f * ((Win_8024B1A0 *)this)->w) + ((Win_8024B1A0 *)this)->x;
+    cx = (0.5f * frame_size[0]) + frame_position[0];
     bestd = 1000000.0f;
-    cy = (0.5f * ((Win_8024B1A0 *)this)->h) + ((Win_8024B1A0 *)this)->y;
+    cy = (0.5f * frame_size[1]) + frame_position[1];
     do {
         if (!(TWindowCtrl::instance->flags & mask)) {
             m = (NJS_POINT2 *)TWindowCtrl::get_message_by_type((s8)i, get_field_20());

@@ -52,8 +52,6 @@ WindowDescriptor TWindowSubCustomSelect__window_settings = {
 };
 
 extern "C" {
-void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32);
-void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 
 void TWindowSubCustomSelect::handle_cancel() {

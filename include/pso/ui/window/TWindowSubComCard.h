@@ -32,7 +32,7 @@ struct TWindowSubComCard : public TObject {
     u8 m_1d;
     u8 _pad1E[0x2];
     uaddr client_id;
-    uaddr m_24;
+    uaddr selected_card;
     uaddr m_28;
     uaddr m_2c;
     ChoiceSearchSelection choice_selections[5];
@@ -47,7 +47,7 @@ struct TWindowSubComCard : public TObject {
     uaddr m_78;
     uaddr entry_list_window;
     uaddr keyboard;
-    uaddr m_84;
+    uaddr card_list;
     static saddr get_card_slot(s32 arg0);
     static void *send_command(saddr index);
     static u8 *apply_selection(s32 index);

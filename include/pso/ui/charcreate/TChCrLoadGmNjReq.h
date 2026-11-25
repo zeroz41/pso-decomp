@@ -35,7 +35,7 @@ public:
 public:
     TChCrLoadGmNjReq(TObject *parent, TChCrLoadGmNjReqArgs *args);
     virtual ~TChCrLoadGmNjReq();
-    void sub_8028C8A8();
+    void release_slot();
     void start_character_load_task();
     void update_model_load();
     s32 try_acquire_slot();

@@ -82,8 +82,6 @@ public:
 struct Self_80331178 { u8 pad[0x28]; s32 client; saddr f2c; };
 
 extern "C" {
-void TWindowSubTradeMain__sub_803323A8(void *);
-void TWindowSubTradeMain__sub_803323B8(void *);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(TWindowInputNumber *, void *, s32, s32, s32, s16);
 }
 
@@ -126,7 +124,6 @@ struct TWindowSubTradeMain_8033162C {
     u8 submission[4];
 };
 extern "C" {
-void TWindowSubTradeMain__sub_803323C8(void *);
 }
 
 typedef struct RecoveredFields_80331434_arg0 RecoveredFields_80331434_arg0;

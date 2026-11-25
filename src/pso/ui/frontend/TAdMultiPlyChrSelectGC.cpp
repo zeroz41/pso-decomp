@@ -60,7 +60,6 @@ extern u8 lbl_80472898[];
 extern u8 player_number_text_buffer[];
 }
 
-s32 is_multiplayer_character_slot_selected(s32 arg0);
 
 u8 player_number_text_buffer[0x80];
 extern "C" {
@@ -76,7 +75,6 @@ extern "C" {
 s32 TAdPlyPltAnimCtrlGC__sub_80355148();
 }
 
-s32 is_multiplayer_character_slot_selected(s32);
 extern "C" {
 extern s32 lbl_80472870[];
 extern s32 lbl_80472878[];
@@ -105,16 +103,14 @@ extern Blk_802DF9B4 multi_chr_select_layout_table[];
 extern NJS_POINT2 lbl_80472848[];
 s32 lbl_805D68C8;
 u32 multi_chr_select_serial_access_state;
-TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC__instance;
+TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::instance;
 }
 
 extern "C" { extern char TAdMultiPlyChrSelectGC__class_name_string[]; }
 const char *TAdMultiPlyChrSelectGC__name = TAdMultiPlyChrSelectGC__class_name_string;
 extern "C" {
 extern s32 multi_ply_chr_select_active_player;
-    extern int TAdMultiPlyChrSelectGC__selected_slot;
-    extern int TAdMultiPlyChrSelectGC__select_mode;
-void TAdChrSelPlyPlateGC::set_select_mode(int mode) { TAdMultiPlyChrSelectGC__select_mode = mode; }
+void TAdChrSelPlyPlateGC::set_select_mode(int mode) { TAdMultiPlyChrSelectGC::select_mode = mode; }
 
 s32 TAdChrSelPlyPlateGC::get_selection() { return unk_4f8; }
 
@@ -136,14 +132,14 @@ s32 TAdChrSelPlyPlateGC::get_active_card_slot() {
     return sel[multi_ply_chr_select_active_player][cursor_col];
 }
 
-int TAdChrSelPlyPlateGC::get_instance() { return TAdMultiPlyChrSelectGC__selected_slot; }
+int TAdChrSelPlyPlateGC::get_instance() { return TAdMultiPlyChrSelectGC::selected_slot; }
 
 TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_or_create(TObject *parent, s32 mode) {
-    if (TAdMultiPlyChrSelectGC__instance != NULL) {
-        return TAdMultiPlyChrSelectGC__instance;
+    if (TAdMultiPlyChrSelectGC::instance != NULL) {
+        return TAdMultiPlyChrSelectGC::instance;
     }
     TAdMultiPlyChrSelectGC *scene = new TAdMultiPlyChrSelectGC(parent, mode);
-    TAdMultiPlyChrSelectGC__instance = scene;
+    TAdMultiPlyChrSelectGC::instance = scene;
     return scene;
 }
 
@@ -202,8 +198,8 @@ TAdMultiPlyChrSelectGC::~TAdMultiPlyChrSelectGC() {
         full_notice->queue_destruction();
         full_notice = NULL;
     }
-    if (TAdMultiPlyChrSelectGC__instance != NULL) {
-        TAdMultiPlyChrSelectGC__instance = NULL;
+    if (TAdMultiPlyChrSelectGC::instance != NULL) {
+        TAdMultiPlyChrSelectGC::instance = NULL;
     }
 }
 

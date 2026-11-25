@@ -55,7 +55,7 @@ void TWindowEffectParty::run_task() {
     void *window;
 
     temp_r3 = this->target_slot;
-    if (((s8) temp_r3 > 0) && (((window = TWindowCtrl__sub_8024FB80(temp_r3 - 1)) == 0) || (((TWindowBase *)window)->sub_80244994() == 0))) {
+    if (((s8) temp_r3 > 0) && (((window = TWindowCtrl__sub_8024FB80(temp_r3 - 1)) == 0) || (((TWindowBase *)window)->is_open_and_unblocked() == 0))) {
         queue_destruction();
         return;
     }

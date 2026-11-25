@@ -9,6 +9,7 @@ struct TWindowMessageYesNo;
 // Yes/no prompt shown to the player of client after a defeat; yes sends the party
 // back to floor 0, the city.
 struct TWindowReturnCity : public TObject {
+    static int client_scan_index;
     TWindowReturnCity(TObject *parent, s32 client);
     virtual ~TWindowReturnCity();
     TWindowMessageYesNo *yes_no_window;

@@ -29,7 +29,7 @@ public:
     WindowDrawContext *setup_window_draw_context(f32 *scale);
     WindowDrawContext *draw_default_entry();
     s32 is_window_reveal_complete();
-    s32 sub_80244994();
+    s32 is_open_and_unblocked();
     void save_position();
     f32 get_transition_progress();
     f32 get_close_progress();

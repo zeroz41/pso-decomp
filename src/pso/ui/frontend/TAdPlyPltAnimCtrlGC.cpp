@@ -18,10 +18,9 @@ const u32 ply_plt_anim_time_threshold_table[5] = { 0, 2, 4, 6, 12 };
 const char *TAdPlyPltAnimCtrlGC__class_name = "TAdPlyPltAnimCtrlGC";
 
 extern "C" {
-s32 TAdPlyPltAnimCtrlGC__sub_80355148(O_80355148 *self);
 u32 plyplt_anim_ctrl_instance;
 
-TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int a0) { return TAdPlyPltAnimGC__instances[a0]; }
+TAdPlyPltAnimGC *TAdPlyPltAnimCtrlGC::get_table_value(int a0) { return TAdPlyPltAnimGC::instances[a0]; }
 
 u32 TAdPlyPltAnimCtrlGC::get_instance(saddr arg0) {
     uaddr ad_ply_plt_anim_ctrl_gc;

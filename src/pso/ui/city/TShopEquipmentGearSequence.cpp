@@ -30,30 +30,28 @@ s32 lbl_805D621C;
 }
 
 extern "C" {
-extern s32 TShopEquipmentGearSequence__window_slot_table[4];
 extern const char *TShopEquipmentGearSequence__class_name;
 s32 get_shop_text(s32);
 }
 
 #pragma readonly_strings on
-s32 TShopEquipmentGearSequence__window_slot_table[4];
+s32 TShopEquipmentGearSequence::window_slot_table[4];
 TShopEquipmentGearSequence *lbl_805D6220;
 const char *TShopEquipmentGearSequence__class_name = "TShopEquipmentGearSequence";
-s32 get_shop_text(s32);
 
 // Written last-to-first: the unit is built with deferred code generation (see configure.py).
 
 void TShopEquipmentGearSequence::clear_window_slot_table() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopEquipmentGearSequence__window_slot_table[i] = 0;
+        TShopEquipmentGearSequence::window_slot_table[i] = 0;
     }
 }
 
 void TShopEquipmentGearSequence::clear_window_slots() {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopEquipmentGearSequence__window_slot_table[i] = 0;
+        TShopEquipmentGearSequence::window_slot_table[i] = 0;
     }
 }
 
@@ -67,7 +65,7 @@ TShopEquipmentGearSequence::TShopEquipmentGearSequence(TObject *parent, TObjPlay
     lbl_805D6220 = this;
     lbl_805D6218 = 0;
     lbl_805D621C = 0;
-    TShopEquipmentGearSequence__window_slot_table[get_split_screen_slot()] = 1;
+    TShopEquipmentGearSequence::window_slot_table[get_split_screen_slot()] = 1;
 }
 
 TShopEquipmentGearSequence::~TShopEquipmentGearSequence() {
@@ -85,7 +83,7 @@ TShopEquipmentGearSequence::~TShopEquipmentGearSequence() {
     }
     close_message_window();
     lbl_805D6220 = NULL;
-    TShopEquipmentGearSequence__window_slot_table[get_split_screen_slot()] = 0;
+    TShopEquipmentGearSequence::window_slot_table[get_split_screen_slot()] = 0;
 }
 
 void TShopEquipmentGearSequence::update_state() {

@@ -24,7 +24,7 @@
 
 const char *TWindowSubStatusDisp__class_name = "TWindowSubStatusDisp";
 extern "C" {
-void *TWindowSubStatusDisp__summary_page_layout[135] = {
+void *TWindowSubStatusDisp::summary_page_layout[135] = {
     (void *)0x12, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x43520000, (void *)0x0,
@@ -60,7 +60,7 @@ void *TWindowSubStatusDisp__summary_page_layout[135] = {
     (void *)0x3, (void *)0x43670000, (void *)0x42c80000, (void *)0x3f000000,
     (void *)0xffffffff, (void *)0x0, (void *)0x0,
 };
-void *TWindowSubStatusDisp__stat_page_layout[254] = {
+void *TWindowSubStatusDisp::stat_page_layout[254] = {
     (void *)0x24, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x42600000, (void *)0x0,
@@ -126,7 +126,7 @@ void *TWindowSubStatusDisp__stat_page_layout[254] = {
     (void *)0x432b0000, (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff,
     (void *)0x0, (void *)")",
 };
-void *TWindowSubStatusDisp__resistance_layout[212] = {
+void *TWindowSubStatusDisp::resistance_layout[212] = {
     (void *)0x1e, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x42600000, (void *)0x0,
@@ -181,7 +181,7 @@ void *TWindowSubStatusDisp__resistance_layout[212] = {
     (void *)0x0, (void *)0x3, (void *)0x432b0000, (void *)0x42a00000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)")",
 };
-void *TWindowSubStatusDisp__record_summary_layout[114] = {
+void *TWindowSubStatusDisp::record_summary_layout[114] = {
     (void *)0x10, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x41a00000,
@@ -212,7 +212,7 @@ void *TWindowSubStatusDisp__record_summary_layout[114] = {
     (void *)0x43580000, (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff,
     (void *)0x0, (void *)0x0,
 };
-void *TWindowSubStatusDisp__rank_time_records_layout[114] = {
+void *TWindowSubStatusDisp::rank_time_records_layout[114] = {
     (void *)0x10, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x41a00000,
@@ -243,7 +243,7 @@ void *TWindowSubStatusDisp__rank_time_records_layout[114] = {
     (void *)0x42e80000, (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff,
     (void *)0x2, (void *)0x0,
 };
-void *TWindowSubStatusDisp__numbered_times_layout[72] = {
+void *TWindowSubStatusDisp::numbered_times_layout[72] = {
     (void *)0xa, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x41a00000,
@@ -263,7 +263,7 @@ void *TWindowSubStatusDisp__numbered_times_layout[72] = {
     (void *)0x0, (void *)0x3, (void *)0x43200000, (void *)0x42a00000,
     (void *)0x3f000000, (void *)0xffffffff, (void *)0x2, (void *)0x0,
 };
-void *TWindowSubStatusDisp__window_layout[5] = {
+void *TWindowSubStatusDisp::window_layout[5] = {
     (void *)0x439c0000, (void *)0x43200000, (void *)0x47438200, (void *)0x0,
     (void *)0x3,
 };
@@ -321,7 +321,6 @@ typedef struct Entry_80280B1C {
 } Entry_80280B1C;
 extern "C" {
 s32 is_battle_mode_running();
-void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0);
 }
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 s32 get_class_name_text(s32);
@@ -339,7 +338,7 @@ const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 const u8 lbl_805DD6F4[4] = {3, 4, 4, 0};
 
 TWindowSubStatusDisp::TWindowSubStatusDisp(s32 client)
-    : TWindowBase((u8 *)TWindowSubStatusDisp__window_layout, client, (u8 *)get_window_layout_position(0x19)) {
+    : TWindowBase((u8 *)TWindowSubStatusDisp::window_layout, client, (u8 *)get_window_layout_position(0x19)) {
     m_name = TWindowSubStatusDisp__class_name;
     client_index = client;
     page = 0;
@@ -451,7 +450,7 @@ void TWindowSubStatusDisp::vt0() {
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp__summary_page_layout),
+        reinterpret_cast<const void *>(TWindowSubStatusDisp::summary_page_layout),
         this->client_index);
     e = (void *)get_array_entry(6);
     set_text_entry_string((u8 *)e, (saddr)TWindowSubStatusDisp::get_message_10(0x80), 0x20);
@@ -505,7 +504,7 @@ void TWindowSubStatusDisp::vt1() {
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp__stat_page_layout),
+        reinterpret_cast<const void *>(TWindowSubStatusDisp::stat_page_layout),
         this->client_index);
     e = (void *)get_array_entry(0);
     set_text_entry_string((u8 *)e, (saddr)TWindowSubStatusDisp::get_message_10(0x83), 0x20);
@@ -570,7 +569,7 @@ void TWindowSubStatusDisp::vt2() {
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp__resistance_layout),
+        reinterpret_cast<const void *>(TWindowSubStatusDisp::resistance_layout),
         this->client_index);
     temp_r30 = ((saddr)(void *)get_array_entry(0));
     set_text_entry_string((u8 *)temp_r30, ((saddr)TWindowSubStatusDisp::get_message_10(0x89)), 0x20);
@@ -615,7 +614,7 @@ void TWindowSubStatusDisp::vt3() {
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp__record_summary_layout),
+        reinterpret_cast<const void *>(TWindowSubStatusDisp::record_summary_layout),
         this->client_index);
     temp_r30 = ((u8 *)(void *)get_array_entry(0));
     set_text_entry_string(temp_r30, (saddr)TWindowSubStatusDisp::get_message_10(0x8E), 0);
@@ -653,7 +652,7 @@ void TWindowSubStatusDisp::vt7() {
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp__record_summary_layout),
+        reinterpret_cast<const void *>(TWindowSubStatusDisp::record_summary_layout),
         this->client_index);
     entry = (u8 *)(void *)get_array_entry(0);
     set_text_entry_string(entry, (saddr)TWindowSubStatusDisp::get_message_10(0x8F), 0);
@@ -689,7 +688,7 @@ void TWindowSubStatusDisp::vt4() {
     if ((f32)(s32)open_tick > 7.5f) {
         open_tick = 7;
     }
-    init_window_layout_entries(&entry_list, reinterpret_cast<const void *>(TWindowSubStatusDisp__rank_time_records_layout), client_index);
+    init_window_layout_entries(&entry_list, reinterpret_cast<const void *>(TWindowSubStatusDisp::rank_time_records_layout), client_index);
     m_68->get_type();
     s32 slot = page == 2 ? RECORD_SET_EP1_SPLIT : RECORD_SET_EP1;
     WindowTextEntry *title = (WindowTextEntry *)get_array_entry(0);
@@ -813,7 +812,7 @@ void vt5__20TWindowSubStatusDispFv(u8 *window_base) {
   }
   init_window_layout_entries(
       reinterpret_cast<WindowLayoutEntries *>(window_base + 0x24),
-      reinterpret_cast<const void *>(TWindowSubStatusDisp__numbered_times_layout),
+      reinterpret_cast<const void *>(TWindowSubStatusDisp::numbered_times_layout),
       *((s16 *) (((s8 *) window_base) + 0x20)));
   new_var = window_base;
   type = ((TWindowSubStatusDisp *)new_var)->get_display_mode();

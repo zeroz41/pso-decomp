@@ -55,8 +55,6 @@ void (*logo_load_callback_table[18])(void) = {
     load_adx_logo_texture, free_adx_logo_texture,
 };
 }
-int is_logo_exit_requested(int);
-int is_sega_logo_done(TAdSEGAlogo *logo);
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern int sega_logo_done_flag;
@@ -72,9 +70,9 @@ s32 TLogo__sub_8013F800(void* p) { return *(s32*)((char*)p + 0x48); }
 
 int is_sega_logo_done(TAdSEGAlogo *logo) {  return sega_logo_done_flag; }
 
-int is_logo_exit_requested(int _w0) {  return TLogo__exit_requested_flag; }
+int is_logo_exit_requested(int _w0) {  return TLogo::exit_requested_flag; }
 
-int TLogo__sub_8013F7E8(int _w0) {  return TAdADXlogo__done; }
+int TLogo__sub_8013F7E8(int _w0) {  return TAdADXlogo::done; }
 
 void TLogo::init_logo_scene() {
     s32 i;

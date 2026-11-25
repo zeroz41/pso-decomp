@@ -60,7 +60,6 @@ struct Stack_8025E6DC {
 u8 calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, void *, s32);
 s32 dispatch_request_0f__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x10__19TWindowKeyBoardSoftFll(void *, void *);
-void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor);
 void draw_textured_quad_at_depth(void *, f32);
 s32 dispatch_request_0x27__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x26__19TWindowKeyBoardSoftFll(void *, s32 *);

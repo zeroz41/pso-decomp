@@ -42,7 +42,6 @@ struct O_802A15BC {
 
 extern "C" {
 
-void clear_player_data_block(O_802A15BC *arg0);
 void clear_player_data_block(O_802A15BC *arg0) {
     s32 i;
     for (i = 0; i < 0x10; i++) {

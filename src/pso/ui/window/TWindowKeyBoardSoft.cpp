@@ -860,7 +860,7 @@ void TWindowKeyBoardSoft::run_task() {
     s32 port;
 
     if (m_control != NULL) {
-        if ((this->sub_80244994() != 0) && (m_control->is_confirmed() == 0)) {
+        if ((this->is_open_and_unblocked() != 0) && (m_control->is_confirmed() == 0)) {
             port = is_player_input_active(this->client_index);
             handle_page_cycle_input(port);
             sub_80260E30(port);

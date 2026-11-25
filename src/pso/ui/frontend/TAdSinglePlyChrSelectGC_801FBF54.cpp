@@ -54,7 +54,7 @@ uaddr active_character_save_record;
 uaddr guild_card_save_payload;
 uaddr system_save_payload;
 uaddr secondary_card_system_save_payload;
-s32 TAdSinglePlyChrSelectGC__selection_index;
+s32 TAdSinglePlyChrSelectGC::selection_index;
 s32 card_load_sequence_state;
 saddr character_save_card_slot;
 saddr card_load_channel;
@@ -142,7 +142,6 @@ struct S_801FC0C8 { u8 pad[8]; s32 magic; u8 pad2[0x248 - 0xC]; s32 f248; s32 f2
 
 extern "C" {
 extern s32 memcard_access_active;
-char *strncpy(char *, const char *, size_t);
 
 // Save-message window position and size (the same rect as TSaveChCr's message window).
 static const NJS_POINT2 chr_select_save_message_window_pos = { 46.0f, 131.0f };
@@ -167,9 +166,6 @@ extern "C" {
 s32 TLobby__sub_8030A770();
 s32 get_game_play_mode();
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
-s32 __destroy_arr(s32, s32 *, s32, s32);
-s32 __ct__12TPlyCharDataFv(s32 arg0);
-s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 }
 
 
@@ -568,7 +564,7 @@ s32 TAdSinglePlyChrSelectGC::has_valid_slot() {
     return 0;
 }
 
-void load_tables(int a0) { TAdSinglePlyChrSelectGC__selection_index = a0; memcpy((void*)selected_character_data, (void*)get_selected_character_slot(card_character_save_buffer), 0x41C); memcpy((void*)active_character_save_record, (void*)get_selected_save_record(card_character_save_buffer), 0x2370); game_state_load(); }
+void load_tables(int a0) { TAdSinglePlyChrSelectGC::selection_index = a0; memcpy((void*)selected_character_data, (void*)get_selected_character_slot(card_character_save_buffer), 0x41C); memcpy((void*)active_character_save_record, (void*)get_selected_save_record(card_character_save_buffer), 0x2370); game_state_load(); }
 
 
 
@@ -1170,7 +1166,6 @@ extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_801FE380(P_801FE380 *arg0, s32 arg1, P_801FE380 *arg2, s32 arg3);
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *arg0, S_801FE010 *arg1);
-void *memset(void *, int, unsigned long);
 
 }
 
@@ -2874,11 +2869,9 @@ struct Card_80201354 {
 };
 
 extern "C" {
-s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 
 }
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_8028DC14();
 void TAdSinglePlyChrSelectGC__sub_8028DC1C();
 }
 
@@ -3274,7 +3267,6 @@ void TAdSinglePlyChrSelectGC::release_all() {
 
 extern "C" {
 
-s32 __ct__12TPlyCharDataFv(s32);
 }
 
 void TAdSinglePlyChrSelectGC::init_char_select_globals() {
@@ -3283,7 +3275,7 @@ void TAdSinglePlyChrSelectGC::init_char_select_globals() {
     saddr record;
     saddr guild;
 
-    TAdSinglePlyChrSelectGC__selection_index = 0;
+    TAdSinglePlyChrSelectGC::selection_index = 0;
     card_load_followup_pending = 0;
     TAdSinglePlyChrSelectGC::alloc_char_records(chr_select_buffer_ptr_table);
     chr_select_request_buffer.reset_slot_lists();

@@ -13,7 +13,7 @@ void fn_8029945C(const vec2f *pos) {
 
 #pragma common off
 CreationIconState creation_icon_states[7];
-f32 TObjCMIcon__horizontal_scroll_offset;
+f32 TObjCMIcon::horizontal_scroll_offset;
 #pragma common reset
 
 extern "C" {
@@ -51,7 +51,7 @@ void TObjCMIcon::init_icon_table() {
         i += 1;
         entry++;
     } while (i < 7);
-    TObjCMIcon__horizontal_scroll_offset = 0.0f;
+    TObjCMIcon::horizontal_scroll_offset = 0.0f;
 }
 
 void TObjCMIcon__sub_8029957C(CreationIconState *p, CreationIconState *q) {
@@ -98,11 +98,11 @@ void render__10TObjCMIconFv(s32 self) {
     }
     set_depth_buffer_settings_1();
     set_draw_list_mask(2);
-    x0 = cm_icon_screen_position.x - TObjCMIcon__horizontal_scroll_offset;
+    x0 = cm_icon_screen_position.x - TObjCMIcon::horizontal_scroll_offset;
     for (i = 0; i < 7; i++) {
         id = idx[i];
         depth = keys[i];
-        g = &TObjCMIcon__icon_group_table[id];
+        g = &TObjCMIcon::icon_group_table[id];
         pos.x = x0 + (creation_icon_states)[id].x;
         pos.y = cm_icon_screen_position.y * TObjCMMainMenu::get_scale();
         z = (-2.0f) - (1.0f - (f32)(i / 7));
@@ -135,7 +135,7 @@ void run_task__10TObjCMIconFv(s32 arg0) {
         }
     }
     x = 0.0f;
-    g = TObjCMIcon__icon_group_table;
+    g = TObjCMIcon::icon_group_table;
     p = creation_icon_states;
     {
     s32 k;
@@ -156,7 +156,7 @@ void run_task__10TObjCMIconFv(s32 arg0) {
         }
     }
     }
-    TObjCMIcon__horizontal_scroll_offset += 0.15f * (x - TObjCMIcon__horizontal_scroll_offset);
+    TObjCMIcon::horizontal_scroll_offset += 0.15f * (x - TObjCMIcon::horizontal_scroll_offset);
 }
 #pragma pop
 

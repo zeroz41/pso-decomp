@@ -95,7 +95,7 @@ s32 KeyboardKeyState::check_input_ready() {
 #pragma push
 #pragma bool off
 s32 KeyboardKeyState::sub_801321B4() {
-    if (sub_801323C8(0x56) != 0) {
+    if (is_key_pressed(0x56) != 0) {
         return 1;
     }
     if (hardware_keyboard_state.get_key_state() == 0) {
@@ -104,22 +104,22 @@ s32 KeyboardKeyState::sub_801321B4() {
     if ((hardware_keyboard_state.get_key_state() == 2) || (hardware_keyboard_state.get_key_state() == 4) || (hardware_keyboard_state.get_key_state() == 3)) {
         return 0;
     }
-    return sub_801323C8(0x5B) != 0;
+    return is_key_pressed(0x5B) != 0;
 }
 
 s32 KeyboardKeyState::sub_80132274() {
     if ((hardware_keyboard_state.get_key_state() == 0) || (hardware_keyboard_state.get_key_state() == 1)) {
         return 0;
     }
-    return sub_801323C8(0x5B) != 0;
+    return is_key_pressed(0x5B) != 0;
 }
 
 s32 KeyboardKeyState::is_key_57_pressed() {
-    return sub_801323C8(0x57) != 0;
+    return is_key_pressed(0x57) != 0;
 }
 #pragma pop
 s32 KeyboardKeyState::sub_80132310() {
-    if ((sub_801323C8(0x54) != 0) || (sub_801323C8(0x55) != 0)) {
+    if ((is_key_pressed(0x54) != 0) || (is_key_pressed(0x55) != 0)) {
         return 1;
     }
     return 0;
@@ -146,7 +146,7 @@ u8 KeyboardKeyState::get_pending_count() {
     return pending_count;
 }
 
-s32 KeyboardKeyState::sub_801323C8(u8 key) {
+s32 KeyboardKeyState::is_key_pressed(u8 key) {
     return (pressed[key / 32] & (1 << (key % 32))) != 0 ? 1 : 0;
 }
 
@@ -172,7 +172,7 @@ void KeyboardKeyState::reset_inactive_keys() {
     i = 0;
     p = repeat;
     do {
-        if (sub_801323C8(p->key) == 0) {
+        if (is_key_pressed(p->key) == 0) {
             p->key = 0;
             p->timer = 0x23;
         }

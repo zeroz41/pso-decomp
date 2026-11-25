@@ -119,8 +119,8 @@ force_active:
   - StartKeymap
   - StartLayer
   - StartPause
-  - TAdADXlogo__state
-  - TAdADXlogo__texture
+  - state__10TAdADXlogo
+  - texture__10TAdADXlogo
   - TAdADXlogo_name
   - TAdBackTxtGC__name
   - TAdBackTxtGC_backtext_tex_list
@@ -168,7 +168,7 @@ force_active:
   - prs_release_window__10PrsDecoderFv
   - TAdFadeGC__name
   - TAdFloorLoadPrtGC__class_name
-  - TAdFloorLoadPrtGC__emitter_angles
+  - emitter_angles__17TAdFloorLoadPrtGC
   - TAdGuideTxtGC__class_name
   - TAdLdQuestPrtGC__class_name
   - TAdLoadNetworkGC__object_offset_table
@@ -217,11 +217,11 @@ force_active:
   - TQuestVmDownLoadServer__sub_803EA428
   - TQuestVmDownLoadServer__sub_803EADD4
   - __ct__15TAdPlyPltAnimGCFP7TObjectl
-  - TAdPlyStatusGC__is_shown
+  - is_shown__14TAdPlyStatusGC
   - TAdPlyStatusGC__status_window_box
   - TAdPlyStatusGC__sub_8033F8B0
   - TAdRayGC__name
-  - TAdRayGC__ray_texture_list
+  - ray_texture_list__8TAdRayGC
   - TAdRayGC_ray_quad_table
   - set_draw_depth__14TAdSelectCurGCFf
   - TAdSinglePlyChrSelectGC__sub_80076DF4
@@ -484,7 +484,7 @@ force_active:
   - TChCrEffCtrlPl__name
   - TChCrEffTagStr__name
   - TChCrEffTag__name
-  - TChCrLoadAfsTextureReq__active_load_count
+  - active_load_count__22TChCrLoadAfsTextureReq
   - __ct__22TChCrLoadAfsTextureReqFP7TObjectP11NJS_TEXLISTPll
   - __ct__16TChCrLoadGmNjReqFP7TObjectP20TChCrLoadGmNjReqArgs
   - __ct__12TChCrLoadReqFP10TObjPlayer
@@ -499,9 +499,9 @@ force_active:
   - challenge4p_result_slot_entries
   - __ct__12TChallenge4PFP7TObject
   - __ct__12TCharaMakingFP7TObject
-  - TCheckRoomSequence__active_instance
-  - TCheckRoomSequence__error_return_state
-  - TCheckRoomSequence__error_return_text_id
+  - active_instance__18TCheckRoomSequence
+  - error_return_state__18TCheckRoomSequence
+  - error_return_text_id__18TCheckRoomSequence
   - TCheckRoomSequence__sub_80210B34
   - instance__9TCineCtrl
   - __ct__20TContainerAncient01RFP7TObjectPv
@@ -749,7 +749,7 @@ force_active:
   - set_bodies_collision_flag
   - TMainCursor__sub_80154288
   - TMainTask_name
-  - TMedicalCenterMes__slot_flags
+  - slot_flags__17TMedicalCenterMes
   - TMemberCheck__previous_member_count
   - motorcycle_collision_parts
   - __ct__11TMotorcycleFP7TObjectP13ObjectSetData
@@ -941,7 +941,7 @@ force_active:
   - TObjBs4CutAtk_type_name
   - __ct__18TObjButterflyLobbyFP7TObjectP13ObjectSetData
   - TObjCGrass_bml_resource
-  - TObjCMIcon__horizontal_scroll_offset
+  - horizontal_scroll_offset__10TObjCMIcon
   - show_creation_icon
   - TObjCMIcon__sub_8029957C
   - TObjCMIcon__sub_80299598
@@ -1784,14 +1784,14 @@ force_active:
   - __sinit_TWindowDD_80341A08_cpp
   - TWindowDD__sub_80346F30
   - TWindowDD__sub_80346FC0
-  - TWindowDuelResult__layout_entries
+  - layout_entries__17TWindowDuelResult
   - TWindowEffectLight__sub_802AD040
   - TWindowEffectParty__name
   - TWindowFukidasi__sub_80249788
   - TWindowGetComCard__sub_8007B60C
-  - TWindowHelpItem__item_layout_entries
+  - item_layout_entries__15TWindowHelpItem
   - TWindowHelpItem__requirements_update_callback
-  - TWindowHelpItem__resistance_layout_entries
+  - resistance_layout_entries__15TWindowHelpItem
   - TWindowHelpItem__stat_comparison_callback
   - TWindowHelpItem__sub_8025A600
   - TWindowHelpItem__sub_8025A900
@@ -1823,7 +1823,7 @@ force_active:
   - __ct__18TWindowPartyStatusFlPUc
   - TWindowPartyStatus__name
   - __ct__15TWindowQuantityFl
-  - TWindowReturnCity__client_scan_index
+  - client_scan_index__17TWindowReturnCity
   - __ct__13TWindowStatusFPvlPUc
   - class_name__21TWindowSubComCardList
   - TWindowSubComCard__sub_8007AC7C
@@ -1862,7 +1862,7 @@ force_active:
   - TWindowSubStatusDisp__sub_803387F8
   - TWindowSubStatusDisp__sub_80338B88
   - TWindowSubStatusDisp__sub_8036D994
-  - TWindowSubStatusDisp__window_layout
+  - window_layout__20TWindowSubStatusDisp
   - TWindowSubSymbolChatFaceType__sub_80283F38
   - TWindowSubSymbolChatHelp__name
   - TWindowSubSymbolChatPartsSet__part_uv_table
@@ -7651,28 +7651,28 @@ force_active:
   - lbl_8044E758
   - lbl_8044E7BC
   - lbl_8044FCF0
-  - lbl_804507A8
-  - lbl_804507BC
-  - lbl_804507D0
-  - lbl_804507E4
-  - lbl_804507F8
-  - lbl_8045085C
-  - lbl_80450870
-  - lbl_80450884
-  - lbl_80450898
-  - lbl_804508AC
-  - lbl_804508C0
-  - lbl_804508D4
-  - lbl_804508E8
-  - lbl_804508FC
-  - lbl_804509A0
-  - lbl_804509B0
-  - lbl_804509C0
-  - lbl_804509D0
-  - lbl_804509E0
-  - lbl_804509F0
-  - lbl_80450A00
-  - lbl_80450A10
+  - str_challenge2_mlt_stg1
+  - str_challenge2_mlt_stg2
+  - str_challenge2_mlt_stg3
+  - str_challenge2_mlt_stg4
+  - str_challenge2_mlt_stg5
+  - str_challenge_mlt_stg1
+  - str_challenge_mlt_stg2
+  - str_challenge_mlt_stg3
+  - str_challenge_mlt_stg4
+  - str_challenge_mlt_stg5
+  - str_challenge_mlt_stg6
+  - str_challenge_mlt_stg7
+  - str_challenge_mlt_stg8
+  - str_challenge_mlt_stg9
+  - str_battle_mlt_stg1
+  - str_battle_mlt_stg2
+  - str_battle_mlt_stg3
+  - str_battle_mlt_stg4
+  - str_battle_mlt_stg5
+  - str_battle_mlt_stg6
+  - str_battle_mlt_stg7
+  - str_battle_mlt_stg8
   - quest_list_challenge_class_name_string
   - lbl_80450AB4
   - TChCrTagName__class_name_string
@@ -16339,7 +16339,7 @@ force_active:
   - state_fade_in__18TObjEneMe3SinowZoaFl
   - update_stealth_fade__18TObjEneMe3SinowZoaFv
   - sub_8032C0B4__14TAdYesNoBaseGCFv
-  - sub_8032D214__16TAdWarningBaseGCFv
+  - create_message_window__16TAdWarningBaseGCFv
   - init__18TItemWpnCardEffectFv
   - update_state_effects__9TBoss6MagFv
   - render_body_effects__9TBoss6MagFv

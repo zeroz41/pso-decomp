@@ -8,6 +8,7 @@ class TAdSEGAlogo;
 // Boot logo sequence: video-mode check, modem check, then the SEGA, Sonic Team and ADX logos.
 class TLogo : public TObject {
 public:
+    static int exit_requested_flag;
     TLogo(TObject *parent);
     // render is declared first: it is the class's key function, so the vtable is emitted
     // with it (ahead of run_task's switch table), as in the original data.
@@ -32,7 +33,6 @@ public:
 LAYOUT_ASSERT(TLogoExtent, sizeof(TLogo) == 0x38);
 
 extern "C" {
-extern int TLogo__exit_requested_flag;
 void TLogo__sub_8013F5AC(void);
 int TLogo__sub_8013F7E8(int _w0);
 s32 TLogo__sub_8013F800(void *p);

@@ -66,7 +66,7 @@ void TWindowHelpItem::run_task() {
     if (!(this->window_flags & 2)) {
         this->open_tick = 0x01000000;
     }
-    if ((this->m_60 & 1) && (((TWindowBase *)arg0)->sub_80244994() != 0) && !(this->window_flags & 4)) {
+    if ((this->m_60 & 1) && (((TWindowBase *)arg0)->is_open_and_unblocked() != 0) && !(this->window_flags & 4)) {
         if (!(this->m_60 & 4)) {
             if (handle_list_page_flip_input(this->page_indicator) != 0) {
                 ((TWindowHelpItem *)arg0)->dispatch_item_help();

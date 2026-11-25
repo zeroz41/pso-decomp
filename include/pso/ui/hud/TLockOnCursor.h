@@ -150,6 +150,7 @@ public:
 };
 
 struct TLockOnCursor : public TObject {
+    static s32 target_cursor_model;
     FlagWord flags;
     u16 target_id; // read by get_target_id()
     TUnk_8013F0A0 unk_24;

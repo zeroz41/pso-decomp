@@ -56,12 +56,9 @@ struct Guild_8021317C : Base_8021317C {
 
 extern "C" {
 s32 THunterGuildSeqOffline__quest_result_callbacks[4];
-s32 THunterGuildSeqOffline__instance_table[4];
-THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
+s32 THunterGuildSeqOffline::instance_table[4];
+THunterGuildSeqOffline *THunterGuildSeqOffline::active_instance;
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
-void THunterGuildSeqOffline__sub_8021339C(void);
-void THunterGuildSeqOffline__sub_80213410(void);
-s32 THunterGuildSeqOffline__sub_80213458(void);
 
 int fn_80223480(void*);
 
@@ -158,12 +155,12 @@ void THunterGuildSeqOffline::notify_quest_thread() {
 
 void THunterGuildSeqOffline__sub_8021339C(void) {
     s32 i;
-    for (i = 0; i < 4; i++) THunterGuildSeqOffline__instance_table[i] = 0;
+    for (i = 0; i < 4; i++) THunterGuildSeqOffline::instance_table[i] = 0;
 }
 
 void THunterGuildSeqOffline::clear_instance_table() {
     s32 i;
-    for (i = 0; i < 4; i++) THunterGuildSeqOffline__instance_table[i] = 0;
+    for (i = 0; i < 4; i++) THunterGuildSeqOffline::instance_table[i] = 0;
 }
 
 THunterGuildSeqOffline::THunterGuildSeqOffline(TObject *parent, TObjPlayer *player) : TShopSequence(parent) {
@@ -174,8 +171,8 @@ THunterGuildSeqOffline::THunterGuildSeqOffline(TObject *parent, TObjPlayer *play
     counter_camera = NULL;
     quest_thread = 0;
     unk_38 = 0;
-    THunterGuildSeqOffline__active_instance = this;
-    THunterGuildSeqOffline__instance_table[get_split_screen_slot()] = 1;
+    THunterGuildSeqOffline::active_instance = this;
+    THunterGuildSeqOffline::instance_table[get_split_screen_slot()] = 1;
 }
 
 THunterGuildSeqOffline::~THunterGuildSeqOffline() {
@@ -192,8 +189,8 @@ THunterGuildSeqOffline::~THunterGuildSeqOffline() {
         ((TObject *)quest_thread)->queue_destruction();
         quest_thread = 0;
     }
-    THunterGuildSeqOffline__instance_table[get_split_screen_slot()] = 0;
-    THunterGuildSeqOffline__active_instance = NULL;
+    THunterGuildSeqOffline::instance_table[get_split_screen_slot()] = 0;
+    THunterGuildSeqOffline::active_instance = NULL;
 }
 
 void THunterGuildSeqOffline::update_state() {

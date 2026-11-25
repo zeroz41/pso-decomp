@@ -95,7 +95,7 @@ int lbl_805D384C = 29;
 // (run_game_mode_select_frame) then destroys the current scene object (2) and creates the next one (0).
 s32 game_mode_scene_change_state;
 TObject *game_mode_scene_instance;
-int player_load_load_state;
+int TAdPlayerLoadGC::load_state;
 
 // The scene camera's start pose (init_game_mode_select_scene). File-scope objects: they open the
 // unit's .rodata, before set_default_camera's own initialisers.

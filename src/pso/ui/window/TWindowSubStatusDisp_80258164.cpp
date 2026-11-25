@@ -156,7 +156,6 @@ struct VObj18B_802582c4_80257784 : VBase18B_802582c4_80257784 {
 extern "C" {
 extern const f32 lbl_805DCF04;
 extern const f32 lbl_805DCF08;
-void TWindowSubStatusDisp__sub_80258A28(ItemListRow *row, s32 arg1, s32 arg2);
 
 void ItemListRow::update_item_icon_colors(void *item) {
     s16 sp8;
@@ -560,7 +559,6 @@ struct Quad_8025941C { f32 v[8]; };
 extern "C" {
 u32 calc_text_width(char *s);
 }
-s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 extern const f32 lbl_805DCF14;
 extern const f32 lbl_805DCF20;
 extern const f32 lbl_805DCF24;

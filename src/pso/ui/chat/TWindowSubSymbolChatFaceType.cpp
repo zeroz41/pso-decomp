@@ -63,7 +63,6 @@ struct Ent_80283FA8 { u8 pad[0x2c]; s32 parts_entry; };
 
 extern "C" {
 
-void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *, f32 *, f32, f32);
 extern s32 actor_frame_tick;
 
 typedef struct Stack_80283F38 Stack_80283F38;

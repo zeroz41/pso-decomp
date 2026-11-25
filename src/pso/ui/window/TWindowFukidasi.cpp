@@ -126,18 +126,13 @@ struct Fuki_80251594 {
     f32 head[2];
 };
 
-void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
-s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, s32);
 }
 
-void complete_speech_balloon(u8 *arg0);
-s32 is_speech_balloon_ready(u8 *window_base);
 extern "C" {
 void clamp_text_size__15TWindowFukidasiFPvPv(Fuki_80250314 *b, f32 *out);
 s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out);
 s32 shift_rect_with_head__15TWindowFukidasiFPvPvPv(Fuki_80250F70 *b, f32 *rect, f32 *out);
 void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b);
-void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr arg1, saddr arg2);
 void TWindowFukidasi__sub_80252C38(void *p);
 s32 fn_80252CBC(void);
 s32 reset_float_field__15TWindowHelpItemFv();

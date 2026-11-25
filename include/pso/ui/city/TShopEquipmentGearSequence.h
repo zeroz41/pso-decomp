@@ -10,6 +10,7 @@ class TWindowBase;
 struct TWindowMenu;
 
 struct TShopEquipmentGearSequence : public TShopSequence {
+    static s32 window_slot_table[4];
     TShopEquipmentGearSequence(TObject *parent, TObjPlayer *player);
     virtual ~TShopEquipmentGearSequence();
     virtual void update_state();

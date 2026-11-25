@@ -20,10 +20,10 @@ extern "C" {
 
 
 void THunterGuildSeqOffline::set_state_4(TShopWindowBase *) {
-    if (THunterGuildSeqOffline__active_instance != NULL) {
-        THunterGuildSeqOffline__active_instance->display_guild_message(6, 1);
-        THunterGuildSeqOffline__active_instance->unk_38 = 4;
-        THunterGuildSeqOffline__active_instance->set_state(5);
+    if (THunterGuildSeqOffline::active_instance != NULL) {
+        THunterGuildSeqOffline::active_instance->display_guild_message(6, 1);
+        THunterGuildSeqOffline::active_instance->unk_38 = 4;
+        THunterGuildSeqOffline::active_instance->set_state(5);
     }
 }
 

@@ -97,7 +97,6 @@ struct Chat_80285314 {
 
 extern "C" {
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
-void fn_802857C4(Win_802857C4 *arg0, Rect_802857C4 *arg1);
 struct TWSC *get_instance__20TWindowSubSymbolChatFv();
 
 struct TWSC;
@@ -112,9 +111,6 @@ struct Parts_80285B84 {
     saddr sub8C;
 };
 
-void clamp_list_scroll_offset(s32, NJS_POINT2 *, NJS_POINT2 *);
-void fn_80285314(Win_802857C4 *, Rect_802857C4 *);
-void fn_802855C4(Win_802857C4 *, Rect_802857C4 *);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
 
 

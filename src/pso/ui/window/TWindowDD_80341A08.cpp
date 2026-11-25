@@ -139,7 +139,7 @@ s32 TWindowDD__sub_8034217C(u8 *value) {
     return page->selected_token_index - page->selected_row;
 }
 
-int TWindowDD__sub_80342158(const TWindowDD_WS_Word *page) {
+int get_word_select_selected_id(const TWindowDD_WS_Word *page) {
     if (page->token_ids != NULL) {
         return page->token_ids[page->selected_token_index];
     }
@@ -389,7 +389,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         return;
     }
     c = 0.5f * self->frame_size[1] + self->frame_position[1];
-    f32 depth = TWindowDD__sub_80348AD4(self->draw_depth, 0.0f);
+    f32 depth = word_select_inverse_depth(self->draw_depth, 0.0f);
     ((TWindowDD *)verts)->reset_entries(depth, -1);
     ((TWindowDD *)verts)->copy_point_table(self->pad_64);
     TWindowDD__sub_80348A2C(rect, verts);
@@ -462,7 +462,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
         ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
     }
     if (self->token_count > 0 && self->sub_80342254() != 0) {
-        depth = TWindowDD__sub_80348AD4(self->draw_depth, 0.1f);
+        depth = word_select_inverse_depth(self->draw_depth, 0.1f);
         ((TWindowDD *)verts)->reset_entries(depth, -1);
         ((TWindowDD *)verts)->copy_point_table(1);
         TWindowDD__sub_80348A2C(rect, verts);

@@ -101,8 +101,6 @@ struct Bar_8025799C {
     s16 timer;
 };
 
-u32 update_text_color_transition(Fade_802575C0 *fade);
-void start_text_color_transition(Fade_802575C0 *array_entry, u32 rgb, f32 time);
 
 extern const float lbl_805DCE58;
 

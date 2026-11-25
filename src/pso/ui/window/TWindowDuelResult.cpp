@@ -33,7 +33,7 @@ void text_builder_reset(void);
 extern "C" {
 
 extern "C" const char lbl_805DCCA8[] = ":";
-void *TWindowDuelResult__layout_entries[140] = {
+void *TWindowDuelResult::layout_entries[140] = {
     (void *)0x13, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
     (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x41a00000,
@@ -148,7 +148,7 @@ void TWindowDuelResult::sub_8024F094() {
     u8 *b;
     u8 *c;
     u8 *d;
-    init_window_layout_entries(&entry_list, TWindowDuelResult__layout_entries, client_index);
+    init_window_layout_entries(&entry_list, TWindowDuelResult::layout_entries, client_index);
     a = (u8 *)get_array_entry(0);
     set_default_status(a, get_localized_text_entry(0x10, 0));
     b = (u8 *)get_array_entry(0x12);

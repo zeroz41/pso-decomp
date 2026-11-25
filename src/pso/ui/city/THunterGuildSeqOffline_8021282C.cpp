@@ -30,10 +30,10 @@ void THunterGuildSeqOffline::set_enemy_mode_0(TObject *) { TLobby::clear_counter
 
 
 void THunterGuildSeqOffline::request_close(TShopWindowBase *) {
-    if (THunterGuildSeqOffline__active_instance != NULL) {
-        THunterGuildSeqOffline__active_instance->display_guild_message(6, 1);
-        THunterGuildSeqOffline__active_instance->unk_38 = 2;
-        THunterGuildSeqOffline__active_instance->set_state(5);
+    if (THunterGuildSeqOffline::active_instance != NULL) {
+        THunterGuildSeqOffline::active_instance->display_guild_message(6, 1);
+        THunterGuildSeqOffline::active_instance->unk_38 = 2;
+        THunterGuildSeqOffline::active_instance->set_state(5);
     }
 }
 

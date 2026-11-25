@@ -9,6 +9,7 @@ struct TObjPlayer;
 
 class TMedicalCenterMes : public TObject, public TMessageWindowController {
 public:
+    static s32 slot_flags[4];
     TObjPlayer *player;
     s32 state;
 

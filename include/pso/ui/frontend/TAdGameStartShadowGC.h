@@ -8,6 +8,7 @@
 // ten frames and out after frame 28.
 class TAdGameStartShadowGC : public TObject {
 public:
+    static saddr texture_list;
     TAdGameStartShadowGC(TObject *parent);
     virtual ~TAdGameStartShadowGC();
     virtual void run_task();

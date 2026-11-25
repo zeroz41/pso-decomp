@@ -47,8 +47,6 @@ struct TimerEntry {
 };
 
 extern "C" {
-void init_timer_window_layout(TWindowTimer *self);
-void init_timer_window_layout_alt(TWindowTimer *self);
 
 #pragma push
 #pragma fp_contract on

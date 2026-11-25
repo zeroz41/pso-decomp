@@ -12,6 +12,8 @@ struct NJS_POINT2;
 void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry);
 
 struct TWindowSubCustomEquip : public TWindowBase {
+    static u8 bank_ring_init_done;
+    static f32 ring_scale;
     TWindowSubCustomEquip(s32 slot);
     virtual ~TWindowSubCustomEquip();
     void handle_cursor_input();

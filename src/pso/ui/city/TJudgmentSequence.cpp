@@ -14,7 +14,7 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-s32 TJudgmentSequence__slot_flags[4];
+s32 TJudgmentSequence::slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;
 }
 
@@ -119,7 +119,7 @@ TJudgmentSequence::~TJudgmentSequence() {
         meseta_window = NULL;
     }
     judgment_sequence_instance = NULL;
-    TJudgmentSequence__slot_flags[get_split_screen_slot()] = 0;
+    TJudgmentSequence::slot_flags[get_split_screen_slot()] = 0;
 }
 
 const char *TJudgmentSequence__class_name = "TJudgmentSequence";
@@ -131,7 +131,7 @@ TJudgmentSequence::TJudgmentSequence(TObject *parent, TObjPlayer *player) : TSho
     counter_camera = NULL;
     judgment_sequence_instance = this;
     set_state(0);
-    TJudgmentSequence__slot_flags[get_split_screen_slot()] = 1;
+    TJudgmentSequence::slot_flags[get_split_screen_slot()] = 1;
 }
 
 extern "C" {
@@ -139,14 +139,14 @@ extern "C" {
 void TJudgmentSequence__sub_80216030(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TJudgmentSequence__slot_flags[i] = 0;
+        TJudgmentSequence::slot_flags[i] = 0;
     }
 }
 
 void TJudgmentSequence__sub_80216058(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TJudgmentSequence__slot_flags[i] = 0;
+        TJudgmentSequence::slot_flags[i] = 0;
     }
 }
 

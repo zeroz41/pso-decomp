@@ -55,8 +55,6 @@ typedef struct Win_80247F68 {
 struct Win_80248374 { u8 pad[0x2C]; int parts_entry; };
 
 extern "C" {
-void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480EC *arg0, Part_802480EC *arg1, Part_802480EC *arg2, u16 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi(Obj_80248088 *arg0, Part_80248088 *arg1, s32 arg2);
 
 struct SymbolChatSpriteLayout {
     u32 cols;
@@ -64,7 +62,6 @@ struct SymbolChatSpriteLayout {
     SpritePartLayoutRecord recs[25];
 };
 
-void fn_80248324(WindowLayoutEntries *entries, s32 arg1, s32 arg2);
 
 
 SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {

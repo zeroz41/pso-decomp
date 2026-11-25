@@ -22,8 +22,6 @@ const char *TWindowSubShortCutList__class_name = "TWindowSubShortCutList";
 static const NJS_POINT2 lbl_8044FAA8 = {405.0f, 188.0f};
 
 extern "C" {
-char *fn_80076BC4(s32 *);
-s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 
 }
 

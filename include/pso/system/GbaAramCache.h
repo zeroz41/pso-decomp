@@ -5,9 +5,7 @@
 
 // The ARAM block TAdWarningBaseGC::init_heap reserves for the downloaded .gba file.
 extern u32 ad_warning_aram_base;
-extern u32 TAdWarningBaseGC__aram_capacity;
 extern s32 warning_aram_load_done_flag;
-extern int TAdWarningBaseGC__aram_alloc_size;
 extern int lobby_count_value;
 extern s32 aram_request_busy_flag;
 

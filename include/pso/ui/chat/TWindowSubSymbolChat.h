@@ -7,6 +7,7 @@
 struct TWindowMainMenu;
 
 struct TWindowSubSymbolChat : public TObject {
+    static void * instance;
     TWindowSubSymbolChat(TObject *parent, s32 client);
     virtual ~TWindowSubSymbolChat();
     static const char *class_name;

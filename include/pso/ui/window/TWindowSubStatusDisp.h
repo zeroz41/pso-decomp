@@ -11,6 +11,13 @@ struct PageIndicator;
 class ItemListRow;
 
 struct TWindowSubStatusDisp : public TWindowBase {
+    static void * window_layout[5];
+    static void * numbered_times_layout[72];
+    static void * rank_time_records_layout[114];
+    static void * record_summary_layout[114];
+    static void * resistance_layout[212];
+    static void * stat_page_layout[254];
+    static void * summary_page_layout[135];
     TWindowSubStatusDisp(s32 client);
     virtual ~TWindowSubStatusDisp();
     virtual void run_task();

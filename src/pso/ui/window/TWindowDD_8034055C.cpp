@@ -22,7 +22,6 @@ extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB48;
 extern const f32 lbl_805DFB4C;
 
-struct Quad_8034055C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 struct TWindowPlacement { f32 x; f32 y; f32 depth; s32 entry_count; s32 flags; };
 
@@ -108,7 +107,7 @@ void TWindowWordSelectMode::run_task() {
 
 void TWindowWordSelectMode::render() {
     WindowVertex points[8];
-    Quad_8034055C q;
+    TexturedQuad q;
     s32 count;
     WindowDrawContext *ctx;
     s32 sel;
@@ -124,7 +123,7 @@ void TWindowWordSelectMode::render() {
         return;
     }
     this->calc_inner_rect(ctx);
-    ((TWindowDD *)points)->reset_entries(TWindowDD__sub_80348AD4(this->draw_depth, 0.0f), -1);
+    ((TWindowDD *)points)->reset_entries(word_select_inverse_depth(this->draw_depth, 0.0f), -1);
     ((TWindowDD *)points)->copy_point_table(0);
     TWindowDD__sub_80348A2C(ctx, points);
     TWindowDD__sub_803489B8(ctx, points, 0);
@@ -144,7 +143,7 @@ void TWindowWordSelectMode::render() {
             ((TWindowDD *)points)->draw_transformed_primitive(8, count, 1);
         }
     }
-    depth = TWindowDD__sub_80348AD4(this->draw_depth, 0.2f);
+    depth = word_select_inverse_depth(this->draw_depth, 0.2f);
     TWindowDD__sub_803489B8(ctx, points, 0);
     h = ctx->scale[1];
     step = TWindowDD__data_805DFB20 * h;

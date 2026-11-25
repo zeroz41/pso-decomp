@@ -33,7 +33,6 @@ const char *TAdVIConfigGC__class_name = "TAdVIConfigGC";
 extern "C" {
 void *VIGetDTVStatus(void *);
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
-void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 int OSSetProgressiveMode(void*);
 int VIWaitForRetrace(void);
 int VIConfigure(void*);

@@ -104,8 +104,8 @@ struct PointLayoutRecord {
 // TWindowBase::sub_80244F2C: layout goes to init_window_layout_entries, flags bits 1/2/0x20
 // select rendering and the open sound.
 struct WindowDescriptor {
-    f32 pad_00[2];
-    f32 pad_08;
+    f32 size[2];
+    f32 sort_depth;
     const void *layout;
     u32 flags;
 };

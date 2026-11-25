@@ -6,11 +6,7 @@ extern "C" {
 s32 TWindowDD__sub_803435A0(void *);
 s32 refresh_word_select_child_list();
 s32 is_word_select_cancel_input(void *);
-void TWindowDD__sub_80342800(u8 *arg0);
-void TWindowDD__sub_803428C4(u8 *window_dd);
 s32 update_numeric_parameter_input__9TWindowDDFPv();
-void TWindowDD__sub_803429B0(u8 *window_dd);
-void update__9TWindowDDFi(saddr window_dd);
 
 void TWindowDD::enter_state_16(void *window_dd) {
     s32 var_r31;
@@ -65,7 +61,7 @@ void TWindowDD__sub_80342800(u8 *arg0) {
         TWindowDD::play_sound();
         window_dd = (u8 *)(var_r31 + (*(s32 *)((s8 *)var_r31 + 0x20) * 4));
         window_dd = (u8 *)(*(u8 **)((s8 *)window_dd + 0x24));
-        if (static_cast<s16>(TWindowDD__sub_80342158(reinterpret_cast<const TWindowDD_WS_Word *>(window_dd))) == 0x2C8) {
+        if (static_cast<s16>(get_word_select_selected_id(reinterpret_cast<const TWindowDD_WS_Word *>(window_dd))) == 0x2C8) {
             window_dd = (u8 *)((void *)5);
             *(s32 *)((s8 *)var_r31 + 0xB4) = 0x11;
             *(s16 *)((s8 *)var_r31 + 0xC6) = 5;
@@ -97,7 +93,7 @@ void TWindowDD__sub_803428C4(u8 *window_dd) {
     var_r3 = (u8 *)(var_r31 + (*(s32 *)((s8 *)window_dd + 0x20) * 4));
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
     if (var_r3 != NULL) {
-        *(s16 *)((s8 *)var_r31 + 0xFC) = TWindowDD__sub_80342158(reinterpret_cast<TWindowDD_WS_Word *>(var_r3));
+        *(s16 *)((s8 *)var_r31 + 0xFC) = get_word_select_selected_id(reinterpret_cast<TWindowDD_WS_Word *>(var_r3));
         if ((s16) *(s16 *)((s8 *)var_r31 + 0xFC) == 0x43) {
             var_r3 = (u8 *)((void *)0x11U);
             *(s32 *)((s8 *)var_r31 + 0xB4) = 0x11;
@@ -142,7 +138,7 @@ void TWindowDD__sub_803429B0(u8 *window_dd) {
     if (var_r31 != 0) {
         var_r3 = (u8 *)(window_dd + (*(s32 *)((s8 *)window_dd + 0x20) * 4));
         var_r3 = (u8 *)(*(u8 **)((s8 *)var_r3 + 0x24));
-        if (TWindowDD_is_id_in_range_5AC_5F9(TWindowDD__sub_80342158(reinterpret_cast<TWindowDD_WS_Word *>(var_r3))) != 0) {
+        if (TWindowDD_is_id_in_range_5AC_5F9(get_word_select_selected_id(reinterpret_cast<TWindowDD_WS_Word *>(var_r3))) != 0) {
             *(s32 *)((s8 *)window_dd + 0xB4) = 0xA;
         } else {
             *(s32 *)((s8 *)window_dd + 0xB4) = 0xB;

@@ -10,6 +10,9 @@ struct PageIndicator;
 
 struct TWindowHelpItem : public TWindowBase
 {
+    static void * description_text_layout[9];
+    static void * resistance_layout_entries[31];
+    static void * item_layout_entries[67];
     virtual ~TWindowHelpItem();
     virtual void render();
     virtual void run_task();

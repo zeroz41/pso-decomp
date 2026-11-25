@@ -70,7 +70,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
 extern void *character_select_scene_resource_callbacks[];
 int create_window_menu_default(void*, void*);
-u32 __nw__7TObjectFUl(int);
 
 s32 start_memcard_read(s32, void *, u32, s32);
 
@@ -463,8 +462,6 @@ extern "C" {
 
 extern RecoveredGlobal_8033B9C4_lbl_80513910 chr_select_serial_seeds;
 
-extern "C" void TWindowCtrlMain__sub_8024D838();
-extern "C" void register_texture_f256_backtext();
 void *character_select_scene_resource_callbacks[12] = {
     (void *)&TCameraCtrl::reset_view_state, (void *)&TCameraCtrl::reset, (void *)&TCameraCtrl::init_default_view, (void *)&TCameraCtrl::reset_default_view,
     (void *)&register_texture_f256_ad_pic_2, (void *)&TAdSinglePlyChrSelectGC::free_global, (void *)&register_texture_f256_backtext, (void *)&TAdSinglePlyChrSelectGC::free_singleton_805D65C0,

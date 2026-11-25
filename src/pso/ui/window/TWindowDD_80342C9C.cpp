@@ -8,8 +8,6 @@ s32 update_numeric_parameter_input__9TWindowDDFPv();
 s32 TWindowDD__sub_803435A0(void *);
 s32 refresh_word_select_child_list();
 s32 is_word_select_cancel_input(void *);
-extern s32 TWindowDD__window_mode;
-void TWindowDD__sub_80342D14(u8 *window_dd);
 void TWindowDD::update_transition() {
     refresh_word_select_child_list();
     update_selection_state();
@@ -50,7 +48,7 @@ void TWindowDD__sub_80342D14(u8 *window_dd) {
         if ((s32) ((TWindowDD *)window_dd)->m_8c == -0x3C) {
             *(s32 *)((s8 *)window_dd + 0xB4) = 0x14;
         } else {
-            switch (TWindowDD__window_mode) {
+            switch (TWindowDD::window_mode) {
             case 0:
                 TWindowDD__sub_80342B5C(window_dd);
                 ((TWindowDD *)(window_dd + 0xC4))->init_item_slots();

@@ -12,8 +12,7 @@ void *TShopEquipmentSequence::create_instance(void *player) {
 }
 }
 
-    extern int TShopEquipmentSequence__slot_active_flags[];
-int get_equipment_shop_slot_active_flag(int a0) {  return TShopEquipmentSequence__slot_active_flags[a0]; }
+int get_equipment_shop_slot_active_flag(int a0) {  return TShopEquipmentSequence::slot_active_flags[a0]; }
 
 void *create_medical_center_sequence(void *player) {
     return new TMedicalCenterSequence(tl_05, (TObjPlayer *)player);

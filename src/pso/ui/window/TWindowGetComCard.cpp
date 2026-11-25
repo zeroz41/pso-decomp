@@ -115,7 +115,6 @@ void TWindowGetComCard::run_task() {
     }
 }
 
-void text_builder_reset(void);
 TWindowGetComCard::~TWindowGetComCard() {
     TObjPlayer *player;
     if (confirmation != NULL) {

@@ -46,16 +46,16 @@ s32 TWindowKeyBoardHard::has_non_modifier_key() {
             return 1;
         }
     }
-    if (hardware_keyboard_state.sub_801323C8(0x55) != 0) {
+    if (hardware_keyboard_state.is_key_pressed(0x55) != 0) {
         return 1;
     }
-    if (hardware_keyboard_state.sub_801323C8(0x54) != 0) {
+    if (hardware_keyboard_state.is_key_pressed(0x54) != 0) {
         return 1;
     }
-    if (hardware_keyboard_state.sub_801323C8(0x56) != 0) {
+    if (hardware_keyboard_state.is_key_pressed(0x56) != 0) {
         return 1;
     }
-    return hardware_keyboard_state.sub_801323C8(0x57) != 0 ? 1 : 0;
+    return hardware_keyboard_state.is_key_pressed(0x57) != 0 ? 1 : 0;
 }
 
 u16 TWindowKeyBoardHard::lookup_key_char(u8 arg1) {
@@ -453,7 +453,7 @@ void TWindowKeyBoardHard::update_modifier_flags() {
     TWindowKeyBoardBase *temp_r3_3;
     TWindowKeyBoardBase *temp_r3_4;
     if (hardware_keyboard_state.get_key_state() != 0) {
-        if ((hardware_keyboard_state.sub_801323C8(0x56) != 0) || (hardware_keyboard_state.sub_801323C8(0x5B) != 0)) {
+        if ((hardware_keyboard_state.is_key_pressed(0x56) != 0) || (hardware_keyboard_state.is_key_pressed(0x5B) != 0)) {
             input_flags |= 2;
         } else {
             input_flags &= 0xFFFFFFFD;
@@ -479,7 +479,7 @@ void TWindowKeyBoardHard::update_modifier_flags() {
     } else {
         input_flags &= 0xFFFFFFFE;
     }
-    if ((hardware_keyboard_state.sub_801323C8(0x54) != 0) || (hardware_keyboard_state.sub_801323C8(0x55) != 0)) {
+    if ((hardware_keyboard_state.is_key_pressed(0x54) != 0) || (hardware_keyboard_state.is_key_pressed(0x55) != 0)) {
         input_flags |= 0x80;
     } else {
         input_flags &= 0xFFFFFF7F;

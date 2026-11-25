@@ -24,7 +24,6 @@
 
 const char *TWindowStatus__name = "TWindowStatus";
 
-struct Quad_802710C4 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
 
@@ -40,7 +39,6 @@ s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp);
 
 }
-void update_status_help_item(saddr arg0);
 void set_status_entry_target(void *arg0, s32 arg1);
 #pragma readonly_strings on
 
@@ -136,7 +134,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
 
 void TWindowStatus::draw_background(u8 *ctx) {
     static const f32 pos[2] = {44.0f, 30.5f};
-    Quad_802710C4 q;
+    TexturedQuad q;
     f32 w;
     f32 s;
 

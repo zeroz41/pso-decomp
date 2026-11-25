@@ -7,6 +7,7 @@
 struct PageIndicator;
 
 struct TWindowDuelResult : public TWindowBase {
+    static void * layout_entries[140];
     TWindowDuelResult(s32 client);
     virtual ~TWindowDuelResult();
     virtual void run_task();

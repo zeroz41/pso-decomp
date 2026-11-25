@@ -85,7 +85,6 @@ THunterGuildSeqOnlineTask::~THunterGuildSeqOnlineTask() {}
 THunterGuildSeqOnlineTask::THunterGuildSeqOnlineTask(TObject *parent) : TObject(parent) {
     m_name = THunterGuildSeqOnlineTask__name;
 }
-void handle_6x73_exit_quest(void);
 
 void handle_6x73_exit_quest(void) {
     new TScreenFadeOut(tl_00, reset_random_enemies_mode);

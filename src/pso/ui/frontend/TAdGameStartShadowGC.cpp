@@ -9,12 +9,12 @@
 #include "pso/object/ambient/TObjFish.h"
 
 const char *TAdGameStartShadowGC__name = "TAdGameStartShadowGC";
-saddr TAdGameStartShadowGC__texture_list;
+saddr TAdGameStartShadowGC::texture_list;
 
 void TAdGameStartShadowGC::draw_band() {
     u32 i;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)TAdGameStartShadowGC__texture_list));
+    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)TAdGameStartShadowGC::texture_list));
     set_draw_texture_and_color(0, m_color);
     for (i = 0; i < 5; i++) {
         draw_textured_quad_at_depth(&m_quads[i].x0, 0.74f);
@@ -63,7 +63,7 @@ TAdGameStartShadowGC *__ct__20TAdGameStartShadowGCFP7TObject(TAdGameStartShadowG
     self->m_color = -1;
     self->m_alpha = 0;
     self->m_frame = -1;
-    TAdGameStartShadowGC__texture_list = get_multiplay_texture_list();
+    TAdGameStartShadowGC::texture_list = get_multiplay_texture_list();
     for (i = 0; i < 5; i++) {
         self->m_quads[i].x0 = 128.0f * (f32)i;
         self->m_quads[i].x1 = 128.0f + self->m_quads[i].x0;

@@ -43,9 +43,9 @@
 
 const char *TCheckRoomSequence__name = "TCheckRoomSequence";
 s32 lbl_805D6160;
-s32 TCheckRoomSequence__error_return_text_id;
-saddr TCheckRoomSequence__error_return_state;
-s32 TCheckRoomSequence__active_instance;
+s32 TCheckRoomSequence::error_return_text_id;
+saddr TCheckRoomSequence::error_return_state;
+s32 TCheckRoomSequence::active_instance;
 
 
 #pragma optimization_level 1
@@ -73,7 +73,7 @@ s32 TCheckRoomSequence__sub_80210B34(TItemData *item, s32 amount, s32 slot);
 BankItemRecord *bank_item_records_by_slot[4];
 s32 bank_item_count_by_slot[4];
 s32 bank_meseta_by_slot[4];
-u32 TCheckRoomSequence__slot_active_flags[4];
+u32 TCheckRoomSequence::slot_active_flags[4];
 
 s32 TCheckRoomSequence::check_room_ready() {
     if (TRaderMapCore::is_not_split_screen() == 0) {
@@ -90,8 +90,8 @@ void TCheckRoomSequence::close_extra_window() {
 }
 
 void TCheckRoomSequence::init_check_params(TShopWindowBase *sequence) {
-    TCheckRoomSequence__error_return_text_id = 0x46;
-    TCheckRoomSequence__error_return_state = 2;
+    TCheckRoomSequence::error_return_text_id = 0x46;
+    TCheckRoomSequence::error_return_state = 2;
     if (sequence != NULL) {
         sequence->set_state(0x10);
     }
@@ -108,8 +108,8 @@ void TCheckRoomSequence::finish_room_check(TShopWindowBase *sequence) {
 
 void TCheckRoomSequence::init_check(TShopWindowBase *sequence) {
     if (sequence != NULL) {
-        TCheckRoomSequence__error_return_text_id = 0x46;
-        TCheckRoomSequence__error_return_state = 2;
+        TCheckRoomSequence::error_return_text_id = 0x46;
+        TCheckRoomSequence::error_return_state = 2;
         sequence->set_state(0x10);
     }
 }
@@ -130,8 +130,8 @@ void TCheckRoomSequence::sub_8020F1DC() {  }
 
 void TCheckRoomSequence::handle_error_ack() {
     if (is_message_ready() != 0 && (is_decide_pressed() != 0 || is_cancel_pressed() != 0)) {
-        display_shop_message(TCheckRoomSequence__error_return_text_id, 1);
-        set_state(TCheckRoomSequence__error_return_state);
+        display_shop_message(TCheckRoomSequence::error_return_text_id, 1);
+        set_state(TCheckRoomSequence::error_return_state);
     }
 }
 
@@ -196,14 +196,14 @@ void TCheckRoomSequence::begin_meseta_withdrawal() {
             return;
         }
         display_shop_message(0x4A, 1);
-        TCheckRoomSequence__error_return_text_id = 0x46;
-        TCheckRoomSequence__error_return_state = 2;
+        TCheckRoomSequence::error_return_text_id = 0x46;
+        TCheckRoomSequence::error_return_state = 2;
         set_state(0x10);
         return;
     }
     display_shop_message(0x3D, 1);
-    TCheckRoomSequence__error_return_text_id = 0x46;
-    TCheckRoomSequence__error_return_state = 2;
+    TCheckRoomSequence::error_return_text_id = 0x46;
+    TCheckRoomSequence::error_return_state = 2;
     set_state(0x10);
 }
 
@@ -254,14 +254,14 @@ void TCheckRoomSequence::begin_meseta_deposit() {
             return;
         }
         display_shop_message(0x47, 1);
-        TCheckRoomSequence__error_return_text_id = 0x46;
-        TCheckRoomSequence__error_return_state = 2;
+        TCheckRoomSequence::error_return_text_id = 0x46;
+        TCheckRoomSequence::error_return_state = 2;
         set_state(0x10);
         return;
     }
     display_shop_message(0x37, 1);
-    TCheckRoomSequence__error_return_text_id = 0x46;
-    TCheckRoomSequence__error_return_state = 2;
+    TCheckRoomSequence::error_return_text_id = 0x46;
+    TCheckRoomSequence::error_return_state = 2;
     set_state(0x10);
 }
 
@@ -269,8 +269,8 @@ void TCheckRoomSequence::open_deposit_item_window() {
     TShopKeepItemWindow *window;
     if (get_room_table_entry(get_split_screen_slot()) > 0xC8) {
         display_shop_message(0x3C, 1);
-        TCheckRoomSequence__error_return_text_id = 0x46;
-        TCheckRoomSequence__error_return_state = 2;
+        TCheckRoomSequence::error_return_text_id = 0x46;
+        TCheckRoomSequence::error_return_state = 2;
         set_state(0x10);
         return;
     }
@@ -537,7 +537,7 @@ TCheckRoomSequence::~TCheckRoomSequence() {
         choice_menu = NULL;
     }
     close_extra_window();
-    TCheckRoomSequence__slot_active_flags[get_split_screen_slot()] = 0;
+    TCheckRoomSequence::slot_active_flags[get_split_screen_slot()] = 0;
     if (pad_30 != 0) {
         safe_free(reinterpret_cast<void *>(pad_30));
         pad_30 = 0;
@@ -558,9 +558,9 @@ TCheckRoomSequence::TCheckRoomSequence(TObject *parent, TObjPlayer *player) : TS
     counter_camera = NULL;
     menu_step = 0;
     set_state(0);
-    TCheckRoomSequence__active_instance = (saddr)this;
+    TCheckRoomSequence::active_instance = (saddr)this;
     pad_30 = 0;
-    TCheckRoomSequence__slot_active_flags[get_split_screen_slot()] = 1;
+    TCheckRoomSequence::slot_active_flags[get_split_screen_slot()] = 1;
 }
 
 extern "C" {
@@ -569,11 +569,11 @@ extern "C" {
 #pragma optimization_level 1
 void TCheckRoomSequence::reset_slot_state() {
     lbl_805D6160 = 0;
-    TCheckRoomSequence__error_return_text_id = 0;
-    TCheckRoomSequence__error_return_state = 0;
-    TCheckRoomSequence__active_instance = 0;
+    TCheckRoomSequence::error_return_text_id = 0;
+    TCheckRoomSequence::error_return_state = 0;
+    TCheckRoomSequence::active_instance = 0;
     for (s32 i = 0; i < 4; i++) {
-        TCheckRoomSequence__slot_active_flags[i] = 0;
+        TCheckRoomSequence::slot_active_flags[i] = 0;
     }
 }
 #pragma pop
@@ -582,11 +582,11 @@ void TCheckRoomSequence::reset_slot_state() {
 #pragma optimization_level 1
 void TCheckRoomSequence::reset_slots() {
     lbl_805D6160 = 0;
-    TCheckRoomSequence__error_return_text_id = 0;
-    TCheckRoomSequence__error_return_state = 0;
-    TCheckRoomSequence__active_instance = 0;
+    TCheckRoomSequence::error_return_text_id = 0;
+    TCheckRoomSequence::error_return_state = 0;
+    TCheckRoomSequence::active_instance = 0;
     for (s32 i = 0; i < 4; i++) {
-        TCheckRoomSequence__slot_active_flags[i] = 0;
+        TCheckRoomSequence::slot_active_flags[i] = 0;
     }
 }
 }

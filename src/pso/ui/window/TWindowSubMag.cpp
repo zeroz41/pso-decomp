@@ -56,7 +56,6 @@ struct Item_8027B424 { u8 b[0x10]; };
 
 extern u8 *text_language_group_table;
 extern "C" {
-s32 get_photon_blast_name(s32 arg0);
 }
 extern "C" {
 s32 calc_text_width();

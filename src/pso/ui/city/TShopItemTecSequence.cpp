@@ -26,7 +26,7 @@
 #include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-s32 TShopItemTecSequence__slot_table[4];
+s32 TShopItemTecSequence::slot_table[4];
 extern const char *TShopItemTecSequence__class_name;
 s32 lbl_805D6248;
 s32 lbl_805D624C;
@@ -66,14 +66,14 @@ void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item) 
 void TShopItemTecSequence__sub_80220560(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopItemTecSequence__slot_table[i] = 0;
+        TShopItemTecSequence::slot_table[i] = 0;
     }
 }
 
 void TShopItemTecSequence__sub_80220538(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        TShopItemTecSequence__slot_table[i] = 0;
+        TShopItemTecSequence::slot_table[i] = 0;
     }
 }
 
@@ -87,7 +87,7 @@ TShopItemTecSequence::TShopItemTecSequence(TObject *parent, TObjPlayer *player) 
     item_tec_sequence_instance = this;
     lbl_805D6248 = 0;
     lbl_805D624C = 0;
-    TShopItemTecSequence__slot_table[get_split_screen_slot()] = 1;
+    TShopItemTecSequence::slot_table[get_split_screen_slot()] = 1;
 }
 
 TShopItemTecSequence::~TShopItemTecSequence() {
@@ -105,7 +105,7 @@ TShopItemTecSequence::~TShopItemTecSequence() {
         choice_menu = NULL;
     }
     item_tec_sequence_instance = NULL;
-    TShopItemTecSequence__slot_table[get_split_screen_slot()] = 0;
+    TShopItemTecSequence::slot_table[get_split_screen_slot()] = 0;
 }
 
 void TShopItemTecSequence::update_state() {

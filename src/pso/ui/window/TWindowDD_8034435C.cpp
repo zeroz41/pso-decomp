@@ -92,9 +92,9 @@ s32 TWindowDD::get_entry_value_french(u32 mode, s32 entry_id, s32 value_index) {
         break;
     case 13:
         if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
-            v = TWindowDD__ws_data_table[0xF].values[this->selected_word - 0x37];
+            v = TWindowDD::ws_data_table[0xF].values[this->selected_word - 0x37];
         } else {
-            v = TWindowDD__ws_data_table[0x10].values[this->selected_word - 0x37];
+            v = TWindowDD::ws_data_table[0x10].values[this->selected_word - 0x37];
         }
         break;
     case 14:
@@ -180,9 +180,9 @@ s32 TWindowDD::get_entry_value_german(u32 mode, s32 entry_id, s32 value_index) {
         break;
     case 13:
         if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
-            v = TWindowDD__ws_data_table[0xF].values[this->selected_word - 0x37];
+            v = TWindowDD::ws_data_table[0xF].values[this->selected_word - 0x37];
         } else {
-            v = TWindowDD__ws_data_table[0x10].values[this->selected_word - 0x37];
+            v = TWindowDD::ws_data_table[0x10].values[this->selected_word - 0x37];
         }
         break;
     case 14:
@@ -268,9 +268,9 @@ s32 TWindowDD::get_entry_value_spanish(u32 mode, s32 entry_id, s32 value_index) 
         break;
     case 13:
         if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
-            v = TWindowDD__ws_data_table[0xF].values[this->selected_word - 0x37];
+            v = TWindowDD::ws_data_table[0xF].values[this->selected_word - 0x37];
         } else {
-            v = TWindowDD__ws_data_table[0x10].values[this->selected_word - 0x37];
+            v = TWindowDD::ws_data_table[0x10].values[this->selected_word - 0x37];
         }
         break;
     case 14:
@@ -1250,9 +1250,9 @@ s32 TWindowDD::get_entry_value_english(u32 mode, s32 entry_id, s32 value_index) 
         break;
     case 13:
         if (TWindowDD_read_resolved_value(-0x50, value_index) == 0x2C8) {
-            v = TWindowDD__ws_data_table[0xF].values[this->selected_word - 0x37];
+            v = TWindowDD::ws_data_table[0xF].values[this->selected_word - 0x37];
         } else {
-            v = TWindowDD__ws_data_table[0x10].values[this->selected_word - 0x37];
+            v = TWindowDD::ws_data_table[0x10].values[this->selected_word - 0x37];
         }
         break;
     case 14:
@@ -1354,7 +1354,7 @@ void TWindowDD::build_item_list() {
     s16 *b;
     s32 i;
     s32 j;
-    switch (TWindowDD__window_mode) {
+    switch (TWindowDD::window_mode) {
     case 0:
         kind = 0x11;
         id = 0xE;

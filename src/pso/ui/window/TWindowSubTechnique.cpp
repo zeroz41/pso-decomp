@@ -117,14 +117,12 @@ s32 TWindowSubTechnique::create_title_window(s32 category) {
 
 extern u8 *text_language_group_table;
 extern "C" {
-saddr get_technique_description_text(s32 arg0);
 u8 *calc_technique_parameters(s16, u8, s32);
 s32 get_cast_technique_level(void *, int);
 s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 }
 extern "C" {
 }
-void text_builder_reset(void);
 
 
 s32 TWindowSubTechnique::open_menu() {

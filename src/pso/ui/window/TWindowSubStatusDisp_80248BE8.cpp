@@ -51,7 +51,7 @@ void TWindowCheckBox::run_task() {
     ControllerInputContext *temp_r29_2;
     ControllerInputContext *context;
     temp_r31 = is_player_input_active(((s32) this->client_index));
-    if ((((TWindowMenuIconLine *)arg0)->get_flag() == 0) && (((TWindowMenuIconLine *)arg0)->is_decided() == 0) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
+    if ((((TWindowMenuIconLine *)arg0)->get_flag() == 0) && (((TWindowMenuIconLine *)arg0)->is_decided() == 0) && (((TWindowBase *)arg0)->is_open_and_unblocked() != 0)) {
         if (state_flags & 0x10) {
             input = &controller_input_state.controllers[temp_r31];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {

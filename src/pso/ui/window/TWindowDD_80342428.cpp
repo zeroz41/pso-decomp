@@ -20,7 +20,7 @@ void TWindowDD__sub_80342428(u8 *window_dd) {
     {
       new_var = window_dd;
       new_var = new_var + ((*((s32 *) (((s8 *) window_dd) + 0x20))) * 4);
-      if (static_cast<s16>(TWindowDD__sub_80342158(*reinterpret_cast<TWindowDD_WS_Word **>(new_var + 0x24))) == 0x685)
+      if (static_cast<s16>(get_word_select_selected_id(*reinterpret_cast<TWindowDD_WS_Word **>(new_var + 0x24))) == 0x685)
       {
         *((s32 *) (((s8 *) window_dd) + 0xB4)) = 0x14;
         ((TWindowDD *)window_dd)->m_8c = -0x3C;

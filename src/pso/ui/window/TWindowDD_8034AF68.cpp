@@ -37,15 +37,14 @@ static const s32 category0_ids[] = { 11 };
 static const s32 category2_ids[] = { 12 };
 static const s32 category3_ids[] = { 13 };
 static const s32 category4_ids[] = { 2, 15, 24, 47 };
-extern s32 TWindowDD__window_mode;
 
 void TWindowDD::init_ws_data_tables() {
-    TWindowDDValueList *a = TWindowDD__ws_data_base;
+    TWindowDDValueList *a = TWindowDD::ws_data_base;
     TWindowDDValueList *b;
     s32 i;
     s32 x;
     s32 y;
-    if (a == NULL || (b = TWindowDD__ws_data_table) == NULL) {
+    if (a == NULL || (b = TWindowDD::ws_data_table) == NULL) {
         return;
     }
     for (i = 0; i < 16; i++) {
@@ -95,7 +94,7 @@ s32 TWindowDD::lookup_item_category(s32 arg0) {
             break;
         }
     }
-    if (r == 2 && TWindowDD__window_mode == 0) {
+    if (r == 2 && TWindowDD::window_mode == 0) {
         r = 1;
     }
     return r;

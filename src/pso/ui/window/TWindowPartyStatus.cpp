@@ -39,7 +39,6 @@ extern "C" {
 s32 end_window_sweep_draw(int);
 s32 draw_window_sweep_strip(void *, void *);
 s32 begin_window_sweep_draw(int);
-s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
 s32 update_lockon_window();
 }

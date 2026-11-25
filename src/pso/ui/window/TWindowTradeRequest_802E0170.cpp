@@ -20,7 +20,6 @@
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
 
-void text_builder_reset(void);
 extern "C" {
 const char *TWindowTradeRequest__name = "TWindowTradeRequest";
 void TWindowTradeRequest::render() {  }

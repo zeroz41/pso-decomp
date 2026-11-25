@@ -105,7 +105,6 @@ WindowDescriptor lbl_804D1488 = {
 };
 
 extern "C" {
-int TWindowSubCustomEquip__sub_80275DA8(void* p);
 
 int TWindowSubCustomEquip::is_selected() { return this->m_60 & 0x1; }
 int TWindowSubCustomEquip__sub_80275DA8(void* p) { return *(u8*)((char*)p + 0x60) & 0x2; }
@@ -268,8 +267,8 @@ void TWindowSubCustomEquip::toggle_action_binding(void *arg1) {
     player->set_action_palette_entry(0, valid, idx, *(u16 *)((s8 *)arg1 + 0), *(u16 *)((s8 *)arg1 + 2));
 }
 
-f32 TWindowSubCustomEquip__ring_scale;
-u8 TWindowSubCustomEquip__bank_ring_init_done;
+f32 TWindowSubCustomEquip::ring_scale;
+u8 TWindowSubCustomEquip::bank_ring_init_done;
 f32 lbl_805D6478;
 u8 lbl_805D647C;
 
@@ -361,9 +360,9 @@ void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 angle, s32 index) {
     f32 temp_f31;
     s32 temp_r4;
     u8 *array_entry;
-    if ((s8) TWindowSubCustomEquip__bank_ring_init_done == 0) {
-        TWindowSubCustomEquip__bank_ring_init_done = 1;
-        TWindowSubCustomEquip__ring_scale = 75.0f;
+    if ((s8) TWindowSubCustomEquip::bank_ring_init_done == 0) {
+        TWindowSubCustomEquip::bank_ring_init_done = 1;
+        TWindowSubCustomEquip::ring_scale = 75.0f;
     }
     if ((s8) lbl_805D647C == 0) {
         lbl_805D647C = 1;
@@ -372,7 +371,7 @@ void TWindowSubCustomEquip::place_bank_slot_on_ring(s32 angle, s32 index) {
     temp_f30 = sin_table_lookup(angle);
     temp_f31 = cos_table_lookup(angle);
     array_entry = (u8 *)(this->get_array_entry(index));
-    *(f32 *)((s8 *)array_entry + 8) = (f32) ((TWindowSubCustomEquip__ring_scale * temp_f31) + 27.0f);
+    *(f32 *)((s8 *)array_entry + 8) = (f32) ((TWindowSubCustomEquip::ring_scale * temp_f31) + 27.0f);
     *(f32 *)((s8 *)array_entry + 0xC) = (f32) ((lbl_805D6478 * temp_f30) + 34.0f);
     if ((angle - 0x7200) & 0x8000) {
         temp_f1 = (0.5f * cos_table_lookup(angle + 0xFFFF4E00)) + 1.0f;

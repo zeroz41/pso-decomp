@@ -592,9 +592,9 @@ void TAdChrSelBSlotGC::close_windows() {
         wait_message[10] = NULL;
     }
     plate->reset_selection_slots();
-    player_items->sub_802D6D88();
+    player_items->hide_all_entries();
     move_plate->clear_entries();
-    slot_gc->sub_802C7498(2);
+    slot_gc->hide_slot_entry(2);
     if (get_global_state() > 0xD) {
         if (wait_message[0] != NULL) {
             wait_message[0]->close();
@@ -674,7 +674,7 @@ void TAdChrSelBSlotGC::reset_windows() {
         wait_message[10] = NULL;
     }
     plate->reset_selection_slots();
-    player_items->sub_802D6D88();
+    player_items->hide_all_entries();
     slot_gc->init_slot(1, (void *)&lbl_80475910);
     draw_line[0] = create_draw_line_ctrl(this, 0xE, 0.0f);
     draw_line[1] = create_draw_line_ctrl(this, 0x15, 0.0f);

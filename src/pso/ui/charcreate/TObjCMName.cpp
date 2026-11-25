@@ -131,7 +131,6 @@ CreationMenuModeList creation_menu_mode_lists[6] = {
 }
 
 void reset_character_creation_figure_rotation(void);
-void draw_creation_ruler_lines(f32 farg0);
 NJS_COLOR proportion_frame_colors[4];
 NJS_POINT2 proportion_marker_points[4];
 NJS_COLOR proportion_marker_colors[4];

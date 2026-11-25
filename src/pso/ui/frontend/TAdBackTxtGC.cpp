@@ -15,11 +15,11 @@ extern "C" {
 void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(void *, f32, f32, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
-saddr TAdBackTxtGC__backtext_texture_list;
+saddr TAdBackTxtGC::backtext_texture_list;
 void TAdBackTxtGC::draw_character_background_frame(s32 arg1, s32 color) {
   f32 buffer_8[8];
   begin_screen_draw(1);
-  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *) TAdBackTxtGC__backtext_texture_list));
+  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *) TAdBackTxtGC::backtext_texture_list));
   set_draw_texture_and_color(arg1, color);
   buffer_8[0] = 0.0f;
   buffer_8[1] = 0.0f;
@@ -85,11 +85,11 @@ TAdBackTxtGC::TAdBackTxtGC(TObject *parent) : TObject(parent) {
 const char *TAdBackTxtGC__name = "TAdBackTxtGC";
 
 void TAdSinglePlyChrSelectGC::free_singleton_805D65C0() {
-    if ((u32) TAdBackTxtGC__backtext_texture_list != 0U) {
-        release_texture_list((NJS_TEXLIST *)TAdBackTxtGC__backtext_texture_list);
-        TAdBackTxtGC__backtext_texture_list = 0U;
+    if ((u32) TAdBackTxtGC::backtext_texture_list != 0U) {
+        release_texture_list((NJS_TEXLIST *)TAdBackTxtGC::backtext_texture_list);
+        TAdBackTxtGC::backtext_texture_list = 0U;
     }
 }
-void register_texture_f256_backtext(void) { TAdBackTxtGC__backtext_texture_list = (saddr)&TAdBackTxtGC_backtext_tex_list; load_streamed_prs_texture((saddr)"f256_backtext", (saddr)&TAdBackTxtGC_backtext_tex_list); }
+void register_texture_f256_backtext(void) { TAdBackTxtGC::backtext_texture_list = (saddr)&TAdBackTxtGC_backtext_tex_list; load_streamed_prs_texture((saddr)"f256_backtext", (saddr)&TAdBackTxtGC_backtext_tex_list); }
 
 }

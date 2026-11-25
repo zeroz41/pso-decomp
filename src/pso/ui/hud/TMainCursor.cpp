@@ -84,8 +84,6 @@ extern "C" void *__ct__18TargetCursorRecordFv(void *p);
 
 extern "C" {
 
-u8 *__dt__14TLOC_ListClearFv(u8 *arg0, s16 arg1);
-void TObjPlayer__sub_8013DEF8(u8 *arg0);
 
 extern void *lbl_804A71C4[6];
 
@@ -127,13 +125,7 @@ extern Pl_8013B0F0 *player_slot_table[12];
 struct Ent_8013B2C8 { s32 w; };
 
 extern "C" {
-void clear_target_cursor_list(void *);
 extern const f32 TMainCursor__data_805DB0C0;
-s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8 kind, u8 parameter);
-void copy_action_entry(void *arg0, void *arg1);
-s16 TMainCursor__sub_8013E298(void *p);
-s32 TMainCursor__sub_8013E2A0(void *);
-TObjPlayer *resolve_player_by_client_id(u16 *client_id);
 
 extern const char *TLOC_Start__name;
 }
@@ -150,7 +142,6 @@ s32 check_visible__11TMainCursorFv(void *, void *, s32, s32);
 u8 get_cast_technique_level(void *, s32);
 s16 TObjPlayer__sub_801B5AF8(TObjPlayer *player, s32 index);
 void set_cursor_id__11TMainCursorFs(void *, u16);
-u8 get_cursor_palette_mode(void *);
 }
 
 struct Target_8013B70C {
@@ -208,17 +199,10 @@ extern "C" {
 f32 vec3_dot(void *, void *);
 s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
 s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
-s32 TMainCursor__sub_8013F168(void *);
-s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 *target, TUnk_8013EF0C *best);
 struct Ent_8013C678 { u32 id; f32 key; };
 s32 quick_sort_partition__11TMainCursorFiPvii(saddr self, Ent_8013C678 *a, s32 lo, s32 hi);
-void TMainCursor__sub_8013F170(void *p, s32 v);
 void clear_target_cursor_list(void *p);
 
-s32 TMainCursor__sub_8013E2A0(void *list);
-s16 TMainCursor__sub_8013E298(void *entry);
-s16 get_action_entry_index(void *entry);
-void set_action_entry_index(void *entry, s16 v);
 }
 
 struct ActionCursor_8013C924 {
@@ -259,12 +243,7 @@ struct Tech_8013CDE4 { u8 pad0[8]; f32 f8; f32 fc; u8 pad10[0x18 - 0x10]; s32 f1
 struct Weapon_8013CDE4 { f32 f0; f32 f4; s32 f8; s32 fc; s32 f10; };
 
 extern "C" {
-int TLockOnCursor__sub_8013EB34(void);
-void set_cursor_count(void *, s32);
-s32 TLockOnCursor__sub_8013EB2C(void *);
-s32 TMainCursor__sub_8013F168(void *p);
 Weapon_8013CDE4 *get_weapon_range_record(void *, s32);
-void TMainCursor__sub_8013E9A0(void *p);
 extern f32 scratch_vec5[3];
 #define C_8013CDE4 ((saddr)cur)
 #define TECH_8013CDE4(t)                                          \
@@ -287,11 +266,10 @@ extern "C" {
 
 u8 * lock_on_cursor_bml_resource;
 s32 lock_on_cursor_model;
-s32 TLockOnCursor__target_cursor_model;
+s32 TLockOnCursor::target_cursor_model;
 
 }
 NJS_OBJECT *main_cursor_model;
-void load_target_cursor_models(void);
 extern "C" {
 void __destroy_arr(void *, void *, int, int);
 }
@@ -299,9 +277,6 @@ extern "C" {
 void TLockOnCursor__sub_8013EC1C(void *);
 
 Rec_8013EB6C *TLockOnCursor__record_at(Obj_8013EB6C *, s32);
-void render__13TLockOnCursorFv(saddr arg0);
-void TLockOnCursor__sub_8013EB80(void *p);
-void TLockOnCursor__sub_8013EB8C(void *p);
 void __construct_array(void *, void *, void *, int, int);
 }
 
@@ -318,7 +293,6 @@ struct Rec_8013E870 { u8 pad[0x124]; };
 struct Obj_8013E870 { u8 pad[0x5c]; Rec_8013E870 recs[1]; };
 
 
-s32 destroy_target_record(saddr, s16);
 
 
 struct Rec_8013F154 { u8 pad[0x8]; };
@@ -421,7 +395,7 @@ void load_target_cursor_models(void) {
         lock_on_cursor_bml_resource = (unsigned char *) ((void *) resource);
         if ((u32) resource != 0U) {
             lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)(void *) resource, 0);
-            TLockOnCursor__target_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 0);
+            TLockOnCursor::target_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 0);
             main_cursor_model = get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 2);
         }
     }
@@ -433,7 +407,7 @@ void TLockOnCursor::free_cursor_resources() {
         lock_on_cursor_bml_resource = NULL;
     }
     lock_on_cursor_model = 0;
-    TLockOnCursor__target_cursor_model = 0;
+    TLockOnCursor::target_cursor_model = 0;
 }
 
 void TLockOnCursor::reset_and_spawn_cursors() {
@@ -1966,7 +1940,7 @@ extern "C" {
 
 s32 TLockOnCursor__sub_8013EB2C(void* p) { return *(s32*)((char*)p + 0x4); }
 
-int TLockOnCursor__sub_8013EB34(void) {  return TLockOnCursor__target_cursor_model; }
+int TLockOnCursor__sub_8013EB34(void) {  return TLockOnCursor::target_cursor_model; }
 
 }
 

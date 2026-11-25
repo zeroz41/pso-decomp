@@ -37,8 +37,6 @@ struct S_80348DD8 { s16 count; s16 unk2; s16 items[8]; };
 struct S_80348D0C { u16 a; u16 b; u16 c[8]; u32 d; u32 e; };
 
 extern "C" {
-void TWindowDD__sub_80348D90(S_80348D90 *self, s16 v);
-void TWindowDD__sub_80348DD8(S_80348DD8 *self, s16 v);
 
 void TWindowDD::bswap_word_select() {
     S_80348D0C *msg = (S_80348D0C *)this;

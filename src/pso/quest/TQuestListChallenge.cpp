@@ -277,55 +277,55 @@ void reset_globals2__19TQuestListChallengeFv(void) {
     quest_list_challenge_active_instance = NULL;
 }
 
-extern "C" const char lbl_804507A8[] = "challenge2_mlt_stg1";
-extern "C" const char lbl_804507BC[] = "challenge2_mlt_stg2";
-extern "C" const char lbl_804507D0[] = "challenge2_mlt_stg3";
-extern "C" const char lbl_804507E4[] = "challenge2_mlt_stg4";
-extern "C" const char lbl_804507F8[] = "challenge2_mlt_stg5";
+extern "C" const char str_challenge2_mlt_stg1[] = "challenge2_mlt_stg1";
+extern "C" const char str_challenge2_mlt_stg2[] = "challenge2_mlt_stg2";
+extern "C" const char str_challenge2_mlt_stg3[] = "challenge2_mlt_stg3";
+extern "C" const char str_challenge2_mlt_stg4[] = "challenge2_mlt_stg4";
+extern "C" const char str_challenge2_mlt_stg5[] = "challenge2_mlt_stg5";
 extern "C" const QuestListStageEntry TQuestListChallenge__stage_table[5] = {
-    {27, 28, 29, lbl_804507A8},
-    {30, 31, 32, lbl_804507BC},
-    {33, 34, 35, lbl_804507D0},
-    {36, 37, 38, lbl_804507E4},
-    {39, 40, 41, lbl_804507F8},
+    {27, 28, 29, str_challenge2_mlt_stg1},
+    {30, 31, 32, str_challenge2_mlt_stg2},
+    {33, 34, 35, str_challenge2_mlt_stg3},
+    {36, 37, 38, str_challenge2_mlt_stg4},
+    {39, 40, 41, str_challenge2_mlt_stg5},
 };
-extern "C" const char lbl_8045085C[] = "challenge_mlt_stg1";
-extern "C" const char lbl_80450870[] = "challenge_mlt_stg2";
-extern "C" const char lbl_80450884[] = "challenge_mlt_stg3";
-extern "C" const char lbl_80450898[] = "challenge_mlt_stg4";
-extern "C" const char lbl_804508AC[] = "challenge_mlt_stg5";
-extern "C" const char lbl_804508C0[] = "challenge_mlt_stg6";
-extern "C" const char lbl_804508D4[] = "challenge_mlt_stg7";
-extern "C" const char lbl_804508E8[] = "challenge_mlt_stg8";
-extern "C" const char lbl_804508FC[] = "challenge_mlt_stg9";
+extern "C" const char str_challenge_mlt_stg1[] = "challenge_mlt_stg1";
+extern "C" const char str_challenge_mlt_stg2[] = "challenge_mlt_stg2";
+extern "C" const char str_challenge_mlt_stg3[] = "challenge_mlt_stg3";
+extern "C" const char str_challenge_mlt_stg4[] = "challenge_mlt_stg4";
+extern "C" const char str_challenge_mlt_stg5[] = "challenge_mlt_stg5";
+extern "C" const char str_challenge_mlt_stg6[] = "challenge_mlt_stg6";
+extern "C" const char str_challenge_mlt_stg7[] = "challenge_mlt_stg7";
+extern "C" const char str_challenge_mlt_stg8[] = "challenge_mlt_stg8";
+extern "C" const char str_challenge_mlt_stg9[] = "challenge_mlt_stg9";
 extern "C" const QuestListStageEntry quest_list_challenge_stage_table[9] = {
-    {0, 1, 2, lbl_8045085C},
-    {3, 4, 5, lbl_80450870},
-    {6, 7, 8, lbl_80450884},
-    {9, 10, 11, lbl_80450898},
-    {12, 13, 14, lbl_804508AC},
-    {15, 16, 17, lbl_804508C0},
-    {18, 19, 20, lbl_804508D4},
-    {21, 22, 23, lbl_804508E8},
-    {24, 25, 26, lbl_804508FC},
+    {0, 1, 2, str_challenge_mlt_stg1},
+    {3, 4, 5, str_challenge_mlt_stg2},
+    {6, 7, 8, str_challenge_mlt_stg3},
+    {9, 10, 11, str_challenge_mlt_stg4},
+    {12, 13, 14, str_challenge_mlt_stg5},
+    {15, 16, 17, str_challenge_mlt_stg6},
+    {18, 19, 20, str_challenge_mlt_stg7},
+    {21, 22, 23, str_challenge_mlt_stg8},
+    {24, 25, 26, str_challenge_mlt_stg9},
 };
-extern "C" const char lbl_804509A0[] = "battle_mlt_stg1";
-extern "C" const char lbl_804509B0[] = "battle_mlt_stg2";
-extern "C" const char lbl_804509C0[] = "battle_mlt_stg3";
-extern "C" const char lbl_804509D0[] = "battle_mlt_stg4";
-extern "C" const char lbl_804509E0[] = "battle_mlt_stg5";
-extern "C" const char lbl_804509F0[] = "battle_mlt_stg6";
-extern "C" const char lbl_80450A00[] = "battle_mlt_stg7";
-extern "C" const char lbl_80450A10[] = "battle_mlt_stg8";
+extern "C" const char str_battle_mlt_stg1[] = "battle_mlt_stg1";
+extern "C" const char str_battle_mlt_stg2[] = "battle_mlt_stg2";
+extern "C" const char str_battle_mlt_stg3[] = "battle_mlt_stg3";
+extern "C" const char str_battle_mlt_stg4[] = "battle_mlt_stg4";
+extern "C" const char str_battle_mlt_stg5[] = "battle_mlt_stg5";
+extern "C" const char str_battle_mlt_stg6[] = "battle_mlt_stg6";
+extern "C" const char str_battle_mlt_stg7[] = "battle_mlt_stg7";
+extern "C" const char str_battle_mlt_stg8[] = "battle_mlt_stg8";
 extern "C" const QuestListStageEntry quest_list_battle_stage_table[8] = {
-    {0, 1, 2, lbl_804509A0},
-    {3, 4, 5, lbl_804509B0},
-    {6, 7, 8, lbl_804509C0},
-    {9, 10, 11, lbl_804509D0},
-    {12, 13, 14, lbl_804509E0},
-    {15, 16, 17, lbl_804509F0},
-    {18, 19, 20, lbl_80450A00},
-    {21, 22, 23, lbl_80450A10},
+    {0, 1, 2, str_battle_mlt_stg1},
+    {3, 4, 5, str_battle_mlt_stg2},
+    {6, 7, 8, str_battle_mlt_stg3},
+    {9, 10, 11, str_battle_mlt_stg4},
+    {12, 13, 14, str_battle_mlt_stg5},
+    {15, 16, 17, str_battle_mlt_stg6},
+    {18, 19, 20, str_battle_mlt_stg7},
+    {21, 22, 23, str_battle_mlt_stg8},
 };
 extern "C" const char quest_list_challenge_class_name_string[] = "TQuestListChallenge";
 extern "C" const char *quest_list_challenge_name = quest_list_challenge_class_name_string;

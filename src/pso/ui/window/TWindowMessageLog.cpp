@@ -232,8 +232,6 @@ extern "C" {
 s32 *get_active_photon_object__17TWindowMessageLogFv(u16);
 }
 void append_text_space(void);
-void text_builder_reset(void);
-void cache_last_chat_line(uaddr text);
 
 extern s32 local_client_id;
 

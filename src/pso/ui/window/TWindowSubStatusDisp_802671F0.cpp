@@ -130,14 +130,10 @@ WindowDescriptor lbl_804D0604 = {
     {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
 };
 
-void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
 s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
 }
-void text_builder_reset();
-s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 extern "C" {
 
-void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count);
 
 saddr TWindowMenuIconLine::get_cursor_value() {
     return ((ItemListRow *)get_array_entry(cursor))->get_item();
@@ -626,8 +622,8 @@ TWindowMenuIconLine *fn_80267F38(saddr parent, saddr position, uaddr count, s16 
 }
 
 void set_menu_icon_line_params(const NJS_POINT2 *size, s32 count) {
-    lbl_804D0604.pad_00[0] = size->x;
-    lbl_804D0604.pad_00[1] = size->y;
+    lbl_804D0604.size[0] = size->x;
+    lbl_804D0604.size[1] = size->y;
     lbl_804D05F8[1] = count;
 }
 
@@ -657,7 +653,7 @@ void TWindowMenuIconLine::run_task() {
     ControllerInputContext *temp_r29_2;
     ControllerInputContext *context;
     temp_r31 = is_player_input_active(((s32) this->client_index));
-    if ((this->get_flag() == 0) && (((TWindowMenuIconLine *)this)->is_decided() == 0) && (this->sub_80244994() != 0)) {
+    if ((this->get_flag() == 0) && (((TWindowMenuIconLine *)this)->is_decided() == 0) && (this->is_open_and_unblocked() != 0)) {
         if (this->state_flags & 0x10) {
             input = &controller_input_state.controllers[temp_r31];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {

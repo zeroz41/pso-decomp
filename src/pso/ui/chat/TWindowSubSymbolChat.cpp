@@ -70,7 +70,7 @@ struct Win_80281840 { u8 pad[0x24]; s32 ctrl; u8 pad2[0x34 - 0x28]; Sub_80281840
 extern "C" {
 s32 add__20TWindowSubSymbolChatFlllll(int, int, int, int, int, int);
 u8 *create_chat_symbol_window__20TWindowSubSymbolChatFll(void *, s32);
-void * TWindowSubSymbolChat__instance;
+void * TWindowSubSymbolChat::instance;
 s8 TWindowSubSymbolChat__data_805D6494;
 s32 TWindowSubSymbolChat__data_805D6498;
 s32 TWindowSubSymbolChat__data_805D649C;
@@ -102,7 +102,6 @@ extern "C" {
 // 0x58-byte record held in symbol_chat_receive_buffer; its compiler-generated operator= (0x80283850)
 // copies the char array at +4 with __copy and the word array at +0x1C as a block.
 struct Obj_80283850 { s32 value; u8 pad_4[0x17]; u32 pad_1C[0xF]; };
-extern void *TWindowSubSymbolChat__instance;
 
 s32 fn_80285A28(int, void *);
 extern s8 TWindowSubSymbolChat__data_805D6494;
@@ -180,7 +179,7 @@ TWindowSubSymbolChat::TWindowSubSymbolChat(TObject *parent, s32 client) : TObjec
     TWindowSubSymbolChat__data_805D6498 = 0;
     TWindowSubSymbolChat__data_805D649C = 0;
     m_20 = 0;
-    TWindowSubSymbolChat__instance = this;
+    TWindowSubSymbolChat::instance = this;
     close_callback = (uaddr)create_callback_at_zero_vec2(close_child);
     selected_value = 0;
 }
@@ -241,7 +240,7 @@ TWindowSubSymbolChat::~TWindowSubSymbolChat() {
         ((TWindowBase *)close_callback)->close();
         close_callback = 0U;
     }
-    TWindowSubSymbolChat__instance = 0;
+    TWindowSubSymbolChat::instance = 0;
 }
 
 void TWindowSubSymbolChat::run_task() {
@@ -1072,7 +1071,7 @@ void TWindowSubSymbolChat__sub_80281840(Win_80281840 *arg0) {
 
 void TWindowSubSymbolChat::close_child(void *, void *) {
     void *temp_r3;
-    temp_r3 = TWindowSubSymbolChat__instance;
+    temp_r3 = TWindowSubSymbolChat::instance;
     if (temp_r3 != NULL) {
         TWindowSubSymbolChat__sub_80281840((Win_80281840 *)(temp_r3));
     }

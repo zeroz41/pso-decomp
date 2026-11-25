@@ -198,8 +198,8 @@ TWindowMenuInfomation *create_information_counter_window(s32 rows) {
 }
 
 void fn_80268C5C(const NJS_POINT2 *extent, s32 rows) {
-    choice_setting_popup_window_descriptor.pad_00[0] = extent->x;
-    choice_setting_popup_window_descriptor.pad_00[1] = extent->y;
+    choice_setting_popup_window_descriptor.size[0] = extent->x;
+    choice_setting_popup_window_descriptor.size[1] = extent->y;
     choice_setting_popup_layout_entries.rows = rows;
 }
 

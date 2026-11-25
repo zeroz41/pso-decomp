@@ -54,7 +54,7 @@ block_5:
     }
 }
 
-TAdMcSelectCursorGC *TAdMcSelectCursorGC__instance;
+TAdMcSelectCursorGC *TAdMcSelectCursorGC::instance;
 
 #pragma fp_contract on
 void TAdMcSelectCursorGC::run_task() {
@@ -108,8 +108,8 @@ void TAdMcSelectCursorGC::run_task() {
 
 }
 TAdMcSelectCursorGC::~TAdMcSelectCursorGC() {
-    if (TAdMcSelectCursorGC__instance != NULL) {
-        TAdMcSelectCursorGC__instance = NULL;
+    if (TAdMcSelectCursorGC::instance != NULL) {
+        TAdMcSelectCursorGC::instance = NULL;
     }
 }
 
@@ -134,10 +134,10 @@ TAdMcSelectCursorGC::TAdMcSelectCursorGC(TObject *parent) : TObject(parent) {
 extern "C" {
 
 TAdMcSelectCursorGC *TAdMcSelectCursorGC::get_instance(TObject *parent) {
-    if (TAdMcSelectCursorGC__instance == NULL) {
-        TAdMcSelectCursorGC__instance = new TAdMcSelectCursorGC(parent);
+    if (TAdMcSelectCursorGC::instance == NULL) {
+        TAdMcSelectCursorGC::instance = new TAdMcSelectCursorGC(parent);
     }
-    return TAdMcSelectCursorGC__instance;
+    return TAdMcSelectCursorGC::instance;
 }
 
 void TAdMcSelectCursorGC::release_cursor_entry() {

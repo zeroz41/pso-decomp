@@ -77,11 +77,6 @@ struct MenuGlyphEntry {
 
 
 extern "C" {
-u32 get_font_char_advance(u16 c);
-u16 map_char_to_font_code(u16 c);
-u32 calc_text_width(char *s);
-u32 calc_fullwidth_text_width(char *s);
-void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale);
 
 const char *parse_text_control_codes(const char *p, s32 *mb, s32 *color) {
     while (*p == '\t') {
@@ -308,8 +303,6 @@ void TWindowSubStatusDisp::pack_status_flags(u32 pixel) {
 }
 extern u8 *menu_font_glyph_pixel_buffers[];
 extern u8 *menu_font_glyph_data;
-void upload_font_glyph(u16 c, void *free_slot);
-s32 calc_ci4_tile_offset(u32 x, u32 y);
 #define g ((MenuGlyphEntry *)free_slot)
 
 s32 calc_ci4_tile_offset(u32 x, u32 y) {

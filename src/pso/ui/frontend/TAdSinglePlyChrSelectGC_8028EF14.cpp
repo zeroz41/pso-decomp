@@ -27,10 +27,7 @@
 
 struct Opaque_80290088;
 
-s32 find_shape_triangle_region(u8 *arg0);
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
-void calc_shape_region_coefficients(f32 *point);
-s32 blend_shape_chunk_vertices(void);
 extern "C" {
 f32 vector_length(f32 *v);
 }
@@ -38,9 +35,7 @@ f32 vector_length(f32 *v);
 struct CreationShapeModel { s32 *vertex_list; s16 *polygon_list; f32 center[3]; };
 struct CreationShapeNode { u32 eval_flags; CreationShapeModel *model; f32 pos[3]; s32 ang[3]; f32 scl[3]; };
 extern "C" {
-void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q);
 }
-void reset_creation_shape_set(saddr arg0);
 s32 char_select_active_flag;
 int char_creation_figure_draw_flag;
 u32 creation_figure_rotation_y;
@@ -51,8 +46,6 @@ uaddr chara_select_hair_node_b;
 uaddr chara_select_head_node;
 void ***char_creation_data_block;
 saddr chara_select_preview_resource;
-void reset_creation_body_shapes();
-void reset_creation_head_shapes();
 #pragma common off
 CreationHeadModelStates creation_head_shape_destination;
 CreationHeadModelStates creation_head_shape_samples[7];
@@ -70,7 +63,6 @@ s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 s32 creation_motion_group(CharacterAppearanceFields *);
 void load_creation_shape_rel(TCMCharacter *character);
 void TCharaMaking__sub_8028E3A0();
-void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q);
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
@@ -258,16 +250,12 @@ struct Sel_802902CC {
 };
 
 }
-void map_shape_region_samples(s32 region, s32 *samples);
 extern CreationShapeBlend creation_shape_blend;
-s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const f32 *c);
 s32 scan_creation_resources(void *arg0);
 uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);
 void reset_character_creation_figure_rotation(void);
 extern "C" {
 
-void TCharaMaking__bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model);
-void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model);
 extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9];
 #pragma defer_codegen on
 TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {

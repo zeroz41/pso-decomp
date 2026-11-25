@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowDrawContext.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -60,16 +61,14 @@ struct Pos_800FBFD8 {
     u8 pad[0x18];
 };
 
-struct Quad_800FC310 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 
 struct O_800FB400;
 
 struct FogCtrl_800FB134;
 
-struct Quad_800FC24C { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 extern "C" {
 
-void build_small_font_glyph_quad(u8 c, Quad_800FC310 *q);
+void build_small_font_glyph_quad(u8 c, TexturedQuad *q);
 
 #pragma push
 #pragma inline_depth(1)
@@ -179,7 +178,7 @@ s32 get_small_font_glyph_width(u8 c) {
 
 void TWindowSubStatusDisp__sub_800FC248(void) {  }
 
-void calc_plain_glyph_quad(u8 c, Quad_800FC24C *q) {
+void calc_plain_glyph_quad(u8 c, TexturedQuad *q) {
     f32 a = (f32)((c & 0xF) << 4);
     f32 b = 109.0f + (f32)(c & 0xF0);
     GlyphMetrics *g = &small_font_metrics_table_ptr[c - 0x20];
@@ -192,7 +191,7 @@ void calc_plain_glyph_quad(u8 c, Quad_800FC24C *q) {
     q->v1 = (13.0f + b) / 256.0f;
 }
 
-void build_small_font_glyph_quad(u8 c, Quad_800FC310 *q) {
+void build_small_font_glyph_quad(u8 c, TexturedQuad *q) {
     f32 a = (f32)((c << 4) & 0xF0);
     f32 b = (f32)(c & 0xF0);
     GlyphMetrics *g = &small_font_metrics_table_ptr[c - 0x20];

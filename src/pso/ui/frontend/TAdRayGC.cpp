@@ -14,7 +14,7 @@
 
 extern "C" {
 extern f32 TAdRayGC_ray_quad_table[4][8];
-uaddr TAdRayGC__ray_texture_list;
+uaddr TAdRayGC::ray_texture_list;
 
 void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
     u32 texture;
@@ -24,7 +24,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
         texture = frame;
         for (i = 0; i < 2; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdRayGC__ray_texture_list));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdRayGC::ray_texture_list));
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
@@ -34,7 +34,7 @@ void TAdRayGC::draw_ray_quads(s32 frame, s32 color, s32 side) {
         texture = frame + 0x14;
         for (i = 2; i < 4; i++) {
             begin_screen_draw(1);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdRayGC__ray_texture_list));
+            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TAdRayGC::ray_texture_list));
             set_draw_texture_and_color(texture, color);
             draw_textured_quad_at_depth(TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
@@ -155,12 +155,12 @@ f32 TAdRayGC_ray_quad_table[4][8] = {
 const char *TAdRayGC__name = "TAdRayGC";
 
 void TAdRayGC::destroy_instance() {
-    if (TAdRayGC__ray_texture_list != 0) {
-        release_texture_list((NJS_TEXLIST *)TAdRayGC__ray_texture_list);
-        TAdRayGC__ray_texture_list = 0;
+    if (TAdRayGC::ray_texture_list != 0) {
+        release_texture_list((NJS_TEXLIST *)TAdRayGC::ray_texture_list);
+        TAdRayGC::ray_texture_list = 0;
     }
 }
 
 }
 
-void register_texture_f128_ray(void) { TAdRayGC__ray_texture_list = (uaddr)&lbl_804DC2D8; load_streamed_prs_texture((saddr)"f128_ray", (saddr)&lbl_804DC2D8); }
+void register_texture_f128_ray(void) { TAdRayGC::ray_texture_list = (uaddr)&lbl_804DC2D8; load_streamed_prs_texture((saddr)"f128_ray", (saddr)&lbl_804DC2D8); }

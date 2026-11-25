@@ -13,11 +13,10 @@
 #pragma readonly_strings on
 
 extern "C" {
-extern int TChCrCharSelect__input_mode;
 
 const char *TChCrTagInformation__class_name = "TChCrTagInformation";
 
-int TChCrCharSelect::get_selected_index() { return TChCrCharSelect__input_mode; }
+int TChCrCharSelect::get_selected_index() { return TChCrCharSelect::input_mode; }
 void TChCrTagInformation::draw_char_info_sprites() {
     f32 alpha;
     s32 c;

@@ -22,7 +22,6 @@ struct W_80342ED0 {
 const s32 word_select_numeric_limits[6] = { 999999, 99, 30, 15, 200, 999 };
 
 extern "C" {
-void TWindowDD__sub_80341AF8(u8 *arg0);
 s32 open_numeric_parameter_input__9TWindowDDFPviii(void *, int, int, void *);
 s32 classify_id__9TWindowDDFs();
 s32 TWindowDD__sub_80347CC8(void *, void *);
@@ -59,7 +58,7 @@ void TWindowDD::handle_confirm_input() {
     refresh_word_select_child_list();
     if (((TWindowDD *)arg0)->test_input_flag_4() != 0) {
         TWindowDD::play_sound();
-        id = TWindowDD__sub_80342158(reinterpret_cast<TWindowDD_WS_Word *>(arg0->ids[arg0->idx]));
+        id = get_word_select_selected_id(reinterpret_cast<TWindowDD_WS_Word *>(arg0->ids[arg0->idx]));
         arg0->fc6 = TWindowDD__sub_80348448(arg0, id);
         arg0->fb4 = TWindowDD__sub_80348424(arg0, id);
         push_recent_id(id);

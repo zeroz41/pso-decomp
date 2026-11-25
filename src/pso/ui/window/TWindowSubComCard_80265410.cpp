@@ -78,7 +78,6 @@ saddr create_window_menu_default(saddr pos, s32 entries);
 saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title);
 }
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
-saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
 const f64 lbl_8044F330 = 0.0;
 // The TWindowMenu layout table (one type-3 text record; fn_80266378 sets the row count) and
 // the window descriptor the TWindowMenu constructor passes to TWindowAddition.
@@ -680,7 +679,7 @@ void TWindowMenu::run_task() {
     if (!(*(s32 *)&this->window_flags & 2)) {
         *(s32 *)&this->open_tick = 0x01000000;
     }
-    if ((((TWindowMenu *)arg0)->sub_80266BB8() == 0) && (((TWindowMenu *)arg0)->is_decided() == 0) && ((s32) *(s32 *)&this->open_tick > 2) && (is_window_display_enabled() != 0) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
+    if ((((TWindowMenu *)arg0)->sub_80266BB8() == 0) && (((TWindowMenu *)arg0)->is_decided() == 0) && ((s32) *(s32 *)&this->open_tick > 2) && (is_window_display_enabled() != 0) && (((TWindowBase *)arg0)->is_open_and_unblocked() != 0)) {
         player_idx = is_player_input_active((this->client_index));
         if (this->m_70 & 0x10) {
             input = &controller_input_state.controllers[player_idx];

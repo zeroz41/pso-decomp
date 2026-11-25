@@ -276,7 +276,7 @@ void TWindowInputNumber::run_task() {
     if (!(self->window_flags & 2)) {
         self->open_tick = 0x01000000;
     }
-    if ((self->is_confirmed() == 0) && !(self->inputFlags & 0x40) && (self->sub_80244994() != 0)) {
+    if ((self->is_confirmed() == 0) && !(self->inputFlags & 0x40) && (self->is_open_and_unblocked() != 0)) {
         if (self->inputFlags & 0x10) {
             input = &controller_input_state.controllers[temp_r30];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (self->is_locked(0x10) != 0)) {

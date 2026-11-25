@@ -24,7 +24,6 @@ u8 get_small_font_glyph_width(u8);
 s32 TWindowSubStatusDisp__sub_800FC248(u8);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
-void measure_message_text_width(WindowTextEntry *msg, f32 maxw);
 void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1);
 
 void *lbl_804CFA28[6] = {

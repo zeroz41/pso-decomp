@@ -53,7 +53,6 @@ extern "C" {
 
 
 
-saddr get_message_text(s32);
 
 
 

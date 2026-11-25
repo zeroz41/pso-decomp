@@ -5,21 +5,22 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdDialingGC : public TObject {
+    static TAdDialingGC * instance;
     TAdDialingGC(TObject *parent);
     virtual ~TAdDialingGC();
     void spawn_title_screen();
-    u32 m_1c;
-    u32 m_20;
-    u32 m_24;
+    u32 dial_mode;
+    u32 dial_step;
+    u32 frame;
     u32 m_28;
     u8 _pad2C[0x4];
-    u16 m_30;
+    u16 selection;
     u8 _pad32[0x36];
-    u16 m_68;
+    u16 prev_selection;
     u8 unk_6A[0x32];
-    s32 m_9c;
-    u32 m_a0;
-    u32 m_a4;
+    s32 status_code;
+    u32 wait_frames;
+    u32 dial_flags;
     static void select_dial_image(void *self, s32 x);
     virtual void render();
     virtual void run_task();
@@ -46,6 +47,5 @@ struct TAdDialingGC : public TObject {
 
 LAYOUT_ASSERT(TAdDialingGC_size, sizeof(TAdDialingGC) == 0xA8);
 
-extern TAdDialingGC *TAdDialingGC__instance;
 
 #endif

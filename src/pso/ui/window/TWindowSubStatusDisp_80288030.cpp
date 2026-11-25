@@ -15,7 +15,6 @@ extern "C" {
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, saddr arg2, s8 arg3, s32 arg4);
 extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
 }
-void text_builder_reset(void);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 // The HUD palette texture names; load_hud_palette_textures loads the archive into this list.
 NJS_TEXNAME f256_hyouji_texname[13] = { // the texture names of f256_hyouji_texlist

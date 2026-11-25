@@ -81,8 +81,6 @@ WindowDescriptor simple_status_window_layout = {
 };
 
 extern "C" {
-void draw_photon_blast_fan(saddr, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
-void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *arg2, f32 farg0, f32 farg1);
 }
 struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
 
@@ -138,21 +136,19 @@ struct VObj_8026ff0c {
 
 struct Slots_80270060 { s32 type[4]; u32 id[4]; };
 
-struct Rect_80270394 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 
 extern "C" {
 s32 get_photon_blast_chain(Slots_80270060 *);
 s32 end_window_sweep_draw(s32);
-s32 draw_window_sweep_strip(Rect_80270394 *, u8 *);
+s32 draw_window_sweep_strip(TexturedQuad *, u8 *);
 s32 begin_window_sweep_draw(s32);
 s32 start_text_color_transition(void *, s32, f32);
 }
 s32 get_status_effect_icon_index(u32 arg0);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern "C" {
-void update_lockon_window(u8 *arg0);
 void begin_screen_draw(s32 mode);
-s32 draw_textured_quad_at_depth(Rect_80270394 *, f32);
+s32 draw_textured_quad_at_depth(TexturedQuad *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
 
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
@@ -251,7 +247,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
     void *w;
     void *player;
     player = get_player_by_client_id(((Disp_8026F9F4 *)this)->id);
-    if (player == NULL || sub_80244994() == 0) {
+    if (player == NULL || is_open_and_unblocked() == 0) {
         for (i = 0; i < 5; i++) {
             if (((Disp_8026F9F4 *)this)->windows[i] != NULL) {
                 ((TWindowBase *)(((Disp_8026F9F4 *)this)->windows[i]))->close();
@@ -497,7 +493,7 @@ void draw_photon_blast_gauge_ring(s32 window_simple_status, Params_80270244 *ctx
 #pragma pop
 
 void TWindowSimpleStatus::draw_background(u8 *ctx) {
-    Rect_80270394 r;
+    TexturedQuad r;
     NJS_POINT2 pos;
     NJS_POINT2 size;
     f32 scale;

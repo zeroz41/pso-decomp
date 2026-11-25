@@ -117,15 +117,13 @@ TKeyBoardControl *password_entry_keyboard_control;
 
 s32 password_entry_dispatch_state;
 
-s32 TAdEnterBaseGC__entry_mode;
+s32 TAdEnterBaseGC::entry_mode;
 
 extern "C" {
 
 void fn_8025DE10(void *context, void *cursor);
 
-void __dt__19TAdPlyChrSelPlateGCFv(void *, int);
 
-void *__ct__19TAdPlyChrSelPlateGCFv(void *, s32, void *);
 
 extern char serial_access_hex_string_buf[];
 
@@ -142,7 +140,6 @@ char serial_access_hex_string_buf[0x40];
 
 extern "C" {
 
-u32 __ct__14TAdSelectCurGCFv(int, int, const void *, const void *);
 
 }
 
@@ -161,12 +158,12 @@ TAdEnterBaseGC::~TAdEnterBaseGC() {
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction(); *(s32 *)((s8 *)this + 0x34) = 0; }
 }
 
-void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
+void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC::entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
     new TAdBackGC(this);
     new TAdBackTxtGC(this);
-    if (TAdEnterBaseGC__entry_mode == 3) {
+    if (TAdEnterBaseGC::entry_mode == 3) {
         this->select_cursor = new TAdSelectCurGC(reinterpret_cast<TObject *>(tl_clipout),
             reinterpret_cast<const NJS_POINT2 *>(&lbl_80477198[2]),
             reinterpret_cast<const NJS_POINT2 *>(&lbl_804771B8[1]));
@@ -334,7 +331,7 @@ TKeyBoardControl *TAdEnterSerialAccessGC::create_keyboard_control(saddr arg0, s3
 void fn_8032AC9C(void *arg0, void *context) {
     ((TWindowBase *)arg0)->draw_window_frame(context);
     TAdSubPlyItemGC::render_status_line(password_screen_status_line_position[0].x, password_screen_status_line_position[0].y, 0.8f, (const char *)get_localized_text_entry(0x17, 4), -1);
-    switch (TAdEnterBaseGC__entry_mode) {
+    switch (TAdEnterBaseGC::entry_mode) {
     case 0:
     case 1:
         fn_8032AC94();

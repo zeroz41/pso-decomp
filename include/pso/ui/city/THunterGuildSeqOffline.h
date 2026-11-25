@@ -8,6 +8,8 @@ class TQuestThread;
 struct TWindowMenu;
 
 struct THunterGuildSeqOffline : public TShopSequence {
+    static THunterGuildSeqOffline * active_instance;
+    static s32 instance_table[4];
     THunterGuildSeqOffline(TObject *parent, TObjPlayer *player);
     virtual ~THunterGuildSeqOffline();
     virtual void close_window();
@@ -49,7 +51,6 @@ struct THunterGuildSeqOffline : public TShopSequence {
 };
 
 LAYOUT_ASSERT(THunterGuildSeqOffline_size, sizeof(THunterGuildSeqOffline) == 0x3C);
-extern "C" THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
 
 extern "C" void THunterGuildSeqOffline__sub_80213410(void);
 #endif

@@ -105,7 +105,7 @@ s32 TKeyBoardControl::is_key_down(s32 arg0) {
 }
 
 s32 update_state_from_input__16TKeyBoardControlFPv(u8 key) {
-    return hardware_keyboard_state.sub_801323C8(key);
+    return hardware_keyboard_state.is_key_pressed(key);
 }
 
 s32 StickEscapeDetector::check_input_angle() {

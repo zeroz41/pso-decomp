@@ -49,7 +49,6 @@ const char *TWindowActionPalette__name = "TWindowActionPalette";
 
 struct PaletteItemKind { u8 group; u8 index; };
 
-struct Rect_80243B6C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 struct Ctx_80243B6C { f32 x; f32 y; u8 pad8[0x34 - 0x8]; s32 tex; };
 
@@ -96,7 +95,7 @@ UV_80243630 lbl_804CDE10[8] = {
     {200.0f, 172.0f}, {100.0f, 86.0f}, {100.0f, 86.0f}, {50.0f, 0.0f},
 };
 
-const f32 TWindowActionPalette__bank_panel_uv_origins[4][2] = {
+const f32 TWindowActionPalette::bank_panel_uv_origins[4][2] = {
     {0.0f, 0.0f}, {0.0f, 56.0f}, {0.0f, 112.0f}, {92.0f, 112.0f},
 };
 
@@ -232,10 +231,10 @@ void TWindowActionPalette::render() {
 #pragma push
 #pragma fp_contract on
 void TWindowActionPalette::draw_frame(saddr arg1) {
-    Rect_80243B6C r1;
-    Rect_80243B6C r2;
-    Rect_80243B6C r4;
-    Rect_80243B6C r3;
+    TexturedQuad r1;
+    TexturedQuad r2;
+    TexturedQuad r4;
+    TexturedQuad r3;
     Ctx_80243B6C *ctx = (Ctx_80243B6C *)arg1;
     f32 scale;
     f32 depth;
@@ -336,7 +335,7 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
 
 void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
     u8 *sprite = (u8 *)get_array_entry(1);
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(sprite), TWindowActionPalette__bank_panel_uv_origins[state][0], TWindowActionPalette__bank_panel_uv_origins[state][1]);
+    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(sprite), TWindowActionPalette::bank_panel_uv_origins[state][0], TWindowActionPalette::bank_panel_uv_origins[state][1]);
 }
 
 #pragma push
@@ -349,7 +348,7 @@ void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot) {
     f32 hw;
     f32 s2;
     f32 hw2;
-    if (palette->sub_80244994() == 0) {
+    if (palette->is_open_and_unblocked() == 0) {
         return;
     }
     switch (slot) {
