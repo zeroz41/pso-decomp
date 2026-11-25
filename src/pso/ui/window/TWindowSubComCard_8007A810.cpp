@@ -145,7 +145,7 @@ struct Card_8007AC7C {
 extern "C" {
 void TWindowSubComCard__sub_8007B26C(GuildCardEntry *entry);
 s8 TWindowSubComCard__sub_8007B6EC(void *p);
-s32 TWindowSubComCard__sub_8007B6F4(void *self);
+s32 TWindowSubComCard__sub_8007B6F4(void *card);
 int __ct__16TPlyGuildCardTagFv();
 
 s32 init_guild_card_tag__17TWindowSubComCardFi(void *ply_guild_card_tag) {
@@ -516,8 +516,6 @@ void TWindowGetComCard::construct_card_tags() {
 __declspec(section ".ctors") static void *const __sinit_TWindowGetComCard_8007B54C_cpp_ref = (void *)TWindowGetComCard::construct_card_tags;
 
 
-struct O_8007B6F4 { u8 pad[0x8c]; u8 flags; };
-
 extern "C" {
 int bswap__16TPlyGuildCardTagFv(void*);
 
@@ -525,8 +523,8 @@ s32 GuildCardEntry::get_card_id() const { return id; }
 int GuildCardEntry::is_active() const { return flags & 1; }
 s8 TWindowSubComCard__sub_8007B6EC(void *p) { return *(s8 *)((char *)p + 0x8f); }
 
-s32 TWindowSubComCard__sub_8007B6F4(void *self) {
-    if (((O_8007B6F4 *)self)->flags & 2) {
+s32 TWindowSubComCard__sub_8007B6F4(void *card) {
+    if (((GuildCardEntry *)card)->flags & 2) {
         return 0;
     }
     return 1;

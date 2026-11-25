@@ -74,7 +74,6 @@ TWindowShop *TShopJudgmentItemWindow::open_default(s32 title) {
 void TWindowShop::render() {
     WindowDrawContext *context;
     s32 n;
-    void *p;
     context = get_draw_context();
     draw_window_frame(context);
     draw_visible_window_entries(
@@ -88,12 +87,10 @@ void TWindowShop::render() {
     if (n > 0) {
         draw_item_list_capacity(this, context, this->entry_count, n);
     }
-    p = this->status_display;
-    if (p != NULL) {
-        ((TWindowSubStatusDisp *)(p))->forward_render(context);
+    if (status_display != NULL) {
+        ((TWindowSubStatusDisp *)status_display)->forward_render(context);
     }
-    p = this->scroll_bar;
-    if (p != NULL) {
+    if (scroll_bar != NULL) {
         draw_window_scrollbar(scroll_bar, context, scroll_offset);
     }
 }
