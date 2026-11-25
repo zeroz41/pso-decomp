@@ -1786,7 +1786,6 @@ pso/unk/text_80076E84.cpp
 pso/network/protocol/choice_search.cpp
 pso/unk/text_8007C0CC.cpp
 pso/effect/TDuelEffectCtrl.cpp
-pso/enemy/beast/TObjEneBeast_80092AE0.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp
 pso/enemy/TUnk_80493450_800C69E8.cpp

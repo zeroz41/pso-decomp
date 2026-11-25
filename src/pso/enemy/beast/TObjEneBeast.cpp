@@ -392,6 +392,10 @@ void TObjEneBeast::load_resources() {
 __declspec(section ".rodata") const char beast_a_bml_filename[25] = "bm_ene_re8_b_beast_a.bml"; // inferred: from the string
 
 #pragma defer_codegen on
+void TObjEneBeast::select_model_record(s32 i) {
+    model = ene_beast_bml_resource->models[i].model;
+    texlist = ene_beast_bml_resource->models[i].texlist;
+}
 void TObjChara::init_position_vectors() {
     VecCopy(&prev_position, VecCopy(&move_origin, VecCopy(&move_destination, &position)));
 }

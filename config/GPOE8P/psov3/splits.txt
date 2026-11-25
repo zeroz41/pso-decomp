@@ -1258,7 +1258,7 @@ pso/enemy/balclaw/TObjEneBalClawClaw.cpp:
 	.sdata2     start:0x805D9688 end:0x805D96D8
 
 pso/enemy/beast/TObjEneBeast.cpp:
-	.text       start:0x80091CCC end:0x80092AE0
+	.text       start:0x80091CCC end:0x80092B10
 	.rodata     start:0x80439BA0 end:0x80439DA0
 	.data       start:0x8048F2C8 end:0x8048F650
 	.sdata      start:0x805D2980 end:0x805D2988
@@ -1267,9 +1267,6 @@ pso/enemy/beast/TObjEneBeast.cpp:
 
 pso/enemy/berura/BeruraData.cpp:
 	.rodata     start:0x80439DA0 end:0x80439DC0
-
-pso/enemy/beast/TObjEneBeast_80092AE0.cpp:
-	.text       start:0x80092AE0 end:0x80092B10
 
 pso/enemy/berura/TObjEneRe7Berura.cpp:
 	.text       start:0x80092B10 end:0x80095E18
