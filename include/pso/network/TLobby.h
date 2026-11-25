@@ -681,7 +681,6 @@ struct TLobby : public TObject {
     static void bswap_player_data(void *data);
     static s32 calc_player_rankings(void *);
     static s32 change_file_extension(char *dest, char *filename, char *ext);
-    static void check_bin_model_loaded(void *, void *);
     static s32 check_team_balance(void *, int);
     static void close_all_windows(void *);
     static void close_all_windows();
@@ -727,7 +726,6 @@ struct TLobby : public TObject {
     static void handle_team_select();
     static void handle_verify_result(unsigned int);
     static void handle_warp_menu_input();
-    static void increment_ref_and_set_flag(void *);
     static void init(void *);
     static void init_buffers(int floor, u8 *quest);
     static void init_player_entry(GuildCardRecord *entry, u8 *response);

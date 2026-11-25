@@ -84,7 +84,6 @@ BmlArchiveHeader *bml_archive_header;
 BmlArchiveEntry * bml_header_record_ptr;
 s32 bml_load_entry_index;
 u8 * lobby_bml_read_buffer;
-void check_bin_model_loaded__6TLobbyFPvPv(BmlResource *resource, void *);
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes);
 s32 TLobby__sub_800F9FF4(saddr);
 s32 release_texture_list(void *);
@@ -425,8 +424,8 @@ void TLobby::init_download_buffers() {
     tmp_buf_name[0] = 0;
 }
 
-extern "C" {
-void check_bin_model_loaded__6TLobbyFPvPv(BmlResource *resource, void *) {
+// Marks the archive loaded once every model, motion and texture has arrived.
+void check_bin_model_loaded(BmlResource *resource) {
     if (resource->model_count <= resource->loaded_models &&
         resource->motion_count <= resource->loaded_motions &&
         resource->expected_textures <= resource->loaded_textures) {
@@ -436,13 +435,13 @@ void check_bin_model_loaded__6TLobbyFPvPv(BmlResource *resource, void *) {
     }
 }
 
-void increment_ref_and_set_flag__6TLobbyFPv(void *context) {
+// Texture-load callback: counts the texture in and flags its archive entry.
+void increment_ref_and_set_flag(void *context) {
     BmlTextureLoadRequest *request = (BmlTextureLoadRequest *)context;
     BmlResource *resource = request->resource;
     resource->loaded_textures++;
-    TLobby::check_bin_model_loaded(request->resource, resource);
+    check_bin_model_loaded(request->resource);
     request->entry->flags |= 1;
-}
 }
 void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     u32 position;
@@ -456,7 +455,7 @@ void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     *request->motion = (AnimationMotion *)data;
     BmlResource *resource = request->resource;
     resource->loaded_motions++;
-    TLobby::check_bin_model_loaded(request->resource, resource);
+    check_bin_model_loaded(request->resource);
 }
 
 
@@ -479,7 +478,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             params.resource = self->resource;
             params.entry = self->entry;
             TLobby::change_file_extension((char *)name, (char *)self->name, (char *)"gvm");
-            r = TLobby::create_file_load_entry(name, *slot, increment_ref_and_set_flag__6TLobbyFPv, &params, &handle);
+            r = TLobby::create_file_load_entry(name, *slot, increment_ref_and_set_flag, &params, &handle);
             if (r >= 0) {
                 TLobby__sub_8001EDD8(self->resource, handle);
                 self->resource->expected_textures++;
@@ -496,7 +495,7 @@ void LoadBinModelCallBack(BmlModelLoadRequest *self) {
             break;
         }
     }
-    ((void (*)(void *))check_bin_model_loaded__6TLobbyFPvPv)(self->resource);
+    check_bin_model_loaded(self->resource);
 }
 
 s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes) {
