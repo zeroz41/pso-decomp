@@ -129,7 +129,7 @@ struct Door_8029B428 : VObj_8029B428 {
     u8 pad64[0xB4 - 0x64];
     f32 fb4;
     u8 padb8[4];
-    s32 fbc;
+    void *fbc;
     f32 fc0;
     f32 fc4;
     u8 padc8[8];
@@ -293,11 +293,11 @@ void TODoorJungleMain::render() {
         post_translate_matrix(self->xf);
         rotate_matrix_y(NULL, self->angle);
         if (self->flags & 1) {
-            draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3), (void *)self->fbc, self->fb4);
+            draw_ginja_model_with_motion(get_bml_model(TODoorJungleMain__bml_resource, 3), self->fbc, self->fb4);
         } else {
-            draw_ginja_object((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, 3));
+            draw_ginja_object(get_bml_model(TODoorJungleMain__bml_resource, 3));
             for (i = 0; i < 3 - self->count; i++) {
-                draw_ginja_object((void *)get_bml_model((BmlResource *)TODoorJungleMain__bml_resource, ids.v[i]));
+                draw_ginja_object(get_bml_model(TODoorJungleMain__bml_resource, ids.v[i]));
             }
         }
         pop_matrix();

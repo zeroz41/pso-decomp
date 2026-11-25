@@ -101,13 +101,13 @@ s32 TObjFogCollision::check_collision(u16 client) {
     f32 x;
     f32 temp_f1;
     f32 temp_f31;
-    s32 player;
+    TObjPlayer *player;
 
-    player = (saddr)get_player_by_client_id(client);
-    if (player != 0) {
+    player = get_player_by_client_id(client);
+    if (player != NULL) {
         x = this->scale.x;
         temp_f31 = x * x;
-        temp_f1 = horizontal_distance_squared(&this->position, &((TObjPlayer *)player)->position);
+        temp_f1 = horizontal_distance_squared(&this->position, &player->position);
         if (temp_f31 > temp_f1) {
             return 1;
         }

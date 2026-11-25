@@ -404,7 +404,7 @@ void TObjEneDarkGunner::cleanup_effects() {
         TObjEneDarkGunner::bml_resource = NULL;
     }
     if (TObjEneDarkGunner__effect_resource != NULL) {
-        TObjPlayer::free_if_valid((s32)TObjEneDarkGunner__effect_resource);
+        TObjPlayer::free_if_valid((saddr)TObjEneDarkGunner__effect_resource);
         TObjEneDarkGunner__effect_resource = NULL;
     }
     TObjPlayer::reset_effect_count();
