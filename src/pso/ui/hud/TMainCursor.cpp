@@ -1054,8 +1054,8 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
     if (candidate == NULL || ((TObject *)candidate)->all_parents_unqueued_for_destruction() == 0) {
         return 0;
     }
-    if (((TObjCollidable *)candidate)->test_actor_flags(((TMainCursor *)entry)->get_actor_include_mask()) == 0 ||
-        ((TObjCollidable *)candidate)->test_actor_flags(((TMainCursor *)entry)->get_actor_exclude_mask()) != 0) {
+    if (((TObjCollidable *)candidate)->test_actor_flags(entry->get_actor_include_mask()) == 0 ||
+        ((TObjCollidable *)candidate)->test_actor_flags(entry->get_actor_exclude_mask()) != 0) {
         return 0;
     }
     yaw = owner->rotation_y;
@@ -1069,10 +1069,10 @@ s32 TMainCursor::try_add_target_candidate(LockOnActionSlot *entry, void *candida
         if (!(c->flags & 1)) {
             continue;
         }
-        if (!(c->flags & ((TMainCursor *)entry)->get_body_include_mask())) {
+        if (!(c->flags & entry->get_body_include_mask())) {
             continue;
         }
-        if (c->flags & ((TMainCursor *)entry)->get_body_exclude_mask()) {
+        if (c->flags & entry->get_body_exclude_mask()) {
             continue;
         }
         dist = horizontal_distance_squared(&entry->origin, &c->center);
@@ -1879,13 +1879,13 @@ TUnk_8013E800::TUnk_8013E800() {
     unk_0 = 0xffff;
 }
 
-s32 TMainCursor::get_body_exclude_mask() { return *(s32 *)&this->m_next; }
+s32 LockOnActionSlot::get_body_exclude_mask() { return body_exclude_mask; }
 
-s32 TMainCursor::get_body_include_mask() { return *(s32 *)&this->m_prev; }
+s32 LockOnActionSlot::get_body_include_mask() { return body_include_mask; }
 
-s32 TMainCursor::get_actor_exclude_mask() { return *(s32 *)&this->m_down; }
+s32 LockOnActionSlot::get_actor_exclude_mask() { return actor_exclude_mask; }
 
-s32 TMainCursor::get_actor_include_mask() { return *(s32 *)&this->m_up; }
+s32 LockOnActionSlot::get_actor_include_mask() { return actor_include_mask; }
 
 void TMainCursor::store_sorted_record(void* p, void* a1, void* a2) { ((int (*)(void *))copy_target_record__11TMainCursorFPvPv)(a2); }
 

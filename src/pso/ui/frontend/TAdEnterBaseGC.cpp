@@ -162,7 +162,7 @@ TAdEnterBaseGC::~TAdEnterBaseGC() {
     if (callback_window != NULL) { callback_window->queue_destruction(); callback_window = NULL; }
 }
 
-void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; prompt_window = NULL; callback_window = NULL; password_entry_keyboard_control = 0; }
+void TAdEnterBaseGC::sub_8032B460(int a1) { this->close_delay_ticks = 0; this->pending_dispatch_state = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; this->select_cursor = NULL; prompt_window = NULL; callback_window = NULL; password_entry_keyboard_control = 0; }
 
 void TAdEnterBaseGC::create_parts() {
     new TAdBackGC(this);
@@ -308,7 +308,7 @@ TWindowBase *TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1)
     return window;
 }
 
-TWindowCallBack *TAdEnterSerialAccessGC::create_default_callback() {
+TWindowCallBack *TAdEnterBaseGC::create_default_callback() {
     return TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, fn_8032AC9C);
 }
 

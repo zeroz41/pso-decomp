@@ -82,7 +82,13 @@ struct LockOnTargetRecordList {
 class LockOnActionSlot {
 public:
     gc_tag unk_0;
-    u8 pad_4[0x14];
+    u8 pad_4[0x4];
+    // Collision body flags a candidate body must have / must not have.
+    s32 body_include_mask;
+    s32 body_exclude_mask;
+    // Actor flags a candidate must have / must not have.
+    s32 actor_include_mask;
+    s32 actor_exclude_mask;
     // The farthest candidate distance in target_list; a closer one replaces it once the list is full.
     f32 max_candidate_dist;
     Vec origin;
@@ -99,6 +105,10 @@ public:
 
     LockOnActionSlot();
     ~LockOnActionSlot();
+    s32 get_body_exclude_mask();
+    s32 get_body_include_mask();
+    s32 get_actor_exclude_mask();
+    s32 get_actor_include_mask();
 };
 
 // TLockOnCursor::selection. When the player confirms a lock-on candidate, its

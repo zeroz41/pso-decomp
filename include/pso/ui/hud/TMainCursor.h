@@ -111,10 +111,6 @@ struct TMainCursor : public TObject {
     int is_same_target(void *b);
     void set_target_id_at_60(u8 target_id);
     int set_target_index_at_60(void* target_index);
-    s32 get_body_exclude_mask();
-    s32 get_body_include_mask();
-    s32 get_actor_exclude_mask();
-    s32 get_actor_include_mask();
     static void store_sorted_record(void* p, void* a1, void* a2);
     void init_slot(s32 i);
     void update_pair();

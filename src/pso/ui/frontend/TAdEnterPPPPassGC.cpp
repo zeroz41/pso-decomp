@@ -57,10 +57,10 @@ void TAdEnterPPPPassGC::close_windows_and_advance(void *arg) {
         password_entry_keyboard_control->queue_destruction();
         password_entry_keyboard_control = NULL;
     }
-    tick = m_24 + 1;
-    m_24 = tick;
+    tick = close_delay_ticks + 1;
+    close_delay_ticks = tick;
     if ((f32)tick > 5.5f) {
-        password_entry_dispatch_state = m_20;
+        password_entry_dispatch_state = pending_dispatch_state;
     }
 }
 
@@ -75,7 +75,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
         (m_40 == 0 && test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0)) {
         mem_free(buf);
         TAdEnterPPPPassGC::set_password("");
-        m_20 = 2;
+        pending_dispatch_state = 2;
         password_entry_dispatch_state = 4;
         return;
     }
@@ -119,7 +119,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
     if (select_cursor->confirmation_result() == 1 &&
         password_entry_keyboard_control->is_confirmed() != 0) {
         TAdEnterPPPPassGC::set_password(buf);
-        m_20 = 3;
+        pending_dispatch_state = 3;
         password_entry_dispatch_state = 4;
     }
     m_40 = strlen(buf);
@@ -128,7 +128,7 @@ void TAdEnterPPPPassGC::update_password_input(void *arg) {
 
 void TAdEnterPPPPassGC::open_keyboard_window(void *arg) {
     prompt_window = TAdEnterSerialAccessGC::show_message_window(this, (void *)3);
-    callback_window = ((TAdEnterSerialAccessGC *)this)->create_default_callback();
+    callback_window = create_default_callback();
     if (select_cursor != NULL) {
         select_cursor->reset_entries();
         select_cursor->append_entry((void *)TAdEnterPPPPassGC__selection_positions[2]);
@@ -156,7 +156,7 @@ void TAdEnterPPPPassGC::run_task() {
     };
     (self->*tbl[password_entry_dispatch_state])();
     if (self->m_1c != password_entry_dispatch_state) {
-        self->m_24 = 0;
+        self->close_delay_ticks = 0;
     }
 }
 
