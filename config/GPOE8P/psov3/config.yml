@@ -733,16 +733,16 @@ force_active:
   - TLogo__sub_8013F808
   - TMainCursor__ct
   - copy_action_entry
-  - set_published_target_dist__13TUnk_8013EF0CFf
-  - get_candidate_target_dist__13TUnk_8013EF0CFv
-  - set_published_target_id__13TUnk_8013EF0CFUs
-  - get_candidate_target_id__13TUnk_8013EF0CFv
+  - set_published_target_dist__19LockOnNearestTargetFf
+  - get_candidate_target_dist__19LockOnNearestTargetFv
+  - set_published_target_id__19LockOnNearestTargetFUs
+  - get_candidate_target_id__19LockOnNearestTargetFv
   - set_end_task__13TUnk_8013F08CFP7TObject
   - set_start_task__13TUnk_8013F08CFP7TObject
-  - matches_id
-  - get_client_id__13TUnk_8013E800Fv
+  - matches_id__12CursorTargetFUs
+  - get_client_id__11CursorOwnerFv
   - TMainCursor__sub_8013E570
-  - set_client_id__13TUnk_8013E800FUs
+  - set_client_id__11CursorOwnerFUs
   - TMainCursor__sub_8013E8A0
   - TMainCursor__sub_8013F22C
   - TMainCursor__sub_801540D8
@@ -5399,7 +5399,7 @@ force_active:
   - copy_struct__17TWindowSubComCardFPvPv
   - copy_tombstone_spot__FP17TObjTombstoneSpotPC17TObjTombstoneSpot
   - __as__13TradeItemListFRC13TradeItemList
-  - copy_target_record__11TMainCursorFPvPv
+  - copy_from__18TargetCursorRecordFP18TargetCursorRecord
   - copy__19NpcPlayerViewTargetFP19NpcPlayerViewTarget
   - copy_from__22TBoss6Type2MotionTrackFP22TBoss6Type2MotionTrack
   - copy_target__13NpcPlayerViewFP19NpcPlayerViewTargetP19NpcPlayerViewTarget
@@ -13897,8 +13897,8 @@ force_active:
   - queue_static_object_destruction__6TLobbyFv
   - queue_thread_main__6TLobbyFv
   - sort_targets__13NpcPlayerViewFP19NpcPlayerViewTargetll
-  - quick_sort__11TMainCursorFllll
-  - quick_sort_partition__11TMainCursorFiPvii
+  - quick_sort__16LockOnActionSlotFP18TargetCursorRecordll
+  - quick_sort_partition__16LockOnActionSlotFP18TargetCursorRecordll
   - rabarta_band_emitter_table
   - rafoie_burst_table
   - rand_scaled_offset__13TBoss5GryphonFll
@@ -14262,7 +14262,7 @@ force_active:
   - render__15TObjLazerFence4Fv
   - render__15TObjLiveMonitorFv
   - render__15TObjSuisouLobbyFv
-  - get_color__13TUnk_804A7254FP8NJS_ARGB
+  - get_color__11MarkerColorFP8NJS_ARGB
   - render__15TPlyPhotonChairFv
   - render__15TWindowCtrlMainFv
   - render__16TAdChrSelASlotGCFv

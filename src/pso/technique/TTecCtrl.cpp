@@ -624,7 +624,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
     case 7: {
         int n = 0;
         int i;
-        for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
+        for (i = 0; i < c->target_records.get_count(); i++) {
             if (c->target_records.get_record(n)->get_entity_id() != 0xFFFF) {
                 set_target__20PlayerTechniqueStateFlls(slots, n,
                     c->target_records.get_record(n)->get_entity_id(),
@@ -646,7 +646,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
     case 16: {
         int i;
         int n = 0;
-        for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
+        for (i = 0; i < c->target_records.get_count(); i++) {
             set_target__20PlayerTechniqueStateFlls(slots, n,
                 c->target_records.get_record(n)->get_entity_id(),
                 c->target_records.get_record(n)->get_part());

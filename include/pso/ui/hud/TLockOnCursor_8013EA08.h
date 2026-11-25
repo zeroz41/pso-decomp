@@ -4,7 +4,6 @@
 #include "types.h"
 
 extern "C" {
-s32 TLockOnCursor__sub_8013EB2C(void *p);
 int TLockOnCursor__sub_8013EB34(void);
 }
 

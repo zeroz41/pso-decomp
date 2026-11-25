@@ -5,20 +5,20 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/ui/window/ActionPaletteTag.h"
-#include "pso/unk/TUnk_804A7254.h"
+#include "pso/ui/hud/MarkerColor.h"
 
 struct NJS_OBJECT;
 class LockOnActionSlot;
 struct TObjPlayer;
-class TUnk_8013EF0C;
+class LockOnNearestTarget;
 
 // TMainCursor +0x24: the client id of the player whose lock-on cursor made the cursor.
-class TUnk_8013E800 {
+class CursorOwner {
 public:
     u16 client_id;
 
-    TUnk_8013E800();
-    ~TUnk_8013E800();
+    CursorOwner();
+    ~CursorOwner();
     void set_client_id(u16 id);
     u16 get_client_id();
 };
@@ -37,6 +37,8 @@ public:
     void set_target_id(s16 id);
     void set_entity_id(u16 id);
     u16 get_entity_id();
+    int matches_id(u16 id);
+    int is_same_target(CursorTarget *other);
 };
 
 struct TMainCursor : public TObject {
@@ -46,7 +48,7 @@ struct TMainCursor : public TObject {
     void sub_8013E724(f32);
     u32 m_1c;
     FlagWord unk_20;
-    TUnk_8013E800 unk_24;
+    CursorOwner owner;
     u8 pad_26[0x2];
     u8 unk_28[0x4];
     f32 m_2c;
@@ -56,14 +58,13 @@ struct TMainCursor : public TObject {
     f32 m_3c;
     void* m_40;
     u8 _pad44[0x8];
-    TUnk_804A7254 unk_4c;
+    MarkerColor marker;
     CursorTarget target;
     void update_position();
     s32 sort_actions_by_priority();
     void update_photon_chair();
     virtual void render();
     virtual void run_task();
-    static void quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     void reset_slots();
     void init_slots();
     void set_cursor_pos(u16 arg1, s32 arg2);
@@ -71,14 +72,12 @@ struct TMainCursor : public TObject {
     static void set_cursor_color(s32 arg0, saddr player, saddr main_cursor);
     static void set_display_flags(s32 arg0, saddr player, saddr main_cursor);
     static void setup_flags(s32 arg0, s32 player, saddr main_cursor);
-    static void sort_list(s32 arg0, s32 arg1);
     s32 is_channel_active();
     static s32 check_visible(void *slots, void *player, s16 type, s32 enabled);
     saddr get_index();
     void set_type(s32 v);
     static NJS_OBJECT *get_cursor_model();
     saddr check_field_24();
-    void*get_list();
     void update_target_sub();
     u16 get_client_id();
     int test_flag_2_at_20();
@@ -102,10 +101,8 @@ struct TMainCursor : public TObject {
     void refresh_target_marker();
     void update_chair();
     void validate_target();
-    int is_same_target(void *b);
     void set_target_id_at_60(u8 target_id);
     void set_entity_id(u16 id);
-    static void store_sorted_record(void* p, void* a1, void* a2);
     void init_slot(s32 i);
     void update_pair();
     void update_cursor_pair();
@@ -114,7 +111,7 @@ struct TMainCursor : public TObject {
     static s32 find_action_slot(saddr arg0, void *arg1, s16 type, s32 enabled, s32 arg4);
     s32 check_can_pickup();
     void setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id);
-    static s32 try_add_target_candidate(LockOnActionSlot *entry, void *candidate, TObjPlayer *owner, TUnk_8013EF0C *best);
+    static s32 try_add_target_candidate(LockOnActionSlot *entry, void *candidate, TObjPlayer *owner, LockOnNearestTarget *best);
 };
 
 LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);

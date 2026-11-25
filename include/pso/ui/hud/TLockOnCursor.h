@@ -8,7 +8,7 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/unk/TUnk_804A7248.h"
-#include "pso/unk/TUnk_804A7254.h"
+#include "pso/ui/hud/MarkerColor.h"
 
 // Two words, the base of TUnk_8013F0A0.
 class TUnk_8013F114 {
@@ -65,6 +65,14 @@ struct LockOnTargetRecord : public TargetCursorRecord {
     ~LockOnTargetRecord();
     s16 get_part();
     u16 get_entity_id();
+    // Bit 1: the selected (primary) target, drawn by its own TMainCursor.
+    int is_primary();
+    void set_primary();
+    void clear_primary();
+    // Bit 2: shown in the list but not lockable (inactive cursor, button test, body flag 0x08000000).
+    int is_excluded();
+    void set_excluded();
+    void clear_excluded();
 };
 
 // A count and eleven LockOnTargetRecord.
@@ -76,13 +84,16 @@ struct LockOnTargetRecordList {
     ~LockOnTargetRecordList();
     void clear();
     LockOnTargetRecord *get_record(s32 index);
+    s32 get_count();
+    void set_count(s32 count);
 };
 
 // TLockOnCursor +0x5C, four of them.
 class LockOnActionSlot {
 public:
     gc_tag unk_0;
-    u8 pad_4[0x4];
+    // How many targets publish_target_list keeps.
+    s32 max_targets;
     // Collision body flags a candidate body must have / must not have.
     s32 body_include_mask;
     s32 body_exclude_mask;
@@ -109,6 +120,11 @@ public:
     ~LockOnActionSlot();
     void reset_target_list();
     void reset_state();
+    s32 get_max_targets();
+    // Sorts records[lo..hi] by value, nearest first.
+    void quick_sort(TargetCursorRecord *records, s32 lo, s32 hi);
+    s32 quick_sort_partition(TargetCursorRecord *a, s32 lo, s32 hi);
+    void store_sorted_record(TargetCursorRecord *src, TargetCursorRecord *dst);
     s32 get_body_exclude_mask();
     s32 get_body_include_mask();
     s32 get_actor_exclude_mask();
@@ -130,6 +146,9 @@ public:
     ~LockOnSelection();
     void reset_state();
     void update_cursor_pos();
+    CursorTarget *get_target();
+    // target and cursor_target name the same entity, part and palette action.
+    int is_cursor_on_target();
 };
 
 // TLockOnCursor +0x508.
@@ -145,7 +164,7 @@ public:
 // TLockOnCursor +0x510. TMainCursor::try_add_target_candidate keeps the closest
 // candidate here while it scans; publish() copies its id and distance to the
 // published pair.
-class TUnk_8013EF0C {
+class LockOnNearestTarget {
 public:
     s32 candidate_part_index; // the candidate's collision entry
     u16 published_target_id;
@@ -153,7 +172,7 @@ public:
     f32 published_target_dist;
     f32 candidate_target_dist;
 
-    TUnk_8013EF0C();
+    LockOnNearestTarget();
     void publish();
     void set_published_target_dist(f32 dist);
     f32 get_candidate_target_dist();
@@ -170,11 +189,11 @@ struct TLockOnCursor : public TObject {
     u16 target_id; // read by get_target_id()
     TUnk_8013F0A0 unk_24;
     TUnk_8013F08C tasks;
-    TUnk_804A7254 unk_48;
+    MarkerColor marker;
     LockOnActionSlot action_slots[4]; // inferred: one action palette tag and its targets each (find_by_pos)
     LockOnSelection selection;
     TUnk_8013EF3C target_part;
-    TUnk_8013EF0C nearest_target;
+    LockOnNearestTarget nearest_target;
     TUnk_804A7248 palette_override; // the palette action forced by update_cursor or the short list
 
     TLockOnCursor(TObject *parent, u16 target_id);
@@ -185,15 +204,12 @@ struct TLockOnCursor : public TObject {
     void renderSecondaryCursor(u8 *body, s16 type, s32 action);
     virtual void run_task();
     static void free_cursor_resources();
-    int render_part();
-    int update_cursor_pos();
-    void set_flag_8_bit0();
-    void update_ring();
-    void is_bit1_set();
     int is_inactive();
-    void update_ring_sub();
-    int test_flag_1_at_8();
-    s32 get_target();
+    LockOnActionSlot *get_action_slot(s32 i);
+    // Copies the best of an action slot's sorted candidates into its target_records.
+    void publish_target_list(s32 slot);
+    // Sorts an action slot's candidates by distance.
+    void sort_list(s32 index);
     void set_list_clear_task(TObject *task);
     void set_end_task(TObject *task);
     void set_start_task(TObject *task);

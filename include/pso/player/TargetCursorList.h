@@ -15,6 +15,7 @@ struct TargetCursorRecord {
     void set_flag(s16 flag);
     void set_value(f32 value);
     f32 get_value();
+    void copy_from(TargetCursorRecord *src);
 };
 
 struct TargetCursorList {

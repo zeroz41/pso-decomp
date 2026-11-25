@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TMotionModel.h"
-#include "pso/unk/TUnk_804A7254.h"
+#include "pso/ui/hud/MarkerColor.h"
 
 // The photon chair a lobby player sits on: two animated seat models that unfold
 // while the owner is mounted and fold away (then the chair is destroyed) once
@@ -18,7 +18,7 @@ struct TPlyPhotonChair : public TObjBase {
     u32 owner_dismounted;  // set once the owner stands up; the seat then folds away
     TMotionModel lobby_seat;  // fs_obj_lobby_isu, drawn in the second render pass
     TMotionModel meka_seat;   // fs_obj_isu_meka, drawn at half colour otherwise
-    TUnk_804A7254 marker;
+    MarkerColor marker;
     virtual void render();
     virtual void run_task();
     static void free_static_model();

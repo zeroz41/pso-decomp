@@ -1617,11 +1617,11 @@ void TObjPlayer::set_flags_bit1() { ((FlagWord *)((char*)this + 0x1c))->set(1); 
 
 void TObjPlayer::clear_flag_1_at_1c() { ((FlagWord *)((char*)this + 0x1c))->clear(1); }
 
-s32 TUnk_8013EF0C::get_candidate_part_index() { return candidate_part_index; }
+s32 LockOnNearestTarget::get_candidate_part_index() { return candidate_part_index; }
 
-f32 TUnk_8013EF0C::get_published_target_dist() { return published_target_dist; }
+f32 LockOnNearestTarget::get_published_target_dist() { return published_target_dist; }
 
-u16 TUnk_8013EF0C::get_published_target_id() { return published_target_id; }
+u16 LockOnNearestTarget::get_published_target_id() { return published_target_id; }
 
 s32 TDeathTintFade::get_viewport_index() { return viewport_index; }
 
