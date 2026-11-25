@@ -86,7 +86,7 @@ void update_players_in_range(WarpPartyCheck *check) {
 
 
 s32 logo_clear_flag = 1;
-const char *TAdVIConfigGC__class_name = "TAdVIConfigGC";
+const char *TAdVIConfigGC::class_name = "TAdVIConfigGC";
 extern "C" {
 __declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 
@@ -216,7 +216,7 @@ TAdVIConfigGC::~TAdVIConfigGC() {
 
 
 TAdVIConfigGC::TAdVIConfigGC(TObject *parent) : TAdYesNoBaseGC(parent) {
-    m_name = TAdVIConfigGC__class_name;
+    m_name = TAdVIConfigGC::class_name;
     set_field_2c(0);
     m_48 = 0;
 }

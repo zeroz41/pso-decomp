@@ -18,7 +18,7 @@ f32 xz_distance_squared(void *, void *);
 f32 lbl_805D6800;
 s8 lbl_805D6804;
 extern const char TAdFadeGC__class_name_string[] = "TAdFadeGC";
-const char *TAdFadeGC__name = TAdFadeGC__class_name_string;
+const char *TAdFadeGC::name = TAdFadeGC__class_name_string;
 
 void TAdFadeGC::draw_fade() {
     ColorLineVertex pos[4];
@@ -142,7 +142,7 @@ void TAdFadeGC::start_fade(s32 mode) {
 TAdFadeGC::~TAdFadeGC() {}
 }
 TAdFadeGC::TAdFadeGC(TObject *parent, s32 mode) : TObject(parent) {
-    m_name = TAdFadeGC__name;
+    m_name = TAdFadeGC::name;
     elapsed_frames = -1;
     wipe_width = (0.0f);
     fade_mode = mode;

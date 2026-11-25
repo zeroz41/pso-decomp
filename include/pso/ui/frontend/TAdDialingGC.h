@@ -6,6 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 
 struct TAdDialingGC : public TObject {
+    static const char *name;
     static TAdDialingGC * instance;
     TAdDialingGC(TObject *parent);
     virtual ~TAdDialingGC();

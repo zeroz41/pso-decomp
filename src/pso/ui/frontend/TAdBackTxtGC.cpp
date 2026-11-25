@@ -11,7 +11,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
 
-extern const char *TAdBackTxtGC__name;
 
 NJS_TEXLIST *TAdBackTxtGC::backtext_texture_list;
 
@@ -64,7 +63,7 @@ TAdBackTxtGC::~TAdBackTxtGC() {
 }
 
 TAdBackTxtGC::TAdBackTxtGC(TObject *parent) : TObject(parent) {
-    m_name = TAdBackTxtGC__name;
+    m_name = TAdBackTxtGC::name;
     frame = -1;
     m_depth = 0.0025641026f;
     render_direct = 1;
@@ -76,7 +75,7 @@ NJS_TEXNAME TAdBackTxtGC_backtext_tex_names[5] = {
     { "f256_backtext04", 0, 0 }, { "f256_backtext05", 0, 0 },
 };
 __declspec(section ".data") NJS_TEXLIST TAdBackTxtGC_backtext_tex_list = { TAdBackTxtGC_backtext_tex_names, 5 };
-const char *TAdBackTxtGC__name = "TAdBackTxtGC";
+const char *TAdBackTxtGC::name = "TAdBackTxtGC";
 
 void TAdSinglePlyChrSelectGC::free_singleton_805D65C0() {
     if (TAdBackTxtGC::backtext_texture_list != NULL) {

@@ -16,6 +16,7 @@ LAYOUT_ASSERT(PlayerSlotLabelSize, sizeof(PlayerSlotLabel) == 0x14);
 // Up to four player lines (name, then "LV%d" right-aligned) on the character-select plates.
 class TAdSubPlyItemGC : public TObject {
 public:
+    static const char *name;
     TAdSubPlyItemGC(TObject *parent);
     // render is declared first: it is the class's key function, so the vtable is emitted
     // with it, after TAdPlayerLoadGC's data, as in the original data.

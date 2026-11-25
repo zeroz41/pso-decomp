@@ -40,9 +40,9 @@ TAdTrialModemChkGC::~TAdTrialModemChkGC() {
 }
 
 
-const char *TAdTrialModemChkGC__name = "TAdTrialModemChkGC";
+const char *TAdTrialModemChkGC::name = "TAdTrialModemChkGC";
 
 TAdTrialModemChkGC::TAdTrialModemChkGC(TObject *parent) : TAdWarningBaseGC(parent) {
-    m_name = TAdTrialModemChkGC__name;
+    m_name = TAdTrialModemChkGC::name;
 }
 

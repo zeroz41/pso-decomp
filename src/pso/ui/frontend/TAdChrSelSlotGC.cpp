@@ -13,7 +13,7 @@ NJS_TEXNAME chr_sel_slot_texnames_eng[1] = { { "f256_slot_eng", 0, 0 } };
 __declspec(section ".data") NJS_TEXLIST chr_sel_slot_texlist_eng = { chr_sel_slot_texnames_eng, 1 };
 NJS_TEXNAME chr_sel_slot_texnames[1] = { { "f256_slot", 0, 0 } };
 __declspec(section ".data") NJS_TEXLIST chr_sel_slot_texlist = { chr_sel_slot_texnames, 1 };
-const char *TAdChrSelSlotGC__name = "TAdChrSelSlotGC";
+const char *TAdChrSelSlotGC::name = "TAdChrSelSlotGC";
 /* per current_language: texture archive and texture list */
 const char *const chr_sel_slot_resource_name_table[5] = { "f256_slot", "f256_slot_eng", "f256_slot_eng", "f256_slot_eng", "f256_slot_eng" };
 NJS_TEXLIST *const chr_sel_slot_texlist_table[6] = { &chr_sel_slot_texlist, &chr_sel_slot_texlist_eng, &chr_sel_slot_texlist_eng, &chr_sel_slot_texlist_eng, &chr_sel_slot_texlist_eng, NULL };
@@ -140,7 +140,7 @@ TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((TObject*)(object)) {
     u32 j;
     u32 k;
     f32 t;
-    m_name = TAdChrSelSlotGC__name;
+    m_name = TAdChrSelSlotGC::name;
     frame = -1;
     enabled = 1;
     for (i = 0; i < 5; i++) {

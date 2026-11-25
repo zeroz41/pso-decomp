@@ -18,7 +18,7 @@ ParticleAngles TAdLoadNetworkGC__object_offset_table[5] = {
 };
 
 const s32 load_network_object_id_table[5] = {19, 21, 23, 29, 110};
-const char *TAdLoadNetworkGC__class_name = "TAdLoadNetworkGC";
+const char *TAdLoadNetworkGC::class_name = "TAdLoadNetworkGC";
 void TAdLoadNetworkGC::run_task() {
     u32 i;
     for (i = 0; i < 5; i++) {
@@ -39,7 +39,7 @@ TAdLoadNetworkGC::~TAdLoadNetworkGC() {
 #pragma opt_common_subs off
 TAdLoadNetworkGC::TAdLoadNetworkGC(TObject *parent, Vec *pos) : TObject(parent) {
     u32 i;
-    m_name = TAdLoadNetworkGC__class_name;
+    m_name = TAdLoadNetworkGC::class_name;
     VecCopy(&this->position, (const Vec *)pos);
     this->position.x = 100.0f * ninja_camera.vx + ninja_camera.px;
     this->position.y = 100.0f * ninja_camera.vy + ninja_camera.py;

@@ -35,7 +35,7 @@ static const CharacterSlotPosition chr_sel_b_slot_positions[4] = {
 };
 static const CharacterSlotPosition lbl_80475908 = { 429.0f, 156.0f };
 static const CharacterSlotPosition lbl_80475910 = { 441.0f, 117.0f };
-const char *TAdChrSelBSlotGC__name = "TAdChrSelBSlotGC";
+const char *TAdChrSelBSlotGC::name = "TAdChrSelBSlotGC";
 
 
 PlayerSlotLabel chr_select_b_slot_entry;
@@ -833,7 +833,7 @@ TAdChrSelBSlotGC::~TAdChrSelBSlotGC() {
 }
 
 TAdChrSelBSlotGC::TAdChrSelBSlotGC(TObject *parent) : TObject(parent) {
-    m_name = TAdChrSelBSlotGC__name;
+    m_name = TAdChrSelBSlotGC::name;
     clear_all_fields();
     create_children();
 }

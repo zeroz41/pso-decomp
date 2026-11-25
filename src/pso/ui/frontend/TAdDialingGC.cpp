@@ -47,11 +47,10 @@ void TAdDialingGC::create() {
 TAdDialingGC *TAdDialingGC::instance;
 
 #pragma readonly_strings on
-const char *TAdDialingGC__name = "TAdDialingGC";
-extern const char *TAdDialingGC__name;
+const char *TAdDialingGC::name = "TAdDialingGC";
 
 TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
-    *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC__name);
+    *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC::name);
     TAdDialingGC::instance = this;
     if (is_state_active() != 0) {
         this->dial_mode = 1;

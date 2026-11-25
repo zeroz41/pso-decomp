@@ -10,6 +10,7 @@ struct TAdLoadQuestPrtTxtGC;
 
 class TAdLoadQuestGC : public TObject {
 public:
+    static const char *class_name;
     TAdLoadQuestGC(TObject *parent);
     virtual ~TAdLoadQuestGC();
     virtual void run_task();

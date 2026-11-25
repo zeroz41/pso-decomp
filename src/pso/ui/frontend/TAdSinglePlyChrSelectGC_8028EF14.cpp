@@ -229,7 +229,7 @@ TObjMotionAction character_making_action_table[9] = {
     { MOTION_MODE_LOOP, 0, 46, 1.0f, 0 },
 };
 // TCMCharacter class-name pointer, stored as the object name by TCMCharacter__ct (inferred)
-const char *TCMCharacter__name = "TCMCharacter";
+const char *TCMCharacter::name = "TCMCharacter";
 // empty model part copied into every slot by init_entry_tables (inferred)
 __declspec(section ".rodata") CreationModelPart empty_creation_model_part = {0, 0};
 #pragma pop
@@ -247,7 +247,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
     s32 res;
     CharacterAppearanceFields *cm;
 
-    m_name = TCMCharacter__name;
+    m_name = TCMCharacter::name;
     memcard_access_active = 1;
     cm = creation_player_character;
     char_select_active_flag = 0;

@@ -15,7 +15,7 @@ __declspec(section ".data") NJS_TEXLIST multi_confirm_texture_descriptor = { mul
 #include "pso/player/TObjPlayer.h"
 NJS_TEXLIST *multi_confirm_texture_list;
 
-const char *TAdMultiOkGC__name = "TAdMultiOkGC";
+const char *TAdMultiOkGC::name = "TAdMultiOkGC";
 // The unit was built with -inline off,deferred: the functions are written
 // last-to-first, which gives the original address order.
 void load_multi_confirm_textures(void) { multi_confirm_texture_list = &multi_confirm_texture_descriptor; load_streamed_prs_texture(multi_confirm_texture_archive_name, &multi_confirm_texture_descriptor); }
@@ -36,7 +36,7 @@ TAdMultiOkGC::TAdMultiOkGC(TObject *parent, TAdMultiOkSetup *setup) : TObject(pa
     s32 n;
     s32 i;
     s32 k;
-    m_name = TAdMultiOkGC__name;
+    m_name = TAdMultiOkGC::name;
     m_count = setup->count;
     m_flags = 0;
     if (m_count < 2) {

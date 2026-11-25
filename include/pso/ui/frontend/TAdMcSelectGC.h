@@ -8,6 +8,7 @@ struct TAdMcSelectCursorGC;
 class TAdChrSelSlotGC;
 
 struct TAdMcSelectGC : public TObject {
+    static const char *class_name;
     static TAdMcSelectGC * instance;
     TAdMcSelectGC(TObject *parent);
     virtual ~TAdMcSelectGC();

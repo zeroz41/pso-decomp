@@ -130,7 +130,7 @@ void TAdMcCheckGC::run_task() {
     this->previous_step = (s32) this->check_step;
 }
 
-const char *TAdMcCheckGC__name = "TAdMcCheckGC";
+const char *TAdMcCheckGC::name = "TAdMcCheckGC";
 
 TAdMcCheckGC::~TAdMcCheckGC() {
     if (memcard_cursor_instance_table[card_slot] != NULL) {
@@ -154,7 +154,7 @@ TAdMcCheckGC::~TAdMcCheckGC() {
     }
 }
 TAdMcCheckGC::TAdMcCheckGC(TObject *object, s32 slot) : TObject(object) {
-    this->m_name = TAdMcCheckGC__name;
+    this->m_name = TAdMcCheckGC::name;
     card_slot = slot;
     this->check_step = 0;
     previous_step = check_step;

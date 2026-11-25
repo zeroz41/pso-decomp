@@ -16,6 +16,7 @@ struct CharacterSelectionQuad {
 // stores in m_name; the vtable it installs (0x804E0B10) holds the dtor, run_task (0x802C6AC8)
 // and render (0x802C54C4).
 struct TAdChrSelPlyPlateGC : public TObject {
+    static const char *name;
     TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos);
     virtual ~TAdChrSelPlyPlateGC();
     virtual void run_task();

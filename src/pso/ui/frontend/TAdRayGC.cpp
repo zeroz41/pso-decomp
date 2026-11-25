@@ -88,11 +88,10 @@ void TAdRayGC::run_task() {
     }
 }
 
-extern const char *TAdRayGC__name;
 
 TAdRayGC::~TAdRayGC() {}
 TAdRayGC::TAdRayGC(TObject *parent) : TObject(parent) {
-    m_name = TAdRayGC__name;
+    m_name = TAdRayGC::name;
     state = 0;
     frames = -1;
 }
@@ -148,7 +147,7 @@ f32 TAdRayGC_ray_quad_table[4][8] = {
     { 320.0f, 479.0f, 639.0f, 240.0f, 0.0f, 0.0f, 1.0f, 1.0f },
 };
 
-const char *TAdRayGC__name = "TAdRayGC";
+const char *TAdRayGC::name = "TAdRayGC";
 
 void TAdRayGC::destroy_instance() {
     if (TAdRayGC::ray_texture_list != NULL) {

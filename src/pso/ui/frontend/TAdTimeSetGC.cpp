@@ -90,7 +90,7 @@ const char *TAdTimeSetGC_class_name = "TAdTimeSetGC";
 
 static const f32 time_set_message_size[2] = {540.0f, 260.0f};
 
-const char *T_ATS_DrawCalendar__name = "T_ATS_DrawCalendar";
+const char *T_ATS_DrawCalendar::name = "T_ATS_DrawCalendar";
 
 static const f32 time_set_message_pos[2] = {
     0.5f * (640.0f - time_set_message_size[0]),
@@ -1042,7 +1042,7 @@ T_ATS_DrawCalendar *T_ATS_DrawCalendar::create() {
 }
 
 T_ATS_DrawCalendar::T_ATS_DrawCalendar(TObject *parent) : TObject(parent) {
-    m_name = T_ATS_DrawCalendar__name;
+    m_name = T_ATS_DrawCalendar::name;
     visible = 0;
     // The two-float copy at 0x80052EA0 is declared as a member of TWindowSubSymbolChatPartsSet.
     copy_vec2(&pos, (void *)time_set_calendar_pos);

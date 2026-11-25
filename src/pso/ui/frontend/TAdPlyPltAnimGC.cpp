@@ -20,7 +20,7 @@ const PlyPltAnimVec2 ply_plt_anim_target_position_table[5] = {
 const u32 ply_plt_anim_duration_table[5] = { 16, 14, 12, 10, 14 };
 // plate size in pixels (width, height)
 static const PlyPltAnimVec2 lbl_80479350[1] = { { 180.0f, 38.0f } };
-const char *TAdPlyPltAnimGC__class_name = "TAdPlyPltAnimGC";
+const char *TAdPlyPltAnimGC::class_name = "TAdPlyPltAnimGC";
 NJS_TEXLIST *player_prate_texture_list_ptr;
 
 #pragma push
@@ -97,7 +97,7 @@ TAdPlyPltAnimGC::~TAdPlyPltAnimGC() {
 #pragma push
 #pragma fp_contract on
 TAdPlyPltAnimGC::TAdPlyPltAnimGC(TObject *parent, s32 plate) : TObject(parent) {
-    m_name = TAdPlyPltAnimGC__class_name;
+    m_name = TAdPlyPltAnimGC::class_name;
     frame = -1;
     state = 0;
     quad.u0 = 0.0f;

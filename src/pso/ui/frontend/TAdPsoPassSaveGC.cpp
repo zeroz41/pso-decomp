@@ -37,10 +37,10 @@ TAdPsoPassSaveGC::~TAdPsoPassSaveGC() {
 
 }
 
-const char *TAdPsoPassSaveGC__name = "TAdPsoPassSaveGC";
+const char *TAdPsoPassSaveGC::name = "TAdPsoPassSaveGC";
 
 TAdPsoPassSaveGC::TAdPsoPassSaveGC(TObject *parent) : TAdYesNoBaseGC(parent) {
-    m_name = TAdPsoPassSaveGC__name;
+    m_name = TAdPsoPassSaveGC::name;
     new TAdTitleGC(this, 18);
 }
 

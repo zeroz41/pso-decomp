@@ -12,6 +12,7 @@ struct PlyPltAnimVec2 {
 class TAdPlyPltAnimGC;
 
 struct TAdPlyPltAnimCtrlGC : public TObject {
+    static const char *class_name;
     TAdPlyPltAnimCtrlGC(TObject *parent);
     virtual ~TAdPlyPltAnimCtrlGC();
     virtual void render();

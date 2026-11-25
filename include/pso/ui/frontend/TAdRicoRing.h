@@ -8,6 +8,7 @@ struct NJS_OBJECT;
 struct NJS_TEXLIST;
 class TAdRicoRing : public TObject {
 public:
+    static const char *class_name;
     TAdRicoRing(TObject *parent);
     virtual ~TAdRicoRing();
     virtual void run_task();

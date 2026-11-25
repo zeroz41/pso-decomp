@@ -31,7 +31,7 @@ static NJS_TEXNAME player_tex_texture_names[1] = {  // inferred: from the file n
 
 static NJS_TEXLIST player_tex_texture_list = { player_tex_texture_names, 1 };  // inferred
 
-const char *TAdTitleTexGC__name = "TAdTitleTexGC";
+const char *TAdTitleTexGC::name = "TAdTitleTexGC";
 
 NJS_TEXLIST *player_tex_texture_list_ptr;
 
@@ -64,7 +64,7 @@ void TLobby::free_dialing_gc() {
 }
 
 TAdTitleTexGC::TAdTitleTexGC(TObject *parent) : TObject(parent) {
-    m_name = TAdTitleTexGC__name;
+    m_name = TAdTitleTexGC::name;
     alpha = 51;
     frames = -1;
     rects[0].u1 = 0.8203125f;

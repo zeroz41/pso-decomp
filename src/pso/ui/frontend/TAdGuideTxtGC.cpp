@@ -39,7 +39,7 @@ struct VObj_802b1a70_802B1990 : Base_802b1a70_802B1990 {
 };
 
 #pragma readonly_strings on
-const char *TAdGuideTxtGC__class_name = "TAdGuideTxtGC";
+const char *TAdGuideTxtGC::class_name = "TAdGuideTxtGC";
 
 #pragma push
 #pragma fp_contract on
@@ -66,7 +66,7 @@ TAdGuideTxtGC::~TAdGuideTxtGC() {
 #pragma opt_common_subs off
 TAdGuideTxtGC::TAdGuideTxtGC(TObject *parent) : TObject(parent) {
     u32 i;
-    m_name = TAdGuideTxtGC__class_name;
+    m_name = TAdGuideTxtGC::class_name;
     for (i = 0; i < 2; i++) {
         text[i] = "";
         previous_text[i] = "";

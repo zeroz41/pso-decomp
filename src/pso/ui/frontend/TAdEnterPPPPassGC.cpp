@@ -24,7 +24,7 @@
 #include <string.h>
 
 static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
-const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
+const char *TAdEnterPPPPassGC::name = "TAdEnterPPPPassGC";
 
 typedef void (TAdEnterPPPPassGC::*StateHandler)();
 
@@ -169,7 +169,7 @@ TAdEnterPPPPassGC::~TAdEnterPPPPassGC() {}
 
 TAdEnterPPPPassGC::TAdEnterPPPPassGC(TObject *parent) : TAdEnterBaseGC(parent) {
     s32 ok;
-    m_name = TAdEnterPPPPassGC__name;
+    m_name = TAdEnterPPPPassGC::name;
     sub_8032B460(3);
     password_entry_dispatch_state = 0;
     m_40 = 0;

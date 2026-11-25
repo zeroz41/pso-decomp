@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
 struct TAdPsoPassSaveGC : public TAdYesNoBaseGC {
+    static const char *name;
     TAdPsoPassSaveGC(TObject *parent);
     virtual ~TAdPsoPassSaveGC();
     virtual void render();

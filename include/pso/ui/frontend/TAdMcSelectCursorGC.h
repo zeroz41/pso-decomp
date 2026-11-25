@@ -9,6 +9,7 @@ struct TAdMcCheckGC;
 #include "pso/system/task/TObject.h"
 
 struct TAdMcSelectCursorGC : public TObject {
+    static const char *class_name;
     static TAdMcSelectCursorGC * instance;
     TAdMcSelectCursorGC(TObject *parent);
     virtual ~TAdMcSelectCursorGC();

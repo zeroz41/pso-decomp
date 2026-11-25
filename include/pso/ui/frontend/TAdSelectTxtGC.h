@@ -22,6 +22,7 @@ struct TAdSelectTxtEntry {
 
 class TAdSelectTxtGC : public TObject {
 public:
+    static const char *class_name;
     TAdSelectTxtGC(TObject *parent, TAdSelectTxtLayout *layout, s32 value);
     virtual ~TAdSelectTxtGC();
     void init_slot_entries(TAdSelectTxtLayout *layout, s32 value);

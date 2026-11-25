@@ -18,7 +18,7 @@
 void * sonic_logo_object;
 int TAdSoniclogo::state;
 int TLogo::exit_requested_flag;
-const char *TAdSoniclogo__class_name = "TAdSoniclogo";
+const char *TAdSoniclogo::class_name = "TAdSoniclogo";
 
 void TAdSoniclogo::request_destroy(TObject *fade) {
     fade->queue_destruction();
@@ -46,7 +46,7 @@ void TAdSoniclogo::run_task() {
 TAdSoniclogo::~TAdSoniclogo() {}
 
 TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
-    m_name = TAdSoniclogo__class_name;
+    m_name = TAdSoniclogo::class_name;
     m_wait_frames = 0;
     TAdSoniclogo::state = 0;
     TLogo::exit_requested_flag = 0;

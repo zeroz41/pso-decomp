@@ -49,7 +49,7 @@ loop_1:
 }
 
 
-const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
+const char *TAdTrialAgreementGC::name = "TAdTrialAgreementGC";
 
 
 s32 TAdTrialAgreementGC::check_card_file(saddr arg0) {
@@ -82,7 +82,7 @@ TAdTrialAgreementGC::~TAdTrialAgreementGC() {
 }
 
 TAdTrialAgreementGC::TAdTrialAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
-    m_name = TAdTrialAgreementGC__name;
+    m_name = TAdTrialAgreementGC::name;
     scroll_window = NULL;
     if (TAdTrialAgreementGC::check_card_file((saddr)this) != 0) {
         vfunc_7();

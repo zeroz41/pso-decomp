@@ -22,6 +22,7 @@ struct TWindowMenu;
 struct TWindowMessageYesNo;
 
 struct TAdMultiPlyChrSelectGC : public TObject {
+    static const char *name;
     static TAdMultiPlyChrSelectGC * instance;
     static s32 selected_slot;
     static s32 select_mode;

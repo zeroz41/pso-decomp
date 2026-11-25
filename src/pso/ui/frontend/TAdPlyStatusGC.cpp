@@ -47,7 +47,7 @@ static const NJS_POINT2 ply_status_window_offset_table[3] = {
     {223.0f, 243.0f},
 };
 
-const char *TAdPlyStatusGC__class_name = "TAdPlyStatusGC";
+const char *TAdPlyStatusGC::class_name = "TAdPlyStatusGC";
 
 void *TAdPlyStatusGC__status_window_box[8] = {
     (void *)0x42a60000, (void *)0x41200000, (void *)0x42e60000, (void *)0x42280000,
@@ -281,7 +281,7 @@ TAdPlyStatusGC::~TAdPlyStatusGC() {
 }
 
 TAdPlyStatusGC::TAdPlyStatusGC(TObject *parent, s32 window_offset_index) : TObject(parent) {
-    m_name = TAdPlyStatusGC__class_name;
+    m_name = TAdPlyStatusGC::class_name;
     state = 0;
     prev_state = state;
     window = NULL;

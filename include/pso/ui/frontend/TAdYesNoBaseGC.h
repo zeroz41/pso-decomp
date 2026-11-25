@@ -6,6 +6,7 @@
 #include "pso/system/NinjaTypes.h"
 
 struct TAdYesNoBaseGC : public TObject {
+    static const char *class_name;
     TAdYesNoBaseGC(TObject *parent);
     virtual ~TAdYesNoBaseGC();
     virtual void vfunc_6() = 0;

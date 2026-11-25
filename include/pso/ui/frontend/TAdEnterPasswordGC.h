@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 
 struct TAdEnterPasswordGC : public TAdEnterBaseGC {
+    static const char *class_name;
     TAdEnterPasswordGC(TObject *parent);
     virtual ~TAdEnterPasswordGC();
     virtual void render();

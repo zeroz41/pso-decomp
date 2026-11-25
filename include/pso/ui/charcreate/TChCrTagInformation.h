@@ -5,6 +5,7 @@
 #include "pso/ui/charcreate/TChCrTag.h"
 
 struct TChCrTagInformation : public TChCrTag {
+    static const char *class_name;
     TChCrTagInformation(TObject *parent, s32 index);
     virtual ~TChCrTagInformation();
     void draw_char_info_sprites();

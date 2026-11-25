@@ -23,7 +23,7 @@
 
 
 static const f32 enter_password_item_rect_table[2][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}};
-const char *TAdEnterPasswordGC__class_name = "TAdEnterPasswordGC";
+const char *TAdEnterPasswordGC::class_name = "TAdEnterPasswordGC";
 
 
 typedef void (TAdEnterPasswordGC::*StateHandler)();
@@ -182,7 +182,7 @@ void TAdEnterPasswordGC::set_password(const char *password) {
 TAdEnterPasswordGC::~TAdEnterPasswordGC() {}
 
 TAdEnterPasswordGC::TAdEnterPasswordGC(TObject *parent) : TAdEnterBaseGC(parent) {
-    m_name = TAdEnterPasswordGC__class_name;
+    m_name = TAdEnterPasswordGC::class_name;
     sub_8032B460(2);
     password_entry_dispatch_state = 0;
     len = 0;

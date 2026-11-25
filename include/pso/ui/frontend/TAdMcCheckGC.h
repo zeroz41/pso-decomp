@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdMcCheckGC : public TObject {
+    static const char *name;
     TAdMcCheckGC(TObject *parent, s32 slot);
     virtual ~TAdMcCheckGC();
     // Check steps: 0 waits for a card, 1-4 test it, 5 is done. Each test step

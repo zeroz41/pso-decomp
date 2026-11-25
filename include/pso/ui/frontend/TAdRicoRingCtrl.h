@@ -6,6 +6,7 @@
 
 class TAdRicoRing;
 struct TAdRicoRingCtrl : public TObject {
+    static const char *class_name;
     TAdRicoRingCtrl(TObject *parent);
     virtual ~TAdRicoRingCtrl();
     virtual void run_task();

@@ -30,6 +30,7 @@ struct CardFileInfo;
 
 class TAdPlayerLoadGC : public TObject {
 public:
+    static const char *class_name;
     static int load_state;
     TAdPlayerLoadGC(TObject *parent, int mode);
     // render is declared first: it is the class's key function, so the vtable is emitted

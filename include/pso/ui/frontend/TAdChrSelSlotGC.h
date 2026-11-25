@@ -8,6 +8,7 @@ struct CharacterSlotQuad { f32 left, top, right, bottom, u0, v0, u1, v1; };
 struct CharacterSlotPosition { f32 x, y; };
 class TAdChrSelSlotGC : public TObject {
 public:
+    static const char *name;
     TAdChrSelSlotGC(TObject*_w1);
     virtual ~TAdChrSelSlotGC();
     virtual void run_task();

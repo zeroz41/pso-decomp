@@ -87,7 +87,7 @@ u32 multi_chr_select_serial_access_state;
 TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::instance;
 
 extern "C" { extern char TAdMultiPlyChrSelectGC__class_name_string[]; }
-const char *TAdMultiPlyChrSelectGC__name = TAdMultiPlyChrSelectGC__class_name_string;
+const char *TAdMultiPlyChrSelectGC::name = TAdMultiPlyChrSelectGC__class_name_string;
 extern s32 multi_ply_chr_select_active_player;
 void TAdChrSelPlyPlateGC::set_select_mode(int mode) { TAdMultiPlyChrSelectGC::select_mode = mode; }
 
@@ -124,7 +124,7 @@ TAdMultiPlyChrSelectGC *TAdMultiPlyChrSelectGC::get_or_create(TObject *parent, s
 
 
 TAdMultiPlyChrSelectGC::TAdMultiPlyChrSelectGC(TObject *parent, s32 mode) : TObject(parent) {
-    m_name = TAdMultiPlyChrSelectGC__name;
+    m_name = TAdMultiPlyChrSelectGC::name;
     this->initialize_selection_state(mode);
     this->create_widgets();
     this->handle_event(TAdMultiPlyChrSelectGC::get_select_flag());

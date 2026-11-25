@@ -49,7 +49,7 @@ const NJS_POINT2 single_chr_select_slot_message_pos = { 428.0f, 132.0f };
 
 struct T_802D4F2C { NJS_POINT2 p[3]; };
 
-const char *TAdSinglePlyChrSelectGC__class_name = "TAdSinglePlyChrSelectGC";
+const char *TAdSinglePlyChrSelectGC::class_name = "TAdSinglePlyChrSelectGC";
 const T_802D4F2C single_chr_select_position_table = { { { 156.0f, 421.0f }, { 299.0f, 421.0f }, { 432.0f, 421.0f } } };
 
 void TAdSinglePlyChrSelectGC::render() {
@@ -566,7 +566,7 @@ TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
 // pool_data off: the cursor rects and the title positions are each reached with their own lis/addi.
 #pragma pool_data off
 TAdSinglePlyChrSelectGC::TAdSinglePlyChrSelectGC(TObject *parent) : TObject(parent) {
-    m_name = TAdSinglePlyChrSelectGC__class_name;
+    m_name = TAdSinglePlyChrSelectGC::class_name;
     sub_802D4E08();
     new TAdBackGC(this);
     new TAdBackTxtGC(this);

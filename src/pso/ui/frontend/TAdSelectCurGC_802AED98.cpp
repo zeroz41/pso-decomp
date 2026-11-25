@@ -25,7 +25,7 @@ NJS_TEXLIST select_cursor_eng_texture_list = {&select_cursor_eng_texture_entry, 
 NJS_TEXNAME select_cursor_texture_entry = {"f256_ad", 0, NULL};
 NJS_TEXLIST select_cursor_texture_list = {&select_cursor_texture_entry, 1};
 /* inferred: TObject name the constructor stores */
-const char *TAdSelectCurGC__name = "TAdSelectCurGC";
+const char *TAdSelectCurGC::name = "TAdSelectCurGC";
 NJS_TEXLIST *menu_selection_cursor_texture_list;
 
 extern "C" {
@@ -105,7 +105,7 @@ TAdSelectCurGC::~TAdSelectCurGC() {}
 TAdSelectCurGC::TAdSelectCurGC(TObject *parent, const NJS_POINT2 *position, const NJS_POINT2 *size)
     : TObject(parent) {
     s32 i;
-    m_name = TAdSelectCurGC__name;
+    m_name = TAdSelectCurGC::name;
     copy_vec2__FPvPv(&entry_positions[0], position);
     copy_vec2__FPvPv(&cursor_size, size);
     selected_index = 0;

@@ -37,7 +37,7 @@ struct S16_802C4944 { S8_802C4944 x[2]; };
 
 struct S24_802C4944 { TAdSelectTxtLayout t[2]; };
 
-const char *TAdSelectGameModeGC__name = "TAdSelectGameModeGC";
+const char *TAdSelectGameModeGC::name = "TAdSelectGameModeGC";
 const S24_802C4944 select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
 const S8_802C4944 lbl_80471A44 = {302.0f, 28.0f};
 const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
@@ -93,7 +93,7 @@ void TAdSelectGameModeGC::run_task() {
 TAdSelectGameModeGC::~TAdSelectGameModeGC() {}
 
 TAdSelectGameModeGC::TAdSelectGameModeGC(TObject *parent) : TObject(parent) {
-    m_name = TAdSelectGameModeGC__name;
+    m_name = TAdSelectGameModeGC::name;
     TAdSelectGameModeGC::cached_mode_value = 0;
     cursor = 0;
     guide = 0;

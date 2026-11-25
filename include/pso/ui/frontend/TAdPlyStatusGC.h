@@ -9,6 +9,7 @@ class TWindowBase;
 class CharacterPreview;
 
 struct TAdPlyStatusGC : public TObject {
+    static const char *class_name;
     static s32 is_shown;
     static s32 window_offset_index;
     TAdPlyStatusGC(TObject *parent, s32 window_offset_index);

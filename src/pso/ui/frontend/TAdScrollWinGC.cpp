@@ -29,7 +29,7 @@ TAdScrollWinGC::TAdScrollWinGC(TObject *parent, s32 mode, s32 text) : TObject(pa
     static const f32 size[2] = { 552.0f, 220.0f };
     s32 base;
     s32 i;
-    m_name = TAdScrollWinGC__class_name;
+    m_name = TAdScrollWinGC::class_name;
     scroll_win_texture_handle = TAdMultiPlyChrSelectGC__sub_802C6FA8();
     m_alpha = 0;
     m_window = NULL;
@@ -61,7 +61,7 @@ TAdScrollWinGC::TAdScrollWinGC(TObject *parent, s32 mode, s32 text) : TObject(pa
 }
 
 
-const char *TAdScrollWinGC__class_name = "TAdScrollWinGC";
+const char *TAdScrollWinGC::class_name = "TAdScrollWinGC";
 
 
 TAdScrollWinGC::~TAdScrollWinGC() {

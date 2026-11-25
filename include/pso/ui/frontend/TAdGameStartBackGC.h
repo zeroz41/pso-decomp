@@ -9,6 +9,7 @@
 // onto its resting quad, then fades out after frame 28.
 class TAdGameStartBackGC : public TObject {
 public:
+    static const char *class_name;
     TAdGameStartBackGC(TObject *parent);
     virtual ~TAdGameStartBackGC();
     virtual void run_task();

@@ -7,6 +7,7 @@
 class TAdScrollWinGC;
 
 struct TAdLicAgreementGC : public TAdAgreementBaseGC {
+    static const char *name;
     TAdLicAgreementGC(TObject *parent);
     virtual ~TAdLicAgreementGC();
     virtual void vfunc_6();

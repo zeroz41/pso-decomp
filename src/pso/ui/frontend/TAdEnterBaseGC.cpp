@@ -93,7 +93,7 @@ const NJS_COLOR password_field_box_color = {0xFF};
 // inferred: per-field mode passed to the TKeyBoardControl ctor by create_keyboard_control.
 const KeyboardModes serial_keyboard_mode_table = {3, 3, 2, 0};
 
-const char *TAdEnterBaseGC__class_name = "TAdEnterBaseGC";
+const char *TAdEnterBaseGC::class_name = "TAdEnterBaseGC";
 
 TAdEnterBaseGC::Position password_screen_status_line_position[1] = {0.0f, 0.0f};
 
@@ -128,7 +128,7 @@ s32 TAdPsoPassSaveGC__sub_8032B584(void) {
 }
 
 TAdEnterBaseGC::TAdEnterBaseGC(TObject *parent) : TObject(parent) {
-    m_name = TAdEnterBaseGC__class_name;
+    m_name = TAdEnterBaseGC::class_name;
     sub_8032B460(0);
 }
 

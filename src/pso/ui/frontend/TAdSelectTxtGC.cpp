@@ -24,7 +24,7 @@ static NJS_TEXNAME select_gamen_texture_names[2] = {
 };
 static NJS_TEXLIST select_gamen_texture_list = {select_gamen_texture_names, 2};
 // inferred: same <Class>__class_name pattern as the other frontend tasks
-const char *TAdSelectTxtGC__class_name = "TAdSelectTxtGC";
+const char *TAdSelectTxtGC::class_name = "TAdSelectTxtGC";
 
 struct O_802A15BC {
     u8 a[0x10];
@@ -113,7 +113,7 @@ void TAdSelectTxtGC::init_slot_entries(TAdSelectTxtLayout *layout, s32 value) {
 }
 
 TAdSelectTxtGC::TAdSelectTxtGC(TObject *parent, TAdSelectTxtLayout *layout, s32 value) : TObject(parent) {
-    this->m_name = TAdSelectTxtGC__class_name;
+    this->m_name = TAdSelectTxtGC::class_name;
     this->init_slot_entries(layout, value);
 }
 

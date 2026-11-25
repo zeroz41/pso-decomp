@@ -4,6 +4,7 @@
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 class TCMCharacter : public TObjMotion {
 public:
+    static const char *name;
     TCMCharacter(TObject *parent);
     virtual ~TCMCharacter();
     virtual void run_task();

@@ -30,7 +30,7 @@ struct B_802C3400 { NJS_POINT2 e[2]; };
 struct C_802C3400 { TAdSelectTxtLayout e[2]; };
 
 __declspec(section ".rodata") extern const char TAdStorySelectGC__class_name_string[] = "TAdStorySelectGC";
-const char *TAdStorySelectGC__class_name = TAdStorySelectGC__class_name_string;
+const char *TAdStorySelectGC::class_name = TAdStorySelectGC__class_name_string;
 
 s32 story_select_cursor;
 void TAdStorySelectGC::render() {  }
@@ -65,7 +65,7 @@ void TAdStorySelectGC::run_task() {
 }
 TAdStorySelectGC::~TAdStorySelectGC() {}
 TAdStorySelectGC::TAdStorySelectGC(TObject *parent) : TObject(parent) {
-    m_name = TAdStorySelectGC__class_name;
+    m_name = TAdStorySelectGC::class_name;
     story_select_cursor = 0;
     cursor = 0;
     guide = 0;

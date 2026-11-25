@@ -13,7 +13,7 @@
 
 NJS_TEXNAME lbl_804ED9C0 = { "f256_memorycard", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST mc_select_memorycard_texture_list = { &lbl_804ED9C0, 1 };
-const char *TAdMcSelectMcGC__class_name = "TAdMcSelectMcGC";
+const char *TAdMcSelectMcGC::class_name = "TAdMcSelectMcGC";
 NJS_TEXLIST *TAdMcSelectMcGC__texture_list_ptr;
 
 void TAdMcSelectMcGC::draw_status_window() {
@@ -93,7 +93,7 @@ TAdMcSelectMcGC::~TAdMcSelectMcGC() {}
 
 TAdMcSelectMcGC::TAdMcSelectMcGC(TObject *parent, s32 slot) : TObject(parent) {
     s32 i;
-    m_name = TAdMcSelectMcGC__class_name;
+    m_name = TAdMcSelectMcGC::class_name;
     pad_130 = 0;
     pad_124 = 0;
     pad_128 = 0;

@@ -9,6 +9,7 @@
 // over ten frames and slide apart from frame 29 on.
 class TAdGameStartLineGC : public TObject {
 public:
+    static const char *name;
     TAdGameStartLineGC(TObject *parent);
     virtual ~TAdGameStartLineGC();
     virtual void run_task();

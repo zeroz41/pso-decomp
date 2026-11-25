@@ -12,7 +12,7 @@
 #pragma readonly_strings on
 
 
-const char *TChCrTagInformation__class_name = "TChCrTagInformation";
+const char *TChCrTagInformation::class_name = "TChCrTagInformation";
 
 int TChCrCharSelect::get_selected_index() { return TChCrCharSelect::input_mode; }
 void TChCrTagInformation::draw_char_info_sprites() {
@@ -82,7 +82,7 @@ TChCrTagInformation::~TChCrTagInformation() {
 
 
 TChCrTagInformation::TChCrTagInformation(TObject *parent, s32 index) : TChCrTag(parent, index) {
-    m_name = TChCrTagInformation__class_name;
+    m_name = TChCrTagInformation::class_name;
     m_fade_in_step = 0.06666667f;
     m_fade_out_step = -0.06666667f;
     m_highlight_in_step = 0.06666667f;

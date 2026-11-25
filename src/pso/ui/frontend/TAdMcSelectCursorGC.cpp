@@ -20,7 +20,7 @@
 NJS_TEXNAME lbl_804ED990 = { "f256_memorycard_select", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST mc_select_cursor_texture_list = { &lbl_804ED990, 1 };
 
-const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
+const char *TAdMcSelectCursorGC::class_name = "TAdMcSelectCursorGC";
 
 NJS_TEXLIST *TAdMcSelectCursorGC__texture_entry;
 
@@ -110,7 +110,7 @@ TAdMcSelectCursorGC::~TAdMcSelectCursorGC() {
 }
 
 TAdMcSelectCursorGC::TAdMcSelectCursorGC(TObject *parent) : TObject(parent) {
-    m_name = TAdMcSelectCursorGC__class_name;
+    m_name = TAdMcSelectCursorGC::class_name;
     m_138 = 0;
     m_12c = 0;
     m_134 = 0;

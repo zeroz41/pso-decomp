@@ -862,12 +862,12 @@ void TObjCMMainMenu::after_run_task() {  }
 
 void TObjCMMainMenu::after_render() {  }
 
-const char *TObjCMAssignMenu__name = "TObjCMAssignMenu";
+const char *TObjCMAssignMenu::name = "TObjCMAssignMenu";
 
 TObjCMAssignMenu::TObjCMAssignMenu(TObject *parent, s32 kind) : TObject(parent) {
     u32 bit;
     s32 i;
-    m_name = TObjCMAssignMenu__name;
+    m_name = TObjCMAssignMenu::name;
     appearance = creation_player_character;
     enabled = 0;
     this->kind = kind;
@@ -1286,11 +1286,11 @@ void TObjCMAssignMenu::draw_assign_icons() {
 }
 
 #pragma pop
-const char *TObjCMHairMenu__name = "TObjCMHairMenu";
+const char *TObjCMHairMenu::name = "TObjCMHairMenu";
 
 TObjCMHairMenu::TObjCMHairMenu(TObject *parent) : TObject(parent) {
     s32 i;
-    m_name = TObjCMHairMenu__name;
+    m_name = TObjCMHairMenu::name;
     appearance = creation_player_character;
     initialized = 0;
     selection = 0;
@@ -1581,10 +1581,10 @@ void TObjCMHairMenu::render() {
 }
 
 #pragma pop
-const char *TObjCMAutoMkData__name = "TObjCMAutoMkData";
+const char *TObjCMAutoMkData::name = "TObjCMAutoMkData";
 
 TObjCMAutoMkData::TObjCMAutoMkData(TObject *parent) : TObject(parent) {
-    m_name = TObjCMAutoMkData__name;
+    m_name = TObjCMAutoMkData::name;
     appearance = creation_player_character;
     copy_vec2(&width, &appearance->width);
     fade = 0.0f;
@@ -1737,10 +1737,10 @@ void TObjCMAutoMkData::render() {
     draw_creation_ruler_lines(fade);
 }
 
-const char *TObjCMProportion__name = "TObjCMProportion";
+const char *TObjCMProportion::name = "TObjCMProportion";
 
 TObjCMProportion::TObjCMProportion(TObject *parent) : TObject(parent) {
-    m_name = TObjCMProportion__name;
+    m_name = TObjCMProportion::name;
     appearance = creation_player_character;
     initialized = 0;
     active = 1;

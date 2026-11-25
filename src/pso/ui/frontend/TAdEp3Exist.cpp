@@ -26,7 +26,7 @@
 
 const f32 lbl_8047B8A8[2] = { 89.0f, 394.0f };
 const f32 lbl_8047B8B0[2] = { 462.0f, 18.0f };
-const char *TAdEp3Exist__name = "TAdEp3Exist";
+const char *TAdEp3Exist::name = "TAdEp3Exist";
 const f32 lbl_8047B8C4[2] = { 85.0f, 384.0f };
 const f32 lbl_8047B8CC[2] = { 470.0f, 32.0f };
 
@@ -116,7 +116,7 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     s32 res;
     bool ok;
     bool go;
-    m_name = TAdEp3Exist__name;
+    m_name = TAdEp3Exist::name;
     scroll_window = NULL;
     cursor = NULL;
     callback_window = NULL;

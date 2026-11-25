@@ -20,7 +20,7 @@
 
 struct Range_802937E8 { s32 min; s32 max; };
 
-const char *TChCrCharSelect__name = "TChCrCharSelect";
+const char *TChCrCharSelect::name = "TChCrCharSelect";
 s32 TChCrCharSelect::selected_char_index = -1;
 s32 TChCrCharSelect::selected_slot_index = -1;
 s32 TChCrCharSelect::input_mode;
@@ -146,7 +146,7 @@ void TChCrCharSelect::init_widgets() { TChCrTagOccupation::create_all(); TChCrTa
 TChCrCharSelect::~TChCrCharSelect() {}
 
 TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
-    m_name = TChCrCharSelect__name;
+    m_name = TChCrCharSelect::name;
     TChCrEffTag::set_eff_tag(0);
     reset_creation_input_state();
     if (TChCrCharSelect::selected_char_index == -1 || TChCrCharSelect::selected_slot_index == -1) {

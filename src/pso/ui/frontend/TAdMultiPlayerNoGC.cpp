@@ -19,7 +19,7 @@ NJS_TEXNAME player_ad_texture_entry = { "f128_player_ad", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST player_ad_texture_list = { &player_ad_texture_entry, 1 };
 NJS_TEXNAME player_ad_eng_texture_entry = { "f128_player_ad_eng", 0, NULL };
 __declspec(section ".data") NJS_TEXLIST player_ad_eng_texture_list = { &player_ad_eng_texture_entry, 1 };
-const char *TAdMultiPlayerNoGC__name = "TAdMultiPlayerNoGC";
+const char *TAdMultiPlayerNoGC::name = "TAdMultiPlayerNoGC";
 NJS_TEXLIST *player_ad_texture_list_ptr;
 
 // Built with deferred inlining: functions are written in the reverse of
@@ -50,7 +50,7 @@ void TLobby::free_global_object() {
 
 TAdMultiPlayerNoGC::TAdMultiPlayerNoGC(TObject *parent, s32 player_count, u32 slot, u32 player_no)
     : TObject(parent) {
-    m_name = TAdMultiPlayerNoGC__name;
+    m_name = TAdMultiPlayerNoGC::name;
     switch (player_count) {
     case 2:
         x = slot * 0x130 + 0x68;

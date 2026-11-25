@@ -155,7 +155,7 @@ const char *charamakingmot_motion_names[50] = {
 BmlResourceDescriptor creation_menu_resource_descriptor = {
     "charamakingmot.bml", charamakingmot_model_names, charamakingmot_motion_names, 0, 49,
 };
-const char *TCharaMaking__name = "TCharaMaking";
+const char *TCharaMaking::name = "TCharaMaking";
 // Per-class value passed with each player_class_texture_archive_table entry
 // (19 entries, like the class tables).
 const s32 player_class_texture_archive_length[19] = {
@@ -637,7 +637,7 @@ TCharaMaking::~TCharaMaking() {
 }
 
 TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
-    m_name = TCharaMaking__name;
+    m_name = TCharaMaking::name;
     new TCMCharacter(this);
     creation_main_menu_obj = TObjCMMainMenu::create(this);
     m_1c = 0x1555;

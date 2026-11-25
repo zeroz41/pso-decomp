@@ -12,6 +12,7 @@ class TWindowBase;
 struct TWindowCallBack;
 
 struct TAdEnterSerialAccessGC : public TAdEnterBaseGC {
+    static const char *name;
     TAdEnterSerialAccessGC(TObject *parent);
     virtual ~TAdEnterSerialAccessGC();
     virtual void render();

@@ -7,6 +7,7 @@
 class TAdScrollWinGC;
 
 struct TAdTrialAgreementGC : public TAdAgreementBaseGC {
+    static const char *name;
     TAdTrialAgreementGC(TObject *parent);
     virtual ~TAdTrialAgreementGC();
     virtual void vfunc_6();

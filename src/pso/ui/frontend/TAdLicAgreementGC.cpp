@@ -28,10 +28,10 @@ TAdLicAgreementGC::~TAdLicAgreementGC() {
 }
 
 
-const char *TAdLicAgreementGC__name = "TAdLicAgreementGC";
+const char *TAdLicAgreementGC::name = "TAdLicAgreementGC";
 
 TAdLicAgreementGC::TAdLicAgreementGC(TObject *parent) : TAdAgreementBaseGC(parent) {
-    m_name = TAdLicAgreementGC__name;
+    m_name = TAdLicAgreementGC::name;
     m_34 = 0;
     scroll_window = NULL;
     scroll_window = new TAdScrollWinGC(this, 0, 0);

@@ -15,7 +15,7 @@
 // Screen positions of the two memory card slots, passed to TAdChrSelSlotGC::init_slot by the ctor.
 static const CharacterSlotPosition mc_slot_a_position = { 95.0f, 118.0f };
 static const CharacterSlotPosition mc_slot_b_position = { 381.0f, 118.0f };
-const char *TAdMcSelectGC__class_name = "TAdMcSelectGC";
+const char *TAdMcSelectGC::class_name = "TAdMcSelectGC";
 TAdMcSelectGC *TAdMcSelectGC::instance;
 
 void TAdMcSelectGC::render() {
@@ -71,7 +71,7 @@ TAdMcSelectGC::TAdMcSelectGC(TObject *parent) : TObject(parent) {
     TAdMcSelectMcGC *mc;
     s32 i;
     s32 j;
-    m_name = TAdMcSelectGC__class_name;
+    m_name = TAdMcSelectGC::class_name;
     m_28 = 0;
     state = 0;
     m_24 = 0;

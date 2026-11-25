@@ -13,6 +13,7 @@ struct TAdFloorLoadPrtGCEmitter {
 };
 
 struct TAdFloorLoadPrtGC : public TObject {
+    static const char *class_name;
     static const ParticleAngles emitter_angles[12];
     TAdFloorLoadPrtGC(TObject *parent);
     virtual ~TAdFloorLoadPrtGC();
@@ -27,6 +28,5 @@ LAYOUT_ASSERT(TAdFloorLoadPrtGC_size, sizeof(TAdFloorLoadPrtGC) == 0x3A0);
 extern const Vec floor_load_particle_positions[12];
 extern const Vec lbl_80478B48[1];
 extern const ParticleAngles lbl_80478B54[1];
-extern const char *TAdFloorLoadPrtGC__class_name;
 
 #endif

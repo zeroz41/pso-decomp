@@ -18,7 +18,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *TChCrLoadReq__name = "TChCrLoadReq";
+const char *TChCrLoadReq::name = "TChCrLoadReq";
 #pragma pop
 
 
@@ -56,7 +56,7 @@ TChCrLoadReq *create_ch_cr_load_req(TObject *parent, const CharacterPreviewLoadA
 }
 
 TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
-    m_name = TChCrLoadReq__name;
+    m_name = TChCrLoadReq::name;
     inputs.appearance = (CharacterAppearanceFields *)player->name;
     inputs.completion_flags = (u32 *)&player->model_load_flags;
     inputs.load_slot = player->get_entity_id();
@@ -83,7 +83,7 @@ void CharacterPreviewLoadArgs::copy_from(const CharacterPreviewLoadArgs *source)
 }
 
 TChCrLoadReq::TChCrLoadReq(TObject *parent, const CharacterPreviewLoadArgs *args) : TObject(parent) {
-    m_name = TChCrLoadReq__name;
+    m_name = TChCrLoadReq::name;
     inputs.copy_from(args);
     reset_request();
 }

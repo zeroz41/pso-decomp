@@ -50,8 +50,8 @@ NJS_POINT2 rico_ring_fade_positions[4] = {
     {350.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 600.0f}, {350.0f, 600.0f},
 };
 NJS_COLOR rico_ring_fade_colors[4];
-const char *TAdRicoRing__class_name = "TAdRicoRing";
-const char *TAdRicoRingCtrl__class_name = "TAdRicoRingCtrl";
+const char *TAdRicoRing::class_name = "TAdRicoRing";
+const char *TAdRicoRingCtrl::class_name = "TAdRicoRingCtrl";
 
 // Definitions use deferred emission order, including the two native vtables.
 void TAdRicoRing::sub_8001BED0(f32 value) {
@@ -74,7 +74,7 @@ TAdRicoRing *TAdRicoRingCtrl::create(TObject *parent) {
 }
 
 TAdRicoRing::TAdRicoRing(TObject *parent) : TObject(parent) {
-    m_name = TAdRicoRing__class_name;
+    m_name = TAdRicoRing::class_name;
     model = get_bml_model(TAdRicoRing__resource_bundle, 0);
     textures = get_bml_texlist(TAdRicoRing__resource_bundle, 0);
     scale[3] = 0.0f;
@@ -195,7 +195,7 @@ void TAdRicoRing::start_fade(f32 duration) {
 }
 
 TAdRicoRingCtrl::TAdRicoRingCtrl(TObject *parent) : TObject(parent) {
-    m_name = TAdRicoRingCtrl__class_name;
+    m_name = TAdRicoRingCtrl::class_name;
     rings[0] = create(tl_04);
     TAdRicoRing *ring = rings[0];
     if (ring != NULL) {

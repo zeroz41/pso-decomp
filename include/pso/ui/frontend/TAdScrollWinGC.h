@@ -12,6 +12,7 @@ struct TWindowMessageLog;
 // C stick, with its scroll marker drawn at the bottom right.
 class TAdScrollWinGC : public TObject {
 public:
+    static const char *class_name;
     TAdScrollWinGC(TObject *parent, s32 mode, s32 text);
     virtual ~TAdScrollWinGC();
     virtual void run_task();
@@ -32,7 +33,6 @@ public:
     s32 m_close_timer;
 };
 
-extern const char *TAdScrollWinGC__class_name;
 
 LAYOUT_ASSERT(TAdScrollWinGC_size, sizeof(TAdScrollWinGC) == 0x54);
 #endif

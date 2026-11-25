@@ -27,6 +27,7 @@ LAYOUT_ASSERT(CharacterPreviewLoadArgs_size, sizeof(CharacterPreviewLoadArgs) ==
 
 class TChCrLoadReq : public TObject {
 public:
+    static const char *name;
     TChCrLoadReq(TObject *parent, const CharacterPreviewLoadArgs *args);
     TChCrLoadReq(TObjPlayer *player);
     virtual ~TChCrLoadReq();

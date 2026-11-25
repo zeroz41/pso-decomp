@@ -71,7 +71,7 @@ static const TAdSelectTxtLayout multi_sel_text_layouts[7] = {
     { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
     { -1, 340.0f, 145.0f }, { -1, 310.0f, 197.0f }, { -1, 280.0f, 250.0f },
 };
-const char *TAdMultiSelGameModeGC__name = "TAdMultiSelGameModeGC";
+const char *TAdMultiSelGameModeGC::name = "TAdMultiSelGameModeGC";
 extern Point3 multi_sel_game_mode_position;
 extern Int3 lbl_80474EEC;
 extern Int3 multi_sel_game_mode_arr3;
@@ -269,7 +269,7 @@ TAdMultiSelGameModeGC::~TAdMultiSelGameModeGC() {}
 
 #pragma pool_data off
 TAdMultiSelGameModeGC::TAdMultiSelGameModeGC(TObject *parent, s32 mode) : TObject(parent) {
-    m_name = TAdMultiSelGameModeGC__name;
+    m_name = TAdMultiSelGameModeGC::name;
     state = 0;
     selection = 3;
     this->mode = mode;

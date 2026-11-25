@@ -10,7 +10,7 @@
 
 #pragma readonly_strings on
 
-const char *TAdGameStartBackGC__class_name = "TAdGameStartBackGC";
+const char *TAdGameStartBackGC::class_name = "TAdGameStartBackGC";
 s32 game_start_background_texture_list;
 
 void TAdGameStartBackGC::render_background_status() {
@@ -58,7 +58,7 @@ void TAdGameStartBackGC::run_task() {
 
 TAdGameStartBackGC::~TAdGameStartBackGC() {}
 TAdGameStartBackGC::TAdGameStartBackGC(TObject *parent) : TObject(parent) {
-    m_name = TAdGameStartBackGC__class_name;
+    m_name = TAdGameStartBackGC::class_name;
     m_origin.x = 106.0f;
     m_origin.y = 192.0f;
     m_alpha = 0xFF;

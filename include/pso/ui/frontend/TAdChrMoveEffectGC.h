@@ -27,6 +27,7 @@ struct ChrMoveEffectEntry : public ChrMoveEffectParams {
 LAYOUT_ASSERT(ChrMoveEffectEntry_size, sizeof(ChrMoveEffectEntry) == 0x38);
 
 struct TAdChrMoveEffectGC : public TObject {
+    static const char *class_name;
     TAdChrMoveEffectGC(TObject *parent);
     virtual ~TAdChrMoveEffectGC();
     void sub_80348E34();

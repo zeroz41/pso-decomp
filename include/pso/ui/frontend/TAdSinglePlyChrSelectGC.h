@@ -48,6 +48,7 @@ struct SystemSaveData {
 LAYOUT_ASSERT(SystemSaveData_size, sizeof(SystemSaveData) == 0x11C);
 
 struct TAdSinglePlyChrSelectGC : public TObject {
+    static const char *class_name;
     static s32 selection_index;
     explicit TAdSinglePlyChrSelectGC(TObject *parent);
     virtual ~TAdSinglePlyChrSelectGC();

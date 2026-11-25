@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TAdDialingMessageWindow : public TObject {
+    static const char *name;
     TAdDialingMessageWindow(const char *message, u32 delay);
     virtual ~TAdDialingMessageWindow();
     u32 flags;

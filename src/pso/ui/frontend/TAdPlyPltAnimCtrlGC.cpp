@@ -13,7 +13,7 @@
 // Frame thresholds at which run_task starts each of the five palette animations.
 const u32 ply_plt_anim_time_threshold_table[5] = { 0, 2, 4, 6, 12 };
 
-const char *TAdPlyPltAnimCtrlGC__class_name = "TAdPlyPltAnimCtrlGC";
+const char *TAdPlyPltAnimCtrlGC::class_name = "TAdPlyPltAnimCtrlGC";
 
 extern "C" {
 u32 plyplt_anim_ctrl_instance;
@@ -33,7 +33,7 @@ u32 TAdPlyPltAnimCtrlGC::get_instance(saddr parent) {
 TAdPlyPltAnimCtrlGC::TAdPlyPltAnimCtrlGC(TObject *parent) : TObject(parent) {
     s32 index;
     index = 0;
-    m_name = TAdPlyPltAnimCtrlGC__class_name;
+    m_name = TAdPlyPltAnimCtrlGC::class_name;
     state = 0;
     frame = -1;
     do {

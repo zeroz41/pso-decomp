@@ -6,6 +6,7 @@
 // Player-number plate drawn over a multiplayer character slot ("f128_player_ad").
 class TAdMultiPlayerNoGC : public TObject {
 public:
+    static const char *name;
     u32 player_no;   // ctor argument; selects the plate row in the texture
     f32 quad[8];     // screen rect x0, y0, x1, y1 then uv u0, v0, u1, v1
     f32 x;           // plate position from the slot index

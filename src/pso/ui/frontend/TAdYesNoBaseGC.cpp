@@ -19,7 +19,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 #pragma readonly_strings on
-const char *TAdYesNoBaseGC__class_name = "TAdYesNoBaseGC";
+const char *TAdYesNoBaseGC::class_name = "TAdYesNoBaseGC";
 
 s32 TAdYesNoBaseGC::sub_8032C0B4() {
     saddr message_window;
@@ -110,7 +110,7 @@ TAdYesNoBaseGC::~TAdYesNoBaseGC() {
 TAdYesNoBaseGC::TAdYesNoBaseGC(TObject *parent) : TObject(parent) {
     void *o;
     void *o2;
-    m_name = TAdYesNoBaseGC__class_name;
+    m_name = TAdYesNoBaseGC::class_name;
     m_28 = 0;
     message_position.x = 46.0f;
     message_position.y = 131.0f;

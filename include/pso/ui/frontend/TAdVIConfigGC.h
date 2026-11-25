@@ -8,6 +8,7 @@ struct NJS_POINT2;
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 
 struct TAdVIConfigGC : public TAdYesNoBaseGC {
+    static const char *class_name;
     TAdVIConfigGC(TObject *parent);
     virtual ~TAdVIConfigGC();
     u32 m_48;

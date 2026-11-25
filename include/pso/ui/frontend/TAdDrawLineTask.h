@@ -32,6 +32,7 @@ struct DrawLineRecord {
 
 class TAdDrawLineTask : public TObject {
 public:
+    static const char *class_name;
     TAdDrawLineTask(TObject *parent, const DrawLineRecord *record, TAdDrawLineCtrl *controller);
     virtual ~TAdDrawLineTask();
     virtual void render();

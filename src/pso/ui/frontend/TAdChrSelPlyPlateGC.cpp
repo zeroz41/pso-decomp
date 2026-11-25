@@ -67,7 +67,7 @@ const Jump_802C5C84 multi_chr_select_cursor_jump_table[6][5] = {
 };
 const f32 multi_ply_chr_select_tag_size[2] = { 180.0f, 38.0f };
 
-const char *TAdChrSelPlyPlateGC__name = "TAdChrSelPlyPlateGC";
+const char *TAdChrSelPlyPlateGC::name = "TAdChrSelPlyPlateGC";
 
 #define WIN_802C6008 (&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::selected_slot])
 #define WIN_802C61E4 (&controller_physical_port_bank.controllers[multi_ply_chr_select_active_player])
@@ -87,7 +87,7 @@ TAdChrSelPlyPlateGC *TAdChrSelPlyPlateGC::create_singleton(TObject *parent, vec2
 TAdChrSelPlyPlateGC::TAdChrSelPlyPlateGC(TObject *parent, vec2f *pos) : TObject(parent) {
     u32 i;
     u32 j;
-    m_name = TAdChrSelPlyPlateGC__name;
+    m_name = TAdChrSelPlyPlateGC::name;
     lbl_805D67D0 = TAdMultiPlyChrSelectGC__sub_802C6FA8();
     lbl_805D67D4 = TAdMultiPlyChrSelectGC::get_global_6700();
     TAdMultiPlyChrSelectGC::select_mode = 0;

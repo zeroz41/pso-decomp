@@ -49,7 +49,7 @@ static const CharacterSlotPosition chr_sel_a_slot_left_header_pos = { 35.0f, 118
 static const CharacterSlotPosition chr_sel_a_slot_message_pos = { 128.0f, 182.0f };
 static const CharacterSlotPosition chr_sel_a_slot_left_message_pos = { 24.0f, 182.0f };
 static const CharacterSlotPosition chr_sel_b_slot_message_pos = { 431.0f, 182.0f };
-const char *TAdChrSelASlotGC__name = "TAdChrSelASlotGC";
+const char *TAdChrSelASlotGC::name = "TAdChrSelASlotGC";
 
 
 TAdChrSelASlotGC *TAdChrSel__global_slot_data;
@@ -803,7 +803,7 @@ TAdChrSelASlotGC::~TAdChrSelASlotGC() {
     }
 }
 TAdChrSelASlotGC::TAdChrSelASlotGC(TObject *parent, s32 mode) : TObject(parent) {
-    m_name = TAdChrSelASlotGC__name;
+    m_name = TAdChrSelASlotGC::name;
     init(mode);
     create_children(mode);
 }

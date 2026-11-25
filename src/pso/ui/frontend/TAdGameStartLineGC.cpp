@@ -7,7 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/render/render_util.h"
-const char *TAdGameStartLineGC__name = "TAdGameStartLineGC";
+const char *TAdGameStartLineGC::name = "TAdGameStartLineGC";
 
 void *lbl_805D6C18;
 
@@ -71,7 +71,7 @@ TAdGameStartLineGC *__ct__18TAdGameStartLineGCFP7TObject(TAdGameStartLineGC *sel
     s32 i;
     __ct__7TObjectFP7TObject(self, parent);
     *(void **)((u8 *)self + 0x18) = __vt__18TAdGameStartLineGC;
-    self->m_name = TAdGameStartLineGC__name;
+    self->m_name = TAdGameStartLineGC::name;
     self->m_left_x = 27.0f;
     self->m_left_y = 191.0f;
     self->m_right_x = 613.0f;

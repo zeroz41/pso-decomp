@@ -8,6 +8,7 @@ class TAdSelectCurGC;
 class TAdScrollWinGC;
 
 struct TAdEp3Exist : public TObject {
+    static const char *name;
     TAdEp3Exist(TObject *parent);
     virtual ~TAdEp3Exist();
     static void draw_message_window(void *window, void *frame_context);

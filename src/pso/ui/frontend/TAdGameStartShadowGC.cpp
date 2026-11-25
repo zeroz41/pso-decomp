@@ -8,7 +8,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 
-const char *TAdGameStartShadowGC__name = "TAdGameStartShadowGC";
+const char *TAdGameStartShadowGC::name = "TAdGameStartShadowGC";
 saddr TAdGameStartShadowGC::texture_list;
 
 void TAdGameStartShadowGC::draw_band() {
@@ -59,7 +59,7 @@ TAdGameStartShadowGC *__ct__20TAdGameStartShadowGCFP7TObject(TAdGameStartShadowG
     u32 i;
     __ct__7TObjectFP7TObject(self, parent);
     *(void **)((u8 *)self + 0x18) = __vt__20TAdGameStartShadowGC;
-    self->m_name = TAdGameStartShadowGC__name;
+    self->m_name = TAdGameStartShadowGC::name;
     self->m_color = -1;
     self->m_alpha = 0;
     self->m_frame = -1;

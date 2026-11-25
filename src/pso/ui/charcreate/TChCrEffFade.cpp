@@ -13,7 +13,7 @@
 #include "pso/unk/text_80293D84.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 
-const char *TChCrEffFade__class_name = "TChCrEffFade";
+const char *TChCrEffFade::class_name = "TChCrEffFade";
 
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
@@ -136,7 +136,7 @@ TChCrEffFade::~TChCrEffFade() {}
 TChCrEffFade::TChCrEffFade(s32 new_step, s32 new_length, s32 unused) : TObject((TObject *)tl_fade) {
     s32 len;
     s32 direction;
-    m_name = TChCrEffFade__class_name;
+    m_name = TChCrEffFade::class_name;
     step = new_step;
     length = (new_length + 3);
     len = length;

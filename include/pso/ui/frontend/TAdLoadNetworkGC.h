@@ -8,6 +8,7 @@
 class TParticleCtrl;
 
 struct TAdLoadNetworkGC : public TObject {
+    static const char *class_name;
     TAdLoadNetworkGC(TObject *parent, Vec *pos);
     virtual ~TAdLoadNetworkGC();
     u8 pad_1c[4];

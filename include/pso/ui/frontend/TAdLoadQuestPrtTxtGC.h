@@ -9,6 +9,7 @@
 class TParticleCtrl;
 
 struct TAdLoadQuestPrtTxtGC : public TObject {
+    static const char *name;
     TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot);
     virtual ~TAdLoadQuestPrtTxtGC();
     s32 particle_count;

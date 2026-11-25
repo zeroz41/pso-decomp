@@ -47,7 +47,7 @@ NJS_TEXNAME lbl_80480A70[24] = {
     { "st_logo08", 0, 0 },
 };
 __declspec(section ".data") NJS_TEXLIST texture_logo_e_descriptor = { lbl_80480A70, 24 };
-const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";
+const char *TAdSEGAlogo::class_name = "TAdSEGAlogo";
 #pragma pop
 
 NJS_TEXLIST *logo_texture_e_handle;
@@ -85,7 +85,7 @@ void TAdSEGAlogo::run_task() {
 TAdSEGAlogo::~TAdSEGAlogo() {}
 
 TAdSEGAlogo::TAdSEGAlogo(TObject *parent) : TObject(parent) {
-    m_name = TAdSEGAlogo__class_name;
+    m_name = TAdSEGAlogo::class_name;
     m_wait_frames = 0;
     TAdSEGAlogo::state = 0;
     sega_logo_done_flag = 0;

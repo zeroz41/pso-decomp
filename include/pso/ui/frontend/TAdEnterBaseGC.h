@@ -10,6 +10,7 @@ class TWindowBase;
 struct TWindowCallBack;
 
 struct TAdEnterBaseGC : public TObject {
+    static const char *class_name;
     static s32 entry_mode;
     TAdEnterBaseGC(TObject *parent);
     virtual ~TAdEnterBaseGC();

@@ -16,7 +16,7 @@ const u32 lbl_80476610[6] = {
     0xFF77FF3F, 0xFF333377, 0xFFB31A77, 0xFFB31A1A, 0xFFFF4D1A, 0xFFB34D00,
 };
 #pragma readonly_strings on
-const char *TAdLdQuestPrtGC__class_name = "TAdLdQuestPrtGC";
+const char *TAdLdQuestPrtGC::class_name = "TAdLdQuestPrtGC";
 
 void TAdLdQuestPrtGC::render() {
 }
@@ -77,7 +77,7 @@ TAdLdQuestPrtGC::~TAdLdQuestPrtGC() {
 #pragma fp_contract on
 TAdLdQuestPrtGC::TAdLdQuestPrtGC(TObject *parent) : TObject(parent) {
     u32 i;
-    m_name = TAdLdQuestPrtGC__class_name;
+    m_name = TAdLdQuestPrtGC::class_name;
     tint_index = 0;
     tint_timer = 0;
     frame_count = 0;

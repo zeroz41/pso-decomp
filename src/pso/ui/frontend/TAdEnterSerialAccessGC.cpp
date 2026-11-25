@@ -46,7 +46,7 @@ const NJS_POINT2 serial_draw_window_position = { 85.0f, 220.0f };
 const NJS_POINT2 serial_draw_window_size = { 470.0f, 60.0f };
 const NJS_POINT2 TAdEnterSerialAccessGC::selection_positions[2] = { { 155.0f, 231.0f }, { 155.0f, 251.0f } };
 const NJS_POINT2 lbl_804764F8 = { 330.0f, 20.0f };
-const char *TAdEnterSerialAccessGC__name = "TAdEnterSerialAccessGC";
+const char *TAdEnterSerialAccessGC::name = "TAdEnterSerialAccessGC";
 
 __declspec(section ".data") NJS_POINT2 serial_entry_status_line_position = { 0.0f, 0.0f };
 __declspec(section ".data") char TAdEnterSerialAccessGC::raw_serial_buffer[0xC] = { 0 };
@@ -68,7 +68,7 @@ s32 TKeyBoardControl::get_cursor_position() {
 TAdEnterSerialAccessGC::TAdEnterSerialAccessGC(TObject *parent) : TAdEnterBaseGC(parent) {
     char serial[0x10];
     char access_key[0x10];
-    m_name = TAdEnterSerialAccessGC__name;
+    m_name = TAdEnterSerialAccessGC::name;
     state_timer = 0;
     input_state = 0;
     next_state = 0;

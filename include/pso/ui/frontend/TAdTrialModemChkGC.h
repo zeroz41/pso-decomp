@@ -5,6 +5,7 @@
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 
 struct TAdTrialModemChkGC : public TAdWarningBaseGC {
+    static const char *name;
     TAdTrialModemChkGC(TObject *parent);
     virtual ~TAdTrialModemChkGC();
     virtual saddr vfunc_7();

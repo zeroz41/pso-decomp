@@ -11,6 +11,7 @@ class TAdGuideTxtGC;
 
 class TAdMultiSelGameModeGC : public TObject {
 public:
+    static const char *name;
     TAdMultiSelGameModeGC(TObject *parent, s32 mode);
     virtual ~TAdMultiSelGameModeGC();
     virtual void run_task();

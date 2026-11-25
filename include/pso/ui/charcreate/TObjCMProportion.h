@@ -4,6 +4,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 class TObjCMProportion : public TObject {
 public:
+    static const char *name;
     CharacterAppearanceFields* appearance;
     s32 initialized,active;
     f32 fade;
