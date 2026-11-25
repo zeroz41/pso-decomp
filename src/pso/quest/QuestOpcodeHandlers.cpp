@@ -203,8 +203,11 @@ struct QuestCommandTable {
     QuestCommand e[12];
 };
 
-namespace pf2_p0 { extern "C" { s32 append_string(const char *); } }
-#define append_string pf2_p0::append_string
+extern "C" {
+void append_string(const char *s);
+void begin_message_substitution(u8 *source, char *result);
+s32 parse_r_index(const char *text);
+}
 // The player name and class name qst_op_get_pl_name / qst_op_get_pl_job copy for the message tags.
 extern char quest_player_class_name_buffer[16];
 extern char quest_player_name_buffer[16];
@@ -214,14 +217,6 @@ namespace pf2_p0 { extern "C" { s32 is_message_source_exhausted(); } }
 namespace pf2_p0 { extern "C" { s8 read_byte_advance__6TLobbyFv(); } }
 #define read_byte_advance__6TLobbyFv pf2_p0::read_byte_advance__6TLobbyFv
 void append_message_char(s8);
-extern "C" {
-namespace pf2_p0 { extern "C" { void begin_message_substitution(); } }
-#define begin_message_substitution pf2_p0::begin_message_substitution
-}
-namespace pf2_p0 { extern "C" { s32 parse_r_index(const char *); } }
-#define parse_r_index pf2_p0::parse_r_index
-namespace pf2_p0 { extern "C" { int strcmp(const char *, const char *); } }
-#define strcmp pf2_p0::strcmp
 void append_team_name(void);
 void append_episode_progress_string(void);
 void append_entered_item_name_pair(void);
@@ -289,7 +284,7 @@ void TLobby::capture_chat_sensor() {
 }
 
 s32 expand_message_substitutions(s32 source, s32 result) {
-    begin_message_substitution();
+    begin_message_substitution((u8 *)source, (char *)result);
     while (is_message_source_exhausted() == 0) {
         s8 c = read_byte_advance__6TLobbyFv();
         switch (c) {
@@ -421,15 +416,9 @@ s32 parse_f_index(const char *a0) {
 }
 
 #undef is_message_source_exhausted
-#undef begin_message_substitution
-#undef append_string
-#undef get_character_save_record
-#undef parse_r_index
 #undef read_byte_advance__6TLobbyFv
-#undef strcmp
 
 extern "C" {
-void append_string(const char *s);
 s32 is_split_screen();
 
 s32 parse_r_index(const char *text) {
@@ -526,17 +515,13 @@ void append_string(const char *s) {
 
 
 
-namespace pf2_p2 { extern "C" { extern s8 *quest_string_append_cursor; } }
-#define quest_string_append_cursor pf2_p2::quest_string_append_cursor
-
 void append_message_char(s8 c) {
-    s8 *write_ptr;
+    char *write_ptr;
 
     write_ptr = quest_string_append_cursor;
     quest_string_append_cursor = write_ptr + 1;
     *write_ptr = c;
 }
-#undef quest_string_append_cursor
 extern "C" {
 
 void begin_message_substitution(u8 *a0, char *a1) { quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
@@ -5164,8 +5149,6 @@ void qst_op_glet(u16 flag, s32 reg) {
     clear_story_flag((flag));
 }
 
-namespace pf2_p6 { extern "C" { s32 set_story_flag_or_send_quest_flag(s32); } }
-#define set_story_flag_or_send_quest_flag pf2_p6::set_story_flag_or_send_quest_flag
 void qst_op_grev(s32 flag) {
     u16 v = flag;
     if (get_story_flag(v) != 0) {
