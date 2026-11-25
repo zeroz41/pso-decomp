@@ -1637,7 +1637,7 @@ force_active:
   - TObjTombstone__drop_recovery_items
   - TObjTradeCollision__ct
   - TObjTradeCollision__name
-  - TObjTuitate__collision_parts
+  - collision_parts__11TObjTuitate
   - __ct__11TObjTuitateFP7TObjectPv
   - TObjWaitEntryHairMoveSim__sub_800FE3BC
   - TObjWarnChime_class_name
@@ -4175,7 +4175,7 @@ force_active:
   - berura_init_params
   - bg_lightning_texture_handle
   - bgm_adx_filename_table
-  - big_tuitate_collision_body
+  - collision_parts__14TObjBigTuitate
   - LoadBinModelSub
   - LoadBinMotionSub
   - bind_collision_body_parts

@@ -140,7 +140,6 @@ void TMainCursor__sub_80154094();
 void free_ancient_container_resources();
 void TContainerAncient01R__sub_8018AF74();
 void load_door_jung_resources();
-void load_bigtuitate_bml_resource();
 void release_boss_warp_resources();
 void TLanguage__sub_802A0204();
 void load_lobby_butterfly_bml_resource();
@@ -586,8 +585,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_16[24] = {
     { TOMine::load_static_resource, TOMine::free_instance },
     { TOBoss4::load_static_resource, TOBoss4::free_instance },
     { TObjCamera::load_resources, TObjCamera::free_resources },
-    { load_tuitate_bml_resource, free_tuitate_bml_resource },
-    { load_bigtuitate_bml_resource, TObjBigTuitate::free_instance },
+    { TObjTuitate::load_resources, TObjTuitate::free_resources },
+    { TObjBigTuitate::load_resources, TObjBigTuitate::free_instance },
     { TObjDoaEx01::load_resources, TObjDoaEx01::free_resource },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
     { TLazerFenceSw::load_resources, free_lazer_fence_switch_resources },
@@ -672,8 +671,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_21_22[29] = {
     { TLanguage::load_container_fragment_textures, free_ancient_container_resources },
     { TOBoss4::load_static_resource, TOBoss4::free_instance },
     { TObjCamera::load_resources, TObjCamera::free_resources },
-    { load_tuitate_bml_resource, free_tuitate_bml_resource },
-    { load_bigtuitate_bml_resource, TObjBigTuitate::free_instance },
+    { TObjTuitate::load_resources, TObjTuitate::free_resources },
+    { TObjBigTuitate::load_resources, TObjBigTuitate::free_instance },
     { TODragonflyCave01::load_resources, TODragonflyCave01::release_static_instance },
     { load_turiten_singo_resources, TOHangceilingCave01::destroy_instance },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
@@ -934,8 +933,8 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_35[33] = {
     { TOCapsuleMachine01::alloc_and_load_resource, TOCapsuleMachine01::reset_static_state },
     { TOBind::load_static_resource, TOBind::free_static_model },
     { load_turiten_singo_resources, TOHangceilingCave01::destroy_instance },
-    { load_tuitate_bml_resource, free_tuitate_bml_resource },
-    { load_bigtuitate_bml_resource, TObjBigTuitate::free_instance },
+    { TObjTuitate::load_resources, TObjTuitate::free_resources },
+    { TObjBigTuitate::load_resources, TObjBigTuitate::free_instance },
     { TObjSeabedSuisoBrakable::load_resources, TObjSeabedSuisoBrakable::free_static_resources },
     { TOComputerMachine01::load_resources, TOComputerMachine01::unload_resources },
     { 0, 0 },

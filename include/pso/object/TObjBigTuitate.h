@@ -3,22 +3,26 @@
 
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/render/RenderFadeState.h"
+
+struct TObjMapCsn;
+struct BmlResource;
 
 struct TObjBigTuitate : public TObjCollidable {
-    TObjBigTuitate(TObject *parent, void *arg2);
+    TObjBigTuitate(TObject *parent, void *set_data);
     virtual ~TObjBigTuitate();
-    u32 m_c8;
     void render();
     void run_task();
     static void free_instance();
-    u8 unk_B0[0x1C];
+    RenderFadeState fade;    // fades the model out while the camera is close
+    TObjMapCsn *map_csn;     // the object's map collision
     static void *create(void *set_data);
+    static const char *class_name;
+    static CollisionBody collision_parts[1];
+    static BmlResource *bml_resource;
+    static void load_resources();
 };
 
 LAYOUT_ASSERT(TObjBigTuitate_size, sizeof(TObjBigTuitate) == 0xCC);
-
-extern "C" {
-void *__dt__14TObjBigTuitateFv(void *arg0, s16 arg1);
-}
 
 #endif
