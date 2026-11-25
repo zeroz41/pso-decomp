@@ -481,9 +481,9 @@ force_active:
   - view_matrix__11TCameraCtrl
   - viewport_height__11TCameraCtrl
   - viewport_width__11TCameraCtrl
-  - TChCrEffCtrlPl__name
+  - name__14TChCrEffCtrlPl
   - name__14TChCrEffTagStr
-  - TChCrEffTag__name
+  - name__11TChCrEffTag
   - active_load_count__22TChCrLoadAfsTextureReq
   - __ct__22TChCrLoadAfsTextureReqFP7TObjectP11NJS_TEXLISTPll
   - __ct__16TChCrLoadGmNjReqFP7TObjectP20TChCrLoadGmNjReqArgs
@@ -602,7 +602,7 @@ force_active:
   - __ct__9TKomorebiFP7TObjectP13ObjectSetData
   - komorebi_bml_resource
   - komorebi_resource_descriptor
-  - TLanguage__class_name
+  - class_name__9TLanguage
   - class_name__13TLazerFenceSw
   - language_read_cursor
   - TLoadCtrl__ct
@@ -1808,7 +1808,7 @@ force_active:
   - sub_8025D1C8__19TWindowKeyBoardBaseFPv
   - sub_8025D378__19TWindowKeyBoardBaseFPv
   - sub_8025D544__19TWindowKeyBoardBaseFPlPSc
-  - TWindowKeyBoardSoft__text_resource
+  - text_resource__9TLanguage
   - __ct__22TWindowLoadItemTextureFPvPfl
   - __ct__13TWindowLockOnFlUs
   - TWindowLockOn__update_for_enemy
@@ -8194,9 +8194,9 @@ force_active:
   - bm9_mericarol_phase_attack_table
   - bm9_mericarol_phase_resist_table
   - lbl_80540B88
-  - lbl_80540B98
-  - lbl_80540BBC
-  - lbl_80540BC8
+  - mericarol_render_target
+  - mericarol_render_texture_name
+  - mericarol_render_texlist
   - lbl_80541528
   - lbl_80543000
   - lbl_80543010
@@ -8384,7 +8384,7 @@ force_active:
   - lbl_805D6808
   - lbl_805D681C
   - mericarol_bml
-  - lbl_805D6880
+  - mericarol_render_texture_buffer
   - lbl_805D6910
   - lbl_805D6948
   - TObjBoss7DustCtrl_dust_counter
