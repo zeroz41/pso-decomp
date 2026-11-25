@@ -6060,16 +6060,10 @@ pso/ui/frontend/TAdVIConfigGC_80248B8C.cpp:
 	.text       start:0x80248B8C end:0x80248BE8
 
 pso/ui/window/TWindowSubStatusDisp_80248BE8.cpp:
-	.text       start:0x80248BE8 end:0x80249058
+	.text       start:0x80248BE8 end:0x80249078
 	.rodata     start:0x8044EAE8 end:0x8044EAF0
 	.data       start:0x804CE7E8 end:0x804CE804
 	.sdata2     start:0x805DCBA8 end:0x805DCBAC
-
-pso/ui/window/TWindowSubItem_80249058.cpp:
-	.text       start:0x80249058 end:0x80249060
-
-pso/ui/window/TWindowSubStatusDisp_80249060.cpp:
-	.text       start:0x80249060 end:0x80249078
 
 pso/ui/window/TWindowChoiceSetting_80249078.cpp:
 	.text       start:0x80249078 end:0x802495FC

@@ -1253,7 +1253,6 @@ pso/ui/window/TWindowSubInformationBoard_8034C224.cpp
 pso/ui/window/TWindowSubItem.cpp
 pso/ui/window/TWindowSubItemList.cpp
 pso/ui/window/TWindowSubItem_801F8FD4.cpp
-pso/ui/window/TWindowSubItem_80249058.cpp
 pso/ui/window/TWindowSubLog.cpp
 pso/ui/window/TWindowSubMag.cpp
 pso/ui/window/TWindowSubMagPhoton.cpp
@@ -1279,7 +1278,6 @@ pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp
 pso/ui/window/TWindowSubStatusDisp_80248968.cpp
 pso/ui/window/TWindowSubStatusDisp_80248ADC.cpp
 pso/ui/window/TWindowSubStatusDisp_80248BE8.cpp
-pso/ui/window/TWindowSubStatusDisp_80249060.cpp
 pso/ui/window/PageIndicator.cpp
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp
 pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp

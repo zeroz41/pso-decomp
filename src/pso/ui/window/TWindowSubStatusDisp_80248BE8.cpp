@@ -17,6 +17,9 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
+#include "pso/ui/ItemListRow.h"
+#include "pso/ui/window/TWindowSubItem.h"
+#include "pso/unk/TWindowLayoutEntry.h"
 
 extern "C" {
 
@@ -98,3 +101,8 @@ TWindowCheckBox::~TWindowCheckBox() {}
 TWindowCheckBox::TWindowCheckBox(u8 *parent, s32 client) : TWindowMenuIconLine(parent, 5, client) {
     sub_80248B7C(client);
 }
+
+s32 ItemListRow::get_item() { return item; }
+
+int TWindowLayoutEntry::is_flag_4_set() const { return flags & 0x4; }
+int TWindowMenuIconLine::get_flag() { return (this->state_flags >> 6) & 0x1; }
