@@ -19,7 +19,7 @@ void TChCrEffTag::refresh_label() {
     vec2f pos;
     s32 heading;
     if (label != NULL) {
-        TChCrEffTagStr__sub_8029AED0(label);
+        label->start_fade_out();
         label = NULL;
     }
     this->heading = (s32) TChCrEffTag::selected_heading;
@@ -27,7 +27,7 @@ void TChCrEffTag::refresh_label() {
     if (heading >= 0) {
         pos.x = 27.0f;
         pos.y = 44.0f;
-        label = (TChCrEffTagStr *)create_str(this, (void *)lbl_804652A4[heading], &pos);
+        label = TChCrEffTagStr::create(this, lbl_804652A4[heading], &pos);
     }
 }
 

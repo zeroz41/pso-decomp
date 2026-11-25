@@ -7,10 +7,12 @@
 
 class TChCrEffTagStr : public TObject {
 public:
-    TChCrEffTagStr(TObject *arg1, void *arg2, void *arg3);
+    TChCrEffTagStr(TObject *parent, s32 sprite_id, vec2f *pos);
     virtual ~TChCrEffTagStr();
     virtual void run_task();
     virtual void render();
+    void start_fade_out();
+    static TChCrEffTagStr *create(TObject *parent, s32 sprite_id, vec2f *pos);
 
     s32 state;
     s32 sprite_id;
@@ -20,14 +22,5 @@ public:
 
 LAYOUT_ASSERT(TChCrEffTagStr_size, sizeof(TChCrEffTagStr) == 0x30);
 
-extern "C" {
-void TChCrEffTagStr__sub_8029AED0(TChCrEffTagStr *p);
-}
-
-// --- C functions defined in TChCrEffTagStr.cpp ---
-extern "C" {
-void TChCrEffTagStr__sub_8029AED0(TChCrEffTagStr *p);
-}
-// --- end of C functions
 
 #endif
