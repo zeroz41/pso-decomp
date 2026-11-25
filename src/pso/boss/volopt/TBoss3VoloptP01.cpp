@@ -42,10 +42,11 @@
 
 extern "C" {
 void init_collision_body_parts(void *obj, void *parts, s32 count);
-void free_collision_body_parts(void *obj);
+}
+void free_collision_body_parts(TObjCollidable *actor);
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
-}
+
 
 #pragma readonly_strings on
 static const char *TBoss3VoloptP01_class_name = "TBoss3VoloptP01";

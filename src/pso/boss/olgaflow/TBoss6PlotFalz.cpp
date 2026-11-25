@@ -1,4 +1,5 @@
 #include "pso/render/StripBufferPair.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/memory.h"
@@ -814,7 +815,6 @@ extern "C" {
 
 void TBoss6EmptyWarp::init_warp() { place_players_in_warp_circle(); TBoss6PlotFalz::warp_nearby_players(); }
 
-void release_all_players_control_lock(void);
 void TBoss6PlotFalz::end_cutscene_camera() {
     s32 i;
     void *p;

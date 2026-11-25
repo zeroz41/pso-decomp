@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -158,6 +159,7 @@ extern u8 lbl_8044A80C[];
 extern "C" {
 
 saddr get_player_name_copy_buffer();
+}
 
 
 extern CsnGroup **scene_collision_data;
@@ -166,7 +168,6 @@ extern CsnGroup **scene_collision_data;
 
 
 
-void bind_gvm_texture_list(s32 *, u32);
 
 
 
@@ -176,8 +177,6 @@ struct Sp8Buf20_80206494 {
     s32 f0; s32 f4; s32 f8; s32 fc;
     s32 f10; s32 f14; s32 f18; s32 f1c;
 };
-
-}
 
 
 #pragma readonly_strings on
@@ -599,7 +598,7 @@ void TScene::load_current_floor() {
         if (found <= 0) {
             TLobby::replace_file_extension((char *)path, (char *)tbl[scene_resource_index].name, (char *)".gvm");
         }
-        bind_gvm_texture_list(path, scene_material_root->texlist);
+        bind_gvm_texture_list((const char *)path, (NJS_TEXLIST *)scene_material_root->texlist);
     }
     TScene::load_scene_data(ent);
     TScene::load_supplementary_t_rel(ent);
@@ -881,7 +880,7 @@ void load_floor_scene(void) {
         if (found <= 0) {
             TLobby::replace_file_extension((char *)path, (char *)tbl[scene_resource_index].name, (char *)".gvm");
         }
-        bind_gvm_texture_list(path, scene_material_root->texlist);
+        bind_gvm_texture_list((const char *)path, (NJS_TEXLIST *)scene_material_root->texlist);
     }
     TScene::load_floor_rel_file(ent);
     TScene::load_tam_file(ent);

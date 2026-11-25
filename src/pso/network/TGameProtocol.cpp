@@ -1,4 +1,6 @@
 #include "pso/network/protocol/subcmd_6x.h"
+#include "pso/object/trap/TOMine.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
@@ -65,16 +67,13 @@ s32 dispatching_own_subcommand;
 
 extern "C" void handle_6x07_symbol_chat();
 extern "C" void handle_6x18_vol_opt2_boss_actions();
-extern "C" void handle_6x32_medical_center_revive_all_players();
-extern "C" void handle_6x34();
-extern "C" void handle_6x36();
-extern "C" void handle_6x41_move_to_position();
-extern "C" void handle_6x54();
-extern "C" void handle_6x57(G_Unknown_6x57 *command);
+void handle_6x32_medical_center_revive_all_players();
+void handle_6x34();
+void handle_6x54();
 extern "C" void handle_6x5F_drop_item();
-extern "C" void handle_6x64();
-extern "C" void handle_6x65();
-extern "C" void handle_6x68_set_telepipe_state();
+void handle_6x64();
+void handle_6x65();
+void handle_6x68_set_telepipe_state(G_SetTelepipeState_6x68 *command);
 extern "C" void handle_6x6B_sync_game_state();
 extern "C" void handle_6x6C_sync_game_state();
 extern "C" void handle_6x6D_sync_game_state();
@@ -82,15 +81,13 @@ extern "C" void handle_6x6E_sync_game_state();
 extern "C" void handle_6x70_sync_player_disp_and_inventory();
 extern "C" void handle_6x7D_set_battle_mode_data();
 struct game_command_header;
-extern "C" void handle_6x80_trigger_trap(game_command_header *command);
 extern "C" void handle_6x87_shrink_player();
 extern "C" void handle_6x88_restore_shrunken_player();
-extern "C" void handle_6x8B();
-extern "C" void handle_6x8C();
-extern "C" void handle_6x8E();
-extern "C" void handle_6x98();
-extern "C" void handle_6x99();
-extern "C" void handle_6xB1();
+void handle_6x8B();
+void handle_6x8C();
+void handle_6x8E();
+void handle_6x98();
+void handle_6x99();
 u32 lbl_804C5238[10] = { 0 };
 
 u8 subcommand_area_masks[36] = {

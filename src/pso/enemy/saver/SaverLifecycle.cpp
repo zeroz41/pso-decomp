@@ -67,8 +67,8 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/object/TDeadSpot.h"
 
-extern "C" {
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
+extern "C" {
 s32 select_enemy_destination(TObjChara *chara, Vec dest, s32 flags);
 f32 enemy_move_toward(TObjEnemy *enemy, s32 turn_speed, Vec dest, s32 flags, f32 *params, f32 speed);
 s32 copy_position_if_valid(TObjChara *chara, Vec pos);

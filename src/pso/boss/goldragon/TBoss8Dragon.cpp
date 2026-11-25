@@ -117,8 +117,8 @@ extern "C" {
 
 
 s32 get_current_floor();
-void free_collision_body_parts(void *);
 }
+void free_collision_body_parts(TObjCollidable *actor);
 
 extern BmlResource *boss8_dragon_resource;
 extern s32 boss8_dragon_model_node_count;

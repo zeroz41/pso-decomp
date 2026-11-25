@@ -788,4 +788,12 @@ void receive_lobby_name(char *name);
 void clear_lobby_name();
 char *get_lobby_name();
 
+class TObject;
+
+s32 get_online_message_text(s32 id);
+u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
+void queue_join_entry_exit_on_input(void *self);
+void show_card_list_message(void *msg);
+void show_join_entry_message(s32 id);
+
 #endif

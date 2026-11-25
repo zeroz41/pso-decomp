@@ -29,10 +29,10 @@
 
 extern "C" {
 void init_collision_body_parts(TObject *obj, void *parts, s32 count);
-void free_collision_body_parts(TObject *obj);
+}
+void free_collision_body_parts(TObjCollidable *actor);
 
 extern TObject *tl_04;
-}
 
 // A model node: evaluation flags, then the node's rotation at 0x14.
 #pragma readonly_strings on

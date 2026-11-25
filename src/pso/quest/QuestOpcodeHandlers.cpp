@@ -655,8 +655,6 @@ void qst_op_va_call(s32 label) {
   qst_call_stack_push(qst_pc);
   qst_pc = qst_function_table[(u16)label];
 }
-extern "C" {
-
 struct WriteCounterWindow { u8 pad[0x2314]; s32 t[16]; };
 
 struct GetSlotMesetaCard {
@@ -674,6 +672,7 @@ struct GetItemInfoData {
     u32 id;
     u32 extra;
 };
+extern "C" {
 
 LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(AppendCardWindowTextRecoveredGlobal) == 0x28);
 
@@ -815,7 +814,9 @@ s32 copy_player_visual_record(void *, int);
 s32 __ct__16TPlyGuildCardTagFv(s32);
 s32 reset_map();
 s32 advance_item_id_counter(u16);
+}
 void set_mine_trap_damage(f32);
+extern "C" {
 int clear_enabled_main_warps(void*);
 int set_hashi_versus2_flag(void*);
 int clear_hashi_versus2_flag(void*);
@@ -853,11 +854,11 @@ s32 challenge_create_reward_item(TItemData *, u16);
 s32 challenge_check_any_player_dead();
 s32 challenge_check_all_players_dead();
 int update_alloc_size__6TLobbyFv(void*);
+}
 void disable_palettex(u16 client_index);
 void enable_palettex(u16 client_index);
 void restore_palettex(u16 client_index);
 void activate_palettex(u16 client_index);
-}
 
 int quest_active_flag;
 int evt2_random_enemies_mode;
@@ -1352,10 +1353,7 @@ void qst_op_enable_palettex() {
 void qst_op_activate_palettex() {
     activate_palettex(((u16) qst_args[0]));
 }
-extern "C" {
-
-s32 set_palettex_callback(u16, int);
-}
+void set_palettex_callback(u16 client_index, s32 label);
 void qst_op_set_palettex_callback(void) {
     set_palettex_callback(qst_args[0], (u16)qst_args[1]);
 }

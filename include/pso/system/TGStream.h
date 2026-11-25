@@ -47,4 +47,7 @@ s32 refill_gstream_buffer(saddr adxf_handle);
 void reset_gstream_globals(void);
 extern u8 gstream_sector_buffer[0x2000];
 
+void close_gsl_archive(void);
+void open_gsl_archive(char *name);
+
 #endif

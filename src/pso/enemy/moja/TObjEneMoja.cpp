@@ -71,7 +71,9 @@ extern "C" {
 f32 enemy_pursue_point(void *, s32, Vec *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec *, int);
 s32 copy_position_if_valid(saddr chara, saddr pos);
+}
 void calc_velocity_toward_destination(TObjChara *chara, Vec from, Vec to, f32 speed);
+extern "C" {
 s32 minimap_render_dot(void *, int, int, int, f32);
 }
 
