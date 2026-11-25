@@ -5,6 +5,10 @@
 #include "types.h"
 #include "pso/player/BattleRanking.h"
 
+struct TWindowMessage;
+struct TWindowMenu;
+struct TWindowDuelResult;
+
 class TPlayerBattleCtrl : public TObject {
 public:
     TPlayerBattleCtrl(TObject *parent);
@@ -39,9 +43,9 @@ public:
     const char **text;  // player_battle_ctrl_text_japanese or _english
     s32 timeout;
     s32 end_wait;
-    void *window_4c;
-    void *window_50;
-    void *window_54;
+    TWindowMessage *window_4c;
+    TWindowMenu *window_50;
+    TWindowDuelResult *window_54;
     u8 pad_58[0x8];
     s32 state_send_wait;
     s32 pad_64;

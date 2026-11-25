@@ -340,9 +340,9 @@ TPlayerBattleCtrl::~TPlayerBattleCtrl() {
         state_20 = -1;
         update_player_battle_ctrl_state(this);
     }
-    if (window_4c != NULL) ((TWindowBase *)window_4c)->close();
-    if (window_50 != NULL) ((TWindowBase *)window_50)->close();
-    if (window_54 != NULL) ((TWindowBase *)window_54)->close();
+    if (window_4c != NULL) window_4c->close();
+    if (window_50 != NULL) window_50->close();
+    if (window_54 != NULL) window_54->close();
     battle_mode_data_ptr = 0;
 }
 
@@ -528,8 +528,8 @@ void TPlayerBattleCtrl::update_timed_wait() {
 }
 
 void TPlayerBattleCtrl::update_duel_result() {
-    void *p;
-    void *q;
+    TObjPlayer *p;
+    TObjPlayer *q;
     switch (state_20) {
     case 0:
         init();
@@ -540,15 +540,15 @@ void TPlayerBattleCtrl::update_duel_result() {
         TWindowCtrl::close_timer_window();
         TWindowCtrl::suppress_slot(local_client_id);
         state_20 = 1;
-        p = (void *)(saddr)get_local_player();
+        p = get_local_player();
         if (p != NULL) {
-            ((TObjPlayer *)p)->release_attached_resource();
+            p->release_attached_resource();
         }
         break;
     case 1:
-        p = (void *)(saddr)get_local_player();
+        p = get_local_player();
         if (p != NULL) {
-            ((TObjPlayer *)p)->release_attached_resource();
+            p->release_attached_resource();
         }
         if (--timer <= 0) {
             send_battle_mode_state();
@@ -557,9 +557,9 @@ void TPlayerBattleCtrl::update_duel_result() {
         }
         break;
     case 2:
-        p = (void *)(saddr)get_local_player();
+        p = get_local_player();
         if (p != NULL) {
-            ((TObjPlayer *)p)->release_attached_resource();
+            p->release_attached_resource();
         }
         if (--timer <= 0) {
             timeout = 0x1C2;
@@ -567,9 +567,9 @@ void TPlayerBattleCtrl::update_duel_result() {
         }
         break;
     case 3:
-        p = (void *)(saddr)get_local_player();
+        p = get_local_player();
         if (p != NULL) {
-            ((TObjPlayer *)p)->release_attached_resource();
+            p->release_attached_resource();
         }
         if (check_timeout((timeout)--) != 0 || timeout <= 0) {
             TLobby::clear_counter(this);
@@ -585,27 +585,27 @@ void TPlayerBattleCtrl::update_duel_result() {
         break;
     case 4:
         if (window_54 != NULL) {
-            ((TWindowBase *)(window_54))->close();
+            window_54->close();
         }
         window_54 = new TWindowDuelResult(local_client_id);
-        q = (void *)(saddr)get_local_player();
+        q = get_local_player();
         if (q != NULL) {
-            if (((TObjPlayer *)q)->check_player_flag1() == 0) {
+            if (q->check_player_flag1() == 0) {
                 TLobby::close_and_play_effect((u16)local_client_id, 1);
             }
-            ((TObjPlayer *)q)->release_attached_resource();
+            q->release_attached_resource();
         }
         state_20 = 5;
         break;
     case 5:
         if (controller_input_state.controllers[0].pressed_buttons & 2) {
             TLobby::handle_battle_result((u16)local_client_id, 1);
-            ((TWindowBase *)(window_54))->close();
+            window_54->close();
             window_54 = NULL;
             state_20 = 6;
-            p = (void *)(saddr)get_local_player();
-            if (p != NULL && (static_cast<TObjPlayer *>(p)->actorFlags & 0x800)) {
-                static_cast<TObjPlayer *>(p)->reset_pose();
+            p = get_local_player();
+            if (p != NULL && (p->actorFlags & 0x800)) {
+                p->reset_pose();
             }
         }
         break;
@@ -613,26 +613,26 @@ void TPlayerBattleCtrl::update_duel_result() {
         if (check_team_balance(0) != 0) {
             send_battle_mode_params(5, 1, 0);
         } else {
-            q = (void *)(saddr)get_local_player();
+            q = get_local_player();
             if (local_client_id == designated_client_id && TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
                 if (window_4c == NULL) {
                     window_4c = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)lbl_80446FA4, 1);
                     if (window_4c != NULL) {
-                        ((TWindowMessage *)(window_4c))->append_line((saddr)text[0], 0x80);
+                        window_4c->append_line((saddr)text[0], 0x80);
                     }
                 }
                 if (window_50 == NULL) {
                     window_50 = create_window_menu_default(get_window_layout_position(0x54), 3);
-                    ((TWindowMenu *)(window_50))->add_text_entry((saddr)text[1], 6, 1);
-                    ((TWindowMenu *)(window_50))->add_text_entry((saddr)text[2], 6, 2);
-                    ((TWindowMenu *)(window_50))->add_text_entry((saddr)text[3], 6, 3);
-                    ((TWindowMenu *)(window_50))->calc_window_size();
-                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(window_50));
-                    ((TWindowMenu *)(window_50))->set_ready_flag();
+                    window_50->add_text_entry((saddr)text[1], 6, 1);
+                    window_50->add_text_entry((saddr)text[2], 6, 2);
+                    window_50->add_text_entry((saddr)text[3], 6, 3);
+                    window_50->calc_window_size();
+                    align_menu_entry_positions(window_50);
+                    window_50->set_ready_flag();
                 }
                 if (window_50 != NULL) {
-                    if (((TWindowMenu *)(window_50))->is_decided() != 0) {
-                        switch (((TWindowMenu *)(window_50))->get_selected_value()) {
+                    if (window_50->is_decided() != 0) {
+                        switch (window_50->get_selected_value()) {
                         case 1:
                             send_6x7D_set_battle_mode_data(this);
                             state_20 = 9;
@@ -645,29 +645,29 @@ void TPlayerBattleCtrl::update_duel_result() {
                             state_20 = 9;
                             break;
                         }
-                    } else if (((TWindowMenu *)(window_50))->is_cancelled() != 0) {
+                    } else if (window_50->is_cancelled() != 0) {
                         state_20 = 7;
                     }
                 }
-                if (q != NULL && ((TObjPlayer *)q)->check_player_flag1() == 0) {
+                if (q != NULL && q->check_player_flag1() == 0) {
                     TLobby::close_and_play_effect((u16)local_client_id, 1);
                 }
-            } else if (q != NULL && ((TObjPlayer *)q)->check_player_flag1() != 0) {
+            } else if (q != NULL && q->check_player_flag1() != 0) {
                 TLobby::handle_battle_result((u16)local_client_id, 1);
             }
         }
         break;
     case 7:
         if (window_4c != NULL) {
-            ((TWindowBase *)(window_4c))->close();
+            window_4c->close();
             window_4c = NULL;
         }
         if (window_50 != NULL) {
-            ((TWindowBase *)(window_50))->close();
+            window_50->close();
             window_50 = NULL;
         }
-        p = (void *)(saddr)get_local_player();
-        if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() != 0) {
+        p = get_local_player();
+        if (p != NULL && p->check_player_flag1() != 0) {
             TLobby::handle_battle_result((u16)local_client_id, 1);
         }
         state_20 = 8;
@@ -675,26 +675,26 @@ void TPlayerBattleCtrl::update_duel_result() {
         if (check_team_balance(0) != 0) {
             send_battle_mode_params(5, 1, 0);
         } else {
-            p = (void *)get_player_by_client_id(local_client_id);
-            if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && (controller_input_state.controllers[0].pressed_buttons & 6)) {
+            p = get_player_by_client_id(local_client_id);
+            if (p != NULL && p->is_controls_locked() == 0 && (controller_input_state.controllers[0].pressed_buttons & 6)) {
                 state_20 = 6;
             }
         }
         break;
     case -1:
         if (window_4c != NULL) {
-            ((TWindowBase *)(window_4c))->close();
+            window_4c->close();
             window_4c = NULL;
         }
         if (window_50 != NULL) {
-            ((TWindowBase *)(window_50))->close();
+            window_50->close();
             window_50 = NULL;
         }
         if (window_54 != NULL) {
-            ((TWindowBase *)(window_54))->close();
+            window_54->close();
             window_54 = NULL;
         }
-        p = (void *)(saddr)get_local_player();
+        p = get_local_player();
         if (p != NULL) {
             obj_clear_flag30_20000((TObjBase *)p);
         }
@@ -705,14 +705,14 @@ void TPlayerBattleCtrl::update_duel_result() {
         break;
     }
     if (state_20 == 6 || state_20 == 8) {
-        p = (void *)(saddr)get_local_player();
-        if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && TWindowCtrl::has_player_active_menu(local_client_id) == 0 && (controller_input_state.controllers[0].pressed_buttons & 0x400)) {
+        p = get_local_player();
+        if (p != NULL && p->is_controls_locked() == 0 && TWindowCtrl::has_player_active_menu(local_client_id) == 0 && (controller_input_state.controllers[0].pressed_buttons & 0x400)) {
             if (window_4c != NULL) {
-                ((TWindowBase *)(window_4c))->close();
+                window_4c->close();
                 window_4c = NULL;
             }
             if (window_50 != NULL) {
-                ((TWindowBase *)(window_50))->close();
+                window_50->close();
                 window_50 = NULL;
             }
             state_20 = 4;

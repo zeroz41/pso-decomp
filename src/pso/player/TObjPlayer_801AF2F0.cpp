@@ -1109,7 +1109,7 @@ void send_6x21_inter_level_warp(TObjPlayer *player, s32 floor) {
 
 void handle_6x21_inter_level_warp(G_InterLevelWarp_6x21 *command) {
     G_InterLevelWarp_6x21 m;
-    void *p;
+    TObjPlayer *p;
 
     m.init();
     m = *command;
@@ -1117,11 +1117,11 @@ void handle_6x21_inter_level_warp(G_InterLevelWarp_6x21 *command) {
     if (validate_6x21_inter_level_warp(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
-            if ((((TObjChara *)p)->obj_isState2_324() != 0) && (m.floor != ((TObjPlayer *)p)->get_floor())) {
-                ((TObjPlayer *)p)->set_state_flags(0x40000);
+            if ((p->obj_isState2_324() != 0) && (m.floor != p->get_floor())) {
+                p->set_state_flags(0x40000);
             }
-            ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
-            ((TObjPlayer *)p)->set_floor(m.floor);
+            p->set_floor_index(get_floor_area(m.floor));
+            p->set_floor(m.floor);
         }
     }
 }
@@ -1143,7 +1143,7 @@ void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command) {
     G_SetPlayerFloor_6x1F m;
     Msg_801BA8D4 m2;
     Msg20_801BA8D4 m3;
-    void *p;
+    TObjPlayer *p;
     Player_801BA8D4 *pl;
     m.init();
     m = *command;
@@ -1151,8 +1151,8 @@ void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command) {
     if (validate_6x1F_set_player_floor(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
-            ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
-            ((TObjPlayer *)p)->set_floor(m.floor);
+            p->set_floor_index(get_floor_area(m.floor));
+            p->set_floor(m.floor);
         }
         pl = (Player_801BA8D4 *)get_local_player();
         if (pl != NULL && (pl == NULL || ((TObjChara *)pl)->obj_isState2_324() == 0)) {
@@ -2258,7 +2258,7 @@ void send_6x28_feed_mag(void *chara, s32 mag_id, s32 fed_item_id) {
 
 void handle_6x28_feed_mag(G_FeedMag_6x28 *command) {
     G_FeedMag_6x28 cmd;
-    u8 *p;
+    TObjPlayer *p;
     saddr a;
     saddr b;
     void *node;
@@ -2266,10 +2266,10 @@ void handle_6x28_feed_mag(G_FeedMag_6x28 *command) {
     cmd = *command;
     cmd.bswap();
     if (validate_6x28_feed_mag(&cmd.header) != 0) {
-        p = (u8 *)get_player_by_client_id(cmd.header.client_id);
-        if (p != NULL && (node = ((TObjPlayer *)p)->inventory_objects->start_inventory_update(cmd.mag_item_id)) != 0U) {
+        p = get_player_by_client_id(cmd.header.client_id);
+        if (p != NULL && (node = p->inventory_objects->start_inventory_update(cmd.mag_item_id)) != 0U) {
             a = (saddr)((TItemList *)node)->get_owner_if_alive();
-            if (a != 0 && (node = ((TObjPlayer *)p)->inventory_objects->start_inventory_update(cmd.fed_item_id)) != 0U) {
+            if (a != 0 && (node = p->inventory_objects->start_inventory_update(cmd.fed_item_id)) != 0U) {
                 b = (saddr)((TItemList *)node)->get_owner_if_alive();
                 if (b != 0) {
                     feed_item_to_mag((TItem *)a, (TItem *)b);
@@ -4198,7 +4198,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
         return;
     }
     ((FlagWord *)((u8 *)p + 0x858))->clear(2);
-    if (((TObjPlayer *)p)->try_pickup_item() != 0) {
+    if (p->try_pickup_item() != 0) {
         return;
     }
     if (TTecCtrl::is_technique_ready() != 0) {
@@ -4210,11 +4210,11 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
             p->send_6x4E_player_revivable();
             return;
         }
-        ((TObjPlayer *)p)->send_respawn_position();
+        p->send_respawn_position();
         aim = ((TLobby *)lobby_rule_settings)->clamp_value_below_200();
-        room = get_entity_id_kind(((TObjPlayer *)p)->get_attacker_id());
+        room = get_entity_id_kind(p->get_attacker_id());
         if (aim != 0 && (room == 0 || room == 0x1000)) {
-            ((TObjPlayer *)p)->update_aim_angle(aim);
+            p->update_aim_angle(aim);
         }
         if ((lvl = (u8)((TLobby *)lobby_rule_settings)->get_clamped_level()) != 0 && (room == 0 || room == 0x1000)) {
             p->send_level_up_all_techniques(lvl);
@@ -4228,21 +4228,21 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
     }
     if (get_main_phase() == 0xE) {
         if (TObjPlayer::check_camera_mode() != 0) {
-            if (((TObjPlayer *)p)->get_anim_id() == 1) {
-                ((TObjPlayer *)p)->prepare_guild_return(0);
+            if (p->get_anim_id() == 1) {
+                p->prepare_guild_return(0);
                 return;
             }
-            ((TObjPlayer *)p)->prepare_hospital_return();
+            p->prepare_hospital_return();
             floor_transition_state.set_next_floor(0, get_floor_map_terrain(0));
             mark_area_change_pending();
             send_inter_level_warp_all(floor_transition_state.get_next_floor());
             return;
         }
-        ((TObjPlayer *)p)->create_return_city_window();
+        p->create_return_city_window();
         p->send_6x4E_player_revivable();
         return;
     }
-    ((TObjPlayer *)p)->create_return_city_window();
+    p->create_return_city_window();
     p->send_6x4E_player_revivable();
 }
 
@@ -4787,11 +4787,11 @@ void handle_6x22_set_player_invisible(G_SetPlayerInvisible_6x22 *command) {
     pkt = *command;
     bswap_g_client_id_header(&pkt.header);
     if (validate_6x22_set_player_invisible(&pkt.header) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
-        if (p != NULL && ((TObjPlayer *)p)->check_flag_4() == 0) {
-            ((TObjPlayer *)p)->set_state_flags(0x40000);
-            ((TObjPlayer *)p)->deactivate_body_collision();
-            ((TObjPlayer *)p)->clear_flag_200000();
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
+        if (p != NULL && p->check_flag_4() == 0) {
+            p->set_state_flags(0x40000);
+            p->deactivate_body_collision();
+            p->clear_flag_200000();
         }
     }
 }
