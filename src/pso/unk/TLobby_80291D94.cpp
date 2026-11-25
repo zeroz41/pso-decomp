@@ -286,7 +286,7 @@ s32 TLobby__sub_802924B4(s32 item, u16 slot_index) {
     if (record == NULL) {
         return 0;
     }
-    if (record->register_in_free_room_slot(item) != 0) {
+    if (record->register_in_free_room_slot((TItemData *)item) != 0) {
         threshold = &challenge4p_mode_state.rank_thresholds[challenge4p_mode_state.result_rank];
         set = resolve_challenge_record_set(-1);
         challenge_set_rank(&record->challenge, set)->award_flags |= threshold->award_flags;

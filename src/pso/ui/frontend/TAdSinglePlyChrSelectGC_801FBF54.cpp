@@ -277,7 +277,7 @@ s32 CharacterSaveRecord::find_bank_item(saddr item) {
     return 0;
 }
 
-s32 CharacterSaveRecord::register_in_free_room_slot(saddr item) {
+s32 CharacterSaveRecord::register_in_free_room_slot(TItemData *item) {
     BankItemRecord *entry;
     s32 i;
 
@@ -285,7 +285,7 @@ s32 CharacterSaveRecord::register_in_free_room_slot(saddr item) {
     entry = bank_items;
     do {
         if (entry->is_empty() != 0) {
-            TCheckRoomSequence::copy_item_to_bank_entry(entry, (TItemData *)item);
+            TCheckRoomSequence::copy_item_to_bank_entry(entry, item);
             bank_item_count++;
             return 1;
         }
