@@ -87,8 +87,8 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_animated_target(s32 meseta, f32 frames);
     static void update_palette_sprite();
     void set_string(uaddr string);
-    void set_text(uaddr arg1, s32 string, s32 arg3);
-    void set_text(uaddr arg1, s32 arg2);
+    void set_text(uaddr label, s32 string, s32 value_18);
+    void set_text(uaddr label, s32 value_18);
     void refresh_selected_entry(s32 play_sound);
     void init_scroll_pos();
     int is_flag80_set();
@@ -126,7 +126,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s32 update_hp_gauge();
     static void *find_cached_glyph(u16 code);
     static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 color);
-    static void *destroy_free_buffers(void *window_sub_status_disp, s16 arg1);
+    static void *destroy_free_buffers(void *window_sub_status_disp, s16 delete_flag);
 };
 
 LAYOUT_ASSERT(TWindowSubStatusDisp_offset_page, offsetof(TWindowSubStatusDisp, page) == 0x60);

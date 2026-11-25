@@ -5,6 +5,10 @@
 #include "pso/system/task/TObject.h"
 
 class TAdPlayerLoadGC;
+class TWindowBase;
+class TWindowMenuIconLine;
+struct TWindowMenu;
+struct TWindowMessageYesNo;
 class TSnapshotFileSetup;
 struct NJS_POINT2;
 
@@ -17,14 +21,14 @@ struct TWindowOptionCtrl : public TObject {
     s16 sound_mode;
     u8 pad_22[0x2];
     s32 m_24;
-    void *main_menu;
-    void *sub_menu;
+    TWindowMenu *main_menu;
+    TWindowMenu *sub_menu;
     void *m_30;
-    void *option_menu;
-    void *sound_balance_window;
-    void *snap_shot_window;
-    void *yes_no_window;
-    void *serial_info_window;
+    TWindowMenuIconLine *option_menu;
+    TWindowBase *sound_balance_window;
+    TWindowBase *snap_shot_window;
+    TWindowMessageYesNo *yes_no_window;
+    TWindowBase *serial_info_window;
     TSnapshotFileSetup *card_format_dialog;
     TAdPlayerLoadGC *player_load; // memory-card watcher made by the ctor
 
@@ -58,7 +62,7 @@ struct TWindowOptionCtrl : public TObject {
     s32 get_field_64();
     s16 get_field_62();
     static const NJS_POINT2 *get_option_entry(int a0);
-    s32 add_label_value_line(const char *arg1, const char *arg2, u32 arg3);
+    s32 add_label_value_line(const char *label, const char *value, u32 flags);
 };
 
 LAYOUT_ASSERT(TWindowOptionCtrl_size, sizeof(TWindowOptionCtrl) == 0x50);

@@ -12,7 +12,7 @@
 void TWindowSubEquip::update_displayed_item() {
     s32 cursor_value;
 
-    cursor_value = ((TWindowMenuIconLine *)this->equip_kind_list)->get_cursor_value();
+    cursor_value = this->equip_kind_list->get_cursor_value();
     if (cursor_value != (s32) this->m_24) {
         this->m_24 = cursor_value;
         this->window_help_item->set_displayed_item_by_id(cursor_value);
@@ -26,7 +26,7 @@ void TWindowSubEquip::update() {
 
     player = (saddr)get_player_by_client_id(this->client_id);
     if (player != 0) {
-        slot = ((TWindowMenuIconLine *)this->equip_list)->get_cursor_value();
+        slot = this->equip_list->get_cursor_value();
         TItem *item = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), slot);
         if (item == NULL) {
             item_id = -1;

@@ -30,20 +30,20 @@ extern "C" {
 char *get_shared_text_buffer(void);
 }
 
-TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 mode) : TObject(parent) {
+TWindowMakeTeam::TWindowMakeTeam(TObject *parent, s32 kind) : TObject(parent) {
     m_name = TWindowMakeTeam__name;
-    m_1c = 0;
-    m_1d = 0;
-    m_20 = mode;
+    state = 0;
+    flags = 0;
+    m_20 = kind;
     m_menu = create_menu();
-    m_30 = 0;
+    sub_menu = 0;
     keyboard = 0;
     name = 0;
     comment = 0;
-    m_1e = 0;
+    mode = 0;
     selected_value = 0;
     if (m_20 == 1 || m_20 == 2) {
-        m_menu->set_entry_string_by_id((void *)draw_entry_0x110(m_1e), 2);
+        m_menu->set_entry_string_by_id((void *)draw_entry_0x110(mode), 2);
     }
     m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(selected_value), 3);
 }
@@ -55,9 +55,9 @@ TWindowMakeTeam::~TWindowMakeTeam() {
         keyboard->queue_destruction();
         this->keyboard = 0;
     }
-    if (this->m_30 != 0) {
-        m_30->close();
-        this->m_30 = 0;
+    if (this->sub_menu != 0) {
+        sub_menu->close();
+        this->sub_menu = 0;
     }
     if (this->m_menu != 0) {
         m_menu->close();
@@ -66,24 +66,24 @@ TWindowMakeTeam::~TWindowMakeTeam() {
 }
 
 void TWindowMakeTeam::run_task() {
-    switch (this->m_1c) {
+    switch (this->state) {
     case 0:
     case 1:
         if (keyboard != NULL) {
             keyboard->queue_destruction();
             keyboard = NULL;
         }
-        if (m_30 != NULL) {
-            m_30->close();
-            m_30 = NULL;
+        if (sub_menu != NULL) {
+            sub_menu->close();
+            sub_menu = NULL;
         }
         m_menu->clear_flag_and_release2();
         update_ok_button();
-        this->m_1c = 2;
+        this->state = 2;
     case 2:
         if (m_menu->get_flag() != 0) {
-            this->m_1d |= 2;
-            this->m_1c = 11;
+            this->flags |= 2;
+            this->state = 11;
         } else if (m_menu->is_open() != 0) {
             set_state(m_menu->update_selected_entry());
         }
@@ -96,12 +96,12 @@ void TWindowMakeTeam::run_task() {
         keyboard->set_composer_flag62_bit4();
         keyboard->set_text(name);
         m_menu->set_entry_string_by_id(NULL, 0);
-        this->m_1c = 4;
+        this->state = 4;
     }
     case 4:
         if (keyboard->is_cancelled() != 0) {
             m_menu->set_entry_string_by_id(name, 0);
-            this->m_1c = 1;
+            this->state = 1;
         }
         if (keyboard->is_confirmed() != 0) {
             s32 n;
@@ -111,7 +111,7 @@ void TWindowMakeTeam::run_task() {
             n = (s32)measure_string_len(name);
             strncpy(name, get_shared_text_buffer(), n);
             m_menu->set_entry_string_by_id(name, 0);
-            this->m_1c = 1;
+            this->state = 1;
         }
         break;
     case 5: {
@@ -121,12 +121,12 @@ void TWindowMakeTeam::run_task() {
         keyboard->set_depth(38500.0f);
         keyboard->set_text(comment);
         m_menu->set_entry_string_by_id(NULL, 1);
-        this->m_1c = 6;
+        this->state = 6;
     }
     case 6:
         if (keyboard->is_cancelled() != 0) {
             m_menu->set_entry_string_by_id(comment, 1);
-            this->m_1c = 1;
+            this->state = 1;
         }
         if (keyboard->is_confirmed() != 0) {
             s32 n;
@@ -136,32 +136,32 @@ void TWindowMakeTeam::run_task() {
             n = (s32)measure_string_len(comment);
             strncpy(comment, get_shared_text_buffer(), n);
             m_menu->set_entry_string_by_id(comment, 1);
-            this->m_1c = 1;
+            this->state = 1;
         }
         break;
     case 7:
-        m_30 = create_entry_menu_window();
-        this->m_1c = 8;
+        sub_menu = create_entry_menu_window();
+        this->state = 8;
     case 8:
-        if (m_30->is_cancelled() != 0) {
-            this->m_1c = 1;
-        } else if (m_30->is_decided() != 0) {
-            this->m_1e = m_30->get_selected_value();
-            m_menu->set_entry_string_by_id((void *)TWindowMakeTeam::draw_entry_0x110(this->m_1e), 2);
+        if (sub_menu->is_cancelled() != 0) {
+            this->state = 1;
+        } else if (sub_menu->is_decided() != 0) {
+            this->mode = sub_menu->get_selected_value();
+            m_menu->set_entry_string_by_id((void *)TWindowMakeTeam::draw_entry_0x110(this->mode), 2);
             send_state();
-            this->m_1c = 1;
+            this->state = 1;
         }
         break;
     case 9:
-        m_30 = create_status_menu_window();
-        this->m_1c = 10;
+        sub_menu = create_status_menu_window();
+        this->state = 10;
     case 10:
-        if (m_30->is_cancelled() != 0) {
-            this->m_1c = 1;
-        } else if (m_30->is_decided() != 0) {
-            this->selected_value = m_30->get_selected_value();
+        if (sub_menu->is_cancelled() != 0) {
+            this->state = 1;
+        } else if (sub_menu->is_decided() != 0) {
+            this->selected_value = sub_menu->get_selected_value();
             m_menu->set_entry_string_by_id(TWindowMakeTeam::init_status_disp(this->selected_value), 3);
-            this->m_1c = 1;
+            this->state = 1;
         }
         break;
     case 11:
@@ -183,7 +183,6 @@ TWindowMenuInfomation *TWindowMakeTeam::create_menu() {
 }
 
 TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
-    u8 *arg0 = (u8 *)this;
     TWindowMenu *r;
     r = create_window_menu_default(&lbl_8044F300, 3);
     r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(0), 6, 0);
@@ -191,19 +190,18 @@ TWindowMenu *TWindowMakeTeam::create_entry_menu_window() {
     r->add_text_entry(TWindowMakeTeam::draw_entry_0x110(2), 6, 2);
     r->calc_window_size();
     align_menu_entry_positions(r);
-    ((TWindowSubComCardList *)r)->set_selected_index(*(s8 *)(arg0 + 0x1E));
+    ((TWindowSubComCardList *)r)->set_selected_index(this->mode);
     return r;
 }
 
 TWindowMenu *TWindowMakeTeam::create_status_menu_window() {
-    u8 *arg0 = (u8 *)this;
     TWindowMenu *r;
     s32 m;
     r = create_window_menu_default(&lbl_8044F308, 4);
     r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(0)), 6, 0);
     r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(1)), 6, 1);
     r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(2)), 6, 2);
-    m = *(s32 *)(arg0 + 0x20);
+    m = this->m_20;
     if (m == 1 || m == 2) {
         r->add_text_entry((saddr)(TWindowMakeTeam::init_status_disp(3)), 6, 3);
     }
@@ -223,7 +221,7 @@ void TWindowMakeTeam::update_ok_button() {
 }
 
 void TWindowMakeTeam::send_state() {
-    if ((s32) this->m_1e != 1) {
+    if ((s32) this->mode != 1) {
         m_menu->mark_entry_by_id(3);
         return;
     }
@@ -233,20 +231,20 @@ void TWindowMakeTeam::send_state() {
 void TWindowMakeTeam::set_state(s32 state) {
     switch (state) {
     case 0:
-        this->m_1c = 3;
+        this->state = 3;
         return;
     case 1:
-        this->m_1c = 5;
+        this->state = 5;
         return;
     case 2:
-        this->m_1c = 7;
+        this->state = 7;
         return;
     case 3:
-        this->m_1c = 9;
+        this->state = 9;
         return;
     case 4:
-        this->m_1d = (u8) (this->m_1d | 1);
-        this->m_1c = 0xB;
+        this->flags = (u8) (this->flags | 1);
+        this->state = 0xB;
         return;
     }
 }
@@ -268,11 +266,11 @@ s32 TWindowMakeTeam::is_enabled() {
     return (u8)(this->selected_value);
 }
 
-saddr TWindowMakeTeam::draw_entry_0x110(s8 arg0) {
-    return (saddr)TWindowSubStatusDisp::get_message_10(arg0 + 0x110);
+saddr TWindowMakeTeam::draw_entry_0x110(s8 index) {
+    return (saddr)TWindowSubStatusDisp::get_message_10(index + 0x110);
 }
 
-void *TWindowMakeTeam::init_status_disp(s8 arg0) {
-    return TWindowSubStatusDisp::get_message_10(arg0 + 0x113);
+void *TWindowMakeTeam::init_status_disp(s8 index) {
+    return TWindowSubStatusDisp::get_message_10(index + 0x113);
 }
 

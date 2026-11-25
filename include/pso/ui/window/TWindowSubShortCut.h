@@ -7,6 +7,10 @@
 struct TWindowMainMenu;
 
 struct TWindowSubShortCutList;
+struct TWindowMenu;
+struct TWindowMessageYesNo;
+class TWindowChat;
+struct TWindowShortCut;
 
 struct TWindowSubShortCut : public TObject {
     TWindowSubShortCut(TObject *parent, s32 client);
@@ -19,11 +23,11 @@ struct TWindowSubShortCut : public TObject {
     uaddr m_24;
     TWindowMainMenu *parent_menu;
     TWindowSubShortCutList *com_card_list;
-    uaddr menu;
-    uaddr confirm_window;
-    uaddr chat_window;
-    uaddr m_3c;
-    void* m_40;
+    TWindowMenu *menu;
+    TWindowMessageYesNo *confirm_window;
+    TWindowChat *chat_window;
+    TWindowShortCut *shortcut_window;
+    void* chat_submission;
     s32 open_confirm_message();
     s32 open_confirm_prompt();
     s32 open_menu();

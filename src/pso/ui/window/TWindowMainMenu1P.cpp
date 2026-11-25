@@ -92,66 +92,66 @@ const char *TWindowMainMenu1P__name = "TWindowMainMenu1P";
 
 #pragma fp_contract on
 void TWindowMainMenu1P::update_backdrop_transition() {
-  f32 temp_f1;
-  s32 temp_r3;
-  s32 temp_r3_2;
-  temp_r3 = menu_flags;
-  if (!(temp_r3 & 1))
+  f32 tilt;
+  s32 flags_now;
+  s32 flags_after;
+  flags_now = menu_flags;
+  if (!(flags_now & 1))
   {
-    m_60 = (u8) ((m_60) - 1);
-    m_61 = (u8) ((m_61) + -1);
-    if (((s8) (m_60)) < 0)
+    transition_x = (u8) ((transition_x) - 1);
+    transition_y = (u8) ((transition_y) + -1);
+    if (((s8) (transition_x)) < 0)
     {
-      m_60 = 0U;
+      transition_x = 0U;
     }
-    if (((s8) (m_61)) < 0)
+    if (((s8) (transition_y)) < 0)
     {
-      m_61 = 0U;
+      transition_y = 0U;
     }
-    if ((((s8) (m_60)) == 0) && (((s8) (m_61)) == 0))
+    if ((((s8) (transition_x)) == 0) && (((s8) (transition_y)) == 0))
     {
-      temp_r3_2 = menu_flags;
-      if (temp_r3_2 & 2)
+      flags_after = menu_flags;
+      if (flags_after & 2)
       {
-        menu_flags = (s32) (temp_r3_2 & 0xFFFFFFFD);
+        menu_flags = (s32) (flags_after & 0xFFFFFFFD);
         end_view_override();
       }
     }
   }
   else
-    if (temp_r3 & 8)
+    if (flags_now & 8)
   {
-    m_60 = (u8) ((m_60) + 1);
-    m_61 = (u8) ((m_61) - 1);
-    if (((f32) ((s8) (m_60))) > 6.0f)
+    transition_x = (u8) ((transition_x) + 1);
+    transition_y = (u8) ((transition_y) - 1);
+    if (((f32) ((s8) (transition_x))) > 6.0f)
     {
-      m_60 = 6U;
+      transition_x = 6U;
     }
-    if (((s8) (m_61)) < 0)
+    if (((s8) (transition_y)) < 0)
     {
-      m_61 = 0U;
+      transition_y = 0U;
     }
   }
   else
   {
-    m_60 = (u8) ((m_60) + 1);
-    m_61 = (u8) ((m_61) + 1);
-    if (((f32) ((s8) (m_60))) > 3.0f)
+    transition_x = (u8) ((transition_x) + 1);
+    transition_y = (u8) ((transition_y) + 1);
+    if (((f32) ((s8) (transition_x))) > 3.0f)
     {
-      m_60 = 3U;
+      transition_x = 3U;
     }
-    if (((f32) ((s8) (m_61))) > 3.0f)
+    if (((f32) ((s8) (transition_y))) > 3.0f)
     {
-      m_61 = 3U;
+      transition_y = 3U;
     }
   }
-  backdrop.screen.projection.center_x = (f32) ((26.666666f * ((f32) ((s8) (m_60)))) + 320.0f);
-  backdrop.screen.projection.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8) (m_61))));
-  TWindowCtrlMain::set_left(53.333332f * ((f32) ((s8) (m_60))), client_index);
-  TWindowCtrlMain::set_bottom(480.0f - 74.666664f * ((f32) ((s8) (m_61))), client_index);
+  backdrop.screen.projection.center_x = (f32) ((26.666666f * ((f32) ((s8) (transition_x)))) + 320.0f);
+  backdrop.screen.projection.center_y = (f32) (240.0f - 37.333332f * ((f32) ((s8) (transition_y))));
+  TWindowCtrlMain::set_left(53.333332f * ((f32) ((s8) (transition_x))), client_index);
+  TWindowCtrlMain::set_bottom(480.0f - 74.666664f * ((f32) ((s8) (transition_y))), client_index);
   backdrop.pad_40[0] = (f32) ((640.0f - (backdrop.screen.projection.center_x)) / 320.0f);
   backdrop.pad_40[1] = (f32) ((backdrop.screen.projection.center_y) / 240.0f);
-  temp_f1 = backdrop.pad_40[1];
+  tilt = backdrop.pad_40[1];
   if ((backdrop.pad_40[0]) < (backdrop.pad_40[1]))
   {
     backdrop.pad_40[0] = backdrop.pad_40[1];
@@ -174,8 +174,8 @@ TWindowMainMenu1P::~TWindowMainMenu1P() {
 
 TWindowMainMenu1P::TWindowMainMenu1P(TObject *parent, s32 client) : TWindowMainMenu(parent, client) {
     this->m_name = TWindowMainMenu1P__name;
-    m_60 = 0;
-    m_61 = 0;
+    transition_x = 0;
+    transition_y = 0;
     backdrop.screen.projection.center_x = 320.0f;
     backdrop.screen.projection.center_y = 240.0f;
     backdrop.screen.viewport_width = 640.0f;

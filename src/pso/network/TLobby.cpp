@@ -2969,11 +2969,11 @@ extern u8 *text_language_group_table;
 
 int TWindowMenuIconLine::is_decided() { return (this->state_flags >> 1) & 0x1; }
 int TWindowMenuIconLine::is_cancelled() { return (this->state_flags >> 2) & 0x1; }
-int TWindowMakeTeam::test_flag_1d_bit1() { return (m_1d >> 1) & 1; }
+int TWindowMakeTeam::test_flag_1d_bit1() { return (flags >> 1) & 1; }
 s32 TWindowMakeTeam::get_field_20() { return m_20; }
-u8 TWindowMakeTeam::get_mode() { return m_1e; }
-u8 TWindowMakeTeam::read_mode() { return m_1e; }
-int TWindowMakeTeam::test_flag_1d_bit0() { return m_1d & 1; }
+u8 TWindowMakeTeam::get_mode() { return mode; }
+u8 TWindowMakeTeam::read_mode() { return mode; }
+int TWindowMakeTeam::test_flag_1d_bit0() { return flags & 1; }
 
 s32 *get_access_key_input_buffer(void) {
     return (s32 *)TAdEnterSerialAccessGC::access_key_input_buffer;

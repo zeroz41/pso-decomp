@@ -66,12 +66,12 @@ s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 client) {
     return 0;
 }
 
-s32 TWindowSubTechnique::lookup_technique(s32 arg0, s32 client) {
+s32 TWindowSubTechnique::lookup_technique(s32 technique, s32 client) {
     TObjPlayer *player = get_player_by_client_id(client);
     if (player == NULL) {
         return 0;
     }
-    return player->can_use_palette_action(3, arg0);
+    return player->can_use_palette_action(3, technique);
 }
 void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, saddr list) {
     const char *technique_name;
@@ -140,12 +140,12 @@ TWindowMenu *TWindowSubTechnique::open_menu() {
 
 static const char lbl_805DD83C[4] = "";
 
-void TWindowSubTechnique::update_selected_help(s32 arg1) {
+void TWindowSubTechnique::update_selected_help(s32 technique) {
   s32 saved_reg_r30;
   saddr player;
   s32 tech;
   s32 cast_technique_level;
-  tech = arg1;
+  tech = technique;
   toggle_help_window_on_button((uaddr)help_window, playerIndex);
   player = (saddr)get_player_by_client_id((this->playerIndex));
   if (player != 0)
@@ -283,8 +283,8 @@ TWindowSubTechnique::TWindowSubTechnique(TWindowMainMenu *parent, s32 client) : 
     state = 0;
 }
 
-saddr get_technique_description_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x14)) + (arg0 * 4));
+saddr get_technique_description_text(s32 technique) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x14)) + (technique * 4));
 }
 
 void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }

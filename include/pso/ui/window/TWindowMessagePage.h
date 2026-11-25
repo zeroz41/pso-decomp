@@ -17,7 +17,7 @@ struct TWindowMessagePage : public TWindowMessage {
     static u8 *set_text(const NJS_POINT2 *position, saddr extent, saddr rows);
     void render();
     void run_task();
-    u8 unk_90[0x4];
+    s32 line_mode;
     uaddr m_94;
 };
 

@@ -224,7 +224,7 @@ void TWindowSubCustomSelect::run_task() {
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
     TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
-    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x7C)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)status_display, (s16)1);
 }
 const u32 custom_select_organic_action_table[40] = {
     0x20000, 0x20001, 0x20002, 0x30000, 0x30006, 0x30003, 0x30001, 0x30007,
@@ -279,7 +279,7 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
     if (o != NULL) {
         o = ((TWindowSubStatusDisp *)o)->construct_type1_heading((saddr)TWindowSubStatusDisp::get_message_10(0x22), client_index);
     }
-    *(void **)((s8 *)this + 0x7C) = o;
+    status_display = (uaddr)o;
     pos.x = 196.0f;
     pos.y = 51.0f * (f32)(s8)row_count + 18.0f;
     scroll_bar = new WindowScrollBar(&pos);

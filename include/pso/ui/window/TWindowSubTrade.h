@@ -15,10 +15,10 @@ struct TWindowSubTrade : public TObject {
     virtual ~TWindowSubTrade();
     TWindowMessage *open_player_message_window(s32 player, s32 text);
     TWindowMessageYesNo *open_trade_confirm_prompt(s32 player);
-    u8 m_1c;
+    u8 state;
     u8 _pad1D[0x3];
-    uaddr m_20;
-    u32 m_24;
+    uaddr client_id;
+    u32 selected_player;
     TWindowMainMenu *parent_menu;
     TWindowMenu *m_player_list;
     TWindowMessage *m_message_window;

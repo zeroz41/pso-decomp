@@ -25,10 +25,10 @@ const char *TWindowMessage__name = "TWindowMessage";
 extern "C" {
 
 
-void TWindowMessage::scroll_up_line(u8 *arg1) {
+void TWindowMessage::scroll_up_line(u8 *line_entry) {
     f32 d;
     s32 i;
-    WindowTextEntry *entry = reinterpret_cast<WindowTextEntry *>(arg1);
+    WindowTextEntry *entry = reinterpret_cast<WindowTextEntry *>(line_entry);
     WindowTextEntry *line;
     i = 0;
     d = 2.0f + entry->height;
@@ -41,7 +41,7 @@ void TWindowMessage::scroll_up_line(u8 *arg1) {
     }
     entry->y = 0.0f;
     entry->height = 0.0f;
-    TWindowDuelResult::set_default_status(arg1, 0);
+    TWindowDuelResult::set_default_status(line_entry, 0);
 }
 
 void TWindowMessage::advance_reveal_cursor() {
@@ -128,20 +128,20 @@ void TWindowMessage::retire_scrolled_lines() {
 #pragma push
 #pragma opt_common_subs off
 void TWindowMessage::update_scroll() {
-    f32 temp_f2;
-    f32 temp_f3;
-    f32 var_f1;
-    temp_f3 = target_scroll_y;
-    temp_f2 = temp_f3 - scroll_offset[1];
-    var_f1 = (0.15f) * temp_f2;
-    if (var_f1 < (15.0f)) {
-        var_f1 = (15.0f);
+    f32 distance;
+    f32 target;
+    f32 step;
+    target = target_scroll_y;
+    distance = target - scroll_offset[1];
+    step = (0.15f) * distance;
+    if (step < (15.0f)) {
+        step = (15.0f);
     }
-    if (temp_f2 < var_f1) {
-        scroll_offset[1] = temp_f3;
+    if (distance < step) {
+        scroll_offset[1] = target;
         return;
     }
-    scroll_offset[1] += var_f1;
+    scroll_offset[1] += step;
 }
 #pragma pop
 
@@ -151,7 +151,7 @@ s32 get_shared_text_buffer(void);
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 color);
 
 #pragma readonly_strings on
-s32 TWindowOptionCtrl::add_label_value_line(const char *arg1, const char *arg2, u32 arg3) {
+s32 TWindowOptionCtrl::add_label_value_line(const char *label, const char *value, u32 flags) {
     const char *sep;
     f32 x;
     s32 r;
@@ -159,14 +159,14 @@ s32 TWindowOptionCtrl::add_label_value_line(const char *arg1, const char *arg2, 
 
     sep = " : ";
     text_builder_reset();
-    text_builder_append((u8 *)arg1);
+    text_builder_append((u8 *)label);
     text_builder_append((u8 *)sep);
-    text_builder_append((u8 *)arg2);
+    text_builder_append((u8 *)value);
     e = (u8 *)((TWindowBase *)this)->get_array_entry(*(s32 *)(((u8 *)this) + 0x88));
-    r = append_message_window_line((TWindowMessage *)this, get_shared_text_buffer(), arg3 | 2, -1);
+    r = append_message_window_line((TWindowMessage *)this, get_shared_text_buffer(), flags | 2, -1);
     if (r != 0) {
         x = (0.5f) * (*(f32 *)(((u8 *)this) + 0x38) - 8.0f);
-        x -= (f32)calc_text_width((char *)arg1);
+        x -= (f32)calc_text_width((char *)label);
         x -= (0.5f) * (f32)calc_text_width((char *)sep);
         *(f32 *)(e + 8) = x;
     }

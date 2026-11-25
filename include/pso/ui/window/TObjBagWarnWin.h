@@ -11,7 +11,9 @@ public:
     virtual ~TObjBagWarnWin();
     virtual void run_task();
 public:
-    static s32 should_show_warning(void *arg0);
+    s32 should_show_warning();
+    static const char *class_name;
+    static f32 message_window_size[2];
     void open_message_window();
     static void *create(void *bag_warn_win);
 

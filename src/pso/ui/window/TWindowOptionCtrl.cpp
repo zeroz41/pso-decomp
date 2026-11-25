@@ -96,19 +96,19 @@ TWindowOptionCtrl::TWindowOptionCtrl(TObject *parent) : TObject(parent) {
 TWindowOptionCtrl::~TWindowOptionCtrl() {
     apply_selection_change();
     if (serial_info_window != NULL) {
-        ((TWindowBase *)serial_info_window)->close();
+        serial_info_window->close();
         serial_info_window = NULL;
     }
     if (yes_no_window != NULL) {
-        ((TWindowMessageYesNo *)yes_no_window)->close();
+        yes_no_window->close();
         yes_no_window = NULL;
     }
     if (snap_shot_window != NULL) {
-        ((TWindowBase *)snap_shot_window)->close();
+        snap_shot_window->close();
         snap_shot_window = NULL;
     }
     if (sound_balance_window != NULL) {
-        ((TWindowBase *)sound_balance_window)->close();
+        sound_balance_window->close();
         sound_balance_window = NULL;
     }
     if (option_menu != NULL) {
@@ -134,19 +134,19 @@ void TWindowOptionCtrl::run_task() {
     case 0:
     case 1:
         if (serial_info_window != NULL) {
-            ((TWindowBase *)serial_info_window)->close();
+            serial_info_window->close();
             serial_info_window = NULL;
         }
         if (yes_no_window != NULL) {
-            ((TWindowMessageYesNo *)(yes_no_window))->close();
+            yes_no_window->close();
             yes_no_window = NULL;
         }
         if (snap_shot_window != NULL) {
-            ((TWindowBase *)snap_shot_window)->close();
+            snap_shot_window->close();
             snap_shot_window = NULL;
         }
         if (sound_balance_window != NULL) {
-            ((TWindowBase *)sound_balance_window)->close();
+            sound_balance_window->close();
             sound_balance_window = NULL;
         }
         if (option_menu != NULL) {
@@ -158,26 +158,26 @@ void TWindowOptionCtrl::run_task() {
             sub_menu = NULL;
         }
         if (main_menu == NULL) {
-            main_menu = (void *)create_menu();
+            main_menu = (TWindowMenu *)create_menu();
         }
-        ((TWindowMenu *)(main_menu))->clear_transition_flag();
-        ((TWindowMenu *)(main_menu))->clear_flag_and_release();
+        main_menu->clear_transition_flag();
+        main_menu->clear_flag_and_release();
         state = 2;
     case 2:
-        if (((TWindowMenu *)(main_menu))->is_cancelled() != 0) {
+        if (main_menu->is_cancelled() != 0) {
             state = 0x1B;
-        } else if (((TWindowMenu *)(main_menu))->is_decided() != 0) {
-            state = ((TWindowMenu *)main_menu)->get_selected_value();
+        } else if (main_menu->is_decided() != 0) {
+            state = main_menu->get_selected_value();
         }
         break;
     case 3:
-        ((TWindowMenu *)(main_menu))->open();
+        main_menu->open();
         if (option_menu == NULL) {
-            option_menu = (void *)create_select_menu_window();
+            option_menu = (TWindowMenuIconLine *)create_select_menu_window();
         }
         state = 4;
     case 4:
-        if (((TWindowMenuIconLine *)(option_menu))->is_cancelled() != 0) {
+        if (option_menu->is_cancelled() != 0) {
             state = 1;
         }
         if (handle_input(((TWindowOptionCtrl *)option_menu)->update_selected_item()) != 0) {
@@ -186,13 +186,13 @@ void TWindowOptionCtrl::run_task() {
         break;
     case 5:
         TWindowOptionCtrl__sub_802273B4(0x1E);
-        ((TWindowMenu *)(main_menu))->open();
+        main_menu->open();
         if (sub_menu == NULL) {
-            sub_menu = (void *)create_list_window();
+            sub_menu = (TWindowMenu *)create_list_window();
         }
         state = 6;
     case 6:
-        if (((TWindowMenu *)(sub_menu))->is_cancelled() != 0) {
+        if (sub_menu->is_cancelled() != 0) {
             if (flags & 2) {
                 TWindowOptionCtrl__sub_802273B4(0x1E);
                 flags &= ~2;
@@ -205,27 +205,27 @@ void TWindowOptionCtrl::run_task() {
                 break;
             }
         }
-        if (((TWindowMenu *)(sub_menu))->is_decided() != 0) {
-            apply_and_close(((TWindowMenu *)sub_menu)->get_selected_value());
-            ((TWindowMenu *)(sub_menu))->clear_flag_and_release();
+        if (sub_menu->is_decided() != 0) {
+            apply_and_close(sub_menu->get_selected_value());
+            sub_menu->clear_flag_and_release();
         }
         break;
     case 7:
-        ((TWindowMenu *)(main_menu))->open();
+        main_menu->open();
         if (option_menu == NULL) {
-            option_menu = (void *)create_sound_mode_menu();
+            option_menu = (TWindowMenuIconLine *)create_sound_mode_menu();
         }
         state = 8;
     case 8:
         sound_mode = ((TWindowOptionCtrl *)option_menu)->update_selected_item();
-        if (((TWindowMenuIconLine *)(option_menu))->is_cancelled() != 0) {
+        if (option_menu->is_cancelled() != 0) {
             state = 1;
         }
         break;
     case 9:
-        ((TWindowMenu *)(main_menu))->open();
+        main_menu->open();
         if (sound_balance_window == NULL) {
-            sound_balance_window = (void *)create_sound_balance_window();
+            sound_balance_window = (TWindowBase *)create_sound_balance_window();
         }
         state = 0xA;
     case 10:
@@ -249,9 +249,9 @@ void TWindowOptionCtrl::run_task() {
         break;
     case 12:
         if (TObjBoss2Tunnel::load_snapshot() != 0) {
-            ((TWindowMenu *)(main_menu))->open();
+            main_menu->open();
             if (snap_shot_window == NULL) {
-                snap_shot_window = (void *)create_snap_shot_window();
+                snap_shot_window = (TWindowBase *)create_snap_shot_window();
             }
             state = 0xD;
         }
@@ -265,7 +265,7 @@ void TWindowOptionCtrl::run_task() {
         if (card_format_dialog == NULL) {
             card_format_dialog = new TSnapshotFileSetup(this);
         }
-        ((TWindowMenu *)(main_menu))->open();
+        main_menu->open();
         state = 0xF;
     case 15: {
         s32 r = card_format_dialog->get_result();
@@ -284,7 +284,7 @@ void TWindowOptionCtrl::run_task() {
     }
     case 16:
         if (yes_no_window != NULL) {
-            ((TWindowMessageYesNo *)(yes_no_window))->close();
+            yes_no_window->close();
             yes_no_window = NULL;
         }
         if (option_menu != NULL) {
@@ -296,28 +296,28 @@ void TWindowOptionCtrl::run_task() {
             m_30 = NULL;
         }
         if (sub_menu == NULL) {
-            sub_menu = (void *)create_sub_menu_window();
+            sub_menu = (TWindowMenu *)create_sub_menu_window();
         }
-        ((TWindowMenu *)(main_menu))->open();
-        ((TWindowMenu *)(sub_menu))->clear_transition_flag();
-        ((TWindowMenu *)(sub_menu))->clear_flag_and_release();
+        main_menu->open();
+        sub_menu->clear_transition_flag();
+        sub_menu->clear_flag_and_release();
         state = 0x11;
     case 17:
-        if (((TWindowMenu *)(sub_menu))->is_cancelled() != 0) {
+        if (sub_menu->is_cancelled() != 0) {
             state = 1;
-        } else if (((TWindowMenu *)(sub_menu))->is_decided() != 0) {
-            state = ((TWindowMenu *)sub_menu)->get_selected_value();
+        } else if (sub_menu->is_decided() != 0) {
+            state = sub_menu->get_selected_value();
         }
         break;
     case 18:
-        ((TWindowMenu *)(sub_menu))->open();
+        sub_menu->open();
         if (option_menu == NULL) {
-            option_menu = (void *)create_option_menu();
+            option_menu = (TWindowMenuIconLine *)create_option_menu();
         }
         state = 0x13;
     case 19:
         ((void (*)(void *, s32)) set_field_value__17TWindowOptionCtrlFls)(this, ((TWindowOptionCtrl *)option_menu)->update_selected_item());
-        if (((TWindowMenuIconLine *)(option_menu))->is_cancelled() != 0) {
+        if (option_menu->is_cancelled() != 0) {
             state = 0x10;
         }
         break;
@@ -335,23 +335,23 @@ void TWindowOptionCtrl::run_task() {
         break;
     case 23:
         if (yes_no_window == NULL) {
-            switch (((TWindowMenu *)sub_menu)->get_selected_value()) {
+            switch (sub_menu->get_selected_value()) {
             case 0x14:
-                yes_no_window = (void *)TWindowOptionCtrl::open_yes_no_window((saddr)this, 0x22, 0xD0);
+                yes_no_window = (TWindowMessageYesNo *)TWindowOptionCtrl::open_yes_no_window((saddr)this, 0x22, 0xD0);
                 break;
             case 0x15:
-                yes_no_window = (void *)TWindowOptionCtrl::open_yes_no_window((saddr)this, 0x24, 0xD0);
+                yes_no_window = (TWindowMessageYesNo *)TWindowOptionCtrl::open_yes_no_window((saddr)this, 0x24, 0xD0);
                 break;
             }
         }
-        ((TWindowMenu *)(sub_menu))->open();
+        sub_menu->open();
         state = 0x18;
     case 24:
-        if (((TWindowMessageYesNo *)(yes_no_window))->is_cancelled() != 0) {
+        if (yes_no_window->is_cancelled() != 0) {
             state = 0x10;
-        } else if (((TWindowMessageYesNo *)(yes_no_window))->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(yes_no_window))->get_selected_value() == 0) {
-                if (((TWindowMenu *)sub_menu)->get_selected_value() == 0x14) {
+        } else if (yes_no_window->is_child_visible() != 0) {
+            if (yes_no_window->get_selected_value() == 0) {
+                if (sub_menu->get_selected_value() == 0x14) {
                     m_24 = 1;
                 } else {
                     m_24 = 3;
@@ -364,9 +364,9 @@ void TWindowOptionCtrl::run_task() {
         break;
     case 25:
         if (serial_info_window == NULL) {
-            serial_info_window = (void *)TWindowOptionCtrl::create_serial_info_window(TWindowOptionCtrl::get_option_entry(0xCF), 1);
+            serial_info_window = (TWindowBase *)TWindowOptionCtrl::create_serial_info_window(TWindowOptionCtrl::get_option_entry(0xCF), 1);
         }
-        ((TWindowMenu *)(main_menu))->open();
+        main_menu->open();
         state = 0x1A;
     case 26:
         if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 6) != 0 ||
@@ -540,7 +540,7 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
             ((TObject *)main_menu)->queue_destruction();
             main_menu = NULL;
         }
-        main_menu = (void *)create_menu();
+        main_menu = (TWindowMenu *)create_menu();
         window_request_refresh((u8 *)main_menu);
         return 1;
     }

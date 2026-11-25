@@ -5,6 +5,8 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
+class TWindowMenuIconLine;
+struct TWindowMenu;
 struct TWindowLoadItemTexture;
 struct TWindowHelpItem;
 struct TWindowSubMagPhoton;
@@ -25,9 +27,9 @@ struct TWindowSubMag : public TObject {
     s32 client_id;
     TItemData *mag;
     TWindowMainMenu *parent;
-    void *list;
-    void *list2;
-    void *card;
+    TWindowMenuIconLine *list;
+    TWindowMenuIconLine *list2;
+    TWindowMenu *card;
     TWindowHelpItem *help;
     TWindowLoadItemTexture *slotwin;
     TWindowSubMagPhoton *photon;

@@ -195,7 +195,7 @@ void TWindowSubComCard::set_com_param(saddr client_id, s32 com_param) {
 
 TWindowSubComCard::TWindowSubComCard(TObject *parent, s32 client) : TObject(parent) {
     m_name = class_name;
-    *(void **)((s8 *)this + 0x5C) = parent;
+    this->m_5c = (u32)parent;
     client_id = client;
     this->menu_window = 0;
     this->com_card_menu = 0;
@@ -276,7 +276,7 @@ void TWindowSubComCard::run_task() {
     case 0x1:
         this->send_state_if_dirty();
         if ((u32) this->keyboard != 0U) {
-            ((TObject *)(*(void **)((s8 *)this + 0x80)))->queue_destruction();
+            ((TObject *)this->keyboard)->queue_destruction();
             this->keyboard = 0U;
         }
         if ((u32) this->entry_list_window != 0U) {
@@ -284,7 +284,7 @@ void TWindowSubComCard::run_task() {
             this->entry_list_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)this->confirm_window)->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->card_list != 0U) {
@@ -323,7 +323,7 @@ void TWindowSubComCard::run_task() {
     case 0x2:
         this->set_help_message((int) (((TWindowShortListCtrl *)(this->menu_window))->get_cursor_pos()));
         if (((TWindowMenu *)(this->menu_window))->is_cancelled() != 0) {
-            ((VObj_18_204a81 *)((u8 *)(*(u8 **)((s8 *)this + 0x5C))))->m7();
+            ((VObj_18_204a81 *)((u8 *)this->m_5c))->m7();
             this->state = 0x4FU;
             return;
         }
@@ -468,7 +468,7 @@ void TWindowSubComCard::run_task() {
             this->message_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)this->confirm_window)->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->sub_menu != 0U) {
@@ -663,7 +663,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x21:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)this->confirm_window)->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->sub_menu != 0U) {
@@ -730,7 +730,7 @@ void TWindowSubComCard::run_task() {
         this->m_2c = (idle_ticks + 1);
         if ((f32) idle_ticks > 450.0f) {
             TWindowCtrl::unlock_client_main_menu((this->client_id));
-            ((VObj_18_204a81 *)((u8 *)(*(u8 **)((s8 *)this + 0x5C))))->m7();
+            ((VObj_18_204a81 *)((u8 *)this->m_5c))->m7();
             this->state = 0x4FU;
             return;
         }
@@ -939,7 +939,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x3B:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)this->confirm_window)->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->com_card_menu != 0U) {
@@ -1010,7 +1010,7 @@ void TWindowSubComCard::run_task() {
         break;
     case 0x41:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)this->confirm_window)->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->sub_menu != 0U) {
@@ -1073,7 +1073,7 @@ void TWindowSubComCard::run_task() {
         }
     case 0x46:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)this->confirm_window)->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->sub_menu != 0U) {
@@ -1123,7 +1123,7 @@ void TWindowSubComCard::run_task() {
         }
     case 0x4B:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x70)))->close();
+            ((TWindowMessageYesNo *)this->confirm_window)->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->sub_menu != 0U) {

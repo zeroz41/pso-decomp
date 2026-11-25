@@ -10,20 +10,20 @@ class TWindowMenuInfomation;
 class TWindowMenu;
 
 struct TWindowMakeTeam : public TObject {
-    TWindowMakeTeam(TObject *parent, s32 mode);
+    TWindowMakeTeam(TObject *parent, s32 kind);
     virtual ~TWindowMakeTeam();
-    u8 m_1c;
-    u8 m_1d;
-    s8 m_1e;
+    u8 state;
+    u8 flags;
+    s8 mode;
     s8 selected_value;
     s32 m_20;
     char *name;
     char *comment;
     TWindowMenuInfomation *m_menu; // 0x2C: the window create_menu() returns; its entries are marked, disabled and named
-    TWindowMenu *m_30;
+    TWindowMenu *sub_menu;
     TKeyBoardControl *keyboard;
-    static void *init_status_disp(s8 arg0);
-    static saddr draw_entry_0x110(s8 arg0);
+    static void *init_status_disp(s8 index);
+    static saddr draw_entry_0x110(s8 index);
     s32 is_enabled();
     u8 get_mode();
     const char *get_name();
@@ -42,8 +42,8 @@ struct TWindowMakeTeam : public TObject {
     virtual void run_task();
 };
 
-LAYOUT_ASSERT(TWindowMakeTeam_flags_offset, offsetof(TWindowMakeTeam, m_1d) == 0x1D);
-LAYOUT_ASSERT(TWindowMakeTeam_mode_offset, offsetof(TWindowMakeTeam, m_1e) == 0x1E);
+LAYOUT_ASSERT(TWindowMakeTeam_flags_offset, offsetof(TWindowMakeTeam, flags) == 0x1D);
+LAYOUT_ASSERT(TWindowMakeTeam_mode_offset, offsetof(TWindowMakeTeam, mode) == 0x1E);
 LAYOUT_ASSERT(TWindowMakeTeam_field_20_offset, offsetof(TWindowMakeTeam, m_20) == 0x20);
 LAYOUT_ASSERT(TWindowMakeTeam_size, sizeof(TWindowMakeTeam) == 0x38);
 #endif

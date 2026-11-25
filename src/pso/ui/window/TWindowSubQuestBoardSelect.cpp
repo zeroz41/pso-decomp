@@ -257,7 +257,7 @@ void TWindowSubQuestBoardSelect::run_task() {
 }
 
 TWindowSubQuestBoardSelect::~TWindowSubQuestBoardSelect() {
-    TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x64)), (s16)1);
+    TWindowSubStatusDisp::destroy_status_display((saddr)status_disp, (s16)1);
 }
 
 u32 calc_text_width();

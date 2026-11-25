@@ -11,10 +11,11 @@
 
 #pragma scheduling off
 
-union Pipe_803DEECC { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
+union GxFifoValue { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
 
-#define FIFO_803DF00C (*(volatile Pipe_803DF00C *)0xCC008000)
-union Pipe_803DF00C { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
+// The Gekko write-gather pipe.
+#define GX_FIFO (*(volatile GxFifoValue *)0xCC008000)
+
 
 s32 constant_material_color;
 
@@ -31,10 +32,9 @@ void TWindowSubStatusDisp::get_player() {
     end_primitive_draw();
 }
 
-#define FIFO_803DEECC (*(volatile Pipe_803DEECC *)0xCC008000)
-#define GXPosition3f32_803DEECC(x, y, z) (FIFO_803DEECC.f32v = (x), FIFO_803DEECC.f32v = (y), FIFO_803DEECC.f32v = (z))
-#define GXColor1u32_803DEECC(c) (FIFO_803DEECC.u32v = (c))
-#define GXTexCoord2f32_803DEECC(s, t) { f32 t_ = (t); f32 s_ = (s); FIFO_803DEECC.f32v = s_; FIFO_803DEECC.f32v = t_; }
+#define FIFO_POSITION3F32(x, y, z) (GX_FIFO.f32v = (x), GX_FIFO.f32v = (y), GX_FIFO.f32v = (z))
+#define FIFO_COLOR1U32(c) (GX_FIFO.u32v = (c))
+#define FIFO_TEXCOORD2F32(s, t) { f32 t_ = (t); f32 s_ = (s); GX_FIFO.f32v = s_; GX_FIFO.f32v = t_; }
 #pragma push
 #pragma scheduling off
 #pragma peephole off
@@ -48,18 +48,18 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth) {
     f32 y0 = q[1] * z;
     f32 y1 = q[3] * z;
     GXBegin((GXPrimitive)0x80, (GXVtxFmt)4, 4);
-    GXPosition3f32_803DEECC(x0, y0, z);
-    GXColor1u32_803DEECC(color);
-    GXTexCoord2f32_803DEECC(q[4], q[5]);
-    GXPosition3f32_803DEECC(x0, y1, z);
-    GXColor1u32_803DEECC(color);
-    GXTexCoord2f32_803DEECC(q[4], q[7]);
-    GXPosition3f32_803DEECC(x1, y1, z);
-    GXColor1u32_803DEECC(color);
-    GXTexCoord2f32_803DEECC(q[6], q[7]);
-    GXPosition3f32_803DEECC(x1, y0, z);
-    GXColor1u32_803DEECC(color);
-    GXTexCoord2f32_803DEECC(q[6], q[5]);
+    FIFO_POSITION3F32(x0, y0, z);
+    FIFO_COLOR1U32(color);
+    FIFO_TEXCOORD2F32(q[4], q[5]);
+    FIFO_POSITION3F32(x0, y1, z);
+    FIFO_COLOR1U32(color);
+    FIFO_TEXCOORD2F32(q[4], q[7]);
+    FIFO_POSITION3F32(x1, y1, z);
+    FIFO_COLOR1U32(color);
+    FIFO_TEXCOORD2F32(q[6], q[7]);
+    FIFO_POSITION3F32(x1, y0, z);
+    FIFO_COLOR1U32(color);
+    FIFO_TEXCOORD2F32(q[6], q[5]);
 }
 #pragma pop
 
@@ -76,42 +76,42 @@ void draw_rotated_quad(f32 *q) {
     y0 = q[1] * z;
     u0 = q[8];
     v0 = q[9];
-    FIFO_803DF00C.f32v = x0;
-    FIFO_803DF00C.f32v = y0;
-    FIFO_803DF00C.f32v = z;
-    FIFO_803DF00C.u32v = color;
-    FIFO_803DF00C.f32v = u0;
-    FIFO_803DF00C.f32v = v0;
+    GX_FIFO.f32v = x0;
+    GX_FIFO.f32v = y0;
+    GX_FIFO.f32v = z;
+    GX_FIFO.u32v = color;
+    GX_FIFO.f32v = u0;
+    GX_FIFO.f32v = v0;
     x1 = x0 + q[3] * z;
     y1 = y0 + q[4] * z;
     u1 = u0 + q[10];
     v1 = v0 + q[11];
-    FIFO_803DF00C.f32v = x1;
-    FIFO_803DF00C.f32v = y1;
-    FIFO_803DF00C.f32v = z;
-    FIFO_803DF00C.u32v = color;
-    FIFO_803DF00C.f32v = u1;
-    FIFO_803DF00C.f32v = v1;
+    GX_FIFO.f32v = x1;
+    GX_FIFO.f32v = y1;
+    GX_FIFO.f32v = z;
+    GX_FIFO.u32v = color;
+    GX_FIFO.f32v = u1;
+    GX_FIFO.f32v = v1;
     x1 = x1 + q[5] * z;
     y1 = y1 + q[6] * z;
     u1 = u1 + q[12];
     v1 = v1 + q[13];
-    FIFO_803DF00C.f32v = x1;
-    FIFO_803DF00C.f32v = y1;
-    FIFO_803DF00C.f32v = z;
-    FIFO_803DF00C.u32v = color;
-    FIFO_803DF00C.f32v = u1;
-    FIFO_803DF00C.f32v = v1;
+    GX_FIFO.f32v = x1;
+    GX_FIFO.f32v = y1;
+    GX_FIFO.f32v = z;
+    GX_FIFO.u32v = color;
+    GX_FIFO.f32v = u1;
+    GX_FIFO.f32v = v1;
     y3 = y0 + q[6] * z;
     x3 = x0 + q[5] * z;
-    FIFO_803DF00C.f32v = x3;
-    FIFO_803DF00C.f32v = y3;
-    FIFO_803DF00C.f32v = z;
-    FIFO_803DF00C.u32v = color;
+    GX_FIFO.f32v = x3;
+    GX_FIFO.f32v = y3;
+    GX_FIFO.f32v = z;
+    GX_FIFO.u32v = color;
     v3 = v0 + q[13];
     u3 = u0 + q[12];
-    FIFO_803DF00C.f32v = u3;
-    FIFO_803DF00C.f32v = v3;
+    GX_FIFO.f32v = u3;
+    GX_FIFO.f32v = v3;
 }
 #pragma pop
 

@@ -51,15 +51,10 @@ const char *TWindowMainMenu__name = "TWindowMainMenu";
 extern const f32 lbl_8044F2E0[2] = {206.0f, 140.0f};
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-struct Obj_80263D7C; struct Obj_80263DBC;
 
-struct Elt80263D94_80263d94_80263B70 { s16 f0; s16 id; s32 f4; };
 
-struct Obj_80263D7C { u8 pad[0x50]; s16 f50; u8 pad3[0x5c - 0x52]; s32 f5c; };
 
-struct E_80263DBC { s16 a; s32 b; };
 
-struct Obj_80263DBC { u8 pad[0x28]; E_80263DBC arr[4]; u8 pad2[0x50 - 0x48]; s16 f50; s16 f52; u8 pad3[0x5c - 0x54]; u32 f5c; };
 extern "C" {
 s32 is_trade_range_bit_set(s32);
 s32 select_main_menu_item_10(s32);
@@ -342,7 +337,7 @@ void TWindowMainMenu::sub_80263FE0() {
     toggle_help_window_on_button((s32)help_window, this->client_index);
 }
 
-s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
+s32 TWindowMainMenu::filter_menu_entry(s16 *id, s32 *enabled) {
     u8 *base;
     u8 *p;
     s32 area;
@@ -354,27 +349,27 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
     if (p == NULL) {
         return 0;
     }
-    *arg2 = 1;
+    *enabled = 1;
     area = get_current_floor_area();
-    switch (*arg1) {
+    switch (*id) {
     case 0:
     case 9:
     case 23:
         if (area == AREA_LOBBY) {
-            *arg2 = 0;
+            *enabled = 0;
         }
         break;
     case 26:
         if (get_main_phase() != 0xF) {
-            *arg1 += 1;
-            *arg2 = 0;
+            *id += 1;
+            *enabled = 0;
         } else if (is_trade_range_bit_set(local_client_id) == 0) {
-            *arg2 = 0;
+            *enabled = 0;
         }
         break;
     case 15:
         if (is_quest_active() != 1) {
-            *arg2 = 0;
+            *enabled = 0;
         }
         break;
     case 3:
@@ -382,69 +377,67 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
             return 0;
         }
         if (area == AREA_LOBBY || area == AREA_PIONEER2_EP1 || area == AREA_PIONEER2_EP2) {
-            *arg1 = 4;
+            *id = 4;
         }
         break;
     case 12:
         if (area == AREA_LOBBY || area == AREA_PIONEER2_EP1 || area == AREA_PIONEER2_EP2) {
-            *arg2 = 0;
+            *enabled = 0;
         }
         break;
     case 19:
         if (get_main_phase() != 0xF && TLobby::get_short_mail_ctrl() <= 0) {
-            *arg2 = 0;
+            *enabled = 0;
         }
         break;
     case 7:
         if (get_main_phase() == 0xF) {
-            *arg1 = 8;
+            *id = 8;
         }
         break;
     }
-    if (*arg2 == 0) {
-        *arg1 += 1;
+    if (*enabled == 0) {
+        *id += 1;
     }
     return 1;
 }
 
 void TWindowMainMenu::update_keyboard_card_state() {
-    if (test_keyboard_card_flag4((void *)(*(saddr *)((s8 *)this + 0x54))) != 0) {
-        *(s16 *)((s8 *)this + 0x52) = 0;
+    if (test_keyboard_card_flag4((void *)client_index) != 0) {
+        selected_slot = 0;
         return;
     }
     update_selection_value();
 }
 
 void TWindowMainMenu::update_selection_value() {
-    Obj_80263DBC *o = (Obj_80263DBC *)this;
-    E_80263DBC *e = &o->arr[o->f50];
-    if (e->b != o->f5c) {
-        o->f52 = 0;
+    MainMenuSlotState *e = &slots[submenu_depth];
+    if ((u32)e->value != (u32)active_entries) {
+        selected_slot = 0;
     } else {
-        o->f52 = e->a;
+        selected_slot = e->first;
     }
 }
 
 void TWindowMainMenu::add_menu_entry(s16 id) {
-    struct Elt80263D94_80263d94_80263B70 *arr = (struct Elt80263D94_80263d94_80263B70 *)this;
-    struct Elt80263D94_80263d94_80263B70 *e = (struct Elt80263D94_80263d94_80263B70 *)((char *)&arr[*(s16 *)((s8 *)(this) + 0x50)] + 0x28);
-    e->f0 = (s16) *(s16 *)((s8 *)(this) + 0x52);
-    e->id = id;
-    e->f4 = (s32) *(s32 *)((s8 *)(this) + 0x5C);
+    MainMenuSlotState *e = &slots[submenu_depth];
+    e->first = selected_slot;
+    e->second = id;
+    e->value = (s32)active_entries;
 }
 
 void TWindowMainMenu::sub_80263D7C() {
-    ((Obj_80263D7C *)this)->f5c = *(s32 *)((u8 *)((Obj_80263D7C *)this) + ((Obj_80263D7C *)this)->f50 * 8 + 0x2c);
+    this->active_entries = (TWindowMainMenuEntry *)*(s32 *)((u8 *)this + this->submenu_depth * 8 + 0x2c);
 }
 
-void TWindowMainMenu::open(s32 arg1) {
+void TWindowMainMenu::open(s32 entries) {
     TObjPlayer *player;
 
     player = get_player_by_client_id((s32)this->client_index);
     if (player != 0) {
         menu_flags = menu_flags | 1;
-        *(s32 *)((s8 *)this + 0x5C) = arg1;
-        *(s16 *)((s8 *)this + 0x50) = 0;
+        active_entries = (TWindowMainMenuEntry *)entries;
+        submenu_depth = 0;
         update_keyboard_card_state();
         populate_menu(active_entries);
         player->reset_equip_slots();
@@ -466,14 +459,14 @@ void TWindowMainMenu::close_and_clear_flags() {
 s32 TWindowMainMenu::close_active_submenu() {
     menu_flags = (s32) (menu_flags & 0xFFFFFFFB);
     destroy_submenu();
-    if ((u32) *(u32 *)((s8 *)this + 0x5C) == 0U) {
+    if ((u32)active_entries == 0U) {
         this->close_main_menu();
         return 0;
     }
-    *(s32 *)((s8 *)this + 0x48) = 0x1F;
+    description_item_id = 0x1F;
     sub_80263D7C();
     update_selection_value();
-    close_submenu((void*)(*(uaddr *)((s8 *)this + 0x5C)));
+    close_submenu((void*)active_entries);
     return 1;
 }
 
@@ -486,7 +479,7 @@ void TWindowMainMenu::try_open_battle_menu(s16 key) {
     player = get_player_by_client_id(this->client_index);
     if ((player != 0) && !(menu_flags & 1) && (filter_menu_entry(&id, &spC) != 0) && (spC != 0)) {
         menu_flags = (s32) (menu_flags | 1);
-        *(s32 *)((s8 *)this + 0x5C) = 0;
+        active_entries = 0;
         open_menu_with_entry(id);
         this->create_submenu(id);
         player->reset_equip_slots();
@@ -501,8 +494,8 @@ void TWindowMainMenu::replace_submenu(s16 id) {
 
 void TWindowMainMenu::reset_depth_base() { depth_base = 50300.0f; }
 
-f32 get_main_menu_layer_depth(u8 *parent, u32 arg1) {
-    return ((TWindowMainMenu *)parent)->depth_base - (f32) arg1;
+f32 get_main_menu_layer_depth(u8 *parent, u32 layer) {
+    return ((TWindowMainMenu *)parent)->depth_base - (f32) layer;
 }
 
 void TWindowSubEquip__sub_80263AF4(void) {  }

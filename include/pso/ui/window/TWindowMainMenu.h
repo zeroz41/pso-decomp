@@ -44,7 +44,7 @@ struct TWindowMainMenu : public TObject {
     void update_selection_value();
     void add_menu_entry(s16);
     void sub_80263D7C();
-    void open(s32);
+    void open(s32 entries);
     void close_and_clear_flags();
     s32 close_active_submenu();
     void reset_depth_base();
@@ -77,7 +77,7 @@ struct TWindowMainMenu : public TObject {
     void populate_menu(const TWindowMainMenuEntry *window_main_menu_entry);
     void open_menu_with_entry(s16 id);
     void try_open_battle_menu(s16 key);
-    s32 filter_menu_entry(s16 *arg1, s32 *arg2);
+    s32 filter_menu_entry(s16 *id, s32 *enabled);
     void update_description_text(s32 id);
 };
 

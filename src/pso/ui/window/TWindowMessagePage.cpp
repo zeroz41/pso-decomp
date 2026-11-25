@@ -33,7 +33,7 @@ void TWindowMessagePage::update_message() {
     if ((u32) this->m_94 != 0U) {
         text_builder_reset();
         this->m_94 = (uaddr)((TWindowSubStatusDisp *)this->m_94)->copy_message_page_text();
-        append_line((saddr)get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
+        append_line((saddr)get_shared_text_buffer(), this->line_mode);
     }
 }
 
@@ -75,7 +75,7 @@ TWindowMessagePage::~TWindowMessagePage() {
 
 TWindowMessagePage::TWindowMessagePage(const NJS_POINT2 *position, s32 rows, s32 client) : TWindowMessage(position, rows, client) {
     this->m_name = TWindowMessagePage__name;
-    *(s32 *)((s8 *)this + 0x90) = 0;
+    this->line_mode = 0;
     this->client_index = (s16) client;
     this->m_94 = 0;
 }

@@ -55,7 +55,7 @@ struct ItemData_80279754 {
     u8 b[0x14];
 };
 
-void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr arg2);
+void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id);
 
 extern "C" {
 s32 try_send_6x27_use_item(s32, s32);
@@ -182,8 +182,8 @@ TWindowSubItem::TWindowSubItem(TWindowMainMenu *parent, s32 client) : TObject(pa
 
 TWindowSubItem::~TWindowSubItem() {
     if (count_input != 0) { ((TWindowBase *)count_input)->close(); count_input = 0; }
-    if (confirm_menu != 0) { ((TWindowBase *)confirm_menu)->close(); confirm_menu = 0; }
-    if (purpose_menu != 0) { ((TWindowBase *)purpose_menu)->close(); purpose_menu = 0; }
+    if (confirm_menu != 0) { confirm_menu->close(); confirm_menu = 0; }
+    if (purpose_menu != 0) { purpose_menu->close(); purpose_menu = 0; }
     if (help_window != 0) { ((TWindowBase *)help_window)->close(); help_window = 0; }
     if (item_list != 0) { item_list->close(); item_list = 0; }
 }
@@ -202,11 +202,11 @@ void TWindowSubItem::run_task() {
                 this->count_input = 0;
             }
             if (this->confirm_menu != 0) {
-                ((TWindowBase *)(this->confirm_menu))->close();
+                this->confirm_menu->close();
                 this->confirm_menu = 0;
             }
             if (this->purpose_menu != 0) {
-                ((TWindowBase *)(this->purpose_menu))->close();
+                this->purpose_menu->close();
                 this->purpose_menu = 0;
             }
             if (this->help_window == 0) {
@@ -235,7 +235,7 @@ void TWindowSubItem::run_task() {
                 this->count_input = 0;
             }
             if (this->confirm_menu != 0) {
-                ((TWindowBase *)(this->confirm_menu))->close();
+                this->confirm_menu->close();
                 this->confirm_menu = 0;
             }
             if (this->help_window != 0) {
@@ -243,20 +243,20 @@ void TWindowSubItem::run_task() {
                 this->help_window = 0;
             }
             if (this->purpose_menu == 0) {
-                this->purpose_menu = open_purpose_window(item_list->get_cursor_value());
+                this->purpose_menu = (TWindowMenu *)open_purpose_window(item_list->get_cursor_value());
             }
-            ((TWindowMenu *)(this->purpose_menu))->clear_flag_and_release();
-            ((TWindowMenu *)(this->purpose_menu))->clear_transition_flag();
+            this->purpose_menu->clear_flag_and_release();
+            this->purpose_menu->clear_transition_flag();
             this->state = 4;
         case 4:
-            if (((TWindowMenu *)(this->purpose_menu))->get_selected_value() == 0) {
+            if (this->purpose_menu->get_selected_value() == 0) {
                 TWindowShortListCtrl::assign_item_to_palette(item_list->get_cursor_value(), this->client_id);
             }
-            if (((TWindowMenu *)(this->purpose_menu))->is_cancelled() != 0) {
+            if (this->purpose_menu->is_cancelled() != 0) {
                 this->state = 1;
             }
-            if (((TWindowMenu *)(this->purpose_menu))->is_decided() != 0) {
-                set_cursor_row_for_mode((s32)(((TWindowMenu *)(this->purpose_menu))->get_selected_value()));
+            if (this->purpose_menu->is_decided() != 0) {
+                set_cursor_row_for_mode((s32)(this->purpose_menu->get_selected_value()));
                 return;
             }
             break;
@@ -266,20 +266,20 @@ void TWindowSubItem::run_task() {
                 this->state = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {
-                exec_item_command(item_list->get_cursor_value(), ((TWindowMenu *)(this->purpose_menu))->get_selected_value());
+                exec_item_command(item_list->get_cursor_value(), this->purpose_menu->get_selected_value());
                 return;
             }
             break;
         case 6:
-            ((TWindowMenu *)(this->purpose_menu))->open();
-            this->confirm_menu = create_menu_window();
+            this->purpose_menu->open();
+            this->confirm_menu = (TWindowMenu *)create_menu_window();
             this->state = 7;
         case 7:
-            if (((TWindowMenu *)(this->confirm_menu))->is_cancelled() != 0) {
+            if (this->confirm_menu->is_cancelled() != 0) {
                 this->state = 3;
             }
-            if (((TWindowMenu *)(this->confirm_menu))->is_decided() != 0) {
-                close_windows(((TWindowMenu *)(this->confirm_menu))->get_selected_value());
+            if (this->confirm_menu->is_decided() != 0) {
+                close_windows(this->confirm_menu->get_selected_value());
                 return;
             }
             break;
@@ -330,7 +330,7 @@ void TWindowSubItem::run_task() {
                 this->state = 0xE;
                 return;
             }
-            ((TWindowMenu *)(this->purpose_menu))->open();
+            this->purpose_menu->open();
             if (this->count_input == 0) {
                 this->count_input = create_count_input(n);
             }
@@ -403,7 +403,7 @@ void TWindowSubItem::run_task() {
                 this->state = 0x16;
                 return;
             }
-            ((TWindowMenu *)(this->purpose_menu))->open();
+            this->purpose_menu->open();
             if (this->count_input == 0) {
                 this->count_input = create_count_input(n);
             }
@@ -445,15 +445,15 @@ void TWindowSubItem::run_task() {
 #undef BACK_PRESSED
 void TWindowSubItem::render() {  }
 
-s32 TWindowSubItem::open_purpose_window(s32 arg1) {
+s32 TWindowSubItem::open_purpose_window(s32 item_id) {
     TWindowMenu *titled_window_menu;
     titled_window_menu = create_titled_window_menu(get_window_layout_position(4), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
-    if (arg1 == -0xFF) {
+    if (item_id == -0xFF) {
         TWindowSubItem::add_meseta_purpose_actions((saddr)this, titled_window_menu);
-    } else if ((s32) (arg1 & 0xFFFFFFF0) == -0x10) {
-        TWindowSubItem::draw_slot((saddr)this, titled_window_menu, arg1);
+    } else if ((s32) (item_id & 0xFFFFFFF0) == -0x10) {
+        TWindowSubItem::draw_slot((saddr)this, titled_window_menu, item_id);
     } else {
-        add_item_purpose_actions(this, titled_window_menu, arg1);
+        add_item_purpose_actions(this, titled_window_menu, item_id);
     }
     titled_window_menu->set_depth(get_main_menu_layer_depth((u8 *)this->parent_menu, 1));
     titled_window_menu->set_flag70_bit10();
@@ -493,10 +493,10 @@ void TWindowSubItem::add_meseta_purpose_actions(saddr arg0, TWindowMenu *titled_
     titled_window_menu->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
 }
 
-void TWindowSubItem::draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 arg3) {
+void TWindowSubItem::draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 item_id) {
     s32 id;
 
-    id = ((u32)__cntlzw(4 - (arg3 & 0xF)) >> 5) + 4;
+    id = ((u32)__cntlzw(4 - (item_id & 0xF)) >> 5) + 4;
     if ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0)) {
         add_gray_text_entry(titled_window_menu, (const char *)(get_localized_text_entry(0x10, 0xF)), 6, id);
         return;
@@ -504,11 +504,11 @@ void TWindowSubItem::draw_slot(saddr arg1, TWindowMenu *titled_window_menu, s32 
     titled_window_menu->add_text_entry(get_localized_text_entry(0x10, 0xF), 0x26, id);
 }
 
-void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr arg2) {
+void add_item_purpose_actions(TWindowSubItem *window_sub_item, TWindowMenu *list, saddr item_id) {
   s32 sp8;
   saddr item;
   saddr player;
-  item = ((saddr)find_item_by_id((saddr)((void *) arg2)));
+  item = ((saddr)find_item_by_id((saddr)((void *) item_id)));
   if (item != 0)
   {
     if (((TItem *)item)->get_usable_action_flags(2, 0) != 0U)
@@ -594,14 +594,14 @@ void TWindowSubItem::set_cursor_row_for_mode(s32 mode) {
     }
 }
 
-void TWindowSubItem::exec_item_command(saddr item_id, s32 arg2) {
+void TWindowSubItem::exec_item_command(saddr item_id, s32 command) {
     saddr player;
     TItem *item;
     saddr t;
 
     player = (saddr)get_player_by_client_id(this->client_id);
     if ((player != 0) && (item = find_item_by_id(item_id), ((item == NULL) == 0))) {
-        switch (arg2) {
+        switch (command) {
         case 3:
             break;
         case 0:

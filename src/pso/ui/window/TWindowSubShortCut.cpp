@@ -51,15 +51,15 @@ TWindowSubShortCut::TWindowSubShortCut(TObject *parent, s32 client) : TObject(pa
     this->menu = 0;
     this->confirm_window = 0;
     this->chat_window = 0;
-    this->m_3c = 0;
+    this->shortcut_window = 0;
     this->m_24 = 0;
     this->state = 0;
 }
 
 TWindowSubShortCut::~TWindowSubShortCut() {
-    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x38)))->queue_destruction(); this->chat_window = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x34)))->close(); this->confirm_window = 0; }
-    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close(); this->m_3c = 0; }
+    if (chat_window != NULL) { chat_window->queue_destruction(); this->chat_window = 0; }
+    if (confirm_window != NULL) { confirm_window->close(); this->confirm_window = 0; }
+    if (shortcut_window != NULL) { shortcut_window->close(); this->shortcut_window = 0; }
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->menu = 0; }
     if (com_card_list != NULL) { com_card_list->close(); com_card_list = NULL; }
 }
@@ -71,19 +71,19 @@ void TWindowSubShortCut::run_task() {
     case 0:
     case 1:
         if ((u32) this->chat_window != 0U) {
-            ((TObject *)(this->chat_window))->queue_destruction();
+            this->chat_window->queue_destruction();
             this->chat_window = 0U;
         }
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(this->confirm_window))->close();
+            this->confirm_window->close();
             this->confirm_window = 0U;
         }
-        if ((u32) this->m_3c != 0U) {
-            ((TWindowBase *)this->m_3c)->close();
-            this->m_3c = 0U;
+        if ((u32) this->shortcut_window != 0U) {
+            this->shortcut_window->close();
+            this->shortcut_window = 0U;
         }
         if ((u32) this->menu != 0U) {
-            ((TWindowBase *)this->menu)->close();
+            this->menu->close();
             this->menu = 0U;
         }
         if (com_card_list == NULL) {
@@ -104,28 +104,28 @@ void TWindowSubShortCut::run_task() {
         break;
     case 3:
         if ((u32) this->confirm_window != 0U) {
-            ((TWindowMessageYesNo *)(this->confirm_window))->close();
+            this->confirm_window->close();
             this->confirm_window = 0U;
         }
         if ((u32) this->menu == 0U) {
-            this->menu = open_menu();
+            this->menu = (TWindowMenu *)open_menu();
         }
-        ((TWindowMenu *)(this->menu))->clear_flag_and_release();
-        ((TWindowMenu *)(this->menu))->clear_transition_flag();
+        this->menu->clear_flag_and_release();
+        this->menu->clear_transition_flag();
         this->state = 4U;
     case 4:
-        if (((TWindowMenu *)(this->menu))->is_cancelled() != 0) {
+        if (this->menu->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (((TWindowMenu *)(this->menu))->is_decided() != 0) {
-            this->state = ((TWindowMenu *)this->menu)->get_selected_value();
+        if (this->menu->is_decided() != 0) {
+            this->state = this->menu->get_selected_value();
             return;
         }
         break;
     case 5:
         if ((u32) this->menu != 0U) {
-            ((TWindowBase *)this->menu)->close();
+            this->menu->close();
             this->menu = 0U;
         }
         if (com_card_list != NULL) {
@@ -134,42 +134,41 @@ void TWindowSubShortCut::run_task() {
             this->com_card_list = NULL;
         }
         if ((u32) this->chat_window == 0U) {
-            void *chat = new TWindowChat((TObject *)arg0, (u8 *)&this->m_40);
-            *(void * *)&this->chat_window = chat;
-            reinterpret_cast<TWindowChat *>(this->chat_window)->set_keyboard_flag62_bit4();
-            reinterpret_cast<TWindowChat *>(this->chat_window)->close_and_clear_flag();
-            reinterpret_cast<TWindowChat *>(chat_window)->set_flag1e_bit80();
+            this->chat_window = new TWindowChat((TObject *)arg0, (u8 *)&this->chat_submission);
+            this->chat_window->set_keyboard_flag62_bit4();
+            this->chat_window->close_and_clear_flag();
+            this->chat_window->set_flag1e_bit80();
         }
         this->state = 6U;
     case 6:
-        if (((TWindowChat *)(this->chat_window))->is_visible() != 0) {
+        if (this->chat_window->is_visible() != 0) {
             this->state = 1U;
             return;
         }
-        if (((TWindowChat *)(this->chat_window))->is_mode_bit4() != 0) {
+        if (this->chat_window->is_mode_bit4() != 0) {
             this->state = 7U;
             return;
         }
         break;
     case 7:
         if ((u32) this->chat_window != 0U) {
-            ((TObject *)(this->chat_window))->queue_destruction();
+            this->chat_window->queue_destruction();
             this->chat_window = 0U;
         }
-        if ((u32) this->m_3c == 0U) {
-            *(void * *)&this->m_3c = (void *)new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->m_24, (s32 *)(arg0 + 0x40));
+        if ((u32) this->shortcut_window == 0U) {
+            this->shortcut_window = new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->m_24, (s32 *)(arg0 + 0x40));
         }
         if ((u32) this->confirm_window == 0U) {
-            this->confirm_window = open_confirm_prompt();
+            this->confirm_window = (TWindowMessageYesNo *)open_confirm_prompt();
         }
         this->state = 8U;
     case 8:
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
+        if (this->confirm_window->is_cancelled() != 0) {
             this->state = 1U;
             return;
         }
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
+        if (this->confirm_window->is_child_visible() != 0) {
+            if (this->confirm_window->get_selected_value() == 0) {
                 store_chat_shortcut((this->m_24), (saddr)(arg0 + 0x40));
                 this->state = 1U;
                 return;
@@ -179,18 +178,18 @@ void TWindowSubShortCut::run_task() {
         }
         break;
     case 9:
-        ((TWindowMenu *)(this->menu))->open();
+        this->menu->open();
         if ((u32) this->confirm_window == 0U) {
-            this->confirm_window = open_confirm_message();
+            this->confirm_window = (TWindowMessageYesNo *)open_confirm_message();
         }
         this->state = 0xAU;
     case 10:
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_cancelled() != 0) {
+        if (this->confirm_window->is_cancelled() != 0) {
             this->state = 3U;
             return;
         }
-        if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
-            if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
+        if (this->confirm_window->is_child_visible() != 0) {
+            if (this->confirm_window->get_selected_value() == 0) {
                 com_card_list->get_cursor_value();
                 clear_chat_shortcut();
                 this->state = 1U;
