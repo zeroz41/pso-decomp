@@ -9,7 +9,7 @@ struct TWindowStatus : public TWindowSimpleStatus {
     virtual ~TWindowStatus();
     virtual void render();
     virtual void run_task();
-    void draw_background(u8 *ctx);
+    void draw_background(WindowDrawContext *ctx);
     void update_hp_tp_values();
 };
 

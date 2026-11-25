@@ -5880,7 +5880,7 @@ force_active:
   - draw_object_tree_recursive__FP10NJS_OBJECT
   - draw_outline_quad__18TWindowEffectLightFl
   - draw_palette_cells__22TWindowSubCustomSelectFP17WindowDrawContext
-  - draw_photon_blast_fan
+  - draw_photon_blast_fan__FP19TWindowSimpleStatusP10NJS_POINT2P17WindowDrawContextUlfllf
   - draw_quad__16TAdGuideButtonGCFi
   - draw_queued_models__FUl
   - draw_ray_quads__8TAdRayGCFlll

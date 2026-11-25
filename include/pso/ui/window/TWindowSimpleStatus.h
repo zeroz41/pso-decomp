@@ -7,7 +7,7 @@
 struct TWindowSimpleStatus : public TWindowBase {
     TWindowSimpleStatus(void *position, s32 client, u8 *descriptor);
     virtual ~TWindowSimpleStatus();
-    void draw_background(u8 *);
+    void draw_background(WindowDrawContext *ctx);
     void apply_random_shake();
     void update_status_icons(void *);
     void start_hp_text_color_transition();

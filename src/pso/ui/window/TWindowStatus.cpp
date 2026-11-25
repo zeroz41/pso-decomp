@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowStatus.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -30,10 +31,6 @@ extern "C" {
 s32 end_window_sweep_draw(int);
 s32 draw_window_sweep_strip(void *, void *);
 s32 begin_window_sweep_draw(int);
-void draw_photon_blast_gauge_ring(s32, void *, const f32 *, f32, f32);
-void begin_screen_draw(s32 mode);
-s32 draw_textured_quad_at_depth(void *, f32);
-void set_draw_texture_and_color(s32 idx, s32 color);
 
 s32 draw_right_aligned_number(void *);
 
@@ -131,19 +128,19 @@ void TWindowStatus::update_hp_tp_values() {
     }
 }
 
-void TWindowStatus::draw_background(u8 *ctx) {
-    static const f32 pos[2] = {44.0f, 30.5f};
+void TWindowStatus::draw_background(WindowDrawContext *ctx) {
+    static const NJS_POINT2 pos = {44.0f, 30.5f};
     TexturedQuad q;
     f32 w;
     f32 s;
 
     {
         u8 *e = (u8 *)get_array_entry(0xE);
-        draw_photon_blast_gauge_ring((saddr)this, ctx, pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
+        draw_photon_blast_gauge_ring(this, ctx, &pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
-    set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
+    set_draw_texture_and_color(0xB, ctx->color);
     { f32 r = get_transition_progress();
     s = -1.0f / (0.0598f + this->draw_depth);
     q.x0 = -(69.0f * (w = 1.0f - r)); }
@@ -154,19 +151,19 @@ void TWindowStatus::draw_background(u8 *ctx) {
     q.v0 = 0.3125f;
     q.u1 = 0.73046875f;
     q.v1 = 0.625f;
-    draw_textured_quad_at_depth(&q, s);
-    q.x0 = *(f32 *)((s8 *)ctx + 0);
-    q.y0 = *(f32 *)((s8 *)ctx + 4);
+    draw_textured_quad_at_depth((f32 *)&q, s);
+    q.x0 = ctx->x;
+    q.y0 = ctx->y;
     q.x1 = 228.0f + q.x0;
     q.y1 = 76.0f + q.y0;
     q.u0 = 0.0f;
     q.v0 = 0.0f;
     q.u1 = 0.890625f;
     q.v1 = 0.296875f;
-    ((WindowDrawContext *)ctx)->transform_quad((TexturedQuad *)&q);
-    draw_textured_quad_at_depth(&q, s);
+    ctx->transform_quad(&q);
+    draw_textured_quad_at_depth((f32 *)&q, s);
     TWindowSubStatusDisp::get_player();
-    if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {
+    if (TWindowSubComCard__sub_80245558(ctx, &ctx->inner_x, &ctx->inner_w) != 0) {
         begin_window_sweep_draw(0xB);
         draw_window_sweep_strip(&q, ctx);
         end_window_sweep_draw(0xB);
@@ -176,15 +173,12 @@ void TWindowStatus::draw_background(u8 *ctx) {
 #pragma fp_contract on
 void TWindowStatus::render() {
     saddr entry = reinterpret_cast<saddr>(get_array_entry(0xE));
-    saddr ctx;
+    WindowDrawContext *ctx;
     draw_right_aligned_number((void *)entry);
     *(f32 *)((s8 *)entry + 8) = 0.5f * *(f32 *)((s8 *)entry + 0x10) + 68.0f;
-    ctx = reinterpret_cast<saddr>(draw_default_entry());
-    draw_background((u8 *)ctx);
-    draw_visible_window_entries(
-        this,
-        reinterpret_cast<const WindowLayoutEntries *>(&entry_list),
-        reinterpret_cast<WindowDrawContext *>(ctx));
+    ctx = draw_default_entry();
+    draw_background(ctx);
+    draw_visible_window_entries(this, &entry_list, ctx);
 }
 
 void TWindowStatus::run_task() {
