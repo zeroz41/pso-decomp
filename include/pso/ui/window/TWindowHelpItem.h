@@ -16,6 +16,16 @@ struct WeaponAttribute {
     s8 percent;
 };
 
+struct HelpItemStarRowEntry {
+    u8 pad0[0x10];
+    s32 stars;
+};
+
+struct HelpItemLevelEntry {
+    u8 pad0[0x20];
+    s32 value;
+};
+
 // Layout tables of the help item window (cols, rows, then the records read by
 // init_window_layout_entries).
 

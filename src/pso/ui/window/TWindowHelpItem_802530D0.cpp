@@ -21,7 +21,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/ui/window/TWindowHelpItem_802531A0.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/window/TWindowMainMenu.h"
