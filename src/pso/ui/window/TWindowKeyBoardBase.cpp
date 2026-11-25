@@ -201,7 +201,7 @@ void TWindowKeyBoardBase::sub_8025CFA8(s32 *name) {
         TWindowKeyBoardSoft__sub_803E6868(out, tmp);
         return;
     }
-    TWindowKeyBoardSoft::dispatch_request_0x28((s32)out, (s32)((s32 *)tmp));
+    TWindowKeyBoardSoft::dispatch_request_0x28((saddr)out, (saddr)tmp);
     if (strcmp(text, out) != 0) {
         candidate_index++;
         candidate_count++;
@@ -313,7 +313,7 @@ void TWindowKeyBoardBase::append_text_entry(u8 *arg1) {
     u8 *p;
     rec = reinterpret_cast<Rec_8025D3CC *>(current_candidate);
     idx = rec->len;
-    p = (u8 *)(idx + (s32)rec);
+    p = (u8 *)(idx + (saddr)rec);
     n = TWindowKeyBoardSoft::strnlen((s8 *)arg1, 0x100);
     p[3] = idx;
     p[4] = n;
@@ -412,7 +412,7 @@ void TWindowKeyBoardBase::sub_8025D664() {
             i++;
             if (i > count) {
                 current_candidate = rec;
-                TWindowKeyBoardSoft::dispatch_request_0x23((s32)name, (s32)text);
+                TWindowKeyBoardSoft::dispatch_request_0x23((saddr)name, (saddr)text);
                 sub_8025CF50(candidate_index);
                 return;
             }
