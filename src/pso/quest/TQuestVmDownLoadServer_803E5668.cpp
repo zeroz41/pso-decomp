@@ -623,9 +623,9 @@ struct Req_803E6704 { s32 id; s32 a; s32 b; };
 
 struct Req_803E6738 { s32 id; s32 a; s32 b; };
 
-struct Req_803E676C { s32 id; s32 a; s32 b; };
+struct Req_803E676C { s32 id; saddr a; saddr b; };
 
-struct Req_803E6668 { s32 id; s32 a; s32 b; };
+struct Req_803E6668 { s32 id; saddr a; saddr b; };
 
 struct Req_803E66D0 { s32 id; s32 a; s32 b; };
 
@@ -654,7 +654,7 @@ s32 TWindowKeyBoardSoft::dispatch_by_index() {
     return keyboard_soft_dispatch_fn_table[i - 1](rest);
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x28(s32 a, s32 b) {
+void TWindowKeyBoardSoft::dispatch_request_0x28(saddr a, saddr b) {
     Req_803E6668 req;
     req.id = 0x28;
     req.a = a;
@@ -694,7 +694,7 @@ void TWindowKeyBoardSoft::dispatch_request_0x24(s32 a, s32 b) {
     ((TWindowKeyBoardSoft *)(&req))->dispatch_by_index();
 }
 
-void TWindowKeyBoardSoft::dispatch_request_0x23(s32 a, s32 b) {
+void TWindowKeyBoardSoft::dispatch_request_0x23(saddr a, saddr b) {
     Req_803E676C req;
     req.id = 0x23;
     req.a = a;
