@@ -100,6 +100,8 @@ void TOAttackableCol::init_params() {
     }
 }
 
+}
+
 void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *command) {
     TOAttackableCol *col;
     s32 mode;
@@ -144,6 +146,8 @@ void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *co
         }
     }
 }
+
+extern "C" {
 
 void TOAttackableCol::send_state_change(u16 state) {
     Obj_801575AC *self = (Obj_801575AC *)this;
