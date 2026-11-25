@@ -128,7 +128,7 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
     default:
         if (effect == NULL) {
             r1.x = 0;
-            r1.y = this->m_ec + 0x4000;
+            r1.y = this->yaw + 0x4000;
             r1.z = 0;
             effect = (TParticleCtrl *)spawn_particle_effect_with_rotation(&pos, &r1, 0x207, 0x40);
             if (effect != NULL) {
@@ -139,7 +139,7 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         }
         if (phase_effect == NULL) {
             r2.x = 0;
-            r2.y = this->m_ec + 0x4000;
+            r2.y = this->yaw + 0x4000;
             r2.z = 0;
             phase_effect = (TParticleCtrl *)spawn_particle_effect_with_rotation(&pos, &r2, phase_effect_id, 0x40);
             if (phase_effect != NULL) {

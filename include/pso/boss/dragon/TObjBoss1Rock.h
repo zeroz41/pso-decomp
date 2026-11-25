@@ -14,7 +14,7 @@ struct TObjBoss1Rock : public TObject {
     virtual ~TObjBoss1Rock();
     virtual void run_task();
     virtual void render();
-    void sub_8002E1CC(const Vec *pos, const Vec *vel, s32 kind);
+    void init(const Vec *pos, const Vec *vel, s32 kind);
 
     Vec m_position;
     Vec m_velocity;

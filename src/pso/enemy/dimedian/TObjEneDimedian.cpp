@@ -156,7 +156,7 @@ void TObjEneDimedian::beast_retire_corpse() {
         queue_destruction();
     }
 }
-void TObjEneDimedian::sub_800A7B54() {
+void TObjEneDimedian::apply_subtype() {
     s32 kind = subtype;
     if (kind < 0) {
         subtype = 0;
@@ -494,7 +494,7 @@ TObjEneDimedian::TObjEneDimedian(TObject *parent, void *set_data) : TObjEneBeast
     apply_set_data(set_data);
     init_position_vectors();
     subtype = variant;
-    sub_800A7B54();
+    apply_subtype();
     load_dimedian_param_entry(variant);
     action_table = dimedian_action_table;
     set_action_table(action_table);

@@ -12,7 +12,7 @@ struct TObjBoss8PillerCtrl : public TObject {
     virtual ~TObjBoss8PillerCtrl();
     virtual void run_task();
     virtual void render();
-    s32 fn_8035BFF8(const Vec *pos);
+    s32 is_outside_arena(const Vec *pos);  // farther than 373 from the centre in xz; run_task drops pillars there
     void sub_8035C034(Vec *pos);
 
     Vec position;

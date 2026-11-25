@@ -136,14 +136,14 @@ TBoss6CrushPtcl::TBoss6CrushPtcl(TObject *parent, Vec *point) : TObject(parent) 
     Vec position = *point;
     dust_emitter = create_particle_emitter(&position, 0x203);
     debris_emitter = create_particle_emitter(&position, 0x204);
-    m_1C = 0;
+    age = 0;
 }
 
 TBoss6CrushPtcl::~TBoss6CrushPtcl() {}
 
 void TBoss6CrushPtcl::run_task() {
-    m_1C++;
-    if (m_1C >= 6) {
+    age++;
+    if (age >= 6) {
         if (dust_emitter != NULL) {
             TParticleCtrl::release(dust_emitter);
             dust_emitter = NULL;

@@ -16104,7 +16104,7 @@ force_active:
   - send_update_entity_stat__9TObjCharaFUsll
   - get_attack_params_ata__9TObjCharaFv
   - sub_8001CCD4__11TLoadingCurFv
-  - sub_8002E1CC__13TObjBoss1RockFPUcPUcl
+  - init__13TObjBoss1RockFPC3VecPC3Vecl
   - enter_sway__14TBoss2TentacleFv
   - request_strike__14TBoss2TentacleFv
   - current_texture_index__15TObjBoss2TunnelFv
@@ -16158,7 +16158,7 @@ force_active:
   - state_appear__12TObjEneSaverFv
   - state_disappear__12TObjEneSaverFv
   - select_model_record__12TObjEneSaverFl
-  - sub_800A7B54__15TObjEneDimedianFv
+  - apply_subtype__15TObjEneDimedianFv
   - sub_800AC9DC__12TObjEneSharkFl
   - pick_hover_point__13TObjEneBm3FlyFv
   - sub_800BCE44__9TObjGrassFv
@@ -16365,7 +16365,7 @@ force_active:
   - create_map_csn__10TBoss6RockFv
   - reset__12TMotionModelFv
   - reset__14TDrawableModelFv
-  - sub_8035D8B0__9TBoss6DPBFv
+  - spawn_shower__9TBoss6DPBFv
   - update_effect_attack__19TObjEneEpsilonGuardFv
   - get_immune_special_kind__18TObjEneEpsilonBodyFv
   - update_guard_anchor__18TObjEneEpsilonBodyFl
