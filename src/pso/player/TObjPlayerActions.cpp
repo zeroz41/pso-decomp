@@ -30,7 +30,7 @@
 #include "pso/player/TObjPlayerActions.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/technique/TechniqueParams.h"
-#include "pso/weapon/SpecialProjectileWeapons_80124760.h"
+#include "pso/weapon/TItemWeaponDrillLauncher.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"

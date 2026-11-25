@@ -3,7 +3,7 @@
 #include "pso/boss/TBoss8DragonLeaderPart.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/goldragon/TBoss8Dragon_80359A7C.h"
+#include "pso/boss/goldragon/TBoss8DragonPart.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/AngleLookup.h"

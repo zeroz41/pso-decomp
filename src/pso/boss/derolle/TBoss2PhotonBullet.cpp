@@ -13,7 +13,7 @@
 
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
-#include "pso/boss/derolle/TBoss2PhotonBullet_80038DCC.h"
+#include "pso/boss/derolle/TBoss2PhotonBullet.h"
 
 
 #include "pso/system/vector.h"

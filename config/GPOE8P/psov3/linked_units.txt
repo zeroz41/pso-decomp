@@ -219,7 +219,7 @@ pso/boss/derolle/TBoss2Fin.cpp
 pso/boss/derolle/TBoss2Joint.cpp
 pso/boss/derolle/TBoss2LaserLight.cpp
 pso/boss/derolle/TBoss2Mine.cpp
-pso/boss/derolle/TBoss2PhotonBullet_80038DCC.cpp
+pso/boss/derolle/TBoss2PhotonBullet.cpp
 pso/boss/derolle/TBoss2Tentacle.cpp
 pso/boss/volopt/TBoss3Volopt.cpp
 pso/boss/volopt/TBoss3VoloptCore.cpp
@@ -260,7 +260,7 @@ pso/boss/olgaflow/TBoss6CrushRock.cpp
 pso/boss/olgaflow/TBoss6DPB.cpp
 pso/boss/olgaflow/TBoss6EffFlowSoul.cpp
 pso/boss/olgaflow/TBoss6EffHyoui.cpp
-pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.cpp
+pso/boss/olgaflow/TBoss6EmptyWarp.cpp
 pso/boss/olgaflow/TBoss6GravBall.cpp
 pso/boss/olgaflow/TBoss6Kakusan.cpp
 pso/boss/olgaflow/TBoss6Mag.cpp
@@ -290,7 +290,7 @@ pso/boss/barbaray/TBoss7Joint.cpp
 pso/boss/barbaray/TBoss7LaserLight.cpp
 pso/boss/barbaray/TBoss7LaserPtcl.cpp
 pso/player/PhotonChairSeat.cpp
-pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.cpp
+pso/boss/barbaray/TBoss7PhotonBullet.cpp
 pso/boss/barbaray/Boss7TentacleData.cpp
 pso/boss/barbaray/TBoss7TentacleNeedle.cpp
 pso/boss/goldragon/TBoss8Dragon.cpp
@@ -305,7 +305,7 @@ pso/boss/goldragon/TBoss8Dragon_80067034.cpp
 pso/boss/goldragon/TBoss8Dragon_800BC53C.cpp
 pso/boss/goldragon/TBoss8Dragon_8028A8F8.cpp
 pso/boss/goldragon/TBoss8Dragon_802F3348.cpp
-pso/boss/goldragon/TBoss8Dragon_80359A7C.cpp
+pso/boss/goldragon/TBoss8DragonPart.cpp
 pso/network/NetworkWaitIcon.cpp
 pso/boss/dragon/TObjBoss1Crater.cpp
 pso/boss/dragon/TObjBoss1Floor.cpp
@@ -369,7 +369,7 @@ pso/enemy/balclaw/TObjEneBalClaw.cpp
 pso/enemy/balclaw/TObjEneBalClawBody.cpp
 pso/enemy/balclaw/TObjEneBalClawClaw.cpp
 pso/enemy/beast/TObjEneBeast.cpp
-pso/enemy/beast/TObjEneBeast_800C4E08.cpp
+pso/enemy/beast/TObjEneBeastBase.cpp
 pso/enemy/fly/TObjEneBm3Fly.cpp
 pso/enemy/fly/TObjEneBm3FlyNest.cpp
 pso/enemy/gibon/GibonData.cpp
@@ -390,8 +390,8 @@ pso/enemy/bringer/TObjEneDf2Bringer.cpp
 pso/enemy/dimedian/TObjEneDimedian.cpp
 pso/enemy/dolmolm/TObjEneDolmOlm.cpp
 pso/enemy/dubchik/TObjEneDubchik.cpp
-pso/enemy/epsilon/TObjEneEpsilonGuard_8035DD68.cpp
-pso/enemy/epsilon/TObjEneEpsilonGuard_8035F5C8.cpp
+pso/enemy/epsilon/TObjEneEpsilonGuard.cpp
+pso/enemy/epsilon/TObjEneEpsilonBody.cpp
 pso/enemy/gibbles/TObjEneGibbles.cpp
 pso/effect/enemy/TObjEneHoldEffect.cpp
 pso/enemy/illgill/TObjEneIllGill.cpp
@@ -405,11 +405,11 @@ pso/enemy/gee/TObjEneMe1Gee.cpp
 pso/enemy/gigue/TObjEneMe1GiGue.cpp
 pso/enemy/gigue/TObjEneMe1GiGueBarrier.cpp
 pso/enemy/gigue/TObjEneMe1GiGueMissile.cpp
-pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp
+pso/enemy/gigue/TObjEneMe1GiGueHomingShot.cpp
 pso/enemy/shinowa/ShinowaData.cpp
 pso/enemy/shinowa/TObjEneMe3Shinowa.cpp
 pso/enemy/sinowzoa/TObjEneMe3SinowZoa.cpp
-pso/enemy/sinowzoa/TObjEneMe3SinowZoa_800D72A4.cpp
+pso/enemy/sinowzoa/TObjEnemyColorFade.cpp
 pso/enemy/stelth/TObjEneMe3Stelth.cpp
 pso/render/BlobShadow.cpp
 pso/enemy/merilllia/TObjEneMerillLia.cpp
@@ -417,17 +417,17 @@ pso/enemy/moja/TObjEneMoja.cpp
 pso/enemy/morfos/MorfosData.cpp
 pso/enemy/morfos/TObjEneMorfos.cpp
 pso/enemy/morfos/TObjEneMorfosArm.cpp
-pso/enemy/morfos/TObjEneMorfos_80337500.cpp
+pso/enemy/morfos/TObjEneMorfosGroundShot.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago.cpp
 pso/enemy/panarms/TObjEnePanarmsAtkColli.cpp
 pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp
 pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp
 pso/enemy/flower/FlowerRe2Data.cpp
 pso/enemy/flower/TObjEneRe2Flower.cpp
-pso/enemy/flower/TObjEneRe2Flower_800C4B78.cpp
+pso/enemy/flower/TObjEneRe2Flower_EffCurse3.cpp
 pso/enemy/sorcerer/TObjEneRe4Bit.cpp
 pso/enemy/sorcerer/Re4BitData.cpp
-pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp
+pso/enemy/sorcerer/TObjEneRe4Sorcerer.cpp
 pso/enemy/berura/BeruraData.cpp
 pso/enemy/berura/TObjEneRe7Berura.cpp
 pso/enemy/berura/TObjEneRe7BeruraPunch.cpp
@@ -435,7 +435,7 @@ pso/enemy/berura/TObjEneRe7Berura_803E4CE0.cpp
 pso/enemy/recon/TObjEneRecon.cpp
 pso/enemy/recon/TObjEneReconBomb.cpp
 pso/enemy/recon/TObjEneRecon_80302DB0.cpp
-pso/enemy/recon/TObjEneRecobox_8031F800.cpp
+pso/enemy/recon/TObjEneRecobox.cpp
 pso/enemy/shark/TObjEneShark.cpp
 pso/enemy/slime/TObjEneSlimeOne_800EC394.cpp
 pso/enemy/slime/TObjEneSlimeTailAttack.cpp
@@ -450,7 +450,7 @@ pso/weapon/TItemWeaponSRankJCutter.cpp
 pso/weapon/TItemWeaponSRankSlicer.cpp
 pso/item/TItemFollowStarLight.cpp
 pso/weapon/SpecialProjectileWeapons.cpp
-pso/weapon/SpecialProjectileWeapons_80124760.cpp
+pso/weapon/TItemWeaponDrillLauncher.cpp
 pso/item/TItem.cpp
 pso/weapon/TItemAttacker.cpp
 pso/item/TItemBuff.cpp
@@ -563,7 +563,7 @@ pso/weapon/TItemWeaponImperialPick.cpp
 pso/weapon/TItemWeaponPsychoWand.cpp
 pso/weapon/TItemWeaponRabbitWand.cpp
 pso/weapon/TItemWeaponHolyRay.cpp
-pso/weapon/TUnk_804A535C.cpp
+pso/weapon/TItemWeaponRocketPunch.cpp
 pso/weapon/TItemWeaponRod.cpp
 pso/weapon/TItemWeaponSaber.cpp
 pso/weapon/TItemWeaponSambaMaracas.cpp
@@ -872,7 +872,7 @@ pso/ui/city/TMedicalCenterSequence.cpp
 pso/object/TMotorcycle.cpp
 pso/system/movie/TMovie.cpp
 pso/enemy/TNeedleShoot.cpp
-pso/enemy/gee/TObjEneMe1Gee_NEEDLE_802A4A44.cpp
+pso/enemy/gee/TObjEneMe1Gee_NEEDLE.cpp
 pso/ui/hud/TNowLoading.cpp
 pso/npc/TNpcPlayer.cpp
 pso/npc/TNpcPlayer_800D87A8.cpp
@@ -898,7 +898,7 @@ pso/object/switch/TOChatSensor.cpp
 pso/object/mine/TOComputerMachine01.cpp
 pso/object/mine/TOComputerMachine01_8023DD0C.cpp
 pso/object/container/TOContainerAncientEnemy.cpp
-pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp
+pso/enemy/dubchik/TOCtrlDubchik.cpp
 pso/object/door/TODoorAncient01.cpp
 pso/object/door/TODoorAncient03.cpp
 pso/object/door/TODoorAncient04.cpp
@@ -1059,7 +1059,7 @@ pso/technique/TTecDeband.cpp
 pso/technique/TTecFoie.cpp
 pso/technique/TTecGiBarta.cpp
 pso/technique/TTecGiZonde.cpp
-pso/technique/TTecGiZonde_8023CDC4.cpp
+pso/technique/TTecZondeHitEffect.cpp
 pso/technique/TTecGrants.cpp
 pso/technique/TechniqueRingwaveNames.cpp
 pso/technique/TTecJelin.cpp
@@ -1071,7 +1071,7 @@ pso/technique/TechniqueSoundEffects.cpp
 pso/technique/TTecPlayerInfluence.cpp
 pso/technique/TTecRaBarta.cpp
 pso/technique/TTecRaFoie.cpp
-pso/technique/TTecRaZonde_80238C6C.cpp
+pso/technique/TTecRaZonde.cpp
 pso/technique/TTecResta.cpp
 pso/technique/TTecReverser.cpp
 pso/technique/TTecSifta.cpp
