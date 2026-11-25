@@ -1531,7 +1531,7 @@ force_active:
   - reset_slime_tail_node_index
   - TObjPlayer__sub_800E85BC
   - begin_alt_model_draw__Fv
-  - prepend_alt_model__FP14AltChunkObjectl
+  - prepend_alt_model__FP10NJS_OBJECTl
   - copy_ezrope_collider
   - copy_ezrope_end
   - copy_ezrope_segment
