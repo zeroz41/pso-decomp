@@ -9,7 +9,7 @@ struct TObjEneMe1GiGueMissile : public TNeedleShoot {
     virtual ~TObjEneMe1GiGueMissile();
     virtual void on_target_hit(TObjCollidable *target);
     virtual void on_wall_hit();
-    void explode(void *pos);
+    void explode(const Vec *pos);
     static void create(TObjBase *owner, Vec *from, Vec *to, f32 speed, f32 power);
     virtual void render();
     virtual void run_task();
