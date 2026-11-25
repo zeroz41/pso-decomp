@@ -29,29 +29,17 @@
 
 extern "C" {
 s32 copy_player_visual_record(void *, void *);
-struct VObj_84Base_801d859c_801D84CC { char pad[0x18]; };
-struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30();
-    virtual s8 m31();
-};
 
 s32 advance_item_id_counter();
 
 void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data) {
-    void *item;
+    TItem *item;
 
     ((TObjBase *)player)->get_entity_id();
     item_data->id = advance_item_id_counter();
     item = create_item(item_data);
     if (item != NULL) {
-        s8 val = ((VObj_84_801d859c_801D84CC *)item)->m31();
+        s8 val = item->get_attach_slot();
         s32 val_ext = (s32)val;
         TItem *slot_item = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), val_ext);
         if (slot_item != NULL) {
@@ -59,9 +47,9 @@ void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data) 
             set_equip_slot_entry(player + 0xD04, val_ext, 0);
         }
         TObjPlayer *owner = (TObjPlayer *)player;
-        if (owner->pickup_item((TItem *)item) != 0U) {
+        if (owner->pickup_item(item) != 0U) {
             owner->set_flag_20000();
-            owner->equip_item_to_slot(reinterpret_cast<TItem *>(item), 0);
+            owner->equip_item_to_slot(item, 0);
             owner->clear_flag_20000();
         }
     }

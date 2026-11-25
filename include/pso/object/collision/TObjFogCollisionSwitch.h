@@ -9,7 +9,7 @@ struct TObjFogCollisionSwitch : public TObjFogCollision {
     virtual ~TObjFogCollisionSwitch();
     s32 get_switch_mode();
     virtual void draw_debug_text();
-    virtual void init_params(s32);
+    virtual void init_params();
     virtual void run_task();
     static void *create(void *set_data);
 };

@@ -250,17 +250,6 @@ f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
 
 
 // ---- TOVS2Wall01_8017BE08
-struct VBase_14_1eb8da { char pad[0x14]; };
-struct VObj_14_1eb8da : VBase_14_1eb8da {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6(s32, s32);
-    virtual s32 m7();
-};
 extern "C" {
 int submit_cursor_candidate(void*, int);
 // ---- TOVS2Wall01_8017C7A4
@@ -427,7 +416,6 @@ void *TOVS2Wall01::create(void *set_data) {
     return new TOVS2Wall01(set_data);
 }
 void TOVS2Wall01::render() {
-    u8 *arg0 = (u8 *)this;
     s32 var_r31;
     fade.update();
     this->in_view = this->update_object_view_visibility(view_range, model_radius);
@@ -441,7 +429,7 @@ void TOVS2Wall01::render() {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-            ((VObj_14_1eb8da *)(arg0 + (832)))->m6(chunk_polygon_flags_and_mask, model_render_flags);
+            fade.set_flags_and_apply_damage_color();
         }
         push_matrix();
         post_translate_matrix(&this->position.x);
@@ -450,7 +438,7 @@ void TOVS2Wall01::render() {
         draw_ginja_object(this->model);
         pop_matrix();
         if (var_r31 != 0) {
-            ((VObj_14_1eb8da *)(arg0 + (832)))->m7();
+            fade.clear_flag_and_notify();
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;

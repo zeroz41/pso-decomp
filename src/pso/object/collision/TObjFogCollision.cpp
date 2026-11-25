@@ -40,15 +40,6 @@ const char *fog_collision_name = "TObjFogCollision";
 const char *fog_collision_switch_name = "TObjFogCollisionSwitch";
 const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
-struct VBase_801537CC { char pad[0x18]; };
-
-struct VObj_801537CC : VBase_801537CC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-};
-
-
 extern "C" {
 
 
@@ -81,7 +72,7 @@ int TObjFogCollision::debug_draw_enabled() { return 0; }
 
 
 
-void TObjFogCollision::init_params(s32) {
+void TObjFogCollision::init_params() {
     s32 temp_r0;
     temp_r0 = this->set_params[0];
     if (temp_r0 < 0) {
@@ -199,10 +190,10 @@ TObjFogCollisionSwitch::~TObjFogCollisionSwitch() {
 }
 
 
-void TObjFogCollisionSwitch::init_params(s32 arg) {
+void TObjFogCollisionSwitch::init_params() {
     s32 temp_r0;
 
-    TObjFogCollision::init_params(arg);
+    TObjFogCollision::init_params();
     temp_r0 = this->set_params[2];
     if (temp_r0 < 0) {
         this->set_params[2] = 0;
@@ -251,7 +242,7 @@ TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjF
     u16 i;
     TObject *parent = this;
     m_name = fog_collision_poison_name;
-    ((VObj_801537CC *)parent)->m11();
+    init_params();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
             new TObjFogCollisionPoison_Ticker((TObject *)parent, i);
@@ -267,7 +258,7 @@ TObjFogCollisionPoison::~TObjFogCollisionPoison() {
 }
 
 
-void TObjFogCollisionPoison::init_params(s32) {
+void TObjFogCollisionPoison::init_params() {
     f32 var_f2;
 
     this->poison_damage = (s32) floor_to_float(this->scale.y);
