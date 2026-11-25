@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/city/CitySeasonResources.h"
@@ -132,30 +133,30 @@ BmlResourceDescriptor *city_season_resource_descriptors[6] = {
     &bm_obj_city_xmas_resource_descriptor,   &bm_obj_city_pump_resource_descriptor,
     &bm_obj_city_21_resource_descriptor,     &bm_obj_city_sonic_resource_descriptor,
 };
-
-BmlResource *city_season_easter_egg_model_table[6];
-NJS_TEXLIST *city_season_xmas_model_table[6];
+// Each season's model resource and its first texture list, indexed like city_season_resource_descriptors.
+BmlResource *city_season_resources[6];
+NJS_TEXLIST *city_season_texlists[6];
 s32 city_season_index;
 StripBufferPair *city_season_strips;
 BmlResource *city_season_board_resource;
-saddr city_season_board_model;
-saddr city_season_board_aux;
+NJS_OBJECT *city_season_board_model;
+NJS_OBJECT *city_season_board_pillar_model;
 NJS_TEXLIST *city_season_board_texlist;
 StripBufferPair *city_season_board_strips;
 
-NJS_TEXLIST *get_city_season_xmas_model(int a0) {  return city_season_xmas_model_table[a0]; }
+NJS_TEXLIST *get_city_season_texlist(s32 season) { return city_season_texlists[season]; }
 
-BmlResource *get_season_model_resource(int a0) {  return city_season_easter_egg_model_table[a0]; }
+BmlResource *get_city_season_resource(s32 season) { return city_season_resources[season]; }
 
-s32 TLobby__sub_80184C54(void) {
+s32 is_city_season_active() {
     return city_season_index != -1;
 }
 
-int TLobby__sub_80184C6C(int a0) {  return city_season_flags[a0]; }
+s32 is_city_season_enabled(s32 season) { return city_season_flags[season]; }
 
-void TLobby__sub_80184C80(void *p) {
+void enable_city_season_for_event_theme() {
     s32 i;
-    TLobby::clear_global_array(p);
+    clear_city_season_flags();
     for (i = 0; i < 6; i++) {
         if (TLobby::event_theme_id == lobby_event_theme_id_table[i]) {
             city_season_flags[i] = 1;
@@ -164,15 +165,16 @@ void TLobby__sub_80184C80(void *p) {
     }
 }
 
-void TLobby__sub_80184CE0(void* p) { TLobby::clear_global_array(p); }
-void TLobby::clear_global_array(void* _w0) {
+void disable_city_seasons() { clear_city_season_flags(); }
+
+void clear_city_season_flags() {
     s32 i;
     for (i = 0; i < 6; i++) {
-        ((s32 *)&city_season_flags)[i] = 0;
+        city_season_flags[i] = 0;
     }
 }
 
-void TLobby::free_buffers() {
+void free_city_season_resources() {
     s32 i;
     if (city_season_board_strips != NULL) {
         delete city_season_board_strips;
@@ -183,110 +185,86 @@ void TLobby::free_buffers() {
         city_season_board_resource = NULL;
     }
     city_season_board_texlist = NULL;
-    city_season_board_model = 0;
-    city_season_board_aux = 0;
+    city_season_board_model = NULL;
+    city_season_board_pillar_model = NULL;
     if (city_season_strips != NULL) {
         delete city_season_strips;
         city_season_strips = NULL;
     }
     for (i = 5; i >= 0; i--) {
-        if (city_season_easter_egg_model_table[i] != NULL) {
-            delete (BmlResource *)city_season_easter_egg_model_table[i];
+        if (city_season_resources[i] != NULL) {
+            delete city_season_resources[i];
         }
-        city_season_easter_egg_model_table[i] = NULL;
-        city_season_xmas_model_table[i] = NULL;
+        city_season_resources[i] = NULL;
+        city_season_texlists[i] = NULL;
     }
 }
 
-extern "C" void clear_global_array__6TLobbyFPv();
-
-extern "C" void TLobby__sub_80184DF4(void) {
+void load_city_season_resources() {
     s32 i;
-    s32 count;
-    u8 *board;
-    u8 *tmp;
-    u8 *base;
-    u8 *ent;
-    saddr ph;
-    s32 slot_offset;
-    void *p;
+    BmlResource *resource;
+    BmlResource *board;
+    NJS_OBJECT *object;
 
-    clear_global_array__6TLobbyFPv();
-    ph = get_main_phase();
-    if (ph == 0xf) {
-        TLobby__sub_80184C80((void *)ph);
+    clear_city_season_flags();
+    if (get_main_phase() == 0xf) {
+        enable_city_season_for_event_theme();
     } else {
-        TLobby__sub_80184CE0((void *)ph);
+        disable_city_seasons();
     }
     city_season_index = -1;
     for (i = 0; i < 6; i++) {
-        if (TLobby__sub_80184C6C(i)) {
+        if (is_city_season_enabled(i)) {
             city_season_index = i;
             break;
         }
     }
     if (city_season_index != -1) {
-        {
-            s32 j;
-            for (j = 0; j < 6; j++) {
-                city_season_easter_egg_model_table[j] = NULL;
-                city_season_xmas_model_table[j] = NULL;
-            }
+        for (s32 j = 0; j < 6; j++) {
+            city_season_resources[j] = NULL;
+            city_season_texlists[j] = NULL;
         }
-        tmp = (u8 *)new BmlResource(1, (BmlResourceDescriptor *)city_season_resource_descriptors[city_season_index], 0, 0, NULL);
-        slot_offset = city_season_index * sizeof(city_season_easter_egg_model_table[0]);
-        *(BmlResource **)((u8 *)&city_season_easter_egg_model_table + slot_offset) = (BmlResource *)tmp;
-        for (i = 0; i < *(s32 *)(tmp + 0x434); i++) {
-            if ((*(u32 (**)[4])(tmp + 0x42c))[i][3] != 0) {
-                *(NJS_TEXLIST **)((u8 *)&city_season_xmas_model_table + slot_offset) = ((BmlResource *)tmp)->models[i].texlist;
+        resource = new BmlResource(1, city_season_resource_descriptors[city_season_index], 0, 0, NULL);
+        city_season_resources[city_season_index] = resource;
+        for (i = 0; i < resource->model_count; i++) {
+            if (resource->models[i].texlist != NULL) {
+                city_season_texlists[city_season_index] = resource->models[i].texlist;
                 break;
             }
         }
         if (city_season_index == 0) {
-            base = *(u8 **)(tmp + 0x42c);
-            ent = *(u8 **)(base + 0x18);
-            city_season_strips = new StripBufferPair((NJS_OBJECT *)ent, 3);
-            base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
-            base = *(u8 **)(base + 4);
-            *(s16 *)(base + 0xc) &= ~0x1000;
+            object = resource->models[1].model;
+            city_season_strips = new StripBufferPair(object, 3);
+            ((NJS_CNK_MODEL *)object->child->model)->polygon_list[6] &= ~0x1000;
         } else if (city_season_index == 4) {
-            base = *(u8 **)(tmp + 0x42c);
-            ent = *(u8 **)(base + 0x18);
-            city_season_strips = new StripBufferPair((NJS_OBJECT *)ent, 0);
-            base = *(u8 **)(*(u8 **)(ent + 0x2c) + 4);
-            base = *(u8 **)(base + 4);
-            *(s16 *)(base + 0xc) &= ~0x1000;
+            object = resource->models[1].model;
+            city_season_strips = new StripBufferPair(object, 0);
+            ((NJS_CNK_MODEL *)object->child->model)->polygon_list[6] &= ~0x1000;
         } else {
             city_season_strips = NULL;
         }
     }
 
     if (city_season_index == 2) {
-        u8 *r = (u8 *)new BmlResource(1, &bm_obj_city_board_xmas_resource_descriptor, 0, 0, NULL);
-        board = r;
-        city_season_board_model = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
-        city_season_board_aux = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
+        board = new BmlResource(1, &bm_obj_city_board_xmas_resource_descriptor, 0, 0, NULL);
+        city_season_board_model = board->models[0].model;
+        city_season_board_pillar_model = board->models[1].model;
     } else if (city_season_index == 4) {
-        u8 *r = (u8 *)new BmlResource(1, &bm_obj_city_board_2001_resource_descriptor, 0, 0, NULL);
-        board = r;
-        city_season_board_model = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
-        city_season_board_aux = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
+        board = new BmlResource(1, &bm_obj_city_board_2001_resource_descriptor, 0, 0, NULL);
+        city_season_board_model = board->models[0].model;
+        city_season_board_pillar_model = board->models[1].model;
     } else {
-        u8 *r = (u8 *)new BmlResource(1, &bm_obj_city_board_normal_resource_descriptor, 0, 0, NULL);
-        board = r;
-        city_season_board_model = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
-        city_season_board_aux = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
+        board = new BmlResource(1, &bm_obj_city_board_normal_resource_descriptor, 0, 0, NULL);
+        city_season_board_model = board->models[0].model;
+        city_season_board_pillar_model = board->models[1].model;
     }
 
-    city_season_board_strips = new StripBufferPair((NJS_OBJECT *)city_season_board_model, 2);
-    base = (u8 *)city_season_board_model;
-    base = *(u8 **)(base + 4);
-    base = *(u8 **)(base + 4);
-    *(s16 *)(base + 0xc) &= ~0x2000;
-    city_season_board_resource = (BmlResource *)board;
-    for (i = 0; i < *(s32 *)(board + 0x434); i++) {
-        if ((*(u32 (**)[4])(board + 0x42c))[i][3] != 0) {
-            city_season_board_texlist = ((BmlResource *)board)->models[i].texlist;
+    city_season_board_strips = new StripBufferPair(city_season_board_model, 2);
+    ((NJS_CNK_MODEL *)city_season_board_model->model)->polygon_list[6] &= ~0x2000;
+    city_season_board_resource = board;
+    for (i = 0; i < board->model_count; i++) {
+        if (board->models[i].texlist != NULL) {
+            city_season_board_texlist = board->models[i].texlist;
             break;
         }
     }
