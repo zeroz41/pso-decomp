@@ -52,7 +52,6 @@ const char *TItemEffOrgaFlowShot::class_name = "TItemEffOrgaFlowShot";
 
 extern "C" {
 s32 is_local_client_floor_leader();
-void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
 int olga_flow_subordinate_actions_enabled;
 }
 
@@ -121,7 +120,7 @@ void handle_6xAD_olga_flow_subordinate_boss_actions(G_OlgaFlowSubordinateBossAct
                 TBoss6Rock::set_rock_target(idx, a, f);
                 break;
             case 1:
-                clear_rock_state__10TBoss6RockFl(idx, a, f);
+                TBoss6Rock::clear_rock_state(idx);
                 break;
             }
         }
