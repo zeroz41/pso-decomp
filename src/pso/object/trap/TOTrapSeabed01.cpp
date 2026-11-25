@@ -56,8 +56,6 @@ struct SeabedTrapFragmentSpawn {
     s32 angle_y;
 };
 
-extern const char *TObjPlayer_name;
-
 const char *seabed_trap_model_filenames[] = {
     "obj_o_seaturigane2.gj",
     "obj_o_seaturigane2_hahen01.gj",

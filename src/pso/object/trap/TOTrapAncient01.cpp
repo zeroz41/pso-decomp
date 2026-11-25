@@ -65,8 +65,6 @@ static CollisionBody trap_ancient01_collision_body[1] = {
 };
 const char *trap_ancient01_class_name = "TOTrapAncient01";
 
-extern const char *TObjPlayer_name;
-
 f32 TObjCollidable::get_body_radius(s32 body) {
     return bodies[body].radius;
 }

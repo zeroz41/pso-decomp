@@ -45,12 +45,9 @@
 #include "pso/player/TObjPlayerCreate.h"
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 
-extern "C" {
-
-s32 get_main_phase();
-}
 extern "C" {
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot);
 void *consume_telepipe_arrival(u16, void *);
@@ -383,7 +380,6 @@ void TObjPlayer::destroy_child() {
     }
 }
 
-extern "C" {
 
 
 void TObjPlayer::load_character_state(TPlyCharData *record) {
@@ -403,9 +399,7 @@ void TObjPlayer::load_character_state(TPlyCharData *record) {
     this->item_node_matrices = player_shared_buffer_base[get_entity_id()];
 }
 
-}
 
-extern "C" {
 
 
 
@@ -436,7 +430,6 @@ void TObjPlayer::update_action_animation() {
     }
 }
 
-}
 
 extern "C" {
 
@@ -527,7 +520,6 @@ TObjPlayer::~TObjPlayer() {
 extern "C" {
 void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
-extern const char *TObjPlayer_name;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, EndingPlayerRecord *src) : TObjChara(parent) {

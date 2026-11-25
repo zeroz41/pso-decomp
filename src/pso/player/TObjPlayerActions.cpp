@@ -404,7 +404,6 @@ extern void *player_slot_table[];
 extern const char *TWindowReturnCity__class_name;
 
 }
-extern const char *TObjPlayer_name;
 void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *command) {
     G_MoveLobbyChair_6xB0 m;
     TObjPlayer *p;

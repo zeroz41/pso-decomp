@@ -112,6 +112,7 @@ extern PlayerJointMatrixSet *player_shared_buffer_base;
 extern u32 shared_state_flags[2];
 
 // Constants the player code shares from its .sdata2 pool.
+extern const char *TObjPlayer_name;
 extern const f32 player_zero;
 extern f32 player_half;
 extern f32 player_one;
