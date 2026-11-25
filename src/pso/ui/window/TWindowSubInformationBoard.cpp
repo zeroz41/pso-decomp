@@ -186,16 +186,16 @@ u32 TWindowSubInformationBoard::create_info_board_menu() {
   list = create_titled_window_menu_default(get_window_layout_position(0xA4), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
   if (get_main_phase() == 0xF)
   {
-    ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
+    list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
   }
   else
   {
-    add_gray_text_entry((TWindowMenu *)list, (const char *)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
+    add_gray_text_entry(list, (const char *)(TWindowSubStatusDisp::get_message_10(0x117)), 6, 3);
   }
-  ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x118)), 6, 9);
-  ((TWindowMenu *)list)->set_flag70_bit10();
-  ((TWindowMenu *)list)->update_layout_height(179.0f);
-  align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(list));
+  list->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x118)), 6, 9);
+  list->set_flag70_bit10();
+  list->update_layout_height(179.0f);
+  align_menu_entry_positions(list);
   return (uaddr)list;
 }
 

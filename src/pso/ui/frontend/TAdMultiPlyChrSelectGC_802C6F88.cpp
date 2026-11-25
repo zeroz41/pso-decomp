@@ -23,7 +23,7 @@ saddr TAdMultiPlyChrSelectGC::get_selected_slot() {  return plyplt_anim_ctrl_ins
 
 int TAdMultiPlyChrSelectGC::get_global_6700() {  return (saddr)menu_selection_cursor_texture_list; }
 
-NJS_TEXLIST *TAdMultiPlyChrSelectGC__sub_802C6FA8(void) {  return lbl_805D6668; }
+NJS_TEXLIST *TAdMultiPlyChrSelectGC__sub_802C6FA8(void) {  return player_tex_texture_list_ptr; }
 
 
 }
