@@ -193,21 +193,20 @@ void TObjContainerJung::draw_model() {
     }
 }
 
-void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    if (arg2 != 0) {
-        if ((s16) *arg1 == 1) {
+void TObjContainerJung::vfunc_6(s16 *state, s32 notify) {
+    if (notify != 0) {
+        if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_box_item_drop(&position, 1);
-            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-            ((TObjCollidable *)arg0)->set_flag8();
-            ((TObject *)arg0)->queue_destruction();
+            this->clear_player_status_flag(0, 1);
+            this->set_flag8();
+            this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *arg1 == 1) {
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+    } else if ((s16) *state == 1) {
+        this->clear_player_status_flag(0, 1);
+        this->set_flag8();
+        this->queue_destruction();
         this->mode = 1;
     }
 }
@@ -325,19 +324,18 @@ void TObjContainerJungEx::draw_model() {
     }
 }
 
-void TObjContainerJungEx::vfunc_6(s16 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    if (arg2 != 0) {
-        if ((s16) *arg1 == 1) {
+void TObjContainerJungEx::vfunc_6(s16 *state, s32 notify) {
+    if (notify != 0) {
+        if ((s16) *state == 1) {
             this->spawn_break_effects();
             request_configured_item_drop(this);
-            ((TObjCollidable *)arg0)->set_flag8();
-            ((TObject *)arg0)->queue_destruction();
+            this->set_flag8();
+            this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *arg1 == 1) {
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+    } else if ((s16) *state == 1) {
+        this->set_flag8();
+        this->queue_destruction();
         this->mode = 1;
     }
 }
@@ -405,17 +403,17 @@ void *TObjContainerJungEnemy::create(void *set_data) {
 }
 
 void TObjContainerJungEnemy::load_models() {
-    saddr var_r0;
+    saddr created;
     s32 temp_r3 = this->set_params[1];
     if (temp_r3 < 0) {
-        var_r0 = 0;
+        created = 0;
     } else {
-        var_r0 = 1;
+        created = 1;
         if (temp_r3 <= 1) {
-            var_r0 = temp_r3;
+            created = temp_r3;
         }
     }
-    switch (var_r0) {
+    switch (created) {
     case 0:
         this->body_model = TObjContainerJung::get_model_by_index(0);
         this->large_fragment_model = TObjContainerJung::get_model_by_index(1);
@@ -530,20 +528,19 @@ void TObjContainerJungEnemy::spawn_break_effects() const {
 }
 #pragma pop
 
-void TObjContainerJungEnemy::vfunc_6(s16 *arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    if (arg2 != 0) {
-        if ((s16) *arg1 == 1) {
-            ((TObjContainerJungEnemy *)arg0)->spawn_break_effects();
-            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-            ((TObjCollidable *)arg0)->set_flag8();
-            ((TObject *)arg0)->queue_destruction();
+void TObjContainerJungEnemy::vfunc_6(s16 *state, s32 notify) {
+    if (notify != 0) {
+        if ((s16) *state == 1) {
+            this->spawn_break_effects();
+            this->clear_player_status_flag(0, 1);
+            this->set_flag8();
+            this->queue_destruction();
             this->mode = 1;
         }
-    } else if ((s16) *arg1 == 1) {
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+    } else if ((s16) *state == 1) {
+        this->clear_player_status_flag(0, 1);
+        this->set_flag8();
+        this->queue_destruction();
         this->mode = 1;
     }
 }

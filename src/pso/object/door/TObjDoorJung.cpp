@@ -172,10 +172,9 @@ void TObjDoorJung::update_door_switch_state() {
 }
 
 void TObjDoorJung::run_task() {
-    u8 *arg0 = (u8 *)this;
     if ((s32) switch_doors_force_closed != 0) {
         this->door_flags = (s32) (this->door_flags & 0xFFFFFFFE);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
+        this->clear_player_status_flag(0, 8);
     } else {
         this->update_door_switch_state();
     }

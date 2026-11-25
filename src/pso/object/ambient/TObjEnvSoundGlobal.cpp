@@ -142,10 +142,9 @@ TObjEnvSound::~TObjEnvSound() {
 }
 
 void TObjEnvSound::run_task() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f0;
     temp_f0 = radius;
-    if ((fn_801908F8((saddr)this, (f32) (temp_f0 * temp_f0)) != 0) && (TObjEnvSound::is_sound_enabled(arg0, this->cue) != 0)) {
+    if ((fn_801908F8((saddr)this, (f32) (temp_f0 * temp_f0)) != 0) && (TObjEnvSound::is_sound_enabled(((u8 *)this), this->cue) != 0)) {
         switch (this->mode) {
         case 0:
             break;

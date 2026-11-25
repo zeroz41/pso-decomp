@@ -242,37 +242,36 @@ void *TContainerAncient01::create(void *set_data) {
 }
 
 void TContainerAncient01::run_task() {
-    u8 *arg0 = (u8 *)this;
     f32 frame_timer;
     f32 y;
     if (TObjPlayer::check_demo_mode() == 0) {
         if ((s32) this->opened == 0) {
             switch (this->mode) {
             case 0:
-                ((TContainerAncient01 *)arg0)->update_wait_for_player();
+                this->update_wait_for_player();
                 break;
             case 1:
-                ((TContainerAncient01 *)arg0)->sub_8018B48C();
+                this->sub_8018B48C();
                 break;
             case 2:
-                ((TContainerAncient01 *)arg0)->sub_8018B284();
+                this->sub_8018B284();
                 break;
             default:
                 this->mode = 0;
                 this->requested_action = (s16) this->mode;
                 this->frame_timer = (f32) (-1.0f);
-                ((TContainerAncient01 *)arg0)->update_wait_for_player();
+                this->update_wait_for_player();
                 break;
             }
             frame_timer = this->frame_timer;
             this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(arg0, -1, frame_timer);
+            submit_cursor_candidate(((u8 *)this), -1, frame_timer);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
-                    ((TObject *)arg0)->TObject::queue_destruction();
+                *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x3C) - 0.025f);
+                if (*(f32 *)((s8 *)((u8 *)this) + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
+                    this->TObject::queue_destruction();
                 }
             } else {
                 this->open_scale.y = (f32) (y - 0.025f);
@@ -285,7 +284,7 @@ void TContainerAncient01::run_task() {
     if (static_cast<const void *>(current_motion) == get_bml_motion(container_ancient01_bml_resource, 1)) {
         this->model = get_bml_model(container_ancient01_bml_resource, 1);
     }
-    ((TObject *)arg0)->TObject::run_task();
+    this->TObject::run_task();
 }
 
 void TContainerAncient01::render() {
@@ -349,13 +348,13 @@ void TContainerAncient01::sub_8018B700() {
     }
 }
 
-void TContainerAncient01::vfunc_6(s16 *arg1, s32 arg2) {
-    if (arg2 != 0) {
-        if ((s16) *arg1 == 1) {
+void TContainerAncient01::vfunc_6(s16 *state, s32 notify) {
+    if (notify != 0) {
+        if ((s16) *state == 1) {
             sub_8018B700();
             this->opened = 1;
         }
-    } else if ((s16) *arg1 == 1) {
+    } else if ((s16) *state == 1) {
         this->opened = 1;
     }
 }
@@ -526,37 +525,36 @@ void *TContainerAncient01R::create(void *parent) {
 }
 
 void TContainerAncient01R::run_task() {
-    u8 *arg0 = (u8 *)this;
     f32 frame_timer;
     f32 y;
     if (TObjPlayer::check_demo_mode() == 0) {
         if ((s32) this->m_360 == 0) {
             switch (this->mode) {
             case 0:
-                ((TContainerAncient01R *)arg0)->check_open_trigger();
+                this->check_open_trigger();
                 break;
             case 1:
-                ((TContainerAncient01R *)arg0)->update_spawning();
+                this->update_spawning();
                 break;
             case 2:
-                ((TContainerAncient01R *)arg0)->sub_8018A688();
+                this->sub_8018A688();
                 break;
             default:
                 this->mode = 0;
                 this->requested_action = (s16) this->mode;
                 this->frame_timer = (f32) (-1.0f);
-                ((TContainerAncient01R *)arg0)->check_open_trigger();
+                this->check_open_trigger();
                 break;
             }
             frame_timer = this->frame_timer;
             this->frame_timer = (f32) (frame_timer + TContainerAncient01__data_805DBD10[0]);
-            submit_cursor_candidate(arg0, -1, frame_timer);
+            submit_cursor_candidate(((u8 *)this), -1, frame_timer);
         } else {
             y = this->open_scale.y;
             if (y <= 0.2f) {
-                *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
-                if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
-                    ((TObject *)arg0)->TObject::queue_destruction();
+                *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x3C) - 0.025f);
+                if (*(f32 *)((s8 *)((u8 *)this) + 0x3C) <= ((-1e+01f) * this->open_scale.y)) {
+                    this->TObject::queue_destruction();
                 }
             } else {
                 this->open_scale.y = (f32) (y - 0.025f);
@@ -569,7 +567,7 @@ void TContainerAncient01R::run_task() {
     if (static_cast<const void *>(current_motion) == get_bml_motion(container_ancient01_r_bml_resource, 1)) {
         this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(container_ancient01_r_bml_resource, 1));
     }
-    ((TObject *)arg0)->TObject::run_task();
+    this->TObject::run_task();
 }
 
 void TContainerAncient01R::render() {
@@ -632,9 +630,9 @@ void TContainerAncient01R::open_container() {
     }
 }
 
-void TContainerAncient01R::vfunc_6(s16 *arg1, s32 arg2) {
-    this->m_338 = (s16) *arg1;
-    if (arg2 != 0) {
+void TContainerAncient01R::vfunc_6(s16 *state, s32 notify) {
+    this->m_338 = (s16) *state;
+    if (notify != 0) {
         if ((this->hp - this->m_338) <= 0) {
             this->reset_hp();
             this->open_container();
