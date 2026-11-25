@@ -38,6 +38,8 @@ void TLobby__sub_801469B8(void);
 void *get_account_entry(int idx);
 void TLobby__sub_8014715C(void* p, void* q);
 s32 dns_term();
+}
+
 s32 lobby_local_ip_addr;
 s32 lobby_dns_server_addr;
 s32 lobby_dns_server_addr2;
@@ -55,6 +57,8 @@ s32 dns_initialized;
 s32 lobby_connect_active_flag;
 s32 lbl_805D5714;
 s32 lbl_805D5718;
+
+extern "C" {
 s32 TLobby__sub_8014618C(void);
 void TLobby__sub_8014672C(s32 *arg0);
 s32 TLobby__sub_80146588(s32 *arg0);
@@ -369,7 +373,7 @@ void TLobby__sub_8014672C(s32 *arg0) {
 int get_post_save_lobby_action(void) { return 0; }
 
 s32 query_task_active() {
-    if ((s32) lobby_connect_active_flag != 0) {
+    if (lobby_connect_active_flag != 0) {
         return get_task_count();
     }
     return 0;
@@ -405,7 +409,7 @@ int get_link_status() {
     return 1;
 }
 void cleanup() {
-    if ((s32) net_session_mode != 0) {
+    if (net_session_mode != 0) {
         TLobby__sub_801469B8();
     } else {
         TLobby__sub_80147284();
@@ -647,7 +651,7 @@ void load_network_configs() {
 #undef C_80146D7C
 void TLobby__sub_8014715C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
 void teardown_boss2() {
-    if ((s32) dns_initialized != 0) {
+    if (dns_initialized != 0) {
         dns_clear_server();
         dns_term();
         dns_initialized = 0;
@@ -665,7 +669,7 @@ extern "C" {
 s16 dns_set_server(TeardownBoss2Req *);
 s32 TLobby__sub_80147284(void);
 void TLobby__sub_80147978(void);
-
+}
 
 s32 set_dns_servers() {
     TeardownBoss2Req req;
@@ -710,7 +714,6 @@ s32 TLobby__sub_80147284(void) {
     teardown_boss2();
     lobby_net_session_id = -1;
     return 0;
-}
 }
 
 void get_link_state(s16 *state, s16 *reason) {

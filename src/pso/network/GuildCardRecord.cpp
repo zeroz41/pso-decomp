@@ -84,6 +84,7 @@ int com_card_entry_count;
 extern "C" {
 void __copy(void *, void *, int);
 void TLobby__sub_8024273C(TUserAns &response);
+}
 
 void handle_user_search_answer(TUserAns &response) { TLobby__sub_8024273C(response); }
 
@@ -95,6 +96,7 @@ void TLobby::send_find_user_self_tag(s32 gc_num) {
 }
 
 typedef struct Src_8024220C Src_8024220C;
+extern "C" {
 void load_selected_guild_card_record(Src_8024220C *arg0) {
   char *new_var;
   void *p;
@@ -112,6 +114,7 @@ void load_selected_guild_card_record(Src_8024220C *arg0) {
   parse_csv_token((char *)(p), (char *)(selected_guild_card_record.s3B));
   TLobby__sub_802422EC(selected_guild_card_record.f4C, arg0->f64);
   __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(&selected_guild_card_record.ext, &arg0->ext);
+}
 }
 
 void TLobby__sub_802422EC(void *arg0, void *arg1) {
@@ -132,6 +135,7 @@ void find_and_load_com_card(u32 serial) {
     }
 }
 
+extern "C" {
 Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_80242380 *src) {
     dst->id = src->id;
     dst->f4 = src->f4;
@@ -143,6 +147,7 @@ Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_802
     dst->f54 = src->f54;
     dst->ext = src->ext;
     return dst;
+}
 }
 
 void*TLobby::get_com_card_entry(int a0) { return &com_card_entries[a0]; }
@@ -277,6 +282,7 @@ void TLobby::reset_state() { TLobby::reset_com_card_list(); }
 void TLobby__sub_8024285C(void) { TLobby::reset_com_card_list(); }
 
 
+extern "C" {
 GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
 void *__construct_array(void *ptr, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 n);
 static void __sinit_GuildCardRecord_cpp();
