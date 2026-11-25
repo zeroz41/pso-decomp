@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/WindowCtrlCallback.h"
 
+struct NJS_POINT2;
 struct TWindowTradeRequest;
 struct TWindowTimer;
 class TWindowArea;
@@ -50,7 +51,7 @@ struct TWindowCtrl : public TObject {
     static void clear_flag();
     static void call_window_method_with_default_vec(s32 client);
     static void set_field22();
-    static bool is_submit_cooldown_clear();
+    static s32 is_submit_cooldown_clear();
     static void update_focused();
     static s32 get_active_sub();
     static void open_status_111();
@@ -77,7 +78,7 @@ struct TWindowCtrl : public TObject {
     static s32 has_player_active_menu(s32 client);
     static void apply_default_vec(s32 arg0, saddr client_id);
     static s32 is_slot_visible(s32 client);
-    static saddr get_message_by_type(s8 type, s32 client_id);
+    static const NJS_POINT2 *get_message_by_type(s8 type, s32 client_id);
     static void release_slot(s8 *arg0);
     static void close_windows_by_flags(u16 flags);
     static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 client);

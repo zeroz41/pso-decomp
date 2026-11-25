@@ -922,7 +922,7 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
     f32 cx;
     f32 cy;
     f32 bestd;
-    NJS_POINT2 *m;
+    const NJS_POINT2 *m;
     f32 dx;
     f32 dy;
     f32 d;
@@ -941,7 +941,7 @@ s8 TWindowFukidasi::alloc_nearest_free_slot() {
     cy = (0.5f * ((Win_8024B1A0 *)this)->h) + ((Win_8024B1A0 *)this)->y;
     do {
         if (!(TWindowCtrl::instance->flags & mask)) {
-            m = (NJS_POINT2 *)TWindowCtrl::get_message_by_type((s8)i, get_field_20());
+            m = TWindowCtrl::get_message_by_type((s8)i, get_field_20());
             if (m != NULL) {
                 dx = cx - m->x;
                 dy = cy - m->y;
@@ -984,7 +984,7 @@ void TWindowCtrl::release_slot(s8 *arg0) {
 
 extern "C" {
 
-saddr TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
+const NJS_POINT2 *TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
     TWindowCtrlPlayer *window;
     s32 var_r3;
 
@@ -999,7 +999,7 @@ saddr TWindowCtrl::get_message_by_type(s8 type, s32 client_id) {
     } else {
         var_r3 = 0x43;
     }
-    return (saddr)get_window_layout_position(var_r3 + type);
+    return get_window_layout_position(var_r3 + type);
 }
 
 }
@@ -1492,11 +1492,11 @@ void TWindowCtrl::update_focused() {
 
 extern "C" {
 
-bool TWindowCtrl::is_submit_cooldown_clear() {
+s32 TWindowCtrl::is_submit_cooldown_clear() {
     if (instance == NULL) {
         return 0;
     }
-    return instance->submit_cooldown <= 0;
+    return instance->submit_cooldown <= 0 ? 1 : 0;
 }
 
 }
