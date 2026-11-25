@@ -301,10 +301,6 @@ void TLockOnCursor__sub_8013EB8C(void *p);
 void __construct_array(void *, void *, void *, int, int);
 }
 
-extern "C" {
-
-}
-
 extern const f32 lbl_805DB0C4;
 
 
