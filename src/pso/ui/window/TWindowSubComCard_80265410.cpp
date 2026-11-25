@@ -94,10 +94,10 @@ void TKeyBoardControl::set_composer_flag62_bit4() {
     }
 }
 
-int TWindowMenuInfomation::get_flag() { return (m_70 >> 2) & 1; }
+int TWindowMenuInfomation::get_flag() { return (state_flags >> 2) & 1; }
 
 void TWindowMenuInfomation::clear_flag_and_release2() {
-    m_70 &= ~2;
+    state_flags &= ~2;
     if (heading != NULL) {
         heading->set_entry_state(1);
     }

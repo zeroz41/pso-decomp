@@ -161,7 +161,7 @@ extern SelectedGuildCardRecord selected_guild_card_record;
 void TWindowSubComCard::set_display_page() {
     set_page((s16)((int) (((TWindowMenu *)this)->get_selected_value())));
 }
-void TWindowMenuInfomation::set_flag_10() { m_70 |= 0x10; }
+void TWindowMenuInfomation::set_flag_10() { state_flags |= 0x10; }
 void TWindowSubComCard::set_page(s16 v) { *(s16*)((char*)this + 0x7a) = v; }
 s16 TWindowSubComCardList::get_field_72() { return entry_count; }
 void TKeyBoardControl::set_soft_flag60_bit1() {

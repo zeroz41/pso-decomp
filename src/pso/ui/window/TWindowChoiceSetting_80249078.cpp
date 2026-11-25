@@ -98,7 +98,7 @@ void TWindowChoiceSetting::run_task() {
     ControllerInputContext *temp_r30_2;
     ControllerInputContext *context;
     if ((is_selected() == 0) && (is_open() == 0)) {
-        if (this->m_70 & 0x10) {
+        if (this->state_flags & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 move_cursor_prev();

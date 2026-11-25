@@ -31,7 +31,7 @@ public:
     void update_next_entry(s32 position, s32 string, s32 arg3);
     void set_entry_string_by_id(void *id, s32 entry_id);
     void create_sub_window(const char *title);
-    u16 m_70;
+    u16 state_flags;
     s16 next_entry;
     s16 index;
     s16 entry_capacity;

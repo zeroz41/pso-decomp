@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 
 
-int TWindowMenuInfomation::is_selected() { return (this->m_70 >> 5) & 0x1; }
+int TWindowMenuInfomation::is_selected() { return (this->state_flags >> 5) & 0x1; }
 TWindowFukidasi *TWindowFukidasi::draw_resolved_window(const f32 *position, const f32 *size, s32 viewport) {
     TObject *root = get_viewport_window_root(viewport);
     return find_overlapping_balloon(position, size, (TWindowFukidasi *)root->m_down);

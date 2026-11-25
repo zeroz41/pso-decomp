@@ -28,16 +28,16 @@ extern "C" {
 s32 TWindowSubComCard__sub_8026906C(void);
 
 void TWindowMenuInfomation::request_close() {
-    if (!(this->m_70 & 8) && (TWindowMenuInfomation::is_open() == 0)) {
+    if (!(this->state_flags & 8) && (TWindowMenuInfomation::is_open() == 0)) {
         play_sound_effect(0x52F16, 0, 0, 0);
-        this->m_70 = (u16) (this->m_70 | 4);
+        this->state_flags = (u16) (this->state_flags | 4);
     }
 }
 void TWindowMenuInfomation::draw() {
     get_array_entry(this->index);
     if (TWindowSubComCard__sub_8026906C() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
-        this->m_70 = (u16) (this->m_70 | 2);
+        this->state_flags = (u16) (this->state_flags | 2);
         if (this->heading != 0) {
             this->heading->set_entry_state(2);
         }
@@ -51,7 +51,7 @@ void TWindowMenuInfomation::move_next_choice() {
 loop_1:
     candidate += 1;
     if (candidate >= entry_capacity) {
-        if (!(this->m_70 & 1)) {
+        if (!(this->state_flags & 1)) {
             candidate = 0;
             goto block_4;
         }
@@ -74,7 +74,7 @@ void TWindowMenuInfomation::move_cursor_prev() {
 loop_1:
     candidate -= 1;
     if (candidate < 0) {
-        if (!(this->m_70 & 1)) {
+        if (!(this->state_flags & 1)) {
             candidate = entry_capacity - 1;
             goto block_4;
         }
@@ -161,7 +161,7 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
     window->next_entry = 0;
     window->index = 0;
     window->entry_capacity = (s16)rows;
-    window->m_70 = 0;
+    window->state_flags = 0;
     window->heading = NULL;
     window->scroll_bar = NULL;
     for (i = 0; i < rows; i++) {
@@ -228,7 +228,7 @@ void TWindowMenuInfomation::run_task() {
     ControllerInputContext *pad_input;
     ControllerInputContext *context;
     if ((this->is_selected() == 0) && (this->is_open() == 0)) {
-        if (m_70 & 0x10) {
+        if (state_flags & 0x10) {
             input = &controller_input_state.controllers[0];
             if ((test_buttons_press_or_repeat(input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
                 this->move_cursor_prev();
