@@ -136,4 +136,6 @@ extern f32 battle_enemy_death_score;
 extern f32 battle_enemy_take_damage_score;
 extern f32 battle_meseta_score;
 
+struct UpdateBattleIntroName { char s[16]; };
+
 #endif

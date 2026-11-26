@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <dolphin/mtx/GeoTypes.h>
 #include "types.h"
+struct TItem;
 
 class TItemList;
 struct TObjPlayer;
@@ -119,5 +120,25 @@ s32 selected_character_has_item(s32 item_id);
 void remove_list_entry_by_id(s32 id);
 saddr reset(void *p);
 void start_placement_search(PositionPlacementQueue *queue, Vec *pos, TObjBase *source);
+
+struct InventorySortEntry {
+    u32 key;
+    TItem *val;
+    InventorySortEntry();
+    void set_key(TItem *item);
+    // Non-const source: the original reloads other.val after storing key.
+    InventorySortEntry &operator=(InventorySortEntry &other);
+};
+
+// The 8-byte list TPlyItem::sort_items allocates with new and frees with
+// delete (the destructor's s16 argument is MWCC's delete flag).
+struct InventorySortBuffer {
+    s32 count;
+    InventorySortEntry *items;
+    InventorySortBuffer(s32 n);
+    ~InventorySortBuffer();
+    // Bubble-sorts records by key.
+    void sort_by_key();
+};
 
 #endif

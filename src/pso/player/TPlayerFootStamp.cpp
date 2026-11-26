@@ -34,12 +34,6 @@ const Vec footstamp_class_sizes[12] = {
     { 1.0f, 1.0f, 1.0f }, { 0.8f, 0.9f, 1.0f }, { 0.8f, 0.9f, 1.0f }, { 0.9f, 0.9f, 1.0f },
 };
 
-// Per player class: the TObjPlayer::base_stats.proportions value the sizes above are for and
-// how much the footprint grows per unit above it.
-struct FootStampHeightScale {
-    f32 base;
-    f32 rate;
-};
 
 const FootStampHeightScale footstamp_class_height_scales[12] = {
     { 17.5f, 0.04f }, { 16.0f, 0.05f }, { 19.75f, 0.057f }, { 15.5f, 0.04f },

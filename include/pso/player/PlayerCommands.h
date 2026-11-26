@@ -41,4 +41,15 @@ void handle_6x8E(void);
 void handle_6x98(void);
 void handle_6x99(void);
 
+// An equipped item and the slot it sits in, kept while apply_battle_level_reset rebuilds the stats.
+struct EquippedItemSlot {
+    EquippedItemSlot() {
+        slot = 0;
+        item = NULL;
+    }
+
+    s16 slot;
+    TItem *item;
+};
+
 #endif

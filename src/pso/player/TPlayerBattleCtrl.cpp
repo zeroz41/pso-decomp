@@ -46,7 +46,6 @@
 #include "pso/object/base/TObjMotion.h"
 
 
-
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/object/base/TObjBase.h"
@@ -89,7 +88,6 @@ f32 battle_enemy_take_damage_score;
 f32 battle_meseta_score;
 
 
-
 void play_duel_result_stream(const char *file, saddr duration);
 extern "C" {
 u8 is_battle_mode_running(void);
@@ -106,32 +104,11 @@ f32 battle_enemy_death_score = 7.0f;
 const char *player_battle_ctrl_name = "TPlayerBattleCtrl";
 
 
-
-
-
-
-
-
-
 extern "C" {
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 
 }
-
-
-
-
-
-
-
-
-
-struct UpdateBattleIntroName { char s[16]; };
-
-
-
-
 
 
 extern "C" {
@@ -149,10 +126,7 @@ extern char battle_intro_message_buffer[];
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 
 
-
 #define CFG (*(BattleRuleConfig **)&battle_config_ptr)
-
-
 
 
 BattleRanking duel_result_table[4];

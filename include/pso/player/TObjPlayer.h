@@ -1281,4 +1281,11 @@ void emit_water_footstep_effect(PlayerFollowParticles *particles);
 
 void emit_grass_footstep_effect(PlayerFollowParticles *particles);
 
+// Photon blast motion frames of one weapon handle.
+struct PhotonBlastMotionTiming {
+    f32 hold_frame;
+    f32 upper_bound;
+    f32 complete_threshold;
+};
+
 #endif

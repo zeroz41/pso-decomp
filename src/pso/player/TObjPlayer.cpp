@@ -874,17 +874,6 @@ extern const f32 player_feedback_light_green;
 extern const f32 player_feedback_light_blue;
 extern const f32 player_feedback_light_step;
 
-// An equipped item and the slot it sits in, kept while apply_battle_level_reset rebuilds the stats.
-struct EquippedItemSlot {
-    EquippedItemSlot() {
-        slot = 0;
-        item = NULL;
-    }
-
-    s16 slot;
-    TItem *item;
-};
-
 extern const f32 player_rand_pick_limit;
 
 // Called ahead of its definition: the functions run from the highest address down.
