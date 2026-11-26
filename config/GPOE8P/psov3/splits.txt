@@ -5576,10 +5576,7 @@ pso/technique/TTecZondeEff.cpp:
 	.sdata2     start:0x805DC990 end:0x805DC9AC
 
 pso/object/door/TObjDoorJung_8023DBEC.cpp:
-	.text       start:0x8023DBEC end:0x8023DCB8
-
-pso/unk/text_8023DCB8.cpp:
-	.text       start:0x8023DCB8 end:0x8023DD0C
+	.text       start:0x8023DBEC end:0x8023DD0C
 
 pso/render/GinjaUvScroll.cpp:
 	.text       start:0x8023DD0C end:0x8023E480
