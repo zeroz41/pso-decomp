@@ -137,7 +137,7 @@ player_stats *bm9_mericarol_phase_hp_table[3];
 AttackParams *bm9_mericarol_phase_attack_table[3];
 ActorParamBlock *bm9_mericarol_phase_resist_table[3];
 TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
-f32 lbl_80540B88[4];
+f32 mericarol_zero_vector[4];  // zeroed by the resource loader, never read
 const char *bm9_mericarol_class_name = bm9_mericarol_class_name_string;
 SampledMotionPoints *mericarol_trail0_points;
 SampledMotionPoints *mericarol_trail1_points;
@@ -159,9 +159,9 @@ void TObjEneBm9Mericarol::load_resources() {
     }
     mericarol_node_counter = 0;
     lbl_805D6870 = 0;
-    lbl_80540B88[0] = 0.0f;
-    lbl_80540B88[1] = 0.0f;
-    lbl_80540B88[2] = 0.0f;
+    mericarol_zero_vector[0] = 0.0f;
+    mericarol_zero_vector[1] = 0.0f;
+    mericarol_zero_vector[2] = 0.0f;
     lbl_805D6874 = 0;
     lbl_805D6878 = 0;
     create_mericarol_render_texture();

@@ -106,7 +106,7 @@ extern "C" {
 
 
 
-Vec lbl_80501070;
+Vec re4_sorcerer_zero_vector;  // zeroed by the resource loader, never read
 
 
 
@@ -185,9 +185,9 @@ NJS_ARGB *MaterialColorFade::get_color() {
 
 void TObjEneRe4Sorcerer::load_resources() {
     uaddr r;
-    lbl_80501070.x = 0.0f;
-    lbl_80501070.y = 0.0f;
-    lbl_80501070.z = 0.0f;
+    re4_sorcerer_zero_vector.x = 0.0f;
+    re4_sorcerer_zero_vector.y = 0.0f;
+    re4_sorcerer_zero_vector.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
         sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named(&bm_ene_re4_sorcerer_resource_descriptor, "bm_ene_re4_sorcerer_a.bml");
     } else {

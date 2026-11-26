@@ -100,7 +100,7 @@ s32 me3_stelth_render_node_index;
 TBreakUpMdlData *me3_stelth_breakup_model;
 SampledMotionPoints *me3_stelth_trail_buffer;
 s32 stelth_projection_texture_handle;
-f32 lbl_805010E0[3];
+f32 me3_stelth_zero_vector[3];  // zeroed by the resource loader, never read
 __declspec(section ".data") player_stats *me3_stelth_base_params_by_variant[2];
 __declspec(section ".data") AttackParams *me3_stelth_attack_params_by_variant[2];
 __declspec(section ".data") ActorParamBlock *me3_stelth_resistance_params_by_variant[2];
@@ -183,9 +183,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
     NJS_CNK_MODEL *q;
     AnimationMotion *motion;
 
-    lbl_805010E0[0] = 0.0f;
-    lbl_805010E0[1] = 0.0f;
-    lbl_805010E0[2] = 0.0f;
+    me3_stelth_zero_vector[0] = 0.0f;
+    me3_stelth_zero_vector[1] = 0.0f;
+    me3_stelth_zero_vector[2] = 0.0f;
     if (is_split_screen() != 0) {
         me3_stelth_bml_resource = load_enemy_bml_resource(&me3_stelth_bml_resource_desc);
     } else {

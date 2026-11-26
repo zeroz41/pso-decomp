@@ -131,7 +131,7 @@ TObjMotionAction morfos_motion_param_table[5] = {
 };
 const char *morfos_class_name = "TObjEneMorfos";
 
-f32 lbl_805434D0[3];
+f32 morfos_zero_vector[3];  // zeroed by the resource loader, never read
 AttackParams *morfos_attack_params[3];
 
 void TObjEneMorfos::load_static_data() {
@@ -144,9 +144,9 @@ void TObjEneMorfos::load_static_data() {
         mgr = load_enemy_bml_resource(&morfos_resource_descriptor);
     }
     morfos_instance = mgr;
-    lbl_805434D0[0] = 0.0f;
-    lbl_805434D0[1] = 0.0f;
-    lbl_805434D0[2] = 0.0f;
+    morfos_zero_vector[0] = 0.0f;
+    morfos_zero_vector[1] = 0.0f;
+    morfos_zero_vector[2] = 0.0f;
     morfos_phase = 0;
     morfos_camera_path_cursor = NULL;
     morfos_body_scroll_polygons = ((NJS_CNK_MODEL *)mgr->models[1].model->child->model)->polygon_list;

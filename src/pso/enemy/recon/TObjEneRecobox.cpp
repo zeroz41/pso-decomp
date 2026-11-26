@@ -141,7 +141,7 @@ TObjMotionAction recobox_animation_entries[4] = {
 };
 
 
-Vec lbl_80543000;
+Vec recobox_zero_vector;  // zeroed by the resource loader, never read
 
 s32 recobox_behavior_params;
 
@@ -156,9 +156,9 @@ void *TObjEneRecon::get_field_38_ptr() {
 }
 
 void TObjEneRecobox::load_resources() {
-    lbl_80543000.x = 0.0f;
-    lbl_80543000.y = 0.0f;
-    lbl_80543000.z = 0.0f;
+    recobox_zero_vector.x = 0.0f;
+    recobox_zero_vector.y = 0.0f;
+    recobox_zero_vector.z = 0.0f;
     {
         BmlResource *res;
         if (is_split_screen() != 0) {

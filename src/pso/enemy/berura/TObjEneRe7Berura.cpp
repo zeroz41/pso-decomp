@@ -143,7 +143,7 @@ const NpcAnimationBinding ene_re7_berura_attack_def = { NULL, re7_berura_animati
 // the scale render hands draw_ground_shadow (name inferred)
 extern const Vec berura_shadow_scale = {2.0f, 1.0f, 2.0f};
 
-f32 lbl_805007C8[3];
+f32 re7_berura_zero_vector[3];  // zeroed by the resource loader, never read
 AttackParams *re7_berura_attack_stat_handles[2];
 TObjEneRe7BeruraPart re7_berura_detached_part_states[2];
 
@@ -171,9 +171,9 @@ void TObjEneRe7Berura::load_static_resources() {
         r = load_enemy_bml_resource(&ene_berura_bml_descriptor);
     }
     re7_berura_shared_resource = r;
-    lbl_805007C8[0] = 0.0f;
-    lbl_805007C8[1] = 0.0f;
-    lbl_805007C8[2] = 0.0f;
+    re7_berura_zero_vector[0] = 0.0f;
+    re7_berura_zero_vector[1] = 0.0f;
+    re7_berura_zero_vector[2] = 0.0f;
     re7_berura_demo_state = 0;
     berura_node_saved_render_flags = 0;
     re7_berura_demo_camera_ptr = 0;

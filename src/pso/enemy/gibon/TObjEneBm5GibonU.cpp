@@ -133,7 +133,7 @@ __declspec(section ".data") player_stats *bm5_gibon_u_stat_params[2];
 __declspec(section ".data") AttackParams *gibon_stat_handle_a_table[2];
 __declspec(section ".data") ActorParamBlock *gibon_stat_handle_b_table[2];
 __declspec(section ".data") u8 *gibon_param_table[2];
-__declspec(section ".data") f32 lbl_80500E98[3];
+__declspec(section ".data") f32 bm5_gibon_u_zero_vector[3];  // zeroed by the resource loader, never read
 __declspec(section ".data") u32 lbl_80500EA4[3];
 __declspec(section ".data") u32 bm5_gibon_u_pack_member_list[5];
 __declspec(section ".data") u32 bm5_gibon_u_instance_list[3];
@@ -1955,8 +1955,8 @@ void TObjEneBm5GibonU::load_resources() {
     ((TObjEneBm5GibonUList *)bm5_gibon_u_instance_list)->clear();
     bm5_gibon_u_render_node_index = 0;
     bm5_gibon_u_render_joint_y_rotation = 0;
-    v = lbl_80500E98;
-    lbl_80500E98[0] = 0.0f;
+    v = bm5_gibon_u_zero_vector;
+    bm5_gibon_u_zero_vector[0] = 0.0f;
     v[1] = 0.0f;
     v[2] = 0.0f;
     for (i = 0; i < 2; i++) {

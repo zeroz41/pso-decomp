@@ -84,7 +84,7 @@
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
 // TLobby::dispatch_shared_handler_a.
-Vec lbl_80542FB0;
+Vec me3_sinow_zoa_zero_vector;  // zeroed by the resource loader, never read
 player_stats *me3_sinow_zoa_base_params_by_variant[2];
 AttackParams *me3_sinow_zoa_attack_params_by_variant[2];
 ActorParamBlock *me3_sinow_zoa_resistance_params_by_variant[2];
@@ -156,9 +156,9 @@ void TObjEneMe3SinowZoa::load_resources() {
     TBreakUpMdlData *breakup;
     TObjEneMe3SinowZoaParams *params;
 
-    lbl_80542FB0.x = 0.0f;
-    lbl_80542FB0.y = 0.0f;
-    lbl_80542FB0.z = 0.0f;
+    me3_sinow_zoa_zero_vector.x = 0.0f;
+    me3_sinow_zoa_zero_vector.y = 0.0f;
+    me3_sinow_zoa_zero_vector.z = 0.0f;
     if (is_split_screen()) {
         me3_sinow_zoa_bml_resource = load_enemy_bml_resource(&bm_ene_me3_zoa_low_resource_descriptor);
     } else {

@@ -8147,7 +8147,7 @@ force_active:
   - boss1_dragon_forward_reference_vec
   - saved_view_params__11TCameraCtrl
   - active_challenge_title
-  - lbl_805007C8
+  - re7_berura_zero_vector
   - canadin_shared_handler_b_table
   - canadin_object_handle_table
   - canadin_shared_handler_a_table
@@ -8155,20 +8155,20 @@ force_active:
   - fly_nest_vertex_indices
   - fly_nest_vertex_list
   - wolf_param_table
-  - lbl_80500B60
+  - bm5_wolf_zero_vector
   - lbl_80500B6C
   - lbl_80500C30
   - gibon_stat_handle_a_table
   - gibon_stat_handle_b_table
   - gibon_param_table
-  - lbl_80500E98
+  - bm5_gibon_u_zero_vector
   - lbl_80500EA4
   - slime_tail_node_capture
   - TObjEneRe4Bit_attack_handles
   - TObjEneRe4Bit_resistance_handles
   - TObjEneRe4Bit_behavior_params
-  - lbl_80501070
-  - lbl_805010E0
+  - re4_sorcerer_zero_vector
+  - me3_stelth_zero_vector
   - lbl_80501114
   - item_blank_texture_name
   - lobby_room_title
@@ -8189,19 +8189,19 @@ force_active:
   - lbl_8051607C
   - bm9_mericarol_phase_attack_table
   - bm9_mericarol_phase_resist_table
-  - lbl_80540B88
+  - mericarol_zero_vector
   - mericarol_render_target
   - mericarol_render_texture_name
   - mericarol_render_texlist
   - lbl_80541528
-  - lbl_80543000
+  - recobox_zero_vector
   - serial_hex_buffer
   - serial_decimal_buffer
   - access_key_dashed_buffer
   - stored_serial_dashed_buffer
   - lobby_male_motions
   - lobby_female_motions
-  - lbl_805434D0
+  - morfos_zero_vector
   - morfos_attack_params
   - epsilon_guard_node_origin
   - epsilon_zero_vector

@@ -124,7 +124,7 @@ struct WolfGlobalObjects {
     TObjEneBm5WolfList list1;
 };
 extern "C" {
-Vec lbl_80500B60;
+Vec bm5_wolf_zero_vector;  // zeroed by the resource loader, never read
 u32 lbl_80500B6C[3];
 u32 bm5_wolf_pack_member_list[5];
 u32 bm5_wolf_instance_list[3];
@@ -216,9 +216,9 @@ void TObjEneBm5Wolf::load_resources() {
     ((TObjEneBm5WolfList *)bm5_wolf_instance_list)->clear();
     bm5_wolf_render_node_index = 0;
     bm5_wolf_render_joint_y_rotation = 0;
-    lbl_80500B60.x = 0.0f;
-    lbl_80500B60.y = 0.0f;
-    lbl_80500B60.z = 0.0f;
+    bm5_wolf_zero_vector.x = 0.0f;
+    bm5_wolf_zero_vector.y = 0.0f;
+    bm5_wolf_zero_vector.z = 0.0f;
     for (i = 0; i < 2; i++) {
         bm5_wolf_stat_params[i] = TLobby::register_boss(wolf_base_stat_ids[i]);
         wolf_stat_handle_a_table[i] = TLobby::dispatch_shared_handler_b(wolf_attack_stat_ids[i]);
