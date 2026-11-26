@@ -28,15 +28,14 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/network/client_id.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/unk/text_80076BC4.h"
 
 #pragma push
 #pragma readonly_strings on
 const char *window_chat_type_name_pointer = "TWindowChat";
 #pragma pop
 extern "C" {
-int get_chat_shortcut(s32 index);
 s32 fn_8002AE08(s32 client_id);
-void send_chat_shortcut(s32);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
     extern int chat_help_color_table[];
 int get_chat_help_color(int a0);
@@ -110,7 +109,7 @@ s32 TWindowChat::submit_keyboard_input() {
     }
     this->set_active_flag();
     if (composer->get_flag() != 0) {
-        *(ChatShortcut *)this->result = *(ChatShortcut *)get_chat_shortcut((s32)((int) (s8)(composer->get_input_mode())));
+        *(ChatShortcut *)this->result = *get_chat_shortcut((s8)composer->get_input_mode());
         if (((u32) **(u32 * *)&this->result == 3U) && (this->is_mode_bit6() == 0)) {
             TWindowChat::open_symbol_chat((s32 *)((u8 *) this->result + 4))->update_selected_symbol();
         }

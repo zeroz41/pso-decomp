@@ -59,7 +59,7 @@ s32 chat_accept_submission(saddr submission) {
     return 1;
 }
 
-void send_chat_shortcut(void) { ((int (*)()) get_chat_shortcut)(); ((int (*)()) chat_accept_submission)(); }
+void send_chat_shortcut(s32 index) { chat_accept_submission((saddr)get_chat_shortcut(index)); }
 
 #pragma inline_depth(1)
 #pragma auto_inline on
@@ -72,7 +72,7 @@ void clear_chat_shortcut(s32 i) {
     *p = 0;
 }
 }
-s32 store_chat_shortcut(s32 index, s32 src) { return (s32)&(*(ChatShortcut *)get_chat_shortcut(index) = *(ChatShortcut *)src); }
+ChatShortcut *store_chat_shortcut(s32 index, const ChatShortcut *src) { return &(*get_chat_shortcut(index) = *src); }
 
 ChatShortcut &ChatShortcut::operator=(const ChatShortcut &src) {
     kind = src.kind;
@@ -86,10 +86,9 @@ ChatShortcutKind &ChatShortcutKind::operator=(const ChatShortcutKind &src) {
 }
 
 bool is_chat_shortcut_set(s32 index) {
-    return *((s32 *)get_chat_shortcut(index)) != 0;
+    return get_chat_shortcut(index)->kind.value != 0;
 }
-typedef struct { u8 b[0x54]; } Rec_80076E2C;
-saddr get_chat_shortcut(s32 index) {
-    u8 *p = (u8 *)((Rec_80076E2C *)get_character_save_record(0xFFFF) + index);
-    return (saddr)(p + 0x19C0);
+ChatShortcut *get_chat_shortcut(s32 index) {
+    u8 *p = (u8 *)((ChatShortcut *)get_character_save_record(0xFFFF) + index);
+    return (ChatShortcut *)(p + offsetof(CharacterSaveRecord, chat_shortcuts));
 }

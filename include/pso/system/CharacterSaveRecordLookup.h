@@ -22,7 +22,7 @@ LAYOUT_ASSERT(BattleRecord_size, sizeof(BattleRecord) == 0x1C);
 
 // What a chat shortcut sends: 0 none, 1 chat text, 2 word select message, 3 symbol chat.
 struct ChatShortcutKind {
-    s32 value;
+    u32 value;
 
     ChatShortcutKind &operator=(const ChatShortcutKind &src);
 };
