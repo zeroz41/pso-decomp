@@ -564,7 +564,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjHMS_EZRope_Player.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/frontend/TAdPlayerLoadGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdDialingMessageWindow.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/ui/frontend/TAdSubPlyItemGC_802D6BEC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/ui/frontend/TAdSubPlyItemGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/TLogo.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TItemWeaponGalWind, the create jump table, then Talis ..
     # TItemWeaponCard (text order of their dtors): written last to first, deferred.

@@ -7511,7 +7511,7 @@ pso/ui/frontend/TAdPlayerLoadGC.cpp:
 	.data       start:0x804E25E8 end:0x804E2668
 	.sdata      start:0x805D3F48 end:0x805D3F50
 
-pso/ui/frontend/TAdSubPlyItemGC_802D6BEC.cpp:
+pso/ui/frontend/TAdSubPlyItemGC.cpp:
 	.text       start:0x802D6BEC end:0x802D7070
 	.rodata     start:0x804725D0 end:0x804725F0
 	.data       start:0x804E2668 end:0x804E2680

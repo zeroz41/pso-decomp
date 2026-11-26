@@ -1603,7 +1603,7 @@ pso/ui/frontend/TAdSnAkPassConfirmGC.cpp
 pso/ui/frontend/TAdSoniclogo.cpp
 pso/ui/frontend/TAdStorySelectGC.cpp
 pso/ui/frontend/TAdStorySelectGC_802C3284.cpp
-pso/ui/frontend/TAdSubPlyItemGC_802D6BEC.cpp
+pso/ui/frontend/TAdSubPlyItemGC.cpp
 pso/ui/frontend/TAdTitleGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC.cpp
 pso/ui/TTitleMenu.cpp
