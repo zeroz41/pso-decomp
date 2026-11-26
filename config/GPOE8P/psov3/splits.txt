@@ -2029,16 +2029,10 @@ pso/item/TItemData_8010EDA8.cpp:
 pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp:
 	.text       start:0x8010EEF0 end:0x8010EF14
 
-pso/unk/text_8010EF14.cpp:
-	.text       start:0x8010EF14 end:0x8010F168
+pso/unk/LoadUnloadSet.cpp:
+	.text       start:0x8010EF14 end:0x8010F2AC
 	.rodata     start:0x8043E3A0 end:0x8043E3A8
 	.sdata2     start:0x805DAB90 end:0x805DAB94
-
-pso/unk/text_8010F168.cpp:
-	.text       start:0x8010F168 end:0x8010F210
-
-pso/unk/text_8010F210.cpp:
-	.text       start:0x8010F210 end:0x8010F2AC
 
 pso/item/TItemLoad.cpp:
 	.text       start:0x8010F2AC end:0x8011085C
