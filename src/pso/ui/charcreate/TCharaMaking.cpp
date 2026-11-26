@@ -16,7 +16,7 @@
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
-#include "pso/object/TCMCharacter.h"
+#include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/keyboard/SystemBootInit.h"

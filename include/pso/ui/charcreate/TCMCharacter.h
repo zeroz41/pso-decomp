@@ -1,5 +1,5 @@
-#ifndef PSO_OBJECT_TCMCHARACTER_H
-#define PSO_OBJECT_TCMCHARACTER_H
+#ifndef PSO_UI_CHARCREATE_TCMCHARACTER_H
+#define PSO_UI_CHARCREATE_TCMCHARACTER_H
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 class TCMCharacter : public TObjMotion {

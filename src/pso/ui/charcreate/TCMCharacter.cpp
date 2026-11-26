@@ -9,7 +9,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/TLobby.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/TCMCharacter.h"
+#include "pso/ui/charcreate/TCMCharacter.h"
 #include "pso/ui/charcreate/CharacterShape.h"
 #include "pso/ui/charcreate/CharacterCreationTextureCache.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
