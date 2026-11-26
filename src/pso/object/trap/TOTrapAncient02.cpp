@@ -335,7 +335,7 @@ void TOTrapAncient02::update_springing() {
             p = get_player_by_client_id(player);
             target = p;
             if (target != NULL) {
-                d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
+                d = horizontal_distance_squared(&target->position, &position);
                 dist = range - p->get_body_radius(0);
                 if (d < dist * dist) {
                     if (player == local_client_id) {
@@ -557,7 +557,7 @@ void TOTrapAncient02R::find_target_player() {
         if (player != 0xFFFF) {
             target = get_player_by_client_id(player);
             if (target != NULL) {
-                if (horizontal_distance_squared(&((TObjBase *)target)->position, &position) < range * range) {
+                if (horizontal_distance_squared(&target->position, &position) < range * range) {
                     mode = 2;
                 }
             } else {
@@ -597,10 +597,10 @@ void TOTrapAncient02R::update_springing() {
             TObjPlayer *p = get_player_by_client_id(player);
             target = p;
             if (target != NULL && p->get_floor() == get_current_floor() &&
-                (target->alt_room == alt_room || ((TObjBase *)target)->room == room ||
-                 ((TObjBase *)target)->room == alt_room)) {
+                (target->alt_room == alt_room || target->room == room ||
+                 target->room == alt_room)) {
                 d = horizontal_distance_squared(&target->position, &position);
-                dist = range + ((TObjCollidable *)target)->get_collision_body_radius(0);
+                dist = range + target->get_collision_body_radius(0);
                 if (d < dist * dist) {
                     mode = 3;
                     phase = 2;

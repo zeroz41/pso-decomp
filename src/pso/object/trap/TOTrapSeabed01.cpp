@@ -343,7 +343,7 @@ void TOTrapSeabed01::check_hold_player() {
         held = get_player_by_client_id(player);
         target = held;
         if (target != NULL) {
-            distance = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
+            distance = horizontal_distance_squared(&target->position, &position);
             dist -= held->get_body_radius(0);
             if (distance < dist * dist) {
                 if (TRaderMapCore::is_not_split_screen() == 1) {
@@ -413,7 +413,7 @@ void TOTrapSeabed01::release_trapped_player() {
     TObjPlayer *held;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (target != NULL) {
-            held = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
+            held = get_player_by_client_id(target->get_entity_id());
             if (held != NULL) {
                 if (held->check_player_flag1() != 0) {
                     send_release_hold(held);
@@ -421,7 +421,7 @@ void TOTrapSeabed01::release_trapped_player() {
                 obj_clear_flag30_20000(held);
             }
         }
-    } else if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
+    } else if (target != NULL && local_client_id == target->get_entity_id()) {
         held = get_player_by_client_id(local_client_id);
         if (held != NULL && held->check_player_flag1() != 0) {
             send_release_hold(held);
