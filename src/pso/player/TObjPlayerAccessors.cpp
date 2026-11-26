@@ -1574,12 +1574,7 @@ void PhotonBlastGauge::set_client_id(u16 id) { client_id = id; }
 
 PhotonBlastGauge::~PhotonBlastGauge() {}
 
-s32 TObjPlayer::free_owned_buffer_b(saddr buffer, s16 flags) {
-    if ((buffer != 0) && (flags > 0)) {
-        __dl__FPv();
-    }
-    return buffer;
-}
+PlayerAttackController::~PlayerAttackController() {}
 
 
 extern "C" {

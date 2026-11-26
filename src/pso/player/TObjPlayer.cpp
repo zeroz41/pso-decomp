@@ -139,7 +139,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/system/GameModeQueries.h"
-#include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/Palettex.h"
 #include "pso/player/TPlayerLobbyMarker.h"
 #include "pso/player/MovementHistory.h"
@@ -378,8 +377,6 @@ TObjPlayer::~TObjPlayer() {
     release_action_palettes();
     release_pending_action();
     unregister();
-    TObjPlayer::free_owned_buffer_b((saddr)&this->attack_state, (s16)(-1));
-    destroy__10TObjPlayerFis((saddr)&this->battle_score, -1);
 }
 
 void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record(&appearance, visual); this->model_load_flags = 255; update_body_parts(); create_hair_move_sim(this); }

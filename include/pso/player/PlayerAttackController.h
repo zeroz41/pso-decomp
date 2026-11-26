@@ -34,6 +34,7 @@ struct PlayerAttackController {
 
     // Clears the block; the lock-on list and the flag word are built first.
     PlayerAttackController();
+    ~PlayerAttackController();
     void reset();
 
     // The pending stage, 0 when it is not valid.
