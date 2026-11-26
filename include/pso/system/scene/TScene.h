@@ -136,6 +136,8 @@ LAYOUT_ASSERT(TScene_size, sizeof(TScene) == 0x40);
 LAYOUT_ASSERT(TScene_field_1c_offset, offsetof(TScene, visible_section_count) == 0x1C);
 
 void load_scene_collision_file(saddr scene_file_index);
+void load_scene_map_file(saddr name);
+void load_floor_scene(void);
 // The id of the nearest map section whose radius holds pos, or -1.
 s32 find_section_at_position(Vec *pos);
 

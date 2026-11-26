@@ -16,5 +16,8 @@ void init_chr_select();
 void reset_to_chr_select();
 void reload_floor_scene();
 void update_periodic_tick();
+void start_quest_mission(void);
+void change_floor_reload_area(void);
+void reload_lobby_floor_scene(void);
 
 #endif

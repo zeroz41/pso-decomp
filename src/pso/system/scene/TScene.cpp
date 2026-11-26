@@ -232,9 +232,6 @@ s32 floor_bin_file_size;
 void *material_info_buffer;
 s32 scene_file_buffer_size;
 
-void load_scene_map_file(saddr name);
-void load_scene_collision_file(saddr name);
-void load_floor_scene(void);
 
 s32 player_auxiliary_surfaces_enabled() {
     SurfaceAreaTable table = player_auxiliary_surface_flag_table;
