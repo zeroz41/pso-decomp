@@ -1667,15 +1667,15 @@ void TWindowDD::build_player_word_lists() {
     s16 *l1;
     s16 *l2;
     s16 *l3;
-    uaddr p;
+    TObjPlayer *player;
     s16 v;
     n = 0;
     list = TWindowDD__word_select_lists[2].values;
     list[n++] = 0x2c7;
     for (i = 0; i < 12; i++) {
-        p = (uaddr)get_player_by_client_id(i);
-        if (p != 0) {
-            strncpy(TWindowDD__player_name_buffers[i], (char *)(p + 0x85c), 0x18);
+        player = get_player_by_client_id(i);
+        if (player != NULL) {
+            strncpy(TWindowDD__player_name_buffers[i], player->name, 0x18);
             if (i != local_client_id) {
                 list[n++] = i + 0x68c;
                 if (n >= 16) {

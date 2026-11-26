@@ -141,7 +141,7 @@ void TWindowDuelResult::build_ranking_page() {
     s32 i;
     s32 none;
     BattleRanking *e;
-    u8 *p;
+    TObjPlayer *player;
     u8 *a;
     u8 *b;
     u8 *c;
@@ -154,8 +154,8 @@ void TWindowDuelResult::build_ranking_page() {
     none = 1;
     e = get_battle_rankings();
     for (i = 0; i < 4; i++, e++) {
-        p = (e->client_id == 0xFFFF) ? NULL : (u8 *)get_player_by_client_id(e->client_id);
-        if (p != NULL && e->place != 0) {
+        player = (e->client_id == 0xFFFF) ? NULL : get_player_by_client_id(e->client_id);
+        if (player != NULL && e->place != 0) {
             none = 0;
         }
     }
@@ -165,8 +165,8 @@ void TWindowDuelResult::build_ranking_page() {
         b = (u8 *)get_array_entry(i * 4 + 2);
         c = (u8 *)get_array_entry(i * 4 + 3);
         d = (WindowTextEntry *)get_array_entry(i * 4 + 4);
-        p = (e->client_id == 0xFFFF) ? NULL : (u8 *)get_player_by_client_id(e->client_id);
-        if (p == NULL) {
+        player = (e->client_id == 0xFFFF) ? NULL : get_player_by_client_id(e->client_id);
+        if (player == NULL) {
             *(u16 *)a |= 2;
             *(u16 *)b |= 2;
             *(u16 *)c |= 2;
@@ -183,7 +183,7 @@ void TWindowDuelResult::build_ranking_page() {
             } else {
                 set_default_status(a, get_localized_text_entry(0x10, e->place + 6));
             }
-            set_text_entry_string((WindowTextEntry *)c, (uaddr)(p + 0x85C), 0x20);
+            set_text_entry_string((WindowTextEntry *)c, (uaddr)player->name, 0x20);
             text_builder_reset();
             text_builder_append_int(e->score);
             text_builder_append((const char *)get_localized_text_entry(0x10, 0xD));

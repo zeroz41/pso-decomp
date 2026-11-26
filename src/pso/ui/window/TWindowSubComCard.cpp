@@ -1139,15 +1139,15 @@ TWindowMenu *TWindowSubComCard::create_select_window() {
 
 TWindowMenu *TWindowSubComCard::create_recipient_window() {
     s32 i;
-    void *p;
+    TObjPlayer *player;
     TWindowMenu *w;
-    u8 *name;
+    char *name;
     w = create_titled_window_menu_default(get_window_layout_position(0x83), 0xC, (saddr)TWindowSubStatusDisp::get_message_10(0x1F));
     i = 0;
     do {
-        if (i != local_client_id && (p = get_player_by_client_id(i)) != NULL &&
-            ((TObjPlayer *)p)->is_script_controlled() == 0 && ((TObjChara *)p)->obj_isState3_324() == 0 &&
-            (name = (u8 *)p + 0x85C) != NULL) {
+        if (i != local_client_id && (player = get_player_by_client_id(i)) != NULL &&
+            player->is_script_controlled() == 0 && player->obj_isState3_324() == 0 &&
+            (name = player->name) != NULL) {
             w->add_text_entry((saddr)name, 7, i);
         }
         i++;
