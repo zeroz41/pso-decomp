@@ -186,21 +186,21 @@ void TOMine::render() {
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, facing);
-        free_parts();
+        draw_body();
         TParticleCtrl::begin_effect_render();
         t = model_render_flags;
         saved_model_render_flags = t;
         model_render_flags = t | 0x20;
-        ((void (*)(void *, s32)) set_constant_material)(&color, t);
-        free_sub_objects();
+        set_constant_material(&color);
+        draw_light();
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
 }
-void TOMine::free_parts() { TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist)); draw_ginja_object(this->model); }
-void TOMine::free_sub_objects() {
+void TOMine::draw_body() { TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist)); draw_ginja_object(this->model); }
+void TOMine::draw_light() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(light_textures));
     draw_ginja_object(light_model);
 }
@@ -383,26 +383,15 @@ f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, voi
   if (is_local != 0)
   {
     kind = payload.kind;
-    if (kind != 0x13)
-    {
-      if ((kind < 0x13) && (kind < 5))
-      {
-        if (kind < 0)
-        {
-          if ((kind && kind) && kind)
-          {
-          }
-        }
-        else
-        {
-          goto block_13;
-        }
-      }
-    }
-    else
-    {
-      block_13:
-      (this->receive_physical_attack(0, (1.0f)));
+    switch (kind) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 0x13:
+      this->receive_physical_attack(0, 1.0f);
+      break;
     }
   }
   return 0.0f;
@@ -449,14 +438,14 @@ void TOMine::apply_saved_state(s16 *state, s32 live) {
     }
 }
 void TOMine::play_trigger_effects() {
-    spawn_particle_effect((const Vec *)(((u8 *)this) + 0x2FC), 0x47);
+    spawn_particle_effect(&body_center, 0x47);
     this->spawn_blast_particle();
     this->play_trigger_sound();
 }
 // Slot 82: the detonation particle (inferred; was named detonate_if_triggered on TOMineTrap).
 void TOMine::spawn_blast_particle() {
     {
-        TParticleCtrl *particle = spawn_particle_effect((const Vec *)(((u8 *)this) + 0x2FC), 0x45);
+        TParticleCtrl *particle = spawn_particle_effect(&body_center, 0x45);
         if (particle != NULL) {
             particle->set_scale(1.25f, 1.25f);
         }
@@ -561,7 +550,7 @@ s32 TOMine::is_target_in_list(void *obj) {
         if (id < 4) {
             TObject *n;
             for (n = m_down; n != 0; n = n->m_next) {
-                if (((TOMineTrap *)n)->matches_id(id) != 0) {
+                if (static_cast<TOMineDisp *>(n)->matches_id(id) != 0) {
                     return 1;
                 }
             }
@@ -1049,29 +1038,29 @@ void TOMineDisp::run_task() {
 }
 
 void TOMineDisp::render() {
-    saddr temp_r31;
-    s32 temp_r4;
+    TOMine *mine;
+    s32 flags;
     u16 id = TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_mode());
     if (id != this->viewer_client_id) {
         return;
     }
-    if (*(s32 *)&this->display_state != 2) {
+    if (this->display_state != 2) {
         return;
     }
     if (this->update_object_view_visibility(400.0f, 20.0f) == 0) {
         return;
     }
     push_matrix();
-    temp_r31 = *(s32 *)&this->m_up;
+    mine = static_cast<TOMine *>(this->m_up);
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    ((TOMine *)temp_r31)->free_parts();
+    mine->draw_body();
     TParticleCtrl::begin_effect_render();
-    temp_r4 = model_render_flags;
-    saved_model_render_flags = temp_r4;
-    model_render_flags = temp_r4 | 0x20;
-    ((void (*)(void *, s32))set_constant_material)(&this->color, temp_r4);
-    ((TOMine *)temp_r31)->free_sub_objects();
+    flags = model_render_flags;
+    saved_model_render_flags = flags;
+    model_render_flags = flags | 0x20;
+    set_constant_material(&this->color);
+    mine->draw_light();
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
@@ -1130,8 +1119,8 @@ void TOMineTrapDisp::run_task() {
     }
 }
 
-s32 TOMineTrap::matches_id(u16 id) {
-    if ((id == *(u16 *)&this->body_count) && ((s32) *(s32 *)&this->bodies != 2)) {
+s32 TOMineDisp::matches_id(u16 id) {
+    if (id == viewer_client_id && display_state != 2) {
         return 1;
     }
     return 0;

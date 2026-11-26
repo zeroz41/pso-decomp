@@ -172,7 +172,7 @@ TObjQuestColA::TObjQuestColA(TObject *parent, void *set_data) : TObjQuestColBase
 
 int TObjQuestColA::is_triggered() {
     TObjPlayer *player;
-    s32 temp_r3_2;
+    s32 trigger_state;
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
@@ -184,22 +184,20 @@ int TObjQuestColA::is_triggered() {
             player->enable_action_input();
             return 0;
         }
-        temp_r3_2 = update_trigger_state(radius);
-        if (temp_r3_2 == 1) {
+        trigger_state = update_trigger_state(radius);
+        if (trigger_state == 1) {
             player->disable_primary_action_input();
         }
-        if (temp_r3_2 == 3) {
+        if (trigger_state == 3) {
             player->enable_action_input();
         }
-        if (temp_r3_2 == 0) {
+        if (trigger_state == 0) {
             player->disable_primary_action_input();
             if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
-        goto block_12;
     }
-block_12:
     return 0;
 }
 
@@ -248,7 +246,7 @@ TObjQuestColALock::~TObjQuestColALock() {
 
 int TObjQuestColALock::is_triggered() {
     TObjPlayer *player;
-    s32 temp_r3_2;
+    s32 trigger_state;
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
@@ -261,22 +259,20 @@ int TObjQuestColALock::is_triggered() {
             return 0;
         }
         submit_cursor_candidate(this, -1);
-        temp_r3_2 = update_trigger_state(radius);
-        if (temp_r3_2 == 1) {
+        trigger_state = update_trigger_state(radius);
+        if (trigger_state == 1) {
             player->disable_primary_action_input();
         }
-        if (temp_r3_2 == 3) {
+        if (trigger_state == 3) {
             player->enable_action_input();
         }
-        if (temp_r3_2 == 0) {
+        if (trigger_state == 0) {
             player->disable_primary_action_input();
             if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
-        goto block_12;
     }
-block_12:
     return 0;
 }
 
@@ -554,7 +550,7 @@ TObjQuestColALock2::~TObjQuestColALock2() {
 
 int TObjQuestColALock2::is_triggered() {
     TObjPlayer *player;
-    s32 temp_r3_2;
+    s32 trigger_state;
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
@@ -567,22 +563,20 @@ int TObjQuestColALock2::is_triggered() {
             return 0;
         }
         submit_cursor_candidate(this, -1);
-        temp_r3_2 = update_trigger_state(radius);
-        if (temp_r3_2 == 1) {
+        trigger_state = update_trigger_state(radius);
+        if (trigger_state == 1) {
             player->disable_primary_action_input();
         }
-        if (temp_r3_2 == 3) {
+        if (trigger_state == 3) {
             player->enable_action_input();
         }
-        if (temp_r3_2 == 0) {
+        if (trigger_state == 0) {
             player->disable_primary_action_input();
             if (test_pressed_buttons_packed(&controller_input_state.controllers[0], 4) != 0) {
                 return 1;
             }
         }
-        goto block_12;
     }
-block_12:
     return 0;
 }
 

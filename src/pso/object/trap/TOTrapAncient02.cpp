@@ -75,7 +75,7 @@ const char *trap_ancient02_r_name = "TOTrapAncient02R";
 
 BmlResource *trap_ancient02_shared_resource;
 s32 ancient02_uv_scroll_tick;   // the actor_frame_tick the uv scroll last ran on
-GinjaModel *ancient02_uv_scroll_model; // the model vfunc_84 scrolls the uvs of
+GinjaModel *ancient02_uv_scroll_model; // the model update_effects scrolls the uvs of
 s32 ancient02_uv_scroll_mesh;   // the mesh of it that scrolls
 
 void TOTrapAncient02R::init_trap_object_id() {
@@ -309,7 +309,7 @@ void TOTrapAncient02::render_particle_chain() {
     pop_matrix();
 }
 
-void TOTrapAncient02::vfunc_81() {
+void TOTrapAncient02::update_springing() {
     TObjPlayer *p;
     f32 d;
     submit_cursor_candidate(this, -1);
@@ -377,7 +377,7 @@ void TOTrapAncient02::vfunc_81() {
     }
 }
 
-void TOTrapAncient02::vfunc_82() {
+void TOTrapAncient02::update_holding() {
     TObjPlayer *p;
     submit_cursor_candidate(this, -1);
     switch (phase) {
@@ -427,7 +427,7 @@ void TOTrapAncient02::vfunc_82() {
     }
 }
 
-void TOTrapAncient02::vfunc_84() {
+void TOTrapAncient02::update_effects() {
     if (ancient02_uv_scroll_tick != actor_frame_tick && ancient02_uv_scroll_model != NULL) {
         ancient02_uv_scroll_tick = actor_frame_tick;
         scroll_ginja_mesh_uvs(ancient02_uv_scroll_model, 0, 0xE, ancient02_uv_scroll_mesh, 1);
@@ -486,7 +486,7 @@ void TOTrapAncient02::vfunc_84() {
     }
 }
 
-void TOTrapAncient02::vfunc_88() {}
+void TOTrapAncient02::run_demo() {}
 
 void TOTrapAncient02::vfunc_86() {}
 
@@ -570,7 +570,7 @@ void TOTrapAncient02R::find_target_player() {
     }
 }
 
-void TOTrapAncient02R::vfunc_81() {
+void TOTrapAncient02R::update_springing() {
     f32 d;
     saddr ang;
     set_indexed_flags(0, 1);
@@ -681,7 +681,7 @@ void TOTrapAncient02R::vfunc_81() {
     }
 }
 
-void TOTrapAncient02R::vfunc_82() {
+void TOTrapAncient02R::update_holding() {
     set_indexed_flags(0, 1);
     submit_cursor_candidate(this, -1);
     switch (phase) {
@@ -730,7 +730,7 @@ void TOTrapAncient02R::calc_trap_count() {
     }
 }
 
-void TOTrapAncient02R::vfunc_88() {}
+void TOTrapAncient02R::run_demo() {}
 
 void TOTrapAncient02R::vfunc_86() {
     if (is_current_room(this) == 1) {

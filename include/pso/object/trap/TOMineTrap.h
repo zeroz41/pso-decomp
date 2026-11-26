@@ -34,7 +34,6 @@ struct TOMineTrap : public TOMine {
     static int get_trap_count();
     static int set_instance(int instance);
     static int set_trap_count(int trap_count);
-    s32 matches_id(u16 id);
     void set_state();
     s32 find_target_in_range();
     void set_triggered();

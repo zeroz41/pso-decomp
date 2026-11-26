@@ -201,7 +201,7 @@ void TOTrapSeabed01::clamp_params_and_init() {
     payload.kind = trap_seabed01_param_index_table[set_params[2]];
 }
 
-void TOTrapSeabed01::vfunc_84() {}
+void TOTrapSeabed01::update_effects() {}
 
 void TOTrapSeabed01::render() {
     if (TMainTask::get_render_pass() != 1 &&
@@ -309,7 +309,7 @@ void TOTrapSeabed01::trigger_by_id(NJS_OBJECT *node) {
     }
 }
 
-void TOTrapSeabed01::vfunc_81() {
+void TOTrapSeabed01::update_springing() {
     frame += play_speed;
     if (frame > (current_motion->nbFrame - 1)) {
         frame = (current_motion->nbFrame - 1);
@@ -322,7 +322,7 @@ void TOTrapSeabed01::vfunc_81() {
     }
 }
 
-void TOTrapSeabed01::vfunc_82() {
+void TOTrapSeabed01::update_holding() {
     if (--strike_timer < 0) {
         bodies->radius = 15.0f;
         set_indexed_flags(0, 0x100);

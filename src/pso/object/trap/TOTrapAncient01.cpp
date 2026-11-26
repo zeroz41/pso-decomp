@@ -198,7 +198,7 @@ void TOTrapAncient01::render() {
 }
 #pragma pop
 
-void TOTrapAncient01::vfunc_81() {
+void TOTrapAncient01::update_springing() {
     TObjPlayer *player;
     f32 dist;
     scale.y += scale_step;
@@ -257,7 +257,7 @@ void TOTrapAncient01::vfunc_81() {
     }
 }
 
-void TOTrapAncient01::vfunc_82() {
+void TOTrapAncient01::update_holding() {
     s32 i;
     TObjChara *p;
     calc_attach_pos();
@@ -335,7 +335,7 @@ void TOTrapAncient01::vfunc_82() {
     }
 }
 
-void TOTrapAncient01::vfunc_84() {  }
+void TOTrapAncient01::update_effects() {  }
 
 f32 TOTrapAncient01::receive_physical_attack(void *attacker, f32 scale) {
     release_trapped_player();
@@ -424,6 +424,6 @@ void TOTrapAncient01::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-void TOTrapAncient01::vfunc_88() {  }
+void TOTrapAncient01::run_demo() {  }
 
 void TOTrapAncient01::vfunc_86() {  }

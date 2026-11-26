@@ -9,14 +9,14 @@ struct TOTrap : public TObjChara {
     virtual ~TOTrap();
     virtual void find_target_player();
     virtual void submit_cursor_and_notify();
-    virtual void vfunc_81();
-    virtual void vfunc_82();
+    virtual void update_springing();
+    virtual void update_holding();
     virtual s32 is_any_player_matching_stat();
-    virtual void vfunc_84();
+    virtual void update_effects();
     virtual void play_sounds();
     virtual void vfunc_86();
     virtual f32 scale_by_table_value(f32 table_value);
-    virtual void vfunc_88();
+    virtual void run_demo();
     virtual void vfunc_89();
     virtual f32 receive_physical_attack(void *, f32);
     virtual void apply_saved_state(s16 *, s32);

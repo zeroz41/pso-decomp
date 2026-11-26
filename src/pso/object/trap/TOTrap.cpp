@@ -16,7 +16,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"
 
-const char *lbl_805D3198 = "TOTrap";
+const char *trap_class_name = "TOTrap";
 
 
 f32 TOTrap::scale_by_table_value(f32 table_value) {
@@ -40,7 +40,7 @@ s32 TOTrap::is_any_player_matching_stat() {
     return 0;
 }
 
-void TOTrap::vfunc_82() {
+void TOTrap::update_holding() {
     TObjPlayer *pl;
 
     calc_attach_pos();
@@ -62,7 +62,7 @@ void TOTrap::vfunc_82() {
     submit_cursor_candidate(this, -1);
 }
 
-void TOTrap::vfunc_81() {
+void TOTrap::update_springing() {
     TObjPlayer *pl;
     calc_attach_pos();
     this->player = find_nearest_visible_player(this, 0, this->range);
@@ -148,11 +148,11 @@ f32 TOTrap::receive_physical_attack(void *source, f32) {
 
 void TOTrap::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
-        this->vfunc_88();
+        this->run_demo();
         return;
     }
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
-        this->vfunc_84();
+        this->update_effects();
         switch (this->mode) {
         case 0:
             if (this->is_any_player_matching_stat() != 0) {
@@ -164,10 +164,10 @@ void TOTrap::run_task() {
             this->submit_cursor_and_notify();
             return;
         case 2:
-            this->vfunc_81();
+            this->update_springing();
             return;
         case 3:
-            this->vfunc_82();
+            this->update_holding();
             break;
         }
     }
@@ -176,16 +176,13 @@ void TOTrap::run_task() {
 
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
 
 
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/PlayerSlots.h"
 
-
-extern "C" {
-
-s32 rotate_matrix_y(s32, s32);
 
 #pragma explicit_unused_unused_members on
 void TOTrap::render() {
@@ -206,20 +203,18 @@ void TOTrap::render() {
     }
 }
 
-}
-
 
 TOTrap::~TOTrap() {}
 
 TOTrap::TOTrap(TObject *parent) : TObjChara(parent) {
-    m_name = lbl_805D3198;
+    m_name = trap_class_name;
     range = dist = 0.0f;
     player = 0xFFFF;
     m_340 = 1;
 }
 
-void TOTrap::vfunc_84() {}
+void TOTrap::update_effects() {}
 
 void TOTrap::vfunc_86() {}
 
-void TOTrap::vfunc_88() {}
+void TOTrap::run_demo() {}

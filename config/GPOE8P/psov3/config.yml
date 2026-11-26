@@ -875,7 +875,7 @@ force_active:
   - TOSwitchTimer__ct
   - __ct__16TOTrapAncient02RFP7TObjectPv
   - update_state__17TObjEneBm3FlyNestFl
-  - vfunc_81__16TOTrapAncient02RFv
+  - update_springing__16TOTrapAncient02RFv
   - __ct__15TOTrapAncient02FP7TObjectPv
   - __ct__20TOTrapChainSawDamageFP7TObjectPv
   - queue_runs__18TOTrapChainSawEdgeFl
@@ -5874,7 +5874,7 @@ force_active:
   - draw_node_tree__18TObjLaboDesignBaseFP10NJS_OBJECT
   - draw_node_tree__19TODoorFourLightBaseFPUc
   - draw_number_value__22HelpItemStatCompareRowFPflll
-  - draw_object_tree__11TObjDoaEx01Fl
+  - draw_object_tree__11TObjDoaEx01FP10NJS_OBJECT
   - draw_object_tree__14TOTrapSeabed01FPUc
   - draw_object_tree_recursive__FP10NJS_OBJECT
   - draw_outline_quad__18TWindowEffectLightFl
@@ -17614,11 +17614,11 @@ force_active:
   - apply_to_player__9TTecSiftaFP10TObjPlayer
   - play_trigger_sound__12TOMineIcon04Fv
   - update_state__21TObjContainerAbeEnemyFv
-  - vfunc_81__14TOTrapSeabed01Fv
+  - update_springing__14TOTrapSeabed01Fv
   - draw_model__21TObjContainerAbeEnemyFv
   - spawn_blast_particle__12TOMineIcon04Fv
-  - vfunc_82__14TOTrapSeabed01Fv
-  - vfunc_82__16TOTrapAncient02RFv
+  - update_holding__14TOTrapSeabed01Fv
+  - update_holding__16TOTrapAncient02RFv
   - beast_update_appear__12TObjEneBeastFv
   - beast_update_appear__12TObjEneSharkFv
   - beast_update_appear__14TObjEneDolmOlmFv
@@ -17627,7 +17627,7 @@ force_active:
   - beast_update_appear__16TObjEneMerillLiaFv
   - vfunc_83__18TObjEneRe4SorcererFv
   - vfunc_84__12TOMineIcon04Fv
-  - vfunc_84__14TOTrapSeabed01Fv
+  - update_effects__14TOTrapSeabed01Fv
   - update_body_colliders__12TBoss1DragonFv
   - update_body_colliders__13TBoss5GryphonFv
   - update_body_colliders__13TObjEneBm3FlyFv

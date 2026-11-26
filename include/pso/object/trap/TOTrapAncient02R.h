@@ -13,9 +13,9 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
     virtual s32 is_any_player_matching_stat();
     virtual void submit_cursor_and_notify();
     virtual void find_target_player();
-    virtual void vfunc_81();
-    virtual void vfunc_82();
-    virtual void vfunc_88();
+    virtual void update_springing();
+    virtual void update_holding();
+    virtual void run_demo();
     virtual void vfunc_86();
     virtual s32 roll_physical_accuracy(void *, s32, f32);
     virtual s32 try_start_action(void *, s32, f32);
@@ -24,8 +24,8 @@ struct TOTrapAncient02R : public TOTrapAncient02 {
     virtual f32 receive_physical_attack(void *, f32);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
     virtual s32 select_melee_contact_body(void *, f32);
-    s32 technique;  // name inferred: set param 6 clamped to 0-4, picks the technique vfunc_81 casts (Foie, Zonde, Gibarta, Megid, Gifoie)
-    s32 tech_level; // name inferred: scale.z + 2 * difficulty + 1, the level vfunc_81 casts it at
+    s32 technique;  // name inferred: set param 6 clamped to 0-4, picks the technique update_springing casts (Foie, Zonde, Gibarta, Megid, Gifoie)
+    s32 tech_level; // name inferred: scale.z + 2 * difficulty + 1, the level update_springing casts it at
     s32 switch_id;  // name inferred: set param 5, the floor switch find_target_player waits for (-1: none)
     s32 hits;       // name inferred: scale.y clamped to 1-256, counted down by receive_physical_attack
     void calc_trap_count();

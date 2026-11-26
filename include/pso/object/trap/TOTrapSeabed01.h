@@ -11,9 +11,9 @@ struct TOTrapSeabed01 : public TOTrap {
     virtual void render();
     virtual f32 receive_physical_attack(void *, f32);
     virtual int deliver_attack_hits(f32 damage_scale);
-    virtual void vfunc_81();
-    virtual void vfunc_82();
-    virtual void vfunc_84();
+    virtual void update_springing();
+    virtual void update_holding();
+    virtual void update_effects();
     virtual void play_sounds();
     void draw_object_tree(NJS_OBJECT *object);
     void render_effect_layers();
@@ -27,7 +27,7 @@ struct TOTrapSeabed01 : public TOTrap {
     static void load_resources();
     static void trigger_by_id(NJS_OBJECT *node);
     s32 pad_344;
-    s32 strike_timer; // name inferred: 30 frames per set param 1; vfunc_82 strikes when it runs out
+    s32 strike_timer; // name inferred: 30 frames per set param 1; update_holding strikes when it runs out
     s32 projected; // name inferred: set param 2 != 0; draws with the particle TEV and the projection texture
     DirectAttackPayload payload; // name inferred: sent to every player in reach by vfunc_67
     s32 sound_handle; // name inferred: play_sound_effect's result, stopped by apply_saved_state
