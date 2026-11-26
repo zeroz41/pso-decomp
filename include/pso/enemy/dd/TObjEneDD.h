@@ -8,6 +8,7 @@ struct CsnHit;
 struct DragonAttackParams;
 class AreaAttackHistory;
 class TObjEneDD_ST;
+struct TargetCandidate;
 
 struct TObjEneDD : public TObjEnemy {
     TObjEneDD(TObject *parent);
@@ -101,6 +102,16 @@ struct TObjEneDD : public TObjEnemy {
     void set_next_mode(s32 v);
     void init_position_vectors();
     static void release_resource();
+    // Where a move of dist along (dx, dz) ends, stopped wall_reach short of a wall the probe hits.
+    void calc_wall_clamped_destination(Vec *dest, f32 dx, f32 dz, f32 dist);
+    void calc_wall_slide_destination(Vec *out, f32 dx, f32 dz, f32 dist);
+    // Copies world points into the collision body centers and stores them, moved into the actor's
+    // frame, in the bodies' offsets.
+    void update_local_colliders_from_world(Vec *world_points);
+    // The living players within range (squared, all when range <= 0), nearest first; returns how
+    // many it wrote to out.
+    s32 collect_enemy_target_candidates(TargetCandidate *out, f32 range);
+    s32 is_target_unobstructed_from(TObjChara *target);
 
     s32 previous_mode;         // mode when the last state handler finished; vfunc_86 tests for a change
     s32 next_mode;             // mode a finished action hands back to (transition_enemy_state(next_mode))
@@ -117,21 +128,10 @@ struct TargetCandidate {
     f32 dist;
 };
 
-// Where a move of dist along (dx, dz) from self ends, stopped wall_reach
-// short of a wall the probe hits.
-void calc_wall_clamped_destination(TObjEneDD *self, Vec *dest, f32 dx, f32 dz, f32 dist);
-void calc_wall_slide_destination(TObjEneDD *self, Vec *out, f32 dx, f32 dz, f32 dist);
 
 extern TargetCandidate enemy_target_candidate_table[4];
-// Copies world points into the actor's collision body centers and stores
-// them, moved into the actor's frame, in the bodies' offsets.
-void update_local_colliders_from_world(TObjEneDD *self, Vec *world_points);
-// The living players within range (squared, all when range <= 0) of self,
-// nearest first; returns how many it wrote to out.
-s32 collect_enemy_target_candidates(TObjEneDD *self, TargetCandidate *out, f32 range);
 void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
-s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
 u16 enemy_nearest_visible_enemy(void *self, f32 range);
 u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range);
 s32 is_player_entity_id(u16 id);
@@ -144,12 +144,8 @@ int is_target_android(void *p);
 int is_target_ranger(void *p);
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src);
 void TBoss8Dragon__sub_800BB7D4(void *self, int id);
-CsnHit *enemy_turn_and_move_xz_clamped(TObjEneDD_ST *self, s32 max_step, f32 distance);
-CsnHit *enemy_turn_and_move_xz_slide(TObjEneDD_ST *self, s32 max_step, f32 distance);
-CsnHit *enemy_turn_and_move_shot_step(TObjEneDD_ST *self, s32 iscale, f32 scale);
 void TBoss8Dragon__sub_800BB7D8(void *self, s32 id, f32 scale);
 void TBoss8Dragon__sub_800BB7DC(void *self);
-CsnHit *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 max_step, f32 currentSpeed);
 
 void set_collider_contact_high(CollisionBody *body);
 void set_collider_contact_low(CollisionBody *body);
@@ -161,11 +157,13 @@ s32 tick_period_counter(s32 self, s32 *counter, s32 limit);
 extern const f32 view_detail_far_depth;
 extern const f32 view_detail_near_depth;
 
+// The fall speed (-0.1) enemies add each frame; the bosses scale it for their own lift and fall.
+extern const f32 enemy_gravity_accel;
+
 class TObjChara;
 struct BmlResource;
 struct BmlResourceDescriptor;
 
-s32 enemy_bind_or_clear_target(TObjEneDD_ST *self, u16 id);
 u16 enemy_nearest_visible_enemy_sq(TObjChara *self, f32 range);
 BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, const char *archive_filename);
 

@@ -150,6 +150,7 @@ s32 count_tree_nodes(NJS_OBJECT *node);
 s32 count_visible_nodes(NJS_OBJECT *node);
 // Debug chunk model of an 8-sided cylinder (radius 2, y -5..5, named from its vertex data); the Dragon,
 // De Rol Le's mines, TBoss8Dragon and TObjFogCollision draw it scaled to show hit volumes.
+extern NJS_OBJECT *debug_chunk_object;
 extern NJS_OBJECT *debug_cylinder_object;
 extern NJS_OBJECT debug_chunk_b_object;
 

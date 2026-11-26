@@ -568,7 +568,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
                     idx = enemy_find_nearest_player_in_range(this, destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx != 0xFFFF) {
-                    enemy_set_target_id(this, idx);
+                    enemy_set_target_id(idx);
                 }
             }
         } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
@@ -663,7 +663,7 @@ void TObjEneRe2Flower::state_attack(s32 reason) {
         return;
     case 0:
         advance_animation();
-        enemy_validate_retained_target(this);
+        enemy_validate_retained_target();
         switch (state_timer) {
         case 0:
             if (is_passing_frame((frame_count - lbl_805D9FC0) - play_speed) != 0) {

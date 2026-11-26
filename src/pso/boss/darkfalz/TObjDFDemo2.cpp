@@ -26,12 +26,9 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/boss/darkfalz/TBoss4Zanzo.h"
 
 #pragma readonly_strings on
-
-extern "C" {
-extern s32 boss4_zanzo_bml_index_table[];
-}
 
 const char *TObjDFDemo2::name = "TObjDFDemo2";
 __declspec(section ".rodata") CameraAngles df_demo2_zero_camera_angles = {0, 0, 0};

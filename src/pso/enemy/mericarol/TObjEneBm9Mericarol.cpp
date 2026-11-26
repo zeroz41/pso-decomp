@@ -582,7 +582,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
                     target = enemy_find_nearest_player_in_range(this, (f32)(destination_distance - 30.0f));
                 }
                 if (target != 0xFFFF) {
-                    enemy_set_target_id(this, target);
+                    enemy_set_target_id(target);
                 }
             }
         } else if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
@@ -673,7 +673,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
         break;
     case 0:
         advance_animation();
-        enemy_validate_retained_target(this);
+        enemy_validate_retained_target();
         switch (state_step) {
         case 2:
             break;
@@ -788,7 +788,7 @@ void TObjEneBm9Mericarol::state_rush(s32 reason) {
                 bodies->flags |= 0x700;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
@@ -1082,7 +1082,7 @@ void TObjEneBm9Mericarol::state_cast_technique(s32 reason) {
                     state_step = 1;
                 }
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }

@@ -542,7 +542,7 @@ s32 TObjEneDellBiter::validate_or_update_target() {
     if (!(flags & 8)) {
         return update_linked_position(300.0f);
     }
-    s32 valid = enemy_validate_retained_target(this);
+    s32 valid = enemy_validate_retained_target();
     if (valid == 0) {
         flags &= ~8;
     }
@@ -571,7 +571,7 @@ s32 TObjEneDellBiter::select_farthest_visible_player() {
         }
     }
     if (id != 0xFFFF) {
-        enemy_set_target_id(this, id);
+        enemy_set_target_id(id);
         return 1;
     }
     this->enemy_clear_target();
@@ -997,7 +997,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
                 state_timer = 1;
                 bodies->flags |= 0x700;
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
@@ -1027,7 +1027,7 @@ void TObjEneDellBiter::update_rush_state(s32 reason) {
             if (check_rush_collisions() != 0) {
                 hit = 1;
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 Vec v;
                 VecCopy(&v, &current_target->position);
                 subtract_vector(&v, &position);

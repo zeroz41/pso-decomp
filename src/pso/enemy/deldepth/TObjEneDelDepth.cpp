@@ -54,6 +54,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/TDeadSpot.h"
+#include "pso/render/model_render_state.h"
 
 
 DelDepthParameters *TObjEneDelDepth::tune_params;
@@ -119,12 +120,6 @@ TObjEneDelDepth::ActionPair deldepth_actions[] = {
     { &TObjEneDelDepth::enter_fall_to_ground, &TObjEneDelDepth::update_fall_to_ground },
 };
 
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 
 void TObjEneDelDepth::setup_draw_material(f32 opacity, f32 farg1, f32 farg2, f32 farg3) {
     NJS_ARGB color;

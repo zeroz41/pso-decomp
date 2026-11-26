@@ -49,7 +49,6 @@ ActorParamBlock *bm3_fly_resist_stats;
 Bm3FlyParameters * bm3_fly_lobby_params;
 BmlResource * bm3_fly_nest_resources;
 TBreakUpMdlData * bm3_fly_breakup_model;
-extern const f32 enemy_gravity_accel;
 extern void *tl_04;
 
 const BreakUpParamRow bm3_fly_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
@@ -322,7 +321,7 @@ void TObjEneBm3Fly::update_dd_flag(f32 x, f32 z, f32 speed) {
 
 void TObjEneBm3Fly::update_state_flag() {
 
-    if (enemy_turn_and_move_xz_slide(this, ((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->distance) != 0) {
+    if (enemy_turn_and_move_xz_slide(((Bm3FlyMovementParameters *)this->movementParameters)->unknown_08, bm3_fly_lobby_params->distance) != 0) {
         this->status_flags |= BM3_FLY_SHADOW;
         return;
     }
@@ -400,11 +399,11 @@ void TObjEneBm3Fly::choose_attack() {
         this->transition_enemy_state(3);
         return;
     }
-    count = collect_enemy_target_candidates(this, players, (1e+04f));
+    count = collect_enemy_target_candidates(players, (1e+04f));
     for (i = 0; i < count; i++) {
         id = players[i].id;
         if (id != this->target_id && nest->has_free_attack_slot(id) != 0) {
-            enemy_set_target_id(this, id);
+            enemy_set_target_id(id);
             this->transition_enemy_state(3);
             return;
         }

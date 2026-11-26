@@ -22,8 +22,8 @@ extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
 }
 extern s32 slime_one_part_texture_index_table[];
-extern s32 model_render_flags;
 #include "pso/player/PlayerAttackController.h"
+#include "pso/render/model_render_state.h"
 
 int TObjEneSlimeTailAttack::find_nearest_enemy_with_flag(f32 range) {
     s32 target_id;

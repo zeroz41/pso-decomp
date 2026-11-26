@@ -989,7 +989,7 @@ void TObjEneBm5GibonU::returning_state(s32 msg) {
             this->update_velocity();
             this->approach_target(0.2f);
             this->play_speed = 1.05f * this->current_speed;
-            enemy_turn_and_move_on_ground(this, 0x500, this->current_speed);
+            enemy_turn_and_move_on_ground(0x500, this->current_speed);
             this->face_target();
             this->check_collisions();
             this->update_enemy_collision_flags();
@@ -1047,7 +1047,7 @@ void TObjEneBm5GibonU::update_lunge(s32 msg) {
             }
             if (this->is_passing_frame(22.0f) != 0) {
                 this->near_target = 0;
-                if (enemy_validate_retained_target(this) != 0) {
+                if (enemy_validate_retained_target() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
                         this->current_target->apply_knockback_from_attacker((u8 *)this, 7.0f);
@@ -1448,11 +1448,11 @@ void TObjEneBm5GibonU::chasing_state(s32 msg) {
             }
             frame = this->frame;
             if ((frame >= 10.0f) && (frame <= 18.0f)) {
-                enemy_turn_and_move_on_ground(this, (768.0f * this->current_speed), 1.0f);
+                enemy_turn_and_move_on_ground((768.0f * this->current_speed), 1.0f);
             } else {
                 this->current_speed *= 0.9f;
                 speed = this->current_speed;
-                enemy_turn_and_move_on_ground(this, (768.0f * speed), speed);
+                enemy_turn_and_move_on_ground((768.0f * speed), speed);
             }
             this->run_distance += this->current_speed;
             if (this->run_distance >= 50.0f) {
@@ -1537,7 +1537,7 @@ void TObjEneBm5GibonU::roaming_state(s32 msg) {
                 this->stopping_distance = 2.0f + TObjBoss2Tunnel::calc_scaled_value(0x200, this->desired_speed);
             }
             this->play_speed = 1.05f * this->current_speed;
-            enemy_turn_and_move_on_ground(this, 512.0f * this->current_speed, this->current_speed);
+            enemy_turn_and_move_on_ground(512.0f * this->current_speed, this->current_speed);
             break;
         case 1:
             play_walk_footsteps();
@@ -1549,7 +1549,7 @@ void TObjEneBm5GibonU::roaming_state(s32 msg) {
                 this->requested_action = 0;
             }
             this->play_speed = 1.05f * this->current_speed;
-            enemy_turn_and_move_on_ground(this, 512.0f * this->current_speed, this->current_speed);
+            enemy_turn_and_move_on_ground(512.0f * this->current_speed, this->current_speed);
             break;
         case 2:
             this->requested_action = 0;
@@ -1605,7 +1605,7 @@ void TObjEneBm5GibonU::howling_state(s32 msg) {
                 }
             }
         }
-        if (enemy_validate_retained_target(this) != 0) {
+        if (enemy_validate_retained_target() != 0) {
             if (this->requested_action == 0xE) {
                 this->face_target();
             } else {
@@ -1644,7 +1644,7 @@ void TObjEneBm5GibonU::standing_state(s32 msg) {
     {
       play_sound_effect(this->remap_sound_for_area(0x3A523), &this->position, 0, 0);
     }
-      if (enemy_validate_retained_target(this) != 0)
+      if (enemy_validate_retained_target() != 0)
     {
       this->enemy_copy_target_destination();
       this->update_velocity();
@@ -2356,7 +2356,7 @@ s32 TObjEneBm5GibonU::calc_lunge_aim(int) {
     f32 dir_x;
     f32 dir_z;
     f32 side;
-    if (is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)this->current_target) != 0) {
+    if (is_target_unobstructed_from(this->current_target) != 0) {
         this->enemy_copy_target_destination();
         this->update_velocity();
         if (this->is_active() != 0) {

@@ -182,7 +182,6 @@ Boss5GryphonParams *boss5_gryphon_behavior_params[3];
 Vec boss5_gryphon_bone_capture_origin;
 Vec boss5_gryphon_camera_pos_vec;
 u8 boss5_gryphon_direction_vec[0x10];  // a Vec; the split end counts the 4 bytes of .bss alignment after it
-extern const f32 enemy_gravity_accel;
 // Set up by this file's static initializer (the last function in the object): 3x and 2x the enemies'
 // per-frame gravity (TObjEneDD's -0.1f), the pair TBoss1Dragon names lift and gravity accel.
 f32 boss5_gryphon_lift_accel = gryphon_three * enemy_gravity_accel;
@@ -752,7 +751,7 @@ void TBoss5Gryphon::update_body_colliders() {
         }
         return;
     }
-    update_local_colliders_from_world(this, body_points);
+    update_local_colliders_from_world(body_points);
     {
         f32 lim = gryphon_thirty;
         s32 i;
@@ -867,7 +866,7 @@ void handle_6x9F_gal_gryphon_boss_actions(G_GalGryphonBossActions_6x9F *cmd) {
 }
 
 void TBoss5Gryphon::set_target_from_action(G_GalGryphonBossActions_6x9F *packet) {
-    enemy_set_target_id(this, (u16)packet->target_id);
+    enemy_set_target_id((u16)packet->target_id);
     this->destination.x = packet->x;
     this->destination.z = packet->z;
 }
@@ -1233,12 +1232,12 @@ void TBoss5Gryphon::update_ground_pursuit(s32 event) {
         this->emit_walk_foot_attacks();
         spd = this->get_motion_frame();
         if (spd < gryphon_four) {
-            enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
+            enemy_turn_and_move_shot_step(0x100, gryphon_one_point_eight);
         } else if (!(spd < gryphon_ten)) {
             if (spd < gryphon_eighteen) {
-                enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
+                enemy_turn_and_move_shot_step(0x100, gryphon_one_point_eight);
             } else if (!(spd < gryphon_twenty_five)) {
-                enemy_turn_and_move_shot_step(this, 0x100, gryphon_one_point_eight);
+                enemy_turn_and_move_shot_step(0x100, gryphon_one_point_eight);
             }
         }
         break;
@@ -3052,7 +3051,7 @@ void TBoss5Gryphon::scale_size(f32 scale, f32 scale_y, f32 turn_scale) {
 void TBoss5Gryphon::refresh_target_periodically() {
     TBoss5Gryphon::update_linked_ground_position();
     if (!(this->targetRefreshCounter & 0x1F)) {
-        if (enemy_validate_retained_target(this) != 0) {
+        if (enemy_validate_retained_target() != 0) {
             enemy_copy_target_destination();
         } else {
             this->set_target_destination(&boss5_gryphon_arena_center);

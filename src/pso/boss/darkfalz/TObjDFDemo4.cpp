@@ -18,13 +18,13 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4Zanzo.h"
 
 #pragma readonly_strings on
 // Built with deferred code generation (-inline deferred): functions come out in reverse
 // order (draw_body_parts first in .text).
 
 // Dark Falz's afterimage (zanzo) models.
-extern s32 boss4_zanzo_bml_index_table[2];
 
 const char *TObjDFDemo4::name = "TObjDFDemo4";
 // The motions of the afterimage and body models.

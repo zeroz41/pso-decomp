@@ -92,7 +92,6 @@ Vec bm3_fly_nest_attachment_sample_origin;
 f32 fly_nest_vertex_table[6];
 __declspec(section ".data") s32 fly_nest_vertex_indices[2];
 Bm3FlyNestVertexList fly_nest_vertex_list;
-extern saddr debug_chunk_object;
 player_stats *bm3_fly_nest_base_stats;
 AttackParams *bm3_fly_nest_attack_stats;
 ActorParamBlock *bm3_fly_nest_resist_stats;
@@ -1116,7 +1115,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     translate_matrix(0, this->parameters[2], this->parameters[3], this->parameters[4]);
-    draw_chunk_object((void *)debug_chunk_object);
+    draw_chunk_object(debug_chunk_object);
     pop_matrix();
 }
 

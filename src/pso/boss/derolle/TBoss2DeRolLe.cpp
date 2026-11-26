@@ -925,7 +925,7 @@ void TBoss2DeRolLe::update_body_colliders() {
     VecCopy(&offsets[0], &node_positions[6]);
     VecCopy(&offsets[1], &part_points[2]);
     VecCopy(&offsets[2], &part_points[3]);
-    update_local_colliders_from_world(this, offsets);
+    update_local_colliders_from_world(offsets);
 }
 
 #pragma pop
@@ -1382,7 +1382,7 @@ void TBoss2DeRolLe::init_from_param(DeRolLeActionPacket *packet) {
 }
 
 void TBoss2DeRolLe::set_params(DeRolLeActionTargetPacket *packet) {
-    enemy_set_target_id(this, packet->target_id);
+    enemy_set_target_id(packet->target_id);
     action_index = packet->sequence_index;
     transition_enemy_state(packet->state);
 }

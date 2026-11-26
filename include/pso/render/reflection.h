@@ -17,6 +17,7 @@ void destroy_reflection_target();
 void create_reflection_target();
 // Forces the next reflection pass even when the player's floor ray missed.
 void request_reflection_render();
+extern u8 scene_sora_recon_active_flag;
 
 // Finds a reflective floor (collision flag 0x4000) below pos; writes its point and normal to plane.
 s32 find_reflective_floor(const Vec *pos, ReflectionPlane *plane);

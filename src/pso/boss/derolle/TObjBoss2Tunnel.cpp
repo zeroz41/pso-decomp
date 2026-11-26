@@ -190,8 +190,6 @@ LAYOUT_ASSERT(ScreenSnapshot_size, sizeof(ScreenSnapshot) == 0x1818C);
 extern "C" {
 extern s32 memcard_access_active;
 }
-f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
-void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 
 
 u8 boss2_tunnel_state_flag;
@@ -452,38 +450,38 @@ void AccelerationCurve::reset_coords() {
 }
 
 
-void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed) {
+void AccelerationCurve::init(f32 accel, f32 decel, f32 dist, f32 peak) {
     f32 sq;
     f32 up;
     f32 down;
     f32 p;
-    c->accel = a;
-    if (c->accel <= 0.0f) {
-        c->accel = 0.1f;
+    this->accel = accel;
+    if (this->accel <= 0.0f) {
+        this->accel = 0.1f;
     }
-    c->decel = d;
-    if (c->decel >= 0.0f) {
-        c->decel = (-0.1f);
+    this->decel = decel;
+    if (this->decel >= 0.0f) {
+        this->decel = (-0.1f);
     }
-    sq = speed * speed;
-    c->dist = length;
-    c->peak = speed;
-    up = (0.5f * sq) / c->accel;
-    down = (0.5f * -sq) / c->decel;
-    if (up + down >= c->dist) {
-        f32 k2 = 2.0f * c->accel;
-        c->peak = newton_sqrtf((c->dist * (k2 *= c->decel)) / (c->decel - c->accel));
-        sq = c->peak * c->peak;
-        c->accelEnd = c->decelStart = c->peak / c->accel;
-        c->accelDist = c->decelPos = (0.5f * sq) / c->accel;
-        c->end = c->decelStart + (-c->peak / c->decel);
+    sq = peak * peak;
+    this->dist = dist;
+    this->peak = peak;
+    up = (0.5f * sq) / this->accel;
+    down = (0.5f * -sq) / this->decel;
+    if (up + down >= this->dist) {
+        f32 k2 = 2.0f * this->accel;
+        this->peak = newton_sqrtf((this->dist * (k2 *= this->decel)) / (this->decel - this->accel));
+        sq = this->peak * this->peak;
+        this->accelEnd = this->decelStart = this->peak / this->accel;
+        this->accelDist = this->decelPos = (0.5f * sq) / this->accel;
+        this->end = this->decelStart + (-this->peak / this->decel);
         return;
     }
-    c->accelDist = up;
-    c->accelEnd = c->peak / c->accel;
-    c->decelPos = c->dist - down;
-    c->decelStart = c->accelEnd + (c->decelPos - up) / c->peak;
-    c->end = c->decelStart + (-c->peak / c->decel);
+    this->accelDist = up;
+    this->accelEnd = this->peak / this->accel;
+    this->decelPos = this->dist - down;
+    this->decelStart = this->accelEnd + (this->decelPos - up) / this->peak;
+    this->end = this->decelStart + (-this->peak / this->decel);
 }
 
 int AccelerationCurve::check_param_threshold(f32 t) {
@@ -492,30 +490,30 @@ int AccelerationCurve::check_param_threshold(f32 t) {
 
 #pragma push
 #pragma fp_contract on
-f32 sample_acceleration_curve(AccelerationCurve *c, f32 t) {
+f32 AccelerationCurve::sample(f32 t) {
     if (t < 0.0f) {
         return 0.0f;
     }
-    if (t < c->accelEnd) {
+    if (t < this->accelEnd) {
         {
-        f32 k = 0.5f * c->accel;
+        f32 k = 0.5f * this->accel;
         k *= t;
         return t * k;
         }
     }
-    if (t < c->decelStart) {
-        t -= c->accelEnd;
-        return t * c->peak + c->accelDist;
+    if (t < this->decelStart) {
+        t -= this->accelEnd;
+        return t * this->peak + this->accelDist;
     }
-    if (t < c->end) {
-        t = c->end - t;
+    if (t < this->end) {
+        t = this->end - t;
         {
-        f32 k = 0.5f * c->decel;
+        f32 k = 0.5f * this->decel;
         k *= t;
-        return t * k + c->dist;
+        return t * k + this->dist;
         }
     }
-    return c->dist;
+    return this->dist;
 }
 
 #pragma pop

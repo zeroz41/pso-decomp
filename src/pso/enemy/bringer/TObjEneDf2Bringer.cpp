@@ -511,7 +511,7 @@ s32 TObjEneDf2Bringer::update_held_target() {
     if (!(status_flags & 8)) {
         return update_linked_position(300.0f);
     }
-    valid = enemy_validate_retained_target(this);
+    valid = enemy_validate_retained_target();
     if (valid == 0) {
         status_flags &= ~8;
     }
@@ -541,7 +541,7 @@ s32 TObjEneDf2Bringer::target_farthest_visible_player() {
         }
     }
     if (id != 0xFFFF) {
-        enemy_set_target_id(this, id);
+        enemy_set_target_id(id);
         return 1;
     }
     enemy_clear_target();
@@ -877,7 +877,7 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
                 status_flags |= 4;
                 bodies->flags |= 0x700;
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
@@ -902,7 +902,7 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
             if (check_rush_hits() != 0) {
                 hit = 1;
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 VecCopy(&d, &current_target->position);
                 subtract_vector(&d, &position);
                 if (normalize_vector_xz(&d) >= 30.0f) {

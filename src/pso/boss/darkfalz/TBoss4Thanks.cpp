@@ -25,6 +25,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/task/TMainTask.h"
 
 
 
@@ -206,10 +207,9 @@ TBoss4Thanks::TBoss4Thanks(TObject *parent) : TObject(parent) {
 }
 
 
-extern void *tl_02;
 
 void *TBoss4Thanks::create() {
-    void *o = (void *)new TBoss4Thanks((TObject *)(u8 *)tl_02);
+    void *o = (void *)new TBoss4Thanks(tl_02);
     return o;
 }
 

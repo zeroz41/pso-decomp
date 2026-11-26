@@ -485,7 +485,7 @@ s32 TObjEneMe1Canadin::find_attack_target(f32 *out, f32 squared_range) {
     s32 i;
     found = 0;
     *out = -1.0f;
-    count = collect_enemy_target_candidates(this, list, squared_range);
+    count = collect_enemy_target_candidates(list, squared_range);
     for (i = 0; i < count; i++) {
         player = get_player_by_client_id(list[i].id);
         if (player != current_target) {
@@ -1073,7 +1073,7 @@ void TObjEneMe1Canadin::state_ranged_attack(s32 msg) {
             } else {
                 this->advance_state_5_to_4();
             }
-            enemy_turn_and_move_xz_slide(this, 0x200, 0.5f);
+            enemy_turn_and_move_xz_slide(0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
@@ -1281,7 +1281,7 @@ void TObjEneMe1Canadin::state_melee_attack(s32 msg) {
                 if (this->destination_distance > 40.0f) {
                     this->stage = 1;
                 }
-                enemy_turn_and_move_xz_clamped(this, 0x200, this->kind_params->melee_speed);
+                enemy_turn_and_move_xz_clamped(0x200, this->kind_params->melee_speed);
             }
             this->noop();
             break;
@@ -1575,7 +1575,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         }
         this->update_velocity();
         this->approach_hover_y(this->position.y + this->hover_height);
-        enemy_turn_and_move_xz_clamped(this, 0x200, 0.68f);
+        enemy_turn_and_move_xz_clamped(0x200, 0.68f);
         this->rotation_z += 0x2000;
         this->stage++;
         if (this->stage >= 0x96) {

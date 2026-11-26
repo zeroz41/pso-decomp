@@ -417,7 +417,7 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
                 }
             }
         }
-        if (enemy_bind_or_clear_target(this, id) != 0) {
+        if (enemy_bind_or_clear_target(id) != 0) {
             return 1;
         }
     }
@@ -431,22 +431,22 @@ s32 TObjEneRe4Sorcerer::select_attack_target(f32 ranger_range_sq, f32 range_sq) 
         if (((TObjBase *)q)->is_alive() != 0) {
             e = horizontal_distance_squared(&this->body_center, &q->body_center);
             if (is_target_ranger(q) != 0) {
-                if (e < ranger_range_sq && is_target_unobstructed_from((TObjEneDD *)this, q) != 0) {
+                if (e < ranger_range_sq && is_target_unobstructed_from(q) != 0) {
                     ranger_range_sq = e;
                     tA = q->get_entity_id();
                 }
-            } else if (e < range_sq && is_target_unobstructed_from((TObjEneDD *)this, q) != 0) {
+            } else if (e < range_sq && is_target_unobstructed_from(q) != 0) {
                 range_sq = e;
                 tB = q->get_entity_id();
             }
         }
     }
     if (tA != 0xFFFF) {
-        enemy_set_target_id(this, tA);
+        enemy_set_target_id(tA);
         return 1;
     }
     if (tB != 0xFFFF) {
-        enemy_set_target_id(this, tB);
+        enemy_set_target_id(tB);
         return 1;
     }
     }
@@ -482,7 +482,7 @@ void TObjEneRe4Sorcerer::warp_around_target(f32 speed) {
     vec3_add_to(&v, &this->destination);
     subtract_vector(&v, &this->position);
     speed = normalize_vector_xz(&v);
-    calc_wall_clamped_destination(this, &out, v.x, v.z, speed);
+    calc_wall_clamped_destination(&out, v.x, v.z, speed);
     t.x = out.x;
     t.y = 10.0f + out.y;
     t.z = out.z;
@@ -619,7 +619,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
     Vec v;
     s32 frame;
     Vec *src;
-    if (is_target_unobstructed_from((TObjEneDD *)this, current_target) != 0) {
+    if (is_target_unobstructed_from(current_target) != 0) {
         TObjEneRe4Bit *bit = (TObjEneRe4Bit *)find_entity_by_id(bit_ids[0]);
         if (bit != NULL) {
             src = bit->get_spell_data();

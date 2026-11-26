@@ -881,7 +881,7 @@ void TObjEneMe3SinowZoa::state_reveal(s32 mode) {
                 this->state_timer = 0xFF;
             }
             this->material_color = (this->state_timer << 24) | (this->material_color & 0xFFFFFF);
-            if (enemy_validate_retained_target(this) == 0) {
+            if (enemy_validate_retained_target() == 0) {
                 this->state_step = 0;
                 this->material_color = 0;
             }
@@ -1013,7 +1013,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 mode) {
                 this->turn_toward_target_direction(0x500);
                 this->update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, 0x500, this->move_speed);
+                enemy_turn_and_move_on_ground(0x500, this->move_speed);
             }
             this->check_collisions();
         }

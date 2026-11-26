@@ -94,10 +94,9 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/quest/QuestStoryFlags.h"
+#include "pso/object/base/ActorCollision.h"
 
 extern u16 boss8_dragon_control_client_id;
-f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
-void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 AttackParams *boss8_dragon_part_hp_stats[5];
 Boss8DragonParams *boss8_dragon_behavior_params[3];
 Vec boss8_dragon_node_origin;
@@ -107,7 +106,6 @@ Vec boss8_dragon_breath_local_points[3];
 NJS_CNK_MODEL boss8_dragon_capture_chunk_model;
 Vec boss8_dragon_reference_pos_vec;
 Vec dragon_forward_reference_vec;
-void free_collision_body_parts(TObjCollidable *actor);
 
 extern BmlResource *boss8_dragon_resource;
 extern s32 boss8_dragon_model_node_count;
@@ -258,7 +256,6 @@ extern f32 boss8_dragon_fall_accel;
 }
 
 extern "C" {
-extern const f32 enemy_gravity_accel;
 f32 lbl_805D6980 = 5.0f * enemy_gravity_accel;
 f32 lbl_805D6984 = 7.0f * enemy_gravity_accel;
 }
@@ -812,7 +809,7 @@ void TBoss8Dragon::update_body_colliders() {
     VecCopy(p++, &this->node_positions[32]);
     VecCopy(p++, &this->node_positions[12]);
     VecCopy(p, &this->node_positions[17]);
-    update_local_colliders_from_world(this, pts);
+    update_local_colliders_from_world(pts);
     for (i = 0; i < 7; i++) {
         if (bodies[i].offset.y >= 30.0f) {
             set_collider_contact_high(&bodies[i]);
@@ -1031,10 +1028,10 @@ s32 TBoss8Dragon::select_target_in_front() {
         return 0;
     }
     if (n == 1) {
-        enemy_set_target_id(this, ids[0]);
+        enemy_set_target_id(ids[0]);
         return 1;
     }
-    enemy_set_target_id(this, ids[(s32)floor_to_float((f32)n * this->random_ratio())]);
+    enemy_set_target_id(ids[(s32)floor_to_float((f32)n * this->random_ratio())]);
     return 1;
 }
 
@@ -1151,7 +1148,7 @@ void handle_6xA8_gol_dragon_boss_actions(G_GolDragonBossActions_6xA8 *cmd) {
 
 void TBoss8Dragon::apply_6xA8_action(G_GolDragonBossActions_6xA8 *cmd) {
     s16 action;
-    enemy_set_target_id(this, (u16)cmd->target_id);
+    enemy_set_target_id((u16)cmd->target_id);
     this->sequenceCursor = cmd->action_index;
     this->savedX = cmd->x;
     this->savedZ = cmd->z;
@@ -1859,7 +1856,7 @@ void TBoss8Dragon::update_walking_state(s32 event) {
         this->update_linked_position();
         this->stateStep = (this->stateStep + 1);
         if ((s32) (this->stateStep % 20) == 0x13) {
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 this->enemy_copy_target_destination();
             } else {
                 this->set_target_destination(&boss8_dragon_arena_center);
@@ -1920,7 +1917,7 @@ void TBoss8Dragon::state_breath_attack(s32 event) {
         sync_target_pos();
         return;
     case 6:
-        if (enemy_validate_retained_target(this) != 0) {
+        if (enemy_validate_retained_target() != 0) {
             this->enemy_copy_target_destination();
         } else {
             this->destination.x = 115.0f * sin_table_lookup(this->rotation_y) + this->breath_origin.x;
@@ -2190,7 +2187,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
         this->activate_attack();
         this->flags &= ~0x36;
         this->update_velocity();
-        init_acceleration_curve(&this->curve0, (f32)(0.1f), (f32)(-0.1f), (f32)this->destination_distance, (f32)(2.0f + boss8_dragon_behavior_params[0]->values[5]));
+        this->curve0.init((f32)(0.1f), (f32)(-0.1f), (f32)this->destination_distance, (f32)(2.0f + boss8_dragon_behavior_params[0]->values[5]));
         diff = angle_diff_s16(this->rotation_y, (s32)(RADIANS_TO_ANGLE * atan2_float(this->destination_direction.x, this->destination_direction.z)));
         if (diff >= 0) {
             this->airTurnDirection = 1;
@@ -2198,7 +2195,7 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
             diff = -diff;
             this->airTurnDirection = -1;
         }
-        init_acceleration_curve(&this->curve1, (f32)(16.0f), (f32)(-16.0f), (f32)((f32)diff), (f32)(s32)(256.0f * (2.0f + boss8_dragon_behavior_params[0]->values[5])));
+        this->curve1.init((f32)(16.0f), (f32)(-16.0f), (f32)((f32)diff), (f32)(s32)(256.0f * (2.0f + boss8_dragon_behavior_params[0]->values[5])));
         this->action_angle = this->rotation_y;
         this->stateStep = 0;
         this->fallVelocity = 0.0f;
@@ -2230,18 +2227,18 @@ void TBoss8Dragon::state_turn_and_charge(s32 event) {
         switch (this->stateStep) {
         case 0:
             this->fallVelocity += 1.0f;
-            this->rotation_y = (s32)((f32)this->airTurnDirection * sample_acceleration_curve(&this->curve1, this->fallVelocity) + (f32)this->action_angle);
+            this->rotation_y = (s32)((f32)this->airTurnDirection * this->curve1.sample(this->fallVelocity) + (f32)this->action_angle);
             if (this->curve1.check_param_threshold(this->fallVelocity) != 0) {
                 this->fallVelocity = 0.0f;
                 this->stateStep = 1;
             }
             break;
         case 1: {
-            f32 prev = sample_acceleration_curve(&this->curve0, this->fallVelocity);
+            f32 prev = this->curve0.sample(this->fallVelocity);
             f32 dlt;
             Vec v;
             this->fallVelocity += 1.0f;
-            dlt = sample_acceleration_curve(&this->curve0, this->fallVelocity) - prev;
+            dlt = this->curve0.sample(this->fallVelocity) - prev;
             v.x = this->destination_direction.x * dlt;
             v.y = 0.0f;
             v.z = this->destination_direction.z * dlt;
@@ -4142,7 +4139,7 @@ void TBoss8Dragon::update_vanish_walk_state(s32 event) {
         this->update_linked_position();
         this->stateStep = (this->stateStep + 1);
         if ((s32) (this->stateStep % 20) == 0x13) {
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 this->enemy_copy_target_destination();
             } else {
                 this->set_target_destination(&boss8_dragon_arena_center);
@@ -4470,11 +4467,11 @@ void TBoss8Dragon::update_movement() {
         this->move_to_shot_position(sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), scale);
     } else if (!(v < 9.0f)) {
         if (v < 19.0f) {
-            enemy_turn_and_move_shot_step(this, iscale, scale);
+            enemy_turn_and_move_shot_step(iscale, scale);
         } else if (v < 24.0f) {
             this->move_to_shot_position(sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), scale);
         } else if (!(v < 30.0f)) {
-            enemy_turn_and_move_shot_step(this, iscale, scale);
+            enemy_turn_and_move_shot_step(iscale, scale);
         }
     }
     d.x = this->position.x - old.x;

@@ -25,11 +25,10 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/system/task/TMainTask.h"
 
 
-void free_collision_body_parts(TObjCollidable *actor);
 
-extern TObject *tl_04;
 
 // A model node: evaluation flags, then the node's rotation at 0x14.
 #pragma readonly_strings on

@@ -58,7 +58,6 @@ s32 *epsilon_guard_angle_sample_write_ptr;
 Vec *epsilon_guard_camera_sample_read_ptr;
 Vec *epsilon_guard_camera_sample_end_ptr;
 s16 obj_getS16_118(u8 *p);
-extern TObject *tl_04;
 
 Vec epsilon_body_node_origin;
 Vec epsilon_body_debug_line_points[2];
@@ -383,7 +382,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
                 turn_toward_target_direction(turn_step);
                 update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, turn_step, move_speed);
+                enemy_turn_and_move_on_ground(turn_step, move_speed);
             }
             if (target_player != 0xFFFF) {
                 TObjPlayer *player = TObjPlayer::get_player_data(target_player);

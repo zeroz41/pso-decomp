@@ -836,7 +836,7 @@ void TObjEneMe3Stelth::state_reveal(s32 reason) {
             }
             t = state_timer;
             material_color = (t << 24) | (material_color & 0x00FFFFFF);
-            if (enemy_validate_retained_target(this) == 0) {
+            if (enemy_validate_retained_target() == 0) {
                 state_step = 0;
                 material_color = 0;
             }
@@ -964,7 +964,7 @@ void TObjEneMe3Stelth::state_chase_target(s32 mode) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, 0x500, move_speed);
+                enemy_turn_and_move_on_ground(0x500, move_speed);
             }
             check_collisions();
         }

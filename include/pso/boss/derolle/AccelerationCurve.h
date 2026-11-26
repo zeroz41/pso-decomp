@@ -4,12 +4,14 @@
 #include "types.h"
 
 // A velocity ramp without a start speed or clock: accelerate to peak, cruise, brake to rest over dist
-// (init_acceleration_curve fills it, sample_acceleration_curve reads it). TBoss1Dragon and TBoss8Dragon hold two
+// (init fills it, sample reads it). TBoss1Dragon and TBoss8Dragon hold two
 // each as members.
 struct AccelerationCurve {
     AccelerationCurve();
     ~AccelerationCurve();
     void reset_coords();
+    void init(f32 accel, f32 decel, f32 dist, f32 peak);
+    f32 sample(f32 t);
     int check_param_threshold(f32 t);
 
     f32 accel;

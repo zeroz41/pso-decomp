@@ -886,12 +886,12 @@ void TObjEneRecon::retarget() {
         transition_enemy_state(3);
         return;
     }
-    n = collect_enemy_target_candidates(this, hits, 10000.0f);
+    n = collect_enemy_target_candidates(hits, 10000.0f);
     for (i = 0; i < n; i++) {
         id = hits[i].id;
         if (id != target_id && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
             orbit_since_bomb = 0;
-            enemy_set_target_id(this, id);
+            enemy_set_target_id(id);
             transition_enemy_state(3);
             return;
         }
@@ -916,12 +916,12 @@ void TObjEneRecon::select_next_target() {
         transition_enemy_state(2);
         return;
     }
-    n = collect_enemy_target_candidates(this, hits, 10000.0f);
+    n = collect_enemy_target_candidates(hits, 10000.0f);
     for (i = 0; i < n; i++) {
         id = hits[i].id;
         if (id != target_id && ((TObjEneRecobox *)p)->is_below_child_limit(id) != 0) {
             orbit_since_strike = 0;
-            enemy_set_target_id(this, id);
+            enemy_set_target_id(id);
             transition_enemy_state(2);
             return;
         }
@@ -1020,7 +1020,7 @@ extern "C" {
 
 
 void TObjEneRecon::update_collide_flag() {
-    if (enemy_turn_and_move_xz_slide(this, ((ReconMoveParams *)movementParameters)->turn_speed, recon_behavior_params->collide_distance) != 0) {
+    if (enemy_turn_and_move_xz_slide(((ReconMoveParams *)movementParameters)->turn_speed, recon_behavior_params->collide_distance) != 0) {
         recon_flags |= 2;
         return;
     }

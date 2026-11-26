@@ -438,7 +438,7 @@ s32 TObjEneMorfos::select_target_in_view() {
         }
     }
     if (id != 0xFFFF) {
-        enemy_set_target_id(this, id);
+        enemy_set_target_id(id);
         return 1;
     }
     return 0;
@@ -979,7 +979,7 @@ void TObjEneMorfos::state_attack(s32 ev) {
         this->advance_animation();
         switch (step) {
         case 0:
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target() != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
                 if (this->approach_value((s32) (10430.38043493439 * atan2_float(this->destination_direction.x, destination_direction.z)), morfos_param_table->attack_turn_step) != 0) {

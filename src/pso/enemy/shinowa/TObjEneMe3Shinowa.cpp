@@ -746,7 +746,7 @@ void TObjEneMe3Shinowa::state_t_wait(s32 reason) {
             }
             ene_dd_st = this->state_timer;
             this->material_color = (ene_dd_st << 24) | (this->material_color & 0x00FFFFFF);
-            if (enemy_validate_retained_target(this) == 0) {
+            if (enemy_validate_retained_target() == 0) {
                 this->state_step = 0;
                 if (!(this->behavior_flags & 0x1000)) {
                     this->material_color = 0;
@@ -885,7 +885,7 @@ void TObjEneMe3Shinowa::state_chase_target(s32 mode) {
                 turn_toward_target_direction(0x500);
                 update_ground_contact();
             } else {
-                enemy_turn_and_move_on_ground(this, 0x500, move_speed);
+                enemy_turn_and_move_on_ground(0x500, move_speed);
             }
             check_collisions();
         }
@@ -1195,7 +1195,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
             sub_800E7268();
             s32 r = TObjEneDD::collect_target_candidates(this, 40000.0f);
             if (r > 0) {
-                enemy_set_target_id(this, enemy_target_candidate_table[r - 1].id);
+                enemy_set_target_id(enemy_target_candidate_table[r - 1].id);
                 this->transition_enemy_state(4);
             } else {
                 this->transition_enemy_state(11);
@@ -1206,7 +1206,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
     case 0:
         this->advance_animation();
         this->state_step++;
-        if (is_target_unobstructed_from((TObjEneDD *)this, this->current_target) != 0) {
+        if (is_target_unobstructed_from(this->current_target) != 0) {
             if ((s16)this->get_room() == (s16)this->current_target->get_room()) {
                 this->enemy_copy_target_destination();
             }
@@ -1231,7 +1231,7 @@ void TObjEneMe3Shinowa::state_scatter(s32 reason) {
         VecCopy(&this->body_center, &this->position);
         this->body_center.y += 20.0f;
         v *= this->move_speed;
-        calc_wall_clamped_destination(this, &dest, -this->destination_direction.x, -this->destination_direction.z, v);
+        calc_wall_clamped_destination(&dest, -this->destination_direction.x, -this->destination_direction.z, v);
         if (this->update_actor_ground_y_at(&dest) == 0) {
             this->move_speed *= 0.8f;
             VecCopy(&this->position, &save_pos);
@@ -1740,7 +1740,7 @@ void TObjEneMe3ShinowaReal::state_split_mirages(s32 mode) {
             validate_counter = validate_period;
             i = 0;
             if (is_confused() != 0 || is_player_entity_id(target_id) != 0) {
-                if (is_target_unobstructed_from(this, current_target) != 0) {
+                if (is_target_unobstructed_from(current_target) != 0) {
                     i = 1;
                 }
             } else {
@@ -1950,7 +1950,7 @@ void TObjEneMe3ShinowaMirage::activate_mirage(s32 index) {
         actorFlags = 0x20000000;
         hp = hpmax;
         mirage_index = index;
-        enemy_set_target_id(this, owner->get_target_id());
+        enemy_set_target_id(owner->get_target_id());
         fade_color.a = 0.0f;
         behavior_flags &= ~0x200;
         requested_action = 10;

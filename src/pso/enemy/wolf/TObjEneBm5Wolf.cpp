@@ -635,7 +635,7 @@ s32 TObjEneBm5Wolf::calc_lunge_aim() {
     f32 dir_x;
     f32 dir_z;
     f32 side_offset;
-    if (is_target_unobstructed_from((TObjEneDD *)this, (TObjChara *)this->current_target) != 0) {
+    if (is_target_unobstructed_from(this->current_target) != 0) {
         this->enemy_copy_target_destination();
         this->update_velocity();
         if (((s32)get_flag_bit0()) != 0) {
@@ -928,7 +928,7 @@ void TObjEneBm5Wolf::standing_state(s32 event) {
       this->substate = (s32) ((this->substate) + 1);
       this->advance_animation();
       this->is_passing_frame(7.0f);
-      if (enemy_validate_retained_target(this) != 0)
+      if (enemy_validate_retained_target() != 0)
     {
       this->enemy_copy_target_destination();
       this->update_velocity();
@@ -979,7 +979,7 @@ void TObjEneBm5Wolf::howling_state(s32 event) {
                 }
             }
         }
-        if (enemy_validate_retained_target(this) != 0) {
+        if (enemy_validate_retained_target() != 0) {
             if (this->requested_action == 0x10) {
                 this->turn_pose_to_target();
             } else {
@@ -1062,7 +1062,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
             }
             this->play_speed = (f32) (1.1f * this->current_speed);
             walk_speed = this->current_speed;
-            enemy_turn_and_move_on_ground(this, (s32)(512.0f * walk_speed), walk_speed);
+            enemy_turn_and_move_on_ground((s32)(512.0f * walk_speed), walk_speed);
             break;
         case 1:
             play_footsteps();
@@ -1075,7 +1075,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
             }
             this->play_speed = (f32) (1.1f * this->current_speed);
             stop_speed = this->current_speed;
-            enemy_turn_and_move_on_ground(this, (s32)(512.0f * stop_speed), stop_speed);
+            enemy_turn_and_move_on_ground((s32)(512.0f * stop_speed), stop_speed);
             break;
         case 2:
             this->requested_action = 0;
@@ -1138,12 +1138,12 @@ void TObjEneBm5Wolf::chasing_state(s32 event) {
                 this->current_speed *= 0.9f;
                 this->play_speed = (f32) (0.8f * this->current_speed);
                 slowed_speed = this->current_speed;
-                enemy_turn_and_move_on_ground(this, (768.0f * slowed_speed), slowed_speed);
+                enemy_turn_and_move_on_ground((768.0f * slowed_speed), slowed_speed);
             } else {
                 approach_target(0.1f);
                 this->play_speed = (f32) (0.8f * this->current_speed);
                 speed = this->current_speed;
-                enemy_turn_and_move_on_ground(this, (768.0f * speed), speed);
+                enemy_turn_and_move_on_ground((768.0f * speed), speed);
             }
             turn_pose_to_target();
             this->check_collisions();
@@ -1443,7 +1443,7 @@ void TObjEneBm5Wolf::update_lunge(s32 event) {
             }
             if (this->is_passing_frame((f32) (20.0f)) != 0) {
                 this->near_target = 0;
-                if (enemy_validate_retained_target(this) != 0) {
+                if (enemy_validate_retained_target() != 0) {
                     if (this->current_target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->current_target->receive_physical_attack(this, 1.0f);
                         this->current_target->apply_knockback_from_attacker((u8 *)this, 7.0f);
@@ -1549,7 +1549,7 @@ void TObjEneBm5Wolf::returning_state(s32 event) {
             this->update_velocity();
             approach_target(0.2f);
             this->play_speed = 1.1f * this->current_speed;
-            enemy_turn_and_move_on_ground(this, 0x500, this->current_speed);
+            enemy_turn_and_move_on_ground(0x500, this->current_speed);
             this->turn_pose_to_target();
             this->check_collisions();
         }

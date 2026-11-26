@@ -914,7 +914,7 @@ void TBoss7DeRolLeC::update_body_colliders() {
     s32 clr;
     s32 i;
     VecCopy(&v, &node_positions[6]);
-    update_local_colliders_from_world(this, &v);
+    update_local_colliders_from_world(&v);
     f = position.y;
     if (f < -35.0f) {
         set = 0;
@@ -1325,7 +1325,7 @@ void TBoss7DeRolLeC::init_from_param(G_BarbaRayBossActions_6xA9 *cmd) {
 }
 
 void TBoss7DeRolLeC::set_params(G_BarbaRayBossActions_6xAA *cmd) {
-    enemy_set_target_id(this, cmd->target_client_id);
+    enemy_set_target_id(cmd->target_client_id);
     action_index = cmd->action_index;
     transition_enemy_state(cmd->what);
 }

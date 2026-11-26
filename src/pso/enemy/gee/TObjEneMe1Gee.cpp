@@ -492,7 +492,7 @@ s32 TObjEneMe1Gee::find_attack_target(f32 *out, f32 range) {
     s32 i;
     found = 0;
     *out = (-1.0f);
-    n = collect_enemy_target_candidates(this, recs, range);
+    n = collect_enemy_target_candidates(recs, range);
     for (i = 0; i < n; i++) {
         p = get_player_by_client_id(recs[i].id);
         if (p != this->current_target) {
@@ -1115,7 +1115,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                 this->stage = 2;
                 this->status_flags |= 0x40000;
             }
-            enemy_turn_and_move_xz_slide(this, 0x200, 0.5f);
+            enemy_turn_and_move_xz_slide(0x200, 0.5f);
             break;
         case 2:
             this->update_velocity();
@@ -1327,7 +1327,7 @@ void TObjEneMe1Gee::state_melee_attack(s32 mode) {
                 if (this->destination_distance > 40.0f) {
                     this->stage = 1;
                 }
-                enemy_turn_and_move_xz_clamped(this, 0x200, this->kind_params->melee_speed);
+                enemy_turn_and_move_xz_clamped(0x200, this->kind_params->melee_speed);
             }
             break;
         case 3:
