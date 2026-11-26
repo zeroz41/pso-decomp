@@ -11,9 +11,6 @@ void TLobby::send_player_update() { bswap_player_fields(); send_subcommand((u8 *
 
 
 
-extern "C" {
-void append_wave_member(SendPlayerUpdateObject *o, SendPlayerUpdateItem *item);
-}
 void build_6x76_set_entity_set_flags(void* p) { *(u8*)((char*)p + 0x0) = 118; *(u8*)((char*)p + 0x1) = 2; }
 
 void append_wave_member(SendPlayerUpdateObject *o, SendPlayerUpdateItem *item) {

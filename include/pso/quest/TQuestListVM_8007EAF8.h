@@ -14,8 +14,8 @@ TQuestVmDownLoadServer *get_quest_vm_download_server(void);
 extern "C" {
 void TLobby__sub_8007EB70(void);
 void __dl__FPv(void);
-u8 *alloc_zeroed_array(s32 count, s32 size);
 }
+u8 *alloc_zeroed_array(s32 count, s32 size);
 
 void debug_printf(const char *format, ...);
 

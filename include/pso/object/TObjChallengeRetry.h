@@ -41,5 +41,6 @@ public:
 };
 
 s32 is_ready_to_draw();
+void bswap_client_id_packet(void *player);
 
 #endif

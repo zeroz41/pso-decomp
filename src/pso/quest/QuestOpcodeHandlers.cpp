@@ -206,12 +206,10 @@ struct QuestCommandTable {
     QuestCommand e[12];
 };
 
-extern "C" {
 void append_string(const char *s);
 s32 is_message_source_exhausted(void);
 void begin_message_substitution(u8 *source, char *result);
 s32 parse_r_index(const char *text);
-}
 // The player name and class name qst_op_get_pl_name / qst_op_get_pl_job copy for the message tags.
 extern char quest_player_class_name_buffer[16];
 extern char quest_player_name_buffer[16];
@@ -413,7 +411,6 @@ s32 parse_f_index(const char *a0) {
 
 #undef read_byte_advance__6TLobbyFv
 
-extern "C" {
 s32 parse_r_index(const char *text) {
     s32 index;
 
@@ -423,7 +420,6 @@ s32 parse_r_index(const char *text) {
         return index;
     }
     return -1;
-}
 }
 
 u8 *quest_script_read_ptr;
@@ -483,11 +479,10 @@ void append_hero_name(void) {
         append_string("Error Name");
     }
 }
-extern "C" {
-
 s32 is_message_source_exhausted(void) {
     return (u8) ((s8) *quest_script_read_ptr == 0);
 }
+extern "C" {
 
 u8 read_byte_advance__6TLobbyFv(void) {
     u8 *cursor;
@@ -496,6 +491,7 @@ u8 read_byte_advance__6TLobbyFv(void) {
     quest_script_read_ptr = cursor + 1;
     return *cursor;
 }
+}
 
 char *quest_string_append_cursor;
 
@@ -503,7 +499,6 @@ void append_string(const char *s) {
     u32 len = strlen(s);
     strcpy(quest_string_append_cursor, s);
     quest_string_append_cursor += len;
-}
 }
 
 
@@ -515,10 +510,7 @@ void append_message_char(s8 c) {
     quest_string_append_cursor = write_ptr + 1;
     *write_ptr = c;
 }
-extern "C" {
-
 void begin_message_substitution(u8 *source, char *result) { quest_script_read_ptr = source; quest_string_append_cursor = result; }
-}
 
 void qst_op_olga_flow_is_dead(s32 reg) {
     if (TBoss6PlotFalz::is_phase_reached() != 0) {
@@ -694,9 +686,6 @@ struct VaCallPair { s32 a; s32 b; };
 
 
 s32 copy_player_visual_record(void *, int);
-}
-extern "C" {
-s32 delete_bank_item(u8 *item, s32 slot);
 }
 extern "C" {
 int update_alloc_size__6TLobbyFv(void*);

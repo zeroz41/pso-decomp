@@ -82,8 +82,6 @@ extern TQuestListOnline *quest_list_online_instance;
 extern u8 *online_quest_bin_data;
 extern s32 quest_bin_decompressed_size;
 
-extern "C" {
 void copy_quest_list_data(OnlineQuestMenu &menu);
-}
 
 #endif

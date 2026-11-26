@@ -85,6 +85,7 @@ s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot);
 s32 copy_bank_item_with_stack_limit(s32 index, void *data, s32 *count, s32 slot);
 s32 store_item_in_bank(TItemData *item, s32 amount, s32 slot);
 void copy_bank_to_card_window(s32 slot);
+s32 delete_bank_item(u8 *item, s32 slot);
 
 LAYOUT_ASSERT(BankItemRecord_size, sizeof(BankItemRecord) == 0x18);
 LAYOUT_ASSERT(TCheckRoomSequence_size, sizeof(TCheckRoomSequence) == 0x4C);

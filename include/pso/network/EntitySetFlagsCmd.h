@@ -9,4 +9,6 @@ struct SendPlayerUpdateItem { u8 pad[0x80]; s32 v; };
 
 struct SendPlayerUpdateObject { u8 pad[0x1c]; s32 max; s32 count; SendPlayerUpdateItem **ptrs; s32 *vals; };
 
+void append_wave_member(SendPlayerUpdateObject *o, SendPlayerUpdateItem *item);
+
 #endif

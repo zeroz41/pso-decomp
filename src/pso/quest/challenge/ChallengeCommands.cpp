@@ -5,6 +5,7 @@
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
+#include "pso/object/TObjChallengeRetry.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 
@@ -21,9 +22,6 @@ void build_6x95_packet(u8 *packet);
 void build_6x97_packet(u8 *packet);
 void build_6x9D_packet(u8 *packet);
 void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
-extern "C" {
-void bswap_client_id_packet(void *player);
-}
 void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
     s32 idx;
     if (is_challenge_mode() == 0) {

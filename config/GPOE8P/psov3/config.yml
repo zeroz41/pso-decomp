@@ -211,11 +211,11 @@ force_active:
   - tcp_free_rcv_buf
   - tcp_alloc_rcv_buf
   - tcp_alloc_snd_buf
-  - find_segments_at
-  - expand_item_entries
+  - find_segments_at__FllUcUc
+  - expand_item_entries__FllPC21QuestDownloadItemNode
   - build_slot_entries__Fll
   - build_slot_items__Fll
-  - reset_slot
+  - reset_slot__FP17QuestDownloadSlotl
   - __ct__15TAdPlyPltAnimGCFP7TObjectl
   - is_shown__14TAdPlyStatusGC
   - ply_status_portrait_quad
@@ -538,7 +538,7 @@ force_active:
   - swap_slots__8TFogCtrlFll
   - on_entries_released__8TFogCtrlFv
   - on_entries_loaded__8TFogCtrlFv
-  - assign_subcommand_header
+  - assign_subcommand_header__FPvPv
   - set_charge_capped__16PhotonBlastGaugeFv
   - is_photon_blast_charge_full__16PhotonBlastGaugeFv
   - reset_blast__16PhotonBlastGaugeFv
@@ -678,9 +678,9 @@ force_active:
   - show_lobby_transport_notice__17TPlayerBattleCtrlFv
   - get_battle_time_limit_frames__Fv
   - bswap_u32_in_place__FPUl
-  - is_message_source_exhausted
+  - is_message_source_exhausted__Fv
   - append_message_char__FSc
-  - begin_message_substitution
+  - begin_message_substitution__FPUcPc
   - item_code_greater__FP14BankItemRecordP14BankItemRecord
   - get_tool_pool_table_row__Fl
   - shop_stock_lacks_technique__FP9TItemDatal
@@ -691,7 +691,7 @@ force_active:
   - set_new_mail_flag__Fv
   - get_challenge_award_rank__FlUsl
   - record_challenge_stage_time__FlUsl
-  - record_challenge_stage_clear
+  - record_challenge_stage_clear__FlUs
   - is_challenge_time_limit_invalid__Fl
   - save_challenge_tombstone_spot__Fl
   - refresh_challenge_windows__12TChallenge4PFv
@@ -1682,8 +1682,8 @@ force_active:
   - quest_card_file_name
   - quest_download_file_state
   - quest_download_cipher_state
-  - reset_state_on_format_done
-  - calc_download_crc32
+  - reset_state_on_format_done__FP17TMCFormatSequence
+  - calc_download_crc32__FPvl
   - TRKEXICallBack
   - TRKInterruptHandlerEnableInterrupts
   - TRKLoadContext
@@ -3881,7 +3881,7 @@ force_active:
   - append_next_char_global__16KeyboardKeyStateFv
   - append_quest_name__24TMessageWindowControllerFv
   - append_quest_title__24TMessageWindowControllerFv
-  - append_string
+  - append_string__FPCc
   - append_string_to_buffer__FPc
   - append_text__24TMessageWindowControllerFPCc
   - append_text_entry__19TWindowKeyBoardBaseFPUc
@@ -4675,7 +4675,7 @@ force_active:
   - bswap__25G_SwitchStateChanged_6x05Fv
   - bswap__31G_DropStackedItem_PC_V3_BB_6x5DFv
   - bswap_and_handle_packet__6TLobbyFii
-  - bswap_and_send_extended_subcommand
+  - bswap_and_send_extended_subcommand__FPvUl
   - bswap__16TArrowColorEntryFv
   - bswap_data__10LightEntryFv
   - bswap_6x11__29G_DragonBossActions_6x10_6x11Fv
@@ -5294,7 +5294,7 @@ force_active:
   - __ct__15TTecGrantsFlashFlP7TObjectP3Vecf
   - __ct__18TItemWeaponHandgunFP7TObjectPUc
   - __ct__17TItemFollowEffectFP7TObjectP11TItemWeaponll
-  - construct_lobby_players
+  - construct_lobby_players__FP16LobbyPlayerEntrylil
   - construct_panzer_faust__FPUcPUcl
   - __ct__17TLightGlareSwitchFPvP7TObject
   - __ct__16TPlacementSearchFP7TObjectP8TObjBasePC3Vecl
@@ -9317,7 +9317,7 @@ force_active:
   - parse_network_info_config_line__FPcUlP17NetworkInfoConfig
   - parse_packet__9TProtocolFv
   - parse_pad_event
-  - parse_r_index
+  - parse_r_index__FPCc
   - parse_tag_command__24TMessageWindowControllerFv
   - particle_regular_bml_descriptor
   - particle_sprite_atlas_uv_rects

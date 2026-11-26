@@ -74,10 +74,6 @@ void load_selected_guild_card_record(ChoiceSearchResult *result);
 extern "C" {
 s32 rebuild_choice_search_selections(ChoiceSearchSelection *, TRecvChoiceSearchOptions *);
 }
-extern "C" {
-
-void clear_choice_search_selections(void *);
-}
 
 
 void TWindowMenu::mark_selected_value() {

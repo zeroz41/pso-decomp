@@ -1099,7 +1099,7 @@ s32 build_slot_items(s32 start, s32 end) {
                 break;
             }
         }
-        switch (query_prefix_matches((char *)text, candidateLength, QUEST_WORKSPACE_MATCH(workspace.address))) {
+        switch (query_prefix_matches((const char *)text, (s16)candidateLength, (QuestDownloadQueryResult *)(QUEST_WORKSPACE_MATCH(workspace.address)))) {
         case 2:
             if (ask_convert_mode >= 3) {
                 return 0;
@@ -1144,7 +1144,7 @@ candidates:
                 append_candidate_items(item, items);
             }
         }
-        if (query_exact_matches((char *)text, candidateLength, QUEST_WORKSPACE_MATCH(workspace.address)) == 1) {
+        if (query_exact_matches((const char *)text, (s16)candidateLength, (QuestDownloadQueryResult *)(QUEST_WORKSPACE_MATCH(workspace.address))) == 1) {
             if (slot->width == -1) {
                 slot->width = QUEST_WORKSPACE_MATCH(workspace.address)->len2;
             }

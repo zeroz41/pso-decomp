@@ -36,10 +36,8 @@
 #pragma dont_reuse_strings off
 
 
-extern "C" {
 char quest_card_file_name[0xC] = "\xB8\xB4\xBD\xC4\xCC\xA7\xB2\xD9";
 void reset_state_on_format_done(TMCFormatSequence *);
-}
 // This TU's .sbss (address order).
 s32 quest_dat_download_complete;
 s32 quest_bin_download_complete;
@@ -78,9 +76,7 @@ QuestDownloadRecord quest_download_file_info;
 QuestDownloadRecord quest_download_file_header;
 SubtractiveRng quest_download_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
-extern "C" {
 s32 calc_download_crc32(void *data, s32 size);
-}
 extern TObject *tl_03;
 
 struct DownloadWindowPos { f32 a, b; };

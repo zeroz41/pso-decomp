@@ -763,8 +763,6 @@ void handle_6x56_set_player_position_and_angle(G_SetPlayerPositionAndAngle_6x56 
         }
     }
 }
-extern "C" {
-
 void TObjPlayer::send_position_update() {
     G_SetPlayerPositionAndAngle_6x56 pkt;
     if (this == NULL || this->obj_isState2_324() == 0) {
@@ -990,9 +988,6 @@ void TObjPlayer::enter_freeze_action() {
         this->freeze_escape_step = (s32) -(freeze_escape_timer_scale * (f64) this->get_status_effect_timer(1));
     }
     this->set_action_state(0x13, (s16)get_no_action());
-}
-
-
 }
 void handle_6x53(G_Unknown_6x53 *command) {
     G_Unknown_6x53 m;

@@ -34,9 +34,7 @@ void challenge_set_boss_warp_disabled(s32 disabled);
 s32 get_challenge4p_retry_choice(void);
 s32 challenge_get_time_record(void);
 void challenge_set_time_record(s32 seed);
-extern "C" {
 s32 challenge_set_rank_override(const char *match, const char *title, s32 color);
-}
 s32 challenge_check_rank_time(s32 seed, s32 card);
 s32 challenge_set_rank_threshold(s32 idx, s32 value, s32 arg);
 s32 challenge_create_reward_item(TItemData *item, u16 slot_index);

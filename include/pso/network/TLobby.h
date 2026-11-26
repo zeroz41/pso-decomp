@@ -9,6 +9,7 @@ struct BmlResource;
 struct AsyncFileReadRequest;
 struct EnemySetRecord;
 struct ServerMenuEntry;
+struct LobbyPlayerEntry;
 class TLobbyIdleTimer;
 class TPlyJoinGame;
 struct PlayerSyncRecord;
@@ -587,6 +588,7 @@ u8 *init_idle_timeout_timer(u8 *timer, TObject *parent);
 void queue_join_entry_exit_on_input(TObject *task);
 void show_card_list_message(void *msg);
 void show_join_entry_message(s32 id);
+void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused);
 
 class TPlyCharData;
 

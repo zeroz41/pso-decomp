@@ -591,9 +591,6 @@ s32 TObjCollidable::set_flag8() {
 }
 
 
-extern "C" {
-
-s32 append_wave_member(s32, void *);
 
 
 s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
@@ -626,7 +623,7 @@ s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
                 if (set_index != -1) {
                     enemy->apply_enemy_state(&enemy_state_records[set_index].flags);
                 }
-                append_wave_member(wave_members, enemy);
+                append_wave_member((SendPlayerUpdateObject *)wave_members, (SendPlayerUpdateItem *)enemy);
                 spawned += 1;
             } else {
                 row->enemy = NULL;
@@ -634,8 +631,6 @@ s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
         }
     }
     return spawned;
-}
-
 }
 
 s32 unhide_enemies_at(s32 floor, s16 room, s16 wave) {

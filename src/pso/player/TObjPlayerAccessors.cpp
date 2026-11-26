@@ -897,8 +897,6 @@ PlayerTechniqueState::PlayerTechniqueState() {
     reset_tech_state();
 }
 
-extern "C" {
-
 void bswap_g_client_id_header(void *header) { ((G_ClientIDHeader *)header)->bswap(); }
 
 G_LevelUpAllTechniques_6x9B &G_LevelUpAllTechniques_6x9B::operator=(G_LevelUpAllTechniques_6x9B &src) {
@@ -908,11 +906,7 @@ G_LevelUpAllTechniques_6x9B &G_LevelUpAllTechniques_6x9B::operator=(G_LevelUpAll
     return *this;
 }
 
-}
-
 void *copy_subcommand_header(void *dst, const void *src) { assign_subcommand_header(dst, const_cast<void *>(src)); return dst; }
-
-extern "C" {
 
 void assign_subcommand_header(void *destination, void *source) {
     u8 *out = static_cast<u8 *>(destination);
@@ -1038,8 +1032,6 @@ G_TeleportPlayer_6x24 &G_TeleportPlayer_6x24::operator=(G_TeleportPlayer_6x24 &s
     angle_y = src.angle_y;
     __memcpy(&pos, &src.pos, sizeof(pos));
     return *this;
-}
-
 }
 
 #pragma inline_depth(1)

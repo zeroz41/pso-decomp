@@ -18,11 +18,9 @@ struct ByteBlock_28 { u8 bytes[0x28]; };
 TRecvChoiceSearchOptions *choice_search_options;
 ChoiceSearchResultList *choice_search_results;
 extern "C" {
-void clear_choice_search_selections(ChoiceSearchSelection *arr);
 
 int fn_80077788(void) { return 0; }
 int fn_80077790(void) { return 0; }
-
 }
 
 void copy_choice_search_selections(ChoiceSearchSelection *selections, TPlyChoiceSearchConfig *config) {
@@ -78,8 +76,6 @@ s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choic
     return 0;
 }
 
-extern "C" {
-
 ChoiceSearchResultList *TWindowSubComCard::get_choice_search_results() {
     return choice_search_results;
 }
@@ -92,6 +88,7 @@ void TWindowSubComCard::release() {
 TRecvChoiceSearchOptions *TWindowSubComCard::get_choice_search_options() {
     return choice_search_options;
 }
+extern "C" {
 
 void rebuild_choice_search_selections(ChoiceSearchSelection *arr, TRecvChoiceSearchOptions *chr_select) {
     s32 i;
@@ -123,6 +120,7 @@ u8 * copy_struct28__17TWindowSubComCardFii(saddr dest, saddr src) {
     *(ByteBlock_28 *)(dest) = *(const ByteBlock_28 *)(src);
     return (u8 *)dest;
 }
+}
 void clear_choice_search_selections(ChoiceSearchSelection *arr) {
     s32 i;
     for (i = 0; i < 5; i++) {
@@ -130,8 +128,6 @@ void clear_choice_search_selections(ChoiceSearchSelection *arr) {
         arr->choice_id = 0;
         arr++;
     }
-}
-
 }
 
 #pragma pop

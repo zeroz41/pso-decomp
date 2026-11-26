@@ -698,7 +698,6 @@ s32 bank_credit_meseta(s32 v, s32 i) {
 
 #pragma push
 #pragma optimization_level 1
-extern "C" {
 s32 delete_bank_item(u8 *item, s32 slot) {
     BankItemRecord *rec = bank_item_records_by_slot[slot];
     s32 i;
@@ -712,7 +711,6 @@ s32 delete_bank_item(u8 *item, s32 slot) {
         }
     }
     return 0;
-}
 }
 
 void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) {

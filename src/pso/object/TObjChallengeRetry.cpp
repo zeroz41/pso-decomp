@@ -42,9 +42,6 @@ __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f
 const char *obj_challenge_retry_class_name = "TObjChallengeRetry";
 void send_challenge_dead_flag_packet(G_SetChallengeDeadFlag_6x9D *packet);
 void build_6x9D_packet(u8 *packet);
-extern "C" {
-void bswap_client_id_packet(void *player);
-}
 void build_6x97_packet(u8 *packet);
 
 void G_SetChallengeDeadFlag_6x9D::bswap() {
@@ -66,15 +63,12 @@ void TLobby::send_and_handle_60_wrapper() {
     bswap_client_id_packet(this);
     send_subcommand(this);
 }
-extern "C" {
-
 void bswap_client_id_packet(void *player) {
     ((G_ClientIDHeader *)player)->bswap();
     bswap_32((u32 *)((char *)player + 4));
     bswap_32((u32 *)((char *)player + 8));
     bswap_32((u32 *)((char *)player + 12));
     bswap_32((u32 *)((char *)player + 16));
-}
 }
 
 void build_6x97_packet(u8 *packet) {

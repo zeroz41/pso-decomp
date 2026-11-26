@@ -104,4 +104,6 @@ s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choic
 // Copies the saved choice search selections into the search request.
 void copy_choice_search_selections(ChoiceSearchSelection *selections, TPlyChoiceSearchConfig *config);
 
+void clear_choice_search_selections(ChoiceSearchSelection *arr);
+
 #endif

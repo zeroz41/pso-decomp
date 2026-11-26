@@ -85,7 +85,7 @@ void challenge_set_boss_warp_disabled(s32 disabled) {
 
 char split_screen_player_name[0x20];
 // challenge_check_rank_time passes card unextended: it saw an int card, the definition takes u16.
-extern "C" s32 record_challenge_stage_clear(s32 seed, u16 card);
+s32 record_challenge_stage_clear(s32 seed, u16 card);
 #define record_challenge_stage_clear ((s32 (*)(s32, s32))record_challenge_stage_clear)
 void draw_if_ready2() {
     if ((is_challenge_mode_active() != 0) && (is_multi_ready() != 0) && (challenge_retry_object != NULL)) {
@@ -192,10 +192,7 @@ void challenge_set_time_record(s32 seed) {
     fabs_float((f32) (seed - challenge4p_mode_state.base_time));
     store_challenge_seeds(seed);
 }
-extern "C" {
-
 s32 challenge_set_rank_override(const char *match, const char *title, s32 color) { return 1; }
-}
 
 
 s32 challenge_check_rank_time(s32 seed, s32 card) {
@@ -548,7 +545,6 @@ s32 calc_min_challenge_progress() {
     } while (i < 4);
     return min_progress;
 }
-extern "C" {
 s32 record_challenge_stage_clear(s32 seed, u16 card) {
     s32 result;
     s32 total;
@@ -578,7 +574,6 @@ s32 record_challenge_stage_clear(s32 seed, u16 card) {
         }
         return r;
     }
-}
 }
 
 

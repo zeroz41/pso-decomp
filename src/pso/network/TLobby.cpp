@@ -182,7 +182,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
-void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, s32 unused);
 }
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
 extern "C" {
