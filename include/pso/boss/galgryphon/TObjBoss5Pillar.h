@@ -33,4 +33,7 @@ struct TObjBoss5Pillar : public TObject {
 
 LAYOUT_ASSERT(TObjBoss5Pillar_size, sizeof(TObjBoss5Pillar) == 0x4C);
 
+void pillar_update_stub();
+void pillar_forward_stub();
+
 #endif

@@ -16,14 +16,8 @@
 const char *TObjBoss5PillarCtrl::name = "TObjBoss5PillarCtrl";
 
 
-extern "C" {
-int pillar_update_stub(void*);
-int pillar_forward_stub(void*);
-
 void TObjBoss5PillarCtrl::render() {  }
 void TObjBoss5PillarCtrl::run_task() {  }
-
-}
 TObjBoss5PillarCtrl::~TObjBoss5PillarCtrl() {
     s32 i;
     for (i = this->count - 1; i >= 0; i--) {
@@ -62,8 +56,8 @@ TObjBoss5PillarCtrl *TObjBoss5PillarCtrl::create(TObject *parent) {
     return new TObjBoss5PillarCtrl(parent);
 }
 
-int TObjBoss5PillarCtrl::update_pillar() { return pillar_update_stub(this); }
-int TObjBoss5PillarCtrl::forward_pillar_2B710() { return pillar_forward_stub(this); }
+void TObjBoss5PillarCtrl::update_pillar() { pillar_update_stub(); }
+void TObjBoss5PillarCtrl::forward_pillar_2B710() { pillar_forward_stub(); }
 void TObjBoss5Pillar::play_sound_once() {
     if (this->state == 0) {
         play_sound_effect(0x4003A819, 0, 0, 0);

@@ -13,8 +13,8 @@ struct TObjBoss5PillarCtrl : public TObject {
     virtual void render();
     virtual void run_task();
     static TObjBoss5PillarCtrl *create(TObject *parent);
-    int update_pillar();
-    int forward_pillar_2B710();
+    static void update_pillar();
+    static void forward_pillar_2B710();
 
     s32 count;
     TObjBoss5Pillar **pillars;

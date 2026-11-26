@@ -6,13 +6,12 @@
 #include "pso/boss/galgryphon/Boss5CommonResource.h"
 #include "pso/network/TLobby.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
+#include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
 #include "pso/system/task/TObject.h"
 
 extern "C" {
 void cleanup_pillar_demo_stub_b(void);
-int forward_pillar_2B710__19TObjBoss5PillarCtrlFv(void);
 void cleanup_pillar_demo_stub_a(void);
-s32 update_pillar__19TObjBoss5PillarCtrlFv();
 }
 
 void cleanup_pillar_demo() {
@@ -21,9 +20,9 @@ void cleanup_pillar_demo() {
         boss5_ctrl_instance = NULL;
     }
     pillar_demo_stub_a();
-    update_pillar__19TObjBoss5PillarCtrlFv();
+    TObjBoss5PillarCtrl::update_pillar();
     cleanup_pillar_demo_stub_a();
     clear_pillar_target_refs();
     free_boss5_common_assets();
 }
-void cleanup_boss5_pillars() { load_boss5_common_assets(); TObjBoss5PillarDemo::update_active_pillar(); cleanup_pillar_demo_stub_b(); forward_pillar_2B710__19TObjBoss5PillarCtrlFv(); pillar_demo_stub_b(); boss5_ctrl_instance = NULL; }
+void cleanup_boss5_pillars() { load_boss5_common_assets(); TObjBoss5PillarDemo::update_active_pillar(); cleanup_pillar_demo_stub_b(); TObjBoss5PillarCtrl::forward_pillar_2B710(); pillar_demo_stub_b(); boss5_ctrl_instance = NULL; }

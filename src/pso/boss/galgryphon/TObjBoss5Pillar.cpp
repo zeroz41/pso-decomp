@@ -95,8 +95,5 @@ TObjBoss5Pillar *TObjBoss5Pillar::create(Vec *pos) {
     return new TObjBoss5Pillar(tl_02, pos);
 }
 
-extern "C" {
-void pillar_update_stub(void) {  }
-void pillar_forward_stub(void) {  }
-
-}
+void pillar_update_stub() {  }
+void pillar_forward_stub() {  }
