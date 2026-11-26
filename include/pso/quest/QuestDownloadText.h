@@ -44,8 +44,8 @@ LAYOUT_ASSERT(QuestDownloadRequestText, offsetof(QuestDownloadRequest, text) == 
 extern QuestDownloadInputEntry quest_download_entry_table[39];
 extern "C" {
 LAYOUT_ASSERT(QuestDownloadInputTableSize, sizeof(quest_download_entry_table) == 0x138);
-extern QuestDownloadInputEntry *lbl_805D78C4;
-extern QuestDownloadInputEntry *lbl_805D78C8;
+extern QuestDownloadInputEntry *input_entry_end;
+extern QuestDownloadInputEntry *input_entry_cursor;
 
 // Native character codes are halfwords; the single-byte conversion returns a byte.
 s32 kana_takes_handakuten(u16 code);

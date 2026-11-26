@@ -34,13 +34,13 @@ s32 quest_download_free_cell_count;
 QuestDownloadFreeLink *quest_download_free_list;
 s32 lbl_805D78B4;
 
-u8 *lbl_805D78B8;
-u8 *lbl_805D78BC;
+u8 *input_code_end;
+u8 *input_code_cursor;
 s32 quest_text_end;
-QuestDownloadInputEntry *lbl_805D78C4;
-QuestDownloadInputEntry *lbl_805D78C8;
+QuestDownloadInputEntry *input_entry_end;
+QuestDownloadInputEntry *input_entry_cursor;
 u16 *quest_download_buffer_ptr;
-u16 *lbl_805D78D0;
+u16 *input_buffer_cursor;
 u16 *quest_download_buffer_start;
 u16 *quest_vm_download_buffer_end;
 s32 quest_download_match_length_limit;
@@ -1753,7 +1753,7 @@ struct DownloadDecoderState {
 };
 
 inline s32 count_encoded_download_input(QuestDownloadInputEntry *&entry) {
-    QuestDownloadInputEntry *end = lbl_805D78C8;
+    QuestDownloadInputEntry *end = input_entry_cursor;
     entry = end;
     s32 encoded = 0;
     QuestDownloadInputEntry *scan;
@@ -1772,7 +1772,7 @@ extern "C" s32 set_input_text(u32 input_address) {
     s32 encoded;
     u16 ch;
     input = reinterpret_cast<u8 *>(input_address);
-    codes = lbl_805D78BC;
+    codes = input_code_cursor;
     count = quest_text_end;
     encoded = count_encoded_download_input(entry);
     for (; *input != 0; input++) {
@@ -1801,10 +1801,10 @@ extern "C" s32 set_input_text(u32 input_address) {
             count++;
         }
     }
-    lbl_805D78C8 = entry;
-    lbl_805D78C4 = entry;
-    lbl_805D78BC = codes;
-    lbl_805D78B8 = codes;
+    input_entry_cursor = entry;
+    input_entry_end = entry;
+    input_code_cursor = codes;
+    input_code_end = codes;
     quest_text_end = count;
     return count;
 }

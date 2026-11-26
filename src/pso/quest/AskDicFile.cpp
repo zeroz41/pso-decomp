@@ -26,7 +26,7 @@ s32 render_input_entries_text(s32 start, s32 count, u16 *buf, s32 flag) {
     dst = buf;
     hit = 0;
     while (e < end) {
-        if (e == lbl_805D78C8) {
+        if (e == input_entry_cursor) {
             for (q = quest_download_buffer_start; q < quest_vm_download_buffer_end; q++) {
                 c = *q;
                 if (c & 0x4000) {
@@ -34,7 +34,7 @@ s32 render_input_entries_text(s32 start, s32 count, u16 *buf, s32 flag) {
                 } else {
                     c = (u8)c;
                 }
-                if (flag != 0 && q == lbl_805D78D0) {
+                if (flag != 0 && q == input_buffer_cursor) {
                     n = encode_char_with_attr(dst, c, 8);
                     flag = 0;
                 } else {
@@ -44,7 +44,7 @@ s32 render_input_entries_text(s32 start, s32 count, u16 *buf, s32 flag) {
             }
             hit = 1;
         }
-        if (e >= lbl_805D78C4) {
+        if (e >= input_entry_end) {
             break;
         }
         if (flag != 0 && hit != 0) {
@@ -68,13 +68,13 @@ void reset_text_input_state(s32 mode) {
     init_block_free_list();
     init_entries();
     quest_download_buffer_ptr = quest_download_buffer_storage;
-    lbl_805D78D0 = quest_download_buffer_storage;
+    input_buffer_cursor = quest_download_buffer_storage;
     quest_download_buffer_start = quest_download_buffer_storage;
     quest_vm_download_buffer_end = quest_download_buffer_storage;
-    lbl_805D78C4 = quest_download_entry_table;
-    lbl_805D78C8 = quest_download_entry_table;
-    lbl_805D78B8 = quest_download_scratch_storage;
-    lbl_805D78BC = quest_download_scratch_storage;
+    input_entry_end = quest_download_entry_table;
+    input_entry_cursor = quest_download_entry_table;
+    input_code_end = quest_download_scratch_storage;
+    input_code_cursor = quest_download_scratch_storage;
     quest_text_end = 0;
     reset_slot_range(0, 0x50, 0);
     reset_entry_text_accumulator();
@@ -190,13 +190,13 @@ void copy_input_entry_text(u8 *dst, s32 start, s32 count, s32 mode) {
 #pragma opt_common_subs off
 void init_buffer_pointers() {
     quest_download_buffer_ptr = quest_download_buffer_storage;
-    lbl_805D78D0 = quest_download_buffer_storage;
+    input_buffer_cursor = quest_download_buffer_storage;
     quest_download_buffer_start = quest_download_buffer_storage;
     quest_vm_download_buffer_end = quest_download_buffer_storage;
-    lbl_805D78C4 = quest_download_entry_table;
-    lbl_805D78C8 = quest_download_entry_table;
-    lbl_805D78B8 = quest_download_scratch_storage;
-    lbl_805D78BC = quest_download_scratch_storage;
+    input_entry_end = quest_download_entry_table;
+    input_entry_cursor = quest_download_entry_table;
+    input_code_end = quest_download_scratch_storage;
+    input_code_cursor = quest_download_scratch_storage;
     quest_text_end = 0;
     reset_slot_range(0, 0x50, 0);
     reset_entry_text_accumulator();
