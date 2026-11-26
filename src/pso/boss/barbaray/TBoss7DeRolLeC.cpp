@@ -120,9 +120,8 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/system/SoundEffect.h"
 
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 

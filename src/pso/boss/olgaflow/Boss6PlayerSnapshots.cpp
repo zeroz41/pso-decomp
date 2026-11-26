@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
+#include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"

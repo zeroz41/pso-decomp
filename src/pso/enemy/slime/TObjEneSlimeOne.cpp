@@ -7,12 +7,11 @@
 #include "pso/render/render_util.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/enemy/slime/TObjEneSlimeOne_800EC394.h"
+#include "pso/enemy/slime/TObjEneSlimeOne.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Bit.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"
-#include "pso/enemy/slime/TObjEneSlimeOne.h"
 #include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
 #include "pso/player/TObjPlayer.h"
 

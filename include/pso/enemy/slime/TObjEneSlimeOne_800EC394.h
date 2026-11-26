@@ -1,9 +1,0 @@
-#ifndef PSO_ENEMY_SLIME_TOBJENESLIMEONE_800EC394_H
-#define PSO_ENEMY_SLIME_TOBJENESLIMEONE_800EC394_H
-
-#include "types.h"
-
-extern "C" {
-}
-
-#endif

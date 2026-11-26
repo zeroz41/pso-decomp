@@ -1,7 +1,5 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
-#include "pso/system/memory.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
@@ -12,7 +10,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/olgaflow/TBoss6Mag.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
+#include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
 #include "pso/boss/olgaflow/TBoss6Type2BattleAction.h"
 #include <stddef.h>
@@ -38,7 +36,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/boss/darkfalz/TObjDFJisin.h"
-#include "pso/system/SoundEffect.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -109,7 +106,7 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 
 
 
-// Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
+// Read by the TBoss6Type2Actions unit and TBoss6Rock; emitted ahead of the literal pool.
 extern const f32 boss6_arena_radius = 400.0f;
 extern const f32 boss6_type2_search_speed = 0.2f;
 extern const f32 boss6_type2_bkjump_speed = 0.35f;

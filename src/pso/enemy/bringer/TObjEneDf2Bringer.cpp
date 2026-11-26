@@ -6,8 +6,6 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/render/GinjaMaterialState.h"
-#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -56,7 +54,7 @@
 
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_TpAbsorb1.h"
 #include "pso/enemy/AttackTargetHistory.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/render/MaterialShadeFade.h"
@@ -138,7 +136,6 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/render/DebugFont.h"
 #include "pso/render/model_render_state.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
-#include "pso/render/StripBufferPair.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/TDeadSpot.h"

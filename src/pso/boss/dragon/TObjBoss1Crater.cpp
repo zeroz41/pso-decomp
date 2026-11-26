@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/AreaAttackContact.h"

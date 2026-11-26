@@ -35,7 +35,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/render/AltModel.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/task/TMainTask.h"
 
 // Flower literals the split parts share (TObjEneRe2Flower_800C20D0.cpp, TObjEneRe2FlowerStates.cpp define them).

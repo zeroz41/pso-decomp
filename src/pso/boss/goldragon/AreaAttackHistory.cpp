@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/memory.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/object/ambient/TObjGrassWeb.h"

@@ -3,7 +3,7 @@
 #include "pso/system/vector.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -14,7 +14,6 @@
 #include "pso/boss/darkfalz/TObjDFDemo2.h"
 
 #include <stddef.h>
-#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
@@ -30,7 +29,6 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/TLoadCtrl_80227390.h"

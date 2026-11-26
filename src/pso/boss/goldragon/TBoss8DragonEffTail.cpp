@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/boss/dragon/ObjBoss1CommonJResource.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/boss/goldragon/AreaAttackHistory.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"

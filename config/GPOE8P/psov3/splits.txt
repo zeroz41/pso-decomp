@@ -491,7 +491,7 @@ pso/boss/darkfalz/TObjDFHorming.cpp:
 	.sbss       start:0x805D4D58 end:0x805D4D78
 	.sdata2     start:0x805D8908 end:0x805D8938
 
-pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.cpp:
+pso/boss/darkfalz/TBoss4DarkFalz.cpp:
 	.text       start:0x8004C1AC end:0x8004D8C8
 	.ctors      start:0x80433F34 end:0x80433F38
 	.rodata     start:0x804371E0 end:0x804372B0
@@ -1439,7 +1439,7 @@ pso/object/base/TAttackCollider.cpp:
 	.data       start:0x804928A0 end:0x80492928
 	.sdata2     start:0x805D9EB0 end:0x805D9EB8
 
-pso/boss/goldragon/TBoss8Dragon_800BC53C.cpp:
+pso/boss/goldragon/AreaAttackHistory.cpp:
 	.text       start:0x800BC53C end:0x800BC778
 
 pso/object/ambient/TObjGrass.cpp:
@@ -1700,7 +1700,7 @@ pso/enemy/slime/TObjEneSlimeTailAttack.cpp:
 	.sbss       start:0x805D52B0 end:0x805D52B8
 	.sdata2     start:0x805DA668 end:0x805DA760
 
-pso/enemy/slime/TObjEneSlimeOne_800EC394.cpp:
+pso/enemy/slime/TObjEneSlimeOne.cpp:
 	.text       start:0x800EC348 end:0x800ECA40
 	.rodata     start:0x8043D2A8 end:0x8043D2B0
 	.data       start:0x80496C50 end:0x80496CD0
@@ -1987,7 +1987,7 @@ pso/item/TItemDisconnectCtrl.cpp:
 	.sdata      start:0x805D2B70 end:0x805D2B78
 	.sbss       start:0x805D5450 end:0x805D5454
 
-pso/item/drop/TItemDrop_80105D0C.cpp:
+pso/item/drop/TItemDrop.cpp:
 	.text       start:0x80105D0C end:0x80107B74
 	.rodata     start:0x8043E0C8 end:0x8043E130
 	.data       start:0x8049EF70 end:0x8049EFA0
@@ -4153,7 +4153,7 @@ pso/object/container/TObjContainerItem.cpp:
 	.sbss       start:0x805D5B78 end:0x805D5B90
 	.sdata2     start:0x805DBCF0 end:0x805DBD10
 
-pso/object/container/TContainerAncient01_8018A55C.cpp:
+pso/object/container/TContainerAncient01R.cpp:
 	.text       start:0x8018A55C end:0x8018A584
 	.rodata     start:0x80444F58 end:0x80444F98
 
@@ -4767,7 +4767,7 @@ pso/unk/text_801D7238.cpp:
 pso/unk/TLobby_801D726C.cpp:
 	.text       start:0x801D726C end:0x801D7860
 
-pso/player/TObjPlayer_801D7860.cpp:
+pso/player/DamageStatSlot.cpp:
 	.text       start:0x801D7860 end:0x801D78E4
 	.sdata2     start:0x805DC3F0 end:0x805DC3F8
 
@@ -6969,7 +6969,7 @@ pso/render/reflection.cpp:
 	.sdata2     start:0x805DDD88 end:0x805DDDB8
 	.sbss2      start:0x805E1220 end:0x805E1224
 
-pso/player/TObjPlayer_8029F694.cpp:
+pso/player/GinjaRenderTarget.cpp:
 	.text       start:0x8029F694 end:0x8029F730
 
 pso/object/door/TODoorLabo.cpp:
@@ -7291,7 +7291,7 @@ pso/ui/window/TWindowSubTrade.cpp:
 	.sdata      start:0x805D3EA8 end:0x805D3EB0
 	.sdata2     start:0x805DE298 end:0x805DE2A8
 
-pso/boss/olgaflow/TBoss6Type1_802B20C0.cpp:
+pso/boss/olgaflow/TBoss6Type1Actions.cpp:
 	.text       start:0x802B20C0 end:0x802B4898
 	.ctors      start:0x80433FC8 end:0x80433FCC
 	.rodata     start:0x80470AB0 end:0x80470CC8
@@ -7317,7 +7317,7 @@ pso/boss/olgaflow/TBoss6Type2.cpp:
 	.sbss       start:0x805D6740 end:0x805D6750
 	.sdata2     start:0x805DE3F0 end:0x805DE4D8
 
-pso/boss/olgaflow/TBoss6Type2_802BE588.cpp:
+pso/boss/olgaflow/TBoss6Type2Actions.cpp:
 	.text       start:0x802BE588 end:0x802C095C
 	.ctors      start:0x80433FCC end:0x80433FD0
 	.rodata     start:0x804713D0 end:0x80471540
@@ -8469,7 +8469,7 @@ pso/ui/frontend/TTitleBackground.cpp:
 	.sbss       start:0x805D6D50 end:0x805D6D58
 	.sdata2     start:0x805DF910 end:0x805DF978
 
-pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp:
+pso/boss/olgaflow/TBoss6MagActions.cpp:
 	.text       start:0x80336E6C end:0x80337348
 	.ctors      start:0x80433FF0 end:0x80433FF4
 	.rodata     start:0x80477858 end:0x80477890
@@ -9318,7 +9318,7 @@ pso/ui/window/TWindowSubStatusDisp_8036D774.cpp:
 	.sbss       start:0x805D7018 end:0x805D7020
 	.sdata2     start:0x805E03E8 end:0x805E0420
 
-pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp:
+pso/boss/olgaflow/Boss6PlayerSnapshots.cpp:
 	.text       start:0x8036DC80 end:0x8036DE10
 	.data       start:0x804F36F8 end:0x804F37A8
 
@@ -10661,7 +10661,7 @@ pso/render/TexturedVertexDraw.cpp:
 pso/effect/particle/ParticleStrip.cpp:
 	.text       start:0x803E29B0 end:0x803E2BAC
 
-pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.cpp:
+pso/boss/derolle/ProjectedColorDraw.cpp:
 	.text       start:0x803E2BAC end:0x803E2D50
 	.sdata2     start:0x805E1080 end:0x805E1084
 
@@ -10695,7 +10695,7 @@ pso/render/ShapeMotionDraw.cpp:
 	.sbss       start:0x805D7818 end:0x805D781C
 	.sdata2     start:0x805E10B8 end:0x805E10BC
 
-pso/quest/TQuestVmDownLoadServer_803E5668.cpp:
+pso/quest/QuestDownloadRequests.cpp:
 	.text       start:0x803E5668 end:0x803E6970
 	.rodata     start:0x8047E570 end:0x8047E698
 	.bss        start:0x8058DC48 end:0x8058DE08
@@ -10713,7 +10713,7 @@ pso/quest/TQuestVmDownLoadServer_803E6970.cpp:
 	.sbss       start:0x805D7850 end:0x805D7864
 	.sdata2     start:0x805E10C8 end:0x805E10D0
 
-pso/quest/TQuestVmDownLoadServer_803E8918.cpp:
+pso/quest/QuestDownloadNameCache.cpp:
 	.text       start:0x803E8918 end:0x803E9A24
 	.bss        start:0x80591EC8 end:0x80595008
 	.sbss       start:0x805D7868 end:0x805D787C

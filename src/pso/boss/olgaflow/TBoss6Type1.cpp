@@ -19,7 +19,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/boss/olgaflow/TBoss6Type1_802B20C0.h"
+#include "pso/boss/olgaflow/TBoss6Type1Actions.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/olgaflow/TBoss6Zanzo.h"
 #include "pso/boss/olgaflow/TBoss6Mine.h"

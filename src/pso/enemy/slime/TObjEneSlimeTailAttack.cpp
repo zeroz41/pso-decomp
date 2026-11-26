@@ -212,7 +212,6 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/enemy/slime/TObjEneSlimeOne_800EC394.h"
 
 
 

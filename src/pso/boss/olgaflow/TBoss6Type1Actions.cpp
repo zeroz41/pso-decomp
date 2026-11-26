@@ -1,6 +1,6 @@
 #pragma readonly_strings on
 #include "types.h"
-#include "pso/boss/olgaflow/TBoss6Type1_802B20C0.h"
+#include "pso/boss/olgaflow/TBoss6Type1Actions.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"

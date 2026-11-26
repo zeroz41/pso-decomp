@@ -41,7 +41,7 @@
 #include "pso/unk/TLobby_8020B03C.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
+#include "pso/boss/olgaflow/Boss6PlayerSnapshots.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"

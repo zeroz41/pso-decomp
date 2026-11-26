@@ -234,7 +234,7 @@ pso/render/MaterialColorFade.cpp
 pso/unk/SampledMotionPoints.cpp
 pso/boss/darkfalz/ModelNodeTables.cpp
 pso/boss/darkfalz/TBoss4CheckEmpty.cpp
-pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.cpp
+pso/boss/darkfalz/TBoss4DarkFalz.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004D8C8.cpp
 pso/boss/darkfalz/TBoss4Fade.cpp
 pso/boss/darkfalz/TBoss4Thanks.cpp
@@ -274,17 +274,17 @@ pso/boss/olgaflow/TBoss6SwordShot.cpp
 pso/boss/olgaflow/TBoss6Thanks.cpp
 pso/boss/olgaflow/TBoss6Tube.cpp
 pso/boss/olgaflow/TBoss6Type1.cpp
-pso/boss/olgaflow/TBoss6Type1_802B20C0.cpp
+pso/boss/olgaflow/TBoss6Type1Actions.cpp
 pso/boss/olgaflow/TBoss6Type1_80320AE0.cpp
 pso/boss/olgaflow/TBoss6Type1_80323DCC.cpp
 pso/boss/olgaflow/TBoss6Type2.cpp
-pso/boss/olgaflow/TBoss6Type2_802BE588.cpp
+pso/boss/olgaflow/TBoss6Type2Actions.cpp
 pso/boss/olgaflow/TBoss6Type2_803309D8.cpp
-pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp
+pso/boss/olgaflow/TBoss6MagActions.cpp
 pso/boss/olgaflow/TBoss6Type2_80356E50.cpp
 pso/boss/olgaflow/TBoss6Zanzo.cpp
 pso/boss/olgaflow/TBoss6Type2_8036A92C.cpp
-pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp
+pso/boss/olgaflow/Boss6PlayerSnapshots.cpp
 pso/boss/barbaray/TBoss7Crawfish.cpp
 pso/boss/barbaray/TBoss7Joint.cpp
 pso/boss/barbaray/TBoss7LaserLight.cpp
@@ -302,7 +302,7 @@ pso/boss/goldragon/TBoss8DragonEffTail.cpp
 pso/boss/goldragon/TBoss8Dragon_8005D6F4.cpp
 pso/boss/goldragon/TBoss8Dragon_8005D700.cpp
 pso/boss/goldragon/TBoss8Dragon_80067034.cpp
-pso/boss/goldragon/TBoss8Dragon_800BC53C.cpp
+pso/boss/goldragon/AreaAttackHistory.cpp
 pso/boss/goldragon/TBoss8Dragon_8028A8F8.cpp
 pso/boss/goldragon/TBoss8Dragon_802F3348.cpp
 pso/boss/goldragon/TBoss8DragonPart.cpp
@@ -318,7 +318,7 @@ pso/boss/derolle/TObjBoss2Tunnel_8003B1FC.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B138.cpp
 pso/boss/barbaray/TObjBoss7Tunnel.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp
-pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.cpp
+pso/boss/derolle/ProjectedColorDraw.cpp
 pso/boss/galgryphon/TObjBoss5Ctrl.cpp
 pso/boss/galgryphon/TObjBoss5FloorGrass.cpp
 pso/boss/galgryphon/TObjBoss5FloorStone.cpp
@@ -434,7 +434,7 @@ pso/enemy/recon/TObjEneReconBomb.cpp
 pso/enemy/recon/TObjEneRecon_80302DB0.cpp
 pso/enemy/recon/TObjEneRecobox.cpp
 pso/enemy/shark/TObjEneShark.cpp
-pso/enemy/slime/TObjEneSlimeOne_800EC394.cpp
+pso/enemy/slime/TObjEneSlimeOne.cpp
 pso/enemy/slime/TObjEneSlimeTailAttack.cpp
 pso/enemy/TObjEnemyCustom.cpp
 pso/enemy/TObjEnemy_8020C3E0.cpp
@@ -456,7 +456,7 @@ pso/item/TItemData_8010EDA8.cpp
 pso/item/TItemDisconnectCtrl.cpp
 pso/system/SubtractiveRng.cpp
 pso/item/drop/TItemDropSub.cpp
-pso/item/drop/TItemDrop_80105D0C.cpp
+pso/item/drop/TItemDrop.cpp
 pso/effect/item/TItemEffArmor.cpp
 pso/effect/item/TItemEffBringer.cpp
 pso/effect/item/TItemEffCane.cpp
@@ -697,7 +697,7 @@ pso/audio/AdxUiBridge.cpp
 pso/ui/keyboard/KBDXfer.c
 pso/effect/TKomorebi.cpp
 pso/system/TLanguage.cpp
-pso/object/container/TContainerAncient01_8018A55C.cpp
+pso/object/container/TContainerAncient01R.cpp
 pso/ui/TLevelSelect.cpp
 pso/system/TLoadCtrl.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.cpp
@@ -1001,9 +1001,9 @@ pso/quest/TQuestThreadBoard.cpp
 pso/quest/TQuestVmDownLoadServer.cpp
 pso/quest/TQuestVmDownLoadServer_80080788.cpp
 pso/quest/TQuestVmDownLoadServer_801F9010.cpp
-pso/quest/TQuestVmDownLoadServer_803E5668.cpp
+pso/quest/QuestDownloadRequests.cpp
 pso/quest/TQuestVmDownLoadServer_803E6970.cpp
-pso/quest/TQuestVmDownLoadServer_803E8918.cpp
+pso/quest/QuestDownloadNameCache.cpp
 pso/quest/TQuestVmDownLoadServer_803EB0D8.cpp
 pso/ui/hud/TRaderMapCore_801F3710.cpp
 pso/ui/hud/TRaderMapCore.cpp
@@ -1429,7 +1429,7 @@ pso/player/TObjPlayerActions.cpp
 pso/player/PlayerAttackController.cpp
 pso/player/TObjPlayer_801D6BC8.cpp
 pso/player/TObjPlayer_801D6C4C.cpp
-pso/player/TObjPlayer_801D7860.cpp
+pso/player/DamageStatSlot.cpp
 pso/player/TObjPlayer_801D7C5C.cpp
 pso/player/TObjPlayer_801D84A8.cpp
 pso/player/TObjPlayer_801D84CC.cpp
@@ -1439,7 +1439,7 @@ pso/player/TObjPlayerTechniqueLevels.cpp
 pso/player/PlayerTechniqueState.cpp
 pso/render/GinjaMotionDraw.cpp
 pso/player/TObjPlayer_8023E480.cpp
-pso/player/TObjPlayer_8029F694.cpp
+pso/player/GinjaRenderTarget.cpp
 pso/player/TObjPlayer_802A1440.cpp
 pso/player/TObjPlayer_802C367C.cpp
 pso/player/TObjPlayer_802C3B14.cpp
