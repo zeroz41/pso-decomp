@@ -63,9 +63,6 @@ s32 creation_motion_group(CharacterAppearanceFields *);
 void reset_uv_if_out_of_range();
 void copy_player_visual_record(void *, void *);
 
-void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 part);
-void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance);
-
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
 }
 
@@ -262,7 +259,7 @@ TCMCharacter::TCMCharacter(TObject *parent) : TObjMotion(parent) {
         p->body_textures.complete = 0;
     }
     char_select_current_entry = 0;
-    TAdSinglePlyChrSelectGC__sub_8028ED54(0);
+    prefetch_creation_textures(0);
     char_select_current_entry = 0;
     set_action_table(character_making_action_table);
     set_motion_list(creation_menu_main_obj->motions);
@@ -538,7 +535,7 @@ void TCMCharacter::apply_character_appearance() {
 void TCMCharacter::update_chara_preview() {
     s32 state;
     state = TCharaMaking::query_state();
-    TAdSinglePlyChrSelectGC__sub_8028ED54(state);
+    prefetch_creation_textures(state);
     switch (state) {
     case 3:
         if (chara_select_head_node != 0) {
@@ -955,23 +952,23 @@ CreationTextureCacheEntry *TAdSinglePlyChrSelectGC::find_free_slot() {
     }
     return 0;
 }
-void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, CharacterAppearanceFields *appearance) {
+void CreationTextureCacheEntry::request_textures(CharacterAppearanceFields *appearance) {
     CreationTextureLoadSlot *slot;
     saddr index;
-    bind_appearance_texture_lists(&entry->hair_textures.textures, &entry->head_textures.textures, &entry->body_textures.textures, appearance);
+    bind_appearance_texture_lists(&hair_textures.textures, &head_textures.textures, &body_textures.textures, appearance);
     index = character_display_index(reinterpret_cast<uaddr>(appearance));
-    slot = &entry->hair_textures;
+    slot = &hair_textures;
     if (slot->textures.present != 0) {
         slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
     }
-    slot = &entry->head_textures;
+    slot = &head_textures;
     if (slot->textures.present != 0) {
         slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
     }
-    slot = &entry->body_textures;
+    slot = &body_textures;
     slot->request = create_ch_cr_load_afs_texture_req(creation_figure_object, &slot->textures.list, slot, (void *)index);
-    entry->in_use = 1;
-    entry->copy_slot_data(appearance);
+    in_use = 1;
+    copy_slot_data(appearance);
 }
 s32 TAdSinglePlyChrSelectGC::evict_char_entries(s32 limit) {
     s32 n;
@@ -1045,7 +1042,7 @@ ok:
 
 #pragma push
 #pragma fp_contract on
-void TAdSinglePlyChrSelectGC__sub_8028ED54(s32 part) {
+void prefetch_creation_textures(s32 part) {
     CreationTextureCacheEntry *entry;
     if (TAdSinglePlyChrSelectGC::count_remaining_slots() > 0) {
         CharacterAppearanceFields buf = *creation_player_character;
@@ -1064,7 +1061,7 @@ load:
                 }
                 entry = TAdSinglePlyChrSelectGC::find_free_slot();
             }
-            TAdSinglePlyChrSelectGC__sub_8028F084(entry, &buf);
+            entry->request_textures(&buf);
         }
     }
 }

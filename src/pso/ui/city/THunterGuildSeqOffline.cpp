@@ -330,7 +330,7 @@ void THunterGuildSeqOffline::reset_quest_result_callbacks() {
 }
 extern "C" {
 
-void THunterGuildSeqOffline__sub_80213410(void) { THunterGuildSeqOffline::reset_quest_result_callbacks(); }
+void THunterGuildSeqOffline::unload_quest_result_callbacks() { reset_quest_result_callbacks(); }
 }
 
 void THunterGuildSeqOffline::notify_quest_thread() {

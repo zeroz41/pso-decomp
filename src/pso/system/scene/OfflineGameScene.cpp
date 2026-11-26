@@ -218,7 +218,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {load_word_select_data, TWindowDD::free_buffers},
     {init_switch_table, clear_switch_table},
     {reset_shop_stock_and_params, clear_all_shop_stock},
-    {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline__sub_80213410},
+    {THunterGuildSeqOffline::reset_quest_result_callbacks, THunterGuildSeqOffline::unload_quest_result_callbacks},
     {TQuestThread::clear_all_floor_handlers, clear_quest_floor_handlers},
     {TObjCityMainWarp::reset, TObjCityMainWarp::free_resources},
     {clear_short_mail_on_load, clear_short_mail_on_unload},

@@ -38,6 +38,8 @@ struct CreationTextureCacheEntry {
     s32 is_entry_equal(CharacterAppearanceFields *character);
     s32 count_char_diffs(CharacterAppearanceFields *character);
     void copy_slot_data(CharacterAppearanceFields *character);
+    // Binds the appearance's texture lists and queues a load for each part that has one.
+    void request_textures(CharacterAppearanceFields *appearance);
 
     // Releases the texture lists of the parts that finished loading.
     void release_texture_lists();
