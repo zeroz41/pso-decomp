@@ -2224,7 +2224,7 @@ void qst_op_set_enemy_movement_data(s32 label) {
     if (data_addr != 0U) {
         params = *(const BattleMovementParams *)(data_addr - 4 + 4);
         params.bswap();
-        TLobby::broadcast(&params);
+        set_enemy_movement_data(&params);
     }
 }
 
@@ -2235,7 +2235,7 @@ void qst_op_set_enemy_resist_data(s32 label) {
     if (data_addr != 0U) {
         *reinterpret_cast<ByteBlock_20 *>(&packet) = *reinterpret_cast<const ByteBlock_20 *>(data_addr);
         packet.swap_endian();
-        TLobby__sub_8001DE30(&packet);
+        set_enemy_resist_data(&packet);
     }
 }
 
@@ -2246,7 +2246,7 @@ void qst_op_set_enemy_attack_data(s32 label) {
     if (data_addr != 0U) {
         *reinterpret_cast<ByteBlock_30 *>(&packet) = *reinterpret_cast<const ByteBlock_30 *>(data_addr);
         packet.byteswap_packet();
-        TLobby::copy_all_entries(&packet);
+        set_enemy_attack_data(&packet);
     }
 }
 
@@ -2258,12 +2258,12 @@ void qst_op_set_enemy_physical_data(int _w0) {
     if (data_addr != 0U) {
         *(ByteBlock_24 *)(copy_storage.bytes) = *(const ByteBlock_24 *)((data_addr - 4) + 4);
         bswap__12player_statsFv(((copy_storage.bytes)));
-        TLobby::copy_data((void *) ((copy_storage.bytes)));
+        set_enemy_physical_data((player_stats *)copy_storage.bytes);
     }
 }
 
 void qst_op_set_override_enemy_bp_index() {
-    set_lobby_instance((qst_args[0]));
+    set_override_enemy_bp_index(qst_args[0]);
 }
 
 void qst_op_set_chat_callback() {

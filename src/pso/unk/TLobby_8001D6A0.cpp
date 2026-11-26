@@ -34,7 +34,7 @@ ActorParamBlock *battle_param_resistances;
 BattleMovementParams *battle_param_movement;
 s32 battle_parameter_difficulty;
 s32 battle_param_lab_variant;
-saddr lobby_instance;
+s32 override_enemy_bp_index;
 
 struct TextBuilderBuffer { s32 value; u8 remaining[0xFC]; };
 extern TextBuilderBuffer text_builder_buffer;
@@ -133,13 +133,13 @@ void load_battle_param_entry(void) {
   }
 }
 
-void TLobby::broadcast(void* a0) { ((int (*)(void*, void*))broadcast_to_players__6TLobbyFii)((void*)lobby_instance, a0); }
+void set_enemy_movement_data(BattleMovementParams *params) { set_battle_param_movement(override_enemy_bp_index, params); }
 
-void TLobby__sub_8001DE30(void* a0) { ((int (*)(void*, void*))TLobby__sub_8001DF58)((void*)lobby_instance, a0); }
+void set_enemy_resist_data(ActorParamBlock *params) { set_battle_param_resistance(override_enemy_bp_index, params); }
 
-void TLobby::copy_all_entries(void* a0) { ((int (*)(void*, void*))copy_all_entries__6TLobbyFii)((void*)lobby_instance, a0); }
+void set_enemy_attack_data(AttackParams *params) { set_battle_param_attack(override_enemy_bp_index, params); }
 
-void TLobby::copy_data(void* a0) { ((int (*)(void*, void*))copy_all_data__6TLobbyFii)((void*)lobby_instance, a0); }
+void set_enemy_physical_data(player_stats *stats) { set_battle_param_stats(override_enemy_bp_index, stats); }
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -148,18 +148,17 @@ struct CopyDataBlk { s32 w[6]; };
 
 struct CopyDataObject { CopyDataBlk a; CopyDataBlk b; };
 
-void set_lobby_instance(s32 instance) {
-    lobby_instance = instance;
+void set_override_enemy_bp_index(s32 index) {
+    override_enemy_bp_index = index;
 }
-extern "C" {
 
-void broadcast_to_players__6TLobbyFii(s32 index, saddr src) {
+void set_battle_param_movement(s32 index, BattleMovementParams *src) {
     s32 i;
 
-    if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
+    if (is_valid_battle_param_index(index) != 0) {
         i = 0;
         do {
-            TLobby::copy_pair((CopyDataObject *)(((saddr (*)(s32, s32))TLobby::get_player_entry)(i, index)), (CopyDataObject *)(src));
+            TLobby::copy_pair((BattleMovementParams *)((saddr (*)(s32, s32))get_battle_param_movement)(i, index), src);
             i += 1;
         } while (i < 4);
     }
@@ -172,13 +171,13 @@ void *TLobby::copy_pair(void *dst, void *src) {
     return dst;
 }
 
-void TLobby__sub_8001DF58(s32 index, saddr ent) {
+void set_battle_param_resistance(s32 index, ActorParamBlock *src) {
     s32 i;
 
-    if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
+    if (is_valid_battle_param_index(index) != 0) {
         i = 0;
         do {
-            ((TLobby *)(((saddr (*)(s32, s32))TLobby::get_entry)(i, index)))->copy_entry((void *)ent);
+            ((TLobby *)((saddr (*)(s32, s32))get_battle_param_resistance)(i, index))->copy_entry(src);
             i += 1;
         } while (i < 4);
     }
@@ -198,13 +197,13 @@ void TLobby::copy_entry(void *ent) {
     *(s32 *)((s8 *)this + 0x1C) = (s32) *(s32 *)((s8 *)ent + 0x1C);
 }
 
-void copy_all_entries__6TLobbyFii(s32 index, saddr src) {
+void set_battle_param_attack(s32 index, AttackParams *src) {
     s32 i;
 
-    if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
+    if (is_valid_battle_param_index(index) != 0) {
         i = 0;
         do {
-            ((TLobby *)(((saddr (*)(s32, s32))get_battle_param_attack)(i, index)))->copy_from((void *)src);
+            ((TLobby *)((saddr (*)(s32, s32))get_battle_param_attack)(i, index))->copy_from(src);
             i += 1;
         } while (i < 4);
     }
@@ -229,13 +228,13 @@ void TLobby::copy_from(void *src) {
     *(s32 *)((s8 *)this + 0x2C) = (s32) *(s32 *)((s8 *)src + 0x2C);
 }
 
-void copy_all_data__6TLobbyFii(s32 index, saddr src) {
+void set_battle_param_stats(s32 index, player_stats *src) {
     s32 i;
 
-    if (((s32 (*)(void))is_valid_player_index__6TLobbyFi)() != 0) {
+    if (is_valid_battle_param_index(index) != 0) {
         i = 0;
         do {
-            TLobby::copy_data((void *)(((saddr (*)(s32, s32))get_battle_param_stats)(i, index)), (void *)src);
+            TLobby::copy_data((void *)((saddr (*)(s32, s32))get_battle_param_stats)(i, index), src);
             i += 1;
         } while (i < 4);
     }
@@ -257,37 +256,33 @@ void TLobby::copy_data(void *stats, void *src) {
     *(s32 *)((s8 *)stats + 0x20) = (s32) *(s32 *)((s8 *)src + 0x20);
 }
 
-u8 is_valid_player_index__6TLobbyFi(s32 index) {
-    s32 valid;
+s32 is_valid_battle_param_index(s32 index) {
+    u8 valid;
 
     valid = 0;
     if ((index >= 0) && (index < 0x60)) {
         valid = 1;
     }
-    return (u8)valid;
+    return valid;
 }
-}
 
-BattleMovementParams *TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
+BattleMovementParams *TLobby::dispatch_shared_handler_a(s32 index) { return get_battle_param_movement(battle_parameter_difficulty, index); }
 
-BattleMovementParams *TLobby::get_player_entry(int difficulty, int index) { return &battle_param_movement[index]; }
+BattleMovementParams *get_battle_param_movement(int difficulty, int index) { return &battle_param_movement[index]; }
 
-ActorParamBlock *TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
+ActorParamBlock *TLobby::register_object(s32 index) { return get_battle_param_resistance(battle_parameter_difficulty, index); }
 
-ActorParamBlock *TLobby::get_entry(int difficulty, int index) { return &battle_param_resistances[index]; }
+ActorParamBlock *get_battle_param_resistance(int difficulty, int index) { return &battle_param_resistances[index]; }
 
 AttackParams *TLobby::dispatch_shared_handler_b(s32 index) { return get_battle_param_attack(battle_parameter_difficulty, index); }
 
-AttackParams *get_battle_param_attack(int a0, int a1) {  return &battle_param_attacks[a1]; }
+AttackParams *get_battle_param_attack(int difficulty, int index) { return &battle_param_attacks[index]; }
 
 player_stats *TLobby::register_boss(s32 index) { return get_battle_param_stats(battle_parameter_difficulty, index); }
 
-player_stats *get_battle_param_stats(int a0, int a1) {  return &battle_param_stats[a1]; }
-extern "C" {
-
-void set_difficulty__6TLobbyFi(s32 variant) {
-    battle_param_lab_variant = variant;
-}
+player_stats *get_battle_param_stats(int difficulty, int index) { return &battle_param_stats[index]; }
+void set_battle_param_episode(s32 episode) {
+    battle_param_lab_variant = episode;
 }
 
 
@@ -314,8 +309,7 @@ void TLobby::update_difficulty() {
     old_difficulty = battle_parameter_difficulty;
     old_variant = battle_param_lab_variant;
     TLobby::clamp_difficulty(game_difficulty_selection);
-    TLobby::get_instance();
-    ((s32 (*)(void))set_difficulty__6TLobbyFi)();
+    set_battle_param_episode(TLobby::get_instance());
     if ((battle_parameter_difficulty != old_difficulty) || (battle_param_lab_variant != old_variant)) {
         load_battle_param_entry();
     }
@@ -345,10 +339,9 @@ void alloc_battle_param_tables(void) {
     battle_param_resistances = bank->resistances;
     battle_param_movement = bank->movement;
     TLobby::clamp_difficulty(game_difficulty_selection);
-    TLobby::get_instance();
-    ((s32 (*)(void))set_difficulty__6TLobbyFi)();
+    set_battle_param_episode(TLobby::get_instance());
     load_battle_param_entry();
-    lobby_instance = 0;
+    override_enemy_bp_index = 0;
 }
 void ActorParamBlock::swap_endian() {
     bswap_16(reinterpret_cast<u16 *>(&values[0]));
@@ -537,9 +530,7 @@ s32 TLobby::get_clock_frames() {
   t += base;
   return t;
 }
-extern "C" {
-
-void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 size, f32 alpha) {
+void draw_lobby_location_text(f32 x, f32 y, f32 size, f32 alpha) {
     f32 scale;
     f32 clamped;
     saddr color;
@@ -552,10 +543,9 @@ void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 size, f32 alpha) {
         color = TLobby::calc_alpha_shifted(clamped);
         if (get_main_phase() == 0xF) {
             TLobby::close_result_windows();
-            draw_small_font_text(color | 0xFF0000 | 0xFFFF, (const char *)(((u8* (*)(void))get_shared_text_buffer)()), x, (f32)(-1.0f + position1Y), scale);
+            draw_small_font_text(color | 0xFF0000 | 0xFFFF, (const char *)get_shared_text_buffer(), x, (f32)(-1.0f + y), scale);
         }
     }
-}
 }
 
 #pragma fp_contract on

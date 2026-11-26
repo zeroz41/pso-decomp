@@ -82,9 +82,6 @@ struct TLobby : public TObject {
     void apply_lobby_markers();
     static s32 get_option_state();
     static void install_game_join_handlers();
-    static void broadcast(void* a0);
-    static void copy_all_entries(void* a0);
-    static void copy_data(void* a0);
     static void copy_data(void *dst, void *src);
     void copy_entry(void *ent);
     void copy_from(void *src);
@@ -564,7 +561,6 @@ struct TLobby : public TObject {
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
     static s32 adxf_open_file(int, void *, int, void *);
-    static void broadcast_to_players(int, int);
     static void *bsearch_record(void *, int, int);
     static void bswap_6x6E_sync_game_state(void*);
     static void bswap_and_handle_packet(void *packet, int size);
@@ -594,9 +590,7 @@ struct TLobby : public TObject {
     static void destroy_join_entries();
     static void destroy_lobby_ui();
     static void disable_window_flags(void*);
-    static ActorParamBlock *get_entry(int, int);
     static void get_menu_field_280();
-    static BattleMovementParams *get_player_entry(int, int);
     static s32 get_progress_info(void *, void *, void *, void *);
     static saddr get_seq_phase(int);
     static void handle_com_card();
@@ -617,7 +611,6 @@ struct TLobby : public TObject {
     static void init_buffers(int floor, u8 *quest);
     static void init_player_window_effect();
     static u8 is_challenge_lobby();
-    static u8 is_valid_player_index(int);
     static s32 load_floor_enemy_group_entries(s32 idx, FloorObjectSetRow *src, u32 size);
     static u8 lookup_key_value(char);
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
@@ -698,7 +691,6 @@ struct TLobby : public TObject {
     static void update_short_list();
     static void update_state();
     static int close_trade_request(void*);
-    static void copy_all_entries(int, int);
     static void dispatch_by_index(u16, int);
     static saddr get_object_count(void*);
     static u8 is_ready(void *);
