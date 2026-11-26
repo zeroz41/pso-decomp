@@ -1847,7 +1847,7 @@ force_active:
   - find_target_user__19TWindowSubShortMailFv
   - set_replied__14ShortMailEntryFv
   - __dt__15WindowTextEntryFv
-  - TWindowSubStatusDisp__sub_8025B2DC
+  - __dt__16WindowSpritePartFv
   - update__13LabelValueRowFv
   - draw_composition_background__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUl
   - layout_wrapped_glyphs__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2PUsUll
@@ -5917,7 +5917,7 @@ force_active:
   - draw_value__13TWindowMesetaFP17WindowDrawContext
   - draw_window_frame_strips__11TWindowBaseFP12TexturedQuadP17WindowDrawContext
   - draw_window_scanlines__FPUcPUc
-  - draw_window_uv_sprite_part__FP16WindowSpritePartP17WindowDrawContext
+  - render__16WindowSpritePartFP17WindowDrawContext
   - draw_with_fade__18TObjEneEpsilonBodyFl
   - draw_wrapped_text__19TWindowKeyBoardBaseFP17WindowDrawContextP10NJS_POINT2
   - drawing__11TItemMagSub
@@ -17048,7 +17048,7 @@ force_active:
   - update_owned__8TItemMagFv
   - update_packed_color__13TObjEneMe1GeeFv
   - update_pad_recalibration__Fv
-  - update_palette_sprite__20TWindowSubStatusDispFv
+  - update__16WindowSpritePartFv
   - update_part_positions__11TBoss6Type2Fv
   - update_particle__15TObjSuisouLobbyFv
   - update_particle_by_phase__10TObjPlayerFP10NJS_OBJECT
@@ -17727,7 +17727,7 @@ force_active:
   - window_duel_result_class_name
   - __vt__13LabelValueRow
   - window_sub_game_end_active_flag
-  - window_uv_sprite_part_vtable
+  - __vt__16WindowSpritePart
   - wolf_stat_handle_a_table
   - wolf_stat_handle_b_table
   - worker_callback_flag_table

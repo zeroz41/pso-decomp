@@ -4,7 +4,6 @@
 #include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/TWindowLoadItemTexture.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -45,7 +44,7 @@ TWindowLoadItemTexture *create_load_item_texture_window(void *position, const f3
     sprite->y = 0.5f * window->target_size[1] - 32.0f - 1e+01f;
     sprite->w = 64.0f;
     sprite->h = 64.0f;
-    set_sprite_uv_bounds(sprite, 0.0f, 0.0f, 1.0f, 1.0f);
+    sprite->set_sprite_uv_bounds(0.0f, 0.0f, 1.0f, 1.0f);
     return window;
 }
 #pragma pop
@@ -81,7 +80,7 @@ extern const f32 load_item_texture_window_extent[2] = { 160.0f, 120.0f };
 
 TWindowLoadItemTexture *TWindowLoadItemTexture::create(void *position, s32 client) {
     TWindowLoadItemTexture *window = new TWindowLoadItemTexture(position, (f32 *)load_item_texture_window_extent, client);
-    set_sprite_uv_bounds(reinterpret_cast<WindowSpritePart *>(window->get_array_entry(0)), 0.0f, 0.0f, 0.625f, 0.46875f);
+    reinterpret_cast<WindowSpritePart *>(window->get_array_entry(0))->set_sprite_uv_bounds(0.0f, 0.0f, 0.625f, 0.46875f);
     return window;
 }
 

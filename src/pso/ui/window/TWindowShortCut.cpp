@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 
@@ -111,18 +111,18 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     if (icon != 0x33) {
         SpriteOrigin *origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon);
         shortcut_icon->flags &= ~2;
-        set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(shortcut_icon), origin->u, origin->v);
+        reinterpret_cast<WindowSpritePart *>(shortcut_icon)->set_sprite_uv_from_pixels(origin->u, origin->v);
     } else {
         shortcut_icon->flags |= 2;
     }
 
     SpriteOrigin *detail_origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(icon_detail);
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(detail_icon), detail_origin->u, detail_origin->v);
+    reinterpret_cast<WindowSpritePart *>(detail_icon)->set_sprite_uv_from_pixels(detail_origin->u, detail_origin->v);
     set_text_entry_string(kind_label, (uaddr)TWindowSubStatusDisp::get_message_10(0xC5), 0);
     set_text_entry_string(kind_name, (uaddr)TWindowSubStatusDisp::get_message_10(0xC0 + kind), 0);
     s32 kind_sprite = shortcut_kind_sprites[kind - 1];
     SpriteOrigin *kind_origin = (SpriteOrigin *)TWindowSubStatusDisp::get_entry_ptr(kind_sprite);
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(kind_icon), kind_origin->u, kind_origin->v);
+    reinterpret_cast<WindowSpritePart *>(kind_icon)->set_sprite_uv_from_pixels(kind_origin->u, kind_origin->v);
 
     position.x = 211.0f;
     position.y = 380.0f;

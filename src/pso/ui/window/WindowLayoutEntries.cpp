@@ -149,7 +149,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 6:
                 o = (WindowSpritePart *)(::operator new(sizeof(WindowSpritePart)));
                 if (o != NULL) {
-                    o = (WindowSpritePart *)o->init_part_scaled(reinterpret_cast<SpritePartLayoutRecord *>(rec), client);
+                    o = (WindowSpritePart *)__ct__16WindowSpritePartFP22SpritePartLayoutRecordl(o, reinterpret_cast<SpritePartLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += sizeof(SpritePartLayoutRecord) / 4;
@@ -157,7 +157,7 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
             case 7:
                 o = (WindowSpritePart *)(::operator new(sizeof(WindowSpritePart)));
                 if (o != NULL) {
-                    o = (WindowSpritePart *)o->init_part_direct(reinterpret_cast<DirectSpritePartLayoutRecord *>(rec), client);
+                    o = (WindowSpritePart *)__ct__16WindowSpritePartFP28DirectSpritePartLayoutRecordl(o, reinterpret_cast<DirectSpritePartLayoutRecord *>(rec), client);
                 }
                 *out = o;
                 rec += sizeof(DirectSpritePartLayoutRecord) / 4;

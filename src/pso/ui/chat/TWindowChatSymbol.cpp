@@ -3,7 +3,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -148,12 +147,12 @@ void TWindowSubSymbolChatPartsSet::set_part_sprite(WindowSpritePart *sprite, s16
     sprite->w = size->x;
     sprite->h = size->y;
     e = &symbol_chat_part_uv_table[id];
-    set_sprite_uv_from_pixels(sprite, (f32)e->x, (f32)e->y);
+    sprite->set_sprite_uv_from_pixels((f32)e->x, (f32)e->y);
     if (flip_u != 0) {
-        swap_sprite_u_edges(sprite);
+        sprite->swap_sprite_u_edges();
     }
     if (flip_v != 0) {
-        swap_sprite_v_edges(sprite);
+        sprite->swap_sprite_v_edges();
     }
 }
 #pragma pop
@@ -190,24 +189,24 @@ void TWindowSubSymbolChatPartsSet::setup_part_sprites(WindowSpritePart *help, Wi
     help->color = get_parts_color(color);
     if (code <= 0x12) {
         uv = &symbol_chat_parts_set_part_uv_table[uv_index];
-        set_sprite_dimensions(help, 31.0f, 31.0f);
+        help->set_sprite_dimensions(31.0f, 31.0f);
         shortcut_icon->x = help->x - 5.0f;
         shortcut_icon->y = help->y;
-        set_sprite_dimensions(shortcut_icon, 50.0f, 40.0f);
-        set_sprite_uv_from_pixels(shortcut_icon, uv->x, uv->y);
+        shortcut_icon->set_sprite_dimensions(50.0f, 40.0f);
+        shortcut_icon->set_sprite_uv_from_pixels(uv->x, uv->y);
         ((TWindowHelpItem *)alternate)->set_flag0_bit2();
     } else {
-        set_sprite_dimensions(help, 30.0f, 30.0f);
+        help->set_sprite_dimensions(30.0f, 30.0f);
         alternate->x = help->x;
         alternate->y = help->y;
         ((TWindowHelpItem *)shortcut_icon)->set_flag0_bit2();
     }
-    set_sprite_uv_from_pixels(help, u, v);
+    help->set_sprite_uv_from_pixels(u, v);
     if (flip_u != 0) {
-        swap_sprite_u_edges(help);
+        help->swap_sprite_u_edges();
     }
     if (flip_v != 0) {
-        swap_sprite_v_edges(help);
+        help->swap_sprite_v_edges();
     }
 }
 
@@ -232,7 +231,7 @@ void apply_facial_part_sprites(WindowLayoutEntries *entries, s32 packed, s32 cur
 int set_symbol_chat_face_sprite(WindowSpritePart *sprite, u8 b) {
     const NJS_POINT2 *e;
     e = &symbol_chat_face_uv_table[b & 3];
-    set_sprite_uv_from_pixels(sprite, (f32)e->x, (f32)e->y);
+    sprite->set_sprite_uv_from_pixels((f32)e->x, (f32)e->y);
     return sprite->color = TWindowSubSymbolChatPartsSet::get_parts_color((b >> 2) & 7);
 }
 

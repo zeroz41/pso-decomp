@@ -20,7 +20,6 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
@@ -236,7 +235,7 @@ void TWindowSubSymbolChatParts::draw_preset_parts(WindowDrawContext *ctx) {
     e0->color = -1;
     e0->w = 32.0f;
     e0->h = 32.0f;
-    set_sprite_uv_from_pixels(e0, 185.0f, 22.0f);
+    e0->set_sprite_uv_from_pixels(185.0f, 22.0f);
     e0->kind = 0;
     e0->depth = 0.5f;
     ((TWindowSubStatusDisp *)e0)->clear_visible_flag();
@@ -383,8 +382,8 @@ void TWindowSubSymbolChatParts::init_help(s32 *help_value) {
     e2 = (WindowSpritePart *)get_array_entry(2);
     e0 = (WindowSpritePart *)get_array_entry(0);
     *(u16 *)e2 |= 2;
-    set_sprite_dimensions(e0, 32.0f, 32.0f);
-    set_sprite_uv_from_pixels(e0, 185.0f, 22.0f);
+    e0->set_sprite_dimensions(32.0f, 32.0f);
+    e0->set_sprite_uv_from_pixels(185.0f, 22.0f);
     e0->kind = 0;
     item_count = 0x44;
     update_row_count();

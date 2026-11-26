@@ -1,7 +1,6 @@
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
@@ -77,7 +76,7 @@ void TWindowComCard::set_help_mode(s32 help_mode) {
         reinterpret_cast<WindowSpritePart *>(this)->kind = 2;
     }
     temp_r4 = &com_card_help_panel_rect_table[help_mode];
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(this), temp_r4->x, temp_r4->y);
+    reinterpret_cast<WindowSpritePart *>(this)->set_sprite_uv_from_pixels(temp_r4->x, temp_r4->y);
 }
 
 s32 get_class_name_text(s32 class_index) {

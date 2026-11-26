@@ -32,7 +32,7 @@
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -420,7 +420,7 @@ void TWindowHelpItem::show_weapon_requirements() {
         f = (TWindowHelpItem *)(get_array_entry(11));
         item = (u8 *)lookup_item_pmt_record((u8 *)active_item);
         if (check_equip_requirements(pl, active_item, &flags) == 0 && (flags & 1)) {
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), 0.0f, 132.0f);
+            reinterpret_cast<WindowSpritePart *>(a)->set_sprite_uv_from_pixels(0.0f, 132.0f);
             b->set_flag0_bit2();
             ((TWindowHelpItem *)c)->set_flag0_bit2();
             d->set_flag0_bit2();
@@ -429,7 +429,7 @@ void TWindowHelpItem::show_weapon_requirements() {
             return;
         }
         if (*(u16 *)(item + 0xE) != 0) {
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), 0.0f, 172.0f);
+            reinterpret_cast<WindowSpritePart *>(a)->set_sprite_uv_from_pixels(0.0f, 172.0f);
             b->reset_float_field();
             d->reset_float_field();
             f->reset_float_field();
@@ -437,7 +437,7 @@ void TWindowHelpItem::show_weapon_requirements() {
             return;
         }
         if (*(u16 *)(item + 0x10) != 0) {
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), 0.0f, 192.0f);
+            reinterpret_cast<WindowSpritePart *>(a)->set_sprite_uv_from_pixels(0.0f, 192.0f);
             b->reset_float_field();
             d->reset_float_field();
             f->reset_float_field();
@@ -445,7 +445,7 @@ void TWindowHelpItem::show_weapon_requirements() {
             return;
         }
         if (*(u16 *)(item + 0x12) != 0) {
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), 0.0f, 212.0f);
+            reinterpret_cast<WindowSpritePart *>(a)->set_sprite_uv_from_pixels(0.0f, 212.0f);
             b->reset_float_field();
             d->reset_float_field();
             f->reset_float_field();
@@ -484,7 +484,7 @@ void TWindowHelpItem::show_armor_requirements() {
         f = (TWindowHelpItem *)(get_array_entry(11));
         item = (u8 *)lookup_item_pmt_record((u8 *)active_item);
         if (check_equip_requirements(pl, active_item, &flags) == 0 && (flags & 1)) {
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), 0.0f, 132.0f);
+            reinterpret_cast<WindowSpritePart *>(a)->set_sprite_uv_from_pixels(0.0f, 132.0f);
             b->set_flag0_bit2();
             ((TWindowHelpItem *)c)->set_flag0_bit2();
             d->set_flag0_bit2();
@@ -493,7 +493,7 @@ void TWindowHelpItem::show_armor_requirements() {
             return;
         }
         if (item[0x10] != 0) {
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(a), 0.0f, 232.0f);
+            reinterpret_cast<WindowSpritePart *>(a)->set_sprite_uv_from_pixels(0.0f, 232.0f);
             b->reset_float_field();
             d->reset_float_field();
             f->reset_float_field();
@@ -1180,7 +1180,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         e6 = (TWindowHelpItem *)this->get_array_entry(6);
         check_equip_requirements((void *)player, active_item, &requirement);
         if (requirement & 1) {
-            set_sprite_uv_from_pixels(e1, 0.0f, 152.0f);
+            e1->set_sprite_uv_from_pixels(0.0f, 152.0f);
             e2->set_flag0_bit2();
             ((TWindowHelpItem *)e3)->set_flag0_bit2();
             e4->set_flag0_bit2();
@@ -1188,7 +1188,7 @@ void TWindowHelpItem::update_tech_disk_details() {
             e6->set_flag0_bit2();
             return;
         }
-        set_sprite_uv_from_pixels(e1, 0.0f, 192.0f);
+        e1->set_sprite_uv_from_pixels(0.0f, 192.0f);
         e2->reset_float_field();
         e4->reset_float_field();
         e6->reset_float_field();

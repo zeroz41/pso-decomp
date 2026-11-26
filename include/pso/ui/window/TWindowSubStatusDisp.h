@@ -81,7 +81,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s16 get_stat();
     void set_all_values(s32 meseta);
     void set_animated_target(s32 meseta, f32 frames);
-    static void update_palette_sprite();
     void init_scroll_pos();
     static f32 get_base_y(f32 width);
     void fill_card_text_entries(GuildCardRecord *record);

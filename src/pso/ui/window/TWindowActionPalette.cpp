@@ -17,7 +17,6 @@
 #include "pso/ui/window/TWindowEffectLight.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/unk/text_803DA798.h"
@@ -334,7 +333,7 @@ void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
 
 void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
     WindowSpritePart *sprite = (WindowSpritePart *)get_array_entry(1);
-    set_sprite_uv_from_pixels(sprite, TWindowActionPalette::bank_panel_uv_origins[state][0], TWindowActionPalette::bank_panel_uv_origins[state][1]);
+    sprite->set_sprite_uv_from_pixels(TWindowActionPalette::bank_panel_uv_origins[state][0], TWindowActionPalette::bank_panel_uv_origins[state][1]);
 }
 
 #pragma push
@@ -500,8 +499,8 @@ s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
 
 void TWindowHelpItem::set_help_text(saddr help, saddr client_id) {
     if (TWindowKeyBoardHard::test_card_flag_2(client_id) != 0) {
-        set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 92.0f, 56.0f);
+        reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(92.0f, 56.0f);
         return;
     }
-    set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 92.0f, 0.0f);
+    reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(92.0f, 0.0f);
 }

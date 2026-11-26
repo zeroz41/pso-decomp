@@ -1,7 +1,6 @@
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/math/FloatRound.h"
 #include "pso/render/ColorLineList.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/render/Draw2D.h"
@@ -355,28 +354,28 @@ void update_photon_blast_player_marker(saddr help, s32 client_id) {
         }
         switch (type) {
         case 5:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 0.0f, 173.0f);
+            reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(0.0f, 173.0f);
             break;
         case 4:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f, 173.0f);
+            reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(34.0f, 173.0f);
             break;
         case 3:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 68.0f, 173.0f);
+            reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(68.0f, 173.0f);
             break;
         case 1:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 102.0f, 173.0f);
+            reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(102.0f, 173.0f);
             break;
         case 2:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 136.0f, 173.0f);
+            reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(136.0f, 173.0f);
             break;
         case 0:
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 170.0f, 173.0f);
+            reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(170.0f, 173.0f);
             break;
         default:
             if (lobby_rule_settings.get_is_teams() == 1 && (p = get_player_by_client_id(key)) != 0) {
                 key = p->pk_state.get_team() - 1;
             }
-            set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f * key, 202.0f);
+            reinterpret_cast<WindowSpritePart *>(help)->set_sprite_uv_from_pixels(34.0f * key, 202.0f);
             break;
         }
     }
