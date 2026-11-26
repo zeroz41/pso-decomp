@@ -17066,7 +17066,7 @@ force_active:
   - update_parts_flags__11TBoss6Type2Fv
   - update_password_input__17TAdEnterPPPPassGCFPv
   - update_password_input__18TAdEnterPasswordGCFPv
-  - update_path_follow_rotation__13TObjJungleEbiFPvf
+  - update_path_follow_rotation__13TObjJungleEbiFPC14EbiPathProfilef
   - update_path_motion__18TObjCityAirCar_CarFv
   - update_path_steering__16TObjJungleKamomeFv
   - update_periodic_tick__Fv

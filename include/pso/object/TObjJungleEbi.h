@@ -14,7 +14,7 @@ public:
     static void destroy_instance();
     virtual ~TObjJungleEbi();
     s32 initialize_path();
-    s32 update_path_follow_rotation(void *, f32);
+    s32 update_path_follow_rotation(const EbiPathProfile *profile, f32 frame);
     virtual void update();
     virtual void draw();
     NJS_OBJECT *model;
