@@ -45,7 +45,7 @@ extern "C" {
 void measure_message_text_width(WindowTextEntry *e, f32 x);
 }
 
-const f64 lbl_8044F330 = 0.0;
+const f64 com_card_minimum_entry_height = 0.0;
 // The TWindowMenu layout table (one type-3 text record; set_window_menu_rows sets the row count) and
 // the window descriptor the TWindowMenu constructor passes to TWindowAddition.
 struct MenuWindowLayout {
@@ -55,7 +55,7 @@ struct MenuWindowLayout {
 };
 MenuWindowLayout menu_window_layout = {1, 0, {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0}};
 WindowDescriptor menu_window_descriptor = {{0.0f, 0.0f}, 50050.0f, &menu_window_layout, 3};
-const char *lbl_805D3960 = "TWindowMenu";
+const char *TWindowMenu::class_name = "TWindowMenu";
 extern s32 actor_frame_tick;
 
 void TKeyBoardControl::set_composer_flag62_bit4() {
@@ -353,7 +353,7 @@ void TWindowMenu::calc_layout_height(f32 width) {
     h = 0.0f;
     for (i = 0; i < row_count; i++) {
         e = static_cast<WindowTextEntry *>(get_array_entry(i));
-        if (((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->height <= lbl_8044F330)) {
+        if (((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->height <= com_card_minimum_entry_height)) {
             measure_message_text_width(e, width);
             h += 2.0f + e->height;
         }
@@ -385,7 +385,7 @@ void TWindowMenu::update_layout_height(f32 x) {
     for (i = 0; i < row_count; i++) {
         WindowTextEntry *e = static_cast<WindowTextEntry *>(this->TWindowBase::get_array_entry(i));
         if (((TWindowSubComCard *)e)->get_field_20() != 0) {
-            if (!(e->height <= lbl_8044F330)) {
+            if (!(e->height <= com_card_minimum_entry_height)) {
                 sum += 2.0f + e->height;
             }
         }
@@ -404,7 +404,7 @@ void TWindowMenu::calc_window_size() {
     f32 width = 0.0f;
     f32 row_gap = 2.0f;
     f32 sum = width;
-    f64 minimum_entry_height = lbl_8044F330;
+    f64 minimum_entry_height = com_card_minimum_entry_height;
     u32 i;
     for (i = 0; i < row_count; i++) {
         WindowTextEntry *e = static_cast<WindowTextEntry *>(get_array_entry(i));
@@ -436,7 +436,7 @@ void TWindowMenu::layout_entries() {
     f32 h;
     y = 0.0f;
     gap = 2.0f;
-    zero = lbl_8044F330;
+    zero = com_card_minimum_entry_height;
     for (i = 0; i < row_count; i++) {
         e = static_cast<WindowTextEntry *>(get_array_entry(i));
         if (((TWindowSubComCard *)e)->get_field_20() != 0) {
@@ -692,7 +692,7 @@ TWindowMenu::~TWindowMenu() {
 TWindowMenu::TWindowMenu(u32 count, s32 client, const NJS_POINT2 *position) : TWindowAddition((u8 *)&menu_window_descriptor, (s16)client, (u8 *)position) {
     u32 i;
     TWindowMenuRow *p;
-    m_name = lbl_805D3960;
+    m_name = class_name;
     entry_count = 0;
     row_cursor = 0;
     row_count = count;

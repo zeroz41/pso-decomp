@@ -11,6 +11,7 @@ struct TWindowMessage;
 struct TWindowMessageYesNo;
 
 struct TWindowSubInformationBoard : public TObject {
+    static const char *class_name;
     TWindowSubInformationBoard(TObject *parent, s32 client);
     virtual ~TWindowSubInformationBoard();
     u32 open_card_info_window();

@@ -8309,7 +8309,7 @@ force_active:
   - me1_gi_gue_barrier_name
   - name__12TAdDialingGC
   - boss6_mag_name
-  - lbl_805D42D8
+  - class_name__19TWindowDD_WS_String
   - class_name__10TItemEffPG
   - name__26TBoss5GryphonLightningWing
   - video_black_pending

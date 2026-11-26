@@ -79,7 +79,7 @@ void TWindowDD_WS_String::set_first_entry_text(u32 str) {
 }
 
 
-const char *lbl_805D42D8 = "TWindowDD_WS_String";
+const char *TWindowDD_WS_String::class_name = "TWindowDD_WS_String";
 
 // Entry layout table of the window: one column, one row, one text record (type 3).
 struct TWindowDD_WS_StringLayout {
@@ -104,7 +104,7 @@ TWindowDD_WS_String::~TWindowDD_WS_String() {}
 TWindowDD_WS_String::TWindowDD_WS_String(f32 *pos, f32 *size, u32 str, s32 style)
     : TWindowBase((u8 *)&word_select_string_descriptor, 4, (u8 *)pos) {
     WindowTextEntry *entry;
-    m_name = lbl_805D42D8;
+    m_name = class_name;
     copy_vec2(start_position, pos);
     copy_vec2(end_position, size);
     text_style = style;

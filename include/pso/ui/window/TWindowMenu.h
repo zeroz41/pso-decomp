@@ -15,6 +15,7 @@ struct TWindowMenuRow {
 };
 
 struct TWindowMenu : public TWindowAddition {
+    static const char *class_name;
     TWindowMenu(u32 rows, s32 client, const NJS_POINT2 *position);
     virtual ~TWindowMenu();
     void *get_selected_entry();

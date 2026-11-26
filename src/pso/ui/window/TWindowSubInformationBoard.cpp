@@ -33,12 +33,12 @@ struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 
 extern "C" {
 
-const char *lbl_805D4348 = "TWindowSubInformationBoard";
+const char *TWindowSubInformationBoard::class_name = "TWindowSubInformationBoard";
 
 }
 
 TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *parent, s32 client) : TObject(parent) {
-    this->m_name = lbl_805D4348;
+    this->m_name = class_name;
     this->client = client;
     this->shown_index = -1;
     parent_menu = static_cast<TWindowMainMenu *>(parent);

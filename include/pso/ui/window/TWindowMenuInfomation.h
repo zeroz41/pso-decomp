@@ -8,6 +8,7 @@ struct WindowScrollBar;
 
 class TWindowMenuInfomation : public TWindowAddition {
 public:
+    static const char *class_name;
     TWindowMenuInfomation(void *parent, s32 rows);
     virtual ~TWindowMenuInfomation();
     virtual void run_task();

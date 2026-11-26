@@ -166,7 +166,7 @@ s32 TWindowBase::is_window_reveal_complete() {
 }
 NJS_TEXLIST *hud_texlist;
 u16 window_ui_theme_index;
-s16 lbl_805D63F6;
+s16 window_scanline_timer;
 void window_request_refresh(u8 *help) {
     TWindowBase *window = (TWindowBase *)help;
     if (!((f32) window->open_tick >= 7.5f)) {
@@ -391,7 +391,7 @@ void draw_window_sweep_strip(TexturedQuad *quad, WindowDrawContext *context) {
         return;
     }
     z = -1.0f / context->depth;
-    t = ((5.0f * lbl_805D63F6 - 100.0f) - context->x) / context->w;
+    t = ((5.0f * window_scanline_timer - 100.0f) - context->x) / context->w;
     mx = t * (quad->x1 - quad->x0) + quad->x0;
     mu = t * (quad->u1 - quad->u0) + quad->u0;
     if (t > 0.5f) {
@@ -458,7 +458,7 @@ BOOL scanline_crosses_window(void *ctx, void *position, void *size) {
     f32 start_x;
 
     start_x = *(f32 *)position;
-    limit_x = (5.0f * (f32) lbl_805D63F6) - 100.0f;
+    limit_x = (5.0f * (f32) window_scanline_timer) - 100.0f;
     if (limit_x <= start_x) {
         return FALSE;
     }
@@ -631,7 +631,7 @@ void draw_window_scanlines(u8 *card, u8 *context) {
     }
     n1 = trunc_float((12.0f + *(f32 *)((s8 *)card + 0x44)) / 4.0f);
     n2 = trunc_float((*(f32 *)((s8 *)card + 0x4C) - 24.0f) / 4.0f);
-    y = ((5.0f * ((f32)lbl_805D63F6 - 0.2f * (f32)n1) - 100.0f) - 12.0f) - *(f32 *)((s8 *)card + 0x40);
+    y = ((5.0f * ((f32)window_scanline_timer - 0.2f * (f32)n1) - 100.0f) - 12.0f) - *(f32 *)((s8 *)card + 0x40);
     if (y <= 0.0f) {
         return;
     }
@@ -777,17 +777,17 @@ void TWindowBase::update_fade() {
 void update_window_scanline(void) {
     switch (window_ui_theme_index) {
     case 0:
-        lbl_805D63F6 = 60.0f * ((1.0f / 32768.0f) * rand()) + 60.0f;
+        window_scanline_timer = 60.0f * ((1.0f / 32768.0f) * rand()) + 60.0f;
         window_ui_theme_index = 1;
     case 1:
-        if (lbl_805D63F6-- < 0) {
-            lbl_805D63F6 = 0;
+        if (window_scanline_timer-- < 0) {
+            window_scanline_timer = 0;
             window_ui_theme_index = 2;
         }
         break;
     case 2:
-        lbl_805D63F6++;
-        if (5.0f * ((f32)lbl_805D63F6 - 0.2f * trunc_float(120.0f)) >= 840.0f) {
+        window_scanline_timer++;
+        if (5.0f * ((f32)window_scanline_timer - 0.2f * trunc_float(120.0f)) >= 840.0f) {
             window_ui_theme_index = 0;
         }
         break;

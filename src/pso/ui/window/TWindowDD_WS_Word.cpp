@@ -19,7 +19,7 @@
 #include "pso/unk/text_803D619C.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-const char *lbl_805D42E0 = "TWindowDD_WS_Word";
+const char *TWindowDD_WS_Word::class_name = "TWindowDD_WS_Word";
 
 
 
@@ -61,7 +61,7 @@ TWindowDD_WS_Word *TWindowDD_WS_Word::create(s32 element_list, s32 rows) {
 
 TWindowDD_WS_Word::TWindowDD_WS_Word(s32 list_id, s32 visible_count)
     : TWindowBase((u8 *)&word_select_page_descriptor, 4, (u8 *)word_page_position) {
-    m_name = lbl_805D42E0;
+    m_name = class_name;
     visible_row_count = visible_count;
     strip_point_index = 0;
     scroll_offset = 0.0f;

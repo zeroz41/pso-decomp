@@ -7,6 +7,7 @@ struct NJS_POINT2;
 
 class TWindowDD_WS_Word : public TWindowBase {
 public:
+    static const char *class_name;
     TWindowDD_WS_Word(s32 list_id, s32 visible_count);
     virtual ~TWindowDD_WS_Word();
     static TWindowDD_WS_Word *create(s32 element_list, s32 rows);

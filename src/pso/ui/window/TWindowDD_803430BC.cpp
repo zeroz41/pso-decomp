@@ -42,9 +42,9 @@ uaddr TWindowDD__player_name_buffers;
 
 uaddr TWindowDD__word_select_lists;
 
-uaddr lbl_805D6E20;
+uaddr word_select_word_storage;
 
-s16 lbl_805D6E24;
+s16 remembered_word_select_id;
 
 char **ws_word_strings;
 
@@ -171,9 +171,9 @@ void load_word_select_data(void) {
         ((char **)TWindowDD__player_name_buffers)[i] = window_dd_buffer_b + i * 0x18;
         ((char **)TWindowDD__player_name_buffers)[i][0] = 0;
     }
-    lbl_805D6E20 = (uaddr)mem_alloc(0x100);
+    word_select_word_storage = (uaddr)mem_alloc(0x100);
     TWindowDD__word_select_lists = (uaddr)mem_alloc(0x30);
-    list = (u8 *)lbl_805D6E20;
+    list = (u8 *)word_select_word_storage;
     for (j = 0; j < 6; j++) {
         entry = &((WordList_80344114 *)TWindowDD__word_select_lists)[j];
         entry->words = list;
@@ -188,7 +188,7 @@ void load_word_select_data(void) {
             break;
         }
     }
-    lbl_805D6E24 = -1;
+    remembered_word_select_id = -1;
     for (i = 0; i < 6; i++) {
         src = &window_dd_quad_positions[i];
         fill_window_point_table(word_select_quad_points[i], src->x, src->y, window_dd_quad_scales[i]);
@@ -218,9 +218,9 @@ void TWindowDD::free_buffers() {
         mem_free((void*)TWindowDD__word_select_lists);
         TWindowDD__word_select_lists = 0U;
     }
-    if ((u32) lbl_805D6E20 != 0U) {
-        mem_free((void*)lbl_805D6E20);
-        lbl_805D6E20 = 0U;
+    if ((u32) word_select_word_storage != 0U) {
+        mem_free((void*)word_select_word_storage);
+        word_select_word_storage = 0U;
     }
     if ((u32) TWindowDD__player_name_buffers != 0U) {
         mem_free((void*)TWindowDD__player_name_buffers);
@@ -269,7 +269,7 @@ TWindowDD::TWindowDD(TObject *parent, WordSelectMessage *result) : TObject(paren
   s32 floor;
   s32 v;
   m_name = word_select_type_name_pointer;
-  menu_index = (floor = lbl_805D6E24);
+  menu_index = (floor = remembered_word_select_id);
   build_item_list();
   *((u8 *) TWindowDD::work_buffer) = 0;
   enemies_active = 0;

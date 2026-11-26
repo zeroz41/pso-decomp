@@ -21,7 +21,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 
-const char *lbl_805D3970 = "TWindowMenuInfomation";
+const char *TWindowMenuInfomation::class_name = "TWindowMenuInfomation";
 static const NJS_POINT2 choice_setting_popup_extent = {425.0f, 188.0f};
 
 extern "C" {
@@ -154,7 +154,7 @@ void TWindowMenuInfomation::draw_setting(WindowDrawContext *context) {
 void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
     u32 i;
     WindowTextEntry *entry;
-    window->m_name = lbl_805D3970;
+    window->m_name = TWindowMenuInfomation::class_name;
     window->next_entry = 0;
     window->index = 0;
     window->entry_capacity = (s16)rows;

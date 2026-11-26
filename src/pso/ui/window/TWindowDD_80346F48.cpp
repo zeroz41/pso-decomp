@@ -21,16 +21,15 @@ struct DD_80346FE4 {
 extern char **TWindowDD__player_name_buffers;
 extern DD_80346FE4 *TWindowDD__word_select_lists;
 
-    extern short lbl_805D6E24;
 void TWindowDD::reset_selection() {
     menu_index = -1;
-    lbl_805D6E24 = -1;
+    remembered_word_select_id = -1;
     build_item_list();
 }
 
 void WordSelectMessage::remember_selected_id() {
     if ((type == 1) && (TWindowDD__sub_80346FC0(ids[0]) != 0)) {
-        lbl_805D6E24 = ids[0];
+        remembered_word_select_id = ids[0];
     }
 }
 s32 TWindowDD__sub_80346FC0(s16 id) {
