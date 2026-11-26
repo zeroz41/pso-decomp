@@ -1181,7 +1181,6 @@ s32 count_leading_entries(s32 i, s32 end) {
     return total + n;
 }
 
-extern s32 lbl_805D7880;
 
 #pragma push
 #pragma dont_inline off

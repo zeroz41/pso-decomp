@@ -2132,7 +2132,6 @@ void reset_entry_text_accumulator(void) {
     lbl_8058DC98[0] = 0;
 }
 
-extern u8 lbl_8058DC48[0x50];
 extern "C" {
 void TQuestVmDownLoadServer__sub_803EE580(s32 pos, s32 len, QuestDownloadTextNode *node, QuestDownloadEntryNode *link);
 
@@ -2210,7 +2209,6 @@ void process_entry_text_range(s32 pos, s32 end) {
 }
 #pragma pop
 
-extern u8 lbl_8058DCE8[];
 extern QuestDownloadRequestStorage lbl_805A0698;
 extern "C" {
 s32 TQuestVmDownLoadServer__sub_803EEDC0(QuestDownloadRequest *req, s32 *ids, s32 n);
@@ -2220,7 +2218,6 @@ s32 TQuestVmDownLoadServer__sub_803EF958(u32 id, u16 key, s32 *ids, s32 n);
 #pragma dont_inline off
 #pragma inline_depth(1)
 
-extern u8 quest_request_text_buffer[];
 
 #pragma push
 #pragma optimization_level 2

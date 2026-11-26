@@ -39,8 +39,18 @@ struct QuestDownloadNameCacheImage {
     u8 pages[8][0x400];
 };
 
+extern u8 lbl_8058DC48[0x50];
 extern u8 lbl_8058DC98[0x50];
+extern u8 lbl_8058DCE8[0x50];
+extern u8 quest_request_text_buffer[0x50];
 extern "C" {
+extern s32 lbl_805D7880;
+extern s32 lbl_805D7884;
+extern s32 quest_download_free_list_ready_flag;
+extern s16 lbl_805D78E0;
+extern s32 lbl_805D78E4;
+void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
+s32 TQuestVmDownLoadServer__sub_803EDC20(u32 input_address);
 extern u8 quest_download_scratch_storage[0x28] ATTRIBUTE_ALIGN(4);
 extern u16 quest_download_buffer_storage[0x64] ATTRIBUTE_ALIGN(4);
 extern s32 quest_download_state;
@@ -129,7 +139,6 @@ s32 TQuestVmDownLoadServer__sub_803F03B4(u8 *data, QuestDownloadQueryEntry *entr
 s32 TQuestVmDownLoadServer__sub_803F0268(const char *name, s16 len, QuestDownloadQueryResult *out);
 s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c);
 }
-extern u8 lbl_805D7894[4];
 s32 is_jis_kanji_code(u16 ch);
 extern "C" {
 s32 TQuestVmDownLoadServer__sub_803EDB20(u8 ch);

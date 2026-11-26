@@ -6,25 +6,13 @@
 #include "pso/quest/QuestDownloadWorkspace.h"
 #include "pso/quest/TQuestVmDownLoadServer_803E5668.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/quest/AskDic.h"
+#include "pso/quest/QuestDownloadServer.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include <stddef.h>
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 
 #pragma readonly_strings on
 
-extern s32 quest_text_end;
-extern s32 quest_text_entry_len;
-extern s32 quest_text_cursor_pos;
-extern s32 quest_page_node_count;
-extern s32 quest_page_node_index;
-extern "C" {
-void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32 selectedLength);
-s32 TQuestVmDownLoadServer__sub_803EDC20(u32);
-}
-extern u8 lbl_8058DC48[80];
-extern u8 lbl_8058DC98[80];
-extern u8 lbl_80591AC4[];
 s32 lbl_805D7820;
 u8 *lbl_805D7824;
 s32 lbl_805D7828;
@@ -36,20 +24,7 @@ s32 lbl_805D783C;
 s32 lbl_805D7840;
 s32 lbl_805D7844;
 s32 lbl_805D7848;
-extern s32 lbl_805D7880;
-extern s32 lbl_805D7884;
-extern s32 lbl_805D7888;
 extern u8 lbl_805D7894[];
-extern s32 quest_download_free_list_ready_flag;
-extern s32 quest_download_match_length_limit;
-extern s16 lbl_805D78E0;
-extern s32 lbl_805D78E4;
-extern s32 quest_download_server_state;
-extern saddr lbl_805D78F8;
-extern s32 lbl_805D78FC;
-extern s32 lbl_805D7900;
-extern s32 quest_download_file_handle;
-extern u8 quest_request_text_buffer[];
 
 // Handlers by request id (1..63); unassigned ids return -1.
 typedef s32 (*KeyBoardSoftHandler)(saddr *args);
