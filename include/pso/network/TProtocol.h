@@ -390,7 +390,7 @@ public:
     void handle_cmd_AC(packet &pkt);
     int handle_command(union packet *pkt);
     void parse_packet();
-    void seq_jump(u8 *some_struct, TPlyMeetUserExtension &extension);
+    void seq_jump(TRecvPort &port_info, TPlyMeetUserExtension &extension);
 
     void recv_error(packet &pkt);
     void recv_text(packet &pkt);

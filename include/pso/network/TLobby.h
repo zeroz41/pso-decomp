@@ -389,7 +389,7 @@ struct TLobby : public TObject {
     static int get_short_mail_ctrl();
     static void clear_lobby_flag();
     static void send_find_user_self_tag(s32 gc_num);
-    static void*get_com_card_entry(int a0);
+    static GuildCardRecord *get_com_card_entry(int a0);
     // Empties the com card list and clears its flag.
     static void reset_com_card_list();
     static s32 assign_player_id(void *);
@@ -412,7 +412,6 @@ struct TLobby : public TObject {
     static void close_menu_windows();
     static void construct_global_arrays();
     static void copy_all_data(int, int);
-    static void *copy_com_card_entry(void *, void *);
     static void *copy_member_record(void *, void *);
     static void *copy_symbol_chat_entry(void *, void *);
     static void *create_quest_col_apc_inw(void *, void *);

@@ -1340,11 +1340,9 @@ void TProtocol::recv_battle_data(packet &pkt) {
 	tmp.bswap();
 };
 
-void TProtocol::seq_jump(u8 *some_struct, TPlyMeetUserExtension &extension) {
-	TRecvPort *port_info = (TRecvPort *)some_struct;
-
-	new_ip_addr = port_info->ip_addr;
-	new_port = port_info->port;
+void TProtocol::seq_jump(TRecvPort &port_info, TPlyMeetUserExtension &extension) {
+	new_ip_addr = port_info.ip_addr;
+	new_port = port_info.port;
 	meet_user_settings = extension;
 
 	close();
