@@ -9073,7 +9073,7 @@ pso/boss/olgaflow/TBoss6RockChase.cpp:
 	.sdata      start:0x805D44F0 end:0x805D44F4
 	.sdata2     start:0x805E03B8 end:0x805E03E8
 
-pso/ui/window/SplitScreenHud.cpp:
+pso/ui/window/TBGMulti.cpp:
 	.text       start:0x8036D774 end:0x8036DC80
 	.rodata     start:0x8047AD00 end:0x8047AD30
 	.sbss       start:0x805D7018 end:0x805D7020
