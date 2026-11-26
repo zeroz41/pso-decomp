@@ -51,7 +51,7 @@ void TFireExplosion::spawn_rafoie_explosion_bursts() {
     for (i = 0; i < rafoie_burst_table[band].count; i++) {
         const TechniqueEmitter *row = &rafoie_burst_table[band].emitters[i];
         u16 mode = 0;
-        void *p;
+        TParticleCtrl *p;
         if (row->flags & 0x1000) {
             mode = 0x2000;
         }
@@ -61,7 +61,7 @@ void TFireExplosion::spawn_rafoie_explosion_bursts() {
             p = spawn_particle_effect_with_flags(&higher, row->entry, mode);
         }
         if (p != NULL) {
-            ((TParticleCtrl *)p)->set_scale(rafoie_burst_table[band].emitters[i].scale, rafoie_burst_table[band].emitters[i].scale);
+            p->set_scale(rafoie_burst_table[band].emitters[i].scale, rafoie_burst_table[band].emitters[i].scale);
         }
     }
 }

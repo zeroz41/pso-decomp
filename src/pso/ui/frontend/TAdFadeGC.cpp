@@ -17,9 +17,9 @@
 extern "C" {
 f32 fade_line_depth;
 s8 fade_line_depth_ready;
-extern const char TAdFadeGC__class_name_string[] = "TAdFadeGC";
+extern const char TAdFadeGC_class_name_string[] = "TAdFadeGC";
 }
-const char *TAdFadeGC::name = TAdFadeGC__class_name_string;
+const char *TAdFadeGC::name = TAdFadeGC_class_name_string;
 extern "C" {
 
 void TAdFadeGC::draw_fade() {

@@ -2122,9 +2122,9 @@ void TLobby::open_information_list(int count, void *entries) {
     ServerMenuEntry *list = (ServerMenuEntry *)entries;
     void *w = (void *)lobby_window_title_information;
     s32 i;
-    void *old = list_window;
+    TObject *old = list_window;
     if (old != 0) {
-        ((TObject *)old)->queue_destruction();
+        old->queue_destruction();
         list_window = 0;
     }
     list_window = (TWindowMenuIconLine *)TShopJudgmentItemWindow::open_default((saddr)w);
@@ -2299,7 +2299,7 @@ void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, 
     s32 j;
     s32 i;
     TObjPlayer *plr;
-    void *room;
+    TObject *room;
 
     for (i = 0; i < count; i++) {
         if (self_id == records[i].client_id) {
@@ -2333,7 +2333,7 @@ void construct_lobby_players(LobbyPlayerEntry *records, s32 count, int self_id, 
     }
     sprintf(lobby_room_title, lobby_list_block_range_format, lobby_ship_name, TLobby::block_number, TLobby::lobby_number + 1);
     room = new TWindowRoom(lobby_room_title);
-    lobby_player_construction_window = (TObject *)room;
+    lobby_player_construction_window = room;
     TLobby::close_all_windows();
 }
 void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp) {

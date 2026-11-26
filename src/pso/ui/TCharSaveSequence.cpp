@@ -47,12 +47,6 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/system/ControllerInput.h"
 
-struct CharacterSelectCallbackTable {
-    s32 value;
-    u8 remaining[0x194];
-};
-
-
 // Window position and size setup passes to create_message_window_for_size
 static const f32 char_save_message_window_pos[2] = { 80.0f, 146.0f };
 static const f32 char_save_message_window_size[2] = { 479.0f, 267.0f };
@@ -78,7 +72,7 @@ s32 start_memcard_read(s32, void *, u32, s32);
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
-void TAdSinglePlyChrSelectGC::set_quest_download_server(int quest_download_server) { (*(int *)&single_ply_quest_download_server) = quest_download_server; }
+void TAdSinglePlyChrSelectGC::set_quest_download_server(int quest_download_server) { single_ply_quest_download_server = quest_download_server; }
 void TAdSinglePlyChrSelectGC::init_logo_state(s32 state) {
     lbl_805D6D88 = 0;
     lbl_805D6D84 = 0;
@@ -381,12 +375,11 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     render_tick();
 }
 
-struct CharacterSelectCallbackTable;
 #pragma pool_data off
 void init_single_player_char_select_scene(void) {
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
-    run_load_callback_table(&(*(CharacterSelectCallbackTable *)&character_select_scene_resource_callbacks), 0x30);
+    run_load_callback_table(&character_select_scene_resource_callbacks, 0x30);
     init_menu_scene_lights(&default_scene_light_config, 4);
     new TCameraCtrl(tl_camera);
     Vec a = char_select_camera_position;
@@ -427,7 +420,6 @@ void TCharSaveSequence::init_warps() {
     menu->update_layout_height(289.0f);
 }
 
-LAYOUT_ASSERT(CharacterSelectCallbackTable_size, sizeof(CharacterSelectCallbackTable) == 0x198);
 
 #pragma pop
 

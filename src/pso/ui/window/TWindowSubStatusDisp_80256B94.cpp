@@ -26,7 +26,7 @@ TWindowStatusGauge::TWindowStatusGauge(StatusGaugeLayout *source, s32 client)
     x = source->pos[0];
     y = source->pos[1];
     depth = source->depth;
-    scale = source->scale;
+    length = source->length;
     color = source->color;
     flags = (u16)source->flags;
     maximum = source->maximum;
@@ -42,7 +42,7 @@ void TWindowStatusGauge::update() {
     if (maximum <= 0.0f || target <= 0.0f) {
         goal = 0.0f;
     } else {
-        goal = (target * scale) / maximum;
+        goal = (target * length) / maximum;
     }
     diff = goal - width;
     if (fabs_float(diff) < 2.0f) {
@@ -117,7 +117,7 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
     if (len <= 4.0f) {
         return;
     }
-    w = (len < scale - 4.0f) ? len - 4.0f : scale - 8.0f;
+    w = (len < length - 4.0f) ? len - 4.0f : length - 8.0f;
     q.x0 = 4.0f + pos->x;
     q.y0 = pos->y;
     q.x1 = q.x0 + w;
@@ -129,7 +129,7 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
     if (ctx->clip_and_transform_quad(&q) != 0) {
         draw_textured_quad_at_depth(&q.x0, depth);
     }
-    end = scale - 4.0f;
+    end = length - 4.0f;
     if (len <= end) {
         return;
     }
@@ -150,7 +150,7 @@ void TWindowStatusGauge::draw_status_gauge_bar(WindowDrawContext *ctx, NJS_POINT
 void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth) {
     TexturedQuad q;
     f32 w;
-    w = self->scale - -2.0f;
+    w = self->length - -2.0f;
     q.x0 = -1.0f + pos->x;
     q.y0 = -1.0f + pos->y;
     q.x1 = 20.0f + q.x0;
@@ -193,7 +193,7 @@ void TWindowStatusGauge::calc_bar_width() {
     if (max <= 0.0f || (target = this->target) <= 0.0f) {
         v = 0.0f;
     } else {
-        v = (target * this->scale) / max;
+        v = (target * this->length) / max;
     }
     this->width = v;
 }

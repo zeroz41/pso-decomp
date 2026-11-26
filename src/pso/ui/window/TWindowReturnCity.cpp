@@ -33,7 +33,7 @@ const char *TWindowReturnCity::class_name = "TWindowReturnCity";
 extern s32 lbl_805D55C0;
 int TWindowReturnCity::client_scan_index;
 void return_to_city_after_defeat(TObject *) {
-    if (((s32) lbl_805D55C0 != 1) && ((s32) (*(s32 *)&TWindowReturnCity::client_scan_index) < 4)) {
+    if (((s32) lbl_805D55C0 != 1) && ((s32) TWindowReturnCity::client_scan_index < 4)) {
         TObjPlayer *player = get_player_by_client_id(TWindowReturnCity::client_scan_index);
         if (player != NULL) {
             player->prepare_hospital_return();
@@ -41,7 +41,7 @@ void return_to_city_after_defeat(TObject *) {
         floor_transition_state.set_next_floor(0, (int) (get_floor_map_terrain(0)));
         mark_area_change_pending();
         send_inter_level_warp_all(floor_transition_state.get_next_floor());
-        (*(s32 *)&TWindowReturnCity::client_scan_index) = 4;
+        TWindowReturnCity::client_scan_index = 4;
     }
 }
 

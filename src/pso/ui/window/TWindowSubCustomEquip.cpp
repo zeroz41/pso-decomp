@@ -108,7 +108,7 @@ WindowDescriptor custom_equip_window_descriptor = {
 int TWindowSubCustomEquip::is_selected() { return this->state_flags & 0x1; }
 int is_custom_equip_cancelled(void* p) { return ((TWindowSubCustomEquip *)p)->state_flags & 0x2; }
 void TWindowSubCustomEquip::clear_flag_and_set_entry_state() {
-    *(s8 *)&this->state_flags &= ~1;
+    this->state_flags &= ~1;
     status_disp->set_state(1);
 }
 
@@ -285,7 +285,7 @@ void TWindowSubCustomEquip::layout_selection_parts(void *selection) {
     WindowSpritePart *b;
     WindowSpritePart *c;
     WindowSpritePart *d;
-    if (*(s8 *)&this->front_bank == 0) {
+    if (this->front_bank == 0) {
         a = static_cast<WindowSpritePart *>(get_array_entry(0x11));
         b = static_cast<WindowSpritePart *>(get_array_entry(0x10));
         c = static_cast<WindowSpritePart *>(get_array_entry(8));
@@ -344,12 +344,12 @@ void TWindowSubCustomEquip::refresh_palette_slots() {
     if (player == NULL || (palette = player->select_action_palette(0)) == NULL) {
         return;
     }
-    update_palette_slot(0, palette->get_tag_mode(*(s8 *)&this->front_bank, 2), palette->get_tag_slot(*(s8 *)&this->front_bank, 2));
-    update_palette_slot(1, palette->get_tag_mode(*(s8 *)&this->front_bank, 1), palette->get_tag_slot(*(s8 *)&this->front_bank, 1));
-    update_palette_slot(2, palette->get_tag_mode(*(s8 *)&this->front_bank, 3), palette->get_tag_slot(*(s8 *)&this->front_bank, 3));
-    update_palette_slot(3, palette->get_tag_mode(*(s8 *)&this->back_bank, 2), palette->get_tag_slot(*(s8 *)&this->back_bank, 2));
-    update_palette_slot(4, palette->get_tag_mode(*(s8 *)&this->back_bank, 1), palette->get_tag_slot(*(s8 *)&this->back_bank, 1));
-    update_palette_slot(5, palette->get_tag_mode(*(s8 *)&this->back_bank, 3), palette->get_tag_slot(*(s8 *)&this->back_bank, 3));
+    update_palette_slot(0, palette->get_tag_mode(this->front_bank, 2), palette->get_tag_slot(this->front_bank, 2));
+    update_palette_slot(1, palette->get_tag_mode(this->front_bank, 1), palette->get_tag_slot(this->front_bank, 1));
+    update_palette_slot(2, palette->get_tag_mode(this->front_bank, 3), palette->get_tag_slot(this->front_bank, 3));
+    update_palette_slot(3, palette->get_tag_mode(this->back_bank, 2), palette->get_tag_slot(this->back_bank, 2));
+    update_palette_slot(4, palette->get_tag_mode(this->back_bank, 1), palette->get_tag_slot(this->back_bank, 1));
+    update_palette_slot(5, palette->get_tag_mode(this->back_bank, 3), palette->get_tag_slot(this->back_bank, 3));
 }
 
 #pragma push

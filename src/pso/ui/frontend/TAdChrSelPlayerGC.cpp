@@ -318,7 +318,7 @@ void TAdChrSelPlayerGC::update_chara_making() {
         push_matrix_from((void *)get_joint_matrix(0x3B));
         set_texture_list(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
-        TObjPlayer__sub_802E0580(this, preview_data->get_hair_model(), &visual_record);
+        draw_model_tinted_opaque(this, preview_data->get_hair_model(), &visual_record);
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
@@ -331,11 +331,11 @@ void TAdChrSelPlayerGC::draw_model_with_arg(void *model) {
     draw_saving_joints_checked();
 }
 
-void TObjPlayer__sub_802E0580(void * _w0, int _w1, void * _w2) {
-    ((s32 (*)(f32))TObjPlayer__sub_802E0468)(1.0f);
+void draw_model_tinted_opaque(void * _w0, int _w1, void * _w2) {
+    ((s32 (*)(f32))draw_model_tinted)(1.0f);
 }
 
-void TObjPlayer__sub_802E0468(long long child, u8 *appearance, f32 alpha) {
+void draw_model_tinted(long long child, CharacterAppearanceFields *appearance, f32 alpha) {
   NJS_ARGB color;
   int one;
   saved_model_render_flags = model_render_flags;
@@ -348,9 +348,9 @@ void TObjPlayer__sub_802E0468(long long child, u8 *appearance, f32 alpha) {
     set_chunk_material_override_pair(-one, 0x800);
   }
   color.a = alpha;
-  color.r = 0.003921569f * ((f32) (*((s16 *) (((s8 *) appearance) + 0x42))));
-  color.g = 0.003921569f * ((f32) (*((s16 *) (((s8 *) appearance) + 0x44))));
-  color.b = 0.003921569f * ((f32) (*((s16 *) (((s8 *) appearance) + 0x46))));
+  color.r = 0.003921569f * ((f32) appearance->red);
+  color.g = 0.003921569f * ((f32) appearance->green);
+  color.b = 0.003921569f * ((f32) appearance->blue);
   set_constant_material(&color);
   TObjPlayer::play_phase_transition_sound(child);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -362,7 +362,7 @@ extern "C" bool fn_802E0454(TAdChrSelPlayerGC *player) {
     return player->state == 3;
 }
 
-void TAdMultiConfirmGC__sub_802E0448(void* p) { *(s32*)((char*)p + 0x11c) = 1; }
+void enable_spin_model(TAdChrSelPlayerGC *player) { player->spin_model = 1; }
 
 void TAdChrSelPlayerGC::reset_cursor() { set_cursor_index(0); }
 
@@ -370,7 +370,7 @@ void TAdChrSelPlayerGC::set_cursor_index_1() { set_cursor_index(1); }
 
 void TAdChrSelPlayerGC::set_cursor_index_2() { set_cursor_index(2); }
 
-void TAdMultiConfirmGC__sub_802E03D0(void* p) { *(s32*)((char*)p + 0x118) = 0; }
+void reset_animation_ticks(TAdChrSelPlayerGC *player) { player->animation_ticks = 0; }
 
 TObjMotionAction chr_sel_player_actions[9] = {
     { 1, 0, 0x21, 1.0f, 0 },

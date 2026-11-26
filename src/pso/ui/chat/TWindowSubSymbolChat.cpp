@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -125,11 +126,6 @@ const char *TWindowSubSymbolChat::class_name = "TWindowSubSymbolChat";
 static const f32 symbol_chat_window_size[2] = {203.0f, 78.0f};
 __declspec(section ".data") f32 symbol_chat_check_box_size[2] = {193.0f, 128.0f};
 
-struct SymbolChatArrowQuad { f32 x, y, x2, y2, u0, v0, u1, v1; };
-
-struct SymbolChatCountView { u8 pad[0x5C]; s32 count; };
-
-struct SymbolChatWindowView { u8 pad[0x24]; s32 ctrl; u8 pad2[0x34 - 0x28]; SymbolChatCountView *sub; };
 #pragma pop
 #pragma push
 #pragma inline_depth(1)
@@ -144,7 +140,7 @@ extern "C" {
 s32 add__16SymbolChatPresetFlllll(int, int, int, int, int, int);
 f32 get_scale__15TWindowCtrlMainFv(s32);
 
-void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window);
+void draw_second_window_arrow(TWindowSubSymbolChat *window);
 
 }
 #pragma pop
@@ -1083,26 +1079,26 @@ s32 TWindowSubSymbolChat::is_card_confirmed() {
     return this->symbol_list->is_row_enabled(row) ? 1 : 0;
 }
 
-void TWindowSubSymbolChat__sub_80281840(SymbolChatWindowView *window) {
-    SymbolChatArrowQuad q;
+void draw_second_window_arrow(TWindowSubSymbolChat *window) {
+    TexturedQuad q;
     u32 color;
     f32 scale;
-    SymbolChatCountView *sub;
-    sub = window->sub;
+    TWindowChatSymbol *sub;
+    sub = window->second_symbol_window;
     if (sub != NULL) {
-        if (sub->count < 6) {
-            color = ((s32)(0.16666667f * (f32)(sub->count * 0xFF)) << 24) | 0xFFFFFF;
+        if (sub->open_tick < 6) {
+            color = ((s32)(0.16666667f * (f32)(sub->open_tick * 0xFF)) << 24) | 0xFFFFFF;
         } else {
             color = 0xFFFFFFFF;
         }
-        scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(window->ctrl);
+        scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(window->client_id);
         begin_screen_draw(1);
         set_texture_list(hud_texlist);
         set_draw_texture_and_color(0, color);
-        q.x = 482.0f;
-        q.y = 344.0f;
-        q.x2 = 14.0f + q.x;
-        q.y2 = 12.0f + q.y;
+        q.x0 = 482.0f;
+        q.y0 = 344.0f;
+        q.x1 = 14.0f + q.x0;
+        q.y1 = 12.0f + q.y0;
         q.u0 = 0.875f;
         q.v0 = 0.33984375f;
         q.u1 = 0.9296875f;
@@ -1116,7 +1112,7 @@ void TWindowSubSymbolChat::close_child(void *, void *) {
     void *chat;
     chat = TWindowSubSymbolChat::instance;
     if (chat != NULL) {
-        TWindowSubSymbolChat__sub_80281840((SymbolChatWindowView *)(chat));
+        draw_second_window_arrow((TWindowSubSymbolChat *)(chat));
     }
 }
 #pragma pop

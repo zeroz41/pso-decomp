@@ -160,11 +160,11 @@ void TWindowSubShortMail::run_task() {
         if (card_list->is_cancelled() != 0) {
             state = 1;
         } else if (card_list->is_decided() != 0) {
-            void *p;
+            GuildCardEntry *p;
             reply_mail_id = -1;
             p = TWindowSubComCard::get_card_entry(card_list->get_selected_value());
             if (p != NULL) {
-                target_card_id = reinterpret_cast<GuildCardEntry *>(p)->get_card_id();
+                target_card_id = p->get_card_id();
             }
             state = 0xB;
         }

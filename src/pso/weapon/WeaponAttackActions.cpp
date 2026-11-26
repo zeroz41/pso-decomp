@@ -734,9 +734,9 @@ void TItemWeapon::render_equipped() {
         this->update_trails();
         count = 0;
         do {
-            void *trail = this->trails[count];
+            TItemEffectWeapon *trail = this->trails[count];
             if (trail) {
-                ((TItemEffectWeapon *)trail)->render_trail();
+                trail->render_trail();
             }
             count++;
         } while (count != 4);

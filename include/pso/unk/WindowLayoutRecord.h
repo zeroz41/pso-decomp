@@ -17,7 +17,7 @@ struct StatusGaugeLayout {
     f32 depth;
     u32 color;
     u32 flags;
-    f32 scale;
+    f32 length;
     f32 maximum;
     f32 target;
 };

@@ -221,9 +221,9 @@ void PhotonBlastGauge::add_photon_blast_charge(f32 amount) {
 }
 
 void PhotonBlastGauge::send_photon_blast_ready() {
-    void *tmp_player;
+    TObjPlayer *tmp_player;
     if ((tmp_player = get_player_by_client_id(get_type())) != 0U) {
-        ((TObjPlayer *)tmp_player)->play_photon_blast_feedback();
+        tmp_player->play_photon_blast_feedback();
     }
 }
 

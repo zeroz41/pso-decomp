@@ -161,7 +161,7 @@ u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     this->exit_state = 0;
     memset((u8 *)&this->state_frames, 0, 0x60);
     *(s32 *)&this->m_flags = TLobby::count_members();
-    *(s32 *)&this->m_down = 0;
+    this->m_down = 0;
     *(s32 *)((s8 *)base + 0x18) = 0;
     ((TAdVIConfigGC *)base)->open_player_names_window();
     this->state = 0;

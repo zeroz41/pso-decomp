@@ -279,9 +279,9 @@ void TAdSystemFileCheckGC::open_message_window(s32 index) {
 }
 
 void TAdSystemFileCheckGC::close_window_30() {
-    void *window_base = message_window;
+    TWindowBase *window_base = (TWindowBase *)message_window;
     if ((uaddr) window_base != 0U) {
-        ((TWindowBase *)window_base)->close();
+        window_base->close();
         message_window = NULL;
     }
     close_menu_window();

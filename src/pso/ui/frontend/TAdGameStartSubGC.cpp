@@ -11,7 +11,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
-__declspec(section ".rodata") extern const char TAdGameStartSubGC__class_name_string[] = "TAdGameStartSubGC";
+__declspec(section ".rodata") extern const char TAdGameStartSubGC_class_name_string[] = "TAdGameStartSubGC";
 extern void *game_start_sub_class_name[2];
 
 #pragma push
@@ -91,4 +91,4 @@ TAdGameStartSubGC::TAdGameStartSubGC(TObject *parent, GameStartLetterLayout *lay
 }
 #pragma pop
 
-void *game_start_sub_class_name[2] = {(void *)TAdGameStartSubGC__class_name_string, 0};
+void *game_start_sub_class_name[2] = {(void *)TAdGameStartSubGC_class_name_string, 0};

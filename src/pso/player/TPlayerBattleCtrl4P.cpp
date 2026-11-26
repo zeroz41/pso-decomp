@@ -578,9 +578,9 @@ void TPlayerBattleCtrl4P::update() {
     refresh_alive_flags();
     i = 0;
     do {
-        void *p = get_player_by_client_id(i);
+        TObjBase *p = get_player_by_client_id(i);
         if (p != NULL) {
-            obj_set_flag_20000((TObjBase *)p);
+            obj_set_flag_20000(p);
         }
         i += 1;
     } while (i < 4);

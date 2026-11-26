@@ -15,11 +15,9 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 
-typedef struct G_802C6A10 { s32 value; u8 remaining[0xC]; } G_802C6A10;
-
-typedef struct Jump_802C5C84 {
+typedef struct CursorJump {
     s32 v[4];
-} Jump_802C5C84;
+} CursorJump;
 
 extern s32 multi_ply_chr_select_slot_table[][5];
 NJS_TEXLIST *chr_sel_plate_texlist;
@@ -57,7 +55,7 @@ const s32 multi_ply_chr_select_default_slot_table[6][5] = {
     { 0, 1, -1, 0, 0 },
     { 0, 0, 0, 0, 0 },
 };
-const Jump_802C5C84 multi_chr_select_cursor_jump_table[6][5] = {
+const CursorJump multi_chr_select_cursor_jump_table[6][5] = {
     { { 0, 0, 0, 0 }, { 4, 0, 0, 0 }, { 3, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
     { { 0, 0, 2, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, -2 }, { 0, 0, 0, 0 } },
     { { 0, 0, 2, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, -2 }, { 0, 0, 0, 0 } },
@@ -69,8 +67,8 @@ const f32 multi_ply_chr_select_tag_size[2] = { 180.0f, 38.0f };
 
 const char *TAdChrSelPlyPlateGC::name = "TAdChrSelPlyPlateGC";
 
-#define WIN_802C6008 (&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::selected_slot])
-#define WIN_802C61E4 (&controller_physical_port_bank.controllers[multi_ply_chr_select_active_player])
+#define SELECTED_SLOT_CONTROLLER (&controller_physical_port_bank.controllers[TAdMultiPlyChrSelectGC::selected_slot])
+#define ACTIVE_PLAYER_CONTROLLER (&controller_physical_port_bank.controllers[multi_ply_chr_select_active_player])
 
 int multi_ply_chr_select_active_player;
 s32 TAdMultiPlyChrSelectGC::select_mode;
@@ -406,20 +404,20 @@ void TAdChrSelPlyPlateGC::handle_dpad_input() {
     n = TAdMultiPlyChrSelectGC::count_ready();
     m = TAdMultiPlyChrSelectGC::count_selected_slots();
     if (m != n && slot_count[cursor_col] != 0 && selection == 0) {
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x10, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(ACTIVE_PLAYER_CONTROLLER, 0x10, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, -1, slot_count[cursor_col]);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x20, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(ACTIVE_PLAYER_CONTROLLER, 0x20, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 0, 1, slot_count[cursor_col]);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x80, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(ACTIVE_PLAYER_CONTROLLER, 0x80, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], 1, 0, 2);
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C61E4, 0x40, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(ACTIVE_PLAYER_CONTROLLER, 0x40, 6, 1) != 0) {
             move_cursor(cursor_col, sel[multi_ply_chr_select_active_player][cursor_col], -1, 0, 2);
         }
     }
-    if (test_pressed_buttons_packed(WIN_802C61E4, 4) != 0 && selection == 0) {
+    if (test_pressed_buttons_packed(ACTIVE_PLAYER_CONTROLLER, 4) != 0 && selection == 0) {
         selection = 1;
     }
 }
@@ -428,11 +426,11 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
     frame_counter++;
     update_cell_uvs();
     if (slot_count[cursor_col] != 0 && selection == 0) {
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C6008, 0x10, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(SELECTED_SLOT_CONTROLLER, 0x10, 6, 1) != 0) {
             play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]--;
         }
-        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(WIN_802C6008, 0x20, 6, 1) != 0) {
+        if (TAdMultiPlyChrSelectGC::dispatch_draw_command(SELECTED_SLOT_CONTROLLER, 0x20, 6, 1) != 0) {
             play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]++;
         }
@@ -443,7 +441,7 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
             sel[multi_ply_chr_select_active_player][cursor_col] = slot_count[cursor_col] - 1;
         }
     }
-    if (test_pressed_buttons_packed(WIN_802C6008, 4) != 0 && selection == 0) {
+    if (test_pressed_buttons_packed(SELECTED_SLOT_CONTROLLER, 4) != 0 && selection == 0) {
         selection = 1;
     }
 }
@@ -521,7 +519,7 @@ void TAdChrSelPlyPlateGC::move_cursor(s32 x_, s32 y_, s32 dx, s32 dy, s32 depth)
         return;
     }
     if (multi_ply_chr_select_slot_table[ny][nx] == 0) {
-        Jump_802C5C84 j = multi_chr_select_cursor_jump_table[ny][nx];
+        CursorJump j = multi_chr_select_cursor_jump_table[ny][nx];
         switch (dir) {
         case 0:
         case 1:

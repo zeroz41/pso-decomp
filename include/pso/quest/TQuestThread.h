@@ -59,7 +59,7 @@ public:
     TObjItemNameEntry(TObject *parent);
     virtual ~TObjItemNameEntry();
 
-    static void *create(void *parent);
+    static TObjItemNameEntry *create(void *parent);
     static void set_entered_name(const char *name);
     s32 process_keyboard_input();
 };

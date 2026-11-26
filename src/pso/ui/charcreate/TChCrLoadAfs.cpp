@@ -62,8 +62,8 @@ void TChCrLoadAfs::poll_load() {
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803DD5E0.h"
-extern "C" { extern const char TChCrLoadAfs__class_name_string[13] = "TChCrLoadAfs"; }
-extern "C" { extern const char TChCrLoadAfsTextureReq__class_name_string[23] = "TChCrLoadAfsTextureReq"; }
+extern "C" { extern const char TChCrLoadAfs_class_name_string[13] = "TChCrLoadAfs"; }
+extern "C" { extern const char TChCrLoadAfsTextureReq_class_name_string[23] = "TChCrLoadAfsTextureReq"; }
 
 extern "C" {
 f32 TLobby__sub_8028C50C(f32);
@@ -126,7 +126,7 @@ TChCrLoadAfs::~TChCrLoadAfs() {
     release_load_slot();
 }
 
-const char *lbl_805D3B48 = TChCrLoadAfs__class_name_string;
+const char *lbl_805D3B48 = TChCrLoadAfs_class_name_string;
 TChCrLoadAfs::TChCrLoadAfs(TObject *object, u32 archive, u32 entry) : TObject(object) {
     m_name = lbl_805D3B48;
     load_handle = 0;

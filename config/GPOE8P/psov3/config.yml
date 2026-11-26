@@ -1584,8 +1584,8 @@ force_active:
   - __ct__13TObjJungleEbiFP7TObjectPv
   - __ct__17TObjSeabedDolphinFP7TObjectPv
   - set_save_time__12TPlyCharDataFUl
-  - TObjPlayer__sub_802E0468
-  - TObjPlayer__sub_802E0580
+  - draw_model_tinted
+  - draw_model_tinted_opaque
   - TObjPlayer__sub_802E75B8
   - TObjPlayer__sub_802E7640
   - TObjPlayer__sub_802E76C8
@@ -1861,7 +1861,7 @@ force_active:
   - draw_face_selection__FPUcPUc
   - window_sub_symbol_chat_help_name
   - symbol_chat_parts_set_part_uv_table
-  - TWindowSubSymbolChat__sub_80281840
+  - draw_second_window_arrow
   - create_new_parts_menu
   - get_symbol_chat_receive_buffer
   - get_technique_description_text__Fl
@@ -7667,7 +7667,7 @@ force_active:
   - str_battle_mlt_stg8
   - quest_list_challenge_class_name_string
   - lbl_80450AB4
-  - TChCrTagName__class_name_string
+  - TChCrTagName_class_name_string
   - name_tag_back_scale
   - name_tag_edge_scale
   - name_tag_corner_scale
@@ -7686,10 +7686,10 @@ force_active:
   - TBGLightningCtrl__class_name_string
   - bolt_first_texture__12TBGLightning
   - lbl_8046FCA0
-  - TAdFadeGC__class_name_string
+  - TAdFadeGC_class_name_string
   - multiplay_texture_name
-  - TAdGameStartGC__class_name_string
-  - TAdGameStartSubGC__class_name_string
+  - TAdGameStartGC_class_name_string
+  - TAdGameStartSubGC_class_name_string
   - lbl_80472C68
   - lbl_80472C80
   - lbl_80472C90

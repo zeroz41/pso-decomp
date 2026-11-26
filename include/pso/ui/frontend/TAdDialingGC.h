@@ -14,13 +14,13 @@ struct TAdDialingGC : public TObject {
     virtual ~TAdDialingGC();
     void spawn_title_screen();
     u32 dial_mode;
-    u32 dial_step;
-    u32 frame;
+    s32 dial_step;
+    s32 frame;
     u32 m_28;
     u8 _pad2C[0x4];
-    u16 selection;
+    s16 selection;
     u8 _pad32[0x36];
-    u16 prev_selection;
+    s16 prev_selection;
     u8 unk_6A[0x32];
     s32 status_code;
     u32 wait_frames;

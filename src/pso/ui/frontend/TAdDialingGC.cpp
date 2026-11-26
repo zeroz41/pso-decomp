@@ -319,8 +319,8 @@ void TAdDialingGC::show_guide_button() {
 }
 
 void TAdDialingGC::update_state_display() {
-    if (*(s32 *)&this->dial_step == 2) {
-        switch (*(s16 *)&this->selection) {
+    if (this->dial_step == 2) {
+        switch (this->selection) {
         case 0:
             this->update_status_display();
             break;
@@ -337,8 +337,8 @@ void TAdDialingGC::update_state_display() {
             break;
         }
     }
-    if (*(s32 *)&this->dial_step == 1) {
-        switch (*(s16 *)&this->selection) {
+    if (this->dial_step == 1) {
+        switch (this->selection) {
         case 0:
             TAdDialingGC::update_dialing_display(0x17);
             break;
@@ -363,14 +363,14 @@ void TAdDialingGC::update_state_display() {
 }
 
 void TAdDialingGC::update_selection() {
-    *(s16 *)&this->prev_selection = (s16) *(s16 *)&this->selection;
+    this->prev_selection = this->selection;
     if ((s32) net_session_mode != 0) {
-        *(s16 *)&this->selection = 0;
+        this->selection = 0;
         return;
     }
     ppp_stat((NetLinkStatus *)&this->_pad2C);
-    if ((s16) *(s16 *)&this->prev_selection != (s16) *(s16 *)&this->selection) {
-        *(s32 *)&this->frame = 0;
+    if ((s16) this->prev_selection != this->selection) {
+        this->frame = 0;
     }
 }
 

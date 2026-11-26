@@ -317,7 +317,7 @@ void TAdMultiChgGameModeGC::open_title_scene() {
     game_mode_scene_change_state = 1;
 }
 void TAdMultiChgGameModeGC::create_mode_scene() {
-    void *p;
+    TObject *p;
     switch (multi_chg_game_mode_state) {
     case 0:
     case 8:
@@ -384,7 +384,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         break;
     case 19:
         p = new TLogo(tl_01);
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = p;
         break;
     case 20:
         game_mode_scene_instance = new TAdSnAkPassConfirmGC(tl_01);

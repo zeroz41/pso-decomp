@@ -16,8 +16,8 @@
 
 typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
-extern "C" { extern char TChCrLoadAfsTextureReq__class_name_string[]; }
-const char *TChCrLoadAfsTextureReq::name = TChCrLoadAfsTextureReq__class_name_string;
+extern "C" { extern char TChCrLoadAfsTextureReq_class_name_string[]; }
+const char *TChCrLoadAfsTextureReq::name = TChCrLoadAfsTextureReq_class_name_string;
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
     if (try_acquire_load_slot() != 0) {

@@ -50,8 +50,8 @@ void TAdMultiConfirmGC::run_task() {
         if ((s32)i == 1) {
             for (i = 0; i < this->count; i++) {
                 if (players[i] != NULL) {
-                    TAdMultiConfirmGC__sub_802E0448(players[i]);
-                    TAdMultiConfirmGC__sub_802E03D0(players[i]);
+                    enable_spin_model(players[i]);
+                    reset_animation_ticks(players[i]);
                 }
             }
             this->state = 3;
