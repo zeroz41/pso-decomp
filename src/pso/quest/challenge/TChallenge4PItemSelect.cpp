@@ -221,7 +221,7 @@ void TChallenge4PResult::init_timer() {
 void TChallenge4PResult::show_message(saddr text_handle) {
     if (message_window == NULL) {
         f32 pos[2] = {332.0f, 80.0f};
-        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), (saddr)pos, 1, slot_index);
+        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), pos, 1, slot_index);
     }
     if (message_window != NULL) {
         message_window->set_message((void *)text_handle, 0x81);

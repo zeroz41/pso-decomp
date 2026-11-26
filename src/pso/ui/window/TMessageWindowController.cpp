@@ -178,7 +178,7 @@ void TMessageWindowController::close() {
         window = NULL;
     }
 }
-TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_POINT2 *position, s32 extent, s32 flags) {
+TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_POINT2 *position, const void *extent, s32 flags) {
     f32 scale;
     if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;
@@ -189,7 +189,7 @@ TWindowMessagePage *TMessageWindowController::create_message_window(const NJS_PO
     }
     return NULL;
 }
-TWindowMessagePage *TMessageWindowController::create_window(const NJS_POINT2 *position, s32 extent) {
+TWindowMessagePage *TMessageWindowController::create_window(const NJS_POINT2 *position, const void *extent) {
     f32 scale;
     if (TLobby::is_camera_ctrl_active() > 2) scale = 0.75f;
     else scale = 1.0f;

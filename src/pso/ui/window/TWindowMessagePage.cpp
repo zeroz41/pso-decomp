@@ -43,12 +43,12 @@ void TWindowMessagePage::set_message(void *msg, s32 flags) {
     update_message();
 }
 
-u8 *TWindowMessagePage::create(const NJS_POINT2 *position, saddr extent, saddr rows, s32 client) {
-    set_message_window_size((void *)extent, (u32)rows);
+u8 *TWindowMessagePage::create(const NJS_POINT2 *position, const void *extent, saddr rows, s32 client) {
+    set_message_window_size(extent, (u32)rows);
     return (u8 *)new TWindowMessagePage(position, rows, client);
 }
 
-u8 *TWindowMessagePage::set_text(const NJS_POINT2 *position, saddr extent, saddr rows) {
+u8 *TWindowMessagePage::set_text(const NJS_POINT2 *position, const void *extent, saddr rows) {
     return TWindowMessagePage::create(position, extent, rows, local_client_id);
 }
 
