@@ -1718,7 +1718,6 @@ pso/unk/text_802693B4.cpp
 pso/unk/text_80269FE8.cpp
 pso/unk/text_8026A14C.cpp
 pso/unk/text_8026A328.cpp
-pso/ui/window/TWindowMessageLog_8026A360.cpp
 pso/unk/text_8026AC50.cpp
 pso/unk/text_8026ACDC.cpp
 pso/unk/text_8026C664.cpp

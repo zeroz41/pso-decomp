@@ -27,6 +27,19 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/network/client_id.h"
 
+char *chat_log_lines[30];
+
+void TWindowMessageLog::load_chat_history() {
+    s32 i;
+    for (i = 0; i < 30; i++) {
+        if (chat_log_lines[i] != 0) {
+            append_line((saddr)chat_log_lines[i]);
+        }
+    }
+    complete_reveal();
+    this->clamp_scroll_offset();
+}
+
 #pragma readonly_strings on
 
 extern "C" {
@@ -108,8 +121,6 @@ extern "C" {
 u8 *heap_alloc__5THeapFUl(s32, s32);
 extern saddr scroll_win_chat_log_heap;
 extern u8 *chat_last_line_buffer;
-struct ChatLogLines { s32 value; u8 remaining[0x74]; };
-ChatLogLines chat_log_lines;
 
 void TAdScrollWinGC__sub_8026A5F8(void* window) { *(float*)((char*)window + 0x84) = 0.0f; *(float*)((char*)window + 0x6c) = 0.0f; *(float*)((char*)window + 0x94) = 0.0f; }
 
@@ -132,7 +143,7 @@ void TWindowSubLog__sub_8026A664(u8 *arg0, f32 farg0) {
 s32 TLobby::find_free_chat_log_slot() {
     s32 i;
     for (i = 0; i < 30; i++) {
-        if (((char * *)&chat_log_lines)[i] == 0) {
+        if (chat_log_lines[i] == 0) {
             return i;
         }
     }
@@ -144,15 +155,15 @@ s32 TLobby::find_free_chat_log_slot() {
 void chat_log_remove_line(saddr index) {
     u32 *destination;
     uaddr line;
-    destination = (u32 *)((u8 *)&chat_log_lines.value + (index * 4));
+    destination = (u32 *)&chat_log_lines[index];
     line = *destination;
     if (line != 0U) {
         ((THeap *)scroll_win_chat_log_heap)->heap_free((void *)line);
         *destination = 0U;
         if (index < 0x1D) {
-            move_words(reinterpret_cast<void *>(destination), reinterpret_cast<u8 *>(&chat_log_lines.value) + (index + 1) * 4, (saddr)((void *) ((0x1D - index) & 0x3FFFFFFF)));
+            move_words(reinterpret_cast<void *>(destination), &chat_log_lines[index + 1], (saddr)((void *) ((0x1D - index) & 0x3FFFFFFF)));
         }
-        *(s32 *)((s8 *)&chat_log_lines.value + 0x74) = 0;
+        chat_log_lines[29] = 0;
     }
 }
 
@@ -221,9 +232,9 @@ void chat_log_add_line(const char *text) {
         free_chat_log_slot = TLobby::find_free_chat_log_slot();
     }
     slot_offset = free_chat_log_slot * 4;
-    *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + slot_offset) + 0) = buffer;
-    strncpy(*(char **)((u8 *)&chat_log_lines.value + slot_offset), text, num);
-    *(s8 *)((s8 *)(num + *(s32 *)((s8 *)((u8 *)&chat_log_lines.value + slot_offset) + 0)) + 0) = 0;
+    *(s32 *)((s8 *)((u8 *)chat_log_lines + slot_offset) + 0) = buffer;
+    strncpy(*(char **)((u8 *)chat_log_lines + slot_offset), text, num);
+    *(s8 *)((s8 *)(num + *(s32 *)((s8 *)((u8 *)chat_log_lines + slot_offset) + 0)) + 0) = 0;
 }
 
 void append_text_space(void);
