@@ -1098,7 +1098,7 @@ pso/effect/TEffHit.cpp:
 	.sdata      start:0x805D2920 end:0x805D2928
 	.sdata2     start:0x805D9448 end:0x805D9450
 
-pso/effect/TEffStarLight2D_Base.cpp:
+pso/effect/TEffStarLight2D.cpp:
 	.text       start:0x80084BC4 end:0x80085774
 	.rodata     start:0x80439388 end:0x804393D0
 	.data       start:0x8048E640 end:0x8048E6A8
@@ -1246,7 +1246,7 @@ pso/enemy/bringer/TObjEneDf2Bringer.cpp:
 	.sbss       start:0x805D4FA8 end:0x805D4FD0
 	.sdata2     start:0x805D97D8 end:0x805D9850
 
-pso/enemy/bringer/BringerEffects.cpp:
+pso/enemy/bringer/TObjEneDf2Bringer_Eff_TpAbsorb1.cpp:
 	.text       start:0x80099F00 end:0x8009AB4C
 	.rodata     start:0x8043A128 end:0x8043A180
 	.data       start:0x8048FE08 end:0x8048FEB0
@@ -1266,7 +1266,7 @@ pso/enemy/canadin/TObjEneMe1Canadin.cpp:
 	.sbss       start:0x805D4FD0 end:0x805D4FF8
 	.sdata2     start:0x805D9888 end:0x805D9938
 
-pso/enemy/canadin/CanadinEffects.cpp:
+pso/enemy/canadin/TObjEneMe1Canadin_EffLight.cpp:
 	.text       start:0x8009F7AC end:0x800A0320
 	.rodata     start:0x8043A3E8 end:0x8043A468
 	.data       start:0x80490410 end:0x80490470
@@ -3990,7 +3990,7 @@ pso/object/TObjChip.cpp:
 pso/object/city/CityTrafficTables.cpp:
 	.rodata     start:0x80443B18 end:0x80443B68
 
-pso/object/city/CityTraffic.cpp:
+pso/object/city/TObjCityAirCar_Car.cpp:
 	.text       start:0x80180D18 end:0x801819FC
 	.rodata     start:0x80443B68 end:0x80443BA8
 	.data       start:0x804B5908 end:0x804B5954
@@ -3999,7 +3999,7 @@ pso/object/city/CityTraffic.cpp:
 	.sbss       start:0x805D5B20 end:0x805D5B30
 	.sdata2     start:0x805DBBA0 end:0x805DBBE0
 
-pso/object/city/CityDoors.cpp:
+pso/object/city/TObjCityDoorBase.cpp:
 	.text       start:0x801819FC end:0x80182E7C
 	.rodata     start:0x80443BA8 end:0x804440B0
 	.data       start:0x804B5958 end:0x804B5C08
@@ -4011,7 +4011,7 @@ pso/object/city/CityVerticalModel.cpp:
 	.data       start:0x804B5C08 end:0x804B5C40
 	.sdata2     start:0x805DBC00 end:0x805DBC18
 
-pso/object/city/CitySeason.cpp:
+pso/object/city/TObjCitySeasonBase.cpp:
 	.text       start:0x80183134 end:0x80184C2C
 	.rodata     start:0x804440B0 end:0x80444268
 	.data       start:0x804B5C40 end:0x804B5E80
@@ -7630,7 +7630,7 @@ pso/enemy/dolmolm/TObjEneDolmOlm.cpp:
 pso/enemy/recon/TObjEneRecon_80302DB0.cpp:
 	.text       start:0x80302DB0 end:0x80302DBC
 
-pso/enemy/dellbiter/TObjEneDellBiterEffects.cpp:
+pso/enemy/dellbiter/TObjEneDellBiter_Eff_TpAbsorb1.cpp:
 	.text       start:0x80302DBC end:0x803032EC
 	.rodata     start:0x804750E0 end:0x80475138
 	.data       start:0x804E6AF8 end:0x804E6B6C

@@ -498,7 +498,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -inline off,deferred: the four vtables follow the text in forward order (EffLight first), so the
     # source runs from the last function back; -fp_contract on: EffLight::render and
     # EffDischarge::run_task use fmadds.
-    "pso/enemy/canadin/CanadinEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-fp_contract on")},
+    "pso/enemy/canadin/TObjEneMe1Canadin_EffLight.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-fp_contract on")},
     "pso/ui/window/TWindowArea.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its only string (the empty entry text) sits in .sdata2, as in its sibling parts _80336054/_8033A8EC.
     # .data holds the vtable ahead of run_task's jump table: deferred generation of the last-to-first source.
@@ -873,7 +873,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # "TWindowMenuTeamStatus" sits in .rodata at 0x80477C00
     "pso/ui/window/TWindowMenuTeamStatus.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # class-name strings sit in .rodata before the double literals (0x80443B68)
-    "pso/object/city/CityTraffic.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/city/TObjCityAirCar_Car.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # .data holds the ten season-object vtables in the ascending text order of their key
     # functions (dtors 0x801833C8..0x80184AD0); CW writes vtables in reverse key-function
     # order, so the functions were generated deferred from a last-to-first source.
@@ -881,8 +881,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str readonly: those strings sit in .rodata between the int-to-float double and the
     # later double literal.
     # vtables come out Lobby, Med, Warp, Guild, Shop, then their base: written last to first, deferred.
-    "pso/object/city/CityDoors.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
-    "pso/object/city/CitySeason.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-pool off", "-str reuse,readonly")},
+    "pso/object/city/TObjCityDoorBase.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/object/city/TObjCitySeasonBase.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-pool off", "-str reuse,readonly")},
     # TShopJudgmentItemWindow: its class name and four string literals sit in .rodata.
     "pso/ui/city/TShopJudgmentItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjDFJisin: the Jisin, Horming and Yutai class-name strings sit in .rodata.
@@ -1216,9 +1216,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # native vtables before the switch tables and functions in address order.
     "pso/enemy/nanodrago/TObjEneNanoDrago.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-str reuse,readonly")},
     "pso/enemy/dellbiter/TObjEneDellBiter.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/enemy/dellbiter/TObjEneDellBiterEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/enemy/dellbiter/TObjEneDellBiter_Eff_TpAbsorb1.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # The Bringer twin: its four vtables come out in ascending key-function order.
-    "pso/enemy/bringer/BringerEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/enemy/bringer/TObjEneDf2Bringer_Eff_TpAbsorb1.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # The Vol Opt fade tasks: deferred like the units above, but nothing is
     # inlined (the inline TUnk_804999E8 destructor and TObject::queue_destruction
     # stay calls).

@@ -339,7 +339,7 @@ pso/effect/TEffClitical.cpp
 pso/effect/TEffGuard.cpp
 pso/effect/TEffHit.cpp
 pso/effect/TEffIndirectCtrl.cpp
-pso/effect/TEffStarLight2D_Base.cpp
+pso/effect/TEffStarLight2D.cpp
 pso/effect/TEffect.cpp
 pso/technique/TTecMegidCharge.cpp
 pso/technique/TTecShot.cpp
@@ -347,8 +347,8 @@ pso/network/NetDispatcher.c
 pso/network/PSOV3Encryption.cpp
 pso/network/PSOV3EncryptionTCP.cpp
 pso/enemy/AreaSoundRemap.cpp
-pso/enemy/bringer/BringerEffects.cpp
-pso/enemy/canadin/CanadinEffects.cpp
+pso/enemy/bringer/TObjEneDf2Bringer_Eff_TpAbsorb1.cpp
+pso/enemy/canadin/TObjEneMe1Canadin_EffLight.cpp
 pso/enemy/darkgunner/TObjEneDarkGunner.cpp
 pso/enemy/deldepth/DelDepthMotion.cpp
 pso/enemy/EnemyFactoryTables.cpp
@@ -376,7 +376,7 @@ pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp
 pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp
 pso/enemy/deldepth/TObjEneDelDepth.cpp
 pso/enemy/dellbiter/TObjEneDellBiter.cpp
-pso/enemy/dellbiter/TObjEneDellBiterEffects.cpp
+pso/enemy/dellbiter/TObjEneDellBiter_Eff_TpAbsorb1.cpp
 pso/enemy/bringer/TObjEneDf2Bringer.cpp
 pso/enemy/dimedian/TObjEneDimedian.cpp
 pso/enemy/dolmolm/TObjEneDolmOlm.cpp
@@ -1252,8 +1252,8 @@ pso/npc/TObjNpcSecretaryBase.cpp
 pso/npc/TObjNpcSoldierBase.cpp
 pso/npc/TObjNpcSoldierMacho.cpp
 pso/npc/TObjNpcSoutokufu.cpp
-pso/object/city/CityDoors.cpp
-pso/object/city/CitySeason.cpp
+pso/object/city/TObjCityDoorBase.cpp
+pso/object/city/TObjCitySeasonBase.cpp
 pso/object/city/CityVerticalModel.cpp
 pso/object/lobby/LobbyGoGoBall.cpp
 pso/object/lobby/TObjPathObj.cpp
@@ -1451,7 +1451,7 @@ pso/render/render_util.cpp
 pso/render/render_util_head.cpp
 pso/render/ChunkMaterialState.cpp
 pso/render/ChunkTextureStripCollector.cpp
-pso/object/city/CityTraffic.cpp
+pso/object/city/TObjCityAirCar_Car.cpp
 pso/object/city/CityTrafficTables.cpp
 pso/system/data/FlagWord.cpp
 pso/render/GinjaModelQueue.cpp
