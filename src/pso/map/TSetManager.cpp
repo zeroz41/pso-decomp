@@ -23,6 +23,16 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/object/base/ObjectFactoryTables.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D8F74.h"
 
 s32 active_set_floor_area;
 s32 active_set_floor;
@@ -46,6 +56,198 @@ QuestObjectEntry *quest_object_entries;
 EnemyStateRecord *enemy_state_records;
 s32 object_condition_count;
 s32 enemy_condition_count;
+
+
+struct RecoveredGlobal_8020D2B4_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
+LAYOUT_ASSERT(RecoveredGlobal_8020D2B4_lbl_8058D490_size, sizeof(RecoveredGlobal_8020D2B4_lbl_8058D490) == 0x30);
+
+typedef struct SpawnAngles_8020D36C { u32 x, y, z; } SpawnAngles_8020D36C;
+
+typedef struct ApplyRoomTransformToEnemyRowsSpawnRecord {
+    s16 type;
+    u16 flags;
+    u16 index;
+    s16 children;
+    u16 reserved;
+    u16 actor_id;
+    s16 room;
+    s16 wave;
+    u32 secondary_wave;
+    Vec position;
+    SpawnAngles_8020D36C angles;
+    f32 parameters[5];
+    s16 integers[4];
+} ApplyRoomTransformToEnemyRowsSpawnRecord;
+
+struct ResolveSetRowFactoryIndicesOut { u8 data[0x18]; };
+
+typedef ObjectFactoryEntry Ent_8020D5AC;
+
+extern "C" {
+s32 matrix_mult_vec(int, void *, void *);
+s32 rotate_matrix_z(int, int);
+s32 rotate_matrix_x(int, int);
+}
+void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count);
+void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n);
+extern "C" {
+s32 find_set_factory_index(void *, void *);
+s32 is_battle_mode_running();
+}
+extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
+void apply_room_transform(saddr matrix, u8 *rotation, u8 *room);
+void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count);
+s32 is_within_camera_distance(void *unused, void *pos, f32 max_dist_sq);
+void spawn_decorations_in_range(TSetManager *manager);
+void apply_room_transform(saddr matrix, u8 *rotation, u8 *room) {
+    push_matrix_from(&identity_matrix.value);
+    translate_matrix(0, (f32) (*(f32 *)((s8 *)room + 4)), (f32) (*(f32 *)((s8 *)room + 8)), (f32) (*(f32 *)((s8 *)room + 0xC)));
+    rotate_matrix_z(0, (int) (*(s32 *)((s8 *)room + 0x18)));
+    rotate_matrix_x(0, (int) (*(s32 *)((s8 *)room + 0x10)));
+    rotate_matrix_y(0, (int) (*(s32 *)((s8 *)room + 0x14)));
+    matrix_mult_vec(0, (void *)matrix, (void *)matrix);
+    pop_matrix();
+    *(s32 *)((s8 *)rotation + 0) = (s32) (*(s32 *)((s8 *)rotation + 0) + *(s32 *)((s8 *)room + 0x10));
+    *(s32 *)((s8 *)rotation + 4) = (s32) (*(s32 *)((s8 *)rotation + 4) + *(s32 *)((s8 *)room + 0x14));
+    *(s32 *)((s8 *)rotation + 8) = (s32) (*(s32 *)((s8 *)rotation + 8) + *(s32 *)((s8 *)room + 0x18));
+}
+
+void apply_room_transform_to_enemy_rows(ApplyRoomTransformToEnemyRowsSpawnRecord *rows, s32 count) {
+    ApplyRoomTransformToEnemyRowsSpawnRecord *row;
+    void *cached_room;
+    s16 cached_id = -1;
+    s32 i;
+    for (i = 0; i < count; i++) {
+        row = &rows[i];
+        if (cached_id != row->room) {
+            cached_room = find_scene_room_by_id(row->room);
+            cached_id = row->room;
+        }
+        if (cached_room) {
+            apply_room_transform((saddr)&row->position, (u8 *)&row->angles, (u8 *)cached_room);
+        }
+    }
+}
+
+void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n) {
+    FloorObjectSetRow *p;
+    void *sec;
+    s16 key;
+    s32 i;
+    key = -1;
+    i = 0;
+    for (; i < n; i++) {
+        p = &arr[i];
+        if (key != p->placement.room) {
+            sec = find_scene_room_by_id(p->placement.room);
+            key = p->placement.room;
+        }
+        if (sec != NULL) {
+            apply_room_transform((saddr)&p->placement.position, (u8 *)p->placement.rotation, (u8 *)sec);
+        }
+    }
+}
+
+void resolve_set_row_factory_indices(void *unused, FloorObjectSetRow *rows, int count) {
+    ResolveSetRowFactoryIndicesOut o;
+    FloorObjectSetRow *p;
+    s32 i;
+    s32 r;
+    p = rows;
+    for (i = 0; i < count; i++, p++) {
+        if (p->type != -1) {
+            r = find_set_factory_index(p, &o);
+            if (r >= 0) {
+                p->type = r;
+            } else {
+                p->type = -1;
+            }
+        }
+    }
+}
+
+s32 is_within_camera_distance(void *unused, void *pos, f32 max_dist_sq) {
+    s32 n;
+    s32 i;
+    if (TRaderMapCore::is_not_split_screen() == 1) {
+        if (camera_ctrl_instance != NULL) {
+            n = TCameraCtrl::get_view_count();
+            for (i = 0; i < n; i++) {
+                if (xyz_distance_squared(static_cast<const Vec *>(pos), &camera_ctrl_instance->split_pos[i]) < max_dist_sq) {
+                    return 1;
+                }
+            }
+        }
+    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(static_cast<const Vec *>(pos), &camera_ctrl_instance->pos) < max_dist_sq) {
+        return 1;
+    }
+    return 0;
+}
+
+void spawn_decorations_in_range(TSetManager *manager) {
+    Ent_8020D5AC *tbl;
+    FloorObjectSetRow *p;
+    s32 i;
+    TObjBase *obj;
+    tbl = floor_object_factory_tables[get_current_floor_area()];
+    if (tbl == NULL) {
+        return;
+    }
+    if (TObjPlayer::get_player_count() != 0 && is_quest_active() != 0 && is_battle_mode_running() == 0) {
+        return;
+    }
+    p = floor_decoration_rows;
+    for (i = 0; i < floor_decoration_row_count; i++, p++) {
+        if (p->type != -1 && !(p->flags & 2) && !(p->flags & 8)
+            && is_within_camera_distance(manager, &p->placement.position, tbl[p->type].creation_distance_squared) == 1) {
+            p->placement.entity_id = 0xFFFF;
+            p->placement.set_index = -1;
+            obj = call_area_set_factory(manager, p);
+            if (obj != NULL) {
+                p->object = obj;
+                obj->room = p->placement.room;
+                obj->set_entry = p;
+                p->flags |= 2;
+            } else {
+                p->object = NULL;
+                p->flags |= 8;
+            }
+        }
+    }
+}
+
+void TSetManager::update_decoration_spawning() { spawn_decorations_in_range(this); }
+#pragma push
+#pragma opt_common_subs off
+#pragma opt_propagation off
+void TSetManager::apply_floor_set_rows() {
+    u8 *self = (u8 *)this;
+    s32 current_floor;
+    LobbyFloorRows *floor;
+    current_floor = get_current_floor();
+    active_set_floor = current_floor;
+    floor = &floor_enemy_group_table[current_floor];
+    if (!(floor->object_placement & 2)) {
+        apply_room_transform_to_object_rows(current_floor_object_set_rows, floor->object_count);
+        floor->object_placement |= 2U;
+    }
+    if (!(floor->enemy_placement & 4)) {
+        apply_room_transform_to_enemy_rows((ApplyRoomTransformToEnemyRowsSpawnRecord *)(current_floor_enemy_set_rows), floor->enemy_count);
+        floor->enemy_placement |= 4U;
+    }
+    if (floor->object_placement & 2) {
+        TLobby::assign_objects_to_slots((u8 *)current_floor_object_set_rows, floor->object_count);
+    }
+    if (floor->enemy_placement & 4) {
+        TLobby::assign_display_objects(current_floor_enemy_set_rows, floor->enemy_count);
+    }
+    if ((s32) floor_decoration_row_count > 0) {
+        apply_room_transform_to_object_rows(floor_decoration_rows, floor_decoration_row_count);
+        resolve_set_row_factory_indices(self, floor_decoration_rows, floor_decoration_row_count);
+    }
+    this->step = 1;
+}
+#pragma pop
 
 void TSetManager::post_step() {  }
 
