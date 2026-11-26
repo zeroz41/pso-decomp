@@ -12,6 +12,7 @@
 #include "pso/object/TObjComputer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/container/TObjContainerAbeEnemy.h"
+#include "pso/object/container/TObjContainerAbeItem.h"
 #include "pso/map/FloorArea.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TLobby.h"
@@ -102,7 +103,7 @@ static TObjChipParams forest_box_break_params[4] = {
     { 0.5f, 0.03f, 0.19f, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, 5, 0x32, 0.0f, 0.5f, 0, 0, 0x16 },
 };
 
-// TObjContainerBase's name (its constructor and TUnk_804B66F4's install it)
+// TObjContainerBase's name (its constructor and TObjContainerAbeItem's install it)
 const char *container_base_name = "TObjContainerBase";
 const char *container_item_name = "TObjContainerItem";
 const char *container_enemy_name = "TObjContainerEnemy";
@@ -700,7 +701,7 @@ void TObjContainerNoItem::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-TUnk_804B66F4::TUnk_804B66F4(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
+TObjContainerAbeItem::TObjContainerAbeItem(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
     m_name = container_base_name;
     mode = 0;
     actorFlags |= 0x60000000;
@@ -711,12 +712,12 @@ TUnk_804B66F4::TUnk_804B66F4(TObject *parent, void *set_data) : TObjContainerBas
     center.y += forest_box_collision_body_parts.offset.y;
 }
 
-TUnk_804B66F4::~TUnk_804B66F4() {
+TObjContainerAbeItem::~TObjContainerAbeItem() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
-void TUnk_804B66F4::update_state() {
+void TObjContainerAbeItem::update_state() {
 
     switch (this->mode) {
     case 0:
@@ -728,7 +729,7 @@ void TUnk_804B66F4::update_state() {
     }
 }
 
-void TUnk_804B66F4::draw_model() {
+void TObjContainerAbeItem::draw_model() {
     if (container_breakup_model_archive != 0) {
         switch (this->mode) {
         case 0:
@@ -747,7 +748,7 @@ void TUnk_804B66F4::draw_model() {
 
 #pragma push
 #pragma opt_propagation off
-void TUnk_804B66F4::spawn_break_effects() const {
+void TObjContainerAbeItem::spawn_break_effects() const {
     TObjChipParams a = container_break_particle_parameters;
     f32 za;
     f32 ya;
@@ -783,7 +784,7 @@ void TUnk_804B66F4::spawn_break_effects() const {
 
 #pragma pop
 
-void TUnk_804B66F4::apply_saved_state(s16 *state, s32 live) {
+void TObjContainerAbeItem::apply_saved_state(s16 *state, s32 live) {
     if (live != 0) {
         if ((s16) *state == 1) {
             this->spawn_break_effects();
@@ -799,8 +800,8 @@ void TUnk_804B66F4::apply_saved_state(s16 *state, s32 live) {
     }
 }
 
-void *TUnk_804B66F4::create(void *set_data) {
-    return new TUnk_804B66F4(tl_05, set_data);
+void *TObjContainerAbeItem::create(void *set_data) {
+    return new TObjContainerAbeItem(tl_05, set_data);
 }
 
 TObjContainerAbeEnemy::TObjContainerAbeEnemy(TObject *parent, void *set_data) : TObjContainerBase(parent, set_data) {
