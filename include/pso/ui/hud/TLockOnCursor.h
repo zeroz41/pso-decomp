@@ -239,6 +239,10 @@ struct TLockOnCursor : public TObject {
     // Fills the four action slots from the player's action palette.
     void bind_action_channels();
     void setup_action_channel(TObjPlayer *player, s32 slot, s32 kind, s16 id);
+    s32 get_action_cursor_priority(TObjPlayer *player, s32 index);
+    void set_cursor_color(TObjPlayer *player, LockOnActionSlot *main_cursor);
+    void set_display_flags(TObjPlayer *player, LockOnActionSlot *main_cursor);
+    void setup_flags(TObjPlayer *player, LockOnActionSlot *main_cursor);
     void init_slots();
     void init_slot(s32 i);
     void reset_slots();

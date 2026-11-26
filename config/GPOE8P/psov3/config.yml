@@ -6561,7 +6561,7 @@ force_active:
   - get_size__20G_CastTechnique_6x47Fv
   - get__12CursorActionFv
   - get_abs__15TAdLdQuestPrtGCFi
-  - get_action_cursor_priority__11TMainCursorFPvP10TObjPlayerl
+  - get_action_cursor_priority__13TLockOnCursorFP10TObjPlayerl
   - get_action_motion__10TObjMotionFs
   - get_status__13NpcPlayerViewFv
   - get_actor_attack_params__FP9TObjChara
@@ -15396,7 +15396,7 @@ force_active:
   - set_child_windows_enabled__19TWindowSubTradeMainFl
   - init__29G_CreateInventoryItem_DC_6x2BFv
   - set_com_param__17TWindowSubComCardFll
-  - set_cursor_color__11TMainCursorFllP16LockOnActionSlot
+  - set_cursor_color__13TLockOnCursorFP10TObjPlayerP16LockOnActionSlot
   - set_cursor_index_1__17TAdMultiConfirmGCFPv
   - set_cursor_index_2__17TAdMultiConfirmGCFPv
   - set_cursor_index__17TAdChrSelPlayerGCFl
@@ -15409,7 +15409,7 @@ force_active:
   - set_depth_offset__15TObjEneDelDepthFll
   - set_destroy_event_id__Fi
   - set_battle_param_episode__Fl
-  - set_display_flags__11TMainCursorFllP16LockOnActionSlot
+  - set_display_flags__13TLockOnCursorFP10TObjPlayerP16LockOnActionSlot
   - set_display_mode__15TObjEneSlimeOneFl
   - mark_selected_value__11TWindowMenuFv
   - set_displayed_item__14TWindowSubItemFl
@@ -15599,7 +15599,7 @@ force_active:
   - setup_draw_material_default__15TObjEneDelDepthFf
   - setup_emitter__17TObjParticleLobbyFv
   - setup_enemy__17TObjEneMe1CanadinFv
-  - setup_flags__11TMainCursorFllP16LockOnActionSlot
+  - setup_flags__13TLockOnCursorFP10TObjPlayerP16LockOnActionSlot
   - setup_flame_effect__25TItemWeaponInfernoBazookaFv
   - setup_indirect_tev_alternate__FP16TEffIndirectCtrllll
   - setup_indirect_tev_ordinary__FP16TEffIndirectCtrllll
