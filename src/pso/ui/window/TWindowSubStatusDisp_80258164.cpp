@@ -142,7 +142,7 @@ void ItemListRow::update_stat_line_if_positive(s32 count) {
 extern const f32 lbl_805DCF04;
 extern const f32 lbl_805DCF08;
 
-void ItemListRow::update_item_icon_colors(void *item) {
+void ItemListRow::update_item_icon_colors(TItem *item) {
     s16 requirement;
     s32 item_flags;
     s32 equip_requirements;
@@ -150,16 +150,16 @@ void ItemListRow::update_item_icon_colors(void *item) {
     s32 identified;
     TObjPlayer *player;
 
-    if (((TItem *)item)->is_wrapped() != 0) {
+    if (item->is_wrapped() != 0) {
         this->style = -1;
         return;
     }
     player = get_player_by_client_id(this->client);
     if (player != 0) {
-        item_flags = ((TItem *)item)->test_item_flags(8);
-        usable_action_flags = ((TItem *)item)->get_usable_action_flags(0x10, player);
-        equip_requirements = ((TItem *)item)->check_equip_requirements(player, &requirement);
-        identified = ((TItem *) item)->is_identified();
+        item_flags = item->test_item_flags(8);
+        usable_action_flags = item->get_usable_action_flags(0x10, player);
+        equip_requirements = item->check_equip_requirements(player, &requirement);
+        identified = item->is_identified();
         if (usable_action_flags != 0) {
             if (item_flags != 0) {
                 this->status_icon = 0x30;
@@ -169,7 +169,7 @@ void ItemListRow::update_item_icon_colors(void *item) {
         } else if (item_flags != 0) {
             this->status_icon = 0xC;
         } else {
-            if ((identified == 0) && (((TItem *)item)->is_rare_item() != 0)) {
+            if ((identified == 0) && (item->is_rare_item() != 0)) {
                 this->status_icon = 0x19;
             } else if (requirement & 1) {
                 this->status_icon = 0x13;
@@ -185,23 +185,23 @@ void ItemListRow::update_item_icon_colors(void *item) {
         }
         if (equip_requirements != 0) {
             this->category_style = -1;
-            if (((TItem *)item)->is_custom_name_srank() != 0) {
+            if (item->is_custom_name_srank() != 0) {
                 this->style = 0xFFFE3C28;
                 return;
             }
-            if (((TItem *)item)->get_name_style() == 2) {
+            if (item->get_name_style() == 2) {
                 this->flags |= 0x800;
                 return;
             }
-            if ((u8)((TItem *)item)->calc_display_grade() >= 9U) {
+            if ((u8)item->calc_display_grade() >= 9U) {
                 this->style = -0x1600;
                 return;
             }
-            if (((TItem *)item)->has_bonus_stats() != 0) {
+            if (item->has_bonus_stats() != 0) {
                 this->style = 0xFF61E853;
                 return;
             }
-            if (((TItem *)item)->get_usable_action_flags(0x10000, player) != 0U) {
+            if (item->get_usable_action_flags(0x10000, player) != 0U) {
                 this->style = 0xFF909090;
                 return;
             }
@@ -478,13 +478,13 @@ void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
     this->flags |= 0x45;
 }
 
-void ItemListRow::update_from_player(void *item, s32 price, s32 index) {
+void ItemListRow::update_from_player(TItem *item, s32 price, s32 index) {
     s32 item_data;
 
     this->x = (f32) lbl_805DCF08;
-    item_data = ((TItem *)item)->get_icon_index();
-    select_item_icon(item_data, ((TItem *)item)->get_item_type(), ((TItem *)item)->get_item_group(), ((TItem *)item)->is_wrapped());
-    this->label = (char *)replace_owned_string((saddr)((TItem *)item)->get_name(), (saddr)this->label, 8, 1);
+    item_data = item->get_icon_index();
+    select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
+    this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
         text_builder_append_int(price);

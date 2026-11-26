@@ -31,7 +31,7 @@ public:
   void reset();
   void update_stat_line(s32 value);
   void update_stat_line_if_positive(s32 count);
-  void update_item_icon_colors(void *item);
+  void update_item_icon_colors(TItem *item);
   void update_item_colors(saddr item);
   void select_item_icon(s32 item_data, u8 item_type, u8 item_group, s32 wrapped);
   void setup_entry_msg_d1(s32 item);
@@ -43,7 +43,7 @@ public:
   void init_list_entry(u8 icon, s32 src, s32 item);
   void init_status_entry(u8 category_icon, u32 src, s32 item);
   void set_inventory_item(TItem *item, s32 count, s32 sid);
-  void update_from_player(void *item, s32 price, s32 index);
+  void update_from_player(TItem *item, s32 price, s32 index);
   void init_item_row(TItem *item, s32 index);
   void set_item_info(void *a1, s32 index, s32 count);
   void set_ground_item(void *it, s32 index);
