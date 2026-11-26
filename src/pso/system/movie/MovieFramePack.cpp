@@ -6,8 +6,6 @@
 #include <dolphin/vi.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/system/movie/TMovie.h"
-#include "pso/system/movie/TMovie_80143C94.h"
-#include "pso/system/movie/TMovie_80143CE8.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/unk/text_80320358.h"
 
@@ -206,7 +204,7 @@ void TMovie::flip_frame_buffer() {
     }
 }
 
-void TMovie__sub_80143C94(int frame_addr, int width, int height) {
+void set_pending_movie_frame(u32 frame_addr, s32 width, s32 height) {
     movie_pending_frame_addr = frame_addr;
     movie_pending_frame_width = width;
     movie_pending_frame_height = height;
@@ -227,8 +225,8 @@ void TMovie::calc_frame_buffer_size(saddr fb_a, saddr fb_b) {
     movie_frame_buffer_bytes = ((movie_framebuffer_video_mode->fbWidth + 0xF) & 0xFFF0) * movie_framebuffer_video_mode->xfbHeight * 2;
 }
 
-void flush_framebuffer(s32 movie_state, s32 sfd_player, s32 frame_info) {
-    mwPlyFxSetOutBufSize_hook(sfd_player, 0x280, 0x1E0);
-    mwPlyFxCnvFrmARGB8888_hook(sfd_player, frame_info, get_capture_texture_pixels());
+void flush_framebuffer(MovieState *movie, MwsfdPly *ply, MovieFrameInfo *frame) {
+    mwPlyFxSetOutBufSize_hook(ply, 0x280, 0x1E0);
+    mwPlyFxCnvFrmARGB8888_hook(ply, frame, get_capture_texture_pixels());
     DCFlushRangeNoSync(get_capture_texture_pixels(), GXGetTexBufferSize(0x280, 0x1E0, 6, 0, 0));
 }

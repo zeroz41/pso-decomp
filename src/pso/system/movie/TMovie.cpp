@@ -7,8 +7,6 @@
 #include <stddef.h>
 #include <string.h>
 #include "pso/system/movie/TMovie.h"
-#include "pso/system/movie/TMovie_80143C94.h"
-#include "pso/system/movie/TMovie_80143CE8.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/CameraCapture.h"
@@ -22,11 +20,6 @@
 #include "pso/unk/text_80320358.h"
 #include "pso/ui/frontend/EndingSequence.h"
 
-struct MovieState;
-
-extern "C" {
-void TMovie__sub_80144324(MovieState *movie, const s8 *name);
-}
 int get_opening_movie_selector(void);
 void activate_main_menu_scene(void);
 extern "C" {
@@ -47,247 +40,176 @@ static const Vec movie_camera_eye = {0.0f, 0.0f, 0.0f};
 static const Vec movie_camera_target = {0.0f, 0.0f, 1.0f};
 static const Vec movie_camera_up = {0.0f, 1.0f, 0.0f};
 
-TMovie *TMovie::close(TMovie *movie, short dealloc) {
-    if (movie != NULL) {
-        movie->release();
-        movie->free_buffer();
-        TLobby::stop_audio_streams();
-        if (dealloc > 0) {
-            ::operator delete(movie);
-        }
-    }
-    return movie;
+MovieState::~MovieState() {
+    release();
+    free_buffer();
+    TLobby::stop_audio_streams();
 }
 
-u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *name, s32 arg2, s32 arg3, s32 arg4) {
-    *(s32 *)((s8 *)movie + 0xCC) = arg2;
-    *(s32 *)((s8 *)movie + 0) = 0;
-    TMovie__sub_80144324((MovieState *)movie, name);
-    ((TMovie *)movie)->init_sfd_player(arg3, arg4);
-    if (arg3 != 0) {
+MovieState::MovieState(s8 *filename, s32 movie_mode, s32 is_ending, s32 is_normal_ending) {
+    this->movie_mode = movie_mode;
+    pad_00 = 0;
+    init(filename);
+    init_sfd_player(is_ending, is_normal_ending);
+    if (is_ending != 0) {
         play_area_music("CUBE_ENDING.adx");
     } else if ((get_opening_movie_purpose() == 0) && (get_opening_movie_selector() == 1)) {
         play_area_music("CUBE_OPENING.adx");
     } else {
         play_area_music("OPENING.ADX");
     }
-    return movie;
 }
 
-s32 TMovie::stop_if_advanced() {
-    if ((s32) *(s32 *)((s8 *)this + 0x58) >= 2) {
+s32 MovieState::stop_if_advanced() {
+    if (status >= 2) {
         draw_screen_quad(-1, 0, 0.0f);
     }
     return 1;
 }
 
-s32 TMovie::check_finished() {
-    if ((s32) *(s32 *)((s8 *)this + 0x58) >= 2) {
+s32 MovieState::check_finished() {
+    if (status >= 2) {
         TMovie::flip_frame_buffer();
     }
     return 1;
 }
 
-s32 TMovie::is_playback_finished() {
-    void **temp_r3;
-    u8 *temp_r4;
-    temp_r3 = (void **)(*(void ** *)&this->m_flags);
-    temp_r4 = (u8 *)(*temp_r3);
-    if ((*(s32 (**)(void **, void *))((s8 *)temp_r4 + 0x20))(temp_r3, temp_r4) == 3) {
+s32 MovieState::is_playback_finished() {
+    if (handle->vt->get_status(handle) == MWSFD_STAT_PLAYEND) {
         return 1;
     }
     return 0;
 }
 
-void TMovie::update_stop() {
-    if ((s32) *(s32 *)((s8 *)this + 0xCC) != 0) {
+void MovieState::update_stop() {
+    if (movie_mode != 0) {
         check_finished();
         return;
     }
     stop_if_advanced();
 }
 
-void TMovie::release() {
-    void **temp_r3;
-    void *temp_r4;
-
-    temp_r3 = *(void ** *)&this->m_flags;
-    temp_r4 = *temp_r3;
-    (*(s32 (**)(void **, void *))((s8 *)temp_r4 + 0x14))(temp_r3, temp_r4);
-    *(void ** *)&this->m_flags = NULL;
+void MovieState::release() {
+    handle->vt->destroy(handle);
+    handle = NULL;
 }
 
-struct MovieFrameInfo {
-    u32 field_00;
-    u8 pad_C[0x4];
-    s32 field_08;
-    s32 field_0c;
-    u8 trailing_storage[0x30];
-};
-// CRI Sofdec player handle (mwPlyCreateSofdec result); MwsfdCrePrm is its create-parameter block.
-struct MwsfdPly;
-struct MwsfdPlyVtbl {
-    u8 pad0[0x18];
-    void (*f18)(struct MwsfdPly *, void *);
-    u8 pad1C[0x2C - 0x1C];
-    void (*f2C)(struct MwsfdPly *, s32);
-};
-struct MwsfdPly { MwsfdPlyVtbl *vt; };
-struct MwsfdCrePrm {
-    s32 mode;
-    s32 rate;
-    s32 width;
-    s32 height;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-    s32 size;
-};
-struct Movie_80143FB0 {
-    u8 pad0[4];
-    MwsfdPly *iface;
-    u8 pad8[0x28 - 0x8];
-    MwsfdCrePrm info;
-    s32 f48;
-    u8 pad4C[0x9C - 0x4C];
-    s32 f9C;
-    s32 fA0;
-    u8 fA4[4];
-};
+void MovieState::init_sfd_player(s32 is_ending, s32 is_normal_ending) {
+    MwsfdCrePrm *params = &create_params;
+    MwsfdPly *ply;
 
-void TMovie::init_sfd_player(s32 arg1, s32 arg2) {
-    Movie_80143FB0 *o = (Movie_80143FB0 *)this;
-    MwsfdCrePrm *info = &o->info;
-    MwsfdPly *f;
-
-    o->fA0 = o->f9C;
-    o->f48 = 0x11;
-    if (arg1 != 0) {
-        info->mode = 1;
+    work = buffer;
+    pad_48 = 0x11;
+    if (is_ending != 0) {
+        params->file_type = 1;
     } else {
-        info->mode = 2;
+        params->file_type = 2;
     }
-    info->rate = 0x5B8D80;
-    info->width = 0x280;
-    info->height = 0x1E0;
-    info->f10 = 3;
-    info->size = mwPlyCalcWorkCprmSfd_hook(info);
-    if (info->size > 0x420000) {
+    params->max_bps = 6000000;
+    params->max_width = 640;
+    params->max_height = 480;
+    params->frame_pool_count = 3;
+    params->work_size = mwPlyCalcWorkCprmSfd_hook(params);
+    if (params->work_size > 0x420000) {
         return;
     }
-    info->f18 = o->fA0;
-    info->f14 = 1;
-    f = mwPlyCreateSofdec_hook(info);
-    o->iface = f;
-    if (arg1 != 0) {
-        if (arg2 != 0) {
-            mwPlyEntryFname_hook(f, "ending_normal.sfd");
+    params->work = work;
+    params->pad_14 = 1;
+    ply = mwPlyCreateSofdec_hook(params);
+    handle = ply;
+    if (is_ending != 0) {
+        if (is_normal_ending != 0) {
+            mwPlyEntryFname_hook(ply, "ending_normal.sfd");
         } else {
-            mwPlyEntryFname_hook(f, "ult01.sfd");
-            mwPlyEntryFname_hook(f, "ult02.sfd");
-            mwPlyEntryFname_hook(f, "ult03.sfd");
-            mwPlyEntryFname_hook(f, "ult03.sfd");
-            mwPlyEntryFname_hook(f, "ult03.sfd");
-            mwPlyEntryFname_hook(f, "ult04.sfd");
+            mwPlyEntryFname_hook(ply, "ult01.sfd");
+            mwPlyEntryFname_hook(ply, "ult02.sfd");
+            mwPlyEntryFname_hook(ply, "ult03.sfd");
+            mwPlyEntryFname_hook(ply, "ult03.sfd");
+            mwPlyEntryFname_hook(ply, "ult03.sfd");
+            mwPlyEntryFname_hook(ply, "ult04.sfd");
         }
-        mwPlyStartSeamless_hook(f);
-        mwPlyReleaseSeamless_hook(f);
+        mwPlyStartSeamless_hook(ply);
+        mwPlyReleaseSeamless_hook(ply);
     } else {
-        f->vt->f18(f, o->fA4);
+        ply->vt->start_fname(ply, filename);
     }
-    f->vt->f2C(f, TLobby::get_lobby_data());
+    ply->vt->f2C(ply, TLobby::get_lobby_data());
 }
 
-s32 TMovie::decode_frame() {
-    u8 *arg0 = (u8 *)this;
-    LAYOUT_ASSERT(sp8_offset, offsetof(MovieFrameInfo, field_00) == 0x0);
-    LAYOUT_ASSERT(sp10_offset, offsetof(MovieFrameInfo, field_08) == 0x8);
-    LAYOUT_ASSERT(sp14_offset, offsetof(MovieFrameInfo, field_0c) == 0xC);
-    MovieFrameInfo frame;
+s32 MovieState::decode_frame() {
+    MovieFrameInfo current;
+    s32 stat;
 
-    s32 temp_r3_2;
-    void **temp_r3;
-    u8 *temp_r4;
-
-    if ((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) {
+    if (movie_mode != 0) {
         TMovie::flush_and_reset();
     }
-    mwPlyGetCurFrm_hook(*(void ** *)&this->m_flags, &frame.field_00);
-    if (frame.field_00 != 0U) {
-        if ((s32) *(s32 *)((s8 *)arg0 + 0xCC) != 0) {
-            TMovie__sub_80143C94((frame.field_00), (frame.field_08), (frame.field_0c));
+    mwPlyGetCurFrm_hook(handle, &current);
+    if (current.buffer != 0U) {
+        if (movie_mode != 0) {
+            set_pending_movie_frame(current.buffer, current.width, current.height);
         } else {
-            flush_framebuffer((saddr)arg0, (saddr)(*(void ** *)&this->m_flags), (saddr)&frame.field_00);
+            flush_framebuffer(this, handle, &current);
         }
-        ((TMovie *)(arg0 + 0x5C))->copy(&frame.field_00);
-        mwPlyRelCurFrm_hook(*(void ** *)&this->m_flags);
+        frame.copy(&current);
+        mwPlyRelCurFrm_hook(handle);
     }
-    temp_r3 = (void **)(*(void ** *)&this->m_flags);
-    temp_r4 = (u8 *)(*temp_r3);
-    temp_r3_2 = (*(s32 (**)(void **, void *))((s8 *)temp_r4 + 0x20))(temp_r3, temp_r4);
-    if (temp_r3_2 == 3) {
+    stat = handle->vt->get_status(handle);
+    if (stat == MWSFD_STAT_PLAYEND) {
         return 0;
     }
-    *(s32 *)((s8 *)arg0 + 0x58) = temp_r3_2;
+    status = stat;
     return 1;
 }
 
-void TMovie::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); *(u32 *)&this->m_prev = *(u32*)((char*)q + 0x8); *(u32 *)&this->m_next = *(u32*)((char*)q + 0xc); *(u32 *)&this->m_up = *(u32*)((char*)q + 0x10); *(u32 *)&this->m_down = *(u32*)((char*)q + 0x14); *(u32*)((char*)this + 0x18) = *(u32*)((char*)q + 0x18); module = ((const TMovie *)q)->module; this->player = ((const TMovie *)q)->player; *(u32 *)&this->m_24 = *(u32*)((char*)q + 0x24); *(u32 *)&this->unk_28 = *(u32*)((char*)q + 0x28); this->m_2c = *(u32*)((char*)q + 0x2c); *(u32 *)&this->unk_30 = *(u32*)((char*)q + 0x30); this->m_34 = *(u32*)((char*)q + 0x34); *(u32 *)&this->unk_38 = *(u32*)((char*)q + 0x38); this->m_3c = *(u32*)((char*)q + 0x3c); }
+void MovieFrameInfo::copy(MovieFrameInfo *src) {
+    buffer = src->buffer;
+    frame_id = src->frame_id;
+    width = src->width;
+    height = src->height;
+    pad_10[0] = src->pad_10[0];
+    pad_10[1] = src->pad_10[1];
+    pad_10[2] = src->pad_10[2];
+    pad_10[3] = src->pad_10[3];
+    pad_10[4] = src->pad_10[4];
+    pad_10[5] = src->pad_10[5];
+    pad_10[6] = src->pad_10[6];
+    pad_10[7] = src->pad_10[7];
+    pad_10[8] = src->pad_10[8];
+    pad_10[9] = src->pad_10[9];
+    pad_10[10] = src->pad_10[10];
+    pad_10[11] = src->pad_10[11];
+}
 
-void TMovie::free_buffer() {
-    if ((u32) *(u32 *)((s8 *)this + 0x9C) != 0U) {
-        xfree(*(void **)((s8 *)this + 0x9C));
-        *(u32 *)((s8 *)this + 0x9C) = 0U;
+void MovieState::free_buffer() {
+    if (buffer != NULL) {
+        xfree(buffer);
+        buffer = NULL;
     }
     mwPlyFinishSfdFx_hook();
     reset_and_release_capture_texture();
 }
 
-struct MovieFrameRate {
-    f32 rate;
-    s32 m_04;
-    s32 m_08;
-    s32 m_0c;
-};
-
-struct MovieState {
-    s32 m_00;
-    s32 m_04;
-    MovieFrameRate frame_rate;
-    u8 unk_18[0x84];
-    void *buffer;
-    u8 unk_a0[0x4];
-    char name[0x20];
-    s32 m_c4;
-    s32 m_c8;
-    s32 m_cc;
-};
-
-void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
+void MovieState::init(const s8 *filename) {
     reset_movie_state();
-    memset(&movie->m_04, 0, 0xC8);
-    movie->buffer = xmalloc(0x420000);
-    movie->m_04 = 0;
-    movie->m_c8 = 1;
-    movie->m_c4 = 0;
-    strcpy(movie->name, (const char *)name);
-    movie->frame_rate.rate = 59.94f;
-    movie->frame_rate.m_04 = 1;
-    movie->frame_rate.m_08 = 2;
-    movie->frame_rate.m_0c = 0;
-    mwPlyInitSfdFx_hook(&movie->frame_rate);
+    memset(&handle, 0, 0xC8);
+    buffer = xmalloc(0x420000);
+    handle = NULL;
+    pad_C8 = 1;
+    pad_C4 = 0;
+    strcpy(this->filename, (const char *)filename);
+    init_params.vsync_hz = 59.94f;
+    init_params.display_cycle = 1;
+    init_params.display_latency = 2;
+    init_params.decode_server = 0;
+    mwPlyInitSfdFx_hook(&init_params);
 }
 
 TMovie::~TMovie() {
-    s32 (*temp_r12)(void *);
-    TMovie *t;
-
     this->render_until_finished();
     render_tick();
-    t = this->player;
-    if (t != NULL) {
-        TMovie::close(t, 1);
-        this->player = NULL;
+    if (player != NULL) {
+        delete player;
+        player = NULL;
     }
     render_tick();
     render_tick();
@@ -297,9 +219,8 @@ TMovie::~TMovie() {
         module = NULL;
     }
     render_tick();
-    temp_r12 = *(s32 (**)(void *))((s8 *)this + 0x44);
-    if (temp_r12 != NULL) {
-        temp_r12(this);
+    if (finish_callback != NULL) {
+        finish_callback(this);
     }
     TLobby::set_pre_retrace_callback();
 }
@@ -372,17 +293,6 @@ block_return0:
     return 0;
 }
 
-struct TMovie_80144910 {
-    const char *name;
-    u8 pad4[0x14];
-    void *vt;
-    RelModuleBuffer *obj1C;
-    u8 *obj20;
-    char path[0x20];
-    s32 f44;
-    s32 f48;
-};
-
 void TMovie::run_task() {
     TAdEndText *txt;
     if (this->module == NULL || this->player == NULL) {
@@ -404,7 +314,7 @@ void TMovie::run_task() {
         controller_stuff();
         TKeyBoardControl::update_input_frame();
         this->player->decode_frame();
-        if (*(s32 *)&this->m_48 != 0) {
+        if (movie_mode != 0) {
             this->player->update_stop();
             run_frame_update_callback();
         } else {
@@ -424,24 +334,19 @@ void TMovie::run_task() {
     this->queue_destruction();
 }
 
-TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(parent) {
-    u8 *p;
-    ((TMovie_80144910 *)this)->name = TMovie::name;
-    ((TMovie_80144910 *)this)->f44 = a3;
+TMovie::TMovie(TObject *parent, s8 *filename, void (*finish_callback)(TMovie *), s32 movie_mode, s32 is_normal_ending) : TObject(parent) {
+    m_name = TMovie::name;
+    this->finish_callback = finish_callback;
     module = NULL;
-    ((TMovie_80144910 *)this)->f48 = a4;
-    ((TMovie_80144910 *)this)->obj20 = 0;
-    strncpy(((TMovie_80144910 *)this)->path, (const char *)name, 0x20);
+    this->movie_mode = movie_mode;
+    player = NULL;
+    strncpy(this->filename, (const char *)filename, 0x20);
     RelModuleBuffer *loaded = new RelModuleBuffer;
     if (loaded != NULL) {
         loaded = load_rel_module(loaded, "movie.rel");
     }
     module = loaded;
-    p = (u8 *)::operator new(0xD0);
-    if (p != 0) {
-        p = initialize_movie_with_soundtrack(p, name, ((TMovie_80144910 *)this)->f48, (u8)!((TMovie_80144910 *)this)->f48, a5);
-    }
-    ((TMovie_80144910 *)this)->obj20 = p;
+    player = new MovieState(filename, this->movie_mode, (u8)!this->movie_mode, is_normal_ending);
 }
 
 int get_opening_movie_selector(void) { return opening_movie_selector; }

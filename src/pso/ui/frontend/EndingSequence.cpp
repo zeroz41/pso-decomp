@@ -27,7 +27,7 @@
 // Built with -inline off,deferred: functions are written last to first.
 
 extern "C" {
-void *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void *, s32, s32, s32);
+void *__ct__6TMovieFP7TObjectPScPFP6TMovie_vll(void *, void *, const char *, void *, s32, s32, s32);
 }
 
 s32 ending_sequence_active;
@@ -76,13 +76,13 @@ TEndingMovie::TEndingMovie() : TObject(tl_04) {
     case 2:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TEndingMovie::finish_movie, 0, 1, 0);
+            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(p, tl_00, "ending_normal.sfd", (void *)TEndingMovie::finish_movie, 0, 1, 0);
         }
         break;
     case 3:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TEndingMovie::finish_movie, 0, 0, 0);
+            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(p, tl_00, "ending_normal.sfd", (void *)TEndingMovie::finish_movie, 0, 0, 0);
         }
         break;
     }

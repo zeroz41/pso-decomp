@@ -28,7 +28,7 @@ typedef struct Entry_802A1020 {
 
 s32 opening_movie_selector = 1;
 extern "C" {
-u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
+u8 *__ct__6TMovieFP7TObjectPScPFP6TMovie_vll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
 }
 s8 movie_finished_flag;
 u8 opening_movie_purpose;
@@ -170,13 +170,13 @@ TUnk_804DCB64::TUnk_804DCB64() : TObject(tl_01) {
     if ((s8) opening_movie_purpose == 0) {
         u8 *movie = (u8 *)TObject::operator new(0x4C);
         if (movie != NULL) {
-            __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language + (opening_movie_selector * 5)], set_movie_finished_flag, 1, 1, 0);
+            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(movie, tl_00, opening_movie_path_table[current_language + (opening_movie_selector * 5)], set_movie_finished_flag, 1, 1, 0);
         }
         opening_movie_selector = 1 - opening_movie_selector;
     } else {
         u8 *movie = (u8 *)TObject::operator new(0x4C);
         if (movie != NULL) {
-            __ct__6TMovieFP7TObjectPSclll(movie, tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 1, 1, 0);
+            __ct__6TMovieFP7TObjectPScPFP6TMovie_vll(movie, tl_00, opening_movie_path_table[current_language], set_movie_finished_flag, 1, 1, 0);
         }
     }
 }
