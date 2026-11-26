@@ -19,8 +19,8 @@ struct TWindowKeyBoardHard : public TWindowBase {
     u8 apply_accent(u8);
     s32 poll_input();
     u16 lookup_key_char(u8);
-    int sub_80260438();
-    int sub_8026042C();
+    int is_mode1_set();
+    int is_mode0_set();
     u32 input_flags;
     u32 m_64;
     s32 mode_label_timer;  // frames the input-mode label stays drawn after a key press (60 in Japanese)

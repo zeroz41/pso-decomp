@@ -24,7 +24,7 @@
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/HeadingEntry.h"
 
-void TWindowSubQuestBoardSelect::sub_8027D1E8() {
+void TWindowSubQuestBoardSelect::clear_decided() {
     state_flags &= ~1;
 }
 

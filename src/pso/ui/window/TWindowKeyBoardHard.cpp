@@ -360,7 +360,7 @@ s32 TWindowKeyBoardHard::handle_control_key(u8 key) {
         }
         break;
     case 26:
-        if (busy == 0 && sub_8026042C() == 0) {
+        if (busy == 0 && is_mode0_set() == 0) {
             w = m_control;
             t = w->composition_flags;
             if (t & 1) {
@@ -374,7 +374,7 @@ s32 TWindowKeyBoardHard::handle_control_key(u8 key) {
         }
         break;
     case 27:
-        if (sub_8026042C() == 0) {
+        if (is_mode0_set() == 0) {
             t = input_flags;
             if ((t & 0x84) != 0x84) {
                 u32 u;
@@ -426,7 +426,7 @@ void TWindowKeyBoardHard::process_key_input(u8 key) {
         }
     } else {
 block_7:
-        if ((sub_80260438() != 0) && ((s32) ch >= 0x61) && ((s32) ch <= 0x7A)) {
+        if ((is_mode1_set() != 0) && ((s32) ch >= 0x61) && ((s32) ch <= 0x7A)) {
             ch -= 0x20;
         }
         m_control->set_input_mode(mode);
@@ -652,6 +652,6 @@ void TWindowKeyBoardHard::clear_card_window_flag(saddr client_id, s32 value) {
 void TWindowKeyBoardHard::set_card_window_flag(saddr client_id, s32 value) {
     TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 5), -0x21);
 }
-int TWindowKeyBoardHard::sub_8026042C() { return (this->input_flags >> 6) & 0x1; }
-int TWindowKeyBoardHard::sub_80260438() { return (this->input_flags >> 10) & 0x1; }
+int TWindowKeyBoardHard::is_mode0_set() { return (this->input_flags >> 6) & 0x1; }
+int TWindowKeyBoardHard::is_mode1_set() { return (this->input_flags >> 10) & 0x1; }
 int TWindowKeyBoardHard::is_key_active() { return this->input_flags & 0x200; }

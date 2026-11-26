@@ -60,7 +60,7 @@ void TWindowSubQuestBoard::run_task() {
     switch (this->state) {
     case 0:
     case 1:
-        select_window->sub_8027D1E8();
+        select_window->clear_decided();
         this->state = 2;
     case 2:
         if (select_window->is_cancelled() != 0) {
