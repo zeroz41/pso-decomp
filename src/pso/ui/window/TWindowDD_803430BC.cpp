@@ -72,9 +72,9 @@ char *window_dd_buffer_a;
 
 char *window_dd_buffer_b;
 
-char **TWindowDD__player_name_buffers;
+char **TWindowDD::player_name_buffers;
 
-TWindowDDValueList *TWindowDD__word_select_lists;
+TWindowDDValueList *TWindowDD::word_select_lists;
 
 s16 *word_select_word_storage;
 
@@ -184,16 +184,16 @@ void load_word_select_data(void) {
     memset(window_dd_buffer_a, 0, 0x80);
     window_dd_buffer_b = (char *)mem_alloc(0x120);
     memset(window_dd_buffer_b, 0, 0x120);
-    TWindowDD__player_name_buffers = (char **)mem_alloc(0x30);
+    TWindowDD::player_name_buffers = (char **)mem_alloc(0x30);
     for (i = 0; i < 12; i++) {
-        TWindowDD__player_name_buffers[i] = window_dd_buffer_b + i * 0x18;
-        TWindowDD__player_name_buffers[i][0] = 0;
+        TWindowDD::player_name_buffers[i] = window_dd_buffer_b + i * 0x18;
+        TWindowDD::player_name_buffers[i][0] = 0;
     }
     word_select_word_storage = (s16 *)mem_alloc(0x100);
-    TWindowDD__word_select_lists = (TWindowDDValueList *)mem_alloc(0x30);
+    TWindowDD::word_select_lists = (TWindowDDValueList *)mem_alloc(0x30);
     list = word_select_word_storage;
     for (j = 0; j < 6; j++) {
-        entry = &TWindowDD__word_select_lists[j];
+        entry = &TWindowDD::word_select_lists[j];
         entry->values = list;
         entry->count = 0;
         switch (j) {
@@ -232,17 +232,17 @@ extern "C" {
 
 void TWindowDD::free_buffers() {
     clear_window_dd_nodes();
-    if (TWindowDD__word_select_lists != NULL) {
-        mem_free(TWindowDD__word_select_lists);
-        TWindowDD__word_select_lists = NULL;
+    if (TWindowDD::word_select_lists != NULL) {
+        mem_free(TWindowDD::word_select_lists);
+        TWindowDD::word_select_lists = NULL;
     }
     if (word_select_word_storage != NULL) {
         mem_free(word_select_word_storage);
         word_select_word_storage = NULL;
     }
-    if (TWindowDD__player_name_buffers != NULL) {
-        mem_free(TWindowDD__player_name_buffers);
-        TWindowDD__player_name_buffers = NULL;
+    if (TWindowDD::player_name_buffers != NULL) {
+        mem_free(TWindowDD::player_name_buffers);
+        TWindowDD::player_name_buffers = NULL;
     }
     if (window_dd_buffer_b != NULL) {
         mem_free(window_dd_buffer_b);

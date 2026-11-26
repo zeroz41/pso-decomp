@@ -37,6 +37,10 @@ struct TWindowDD : public TObject
     static TWindowDDValueList * ws_data_base;
     static uaddr work_buffer;
     static s32 window_mode;
+    // Twelve name strings of 0x18 bytes in window_dd_buffer_b, one per client id.
+    static char **player_name_buffers;
+    // Six word lists allocated as one block; their ids live in word_select_word_storage.
+    static TWindowDDValueList *word_select_lists;
     TWindowDD(TObject *parent, WordSelectMessage *output);
     virtual ~TWindowDD();
     virtual void run_task();
@@ -194,10 +198,6 @@ void load_word_select_data(void);
 
 extern char *window_dd_buffer_a;
 extern char *window_dd_buffer_b;
-// Twelve name strings of 0x18 bytes in window_dd_buffer_b, one per client id.
-extern char **TWindowDD__player_name_buffers;
-// Six word lists allocated as one block; their ids live in word_select_word_storage.
-extern TWindowDDValueList *TWindowDD__word_select_lists;
 extern s16 *word_select_word_storage;
 // Word strings of the loaded ws_data archive and the string index of each word id.
 extern char **ws_word_strings;

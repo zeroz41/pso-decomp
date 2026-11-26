@@ -1390,18 +1390,18 @@ void TWindowDD::build_item_list() {
     }
     extra = TWindowDD::get_element_ptr(id);
     n = 0;
-    a = TWindowDD__word_select_lists[0].values;
-    b = TWindowDD__word_select_lists[1].values;
+    a = word_select_lists[0].values;
+    b = word_select_lists[1].values;
     if (sel != NULL) {
         for (i = 0; i < sel->count && n < 0x20; n++, i++) {
             a[n] = b[n] = sel->values[i];
         }
     }
-    TWindowDD__word_select_lists[1].count = n;
+    word_select_lists[1].count = n;
     for (j = 0; j < extra->count && n < 0x20; j++, n++) {
         a[n] = extra->values[j];
     }
-    TWindowDD__word_select_lists[0].count = n;
+    word_select_lists[0].count = n;
 }
 
 void TWindowDD::fn_8034694C(WordSelectMessage *src, s16 id, char *verb, char *phrase, char *window_dd, s32 *pos) {
@@ -1460,17 +1460,17 @@ TWindowDDValueList *TWindowDD::get_element_ptr(s32 index) {
         default:
             return NULL;
         case -60:
-            return &TWindowDD__word_select_lists[2];
+            return &word_select_lists[2];
         case -70:
-            return &TWindowDD__word_select_lists[3];
+            return &word_select_lists[3];
         case -40:
-            return &TWindowDD__word_select_lists[0];
+            return &word_select_lists[0];
         case -45:
-            return &TWindowDD__word_select_lists[1];
+            return &word_select_lists[1];
         case -80:
-            return &TWindowDD__word_select_lists[4];
+            return &word_select_lists[4];
         case -90:
-            return &TWindowDD__word_select_lists[5];
+            return &word_select_lists[5];
         }
     }
 }
@@ -1670,12 +1670,12 @@ void TWindowDD::build_player_word_lists() {
     TObjPlayer *player;
     s16 v;
     n = 0;
-    list = TWindowDD__word_select_lists[2].values;
+    list = word_select_lists[2].values;
     list[n++] = 0x2c7;
     for (i = 0; i < 12; i++) {
         player = get_player_by_client_id(i);
         if (player != NULL) {
-            strncpy(TWindowDD__player_name_buffers[i], player->name, 0x18);
+            strncpy(player_name_buffers[i], player->name, 0x18);
             if (i != local_client_id) {
                 list[n++] = i + 0x68c;
                 if (n >= 16) {
@@ -1683,12 +1683,12 @@ void TWindowDD::build_player_word_lists() {
                 }
             }
         } else {
-            TWindowDD__player_name_buffers[i][0] = 0;
+            player_name_buffers[i][0] = 0;
         }
     }
-    TWindowDD__word_select_lists[2].count = n;
+    word_select_lists[2].count = n;
     j = 0;
-    l1 = TWindowDD__word_select_lists[3].values;
+    l1 = word_select_lists[3].values;
     l1[j++] = 0x2c4;
     for (k = 0; k < n - 1; k++) {
         l1[j++] = list[k + 1];
@@ -1696,10 +1696,10 @@ void TWindowDD::build_player_word_lists() {
     l1[j++] = 0x2c5;
     l1[j++] = 0x2c6;
     l1[j++] = 0x2c7;
-    TWindowDD__word_select_lists[3].count = j;
+    word_select_lists[3].count = j;
     j2 = 0;
-    l2 = TWindowDD__word_select_lists[4].values;
-    l3 = TWindowDD__word_select_lists[5].values;
+    l2 = word_select_lists[4].values;
+    l3 = word_select_lists[5].values;
     l2[j2++] = 0x2c4;
     *l3++ = 0x2c4;
     for (k = 0; k < n - 1; k++) {
@@ -1710,8 +1710,8 @@ void TWindowDD::build_player_word_lists() {
     l2[j2++] = 0x2c7;
     *l3 = 0x2c7;
     l2[j2++] = 0x2c8;
-    TWindowDD__word_select_lists[4].count = j2;
-    TWindowDD__word_select_lists[5].count = j2 - 1;
+    word_select_lists[4].count = j2;
+    word_select_lists[5].count = j2 - 1;
 }
 
 
@@ -2589,7 +2589,7 @@ void TWindowBase::calc_inner_rect(WindowDrawContext *context) {
 #pragma pop
 
 saddr get_word_select_token_text(s16 id) {
-    char **names = TWindowDD__player_name_buffers;
+    char **names = TWindowDD::player_name_buffers;
     if (id >= 0x68C && id <= 0x697) {
         return (saddr)names[id - 0x68C];
     }
@@ -2611,7 +2611,7 @@ extern s32 local_client_id;
 void handle_6x74_word_select(u8 *window_dd) {
     G_WordSelect_6x74 *cmd = (G_WordSelect_6x74 *)window_dd;
     cmd->bswap_message();
-    if (TWindowDD__word_select_lists != NULL) {
+    if (TWindowDD::word_select_lists != NULL) {
         if ((s32) cmd->client_id != (s32) local_client_id) {
             cmd->message.remember_selected_id();
         }
