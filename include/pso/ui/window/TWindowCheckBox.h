@@ -12,7 +12,7 @@ public:
     virtual ~TWindowCheckBox();
     virtual void run_task();
     virtual void render();
-    static TWindowCheckBox *create(const NJS_POINT2 *position, saddr size, s32 client);
+    static TWindowCheckBox *create(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client);
     // The item of the entry at selected_index.
     s32 update_selected_item();
     void set_selected_index(s16 selected_index);
@@ -28,7 +28,7 @@ public:
 };
 
 TWindowCheckBox *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position);
-TWindowCheckBox *create_check_box_window_on_layer(const NJS_POINT2 *position, s32 size, s32 client);
+TWindowCheckBox *create_check_box_window_on_layer(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client);
 
 LAYOUT_ASSERT(TWindowCheckBox_size, sizeof(TWindowCheckBox) == 0x8C);
 

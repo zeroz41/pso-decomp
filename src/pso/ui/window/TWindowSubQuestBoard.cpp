@@ -31,7 +31,7 @@
 #pragma readonly_strings on
 
 // The {width, height} of the option value window create_option_value_window opens.
-__declspec(section ".rodata") static const f32 option_value_window_size[2] ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
+__declspec(section ".rodata") static const NJS_POINT2 option_value_window_size ATTRIBUTE_ALIGN(8) = { 302.0f, 148.0f };
 
 const char *TWindowSubQuestBoard::class_name = "TWindowSubQuestBoard";
 
@@ -188,7 +188,7 @@ TWindowCheckBox *TWindowSubOption::create_option_value_window(s32 option) {
     s16 value;
     TWindowCheckBox *window;
     s32 flag;
-    window = TWindowCheckBox::create(get_window_layout_position(0x16), (saddr)option_value_window_size, (s32)client_id);
+    window = TWindowCheckBox::create(get_window_layout_position(0x16), &option_value_window_size, (s32)client_id);
     switch (option) {
     case 0:
         window->ensure_status_display((saddr) (TWindowSubStatusDisp::get_message_10(0x66)));

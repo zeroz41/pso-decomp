@@ -88,7 +88,7 @@ void TWindowCheckBox::init_check_box(s32 client) {
     this->client_index = client;
 }
 
-TWindowCheckBox *create_check_box_window_on_layer(const NJS_POINT2 *position, s32 size, s32 client) {
+TWindowCheckBox *create_check_box_window_on_layer(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client) {
     TWindowCheckBox *window;
 
     set_menu_icon_line_flags(0x23);
@@ -97,13 +97,13 @@ TWindowCheckBox *create_check_box_window_on_layer(const NJS_POINT2 *position, s3
     return window;
 }
 
-TWindowCheckBox *TWindowCheckBox::create(const NJS_POINT2 *position, saddr size, s32 client) {
-    set_menu_icon_line_params((const NJS_POINT2 *)size, 0x5);
+TWindowCheckBox *TWindowCheckBox::create(const NJS_POINT2 *position, const NJS_POINT2 *size, s32 client) {
+    set_menu_icon_line_params(size, 0x5);
     return new TWindowCheckBox((u8 *)position, client);
 }
 
 TWindowCheckBox *create_check_box_window_for_local_client(const NJS_POINT2 *layout_position, const void *position) {
-    return TWindowCheckBox::create(layout_position, (saddr)position, local_client_id);
+    return TWindowCheckBox::create(layout_position, (const NJS_POINT2 *)position, local_client_id);
 }
 
 void TWindowCheckBox::render() {

@@ -184,7 +184,7 @@ void TQuestVmDownLoadServer::begin_file_download(TRecvDownloadHead &download_hea
     if (quest_download_window == NULL) {
         static const NJS_POINT2 window_size = {444.0f, 84.0f};
         NJS_POINT2 pos = window_size;
-        quest_download_window = (TWindowMessage *)TWindowMessagePage::set_text(get_window_layout_position(0x2F), (saddr)&pos, 1);
+        quest_download_window = (TWindowMessage *)TWindowMessagePage::set_text(get_window_layout_position(0x2F), &pos, 1);
         quest_download_window->append_line(get_message_text(0x3E), 0x81);
         quest_download_window->complete_reveal();
         quest_total_download_bytes = 0;
@@ -1061,7 +1061,7 @@ void TQuestVmDownLoadServer::show_status_message(saddr text, s32 flags) {
     if (this->message_window == NULL) {
         static const NJS_POINT2 window_size = {444.0f, 84.0f};
         NJS_POINT2 sp = window_size;
-        this->message_window = TMessageWindowController::create_window(get_window_layout_position(0x2F), (saddr)&sp);
+        this->message_window = TMessageWindowController::create_window(get_window_layout_position(0x2F), &sp);
     }
     TMessageWindowController::display_message((const char *)text, (s32)(flags | 0x80));
 }
@@ -1176,7 +1176,7 @@ void TMCFormatSequence::open_windows() {
     if (this->message_window == NULL) {
         static const NJS_POINT2 window_size = {444.0f, 84.0f};
         NJS_POINT2 t = window_size;
-        this->message_window = (TWindowMessagePage *)TWindowMessagePage::set_text(get_window_layout_position(0x2F), (saddr)&t, 1);
+        this->message_window = (TWindowMessagePage *)TWindowMessagePage::set_text(get_window_layout_position(0x2F), &t, 1);
         show_message(get_localized_text_entry(this->message_group, this->message_id), 0);
     }
     if (this->confirm_menu == NULL) {

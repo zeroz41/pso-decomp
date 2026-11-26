@@ -460,7 +460,7 @@ TWindowSoundBalance *TWindowOptionCtrl::create_sound_balance_window() {
 }
 
 TWindowSnapShot *TWindowOptionCtrl::create_snap_shot_window() {
-    return new TWindowSnapShot((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
+    return new TWindowSnapShot(TWindowOptionCtrl::get_option_entry(0xCF));
 }
 
 saddr TWindowOptionCtrl::create_sub_menu_window() {

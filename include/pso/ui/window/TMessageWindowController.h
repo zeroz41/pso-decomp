@@ -30,8 +30,8 @@ public:
     void display_message(const char *text, s32 flags);
     void format_shop_message(s32 index, s32 flags);
     void close();
-    TWindowMessagePage *create_message_window(const NJS_POINT2 *position, s32 extent, s32 flags);
-    TWindowMessagePage *create_window(const NJS_POINT2 *position, s32 extent);
+    TWindowMessagePage *create_message_window(const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 flags);
+    TWindowMessagePage *create_window(const NJS_POINT2 *position, const NJS_POINT2 *extent);
 };
 LAYOUT_ASSERT(TMessageWindowController_size_check, sizeof(TMessageWindowController)==0x210);
 

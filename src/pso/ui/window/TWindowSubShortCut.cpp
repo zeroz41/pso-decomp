@@ -146,7 +146,7 @@ void TWindowSubShortCut::run_task() {
             this->chat_window = 0U;
         }
         if (this->shortcut_window == NULL) {
-            this->shortcut_window = new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->shortcut_slot, (s32 *)&this->chat_submission);
+            this->shortcut_window = new TWindowShortCut(get_window_layout_position(0x73), this->shortcut_slot, (s32 *)&this->chat_submission);
         }
         if (this->confirm_window == NULL) {
             this->confirm_window = open_confirm_prompt();

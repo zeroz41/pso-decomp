@@ -405,7 +405,7 @@ void THunterGuildSeqOffline::open_greeting() {
     NJS_POINT2 window_size;
     window_size.x = 332.0f;
     window_size.y = 80.0f;
-    this->create_message_window(get_window_layout_position(0x2C), (saddr)&window_size);
+    this->create_message_window(get_window_layout_position(0x2C), &window_size);
     this->display_guild_message(1, 1);
     counter_camera = set_service_counter_camera(this, 1);
     this->set_state((saddr)((void*)(2)));

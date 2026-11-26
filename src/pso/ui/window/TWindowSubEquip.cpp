@@ -42,7 +42,7 @@ TWindowSubEquip::TWindowSubEquip(TWindowMainMenu *parent, s32 client) : TObject(
     m_name = TWindowSubEquip::class_name;
     this->parent = parent;
     this->client_id = client;
-    this->equip_list = (TWindowMenuIconLine *)create_equip_list_window((saddr)get_window_layout_position(0), (saddr)&equip_list_window_size, this->client_id);
+    this->equip_list = create_equip_list_window(get_window_layout_position(0), &equip_list_window_size, this->client_id);
     this->equip_list->set_depth(get_main_menu_layer_depth((u8 *)this->parent, 0));
     this->equip_list->set_flag70_bit10();
     this->window_help_item = new TWindowHelpItem(get_window_layout_position(2), this->client_id);

@@ -110,10 +110,10 @@ void TShopEquipmentGearSequence::update_state() {
 }
 
 void TShopEquipmentGearSequence::open_greeting() {
-    f32 pos[2];
-    pos[0] = 332.0f;
-    pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C), (saddr)pos);
+    NJS_POINT2 pos;
+    pos.x = 332.0f;
+    pos.y = 80.0f;
+    create_message_window(get_window_layout_position(0x2C), &pos);
     display_shop_message(0x2b, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_player_entity_id());
     set_state(2);

@@ -2,12 +2,13 @@
 #define PSO_UI_WINDOW_TWINDOWSNAPSHOT_H
 
 #include "types.h"
+struct NJS_POINT2;
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/RlcArchive.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct TWindowSnapShot : public TWindowBase {
-    TWindowSnapShot(saddr position);
+    TWindowSnapShot(const NJS_POINT2 *position);
     virtual ~TWindowSnapShot();
     static const char *class_name;
     virtual void render();

@@ -126,7 +126,7 @@ void THunterGuildSeqOnline_Server::init_window() {
     NJS_POINT2 window_size;
     window_size.x = 332.0f;
     window_size.y = 80.0f;
-    create_message_window(get_window_layout_position(0x2C), (saddr)&window_size);
+    create_message_window(get_window_layout_position(0x2C), &window_size);
     if (is_quest_active() == 0) {
         new TMemberCheck(this);
     }
@@ -425,7 +425,7 @@ void THunterGuildSeqOnline_Client::open_greeting() {
     NJS_POINT2 window_size;
     window_size.x = 332.0f;
     window_size.y = 80.0f;
-    create_message_window(get_window_layout_position(0x2C), (saddr)&window_size);
+    create_message_window(get_window_layout_position(0x2C), &window_size);
     display_guild_message(1, 1);
     check_step = 0;
     set_state(2);

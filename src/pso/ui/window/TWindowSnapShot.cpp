@@ -111,7 +111,7 @@ void TWindowSnapShot::run_task() {
 }
 
 TWindowSnapShot::~TWindowSnapShot() {}
-TWindowSnapShot::TWindowSnapShot(saddr position) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)position) {
+TWindowSnapShot::TWindowSnapShot(const NJS_POINT2 *position) : TWindowBase((u8 *)&window_snapshot_layout, (s16)4, (u8 *)position) {
     saddr entry_1;
     m_name = TWindowSnapShot::class_name;
     this->result_flags = 0U;

@@ -87,7 +87,7 @@ void update_players_in_range(WarpPartyCheck *check) {
 s32 logo_clear_flag = 1;
 const char *TAdVIConfigGC::class_name = "TAdVIConfigGC";
 extern "C" {
-__declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
+__declspec(section ".data") NJS_POINT2 player_names_window_pos = {229.0f, 104.0f};
 
 void TAdVIConfigGC::open_player_names_window() {
     s32 i;
@@ -96,7 +96,7 @@ void TAdVIConfigGC::open_player_names_window() {
         ((TWindowBase *)(((WarpPartyCheck *)this)->win))->close();
         ((WarpPartyCheck *)this)->win = 0;
     }
-    ((WarpPartyCheck *)this)->win = create_check_box_window_on_layer(get_window_layout_position(0x5A), (saddr)player_names_window_pos, (s32)local_client_id);
+    ((WarpPartyCheck *)this)->win = create_check_box_window_on_layer(get_window_layout_position(0x5A), &player_names_window_pos, (s32)local_client_id);
     if (((WarpPartyCheck *)this)->win != 0) {
         ((WarpPartyCheck *)this)->win->disable_input();
         ((WarpPartyCheck *)this)->win->set_close_flag();

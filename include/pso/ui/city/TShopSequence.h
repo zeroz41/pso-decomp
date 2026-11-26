@@ -16,7 +16,7 @@ struct TShopSequence : public TShopWindowBase {
     virtual ~TShopSequence();
     virtual void restore_player_state();
     virtual void close_window();
-    u32 create_message_window(const NJS_POINT2 *position, s32 extent);
+    u32 create_message_window(const NJS_POINT2 *position, const NJS_POINT2 *extent);
     void close_message_window();
     virtual void display_shop_message(s32 id, s32 flags);
     virtual void display_message(const char *text, s32 flags);
