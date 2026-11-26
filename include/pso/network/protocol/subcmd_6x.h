@@ -1141,12 +1141,16 @@ struct G_StandardDropItemRequest_DC_6x60 {
  struct VectorXZF pos;
  s16 room;
  s16 ignore_def;
+ void init();
+ void bswap();
 };
 
 struct G_StandardDropItemRequest_PC_V3_BB_6x60 {
  struct G_StandardDropItemRequest_DC_6x60 __base_G_StandardDropItemRequest_DC_6x60;
  s8 effective_area;
  u8 unused[3];
+ G_StandardDropItemRequest_PC_V3_BB_6x60 *init();
+ void send();
 };
 
 struct G_SpecializableItemDropRequest_6xA2 {

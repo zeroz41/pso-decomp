@@ -4,7 +4,6 @@
 #include "pso/item/TItem.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
-#include "pso/unk/TLobby_80105A2C.h"
 #include "pso/unk/text_8011A780.h"
 #include <stddef.h>
 #include "pso/network/TLobby.h"
@@ -222,7 +221,7 @@ void handle_6x60_standard_drop_item_request(void *command) {
     s32 client;
     s32 slot;
     s8 area;
-    bswap_6x60_drop_request_fields(command);
+    req->__base_G_StandardDropItemRequest_DC_6x60.bswap();
     if ((u32)(drop.header.size * 4) == 0x14) {
         client = drop.floor;
         slot = get_floor_area(client);

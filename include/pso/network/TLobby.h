@@ -140,7 +140,6 @@ struct TLobby : public TObject {
     static int get_sync_counter(u16 a0);
     static void forward_to_player(int id, void *item);
     static void handle_player_event(s32 client, s32 slot);
-    void dispatch_packet_wrapper();
     void process_and_dispatch_packet();
     void bswap_6xa2_fields();
     void *build_6x06_guild_card_packet();

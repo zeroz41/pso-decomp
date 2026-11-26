@@ -124,7 +124,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     this->entry_count = 0;
     for (i = 0; i < n; i++) {
         if (items[i] != NULL) {
-            v = TShopEquipmentSellWindow::get_item_data_value(reinterpret_cast<uaddr>(items[i]));
+            v = TShopEquipmentSellWindow::get_item_data_value(items[i]);
             if (v > 0 && items[i]->copy_to_item_data(&this->entries[this->entry_count].data) != 0) {
                 this->entries[this->entry_count].item = items[i];
                 this->entries[this->entry_count].data.data2.price = v / 8;
