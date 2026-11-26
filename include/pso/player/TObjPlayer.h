@@ -632,7 +632,7 @@ struct TObjPlayer : public TObjChara {
     void run_service_hold_state_phase(s16 phase);
     void run_freeze_state_phase(s16 phase);
     void run_warp_action_phase(s16 phase);
-    void sub_801C8C50(s16 phase);
+    void handle_warp_phase(s16 phase);
     void run_off_floor_state_phase(s16 phase);
     void run_lobby_animation_state_phase(s16 phase);
     void run_lobby_chair_state_phase(s16 phase);

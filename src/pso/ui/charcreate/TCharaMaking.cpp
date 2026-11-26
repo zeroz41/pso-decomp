@@ -597,7 +597,7 @@ s32 TCharaMaking::update_main_menu() {
     saddr dressing_room;
 
     if (creation_main_menu_obj->is_state_3() != 0) {
-        fn_8028D8F4();
+        destroy_character_creation_effects();
         dressing_room = 0;
         if ((s32) creation_dressing_room_mode_flag == 1) {
             dressing_room = 1;

@@ -183,7 +183,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     preview = 0.0f;
     set_speed(30.0f);
     nodes = new TObject(NULL);
-    fn_802947A8();
+    create_hex_tile_grid();
     TObjCMIcon::set_screen_position(&main_menu_icon_position);
     after_construct();
 }

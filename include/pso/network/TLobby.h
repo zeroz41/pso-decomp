@@ -150,7 +150,7 @@ struct TLobby : public TObject {
     static void disconnect_protocol();
     static char *init_serial_access();
     static void create_map_csn_ctrl();
-    static s32 is_status_zero();
+    static s32 is_tone_dialing();
 
     static void *create_npc(void *set_data);
     static s32 is_idle();

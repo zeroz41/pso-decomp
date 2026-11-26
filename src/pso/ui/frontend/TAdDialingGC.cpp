@@ -52,9 +52,9 @@ const char *TAdDialingGC::name = "TAdDialingGC";
 TAdDialingGC::TAdDialingGC(TObject *parent) : TObject(parent) {
     *(s32 *)(this + 0) = (s32) ((saddr)TAdDialingGC::name);
     TAdDialingGC::instance = this;
-    if (is_state_active() != 0) {
+    if (is_pppoe_selected() != 0) {
         this->dial_mode = 1;
-    } else if (TLobby__sub_8014618C() == 1) {
+    } else if (has_broadband_adapter() == 1) {
         this->dial_mode = 2;
     } else {
         this->dial_mode = 0;

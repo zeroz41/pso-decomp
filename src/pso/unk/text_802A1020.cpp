@@ -99,7 +99,7 @@ unsigned char get_opening_movie_purpose(void) { return opening_movie_purpose; }
 void set_opening_movie_purpose(int a0) { opening_movie_purpose = a0; }
 
 
-void fn_802A1154(void) {
+void exit_movie_phase(void) {
     main_task.delete_layer_children();
     render_tick();
 }

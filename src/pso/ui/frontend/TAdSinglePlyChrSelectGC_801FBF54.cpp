@@ -2571,7 +2571,7 @@ void init_fresh_character_card(void) {
     card->flags = 0;
     card->save_count = 1;
     memcpy(card->account, get_account_entry(0), 0x1C);
-    memcpy(card->user_name, get_account_user_name(0), 0x10);
+    memcpy(card->user_name, get_account_login_password(0), 0x10);
     clear_all_story_flags();
     card->bank_item_count = 0;
     card->bank_meseta = 0;

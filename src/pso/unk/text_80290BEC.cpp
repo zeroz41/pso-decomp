@@ -12,7 +12,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/AsyncFileRead.h"
 
-void fn_80290BEC(void) {
+void exit_main_menu_scene(void) {
     s32 *task;
     TLobby::stop_audio_streams();
     task = (s32 *)&main_task;

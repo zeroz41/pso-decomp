@@ -248,7 +248,7 @@ s32 TBoss6Thanks::is_ship_door_ready() {
     return 0;
 }
 
-s32 TBoss6Thanks__sub_8035D270(void) { return TBoss6Thanks::check_ship_door(); }
+s32 is_boss6_ship_door_open(void) { return TBoss6Thanks::check_ship_door(); }
 
 s32 TBoss6Thanks::try_dispatch_darkfalz_phase() {
     if (((s32) game_difficulty_selection == 0) || ((get_main_phase() == 0xE) && (is_split_screen() == 0)) || (any_player_has_listed_equipment() == 0)) {

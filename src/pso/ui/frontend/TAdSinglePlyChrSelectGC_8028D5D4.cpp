@@ -120,7 +120,7 @@ void alloc_quest_download_buffer(void) {
     }
 }
 
-void fn_8028D8F4(void) {
+void destroy_character_creation_effects(void) {
     if (character_creation_effects.wall != NULL) {
         character_creation_effects.wall->queue_destruction();
     }
@@ -129,7 +129,7 @@ void fn_8028D8F4(void) {
     }
 }
 
-void fn_8028D940(void) {
+void create_character_creation_effects(void) {
     character_creation_effects.wall = fn_8029AE88(tl_03);
     character_creation_effects.heading = create_TChCrEffTag(tl_03);
     character_creation_effects.controller_plate = NULL;

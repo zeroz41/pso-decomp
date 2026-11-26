@@ -83,12 +83,12 @@ s32 launch_switcher_dol(const char *url) {
     return 1;
 }
 
-void TAdTrialModemChkGC__sub_8007FA24(s32 use_modem_url) {
+void launch_browser(s32 use_modem_url) {
   s32 url_index;
   s32 modem_ready;
   modem_ready = 0;
   init_modem_check_params();
-  if (TLobby__sub_8014618C() != 0)
+  if (has_broadband_adapter() != 0)
   {
     modem_ready = 1;
   }

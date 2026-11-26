@@ -19,7 +19,7 @@ struct TWindowKeyBoardHard : public TWindowBase {
     u8 apply_accent(u8);
     s32 poll_input();
     u16 lookup_key_char(u8);
-    int sub_80260438();
+    int is_caps_lock_on();
     int sub_8026042C();
     u32 input_flags;
     u32 m_64;

@@ -10,10 +10,10 @@ s32 init_work(s32 unused, u8 *info);
 extern void *network_info_work;
 extern u16 network_config_open;
 extern int network_lease_time; /* the DHCP lease time NetworkConnect keeps */
-s32 TLobby__sub_80145DB4(s32 mode);
+s32 has_network_adapter(s32 mode);
 
 // 1 when the network adapter reports state 1.
-s32 is_state_active();
+s32 is_pppoe_selected();
 
 struct LoadNetworkInfoIds { s32 v[2]; };
 

@@ -134,7 +134,7 @@ const char *TObjPlayer::get_name() { return name; }
 FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
-    {(FloorResourceCallback)TLobby__sub_802D7A0C, TLobby::forward_npc_enemy},
+    {(FloorResourceCallback)reset_npc_enemy_anims_on_floor_load, TLobby::forward_npc_enemy},
     {create_reflection_target, destroy_reflection_target},
     {init_camera_render_target, free_camera_render_target},
     {TScene::load_current_floor, TScene::free_scene_resources},
@@ -147,19 +147,19 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TFogCtrl::update_fog_entries, TFogCtrl::release_fog_entries},
     {init_partner_dialogue, release_partner_dialogue},
     {reset_npc_proximity_target_on_floor_load, reset_npc_proximity_target_on_floor_free},
-    {TLobby__sub_8007BBEC, TLobby__sub_8007BBF8},
+    {reset_quest_collision_ids_on_floor_load, reset_quest_collision_ids_on_floor_free},
     {reset_and_init_capture_texture, reset_and_release_capture_texture},
     {init_shadow_map_texture, release_shadow_map_texture},
     {load_indirect_dat, TEffIndirectCtrl::free_all},
     {close_trade_request_on_floor_load, close_trade_request_on_floor_unload},
-    {TLobby__sub_8032BE3C, TLobby__sub_8032BE30},
+    {clear_deferred_render_queue_on_floor_load, clear_deferred_render_queue_on_floor_free},
     {KeyboardKeyState::reset_global_keys_b, KeyboardKeyState::reset_global_keys_a},
-    {TLobby__sub_80279708, TLobby__sub_802796FC},
+    {clear_game_end_window_on_floor_load, clear_game_end_window_on_floor_free},
     {TIndirectEffectDrawTask::clear_instance_on_floor_load, TIndirectEffectDrawTask::clear_instance_on_floor_free},
     {clear_signboard_texture_buffer_pointer, TLobby::free_global_buffer},
-    {TLobby__sub_8015ABD4, TLobby__sub_8015ABD0},
-    {TLobby__sub_8036B510, TLobby__sub_8036B50C},
-    {TWindowReturnCity__sub_8026D4C0, TWindowReturnCity__sub_8026D4BC},
+    {chat_sensor_on_floor_load, chat_sensor_on_floor_free},
+    {symbol_chat_capture_on_floor_load, symbol_chat_capture_on_floor_free},
+    {reset_return_city_scan_on_floor_load, return_city_on_floor_free},
     {TTecLuker::reset_visit_counts_on_floor_load, TTecLuker::reset_visit_counts_on_floor_free},
 };
 
@@ -270,9 +270,9 @@ void TLobby::reset_and_invoke() { TLobby::reset_keyboard_state(); TLobby::invoke
 
 
     extern short quest_collision_next_id;
-void TLobby__sub_8007BBEC(void) { quest_collision_next_id = 0; }
+void reset_quest_collision_ids_on_floor_load(void) { quest_collision_next_id = 0; }
 
-void TLobby__sub_8007BBF8(void) { quest_collision_next_id = 0; }
+void reset_quest_collision_ids_on_floor_free(void) { quest_collision_next_id = 0; }
 
 
 saddr TWindowSubComCard::get_card_slot(s32 index) {

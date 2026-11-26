@@ -313,7 +313,7 @@ void render_entry_window(void *window, void *context) {
         fn_8032AC94();
         return;
     case 2:
-        fn_8032AC24();
+        draw_entry_field_box();
         return;
     case 3:
         draw_masked_password_field((saddr)context);
@@ -325,7 +325,7 @@ void TAdEnterBaseGC::render() {  }
 
 void fn_8032AC94(void) {  }
 
-void fn_8032AC24(void) {
+void draw_entry_field_box(void) {
     ChrSelPlateLayout layout;
     const f32 *src = entry_field_box_size;
     layout.width = src[0];

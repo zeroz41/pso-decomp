@@ -177,7 +177,7 @@ void get_action_palette_mode(TObjPlayer *player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 }
 extern "C" {
-s32 fn_801B7CEC(TObjPlayer *player, s8 kind, s8 group, s8 index);
+s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(TObjChara *chara, s32 mag_id, s32 fed_item_id);
 s32 try_send_6x27_use_item(TObjPlayer *player, s32 key);
 void release_players_from_cutscene(void);
@@ -189,7 +189,7 @@ void *__ct__12StatusEffectFv(void *);
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
 s32 get_class_max_exp(void *, void *);
 s32 validate_6xAE_set_animation_state(void *);
-s32 fn_8000F740(void *);
+s32 is_game_scene_phase(void *);
 void *__construct_array(void *, void *, void *, u32, u32);
 }
 
@@ -1992,7 +1992,7 @@ void handle_6x28_feed_mag(G_FeedMag_6x28 *command) {
     }
 }
 
-s32 fn_801B7CEC(TObjPlayer *player, s8 kind, s8 group, s8 index) {
+s32 find_inventory_item_id_by_code(TObjPlayer *player, s8 kind, s8 group, s8 index) {
     TItemData item;
     item.init();
     item.data1.data_u8[0] = kind;
@@ -5373,7 +5373,7 @@ s32 TObjPlayer::get_language() {
 s32 TObjPlayer::get_controller_port() { return this->controller_port; }
 
 void TObjPlayer::set_action_provider_variant(s16 variant) {
-    if (variant != ((TObjPlayer *)action_provider)->sub_802a7290_fwd() && fn_8000F740(&main_phase_state) != 0) {
+    if (variant != ((TObjPlayer *)action_provider)->sub_802a7290_fwd() && is_game_scene_phase(&main_phase_state) != 0) {
         action_provider->load_motion_set(get_entity_id(), has_valid_handle(), variant);
         this->apply_motion_entry();
     }

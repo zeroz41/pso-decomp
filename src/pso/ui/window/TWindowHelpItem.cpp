@@ -247,7 +247,7 @@ void TWindowHelpItem::clear_help_item() {
     m_callback = NULL;
 }
 
-void TWindowHelpItem::update_help_item(s8 page) { if (fn_8026C7C0(page_indicator, page) != 0) { this->dispatch_item_help(); } }
+void TWindowHelpItem::update_help_item(s8 page) { if (turn_page_indicator(page_indicator, page) != 0) { this->dispatch_item_help(); } }
 
 void TWindowHelpItem::set_items_and_refresh(TItemData *item, s32 id) { this->secondary_id = id; this->secondary_item = item; update_cursor_selection(); dispatch_item_help(); }
 

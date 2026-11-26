@@ -113,7 +113,7 @@ s32 TAdScrollWinGC::get_scroll_delay_for_mode() {
     s32 r = 0;
     switch (m_mode) {
     case 0:
-        if (TLobby__sub_80145DB4(4) != 0) {
+        if (has_network_adapter(4) != 0) {
             r = 0x14;
         } else {
             r = 0;

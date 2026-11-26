@@ -471,7 +471,7 @@ void ItemModelChunkLoader::on_loaded() {
         pos = 0;
         n = 0;
         while (pos < total) {
-            chunk = TLobby__sub_801E38A0(data, &pos, &tag, dst, &size);
+            chunk = read_ninja_chunk(data, &pos, &tag, dst, &size);
             dst += (size + 0x20) & ~0x1F;
             switch (tag) {
             case 'NJCM':

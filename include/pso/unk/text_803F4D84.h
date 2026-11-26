@@ -3,21 +3,25 @@
 
 #include "types.h"
 
-// Copies the name of the current network configuration entry into dst (len bytes, zero filled).
-s32 copy_current_entry_name(char *dst, s32 len);
+// Accessors for the current entry of the network settings (the fields of the browser's settings
+// pages on the disc). Each copies one field to dst and returns 0, or a negative error.
+// Common to every entry:
+s32 get_network_config_login_user(char *dst, s32 len);
+s32 get_network_config_login_password(char *dst, s32 len);
+s32 get_network_config_dns_server1(void *dst);
+s32 get_network_config_dns_server2(void *dst);
+// Modem entries (dial type 0 tone, 1 pulse):
+s32 get_network_config_dial_type(u8 *dst);
+s32 get_network_config_outside_line_number(char *dst, s32 len);
+s32 get_network_config_phone_number(s32 n, char *dst, s32 len);
+s32 get_network_config_modem_command(char *dst, s32 len);
+// Broadband entries (IP set type 0 DHCP, 1 PPPoE, otherwise a fixed address):
+s32 get_network_config_ip_set_type(u8 *dst);
+s32 get_network_config_ip_address(void *dst);
+s32 get_network_config_subnet_mask(void *dst);
+s32 get_network_config_default_gateway(void *dst);
+s32 get_network_config_pc_name(char *buf, u32 n);
 extern "C" {
-s32 TLobby__sub_803F4EBC(char *dst, s32 len);
-s32 TLobby__sub_803F4FF4(void *dst);
-s32 TLobby__sub_803F50B8(void *dst);
-s32 TLobby__sub_803F517C(u8 *dst);
-s32 TLobby__sub_803F524C(char *dst, s32 len);
-s32 TLobby__sub_803F53A0(s32 n, char *dst, s32 len);
-s32 TLobby__sub_803F5524(char *dst, s32 len);
-s32 TLobby__sub_803F5678(u8 *dst);
-s32 TLobby__sub_803F5748(void *dst);
-s32 TLobby__sub_803F5824(void *dst);
-s32 TLobby__sub_803F5900(void *dst);
-s32 TLobby__sub_803F59DC(char *buf, u32 n);
 s32 TLobby__sub_803F5B20(char *buf, s32 n);
 s32 TLobby__sub_803F5C58(char *buf, s32 n);
 s32 TLobby__sub_803F5D90(char *buf, s32 n);
@@ -33,21 +37,21 @@ typedef struct NetConfigSlot {
 } NetConfigSlot;
 
 typedef struct NetConfigRecord {
-    char name[0x80];
-    char name2[0x20];
-    s32 f1B8;
-    s32 f1BC;
+    char login_user[0x80];
+    char login_password[0x20];
+    s32 dns_server1;
+    s32 dns_server2;
     u8 padA8[0xEE - 0xA8];
-    s16 kind;
-    u8 f208;
+    s16 device_type; /* 1 modem, 4 broadband */
+    u8 dial_type; /* 0 tone, 1 pulse */
     u8 padF1[3];
-    char str20C[0x20];
-    char strs[3][0x20];
+    char outside_line_number[0x20];
+    char phone_numbers[3][0x20];
     u8 pad174[4];
-    char str290[0x20];
-    u8 f2B0;
+    char modem_command[0x20];
+    u8 ip_set_type; /* 0 DHCP, 1 PPPoE, otherwise a fixed address */
     u8 pad199[3];
-    s32 f2B4;
+    s32 ip_address;
     u8 pad1A0[0x210 - 0x1A0];
 } NetConfigRecord;
 

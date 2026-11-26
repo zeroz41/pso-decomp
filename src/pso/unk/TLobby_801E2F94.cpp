@@ -327,7 +327,7 @@ void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 count, u32 flags) {
 
 // Reads one Ninja chunk (NJCM, NJTL, NMDM, ...) at file + *offset into dst (or a fresh
 // allocation), stores its type, then applies the POF0 pointer-offset list that follows.
-void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destination, u32 *size_out) {
+void *read_ninja_chunk(const u8 *file, u32 *offset, u32 *type, void *destination, u32 *size_out) {
     const u8 *p;
     void *buf;
     s32 pos;

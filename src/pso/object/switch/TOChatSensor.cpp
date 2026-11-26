@@ -262,9 +262,9 @@ TOChatSensorFolder::~TOChatSensorFolder() {
     chat_sensor_folder_instance = 0;
 }
 
-void TLobby__sub_8015ABD4(void) {  }
+void chat_sensor_on_floor_load(void) {  }
 
-void TLobby__sub_8015ABD0(void) {  }
+void chat_sensor_on_floor_free(void) {  }
 
 void TOChatSensorCapture::create_instance(void *parent) {
     if (chat_sensor_capture_instance == NULL) {

@@ -50,7 +50,7 @@ void TWindowLayoutEntry::hide() { flags |= 2; }
 void TWindowLayoutEntry::show() { flags &= ~2; }
 
 extern "C" {
-s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
+s32 find_inventory_item_id_by_code(void *player, s32 kind, u8 group, u8 index);
 s32 is_palettex_activated(u16 client_index);
 s32 is_palettex_enabled(u16);
 }
@@ -460,7 +460,7 @@ s32 get_palette_consumable_count(u16 slot, s32 client_id) {
         return -1;
     }
     const PaletteItemKind *kind = &action_palette_item_kinds[slot];
-    return fn_801B7CEC(player, 3, kind->group, kind->index);
+    return find_inventory_item_id_by_code(player, 3, kind->group, kind->index);
 }
 
 // The amount of the item in palette slot `slot` of the player `client_id`

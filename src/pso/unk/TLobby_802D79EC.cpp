@@ -5,4 +5,4 @@
 
 
 void TLobby::forward_npc_enemy() { TObjNpcEnemy::reset_all_anim_fields(); }
-void TLobby__sub_802D7A0C(void* p) { TObjNpcEnemy::reset_all_anim_fields(); }
+void reset_npc_enemy_anims_on_floor_load(void* p) { TObjNpcEnemy::reset_all_anim_fields(); }

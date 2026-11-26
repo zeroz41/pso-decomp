@@ -39,7 +39,7 @@ TAdExNetConfirmGC::~TAdExNetConfirmGC() {
 
 TAdExNetConfirmGC::TAdExNetConfirmGC(TObject *parent) : TAdWarningBaseGC(parent) {
     m_name = TAdExNetConfirmGC_class_name;
-    if ((TLobby__sub_80145DB4(1) != 0) || (TLobby__sub_80145DB4(4) != 0)) {
+    if ((has_network_adapter(1) != 0) || (has_network_adapter(4) != 0)) {
         if (load_network_info() != 0) {
             init_account_entries();
         } else {

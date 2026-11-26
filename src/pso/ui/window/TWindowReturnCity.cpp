@@ -115,9 +115,9 @@ TWindowReturnCity::TWindowReturnCity(TObject *parent, s32 client) : TObject(pare
     state = 0;
 }
 
-void TWindowReturnCity__sub_8026D4BC(void) {  }
+void return_city_on_floor_free(void) {  }
 
-void TWindowReturnCity__sub_8026D4C0(void) { TWindowReturnCity::client_scan_index = 4; }
+void reset_return_city_scan_on_floor_load(void) { TWindowReturnCity::client_scan_index = 4; }
 
 
 void TWindowCtrl::clear_return_city_open() {

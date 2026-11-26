@@ -426,7 +426,7 @@ void TWindowKeyBoardHard::process_key_input(u8 key) {
         }
     } else {
 block_7:
-        if ((sub_80260438() != 0) && ((s32) ch >= 0x61) && ((s32) ch <= 0x7A)) {
+        if ((is_caps_lock_on() != 0) && ((s32) ch >= 0x61) && ((s32) ch <= 0x7A)) {
             ch -= 0x20;
         }
         m_control->set_input_mode(mode);
@@ -653,5 +653,5 @@ void TWindowKeyBoardHard::set_card_window_flag(saddr client_id, s32 value) {
     TWindowKeyBoardHard::set_card_window_flags(client_id, (s32)(value << 5), -0x21);
 }
 int TWindowKeyBoardHard::sub_8026042C() { return (this->input_flags >> 6) & 0x1; }
-int TWindowKeyBoardHard::sub_80260438() { return (this->input_flags >> 10) & 0x1; }
+int TWindowKeyBoardHard::is_caps_lock_on() { return (this->input_flags >> 10) & 0x1; }
 int TWindowKeyBoardHard::is_key_active() { return this->input_flags & 0x200; }
